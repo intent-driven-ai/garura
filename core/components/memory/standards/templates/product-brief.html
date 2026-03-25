@@ -3,514 +3,516 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Product Brief: {PRODUCT_NAME}</title>
+  <title>Product Brief: {SLUG}</title>
   <!-- Template: product-brief.html -->
   <!-- Used by: generate-product-brief skill -->
-  <!-- Source data: vision.md + market-context.yaml -->
-  <!-- Placeholder syntax: {VARIABLE} for simple, {SECTION_BLOCK} for rendered blocks -->
+  <!-- Source data: product.yaml -->
+  <!-- Placeholder syntax: {VARIABLE} for simple substitution, {BLOCK} for rendered HTML blocks -->
   <!-- All CSS and JS inline — no external dependencies -->
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
+    /* LifeOS Dark — Brief Design System (inlined from brief-common.css) */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
-      /* Backgrounds */
       --bg-primary: #0D1117;
       --bg-secondary: #161B22;
       --bg-tertiary: #21262D;
-
-      /* Text */
-      --text-primary: #e0e0e8;
+      --text-primary: #E6EDF3;
       --text-secondary: #8B949E;
       --text-dimmed: #484f58;
-
-      /* Four-Element Accents */
+      --text-muted: #6E7681;
       --color-air: #39D353;
       --color-water: #58A6FF;
       --color-earth: #8B949E;
       --color-fire: #F0A000;
-
-      /* Status */
+      --glow-air: rgba(57,211,83,0.35);
+      --glow-water: rgba(88,166,255,0.35);
+      --glow-earth: rgba(139,148,158,0.35);
+      --glow-fire: rgba(240,160,0,0.35);
       --status-draft: #fbbf24;
       --status-validated: #4ade80;
       --status-locked: #58A6FF;
-
-      /* Feedback */
-      --approve: #39D353;
-      --revise: #F0A000;
-
-      /* Borders */
       --border-default: #30363d;
       --border-accent: #58A6FF;
-
-      /* Shadows */
-      --shadow-retro: 4px 4px 0 var(--bg-tertiary);
-      --glow-green: 0 0 10px rgba(57, 211, 83, 0.3);
-      --glow-blue: 0 0 10px rgba(88, 166, 255, 0.3);
+      --shadow-retro: 4px 4px 0 rgba(33,38,45,1);
+      --shadow-retro-sm: 2px 2px 0 #000;
+      --comment-highlight: rgba(240,160,0,0.2);
+      --comment-highlight-hover: rgba(240,160,0,0.35);
+      --comment-popup-bg: #21262D;
+      --font-heading: 'Arial Rounded MT Bold','Arial Rounded MT','Nunito',system-ui,sans-serif;
+      --font-body: 'Arial Rounded MT Bold','Nunito','Varela Round',system-ui,sans-serif;
+      --font-code: 'JetBrains Mono','SF Mono','Fira Code',monospace;
+      --space-xs: 8px; --space-sm: 12px; --space-md: 16px;
+      --space-lg: 24px; --space-xl: 32px; --space-2xl: 48px;
     }
-
-    body {
-      font-family: 'Arial Rounded MT Bold', 'Nunito', 'Varela Round', system-ui, sans-serif;
-      font-size: 15px;
-      line-height: 1.6;
-      color: var(--text-primary);
-      background: var(--bg-primary);
-    }
-
-    code, pre, .mono {
-      font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
-      font-size: 13px;
-    }
-
-    .container { max-width: 900px; margin: 0 auto; padding: 32px 24px; }
-
-    h1 { font-size: 28px; color: var(--color-water); margin-bottom: 8px; }
-    h2 { font-size: 20px; color: var(--color-air); border-bottom: 1px solid var(--border-default); padding-bottom: 8px; margin: 32px 0 16px; }
-    h3 { font-size: 16px; color: var(--text-primary); margin-bottom: 8px; }
-    p { margin-bottom: 12px; }
-
-    .header-meta { font-size: 13px; color: var(--text-secondary); margin-bottom: 24px; }
-    .header-meta span { margin-right: 20px; }
-
-    .badge {
-      display: inline-block;
-      padding: 2px 10px;
-      border-radius: 12px;
-      font-size: 12px;
-      font-weight: bold;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .badge-draft { background: rgba(251, 191, 36, 0.15); color: var(--status-draft); }
-    .badge-validated { background: rgba(74, 222, 128, 0.15); color: var(--status-validated); }
-    .badge-locked { background: rgba(88, 166, 255, 0.15); color: var(--status-locked); }
-
-    .card {
-      background: var(--bg-secondary);
-      border: 1px solid var(--border-default);
-      border-radius: 8px;
-      padding: 16px 20px;
-      margin-bottom: 16px;
-      box-shadow: var(--shadow-retro);
-    }
-
+    body { font-family: var(--font-body); font-size: 15px; line-height: 1.6; color: var(--text-primary); background: var(--bg-primary); }
+    code, pre, .mono { font-family: var(--font-code); font-size: 13px; }
+    .container { max-width: 900px; margin: 0 auto; padding: var(--space-xl) var(--space-lg); }
+    h1 { font-family: var(--font-heading); font-size: 28px; color: var(--color-water); border-bottom: 1px solid var(--border-default); padding-bottom: var(--space-xs); margin-bottom: var(--space-lg); }
+    h2 { font-size: 20px; color: var(--color-air); border-bottom: 1px solid var(--border-default); padding-bottom: var(--space-xs); margin-bottom: var(--space-md); margin-top: var(--space-lg); }
+    h3 { font-size: 16px; color: var(--text-primary); margin-bottom: var(--space-sm); }
+    p { margin-bottom: var(--space-sm); }
+    .brief-header { margin-bottom: var(--space-lg); padding-bottom: var(--space-md); border-bottom: 1px solid var(--border-default); }
+    .brief-title { font-family: var(--font-heading); font-size: 28px; color: var(--color-water); margin-bottom: var(--space-xs); }
+    .brief-meta { font-size: 13px; color: var(--text-secondary); display: flex; flex-wrap: wrap; gap: var(--space-md); }
+    .brief-meta span { white-space: nowrap; }
+    .source-path { font-size: 12px; color: var(--text-dimmed); font-family: var(--font-code); margin-top: 4px; }
+    .hub-link { display: inline-block; color: var(--color-water); text-decoration: none; font-size: 13px; margin-bottom: var(--space-md); }
+    .hub-link:hover { text-decoration: underline; }
+    /* Tabs */
+    .tab-bar { display: flex; border-bottom: 1px solid var(--border-default); margin-bottom: var(--space-lg); gap: 4px; flex-wrap: wrap; }
+    .tab-btn { padding: 10px 18px; background: var(--bg-primary); border: none; border-bottom: 2px solid transparent; color: var(--text-secondary); cursor: pointer; font-family: inherit; font-size: 14px; transition: all 0.15s; }
+    .tab-btn:hover:not(.active) { color: var(--text-primary); }
+    .tab-btn.active { background: var(--bg-secondary); border-bottom-color: var(--color-water); color: var(--text-primary); }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+    .comment-count-badge { display: inline-block; margin-left: 6px; background: var(--color-fire); color: var(--bg-primary); border-radius: 10px; padding: 1px 7px; font-size: 11px; font-weight: bold; }
+    /* Cards */
+    .card { background: var(--bg-secondary); border: 1px solid var(--border-default); border-radius: 8px; box-shadow: var(--shadow-retro); padding: 20px; margin-bottom: var(--space-md); }
     .card:hover { border-color: var(--border-accent); }
-
-    .persona-card { border-left: 3px solid var(--color-fire); }
-    .goal-card { border-left: 3px solid var(--color-air); }
-    .journey-card { border-left: 3px solid var(--color-water); }
-    .risk-item { border-left: 3px solid var(--color-fire); padding-left: 12px; margin-bottom: 8px; }
-    .diff-item { border-left: 3px solid var(--color-air); padding-left: 12px; margin-bottom: 8px; }
-
-    .highlight-box {
-      background: rgba(88, 166, 255, 0.08);
-      border: 1px solid rgba(88, 166, 255, 0.2);
-      border-radius: 8px;
-      padding: 16px 20px;
-      margin-bottom: 16px;
-    }
-
-    .market-size-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-
-    .market-tile {
-      background: var(--bg-secondary);
-      border: 1px solid var(--border-default);
-      border-radius: 8px;
-      padding: 16px;
-      text-align: center;
-    }
-
-    .market-tile .label {
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: var(--text-secondary);
-      margin-bottom: 4px;
-    }
-
-    .market-tile .value {
-      font-size: 22px;
-      font-weight: 700;
-      color: var(--color-water);
-    }
-
-    table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
-    th { text-align: left; color: var(--text-secondary); font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; padding: 8px 12px; border-bottom: 1px solid var(--border-default); }
-    td { padding: 8px 12px; border-bottom: 1px solid var(--bg-tertiary); font-size: 14px; }
-
-    .tag {
-      display: inline-block;
-      padding: 1px 8px;
-      border-radius: 4px;
-      font-size: 11px;
-      margin: 2px 2px;
-    }
-    .tag-strength { background: rgba(57, 211, 83, 0.12); color: var(--color-air); }
-    .tag-weakness { background: rgba(240, 160, 0, 0.12); color: var(--color-fire); }
-
-    .metric-tag {
-      display: inline-block;
-      padding: 2px 8px;
-      background: rgba(88, 166, 255, 0.1);
-      color: var(--color-water);
-      border-radius: 4px;
-      font-size: 12px;
-      margin-top: 8px;
-    }
-
-    .section-divider {
-      border: none;
-      border-top: 1px solid var(--border-default);
-      margin: 32px 0;
-    }
-
-    /* Feedback Panel */
-    .feedback-panel {
-      background: var(--bg-secondary);
-      border: 2px solid var(--border-accent);
-      border-radius: 8px;
-      padding: 24px;
-      margin-top: 32px;
-    }
-
-    .section-toggle {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 16px;
-      background: var(--bg-tertiary);
-      border-radius: 6px;
-      margin-bottom: 8px;
-    }
-
-    .toggle-btn {
-      padding: 4px 14px;
-      border: 1px solid var(--border-default);
-      border-radius: 4px;
-      background: transparent;
-      color: var(--text-secondary);
-      cursor: pointer;
-      font-family: inherit;
-      font-size: 13px;
-      transition: all 0.2s;
-      margin-left: 4px;
-    }
-
-    .toggle-btn.active-approve { background: rgba(57, 211, 83, 0.15); color: var(--approve); border-color: var(--approve); }
-    .toggle-btn.active-revise { background: rgba(240, 160, 0, 0.15); color: var(--revise); border-color: var(--revise); }
-
-    .feedback-textarea {
-      width: 100%;
-      min-height: 120px;
-      background: var(--bg-primary);
-      border: 1px solid var(--border-default);
-      border-radius: 6px;
-      color: var(--text-primary);
-      font-family: inherit;
-      font-size: 14px;
-      padding: 12px;
-      resize: vertical;
-      margin-top: 16px;
-    }
-
-    .feedback-textarea:focus { border-color: var(--border-accent); outline: none; box-shadow: var(--glow-blue); }
-
-    .submit-btn {
-      margin-top: 16px;
-      padding: 10px 24px;
-      background: var(--color-water);
-      color: var(--bg-primary);
-      border: none;
-      border-radius: 6px;
-      font-family: inherit;
-      font-size: 14px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .submit-btn:hover { box-shadow: var(--glow-blue); }
-
-    .json-output {
-      margin-top: 16px;
-      background: var(--bg-primary);
-      border: 1px solid var(--border-default);
-      border-radius: 6px;
-      padding: 16px;
-      position: relative;
-      display: none;
-    }
-
-    .copy-btn {
-      position: absolute;
-      top: 8px;
-      right: 8px;
-      padding: 4px 12px;
-      background: var(--bg-tertiary);
-      border: 1px solid var(--border-default);
-      border-radius: 4px;
-      color: var(--text-secondary);
-      cursor: pointer;
-      font-size: 12px;
-    }
-
-    .copy-btn:hover { color: var(--color-air); border-color: var(--color-air); }
-
-    footer {
-      margin-top: 48px;
-      padding-top: 16px;
-      border-top: 1px solid var(--border-default);
-      font-size: 12px;
-      color: var(--text-dimmed);
-    }
+    .card-air   { border-left: 4px solid var(--color-air); }
+    .card-water { border-left: 4px solid var(--color-water); }
+    .card-earth { border-left: 4px solid var(--color-earth); }
+    .card-fire  { border-left: 4px solid var(--color-fire); }
+    .highlight-box { background: rgba(88,166,255,0.08); border: 1px solid rgba(88,166,255,0.2); border-radius: 8px; padding: var(--space-md) 20px; margin-bottom: var(--space-md); }
+    /* Badges */
+    .badge { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; }
+    .badge-draft     { background: rgba(251,191,36,0.15); color: var(--status-draft); }
+    .badge-validated { background: rgba(74,222,128,0.15); color: var(--status-validated); }
+    .badge-locked    { background: rgba(88,166,255,0.15); color: var(--status-locked); }
+    .badge-count     { background: var(--bg-tertiary); color: var(--text-secondary); margin-left: 4px; }
+    .badge-low    { background: rgba(57,211,83,0.15); color: var(--color-air); }
+    .badge-medium { background: rgba(240,160,0,0.15); color: var(--color-fire); }
+    .badge-high   { background: rgba(248,81,73,0.15); color: #F85149; }
+    .badge-p1 { background: rgba(88,166,255,0.15); color: var(--color-water); }
+    .badge-p2 { background: rgba(139,148,158,0.15); color: var(--color-earth); }
+    .badge-p3 { background: rgba(139,148,158,0.1); color: var(--text-dimmed); }
+    .badge-near { background: rgba(57,211,83,0.15); color: var(--color-air); }
+    .badge-mid  { background: rgba(240,160,0,0.15); color: var(--color-fire); }
+    .badge-long { background: rgba(139,148,158,0.15); color: var(--color-earth); }
+    /* Tables */
+    table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: var(--space-md); }
+    th { background: var(--bg-tertiary); color: var(--text-primary); padding: 10px 12px; text-align: left; }
+    td { padding: 8px 12px; border-bottom: 1px solid var(--border-default); color: var(--text-secondary); }
+    tr:hover { background: rgba(88,166,255,0.05); }
+    /* Profile tables */
+    .profile-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: var(--space-lg); }
+    .profile-table th { background: var(--bg-tertiary); color: var(--text-primary); padding: 8px 12px; text-align: left; }
+    .profile-table td { padding: 8px 12px; border-bottom: 1px solid var(--border-default); color: var(--text-secondary); }
+    .profile-table .level-cell { text-align: center; font-weight: bold; color: var(--text-primary); min-width: 50px; }
+    /* Epic cards */
+    .epic-card { background: var(--bg-secondary); border: 1px solid var(--border-default); border-radius: 8px; box-shadow: var(--shadow-retro); padding: var(--space-lg); margin-bottom: var(--space-md); }
+    .epic-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: var(--space-md); gap: var(--space-md); }
+    .epic-header h3 { font-size: 16px; font-weight: 700; color: var(--text-primary); }
+    .epic-badges { display: flex; gap: 6px; flex-wrap: wrap; flex-shrink: 0; }
+    .epic-field { margin-bottom: var(--space-sm); }
+    .epic-field-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 4px; }
+    .epic-field-value { font-size: 14px; color: var(--text-primary); }
+    .epic-field-value ul { padding-left: 18px; }
+    .epic-field-value li { margin-bottom: 4px; color: var(--text-secondary); }
+    .idd-section { margin-top: var(--space-md); padding-top: var(--space-md); border-top: 1px solid var(--border-default); }
+    .idd-paragraph { margin-bottom: var(--space-sm); color: var(--text-secondary); font-size: 14px; line-height: 1.7; }
+    .idd-label { font-size: 12px; font-weight: 700; color: var(--color-water); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.3px; }
+    .scenario-item { padding: 8px 12px; background: var(--bg-tertiary); border-radius: 4px; margin-bottom: 6px; font-size: 13px; color: var(--text-secondary); border-left: 3px solid var(--color-air); }
+    .failure-item { padding: 8px 12px; background: var(--bg-tertiary); border-radius: 4px; margin-bottom: 6px; font-size: 13px; color: var(--text-secondary); border-left: 3px solid var(--color-fire); }
+    /* Stat cards */
+    .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: var(--space-md); margin-bottom: var(--space-lg); }
+    .stat-card { background: var(--bg-secondary); border: 1px solid var(--border-default); border-radius: 8px; padding: var(--space-md); text-align: center; }
+    .stat-value { font-size: 28px; font-weight: 700; color: var(--text-primary); }
+    .stat-label { font-size: 12px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; }
+    .stat-fire .stat-value { color: var(--color-fire); }
+    /* Lists */
+    .item-list { list-style: none; padding: 0; }
+    .item-list li { padding: 10px 0; border-bottom: 1px solid var(--border-default); font-size: 14px; color: var(--text-secondary); }
+    .item-list li:last-child { border-bottom: none; }
+    /* Context sections */
+    .context-section { opacity: 0.7; background: var(--bg-tertiary); border: 1px solid var(--border-default); border-radius: 8px; padding: var(--space-md) 20px; margin-bottom: 20px; pointer-events: none; }
+    .context-section h3 { color: var(--text-secondary); font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .context-label { font-size: 11px; color: var(--text-dimmed); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: var(--space-xs); }
+    /* Inline comment system */
+    .comment-highlight { background: var(--comment-highlight); cursor: pointer; border-bottom: 2px solid var(--color-fire); border-radius: 2px; }
+    .comment-highlight:hover { background: var(--comment-highlight-hover); }
+    .comment-popup { position: fixed; background: var(--comment-popup-bg); border: 1px solid var(--border-accent); border-radius: 8px; padding: var(--space-md); min-width: 280px; max-width: 360px; z-index: 1000; box-shadow: 0 4px 16px rgba(0,0,0,0.4); display: none; }
+    .comment-popup.visible { display: block; }
+    .comment-selected-text { background: var(--bg-primary); border: 1px solid var(--border-default); border-radius: 4px; padding: var(--space-xs); font-size: 12px; color: var(--text-secondary); margin-bottom: 10px; max-height: 60px; overflow: hidden; font-style: italic; }
+    .comment-textarea { width: 100%; min-height: 80px; background: var(--bg-primary); border: 1px solid var(--border-default); border-radius: 4px; color: var(--text-primary); font-family: inherit; font-size: 13px; padding: var(--space-xs); resize: vertical; box-sizing: border-box; }
+    .comment-textarea:focus { border-color: var(--border-accent); outline: none; }
+    .comment-popup-actions { display: flex; justify-content: flex-end; gap: var(--space-xs); margin-top: 10px; }
+    .comment-btn { padding: 5px 14px; border: 1px solid var(--border-default); border-radius: 4px; background: transparent; color: var(--text-secondary); cursor: pointer; font-family: inherit; font-size: 13px; }
+    .comment-btn-save { background: var(--color-water); color: var(--bg-primary); border-color: var(--color-water); font-weight: bold; }
+    .comment-item { background: var(--bg-secondary); border: 1px solid var(--border-default); border-radius: 6px; padding: 14px var(--space-md); margin-bottom: var(--space-sm); }
+    .comment-excerpt { font-style: italic; color: var(--text-secondary); font-size: 13px; margin-bottom: 6px; padding-left: var(--space-xs); border-left: 2px solid var(--color-fire); }
+    .comment-tab-label { font-size: 11px; color: var(--text-dimmed); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+    .comment-body { color: var(--text-primary); font-size: 14px; margin-bottom: 10px; }
+    .comment-delete-btn { padding: 3px 10px; border: 1px solid var(--border-default); border-radius: 4px; background: transparent; color: var(--color-fire); cursor: pointer; font-size: 12px; font-family: inherit; }
+    /* Export / action buttons */
+    .export-section { margin-top: var(--space-lg); padding-top: 20px; border-top: 1px solid var(--border-default); }
+    .action-btns { display: flex; gap: 10px; margin-top: var(--space-sm); flex-wrap: wrap; }
+    .action-btn { padding: 8px 20px; border-radius: 6px; border: 1px solid var(--border-default); cursor: pointer; font-family: inherit; font-size: 14px; font-weight: bold; background: transparent; color: var(--text-secondary); transition: all 0.15s; }
+    .action-btn-tether { border-color: var(--color-air); color: var(--color-air); }
+    .action-btn-tether:hover { background: rgba(57,211,83,0.1); }
+    .action-btn-vanish { border-color: var(--color-fire); color: var(--color-fire); }
+    .action-btn-vanish:hover { background: rgba(240,160,0,0.1); }
+    .action-btn-orbit  { border-color: var(--color-water); color: var(--color-water); }
+    .action-btn-orbit:hover  { background: rgba(88,166,255,0.1); }
+    /* Card field layouts */
+    .card-field { margin-bottom: var(--space-xs); }
+    .card-field-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 2px; }
+    .card-field-value { font-size: 14px; color: var(--text-secondary); }
+    .card-title { font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: var(--space-sm); }
+    .card-subtitle { font-size: 12px; color: var(--text-dimmed); font-family: var(--font-code); margin-bottom: var(--space-sm); }
+    /* Pre/code block */
+    .code-block { background: var(--bg-tertiary); border: 1px solid var(--border-default); border-radius: 6px; padding: var(--space-md); overflow-x: auto; margin-bottom: var(--space-md); }
+    .code-block pre { color: var(--color-air); font-family: var(--font-code); font-size: 13px; line-height: 1.5; white-space: pre; }
+    /* Tag chips */
+    .tag-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+    .tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 12px; background: var(--bg-tertiary); color: var(--text-secondary); }
+    /* Quality Standards */
+    .qs-dimension { background: var(--bg-secondary); border: 1px solid var(--border-default); border-radius: 8px; padding: var(--space-md); margin-bottom: var(--space-md); }
+    .qs-dimension-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-sm); }
+    .qs-dimension-name { font-weight: 700; color: var(--text-primary); }
+    .qs-dimension-level { font-size: 12px; color: var(--color-water); }
+    .qs-field { margin-bottom: var(--space-xs); }
+    .qs-field-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.3px; }
+    .qs-field-value { font-size: 13px; color: var(--text-secondary); }
+    /* Debt table */
+    .debt-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .debt-table th { background: var(--bg-tertiary); color: var(--text-primary); padding: 8px 12px; text-align: left; }
+    .debt-table td { padding: 8px 12px; border-bottom: 1px solid var(--border-default); }
+    .debt-gap { color: var(--color-fire); font-weight: 700; }
+    .debt-ok { color: var(--color-air); }
+    /* Toast */
+    #toast { display: none; position: fixed; bottom: 24px; right: 24px; background: var(--bg-tertiary); color: var(--text-primary); border: 1px solid var(--border-accent); border-radius: 6px; padding: 10px 18px; font-size: 13px; z-index: 2000; }
+    /* Responsive */
+    @media (max-width: 640px) { .container { padding: var(--space-md); } .tab-btn { padding: 8px 12px; font-size: 13px; } .stat-grid { grid-template-columns: 1fr 1fr; } .epic-header { flex-direction: column; } }
   </style>
 </head>
 <body>
 
-<div class="container">
-
-  <!-- Hidden fields for feedback JSON -->
-  <input type="hidden" id="brief-slug" value="{PRODUCT_SLUG}">
-  <input type="hidden" id="brief-phase" value="{PHASE}">
-
-  <!-- ═══════════════════════════════════════════════════════════ -->
-  <!-- HEADER -->
-  <header>
-    <h1>{PRODUCT_NAME}</h1>
-    <div class="header-meta">
-      <span><span class="badge {STATUS_BADGE_CLASS}">{STATUS}</span></span>
-      <span><strong>Phase:</strong> {PHASE}</span>
-      <span><strong>Generated:</strong> {DATE}</span>
-    </div>
-  </header>
-
-  <!-- ═══════════════════════════════════════════════════════════ -->
-  <!-- SECTION 1: MARKET OPPORTUNITY -->
-  <h2>Market Opportunity</h2>
-
-  <h3>Problem</h3>
-  <div class="highlight-box">
-    <p>{PROBLEM_STATEMENT}</p>
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- COMMENT POPUP (fixed, hidden by default) -->
+<div class="comment-popup" id="comment-popup">
+  <div class="comment-selected-text" id="comment-selected-text"></div>
+  <textarea class="comment-textarea" id="comment-textarea" placeholder="Add a comment on this selection..."></textarea>
+  <div class="comment-popup-actions">
+    <button class="comment-btn" onclick="hidePopup()">Cancel</button>
+    <button class="comment-btn comment-btn-save" onclick="saveComment()">Save</button>
   </div>
-
-  <h3>Target Users</h3>
-  <!-- Render one .card.persona-card per persona from market context -->
-  {PERSONA_CARDS}
-
-  <h3>Market Size</h3>
-  <div class="market-size-grid">
-    <!-- Render 3 tiles: TAM, SAM, SOM from market_context.market_size -->
-    {MARKET_SIZE_TILES}
-  </div>
-
-  <h3>Competitive Landscape</h3>
-  <table>
-    <thead>
-      <tr>
-        <th>Competitor</th>
-        <th>Strengths</th>
-        <th>Weaknesses</th>
-        <th>Our Advantage</th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- Render one <tr> per competitor -->
-      {COMPETITOR_TABLE_ROWS}
-    </tbody>
-  </table>
-
-  <h3>Differentiators</h3>
-  <!-- Render one .diff-item per differentiator from market context -->
-  {DIFFERENTIATOR_BLOCKS}
-
-  <h3>Market Risks</h3>
-  <!-- Render one .risk-item per risk from market context -->
-  {RISK_BLOCKS}
-
-  <hr class="section-divider">
-
-  <!-- ═══════════════════════════════════════════════════════════ -->
-  <!-- SECTION 2: PRODUCT VISION -->
-  <h2>Product Vision</h2>
-
-  <h3>Value Proposition</h3>
-  <div class="highlight-box">
-    {VALUE_PROPOSITION}
-  </div>
-
-  <h3>Strategic Goals</h3>
-  <!-- Render one .card.goal-card per strategic goal from vision -->
-  <!-- Each card: goal number, title, description, and metric-tag with success metric -->
-  {STRATEGIC_GOAL_CARDS}
-
-  <h3>Success Metrics</h3>
-  <table>
-    <thead>
-      <tr>
-        <th>Strategic Goal</th>
-        <th>Metric</th>
-        <th>Target</th>
-        <th>Measurement</th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- Render one <tr> per success metric from vision -->
-      {SUCCESS_METRIC_ROWS}
-    </tbody>
-  </table>
-
-  <h3>Assumptions</h3>
-  <!-- Render numbered assumptions from vision -->
-  {ASSUMPTION_BLOCKS}
-
-  <h3>Out of Scope</h3>
-  <!-- Render out-of-scope items from vision -->
-  {OUT_OF_SCOPE_BLOCKS}
-
-  <hr class="section-divider">
-
-  <!-- ═══════════════════════════════════════════════════════════ -->
-  <!-- SECTION 3: BUSINESS ANALYSIS -->
-  <!-- This section is generated by the skill from vision + market context -->
-  <!-- It replaces the standalone business-review.md artifact -->
-  <h2>Business Analysis</h2>
-
-  <h3>What It Is</h3>
-  <!-- Plain-language summary of the product for PM/business audience -->
-  <!-- Synthesized from vision value proposition + problem statement -->
-  <!-- NO engineering details — market positioning and user needs only -->
-  <div class="card">
-    {WHAT_IT_IS}
-  </div>
-
-  <h3>Why It Matters</h3>
-  <!-- Business case: market opportunity, timing, network effects -->
-  <!-- Synthesized from market_context.market_size + differentiators -->
-  <div class="card">
-    {WHY_IT_MATTERS}
-  </div>
-
-  <h3>User Journeys</h3>
-  <!-- Render one .card.journey-card per user journey -->
-  <!-- Generate 1 journey per persona from vision target users -->
-  <!-- Each journey: narrative scenario showing the product in use -->
-  {USER_JOURNEY_CARDS}
-
-  <h3>Key Decisions</h3>
-  <!-- Business rules / design principles derived from vision strategic goals -->
-  <!-- Plain language, no engineering terms -->
-  {KEY_DECISION_BLOCKS}
-
-  <h3>Recommended Next Steps</h3>
-  <!-- Actionable next steps for product leadership -->
-  {NEXT_STEP_BLOCKS}
-
-  <hr class="section-divider">
-
-  <!-- ═══════════════════════════════════════════════════════════ -->
-  <!-- SECTION 4: FEEDBACK PANEL -->
-  <div class="feedback-panel">
-    <h2 style="border: none; margin-top: 0;">Review & Feedback</h2>
-    <p style="color: var(--text-secondary); margin-bottom: 16px;">
-      Toggle each section, add comments, then generate feedback JSON.
-    </p>
-
-    <!-- Per-section toggles -->
-    <div class="section-toggle">
-      <span>Market Opportunity</span>
-      <div>
-        <button class="toggle-btn" data-section="market_opportunity" data-value="approve" onclick="toggleSection('market_opportunity','approve')">Approve</button>
-        <button class="toggle-btn" data-section="market_opportunity" data-value="revise" onclick="toggleSection('market_opportunity','revise')">Revise</button>
-      </div>
-    </div>
-
-    <div class="section-toggle">
-      <span>Product Vision</span>
-      <div>
-        <button class="toggle-btn" data-section="product_vision" data-value="approve" onclick="toggleSection('product_vision','approve')">Approve</button>
-        <button class="toggle-btn" data-section="product_vision" data-value="revise" onclick="toggleSection('product_vision','revise')">Revise</button>
-      </div>
-    </div>
-
-    <div class="section-toggle">
-      <span>Business Analysis</span>
-      <div>
-        <button class="toggle-btn" data-section="business_analysis" data-value="approve" onclick="toggleSection('business_analysis','approve')">Approve</button>
-        <button class="toggle-btn" data-section="business_analysis" data-value="revise" onclick="toggleSection('business_analysis','revise')">Revise</button>
-      </div>
-    </div>
-
-    <textarea class="feedback-textarea" id="feedback-text" placeholder="Additional feedback, concerns, or revision requests..."></textarea>
-
-    <button class="submit-btn" onclick="generateFeedback()">Generate Feedback JSON</button>
-
-    <div class="json-output" id="json-output">
-      <button class="copy-btn" onclick="copyJson()">Copy</button>
-      <pre><code></code></pre>
-    </div>
-  </div>
-
-  <footer>
-    Generated by discover-product &middot; {PRODUCT_NAME} &middot; {DATE} &middot; {ARTIFACT_PATH}
-  </footer>
-
 </div>
 
+<!-- TOAST -->
+<div id="toast"></div>
+
+<div class="container">
+
+  <!-- ─────────────────────────────────────────────────────── -->
+  <!-- HEADER -->
+  <a class="hub-link" href="hub.html">← Hub</a>
+  <div class="brief-header">
+    <div class="brief-title">Product Brief <span class="badge {STATUS_BADGE}">{STATUS}</span></div>
+    <div class="brief-meta">
+      <span><strong>Product:</strong> {SLUG}</span>
+      <span><strong>Generated:</strong> {TIMESTAMP}</span>
+    </div>
+    <div class="source-path">Source: {SOURCE_PATH}</div>
+  </div>
+
+  <!-- ─────────────────────────────────────────────────────── -->
+  <!-- TAB BAR -->
+  <div class="tab-bar">
+    <button class="tab-btn active" data-tab="market">Market Context</button>
+    <button class="tab-btn" data-tab="vision">Vision</button>
+    <button class="tab-btn" data-tab="scope">Scope</button>
+    <button class="tab-btn" data-tab="profiles">Profiles</button>
+    <button class="tab-btn" data-tab="comments">Comments<span class="comment-count-badge" id="comment-badge" style="display:none">0</span></button>
+  </div>
+
+  <!-- ═════════════════════════════════════════════════════════ -->
+  <!-- TAB: MARKET CONTEXT -->
+  <div class="tab-panel active" id="market">
+
+    <h2>Problem</h2>
+    <!-- {PROBLEM}: paragraph describing the core problem being solved -->
+    <p>{PROBLEM}</p>
+
+    <h2>Target Users</h2>
+    <!-- {TARGET_USERS}: render one .card.card-fire per persona -->
+    <!-- Card fields: persona (card-title), goal (card-field), frustration (card-field), context (card-field) -->
+    {TARGET_USERS}
+
+    <h2>Competitors</h2>
+    <!-- {COMPETITORS_TABLE}: <tr> rows with columns: Competitor, Strengths, Weaknesses, Our Advantage -->
+    <table>
+      <thead>
+        <tr><th>Competitor</th><th>Strengths</th><th>Weaknesses</th><th>Our Advantage</th></tr>
+      </thead>
+      <tbody>
+        {COMPETITORS_TABLE}
+      </tbody>
+    </table>
+
+    <h2>Market Size</h2>
+    <!-- {MARKET_SIZE}: single .card with card-fields for TAM, SAM, SOM, and note -->
+    {MARKET_SIZE}
+
+    <h2>Differentiators</h2>
+    <!-- {DIFFERENTIATORS}: render one .card.card-air per differentiator, or a list of items -->
+    {DIFFERENTIATORS}
+
+    <h2>Risks</h2>
+    <!-- {RISKS}: render one .card.card-fire per market risk, or a list of items -->
+    {RISKS}
+
+  </div><!-- /market -->
+
+  <!-- ═════════════════════════════════════════════════════════ -->
+  <!-- TAB: VISION -->
+  <div class="tab-panel" id="vision">
+
+    <h2>Value Proposition</h2>
+    <!-- {VALUE_PROPOSITION}: text paragraph inside highlight-box -->
+    <div class="highlight-box">{VALUE_PROPOSITION}</div>
+
+    <h2>Strategic Goals</h2>
+    <!-- {STRATEGIC_GOALS}: render one .card.card-air per goal -->
+    <!-- Card fields: id (badge-count), title (card-title), description, metric, target, measurement -->
+    {STRATEGIC_GOALS}
+
+    <h2>Success Metrics</h2>
+    <!-- {SUCCESS_METRICS_TABLE}: <tr> rows with columns: Goal Ref, Metric, Target, Method -->
+    <table>
+      <thead>
+        <tr><th>Goal Ref</th><th>Metric</th><th>Target</th><th>Method</th></tr>
+      </thead>
+      <tbody>
+        {SUCCESS_METRICS_TABLE}
+      </tbody>
+    </table>
+
+  </div><!-- /vision -->
+
+  <!-- ═════════════════════════════════════════════════════════ -->
+  <!-- TAB: SCOPE -->
+  <div class="tab-panel" id="scope">
+
+    <h2>Assumptions</h2>
+    <!-- {ASSUMPTIONS}: render one .card.card-water per assumption -->
+    {ASSUMPTIONS}
+
+    <h2>Out of Scope</h2>
+    <!-- {OUT_OF_SCOPE}: render one .card.card-earth per exclusion -->
+    <!-- Card fields: category (card-title), rationale (card-field-value) -->
+    {OUT_OF_SCOPE}
+
+  </div><!-- /scope -->
+
+  <!-- ═════════════════════════════════════════════════════════ -->
+  <!-- TAB: PROFILES -->
+  <div class="tab-panel" id="profiles">
+
+    <h2>Product Profile</h2>
+    <!-- {PRODUCT_PROFILE_TABLE}: <tr> rows for PP-1..7 dimensions: Dimension, Level (level-cell), Rationale -->
+    <table class="profile-table">
+      <thead>
+        <tr><th>Dimension</th><th class="level-cell">Level</th><th>Rationale</th></tr>
+      </thead>
+      <tbody>
+        {PRODUCT_PROFILE_TABLE}
+      </tbody>
+    </table>
+
+    <h2>NFR Profile</h2>
+    <!-- {NFR_PROFILE_TABLE}: <tr> rows for NFR-1..7 dimensions: Dimension, Level (level-cell), Rationale -->
+    <table class="profile-table">
+      <thead>
+        <tr><th>Dimension</th><th class="level-cell">Level</th><th>Rationale</th></tr>
+      </thead>
+      <tbody>
+        {NFR_PROFILE_TABLE}
+      </tbody>
+    </table>
+
+    <h2>Quality Profile</h2>
+    <!-- {QUALITY_PROFILE_TABLE}: <tr> rows for QP-1..7 dimensions: Dimension, Level (level-cell), Rationale -->
+    <table class="profile-table">
+      <thead>
+        <tr><th>Dimension</th><th class="level-cell">Level</th><th>Rationale</th></tr>
+      </thead>
+      <tbody>
+        {QUALITY_PROFILE_TABLE}
+      </tbody>
+    </table>
+
+  </div><!-- /profiles -->
+
+  <!-- ═════════════════════════════════════════════════════════ -->
+  <!-- TAB: COMMENTS -->
+  <div class="tab-panel" id="comments">
+
+    <h2>Comments</h2>
+    <p style="color: var(--text-secondary); font-size: 14px;">Select text on any tab to annotate. Comments are saved locally.</p>
+    <div id="comment-list" style="margin-top: var(--space-md);"></div>
+
+    <div class="export-section">
+      <h3>Export Review Decision</h3>
+      <p style="color: var(--text-secondary); font-size: 14px; margin-top: var(--space-xs);">
+        <strong style="color: var(--color-air);">Tether</strong> — approve and proceed &nbsp;|&nbsp;
+        <strong style="color: var(--color-fire);">Vanish</strong> — reject / request revision &nbsp;|&nbsp;
+        <strong style="color: var(--color-water);">Orbit</strong> — hold for discussion
+      </p>
+      <div class="action-btns">
+        <button class="action-btn action-btn-tether" onclick="exportAction('tether')">Tether</button>
+        <button class="action-btn action-btn-vanish" onclick="exportAction('vanish')">Vanish</button>
+        <button class="action-btn action-btn-orbit"  onclick="exportAction('orbit')">Orbit</button>
+      </div>
+    </div>
+
+  </div><!-- /comments -->
+
+</div><!-- /container -->
+
 <script>
-function toggleSection(section, value) {
-  var btns = document.querySelectorAll('[data-section="' + section + '"]');
-  btns.forEach(function(b) {
-    b.classList.remove('active-approve', 'active-revise');
-    if (b.dataset.value === value) {
-      b.classList.add(value === 'approve' ? 'active-approve' : 'active-revise');
-    }
-  });
-}
+  // ─── Storage key ───────────────────────────────────────────
+  var STORAGE_KEY = 'meridian-comments-product-{SLUG}';
 
-function generateFeedback() {
-  var sections = {};
-  ['market_opportunity', 'product_vision', 'business_analysis'].forEach(function(s) {
-    var active = document.querySelector('[data-section="' + s + '"].active-approve, [data-section="' + s + '"].active-revise');
-    sections[s] = active ? active.dataset.value : 'approve';
-  });
-  var feedback = document.getElementById('feedback-text').value.trim();
-  var allApproved = Object.values(sections).every(function(v) { return v === 'approve'; });
-  var json = {
-    artifact: 'discover-product-brief',
-    slug: document.getElementById('brief-slug').value,
-    phase: document.getElementById('brief-phase').value,
-    timestamp: new Date().toISOString(),
-    sections: sections,
-    feedback: feedback,
-    action: (allApproved && !feedback) ? 'tether' : 'vanish'
-  };
-  var output = document.getElementById('json-output');
-  output.querySelector('code').textContent = JSON.stringify(json, null, 2);
-  output.style.display = 'block';
-}
-
-function copyJson() {
-  var text = document.querySelector('#json-output code').textContent;
-  if (navigator.clipboard) {
-    navigator.clipboard.writeText(text);
-  } else {
-    var ta = document.createElement('textarea');
-    ta.value = text;
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand('copy');
-    document.body.removeChild(ta);
+  // ─── Tab switching ─────────────────────────────────────────
+  function switchTab(tabId) {
+    document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+    document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
+    var btn = document.querySelector('[data-tab="' + tabId + '"]');
+    var panel = document.getElementById(tabId);
+    if (btn) btn.classList.add('active');
+    if (panel) panel.classList.add('active');
+    if (tabId === 'comments') renderComments();
   }
-  var btn = document.querySelector('.copy-btn');
-  btn.textContent = 'Copied';
-  setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
-}
+
+  document.querySelectorAll('.tab-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() { switchTab(btn.dataset.tab); });
+  });
+
+  // ─── Comment storage ───────────────────────────────────────
+  function getComments() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch(e) { return []; }
+  }
+
+  function saveComments(comments) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(comments));
+  }
+
+  function updateCommentBadge() {
+    var count = getComments().length;
+    var badge = document.getElementById('comment-badge');
+    if (badge) { badge.textContent = count; badge.style.display = count > 0 ? 'inline-block' : 'none'; }
+  }
+
+  // ─── Text selection → popup ────────────────────────────────
+  var currentSelection = null;
+
+  document.addEventListener('mouseup', function(e) {
+    if (e.target.closest('#comment-popup')) return;
+    var sel = window.getSelection();
+    if (!sel || sel.isCollapsed) { hidePopup(); return; }
+    var text = sel.toString().trim();
+    if (!text) { hidePopup(); return; }
+    var activeBtn = document.querySelector('.tab-btn.active');
+    var tabId = activeBtn ? activeBtn.dataset.tab : 'unknown';
+    if (tabId === 'comments') return;
+    currentSelection = { text: text, tab: tabId };
+    var range = sel.getRangeAt(0);
+    var rect = range.getBoundingClientRect();
+    showPopup(rect, text);
+  });
+
+  function showPopup(rect, text) {
+    var popup = document.getElementById('comment-popup');
+    document.getElementById('comment-selected-text').textContent = text.length > 120 ? text.slice(0, 120) + '…' : text;
+    document.getElementById('comment-textarea').value = '';
+    var top = window.scrollY + rect.bottom + 8;
+    var left = Math.min(rect.left, window.innerWidth - 380);
+    popup.style.top = top + 'px';
+    popup.style.left = Math.max(8, left) + 'px';
+    popup.classList.add('visible');
+  }
+
+  function hidePopup() {
+    var popup = document.getElementById('comment-popup');
+    if (popup) popup.classList.remove('visible');
+    currentSelection = null;
+  }
+
+  function saveComment() {
+    if (!currentSelection) return;
+    var text = document.getElementById('comment-textarea').value.trim();
+    if (!text) return;
+    var comments = getComments();
+    comments.push({
+      id: Date.now(),
+      excerpt: currentSelection.text.slice(0, 100),
+      tab: currentSelection.tab,
+      body: text,
+      created: new Date().toISOString()
+    });
+    saveComments(comments);
+    updateCommentBadge();
+    hidePopup();
+    if (window.getSelection) window.getSelection().removeAllRanges();
+  }
+
+  // ─── Comments tab render ───────────────────────────────────
+  function renderComments() {
+    var list = document.getElementById('comment-list');
+    var comments = getComments();
+    if (comments.length === 0) {
+      list.innerHTML = '<p style="color:var(--text-secondary)">No comments yet. Select text on any tab to add a comment.</p>';
+      return;
+    }
+    list.innerHTML = comments.map(function(c) {
+      return '<div class="comment-item">' +
+        '<div class="comment-tab-label">' + c.tab + '</div>' +
+        '<div class="comment-excerpt">' + escapeHtml(c.excerpt) + '</div>' +
+        '<div class="comment-body">' + escapeHtml(c.body) + '</div>' +
+        '<button class="comment-delete-btn" onclick="deleteComment(' + c.id + ')">Delete</button>' +
+        '</div>';
+    }).join('');
+  }
+
+  function deleteComment(id) {
+    saveComments(getComments().filter(function(c) { return c.id !== id; }));
+    updateCommentBadge();
+    renderComments();
+  }
+
+  function escapeHtml(str) {
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  // ─── Export (Tether / Vanish / Orbit) ─────────────────────
+  function exportAction(action) {
+    var payload = {
+      artifact: 'product-brief',
+      slug: '{SLUG}',
+      action: action,
+      comments: getComments(),
+      timestamp: new Date().toISOString()
+    };
+    var text = JSON.stringify(payload, null, 2);
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).then(function() { showToast('Copied to clipboard'); });
+    } else {
+      var ta = document.createElement('textarea');
+      ta.value = text; document.body.appendChild(ta); ta.select();
+      document.execCommand('copy'); document.body.removeChild(ta);
+      showToast('Copied to clipboard');
+    }
+  }
+
+  function showToast(msg) {
+    var toast = document.getElementById('toast');
+    toast.textContent = msg; toast.style.display = 'block';
+    setTimeout(function() { toast.style.display = 'none'; }, 2000);
+  }
+
+  // ─── Init ─────────────────────────────────────────────────
+  updateCommentBadge();
 </script>
 
 </body>
