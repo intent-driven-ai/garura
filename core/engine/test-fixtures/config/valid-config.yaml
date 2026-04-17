@@ -7,10 +7,10 @@ repo:
   path: /tmp/test-repo
 
 stm:
-  base-path: .meridian/project/issues/
+  base-path: .garura/project/issues/
 
 product:
-  base-path: .meridian/product/
+  base-path: .garura/product/
 
 components:
   skills: ./core/components/skills/

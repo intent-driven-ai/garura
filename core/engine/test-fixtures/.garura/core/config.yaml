@@ -1,0 +1,15 @@
+# Test fixture configuration for Garura
+# Used when GARURA_TARGET_REPO points to this test-fixtures directory
+project:
+  name: Garura
+  type: Test Fixtures
+
+stm:
+  base-path: .garura/project/issues/
+
+product:
+  base-path: .garura/product/
+
+components:
+  skills: ./core/components/skills/
+  agents: ./core/components/agents/
