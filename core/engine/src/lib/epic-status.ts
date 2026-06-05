@@ -113,6 +113,13 @@ export interface DiscoverEpicsOptions {
   readonly stmBasePath: string;
 }
 
+interface FallbackIssueRef {
+  readonly id: string;
+  readonly slug: string;
+  readonly branchName: string | null;
+  readonly hash: string;
+}
+
 // ---------------------------------------------------------------------------
 // Branch parsing
 // ---------------------------------------------------------------------------
@@ -225,8 +232,8 @@ function stmCandidateDirectories(epicId: string, slug?: string): string[] {
   return Array.from(candidates);
 }
 
-/** Walk a directory recursively, returning absolute paths to YAML files. */
-function walkYamlFiles(dirPath: string): string[] {
+/** Walk a directory recursively, returning absolute paths to evidence files. */
+function walkEvidenceFiles(dirPath: string): string[] {
   const results: string[] = [];
   let entries: fs.Dirent[];
   try {
@@ -237,8 +244,8 @@ function walkYamlFiles(dirPath: string): string[] {
   for (const entry of entries) {
     const full = path.join(dirPath, entry.name);
     if (entry.isDirectory()) {
-      results.push(...walkYamlFiles(full));
-    } else if (entry.isFile() && /\.(ya?ml)$/i.test(entry.name)) {
+      results.push(...walkEvidenceFiles(full));
+    } else if (entry.isFile() && /\.(ya?ml|json)$/i.test(entry.name)) {
       results.push(full);
     }
   }
@@ -260,12 +267,12 @@ function classifyEvidenceFile(
   return 'play';
 }
 
-/** Safely parse a YAML file, returning `null` on any parse/read failure. */
-function safeLoadYaml(filePath: string): Record<string, unknown> | null {
+/** Safely parse a YAML or JSON file, returning `null` on any parse/read failure. */
+function safeLoadStructured(filePath: string): Record<string, unknown> | null {
   try {
     const raw = fs.readFileSync(filePath, 'utf-8');
     if (raw.trim().length === 0) return null;
-    const parsed = yaml.load(raw);
+    const parsed = /\.json$/i.test(filePath) ? JSON.parse(raw) : yaml.load(raw);
     if (!parsed || typeof parsed !== 'object') return null;
     return parsed as Record<string, unknown>;
   } catch {
@@ -289,6 +296,28 @@ function asStringArray(val: unknown): string[] {
   return val.filter((v): v is string => typeof v === 'string');
 }
 
+function deriveStatusFromTasks(tasks: unknown): string {
+  if (!tasks || typeof tasks !== 'object') return 'unknown';
+  const statuses = Object.values(tasks as Record<string, unknown>)
+    .map((entry) => {
+      if (typeof entry === 'string') return entry;
+      if (entry && typeof entry === 'object') {
+        const status = (entry as Record<string, unknown>).status;
+        return typeof status === 'string' ? status : '';
+      }
+      return '';
+    })
+    .filter((status) => status.length > 0)
+    .map((status) => status.toLowerCase());
+
+  if (statuses.length === 0) return 'unknown';
+  if (statuses.some((status) => status === 'failed' || status === 'error')) return 'failed';
+  if (statuses.every((status) => status === 'completed')) return 'success';
+  if (statuses.some((status) => status === 'in_progress' || status === 'running')) return 'running';
+  if (statuses.some((status) => status === 'completed')) return 'running';
+  return statuses[0] ?? 'unknown';
+}
+
 /**
  * Derive a play name from an evidence file.
  *
@@ -300,7 +329,7 @@ function derivePlayName(filePath: string, parsed: Record<string, unknown> | null
     const explicit = parsed['play'] ?? parsed['name'];
     if (typeof explicit === 'string' && explicit.trim().length > 0) return explicit.trim();
   }
-  const stem = path.basename(filePath).replace(/\.(ya?ml)$/i, '');
+  const stem = path.basename(filePath).replace(/\.(ya?ml|json)$/i, '');
   return stem;
 }
 
@@ -373,9 +402,9 @@ export function scanStmEvidence(
   const qualityChecks: QualityCheckEvidence[] = [];
   const validationResults: ValidationResultEvidence[] = [];
 
-  const yamlFiles = walkYamlFiles(epicDir);
-  for (const file of yamlFiles) {
-    const parsed = safeLoadYaml(file);
+  const evidenceFiles = walkEvidenceFiles(epicDir);
+  for (const file of evidenceFiles) {
+    const parsed = safeLoadStructured(file);
     const kind = classifyEvidenceFile(file, epicDir);
 
     if (kind === 'quality') {
@@ -404,9 +433,10 @@ export function scanStmEvidence(
     // Play history: accept even when YAML is missing fields, but skip if the
     // file couldn't be parsed at all (corrupt).
     if (parsed === null) continue;
+    const explicitStatus = asString(parsed['status']).trim();
     playHistory.push({
       name: derivePlayName(file, parsed),
-      status: asString(parsed['status'], 'unknown'),
+      status: explicitStatus || deriveStatusFromTasks(parsed['tasks']),
       timestamp: asString(parsed['timestamp']) || undefined,
       durationSeconds:
         asNumber(parsed['durationSeconds']) ??
@@ -421,6 +451,82 @@ export function scanStmEvidence(
     validationResults,
     stmPath: epicDir,
   };
+}
+
+function listNumericIssueDirectories(stmBasePath: string): string[] {
+  try {
+    return fs
+      .readdirSync(stmBasePath, { withFileTypes: true })
+      .filter((entry) => entry.isDirectory() && /^\d+$/.test(entry.name))
+      .map((entry) => entry.name)
+      .sort((left, right) => Number.parseInt(left, 10) - Number.parseInt(right, 10));
+  } catch {
+    return [];
+  }
+}
+
+function findBranchForIssue(
+  issueNumber: string,
+  branches: readonly { readonly name: string; readonly hash: string }[],
+): { branchName: string | null; hash: string; slug: string } {
+  const matcher = new RegExp(`(^|/)${issueNumber}(?:[-/]|$)`, 'i');
+  const matching = branches.filter((branch) => matcher.test(branch.name));
+  const preferred =
+    matching.find((branch) => !branch.name.startsWith('remotes/')) ??
+    matching[0] ??
+    null;
+
+  if (!preferred) {
+    return { branchName: null, hash: '', slug: '' };
+  }
+
+  const canonical = stripRemotePrefix(preferred.name);
+  const slugMatch = new RegExp(`${issueNumber}-(.+)$`).exec(canonical);
+  return {
+    branchName: canonical,
+    hash: preferred.hash,
+    slug: slugMatch?.[1] ?? '',
+  };
+}
+
+function hasActiveStatusFile(stmBasePath: string, issueNumber: string): boolean {
+  const statusDir = path.join(stmBasePath, issueNumber, 'status');
+  let entries: string[];
+  try {
+    entries = fs.readdirSync(statusDir);
+  } catch {
+    return false;
+  }
+
+  for (const entry of entries) {
+    if (!/\.json$/i.test(entry)) continue;
+    const parsed = safeLoadStructured(path.join(statusDir, entry));
+    if (!parsed) continue;
+
+    const statuses: string[] = [];
+    const tasks = parsed['tasks'];
+    const steps = parsed['steps'];
+    const topLevelStatus = parsed['status'];
+
+    for (const collection of [tasks, steps]) {
+      if (!collection || typeof collection !== 'object') continue;
+      for (const value of Object.values(collection as Record<string, unknown>)) {
+        if (typeof value === 'string') {
+          statuses.push(value.toLowerCase());
+        } else if (value && typeof value === 'object') {
+          const nestedStatus = (value as Record<string, unknown>).status;
+          if (typeof nestedStatus === 'string') statuses.push(nestedStatus.toLowerCase());
+        }
+      }
+    }
+
+    if (typeof topLevelStatus === 'string') statuses.push(topLevelStatus.toLowerCase());
+    if (statuses.some((status) => status === 'pending' || status === 'in_progress' || status === 'running')) {
+      return true;
+    }
+  }
+
+  return false;
 }
 
 // ---------------------------------------------------------------------------
@@ -468,10 +574,6 @@ export async function discoverEpics(options: DiscoverEpicsOptions): Promise<Epic
     });
   }
 
-  if (epicCandidates.size === 0) {
-    return { epics: [], empty: true, error: null };
-  }
-
   // Read product-level artifacts once — they drive stage inference for all
   // epics (stage is epic-specific via STM evidence + branch commits).
   const artifactsPresent = checkArtifacts(productBasePath);
@@ -483,6 +585,19 @@ export async function discoverEpics(options: DiscoverEpicsOptions): Promise<Epic
   // with no main/master), ahead-count falls back to 0 — consistent with an
   // untouched epic branch.
   const defaultBranch = await git.getDefaultBranch();
+
+  const fallbackIssues: FallbackIssueRef[] = listNumericIssueDirectories(stmBasePath)
+    .filter((issueNumber) => !epicCandidates.has(`E${issueNumber}`))
+    .map((issueNumber) => {
+      const branchMatch = findBranchForIssue(issueNumber, branchResult.branches);
+      return {
+        id: issueNumber,
+        slug: branchMatch.slug,
+        branchName: branchMatch.branchName,
+        hash: branchMatch.hash,
+      };
+    })
+    .filter((issueRef) => issueRef.branchName !== null || hasActiveStatusFile(stmBasePath, issueRef.id));
 
   const epics: EpicInfo[] = [];
   for (const { ref, hash } of epicCandidates.values()) {
@@ -531,10 +646,51 @@ export async function discoverEpics(options: DiscoverEpicsOptions): Promise<Epic
     });
   }
 
+  for (const issueRef of fallbackIssues) {
+    const historyResult = issueRef.branchName
+      ? await git.getCommitHistory(50, issueRef.branchName)
+      : { ok: true as const, commits: [] };
+    const commits = historyResult.ok ? historyResult.commits : [];
+
+    const lastCommit: EpicCommit | null = commits[0]
+      ? {
+          hash: commits[0].hash,
+          author: commits[0].author,
+          timestamp: commits[0].timestamp,
+          message: commits[0].message,
+        }
+      : null;
+
+    const developer = lastCommit?.author ?? null;
+    const branchCommits =
+      issueRef.branchName && defaultBranch
+        ? await git.countCommitsAhead(issueRef.branchName, defaultBranch)
+        : 0;
+    const stmEvidence = scanStmEvidence(stmBasePath, issueRef.id, issueRef.slug);
+    const stage = inferStage({
+      artifacts: artifactsPresent,
+      stmEvidence,
+      branchCommits,
+    });
+
+    epics.push({
+      id: issueRef.id,
+      slug: issueRef.slug,
+      branchName: issueRef.branchName ?? `(issue ${issueRef.id})`,
+      hash: issueRef.hash,
+      stage,
+      developer,
+      lastCommit,
+      branchCommits,
+      artifactsPresent: artifactsList,
+      stmEvidence,
+    });
+  }
+
   // Stable ordering: by numeric epic id ascending (E1, E2, E10, …).
   epics.sort((a, b) => {
-    const an = Number.parseInt(a.id.slice(1), 10);
-    const bn = Number.parseInt(b.id.slice(1), 10);
+    const an = Number.parseInt(a.id.replace(/^\D+/, ''), 10);
+    const bn = Number.parseInt(b.id.replace(/^\D+/, ''), 10);
     return an - bn;
   });
 

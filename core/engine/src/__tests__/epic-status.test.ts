@@ -692,4 +692,54 @@ describe('discoverEpics', { timeout: 30_000 }, () => {
     const names = result.epics[0]?.stmEvidence.playHistory.map((p) => p.name).sort() ?? [];
     expect(names).toEqual(['play-implement-epic', 'play-prepare-epic']);
   });
+
+  it('discovers numeric STM issue folders when no feat/eN branches exist', async () => {
+    initGitRepo(tempRepo);
+    createBranch(tempRepo, 'chore/265-specify-product-residue', 'residue.txt');
+    writeYaml(
+      path.join(tempRepo, '.garura/project/issues/265/status/enhance.json'),
+      JSON.stringify({
+        play: 'enhance',
+        tasks: {
+          validate: { status: 'completed' },
+          implement: { status: 'in_progress' },
+        },
+      }),
+    );
+
+    const result = await discoverEpics({
+      repoPath: tempRepo,
+      productBasePath: path.join(tempRepo, '.garura/product'),
+      stmBasePath: path.join(tempRepo, '.garura/project/issues'),
+    });
+
+    expect(result.empty).toBe(false);
+    expect(result.epics.map((epic) => epic.id)).toContain('265');
+    const epic = result.epics.find((entry) => entry.id === '265');
+    expect(epic?.branchName).toBe('chore/265-specify-product-residue');
+    expect(epic?.slug).toBe('specify-product-residue');
+    expect(epic?.stmEvidence.playHistory.map((play) => play.name)).toContain('enhance');
+  });
+
+  it('ignores numeric STM issue folders that only have completed status files', async () => {
+    initGitRepo(tempRepo);
+    writeYaml(
+      path.join(tempRepo, '.garura/project/issues/265/status/merge-pr.json'),
+      JSON.stringify({
+        tasks: {
+          verify: { status: 'completed' },
+          merge: { status: 'completed' },
+        },
+      }),
+    );
+
+    const result = await discoverEpics({
+      repoPath: tempRepo,
+      productBasePath: path.join(tempRepo, '.garura/product'),
+      stmBasePath: path.join(tempRepo, '.garura/project/issues'),
+    });
+
+    expect(result.empty).toBe(true);
+    expect(result.epics).toHaveLength(0);
+  });
 });

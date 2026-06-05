@@ -18,15 +18,12 @@ import { NextResponse } from 'next/server';
 import { ensureConfigLoaded, getConfig, resolveRepoRoot } from '@/lib/config';
 import { discoverEpics } from '@/lib/epic-status';
 import { buildFlightDeckData, type ActivePlayExecutionRecord } from '@/lib/flight-deck';
+import { resolveFlightDeckRepoPath } from '@/lib/flight-deck-paths';
 import { getProcessTracker } from '@/lib/play-executor';
 
 // Always refresh on each request — Flight Deck is a live view.
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
-
-function resolveAgainstRoot(repoRoot: string, p: string): string {
-  return path.isAbsolute(p) ? p : path.resolve(repoRoot, p);
-}
 
 export async function GET() {
   // Ensure config is loaded — layout.tsx's module-level loadConfig does not
@@ -37,9 +34,9 @@ export async function GET() {
   const repoRoot = resolveRepoRoot();
   const config = getConfig();
 
-  const repoPath = resolveAgainstRoot(repoRoot, config.repo.path);
-  const productBasePath = resolveAgainstRoot(repoRoot, config.product.basePath);
-  const stmBasePath = resolveAgainstRoot(repoRoot, config.stm.basePath);
+  const repoPath = resolveFlightDeckRepoPath(repoRoot, config.repo.path);
+  const productBasePath = path.resolve(repoRoot, config.product.basePath);
+  const stmBasePath = path.resolve(repoRoot, config.stm.basePath);
 
   // Active in-memory play executions (triggered from Playbook wiki tags,
   // CTAs, or Checklists) surface into the play log immediately so the

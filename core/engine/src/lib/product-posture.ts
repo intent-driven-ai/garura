@@ -26,6 +26,28 @@ interface RawPostureEntity {
   readonly evidence?: unknown;
 }
 
+interface RawFeatureCatalogFeature {
+  readonly id?: unknown;
+  readonly name?: unknown;
+  readonly status?: unknown;
+  readonly notes?: unknown;
+  readonly evidence?: unknown;
+}
+
+interface RawFeatureCatalogCapability {
+  readonly slug?: unknown;
+  readonly status?: unknown;
+  readonly rollup_notes?: unknown;
+  readonly features?: unknown;
+}
+
+interface RawFeatureCatalogDomain {
+  readonly slug?: unknown;
+  readonly status?: unknown;
+  readonly rollup_notes?: unknown;
+  readonly capabilities?: unknown;
+}
+
 function isRecord(value: unknown): value is Record<string, unknown> {
   return value !== null && typeof value === 'object' && !Array.isArray(value);
 }
@@ -39,7 +61,26 @@ function asArray<T>(value: unknown): T[] {
 }
 
 function normalizeStatus(raw: unknown): ProductStatus {
-  return PRODUCT_STATUSES.includes(raw as ProductStatus) ? (raw as ProductStatus) : 'planned';
+  if (PRODUCT_STATUSES.includes(raw as ProductStatus)) return raw as ProductStatus;
+  const normalized = asString(raw).trim().toLowerCase();
+  switch (normalized) {
+    case 'released':
+    case 'live':
+    case 'applied':
+      return 'live';
+    case 'rollout':
+    case 'partial':
+      return 'partial';
+    case 'development':
+      return 'pilot';
+    case 'cleanup':
+      return 'dormant';
+    case 'applied-and-evolving':
+    case 'evolving':
+      return 'partial';
+    default:
+      return 'planned';
+  }
 }
 
 function normalizeEvidence(raw: unknown): ProductEvidence[] {
@@ -83,11 +124,55 @@ function readYamlFile(filePath: string): Record<string, unknown> | null {
   try {
     if (!fs.existsSync(filePath)) return null;
     const raw = fs.readFileSync(filePath, 'utf-8');
-    const parsed = yaml.load(raw);
+    const parsed = yaml.load(resolveGitConflictBlocks(raw), { json: true });
     return isRecord(parsed) ? parsed : null;
   } catch {
     return null;
   }
+}
+
+function resolveGitConflictBlocks(raw: string): string {
+  const lines = raw.split(/\r?\n/);
+  const resolved: string[] = [];
+  let mode: 'normal' | 'ours' | 'theirs' = 'normal';
+
+  for (const line of lines) {
+    if (line.startsWith('<<<<<<< ')) {
+      mode = 'ours';
+      continue;
+    }
+    if (line.startsWith('=======') && mode === 'ours') {
+      mode = 'theirs';
+      continue;
+    }
+    if (line.startsWith('>>>>>>> ') && mode !== 'normal') {
+      mode = 'normal';
+      continue;
+    }
+    if (mode === 'ours') continue;
+    resolved.push(line);
+  }
+
+  return resolved.join('\n');
+}
+
+function humanizeSlug(slug: string): string {
+  return slug
+    .split('-')
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(' ');
+}
+
+function pushArtifactEvidence(filePath: string, repoRoot: string): ProductEvidence[] {
+  return fs.existsSync(filePath)
+    ? [
+        {
+          kind: 'artifact-defined',
+          label: path.relative(repoRoot, filePath),
+        },
+      ]
+    : [];
 }
 
 function firstParagraph(markdown: string): string {
@@ -119,6 +204,98 @@ function tallyStatuses(statuses: ReadonlyArray<ProductStatus>): ProductStatusCou
   };
   for (const status of statuses) counts[status] += 1;
   return counts;
+}
+
+function deriveCatalogHierarchy(
+  repoRoot: string,
+  productBasePath: string,
+): {
+  domains: ProductDomain[];
+  capabilities: ProductCapability[];
+  features: ProductFeature[];
+  sourceArtifacts: string[];
+  coverageGaps: string[];
+} {
+  const catalogPath = path.join(productBasePath, 'scope', 'features.yaml');
+  const catalog = readYamlFile(catalogPath);
+  if (!catalog) {
+    return { domains: [], capabilities: [], features: [], sourceArtifacts: [], coverageGaps: [] };
+  }
+
+  const rawDomains = asArray<unknown>(catalog.domains);
+  const features: ProductFeature[] = [];
+  const capabilities: ProductCapability[] = [];
+  const domains: ProductDomain[] = [];
+
+  for (const domainEntry of rawDomains) {
+    if (!isRecord(domainEntry)) continue;
+    const rawDomain = domainEntry as RawFeatureCatalogDomain;
+    const domainId = asString(rawDomain.slug).trim();
+    if (!domainId) continue;
+
+    const domainCapabilities: ProductCapability[] = [];
+    for (const capabilityEntry of asArray<unknown>(rawDomain.capabilities)) {
+      if (!isRecord(capabilityEntry)) continue;
+      const rawCapability = capabilityEntry as RawFeatureCatalogCapability;
+      const capabilityId = asString(rawCapability.slug).trim();
+      if (!capabilityId) continue;
+
+      const capabilityFeatures: ProductFeature[] = [];
+      for (const featureEntry of asArray<unknown>(rawCapability.features)) {
+        if (!isRecord(featureEntry)) continue;
+        const rawFeature = featureEntry as RawFeatureCatalogFeature;
+        const featureId = asString(rawFeature.id).trim();
+        const featureName = asString(rawFeature.name).trim();
+        if (!featureId || !featureName) continue;
+        const feature: ProductFeature = {
+          id: featureId,
+          name: featureName,
+          capabilityId,
+          description: asString(rawFeature.notes).trim(),
+          status: normalizeStatus(rawFeature.status),
+          evidence: pushArtifactEvidence(catalogPath, repoRoot),
+        };
+        capabilityFeatures.push(feature);
+        features.push(feature);
+      }
+
+      const capability: ProductCapability = {
+        id: capabilityId,
+        name: humanizeSlug(capabilityId),
+        domainId,
+        description: asString(rawCapability.rollup_notes).trim(),
+        status: normalizeStatus(rawCapability.status),
+        featureIds: capabilityFeatures.map((feature) => feature.id),
+        evidence: pushArtifactEvidence(catalogPath, repoRoot),
+        features: capabilityFeatures,
+      };
+      domainCapabilities.push(capability);
+      capabilities.push(capability);
+    }
+
+    domains.push({
+      id: domainId,
+      name: humanizeSlug(domainId),
+      description: asString(rawDomain.rollup_notes).trim(),
+      status: normalizeStatus(rawDomain.status),
+      capabilityIds: domainCapabilities.map((capability) => capability.id),
+      evidence: pushArtifactEvidence(catalogPath, repoRoot),
+      capabilities: domainCapabilities,
+    });
+  }
+
+  const coverageGaps: string[] = [];
+  if (domains.length === 0) {
+    coverageGaps.push('Product catalog exists, but no domains could be derived from scope/features.yaml.');
+  }
+
+  return {
+    domains,
+    capabilities,
+    features,
+    sourceArtifacts: fs.existsSync(catalogPath) ? [path.relative(repoRoot, catalogPath)] : [],
+    coverageGaps,
+  };
 }
 
 export function loadProductInstrumentData(repoRoot: string, productBasePath: string): ProductInstrumentData {
@@ -239,35 +416,60 @@ export function loadProductInstrumentData(repoRoot: string, productBasePath: str
     });
   }
 
+  const derivedCatalog = domains.length === 0 ? deriveCatalogHierarchy(repoRoot, productBasePath) : null;
+  const resolvedDomains = derivedCatalog ? derivedCatalog.domains : domains;
+  const resolvedCapabilities = derivedCatalog ? derivedCatalog.capabilities : capabilities;
+  const resolvedFeatures = derivedCatalog ? derivedCatalog.features : features;
+
   const allStatuses: ProductStatus[] = [
-    ...domains.map((entry) => entry.status),
-    ...capabilities.map((entry) => entry.status),
-    ...features.map((entry) => entry.status),
+    ...resolvedDomains.map((entry) => entry.status),
+    ...resolvedCapabilities.map((entry) => entry.status),
+    ...resolvedFeatures.map((entry) => entry.status),
   ];
   const coverageGaps: string[] = [];
 
-  if (domains.length === 0) coverageGaps.push('No curated domains are defined in posture.yaml yet.');
-  if (capabilities.some((entry) => !domains.some((domain) => domain.id === entry.domainId))) {
+  if (resolvedDomains.length === 0) coverageGaps.push('No curated domains are defined in posture.yaml yet.');
+  if (resolvedCapabilities.some((entry) => !resolvedDomains.some((domain) => domain.id === entry.domainId))) {
     coverageGaps.push('One or more capabilities reference a missing domain.');
   }
-  if (features.some((entry) => !capabilities.some((capability) => capability.id === entry.capabilityId))) {
+  if (resolvedFeatures.some((entry) => !resolvedCapabilities.some((capability) => capability.id === entry.capabilityId))) {
     coverageGaps.push('One or more features reference a missing capability.');
   }
-  if (domains.some((entry) => entry.capabilities.length === 0)) {
+  if (resolvedDomains.some((entry) => entry.capabilities.length === 0)) {
     coverageGaps.push('At least one domain has no mapped capabilities yet.');
   }
-  if (capabilities.some((entry) => entry.features.length === 0)) {
+  if (resolvedCapabilities.some((entry) => entry.features.length === 0)) {
     coverageGaps.push('At least one capability has no mapped features yet.');
   }
 
-  const evidence = [...domains, ...capabilities, ...features].flatMap((entry) => entry.evidence);
+  if (derivedCatalog) {
+    coverageGaps.push(
+      ...derivedCatalog.coverageGaps,
+      'Rendering from scope/features.yaml because posture.yaml is not present.',
+    );
+  }
+
+  const evidence = [...resolvedDomains, ...resolvedCapabilities, ...resolvedFeatures].flatMap(
+    (entry) => entry.evidence,
+  );
   const updatedAt = asString(rawPosture.updated_at).trim() || asString(vision?.frontmatter.last_updated).trim() || null;
 
+  const resolvedSummary: ProductSummary = {
+    ...summary,
+    sourceArtifacts: Array.from(
+      new Set([...summary.sourceArtifacts, ...(derivedCatalog?.sourceArtifacts ?? [])]),
+    ),
+    description:
+      summary.description.startsWith('No product summary is available yet.') && derivedCatalog
+        ? 'Derived from the existing product feature catalog while curated posture metadata is absent.'
+        : summary.description,
+  };
+
   return {
-    summary,
+    summary: resolvedSummary,
     updatedAt,
     statusCounts: tallyStatuses(allStatuses),
-    domains,
+    domains: resolvedDomains,
     coverageGaps,
     signalsSummary: {
       artifactDefined: evidence.filter((entry) => entry.kind === 'artifact-defined').length,

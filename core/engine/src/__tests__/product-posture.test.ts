@@ -101,4 +101,48 @@ features:
     expect(data.coverageGaps).toContain('One or more capabilities reference a missing domain.');
     expect(data.statusCounts.planned).toBeGreaterThanOrEqual(3);
   });
+
+  it('derives domains, capabilities, and features from scope/features.yaml when posture.yaml is absent', () => {
+    const productDir = makeProductDir();
+    fs.mkdirSync(path.join(productDir, 'scope'), { recursive: true });
+    fs.writeFileSync(
+      path.join(productDir, 'scope', 'features.yaml'),
+      `
+summary:
+  domains: 1
+domains:
+  - slug: engineering-experience
+    status: applied-and-evolving
+    capabilities:
+      - slug: cli-slash-commands
+        status: released
+        features:
+          - id: EE-F015
+            name: Slash Commands
+            status: released
+<<<<<<< HEAD
+          - id: EE-F016
+            name: Repo Sync
+            status: live
+=======
+          - id: EE-F016
+            name: Repo Sync
+            status: rollout
+>>>>>>> main
+`,
+    );
+
+    const data = loadProductInstrumentData(productDir, productDir);
+
+    expect(data.summary.sourceArtifacts).toContain('scope/features.yaml');
+    expect(data.summary.description).toContain('Derived from the existing product feature catalog');
+    expect(data.domains).toHaveLength(1);
+    expect(data.domains[0]?.name).toBe('Engineering Experience');
+    expect(data.domains[0]?.capabilities[0]?.name).toBe('Cli Slash Commands');
+    expect(data.domains[0]?.capabilities[0]?.features).toHaveLength(2);
+    expect(data.domains[0]?.capabilities[0]?.features[1]?.status).toBe('partial');
+    expect(data.coverageGaps).toContain(
+      'Rendering from scope/features.yaml because posture.yaml is not present.',
+    );
+  });
 });

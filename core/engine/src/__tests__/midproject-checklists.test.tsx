@@ -21,10 +21,15 @@ import ChecklistsPage from '@/app/checklists/page';
 
 const mockRefresh = vi.fn();
 let mockScore = 45;
+let mockLifecycle: 'greenfield' | 'brownfield' = 'brownfield';
+let mockDetectedLifecycle: 'greenfield' | 'brownfield' = 'brownfield';
+let mockLifecycleMode: 'auto' | 'greenfield' | 'brownfield' = 'auto';
+const mockSetLifecycleMode = vi.fn(async () => {});
 
 vi.mock('@/components/readiness-provider', () => ({
   useReadiness: () => ({
     score: mockScore,
+    band: mockScore < 30 ? '0-30' : mockScore < 60 ? '30-60' : mockScore < 80 ? '60-80' : '80-100',
     breakdown: [
       { area: 'Product', status: 'complete', totalPlays: 2, runnablePlays: 2, percentage: 100 },
       { area: 'Features', status: 'complete', totalPlays: 3, runnablePlays: 3, percentage: 100 },
@@ -32,12 +37,16 @@ vi.mock('@/components/readiness-provider', () => ({
       { area: 'Architecture', status: 'missing', totalPlays: 3, runnablePlays: 0, percentage: 0 },
       { area: 'Epics', status: 'missing', totalPlays: 4, runnablePlays: 0, percentage: 0 },
     ],
+    lifecycle: mockLifecycle,
+    detectedLifecycle: mockDetectedLifecycle,
+    lifecycleMode: mockLifecycleMode,
     totalPlays: 14,
     runnablePlays: 6,
     lastGitHash: 'abc123',
     loading: false,
     error: null,
     refresh: mockRefresh,
+    setLifecycleMode: mockSetLifecycleMode,
   }),
 }));
 
@@ -135,6 +144,9 @@ let mockFetchImpl: ReturnType<typeof vi.fn>;
 
 beforeEach(() => {
   mockScore = 45;
+  mockLifecycle = 'brownfield';
+  mockDetectedLifecycle = 'brownfield';
+  mockLifecycleMode = 'auto';
   mockFetchImpl = vi.fn().mockImplementation((url: string) => {
     if (url === '/api/checklists/midproject') {
       return Promise.resolve({
@@ -188,6 +200,69 @@ describe('Mid-Project Checklists — Multiple Cards (VAL-CHECK-012)', () => {
 
     await waitFor(() => {
       expect(mockFetchImpl).toHaveBeenCalledWith('/api/checklists/midproject');
+    });
+  });
+
+  it('ignores a stale greenfield response after readiness flips to brownfield', async () => {
+    let resolveGreenfield:
+      | ((value: { ok: boolean; json: () => Promise<unknown> }) => void)
+      | undefined;
+    const greenfieldPromise = new Promise((resolve) => {
+      resolveGreenfield = resolve;
+    });
+
+    mockLifecycle = 'greenfield';
+    mockDetectedLifecycle = 'greenfield';
+    mockScore = 0;
+
+    mockFetchImpl.mockImplementation((url: string) => {
+      if (url === '/api/checklists') {
+        return greenfieldPromise;
+      }
+      if (url === '/api/checklists/midproject') {
+        return Promise.resolve({
+          ok: true,
+          json: () => Promise.resolve(MOCK_MIDPROJECT_RESPONSE),
+        });
+      }
+      return Promise.resolve({ ok: false, status: 404 });
+    });
+
+    const { rerender } = render(<ChecklistsPage />);
+
+    await waitFor(() => {
+      expect(mockFetchImpl).toHaveBeenCalledWith('/api/checklists');
+    });
+
+    mockLifecycle = 'brownfield';
+    mockDetectedLifecycle = 'brownfield';
+    mockScore = 45;
+    rerender(<ChecklistsPage />);
+
+    await waitFor(() => {
+      expect(mockFetchImpl).toHaveBeenCalledWith('/api/checklists/midproject');
+    });
+
+    resolveGreenfield?.({
+      ok: true,
+      json: () =>
+        Promise.resolve({
+          checklists: [
+            {
+              id: 'greenfield-onboarding',
+              title: 'Getting Started: Greenfield Onboarding',
+              description: 'Onboard a new project from scratch.',
+              category: 'onboarding',
+              steps: [],
+            },
+          ],
+          validation: { valid: true, invalidCount: 0 },
+        }),
+    });
+
+    await waitFor(() => {
+      expect(screen.getByTestId('midproject-checklists')).toBeInTheDocument();
+      expect(screen.getByText('Prepare Epic for Implementation')).toBeInTheDocument();
     });
   });
 });

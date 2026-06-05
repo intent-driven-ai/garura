@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ReadinessGauge } from '@/components/readiness-gauge';
 import { ReadinessBreakdown } from '@/components/readiness-breakdown';
 import { ChecklistItem } from '@/components/checklist-item';
@@ -123,6 +123,7 @@ export default function ChecklistsPage() {
 
   // Network error toast (VAL-CHECK-039)
   const [networkError, setNetworkError] = useState<string | null>(null);
+  const latestRequestIdRef = useRef(0);
 
   // Elapsed time tracker for long-running plays (VAL-CHECK-043)
   const isGreenfield = lifecycle === 'greenfield';
@@ -136,6 +137,7 @@ export default function ChecklistsPage() {
   }, [networkError]);
 
   const fetchData = useCallback(async () => {
+    const requestId = ++latestRequestIdRef.current;
     try {
       setLoading(true);
 
@@ -149,6 +151,7 @@ export default function ChecklistsPage() {
           checklists: ChecklistData[];
           briefArtifacts?: BriefArtifactSummary[];
         };
+        if (requestId !== latestRequestIdRef.current) return;
         setChecklists(data.checklists);
         setBriefArtifacts(data.briefArtifacts ?? []);
         setMidProjectData(null);
@@ -159,18 +162,22 @@ export default function ChecklistsPage() {
           throw new Error(`Failed to load mid-project checklists: ${res.status}`);
         }
         const data = (await res.json()) as MidProjectData;
+        if (requestId !== latestRequestIdRef.current) return;
         setMidProjectData(data);
         setChecklists([]);
         setBriefArtifacts([]);
       }
 
+      if (requestId !== latestRequestIdRef.current) return;
       setError(null);
     } catch (err: unknown) {
+      if (requestId !== latestRequestIdRef.current) return;
       const message = err instanceof Error ? err.message : String(err);
       setError(message);
       // Also set network error toast for UI feedback (VAL-CHECK-039)
       setNetworkError('Unable to connect — please try again');
     } finally {
+      if (requestId !== latestRequestIdRef.current) return;
       setLoading(false);
     }
   }, [isGreenfield]);
