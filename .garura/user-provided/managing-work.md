@@ -149,19 +149,34 @@ nowhere to arrive.
 
 ## Where does a session stop?
 
-**A working session stops at an open pull request. It never merges.**
+**A working session raises the pull request and hands back. It does not review
+its own work, and it never merges.**
 
-The pull request is the deliverable. Merging is a separate decision taken with
-a human looking at the diff, and it is not the worker's to take — not when the
-checks are green, not when the change is obviously correct, not when nobody
-appears to be waiting. This is not new policy. The delivery gates were relaxed
-across the board, and the merge step was deliberately left pinned to its human
-beat; the protocol only says out loud what that decision already assumed.
+Three moves end a session, in this order: open the pull request, post the
+handoff, stop. Nothing comes after. Everything that happens to the change from
+that point — reading it, judging it, landing it — belongs to someone else.
+
+**Not reviewing.** A session cannot usefully review its own diff. It already
+believes the change is right; believing that is what made it write the change.
+Review needs eyes that were not in the room while the work was done, and a
+session grading its own homework produces a verdict nobody should trust —
+worse, one that reads like assurance. Raise it and hand it over.
+
+**Not merging.** Merging is a separate decision taken with a human looking at
+the diff, and it is not the worker's to take — not when the checks are green,
+not when the change is obviously correct, not when nobody appears to be
+waiting. This is not new policy. The delivery gates were relaxed across the
+board, and the merge step was deliberately left pinned to its human beat; the
+protocol only says out loud what that decision already assumed.
 
 A session that merged its own work is how this rule was learned. Its
 instruction said "open a pull request" and said nothing about stopping there,
 so it filled the silence itself. Silence at the stop point is not neutral — it
 is an invitation.
+
+What the session *does* owe the reviewer is a way in: the handoff says where
+the change came to rest and what a reviewer should know before opening it. That
+is orientation, not a verdict.
 
 ## How is work handed back?
 
