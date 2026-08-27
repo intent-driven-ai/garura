@@ -114,6 +114,19 @@ play missing its exact anchor pair. Any new shared scaffolding must follow the
 same converge-and-lint pattern, not just a one-off hand edit.
 
 
+## Work Tracking
+
+Work on Garura is tracked as **Feature → Story / Bug**, with Stories and Bugs
+linked as real children of their Feature. Story is filed under the **Task**
+issue type (no Story type exists here). This is how we *build* Garura — keep it
+distinct from the domain → capability → functionality → epic model, which is
+what Garura *offers* other teams and never describes this repository's tracker.
+
+Before filing, decomposing, or working an issue, read
+`.garura/user-provided/managing-work.md` — readiness bars, the one-issue /
+one-session / one-branch rule, the scope boundary, and the tracker traps.
+
+
 ## Reference
 
 - `core/grounding/glossary.md` — Canonical definitions of every Garura concept
