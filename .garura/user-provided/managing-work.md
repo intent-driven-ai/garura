@@ -252,6 +252,14 @@ text. Name it so its origin is obvious — whoever finds it later should not hav
 to work out which session left it. Register it *after* the issue comment
 exists, never instead of it.
 
+**Send the handoff immediately — do not leave it sitting on a schedule.** The
+trigger mechanism takes a future time and its granularity is one minute, so
+registering one and letting the clock reach it always inserts a delay. Fire it
+by hand the moment it is registered, then delete the pending copy so it does
+not arrive twice. A handoff is a report, not a reminder; the orchestrator is
+waiting on it, and every minute it sits unfired looks exactly like a session
+that died. Waiting buys nothing at all.
+
 **There is no Story issue type in this repository.** Only Feature, Task, and
 Bug exist. Story occupies the Task slot. Do not attempt to create a Story type.
 
