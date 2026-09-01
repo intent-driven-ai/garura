@@ -130,14 +130,25 @@ complete when the session starts. Do not plan on steering it later.
 
 ## Where does a session stop?
 
-**Three moves end a session, in order: open the pull request, write the
-handoff, stop.** Nothing comes after. Reading the change, judging it, and
-landing it belong to someone else.
+**Four moves end a session, in order: review the change, open the pull
+request, write the handoff, stop.** Nothing comes after. Judging the change
+and landing it belong to someone else.
 
-**It does not review its own work.** A session already believes its change is
-right — believing that is what made it write the change — so its own verdict
-reads like assurance while carrying none. What it owes a reviewer is
-orientation, not a judgement.
+**It reviews its own work, and writes the guidelines it reviews against.**
+Before the pull request goes up, the session works out what a change like the
+one it just made is most likely to have got wrong, and checks against that.
+Nobody hands it the criteria — a list written by someone who never saw this
+change would not know where to look. The point is hygiene: catch the obvious
+breakage here, rather than spend a full cycle downstream on something a
+second reading of the diff would have caught.
+
+**That review produces no verdict.** A session already believes its change is
+right — believing that is what made it write the change — so its own
+assessment reads like assurance while carrying none. Both halves hold at once:
+re-reading your own work is worth the time, and your opinion of your own work
+is not evidence. The judgement is taken elsewhere, against evals the builder
+never sees — anything the builder could read, it would end up writing to.
+What a session owes a reviewer is orientation, not a judgement.
 
 **It does not merge.** Merging is a decision taken with a human looking at the
 diff: not when the checks are green, not when the change is obviously correct,
