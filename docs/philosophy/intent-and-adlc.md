@@ -12,20 +12,26 @@ forever, and calls it progress.** Direction has to be written down or it is not 
 
 ---
 
-## 0. A note on the word "model"
+## 0. Vocabulary
 
-One word, three meanings, and mixing them makes the rest unreadable. This document holds
-to the following, and so should anything built from it.
+Three words that get confused, pinned here. Anything built from this document holds to them.
 
 | Term | Means |
 |---|---|
-| **the model** | **Everything in the graph** — the product model, business intents, agent intents, measurements, and every edge between them. |
-| **the product model** | The part of it that represents the product. **Always written in full**, never shortened to "the model". |
-| **a language model** | An LLM. Written in full wherever it appears, because §2.3 quotes an article that uses "model" in that sense. |
+| **model** | **A language model. An LLM.** Nothing else. The industry has taken this word and will not give it back; using it for anything else here is a losing fight. |
+| **Product Graph** | **Everything known about one product** — its shape, its business intents, its agent intents, its measurements, and every edge between them. |
+| **shape** | The specific shape **inside** the Product Graph — the product decomposed. A larger shape is converted into smaller ones; that is what `/shape` does. |
 
-> **The product model is only a part of the model.** It is the part most of this document
-> talks about, which is exactly why the short form is banned — the habit of saying "the
-> model" when you mean the product model is what hides the other three quarters of the graph.
+**When an intent spans more than one product**, that is a **product-mesh** — several Product
+Graphs an intent has to cross. One company has many products; a Product Graph is one of them.
+
+> **Why not "the model" for the whole view.** Because `model` means LLM everywhere else, and
+> a name that has to be defended in every conversation is the wrong name.
+>
+> **Why not "Record".** It does not survive scale. A business has many products; "the record"
+> implies one book for the whole company, and the moment an intent crosses two products the
+> word has to stretch. `Product Graph` stays exactly the right size, and `product-mesh` names
+> the wider case instead of straining a word until it breaks.
 
 ---
 
@@ -35,16 +41,21 @@ Three things, often confused, that do different jobs.
 
 | | What it is | What it answers |
 |---|---|---|
-| **Intent** | What someone wants | Why are we doing anything |
-| **Product model** | The product, decomposed — one part of the model (§0) | What already is, and what must change |
-| **ADLC** | The Agentic Development Life Cycle — the engine | Where the work is, and what may happen next |
+| **Product Graph** | Everything known about one product — its shape, its intents, its measurements, and the edges between them | What do we want, what do we have, how is it going |
+| **ADLC** | The Agentic Development Life Cycle | Where is an intent, and what may happen to it next |
+| **Garura** | The harness that does the work (§2.3) | Who moves it |
 
-They are three axes, not three stages. A single play run touches more than one: it advances
-an intent along ADLC **and** enriches the product model.
+> **Note on an earlier framing.** This document previously listed *Intent / Shape /
+> ADLC* as three peers. That was wrong: intents live **inside** the Product Graph, so they
+> were never a peer of it. Corrected 2026-09-09.
+
+It maps cleanly onto PCAM (§3): the **Product Graph is manifestation** — what is left behind,
+read to learn what drove the intents. **Garura is cognition and agency** — the deciding and
+the doing.
 
 The cheat sheet of plays (`/vision`, `/understand`, `/shape`, the realize lenses, `/grill`,
-`/implement`…) describes **how the product model evolves**. That is the PO/CPO view. It is
-not the ADLC, and conflating the two is the mistake this document was written to prevent.
+`/implement`…) describes **how the shape evolves**. That is the PO/CPO view. It is not the
+ADLC, and conflating the two is the mistake this document was written to prevent.
 
 ---
 
@@ -96,12 +107,12 @@ because there is nothing to ship.
 But it **accumulates everything that did**. The CMO must be able to ask *"what drove that
 10%?"* and get back the full list of agent intents that served it.
 
-> **ADLC and the product model must remember the intent of the org, not just how it works.**
+> **ADLC and the shape must remember the intent of the org, not just how it works.**
 
 A system that remembers only its own mechanics forgets why anything was built.
 
 Until measurement is connected (§6), a business intent advances on **its reporter's
-approval of a strategy**, not on evidence. The CMO agrees the plan; the product model is
+approval of a strategy**, not on evidence. The CMO agrees the plan; the shape is
 updated; ADLC delivers. That is the honest version of a thing we cannot yet do
 automatically.
 
@@ -117,13 +128,13 @@ Stated by Kapil on 2026-09-09.
 |---|---|
 | **Phoenix-OS** | The whole of IDSD. It composes the harnesses below. |
 | **Garura** | A harness. **The engine that does the work.** |
-| **Griffin** | A harness. Controls Garura's working model, and **watches it in real time.** |
+| **Griffin** | A harness. Controls Garura's working model, and **watches it in real time.** *(his word "model" here is the LLM/working sense, not the Product Graph)* |
 | *(third, later)* | **Governance.** His words: *"that's where measurement will take off to a whole different level."* |
 
 **"Harness" is one concept, used at two levels.** It is the same sense as in his article
 *"GPT-6 Astra: Is the Model That Good, or Is It the Harness?"* — the wrapper around a
 **language model** that decides what actually happens, and the part you supply. In that
-title, "model" carries the LLM sense from §0, not this document's sense. Garura wraps
+title, "model" carries the LLM sense — the only sense this document allows (§0). Garura wraps
 language models and does
 the work. Griffin and the governance harness are the brakes, budget checks and guardrails
 that article says were missing. The only nuance is **nesting**: there a harness wraps a
@@ -143,7 +154,7 @@ to change level (§6). This spine designs measurement on business and agent inte
 design is the input to a harness that does not exist yet, and should be written knowing
 where it is going to land.
 
-## 3. PCAM — the model this is built on
+## 3. PCAM — the thinking this is built on
 
 **Perception → Cognition → Agency → Manifestation.** The mental model the agentic thinking
 runs on.
@@ -198,13 +209,13 @@ describing Agency as "decision-making with conviction".
 | **Perception** | **Signals.** What we receive. Always carried *on an intent* (§5). |
 | **Cognition** | **Garura.** Cognition is an engine; in IDSD that engine is the harness itself. |
 | **Agency** | The doing — tool access, the work, and the experience delivered outward. |
-| **Manifestation** | **Memory and the product model.** What is left behind. Read them, and they tell you what is driving the business and agent intents. |
+| **Manifestation** | **The Product Graph** — memory and the shape together. What is left behind. Read it, and it tells you what is driving the business and agent intents. |
 
 Two consequences worth stating plainly:
 
-**The product model is a manifestation.** It is what remains after work — a representation of
-what was built. That is why it cannot emit anything (§5), and why reading it tells you what
-drove the intents rather than what to do next.
+**The Product Graph is a manifestation.** It is what remains after work — a representation
+of what was wanted and what was built. That is why nothing in it can emit (§5), and why
+reading it tells you what drove the intents rather than what to do next.
 
 **Memory is a manifestation, not part of Cognition.** Earlier material placed memory inside
 Cognition; that is superseded. Cognition is the engine that reasons; memory is what the
@@ -275,21 +286,21 @@ Off-ramps:
 
 ### 4.2 Not every intent walks the whole path
 
-The entry point is **computed from the product model**, never looked up from a static
+The entry point is **computed from the shape**, never looked up from a static
 kind→state table.
 
-> When an intent arrives, ask the **product model**: *what actually has to change?* The highest node
+> When an intent arrives, ask the **shape**: *what actually has to change?* The highest node
 > that must move sets the origin. From there the intent follows the chain, no skipping.
 
 A defect may need `/ux` re-realized, so it enters at the lens layer. But if the **shape**
-does not change, it does not go back to `/shape`. **Go back exactly as far as the product
-model says, and not one step further.**
+does not change, it does not go back to `/shape`. **Go back exactly as far as the shape
+says, and not one step further.**
 
-This is why the product model must be a graph, and why it is the most important artefact
+This is why the shape must be a graph, and why it is the most important artefact
 here. It is the only thing that can answer "how far back?" — a kind table never can, because
 the same kind of intent lands in different places depending on what already exists.
 
-Some work enters low, at grill/implement, and updates the product model afterwards. That lag is
+Some work enters low, at grill/implement, and updates the shape afterwards. That lag is
 legitimate; `/learn` closes it.
 
 ### 4.3 Backward motion is a first-class edge
@@ -304,27 +315,26 @@ Reverse motion is legal, recorded, and normal — not an exception to be enginee
 
 ## 5. Signals, and who resolves them
 
-Intents are **not coupled** to the product model. Coupling would mean a model change
-automatically moves an intent — the harness deciding. That is not the design.
+Intents are **not coupled** to the shape. Coupling would mean a change in the shape
+automatically moving an intent — the harness deciding. That is not the design.
 
 ### Signals land on intents. Only on intents.
 
 **A signal is what we receive.** It can be anything — a person saying something, a market
 moving, work landing, a measure reading.
 
-> **The model is a representation. It cannot give a signal.** Signals are received on
+> **The Product Graph is a representation. It cannot give a signal.** Signals are received on
 > **intents**, and nowhere else.
 
-This holds for the whole model (§0), not just the product model: **nothing in the graph
+This holds for the whole Product Graph (§0), not just the shape: **nothing in the graph
 emits.** A representation describes; it does not sense. Signals arrive from outside and land
-on intent nodes — which sit *inside* the model, but receive rather than produce.
+on intent nodes — which sit *inside* the Product Graph, but receive rather than produce.
 
-The distinction is easy to lose. When the product changes, the signal is not "the product
-model changed" — that is a description updating. The signal is what that change means **for
+The distinction is easy to lose. When the product changes, the signal is not "the shape
+changed" — that is a description updating. The signal is what that change means **for
 the intents it affects**, and it is carried on those intents.
 
-**The example.** A CTO asks to change the stack. That is not a signal from the product
-model. It is
+**The example.** A CTO asks to change the stack. That is not a signal from the shape. It is
 a signal **on the CMO's revenue intent** — because it may make that intent harder or easier
 to meet. The intent is what receives it, and the intent is where it is visible.
 
@@ -347,7 +357,8 @@ agent intent (§6): how much ran without a person in it.
 
 ## 6. Measurement sits on intents
 
-**You cannot measure a model.** The product model is a description of what exists — a map.
+**You cannot measure the Product Graph.** It is a description — of what was wanted and of
+what exists. A map.
 It has no outcome and no throughput. There is nothing in it to measure.
 
 Measuring delivery speed and calling it product health is the common trap:
@@ -371,7 +382,7 @@ places the step change in measurement there. What this section defines — outco
 business intent, speed and autonomy on the agent intent — is the design that harness will
 consume.
 
-**Not yet built (backlog).** Live measurement feeding the model, and the model reporting whether
+**Not yet built (backlog).** Live measurement feeding the Product Graph, and the Product Graph reporting whether
 a business intent is being met, and adjustments spawning from that. A 2026 intent for a 2027
 outcome is not a single step; it stays alive and needs signals. Until the system is
 connected, **those signals come from humans** — someone reports where the intent is heading.
@@ -381,11 +392,11 @@ That signal history is itself a graph.
 
 ## 7. What lives where
 
-**The graph holds the model** (§0) — every row on the left is part of it.
+**The left column is the Product Graph** (§0) — every row in it is part of one product's graph.
 
-| Graph — *the model* | Tracker (GitHub / Jira) |
+| Product Graph | Tracker (GitHub / Jira) |
 |---|---|
-| The product model | The work items |
+| The shape | The work items |
 | Business intents | Their ADLC state |
 | Agent intents | |
 | Measurements on both | |
@@ -398,7 +409,7 @@ state rides the work item. One link joins them.
 
 Ten defects are logged and map to fix-type agent intents. In the tracker each is just a
 ticket. In the graph you can see a business intent connected to **more fix intents than
-delivery intents** — and that is a finding about the product model, not about the tickets.
+delivery intents** — and that is a finding about the shape, not about the tickets.
 It says: we are spending our time repairing rather than delivering what the org asked for.
 
 No tracker can tell you that, because a tracker holds work items and not the intent they
@@ -412,7 +423,7 @@ served. It only exists in the graph.
    intent's reporter agreeing — `qualified` ("worth doing") or `planned` ("here is the spec
    and cost")? Or two approvals from two people? *Asked repeatedly, still open.*
 2. **What surfaces a signal.** A signal on an intent has to reach whoever owns its
-   resolution. Candidates: `/learn` raising it when it updates the product model, `/next` surfacing
+   resolution. Candidates: `/learn` raising it when it updates the shape, `/next` surfacing
    it as a repair the way it handles surface debt today, or a standing watcher. Nothing
    does this today.
 3. **How agent maturity is declared and raised** (§5) — resolution ownership moves to
