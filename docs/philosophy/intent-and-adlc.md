@@ -1,8 +1,8 @@
 # Intent and ADLC — the spine
 
 > **Status: spine, in progress.** Captured 2026-09-09 from a working session with Kapil.
-> Three questions inside are explicitly **unresolved** and marked as such;
-> PCAM's Agency/Manifestation boundary was settled 2026-09-09 and is recorded as settled. Nothing here
+> PCAM was settled on 2026-09-09 — the Agency/Manifestation boundary, the full
+> stage mapping, and the signal model. The questions still open are listed in §8. Nothing here
 > smooths over a gap — where the answer is not known, the doc says so.
 
 This document exists because the design it holds was worked out in a conversation and
@@ -90,7 +90,7 @@ automatically.
 
 ---
 
-## 3. PCAM — the inspiration, and what is genuinely unsettled
+## 3. PCAM — the model this is built on
 
 **Perception → Cognition → Agency → Manifestation.** The mental model the agentic thinking
 runs on.
@@ -138,30 +138,45 @@ describing Agency as "decision-making with conviction".
 > How the outward/inward line maps onto a multi-agent system **is not stated**, and nothing
 > here should assume it carries over cleanly.
 
-### ⚠ UNRESOLVED — who owns signals
+### The PCAM → IDSD mapping — SETTLED 2026-09-09
 
-A direct conflict in the source material, same author, four months apart:
+| Stage | In IDSD |
+|---|---|
+| **Perception** | **Signals.** What we receive. Always carried *on an intent* (§5). |
+| **Cognition** | **Garura.** Cognition is an engine; in IDSD that engine is the harness itself. |
+| **Agency** | The doing — tool access, the work, and the experience delivered outward. |
+| **Manifestation** | **Memory and the product model.** What is left behind. Read them, and they tell you what is driving the business and agent intents. |
 
-- **IDD element list** places **Signals in the human domain** — humans trigger them.
-- **PhoenixOS mapping** makes **Signals the system's Perception** — the machine's sensing
-  layer.
+Two consequences worth stating plainly:
 
-The intent layer leans heavily on signals (§5). This one blocks and needs a decision.
+**The product model is a manifestation.** It is what remains after work — a representation of
+what was built. That is why it cannot emit anything (§5), and why reading it tells you what
+drove the intents rather than what to do next.
 
-**This is the same seam as §5.** "A change in the product model is a signal" has no settled
-meaning until it is decided whether signals are human-owned or machine-perceived. The two
-questions are one question, and it is Kapil's call.
+**Memory is a manifestation, not part of Cognition.** Earlier material placed memory inside
+Cognition; that is superseded. Cognition is the engine that reasons; memory is what the
+reasoning leaves behind and later reads.
 
-### ⚠ UNRESOLVED — where memory lives
+### On apparent conflicts in the source material
 
-Cognition (2024 and Jul 2025) or Manifestation (Dec 2025). His own files say both. The
-2026-09-09 ruling says nothing about memory, so this stays open.
+Earlier writing sometimes says something different from the above — memory inside Cognition,
+Agency framed as "what a single agent can do", Manifestation as multi-agent behaviour.
 
-### ⚠ No transition rules exist
+> **These are evolutions, not contradictions.** The framework has developed. Where earlier
+> material differs from the 2026-09-09 position recorded here, the later statement is
+> current and the earlier one is a previous step in the thinking.
 
-The record contains **no gate and no promotion criterion** between PCAM stages, anywhere.
-The loop is not strictly linear even in the earliest form — Cognition can return to
-Perception. Nothing here should invent an ordering.
+This matters for how the record is read: a dated disagreement is not a fault to adjudicate,
+and nothing should be blocked waiting for two points on an evolution to be reconciled.
+
+### PCAM has no stage gates — and does not need them
+
+There is no promotion criterion between PCAM stages, and none should be invented. PCAM
+describes how the thing works, not a workflow to be stepped through: Cognition can return to
+Perception, and does.
+
+The gates in this system live in **ADLC** (§4), which governs where an *intent* is. Do not
+confuse the two — PCAM is the anatomy, ADLC is the lifecycle.
 
 ---
 
@@ -234,30 +249,43 @@ Reverse motion is legal, recorded, and normal — not an exception to be enginee
 
 ---
 
-## 5. Signals, not coupling
+## 5. Signals, and who resolves them
 
-Intents are **not coupled** to the product model. This distinction is load-bearing.
+Intents are **not coupled** to the product model. Coupling would mean a model change
+automatically moves an intent — the harness deciding. That is not the design.
 
-Coupling would mean a model change automatically moves an intent — the harness deciding.
-That is not the design.
+### Signals land on intents. Only on intents.
 
-> **A change in the product model is a change in the product. That is a signal.**
+**A signal is what we receive.** It can be anything — a person saying something, a market
+moving, work landing, a measure reading.
 
-Perception picks it up. What it leads to is a separate question, answered by cognition, and
-in the hard cases by people.
+> **The model is a representation. It cannot give a signal.** Signals are received on
+> **intents**, and nowhere else.
 
-**The example that makes it concrete.** A CTO asks to change the stack. That may conflict
-with a CMO's strategy to drive revenue. Nothing should auto-resolve that — it must be
-**surfaced**. Unless those two are aligned, the org either takes a u-turn or runs with no
-strategy at all, and a harness quietly reconciling them would hide exactly the thing the org
-most needs to see.
+This distinction is easy to lose. When the product changes, the signal is not "the model
+changed" — the model is a description and descriptions do not emit. The signal is what that
+change means **for the intents it affects**, and it is carried on those intents.
 
-> **⚠ New as of 2026-09-09.** The rule that a signal must be surfaced for human alignment
-> rather than auto-resolved does **not** appear anywhere in the prior written record. It was
-> stated by Kapil in this session. It is recorded here for the first time, and it should be
-> treated as his position, not as established doctrine, until it is ratified.
+**The example.** A CTO asks to change the stack. That is not a signal from the model. It is
+a signal **on the CMO's revenue intent** — because it may make that intent harder or easier
+to meet. The intent is what receives it, and the intent is where it is visible.
 
----
+If the two are not aligned, the org either takes a u-turn or runs with no strategy at all.
+A system that quietly reconciled them would hide exactly what the org most needs to see.
+
+### Who resolves a signal depends on agent maturity
+
+Resolution is **not** permanently a human job.
+
+> A signal can be resolved **by humans or by agents. It depends on the maturity of the
+> agents.**
+
+Early on, humans resolve. As agents mature, more resolution moves to them. The rule is not
+"a human must always decide" — it is that resolution is owned deliberately, at a level of
+autonomy someone chose, and never assumed by default.
+
+That autonomy level is itself a human decision, and it is one of the things measured on the
+agent intent (§6): how much ran without a person in it.
 
 ## 6. Measurement sits on intents
 
@@ -315,18 +343,17 @@ served. It only exists in the graph.
 
 ## 8. Open questions
 
-1. **⚠ Who owns signals** (§3, §5) — human domain or machine perception. These are one
-   question, not two, and they block the signal model.
-2. **⚠ Where memory lives** (§3) — Cognition or Manifestation.
-3. **⚠ How Agency/Manifestation maps to multi-agent systems** (§3) — the 2026-09-09 ruling
-   is in human terms and does not state the system-level transfer.
-4. **The approval gate.** Which state can an agent intent not pass without its business
+1. **The approval gate.** Which state can an agent intent not pass without its business
    intent's reporter agreeing — `qualified` ("worth doing") or `planned` ("here is the spec
-   and cost")? Or two approvals from two people? *Asked three times, still open.*
-5. **What surfaces a signal.** A model change must reach a person. Candidates: `/learn`
-   raising it when it updates the model, `/next` surfacing it as a repair the way it handles
-   surface debt today, or a standing watcher. Nothing does this today.
-6. **Where the graph physically lives**, and how it relates to the knowledge-resolution
+   and cost")? Or two approvals from two people? *Asked repeatedly, still open.*
+2. **What surfaces a signal.** A signal on an intent has to reach whoever owns its
+   resolution. Candidates: `/learn` raising it when it updates the model, `/next` surfacing
+   it as a repair the way it handles surface debt today, or a standing watcher. Nothing
+   does this today.
+3. **How agent maturity is declared and raised** (§5) — resolution ownership moves to
+   agents as they mature, so maturity has to be a recorded, deliberate setting rather than
+   an impression.
+4. **Where the graph physically lives**, and how it relates to the knowledge-resolution
    question in #534.
 
 ## Related
