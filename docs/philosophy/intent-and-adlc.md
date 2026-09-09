@@ -35,23 +35,27 @@ Graphs an intent has to cross. One company has many products; a Product Graph is
 
 ---
 
-## 1. The trinity
+## 1. The trinity — what a product is made of
 
-Three things, often confused, that do different jobs.
+A **Product Graph holds three things**, and they are peers.
 
 | | What it is | What it answers |
 |---|---|---|
-| **Product Graph** | Everything known about one product — its shape, its intents, its measurements, and the edges between them | What do we want, what do we have, how is it going |
-| **ADLC** | The Agentic Development Life Cycle | Where is an intent, and what may happen to it next |
-| **Garura** | The harness that does the work (§2.3) | Who moves it |
+| **Intents** | Business intents and agent intents | What do we want |
+| **Shape** | The product decomposed | What do we have |
+| **ADLC** | The Agentic Development Life Cycle | Where is each intent, and what may happen next |
 
-> **Note on an earlier framing.** This document previously listed *Intent / Shape /
-> ADLC* as three peers. That was wrong: intents live **inside** the Product Graph, so they
-> were never a peer of it. Corrected 2026-09-09.
+Plus the **measurements** that sit on the intents (§6) — the reading of how it is going.
 
-It maps cleanly onto PCAM (§3): the **Product Graph is manifestation** — what is left behind,
-read to learn what drove the intents. **Garura is cognition and agency** — the deciding and
-the doing.
+> **A note on an earlier framing, twice corrected.** This document first listed
+> *Intent / product model / ADLC*, which had the right three but the wrong middle word. It
+> was then briefly rewritten to put Garura in the trinity — wrong, because Garura is a
+> harness (§2.3) and sits a layer down, not beside the things it operates on. The three
+> above are the peers; the Product Graph is what holds them.
+
+**On where ADLC state physically lives.** ADLC is one of the three dimensions a product has.
+The *state values* ride the work items in the tracker (§7) — that is storage, not a
+statement that ADLC sits outside the product.
 
 The cheat sheet of plays (`/vision`, `/understand`, `/shape`, the realize lenses, `/grill`,
 `/implement`…) describes **how the shape evolves**. That is the PO/CPO view. It is not the
@@ -60,6 +64,10 @@ ADLC, and conflating the two is the mistake this document was written to prevent
 ---
 
 ## 2. IDSD is the whole thing
+
+**IDSD is the whole umbrella, and that umbrella is Phoenix-OS** (§2.3) — the OS where it all
+starts. It manages the intents and the measurements, and it composes the harnesses that do
+the work.
 
 Intent-Driven Software Development is not one relationship inside it. **Business
 intents, agent intents, the graph, the measurements — all of it together is IDSD.**
@@ -122,27 +130,31 @@ automatically.
 
 Stated by Kapil on 2026-09-09.
 
-> **Phoenix-OS is the whole of IDSD, and it composes harnesses.**
+> **IDSD is the whole umbrella. That is Phoenix-OS** — the core concept where it all starts.
+> The OS, and it is named Phoenix.
 
-| | |
+**Phoenix-OS manages the intents** — business and agent — **and the measurements. And it
+gives us three harnesses.**
+
+| Harness | What it does |
 |---|---|
-| **Phoenix-OS** | The whole of IDSD. It composes the harnesses below. |
-| **Garura** | A harness. **The engine that does the work.** |
-| **Griffin** | A harness. Controls Garura's working model, and **watches it in real time.** *(his word "model" here is the LLM/working sense, not the Product Graph)* |
+| **Garura** | The **engine that runs the ADLC** — governs it, and makes sure everything happens that needs to happen for the intents to be met. |
+| **Griffin** | **Listens** — to the product, to signals, to quality — and **reports**. It can also **spawn its own agents** to act on what it hears. |
 | *(third, later)* | **Governance.** His words: *"that's where measurement will take off to a whole different level."* |
+
+So the layering is: **IDSD / Phoenix-OS** on top, holding intents and measurements and
+composing harnesses; **the harnesses** below it; and each harness operating on **Product
+Graphs** (§1).
 
 **"Harness" is one concept, used at two levels.** It is the same sense as in his article
 *"GPT-6 Astra: Is the Model That Good, or Is It the Harness?"* — the wrapper around a
 **language model** that decides what actually happens, and the part you supply. In that
-title, "model" carries the LLM sense — the only sense this document allows (§0). Garura wraps
-language models and does
-the work. Griffin and the governance harness are the brakes, budget checks and guardrails
-that article says were missing. The only nuance is **nesting**: there a harness wraps a
-language model; here Griffin wraps Garura, which is itself a harness. He uses the word both ways in
-a single document, so this is his usage rather than drift.
+title, "model" carries the LLM sense — the only sense this document allows (§0). Garura
+wraps language models and does the work. Griffin and the governance harness are the brakes,
+budget checks and guardrails that article says were missing.
 
 **The three-harness count is not new.** A June 2026 frame already names three — coding,
-tower, governance. Today's statement puts names on two of the three slots.
+tower, governance. His 2026-09-09 statement puts behaviour on two of the three slots.
 
 > **⚠ One inference, marked as such.** Griffin-as-tower is Kapil's own equation
 > (2026-09-04: *"Garura and Griffin (this is control tower) -> these are 1 lane"*).
