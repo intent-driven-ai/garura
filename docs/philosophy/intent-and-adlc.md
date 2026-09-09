@@ -1,7 +1,8 @@
 # Intent and ADLC — the spine
 
 > **Status: spine, in progress.** Captured 2026-09-09 from a working session with Kapil.
-> Two questions inside are explicitly **unresolved** and marked as such. Nothing here
+> Three questions inside are explicitly **unresolved** and marked as such;
+> PCAM's Agency/Manifestation boundary was settled 2026-09-09 and is recorded as settled. Nothing here
 > smooths over a gap — where the answer is not known, the doc says so.
 
 This document exists because the design it holds was worked out in a conversation and
@@ -108,24 +109,34 @@ says Agency.
 - **Agency** — the acting phase. What **a single agent** can do. Intentionality, autonomy,
   deliberate choice.
 
-### ⚠ UNRESOLVED — Agency versus Manifestation
+### Agency versus Manifestation — SETTLED 2026-09-09
 
-**This boundary has never been settled, by anyone, including its author.** Three
-incompatible readings exist in the source material:
+Long unresolved, and settled by Kapil in a working session on 2026-09-09. **The line is
+who it lands on.**
 
-1. Single agent versus whole system — Agency is what one agent can do; Manifestation is how
-   the multi-agent system behaves.
-2. Manifestation is memory / what persists (Dec 2025 PhoenixOS mapping).
-3. Manifestation is "what it leaves behind" (TEDx 2026) — poetic, not operational.
+- **Agency is outward.** The doing. The access to tools. The prep. *And the experience
+  delivered to other people.*
+- **Manifestation is inward.** What is left behind in the actor, and only the actor. In his
+  words: *"for me and me only."* Pride. Emotion. The part of him that changed.
 
-Evidence that it is genuinely open, not merely undocumented: a margin note in the original
-working file, immediately after the Manifestation definition, reads *"WHAT THE HELL IS THIS
-SUPPOSED TO BE???"*. The order has been flipped mid-sentence in later writing. In the
-author's own design template, Perception, Cognition and Agency run to pages while
-Manifestation is a heading with one empty bullet. An intended note on Manifestation was
-wiki-linked four times and never written.
+**His worked example — giving a TED talk:**
 
-**Nothing in this spine should be built on that boundary until Kapil settles it.**
+| Stage | In the example |
+|---|---|
+| Perception | Two signals: the talk had been sitting with him for years, and a second signal said he could pay for it — so it became possible |
+| Cognition | He decided to give it |
+| Agency | The prep, the topic, all of it — plus the experience the audience received: his daughter reading, his family proud |
+| Manifestation | What is left in him alone. Pride. Emotion. The part of him that changed. |
+
+**A consequence worth stating on its own: Agency does not decide.** Cognition decides what
+to do; Agency does it. This confirms the Dec 2025 reading and supersedes an earlier line
+describing Agency as "decision-making with conviction".
+
+> **⚠ Do not assume this transfers to multi-agent systems.** The ruling is expressed in
+> human, experiential terms. An earlier working note framed Agency as "what a single agent
+> can do" and Manifestation as "how an agentic system will behave" — a system-level split.
+> How the outward/inward line maps onto a multi-agent system **is not stated**, and nothing
+> here should assume it carries over cleanly.
 
 ### ⚠ UNRESOLVED — who owns signals
 
@@ -136,6 +147,15 @@ A direct conflict in the source material, same author, four months apart:
   layer.
 
 The intent layer leans heavily on signals (§5). This one blocks and needs a decision.
+
+**This is the same seam as §5.** "A change in the product model is a signal" has no settled
+meaning until it is decided whether signals are human-owned or machine-perceived. The two
+questions are one question, and it is Kapil's call.
+
+### ⚠ UNRESOLVED — where memory lives
+
+Cognition (2024 and Jul 2025) or Manifestation (Dec 2025). His own files say both. The
+2026-09-09 ruling says nothing about memory, so this stays open.
 
 ### ⚠ No transition rules exist
 
@@ -295,16 +315,18 @@ served. It only exists in the graph.
 
 ## 8. Open questions
 
-1. **⚠ Agency versus Manifestation** (§3) — needs Kapil. Blocks anything that maps ADLC onto
-   PCAM stages.
-2. **⚠ Who owns signals** (§3) — human domain or machine perception. Blocks §5.
-3. **The approval gate.** Which state can an agent intent not pass without its business
+1. **⚠ Who owns signals** (§3, §5) — human domain or machine perception. These are one
+   question, not two, and they block the signal model.
+2. **⚠ Where memory lives** (§3) — Cognition or Manifestation.
+3. **⚠ How Agency/Manifestation maps to multi-agent systems** (§3) — the 2026-09-09 ruling
+   is in human terms and does not state the system-level transfer.
+4. **The approval gate.** Which state can an agent intent not pass without its business
    intent's reporter agreeing — `qualified` ("worth doing") or `planned` ("here is the spec
    and cost")? Or two approvals from two people? *Asked three times, still open.*
-4. **What surfaces a signal.** A model change must reach a person. Candidates: `/learn`
+5. **What surfaces a signal.** A model change must reach a person. Candidates: `/learn`
    raising it when it updates the model, `/next` surfacing it as a repair the way it handles
    surface debt today, or a standing watcher. Nothing does this today.
-5. **Where the graph physically lives**, and how it relates to the knowledge-resolution
+6. **Where the graph physically lives**, and how it relates to the knowledge-resolution
    question in #534.
 
 ## Related
