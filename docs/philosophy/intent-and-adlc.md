@@ -2,13 +2,30 @@
 
 > **Status: spine, in progress.** Captured 2026-09-09 from a working session with Kapil.
 > PCAM was settled on 2026-09-09 — the Agency/Manifestation boundary, the full
-> stage mapping, and the signal model. The questions still open are listed in §8. Nothing here
+> stage mapping, and how signals work. The questions still open are listed in §8. Nothing here
 > smooths over a gap — where the answer is not known, the doc says so.
 
 This document exists because the design it holds was worked out in a conversation and
 would otherwise have stayed there. That failure mode is the same one tracked in #529, and
 it is worth naming at the top: **a system with no direction does what it sees in the repo,
 forever, and calls it progress.** Direction has to be written down or it is not direction.
+
+---
+
+## 0. A note on the word "model"
+
+One word, three meanings, and mixing them makes the rest unreadable. This document holds
+to the following, and so should anything built from it.
+
+| Term | Means |
+|---|---|
+| **the model** | **Everything in the graph** — the product model, business intents, agent intents, measurements, and every edge between them. |
+| **the product model** | The part of it that represents the product. **Always written in full**, never shortened to "the model". |
+| **a language model** | An LLM. Written in full wherever it appears, because §2.3 quotes an article that uses "model" in that sense. |
+
+> **The product model is only a part of the model.** It is the part most of this document
+> talks about, which is exactly why the short form is banned — the habit of saying "the
+> model" when you mean the product model is what hides the other three quarters of the graph.
 
 ---
 
@@ -19,7 +36,7 @@ Three things, often confused, that do different jobs.
 | | What it is | What it answers |
 |---|---|---|
 | **Intent** | What someone wants | Why are we doing anything |
-| **Product model** | The product, decomposed — a graph of what exists | What already is, and what must change |
+| **Product model** | The product, decomposed — one part of the model (§0) | What already is, and what must change |
 | **ADLC** | The Agentic Development Life Cycle — the engine | Where the work is, and what may happen next |
 
 They are three axes, not three stages. A single play run touches more than one: it advances
@@ -33,7 +50,7 @@ not the ADLC, and conflating the two is the mistake this document was written to
 
 ## 2. IDSD is the whole thing
 
-Intent-Driven Software Development is not one relationship inside the model. **Business
+Intent-Driven Software Development is not one relationship inside it. **Business
 intents, agent intents, the graph, the measurements — all of it together is IDSD.**
 
 The ordering inside it is not symmetric:
@@ -104,11 +121,13 @@ Stated by Kapil on 2026-09-09.
 | *(third, later)* | **Governance.** His words: *"that's where measurement will take off to a whole different level."* |
 
 **"Harness" is one concept, used at two levels.** It is the same sense as in his article
-*"GPT-6 Astra: Is the Model That Good, or Is It the Harness?"* — the wrapper around a model
-that decides what actually happens, and the part you supply. Garura wraps models and does
+*"GPT-6 Astra: Is the Model That Good, or Is It the Harness?"* — the wrapper around a
+**language model** that decides what actually happens, and the part you supply. In that
+title, "model" carries the LLM sense from §0, not this document's sense. Garura wraps
+language models and does
 the work. Griffin and the governance harness are the brakes, budget checks and guardrails
 that article says were missing. The only nuance is **nesting**: there a harness wraps a
-model; here Griffin wraps Garura, which is itself a harness. He uses the word both ways in
+language model; here Griffin wraps Garura, which is itself a harness. He uses the word both ways in
 a single document, so this is his usage rather than drift.
 
 **The three-harness count is not new.** A June 2026 frame already names three — coding,
@@ -259,18 +278,18 @@ Off-ramps:
 The entry point is **computed from the product model**, never looked up from a static
 kind→state table.
 
-> When an intent arrives, ask the model: *what actually has to change?* The highest node
+> When an intent arrives, ask the **product model**: *what actually has to change?* The highest node
 > that must move sets the origin. From there the intent follows the chain, no skipping.
 
 A defect may need `/ux` re-realized, so it enters at the lens layer. But if the **shape**
-does not change, it does not go back to `/shape`. **Go back exactly as far as the model
-says, and not one step further.**
+does not change, it does not go back to `/shape`. **Go back exactly as far as the product
+model says, and not one step further.**
 
 This is why the product model must be a graph, and why it is the most important artefact
 here. It is the only thing that can answer "how far back?" — a kind table never can, because
 the same kind of intent lands in different places depending on what already exists.
 
-Some work enters low, at grill/implement, and updates the model afterwards. That lag is
+Some work enters low, at grill/implement, and updates the product model afterwards. That lag is
 legitimate; `/learn` closes it.
 
 ### 4.3 Backward motion is a first-class edge
@@ -296,11 +315,16 @@ moving, work landing, a measure reading.
 > **The model is a representation. It cannot give a signal.** Signals are received on
 > **intents**, and nowhere else.
 
-This distinction is easy to lose. When the product changes, the signal is not "the model
-changed" — the model is a description and descriptions do not emit. The signal is what that
-change means **for the intents it affects**, and it is carried on those intents.
+This holds for the whole model (§0), not just the product model: **nothing in the graph
+emits.** A representation describes; it does not sense. Signals arrive from outside and land
+on intent nodes — which sit *inside* the model, but receive rather than produce.
 
-**The example.** A CTO asks to change the stack. That is not a signal from the model. It is
+The distinction is easy to lose. When the product changes, the signal is not "the product
+model changed" — that is a description updating. The signal is what that change means **for
+the intents it affects**, and it is carried on those intents.
+
+**The example.** A CTO asks to change the stack. That is not a signal from the product
+model. It is
 a signal **on the CMO's revenue intent** — because it may make that intent harder or easier
 to meet. The intent is what receives it, and the intent is where it is visible.
 
@@ -347,7 +371,7 @@ places the step change in measurement there. What this section defines — outco
 business intent, speed and autonomy on the agent intent — is the design that harness will
 consume.
 
-**Not yet built (backlog).** Live measurement feeding the model, the model reporting whether
+**Not yet built (backlog).** Live measurement feeding the model, and the model reporting whether
 a business intent is being met, and adjustments spawning from that. A 2026 intent for a 2027
 outcome is not a single step; it stays alive and needs signals. Until the system is
 connected, **those signals come from humans** — someone reports where the intent is heading.
@@ -357,7 +381,9 @@ That signal history is itself a graph.
 
 ## 7. What lives where
 
-| Graph | Tracker (GitHub / Jira) |
+**The graph holds the model** (§0) — every row on the left is part of it.
+
+| Graph — *the model* | Tracker (GitHub / Jira) |
 |---|---|
 | The product model | The work items |
 | Business intents | Their ADLC state |
@@ -386,7 +412,7 @@ served. It only exists in the graph.
    intent's reporter agreeing — `qualified` ("worth doing") or `planned` ("here is the spec
    and cost")? Or two approvals from two people? *Asked repeatedly, still open.*
 2. **What surfaces a signal.** A signal on an intent has to reach whoever owns its
-   resolution. Candidates: `/learn` raising it when it updates the model, `/next` surfacing
+   resolution. Candidates: `/learn` raising it when it updates the product model, `/next` surfacing
    it as a repair the way it handles surface debt today, or a standing watcher. Nothing
    does this today.
 3. **How agent maturity is declared and raised** (§5) — resolution ownership moves to
