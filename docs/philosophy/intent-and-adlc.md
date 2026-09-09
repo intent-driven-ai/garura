@@ -90,6 +90,40 @@ automatically.
 
 ---
 
+### 2.3 Where garura sits — Phoenix-OS and its harnesses
+
+Stated by Kapil on 2026-09-09.
+
+> **Phoenix-OS is the whole of IDSD, and it composes harnesses.**
+
+| | |
+|---|---|
+| **Phoenix-OS** | The whole of IDSD. It composes the harnesses below. |
+| **Garura** | A harness. **The engine that does the work.** |
+| **Griffin** | A harness. Controls Garura's working model, and **watches it in real time.** |
+| *(third, later)* | **Governance.** His words: *"that's where measurement will take off to a whole different level."* |
+
+**"Harness" is one concept, used at two levels.** It is the same sense as in his article
+*"GPT-6 Astra: Is the Model That Good, or Is It the Harness?"* — the wrapper around a model
+that decides what actually happens, and the part you supply. Garura wraps models and does
+the work. Griffin and the governance harness are the brakes, budget checks and guardrails
+that article says were missing. The only nuance is **nesting**: there a harness wraps a
+model; here Griffin wraps Garura, which is itself a harness. He uses the word both ways in
+a single document, so this is his usage rather than drift.
+
+**The three-harness count is not new.** A June 2026 frame already names three — coding,
+tower, governance. Today's statement puts names on two of the three slots.
+
+> **⚠ One inference, marked as such.** Griffin-as-tower is Kapil's own equation
+> (2026-09-04: *"Garura and Griffin (this is control tower) -> these are 1 lane"*).
+> **Garura as the *coding* harness lands by elimination, not because he said it.** Treat
+> that mapping as inferred until he states it.
+
+**Why this belongs in this document.** The governance harness is where measurement is said
+to change level (§6). This spine designs measurement on business and agent intents — that
+design is the input to a harness that does not exist yet, and should be written knowing
+where it is going to land.
+
 ## 3. PCAM — the model this is built on
 
 **Perception → Cognition → Agency → Manifestation.** The mental model the agentic thinking
@@ -307,6 +341,11 @@ There are **two measurements, and they sit on the two intent types**:
 Both are real. The second is not a proxy for the first. The second is also where **autonomy
 becomes visible** — no agentic system can claim to work without knowing how often a human
 had to step in.
+
+**The third harness is where this goes.** A governance harness is planned (§2.3), and Kapil
+places the step change in measurement there. What this section defines — outcome on the
+business intent, speed and autonomy on the agent intent — is the design that harness will
+consume.
 
 **Not yet built (backlog).** Live measurement feeding the model, the model reporting whether
 a business intent is being met, and adjustments spawning from that. A 2026 intent for a 2027
