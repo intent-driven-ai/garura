@@ -28,7 +28,7 @@ Garura implements Intent-Driven Software Development through a **three-layer hie
 ┌─────────────────────────────────────────────────────────────┐
 │                        SKILLS                               │
 │  Model invocable only (via agents)                          │
-│  Self-contained with local references                       │
+│  Read org standards from stable LTM paths (ADR 009)         │
 │  Stable — don't change over time                            │
 └─────────────────────────────────────────────────────────────┘
                               │
@@ -36,7 +36,8 @@ Garura implements Intent-Driven Software Development through a **three-layer hie
                               ▼
 ┌─────────────────────────────────────────────────────────────┐
 │                        MEMORY                               │
-│  LTM: Practices, config (core/components/memory/, .garura/core/config.yaml) │
+│  LTM: standards + knowledge (core/components/memory/,       │
+│       deployed to ~/.garura/core/memory/)                   │
 │  STM: Artifacts per issue (.garura/project/issues/{N}/)     │
 └─────────────────────────────────────────────────────────────┘
 ```
@@ -45,77 +46,71 @@ Garura implements Intent-Driven Software Development through a **three-layer hie
 
 ## Three-Layer Hierarchy
 
-> **Note:** Play levels (L1/L2) and agent-count budgets were retired by ADR 017 — a play is just a play, and coherence is enforced by the intent schema and evals. The high-order/atomic distinction below survives only as chaining vs. standalone behavior; the level labels, agent-count ceilings, and the guardian mechanism no longer apply.
+> **Note:** Play levels (L1/L2) and agent-count budgets were retired by ADR 017 — a play is just a play, and coherence is enforced by the play's ICE source and its evals. The high-order/atomic distinction below survives only as chaining vs. standalone behavior; level labels and agent-count ceilings no longer apply. The guardian agent ADR 003 describes was never built (no such agent exists in `core/components/agents/`) — deciding when a human checkpoint may be skipped is done by gate configuration (see below).
 
 ### High-Order Plays
 
-High-order plays represent **user intent** and chain multiple atomic plays together.
+High-order plays represent **user intent** and chain atomic plays around their own work.
 
 **Properties:**
-- Human invocable only
-- Chain ≤5 plays (ideal 3)
-- Include guardian agent for approval decisions
-- Enable non-stop work mode
+- Human invocable
+- Chain atomic plays as explicit, named sub-play steps (each with its own JSON contract and `parent_run_id`)
+- Never hand-roll issue, branch, PR, or merge steps — those arrive only by chaining the pipeline plays
 
-**Examples:** `fix-bug`, `code-microservice`, `create-feature`
+**Example:** `measure` (declared `position: both`)
 
 **Flow:**
 ```
-L2: fix-bug
+measure
     │
-    ├── L1: analyze-bug → [Guardian: skip?] →
-    ├── L1: design-fix → [Guardian: skip?] →
-    ├── L1: implement-fix → [Guardian: skip?] →
-    ├── L1: validate-fix → [Guardian: skip?] →
-    └── L1: create-pr
+    ├── start-change      (head: resolve the issue, cut the branch, initialize STM)
+    ├── … measure's own steps …
+    ├── commit-change     ┐
+    ├── propose-change    │ end sequence — injected by play-creator
+    ├── review-change     │ into any play declared position: end or both
+    └── merge-change      ┘
 ```
 
 ### Atomic Plays
 
-Atomic plays are **atomic units** that produce artifacts and stop at conditional checkpoints.
+Atomic plays are **atomic units** that perform one bounded operation and never chain other plays.
 
 **Properties:**
 - Human OR model invocable
-- Invoke ≤2 agents
-- Always produce exactly one artifact
-- Conditional checkpoint: auto-approve when risk is low; require human approval when risk warrants it
+- One bounded outcome per run
+- Close by proving a machine-checkable stop condition (see Level 3 below), not by running out of steps
 
-**Examples:** `analyze-bug`, `design-fix`, `commit-code`
+**Examples:** `start-change`, `commit-change`, `propose-change`, `merge-change`
 
 **Flow:**
 ```
-Play: analyze-bug
+Play: commit-change
     │
-    └── Invokes agent: tech-designer
-              │
-              └── Agent uses skills: do-rca-analysis
-              │
-              └── Agent produces: .garura/project/issues/{N}/evidence/rca.md
+    ├── Script: analyze_changeset.py — scan and classify the changeset
     │
-    └── CHECKPOINT: Present RCA for approval
+    ├── (only when the changeset is multi-concern)
+    │   Invokes agent: repo-orchestrator
+    │             └── Agent uses skill: analyze-changes
+    │
+    ├── Script: execute_commits.py — execute the decided plan
+    │
+    └── Stop condition: context/commits.yaml exists, leftover_count = 0,
+                        tree_clean = true, pushed = false
 ```
 
-#### Auto-Approval Logic
+#### Gate Configuration
 
-Plays evaluate risk criteria before presenting a checkpoint. When all criteria for low risk are met, the play auto-approves and proceeds without halting for user input. When any high-risk signal is present, the play requires explicit user approval (Tether/Vanish).
+Every human checkpoint is a configuration switch (`standards/rules/gate-config.md`, epic #460 Stages 3–4). Each gate is one of three kinds:
 
-**Auto-approve when ALL of:**
-- Single logical group or concern
-- No sensitive files (credentials, secrets, env vars)
-- No breaking changes
-- Clear, unambiguous operation type
-- Not a hotfix branch or high-risk context
+| Kind | Meaning |
+|------|---------|
+| **pinned** | Always fires. The play's own intent mandates it; no config value can turn it off. Today: `grill`, `launch`, `learn`, `deploy`, and the land-on-main step of `merge-change`. |
+| **conditional** | Fires unless the project's learned gate policy says this change *shape* has earned auto-pass. Every crossing is recorded; the human's real action teaches the policy. The eleven document plays (vision, understand, shape, roadmap, and the seven realize lenses) are conditional. |
+| **off** | Never waits. The judgment the human was making has been replaced by named deterministic checks inside the play; the skip is recorded in evidence. |
 
-**Require user approval when ANY of:**
-- Multiple logical groups requiring separate decisions
-- Sensitive files present
-- Breaking changes detected
-- Ambiguous or mixed operation types
-- Hotfix branch or high-risk context
+Every checkpoint declares a risk class (`docs-only`, `standard`, `one-way-door`). Resolution order: pinned → per-play override (`gates.plays.<play>`) → learned policy (conditional plays only) → per-class switch → default (`on`). A skipped gate is always written to the evidence file — a silent gate is not a gate.
 
-**RESUME mode:** When a play is resuming existing work rather than starting new work, the checkpoint is skipped entirely — the prior approval remains valid.
-
-This model keeps low-risk, routine operations frictionless while surfacing human judgment exactly where it is needed.
+The switch gates only human checkpoints. Pre-flight halts, sensitive-file blocks, stop-condition gates, and eval failures are machine walls and are never switched off.
 
 ### Skills (Learned Capabilities)
 
@@ -126,126 +121,87 @@ Skills are **technology/methodology-specific knowledge** that agents possess.
 - NOT forked — share agent context
 - Reusable across workflows
 - Stable over time
-- **Self-contained** — embed their own references locally
+- Behavior (process, output format, constraints) is embedded in the skill; organizational standards are read from LTM at runtime via stable, well-known paths (ADR 009, which superseded ADR 007's skill-local references)
 
-**Examples:** `write-java-code`, `create-jest-tests`, `do-rca-analysis`
+**Examples:** `create-commit`, `analyze-changes`, `draft-rca`
 
 ### Skill-Memory Relationship
 
-**ADR 009 supersedes ADR 007 for play-driven workflows.**
+**ADR 009 supersedes ADR 007.** ADR 007 required skills to embed every reference locally; ADR 009 splits knowledge in two:
 
-ADR 007 described a deploy-time sync model where skills embedded their own local references. ADR 009 introduces the JSON Contract pattern (see below), which changes how skills receive LTM paths at runtime.
+| Knowledge type | Where it lives | Examples |
+|----------------|----------------|----------|
+| **Skill behavior** | Embedded in the skill definition | Process steps, output format, constraints |
+| **Organizational standards** | LTM, read at runtime via stable paths under `~/.garura/core/memory/` | Commit categories, issue templates, quality rules, branching conventions |
 
-**Current behavior (ADR 009 — JSON Contract workflows):**
-
-Skills receive template and LTM paths from agents via the JSON contract — they do NOT search LTM themselves and do NOT embed local copies of templates. The agent performs Context Crafting (assembles LTM paths, reads STM artifacts) and passes relevant paths to the skill as skill inputs.
+Inside a play, the agent does the Context Crafting: it reads the input files the play's contract names, picks the LTM standards the work needs, and invokes the skill with those paths. The skill reads what it is handed and writes its artifact to disk.
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                      RUNTIME (ADR 009)                      │
+│                         RUNTIME                             │
 │                                                             │
-│   Play ──► JSON Contract ──► Agent                        │
-│                                   │                         │
-│                         Context Crafting:                   │
-│                         discover LTM paths,                 │
-│                         read STM artifacts                  │
-│                                   │                         │
-│                                   ▼                         │
-│                         Skill invocation:                   │
-│                         receives LTM paths                  │
-│                         + STM artifact paths                │
-│                         reads templates from LTM            │
-│                         writes artifacts to STM             │
+│   Play ──► JSON contract (file paths) ──► Agent             │
+│                                             │               │
+│                                   Context Crafting:         │
+│                                   read input files,         │
+│                                   pick LTM standards        │
+│                                             │               │
+│                                             ▼               │
+│                                   Skill invocation:         │
+│                                   reads inputs + standards  │
+│                                   writes output to disk     │
 │                                                             │
 └─────────────────────────────────────────────────────────────┘
 ```
-
-**Key principles (ADR 009):**
-
-1. **Agents craft context** — Agents discover which LTM paths are relevant and pass them to skills
-2. **Skills read LTM at runtime via passed paths** — Skills do not search LTM themselves
-3. **Contract carries paths** — The JSON contract (`stm.*` fields) tracks artifact paths through the workflow
-4. **Skills write to STM** — Skills produce artifacts at the paths specified by agents
-
-**ADR 009 knowledge boundary (applies to all invocation modes):**
-
-Skill *behavior* (process steps, output format, constraints) stays embedded in the skill definition. *Organizational standards* (commit categories, templates, quality rules) come from LTM at runtime via stable paths under `~/.garura/core/memory/`. This distinction applies regardless of whether the skill is invoked via JSON contract or directly.
 
 See [ADR 009: Skill LTM Reads](../adr/009-skill-ltm-organizational-knowledge.md) for details.
 
 ## JSON Contract Pattern
 
-The JSON Contract pattern governs how information flows through the play → agent → skill → agent → play pipeline in play-driven workflows.
+Every handoff in a compiled play — play → agent → skill and back — is a JSON contract. The real outputs live in **files on disk**; the contract carries the *paths*, never the contents. A hop says "your inputs are these files, write your output here", and returns "done — the output is at this path". That is what lets any step be resumed, re-run, or handed off without re-deriving anything.
 
-### What It Is
-
-A single JSON object that the play creates at the start of execution and passes to each agent invocation. Agents enrich it with artifact paths they produce; skills read from it to find input paths and write artifact paths back into it.
+`/play-creator` bakes every contract into the compiled play at compile time; `/play-editor` keeps them intact when a play changes. Scripts a step calls directly follow the same discipline — paths in, files out.
 
 ### Contract Structure
 
+The shape compiled plays emit today, taken from `commit-change`'s grouping step (dispatched to `repo-orchestrator` → `analyze-changes` only when the changeset needs judgment):
+
 ```json
 {
-  "intent_path": "<path to reference/intent.yaml>",
-  "stm_base": "<base STM directory for this workflow>",
-  "stm": {
-    "input": {
-      "feature_intent_path": "<input artifact — set by play>"
-    },
-    "output": {
-      "features_path": null,
-      "technical_approach_path": null,
-      "tech_path": null,
-      "scenarios_path": null,
-      "plan_path": null
-    }
-  },
-  "checkpoints": [
-    { "name": "design_review", "status": "pending" }
-  ],
-  "evidence": [
-    { "name": "<play-name>", "location": null }
-  ],
-  "notes": [],
-  "step_failure": null
+  "task":    "group the changeset by concern; flag sensitive/risky files",
+  "inputs":  { "scan": "<working>/analysis.yaml" },
+  "outputs": { "analysis": "<working>/analysis.yaml" }
 }
 ```
 
-### Contract Fields
+| Field | Set by | Purpose |
+|-------|--------|---------|
+| `task` | Play (baked at compile time) | One line naming the work — not instructions, rules, or examples |
+| `inputs` | Play | Named paths to the files this step reads — usually earlier steps' `outputs` |
+| `outputs` | Play | Named paths where the step must write; the agent returns the contract with each path confirmed on disk |
 
-| Field | Owner | Purpose |
-|-------|-------|---------|
-| `intent_path` | Play | Path to `reference/intent.yaml` — the user contract |
-| `stm_base` | Play | Base directory for all STM artifacts in this workflow |
-| `stm.input` | Play | Paths to input artifacts — set by play at initialization, read by agents |
-| `stm.output` | Agents | Artifact paths — agents populate null fields with paths they produce |
-| `checkpoints` | Play | Checkpoint status — play updates after human review |
-| `evidence` | Play | Evidence file paths — play updates at report step |
-| `notes` | Agents | Short observations (max 3 items, 1 sentence each) for downstream agents |
-| `step_failure` | Agents | Non-null only when agent cannot recover — play reads to decide retry/halt |
+The play does not pass its ICE source to agents. The intent is compiled *into* the play — its constraints and failure conditions become the play's step evals, scenario evals, recovery entries, and stop condition — so what an agent needs is the task and the files.
+
+> ADR 016 recorded an earlier, richer field set (`intent_path` to a `reference/intent.yaml`, `stm_base`, `stm.input` / `stm.output`, `task_id`). Plays compiled by today's `/play-creator` emit the leaner shape above; a step may add a field it needs — `/fix-bug`'s RCA step adds `ltm_context` to trigger the R1–R4 resolution protocol (ADR 015), and `/launch` keeps a `task_id`.
 
 ### How It Flows
 
 ```
-Play creates initial contract (stm.input set, all stm.output null)
+Play runs its scripted steps and writes their outputs to disk
     │
     ▼
-Agent 1 receives contract as entire prompt
-    │  reads intent.yaml
-    │  reads STM artifacts at stm.input paths
-    │  calls skill — skill produces artifact, returns path
-    │  populates stm.output.features_path = produced path
-    │  returns enriched contract
+Play dispatches an agent with { task, inputs, outputs }
+    │  agent reads the input files
+    │  agent invokes a skill — the skill writes the output file
+    │  agent returns the contract, outputs confirmed on disk
     ▼
-Play validates stm.output.features_path non-null, step_failure null
+Play checks the step eval, then feeds those outputs as the next step's inputs
     │
     ▼
-Agent 2 receives enriched contract (has features_path now)
-    │  ... same pattern ...
-    ▼
-Play continues until all capabilities complete
+Close: stop condition evaluated → evidence file → delivery report
 ```
 
-**Critical rule:** The JSON contract is the ENTIRE agent prompt. Plays pass ONLY the JSON object — no instructions, field definitions, or examples appended. Agents read their own definition files and `intent.yaml` to know what to do.
+**Critical rule:** The JSON contract is the ENTIRE agent prompt. Plays pass ONLY the JSON object — no instructions, field definitions, or examples appended. Agents act from their own definition files and the files the contract names.
 
 ## Four Crafts Architecture
 
@@ -255,30 +211,80 @@ The Four Crafts Architecture describes the four distinct authoring concerns that
 
 | Craft | Owner | Artifact | Purpose |
 |-------|-------|----------|---------|
-| **Intent Crafting** | User / Framework Author | `reference/intent.yaml` | Defines the goal, constraints, and failure conditions (the Intent triple; scenarios/success/recovery are generated into Expectation) |
+| **Intent Crafting** | Framework author, via `/play-creator` (new play) or `/play-editor` (existing play) | The play's ICE source, `reference/ice.md` | Declares the goal, constraints, and failure conditions (the Intent triple), plus the generated-and-vetted Expectation the play is compiled from |
 | **Prompt Crafting** | Play | JSON contract | Play passes ONLY the JSON contract to agents — no inline instructions |
-| **Context Crafting** | Agent | Skill inputs | Agent discovers LTM paths, reads STM artifacts, assembles what the skill needs |
-| **Spec Crafting** | Skill | STM artifacts | Skill reads templates from LTM, fills them, writes output artifacts to STM |
+| **Context Crafting** | Agent | Skill inputs | Agent reads the files the contract names, picks the LTM standards the skill needs |
+| **Spec Crafting** | Skill | Output files on disk | Skill reads templates and standards from LTM, fills them, writes the artifact at the contract's output path |
 
 ### Intent Crafting
 
-Intent Crafting produces `reference/intent.yaml` — the user-facing contract for the play. It contains:
+Intent Crafting produces a play's **ICE source**, `core/components/plays/<play>/reference/ice.md`. Every play built through the compiler carries one. Four plays have none: `play-creator` (the compiler bootstrap, edited directly by definition), `play-editor`, and the `install-garura` / `uninstall-garura` meta-plays.
 
-```yaml
-goal: "<what success looks like for the user>"
-constraints:
-  - id: C-<ID>
-    description: "<what must be true>"
-    halt_message: "<what to tell the user if violated>"
-failure_conditions:
-  - id: FC-<ID>
-    description: "<what constitutes failure>"
-# Intent is the clean triple. Success scenarios and recovery are NOT authored
-# here — they are generated into the separate Expectation artifact (see ICE)
-# and vetted at a checkpoint.
+The ICE source has two parts:
+
+- **Intent** — authored: a goal, constraints (`C1`, `C2`, …), and failure conditions (`F1`, `F2`, …). Implementation-agnostic — no tools, file paths, or step-by-step how.
+- **Expectation** — generated from the Intent by the compiler and vetted by the author, never hand-written: success scenarios (`S1`, …, each persona / given / then / measure), **Done means** (the machine-checkable stop condition, `D1`, …), and exactly one recovery entry per failure condition (`REC1`, …).
+
+Worked example — `core/components/plays/commit-change/reference/ice.md`, abridged:
+
+```markdown
+# commit-change — ICE source
+
+## Intent
+
+Commit all uncommitted work on the feature branch, grouped by concern, with conventional
+messages that reference the tracked issue — leaving a clean tree ready to raise. The play
+commits only; it does not push (propose-change pushes when it opens the PR).
+
+### Constraints
+
+- C1 — Work is committed on a feature branch, never on main.
+- C2 — Changes are grouped by concern; each commit holds one coherent concern.
+- C6 — Sensitive files (secrets, credentials, keys) are never committed; their presence
+  blocks the commit.
+- C7 — The play commits only; it never pushes (pushing is propose-change's job).
+  …
+
+### Failure conditions
+
+- F1 — A commit mixes unrelated concerns.
+- F5 — A secret or sensitive file gets committed.
+- F6 — The play pushes, overstepping into propose-change.
+  …
+
+## Expectation
+
+### Success scenarios
+
+- S2 — (developer, nothing to commit) Given a clean working tree, when commit-change runs,
+  then it exits cleanly without creating a commit. Measure: no commit is created; the run
+  exits gracefully.
+  …
+
+### Done means
+
+- D3 — says: "the working tree ended clean"
+  check: { type: field_equals, file: "context/commits.yaml", field: "tree_clean", equals: true }
+- D4 — says: "nothing was pushed"
+  check: { type: field_equals, file: "context/commits.yaml", field: "pushed", equals: false }
+  …
+
+### Recovery (one per failure condition)
+
+- REC5 (F5) — trigger: a sensitive file is staged. direction: unstage the sensitive file
+  and confirm it is excluded before committing. handoff: human.
+  …
 ```
 
-Intent Crafting is done once per play by the framework author. The `intent.yaml` file is stable — agents read it; they never modify it.
+From this source the compiler emits the play's `SKILL.md`, its bundled `scripts/`, and a `stop-condition.yaml` baked from **Done means**, and records a sha256 fingerprint of the ICE source in the play's Compilation Metadata so drift forces a recompile.
+
+**The authoring path:**
+
+- **New play** — `/play-creator` interviews for the Intent triple, generates the Expectation, and compiles.
+- **Intent change** to an existing play (goal, a constraint, a failure condition, a scenario, the agent/skill flow, evals) — edit the ICE source and recompile with `/play-editor`. Never hand-edit the compiled `SKILL.md` for an intent change.
+- **Non-intent change** (output format, report scaffolding, surface prose) — edit the compiled `SKILL.md` directly and record a `Direct-edit deviation note`.
+
+The ICE source is design-time only: agents never modify it, and plays never pass it to agents at runtime.
 
 ### Prompt Crafting
 
@@ -286,7 +292,7 @@ Prompt Crafting is how the play communicates with agents. The rule: the JSON con
 
 ```
 WRONG:
-  "You are the feature-steward agent. Your task is to scope epics.
+  "You are the repo-orchestrator agent. Your task is to group the changeset.
    Rules: [list of rules]
    {JSON contract here}"
 
@@ -294,27 +300,26 @@ RIGHT:
   {JSON contract — nothing else}
 ```
 
-Agents have their own definition files and read `intent.yaml`. Adding instructions to the prompt overrides agent behavior with potentially wrong information.
+Agents have their own definition files. Adding instructions to the prompt overrides agent behavior with potentially wrong information.
 
 ### Context Crafting
 
 Context Crafting is the agent's responsibility before invoking a skill. The agent:
 
-1. Reads `intent.yaml` at `intent_path` from the contract
-2. Reads existing STM artifacts at non-null `stm.input` and `stm.output` paths
-3. Loads relevant LTM standards from `~/.garura/core/memory/`
-4. Assembles the complete input the skill needs, including LTM template paths
+1. Reads the files at the contract's `inputs` paths
+2. Loads the relevant LTM standards from `~/.garura/core/memory/`
+3. Assembles the complete input the skill needs, including LTM template paths, and the `outputs` path to write to
 
-Skills do not discover LTM themselves — the agent hands them the paths. This is the boundary: agents know what context is needed; skills know how to use context once provided.
+This is the boundary: agents know what context is needed; skills know how to use context once provided.
 
 ### Spec Crafting
 
 Spec Crafting is what skills do. A skill:
 
-1. Receives explicit input paths (STM artifacts + LTM template paths) from the agent
+1. Receives explicit input paths (input files + LTM template and standard paths) from the agent
 2. Reads LTM templates to understand the required output shape
-3. Fills the template with content derived from the input artifacts
-4. Writes the completed artifact to STM at the path specified in the contract
+3. Fills the template with content derived from the input files
+4. Writes the completed artifact at the output path the contract names
 5. Returns the artifact path to the agent
 
 Skills are stable and narrow — they know one craft deeply. They do not make architectural decisions; they produce well-formed artifacts.
@@ -367,11 +372,10 @@ When an agent's sole purpose is to resolve a value that is already deterministic
 
 **Requirement:** The synthesized artifact must be contract-compatible with what the agent would have produced — downstream steps must not know or care whether resolution was real or synthetic.
 
-**Example (commit-code, issue #343):**
-- `project-orchestrator` is normally spawned to fetch open issues and semantically score issue-to-change-group mappings.
-- When the branch name encodes the issue number (e.g. `feature/95-slug`), the issue is resolved via regex with `confidence: high`.
-- The play writes a synthetic `issue-mappings.yaml` with `auto_resolved: true` and `source: branch-name` and skips the agent entirely.
-- This eliminates one `gh` API call and one LLM semantic-scoring step from the hot path without any change to downstream contracts.
+**Example (`commit-change`, issue #343):**
+- `project-orchestrator` is normally dispatched to resolve which open issue the changes belong to (`manage-issue` + `resolve-issues`, writing `issue-mappings.yaml`).
+- When the branch name encodes the issue number (e.g. `feature/95-slug`), the pre-flight script returns it as a fact, the play sets `auto_issue_resolved = true`, and the issue-resolution step is skipped entirely.
+- This removes one tracker API call and one model scoring step from the hot path without any change to downstream contracts.
 
 **Scope:** Applies to any agent whose primary output is a resolved scalar or simple mapping derivable from pre-execution context signals.
 
@@ -381,7 +385,7 @@ Garura uses a **dual memory system**:
 
 ### Long-Term Memory (LTM)
 
-**Location:** `core/components/memory/`
+**Location:** authored in `core/components/memory/`; deployed by `/install-garura` to the machine-global `~/.garura/core/memory/` (shelves: `standards/`, `knowledge/`, `tools/`)
 
 **Contains:**
 - Practices and standards
@@ -418,9 +422,15 @@ Garura uses a **dual memory system**:
     ├── checkpoint/          # Per-play checkpoints
     │   └── {play-name}/
     │       └── {YYYYMMDD-HHMMSS}.md
-    ├── context/             # prepare / arch context artifacts
-    └── review/              # Review artifacts
+    ├── context/             # Step outputs (e.g. commit-change's commits.yaml)
+    ├── review/              # Review artifacts
+    └── status/              # Run state: resume markers, stop-condition verdicts,
+                             #   session identity stamps
 ```
+
+### Product Model Writes (ADR 026)
+
+Plays that write the persistent product model (vision, understand, shape, grill, measure, roadmap, arch, ux, quality, agentic, run, marketing, learn) edit the live model **directly on the feature branch** — there is no `draft/` copy in STM and no promotion step. The branch diff is what gets reviewed at the checkpoint and carried to the PR. Two guarantees replace what the draft used to provide: a shared scoped-diff guard detects and reverts any write outside the run's declared scope, and the change-shape classifier for conditional gates reads the working-tree diff. Cancelling at a checkpoint restores the model paths with git.
 
 ### Memory Flow
 
@@ -429,7 +439,8 @@ Garura uses a **dual memory system**:
 │                    LTM (Long-Term Memory)                   │
 │  Created: At project setup                                  │
 │  Contains: Practices, standards, templates                  │
-│  Location: core/components/memory/                          │
+│  Location: ~/.garura/core/memory/ (source: core/components/ │
+│            memory/)                                         │
 │  Role: Source of truth for organizational customizations    │
 └─────────────────────────────────────────────────────────────┘
               │                               ▲
@@ -471,19 +482,21 @@ Every checkpoint artifact written to `.garura/project/issues/{N}/checkpoint/{pla
 | Status | Meaning |
 |--------|---------|
 | `PENDING_APPROVAL` | Written; awaiting user decision |
-| `APPROVED` | User responded Tether (or auto-approved) |
+| `APPROVED` | User responded Tether |
+| `ORBIT_FEEDBACK` | User responded Orbit with feedback; the gated stage re-runs as a new cycle |
 | `REJECTED` | User responded Vanish |
+| `COMPLETED` | Set on every checkpoint of the run when the play closes |
 
-Plays update the artifact status before proceeding to the next step. This creates an auditable record of every approval decision.
+The shape and lifecycle are defined in `standards/templates/checkpoint.md`. Plays update the artifact status before proceeding to the next step. A gate that resolves off or auto-passes (see Gate Configuration) writes no prompt; the skip is recorded as a Checkpoint Decisions row in the run's evidence file. Together these form an auditable record of every approval decision.
 
 ## Critical Rules
 
 | Rule | Applies To | Rationale |
 |------|------------|-----------|
-| **Produces artifact** | Atomic Plays | Clean checkpoint boundaries |
-| **Conditional checkpoint** | Atomic Plays | Auto-approve when risk is low; require user approval when risk signals are present |
+| **One bounded outcome** | Atomic Plays | Clean checkpoint boundaries |
+| **Stop condition proves done** | Plays compiled from an ICE source | A run closes `COMPLETED` only when its Done means hold; otherwise `HALTED` with the unmet clauses recorded |
+| **Gates are configuration** | Checkpoints | Pinned, conditional, or off per `gate-config.md`; every skip is recorded in evidence |
 | **Chains atomic plays** | High-Order Plays | Workflow = sequence of atomic activities |
-| **Guardian validates** | High-Order Plays | Decides if human approval can be skipped |
 | **Agent produces** | Artifacts | Agent does work, play orchestrates |
 | **Learned capabilities** | Skills | Technology/methodology specific knowledge |
 | **Never forked** | Plays & Skills | Plays are steps; skills share context |
@@ -503,7 +516,7 @@ Traditional AI copilots are non-deterministic — same prompt, different results
 
 1. **Deterministic workflows** — Plays define exact steps
 2. **Checkpoint model** — Human review at defined points
-3. **Guardian bypass** — Non-stop work when safe
+3. **Configurable gates** — Non-stop work where deterministic checks have replaced the human check; pinned gates keep the human beat on irreversible steps
 4. **Clear boundaries** — Artifacts mark completion
 5. **Audit trail** — STM captures all decisions
 
@@ -555,9 +568,11 @@ The objective has not changed. The system still creates a PR with a quality chec
 
 | Phase | Play Role | Intent Role | Trust Level |
 |-------|-----------|-------------|-------------|
-| **Current** | Plays prescribe every step and agent assignment | Intent defines the objective; plays define the how | Low — system proves reliability through prescribed execution |
-| **Lighter plays** | Plays define checkpoints and boundaries; agents choose their own workflow within steps | Intent drives agent behavior; plays provide guardrails | Medium — system has demonstrated consistent execution |
-| **Intent-driven** | Plays are generated at runtime from intent + constraints + memory | Intent is the primary input; workflow is emergent | High — auditability and predictability are satisfied as constraints, not as structure |
+| **Prescribed** (Level 2) | Plays prescribe every step and agent assignment | Intent defines the objective; plays define the how | Low — system proves reliability through prescribed execution |
+| **Lighter plays** (Level 3 — where Garura operates today, ADR 025) | Plays define checkpoints and boundaries; agents choose their own workflow within steps | Intent drives agent behavior; plays provide guardrails | Medium — system has demonstrated consistent execution |
+| **Intent-driven** (Level 4 — north star, deliberately not being built; ADR 013, ADR 025) | Plays are generated at runtime from intent + constraints + memory | Intent is the primary input; workflow is emergent | High — auditability and predictability are satisfied as constraints, not as structure |
+
+Level 3, as ADR 025 defines it, keeps the compiled skeleton — the sequence of commands, the gates between them, and the evidence that must exist at close — deterministic, and lets each box run a free loop toward the intent inside four walls: a machine-checkable stop condition, a checker that executes the deterministic gates, a turn/token budget, and an evidence schema. Epic #460 shipped the stop condition (every ICE-compiled play bakes one), the checker (`run-quality-gates`), gates-as-configuration, and concurrent read-only fan-out. The budget wall is only partly built: every run stamps its session identity so spend can be attributed exactly after the fact, but no turn or token cap halts a loop yet.
 
 ### What Makes This Possible
 
@@ -573,16 +588,22 @@ The migration from structural to declarative depends on three capabilities matur
 
 The architectural decisions being made today — externalizing intent to the play's ICE source, making constraint references dynamic, keeping play structure declarative — are not just cleanup. They are **preparing the system for the point where plays become optional**. An intent file that fully describes the objective, constraints, and failure conditions is already 80% of what a system needs to derive its own execution plan. The remaining 20% is trust — and that is built through the deterministic play executions happening now.
 
-The lighter plays can be tested first on mechanical operations (`commit-change`, `propose-change`) where the workflow is predictable and the failure modes are well-understood. Success there builds confidence for creative operations (`build-feature`, `design-feature`) where the workflow is more variable.
+The lighter plays were piloted on a mechanical operation — `commit-change` was the first play recompiled as a goal-loop (#465) — because its workflow is predictable and its failure modes are well-understood, before the model was rolled out to every play (#466), including creative operations such as `implement` and `shape` where the workflow is more variable.
 
 ## Related Documentation
 
 - [ADR 001: Three-Layer Hierarchy](../adr/001-three-layer-hierarchy.md)
 - [ADR 002: L1 Checkpoint Model](../adr/002-l1-checkpoint-model.md)
-- [ADR 003: Guardian Approval](../adr/003-guardian-approval.md)
+- [ADR 003: Guardian Approval](../adr/003-guardian-approval.md) (the guardian agent was never built; see Gate Configuration)
 - [ADR 004: Agent Naming](../adr/004-agent-naming.md)
 - [ADR 005: Skills as Capabilities](../adr/005-skills-as-capabilities.md)
 - [ADR 006: Naming Conventions](../adr/006-naming-conventions.md)
 - [ADR 007: Skill-Local References](../adr/SUPERSEDED-007-skill-local-references.md) (Superseded by ADR 009)
 - [ADR 008: Issue-Centric STM and NWWI](../adr/008-issue-centric-stm-and-nwwi.md)
-- [ADR 009: JSON Contract Pattern and Four Crafts Architecture](../adr/009-json-contract-four-crafts.md)
+- [ADR 009: Skill LTM Reads for Organizational Knowledge](../adr/009-skill-ltm-organizational-knowledge.md)
+- [ADR 013: Play Maturity Model](../adr/013-play-maturity-model.md)
+- [ADR 015: LTM Resolution Protocol](../adr/015-ltm-resolution-protocol.md)
+- [ADR 016: Agent JSON Contract](../adr/016-agent-json-contract.md)
+- [ADR 017: Folder Whitelist](../adr/017-folder-whitelist.md) (also retires play levels and agent-count budgets)
+- [ADR 025: Level 3 Redefined — Deterministic Skeleton, Goal-Loop Interior](../adr/025-level-3-redefined-skeleton-and-loop.md)
+- [ADR 026: Model-Writing Plays Edit the Product Model Directly](../adr/026-direct-to-model-writes.md)
