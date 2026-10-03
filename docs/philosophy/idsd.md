@@ -21,31 +21,6 @@ IDSD (Intent Driven Software Development) is the **methodology** that operationa
 
 ### The 8 IDD Elements in IDSD
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│  HUMAN DOMAIN                                               │
-│                                                             │
-│  Element 1: Intent Layer ──────────► Plays (ICE-compiled)   │
-│  Element 2: Signals ───────────────► Slash commands         │
-│  Element 3: Orchestrated Intent ───► Command model + /next  │
-│                                                             │
-├─────────────────────────────────────────────────────────────┤
-│  AI DOMAIN                                                  │
-│                                                             │
-│  Element 4: Agents ────────────────► Domain + utility agents│
-│  Element 5: Memory ────────────────► KB + product model + STM│
-│  Element 6: Skills ────────────────► Skills                 │
-│  Element 7: Context-Aware Decisions► Context crafting       │
-│                                                             │
-├─────────────────────────────────────────────────────────────┤
-│  HANDSHAKE                                                  │
-│                                                             │
-│  Element 8: Generation-Verification► Checkers + stop        │
-│             Loops                    conditions + gates     │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
-
 | # | IDD Element (Principle) | IDSD Implementation (Garura) |
 |---|------------------------|----------------------------------|
 | 1 | Intent Layer | Plays. Each play is authored as an ICE source (`reference/ice.md`) and compiled into its runnable `SKILL.md` by `play-creator`; `play-editor` changes a play by editing the ICE source and recompiling (ADR 025). A play carries at most five domain agents; utility agents (`project-orchestrator`, `repo-orchestrator`) are exempt. |
@@ -56,19 +31,6 @@ IDSD (Intent Driven Software Development) is the **methodology** that operationa
 | 6 | Skills | Bounded capabilities invoked by agents. Each skill has a `SKILL.md` with input/output contracts. |
 | 7 | Context-Aware Decisions | Context crafting: agents assemble the paths a skill needs (KB standards, product-model docs, STM artifacts) and pass them as explicit inputs. In `/implement`, each builder gets only its piece's cut context slice. |
 | 8 | Generation-Verification | Per-play stop conditions evaluated at close, deterministic check runners, independent verdicts (`quality-auditor`), human checkpoints governed by gate config, and an evidence file for every run. |
-
-### Element-to-Component Matrix
-
-| # | IDD Element | Garura Component | Layer | Owner |
-|---|-------------|---------------------|-------|-------|
-| 1 | Intent Layer | Plays (ICE source → compiled `SKILL.md`) | Orchestration | Human |
-| 2 | Signals | Slash commands | Perception | System |
-| 3 | Orchestrated Intent | Command model, successor map, `/next` | Orchestration | Human + System |
-| 4 | Agents | Sub-Agents | Decision | AI |
-| 5 | Memory | KB + product model + STM | Cognitive | AI (read), Human (KB and model governance) |
-| 6 | Skills | Skills | Capability | AI |
-| 7 | Context-Aware Decisions | Context crafting + cut context slices | Cognitive | AI |
-| 8 | Generation-Verification | Stop conditions, check runners, independent verdicts, gates, evidence | Handshake | Human + AI |
 
 ---
 
@@ -215,16 +177,6 @@ Change chain (git, underneath every play that changes the repo):
 Meta (not part of the product pipeline): /install-garura · /uninstall-garura · /play-creator · /play-editor
 ```
 
-| Stage | Type | Focus | Plays |
-|-------|------|-------|-------|
-| Strategy | Primary | Business intent: domain, capabilities, slices, order | vision, understand, shape, roadmap |
-| Realize | Primary | Context for one slice: seven lens docs | ux, agentic, marketing, arch, quality, run, measure |
-| Bridge | Primary | Cut a realized slice into epics | grill |
-| Execute | Primary | Build, verify, accept, deploy one epic | implement, validate, launch, deploy |
-| Change chain | Supporting | Branch, commit, PR, review, merge | start-change, commit-change, propose-change, review-change, merge-change |
-| Maintenance | Supporting | Defect fixes; behavior-preserving refactors | fix-bug, refactor |
-| Orchestration | Supporting | Keep the model true; route the line | learn, next, focus |
-
 **Model writes ride the change chain.** Plays that write the product model edit the live model directly on the feature branch that `start-change` cut. Git is the draft, the PR is the review, and the change chain lands it (ADR 026).
 
 ### Execution Is Three Trinities (ADR 023)
@@ -296,13 +248,7 @@ The loop that does ship is `/learn`. It reads outcomes — the measure lens's ba
 
 ### Intent Primacy
 
-Speed is one dimension of execution. The other is **autonomy** — how much of the workflow is prescribed vs derived from intent.
-
-Plays still prescribe their skeleton. This is deliberate: prescribed execution builds the trust and memory depth needed for autonomous execution. But the architecture is designed so that auditability, predictability, and human oversight — currently structural properties of plays — can migrate to declarative constraints in the intent schema over time.
-
-Two shipped steps sit on this path. Every play is compiled from its ICE source (`reference/ice.md`), so intent is a first-class document and the compiled play is derived from it. And ADR 025 moved each box's interior from baked steps to a goal loop with a machine-checkable stop condition. Runtime intent resolution (Level 4) remains a north star, not a target.
-
-See [Intent Primacy and Play Evolution](./architecture.md#intent-primacy-and-play-evolution) for the full evolution path.
+Intent is primary; plays are scaffolding (see [Intent Primacy and Play Evolution](./architecture.md#intent-primacy-and-play-evolution)). Two shipped steps sit on that path: every play is compiled from its ICE source (`reference/ice.md`), and ADR 025 moved each box's interior from baked steps to a goal loop with a machine-checkable stop condition. Runtime intent resolution (Level 4) remains a north star, not a target.
 
 ---
 
@@ -348,67 +294,6 @@ AI handles execution; humans steer intent.
 | repo-orchestrator | repo | orchestrator (utility) | start-change, commit-change, propose-change, review-change, merge-change, implement, validate, launch, fix-bug, refactor |
 
 Seven more agent definitions exist in `core/components/agents/` but no current play calls them: epic-expectation-crafter, feature-steward, market-analyst, product-keeper, scriber, tech-architect, test-runner.
-
-#### Compartmented Evaluation Classification
-
-Under IDD Principle 4, agents are classified by their role in the information barrier:
-
-| Classification | Agents | What They Receive | When Barrier Active |
-|---------------|--------|-------------------|-------------------|
-| **Builders** | code-builder, test-engineer, tech-designer | The piece's cut context slice and spec-side paths — never the evals, the pass criteria, or (for test-engineer) builder output | In barrier-eligible plays |
-| **Eval author** | evals-engineer | Spec-side paths; writes the steelman evals | In `/implement` |
-| **Validators** | quality-auditor | Captured gate results, the evals, the plan, and piece reports — and tries to refute "done" | In barrier-eligible plays |
-| **Neutral** | product-os-keeper, env-operator, intent-resolver, repo-orchestrator, project-orchestrator | Full intent (all elements) | Always — these agents perform model-keeping, mechanical, or coordination work |
-
-**Dual-Level Implementation:**
-
-| Level | Play | Builder | Validator |
-|-------|------|---------|-----------|
-| Unit | `implement` | code-builder + test-engineer (generate code and tests) | quality-auditor (steelman verdict against evals-engineer's evals) |
-| System | `validate` | implement output (code under test) | quality-auditor (judges captured check results) |
-
-In barrier-exempt plays (the change chain, the strategy and lens plays, etc.), all agents receive the full intent regardless of classification.
-
-### Play Invocation Model Under Compartmented Evaluation
-
-When a barrier-eligible play is invoked, the play orchestration layer splits the intent before routing to agents:
-
-```
-User invokes play with business intent
-        │
-        ▼
-┌─────────────────────────────────────┐
-│  PLAY ORCHESTRATION LAYER         │
-│                                     │
-│  1. Receive full intent             │
-│     (goal + constraints + failure)  │
-│                                     │
-│  2. Classify play:                │
-│     barrier-eligible? → split       │
-│     barrier-exempt? → pass through  │
-│                                     │
-│  3. If barrier-eligible:            │
-│     ┌────────────┐ ┌──────────────┐ │
-│     │ Builder    │ │ Validator    │ │
-│     │ gets:      │ │ gets:        │ │
-│     │ goal +     │ │ failure_cond │ │
-│     │ constraints│ │ + output     │ │
-│     └─────┬──────┘ └──────┬───────┘ │
-│           │               │         │
-│           ▼               ▼         │
-│     Build output → Validate →       │
-│     symptom feedback loop           │
-│           │                         │
-│     Converge or escalate            │
-└─────────────────────────────────────┘
-        │
-        ▼
-Output + evidence + stop-condition verdict
-```
-
-**Key rule:** The play orchestration layer is the ONLY component that ever sees the complete intent during barrier-eligible execution. Neither the builder nor the validator has the full picture — this is by design.
-
-In `/implement` the split is enforced before every dispatch: each contract is checked for isolation, and a contract that would leak evals, pass criteria, or the whole plan to a builder is rebuilt clean.
 
 ### Memory Architecture (IDSD-specific)
 
@@ -496,13 +381,9 @@ evals-engineer (spec-side paths) ─────┴──► evals → quality-a
 
 This boundary is enforced by constraint, not convention: the play checks every builder contract before dispatch and rebuilds any contract that carries more than the slice.
 
-#### KB Governance via Git
+#### KB Governance
 
-In IDSD, the KB is version-controlled in Git repositories. This provides natural infrastructure for governance:
-
-**File-Level Conflict Resolution**: Competing changes to the same KB practice file surface as Git merge conflicts. Two developers capturing contradictory learnings about the same subsystem must resolve the conflict explicitly — Git's merge mechanism enforces this automatically.
-
-**KB Extension Workflow**: When a play needs knowledge the KB does not cover, it records a proposal instead of inventing it. Promotion follows a PR-based governance model with tiered review:
+The governance doctrine — tiered review scaled to blast radius, Git as file-level conflict resolution, anti-entropy — is IDD's ([LTM Governance](./intent-driven-development.md#ltm-governance)). In Garura it runs like this:
 
 ```
 /vision or /shape finds a gap the KB does not cover
@@ -511,26 +392,13 @@ In IDSD, the KB is version-controlled in Git repositories. This provides natural
 propose-kb-node records a KB-node proposal
         │
         ▼
-KB change authored in core/components/memory/
-        │
-        ▼
-PR created for review
-        │
-        ├── Project-level KB → Team leads review
-        │   (e.g., "this service uses connection pooling")
-        │
-        └── Org-level KB → Engineering leaders / CTOs review
-            (e.g., "all services use structured JSON logging")
+KB change authored in core/components/memory/ → PR → tiered review
         │
         ▼
 Merged → deployed to ~/.garura/core/memory/ via install-garura
 ```
 
-Outcome-driven learning goes to the product model, not the KB: `/learn` rewrites capability and functionality docs and adds decision records, each citing an outcome.
-
-**Semantic Conflict Detection**: Git catches file-level conflicts, but not semantic contradictions (e.g., one practice says "always use retry logic" while another says "never retry inside transactions"). No current play detects semantic overlap between a proposed KB entry and existing ones. Current state: manual review during the PR process.
-
-**Cross-Developer Visibility**: All KB changes are visible in the Git history. Product-model changes and evidence are committed to feature branches and visible via GitHub (issues, branches, PRs). The NWWI (No Work Without Issue) gate ensures every piece of work is trackable.
+Outcome-driven learning goes to the product model, not the KB: `/learn` rewrites capability and functionality docs and adds decision records, each citing an outcome. No current play detects semantic contradictions between KB entries; that is caught in PR review.
 
 #### Memory Evolution Trajectory
 
@@ -546,13 +414,6 @@ The current Git-based KB architecture is the foundation. The evolution path:
 | **Stage 4** | Federated (org-wide) | MCP + API + federation protocol | Cross-project semantic search | Vision — 18-24 months |
 
 Each stage is additive — Stage 2 does not replace Stage 1; it adds a server layer on top of the same Git-backed storage. This means the core KB format (markdown files in Git) remains the source of truth throughout evolution.
-
-**KB Quality & Decay**: As the KB grows beyond the 20-file audit threshold (IDD P5), automated quality mechanisms become necessary:
-- **Freshness scoring**: Track when each KB entry was last validated against production reality
-- **Relevance decay**: Flag practices that haven't been referenced by agents in N months
-- **Contradiction detection**: Semantic analysis of KB entries for conflicting guidance
-
-Status: Planned, not designed. Currently relies on manual PR review and the P5 hygiene rule.
 
 Storage paths:
 - KB: `core/components/memory/{dimension}/` → deployed to `~/.garura/core/memory/`
@@ -615,57 +476,11 @@ See [JSON Contract Pattern](./architecture.md#json-contract-pattern) and [Four C
 
 ---
 
-## Recovery (Autonomous-Fix Branch)
+## Recovery
 
-Recovery is one concept — the Expectation layer's directional answer to "how do we continue toward the intent when blocked" (see ICE in `intent-driven-development.md`). This section describes its **autonomous-fix branch**: when an agent returns a structured failure during play execution, IDSD applies this recovery loop before surfacing the failure to the human.
+Recovery is the Expectation layer's answer to "how do we continue toward the intent when blocked" (see ICE in [IDD](./intent-driven-development.md#the-ice-structure-intent-context-expectation)). The autonomous-fix loop and the structured failure format agents return (`domain_assessment.responsible_domain`) are defined once, in `docs/framework/intent-driven-recovery.md` and `docs/framework/structured-failure-protocol.md`; agent definitions carry the format in their escalation sections.
 
-### Structured Failure Protocol
-
-Agents are expected to return failures in a structured format that enables the play to route recovery correctly:
-
-```yaml
-failure:
-  type: "{error_type}"
-  message: "{what went wrong}"
-  domain_assessment:
-    responsible_domain: "{repo-orchestrator | project-orchestrator | code-builder | ...}"
-    fix_hint: "{what the responsible agent should try}"
-```
-
-The `domain_assessment.responsible_domain` field tells the play which agent to invoke for recovery. Agent definitions carry this format in their escalation sections (for example, `code-builder`).
-
-### Recovery Loop
-
-```
-Agent returns structured failure
-        │
-        ▼
-Play reads domain_assessment.responsible_domain
-        │
-        ▼
-Play invokes responsible agent with:
-  - fix context
-  - original intent
-  - retry metadata (attempt N, previous failure, fix applied)
-        │
-        ▼
-Bounded retries per agent
-        │
-        ├── Success → continue workflow
-        └── Retries exhausted → HALT with full failure context
-```
-
-Each play states its own retry bounds in its failure-condition table. For example, `/implement` allows two retries per piece before `tech-designer` re-plans, and two refuted verdict rounds before escalating to a human.
-
-### Recovery and the Agent Limit
-
-A play carries at most five domain agents (the agent-count cap ADR 025 describes); utility agents (`project-orchestrator`, `repo-orchestrator`) do not count toward that limit. Recovery is a first-class mechanism, not an exception to the architecture.
-
-### Recovery Reasoning
-
-Recovery reasoning is documented in `docs/framework/intent-driven-recovery.md`.
-
-That file defines recovery as one unified concept (the Expectation layer) plus this autonomous-branch loop and its domain-routing logic. Keeping it centralized — rather than embedding it in each play — allows recovery behavior to be updated without modifying individual plays. The structured failure protocol is at `docs/framework/structured-failure-protocol.md`.
+What Garura adds is per-play bounds, stated in each play's failure-condition table. For example, `/implement` allows two retries per piece before `tech-designer` re-plans, and two refuted verdict rounds before escalating to a human.
 
 ---
 
@@ -675,31 +490,7 @@ ICS (defined in IDD — see `intent-driven-development.md`) is designed to run a
 
 > **Status**: Not built. No current play runs an ICS assessment. The placement and rules below describe where ICS belongs in the command model when it is built.
 
-### Where ICS Runs in the Pipeline
-
-```
-Play invoked with business intent
-        │
-        ▼
-Agent receives intent from play
-        │
-        ▼
-┌─────────────────────────────────┐
-│  ICS ASSESSMENT (agent step)    │
-│                                 │
-│  1. Restate intent (P7)         │
-│  2. Score 6 ICS dimensions      │
-│     (incl. Barrier Integrity    │
-│     per P4)                     │
-│  3. Determine balance profile   │
-│                                 │
-│  Balanced → proceed             │
-│  Non-Balanced → checkpoint      │
-└─────────────────────────────────┘
-        │
-        ▼
-Agent begins execution
-```
+How ICS works — restate, score six dimensions, pick a balance profile — is defined in IDD ([How ICS Works](./intent-driven-development.md#how-ics-works)).
 
 ### IDSD-Specific ICS Rules
 
@@ -722,53 +513,7 @@ As `/learn` matures, ICS data becomes a training signal:
 
 ## Compartmented Evaluation
 
-Compartmented evaluation operationalizes IDD Principle 4 (Builders and Validators Must Not Share Context) in IDSD. It establishes an information barrier between builder and validator agents to prevent Goodhart's Law — where builders optimize for passing specific checks rather than genuinely solving the problem.
-
-### The Information Barrier
-
-The play orchestration layer splits the intent and routes each element to the correct agent:
-
-```
-┌───────────────────────────────────────────────────┐
-│                PLAY (Orchestrator)                │
-│                                                     │
-│  Receives full intent:                              │
-│    • Goal                                           │
-│    • Constraints                                    │
-│    • Failure Conditions                             │
-│                                                     │
-│  ┌─────────────────┐    ┌─────────────────┐        │
-│  │                 │    │                 │        │
-│  │  BUILDER AGENT  │    │ VALIDATOR AGENT │        │
-│  │                 │    │                 │        │
-│  │  Receives:      │    │  Receives:      │        │
-│  │  • Goal         │    │  • Failure      │        │
-│  │  • Constraints  │    │    Conditions   │        │
-│  │  • LTM context  │    │  • Builder      │        │
-│  │                 │    │    Output       │        │
-│  │  Does NOT see:  │    │  • LTM context  │        │
-│  │  • Failure      │    │                 │        │
-│  │    Conditions   │    │  Does NOT see:  │        │
-│  │                 │    │  • Goal         │        │
-│  │                 │    │  • Constraints  │        │
-│  └────────┬────────┘    └────────┬────────┘        │
-│           │                      │                  │
-│           │   Builder Output     │                  │
-│           │ ────────────────────►│                  │
-│           │                      │                  │
-│           │  Symptom Feedback    │                  │
-│           │ ◄────────────────────│                  │
-│           │                      │                  │
-│  Max 3 iterations, then escalate to human          │
-└───────────────────────────────────────────────────┘
-```
-
-| Why It Matters | Without Barrier | With Barrier |
-|----------------|----------------|--------------|
-| **Builder behavior** | Optimizes for known checks (Goodhart's Law) | Optimizes for the actual goal |
-| **Validator independence** | May rationalize builder's approach because it knows the goal | Evaluates output purely against failure conditions |
-| **Feedback quality** | "You violated FC-3" (condition-based) | "Line 47 has a hardcoded connection string" (symptom-based) |
-| **Convergence** | Fast but shallow — builder games the checks | Slower first iteration, but genuine fixes |
+Compartmented evaluation is IDD Principle 4 — builders and validators must not share context. The doctrine (the routing table, the constraint-failure classification rule, symptom-based feedback, convergence bounds, when the barrier applies) lives in IDD: [Principle 4](./intent-driven-development.md#principle-4-builders-and-validators-must-not-share-context). This section covers only how Garura applies it.
 
 ### How the Barrier Is Held Today
 
@@ -776,7 +521,7 @@ In `/implement`, the barrier is held by **sub-agent separation**: `evals-enginee
 
 ### Barrier-Eligible vs Barrier-Exempt Plays
 
-Not all plays benefit from compartmented evaluation. The barrier applies to plays where the builder makes judgment calls. Mechanical plays use a single-agent model.
+Applying IDD's rule (judgment calls → barrier; mechanical, single-output work → no barrier) to the current plays:
 
 | Play | Barrier? | Reasoning |
 |--------|----------|-----------|
@@ -805,39 +550,9 @@ Not all plays benefit from compartmented evaluation. The barrier applies to play
 | repo-orchestrator | Neutral | ✓ | ✓ | Mechanical operations — no barrier needed |
 | project-orchestrator | Neutral | ✓ | ✓ | Coordination operations — no barrier needed |
 
-### Symptom-Based Reporting
+### Convergence in Garura
 
-When the validator identifies issues, it reports symptoms — what the output does wrong — not condition identifiers.
-
-**Correct (symptom-based):**
-```
-"The processPayment() function does not handle the case where
- the payment gateway returns a timeout response."
-
-"The API response for /users/export includes raw SQL column names
- instead of human-readable field labels."
-
-"The test file imports a production database configuration
- instead of a test fixture."
-```
-
-**Incorrect (condition-based):**
-```
-"Failed FC-2: Error handling coverage insufficient."
-"Violation of failure condition #4: Response format non-compliant."
-"FC-1 triggered: Test isolation violated."
-```
-
-### Convergence Bounds
-
-| Parameter | Default | Override Allowed? | Escalation |
-|-----------|---------|------------------|------------|
-| Max iterations | 3 | Yes, play can set 1-5 | After max: drop barrier, escalate to human |
-| Same-symptom repeat | 2 occurrences | No | Immediate escalation — structural misunderstanding |
-| Hard ceiling | 5 | No | Mandatory human intervention |
-| Escalation protocol | Human receives full intent + all outputs + all feedback | — | Human sees everything; barrier is agent-only |
-
-`/implement` sets its own bound inside this range: two refuted verdict rounds, then escalation to a human with the full record.
+IDD sets the convergence defaults ([Convergence Protocol](./intent-driven-development.md#convergence-protocol)). `/implement` sets its own bound inside that range: two refuted verdict rounds, then escalation to a human with the full record.
 
 ### Barrier in the Two-Layer Intent Model
 
@@ -847,50 +562,6 @@ Compartmented evaluation applies to **business intents** (Layer 1), NOT **SDLC i
 - **SDLC intents** are framework-authored, pre-validated, and mechanical. They define lifecycle operations (commit, branch, deploy) where the output is deterministic. No barrier needed.
 
 This alignment is natural: barrier-eligible plays are exactly those where business intent drives creative decisions, and barrier-exempt plays are exactly those where SDLC intent drives mechanical operations.
-
----
-
-## IDSD Development Loop
-
-The complete IDSD development loop:
-
-**Strategy (once per product, revisited as it grows):**
-
-```
-1. /vision      → domain + directional capabilities seeded in the model
-2. /understand  → one capability detailed, with its functionalities
-3. /shape       → deliverable slices composed
-4. /roadmap     → slices ordered, dependencies resolved
-```
-
-**Realize (per slice):**
-
-```
-5. Functional pipe:      /ux → /agentic → /marketing
-6. Non-functional pipe:  /arch → /quality → /run
-7. /measure             → slice stamped realized
-```
-
-**Execute (per epic):**
-
-```
-8.  /grill      → slice cut into user-testable epics (pinned human checkpoint)
-9.  /implement  → plan, test-first code, steelman verdict
-                   (builders see only their cut slice; evals walled off)
-10. /validate   → deep checks: quality gates, measure metrics, declared surface
-                   → validated, or fix_required back to /implement
-11. /launch     → human acceptance on user_check + acceptance → merge → delivered
-12. /deploy     → delivered epic deployed to the run lens's cloud environment
-```
-
-**Close the loop:**
-
-```
-13. /learn      → outcomes written back into the model
-14. /next       → the next best action, ranked from the model
-```
-
-Each play that changes the repository runs on a branch `start-change` cuts and lands through the change chain: `/commit-change → /propose-change → /review-change → /merge-change`.
 
 ---
 
