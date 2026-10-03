@@ -2,7 +2,7 @@
 
 > **Scope**: Garura Methodology
 > **Status**: Active
-> **Last Updated**: 2026-04-15
+> **Last Updated**: 2026-10-03
 > **Foundation**: IDD (Intent-Driven Development) — see `intent-driven-development.md`
 
 ## Overview
@@ -13,7 +13,7 @@ IDSD (Intent Driven Software Development) is the **methodology** that operationa
 
 **One-liner**: IDD principles operationalized into a complete AI-native SDLC.
 
-Full IDSD build specification: `.claude/specs/idsd/idsd.md`
+**What this revision changes.** IDD and IDSD do not change. The ICE framework (Intent, Context, Expectation) is the same. All that changed is the pipe: the play chain that carries intent from a business goal to shipped code. This document maps IDSD onto the **ProductOS command model** that ships today — strategy → realize lenses → grill → execute, with the change chain underneath and `/learn` and `/next` as orchestration — as decided in ADR 023 and ADR 025. Every play, agent, and skill named below exists under `core/components/`.
 
 ---
 
@@ -25,50 +25,50 @@ Full IDSD build specification: `.claude/specs/idsd/idsd.md`
 ┌─────────────────────────────────────────────────────────────┐
 │  HUMAN DOMAIN                                               │
 │                                                             │
-│  Element 1: Intent Layer ──────────► Plays                │
-│  Element 2: Signals ───────────────► Signals                │
-│  Element 3: Orchestrated Intent ───► Play Levels           │
+│  Element 1: Intent Layer ──────────► Plays (ICE-compiled)   │
+│  Element 2: Signals ───────────────► Slash commands         │
+│  Element 3: Orchestrated Intent ───► Command model + /next  │
 │                                                             │
 ├─────────────────────────────────────────────────────────────┤
 │  AI DOMAIN                                                  │
 │                                                             │
-│  Element 4: Agents ────────────────► 19 Agents              │
-│  Element 5: Memory ────────────────► KB + LTM + STM         │
-│  Element 6: Skills ────────────────► Skills                  │
-│  Element 7: Context-Aware Decisions► Context Bundles         │
+│  Element 4: Agents ────────────────► Domain + utility agents│
+│  Element 5: Memory ────────────────► KB + product model + STM│
+│  Element 6: Skills ────────────────► Skills                 │
+│  Element 7: Context-Aware Decisions► Context crafting       │
 │                                                             │
 ├─────────────────────────────────────────────────────────────┤
 │  HANDSHAKE                                                  │
 │                                                             │
-│  Element 8: Generation-Verification► DRAFT → VALIDATE →    │
-│             Loops                    LOCKED + Gates         │
+│  Element 8: Generation-Verification► Checkers + stop        │
+│             Loops                    conditions + gates     │
 │                                                             │
 └─────────────────────────────────────────────────────────────┘
 ```
 
 | # | IDD Element (Principle) | IDSD Implementation (Garura) |
 |---|------------------------|----------------------------------|
-| 1 | Intent Layer | Plays — atomic (≤2 agents), high-order (≤5 agents). Every play has IDD intent header (intent/constraints/failure_conditions). |
-| 2 | Signals | User CLI invocations (`/build-feature`, `/commit-code`). All signals enter via plays. |
-| 3 | Orchestrated Intent | Play Levels. Three speeds: Fast (minutes), Planned (hours), Strategic (days). |
-| 4 | Agents | 19 agents across 7 roles: code-builder, tech-designer, tech-architect, repo-orchestrator, project-orchestrator, feature-steward, quality-auditor, judge, evals-engineer, engineering-manager, test-engineer, designer, doc-builder, product-keeper, market-analyst, knowledge-extractor, scriber, intent-crafter, intent-resolver. Agent-first pattern. |
-| 5 | Memory | Three-layer memory: KB (`~/.garura/core/memory/`) — global org knowledge. LTM (`{product_base}`) — project-specific. STM (`{stm_base}/{issue}/`) — per-issue. Flow: KB → LTM → STM. |
-| 6 | Skills | Bounded capabilities invoked by agents. Each skill has SKILL.md with input/output contracts. |
-| 7 | Context-Aware Decisions | Context bundles ≤12K tokens. Audience separation (Tier 1/2/3). Agents read LTM + STM. |
-| 8 | Generation-Verification | DRAFT → VALIDATE → LOCKED lifecycle. Verification gates per play. Evidence artifacts. Tether/Vanish checkpoints. |
+| 1 | Intent Layer | Plays. Each play is authored as an ICE source (`reference/ice.md`) and compiled into its runnable `SKILL.md` by `play-creator`; `play-editor` changes a play by editing the ICE source and recompiling (ADR 025). A play carries at most five domain agents; utility agents (`project-orchestrator`, `repo-orchestrator`) are exempt. |
+| 2 | Signals | User slash commands — `/vision`, `/grill`, `/implement`, `/commit-change`, and the rest of the command model. All signals enter via plays. |
+| 3 | Orchestrated Intent | The command model: a fixed successor map (`pipeline-next.md`) that tells every play what runs next, `/next` to rank the real options from the product model, and `/focus` for the issue-side view. |
+| 4 | Agents | 18 agent definitions on disk; 11 are called by the current plays (see Agent Taxonomy). Agent-first pattern. |
+| 5 | Memory | Three layers: KB (`~/.garura/core/memory/`) — machine-global org knowledge. Product LTM — the **product model** at `{product_base}product-os/` (`.garura/product/product-os/`). STM (`{stm_base}/{issue}/`) — per-issue working memory and evidence. |
+| 6 | Skills | Bounded capabilities invoked by agents. Each skill has a `SKILL.md` with input/output contracts. |
+| 7 | Context-Aware Decisions | Context crafting: agents assemble the paths a skill needs (KB standards, product-model docs, STM artifacts) and pass them as explicit inputs. In `/implement`, each builder gets only its piece's cut context slice. |
+| 8 | Generation-Verification | Per-play stop conditions evaluated at close, deterministic check runners, independent verdicts (`quality-auditor`), human checkpoints governed by gate config, and an evidence file for every run. |
 
 ### Element-to-Component Matrix
 
 | # | IDD Element | Garura Component | Layer | Owner |
 |---|-------------|---------------------|-------|-------|
-| 1 | Intent Layer | Plays | Orchestration | Human |
-| 2 | Signals | Signals | Perception | System |
-| 3 | Orchestrated Intent | Play Levels | Orchestration | Human + System |
+| 1 | Intent Layer | Plays (ICE source → compiled `SKILL.md`) | Orchestration | Human |
+| 2 | Signals | Slash commands | Perception | System |
+| 3 | Orchestrated Intent | Command model, successor map, `/next` | Orchestration | Human + System |
 | 4 | Agents | Sub-Agents | Decision | AI |
-| 5 | Memory | LTM + STM | Cognitive | AI (read), Human (LTM governance) |
+| 5 | Memory | KB + product model + STM | Cognitive | AI (read), Human (KB and model governance) |
 | 6 | Skills | Skills | Capability | AI |
-| 7 | Context-Aware Decisions | Context Bundles + Memory Federation | Cognitive | AI |
-| 8 | Generation-Verification | Quality Gates + Validator Agent | Handshake | Human + AI |
+| 7 | Context-Aware Decisions | Context crafting + cut context slices | Cognitive | AI |
+| 8 | Generation-Verification | Stop conditions, check runners, independent verdicts, gates, evidence | Handshake | Human + AI |
 
 ---
 
@@ -93,9 +93,9 @@ IDSD operates with two distinct intent layers. This is how IDD's Intent Layer pr
 │  When: Baked into the play definition                       │
 │  Language: Lifecycle operations, process constraints           │
 │                                                               │
-│  "Build implementation code from a spec bundle or intent.     │
-│   Must produce working code with unit tests.                  │
-│   Fail if bundle exceeds 12K token budget."                   │
+│  "Build one ready epic to done, test-first.                   │
+│   Must keep the builder walled off from the evals.            │
+│   Fail if done is claimed while a check is red."              │
 │                                                               │
 └─────────────────────────────────────────────────────────────┘
 ```
@@ -103,24 +103,27 @@ IDSD operates with two distinct intent layers. This is how IDD's Intent Layer pr
 | Layer | Who Authors | When | Stability | Example |
 |-------|------------|------|-----------|---------|
 | **Business Intent** | User or upstream play | Every invocation | Changes per feature | "Add CSV export with auth" |
-| **SDLC Intent** | Framework author | Play creation (once) | Stable across all features | "Build implementation from intent or spec" |
-| **Artifact Intent** | Generated by agents | During execution | Derived from business intent | vision.md carries business intent forward |
+| **SDLC Intent** | Framework author | Play creation (once) | Stable across all features | "Build one ready epic to done, test-first" |
+| **Artifact Intent** | Generated by agents | During execution | Derived from business intent | A capability doc carries business intent forward |
+
+In the shipped command model, the two layers have concrete homes. **SDLC intent** lives in each play's ICE source (`reference/ice.md`) and is compiled into the play. **Business intent** lives in the product model — written by the strategy plays, refined by the lenses, and cut into epics by `/grill` (see "How Garura Is IDSD — Two Levels" below).
 
 **The flow:**
 
 ```
-User: /build-feature "Add CSV export with auth"
+User: /implement --epic e-1-csv-export
         │
         ▼
 ┌───────────────────────────────────────┐
-│ Play: build-feature                  │
+│ Play: implement                       │
 │                                       │
 │ SDLC Intent (fixed in play):        │
-│   "Build implementation from intent"  │
+│   "Build one ready epic to done"      │
 │   → Tells the play HOW to operate   │
 │                                       │
-│ Business Intent (from user):          │
-│   "Add CSV export with auth"          │
+│ Business Intent (from the model):     │
+│   the epic's intent, constraints,     │
+│   failures, expectations, context     │
 │   → Tells the play WHAT to build    │
 │                                       │
 │ Play propagates BOTH to agents:     │
@@ -139,9 +142,9 @@ Agent → Skill → Artifact
 
 1. **Business intent is what users care about.** "Add CSV export" is the real goal. The user doesn't think about committing, branching, or verifying — those are lifecycle mechanics.
 
-2. **SDLC intent is what plays care about.** `commit-code` needs to know it should "stage and commit changes with conventional messages" regardless of whether the user built a CSV endpoint or fixed a bug.
+2. **SDLC intent is what plays care about.** `commit-change` needs to know it should "commit the change grouped by concern" regardless of whether the user built a CSV endpoint or fixed a bug.
 
-3. **Generated artifacts carry business intent.** When `discover-product` creates `vision.md`, that document's intent header reflects the business goal, not the SDLC step. This is how business intent survives the full lifecycle — from discovery through delivery.
+3. **Generated artifacts carry business intent.** When `/vision` writes a domain doc and directional capability docs into the product model, those documents reflect the business goal, not the SDLC step. This is how business intent survives the full lifecycle — from strategy through delivery.
 
 4. **The framework eats its own cooking.** SDLC plays follow the same three-element pattern (intent/constraints/failure_conditions) that they enforce on generated artifacts. This is how the framework knows when to halt, what to propagate, and how to recover from failures.
 
@@ -149,117 +152,155 @@ Agent → Skill → Artifact
 
 ---
 
-## SDLC Phases
+## How Garura Is IDSD — Two Levels
 
-IDSD defines 8 phases (5 primary, 3 supporting):
+IDSD shows up twice in Garura, at two grains. Inside a single play, ICE is crafted, handed over, grounded, and turned into an artifact. Across plays, the product model holds the business intent and the play chain carries it forward from goal to shipped code. Same ICE, same discipline, two scales.
+
+### Level 1 — Inside each play: the Four Crafts
+
+Every play separates four authoring concerns. Each craft has one owner, so intent is never re-interpreted on its way down (see [Four Crafts Architecture](./architecture.md#four-crafts-architecture)).
+
+| Craft | Owner | What it produces in the shipped plays |
+|-------|-------|----------------------------------------|
+| **Intent Crafting** | Framework author | The play's ICE source, `reference/ice.md` — goal, constraints, failure conditions, plus scenarios and a "Done means" section. `play-creator` compiles it into `SKILL.md` and bakes "Done means" into `stop-condition.yaml`. |
+| **Prompt Crafting** | Play | A JSON contract per agent dispatch — the task, the skill to use, and the input and output paths. The contract is the prompt; the play adds no prose instructions. |
+| **Context Crafting** | Agent | The agent finds the KB standards, product-model docs, and STM artifacts the skill needs and passes them as explicit inputs. In `/implement`, `tech-designer` captures box context in which every entry cites its source (epic, ICE, lens, or repo path). |
+| **Spec Crafting** | Skill | The skill fills a template and writes the artifact — a lens doc, an epic, a build plan, a verdict — to the product model or to STM. |
+
+A play is therefore an ICE document executed through four hands: intent by the author, prompt by the play, context by the agent, spec by the skill. The stop condition closes the loop: a play closes `COMPLETED` only when its "Done means" holds; otherwise it closes `HALTED` with the unmet clauses recorded (`play-close.md`).
+
+### Level 2 — Across plays: the product model as stored intent
+
+At product grain, ICE is not held in any one play. It is stored in the **product model** (`.garura/product/product-os/`), which keeps three things:
+
+| What the model keeps | Where it lives | What it holds |
+|----------------------|----------------|---------------|
+| **Structure** | `_spine.yaml` (schema: `spine.yaml`) | The domain → capability → functionality tree, slices, epics, their order, dependencies, and status |
+| **Meaning (ICE, written inline)** | Grounding docs: `domain.md`, `capability.md`, `functionality.md`, and each slice's `epics/{epic}.md` | ICE at each node: a capability's benefit hypothesis and boundary, a functionality's acceptance, and an epic's full intent, constraints, failures, expectations, and context |
+| **Decisions** | `decisions/` (schema: `decision.yaml`) | Append-only ADR records at product, capability, functionality, or framework level. Accepted decisions are never edited; a new one supersedes them |
+
+The play chain then carries that stored intent forward, and each stage does one ICE job:
+
+| Stage | Plays | ICE job |
+|-------|-------|---------|
+| **Strategy — craft intent** | `/vision` → `/understand` → `/shape` → `/roadmap` | `/vision` seeds the domain and directional capabilities. `/understand` details one capability and its functionalities. `/shape` composes deliverable slices. `/roadmap` orders them. |
+| **Realize lenses — add context** | Functional: `/ux` → `/agentic` → `/marketing`. Non-functional: `/arch` → `/quality` → `/run`. Then `/measure` | Each lens writes one context doc for the slice (`lens/{ux,agentic,marketing,architecture,quality,run,measure}.md`). `/measure` runs last and stamps the slice *realized* once all seven agree. |
+| **Bridge — intent becomes delivery units** | `/grill` | Cuts one realized slice into user-testable epics. Each epic carries its own ICE and references the slice's intent and lenses, never copying them. The cut is grilled against the declared intents, one question at a time. |
+| **Build — produce spec and code** | `/implement` | Turns the epic's ICE and lenses into a test-first build plan (the spec), then code and tests, behind the builder/validator barrier. |
+| **Check — against intent** | `/validate`, `/launch`, `/review-change` | `/validate` runs the checks the quality and measure lenses declare, plus the epic's declared surface. `/launch` walks a human through the epic's `user_check` and acceptance. `/review-change` grounds the diff in the design. |
+| **True the model** | `/learn` | Reads outcomes (the measure lens, validate verdicts, delivered status) and rewrites the model to match reality. Every change must cite an outcome. |
+
+Mapped back to ICE: strategy plays write **Intent**, the lenses supply **Context**, and `/grill` plus `/implement` generate the **Expectation** and spec that the check plays verify against. `/learn` closes the loop so the stored intent stays true.
+
+---
+
+## The Command Model
+
+The shipped command model replaces the earlier phase pipeline. The successor map in `core/components/memory/standards/rules/pipeline-next.md` is its single source of truth; every play's close names the next command from it.
 
 ```
-Primary Phases (linear pipeline)
-────────────────────────────────────────────────────────────────────────────────
-Product-2-Spec    Spec-2-Design   Design-2-Code          Code-2-Test   Test-2-Run
-┌─────────────┐  ┌─────────────┐  ┌──────────────────┐  ┌──────────┐  ┌──────────┐
-│specify      │  │design       │  │  Epic Trinity    │  │commit-   │  │merge-pr  │
-│             │  │arch         │  │  prepare         │  │code      │  │capture-  │
-│             │  │             │  │  implement       │  │create-pr │  │learning  │
-│             │  │             │  │  validate        │  │review-pr │  │          │
-└─────────────┘  └─────────────┘  └──────────────────┘  └──────────┘  └──────────┘
+Strategy            Realize (per slice)                      Bridge   Execute (per epic)
+────────────────    ─────────────────────────────────────    ──────   ─────────────────────────────
+/vision             Functional:     /ux → /agentic →         /grill   /implement → /validate →
+/understand                         /marketing                        /launch → /deploy
+/shape              Non-functional: /arch → /quality → /run
+/roadmap            Deliver:        /measure (stamps realized)
 
-Shortcuts:  /ship    — commit → PR → review → merge in one command
-Bug path:   /fix-it  — RCA-driven defect resolution
+Maintenance:    /fix-bug  ·  /refactor
+Orchestration:  /learn (trues the model)  ·  /next (ranks next actions)  ·  /focus (issue-side view)
 
-Supporting Phases (continuous)
-────────────────────────────────────────────────────────────────────────────────
-Run-2-Monitor      Audit-2-Fix              Learn-2-Memory
-┌──────────────┐  ┌──────────────┐          ┌──────────────┐
-│fix-it        │  │quality-check │          │capture-      │
-│              │  │(skill)       │          │learning      │
-└──────────────┘  └──────────────┘          └──────────────┘
+Change chain (git, underneath every play that changes the repo):
+  /start-change (injected at a play's head) → /commit-change → /propose-change → /review-change → /merge-change
+
+Meta (not part of the product pipeline): /install-garura · /uninstall-garura · /play-creator · /play-editor
 ```
 
-### Design-2-Code: The Epic Trinity
+| Stage | Type | Focus | Plays |
+|-------|------|-------|-------|
+| Strategy | Primary | Business intent: domain, capabilities, slices, order | vision, understand, shape, roadmap |
+| Realize | Primary | Context for one slice: seven lens docs | ux, agentic, marketing, arch, quality, run, measure |
+| Bridge | Primary | Cut a realized slice into epics | grill |
+| Execute | Primary | Build, verify, accept, deploy one epic | implement, validate, launch, deploy |
+| Change chain | Supporting | Branch, commit, PR, review, merge | start-change, commit-change, propose-change, review-change, merge-change |
+| Maintenance | Supporting | Defect fixes; behavior-preserving refactors | fix-bug, refactor |
+| Orchestration | Supporting | Keep the model true; route the line | learn, next, focus |
 
-The Epic Trinity is the core implementation loop — three sequenced plays that carry a feature from locked design to verified code:
+**Model writes ride the change chain.** Plays that write the product model edit the live model directly on the feature branch that `start-change` cut. Git is the draft, the PR is the review, and the change chain lands it (ADR 026).
+
+### Execution Is Three Trinities (ADR 023)
+
+ADR 023 decided that execution has one shape at every grain: **capture → build → check**, with ceremony sized to the unit of work. What is built today:
+
+| Trinity | Capture | Build | Check | Built today |
+|---------|---------|-------|-------|-------------|
+| **Epics** | `/grill` | `/implement` | `/validate` + `/launch` | Yes — all four plays ship |
+| **Defects** | `/record` | `/fix-bug` | `/accept` | Build only. `/fix-bug` ships with its own independent verification; `/record` and `/accept` do not exist yet |
+| **Amendments** | `/amend` | `/enhance` | `/accept` | No. ADR 024's amendment record has no schema, and none of the three plays exist |
+
+**Entry rule between lanes (ADR 023):** strategy plays for a new domain, capability, or feature; realize for each new slice; the epic trinity for epic-grain work on a realized slice; the amendment trinity for small improvements that can be anchored to a delivered epic; the defect trinity for bugs. Until the amendment lane exists, small improvements have no lane of their own.
+
+### The Epic Trinity
+
+The epic trinity carries one epic from a realized slice to verified, accepted code:
 
 ```
-prepare → implement → validate
-     │               │                │
-     ▼               ▼                ▼
-LLD + plan +    TDD code +       E2E tests +
-context pkg    unit tests +     QA verdict
-               eval loop        ACCEPT/REJECT
+/grill  →  /implement  →  /validate  →  /launch  (→ /deploy)
+   │            │              │             │
+   ▼            ▼              ▼             ▼
+epics with   plan + code +   deep checks:   human acceptance
+full ICE     tests + steel-  quality gates, on user_check +
+             man verdict     measure        acceptance →
+                             metrics,       merge → epic
+                             surface check  stamped delivered
 ```
+
+The epic moves through statuses in the spine: `ready → in_delivery → validated` (or `fix_required`, which sends it back to `/implement` for a fix round) `→ delivered`. Delivered epics are kept as the as-delivered record, never deleted (ADR 019). The surface an epic promises is declared at the cut and enforced by `/validate` and `/launch` (ADR 022).
 
 #### Context Boundary
 
-Each play has strict memory access rules enforced by the architecture:
+The boundary that keeps a builder focused now sits inside `/implement` rather than in a separate preparation play:
 
-| Play | Reads | Writes | Memory Constraint |
-|------|-------|--------|------------------|
-| `prepare` | KB + LTM + STM | STM context package | Bridge layer: reads all sources, writes only to STM |
-| `implement` | STM ONLY | STM (code, tests, evidence) | **KB/LTM FORBIDDEN** |
-| `validate` | STM ONLY + deployed env | STM (QA verdict, evidence) | **KB/LTM FORBIDDEN** |
+| Play | Reads | Writes | Context rule |
+|------|-------|--------|--------------|
+| `grill` | Product model (realized slice, its intents and lenses) | Epics into the product model | Every epic references the slice's intent and lenses; it never copies them |
+| `implement` | The epic, its functionality ICE, the lens docs, the repository | Plan, code, tests, evidence in STM | `tech-designer` captures sourced box context. Each builder receives only its piece's cut context slice (`cut_piece_context.py`): the piece, its dependencies, and the approved spec — never the whole plan, the tests, or the evals |
+| `validate` | The epic, the quality and measure lenses, the repository, KB tooling standards | Verdict and fix report in STM; epic status | Checks run through runners; `quality-auditor` judges only the captured results |
+| `launch` | The validated epic's `user_check` and acceptance | Human sign-off; epic stamped `delivered` | An agent never signs for the human |
 
 #### Dual-Level Verification
 
-The Trinity enforces verification at two levels:
-
 | Level | Play | Builder | Validator | Scope |
 |-------|------|---------|-----------|-------|
-| Unit | `implement` | code-builder | judge | Unit tests, code quality, eval-driven TDD loop |
-| System | `validate` | implement output | judge | E2E tests, scenario coverage, QA verdict (ACCEPT/REJECT) |
+| Unit | `implement` | `code-builder`, `test-engineer` | `quality-auditor` (steelman verdict on evals from `evals-engineer`) | Test-first build; gate results captured by `run_gates.py`; the verdict tries to refute "done" |
+| System | `validate` | `implement` output | `quality-auditor` (via `judge-validation-results`) | Quality-lens gates, measure-lens metrics, the declared surface; per-tool runners (`run_checks.py`) |
+| Human | `launch` | `validate` output | The human | HITL scenarios built from `user_check` and acceptance |
 
-#### Outputs
+### Level 3: Deterministic Skeleton, Goal-Loop Interior (ADR 025)
 
-| Play | Output Artifacts |
-|------|----------------|
-| `prepare` | `tech.yaml` (LLD), `scenarios.yaml`, `plan.yaml`, `context/` package in STM |
-| `implement` | Working code, unit tests, eval evidence in STM |
-| `validate` | QA verdict (ACCEPT or REJECT), E2E test results, scenario coverage report |
+ADR 025 redefined Level 3 of the play maturity model: **determinism lives at the skeleton, never inside the boxes.** The sequence of commands, the gates between them, and the evidence required at close are fixed. Inside each box, the agent loops toward a verifiable goal within four walls. What exists today:
 
-### Planned Phase: Monitor-to-Design
+| Wall | What ADR 025 asks for | What is built |
+|------|----------------------|---------------|
+| **Stop condition** | A machine-checkable "done means" | Built. Every ICE-compiled play has a `stop-condition.yaml`, evaluated at close by `check_stop_condition.py`; an unmet condition forces `HALTED` |
+| **Checker** | Deterministic gates, run by a runner that emits pass/fail | Partly built. The `run-quality-gates` skill runs the quality lens's `quality-gates.yaml`; `/implement` runs `run_gates.py` and `/validate` runs `run_checks.py` with per-tool runners. These are separate runners, not yet one |
+| **Budget** | A turn cap and a token/cost cap that halt the loop | **Not built.** No play halts on a token, cost, or turn budget. What shipped (#463) is spend *attribution*: every evidence file is stamped with the session identity and ledger window, so spend can be computed afterwards. Some plays have their own iteration caps — `/commit-change` stops after 5 rounds; `/implement` allows 2 refuted rounds before a human steps in — but these are per-play loop caps, not the budget wall |
+| **Evidence schema** | What the loop must write as it works | Built. The Standard Play Close (`play-close.md`) writes the evidence file, stop-condition verdict, and session stamp |
 
-> **Status**: Planned — Issue #217. Timeline: 18-24 months.
+Human gates are configuration now (`gate-config.md`, the `gates:` block in `.garura/core/config.yaml`). A gate is **pinned** (always waits for a human), **conditional**, or **off**. `/grill`, `/launch`, `/learn`, the merge to main, and `/deploy`'s confirm step are pinned. The change-chain gates and the `/implement`, `/validate`, `/fix-bug`, and `/refactor` gates are off; machine preconditions stand in for them, and every skipped gate is recorded.
 
-Monitor-to-Design closes the feedback loop from production back to the design phase:
+### Closing the Loop from Production
 
-```
-Production monitoring signals (latency, errors, usage patterns)
-        │
-        ▼
-Pattern correlation against KB + LTM
-        │
-        ▼
-Auto-generated intent candidates
-        │
-        ▼
-Human review and approval (Tether/Vanish)
-        │
-        ▼
-Approved intents enter SDLC pipeline
-```
+Monitor-to-Design was the planned phase that would turn production signals into proposed intents — the operational mechanism for IDD Hypothesis H1 (Memory-Driven Intent Self-Generation). Its tracking issue (#217) was closed as not planned; nothing in the current components builds it.
 
-This phase is the operational mechanism for IDD Hypothesis H1 (Memory-Driven Intent Self-Generation). It requires: production monitoring integration, pattern correlation capability, and well-formed intent generation from observed signals. None of these are currently designed.
-
-**Why it matters**: Without Monitor-to-Design, the SDLC lifecycle is forward-only — humans author all intents. With it, the system can propose intents from production reality, moving IDSD from L3 (human-in-loop) toward L4 (spec-driven, where the system generates lightweight specs from observed patterns).
-
-| Phase | Type | Focus | Example Plays |
-|-------|------|-------|-----------------|
-| Product-2-Spec | Primary | Product specification, scope, quality profile | specify |
-| Spec-2-Design | Primary | UX design, architecture | design, arch |
-| Design-2-Code | Primary | Implementation from locked design | prepare, implement, validate |
-| Code-2-Test | Primary | Commits, PR creation, code review | commit-code, create-pr, review-pr |
-| Test-2-Run | Primary | Merge, learning capture | merge-pr, capture-learning |
-| Run-2-Monitor | Supporting | Post-deployment incident response | fix-it |
-| Audit-2-Fix | Supporting | Quality audits | quality-check (skill) |
-| Learn-2-Memory | Supporting | Knowledge capture, STM→LTM promotion | capture-learning |
+The loop that does ship is `/learn`. It reads outcomes — the measure lens's baseline, target, and realized values, validate verdicts and fix reports, the run lens, and delivered status — and rewrites the product model to match. Every change must cite an outcome. It proposes model changes from observed reality, which is the first step toward H1, but humans still author the intents that start new work.
 
 ### Intent Primacy
 
 Speed is one dimension of execution. The other is **autonomy** — how much of the workflow is prescribed vs derived from intent.
 
-Today, plays prescribe every step. This is deliberate: prescribed execution builds the trust and memory depth needed for autonomous execution. But the architecture is designed so that auditability, predictability, and human oversight — currently structural properties of plays — can migrate to declarative constraints in the intent schema over time.
+Plays still prescribe their skeleton. This is deliberate: prescribed execution builds the trust and memory depth needed for autonomous execution. But the architecture is designed so that auditability, predictability, and human oversight — currently structural properties of plays — can migrate to declarative constraints in the intent schema over time.
 
-The `reference/intent.yaml` externalization pattern (see `create-pr` as golden standard) is a concrete step toward this: intent as a first-class, extensible schema that can grow to encompass workflow-level properties. When the constraint schema is expressive enough and memory is deep enough, the system can derive its own execution plan from intent alone.
+Two shipped steps sit on this path. Every play is compiled from its ICE source (`reference/ice.md`), so intent is a first-class document and the compiled play is derived from it. And ADR 025 moved each box's interior from baked steps to a goal loop with a machine-checkable stop condition. Runtime intent resolution (Level 4) remains a north star, not a target.
 
 See [Intent Primacy and Play Evolution](./architecture.md#intent-primacy-and-play-evolution) for the full evolution path.
 
@@ -270,48 +311,43 @@ See [Intent Primacy and Play Evolution](./architecture.md#intent-primacy-and-pla
 ### Component Hierarchy
 
 ```
-Plays → Agents → Skills → Memory (LTM + STM)
+Plays → Agents → Skills → Memory (KB + product model + STM)
 ```
 
 ### Agent Taxonomy (IDSD-specific)
 
-IDSD maps the AI Squad Framework roles to 19 Garura agents across 7 roles — all implemented:
+The current plays call 11 agents across eight roles:
 
 | Role | Garura Agent(s) | IDD Element |
 |------|-------------------|----|
-| Builder | code-builder | Element 4 |
-| Designer | tech-designer, tech-architect, designer | Element 4 |
-| Specifier | feature-steward, product-keeper | Element 4 |
-| Validator | quality-auditor, judge, evals-engineer, engineering-manager, test-engineer | Elements 4 + 8 |
+| Model keeper | product-os-keeper | Elements 4 + 5 |
+| Designer | tech-designer | Element 4 |
+| Builder | code-builder, test-engineer | Element 4 |
+| Eval author | evals-engineer | Elements 4 + 8 |
+| Validator | quality-auditor, change-reviewer | Elements 4 + 8 |
+| Environment | env-operator | Element 4 |
+| Intent | intent-resolver | Element 4 |
 | Orchestrator | repo-orchestrator, project-orchestrator | Elements 3 + 4 |
-| Knowledge | knowledge-extractor, market-analyst, scriber | Elements 4 + 5 |
-| Framework | doc-builder, intent-crafter, intent-resolver | Element 4 |
 
-7 roles replace 12-16 traditional roles. AI handles execution; humans steer intent.
+AI handles execution; humans steer intent.
 
-**Full agent roster:**
+**Roster as used by the current plays:**
 
-| Agent | Domain | Role | SDLC Phases |
-|-------|--------|------|-------------|
-| code-builder | implementation | builder | Design-2-Code |
-| tech-designer | design | designer | Spec-2-Design, Run-2-Monitor, Audit-2-Fix |
-| tech-architect | architecture | designer | Spec-2-Design |
-| designer | UX | designer | Spec-2-Design |
-| feature-steward | product | specifier | Product-2-Spec |
-| product-keeper | product | specifier | Product-2-Spec |
-| quality-auditor | quality | validator | Code-2-Test, Audit-2-Fix |
-| judge | evaluation | validator | Design-2-Code (unit + system) |
-| evals-engineer | evaluation | validator | Design-2-Code |
-| engineering-manager | quality | validator | Audit-2-Fix |
-| test-engineer | testing | validator | Design-2-Code, Code-2-Test |
-| repo-orchestrator | repo | orchestrator | Universal |
-| project-orchestrator | project | orchestrator | Universal |
-| knowledge-extractor | knowledge | knowledge | Learn-2-Memory |
-| market-analyst | market | knowledge | Product-2-Spec |
-| scriber | documentation | knowledge | Universal |
-| doc-builder | documentation | framework | Universal |
-| intent-crafter | intent | framework | Product-2-Spec |
-| intent-resolver | intent | framework | Design-2-Code |
+| Agent | Domain | Role | Plays that call it |
+|-------|--------|------|--------------------|
+| product-os-keeper | product model | model keeper | vision, understand, shape, roadmap, ux, agentic, marketing, arch, quality, run, measure, grill, launch, learn, next |
+| tech-designer | design | designer | implement, fix-bug, refactor |
+| code-builder | implementation | builder | implement, fix-bug, refactor |
+| test-engineer | testing | builder (tests) | implement |
+| evals-engineer | evaluation | eval author | implement |
+| quality-auditor | quality | validator | implement, validate, fix-bug, refactor, review-change |
+| change-reviewer | review | validator | review-change |
+| env-operator | environments | environment | launch, deploy |
+| intent-resolver | intent | intent | fix-bug, refactor |
+| project-orchestrator | project | orchestrator (utility) | start-change, commit-change, implement, validate, launch, fix-bug, refactor, focus |
+| repo-orchestrator | repo | orchestrator (utility) | start-change, commit-change, propose-change, review-change, merge-change, implement, validate, launch, fix-bug, refactor |
+
+Seven more agent definitions exist in `core/components/agents/` but no current play calls them: epic-expectation-crafter, feature-steward, market-analyst, product-keeper, scriber, tech-architect, test-runner.
 
 #### Compartmented Evaluation Classification
 
@@ -319,18 +355,19 @@ Under IDD Principle 4, agents are classified by their role in the information ba
 
 | Classification | Agents | What They Receive | When Barrier Active |
 |---------------|--------|-------------------|-------------------|
-| **Builders** | code-builder, tech-designer | Goal + Constraints (no failure conditions) | In barrier-eligible plays |
-| **Validators** | judge | Failure Conditions + Builder Output (no goal/constraints) | In barrier-eligible plays |
-| **Neutral** | feature-steward, product-keeper, repo-orchestrator, project-orchestrator | Full intent (all elements) | Always — these agents perform mechanical or discovery operations |
+| **Builders** | code-builder, test-engineer, tech-designer | The piece's cut context slice and spec-side paths — never the evals, the pass criteria, or (for test-engineer) builder output | In barrier-eligible plays |
+| **Eval author** | evals-engineer | Spec-side paths; writes the steelman evals | In `/implement` |
+| **Validators** | quality-auditor | Captured gate results, the evals, the plan, and piece reports — and tries to refute "done" | In barrier-eligible plays |
+| **Neutral** | product-os-keeper, env-operator, intent-resolver, repo-orchestrator, project-orchestrator | Full intent (all elements) | Always — these agents perform model-keeping, mechanical, or coordination work |
 
 **Dual-Level Implementation:**
 
 | Level | Play | Builder | Validator |
 |-------|------|---------|-----------|
-| Unit | `implement` | code-builder (generates code) | judge (evaluates against failure conditions) |
-| System | `validate` | implement output (code under test) | judge (evaluates E2E scenarios) |
+| Unit | `implement` | code-builder + test-engineer (generate code and tests) | quality-auditor (steelman verdict against evals-engineer's evals) |
+| System | `validate` | implement output (code under test) | quality-auditor (judges captured check results) |
 
-In barrier-exempt plays (commit-code, create-pr, etc.), all agents receive the full intent regardless of classification.
+In barrier-exempt plays (the change chain, the strategy and lens plays, etc.), all agents receive the full intent regardless of classification.
 
 ### Play Invocation Model Under Compartmented Evaluation
 
@@ -366,10 +403,12 @@ User invokes play with business intent
 └─────────────────────────────────────┘
         │
         ▼
-Output (DRAFT → VALIDATE → LOCKED)
+Output + evidence + stop-condition verdict
 ```
 
 **Key rule:** The play orchestration layer is the ONLY component that ever sees the complete intent during barrier-eligible execution. Neither the builder nor the validator has the full picture — this is by design.
+
+In `/implement` the split is enforced before every dispatch: each contract is checked for isolation, and a contract that would leak evals, pass criteria, or the whole plan to a builder is rebuilt clean.
 
 ### Memory Architecture (IDSD-specific)
 
@@ -400,62 +439,62 @@ Output (DRAFT → VALIDATE → LOCKED)
 │  └─────────────┘  └──────────────┘                     │
 │                                                         │
 │  Storage: core/components/memory/{dimension}/           │
-│  Deployed to: ~/.garura/core/memory/                    │
+│  Deployed to: ~/.garura/core/memory/ (install-garura)   │
 │  Version controlled via Git repository                  │
-│                                                         │
-│  ⛔ FORBIDDEN for implement and validate      │
 └─────────────────────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────────────────────┐
-│  LONG-TERM MEMORY (LTM)                                 │
-│  Project-specific product artifacts                     │
-│  Generated and consumed per product                     │
+│  PRODUCT MODEL (product LTM)                            │
+│  Project-specific stored intent                         │
 │                                                         │
-│  • Locked product spec (specify)                │
-│  • Locked UX design (design)                        │
-│  • Locked architecture (arch)                     │
-│  • Epic context packages (prepare)                 │
+│  • Structure: _spine.yaml (tree, slices, epics, status) │
+│  • Meaning: grounding docs with ICE inline              │
+│    (domain, capability, functionality, epic)            │
+│  • Decisions: append-only ADR records                   │
+│  • Per slice: seven lens docs + epics                   │
 │                                                         │
-│  Storage: {product_base} (.garura/product/)             │
-│  Lifecycle: Product-scoped, grows per-epic              │
-│                                                         │
-│  ⛔ FORBIDDEN for implement and validate      │
+│  Storage: {product_base}product-os/                     │
+│           (.garura/product/product-os/)                 │
+│  Written directly on the feature branch by model-       │
+│  writing plays; landed through the change chain         │
+│  (ADR 026)                                              │
 └─────────────────────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────────────────────┐
 │  SHORT-TERM MEMORY (STM)                                │
-│  Per-issue context — self-contained package             │
+│  Per-issue working memory                               │
 │                                                         │
-│  • Context package assembled by prepare            │
-│  • Current branch state                                 │
-│  • Active failures and RCA findings                     │
-│  • In-progress code, tests, evidence                    │
-│  • QA verdict from validate                        │
-│  • Task context and evidence                            │
+│  • Box context, harness, build plan (implement)         │
+│  • Steelman evals and verdict (implement)               │
+│  • Check manifest, report, verdict (validate)           │
+│  • Evidence files (one per play run)                    │
+│  • Status files (resume markers; machine-local,         │
+│    gitignored — ADR 021)                                │
 │                                                         │
-│  Storage: {stm_base}/{issue}/context/                   │
-│  Lifecycle: Issue-scoped, promoted to LTM via           │
-│             capture-learning                            │
+│  Storage: {stm_base}/{issue}/                           │
+│  Lifecycle: Issue-scoped; outcomes reach the product    │
+│             model through /learn                        │
 └─────────────────────────────────────────────────────────┘
 ```
 
 #### Context Boundary Rule
 
-**`prepare` is the boundary layer.** It is the only play in the Epic Trinity that reads from KB and LTM. It assembles a self-contained context package and writes it to STM. Once the context package exists in STM, `implement` and `validate` operate exclusively from it.
+**The builder's boundary is the cut context slice.** `/implement` reads the epic, its functionality ICE, the lens docs, and the repository once, through `tech-designer`, into a box context in which every entry cites its source. From there, `cut_piece_context.py` gives each builder only its piece, the piece's dependencies, and the approved spec.
 
 ```
-KB ──────────────────────────────────────────────────┐
-                                                      ▼
-LTM ─────────────────────────────────────► prepare → context/ → STM
-                                                      │
-                                                      ▼
-STM (context/) ──────────────────────────► implement (STM ONLY)
-                                                      │
-                                                      ▼
-STM (code + env) ────────────────────────► validate (STM ONLY + deployed env)
+Product model (epic + ICE + lenses) ──┐
+Repository ───────────────────────────┼──► tech-designer → box-context + plan (STM)
+                                      │                          │
+                                      │                          ▼
+                                      │         cut_piece_context.py → one slice per piece
+                                      │                          │
+                                      │                          ▼
+                                      │         code-builder / test-engineer (slice ONLY)
+                                      │
+evals-engineer (spec-side paths) ─────┴──► evals → quality-auditor ONLY
 ```
 
-This boundary is enforced by constraint, not convention: `implement` and `validate` receive STM paths only; KB and LTM paths are never passed to these plays.
+This boundary is enforced by constraint, not convention: the play checks every builder contract before dispatch and rebuilds any contract that carries more than the slice.
 
 #### KB Governance via Git
 
@@ -463,16 +502,16 @@ In IDSD, the KB is version-controlled in Git repositories. This provides natural
 
 **File-Level Conflict Resolution**: Competing changes to the same KB practice file surface as Git merge conflicts. Two developers capturing contradictory learnings about the same subsystem must resolve the conflict explicitly — Git's merge mechanism enforces this automatically.
 
-**STM→KB Promotion Workflow**: Promotion follows a PR-based governance model with tiered review:
+**KB Extension Workflow**: When a play needs knowledge the KB does not cover, it records a proposal instead of inventing it. Promotion follows a PR-based governance model with tiered review:
 
 ```
-Developer captures learning (STM)
+/vision or /shape finds a gap the KB does not cover
         │
         ▼
-capture-learning play extracts pattern
+propose-kb-node records a KB-node proposal
         │
         ▼
-draft-ltm-entry skill creates KB entry
+KB change authored in core/components/memory/
         │
         ▼
 PR created for review
@@ -484,12 +523,14 @@ PR created for review
             (e.g., "all services use structured JSON logging")
         │
         ▼
-Merged → deployed to ~/.garura/core/memory/ via /sud:install
+Merged → deployed to ~/.garura/core/memory/ via install-garura
 ```
 
-**Semantic Conflict Detection**: Git catches file-level conflicts, but not semantic contradictions (e.g., one practice says "always use retry logic" while another says "never retry inside transactions"). The `capture-learning` play is designed with an `extract-patterns` skill that should detect semantic overlap with existing KB entries — but this capability is not yet built. Current state: manual review during PR process.
+Outcome-driven learning goes to the product model, not the KB: `/learn` rewrites capability and functionality docs and adds decision records, each citing an outcome.
 
-**Cross-Developer Visibility**: All KB changes are visible in the Git history. All STM artifacts are committed to feature branches and visible via GitHub (issues, branches, PRs). The NWWI (No Work Without Issue) gate ensures every piece of work is trackable.
+**Semantic Conflict Detection**: Git catches file-level conflicts, but not semantic contradictions (e.g., one practice says "always use retry logic" while another says "never retry inside transactions"). No current play detects semantic overlap between a proposed KB entry and existing ones. Current state: manual review during the PR process.
+
+**Cross-Developer Visibility**: All KB changes are visible in the Git history. Product-model changes and evidence are committed to feature branches and visible via GitHub (issues, branches, PRs). The NWWI (No Work Without Issue) gate ensures every piece of work is trackable.
 
 #### Memory Evolution Trajectory
 
@@ -515,7 +556,7 @@ Status: Planned, not designed. Currently relies on manual PR review and the P5 h
 
 Storage paths:
 - KB: `core/components/memory/{dimension}/` → deployed to `~/.garura/core/memory/`
-- LTM: `{product_base}` (`.garura/product/`) — project-specific, product-scoped
+- Product model: `{product_base}product-os/` (`.garura/product/product-os/`) — project-specific, product-scoped
 - STM: `{stm_base}/{issue}/` — per-issue, branch-scoped
 
 ### Audience Separation
@@ -523,14 +564,14 @@ Storage paths:
 Every IDSD artifact serves exactly one audience. Three tiers:
 
 ```
-Tier 1: Human Review    → business-review.md, technical-design.md, ux-spec.md
-Tier 2: Agent Bundles   → v{N}-backend.md, v{N}-frontend.md (≤12K tokens each)
-Tier 3: Orchestration   → tasks.md, verify.md
+Tier 1: Human Review    → grounding docs, lens docs, checkpoint summaries, HITL scenarios
+Tier 2: Agent Inputs    → JSON contracts, box context, cut context slices
+Tier 3: Orchestration   → _spine.yaml, evidence files, status files
 ```
 
-- Tier 1 reviewed by humans BEFORE Tier 2 bundles are generated
-- Tier 2 bundles are self-contained — agent reads ONE bundle, not all
-- Tier 3 references bundle IDs, not full content
+- Tier 1 is reviewed by humans before Tier 2 inputs are built from it
+- Tier 2 inputs are self-contained — a builder reads ONE cut slice, not the whole plan
+- Tier 3 references artifacts by path, not by copying their content
 
 ### Context Budget
 
@@ -543,81 +584,34 @@ Token budgets are directional targets, not hard constraints. They exist to keep 
 | Task context | ≤2K tokens |
 | Total per agent task | ≤17K tokens |
 
-### Play-to-Agent Context Bundle
+No component enforces these numbers. The bound that is enforced is structural: `/implement` hands each builder only its cut context slice.
 
-Plays pass context to agents as a structured contract. There are two patterns in use, depending on play generation:
+### Play-to-Agent Contract
 
-**JSON Contract pattern (current — plays authored after ADR 009):**
-
-Newer plays use a JSON contract as the entire agent prompt. This is the current standard for play-driven workflows. The contract is a single JSON object that flows play → agent → skill → agent → play, growing as each agent populates artifact paths.
+Plays pass context to agents as a JSON contract. The contract is the entire agent prompt — no instructions, field definitions, or prose are appended. It names the task, the skill to use when one applies, and the input and output paths:
 
 ```json
 {
-  "intent_path": "<path to reference/intent.yaml>",
-  "stm_base": "<base STM directory>",
-  "slug": "<workflow instance identifier>",
-  "stm": {
-    "vision_path": "<input>",
-    "epics_path": null,
-    "feasibility_path": null,
-    "brief_path": null,
-    "approved_brief_path": null,
-    "roadmap_path": null,
-    "engineering_view_path": null
-  },
-  "checkpoints": [{ "name": "<gate>", "status": "pending" }],
-  "evidence": [{ "name": "<play-name>", "location": null }],
-  "notes": [],
-  "step_failure": null
+  "task":   "break the epic into the test-first build plan",
+  "skill":  "author-build-plan",
+  "inputs": { "epic_file": "<epic_file>", "functionality_ices": ["<ice paths>"],
+              "lens_dir": "<lens_dir>",
+              "box_context": ".../implement/box-context.yaml",
+              "harness":     ".../implement/harness.yaml" },
+  "outputs": { "plan": "{stm_base}/{issue}/specs/implement/plan.yaml" }
 }
 ```
 
-The JSON contract IS the entire agent prompt — no instructions, field definitions, or prose are appended. Agents read `reference/intent.yaml` at `intent_path` to understand goal, constraints, and failure conditions (success scenarios and recovery live in the Expectation artifact, not intent.yaml). See `plan-roadmap` as the reference implementation and [Four Crafts Architecture](./architecture.md#four-crafts-architecture) for the full pattern.
+(Example from `/implement`, Step 4.)
 
-**YAML context bundle pattern (earlier plays):**
+**Intent stays in the ICE source.** A play's intent is compiled from `reference/ice.md`; contracts carry paths to the model and STM artifacts, never restated intent. Changing what a play guarantees means editing its ICE source and recompiling with `play-editor` — never hand-editing the compiled play.
 
-Earlier plays pass a YAML context block. This pattern is still valid for plays not yet migrated to the JSON contract.
+**Rules for contracts:**
+- Pass paths, not content — the agent reads what it needs (Context Crafting)
+- Pass only what the agent's domain covers; under the barrier, builder contracts carry the cut slice only
+- Compiled plays place step evals (SE checks) right after the step they validate, so an agent's output is checked before the play moves on
 
-**Intent externalization:** Both patterns externalize the intent schema to `reference/intent.yaml` as a first-class file. Context bundles reference this file dynamically — agent context blocks never hardcode constraint IDs. This means adding new constraints to `intent.yaml` is automatically picked up by all agent invocations without modifying play files. See `create-pr` as a reference implementation of this pattern.
-
-**YAML bundle structure:**
-```yaml
----
-Play context:
-  intent: "{SDLC intent — what this play step is trying to achieve}"
-  pre_flight: {all results from Step 0}      # Dynamic — passed as a set, not enumerated
-  task: "{Specific task this agent invocation must perform}"
-  mode: "{NEW | RESUME | null}"              # When applicable
-  input: "{User input or upstream artifact}" # When applicable
-  issue_number: {integer}                    # When known
-  parent: {parent_issue_number or null}      # When applicable
-  behavioral_constraints: {all behavioral constraints from reference/intent.yaml}  # Dynamic reference
-```
-
-**Pre-flight context (Step 0 — dynamic):**
-```yaml
----
-Play context:
-  intent: "Verify preconditions before execution"
-  task: "Read `reference/intent.yaml`. Run every check in `constraints.pre_flight`.
-         Return pass/fail for each. Do NOT halt — just return results."
-```
-
-The agent reads the intent file and runs all pre-flight checks. The orchestrator validates results and halts on any failure using the constraint's `halt_message` from the intent file.
-
-**On retries, add to either contract type:**
-```yaml
-  retry:
-    previous_failure: "{what the agent returned that failed}"
-    fix_applied: "{what was changed to address the failure}"
-    attempt: {N}
-```
-
-**Rules for context bundles (both patterns):**
-- Reference `reference/intent.yaml` dynamically — never hardcode constraint IDs
-- Always pass `pre_flight` results so the agent knows what has already been verified
-- Pass behavioral constraints as a dynamic set from `reference/intent.yaml`, not enumerated
-- Agent boundaries must be enforced: pass only what the agent's domain covers
+See [JSON Contract Pattern](./architecture.md#json-contract-pattern) and [Four Crafts Architecture](./architecture.md#four-crafts-architecture) for the full pattern.
 
 ---
 
@@ -638,7 +632,7 @@ failure:
     fix_hint: "{what the responsible agent should try}"
 ```
 
-The `domain_assessment.responsible_domain` field tells the play which agent to invoke for recovery.
+The `domain_assessment.responsible_domain` field tells the play which agent to invoke for recovery. Agent definitions carry this format in their escalation sections (for example, `code-builder`).
 
 ### Recovery Loop
 
@@ -655,19 +649,21 @@ Play invokes responsible agent with:
   - retry metadata (attempt N, previous failure, fix applied)
         │
         ▼
-Max 2 retry cycles per agent
+Bounded retries per agent
         │
         ├── Success → continue workflow
-        └── 2 retries exhausted → HALT with full failure context
+        └── Retries exhausted → HALT with full failure context
 ```
+
+Each play states its own retry bounds in its failure-condition table. For example, `/implement` allows two retries per piece before `tech-designer` re-plans, and two refuted verdict rounds before escalating to a human.
 
 ### Recovery and the Agent Limit
 
-Plays invoke ≤2 distinct agents. **Recovery calls are exempt from this limit.** A play in recovery may invoke an agent beyond the normal agent count without violating the play constraint. Recovery is a first-class mechanism, not an exception to the architecture.
+A play carries at most five domain agents (the agent-count cap ADR 025 describes); utility agents (`project-orchestrator`, `repo-orchestrator`) do not count toward that limit. Recovery is a first-class mechanism, not an exception to the architecture.
 
-### Recovery Reasoning in LTM
+### Recovery Reasoning
 
-Recovery reasoning is loaded from: `docs/framework/intent-driven-recovery.md`
+Recovery reasoning is documented in `docs/framework/intent-driven-recovery.md`.
 
 That file defines recovery as one unified concept (the Expectation layer) plus this autonomous-branch loop and its domain-routing logic. Keeping it centralized — rather than embedding it in each play — allows recovery behavior to be updated without modifying individual plays. The structured failure protocol is at `docs/framework/structured-failure-protocol.md`.
 
@@ -675,7 +671,9 @@ That file defines recovery as one unified concept (the Expectation layer) plus t
 
 ## Intent Complexity Scoring in IDSD
 
-ICS (defined in IDD — see `intent-driven-development.md`) is operationalized in IDSD as an agent-level assessment that runs during P7 (Verify Understanding) before any agent begins execution.
+ICS (defined in IDD — see `intent-driven-development.md`) is designed to run as an agent-level assessment during P7 (Verify Understanding), before any agent begins execution.
+
+> **Status**: Not built. No current play runs an ICS assessment. The placement and rules below describe where ICS belongs in the command model when it is built.
 
 ### Where ICS Runs in the Pipeline
 
@@ -706,15 +704,15 @@ Agent begins execution
 ### IDSD-Specific ICS Rules
 
 - ICS runs on **business intents**, not SDLC intents (SDLC intents are framework-authored and pre-validated)
-- ICS is mandatory for agents in **Spec-2-Code** and **Design-2-Spec** phases (where intent ambiguity is most costly)
-- ICS is optional for mechanical plays (`commit-code`, `create-pr`) per P7's "when to skip" guidance
-- ICS results are written to STM as evidence: `.garura/project/issues/{issue}/evidence/ics-assessment.md`
+- ICS belongs where business intent is crafted or cut — the strategy plays and `/grill` — and at `/implement`, where intent ambiguity is most costly
+- ICS is optional for mechanical plays (the change chain: `commit-change`, `propose-change`, `merge-change`) per P7's "when to skip" guidance
+- ICS results are written to STM as evidence
 - Non-Balanced profiles generate a checkpoint; the human can override with Tether or request decomposition
 - For barrier-eligible plays, ICS includes a 6th dimension: **Barrier Integrity** — whether the constraint-failure partition is correctly classified per P4's Classification Rule. Misclassified items trigger the "Barrier Compromised" profile.
 
-### Future: ICS in Learn-2-Memory
+### Future: ICS and /learn
 
-As the Learn-2-Memory phase matures, ICS data becomes a training signal:
+As `/learn` matures, ICS data becomes a training signal:
 
 - Historical ICS profiles per author reveal growth patterns
 - Frequently triggered profiles (e.g., "Intent-Heavy" on 60% of intents) surface coaching opportunities
@@ -772,33 +770,38 @@ The play orchestration layer splits the intent and routes each element to the co
 | **Feedback quality** | "You violated FC-3" (condition-based) | "Line 47 has a hardcoded connection string" (symptom-based) |
 | **Convergence** | Fast but shallow — builder games the checks | Slower first iteration, but genuine fixes |
 
+### How the Barrier Is Held Today
+
+In `/implement`, the barrier is held by **sub-agent separation**: `evals-engineer` writes the steelman evals from spec-side paths, and the evals path is passed only to the play and to `quality-auditor`. Builders get their cut context slice; `test-engineer` never sees builder output. The evals are not encrypted — isolation comes from which sub-agent receives which contract, checked before every dispatch.
+
 ### Barrier-Eligible vs Barrier-Exempt Plays
 
 Not all plays benefit from compartmented evaluation. The barrier applies to plays where the builder makes judgment calls. Mechanical plays use a single-agent model.
 
 | Play | Barrier? | Reasoning |
 |--------|----------|-----------|
-| prepare | ✓ Eligible | Designer makes architectural and LLD decisions |
-| implement | ✓ Eligible | Builder makes design and implementation decisions |
-| validate | ✓ Eligible | Judge evaluates implement output against scenarios |
-| fix-it | ✓ Eligible | Builder chooses fix strategy |
-| specify | ✗ Exempt | Product specification — outputs are human-reviewed before implementation |
-| design | ✗ Exempt | UX design — outputs are human-reviewed before implementation |
-| arch | ✗ Exempt | Architecture — outputs are human-reviewed before implementation |
-| commit-code | ✗ Exempt | Mechanical — deterministic output |
-| create-pr | ✗ Exempt | Mechanical — deterministic output |
-| review-pr | ✗ Exempt | Review IS validation — agent is already the validator |
-| merge-pr | ✗ Exempt | Mechanical — deterministic output |
+| implement | ✓ Eligible | Builder makes design and implementation decisions; evals walled off from builders |
+| fix-bug | ✓ Eligible | Builder chooses fix strategy; code-builder works context-isolated, quality-auditor verifies independently |
+| refactor | ✓ Eligible | Builder chooses the restructuring; quality-auditor verifies behavior is preserved, independently |
+| validate | ✗ Exempt | Validation IS the check — quality-auditor is already the validator over implement's output |
+| review-change | ✗ Exempt | Review IS validation — agent is already the validator |
+| launch | ✗ Exempt | A human is the validator |
+| vision, understand, shape, roadmap | ✗ Exempt | Strategy — outputs are human-reviewed before delivery |
+| ux, agentic, marketing, arch, quality, run, measure | ✗ Exempt | Realize lenses — outputs are human-reviewed before delivery |
+| grill | ✗ Exempt | The cut is grilled against declared intents and approved at a pinned human checkpoint |
+| start-change, commit-change, propose-change, merge-change | ✗ Exempt | Mechanical — deterministic output |
+| deploy | ✗ Exempt | Mechanical — deploys an already-validated, merged epic |
 
 ### Agent Roles in Compartmented Evaluation
 
-| Agent | Role in Barrier | Sees Goal+Constraints | Sees Failure Conditions | Notes |
+| Agent | Role in Barrier | Sees Goal+Constraints | Sees Failure Conditions / Evals | Notes |
 |-------|----------------|----------------------|------------------------|-------|
-| code-builder | Builder | ✓ | ✗ | Primary builder — implement (unit level) |
-| tech-designer | Builder | ✓ | ✗ | Builder for design decisions — prepare |
-| judge | Validator | ✗ | ✓ | Validator at both unit (implement) and system (validate) levels |
-| feature-steward | Neutral | ✓ | ✓ | Operates at discovery level — no barrier needed |
-| product-keeper | Neutral | ✓ | ✓ | Product specification — no barrier needed |
+| code-builder | Builder | ✓ (cut slice + spec) | ✗ | Primary builder — implement, fix-bug, refactor |
+| test-engineer | Builder | ✓ (cut slice + spec) | ✗ | Writes tests from the specs; never sees implementation |
+| tech-designer | Builder | ✓ | ✗ | Box context, build plan, re-plans — implement |
+| evals-engineer | Eval author | ✓ (spec-side) | Writes the evals | Never sees builder output |
+| quality-auditor | Validator | — | ✓ | Steelman verdict (implement); judges check results (validate); independent verification (fix-bug, refactor) |
+| product-os-keeper | Neutral | ✓ | ✓ | Model keeping — no barrier needed |
 | repo-orchestrator | Neutral | ✓ | ✓ | Mechanical operations — no barrier needed |
 | project-orchestrator | Neutral | ✓ | ✓ | Coordination operations — no barrier needed |
 
@@ -834,6 +837,8 @@ When the validator identifies issues, it reports symptoms — what the output do
 | Hard ceiling | 5 | No | Mandatory human intervention |
 | Escalation protocol | Human receives full intent + all outputs + all feedback | — | Human sees everything; barrier is agent-only |
 
+`/implement` sets its own bound inside this range: two refuted verdict rounds, then escalation to a human with the full record.
+
 ### Barrier in the Two-Layer Intent Model
 
 Compartmented evaluation applies to **business intents** (Layer 1), NOT **SDLC intents** (Layer 2).
@@ -849,54 +854,60 @@ This alignment is natural: barrier-eligible plays are exactly those where busine
 
 The complete IDSD development loop:
 
-**Product Planning (once per product):**
+**Strategy (once per product, revisited as it grows):**
 
 ```
-1. specify    → locked epics, scope, quality profile
-2. design         → locked UX
-3. arch         → locked 5-artifact architecture
+1. /vision      → domain + directional capabilities seeded in the model
+2. /understand  → one capability detailed, with its functionalities
+3. /shape       → deliverable slices composed
+4. /roadmap     → slices ordered, dependencies resolved
 ```
 
-**Per Epic:**
+**Realize (per slice):**
 
 ```
-4. start-feature      → issue + branch + STM directory
-5. prepare       → LLD, scenarios, plan, context package
-                        (reads KB + LTM → writes STM)
-6. implement     → TDD code, unit tests, eval evidence
-                        (STM ONLY — KB/LTM FORBIDDEN)
-7. validate      → E2E tests, QA verdict (ACCEPT/REJECT)
-                        (STM ONLY + deployed env — KB/LTM FORBIDDEN)
-8. /ship              → commit → PR → review → merge
-9. capture-learning   → archive STM, promote patterns to LTM
+5. Functional pipe:      /ux → /agentic → /marketing
+6. Non-functional pipe:  /arch → /quality → /run
+7. /measure             → slice stamped realized
 ```
+
+**Execute (per epic):**
+
+```
+8.  /grill      → slice cut into user-testable epics (pinned human checkpoint)
+9.  /implement  → plan, test-first code, steelman verdict
+                   (builders see only their cut slice; evals walled off)
+10. /validate   → deep checks: quality gates, measure metrics, declared surface
+                   → validated, or fix_required back to /implement
+11. /launch     → human acceptance on user_check + acceptance → merge → delivered
+12. /deploy     → delivered epic deployed to the run lens's cloud environment
+```
+
+**Close the loop:**
+
+```
+13. /learn      → outcomes written back into the model
+14. /next       → the next best action, ranked from the model
+```
+
+Each play that changes the repository runs on a branch `start-change` cuts and lands through the change chain: `/commit-change → /propose-change → /review-change → /merge-change`.
 
 ---
 
 ## Artifact Lifecycle
 
 ```
-DRAFT → VALIDATE → LOCKED
+WRITE (on branch) → CHECK → CHECKPOINT → LAND
 ```
 
-- `--phase draft`: Builder agent generates initial artifact from **goal + constraints** (under barrier-eligible plays, failure conditions are withheld)
-- `--phase validate`: Validator agent evaluates artifact against **failure conditions** (under barrier-eligible plays, goal and constraints are withheld); returns symptom-based feedback
-- `--phase lock`: Play orchestrator confirms no symptoms remain; cascade sync → re-validate → set LOCKED
+- **Write**: Model-writing plays write directly to the live product model on the feature branch (ADR 026). The branch is the draft; git isolates it from main.
+- **Check**: Mechanical checks (the SE checks after each step, the play's linters and runners) and, in barrier-eligible plays, an independent verdict.
+- **Checkpoint**: A human checkpoint, unless gate config turns it off for that play (pinned gates always wait). Cancel restores the model paths with git (ADR 026).
+- **Land**: The stop condition is evaluated, the evidence file is written, and the change chain commits, raises, reviews, and merges it.
 
-**Note:** In barrier-exempt plays (commit-code, create-pr, etc.), DRAFT and VALIDATE may use a single agent with full intent visibility. The barrier only applies when the play is classified as barrier-eligible.
+**Note:** In barrier-exempt plays (the change chain, strategy and lens plays, etc.), writing and checking may use a single agent with full intent visibility. The barrier only applies when the play is classified as barrier-eligible.
 
-**Intent-sufficiency:** Upstream artifacts enrich, never block. If intent is clear, proceed. Any play can be called at any point if the three elements of intent (intent, constraints, failure conditions) are satisfied.
-
-### Cascade Sync
-
-Every derived artifact includes: `<!-- sync: source={path} hash={hash} generated={timestamp} -->`
-
-Lock phase MUST run cascade-sync before setting LOCKED status.
-
-| Play Phase | Calls cascade-sync | Context |
-|-------------|-------------------|---------|
-| Any `--phase lock` | YES (mandatory) | `spec_path` = current artifact directory |
-| `implement-feature` start | YES (check_only=true) | Verify bundles not stale before building |
+**Intent-sufficiency:** Upstream artifacts enrich, never block. If intent is clear, proceed. Any play can be called at any point if the three elements of intent (intent, constraints, failure conditions) are satisfied. The epic lane adds explicit readiness markers on top of this: `/grill` requires a slice stamped realized, and `/implement` requires an epic that is ready.
 
 ---
 
@@ -909,12 +920,12 @@ Lock phase MUST run cascade-sync before setting LOCKED status.
 │  Governance        │ Quality Gates    │ Memory Federation   │
 │  Policies,         │ Validation       │ KB deployed to      │
 │  guardrails,       │ checkpoints      │ all projects from   │
-│  approval          │ between SDLC     │ central standards   │
-│  workflows         │ phases           │ (set by Architect)  │
+│  approval          │ between plays    │ central standards   │
+│  workflows         │                  │ (set by Architect)  │
 │                    │                  │                     │
 │  Cognitive Engine  │ MCP Integration  │ Hive Mind (Tasks)   │
 │  Context assembly  │ Tool-agnostic    │ Cross-agent         │
-│  from KB + LTM    │ external access  │ coordination        │
+│  from KB + model   │ external access  │ coordination        │
 │  + STM             │                  │                     │
 │                    │                  │                     │
 │  Barrier Integrity │                  │                     │
@@ -937,9 +948,9 @@ Lock phase MUST run cascade-sync before setting LOCKED status.
 
 Adding new tool integrations is incremental — each tool gets an MCP server; skills route through MCP; agents and plays remain unchanged. This is IDD Principle 1's corollary (Intents Don't Know About Tools) in action.
 
-**CTO-Configurable Domain Parameters** *(concept stage)*: Enterprise governance requires per-project customization — quality thresholds, mandatory gates, approval workflows. Architecture envisions CTO-level configuration that sets domain parameters (e.g., "all fintech projects require security audit gate," "startup projects skip formal ADR gate"). Not yet designed.
+**CTO-Configurable Domain Parameters** *(concept stage)*: Enterprise governance requires per-project customization — quality thresholds, mandatory gates, approval workflows. Architecture envisions CTO-level configuration that sets domain parameters (e.g., "all fintech projects require security audit gate," "startup projects skip formal ADR gate"). Per-project gate switches exist today (`gates:` in `.garura/core/config.yaml`); CTO-level domain parameters above them are not yet designed.
 
-**Cross-Team Intent Visibility**: GitHub infrastructure provides cross-team visibility today — issues, branches, PRs, and STM artifacts committed to branches are all visible via standard GitHub workflows. Purpose-built dashboards for intent-level visibility across teams are a trajectory item.
+**Cross-Team Intent Visibility**: GitHub infrastructure provides cross-team visibility today — issues, branches, PRs, and the product model and evidence committed to branches are all visible via standard GitHub workflows. Purpose-built dashboards for intent-level visibility across teams are a trajectory item.
 
 **Barrier Integrity Audit**: In enterprise contexts, the constraint-failure partition is a governance concern. Misclassification can either deprive builders of needed context (constraints classified as failure conditions) or compromise validation independence (failure conditions classified as constraints). Enterprise governance should periodically audit intent definitions for correct P4 classification, especially for high-risk or compliance-sensitive intents.
 
@@ -947,16 +958,20 @@ Adding new tool integrations is incremental — each tool gets an MCP server; sk
 
 ## Related Documentation
 
-- [IDD Principles](./intent-driven-development.md) — The foundational paradigm (8 Elements, Three Elements of Intent, Two-Layer Intent Model)
-- [Philosophy](./philosophy.md) — Three Tenets of AI-Native SDLC
-- [Design Principles](./principles.md) — Separation of Concerns, Explicit via Abstraction
-- [Naming Conventions](./naming-conventions.md) — Play, Agent, and Skill naming patterns
-- [AI Squad Framework](./AI_Squad_Framework_v1.docx) — Role definitions and transition paths
-- IDSD Specification — `.claude/specs/idsd/idsd.md` — Full build spec with plays, gates, tasks
+- [IDD Principles](./intent-driven-development.md) — The foundational paradigm (8 Elements, ICE, Two-Layer Intent Model)
+- [Garura Architecture](./architecture.md) — Three-layer hierarchy, JSON contract, Four Crafts
+- [ADR 019](../adr/019-epic-persistence-keep-delivered.md) — Epics are kept when delivered
+- [ADR 022](../adr/022-surface-contract.md) — Surface contract: declared at cut, enforced downstream
+- [ADR 023](../adr/023-three-execution-trinities.md) — Execution is three trinities
+- [ADR 024](../adr/024-amendment-record.md) — The amendment record
+- [ADR 025](../adr/025-level-3-redefined-skeleton-and-loop.md) — Level 3: deterministic skeleton, goal-loop interior
+- [ADR 026](../adr/026-direct-to-model-writes.md) — Model-writing plays edit the product model directly
+- `core/components/memory/standards/rules/pipeline-next.md` — The successor map (single source of truth for the command chain)
+- `core/grounding/glossary.md` — Canonical definitions of Garura concepts
 
 ---
 
 **Author**: Kapil Viren Ahuja
-**Version**: 2.0.0
-**Last Updated**: 2026-04-15
+**Version**: 3.0.0
+**Last Updated**: 2026-10-03
 **Status**: Active
