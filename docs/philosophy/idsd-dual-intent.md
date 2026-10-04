@@ -73,18 +73,27 @@ Agent → Skill → Artifact
 
 ---
 
-## How Business Intent Is Carried Across the Chain
+## How Business Intent Travels Around the Loop
 
-Business intent travels around IDSD's loop ([IDSD in One Page](./idsd.md#idsd-in-one-page)): authored in strategy, carried forward by realize, delivered in implementation, and corrected by `/learn`. SDLC intent rides along in every play on the way, unchanged.
+Business intent does not run down a pipeline once. It travels around IDSD's loop ([IDSD in One Page](./idsd.md#idsd-in-one-page)): authored in strategy, carried forward by realize, delivered in implementation, and carried back by `/learn`. SDLC intent rides along in every play, unchanged.
 
-| Stage | Plays | What it does to business intent |
-|-------|-------|---------------------------------|
-| **Strategy — business intent authored** | `/vision` → `/understand` → `/shape` → `/roadmap` | `/vision` seeds the domain and directional capabilities. `/understand` details one capability and its functionalities. `/shape` composes deliverable slices. `/roadmap` orders them. |
-| **Realize — forward connector: adds context to the slice** | Functional: `/ux` → `/agentic` → `/marketing`. Non-functional: `/arch` → `/quality` → `/run`. Then `/measure` | Each lens writes one context doc for the slice (`lens/{ux,agentic,marketing,architecture,quality,run,measure}.md`). `/measure` runs last and stamps the slice *realized* once all seven agree. |
-| **Implementation — business intent delivered: cut, build, check** | `/grill` → `/implement` → `/validate` → `/launch` | `/grill` cuts the realized slice into user-testable epics, each carrying its own ICE and referencing the slice's intent and lenses. `/implement` turns an epic into a test-first plan (the spec), then code and tests, behind the builder/validator barrier. `/validate` runs the checks the quality and measure lenses declare, plus the epic's declared surface; `/launch` walks a human through the epic's `user_check` and acceptance. |
+| Part of the loop | Plays | What it does to business intent |
+|------------------|-------|---------------------------------|
+| **Strategy** — end: intent is authored | `/vision` → `/understand` → `/shape` → `/roadmap` | `/vision` seeds the domain and directional capabilities. `/understand` details one capability and its functionalities. `/shape` composes deliverable slices. `/roadmap` orders them. |
+| **Realize** — forward connector: adds context | Functional: `/ux` → `/agentic` → `/marketing`. Non-functional: `/arch` → `/quality` → `/run`. Then `/measure` | Each lens writes one context doc for the slice (`lens/{ux,agentic,marketing,architecture,quality,run,measure}.md`). `/measure` runs last and stamps the slice *realized* once all seven agree. |
+| **Implementation** — end: intent is delivered | `/grill` → `/implement` → `/validate` → `/launch` | `/grill` cuts the realized slice into user-testable epics, each carrying its own ICE and referencing the slice's intent and lenses. `/implement` turns an epic into a test-first plan (the spec), then code and tests, behind the builder/validator barrier. `/validate` runs the checks the quality and measure lenses declare, plus the epic's declared surface; `/launch` walks a human through the epic's `user_check` and acceptance. |
+| **Learn** — back connector: outcomes correct intent | `/learn`, after implementation | Reads what actually happened (the measure lens, validate verdicts and fix reports, the run lens, delivered status), finds where the stored intent drifted, and fixes it at the source: strategy (capability and functionality docs, new decision records) or realize (the measure, run, and quality lenses). Every change must cite an outcome. |
 
-**Back connector — `/learn`, after implementation.** It reads what actually happened (the measure lens, validate verdicts and fix reports, the run lens, delivered status), finds where the stored intent drifted from reality, and fixes it at the source: the strategy side (capability and functionality docs, new decision records) or the realize side (the measure, run, and quality lenses). Every change must cite an outcome.
+### Why a loop, not a pipeline
 
-Mapped back to ICE: strategy writes **Intent**, realize supplies **Context**, and implementation generates the **Expectation** and spec that its checks verify against. `/learn` keeps the stored intent true.
+A pipeline forces every change through every stage in order. The loop lets a team work where the work actually is, and still keeps one stored intent true:
+
+- **Enter where the work is.** New domain, capability, or feature → strategy. A new slice → realize. Epic-sized work on a realized slice → implementation (ADR 023's entry rule). Nobody re-runs strategy to ship the next epic.
+- **Go round at different grains.** One strategy pass shapes many slices; each slice is realized on its own; one realized slice is cut into many epics. Different parts of the product can sit at different points on the loop at the same time.
+- **Come back the short way.** Not every correction goes all the way round. `/validate` sends a failing epic back to `/implement` as a fix round. `/grill` routes a lens defect back to that lens's play. `/learn` corrects realize when only the context was wrong, and strategy when the intent itself was.
+- **Gates only where they protect intent.** The loop has two hard readiness markers: `/grill` needs a slice stamped realized, and `/implement` needs an epic that is ready. Everywhere else, intent-sufficiency applies — if the intent is clear, proceed ([`idsd.md`](./idsd.md#intent-sufficiency)).
+- **Always know the next move.** `/next` reads the product model and ranks where on the loop to act next.
+
+Mapped back to ICE: strategy writes **Intent**, realize supplies **Context**, and implementation generates the **Expectation** and spec that its checks verify against. `/learn` keeps the stored intent true, which is what makes the flexibility safe: however a team moves around the loop, the intent it builds from is the one reality last confirmed.
 
 Only business intent goes behind the builder/validator barrier; SDLC intent never does — see [Barrier in the Two-Layer Intent Model](./idsd.md#barrier-in-the-two-layer-intent-model). The full command chain and its build status are in the [reference implementation](./idsd-reference-implementation.md#the-command-model).
