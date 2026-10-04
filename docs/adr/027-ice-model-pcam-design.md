@@ -1,6 +1,6 @@
 # ADR 027 — ICE Is the IDSD Model; PCAM Is the Design That Drives It
 
-**Status:** Proposed
+**Status:** Accepted
 **Date:** 2026-10-04
 **Supersedes:** the "Eight Elements of IDD" as the structure of IDD's machinery
 **Related:** ADR 023 (three execution trinities), ADR 025 (Level 3 skeleton and loop), issue #456
@@ -70,7 +70,8 @@ ICE and PCAM are never merged: ICE is what moves, PCAM is what moves it.
 
 ## References
 
-- `docs/philosophy/intent-driven-development.md` — the eight elements this decision re-expresses; the ICE section
-- `docs/philosophy/idsd.md` — the IDSD method
+- `docs/philosophy/intent-driven-development.md` — the principles, and the PCAM design that replaces the eight elements
+- `docs/philosophy/idsd.md` — the IDSD method; ICE is defined here
+- `docs/philosophy/garura-reference-implementation.md` — Garura's implementation, pillar by pillar
 - `core/components/skills/draft-technical-approach/schemas/architecture.yaml` — the existing product-architecture PCAM
 - Issue #456 — the documentation work in which this decision was made
