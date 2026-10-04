@@ -123,19 +123,6 @@ Tier 3: Orchestration   → what the system tracks
 - Tier 2 inputs are self-contained — an agent reads ONE input built for its task, not the whole plan
 - Tier 3 references artifacts by path, not by copying their content
 
-### Context Budget
-
-Token budgets are directional targets, not hard constraints. They exist to keep context focused and prevent agents from receiving irrelevant information.
-
-| Scope | Target |
-|-------|--------|
-| Single bundle | ≤12K tokens |
-| Gate subset per task | ≤3K tokens |
-| Task context | ≤2K tokens |
-| Total per agent task | ≤17K tokens |
-
-In Garura no component enforces these numbers; the bound that is enforced is structural — each builder gets only its cut context slice (see the [reference implementation](./idsd-reference-implementation.md#context-boundary-rule)).
-
 ### Intent-Sufficiency
 
 Upstream artifacts enrich, never block. If intent is clear, proceed. Any play can be called at any point if the three elements of intent (intent, constraints, failure conditions) are satisfied. (Garura's epic lane adds explicit readiness markers on top of this — see the [reference implementation](./idsd-reference-implementation.md#the-epic-trinity).)
