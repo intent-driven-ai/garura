@@ -86,7 +86,7 @@ Business intent does not run down a pipeline once. It travels around IDSD's loop
 
 ### Why a loop, not a pipeline
 
-A pipeline forces every change through every stage in order. The loop lets a team work where the work actually is, and still keeps one stored intent true:
+The loop is what gives people flexibility during the SDLC. A pipeline forces every change through every stage in order; the loop lets a team work where the work actually is, and still keeps one stored intent true:
 
 - **Enter where the work is.** New domain, capability, or feature → strategy. A new slice → realize. Epic-sized work on a realized slice → implementation (ADR 023's entry rule). Nobody re-runs strategy to ship the next epic.
 - **Go round at different grains.** One strategy pass shapes many slices; each slice is realized on its own; one realized slice is cut into many epics. Different parts of the product can sit at different points on the loop at the same time.
