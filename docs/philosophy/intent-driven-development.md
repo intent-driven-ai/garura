@@ -2,11 +2,11 @@
 
 > **Scope**: Foundational Paradigm — Tool-Agnostic
 > **Status**: Active
-> **Last Updated**: 2026-02-21
+> **Last Updated**: 2026-10-04
 
 ## Overview
 
-Intent-Driven Development (IDD) is the **paradigm** — the foundational principles for building any intent-based AI-assisted development system. IDD defines the WHY and WHAT: what elements every such system must have, and why those elements matter. IDD principles are stable, tool-agnostic, and applicable to any framework that takes human intent and converts it into governed software delivery.
+Intent-Driven Development (IDD) is the **paradigm** — the foundational principles for building any intent-based AI-assisted development system. IDD defines the WHY: the principles every such system must follow. The work itself takes ICE form (the IDSD model — see `idsd.md`), and the tool that drives it follows the PCAM design (Perception, Cognition, Action, Manifestation — ADR 027). IDD principles are stable, tool-agnostic, and applicable to any framework that takes human intent and converts it into governed software delivery.
 
 IDD occupies a distinct position in the AI-assisted development landscape — more structured than unstructured "vibe coding," less burdensome than documentation-heavy spec-driven development (SDD). It is not an incremental improvement on either; it is a separate paradigm.
 
@@ -68,156 +68,35 @@ VIBE CODING                          SPEC-DRIVEN DEVELOPMENT
 
 ---
 
-## The ICE Structure: Intent, Context, Expectation
+## PCAM: The Design That Drives ICE
 
-The eight elements describe the *machinery*. ICE describes the three *artifacts* that machinery moves — the documents every piece of work is built from. ICE sits across the eight elements: **Intent** is Element 1, **Context** is Elements 5 and 7, and **Expectation** is the generated spec layer the Specifier produces and Element 8 verifies.
+IDD's principles govern **ICE** — Intent, Context, Expectation — the model every piece of work takes, defined in the IDSD method ([`idsd.md`](./idsd.md#ice-the-idsd-model)). **PCAM** is the design of the agentic tool that drives ICE: four pillars, each a function the tool must perform (ADR 027).
 
-| Layer | What it holds | Authored or generated |
-|-------|---------------|-----------------------|
-| **Intent** | goal, constraints, failure conditions | Human-authored, stable |
-| **Context** | the tech, design patterns, standards, and the system the work runs inside — in a Garura system, the plays, skills, and sub-agents that surround the task (the environment to understand, not the plan to build it) | Assembled from memory (LTM + STM) |
-| **Expectation** | success scenarios, recovery | Generated from Intent + Context, then vetted at a human checkpoint |
+```
+            ┌──────────────────────── ICE (what moves) ────────────────────────┐
+            │                                                                   │
+  ────►  PERCEPTION  ────►  COGNITION  ────►  ACTION  ────►  MANIFESTATION  ────►
+         what enters        deciding:          acting, at a     what becomes real,
+         and how it is      agents, memory,    chosen level     and proof that it
+         received           context            of autonomy      matches the intent
+```
 
-**Intent — the clean triple.** Goal, constraints, failure conditions. Nothing else lives here. Success scenarios and recovery are *not* authored into Intent; they are generated one layer down, in Expectation. Keeping Intent to the triple is what keeps it stable across implementation change (Element 1).
+| Pillar | What it covers | Former IDD element |
+|--------|----------------|--------------------|
+| **Perception** | What enters the system, and how it is received and routed | Signals |
+| **Cognition** | Deciding — who reasons, from what knowledge, with what context | Agents, Memory, Context-Aware Decisions |
+| **Action** | The ability to act, and how much autonomy that action has | Skills; the orchestration half of Orchestrated Intent |
+| **Manifestation** | What becomes real, and the proof that it matches the intent | Generation-Verification Loops |
 
-**Context — the surround.** The technology, design patterns, standards, and the system the work runs inside — the plays, skills, and sub-agents that surround the task. This is Memory (Element 5) made concrete for the task through context-aware assembly (Element 7). The builder receives all of it.
+The former Intent Layer, and the intent half of Orchestrated Intent, are not pillars: they are the **Intent** of ICE, which every pillar serves.
 
-Context is the surround to *understand*, never the work itself. It holds the existing tech, patterns, and standards the agent reads to build understanding — not the approach, the steps, or the way of working, which are the agent's to decide. The moment Context names how to build *this* change, it has done the agent's job and become a spec. **Test:** could two different implementations both draw on the same Context? If it fits only one solution, it has stopped being the surround and become the plan.
-
-**Expectation — the generated spec.** Two parts:
-- **Success scenarios** — what a consumer can do with the output (persona / given / then), which is *also* the checkable definition of done. Acceptance and done-target are one thing, not two — the target the builder marches toward and the signal that decides stop-or-go: while a success scenario is unmet, keep going; when all are met, stop. Evals are built from these.
-- **Recovery** — for each failure condition, the policy for getting back to a good state. Recovery goes to the **validator**, which uses it (with the eval results) to build a *recovery handoff plan* — directional, not implementation ("unit tests are at 50%; here are the failing ones; raise them to green") — and to decide who acts: route the plan back to the builder for an autonomous fix, or escalate to a human for manual review. Recovery's *generation rules* are what `intent-resolver` leans on, and they become the backbone of Level 4 autonomy, where the recovery plan executes without a human in the loop.
-
-Expectation is **generated, never hand-authored, and never trusted until vetted** — a human approves it at a checkpoint before it governs anything. This is Element 8 applied to the spec layer itself.
-
-### How ICE routes under the barrier (P4)
-
-The barrier is **applied proportionally, not always** — it earns its keep on judgment-heavy work (the heavy lifting of coding, where many valid outputs exist) and is skipped for mechanical, single-output tasks, which just run the validator as a plain regression check (see "When Compartmented Evaluation Applies" under Principle 4). When it is on:
-
-Evals are the verification instrument, built by a **separate agent** that reads all of ICE and compiles them from **failure conditions + success scenarios**. Those evals are then **encrypted** — locked away from the builder, so it cannot optimize to the test.
-
-| Who | Receives | Never receives |
-|-----|----------|----------------|
-| **Builder** | goal, constraints, all of Context, success scenarios; and the validator's recovery handoff plan when a fix is routed back to it | failure conditions, recovery conditions, the evals |
-| **Eval author** (separate agent) | all of ICE | builder output |
-| **Validator** | the implementation, the decrypted evals, Context, the recovery conditions | — |
-
-The builder marches toward the goal, follows the constraints it knows, uses all the context it was handed, invents no context of its own, and keeps working until it has succeeded. The validator sees the implementation and validates it against the evals — evals written so that every success scenario is met and no failure condition occurs. Everything that must be tested has to live within the validator's context.
-
-The success scenarios are the part of the spec the builder *does* see — it needs the target to know when to stop. When the barrier is on, it holds anyway, because the evals themselves and the failure conditions stay hidden and encrypted. The builder knows where the finish line is; it does not get to see the judges' scorecards.
+**Ownership**: humans author intent and choose the autonomy level; the AI perceives, reasons, and acts within it; Manifestation is where human oversight and AI execution meet.
 
 ---
 
-## The Eight Elements of IDD
+### Perception
 
-IDD consists of eight core elements spanning three domains: human, AI, and the handshake between them.
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│  HUMAN DOMAIN                                               │
-│                                                             │
-│  Element 1: Intent Layer                                    │
-│  Element 2: Signals                                         │
-│  Element 3: Orchestrated Intent                             │
-│                                                             │
-├─────────────────────────────────────────────────────────────┤
-│  AI DOMAIN                                                  │
-│                                                             │
-│  Element 4: Agents                                          │
-│  Element 5: Memory                                          │
-│  Element 6: Skills                                          │
-│  Element 7: Context-Aware Decisions                         │
-│                                                             │
-├─────────────────────────────────────────────────────────────┤
-│  HANDSHAKE                                                  │
-│                                                             │
-│  Element 8: Generation-Verification Loops                   │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
-
-**Ownership Model**: Elements 1-3 are where humans operate (defining intent, triggering signals, choosing autonomy level). Elements 4-7 are where AI operates (agents deciding, memory informing, skills executing, context shaping). Element 8 is where human oversight and AI execution meet.
-
----
-
-### Element 1: Intent Layer
-
-**IDD Principle**: Capture WHY — business goals, outcomes, and constraints — at a stable abstraction above specifications. Intent is expressed in business language, not technical language.
-
-The intent layer captures the goal and high-level direction — without prescribing implementation. The intent remains stable even when requirements change; only the generated specifications downstream adapt.
-
-#### The Three Elements of Intent
-
-Every well-formed intent consists of exactly three elements:
-
-| Element | What It Captures | Why It Can't Be Generated |
-|---------|-----------------|--------------------------|
-| **Intent** | The positive space — what outcome we want | It's the root input; everything derives from it |
-| **Constraints** | The boundaries — what the solution must respect | Business decisions, compliance, risk tolerance — only humans know these |
-| **Failure Conditions** | The halt signals — when to abort execution | Risk appetite is a human judgment; agents can't infer when "enough is enough" |
-
-#### Routing Under Compartmented Evaluation (P4)
-
-When compartmented evaluation applies, the three elements are routed to different agents:
-
-| Element | Routed To | Purpose |
-|---------|-----------|---------|
-| **Goal** | Builder only | Defines what the builder is trying to achieve |
-| **Constraints** | Builder only | Defines the boundaries the builder must respect |
-| **Failure Conditions** | Validator only | Defines what the validator checks the output against |
-
-This routing is the operational mechanism of P4. The orchestration layer (plays in IDSD) is responsible for splitting the intent and routing each element to the correct agent.
-
-**Why success is not in Intent — and where it lives instead.** Success is not hand-authored into Intent. Intent's job is to state the outcome; *operationalizing* success ("registration completes in < 2s, works on mobile, sends a confirmation email") is the Specifier's job, informed by Context and memory. But success is not merely *implicit* either — that was the old framing, and it left agents with no concrete signal for when to stop. Success is generated, explicitly, into the **Expectation** layer as success scenarios, then vetted at a human checkpoint. It is the target the builder marches toward and the source the evals are built from. Putting it in Expectation rather than Intent keeps Intent stable while still giving the system a checkable finish line. Authoring it directly into Intent would do the Specifier's work for it — the SDD pattern IDD rejects.
-
-**The decision space, restated for ICE:**
-- Am I moving toward the goal? → continue *(builder, from Intent)*
-- Am I within constraints? → continue *(builder, from Intent)*
-- Have I reached success? → the builder aims at the success target it can see; the authoritative stop is the success evals, run against the output — which the builder never sees
-- Did the implementation trip a failure condition? → the validator catches it against the evals *(builder never sees these)*
-
-**Intent quality rule**: An intent must be clear enough that success is self-evident from its statement. If you cannot tell whether the intent has been achieved, the intent is poorly formed — the fix is upstream (sharpen the intent), not downstream (bolt on success criteria).
-
-**What Makes Intent Different from a Spec**:
-
-| Aspect | Specification (SDD) | Intent (IDD) |
-|--------|---------------------|--------------|
-| Abstraction | Implementation-level detail | Business outcome-level |
-| Language | Technical (APIs, schemas, file structures) | Business (goals, constraints, failure conditions) |
-| Stability | Brittle — changes with every requirement shift | Stable — survives requirement changes |
-| Authorship | Human-written, human-maintained | Human-defined, machine-consumed |
-| Volume | 1,300+ lines for simple features | Concise: intent + constraints + failure conditions |
-
-**Example — SDD Spec**:
-```
-Build a REST endpoint at /api/users with GET/POST methods.
-Validate email with regex pattern X.
-Return 201 on success with JSON body { id, email, created_at }.
-Use PostgreSQL schema: users(id UUID PK, email VARCHAR(255) UNIQUE, ...).
-File: src/controllers/userController.ts
-```
-
-**Example — IDD Intent**:
-```
-Intent: Users need to register and manage their profiles.
-Constraints: Must support SSO. Must comply with GDPR. Must work with existing identity provider.
-Failure Conditions: Registration fails silently. PII is logged to stdout. User data persists after deletion request.
-```
-
-**Rules**:
-- Intent captures WHY and WHAT outcome, never HOW
-- Intent is authored in business language accessible to non-technical stakeholders
-- Intent remains stable across implementation changes
-- Every intent must have all three elements: intent, constraints, failure conditions
-- Success scenarios and recovery are generated into the Expectation layer and vetted at a checkpoint — never hand-authored into Intent
-- An intent that requires success criteria to be understood is a poorly formed intent
-- Orchestration translates intent into structured goals with high-level steps
-- Agents are responsible for translating intent into specifications (including derived success criteria)
-- The goal must be interpretable by the builder without reference to failure conditions — if understanding the goal requires knowing the failure conditions, the intent is poorly structured (see P4)
-
----
-
-### Element 2: Signals
+#### Signals
 
 **IDD Principle**: The system activates through event-driven triggers, not manual kickoffs. Signals detect events, package them consistently, and route them into orchestration.
 
@@ -249,47 +128,11 @@ Signals are the perception layer for system awareness.
 
 ---
 
-### Element 3: Orchestrated Intent
+### Cognition
 
-**IDD Principle**: Orchestration bridges intent and execution. It defines the goal and high-level steps while agents determine actual execution based on context. Orchestration operates at graduated autonomy levels.
+Cognition is where the tool decides: agents reason, memory supplies what is known, and context-aware assembly turns both into the context for one decision.
 
-All orchestrated flows follow the AI-Native SDLC:
-
-```
-DISCOVER ──► SPECIFY ──► DESIGN ──► BUILD ──► RUN
-```
-
-Each step follows the core flow:
-```
-Orchestration ──► Agent ──► Skill(s) ──► Execute
-                    │
-                    ▼
-             Read Memory (LTM + STM)
-                    │
-                    ▼
-             Build Context ──► Output ──► Write STM
-```
-
-**Autonomy Levels**:
-
-| Level | Name | Description | Human Involvement | Example |
-|-------|------|-------------|-------------------|---------|
-| **Level 1** | One-Shot Flows | Simple, single-task executions | Direct input → output | Generate a unit test, commit code |
-| **Level 2** | Composed Workflows | Multi-task workflows combining several steps | Human-in-the-loop | Implement a story with review checkpoints |
-| **Level 3** | Autonomous Execution | Goal-driven, runs to completion | Approval gates only | End-to-end bug fix → PR → deploy |
-| **Level 4** | Autonomous Recovery | Self-heals: derives and executes recovery from failure conditions without per-step human approval | Recovery checkpoints only | Failure detected → recovery generated and applied |
-
-> **Current State**: Level 1 and Level 2 are implemented. Level 3 (Autonomous Execution) is planned. Level 4 (Autonomous Recovery) is the trajectory — it depends on recovery conditions being generated as specs in the Expectation layer so `intent-resolver` can act on them without a human in the loop.
-
-**Rules**:
-- All system interactions start with orchestration
-- Orchestration defines flow but never builds agent context
-- Orchestration passes explicit intent and goals; agents determine execution
-- The autonomy level determines the degree of human involvement, not the quality of output
-
----
-
-### Element 4: Agents
+#### Agents
 
 **IDD Principle**: Autonomous decision-makers accept intent and determine HOW to achieve goals within their domain. Agents own outcomes, not procedures.
 
@@ -344,9 +187,7 @@ Agents follow the principle of **Explicit via Abstraction**: the task and expect
 - Agents cannot receive signals directly (must go through orchestration)
 - Agents own decisions, not procedures — they determine HOW based on context while orchestration defines WHAT
 
----
-
-### Element 5: Memory
+#### Memory
 
 **IDD Principle**: Persistent organizational context across sessions solves the "anterograde amnesia" problem in LLM-based development. Memory is what makes IDD fundamentally different from both vibe coding and SDD.
 
@@ -420,7 +261,7 @@ Memory is the single biggest differentiator of IDD. No other approach implements
 - LTM practices must be evaluated in context before application — blind application is an anti-pattern
 - Memory enables deterministic adaptation
 
-#### LTM Governance
+##### LTM Governance
 
 LTM updates carry organizational risk — a bad practice promoted to LTM affects every subsequent execution across all projects. LTM governance must be proportional to blast radius.
 
@@ -433,11 +274,11 @@ LTM updates carry organizational risk — a bad practice promoted to LTM affects
 
 The governance mechanism depends on the implementation. In Git-based systems, LTM version control provides natural file-level conflict resolution — competing changes to the same practice file surface as merge conflicts. Pull request workflows enforce review tiers. Other implementations may use different governance mechanisms, but the principle holds: LTM promotion must be reviewed, and review depth must scale with blast radius.
 
-**Contextual Application**: LTM practices are not rules to be applied blindly — they are contextual knowledge. The system must understand WHEN a practice applies, not just WHAT it says. A practice like "use retry logic for external calls" is correct for HTTP API calls and wrong for database transactions inside a transaction boundary. Agents must evaluate LTM practices against current context (Element 7) before applying them.
+**Contextual Application**: LTM practices are not rules to be applied blindly — they are contextual knowledge. The system must understand WHEN a practice applies, not just WHAT it says. A practice like "use retry logic for external calls" is correct for HTTP API calls and wrong for database transactions inside a transaction boundary. Agents must evaluate LTM practices against current context (Cognition → Context-Aware Decisions) before applying them.
 
 **Anti-entropy**: As LTM grows, practices may conflict, become stale, or accumulate redundancy. LTM governance must include periodic review, freshness assessment, and contradiction detection. The P5 hygiene rule (audit at 20 practice files) is the minimum; enterprise-scale implementations need automated quality mechanisms.
 
-#### Memory as Foundation for Intent Self-Generation
+##### Memory as Foundation for Intent Self-Generation
 
 > **Status**: Trajectory — not designed, not implemented. This section describes the long-term vision for how memory enables higher autonomy levels.
 
@@ -445,58 +286,14 @@ Memory is not just a context store — it is the accumulation mechanism that cou
 
 1. **Capture** (current): STM records intent→outcome pairs during execution. What was the goal? What did the agent do? What was the result?
 2. **Promote** (current): Successful patterns are promoted from STM to LTM through governance workflows. The organization's knowledge base grows with each completed intent.
-3. **Contextualize** (designed): LTM practices are applied contextually — agents evaluate which practices apply to the current situation based on Element 7 (Context-Aware Decisions).
+3. **Contextualize** (designed): LTM practices are applied contextually — agents evaluate which practices apply to the current situation based on Context-Aware Decisions (Cognition).
 4. **Generate** (vision): A system with rich enough LTM and production feedback could generate new intents from observed patterns — "this API endpoint has increasing latency; based on similar patterns in LTM, the likely cause is X; proposed intent: investigate and fix."
 
 Step 4 requires capabilities not yet designed: production monitoring integration, pattern correlation across LTM entries, and a mechanism to formulate well-formed intents (with goals, constraints, and failure conditions) from observed signals. This is the architectural path toward Dan Shapiro's L4-L5 levels — but the generation mechanism itself remains an open problem.
 
 **The key insight**: Memory architecture is a necessary precondition for intent self-generation, not a sufficient one. Building the accumulation mechanism (steps 1-3) now creates the foundation that generation (step 4) will eventually require.
 
----
-
-### Element 6: Skills
-
-**IDD Principle**: Bounded, repeatable execution capabilities that agents invoke. Skills execute work; they never decide when they run.
-
-Skills are the lowest-level building blocks — reusable capabilities that execute based on command intent, context, and memory patterns. They are tool-agnostic, following a primary → secondary → fallback execution pattern.
-
-**Skill Invocation Pattern**:
-
-Skills follow an action-oriented naming pattern scoped by capability domain. They are invoked by name and execute a single bounded operation. The naming communicates intent clearly: what capability area the skill belongs to and what action it performs.
-
-**Tool-Agnostic Execution**:
-```
-Intent: Create a pull request for the current branch
-
-Primary Method:   GitHub CLI (gh pr create)
-Secondary Method: MCP GitHub Server
-Fallback:         Direct GitHub API call
-
-Result: Same PR created regardless of method selected
-```
-
-**Skill Categories**:
-
-| Domain | Capability Coverage | Typical Agent Consumer |
-|--------|--------------------|-----------------------|
-| **Planning** | Issue tracking, backlog management, task decomposition | Orchestration agents |
-| **Implementation** | Code generation, commit management, pull request lifecycle | Implementation agents |
-| **Defect** | Root cause analysis, fix application, regression detection | Specialist agents |
-| **Testing** | Unit tests, integration tests, validation checks | Quality agents |
-| **Deployment** | Release management, rollback, environment promotion | Deployment agents |
-| **Review** | Code review, feedback generation, compliance checks | Quality agents |
-
-**Rules**:
-- Skills never decide when they run — agents invoke them
-- Skills are stateless and deterministic
-- Skills are trusted because they are **bounded and repeatable**, not because they are intelligent
-- Skills cannot invoke other skills
-- Skills cannot update memory directly
-- Skills cannot bypass agents
-
----
-
-### Element 7: Context-Aware Decision Making
+#### Context-Aware Decisions
 
 **IDD Principle**: Every decision accounts for the full environmental context. The same intent produces different execution paths for different projects because context shapes implementation.
 
@@ -541,7 +338,93 @@ Decide actions + Select skills
 
 ---
 
-### Element 8: Generation-Verification Loops
+### Action
+
+Action is the tool's ability to act: skills do the bounded work, and orchestration sets the flow and the autonomy level it runs at.
+
+#### Skills
+
+**IDD Principle**: Bounded, repeatable execution capabilities that agents invoke. Skills execute work; they never decide when they run.
+
+Skills are the lowest-level building blocks — reusable capabilities that execute based on command intent, context, and memory patterns. They are tool-agnostic, following a primary → secondary → fallback execution pattern.
+
+**Skill Invocation Pattern**:
+
+Skills follow an action-oriented naming pattern scoped by capability domain. They are invoked by name and execute a single bounded operation. The naming communicates intent clearly: what capability area the skill belongs to and what action it performs.
+
+**Tool-Agnostic Execution**:
+```
+Intent: Create a pull request for the current branch
+
+Primary Method:   GitHub CLI (gh pr create)
+Secondary Method: MCP GitHub Server
+Fallback:         Direct GitHub API call
+
+Result: Same PR created regardless of method selected
+```
+
+**Skill Categories**:
+
+| Domain | Capability Coverage | Typical Agent Consumer |
+|--------|--------------------|-----------------------|
+| **Planning** | Issue tracking, backlog management, task decomposition | Orchestration agents |
+| **Implementation** | Code generation, commit management, pull request lifecycle | Implementation agents |
+| **Defect** | Root cause analysis, fix application, regression detection | Specialist agents |
+| **Testing** | Unit tests, integration tests, validation checks | Quality agents |
+| **Deployment** | Release management, rollback, environment promotion | Deployment agents |
+| **Review** | Code review, feedback generation, compliance checks | Quality agents |
+
+**Rules**:
+- Skills never decide when they run — agents invoke them
+- Skills are stateless and deterministic
+- Skills are trusted because they are **bounded and repeatable**, not because they are intelligent
+- Skills cannot invoke other skills
+- Skills cannot update memory directly
+- Skills cannot bypass agents
+
+#### Orchestration and Autonomy
+
+**IDD Principle**: Orchestration bridges intent and action. It defines the goal and high-level steps while agents determine actual execution based on context. Orchestration operates at graduated autonomy levels.
+
+All orchestrated flows follow the AI-Native SDLC:
+
+```
+DISCOVER ──► SPECIFY ──► DESIGN ──► BUILD ──► RUN
+```
+
+Each step follows the core flow:
+```
+Orchestration ──► Agent ──► Skill(s) ──► Execute
+                    │
+                    ▼
+             Read Memory (LTM + STM)
+                    │
+                    ▼
+             Build Context ──► Output ──► Write STM
+```
+
+**Autonomy Levels**:
+
+| Level | Name | Description | Human Involvement | Example |
+|-------|------|-------------|-------------------|---------|
+| **Level 1** | One-Shot Flows | Simple, single-task executions | Direct input → output | Generate a unit test, commit code |
+| **Level 2** | Composed Workflows | Multi-task workflows combining several steps | Human-in-the-loop | Implement a story with review checkpoints |
+| **Level 3** | Autonomous Execution | Goal-driven, runs to completion | Approval gates only | End-to-end bug fix → PR → deploy |
+| **Level 4** | Autonomous Recovery | Self-heals: derives and executes recovery from failure conditions without per-step human approval | Recovery checkpoints only | Failure detected → recovery generated and applied |
+
+> **Current State**: Level 1 and Level 2 are implemented. Level 3 (Autonomous Execution) is planned. Level 4 (Autonomous Recovery) is the trajectory — it depends on recovery conditions being generated as specs in the Expectation layer so `intent-resolver` can act on them without a human in the loop.
+
+**Rules**:
+- All system interactions start with orchestration
+- Orchestration defines flow but never builds agent context
+- Orchestration passes explicit intent and goals; agents determine execution
+- The autonomy level determines the degree of human involvement, not the quality of output
+
+---
+
+### Manifestation
+
+#### Generation-Verification Loops
 
 **IDD Principle**: IDD embraces partial autonomy — humans validate outcomes while AI handles execution. Every output passes through quality gates. Trust is earned through verification, not assumed through specification.
 
@@ -625,59 +508,50 @@ Evidence artifacts are permanent — they are the audit trail of every play exec
 
 ---
 
-## IDD Element Summary
+## PCAM Summary
 
-### Element-to-Layer Mapping
-
-| # | IDD Element | Layer | Owner |
-|---|-------------|-------|-------|
-| 1 | Intent Layer | Orchestration | Human |
-| 2 | Signals | Perception | System |
-| 3 | Orchestrated Intent | Orchestration | Human + System |
-| 4 | Agents | Decision | AI |
-| 5 | Memory | Cognitive | AI (read), Human (LTM governance) |
-| 6 | Skills | Capability | AI |
-| 7 | Context-Aware Decisions | Cognitive | AI |
-| 8 | Generation-Verification Loops | Handshake | Human + AI |
+| Pillar | Covers | Layer | Owner |
+|--------|--------|-------|-------|
+| Perception | Signals | Perception | System |
+| Cognition | Agents, Memory, Context-Aware Decisions | Decision + Cognitive | AI (read), Human (LTM governance) |
+| Action | Skills, Orchestration and Autonomy | Capability + Orchestration | AI, at a human-chosen autonomy level |
+| Manifestation | Generation-Verification Loops | Handshake | Human + AI |
 
 ### Execution Flow
 
 ```
-HUMAN DEFINES INTENT
+HUMAN DEFINES INTENT (in ICE form)
         │
         ▼
    ┌─────────┐
-   │ SIGNAL  │ ◄── Element 2: Perception Layer
+   │ SIGNAL  │ ◄── Perception
    └────┬────┘     (User prompt, git event, webhook, schedule, agent output)
         │
         ▼
    ┌──────────────┐
-   │ ORCHESTRATION│ ◄── Elements 1 + 3: Orchestration Layer
-   └──────┬───────┘     (Intent + Goal + Autonomy Level)
-          │
-          │    DISCOVER → SPECIFY → DESIGN → BUILD → RUN
+   │ ORCHESTRATION│ ◄── Action: flow + autonomy level
+   └──────┬───────┘
           │
           ▼
    ┌──────────┐         ┌──────────────┐
-   │  AGENT   │ ◄──────►│   MEMORY     │ ◄── Element 5: Cognitive Layer
+   │  AGENT   │ ◄──────►│   MEMORY     │ ◄── Cognition
    │          │         │  LTM + STM   │
-   │          │ ◄── #4  │              │
    └────┬─────┘         └──────┬───────┘
         │                      │
         ▼                      ▼
    ┌──────────┐         ┌──────────────┐
-   │ SKILLS   │ ◄── #6  │    CONTEXT   │ ◄── Element 7: Context Assembly
-   │          │◄───────►│   ASSEMBLY   │
+   │ SKILLS   │◄───────►│   CONTEXT    │ ◄── Action (skills) · Cognition (context)
+   │          │         │   ASSEMBLY   │
    └────┬─────┘         └──────────────┘
         │
         ▼
    ┌──────────────┐
-   │ QUALITY GATE │ ◄── Element 8: Verification
+   │ QUALITY GATE │ ◄── Manifestation: verified against intent
    │ (Validator)  │
    └──────┬───────┘
           │
           ▼
-   OUTPUT → Write STM → Next SDLC Phase (or loop back on failure)
+   OUTPUT → Write STM → next step (or loop back on failure)
 ```
 
 ---
@@ -781,6 +655,22 @@ A failure condition must describe something that can be **detected programmatica
 When an agent builds a solution and the same agent (or a peer with the same context) validates it, a fundamental conflict arises: the builder optimizes for passing the specific checks it knows about, rather than genuinely solving the problem. This is Goodhart's Law applied to agentic verification — when the measure becomes the target, it ceases to be a good measure.
 
 The fix is an **information barrier**: the builder and validator operate with deliberately different context windows.
+
+#### How ICE routes under the barrier
+
+The barrier is **applied proportionally, not always** — it earns its keep on judgment-heavy work (the heavy lifting of coding, where many valid outputs exist) and is skipped for mechanical, single-output tasks, which just run the validator as a plain regression check (see "When Compartmented Evaluation Applies" under Principle 4). When it is on:
+
+Evals are the verification instrument, built by a **separate agent** that reads all of ICE and compiles them from **failure conditions + success scenarios**. Those evals are then **encrypted** — locked away from the builder, so it cannot optimize to the test.
+
+| Who | Receives | Never receives |
+|-----|----------|----------------|
+| **Builder** | goal, constraints, all of Context, success scenarios; and the validator's recovery handoff plan when a fix is routed back to it | failure conditions, recovery conditions, the evals |
+| **Eval author** (separate agent) | all of ICE | builder output |
+| **Validator** | the implementation, the decrypted evals, Context, the recovery conditions | — |
+
+The builder marches toward the goal, follows the constraints it knows, uses all the context it was handed, invents no context of its own, and keeps working until it has succeeded. The validator sees the implementation and validates it against the evals — evals written so that every success scenario is met and no failure condition occurs. Everything that must be tested has to live within the validator's context.
+
+The success scenarios are the part of the spec the builder *does* see — it needs the target to know when to stop. When the barrier is on, it holds anyway, because the evals themselves and the failure conditions stay hidden and encrypted. The builder knows where the finish line is; it does not get to see the judges' scorecards.
 
 #### The Routing Table
 
@@ -1153,7 +1043,7 @@ IDD rests on three testable hypotheses. These are not proven — they are the be
 
 **Preconditions**: Rich LTM with contextual metadata. Production monitoring integration. Pattern correlation capability. Well-defined governance for generated vs human-authored intents.
 
-**Current state**: The accumulation mechanism (STM→LTM promotion) is designed. The generation mechanism is not. This hypothesis cannot be tested until steps 1-3 of the Memory Evolution path (Element 5) are operational and producing a critical mass of intent→outcome data.
+**Current state**: The accumulation mechanism (STM→LTM promotion) is designed. The generation mechanism is not. This hypothesis cannot be tested until steps 1-3 of the Memory Evolution path (Cognition → Memory) are operational and producing a critical mass of intent→outcome data.
 
 **Falsification signal**: If systems with rich LTM consistently generate intents that humans reject >80% of the time, the hypothesis is falsified — memory accumulation does not lead to generation capability.
 
@@ -1179,16 +1069,16 @@ IDD rests on three testable hypotheses. These are not proven — they are the be
 
 ## Related Documentation
 
-- [IDSD Methodology](./idsd.md) — How IDD principles are operationalized in Garura
-- [Garura Architecture](./architecture.md) — Three-layer hierarchy, Four Crafts, and memory architecture
+The three documents, one per layer:
 
----
-
-> For how these principles are implemented in Garura, see the IDSD methodology: `docs/philosophy/idsd.md`
+- **IDD** (this document) — the principles, and the PCAM design that drives ICE
+- [IDSD — the dual-intent system](./idsd.md) — ICE, the two intents, and the loop that moves them
+- [Garura — the reference implementation](./garura-reference-implementation.md) — how Garura implements IDSD and PCAM, with links to its commands, agents, and skills
+- [ADR 027](../adr/027-ice-model-pcam-design.md) — ICE is the IDSD model; PCAM is the design that drives it
 
 ---
 
 **Author**: Kapil Viren Ahuja
-**Version**: 1.0.0
-**Last Updated**: 2026-02-21
+**Version**: 2.0.0
+**Last Updated**: 2026-10-04
 **Status**: Active
