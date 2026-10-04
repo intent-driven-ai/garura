@@ -26,18 +26,19 @@ This document describes the machinery Garura uses to implement IDSD: the command
 
 ## The Command Model
 
-The successor map in `core/components/memory/standards/rules/pipeline-next.md` is its single source of truth; every play's close names the next command from it.
+Garura's commands follow IDSD's three stages, with `/learn` as the step after implementation (see [IDSD in One Page](./idsd.md#idsd-in-one-page)). The successor map in `core/components/memory/standards/rules/pipeline-next.md` is the single source of truth for the order; every play's close names the next command from it.
 
 ```
-Strategy            Realize (per slice)                      Bridge   Execute (per epic)
-────────────────    ─────────────────────────────────────    ──────   ─────────────────────────────
-/vision             Functional:     /ux → /agentic →         /grill   /implement → /validate →
-/understand                         /marketing                        /launch → /deploy
-/shape              Non-functional: /arch → /quality → /run
-/roadmap            Deliver:        /measure (stamps realized)
+STRATEGY              REALIZE — the bridge (per slice)              IMPLEMENTATION (per epic)
+──────────────────    ──────────────────────────────────────────    ───────────────────────────────────
+/vision               Functional:      /ux → /agentic → /marketing  /grill → /implement → /validate →
+/understand           Non-functional:  /arch → /quality → /run      /launch → /deploy
+/shape                Then:            /measure (stamps the slice   Defects and refactors:
+/roadmap                               realized)                    /fix-bug · /refactor
 
-Maintenance:    /fix-bug  ·  /refactor
-Orchestration:  /learn (trues the model)  ·  /next (ranks next actions)  ·  /focus (issue-side view)
+After implementation:  /learn — reads outcomes, finds drift, fixes realize (measure, run, quality
+                       lenses) or strategy (capability and functionality docs, decision records)
+Navigation:            /next (ranks next actions) · /focus (issue-side view)
 
 Change chain (git, underneath every play that changes the repo):
   /start-change (injected at a play's head) → /commit-change → /propose-change → /review-change → /merge-change
@@ -47,9 +48,9 @@ Meta (not part of the product pipeline): /install-garura · /uninstall-garura ·
 
 **Model writes ride the change chain.** Plays that write the product model edit the live model directly on the feature branch that `start-change` cut. Git is the draft, the PR is the review, and the change chain lands it (ADR 026).
 
-### Execution Is Three Trinities (ADR 023)
+### Implementation Is Three Trinities (ADR 023)
 
-ADR 023 decided that execution has one shape at every grain: **capture → build → check**, with ceremony sized to the unit of work. What is built today:
+ADR 023 decided that implementation (the ADR calls it execution) has one shape at every grain: **capture → build → check**, with ceremony sized to the unit of work. What is built today:
 
 | Trinity | Capture | Build | Check | Built today |
 |---------|---------|-------|-------|-------------|
@@ -57,7 +58,7 @@ ADR 023 decided that execution has one shape at every grain: **capture → build
 | **Defects** | `/record` | `/fix-bug` | `/accept` | Build only. `/fix-bug` ships with its own independent verification; `/record` and `/accept` do not exist yet |
 | **Amendments** | `/amend` | `/enhance` | `/accept` | No. ADR 024's amendment record has no schema, and none of the three plays exist |
 
-**Entry rule between lanes (ADR 023):** strategy plays for a new domain, capability, or feature; realize for each new slice; the epic trinity for epic-grain work on a realized slice; the amendment trinity for small improvements that can be anchored to a delivered epic; the defect trinity for bugs. Until the amendment lane exists, small improvements have no lane of their own.
+**Entry rule between lanes (ADR 023):** strategy for a new domain, capability, or feature; realize for each new slice; within implementation, the epic trinity for epic-grain work on a realized slice; the amendment trinity for small improvements that can be anchored to a delivered epic; the defect trinity for bugs. Until the amendment lane exists, small improvements have no lane of their own.
 
 ### The Epic Trinity
 

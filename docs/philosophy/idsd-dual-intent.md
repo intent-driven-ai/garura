@@ -75,17 +75,16 @@ Agent → Skill → Artifact
 
 ## How Business Intent Is Carried Across the Chain
 
-The play chain carries the stored business intent forward, and each stage does one ICE job — the same stages as [IDSD in One Page](./idsd.md#idsd-in-one-page):
+The play chain carries the stored business intent forward through IDSD's three stages — the same as [IDSD in One Page](./idsd.md#idsd-in-one-page) — and `/learn` feeds outcomes back:
 
-| Stage | Plays | ICE job |
-|-------|-------|---------|
+| Stage | Plays | What it does to business intent |
+|-------|-------|---------------------------------|
 | **Strategy — craft intent** | `/vision` → `/understand` → `/shape` → `/roadmap` | `/vision` seeds the domain and directional capabilities. `/understand` details one capability and its functionalities. `/shape` composes deliverable slices. `/roadmap` orders them. |
-| **Realize lenses — add context** | Functional: `/ux` → `/agentic` → `/marketing`. Non-functional: `/arch` → `/quality` → `/run`. Then `/measure` | Each lens writes one context doc for the slice (`lens/{ux,agentic,marketing,architecture,quality,run,measure}.md`). `/measure` runs last and stamps the slice *realized* once all seven agree. |
-| **Bridge — intent becomes delivery units** | `/grill` | Cuts one realized slice into user-testable epics. Each epic carries its own ICE and references the slice's intent and lenses, never copying them. The cut is grilled against the declared intents, one question at a time. |
-| **Build — produce spec and code** | `/implement` | Turns the epic's ICE and lenses into a test-first build plan (the spec), then code and tests, behind the builder/validator barrier. |
-| **Check — against intent** | `/validate`, `/launch`, `/review-change` | `/validate` runs the checks the quality and measure lenses declare, plus the epic's declared surface. `/launch` walks a human through the epic's `user_check` and acceptance. `/review-change` grounds the diff in the design. |
-| **True the model** | `/learn` | Reads outcomes (the measure lens, validate verdicts, delivered status) and rewrites the model to match reality. Every change must cite an outcome. |
+| **Realize — add context to the slice (the bridge)** | Functional: `/ux` → `/agentic` → `/marketing`. Non-functional: `/arch` → `/quality` → `/run`. Then `/measure` | Each lens writes one context doc for the slice (`lens/{ux,agentic,marketing,architecture,quality,run,measure}.md`). `/measure` runs last and stamps the slice *realized* once all seven agree. |
+| **Implementation — cut, build, check** | `/grill` → `/implement` → `/validate` → `/launch` | `/grill` cuts the realized slice into user-testable epics, each carrying its own ICE and referencing the slice's intent and lenses. `/implement` turns an epic into a test-first plan (the spec), then code and tests, behind the builder/validator barrier. `/validate` runs the checks the quality and measure lenses declare, plus the epic's declared surface; `/launch` walks a human through the epic's `user_check` and acceptance. |
 
-Mapped back to ICE: strategy plays write **Intent**, the lenses supply **Context**, and `/grill` plus `/implement` generate the **Expectation** and spec that the check plays verify against. `/learn` closes the loop so the stored intent stays true.
+**After implementation — `/learn`.** It reads what actually happened (the measure lens, validate verdicts and fix reports, the run lens, delivered status), finds where the stored intent drifted from reality, and fixes it at the source: the strategy side (capability and functionality docs, new decision records) or the realize side (the measure, run, and quality lenses). Every change must cite an outcome.
+
+Mapped back to ICE: strategy writes **Intent**, realize supplies **Context**, and implementation generates the **Expectation** and spec that its checks verify against. `/learn` keeps the stored intent true.
 
 Only business intent goes behind the builder/validator barrier; SDLC intent never does — see [Barrier in the Two-Layer Intent Model](./idsd.md#barrier-in-the-two-layer-intent-model). The full command chain and its build status are in the [reference implementation](./idsd-reference-implementation.md#the-command-model).

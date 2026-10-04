@@ -27,13 +27,23 @@ IDD and IDSD do not change when the tooling does. The ICE framework (Intent, Con
 
 ## IDSD in One Page
 
-IDSD treats software delivery as **intent carried forward**, never re-invented. Every stage does one ICE job on the same stored intent:
+IDSD treats software delivery as **intent carried forward**, never re-invented. Three stages carry the same stored intent, each doing one ICE job:
 
 ```
-craft intent  →  add context  →  cut into delivery units  →  build  →  check against intent  →  true the stored intent
-   (Intent)        (Context)        (Expectation per unit)    (spec +     (evals, gates,           (outcomes rewrite
-                                                               code)       human acceptance)         the intent)
+   STRATEGY  ─────────►  REALIZE  ─────────►  IMPLEMENTATION
+   craft intent          add context to       cut into delivery units,
+   (Intent)              each slice           build, check against intent
+                         (Context)            (Expectation, spec, code)
+       ▲                     ▲                        │
+       └────────── LEARN ────┴────────────────────────┘
+          after implementation: find drift between what shipped
+          and the stored intent; fix realize or strategy
 ```
+
+- **Strategy** decides what the product is and in what order to build it.
+- **Realize** is the bridge between strategy and implementation: it adds the context — experience, agentic behaviour, marketing, architecture, quality, operations, and measures — that a slice needs before anyone builds it.
+- **Implementation** turns a realized slice into delivery units, builds them, and checks them against the intent.
+- **Learn** is not a stage; it is the step that must follow implementation. It compares what actually happened with what was intended, and corrects realize or strategy where they drifted — which is what keeps strategy and implementation from pulling apart.
 
 Three ideas hold the lifecycle together:
 
