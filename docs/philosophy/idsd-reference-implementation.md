@@ -26,18 +26,19 @@ This document describes the machinery Garura uses to implement IDSD: the command
 
 ## The Command Model
 
-Garura's commands follow IDSD's three stages, with `/learn` as the step after implementation (see [IDSD in One Page](./idsd.md#idsd-in-one-page)). The successor map in `core/components/memory/standards/rules/pipeline-next.md` is the single source of truth for the order; every play's close names the next command from it.
+Garura's commands follow IDSD's loop: strategy and implementation at the two ends, realize carrying intent forward, `/learn` carrying outcomes back (see [IDSD in One Page](./idsd.md#idsd-in-one-page)). The successor map in `core/components/memory/standards/rules/pipeline-next.md` is the single source of truth for the order; every play's close names the next command from it.
 
 ```
-STRATEGY              REALIZE — the bridge (per slice)              IMPLEMENTATION (per epic)
+STRATEGY              REALIZE — forward connector (per slice)       IMPLEMENTATION (per epic)
 ──────────────────    ──────────────────────────────────────────    ───────────────────────────────────
 /vision               Functional:      /ux → /agentic → /marketing  /grill → /implement → /validate →
 /understand           Non-functional:  /arch → /quality → /run      /launch → /deploy
 /shape                Then:            /measure (stamps the slice   Defects and refactors:
 /roadmap                               realized)                    /fix-bug · /refactor
 
-After implementation:  /learn — reads outcomes, finds drift, fixes realize (measure, run, quality
-                       lenses) or strategy (capability and functionality docs, decision records)
+Back connector:        /learn — after implementation, reads outcomes, finds drift, fixes realize
+                       (measure, run, quality lenses) or strategy (capability and functionality
+                       docs, decision records)
 Navigation:            /next (ranks next actions) · /focus (issue-side view)
 
 Change chain (git, underneath every play that changes the repo):
