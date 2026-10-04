@@ -75,15 +75,15 @@ Agent → Skill → Artifact
 
 ## How Business Intent Is Carried Across the Chain
 
-The play chain carries the stored business intent forward through IDSD's three stages — the same as [IDSD in One Page](./idsd.md#idsd-in-one-page) — and `/learn` feeds outcomes back:
+Business intent travels around IDSD's loop ([IDSD in One Page](./idsd.md#idsd-in-one-page)): authored in strategy, carried forward by realize, delivered in implementation, and corrected by `/learn`. SDLC intent rides along in every play on the way, unchanged.
 
 | Stage | Plays | What it does to business intent |
 |-------|-------|---------------------------------|
-| **Strategy — craft intent** | `/vision` → `/understand` → `/shape` → `/roadmap` | `/vision` seeds the domain and directional capabilities. `/understand` details one capability and its functionalities. `/shape` composes deliverable slices. `/roadmap` orders them. |
-| **Realize — add context to the slice (the bridge)** | Functional: `/ux` → `/agentic` → `/marketing`. Non-functional: `/arch` → `/quality` → `/run`. Then `/measure` | Each lens writes one context doc for the slice (`lens/{ux,agentic,marketing,architecture,quality,run,measure}.md`). `/measure` runs last and stamps the slice *realized* once all seven agree. |
-| **Implementation — cut, build, check** | `/grill` → `/implement` → `/validate` → `/launch` | `/grill` cuts the realized slice into user-testable epics, each carrying its own ICE and referencing the slice's intent and lenses. `/implement` turns an epic into a test-first plan (the spec), then code and tests, behind the builder/validator barrier. `/validate` runs the checks the quality and measure lenses declare, plus the epic's declared surface; `/launch` walks a human through the epic's `user_check` and acceptance. |
+| **Strategy — business intent authored** | `/vision` → `/understand` → `/shape` → `/roadmap` | `/vision` seeds the domain and directional capabilities. `/understand` details one capability and its functionalities. `/shape` composes deliverable slices. `/roadmap` orders them. |
+| **Realize — forward connector: adds context to the slice** | Functional: `/ux` → `/agentic` → `/marketing`. Non-functional: `/arch` → `/quality` → `/run`. Then `/measure` | Each lens writes one context doc for the slice (`lens/{ux,agentic,marketing,architecture,quality,run,measure}.md`). `/measure` runs last and stamps the slice *realized* once all seven agree. |
+| **Implementation — business intent delivered: cut, build, check** | `/grill` → `/implement` → `/validate` → `/launch` | `/grill` cuts the realized slice into user-testable epics, each carrying its own ICE and referencing the slice's intent and lenses. `/implement` turns an epic into a test-first plan (the spec), then code and tests, behind the builder/validator barrier. `/validate` runs the checks the quality and measure lenses declare, plus the epic's declared surface; `/launch` walks a human through the epic's `user_check` and acceptance. |
 
-**After implementation — `/learn`.** It reads what actually happened (the measure lens, validate verdicts and fix reports, the run lens, delivered status), finds where the stored intent drifted from reality, and fixes it at the source: the strategy side (capability and functionality docs, new decision records) or the realize side (the measure, run, and quality lenses). Every change must cite an outcome.
+**Back connector — `/learn`, after implementation.** It reads what actually happened (the measure lens, validate verdicts and fix reports, the run lens, delivered status), finds where the stored intent drifted from reality, and fixes it at the source: the strategy side (capability and functionality docs, new decision records) or the realize side (the measure, run, and quality lenses). Every change must cite an outcome.
 
 Mapped back to ICE: strategy writes **Intent**, realize supplies **Context**, and implementation generates the **Expectation** and spec that its checks verify against. `/learn` keeps the stored intent true.
 

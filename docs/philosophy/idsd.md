@@ -27,23 +27,29 @@ IDD and IDSD do not change when the tooling does. The ICE framework (Intent, Con
 
 ## IDSD in One Page
 
-IDSD treats software delivery as **intent carried forward**, never re-invented. Three stages carry the same stored intent, each doing one ICE job:
+IDSD treats software delivery as a **loop around one stored intent**, never a line that re-invents it. Two ends, two connectors:
 
 ```
-   STRATEGY  ─────────►  REALIZE  ─────────►  IMPLEMENTATION
-   craft intent          add context to       cut into delivery units,
-   (Intent)              each slice           build, check against intent
-                         (Context)            (Expectation, spec, code)
-       ▲                     ▲                        │
-       └────────── LEARN ────┴────────────────────────┘
-          after implementation: find drift between what shipped
-          and the stored intent; fix realize or strategy
+                 ┌──────────── REALIZE ────────────┐
+                 │   adds context to each slice    │
+                 │   (Context)                     ▼
+          STRATEGY                            IMPLEMENTATION
+    business intent is authored          business intent is delivered:
+    (Intent)                             cut, built, checked against intent
+                 ▲                       (Expectation, spec, code)
+                 │                                 │
+                 └───────────── LEARN ◄────────────┘
+                     outcomes correct the intent
+                     where it drifted
+
+   SDLC intent runs underneath every step, on both sides of the loop:
+   how each lifecycle step operates, fixed in the framework.
 ```
 
-- **Strategy** decides what the product is and in what order to build it.
-- **Realize** is the bridge between strategy and implementation: it adds the context — experience, agentic behaviour, marketing, architecture, quality, operations, and measures — that a slice needs before anyone builds it.
-- **Implementation** turns a realized slice into delivery units, builds them, and checks them against the intent.
-- **Learn** is not a stage; it is the step that must follow implementation. It compares what actually happened with what was intended, and corrects realize or strategy where they drifted — which is what keeps strategy and implementation from pulling apart.
+- **Strategy** is where business intent is authored: what the product is and in what order to build it.
+- **Implementation** is where business intent is delivered: the realized slice is cut into delivery units, built, and checked against the intent.
+- **Realize** connects strategy to implementation. It adds the context — experience, agentic behaviour, marketing, architecture, quality, operations, and measures — that a slice needs before anyone builds it.
+- **Learn** connects implementation back to strategy. It compares what actually happened with what was intended and corrects realize or strategy where they drifted. Without it, strategy and implementation pull apart.
 
 Three ideas hold the lifecycle together:
 
