@@ -1,0 +1,814 @@
+{
+  "violations": [
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/author-agentic-lens/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Input",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/author-agentic-lens/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Process",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/author-agentic-lens/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Output",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/author-architecture-lens/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Input",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/author-architecture-lens/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Process",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/author-architecture-lens/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Output",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/author-build-plan/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Input",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/author-build-plan/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Process",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/author-build-plan/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Output",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/author-epics/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Input",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/author-epics/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Process",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/author-epics/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Output",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/author-hitl-scenarios/SKILL.md",
+      "rule": "structural/frontmatter-parse-error",
+      "severity": "error",
+      "message": "YAML parse error: bad indentation of a mapping entry (2:629)\n\n 1 |  ... \n 2 |  ... eck. Both directions must close: every acceptance criterion get ...\n-----------------------------------------^\n 3 |  ... \n 4 |  ... ",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/author-learnings/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Input",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/author-learnings/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Process",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/author-marketing-lens/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Input",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/author-marketing-lens/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Process",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/author-measure-lens/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Input",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/author-measure-lens/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Process",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/author-measure-lens/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Output",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/author-quality-lens/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Input",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/author-quality-lens/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Process",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/author-quality-lens/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Output",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/author-roadmap/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Input",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/author-roadmap/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Process",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/author-roadmap/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Output",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/author-run-lens/SKILL.md",
+      "rule": "structural/frontmatter-parse-error",
+      "severity": "error",
+      "message": "YAML parse error: bad indentation of a mapping entry (2:305)\n\n 1 |  ... \n 2 |  ... ow the slice ships and operates: the slice-level design (rollou ...\n-----------------------------------------^\n 3 |  ... \n 4 |  ... ",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/author-shape-bundle/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Input",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/author-shape-bundle/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Process",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/author-shape-bundle/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Output",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/author-steelman-evals/SKILL.md",
+      "rule": "structural/frontmatter-parse-error",
+      "severity": "error",
+      "message": "YAML parse error: bad indentation of a mapping entry (2:537)\n\n 1 |  ... \n 2 |  ... le. Compartmentalized by design: runs in a sub-agent the implem ...\n-----------------------------------------^\n 3 |  ... \n 4 |  ... ",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/author-vision-seed/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Input",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/author-vision-seed/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Process",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/author-vision-seed/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Output",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/check-cut-tensions/SKILL.md",
+      "rule": "structural/frontmatter-parse-error",
+      "severity": "error",
+      "message": "YAML parse error: bad indentation of a mapping entry (2:711)\n\n 1 |  ... \n 2 |  ... esolved DELIVERY-METHOD choices: when an epic's user check depe ...\n-----------------------------------------^\n 3 |  ... \n 4 |  ... ",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/configure-capabilities/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Output",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/deploy-to-cloud-env/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Input",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/deploy-to-cloud-env/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Process",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/deploy-to-cloud-env/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Output",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/derive-design-patterns/SKILL.md",
+      "rule": "structural/frontmatter-parse-error",
+      "severity": "error",
+      "message": "YAML parse error: bad indentation of a mapping entry (2:180)\n\n 1 |  ... \n 2 |  ... oduct at every applicable layer: system-level, layer-level, com ...\n-----------------------------------------^\n 3 |  ... \n 4 |  ... ",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/derive-logical-architecture/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: model",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/derive-logical-architecture/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: allowed-tools",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/derive-nfr-spec/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: model",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/derive-nfr-spec/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: allowed-tools",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/derive-nfr-spec/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Output",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/derive-physical-architecture/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: model",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/derive-physical-architecture/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: allowed-tools",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/derive-quality-vision/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: model",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/derive-quality-vision/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: allowed-tools",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/derive-quality-vision/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Output",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/derive-systems-inventory/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: model",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/derive-systems-inventory/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: allowed-tools",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/derive-tech-stack/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: model",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/derive-tech-stack/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: allowed-tools",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/enrich-capabilities/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Output",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/enrich-capability-ice/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Input",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/enrich-capability-ice/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Process",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/enrich-capability-ice/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Output",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/judge-validation-results/SKILL.md",
+      "rule": "structural/frontmatter-parse-error",
+      "severity": "error",
+      "message": "YAML parse error: bad indentation of a mapping entry (2:527)\n\n 1 |  ... \n 2 |  ... dds judgment the scripts cannot: deduplicating one root cause r ...\n-----------------------------------------^\n 3 |  ... \n 4 |  ... ",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/kb-search/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: model",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/kb-search/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: allowed-tools",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/kb-search/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Input",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/kb-search/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Process",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/merge-pr/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: model",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/merge-pr/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: allowed-tools",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/plan-validation-checks/SKILL.md",
+      "rule": "structural/frontmatter-parse-error",
+      "severity": "error",
+      "message": "YAML parse error: bad indentation of a mapping entry (2:748)\n\n 1 |  ... \n 2 |  ... hecks.yaml (one entry per check: runner class, tool, command, i ...\n-----------------------------------------^\n 3 |  ... \n 4 |  ... ",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/propose-kb-node/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Input",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/propose-kb-node/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Process",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/propose-kb-node/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Output",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/quality-check/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: model",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/quality-check/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: allowed-tools",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/quality-check/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Input",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/quality-check/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Process",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/quality-check/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Output",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/quality-check-scoped/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: model",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/quality-check-scoped/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: allowed-tools",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/quality-check-scoped/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Input",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/quality-check-scoped/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Process",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/quality-check-scoped/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Output",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/rank-recommendations/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: user-invocable",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/rank-recommendations/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: model",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/rank-recommendations/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: allowed-tools",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/rank-recommendations/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Input",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/rank-recommendations/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Process",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/rank-recommendations/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Output",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/recommend-mvp/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Output",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/refine-quality-profile/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: model",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/refine-quality-profile/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: allowed-tools",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/resolve-issues/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: model",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/resolve-issues/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: allowed-tools",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/run-quality-gates/SKILL.md",
+      "rule": "structural/frontmatter-parse-error",
+      "severity": "error",
+      "message": "YAML parse error: bad indentation of a mapping entry (2:833)\n\n 1 |  ... \n 2 |  ... te the lens\". Purely mechanical: the script does the work; no i ...\n-----------------------------------------^\n 3 |  ... \n 4 |  ... ",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/search-kb/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Input",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/search-kb/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Process",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/search-kb/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Output",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/stand-up-launch-env/SKILL.md",
+      "rule": "structural/frontmatter-parse-error",
+      "severity": "error",
+      "message": "YAML parse error: bad indentation of a mapping entry (2:382)\n\n 1 |  ... \n 2 |  ... ble, and writes a deploy record: environment, target, the reach ...\n-----------------------------------------^\n 3 |  ... \n 4 |  ... ",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/submit-pr/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: model",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/submit-pr/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: allowed-tools",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/validate-abstraction-layer/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Output",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/validate-architecture-spec/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Output",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/install-garura/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Compiled From",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/install-garura/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Role",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/install-garura/SKILL.md",
+      "rule": "structural/missing-standard-play-close",
+      "severity": "error",
+      "message": "Standard Play Close anchors must appear exactly once each (found opener 0, closer 0). See standards/rules/play-close.md.",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/play-creator/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Compiled From",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/play-creator/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Role",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/play-creator/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Pre-flight",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/play-creator/SKILL.md",
+      "rule": "structural/missing-standard-play-close",
+      "severity": "error",
+      "message": "Standard Play Close anchors must appear exactly once each (found opener 0, closer 0). See standards/rules/play-close.md.",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/play-editor/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Compiled From",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/play-editor/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Role",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/play-editor/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Pre-flight",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/play-editor/SKILL.md",
+      "rule": "structural/missing-standard-play-close",
+      "severity": "error",
+      "message": "Standard Play Close anchors must appear exactly once each (found opener 0, closer 0). See standards/rules/play-close.md.",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/uninstall-garura/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Compiled From",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/uninstall-garura/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Role",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/uninstall-garura/SKILL.md",
+      "rule": "structural/missing-standard-play-close",
+      "severity": "error",
+      "message": "Standard Play Close anchors must appear exactly once each (found opener 0, closer 0). See standards/rules/play-close.md.",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/focus/SKILL.md",
+      "rule": "structural/spelling-inconsistency",
+      "severity": "warning",
+      "message": "Corpus uses mixed spellings for user-invocable/user-invokable. This file uses `user-invokable` (minority form).",
+      "line": 1
+    },
+    {
+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/next/SKILL.md",
+      "rule": "structural/spelling-inconsistency",
+      "severity": "warning",
+      "message": "Corpus uses mixed spellings for user-invocable/user-invokable. This file uses `user-invokable` (minority form).",
+      "line": 1
+    }
+  ],
+  "summary": {
+    "errors": 113,
+    "warnings": 2,
+    "infos": 0
+  }
+}

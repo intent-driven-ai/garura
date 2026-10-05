@@ -1,0 +1,2828 @@
+diff --git a/.garura/project/issues/533/context/analysis.yaml b/.garura/project/issues/533/context/analysis.yaml
+new file mode 100644
+index 00000000..d547bda8
+--- /dev/null
++++ b/.garura/project/issues/533/context/analysis.yaml
+@@ -0,0 +1,36 @@
++---
++# analyze-changes output (agent judgment, #533)
++issue: 533
++needs_judgment: true
++
++change_groups:
++  - id: g1
++    issue: 533
++    commit_type: feat
++    scope: next
++    subject: read the product spine and order the list to finish one slice first
++    files:
++      - core/components/plays/next/reference/ice.md
++      - core/components/plays/next/SKILL.md
++      - core/components/plays/next/stop-condition.yaml
++      - core/components/plays/next/scripts/scan_model.py
++      - core/components/plays/next/scripts/derive_candidates.py
++      - core/components/plays/next/scripts/check_model_agreement.py
++      - core/components/plays/next/scripts/test_derive_candidates.py
++      - core/components/plays/next/scripts/check_output.py
++      - core/components/plays/next/scripts/classify_work.py
++
++exclusions:
++  []
++
++risks:
++  sensitive_files:
++    []
++  breaking_changes:
++    []
++  ambiguous_types: []
++  hotfix_branch: false
++
++eval_gates:
++  SE-1: {status: PASS, evidence: "one concern: single intent change to the next play (ICE + compiled SKILL + stop-condition + its scripts)"}
++  SE-5: {status: PASS, evidence: "no sensitive patterns matched"}
+diff --git a/.garura/project/issues/533/context/branch.json b/.garura/project/issues/533/context/branch.json
+new file mode 100644
+index 00000000..940c6b81
+--- /dev/null
++++ b/.garura/project/issues/533/context/branch.json
+@@ -0,0 +1,6 @@
++{
++  "branch_name": "feature/533-next-reads-spine",
++  "base_sha": "9f3bc16f818de0aded18ca2927a510115641715f",
++  "on_default_branch": false,
++  "worktree_path": null
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/533/context/commits.yaml b/.garura/project/issues/533/context/commits.yaml
+new file mode 100644
+index 00000000..96192021
+--- /dev/null
++++ b/.garura/project/issues/533/context/commits.yaml
+@@ -0,0 +1,20 @@
++commits:
++  - sha: a0365664
++    message: "feat(next): read the product spine and order the list to finish one slice first (#533)"
++    files:
++      - core/components/plays/next/reference/ice.md
++      - core/components/plays/next/SKILL.md
++      - core/components/plays/next/stop-condition.yaml
++      - core/components/plays/next/scripts/scan_model.py
++      - core/components/plays/next/scripts/derive_candidates.py
++      - core/components/plays/next/scripts/check_model_agreement.py
++      - core/components/plays/next/scripts/test_derive_candidates.py
++      - core/components/plays/next/scripts/check_output.py
++      - core/components/plays/next/scripts/classify_work.py
++    branch: feature/533-next-reads-spine
++excluded_files:
++  []
++leftover_count: 0
++tree_clean: true
++pushed: false
++run_state_committed: true
+diff --git a/.garura/project/issues/533/context/issue.json b/.garura/project/issues/533/context/issue.json
+new file mode 100644
+index 00000000..05b56c7a
+--- /dev/null
++++ b/.garura/project/issues/533/context/issue.json
+@@ -0,0 +1,6 @@
++{
++  "resolved": true,
++  "issue_number": 533,
++  "title": "[DEF][High] /next reads per-node records instead of the spine — every recommendation can be wrong, and its own check cannot catch it",
++  "created": false
++}
+diff --git a/.garura/project/issues/533/context/porcelain.txt b/.garura/project/issues/533/context/porcelain.txt
+new file mode 100644
+index 00000000..d49e84e7
+--- /dev/null
++++ b/.garura/project/issues/533/context/porcelain.txt
+@@ -0,0 +1,10 @@
++ M core/components/plays/next/SKILL.md
++ M core/components/plays/next/reference/ice.md
++ D core/components/plays/next/scripts/check_output.py
++ D core/components/plays/next/scripts/classify_work.py
++ M core/components/plays/next/scripts/derive_candidates.py
++ M core/components/plays/next/scripts/scan_model.py
++ M core/components/plays/next/stop-condition.yaml
++?? .garura/project/issues/533/context/porcelain.txt
++?? core/components/plays/next/scripts/check_model_agreement.py
++?? core/components/plays/next/scripts/test_derive_candidates.py
+diff --git a/.garura/project/issues/533/context/pr-body.md b/.garura/project/issues/533/context/pr-body.md
+new file mode 100644
+index 00000000..c515434c
+--- /dev/null
++++ b/.garura/project/issues/533/context/pr-body.md
+@@ -0,0 +1,55 @@
++## What this changes
++
++`/next` now reads the product spine (`_spine.yaml`) as the source of truth. Before, it read the per-slice record files, which lag the spine. So it recommended work that was already done: it sent griffin back to `/roadmap` after the roadmap had merged, and to `/understand` on a firm profile.
++
++Closes #533.
++
++## How
++
++- **Spine read.** `scan_model.py` reads slice status, order, effort, depends_on and the profile block from the spine. It falls back to per-node records only where the spine is silent.
++- **An independent check.** The issue noted that the old self-check shared the scanner's reader, so it could never catch a wrong read. The new `check_model_agreement.py` reads the model on its own. It runs inside the regression test file `test_derive_candidates.py` (15/15 pass).
++- **Finish one slice first (C14).** The list now puts every step of the focus slice first. That is the lowest-order slice with work left. Other slices show as parallel lanes. They are shown, never hidden.
++
++## Why two scripts were deleted
++
++This was a simplification the user asked for on 2026-09-11. `/next` is now read → build and order → show.
++
++- `classify_work.py` (operator fit) was removed with its constraint, failure condition, scenarios and recovery.
++- `check_output.py` was the runtime re-scan and output check. It went through the same reader as the scanner, so it confirmed a wrong answer as clean. That is the exact failure in #533. The independent agreement reader replaces it.
++
++This is an intent change. It went through `reference/ice.md` and a play-editor recompile. The fingerprint was recomputed, and the recompile note in `SKILL.md` records the change. Constraint, failure and scenario ids stay stable, so the numbered sets have gaps where items were removed.
++
++## Self-review
++
++# Self-review: issue 533 (/next reads the product spine)
++
++Rules applied: /Users/kapilahuja/.garura/core/memory/standards/rules/self-review.md (base, not an override).
++Diff: main...HEAD, 3 commits. Real change is a0365664 under core/components/plays/next/; the rest is STM run records.
++
++Overall verdict: ready to raise. Zero blocking findings. Four notes for the reviewer.
++
++## Scope
++
++- [PASS] Matches the issue. The spine is now the source for slice status, order, effort, depends_on and the profile block, which is the fix the issue asks for. A separate agreement check reads independently of the scanner, which is the issue's third fix direction.
++- [REVIEW] Scope creep risk. The commit also deletes classify_work.py and check_output.py and re-orders the list to "finish one slice first". The issue text does not mention these. They are inside the /next play, so they are not unrelated files, but the PR description should say why they were removed.
++- [REVIEW] Size. About 1200 lines added and 860 removed across 9 play files. Large, but concentrated in one play; the PR description should justify it.
++- [PASS] No stray artifacts. No commented-out blocks, scratch files or debug output found. The only print calls are the scripts' own JSON output and test runner lines.
++
++## Quality
++
++- [PASS] Tests present. scripts/test_derive_candidates.py was run: 15/15 passed.
++- [PASS] Commits clean. Conventional format, each references #533. The two chore(stm) commits are run records.
++- [PASS] No secrets. Pattern scan of the added lines found none.
++- [REVIEW] Docs in step. These still point at the deleted scripts:
++  - core/components/memory/knowledge/_index.md (line 40) and work-intelligence/operator-fit.md (line 6) and work-map.yaml (line 3) cite classify_work.py.
++  - core/components/memory/standards/rules/no-unbacked-recommendation.md (line 73) cites check_output.py's C12/F10 check, which no longer exists in /next.
++  This is stale documentation, not a broken path in the change's own goal, so it is not marked as a blocker. Worth a follow-up issue or a fix in this PR.
++- [REVIEW] The play's intent files (reference/ice.md, stop-condition.yaml) changed. The project rule says intent changes go through /play-editor; the commit history does not show that. The reviewer should confirm.
++- [PASS] Nothing obviously broken. No leftover TODOs.
++
++## Blocking findings
++
++None. This is not a blocking review.
++
++
++🤖 Generated with [Claude Code](https://claude.com/claude-code)
+diff --git a/.garura/project/issues/533/context/pr.json b/.garura/project/issues/533/context/pr.json
+new file mode 100644
+index 00000000..f3a1cd23
+--- /dev/null
++++ b/.garura/project/issues/533/context/pr.json
+@@ -0,0 +1,6 @@
++{
++  "number": 577,
++  "url": "https://github.com/kapilvirenahuja/garura/pull/577",
++  "state": "OPEN",
++  "base": "main"
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/533/context/resolved-rules.json b/.garura/project/issues/533/context/resolved-rules.json
+new file mode 100644
+index 00000000..70b8f431
+--- /dev/null
++++ b/.garura/project/issues/533/context/resolved-rules.json
+@@ -0,0 +1,6 @@
++{
++  "resolved": true,
++  "path": "/Users/kapilahuja/.garura/core/memory/standards/rules/self-review.md",
++  "source": "/Users/kapilahuja/.garura/core/memory/standards/rules",
++  "is_override": false
++}
+diff --git a/.garura/project/issues/533/context/self-review.md b/.garura/project/issues/533/context/self-review.md
+new file mode 100644
+index 00000000..5de58a3a
+--- /dev/null
++++ b/.garura/project/issues/533/context/self-review.md
+@@ -0,0 +1,29 @@
++# Self-review: issue 533 (/next reads the product spine)
++
++Rules applied: /Users/kapilahuja/.garura/core/memory/standards/rules/self-review.md (base, not an override).
++Diff: main...HEAD, 3 commits. Real change is a0365664 under core/components/plays/next/; the rest is STM run records.
++
++Overall verdict: ready to raise. Zero blocking findings. Four notes for the reviewer.
++
++## Scope
++
++- [PASS] Matches the issue. The spine is now the source for slice status, order, effort, depends_on and the profile block, which is the fix the issue asks for. A separate agreement check reads independently of the scanner, which is the issue's third fix direction.
++- [REVIEW] Scope creep risk. The commit also deletes classify_work.py and check_output.py and re-orders the list to "finish one slice first". The issue text does not mention these. They are inside the /next play, so they are not unrelated files, but the PR description should say why they were removed.
++- [REVIEW] Size. About 1200 lines added and 860 removed across 9 play files. Large, but concentrated in one play; the PR description should justify it.
++- [PASS] No stray artifacts. No commented-out blocks, scratch files or debug output found. The only print calls are the scripts' own JSON output and test runner lines.
++
++## Quality
++
++- [PASS] Tests present. scripts/test_derive_candidates.py was run: 15/15 passed.
++- [PASS] Commits clean. Conventional format, each references #533. The two chore(stm) commits are run records.
++- [PASS] No secrets. Pattern scan of the added lines found none.
++- [REVIEW] Docs in step. These still point at the deleted scripts:
++  - core/components/memory/knowledge/_index.md (line 40) and work-intelligence/operator-fit.md (line 6) and work-map.yaml (line 3) cite classify_work.py.
++  - core/components/memory/standards/rules/no-unbacked-recommendation.md (line 73) cites check_output.py's C12/F10 check, which no longer exists in /next.
++  This is stale documentation, not a broken path in the change's own goal, so it is not marked as a blocker. Worth a follow-up issue or a fix in this PR.
++- [REVIEW] The play's intent files (reference/ice.md, stop-condition.yaml) changed. The project rule says intent changes go through /play-editor; the commit history does not show that. The reviewer should confirm.
++- [PASS] Nothing obviously broken. No leftover TODOs.
++
++## Blocking findings
++
++None. This is not a blocking review.
+diff --git a/.garura/project/issues/533/context/work-description.txt b/.garura/project/issues/533/context/work-description.txt
+new file mode 100644
+index 00000000..a9a4c5c5
+--- /dev/null
++++ b/.garura/project/issues/533/context/work-description.txt
+@@ -0,0 +1,18 @@
++[BUG] /next recommends finished work because it still reads the old product model layout
++
++The problem in plain words: /next is the play that reads the product model and says what to do next. After ADR 026 moved the model to grounding docs with the spine (_spine.yaml) as the index, /next was never updated. It only reads the model, so the ADR 026 fanout (which covered the 13 plays that write the model) skipped it, and it has no tests to catch the drift. The result: it recommends work that is already done.
++
++Evidence (griffin, seen twice): /next recommended /roadmap and /understand. The profile is set, and all four slices are planned with roadmap order 1-4. Re-running the scanner on griffin gives profile: None, every slice status 'proposed' with no order, zero lenses, zero capability ICEs.
++
++What is wrong:
++1. Profile is read from product-os/profile.yaml. It now lives in _spine.yaml (profile.state).
++2. Slice status, order and effort are read from each slice record. The record only holds a stale `status: proposed`; the spine `slices` index holds the real status, order, effort and depends_on.
++3. Lens presence is checked as lens/<type>.yaml. The lens plays write lens/<type>.md.
++4. The lens list has six entries. Marketing is missing; the plays write seven (grill/check_ready_slice.py, measure/lines_up.py).
++5. Capability depth looks for yaml files with a top-level `ice:` key. None exist now; the spine capability entry carries `detail: detailed` (set by /understand). So the /shape branch can never fire.
++6. Epics are globbed from slices/<slice>/epics/*.yaml with an `epic:` key. /grill now writes the spine `epics` index plus epic.md docs (grill/persist_epics.py); /validate stamps status and surface_verified on the spine entry.
++7. The decision tree encodes one linear lens chain (quality→ux→agentic→architecture→measure→run) and points the realized stamp at /run. standards/rules/pipeline-next.md defines two realize tracks — functional (ux→agentic→marketing) and non-functional (arch→quality→run) — with /measure last, and /measure stamps the slice realized (measure/persist_measure.py).
++
++Scope: the /next play only — reference/ice.md (it says "the six realize lenses", so this is an intent change through /play-editor), scripts/scan_model.py and scripts/derive_candidates.py. Out of scope: removing the stale `status` from slice records, and the glossary line that still says lens/<type>.yaml (note as follow-ups).
++
++Done when: /next on griffin's model reads the profile as set, sees four planned slices in order 1-4, sees the three lens docs on trusted-local-collection, and no longer recommends /roadmap or /understand.
+diff --git a/core/components/plays/next/SKILL.md b/core/components/plays/next/SKILL.md
+index 9b5fbcc6..bc88d4a7 100644
+--- a/core/components/plays/next/SKILL.md
++++ b/core/components/plays/next/SKILL.md
+@@ -1,99 +1,72 @@
+ ---
+ name: next
+ position: none
+-description: 'Recommend what to do next on the product — read the product model''s current state (slices, lenses, epics, profile, roadmap order + dependencies), derive every runnable or blocked action through a deterministic decision tree, and present ONE next-best-action plus a ranked list (≤11 entries total), fitted to the person running. The model is the single source: no backlog, sprint plan, or work queue exists or is consulted. Operator fit is computed lexically from the person''s git identity + commit history against the KB''s work-intelligence shelf (glob path match + BM25 — never inference), and skipped with a notice when history is thin. A model inconsistency that blocks downstream work (e.g. a slice stamped realized with a lens missing) is a repair action and takes the next-best-action slot. Recommend ONLY: the play never modifies the model, never creates work items, never launches a play — multiple people and parallel agents can each pick a different lane from its output. Read-only and position none: runnable anytime, on any branch, even mid-pipeline. Use when the user asks "what next", "what should I work on", "where are we", or wants the backlog-of-the-model ranked.'
++description: 'Recommend what to do next on the product — read the product model (the spine `_spine.yaml` plus each slice''s lens docs), build the list of every runnable or blocked action with a deterministic decision tree, order it to finish one slice before the others advance, and show ONE next-best-action plus the ordered list (≤11 entries). Reading and ordering are scripts; the play only presents. Order: repair first, then every step of the focus slice (the lowest roadmap-order slice with work left — feature track, technical track, /measure, /grill, its epics), then strategy, then other slices'' steps as parallel lanes (shown, never hidden), then learning and refresh. The model is the single source: no backlog, sprint plan, or work queue exists or is consulted. Recommend ONLY: the play never modifies the model, never creates work items, never launches a play. Read-only and position none: runnable anytime, on any branch, even mid-pipeline. Use when the user asks "what next", "what should I work on", "where are we", or wants the model''s work ordered.'
+ user-invokable: true
+ ---
+ 
+ # next
+ 
+-Read the product model, work out everything that could happen next — strategy
+-(vision, understand, shape, roadmap), realization (the six lenses), grilling,
+-execution (implement, validate, launch), learning (learn), and strategy refresh
+-once everything is delivered — and recommend: one **next-best-action** plus a
+-ranked list of alternatives (parallel lanes included), every entry carrying the
+-exact command and a plain-language explanation of why and what it unblocks.
++Read the product model, build the list of everything that could happen next —
++strategy (vision, understand, shape, roadmap), realization (the seven lens docs across
++the functional and non-functional tracks, then /measure), grilling, execution
++(implement, validate, launch), learning (learn), and strategy refresh once everything
++is delivered — put it in the finish-the-slice-first order, and show it: one
++**next-best-action** plus the ordered list, every entry carrying the exact command and a
++plain-language line on why.
+ 
+-The recommendation is advice, never action. The play writes nothing to the
+-model, opens nothing, launches nothing. Its only durable products are the
+-recommendation it presents to the user and — when evidence recording is on — the
+-evidence record of how it was derived; every transient working file it writes is
+-deleted once the recommendation has been verified and presented (C10).
++The recommendation is advice, never action. The play writes nothing to the model,
++opens nothing, launches nothing. Its only durable products are the recommendation it
++presents and — when evidence recording is on — the evidence record; every transient
++working file is deleted once the recommendation has been presented (C10).
+ 
+ ## Compiled From
+ 
+ This play was compiled from the next ICE (`reference/ice.md`) by play-creator and
+-recompiled by play-editor (#466 Batch D, Level 3 rollout per ADR 025).
+-Intent defines constraints (C1–C12) and failure conditions (F1–F9); the
+-expectation defines success scenarios (S1–S6), a Done means (D1–D3, baked to
+-`stop-condition.yaml`), and one recovery entry per failure condition.
++recompiled by play-editor (#466 Batch D, Level 3 rollout per ADR 025; #533 spine read;
++#533 simplification). Intent defines constraints (C1–C6, C8–C14) and failure conditions
++(F1–F3, F5–F11); the expectation defines success scenarios (S1, S4–S8), a Done means
++(D1–D2, baked to `stop-condition.yaml`), and one recovery entry per failure condition.
+ To modify this play, update `reference/ice.md` and recompile with play-editor.
+ Do NOT edit this file manually — it is a compiled artifact.
+ 
+ ## Role
+ 
+-You are the orchestrator. You own the workflow and the step order. You run every
+-mechanical part through bundled scripts — the model scan, the decision tree, the
+-work classification, and the output enforcement are deterministic code, never
+-re-reasoned prose (C8). You delegate the one piece of judgment — ranking the
+-candidate set and writing the explanations — to the `product-os-keeper` agent,
+-which invokes the `rank-recommendations` skill via a JSON contract over files on
+-disk. You capture the two live git reads yourself at pre-flight (identity and
+-history); scripts never shell out to git. At close, after the output is verified
+-and presented, you delete the working folder yourself — the play leaves no scratch
+-behind (C10); the evidence record is never deleted.
+-
+-**Forbidden:** writing anything under the product model; creating issues,
+-branches, or work items; launching another play from this one; deriving
+-candidates by reasoning instead of `scripts/derive_candidates.py`; classifying
+-the operator by inference instead of `scripts/classify_work.py`; consulting any
+-backlog or project store (none exists — the model is the only source, C1);
+-asserting operator fit when history is thin (C7).
+-
+-**Agent boundaries:**
+-
+-| Agent | Domain | Skills it invokes | Phases |
+-|-------|--------|-------------------|--------|
+-| `product-os-keeper` | Rank the derived candidate set into NBA + ranked list with plain-language explanations, applying the work-intelligence shelf's fit rules (or skipping fit when history is thin) | `rank-recommendations` | Preparation |
+-
+-`product-os-keeper` is the single **domain agent** this play uses (1 of the ≤5
+-budget). No utility agents — there is no git/issue machinery (read-only,
+-position none).
++You are the orchestrator. Three things happen, in order: a script reads the model, a
++script builds and orders the list, and you present it. Every mechanical part is a
++bundled script — the model scan, the decision tree and the ordering — never re-reasoned
++prose. Your one piece of judgment is wording the presentation; you never reorder, add,
++or drop an entry. At close you delete the working folder yourself — the play leaves no
++scratch behind; the evidence record is never deleted.
++
++**Forbidden:** writing anything under the product model; creating issues, branches, or
++work items; launching another play from this one; deriving or ordering candidates by
++reasoning instead of `scripts/derive_candidates.py`; consulting any backlog or project
++store (none exists — the model is the only source).
++
++**Agent boundaries:** none. This play dispatches no agents and no skills — there is no
++judgment step a script cannot own, and no git/issue machinery (read-only, position none).
+ 
+ ## Pre-flight
+ 
+ | Check | Constraint | Action on Failure |
+ |-------|-----------|-------------------|
+ | Resolve config (`.garura/core/config.yaml`) via `scripts/preflight.py` | — | Hard halt |
+-| Work-intelligence map resolves (`<knowledge_dir>/work-intelligence/work-map.yaml`) | C7 | Hard halt |
+-| Operator identity captured (`git config user.name` non-empty) | C7 | Degrade — treat as thin history (no fit), continue |
+-| Product model present under `<product_base>/product-os/` | — | **Not a failure** — feeds the tree's cold-start branch (S4) |
++| Product model present under `<product_base>/product-os/` | — | **Not a failure** — feeds the tree's cold-start branch |
+ 
+ ```
+ python3 scripts/preflight.py --play next --config .garura/core/config.yaml
+ ```
+ 
+ `preflight.py` returns the config facts (`product_base`, `stm_base`,
+-`evidence_record`). Resolve `<knowledge_dir>` as the `knowledge/` dir under the
+-memory path from config's `ltm` section, and the working dir as
+-`<working> = ${product_base}_status/next/` (a play-lifecycle folder; the model
+-tree itself is never written). /next has no branch or issue resolution
+-(position none): it runs on whatever branch it finds, including main, and
+-leaves it untouched.
++`evidence_record`). The working dir is `<working> = ${product_base}_status/next/` (a
++play-lifecycle folder; the model tree itself is never written). /next has no branch or
++issue resolution (position none): it runs on whatever branch it finds, including main,
++and leaves it untouched.
+ 
+-Capture the two live git reads now — the orchestrator runs them and writes the
+-files; every script only reads what was captured (layer rule):
+-
+-```
+-git config user.name                                   > <working>/operator.txt
+-git log --author="$(cat <working>/operator.txt)" \
+-        --name-only --no-merges -n 200                 > <working>/git-history.log
+-```
+-
+-Right after the capture, record the session identity stamp's start marker (#463 —
+-soft-fail, never a halt). /next is read-only and issue-less, so the marker lives in
+-the play's own working folder — it travels with the run and is removed by Step 9's
+-self-clean; the stamp's durable copy is the evidence record:
++Record the session identity stamp's start marker (#463 — soft-fail, never a halt). The
++marker lives in the working folder and is removed by the self-clean; its durable copy is
++the evidence record:
+ 
+ ```
+ python3 scripts/session_stamp.py --phase start \
+@@ -101,194 +74,157 @@ python3 scripts/session_stamp.py --phase start \
+     --cwd "$(pwd)" --branch "$(git branch --show-current)"
+ ```
+ 
+-**Resume check:** /next is cheap and advisory — a re-run is always a fresh run.
+-If `<working>/` holds artifacts from a prior run, overwrite them; never resume
+-a stale recommendation against a model that may have moved.
++**Resume check:** /next is cheap and advisory — a re-run is always a fresh run. If
++`<working>/` holds artifacts from a prior run, overwrite them; never resume a stale
++recommendation against a model that may have moved.
+ 
+ ## Task DAG
+ 
+-Create ALL tasks immediately after resolving config — before any domain work.
+-The play owns this DAG; the agent must not edit its top-level tasks.
++Create ALL tasks immediately after resolving config — before any other work.
+ 
+ ```
+-[T1] Capture & scan the model        blockedBy: []
+-[T2] Derive candidates (the tree)    blockedBy: [T1]
+-[T3] Classify the operator           blockedBy: [T1]
+-[T4] Rank & explain                  blockedBy: [T2, T3]
+-[T5] Verify the output               blockedBy: [T4]
+-[T6] Present recommendations         blockedBy: [T5]
+-[T7] Scenario Validation             blockedBy: [T6]
+-[T8] Close                           blockedBy: [T7]
+-[T9] Self-clean (delete working dir)  blockedBy: [T8]
++[T1] Scan the model                  blockedBy: []
++[T2] Build and order the list        blockedBy: [T1]
++[T3] Scenario Validation (quick)     blockedBy: [T2]
++[T4] Present recommendations         blockedBy: [T3]
++[T5] Close                           blockedBy: [T4]
++[T6] Self-clean (delete working dir) blockedBy: [T5]
+ ```
+ 
+-Mark each task in-progress before its step and completed right after its eval
+-passes. No runtime reordering. T2 and T3 are independent and may run in either
+-order once T1 completes.
++Mark each task in-progress before its step and completed right after its eval passes.
++No runtime reordering.
+ 
+ ## Workflow
+ 
+ ### Phase: Preparation
+ 
+-**Step 1 — Capture & scan the model** · Owner: play · Depends on: pre-flight
+-Snapshot the model's state — read-only, with a content hash recorded so Step 5
+-can prove nothing changed:
++**Step 1 — Scan the model** · Owner: play · Depends on: pre-flight
++Snapshot the model's state, read-only. The scan reads the model the way the
++model-writing plays write it (C13, ADR 026): the spine `_spine.yaml` is the index of
++record for the profile, domains, capability detail, slices (status / order / effort /
++depends_on) and epics; lens presence is the seven `lens/<type>.md` docs per slice; a
++slice record is read only for its name and functionalities, never for its status. A tree
++with files but no spine is recorded as `spine_exists: false` — never read from legacy
++per-node files:
+ 
+ ```
+ python3 scripts/scan_model.py --product-base <product_base> \
+         --out <working>/model-state.json
+ ```
+ 
+-A missing model is a valid snapshot (`model_exists: false` — the /vision
+-branch), never an error.
+-**SE-1 (C1/C2):** `model-state.json` exists and was read from `<product_base>`
+-only; when the model exists, `model_hash` is recorded; the play has written
+-nothing outside `<working>`.
+-
+-**Step 2 — Derive candidates (the tree)** · Owner: play · Depends on: Step 1
+-Run the decision tree — strategy → lenses → repair → grill → execute →
+-learning → refresh — as a pure function of the snapshot:
++A missing model is a valid snapshot (`model_exists: false` — the /vision branch), never
++an error.
++**SE-1 (C1/C2/C13, F3):** `model-state.json` exists and was read from `<product_base>`
++only (C1); the scan and every later script write only their `--out` file under
++`<working>` and the play has no model-write step and launches nothing, so nothing under
++`product-os/` changes (F3/C2); the snapshot's profile, slices and epics come from the
++spine (C13).
++
++**Step 2 — Build and order the list** · Owner: play · Depends on: Step 1
++Run the decision tree and the ordering as one pure function of the snapshot. The tree
++spans strategy → both realize tracks of `standards/rules/pipeline-next.md` (the
++functional track ux → agentic → marketing and the non-functional track arch → quality →
++run, each offering its first missing lens doc) → /measure once both are done (it stamps
++the slice realized, so a planned slice with all seven docs is a /measure repair) → grill
++→ execute → learning → refresh. Track order is pipeline-next's recommendation, not a
++readiness gate. The ordering then finishes a slice first: repair anywhere → every step
++of the focus slice (the lowest roadmap-order slice with work left) → strategy → other
++slices' steps by roadmap order, flagged parallel → learning → refresh:
+ 
+ ```
+ python3 scripts/derive_candidates.py --state <working>/model-state.json \
+         --out <working>/candidates.json
+ ```
+ 
+-**SE-2 (F2, F6/C6, C9):** `candidates.json` exists carrying BOTH the candidate
+-set and the inconsistency report (the report is present even when empty — F2's
+-detection always runs); every candidate cites its gates, and cross-slice
+-parallel lanes cite the roadmap order and `depends_on` that permit them (C6);
+-the tree's branches span the full loop (C9) — the file records a
+-`derivation_hash` over the result for the determinism re-check (C8).
+-**SE-7 (F8/C11):** checkable from `candidates.json` alone — for every slice with a
+-`delivered` epic that declares a user-facing surface (`web_dashboard`/`server_api`/
+-`cli`) **and is not `surface_verified`** (its surface-parity check never passed —
+-a downgrade or a legacy epic), the inconsistency report carries a `surface-debt`
+-entry for that slice, a `repair/{slice}/surface` candidate is present in the
+-`repair` lane, and EVERY live execute epic of that slice is `blocked` naming the
+-surface debt — no runnable execute candidate survives for a slice in surface debt
+-(the next epic is withheld). A delivered user-facing epic that **is** `surface_verified`
+-shipped its surface and raises no debt — the slice's execute work proceeds normally.
+-On a GAP, apply REC8 and re-run derivation.
+-
+-**Step 3 — Classify the operator** · Owner: play · Depends on: Step 1
+-Lexical work-profile from the captured history — glob path matching + BM25
+-subject scoring against the work-intelligence map; no inference anywhere:
++**SE-2 (F1, F2, F6 / C6, C8, C9):** `candidates.json` exists carrying the ordered
++`candidates` and the `inconsistencies` report (present even when empty — F2's detection
++always runs); every candidate cites the gates that admit it, matching its target play's
++own readiness rule (F1/F6); other-slice steps cite the roadmap order that permits them
++(C6); the tree's branches span the full loop (C9); the file records a `derivation_hash`
++so the same model state is shown to give the same ordered list (C8).
++**SE-3 (F11 / C5, C14):** checkable from `candidates.json` alone — every repair
++candidate ranks above every non-repair candidate (C5); every step of `focus_slice` ranks
++above every strategy step, every other slice's step, and every learning or refresh step
++(C14); every other slice's step carries `parallel_lane: true`. On a GAP apply REC11.
++**SE-4 (F5 / C3, C4):** `entries` holds at most 11 candidates in rank order, each with a
++`command` and a plain-language `why` sentence (C3/C4); `cut_for_cap` names every
++candidate id past the cap — nothing is silently dropped (F5).
++**SE-5 (F8/C11):** for every slice with a `delivered` epic that declares a user-facing
++surface (`web_dashboard`/`server_api`/`cli`) **and is not `surface_verified`**, the
++inconsistency report carries a `surface-debt` entry for that slice, a
++`repair/{slice}/surface` candidate is present in the `repair` lane, and EVERY live
++execute epic of that slice is `blocked` naming the surface debt — no runnable execute
++candidate survives for a slice in surface debt. A delivered user-facing epic that **is**
++`surface_verified` raises no debt. On a GAP, apply REC8 and re-run derivation.
+ 
+-```
+-python3 scripts/classify_work.py --git-log <working>/git-history.log \
+-        --map <knowledge_dir>/work-intelligence/work-map.yaml \
+-        --author "$(cat <working>/operator.txt)" \
+-        --out <working>/operator-profile.json
+-```
++### Phase: Scenario Validation
+ 
+-**SE-3 (F4/C7):** `operator-profile.json` exists; `thin_history` is computed
+-against the map's thresholds; when thin, `dominant_work_types` is empty — the
+-profile asserts nothing it cannot back.
+-
+-**Step 4 — Rank & explain** · Owner: `product-os-keeper` · Depends on: Steps 2, 3
+-The play dispatches a JSON contract; the agent reads the intent pointer, gathers
+-the fit rules from the work-intelligence shelf, invokes `rank-recommendations`,
+-and verifies the artifact shape before returning — paths only, never inline
+-content:
+-
+-    {
+-      "task":    "rank /next's candidate set into one next-best-action plus a ranked list (≤11 total), each entry with the exact command and a plain-language why + what it unblocks; repair takes the NBA slot when inconsistencies exist; apply the shelf's fit rules only when thin_history is false, recording fit_reason on boosted entries; when thin, skip fit entirely and write the fit_notice; never add, drop, or re-derive a candidate — candidates.json is authoritative",
+-      "intent":  "core/components/plays/next/reference/ice.md",
+-      "inputs":  { "candidates":       "<working>/candidates.json",
+-                   "operator_profile": "<working>/operator-profile.json",
+-                   "fit_rules":        "<knowledge_dir>/work-intelligence/operator-fit.md",
+-                   "model_state":      "<working>/model-state.json" },
+-      "outputs": { "out_yaml": "<working>/recommendations.yaml",
+-                   "out_md":   "<working>/recommendations.md" }
+-    }
+-
+-**SE-4 (F5/C3/C4):** the contract returns with both artifacts on disk;
+-`recommendations.yaml` carries an `nba`, ≤10 further entries, a `basis` block
+-pinning `model_hash` + `derivation_hash`, and `cut_for_cap` for every runnable
+-candidate that didn't make the cap.
+-
+-**Step 5 — Verify the output** · Owner: play · Depends on: Step 4
+-Re-scan, re-derive, and run the enforcer — this is where the read-only proof,
+-the determinism proof, and every output rule are checked mechanically:
++**Step 3 — Scenario evals (quick)** · Owner: play · Depends on: Step 2
++One call, well under a second — the regression file builds small spine-shaped models in
++a temp folder and checks the read, the tree and the order. It carries the independent
++reader (`scripts/check_model_agreement.py`, which does not import the scanner), so a
++wrong read cannot confirm itself. It runs before the list is shown, so a failure halts
++the run before anything is presented:
+ 
+ ```
+-python3 scripts/scan_model.py --product-base <product_base> \
+-        --out <working>/model-state-after.json
+-python3 scripts/derive_candidates.py --state <working>/model-state-after.json \
+-        --out <working>/candidates-after.json
+-python3 scripts/check_output.py \
+-        --recommendations <working>/recommendations.yaml \
+-        --candidates <working>/candidates.json \
+-        --candidates-after <working>/candidates-after.json \
+-        --state-before <working>/model-state.json \
+-        --state-after <working>/model-state-after.json \
+-        --profile <working>/operator-profile.json
++python3 scripts/test_derive_candidates.py
+ ```
+ 
+-**SE-5 (F1, F3, F5, F6 / C2, C4, C5, C7, C8):** `check_output.py` exits 0 —
+-the model hash is unchanged (F3/C2: the play wrote nothing); the after-state
+-re-derivation matches the consumed derivation hash and every recommended entry
+-maps to a still-runnable (or named-blocker) candidate (F1/C8); the cap and
+-explanations hold (F5/C3/C4); repair holds the NBA when inconsistencies exist
+-(C5); no fit language under thin history and the notice is present (F4/C7);
+-every runnable candidate is listed or declared cut (F6).
+-On any GAP, apply the matching recovery (REC1–REC6) and re-run this step.
+-
+-**Step 6 — Present recommendations** · Owner: play · Depends on: Step 5
+-Output `<working>/recommendations.md` to the user **inline** — the NBA as the
+-lead, the ranked list with one plain-language line each, the repair section when
+-the model needs fixing, and the fit summary or skip notice at the end. The
+-operator (or each parallel agent) picks an entry and runs its command
+-themselves — this play launches nothing (C2).
+-
+-### Phase: Scenario Validation
+-
+-**Step 7 — Scenario evals** · Owner: play · Depends on: Step 6
+-- **SCE-1 (S1 — builder, product mid-delivery):** with a realized-but-lens-missing
+-  slice and ready epics behind it, the NBA is the repair (the missing lens play)
+-  and every blocked epic entry names the missing lens as its blocker — checkable
+-  from `recommendations.yaml` + `candidates.json` alone.
+-- **SCE-2 (S2 — implementer, rich history):** with two runnable epics and a
+-  non-thin profile, the work-type/stack-matching epic ranks above the
+-  non-matching one and carries a `fit_reason` stating why.
+-- **SCE-3 (S3 — new contributor, thin history):** with history below the map's
+-  thresholds, `fit_notice` is present, no entry carries a `fit_reason`, and two
+-  runs over the same model state produce identical entries (the derivation and
+-  ranking basis hashes match).
+-- **SCE-4 (S4 — founder, fresh start):** with no product model,
+-  the NBA's command is `/vision` and its `why` explains the cold start.
+-- **SCE-5 (S5 — product owner, everything delivered):** with all slices realized
+-  and every epic delivered, the list contains a learning (`/learn`) or
+-  strategy-refresh (`/shape` from deferred, `/roadmap`) entry with a
+-  plain-language explanation — never "nothing to do".
+-- **SCE-6 (S6 — team running parallel agents):** with slice 1 mid-execution and
+-  slice 2 planned with satisfied dependencies, a slice-2 lens entry appears
+-  flagged as a parallel lane, its gates citing the roadmap order that permits it.
++**SE-7 (F1, F6, F10, F11 / C13):** the file exits 0 — the read cases prove the spine
++and lens-doc read against the independent reader (F10/C13), the tree cases prove each
++branch offers the action its target gate admits (F1/F6), and the order cases prove a
++slice is finished first (F11). On a failing read case apply REC10; on a failing order
++case apply REC11 — either way halt before Step 4.
++
++- **SCE-1 (S1 — builder, product mid-delivery):** `case_realized_missing_lens_s1` —
++  with a realized-but-lens-missing slice and a ready epic behind it, rank 1 is the
++  repair (the missing lens play) and the blocked epic names the missing lens.
++- **SCE-4 (S4 — founder, fresh start):** `case_cold_start` — with no product model,
++  the only and first command is `/vision`.
++- **SCE-5 (S5 — product owner, everything delivered):** `case_all_delivered_learn_s5`
++  — with the slice realized and every epic delivered, the list holds `/learn`.
++- **SCE-6 (S6 — team running parallel agents):** `case_focus_slice_first` and
++  `case_griffin_like_s7` — slice 2's step appears, flagged parallel, ranked below every
++  slice-1 step, its gates citing roadmap order 2.
++- **SCE-7 (S7 — product owner, roadmap merged):** `case_griffin_like_s7` — profile set,
++  four planned slices at order 1–4, the functional-track docs on the order-2 slice: no
++  strategy action, the order-2 slice's action is `/arch`, and the independent reader
++  agrees with the snapshot.
++- **SCE-8 (S8 — builder finishing a slice):** `case_ready_epic_outranks_next_slice` —
++  slice 1 realized with a ready epic and slice 2 planned: rank 1 is slice 1's
++  `/implement`, and slice 2's `/ux` ranks below it.
++
++### Phase: Present
++
++**Step 4 — Present recommendations** · Owner: play · Depends on: Step 3
++Write `<working>/recommendations.md` from `candidates.json` `entries` and output it to
++the user **inline**: the next-best-action (rank 1) as the lead, then the list in rank
++order with one plain-language line each (built from `why`), the slice being finished
++named once, parallel lanes marked as such, a short repair section when
++`inconsistencies` is not empty, and a count of `cut_for_cap` when it is not empty. The
++operator (or each parallel agent) picks an entry and runs its command themselves.
++**SE-6 (C2, C3, C8):** `recommendations.md` exists; its entries appear in the same rank
++order as `entries`, every command in it is a command from `entries`, and none is added
++or dropped (C8); every entry has its plain-language line (C3); nothing was launched (C2).
+ 
+ ### Phase: Evidence & Close
+ 
+-**Step 8 — Close** · Owner: play · Depends on: Step 7
+-Run the Standard Play Close. /next is a **product-scoped** play (no issue) — use
+-the product-scoped evidence base and slug. Evidence recording is play-only and
+-config-gated per the D1 evidence rule (`standards/rules/evidence-recording.md`).
+-
+-This phase ends with **Step 9 — Self-clean** (the bash block after the close): once
+-the evidence record and delivery report are written, the working folder is deleted
+-as the terminal action, so the run leaves no scratch behind (C10). Only the working
+-folder is removed — never the evidence folder, which is the durable record.
+-**SE-6 (C10/F7):** after Step 9, `${working}` no longer exists on disk while the
+-evidence folder (when evidence recording is on) is intact — the play's only
+-surviving products are the presented recommendation and the evidence record. On a
+-GAP (working files remain), apply REC7 and re-run Step 9.
+-**SE-8 (F9/C12):** the close is stop-condition gated — `check_stop_condition.py`
+-over the baked `stop-condition.yaml` (D1 the derived candidate set record exists;
+-D2 the ranked recommendations yaml exists; D3 the human recommendations report
+-exists) reads **held** before the run closes COMPLETED; anything else closes
+-HALTED with the unmet clauses named. The gate runs at Step 8, BEFORE Step 9's
+-self-clean removes the working folder. This play has no checkpoint, so there are
+-no gates to class under `gate-config.md` — the stop-condition gate and the
+-evidence flag are the close's only switches.
++**Step 5 — Close** · Owner: play · Depends on: Step 4
++Run the Standard Play Close. /next is a **product-scoped** play (no issue) — use the
++product-scoped evidence base and slug. Evidence recording is play-only and config-gated
++per the D1 evidence rule (`standards/rules/evidence-recording.md`).
++
++This phase ends with **Step 6 — Self-clean** (after the close): once the evidence record
++and delivery report are written, the working folder is deleted as the terminal action.
++**SE-8 (C10/F7):** after Step 6, `${working}` no longer exists on disk while the
++evidence folder (when evidence recording is on) is intact. On a GAP (working files
++remain), apply REC7 and re-run Step 6.
++**SE-9 (F9/C12):** the close is stop-condition gated — `check_stop_condition.py` over the
++baked `stop-condition.yaml` (D1 the ordered candidate set exists; D2 the presented
++report exists) reads **held** before the run closes COMPLETED; anything else closes
++HALTED with the unmet clauses named. The gate runs at Step 5, BEFORE Step 6's self-clean
++removes the working folder. This play has no checkpoint, so there are no gates to class
++under `gate-config.md`.
+ 
+ ```bash
+ # --- Standard Play Close (canonical; see standards/rules/play-close.md) ---
+@@ -306,7 +242,7 @@ mkdir -p "$(dirname "$evidence_dest")"
+ session_stamp=$(python3 scripts/session_stamp.py --phase close \
+     --marker "<working>/session-stamp-next.json")
+ # Stop-condition gate (#464) — Step C0: this play carries a baked manifest, so the
+-# gate is LIVE. Evaluate the Done means here — BEFORE Step 9's self-clean deletes
++# gate is LIVE. Evaluate the Done means here — BEFORE Step 6's self-clean deletes
+ # the working folder — as the close's authoritative input.
+ python3 scripts/check_stop_condition.py \
+     --manifest "<play-dir>/stop-condition.yaml" \
+@@ -328,34 +264,28 @@ is never a pass.
+ When false, skip the write and record `evidence skipped (record=false)` in the
+ report's pointer line. Otherwise fill the `evidence-file.md` slots (play `next`,
+ run_id `next-${ts}`, product_slug, started_at/completed_at, status per C0,
+-exit_reason; artifacts produced: the two recommendation artifacts, the model-state
+-snapshots, the candidate sets, the operator profile, the stop-condition verdict;
+-step and scenario eval results SE-1…SE-8 / SCE-1…SCE-6; checkpoint decisions:
+-none — this play has no gates; the session identity stamp fields from
+-$session_stamp (#463): session_id, ledger_file, ledger_start_offset,
+-ledger_end_offset (null when unresolved — never blocks the close); and
+-stop_condition per C0 with the Stop Condition section filled) and write to
++exit_reason; artifacts produced: the model-state snapshot, the ordered candidate set,
++the presented report, the stop-condition verdict; step and scenario eval results
++SE-1…SE-9 / SCE-1, SCE-4…SCE-8; checkpoint decisions: none — this play has no gates;
++the session identity stamp fields from $session_stamp (#463): session_id, ledger_file,
++ledger_start_offset, ledger_end_offset (null when unresolved — never blocks the close);
++and stop_condition per C0 with the Stop Condition section filled) and write to
+ `$evidence_dest`. Do NOT hand-author the body.
+ 
+ **Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in `standards/rules/pipeline-next.md` and emit `**Next:** /<command> — <why>. Or run /next to see all recommended actions.` (only /next pointer, or omit, when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots and
+ output the report: `## next Delivered — ${product_slug}`, the Run Summary table,
+ the Pipeline Steps table from the task DAG, the Artifacts Produced table (the
+-NBA, the ranked entries, the inconsistency count, the fit basis), Next Steps
+-(the NBA's command — the whole point), and a pointer to `$evidence_dest`.
+-Always emitted; never gated.
++next-best-action, the ordered entries, the focus slice, the inconsistency count),
++Next Steps (the next-best-action's command — the whole point), and a pointer to
++`$evidence_dest`. Always emitted; never gated.
+ 
+ ```bash
+ # --- end Standard Play Close ---
+ ```
+ 
+-**Step 9 — Self-clean** · Owner: play · Depends on: Step 8 (declared above; SE-6)
+-The terminal action. The recommendation has been verified (Step 5), presented
+-(Step 6), scenario-checked (Step 7), and the evidence record + delivery report
+-written (Step 8) — the working folder now has no further reader. Delete ONLY the
+-working folder so the run leaves no scratch behind (C10); never touch the evidence
+-folder (`${product_base}_evidence/next/`), the durable record. The stop-condition
+-verdict and the session-stamp marker go with the working folder — their durable
+-copies live in the evidence record written at Step 8.
++**Step 6 — Self-clean** · Owner: play · Depends on: Step 5 (declared above; SE-8)
++The terminal action. Delete ONLY the working folder so the run leaves no scratch behind;
++never touch the evidence folder (`${product_base}_evidence/next/`), the durable record.
+ 
+ ```bash
+ rm -rf "${working}"            # working = ${product_base}_status/next/
+@@ -366,47 +296,74 @@ rm -rf "${working}"            # working = ${product_base}_status/next/
+ | Scenario | Persona | Eval |
+ |----------|---------|------|
+ | S1 — product mid-delivery, broken gate | builder | SCE-1 |
+-| S2 — rich work history | implementer | SCE-2 |
+-| S3 — thin history | new contributor | SCE-3 |
+ | S4 — fresh start | founder | SCE-4 |
+ | S5 — everything delivered | product owner | SCE-5 |
+-| S6 — parallel lanes | team running parallel agents | SCE-6 |
++| S6 — parallel lanes below the focus slice | team running parallel agents | SCE-6 |
++| S7 — roadmap merged, read from the spine | product owner | SCE-7 |
++| S8 — finish the slice first | builder | SCE-8 |
+ 
+ ## Recovery
+ 
+ | For | Trigger | Direction | Handoff |
+ |-----|---------|-----------|---------|
+-| F1 | a recommended command would halt at its own gate when re-checked | re-derive candidates from current model state and regenerate the output; if the play's rules disagree with the target play's gate, surface the divergent rule | autonomous |
+-| F2 | downstream work halts on an inconsistency the run reported nothing about | record the missed inconsistency class, extend the consistency scan, re-issue recommendations | human |
++| F1 | a recommended command would halt at its own gate | record the divergence between the tree's rule and the target play's gate, fix the tree, and add a regression case | human |
++| F2 | downstream work halts on an inconsistency the run reported nothing about | record the missed inconsistency class, extend the consistency scan, add a regression case | human |
+ | F3 | anything in the model changed, or a play was launched, during the run | halt immediately and surface exactly what changed — nothing is auto-reverted | human |
+-| F4 | fit reasoning appears in the output while history is below the trust threshold | strip fit weighting, regenerate ranking on model state alone, add the skip notice | autonomous |
+-| F5 | more than 11 entries, or an entry with no explanation | re-rank, cut to the cap, write the missing explanations | autonomous |
+-| F6 | the readiness gates admit an action the candidate set lacks | re-run derivation; if the action is still missing, the derivation rules are incomplete — record the gap | autonomous |
++| F5 | more than 11 entries, or an entry with no explanation | re-run the ordering script, which caps the list and templates every explanation | autonomous |
++| F6 | the readiness gates admit an action the list lacks | re-run derivation; if the action is still missing, the derivation rules are incomplete — record the gap and add a regression case | autonomous |
+ | F7 | working files remain after the run completes | delete the working folder; the already-presented recommendation is the only product | autonomous |
+ | F8 | a slice has surface debt (a delivered epic with unmet required user-facing surface) and /next would recommend its next execute epic | surface the debt as a blocking inconsistency, recommend the surface-repair action for that slice in the next-best-action slot, and withhold every further execute epic of that slice until the debt clears | autonomous |
+-| F9 | the close would report COMPLETED without the Done means held | evaluate the stop condition and surface the unmet clauses; re-run the producing step (derivation or ranking) to restore the missing artifact, or close HALTED with the verdict recorded | autonomous |
++| F9 | the close would report COMPLETED without the Done means held | evaluate the stop condition and surface the unmet clauses; re-run the producing step (derivation or presentation) to restore the missing artifact, or close HALTED with the verdict recorded | autonomous |
++| F10 | the regression test file fails a read or agreement case | halt before presenting — nothing built on the wrong read is shown; surface the failing cases so the scanner is fixed | human |
++| F11 | an ordering case fails, or a presented list ranks another slice's step above the focus slice's | halt before presenting, surface the mis-ordered entries, and fix the ordering script | human |
+ 
+ ## Pause and Resume
+ 
+-Steps run top to bottom. /next does not resume — a recommendation is only as
+-good as the model state it was derived from, so any interruption means a fresh
+-run: re-capture, re-scan, re-derive. Prior artifacts in `<working>/` are
+-overwritten. There is no status marker.
++Steps run top to bottom. /next does not resume — a recommendation is only as good as
++the model state it was derived from, so any interruption means a fresh run: re-scan,
++re-derive. Prior artifacts in `<working>/` are overwritten. There is no status marker.
+ 
+ ## Compilation Metadata
+ 
+ | Field | Value |
+ |-------|-------|
+-| fingerprint | sha256:8688af627c2acc30043b31a183fda12d142c1ebb4749e640114f6d476157f807 (of `reference/ice.md`) |
+-| compiled_by | play-editor (#466 Batch D, Level 3 rollout per ADR 025); prior: play-creator |
++| fingerprint | sha256:47abfbc27a373eaf59eb4512875b19476d42b2f3196cb7f050e14c1a8d2603d0 (of `reference/ice.md`) |
++| compiled_by | play-editor (#533 simplification + slice-first order; #533 spine read; #466 Batch D, Level 3 rollout per ADR 025); prior: play-creator |
+ | pipeline_position | none |
+-| structural_constraints | C1 (scan + derivation read only the model tree — by construction of `scan_model.py`/`derive_candidates.py`); C9 (the decision tree's branches span strategy → lenses → repair → grill → execute → learning → refresh — `derive_candidates.py`); C11 (surface debt is detected mechanically — `scan_model.py` reads each epic's `surface.type` + `surface_verified`, `derive_candidates.py` flags a delivered user-facing epic that is not `surface_verified`, emits the `surface-debt` inconsistency + repair lane, and withholds further execute epics) |
++| structural_constraints | C1 (scan + derivation read only the model tree — by construction of `scan_model.py`/`derive_candidates.py`); C9 (the tree's branches span strategy → both realize tracks + /measure → repair → grill → execute → learning → refresh — `derive_candidates.py`); C11 (surface debt detected mechanically from the spine epics index's `surface_type` + `surface_verified`); C13 (the spine is the index of record in `scan_model.py`, proven by the independent reader inside `test_derive_candidates.py`); C14 (the order is `order_candidates()` in `derive_candidates.py`) |
+ | workflow_structure | readiness-only (analysis, no generation; no checkpoint — the output is advice; nothing to class under gate-config.md) |
+-| stop_condition | stop-condition.yaml (D1–D3), gate live at Step C0 — evaluated BEFORE the Step 9 self-clean |
+-| domain_agents | 1 (product-os-keeper) |
++| stop_condition | stop-condition.yaml (D1–D2), gate live at Step C0 — evaluated BEFORE the Step 6 self-clean |
++| domain_agents | 0 |
+ | utility_agents | 0 |
+-| skills_used | rank-recommendations |
+-| scripts | 7 (preflight.py, scan_model.py, derive_candidates.py, classify_work.py, check_output.py, check_stop_condition.py, session_stamp.py) |
+-| step_evals | 8 (SE-1…SE-8; every failure condition covered: F1→SE-5, F2→SE-2, F3→SE-5, F4→SE-3+SE-5, F5→SE-4+SE-5, F6→SE-2+SE-5, F7→SE-6, F8→SE-7, F9→SE-8) |
+-| scenario_evals | 6 (SCE-1…SCE-6) |
+-| recovery_entries | 9 (one per failure condition; 7 autonomous / 2 human) |
++| skills_used | none |
++| scripts | 7 (preflight.py, scan_model.py, derive_candidates.py, test_derive_candidates.py, check_model_agreement.py — called only by the test file, check_stop_condition.py, session_stamp.py) |
++| step_evals | 9 (SE-1…SE-9; every failure condition covered: F1→SE-2+SE-7, F2→SE-2, F3→SE-1, F5→SE-4, F6→SE-2+SE-7, F7→SE-8, F8→SE-5, F9→SE-9, F10→SE-7, F11→SE-3+SE-7) |
++| scenario_evals | 6 (SCE-1, SCE-4…SCE-8) |
++| recovery_entries | 10 (one per failure condition; 5 autonomous / 5 human) |
++
++## Recompile note (#533)
++
++Two intent changes under #533, both via `reference/ice.md` → recompile.
++
++**Spine read.** /next still read the pre-ADR-026 model layout (profile.yaml, per-slice
++record status, `lens/<type>.yaml`, six lenses, top-level `ice:` files, `epics/*.yaml`)
++and recommended finished work. `scan_model.py` now reads the spine and
++`lens/<type>.md`; `derive_candidates.py` walks both realize tracks from
++`standards/rules/pipeline-next.md`, recommends /measure when both are done, repairs an
++unstamped slice with /measure (was /run), reports `model-has-no-spine` and
++`slice-not-indexed`, and uses the spine domain id for /shape.
++
++**Simplification + slice-first order** (user direction, 2026-09-11). /next is now read →
++build and order → show. Removed: operator fit (the git-history capture, the
++work-intelligence map check, `classify_work.py`, the former fit constraint, failure,
++two scenarios and recovery), the ranking agent dispatch (`product-os-keeper` →
++`rank-recommendations`), the runtime re-scan / re-derive / output enforcer
++(`check_output.py`) and the runtime agreement step. The independent agreement reader
++(`check_model_agreement.py`) now runs only inside the quick regression file, which is
++the play's scenario validation and runs before presenting. Added C14 (finish the slice
++first), F11 + REC11, S8; S6 now places other slices' steps below the focus slice.
++`derive_candidates.py` orders the list (`order_candidates()`), stamps `rank`, `focus`,
++`parallel_lane` and a templated `why`, and emits `entries` (cap 11), `cut_for_cap` and
++`focus_slice`. Done means rebaked to D1 (`candidates.json`) and D2
++(`recommendations.md`). Constraint, failure and scenario ids kept stable, so the declared
++sets have gaps where removed items were. Fingerprint recomputed over the edited ICE.
+diff --git a/core/components/plays/next/reference/ice.md b/core/components/plays/next/reference/ice.md
+index d923276e..fc3147e2 100644
+--- a/core/components/plays/next/reference/ice.md
++++ b/core/components/plays/next/reference/ice.md
+@@ -1,32 +1,41 @@
+ # next — ICE source
+ 
+ The clean ICE triple this play is compiled from. Update this and recompile via
+-play-creator; never hand-edit the compiled SKILL.md.
++play-editor; never hand-edit the compiled SKILL.md.
+ 
+ ## Intent
+ 
+-Recommend what to do next on the product — read the product model's current state, derive
+-every action that is runnable or blocked, and present one next-best-action plus a ranked
+-list, fitted to the person running.
++Recommend what to do next on the product — read the product model, build the list of
++every action that is runnable or blocked, put it in a fixed order, and show it: one
++next-best-action plus the ordered list. That is the whole play. Reading and ordering are
++scripts; the play only presents the result.
+ 
+ The product model is the single source of "what could be done": slice status
+-(proposed → planned → realized), lens presence (the six realize lenses per slice), epic
+-status (ready → in_delivery → validated / fix_required → delivered) with epic
+-dependencies, the product profile state (directional → set → locked), and the roadmap's
+-order and slice dependencies. There is no separate backlog, sprint plan, or work queue
+-anywhere — and this play must not invent one.
+-
+-The person running is identified from their version-control identity, and their work
+-fit is computed from their actual work history — the kind of files their commits touch
+-(product model, lens/design, code by stack, tests, operations) — classified by lexical
+-matching against rules held in the knowledge base's work-intelligence shelf, never by
+-model inference. The shelf is the intelligence that grows: mapping rules, fit rules, and
+-judgment notes accumulate there over time.
+-
+-The output is advice, never action: one next-best-action and a ranked list of
+-alternatives (parallel lanes included, so several people or agents can each pick a
+-different entry), every entry carrying the exact command and a plain-language
+-explanation of why it is recommended and what it unblocks.
++(proposed → planned → realized), lens presence (the seven lens docs per slice — quality,
++ux, agentic, marketing, architecture, run, measure), epic status (ready → in_delivery →
++validated / fix_required → delivered) with epic dependencies, the product profile state
++(directional → set → locked), capability detail (directional → detailed), and the
++roadmap's order and slice dependencies. There is no separate backlog, sprint plan, or
++work queue anywhere — and this play must not invent one.
++
++The model is read the way the model-writing plays write it (ADR 026, direct-model-write):
++the spine `_spine.yaml` is the index of record for the profile, domains, capabilities,
++slices (status, order, effort, depends_on) and epics; lens presence is the slice's
++`lens/<type>.md` grounding docs. Per-node records are read only for what the spine does
++not carry, and a stale field on a record never overrides the spine. Realization runs in
++two tracks (`standards/rules/pipeline-next.md`): the functional track ux → agentic →
++marketing and the non-functional track arch → quality → run, with /measure last — and
++/measure, once all seven lens docs line up, stamps the slice realized. Track order is
++pipeline-next's recommended sequence, not a readiness gate.
++
++Slices are the core unit of work. Once a slice exists, the aim is to realize it until it
++is implementation-ready and then build it — so the order finishes one slice before the
++others advance (user direction, 2026-09-11, #533). Other slices that are ready still show
++in the list, below the slice being finished, as parallel lanes; they are never hidden.
++
++The output is advice, never action: one next-best-action and the ordered list of
++alternatives, every entry carrying the exact command and a plain-language explanation of
++why it is recommended.
+ 
+ ### Constraints
+ 
+@@ -37,27 +46,27 @@ explanation of why it is recommended and what it unblocks.
+   never launches another play. Multiple people and parallel agents may act on its output
+   independently.
+ - C3 — Every entry names the exact command to run and explains, in plain language, why
+-  it is recommended and what it unblocks.
+-- C4 — Output is one next-best-action plus a ranked list — at most 11 entries total,
+-  including the next-best-action.
++  it is recommended.
++- C4 — Output is one next-best-action plus an ordered list — at most 11 entries total,
++  including the next-best-action; anything past the cap is named as cut, never silently
++  dropped.
+ - C5 — A model inconsistency that blocks downstream work (e.g. a slice stamped realized
+   with a lens missing) is a repair action, and repair takes the next-best-action slot
+   when present.
+ - C6 — Cross-slice look-ahead is permitted, gated only by the roadmap: slice order and
+-  declared dependencies decide which future-slice actions may appear as parallel lanes.
+-- C7 — Operator fit derives from the person's identity and their actual work history,
+-  applied through rules held in the knowledge base. When history is too thin to trust,
+-  fit weighting is skipped and the output says so.
+-- C8 — Candidate derivation is deterministic: the same model state always yields the
+-  same candidate set. Judgment applies only to ranking and explanation.
++  declared dependencies decide which other-slice actions may appear, and they appear
++  below the slice being finished as parallel lanes.
++- C8 — Derivation and ordering are deterministic scripts: the same model state always
++  yields the same ordered list. The play's only judgment is how it words the
++  presentation — it never reorders, adds, or drops an entry.
+ - C9 — Coverage spans the full loop: strategy (vision, understand, shape, roadmap),
+-  realization (the six lenses), grilling, execution (implement, validate, launch),
+-  learning (learn), and strategy refresh once everything is delivered.
++  realization (the seven lens docs across the functional and non-functional tracks, then
++  /measure), grilling, execution (implement, validate, launch), learning (learn), and
++  strategy refresh once everything is delivered.
+ - C10 — The play leaves no working artifacts behind. Its only durable product is the
+   recommendation presented to the user (plus, when evidence recording is on, the
+   evidence record). All transient working files written during the run are deleted
+-  once the recommendation has been verified and presented. The evidence record is
+-  never deleted.
++  once the recommendation has been presented. The evidence record is never deleted.
+ - C11 — A slice carrying a `delivered` epic whose required user-facing surface was not
+   actually delivered is in **surface debt** (`surface-contract.md` — "Surface debt:
+   what /next must block"): the next execute epic in that slice is withheld and the
+@@ -65,10 +74,24 @@ explanation of why it is recommended and what it unblocks.
+   the downgrade. Surface debt is a blocking model inconsistency — it rides the same
+   repair-takes-the-NBA-slot machinery as C5, detected mechanically from the model
+   (never inferred).
+-- C12 — The play ends by proving its Done means at close (gated, #464): the candidate
+-  set was derived and the ranked recommendation was produced and presented — never by
+-  its step list running out. The proof is evaluated at close, before the self-clean
+-  (C10) removes the working folder; the verdict's durable copy is the evidence record.
++- C12 — The play ends by proving its Done means at close (gated, #464): the ordered list
++  was derived and the recommendation was presented — never by its step list running out.
++  The proof is evaluated at close, before the self-clean (C10) removes the working
++  folder; the verdict's durable copy is the evidence record.
++- C13 — The model is read as the model-writing plays write it: the spine index of record
++  for profile, domains, capabilities, slices and epics, and `lens/<type>.md` docs for lens
++  presence (ADR 026). A model with no spine is reported as an inconsistency, never read
++  from legacy per-node files. That reading is proven by the quick regression test file,
++  which carries its own independent reader over the spine and lens folders — never by
++  re-running the same scanner at runtime, because a check that shares its subject's
++  reader can only confirm itself (#533).
++- C14 — The list is ordered to finish a slice first: (1) repair, anywhere; (2) the focus
++  slice — the lowest roadmap-order slice with work left (a lens, /measure, /grill, or live
++  epics) — whose steps run functional-track head → non-functional-track head → /measure →
++  /grill → epics by their order; (3) strategy; (4) every other slice's steps, by roadmap
++  order, flagged as parallel lanes; (5) learning; (6) strategy refresh. Every step of the
++  focus slice ranks above every step of any other slice (user direction 2026-09-11, #533;
++  track sequence from `standards/rules/pipeline-next.md`).
+ 
+ ### Failure conditions
+ 
+@@ -77,12 +100,10 @@ explanation of why it is recommended and what it unblocks.
+ - F2 — A blocking inconsistency exists in the model but isn't detected and reported;
+   downstream work stays silently stuck.
+ - F3 — The play mutates state or launches a play.
+-- F4 — A work-fit profile is asserted from insufficient history instead of being skipped
+-  with a notice.
+ - F5 — The output is a dump: over the cap, or entries without plain-language
+   explanation.
+-- F6 — A genuinely runnable lane is missed — the candidate set disagrees with what the
+-  readiness gates over the model actually permit.
++- F6 — A genuinely runnable lane is missed — the list disagrees with what the readiness
++  gates over the model actually permit.
+ - F7 — Working files survive the run, lingering on disk as a stale recommendation after
+   the model moves on.
+ - F8 — A slice carries surface debt — a delivered epic whose required user-facing surface
+@@ -91,6 +112,12 @@ explanation of why it is recommended and what it unblocks.
+   it.
+ - F9 — The close proves nothing — the play closes COMPLETED without the Done means
+   held.
++- F10 — The model snapshot disagrees with the model as the writing plays record it (the
++  spine and the lens docs) — a stale or wrong-layout read — so every recommendation built
++  on it is confidently wrong (e.g. finished roadmap or profile work recommended again).
++- F11 — The order spreads work instead of finishing a slice: a step of a later slice, a
++  strategy step, or a learning/refresh step ranks above a step of the focus slice (repair
++  aside), so slices stall half-realized.
+ 
+ ## Expectation
+ 
+@@ -101,15 +128,6 @@ explanation of why it is recommended and what it unblocks.
+   the next-best-action slot and every blocked epic appears in the list with the missing
+   lens named as its blocker. Measure: the NBA is the repair action AND each blocked
+   entry names its blocker — checkable from the output alone.
+-- S2 — (implementer, rich work history) Given two runnable epics — one matching the
+-  operator's dominant work type, one not — and enough history to classify the operator,
+-  then the matching epic ranks above the non-matching one and its explanation states the
+-  fit reason. Measure: ranking order reflects fit, and the fit reason is present in the
+-  entry's explanation.
+-- S3 — (new contributor, thin history) Given the running person's history is below the
+-  trust threshold, then the output states fit weighting was skipped and ranks on model
+-  state alone. Measure: the skip notice is present, and two runs on the same model state
+-  produce the identical list.
+ - S4 — (founder, fresh start) Given no product model exists yet, then the
+   next-best-action is /vision, explained as a cold start. Measure: the NBA equals
+   /vision.
+@@ -118,46 +136,52 @@ explanation of why it is recommended and what it unblocks.
+   strategy refresh (re-shaping from deferred functionality, re-planning the roadmap).
+   Measure: the list contains a learning or strategy-refresh action with a plain-language
+   explanation, not "nothing to do".
+-- S6 — (team running parallel agents) Given slice 1 mid-execution and slice 2 planned
+-  with its roadmap dependencies satisfied, then the list includes starting slice 2's
+-  lens work as a parallel lane alongside slice 1's next step. Measure: a slice-2 action
+-  appears, and its explanation cites the roadmap ordering that permits it.
++- S6 — (team running parallel agents) Given slice 1 with work left and slice 2 planned
++  with its roadmap dependencies satisfied, then slice 2's next step still appears, below
++  every slice-1 step, flagged as a parallel lane. Measure: a slice-2 action appears, is
++  flagged parallel, ranks below all slice-1 actions, and cites the roadmap order.
++- S7 — (product owner, roadmap merged) Given a spine with the profile set, every
++  capability detailed, four slices planned at roadmap order 1–4, and the functional-track
++  lens docs (ux, agentic, marketing) present on the order-2 slice, then no /roadmap and no
++  /understand is recommended, each planned slice carries its next lens or /measure action,
++  and the independent reader confirms the snapshot matches the spine. Measure: the list
++  holds no strategy action, the order-2 slice's action is from the non-functional track,
++  and the agreement check passes.
++- S8 — (builder finishing a slice) Given slice 1 realized with a ready epic and slice 2
++  planned with no lens docs, then building slice 1's epic is the next-best-action and
++  slice 2's first lens ranks below it. Measure: rank 1 is slice 1's /implement and every
++  slice-2 step has a larger rank.
+ 
+ ### Done means
+ 
+ Paths are relative to the run's working folder (`<working>` =
+ `${product_base}_status/next/`). Derived from the artifacts every completed run
+-writes — the derived candidate set record and the two recommendation artifacts
+-`rank-recommendations` emits. Evaluated at close (Step C0), BEFORE the self-clean
+-(C10) deletes the working folder; the verdict's durable copy is the evidence record.
++writes — the ordered candidate set and the presented report. Evaluated at close (Step
++C0), BEFORE the self-clean (C10) deletes the working folder; the verdict's durable copy
++is the evidence record.
+ 
+-- D1 — says: "the derived candidate set record exists (candidates + inconsistency report + derivation hash)"
++- D1 — says: "the ordered candidate set exists (ordered candidates + capped entries + inconsistency report)"
+   check: { type: artifact_exists, path: "candidates.json" }
+-- D2 — says: "the ranked recommendations artifact exists (machine form: NBA + entries + basis)"
+-  check: { type: artifact_exists, path: "recommendations.yaml" }
+-- D3 — says: "the presented recommendation report exists (human form)"
++- D2 — says: "the presented recommendation report exists"
+   check: { type: artifact_exists, path: "recommendations.md" }
+ 
+ ### Recovery (one per failure condition)
+ 
+-- REC1 (F1) — trigger: a recommended command would halt at its own gate when re-checked.
+-  direction: re-derive candidates from current model state and regenerate the output; if
+-  the play's rules disagree with the target play's gate, surface the divergent rule.
+-  handoff: autonomous.
++- REC1 (F1) — trigger: a recommended command would halt at its own gate. direction:
++  record the divergence between the tree's rule and the target play's gate, fix the
++  tree, and add a regression case. handoff: human.
+ - REC2 (F2) — trigger: downstream work halts on an inconsistency the run reported
+   nothing about. direction: record the missed inconsistency class, extend the
+-  consistency scan, re-issue recommendations. handoff: human.
++  consistency scan, add a regression case. handoff: human.
+ - REC3 (F3) — trigger: anything in the model changed, or a play was launched, during the
+   run. direction: halt immediately and surface exactly what changed — nothing is
+   auto-reverted. handoff: human.
+-- REC4 (F4) — trigger: fit reasoning appears in the output while history is below the
+-  trust threshold. direction: strip fit weighting, regenerate ranking on model state
+-  alone, add the skip notice. handoff: autonomous.
+ - REC5 (F5) — trigger: more than 11 entries, or an entry with no explanation. direction:
+-  re-rank, cut to the cap, write the missing explanations. handoff: autonomous.
+-- REC6 (F6) — trigger: the readiness gates admit an action the candidate set lacks.
+-  direction: re-run derivation; if the action is still missing, the derivation rules are
+-  incomplete — record the gap. handoff: autonomous.
++  re-run the ordering script, which caps the list and templates every explanation.
++  handoff: autonomous.
++- REC6 (F6) — trigger: the readiness gates admit an action the list lacks. direction:
++  re-run derivation; if the action is still missing, the derivation rules are
++  incomplete — record the gap and add a regression case. handoff: autonomous.
+ - REC7 (F7) — trigger: working files remain after the run completes. direction: delete
+   the working folder; the already-presented recommendation is the only product. handoff:
+   autonomous.
+@@ -168,5 +192,11 @@ writes — the derived candidate set record and the two recommendation artifacts
+   the debt clears. handoff: autonomous.
+ - REC9 (F9) — trigger: the close would report COMPLETED without the Done means held.
+   direction: evaluate the stop condition and surface the unmet clauses; re-run the
+-  producing step (derivation or ranking) to restore the missing artifact, or close
++  producing step (derivation or presentation) to restore the missing artifact, or close
+   HALTED with the verdict recorded. handoff: autonomous.
++- REC10 (F10) — trigger: the regression test file fails a read or agreement case.
++  direction: halt before presenting — nothing built on the wrong read is shown; surface
++  the failing cases so the scanner is fixed. handoff: human.
++- REC11 (F11) — trigger: an ordering case fails, or a presented list ranks another
++  slice's step above the focus slice's. direction: halt before presenting, surface the
++  mis-ordered entries, and fix the ordering script. handoff: human.
+diff --git a/core/components/plays/next/scripts/check_model_agreement.py b/core/components/plays/next/scripts/check_model_agreement.py
+new file mode 100644
+index 00000000..02d5e1ef
+--- /dev/null
++++ b/core/components/plays/next/scripts/check_model_agreement.py
+@@ -0,0 +1,167 @@
++#!/usr/bin/env python3
++"""
++check_model_agreement.py — the independent read check for /next (C13, F10, #533).
++
++Not a play step: it runs inside scripts/test_derive_candidates.py (the play's quick
++scenario validation). Re-running scan_model.py could only prove the scanner agrees
++with itself; this check proves the snapshot agrees with the
++MODEL: it carries its own minimal reader over `_spine.yaml` and the slice lens
++folders — it does not import scan_model.py — and compares what it reads against
++the snapshot /next ranked on.
++
++Asserts:
++  - profile state on the spine == snapshot profile state;
++  - every spine slice is in the snapshot with the same status, order, effort and
++    depends_on, and the snapshot holds no slice the spine does not index;
++  - per slice, the seven lens docs (`lens/<type>.md`) present on disk == the
++    snapshot's lens presence;
++  - every spine epic is in the snapshot (under its slice) with the same status;
++  - every spine capability's detail == the snapshot's.
++A tree with files but no spine must be recorded in the snapshot as
++spine_exists=false.
++
++Layer rule: reads files on disk only; no git/gh/network.
++
++    python3 check_model_agreement.py --product-base <pb> --state <model-state.json>
++
++Prints {ok, gaps[]} JSON. Exit 0 agree, 1 disagreement, 2 usage error.
++"""
++
++import argparse
++import json
++import os
++import sys
++
++try:
++    import yaml
++except ImportError:
++    sys.stderr.write("check_model_agreement.py: PyYAML is required (pip install pyyaml).\n")
++    sys.exit(2)
++
++LENS_DOCS = ("quality", "ux", "agentic", "marketing", "architecture", "run", "measure")
++
++
++def lower(v):
++    return v.strip().lower() if isinstance(v, str) else ""
++
++
++def dicts(v):
++    return [x for x in v if isinstance(x, dict)] if isinstance(v, list) else []
++
++
++def main(argv=None):
++    ap = argparse.ArgumentParser(description="Independent spine/snapshot agreement check.")
++    ap.add_argument("--product-base", required=True)
++    ap.add_argument("--state", required=True)
++    try:
++        args = ap.parse_args(argv)
++    except SystemExit:
++        return 2
++
++    try:
++        with open(args.state, encoding="utf-8") as fh:
++            state = json.load(fh)
++    except (OSError, ValueError) as exc:
++        sys.stderr.write(f"check_model_agreement.py: cannot read state: {exc}\n")
++        return 2
++
++    gaps = []
++    root = os.path.join(args.product_base, "product-os")
++    spine_file = os.path.join(root, "_spine.yaml")
++
++    if not os.path.isfile(spine_file):
++        if os.path.isdir(root) and state.get("spine_exists") is not False \
++                and state.get("model_exists"):
++            gaps.append("F10: the model has no spine but the snapshot does not record "
++                        "spine_exists=false")
++        print(json.dumps({"ok": not gaps, "gaps": gaps}, indent=2))
++        return 0 if not gaps else 1
++
++    with open(spine_file, encoding="utf-8") as fh:
++        spine = yaml.safe_load(fh) or {}
++
++    # ---- profile -----------------------------------------------------------
++    spine_prof = lower((spine.get("profile") or {}).get("state")) if isinstance(
++        spine.get("profile"), dict) else ""
++    snap_prof = lower((state.get("profile") or {}).get("state"))
++    if spine_prof != snap_prof:
++        gaps.append(f"F10: profile state — spine '{spine_prof or None}', "
++                    f"snapshot '{snap_prof or None}'")
++
++    snap_domains = state.get("domains") or []
++    snap_slices = {}
++    for d in snap_domains:
++        for s in d.get("slices") or []:
++            snap_slices[s.get("id")] = s
++
++    slug_of = {d.get("id"): (d.get("slug") or d.get("id")) for d in dicts(spine.get("domains"))}
++
++    # ---- slices + lens docs --------------------------------------------------
++    spine_ids = set()
++    for s in dicts(spine.get("slices")):
++        sid = s.get("id")
++        spine_ids.add(sid)
++        snap = snap_slices.get(sid)
++        if snap is None:
++            if sid in (state.get("orphan_slices") or []):
++                continue
++            gaps.append(f"F10: spine slice '{sid}' is missing from the snapshot")
++            continue
++        for field in ("order", "effort"):
++            if s.get(field) != snap.get(field):
++                gaps.append(f"F10: slice '{sid}' {field} — spine {s.get(field)!r}, "
++                            f"snapshot {snap.get(field)!r}")
++        if lower(s.get("status")) != lower(snap.get("status")):
++            gaps.append(f"F10: slice '{sid}' status — spine '{lower(s.get('status'))}', "
++                        f"snapshot '{lower(snap.get('status'))}'")
++        if sorted(s.get("depends_on") or []) != sorted(snap.get("depends_on") or []):
++            gaps.append(f"F10: slice '{sid}' depends_on disagrees with the spine")
++        slug = slug_of.get(s.get("domain_ref"))
++        if slug:
++            lens_dir = os.path.join(root, slug, "slices", sid, "lens")
++            snap_lenses = snap.get("lenses") or {}
++            for lt in LENS_DOCS:
++                on_disk = os.path.isfile(os.path.join(lens_dir, lt + ".md"))
++                if on_disk != bool(snap_lenses.get(lt)):
++                    gaps.append(f"F10: slice '{sid}' lens '{lt}.md' — on disk {on_disk}, "
++                                f"snapshot {bool(snap_lenses.get(lt))}")
++    for sid in sorted(set(snap_slices) - spine_ids, key=str):
++        gaps.append(f"F10: snapshot slice '{sid}' is not in the spine slices index")
++
++    # ---- epics ---------------------------------------------------------------
++    for e in dicts(spine.get("epics")):
++        ref = e.get("slice_ref")
++        sid = ref.split("/")[-1] if isinstance(ref, str) else ref
++        snap = snap_slices.get(sid)
++        snap_e = next((x for x in (snap or {}).get("epics") or []
++                       if x.get("id") == e.get("id")), None)
++        if snap_e is None:
++            gaps.append(f"F10: spine epic '{e.get('id')}' (slice '{sid}') is missing "
++                        "from the snapshot")
++        elif lower(e.get("status")) != lower(snap_e.get("status")):
++            gaps.append(f"F10: epic '{e.get('id')}' status — spine "
++                        f"'{lower(e.get('status'))}', snapshot '{lower(snap_e.get('status'))}'")
++
++    # ---- capability detail ---------------------------------------------------
++    snap_caps = {}
++    for d in snap_domains:
++        for c in d.get("capabilities") or []:
++            snap_caps[(d.get("id"), c.get("id"))] = c
++    for c in dicts(spine.get("capabilities")):
++        key = (c.get("domain"), c.get("id"))
++        if c.get("domain") not in slug_of:
++            continue
++        snap_c = snap_caps.get(key)
++        spine_detail = lower(c.get("detail")) or "directional"
++        if snap_c is None:
++            gaps.append(f"F10: spine capability '{c.get('id')}' is missing from the snapshot")
++        elif spine_detail != lower(snap_c.get("detail")):
++            gaps.append(f"F10: capability '{c.get('id')}' detail — spine '{spine_detail}', "
++                        f"snapshot '{lower(snap_c.get('detail'))}'")
++
++    print(json.dumps({"ok": not gaps, "gaps": gaps}, indent=2))
++    return 0 if not gaps else 1
++
++
++if __name__ == "__main__":
++    sys.exit(main(sys.argv[1:]))
+diff --git a/core/components/plays/next/scripts/check_output.py b/core/components/plays/next/scripts/check_output.py
+deleted file mode 100644
+index 3103fe03..00000000
+--- a/core/components/plays/next/scripts/check_output.py
++++ /dev/null
+@@ -1,152 +0,0 @@
+-#!/usr/bin/env python3
+-"""
+-check_output.py — the /next output enforcer (C2-C8, F1/F3/F4/F5/F6).
+-
+-Mechanical verdict over the finished recommendations artifact. Checks:
+-
+-  F3/C2  read-only proof ......... the model hash from the BEFORE scan equals
+-                                   the AFTER scan (the play wrote nothing).
+-  F1/C8  freshness + determinism . the AFTER-state re-derivation produced the
+-                                   same derivation_hash as the one the ranking
+-                                   consumed; every recommended entry maps to a
+-                                   candidate that is STILL runnable.
+-  F5/C3  explanations ............ every entry carries command + a plain-text
+-                                   `why` (non-trivial length) + `unblocks`.
+-  F5/C4  the cap ................. nba + entries <= 11 total; nba present.
+-  C5     repair takes the NBA .... when inconsistencies exist, the NBA is a
+-                                   repair-lane entry.
+-  F4/C7  thin-history rule ....... when the operator profile says
+-                                   thin_history, no entry carries a
+-                                   fit_reason and the artifact carries a
+-                                   fit_notice.
+-  F6     coverage ................ every RUNNABLE candidate either appears as
+-                                   an entry or is listed in cut_for_cap (no
+-                                   silent omission).
+-  C3     blockers named .......... every blocked entry names its blocker.
+-
+-Layer rule: asserts over files already on disk; no git/gh/network.
+-
+-    python3 check_output.py --recommendations <recommendations.yaml> \
+-        --candidates <candidates.json> --candidates-after <candidates-after.json> \
+-        --state-before <model-state.json> --state-after <model-state-after.json> \
+-        --profile <operator-profile.json>
+-
+-Prints a PASS/GAP report. Exit 0 all pass, 1 any gap, 2 usage error.
+-"""
+-
+-import argparse
+-import json
+-import sys
+-
+-try:
+-    import yaml
+-except ImportError:
+-    sys.stderr.write("check_output.py: PyYAML is required (pip install pyyaml).\n")
+-    sys.exit(2)
+-
+-CAP = 11
+-MIN_WHY = 40  # chars — a real sentence, not a label
+-
+-
+-def jload(path):
+-    with open(path, encoding="utf-8") as fh:
+-        return json.load(fh)
+-
+-
+-def main(argv=None):
+-    ap = argparse.ArgumentParser(description="/next output enforcer.")
+-    ap.add_argument("--recommendations", required=True)
+-    ap.add_argument("--candidates", required=True)
+-    ap.add_argument("--candidates-after", required=True)
+-    ap.add_argument("--state-before", required=True)
+-    ap.add_argument("--state-after", required=True)
+-    ap.add_argument("--profile", required=True)
+-    args = ap.parse_args(argv)
+-
+-    gaps = []
+-    with open(args.recommendations, encoding="utf-8") as fh:
+-        rec = yaml.safe_load(fh) or {}
+-    cands = jload(args.candidates)
+-    cands_after = jload(args.candidates_after)
+-    before = jload(args.state_before)
+-    after = jload(args.state_after)
+-    profile = jload(args.profile)
+-
+-    # ---- F3/C2: read-only proof ------------------------------------------
+-    if before.get("model_hash") != after.get("model_hash"):
+-        gaps.append("F3/C2: model hash changed during the run "
+-                    f"({before.get('model_hash')} -> {after.get('model_hash')}) "
+-                    "— the play (or something concurrent) wrote to the model")
+-
+-    # ---- F1/C8: determinism + freshness ------------------------------------
+-    if cands.get("derivation_hash") != cands_after.get("derivation_hash"):
+-        gaps.append("F1/C8: re-derivation on the after-state produced a different "
+-                    "candidate set — derivation is not deterministic or the model "
+-                    "moved mid-run")
+-
+-    nba = rec.get("nba")
+-    entries = rec.get("entries") or []
+-    all_entries = ([nba] if nba else []) + entries
+-    runnable_ids = {c["id"] for c in cands_after.get("candidates", [])
+-                    if c.get("status") == "runnable"}
+-    blocked_ids = {c["id"] for c in cands_after.get("candidates", [])
+-                   if c.get("status") == "blocked"}
+-    known_ids = runnable_ids | blocked_ids
+-
+-    # ---- F5/C4: the cap + NBA present --------------------------------------
+-    if not nba:
+-        gaps.append("F5/C4: no next-best-action (nba) in the artifact")
+-    if len(all_entries) > CAP:
+-        gaps.append(f"F5/C4: {len(all_entries)} entries including the NBA — cap is {CAP}")
+-
+-    # ---- per-entry checks ---------------------------------------------------
+-    for i, e in enumerate(all_entries):
+-        label = "nba" if (nba and i == 0) else f"entry[{i if not nba else i-1}]"
+-        e = e or {}
+-        cid = e.get("candidate_id")
+-        if not e.get("command"):
+-            gaps.append(f"F5/C3: {label} has no command")
+-        if len((e.get("why") or "").strip()) < MIN_WHY:
+-            gaps.append(f"F5/C3: {label} `why` is missing or too short to be an "
+-                        f"explanation (< {MIN_WHY} chars)")
+-        if cid not in known_ids:
+-            gaps.append(f"F1: {label} candidate_id '{cid}' is not in the "
+-                        "re-derived candidate set — stale or invented")
+-        elif cid in blocked_ids:
+-            if not e.get("blocker"):
+-                gaps.append(f"C3: {label} is blocked but names no blocker")
+-        if profile.get("thin_history") and e.get("fit_reason"):
+-            gaps.append(f"F4/C7: {label} carries a fit_reason while the operator "
+-                        "history is thin — fit weighting must be skipped")
+-
+-    # ---- C5: repair takes the NBA slot --------------------------------------
+-    if cands_after.get("inconsistencies"):
+-        nba_cand = next((c for c in cands_after.get("candidates", [])
+-                         if nba and c["id"] == (nba or {}).get("candidate_id")), None)
+-        if not nba_cand or nba_cand.get("lane") != "repair":
+-            gaps.append("C5: the model has inconsistencies but the NBA is not a "
+-                        "repair-lane action")
+-
+-    # ---- F4/C7: thin-history notice -----------------------------------------
+-    if profile.get("thin_history") and not (rec.get("fit_notice") or "").strip():
+-        gaps.append("F4/C7: thin history but the artifact carries no fit_notice")
+-
+-    # ---- F6: coverage — no silent omission ----------------------------------
+-    listed = {e.get("candidate_id") for e in all_entries if e}
+-    cut = set(rec.get("cut_for_cap") or [])
+-    missing = sorted(runnable_ids - listed - cut)
+-    if missing:
+-        gaps.append("F6: runnable candidate(s) neither listed nor declared "
+-                    "cut_for_cap: " + ", ".join(missing))
+-
+-    report = {"ok": not gaps, "gaps": gaps,
+-              "entries_total": len(all_entries), "cap": CAP,
+-              "runnable_candidates": len(runnable_ids),
+-              "inconsistencies": len(cands_after.get("inconsistencies", [])),
+-              "thin_history": bool(profile.get("thin_history"))}
+-    print(json.dumps(report, indent=2))
+-    return 0 if not gaps else 1
+-
+-
+-if __name__ == "__main__":
+-    sys.exit(main(sys.argv[1:]))
+diff --git a/core/components/plays/next/scripts/classify_work.py b/core/components/plays/next/scripts/classify_work.py
+deleted file mode 100644
+index 854fa9b4..00000000
+--- a/core/components/plays/next/scripts/classify_work.py
++++ /dev/null
+@@ -1,188 +0,0 @@
+-#!/usr/bin/env python3
+-"""
+-classify_work.py — operator work-profile from captured git history (C7, F4).
+-
+-Lexical classification ONLY — no model inference anywhere (the user's hard
+-rule). Two signals, both mechanical:
+-
+-  1. PATH signal (primary): every file path in the captured `git log
+-     --name-only` output is matched against the glob patterns and extension
+-     maps in the work-intelligence map (work-map.yaml) -> work-type and
+-     stack counts.
+-  2. SUBJECT signal (secondary): a BM25-style term scoring of commit subject
+-     lines against each work-type's keyword vocabulary from the same map.
+-     Plain tf-idf arithmetic over tokens — deterministic.
+-
+-Thin-history rule: when the sample is below the map's thresholds
+-(min_commits / min_files), the profile is stamped thin_history=true, no
+-dominant work-type is asserted, and the ranking layer MUST skip fit
+-weighting (check_output.py enforces it).
+-
+-Layer rule: reads the CAPTURED log file — never shells out to git. The play
+-captures `git config user.name` and `git log --author=<name> --name-only`
+-to disk at pre-flight and hands the paths in.
+-
+-    python3 classify_work.py --git-log <captured.log> --map <work-map.yaml> \
+-                             --author "<name>" --out <operator-profile.json>
+-
+-Exit 0 on success, 2 on usage error.
+-"""
+-
+-import argparse
+-import fnmatch
+-import json
+-import math
+-import os
+-import re
+-import sys
+-from collections import defaultdict
+-
+-try:
+-    import yaml
+-except ImportError:
+-    sys.stderr.write("classify_work.py: PyYAML is required (pip install pyyaml).\n")
+-    sys.exit(2)
+-
+-COMMIT_RE = re.compile(r"^commit [0-9a-f]{7,40}", re.IGNORECASE)
+-SUBJECT_SKIP = re.compile(r"^(Author:|Date:|Merge:|Co-Authored-By:)", re.IGNORECASE)
+-TOKEN_RE = re.compile(r"[a-z][a-z0-9_-]{2,}")
+-
+-
+-def parse_log(path):
+-    """Captured `git log --name-only` -> (subjects[], file_paths[])."""
+-    subjects, files = [], []
+-    current_subject_taken = False
+-    with open(path, encoding="utf-8") as fh:
+-        for raw in fh:
+-            line = raw.rstrip("\n")
+-            if COMMIT_RE.match(line):
+-                current_subject_taken = False
+-                continue
+-            if not line.strip() or SUBJECT_SKIP.match(line.strip()):
+-                continue
+-            if line.startswith(" ") or line.startswith("\t"):
+-                if not current_subject_taken:
+-                    subjects.append(line.strip())
+-                    current_subject_taken = True
+-                continue
+-            # non-indented, non-header, non-empty -> a changed file path
+-            files.append(line.strip())
+-    return subjects, files
+-
+-
+-def path_counts(files, work_types, stacks):
+-    wt_counts = defaultdict(int)
+-    stack_counts = defaultdict(int)
+-    for f in files:
+-        low = f.lower()
+-        for wt, spec in work_types.items():
+-            for pat in (spec.get("paths") or []):
+-                if fnmatch.fnmatch(low, pat.lower()):
+-                    wt_counts[wt] += 1
+-                    break
+-        ext = os.path.splitext(low)[1]
+-        for st, spec in stacks.items():
+-            if ext and ext in [e.lower() for e in (spec.get("extensions") or [])]:
+-                stack_counts[st] += 1
+-            for marker in (spec.get("markers") or []):
+-                if os.path.basename(low) == marker.lower():
+-                    stack_counts[st] += 1
+-    return dict(wt_counts), dict(stack_counts)
+-
+-
+-def bm25_subject_scores(subjects, work_types, k1=1.5, b=0.75):
+-    """BM25 of each work-type's keyword vocabulary against the subject corpus
+-    (each subject line = one document); returns summed score per work-type."""
+-    docs = [TOKEN_RE.findall(s.lower()) for s in subjects]
+-    docs = [d for d in docs if d]
+-    if not docs:
+-        return {}
+-    n = len(docs)
+-    avgdl = sum(len(d) for d in docs) / n
+-    df = defaultdict(int)
+-    for d in docs:
+-        for t in set(d):
+-            df[t] += 1
+-    scores = {}
+-    for wt, spec in work_types.items():
+-        vocab = [k.lower() for k in (spec.get("keywords") or [])]
+-        total = 0.0
+-        for d in docs:
+-            dl = len(d)
+-            for term in vocab:
+-                tf = d.count(term)
+-                if not tf:
+-                    continue
+-                idf = math.log(1 + (n - df[term] + 0.5) / (df[term] + 0.5))
+-                total += idf * (tf * (k1 + 1)) / (tf + k1 * (1 - b + b * dl / avgdl))
+-        scores[wt] = round(total, 4)
+-    return scores
+-
+-
+-def normalize(counts):
+-    total = sum(counts.values())
+-    if not total:
+-        return {}
+-    return {k: round(v / total, 4) for k, v in sorted(counts.items())}
+-
+-
+-def main(argv=None):
+-    ap = argparse.ArgumentParser(description="Operator work-profile (lexical, no inference).")
+-    ap.add_argument("--git-log", required=True, help="captured git log --name-only output")
+-    ap.add_argument("--map", required=True, help="work-map.yaml from the work-intelligence shelf")
+-    ap.add_argument("--author", required=True, help="captured git config user.name")
+-    ap.add_argument("--out", required=True)
+-    args = ap.parse_args(argv)
+-
+-    with open(args.map, encoding="utf-8") as fh:
+-        wmap = yaml.safe_load(fh) or {}
+-    work_types = wmap.get("work_types") or {}
+-    stacks = wmap.get("stacks") or {}
+-    thin = wmap.get("thin_history") or {}
+-    min_commits = int(thin.get("min_commits", 20))
+-    min_files = int(thin.get("min_files", 30))
+-
+-    subjects, files = ([], []) if not os.path.isfile(args.git_log) \
+-        else parse_log(args.git_log)
+-
+-    wt_counts, stack_counts = path_counts(files, work_types, stacks)
+-    subject_scores = bm25_subject_scores(subjects, work_types)
+-
+-    thin_history = len(subjects) < min_commits or len(files) < min_files
+-
+-    # blended work-type weight: path share (primary) + bm25 share (secondary, 0.25)
+-    path_share = normalize(wt_counts)
+-    bm25_share = normalize({k: v for k, v in subject_scores.items() if v > 0})
+-    blended = {wt: round(path_share.get(wt, 0.0) + 0.25 * bm25_share.get(wt, 0.0), 4)
+-               for wt in sorted(set(path_share) | set(bm25_share))}
+-
+-    dominant = []
+-    if not thin_history and blended:
+-        top = max(blended.values())
+-        dominant = sorted(wt for wt, v in blended.items() if v >= 0.8 * top and v > 0)
+-
+-    profile = {
+-        "author": args.author,
+-        "sample": {"commits": len(subjects), "files": len(files)},
+-        "thresholds": {"min_commits": min_commits, "min_files": min_files},
+-        "thin_history": thin_history,
+-        "work_types": blended,
+-        "work_type_path_share": path_share,
+-        "work_type_subject_bm25": subject_scores,
+-        "stacks": normalize(stack_counts),
+-        "dominant_work_types": dominant,
+-        "method": "lexical (glob path match + BM25 subject scoring) — no inference",
+-    }
+-    os.makedirs(os.path.dirname(os.path.abspath(args.out)), exist_ok=True)
+-    with open(args.out, "w", encoding="utf-8") as fh:
+-        json.dump(profile, fh, indent=2, sort_keys=True)
+-    print(json.dumps({"ok": True, "author": args.author,
+-                      "thin_history": thin_history,
+-                      "commits": len(subjects), "files": len(files),
+-                      "dominant_work_types": dominant, "out": args.out},
+-                     indent=2))
+-    return 0
+-
+-
+-if __name__ == "__main__":
+-    sys.exit(main(sys.argv[1:]))
+diff --git a/core/components/plays/next/scripts/derive_candidates.py b/core/components/plays/next/scripts/derive_candidates.py
+index 4f935c1c..df677d34 100644
+--- a/core/components/plays/next/scripts/derive_candidates.py
++++ b/core/components/plays/next/scripts/derive_candidates.py
+@@ -1,27 +1,33 @@
+ #!/usr/bin/env python3
+ """
+-derive_candidates.py — the /next decision tree, as code (C6/C8/C9, F2/F6).
++derive_candidates.py — the /next decision tree, as code (C6/C8/C9/C13, F2/F6).
+ 
+ A PURE FUNCTION over the scan_model.py snapshot: same snapshot in, same
+ candidate set out — no clock, no randomness, no file reads beyond the two
+ arguments. Emits every action that is currently RUNNABLE or BLOCKED (with the
+ blocker named), plus the model-inconsistency report (the repair lane, C5).
+ 
+-The tree (framed with the user, #434 follow-on):
++The tree (framed with the user, #434 follow-on; re-read on the spine, #533):
+ 
+   no model ............................................. /vision
+-  goals-only capability ICE or profile directional ..... /understand
+-  profile set/locked, domain has ICE but no slices ..... /shape {domain}
++  model files but no spine ............................. inconsistency only
++      (model-has-no-spine — nothing is derived from legacy per-node files)
++  directional capability or profile directional ........ /understand
++  profile set/locked, domain has capabilities, no slices  /shape {domain id}
+   slices proposed / unordered .......................... /roadmap
+-  per planned slice (roadmap order + depends_on cited):
+-      first missing lens of quality -> ux -> agentic
+-      -> architecture -> measure -> run ................ that lens play
++  per planned slice (roadmap order + depends_on cited), two realize tracks
++  (standards/rules/pipeline-next.md — track order is a recommendation, not a gate):
++      functional track ux -> agentic -> marketing ....... head missing lens play
++      non-functional track arch -> quality -> run ....... head missing lens play
++      both tracks done, measure.md missing .............. /measure (stamps realized)
++  REPAIR: planned slice with all seven lens docs ....... /measure (stamp unfinished)
+   REPAIR: slice realized but a lens missing ............ the missing lens play
+       (blocks grill/implement on that slice — carries the blocker flag)
+   REPAIR: slice carries surface debt ................... re-validate the surface
+       (a delivered user-facing epic; withholds further execute epics of the
+        slice until the required surface is re-checked — surface-contract.md)
+-  realized slice, never grilled ........................ /grill {slice}
++  REPAIR: slice record not in the spine index .......... inconsistency only
++  realized slice, no spine epics, no deferrals ......... /grill {slice}
+   epics: fix_required .................................. /implement (fix round)
+          ready + deps delivered ........................ /implement {epic}
+          ready + deps NOT delivered .................... blocked (dep named)
+@@ -31,8 +37,22 @@
+   everything delivered ................................. strategy refresh
+       (/shape from deferred when a deferred bucket exists; /roadmap re-plan)
+ 
+-Layer rule: no git/gh/network. Deterministic ordering: candidates sorted by
+-(lane_rank, order_hint, id).
++The order (C14, user direction 2026-09-11, #533) — slices are core, so a slice is
++finished before the others advance:
++
++  1. repair, anywhere (lowest roadmap order first)
++  2. the FOCUS SLICE — the lowest roadmap-order slice with work left (a lens,
++     /measure, /grill, or live epics); within it: functional track head →
++     non-functional track head → /measure → /grill → epics by order
++  3. strategy (understand / shape / roadmap)
++  4. every other slice's steps, by roadmap order — shown, flagged parallel lanes
++  5. learning, then 6. strategy refresh
++
++Every candidate carries `rank` (1..n), `slice`, `focus`, `parallel_lane` and a
++plain-language `why`. The output also holds `entries` (the first 11 — the cap,
++C4), `cut_for_cap` (the ids past the cap) and `focus_slice`.
++
++Layer rule: no git/gh/network. Same snapshot in, same ordered list out.
+ 
+     python3 derive_candidates.py --state <model-state.json> --out <candidates.json>
+ 
+@@ -44,11 +64,21 @@
+ import json
+ import sys
+ 
+-LENS_CHAIN = ["quality", "ux", "agentic", "architecture", "measure", "run"]
++PIPELINE = "standards/rules/pipeline-next.md"
++FUNCTIONAL = ["ux", "agentic", "marketing"]
++NON_FUNCTIONAL = ["architecture", "quality", "run"]
++ALL_LENSES = FUNCTIONAL + NON_FUNCTIONAL + ["measure"]
+ LENS_PLAY = {"quality": "quality", "ux": "ux", "agentic": "agentic",
+-             "architecture": "arch", "measure": "measure", "run": "run"}
+-LANE_RANK = {"repair": 0, "execute": 1, "grill": 2, "foundation": 3,
+-             "lens": 4, "strategy": 5, "learning": 6, "refresh": 7}
++             "marketing": "marketing", "architecture": "arch",
++             "measure": "measure", "run": "run"}
++TRACKS = [("functional", FUNCTIONAL, "lens"),
++          ("non-functional", NON_FUNCTIONAL, "foundation")]
++CAP = 11  # C4: next-best-action + ranked list, at most 11 entries
++SLICE_LANES = {"repair", "lens", "foundation", "grill", "execute", "learning"}
++WORK_LANES = {"repair", "lens", "foundation", "grill", "execute"}
++TRACK_NAME = {lt: "feature track (ux → agentic → marketing)" for lt in FUNCTIONAL}
++TRACK_NAME.update({lt: "technical track (architecture → quality → run)"
++                   for lt in NON_FUNCTIONAL})
+ EPIC_STATUSES = {"ready", "in_delivery", "validated", "fix_required", "delivered"}
+ # surface-contract.md taxonomy: the user-facing types carry a run surface a human
+ # can open/call/run; the others do not. A `delivered` epic with a user-facing
+@@ -69,10 +99,18 @@ def cand(cid, play, command, target, lane, status="runnable", blocker=None,
+             "parallel_lane": parallel}
+ 
+ 
++def domain_folder(d):
++    return d.get("slug") or d["id"]
++
++
+ def slice_ref(domain, sl):
+     return f"{domain}/{sl['id']}"
+ 
+ 
++def chain_text(chain):
++    return "→".join("arch" if lt == "architecture" else lt for lt in chain)
++
++
+ def derive(state):
+     candidates, inconsistencies = [], []
+ 
+@@ -84,52 +122,74 @@ def derive(state):
+             unblocks=["the whole strategy pipeline (understand, shape, roadmap)"]))
+         return candidates, inconsistencies
+ 
++    # ---- no spine: report, derive nothing (C13) --------------------------
++    if state.get("spine_exists") is False:
++        inconsistencies.append({
++            "kind": "model-has-no-spine", "target": state.get("root") or "product-os/",
++            "detail": "product-os/ holds files but no _spine.yaml — the spine is the index "
++                      "of record (ADR 026); nothing is derived from legacy per-node files"})
++        return candidates, inconsistencies
++
++    domains = state.get("domains") or []
+     profile = state.get("profile") or {}
+     profile_state = profile.get("state") or "directional"
+ 
+-    any_slices = any(d.get("slices") for d in state["domains"])
+-    goals_only = [i for d in state["domains"] for i in d.get("ices", [])
+-                  if i.get("depth") == "goals-only"]
++    for sid in state.get("orphan_slices") or []:
++        inconsistencies.append({
++            "kind": "slice-domain-unresolved", "target": str(sid),
++            "detail": f"spine slice '{sid}' names a domain_ref that is not in the spine "
++                      "domains index — it cannot be placed or realized"})
++    for d in domains:
++        for sid in d.get("unindexed_slices") or []:
++            inconsistencies.append({
++                "kind": "slice-not-indexed", "target": f"{domain_folder(d)}/{sid}",
++                "detail": f"slice record '{sid}' exists under {domain_folder(d)}/slices/ "
++                          "but the spine slices index has no entry — its record status is "
++                          "never read; index it through /shape or remove the record"})
++
++    any_slices = any(d.get("slices") for d in domains)
++    directional_caps = [c for d in domains for c in d.get("capabilities", [])
++                        if c.get("detail") != "detailed"]
+ 
+     # ---- strategy: understand / shape / roadmap -------------------------
+-    if profile_state == "directional" or (goals_only and not any_slices):
++    if profile_state == "directional" or (directional_caps and not any_slices):
+         why = [f"profile state is '{profile_state}' (must be set before /shape)"]
+-        if goals_only:
+-            why.append(f"{len(goals_only)} capability ICE still goals-only "
+-                       "(seed depth, not yet learned)")
++        if directional_caps:
++            why.append(f"{len(directional_caps)} capability(ies) still directional on the "
++                       "spine (not yet detailed by /understand)")
+         candidates.append(cand(
+             "strategy/understand", "understand", "/understand", "(product)",
+             "strategy", gates=why,
+-            unblocks=["/shape (needs a set profile and rich capability ICE)"]))
++            unblocks=["/shape (needs a set profile and detailed capabilities)"]))
+ 
+     if profile_state in ("set", "locked"):
+-        for d in state["domains"]:
+-            if d.get("ices") and not d.get("slices"):
++        for d in domains:
++            if d.get("capabilities") and not d.get("slices"):
+                 candidates.append(cand(
+                     f"strategy/shape/{d['id']}", "shape", f"/shape {d['id']}",
+                     d["id"], "strategy",
+                     gates=[f"profile is '{profile_state}'",
+-                           f"domain '{d['id']}' has capability ICE but no slices"],
+-                    unblocks=["/roadmap", "the realize lenses for this domain"]))
++                           f"domain '{d['id']}' has capabilities on the spine but no slices"],
++                    unblocks=["/roadmap", "the realize tracks for this domain"]))
+ 
+-    unplanned = [(d["id"], s) for d in state["domains"] for s in d["slices"]
++    unplanned = [(domain_folder(d), s) for d in domains for s in d.get("slices", [])
+                  if s["status"] == "proposed" or (s["status"] not in ("deferred",)
+                                                   and s.get("order") is None)]
+     if unplanned:
+         candidates.append(cand(
+             "strategy/roadmap", "roadmap", "/roadmap", "(all slices)", "strategy",
+-            gates=[f"{len(unplanned)} slice(s) unplanned (status proposed / no order): "
+-                   + ", ".join(slice_ref(dm, s) for dm, s in unplanned)],
+-            unblocks=["the realize pipelines (lens work runs in roadmap order)"]))
++            gates=[f"{len(unplanned)} slice(s) unplanned on the spine (status proposed / "
++                   "no order): " + ", ".join(slice_ref(dm, s) for dm, s in unplanned)],
++            unblocks=["the realize tracks (lens work runs in roadmap order)"]))
+ 
+     # ---- per-slice: lenses, repair, grill, epics -------------------------
+-    all_slices = [(d["id"], s) for d in state["domains"] for s in d["slices"]]
++    all_slices = [(domain_folder(d), s) for d in domains for s in d.get("slices", [])]
+     by_id = {s["id"]: s for _, s in all_slices}
+     in_flight_orders = sorted(s.get("order") or 0 for _, s in all_slices
+                               if s["status"] in ("planned", "realized"))
+     first_order = in_flight_orders[0] if in_flight_orders else 0
+ 
+-    fully_delivered, learning_targets = [], []
++    learning_targets = []
+ 
+     for domain, sl in all_slices:
+         ref = slice_ref(domain, sl)
+@@ -152,7 +212,8 @@ def derive(state):
+             else:
+                 dep_state.append(f"depends_on {dep} is '{dep_sl['status']}'")
+ 
+-        missing = [lt for lt in LENS_CHAIN if not sl["lenses"].get(lt)]
++        lenses = sl.get("lenses") or {}
++        missing = [lt for lt in ALL_LENSES if not lenses.get(lt)]
+         parallel = order > first_order
+ 
+         # -- repair: realized but incomplete (C5) --
+@@ -160,21 +221,21 @@ def derive(state):
+             lens = missing[0]
+             inconsistencies.append({
+                 "kind": "realized-but-lens-missing", "target": ref,
+-                "detail": f"slice is stamped realized but lens(es) missing: "
++                "detail": f"slice is stamped realized but lens doc(s) missing: "
+                           f"{', '.join(missing)} — downstream gates "
+-                          "(grill/implement) require all six"})
++                          "(grill/implement) require all seven"})
+             candidates.append(cand(
+                 f"repair/{ref}/{lens}", LENS_PLAY[lens],
+                 f"/{LENS_PLAY[lens]} {ref}", ref, "repair",
+-                gates=[f"slice status is 'realized' but '{lens}' lens is absent"],
++                gates=[f"slice status is 'realized' but the '{lens}' lens doc is absent"],
+                 order_hint=order, repair=True,
+-                unblocks=[f"every epic of {ref} (the six-lens gate)",
+-                          f"/grill on {ref}" if not sl["epics_dir_exists"] else ""]))
++                unblocks=[f"every epic of {ref} (the seven-lens gate)",
++                          f"/grill on {ref}" if not sl.get("has_epics") else ""]))
+             # the queue behind the broken gate stays VISIBLE (S1/F6): every
+             # live epic of this slice is a blocked candidate naming the lens
+-            epic_by_id = {e["id"]: e for e in sl["epics"]}
+-            for e in sorted(sl["epics"], key=lambda e: (e.get("order") or 0,
+-                                                        e["id"])):
++            epic_by_id = {e["id"]: e for e in sl.get("epics", [])}
++            for e in sorted(sl.get("epics", []), key=lambda e: (e.get("order") or 0,
++                                                                e["id"])):
+                 if e["status"] == "delivered":
+                     continue
+                 eref = f"{ref}/{e['id']}"
+@@ -198,64 +259,76 @@ def derive(state):
+                             f"missing on {ref} — repair first"
+                             + ("; " + "; ".join(dep_note) if dep_note else ""),
+                     gates=[f"epic status '{e['status']}', order {e.get('order')}",
+-                           "the six-lens gate requires all lenses present"],
++                           "the seven-lens gate requires all lens docs present"],
+                     order_hint=order))
+ 
+-        # -- planned slice: walk the lens chain --
++        # -- planned slice: walk both realize tracks, then /measure --
+         if sl["status"] == "planned" and missing:
+-            lens = missing[0]
+-            lane = "foundation" if lens in ("architecture", "measure", "run") else "lens"
+-            candidates.append(cand(
+-                f"{lane}/{ref}/{lens}", LENS_PLAY[lens],
+-                f"/{LENS_PLAY[lens]} {ref}", ref, lane,
+-                gates=[f"slice is planned at roadmap order {order}",
+-                       f"lens chain position: '{lens}' is the first missing of "
+-                       f"quality→ux→agentic→architecture→measure→run"] + dep_state,
+-                order_hint=order, parallel=parallel,
+-                unblocks=[f"the next lens in {ref}'s chain",
+-                          f"/run's realized stamp on {ref}" if lens == "run" else ""]))
++            heads = []
++            for track, chain, lane in TRACKS:
++                lens = next((lt for lt in chain if not lenses.get(lt)), None)
++                if lens:
++                    heads.append((track, chain, lane, lens))
++            for i, (track, chain, lane, lens) in enumerate(heads):
++                last = lens == chain[-1]
++                candidates.append(cand(
++                    f"{lane}/{ref}/{lens}", LENS_PLAY[lens],
++                    f"/{LENS_PLAY[lens]} {ref}", ref, lane,
++                    gates=[f"slice is planned at roadmap order {order}",
++                           f"{track} track {chain_text(chain)} ({PIPELINE}): "
++                           f"'{lens}' is its first missing lens doc — track order is "
++                           "a recommendation, not a readiness gate"] + dep_state,
++                    order_hint=order, parallel=parallel or i > 0,
++                    unblocks=[f"the next lens in {ref}'s {track} track" if not last
++                              else f"/measure on {ref} once both tracks are done"]))
++            if not heads:
++                # both tracks done, only measure.md missing
++                candidates.append(cand(
++                    f"foundation/{ref}/measure", "measure", f"/measure {ref}", ref,
++                    "foundation",
++                    gates=[f"slice is planned at roadmap order {order}",
++                           "both realize tracks are done (ux, agentic, marketing, "
++                           "architecture, quality, run lens docs present)",
++                           f"/measure runs last and stamps the slice realized ({PIPELINE})"]
++                          + dep_state,
++                    order_hint=order, parallel=parallel,
++                    unblocks=[f"/measure's realized stamp on {ref}", f"/grill on {ref}"]))
+ 
+         if sl["status"] == "planned" and not missing:
+             inconsistencies.append({
+                 "kind": "lenses-complete-but-unstamped", "target": ref,
+-                "detail": "all six lenses exist but the slice is not stamped "
+-                          "realized — /run's stamp step did not finish"})
++                "detail": "all seven lens docs exist but the slice is not stamped "
++                          "realized — /measure's stamp step did not finish"})
+             candidates.append(cand(
+-                f"repair/{ref}/stamp", "run", f"/run {ref}", ref, "repair",
+-                gates=["all six lens files exist", "slice status is still 'planned'"],
++                f"repair/{ref}/stamp", "measure", f"/measure {ref}", ref, "repair",
++                gates=["all seven lens docs exist", "slice status is still 'planned'",
++                       "/measure stamps the slice realized when the seven docs line up"],
+                 order_hint=order, repair=True,
+                 unblocks=[f"/grill on {ref}"]))
+ 
+         # -- realized + complete: grill or execute --
+         if sl["status"] == "realized" and not missing:
+-            if not sl["epics_dir_exists"] and not sl["deferrals_exists"]:
++            if not sl.get("has_epics") and not sl.get("deferrals_exists"):
+                 candidates.append(cand(
+                     f"grill/{ref}", "grill", f"/grill {ref}", ref, "grill",
+-                    gates=["slice is realized with all six lenses",
+-                           "no epics cut yet (no epics/ folder)"] + dep_state,
++                    gates=["slice is realized with all seven lens docs",
++                           "no epics cut yet (no spine epics for the slice)"] + dep_state,
+                     order_hint=order, parallel=parallel,
+                     unblocks=["the execute pipeline (implement/validate/launch)"]))
+             else:
+-                epics = sl["epics"]
++                epics = sl.get("epics", [])
+                 live = [e for e in epics if e["status"] != "delivered"]
+                 if not live:
+-                    fully_delivered.append(ref)
+                     learning_targets.append((domain, sl, order))
+                 epic_by_id = {e["id"]: e for e in epics}
+ 
+                 # -- surface debt (C11/F8): a delivered epic with a required
+                 # user-facing surface whose surface-parity check never passed leaves
+                 # the slice in surface debt. The deterministic signal is the epic's
+-                # surface_verified stamp: /validate sets it true only when the
+-                # required surface was measured and matched (surface-contract.md), so
+-                # a delivered user-facing epic with surface_verified != true is a
+-                # surface that was downgraded or never measured (e.g. a legacy epic
+-                # delivered before ADR 022). A delivered user-facing epic that IS
+-                # surface_verified shipped its surface and carries no debt. While debt
+-                # is open, the next execute epic in the slice is WITHHELD and a
+-                # surface-repair action takes priority — later epics stop compounding
+-                # the downgrade. Same repair-takes-the-NBA machinery as
+-                # C5/realized-but-lens-missing.
++                # surface_verified stamp on the spine epics index: /validate sets it
++                # true only when the required surface was measured and matched
++                # (surface-contract.md). While debt is open, the next execute epic in
++                # the slice is WITHHELD and a surface-repair action takes priority.
+                 debt_epics = sorted(
+                     (e for e in epics
+                      if e["status"] == "delivered"
+@@ -305,10 +378,6 @@ def derive(state):
+                         inconsistencies.append({
+                             "kind": "epic-missing-issue-ref", "target": eref,
+                             "detail": f"epic is '{st}' but carries no issue_ref"})
+-                    # surface debt withholds every further execute epic of the
+-                    # slice (C11/F8): a live epic stays VISIBLE as a blocked
+-                    # candidate naming the debt, never runnable, until the surface
+-                    # repair clears it — same shape as the lens-missing block.
+                     if surface_debt and st != "delivered":
+                         candidates.append(cand(
+                             f"execute/{eref}", "implement",
+@@ -341,11 +410,10 @@ def derive(state):
+                                 f"/implement --epic {eref}", eref, "execute",
+                                 gates=["epic status 'ready'",
+                                        "all depends_on delivered",
+-                                       "slice realized with six lenses"],
++                                       "slice realized with seven lens docs"],
+                                 order_hint=order, parallel=parallel,
+-                                unblocks=[d for d, de in
+-                                          ((x["id"], x.get("depends_on") or [])
+-                                           for x in epics) if e["id"] in de]))
++                                unblocks=[x["id"] for x in epics
++                                          if e["id"] in (x.get("depends_on") or [])]))
+                     elif st == "fix_required":
+                         candidates.append(cand(
+                             f"execute/{eref}/fix", "implement",
+@@ -387,7 +455,7 @@ def derive(state):
+                  if c["lane"] in ("strategy", "lens", "foundation", "grill",
+                                   "execute", "repair")]
+     if not live_work and any_slices:
+-        deferred_domains = [d["id"] for d in state["domains"]
++        deferred_domains = [d["id"] for d in domains
+                             if d.get("deferred") and
+                             (d["deferred"].get("functionalities"))]
+         for dom in deferred_domains:
+@@ -402,9 +470,123 @@ def derive(state):
+             gates=["all in-flight work is delivered — re-plan from here"],
+             unblocks=["the next build cycle"]))
+ 
+-    candidates.sort(key=lambda c: (LANE_RANK.get(c["lane"], 9),
+-                                   c["order_hint"], c["id"]))
+-    return candidates, inconsistencies
++    return order_candidates(candidates), inconsistencies
++
++
++def slice_of(c):
++    """The domain/slice ref a slice-scoped candidate belongs to; None otherwise."""
++    if c["lane"] not in SLICE_LANES:
++        return None
++    parts = c["target"].split("/")
++    return "/".join(parts[:2]) if len(parts) >= 2 else None
++
++
++def step_rank(c):
++    """Within one slice: repair → feature track → technical track → /measure →
++    /grill → epics (generation order keeps epics in their own order)."""
++    if c["lane"] == "repair":
++        return 0
++    if c["lane"] == "lens":
++        return 1
++    if c["lane"] == "foundation":
++        return 3 if c["play"] == "measure" else 2
++    if c["lane"] == "grill":
++        return 4
++    return 5
++
++
++def order_candidates(candidates):
++    """Apply the finish-the-slice-first order (C14) and stamp rank, focus,
++    parallel_lane and why. Pure and deterministic."""
++    for seq, c in enumerate(candidates):
++        c["_seq"] = seq
++        c["slice"] = slice_of(c)
++    work = [c for c in candidates if c["slice"] and c["lane"] in WORK_LANES]
++    focus = (min(work, key=lambda c: (c["order_hint"], c["slice"]))["slice"]
++             if work else None)
++
++    def key(c):
++        if c["lane"] == "repair":
++            return (0, c["order_hint"], c["slice"] or "", 0, c["_seq"])
++        if c["slice"] == focus and c["lane"] in WORK_LANES:
++            return (1, 0, "", step_rank(c), c["_seq"])
++        if c["lane"] == "strategy":
++            return (2, 0, "", 0, c["_seq"])
++        if c["lane"] in WORK_LANES:
++            return (3, c["order_hint"], c["slice"] or "", step_rank(c), c["_seq"])
++        if c["lane"] == "learning":
++            return (4, c["order_hint"], c["slice"] or "", 0, c["_seq"])
++        return (5, 0, "", 0, c["_seq"])
++
++    candidates.sort(key=key)
++    for i, c in enumerate(candidates, 1):
++        del c["_seq"]
++        c["rank"] = i
++        c["focus"] = bool(focus) and c["slice"] == focus
++        c["parallel_lane"] = (c["slice"] is not None and c["slice"] != focus
++                              and c["lane"] in WORK_LANES)
++        c["why"] = why_for(c, focus)
++    return candidates
++
++
++def why_for(c, focus):
++    """One plain-language sentence for the candidate — templated, never inferred (C3)."""
++    lane, tail, play = c["lane"], c["id"].split("/")[-1], c["play"]
++    name = c["slice"].split("/")[-1] if c["slice"] else ""
++    if c["id"] == "strategy/vision":
++        why = "There is no product model yet, so the first step is writing the product vision."
++    elif c["id"] == "strategy/understand":
++        why = ("The product profile or some capabilities are still rough, so they need "
++               "detailing before slices can be cut.")
++    elif lane == "strategy" and play == "shape":
++        why = (f"Domain {c['target']} has detailed capabilities but no slices yet, so it "
++               "needs cutting into slices.")
++    elif c["id"] == "strategy/roadmap":
++        why = ("Some slices have no build order yet, so the roadmap needs planning before "
++               "more realize work.")
++    elif lane == "repair" and tail == "stamp":
++        why = (f"All seven lenses exist on {name} but it was never marked realized, so "
++               "/measure needs to finish its stamp.")
++    elif lane == "repair" and tail == "surface":
++        why = (f"An epic already delivered on {name} may not have shipped the surface it "
++               "promised, so recheck it before more epics build on it.")
++    elif lane == "repair":
++        why = (f"{name} is marked realized but its {tail} lens is missing, so add it before "
++               "any epic on the slice is built.")
++    elif lane in ("lens", "foundation") and play == "measure":
++        why = (f"Both realize tracks are done on {name}; /measure runs last and marks the "
++               "slice realized.")
++    elif lane in ("lens", "foundation"):
++        why = f"{name} still needs its {tail} lens, the next step in its {TRACK_NAME[tail]}."
++    elif lane == "grill":
++        why = (f"{name} is realized with all seven lenses, so it is ready to be cut into "
++               "buildable epics.")
++    elif lane == "execute":
++        epic = c["target"].split("/")[-1]
++        if c["status"] == "blocked":
++            why = f"Epic {epic} on {name} cannot start yet: {c['blocker']}."
++        elif tail == "fix":
++            why = f"Epic {epic} on {name} failed validation, so it needs its fix round."
++        elif tail == "validate":
++            why = f"Epic {epic} on {name} is built, so it needs independent validation next."
++        elif tail == "launch":
++            why = f"Epic {epic} on {name} passed validation, so it is ready to land."
++        else:
++            why = (f"Epic {epic} on {name} is ready and everything it depends on is "
++                   "delivered, so it can be built now.")
++    elif lane == "learning":
++        why = (f"Every epic on {name} is delivered, so capture what was learned before the "
++               "next cycle.")
++    elif lane == "refresh" and play == "shape":
++        why = (f"All work is delivered and domain {c['target']} has parked functionality "
++               "ready to shape into new slices.")
++    else:
++        why = "All in-flight work is delivered, so plan the next build cycle on the roadmap."
++    if c["parallel_lane"]:
++        why += f" It can run in parallel, but {focus.split('/')[-1]} is the slice to finish first."
++    elif c["focus"] and lane != "repair":
++        why += " This moves forward the slice being finished first."
++    return why
+ 
+ 
+ def main(argv=None):
+@@ -420,9 +602,13 @@ def main(argv=None):
+     payload_for_hash = json.dumps(
+         {"candidates": candidates, "inconsistencies": inconsistencies},
+         sort_keys=True)
++    focus = next((c["slice"] for c in candidates if c["focus"]), None)
+     out = {
+         "derived_from_model_hash": state.get("model_hash"),
++        "focus_slice": focus,
+         "candidates": candidates,
++        "entries": candidates[:CAP],
++        "cut_for_cap": [c["id"] for c in candidates[CAP:]],
+         "inconsistencies": inconsistencies,
+         "derivation_hash": "sha256:" + hashlib.sha256(
+             payload_for_hash.encode("utf-8")).hexdigest(),
+@@ -430,7 +616,9 @@ def main(argv=None):
+     with open(args.out, "w", encoding="utf-8") as fh:
+         json.dump(out, fh, indent=2, sort_keys=True)
+     print(json.dumps({"ok": True,
++                      "focus_slice": focus,
+                       "candidates": len(candidates),
++                      "entries": len(out["entries"]),
+                       "runnable": sum(1 for c in candidates
+                                       if c["status"] == "runnable"),
+                       "blocked": sum(1 for c in candidates
+diff --git a/core/components/plays/next/scripts/scan_model.py b/core/components/plays/next/scripts/scan_model.py
+index 6f731e2f..abf7da6d 100644
+--- a/core/components/plays/next/scripts/scan_model.py
++++ b/core/components/plays/next/scripts/scan_model.py
+@@ -1,16 +1,29 @@
+ #!/usr/bin/env python3
+ """
+-scan_model.py — read-only product-model state snapshot for /next (C1/C2).
++scan_model.py — read-only product-model state snapshot for /next (C1/C2/C13).
+ 
+ Walks {product_base}/product-os/ and emits ONE JSON snapshot of everything the
+-candidate derivation needs: profile state, capability-ICE depth, every slice's
+-status/order/depends_on/functionality refs, lens presence per slice, every
+-epic's status/order/depends_on, and the deferred buckets. Also records a
+-content hash of the whole product-os tree so a later re-scan can PROVE the
+-play wrote nothing (F3).
++candidate derivation needs, read the way the model-writing plays write it
++(ADR 026, direct-model-write):
++
++  - the spine `_spine.yaml` is the index of record — profile state, domains
++    (id + slug → folder), capability detail, slices (status / order / effort /
++    depends_on), and epics (status / order / depends_on / issue_ref /
++    surface_type / surface_verified);
++  - lens presence is the slice's `lens/<type>.md` grounding docs — the seven
++    lenses /measure lines up (quality, ux, agentic, marketing, architecture,
++    run, measure);
++  - a slice record is read only for what the spine does not carry (name,
++    functionalities) — its own `status` is never read (it goes stale after
++    /roadmap writes the spine).
++
++Also records a content hash of the whole product-os tree — the model basis the
++recommendation was derived from (carried into the evidence record).
+ 
+ A missing model is NOT an error — it is the /vision branch of the decision
+-tree: the snapshot says model_exists=false and exits 0.
++tree: the snapshot says model_exists=false and exits 0. A product-os/ tree with
++files but no spine is recorded as spine_exists=false (never read from legacy
++per-node files) — the derivation reports it as an inconsistency.
+ 
+ Layer rule: reads files on disk only; no git/gh/network. Deterministic: same
+ tree, same snapshot (no timestamps, sorted everything).
+@@ -34,7 +47,8 @@
+     sys.stderr.write("scan_model.py: PyYAML is required (pip install pyyaml).\n")
+     sys.exit(2)
+ 
+-LENS_TYPES = ["quality", "ux", "agentic", "architecture", "measure", "run"]
++# The seven lens docs /measure lines up (measure/scripts/lines_up.py).
++LENS_TYPES = ["quality", "ux", "agentic", "marketing", "architecture", "run", "measure"]
+ 
+ 
+ def load(path, errors):
+@@ -62,79 +76,69 @@ def tree_hash(root):
+     return "sha256:" + h.hexdigest()
+ 
+ 
+-def ice_depth(ice):
+-    """goals-only (seed from /vision) vs rich (after /understand)."""
+-    ctx = ice.get("context") or {}
+-    exp = ice.get("expectations") or {}
+-    has_context = any(ctx.get(k) for k in ("persona", "systems", "scope"))
+-    has_outcomes = bool(exp.get("outcomes"))
+-    return "rich" if (has_context and has_outcomes) else "goals-only"
++def norm(value):
++    return (value or "").strip().lower() if isinstance(value, str) else ""
+ 
+ 
+-def scan_ices(domain_dir, errors):
+-    """Every yaml under the domain (excluding slices/) with a top-level `ice:`."""
+-    ices = []
+-    for path in sorted(glob.glob(os.path.join(domain_dir, "**", "*.yaml"),
+-                                 recursive=True)):
+-        rel = os.path.relpath(path, domain_dir)
+-        if rel.startswith("slices" + os.sep):
+-            continue
+-        doc = load(path, errors)
+-        if isinstance(doc, dict) and "ice" in doc:
+-            ice = doc.get("ice") or {}
+-            ices.append({"node_ref": ice.get("node_ref"),
+-                         "file": path, "depth": ice_depth(ice)})
+-    return ices
+-
+-
+-def scan_slice(slice_file, errors):
+-    sl = (load(slice_file, errors).get("slice") or {})
+-    slice_id = os.path.splitext(os.path.basename(slice_file))[0]
+-    slice_dir = os.path.join(os.path.dirname(slice_file), slice_id)
++def slice_id_of(ref):
++    """The slice id from a slice_ref that may be 'domain/slice-id' or 'slice-id'."""
++    return ref.split("/")[-1] if isinstance(ref, str) and ref else ref
++
++
++def as_list(value):
++    return [x for x in value if isinstance(x, dict)] if isinstance(value, list) else []
++
++
++def scan_slice(root, slug, entry, epics_by_slice, errors):
++    sid = entry.get("id")
++    slice_dir = os.path.join(root, slug, "slices", sid)
++    record_rel = entry.get("record") or os.path.join(slug, "slices", sid + ".yaml")
++    record_path = os.path.join(root, record_rel)
++    record = {}
++    if os.path.isfile(record_path):
++        record = load(record_path, errors).get("slice") or {}
++    else:
++        errors.append(f"slice record missing: {record_path} (spine slice '{sid}')")
++
+     lens_dir = os.path.join(slice_dir, "lens")
+-    lenses = {lt: os.path.isfile(os.path.join(lens_dir, lt + ".yaml"))
+-              for lt in LENS_TYPES}
++    lenses = {lt: os.path.isfile(os.path.join(lens_dir, lt + ".md")) for lt in LENS_TYPES}
+ 
+     epics = []
+-    for f in sorted(glob.glob(os.path.join(slice_dir, "epics", "*.yaml"))):
+-        if os.path.basename(f) == "deferrals.yaml":
+-            continue
+-        e = (load(f, errors).get("epic") or {})
+-        surface = e.get("surface") or {}
++    for e in sorted(epics_by_slice.get(sid, []), key=lambda e: str(e.get("id"))):
+         epics.append({
+-            "id": e.get("id") or os.path.splitext(os.path.basename(f))[0],
+-            "file": f,
+-            "status": (e.get("status") or "").strip().lower(),
++            "id": e.get("id"),
++            "doc": e.get("doc"),
++            "status": norm(e.get("status")),
+             "order": e.get("order"),
+             "depends_on": sorted(e.get("depends_on") or []),
+             "issue_ref": e.get("issue_ref"),
+-            "title": e.get("title"),
+-            # surface contract (ADR 022): declared at the cut, read here so the
+-            # candidate derivation can detect surface debt deterministically.
+-            "surface_type": (surface.get("type") or "").strip().lower(),
+-            # /validate stamps surface_verified: true when the surface-parity check
+-            # passed; absent/false means the required surface was never measured.
++            "title": e.get("title") or e.get("slug"),
++            # surface contract (ADR 022): declared at the cut on the spine epics
++            # index, read here so the derivation can detect surface debt.
++            "surface_type": norm(e.get("surface_type")),
++            # /validate stamps surface_verified: true on the spine entry when the
++            # surface-parity check passed.
+             "surface_verified": bool(e.get("surface_verified")),
+         })
+ 
+     funcs = []
+-    for fn in (sl.get("functionalities") or []):
++    for fn in (record.get("functionalities") or []):
+         fn = fn or {}
+         funcs.append({"functionality_ref": fn.get("functionality_ref"),
+                       "ice_ref": fn.get("ice_ref")})
+ 
+-    epics_dir = os.path.join(slice_dir, "epics")
+     return {
+-        "id": sl.get("id") or slice_id,
+-        "file": slice_file,
+-        "epics_dir_exists": os.path.isdir(epics_dir),
+-        "deferrals_exists": os.path.isfile(os.path.join(epics_dir, "deferrals.yaml")),
+-        "name": sl.get("name"),
+-        "status": (sl.get("status") or "").strip().lower(),
+-        "order": sl.get("order"),
+-        "effort": sl.get("effort"),
+-        "depends_on": sorted(sl.get("depends_on") or []),
+-        "functionalities": funcs,
++        "id": sid,
++        "file": record_path,
++        "has_epics": bool(epics),
++        "deferrals_exists": os.path.isfile(os.path.join(slice_dir, "epics", "deferrals.yaml")),
++        "name": record.get("name") or entry.get("slug"),
++        "status": norm(entry.get("status")),
++        "order": entry.get("order"),
++        "effort": entry.get("effort"),
++        "depends_on": sorted(entry.get("depends_on") or []),
++        "functionalities": funcs or [{"functionality_ref": f, "ice_ref": None}
++                                     for f in (entry.get("functionality_refs") or [])],
+         "lenses": lenses,
+         "lens_dir": lens_dir,
+         "epics": epics,
+@@ -149,48 +153,84 @@ def main(argv=None):
+ 
+     errors = []
+     root = os.path.join(args.product_base, "product-os")
++    spine_path = os.path.join(root, "_spine.yaml")
++    has_files = os.path.isdir(root) and any(
++        os.path.isfile(p) for p in glob.glob(os.path.join(root, "**", "*"), recursive=True))
+     state = {"product_base": args.product_base, "root": root,
+-             "model_exists": os.path.isdir(root), "scan_errors": errors,
+-             "profile": None, "domains": [], "model_hash": None}
++             "model_exists": has_files, "spine_exists": os.path.isfile(spine_path),
++             "spine": spine_path, "scan_errors": errors,
++             "profile": None, "domains": [], "orphan_slices": [], "model_hash": None}
+ 
+     if state["model_exists"]:
+         state["model_hash"] = tree_hash(root)
+ 
+-        profile_path = os.path.join(root, "profile.yaml")
+-        if os.path.isfile(profile_path):
+-            prof = (load(profile_path, errors).get("profile") or {})
+-            state["profile"] = {"file": profile_path,
+-                                "state": (prof.get("state") or "").strip().lower()}
+-
+-        for entry in sorted(os.listdir(root)):
+-            domain_dir = os.path.join(root, entry)
+-            if not os.path.isdir(domain_dir) or entry.startswith("_"):
+-                continue
+-            slices, deferred = [], None
++    if state["model_exists"] and not state["spine_exists"]:
++        errors.append(f"no spine at {spine_path} — the model has files but no index of "
++                      "record; legacy per-node files are not read (C13)")
++
++    if state["model_exists"] and state["spine_exists"]:
++        spine = load(spine_path, errors)
++
++        prof = spine.get("profile")
++        if isinstance(prof, dict):
++            state["profile"] = {"file": spine_path, "state": norm(prof.get("state"))}
++
++        domains = as_list(spine.get("domains"))
++        caps = as_list(spine.get("capabilities"))
++        spine_slices = as_list(spine.get("slices"))
++        epics_by_slice = {}
++        for e in as_list(spine.get("epics")):
++            epics_by_slice.setdefault(slice_id_of(e.get("slice_ref")), []).append(e)
++
++        known_domains = {d.get("id") for d in domains}
++        for s in spine_slices:
++            if s.get("domain_ref") not in known_domains:
++                state["orphan_slices"].append(s.get("id"))
++        state["orphan_slices"].sort(key=str)
++
++        for d in sorted(domains, key=lambda d: str(d.get("id"))):
++            did = d.get("id")
++            slug = d.get("slug") or did
++            domain_dir = os.path.join(root, slug)
+             slices_dir = os.path.join(domain_dir, "slices")
++
++            capabilities = sorted(
++                ({"id": c.get("id"), "detail": norm(c.get("detail")) or "directional",
++                  "doc": c.get("doc")} for c in caps if c.get("domain") == did),
++                key=lambda c: str(c["id"]))
++
++            indexed = sorted((s for s in spine_slices if s.get("domain_ref") == did),
++                             key=lambda s: str(s.get("id")))
++            indexed_ids = {s.get("id") for s in indexed}
++            slices = [scan_slice(root, slug, s, epics_by_slice, errors) for s in indexed]
++
++            deferred, unindexed = None, []
+             for sf in sorted(glob.glob(os.path.join(slices_dir, "*.yaml"))):
+-                if os.path.basename(sf) == "_deferred.yaml":
+-                    d = (load(sf, errors).get("deferred") or {})
+-                    deferred = {"functionalities": sorted(d.get("functionalities") or []),
+-                                "reason": d.get("reason")}
+-                    continue
+-                slices.append(scan_slice(sf, errors))
++                base = os.path.splitext(os.path.basename(sf))[0]
++                if base == "_deferred":
++                    dd = (load(sf, errors).get("deferred") or {})
++                    deferred = {"functionalities": sorted(dd.get("functionalities") or []),
++                                "reason": dd.get("reason")}
++                elif base not in indexed_ids:
++                    unindexed.append(base)
++
+             state["domains"].append({
+-                "id": entry, "dir": domain_dir,
+-                "ices": scan_ices(domain_dir, errors),
++                "id": did, "slug": slug, "dir": domain_dir,
++                "capabilities": capabilities,
+                 "slices": slices,
++                "unindexed_slices": sorted(unindexed),
+                 "deferred": deferred,
+             })
+ 
+-    # a model with a root but no domains is still a cold start
+-    if state["model_exists"] and not state["domains"]:
+-        state["model_exists"] = False
+-        state["model_hash"] = state["model_hash"] or None
++        # a spine with no domains is still a cold start
++        if not state["domains"]:
++            state["model_exists"] = False
+ 
+     os.makedirs(os.path.dirname(os.path.abspath(args.out)), exist_ok=True)
+     with open(args.out, "w", encoding="utf-8") as fh:
+         json.dump(state, fh, indent=2, sort_keys=True)
+     print(json.dumps({"ok": True, "model_exists": state["model_exists"],
++                      "spine_exists": state["spine_exists"],
+                       "domains": len(state["domains"]),
+                       "model_hash": state["model_hash"],
+                       "scan_errors": len(errors), "out": args.out}, indent=2))
+diff --git a/core/components/plays/next/scripts/test_derive_candidates.py b/core/components/plays/next/scripts/test_derive_candidates.py
+new file mode 100644
+index 00000000..1b3d3029
+--- /dev/null
++++ b/core/components/plays/next/scripts/test_derive_candidates.py
+@@ -0,0 +1,305 @@
++#!/usr/bin/env python3
++"""
++Regression tests for /next's model read, decision tree and order (C9/C13/C14, F6/F10/F11, #533).
++
++The bugs these guard: /next's scanner once read the pre-ADR-026 layout (profile.yaml,
++per-slice record status, lens/<type>.yaml, six lenses, top-level `ice:` files,
++epics/*.yaml) and recommended finished work; and the list must finish one slice
++before the others advance. This file is /next's scenario validation (Step 4) — it
++runs in well under a second.
++
++Each case writes a minimal spine-shaped model to a tempdir, runs scan_model.py,
++derive_candidates.derive() and the independent check_model_agreement.py (its own
++reader, so a wrong scan cannot confirm itself), and asserts on the result.
++
++Run:  python3 test_derive_candidates.py   (exit 0 = all pass, 1 = a case failed)
++No pytest dependency — plain asserts, deterministic, no network/git.
++"""
++
++import contextlib
++import importlib.util
++import io
++import json
++import os
++import tempfile
++
++import yaml
++
++HERE = os.path.dirname(os.path.abspath(__file__))
++
++
++def _load(name):
++    spec = importlib.util.spec_from_file_location(name, os.path.join(HERE, name + ".py"))
++    mod = importlib.util.module_from_spec(spec)
++    spec.loader.exec_module(mod)
++    return mod
++
++
++scan = _load("scan_model")
++tree = _load("derive_candidates")
++agree = _load("check_model_agreement")
++
++DOM = "dom-shop"
++SLUG = "shop"
++SEVEN = ["quality", "ux", "agentic", "marketing", "architecture", "run", "measure"]
++
++
++def _write(path, text):
++    os.makedirs(os.path.dirname(path), exist_ok=True)
++    with open(path, "w", encoding="utf-8") as fh:
++        fh.write(text)
++
++
++def build(tmp, profile="set", detail="detailed", slices=(), epics=(), lens_docs=None,
++          spine=True, extra_records=()):
++    """slices: [(id, status, order)]; lens_docs: {slice_id: [lens types]}."""
++    root = os.path.join(tmp, "product-os")
++    lens_docs = lens_docs or {}
++    for sid, _status, _order in slices:
++        _write(os.path.join(root, SLUG, "slices", sid + ".yaml"),
++               yaml.safe_dump({"slice": {"id": sid, "name": sid, "status": "proposed",
++                                         "functionalities": [{"functionality_ref": "f1"}]}}))
++        for lt in lens_docs.get(sid, []):
++            _write(os.path.join(root, SLUG, "slices", sid, "lens", lt + ".md"), f"# {lt}\n")
++    for sid in extra_records:
++        _write(os.path.join(root, SLUG, "slices", sid + ".yaml"),
++               yaml.safe_dump({"slice": {"id": sid, "status": "planned"}}))
++    _write(os.path.join(root, SLUG, "domain.md"), "# Shop\n")
++    if spine:
++        doc = {
++            "domains": [{"id": DOM, "slug": SLUG, "status": "active"}],
++            "capabilities": [{"id": "cap-a", "domain": DOM, "detail": detail,
++                              "doc": f"{SLUG}/a/capability.md"}],
++            "profile": {"state": profile},
++            "slices": [{"id": sid, "slug": sid, "domain_ref": DOM, "status": status,
++                        "order": order, "effort": "M" if order else None,
++                        "depends_on": [], "functionality_refs": ["f1"],
++                        "record": f"{SLUG}/slices/{sid}.yaml"}
++                       for sid, status, order in slices],
++            "epics": [dict(e) for e in epics],
++        }
++        _write(os.path.join(root, "_spine.yaml"), yaml.safe_dump(doc, sort_keys=False))
++    return tmp
++
++
++def run_all(tmp):
++    out = os.path.join(tmp, "_work", "state.json")
++    with contextlib.redirect_stdout(io.StringIO()):
++        scan.main(["--product-base", tmp, "--out", out])
++    with open(out, encoding="utf-8") as fh:
++        state = json.load(fh)
++    cands, incons = tree.derive(state)
++    with contextlib.redirect_stdout(io.StringIO()):
++        agreement = agree.main(["--product-base", tmp, "--state", out])
++    return state, cands, incons, agreement, out
++
++
++def cmds(cands, status=None):
++    return [c["command"] for c in cands if status is None or c["status"] == status]
++
++
++def case_cold_start():
++    with tempfile.TemporaryDirectory() as tmp:
++        _state, cands, _i, _a, _o = run_all(tmp)
++        assert cmds(cands) == ["/vision"], cmds(cands)
++
++
++def case_griffin_like_s7():
++    with tempfile.TemporaryDirectory() as tmp:
++        build(tmp, slices=[("s1", "planned", 1), ("s2", "planned", 2),
++                           ("s3", "planned", 3), ("s4", "planned", 4)],
++              lens_docs={"s2": ["ux", "agentic", "marketing"]})
++        state, cands, incons, agreement, _o = run_all(tmp)
++        c = cmds(cands)
++        assert "/roadmap" not in c and "/understand" not in c, c
++        assert not [x for x in cands if x["lane"] == "strategy"], c
++        assert f"/ux {SLUG}/s1" in c and f"/arch {SLUG}/s1" in c, c
++        s2 = [x for x in cands if x["target"] == f"{SLUG}/s2"]
++        assert [x["command"] for x in s2] == [f"/arch {SLUG}/s2"], s2
++        assert s2[0]["parallel_lane"] and s2[0]["lane"] == "foundation", s2
++        assert any("roadmap order 2" in g for g in s2[0]["gates"]), s2[0]["gates"]
++        assert state["domains"][0]["slices"][0]["status"] == "planned"
++        assert incons == [], incons
++        assert agreement == 0
++        # finish-first order: slice 1's two track heads, then slice 2's /arch
++        assert c[:3] == [f"/ux {SLUG}/s1", f"/arch {SLUG}/s1", f"/arch {SLUG}/s2"], c
++        assert [x["rank"] for x in cands] == list(range(1, len(cands) + 1))
++        assert all(len(x["why"]) >= 40 for x in cands), [x["why"] for x in cands]
++
++
++def case_focus_slice_first():
++    with tempfile.TemporaryDirectory() as tmp:
++        build(tmp, slices=[("s1", "planned", 1), ("s2", "planned", 2)],
++              lens_docs={"s1": ["ux"]})
++        _s, cands, _i, _a, _o = run_all(tmp)
++        s1 = [x["rank"] for x in cands if x["slice"] == f"{SLUG}/s1"]
++        s2 = [x["rank"] for x in cands if x["slice"] == f"{SLUG}/s2"]
++        assert s1 and s2 and max(s1) < min(s2), (s1, s2)
++        assert all(x["focus"] and not x["parallel_lane"] for x in cands
++                   if x["slice"] == f"{SLUG}/s1"), cands
++        assert all(x["parallel_lane"] for x in cands if x["slice"] == f"{SLUG}/s2"), cands
++
++
++def case_ready_epic_outranks_next_slice():
++    with tempfile.TemporaryDirectory() as tmp:
++        build(tmp, slices=[("s1", "realized", 1), ("s2", "planned", 2)],
++              lens_docs={"s1": SEVEN},
++              epics=[{"id": "e1", "slug": "e1", "slice_ref": f"{SLUG}/s1",
++                      "status": "ready", "order": 1, "surface_type": "library"}])
++        _s, cands, _i, _a, _o = run_all(tmp)
++        c = cmds(cands)
++        assert c[0] == f"/implement --epic {SLUG}/s1/e1", c
++        assert c.index(f"/ux {SLUG}/s2") > 0, c
++
++
++def case_cap_and_cut():
++    with tempfile.TemporaryDirectory() as tmp:
++        build(tmp, slices=[(f"s{i:02d}", "planned", i) for i in range(1, 13)])
++        _s, cands, _i, _a, out = run_all(tmp)
++        assert len(cands) == 24, len(cands)
++        res = os.path.join(tmp, "_work", "candidates.json")
++        with contextlib.redirect_stdout(io.StringIO()):
++            tree.main(["--state", out, "--out", res])
++        with open(res, encoding="utf-8") as fh:
++            doc = json.load(fh)
++        assert len(doc["entries"]) == 11, len(doc["entries"])
++        assert doc["cut_for_cap"] == [x["id"] for x in doc["candidates"][11:]], doc["cut_for_cap"]
++        assert doc["focus_slice"] == f"{SLUG}/s01", doc["focus_slice"]
++
++
++def case_realized_missing_lens_s1():
++    with tempfile.TemporaryDirectory() as tmp:
++        build(tmp, slices=[("s1", "realized", 1)],
++              lens_docs={"s1": [lt for lt in SEVEN if lt != "run"]},
++              epics=[{"id": "e1", "slug": "e1", "slice_ref": f"{SLUG}/s1",
++                      "status": "ready", "order": 1, "surface_type": "cli"}])
++        _s, cands, incons, agreement, _o = run_all(tmp)
++        assert cands[0]["lane"] == "repair" and cands[0]["command"] == f"/run {SLUG}/s1", cands[0]
++        blocked = [x for x in cands if x["status"] == "blocked"]
++        assert blocked and "run" in blocked[0]["blocker"], blocked
++        assert any(i["kind"] == "realized-but-lens-missing" for i in incons), incons
++        assert agreement == 0
++
++
++def case_seven_present_planned_repair_measure():
++    with tempfile.TemporaryDirectory() as tmp:
++        build(tmp, slices=[("s1", "planned", 1)], lens_docs={"s1": SEVEN})
++        _s, cands, incons, _a, _o = run_all(tmp)
++        rep = [x for x in cands if x["lane"] == "repair"]
++        assert [x["command"] for x in rep] == [f"/measure {SLUG}/s1"], cands
++        assert any(i["kind"] == "lenses-complete-but-unstamped" for i in incons), incons
++
++
++def case_six_present_measure_next():
++    with tempfile.TemporaryDirectory() as tmp:
++        build(tmp, slices=[("s1", "planned", 1)],
++              lens_docs={"s1": [lt for lt in SEVEN if lt != "measure"]})
++        _s, cands, incons, _a, _o = run_all(tmp)
++        assert cmds(cands) == [f"/measure {SLUG}/s1"], cmds(cands)
++        assert incons == [], incons
++
++
++def case_profile_directional_understand():
++    with tempfile.TemporaryDirectory() as tmp:
++        build(tmp, profile="directional", detail="directional")
++        _s, cands, _i, agreement, _o = run_all(tmp)
++        assert "/understand" in cmds(cands), cmds(cands)
++        assert agreement == 0
++
++
++def case_shape_uses_spine_domain_id():
++    with tempfile.TemporaryDirectory() as tmp:
++        build(tmp, profile="set", detail="detailed")
++        _s, cands, _i, _a, _o = run_all(tmp)
++        assert cmds(cands) == [f"/shape {DOM}"], cmds(cands)
++
++
++def case_no_spine():
++    with tempfile.TemporaryDirectory() as tmp:
++        build(tmp, slices=[("s1", "planned", 1)], spine=False)
++        _write(os.path.join(tmp, "product-os", "profile.yaml"),
++               yaml.safe_dump({"profile": {"state": "directional"}}))
++        state, cands, incons, agreement, _o = run_all(tmp)
++        assert state["model_exists"] and state["spine_exists"] is False, state
++        assert cands == [], cmds(cands)
++        assert [i["kind"] for i in incons] == ["model-has-no-spine"], incons
++        assert agreement == 0
++
++
++def case_slice_not_indexed():
++    with tempfile.TemporaryDirectory() as tmp:
++        build(tmp, slices=[("s1", "planned", 1)], extra_records=["ghost"])
++        _s, cands, incons, agreement, _o = run_all(tmp)
++        assert any(i["kind"] == "slice-not-indexed" for i in incons), incons
++        assert not any("ghost" in x["target"] for x in cands), cmds(cands)
++        assert agreement == 0
++
++
++def case_execute_lane():
++    with tempfile.TemporaryDirectory() as tmp:
++        build(tmp, slices=[("s1", "realized", 1)], lens_docs={"s1": SEVEN},
++              epics=[{"id": "e1", "slug": "e1", "slice_ref": f"{SLUG}/s1",
++                      "status": "delivered", "order": 1, "surface_type": "cli",
++                      "surface_verified": True},
++                     {"id": "e2", "slug": "e2", "slice_ref": f"{SLUG}/s1",
++                      "status": "ready", "order": 2, "depends_on": ["e1"],
++                      "surface_type": "cli"}])
++        _s, cands, incons, agreement, _o = run_all(tmp)
++        run = cmds(cands, "runnable")
++        assert run == [f"/implement --epic {SLUG}/s1/e2"], cmds(cands)
++        assert incons == [], incons
++        assert agreement == 0
++
++
++def case_all_delivered_learn_s5():
++    with tempfile.TemporaryDirectory() as tmp:
++        build(tmp, slices=[("s1", "realized", 1)], lens_docs={"s1": SEVEN},
++              epics=[{"id": "e1", "slug": "e1", "slice_ref": f"{SLUG}/s1",
++                      "status": "delivered", "order": 1, "surface_type": "library"}])
++        _s, cands, _i, _a, _o = run_all(tmp)
++        c = cmds(cands)
++        assert "/learn" in c, c
++
++
++def case_agreement_catches_tamper():
++    with tempfile.TemporaryDirectory() as tmp:
++        build(tmp, slices=[("s1", "planned", 1)], lens_docs={"s1": ["ux"]})
++        _s, _c, _i, agreement, out = run_all(tmp)
++        assert agreement == 0
++        with open(out, encoding="utf-8") as fh:
++            state = json.load(fh)
++        state["domains"][0]["slices"][0]["status"] = "proposed"
++        state["domains"][0]["slices"][0]["lenses"]["ux"] = False
++        with open(out, "w", encoding="utf-8") as fh:
++            json.dump(state, fh)
++        buf = io.StringIO()
++        with contextlib.redirect_stdout(buf):
++            rc = agree.main(["--product-base", tmp, "--state", out])
++        assert rc == 1, buf.getvalue()
++        gaps = json.loads(buf.getvalue())["gaps"]
++        assert any("status" in g for g in gaps) and any("ux.md" in g for g in gaps), gaps
++
++
++CASES = [case_cold_start, case_griffin_like_s7, case_realized_missing_lens_s1,
++         case_seven_present_planned_repair_measure, case_six_present_measure_next,
++         case_profile_directional_understand, case_shape_uses_spine_domain_id,
++         case_no_spine, case_slice_not_indexed, case_execute_lane,
++         case_all_delivered_learn_s5, case_agreement_catches_tamper,
++         case_focus_slice_first, case_ready_epic_outranks_next_slice, case_cap_and_cut]
++
++
++def main():
++    failed = 0
++    for case in CASES:
++        try:
++            case()
++            print(f"PASS {case.__name__}")
++        except AssertionError as exc:
++            failed += 1
++            print(f"FAIL {case.__name__}: {exc}")
++    print(f"{len(CASES) - failed}/{len(CASES)} passed")
++    return 1 if failed else 0
++
++
++if __name__ == "__main__":
++    raise SystemExit(main())
+diff --git a/core/components/plays/next/stop-condition.yaml b/core/components/plays/next/stop-condition.yaml
+index ef0c4f9a..37ea2532 100644
+--- a/core/components/plays/next/stop-condition.yaml
++++ b/core/components/plays/next/stop-condition.yaml
+@@ -1,17 +1,14 @@
+-# next stop condition — baked from reference/ice.md "### Done means" (#464/#466 Batch D).
+-# Evaluated by scripts/check_stop_condition.py at Step C0 of the Standard Play Close —
+-# BEFORE Step 9's self-clean (C10) deletes the working folder; the verdict's durable
+-# copy is the evidence record. Paths are relative to the run's working folder
+-# (<working> = ${product_base}_status/next/).
++# next stop condition — baked from reference/ice.md "### Done means" (#464/#466 Batch D;
++# rebaked for the #533 simplification). Evaluated by scripts/check_stop_condition.py at
++# Step C0 of the Standard Play Close — BEFORE the self-clean (C10) deletes the working
++# folder; the verdict's durable copy is the evidence record. Paths are relative to the
++# run's working folder (<working> = ${product_base}_status/next/).
+ schema: { name: stop-condition }
+ content:
+   done:
+     - id: D1
+-      says: "the derived candidate set record exists (candidates + inconsistency report + derivation hash)"
++      says: "the ordered candidate set exists (ordered candidates + capped entries + inconsistency report)"
+       check: { type: artifact_exists, path: "candidates.json" }
+     - id: D2
+-      says: "the ranked recommendations artifact exists (machine form: NBA + entries + basis)"
+-      check: { type: artifact_exists, path: "recommendations.yaml" }
+-    - id: D3
+-      says: "the presented recommendation report exists (human form)"
++      says: "the presented recommendation report exists"
+       check: { type: artifact_exists, path: "recommendations.md" }
