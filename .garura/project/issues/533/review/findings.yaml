@@ -1,0 +1,38 @@
+# review-change Step 4 — consolidated findings (PR #577). Sources joined in stable order:
+# quality-findings.yaml (Layer 1, code+tests), design-findings-harness.yaml (Layer 2),
+# lint-play.txt (lint_play.py PASS, 0 gaps), lint-components.txt (0 findings in /next beyond a
+# pre-existing spelling warning, unchanged from main). Duplicates merged at the higher class.
+pr: 577
+runnable_checks:
+  - {check: test_derive_candidates.py, result: PASS 15/15}
+  - {check: py_compile + ruff on changed scripts, result: PASS}
+  - {check: lint_play.py (play-editor) on next/SKILL.md, result: PASS 0 gaps}
+  - {check: lint-components, result: "no /next errors; 1 pre-existing warning (user-invokable spelling, also on main)"}
+findings:
+  - {id: F1, severity: P2, category: code, file: core/components/skills/rank-recommendations/SKILL.md, merged: [Q1, H6],
+     summary: "Skill still says its input comes from classify_work.py (deleted) and that /next uses it; /next no longer dispatches it. product-os-keeper.md and docs/components/{agents,skills}.md still list it against /next.",
+     basis: "CODE-dangling-reference (pr.md); main:agents/product-os-keeper.md lines 76, 97"}
+  - {id: F2, severity: P3, category: harness, file: core/components/memory/standards/rules/no-unbacked-recommendation.md, merged: [Q2, H1],
+     summary: "Scope table still lists /next as 'caught, not yet wired'; the PR deleted /next's own output enforcer without wiring the rule.",
+     basis: "main:standards/rules/no-unbacked-recommendation.md (Scope + Enforced)"}
+  - {id: F3, severity: P3, category: harness, file: core/components/plays/next/SKILL.md, merged: [H2],
+     summary: "play-creator lint_play.py reports a gap: no-unbacked-recommendation is not wired into /next. Pre-existing, not fixed by the rewrite.",
+     basis: "main:standards/rules/no-unbacked-recommendation.md; play-creator/scripts/lint_play.py"}
+  - {id: F4, severity: P3, category: harness, file: core/components/memory/knowledge/work-intelligence/work-map.yaml, merged: [H3, Q3],
+     summary: "Header says the map is consumed by classify_work.py, which is deleted; nothing consumes the map now.",
+     basis: "CLAUDE.md Source of Truth; CODE-stale-reference"}
+  - {id: F5, severity: P3, category: harness, file: core/components/memory/knowledge/work-intelligence/operator-fit.md, merged: [H4, Q3],
+     summary: "Still points at classify_work.py and operator fit, which /next no longer does.",
+     basis: "CLAUDE.md Source of Truth; CODE-stale-reference"}
+  - {id: F6, severity: P3, category: harness, file: core/components/memory/knowledge/_index.md, merged: [H5, Q3],
+     summary: "Line 40 still describes the map consumed by classify_work.py.",
+     basis: "CLAUDE.md Source of Truth; CODE-stale-reference"}
+  - {id: F7, severity: P4, category: code, file: core/components/plays/next/scripts/derive_candidates.py, merged: [Q4],
+     summary: "derive() is one function of about 362 lines.",
+     basis: "review/code rubric (function size)"}
+  - {id: F8, severity: P4, category: code, file: core/components/plays/next/scripts/scan_model.py, merged: [Q5],
+     summary: "main() is about 137 lines and mixes scanning, state building and output.",
+     basis: "review/code rubric (function size)"}
+  - {id: F9, severity: P4, category: harness, file: core/components/plays/next/SKILL.md, merged: [H7],
+     summary: "The independent agreement reader now runs only on test fixtures; a wrong read of a real model is not caught at run time. Deliberate (user direction 2026-09-11) — residual risk.",
+     basis: "issue #533 fix direction 3 (verifier independent of scanner)"}
