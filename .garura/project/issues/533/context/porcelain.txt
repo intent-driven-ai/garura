@@ -1,0 +1,10 @@
+ M core/components/plays/next/SKILL.md
+ M core/components/plays/next/reference/ice.md
+ D core/components/plays/next/scripts/check_output.py
+ D core/components/plays/next/scripts/classify_work.py
+ M core/components/plays/next/scripts/derive_candidates.py
+ M core/components/plays/next/scripts/scan_model.py
+ M core/components/plays/next/stop-condition.yaml
+?? .garura/project/issues/533/context/porcelain.txt
+?? core/components/plays/next/scripts/check_model_agreement.py
+?? core/components/plays/next/scripts/test_derive_candidates.py
