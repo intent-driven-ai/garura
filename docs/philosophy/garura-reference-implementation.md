@@ -30,7 +30,7 @@ Every play, agent, and skill named here exists under `core/components/` and is l
 
 # Part 1 — The Dual Intent in Garura
 
-IDSD keeps two intents apart, both in ICE form ([Two-Layer Intent Model](./idsd.md#two-layer-intent-model)). Garura gives each its own home:
+IDSD keeps two intents apart, both in ICE form ([The Dual-Intent System](./idsd.md#the-dual-intent-system)). Garura gives each its own home:
 
 | Intent | Where Garura keeps it | Who writes it | How it changes |
 |--------|----------------------|---------------|----------------|
@@ -305,7 +305,7 @@ Human gates are configuration now (`gate-config.md`, the `gates:` block in `.gar
 
 ### Recovery
 
-Recovery is the Expectation layer's answer to "how do we continue toward the intent when blocked" (see ICE in [IDD](./idsd.md#ice-the-idsd-model)). The autonomous-fix loop and the structured failure format agents return (`domain_assessment.responsible_domain`) are defined once, in `docs/framework/intent-driven-recovery.md` and `docs/framework/structured-failure-protocol.md`; agent definitions carry the format in their escalation sections.
+Recovery is the Expectation layer's answer to "how do we continue toward the intent when blocked" (see ICE in [IDSD](./idsd.md#ice-the-idsd-model)). The autonomous-fix loop and the structured failure format agents return (`domain_assessment.responsible_domain`) are defined once, in `docs/framework/intent-driven-recovery.md` and `docs/framework/structured-failure-protocol.md`; agent definitions carry the format in their escalation sections.
 
 What Garura adds is per-play bounds, stated in each play's failure-condition table. For example, `/implement` allows two retries per piece before `tech-designer` re-plans, and two refuted verdict rounds before escalating to a human.
 
@@ -470,7 +470,8 @@ Adding new tool integrations is incremental — each tool gets an MCP server; sk
 ## Related Documentation
 
 - [IDD](./intent-driven-development.md) — The principles, and PCAM
-- [IDSD](./idsd.md) — The dual-intent system: ICE, the two intents, the loop
+- [Intent](./intent.md) — What an intent is, the decision space, intent vs spec, examples
+- [IDSD](./idsd.md) — The dual-intent system: the two intents, ICE, the loop
 - [Garura Architecture](./architecture.md) — Three-layer hierarchy, JSON contract, Four Crafts
 - [ADR 019](../adr/019-epic-persistence-keep-delivered.md) · [ADR 022](../adr/022-surface-contract.md) · [ADR 023](../adr/023-three-execution-trinities.md) · [ADR 024](../adr/024-amendment-record.md) · [ADR 025](../adr/025-level-3-redefined-skeleton-and-loop.md) · [ADR 026](../adr/026-direct-to-model-writes.md) · [ADR 027](../adr/027-ice-model-pcam-design.md)
 - `core/components/memory/standards/rules/pipeline-next.md` — The successor map
