@@ -1069,10 +1069,11 @@ IDD rests on three testable hypotheses. These are not proven — they are the be
 
 ## Related Documentation
 
-The three documents, one per layer:
+The four documents:
 
+- [Intent](./intent.md) — what an intent is, the decision space it gives an agent, how it differs from a spec, with examples
 - **IDD** (this document) — the principles, and the PCAM design that drives ICE
-- [IDSD — the dual-intent system](./idsd.md) — ICE, the two intents, and the loop that moves them
+- [IDSD — the dual-intent system](./idsd.md) — the two intents, ICE, and the loop that moves them
 - [Garura — the reference implementation](./garura-reference-implementation.md) — how Garura implements IDSD and PCAM, with links to its commands, agents, and skills
 - [ADR 027](../adr/027-ice-model-pcam-design.md) — ICE is the IDSD model; PCAM is the design that drives it
 
