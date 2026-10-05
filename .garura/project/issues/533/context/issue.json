@@ -1,0 +1,6 @@
+{
+  "resolved": true,
+  "issue_number": 533,
+  "title": "[DEF][High] /next reads per-node records instead of the spine — every recommendation can be wrong, and its own check cannot catch it",
+  "created": false
+}

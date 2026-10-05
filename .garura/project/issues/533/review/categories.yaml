@@ -1,0 +1,46 @@
+# review-change Step 2 — categories for PR #577 (base main, issue #533)
+# Shelf used: /Users/kapilahuja/.garura/core/memory/knowledge/review/ (global deployed shelf;
+# context.yaml's ./.garura/core/memory/knowledge/review/ does not exist in this repo).
+categories:
+  - name: Harness
+    playbook: review/harness
+    design_bearing: true
+    file_count: 3
+    evidence:
+      - core/components/plays/next/SKILL.md          # compiled play
+      - core/components/plays/next/reference/ice.md  # ICE source (intent)
+      - core/components/plays/next/stop-condition.yaml  # play stop condition, part of the play (not a config map)
+  - name: Executable code
+    playbook: review/code
+    design_bearing: false
+    file_count: 5   # 3 modified/added, 2 deleted
+    evidence:
+      - core/components/plays/next/scripts/check_model_agreement.py  # added
+      - core/components/plays/next/scripts/derive_candidates.py      # modified
+      - core/components/plays/next/scripts/scan_model.py             # modified
+      - core/components/plays/next/scripts/check_output.py           # deleted
+      - core/components/plays/next/scripts/classify_work.py          # deleted
+  - name: Tests
+    playbook: review/tests
+    design_bearing: false
+    file_count: 1
+    note: run the suite, do not only read it
+    evidence:
+      - core/components/plays/next/scripts/test_derive_candidates.py
+  - name: Pipeline run records (STM)
+    playbook: null
+    design_bearing: false
+    file_count: 10
+    note: playbook missing — the shelf has no category for STM run records under .garura/project/issues/**. These are machine-written pipeline artifacts (start-change/propose-change context), not authored work. Suggest a light playbook or an explicit skip rule; review only for stray secrets and consistency with the PR.
+    evidence:
+      - .garura/project/issues/533/context/analysis.yaml
+      - .garura/project/issues/533/context/branch.json
+      - .garura/project/issues/533/context/commits.yaml
+      - .garura/project/issues/533/context/issue.json
+      - .garura/project/issues/533/context/porcelain.txt
+      - .garura/project/issues/533/context/pr-body.md
+      - .garura/project/issues/533/context/pr.json
+      - .garura/project/issues/533/context/resolved-rules.json
+      - .garura/project/issues/533/context/self-review.md
+      - .garura/project/issues/533/context/work-description.txt
+absent_seeded: [Decision records, Documentation, Memory, Config maps]

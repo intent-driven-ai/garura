@@ -1,0 +1,14 @@
+PLAY LINT: core/components/plays/next/SKILL.md
+  [PASS] required sections: all present
+  [PASS] failure coverage: every failure has a step eval
+  [PASS] scenario coverage: every scenario has a scenario eval
+  [PASS] constraint coverage: every constraint is in pre-flight or a step eval
+  [PASS] recovery 1:1: exactly one recovery per failure
+  [PASS] no orphans: no references to undeclared C/F/S
+  [PASS] pipeline position (D2): position: none
+  [PASS] standard play close (D1): evidence close block present
+  [PASS] pre-flight resolver: scripts/preflight.py present
+  [PASS] stop condition (#464): Done means baked: manifest + checker present, clause types valid
+  [PASS] fingerprint: present
+  [PASS] next-command (pipeline-next): resolves in pipeline-next.md and the close renders Next
+VERDICT: PASS (0 gap(s))

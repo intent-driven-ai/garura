@@ -1,0 +1,47 @@
+# review-change Step 3, Layer 1 — quality-check-scoped, categories: code + tests
+pr: 577
+checks:
+  - {name: tests, command: "python3 core/components/plays/next/scripts/test_derive_candidates.py", result: "PASS 15/15"}
+  - {name: py_compile, command: "python3 -m py_compile (check_model_agreement, derive_candidates, scan_model, test_derive_candidates)", result: "PASS"}
+  - {name: ruff, command: "ruff check <4 changed/added scripts>", result: "PASS, all checks passed"}
+  - {name: dangling_refs, command: "grep check_output|classify_work across core/", result: "FAIL, live references to deleted scripts remain (see findings)"}
+  - {name: function_size, command: "awk def-length scan", result: "derive() 362 lines, scan_model.main 137, derive_candidates.main 95"}
+findings:
+  - id: Q1
+    class: P2
+    file: core/components/skills/rank-recommendations/SKILL.md
+    line: 24
+    statement: "Input still says operator-profile.json comes from classify_work.py, which this PR deletes; the skill's input has no producer."
+    basis: CODE-dangling-reference (pr.md taxonomy, broken contract after deletion)
+  - id: Q2
+    class: P3
+    file: core/components/memory/standards/rules/no-unbacked-recommendation.md
+    line: 73
+    statement: "Rule says check_output.py enforces C12/F10, but check_output.py is deleted; the rule's enforcement claim is now false (SKILL.md line 361 says it was removed)."
+    basis: CODE-stale-reference
+  - id: Q3
+    class: P4
+    file: core/components/memory/knowledge/work-intelligence/work-map.yaml
+    line: 3
+    statement: "Header comment and operator-fit.md line 6 and knowledge/_index.md line 40 name classify_work.py as the consumer of the map; the script is deleted."
+    basis: CODE-stale-reference
+  - id: Q4
+    class: P4
+    file: core/components/plays/next/scripts/derive_candidates.py
+    line: null
+    statement: "derive() is about 362 lines in one function, past the function-size rubric; hard to review and test in pieces."
+    basis: review/code rubric (function size), CODE-function-size
+  - id: Q5
+    class: P4
+    file: core/components/plays/next/scripts/scan_model.py
+    line: null
+    statement: "main() is about 137 lines mixing scanning, state building and output."
+    basis: review/code rubric (function size)
+tests_note: "Suite runs and passes; covers tamper detection, cap/cut, ordering, no-spine. No skipped tests found. check_model_agreement.py has only one test (case_agreement_catches_tamper); scan_model.py has no direct test."
+tests_findings:
+  - id: Q6
+    class: P4
+    file: core/components/plays/next/scripts/test_derive_candidates.py
+    line: null
+    statement: "scan_model.py and the happy path of check_model_agreement.py have no direct tests; only the tamper case is covered."
+    basis: TEST-coverage (pr.md TEST-* rows)
