@@ -1,0 +1,18 @@
+[BUG] /next recommends finished work because it still reads the old product model layout
+
+The problem in plain words: /next is the play that reads the product model and says what to do next. After ADR 026 moved the model to grounding docs with the spine (_spine.yaml) as the index, /next was never updated. It only reads the model, so the ADR 026 fanout (which covered the 13 plays that write the model) skipped it, and it has no tests to catch the drift. The result: it recommends work that is already done.
+
+Evidence (griffin, seen twice): /next recommended /roadmap and /understand. The profile is set, and all four slices are planned with roadmap order 1-4. Re-running the scanner on griffin gives profile: None, every slice status 'proposed' with no order, zero lenses, zero capability ICEs.
+
+What is wrong:
+1. Profile is read from product-os/profile.yaml. It now lives in _spine.yaml (profile.state).
+2. Slice status, order and effort are read from each slice record. The record only holds a stale `status: proposed`; the spine `slices` index holds the real status, order, effort and depends_on.
+3. Lens presence is checked as lens/<type>.yaml. The lens plays write lens/<type>.md.
+4. The lens list has six entries. Marketing is missing; the plays write seven (grill/check_ready_slice.py, measure/lines_up.py).
+5. Capability depth looks for yaml files with a top-level `ice:` key. None exist now; the spine capability entry carries `detail: detailed` (set by /understand). So the /shape branch can never fire.
+6. Epics are globbed from slices/<slice>/epics/*.yaml with an `epic:` key. /grill now writes the spine `epics` index plus epic.md docs (grill/persist_epics.py); /validate stamps status and surface_verified on the spine entry.
+7. The decision tree encodes one linear lens chain (quality→ux→agentic→architecture→measure→run) and points the realized stamp at /run. standards/rules/pipeline-next.md defines two realize tracks — functional (ux→agentic→marketing) and non-functional (arch→quality→run) — with /measure last, and /measure stamps the slice realized (measure/persist_measure.py).
+
+Scope: the /next play only — reference/ice.md (it says "the six realize lenses", so this is an intent change through /play-editor), scripts/scan_model.py and scripts/derive_candidates.py. Out of scope: removing the stale `status` from slice records, and the glossary line that still says lens/<type>.yaml (note as follow-ups).
+
+Done when: /next on griffin's model reads the profile as set, sees four planned slices in order 1-4, sees the three lens docs on trusted-local-collection, and no longer recommends /roadmap or /understand.

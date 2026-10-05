@@ -1,0 +1,36 @@
+---
+# analyze-changes output (agent judgment, #533)
+issue: 533
+needs_judgment: true
+
+change_groups:
+  - id: g1
+    issue: 533
+    commit_type: feat
+    scope: next
+    subject: read the product spine and order the list to finish one slice first
+    files:
+      - core/components/plays/next/reference/ice.md
+      - core/components/plays/next/SKILL.md
+      - core/components/plays/next/stop-condition.yaml
+      - core/components/plays/next/scripts/scan_model.py
+      - core/components/plays/next/scripts/derive_candidates.py
+      - core/components/plays/next/scripts/check_model_agreement.py
+      - core/components/plays/next/scripts/test_derive_candidates.py
+      - core/components/plays/next/scripts/check_output.py
+      - core/components/plays/next/scripts/classify_work.py
+
+exclusions:
+  []
+
+risks:
+  sensitive_files:
+    []
+  breaking_changes:
+    []
+  ambiguous_types: []
+  hotfix_branch: false
+
+eval_gates:
+  SE-1: {status: PASS, evidence: "one concern: single intent change to the next play (ICE + compiled SKILL + stop-condition + its scripts)"}
+  SE-5: {status: PASS, evidence: "no sensitive patterns matched"}

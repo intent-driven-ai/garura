@@ -1,0 +1,52 @@
+# review-change Step 3 — design-grounding, category: harness (PR #577, base main)
+category: harness
+grounding_sources:
+  - CLAUDE.md "Play Pipeline Rules" (intent change must go ICE -> /play-editor recompile)
+  - main:core/components/memory/standards/rules/play-close.md
+  - main:core/components/memory/standards/rules/no-unbacked-recommendation.md
+  - main:core/components/memory/standards/rules/pipeline-next.md
+  - main:core/components/memory/standards/rules/pr.md
+  - base-ref play (main:core/components/plays/next/**) for C2 / read-only guarantee
+conformant:
+  - "ICE fingerprint in SKILL.md equals sha256 of reference/ice.md (47abfbc2...03d0), computed. Basis: CLAUDE.md Play Pipeline Rules."
+  - "Standard Play Close anchor pair intact; lint_play.py (play-editor) VERDICT PASS incl. standard-play-close, stop condition, next-command. Basis: play-close.md."
+  - "Read-only / recommend-only: C2 and F3 kept unchanged vs base; no write path to model added. Basis: base-ref next play."
+  - "Verifier problem (#533): C13 now proven by an independent reader (check_model_agreement.py, does not import scan_model.py) inside test_derive_candidates.py; suite run: 15/15 pass, incl. tamper case. Fixed for fixtures."
+findings:
+  - id: H1
+    class: P3
+    file: core/components/memory/standards/rules/no-unbacked-recommendation.md
+    statement: "Stale reference: the rule's worked example still cites check_output.py (that is focus's script, so partly valid), but its scope table still lists /next as 'caught, not yet wired' - unchanged by this PR; the PR deleted /next's own enforcer without wiring the rule."
+    basis: "main:standards/rules/no-unbacked-recommendation.md (Scope table, Enforced section)"
+    note: "Low confidence on the check_output.py half: line 73 is focus's script - verified it exists on main under plays/focus. Treat only the scope-table half as live."
+  - id: H2
+    class: P3
+    file: core/components/plays/next/SKILL.md
+    statement: "play-creator lint_play.py reports GAP no-unbacked-recommendation (no constraint/failure/eval/strip-recovery citing the rule). Not introduced here (base ICE had none; rule lists next as 'caught, #530') but the rewrite was a chance to wire it and did not."
+    basis: "main:standards/rules/no-unbacked-recommendation.md (Scope + Enforced); play-creator/scripts/lint_play.py"
+  - id: H3
+    class: P3
+    file: core/components/memory/knowledge/work-intelligence/work-map.yaml
+    statement: "Orphaned by this PR: header says 'Consumed by /next's classify_work.py' - script deleted, nothing consumes the map now."
+    basis: "CLAUDE.md Source of Truth / no orphan references; HEAD grep shows the reference"
+  - id: H4
+    class: P3
+    file: core/components/memory/knowledge/work-intelligence/operator-fit.md
+    statement: "Stale: points at work-map.yaml + classify_work.py and the rank-recommendations fit rules; /next no longer does operator fit."
+    basis: "same as H3"
+  - id: H5
+    class: P3
+    file: core/components/memory/knowledge/_index.md
+    statement: "Stale: line 40 still describes the mechanical map consumed by classify_work.py."
+    basis: "same as H3"
+  - id: H6
+    class: P3
+    file: core/components/skills/rank-recommendations/SKILL.md
+    statement: "Skill ('Use only from the /next play via product-os-keeper') is now unused; /next no longer dispatches it. product-os-keeper.md and docs/components/{agents,skills}.md still list it with /next as its play. Wiring left dangling."
+    basis: "core/components/plays/play-creator rules / CLAUDE.md agent->skill wiring; main:agents/product-os-keeper.md lines 76, 97"
+  - id: H7
+    class: P4
+    file: core/components/plays/next/SKILL.md
+    statement: "Runtime agreement check removed: the independent reader now guards only fixture models in the test file, so a wrong read of the user's live model is not caught at run time (F10 on real data). A deliberate user direction (2026-09-11), and it does fix verifier-shares-reader for the tests; noted as residual risk."
+    basis: "issue #533 verifier problem; ICE C13 as written in this PR (author's own text - weak ground, hence P4)"
+grounding_unavailable: []

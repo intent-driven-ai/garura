@@ -1,16 +1,29 @@
 #!/usr/bin/env python3
 """
-scan_model.py — read-only product-model state snapshot for /next (C1/C2).
+scan_model.py — read-only product-model state snapshot for /next (C1/C2/C13).
 
 Walks {product_base}/product-os/ and emits ONE JSON snapshot of everything the
-candidate derivation needs: profile state, capability-ICE depth, every slice's
-status/order/depends_on/functionality refs, lens presence per slice, every
-epic's status/order/depends_on, and the deferred buckets. Also records a
-content hash of the whole product-os tree so a later re-scan can PROVE the
-play wrote nothing (F3).
+candidate derivation needs, read the way the model-writing plays write it
+(ADR 026, direct-model-write):
+
+  - the spine `_spine.yaml` is the index of record — profile state, domains
+    (id + slug → folder), capability detail, slices (status / order / effort /
+    depends_on), and epics (status / order / depends_on / issue_ref /
+    surface_type / surface_verified);
+  - lens presence is the slice's `lens/<type>.md` grounding docs — the seven
+    lenses /measure lines up (quality, ux, agentic, marketing, architecture,
+    run, measure);
+  - a slice record is read only for what the spine does not carry (name,
+    functionalities) — its own `status` is never read (it goes stale after
+    /roadmap writes the spine).
+
+Also records a content hash of the whole product-os tree — the model basis the
+recommendation was derived from (carried into the evidence record).
 
 A missing model is NOT an error — it is the /vision branch of the decision
-tree: the snapshot says model_exists=false and exits 0.
+tree: the snapshot says model_exists=false and exits 0. A product-os/ tree with
+files but no spine is recorded as spine_exists=false (never read from legacy
+per-node files) — the derivation reports it as an inconsistency.
 
 Layer rule: reads files on disk only; no git/gh/network. Deterministic: same
 tree, same snapshot (no timestamps, sorted everything).
@@ -34,7 +47,8 @@ except ImportError:
     sys.stderr.write("scan_model.py: PyYAML is required (pip install pyyaml).\n")
     sys.exit(2)
 
-LENS_TYPES = ["quality", "ux", "agentic", "architecture", "measure", "run"]
+# The seven lens docs /measure lines up (measure/scripts/lines_up.py).
+LENS_TYPES = ["quality", "ux", "agentic", "marketing", "architecture", "run", "measure"]
 
 
 def load(path, errors):
@@ -62,79 +76,69 @@ def tree_hash(root):
     return "sha256:" + h.hexdigest()
 
 
-def ice_depth(ice):
-    """goals-only (seed from /vision) vs rich (after /understand)."""
-    ctx = ice.get("context") or {}
-    exp = ice.get("expectations") or {}
-    has_context = any(ctx.get(k) for k in ("persona", "systems", "scope"))
-    has_outcomes = bool(exp.get("outcomes"))
-    return "rich" if (has_context and has_outcomes) else "goals-only"
+def norm(value):
+    return (value or "").strip().lower() if isinstance(value, str) else ""
 
 
-def scan_ices(domain_dir, errors):
-    """Every yaml under the domain (excluding slices/) with a top-level `ice:`."""
-    ices = []
-    for path in sorted(glob.glob(os.path.join(domain_dir, "**", "*.yaml"),
-                                 recursive=True)):
-        rel = os.path.relpath(path, domain_dir)
-        if rel.startswith("slices" + os.sep):
-            continue
-        doc = load(path, errors)
-        if isinstance(doc, dict) and "ice" in doc:
-            ice = doc.get("ice") or {}
-            ices.append({"node_ref": ice.get("node_ref"),
-                         "file": path, "depth": ice_depth(ice)})
-    return ices
+def slice_id_of(ref):
+    """The slice id from a slice_ref that may be 'domain/slice-id' or 'slice-id'."""
+    return ref.split("/")[-1] if isinstance(ref, str) and ref else ref
 
 
-def scan_slice(slice_file, errors):
-    sl = (load(slice_file, errors).get("slice") or {})
-    slice_id = os.path.splitext(os.path.basename(slice_file))[0]
-    slice_dir = os.path.join(os.path.dirname(slice_file), slice_id)
+def as_list(value):
+    return [x for x in value if isinstance(x, dict)] if isinstance(value, list) else []
+
+
+def scan_slice(root, slug, entry, epics_by_slice, errors):
+    sid = entry.get("id")
+    slice_dir = os.path.join(root, slug, "slices", sid)
+    record_rel = entry.get("record") or os.path.join(slug, "slices", sid + ".yaml")
+    record_path = os.path.join(root, record_rel)
+    record = {}
+    if os.path.isfile(record_path):
+        record = load(record_path, errors).get("slice") or {}
+    else:
+        errors.append(f"slice record missing: {record_path} (spine slice '{sid}')")
+
     lens_dir = os.path.join(slice_dir, "lens")
-    lenses = {lt: os.path.isfile(os.path.join(lens_dir, lt + ".yaml"))
-              for lt in LENS_TYPES}
+    lenses = {lt: os.path.isfile(os.path.join(lens_dir, lt + ".md")) for lt in LENS_TYPES}
 
     epics = []
-    for f in sorted(glob.glob(os.path.join(slice_dir, "epics", "*.yaml"))):
-        if os.path.basename(f) == "deferrals.yaml":
-            continue
-        e = (load(f, errors).get("epic") or {})
-        surface = e.get("surface") or {}
+    for e in sorted(epics_by_slice.get(sid, []), key=lambda e: str(e.get("id"))):
         epics.append({
-            "id": e.get("id") or os.path.splitext(os.path.basename(f))[0],
-            "file": f,
-            "status": (e.get("status") or "").strip().lower(),
+            "id": e.get("id"),
+            "doc": e.get("doc"),
+            "status": norm(e.get("status")),
             "order": e.get("order"),
             "depends_on": sorted(e.get("depends_on") or []),
             "issue_ref": e.get("issue_ref"),
-            "title": e.get("title"),
-            # surface contract (ADR 022): declared at the cut, read here so the
-            # candidate derivation can detect surface debt deterministically.
-            "surface_type": (surface.get("type") or "").strip().lower(),
-            # /validate stamps surface_verified: true when the surface-parity check
-            # passed; absent/false means the required surface was never measured.
+            "title": e.get("title") or e.get("slug"),
+            # surface contract (ADR 022): declared at the cut on the spine epics
+            # index, read here so the derivation can detect surface debt.
+            "surface_type": norm(e.get("surface_type")),
+            # /validate stamps surface_verified: true on the spine entry when the
+            # surface-parity check passed.
             "surface_verified": bool(e.get("surface_verified")),
         })
 
     funcs = []
-    for fn in (sl.get("functionalities") or []):
+    for fn in (record.get("functionalities") or []):
         fn = fn or {}
         funcs.append({"functionality_ref": fn.get("functionality_ref"),
                       "ice_ref": fn.get("ice_ref")})
 
-    epics_dir = os.path.join(slice_dir, "epics")
     return {
-        "id": sl.get("id") or slice_id,
-        "file": slice_file,
-        "epics_dir_exists": os.path.isdir(epics_dir),
-        "deferrals_exists": os.path.isfile(os.path.join(epics_dir, "deferrals.yaml")),
-        "name": sl.get("name"),
-        "status": (sl.get("status") or "").strip().lower(),
-        "order": sl.get("order"),
-        "effort": sl.get("effort"),
-        "depends_on": sorted(sl.get("depends_on") or []),
-        "functionalities": funcs,
+        "id": sid,
+        "file": record_path,
+        "has_epics": bool(epics),
+        "deferrals_exists": os.path.isfile(os.path.join(slice_dir, "epics", "deferrals.yaml")),
+        "name": record.get("name") or entry.get("slug"),
+        "status": norm(entry.get("status")),
+        "order": entry.get("order"),
+        "effort": entry.get("effort"),
+        "depends_on": sorted(entry.get("depends_on") or []),
+        "functionalities": funcs or [{"functionality_ref": f, "ice_ref": None}
+                                     for f in (entry.get("functionality_refs") or [])],
         "lenses": lenses,
         "lens_dir": lens_dir,
         "epics": epics,
@@ -149,48 +153,84 @@ def main(argv=None):
 
     errors = []
     root = os.path.join(args.product_base, "product-os")
+    spine_path = os.path.join(root, "_spine.yaml")
+    has_files = os.path.isdir(root) and any(
+        os.path.isfile(p) for p in glob.glob(os.path.join(root, "**", "*"), recursive=True))
     state = {"product_base": args.product_base, "root": root,
-             "model_exists": os.path.isdir(root), "scan_errors": errors,
-             "profile": None, "domains": [], "model_hash": None}
+             "model_exists": has_files, "spine_exists": os.path.isfile(spine_path),
+             "spine": spine_path, "scan_errors": errors,
+             "profile": None, "domains": [], "orphan_slices": [], "model_hash": None}
 
     if state["model_exists"]:
         state["model_hash"] = tree_hash(root)
 
-        profile_path = os.path.join(root, "profile.yaml")
-        if os.path.isfile(profile_path):
-            prof = (load(profile_path, errors).get("profile") or {})
-            state["profile"] = {"file": profile_path,
-                                "state": (prof.get("state") or "").strip().lower()}
+    if state["model_exists"] and not state["spine_exists"]:
+        errors.append(f"no spine at {spine_path} — the model has files but no index of "
+                      "record; legacy per-node files are not read (C13)")
 
-        for entry in sorted(os.listdir(root)):
-            domain_dir = os.path.join(root, entry)
-            if not os.path.isdir(domain_dir) or entry.startswith("_"):
-                continue
-            slices, deferred = [], None
+    if state["model_exists"] and state["spine_exists"]:
+        spine = load(spine_path, errors)
+
+        prof = spine.get("profile")
+        if isinstance(prof, dict):
+            state["profile"] = {"file": spine_path, "state": norm(prof.get("state"))}
+
+        domains = as_list(spine.get("domains"))
+        caps = as_list(spine.get("capabilities"))
+        spine_slices = as_list(spine.get("slices"))
+        epics_by_slice = {}
+        for e in as_list(spine.get("epics")):
+            epics_by_slice.setdefault(slice_id_of(e.get("slice_ref")), []).append(e)
+
+        known_domains = {d.get("id") for d in domains}
+        for s in spine_slices:
+            if s.get("domain_ref") not in known_domains:
+                state["orphan_slices"].append(s.get("id"))
+        state["orphan_slices"].sort(key=str)
+
+        for d in sorted(domains, key=lambda d: str(d.get("id"))):
+            did = d.get("id")
+            slug = d.get("slug") or did
+            domain_dir = os.path.join(root, slug)
             slices_dir = os.path.join(domain_dir, "slices")
+
+            capabilities = sorted(
+                ({"id": c.get("id"), "detail": norm(c.get("detail")) or "directional",
+                  "doc": c.get("doc")} for c in caps if c.get("domain") == did),
+                key=lambda c: str(c["id"]))
+
+            indexed = sorted((s for s in spine_slices if s.get("domain_ref") == did),
+                             key=lambda s: str(s.get("id")))
+            indexed_ids = {s.get("id") for s in indexed}
+            slices = [scan_slice(root, slug, s, epics_by_slice, errors) for s in indexed]
+
+            deferred, unindexed = None, []
             for sf in sorted(glob.glob(os.path.join(slices_dir, "*.yaml"))):
-                if os.path.basename(sf) == "_deferred.yaml":
-                    d = (load(sf, errors).get("deferred") or {})
-                    deferred = {"functionalities": sorted(d.get("functionalities") or []),
-                                "reason": d.get("reason")}
-                    continue
-                slices.append(scan_slice(sf, errors))
+                base = os.path.splitext(os.path.basename(sf))[0]
+                if base == "_deferred":
+                    dd = (load(sf, errors).get("deferred") or {})
+                    deferred = {"functionalities": sorted(dd.get("functionalities") or []),
+                                "reason": dd.get("reason")}
+                elif base not in indexed_ids:
+                    unindexed.append(base)
+
             state["domains"].append({
-                "id": entry, "dir": domain_dir,
-                "ices": scan_ices(domain_dir, errors),
+                "id": did, "slug": slug, "dir": domain_dir,
+                "capabilities": capabilities,
                 "slices": slices,
+                "unindexed_slices": sorted(unindexed),
                 "deferred": deferred,
             })
 
-    # a model with a root but no domains is still a cold start
-    if state["model_exists"] and not state["domains"]:
-        state["model_exists"] = False
-        state["model_hash"] = state["model_hash"] or None
+        # a spine with no domains is still a cold start
+        if not state["domains"]:
+            state["model_exists"] = False
 
     os.makedirs(os.path.dirname(os.path.abspath(args.out)), exist_ok=True)
     with open(args.out, "w", encoding="utf-8") as fh:
         json.dump(state, fh, indent=2, sort_keys=True)
     print(json.dumps({"ok": True, "model_exists": state["model_exists"],
+                      "spine_exists": state["spine_exists"],
                       "domains": len(state["domains"]),
                       "model_hash": state["model_hash"],
                       "scan_errors": len(errors), "out": args.out}, indent=2))
