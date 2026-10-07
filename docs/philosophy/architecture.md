@@ -594,7 +594,7 @@ The lighter plays were piloted on a mechanical operation — `commit-change` was
 
 - [ADR 001: Three-Layer Hierarchy](../adr/001-three-layer-hierarchy.md)
 - [ADR 002: L1 Checkpoint Model](../adr/002-l1-checkpoint-model.md)
-- [ADR 003: Guardian Approval](../adr/003-guardian-approval.md) (the guardian agent was never built; see Gate Configuration)
+- [ADR 003: Guardian Approval](../adr/SUPERSEDED-003-guardian-approval.md) (the guardian agent was never built; see Gate Configuration)
 - [ADR 004: Agent Naming](../adr/004-agent-naming.md)
 - [ADR 005: Skills as Capabilities](../adr/005-skills-as-capabilities.md)
 - [ADR 006: Naming Conventions](../adr/006-naming-conventions.md)

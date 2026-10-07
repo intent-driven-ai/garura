@@ -6,6 +6,8 @@ Accepted
 
 **Note:** The checkpoint storage location defined in this ADR has been superseded by [ADR 008: Issue-Centric STM and NWWI](./008-issue-centric-stm-and-nwwi.md). Checkpoints now use `.garura/project/issues/{issue}/checkpoint/{play}/{timestamp}.md` instead of the legacy path. The core model (artifact + checkpoint) remains unchanged.
 
+**Note (ADR 029):** Rule 2, "every play stops at a checkpoint", no longer holds inside a drive — a drive runs its plays without stopping for their checkpoints and reviews the work after. A play run by hand still stops as its gate settings say. Superseded in part by [ADR 029: Drives](./029-drives.md).
+
 ## Date
 
 2026-01-23
@@ -75,5 +77,5 @@ Play: {name}
 ## Related ADRs
 
 - [ADR 001: Three-Layer Hierarchy](./001-three-layer-hierarchy.md)
-- [ADR 003: Guardian Approval Model](./003-guardian-approval.md)
+- [ADR 003: Guardian Approval Model](./SUPERSEDED-003-guardian-approval.md)
 - [ADR 008: Issue-Centric STM and NWWI](./008-issue-centric-stm-and-nwwi.md) — Supersedes checkpoint location

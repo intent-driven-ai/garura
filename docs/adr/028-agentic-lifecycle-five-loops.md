@@ -1,6 +1,6 @@
 # ADR 028 — The Agentic Lifecycle Is Five Loops
 
-**Status:** Accepted
+**Status:** Accepted — superseded in part by [ADR 029](029-drives.md): a loop recipe is now a **drive**; the first loop is now **Kickoff** (`/intent` → `/vision` → `/understand`); "the plays stay as they are" no longer holds. The other four loops stand until their spikes (#608–#611) settle them.
 **Date:** 2026-10-07 (proposed); accepted 2026-10-07, open questions settled under #592
 **Affects:** ADR 023 (three execution trinities — the epic trinity's check step), ADR 025 (Level 3 skeleton and loop), `docs/philosophy/idsd.md` (IDSD in One Page), `docs/philosophy/garura-reference-implementation.md` (The Loop as Commands), `core/components/memory/standards/rules/pipeline-next.md`
 **Related:** ADR 027 (ICE is the IDSD model), IDD Principle 1 (`docs/philosophy/idd-principles.md`), #539
