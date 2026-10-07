@@ -375,7 +375,7 @@ Applying IDD's rule (judgment calls → barrier; mechanical, single-output work 
 
 #### Convergence in Garura
 
-IDD sets the convergence defaults ([Convergence Protocol](./intent-driven-development.md#convergence-protocol)). `/implement` sets its own bound inside that range: two refuted verdict rounds, then escalation to a human with the full record.
+IDD sets the convergence defaults ([Convergence Protocol](./idd-principles.md#convergence-protocol)). `/implement` sets its own bound inside that range: two refuted verdict rounds, then escalation to a human with the full record.
 
 ### Level 3: Deterministic Skeleton, Goal-Loop Interior (ADR 025)
 
@@ -421,7 +421,7 @@ What is planned or envisioned, kept apart from what ships.
 
 ### Closing the Loop from Production
 
-Monitor-to-Design was the planned phase that would turn production signals into proposed intents — the operational mechanism for IDD Hypothesis H1 (Memory-Driven Intent Self-Generation). Its tracking issue (#217) was closed as not planned; nothing in the current components builds it.
+Monitor-to-Design was the planned phase that would turn production signals into proposed intents — the operational mechanism for IDD [Hypothesis H1](./idd-hypotheses.md#h1-memory-driven-intent-self-generation) (Memory-Driven Intent Self-Generation). Its tracking issue (#217) was closed as not planned; nothing in the current components builds it.
 
 The loop that does ship is `/learn`. It reads outcomes — the measure lens's baseline, target, and realized values, validate verdicts and fix reports, the run lens, and delivered status — and rewrites the product model to match. Every change must cite an outcome. It proposes model changes from observed reality, which is the first step toward H1, but humans still author the intents that start new work.
 

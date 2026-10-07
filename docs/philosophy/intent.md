@@ -32,7 +32,7 @@ An intent is the smallest thing an agent needs to decide its next step without a
 | Have I reached success? | The success scenarios generated from the goal | Stop when they hold |
 | Have I tripped a failure condition? | The failure conditions | Halt |
 
-Under compartmented evaluation, the builder sees the goal and constraints, while a separate validator holds the failure conditions and the success checks ([IDD Principle 4](./intent-driven-development.md#principle-4-builders-and-validators-must-not-share-context)).
+Under compartmented evaluation, the builder sees the goal and constraints, while a separate validator holds the failure conditions and the success checks ([IDD Principle 4](./idd-principles.md#principle-4-builders-and-validators-must-not-share-context)).
 
 **Quality test.** If you cannot tell from the intent whether it has been achieved, the intent is poorly formed. Fix it upstream by sharpening the intent, not downstream by bolting on success criteria.
 
