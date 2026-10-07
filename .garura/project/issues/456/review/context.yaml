@@ -1,0 +1,24 @@
+{
+  "pr_number": "576",
+  "base": "main",
+  "changed_paths": [
+    ".garura/project/issues/456/context/analysis.yaml",
+    ".garura/project/issues/456/context/commits.yaml",
+    ".garura/project/issues/456/context/porcelain.txt",
+    "docs/adr/027-ice-model-pcam-design.md",
+    "docs/philosophy/garura-reference-implementation.md",
+    "docs/philosophy/idd-anti-patterns.md",
+    "docs/philosophy/idd-decision-checklist.md",
+    "docs/philosophy/idd-hypotheses.md",
+    "docs/philosophy/idd-principles.md",
+    "docs/philosophy/idsd.md",
+    "docs/philosophy/intent-driven-development.md",
+    "docs/philosophy/intent.md"
+  ],
+  "standards_order": [
+    "kb",
+    "ltm",
+    "stm"
+  ],
+  "review_shelf": "./.garura/core/memory/knowledge/review/"
+}

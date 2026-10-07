@@ -1,0 +1,4 @@
+ M docs/philosophy/garura-reference-implementation.md
+ M docs/philosophy/idsd.md
+ M docs/philosophy/intent-driven-development.md
+?? docs/philosophy/intent.md

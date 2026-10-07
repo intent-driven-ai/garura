@@ -1,0 +1,15 @@
+commits:
+  - sha: 7dd6bb3a
+    message: "docs(philosophy): give intent its own doc and make the dual intent the core of IDSD (#456)"
+    files:
+      - docs/philosophy/garura-reference-implementation.md
+      - docs/philosophy/idsd.md
+      - docs/philosophy/intent-driven-development.md
+      - docs/philosophy/intent.md
+    branch: docs/456-remap-idsd-command-model
+excluded_files:
+  []
+leftover_count: 0
+tree_clean: true
+pushed: false
+run_state_committed: true

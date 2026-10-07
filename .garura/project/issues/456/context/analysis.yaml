@@ -1,0 +1,29 @@
+---
+# analyze_changeset.py output (C8 fast path)
+# issue: 456
+needs_judgment: false
+
+change_groups:
+  - id: group-1
+    issue: 456
+    concern: "single-directory docs change"
+    commit_type: docs
+    scope: philosophy
+    subject: "give intent its own doc and make the dual intent the core of IDSD"
+    subject_source: script-draft  # orchestrator may reword in place
+    files:
+      - docs/philosophy/garura-reference-implementation.md
+      - docs/philosophy/idsd.md
+      - docs/philosophy/intent-driven-development.md
+      - docs/philosophy/intent.md
+
+exclusions:
+  []
+
+risks:
+  sensitive_files:
+    []
+
+eval_gates:
+  SE-1: {status: PASS, evidence: "one script-classified group, one directory, one concern"}
+  SE-5: {status: PASS, evidence: "no sensitive patterns matched"}
