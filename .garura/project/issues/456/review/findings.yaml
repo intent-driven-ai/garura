@@ -1,0 +1,27 @@
+# review-change Step 4 — consolidated findings for PR #576
+categories:
+  decision-records:
+    playbook: review/adrs
+    layers_run: [layer-1]
+    checks:
+      - {check: "required sections present (Status, Context, Decision, Consequences)", basis: "review/adrs Layer 1 manual structural checklist", result: pass}
+      - {check: "status is an allowed value (Accepted)", basis: "review/adrs Layer 1 manual structural checklist", result: pass}
+      - {check: "ADR linked from other docs", basis: "review/adrs Layer 1 manual structural checklist", result: pass, note: "no ADR index file exists in docs/adr; linked from idsd.md, intent-driven-development.md, garura-reference-implementation.md"}
+    findings: []
+  documentation:
+    playbook: review/docs
+    layers_run: [layer-1]
+    checks:
+      - {check: "standards linter (quality-check-scoped)", basis: "core/components/memory/standards/rules/pr.md", result: pass, source: quality-findings.yaml}
+      - {check: "relative links and anchors resolve in docs/philosophy", basis: "review/docs Layer 1 link check", result: pass, note: "one broken link in architecture.md is outside changed_paths and pre-exists on main"}
+      - {check: "no leftover TODO/FIXME/TBD", basis: "review/docs Layer 1 prose check", result: pass}
+      - {check: "heading hierarchy has no skipped levels", basis: "review/docs Layer 1 prose check", result: pass}
+      - {check: "terminology consistency — no stale 'Element N' references after ADR 027", basis: "review/docs Layer 1 terminology check", result: pass}
+    findings: []
+  run-records:
+    playbook: null
+    note: "playbook missing — machine-generated STM run records; no layer applies"
+    findings: []
+design_grounding: "skipped — no design-bearing category present (Step 2)"
+findings: []
+counts: {P1: 0, P2: 0, P3: 0, P4: 0}
