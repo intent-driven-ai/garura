@@ -57,7 +57,7 @@ Each design area is **skippable**. A skipped area can be built up later at runti
 
 ### Loops run the plays; the plays stay as they are
 
-Each loop is a **loop recipe** that runs its plays, in order and repeatedly, until the loop's intent is met. The plays keep their current form — `/vision`, `/understand`, `/shape`, `/roadmap`, the design plays, `/implement`, the change chain, `/next`, `/focus`, and `/learn` — and `/launch` and `/validate` among them — with one exception decided here: `/grill`'s readiness rule (below). The loop recipes are new and are still to be designed.
+Each loop is a **loop recipe** that runs its plays, in order and repeatedly, until the loop's intent is met. The plays keep their current form — `/vision`, `/understand`, `/shape`, `/roadmap`, the design plays, `/implement`, `/validate`, `/launch`, the change chain, `/next`, `/focus`, and `/learn` — with one exception decided here: `/grill`'s readiness rule (below). The loop recipes are new and are still to be designed.
 
 `/roadmap` belongs to the Shape loop: ordering the slices is part of slicing.
 
