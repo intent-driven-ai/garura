@@ -1,12 +1,11 @@
 ---
 name: play-editor
 description: >
-  Modify an existing compiled play — change its goal, a constraint, a failure condition,
+  Modifies an existing compiled play — its goal, a constraint, a failure condition,
   a success scenario, a step, the workflow shape, or the agents/skills it uses — by
-  editing the play's ICE source and recompiling, never by hand-patching the output into
-  disagreement with its intent. This is the companion to play-creator (which makes new
-  plays). Use this whenever the user wants to edit, change, modify, update, tweak, extend,
-  or fix an existing play — or says "edit the play", "change this play", "add a constraint
+  editing the play's ICE source and recompiling, so the play always matches its intent.
+  Companion to play-creator (which makes new plays). Use when the user wants to edit,
+  change, modify, update, tweak, extend, or fix an existing play — or says "edit the play", "change this play", "add a constraint
   to the play", "the play needs a new failure condition / step / scenario", "play-editor",
   or "recompile the play after I changed its intent" — even if they don't say "play"
   outright but are clearly reshaping a workflow recipe that already exists.
@@ -29,8 +28,8 @@ context and verify, **skills** do the work, **scripts** do the mechanical parts 
 play → subagent → skill handoff is a **JSON contract** that carries file paths while the
 real outputs live on disk (the model `play-creator` builds with). An edit must keep that
 wiring intact: a dispatch you change keeps its JSON contract and its on-disk outputs, and a
-new dispatch you add follows the same shape. Never quietly collapse a contract handoff into
-inline prose.
+new dispatch you add follows the same shape. Keep every handoff a contract, even when inline
+prose looks simpler.
 
 ## The core discipline: edit the source, recompile
 
@@ -89,37 +88,37 @@ Make the change in the source:
   **Intent** triple.
 - If that shifts what success or recovery looks like → regenerate the affected
   **Expectation** pieces (success scenarios from the changed intent, exactly one recovery
-  per failure condition). Regenerate — don't hand-author — so they still trace back to the
-  intent. Leave untouched scenarios as they are; re-confirm only what actually changed.
+  per failure condition). Generate them from the intent rather than writing them by hand,
+  so they still trace back to it. Leave untouched scenarios as they are; re-confirm only what actually changed.
 
 ### 4 — Propagate only what the change reached
 - **Pre-flight:** add or drop a check only if a constraint's environmental precondition
   changed.
-- **Workflow:** change the structure, a phase, or a step only if the edit warrants it —
-  don't reshape a play that didn't need reshaping.
+- **Workflow:** change the structure, a phase, or a step only if the edit needs it; keep
+  the rest of the shape as it is.
 - **Evals:** regenerate step evals for changed constraints/failures and scenario evals for
   changed scenarios; **remove** any eval whose constraint/failure/scenario no longer exists.
 - **Agents/skills:** if the change adds or drops a capability, re-identify the needed
   skills/agents and audit any *new* agent against
   [`references/agent-audit.md`](references/agent-audit.md) (P1–P11). Apply the short-circuit
-  rule — don't add an agent for something the play can compute inline.
+  rule: anything the play can compute inline stays inline, with no agent.
 - **Scripts:** if the edit adds a mechanical, deterministic step (or turns an existing step
   mechanical), route that work to a script — extend one already in the play's `scripts/` or
-  add a new one — and have the step *call* it; don't inline the logic as prose the play
-  re-reasons each run. If the edit removes a step that owned a script, delete the now-orphan
+  add a new one — and have the step *call* it, so the play does not re-reason the logic
+  in prose on every run. If the edit removes a step that owned a script, delete the now-orphan
   script. Leave the play's other scripts untouched. (Same harness-led discipline play-creator
   builds with.)
 
 ### 5 — Recompile
-Re-emit the `SKILL.md` with every required section intact — match
+Write the `SKILL.md` again with every required section intact — match
 [`references/compiled-play-example.md`](references/compiled-play-example.md). Update the
 intent + expectation fingerprint in the metadata so the play and its source stay in
 lockstep — recompute it mechanically with `shasum -a 256` over the (edited) intent +
-expectation; don't hand-write a hash. (For workflow questions, see
+expectation. The model cannot compute a hash in its head, so always run the command. (For workflow questions, see
 [`references/workflow-structures.md`](references/workflow-structures.md).)
 
 ### 6 — Re-verify with the linter (coverage + no orphans)
-Don't re-count by hand — run the bundled script on the recompiled play:
+Let the script count, not the model: run `scripts/lint_play.py` on the recompiled play:
 
 ```
 python3 scripts/lint_play.py <path-to-the-play>
@@ -143,26 +142,25 @@ coverage and the no-orphans check pass. The blast radius should be visible at a 
 
 ## Hard rules
 
-- Edit the ICE and recompile — never hand-patch the compiled play into disagreement with
-  its intent. Pure wording cleanups with no semantic change are the only safe direct edit.
+- Edit the ICE and recompile, so the compiled play always agrees with its intent. Pure
+  wording cleanups with no change in meaning are the only safe direct edit.
 - Keep the blast radius minimal — re-derive only what the change reaches; preserve the rest.
-- Regenerate scenarios and evals from the changed source — don't hand-author them, so they
-  keep tracing back.
-- No orphans — remove every eval and recovery tied to something you deleted, and cover
+- Generate scenarios and evals from the changed source, so they keep tracing back to it.
+- Leave no orphans: remove every eval and recovery tied to something you deleted, and cover
   everything you added. A script whose step was removed is an orphan too — delete it.
 - Keep the play harness-led — new mechanical work goes into a script the step calls, not
   into prose; preserve the play's existing scripts.
 - Preserve the wiring — play orchestrates, subagents gather context and verify, skills do
-  the work; every dispatch stays a JSON contract over files on disk. An edit never collapses
-  a contract handoff into inline data.
+  the work; every dispatch stays a JSON contract over files on disk, with file paths, not
+  inline data.
 - Re-run the linter (`scripts/lint_play.py`), clear every gap, and update the fingerprint
   (`shasum -a 256`) before declaring the edit done.
 - Keep the cardinal rule wired. If the play recommends, suggests, advises, or ranks, it
   must keep citing `standards/rules/no-unbacked-recommendation.md` and keep all four
   pieces — the constraint, the failure condition, the step eval, and the strip-not-replace
-  recovery. An edit must never introduce a default, generic pointer, or substitute play
-  name where the play cannot back an answer; the linter's `no-unbacked-recommendation`
-  check enforces it.
+  recovery. Where the play cannot back an answer, the entry carries no recommendation at
+  all — no default, generic pointer, or substitute play name. The linter's
+  `no-unbacked-recommendation` check enforces it.
 - Keep the **Next** command wired. The play must have an entry in
   `standards/rules/pipeline-next.md` (or be `meta_exempt` there), and the recompiled
   Standard Play Close must render its Next line from that map — the linter's
