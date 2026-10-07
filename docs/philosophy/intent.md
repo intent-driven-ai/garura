@@ -80,7 +80,7 @@ The first kind says what to build; the second says how a step of the lifecycle o
 
 ## Related Documentation
 
-- [IDSD](./idsd.md): the dual-intent system, ICE, and the loop that keeps intent true
+- [IDSD](./idsd.md): the dual-intent system, ICE, and the loops that keep intent true
 - [IDD](./intent-driven-development.md): the eight principles, and PCAM, the design of the tool that drives ICE
 - [Garura](./garura-reference-implementation.md): where each intent lives in the reference implementation
 

@@ -2,7 +2,7 @@
 
 > **Scope**: Garura Methodology
 > **Status**: Active
-> **Last Updated**: 2026-10-05
+> **Last Updated**: 2026-10-07
 > **Foundation**: [Intent](./intent.md) and IDD (Intent-Driven Development) — see `intent-driven-development.md`
 
 ## Overview
@@ -25,7 +25,7 @@ But intent does not carry itself. Left on its own it decays into prompts: writte
 
 1. **Two intents, kept apart — the dual-intent system.** Business intent (what to build) and SDLC intent (how each step operates) are authored, stored, and changed separately. This is the core of IDSD.
 2. **One shape both intents take — ICE.** Intent, Context, and Expectation, the same shape at every step, so nothing is re-interpreted on the way down.
-3. **A loop that keeps stored intent true.** Strategy and implementation at the two ends; realize carries intent forward, learn carries outcomes back.
+3. **Loops that keep stored intent true.** Five loops — understand, shape, execute, change, learn — each defined by the intent it must meet (ADR 028).
 
 IDD is the principle; IDSD is the system that makes it work; Garura is the reference implementation that proves it runs.
 
@@ -35,7 +35,7 @@ IDD is the principle; IDSD is the system that makes it work; Garura is the refer
 |------|-------|------------------------|
 | [Intent](./intent.md) | **The core idea** | What an intent is, the decision space it gives an agent, how it differs from a spec, with examples |
 | [IDD](./intent-driven-development.md) | **Principles** | The eight principles every intent-driven system follows, and PCAM — the design of the tool that drives ICE |
-| **IDSD** (this document) | **The dual-intent system** | The two intents, ICE, and the loop that moves them |
+| **IDSD** (this document) | **The dual-intent system** | The two intents, ICE, and the loops that move them |
 | [Garura](./garura-reference-implementation.md) | **The reference implementation** | How Garura implements IDSD and PCAM — its commands, agents, skills, and memory, with what is built and what is not |
 
 ---
@@ -124,29 +124,31 @@ Expectation is **generated, never hand-authored, and never trusted until vetted*
 
 ## IDSD in One Page
 
-IDSD treats software delivery as a **loop around one stored intent**, never a line that re-invents it. Two ends, two connectors:
+IDSD runs the lifecycle as **five loops around one stored intent** (ADR 028). **Each loop is itself an intent:** it is defined by what it must achieve, and it repeats its steps until that is true. The names below are working names; the loops will be named later.
 
 ```
-                 ┌──────────── REALIZE ────────────┐
-                 │   adds context to each slice    │
-                 │   (Context)                     ▼
-          STRATEGY                            IMPLEMENTATION
-    business intent is authored          business intent is delivered:
-    (Intent)                             cut, built, checked against intent
-                 ▲                       (Expectation, spec, code)
-                 │                                 │
-                 └───────────── LEARN ◄────────────┘
-                     outcomes correct the intent
-                     where it drifted
+   ┌─────────────┐      ┌─────────────┐      ┌─────────────┐
+   │ UNDERSTAND  │ ───► │    SHAPE    │ ───► │   EXECUTE   │
+   │ intent out  │      │ slice, then │      │ cut, build, │
+   │ of a        │      │ design once │      │ check       │
+   │ prototype   │      │             │      │             │
+   └─────────────┘      └─────────────┘      └──────┬──────┘
+          ▲                                         │
+          │             ┌─────────────┐             │
+          └──────────── │    LEARN    │ ◄───────────┘
+                        └─────────────┘
 
-   SDLC intent runs underneath every step, on both sides of the loop:
-   how each lifecycle step operates, fixed in the framework.
+   CHANGE runs underneath: every change, in any loop, lands the same way.
+   SDLC intent runs underneath every loop: how each step operates, fixed in the framework.
 ```
 
-- **Strategy** is where business intent is authored: what the product is and in what order to build it.
-- **Implementation** is where business intent is delivered: the realized slice is cut into delivery units, built, and checked against the intent.
-- **Realize** connects strategy to implementation. It adds the context — experience, agentic behaviour, marketing, architecture, quality, operations, and measures — that a slice needs before anyone builds it.
-- **Learn** connects implementation back to strategy. It compares what actually happened with what was intended and corrects realize or strategy where they drifted. Without it, strategy and implementation pull apart.
+- **Understand** — *the intent is known and stored.* The user shares their vision as a **working prototype**: HTML/CSS/JS, or any code that fully shows how the feature should behave. The loop pulls the intent(s) out of it — goal, constraints, failure conditions — and confirms them with the user. The prototype stays attached as the example; it is the input, not the intent, because an intent must admit more than one build ([Intent Is Not a Spec](./intent.md#intent-is-not-a-spec)). The product model is created if there is none, and updated if there is.
+- **Shape** — *the product is ready to build in slices.* Lock the domains and capabilities. Cut the product into vertical slices and put them in order. Then design the project **once**, one area at a time — UX, tech architecture, agentic, quality, run, marketing — as the guidelines, rules, and guardrails every slice follows. Each design area is optional and can be filled in later. Measure is left out by design.
+- **Execute** — *a slice is delivered and checked against its intent.* Cut the slice into delivery units, settling any design area it is still missing as it cuts; build each unit test-first; validate it — by agents, and by a person where needed; and land it on human acceptance.
+- **Change** — *every change lands the same way.* Open the change, commit it, propose it, review it, merge it.
+- **Learn** — *the stored intent stays true.* Know what to do next, compare what happened with what was intended, and correct the intent where it drifted. Without it, what is built and what was intended pull apart.
+
+Two more loops will come later: one around deployment and run, and one around learning from everything.
 
 Three ideas hold the lifecycle together:
 
