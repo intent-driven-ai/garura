@@ -1,7 +1,7 @@
 # ADR 028 — The Agentic Lifecycle Is Five Loops
 
-**Status:** Proposed
-**Date:** 2026-10-07
+**Status:** Accepted
+**Date:** 2026-10-07 (proposed); accepted 2026-10-07, open questions settled under #592
 **Affects:** ADR 023 (three execution trinities — the epic trinity's check step), ADR 025 (Level 3 skeleton and loop), `docs/philosophy/idsd.md` (IDSD in One Page), `docs/philosophy/garura-reference-implementation.md` (The Loop as Commands), `core/components/memory/standards/rules/pipeline-next.md`
 **Related:** ADR 027 (ICE is the IDSD model), IDD Principle 1 (`docs/philosophy/idd-principles.md`), #539
 
@@ -53,9 +53,19 @@ Each design area is **skippable**. A skipped area can be built up later at runti
 
 `/next`, `/focus`, `/learn`.
 
+### Loops run the plays; the plays stay as they are
+
+Each loop is a **loop recipe** that runs its plays, in order and repeatedly, until the loop's work is done. The plays keep their current form — `/vision`, `/understand`, `/shape`, `/roadmap`, the design plays, `/implement`, the change chain, `/next`, `/focus`, and `/learn` — with two exceptions decided here: `/grill`'s readiness rule (below), and `/launch` merging into `/validate`. The loop recipes are new and are still to be designed.
+
+`/roadmap` belongs to the Shape loop: ordering the slices is part of slicing.
+
+### `/grill` needs only a slice
+
+`/grill` no longer waits for a slice to be stamped realized. It needs a slice. If any of the slice's design areas are missing, `/grill` grills on those too, as part of cutting the slice.
+
 ### Later
 
-Two more loops will be added. One is **Deploy**; the other is not yet named.
+Two more loops will be added: one around **deployment and run**, and one around **learning from everything**.
 
 ## Consequences
 
@@ -68,18 +78,20 @@ Two more loops will be added. One is **Deploy**; the other is not yet named.
 
 ### Negative / Risks
 
-- **The realized-slice gate goes.** `/grill` today refuses a slice that `/measure` has not stamped realized. With per-slice realize and `/measure` gone, `/grill` needs a new readiness rule.
+- **The realized-slice gate goes.** `/grill` today refuses a slice that `/measure` has not stamped realized. Under this decision it needs only a slice, and grills on any missing design areas itself. That is a change to `/grill`'s intent, made through its ICE source and `/play-editor`.
 - **The prototype can pull work back toward spec-driven.** If later steps copy the prototype instead of the extracted intent, the build loses its freedom to be better than the example. The extraction step, and the user's confirmation of it, carry this.
-- **Large doc and play churn.** `idsd.md`, the reference implementation, `pipeline-next.md`, ADR 023's epic trinity, and most strategy and realize plays change. Nothing in this ADR is built yet.
-- **Name collision.** The loop *Understand* and today's `/understand` play cover different scope. One of them needs a different name, or the play is folded into the loop.
+- **New layer to build.** The plays stay, but five loop recipes are new and not yet designed. `idsd.md`, the reference implementation, `pipeline-next.md`, and ADR 023's epic trinity must be updated to describe loops. `/grill` changes (above), and `/launch` merges into `/validate`. Nothing in this ADR is built yet.
+- **Name collision.** The Understand loop and the `/understand` play share a name; so do the Shape loop and the `/shape` play. Since the plays stay and run inside the loops, docs must always say "the Understand loop" or "the `/understand` play", never the bare word.
 
-### Open questions
+### Open questions — settled 2026-10-07 (#592)
 
-1. What happens to `/vision` and `/understand` — folded into one Understand play, or kept as steps of the loop?
-2. Does `/roadmap` (ordering slices) fold into Shape's slicing step, or stay a separate step?
-3. Where do the project-wide design outputs live in the product model, now that they are not per-slice lens files?
-4. What does `/grill` check before cutting a slice, once the realized gate is gone?
-5. What is the second future loop, besides Deploy?
+| # | Question | Answer |
+|---|----------|--------|
+| 1 | What happens to `/vision` and `/understand`? | The plays are not changed. Each loop gets a **loop recipe** that runs its plays until the loop's work is done. The recipes are to be designed. |
+| 2 | Does `/roadmap` fold into Shape? | Yes. Ordering the slices is part of the Shape loop. |
+| 3 | Where do the project-wide design outputs live in the product model? | **Deferred.** The product model is to be rebuilt as an ontology — a proper model of what the product is — and this is answered there. |
+| 4 | What does `/grill` check before cutting a slice? | Only that the slice exists. If any of its design areas are missing, `/grill` grills on those too. |
+| 5 | What are the two future loops? | One around deployment and run, and one around learning from everything. |
 
 ## Alternatives Considered
 
@@ -91,7 +103,7 @@ Two more loops will be added. One is **Deploy**; the other is not yet named.
 
 ## References
 
-- `docs/philosophy/idsd.md` — the current one-loop model this ADR would replace
+- `docs/philosophy/idsd.md` — the one-loop model this ADR replaces, still to be updated
 - `docs/philosophy/intent.md` — what an intent is, and why it is not a spec
 - `docs/philosophy/idd-principles.md` — Principle 1: intents declare outcomes, not instructions
 - ADR 023 — the execution trinities, whose epic check step changes
