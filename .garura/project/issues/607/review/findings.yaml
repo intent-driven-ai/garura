@@ -1,0 +1,326 @@
+pr: 618
+issue: 607
+sources:
+- quality-findings.yaml
+- design-findings-work-process-rules.yaml
+counts:
+  P3: 10
+  P4: 17
+findings:
+- standard_id: DOC-04
+  severity: P3
+  file: docs/adr/001-three-layer-hierarchy.md
+  line: 1
+  evidence: docs/adr/001-three-layer-hierarchy.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-04
+  category: standards
+  id: DOC-04
+  basis: DOC-04
+- standard_id: DOC-04
+  severity: P3
+  file: docs/adr/002-l1-checkpoint-model.md
+  line: 1
+  evidence: docs/adr/002-l1-checkpoint-model.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-04
+  category: standards
+  id: DOC-04
+  basis: DOC-04
+- standard_id: DOC-04
+  severity: P3
+  file: docs/adr/008-issue-centric-stm-and-nwwi.md
+  line: 1
+  evidence: docs/adr/008-issue-centric-stm-and-nwwi.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-04
+  category: standards
+  id: DOC-04
+  basis: DOC-04
+- standard_id: DOC-04
+  severity: P3
+  file: docs/adr/028-agentic-lifecycle-five-loops.md
+  line: 1
+  evidence: docs/adr/028-agentic-lifecycle-five-loops.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-04
+  category: standards
+  id: DOC-04
+  basis: DOC-04
+- standard_id: DOC-04
+  severity: P3
+  file: docs/adr/029-drives.md
+  line: 1
+  evidence: docs/adr/029-drives.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-04
+  category: standards
+  id: DOC-04
+  basis: DOC-04
+- standard_id: DOC-04
+  severity: P3
+  file: docs/adr/SUPERSEDED-003-guardian-approval.md
+  line: 1
+  evidence: docs/adr/SUPERSEDED-003-guardian-approval.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-04
+  category: standards
+  id: DOC-04
+  basis: DOC-04
+- standard_id: ARCH-23
+  severity: P4
+  file: docs/adr/001-three-layer-hierarchy.md
+  line: 1
+  evidence: docs/adr/001-three-layer-hierarchy.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: ARCH-23
+  category: standards
+  id: ARCH-23
+  basis: ARCH-23
+- standard_id: DOC-05
+  severity: P4
+  file: docs/adr/001-three-layer-hierarchy.md
+  line: 1
+  evidence: docs/adr/001-three-layer-hierarchy.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-05
+  category: standards
+  id: DOC-05
+  basis: DOC-05
+- standard_id: ARCH-23
+  severity: P4
+  file: docs/adr/002-l1-checkpoint-model.md
+  line: 1
+  evidence: docs/adr/002-l1-checkpoint-model.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: ARCH-23
+  category: standards
+  id: ARCH-23
+  basis: ARCH-23
+- standard_id: DOC-05
+  severity: P4
+  file: docs/adr/002-l1-checkpoint-model.md
+  line: 1
+  evidence: docs/adr/002-l1-checkpoint-model.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-05
+  category: standards
+  id: DOC-05
+  basis: DOC-05
+- standard_id: ARCH-23
+  severity: P4
+  file: docs/adr/008-issue-centric-stm-and-nwwi.md
+  line: 1
+  evidence: docs/adr/008-issue-centric-stm-and-nwwi.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: ARCH-23
+  category: standards
+  id: ARCH-23
+  basis: ARCH-23
+- standard_id: DOC-05
+  severity: P4
+  file: docs/adr/008-issue-centric-stm-and-nwwi.md
+  line: 1
+  evidence: docs/adr/008-issue-centric-stm-and-nwwi.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-05
+  category: standards
+  id: DOC-05
+  basis: DOC-05
+- standard_id: ARCH-23
+  severity: P4
+  file: docs/adr/028-agentic-lifecycle-five-loops.md
+  line: 1
+  evidence: docs/adr/028-agentic-lifecycle-five-loops.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: ARCH-23
+  category: standards
+  id: ARCH-23
+  basis: ARCH-23
+- standard_id: DOC-05
+  severity: P4
+  file: docs/adr/028-agentic-lifecycle-five-loops.md
+  line: 1
+  evidence: docs/adr/028-agentic-lifecycle-five-loops.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-05
+  category: standards
+  id: DOC-05
+  basis: DOC-05
+- standard_id: ARCH-23
+  severity: P4
+  file: docs/adr/029-drives.md
+  line: 1
+  evidence: docs/adr/029-drives.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: ARCH-23
+  category: standards
+  id: ARCH-23
+  basis: ARCH-23
+- standard_id: DOC-05
+  severity: P4
+  file: docs/adr/029-drives.md
+  line: 1
+  evidence: docs/adr/029-drives.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-05
+  category: standards
+  id: DOC-05
+  basis: DOC-05
+- standard_id: ARCH-23
+  severity: P4
+  file: docs/adr/SUPERSEDED-003-guardian-approval.md
+  line: 1
+  evidence: docs/adr/SUPERSEDED-003-guardian-approval.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: ARCH-23
+  category: standards
+  id: ARCH-23
+  basis: ARCH-23
+- standard_id: DOC-05
+  severity: P4
+  file: docs/adr/SUPERSEDED-003-guardian-approval.md
+  line: 1
+  evidence: docs/adr/SUPERSEDED-003-guardian-approval.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-05
+  category: standards
+  id: DOC-05
+  basis: DOC-05
+- id: M-1
+  severity: P4
+  basis: 'review/adrs (Linter: status field consistent, ADR linked from index); sibling
+    precedent architecture.md line 601'
+  file: docs/philosophy/architecture.md
+  line: 597
+  evidence: ADR 003 entry still reads '(the guardian agent was never built; see Gate
+    Configuration)' with no 'Superseded by ADR 029' marker; the ADR 007 entry two
+    lines below carries '(Superseded by ADR 009)'. Same gap in the ADR 003 links in
+    docs/adr/001 (line 78) and docs/adr/008 (line 228).
+  artifact_type: docs-planning
+  category: standards
+- id: M-2
+  severity: P4
+  basis: review/adrs (Status field one of allowed values; consistent marking)
+  file: docs/adr/002-l1-checkpoint-model.md
+  line: 9
+  evidence: 'Partial retirement is marked three different ways: 002 keeps ''Status:
+    Accepted'' and adds a Note; 028 rewrites its Status line inline; 003 (full retirement)
+    uses Status ''Superseded'' plus a banner. No allowed Status value exists for ''superseded
+    in part'', so a reader scanning only the Status field of 002 learns nothing.'
+  artifact_type: docs-planning
+  category: standards
+- id: M-3
+  severity: P4
+  basis: review/docs (terminology consistency, completeness)
+  file: docs/adr/029-drives.md
+  line: 124
+  evidence: ADR introduces the term 'drive' and says a drive is distinct from a 'high-order
+    play', but core/grounding/glossary.md has no 'drive' entry and the ADR's 'Work
+    This Creates' list has no item for adding one. ADR cites the glossary as its reference
+    for the neighbouring term.
+  artifact_type: docs-planning
+  category: standards
+- id: M-4
+  severity: P4
+  basis: review/docs (terminology consistency); ADR 028 'Affects' list
+  file: docs/adr/029-drives.md
+  line: 7
+  evidence: ADR 029 says 'loop recipe' becomes 'drive' and 'the plays stay as they
+    are' no longer holds, but its 'Affects' line omits docs/philosophy/garura-reference-implementation.md
+    (lines 23, 98, 102) and docs/philosophy/idsd.md, which ADR 028 names as affected
+    and which still say 'loop recipe' and 'the plays stay as they are'. Not in this
+    diff, so those docs now disagree with the amended ADR 028 until updated.
+  artifact_type: docs-planning
+  category: standards
+- id: WPR-1
+  severity: P3
+  file: .garura/user-provided/managing-work.md
+  location: new paragraph, 'Issues **linked** to the drive's main issue are fixed
+    on that same branch'
+  principle_violated: G3 / G7 -- 'linked' is load-bearing (it decides what is in scope)
+    but undefined. The only 'link' this file defines is the real parent/child tracker
+    link; a body mention and a shared label are explicitly not links.
+  finding: A reader cannot tell if 'linked' means child issues, any tracker relation
+    (related, blocks, duplicate), or a body mention. That decides which issues a drive
+    may fix on one branch, and the file's whole scope discipline rests on it.
+  suggestion: 'Say which link kind counts (for example: a real tracker link of a named
+    kind), or point to where ADR 029 defines it.'
+  source: git show main:.garura/user-provided/managing-work.md lines 59-61
+  category: work-process-rules
+  basis: git show main:.garura/user-provided/managing-work.md lines 59-61
+- id: WPR-2
+  severity: P3
+  file: .garura/user-provided/managing-work.md
+  location: new paragraph vs line 109 'one issue, one session, one branch, one pull
+    request' and line 107 'Closes the issue with its pull request'
+  principle_violated: G1 / G5 -- the rule being excepted has four 'ones'. The exception
+    restates only issue and branch (and 'same change'). Session count, pull request
+    count, which issues the pull request closes, and which issue receives the handoff
+    comment are left open.
+  finding: The exception reads as widening two of four limits and is silent on the
+    other two plus on closing and handoff. A session reading this file cannot tell
+    whether linked issues are closed by the drive's pull request, or whether the handoff
+    goes on the main issue only. Silence reads as 'unchanged', which for linked issues
+    is awkward (handoff 'on the issue that was worked').
+  suggestion: State the pull request count and where the handoff lands in one sentence
+    each, or say 'everything else in this section is unchanged'.
+  source: git show main:.garura/user-provided/managing-work.md lines 104-110, 174
+  category: work-process-rules
+  basis: git show main:.garura/user-provided/managing-work.md lines 104-110, 174
+- id: WPR-3
+  severity: P3
+  file: .garura/user-provided/managing-work.md
+  location: new paragraph vs section 'How far does my work extend?' (line 114)
+  principle_violated: G2 -- 'The issue being worked defines the scope. Work never
+    goes beyond it.' is stated without exception and is left unamended, while the
+    new paragraph lets a drive fix linked issues. The paragraph reconciles only the
+    unlinked case ('the rule below applies to it').
+  finding: Two sections now give different answers for the same situation (a drive
+    fixing a linked issue) unless the reader joins them up. The file's own text says
+    the scope rule exists so a change 'can be reviewed against that issue'; with linked
+    issues the review anchor is the main issue plus its linked set, which is not said.
+  suggestion: Add a half-line to the scope section, or have the exception say that
+    for a drive the scope is the main issue plus its linked issues.
+  source: git show main:.garura/user-provided/managing-work.md lines 114-125
+  category: work-process-rules
+  basis: git show main:.garura/user-provided/managing-work.md lines 114-125
+- id: WPR-4
+  severity: P3
+  file: .garura/user-provided/managing-work.md
+  location: new paragraph, 'a drive (ADR 029)' -- and the absence of a glossary entry
+  principle_violated: G7 / G5 -- the file says a session reads the issue and its parent
+    'and nothing else', yet the new rule depends on a term defined only in an ADR.
+    'Drive' has no entry in core/grounding/glossary.md on main (ADR 028 speaks of
+    'loops'), and the exception gives no one-line meaning.
+  finding: An agent applying this rule has to open an ADR to learn what a drive is,
+    and the canonical glossary does not carry the term. Naming clarity gap rather
+    than a contradiction.
+  suggestion: Add a short definition clause here and a glossary entry (the glossary
+    is the declared canonical source; check whether this PR or a follow-up adds it).
+  source: git show main:core/grounding/glossary.md (no drive row); CLAUDE.md Reference
+    section ('core/grounding/glossary.md -- Canonical definitions of every Garura
+    concept')
+  category: work-process-rules
+  basis: git show main:core/grounding/glossary.md (no drive row); CLAUDE.md Reference
+    section ('core/grounding/glossary.md -- Canonical definitions of every Garura
+    concept')
+- id: WPR-5
+  severity: P4
+  file: .garura/user-provided/managing-work.md
+  location: new paragraph, 'one main issue'
+  principle_violated: G4 -- the file states a Feature is never worked directly and
+    Stories/Bugs are the working units; the paragraph does not say which issue types
+    may be a drive's main issue.
+  finding: 'If a drive''s main issue is a Feature, that contradicts line 50/91; if
+    it is a Story or Spike, the exception should say so. Low severity because the
+    default reading (the type rules still apply) is safe, but the paragraph invites
+    the question. Also: the main issue must still meet the readiness bars in ''Is
+    it ready to work?'' -- true by default, worth one clause.'
+  suggestion: Name the allowed main-issue types, or state that the type and readiness
+    rules apply unchanged.
+  source: git show main:.garura/user-provided/managing-work.md lines 50, 82-92; git
+    show main:docs/philosophy/garura-reference-implementation.md Work Item Types table
+  category: work-process-rules
+  basis: git show main:.garura/user-provided/managing-work.md lines 50, 82-92; git
+    show main:docs/philosophy/garura-reference-implementation.md Work Item Types table
