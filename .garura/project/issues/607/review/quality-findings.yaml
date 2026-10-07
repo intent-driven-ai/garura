@@ -1,0 +1,201 @@
+meta:
+  generated_at: '2026-10-07T17:50:19Z'
+  diff_path: '.garura/project/issues/607/review/pr.diff'
+  taxonomy_path: '/Users/kapilahuja/.garura/core/memory/standards/rules/pr.md'
+  changed_paths_count: 19
+  scan_coverage: 1.0000
+  standards_relevant: 3
+  catchall:
+    CODE-20: 19
+findings:
+  - standard_id: 'DOC-04'
+    severity: P3
+    file: 'docs/adr/001-three-layer-hierarchy.md'
+    line: 1
+    evidence: 'docs/adr/001-three-layer-hierarchy.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-04'
+  - standard_id: 'DOC-04'
+    severity: P3
+    file: 'docs/adr/002-l1-checkpoint-model.md'
+    line: 1
+    evidence: 'docs/adr/002-l1-checkpoint-model.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-04'
+  - standard_id: 'DOC-04'
+    severity: P3
+    file: 'docs/adr/008-issue-centric-stm-and-nwwi.md'
+    line: 1
+    evidence: 'docs/adr/008-issue-centric-stm-and-nwwi.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-04'
+  - standard_id: 'DOC-04'
+    severity: P3
+    file: 'docs/adr/028-agentic-lifecycle-five-loops.md'
+    line: 1
+    evidence: 'docs/adr/028-agentic-lifecycle-five-loops.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-04'
+  - standard_id: 'DOC-04'
+    severity: P3
+    file: 'docs/adr/029-drives.md'
+    line: 1
+    evidence: 'docs/adr/029-drives.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-04'
+  - standard_id: 'DOC-04'
+    severity: P3
+    file: 'docs/adr/SUPERSEDED-003-guardian-approval.md'
+    line: 1
+    evidence: 'docs/adr/SUPERSEDED-003-guardian-approval.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-04'
+  - standard_id: 'ARCH-23'
+    severity: P4
+    file: 'docs/adr/001-three-layer-hierarchy.md'
+    line: 1
+    evidence: 'docs/adr/001-three-layer-hierarchy.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'ARCH-23'
+  - standard_id: 'DOC-05'
+    severity: P4
+    file: 'docs/adr/001-three-layer-hierarchy.md'
+    line: 1
+    evidence: 'docs/adr/001-three-layer-hierarchy.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-05'
+  - standard_id: 'ARCH-23'
+    severity: P4
+    file: 'docs/adr/002-l1-checkpoint-model.md'
+    line: 1
+    evidence: 'docs/adr/002-l1-checkpoint-model.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'ARCH-23'
+  - standard_id: 'DOC-05'
+    severity: P4
+    file: 'docs/adr/002-l1-checkpoint-model.md'
+    line: 1
+    evidence: 'docs/adr/002-l1-checkpoint-model.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-05'
+  - standard_id: 'ARCH-23'
+    severity: P4
+    file: 'docs/adr/008-issue-centric-stm-and-nwwi.md'
+    line: 1
+    evidence: 'docs/adr/008-issue-centric-stm-and-nwwi.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'ARCH-23'
+  - standard_id: 'DOC-05'
+    severity: P4
+    file: 'docs/adr/008-issue-centric-stm-and-nwwi.md'
+    line: 1
+    evidence: 'docs/adr/008-issue-centric-stm-and-nwwi.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-05'
+  - standard_id: 'ARCH-23'
+    severity: P4
+    file: 'docs/adr/028-agentic-lifecycle-five-loops.md'
+    line: 1
+    evidence: 'docs/adr/028-agentic-lifecycle-five-loops.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'ARCH-23'
+  - standard_id: 'DOC-05'
+    severity: P4
+    file: 'docs/adr/028-agentic-lifecycle-five-loops.md'
+    line: 1
+    evidence: 'docs/adr/028-agentic-lifecycle-five-loops.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-05'
+  - standard_id: 'ARCH-23'
+    severity: P4
+    file: 'docs/adr/029-drives.md'
+    line: 1
+    evidence: 'docs/adr/029-drives.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'ARCH-23'
+  - standard_id: 'DOC-05'
+    severity: P4
+    file: 'docs/adr/029-drives.md'
+    line: 1
+    evidence: 'docs/adr/029-drives.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-05'
+  - standard_id: 'ARCH-23'
+    severity: P4
+    file: 'docs/adr/SUPERSEDED-003-guardian-approval.md'
+    line: 1
+    evidence: 'docs/adr/SUPERSEDED-003-guardian-approval.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'ARCH-23'
+  - standard_id: 'DOC-05'
+    severity: P4
+    file: 'docs/adr/SUPERSEDED-003-guardian-approval.md'
+    line: 1
+    evidence: 'docs/adr/SUPERSEDED-003-guardian-approval.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-05'
+counts:
+  P1: 0
+  P2: 0
+  P3: 6
+  P4: 12
+# --- Appended after the scanner output (scanner block above is unmodified) ---
+# Playbook checks run by hand: review/adrs structural checklist, review/docs prose/link checks.
+# Both playbooks name these as known gaps (no committed ADR linter / prose linter), so the tool
+# performs them directly and cites the playbook line as basis.
+# Scope note: link/term checks read three paths outside changed_paths (a grep for the old ADR 003
+# filename, docs/adr listing, core/grounding/glossary.md and two docs/philosophy files) - read-only,
+# done only to resolve links and terms the diff touches.
+manual_checks:
+  adrs_structural_checklist:
+    - check: "029-drives.md has Status / Context / Decision / Consequences sections"
+      result: pass
+    - check: "Status value allowed (Accepted / Superseded)"
+      result: pass   # 029 Accepted; SUPERSEDED-003 'Superseded'; matches SUPERSEDED-007 precedent (banner + Status + filename)
+    - check: "ADR numbered, number unique, filename follows docs/adr/NNN-slug.md"
+      result: pass   # 029 follows 028; SUPERSEDED- prefix matches SUPERSEDED-007
+    - check: "every changed link resolves"
+      result: pass   # 001, 002, 008, 028, 029, SUPERSEDED-003, philosophy/architecture.md targets all exist
+    - check: "no live link still points at the old docs/adr/003-guardian-approval.md"
+      result: pass   # only STM run records (analysis.yaml, commits.yaml) mention the old path, as the rename source
+    - check: "ADR linked from an index"
+      result: not_applicable   # docs/adr has no index; only docs/philosophy/architecture.md 'Related Documentation' lists ADRs, and it already omits 027 and 028
+  findings:
+    - id: M-1
+      severity: P4
+      basis: "review/adrs (Linter: status field consistent, ADR linked from index); sibling precedent architecture.md line 601"
+      file: docs/philosophy/architecture.md
+      line: 597
+      evidence: "ADR 003 entry still reads '(the guardian agent was never built; see Gate Configuration)' with no 'Superseded by ADR 029' marker; the ADR 007 entry two lines below carries '(Superseded by ADR 009)'. Same gap in the ADR 003 links in docs/adr/001 (line 78) and docs/adr/008 (line 228)."
+      artifact_type: docs-planning
+    - id: M-2
+      severity: P4
+      basis: "review/adrs (Status field one of allowed values; consistent marking)"
+      file: docs/adr/002-l1-checkpoint-model.md
+      line: 9
+      evidence: "Partial retirement is marked three different ways: 002 keeps 'Status: Accepted' and adds a Note; 028 rewrites its Status line inline; 003 (full retirement) uses Status 'Superseded' plus a banner. No allowed Status value exists for 'superseded in part', so a reader scanning only the Status field of 002 learns nothing."
+      artifact_type: docs-planning
+    - id: M-3
+      severity: P4
+      basis: "review/docs (terminology consistency, completeness)"
+      file: docs/adr/029-drives.md
+      line: 124
+      evidence: "ADR introduces the term 'drive' and says a drive is distinct from a 'high-order play', but core/grounding/glossary.md has no 'drive' entry and the ADR's 'Work This Creates' list has no item for adding one. ADR cites the glossary as its reference for the neighbouring term."
+      artifact_type: docs-planning
+    - id: M-4
+      severity: P4
+      basis: "review/docs (terminology consistency); ADR 028 'Affects' list"
+      file: docs/adr/029-drives.md
+      line: 7
+      evidence: "ADR 029 says 'loop recipe' becomes 'drive' and 'the plays stay as they are' no longer holds, but its 'Affects' line omits docs/philosophy/garura-reference-implementation.md (lines 23, 98, 102) and docs/philosophy/idsd.md, which ADR 028 names as affected and which still say 'loop recipe' and 'the plays stay as they are'. Not in this diff, so those docs now disagree with the amended ADR 028 until updated."
+      artifact_type: docs-planning
+  documentation_checks:
+    - check: "docs/philosophy/architecture.md change is link-only, no prose or principle change"
+      result: pass
+    - check: "spelling / grammar / heading hierarchy / leftover TODO-TBD in 029 and banners"
+      result: pass
+manual_counts:
+  P1: 0
+  P2: 0
+  P3: 0
+  P4: 4
