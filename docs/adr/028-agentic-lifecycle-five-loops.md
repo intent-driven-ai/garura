@@ -23,7 +23,9 @@ Three problems with that shape, stated by Kapil on 2026-10-07:
 
 ## Decision
 
-**The agentic lifecycle is five loops: Understand, Shape, Execute, Change, Learn.** Two more loops come later; Deploy is one of them.
+**The agentic lifecycle is five loops.** This ADR is the source of truth for them.
+
+**Each loop is an intent.** A loop is defined by what it must achieve — its goal, constraints, and failure conditions — not by its name. The names used below (Understand, Shape, Execute, Change, Learn) are **working names**; the loops will be named later. Two more loops come later.
 
 ### 1. Understand — the intent is pulled from a working prototype
 
@@ -43,7 +45,7 @@ Each design area is **skippable**. A skipped area can be built up later at runti
 
 ### 3. Execute — agentic implementation
 
-`/grill` → `/implement` → `/validate`. Validation is agentic, plus a manual check when one is needed. **`/launch` merges into `/validate`.**
+`/grill` → `/implement` → `/validate` → `/launch`. Validation is agentic, plus a manual check when one is needed. `/launch` stays its own play.
 
 ### 4. Change — every change lands the same way
 
@@ -55,7 +57,7 @@ Each design area is **skippable**. A skipped area can be built up later at runti
 
 ### Loops run the plays; the plays stay as they are
 
-Each loop is a **loop recipe** that runs its plays, in order and repeatedly, until the loop's work is done. The plays keep their current form — `/vision`, `/understand`, `/shape`, `/roadmap`, the design plays, `/implement`, the change chain, `/next`, `/focus`, and `/learn` — with two exceptions decided here: `/grill`'s readiness rule (below), and `/launch` merging into `/validate`. The loop recipes are new and are still to be designed.
+Each loop is a **loop recipe** that runs its plays, in order and repeatedly, until the loop's intent is met. The plays keep their current form — `/vision`, `/understand`, `/shape`, `/roadmap`, the design plays, `/implement`, the change chain, `/next`, `/focus`, and `/learn` — and `/launch` and `/validate` among them — with one exception decided here: `/grill`'s readiness rule (below). The loop recipes are new and are still to be designed.
 
 `/roadmap` belongs to the Shape loop: ordering the slices is part of slicing.
 
@@ -80,8 +82,8 @@ Two more loops will be added: one around **deployment and run**, and one around 
 
 - **The realized-slice gate goes.** `/grill` today refuses a slice that `/measure` has not stamped realized. Under this decision it needs only a slice, and grills on any missing design areas itself. That is a change to `/grill`'s intent, made through its ICE source and `/play-editor`.
 - **The prototype can pull work back toward spec-driven.** If later steps copy the prototype instead of the extracted intent, the build loses its freedom to be better than the example. The extraction step, and the user's confirmation of it, carry this.
-- **New layer to build.** The plays stay, but five loop recipes are new and not yet designed. `idsd.md`, the reference implementation, `pipeline-next.md`, and ADR 023's epic trinity must be updated to describe loops. `/grill` changes (above), and `/launch` merges into `/validate`. Nothing in this ADR is built yet.
-- **Name collision.** The Understand loop and the `/understand` play share a name; so do the Shape loop and the `/shape` play. Since the plays stay and run inside the loops, docs must always say "the Understand loop" or "the `/understand` play", never the bare word.
+- **New layer to build.** The plays stay, but five loop recipes are new and not yet designed. `idsd.md`, the reference implementation, `pipeline-next.md`, and ADR 023's epic trinity must be updated to describe loops. `/grill` changes (above). Nothing in this ADR is built yet.
+- **Working names overlap play names.** The working names Understand and Shape are also play names (`/understand`, `/shape`). The loops get their own names later; until then, docs say "the Understand loop" or "the `/understand` play", never the bare word.
 
 ### Open questions — settled 2026-10-07 (#592)
 
