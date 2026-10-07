@@ -15,6 +15,10 @@ A (full checkpoint flow).
 play below offloads its one mechanical step (Step 1) to a script; the rest is judgment and
 orchestration, which stays in prose.
 
+**Sections in the example, in order:** frontmatter · Compiled From · Role · Pre-flight ·
+Task DAG · Workflow (Preparation, Checkpoint, Execution, Scenario Validation, Evidence &
+Close) · Recovery · Pause and Resume · Compilation Metadata.
+
 ---
 
 ```markdown
