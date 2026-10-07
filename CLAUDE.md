@@ -99,7 +99,9 @@ A play change is one of two kinds, and the kind decides the path:
   wiring, surface prose: nothing that alters a guarantee, decision, or eval.
   This is a **direct edit** to the compiled `SKILL.md`. Do NOT run
   `/play-creator`; rebuilding when intent is unchanged wastes the pipeline.
-  Record the edit with a `**Direct-edit deviation note ({issue}):**` footer.
+  Record why in the commit message and the issue, not in the `SKILL.md`:
+  Claude reads the whole file on every run, and nothing reads edit history
+  there. Add no deviation notes or change logs to skill files.
 
 `play-creator` itself has no ICE source (it is the compiler bootstrap) — all
 changes to it are direct edits to its `SKILL.md` by definition.

@@ -1,15 +1,15 @@
 ---
 name: play-creator
 description: >
-  Compile a deterministic "play" (a multi-step, gated workflow recipe) from an
+  Compiles a deterministic "play" (a multi-step, gated workflow recipe) from an
   intent. Interviews for the intent triple, generates the expectation, identifies
   the skills, scripts, and agents the play needs, selects a workflow structure, generates
-  evals, and emits a compiled play (a SKILL.md plus bundled scripts for its mechanical
-  work). Use this whenever the user wants to create, build, compile,
-  or review a play — or says "create a play", "new play", "compile this into a play",
-  "play-creator", "turn this intent into a play", or "review my play for gaps" —
-  even if they don't say the word "play" explicitly but are describing a repeatable,
-  multi-step, checkpoint-gated workflow they want captured as a runnable recipe.
+  evals, and writes a compiled play (a SKILL.md plus scripts for its mechanical work).
+  Use when the user wants to create, build, compile, or review a play — or says
+  "create a play", "new play", "compile this into a play", "play-creator", "turn this
+  intent into a play", or "review my play for gaps" — even if they don't say "play" but
+  describe a repeatable, multi-step, checkpoint-gated workflow they want captured as a
+  runnable recipe.
 user-invocable: true
 model: best
 ---
@@ -19,7 +19,7 @@ model: best
 The play compiler for garura. It takes an **intent** and produces a
 compiled, deterministic **play** — a `SKILL.md` (plus a `scripts/` folder for its
 mechanical work) whose pre-flight checks, task graph, step order, eval criteria, and
-recovery are all baked in, so running the play later requires no re-planning.
+recovery are all built in, so running the play later requires no re-planning.
 
 This skill is deliberately self-contained: it runs the whole pipeline itself
 rather than dispatching to separate builder agents. It is lean to *operate*; the
@@ -29,7 +29,7 @@ operation is over-building.
 
 Following the harness-led principle — the skill decides, scripts execute — the
 **mechanical** checks (coverage counting, orphan detection, fingerprinting) are
-offloaded to a bundled script, `scripts/lint_play.py`. Spend tokens on judgment, not
+offloaded to a script, `scripts/lint_play.py`. Spend tokens on judgment, not
 on counting the model can get wrong.
 
 **Hold the play you build to that same standard.** When a step in the play you're
@@ -40,7 +40,7 @@ judgment (decisions, generation, anything needing context) in the step's prose. 
 compiled play is normally a **folder** — `SKILL.md` plus a `scripts/` folder for its
 mechanical work (and `references/` for anything it reads) — not a lone file. Only a
 pure-judgment play with no mechanical work stays a single `SKILL.md`. This is the same
-move you just read about this skill, applied one level down: every play this compiler emits
+move you just read about this skill, applied one level down: every play this compiler writes
 should itself be harness-led.
 
 ## The mental model: ICE
@@ -62,8 +62,8 @@ enforced by some concrete mechanism in the output.
 
 ## Roles & handoffs — how every play you build is wired
 
-A play this compiler builds always uses the same roles and one handoff mechanism. Bake
-this in; it is not optional.
+A play this compiler builds always uses the same roles and one handoff mechanism. Build
+this into every play.
 
 - **Play — the orchestrator.** It owns the workflow and the step order, and does no domain
   work itself. It hands work out and routes the results.
@@ -152,25 +152,23 @@ expectation for a quick approve/revise.
 ### 3 — Skills, scripts & agents the play needs
 From the intent, work out what the play actually has to *do*, and split each piece of work
 by its nature — this split is where the token savings live:
-- **Scripts** — bundled programs for the **mechanical, deterministic** actions (parse,
+- **Scripts** — programs in the play's `scripts/` for the **mechanical, deterministic** actions (parse,
   count, validate, transform, hash, format, threshold/precedence logic). The step calls
   the script; the script does the work. Prefer a script for anything a script can do
   reliably. **Two hard rules for scripts:**
-  - **Layer boundary — the split is JUDGMENT vs MECHANICAL, not git-vs-non-git (#484).**
-    Mechanical git/gh/host work — a *fixed command sequence with zero judgment* (cut a
-    branch, push, open/merge a PR, fetch a diff, post a comment, read merge state) — runs
-    in a bundled script via the code-host adapter (`references/platform_adapter.py`), NOT an
-    agent dispatch. Booting an agent to run a fixed git sequence is the bug #484 fixed
-    (~10× the wall-clock for the same commands). What stays with a skill/agent is genuine
-    **judgment** about VCS/host state: grouping a changeset by concern, matching an issue
-    from a description, assessing review categories, design-grounding. Rule of thumb: if you
-    could write the exact commands ahead of time, it is a script; if it needs a decision,
-    it is an agent. Scripts still never do judgment — that half of the boundary is unchanged.
-  - **Don't put deterministic logic on an LLM.** If a step's work is a fixed rule — a
-    threshold verdict, a precedence/most-specific-wins resolution, a table-driven
-    classification, a count or a diff-scope check — it is a script, not an agent or
-    re-reasoned prose. Assigning such work to a subagent is a harness-led failure; flag
-    and convert it.
+  - **Split by judgment versus mechanical work, not by git versus non-git.** Fixed
+    git/gh/host work — a command sequence with no decisions in it (cut a branch, push,
+    open or merge a PR, fetch a diff, post a comment, read merge state) — runs in a script
+    through the code-host adapter (`references/platform_adapter.py`), not in an agent.
+    An agent takes about 10× as long to run the same fixed commands. Real **judgment**
+    about repo or host state stays with a skill or agent: grouping changes by concern,
+    matching an issue from a description, assessing review categories, checking a design.
+    Rule of thumb: if you could write the exact commands ahead of time, it is a script; if
+    it needs a decision, it is an agent. Scripts do no judgment. (#484)
+  - **Give fixed rules to scripts, not to the model.** If a step's work is a fixed rule — a
+    threshold verdict, a most-specific-wins choice, a table lookup, a count, or a
+    diff-scope check — write it as a script. A subagent or prose doing this work breaks
+    the harness-led principle; flag it and convert it.
 - **Skills** — where the actual work happens: build, generate, transform, produce the
   artifact.
 - **Subagents** — gather the context a skill needs and verify that what the skill produced
@@ -196,49 +194,61 @@ precondition ("must be on a feature branch", "config must exist") becomes a pre-
 check with an action-on-failure (hard halt, graceful exit, or hard block).
 
 **Concurrent read-only fan-out (#468).** When a step does the same read-only work over N
-independent items — one isolated sub-agent per doc, one runner per check — emit it as a
+independent items — one isolated sub-agent per doc, one runner per check — write it as a
 concurrent fan-out (one batch, then join), not a serial loop, provided the three safety
 conditions hold (read-only over shared inputs, distinct output paths, no sibling
 dependency). The form and the required declaration are in
 [`references/workflow-structures.md`](references/workflow-structures.md) and
-`standards/rules/concurrent-fanout.md`. A step whose sub-tasks WRITE the tree stays serial
-(that is #488).
+`standards/rules/concurrent-fanout.md`. A step whose sub-tasks write to the repo stays
+serial (#488).
 
-**Pre-flight resolver (harness-led — emit it).** The deterministic part of pre-flight is
-not orchestrator inference. Stamp the canonical resolver into the compiled play at
-`scripts/preflight.py`, copied verbatim from
-[`references/preflight.py`](references/preflight.py), and have the Pre-flight phase **call
-it** instead of resolving facts in prose. Stamp `scripts/session_stamp.py` the same way
-(verbatim from [`references/session_stamp.py`](references/session_stamp.py), #463) and have
-the Pre-flight phase run its `--phase start` right after the resolver — the close block's
-stamp step (play-close.md) reads the marker it writes. Soft-fail by design; never a
-pre-flight halt condition. It parses config for the path tokens + the
-resolved `evidence_record` (per-play override → global → true), extracts the issue from the
-branch, and reports `on_default_branch` and `changes_present` — returning one JSON object.
-The orchestrator captures the only two live reads (`git branch --show-current` and `git
-status --porcelain`) and passes them in (`--branch`, `--porcelain-file`); the script never
-shells out to git/gh (layer rule). The Pre-flight **table keeps only the policy** — which
-fact maps to a hard halt / graceful exit / hard block, which differs per play (e.g.
-`changes_present == false` is a graceful exit for `commit-change` but a *clean-tree*
-precondition for `propose-change`). Live host reads that need git/gh state (open-PR,
-mergeability, worktree presence) run through the **code-host adapter script**, not an agent
-(#484) — see the adapter-stamping note below; `preflight.py` itself stays offline. A
-purely interactive play with no environmental pre-flight may omit it; anything that resolves
-config/branch/issue/changeset must use it.
+**Pre-flight script.** The start-up facts a play needs are always worked out the same way,
+so a script finds them, not the model. A script gives the same answer every run; reasoning
+in prose can drift. In each compiled play:
 
-**Code-host adapter + operation scripts (harness-led — emit them, #484).** A play whose
-mechanical work is git/gh — the chain plays (`start-change`, `propose-change`,
-`review-change`, `merge-change`) and any play that cuts a branch, pushes, opens/merges a PR,
-fetches a diff, posts a comment, or reads merge state — stamps
-[`references/platform_adapter.py`](references/platform_adapter.py) (the 16-verb, config-driven
-code-host adapter) into its `scripts/`, verbatim, the same discipline as `preflight.py`, and
-its steps call the bundled **operation scripts** built on it (`setup_branch.py`,
-`submit_pr.py`, `read_merge_state.py`, `merge_pr.py`, `fetch_pr_context.py`,
-`post_verdict.py` — all canonical in `references/`). The step runs the script; NO agent boots
-for the fixed command sequence. Reserve agent dispatch for the judgment that remains
-(changeset grouping, issue-match, category assessment, design-grounding). This is what makes
-the scripted chain durable — a rebuild reproduces the scripts instead of reverting to the
-slow agent-dispatch pattern.
+1. Copy [`references/preflight.py`](references/preflight.py) unchanged to
+   `scripts/preflight.py`. The Pre-flight phase calls it.
+2. Before the call, the play runs the only two live git reads — `git branch --show-current`
+   and `git status --porcelain` — and passes the results in with `--branch` and
+   `--porcelain-file`. The script itself never runs git or gh, so it works offline.
+3. The script returns one JSON object with these facts:
+   - the folder paths from config;
+   - whether to record evidence (the play's own setting, else the global one, else true);
+   - the issue number, read from the branch name;
+   - `on_default_branch` — whether the branch is main;
+   - `changes_present` — whether there are changes to work on.
+4. Copy [`references/session_stamp.py`](references/session_stamp.py) unchanged to
+   `scripts/session_stamp.py`. Run it with `--phase start` right after `preflight.py`. It
+   leaves a marker that the close step (`play-close.md`) reads later. If it fails, carry
+   on — it never stops the play.
+5. The play's Pre-flight table holds only its own rules: for each fact, stop, exit quietly,
+   or block. These differ per play. For example, "no changes" means *nothing to do, exit
+   quietly* for `commit-change`, but it is the clean start that `propose-change` needs.
+6. Checks that need the code host (is a PR open, can it merge, does a worktree exist) go
+   through the code-host adapter below, not through an agent.
+
+Skip this only for a play that just talks to the user and checks nothing about the
+project. Any play that reads config, the branch, the issue, or the changes must use it.
+(#434, #463)
+
+**Code-host scripts.** Fixed git and GitHub jobs are run by scripts, not by agents. An agent
+is slow and adds nothing when the steps never change. Agents are kept for jobs that need
+judgment: grouping changes, matching an issue, sorting a change into categories, and
+checking a design.
+
+1. Use this for any play that makes a branch, pushes, opens or merges a PR, fetches a diff,
+   posts a comment, or reads merge state. That includes `start-change`, `propose-change`,
+   `review-change`, and `merge-change`.
+2. Copy [`references/platform_adapter.py`](references/platform_adapter.py) unchanged into
+   the play's `scripts/`. It is one adapter for GitHub and GitLab. It reads which host to
+   use from config.
+3. Copy the job scripts the play needs from `references/`: `setup_branch.py`,
+   `submit_pr.py`, `read_merge_state.py`, `merge_pr.py`, `fetch_pr_context.py`,
+   `post_verdict.py`. Each one is built on the adapter.
+4. The play's step runs the script directly.
+
+Because play-creator writes these scripts into the play, a rebuild brings them back. The
+play does not slip back to the slow agent way. (#484)
 
 ### 4b — Pipeline position (D2)
 Read the play's declared `position` (frontmatter: `start | end | both | none`, default
@@ -270,7 +280,7 @@ If the play **recommends, suggests, advises, or ranks** anything for the user, w
 [`standards/rules/no-unbacked-recommendation.md`](../../memory/standards/rules/no-unbacked-recommendation.md)
 into it. Silence beats a wrong answer: every recommendation must trace to a source the
 play can name, and where it cannot, the entry carries **no** recommendation — never a
-default, a generic pointer, or another play's name. Emit four things, not a sentiment:
+default, a generic pointer, or another play's name. Write four things into the play:
 
 - a **constraint** stating the rule, including that the count of un-recommendable entries
   is reported to the user (an invisible gap is the same failure one step later);
@@ -282,7 +292,7 @@ default, a generic pointer, or another play's name. Emit four things, not a sent
 
 `/focus` is the reference implementation (C12 / F10 / S8 / REC10). `lint_play.py`'s
 `no-unbacked-recommendation` check fails any recommending play that does not carry this
-wiring, so emit it here rather than discovering it at step 7.
+wiring, so add it here rather than discover it at step 7.
 
 ### 5 — Evals
 Generate the checks that prove the play works. Do not hand-wave these — each must be
@@ -302,22 +312,20 @@ decides how it's enforced:
 | structural | a rule about the play's own shape | the play structure itself |
 
 ### 6 — Compile the play
-Emit the play. If it has mechanical steps, emit a **folder** — `<play-name>/SKILL.md` plus
+Write the play. If it has mechanical steps, write a **folder** — `<play-name>/SKILL.md` plus
 `<play-name>/scripts/` for the scripts those steps call (and `references/` for anything it
 reads); a pure-judgment play can be a single `SKILL.md`.
 
-**Bake the stop condition (#464).** When the ICE carries "### Done means", emit
+**Add the stop condition (#464).** When the ICE has a "### Done means" section, write
 `<play-name>/stop-condition.yaml` (schema `{name: stop-condition}`, `content.done` =
-the clause list verbatim) and stamp `scripts/check_stop_condition.py` from
-[`references/check_stop_condition.py`](references/check_stop_condition.py) — same
-verbatim-copy discipline as `preflight.py` and `session_stamp.py`. The Standard Play
-Close's Step C0 (play-close.md) evaluates the manifest at close: held permits
-COMPLETED, unmet forces HALTED. A play whose ICE has no Done means bakes no manifest
+the clause list, unchanged) and copy
+[`references/check_stop_condition.py`](references/check_stop_condition.py) unchanged to
+`scripts/check_stop_condition.py`, the same way as `preflight.py` and `session_stamp.py`.
+The Standard Play Close's Step C0 (play-close.md) checks the manifest at close: held allows
+COMPLETED, unmet forces HALTED. A play whose ICE has no Done means gets no manifest
 and closes as legacy (`stop_condition: not_defined`). Write each mechanical step's
-script into `scripts/` and have that step invoke it by relative path — don't also inline
-the logic the script now owns. **Unless the play has no environmental pre-flight, stamp the
-canonical `scripts/preflight.py` (copy `references/preflight.py` verbatim) per step 4 and
-wire the Pre-flight phase to call it.** Wire every step that dispatches to a subagent or skill as a
+script into `scripts/` and have that step run it by relative path; keep the script's logic
+out of the step's prose. Copy the pre-flight script as step 4 says. Wire every step that dispatches to a subagent or skill as a
 **JSON contract**: it names the input file paths and the output file path, the piece writes
 to disk and returns the path, never inline data (see the worked example). The `SKILL.md` is
 a **full compiled play** and must carry every required section — match the worked example in
@@ -331,15 +339,15 @@ phase, each with owner, dependency, and its step evals; with the position-inject
 Recovery (one entry per failure condition) · Pause-and-Resume · Compilation Metadata.
 
 Determinism rules for the output: steps are sequential with named phases (no runtime
-reordering); the task DAG is baked in; nothing is resolved "at runtime". Record a
+reordering); the task DAG is fixed in the play; nothing is resolved "at runtime". Record a
 content fingerprint of the intent + expectation in the metadata so later drift is
 detectable and forces a fresh compile. Compute it mechanically — run
 `shasum -a 256` over the intent + expectation text and paste the digest. Don't invent a
 hash; the model can't compute one in its head, so a made-up fingerprint is worse than none.
 
 ### 7 — Verify coverage (run the linter)
-Don't hand-count this — it burns tokens and the model miscounts. Run the bundled script
-on the play you just wrote:
+Let the script count, not the model: hand-counting burns tokens and miscounts. Run
+`scripts/lint_play.py` on the play you just wrote:
 
 ```
 python3 scripts/lint_play.py <path-to-the-compiled-play>
@@ -384,58 +392,36 @@ the user wants the gaps fixed, they correct the intent and re-run the skill (or 
 
 ## Hard rules
 
-- Never build a structureless play — name what's missing and stop.
-- Never produce a play that resolves its DAG or intent at runtime — compiled plays
-  are static and deterministic.
-- Never hand-author scenarios or evals to "fill in" — generate scenarios from the
-  intent and evals from constraints/failures/scenarios, so they actually trace back.
-- Never simplify the *generated* play below the required sections — full output is the
-  whole point.
-- Build plays the harness-led way — a step's mechanical work goes into a bundled script
-  the step calls, not into prose the play re-reasons each run; judgment stays in prose.
-- Always emit the pre-flight resolver (unless the play has no environmental pre-flight) —
-  stamp `scripts/preflight.py` from `references/preflight.py` and have the Pre-flight phase
-  call it; never leave deterministic config/branch/issue/changeset resolution as
-  orchestrator prose or inference. The Pre-flight table keeps only the halt policy.
-- Wire every play you build as JSON-contract handoffs over files on disk — play
-  orchestrates, subagents gather context and verify, skills do the work. No piece does
-  another's job, and no piece passes inline data where a file path belongs.
-- Never modify any file in review mode.
-- Always honor the declared `position` (D2): inject `start-change` for `start`, the
+- Build only a play with structure: at least one constraint, one failure condition, and
+  one success scenario. If any is missing, name what is missing and stop.
+- Make every compiled play static and deterministic: its task graph and intent are fixed
+  at compile time, not worked out at run time.
+- Generate scenarios from the intent, and evals from the constraints, failures, and
+  scenarios, so each one traces back to its source. Hand-written fillers break that trace.
+- Give the generated play every required section. Full output is the point.
+- Build plays the harness-led way: a step's mechanical work goes into a script in
+  `scripts/` that the step runs; judgment stays in prose.
+- Copy the pre-flight script into every play that checks its environment (step 4), and have
+  the Pre-flight phase call it. Config, branch, issue, and change facts come from the
+  script, not from the model. The Pre-flight table keeps only the halt policy.
+- Wire every play as JSON-contract handoffs over files on disk: the play orchestrates,
+  subagents gather context and verify, skills do the work. Each piece does only its own
+  job and passes file paths, not inline data.
+- In review mode, only read. Change no files.
+- Honor the declared `position` (D2): inject `start-change` for `start`, the
   `commit-change → propose-change → review-change → merge-change` end sequence for `end`,
-  both for `both`, nothing for `none` — as explicit named sub-play steps, never an opaque
-  one-liner, and never injected into a member play itself
+  both for `both`, nothing for `none`. Inject them as explicit named sub-play steps, one per
+  sub-play, and only into consumer plays — member plays get none
   (`standards/rules/pipeline-position.md`).
-- Always wire the cardinal rule (`no-unbacked-recommendation.md`) into any play that
-  recommends, suggests, advises, or ranks — constraint + failure condition + step eval +
-  strip-not-replace recovery. A default offered where the play cannot back an answer is
+- Wire the cardinal rule (`no-unbacked-recommendation.md`) into any play that recommends,
+  suggests, advises, or ranks: constraint + failure condition + step eval + a recovery that
+  strips the recommendation. A default offered where the play cannot back an answer is
   worse than the gap it hides.
-- Always classify constraints before generating evals; always run the linter
-  (`scripts/lint_play.py`) and clear every gap before declaring the play done.
-- Always wire the **Next** command. Every user-invocable compiled play must have an entry
-  in `standards/rules/pipeline-next.md` (the successor map) — add one if the play is new —
-  or be listed there under `meta_exempt`. The emitted Standard Play Close (step C2) renders
-  the play's Next line from that map (`**Next:** /<command> — <why>. Or run /next…`); the
-  linter's `next-command (pipeline-next)` check fails a positioned play that resolves to
+- Classify constraints before generating evals. Run the linter (`scripts/lint_play.py`)
+  and clear every gap before calling the play done.
+- Wire the **Next** command. Every user-invocable compiled play needs an entry in
+  `standards/rules/pipeline-next.md` (the successor map) — add one if the play is new —
+  or a listing there under `meta_exempt`. The Standard Play Close (step C2) renders the
+  play's Next line from that map (`**Next:** /<command> — <why>. Or run /next…`); the
+  linter's `next-command (pipeline-next)` check fails a positioned play that is in
   neither the map nor the exempt list.
-
-## Direct-edit deviation note (#434)
-
-play-creator (formerly create-play) is the compiler bootstrap — it has no `intent.yaml`,
-so all changes to it are direct edits by definition. Brought over from the sudarshan
-harness and renamed to play-creator (companion: play-editor). Taught the D2 pipeline-position
-rule: step **4b** and a hard rule inject `start-change` (position `start`) and the
-`commit-change → propose-change → review-change → merge-change` end sequence (position `end`)
-per `standards/rules/pipeline-position.md`. D1 (evidence) needs no compiler change — plays
-emit it via the referenced Standard Play Close. `scripts/lint_play.py` gained the D1 (close
-anchors) and D2 (valid `position` frontmatter) checks. Non-intent change.
-
-**Pre-flight resolver (#434).** Added the harness-led pre-flight rule: step **4**, a hard
-rule, and the step-6 output note now require stamping the canonical
-[`references/preflight.py`](references/preflight.py) into each compiled play at
-`scripts/preflight.py` and wiring the Pre-flight phase to call it (config/branch/issue/
-changeset resolution is a script returning JSON facts; the play keeps only the halt policy;
-the script never shells to git/gh — the orchestrator passes the two live reads in).
-`scripts/lint_play.py` gained a non-breaking check: if a SKILL's pre-flight references
-`scripts/preflight.py`, the file must exist. The five member plays were back-filled by
-direct edit (each carries its own deviation note). Non-intent change.
