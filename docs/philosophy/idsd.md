@@ -154,7 +154,7 @@ Three ideas hold the lifecycle together:
 2. **One shape at every grain: capture → build → check.** Whether the unit is an epic, a defect, or a small amendment, the same three beats apply; only the ceremony scales with the grain (recorded for Garura in ADR 023).
 3. **Determinism at the skeleton, freedom inside the boxes.** The sequence of steps, the gates between them, and the evidence required at the end are fixed. Inside each step, the agent loops toward a verifiable goal (recorded for Garura in ADR 025).
 
-Verification follows IDD [Principle 4](./intent-driven-development.md#principle-4-builders-and-validators-must-not-share-context): builders and validators never share context.
+Verification follows IDD [Principle 4](./idd-principles.md#principle-4-builders-and-validators-must-not-share-context): builders and validators never share context.
 
 ---
 
