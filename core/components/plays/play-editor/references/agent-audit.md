@@ -12,6 +12,11 @@ skill — it does not do the building itself.
 Audit each agent the play depends on against all 11. Any FAIL is a gap the user should
 fix (upgrade the agent), replace (build a compliant one), or consciously accept.
 
+## Contents
+- Principles P1–P11: contracts, files on disk, intent, failure, no user contact, output,
+  skill delegation, recovery, domain boundaries, task graph, context sufficiency
+- Audit report shape
+
 ## Principles
 
 ### P1 — JSON-contract communication
