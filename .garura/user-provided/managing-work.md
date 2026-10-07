@@ -69,8 +69,9 @@ parent Feature, that usually means the Feature was never filed — file it.
 - **Type lives in the type field.** Each of the six types above is an issue
   type in the `intent-driven-ai` organization. Never encode the type as a title
   prefix (`[Story]`, `Bug:`, `[DEF]`); the field is the only place it belongs.
-- **Labels carry severity only.** Not type, not status, not area. Severity is
-  what a label is for here.
+- **No labels, for now.** Not for type, status, area, or severity. A severity
+  and priority taxonomy will be designed later; until then, open issues carry
+  none. Closed issues keep their old labels as history.
 - **Title states the outcome**, in the language a reader operates in — what
   changes and for whom — not the files being touched.
 

@@ -21,7 +21,7 @@ Every play, agent, and skill named here exists under `core/components/` and is l
 | **ICE** | Every play compiled from an ICE source; ICE written inline into the product model | Built |
 | **Dual intent** | SDLC intent in each play; business intent in the product model | Built |
 | **The loop** | Strategy → realize → implementation, `/learn` back | Built; amendment and defect-intake lanes not yet |
-| **Work item types** | Six types in the tracker: Business Intent, Feature, Story, Bug, Chore, Spike | Set in Garura's tracker; older issues not yet retagged |
+| **Work item types** | Six types in the tracker: Business Intent, Feature, Story, Bug, Chore, Spike | Set in Garura's tracker; every open issue typed |
 | **Perception** | Slash commands | Built for user commands only; scheduled, webhook, and file-change signals are not |
 | **Cognition** | 11 agents in use; knowledge base, product model, per-issue memory; context crafting | Built |
 | **Action** | Skills; plays and the change chain; gate config as the autonomy dial | Built |
@@ -195,11 +195,11 @@ Business intent lives in the product model; the work done for it lives in the is
 
 **Rules that come with the types:**
 
-- The type lives in the type field. Never in a title tag (`[DEF]`, `[ENH]`) and never in a label. Labels carry severity only.
+- The type lives in the type field. Never in a title tag (`[DEF]`, `[ENH]`) and never in a label. Garura's tracker uses no labels for now; a severity and priority taxonomy will be designed later.
 - Stories and Bugs always hang under the Feature they belong to, as a real parent link; Chores and Spikes do too when one fits. A Feature has no parent in the tracker. How work links to the Business Intent it serves is part of the ADLC design (#539), not yet in force.
 - How a type is filed, when it is ready to work, and how a session picks it up: `.garura/user-provided/managing-work.md`.
 
-In Garura's own tracker (`intent-driven-ai/garura`) the six are set as the organization's issue types. Issues filed before 2026-10-07 still carry the older title tags until they are retagged.
+In Garura's own tracker (`intent-driven-ai/garura`) the six are set as the organization's issue types. On 2026-10-07 every open issue was given one of the six types, and its title tags and labels were removed. Closed issues keep their old title tags and labels as history.
 
 ---
 
