@@ -38,6 +38,14 @@ no domain, capability, functionality, or epic in this tracker.
 | **Feature** | A capability of Garura that needs a decision before anyone builds. It states a problem, a boundary, and what "done" looks like — not an implementation. | Something new is wanted and the shape of it is still open. |
 | **Story** | A shippable slice of a Feature. One coherent change that can be built, reviewed, and merged on its own. | The Feature's decision is settled and a slice of it is ready to build. |
 | **Bug** | A defect in something already shipped: it behaves differently from what was intended. | Observed behaviour departs from expected behaviour. |
+| **Chore** | Upkeep that changes no behaviour: dependencies, cleanup, moves. | Something needs tidying and nothing a user sees will change. |
+| **Spike** | A question to answer. The result is a decision record, not shipped code. | A Feature can't be decided, or a Story can't be built, until something is found out. |
+| **Business Intent** | What the organization wants — an outcome. Met by its outcome, never closed by finishing its children. | A goal is stated that work will be done to serve. |
+
+These six are the only types; the full definition, and what is deliberately not
+a type (Defect, Enhancement, Epic, Agent Intent), is in
+`docs/philosophy/garura-reference-implementation.md` → *Work Item Types in the
+Tracker*.
 
 A Feature is never worked directly. It gets decomposed into Stories first. If
 you find yourself writing code against a Feature issue, the decomposition step
@@ -58,10 +66,9 @@ parent Feature, that usually means the Feature was never filed — file it.
 
 ## How does that land in the tracker?
 
-- **Type lives in the type field.** Feature and Bug use their native issue
-  types. There is no Story type in this repository, so a Story is filed as
-  **Task** — Task is the Story slot. Never encode the type as a title prefix
-  (`[Story]`, `Bug:`); the field is the only place it belongs.
+- **Type lives in the type field.** Each of the six types above is an issue
+  type in the `intent-driven-ai` organization. Never encode the type as a title
+  prefix (`[Story]`, `Bug:`, `[DEF]`); the field is the only place it belongs.
 - **Labels carry severity only.** Not type, not status, not area. Severity is
   what a label is for here.
 - **Title states the outcome**, in the language a reader operates in — what
@@ -198,8 +205,11 @@ permissions problem and is not one. Do not conclude you lack access — you are
 passing the wrong value. The identifier comes back on any issue create or
 update, so capture it there rather than hunting for it later.
 
-**There is no Story issue type in this repository.** Only Feature, Task, and
-Bug exist. Story occupies the Task slot. Do not attempt to create a Story type.
+**Issue types belong to the organization, not the repository.** The six types
+are set on `intent-driven-ai`; a repository under a personal account has no
+issue types at all, which is why older issues carry title tags instead. Setting
+a type goes through the issue's type field (GraphQL `issueType`, or the REST
+`type` field), not through a label.
 
 **Applying a label that does not exist creates it.** There is no separate
 create-then-apply step, and there is no error to catch. The flip side: a typo in

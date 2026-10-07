@@ -2,7 +2,7 @@
 
 > **Scope**: Garura Implementation
 > **Status**: Active
-> **Last Updated**: 2026-10-04
+> **Last Updated**: 2026-10-07
 > **Implements**: [IDSD](./idsd.md) on the [PCAM](./intent-driven-development.md#pcam-the-design-that-drives-ice) design (ADR 027)
 
 Moving from spec-driven to intent-driven development is a simple shift. Making intent carry itself — in one ICE shape, as two intents kept apart, around a loop that keeps it true — is IDSD, and Garura is where that system runs. **Garura v3.0.0 is the release that makes Garura the reference implementation of IDSD.** This document shows how.
@@ -21,6 +21,7 @@ Every play, agent, and skill named here exists under `core/components/` and is l
 | **ICE** | Every play compiled from an ICE source; ICE written inline into the product model | Built |
 | **Dual intent** | SDLC intent in each play; business intent in the product model | Built |
 | **The loop** | Strategy → realize → implementation, `/learn` back | Built; amendment and defect-intake lanes not yet |
+| **Work item types** | Six types in the tracker: Business Intent, Feature, Story, Bug, Chore, Spike | Set in Garura's tracker; older issues not yet retagged |
 | **Perception** | Slash commands | Built for user commands only; scheduled, webhook, and file-change signals are not |
 | **Cognition** | 11 agents in use; knowledge base, product model, per-issue memory; context crafting | Built |
 | **Action** | Skills; plays and the change chain; gate config as the autonomy dial | Built |
@@ -164,6 +165,41 @@ full ICE     tests + steel-  quality gates, on user_check +
 ```
 
 The epic moves through statuses in the spine: `ready → in_delivery → validated` (or `fix_required`, which sends it back to `/implement` for a fix round) `→ delivered`. Delivered epics are kept as the as-delivered record, never deleted (ADR 019). The surface an epic promises is declared at the cut and enforced by `/validate` and `/launch` (ADR 022).
+
+## Work Item Types in the Tracker
+
+Business intent lives in the product model; the work done for it lives in the issue tracker. Every work item carries exactly one **type**, held in the tracker's type field. Garura uses six, and only six:
+
+| Type | What it is | Kind of work | Done when |
+|------|------------|--------------|-----------|
+| **Business Intent** | What the organization wants — an outcome, reported by a person | The destination every other item serves | Its outcome is met. It is never closed by finishing its children |
+| **Feature** | A capability that needs a decision before anyone builds it | Delivery | Its Stories have shipped. A Feature is split into Stories; it is never worked directly |
+| **Story** | One shippable slice of a Feature: one branch, one pull request | Delivery | Its pull request is merged |
+| **Bug** | Something already shipped that behaves differently from what was intended | Fix | The fix is merged and verified |
+| **Chore** | Upkeep that changes no behaviour: dependencies, cleanup, moves | Upkeep | Its pull request is merged |
+| **Spike** | A question to answer, where the result is a decision, not shipped code | Learning | The answer is recorded as a decision record |
+
+**Every type except Business Intent is an agent intent** — a bet made to serve a business intent. The "kind of work" column is what makes that measurable: count a business intent's items by kind, and you can see whether the work is delivering what was asked or mostly repairing it.
+
+**Type is not state.** A type says what kind of item it is and never changes. A state says where the item rests and changes as work moves. Keep them in separate fields. (The ADLC states designed under #539 are not yet in force.)
+
+**What is deliberately not a type:**
+
+| Not a type | Why |
+|------------|-----|
+| Defect | Same thing as Bug. One word, so the count is not split |
+| Enhancement | Improving something shipped is a Feature or a Story, depending on its size |
+| Epic | Feature already does the parent job here. *Epic* belongs to the product model Garura offers other teams, not to this tracker |
+| Agent Intent | Every type but Business Intent is already one; it is the group, not a kind |
+| Docs, Refactor | A docs change or a refactor is a Story, a Chore, or a Bug, by what it changes |
+
+**Rules that come with the types:**
+
+- The type lives in the type field. Never in a title tag (`[DEF]`, `[ENH]`) and never in a label. Labels carry severity only.
+- Stories and Bugs always hang under the Feature they belong to, as a real parent link; Chores and Spikes do too when one fits. A Feature has no parent in the tracker. How work links to the Business Intent it serves is part of the ADLC design (#539), not yet in force.
+- How a type is filed, when it is ready to work, and how a session picks it up: `.garura/user-provided/managing-work.md`.
+
+In Garura's own tracker (`intent-driven-ai/garura`) the six are set as the organization's issue types. Issues filed before 2026-10-07 still carry the older title tags until they are retagged.
 
 ---
 
