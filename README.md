@@ -144,13 +144,29 @@ Run the installer in your project directory:
 
 ```bash
 cd /path/to/your-project
-curl -fsSL https://raw.githubusercontent.com/kapilvirenahuja/garura/main/installer/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/intent-driven-ai/garura/main/installer/install.sh | bash
 ```
 
-Optionally specify a project name:
+This installs the **latest published release**.
+
+To install a specific release, name it with `--version`:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/kapilvirenahuja/garura/main/installer/install.sh | bash -s -- --project-name my-app
+curl -fsSL https://raw.githubusercontent.com/intent-driven-ai/garura/main/installer/install.sh | bash -s -- --version v3.0.0
+```
+
+To install the newest unreleased work on `main` instead, ask for it on purpose:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/intent-driven-ai/garura/main/installer/install.sh | bash -s -- --version main
+```
+
+A version that does not exist stops the install with a message; it never falls back to `main`. The published releases are listed at [github.com/intent-driven-ai/garura/releases](https://github.com/intent-driven-ai/garura/releases).
+
+Optionally specify a project name (it combines with `--version`):
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/intent-driven-ai/garura/main/installer/install.sh | bash -s -- --project-name my-app
 ```
 
 This scaffolds the following structure in your project:
@@ -162,7 +178,8 @@ your-project/
 │   └── skills/            # Deployed skills + plays
 ├── .garura/
 │   ├── core/
-│   │   └── config.yaml    # Project configuration (customizable)
+│   │   ├── config.yaml    # Project configuration (customizable)
+│   │   └── garura-version # The installed Garura version (e.g. v3.0.0)
 │   └── project/
 │       └── specs/         # Project artifacts (STM)
 ├── src/                   # Source code directory
@@ -179,11 +196,13 @@ your-project/
 
 ### Upgrade an Existing Installation
 
-Run the same installer again — it detects the existing installation and performs a non-destructive upgrade:
+Run the same installer again — it detects the existing installation and performs a non-destructive upgrade. With no `--version` it upgrades to the latest release; `--version` picks a release or `main`, exactly as for a fresh install:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/kapilvirenahuja/garura/main/installer/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/intent-driven-ai/garura/main/installer/install.sh | bash
 ```
+
+The installer prints the version you had and the version you now have, and records the new one in `.garura/core/garura-version`.
 
 **What gets upgraded (overwritten):**
 - `.claude/agents/` — Agent definitions
@@ -204,7 +223,7 @@ If you want to develop Garura itself:
 
 ```bash
 # Clone the repository
-git clone https://github.com/kapilvirenahuja/garura.git
+git clone https://github.com/intent-driven-ai/garura.git
 cd garura
 
 # Deploy components into a target project via the install-garura play
@@ -308,4 +327,4 @@ SOFTWARE.
 
 ## Support
 
-For issues and questions, please visit: https://github.com/kapilvirenahuja/garura/issues
+For issues and questions, please visit: https://github.com/intent-driven-ai/garura/issues

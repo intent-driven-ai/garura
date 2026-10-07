@@ -3,11 +3,16 @@ set -euo pipefail
 
 # Garura Installer
 # Usage:
-#   curl -fsSL https://raw.githubusercontent.com/kapilvirenahuja/garura/main/installer/install.sh | bash
-#   curl -fsSL https://raw.githubusercontent.com/kapilvirenahuja/garura/main/installer/install.sh | bash -s -- --project-name my-app
+#   curl -fsSL https://raw.githubusercontent.com/intent-driven-ai/garura/main/installer/install.sh | bash
+#   curl -fsSL https://raw.githubusercontent.com/intent-driven-ai/garura/main/installer/install.sh | bash -s -- --project-name my-app
+#   curl -fsSL https://raw.githubusercontent.com/intent-driven-ai/garura/main/installer/install.sh | bash -s -- --version v3.0.0
+#   curl -fsSL https://raw.githubusercontent.com/intent-driven-ai/garura/main/installer/install.sh | bash -s -- --version main
+#
+# --version <tag>   install a published release, e.g. v3.0.0
+# --version main    install the newest work on main (unreleased)
+# (no --version)    install the latest published release
 
-REPO="kapilvirenahuja/garura"
-BRANCH="main"
+REPO="intent-driven-ai/garura"
 # Skills that must not be deployed into target projects (space-separated).
 # Deployment is handled by the sudarshan /sud:install meta-play.
 EXCLUDED_SKILLS=""
@@ -29,6 +34,7 @@ trap cleanup EXIT
 # --- Parse arguments ---
 
 PROJECT_NAME=""
+VERSION=""
 TARGET_DIR="$(pwd)"
 
 while [ $# -gt 0 ]; do
@@ -38,6 +44,14 @@ while [ $# -gt 0 ]; do
       PROJECT_NAME="${1:-}"
       if [ -z "$PROJECT_NAME" ]; then
         err "--project-name requires a value"
+        exit 1
+      fi
+      ;;
+    --version)
+      shift
+      VERSION="${1:-}"
+      if [ -z "$VERSION" ]; then
+        err "--version requires a value (a release tag such as v3.0.0, or main)"
         exit 1
       fi
       ;;
@@ -56,23 +70,51 @@ fi
 # --- Detect mode ---
 
 GARURA_CONFIG="$TARGET_DIR/.garura/core/config.yaml"
+VERSION_FILE="$TARGET_DIR/.garura/core/garura-version"
 MODE="init"
 if [ -f "$GARURA_CONFIG" ]; then
   MODE="upgrade"
 fi
 
+# --- Resolve the version to install ---
+
+if [ -z "$VERSION" ]; then
+  info "Finding the latest Garura release..."
+  VERSION="$(curl -fsSL "https://api.github.com/repos/$REPO/releases/latest" 2>/dev/null \
+    | python3 -c 'import json,sys; print(json.load(sys.stdin)["tag_name"])' 2>/dev/null || true)"
+  if [ -z "$VERSION" ]; then
+    err "Could not find the latest Garura release on GitHub."
+    err "Try again, or name a version: --version v3.0.0 (or --version main for unreleased work)."
+    exit 1
+  fi
+fi
+
+if [ "$VERSION" = "main" ]; then
+  ARCHIVE_URL="https://github.com/$REPO/archive/refs/heads/main.tar.gz"
+  MAIN_SHA="$(curl -fsSL "https://api.github.com/repos/$REPO/commits/main" 2>/dev/null \
+    | python3 -c 'import json,sys; print(json.load(sys.stdin)["sha"][:8])' 2>/dev/null || true)"
+  INSTALLED_VERSION="main${MAIN_SHA:+@$MAIN_SHA}"
+else
+  ARCHIVE_URL="https://github.com/$REPO/archive/refs/tags/$VERSION.tar.gz"
+  INSTALLED_VERSION="$VERSION"
+fi
+
 # --- Download repo archive ---
 
-info "Downloading Garura from GitHub..."
+info "Downloading Garura $INSTALLED_VERSION from GitHub..."
 TMPDIR_WORK="$(mktemp -d)"
-ARCHIVE_URL="https://github.com/$REPO/archive/refs/heads/$BRANCH.tar.gz"
 
-curl -fsSL "$ARCHIVE_URL" | tar xz -C "$TMPDIR_WORK"
+if ! curl -fsSL "$ARCHIVE_URL" -o "$TMPDIR_WORK/garura.tar.gz"; then
+  err "Garura version '$VERSION' was not found."
+  err "See the published releases: https://github.com/$REPO/releases"
+  exit 1
+fi
+tar xzf "$TMPDIR_WORK/garura.tar.gz" -C "$TMPDIR_WORK"
 
-# The tarball extracts to a directory named <repo>-<branch>
-SRC_DIR="$TMPDIR_WORK/garura-$BRANCH"
+# The archive holds one top-level folder (garura-main, garura-3.0.0, ...)
+SRC_DIR="$(find "$TMPDIR_WORK" -mindepth 1 -maxdepth 1 -type d | head -1)"
 
-if [ ! -d "$SRC_DIR/core" ]; then
+if [ -z "$SRC_DIR" ] || [ ! -d "$SRC_DIR/core" ]; then
   err "Downloaded archive does not contain core/ directory. Something went wrong."
   exit 1
 fi
@@ -181,7 +223,7 @@ deploy_skills() {
 # ===================================================================
 
 if [ "$MODE" = "init" ]; then
-  info "Initializing Garura in $TARGET_DIR..."
+  info "Initializing Garura $INSTALLED_VERSION in $TARGET_DIR..."
   info "  Project name: $PROJECT_NAME"
 
   # 1. Deploy agents
@@ -231,8 +273,12 @@ if [ "$MODE" = "init" ]; then
     transform_claude_md "$claude_content" "$PROJECT_NAME" > "$TARGET_DIR/CLAUDE.md"
   fi
 
+  # 8. Record the installed version
+  mkdir -p "$(dirname "$VERSION_FILE")"
+  echo "$INSTALLED_VERSION" > "$VERSION_FILE"
+
   ok ""
-  ok "Garura initialized successfully!"
+  ok "Garura $INSTALLED_VERSION initialized successfully!"
   ok ""
   ok "Project structure created:"
   ok "  .claude/agents/      — Agent definitions"
@@ -241,6 +287,7 @@ if [ "$MODE" = "init" ]; then
   ok "  .garura/project/ — Project artifacts"
   ok "  src/                 — Source code"
   ok "  CLAUDE.md            — AI instructions"
+  ok "  .garura/core/garura-version — the installed Garura version"
   ok ""
   ok "Next steps:"
   ok "  1. Review and customize CLAUDE.md for your project"
@@ -252,8 +299,14 @@ if [ "$MODE" = "init" ]; then
 # ===================================================================
 
 else
+  PREVIOUS_VERSION="unknown (installed before versions were recorded)"
+  if [ -f "$VERSION_FILE" ]; then
+    PREVIOUS_VERSION="$(cat "$VERSION_FILE")"
+  fi
   info "Upgrading Garura in $TARGET_DIR..."
   info "  Existing installation detected."
+  info "  From: $PREVIOUS_VERSION"
+  info "  To:   $INSTALLED_VERSION"
 
   # 1. Upgrade agents (overwrite managed files)
   if [ -d "$COMPONENTS_DIR/agents" ]; then
@@ -296,8 +349,11 @@ else
     transform_claude_md "$claude_content" "$PROJECT_NAME" > "$TARGET_DIR/CLAUDE.md.new"
   fi
 
+  # 7. Record the installed version
+  echo "$INSTALLED_VERSION" > "$VERSION_FILE"
+
   ok ""
-  ok "Garura upgraded successfully!"
+  ok "Garura upgraded successfully: $PREVIOUS_VERSION -> $INSTALLED_VERSION"
   ok ""
   ok "Updated (overwritten):"
   ok "  .claude/agents/              — Agent definitions"
