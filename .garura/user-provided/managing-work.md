@@ -109,6 +109,14 @@ Each Story or Bug then goes to **its own session**. That session:
 One issue, one session, one branch, one pull request. A session that ends up
 carrying two issues has lost the thread of both.
 
+**The one exception is a drive** (ADR 029). A drive works on **one main
+issue**, and opens **one branch** for it when it starts. That branch stays the
+same for the whole drive. The plays a drive runs open no branch and no issue
+of their own; they work on the drive's branch. Issues **linked** to the drive's
+main issue are fixed on that same branch, in the same change. The main issue
+is still the anchor: an issue that is not linked to it is out of scope, and
+the rule below applies to it as to any other session.
+
 ## How far does my work extend?
 
 **The issue being worked defines the scope. Work never goes beyond it.**
