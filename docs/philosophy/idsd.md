@@ -158,20 +158,6 @@ Verification follows IDD [Principle 4](./intent-driven-development.md#principle-
 
 ---
 
-## Why a Loop, Not a Pipeline
-
-The loop is what gives people flexibility during the SDLC. A pipeline forces every change through every stage in order; the loop lets a team work where the work actually is, and still keeps one stored intent true:
-
-- **Enter where the work is.** A new domain, capability, or feature starts in strategy. A new slice starts in realize. Delivery-sized work on a realized slice starts in implementation. Nobody re-runs strategy to ship the next unit.
-- **Go round at different grains.** One strategy pass shapes many slices; each slice is realized on its own; one realized slice is cut into many delivery units. Different parts of the product can sit at different points on the loop at the same time.
-- **Come back the short way.** Not every correction goes all the way round. A failed check returns the unit to the build. A flaw in the context returns to the realize step that wrote it. Learning corrects realize when only the context was wrong, and strategy when the intent itself was.
-- **Gates only where they protect intent.** Hard readiness markers sit only where building on unready intent would waste the work. Everywhere else, intent-sufficiency applies: if the intent is clear, proceed.
-- **Always know the next move.** Because the intent is stored, the system can read it and recommend where on the loop to act next.
-
-Learning is what makes the flexibility safe: however a team moves around the loop, the intent it builds from is the one reality last confirmed.
-
----
-
 ## Supporting Principles
 
 ### Audience Separation

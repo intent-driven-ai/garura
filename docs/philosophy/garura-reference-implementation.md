@@ -128,7 +128,7 @@ Meta (not part of the product pipeline): /install-garura · /uninstall-garura ·
 
 ### The short ways back
 
-IDSD's loop lets a correction return the short way ([Why a Loop, Not a Pipeline](./idsd.md#why-a-loop-not-a-pipeline)). In Garura:
+IDSD's loop lets a correction return the short way ([IDSD in One Page](./idsd.md#idsd-in-one-page)). In Garura:
 
 - [`/validate`](../../core/components/plays/validate/SKILL.md) stamps a failing epic `fix_required`, which sends it back to [`/implement`](../../core/components/plays/implement/SKILL.md) as a fix round built from the validate report.
 - [`/grill`](../../core/components/plays/grill/SKILL.md) routes a defect it finds in a lens back to that lens's play.
