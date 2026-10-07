@@ -144,13 +144,13 @@ Run the installer in your project directory:
 
 ```bash
 cd /path/to/your-project
-curl -fsSL https://raw.githubusercontent.com/kapilvirenahuja/garura/main/installer/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/intent-driven-ai/garura/main/installer/install.sh | bash
 ```
 
 Optionally specify a project name:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/kapilvirenahuja/garura/main/installer/install.sh | bash -s -- --project-name my-app
+curl -fsSL https://raw.githubusercontent.com/intent-driven-ai/garura/main/installer/install.sh | bash -s -- --project-name my-app
 ```
 
 This scaffolds the following structure in your project:
@@ -182,7 +182,7 @@ your-project/
 Run the same installer again — it detects the existing installation and performs a non-destructive upgrade:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/kapilvirenahuja/garura/main/installer/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/intent-driven-ai/garura/main/installer/install.sh | bash
 ```
 
 **What gets upgraded (overwritten):**
@@ -204,7 +204,7 @@ If you want to develop Garura itself:
 
 ```bash
 # Clone the repository
-git clone https://github.com/kapilvirenahuja/garura.git
+git clone https://github.com/intent-driven-ai/garura.git
 cd garura
 
 # Deploy components into a target project via the install-garura play
@@ -308,4 +308,4 @@ SOFTWARE.
 
 ## Support
 
-For issues and questions, please visit: https://github.com/kapilvirenahuja/garura/issues
+For issues and questions, please visit: https://github.com/intent-driven-ai/garura/issues

@@ -3,10 +3,10 @@ set -euo pipefail
 
 # Garura Installer
 # Usage:
-#   curl -fsSL https://raw.githubusercontent.com/kapilvirenahuja/garura/main/installer/install.sh | bash
-#   curl -fsSL https://raw.githubusercontent.com/kapilvirenahuja/garura/main/installer/install.sh | bash -s -- --project-name my-app
+#   curl -fsSL https://raw.githubusercontent.com/intent-driven-ai/garura/main/installer/install.sh | bash
+#   curl -fsSL https://raw.githubusercontent.com/intent-driven-ai/garura/main/installer/install.sh | bash -s -- --project-name my-app
 
-REPO="kapilvirenahuja/garura"
+REPO="intent-driven-ai/garura"
 BRANCH="main"
 # Skills that must not be deployed into target projects (space-separated).
 # Deployment is handled by the sudarshan /sud:install meta-play.
