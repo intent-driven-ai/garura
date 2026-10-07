@@ -1,0 +1,7 @@
+decision: approve
+decided_by: harness
+gate: "skipped by config (gates.plays.review-change: off)"
+recommendation: approve
+reason: "no P1 findings; confidence acceptable"
+blocking_findings: []
+human_note: "Kapil reviewed all 9 doc files in pr-reviewer on 2026-10-07 and approved each one; this harness verdict is recorded separately."

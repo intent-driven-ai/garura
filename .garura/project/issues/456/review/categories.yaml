@@ -1,0 +1,28 @@
+categories:
+  - name: decision-records
+    design_bearing: false
+    evidence:
+      - docs/adr/027-ice-model-pcam-design.md
+    playbook: review/adrs
+    note: "New ADR 027 (ICE model / PCAM design). Human judges merit; Layer 1 only."
+  - name: documentation
+    design_bearing: false
+    evidence:
+      - docs/philosophy/intent.md
+      - docs/philosophy/idsd.md
+      - docs/philosophy/intent-driven-development.md
+      - docs/philosophy/garura-reference-implementation.md
+      - docs/philosophy/idd-principles.md
+      - docs/philosophy/idd-anti-patterns.md
+      - docs/philosophy/idd-decision-checklist.md
+      - docs/philosophy/idd-hypotheses.md
+    playbook: review/docs
+    note: "Human-facing philosophy prose, restructured into split docs; not harness or memory files. Playbook says no design-grounding. Caveat for the orchestrator: these docs are themselves a grounding source for other reviews, so a human may want to read the rewrites of idsd.md and intent-driven-development.md."
+  - name: run-records
+    design_bearing: false
+    evidence:
+      - .garura/project/issues/456/context/analysis.yaml
+      - .garura/project/issues/456/context/commits.yaml
+      - .garura/project/issues/456/context/porcelain.txt
+    playbook: null
+    note: "playbook missing: short-term-memory artifacts recorded by a commit-change run; machine-generated, no design content."
