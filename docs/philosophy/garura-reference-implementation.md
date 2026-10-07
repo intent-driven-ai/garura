@@ -5,11 +5,11 @@
 > **Last Updated**: 2026-10-07
 > **Implements**: [IDSD](./idsd.md) on the [PCAM](./intent-driven-development.md#pcam-the-design-that-drives-ice) design (ADR 027)
 
-Moving from spec-driven to intent-driven development is a simple shift. Making intent carry itself — in one ICE shape, as two intents kept apart, around a loop that keeps it true — is IDSD, and Garura is where that system runs. **Garura v3.0.0 is the release that makes Garura the reference implementation of IDSD.** This document shows how.
+Moving from spec-driven to intent-driven development is a simple shift. Making intent carry itself — in one ICE shape, as two intents kept apart, around loops that keep it true — is IDSD, and Garura is where that system runs. **Garura v3.0.0 is the release that makes Garura the reference implementation of IDSD.** This document shows how.
 
 It is in two parts:
 
-1. **The dual intent in Garura** — where each intent lives, how the two meet, and the commands that move business intent around the loop.
+1. **The dual intent in Garura** — where each intent lives, how the two meet, and the commands that move business intent through the loops.
 2. **PCAM in Garura** — the machinery, pillar by pillar: what perceives, what thinks, what acts, and what makes the result real and proves it.
 
 Every play, agent, and skill named here exists under `core/components/` and is linked to its definition. Where something is not built, this document says so.
@@ -20,7 +20,7 @@ Every play, agent, and skill named here exists under `core/components/` and is l
 |---|---|---|
 | **ICE** | Every play compiled from an ICE source; ICE written inline into the product model | Built |
 | **Dual intent** | SDLC intent in each play; business intent in the product model | Built |
-| **The loop** | Strategy → realize → implementation, `/learn` back | Built; amendment and defect-intake lanes not yet |
+| **The loops** | Five loops — Understand, Shape, Execute, Change, Learn (working names, ADR 028) | Plays built; loop recipes not yet (#594); amendment and defect-intake lanes not yet |
 | **Work item types** | Six types in the tracker: Business Intent, Feature, Story, Bug, Chore, Spike | Set in Garura's tracker; every open issue typed |
 | **Perception** | Slash commands | Built for user commands only; scheduled, webhook, and file-change signals are not |
 | **Cognition** | 11 agents in use; knowledge base, product model, per-issue memory; context crafting | Built |
@@ -93,53 +93,44 @@ Agent → Skill → Artifact
 (artifact carries business intent forward)
 ```
 
-## The Loop as Commands
+## The Loops as Commands
 
-Garura's commands follow IDSD's loop ([IDSD in One Page](./idsd.md#idsd-in-one-page)). The successor map in `core/components/memory/standards/rules/pipeline-next.md` is the single source of truth for the order; every play's close names the next command from it.
+IDSD runs the lifecycle as five loops, each defined by the intent it must meet ([IDSD in One Page](./idsd.md#idsd-in-one-page), ADR 028). The loop names are working names. Garura's existing plays are the steps inside each loop; the plays stay as they are. What does not exist yet is the **loop recipe** that runs a loop's plays until its intent is met (#594) — today a person runs each play, guided by `/next` and by the **Next** line every play prints at close. That line comes from the successor map, `core/components/memory/standards/rules/pipeline-next.md`, the single source of truth for the order.
 
-```
-STRATEGY              REALIZE — forward connector (per slice)       IMPLEMENTATION (per epic)
-──────────────────    ──────────────────────────────────────────    ───────────────────────────────────
-/vision               Functional:      /ux → /agentic → /marketing  /grill → /implement → /validate →
-/understand           Non-functional:  /arch → /quality → /run      /launch → /deploy
-/shape                Then:            /measure (stamps the slice   Defects and refactors:
-/roadmap                               realized)                    /fix-bug · /refactor
+| Loop (working name) | Its intent | Plays it runs | Built today |
+|---------------------|-----------|---------------|-------------|
+| **Understand** | The intent is known and stored | `/vision` → `/understand` | The plays ship. Starting from a working prototype, and pulling the intent out of it, is decided (ADR 028) but not built |
+| **Shape** | The product is ready to build in slices | `/shape` → `/roadmap`; then the design plays: `/ux` → `/agentic` → `/marketing`, `/arch` → `/quality` → `/run` | The plays ship, but design still runs **per slice**, and `/measure` stamps each slice *realized*. Design once per project, each area optional, measure left out — decided (ADR 028), not built |
+| **Execute** | A slice is delivered and checked against its intent | `/grill` → `/implement` → `/validate` → `/launch` | Built. `/grill` still requires a realized slice; grilling on a slice's missing design areas instead is #595 |
+| **Change** | Every change lands the same way | `/start-change` → `/commit-change` → `/propose-change` → `/review-change` → `/merge-change` | Built |
+| **Learn** | The stored intent stays true | `/next`, `/focus`, `/learn` | Built |
 
-Back connector:        /learn — after implementation, reads outcomes, finds drift, fixes realize
-                       (measure, run, quality lenses) or strategy (capability and functionality
-                       docs, decision records)
-Navigation:            /next (ranks next actions) · /focus (issue-side view)
+Outside the five loops: `/fix-bug` and `/refactor` (the defect and refactor lanes, ADR 023), `/deploy` (the future deployment-and-run loop), and the meta plays — `/install-garura`, `/uninstall-garura`, `/play-creator`, `/play-editor`.
 
-Change chain (git, underneath every play that changes the repo):
-  /start-change (injected at a play's head) → /commit-change → /propose-change → /review-change → /merge-change
+**Model writes ride the Change loop.** Plays that write the product model edit the live model directly on the feature branch that `/start-change` cut. Git is the draft, the PR is the review, and the Change loop lands it (ADR 026).
 
-Meta (not part of the product pipeline): /install-garura · /uninstall-garura · /play-creator · /play-editor
-```
+### What each loop does to business intent today
 
-**Model writes ride the change chain.** Plays that write the product model edit the live model directly on the feature branch that `start-change` cut. Git is the draft, the PR is the review, and the change chain lands it (ADR 026).
-
-### What each part of the loop does to business intent
-
-| Part of the loop | Plays | What it does to business intent |
-|------------------|-------|---------------------------------|
-| **Strategy** — end: intent is authored | `/vision` → `/understand` → `/shape` → `/roadmap` | `/vision` seeds the domain and directional capabilities. `/understand` details one capability and its functionalities. `/shape` composes deliverable slices. `/roadmap` orders them. |
-| **Realize** — forward connector: adds context | Functional: `/ux` → `/agentic` → `/marketing`. Non-functional: `/arch` → `/quality` → `/run`. Then `/measure` | Each lens writes one context doc for the slice (`lens/{ux,agentic,marketing,architecture,quality,run,measure}.md`). `/measure` runs last and stamps the slice *realized* once all seven agree. |
-| **Implementation** — end: intent is delivered | `/grill` → `/implement` → `/validate` → `/launch` | `/grill` cuts the realized slice into user-testable epics, each carrying its own ICE and referencing the slice's intent and lenses. `/implement` turns an epic into a test-first plan (the spec), then code and tests, behind the builder/validator barrier. `/validate` runs the checks the quality and measure lenses declare, plus the epic's declared surface; `/launch` walks a human through the epic's `user_check` and acceptance. |
-| **Learn** — back connector: outcomes correct intent | `/learn`, after implementation | Reads what actually happened (the measure lens, validate verdicts and fix reports, the run lens, delivered status), finds where the stored intent drifted, and fixes it at the source: strategy (capability and functionality docs, new decision records) or realize (the measure, run, and quality lenses). Every change must cite an outcome. |
+| Loop | What its plays do to business intent |
+|------|---------------------------------------|
+| **Understand** | `/vision` seeds the domain and directional capabilities. `/understand` details one capability and its functionalities. |
+| **Shape** | `/shape` composes deliverable slices; `/roadmap` orders them. Each design play writes one context doc for the slice (`lens/{ux,agentic,marketing,architecture,quality,run,measure}.md`), and `/measure` runs last and stamps the slice *realized* once all seven agree. |
+| **Execute** | `/grill` cuts the realized slice into user-testable epics, each carrying its own ICE and referencing the slice's intent and lenses. `/implement` turns an epic into a test-first plan (the spec), then code and tests, behind the builder/validator barrier. `/validate` runs the checks the quality and measure lenses declare, plus the epic's declared surface; `/launch` walks a human through the epic's `user_check` and acceptance. |
+| **Learn** | `/learn` reads what actually happened (the measure lens, validate verdicts and fix reports, the run lens, delivered status), finds where the stored intent drifted, and fixes it at the source: the capability and functionality docs and new decision records, or the measure, run, and quality lenses. Every change must cite an outcome. |
 
 ### The short ways back
 
-IDSD's loop lets a correction return the short way ([IDSD in One Page](./idsd.md#idsd-in-one-page)). In Garura:
+A correction does not have to go all the way round; it returns to the loop that made the mistake ([IDSD in One Page](./idsd.md#idsd-in-one-page)). In Garura:
 
 - [`/validate`](../../core/components/plays/validate/SKILL.md) stamps a failing epic `fix_required`, which sends it back to [`/implement`](../../core/components/plays/implement/SKILL.md) as a fix round built from the validate report.
 - [`/grill`](../../core/components/plays/grill/SKILL.md) routes a defect it finds in a lens back to that lens's play.
 - [`/learn`](../../core/components/plays/learn/SKILL.md) rewrites the measure, run, or quality lens when only the context was wrong, and the capability or functionality docs (plus a decision record) when the intent was.
 - Two hard readiness markers guard the loop: [`/grill`](../../core/components/plays/grill/SKILL.md) needs a slice stamped realized, and [`/implement`](../../core/components/plays/implement/SKILL.md) needs an epic that is ready.
-- [`/next`](../../core/components/plays/next/SKILL.md) reads the product model and ranks where on the loop to act next; [`/focus`](../../core/components/plays/focus/SKILL.md) gives the same view from the issue tracker.
+- [`/next`](../../core/components/plays/next/SKILL.md) reads the product model and ranks which loop to act in next; [`/focus`](../../core/components/plays/focus/SKILL.md) gives the same view from the issue tracker.
 
 ### Implementation Is Three Trinities (ADR 023)
 
-ADR 023 decided that implementation (the ADR calls it execution) has one shape at every grain: **capture → build → check**, with ceremony sized to the unit of work. What is built today:
+ADR 023 decided that implementation (the ADR calls it execution) has one shape at every grain: **capture → build → check**, with ceremony sized to the unit of work. The trinities run inside the **Execute loop** (ADR 028). ADR 028 also decided that `/grill` needs only a slice, and grills on any design area the slice is missing; until #595 lands, `/grill` still requires a realized slice. What is built today:
 
 | Trinity | Capture | Build | Check | Built today |
 |---------|---------|-------|-------|-------------|
@@ -147,7 +138,7 @@ ADR 023 decided that implementation (the ADR calls it execution) has one shape a
 | **Defects** | `/record` | `/fix-bug` | `/accept` | Build only. `/fix-bug` ships with its own independent verification; `/record` and `/accept` do not exist yet |
 | **Amendments** | `/amend` | `/enhance` | `/accept` | No. ADR 024's amendment record has no schema, and none of the three plays exist |
 
-**Entry rule between lanes (ADR 023):** strategy for a new domain, capability, or feature; realize for each new slice; within implementation, the epic trinity for epic-grain work on a realized slice; the amendment trinity for small improvements that can be anchored to a delivered epic; the defect trinity for bugs. Until the amendment lane exists, small improvements have no lane of their own.
+**Entry rule between lanes (ADR 023):** strategy (now the Understand and Shape loops) for a new domain, capability, or feature; realize (the Shape loop's design plays) for each new slice; within implementation, the epic trinity for epic-grain work on a realized slice; the amendment trinity for small improvements that can be anchored to a delivered epic; the defect trinity for bugs. Until the amendment lane exists, small improvements have no lane of their own.
 
 ### The Epic Trinity
 
@@ -507,7 +498,7 @@ Adding new tool integrations is incremental — each tool gets an MCP server; sk
 
 - [IDD](./intent-driven-development.md) — The principles, and PCAM
 - [Intent](./intent.md) — What an intent is, the decision space, intent vs spec, examples
-- [IDSD](./idsd.md) — The dual-intent system: the two intents, ICE, the loop
+- [IDSD](./idsd.md) — The dual-intent system: the two intents, ICE, the loops
 - [Garura Architecture](./architecture.md) — Three-layer hierarchy, JSON contract, Four Crafts
-- [ADR 019](../adr/019-epic-persistence-keep-delivered.md) · [ADR 022](../adr/022-surface-contract.md) · [ADR 023](../adr/023-three-execution-trinities.md) · [ADR 024](../adr/024-amendment-record.md) · [ADR 025](../adr/025-level-3-redefined-skeleton-and-loop.md) · [ADR 026](../adr/026-direct-to-model-writes.md) · [ADR 027](../adr/027-ice-model-pcam-design.md)
+- [ADR 019](../adr/019-epic-persistence-keep-delivered.md) · [ADR 022](../adr/022-surface-contract.md) · [ADR 023](../adr/023-three-execution-trinities.md) · [ADR 024](../adr/024-amendment-record.md) · [ADR 025](../adr/025-level-3-redefined-skeleton-and-loop.md) · [ADR 026](../adr/026-direct-to-model-writes.md) · [ADR 027](../adr/027-ice-model-pcam-design.md) · [ADR 028](../adr/028-agentic-lifecycle-five-loops.md)
 - `core/components/memory/standards/rules/pipeline-next.md` — The successor map
