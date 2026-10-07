@@ -1,0 +1,10 @@
+ M .garura/user-provided/managing-work.md
+ M docs/adr/001-three-layer-hierarchy.md
+ M docs/adr/002-l1-checkpoint-model.md
+ M docs/adr/008-issue-centric-stm-and-nwwi.md
+ M docs/adr/028-agentic-lifecycle-five-loops.md
+RM docs/adr/003-guardian-approval.md -> docs/adr/SUPERSEDED-003-guardian-approval.md
+ M docs/philosophy/architecture.md
+?? .garura/project/issues/607/context/porcelain.txt
+?? .garura/project/issues/607/specs/
+?? docs/adr/029-drives.md

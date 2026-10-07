@@ -1,0 +1,51 @@
+---
+# analyze-changes output (grouping judgment done, round 1)
+# issue: 607
+needs_judgment: false
+
+change_groups:
+  - id: adr-029-drives
+    issue: 607
+    commit_type: docs
+    scope: adr
+    subject: "record the drives decision in ADR 029 and supersede ADR 003"
+    files:
+      - docs/adr/029-drives.md
+      - docs/adr/003-guardian-approval.md
+      - docs/adr/SUPERSEDED-003-guardian-approval.md
+      - docs/adr/001-three-layer-hierarchy.md
+      - docs/adr/002-l1-checkpoint-model.md
+      - docs/adr/008-issue-centric-stm-and-nwwi.md
+      - docs/adr/028-agentic-lifecycle-five-loops.md
+      - docs/philosophy/architecture.md
+      - .garura/user-provided/managing-work.md
+  - id: spike-607-decision-notes
+    issue: 607
+    commit_type: chore
+    scope: stm
+    subject: "record spike decision notes"
+    files:
+      - .garura/project/issues/607/specs/decisions.md
+
+exclusions:
+  - path: ".garura/project/issues/607/context/analysis.yaml"
+    reason: "run artifact of commit-change; committed by the executor as the final chore(stm) group via --run-state-dir"
+    blocking: false
+  - path: ".garura/project/issues/607/context/porcelain.txt"
+    reason: "run artifact of commit-change; committed by the executor as the final chore(stm) group via --run-state-dir"
+    blocking: false
+
+risks:
+  sensitive_files:
+    []
+  breaking_changes:
+    []
+  hotfix_branch: false
+
+eval_gates:
+  SE-1: {status: PASS, evidence: "11 changed paths: 9 in the docs group, 1 in the chore(stm) group, 2 run artifacts in exclusions; none left over (rename lists both old and new path)"}
+  SE-5: {status: PASS, evidence: "no sensitive filename or content patterns matched in the diff or in the untracked files; all changes are markdown"}
+
+notes:
+  - "Single-issue branch, so one docs group for all ADR, philosophy and process-doc edits (they are one decision). The spike working notes are operational STM, split into a chore(stm) group per the skill's rule."
+  - "ADR 003 rename is staged as a rename with extra worktree edits (status RM); both paths are listed so the pathspec commit covers the deletion and the new file."
