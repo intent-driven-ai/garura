@@ -1,6 +1,6 @@
 # ADR 025: Level 3 Redefined — Deterministic Skeleton, Goal-Loop Interior
 
-**Status:** Accepted
+**Status:** Accepted — amended in part by [ADR 030](030-plan-mode.md): the evidence contract moves from the task DAG to each plan item's "Done when", and plays drop their task DAGs.
 **Date:** 2026-07-04
 **Amends:** ADR 013 (Play Maturity Model — the Level 3 definition)
 **Related:** ADR 013 (maturity framework), ADR 017 (no per-play level assignment), ADR 023 (three execution trinities), epic #460, issue #461

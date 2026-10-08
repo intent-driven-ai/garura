@@ -1,0 +1,497 @@
+pr: 629
+issue: 619
+counts:
+  P3: 17
+  P4: 17
+  P2: 1
+findings:
+- id: QF-01
+  category: executable-code
+  severity: P3
+  file: core/components/skills/manage-plan/scripts/check_plan.py
+  line: 106
+  source: manual
+  basis: 'review/code rubric: "deterministic where it claims to be"; ADR 030 section
+    7 says the check "confirms the parent plan exists and names the issue"'
+  evidence: 'Parent-plan check is a substring test: f"#{plan_for}" in parent text.
+    Reproduced: plan_for=60 against a parent that only mentions #606 returns no problem.
+    A child issue whose number is a prefix of another number in the parent passes
+    falsely.'
+  standard_id: null
+- id: QF-02
+  category: executable-code
+  severity: P3
+  file: core/components/skills/manage-plan/scripts/check_plan.py
+  line: null
+  source: manual
+  basis: review/code rubric (extra weight where a script gates a decision); ADR 030
+    section 6 makes this script the sole answer to "is the issue done"
+  evidence: New 186-line script has no tests in the PR (no test file under skills/manage-plan/).
+    Valid/done/exit-code branches, front-matter parsing and the parent link are all
+    unverified by anything but the two live plans.
+  standard_id: null
+- id: QF-03
+  category: executable-code
+  severity: P4
+  file: core/components/skills/manage-plan/scripts/check_plan.py
+  line: 169
+  source: manual
+  basis: 'review/code rubric: error handling; the script documents exit 3 = unreadable
+    (module docstring)'
+  evidence: Only OSError is caught. A non-UTF-8 plan raises UnicodeDecodeError (reproduced),
+    printing a traceback and exiting 1, which the script defines as "valid, not done".
+    Fails in the safe direction but breaks the documented exit contract.
+  standard_id: null
+- id: QF-04
+  category: executable-code
+  severity: P4
+  file: core/components/skills/manage-plan/scripts/check_plan.py
+  line: 106
+  source: manual
+  basis: 'review/code rubric: error handling / resource handling (ruff SIM115 class)'
+  evidence: open(parent_path).read() without a context manager; file handle left to
+    the garbage collector. Same line as QF-01.
+  standard_id: null
+- id: QF-05
+  category: executable-code
+  severity: P4
+  file: core/components/skills/manage-plan/scripts/check_plan.py
+  line: 127
+  source: manual
+  basis: 'language linter: ruff E741 (ambiguous variable name l)'
+  evidence: 'ruff check reports 2 errors: line 127 (set comprehension over l) and
+    line 148 (generator over l).'
+  standard_id: null
+- id: QF-06
+  category: executable-code
+  severity: P4
+  file: core/components/plays/play-creator/references/test_platform_adapter.py
+  line: null
+  source: manual
+  basis: 'review/code rubric: deterministic where it claims to be; four adapter copies
+    changed'
+  evidence: The one-line view-issue change (issueType,parent,subIssues,subIssuesSummary)
+    is not asserted by any test. 18/18 pass, but none touch view-issue argv. The four
+    copies are byte-identical (same md5 741407af...), so a single added test would
+    cover all.
+  standard_id: null
+- id: QF-07
+  category: executable-code
+  severity: P4
+  file: core/components/plays/merge-change/scripts/platform_adapter.py
+  line: 119
+  source: manual
+  basis: 'review/code rubric: safe handling of external-service calls; core/components/memory/tools/github/adapter.md
+    states gh >= 2.94.0'
+  evidence: 'view-issue now asks gh for fields that need gh 2.94.0+ (installed here:
+    2.102.0). The requirement is documented only in adapter.md; no version guard,
+    so on an older gh view-issue fails in merge-change, propose-change and review-change.
+    GitLab view-issue was not extended (gap noted in gitlab/verbs.md).'
+  standard_id: null
+- id: QF-08
+  category: decision-records
+  severity: P3
+  file: docs/adr/029-drives.md
+  line: 1
+  source: manual
+  basis: 'review/adrs structural check (linked/consistent); repo precedent: ADR 025
+    and ADR 028 carry an amended-by pointer in their Status line'
+  evidence: 'ADR 030 declares "Amends: ... ADR 029 (drives) - a drive keeps one plan
+    for all its plays", but ADR 029 got no pointer to ADR 030 in Status, Related or
+    Affects (grep for "030" in 029-drives.md: no hits). ADR 029 was edited in this
+    PR, so the omission is in the diff.'
+  standard_id: null
+- id: QF-09
+  category: documentation
+  severity: P3
+  file: docs/adr/029-drives.md
+  line: 57
+  source: manual
+  basis: 'review/docs: completeness and terminology consistency'
+  evidence: Kickoff "Done when" lists plan exists and passes the plan check, but not
+    that the person approves it. idsd.md (handoff in, step 2) says "The person approves
+    the plan" and ADR 030 section 4 says no work starts before approval. The three
+    texts disagree on whether approval is part of Kickoff being done.
+  standard_id: null
+- id: QF-10
+  category: documentation
+  severity: P4
+  file: docs/philosophy/idsd.md
+  line: 121
+  source: manual
+  basis: 'review/docs: terminology consistency'
+  evidence: '"Between the two handoffs the person does not have to step in" sits against
+    ADR 030 Consequences ("More approvals at the start", big plan updates approved
+    at drive end). Soften to "does not have to step in to do the work".'
+  standard_id: null
+- id: QF-11
+  category: decision-records
+  severity: P4
+  file: docs/adr/030-plan-mode.md
+  line: null
+  source: manual
+  basis: 'review/docs: completeness / consistency of cross-references'
+  evidence: 'Work item 7 lists five labels (GOAL, DONE, NOW, NEXT, WAIT); the tracker
+    title of #628 reads "Show the plan in four simple lines". Cross-reference verified
+    via gh issue view 628; the count differs.'
+  standard_id: null
+- id: SC-01
+  category: decision-records
+  severity: P3
+  file: docs/adr/025-level-3-redefined-skeleton-and-loop.md
+  line: 1
+  source: scan_taxonomy.py
+  basis: taxonomy rule DOC-04 in core/components/memory/standards/rules/pr.md (scan_taxonomy.py)
+  evidence: Path-only rule fired because an ADR file is in the diff. The underlying
+    standard (ADR exists / covers major choices / architecture documented) is met,
+    not violated. Informational; not a defect.
+  disposition: informational
+  standard_id: null
+- id: SC-02
+  category: decision-records
+  severity: P3
+  file: docs/adr/029-drives.md
+  line: 1
+  source: scan_taxonomy.py
+  basis: taxonomy rule DOC-04 in core/components/memory/standards/rules/pr.md (scan_taxonomy.py)
+  evidence: Path-only rule fired because an ADR file is in the diff. The underlying
+    standard (ADR exists / covers major choices / architecture documented) is met,
+    not violated. Informational; not a defect.
+  disposition: informational
+  standard_id: null
+- id: SC-03
+  category: decision-records
+  severity: P3
+  file: docs/adr/030-plan-mode.md
+  line: 1
+  source: scan_taxonomy.py
+  basis: taxonomy rule DOC-04 in core/components/memory/standards/rules/pr.md (scan_taxonomy.py)
+  evidence: Path-only rule fired because an ADR file is in the diff. The underlying
+    standard (ADR exists / covers major choices / architecture documented) is met,
+    not violated. Informational; not a defect.
+  disposition: informational
+  standard_id: null
+- id: SC-04
+  category: decision-records
+  severity: P4
+  file: docs/adr/025-level-3-redefined-skeleton-and-loop.md
+  line: 1
+  source: scan_taxonomy.py
+  basis: taxonomy rule ARCH-23 in core/components/memory/standards/rules/pr.md (scan_taxonomy.py)
+  evidence: Path-only rule fired because an ADR file is in the diff. The underlying
+    standard (ADR exists / covers major choices / architecture documented) is met,
+    not violated. Informational; not a defect.
+  disposition: informational
+  standard_id: null
+- id: SC-05
+  category: decision-records
+  severity: P4
+  file: docs/adr/025-level-3-redefined-skeleton-and-loop.md
+  line: 1
+  source: scan_taxonomy.py
+  basis: taxonomy rule DOC-05 in core/components/memory/standards/rules/pr.md (scan_taxonomy.py)
+  evidence: Path-only rule fired because an ADR file is in the diff. The underlying
+    standard (ADR exists / covers major choices / architecture documented) is met,
+    not violated. Informational; not a defect.
+  disposition: informational
+  standard_id: null
+- id: SC-06
+  category: decision-records
+  severity: P4
+  file: docs/adr/029-drives.md
+  line: 1
+  source: scan_taxonomy.py
+  basis: taxonomy rule ARCH-23 in core/components/memory/standards/rules/pr.md (scan_taxonomy.py)
+  evidence: Path-only rule fired because an ADR file is in the diff. The underlying
+    standard (ADR exists / covers major choices / architecture documented) is met,
+    not violated. Informational; not a defect.
+  disposition: informational
+  standard_id: null
+- id: SC-07
+  category: decision-records
+  severity: P4
+  file: docs/adr/029-drives.md
+  line: 1
+  source: scan_taxonomy.py
+  basis: taxonomy rule DOC-05 in core/components/memory/standards/rules/pr.md (scan_taxonomy.py)
+  evidence: Path-only rule fired because an ADR file is in the diff. The underlying
+    standard (ADR exists / covers major choices / architecture documented) is met,
+    not violated. Informational; not a defect.
+  disposition: informational
+  standard_id: null
+- id: SC-08
+  category: decision-records
+  severity: P4
+  file: docs/adr/030-plan-mode.md
+  line: 1
+  source: scan_taxonomy.py
+  basis: taxonomy rule ARCH-23 in core/components/memory/standards/rules/pr.md (scan_taxonomy.py)
+  evidence: Path-only rule fired because an ADR file is in the diff. The underlying
+    standard (ADR exists / covers major choices / architecture documented) is met,
+    not violated. Informational; not a defect.
+  disposition: informational
+  standard_id: null
+- id: SC-09
+  category: decision-records
+  severity: P4
+  file: docs/adr/030-plan-mode.md
+  line: 1
+  source: scan_taxonomy.py
+  basis: taxonomy rule DOC-05 in core/components/memory/standards/rules/pr.md (scan_taxonomy.py)
+  evidence: Path-only rule fired because an ADR file is in the diff. The underlying
+    standard (ADR exists / covers major choices / architecture documented) is met,
+    not violated. Informational; not a defect.
+  disposition: informational
+  standard_id: null
+- id: H1
+  severity: P2
+  file: core/components/agents/project-orchestrator.md (Plan Context, step 1) and
+    core/components/skills/manage-plan/SKILL.md (Input, plan context file)
+  principle: 'G5 -- the wiring must hold. The agent is told ''manage-issue (action:
+    read) ... returns issueType, parent, and subIssues'' and the skill needs the issue
+    body, but manage-issue was not changed.'
+  basis: 'main:manage-issue/templates/issue-output.md defines the read output as number,
+    title, labels, state, body_summary (first 200 chars), url, created, closed, parent_issue
+    (only the parent attached on create). It has no issueType, no parent object, no
+    subIssues, and no full body. manage-issue/SKILL.md ''read'' says only ''Parse
+    and return structured output''. diff main...HEAD touches platform-adapter (view-issue
+    fields) but not manage-issue. So the data reaches platform-adapter output but
+    the next link in the chain drops it.
+
+    '
+  effect: Plan Context steps 1-3 (type, parent, children) and the plan's 'issue.body'
+    input cannot be built as described.
+  suggested_fix: Extend manage-issue read and templates/issue-output.md to pass issueType,
+    parent, subIssues (and the full body), or have the agent read view-issue output
+    directly through platform-adapter.
+  category: harness
+- id: H2
+  severity: P3
+  file: core/components/agents/project-orchestrator.md (Handling Ambiguity; Plan Context)
+  principle: G1 -- the agent is autonomous per intent, 'one intent, one skill', and
+    does not follow multi-step workflows.
+  basis: 'main:project-orchestrator.md Core Principle (''You do NOT follow step-by-step
+    workflows. Plays define workflows''), Boundaries NEVER (''Follow multi-step workflows
+    -- that''s play responsibility'') and ALWAYS (''one intent, one skill''). The
+    branch adds a six-step numbered procedure that issues 2+N manage-issue reads then
+    one manage-plan call, and patches only the ''Don''t chain'' bullet. The NEVER/ALWAYS
+    lines stay unchanged and now contradict the new section. Context gathering is
+    a legitimate agent role (main:CLAUDE.md rule 4), so the intent is defensible;
+    the drift is the unreconciled contradiction inside the same file.
+
+    '
+  suggested_fix: Reconcile Boundaries (and the Decision Framework steps, which still
+    read 'invoke skill -> enrich type_hint -> write output') with the Plan Context
+    exception, or move the gather steps into the play that dispatches plan intents.
+  category: harness
+- id: H3
+  severity: P3
+  file: core/components/agents/project-orchestrator.md (Plan Context)
+  principle: G4 -- every dispatch to an agent is the Agent JSON Contract with named
+    stm.input / stm.output keys.
+  basis: 'main:ADR 016 and main:project-orchestrator.md Contract Mode. The new section
+    defines the output key (stm.output.context) but says nothing of how the caller
+    passes action (create/update/check), issue, and change; the agent''s intent table
+    matches on free text (''plan this issue''). Also ''Intent Recognition'' and ''Intent
+    to Skill Mapping'' on main list only the issue and mapping examples, with no plan
+    examples.
+
+    '
+  suggested_fix: Name the stm.input keys (action, issue, change) for plan intents
+    and add plan lines to Intent to Skill Mapping.
+  category: harness
+- id: H4
+  severity: P3
+  file: core/components/skills/manage-plan/SKILL.md (Process, first paragraph)
+  principle: G2 -- skills reference LTM through an explicit stable path, or are handed
+    the path by the agent; they do not search LTM.
+  basis: 'main:ADR 009 Rule 3 and Skill Reference Pattern; main:docs/components/skills.md
+    ''LTM Template Pattern''. manage-plan says ''standards/templates/plan.md (resolve
+    it from LTM)'': no explicit path, and no template_path in its Input table. manage-issue
+    on main writes the full path ~/.garura/core/memory/standards/templates/github-issue.md.
+
+    '
+  suggested_fix: Write the explicit LTM path (as manage-issue does) or add template_path
+    to Input, set by the agent.
+  category: harness
+- id: H5
+  severity: P3
+  file: core/components/skills/manage-plan/SKILL.md (Output)
+  principle: G3 -- skills validate silently and return an output contract of artifact
+    paths.
+  basis: 'main:docs/components/skills.md ''Silent Validation'' (''do NOT output validation
+    results ... to their caller'') and ''Output Contract Pattern''. For create and
+    update the skill returns ''the check report'' to the caller, and for check returns
+    an inline JSON report unless report_path is given. The check action as a reported
+    result is reasonable; returning the report on create/update is the departure.
+
+    '
+  suggested_fix: For create/update return plan_path and status only; keep the report
+    for action check (or write it to report_path and return the path).
+  category: harness
+- id: H6
+  severity: P3
+  file: docs/components/agents.md (not changed by this PR) -- related to core/components/agents/project-orchestrator.md
+  principle: G6 -- the agent's skill pool is documented.
+  basis: main:docs/components/agents.md project-orchestrator Skill Pool lists manage-issue
+    and resolve-issues only; the branch adds manage-plan to the agent but not to the
+    doc (docs/components/skills.md roster likewise omits it).
+  suggested_fix: Add manage-plan to both tables.
+  category: harness
+- id: H7
+  severity: P4
+  file: 'core/components/skills/manage-plan/SKILL.md (Action: check)'
+  principle: G7 -- script invocation path convention.
+  basis: main:quality-check-scoped/SKILL.md uses '<skill-dir>/scripts/...'. manage-plan
+    runs 'python3 scripts/check_plan.py', which only works when the working directory
+    is the skill directory.
+  suggested_fix: Use '<skill-dir>/scripts/check_plan.py'.
+  category: harness
+- id: H8
+  severity: P4
+  file: core/components/skills/platform-adapter/reference/github/verbs.md
+  principle: G5 -- the reference states what the verb returns.
+  basis: The command now requests subIssuesSummary but the Note documents only issueType,
+    parent and subIssues. Same string is in the four platform_adapter.py copies (executable-code
+    category, not graded here).
+  suggested_fix: Mention subIssuesSummary in the Note or drop it from the field list.
+  category: harness
+- id: M1
+  severity: P3
+  file: core/components/memory/standards/templates/plan.md
+  lines: intro paragraph; '## Rules' items 5, 6, 8
+  principle: G1, G2 - a template carries shape, not contract or lifecycle policy.
+  basis: 'The template opens with "Every drive and every play writes one before it
+    works, keeps it up to date while it works, and is done only when its plan is done",
+    and Rules 5 (kept current), 6 (every plan names what it serves) and 8 ("done means
+    the plan is done") decide WHICH work must produce the artifact and WHEN it is
+    done. templates/_index ''When to Add Here'' says a file does NOT belong in templates/
+    if it "defines WHICH artifacts to produce (that''s play / skill contract territory)"
+    or "defines rules for artifact content (that''s rules/)", and rules/_index already
+    reserves `plan.md` there as a deferred follow-up. Rules 1-4 and 7 are legitimate
+    field rules (cf. pr-body ''Field Rules''); 5, 6, 8 are not.
+
+    '
+  suggested_fix: Keep the shape + field rules in templates/plan.md; move the lifecycle
+    rules (kept current, serves-chain, done-means-plan-done) to rules/plan.md or the
+    manage-plan / play contract, and link from the template under a '## Related' section
+    as base templates do.
+  taxonomy_row: none (bucket definition)
+  category: memory
+- id: M2
+  severity: P3
+  file: core/components/memory/standards/templates/plan.md
+  lines: title, whole file; '### Checkpoint:' block
+  principle: G4 - naming clarity; overloaded terms.
+  basis: 'On main, ''plan'' means the build-plan DAG of file-level pieces (specs/implement/plan.yaml,
+    rules/_index ''plan.md - DAG, file-level changes, tests'') - i.e. HOW. The new
+    template defines ''plan'' as strictly never-how, in the same specs/ directory,
+    and the glossary on main has no ''plan'' entry to disambiguate. It also reuses
+    ''Checkpoint'' for a "nothing below starts before this point" barrier, while ''checkpoint''
+    on main is the human-approval gate with its own template. Two readers (or two
+    agents) loading ''the plan'' / ''a checkpoint'' can pick the wrong artifact.
+
+    '
+  suggested_fix: Add a glossary entry that separates plan (what/order/why) from build-plan
+    (plan.yaml) and rename the barrier heading (e.g. 'Gate' / 'Hold point'), or state
+    the difference in the template's opening lines.
+  taxonomy_row: none (bucket definition)
+  category: memory
+- id: M3
+  severity: P3
+  file: core/components/memory/standards/templates/_index.md
+  lines: new `plan.md` row (Consumers column)
+  principle: G3 - Consumers name the concrete skills/agents that instantiate the template.
+  basis: 'The new row lists consumers as "every drive and play (plan mode, being designed
+    in #619)". Every other row on main names real skills/agents (e.g. `submit-pr`,
+    `analyze-pr`; `knowledge-extractor`, `capture-learning`). The one skill that instantiates
+    the template (`manage-plan`) is not named, and "being designed" is live status
+    prose in a lookup index agents query for ''what does the output artifact look
+    like?''. An agent filtering the index by consumer will not find manage-plan.
+
+    '
+  suggested_fix: 'Consumers: `manage-plan`, `project-orchestrator`. Drop the ''(being
+    designed in #619)'' note.'
+  taxonomy_row: none (bucket definition)
+  category: memory
+- id: M4
+  severity: P4
+  file: core/components/memory/standards/templates/plan.md
+  lines: 'second paragraph (''Starting point: locked by Kapil on 2026-10-08 ... still
+    being decided in #619; this file will be updated as those land.'')'
+  principle: G6 - templates are timeless shapes, not work-in-progress notes.
+  basis: 'None of the base templates carry a design-status or ''will be updated''
+    note; provenance, where kept, is stated as a work context. This paragraph is change-history
+    for #619 and points an LTM artifact at an STM file (.garura/project/issues/606/specs/plan.md).
+    It will be wrong the moment #619 closes, and the same status is already recorded
+    in the issue and commit messages (CLAUDE.md: direct-edit history belongs in commit
+    + issue, not in the artifact). A weak precedent for an STM example path exists
+    (approval-prompt.md lists 214/specs paths), hence P4, not P3.
+
+    '
+  suggested_fix: 'Delete the paragraph, or reduce it to a one-line provenance (''Provenance:
+    #619'') in the knowledge-file style.'
+  taxonomy_row: none (bucket definition)
+  category: memory
+- id: M5
+  severity: P3
+  file: 'core/components/memory/tools/github/adapter.md (paired file not changed:
+    core/components/memory/tools/gitlab/adapter.md)'
+  lines: view-issue section
+  principle: G5 - GitHub and GitLab tool docs mirror platform differences for each
+    verb.
+  basis: 'The branch adds issueType/parent/subIssues/subIssuesSummary (gh >= 2.94.0)
+    to the GitHub tool doc and adds a ''Gap: GitLab carries no equivalent'' note to
+    platform-adapter/reference/ gitlab/verbs.md, but main:tools/gitlab/adapter.md
+    § view-issue (which documents the closed_at difference) is left untouched. Callers
+    reading the KB narrative for GitLab get no warning that the issue tree is GitHub-only,
+    unlike attach-sub-issue where the GitHub doc cross-references the GitLab fallback.
+
+    '
+  suggested_fix: 'Add one sentence to tools/gitlab/adapter.md view-issue: no type/parent/sub-issue
+    fields; issue-tree callers are GitHub-only.'
+  taxonomy_row: none (bucket definition)
+  category: memory
+- id: M6
+  severity: P3
+  file: core/components/memory/tools/github/adapter.md
+  lines: 'view-issue: ''they need gh 2.94.0 or newer'''
+  principle: G5 (tool docs state verb semantics and caveats) + no prior minimum-version
+    contract on main.
+  basis: '`git grep` on main finds no stated minimum gh version anywhere in core/
+    or docs/ (checked patterns for ''gh version'', ''gh >='', ''minimum ... gh'').
+    The doc now introduces a first hard prerequisite, but only inside one verb''s
+    prose, and the paired verbs.md says an older gh "rejects these fields" - meaning
+    the whole view-issue call fails (it is one --json list), not just the tree fields,
+    for every play that reads issues (archive bucketing uses closedAt). The memory
+    doc does not say where the prerequisite is declared (install/doctor check) or
+    what a caller should do on an older gh. The runtime breakage itself belongs to
+    the harness/code reviewers (potentially P2 as a breaking verb contract); this
+    finding covers only the missing documentation of the prerequisite.
+
+    '
+  suggested_fix: Say where the gh minimum is enforced (install-garura / preflight)
+    and the expected failure mode, or make the tree fields a separate verb/opt-in
+    so existing view-issue callers keep working on older gh.
+  taxonomy_row: none (bucket definition)
+  cross_category_note: 'Hand to executable-code / harness review: four platform_adapter.py
+    copies now request the new fields unconditionally.'
+  category: memory
+- id: M7
+  severity: P4
+  file: core/components/memory/standards/templates/plan.md
+  lines: 'front matter `now:`; Rule 4 (''"Now" is always set''); Rule 8; `status:
+    {active | done | dropped}`'
+  principle: 'Template internal precision (field rules must say what a field holds
+    in every allowed state) - cf. main:templates/checkpoint.md, which marks nullable
+    fields (`decision: null | ...`).'
+  basis: '`status: done|dropped` is allowed but Rule 4 says `now` is always set, and
+    no item can be ''now'' in a finished plan; Rule 8 defines done for the issue but
+    not what a `dropped` plan means or how `now` reads then. The base checkpoint template
+    states null-able fields explicitly.
+
+    '
+  suggested_fix: 'Write `now: {item number | null when status is done or dropped}`
+    and adjust Rule 4 to ''while active''.'
+  taxonomy_row: none (bucket definition)
+  category: memory

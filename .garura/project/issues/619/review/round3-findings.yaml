@@ -1,0 +1,88 @@
+meta:
+  pr: 629
+  base: main
+  round: 3
+  branch: feature/619-plan-mode
+  note: Scanner items SC-01 to SC-09 from round 2 were informational and were not re-run; no new path-only matches were expected because the last 6 commits add no ADR file. Machine-global memory at ~/.garura/core/memory
+    has no work-plan.md rules or template yet (install-garura not run since they were added); manage-plan's default paths resolve only after that deploy.
+runnable_checks:
+- command: python3 core/components/plays/play-creator/references/test_platform_adapter.py
+  result: PASS
+  evidence: '35 passed, 0 failed (round 2: 26)'
+- command: python3 core/components/skills/manage-plan/scripts/test_check_plan.py
+  result: PASS
+  evidence: '25 passed, 0 failed (round 2: 24)'
+- command: ruff check check_plan.py test_check_plan.py platform_adapter.py x4 test_platform_adapter.py
+  result: PASS
+  evidence: All checks passed
+- command: check_plan.py on issues/606 plan
+  result: PASS (valid, not done)
+  evidence: valid=true done=false status=active now=2, open items 2..13, problems=[], exit 1
+- command: check_plan.py on issues/619 plan
+  result: PASS (valid, done)
+  evidence: valid=true done=true status=done, serves_plan is the 606 plan, problems=[], exit 0
+- command: md5 of the four core platform_adapter.py copies
+  result: PASS
+  evidence: all four 27585329e3d2003e4047c43dcb64655d, unchanged since round 2. The deployed .claude/skills copies are dd51d699..., an older install, untracked and not part of the PR.
+- command: node core/tools/lint-components/index.js --target core/components --output json
+  result: PASS (at baseline)
+  evidence: 113 errors, 2 warnings, equal to baseline 113; none in any file changed by the last 6 commits
+findings:
+- id: QF-12
+  severity: P4
+  category: executable-code
+  basis: 'review/code rubric: deterministic where it claims to be; ADR 030 section 7 says the check confirms the parent plan names the issue (round 2 QF-12, narrowed)'
+  summary: 'Partly fixed. A serves_item that names no open item now fails unless the parent''s Done list names the issue (commit cf8b8965; test ''has no open item 1'' passes). But the Done list lines carry
+    no item number (templates/work-plan.md, ''### Done''), so a wrong number for a finished item still passes. Reproduced on copies of the real plans: serves_item set to 99 in the 619 plan, check_plan.py
+    returns valid=true, problems=[], because the 606 Done list names #619. Accept and say so in the check_plan.py docstring or manage-plan SKILL.md, or add the item number to Done lines.'
+- id: QF-13
+  severity: P4
+  category: tests
+  basis: 'review/tests rubric: changed behavior should be asserted (round 2 QF-13, narrowed)'
+  summary: 'Mostly fixed. test_view_issue_version_probe (commit 8fd55372) covers the GitHub wiring: probe runs first, tree fields follow the version, tree_available is returned (35 passed; removing the
+    tree_available key makes the test fail). Still open: the GitLab path of dispatch() is not tested. Mutation check on a scratch copy: dropping the ''platform == GITHUB'' guard so GitLab also runs ''gh
+    --version'' still gives 35 passed, 0 failed. This is the regression QF-13 named. The file header (lines 4-7) also still says dispatch() is not exercised. Add one GitLab dispatch case (no ''gh --version''
+    call, tree_available false) and update the header.'
+- id: R3-01
+  severity: P4
+  category: docs
+  basis: 'pr.md P4 nit (wording); round 2 memory N1 asked that unwired parts be marked as not yet present; glossary.md and manage-plan/SKILL.md now say ''planned, #622'''
+  summary: 'rules/work-plan.md rule 14 is annotated ''(built in #622)'' and the banner says the plays ''are built in #622''. With no ''not yet'' beside it, this reads as already built, while the glossary
+    and manage-plan say ''planned, #622''. Use the same word everywhere (''planned in #622'').'
+- id: R3-02
+  severity: P4
+  category: docs
+  basis: pr.md P4 nit; round 2 harness N3 fix changed create step 1, leaving the Constraints line behind
+  summary: manage-plan/SKILL.md line 111 still says 'Create refuses when a plan exists', but create step 1 (line 48) now writes nothing, runs the check and returns the existing plan's paths. Refusal and
+    return-the-plan are different results to a caller. Change line 111 to match step 1.
+- id: R3-03
+  severity: P4
+  category: docs
+  basis: CLAUDE.md Rule 3 (cite or do not claim); same class as the GitLab wording fixed in b15a1b63; pre-existing on main, in files this PR edits (optional to fix here)
+  summary: gitlab/adapter.md lines 111-113 and platform-adapter/reference/gitlab/verbs.md lines 154-156 still state flatly that GitLab has no parent/child sub-issue hierarchy, with no source. The reworded
+    view-issue text two sections above says GitLab's work-item hierarchy 'has not been mapped or tested', so the two now disagree. Reword the same way.
+verified:
+- id: harness-N1
+  evidence: 'glossary.md Work plan row now says ''both planned, #622''; manage-plan/SKILL.md update step 5 says ''approve-change (planned, #622)''. ADR 030 files plan-change and approve-change as #622 (docs/adr/030
+    line 101). rules/_index.md row keeps its ''once plan mode is wired (#621)'' hedge.'
+- id: harness-N2
+  evidence: project-orchestrator.md Plan contract output now has result and failure keys; the 'You pass manage-plan exactly' paragraph says what goes in each; Decision Framework steps 7 and 8 have the plan-intent
+    branch. structured-failure-protocol.md exists at docs/framework/.
+- id: harness-N3
+  evidence: manage-plan/SKILL.md create step 1 now writes nothing, runs the check on the existing plan and returns its paths, and says the caller sends update with a change. No change input is needed on
+    the create path. (Wording left over in Constraints is R3-02.)
+- id: memory-N1
+  evidence: 'rules/work-plan.md has a ''Not yet wired'' banner above rules 1-4 and 16 naming #621, #622 and #623 (matches ADR 030 lines 99-102), and rules 14 and 16 are annotated. Remaining wording nit
+    is R3-01.'
+- id: memory-N2
+  evidence: templates/work-plan.md 'File path convention' block replaced by 'Where it lives' pointing to rules/work-plan.md; the path is now stated once in the rules file. No other file references the old
+    heading.
+- id: gitlab-wording
+  evidence: adapter.md line 74 and gitlab/verbs.md line 95 no longer say GitLab 'carries no' type field; they say the adapter does not read it and the equivalents have not been mapped or tested. The tree_available
+    false behaviour is unchanged. Related unsourced claim left elsewhere is R3-03.
+counts:
+  P1: 0
+  P2: 0
+  P3: 0
+  P4: 5
+  verified: 6

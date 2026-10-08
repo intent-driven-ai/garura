@@ -1,0 +1,78 @@
+# review-change Step 3, Layer 2 (round 2) -- design-grounding for category: harness (PR #629, base: main)
+# Grounding: base-ref sources only (git show main:<path>) plus committed standards. Nothing is grounded in
+# ADR 030, the branch's idsd.md / ADR 029 edits, or the new work-plan template and rules.
+category: harness
+round: 2
+playbook: review/harness
+changed_harness_files:
+  - core/components/skills/manage-plan/SKILL.md
+  - core/components/agents/project-orchestrator.md
+  - core/components/skills/manage-issue/SKILL.md
+  - core/components/skills/manage-issue/templates/issue-output.md
+  - core/components/skills/platform-adapter/SKILL.md
+  - core/components/skills/platform-adapter/reference/github/verbs.md
+  - core/components/skills/platform-adapter/reference/gitlab/verbs.md
+  - core/grounding/glossary.md
+
+layer1_linter:
+  command: "node core/tools/lint-components/index.js --target core/components --output json"
+  branch_result: {errors: 113, warnings: 2}
+  baseline_main: {errors: 113}
+  findings_in_changed_files: 0
+  note: "No violation names manage-plan, project-orchestrator, manage-issue, platform-adapter or the glossary."
+  not_run: "lint_play.py (no play SKILL.md or ICE changed)"
+
+grounded_principles:
+  - {id: G1, principle: "Agent gathers context, skill does the work; one intent, one skill; plays hold workflows.", source: "main:CLAUDE.md rules 2 and 4; main:core/components/agents/project-orchestrator.md (Core Principle, Boundaries)"}
+  - {id: G2, principle: "Skills reach LTM templates by an explicit path.", source: "main:docs/adr/009-skill-ltm-organizational-knowledge.md; main:core/components/skills/manage-issue/SKILL.md"}
+  - {id: G3, principle: "Skills return an output contract of artifact paths, not content.", source: "main:docs/components/skills.md (Output Contract Pattern, Silent Validation); main:docs/adr/011"}
+  - {id: G4, principle: "Callers dispatch agents with the Agent JSON Contract (named stm.input / stm.output keys).", source: "main:docs/adr/016-agent-json-contract.md; main:project-orchestrator.md Contract Mode"}
+  - {id: G5, principle: "The play-agent-skill-script wiring holds end to end, with no orphan references.", source: "playbook review/harness rubric and linter list ('no orphan references'); main:manage-issue/templates/issue-output.md"}
+  - {id: G6, principle: "Component docs list each agent's skill pool.", source: "main:docs/components/agents.md (project-orchestrator Skill Pool)"}
+  - {id: G7, principle: "Skill scripts are invoked as <skill-dir>/scripts/...", source: "main:core/components/skills/quality-check-scoped/SKILL.md"}
+
+round1_status:
+  - {id: H1, status: FIXED, evidence: "manage-issue/SKILL.md read now maps type, parent, sub_issues, tree_available and full body; templates/issue-output.md adds body, type, parent, sub_issues, tree_available with field descriptions. The agent's Plan Context step 1 matches that output."}
+  - {id: H2, status: FIXED, evidence: "Boundaries NEVER and ALWAYS lines and the 'Don't chain' bullet now carry the Plan Context exception, so the file no longer contradicts itself. Decision Framework steps 7-9 are still single-skill (see N2, P4)."}
+  - {id: H3, status: FIXED, evidence: "A 'Plan contract' block names stm.input (action, issue, change, notes) and stm.output (context, plan, report), and 'Intent to Skill Mapping' has three plan lines plus three Intent Recognition examples."}
+  - {id: H4, status: FIXED, evidence: "manage-plan Input table now has template_path and rules_path with explicit defaults ~/.garura/core/memory/standards/templates/work-plan.md and .../rules/work-plan.md."}
+  - {id: H5, status: FIXED, evidence: "manage-plan Output: 'Every action writes files and returns their paths -- never the content'; plan_path and report_path only."}
+  - {id: H6, status: FIXED, evidence: "docs/components/agents.md adds manage-plan to the project-orchestrator Skill Pool; docs/components/skills.md adds it to the roster and the manage-{object} naming row."}
+  - {id: H7, status: FIXED, evidence: "manage-plan Action: check now runs python3 <skill-dir>/scripts/check_plan.py and explains <skill-dir>."}
+  - {id: H8, status: FIXED, evidence: "github/verbs.md Note now documents issueType, parent, subIssues and subIssuesSummary, and adds the gh 2.94.0 version gate; gitlab/verbs.md notes the gap."}
+
+findings:
+  - id: N1
+    severity: P3
+    file: "core/grounding/glossary.md (Work plan row) and core/components/skills/manage-plan/SKILL.md (Action: update, step 5)"
+    principle: "G5 -- no orphan references: harness text must not point at components that do not exist."
+    basis: >
+      The glossary row says the plan is 'opened by plan-change, approved by approve-change', and manage-plan routes big
+      updates to 'approve-change'. Neither play exists on main (git ls-tree main finds no plan-change or approve-change)
+      or on the branch (core/components/plays has neither). The glossary defines current, canonical concepts
+      (main:core/grounding/glossary.md header: 'Canonical definitions of every Garura concept', per main:CLAUDE.md Reference).
+    effect: "A reader or agent following the text is sent to plays that cannot run today."
+    suggested_fix: "Say 'planned' (with the issue that adds them) or drop the names until those plays exist."
+
+  - id: N2
+    severity: P4
+    file: "core/components/agents/project-orchestrator.md (Decision Framework steps 7-9; Plan contract)"
+    principle: "G4 -- Agent JSON Contract: the output contract returns named stm.output paths, with failure written to stm.output.failure."
+    basis: >
+      main:project-orchestrator.md Contract Mode and Decision Framework: step 8 derives type_hint and step 9 writes
+      stm.output.result. The Plan contract defines output keys context, plan and report but no result or failure key, and
+      the Decision Framework was not updated for plan intents.
+    suggested_fix: "Add a failure key (and a one-line plan branch in the Decision Framework) so a failed plan intent has a defined path."
+
+  - id: N3
+    severity: P4
+    file: "core/components/skills/manage-plan/SKILL.md (Action: create step 1)"
+    principle: "G5 -- wiring: what the skill needs must be what the agent passes."
+    basis: >
+      create says 'If existing_plan is set, stop and switch to update', but update needs a change input, and the agent's
+      create call carries none (the Plan contract makes change update-only). Wiring is undefined for that path.
+    suggested_fix: "Say create returns a refusal naming the existing plan, and the agent re-issues an update with a change."
+
+severity_basis_note: >
+  No row in main:memory/standards/rules/pr.md maps to garura-prose design conformance (grep rules are guard-exempt for
+  garura-prose). Severities use the pr.md bucket definitions: P2 structural, P3 missing docs / minor drift, P4 nit.

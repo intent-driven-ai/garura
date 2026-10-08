@@ -38,7 +38,7 @@ The adapter exposes exactly 16 verbs:
 | `add-reviewer` | Add a reviewer to a PR/MR |
 | `create-pr` | Create a pull/merge request |
 | `merge-pr` | Merge a pull/merge request |
-| `view-issue` | Read issue details |
+| `view-issue` | Read issue details, with its type, parent and sub-issues where the platform and gh version allow (see the version gate in `reference/github/verbs.md`) |
 | `create-issue` | Create a new issue |
 | `list-issues` | List/search issues |
 | `close-issue` | Close an issue |

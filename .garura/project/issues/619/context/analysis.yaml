@@ -1,0 +1,52 @@
+needs_judgment: false
+
+change_groups:
+  - id: manage-plan-keep-item-numbers
+    issue: 619
+    commit_type: fix
+    scope: manage-plan
+    subject: "keep finished plan items numbered so serves_item is checked exactly"
+    files:
+      - core/components/skills/manage-plan/scripts/check_plan.py
+      - core/components/skills/manage-plan/scripts/test_check_plan.py
+      - core/components/skills/manage-plan/SKILL.md
+      - core/components/memory/standards/rules/work-plan.md
+      - core/components/memory/standards/templates/work-plan.md
+  - id: platform-adapter-gitlab-probe-test
+    issue: 619
+    commit_type: test
+    scope: platform-adapter
+    subject: "cover the GitLab path of the view-issue probe and correct the test header"
+    files:
+      - core/components/plays/play-creator/references/test_platform_adapter.py
+  - id: gitlab-remove-unsourced-hierarchy-claims
+    issue: 619
+    commit_type: docs
+    scope: gitlab
+    subject: "remove unsourced claims about GitLab hierarchy"
+    files:
+      - core/components/memory/tools/gitlab/adapter.md
+      - core/components/skills/platform-adapter/reference/gitlab/verbs.md
+  - id: stm-round3-review-records
+    issue: 619
+    commit_type: chore
+    scope: stm
+    subject: "record the round 3 review findings and plan updates"
+    files:
+      - .garura/project/issues/606/specs/plan.md
+      - .garura/project/issues/619/specs/plan.md
+      - .garura/project/issues/619/review/round3-findings.yaml
+
+exclusions:
+  - path: ".garura/project/issues/619/context/porcelain.txt"
+    reason: "commit-change working file, not part of the change"
+    blocking: false
+  - path: ".garura/project/issues/619/context/analysis.yaml"
+    reason: "commit-change working file, not part of the change"
+    blocking: false
+
+risks:
+  sensitive_files: []
+  breaking_changes: []
+  ambiguous_types: []
+  hotfix_branch: false

@@ -71,6 +71,8 @@ Backed by: `glab mr merge {pr_number}`
 
 Fetches issue details as JSON. The close date is in the `closed_at` field (snake_case, not camelCase as in GitHub's `closedAt`).
 
+**Gap — work tree not read.** GitHub's read also returns the issue's type, parent and sub-issues (`issueType`, `parent`, `subIssues`). The adapter does not read GitLab's equivalents (GitLab's issue types and work-item hierarchy have not been mapped or tested here), so on GitLab it reports `tree_available: false`: type, parent and children are unknown, not empty. Callers that need the tree (for example, the plan context) must say so.
+
 Backed by: `glab issue view {issue_number} --output json`
 
 ### create-issue
@@ -106,7 +108,7 @@ For MRs: `glab mr update {pr_number} --label "{labels}"`
 
 ### attach-sub-issue
 
-**Gap behaviour — related-link fallback only.** GitLab does not support a parent/child sub-issue hierarchy equivalent to GitHub's sub-issues feature. The adapter falls back to GitLab's related-issues API, which creates a bidirectional "relates to" link between two issues.
+**Gap behaviour — related-link fallback only.** The adapter does not create a GitLab parent/child link: GitLab's hierarchy features have not been mapped or tested here. It falls back to GitLab's related-issues API, which creates a bidirectional "relates to" link between two issues.
 
 **Parent/child hierarchy is NOT established.** Only a peer-level related-link is created. Agents must document this limitation when operating on GitLab — task trees that rely on sub-issue hierarchy for project management will need an alternative organisational approach on GitLab.
 

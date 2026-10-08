@@ -1,6 +1,6 @@
 # ADR 029 — Drives: A Run of Plays That Ends in a Score or a Fail
 
-**Status:** Accepted
+**Status:** Accepted — amended in part by [ADR 030](030-plan-mode.md): a drive keeps one work plan for all its plays, and its big plan updates are approved together at its end review.
 **Date:** 2026-10-07 (proposed and accepted)
 **Supersedes:** ADR 003 (guardian approval), in full · ADR 002 (checkpoint model) and ADR 028 (five loops), in part
 **Decided in:** #607 (spike: the first loop's recipe), under #594 and business intent #606
@@ -54,18 +54,22 @@ A drive ends in a score or a fail, and a review follows either way. How a finish
 
 **Kickoff solves product → intent.** It runs `/intent` → `/vision` → `/understand`.
 
+**Kickoff is the human interface** (Kapil, 2026-10-08; see `docs/philosophy/idsd.md`, "The Plan Is the Human's Interface"). The person gives the intent, as a prototype. Kickoff pulls the intent out and makes two things from it: for the person, a **plan and its issues** — the intent broken into small, executable pieces a person can understand; and for the agents, the **product model** and its documents. Everything after Kickoff works from the product model and is agent work.
+
 | Play | What it does in Kickoff |
 |------|-------------------------|
 | `/intent` (new) | Reads the working prototype and pulls out the intent: goal, constraints, failure conditions |
 | `/vision` | Takes that intent as its business goal and writes what a prototype cannot show: the why, the bet, the scope, the grounding in the knowledge base, the rough product profile |
 | `/understand` | Runs once for every capability `/vision` seeded, and details it |
 
-- **Goal:** from a working prototype, the product model holds a confirmed intent, a domain with its capabilities, and every capability detailed.
+- **Goal:** from a working prototype, two outputs: the person gets a plan and its issues that break the confirmed intent into small pieces they can understand; the agents get a product model that holds the intent, a domain with its capabilities, and every capability detailed.
 - **Halts if:** the prototype is missing or does not run; a play cannot meet its own done check; or the checker rejects the result.
-- **Done when:** each play shows its saved record (one `/understand` record per capability), the checker passes, and the evidence is written.
+- **Done when:** the person has approved the plan (`approve-change`), the plan and its issues exist and pass the plan check, each play shows its saved record (one `/understand` record per capability), the checker passes, and the evidence is written.
 - **Hands on:** the detailed model goes to the next drive (intent → design), which locks domains and capabilities.
 
 The prototype is the input, never the intent. It stays attached as an example, and the later plays work from the intent.
+
+**The matching last drive: handover.** Kickoff is the handoff in. The lifecycle also needs a handoff out (Kapil, 2026-10-08): a last drive that takes everything the agents made and delivers it as the thing the person uses — a website, an application, whatever the intent asked for. Between the two handoffs the person follows the plan. They are asked only for what ADR 030 sends back to them — a big change to the plan — and inside a drive even that waits for the drive's end review. The handover drive is not designed yet.
 
 The product-model ontology (#597) is built alongside this work: the parts of it these plays need are created as the plays are fixed.
 
