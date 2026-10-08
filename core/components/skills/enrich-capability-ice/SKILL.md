@@ -1,6 +1,6 @@
 ---
 name: enrich-capability-ice
-description: Detail one capability — seeded by /vision, or seeded by /understand from the person's recorded answers (#616) — promote its capability.md from the directional stage to the detailed stage (benefit hypothesis, boundary, guiding rules, functionalities), author a detailed functionality.md grounding doc for each functionality it identifies, set the capability's structured nfr_needs + compliance_needs, and emit the implied per-dimension levels. Grounded in the capability's KB shelf. Generative artifact production for the /understand play. Under direct-model-write (ADR 026) it writes ONLY the per-node docs (capability.md, functionality.md) straight to the live model, and emits every shared-file delta (the spine entry fields, the new functionality entries) as structured data in the enrich-manifest — it NEVER writes _spine.yaml, profile.yaml, or decisions. Use when /understand needs a seeded capability detailed and its functionalities created.
+description: Detail one capability — seeded by /vision, or seeded by /understand from the person's recorded answers — promote its capability.md from the directional stage to the detailed stage (benefit hypothesis, boundary, guiding rules, functionalities), author a detailed functionality.md grounding doc for each functionality it identifies, set the capability's structured nfr_needs + compliance_needs, and emit the implied per-dimension levels. Grounded in the capability's KB shelf. Generative artifact production for the /understand play. Under direct-model-write (ADR 026) it writes ONLY the per-node docs (capability.md, functionality.md) straight to the live model, and emits every shared-file delta (the spine entry fields, the new functionality entries) as structured data in the enrich-manifest — it NEVER writes _spine.yaml, profile.yaml, or decisions. Use when /understand needs a seeded capability detailed and its functionalities created.
 version: 0.3.0
 user-invocable: false
 model: opus
@@ -69,7 +69,7 @@ must clear the content-quality eval (the play runs the linter + the judge over t
 
 | Field | Required | Description |
 |-------|----------|-------------|
-| `capability` | yes | The target capability: its id, slug, and the path to its directional `capability.md` in the live model — **or**, for a capability /understand is seeding (#616), the path to `<working>/seed.yaml` with the person's recorded answers (`one_line`, `why`, `domain`, `doc`, `answered_by: human`). |
+| `capability` | yes | The target capability: its id, slug, and the path to its directional `capability.md` in the live model — **or**, for a capability /understand is seeding, the path to `<working>/seed.yaml` with the person's recorded answers (`one_line`, `why`, `domain`, `doc`, `answered_by: human`). |
 | `kb_domain` | yes | The domain shelf to ground against. Read via the KB router. |
 | `product_base` | yes | From config. The live model root: read the existing spine + the capability's current directional doc, and WRITE the detailed `capability.md` and the new `functionality.md` docs in place under `{product_base}product-os/`. Only the target node's docs — never a shared file, never a sibling node's doc. |
 | `manifest_path` | yes | Where to write `enrich-manifest.yaml` (STM, non-model) — carries the spine-delta as structured data for the keyed persist script. |
@@ -81,12 +81,12 @@ Reasoning — detailing the capability, identifying its functionalities, writing
 function's behavior and acceptance criteria, judging the NFR levels — is yours. Template
 conformance and the content bar are non-negotiable.
 
-1. **Read the directional capability + the shelf.** Read the live directional
-   `capability.md` (its directional intent is the anchor) — or, when `capability` is a
-   `seed.yaml`, read the person's recorded answers instead: they are the anchor, verbatim,
-   and nothing is added to them that the shelf does not support and the capability's KB shelf
-   via the router (`python3 $KB shelf <kb_domain>`) — pull its personas, systems, NFR
-   hints, scope, and functionality baseline. Ground the detail in that material.
+1. **Read the directional capability + the shelf.** Read the anchor: the live directional
+   `capability.md` (its directional intent), or — when `capability` is a `seed.yaml` — the
+   person's recorded answers, verbatim. Then read the capability's KB shelf via the router
+   (`python3 $KB shelf <kb_domain>`) and pull its personas, systems, NFR hints, scope, and
+   functionality baseline. Ground the detail in that material; for a seed, add nothing to
+   the person's answers that the shelf does not support.
 
 2. **Write the detailed capability doc, in place.** Promote the live `capability.md` to the
    detailed stage — overwrite it under `{product_base}product-os/`. For a seeded capability

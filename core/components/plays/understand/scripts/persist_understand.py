@@ -118,6 +118,11 @@ def main(argv=None):
                              "mapping — refusing\n")
             return 2
         missing = [k for k in ("id", "domain", "one_line", "why", "answered_by") if not seed.get(k)]
+        not_text = [k for k in ("id", "domain", "one_line", "why", "answered_by", "doc")
+                    if k in seed and seed[k] is not None and not isinstance(seed[k], str)]
+        if not_text:
+            sys.stderr.write(f"persist_understand.py: seed fields {not_text} must be text — refusing\n")
+            return 2
         if missing:
             sys.stderr.write(f"persist_understand.py: seed is missing {missing} — refusing "
                              f"(a seed carries the person's answers, never invented ones)\n")
@@ -126,20 +131,25 @@ def main(argv=None):
             sys.stderr.write(f"persist_understand.py: seed answered_by is '{seed['answered_by']}', "
                              f"not 'human' — refusing (only the person's answers may seed)\n")
             return 2
-        doc = seed.get("doc") or f"{seed['domain']}/{slug(cap_id)}/capability.md"
-        parts = doc.split("/")
-        if (doc.startswith("/") or ".." in parts or parts[-1] != "capability.md"
-                or parts[0] != seed["domain"] or len(parts) != 3):
-            sys.stderr.write(f"persist_understand.py: seed doc '{doc}' is not "
-                             f"'<domain>/<capability>/capability.md' — refusing\n")
-            return 2
         if seed["id"] != cap_id:
             sys.stderr.write(f"persist_understand.py: seed id '{seed['id']}' != --capability-ref "
                              f"'{cap_id}' — refusing (containment)\n")
             return 2
-        if find(live.get("domains") or [], seed["domain"]) is None:
+        domain = find(live.get("domains") or [], seed["domain"])
+        if domain is None:
             sys.stderr.write(f"persist_understand.py: domain '{seed['domain']}' is not in the spine "
                              f"— refusing (a seed joins an existing domain)\n")
+            return 2
+        # The domain's folder comes from its own doc (e.g. id 'dom-order-mgmt' lives in
+        # 'order-management/'); fall back to the id only when the domain records no doc.
+        dom_doc = domain.get("doc") if isinstance(domain.get("doc"), str) else ""
+        dom_dir = dom_doc.split("/")[0] if "/" in dom_doc else seed["domain"]
+        doc = seed.get("doc") or f"{dom_dir}/{slug(cap_id)}/capability.md"
+        parts = doc.split("/")
+        if (doc.startswith("/") or ".." in parts or len(parts) != 3
+                or parts[0] != dom_dir or parts[-1] != "capability.md"):
+            sys.stderr.write(f"persist_understand.py: seed doc '{doc}' is not "
+                             f"'{dom_dir}/<capability>/capability.md' — refusing\n")
             return 2
         live_cap = {"id": cap_id, "domain": seed["domain"], "status": "proposed",
                     "detail": "directional", "one_line": seed["one_line"], "doc": doc}

@@ -123,12 +123,37 @@ def test_seed_refusals():
                         ("answered by an agent", dict(ANSWERS, answered_by="agent")),
                         ("with a doc outside its domain", dict(ANSWERS, doc="../../etc/capability.md")),
                         ("with a doc not named capability.md", dict(ANSWERS, doc="commerce/checkout/x.md")),
+                        ("with a doc that is not text", dict(ANSWERS, doc=["commerce", "checkout"])),
+                        ("with a domain that is not text", dict(ANSWERS, domain=["commerce"])),
                         ("an unknown domain", dict(ANSWERS, domain="nowhere")),
                         ("a different capability id", dict(ANSWERS, id="cart"))):
         with tempfile.TemporaryDirectory() as tmp:
             base, root, work = setup(tmp)
             check(f"a seed {label} is refused", run(base, work, seed) == 2)
             check(f"nothing written for a seed {label}", spine(root)["capabilities"] == [])
+
+
+def test_domain_folder_differs_from_id():
+    """A domain id like 'dom-commerce' lives in folder 'commerce/' (its doc says so)."""
+    with tempfile.TemporaryDirectory() as tmp:
+        base, root, work = setup(tmp)
+        sp = spine(root)
+        sp["domains"] = [{"id": "dom-commerce", "doc": "commerce/domain.md"}]
+        with open(os.path.join(root, "_spine.yaml"), "w") as fh:
+            yaml.safe_dump(sp, fh)
+        answers = dict(ANSWERS, domain="dom-commerce")
+        check("a seed under a prefixed domain id is accepted", run(base, work, answers) == 0)
+        cap = spine(root)["capabilities"][0]
+        check("its doc lands in the domain's folder, not a folder named after the id",
+              cap["doc"] == "commerce/checkout/capability.md")
+    with tempfile.TemporaryDirectory() as tmp:
+        base, root, work = setup(tmp)
+        sp = spine(root)
+        sp["domains"] = [{"id": "dom-commerce", "doc": "commerce/domain.md"}]
+        with open(os.path.join(root, "_spine.yaml"), "w") as fh:
+            yaml.safe_dump(sp, fh)
+        bad = dict(ANSWERS, domain="dom-commerce", doc="dom-commerce/checkout/capability.md")
+        check("a doc in a folder named after the id is refused", run(base, work, bad) == 2)
 
 
 def test_seed_not_a_mapping():
@@ -180,7 +205,8 @@ def test_already_detailed():
 
 def main():
     for test in (test_existing_seed, test_absent_without_seed, test_absent_with_seed,
-                 test_seed_refusals, test_seed_not_a_mapping, test_sibling_containment,
+                 test_seed_refusals, test_domain_folder_differs_from_id, test_seed_not_a_mapping,
+                 test_sibling_containment,
                  test_already_detailed):
         print(test.__name__)
         test()
