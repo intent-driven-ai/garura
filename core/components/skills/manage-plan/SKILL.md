@@ -23,11 +23,14 @@ Receive from the agent:
 | `plan_path` | yes | `{stm_base}{issue}/specs/plan.md` |
 | `context_path` | `create`, `update` | the plan context file the agent wrote (see below) |
 | `change` | `update` | what happened, in plain words — e.g. "item 2 is finished", "Kapil moved #619 to the front", "item 4 is dropped: covered by #612" |
-| `report_path` | `check` (optional) | where to write the check report |
+| `report_path` | yes | where to write the check report (e.g. `{stm_base}{issue}/context/plan-check.json`) |
+| `template_path` | no | the work-plan format; default `~/.garura/core/memory/standards/templates/work-plan.md` |
+| `rules_path` | no | the work-plan rules; default `~/.garura/core/memory/standards/rules/work-plan.md` |
 
 The **plan context file** (written by the agent, YAML or JSON) holds:
 
-- `issue` — number, type, title, body
+- `issue` — number, type, title, full body
+- `tree_available` — `false` when the tracker could not report type, parent or children (GitLab, or gh older than 2.94.0); then those are unknown, not empty
 - `parent` — number, type, title (or null)
 - `children` — each child issue's number, type, title, state, and its own children
 - `linked` — issues the agent found linked by the tracker's parent/child link only, never body mentions
@@ -38,7 +41,7 @@ The **plan context file** (written by the agent, YAML or JSON) holds:
 
 ## Process
 
-The format and its rules live in one place: `standards/templates/plan.md` (resolve it from LTM). Read it first, every time. Do not copy its rules into the plan or into this skill.
+Read both files first, every time: the format at `template_path` and the rules at `rules_path` (defaults in Input). They are the single source; this skill applies them and never restates them. A work plan is not `/implement`'s build plan.
 
 ### Action: `create`
 
@@ -50,6 +53,8 @@ The format and its rules live in one place: `standards/templates/plan.md` (resol
    - **Where we are now** — what is already done or decided, and the next step.
    - **The plan, in order** — finished children under `### Done`; open children as numbered items. Each item carries **Issue**, **What**, **Why here**, **Done when**, **Needs**. Order follows the context's dependencies and the user's quoted notes; where neither settles it, put decisions before the builds that depend on them.
    - Mark exactly one item `— now`, and set the same number in the front matter.
+   - Every finished item says what kind of done it is — decided, built, or shipped — and what is still not done.
+   - If `tree_available` is `false`, say in **Where we are now** that the parent and children could not be read, and list only what the context does hold.
    - Unless the issue is a business intent, set `serves_plan` to the parent issue's number and `serves_item` to this issue's item in the parent's plan (the context's `parent_plan` says where that plan is). If the parent has no plan yet, say so in the log and leave both out.
    - **Log** — one dated line: the plan was created, and from what.
 4. Run the check (below). Fix anything it reports before returning.
@@ -63,35 +68,45 @@ The format and its rules live in one place: `standards/templates/plan.md` (resol
    - a reorder moves items and fixes every **Needs** that pointed at them;
    - move `— now` and the front matter `now` to the next item that can start.
 3. Set `updated` to today. Add one dated log line saying what changed and why.
-4. When no numbered item is left, set `status: done`.
-5. Run the check. Fix anything it reports before returning.
+4. When no numbered item is left, set `status: done` and `now: -`.
+5. A big update (rules file: adding, dropping or reordering items; a play finishing inside a drive; a linked issue completing) is logged as big. Outside a drive, the calling play routes it to `approve-change`; this skill does not ask the human.
+6. Run the check. Fix anything it reports before returning.
 
 ### Action: `check`
 
 Run the bundled script. It is deterministic: no git, no network, no judgment.
 
 ```bash
-python3 scripts/check_plan.py --plan <plan_path> [--out <report_path>]
+python3 <skill-dir>/scripts/check_plan.py --plan <plan_path> --out <report_path>
 ```
+
+`<skill-dir>` is this skill's folder (`.claude/skills/manage-plan/` once installed). Its tests: `python3 <skill-dir>/scripts/test_check_plan.py`.
 
 Exit `0` — valid and done. Exit `1` — valid, not done (the normal state while work runs). Exit `2` — not valid: the report lists every problem. Exit `3` — the file cannot be read.
 
 ## Output
 
-- `create` / `update` — the plan at `plan_path`, and the check report.
-- `check` — the report:
+Every action writes files and returns their paths — never the content:
+
+```yaml
+plan_path: {stm_base}{issue}/specs/plan.md        # create / update
+report_path: {stm_base}{issue}/context/plan-check.json
+```
+
+The report at `report_path` is the script's output, unchanged:
 
 ```json
 { "valid": true, "done": false, "status": "active", "now": "2",
-  "open_items": [2, 3, 4], "problems": [], "plan": "<plan_path>" }
+  "open_items": [2, 3, 4], "serves_plan": "<parent plan path or null>",
+  "problems": [], "plan": "<plan_path>" }
 ```
 
-Return the check report to the agent unchanged. Never report a plan as done unless the script said `done: true`.
+Never report a plan as done unless that file says `done: true`.
 
-## Rules
+## Constraints
 
-1. **A plan, never a design.** If an item starts saying how, cut that part and leave it to the item's issue.
-2. **Every item explains itself.** An issue number with a label is not an item.
-3. **Change only what the `change` says.** An update is not a rewrite.
-4. **One plan per issue.** Create refuses when a plan exists.
-5. **The script decides done.** Not you.
+The plan's own rules are in `rules_path`. This skill adds three of its own:
+
+- **Change only what the `change` says.** An update is not a rewrite.
+- **Create refuses when a plan exists.**
+- **The script decides done.** Not you.

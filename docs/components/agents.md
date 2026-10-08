@@ -215,6 +215,7 @@ code-builder has no skills — it implements code directly using its tools (Bash
 |-------|---------|
 | `manage-issue` | Read, create, close, resolve, or list GitHub issues with optional sub-issue attachment |
 | `resolve-issues` | Map change groups to existing open issues with confidence scoring |
+| `manage-plan` | Create, update, or check an issue's work plan (`{stm_base}{issue}/specs/plan.md`, ADR 030), after the agent gathers the plan context |
 
 ### evals-engineer Skill Pool
 
