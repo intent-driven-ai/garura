@@ -1,0 +1,77 @@
+meta:
+  layer: 1
+  skill: quality-check-scoped
+  categories: [executable-code, tests]
+  taxonomy_scan:
+    command: "python3 core/components/skills/quality-check-scoped/scripts/scan_taxonomy.py (taxonomy core/components/memory/standards/rules/pr.md, 2 changed paths)"
+    result: "P1=0 P2=0 P3=0 P4=0; CODE-20 catch-all covered 2 files; errors=0"
+  executed:
+    - command: "python3 core/components/plays/understand/scripts/test_persist_understand.py"
+      result: "19 passed, 0 failed, exit 0"
+    - command: "ruff check persist_understand.py test_persist_understand.py"
+      result: "All checks passed"
+    - command: "sibling-node probe (scratch script, temp dirs, repo untouched)"
+      result: "see sibling_containment below"
+  sibling_containment:
+    confirmed: true
+    probes:
+      - "manifest functionality belongs to sibling capability: exit 2, spine unchanged"
+      - "manifest capability_ref names sibling: exit 2, spine unchanged"
+      - "seed id names sibling while --capability-ref is the target: exit 2, spine unchanged"
+      - "successful run with a sibling capability present: sibling entry byte-for-byte equal before and after"
+    caveat: "None of these probes is pinned by test_persist_understand.py (see F2)."
+  not_applicable: "already-detailed refusal is a new exit 2 on a re-run, but it is the stated intent (play SKILL.md failure row F1), so it is not a finding."
+findings:
+  - id: F1
+    category: executable-code
+    severity: P3
+    file: core/components/plays/understand/scripts/persist_understand.py
+    line: 115
+    title: "Seed's answered_by is checked for presence only, not that it names a person"
+    evidence: "missing = [k for k in (..., \"answered_by\") if not seed.get(k)]; probe with answered_by=agent was accepted, exit 0, capability seeded"
+    why_it_matters: "The error text and docstring promise a seed carries the person's answers and never invented ones, but any non-empty value passes. The play SKILL.md says answered_by must be human. The guarantee depends entirely on the caller."
+    basis: "review/code rubric: deterministic where it claims to be (knowledge/review/code.md); play SKILL.md lines 201 and 238 (answered_by: human)"
+    suggestion: "Require seed['answered_by'] == 'human' (or the agreed set), and add a test with a non-human value."
+  - id: F2
+    category: tests
+    severity: P3
+    file: core/components/plays/understand/scripts/test_persist_understand.py
+    line: 5
+    title: "Docstring says the suite pins containment, but no test covers sibling-node refusal"
+    evidence: "Docstring: 'Pins the keyed persist's containment'. Tests cover seed, no-seed, seed refusals, already-detailed. None builds a spine with a second capability or a functionality under another capability."
+    why_it_matters: "The sibling-write refusal is the script's core guarantee (its own header calls it node-level containment). It holds today (probes above) but nothing would catch a regression."
+    basis: "review/tests rubric: clear assertions that exercise the guarantee under change (knowledge/review/tests.md); the docstring's own claim"
+    suggestion: "Add tests: functionality under a sibling refused, manifest capability_ref of a sibling refused, sibling entry unchanged after a successful run."
+  - id: F3
+    category: executable-code
+    severity: P4
+    file: core/components/plays/understand/scripts/persist_understand.py
+    line: 114
+    title: "A seed file that is not a mapping crashes with a traceback instead of exit 2"
+    evidence: "seed.yaml containing a list or 'seed: hello' raises AttributeError ('list'/'str' object has no attribute 'get'); probe confirmed. Docstring says exit 2 on usage/parse error. No write happens, so no data is lost."
+    basis: "review/code rubric: error handling (knowledge/review/code.md); the script's own docstring exit-code contract"
+    suggestion: "Check isinstance(seed, dict) and return 2 with a message."
+  - id: F4
+    category: executable-code
+    severity: P4
+    file: core/components/plays/understand/scripts/persist_understand.py
+    line: 130
+    title: "Seed's doc value is stored in the spine without any shape check"
+    evidence: "seed.get(\"doc\") or default; probe with doc='../../etc/x' accepted and written to the spine."
+    why_it_matters: "Only a string is stored here (nothing is opened), but later readers resolve doc paths against the model root."
+    basis: "review/code rubric: safe handling of paths and inputs (knowledge/review/code.md)"
+    suggestion: "Reject absolute paths and '..' segments, or drop the field and always use the default path."
+  - id: F5
+    category: tests
+    severity: P4
+    file: core/components/plays/understand/scripts/test_persist_understand.py
+    line: 89
+    title: "Files opened for json.load are never closed; test functions assert nothing under a test collector"
+    evidence: "json.load(open(...)) at lines 89 and 107. check() only prints and counts, so if a collector such as pytest imported test_* functions they would pass even on failure; only the script's own main() turns failures into exit 1. Sibling test test_derive_candidates.py uses plain asserts."
+    basis: "review/tests rubric: no test that asserts nothing (knowledge/review/tests.md)"
+    suggestion: "Use 'with open' for the reads; optionally raise from check() on failure."
+counts:
+  P1: 0
+  P2: 0
+  P3: 2
+  P4: 3

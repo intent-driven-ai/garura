@@ -1,0 +1,87 @@
+category: harness
+pr: 630
+base: main
+grounding_method: "Principles read from committed sources on main (git show main:...) and the deployed standards under ~/.garura/core/memory/standards/rules; nothing grounded in the branch's plan.md or decisions.md."
+mechanical_checks:
+  lint_play_understand: "PASS (0 gaps) - python3 core/components/plays/play-editor/scripts/lint_play.py core/components/plays/understand/SKILL.md"
+  lint_play_vision: "PASS (0 gaps) - same command on vision/SKILL.md"
+  fingerprint_understand: "MATCH - shasum -a 256 reference/ice.md = 7b5ad00e...2700d = SKILL.md fingerprint"
+  fingerprint_vision: "MATCH - shasum -a 256 reference/ice.md = f909b4b1...6723 = SKILL.md fingerprint"
+principles:
+  - id: G1
+    principle: "An intent change (constraints, failures, scenarios, flow) goes through the play's ICE source and is recompiled; compiled SKILL.md is never hand-edited for intent."
+    source: "CLAUDE.md (Play Pipeline Rules); docs/adr/025-level-3-redefined-skeleton-and-loop.md"
+  - id: G2
+    principle: "A play with position both gets start-change injected at the head and commit-change, propose-change, review-change, merge-change at the back, before the Standard Play Close; the play hand-rolls none of it."
+    source: "standards/rules/pipeline-position.md; reference play core/components/plays/measure/SKILL.md on main (position both, T0 head, TE1-TE4 tail, model-delta commit before the tail, clean-tree check after start-change)"
+  - id: G3
+    principle: "Plays stand on their own: run by hand, a play depends on no other play having run first."
+    source: "docs/adr/029-drives.md section 4"
+  - id: G4
+    principle: "Inside a drive the drive owns the change (one issue, one branch, one PR) and its plays skip the opening; the opening fires only when needed."
+    source: "docs/adr/029-drives.md section 3 and Consequences; docs/adr/030-plan-mode.md section 4 (P3, P4)"
+  - id: G5
+    principle: "Shared-file writes are done by the deterministic keyed script; the model only writes per-node docs; containment is a post-write scoped guard; tree clean in, delta committed out."
+    source: "docs/adr/026-direct-to-model-writes.md; standards/rules/direct-model-write.md"
+  - id: G6
+    principle: "The play orchestrates, the skill produces, scripts do mechanical work; a skill's input contract must match what the play hands it."
+    source: "CLAUDE.md (Agents hold context crafting, skills do the work); playbook review/harness rubric"
+  - id: G7
+    principle: "Direct-edit history goes in the commit and issue, never in the skill file."
+    source: "CLAUDE.md (Play Pipeline Rules, non-intent changes); MEMORY feedback-no-edit-notes-in-skill-files"
+conformance_checked:
+  skill_traces_to_ice: "PASS. Both fingerprints match the edited ICE. Every Intent/C/F/S/REC change in understand ice.md (C1, C11, C12, F1, S1, S6, REC1, REC13) appears in SKILL.md. Vision ice.md changes (position paragraph, C8, C9, S1) appear in SKILL.md. Both ICE files changed in the same commits as their SKILL.md, so no hand-edit of the compiled file."
+  end_sequence_matches_measure: "PASS. Head start-change, model-delta commit, then E1-E4 commit/propose/review/merge each as parent_run_id sub-plays, scenario validation after the tail, clean-tree assertion right after Step 0, review reject stops before merge. Same shape as /measure on main."
+  seed_never_invents: "PARTIAL. Prose and script both require the person's answers (persist_understand.py refuses missing id/domain/one_line/why/answered_by, unknown domain, id mismatch, and a seed for an already-detailed target). But the check is presence only - see F3."
+  guard_scope_covers_seeded_doc: "PASS. The allow glob for <cap-dir>/capability.md matches an added file as well as a modified one (scoped_write_guard.py: allow means add or modify), and <cap-dir> is resolved from the seeded entry's doc, which exists in the spine after persist --seed. Cancel path (empty allow + restore) reverts the spine entry and removes the new doc."
+  next_lines_resolve: "PASS. lint_play next-command check passes for both; pipeline-next.md maps vision to understand and understand to shape, both still correct once each play lands on main."
+findings:
+  - id: F1
+    severity: P2
+    file: core/components/plays/understand/SKILL.md
+    principle: "G6 - the skill's input contract must match what the play hands it (play orchestrates, skill produces)."
+    source: "core/components/skills/enrich-capability-ice/SKILL.md on main (input 'capability' = path to the directional capability.md; step 1 'Read the live directional capability.md ... its directional intent is the anchor')"
+    finding: "Step 1 now passes <working>/seed.yaml in place of a capability.md path when the target was absent, but the enrich-capability-ice skill (unchanged on this branch) only knows how to promote an existing directional doc. For a seeded-from-absent capability no capability.md exists yet: the seed is written to the spine only at Step 4 and never as a doc. The skill has no path for 'write the detailed doc from the person's answers', so the new S6 path depends on behaviour the skill does not define. The text 'exactly what /vision would have written' is also not true: /vision writes a directional capability.md; this seed writes only a spine entry."
+    fix: "Either teach enrich-capability-ice (via its own change) to accept seed.yaml and author the first doc, or have Step 0b/persist write a thin directional capability.md so Step 1 sees what it expects."
+  - id: F2
+    severity: P3
+    file: core/components/plays/understand/SKILL.md
+    principle: "G4 - opening fires only when needed; inside a drive the drive owns the change and plays skip the opening and the per-play PR."
+    source: "docs/adr/029-drives.md section 3 and Consequences ('Inside a drive, the play must skip it'); docs/adr/030-plan-mode.md section 4"
+    finding: "Both plays now inject start-change and the full end sequence unconditionally. That fits ADR 029 section 4 (stand alone) and is how /measure behaves, but run inside Kickoff each play would open its own issue/branch/PR and merge to main, against section 3 (one branch, one PR per drive). Scope note: ADR 029 assigns drive-skip to #614/#615 and the opening rework to ADR 030 work, so this is a known follow-up, not a defect of #616. start-change's own resume check (existing feature/<issue>-* branch) softens the head but nothing softens the tail."
+    fix: "Record as an explicit follow-up on #614/#615 so the unconditional head/tail is made conditional when the drive lands."
+  - id: F3
+    severity: P3
+    file: core/components/plays/understand/scripts/persist_understand.py
+    principle: "G5 - mechanical script enforces the guarantee; the 'never invented' guarantee (C1/F1) should be checkable, not only stated."
+    source: "docs/adr/026-direct-to-model-writes.md (shared-file writes by the deterministic keyed script, containment enforced mechanically); standards/rules/direct-model-write.md"
+    finding: "The seed gate checks that answered_by is non-empty, not that it equals human, and seed.yaml is written by the model itself in Step 0b. Nothing ties it to an actual typed reply, so a fabricated seed passes the script and SE-1/SCE-6 (self-attested). The guarantee holds by instruction only."
+    fix: "Have the script require answered_by == human, and keep the person's verbatim reply (or its path) in the seed record so the checkpoint reviewer can compare."
+  - id: F4
+    severity: P3
+    file: core/components/plays/understand/SKILL.md
+    principle: "G3/G4 - a halt that is expected must not leave side effects; the opening should fire only when needed."
+    source: "docs/adr/030-plan-mode.md section 4 (P4)"
+    finding: "Step 0 (start-change: issue, branch, worktree, STM) runs before Step 0b asks the person. Halting at Step 0b for no answer or an unknown domain (REC1) leaves an opened issue and a branch for no work."
+    fix: "Ask the three questions in pre-flight (or before Step 0) and run start-change only once the seed answers exist; or state that the orphan issue/branch is expected and cleaned up."
+  - id: F5
+    severity: P4
+    file: core/components/plays/vision/reference/ice.md
+    principle: "G1 - the ICE is the source of truth, so it must not contradict its own updated Intent."
+    source: "CLAUDE.md (Play Pipeline Rules); ADR 025"
+    finding: "Line 30 (Write discipline paragraph) still says 'the next pipeline play (/understand) enters clean', which the new position paragraph (line 28) retires. The compiled SKILL.md paragraph omits this clause, so SKILL and ICE differ slightly in wording."
+    fix: "Drop the clause in the ICE and recompile (fingerprint refresh)."
+  - id: F6
+    severity: P4
+    file: core/components/plays/understand/SKILL.md
+    principle: "G7 - edit history belongs in the commit and issue, not the skill file."
+    source: "CLAUDE.md (Play Pipeline Rules); precedent present on main (Recompiled note #498, #467 in the same files)"
+    finding: "A new 'Recompiled note (#616 ...)' block is added to understand and vision SKILL.md, and the Compiled From paragraphs gain #616 lines. Main already carries the same kind of notes, so this follows precedent, but it adds to a pattern the repo rule discourages."
+    fix: "Move the narrative to the commit/issue when next touched; no blocker."
+  - id: F7
+    severity: P4
+    file: core/components/memory/standards/rules/pipeline-position.md
+    principle: "A shared rule that a change contradicts should be updated in the same line of work (converge-and-lint)."
+    source: "docs/adr/029-drives.md header (Affects: pipeline-position.md); the rule file on main ('Strategic and model-building plays (vision, understand ...) declare position: none')"
+    finding: "The committed rule still says vision/understand are position none. /measure already contradicted it on main, and this change adds two more. Not changed by this PR (rule file identical to main)."
+    fix: "Update the sentence in a follow-up so the rule matches the plays."
