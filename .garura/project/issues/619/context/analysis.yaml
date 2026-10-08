@@ -1,66 +1,40 @@
 ---
-# analyze-changes output (grouping judgment done) — issue 619
+# analyze-changes output (judgment done) — issue 619
 needs_judgment: false
 
 change_groups:
-  - id: adr-030-plan-mode
+  - id: doctrine-human-interface
     issue: 619
     commit_type: docs
-    scope: adr
-    subject: "record ADR 030 plan mode and amend ADR 025 status"
+    scope: philosophy
+    subject: "state the plan as the human interface and add the handover drive"
     files:
+      - docs/philosophy/idsd.md
+      - docs/adr/029-drives.md
       - docs/adr/030-plan-mode.md
-      - docs/adr/025-level-3-redefined-skeleton-and-loop.md
 
-  - id: plan-template
+  - id: plan-template-kind-of-done
     issue: 619
-    commit_type: feat
+    commit_type: docs
     scope: templates
-    subject: "add plan template and index row"
+    subject: "require plans to say what kind of done each item is"
     files:
       - core/components/memory/standards/templates/plan.md
-      - core/components/memory/standards/templates/_index.md
 
-  - id: manage-plan-skill
-    issue: 619
-    commit_type: feat
-    scope: skills
-    subject: "add manage-plan skill and plan-context step in project-orchestrator"
-    files:
-      - core/components/skills/manage-plan/SKILL.md
-      - core/components/skills/manage-plan/scripts/check_plan.py
-      - core/components/agents/project-orchestrator.md
-
-  - id: read-issue-type-and-hierarchy
-    issue: 619
-    commit_type: feat
-    scope: platform-adapter
-    subject: "return issueType, parent and subIssues from read-issue"
-    files:
-      - core/components/skills/platform-adapter/reference/github/verbs.md
-      - core/components/skills/platform-adapter/reference/gitlab/verbs.md
-      - core/components/memory/tools/github/adapter.md
-      - core/components/plays/merge-change/scripts/platform_adapter.py
-      - core/components/plays/play-creator/references/platform_adapter.py
-      - core/components/plays/propose-change/scripts/platform_adapter.py
-      - core/components/plays/review-change/scripts/platform_adapter.py
-
-  - id: plan-mode-stm-records
+  - id: stm-606-plan-update
     issue: 619
     commit_type: chore
     scope: stm
-    subject: "record plan mode spike plans and decisions"
+    subject: "update the #606 plan for Kickoff as the human interface and the handover drive"
     files:
       - .garura/project/issues/606/specs/plan.md
-      - .garura/project/issues/619/specs/plan.md
-      - .garura/project/issues/619/specs/decisions.md
 
 exclusions:
   - path: ".garura/project/issues/619/context/porcelain.txt"
-    reason: "run artifact, committed by the executor's chore(stm) run-state group"
+    reason: "run artifact of the commit-change play; committed by the run-state step"
     blocking: false
   - path: ".garura/project/issues/619/context/analysis.yaml"
-    reason: "run artifact, committed by the executor's chore(stm) run-state group"
+    reason: "run artifact of the commit-change play; committed by the run-state step"
     blocking: false
 
 risks:
@@ -69,8 +43,6 @@ risks:
   ambiguous_types: []
   hotfix_branch: false
 
-notes:
-  - "Grouped by concern per caller instruction (not one-group-per-issue)."
-  - "The 4 platform_adapter.py copies are byte-identical (same md5) and change together."
-  - "Secret-pattern scan over new files found no matches."
-  - "All 19 changed paths land in exactly one group or exclusion."
+eval_gates:
+  SE-1: {status: PASS, evidence: "all 5 changed content files land in exactly one group; the 2 run artifacts are exclusions"}
+  SE-5: {status: PASS, evidence: "no sensitive filename or content patterns matched in the diff"}
