@@ -35,6 +35,13 @@ import sys
 
 GITHUB, GITLAB = "github", "gitlab"
 
+# view-issue fields. The tree fields (type, parent, sub-issues) need gh 2.94.0+;
+# an older gh rejects the whole call, so dispatch() asks for them only when the
+# installed gh is new enough, and otherwise falls back to the base fields.
+ISSUE_BASE_FIELDS = "number,title,labels,state,body,url,closedAt"
+ISSUE_TREE_FIELDS = "issueType,parent,subIssues,subIssuesSummary"
+GH_ISSUE_TREE_MIN = (2, 94, 0)
+
 
 # --- config ------------------------------------------------------------------
 def resolve_platform(config_path):
@@ -115,8 +122,10 @@ def _gh(verb, args, repo):
     if verb == "merge-pr":
         return [["gh", "pr", "merge", str(a["pr_number"]), "--merge"]]
     if verb == "view-issue":
-        return [["gh", "issue", "view", str(a["issue_number"]), "--json",
-                 "number,title,labels,state,body,url,closedAt,issueType,parent,subIssues,subIssuesSummary"]]
+        fields = ISSUE_BASE_FIELDS
+        if a.get("_tree", True):
+            fields += "," + ISSUE_TREE_FIELDS
+        return [["gh", "issue", "view", str(a["issue_number"]), "--json", fields]]
     if verb == "create-issue":
         argv = ["gh", "issue", "create", "--title", a["title"], "--body", a["body"]]
         _opt(argv, "--label", a.get("labels"))
@@ -216,6 +225,16 @@ VERBS = {"view-pr", "diff-pr", "comment-pr", "request-changes", "add-reviewer",
          "view-user", "update-comment"}
 
 
+def parse_gh_version(text):
+    """'gh version 2.102.0 (2026-09-30)' -> (2, 102, 0); None if unparseable."""
+    m = re.search(r"gh version (\d+)\.(\d+)\.(\d+)", text or "")
+    return tuple(int(x) for x in m.groups()) if m else None
+
+
+def gh_supports_issue_tree(version):
+    return version is not None and version >= GH_ISSUE_TREE_MIN
+
+
 def _run(argv):
     proc = subprocess.run(argv, capture_output=True, text=True)
     return proc.returncode, proc.stdout, proc.stderr
@@ -245,6 +264,9 @@ def dispatch(verb, args, config_path=".garura/core/config.yaml", platform=None):
                  f"{args['parent_number']}/sub_issues", "-X", "POST", "-F",
                  f"sub_issue_id={out.strip()}"]]
     else:
+        if verb == "view-issue" and platform == GITHUB and "_tree" not in args:
+            rc, out, _ = _run(["gh", "--version"])
+            args = dict(args, _tree=rc == 0 and gh_supports_issue_tree(parse_gh_version(out)))
         cmds = builder(verb, args, repo)
 
     last_rc, last_out, last_err = 0, "", ""
@@ -254,8 +276,12 @@ def dispatch(verb, args, config_path=".garura/core/config.yaml", platform=None):
         last_rc, last_out, last_err = _run(argv)
         if last_rc != 0:
             break
-    return {"verb": verb, "platform": platform, "commands": ran,
-            "stdout": last_out, "stderr": last_err, "exit_code": last_rc}
+    res = {"verb": verb, "platform": platform, "commands": ran,
+           "stdout": last_out, "stderr": last_err, "exit_code": last_rc}
+    if verb == "view-issue":
+        # tree_available: did this read ask for type / parent / sub-issues?
+        res["tree_available"] = platform == GITHUB and bool(args.get("_tree", True))
+    return res
 
 
 def main(argv=None):
