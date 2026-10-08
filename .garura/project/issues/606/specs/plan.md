@@ -17,7 +17,7 @@ Today a person picks every play by hand: `/vision`, then `/understand`, then `/s
 
 #606 wants Garura to run its lifecycle as **drives**. A drive is a run of plays that keeps going until its goal is met, then gets reviewed (ADR 029). The lifecycle starts from a **working prototype** that the user shares, not from a conversation.
 
-There are five drives, one for each step from product to running software. We build them one at a time. The first is **Kickoff**: it takes a prototype and ends with a product model that holds the intent — what is wanted and why — with every capability detailed. Kickoff runs `/intent`, then `/vision`, then `/understand`.
+There are five drives, one for each step from product to running software. We build them one at a time. The first is **Kickoff**, and it is the person's interface: it takes a prototype, pulls the intent out, and makes two things — for the person, a plan and its issues that break the intent into small pieces they can understand; for the agents, a product model with every capability detailed. Kickoff runs `/intent`, then `/vision`, then `/understand`. Everything after Kickoff is agent work.
 
 ## When this plan is done
 
@@ -33,9 +33,9 @@ Three decisions are made: the lifecycle is five loops (#592), a loop is a drive 
 
 ### Done
 
-- **The lifecycle is five loops** — #592. ADR 028 settled that the lifecycle has five loops, each with its own goal.
-- **Plan mode** — #619. ADR 030: every change works from a plan on disk, kept current, done only when the plan is done. This plan is the first one kept that way. The wiring is filed as Feature #621.
-- **A loop is a drive; the first drive is Kickoff** — #607. ADR 029 settled what a drive is, how it runs, that it owns one issue, one branch and one pull request, and that Kickoff runs `/intent` → `/vision` → `/understand`.
+- **Decided: the lifecycle is five loops** — #592. ADR 028. A design decision only; no loop is built yet.
+- **Decided and partly built: plan mode** — #619. Decided in ADR 030: every change works from a plan on disk, kept current, done only when the plan is done. Built: the template, the plan skill and its check. Not yet merged; wiring it into the plays is Feature #621.
+- **Decided: a loop is a drive; the first drive is Kickoff** — #607. ADR 029, a design decision only; nothing is built yet. It settled what a drive is, how it runs, that it owns one issue, one branch and one pull request, and that Kickoff runs `/intent` → `/vision` → `/understand`.
 
 ### 2. The three plays stop depending on each other — now
 
@@ -82,7 +82,7 @@ Three decisions are made: the lifecycle is five loops (#592), a loop is a drive 
 **Issue:** #613.
 **What:** the drive itself. It asks all its questions first, runs `/intent` → `/vision` → `/understand` (once for each capability), stops only for a new question, has a different model or agent check the result, and writes its evidence.
 **Why here:** it needs all of items 3 to 6.
-**Done when:** a working prototype goes in, and a detailed product model comes out, checked and reviewed.
+**Done when:** a working prototype goes in; out come a plan and issues the person can read, and a detailed product model for the agents — checked and reviewed.
 **Needs:** items 3, 4, 5 and 6.
 
 ### Alongside items 2 to 7: the product-model ontology
@@ -115,7 +115,12 @@ Nothing below starts before item 7 is done. Each later drive is decided by a spi
 **Issue:** #610.
 **What:** decide the drive that lands every change: start, commit, propose, review, merge.
 
-### 12. Decide the Learn drive
+### 12. Decide the handover drive
+
+**Issue:** none yet.
+**What:** the last drive, the handoff out: it takes everything the agents made and delivers it as the thing the person uses — a website, an application, whatever the intent asked for. Kickoff is the handoff in; this is its pair (Kapil, 2026-10-08).
+
+### 13. Decide the Learn drive
 
 **Issue:** #611. The issue still says "Learn loop". It needs a new name, because `/learn` is a play.
 **What:** decide the drive that works out what to do next and corrects the intent.
@@ -126,3 +131,5 @@ Nothing below starts before item 7 is done. Each later drive is decided by a spi
 - 2026-10-08 — Rewritten after Kapil's review: the first cut gave issue numbers with one-line labels that did not explain the work. Each item now says what it is, why it sits where it does, and when it is done.
 - 2026-10-08 — Locked by Kapil as the starting format for plan mode (#619); saved as the plan template.
 - 2026-10-08 — Item 1 done: plan mode decided (ADR 030); wiring filed as Feature #621. Now on item 2 (#616).
+- 2026-10-08 — Kickoff restated as the human interface (Kapil): it makes a plan and issues for the person, and the product model for the agents.
+- 2026-10-08 — Added item 12, the handover drive (the handoff out, Kickoff's pair). The Learn drive is now item 13.
