@@ -1,59 +1,36 @@
 commits:
-  - sha: cf8b8965
-    message: "fix(manage-plan): make the plan check fail when a serves_item does not exist (#619)"
+  - sha: 590da57a
+    message: "fix(manage-plan): keep finished plan items numbered so serves_item is checked exactly (#619)"
     files:
       - core/components/skills/manage-plan/scripts/check_plan.py
       - core/components/skills/manage-plan/scripts/test_check_plan.py
+      - core/components/skills/manage-plan/SKILL.md
+      - core/components/memory/standards/rules/work-plan.md
+      - core/components/memory/standards/templates/work-plan.md
     branch: feature/619-plan-mode
-  - sha: 8fd55372
-    message: "test(platform-adapter): add a test for the GitLab version probe (#619)"
+  - sha: 34950000
+    message: "test(platform-adapter): cover the GitLab path of the view-issue probe and correct the test header (#619)"
     files:
       - core/components/plays/play-creator/references/test_platform_adapter.py
     branch: feature/619-plan-mode
-  - sha: 6e5ca76c
-    message: "docs(work-plan): mark the not-yet-wired parts of the plan contract and keep the plan path in one place (#619)"
-    files:
-      - core/components/memory/standards/rules/work-plan.md
-      - core/components/memory/standards/templates/work-plan.md
-      - core/grounding/glossary.md
-      - core/components/skills/manage-plan/SKILL.md
-      - core/components/agents/project-orchestrator.md
-    branch: feature/619-plan-mode
-  - sha: b15a1b63
-    message: "docs(gitlab): remove the unverified claim from the GitLab adapter wording (#619)"
+  - sha: a1b42c05
+    message: "docs(gitlab): remove unsourced claims about GitLab hierarchy (#619)"
     files:
       - core/components/memory/tools/gitlab/adapter.md
       - core/components/skills/platform-adapter/reference/gitlab/verbs.md
     branch: feature/619-plan-mode
-  - sha: 2da43ca7
-    message: "chore(stm): record the round 2 review and move the round 1 records into round1 (#619)"
+  - sha: 15914f78
+    message: "chore(stm): record the round 3 review findings and plan updates (#619)"
     files:
-      - .garura/project/issues/619/review/categories.yaml
-      - .garura/project/issues/619/review/context.yaml
-      - .garura/project/issues/619/review/decision-comment.md
-      - .garura/project/issues/619/review/decision.yaml
-      - .garura/project/issues/619/review/design-findings-harness.yaml
-      - .garura/project/issues/619/review/design-findings-memory.yaml
-      - .garura/project/issues/619/review/findings.yaml
-      - .garura/project/issues/619/review/posted.json
-      - .garura/project/issues/619/review/pr.diff
-      - .garura/project/issues/619/review/quality-findings.yaml
-      - .garura/project/issues/619/review/recommended_verdict.yaml
-      - .garura/project/issues/619/review/round1/categories.yaml
-      - .garura/project/issues/619/review/round1/decision-comment.md
-      - .garura/project/issues/619/review/round1/decision.yaml
-      - .garura/project/issues/619/review/round1/design-findings-harness.yaml
-      - .garura/project/issues/619/review/round1/design-findings-memory.yaml
-      - .garura/project/issues/619/review/round1/findings.yaml
-      - .garura/project/issues/619/review/round1/posted.json
-      - .garura/project/issues/619/review/round1/quality-findings.yaml
-      - .garura/project/issues/619/review/round1/recommended_verdict.yaml
+      - .garura/project/issues/606/specs/plan.md
+      - .garura/project/issues/619/specs/plan.md
+      - .garura/project/issues/619/review/round3-findings.yaml
     branch: feature/619-plan-mode
 excluded_files:
   - path: ".garura/project/issues/619/context/porcelain.txt"
-    reason: "run-state artifact of this play; committed by the executor's final chore(stm) group"
+    reason: "commit-change working file, not part of the change"
   - path: ".garura/project/issues/619/context/analysis.yaml"
-    reason: "run-state artifact of this play; committed by the executor's final chore(stm) group"
+    reason: "commit-change working file, not part of the change"
 leftover_count: 0
 tree_clean: true
 pushed: false

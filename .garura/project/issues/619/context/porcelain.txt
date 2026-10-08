@@ -1,16 +1,6 @@
+ M .garura/project/issues/606/specs/plan.md
  M .garura/project/issues/619/context/porcelain.txt
- M .garura/project/issues/619/review/categories.yaml
- M .garura/project/issues/619/review/context.yaml
- D .garura/project/issues/619/review/decision-comment.md
- D .garura/project/issues/619/review/decision.yaml
- M .garura/project/issues/619/review/design-findings-harness.yaml
- M .garura/project/issues/619/review/design-findings-memory.yaml
- D .garura/project/issues/619/review/findings.yaml
- D .garura/project/issues/619/review/posted.json
- M .garura/project/issues/619/review/pr.diff
- M .garura/project/issues/619/review/quality-findings.yaml
- D .garura/project/issues/619/review/recommended_verdict.yaml
- M core/components/agents/project-orchestrator.md
+ M .garura/project/issues/619/specs/plan.md
  M core/components/memory/standards/rules/work-plan.md
  M core/components/memory/standards/templates/work-plan.md
  M core/components/memory/tools/gitlab/adapter.md
@@ -19,5 +9,4 @@
  M core/components/skills/manage-plan/scripts/check_plan.py
  M core/components/skills/manage-plan/scripts/test_check_plan.py
  M core/components/skills/platform-adapter/reference/gitlab/verbs.md
- M core/grounding/glossary.md
-?? .garura/project/issues/619/review/round1/
+?? .garura/project/issues/619/review/round3-findings.yaml

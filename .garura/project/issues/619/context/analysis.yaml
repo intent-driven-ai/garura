@@ -1,72 +1,50 @@
 needs_judgment: false
+
 change_groups:
-  - id: plan-check-serves-item
+  - id: manage-plan-keep-item-numbers
     issue: 619
     commit_type: fix
     scope: manage-plan
-    subject: "make the plan check fail when a serves_item does not exist"
+    subject: "keep finished plan items numbered so serves_item is checked exactly"
     files:
       - core/components/skills/manage-plan/scripts/check_plan.py
       - core/components/skills/manage-plan/scripts/test_check_plan.py
-  - id: adapter-version-probe-test
+      - core/components/skills/manage-plan/SKILL.md
+      - core/components/memory/standards/rules/work-plan.md
+      - core/components/memory/standards/templates/work-plan.md
+  - id: platform-adapter-gitlab-probe-test
     issue: 619
     commit_type: test
     scope: platform-adapter
-    subject: "add a test for the GitLab version probe"
+    subject: "cover the GitLab path of the view-issue probe and correct the test header"
     files:
       - core/components/plays/play-creator/references/test_platform_adapter.py
-  - id: work-plan-not-yet-wired-markers
-    issue: 619
-    commit_type: docs
-    scope: work-plan
-    subject: "mark the not-yet-wired parts of the plan contract and keep the plan path in one place"
-    files:
-      - core/components/memory/standards/rules/work-plan.md
-      - core/components/memory/standards/templates/work-plan.md
-      - core/grounding/glossary.md
-      - core/components/skills/manage-plan/SKILL.md
-      - core/components/agents/project-orchestrator.md
-  - id: gitlab-wording-unverified-claim
+  - id: gitlab-remove-unsourced-hierarchy-claims
     issue: 619
     commit_type: docs
     scope: gitlab
-    subject: "remove the unverified claim from the GitLab adapter wording"
+    subject: "remove unsourced claims about GitLab hierarchy"
     files:
       - core/components/memory/tools/gitlab/adapter.md
       - core/components/skills/platform-adapter/reference/gitlab/verbs.md
-  - id: stm-review-records-round2
+  - id: stm-round3-review-records
     issue: 619
     commit_type: chore
     scope: stm
-    subject: "record the round 2 review and move the round 1 records into round1"
+    subject: "record the round 3 review findings and plan updates"
     files:
-      - .garura/project/issues/619/review/categories.yaml
-      - .garura/project/issues/619/review/context.yaml
-      - .garura/project/issues/619/review/decision-comment.md
-      - .garura/project/issues/619/review/decision.yaml
-      - .garura/project/issues/619/review/design-findings-harness.yaml
-      - .garura/project/issues/619/review/design-findings-memory.yaml
-      - .garura/project/issues/619/review/findings.yaml
-      - .garura/project/issues/619/review/posted.json
-      - .garura/project/issues/619/review/pr.diff
-      - .garura/project/issues/619/review/quality-findings.yaml
-      - .garura/project/issues/619/review/recommended_verdict.yaml
-      - .garura/project/issues/619/review/round1/categories.yaml
-      - .garura/project/issues/619/review/round1/decision-comment.md
-      - .garura/project/issues/619/review/round1/decision.yaml
-      - .garura/project/issues/619/review/round1/design-findings-harness.yaml
-      - .garura/project/issues/619/review/round1/design-findings-memory.yaml
-      - .garura/project/issues/619/review/round1/findings.yaml
-      - .garura/project/issues/619/review/round1/posted.json
-      - .garura/project/issues/619/review/round1/quality-findings.yaml
-      - .garura/project/issues/619/review/round1/recommended_verdict.yaml
+      - .garura/project/issues/606/specs/plan.md
+      - .garura/project/issues/619/specs/plan.md
+      - .garura/project/issues/619/review/round3-findings.yaml
+
 exclusions:
   - path: ".garura/project/issues/619/context/porcelain.txt"
-    reason: "run-state artifact of this play; committed by the executor's final chore(stm) group"
+    reason: "commit-change working file, not part of the change"
     blocking: false
   - path: ".garura/project/issues/619/context/analysis.yaml"
-    reason: "run-state artifact of this play; committed by the executor's final chore(stm) group"
+    reason: "commit-change working file, not part of the change"
     blocking: false
+
 risks:
   sensitive_files: []
   breaking_changes: []
