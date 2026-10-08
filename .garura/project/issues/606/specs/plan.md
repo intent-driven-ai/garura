@@ -82,7 +82,7 @@ Three decisions are made: the lifecycle is five loops (#592), a loop is a drive 
 **Issue:** #613.
 **What:** the drive itself. It asks all its questions first, runs `/intent` → `/vision` → `/understand` (once for each capability), stops only for a new question, has a different model or agent check the result, and writes its evidence.
 **Why here:** it needs all of items 3 to 6.
-**Done when:** a working prototype goes in; out come a plan and issues the person can read, and a detailed product model for the agents — checked and reviewed.
+**Done when:** a working prototype goes in; the person approves the plan; out come a plan and issues the person can read, and a detailed product model for the agents — checked and reviewed.
 **Needs:** items 3, 4, 5 and 6.
 
 ### Alongside items 2 to 7: the product-model ontology
@@ -91,7 +91,7 @@ Three decisions are made: the lifecycle is five loops (#592), a loop is a drive 
 **What:** rebuild the product model as a proper model of what the product is. Only the parts the Kickoff plays need are built now, as those plays are fixed.
 **Why alongside:** ADR 029 ties it to this work. It is built piece by piece, not as one step.
 
-### Checkpoint: Kickoff lands
+### Milestone: Kickoff lands
 
 Nothing below starts before item 7 is done. Each later drive is decided by a spike, then built from the stories that spike files.
 

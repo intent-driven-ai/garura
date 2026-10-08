@@ -36,7 +36,7 @@ Done. Plan mode is decided (ADR 030), its first pieces are built, and the work t
 
 ### Done
 
-- **The plan format, locked as a template** — P1. Saved as `core/components/memory/standards/templates/plan.md`, from the #606 plan.
+- **The plan format, locked as a template** — P1. Saved as `core/components/memory/standards/templates/work-plan.md`, from the #606 plan.
 - **The plan skill and its context step** — P2. `manage-plan` creates, updates and checks plans; its check script decides "done". `project-orchestrator` gathers the issue, its parent and its children, then calls it. The GitHub read now returns type, parent and sub-issues (needs gh 2.94.0+; gh upgraded to 2.102.0).
 - **The open questions, answered in ADR 030** — P3–P10: the opening trinity `start-change` → `plan-change` → `approve-change`, firing only when needed; plans live in STM; the check script decides done; small and big updates, with a drive's big updates approved at its end; each plan names the plan it serves; plays drop their task lists once the plan takes over their four jobs.
 - **The wiring stories, filed** — Feature #621 under #539, with Stories #622–#628 (from ADR 030).
@@ -50,3 +50,4 @@ Done. Plan mode is decided (ADR 030), its first pieces are built, and the work t
 - 2026-10-08 — Item 3 done: P10 locked (plan replaces task lists after taking over their four jobs); all answers written as ADR 030. Now on item 4.
 - 2026-10-08 — Added a 7th story to item 4: a `show` mode for the plan skill, after Kapil found the plan readout confusing.
 - 2026-10-08 — Item 4 done: Feature #621 and Stories #622–#628 filed. Plan done.
+- 2026-10-08 — Review of PR #629 (1 P2, 17 P3, 17 P4) fixed in full on this branch: issue reads keep type, parent, children and full text; an older gh falls back instead of failing; the plan check matches whole issue numbers and has 24 tests; the template is renamed `work-plan.md` and its rules moved to `rules/work-plan.md`; agent, skill, docs and ADRs aligned.

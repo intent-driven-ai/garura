@@ -4,7 +4,7 @@ Working notes. These move into an ADR when the spike closes.
 
 ## Decided
 
-**P1 — The plan format is locked as the starting point.** The second cut of `.garura/project/issues/606/specs/plan.md` is the template: front matter (`plan_for`, `kind`, `serves`, `status`, `updated`, `now`); what we are trying to reach; when the plan is done; where we are now; the items in order, each with What, Why here, Done when and Needs; checkpoints; a log. Saved as `core/components/memory/standards/templates/plan.md`. Kapil, 2026-10-08.
+**P1 — The plan format is locked as the starting point.** The second cut of `.garura/project/issues/606/specs/plan.md` is the template: front matter (`plan_for`, `kind`, `serves`, `status`, `updated`, `now`); what we are trying to reach; when the plan is done; where we are now; the items in order, each with What, Why here, Done when and Needs; checkpoints; a log. Saved as `core/components/memory/standards/templates/work-plan.md`. Kapil, 2026-10-08.
 
 Why the first cut was rejected: it gave issue numbers with one-line labels that did not explain the work. A plan item must say what the work is, why it sits there, and when it is done.
 
