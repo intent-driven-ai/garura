@@ -1,0 +1,25 @@
+Story #616: /intent, /vision and /understand each run by hand without needing another to run first
+
+> Parent: #594 (drives). Decided in spike #607; source of truth: [ADR 029 — Drives](docs/adr/029-drives.md).
+
+## What
+
+Today the plays form a hard chain:
+- `/understand` halts unless `/vision` already seeded the capability as a directional seed (`understand/SKILL.md`, pre-flight, C1/REC1).
+- `/understand` halts on a dirty model tree and says to run the prior pipeline play to its close (C12/REC13).
+- `/vision` opens the strategy branch, and that change only closes at `/roadmap` (`vision/reference/ice.md`).
+
+Break the chain, so each of `/intent`, `/vision` and `/understand` can run by hand on its own (ADR 029, section 4).
+
+## Acceptance criteria
+
+- [ ] `/understand` can run on a capability that `/vision` did not seed, or says plainly what it needs and gathers it.
+- [ ] No play halts only because another play has not run first.
+- [ ] `/vision`'s change no longer has to wait for `/roadmap` to close.
+- [ ] Each change goes through the play's ICE source and `/play-editor`.
+
+## Out of scope
+
+- Running inside a drive (the two Stories for `/vision` and `/understand`).
+- `/shape` and `/roadmap` — they belong to the next drive.
+- The product-model ontology beyond what this change needs (#597).
