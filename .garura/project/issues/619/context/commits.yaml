@@ -1,40 +1,26 @@
 commits:
-  - sha: 06b933d3
-    message: "feat(templates): add plan template and index row (#619)"
+  - sha: 102443fb
+    message: "docs(philosophy): state the plan as the human interface and add the handover drive (#619)"
+    files:
+      - docs/philosophy/idsd.md
+      - docs/adr/029-drives.md
+      - docs/adr/030-plan-mode.md
+    branch: feature/619-plan-mode
+  - sha: 4aff532c
+    message: "docs(templates): require plans to say what kind of done each item is (#619)"
     files:
       - core/components/memory/standards/templates/plan.md
-      - core/components/memory/standards/templates/_index.md
     branch: feature/619-plan-mode
-  - sha: 06f4bcdb
-    message: "feat(skills): add manage-plan skill and plan-context step in project-orchestrator (#619)"
-    files:
-      - core/components/skills/manage-plan/SKILL.md
-      - core/components/skills/manage-plan/scripts/check_plan.py
-      - core/components/agents/project-orchestrator.md
-    branch: feature/619-plan-mode
-  - sha: 8da9935e
-    message: "feat(platform-adapter): return issueType, parent and subIssues from read-issue (#619)"
-    files:
-      - core/components/skills/platform-adapter/reference/github/verbs.md
-      - core/components/skills/platform-adapter/reference/gitlab/verbs.md
-      - core/components/memory/tools/github/adapter.md
-      - core/components/plays/merge-change/scripts/platform_adapter.py
-      - core/components/plays/play-creator/references/platform_adapter.py
-      - core/components/plays/propose-change/scripts/platform_adapter.py
-      - core/components/plays/review-change/scripts/platform_adapter.py
-    branch: feature/619-plan-mode
-  - sha: ffc873ca
-    message: "chore(stm): record plan mode spike plans and decisions (#619)"
+  - sha: 76067c5d
+    message: "chore(stm): update the #606 plan for Kickoff as the human interface and the handover drive (#619)"
     files:
       - .garura/project/issues/606/specs/plan.md
-      - .garura/project/issues/619/specs/plan.md
-      - .garura/project/issues/619/specs/decisions.md
     branch: feature/619-plan-mode
 excluded_files:
   - path: ".garura/project/issues/619/context/porcelain.txt"
-    reason: "run artifact, committed by the executor's chore(stm) run-state group"
+    reason: "run artifact of the commit-change play; committed by the run-state step"
   - path: ".garura/project/issues/619/context/analysis.yaml"
-    reason: "run artifact, committed by the executor's chore(stm) run-state group"
+    reason: "run artifact of the commit-change play; committed by the run-state step"
 leftover_count: 0
 tree_clean: true
 pushed: false
