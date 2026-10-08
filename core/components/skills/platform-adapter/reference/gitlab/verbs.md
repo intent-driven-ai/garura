@@ -92,7 +92,7 @@ glab issue view {issue_number} --output json
 
 Note: close date is in the `closed_at` field (snake_case, unlike GitHub's `closedAt`). Callers should use `jq '.closedAt // .closed_at'` to handle both platforms.
 
-Gap: GitLab issues carry no type, parent or sub-issue fields equal to GitHub's `issueType`, `parent` and `subIssues`. Callers that need the issue tree get it on GitHub only.
+Gap: this command does not read the issue's type, parent or children. GitLab's equivalents of GitHub's `issueType`, `parent` and `subIssues` have not been mapped or tested, so callers get the issue tree on GitHub only (`tree_available: false` on GitLab).
 
 ## create-issue
 
