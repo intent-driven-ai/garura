@@ -1,0 +1,34 @@
+---
+# analyze-changes output (grouping judgment done)
+# issue: 616
+needs_judgment: false
+
+change_groups:
+  - id: understand-seed-doc-folder
+    issue: 616
+    commit_type: fix
+    scope: understand
+    subject: "take a seed's doc folder from the domain's own doc, require text seed fields, and tidy the enrich skill's step 1; tests 32 to 39"
+    files:
+      - core/components/plays/understand/SKILL.md
+      - core/components/plays/understand/scripts/persist_understand.py
+      - core/components/plays/understand/scripts/test_persist_understand.py
+      - core/components/skills/enrich-capability-ice/SKILL.md
+  - id: stm-round2-findings
+    issue: 616
+    commit_type: chore
+    scope: stm
+    subject: "record round 2 review findings"
+    files:
+      - .garura/project/issues/616/review/round2-findings.yaml
+
+exclusions:
+  - path: ".garura/project/issues/616/context/porcelain.txt"
+    reason: "commit-change working scratch, regenerated each run"
+    blocking: false
+  - path: ".garura/project/issues/616/context/analysis.yaml"
+    reason: "commit-change working scratch (this file)"
+    blocking: false
+
+risks:
+  sensitive_files: []

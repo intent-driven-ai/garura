@@ -7,8 +7,13 @@ start-change opening and the same commit → propose → review → merge closin
 each play re-deciding how a change is opened and landed.
 
 It governs only the **delivery pipeline** (the path that opens an issue, does the work, and
-lands it on main). Strategic and model-building plays (vision, understand, shape, roadmap,
-realize, grill, …) are not on this pipeline and declare `position: none`.
+lands it on main). Every play declares where it sits; many model-building plays now open and
+land their own change. As compiled today: `both` — /vision, /understand (#616), /measure,
+/grill, /learn, /fix-bug, /refactor; `start` — /arch, /ux, /implement; `end` — /roadmap,
+/marketing, /run, /launch; `none` — /shape, /agentic, /quality, /validate, /deploy, /next,
+/focus. (A `none` play runs on whatever branch is already started — /shape and /roadmap's
+reliance on /vision's old shared branch is a known follow-up from #616.) Inside a drive the
+opening is skipped once the drive has opened its change (ADR 030, P4; wired in #614/#615).
 
 ## The declaration
 

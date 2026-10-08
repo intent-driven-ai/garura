@@ -1,0 +1,6 @@
+decision: approve
+decided_by: harness
+gate: "gate skipped by config (gates.plays.review-change)"
+reason: "no open findings after two review rounds; no P1"
+recommendation_source: recommended_verdict.yaml
+blocking: []

@@ -1,0 +1,6 @@
+ M .garura/project/issues/616/context/porcelain.txt
+ M core/components/plays/understand/SKILL.md
+ M core/components/plays/understand/scripts/persist_understand.py
+ M core/components/plays/understand/scripts/test_persist_understand.py
+ M core/components/skills/enrich-capability-ice/SKILL.md
+?? .garura/project/issues/616/review/round2-findings.yaml
