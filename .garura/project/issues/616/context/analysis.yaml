@@ -1,0 +1,42 @@
+needs_judgment: false
+
+change_groups:
+  - id: vision-lands-own-change
+    issue: 616
+    commit_type: feat
+    scope: vision
+    subject: "land the vision play's own change (position start to both)"
+    files:
+      - core/components/plays/vision/reference/ice.md
+      - core/components/plays/vision/SKILL.md
+  - id: understand-stands-alone
+    issue: 616
+    commit_type: feat
+    scope: understand
+    subject: "stand alone: seed an absent capability from the person's answers and land its own change (position none to both)"
+    files:
+      - core/components/plays/understand/reference/ice.md
+      - core/components/plays/understand/SKILL.md
+      - core/components/plays/understand/scripts/persist_understand.py
+      - core/components/plays/understand/scripts/test_persist_understand.py
+  - id: stm-616-plan-and-decisions
+    issue: 616
+    commit_type: chore
+    scope: stm
+    subject: "record the plan, decisions, follow-up write-up and plan check"
+    files:
+      - .garura/project/issues/616/specs/plan.md
+      - .garura/project/issues/616/specs/decisions.md
+      - .garura/project/issues/616/specs/followup-shape-roadmap.md
+      - .garura/project/issues/616/context/plan-check.json
+
+exclusions:
+  - path: ".garura/project/issues/616/context/porcelain.txt"
+    reason: "run-state scratch file of the commit-change play itself"
+    blocking: false
+  - path: ".garura/project/issues/616/context/analysis.yaml"
+    reason: "this analysis, the play's own run artifact"
+    blocking: false
+
+risks:
+  sensitive_files: []
