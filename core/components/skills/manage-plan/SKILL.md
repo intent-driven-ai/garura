@@ -45,7 +45,7 @@ Read both files first, every time: the format at `template_path` and the rules a
 
 ### Action: `create`
 
-1. If `existing_plan` is set, stop and switch to `update` — a plan is never written twice.
+1. If `existing_plan` is set, write nothing: run the check on the existing plan and return its paths. A plan is never written twice; the caller sends `update` with a `change` if it wants the plan changed.
 2. Read the context file and every decision record it lists.
 3. Write `plan_path` in the canonical format:
    - **What we are trying to reach** — what is true today, what should be true instead, and why, in plain words.
@@ -69,7 +69,7 @@ Read both files first, every time: the format at `template_path` and the rules a
    - move `— now` and the front matter `now` to the next item that can start.
 3. Set `updated` to today. Add one dated log line saying what changed and why.
 4. When no numbered item is left, set `status: done` and `now: -`.
-5. A big update (rules file: adding, dropping or reordering items; a play finishing inside a drive; a linked issue completing) is logged as big. Outside a drive, the calling play routes it to `approve-change`; this skill does not ask the human.
+5. A big update (rules file: adding, dropping or reordering items; a play finishing inside a drive; a linked issue completing) is logged as big. Outside a drive, the calling play routes it to `approve-change` (planned, #622); this skill does not ask the human.
 6. Run the check. Fix anything it reports before returning.
 
 ### Action: `check`
