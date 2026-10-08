@@ -25,7 +25,7 @@ The grounding docs are the unit of meaning: each conforms to its locked template
 must clear the **content-quality eval** (a judge), so a thin or label-only doc cannot
 pass. Structure lives in the spine; meaning lives in the docs.
 
-Pipeline position: **start**. /vision OPENS the strategy pipeline (vision → understand → shape → roadmap): the D2 rule prepends `start-change` — resolve or create the strategy issue, cut the branch off fresh main, optional worktree, init STM — so every later strategy play runs on this already-started branch. No pipeline close sequence (no end PR) is injected here; the strategy change closes at /roadmap. It writes the persistent product model **directly, in place** (additively) on the started branch — there is no draft copy and no apply/promote step; review is the branch git diff and the pipeline's end PR. (#437, #500, ADR 026)
+Pipeline position: **both**. /vision stands on its own (ADR 029 §4; #616): run by hand, it opens its own change and lands it. The D2 rule prepends `start-change` — resolve or create the issue, cut the branch off fresh main, optional worktree, init STM — and, after the model delta is committed, appends the close sequence `commit-change → propose-change → review-change → merge-change`, landing the seed on main. No later play needs to run for /vision's work to be finished: /understand and the plays after it start from main. It writes the persistent product model **directly, in place** (additively) on the started branch — there is no draft copy and no apply/promote step; review is the branch git diff and the end PR. (#437, #500, ADR 026; position changed from start to both in #616.)
 
 Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM authoring skill writes ONLY the per-node grounding docs (`domain.md`, `capability.md`) straight to the live model, and only for a node that is absent (skip-if-exists — it never overwrites an existing doc); every shared-file mutation (the spine `_spine.yaml`, including its `profile` block) is done by the deterministic keyed persist script, in place, merging the manifest's spine-delta additively — it adds only entries whose id is absent and the profile only if none exists, and refuses to modify any existing entry (the node-level containment the file-level scoped guard cannot see inside the shared spine). Because the LLM only ever writes separate doc files, containment is a post-write scoped guard over the full delta (`scoped_write_guard.py`), not a draft. Clean tree in, committed delta out: the product-os tree is asserted clean once start-change has cut the fresh branch, and after the approved checkpoint the play commits its own model delta on the branch, so the working-tree diff vs HEAD is exactly this run's delta and the next pipeline play (/understand) enters clean.
 
@@ -86,16 +86,16 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
   written in place on the live model (the keyed persist record exists and stamps the write
   applied) and the scoped-write guard report reads ok (the allowlist held). The play then
   commits its own model delta on the branch. The close never reads COMPLETED with the
-  stop-condition verdict unmet. This per-play Standard Play Close (evidence + delivery
-  report) is distinct from the pipeline end sequence (the end PR), which /vision does not
-  run — that closes at /roadmap.
+  stop-condition verdict unmet. After the model-delta commit, the injected end sequence
+  (commit → propose → review → merge) lands the change on main; each member proves its own
+  Done means, and a review reject stops the chain before merge. This per-play Standard Play
+  Close (evidence + delivery report) runs after the end sequence and is distinct from it.
 - C9 — Clean tree in, committed delta out (ADR 026): once start-change has cut the fresh
   branch, the product-os tree is asserted clean (a dirty model tree halts), so HEAD is a
   correct base for the scoped guard and the change-shape; and after the approved checkpoint
-  the play commits its model delta on the branch (`feat(model): … (#<issue>)`), so the next
-  pipeline play (/understand) enters a clean tree with a correct base. This model-delta
-  commit is a lightweight persist step, distinct from the Standard Play Close; it is not the
-  pipeline end sequence.
+  the play commits its model delta on the branch (`feat(model): … (#<issue>)`), so the end
+  sequence lands exactly this run's delta. This model-delta commit is a lightweight persist
+  step, distinct from both the end sequence and the Standard Play Close.
 
 ### Failure conditions
 
@@ -139,8 +139,9 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
   entry and its `capabilities` holds at least one with `status: proposed`,
   `detail: directional`, and `domain` set to the domain id; each entry's `doc` exists at its
   pointer and matches its kind and stage; the linter passes; the content eval gate passes
-  for every grounding doc; the profile `state` is `directional`; the stop-condition verdict
-  reads held.
+  for every grounding doc; the profile `state` is `directional`; the run's change is landed
+  on main by the injected end sequence (merge-change reports the PR merged), with no later
+  play needed to finish it; the stop-condition verdict reads held.
 - S2 — (architect, grounding audit) Given the seed is written, when capabilities are
   inspected, then each traces to a KB domain shelf or a recorded KB-node proposal.
   Measure: the seed manifest names, for every capability written, either a KB shelf it
