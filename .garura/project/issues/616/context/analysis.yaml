@@ -1,42 +1,51 @@
+---
 needs_judgment: false
-
 change_groups:
-  - id: vision-lands-own-change
+  - id: understand-seed-first
     issue: 616
-    commit_type: feat
-    scope: vision
-    subject: "land the vision play's own change (position start to both)"
-    files:
-      - core/components/plays/vision/reference/ice.md
-      - core/components/plays/vision/SKILL.md
-  - id: understand-stands-alone
-    issue: 616
-    commit_type: feat
+    commit_type: fix
     scope: understand
-    subject: "stand alone: seed an absent capability from the person's answers and land its own change (position none to both)"
+    subject: "ask for the seed before opening any change; refuse a seed unless answered_by human, malformed file, or bad doc path; tests 19 to 32"
     files:
       - core/components/plays/understand/reference/ice.md
       - core/components/plays/understand/SKILL.md
       - core/components/plays/understand/scripts/persist_understand.py
       - core/components/plays/understand/scripts/test_persist_understand.py
-  - id: stm-616-plan-and-decisions
+      - core/components/skills/enrich-capability-ice/SKILL.md
+  - id: vision-stale-clause
+    issue: 616
+    commit_type: fix
+    scope: vision
+    subject: "remove stale clause from ice and drop edit note from SKILL"
+    files:
+      - core/components/plays/vision/reference/ice.md
+      - core/components/plays/vision/SKILL.md
+  - id: standards-pipeline-position
+    issue: 616
+    commit_type: docs
+    scope: standards
+    subject: "list each play's real position in pipeline-position"
+    files:
+      - core/components/memory/standards/rules/pipeline-position.md
+  - id: stm-plan-review
     issue: 616
     commit_type: chore
     scope: stm
-    subject: "record the plan, decisions, follow-up write-up and plan check"
+    subject: "record plan, decisions and PR review artifacts"
     files:
       - .garura/project/issues/616/specs/plan.md
       - .garura/project/issues/616/specs/decisions.md
-      - .garura/project/issues/616/specs/followup-shape-roadmap.md
-      - .garura/project/issues/616/context/plan-check.json
-
+      - .garura/project/issues/616/review/categories.yaml
+      - .garura/project/issues/616/review/context.yaml
+      - .garura/project/issues/616/review/design-findings-harness.yaml
+      - .garura/project/issues/616/review/pr.diff
+      - .garura/project/issues/616/review/quality-findings.yaml
 exclusions:
   - path: ".garura/project/issues/616/context/porcelain.txt"
-    reason: "run-state scratch file of the commit-change play itself"
+    reason: "play run-state; committed by the executor's final chore(stm) step"
     blocking: false
   - path: ".garura/project/issues/616/context/analysis.yaml"
-    reason: "this analysis, the play's own run artifact"
+    reason: "play run-state; committed by the executor's final chore(stm) step"
     blocking: false
-
 risks:
   sensitive_files: []
