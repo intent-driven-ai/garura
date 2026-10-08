@@ -71,10 +71,10 @@ gh pr merge {pr_number}
 Fetch issue details (JSON):
 
 ```bash
-gh issue view {issue_number} --json number,title,labels,state,body,url,closedAt
+gh issue view {issue_number} --json number,title,labels,state,body,url,closedAt,issueType,parent,subIssues,subIssuesSummary
 ```
 
-Note: close date is in the `closedAt` field.
+Note: close date is in the `closedAt` field. `issueType` (the issue's type, e.g. Feature, Story), `parent` (the parent issue, or null) and `subIssues` (its child issues, each with number, title and state) need gh **2.94.0 or newer**; an older gh rejects these fields.
 
 ## create-issue
 

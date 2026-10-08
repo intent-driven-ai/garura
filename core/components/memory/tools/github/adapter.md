@@ -52,7 +52,7 @@ Backed by: `gh pr merge {pr_number}`
 
 ### view-issue
 
-Fetches issue details as JSON. Returns `number`, `title`, `labels`, `state`, `body`, `url`, and `closedAt`. The `closedAt` field (camelCase) holds the close timestamp — use this for archive bucketing.
+Fetches issue details as JSON. Returns `number`, `title`, `labels`, `state`, `body`, `url`, `closedAt`, `issueType`, `parent`, `subIssues`, and `subIssuesSummary`. The `closedAt` field (camelCase) holds the close timestamp — use this for archive bucketing. `issueType`, `parent` and `subIssues` give the issue's place in the work tree (its type, its parent, its children); they need **gh 2.94.0 or newer**.
 
 Backed by: `gh issue view {issue_number} --json ...`
 

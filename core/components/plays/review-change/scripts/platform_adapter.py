@@ -116,7 +116,7 @@ def _gh(verb, args, repo):
         return [["gh", "pr", "merge", str(a["pr_number"]), "--merge"]]
     if verb == "view-issue":
         return [["gh", "issue", "view", str(a["issue_number"]), "--json",
-                 "number,title,labels,state,body,url,closedAt"]]
+                 "number,title,labels,state,body,url,closedAt,issueType,parent,subIssues,subIssuesSummary"]]
     if verb == "create-issue":
         argv = ["gh", "issue", "create", "--title", a["title"], "--body", a["body"]]
         _opt(argv, "--label", a.get("labels"))
