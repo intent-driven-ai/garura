@@ -180,7 +180,7 @@ seed:
   one_line: <the person's one line>
   why: <the person's reason>
   answered_by: human
-  doc: <domain-dir>/<capability-slug>/capability.md
+  doc: <domain folder, from the domain's own doc in the spine>/<capability-slug>/capability.md
 ```
 
 With no answer, or a domain not in the spine, halt and say plainly what is needed (REC1) —
