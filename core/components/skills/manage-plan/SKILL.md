@@ -63,7 +63,7 @@ Read both files first, every time: the format at `template_path` and the rules a
 
 1. Read the plan and the `change`.
 2. Apply only that change:
-   - a finished item moves to `### Done` as one line saying what it settled or delivered;
+   - a finished item moves to `### Done` as one line, **keeping its number** (`**{n}. Decided | Built | Shipped: …**`), saying what it settled or delivered and what is still not done;
    - a dropped item is removed, and the log says why;
    - a reorder moves items and fixes every **Needs** that pointed at them;
    - move `— now` and the front matter `now` to the next item that can start.
@@ -108,5 +108,5 @@ Never report a plan as done unless that file says `done: true`.
 The plan's own rules are in `rules_path`. This skill adds three of its own:
 
 - **Change only what the `change` says.** An update is not a rewrite.
-- **Create refuses when a plan exists.**
+- **Create never overwrites a plan.** With a plan already on disk, `create` writes nothing and returns the existing plan's paths.
 - **The script decides done.** Not you.
