@@ -36,11 +36,11 @@ Done. Plan mode is decided (ADR 030), its first pieces are built, and the work t
 
 ### Done
 
-- **The plan format, locked as a template** — P1. Saved as `core/components/memory/standards/templates/work-plan.md`, from the #606 plan.
-- **The plan skill and its context step** — P2. `manage-plan` creates, updates and checks plans; its check script decides "done". `project-orchestrator` gathers the issue, its parent and its children, then calls it. The GitHub read now returns type, parent and sub-issues (needs gh 2.94.0+; gh upgraded to 2.102.0).
-- **The open questions, answered in ADR 030** — P3–P10: the opening trinity `start-change` → `plan-change` → `approve-change`, firing only when needed; plans live in STM; the check script decides done; small and big updates, with a drive's big updates approved at its end; each plan names the plan it serves; plays drop their task lists once the plan takes over their four jobs.
-- **The wiring stories, filed** — Feature #621 under #539, with Stories #622–#628 (from ADR 030).
-- **Tried on real plans** — the check passes the #606 plan and this one, and catches a wrong "now", an item with no What line, and a plan marked done too early.
+- **Decided: the plan format, locked as a template** — P1. Saved as `core/components/memory/standards/templates/work-plan.md`, from the #606 plan.
+- **1. Built: the plan skill and its context step** — P2. `manage-plan` creates, updates and checks plans; its check script decides "done". `project-orchestrator` gathers the issue, its parent and its children, then calls it. The GitHub read now returns type, parent and sub-issues (needs gh 2.94.0+; gh upgraded to 2.102.0).
+- **3. Decided: the open questions, answered in ADR 030** — P3–P10: the opening trinity `start-change` → `plan-change` → `approve-change`, firing only when needed; plans live in STM; the check script decides done; small and big updates, with a drive's big updates approved at its end; each plan names the plan it serves; plays drop their task lists once the plan takes over their four jobs.
+- **4. Filed: the wiring stories** — Feature #621 under #539, with Stories #622–#628 (from ADR 030).
+- **2. Built: tried on real plans** — the check passes the #606 plan and this one, and catches a wrong "now", an item with no What line, and a plan marked done too early.
 
 ## Log
 
