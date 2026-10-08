@@ -1,0 +1,30 @@
+Spike #607: Decide the Understand loop's recipe — the intent pulled from a working prototype
+
+> **Spike.** A question to answer. The result is a decision, not code.
+> **Serves** #594 (loop recipes), under business intent #606.
+
+## The loop
+
+Working name: **Understand**. Source of truth: [ADR 028](docs/adr/028-agentic-lifecycle-five-loops.md). The loop is an intent; its name will change later.
+
+The lifecycle starts by asking the user for their vision as a **working prototype** (HTML/CSS/JS, or any code that fully shows how the feature behaves). The loop pulls the intent(s) out of it — goal, constraints, failure conditions — and confirms them with the user. The prototype is kept as the example: it is the input, not the intent. The intents feed the product model: created if there is none, updated if there is.
+
+Plays: `/vision`, `/understand`.
+
+## What to decide
+
+- **Its intent.** The goal, the constraints, and the failure conditions that halt it.
+- **Its plays and their order.** Which plays it runs, in what order, and when it runs one again.
+- **When its intent is met.** What the loop checks to know it is done, and where it records that.
+- **Its edges.** What it needs from the loop before it, and what it hands to the loop after it.
+- How the loop stops later steps from copying the prototype in place of the extracted intent (ADR 028 names this risk).
+
+## The shared question
+
+#594 says to decide first what a loop recipe *is* in Garura — a new kind of component, a high-order play, or something else — and how it records that its intent is met. That answer is the same for all five loops. The first of the five loop spikes to be decided settles it, and the other four follow it.
+
+## Done when
+
+- [ ] Each question above has an answer, written into ADR 028 or a new ADR.
+- [ ] A Story is filed under #594 to build the Understand loop recipe.
+

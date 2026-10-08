@@ -1,0 +1,31 @@
+{
+  "pr_number": "618",
+  "base": "main",
+  "changed_paths": [
+    ".garura/project/issues/607/context/analysis.yaml",
+    ".garura/project/issues/607/context/branch.json",
+    ".garura/project/issues/607/context/commits.yaml",
+    ".garura/project/issues/607/context/issue.json",
+    ".garura/project/issues/607/context/porcelain.txt",
+    ".garura/project/issues/607/context/pr-body.md",
+    ".garura/project/issues/607/context/pr.json",
+    ".garura/project/issues/607/context/resolved-rules.json",
+    ".garura/project/issues/607/context/self-review.md",
+    ".garura/project/issues/607/context/work-description.txt",
+    ".garura/project/issues/607/specs/decisions.md",
+    ".garura/user-provided/managing-work.md",
+    "docs/adr/001-three-layer-hierarchy.md",
+    "docs/adr/002-l1-checkpoint-model.md",
+    "docs/adr/008-issue-centric-stm-and-nwwi.md",
+    "docs/adr/028-agentic-lifecycle-five-loops.md",
+    "docs/adr/029-drives.md",
+    "docs/adr/SUPERSEDED-003-guardian-approval.md",
+    "docs/philosophy/architecture.md"
+  ],
+  "standards_order": [
+    "kb",
+    "ltm",
+    "stm"
+  ],
+  "review_shelf": "./.garura/core/memory/knowledge/review/"
+}

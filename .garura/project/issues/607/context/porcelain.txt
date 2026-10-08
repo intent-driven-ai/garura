@@ -1,0 +1,6 @@
+ M .garura/project/issues/607/context/porcelain.txt
+ M .garura/project/issues/607/review/merge-gate.json
+ M .garura/project/issues/607/specs/decisions.md
+ M .garura/user-provided/managing-work.md
+ M core/grounding/glossary.md
+ M docs/adr/029-drives.md

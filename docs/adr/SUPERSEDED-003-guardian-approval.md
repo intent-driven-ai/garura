@@ -1,8 +1,10 @@
 # ADR 003: Guardian Approval Model
 
+> **SUPERSEDED by [ADR 029](029-drives.md).** The `workflow-guardian` agent this ADR relies on was never built. Gate settings (`core/components/memory/standards/rules/gate-config.md`) decide when a human check is skipped, and a drive runs its plays without stopping for their checks. Do not follow this ADR.
+
 ## Status
 
-Accepted
+Superseded
 
 ## Date
 

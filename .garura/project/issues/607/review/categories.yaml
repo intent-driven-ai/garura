@@ -1,0 +1,63 @@
+# review-change Step 2 — categories present in PR #618 (base: main)
+# Derived from the diff content, not from a fixed list. Shelf read from
+# /Users/kapilahuja/.garura/core/memory/knowledge/review/ (context.yaml's relative path does not exist in the repo).
+pr: 618
+base: main
+categories:
+  - name: decision-records
+    playbook: review/adrs
+    design_bearing: false   # adrs.md: Layer 1 only, no design-grounding; the human judges the decision
+    evidence:
+      - docs/adr/029-drives.md                          # new ADR (Status/Context/Decision shape), 125 lines
+      - docs/adr/SUPERSEDED-003-guardian-approval.md    # rename of 003 + SUPERSEDED banner, Status Accepted -> Superseded
+      - docs/adr/001-three-layer-hierarchy.md           # link retarget to the renamed ADR 003
+      - docs/adr/002-l1-checkpoint-model.md             # partial retirement edit
+      - docs/adr/008-issue-centric-stm-and-nwwi.md      # link/status edit
+      - docs/adr/028-agentic-lifecycle-five-loops.md    # partial retirement edit
+    notes:
+      - "Structural checklist applies (ADR linter is a known gap): sections present, Status value allowed, numbered, linked from index."
+      - "Rename 003 -> SUPERSEDED-003: all inbound links must resolve (001, philosophy/architecture.md updated; others not verified here)."
+
+  - name: documentation
+    playbook: review/docs
+    design_bearing: false   # docs.md: Layer 1 only
+    evidence:
+      - docs/philosophy/architecture.md   # one-line link retarget to SUPERSEDED-003; no prose or principle change
+    notes:
+      - "Philosophy docs are a grounding source for other categories, but this change is link-only, so no conformance question arises."
+
+  - name: work-process-rules
+    playbook: null
+    playbook_missing: true
+    note: "No playbook covers a project process-rules file under .garura/user-provided/. Nearest is review/docs (prose), but this file is read by agents (CLAUDE.md says read it before filing or working an issue) and the diff adds a binding exception to 'one issue, one session, one branch'. Recommend a playbook."
+    design_bearing: true    # judgement: changes a rule agents follow; not just explanation
+    evidence:
+      - .garura/user-provided/managing-work.md   # +8 lines: 'The one exception is a drive (ADR 029)'
+    grounding_caution:
+      - "The exception cites ADR 029, which this same branch adds. Ground it on base-ref sources instead: git show main:.garura/user-provided/managing-work.md (the rule being excepted), docs/adr/028 and docs/adr/008 on main, docs/philosophy/**. Do not take principles from ADR 029 or specs/decisions.md."
+
+  - name: work-tracking-run-artifacts
+    playbook: null
+    playbook_missing: true
+    note: "Operational records of the play runs (start-change, commit-change, propose-change) and spike working notes under .garura/project/issues/607/. Not ADRs, not docs, not harness, not memory. Mostly generated; review is a light sanity check (no secrets, correct issue number). Recommend a short playbook or an explicit 'skip generated STM' rule."
+    design_bearing: false
+    evidence:
+      - .garura/project/issues/607/context/analysis.yaml
+      - .garura/project/issues/607/context/branch.json
+      - .garura/project/issues/607/context/commits.yaml
+      - .garura/project/issues/607/context/issue.json
+      - .garura/project/issues/607/context/porcelain.txt
+      - .garura/project/issues/607/context/pr-body.md
+      - .garura/project/issues/607/context/pr.json
+      - .garura/project/issues/607/context/resolved-rules.json
+      - .garura/project/issues/607/context/self-review.md
+      - .garura/project/issues/607/context/work-description.txt
+      - .garura/project/issues/607/specs/decisions.md   # spike working notes L1-L20; source material for ADR 029, not itself an ADR
+    notes:
+      - "pr-body.md, self-review.md and decisions.md are the branch's own account of itself. Never use them as design grounding."
+
+absent_categories_note: "No harness (core/components/**), memory (core/components/memory/**), executable code, config-map, or test files changed."
+missing_playbooks:
+  - work-process-rules
+  - work-tracking-run-artifacts
+design_bearing_categories: [work-process-rules]

@@ -1,0 +1,604 @@
+diff --git a/.garura/project/issues/607/context/analysis.yaml b/.garura/project/issues/607/context/analysis.yaml
+new file mode 100644
+index 00000000..c1ae36f0
+--- /dev/null
++++ b/.garura/project/issues/607/context/analysis.yaml
+@@ -0,0 +1,51 @@
++---
++# analyze-changes output (grouping judgment done, round 1)
++# issue: 607
++needs_judgment: false
++
++change_groups:
++  - id: adr-029-drives
++    issue: 607
++    commit_type: docs
++    scope: adr
++    subject: "record the drives decision in ADR 029 and supersede ADR 003"
++    files:
++      - docs/adr/029-drives.md
++      - docs/adr/003-guardian-approval.md
++      - docs/adr/SUPERSEDED-003-guardian-approval.md
++      - docs/adr/001-three-layer-hierarchy.md
++      - docs/adr/002-l1-checkpoint-model.md
++      - docs/adr/008-issue-centric-stm-and-nwwi.md
++      - docs/adr/028-agentic-lifecycle-five-loops.md
++      - docs/philosophy/architecture.md
++      - .garura/user-provided/managing-work.md
++  - id: spike-607-decision-notes
++    issue: 607
++    commit_type: chore
++    scope: stm
++    subject: "record spike decision notes"
++    files:
++      - .garura/project/issues/607/specs/decisions.md
++
++exclusions:
++  - path: ".garura/project/issues/607/context/analysis.yaml"
++    reason: "run artifact of commit-change; committed by the executor as the final chore(stm) group via --run-state-dir"
++    blocking: false
++  - path: ".garura/project/issues/607/context/porcelain.txt"
++    reason: "run artifact of commit-change; committed by the executor as the final chore(stm) group via --run-state-dir"
++    blocking: false
++
++risks:
++  sensitive_files:
++    []
++  breaking_changes:
++    []
++  hotfix_branch: false
++
++eval_gates:
++  SE-1: {status: PASS, evidence: "11 changed paths: 9 in the docs group, 1 in the chore(stm) group, 2 run artifacts in exclusions; none left over (rename lists both old and new path)"}
++  SE-5: {status: PASS, evidence: "no sensitive filename or content patterns matched in the diff or in the untracked files; all changes are markdown"}
++
++notes:
++  - "Single-issue branch, so one docs group for all ADR, philosophy and process-doc edits (they are one decision). The spike working notes are operational STM, split into a chore(stm) group per the skill's rule."
++  - "ADR 003 rename is staged as a rename with extra worktree edits (status RM); both paths are listed so the pathspec commit covers the deletion and the new file."
+diff --git a/.garura/project/issues/607/context/branch.json b/.garura/project/issues/607/context/branch.json
+new file mode 100644
+index 00000000..8fd7a399
+--- /dev/null
++++ b/.garura/project/issues/607/context/branch.json
+@@ -0,0 +1,6 @@
++{
++  "branch_name": "feature/607-understand-loop-recipe",
++  "base_sha": "f1bc33221d7ba402df5486717b1328ab89373aa1",
++  "on_default_branch": false,
++  "worktree_path": null
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/607/context/commits.yaml b/.garura/project/issues/607/context/commits.yaml
+new file mode 100644
+index 00000000..c7f9a803
+--- /dev/null
++++ b/.garura/project/issues/607/context/commits.yaml
+@@ -0,0 +1,28 @@
++commits:
++  - sha: 0255d474
++    message: "docs(adr): record the drives decision in ADR 029 and supersede ADR 003 (#607)"
++    files:
++      - docs/adr/029-drives.md
++      - docs/adr/003-guardian-approval.md
++      - docs/adr/SUPERSEDED-003-guardian-approval.md
++      - docs/adr/001-three-layer-hierarchy.md
++      - docs/adr/002-l1-checkpoint-model.md
++      - docs/adr/008-issue-centric-stm-and-nwwi.md
++      - docs/adr/028-agentic-lifecycle-five-loops.md
++      - docs/philosophy/architecture.md
++      - .garura/user-provided/managing-work.md
++    branch: feature/607-understand-loop-recipe
++  - sha: 25a21615
++    message: "chore(stm): record spike decision notes (#607)"
++    files:
++      - .garura/project/issues/607/specs/decisions.md
++    branch: feature/607-understand-loop-recipe
++excluded_files:
++  - path: ".garura/project/issues/607/context/analysis.yaml"
++    reason: "run artifact of commit-change; committed by the executor as the final chore(stm) group via --run-state-dir"
++  - path: ".garura/project/issues/607/context/porcelain.txt"
++    reason: "run artifact of commit-change; committed by the executor as the final chore(stm) group via --run-state-dir"
++leftover_count: 0
++tree_clean: true
++pushed: false
++run_state_committed: true
+diff --git a/.garura/project/issues/607/context/issue.json b/.garura/project/issues/607/context/issue.json
+new file mode 100644
+index 00000000..9016f50c
+--- /dev/null
++++ b/.garura/project/issues/607/context/issue.json
+@@ -0,0 +1 @@
++{"resolved": true, "issue_number": 607, "title": "Decide the Understand loop's recipe — the intent pulled from a working prototype", "created": false}
+diff --git a/.garura/project/issues/607/context/porcelain.txt b/.garura/project/issues/607/context/porcelain.txt
+new file mode 100644
+index 00000000..f92a1e7b
+--- /dev/null
++++ b/.garura/project/issues/607/context/porcelain.txt
+@@ -0,0 +1,10 @@
++ M .garura/user-provided/managing-work.md
++ M docs/adr/001-three-layer-hierarchy.md
++ M docs/adr/002-l1-checkpoint-model.md
++ M docs/adr/008-issue-centric-stm-and-nwwi.md
++ M docs/adr/028-agentic-lifecycle-five-loops.md
++RM docs/adr/003-guardian-approval.md -> docs/adr/SUPERSEDED-003-guardian-approval.md
++ M docs/philosophy/architecture.md
++?? .garura/project/issues/607/context/porcelain.txt
++?? .garura/project/issues/607/specs/
++?? docs/adr/029-drives.md
+diff --git a/.garura/project/issues/607/context/pr-body.md b/.garura/project/issues/607/context/pr-body.md
+new file mode 100644
+index 00000000..b252b93b
+--- /dev/null
++++ b/.garura/project/issues/607/context/pr-body.md
+@@ -0,0 +1,63 @@
++## What this decides
++
++Spike #607 settles what a loop from ADR 028 is: a **drive** — a run of plays that ends when its intent is met (a score) or it fails. The first drive is **Kickoff**: it solves product → intent by running `/intent` → `/vision` → `/understand` from a working prototype.
++
++Key decisions (ADR 029):
++- A drive asks its questions up front, does not stop for its plays' checkpoints, and stops to ask only when a new question comes up mid-run. It does not run on a coding agent's never-stop loop.
++- A drive works on **one main issue and one branch**; linked issues are fixed on the same branch; plays inside open no branch or issue of their own.
++- Plays run by hand depend on no other play having run first.
++- Every drive ends in a review (open: #617).
++
++## Rule change — deliberate
++
++`.garura/user-provided/managing-work.md` now names the drive as the one exception to "one issue, one session, one branch".
++
++## ADRs retired
++
++- ADR 003 (Guardian Approval) — superseded in full, renamed `SUPERSEDED-003-…`, links fixed.
++- ADR 002 and ADR 028 — superseded in part, with notes.
++
++## Work filed (under #594)
++
++#612 `/intent` · #613 Kickoff drive · #614 `/vision` in a drive · #615 `/understand` in a drive · #616 break the hard chain · #617 Spike: drive review.
++
++Closes #607
++
++---
++
++<details><summary>Self-review</summary>
++
++# Self-Review — #607 (feature/607-understand-loop-recipe vs main)
++
++Rules: `/Users/kapilahuja/.garura/core/memory/standards/rules/self-review.md` (base, not an override; see `resolved-rules.json`).
++Issue: #607 — Spike, "Decide the Understand loop's recipe". The result is a decision, not code.
++Diff: 15 files, 336 insertions, 6 deletions, 4 commits (2 docs/decision commits, 2 chore(stm) records).
++
++Overall: informational checklist. No blocking findings. 3 advisory notes.
++
++## Scope checks
++
++- [PASS] Matches the issue. The issue's "Done when" asks for each question answered in an ADR and a Story filed under #594. ADR 029 answers them: intent and halt conditions (section 6), plays and order (`/intent` -> `/vision` -> `/understand`, `/understand` once per seeded capability), done-when, hand-off to the next drive, and the prototype-is-input rule. Stories #612-#616 and Spike #617 exist and are all linked under #594.
++- [PASS] No scope creep. Every changed path maps to a decision logged in `.garura/project/issues/607/specs/decisions.md`: ADR 029 (L1-L20), ADR 003 retired (L19/L20), partial-supersede notes on ADR 002 and ADR 028 (L19), link fixes for the ADR 003 rename in ADR 001/002/008 and `docs/philosophy/architecture.md`, and the drive exception in `managing-work.md` (L20).
++- [NOTE] Scope-adjacent: the `managing-work.md` edit is a project policy change, not just a record of the spike. It is justified: Kapil locked it on 2026-10-07 (L20) and ADR 029 section 3 and the Consequences section name it. Call it out in the PR description so the reviewer sees it as a deliberate rule change.
++- [PASS] Reasonable size. About 125 lines are the new ADR and about 100 are the renamed ADR 003 (moved as a rename); the rest are one-line link fixes and short notes. Reviewable in one sitting.
++- [PASS] No stray artifacts. No debug output or commented-out blocks. The STM files under `.garura/project/issues/607/` are the pipeline's own run records, committed as `chore(stm)` per the repo convention.
++- [NOTE] `.garura/project/issues/607/context/resolved-rules.json` is untracked (this review's own input). Commit it with the self-review if the pipeline expects STM records on the branch; otherwise leave it out of the PR.
++
++## Quality checks
++
++- [PASS] Tests present. Docs and decision-record change only; no behavior is changed, so no tests are needed. The PR should say so.
++- [PASS] Commits are clean. All four use conventional format and reference #607 in the subject, and each is one concern: `docs(adr)` for the decision and its link fixes, `chore(stm)` for run records.
++- [NOTE] Commit `29506b11` ends with a `Co-Authored-By: Claude Opus 5.5` trailer while the other three carry none. Cosmetic; do not rewrite history for it.
++- [PASS] No secrets. Searched the diff for token, secret, password and key patterns; nothing found.
++- [PASS] Links in step. The ADR 003 rename (`003-guardian-approval.md` -> `SUPERSEDED-003-guardian-approval.md`) follows the existing `SUPERSEDED-007-...` convention, and all four references to the old path (ADR 001, 002, 008, `architecture.md`) are updated. No dangling reference to the old filename remains outside the STM run records, which describe the rename.
++- [NOTE] Docs in step, partial and deferred by design. ADR 029 renames "loop recipe" to "drive", but the term still appears in ADR 028's body, `docs/philosophy/garura-reference-implementation.md` and `core/components/memory/standards/rules/pipeline-next.md`, and `core/grounding/glossary.md` has no "Drive" entry. ADR 028's status line and ADR 029's Consequences section cover the supersession, so readers are not misled, but a follow-up should add the glossary entry and sweep those wording uses (likely inside #613). Also, the ADR does not say where the drive's "evidence record" is written; that belongs to the Kickoff build (#613).
++- [PASS] Nothing obviously broken. Facts ADR 029 cites check out: the gate-config statement that the eleven document plays are conditional (`gate-config.md` line 80), the pinned-gates list (glossary "Auto-approval"), and the high-order play definition (glossary). Open questions are explicitly listed and each points to an issue (#617, #608-#611).
++
++## Result
++
++No blocking findings. Safe to raise.
++
++</details>
++
++🤖 Generated with [Claude Code](https://claude.com/claude-code)
+diff --git a/.garura/project/issues/607/context/pr.json b/.garura/project/issues/607/context/pr.json
+new file mode 100644
+index 00000000..86d9f041
+--- /dev/null
++++ b/.garura/project/issues/607/context/pr.json
+@@ -0,0 +1,6 @@
++{
++  "number": 618,
++  "url": "https://github.com/intent-driven-ai/garura/pull/618",
++  "state": "OPEN",
++  "base": "main"
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/607/context/resolved-rules.json b/.garura/project/issues/607/context/resolved-rules.json
+new file mode 100644
+index 00000000..70b8f431
+--- /dev/null
++++ b/.garura/project/issues/607/context/resolved-rules.json
+@@ -0,0 +1,6 @@
++{
++  "resolved": true,
++  "path": "/Users/kapilahuja/.garura/core/memory/standards/rules/self-review.md",
++  "source": "/Users/kapilahuja/.garura/core/memory/standards/rules",
++  "is_override": false
++}
+diff --git a/.garura/project/issues/607/context/self-review.md b/.garura/project/issues/607/context/self-review.md
+new file mode 100644
+index 00000000..3b0ffa60
+--- /dev/null
++++ b/.garura/project/issues/607/context/self-review.md
+@@ -0,0 +1,30 @@
++# Self-Review — #607 (feature/607-understand-loop-recipe vs main)
++
++Rules: `/Users/kapilahuja/.garura/core/memory/standards/rules/self-review.md` (base, not an override; see `resolved-rules.json`).
++Issue: #607 — Spike, "Decide the Understand loop's recipe". The result is a decision, not code.
++Diff: 15 files, 336 insertions, 6 deletions, 4 commits (2 docs/decision commits, 2 chore(stm) records).
++
++Overall: informational checklist. No blocking findings. 3 advisory notes.
++
++## Scope checks
++
++- [PASS] Matches the issue. The issue's "Done when" asks for each question answered in an ADR and a Story filed under #594. ADR 029 answers them: intent and halt conditions (section 6), plays and order (`/intent` -> `/vision` -> `/understand`, `/understand` once per seeded capability), done-when, hand-off to the next drive, and the prototype-is-input rule. Stories #612-#616 and Spike #617 exist and are all linked under #594.
++- [PASS] No scope creep. Every changed path maps to a decision logged in `.garura/project/issues/607/specs/decisions.md`: ADR 029 (L1-L20), ADR 003 retired (L19/L20), partial-supersede notes on ADR 002 and ADR 028 (L19), link fixes for the ADR 003 rename in ADR 001/002/008 and `docs/philosophy/architecture.md`, and the drive exception in `managing-work.md` (L20).
++- [NOTE] Scope-adjacent: the `managing-work.md` edit is a project policy change, not just a record of the spike. It is justified: Kapil locked it on 2026-10-07 (L20) and ADR 029 section 3 and the Consequences section name it. Call it out in the PR description so the reviewer sees it as a deliberate rule change.
++- [PASS] Reasonable size. About 125 lines are the new ADR and about 100 are the renamed ADR 003 (moved as a rename); the rest are one-line link fixes and short notes. Reviewable in one sitting.
++- [PASS] No stray artifacts. No debug output or commented-out blocks. The STM files under `.garura/project/issues/607/` are the pipeline's own run records, committed as `chore(stm)` per the repo convention.
++- [NOTE] `.garura/project/issues/607/context/resolved-rules.json` is untracked (this review's own input). Commit it with the self-review if the pipeline expects STM records on the branch; otherwise leave it out of the PR.
++
++## Quality checks
++
++- [PASS] Tests present. Docs and decision-record change only; no behavior is changed, so no tests are needed. The PR should say so.
++- [PASS] Commits are clean. All four use conventional format and reference #607 in the subject, and each is one concern: `docs(adr)` for the decision and its link fixes, `chore(stm)` for run records.
++- [NOTE] Commit `29506b11` ends with a `Co-Authored-By: Claude Opus 5.5` trailer while the other three carry none. Cosmetic; do not rewrite history for it.
++- [PASS] No secrets. Searched the diff for token, secret, password and key patterns; nothing found.
++- [PASS] Links in step. The ADR 003 rename (`003-guardian-approval.md` -> `SUPERSEDED-003-guardian-approval.md`) follows the existing `SUPERSEDED-007-...` convention, and all four references to the old path (ADR 001, 002, 008, `architecture.md`) are updated. No dangling reference to the old filename remains outside the STM run records, which describe the rename.
++- [NOTE] Docs in step, partial and deferred by design. ADR 029 renames "loop recipe" to "drive", but the term still appears in ADR 028's body, `docs/philosophy/garura-reference-implementation.md` and `core/components/memory/standards/rules/pipeline-next.md`, and `core/grounding/glossary.md` has no "Drive" entry. ADR 028's status line and ADR 029's Consequences section cover the supersession, so readers are not misled, but a follow-up should add the glossary entry and sweep those wording uses (likely inside #613). Also, the ADR does not say where the drive's "evidence record" is written; that belongs to the Kickoff build (#613).
++- [PASS] Nothing obviously broken. Facts ADR 029 cites check out: the gate-config statement that the eleven document plays are conditional (`gate-config.md` line 80), the pinned-gates list (glossary "Auto-approval"), and the high-order play definition (glossary). Open questions are explicitly listed and each points to an issue (#617, #608-#611).
++
++## Result
++
++No blocking findings. Safe to raise.
+diff --git a/.garura/project/issues/607/context/work-description.txt b/.garura/project/issues/607/context/work-description.txt
+new file mode 100644
+index 00000000..38bdf219
+--- /dev/null
++++ b/.garura/project/issues/607/context/work-description.txt
+@@ -0,0 +1,30 @@
++Spike #607: Decide the Understand loop's recipe — the intent pulled from a working prototype
++
++> **Spike.** A question to answer. The result is a decision, not code.
++> **Serves** #594 (loop recipes), under business intent #606.
++
++## The loop
++
++Working name: **Understand**. Source of truth: [ADR 028](docs/adr/028-agentic-lifecycle-five-loops.md). The loop is an intent; its name will change later.
++
++The lifecycle starts by asking the user for their vision as a **working prototype** (HTML/CSS/JS, or any code that fully shows how the feature behaves). The loop pulls the intent(s) out of it — goal, constraints, failure conditions — and confirms them with the user. The prototype is kept as the example: it is the input, not the intent. The intents feed the product model: created if there is none, updated if there is.
++
++Plays: `/vision`, `/understand`.
++
++## What to decide
++
++- **Its intent.** The goal, the constraints, and the failure conditions that halt it.
++- **Its plays and their order.** Which plays it runs, in what order, and when it runs one again.
++- **When its intent is met.** What the loop checks to know it is done, and where it records that.
++- **Its edges.** What it needs from the loop before it, and what it hands to the loop after it.
++- How the loop stops later steps from copying the prototype in place of the extracted intent (ADR 028 names this risk).
++
++## The shared question
++
++#594 says to decide first what a loop recipe *is* in Garura — a new kind of component, a high-order play, or something else — and how it records that its intent is met. That answer is the same for all five loops. The first of the five loop spikes to be decided settles it, and the other four follow it.
++
++## Done when
++
++- [ ] Each question above has an answer, written into ADR 028 or a new ADR.
++- [ ] A Story is filed under #594 to build the Understand loop recipe.
++
+diff --git a/.garura/project/issues/607/specs/decisions.md b/.garura/project/issues/607/specs/decisions.md
+new file mode 100644
+index 00000000..259cf9c9
+--- /dev/null
++++ b/.garura/project/issues/607/specs/decisions.md
+@@ -0,0 +1,67 @@
++# Spike #607 — Understand loop recipe: decisions
++
++Working notes. These move into ADR 028 (or a new ADR) when the spike closes.
++
++## Decided — Kapil, 2026-10-07
++
++**L1 — What a loop recipe is.** A higher-order play that runs other plays. ~~It may use the loop tools the coding agent gives (Claude Code or Codex), under the hood.~~ Reversed by L14: a drive does not use the coding agent's own never-stop loop. This answers the question shared by all five loop spikes (#607–#611).
++
++**L2 — The Understand loop runs `/vision` and `/understand`** until all the work is done.
++
++**L3 — No human stops while it runs.** The plays inside keep their own strict human checkpoints; the loop does not wait on them. Before it starts, the loop reads everything, understands it, and asks every question it needs. Once it starts, it does not stop for the plays' checkpoints. (Amended by L14: it does stop to ask a question that was not answered at the start.)
++
++**L4 — Thorough self-validation by someone else.** The check is done by a different model, a different sub-agent, or a different coding agent. Which one is set by configuration.
++
++**L5 — The loop carries no rules of its own** except one: run the plays beneath it without stopping for a human. All other rules live in the plays.
++
++**L6 — It ends with validation and an evidence record.** Its own output stays minimal; the plays carry the detail.
++
++**L7 — The name is Drive.** In American football a drive is a run of plays that goes on until the team scores or loses the ball. A drive runs plays until its intent is met or a failure stops it. Chosen over "major play"; "high-order play" is already used for a play that runs other plays once, mostly to wrap its own work in the change plays (`core/grounding/glossary.md:16`, `grill/SKILL.md:231`).
++
++**L8 — The Understand drive runs three plays: `/intent` → `/vision` → `/understand`.** `/intent` is a new play: it reads the working prototype and pulls out the intent. `/vision` stays as it is and takes that intent as its business goal; it still writes what a prototype cannot show — the why, the bet, the scope, the grounding in the KB, the rough profile. `/understand` runs once for each capability `/vision` seeded. Chosen over changing `/vision`'s input. Kapil, 2026-10-07.
++
++**L9 — Direction: a drive is a trinity of commands** — three plays run as one loop. To weigh in the other drive spikes (#608–#611). Today Execute runs four plays and Change runs five (ADR 028). "Trinity" also already names the slice trinity model and ADR 023's execution trinities (`core/grounding/glossary.md:109`).
++
++**L10 — A drive never shares a name with a play.** "Understand drive" next to an `/understand` play confuses. The working names in ADR 028 that are also play names — Understand, Shape, Learn — must change. Kapil, 2026-10-07.
++
++**L11 — The drive's intent (draft accepted).** Goal: from a working prototype, the product model holds a confirmed intent, a domain with its capabilities, and every capability detailed. Before it starts it reads the prototype and the model and asks every question its three plays would ask at their checkpoints. While it runs no human waits; the prototype stays attached as an example, and the intent is what `/vision` and `/understand` work from. It halts if the prototype is missing or does not run, if a play cannot meet its own done check, or if the checker rejects the result. It is done when each play shows its saved record (one `/understand` record per capability), the checker passes, and the evidence is written. It hands the detailed model to the next drive, which locks domains and capabilities. Kapil, 2026-10-07.
++
++**L12 — This drive solves the product → intent transition.** Phoenix spans six phases joined by five transitions; Garura is one harness inside it. Kapil first named the first transition "product → spec", then renamed it "product → intent": turning the product into intent is what this drive does. Kapil, 2026-10-07.
++
++**L13 — This drive is named Kickoff.** In football the kickoff starts the game, and this is the first drive; the name keeps the playbook language. Chosen over "Distill". The six phases now read product, intent, design, code, validation, run, so the second transition is intent → design. Kapil, 2026-10-07.
++
++**L14 — A new question mid-run: the drive stops and asks.** It does not pick an answer itself. So a drive does not run on the coding agent's never-stop loop (Claude Code or Codex): that loop pushes the decision onto the LLM. Asking up front stays the rule; a mid-run question is the exception, and the drive asks it. Kapil, 2026-10-07.
++
++**L15 — Five pieces of work come out of this spike.**
++1. Build the new `/intent` play.
++2. Build the Kickoff drive.
++3. Review `/vision` for running inside a drive: the drive passes it what it needs so it does not stop, and its review happens later.
++4. The same for `/understand`.
++5. Review a finished drive (a Spike — it is still a question). Like a drive in football, it ends one of two ways: it scores, or it fails. Either way a review follows. Every drive needs one, and review will likely become a drive of its own.
++Kapil, 2026-10-07.
++
++**L16 — The plays run on their own or inside a drive, and on their own they depend on nothing.** `/intent`, `/vision` and `/understand` can each be run by hand, or be run by the Kickoff drive. Run by hand, none of them needs another to have run first. Today it is a hard chain, and that chain has to be broken (a sixth piece of work):
++- `/understand` halts unless `/vision` already seeded the capability as a directional seed (`understand/SKILL.md`, pre-flight, C1/REC1).
++- `/understand` halts on a dirty model tree and says to run the prior pipeline play to its close (pre-flight, C12/REC13).
++- `/vision` opens the strategy branch, and that change only closes at `/roadmap` (`vision/reference/ice.md`, Intent).
++Kapil, 2026-10-07.
++
++**L17 — The drive owns the change.** A drive opens the change when it starts and closes it when its review is finished. `/intent`, `/vision` and `/understand` do not open issues or branches of their own when a drive runs them. The drive is the issue, and everything it does is linked to it. One drive can finish several pieces inside it and can address several issues. Kapil, 2026-10-07.
++
++**L18 — The product-model ontology (#597) is built alongside this work.** Parts of the ontology get created as these plays are fixed, so #597 is tied to this drive's stories, not left for later. Kapil, 2026-10-07.
++
++**L19 — ADR 029 "Drives", with Kickoff as its first drive.** When it is locked, the older ADRs it makes redundant are marked retired. Kapil, 2026-10-07.
++
++**L20 — One main issue, one branch, linked issues on it.** A drive works on one main issue and opens one branch for it; the branch stays the same for the whole drive. Plays inside the drive open no branch of their own. Issues linked to the main issue are fixed on the same branch. Written into `managing-work.md` as the one exception to "one issue, one session, one branch". ADR 029 locked (Accepted); ADR 003 retired in full, ADR 002 and ADR 028 in part. Kapil, 2026-10-07.
++
++## Found while working the spike
++
++- **`/understand` details one capability per run** (its description). So "run until all the work is done" means: run `/understand` once for every capability `/vision` seeded.
++- **No play pulls an intent from a prototype today.** `/vision` starts from a business goal (its description). ADR 028 says the Understand loop starts from a working prototype, and ADR 028 also says the plays stay as they are.
++
++## Open
++
++- **The start-change rule.** Today a rule adds `/start-change` to the head of every play marked `position: start`, `/vision` included (`pipeline-position.md`). Under L17, a play run inside a drive must skip it.
++
++- **Pinned gates.** Some gates always fire today: `grill`, `launch`, `learn`, `deploy`, and the land-on-main step of `merge-change` (glossary, *Auto-approval*). L3 says the loop never waits. This does not touch the Understand loop (`/vision` and `/understand` have conditional gates — `core/components/memory/standards/rules/gate-config.md:80`), but it hits the Execute, Change and Learn loops.
++- The other three items in #607: the loop's intent (goal, constraints, failure conditions), how it knows it is done, and what it hands to the Shape loop.
+diff --git a/.garura/user-provided/managing-work.md b/.garura/user-provided/managing-work.md
+index 17d60b4a..892541b9 100644
+--- a/.garura/user-provided/managing-work.md
++++ b/.garura/user-provided/managing-work.md
+@@ -109,6 +109,14 @@ Each Story or Bug then goes to **its own session**. That session:
+ One issue, one session, one branch, one pull request. A session that ends up
+ carrying two issues has lost the thread of both.
+ 
++**The one exception is a drive** (ADR 029). A drive works on **one main
++issue**, and opens **one branch** for it when it starts. That branch stays the
++same for the whole drive. The plays a drive runs open no branch and no issue
++of their own; they work on the drive's branch. Issues **linked** to the drive's
++main issue are fixed on that same branch, in the same change. The main issue
++is still the anchor: an issue that is not linked to it is out of scope, and
++the rule below applies to it as to any other session.
++
+ ## How far does my work extend?
+ 
+ **The issue being worked defines the scope. Work never goes beyond it.**
+diff --git a/docs/adr/001-three-layer-hierarchy.md b/docs/adr/001-three-layer-hierarchy.md
+index 7978c45b..cf1d9395 100644
+--- a/docs/adr/001-three-layer-hierarchy.md
++++ b/docs/adr/001-three-layer-hierarchy.md
+@@ -75,5 +75,5 @@ Skills (Learned Capabilities)   Agent knowledge: write-java-code, create-seleniu
+ ## Related ADRs
+ 
+ - [ADR 002: L1 Checkpoint Model](./002-l1-checkpoint-model.md)
+-- [ADR 003: Guardian Approval Model](./003-guardian-approval.md)
++- [ADR 003: Guardian Approval Model](./SUPERSEDED-003-guardian-approval.md)
+ - [ADR 005: Skills as Capabilities](./005-skills-as-capabilities.md)
+diff --git a/docs/adr/002-l1-checkpoint-model.md b/docs/adr/002-l1-checkpoint-model.md
+index ee40fa6e..b3760002 100644
+--- a/docs/adr/002-l1-checkpoint-model.md
++++ b/docs/adr/002-l1-checkpoint-model.md
+@@ -6,6 +6,8 @@ Accepted
+ 
+ **Note:** The checkpoint storage location defined in this ADR has been superseded by [ADR 008: Issue-Centric STM and NWWI](./008-issue-centric-stm-and-nwwi.md). Checkpoints now use `.garura/project/issues/{issue}/checkpoint/{play}/{timestamp}.md` instead of the legacy path. The core model (artifact + checkpoint) remains unchanged.
+ 
++**Note (ADR 029):** Rule 2, "every play stops at a checkpoint", no longer holds inside a drive — a drive runs its plays without stopping for their checkpoints and reviews the work after. A play run by hand still stops as its gate settings say. Superseded in part by [ADR 029: Drives](./029-drives.md).
++
+ ## Date
+ 
+ 2026-01-23
+@@ -75,5 +77,5 @@ Play: {name}
+ ## Related ADRs
+ 
+ - [ADR 001: Three-Layer Hierarchy](./001-three-layer-hierarchy.md)
+-- [ADR 003: Guardian Approval Model](./003-guardian-approval.md)
++- [ADR 003: Guardian Approval Model](./SUPERSEDED-003-guardian-approval.md)
+ - [ADR 008: Issue-Centric STM and NWWI](./008-issue-centric-stm-and-nwwi.md) — Supersedes checkpoint location
+diff --git a/docs/adr/008-issue-centric-stm-and-nwwi.md b/docs/adr/008-issue-centric-stm-and-nwwi.md
+index 273efec6..9be98230 100644
+--- a/docs/adr/008-issue-centric-stm-and-nwwi.md
++++ b/docs/adr/008-issue-centric-stm-and-nwwi.md
+@@ -225,7 +225,7 @@ These items are acknowledged but intentionally deferred for real-world validatio
+ 
+ - [ADR 001: Three-Layer Hierarchy](./001-three-layer-hierarchy.md)
+ - [ADR 002: L1 Checkpoint Model](./002-l1-checkpoint-model.md) — Superseded (checkpoint location only)
+-- [ADR 003: Guardian Approval Model](./003-guardian-approval.md)
++- [ADR 003: Guardian Approval Model](./SUPERSEDED-003-guardian-approval.md)
+ 
+ ## References
+ 
+diff --git a/docs/adr/028-agentic-lifecycle-five-loops.md b/docs/adr/028-agentic-lifecycle-five-loops.md
+index 3373c4b1..bd5c0e2b 100644
+--- a/docs/adr/028-agentic-lifecycle-five-loops.md
++++ b/docs/adr/028-agentic-lifecycle-five-loops.md
+@@ -1,6 +1,6 @@
+ # ADR 028 — The Agentic Lifecycle Is Five Loops
+ 
+-**Status:** Accepted
++**Status:** Accepted — superseded in part by [ADR 029](029-drives.md): a loop recipe is now a **drive**; the first loop is now **Kickoff** (`/intent` → `/vision` → `/understand`); "the plays stay as they are" no longer holds. The other four loops stand until their spikes (#608–#611) settle them.
+ **Date:** 2026-10-07 (proposed); accepted 2026-10-07, open questions settled under #592
+ **Affects:** ADR 023 (three execution trinities — the epic trinity's check step), ADR 025 (Level 3 skeleton and loop), `docs/philosophy/idsd.md` (IDSD in One Page), `docs/philosophy/garura-reference-implementation.md` (The Loop as Commands), `core/components/memory/standards/rules/pipeline-next.md`
+ **Related:** ADR 027 (ICE is the IDSD model), IDD Principle 1 (`docs/philosophy/idd-principles.md`), #539
+diff --git a/docs/adr/029-drives.md b/docs/adr/029-drives.md
+new file mode 100644
+index 00000000..72c86b28
+--- /dev/null
++++ b/docs/adr/029-drives.md
+@@ -0,0 +1,125 @@
++# ADR 029 — Drives: A Run of Plays That Ends in a Score or a Fail
++
++**Status:** Accepted
++**Date:** 2026-10-07 (proposed and accepted)
++**Supersedes:** ADR 003 (guardian approval), in full · ADR 002 (checkpoint model) and ADR 028 (five loops), in part
++**Decided in:** #607 (spike: the first loop's recipe), under #594 and business intent #606
++**Affects:** ADR 028 (the five loops — "loop recipe" becomes *drive*; the first loop becomes Kickoff; "the plays stay as they are" no longer holds for `/vision` and `/understand`), `.garura/user-provided/managing-work.md` (one issue per session), `standards/rules/pipeline-position.md` (start-change injected at a play's head)
++**Related:** ADR 023 (execution trinities), ADR 025 (Level 3 goal-loop inside a play), ADR 026 (direct model writes), #597 (product model as an ontology)
++
++## Context
++
++ADR 028 made the agentic lifecycle a set of loops, each run by a **loop recipe** that runs its plays until the loop's intent is met. It left open what a loop recipe *is*. #607 settles that, using the first loop as the worked case.
++
++Three facts shaped the answer:
++
++- Garura already has a **high-order play**: a play that runs other plays (`core/grounding/glossary.md`). In practice it only wraps a play's own work in the change plays — `/grill` runs `/start-change` as its first step and the four end plays as its last steps. No play runs other *work* plays in a row.
++- No play pulls an intent out of a working prototype. `/vision` starts from a business goal.
++- `/vision` and `/understand` are a hard chain today. `/understand` halts unless `/vision` seeded the capability; it halts on a dirty model tree; and `/vision`'s change only closes at `/roadmap`.
++
++Phoenix spans six phases — product, intent, design, code, validation, run — joined by five transitions. Garura is one harness inside it. Each drive solves one transition.
++
++## Decision
++
++### 1. A drive is a run of plays
++
++**A drive is a higher-order play that runs other plays until its intent is met or it fails.** The name comes from American football: a drive is a run of plays that ends when the team scores or loses the ball. Garura already uses "high-order play" for the smaller job of wrapping a play in the change plays, so the new idea gets its own name.
++
++The aim is that a drive runs **three plays** — a trinity of commands — matching the trinity shape ADR 023 already uses.
++
++**A drive never shares a name with a play.** ADR 028's working names Understand, Shape and Learn are also play names, so each of those loops takes a new name in its own spike.
++
++### 2. How a drive runs
++
++- **Questions first.** Before it starts, the drive reads everything its plays need and asks every question their checkpoints would ask.
++- **No stops for the plays' checkpoints.** Once started, the drive passes each play what it needs, and the plays' reviews happen after the drive ends.
++- **A new question stops it.** If a question comes up mid-run that was not answered at the start, the drive stops and asks. It never picks an answer for itself. A drive therefore does **not** run on a coding agent's own never-stop loop (Claude Code or Codex): that would push the decision onto the model.
++- **No rules of its own.** The drive's one rule is to run its plays. Every other rule lives in the plays.
++- **Checked by someone else.** At the end, a different model, sub-agent, or coding agent checks the result. Configuration picks which.
++- **Ends with the check and an evidence record.** The drive's own output stays small; the plays carry the detail.
++
++### 3. The drive owns the change
++
++A drive **opens the change when it starts and closes it when its review is finished.** It works on **one main issue** and opens **one branch** for it. That branch stays the same for the whole drive. The plays inside it open no issue and no branch of their own; they work on the drive's branch. Issues **linked** to the main issue are fixed on that same branch, in the same change. An issue not linked to the main issue stays out of scope.
++
++### 4. Plays stand on their own
++
++Every play a drive runs can also be run by hand. **Run by hand, a play depends on no other play having run first.** The hard chain between `/vision` and `/understand` is broken.
++
++### 5. Every drive ends in a review
++
++A drive ends in a score or a fail, and a review follows either way. How a finished drive is reviewed is still open; the review will likely be a drive of its own.
++
++### 6. The first drive: Kickoff
++
++**Kickoff solves product → intent.** It runs `/intent` → `/vision` → `/understand`.
++
++| Play | What it does in Kickoff |
++|------|-------------------------|
++| `/intent` (new) | Reads the working prototype and pulls out the intent: goal, constraints, failure conditions |
++| `/vision` | Takes that intent as its business goal and writes what a prototype cannot show: the why, the bet, the scope, the grounding in the knowledge base, the rough product profile |
++| `/understand` | Runs once for every capability `/vision` seeded, and details it |
++
++- **Goal:** from a working prototype, the product model holds a confirmed intent, a domain with its capabilities, and every capability detailed.
++- **Halts if:** the prototype is missing or does not run; a play cannot meet its own done check; or the checker rejects the result.
++- **Done when:** each play shows its saved record (one `/understand` record per capability), the checker passes, and the evidence is written.
++- **Hands on:** the detailed model goes to the next drive (intent → design), which locks domains and capabilities.
++
++The prototype is the input, never the intent. It stays attached as an example, and the later plays work from the intent.
++
++The product-model ontology (#597) is built alongside this work: the parts of it these plays need are created as the plays are fixed.
++
++## Consequences
++
++### Positive
++
++- One word, one meaning: a drive runs work plays; a high-order play wraps a play in the change plays.
++- A drive is one issue and one change from start to review, so its work is reviewed as a whole.
++- Plays run by hand get simpler: no play needs another to have run first.
++
++### Negative / Risks
++
++- **ADR 028's "the plays stay as they are" no longer holds.** `/intent` is new; `/vision` and `/understand` change to run inside a drive and to stand on their own. Each change goes through the play's ICE source and `/play-editor`.
++- **One drive, several issues, against the one-issue rule.** `managing-work.md` said one issue, one session, one branch. A drive breaks that on purpose; the rule now names the drive as its one exception (main issue, one branch, linked issues on the same branch).
++- **The start-change rule must learn about drives.** Today it adds `/start-change` to the head of every `position: start` play, `/vision` included. Inside a drive, the play must skip it.
++- **Pinned gates.** `/grill`, `/launch`, `/learn`, `/deploy` and the merge-to-main step always stop for a human today. The drives that run them (intent → design and later) must settle how that fits "no stops for checkpoints". Kickoff is not affected: `/vision` and `/understand` have conditional gates (`standards/rules/gate-config.md`).
++- **Review moves to the end.** Work inside a drive is not looked at by a human until the drive ends. The final check and the drive review carry that.
++
++## Alternatives Considered
++
++| Alternative | Reason Rejected |
++|-------------|-----------------|
++| Run the drive on the coding agent's own never-stop loop | Pushes mid-run decisions onto the model; a drive stops and asks instead |
++| Call it a "high-order play" or "major play" | "High-order play" already means something smaller; "major play" sounds like a bigger play, not a run of plays |
++| Change `/vision` to read the prototype itself | Kept `/vision` on its own job; a small `/intent` play gives a three-play drive |
++| Name the first drive "Understand" or "Distill" | "Understand" is a play name; "Kickoff" keeps the playbook language and marks the first drive |
++
++## Work This Creates
++
++1. Build the `/intent` play — #612.
++2. Build the Kickoff drive — #613.
++3. Make `/vision` run inside a drive without stopping, with its review after the drive — #614.
++4. The same for `/understand` — #615.
++5. Break the hard chain between `/intent`, `/vision` and `/understand`, so each runs by hand on its own — #616.
++6. Spike: how a finished drive is reviewed — #617.
++
++## Open Questions
++
++1. How a finished drive is reviewed (#617).
++2. How pinned gates fit a drive — settled in the later drive spikes (#608–#611).
++
++Settled while locking: the one-issue rule (Kapil, 2026-10-07) — see section 3.
++
++## ADRs This Retires
++
++| ADR | How | Why |
++|-----|-----|-----|
++| 003 — Guardian Approval | In full | It skips human checks through a `workflow-guardian` agent that was never built (`docs/philosophy/architecture.md`). Gate settings (`standards/rules/gate-config.md`) replaced it, and a drive covers running without stops. |
++| 002 — Checkpoint Model | In part | "Every play stops at a checkpoint" no longer holds inside a drive. A play run by hand still stops as its gate settings say. |
++| 028 — Five Loops | In part | "Loop recipe" becomes *drive*; the first loop becomes Kickoff; "the plays stay as they are" no longer holds. The other four loops stand until their spikes settle them. |
++
++## References
++
++- ADR 028 — the five loops this ADR names and refines
++- #607 — the spike, with its working notes in `.garura/project/issues/607/specs/decisions.md`
++- `core/grounding/glossary.md` — Atomic Play, Sub-play, High-Order Play
+diff --git a/docs/adr/003-guardian-approval.md b/docs/adr/SUPERSEDED-003-guardian-approval.md
+similarity index 90%
+rename from docs/adr/003-guardian-approval.md
+rename to docs/adr/SUPERSEDED-003-guardian-approval.md
+index c0e3797f..47d5239e 100644
+--- a/docs/adr/003-guardian-approval.md
++++ b/docs/adr/SUPERSEDED-003-guardian-approval.md
+@@ -1,8 +1,10 @@
+ # ADR 003: Guardian Approval Model
+ 
++> **SUPERSEDED by [ADR 029](029-drives.md).** The `workflow-guardian` agent this ADR relies on was never built. Gate settings (`core/components/memory/standards/rules/gate-config.md`) decide when a human check is skipped, and a drive runs its plays without stopping for their checks. Do not follow this ADR.
++
+ ## Status
+ 
+-Accepted
++Superseded
+ 
+ ## Date
+ 
+diff --git a/docs/philosophy/architecture.md b/docs/philosophy/architecture.md
+index 9473b315..5df65c0e 100644
+--- a/docs/philosophy/architecture.md
++++ b/docs/philosophy/architecture.md
+@@ -594,7 +594,7 @@ The lighter plays were piloted on a mechanical operation — `commit-change` was
+ 
+ - [ADR 001: Three-Layer Hierarchy](../adr/001-three-layer-hierarchy.md)
+ - [ADR 002: L1 Checkpoint Model](../adr/002-l1-checkpoint-model.md)
+-- [ADR 003: Guardian Approval](../adr/003-guardian-approval.md) (the guardian agent was never built; see Gate Configuration)
++- [ADR 003: Guardian Approval](../adr/SUPERSEDED-003-guardian-approval.md) (the guardian agent was never built; see Gate Configuration)
+ - [ADR 004: Agent Naming](../adr/004-agent-naming.md)
+ - [ADR 005: Skills as Capabilities](../adr/005-skills-as-capabilities.md)
+ - [ADR 006: Naming Conventions](../adr/006-naming-conventions.md)
