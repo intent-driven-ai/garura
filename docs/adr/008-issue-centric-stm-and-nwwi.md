@@ -225,7 +225,7 @@ These items are acknowledged but intentionally deferred for real-world validatio
 
 - [ADR 001: Three-Layer Hierarchy](./001-three-layer-hierarchy.md)
 - [ADR 002: L1 Checkpoint Model](./002-l1-checkpoint-model.md) — Superseded (checkpoint location only)
-- [ADR 003: Guardian Approval Model](./003-guardian-approval.md)
+- [ADR 003: Guardian Approval Model](./SUPERSEDED-003-guardian-approval.md)
 
 ## References
 

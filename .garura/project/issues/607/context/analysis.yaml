@@ -1,0 +1,47 @@
+needs_judgment: false
+branch: feature/607-understand-loop-recipe
+issue: 607
+
+change_groups:
+  - id: docs-drive-review-fixes
+    issue: 607
+    commit_type: docs
+    scope: drives
+    subject: "close review gaps on drive rules: one PR, child-issue linking, drive scope, one handoff, glossary entry"
+    confidence: high
+    files:
+      - .garura/user-provided/managing-work.md
+      - docs/adr/029-drives.md
+      - core/grounding/glossary.md
+    risks:
+      sensitive_files: []
+      breaking_changes: []
+    notes: "Review fixes on PR #618. managing-work.md drive exception and ADR 029 carry the same wording; glossary gains a Drive entry."
+  - id: chore-stm-607-decision-and-merge-gate
+    issue: 607
+    commit_type: chore
+    scope: stm
+    subject: "record spike decision L21 and merge-change gate run"
+    confidence: high
+    files:
+      - .garura/project/issues/607/specs/decisions.md
+      - .garura/project/issues/607/review/merge-gate.json
+    risks:
+      sensitive_files: []
+      breaking_changes: []
+    notes: "Operational STM records, not part of the doc change. decisions.md gains L21; merge-gate.json is a merge-change run record (approved flipped to true)."
+
+exclusions:
+  - path: ".garura/project/issues/607/context/porcelain.txt"
+    reason: "run artifact, committed by the executor"
+    blocking: false
+  - path: ".garura/project/issues/607/context/analysis.yaml"
+    reason: "run artifact, committed by the executor"
+    blocking: false
+
+risks:
+  sensitive_files: []
+
+eval_gates:
+  SE-1: {status: PASS, evidence: "7 changed paths: 5 in two groups, 2 in exclusions, none dropped or duplicated"}
+  SE-5: {status: PASS, evidence: "no secrets, credentials or env files among the changed paths"}

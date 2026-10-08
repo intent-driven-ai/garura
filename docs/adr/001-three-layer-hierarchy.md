@@ -75,5 +75,5 @@ Skills (Learned Capabilities)   Agent knowledge: write-java-code, create-seleniu
 ## Related ADRs
 
 - [ADR 002: L1 Checkpoint Model](./002-l1-checkpoint-model.md)
-- [ADR 003: Guardian Approval Model](./003-guardian-approval.md)
+- [ADR 003: Guardian Approval Model](./SUPERSEDED-003-guardian-approval.md)
 - [ADR 005: Skills as Capabilities](./005-skills-as-capabilities.md)
