@@ -55,3 +55,4 @@ Both plays are changed and checked, and the `/shape` / `/roadmap` follow-up is w
 - 2026-10-08 — Kapil approved the plan and answered item 1 (D1–D3). Now on item 2.
 - 2026-10-08 — Item 2 built: `/vision` changed to position both through its intent source; play check passes. Now on item 3.
 - 2026-10-08 — Items 3 and 4 done: `/understand` changed; `/shape` and `/roadmap` found to break, written up as a follow-up (not filed). Now on item 5.
+- 2026-10-08 — PR #630 review: 12 findings (1 P2) fixed before merge — the enrich skill now writes a seeded capability's first doc; `/understand` asks before opening any change; the persist refuses a seed not answered by a human; tests 19 → 32; edit notes removed; the pipeline rule's position list corrected. Follow-ups recorded in `specs/decisions.md`.

@@ -1,0 +1,46 @@
+pr: 630
+base: main
+categories:
+  - id: harness
+    playbook: review/harness
+    design_bearing: true
+    summary: "Two plays changed: /understand stands alone (seeds an absent capability, lands its own change) and /vision lands its own change. Compiled SKILL.md and their ICE sources both changed."
+    evidence:
+      - core/components/plays/understand/SKILL.md
+      - core/components/plays/understand/reference/ice.md
+      - core/components/plays/vision/SKILL.md
+      - core/components/plays/vision/reference/ice.md
+    notes: "Intent change (adds guarantees to both plays), so the ICE-to-SKILL trace and ADR 030 / P4 drive-skip behaviour are the main design checks."
+  - id: executable-code
+    playbook: review/code
+    design_bearing: false
+    summary: "Python script that does the mechanical persisting for the understand play."
+    evidence:
+      - core/components/plays/understand/scripts/persist_understand.py
+  - id: tests
+    playbook: review/tests
+    design_bearing: false
+    summary: "Unit tests for the persist script."
+    evidence:
+      - core/components/plays/understand/scripts/test_persist_understand.py
+  - id: stm-run-records
+    playbook: null
+    playbook_missing: true
+    design_bearing: false
+    note: "Playbook missing. These are work-tracking and run artifacts under .garura/project/issues/616 (plan, decisions, follow-up write-up, plan check, play-run scratch and context files). They are not KB memory, not docs, not ADRs. Needs its own playbook, or an explicit decision that they are out of review scope. Plan and decisions files may still be used as the stated intent the change is checked against, but they are branch-added, so never as design grounding."
+    summary: "Short-term-memory records of issue 616 work and play runs."
+    evidence:
+      - .garura/project/issues/616/context/analysis.yaml
+      - .garura/project/issues/616/context/branch.json
+      - .garura/project/issues/616/context/commits.yaml
+      - .garura/project/issues/616/context/issue.json
+      - .garura/project/issues/616/context/plan-check.json
+      - .garura/project/issues/616/context/porcelain.txt
+      - .garura/project/issues/616/context/pr-body.md
+      - .garura/project/issues/616/context/pr.json
+      - .garura/project/issues/616/context/resolved-rules.json
+      - .garura/project/issues/616/context/self-review.md
+      - .garura/project/issues/616/context/work-description.txt
+      - .garura/project/issues/616/specs/decisions.md
+      - .garura/project/issues/616/specs/followup-shape-roadmap.md
+      - .garura/project/issues/616/specs/plan.md
