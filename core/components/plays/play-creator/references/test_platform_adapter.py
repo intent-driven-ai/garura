@@ -83,6 +83,23 @@ def test_github_argv():
           == "repos/o/n/issues/comments/9")
 
 
+def test_view_issue_fields():
+    repo = ("o", "r")
+    tree = pa._gh("view-issue", {"issue_number": 7}, repo)[0]
+    check("view-issue asks for the tree fields by default",
+          tree[-1] == pa.ISSUE_BASE_FIELDS + "," + pa.ISSUE_TREE_FIELDS)
+    base = pa._gh("view-issue", {"issue_number": 7, "_tree": False}, repo)[0]
+    check("view-issue falls back to base fields on an old gh",
+          base[-1] == pa.ISSUE_BASE_FIELDS)
+    check("tree fields name type, parent and sub-issues",
+          all(f in pa.ISSUE_TREE_FIELDS for f in ("issueType", "parent", "subIssues")))
+    check("parse gh 2.102.0", pa.parse_gh_version("gh version 2.102.0 (2026-09-30)\n") == (2, 102, 0))
+    check("unparseable version is None", pa.parse_gh_version("nonsense") is None)
+    check("gh 2.94.0 supports the tree", pa.gh_supports_issue_tree((2, 94, 0)))
+    check("gh 2.83.2 does not", not pa.gh_supports_issue_tree((2, 83, 2)))
+    check("unknown version does not", not pa.gh_supports_issue_tree(None))
+
+
 def test_gitlab_argv():
     print("test_gitlab_argv")
     repo = ("g", "p")
@@ -108,6 +125,7 @@ def test_unknown_verb():
 def main():
     test_resolve_platform()
     test_github_argv()
+    test_view_issue_fields()
     test_gitlab_argv()
     test_unknown_verb()
     print(f"\n{PASSED} passed, {FAILED} failed")

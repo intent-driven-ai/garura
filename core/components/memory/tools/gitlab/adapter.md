@@ -71,6 +71,8 @@ Backed by: `glab mr merge {pr_number}`
 
 Fetches issue details as JSON. The close date is in the `closed_at` field (snake_case, not camelCase as in GitHub's `closedAt`).
 
+**Gap — no work tree.** GitHub's read also returns the issue's type, parent and sub-issues (`issueType`, `parent`, `subIssues`). GitLab issues carry no equal fields, so the adapter reports `tree_available: false`: type, parent and children are unknown, not empty. Callers that need the tree (for example, the plan context) must say so.
+
 Backed by: `glab issue view {issue_number} --output json`
 
 ### create-issue

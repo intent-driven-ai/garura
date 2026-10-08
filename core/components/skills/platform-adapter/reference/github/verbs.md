@@ -74,7 +74,9 @@ Fetch issue details (JSON):
 gh issue view {issue_number} --json number,title,labels,state,body,url,closedAt,issueType,parent,subIssues,subIssuesSummary
 ```
 
-Note: close date is in the `closedAt` field. `issueType` (the issue's type, e.g. Feature, Story), `parent` (the parent issue, or null) and `subIssues` (its child issues, each with number, title and state) need gh **2.94.0 or newer**; an older gh rejects these fields.
+Note: close date is in the `closedAt` field. The last four fields are the issue's place in the work tree: `issueType` (its type, e.g. Feature, Story), `parent` (the parent issue, or null), `subIssues` (its child issues, each with number, title and state) and `subIssuesSummary` (counts: total, completed, percent completed).
+
+**Version gate.** The four tree fields need gh **2.94.0 or newer**; an older gh rejects the whole call, not just those fields. So check `gh --version` first. On an older gh, run the same command with the base fields only — `number,title,labels,state,body,url,closedAt` — and report `tree_available: false`, so callers know the type, parent and children are unknown, not empty. The bundled `platform_adapter.py` does exactly this.
 
 ## create-issue
 
