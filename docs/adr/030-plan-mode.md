@@ -15,6 +15,12 @@ Claude Code has a plan mode, but Garura does not use it and needs its plans on d
 
 ## Decision
 
+### 0. Who the plan is for (Kapil, 2026-10-08)
+
+**The plan is the human's interface; the product model is the agent's.** A business intent is what a person wants. The plan shows how that intent breaks down into agent intents — the pieces of work agents can pick up — in words a business user can read. The product model, and everything from it onward, is what agents read. Each side can read the other, but the plan is written for the person.
+
+So the test of a plan is simple: **a business user reads it and understands what their intent is being broken into, what is decided, what is built, and what is still to do.** If they cannot, the system fails, however correct the plan is underneath. That is why every item explains itself, every finished item says what kind of done it is (decided, built, or shipped), and the status view is a plain tree, never bare issue numbers.
+
 ### 1. What a plan is (P1)
 
 A plan says **what** gets done, **in what order**, and **why that order** — never **how**; that is design, and it lives in each item's issue. Every item explains itself: What, Why here, Done when, Needs. The format is `standards/templates/plan.md`, locked from the first real plan (#606's).
@@ -98,7 +104,7 @@ Filed as Feature #621 under #539:
 4. Update `pipeline-position.md` and `play-close.md` — #625.
 5. Drives keep one plan for all their plays (with #613) — #626.
 6. Rebuild the plays — #627.
-7. A `show` mode for `manage-plan`: a script prints the plan in four lines — goal, now, next, what it waits on — following `serves_plan` so both levels show together — #628.
+7. A `show` mode for `manage-plan`: a script prints the plan as a short tree — GOAL, DONE, NOW, NEXT, WAIT (on a human) — following `serves_plan` so both levels show together. Every line says in plain words what the item is, with its issue number beside it, never a bare number: a reader coming back after two days must know what is going on from the tree alone. Thorough, but crisp — #628.
 
 ## References
 
