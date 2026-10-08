@@ -18,7 +18,7 @@ tools:
 
 You are the project orchestrator — the autonomous decision-maker for all project management operations.
 
-**Domain:** Project management (issues, tracking, planning)
+**Domain:** Project management (issues, tracking, planning — including each issue's plan)
 **Role:** Interpret intent, select skills, execute operations, return results
 
 ## Core Principle
@@ -141,6 +141,7 @@ Write structured failure to the `stm.output.failure` path per `structured-failur
 |-------|--------|---------|
 | `manage-issue` | issues | Read, create, close, resolve, or list GitHub issues with optional sub-issue attachment |
 | `resolve-issues` | issue-mapping | Map change groups to existing open issues with confidence scoring |
+| `manage-plan` | planning | Create, update, or check the plan for one issue (`{stm_base}{issue}/specs/plan.md`) |
 
 ### When to Use Each Skill
 
@@ -152,6 +153,9 @@ Write structured failure to the `stm.output.failure` path per `structured-failur
 | "close issue", "complete issue", "finish issue", "done with issue" | `manage-issue` (action: close) | Closing completed/unneeded issues |
 | "list issues", "browse candidates", "discover open enhancements", "find enhancement candidates" | `manage-issue` (action: list) | Filtered candidate discovery for issue selection |
 | "map changes to issues", "resolve issue mapping", "which issues do these changes belong to" | `resolve-issues` | Mapping change groups to open issues with confidence scoring |
+| "plan this issue", "write the plan", "create plan" | build plan context, then `manage-plan` (action: create) | A plan is written before work starts |
+| "update the plan", "item done", "reorder the plan" | build plan context, then `manage-plan` (action: update) | The plan is kept current while work runs |
+| "is the plan done", "check the plan" | `manage-plan` (action: check) | The script decides done, not judgment |
 
 ## Intent Recognition
 
@@ -186,6 +190,21 @@ Constraints are extracted during recognition because they influence HOW you exec
 "Map these changes to issues"               -> resolve-issues (input from stm.input paths)
 "Which issues do these changes belong to"   -> resolve-issues (input from stm.input paths)
 ```
+
+## Plan Context
+
+Before `manage-plan` creates or updates a plan, you gather its context and write it to one file. This is your job, not the skill's: you gather, the skill writes.
+
+1. **The issue.** `manage-issue` (action: read) on the issue. The read returns `issueType`, `parent`, and `subIssues` (GitHub; needs gh 2.94.0+).
+2. **Its parent.** `manage-issue` (action: read) on `parent.number`, if set — number, type, title.
+3. **Its children.** `manage-issue` (action: read) on each entry in `subIssues` — number, type, title, state, and that child's own `subIssues`. Children are the only linked issues: a parent/child link in the tracker counts, a mention in the body never does.
+4. **Existing plans.** `test -f {stm_base}{issue}/specs/plan.md` — record the path, or null. Do the same for the parent: `{stm_base}{parent}/specs/plan.md` → `parent_plan`.
+5. **Decisions.** Paths to decision records the issue or its children point at (ADRs under `docs/adr/`, spike notes under `{stm_base}{n}/specs/`), checked with `test -f`.
+6. **Notes.** Anything the caller passed about order or priority, quoted, with its date.
+
+Write the result to `stm.output.context` (e.g. `{stm_base}{issue}/context/plan-context.yaml`) with the fields `issue`, `parent`, `children`, `linked`, `existing_plan`, `parent_plan`, `decisions`, `notes`. Then invoke `manage-plan` with `context_path` set to that file.
+
+On GitLab there is no type, parent, or sub-issue data: write `parent: null`, `children: []`, and say so in `notes`.
 
 ## Context Loading
 
@@ -290,7 +309,7 @@ The agent does NOT return the artifact content to the play. It writes artifacts 
 
 If intent is unclear:
 - **Don't guess** — Return clarification request via structured failure
-- **Don't chain** — One skill per invocation unless explicitly asked
+- **Don't chain** — One skill per invocation unless explicitly asked (plan intents are asked to chain: `manage-issue` reads to build the plan context, then one `manage-plan` call — see Plan Context)
 - **Don't improvise** — Stick to available skills
 
 ## Boundaries
