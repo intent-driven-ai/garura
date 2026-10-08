@@ -100,6 +100,32 @@ def test_view_issue_fields():
     check("unknown version does not", not pa.gh_supports_issue_tree(None))
 
 
+def test_view_issue_version_probe():
+    """dispatch() probes `gh --version` and picks the field list (QF-13)."""
+    real_run, real_repo = pa._run, pa.resolve_repo
+    for version_line, want_tree in (("gh version 2.102.0 (2026-09-30)", True),
+                                    ("gh version 2.83.2 (2025-12-10)", False),
+                                    ("", False)):
+        calls = []
+
+        def fake_run(argv, _v=version_line):
+            calls.append(argv)
+            if argv[:2] == ["gh", "--version"]:
+                return (0 if _v else 1), _v, ""
+            return 0, "{}", ""
+        pa._run, pa.resolve_repo = fake_run, (lambda _cfg: ("o", "r"))
+        try:
+            res = pa.dispatch("view-issue", {"issue_number": 7}, platform="github")
+        finally:
+            pa._run, pa.resolve_repo = real_run, real_repo
+        view = calls[-1]
+        label = version_line or "no gh version"
+        check(f"{label}: probes gh --version first", calls[0][:2] == ["gh", "--version"])
+        check(f"{label}: tree fields {'asked' if want_tree else 'not asked'}",
+              ("issueType" in view[-1]) == want_tree)
+        check(f"{label}: tree_available is {want_tree}", res["tree_available"] is want_tree)
+
+
 def test_gitlab_argv():
     print("test_gitlab_argv")
     repo = ("g", "p")
@@ -126,6 +152,7 @@ def main():
     test_resolve_platform()
     test_github_argv()
     test_view_issue_fields()
+    test_view_issue_version_probe()
     test_gitlab_argv()
     test_unknown_verb()
     print(f"\n{PASSED} passed, {FAILED} failed")
