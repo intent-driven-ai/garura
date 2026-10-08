@@ -42,6 +42,7 @@ Agents and skills query this category when they need to know: **"What rules must
 | `pipeline-position.md` | D2 pipeline rule (#434) — a play declares `position: start\|end\|both\|none`; play-creator injects start-change (start) and the commit → propose → review → merge end sequence (end). Members: start-change + the four end plays. | `play-creator`, `lint-components`, every play |
 | `surface-contract.md` | Surface contract (ADR 022, #442) — an epic's user-facing surface (`web_dashboard\|server_api\|cli\|library\|service_read_model`) is DECLARED at the `/grill` cut and checked downstream, never re-derived; per-type required runnable evidence, valid deploy targets, downgrade ordering, and surface-debt blocking. | `/grill`, `/implement`, `/validate`, `/launch`, `/next`, `lint-components` |
 | `no-unbacked-recommendation.md` | The cardinal rule (2026-09-08) — a play that recommends must be able to cite what backs it. Where it cannot, it says NOTHING: no default, no generic pointer, no substitute play name — and it reports how many entries it could not recommend for. Wired as a constraint + failure condition + step eval + strip-not-replace recovery. Reference implementation: `focus` (C12/F10/S8/REC10). | `play-creator`, `play-editor`, `lint_play.py`; wired in `/focus`; caught-not-yet-wired in `/next` and `/review-change` |
+| `work-plan.md` | Work plans (ADR 030) — when a plan must exist (the opening `start-change` → `plan-change` → `approve-change`, only when needed), what it may contain (a plan, never a design; every item explains itself; say what kind of done; name what it serves), who keeps it current (small vs big updates; a drive's updates approved at its end), when it is done (the check script decides), and how status is shown (a tree). Format in `templates/work-plan.md`. | `manage-plan`, `project-orchestrator`; `/play-creator` and `/play-editor` once plan mode is wired (#621) |
 | `concurrent-fanout.md` | Concurrent read-only fan-out (#468, epic #460 Stage 5) — the one allowed intra-step concurrency: a step runs independent read-only sub-tasks at once when three conditions hold (read-only over shared inputs, distinct output paths, no sibling dependency), then joins. Bounded + joined + order-stable, so the step stays a single deterministic node (ADR 025). Writing fan-out is #488. | `play-creator`, `lint-components`, `/vision`, `/understand`, `/validate` |
 
 ## Deferred follow-ups
@@ -49,7 +50,7 @@ Agents and skills query this category when they need to know: **"What rules must
 These rule files are named in issue #210 but are not yet authored. They should be created when the corresponding plays / skills are built or rebuilt:
 
 - `roadmap.md` — rules for roadmap structure (buckets, bets, circuit breakers)
-- `plan.md` — rules for execution plans (DAG, file-level changes, tests)
+- `plan.md` — rules for execution plans, i.e. `/implement`'s **build plan** (DAG, file-level changes, tests). Not the work plan — that is `work-plan.md` above.
 
 ## When to Add Here
 
