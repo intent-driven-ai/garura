@@ -1,134 +1,78 @@
-# review-change Step 3, Layer 2 -- design-grounding for category: harness (PR #629, base: main)
-# Grounding rule: every source below was read from the base ref (git show main:<path>) or is a
-# committed standard under ~/.garura/core/memory. Nothing is grounded in ADR 030, the new plan
-# template, or the branch's edits to idsd.md / ADR 029 / ADR 025.
+# review-change Step 3, Layer 2 (round 2) -- design-grounding for category: harness (PR #629, base: main)
+# Grounding: base-ref sources only (git show main:<path>) plus committed standards. Nothing is grounded in
+# ADR 030, the branch's idsd.md / ADR 029 edits, or the new work-plan template and rules.
 category: harness
+round: 2
 playbook: review/harness
 changed_harness_files:
-  - core/components/skills/manage-plan/SKILL.md                        # new skill
-  - core/components/agents/project-orchestrator.md                     # edited
-  - core/components/skills/platform-adapter/reference/github/verbs.md  # edited
-  - core/components/skills/platform-adapter/reference/gitlab/verbs.md  # edited (gap note)
+  - core/components/skills/manage-plan/SKILL.md
+  - core/components/agents/project-orchestrator.md
+  - core/components/skills/manage-issue/SKILL.md
+  - core/components/skills/manage-issue/templates/issue-output.md
+  - core/components/skills/platform-adapter/SKILL.md
+  - core/components/skills/platform-adapter/reference/github/verbs.md
+  - core/components/skills/platform-adapter/reference/gitlab/verbs.md
+  - core/grounding/glossary.md
 
 layer1_linter:
   command: "node core/tools/lint-components/index.js --target core/components --output json"
   branch_result: {errors: 113, warnings: 2}
   baseline_main: {errors: 113}
-  findings_in_changed_files: 0     # no violation names manage-plan, project-orchestrator or platform-adapter
-  note: "Error count equals the main baseline; the branch adds no structural violations."
-  not_run: "lint_play.py (no play SKILL.md or ICE changed; the four plays/*/platform_adapter.py are executable-code category)"
+  findings_in_changed_files: 0
+  note: "No violation names manage-plan, project-orchestrator, manage-issue, platform-adapter or the glossary."
+  not_run: "lint_play.py (no play SKILL.md or ICE changed)"
 
 grounded_principles:
-  - id: G1
-    principle: "Agents gather context and skills do the work; the agent is autonomous per intent, and does not run step-by-step workflows (plays do)."
-    source: "main:CLAUDE.md (Behavioral Rules 2 and 4); main:core/components/agents/project-orchestrator.md (Core Principle; Boundaries NEVER 'Follow multi-step workflows'; ALWAYS 'one intent, one skill')"
-  - id: G2
-    principle: "Skills read organizational knowledge (templates) from LTM through an explicit, stable path; the agent resolves and passes the template path, the skill does not search LTM itself."
-    source: "main:docs/adr/009-skill-ltm-organizational-knowledge.md (Rules 3, Skill Reference Pattern); main:docs/components/skills.md ('LTM Template Pattern'); main:core/components/skills/manage-issue/SKILL.md line 48 (explicit ~/.garura/core/memory/standards/templates/github-issue.md)"
-  - id: G3
-    principle: "Skills do not output validation results to their caller (silent validation); skills return an output contract of artifact paths, full data goes to STM."
-    source: "main:docs/components/skills.md ('Silent Validation', 'Output Contract Pattern'); main:docs/adr/011-stm-as-inter-skill-data-transport.md"
-  - id: G4
-    principle: "Play/caller to agent communication is the Agent JSON Contract: named stm.input and stm.output keys, task_id."
-    source: "main:docs/adr/016-agent-json-contract.md; main:core/components/agents/project-orchestrator.md (Contract Mode)"
-  - id: G5
-    principle: "Skills and agents are wired as a chain; what an agent says a skill returns must be what the skill's output contract returns."
-    source: "main:core/components/skills/manage-issue/templates/issue-output.md; main:core/components/skills/manage-issue/SKILL.md (Action: read, Output); playbook review/harness rubric 'keep play-agent-skill-script wiring intact'"
-  - id: G6
-    principle: "Component documentation lists each agent's skill pool."
-    source: "main:docs/components/agents.md lines ~212-216 (project-orchestrator Skill Pool)"
-  - id: G7
-    principle: "Deterministic checks run as a skill-local script referenced from the skill directory."
-    source: "main:core/components/skills/quality-check-scoped/SKILL.md ('python3 <skill-dir>/scripts/scan_taxonomy.py')"
+  - {id: G1, principle: "Agent gathers context, skill does the work; one intent, one skill; plays hold workflows.", source: "main:CLAUDE.md rules 2 and 4; main:core/components/agents/project-orchestrator.md (Core Principle, Boundaries)"}
+  - {id: G2, principle: "Skills reach LTM templates by an explicit path.", source: "main:docs/adr/009-skill-ltm-organizational-knowledge.md; main:core/components/skills/manage-issue/SKILL.md"}
+  - {id: G3, principle: "Skills return an output contract of artifact paths, not content.", source: "main:docs/components/skills.md (Output Contract Pattern, Silent Validation); main:docs/adr/011"}
+  - {id: G4, principle: "Callers dispatch agents with the Agent JSON Contract (named stm.input / stm.output keys).", source: "main:docs/adr/016-agent-json-contract.md; main:project-orchestrator.md Contract Mode"}
+  - {id: G5, principle: "The play-agent-skill-script wiring holds end to end, with no orphan references.", source: "playbook review/harness rubric and linter list ('no orphan references'); main:manage-issue/templates/issue-output.md"}
+  - {id: G6, principle: "Component docs list each agent's skill pool.", source: "main:docs/components/agents.md (project-orchestrator Skill Pool)"}
+  - {id: G7, principle: "Skill scripts are invoked as <skill-dir>/scripts/...", source: "main:core/components/skills/quality-check-scoped/SKILL.md"}
 
-confirmed_conformant:
-  - "manage-plan is model-invocable only (user-invocable false), called by an agent, with the agent gathering context and the skill writing the plan (G1; main:CLAUDE.md rule 4; ADR 005)."
-  - "Issue reads go through manage-issue and platform-adapter, never raw gh from the agent (main:project-orchestrator.md Boundaries ALWAYS 'Use skills'). test -f is within the agent's allowed BASH USAGE."
-  - "Done-check is a deterministic script, not model judgment (G7 pattern)."
-  - "STM locations (specs/plan.md, context/plan-context.yaml) fit the ADR 017 whitelist (specs = plans, context = context)."
-  - "No intent change to a play: no ICE or compiled play SKILL.md touched, so the ICE-source discipline is not triggered."
+round1_status:
+  - {id: H1, status: FIXED, evidence: "manage-issue/SKILL.md read now maps type, parent, sub_issues, tree_available and full body; templates/issue-output.md adds body, type, parent, sub_issues, tree_available with field descriptions. The agent's Plan Context step 1 matches that output."}
+  - {id: H2, status: FIXED, evidence: "Boundaries NEVER and ALWAYS lines and the 'Don't chain' bullet now carry the Plan Context exception, so the file no longer contradicts itself. Decision Framework steps 7-9 are still single-skill (see N2, P4)."}
+  - {id: H3, status: FIXED, evidence: "A 'Plan contract' block names stm.input (action, issue, change, notes) and stm.output (context, plan, report), and 'Intent to Skill Mapping' has three plan lines plus three Intent Recognition examples."}
+  - {id: H4, status: FIXED, evidence: "manage-plan Input table now has template_path and rules_path with explicit defaults ~/.garura/core/memory/standards/templates/work-plan.md and .../rules/work-plan.md."}
+  - {id: H5, status: FIXED, evidence: "manage-plan Output: 'Every action writes files and returns their paths -- never the content'; plan_path and report_path only."}
+  - {id: H6, status: FIXED, evidence: "docs/components/agents.md adds manage-plan to the project-orchestrator Skill Pool; docs/components/skills.md adds it to the roster and the manage-{object} naming row."}
+  - {id: H7, status: FIXED, evidence: "manage-plan Action: check now runs python3 <skill-dir>/scripts/check_plan.py and explains <skill-dir>."}
+  - {id: H8, status: FIXED, evidence: "github/verbs.md Note now documents issueType, parent, subIssues and subIssuesSummary, and adds the gh 2.94.0 version gate; gitlab/verbs.md notes the gap."}
 
 findings:
-  - id: H1
-    severity: P2
-    file: "core/components/agents/project-orchestrator.md (Plan Context, step 1) and core/components/skills/manage-plan/SKILL.md (Input, plan context file)"
-    principle: "G5 -- the wiring must hold. The agent is told 'manage-issue (action: read) ... returns issueType, parent, and subIssues' and the skill needs the issue body, but manage-issue was not changed."
-    basis: >
-      main:manage-issue/templates/issue-output.md defines the read output as number, title, labels, state,
-      body_summary (first 200 chars), url, created, closed, parent_issue (only the parent attached on create).
-      It has no issueType, no parent object, no subIssues, and no full body. manage-issue/SKILL.md 'read' says only
-      'Parse and return structured output'. diff main...HEAD touches platform-adapter (view-issue fields) but not
-      manage-issue. So the data reaches platform-adapter output but the next link in the chain drops it.
-    effect: "Plan Context steps 1-3 (type, parent, children) and the plan's 'issue.body' input cannot be built as described."
-    suggested_fix: "Extend manage-issue read and templates/issue-output.md to pass issueType, parent, subIssues (and the full body), or have the agent read view-issue output directly through platform-adapter."
-
-  - id: H2
+  - id: N1
     severity: P3
-    file: "core/components/agents/project-orchestrator.md (Handling Ambiguity; Plan Context)"
-    principle: "G1 -- the agent is autonomous per intent, 'one intent, one skill', and does not follow multi-step workflows."
+    file: "core/grounding/glossary.md (Work plan row) and core/components/skills/manage-plan/SKILL.md (Action: update, step 5)"
+    principle: "G5 -- no orphan references: harness text must not point at components that do not exist."
     basis: >
-      main:project-orchestrator.md Core Principle ('You do NOT follow step-by-step workflows. Plays define workflows'),
-      Boundaries NEVER ('Follow multi-step workflows -- that's play responsibility') and ALWAYS ('one intent, one skill').
-      The branch adds a six-step numbered procedure that issues 2+N manage-issue reads then one manage-plan call, and
-      patches only the 'Don't chain' bullet. The NEVER/ALWAYS lines stay unchanged and now contradict the new section.
-      Context gathering is a legitimate agent role (main:CLAUDE.md rule 4), so the intent is defensible; the drift is the
-      unreconciled contradiction inside the same file.
-    suggested_fix: "Reconcile Boundaries (and the Decision Framework steps, which still read 'invoke skill -> enrich type_hint -> write output') with the Plan Context exception, or move the gather steps into the play that dispatches plan intents."
+      The glossary row says the plan is 'opened by plan-change, approved by approve-change', and manage-plan routes big
+      updates to 'approve-change'. Neither play exists on main (git ls-tree main finds no plan-change or approve-change)
+      or on the branch (core/components/plays has neither). The glossary defines current, canonical concepts
+      (main:core/grounding/glossary.md header: 'Canonical definitions of every Garura concept', per main:CLAUDE.md Reference).
+    effect: "A reader or agent following the text is sent to plays that cannot run today."
+    suggested_fix: "Say 'planned' (with the issue that adds them) or drop the names until those plays exist."
 
-  - id: H3
-    severity: P3
-    file: "core/components/agents/project-orchestrator.md (Plan Context)"
-    principle: "G4 -- every dispatch to an agent is the Agent JSON Contract with named stm.input / stm.output keys."
-    basis: >
-      main:ADR 016 and main:project-orchestrator.md Contract Mode. The new section defines the output key (stm.output.context)
-      but says nothing of how the caller passes action (create/update/check), issue, and change; the agent's intent
-      table matches on free text ('plan this issue'). Also 'Intent Recognition' and 'Intent to Skill Mapping' on main
-      list only the issue and mapping examples, with no plan examples.
-    suggested_fix: "Name the stm.input keys (action, issue, change) for plan intents and add plan lines to Intent to Skill Mapping."
-
-  - id: H4
-    severity: P3
-    file: "core/components/skills/manage-plan/SKILL.md (Process, first paragraph)"
-    principle: "G2 -- skills reference LTM through an explicit stable path, or are handed the path by the agent; they do not search LTM."
-    basis: >
-      main:ADR 009 Rule 3 and Skill Reference Pattern; main:docs/components/skills.md 'LTM Template Pattern'.
-      manage-plan says 'standards/templates/plan.md (resolve it from LTM)': no explicit path, and no template_path in its Input
-      table. manage-issue on main writes the full path ~/.garura/core/memory/standards/templates/github-issue.md.
-    suggested_fix: "Write the explicit LTM path (as manage-issue does) or add template_path to Input, set by the agent."
-
-  - id: H5
-    severity: P3
-    file: "core/components/skills/manage-plan/SKILL.md (Output)"
-    principle: "G3 -- skills validate silently and return an output contract of artifact paths."
-    basis: >
-      main:docs/components/skills.md 'Silent Validation' ('do NOT output validation results ... to their caller') and
-      'Output Contract Pattern'. For create and update the skill returns 'the check report' to the caller, and for check
-      returns an inline JSON report unless report_path is given. The check action as a reported result is reasonable;
-      returning the report on create/update is the departure.
-    suggested_fix: "For create/update return plan_path and status only; keep the report for action check (or write it to report_path and return the path)."
-
-  - id: H6
-    severity: P3
-    file: "docs/components/agents.md (not changed by this PR) -- related to core/components/agents/project-orchestrator.md"
-    principle: "G6 -- the agent's skill pool is documented."
-    basis: main:docs/components/agents.md project-orchestrator Skill Pool lists manage-issue and resolve-issues only; the branch adds manage-plan to the agent but not to the doc (docs/components/skills.md roster likewise omits it).
-    suggested_fix: "Add manage-plan to both tables."
-
-  - id: H7
+  - id: N2
     severity: P4
-    file: "core/components/skills/manage-plan/SKILL.md (Action: check)"
-    principle: "G7 -- script invocation path convention."
-    basis: main:quality-check-scoped/SKILL.md uses '<skill-dir>/scripts/...'. manage-plan runs 'python3 scripts/check_plan.py', which only works when the working directory is the skill directory.
-    suggested_fix: "Use '<skill-dir>/scripts/check_plan.py'."
+    file: "core/components/agents/project-orchestrator.md (Decision Framework steps 7-9; Plan contract)"
+    principle: "G4 -- Agent JSON Contract: the output contract returns named stm.output paths, with failure written to stm.output.failure."
+    basis: >
+      main:project-orchestrator.md Contract Mode and Decision Framework: step 8 derives type_hint and step 9 writes
+      stm.output.result. The Plan contract defines output keys context, plan and report but no result or failure key, and
+      the Decision Framework was not updated for plan intents.
+    suggested_fix: "Add a failure key (and a one-line plan branch in the Decision Framework) so a failed plan intent has a defined path."
 
-  - id: H8
+  - id: N3
     severity: P4
-    file: "core/components/skills/platform-adapter/reference/github/verbs.md"
-    principle: "G5 -- the reference states what the verb returns."
-    basis: The command now requests subIssuesSummary but the Note documents only issueType, parent and subIssues. Same string is in the four platform_adapter.py copies (executable-code category, not graded here).
-    suggested_fix: "Mention subIssuesSummary in the Note or drop it from the field list."
+    file: "core/components/skills/manage-plan/SKILL.md (Action: create step 1)"
+    principle: "G5 -- wiring: what the skill needs must be what the agent passes."
+    basis: >
+      create says 'If existing_plan is set, stop and switch to update', but update needs a change input, and the agent's
+      create call carries none (the Plan contract makes change update-only). Wiring is undefined for that path.
+    suggested_fix: "Say create returns a refusal naming the existing plan, and the agent re-issues an update with a change."
 
 severity_basis_note: >
-  No row in memory/standards/rules/pr.md maps to garura-prose design conformance (its rows target runtime code;
-  garura-prose paths are guard-exempt from grep rules). Severities use the pr.md bucket definitions:
-  P2 = structural violation, P3 = missing docs / naming / minor drift, P4 = nit.
+  No row in main:memory/standards/rules/pr.md maps to garura-prose design conformance (grep rules are guard-exempt for
+  garura-prose). Severities use the pr.md bucket definitions: P2 structural, P3 missing docs / minor drift, P4 nit.

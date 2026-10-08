@@ -1,0 +1,166 @@
+# review-change Step 3, Layer 2 — design-grounding for category: memory (PR #629, base: main)
+# Grounding rule: every source below was read from the base ref (git show main:<path>) or the
+# resolved memory (~/.garura/core/memory/standards/rules/pr.md). Nothing is grounded in ADR 030,
+# the branch's edits to docs/philosophy/idsd.md or ADR 029, or the new plan.md template itself.
+category: memory
+playbook: review/memory
+severity_basis: >
+  standards/rules/pr.md bucket definitions (P3 = missing docs / naming; P4 = nit). No Severity
+  Table row (SEC/ARCH/BE/CODE/TEST/DOC/...) targets templates/ or tools/ prose, so no Standard ID
+  fires; buckets are assigned from the prose definitions of P1-P4 and flagged "no-row".
+changed_files:
+  - core/components/memory/standards/templates/plan.md
+  - core/components/memory/standards/templates/_index.md
+  - core/components/memory/tools/github/adapter.md
+
+grounding:
+  - id: G1
+    principle: "A template defines the SHAPE of an output artifact. It must not define which artifacts get produced (play/skill contract) or rules for artifact content (rules/)."
+    source: "main:core/components/memory/standards/templates/_index.md  § 'When to Add Here'"
+  - id: G2
+    principle: "Layout: rules/ = how an artifact must be structured and enforced; templates/ = what the final output looks like. 'plan.md - rules for execution plans' is already listed as a deferred rules/ follow-up."
+    source: "main:core/components/memory/standards/_index.md § 'Layout principle'; main:core/components/memory/standards/rules/_index.md § 'Deferred follow-ups'"
+  - id: G3
+    principle: "Template index rows name the concrete skills/agents that instantiate the template, and a template must be instantiated by at least one skill or play."
+    source: "main:core/components/memory/standards/templates/_index.md (Consumers column of every existing row; 'When to Add Here' bullet 2)"
+  - id: G4
+    principle: "'plan' already names a build-plan DAG of file-level pieces (implement writes specs/implement/plan.yaml via author-build-plan); 'checkpoint' already names the human approval gate (Tether/Orbit/Vanish) with its own template."
+    source: "main:core/components/plays/implement/SKILL.md (plan.yaml, author-build-plan); main:core/components/memory/standards/templates/checkpoint.md; main:core/components/memory/standards/rules/_index.md (deferred plan.md = 'DAG, file-level changes, tests')"
+  - id: G5
+    principle: "Platform tool docs (tools/github, tools/gitlab) are paired KB narratives that mirror each other: platform differences for a verb are stated in BOTH docs and cross-referenced (attach-sub-issue points to the GitLab reference; gitlab view-issue states the closed_at difference)."
+    source: "main:core/components/memory/tools/github/adapter.md § attach-sub-issue; main:core/components/memory/tools/gitlab/adapter.md § view-issue"
+  - id: G6
+    principle: "Existing templates are timeless canonical shapes: no issue-in-progress notes, no 'will be updated' prose; any provenance is a stated work context, not a live design status."
+    source: "main:core/components/memory/standards/templates/{pr-body,commit-message,checkpoint,github-issue,knowledge-file}.md (read in full)"
+  - id: G7
+    principle: "Work-kind vocabulary: Business Intent, Feature, Story (a Task), Bug, Spike, Chore."
+    source: "main:.garura/user-provided/managing-work.md (kinds table)"
+  - id: G8
+    principle: "STM structure is limited to specs/evidence/checkpoint/context/review; plans under specs/ are allowed. stm.base-path ends in a slash."
+    source: ".garura/core/config.yaml (ADR 017 comment on structure keys; stm.base-path: .garura/project/issues/)"
+
+conformant:
+  - "templates/plan.md front-matter `kind` list matches the work kinds on main (G7) plus drive/play (Drive is defined in main glossary / ADR 029)."
+  - "templates/plan.md lives at {stm_base}{issue}/specs/plan.md - inside a permitted STM key (G8); {stm_base}{issue} without a slash is correct given the base-path value."
+  - "templates/plan.md has a concrete instantiating skill (manage-plan, added in the same branch), so the 'instantiated by at least one skill' entry test (G3) is met."
+  - "templates/_index.md row is placed in the Contents table and the template is plain-language, consistent with user-facing-voice (templates are exempt anyway per main:rules/user-facing-voice.md Scope)."
+  - "tools/github/adapter.md view-issue edit stays descriptive (executable commands live in verbs.md, per its own Overview) and the field list matches verbs.md and `gh issue view --json` available fields (checked locally on gh 2.102)."
+
+findings:
+  - id: M1
+    severity: P3
+    file: core/components/memory/standards/templates/plan.md
+    lines: "intro paragraph; '## Rules' items 5, 6, 8"
+    principle: "G1, G2 - a template carries shape, not contract or lifecycle policy."
+    basis: >
+      The template opens with "Every drive and every play writes one before it works, keeps it up
+      to date while it works, and is done only when its plan is done", and Rules 5 (kept current),
+      6 (every plan names what it serves) and 8 ("done means the plan is done") decide WHICH work
+      must produce the artifact and WHEN it is done. templates/_index 'When to Add Here' says a
+      file does NOT belong in templates/ if it "defines WHICH artifacts to produce (that's play /
+      skill contract territory)" or "defines rules for artifact content (that's rules/)", and
+      rules/_index already reserves `plan.md` there as a deferred follow-up. Rules 1-4 and 7 are
+      legitimate field rules (cf. pr-body 'Field Rules'); 5, 6, 8 are not.
+    suggested_fix: "Keep the shape + field rules in templates/plan.md; move the lifecycle rules (kept current, serves-chain, done-means-plan-done) to rules/plan.md or the manage-plan / play contract, and link from the template under a '## Related' section as base templates do."
+    taxonomy_row: none (bucket definition)
+
+  - id: M2
+    severity: P3
+    file: core/components/memory/standards/templates/plan.md
+    lines: "title, whole file; '### Checkpoint:' block"
+    principle: "G4 - naming clarity; overloaded terms."
+    basis: >
+      On main, 'plan' means the build-plan DAG of file-level pieces (specs/implement/plan.yaml,
+      rules/_index 'plan.md - DAG, file-level changes, tests') - i.e. HOW. The new template
+      defines 'plan' as strictly never-how, in the same specs/ directory, and the glossary on
+      main has no 'plan' entry to disambiguate. It also reuses 'Checkpoint' for a "nothing below
+      starts before this point" barrier, while 'checkpoint' on main is the human-approval gate
+      with its own template. Two readers (or two agents) loading 'the plan' / 'a checkpoint'
+      can pick the wrong artifact.
+    suggested_fix: "Add a glossary entry that separates plan (what/order/why) from build-plan (plan.yaml) and rename the barrier heading (e.g. 'Gate' / 'Hold point'), or state the difference in the template's opening lines."
+    taxonomy_row: none (bucket definition)
+
+  - id: M3
+    severity: P3
+    file: core/components/memory/standards/templates/_index.md
+    lines: "new `plan.md` row (Consumers column)"
+    principle: "G3 - Consumers name the concrete skills/agents that instantiate the template."
+    basis: >
+      The new row lists consumers as "every drive and play (plan mode, being designed in #619)".
+      Every other row on main names real skills/agents (e.g. `submit-pr`, `analyze-pr`;
+      `knowledge-extractor`, `capture-learning`). The one skill that instantiates the template
+      (`manage-plan`) is not named, and "being designed" is live status prose in a lookup index
+      agents query for 'what does the output artifact look like?'. An agent filtering the index
+      by consumer will not find manage-plan.
+    suggested_fix: "Consumers: `manage-plan`, `project-orchestrator`. Drop the '(being designed in #619)' note."
+    taxonomy_row: none (bucket definition)
+
+  - id: M4
+    severity: P4
+    file: core/components/memory/standards/templates/plan.md
+    lines: "second paragraph ('Starting point: locked by Kapil on 2026-10-08 ... still being decided in #619; this file will be updated as those land.')"
+    principle: "G6 - templates are timeless shapes, not work-in-progress notes."
+    basis: >
+      None of the base templates carry a design-status or 'will be updated' note; provenance, where
+      kept, is stated as a work context. This paragraph is change-history for #619 and points an
+      LTM artifact at an STM file (.garura/project/issues/606/specs/plan.md). It will be wrong
+      the moment #619 closes, and the same status is already recorded in the issue and commit
+      messages (CLAUDE.md: direct-edit history belongs in commit + issue, not in the artifact).
+      A weak precedent for an STM example path exists (approval-prompt.md lists 214/specs paths),
+      hence P4, not P3.
+    suggested_fix: "Delete the paragraph, or reduce it to a one-line provenance ('Provenance: #619') in the knowledge-file style."
+    taxonomy_row: none (bucket definition)
+
+  - id: M5
+    severity: P3
+    file: "core/components/memory/tools/github/adapter.md (paired file not changed: core/components/memory/tools/gitlab/adapter.md)"
+    lines: "view-issue section"
+    principle: "G5 - GitHub and GitLab tool docs mirror platform differences for each verb."
+    basis: >
+      The branch adds issueType/parent/subIssues/subIssuesSummary (gh >= 2.94.0) to the GitHub
+      tool doc and adds a 'Gap: GitLab carries no equivalent' note to platform-adapter/reference/
+      gitlab/verbs.md, but main:tools/gitlab/adapter.md § view-issue (which documents the
+      closed_at difference) is left untouched. Callers reading the KB narrative for GitLab get no
+      warning that the issue tree is GitHub-only, unlike attach-sub-issue where the GitHub doc
+      cross-references the GitLab fallback.
+    suggested_fix: "Add one sentence to tools/gitlab/adapter.md view-issue: no type/parent/sub-issue fields; issue-tree callers are GitHub-only."
+    taxonomy_row: none (bucket definition)
+
+  - id: M6
+    severity: P3
+    file: core/components/memory/tools/github/adapter.md
+    lines: "view-issue: 'they need gh 2.94.0 or newer'"
+    principle: "G5 (tool docs state verb semantics and caveats) + no prior minimum-version contract on main."
+    basis: >
+      `git grep` on main finds no stated minimum gh version anywhere in core/ or docs/ (checked
+      patterns for 'gh version', 'gh >=', 'minimum ... gh'). The doc now introduces a first
+      hard prerequisite, but only inside one verb's prose, and the paired verbs.md says an older gh
+      "rejects these fields" - meaning the whole view-issue call fails (it is one --json list), not
+      just the tree fields, for every play that reads issues (archive bucketing uses closedAt).
+      The memory doc does not say where the prerequisite is declared (install/doctor check) or
+      what a caller should do on an older gh. The runtime breakage itself belongs to the
+      harness/code reviewers (potentially P2 as a breaking verb contract); this finding covers
+      only the missing documentation of the prerequisite.
+    suggested_fix: "Say where the gh minimum is enforced (install-garura / preflight) and the expected failure mode, or make the tree fields a separate verb/opt-in so existing view-issue callers keep working on older gh."
+    taxonomy_row: none (bucket definition)
+    cross_category_note: "Hand to executable-code / harness review: four platform_adapter.py copies now request the new fields unconditionally."
+
+  - id: M7
+    severity: P4
+    file: core/components/memory/standards/templates/plan.md
+    lines: "front matter `now:`; Rule 4 ('\"Now\" is always set'); Rule 8; `status: {active | done | dropped}`"
+    principle: "Template internal precision (field rules must say what a field holds in every allowed state) - cf. main:templates/checkpoint.md, which marks nullable fields (`decision: null | ...`)."
+    basis: >
+      `status: done|dropped` is allowed but Rule 4 says `now` is always set, and no item can be
+      'now' in a finished plan; Rule 8 defines done for the issue but not what a `dropped` plan
+      means or how `now` reads then. The base checkpoint template states null-able fields
+      explicitly.
+    suggested_fix: "Write `now: {item number | null when status is done or dropped}` and adjust Rule 4 to 'while active'."
+    taxonomy_row: none (bucket definition)
+
+summary:
+  P1: 0
+  P2: 0
+  P3: 5   # M1, M2, M3, M5, M6
+  P4: 2   # M4, M7
+  grounding_unavailable: []
