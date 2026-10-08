@@ -1,101 +1,74 @@
----
-# analyze-changes output — grouped by concern for PR #629 review fixes
-# issue: 619
 needs_judgment: false
-
 change_groups:
-  - id: issue-reads-keep-work-tree
-    issue: 619
-    commit_type: fix
-    scope: manage-issue
-    subject: "return the full work tree when reading an issue"
-    files:
-      - core/components/skills/manage-issue/SKILL.md
-      - core/components/skills/manage-issue/templates/issue-output.md
-
-  - id: gh-version-fallback
-    issue: 619
-    commit_type: fix
-    scope: platform-adapter
-    subject: "fall back gracefully when the installed gh lacks a feature"
-    files:
-      - core/components/plays/play-creator/references/platform_adapter.py
-      - core/components/plays/play-creator/references/test_platform_adapter.py
-      - core/components/plays/propose-change/scripts/platform_adapter.py
-      - core/components/plays/review-change/scripts/platform_adapter.py
-      - core/components/plays/merge-change/scripts/platform_adapter.py
-      - core/components/skills/platform-adapter/SKILL.md
-      - core/components/skills/platform-adapter/reference/github/verbs.md
-      - core/components/memory/tools/github/adapter.md
-      - core/components/memory/tools/gitlab/adapter.md
-
-  - id: plan-check-hardening
+  - id: plan-check-serves-item
     issue: 619
     commit_type: fix
     scope: manage-plan
-    subject: "harden the plan check and add tests for it"
+    subject: "make the plan check fail when a serves_item does not exist"
     files:
       - core/components/skills/manage-plan/scripts/check_plan.py
       - core/components/skills/manage-plan/scripts/test_check_plan.py
-
-  - id: work-plan-rules-and-naming
+  - id: adapter-version-probe-test
     issue: 619
-    commit_type: refactor
-    scope: standards
-    subject: "rename the plan template to work-plan and add work-plan rules"
+    commit_type: test
+    scope: platform-adapter
+    subject: "add a test for the GitLab version probe"
     files:
-      - core/components/memory/standards/templates/plan.md
-      - core/components/memory/standards/templates/work-plan.md
-      - core/components/memory/standards/rules/work-plan.md
-      - core/components/memory/standards/templates/_index.md
-      - core/components/memory/standards/rules/_index.md
-      - core/grounding/glossary.md
-
-  - id: agent-and-skill-contract
-    issue: 619
-    commit_type: fix
-    scope: project-orchestrator
-    subject: "tighten the agent and skill plan contract and fix the ADR 007 link"
-    files:
-      - core/components/agents/project-orchestrator.md
-      - core/components/skills/manage-plan/SKILL.md
-      - docs/components/skills.md
-      - docs/components/agents.md
-
-  - id: adr-and-philosophy-docs
+      - core/components/plays/play-creator/references/test_platform_adapter.py
+  - id: work-plan-not-yet-wired-markers
     issue: 619
     commit_type: docs
-    scope: adr
-    subject: "update drives and plan-mode ADRs and the IDSD philosophy"
+    scope: work-plan
+    subject: "mark the not-yet-wired parts of the plan contract and keep the plan path in one place"
     files:
-      - docs/adr/029-drives.md
-      - docs/adr/030-plan-mode.md
-      - docs/philosophy/idsd.md
-
-  - id: stm-plans-and-decisions
+      - core/components/memory/standards/rules/work-plan.md
+      - core/components/memory/standards/templates/work-plan.md
+      - core/grounding/glossary.md
+      - core/components/skills/manage-plan/SKILL.md
+      - core/components/agents/project-orchestrator.md
+  - id: gitlab-wording-unverified-claim
+    issue: 619
+    commit_type: docs
+    scope: gitlab
+    subject: "remove the unverified claim from the GitLab adapter wording"
+    files:
+      - core/components/memory/tools/gitlab/adapter.md
+      - core/components/skills/platform-adapter/reference/gitlab/verbs.md
+  - id: stm-review-records-round2
     issue: 619
     commit_type: chore
     scope: stm
-    subject: "update the 606 and 619 plans and the 619 decisions"
+    subject: "record the round 2 review and move the round 1 records into round1"
     files:
-      - .garura/project/issues/606/specs/plan.md
-      - .garura/project/issues/619/specs/plan.md
-      - .garura/project/issues/619/specs/decisions.md
-
+      - .garura/project/issues/619/review/categories.yaml
+      - .garura/project/issues/619/review/context.yaml
+      - .garura/project/issues/619/review/decision-comment.md
+      - .garura/project/issues/619/review/decision.yaml
+      - .garura/project/issues/619/review/design-findings-harness.yaml
+      - .garura/project/issues/619/review/design-findings-memory.yaml
+      - .garura/project/issues/619/review/findings.yaml
+      - .garura/project/issues/619/review/posted.json
+      - .garura/project/issues/619/review/pr.diff
+      - .garura/project/issues/619/review/quality-findings.yaml
+      - .garura/project/issues/619/review/recommended_verdict.yaml
+      - .garura/project/issues/619/review/round1/categories.yaml
+      - .garura/project/issues/619/review/round1/decision-comment.md
+      - .garura/project/issues/619/review/round1/decision.yaml
+      - .garura/project/issues/619/review/round1/design-findings-harness.yaml
+      - .garura/project/issues/619/review/round1/design-findings-memory.yaml
+      - .garura/project/issues/619/review/round1/findings.yaml
+      - .garura/project/issues/619/review/round1/posted.json
+      - .garura/project/issues/619/review/round1/quality-findings.yaml
+      - .garura/project/issues/619/review/round1/recommended_verdict.yaml
 exclusions:
   - path: ".garura/project/issues/619/context/porcelain.txt"
-    reason: "run-state artifact of the commit-change play; committed by the final chore(stm) run-state commit"
+    reason: "run-state artifact of this play; committed by the executor's final chore(stm) group"
     blocking: false
   - path: ".garura/project/issues/619/context/analysis.yaml"
-    reason: "run-state artifact of the commit-change play; committed by the final chore(stm) run-state commit"
+    reason: "run-state artifact of this play; committed by the executor's final chore(stm) group"
     blocking: false
-
 risks:
   sensitive_files: []
   breaking_changes: []
   ambiguous_types: []
   hotfix_branch: false
-  notes:
-    - "project-orchestrator.md touches concerns 1 and 5; placed once, in agent-and-skill-contract"
-    - "staged rename plan.md -> work-plan.md lists both paths in one group"
-    - "4 platform_adapter.py copies are identical; they travel together in gh-version-fallback"
