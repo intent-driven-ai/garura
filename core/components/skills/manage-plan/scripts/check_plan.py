@@ -2,14 +2,16 @@
 """check_plan.py — deterministic check of a plan file (#619).
 
 Reads one plan written in the canonical plan format
-(memory/standards/templates/plan.md) and reports two things:
+(memory/standards/templates/work-plan.md) and reports two things:
 
   valid  — the plan follows the format: front matter fields, the required
            sections, a "now" item that exists and is marked, and every open
            item explains itself (a What line).
   linked — a plan that names `serves_plan` / `serves_item` points at a parent
-           plan that exists and mentions this issue (#619 P9). A business
-           intent's plan names no parent.
+           plan that exists and names this issue as a whole token (`#619`,
+           never a prefix of `#6190`). When the parent's item `serves_item` is
+           still open, that item itself must name this issue. A business
+           intent's plan names no parent (#619 P9).
   done   — the plan is finished: status is `done` (or `dropped`) and no open
            numbered item is left. Finished items live under "### Done".
 
@@ -38,6 +40,17 @@ REQUIRED_SECTIONS = [
 ]
 ITEM_RE = re.compile(r"^###\s+(\d+)\.\s+(.*)$")
 NOW_MARK = re.compile(r"[—-]\s*now\s*$", re.IGNORECASE)
+
+
+def issue_ref(number):
+    """Match '#619' as a whole token — not '#6190', not 'x#619'."""
+    return re.compile(rf"(?<![\w#])#{re.escape(str(number))}(?!\d)")
+
+
+def read_text(path):
+    """Read a plan as UTF-8; raise OSError or UnicodeDecodeError when unreadable."""
+    with open(path, encoding="utf-8") as fh:
+        return fh.read()
 
 
 def parse_front_matter(text):
@@ -103,8 +116,23 @@ def check_parent(fields, plan_path, problems):
     if not os.path.isfile(parent_path):
         problems.append(f"serves_plan={parent}: no plan at {parent_path}")
         return parent_path
-    if f"#{fields.get('plan_for', '')}" not in open(parent_path, encoding="utf-8").read():
-        problems.append(f"the plan for #{parent} does not mention #{fields.get('plan_for')}")
+    try:
+        parent_text = read_text(parent_path)
+    except (OSError, UnicodeDecodeError) as exc:
+        problems.append(f"serves_plan={parent}: parent plan unreadable ({exc.__class__.__name__})")
+        return parent_path
+    ref = issue_ref(fields.get("plan_for", ""))
+    if not ref.search(parent_text):
+        problems.append(f"the plan for #{parent} does not name #{fields.get('plan_for')}")
+        return parent_path
+    _, parent_body = parse_front_matter(parent_text)
+    for it in split_items(parent_body or ""):
+        if it["number"] == int(item):
+            block = it["title"] + "\n" + "\n".join(it["lines"])
+            if not ref.search(block):
+                problems.append(f"serves_item={item}: item {item} of the plan for #{parent} "
+                                f"does not name #{fields.get('plan_for')}")
+            break
     return parent_path
 
 
@@ -112,7 +140,8 @@ def check(text, plan_path=None):
     problems = []
     fields, body = parse_front_matter(text)
     if fields is None:
-        return {"valid": False, "done": False, "problems": ["no front matter"], "open_items": [], "now": None}
+        return {"valid": False, "done": False, "status": None, "now": None,
+                "open_items": [], "serves_plan": None, "problems": ["no front matter"]}
 
     for f in REQUIRED_FIELDS:
         if not fields.get(f):
@@ -124,14 +153,14 @@ def check(text, plan_path=None):
     if kind and kind not in KINDS:
         problems.append(f"front matter: kind `{kind}` is not one of {sorted(KINDS)}")
 
-    headings = {l[3:].strip() for l in body.splitlines() if l.startswith("## ")}
-    for s in REQUIRED_SECTIONS:
-        if s not in headings:
-            problems.append(f"missing section: ## {s}")
+    headings = {line[3:].strip() for line in body.splitlines() if line.startswith("## ")}
+    for section in REQUIRED_SECTIONS:
+        if section not in headings:
+            problems.append(f"missing section: ## {section}")
 
     items = split_items(body)
-    open_items = [i["number"] for i in items]
-    marked = [i["number"] for i in items if NOW_MARK.search(i["title"])]
+    open_items = [it["number"] for it in items]
+    marked = [it["number"] for it in items if NOW_MARK.search(it["title"])]
 
     now = fields.get("now", "")
     if status == "active":
@@ -144,9 +173,9 @@ def check(text, plan_path=None):
         elif now.isdigit() and marked[0] != int(now):
             problems.append(f"front matter now={now} but the '— now' heading is item {marked[0]}")
 
-    for i in items:
-        if not any(l.startswith("**What:**") for l in i["lines"]):
-            problems.append(f"item {i['number']} has no **What:** line — every item must explain itself")
+    for it in items:
+        if not any(line.startswith("**What:**") for line in it["lines"]):
+            problems.append(f"item {it['number']} has no **What:** line — every item must explain itself")
 
     parent_path = check_parent(fields, plan_path, problems)
 
@@ -166,9 +195,9 @@ def main():
     ap.add_argument("--out")
     args = ap.parse_args()
     try:
-        text = open(args.plan, encoding="utf-8").read()
-    except OSError as exc:
-        print(json.dumps({"error": str(exc)}))
+        text = read_text(args.plan)
+    except (OSError, UnicodeDecodeError) as exc:
+        print(json.dumps({"error": f"{exc.__class__.__name__}: {exc}", "plan": args.plan}))
         return 3
     report = check(text, args.plan)
     report["plan"] = args.plan
