@@ -40,7 +40,7 @@ The aim is that a drive runs **three plays** — a trinity of commands — match
 
 ### 3. The drive owns the change
 
-A drive **opens the change when it starts and closes it when its review is finished.** It works on **one main issue** and opens **one branch** for it. That branch stays the same for the whole drive. The plays inside it open no issue and no branch of their own; they work on the drive's branch. Issues **linked** to the main issue are fixed on that same branch, in the same change. An issue not linked to the main issue stays out of scope.
+A drive **opens the change when it starts and closes it when its review is finished.** It works on **one main issue** and opens **one branch** for it. That branch stays the same for the whole drive, and the drive raises **one pull request** from it. The plays inside it open no issue and no branch of their own; they work on the drive's branch. Issues **linked** to the main issue — its child issues, by the parent/child link in the tracker, never a mention in the body — are fixed on that same branch, in the same change. The drive's scope is the main issue plus those child issues; anything else it finds becomes a new issue, as for any session. The drive writes one handoff, on its main issue.
 
 ### 4. Plays stand on their own
 
