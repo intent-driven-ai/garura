@@ -1,27 +1,22 @@
 commits:
-  - sha: 0255d474
-    message: "docs(adr): record the drives decision in ADR 029 and supersede ADR 003 (#607)"
+  - sha: a376bf98
+    message: "docs(drives): close review gaps on drive rules: one PR, child-issue linking, drive scope, one handoff, glossary entry (#607)"
     files:
-      - docs/adr/029-drives.md
-      - docs/adr/003-guardian-approval.md
-      - docs/adr/SUPERSEDED-003-guardian-approval.md
-      - docs/adr/001-three-layer-hierarchy.md
-      - docs/adr/002-l1-checkpoint-model.md
-      - docs/adr/008-issue-centric-stm-and-nwwi.md
-      - docs/adr/028-agentic-lifecycle-five-loops.md
-      - docs/philosophy/architecture.md
       - .garura/user-provided/managing-work.md
+      - docs/adr/029-drives.md
+      - core/grounding/glossary.md
     branch: feature/607-understand-loop-recipe
-  - sha: 25a21615
-    message: "chore(stm): record spike decision notes (#607)"
+  - sha: b5c25020
+    message: "chore(stm): record spike decision L21 and merge-change gate run (#607)"
     files:
       - .garura/project/issues/607/specs/decisions.md
+      - .garura/project/issues/607/review/merge-gate.json
     branch: feature/607-understand-loop-recipe
 excluded_files:
-  - path: ".garura/project/issues/607/context/analysis.yaml"
-    reason: "run artifact of commit-change; committed by the executor as the final chore(stm) group via --run-state-dir"
   - path: ".garura/project/issues/607/context/porcelain.txt"
-    reason: "run artifact of commit-change; committed by the executor as the final chore(stm) group via --run-state-dir"
+    reason: "run artifact, committed by the executor"
+  - path: ".garura/project/issues/607/context/analysis.yaml"
+    reason: "run artifact, committed by the executor"
 leftover_count: 0
 tree_clean: true
 pushed: false
