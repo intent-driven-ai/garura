@@ -1,6 +1,30 @@
  M .garura/project/issues/606/specs/plan.md
+ M .garura/project/issues/619/context/analysis.yaml
  M .garura/project/issues/619/context/porcelain.txt
- M core/components/memory/standards/templates/plan.md
+ M .garura/project/issues/619/specs/decisions.md
+ M .garura/project/issues/619/specs/plan.md
+ M core/components/agents/project-orchestrator.md
+ M core/components/memory/standards/rules/_index.md
+ M core/components/memory/standards/templates/_index.md
+RM core/components/memory/standards/templates/plan.md -> core/components/memory/standards/templates/work-plan.md
+ M core/components/memory/tools/github/adapter.md
+ M core/components/memory/tools/gitlab/adapter.md
+ M core/components/plays/merge-change/scripts/platform_adapter.py
+ M core/components/plays/play-creator/references/platform_adapter.py
+ M core/components/plays/play-creator/references/test_platform_adapter.py
+ M core/components/plays/propose-change/scripts/platform_adapter.py
+ M core/components/plays/review-change/scripts/platform_adapter.py
+ M core/components/skills/manage-issue/SKILL.md
+ M core/components/skills/manage-issue/templates/issue-output.md
+ M core/components/skills/manage-plan/SKILL.md
+ M core/components/skills/manage-plan/scripts/check_plan.py
+ M core/components/skills/platform-adapter/SKILL.md
+ M core/components/skills/platform-adapter/reference/github/verbs.md
+ M core/grounding/glossary.md
  M docs/adr/029-drives.md
  M docs/adr/030-plan-mode.md
+ M docs/components/agents.md
+ M docs/components/skills.md
  M docs/philosophy/idsd.md
+?? core/components/memory/standards/rules/work-plan.md
+?? core/components/skills/manage-plan/scripts/test_check_plan.py

@@ -1,26 +1,60 @@
 commits:
-  - sha: 102443fb
-    message: "docs(philosophy): state the plan as the human interface and add the handover drive (#619)"
+  - sha: 8342d15c
+    message: "fix(platform-adapter): fall back gracefully when the installed gh lacks a feature (#619)"
     files:
-      - docs/philosophy/idsd.md
-      - docs/adr/029-drives.md
-      - docs/adr/030-plan-mode.md
+      - core/components/plays/play-creator/references/platform_adapter.py
+      - core/components/plays/play-creator/references/test_platform_adapter.py
+      - core/components/plays/propose-change/scripts/platform_adapter.py
+      - core/components/plays/review-change/scripts/platform_adapter.py
+      - core/components/plays/merge-change/scripts/platform_adapter.py
+      - core/components/skills/platform-adapter/SKILL.md
+      - core/components/skills/platform-adapter/reference/github/verbs.md
+      - core/components/memory/tools/github/adapter.md
+      - core/components/memory/tools/gitlab/adapter.md
     branch: feature/619-plan-mode
-  - sha: 4aff532c
-    message: "docs(templates): require plans to say what kind of done each item is (#619)"
+  - sha: c3ec4312
+    message: "fix(manage-plan): harden the plan check and add tests for it (#619)"
+    files:
+      - core/components/skills/manage-plan/scripts/check_plan.py
+      - core/components/skills/manage-plan/scripts/test_check_plan.py
+    branch: feature/619-plan-mode
+  - sha: d54afc73
+    message: "refactor(standards): rename the plan template to work-plan and add work-plan rules (#619)"
     files:
       - core/components/memory/standards/templates/plan.md
+      - core/components/memory/standards/templates/work-plan.md
+      - core/components/memory/standards/rules/work-plan.md
+      - core/components/memory/standards/templates/_index.md
+      - core/components/memory/standards/rules/_index.md
+      - core/grounding/glossary.md
     branch: feature/619-plan-mode
-  - sha: 76067c5d
-    message: "chore(stm): update the #606 plan for Kickoff as the human interface and the handover drive (#619)"
+  - sha: a8aefe31
+    message: "fix(project-orchestrator): tighten the agent and skill plan contract and fix the ADR 007 link (#619)"
+    files:
+      - core/components/agents/project-orchestrator.md
+      - core/components/skills/manage-plan/SKILL.md
+      - docs/components/skills.md
+      - docs/components/agents.md
+    branch: feature/619-plan-mode
+  - sha: 830cd55e
+    message: "docs(adr): update drives and plan-mode ADRs and the IDSD philosophy (#619)"
+    files:
+      - docs/adr/029-drives.md
+      - docs/adr/030-plan-mode.md
+      - docs/philosophy/idsd.md
+    branch: feature/619-plan-mode
+  - sha: 4876eb36
+    message: "chore(stm): update the 606 and 619 plans and the 619 decisions (#619)"
     files:
       - .garura/project/issues/606/specs/plan.md
+      - .garura/project/issues/619/specs/plan.md
+      - .garura/project/issues/619/specs/decisions.md
     branch: feature/619-plan-mode
 excluded_files:
   - path: ".garura/project/issues/619/context/porcelain.txt"
-    reason: "run artifact of the commit-change play; committed by the run-state step"
+    reason: "run-state artifact of the commit-change play; committed by the final chore(stm) run-state commit"
   - path: ".garura/project/issues/619/context/analysis.yaml"
-    reason: "run artifact of the commit-change play; committed by the run-state step"
+    reason: "run-state artifact of the commit-change play; committed by the final chore(stm) run-state commit"
 leftover_count: 0
 tree_clean: true
 pushed: false
