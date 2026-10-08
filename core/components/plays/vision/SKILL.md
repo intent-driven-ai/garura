@@ -599,7 +599,7 @@ continues at the first end-sequence member that has not finished.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:f909b4b16623f30a621a80ce4fa46d7cb1cd19183c45074b0223457bd4816723 (of `reference/ice.md`) |
+| fingerprint | sha256:6bc46df25077660412dd210bbb9dd0e94c6e47b520ab4a5387a0511b8ae78617 (of `reference/ice.md`) |
 | compiled_by | play-editor (#616 position both); play-editor (#500 direct-model-write, ADR 026); prior: play-editor (#467 Batch B, #466 Batch C); play-creator (edited via play-editor, #437; spine+grounding+eval model) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close — #616) |
 | position_exception | model-writing both play — writes the model on the started branch and commits its own model delta (C9) BEFORE the injected end sequence lands it (same shape as /measure) |
@@ -612,15 +612,6 @@ continues at the first end-sequence member that has not finished.
 | step_evals | 10 (SE-1…SE-10) |
 | scenario_evals | 4 (SCE-1…SCE-4) |
 | recovery_entries | 9 (one per failure condition; 7 autonomous / 2 human) |
-
-**Recompiled note (#616, position both):** intent change via `reference/ice.md` → play-editor.
-/vision now stands on its own (ADR 029 §4): position `start` → `both`, so it lands its own
-change through the injected end sequence (Steps E1–E4) instead of leaving the strategy change
-open for /roadmap. Touched: the Intent's position paragraph, C8 (the end sequence lands the
-change; the Standard Play Close runs after it), C9 (the model-delta commit is distinct from the
-end sequence), and S1's measure (the change is merged). No constraint, failure condition, or
-recovery was added or removed; the end members own their own evals. /shape and /roadmap are
-unchanged (#616 D3). Fingerprint recomputed over the edited ICE.
 
 **Recompiled note (#500, direct-model-write / ADR 026):** migrated from draft-then-apply to
 direct-model-write. The old draft model tree and the `apply_seed.py`/`check_apply` promotion
