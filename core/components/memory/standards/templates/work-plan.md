@@ -1,8 +1,10 @@
-# Plan Format
+# Work Plan Format
 
-Canonical format for a plan. Every drive and every play writes one before it works, keeps it up to date while it works, and is done only when its plan is done (#619). A plan says **what** gets done, **in what order**, and **why that order**. It never says how — that is design, and it lives in each item's own issue.
+Canonical format for a **work plan** — the human's interface to a business intent (ADR 030; `docs/philosophy/idsd.md`). It says **what** gets done, **in what order**, and **why that order**, in words a business reader can follow. It never says how.
 
-Starting point: locked by Kapil on 2026-10-08 from the first hand-written plan, `.garura/project/issues/606/specs/plan.md`. Where plans live, when they are updated, and how "done" is checked are still being decided in #619; this file will be updated as those land.
+Not to be confused with the **build plan** that `/implement` writes (`specs/implement/plan.yaml`, via `author-build-plan`): that one breaks an epic into file-level pieces — it is design, for agents.
+
+This file holds the shape only. When a work plan must exist, who writes and updates it, and when it is done are rules, in `standards/rules/work-plan.md`.
 
 ## File path convention
 
@@ -19,7 +21,7 @@ kind: {business-intent | feature | story | bug | spike | chore | drive | play}
 serves: "#{issue} — {the outcome this plan serves, in one line}"
 status: {active | done | dropped}
 updated: {YYYY-MM-DD}
-now: {item number being worked}
+now: {item number being worked — or - when status is done or dropped}
 serves_plan: {issue number of the plan this one serves — omit for a business intent}
 serves_item: {the item in that plan this work is — omit for a business intent}
 ---
@@ -68,7 +70,7 @@ back after a week should know where to pick up from this paragraph alone.}
 
 {Work that runs in parallel, with why it is not a step of its own.}
 
-### Checkpoint: {what lands here}
+### Milestone: {what lands here}
 
 {Nothing below starts before this point. Say what must be true to pass it.}
 
@@ -81,14 +83,3 @@ back after a week should know where to pick up from this paragraph alone.}
 
 - {YYYY-MM-DD} — {What changed in the plan, and why.}
 ````
-
-## Rules
-
-1. **A plan, never a design.** Each item says what and why-here. How it is built goes in its issue.
-2. **Every item explains itself.** A line that is only an issue number and a label is not a plan item — say what the work is.
-3. **Order is explicit.** Items are numbered in the order they run. "Needs" names what must finish first. A checkpoint stops anything below it from starting early.
-4. **"Now" is always set.** The front matter's `now` and the "— now" heading point at the same item.
-5. **Kept current.** When work finishes, starts, or the order changes, the plan is updated and the change is logged. A plan nobody updates is worse than none.
-6. **Every plan but a business intent's names what it serves.** `serves_plan` and `serves_item` point at the parent plan and its item, so any piece of work can be traced up to the business intent it serves.
-7. **Say what kind of done.** A finished item says whether it was only decided (an ADR), built, or shipped. "Done" alone reads as finished and dusted.
-8. **Done means the plan is done.** The issue is done only when every item is done or dropped with a reason in the log.
