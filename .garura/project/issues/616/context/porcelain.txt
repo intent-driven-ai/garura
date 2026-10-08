@@ -1,0 +1,9 @@
+ M core/components/plays/understand/SKILL.md
+ M core/components/plays/understand/reference/ice.md
+ M core/components/plays/understand/scripts/persist_understand.py
+ M core/components/plays/vision/SKILL.md
+ M core/components/plays/vision/reference/ice.md
+?? .garura/project/issues/616/context/plan-check.json
+?? .garura/project/issues/616/context/porcelain.txt
+?? .garura/project/issues/616/specs/
+?? core/components/plays/understand/scripts/test_persist_understand.py
