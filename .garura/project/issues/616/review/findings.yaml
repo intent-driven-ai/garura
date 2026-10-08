@@ -1,0 +1,9 @@
+pr: 630
+issue: 616
+rounds:
+  round1: "12 findings (1 P2: enrich skill could not write a seeded first doc) \u2014\
+    \ all closed in round 2; one recorded as a follow-up (drive skip \u2192 #614/#615)"
+  round2: "3 new (1 P2: seed doc folder vs domain id) \u2014 fixed after round 2"
+findings: []
+note: All findings fixed or recorded. Pre-existing lint (lint_grounding.py, preflight.py,
+  session_stamp.py; enrich-capability-ice missing-section) is outside this PR.

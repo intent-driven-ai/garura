@@ -5,8 +5,12 @@ play-editor; never hand-edit the compiled SKILL.md.
 
 ## Intent
 
-Given one capability that /vision seeded — named, directional, no functionalities —
-**detail it**. /understand is the **product-manager** step, the last detailing step:
+Given one capability — seeded by /vision (named, directional, no functionalities), or named
+by the person and not yet in the model — **detail it**. When the capability is not yet in
+the model, /understand asks the person what it is, why it matters, and which existing domain
+it joins — before it opens any change, so a stop leaves nothing behind — and seeds it thinly
+from those answers: a spine entry, enough for the detailing to start, whose first
+`capability.md` is then written straight at the detailed stage. Never invented (#616 D1). /understand is the **product-manager** step, the last detailing step:
 promote the capability's `capability.md` from the directional stage to the detailed stage
 (benefit hypothesis, boundary, guiding rules, functionalities), **create its
 functionalities** (a spine entry plus a detailed `functionality.md` for each), and set the
@@ -18,15 +22,23 @@ capability per run; one human checkpoint approves the detailed grounding and any
 before anything persists. The grounding docs are gated by the structural linter (shape)
 and the content-quality eval (a judge).
 
-Pipeline position: **none**. /understand is a MIDDLE play of the strategy pipeline (vision → understand → shape → roadmap): it expects to run on the branch /vision already started, injects no `start-change` head and no close sequence, stops when its work is done, and leaves the branch as-is for the next play to pick up. The close belongs to /roadmap. It writes the persistent product model directly, on the already-started branch — there is no draft copy and no apply/promote step; review is the branch git diff and the pipeline's end PR. (#437, #498, ADR 026)
+Pipeline position: **both**. /understand stands on its own (ADR 029 §4; #616 D2): run by hand, it needs no other play to have run first. The D2 rule prepends `start-change` — resolve or create the issue, cut the branch off fresh main, optional worktree, init STM — and, after the model delta is committed, appends the close sequence `commit-change → propose-change → review-change → merge-change`, landing the detailed capability on main. It writes the persistent product model directly, in place, on its own started branch — there is no draft copy and no apply/promote step; review is the branch git diff and the end PR. (#437, #498, ADR 026; position changed from none to both in #616.)
 
 Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM enrichment skill writes ONLY the per-node docs (`capability.md`, `functionality.md`) straight to the live model; every shared-file mutation (the spine `_spine.yaml`, `profile.yaml`, the box-move decisions) is done by the deterministic keyed persist script, in place, keyed to the target capability so it cannot touch a sibling node inside a shared file. The model tree is asserted clean at entry and the play commits its own model delta at close, so the working-tree diff vs HEAD is exactly this run's delta.
 
 ### Constraints
 
-- C1 — Operates on exactly ONE existing capability per run. The target capability must
-  already exist in the spine as a directional seed (`detail: directional`); if it is
-  absent or not seeded, halt — /understand details a seeded capability, it never seeds.
+- C1 — Operates on exactly ONE capability per run. If the target is in the spine as a
+  directional seed (`detail: directional`), it is detailed as is. If it is **absent**, the
+  play — before it opens any change — asks the person what the capability is, why it
+  matters, and which existing domain it belongs to, records the answers verbatim
+  (`<working>/seed.yaml`, `answered_by: human`), and seeds it thinly: a spine entry at
+  `status: proposed`, `detail: directional`, under that domain, whose first `capability.md`
+  this run writes straight at the detailed stage. The seed carries only the person's answers,
+  nothing invented; the keyed persist refuses a seed not marked `answered_by: human`. With no
+  answer, or a domain that is not in the spine, it halts — before any issue or branch exists
+  — and says plainly what it needs. A capability that is already `detailed` is not
+  re-detailed.
 - C2 — It promotes the target capability `directional → detailed` and CREATES its
   functionalities (each a spine `functionalities` entry plus a detailed `functionality.md`).
   This is the structure /understand owns — the last detailing step. It never touches
@@ -89,22 +101,24 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM enr
   record exists (the detailed capability grounding, its functionality docs, and the profile
   roll-up were written in place on the live model), the persist record stamps the roll-up as
   written, and the scoped-write guard report reads ok (the allowlist held). The play then
-  commits its own model delta on the branch. The close never reads COMPLETED with the
+  commits its own model delta on the branch, and the injected end sequence (commit →
+  propose → review → merge) lands it on main; each member proves its own Done means, and a
+  review reject stops the chain before merge. The close never reads COMPLETED with the
   stop-condition verdict unmet.
 - C12 — Clean tree in, committed delta out (ADR 026): the product-os tree is asserted clean
   at entry (pre-flight halts on a dirty model tree), and after the approved checkpoint the
   play commits its model delta on the branch (`feat(model): … (#<issue>)`), so HEAD is a
-  correct base for the guard and the change-shape and the next pipeline play enters clean.
-  This model-delta commit is a lightweight persist step, distinct from the per-play Standard
-  Play Close (evidence + delivery report) that /understand still runs like every play. What
-  /understand omits as a middle play is the pipeline start/end sequence — no `start-change`
-  head and no end PR (those belong to the pipeline, the close to /roadmap); the model-delta
-  commit persists this run's model change, it does not add that pipeline sequence.
+  correct base for the guard and the change-shape, and the end sequence lands exactly this
+  run's delta. The tree is asserted clean right after `start-change` cuts the fresh branch,
+  so a dirty tree means uncommitted edits, never a missing earlier play. This model-delta
+  commit is a lightweight persist step, distinct from both the end sequence and the
+  per-play Standard Play Close (evidence + delivery report).
 
 ### Failure conditions
 
-- F1 — The target capability is absent from the spine, or is not a directional seed, when
-  /understand runs.
+- F1 — The run details a capability with no basis: an absent capability was seeded without
+  the person's recorded answers (or under a domain not in the spine), or a capability that
+  is already `detailed` was re-detailed.
 - F2 — A grounding doc fails its template/shape, or a spine entry fails the spine schema or
   the spine↔doc consistency check.
 - F3 — A grounding doc fails the content-quality eval.
@@ -143,7 +157,8 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM enr
   templates and clearing the content-quality eval. Measure: the capability entry is
   `detail: detailed` and carries `nfr_needs`; at least one functionality entry exists with
   `capability` set to the target and its doc present; the linter is clean; the content eval
-  gate passes for every grounding doc; the stop-condition verdict reads held.
+  gate passes for every grounding doc; the run's change is landed on main by the injected
+  end sequence (merge-change reports the PR merged); the stop-condition verdict reads held.
 - S2 — (product strategist, first firm-up) Given a still-directional profile, when
   /understand runs and is approved, then the roll-up establishes the box and firms it to
   `set` with no per-dimension ADR. Measure: the profile `state` is `set`; no decision
@@ -169,6 +184,13 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM enr
   returns byte-clean to HEAD (`git restore` + `git clean`) — or, on the auto-pass path (a
   policy-listed shape), the gate resolves with no wait and the recorded auto-pass, the
   appended ledger line, and the diff summary stand in the approval's place.
+- S6 — (product manager, nothing run first) Given a capability that is not in the model and
+  no earlier play run, when /understand runs by hand and the person answers what the
+  capability is, why it matters, and its domain, then it seeds the capability thinly from
+  those answers, details it in the same run, and lands the change on main. Measure:
+  `<working>/seed.yaml` holds the person's answers; the persist record reads `seeded: true`;
+  the spine entry exists under the named domain with `detail: detailed`; merge-change reports
+  the PR merged; the stop-condition verdict reads held.
 
 ### Done means
 
@@ -193,9 +215,11 @@ record.
 
 ### Recovery (one per failure condition)
 
-- REC1 (F1) — trigger: the target capability is absent or not a directional seed. direction:
-  halt and ask for a valid seeded capability (run /vision first) before /understand
-  proceeds. handoff: human.
+- REC1 (F1) — trigger: an absent capability has no recorded answers, its domain is not in the
+  spine, or the target is already `detailed`. direction: ask the person what the capability
+  is, why it matters, and which existing domain it belongs to, and record the answers before
+  seeding; with no answer or no such domain, halt and say plainly what is needed; for an
+  already-detailed capability, halt — it is not re-detailed. handoff: human.
 - REC2 (F2) — trigger: a grounding doc fails shape, or a spine entry fails the schema or
   spine↔doc consistency. direction: re-emit the failing doc or spine entry to conform and
   restore consistency before the checkpoint. handoff: autonomous.
@@ -236,5 +260,4 @@ record.
   and wait for the typed response — before proceeding. handoff: autonomous.
 - REC13 (F13) — trigger: the product-os tree is dirty at entry (uncommitted model edits
   present). direction: halt at pre-flight and ask for a clean model tree — commit or revert
-  the pending model edits (or run the prior pipeline play to its close) — before /understand
-  proceeds. handoff: human.
+  the pending model edits — before /understand proceeds. handoff: human.

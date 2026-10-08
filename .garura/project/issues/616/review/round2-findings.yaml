@@ -1,0 +1,69 @@
+round: 2
+pr: 630
+branch: feature/616-plays-stand-alone
+base: main
+reviewed_commits: "871c4739, 3f1bd5c7, d4c978b5 (fix commits); later commits are STM records only"
+executed:
+  persist_test: "python3 core/components/plays/understand/scripts/test_persist_understand.py: 32 passed, 0 failed"
+  ruff: "ruff check persist_understand.py and test_persist_understand.py: All checks passed"
+  lint_play: "vision PASS (0 gaps); understand PASS (0 gaps)"
+  fingerprints: "vision ice.md 6bc46df2...8617 = SKILL.md fingerprint (match); understand ice.md a056e920...a7861 = SKILL.md fingerprint (match)"
+  lint_components: "113 errors, 2 warnings = baseline 113; none from the changed files except 3 pre-existing missing-section errors on enrich-capability-ice/SKILL.md, whose headings are identical on main"
+  step_0a_order: "CONFIRMED. understand SKILL.md Task DAG: T0a blockedBy [] and T0 (start-change) blockedBy [T0a]; Workflow: Phase Ask / Step 0a (line 168) sits before Phase Start / Step 0 (start-change), Step 0 'Depends on: Step 0a'. Seed lands in <working> = {stm_base}_shaping/understand/<capability>/, which is not issue-scoped, so it can be written before an issue exists."
+  position_list_check: "every play's pipeline_position in its compilation table matches the list in pipeline-position.md (7 both, 3 start, 4 end, 7 none)"
+findings:
+  - id: N1
+    severity: P2
+    category: executable-code
+    basis: "pr.md P2 (Major: error-handling and structural violations); contract mismatch: understand SKILL.md Step 0a tells the model to write doc as '<domain-dir>/<capability-slug>/capability.md', author-vision-seed/SKILL.md lines 157-162 shows the real convention where domain id (dom-order-mgmt) differs from its directory (order-management)"
+    summary: "persist_understand.py:131-136 (added in 871c4739 to close Q-F4) requires parts[0] == seed['domain'], i.e. the doc directory must equal the domain ID. With the convention vision itself writes (domain id dom-commerce, directory commerce) the correct doc commerce/checkout/capability.md is refused with exit 2 (probed). The only accepted path is the default dom-commerce/checkout/capability.md, a stray directory next to the real one. The 32 tests all use a domain whose id equals its directory (id 'commerce'), so they hide it. The /understand seed path therefore fails or misplaces the doc for any model that follows vision's id convention. Fix: take the allowed directory from the domain's own doc in the spine (dirname of domains[].doc) and compare against that, and build the default from it; add a test with a prefixed domain id."
+  - id: N2
+    severity: P4
+    category: executable-code
+    basis: "pr.md CODE-25 family (error handling, P3 floor lowered to P4: no data written, same class as closed Q-F3); script's own exit-code contract (exit 2 on bad input)"
+    summary: "persist_understand.py:130-131: seed.get('doc') that is not a string (for example a YAML list) raises AttributeError ('list' object has no attribute 'split') instead of exit 2 (probed, nothing written). Same for non-string domain or answered_by values. Fix: check isinstance(..., str) for doc, domain, answered_by before use."
+  - id: N3
+    severity: P4
+    category: skill-text
+    basis: "pr.md CODE-20 catch-all (P4, prose); CLAUDE.md Play Pipeline Rules (no edit history in skill files; Claude reads the whole file each run)"
+    summary: "core/components/skills/enrich-capability-ice/SKILL.md lines 84-89 (Procedure step 1) are garbled by the edit: '...and nothing is added to them that the shelf does not support and the capability's KB shelf via the router (python3 $KB shelf <kb_domain>) — pull its personas...'. The two clauses are spliced mid-sentence, so the instruction to read the shelf is hard to parse. The description, the Inputs table and the Rules section also carry '(#616)' issue tags, which is edit history rather than behaviour. Fix: split into two sentences (read the answers verbatim; read the shelf via the router) and drop the issue tags."
+verified:
+  - id: H-F1
+    status: FIXED
+    evidence: "enrich-capability-ice/SKILL.md now accepts seed.yaml as the capability input (Inputs table), step 2 says write the FIRST capability.md at the detailed stage at the seed's doc path and set capability.doc in the manifest, Rules say a seeded capability gets its first doc directly detailed; understand SKILL.md Step 0a and Step 1 inputs, and SE-1, match. Caveat: wording of step 1 is garbled (N3)."
+  - id: H-F2
+    status: RECORDED-AS-FOLLOW-UP
+    evidence: "specs/decisions.md line 13 (drive skip belongs to #614 and #615), plan.md line 58, and pipeline-position.md lines 15-16 (opening skipped inside a drive, wired in #614/#615). Not filed on the tracker (read-only review; not required for this closure)."
+  - id: H-F3
+    status: FIXED
+    evidence: "persist_understand.py:124-128 refuses answered_by != 'human'; tests 'a seed answered by an agent is refused' and 'nothing written' pass; same closure as Q-F1."
+  - id: H-F4
+    status: FIXED
+    evidence: "understand SKILL.md: Step 0a precedes start-change in the DAG (T0a blockedBy [], T0 blockedBy [T0a]) and in the Workflow; REC1 text says nothing has been opened yet; SE-1 states seed recorded before start-change ran; pre-flight row says ask before any change opens; ice.md C1 matches. No remaining Step 0b or T0b reference under core/."
+  - id: H-F5
+    status: FIXED
+    evidence: "vision/reference/ice.md line 30 now ends 'the end sequence lands exactly that delta'; the 'next pipeline play (/understand) enters clean' clause is gone; SKILL.md fingerprint refreshed and matches."
+  - id: H-F6
+    status: FIXED
+    evidence: "Both 'Recompiled note (#616 ...)' blocks removed from vision and understand SKILL.md (3f1bd5c7, 871c4739). Remaining #616 mentions are the Compiled From provenance sentence and compiled_by table rows, the same form every earlier issue uses. (Issue tags in enrich-capability-ice are raised in N3.)"
+  - id: H-F7
+    status: FIXED
+    evidence: "pipeline-position.md now lists each play's position; checked against the pipeline_position row in every plays/*/SKILL.md: all agree."
+  - id: Q-F1
+    status: FIXED
+    evidence: "Same as H-F3; persist_understand.py:124-128."
+  - id: Q-F2
+    status: FIXED
+    evidence: "test_sibling_containment added: sibling untouched after a normal run, functionality under a sibling refused with nothing written, manifest naming a sibling refused. Suite 32 passed."
+  - id: Q-F3
+    status: FIXED
+    evidence: "persist_understand.py:114-119 returns 2 for a seed file that is not a mapping or has no 'seed' mapping; tests for a list and a string pass. (A related non-string-field crash remains: N2.)"
+  - id: Q-F4
+    status: FIXED
+    evidence: "persist_understand.py:129-136 rejects absolute paths, '..', non-capability.md names, wrong depth. The check is too strict for real domain ids (N1) and not type-safe (N2)."
+  - id: Q-F5
+    status: FIXED
+    evidence: "Test file reads JSON through read_json with a 'with open'; no bare open() remains in test_persist_understand.py; check() raises AssertionError when PYTEST_CURRENT_TEST is set."
+counts:
+  open: {P1: 0, P2: 1, P3: 0, P4: 2}
+  verified: 12
