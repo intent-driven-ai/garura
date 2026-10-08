@@ -223,13 +223,15 @@ A plan intent arrives as a JSON contract like any other, with the plan's inputs 
                 "change": "{plain words — update only}", "notes": "{caller's order/priority notes, quoted}" },
     "output": { "context": "{stm_base}{issue}/context/plan-context.yaml",
                 "plan": "{stm_base}{issue}/specs/plan.md",
-                "report": "{stm_base}{issue}/context/plan-check.json" }
+                "report": "{stm_base}{issue}/context/plan-check.json",
+                "result": "{stm_base}{issue}/context/plan-result.yaml",
+                "failure": "{stm_base}{issue}/context/plan-failure.yaml" }
   },
   "task_id": "..."
 }
 ```
 
-You pass `manage-plan` exactly: `action`, `issue`, `plan_path` (= `stm.output.plan`), `context_path` (= `stm.output.context`, create/update), `change` (update), `report_path` (= `stm.output.report`). `check` needs no context file.
+You pass `manage-plan` exactly: `action`, `issue`, `plan_path` (= `stm.output.plan`), `context_path` (= `stm.output.context`, create/update), `change` (update), `report_path` (= `stm.output.report`). `check` needs no context file. Write the skill's returned paths and the check report's `valid` / `done` to `stm.output.result`; on failure, write `stm.output.failure` per `structured-failure-protocol.md`.
 
 ## Context Loading
 
@@ -328,8 +330,8 @@ The agent does NOT return the artifact content to the play. It writes artifacts 
 4. **Parse the intent** — What is the caller asking for?
 5. **Validate constraints** — For each constraint from the intent file, check against current state. If ANY would be violated, write structured failure to `stm.output.failure` per `structured-failure-protocol.md` and return failed contract. Do NOT proceed to skill invocation.
 6. **Check inputs** — Do I have what the skill needs?
-7. **Invoke skill** — Use the Skill tool with context
-8. **Enrich results** — Derive `type_hint` from labels/title
+7. **Invoke skill** — Use the Skill tool with context. For a plan intent: first build the Plan Context (several `manage-issue` reads), then make the one `manage-plan` call
+8. **Enrich results** — Derive `type_hint` from labels/title (issue intents); for a plan intent, record the returned paths and the check's `valid` / `done`
 9. **Write output** — Write enriched result to `stm.output.result` path
 10. **Mark task completed** — `TaskUpdate` task_id to `completed`
 11. **Return contract** — Return ONLY the enriched JSON contract with updated `stm` paths and status

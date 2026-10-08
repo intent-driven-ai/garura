@@ -6,11 +6,9 @@ Not to be confused with the **build plan** that `/implement` writes (`specs/impl
 
 This file holds the shape only. When a work plan must exist, who writes and updates it, and when it is done are rules, in `standards/rules/work-plan.md`.
 
-## File path convention
+## Where it lives
 
-```
-{stm_base}{issue}/specs/plan.md
-```
+See `standards/rules/work-plan.md` → "Where it lives". (Kept in one place so the two files cannot drift.)
 
 ## Format
 

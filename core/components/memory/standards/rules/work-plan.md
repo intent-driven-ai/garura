@@ -8,6 +8,8 @@ A work plan is the **human's interface** to a business intent. It shows how the 
 
 ## When a plan must exist
 
+> **Not yet wired.** Rules 1–4 and 16 take effect when plan mode is wired in (Feature #621): `plan-change` and `approve-change` are built in #622, and the plan clause enters every play's done check in #623. Until then, `manage-plan` writes and checks plans when an agent calls it, and nothing enforces the opening.
+
 1. **Every change works from a plan.** A change opens with `start-change` → `plan-change` → `approve-change`; no work starts before the plan is approved.
 2. **Only when needed.** Each of the three runs only if its result does not exist yet: an open change, a plan, an approved plan.
 3. **One plan per issue.** A plan is never written twice for the same issue.
@@ -31,12 +33,12 @@ A work plan is the **human's interface** to a business intent. It shows how the 
 
 12. **The play or drive doing the work** updates its plan, through the `manage-plan` skill. Mid-drive, the skill is called directly; no play runs.
 13. **Small updates need no human:** marking an item done, moving "now".
-14. **Big updates go back through `approve-change`:** adding, dropping or reordering items; a play finishing inside a drive; a linked or dependent issue completing. **Inside a drive**, big updates are logged as they happen and approved together at the drive's end review — the drive does not stop.
+14. **Big updates go back through `approve-change`** *(built in #622)*: adding, dropping or reordering items; a play finishing inside a drive; a linked or dependent issue completing. **Inside a drive**, big updates are logged as they happen and approved together at the drive's end review — the drive does not stop.
 15. **Every change is logged** in the plan's Log with its date and reason.
 
 ## When it is done
 
-16. **The script decides.** `manage-plan/scripts/check_plan.py` reports `done: true` only when the plan is valid, its status is `done` or `dropped`, and no numbered item is open. Every play's done check carries that clause.
+16. **The script decides** *(the done-check clause lands with #623)*. `manage-plan/scripts/check_plan.py` reports `done: true` only when the plan is valid, its status is `done` or `dropped`, and no numbered item is open. Every play's done check carries that clause.
 17. **The issue is done only when its plan is done.** A business intent is the exception: it is met by its outcome, never by its children closing.
 
 ## How status is shown
