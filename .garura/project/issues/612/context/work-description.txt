@@ -1,0 +1,24 @@
+Story #612: /intent pulls the intent out of a working prototype
+
+> Parent: #594 (drives). Decided in spike #607; source of truth: [ADR 029 — Drives](docs/adr/029-drives.md).
+
+## What
+
+A new play, `/intent`. It reads a working prototype (HTML/CSS/JS, or any code that fully shows how the feature behaves) and pulls out the intent: the goal, the constraints, and the failure conditions. It confirms the intent with the user. The prototype is kept attached as an example; it is the input, never the intent (IDD Principle 1).
+
+It is the first play of the Kickoff drive, and it also runs by hand on its own.
+
+## Acceptance criteria
+
+- [ ] `/intent` takes a prototype and writes the intent (goal, constraints, failure conditions), confirmed by the user.
+- [ ] The prototype is stored with the intent as an example, not copied into it.
+- [ ] Run by hand, it depends on no other play having run first.
+- [ ] Run inside a drive, it opens no issue or branch of its own and works on the drive's branch.
+- [ ] The intent is written in a form `/vision` can take as its business goal.
+- [ ] Built through `/play-creator` from an ICE source.
+
+## Out of scope
+
+- Changes to `/vision` or `/understand` (their own Stories).
+- The Kickoff drive itself.
+- Where the intent lives in the product model beyond what this play needs — the ontology is #597; add only the parts this play needs.
