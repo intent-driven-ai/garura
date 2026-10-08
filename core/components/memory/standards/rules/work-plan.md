@@ -8,7 +8,7 @@ A work plan is the **human's interface** to a business intent. It shows how the 
 
 ## When a plan must exist
 
-> **Not yet wired.** Rules 1–4 and 16 take effect when plan mode is wired in (Feature #621): `plan-change` and `approve-change` are built in #622, and the plan clause enters every play's done check in #623. Until then, `manage-plan` writes and checks plans when an agent calls it, and nothing enforces the opening.
+> **Not yet wired.** Rules 1–4 and 17 take effect when plan mode is wired in (Feature #621): `plan-change` and `approve-change` are built in #622, and the plan clause enters every play's done check in #623. Until then, `manage-plan` writes and checks plans when an agent calls it, and nothing enforces the opening.
 
 1. **Every change works from a plan.** A change opens with `start-change` → `plan-change` → `approve-change`; no work starts before the plan is approved.
 2. **Only when needed.** Each of the three runs only if its result does not exist yet: an open change, a plan, an approved plan.
@@ -25,22 +25,23 @@ A work plan is the **human's interface** to a business intent. It shows how the 
 6. **Every item explains itself.** An issue number with a label is not an item. Each open item carries What, Why here, Done when, and Needs; later items may carry less until they come close.
 7. **Order is explicit.** Items are numbered in the order they run. "Needs" names what must finish first. A **milestone** stops anything below it from starting early.
 8. **"Now" is set while the plan is active.** The front matter's `now` and the one "— now" heading point at the same item. When the plan is done or dropped, `now` is `-`.
-9. **Say what kind of done.** A finished item says whether it was only **decided** (a decision record, nothing built), **built** (exists, not merged), or **shipped** (merged and in use), and what is still not done. "Done" alone reads as finished and dusted.
-10. **Name what it serves.** Every plan except a business intent's names its parent plan and the item in it (`serves_plan`, `serves_item`), so any work can be traced up to the business intent it serves.
-11. **Scope stays out.** Work found outside the issue's scope never enters the plan; it becomes a new issue.
+9. **Finished items keep their number.** A finished item moves to the Done list as `**{n}. …**`, so a child plan's `serves_item` still points at it.
+10. **Say what kind of done.** A finished item says whether it was only **decided** (a decision record, nothing built), **built** (exists, not merged), or **shipped** (merged and in use), and what is still not done. "Done" alone reads as finished and dusted.
+11. **Name what it serves.** Every plan except a business intent's names its parent plan and the item in it (`serves_plan`, `serves_item`), so any work can be traced up to the business intent it serves.
+12. **Scope stays out.** Work found outside the issue's scope never enters the plan; it becomes a new issue.
 
 ## Who keeps it current
 
-12. **The play or drive doing the work** updates its plan, through the `manage-plan` skill. Mid-drive, the skill is called directly; no play runs.
-13. **Small updates need no human:** marking an item done, moving "now".
-14. **Big updates go back through `approve-change`** *(built in #622)*: adding, dropping or reordering items; a play finishing inside a drive; a linked or dependent issue completing. **Inside a drive**, big updates are logged as they happen and approved together at the drive's end review — the drive does not stop.
-15. **Every change is logged** in the plan's Log with its date and reason.
+13. **The play or drive doing the work** updates its plan, through the `manage-plan` skill. Mid-drive, the skill is called directly; no play runs.
+14. **Small updates need no human:** marking an item done, moving "now".
+15. **Big updates go back through `approve-change`** *(planned, #622)*: adding, dropping or reordering items; a play finishing inside a drive; a linked or dependent issue completing. **Inside a drive**, big updates are logged as they happen and approved together at the drive's end review — the drive does not stop.
+16. **Every change is logged** in the plan's Log with its date and reason.
 
 ## When it is done
 
-16. **The script decides** *(the done-check clause lands with #623)*. `manage-plan/scripts/check_plan.py` reports `done: true` only when the plan is valid, its status is `done` or `dropped`, and no numbered item is open. Every play's done check carries that clause.
-17. **The issue is done only when its plan is done.** A business intent is the exception: it is met by its outcome, never by its children closing.
+17. **The script decides** *(the done-check clause lands with #623)*. `manage-plan/scripts/check_plan.py` reports `done: true` only when the plan is valid, its status is `done` or `dropped`, and no numbered item is open. Every play's done check carries that clause.
+18. **The issue is done only when its plan is done.** A business intent is the exception: it is met by its outcome, never by its children closing.
 
 ## How status is shown
 
-18. **As a tree, never bare numbers:** GOAL → DONE → NOW → NEXT → WAIT (on the human). Every line says in plain words what the item is, with its issue number beside it — so a reader coming back after two days knows where things stand from the tree alone.
+19. **As a tree, never bare numbers:** GOAL → DONE → NOW → NEXT → WAIT (on the human). Every line says in plain words what the item is, with its issue number beside it — so a reader coming back after two days knows where things stand from the tree alone.

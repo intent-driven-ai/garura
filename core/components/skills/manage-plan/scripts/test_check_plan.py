@@ -93,7 +93,7 @@ def test_format():
 def test_done():
     early = cp.check(plan(status="done", now="-", items=[(1, "A", True, "")]))
     check("done with open items is caught", not early["valid"] and not early["done"])
-    finished = cp.check(plan(status="done", now="-", done=["**Built: A** — #1."]))
+    finished = cp.check(plan(status="done", now="-", done=["**1. Built: A** — #1."]))
     check("a finished plan is valid and done", finished["valid"] and finished["done"])
     dropped = cp.check(plan(status="dropped", now="-"))
     check("a dropped plan with no open items counts as done", dropped["done"])
@@ -132,7 +132,7 @@ def test_parent():
 
         finished_parent = write(stm, 606, plan(plan_for=606, kind="business-intent",
                                                items=[(2, "Other — now", True, "**Issue:** #616.")],
-                                               now="2", done=["**Decided: plan mode** — #619."]))
+                                               now="2", done=["**1. Decided: plan mode** — #619."]))
         child = write(stm, 619, plan(plan_for=619, serves=(606, 1), items=[(1, "A — now", True, "")]))
         check("a child whose parent item is finished is valid when the Done list names it",
               cp.check(open(child, encoding="utf-8").read(), child)["valid"])
@@ -142,10 +142,24 @@ def test_parent():
                              now="2", done=["**Decided: something else** — #592."]))
         r = cp.check(open(child, encoding="utf-8").read(), child)
         check("serves_item pointing at a missing item is caught even if the parent names the issue elsewhere (QF-12)",
-              any("has no open item 1" in p for p in r["problems"]))
+              any("has no item 1" in p for p in r["problems"]))
+        write(stm, 606, plan(plan_for=606, kind="business-intent",
+                             items=[(2, "Other — now", True, "**Issue:** #616. Related: #619.")],
+                             now="2", done=["**1. Decided: something else** — #592."]))
+        r = cp.check(open(child, encoding="utf-8").read(), child)
+        check("a finished item that names another issue is caught",
+              any("finished item 1" in p for p in r["problems"]))
         write(stm, 606, plan(plan_for=606, kind="business-intent",
                              items=[(2, "Other — now", True, "**Issue:** #616.")],
-                             now="2", done=["**Decided: plan mode** — #619."]))
+                             now="2", done=["**1. Decided: plan mode** — #619."]))
+        wrong = write(stm, 619, plan(plan_for=619, serves=(606, 99), items=[(1, "A — now", True, "")]))
+        r = cp.check(open(wrong, encoding="utf-8").read(), wrong)
+        check("serves_item=99 is caught even though the parent's Done list names the issue (round 3)",
+              any("has no item 99" in p for p in r["problems"]))
+        child = write(stm, 619, plan(plan_for=619, serves=(606, 1), items=[(1, "A — now", True, "")]))
+        write(stm, 606, plan(plan_for=606, kind="business-intent",
+                             items=[(2, "Other — now", True, "**Issue:** #616.")],
+                             now="2", done=["**1. Decided: plan mode** — #619."]))
         check("the parent plan path is reported",
               cp.check(open(child, encoding="utf-8").read(), child)["serves_plan"] == finished_parent)
 

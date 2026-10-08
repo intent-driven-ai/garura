@@ -50,7 +50,7 @@ back after a week should know where to pick up from this paragraph alone.}
 
 ### Done
 
-- **{Decided | Built | Shipped}: {item}** — #{issue}. {One line on what it settled or delivered — and what is still not done.}
+- **{n}. {Decided | Built | Shipped}: {item}** — #{issue}. {One line on what it settled or delivered — and what is still not done.} *(`{n}.` is the number the item had while open; leave it out only for work finished before the plan was written.)*
 
 ### 1. {Item name, saying what changes} — now
 

@@ -10,7 +10,8 @@ Reads one plan written in the canonical plan format
   linked — a plan that names `serves_plan` / `serves_item` points at a parent
            plan that exists and names this issue as a whole token (`#619`,
            never a prefix of `#6190`). When the parent's item `serves_item` is
-           still open, that item itself must name this issue. A business
+           open, that item must name this issue; when it is finished, the
+           Done line numbered `**N.**` must. A business
            intent's plan names no parent (#619 P9).
   done   — the plan is finished: status is `done` (or `dropped`) and no open
            numbered item is left. Finished items live under "### Done".
@@ -96,6 +97,9 @@ def split_items(body):
     return items
 
 
+DONE_NUM_RE = re.compile(r"^\s*-\s*\*\*(\d+)\.\s")
+
+
 def done_lines(body):
     """The lines under '### Done' inside 'The plan, in order'."""
     out, in_plan, in_done = [], False, False
@@ -148,9 +152,15 @@ def check_parent(fields, plan_path, problems):
         if not ref.search(block):
             problems.append(f"serves_item={item}: item {item} of the plan for #{parent} "
                             f"does not name #{fields.get('plan_for')}")
-    elif not any(ref.search(line) for line in done_lines(parent_body)):
-        problems.append(f"serves_item={item}: the plan for #{parent} has no open item {item}, "
-                        f"and its Done list does not name #{fields.get('plan_for')}")
+    else:
+        finished = {int(m.group(1)): line for line in done_lines(parent_body)
+                    if (m := DONE_NUM_RE.match(line))}
+        if int(item) not in finished:
+            problems.append(f"serves_item={item}: the plan for #{parent} has no item {item}, "
+                            f"open or finished (finished items keep their number: `**{item}. …**`)")
+        elif not ref.search(finished[int(item)]):
+            problems.append(f"serves_item={item}: finished item {item} of the plan for #{parent} "
+                            f"does not name #{fields.get('plan_for')}")
     return parent_path
 
 
