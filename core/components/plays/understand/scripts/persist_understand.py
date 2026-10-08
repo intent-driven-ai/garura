@@ -111,11 +111,27 @@ def main(argv=None):
         if not os.path.isfile(args.seed):
             sys.stderr.write(f"persist_understand.py: missing input {args.seed}\n")
             return 2
-        seed = (load(args.seed).get("seed") or {})
+        raw = load(args.seed)
+        seed = raw.get("seed") if isinstance(raw, dict) else None
+        if not isinstance(seed, dict):
+            sys.stderr.write("persist_understand.py: seed file must be a mapping with a 'seed' "
+                             "mapping — refusing\n")
+            return 2
         missing = [k for k in ("id", "domain", "one_line", "why", "answered_by") if not seed.get(k)]
         if missing:
             sys.stderr.write(f"persist_understand.py: seed is missing {missing} — refusing "
                              f"(a seed carries the person's answers, never invented ones)\n")
+            return 2
+        if seed["answered_by"] != "human":
+            sys.stderr.write(f"persist_understand.py: seed answered_by is '{seed['answered_by']}', "
+                             f"not 'human' — refusing (only the person's answers may seed)\n")
+            return 2
+        doc = seed.get("doc") or f"{seed['domain']}/{slug(cap_id)}/capability.md"
+        parts = doc.split("/")
+        if (doc.startswith("/") or ".." in parts or parts[-1] != "capability.md"
+                or parts[0] != seed["domain"] or len(parts) != 3):
+            sys.stderr.write(f"persist_understand.py: seed doc '{doc}' is not "
+                             f"'<domain>/<capability>/capability.md' — refusing\n")
             return 2
         if seed["id"] != cap_id:
             sys.stderr.write(f"persist_understand.py: seed id '{seed['id']}' != --capability-ref "
@@ -126,8 +142,7 @@ def main(argv=None):
                              f"— refusing (a seed joins an existing domain)\n")
             return 2
         live_cap = {"id": cap_id, "domain": seed["domain"], "status": "proposed",
-                    "detail": "directional", "one_line": seed["one_line"],
-                    "doc": seed.get("doc") or f"{seed['domain']}/{slug(cap_id)}/capability.md"}
+                    "detail": "directional", "one_line": seed["one_line"], "doc": doc}
         live_caps.append(live_cap)
         seeded = True
         written.append(f"seed:{cap_id}")
