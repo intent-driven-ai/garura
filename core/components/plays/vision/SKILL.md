@@ -1,7 +1,7 @@
 ---
 name: vision
-position: start
-description: 'Turn a business goal into the seed of the product model — a detailed domain grounding doc, directional capability grounding docs, the spine entries that wire them, and a directional product profile — written directly in place on the live model. The entry play of the strategic (shaping) pipeline in the ProductOS command model — the CXO conversation. Use when starting a new product area from a business goal, before /understand and /shape. Opens no delivery issue of its own beyond the strategy-pipeline issue.'
+position: both
+description: 'Turn a business goal into the seed of the product model — a detailed domain grounding doc, directional capability grounding docs, the spine entries that wire them, and a directional product profile — written directly in place on the live model. The entry play of the strategic (shaping) pipeline in the ProductOS command model — the CXO conversation. Use when starting a new product area from a business goal, before /understand and /shape. Run by hand, it opens its own change and lands it on main — no later play is needed to finish it.'
 user-invocable: true
 ---
 
@@ -17,7 +17,7 @@ functionalities (/understand, the product-manager step), then breaking the model
 deliverable end-to-end verticals and epics (/shape, the product-owner step) — is not done
 here.
 
-**Pipeline position: start.** /vision OPENS the strategy pipeline (vision → understand → shape → roadmap): the D2 rule prepends `start-change` — resolve or create the strategy issue, cut the branch off fresh main, optional worktree, init STM — so every later strategy play runs on this already-started branch. No pipeline close sequence (no end PR) is injected here; the strategy change closes at /roadmap. It writes the persistent product model **directly, in place** (additively) on the started branch — there is no draft copy and no apply/promote step; review is the branch git diff and the pipeline's end PR. (#437, #500, ADR 026)
+**Pipeline position: both.** /vision stands on its own (ADR 029 §4; #616): run by hand, it opens its own change and lands it. The D2 rule prepends `start-change` — resolve or create the issue, cut the branch off fresh main, optional worktree, init STM — and, after the model delta is committed, appends the close sequence `commit-change → propose-change → review-change → merge-change`, landing the seed on main. No later play needs to run for /vision's work to be finished: /understand and the plays after it start from main. It writes the persistent product model **directly, in place** (additively) on the started branch — there is no draft copy and no apply/promote step; review is the branch git diff and the end PR. (#437, #500, ADR 026; position changed from start to both in #616.)
 
 **Write discipline (ADR 026, `standards/rules/direct-model-write.md`).** The LLM authoring
 skill writes ONLY the per-node grounding docs (`domain.md`, `capability.md`) straight to
@@ -36,7 +36,8 @@ diff vs HEAD is exactly this run's delta. Containment is a post-write scoped gua
 This play was compiled from the vision ICE (`reference/ice.md`) by play-editor
 (#466 Batch C, Level 3 rollout per ADR 025; #467 Batch B — the checkpoint upgraded to a
 conditional learned gate, see `standards/rules/gate-config.md`; #500 — migrated to
-direct-model-write per ADR 026 and `standards/rules/direct-model-write.md`).
+direct-model-write per ADR 026 and `standards/rules/direct-model-write.md`; #616 — position
+start → both, so /vision lands its own change instead of leaving it for /roadmap).
 Intent defines constraints (C1–C9) and failure conditions (F1–F9); the expectation
 defines success scenarios (S1–S4), a Done means (D1–D3, baked to
 `stop-condition.yaml`), and one recovery entry per failure condition.
@@ -148,7 +149,11 @@ gate resolves; cancel reverts the uncommitted writes.
 [T5] Guard the full delta + classify the shape      blockedBy: [T4]
 [T6] Checkpoint (approval over the full git diff)   blockedBy: [T5]
 [T7] Commit the model delta                         blockedBy: [T6]
-[T8] Scenario Validation                            blockedBy: [T7]
+[E1] commit-change (injected — end)                 blockedBy: [T7]
+[E2] propose-change (injected — end)                blockedBy: [E1]
+[E3] review-change (injected — end)                 blockedBy: [E2]
+[E4] merge-change (injected — end)                  blockedBy: [E3]
+[T8] Scenario Validation                            blockedBy: [E4]
 [T9] Close                                          blockedBy: [T8]
 ```
 
@@ -162,9 +167,9 @@ No runtime reordering. On resume, skip completed and reset in-progress to pendin
 **Step 0 — start-change** · Owner: `start-change` (sub-play) · Depends on: pre-flight
 Run the start-of-pipeline member as a sub-play, dispatched with `parent_run_id` so it
 emits only its own C1 evidence and this play's close absorbs it. It resolves or creates
-the strategy-pipeline issue, cuts the branch off fresh main, sets up a worktree iff config
-calls for it, and initializes the STM workspace. Every later strategy play (/understand,
-/shape, /roadmap) runs on this already-started branch; /roadmap closes it.
+the issue for this /vision run, cuts the branch off fresh main, sets up a worktree iff config
+calls for it, and initializes the STM workspace. The change it opens is landed by this
+play's own end sequence (Steps E1–E4), not by a later play.
 
     {
       "play":          "start-change",
@@ -398,7 +403,7 @@ python3 scripts/gate_eval.py append --ledger <gates.conditional.ledger> --play v
         --human <approved_clean|approved_edited|rejected> --ts <run ts>
 ```
 
-`<strategy issue>` is the strategy-pipeline issue Step 0 resolved.
+`<strategy issue>` is the issue Step 0 resolved for this run.
 `<gates.conditional.ledger>` / `<gates.conditional.policy>` resolve from config
 `gates.conditional` (defaults `.garura/core/gate-evals.jsonl` /
 `.garura/core/gate-policy.yaml`); `<policy version>` is the policy file's `version:`
@@ -419,9 +424,9 @@ with no blocking finding standing.
 **Step 7 — Commit the model delta** · Owner: play · Depends on: Step 6
 The gate approved (or auto-passed / was skipped by config). Commit the full model delta on
 the branch (C9, ADR 026 step 7) — a lightweight persist step that makes the writes durable
-and advances HEAD so the next pipeline play (/understand) enters a clean tree; it is NOT the
-pipeline end sequence (no end PR — that closes at /roadmap). A cancelled checkpoint never
-reaches this step — its tree was already restored in Step 6:
+and advances HEAD so the end sequence lands exactly this run's delta; it is NOT the end
+sequence itself. A cancelled checkpoint never reaches this step (nor the end sequence) — its
+tree was already restored in Step 6:
 
 ```
 git add -- <product_base>product-os
@@ -433,14 +438,42 @@ stamps `applied: true`; D3 the captured `guard-report.json` reads `ok: true`) mu
 **held** before any COMPLETED close, and the model delta is committed (C9); a run whose
 persist or guard did not land closes HALTED, never COMPLETED (REC7).
 
+### Phase: End sequence (injected — D2 position: end)
+
+After the model delta is committed, the D2 rule injects the close sequence — each a sub-play
+dispatched with `parent_run_id`, resolving its own context — to commit any remaining change,
+raise the PR, take the verdict, and merge the seed to main (C8).
+
+**Step E1 — commit-change** · blockedBy: Step 7
+
+    { "play": "commit-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "{stm_base}_vision/end/commit-change.json" } }
+
+**Step E2 — propose-change** · blockedBy: E1
+
+    { "play": "propose-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "{stm_base}_vision/end/propose-change.json" } }
+
+**Step E3 — review-change** · blockedBy: E2
+
+    { "play": "review-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "{stm_base}_vision/end/review-change.json" } }
+
+**Step E4 — merge-change** · blockedBy: E3
+
+    { "play": "merge-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "{stm_base}_vision/end/merge-change.json" } }
+
+Each end member owns its own evals (commit grouped by concern, PR opened, verdict posted, branch
+merged + cleaned); they are not re-checked here. A review-change reject stops the chain before
+merge; the land on main keeps its pinned human approval (merge-change C7).
+
 ### Phase: Scenario Validation
 
-**Step 8 — Scenario evals** · Owner: play · Depends on: Step 7
+**Step 8 — Scenario evals** · Owner: play · Depends on: the end sequence
 - **SCE-1 (S1 — CXO / product strategist):** the seed this run persisted — a domain entry
   with a detailed `domain.md`, at least one `proposed` + `directional` capability with a
   directional `capability.md`, and a `directional` profile — clears both guards
   (`lint_grounding.py` clean; `grounding_gate.py` passes for every grounding doc) and is
-  present in the live spine; the stop-condition verdict reads held.
+  present in the live spine; the run's change is landed on main by the end sequence
+  (`{stm_base}_vision/end/merge-change.json` reports the PR merged), with no later play
+  needed to finish it; the stop-condition verdict reads held.
 - **SCE-2 (S2 — architect):** every persisted capability traces to a KB shelf or a
   recorded proposal in the seed manifest (`grounding_check.py` is clean).
 - **SCE-3 (S3 — product owner, non-destructive re-run):** on a re-run over an existing
@@ -559,16 +592,17 @@ or the in-progress run, check the status marker, skip completed steps, reset any
 in-progress step to pending, and continue. A fresh start with no marker runs everything
 and creates the marker at Step 1. Resuming a run that already wrote model docs enters a
 dirty tree; the clean-tree assertion (F9) is scoped to a FRESH start right after
-start-change — a resume continues its own in-progress delta.
+start-change — a resume continues its own in-progress delta. A resume after Step 7
+continues at the first end-sequence member that has not finished.
 
 ## Compilation Metadata
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:4bf6bba720e03b7149ad64085cb85ac0167dd236d2d0c245d5b3ee9fc8e506f9 (of `reference/ice.md`) |
-| compiled_by | play-editor (#500 direct-model-write, ADR 026); prior: play-editor (#467 Batch B, #466 Batch C); play-creator (edited via play-editor, #437; spine+grounding+eval model) |
-| pipeline_position | start (start-change head; the strategy pipeline closes at /roadmap) |
-| position_exception | model-writing start play — writes the model on the started branch and commits its own model delta (C9); the pipeline end PR belongs to /roadmap (#437) |
+| fingerprint | sha256:f909b4b16623f30a621a80ce4fa46d7cb1cd19183c45074b0223457bd4816723 (of `reference/ice.md`) |
+| compiled_by | play-editor (#616 position both); play-editor (#500 direct-model-write, ADR 026); prior: play-editor (#467 Batch B, #466 Batch C); play-creator (edited via play-editor, #437; spine+grounding+eval model) |
+| pipeline_position | both (start-change head; commit → propose → review → merge close — #616) |
+| position_exception | model-writing both play — writes the model on the started branch and commits its own model delta (C9) BEFORE the injected end sequence lands it (same shape as /measure) |
 | workflow_structure | A (single checkpoint — class: standard, conditional gate per gate-config.md #467; direct-model-write WRITE-THEN-REVIEW per ADR 026 — persist + guard + classify before the gate, commit after; stop-condition gated close) |
 | stop_condition | stop-condition.yaml (D1–D3), gate live at Step C0 |
 | domain_agents | 1 (product-os-keeper) |
@@ -578,6 +612,15 @@ start-change — a resume continues its own in-progress delta.
 | step_evals | 10 (SE-1…SE-10) |
 | scenario_evals | 4 (SCE-1…SCE-4) |
 | recovery_entries | 9 (one per failure condition; 7 autonomous / 2 human) |
+
+**Recompiled note (#616, position both):** intent change via `reference/ice.md` → play-editor.
+/vision now stands on its own (ADR 029 §4): position `start` → `both`, so it lands its own
+change through the injected end sequence (Steps E1–E4) instead of leaving the strategy change
+open for /roadmap. Touched: the Intent's position paragraph, C8 (the end sequence lands the
+change; the Standard Play Close runs after it), C9 (the model-delta commit is distinct from the
+end sequence), and S1's measure (the change is merged). No constraint, failure condition, or
+recovery was added or removed; the end members own their own evals. /shape and /roadmap are
+unchanged (#616 D3). Fingerprint recomputed over the edited ICE.
 
 **Recompiled note (#500, direct-model-write / ADR 026):** migrated from draft-then-apply to
 direct-model-write. The old draft model tree and the `apply_seed.py`/`check_apply` promotion
