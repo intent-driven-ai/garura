@@ -54,6 +54,8 @@ Kapil, 2026-10-07.
 
 **L20 — One main issue, one branch, linked issues on it.** A drive works on one main issue and opens one branch for it; the branch stays the same for the whole drive. Plays inside the drive open no branch of their own. Issues linked to the main issue are fixed on the same branch. Written into `managing-work.md` as the one exception to "one issue, one session, one branch". ADR 029 locked (Accepted); ADR 003 retired in full, ADR 002 and ADR 028 in part. Kapil, 2026-10-07.
 
+**L21 — Gaps closed after review (Kapil, 2026-10-08).** A drive raises one pull request. "Linked" means child issues by the tracker's parent/child link, never a body mention. A drive's scope is its main issue plus those children; anything else found becomes a new issue. The drive writes one handoff, on its main issue. "Drive" added to the glossary.
+
 ## Found while working the spike
 
 - **`/understand` details one capability per run** (its description). So "run until all the work is done" means: run `/understand` once for every capability `/vision` seeded.
