@@ -50,7 +50,7 @@ back after a week should know where to pick up from this paragraph alone.}
 
 ### Done
 
-- **{Item}** — #{issue}. {One line on what it settled or delivered.}
+- **{Decided | Built | Shipped}: {item}** — #{issue}. {One line on what it settled or delivered — and what is still not done.}
 
 ### 1. {Item name, saying what changes} — now
 
@@ -90,4 +90,5 @@ back after a week should know where to pick up from this paragraph alone.}
 4. **"Now" is always set.** The front matter's `now` and the "— now" heading point at the same item.
 5. **Kept current.** When work finishes, starts, or the order changes, the plan is updated and the change is logged. A plan nobody updates is worse than none.
 6. **Every plan but a business intent's names what it serves.** `serves_plan` and `serves_item` point at the parent plan and its item, so any piece of work can be traced up to the business intent it serves.
-7. **Done means the plan is done.** The issue is done only when every item is done or dropped with a reason in the log.
+7. **Say what kind of done.** A finished item says whether it was only decided (an ADR), built, or shipped. "Done" alone reads as finished and dusted.
+8. **Done means the plan is done.** The issue is done only when every item is done or dropped with a reason in the log.
