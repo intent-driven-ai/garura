@@ -7,9 +7,10 @@ play-editor; never hand-edit the compiled SKILL.md.
 
 Given one capability — seeded by /vision (named, directional, no functionalities), or named
 by the person and not yet in the model — **detail it**. When the capability is not yet in
-the model, /understand asks the person what it is and why it matters, and seeds it thinly
-itself: only what /vision would have written for it, enough for the detailing to start —
-never invented (#616 D1). /understand is the **product-manager** step, the last detailing step:
+the model, /understand asks the person what it is, why it matters, and which existing domain
+it joins — before it opens any change, so a stop leaves nothing behind — and seeds it thinly
+from those answers: a spine entry, enough for the detailing to start, whose first
+`capability.md` is then written straight at the detailed stage. Never invented (#616 D1). /understand is the **product-manager** step, the last detailing step:
 promote the capability's `capability.md` from the directional stage to the detailed stage
 (benefit hypothesis, boundary, guiding rules, functionalities), **create its
 functionalities** (a spine entry plus a detailed `functionality.md` for each), and set the
@@ -29,12 +30,15 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM enr
 
 - C1 — Operates on exactly ONE capability per run. If the target is in the spine as a
   directional seed (`detail: directional`), it is detailed as is. If it is **absent**, the
-  play asks the person what the capability is, why it matters, and which existing domain it
-  belongs to, records the answers (`<working>/seed.yaml`), and seeds it thinly — a spine
-  entry at `status: proposed`, `detail: directional`, under that domain — which this run then
-  details. The seed carries only the person's answers, nothing invented. With no answer, or
-  a domain that is not in the spine, it halts and says plainly what it needs. A capability
-  that is already `detailed` is not re-detailed.
+  play — before it opens any change — asks the person what the capability is, why it
+  matters, and which existing domain it belongs to, records the answers verbatim
+  (`<working>/seed.yaml`, `answered_by: human`), and seeds it thinly: a spine entry at
+  `status: proposed`, `detail: directional`, under that domain, whose first `capability.md`
+  this run writes straight at the detailed stage. The seed carries only the person's answers,
+  nothing invented; the keyed persist refuses a seed not marked `answered_by: human`. With no
+  answer, or a domain that is not in the spine, it halts — before any issue or branch exists
+  — and says plainly what it needs. A capability that is already `detailed` is not
+  re-detailed.
 - C2 — It promotes the target capability `directional → detailed` and CREATES its
   functionalities (each a spine `functionalities` entry plus a detailed `functionality.md`).
   This is the structure /understand owns — the last detailing step. It never touches

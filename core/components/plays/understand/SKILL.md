@@ -10,8 +10,8 @@ user-invocable: true
 Take a capability — seeded by /vision (named, directional, no functionalities), or named
 by the person and not yet in the model — and **detail it**. A capability that is not yet in
 the model is seeded thinly first, from the person's own answers (what it is, why it matters,
-which existing domain it belongs to) — only what /vision would have written, never invented
-(#616 D1). /understand is the **product-manager** step, the last detailing step:
+which existing domain it belongs to), asked for before any change is opened; its first
+`capability.md` is written straight at the detailed stage. Never invented (#616 D1). /understand is the **product-manager** step, the last detailing step:
 promote the capability's `capability.md` from the directional stage to the detailed stage,
 **create its functionalities** (a spine entry plus a detailed `functionality.md` each), set
 the capability's own concrete NFR + compliance needs, then roll those per-capability needs
@@ -81,7 +81,7 @@ on a configured different model) — never the orchestrator's own context.
 |-------|-----------|-------------------|
 | Resolve config + `product_base` (`.garura/core/config.yaml`) | — | Hard halt |
 | Resolve `grounding-eval.judge` (optional model override) | C4 | Default: sub-agent on the session model |
-| Target capability: a directional seed → detail it; **absent** → seed it from the person's answers (Step 0b); already `detailed` → halt | C1 | Seed step, or hard halt (REC1) |
+| Target capability: a directional seed → detail it; **absent** → ask the person first (Step 0a), before any change opens; already `detailed` → halt | C1 | Ask step, or hard halt (REC1) |
 | **Clean model tree** — right after `start-change` (Step 0), `git status --porcelain -- <product_base>product-os` is empty | C12/F13 | Hard halt (REC13) |
 
 **Clean-tree assertion (C12/F13, ADR 026).** Right after Step 0 (`start-change`) cuts the
@@ -108,8 +108,8 @@ the spine `_spine.yaml` and the grounding docs), `stm_base` (working artifacts +
 resolved `grounding-eval.judge` config, and `evidence_record` (the D1 gate). The **target
 capability** is a runtime input (the play argument, e.g. `/understand checkout`); the play
 resolves its entry in `_spine.yaml`. A directional seed is detailed as is; an **absent**
-capability goes through Step 0b (seed from the person's answers); an already `detailed`
-capability halts (C1/REC1) — it is not re-detailed.
+capability goes through Step 0a (ask the person, before any change opens); an already
+`detailed` capability halts (C1/REC1) — it is not re-detailed.
 
 The run's working root (`<working>` below) is `{stm_base}_shaping/understand/<capability>/`
 — the routing, the enrich manifest (`enrich-manifest.yaml`), the proposed profile, the
@@ -143,9 +143,9 @@ the change-shape, and the human all see the real delta. Nothing is COMMITTED bef
 resolves; cancel reverts the uncommitted writes.
 
 ```
-[T0] start-change (injected — start, head)               blockedBy: []
-[T0b] Seed the target if absent (ask the person)          blockedBy: [T0]
-[T1] Enrich (detail + functionalities, docs to live)     blockedBy: [T0b]
+[T0a] Ask for the seed if the target is absent           blockedBy: []
+[T0] start-change (injected — start, head)               blockedBy: [T0a]
+[T1] Enrich (detail + functionalities, docs to live)     blockedBy: [T0]
 [T2] Validate the live docs                              blockedBy: [T1]
 [T3] Roll up the box                                     blockedBy: [T1]
 [T4] Persist (keyed, in place — shared files)            blockedBy: [T2, T3]
@@ -165,9 +165,34 @@ No runtime reordering. On resume, skip completed and reset in-progress to pendin
 
 ## Workflow
 
+### Phase: Ask (only when the target is absent, #616 D1)
+
+**Step 0a — Ask for the seed if the target is absent** · Owner: play · Depends on: pre-flight
+*Skip when the target is already in the spine.* This runs BEFORE `start-change`, so a stop here leaves no issue or branch behind. When the target is absent, ask the person — a
+plain, typed question, not a tool prompt — three things: what the capability is (one
+line), why it matters, and which existing domain it belongs to (list the domain ids in the
+spine). Record the answers verbatim, nothing added, in `<working>/seed.yaml`:
+
+```yaml
+seed:
+  id: <capability id from the play argument>
+  domain: <the domain id the person named>
+  one_line: <the person's one line>
+  why: <the person's reason>
+  answered_by: human
+  doc: <domain-dir>/<capability-slug>/capability.md
+```
+
+With no answer, or a domain not in the spine, halt and say plainly what is needed (REC1) —
+never fill the gap yourself; nothing has been opened yet, so there is nothing to clean up.
+`answered_by` is `human` only when the person typed the answers; the keyed persist refuses
+any other value. The seed reaches the model only at Step 4, by the keyed persist (`--seed`),
+inside this run's reviewed, guarded delta; Step 1 writes the capability's first
+`capability.md` straight at the detailed stage from the seed's answers and its KB shelf.
+
 ### Phase: Start (injected — D2 position: start)
 
-**Step 0 — start-change** · Owner: `start-change` (sub-play) · Depends on: pre-flight
+**Step 0 — start-change** · Owner: `start-change` (sub-play) · Depends on: Step 0a
 Run the start-of-pipeline member as a sub-play, dispatched with `parent_run_id` so it
 emits only its own evidence and this play's close absorbs it. It resolves or creates the
 issue for this run, cuts the branch off fresh main, sets up a worktree iff config calls for
@@ -184,29 +209,6 @@ sequence (Steps E1–E4), not by a later play.
 start-change owns its own evals; they are not re-checked here. Immediately after it
 returns, run the clean-tree assertion (pre-flight, C12/F13).
 
-### Phase: Seed (only when the target is absent, #616 D1)
-
-**Step 0b — Seed the target if absent** · Owner: play · Depends on: Step 0
-*Skip when the target is already in the spine.* When it is absent, ask the person — a
-plain, typed question, not a tool prompt — three things: what the capability is (one
-line), why it matters, and which existing domain it belongs to (list the domain ids in the
-spine). Record the answers verbatim, nothing added, in `<working>/seed.yaml`:
-
-```yaml
-seed:
-  id: <capability id from the play argument>
-  domain: <the domain id the person named>
-  one_line: <the person's one line>
-  why: <the person's reason>
-  answered_by: human
-  doc: <domain-dir>/<capability-slug>/capability.md
-```
-
-With no answer, or a domain not in the spine, halt and say plainly what is needed (REC1) —
-never fill the gap yourself. The seed is written to the model only at Step 4, by the keyed
-persist (`--seed`), so it stays inside this run's reviewed, guarded delta; Step 1 details
-the capability from the seed's answers and its KB shelf.
-
 ### Phase: Enrich
 
 **Step 1 — Enrich (detail + functionalities, docs to live)** · Owner: `product-os-keeper` · Depends on: pre-flight
@@ -221,7 +223,7 @@ per-dimension levels the roll-up consumes. Per ADR 026 the skill writes the per-
 
     {
       "task":    "re-route this capability to its KB shelf, then detail it (directional->detailed) writing capability.md + functionality.md docs in place on the live model, set its nfr_needs; emit implied NFR levels + the spine-delta into the manifest",
-      "inputs":  { "capability": "<id + slug + path to its directional capability.md, or <working>/seed.yaml when Step 0b seeded it>",
+      "inputs":  { "capability": "<id + slug + path to its directional capability.md, or <working>/seed.yaml when Step 0a recorded a seed>",
                    "product_base": "<product_base>",
                    "manifest_path": "<working>/enrich-manifest.yaml" },
       "outputs": { "routing":         "<working>/routing.yaml",
@@ -236,8 +238,9 @@ IN PLACE under `<product_base>product-os/`, and writes `enrich-manifest.yaml` un
 `<working>` (STM) with the spine-delta as structured data. It writes NO shared model file.
 **SE-1 (F1/C1):** the target was a directional seed, or it was absent and `<working>/seed.yaml`
 holds the person's answers (`answered_by: human`, with `one_line`, `why`, and a `domain` that
-is in the spine); an already-detailed target, an unanswered seed, or an unknown domain
-halted the run (REC1).
+is in the spine), recorded before `start-change` ran; an already-detailed target, an
+unanswered seed, or an unknown domain halted the run before any issue or branch existed
+(REC1).
 **SE-2 (C6):** the `enrich-manifest.yaml` records `grounded_in`, and it matches the shelf
 `search-kb` routed to in `routing.yaml` — the detail is grounded in the recovered shelf.
 **SE-14 (F13/C12):** the product-os tree was clean at entry — the pre-flight assertion
@@ -644,14 +647,14 @@ steps, reset any in-progress step to pending, and continue. A fresh start with n
 runs everything and creates the marker at Step 1. Resuming a run that already wrote model
 docs enters a dirty tree; the clean-tree assertion (F13) is scoped to a FRESH start right
 after start-change — a resume continues its own in-progress delta. A resume after Step 7
-continues at the first end-sequence member that has not finished; a resume after Step 0b
+continues at the first end-sequence member that has not finished; a resume after Step 0a
 reuses `<working>/seed.yaml` rather than asking again.
 
 ## Compilation Metadata
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:7b5ad00e45db3922df30ffca813620aaed8e10da6696bc3f91e37dd9a4f2700d (of `reference/ice.md`) |
+| fingerprint | sha256:a056e9207ccc3444777aa08097b665be49a4b0e70d554647c66e7a2cc1af1a0a (of `reference/ice.md`) |
 | compiled_by | play-editor (#616 stands alone); play-editor (#498 direct-model-write, ADR 026); prior: play-editor (#467 Batch B, #466 Batch C) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close — #616) |
 | position_exception | model-writing both play — writes the model on its own started branch and commits its own model delta (C12) BEFORE the injected end sequence lands it (same shape as /measure and /vision) |
@@ -664,16 +667,6 @@ reuses `<working>/seed.yaml` rather than asking again.
 | step_evals | 14 (SE-1…SE-14) |
 | scenario_evals | 6 (SCE-1…SCE-6) |
 | recovery_entries | 13 (one per failure condition; 10 autonomous / 3 human) |
-
-**Recompiled note (#616, stands alone):** intent change via `reference/ice.md` → play-editor.
-/understand no longer needs /vision to have run (ADR 029 §4). Two changes: (1) an absent
-capability is seeded thinly from the person's recorded answers (new Step 0b; `<working>/seed.yaml`;
-`persist_understand.py --seed`, with `test_persist_understand.py`), never invented — C1, F1 and
-REC1 rewritten; S6 + SCE-6 added; (2) position `none` → `both`: `start-change` head (Step 0)
-and the commit → propose → review → merge end sequence (Steps E1–E4) — C11, C12 and S1's
-measure updated; the clean-tree halt (F13/REC13) no longer sends the user to "the prior
-pipeline play". /shape and /roadmap unchanged (#616 D3). Fingerprint recomputed over the
-edited ICE.
 
 **Recompiled note (#498, direct-model-write / ADR 026):** migrated from draft-then-apply to
 direct-model-write. The old draft model tree and the apply/check promotion scripts are
