@@ -1,0 +1,11 @@
+pr: 629
+issue: 619
+rounds:
+  round1: "35 findings (1 P2, 17 P3, 17 P4) \u2014 all fixed in round 2"
+  round2: "8 open after fixes (0 P1/P2) \u2014 6 fixed, 2 partly"
+  round3: "5 open, all P4 \u2014 fixed after round 3: ['QF-12', 'QF-13', 'R3-01',\
+    \ 'R3-02', 'R3-03']"
+findings: []
+note: "All findings from rounds 1\u20133 are fixed. SC-01..SC-09 are informational\
+  \ path flags on ADR files, not defects. Pre-existing E741 lint in preflight.py and\
+  \ session_stamp.py is outside this PR."
