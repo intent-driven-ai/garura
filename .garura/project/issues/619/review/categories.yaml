@@ -1,0 +1,77 @@
+# review-change Step 2 — categories present in PR #629 (base: main)
+# Shelf resolved at /Users/kapilahuja/.garura/core/memory/knowledge/review/
+pr: 629
+base: main
+categories:
+  - category: decision-records
+    playbook: review/adrs
+    design_bearing: false
+    evidence:
+      - docs/adr/030-plan-mode.md            # new ADR (114 lines)
+      - docs/adr/029-drives.md               # edited
+      - docs/adr/025-level-3-redefined-skeleton-and-loop.md  # edited
+    note: "Layer 1 only; human judges the decision. No design-grounding per playbook."
+
+  - category: documentation
+    playbook: review/docs
+    design_bearing: false
+    evidence:
+      - docs/philosophy/idsd.md              # +40 lines: plan vs product model, two interfaces, two handoffs
+    note: >
+      Playbook says no design-grounding. Caution: docs/philosophy/** is itself a committed
+      grounding source for harness/memory review, and this branch rewrites it (and adds ADR 030).
+      Graders must not use the branch's edits to idsd.md / ADR 029 / ADR 030 as grounding for the
+      other categories; use the base-ref versions (git show main:<path>).
+
+  - category: harness
+    playbook: review/harness
+    design_bearing: true
+    evidence:
+      - core/components/skills/manage-plan/SKILL.md                       # new skill
+      - core/components/agents/project-orchestrator.md                    # agent edited
+      - core/components/skills/platform-adapter/reference/github/verbs.md # skill reference edited
+      - core/components/skills/platform-adapter/reference/gitlab/verbs.md # skill reference edited (gap note)
+
+  - category: memory
+    playbook: review/memory
+    design_bearing: true
+    evidence:
+      - core/components/memory/standards/templates/plan.md   # new plan template
+      - core/components/memory/standards/templates/_index.md # index entry
+      - core/components/memory/tools/github/adapter.md       # tool doc edited (view-issue fields, gh >= 2.94.0)
+
+  - category: executable-code
+    playbook: review/code
+    design_bearing: false
+    evidence:
+      - core/components/skills/manage-plan/scripts/check_plan.py          # new, 186 lines
+      - core/components/plays/merge-change/scripts/platform_adapter.py    # view-issue --json fields
+      - core/components/plays/propose-change/scripts/platform_adapter.py
+      - core/components/plays/review-change/scripts/platform_adapter.py
+      - core/components/plays/play-creator/references/platform_adapter.py
+    note: "Layer 1 only (linter + quality-check-scoped). Four platform_adapter.py copies carry the same one-line change; check they stay identical."
+
+  - category: work-records-stm
+    playbook: null
+    playbook_missing: true
+    design_bearing: false
+    evidence:
+      - .garura/project/issues/606/specs/plan.md
+      - .garura/project/issues/619/specs/plan.md
+      - .garura/project/issues/619/specs/decisions.md
+      - .garura/project/issues/619/context/analysis.yaml
+      - .garura/project/issues/619/context/branch.json
+      - .garura/project/issues/619/context/commits.yaml
+      - .garura/project/issues/619/context/issue.json
+      - .garura/project/issues/619/context/porcelain.txt
+      - .garura/project/issues/619/context/pr-body.md
+      - .garura/project/issues/619/context/pr.json
+      - .garura/project/issues/619/context/resolved-rules.json
+      - .garura/project/issues/619/context/self-review.md
+      - .garura/project/issues/619/context/work-description.txt
+    note: >
+      Playbook missing: run records and plans committed under the STM base (.garura/project/issues/**).
+      Not a seeded category. Treated as not design-bearing (they record this branch's own work; a
+      design check would be circular). Light check only: plans follow the plan template's shape
+      (but that template is new in this branch, so no grounding from it). Recommend a playbook.
+absent_categories_note: "config-maps and tests have no changed files and are not listed."

@@ -1,0 +1,1326 @@
+diff --git a/.garura/project/issues/606/specs/plan.md b/.garura/project/issues/606/specs/plan.md
+new file mode 100644
+index 00000000..eb3e8fec
+--- /dev/null
++++ b/.garura/project/issues/606/specs/plan.md
+@@ -0,0 +1,135 @@
++---
++plan_for: 606
++kind: business-intent
++serves: "#606 — Garura's agentic lifecycle runs as five loops (drives), starting from a working prototype"
++status: active
++updated: 2026-10-08
++now: 2
++---
++
++# Plan — #606: the lifecycle runs as drives
++
++This is a plan, not a design. It says what gets done, in what order, and why that order. How each item is built is decided in its own issue.
++
++## What we are trying to reach
++
++Today a person picks every play by hand: `/vision`, then `/understand`, then `/shape`, and so on. Nothing runs them for you, and nothing checks that the whole run met its goal.
++
++#606 wants Garura to run its lifecycle as **drives**. A drive is a run of plays that keeps going until its goal is met, then gets reviewed (ADR 029). The lifecycle starts from a **working prototype** that the user shares, not from a conversation.
++
++There are five drives, one for each step from product to running software. We build them one at a time. The first is **Kickoff**, and it is the person's interface: it takes a prototype, pulls the intent out, and makes two things — for the person, a plan and its issues that break the intent into small pieces they can understand; for the agents, a product model with every capability detailed. Kickoff runs `/intent`, then `/vision`, then `/understand`. Everything after Kickoff is agent work.
++
++## When this plan is done
++
++- Kickoff works end to end: give it a prototype, and it runs its three plays without stopping for a human, checks its own result, and hands over a detailed product model.
++- The other four drives are each decided and built, in order.
++- #606 is a business intent, so it is not closed just because its child issues close. It is met when Garura really runs this way.
++
++## Where we are now
++
++Three decisions are made: the lifecycle is five loops (#592), a loop is a drive and the first is Kickoff (#607, ADR 029), and every change works from a plan (#619, ADR 030). Next is untangling `/intent`, `/vision` and `/understand` so each runs on its own (item 2, #616).
++
++## The plan, in order
++
++### Done
++
++- **Decided: the lifecycle is five loops** — #592. ADR 028. A design decision only; no loop is built yet.
++- **Decided and partly built: plan mode** — #619. Decided in ADR 030: every change works from a plan on disk, kept current, done only when the plan is done. Built: the template, the plan skill and its check. Not yet merged; wiring it into the plays is Feature #621.
++- **Decided: a loop is a drive; the first drive is Kickoff** — #607. ADR 029, a design decision only; nothing is built yet. It settled what a drive is, how it runs, that it owns one issue, one branch and one pull request, and that Kickoff runs `/intent` → `/vision` → `/understand`.
++
++### 2. The three plays stop depending on each other — now
++
++**Issue:** #616.
++**What:** today `/understand` refuses to run unless `/vision` ran first, and `/vision`'s work stays open until `/roadmap` finishes. Remove those links, so `/intent`, `/vision` and `/understand` each work when run on their own.
++**Why here:** Kickoff runs the three plays, but each must also work by hand. Untangling them first means items 3 to 5 build on clean plays.
++**Done when:** each of the three plays runs by hand with nothing run before it.
++**Needs:** nothing — item 1 is done.
++
++### 3. A new play that reads a prototype: `/intent`
++
++**Issue:** #612.
++**What:** a new play. It reads a working prototype and writes down the intent: the goal, the limits, and what counts as failure. The user confirms it. The prototype is kept as an example, never treated as the intent itself.
++**Why here:** it is Kickoff's first play, and nothing does this job today.
++**Done when:** given a prototype, `/intent` writes a confirmed intent that `/vision` can take as its starting goal.
++**Needs:** nothing — item 1 is done.
++
++### 4. `/vision` runs inside a drive
++
++**Issue:** #614.
++**What:** when a drive runs `/vision`, it does not stop for its human check. The drive gives it what it needs, and the review happens after the drive. Run by hand, `/vision` works as it does today.
++**Why here:** Kickoff cannot run without stopping until `/vision` can.
++**Done when:** `/vision` runs inside a drive with no stop, on the drive's branch, and keeps a record for the later review.
++**Needs:** item 2.
++
++### 5. `/understand` runs inside a drive
++
++**Issue:** #615.
++**What:** the same change as item 4, for `/understand`.
++**Why here:** Kickoff's third play.
++**Done when:** the same as item 4, for `/understand`.
++**Needs:** item 2.
++
++### 6. Decide how a finished drive is reviewed
++
++**Issue:** #617 (spike).
++**What:** a drive ends in a score or a fail, and a review follows either way. Decide what the review looks at, who does it, and whether review is a drive of its own.
++**Why here:** the drive moves each play's review to the end, so the end review must exist before Kickoff can be called finished.
++**Done when:** the answers are in an ADR, and the stories to build it are filed.
++**Needs:** nothing — item 1 is done.
++
++### 7. Build the Kickoff drive
++
++**Issue:** #613.
++**What:** the drive itself. It asks all its questions first, runs `/intent` → `/vision` → `/understand` (once for each capability), stops only for a new question, has a different model or agent check the result, and writes its evidence.
++**Why here:** it needs all of items 3 to 6.
++**Done when:** a working prototype goes in; out come a plan and issues the person can read, and a detailed product model for the agents — checked and reviewed.
++**Needs:** items 3, 4, 5 and 6.
++
++### Alongside items 2 to 7: the product-model ontology
++
++**Issue:** #597.
++**What:** rebuild the product model as a proper model of what the product is. Only the parts the Kickoff plays need are built now, as those plays are fixed.
++**Why alongside:** ADR 029 ties it to this work. It is built piece by piece, not as one step.
++
++### Checkpoint: Kickoff lands
++
++Nothing below starts before item 7 is done. Each later drive is decided by a spike, then built from the stories that spike files.
++
++### 8. Decide the second drive: intent → design
++
++**Issue:** #608. The issue still says "Shape loop". It needs a new name, because `/shape` is a play.
++**What:** decide the drive that takes the intent to a design: lock the product model, cut it into slices, and design the project once.
++
++### 9. Decide the Execute drive
++
++**Issue:** #609.
++**What:** decide the drive that builds the code: `/grill` → `/implement` → `/validate` → `/launch`. It must settle the human checks that always stop today.
++
++### 10. `/grill` can cut any slice
++
++**Issue:** #595.
++**What:** `/grill` no longer waits for every design area of a slice. It cuts the slice and asks about any missing areas itself. It belongs to the Execute drive.
++
++### 11. Decide the Change drive
++
++**Issue:** #610.
++**What:** decide the drive that lands every change: start, commit, propose, review, merge.
++
++### 12. Decide the handover drive
++
++**Issue:** none yet.
++**What:** the last drive, the handoff out: it takes everything the agents made and delivers it as the thing the person uses — a website, an application, whatever the intent asked for. Kickoff is the handoff in; this is its pair (Kapil, 2026-10-08).
++
++### 13. Decide the Learn drive
++
++**Issue:** #611. The issue still says "Learn loop". It needs a new name, because `/learn` is a play.
++**What:** decide the drive that works out what to do next and corrects the intent.
++
++## Log
++
++- 2026-10-08 — First written by hand, as the worked example for #619. Kapil put plan mode first, so this plan is kept from here on.
++- 2026-10-08 — Rewritten after Kapil's review: the first cut gave issue numbers with one-line labels that did not explain the work. Each item now says what it is, why it sits where it does, and when it is done.
++- 2026-10-08 — Locked by Kapil as the starting format for plan mode (#619); saved as the plan template.
++- 2026-10-08 — Item 1 done: plan mode decided (ADR 030); wiring filed as Feature #621. Now on item 2 (#616).
++- 2026-10-08 — Kickoff restated as the human interface (Kapil): it makes a plan and issues for the person, and the product model for the agents.
++- 2026-10-08 — Added item 12, the handover drive (the handoff out, Kickoff's pair). The Learn drive is now item 13.
+diff --git a/.garura/project/issues/619/context/analysis.yaml b/.garura/project/issues/619/context/analysis.yaml
+new file mode 100644
+index 00000000..e8f79804
+--- /dev/null
++++ b/.garura/project/issues/619/context/analysis.yaml
+@@ -0,0 +1,48 @@
++---
++# analyze-changes output (judgment done) — issue 619
++needs_judgment: false
++
++change_groups:
++  - id: doctrine-human-interface
++    issue: 619
++    commit_type: docs
++    scope: philosophy
++    subject: "state the plan as the human interface and add the handover drive"
++    files:
++      - docs/philosophy/idsd.md
++      - docs/adr/029-drives.md
++      - docs/adr/030-plan-mode.md
++
++  - id: plan-template-kind-of-done
++    issue: 619
++    commit_type: docs
++    scope: templates
++    subject: "require plans to say what kind of done each item is"
++    files:
++      - core/components/memory/standards/templates/plan.md
++
++  - id: stm-606-plan-update
++    issue: 619
++    commit_type: chore
++    scope: stm
++    subject: "update the #606 plan for Kickoff as the human interface and the handover drive"
++    files:
++      - .garura/project/issues/606/specs/plan.md
++
++exclusions:
++  - path: ".garura/project/issues/619/context/porcelain.txt"
++    reason: "run artifact of the commit-change play; committed by the run-state step"
++    blocking: false
++  - path: ".garura/project/issues/619/context/analysis.yaml"
++    reason: "run artifact of the commit-change play; committed by the run-state step"
++    blocking: false
++
++risks:
++  sensitive_files: []
++  breaking_changes: []
++  ambiguous_types: []
++  hotfix_branch: false
++
++eval_gates:
++  SE-1: {status: PASS, evidence: "all 5 changed content files land in exactly one group; the 2 run artifacts are exclusions"}
++  SE-5: {status: PASS, evidence: "no sensitive filename or content patterns matched in the diff"}
+diff --git a/.garura/project/issues/619/context/branch.json b/.garura/project/issues/619/context/branch.json
+new file mode 100644
+index 00000000..5da3c8b2
+--- /dev/null
++++ b/.garura/project/issues/619/context/branch.json
+@@ -0,0 +1,6 @@
++{
++  "branch_name": "feature/619-plan-mode",
++  "base_sha": "4d23f051a6a9a123327ab0547931aab33b29ab06",
++  "on_default_branch": false,
++  "worktree_path": null
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/619/context/commits.yaml b/.garura/project/issues/619/context/commits.yaml
+new file mode 100644
+index 00000000..328452a9
+--- /dev/null
++++ b/.garura/project/issues/619/context/commits.yaml
+@@ -0,0 +1,27 @@
++commits:
++  - sha: 102443fb
++    message: "docs(philosophy): state the plan as the human interface and add the handover drive (#619)"
++    files:
++      - docs/philosophy/idsd.md
++      - docs/adr/029-drives.md
++      - docs/adr/030-plan-mode.md
++    branch: feature/619-plan-mode
++  - sha: 4aff532c
++    message: "docs(templates): require plans to say what kind of done each item is (#619)"
++    files:
++      - core/components/memory/standards/templates/plan.md
++    branch: feature/619-plan-mode
++  - sha: 76067c5d
++    message: "chore(stm): update the #606 plan for Kickoff as the human interface and the handover drive (#619)"
++    files:
++      - .garura/project/issues/606/specs/plan.md
++    branch: feature/619-plan-mode
++excluded_files:
++  - path: ".garura/project/issues/619/context/porcelain.txt"
++    reason: "run artifact of the commit-change play; committed by the run-state step"
++  - path: ".garura/project/issues/619/context/analysis.yaml"
++    reason: "run artifact of the commit-change play; committed by the run-state step"
++leftover_count: 0
++tree_clean: true
++pushed: false
++run_state_committed: true
+diff --git a/.garura/project/issues/619/context/issue.json b/.garura/project/issues/619/context/issue.json
+new file mode 100644
+index 00000000..4347b96f
+--- /dev/null
++++ b/.garura/project/issues/619/context/issue.json
+@@ -0,0 +1 @@
++{"resolved": true, "issue_number": 619, "title": "Decide plan mode — every drive and play writes a plan to disk, keeps it current, and is done only when it is done", "created": false}
+diff --git a/.garura/project/issues/619/context/porcelain.txt b/.garura/project/issues/619/context/porcelain.txt
+new file mode 100644
+index 00000000..058e552b
+--- /dev/null
++++ b/.garura/project/issues/619/context/porcelain.txt
+@@ -0,0 +1,6 @@
++ M .garura/project/issues/606/specs/plan.md
++ M .garura/project/issues/619/context/porcelain.txt
++ M core/components/memory/standards/templates/plan.md
++ M docs/adr/029-drives.md
++ M docs/adr/030-plan-mode.md
++ M docs/philosophy/idsd.md
+diff --git a/.garura/project/issues/619/context/pr-body.md b/.garura/project/issues/619/context/pr-body.md
+new file mode 100644
+index 00000000..78a90eb1
+--- /dev/null
++++ b/.garura/project/issues/619/context/pr-body.md
+@@ -0,0 +1,64 @@
++## What this decides and builds
++
++Spike #619 decides **plan mode** (ADR 030): every change works from a plan on disk — what gets done, in what order, and why, never how — kept current, and done only when the plan is done. It also builds the first pieces and records core doctrine.
++
++**Core doctrine (in `docs/philosophy/idsd.md`):** the plan is the person's interface; the product model is the agents'. A person has two interfaces — the intent they give and the output they see — and the loop has two handoffs: Kickoff in, a handover drive out.
++
++## Decided (ADR 030)
++- A change opens with `start-change` → `plan-change` → `approve-change`, only when needed.
++- Plans live in STM; a script decides "done"; each plan names the plan it serves (business intent → agent work).
++- Small updates need no human; big updates are approved (inside a drive, at its end).
++- Plays drop their task lists once the plan takes over their four jobs.
++
++## Built
++- Plan template (`standards/templates/plan.md`) and the first real plans (#606, #619).
++- `manage-plan` skill and its check script; `project-orchestrator` gathers the plan context.
++- Reading an issue now returns its type, parent and sub-issues (needs gh 2.94.0+).
++
++## Filed
++Feature #621 (plan mode wiring) with Stories #622–#628, under #539.
++
++Closes #619
++
++---
++
++<details><summary>Self-review</summary>
++
++# Self-review — #619 Plan mode (feature/619-plan-mode vs main)
++
++Rules: `/Users/kapilahuja/.garura/core/memory/standards/rules/self-review.md` (base, not an override; see `resolved-rules.json`).
++Diff: 11 commits, 25 files, +912 / -17. About 470 of those lines are the STM plan and evidence files; the rest is the ADR, the template, the skill and its script, the agent edit, the adapter change and two doctrine edits.
++
++Summary: the change does what the spike's owner chose to build (decision P2) and set as doctrine, and nothing outside it. Nothing here stops the raise.
++
++Blocking: none.
++
++## Scope checks
++
++- Matches the issue: PASS. The spike's "done when" is an ADR that answers every question (ADR 030, answering the ten recorded decisions) plus stories filed for the next steps (#621 with #622 to #628, all open, all filed under the feature). The extra build (plan template, `manage-plan` skill and its check script, plan-context step in `project-orchestrator`, `read-issue` returning issueType/parent/subIssues) is the owner's recorded choice in `decisions.md` P2.
++- No scope creep: REVIEW (owner-directed, so noted, not flagged). Two edits go past the spike's literal question: the doctrine "the plan is the human's interface" in `docs/philosophy/idsd.md` and ADR 029 (Kickoff as the human interface, plus a placeholder for a handover drive). The owner asked for core doctrine to be set during this spike. The reviewer should confirm that is acceptable in this PR rather than a separate one.
++- Reasonable size: PASS. Roughly 440 lines of non-STM change across 14 files, in 5 separate feature/docs commits; the STM files are plain records. Readable in one sitting.
++- No stray artifacts: PASS, with one note. No debug prints, no commented-out blocks, no scratch files. The only `print` calls are the intended JSON output of `check_plan.py` and the adapter. `.garura/project/issues/619/context/resolved-rules.json` is untracked and is the self-review's own record; commit it with the review or leave it out, as the play decides.
++
++## Quality checks
++
++- Tests present: REVIEW (gap, not a stopper). The existing adapter test passes (`python3 core/components/plays/play-creator/references/test_platform_adapter.py` gives 18 passed, 0 failed), but it does not pin the new `read-issue` fields, so the change to the field list is untested. `check_plan.py` is new and has no test file. I exercised it by hand: valid-and-open plan exits 1, valid-and-done plan exits 0, a malformed plan exits 2 and lists every problem, a missing file exits 3. A small fixture test for the script and one for the `view-issue` argv would be the natural follow-up; not needed for the spike to land.
++- Evidence run, plan check on #606: `valid: true, done: false, status: active, now: 2`, 12 open items, no problems (exit 1, the normal state while work runs).
++- Evidence run, plan check on #619: `valid: true, done: true, status: done, open_items: []`, `serves_plan` points at #606's plan and was confirmed to exist (exit 0).
++- Adapter change consistent: PASS. The four `platform_adapter.py` copies (merge-change, propose-change, review-change, play-creator/references) have the same checksum, and `verbs.md` for GitHub and `adapter.md` list the same field set. The new fields work live: `gh issue view 619` returns Spike, parent 539 and 2 sub-issues (gh 2.102.0 here; the docs say 2.94.0 or newer). The GitLab gap is stated in its `verbs.md`.
++- Commits are clean: PASS with a note. All 11 are conventional-format, scoped, and reference #619. The `chore(stm)` commits are the play's own evidence commits. Only the first commit carries a Co-Authored-By line; the others have none. Style only.
++- No secrets: PASS. Scanned the added lines of the non-STM diff for key, token, password and private-key patterns: nothing found.
++- No merge conflicts: PASS. The branch is cut from current main; the diff is new files plus small edits.
++- Docs in step: PASS. The new template has its `_index.md` row; the agent's skill table and "when to use" rows list `manage-plan`; ADR 025 carries a status note pointing to ADR 030; the GitLab gap is documented.
++- ADR checks: PASS. ADR 030 has Status (Accepted), Context, Decision, Consequences, Alternatives, and follows the `NNN-*.md` numbering. ADR 025's status line is still a valid status with an amendment note.
++- Skill checks: PASS. `manage-plan/SKILL.md` has name, description, user-invocable and allowed-tools in its front matter, and Input and Output sections. It has a "Rules" section rather than one titled "Constraints" (nice-to-have only).
++- Deployed copies in step: REVIEW. `core/components/**` changed, so the target `.claude/` needs a redeploy through `install-garura` (deployed copies are gitignored and not part of this diff). Do it after merge, before using `manage-plan`.
++- Nothing obviously broken: PASS. No leftover TODO or FIXME in the added lines. Known and intended: ADR 030 describes plays (`plan-change`, `approve-change`) and a `show` mode that do not exist yet; they are filed as #622 and #628, so the ADR is a decision, not a claim that they are built. The #619 plan reads `done` while issue #619 is still open; that is correct until the owner closes the spike.
++
++## Verdict
++
++Ready to raise. Blocking count: 0. Items for the reviewer: the doctrine edits riding with the spike (scope), and the two missing tests (quality).
++
++</details>
++
++🤖 Generated with [Claude Code](https://claude.com/claude-code)
+diff --git a/.garura/project/issues/619/context/pr.json b/.garura/project/issues/619/context/pr.json
+new file mode 100644
+index 00000000..72b7bcee
+--- /dev/null
++++ b/.garura/project/issues/619/context/pr.json
+@@ -0,0 +1,6 @@
++{
++  "number": 629,
++  "url": "https://github.com/intent-driven-ai/garura/pull/629",
++  "state": "OPEN",
++  "base": "main"
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/619/context/resolved-rules.json b/.garura/project/issues/619/context/resolved-rules.json
+new file mode 100644
+index 00000000..70b8f431
+--- /dev/null
++++ b/.garura/project/issues/619/context/resolved-rules.json
+@@ -0,0 +1,6 @@
++{
++  "resolved": true,
++  "path": "/Users/kapilahuja/.garura/core/memory/standards/rules/self-review.md",
++  "source": "/Users/kapilahuja/.garura/core/memory/standards/rules",
++  "is_override": false
++}
+diff --git a/.garura/project/issues/619/context/self-review.md b/.garura/project/issues/619/context/self-review.md
+new file mode 100644
+index 00000000..3f2de61d
+--- /dev/null
++++ b/.garura/project/issues/619/context/self-review.md
+@@ -0,0 +1,34 @@
++# Self-review — #619 Plan mode (feature/619-plan-mode vs main)
++
++Rules: `/Users/kapilahuja/.garura/core/memory/standards/rules/self-review.md` (base, not an override; see `resolved-rules.json`).
++Diff: 11 commits, 25 files, +912 / -17. About 470 of those lines are the STM plan and evidence files; the rest is the ADR, the template, the skill and its script, the agent edit, the adapter change and two doctrine edits.
++
++Summary: the change does what the spike's owner chose to build (decision P2) and set as doctrine, and nothing outside it. Nothing here stops the raise.
++
++Blocking: none.
++
++## Scope checks
++
++- Matches the issue: PASS. The spike's "done when" is an ADR that answers every question (ADR 030, answering the ten recorded decisions) plus stories filed for the next steps (#621 with #622 to #628, all open, all filed under the feature). The extra build (plan template, `manage-plan` skill and its check script, plan-context step in `project-orchestrator`, `read-issue` returning issueType/parent/subIssues) is the owner's recorded choice in `decisions.md` P2.
++- No scope creep: REVIEW (owner-directed, so noted, not flagged). Two edits go past the spike's literal question: the doctrine "the plan is the human's interface" in `docs/philosophy/idsd.md` and ADR 029 (Kickoff as the human interface, plus a placeholder for a handover drive). The owner asked for core doctrine to be set during this spike. The reviewer should confirm that is acceptable in this PR rather than a separate one.
++- Reasonable size: PASS. Roughly 440 lines of non-STM change across 14 files, in 5 separate feature/docs commits; the STM files are plain records. Readable in one sitting.
++- No stray artifacts: PASS, with one note. No debug prints, no commented-out blocks, no scratch files. The only `print` calls are the intended JSON output of `check_plan.py` and the adapter. `.garura/project/issues/619/context/resolved-rules.json` is untracked and is the self-review's own record; commit it with the review or leave it out, as the play decides.
++
++## Quality checks
++
++- Tests present: REVIEW (gap, not a stopper). The existing adapter test passes (`python3 core/components/plays/play-creator/references/test_platform_adapter.py` gives 18 passed, 0 failed), but it does not pin the new `read-issue` fields, so the change to the field list is untested. `check_plan.py` is new and has no test file. I exercised it by hand: valid-and-open plan exits 1, valid-and-done plan exits 0, a malformed plan exits 2 and lists every problem, a missing file exits 3. A small fixture test for the script and one for the `view-issue` argv would be the natural follow-up; not needed for the spike to land.
++- Evidence run, plan check on #606: `valid: true, done: false, status: active, now: 2`, 12 open items, no problems (exit 1, the normal state while work runs).
++- Evidence run, plan check on #619: `valid: true, done: true, status: done, open_items: []`, `serves_plan` points at #606's plan and was confirmed to exist (exit 0).
++- Adapter change consistent: PASS. The four `platform_adapter.py` copies (merge-change, propose-change, review-change, play-creator/references) have the same checksum, and `verbs.md` for GitHub and `adapter.md` list the same field set. The new fields work live: `gh issue view 619` returns Spike, parent 539 and 2 sub-issues (gh 2.102.0 here; the docs say 2.94.0 or newer). The GitLab gap is stated in its `verbs.md`.
++- Commits are clean: PASS with a note. All 11 are conventional-format, scoped, and reference #619. The `chore(stm)` commits are the play's own evidence commits. Only the first commit carries a Co-Authored-By line; the others have none. Style only.
++- No secrets: PASS. Scanned the added lines of the non-STM diff for key, token, password and private-key patterns: nothing found.
++- No merge conflicts: PASS. The branch is cut from current main; the diff is new files plus small edits.
++- Docs in step: PASS. The new template has its `_index.md` row; the agent's skill table and "when to use" rows list `manage-plan`; ADR 025 carries a status note pointing to ADR 030; the GitLab gap is documented.
++- ADR checks: PASS. ADR 030 has Status (Accepted), Context, Decision, Consequences, Alternatives, and follows the `NNN-*.md` numbering. ADR 025's status line is still a valid status with an amendment note.
++- Skill checks: PASS. `manage-plan/SKILL.md` has name, description, user-invocable and allowed-tools in its front matter, and Input and Output sections. It has a "Rules" section rather than one titled "Constraints" (nice-to-have only).
++- Deployed copies in step: REVIEW. `core/components/**` changed, so the target `.claude/` needs a redeploy through `install-garura` (deployed copies are gitignored and not part of this diff). Do it after merge, before using `manage-plan`.
++- Nothing obviously broken: PASS. No leftover TODO or FIXME in the added lines. Known and intended: ADR 030 describes plays (`plan-change`, `approve-change`) and a `show` mode that do not exist yet; they are filed as #622 and #628, so the ADR is a decision, not a claim that they are built. The #619 plan reads `done` while issue #619 is still open; that is correct until the owner closes the spike.
++
++## Verdict
++
++Ready to raise. Blocking count: 0. Items for the reviewer: the doctrine edits riding with the spike (scope), and the two missing tests (quality).
+diff --git a/.garura/project/issues/619/context/work-description.txt b/.garura/project/issues/619/context/work-description.txt
+new file mode 100644
+index 00000000..2ae8b221
+--- /dev/null
++++ b/.garura/project/issues/619/context/work-description.txt
+@@ -0,0 +1,42 @@
++Spike #619: Decide plan mode — every drive and play writes a plan to disk, keeps it current, and is done only when it is done
++
++> **Spike.** A question to answer. The result is a decision, not code.
++> **Serves** business intent #539. Related: #542 (ADLC states on work items, plays gated by them), ADR 029 (drives).
++
++## The question
++
++Garura has no planning step. A play or a drive starts working from the issue directly, and nothing on disk says what it set out to do. Without that, the model drifts, and there is no record to check the work against.
++
++Kapil, 2026-10-08: every drive and every play gets its own **plan mode** — like Claude Code's plan mode, but Garura's own, and written to disk:
++
++- It reads the issue and writes a **plan — only a plan, not a design** — into STM (the issue's work folder), so anyone can go back and check it.
++- The plan is **kept up to date** while the work runs.
++- **The issue is done only when its plan is done.** The plan is how an agent knows it is finished.
++- The plan is the **bridge from business intent to agent intents** (the BInt → AInt mapping).
++
++## What to decide
++
++- **What a plan holds** — and what it must not hold, so it stays a plan and never becomes a design.
++- **Its format and place on disk** — where in STM it lives (every issue's STM already has an empty `specs/` folder), and in what shape.
++- **When it is updated** — by whom, at which points, and what happens when the work and the plan disagree.
++- **How "done" is checked** — likely one more clause in every play's done check (`stop-condition.yaml`, ADR 025): the plan exists and every item in it is done.
++- **How it maps BInt → AInt** — how each plan item traces to the business intent it serves.
++- **Drives vs plays** — a drive's plan covers the plays it runs; how the two plans relate.
++- **Where it sits next to what exists** — each play's fixed task list and its done check; and #542's ADLC states and play gates.
++
++## How it gets built (agreed 2026-10-08)
++
++The same converge-and-lint pattern as the Standard Play Close (`standards/rules/play-close.md`), in this order:
++
++1. Design the plan (this spike).
++2. One rule file, for example `standards/rules/play-plan.md`.
++3. `/play-creator` and `/play-editor` emit a plan step and the done-check clause; `lint-components` fails any play without it.
++4. Rebuild the plays.
++
++Design comes first. Changing the compiler before the plan is agreed would rebuild every play twice.
++
++## Done when
++
++- [ ] Each question above has an answer, written into an ADR.
++- [ ] Stories are filed for steps 2–4, and for drives.
++
+diff --git a/.garura/project/issues/619/specs/decisions.md b/.garura/project/issues/619/specs/decisions.md
+new file mode 100644
+index 00000000..4e125275
+--- /dev/null
++++ b/.garura/project/issues/619/specs/decisions.md
+@@ -0,0 +1,31 @@
++# Spike #619 — Plan mode: decisions
++
++Working notes. These move into an ADR when the spike closes.
++
++## Decided
++
++**P1 — The plan format is locked as the starting point.** The second cut of `.garura/project/issues/606/specs/plan.md` is the template: front matter (`plan_for`, `kind`, `serves`, `status`, `updated`, `now`); what we are trying to reach; when the plan is done; where we are now; the items in order, each with What, Why here, Done when and Needs; checkpoints; a log. Saved as `core/components/memory/standards/templates/plan.md`. Kapil, 2026-10-08.
++
++Why the first cut was rejected: it gave issue numbers with one-line labels that did not explain the work. A plan item must say what the work is, why it sits there, and when it is done.
++
++**P2 — A skill writes the plan; an agent gathers its context.** A new skill, `manage-plan`, creates, updates and checks plans; its check is a script, so a play's done check can rely on it. The `project-orchestrator` agent gathers the context first (the issue, its parent, its child issues, any plan on disk), writes it to a file, and calls the skill — Garura's split: agents gather context, skills do the work (`CLAUDE.md`, rule 4). Named `manage-plan` to stay apart from `author-build-plan` and `draft-implementation-plan`, which make design-level plans. Built on this spike's branch, by Kapil's choice. Kapil, 2026-10-08.
++
++**P3 (proposed by Kapil, 2026-10-08) — A new opening trinity: `start-change` → `plan-change` → `approve-change`.** The change opens, then it is planned, then the plan is approved — before any work. Today the pipeline rule (`standards/rules/pipeline-position.md`, D2) opens a play with `start-change` alone and closes it with commit → propose → review → merge. Under P3 the opening becomes three plays. `plan-change` runs the plan step (the agent gathers context, `manage-plan` writes the plan). `approve-change` is the human beat on the plan — it fits a drive asking all its questions up front (ADR 029). Kapil added: "with a loop on top of this" — read as: `plan-change` and `approve-change` repeat until the plan is approved (a rejected plan goes back to `plan-change` with the feedback). Reading not yet confirmed. Kapil confirmed the parts: `plan-change` and `approve-change` are plays, in the `*-change` family; `manage-plan` is the skill `plan-change` uses. The name `approve-change` stands. 
++
++**P4 — The opening trinity fires only when it is needed: it is a prerequisite.** A play checks first: is there an open change, a plan, and an approved plan? Whatever already exists is not done again. Inside a drive, the drive ran the trinity once at its start, so its plays skip it and add their items to the drive's one plan. Run by hand with no change open, a play runs all three. Kapil, 2026-10-08 (option 1).
++
++**P5 — A plan lives in STM:** `{stm_base}{issue}/specs/plan.md`, the issue's work folder. Kapil, 2026-10-08.
++
++**P6 — "Done" is checked by the plan check script.** Each play's done check (`stop-condition.yaml`) gains one clause: the plan check script (`manage-plan/scripts/check_plan.py`) reports `done: true`. The issue is done only when its plan is. Kapil, 2026-10-08.
++
++**P7 — Who updates a plan, and when.** `plan-change` is a play, and it is the start of a change: `start-change` → `plan-change` → `approve-change` (P3 stands). In the middle of a drive, plans are kept by the `manage-plan` skill directly — no play runs. The play or drive doing the work updates its plan. Small updates go through without a human: marking an item done, moving "now". Big updates: adding, dropping or reordering items; a play finishing inside a drive; a dependent or linked issue being completed. Work found outside the issue's scope never enters the plan — it becomes a new issue. Kapil, 2026-10-08 (corrected the same day: an earlier note here wrongly dropped `plan-change`).
++
++**P8 — Big updates inside a drive are approved at the end.** Mid-drive, the skill writes each big update into the plan's log as it happens; nothing stops. They are approved together at the drive's end review (ADR 029). Kapil, 2026-10-08.
++
++**P9 — Each plan names the plan it serves.** Two front-matter fields: `serves_plan` (the issue number of the parent plan) and `serves_item` (the item in it). The check script confirms the parent plan exists and names this issue. Walking up gives the chain from any agent work to its business intent; a business intent's plan has neither field. Kapil, 2026-10-08.
++
++**P10 — Plays drop their fixed task lists; the plan replaces them.** 26 compiled plays carry a "Task DAG" section today. Before removal, the jobs it does must move to the plan: (1) the list of evidence that must exist at close (ADR 025: "the DAG survives as the contract of what evidence must exist at close"); (2) resume after a pause — skip finished steps, restart the one in progress (each play's Pause and Resume section); (3) the delivery report's Pipeline Steps table, built from the task DAG (`standards/rules/play-close.md`); (4) the pipeline rule adding the start step to the DAG (`standards/rules/pipeline-position.md`). The plan takes over all four: each item's "Done when" names its evidence; "now" and the Done list are the resume point; the report's table is built from the plan's items; the opening trinity (P3/P4) replaces the injected start step. Only then are the task lists removed, through the wiring stories (plan item 4); ADR 025 is amended. Kapil, 2026-10-08 (option 1).
++
++## Open
++
++- None. All of item 3's questions are answered (P3–P10). #542 owns work-item states; plan mode does not define them.
+diff --git a/.garura/project/issues/619/specs/plan.md b/.garura/project/issues/619/specs/plan.md
+new file mode 100644
+index 00000000..46761f7c
+--- /dev/null
++++ b/.garura/project/issues/619/specs/plan.md
+@@ -0,0 +1,52 @@
++---
++plan_for: 619
++kind: spike
++serves: "#619 — every drive and play writes a plan to disk, keeps it current, and is done only when it is done"
++status: done
++updated: 2026-10-08
++now: -
++serves_plan: 606
++serves_item: 1
++---
++
++# Plan — #619: plan mode
++
++This is a plan, not a design. It says what gets done, in what order, and why that order. How each item is built is decided in the item itself.
++
++## What we are trying to reach
++
++Garura plays and drives start work straight from the issue. Nothing on disk says what they set out to do, so work skips ahead, gets lost between sessions, and nobody can check it afterwards. This happened in the session that raised #619.
++
++Plan mode fixes that. Before it works, every drive and play writes a plan — what, in what order, and why — into the issue's work folder (STM). It keeps the plan current, and it is done only when the plan is done. The plan is also the bridge from a business intent to the agent work that serves it.
++
++Kapil chose (2026-10-08) to build the first working pieces on this spike's branch, not to stop at a decision.
++
++## When this plan is done
++
++- The plan format is locked and saved as a template.
++- A skill writes, updates and checks plans, and an agent gathers the context it needs. A play can call them.
++- The skill is tried on real plans (#606 and this one).
++- The open questions are answered in an ADR, and the stories to wire plan mode into every play and drive are filed.
++
++## Where we are now
++
++Done. Plan mode is decided (ADR 030), its first pieces are built, and the work to wire it in is filed as Feature #621. #606's plan moves to its item 2.
++
++## The plan, in order
++
++### Done
++
++- **The plan format, locked as a template** — P1. Saved as `core/components/memory/standards/templates/plan.md`, from the #606 plan.
++- **The plan skill and its context step** — P2. `manage-plan` creates, updates and checks plans; its check script decides "done". `project-orchestrator` gathers the issue, its parent and its children, then calls it. The GitHub read now returns type, parent and sub-issues (needs gh 2.94.0+; gh upgraded to 2.102.0).
++- **The open questions, answered in ADR 030** — P3–P10: the opening trinity `start-change` → `plan-change` → `approve-change`, firing only when needed; plans live in STM; the check script decides done; small and big updates, with a drive's big updates approved at its end; each plan names the plan it serves; plays drop their task lists once the plan takes over their four jobs.
++- **The wiring stories, filed** — Feature #621 under #539, with Stories #622–#628 (from ADR 030).
++- **Tried on real plans** — the check passes the #606 plan and this one, and catches a wrong "now", an item with no What line, and a plan marked done too early.
++
++## Log
++
++- 2026-10-08 — Written with the locked template. Kapil chose to build the skill on this branch (P2).
++- 2026-10-08 — Items 1 and 2 done: skill, context step and check built and tried on real plans. Now on item 3. P3 (the opening trinity) added to the questions.
++- 2026-10-08 — Item 3 in progress: P3–P6 decided (opening trinity, fires only when needed, plan lives in STM, done checked by the script).
++- 2026-10-08 — Item 3 done: P10 locked (plan replaces task lists after taking over their four jobs); all answers written as ADR 030. Now on item 4.
++- 2026-10-08 — Added a 7th story to item 4: a `show` mode for the plan skill, after Kapil found the plan readout confusing.
++- 2026-10-08 — Item 4 done: Feature #621 and Stories #622–#628 filed. Plan done.
+diff --git a/core/components/agents/project-orchestrator.md b/core/components/agents/project-orchestrator.md
+index 51ad7080..f767b5f8 100644
+--- a/core/components/agents/project-orchestrator.md
++++ b/core/components/agents/project-orchestrator.md
+@@ -18,7 +18,7 @@ tools:
+ 
+ You are the project orchestrator — the autonomous decision-maker for all project management operations.
+ 
+-**Domain:** Project management (issues, tracking, planning)
++**Domain:** Project management (issues, tracking, planning — including each issue's plan)
+ **Role:** Interpret intent, select skills, execute operations, return results
+ 
+ ## Core Principle
+@@ -141,6 +141,7 @@ Write structured failure to the `stm.output.failure` path per `structured-failur
+ |-------|--------|---------|
+ | `manage-issue` | issues | Read, create, close, resolve, or list GitHub issues with optional sub-issue attachment |
+ | `resolve-issues` | issue-mapping | Map change groups to existing open issues with confidence scoring |
++| `manage-plan` | planning | Create, update, or check the plan for one issue (`{stm_base}{issue}/specs/plan.md`) |
+ 
+ ### When to Use Each Skill
+ 
+@@ -152,6 +153,9 @@ Write structured failure to the `stm.output.failure` path per `structured-failur
+ | "close issue", "complete issue", "finish issue", "done with issue" | `manage-issue` (action: close) | Closing completed/unneeded issues |
+ | "list issues", "browse candidates", "discover open enhancements", "find enhancement candidates" | `manage-issue` (action: list) | Filtered candidate discovery for issue selection |
+ | "map changes to issues", "resolve issue mapping", "which issues do these changes belong to" | `resolve-issues` | Mapping change groups to open issues with confidence scoring |
++| "plan this issue", "write the plan", "create plan" | build plan context, then `manage-plan` (action: create) | A plan is written before work starts |
++| "update the plan", "item done", "reorder the plan" | build plan context, then `manage-plan` (action: update) | The plan is kept current while work runs |
++| "is the plan done", "check the plan" | `manage-plan` (action: check) | The script decides done, not judgment |
+ 
+ ## Intent Recognition
+ 
+@@ -187,6 +191,21 @@ Constraints are extracted during recognition because they influence HOW you exec
+ "Which issues do these changes belong to"   -> resolve-issues (input from stm.input paths)
+ ```
+ 
++## Plan Context
++
++Before `manage-plan` creates or updates a plan, you gather its context and write it to one file. This is your job, not the skill's: you gather, the skill writes.
++
++1. **The issue.** `manage-issue` (action: read) on the issue. The read returns `issueType`, `parent`, and `subIssues` (GitHub; needs gh 2.94.0+).
++2. **Its parent.** `manage-issue` (action: read) on `parent.number`, if set — number, type, title.
++3. **Its children.** `manage-issue` (action: read) on each entry in `subIssues` — number, type, title, state, and that child's own `subIssues`. Children are the only linked issues: a parent/child link in the tracker counts, a mention in the body never does.
++4. **Existing plans.** `test -f {stm_base}{issue}/specs/plan.md` — record the path, or null. Do the same for the parent: `{stm_base}{parent}/specs/plan.md` → `parent_plan`.
++5. **Decisions.** Paths to decision records the issue or its children point at (ADRs under `docs/adr/`, spike notes under `{stm_base}{n}/specs/`), checked with `test -f`.
++6. **Notes.** Anything the caller passed about order or priority, quoted, with its date.
++
++Write the result to `stm.output.context` (e.g. `{stm_base}{issue}/context/plan-context.yaml`) with the fields `issue`, `parent`, `children`, `linked`, `existing_plan`, `parent_plan`, `decisions`, `notes`. Then invoke `manage-plan` with `context_path` set to that file.
++
++On GitLab there is no type, parent, or sub-issue data: write `parent: null`, `children: []`, and say so in `notes`.
++
+ ## Context Loading
+ 
+ ### Load Config
+@@ -290,7 +309,7 @@ The agent does NOT return the artifact content to the play. It writes artifacts
+ 
+ If intent is unclear:
+ - **Don't guess** — Return clarification request via structured failure
+-- **Don't chain** — One skill per invocation unless explicitly asked
++- **Don't chain** — One skill per invocation unless explicitly asked (plan intents are asked to chain: `manage-issue` reads to build the plan context, then one `manage-plan` call — see Plan Context)
+ - **Don't improvise** — Stick to available skills
+ 
+ ## Boundaries
+diff --git a/core/components/memory/standards/templates/_index.md b/core/components/memory/standards/templates/_index.md
+index a3eb9f47..e07e7a33 100644
+--- a/core/components/memory/standards/templates/_index.md
++++ b/core/components/memory/standards/templates/_index.md
+@@ -17,6 +17,7 @@ Agents and skills query this category when they need to know: **"What does the o
+ | `knowledge-file.md` | Canonical knowledge-file template. Tier 1 (all files) and Tier 2 (core-scoped) metadata requirements, staleness rules, and index registration conventions. | `knowledge-extractor`, `capture-learning` |
+ | `issue-comment-rca-approved.md` | Canonical GitHub issue comment posted when a user approves an RCA + fix plan at the fix-it approval checkpoint; mirrors the decision from STM to the issue thread. | `fix-it`, future plays producing `rca.yaml` + `design.yaml` |
+ | `commit-message.md` | Canonical commit message shape — `<type>(<scope>): <subject>` format, field rules, and related pointer to `rules/commits.md` quality rules. | `create-commit`, `analyze-changes`, `commit-code`, `repo-orchestrator` |
++| `plan.md` | Canonical plan format (#619): what gets done, in what order, and why — never how. Written to `{stm_base}{issue}/specs/plan.md` before work starts, kept current, and done only when every item is done. | every drive and play (plan mode, being designed in #619) |
+ | `pr-body.md` | Canonical PR body shape — Summary, Quality Checklist (Required/Optional), Verification Evidence table, Eval Results (conditional), generated-by footer. Includes Eval Results instantiation rules. | `submit-pr`, `analyze-pr` |
+ | `pr-review-comment.md` | Canonical PR review comment shape — `<!-- review-pr:marker -->` sentinel (required), Confidence line, P1–P4 sections with counts, Reviewers section. Supports in-place update detection via marker. | `review-pr` |
+ | `delivery-report.md` | Canonical human-readable delivery report — Run Summary (play, issue, status, timestamps), Pipeline Steps table, Artifacts Produced table, Next Steps (optional). Per-play field notes for ship, fix-it, implement. | `ship`, `fix-it`, `implement`, every play that closes with a delivery step |
+diff --git a/core/components/memory/standards/templates/plan.md b/core/components/memory/standards/templates/plan.md
+new file mode 100644
+index 00000000..4c5849ab
+--- /dev/null
++++ b/core/components/memory/standards/templates/plan.md
+@@ -0,0 +1,94 @@
++# Plan Format
++
++Canonical format for a plan. Every drive and every play writes one before it works, keeps it up to date while it works, and is done only when its plan is done (#619). A plan says **what** gets done, **in what order**, and **why that order**. It never says how — that is design, and it lives in each item's own issue.
++
++Starting point: locked by Kapil on 2026-10-08 from the first hand-written plan, `.garura/project/issues/606/specs/plan.md`. Where plans live, when they are updated, and how "done" is checked are still being decided in #619; this file will be updated as those land.
++
++## File path convention
++
++```
++{stm_base}{issue}/specs/plan.md
++```
++
++## Format
++
++````markdown
++---
++plan_for: {issue number}
++kind: {business-intent | feature | story | bug | spike | chore | drive | play}
++serves: "#{issue} — {the outcome this plan serves, in one line}"
++status: {active | done | dropped}
++updated: {YYYY-MM-DD}
++now: {item number being worked}
++serves_plan: {issue number of the plan this one serves — omit for a business intent}
++serves_item: {the item in that plan this work is — omit for a business intent}
++---
++
++# Plan — #{issue}: {short name of the outcome}
++
++This is a plan, not a design. It says what gets done, in what order, and why
++that order. How each item is built is decided in its own issue.
++
++## What we are trying to reach
++
++{Plain words. What is true today, what should be true instead, and why it
++matters. Name the key ideas a newcomer needs to read the items below.}
++
++## When this plan is done
++
++- {Observable outcome 1}
++- {Observable outcome 2}
++- {For a business intent: say that it is met by its outcome, not by its
++  children closing.}
++
++## Where we are now
++
++{What is already decided or done, and what the next step is. A reader coming
++back after a week should know where to pick up from this paragraph alone.}
++
++## The plan, in order
++
++### Done
++
++- **{Decided | Built | Shipped}: {item}** — #{issue}. {One line on what it settled or delivered — and what is still not done.}
++
++### 1. {Item name, saying what changes} — now
++
++**Issue:** #{issue}.
++**What:** {the work, explained — not a label}.
++**Why here:** {why it sits at this point in the order}.
++**Done when:** {how we know this item is finished}.
++**Needs:** {items that must finish first, or "nothing"}.
++
++### 2. {Next item}
++
++{Same fields.}
++
++### Alongside items {n} to {m}: {item}
++
++{Work that runs in parallel, with why it is not a step of its own.}
++
++### Checkpoint: {what lands here}
++
++{Nothing below starts before this point. Say what must be true to pass it.}
++
++### {n}. {Later item}
++
++**Issue:** #{issue}.
++**What:** {short — later items may carry less detail until they come close}.
++
++## Log
++
++- {YYYY-MM-DD} — {What changed in the plan, and why.}
++````
++
++## Rules
++
++1. **A plan, never a design.** Each item says what and why-here. How it is built goes in its issue.
++2. **Every item explains itself.** A line that is only an issue number and a label is not a plan item — say what the work is.
++3. **Order is explicit.** Items are numbered in the order they run. "Needs" names what must finish first. A checkpoint stops anything below it from starting early.
++4. **"Now" is always set.** The front matter's `now` and the "— now" heading point at the same item.
++5. **Kept current.** When work finishes, starts, or the order changes, the plan is updated and the change is logged. A plan nobody updates is worse than none.
++6. **Every plan but a business intent's names what it serves.** `serves_plan` and `serves_item` point at the parent plan and its item, so any piece of work can be traced up to the business intent it serves.
++7. **Say what kind of done.** A finished item says whether it was only decided (an ADR), built, or shipped. "Done" alone reads as finished and dusted.
++8. **Done means the plan is done.** The issue is done only when every item is done or dropped with a reason in the log.
+diff --git a/core/components/memory/tools/github/adapter.md b/core/components/memory/tools/github/adapter.md
+index f997090d..0da5ef13 100644
+--- a/core/components/memory/tools/github/adapter.md
++++ b/core/components/memory/tools/github/adapter.md
+@@ -52,7 +52,7 @@ Backed by: `gh pr merge {pr_number}`
+ 
+ ### view-issue
+ 
+-Fetches issue details as JSON. Returns `number`, `title`, `labels`, `state`, `body`, `url`, and `closedAt`. The `closedAt` field (camelCase) holds the close timestamp — use this for archive bucketing.
++Fetches issue details as JSON. Returns `number`, `title`, `labels`, `state`, `body`, `url`, `closedAt`, `issueType`, `parent`, `subIssues`, and `subIssuesSummary`. The `closedAt` field (camelCase) holds the close timestamp — use this for archive bucketing. `issueType`, `parent` and `subIssues` give the issue's place in the work tree (its type, its parent, its children); they need **gh 2.94.0 or newer**.
+ 
+ Backed by: `gh issue view {issue_number} --json ...`
+ 
+diff --git a/core/components/plays/merge-change/scripts/platform_adapter.py b/core/components/plays/merge-change/scripts/platform_adapter.py
+index 7503f11d..bb31aa73 100644
+--- a/core/components/plays/merge-change/scripts/platform_adapter.py
++++ b/core/components/plays/merge-change/scripts/platform_adapter.py
+@@ -116,7 +116,7 @@ def _gh(verb, args, repo):
+         return [["gh", "pr", "merge", str(a["pr_number"]), "--merge"]]
+     if verb == "view-issue":
+         return [["gh", "issue", "view", str(a["issue_number"]), "--json",
+-                 "number,title,labels,state,body,url,closedAt"]]
++                 "number,title,labels,state,body,url,closedAt,issueType,parent,subIssues,subIssuesSummary"]]
+     if verb == "create-issue":
+         argv = ["gh", "issue", "create", "--title", a["title"], "--body", a["body"]]
+         _opt(argv, "--label", a.get("labels"))
+diff --git a/core/components/plays/play-creator/references/platform_adapter.py b/core/components/plays/play-creator/references/platform_adapter.py
+index 7503f11d..bb31aa73 100644
+--- a/core/components/plays/play-creator/references/platform_adapter.py
++++ b/core/components/plays/play-creator/references/platform_adapter.py
+@@ -116,7 +116,7 @@ def _gh(verb, args, repo):
+         return [["gh", "pr", "merge", str(a["pr_number"]), "--merge"]]
+     if verb == "view-issue":
+         return [["gh", "issue", "view", str(a["issue_number"]), "--json",
+-                 "number,title,labels,state,body,url,closedAt"]]
++                 "number,title,labels,state,body,url,closedAt,issueType,parent,subIssues,subIssuesSummary"]]
+     if verb == "create-issue":
+         argv = ["gh", "issue", "create", "--title", a["title"], "--body", a["body"]]
+         _opt(argv, "--label", a.get("labels"))
+diff --git a/core/components/plays/propose-change/scripts/platform_adapter.py b/core/components/plays/propose-change/scripts/platform_adapter.py
+index 7503f11d..bb31aa73 100644
+--- a/core/components/plays/propose-change/scripts/platform_adapter.py
++++ b/core/components/plays/propose-change/scripts/platform_adapter.py
+@@ -116,7 +116,7 @@ def _gh(verb, args, repo):
+         return [["gh", "pr", "merge", str(a["pr_number"]), "--merge"]]
+     if verb == "view-issue":
+         return [["gh", "issue", "view", str(a["issue_number"]), "--json",
+-                 "number,title,labels,state,body,url,closedAt"]]
++                 "number,title,labels,state,body,url,closedAt,issueType,parent,subIssues,subIssuesSummary"]]
+     if verb == "create-issue":
+         argv = ["gh", "issue", "create", "--title", a["title"], "--body", a["body"]]
+         _opt(argv, "--label", a.get("labels"))
+diff --git a/core/components/plays/review-change/scripts/platform_adapter.py b/core/components/plays/review-change/scripts/platform_adapter.py
+index 7503f11d..bb31aa73 100644
+--- a/core/components/plays/review-change/scripts/platform_adapter.py
++++ b/core/components/plays/review-change/scripts/platform_adapter.py
+@@ -116,7 +116,7 @@ def _gh(verb, args, repo):
+         return [["gh", "pr", "merge", str(a["pr_number"]), "--merge"]]
+     if verb == "view-issue":
+         return [["gh", "issue", "view", str(a["issue_number"]), "--json",
+-                 "number,title,labels,state,body,url,closedAt"]]
++                 "number,title,labels,state,body,url,closedAt,issueType,parent,subIssues,subIssuesSummary"]]
+     if verb == "create-issue":
+         argv = ["gh", "issue", "create", "--title", a["title"], "--body", a["body"]]
+         _opt(argv, "--label", a.get("labels"))
+diff --git a/core/components/skills/manage-plan/SKILL.md b/core/components/skills/manage-plan/SKILL.md
+new file mode 100644
+index 00000000..b88bd2a8
+--- /dev/null
++++ b/core/components/skills/manage-plan/SKILL.md
+@@ -0,0 +1,97 @@
++---
++name: manage-plan
++description: Create, update, or check the plan for one issue — what gets done, in what order, and why, never how — written to the issue's STM as specs/plan.md in the canonical plan format. Called by an agent after it has gathered the plan context (the issue, its parent, its child issues, any plan already on disk). Use before work starts (create), whenever work finishes, starts, or the order changes (update), and before an issue is called done (check). The check runs a script, so a play's done check can rely on it.
++user-invocable: false
++model: sonnet
++allowed-tools: Bash, Read, Write, Edit
++---
++
++# manage-plan
++
++Plan mode for Garura (#619). Every drive and every play works from a plan on disk: it writes the plan before it works, keeps it current while it works, and is done only when the plan is done. A plan says **what** gets done, **in what order**, and **why that order**. It never says **how** — that is design, and it belongs in each item's own issue.
++
++You write and update the plan. You do NOT gather context (the calling agent did that) and you do NOT decide what the work is (the issue and its context say that).
++
++## Input
++
++Receive from the agent:
++
++| Field | Required | Meaning |
++|-------|----------|---------|
++| `action` | yes | `create` · `update` · `check` |
++| `issue` | yes | the issue number the plan is for |
++| `plan_path` | yes | `{stm_base}{issue}/specs/plan.md` |
++| `context_path` | `create`, `update` | the plan context file the agent wrote (see below) |
++| `change` | `update` | what happened, in plain words — e.g. "item 2 is finished", "Kapil moved #619 to the front", "item 4 is dropped: covered by #612" |
++| `report_path` | `check` (optional) | where to write the check report |
++
++The **plan context file** (written by the agent, YAML or JSON) holds:
++
++- `issue` — number, type, title, body
++- `parent` — number, type, title (or null)
++- `children` — each child issue's number, type, title, state, and its own children
++- `linked` — issues the agent found linked by the tracker's parent/child link only, never body mentions
++- `existing_plan` — the path of a plan already on disk, or null
++- `parent_plan` — the path of the parent issue's plan, or null
++- `decisions` — paths to decision records the issue points at (ADRs, spike notes), if any
++- `notes` — anything the user said about order or priority, quoted, with the date
++
++## Process
++
++The format and its rules live in one place: `standards/templates/plan.md` (resolve it from LTM). Read it first, every time. Do not copy its rules into the plan or into this skill.
++
++### Action: `create`
++
++1. If `existing_plan` is set, stop and switch to `update` — a plan is never written twice.
++2. Read the context file and every decision record it lists.
++3. Write `plan_path` in the canonical format:
++   - **What we are trying to reach** — what is true today, what should be true instead, and why, in plain words.
++   - **When this plan is done** — observable outcomes. For a business intent, say that it is met by its outcome, not by its children closing.
++   - **Where we are now** — what is already done or decided, and the next step.
++   - **The plan, in order** — finished children under `### Done`; open children as numbered items. Each item carries **Issue**, **What**, **Why here**, **Done when**, **Needs**. Order follows the context's dependencies and the user's quoted notes; where neither settles it, put decisions before the builds that depend on them.
++   - Mark exactly one item `— now`, and set the same number in the front matter.
++   - Unless the issue is a business intent, set `serves_plan` to the parent issue's number and `serves_item` to this issue's item in the parent's plan (the context's `parent_plan` says where that plan is). If the parent has no plan yet, say so in the log and leave both out.
++   - **Log** — one dated line: the plan was created, and from what.
++4. Run the check (below). Fix anything it reports before returning.
++
++### Action: `update`
++
++1. Read the plan and the `change`.
++2. Apply only that change:
++   - a finished item moves to `### Done` as one line saying what it settled or delivered;
++   - a dropped item is removed, and the log says why;
++   - a reorder moves items and fixes every **Needs** that pointed at them;
++   - move `— now` and the front matter `now` to the next item that can start.
++3. Set `updated` to today. Add one dated log line saying what changed and why.
++4. When no numbered item is left, set `status: done`.
++5. Run the check. Fix anything it reports before returning.
++
++### Action: `check`
++
++Run the bundled script. It is deterministic: no git, no network, no judgment.
++
++```bash
++python3 scripts/check_plan.py --plan <plan_path> [--out <report_path>]
++```
++
++Exit `0` — valid and done. Exit `1` — valid, not done (the normal state while work runs). Exit `2` — not valid: the report lists every problem. Exit `3` — the file cannot be read.
++
++## Output
++
++- `create` / `update` — the plan at `plan_path`, and the check report.
++- `check` — the report:
++
++```json
++{ "valid": true, "done": false, "status": "active", "now": "2",
++  "open_items": [2, 3, 4], "problems": [], "plan": "<plan_path>" }
++```
++
++Return the check report to the agent unchanged. Never report a plan as done unless the script said `done: true`.
++
++## Rules
++
++1. **A plan, never a design.** If an item starts saying how, cut that part and leave it to the item's issue.
++2. **Every item explains itself.** An issue number with a label is not an item.
++3. **Change only what the `change` says.** An update is not a rewrite.
++4. **One plan per issue.** Create refuses when a plan exists.
++5. **The script decides done.** Not you.
+diff --git a/core/components/skills/manage-plan/scripts/check_plan.py b/core/components/skills/manage-plan/scripts/check_plan.py
+new file mode 100644
+index 00000000..ec27430e
+--- /dev/null
++++ b/core/components/skills/manage-plan/scripts/check_plan.py
+@@ -0,0 +1,186 @@
++#!/usr/bin/env python3
++"""check_plan.py — deterministic check of a plan file (#619).
++
++Reads one plan written in the canonical plan format
++(memory/standards/templates/plan.md) and reports two things:
++
++  valid  — the plan follows the format: front matter fields, the required
++           sections, a "now" item that exists and is marked, and every open
++           item explains itself (a What line).
++  linked — a plan that names `serves_plan` / `serves_item` points at a parent
++           plan that exists and mentions this issue (#619 P9). A business
++           intent's plan names no parent.
++  done   — the plan is finished: status is `done` (or `dropped`) and no open
++           numbered item is left. Finished items live under "### Done".
++
++No git, no network, no LLM. Same file in, same answer out.
++
++Usage:
++    python3 check_plan.py --plan <path to plan.md> [--out <report.json>]
++
++Exit codes: 0 valid and done · 1 valid, not done · 2 not valid · 3 unreadable.
++"""
++import argparse
++import json
++import os
++import re
++import sys
++
++REQUIRED_FIELDS = ["plan_for", "kind", "serves", "status", "updated", "now"]
++STATUSES = {"active", "done", "dropped"}
++KINDS = {"business-intent", "feature", "story", "bug", "spike", "chore", "drive", "play"}
++REQUIRED_SECTIONS = [
++    "What we are trying to reach",
++    "When this plan is done",
++    "Where we are now",
++    "The plan, in order",
++    "Log",
++]
++ITEM_RE = re.compile(r"^###\s+(\d+)\.\s+(.*)$")
++NOW_MARK = re.compile(r"[—-]\s*now\s*$", re.IGNORECASE)
++
++
++def parse_front_matter(text):
++    if not text.startswith("---"):
++        return None, text
++    end = text.find("\n---", 3)
++    if end == -1:
++        return None, text
++    fields = {}
++    for line in text[3:end].strip().splitlines():
++        if ":" in line:
++            key, val = line.split(":", 1)
++            fields[key.strip()] = val.strip().strip('"')
++    return fields, text[end + 4:]
++
++
++def split_items(body):
++    """Return the numbered items in 'The plan, in order' with their text."""
++    items, current = [], None
++    in_plan = False
++    for line in body.splitlines():
++        if line.startswith("## "):
++            in_plan = line[3:].strip() == "The plan, in order"
++            if current:
++                items.append(current)
++                current = None
++            continue
++        if not in_plan:
++            continue
++        m = ITEM_RE.match(line)
++        if m:
++            if current:
++                items.append(current)
++            current = {"number": int(m.group(1)), "title": m.group(2).strip(), "lines": []}
++        elif line.startswith("### "):
++            if current:
++                items.append(current)
++            current = None
++        elif current is not None:
++            current["lines"].append(line)
++    if current:
++        items.append(current)
++    return items
++
++
++def check_parent(fields, plan_path, problems):
++    """P9: follow serves_plan up one level. Plans live at {stm}/{n}/specs/plan.md."""
++    parent, item = fields.get("serves_plan", ""), fields.get("serves_item", "")
++    kind = fields.get("kind", "")
++    if kind == "business-intent":
++        if parent or item:
++            problems.append("a business intent's plan serves no parent: drop serves_plan / serves_item")
++        return None
++    if not parent and not item:
++        return None  # allowed while plans are adopted; the skill always writes them
++    if not (parent.isdigit() and item.isdigit()):
++        problems.append("serves_plan and serves_item must both be numbers")
++        return None
++    if plan_path is None:
++        return None
++    stm = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(plan_path))))
++    parent_path = os.path.join(stm, parent, "specs", "plan.md")
++    if not os.path.isfile(parent_path):
++        problems.append(f"serves_plan={parent}: no plan at {parent_path}")
++        return parent_path
++    if f"#{fields.get('plan_for', '')}" not in open(parent_path, encoding="utf-8").read():
++        problems.append(f"the plan for #{parent} does not mention #{fields.get('plan_for')}")
++    return parent_path
++
++
++def check(text, plan_path=None):
++    problems = []
++    fields, body = parse_front_matter(text)
++    if fields is None:
++        return {"valid": False, "done": False, "problems": ["no front matter"], "open_items": [], "now": None}
++
++    for f in REQUIRED_FIELDS:
++        if not fields.get(f):
++            problems.append(f"front matter: missing `{f}`")
++    status = fields.get("status", "")
++    if status and status not in STATUSES:
++        problems.append(f"front matter: status `{status}` is not one of {sorted(STATUSES)}")
++    kind = fields.get("kind", "")
++    if kind and kind not in KINDS:
++        problems.append(f"front matter: kind `{kind}` is not one of {sorted(KINDS)}")
++
++    headings = {l[3:].strip() for l in body.splitlines() if l.startswith("## ")}
++    for s in REQUIRED_SECTIONS:
++        if s not in headings:
++            problems.append(f"missing section: ## {s}")
++
++    items = split_items(body)
++    open_items = [i["number"] for i in items]
++    marked = [i["number"] for i in items if NOW_MARK.search(i["title"])]
++
++    now = fields.get("now", "")
++    if status == "active":
++        if not now.isdigit():
++            problems.append("front matter: `now` must be an item number while the plan is active")
++        elif int(now) not in open_items:
++            problems.append(f"front matter: now={now} points at no open item")
++        if len(marked) != 1:
++            problems.append(f"exactly one item heading must end with '— now' (found {len(marked)})")
++        elif now.isdigit() and marked[0] != int(now):
++            problems.append(f"front matter now={now} but the '— now' heading is item {marked[0]}")
++
++    for i in items:
++        if not any(l.startswith("**What:**") for l in i["lines"]):
++            problems.append(f"item {i['number']} has no **What:** line — every item must explain itself")
++
++    parent_path = check_parent(fields, plan_path, problems)
++
++    valid = not problems
++    done = valid and status in {"done", "dropped"} and not open_items
++    if valid and status in {"done", "dropped"} and open_items:
++        problems.append(f"status is `{status}` but items {open_items} are still open")
++        valid, done = False, False
++
++    return {"valid": valid, "done": done, "status": status, "now": now or None,
++            "open_items": open_items, "serves_plan": parent_path, "problems": problems}
++
++
++def main():
++    ap = argparse.ArgumentParser()
++    ap.add_argument("--plan", required=True)
++    ap.add_argument("--out")
++    args = ap.parse_args()
++    try:
++        text = open(args.plan, encoding="utf-8").read()
++    except OSError as exc:
++        print(json.dumps({"error": str(exc)}))
++        return 3
++    report = check(text, args.plan)
++    report["plan"] = args.plan
++    out = json.dumps(report, indent=2)
++    print(out)
++    if args.out:
++        with open(args.out, "w", encoding="utf-8") as fh:
++            fh.write(out + "\n")
++    if not report["valid"]:
++        return 2
++    return 0 if report["done"] else 1
++
++
++if __name__ == "__main__":
++    sys.exit(main())
+diff --git a/core/components/skills/platform-adapter/reference/github/verbs.md b/core/components/skills/platform-adapter/reference/github/verbs.md
+index 6deb60a0..f79f3854 100644
+--- a/core/components/skills/platform-adapter/reference/github/verbs.md
++++ b/core/components/skills/platform-adapter/reference/github/verbs.md
+@@ -71,10 +71,10 @@ gh pr merge {pr_number}
+ Fetch issue details (JSON):
+ 
+ ```bash
+-gh issue view {issue_number} --json number,title,labels,state,body,url,closedAt
++gh issue view {issue_number} --json number,title,labels,state,body,url,closedAt,issueType,parent,subIssues,subIssuesSummary
+ ```
+ 
+-Note: close date is in the `closedAt` field.
++Note: close date is in the `closedAt` field. `issueType` (the issue's type, e.g. Feature, Story), `parent` (the parent issue, or null) and `subIssues` (its child issues, each with number, title and state) need gh **2.94.0 or newer**; an older gh rejects these fields.
+ 
+ ## create-issue
+ 
+diff --git a/core/components/skills/platform-adapter/reference/gitlab/verbs.md b/core/components/skills/platform-adapter/reference/gitlab/verbs.md
+index a3a262c1..fafe9fe7 100644
+--- a/core/components/skills/platform-adapter/reference/gitlab/verbs.md
++++ b/core/components/skills/platform-adapter/reference/gitlab/verbs.md
+@@ -92,6 +92,8 @@ glab issue view {issue_number} --output json
+ 
+ Note: close date is in the `closed_at` field (snake_case, unlike GitHub's `closedAt`). Callers should use `jq '.closedAt // .closed_at'` to handle both platforms.
+ 
++Gap: GitLab issues carry no type, parent or sub-issue fields equal to GitHub's `issueType`, `parent` and `subIssues`. Callers that need the issue tree get it on GitHub only.
++
+ ## create-issue
+ 
+ Create a new issue:
+diff --git a/docs/adr/025-level-3-redefined-skeleton-and-loop.md b/docs/adr/025-level-3-redefined-skeleton-and-loop.md
+index 3520071b..e8ce463a 100644
+--- a/docs/adr/025-level-3-redefined-skeleton-and-loop.md
++++ b/docs/adr/025-level-3-redefined-skeleton-and-loop.md
+@@ -1,6 +1,6 @@
+ # ADR 025: Level 3 Redefined — Deterministic Skeleton, Goal-Loop Interior
+ 
+-**Status:** Accepted
++**Status:** Accepted — amended in part by [ADR 030](030-plan-mode.md): the evidence contract moves from the task DAG to each plan item's "Done when", and plays drop their task DAGs.
+ **Date:** 2026-07-04
+ **Amends:** ADR 013 (Play Maturity Model — the Level 3 definition)
+ **Related:** ADR 013 (maturity framework), ADR 017 (no per-play level assignment), ADR 023 (three execution trinities), epic #460, issue #461
+diff --git a/docs/adr/029-drives.md b/docs/adr/029-drives.md
+index be91503a..d4b2b3a2 100644
+--- a/docs/adr/029-drives.md
++++ b/docs/adr/029-drives.md
+@@ -54,19 +54,23 @@ A drive ends in a score or a fail, and a review follows either way. How a finish
+ 
+ **Kickoff solves product → intent.** It runs `/intent` → `/vision` → `/understand`.
+ 
++**Kickoff is the human interface** (Kapil, 2026-10-08; see `docs/philosophy/idsd.md`, "The Plan Is the Human's Interface"). The person gives the intent, as a prototype. Kickoff pulls the intent out and makes two things from it: for the person, a **plan and its issues** — the intent broken into small, executable pieces a person can understand; and for the agents, the **product model** and its documents. Everything after Kickoff works from the product model and is agent work.
++
+ | Play | What it does in Kickoff |
+ |------|-------------------------|
+ | `/intent` (new) | Reads the working prototype and pulls out the intent: goal, constraints, failure conditions |
+ | `/vision` | Takes that intent as its business goal and writes what a prototype cannot show: the why, the bet, the scope, the grounding in the knowledge base, the rough product profile |
+ | `/understand` | Runs once for every capability `/vision` seeded, and details it |
+ 
+-- **Goal:** from a working prototype, the product model holds a confirmed intent, a domain with its capabilities, and every capability detailed.
++- **Goal:** from a working prototype, two outputs: the person gets a plan and its issues that break the confirmed intent into small pieces they can understand; the agents get a product model that holds the intent, a domain with its capabilities, and every capability detailed.
+ - **Halts if:** the prototype is missing or does not run; a play cannot meet its own done check; or the checker rejects the result.
+-- **Done when:** each play shows its saved record (one `/understand` record per capability), the checker passes, and the evidence is written.
++- **Done when:** the plan and its issues exist and pass the plan check, each play shows its saved record (one `/understand` record per capability), the checker passes, and the evidence is written.
+ - **Hands on:** the detailed model goes to the next drive (intent → design), which locks domains and capabilities.
+ 
+ The prototype is the input, never the intent. It stays attached as an example, and the later plays work from the intent.
+ 
++**The matching last drive: handover.** Kickoff is the handoff in. The lifecycle also needs a handoff out (Kapil, 2026-10-08): a last drive that takes everything the agents made and delivers it as the thing the person uses — a website, an application, whatever the intent asked for. Between the two handoffs the person follows the plan; they do not have to step in. The handover drive is not designed yet.
++
+ The product-model ontology (#597) is built alongside this work: the parts of it these plays need are created as the plays are fixed.
+ 
+ ## Consequences
+diff --git a/docs/adr/030-plan-mode.md b/docs/adr/030-plan-mode.md
+new file mode 100644
+index 00000000..2cc9f51d
+--- /dev/null
++++ b/docs/adr/030-plan-mode.md
+@@ -0,0 +1,114 @@
++# ADR 030 — Plan Mode: Every Change Works From a Plan on Disk
++
++**Status:** Accepted
++**Date:** 2026-10-08
++**Decided in:** #619 (spike), under business intent #539
++**Amends:** ADR 025 (Level 3) in part — the task DAG no longer carries the evidence contract; the plan does. ADR 029 (drives) — a drive keeps one plan for all its plays.
++**Affects:** `standards/rules/pipeline-position.md` (the opening sequence), `standards/rules/play-close.md` (the Pipeline Steps table), every compiled play's Task DAG and Pause and Resume sections
++**Related:** #542 (ADLC states on work items), #620 (tools as a component)
++
++## Context
++
++Plays and drives start work straight from the issue. Nothing on disk says what they set out to do. Work skips ahead, gets lost between sessions, and cannot be checked afterwards. This happened in the session that raised #619: the first drive's work was about to be skipped for a later drive, because no plan held the order.
++
++Claude Code has a plan mode, but Garura does not use it and needs its plans on disk, where anyone can go back and check them.
++
++## Decision
++
++### 0. Who the plan is for (Kapil, 2026-10-08)
++
++**The plan is the human's interface; the product model is the agent's.** A business intent is what a person wants. The plan shows how that intent breaks down into agent intents — the pieces of work agents can pick up — in words a business user can read. The product model, and everything from it onward, is what agents read. Each side can read the other, but the plan is written for the person.
++
++So the test of a plan is simple: **a business user reads it and understands what their intent is being broken into, what is decided, what is built, and what is still to do.** If they cannot, the system fails, however correct the plan is underneath. That is why every item explains itself, every finished item says what kind of done it is (decided, built, or shipped), and the status view is a plain tree, never bare issue numbers.
++
++### 1. What a plan is (P1)
++
++A plan says **what** gets done, **in what order**, and **why that order** — never **how**; that is design, and it lives in each item's issue. Every item explains itself: What, Why here, Done when, Needs. The format is `standards/templates/plan.md`, locked from the first real plan (#606's).
++
++### 2. Where it lives (P5)
++
++`{stm_base}{issue}/specs/plan.md` — the issue's work folder (STM).
++
++### 3. Who writes it (P2, P7)
++
++- The **`manage-plan` skill** creates, updates and checks plans. Its check is a script (`check_plan.py`), so nothing depends on judgment to say "done".
++- The **`project-orchestrator` agent** gathers the context first — the issue, its parent, its child issues (tracker links only), existing plans, decision records — writes it to a file, and calls the skill. Agents gather; skills do the work.
++
++### 4. How a change opens (P3, P4)
++
++A change opens with three plays: **`start-change` → `plan-change` → `approve-change`**. `plan-change` writes the plan; `approve-change` is the human approval of it; a rejected plan goes back to `plan-change` with the feedback, until it is approved. No work starts before.
++
++The opening is a **prerequisite, and fires only when needed**: whatever already exists — an open change, a plan, an approved plan — is not done again. Inside a drive, the drive opens the change once; its plays skip the opening and add their items to the drive's one plan.
++
++### 5. How a plan is kept current (P7, P8)
++
++The play or drive doing the work updates its plan. In the middle of a drive, plans are kept by the `manage-plan` skill directly; no play runs.
++
++- **Small updates** need no human: marking an item done, moving "now".
++- **Big updates** go back through `approve-change`: adding, dropping or reordering items; a play finishing inside a drive; a linked or dependent issue completing.
++- **Inside a drive**, big updates are written into the plan's log as they happen and approved together at the drive's end review (ADR 029). The drive does not stop.
++- Work found outside the issue's scope never enters the plan. It becomes a new issue.
++
++### 6. How "done" is checked (P6)
++
++Every play's done check (`stop-condition.yaml`) gains one clause: the plan check script reports `done: true`. **The issue is done only when its plan is done.**
++
++### 7. The bridge from business intent to agent work (P9)
++
++Every plan except a business intent's names what it serves: `serves_plan` (the parent issue's plan) and `serves_item` (the item in it). The check confirms the parent plan exists and names the issue. Walking up the chain leads from any piece of agent work to the business intent it serves.
++
++### 8. Plays drop their task lists (P10)
++
++The plan replaces each play's fixed task DAG. The task DAG does four jobs today, and each moves to the plan before the DAGs are removed:
++
++| Job today | Moves to |
++|-----------|----------|
++| The evidence that must exist at close (ADR 025) | Each item's "Done when" |
++| Resume after a pause — skip finished steps, restart the one in progress | "Now" and the Done list |
++| The delivery report's Pipeline Steps table (`play-close.md`) | Built from the plan's items |
++| The start step the pipeline rule injects (`pipeline-position.md`) | The opening trinity |
++
++## Consequences
++
++### Positive
++
++- Every change has a written answer to "what, in what order, and why", kept current, on disk.
++- "Done" is a script's answer, the same every time.
++- Any work traces up to the business intent it serves.
++- One list per piece of work: the plan. No fixed step list beside it to drift.
++
++### Negative / Risks
++
++- **Every play changes.** 26 plays carry a Task DAG; each loses it and gains the opening trinity, the plan clause in its done check, and plan-based resume. This goes through `/play-creator` and `/play-editor`, the rule files, and the lint check — the converge-and-lint pattern of the Standard Play Close.
++- **Two new plays**, `plan-change` and `approve-change`, join the `*-change` family.
++- **More approvals at the start.** Every change outside a drive now waits for a human to approve its plan.
++- **Plans need adopting.** Until every play writes plans, `serves_plan` is optional in the check.
++
++## Alternatives Considered
++
++| Alternative | Reason Rejected |
++|-------------|-----------------|
++| Use Claude Code's own plan mode | Not on disk where anyone can check it; not shared across sessions or agents |
++| Keep each play's task DAG beside the plan | Two lists for one piece of work drift apart — the problem plan mode exists to fix |
++| Planning as a skill only, no `plan-change` play | A change needs a fixed opening step; mid-drive, the skill is used directly |
++| Every plan change needs approval | Routine progress would ask the human on every finished item |
++| Link plans only through the tracker's parent/child link | The plan files would not show the chain, and the parent item would be lost |
++
++## Work This Creates
++
++Filed as Feature #621 under #539:
++
++1. Build `plan-change` and `approve-change` — #622.
++2. Teach `/play-creator` and `/play-editor` the opening trinity, the plan clause in the done check, and plan-based resume; drop the Task DAG — #623.
++3. A lint rule that fails any play without them — #624.
++4. Update `pipeline-position.md` and `play-close.md` — #625.
++5. Drives keep one plan for all their plays (with #613) — #626.
++6. Rebuild the plays — #627.
++7. A `show` mode for `manage-plan`: a script prints the plan as a short tree — GOAL, DONE, NOW, NEXT, WAIT (on a human) — following `serves_plan` so both levels show together. Every line says in plain words what the item is, with its issue number beside it, never a bare number: a reader coming back after two days must know what is going on from the tree alone. Thorough, but crisp — #628.
++
++## References
++
++- #619 — the spike; working notes in `.garura/project/issues/619/specs/decisions.md`
++- `core/components/memory/standards/templates/plan.md` — the format
++- `core/components/skills/manage-plan/` — the skill and its check script
++- `.garura/project/issues/606/specs/plan.md` — the first real plan
+diff --git a/docs/philosophy/idsd.md b/docs/philosophy/idsd.md
+index 9fff57c1..f94ddc07 100644
+--- a/docs/philosophy/idsd.md
++++ b/docs/philosophy/idsd.md
+@@ -95,6 +95,33 @@ Compartmented evaluation applies to **business intent**, NOT to **SDLC intent**.
+ 
+ This alignment is natural: barrier-eligible plays are exactly those where business intent drives creative decisions, and barrier-exempt plays are exactly those where SDLC intent drives mechanical operations.
+ 
++### The Plan Is the Human's Interface; the Product Model Is the Agent's
++
++A business intent is what a person wants. It is broken down into agent intents — pieces of work an agent can pick up. Two artifacts carry that breakdown, one for each reader:
++
++| | The plan | The product model |
++|---|---|---|
++| **Written for** | The person who holds the business intent | The agents that do the work — not a human interface; only its ontology is |
++| **Shows** | What the intent is being broken into, in what order and why; what is decided, built, or shipped; what waits on the person | What the product is, in the structure agents work from — and everything built from it onward |
++| **Test** | A business user reads it and understands what their intent is becoming | An agent reads one slice of it and can act |
++
++Each can read the other, but each is written for its own reader. The plan is where the business intent is surfaced and followed; the product model is not.
++
++**A person has exactly two interfaces: the intent they give, and the output they see.** The intent side is the intent itself, its plan and issues, and the product ontology. The output side is what they finally use — for example, user testing at launch. Everything in between — the product model, the lenses, realize, shape, grill — is agent work.
++
++**The loop has two handoffs.**
++
++1. **The person starts** — they give the intent.
++2. **Handoff in.** A first drive (Kickoff) pulls the intent out and turns it into a plan the person can read and a product model the agents can work from. The person approves the plan.
++3. **Agents work.** Everything becomes agent intents, then code and the rest.
++4. **It all runs.**
++5. **The person's interface keeps updating.** The plan shows what is decided, built, and shipped as the work moves.
++6. **Handoff out.** A last drive takes everything the agents made and delivers it as the thing the person uses — a website, an application, whatever the intent asked for. The person sees what was made.
++
++Between the two handoffs the person does not have to step in; the plan lets them follow along.
++
++**If a business user cannot read the plan and understand what their intent is being broken into, the system fails** — however correct the work underneath. So a plan says what, in what order, and why, never how; every item explains itself in plain words; every finished item says what kind of done it is; and its status reads as a plain tree, never bare issue numbers. The mechanics live in [ADR 030](../adr/030-plan-mode.md).
++
+ ---
+ 
+ ## ICE: The IDSD Model
+@@ -167,15 +194,18 @@ Verification follows IDD [Principle 4](./idd-principles.md#principle-4-builders-
+ Every IDSD artifact serves exactly one audience. Three tiers:
+ 
+ ```
+-Tier 1: Human Review    → what people read and approve
+-                          (Garura: grounding docs, lens docs, checkpoint summaries, HITL scenarios)
+-Tier 2: Agent Inputs    → what one agent needs for one task
+-                          (Garura: JSON contracts, box context, cut context slices)
++Tier 1: Human           → the person's two interfaces: the intent in, and the output out
++                          (Garura: the intent they give; the plan and its issues — how that
++                          intent is being broken down; the product ontology; and the output
++                          they see, e.g. user testing at launch)
++Tier 2: Agent Inputs    → everything inside, between intent and output
++                          (Garura: the product model, lens docs, realize, shape, grill, JSON
++                          contracts, box context, cut context slices)
+ Tier 3: Orchestration   → what the system tracks
+                           (Garura: _spine.yaml, evidence files, status files)
+ ```
+ 
+-- Tier 1 is reviewed by humans before Tier 2 inputs are built from it
++- A person works only at the two ends: they give the intent and follow its plan, and they see the output. Everything in between is agent work. The product model is not a human interface; only its ontology — what kinds of things the product is made of — is.
+ - Tier 2 inputs are self-contained — an agent reads ONE input built for its task, not the whole plan
+ - Tier 3 references artifacts by path, not by copying their content
+ 
