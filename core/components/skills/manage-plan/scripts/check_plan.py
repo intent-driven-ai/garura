@@ -96,6 +96,21 @@ def split_items(body):
     return items
 
 
+def done_lines(body):
+    """The lines under '### Done' inside 'The plan, in order'."""
+    out, in_plan, in_done = [], False, False
+    for line in body.splitlines():
+        if line.startswith("## "):
+            in_plan, in_done = line[3:].strip() == "The plan, in order", False
+            continue
+        if in_plan and line.startswith("### "):
+            in_done = line[4:].strip() == "Done"
+            continue
+        if in_done:
+            out.append(line)
+    return out
+
+
 def check_parent(fields, plan_path, problems):
     """P9: follow serves_plan up one level. Plans live at {stm}/{n}/specs/plan.md."""
     parent, item = fields.get("serves_plan", ""), fields.get("serves_item", "")
@@ -126,13 +141,16 @@ def check_parent(fields, plan_path, problems):
         problems.append(f"the plan for #{parent} does not name #{fields.get('plan_for')}")
         return parent_path
     _, parent_body = parse_front_matter(parent_text)
-    for it in split_items(parent_body or ""):
-        if it["number"] == int(item):
-            block = it["title"] + "\n" + "\n".join(it["lines"])
-            if not ref.search(block):
-                problems.append(f"serves_item={item}: item {item} of the plan for #{parent} "
-                                f"does not name #{fields.get('plan_for')}")
-            break
+    parent_body = parent_body or ""
+    open_item = next((it for it in split_items(parent_body) if it["number"] == int(item)), None)
+    if open_item is not None:
+        block = open_item["title"] + "\n" + "\n".join(open_item["lines"])
+        if not ref.search(block):
+            problems.append(f"serves_item={item}: item {item} of the plan for #{parent} "
+                            f"does not name #{fields.get('plan_for')}")
+    elif not any(ref.search(line) for line in done_lines(parent_body)):
+        problems.append(f"serves_item={item}: the plan for #{parent} has no open item {item}, "
+                        f"and its Done list does not name #{fields.get('plan_for')}")
     return parent_path
 
 

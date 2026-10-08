@@ -136,6 +136,16 @@ def test_parent():
         child = write(stm, 619, plan(plan_for=619, serves=(606, 1), items=[(1, "A — now", True, "")]))
         check("a child whose parent item is finished is valid when the Done list names it",
               cp.check(open(child, encoding="utf-8").read(), child)["valid"])
+        # QF-12: the parent names #619 only in a different item, and item 1 is neither open nor in Done.
+        write(stm, 606, plan(plan_for=606, kind="business-intent",
+                             items=[(2, "Other — now", True, "**Issue:** #616. Related: #619.")],
+                             now="2", done=["**Decided: something else** — #592."]))
+        r = cp.check(open(child, encoding="utf-8").read(), child)
+        check("serves_item pointing at a missing item is caught even if the parent names the issue elsewhere (QF-12)",
+              any("has no open item 1" in p for p in r["problems"]))
+        write(stm, 606, plan(plan_for=606, kind="business-intent",
+                             items=[(2, "Other — now", True, "**Issue:** #616.")],
+                             now="2", done=["**Decided: plan mode** — #619."]))
         check("the parent plan path is reported",
               cp.check(open(child, encoding="utf-8").read(), child)["serves_plan"] == finished_parent)
 
