@@ -118,7 +118,7 @@ Each can read the other, but each is written for its own reader. The plan is whe
 5. **The person's interface keeps updating.** The plan shows what is decided, built, and shipped as the work moves.
 6. **Handoff out.** A last drive takes everything the agents made and delivers it as the thing the person uses — a website, an application, whatever the intent asked for. The person sees what was made.
 
-Between the two handoffs the person does not have to step in; the plan lets them follow along.
+Between the two handoffs the person follows along through the plan. They are asked to step in only when the plan itself changes in a big way — work added, dropped or reordered — and inside a drive even those changes wait for the drive's end review ([ADR 030](../adr/030-plan-mode.md)).
 
 **If a business user cannot read the plan and understand what their intent is being broken into, the system fails** — however correct the work underneath. So a plan says what, in what order, and why, never how; every item explains itself in plain words; every finished item says what kind of done it is; and its status reads as a plain tree, never bare issue numbers. The mechanics live in [ADR 030](../adr/030-plan-mode.md).
 

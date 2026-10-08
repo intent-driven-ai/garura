@@ -23,7 +23,7 @@ So the test of a plan is simple: **a business user reads it and understands what
 
 ### 1. What a plan is (P1)
 
-A plan says **what** gets done, **in what order**, and **why that order** — never **how**; that is design, and it lives in each item's issue. Every item explains itself: What, Why here, Done when, Needs. The format is `standards/templates/plan.md`, locked from the first real plan (#606's).
+A plan says **what** gets done, **in what order**, and **why that order** — never **how**; that is design, and it lives in each item's issue. Every item explains itself: What, Why here, Done when, Needs. The format is `standards/templates/work-plan.md`, locked from the first real plan (#606's). The rules are in `standards/rules/work-plan.md`; the shape is in `standards/templates/work-plan.md`. A work plan is not `/implement`'s build plan.
 
 ### 2. Where it lives (P5)
 
@@ -109,6 +109,7 @@ Filed as Feature #621 under #539:
 ## References
 
 - #619 — the spike; working notes in `.garura/project/issues/619/specs/decisions.md`
-- `core/components/memory/standards/templates/plan.md` — the format
+- `core/components/memory/standards/templates/work-plan.md` — the format
+- `core/components/memory/standards/rules/work-plan.md` — the rules (single source)
 - `core/components/skills/manage-plan/` — the skill and its check script
 - `.garura/project/issues/606/specs/plan.md` — the first real plan
