@@ -108,7 +108,7 @@ For MRs: `glab mr update {pr_number} --label "{labels}"`
 
 ### attach-sub-issue
 
-**Gap behaviour — related-link fallback only.** GitLab does not support a parent/child sub-issue hierarchy equivalent to GitHub's sub-issues feature. The adapter falls back to GitLab's related-issues API, which creates a bidirectional "relates to" link between two issues.
+**Gap behaviour — related-link fallback only.** The adapter does not create a GitLab parent/child link: GitLab's hierarchy features have not been mapped or tested here. It falls back to GitLab's related-issues API, which creates a bidirectional "relates to" link between two issues.
 
 **Parent/child hierarchy is NOT established.** Only a peer-level related-link is created. Agents must document this limitation when operating on GitLab — task trees that rely on sub-issue hierarchy for project management will need an alternative organisational approach on GitLab.
 
