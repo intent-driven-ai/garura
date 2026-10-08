@@ -1,51 +1,34 @@
 ---
+# analyze-changes output (grouping judgment done)
+# issue: 616
 needs_judgment: false
+
 change_groups:
-  - id: understand-seed-first
+  - id: understand-seed-doc-folder
     issue: 616
     commit_type: fix
     scope: understand
-    subject: "ask for the seed before opening any change; refuse a seed unless answered_by human, malformed file, or bad doc path; tests 19 to 32"
+    subject: "take a seed's doc folder from the domain's own doc, require text seed fields, and tidy the enrich skill's step 1; tests 32 to 39"
     files:
-      - core/components/plays/understand/reference/ice.md
       - core/components/plays/understand/SKILL.md
       - core/components/plays/understand/scripts/persist_understand.py
       - core/components/plays/understand/scripts/test_persist_understand.py
       - core/components/skills/enrich-capability-ice/SKILL.md
-  - id: vision-stale-clause
-    issue: 616
-    commit_type: fix
-    scope: vision
-    subject: "remove stale clause from ice and drop edit note from SKILL"
-    files:
-      - core/components/plays/vision/reference/ice.md
-      - core/components/plays/vision/SKILL.md
-  - id: standards-pipeline-position
-    issue: 616
-    commit_type: docs
-    scope: standards
-    subject: "list each play's real position in pipeline-position"
-    files:
-      - core/components/memory/standards/rules/pipeline-position.md
-  - id: stm-plan-review
+  - id: stm-round2-findings
     issue: 616
     commit_type: chore
     scope: stm
-    subject: "record plan, decisions and PR review artifacts"
+    subject: "record round 2 review findings"
     files:
-      - .garura/project/issues/616/specs/plan.md
-      - .garura/project/issues/616/specs/decisions.md
-      - .garura/project/issues/616/review/categories.yaml
-      - .garura/project/issues/616/review/context.yaml
-      - .garura/project/issues/616/review/design-findings-harness.yaml
-      - .garura/project/issues/616/review/pr.diff
-      - .garura/project/issues/616/review/quality-findings.yaml
+      - .garura/project/issues/616/review/round2-findings.yaml
+
 exclusions:
   - path: ".garura/project/issues/616/context/porcelain.txt"
-    reason: "play run-state; committed by the executor's final chore(stm) step"
+    reason: "commit-change working scratch, regenerated each run"
     blocking: false
   - path: ".garura/project/issues/616/context/analysis.yaml"
-    reason: "play run-state; committed by the executor's final chore(stm) step"
+    reason: "commit-change working scratch (this file)"
     blocking: false
+
 risks:
   sensitive_files: []
