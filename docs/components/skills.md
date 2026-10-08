@@ -46,7 +46,7 @@ Roughly 100 skills are authored in `core/components/skills/` (each with `user-in
 
 | Family | Skills |
 |--------|--------|
-| **Repository / project operations** | `analyze-changes`, `analyze-pr`, `create-commit`, `setup-branch`, `submit-pr`, `merge-pr`, `platform-adapter`, `manage-issue`, `resolve-issues`, `write-evidence` |
+| **Repository / project operations** | `analyze-changes`, `analyze-pr`, `create-commit`, `setup-branch`, `submit-pr`, `merge-pr`, `platform-adapter`, `manage-issue`, `resolve-issues`, `manage-plan`, `write-evidence` |
 | **ProductOS model & KB** | `author-vision-seed`, `enrich-capability-ice`, `author-shape-bundle`, `author-roadmap`, `author-quality-lens`, `author-ux-lens`, `author-agentic-lens`, `author-architecture-lens`, `author-marketing-lens`, `author-run-lens`, `author-measure-lens`, `author-epics`, `check-cut-tensions`, `author-hitl-scenarios`, `rank-recommendations`, `search-kb`, `kb-search`, `propose-kb-node` |
 | **Specification / design drafting** | `draft-product-spec`, `draft-technical-approach`, `draft-lld`, `draft-tech-spec`, `draft-implementation-plan`, `draft-reference-algorithms`, `draft-epic-expectation`, `draft-verification-scenarios`, `author-build-plan`, `author-intent-yaml`, `validate-implementation-design`, `validate-abstraction-layer` |
 | **Defect resolution** | `draft-rca`, `draft-fix-design`, `author-regression-test` |
@@ -172,7 +172,7 @@ For skills that perform repository or project operations:
 | `analyze-{object}` | `analyze-changes`, `analyze-pr` |
 | `create-{object}` | `create-commit` |
 | `submit-{object}` | `submit-pr` |
-| `manage-{object}` | `manage-issue` |
+| `manage-{object}` | `manage-issue`, `manage-plan` |
 | `setup-{object}` | `setup-branch` |
 
 ## Skill Invocation
@@ -344,7 +344,7 @@ core/components/plays/
 
 - [ADR 005: Skills as Capabilities](../adr/005-skills-as-capabilities.md)
 - [ADR 006: Naming Conventions](../adr/006-naming-conventions.md)
-- [ADR 007: Skill-Local References](../adr/007-skill-local-references.md) — Partially superseded by ADR 009
+- [ADR 007: Skill-Local References](../adr/SUPERSEDED-007-skill-local-references.md) — Partially superseded by ADR 009
 - [ADR 009: Skill LTM Organizational Knowledge](../adr/009-skill-ltm-organizational-knowledge.md)
 - [Agents Component Guide](./agents.md)
 - [Plays Component Guide](./plays.md)

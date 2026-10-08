@@ -1,0 +1,112 @@
+# review-change Step 3, Layer 2 (round 2) - design-grounding for category: memory (PR #629, base: main)
+# Grounding rule: every source was read from the base ref (git show main:<path>) or the resolved
+# memory standards (~/.garura/core/memory/standards/rules/pr.md). Nothing is grounded in ADR 030,
+# the branch's edits to idsd.md / ADR 029, or the new work-plan template / rules themselves.
+category: memory
+round: 2
+playbook: review/memory
+severity_basis: >
+  standards/rules/pr.md bucket definitions (P3 = missing docs / naming; P4 = nit). No Severity
+  Table row targets templates/, rules/ or tools/ prose, so buckets come from the prose
+  definitions and are flagged "no-row".
+changed_files:
+  - core/components/memory/standards/rules/work-plan.md
+  - core/components/memory/standards/rules/_index.md
+  - core/components/memory/standards/templates/work-plan.md
+  - core/components/memory/standards/templates/_index.md
+  - core/components/memory/tools/github/adapter.md
+  - core/components/memory/tools/gitlab/adapter.md
+
+grounding:
+  - id: G1
+    principle: "A template defines the SHAPE of an output artifact; it must not define which artifacts get produced or rules for artifact content (those are play/skill contract and rules/)."
+    source: "main:core/components/memory/standards/templates/_index.md, section 'When to Add Here'"
+  - id: G2
+    principle: "rules/ = how an artifact must be structured and enforced; a rules file must be enforced by at least one skill and be the single source of truth for its domain."
+    source: "main:core/components/memory/standards/_index.md (Layout principle); main:core/components/memory/standards/rules/_index.md, section 'When to Add Here'"
+  - id: G3
+    principle: "Index rows name the concrete skills/agents that consume the file."
+    source: "main:core/components/memory/standards/templates/_index.md (Consumers column of every row)"
+  - id: G4
+    principle: "'plan' on main means the build-plan DAG (specs/implement/plan.yaml); rules/_index reserves plan.md for it; 'checkpoint' means the human approval gate with its own template."
+    source: "main:core/components/plays/implement/SKILL.md; main:core/components/memory/standards/rules/_index.md (Deferred follow-ups); main:core/components/memory/standards/templates/checkpoint.md"
+  - id: G5
+    principle: "Paired platform tool docs (tools/github, tools/gitlab) mirror each platform difference for a verb."
+    source: "main:core/components/memory/tools/github/adapter.md (attach-sub-issue); main:core/components/memory/tools/gitlab/adapter.md (view-issue closed_at note)"
+  - id: G6
+    principle: "Templates are timeless canonical shapes with no work-in-progress notes."
+    source: "main:core/components/memory/standards/templates/{pr-body,commit-message,checkpoint,github-issue,knowledge-file}.md"
+  - id: G7
+    principle: "Work-kind vocabulary: Business Intent, Feature, Story, Bug, Spike, Chore."
+    source: "main:.garura/user-provided/managing-work.md"
+  - id: G8
+    principle: "A rules file may name consumers that are not yet wired only when it says so (precedent: no-unbacked-recommendation.md row says 'caught-not-yet-wired in /next')."
+    source: "main:core/components/memory/standards/rules/_index.md (no-unbacked-recommendation.md row)"
+
+round1_status:
+  - id: M1
+    status: FIXED
+    evidence: "Lifecycle rules (kept current, serves-chain, done-means-plan-done) moved to new rules/work-plan.md (rules 12-17, 10). templates/work-plan.md now opens with 'This file holds the shape only' and points to the rules file. Satisfies G1/G2. The reserved plan.md follow-up is left for the build plan (rules/_index edited)."
+  - id: M2
+    status: FIXED
+    evidence: "Template, templates/_index row and rules/_index row all state 'Not the /implement build plan'. The barrier heading 'Checkpoint:' is now 'Milestone:' so it no longer reuses the approval-gate term (G4). Glossary disambiguation is a harness-side change, not re-checked here."
+  - id: M3
+    status: FIXED
+    evidence: "templates/_index row Consumers now reads 'manage-plan (skill), via project-orchestrator'; the '(being designed in #619)' note is gone (G3, G6)."
+  - id: M4
+    status: FIXED
+    evidence: "The 'Starting point ... will be updated' provenance paragraph and the STM path are gone from templates/work-plan.md (G6)."
+  - id: M5
+    status: FIXED
+    evidence: "tools/gitlab/adapter.md view-issue now carries a 'Gap - no work tree' paragraph naming issueType/parent/subIssues and tree_available: false (G5). Doc matches code: platform_adapter.py sets res['tree_available'] = platform == GITHUB and _tree."
+  - id: M6
+    status: FIXED
+    evidence: "tools/github/adapter.md view-issue now states the failure mode and the fallback ('On an older gh the adapter asks for the base fields only and reports tree_available: false'). Verified against review-change/scripts/platform_adapter.py (ISSUE_BASE_FIELDS, GH_ISSUE_TREE_MIN, gh_supports_issue_tree fallback)."
+  - id: M7
+    status: FIXED
+    evidence: "Template front matter now reads 'now: {item number being worked - or - when status is done or dropped}'; rules/work-plan.md rule 8 says 'now is set while the plan is active ... when done or dropped, now is -'. check_plan.py only requires a numeric now while active."
+
+conformant:
+  - "templates/work-plan.md is shape-only and has an instantiating skill (manage-plan) (G1, G3)."
+  - "rules/work-plan.md is enforced by a skill script (manage-plan/scripts/check_plan.py: done/valid/linked) and is not a copy of skill prose (G2)."
+  - "kind list in the template matches the work kinds on main plus drive/play (G7); front matter rules and check_plan.py KINDS/STATUSES agree."
+  - "Both new index rows have a Consumers column and cross-link template <-> rules."
+  - "The GitHub view-issue doc remains descriptive; commands stay in verbs.md."
+
+findings:
+  - id: N1
+    severity: P3
+    file: core/components/memory/standards/rules/work-plan.md
+    lines: "'When a plan must exist' rules 1 and 2; rule 16 ('Every play's done check carries that clause'); also rules/_index.md work-plan.md row"
+    principle: "G2 - a rule in rules/ must be enforced by at least one skill; G8 - not-yet-wired enforcement is said so in the index."
+    basis: >
+      Rule 1 states as present fact that a change opens with start-change, plan-change and
+      approve-change, and rule 16 says every play's done check carries the check_plan clause.
+      On the branch only start-change exists under core/components/plays; plan-change and
+      approve-change are not built (ADR 030 files them as #622, under Feature #621), and no play
+      carries the done clause yet. The only enforcing skill is manage-plan, which checks a plan
+      file, not the opening sequence. The rules/_index row Consumers hedges '/play-creator and
+      /play-editor once plan mode is wired (#621)', but the rule text itself does not, so an
+      agent reading rules 1-4 is told to call plays that do not exist. main's no-unbacked-
+      recommendation.md row shows the accepted pattern: say 'not yet wired' beside the
+      unenforced part.
+    suggested_fix: "Mark rules 1-4 and 16 as 'takes effect when plan-change / approve-change land (#622)', or add one status line at the top of the rules file; keep the index hedge."
+    taxonomy_row: none (bucket definition)
+
+  - id: N2
+    severity: P4
+    file: core/components/memory/standards/rules/work-plan.md
+    lines: "'Where it lives' section"
+    principle: "G2 - single source of truth for the domain; do not restate."
+    basis: >
+      The path {stm_base}{issue}/specs/plan.md is stated both here and in templates/work-plan.md
+      ('File path convention'). main's templates (e.g. checkpoint, pr-body) own the path
+      convention and rules files point to them. Two statements can drift.
+    suggested_fix: "Keep the path in the template only and have the rules file link to it, or say it once here and drop it from the template."
+    taxonomy_row: none (bucket definition)
+
+summary:
+  round1: {fixed: 7, still_open: 0}
+  new: {P1: 0, P2: 0, P3: 1, P4: 1}
+  grounding_unavailable: []
+  unverified_note: "tools/gitlab/adapter.md claims GitLab issues carry no type field. No committed source on main confirms or contradicts this (main gitlab verbs.md is silent on issue type), so it is not raised as a finding; worth a human check against glab output."

@@ -1,0 +1,12 @@
+ M .garura/project/issues/606/specs/plan.md
+ M .garura/project/issues/619/context/porcelain.txt
+ M .garura/project/issues/619/specs/plan.md
+ M core/components/memory/standards/rules/work-plan.md
+ M core/components/memory/standards/templates/work-plan.md
+ M core/components/memory/tools/gitlab/adapter.md
+ M core/components/plays/play-creator/references/test_platform_adapter.py
+ M core/components/skills/manage-plan/SKILL.md
+ M core/components/skills/manage-plan/scripts/check_plan.py
+ M core/components/skills/manage-plan/scripts/test_check_plan.py
+ M core/components/skills/platform-adapter/reference/gitlab/verbs.md
+?? .garura/project/issues/619/review/round3-findings.yaml

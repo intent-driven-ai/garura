@@ -41,7 +41,13 @@ Receive from agent:
 
 Invoke the `platform-adapter` skill with `verb: view-issue` and `args: {issue_number: {issue_number}}`.
 
-Parse and return structured output.
+Parse and return structured output. Map the adapter's fields into the output template:
+
+- `body` — the full body; `body_summary` — its first 200 characters.
+- `type` ← `issueType.name` (or `null`).
+- `parent` ← `parent` (`number`, `title`, `state`), or `null`; set `parent_issue` to the same number.
+- `sub_issues` ← `subIssues.nodes[]` (`number`, `title`, `state`), or `[]`.
+- `tree_available` ← `true` when the adapter returned those fields; `false` when it did not (GitLab, or gh older than 2.94.0 — the adapter then fetches the base fields only). Never report a missing tree as "no parent, no children".
 
 ### Action: `create`
 

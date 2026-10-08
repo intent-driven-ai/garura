@@ -1,0 +1,42 @@
+Spike #619: Decide plan mode — every drive and play writes a plan to disk, keeps it current, and is done only when it is done
+
+> **Spike.** A question to answer. The result is a decision, not code.
+> **Serves** business intent #539. Related: #542 (ADLC states on work items, plays gated by them), ADR 029 (drives).
+
+## The question
+
+Garura has no planning step. A play or a drive starts working from the issue directly, and nothing on disk says what it set out to do. Without that, the model drifts, and there is no record to check the work against.
+
+Kapil, 2026-10-08: every drive and every play gets its own **plan mode** — like Claude Code's plan mode, but Garura's own, and written to disk:
+
+- It reads the issue and writes a **plan — only a plan, not a design** — into STM (the issue's work folder), so anyone can go back and check it.
+- The plan is **kept up to date** while the work runs.
+- **The issue is done only when its plan is done.** The plan is how an agent knows it is finished.
+- The plan is the **bridge from business intent to agent intents** (the BInt → AInt mapping).
+
+## What to decide
+
+- **What a plan holds** — and what it must not hold, so it stays a plan and never becomes a design.
+- **Its format and place on disk** — where in STM it lives (every issue's STM already has an empty `specs/` folder), and in what shape.
+- **When it is updated** — by whom, at which points, and what happens when the work and the plan disagree.
+- **How "done" is checked** — likely one more clause in every play's done check (`stop-condition.yaml`, ADR 025): the plan exists and every item in it is done.
+- **How it maps BInt → AInt** — how each plan item traces to the business intent it serves.
+- **Drives vs plays** — a drive's plan covers the plays it runs; how the two plans relate.
+- **Where it sits next to what exists** — each play's fixed task list and its done check; and #542's ADLC states and play gates.
+
+## How it gets built (agreed 2026-10-08)
+
+The same converge-and-lint pattern as the Standard Play Close (`standards/rules/play-close.md`), in this order:
+
+1. Design the plan (this spike).
+2. One rule file, for example `standards/rules/play-plan.md`.
+3. `/play-creator` and `/play-editor` emit a plan step and the done-check clause; `lint-components` fails any play without it.
+4. Rebuild the plays.
+
+Design comes first. Changing the compiler before the plan is agreed would rebuild every play twice.
+
+## Done when
+
+- [ ] Each question above has an answer, written into an ADR.
+- [ ] Stories are filed for steps 2–4, and for drives.
+

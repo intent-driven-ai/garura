@@ -95,6 +95,33 @@ Compartmented evaluation applies to **business intent**, NOT to **SDLC intent**.
 
 This alignment is natural: barrier-eligible plays are exactly those where business intent drives creative decisions, and barrier-exempt plays are exactly those where SDLC intent drives mechanical operations.
 
+### The Plan Is the Human's Interface; the Product Model Is the Agent's
+
+A business intent is what a person wants. It is broken down into agent intents — pieces of work an agent can pick up. Two artifacts carry that breakdown, one for each reader:
+
+| | The plan | The product model |
+|---|---|---|
+| **Written for** | The person who holds the business intent | The agents that do the work — not a human interface; only its ontology is |
+| **Shows** | What the intent is being broken into, in what order and why; what is decided, built, or shipped; what waits on the person | What the product is, in the structure agents work from — and everything built from it onward |
+| **Test** | A business user reads it and understands what their intent is becoming | An agent reads one slice of it and can act |
+
+Each can read the other, but each is written for its own reader. The plan is where the business intent is surfaced and followed; the product model is not.
+
+**A person has exactly two interfaces: the intent they give, and the output they see.** The intent side is the intent itself, its plan and issues, and the product ontology. The output side is what they finally use — for example, user testing at launch. Everything in between — the product model, the lenses, realize, shape, grill — is agent work.
+
+**The loop has two handoffs.**
+
+1. **The person starts** — they give the intent.
+2. **Handoff in.** A first drive (Kickoff) pulls the intent out and turns it into a plan the person can read and a product model the agents can work from. The person approves the plan.
+3. **Agents work.** Everything becomes agent intents, then code and the rest.
+4. **It all runs.**
+5. **The person's interface keeps updating.** The plan shows what is decided, built, and shipped as the work moves.
+6. **Handoff out.** A last drive takes everything the agents made and delivers it as the thing the person uses — a website, an application, whatever the intent asked for. The person sees what was made.
+
+Between the two handoffs the person follows along through the plan. They are asked to step in only when the plan itself changes in a big way — work added, dropped or reordered — and inside a drive even those changes wait for the drive's end review ([ADR 030](../adr/030-plan-mode.md)).
+
+**If a business user cannot read the plan and understand what their intent is being broken into, the system fails** — however correct the work underneath. So a plan says what, in what order, and why, never how; every item explains itself in plain words; every finished item says what kind of done it is; and its status reads as a plain tree, never bare issue numbers. The mechanics live in [ADR 030](../adr/030-plan-mode.md).
+
 ---
 
 ## ICE: The IDSD Model
@@ -167,15 +194,18 @@ Verification follows IDD [Principle 4](./idd-principles.md#principle-4-builders-
 Every IDSD artifact serves exactly one audience. Three tiers:
 
 ```
-Tier 1: Human Review    → what people read and approve
-                          (Garura: grounding docs, lens docs, checkpoint summaries, HITL scenarios)
-Tier 2: Agent Inputs    → what one agent needs for one task
-                          (Garura: JSON contracts, box context, cut context slices)
+Tier 1: Human           → the person's two interfaces: the intent in, and the output out
+                          (Garura: the intent they give; the plan and its issues — how that
+                          intent is being broken down; the product ontology; and the output
+                          they see, e.g. user testing at launch)
+Tier 2: Agent Inputs    → everything inside, between intent and output
+                          (Garura: the product model, lens docs, realize, shape, grill, JSON
+                          contracts, box context, cut context slices)
 Tier 3: Orchestration   → what the system tracks
                           (Garura: _spine.yaml, evidence files, status files)
 ```
 
-- Tier 1 is reviewed by humans before Tier 2 inputs are built from it
+- A person works only at the two ends: they give the intent and follow its plan, and they see the output. Everything in between is agent work. The product model is not a human interface; only its ontology — what kinds of things the product is made of — is.
 - Tier 2 inputs are self-contained — an agent reads ONE input built for its task, not the whole plan
 - Tier 3 references artifacts by path, not by copying their content
 

@@ -18,7 +18,7 @@ tools:
 
 You are the project orchestrator — the autonomous decision-maker for all project management operations.
 
-**Domain:** Project management (issues, tracking, planning)
+**Domain:** Project management (issues, tracking, planning — including each issue's plan)
 **Role:** Interpret intent, select skills, execute operations, return results
 
 ## Core Principle
@@ -141,6 +141,7 @@ Write structured failure to the `stm.output.failure` path per `structured-failur
 |-------|--------|---------|
 | `manage-issue` | issues | Read, create, close, resolve, or list GitHub issues with optional sub-issue attachment |
 | `resolve-issues` | issue-mapping | Map change groups to existing open issues with confidence scoring |
+| `manage-plan` | planning | Create, update, or check the plan for one issue (`{stm_base}{issue}/specs/plan.md`) |
 
 ### When to Use Each Skill
 
@@ -152,6 +153,9 @@ Write structured failure to the `stm.output.failure` path per `structured-failur
 | "close issue", "complete issue", "finish issue", "done with issue" | `manage-issue` (action: close) | Closing completed/unneeded issues |
 | "list issues", "browse candidates", "discover open enhancements", "find enhancement candidates" | `manage-issue` (action: list) | Filtered candidate discovery for issue selection |
 | "map changes to issues", "resolve issue mapping", "which issues do these changes belong to" | `resolve-issues` | Mapping change groups to open issues with confidence scoring |
+| "plan this issue", "write the plan", "create plan" | build plan context, then `manage-plan` (action: create) | A plan is written before work starts |
+| "update the plan", "item done", "reorder the plan" | build plan context, then `manage-plan` (action: update) | The plan is kept current while work runs |
+| "is the plan done", "check the plan" | `manage-plan` (action: check) | The script decides done, not judgment |
 
 ## Intent Recognition
 
@@ -185,7 +189,49 @@ Constraints are extracted during recognition because they influence HOW you exec
   + config.instructions from contract override default filters when provided
 "Map these changes to issues"               -> resolve-issues (input from stm.input paths)
 "Which issues do these changes belong to"   -> resolve-issues (input from stm.input paths)
+"Plan issue #606"                           -> Plan Context (manage-issue read ×N) -> manage-plan
+                                               (action: create, issue: 606, plan_path, context_path, report_path)
+"Item 2 of the #606 plan is finished"       -> Plan Context -> manage-plan
+                                               (action: update, issue: 606, change: "item 2 is finished", ...)
+"Is the #619 plan done?"                    -> manage-plan (action: check, issue: 619, plan_path, report_path)
 ```
+
+## Plan Context
+
+Before `manage-plan` creates or updates a plan, you gather its context and write it to one file. This is your job, not the skill's: you gather, the skill writes.
+
+1. **The issue.** `manage-issue` (action: read) on the issue. The read returns `type`, `parent`, `sub_issues`, the full `body`, and `tree_available` (see `manage-issue`'s output template).
+2. **Its parent.** `manage-issue` (action: read) on `parent.number`, if set — number, type, title.
+3. **Its children.** `manage-issue` (action: read) on each entry in `sub_issues` — number, type, title, state, and that child's own `sub_issues`. Children are the only linked issues: a parent/child link in the tracker counts, a mention in the body never does.
+4. **Existing plans.** `test -f {stm_base}{issue}/specs/plan.md` — record the path, or null. Do the same for the parent: `{stm_base}{parent}/specs/plan.md` → `parent_plan`.
+5. **Decisions.** Paths to decision records the issue or its children point at (ADRs under `docs/adr/`, spike notes under `{stm_base}{n}/specs/`), checked with `test -f`.
+6. **Notes.** Anything the caller passed about order or priority, quoted, with its date.
+
+Write the result to `stm.output.context` (e.g. `{stm_base}{issue}/context/plan-context.yaml`) with the fields `issue`, `tree_available`, `parent`, `children`, `linked`, `existing_plan`, `parent_plan`, `decisions`, `notes`. Then invoke `manage-plan`.
+
+When `manage-issue` returns `tree_available: false` (GitLab, or gh older than 2.94.0), the type, parent and children are **unknown, not empty**: write `tree_available: false` and say so in `notes`. Never write "no parent, no children" for a tree you could not read.
+
+### Plan contract
+
+A plan intent arrives as a JSON contract like any other, with the plan's inputs named under `stm`:
+
+```json
+{
+  "intent_path": "{stm_base}/{issue}/intent.yaml",
+  "stm": {
+    "input":  { "action": "create | update | check", "issue": "{n}",
+                "change": "{plain words — update only}", "notes": "{caller's order/priority notes, quoted}" },
+    "output": { "context": "{stm_base}{issue}/context/plan-context.yaml",
+                "plan": "{stm_base}{issue}/specs/plan.md",
+                "report": "{stm_base}{issue}/context/plan-check.json",
+                "result": "{stm_base}{issue}/context/plan-result.yaml",
+                "failure": "{stm_base}{issue}/context/plan-failure.yaml" }
+  },
+  "task_id": "..."
+}
+```
+
+You pass `manage-plan` exactly: `action`, `issue`, `plan_path` (= `stm.output.plan`), `context_path` (= `stm.output.context`, create/update), `change` (update), `report_path` (= `stm.output.report`). `check` needs no context file. Write the skill's returned paths and the check report's `valid` / `done` to `stm.output.result`; on failure, write `stm.output.failure` per `structured-failure-protocol.md`.
 
 ## Context Loading
 
@@ -261,6 +307,10 @@ issue:
   created: {true|false}
   closed: {true|false}
   parent_issue: {parent_number or null}
+  type: "{tracker issue type or null}"        # read only
+  parent: {number, title, state} | null       # read only
+  sub_issues: [{number, title, state}]        # read only
+  tree_available: {true|false}                # read only — false: type/parent/children unknown
   type_hint: "{feature|fix|hotfix|refactor|docs|chore|null}"
 ```
 
@@ -280,8 +330,8 @@ The agent does NOT return the artifact content to the play. It writes artifacts 
 4. **Parse the intent** — What is the caller asking for?
 5. **Validate constraints** — For each constraint from the intent file, check against current state. If ANY would be violated, write structured failure to `stm.output.failure` per `structured-failure-protocol.md` and return failed contract. Do NOT proceed to skill invocation.
 6. **Check inputs** — Do I have what the skill needs?
-7. **Invoke skill** — Use the Skill tool with context
-8. **Enrich results** — Derive `type_hint` from labels/title
+7. **Invoke skill** — Use the Skill tool with context. For a plan intent: first build the Plan Context (several `manage-issue` reads), then make the one `manage-plan` call
+8. **Enrich results** — Derive `type_hint` from labels/title (issue intents); for a plan intent, record the returned paths and the check's `valid` / `done`
 9. **Write output** — Write enriched result to `stm.output.result` path
 10. **Mark task completed** — `TaskUpdate` task_id to `completed`
 11. **Return contract** — Return ONLY the enriched JSON contract with updated `stm` paths and status
@@ -290,7 +340,7 @@ The agent does NOT return the artifact content to the play. It writes artifacts 
 
 If intent is unclear:
 - **Don't guess** — Return clarification request via structured failure
-- **Don't chain** — One skill per invocation unless explicitly asked
+- **Don't chain** — One skill per invocation unless explicitly asked. The one standing exception is a plan intent (see Plan Context).
 - **Don't improvise** — Stick to available skills
 
 ## Boundaries
@@ -302,7 +352,7 @@ If intent is unclear:
 - Ask user questions directly — return to caller for user interaction
 - Use `AskUserQuestion` tool — callers handle user interaction
 - Execute `gh` commands directly when a skill exists
-- Follow multi-step workflows — that's play responsibility
+- Follow multi-step workflows — that's play responsibility. Exception: the Plan Context procedure, which is context gathering for one `manage-plan` call, not a workflow
 - Return prose, tables, or explanation to the play — return only the JSON contract
 
 ### ALWAYS
@@ -314,7 +364,7 @@ If intent is unclear:
 - Derive and include `type_hint` in output artifacts
 - Validate results before returning
 - Include evidence for claims
-- Respect the single-responsibility principle: one intent, one skill
+- Respect the single-responsibility principle: one intent, one skill — except a plan intent, which reads issues with `manage-issue` to build its context and then makes exactly one `manage-plan` call
 - Participate in the task graph via TaskUpdate/TaskCreate
 
 ### BASH USAGE
