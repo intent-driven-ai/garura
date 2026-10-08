@@ -1,51 +1,47 @@
----
-# analyze-changes output (grouping judgment done, round 1)
-# issue: 607
 needs_judgment: false
+branch: feature/607-understand-loop-recipe
+issue: 607
 
 change_groups:
-  - id: adr-029-drives
+  - id: docs-drive-review-fixes
     issue: 607
     commit_type: docs
-    scope: adr
-    subject: "record the drives decision in ADR 029 and supersede ADR 003"
+    scope: drives
+    subject: "close review gaps on drive rules: one PR, child-issue linking, drive scope, one handoff, glossary entry"
+    confidence: high
     files:
-      - docs/adr/029-drives.md
-      - docs/adr/003-guardian-approval.md
-      - docs/adr/SUPERSEDED-003-guardian-approval.md
-      - docs/adr/001-three-layer-hierarchy.md
-      - docs/adr/002-l1-checkpoint-model.md
-      - docs/adr/008-issue-centric-stm-and-nwwi.md
-      - docs/adr/028-agentic-lifecycle-five-loops.md
-      - docs/philosophy/architecture.md
       - .garura/user-provided/managing-work.md
-  - id: spike-607-decision-notes
+      - docs/adr/029-drives.md
+      - core/grounding/glossary.md
+    risks:
+      sensitive_files: []
+      breaking_changes: []
+    notes: "Review fixes on PR #618. managing-work.md drive exception and ADR 029 carry the same wording; glossary gains a Drive entry."
+  - id: chore-stm-607-decision-and-merge-gate
     issue: 607
     commit_type: chore
     scope: stm
-    subject: "record spike decision notes"
+    subject: "record spike decision L21 and merge-change gate run"
+    confidence: high
     files:
       - .garura/project/issues/607/specs/decisions.md
+      - .garura/project/issues/607/review/merge-gate.json
+    risks:
+      sensitive_files: []
+      breaking_changes: []
+    notes: "Operational STM records, not part of the doc change. decisions.md gains L21; merge-gate.json is a merge-change run record (approved flipped to true)."
 
 exclusions:
-  - path: ".garura/project/issues/607/context/analysis.yaml"
-    reason: "run artifact of commit-change; committed by the executor as the final chore(stm) group via --run-state-dir"
-    blocking: false
   - path: ".garura/project/issues/607/context/porcelain.txt"
-    reason: "run artifact of commit-change; committed by the executor as the final chore(stm) group via --run-state-dir"
+    reason: "run artifact, committed by the executor"
+    blocking: false
+  - path: ".garura/project/issues/607/context/analysis.yaml"
+    reason: "run artifact, committed by the executor"
     blocking: false
 
 risks:
-  sensitive_files:
-    []
-  breaking_changes:
-    []
-  hotfix_branch: false
+  sensitive_files: []
 
 eval_gates:
-  SE-1: {status: PASS, evidence: "11 changed paths: 9 in the docs group, 1 in the chore(stm) group, 2 run artifacts in exclusions; none left over (rename lists both old and new path)"}
-  SE-5: {status: PASS, evidence: "no sensitive filename or content patterns matched in the diff or in the untracked files; all changes are markdown"}
-
-notes:
-  - "Single-issue branch, so one docs group for all ADR, philosophy and process-doc edits (they are one decision). The spike working notes are operational STM, split into a chore(stm) group per the skill's rule."
-  - "ADR 003 rename is staged as a rename with extra worktree edits (status RM); both paths are listed so the pathspec commit covers the deletion and the new file."
+  SE-1: {status: PASS, evidence: "7 changed paths: 5 in two groups, 2 in exclusions, none dropped or duplicated"}
+  SE-5: {status: PASS, evidence: "no secrets, credentials or env files among the changed paths"}
