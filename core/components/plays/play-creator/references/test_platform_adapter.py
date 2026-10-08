@@ -2,9 +2,9 @@
 """
 test_platform_adapter.py — fixture tests for platform_adapter.py (#484).
 
-Tests the DETERMINISTIC layer: platform + repo resolution from config and argv
-construction per verb (the live gh/glab calls in dispatch() are not exercised —
-no network/auth in a fixture run). The argv-list construction is exactly what
+Tests the DETERMINISTIC layer: platform + repo resolution from config, argv
+construction per verb, and dispatch()'s view-issue version probe with the command
+runner stubbed. No live gh/glab call runs — no network/auth in a fixture run. The argv-list construction is exactly what
 makes the script correct and injection-safe, so that is what we pin.
 
     python3 test_platform_adapter.py
@@ -124,6 +124,19 @@ def test_view_issue_version_probe():
         check(f"{label}: tree fields {'asked' if want_tree else 'not asked'}",
               ("issueType" in view[-1]) == want_tree)
         check(f"{label}: tree_available is {want_tree}", res["tree_available"] is want_tree)
+
+    calls = []
+
+    def fake_glab(argv):
+        calls.append(argv)
+        return 0, "{}", ""
+    pa._run, pa.resolve_repo = fake_glab, (lambda _cfg: ("o", "r"))
+    try:
+        res = pa.dispatch("view-issue", {"issue_number": 7}, platform="gitlab")
+    finally:
+        pa._run, pa.resolve_repo = real_run, real_repo
+    check("gitlab: no gh --version probe", all(c[:1] != ["gh"] for c in calls))
+    check("gitlab: tree_available is False", res["tree_available"] is False)
 
 
 def test_gitlab_argv():
