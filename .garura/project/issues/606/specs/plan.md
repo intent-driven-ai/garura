@@ -34,7 +34,7 @@ Three decisions are made: the lifecycle is five loops (#592), a loop is a drive 
 ### Done
 
 - **Decided: the lifecycle is five loops** — #592. ADR 028. A design decision only; no loop is built yet.
-- **Decided and partly built: plan mode** — #619. Decided in ADR 030: every change works from a plan on disk, kept current, done only when the plan is done. Built: the template, the plan skill and its check. Not yet merged; wiring it into the plays is Feature #621.
+- **1. Decided and partly built: plan mode** — #619. Decided in ADR 030: every change works from a plan on disk, kept current, done only when the plan is done. Built: the template, the plan skill and its check. Not yet merged; wiring it into the plays is Feature #621.
 - **Decided: a loop is a drive; the first drive is Kickoff** — #607. ADR 029, a design decision only; nothing is built yet. It settled what a drive is, how it runs, that it owns one issue, one branch and one pull request, and that Kickoff runs `/intent` → `/vision` → `/understand`.
 
 ### 2. The three plays stop depending on each other — now
