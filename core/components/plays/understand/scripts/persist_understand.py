@@ -8,6 +8,11 @@ enrichment skill already wrote the per-node docs (capability.md, functionality.m
 to the live model. This script owns every SHARED file and applies the manifest's structured
 spine-delta to the live model IN PLACE, keyed to --capability-ref:
 
+  0. (only with --seed, #616) when the target capability is ABSENT from the live spine, a thin
+     seed entry from the person's recorded answers: id, domain (must already exist), status
+     proposed, detail directional, one_line, doc — exactly what /vision would have written,
+     nothing invented. It is then promoted by step 1 like any seed. Without --seed, an absent
+     target is still refused.
   1. the target capability's spine entry: detail -> detailed, + nfr_needs + compliance_needs
      (+ doc/one_line if the manifest carries them). It refuses to mutate any OTHER capability
      entry — this is the node-level containment the file-level scoped guard cannot provide.
@@ -23,7 +28,8 @@ and does NOT copy docs. Layer rule: pure file writes from disk inputs; no git/gh
     python3 persist_understand.py --enrich-manifest <enrich-manifest.yaml> \
         --product-base <product_base> --proposed-profile <proposed-profile.yaml> \
         --rollup-report <rollup.json> --capability-ref <cap-id> \
-        --decided-by /understand --date <YYYY-MM-DD> --out-manifest <persist-manifest.json>
+        --decided-by /understand --date <YYYY-MM-DD> --out-manifest <persist-manifest.json> \
+        [--seed <seed.yaml>]
 
 Exit 0 on success, 2 on usage/parse/containment error.
 """
@@ -66,6 +72,8 @@ def main(argv=None):
     ap.add_argument("--decided-by", default="/understand")
     ap.add_argument("--date", required=True, help="decision date (play passes it; never auto-generated)")
     ap.add_argument("--out-manifest", required=True)
+    ap.add_argument("--seed", default=None,
+                    help="seed.yaml with the person's answers; lets an ABSENT target be seeded (#616)")
     args = ap.parse_args(argv)
 
     cap_id = args.capability_ref
@@ -90,13 +98,45 @@ def main(argv=None):
 
     written, changed = [], {"capability": None, "functionalities_added": [],
                             "profile": False, "decisions": []}
+    seeded = False
 
-    # --- 1. the target capability entry: apply the manifest delta, keyed to cap_id -----
+    # --- 0. seed an ABSENT target from the person's answers (#616 D1) -----------------
     live_caps = live.setdefault("capabilities", [])
     live_cap = find(live_caps, cap_id)
     if live_cap is None:
-        sys.stderr.write(f"persist_understand.py: live spine has no capability '{cap_id}' to detail\n")
+        if not args.seed:
+            sys.stderr.write(f"persist_understand.py: live spine has no capability '{cap_id}' "
+                             f"to detail (pass --seed with the person's answers to seed it)\n")
+            return 2
+        if not os.path.isfile(args.seed):
+            sys.stderr.write(f"persist_understand.py: missing input {args.seed}\n")
+            return 2
+        seed = (load(args.seed).get("seed") or {})
+        missing = [k for k in ("id", "domain", "one_line", "why", "answered_by") if not seed.get(k)]
+        if missing:
+            sys.stderr.write(f"persist_understand.py: seed is missing {missing} — refusing "
+                             f"(a seed carries the person's answers, never invented ones)\n")
+            return 2
+        if seed["id"] != cap_id:
+            sys.stderr.write(f"persist_understand.py: seed id '{seed['id']}' != --capability-ref "
+                             f"'{cap_id}' — refusing (containment)\n")
+            return 2
+        if find(live.get("domains") or [], seed["domain"]) is None:
+            sys.stderr.write(f"persist_understand.py: domain '{seed['domain']}' is not in the spine "
+                             f"— refusing (a seed joins an existing domain)\n")
+            return 2
+        live_cap = {"id": cap_id, "domain": seed["domain"], "status": "proposed",
+                    "detail": "directional", "one_line": seed["one_line"],
+                    "doc": seed.get("doc") or f"{seed['domain']}/{slug(cap_id)}/capability.md"}
+        live_caps.append(live_cap)
+        seeded = True
+        written.append(f"seed:{cap_id}")
+    elif live_cap.get("detail") == "detailed":
+        sys.stderr.write(f"persist_understand.py: capability '{cap_id}' is already detailed — "
+                         f"refusing to re-detail it\n")
         return 2
+
+    # --- 1. the target capability entry: apply the manifest delta, keyed to cap_id -----
     cap_delta = enrich.get("capability") or {}
     for field in ("detail", "nfr_needs", "compliance_needs", "one_line", "doc"):
         if field in cap_delta:
@@ -157,7 +197,8 @@ def main(argv=None):
         yaml.safe_dump(live, fh, sort_keys=False, allow_unicode=True)
     written.append("spine:_spine.yaml")
 
-    manifest = {"written": written, "capability_ref": cap_id, "changed": changed, "box_moves": moves}
+    manifest = {"written": written, "capability_ref": cap_id, "seeded": seeded,
+                "changed": changed, "box_moves": moves}
     with open(args.out_manifest, "w", encoding="utf-8") as fh:
         json.dump(manifest, fh, indent=2)
     print(json.dumps(manifest, indent=2))
