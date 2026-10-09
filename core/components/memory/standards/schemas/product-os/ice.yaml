@@ -1,4 +1,4 @@
-# ICE Schema — v1
+# ICE Schema — v2
 #
 # Intent / Context / Expectations attached to a ProductOS node. The second of
 # the three things ProductOS keeps forever: INTENT.
@@ -8,7 +8,7 @@
 
 schema:
   name: ice
-  version: 1
+  version: 2
 
 ice:
   id: string              # the record's own id — the file is product-os/ice/<id>.yaml
@@ -71,7 +71,8 @@ attaches_to: [capability, functionality]   # same shape at both levels;
 
 # ---- Fill rules -------------------------------------------------------------
 # Who USUALLY writes what — a guide, not ownership. Any play may write or add to an
-# ICE, in any order (ontology v3); drift is fixed by the Alignment drive.
+# ICE, in any order (ontology v3), inside that play's declared write scope
+# (standards/rules/direct-model-write.md); drift is fixed by the Alignment drive.
 fill_rules:
   - play: "/intent"
     writes: "unplaced ICE (goals only, node_ref null) for each confirmed business intent,
@@ -91,3 +92,8 @@ fill_rules:
 # ---- Enhance rules ----------------------------------------------------------
 enhance_rules:
   governed_by: "PARKED — see product-os.yaml (future schema-evolution play)"
+
+# ---- Migration note (v1 -> v2, #612) ----------------------------------------
+# Additive. v2 adds `id`, `title` and `built_from`, and lets `node_ref` be null: an ICE
+# may now be written before its node exists (ontology v3), and later placed. Every v1
+# record stays valid as written; a v1 record simply has no built_from yet.

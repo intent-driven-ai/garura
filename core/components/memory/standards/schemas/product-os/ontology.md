@@ -10,15 +10,15 @@ The agreed map of what a product is made of in Garura: the kinds of things, what
 
 How it flows: a person gives an intent → it becomes a **Business Intent** here and a "Business Intent" issue in the tracker → plays break it into **Work** agents know (Feature, Story, Chore, Bug, Spike), each carrying the **ICE** its agent works on → as work finishes, the Business Intent is updated with what was done → when it is done, the Business Intent links to the value it got through the tracker's finished issues.
 
-**Who writes, and what the rules mean.** No play owns a kind. Any play writes the intents, ICE or other kinds it finds — from a prototype, while shaping, or in the middle of implementation — and the parts may come in any order. The rules below say what holds once the product is **aligned**; they never stop a write. Drift between them is found and fixed by the Alignment drive. One thing is never left to alignment: only a person confirms or drops a business intent.
+**Who writes, and what the rules mean.** No play owns a kind. Any play may write the intents, ICE or other kinds it finds — from a prototype, while shaping, or in the middle of implementation — and the parts may come in any order. A play still writes only inside its own declared write scope (`standards/rules/direct-model-write.md`); a play's scope is widened on purpose, in that play, never by this sentence. The rules below say what holds once the product is **aligned**; they never stop a write. Drift between them is found and fixed by the Alignment drive. One thing is never left to alignment: only a person confirms or drops a business intent.
 
 ## Questions it must answer
 
 - **Q1** — Given a business intent and the product as it is today, which types of work does it need — Feature, Story, Bug, Chore, Spike — what value does each bring to the intent, and when would a type of work be wrong for it?
   **Answered by:** Business Intent; Work serves Business Intent; Business Intent touches Capability
   **Status:** partly
-- **Q2** — Given a new business intent, which parts of the product does it touch — and for each, does it change something that exists, add something new, or remove something — at the level of a domain, a capability or a function?
-  **Answered by:** Business Intent touches Domain, Capability, Function (each marked change, add or remove)
+- **Q2** — Given a new business intent, which parts of the product does it touch — and for each, does it change something that exists, add something new, or remove something — at the level of a domain, a capability or a functionality?
+  **Answered by:** Business Intent touches Domain, Capability, Functionality (each marked change, add or remove)
   **Status:** partly
 - **Q3** — When two intents touch the same part of the product and want opposite things, is that shown to a person before any work starts?
   **Answered by:** Business Intent touches Capability, compared across intents
@@ -65,7 +65,7 @@ How it flows: a person gives an intent → it becomes a **Business Intent** here
 | this → other | Tracker Issue | one | It is tracked as one "Business Intent" issue in the team's tracker |
 | this → other | Domain | many | It touches a domain — marked change, add or remove |
 | this → other | Capability | many | It touches a capability — marked change, add or remove |
-| this → other | Function | many | It touches a function — marked change, add or remove |
+| this → other | Functionality | many | It touches a functionality — marked change, add or remove |
 
 **Rules**
 
@@ -134,15 +134,15 @@ proposed → confirmed (the person who asked confirms it says the right thing) �
 
 ### ICE
 
-**What it is:** The agent's intent for one part of the product — a capability or a function: what must be true there, for whom, and how it will be checked. It is what an agent works on, and it is built from a business intent. It may be written before its part of the product exists: it starts with the goals a business intent needs and is placed under a capability or function, and filled in, later. Defined in `ice.yaml`, plus the link to its business intents.
+**What it is:** The agent's intent for one part of the product — a capability or a functionality: what must be true there, for whom, and how it will be checked. It is what an agent works on, and it is built from a business intent. It may be written before its part of the product exists: it starts with the goals a business intent needs and is placed under a capability or functionality, and filled in, later. Defined in `ice.yaml`, plus the link to its business intents.
 **Who reads it:** agent
-**Lives at:** `product-os/ice/<id>.yaml`, in the `ice.yaml` shape; its capability or function points at it once it is placed
+**Lives at:** `product-os/ice/<id>.yaml`, in the `ice.yaml` shape; its capability or functionality points at it once it is placed
 
 **Properties**
 
 | Property | What it holds | Required |
 |----------|---------------|----------|
-| Part of the product | The capability or function it belongs to | once aligned — empty until it is placed |
+| Part of the product | The capability or functionality it belongs to | once aligned — empty until it is placed |
 | Goals, limits, failures | What must be true, the limits, and what counts as failing | goals yes; limits and failures once aligned |
 | Context | Who it serves (personas), the systems it touches, what is in and out of scope | once aligned |
 | Outcomes | How each goal is checked | once aligned |
@@ -155,14 +155,14 @@ proposed → confirmed (the person who asked confirms it says the right thing) �
 |-----------|-----------|-------|---------|
 | this → other | Business Intent | many | It is built from a business intent |
 | this → other | Capability | one, once placed | It belongs to a capability … |
-| this → other | Function | one, once placed | … or to a function |
+| this → other | Functionality | one, once placed | … or to a functionality |
 | other → this | Work | many | A piece of work carries it — the intent its agent works on |
 
 **Rules**
 
 - Once aligned, one part of the product has one ICE; two ICE for the same part are drift for alignment to merge.
-- Once aligned, it is placed under a capability or function, and built from at least one confirmed business intent.
-- Any play may write or add to it. Its goals come first; context, outcomes and quality needs are added as the product is shaped.
+- Once aligned, it is placed under a capability or functionality, and built from at least one confirmed business intent.
+- Any play may write or add to it, inside that play's declared write scope. Its goals come first; context, outcomes and quality needs are added as the product is shaped.
 
 **Example**
 
@@ -183,7 +183,7 @@ proposed → confirmed (the person who asked confirms it says the right thing) �
 - **Tracker Issue** — an issue in the team's tracker (GitHub, Jira, …) that tracks a business intent or a piece of work.
 - **Domain** — a big area of the product (exists today in `product-os.yaml`).
 - **Capability** — something the product can do, inside a domain (exists today in `product-os.yaml`).
-- **Function** — one specific action inside a capability ("functionality" in `product-os.yaml`).
+- **Functionality** — one specific action inside a capability (the leaf of `product-os.yaml`).
 
 ## Log
 
@@ -191,3 +191,4 @@ proposed → confirmed (the person who asked confirms it says the right thing) �
 - 2026-10-08 — v2: a Source is anything that explains the intent — a prototype, a document, or a plain statement — not only a prototype (Kapil, approving `/intent`'s intent). Snapshot and Kind widened to match.
 - 2026-10-08 — A Source may be a project folder (its written docs are kept; the running app is captured as a second, site Source).
 - 2026-10-09 — v3 (Kapil, #612): no play owns a kind — any play writes what it finds, in any order; rules say what holds once aligned and never block a write; drift goes to the Alignment drive. Only a person confirms or drops a business intent. ICE may be written before it is placed (`product-os/ice/<id>.yaml`, goals first); the writer rule for ICE is gone.
+- 2026-10-09 — Review of #631: "Function" renamed "Functionality" to match the glossary and the spine; any play may write a kind only inside its own declared write scope (`direct-model-write.md`).

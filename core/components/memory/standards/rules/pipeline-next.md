@@ -17,7 +17,7 @@ the Next line where that reads better — e.g. `/next` itself).
 
 The lifecycle runs as five loops (ADR 028; the names are working names). The plays below are the steps inside each loop. Until the loop recipes exist (#594), a person runs each play, and this map tells them which comes next.
 
-- **Understand loop:** `/vision → /understand`.
+- **Kickoff loop (ADR 029):** `/intent → /vision → /understand`. `/intent` is optional: `/vision` can still start from a goal typed as text.
 - **Shape loop:** `/shape → /roadmap`, then the design plays, which still run per slice today:
   - Functional: `/ux → /agentic → /marketing`
   - Non-functional: `/arch → /quality → /run`
@@ -32,8 +32,8 @@ The lifecycle runs as five loops (ADR 028; the names are working names). The pla
 
 ```yaml
 next:
-  # Understand loop, then Shape loop
-  intent:         { command: vision,         why: "start the product model from this confirmed business intent" }
+  # Kickoff loop, then Shape loop
+  intent:         { command: vision,         why: "seed the product model from a confirmed business intent (give /vision its title, outcome and why as the goal)" }
   vision:         { command: understand,     why: "expand this capability's intent (ICE)" }
   understand:     { command: shape,          why: "cut the capability into slices" }
   shape:          { command: roadmap,        why: "prioritise the slices" }
