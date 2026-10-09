@@ -1,83 +1,80 @@
----
 needs_judgment: false
-branch: feature/612-intent-play
-issue: 612
-
 change_groups:
-  - id: fix-intent-play
+  - id: product-os-ice-inline-on-capability
     issue: 612
-    commit_type: fix
-    scope: intent
-    subject: "harden the intent play scripts and tests and align the agent status word and play text with the review"
-    confidence: high
-    files:
-      - core/components/plays/intent/scripts/capture_source.py
-      - core/components/plays/intent/scripts/check_intent.py
-      - core/components/plays/intent/scripts/persist_intent.py
-      - core/components/plays/intent/scripts/test_intent_scripts.py
-      - core/components/plays/intent/SKILL.md
-      - core/components/plays/intent/reference/ice.md
-      - core/components/agents/business-intent-keeper.md
-    notes: "PR #631 review round 1. Scripts: ids checked and file-name safe, every check before any write, wrong-shaped input handled, file links for paths with # or ?, skipped tests shown, check split into small functions. Agent status word blocked/needs_person per ADR 016. Play text and its ICE source context line. SKILL.md edit is a non-intent surface edit; ice.md context line is the matching source edit."
-
-  - id: fix-product-os
-    issue: 612
-    commit_type: fix
+    commit_type: feat
     scope: product-os
-    subject: "say Functionality in the ontology, keep writes in a play's declared scope and bump ice.yaml to v2 with a migration note"
-    confidence: high
+    subject: "keep ICE inline on a proposed capability, let a capability wait for its domain, add intents to spine entries and make ICE workable only with a confirmed business intent"
     files:
       - core/components/memory/standards/schemas/product-os/ontology.md
+      - core/components/memory/standards/schemas/product-os/spine.yaml
       - core/components/memory/standards/schemas/product-os/ice.yaml
       - core/components/memory/standards/schemas/product-os/_index.md
-      - core/components/memory/standards/templates/product-ontology.md
-      - core/components/memory/standards/rules/pipeline-next.md
       - core/grounding/glossary.md
-    risks:
-      sensitive_files: []
-      breaking_changes: []
-    notes: "ice.yaml schema version 1 to 2 is additive (v1 records stay valid), documented in its migration note. Also: schema index and template strings, pipeline-next flow and why text, glossary rows for Business Intent, Source and product ontology."
-
-  - id: fix-install-garura-scope
+  - id: lint-grounding-capability-without-domain-warns
     issue: 612
     commit_type: fix
-    scope: install-garura
-    subject: "word the install scope to say the full set leaves out the meta-utility skills"
-    confidence: high
+    scope: lint-grounding
+    subject: "warn instead of error when a capability has no domain"
     files:
-      - core/components/plays/install-garura/scripts/install.py
-      - core/components/plays/install-garura/SKILL.md
-    notes: "Wording only (docstring, comments, --scope help text); no install behaviour change in this diff."
-
-  - id: test-build-product-ontology
+      - core/components/plays/agentic/scripts/lint_grounding.py
+      - core/components/plays/arch/scripts/lint_grounding.py
+      - core/components/plays/grill/scripts/lint_grounding.py
+      - core/components/plays/learn/scripts/lint_grounding.py
+      - core/components/plays/marketing/scripts/lint_grounding.py
+      - core/components/plays/measure/scripts/lint_grounding.py
+      - core/components/plays/quality/scripts/lint_grounding.py
+      - core/components/plays/run/scripts/lint_grounding.py
+      - core/components/plays/understand/scripts/lint_grounding.py
+      - core/components/plays/ux/scripts/lint_grounding.py
+      - core/components/plays/vision/scripts/lint_grounding.py
+  - id: play-creator-ice-workable-check
     issue: 612
-    commit_type: test
-    scope: build-product-ontology
-    subject: "add the four missing rule tests to the ontology checker"
-    confidence: high
+    commit_type: feat
+    scope: play-creator
+    subject: "check that an ICE is workable before working on it"
     files:
-      - core/components/skills/build-product-ontology/scripts/test_check_ontology.py
-
-  - id: docs-skills-roster
+      - core/components/plays/play-creator/references/check_ice_workable.py
+      - core/components/plays/play-creator/references/test_check_ice_workable.py
+      - core/components/plays/play-creator/SKILL.md
+  - id: intent-writes-ice-as-proposed-capability
     issue: 612
-    commit_type: docs
-    scope: skills
-    subject: "fix the skills roster intro"
-    confidence: high
+    commit_type: feat
+    scope: intent
+    subject: "write each ICE as a proposed capability"
     files:
-      - docs/components/skills.md
-
-exclusions:
-  - path: ".garura/project/issues/612/context/analysis.yaml"
-    reason: "this analysis file itself (scan artifact, rewritten each run); STM evidence, not part of the change"
-    blocking: false
-  - path: ".garura/project/issues/612/context/porcelain.txt"
-    reason: "scan artifact (git status snapshot) rewritten each run; STM evidence, not part of the change"
-    blocking: false
-
+      - core/components/plays/intent/reference/ice.md
+      - core/components/plays/intent/SKILL.md
+      - core/components/plays/intent/scripts/persist_intent.py
+      - core/components/plays/intent/scripts/check_intent.py
+      - core/components/plays/intent/scripts/test_intent_scripts.py
+      - core/components/plays/intent/scripts/lint_grounding.py
+      - core/components/plays/intent/scripts/check_ice_workable.py
+      - core/components/agents/business-intent-keeper.md
+      - core/components/skills/author-business-intent/SKILL.md
+  - id: stm-612-review-decisions-d8-d9
+    issue: 612
+    commit_type: chore
+    scope: stm
+    subject: "record review decisions D8 and D9 and plan follow-ups"
+    files:
+      - .garura/project/issues/612/specs/decisions.md
+      - .garura/project/issues/612/specs/plan.md
+      - .garura/project/issues/612/context/analysis.yaml
+      - .garura/project/issues/612/context/porcelain.txt
+exclusions: []
 risks:
   sensitive_files: []
-
-eval_gates:
-  SE-1: {status: PASS, evidence: "19 changed files: 17 in five groups, 2 in exclusions; each file appears exactly once"}
-  SE-5: {status: PASS, evidence: "no sensitive filename patterns; diff scanned for password/api_key/secret/token assignments, private_key and key headers, no matches. Not a hotfix branch."}
+notes:
+  branch: feature/612-intent-play
+  total_files: 32
+  grouped_files: 32
+  lint_grounding_copies_in_group_2: 11
+  new_untracked_files: 4
+  breaking_changes: []
+  hotfix_branch: false
+  observations:
+    - "spine.yaml also carries a one-character YAML fix (maintainability:{)."
+    - "ice.yaml is reverted toward main; it shows as modified against HEAD and is kept with the ontology group."
+    - "lint_grounding.py in plays/intent is new (untracked) and kept with the intent group, not the lint-grounding fix group, because it is a new copy rather than an edit."
+    - "Group order suggested: product-os, lint-grounding, play-creator, intent, stm."

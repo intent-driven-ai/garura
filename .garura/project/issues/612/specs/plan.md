@@ -47,7 +47,7 @@ Kickoff, the first drive, starts from a working prototype that the person shares
 ### 7. Check `/vision` can start from it — now
 
 **Issue:** #612.
-**What:** check whether `/vision` can start from a business intent and its unplaced ICE in the model — today it takes a business goal as text — and write up the change it needs as a follow-up (out of scope here).
+**What:** check how `/vision` picks up a business intent and the proposed capabilities `/intent` wrote (no domain yet) — today it takes a business goal as text and seeds capabilities itself — and write up the change it needs: attach domains to existing capabilities, enrich their ICE, and link any ICE it writes to a business intent (D8, D9). The change is a follow-up (out of scope here).
 **Why here:** that hand-over is the reason `/intent` exists.
 **Done when:** `/vision`'s input takes the intent as written; any gap is written up as a follow-up.
 **Needs:** item 6.
@@ -70,3 +70,12 @@ Kickoff, the first drive, starts from a working prototype that the person shares
 - 2026-10-08 — Item 5 done: trial on the token-burn dashboard, ended by Kapil at the confirm step. Findings in `specs/trial-token-burn/notes.md`. Added item 6 (two levels); renumbered the rest.
 - 2026-10-09 — Kapil: the lower level is ICE, and the ontology is the hand-off; nothing waits — no play owns a kind, any play writes what it finds, and an Alignment drive (its own drive, not yet filed) fixes drift. Ontology v3 and `ice.yaml` updated; `/intent` rebuilt for two levels (C12 changed, C13 example answers added); vision-goal files dropped. Re-run still to do.
 - 2026-10-09 — Item 6 done: unattended re-run (Kapil away, no questions). Pass B gave Kapil's four intents with 13 ICE; save, guard and stop condition passed on a simulated confirmation. All output removed. Now on item 7.
+- 2026-10-09 — Review of PR #631 (35 findings, none blocking): clear fixes done; Kapil decided D8 (ICE placed at once on a proposed capability, domain attached later by `/vision`) and D9 (ICE workable only with a confirmed intent; writes never blocked). Follow-ups recorded below.
+
+## Follow-ups (not in this issue)
+
+- `/vision` attaches domains to existing capabilities and links its ICE to a business intent (item 7 writes this up).
+- `/understand` and `/shape` link the ICE they write to a business intent; every play that works on ICE calls `check_ice_workable.py` first (play-creator now says so).
+- An ADR records the two-level design (D6), no play owns a kind (D7), D8 and D9, and amends ADR 029 §6 / ADR 027 / `idsd.md` / the glossary IDSD row — the review's MEM-3, MEM-4, F4.
+- Kickoff and the pinned confirm step (review F1/F2); confirm-then-write as a declared exception in `direct-model-write.md` (F5); the drive contract's shape (F6, #614/#615); where Sources live (MEM-5/F8); Garura's own work types named in the product ontology (MEM-9); why a separate agent (F9).
+- Pre-existing, found on the way: `/understand`'s `lint_grounding.py` copy is older than the other ten; `preflight.py`, `session_stamp.py` and `lint_grounding.py` carry ruff E741 in every copy; review-change's stop condition looks for `verdict.yaml` while the play writes `decision.yaml`; the config's review-shelf path points at a folder that does not exist here.
