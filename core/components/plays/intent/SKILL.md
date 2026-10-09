@@ -182,8 +182,9 @@ the coverage map from every part of a source to its ICE; and the questions the s
 answer, each tagged with its intent and carrying up to three example answers. The agent then
 checks the draft — every page, tab and section mapped, nothing merged, no intent that restates
 the source, by judgment; the rest by the check script — and sends problems back to the skill
-(at most twice). It returns only its JSON contract: `completed`, or `needs_person` when only
-the person's questions are left, with both paths and the counts.
+(at most twice). It returns only its JSON contract: `completed`, or `blocked` with
+`blocked_reason: needs_person` when only the person's questions are left, with both paths and
+the counts.
 
 ### Phase: Ask and check
 
@@ -456,7 +457,7 @@ Inside a drive, a resume keeps `in_drive` from `run.json`.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:a77e4fe05289c292d0b39ad4f1747bf8d594e81d4d5082b71451d9741f767af9 (of `reference/ice.md`) |
+| fingerprint | sha256:5bd68aa5c17739c873b0c091532bd901a13e251516454afd85cabc50dff6e71e (of `reference/ice.md`) |
 | compiled_by | play-creator (#612) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close; both skipped inside a drive) |
 | position_exception | model-writing both play — writes the intent on its started branch (or the drive's) and commits its own model delta (Step 7) BEFORE the injected end sequence lands it |

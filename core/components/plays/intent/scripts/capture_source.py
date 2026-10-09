@@ -26,6 +26,7 @@ import datetime
 import hashlib
 import json
 import os
+import pathlib
 import shutil
 import sys
 
@@ -136,7 +137,7 @@ def main(argv=None):
             manifest["files"].append(name)
             if os.path.splitext(name)[1].lower() in HTML_EXT:
                 manifest["kind"] = "prototype — file"
-                url = "file://" + os.path.abspath(args.source)
+                url = pathlib.Path(os.path.abspath(args.source)).as_uri()   # escapes # and ?
                 manifest["files"] += screenshot([url] + args.also, args.out_dir, clicks=args.click)
             else:
                 manifest["kind"] = "document"

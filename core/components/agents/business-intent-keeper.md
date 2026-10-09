@@ -97,7 +97,8 @@ together.
 
 ```json
 {
-  "status": "completed | needs_person | failed",
+  "status": "completed | blocked | failed",
+  "blocked_reason": "needs_person | null",
   "outputs": { "draft": "<path written>", "check_report": "<path written>" },
   "intents": 0,
   "ice": 0,
@@ -110,9 +111,9 @@ together.
 Return this JSON and nothing else — no summary, no list of findings, no prose. Everything the
 caller needs is in the files.
 
-`completed` — the check is clean. `needs_person` — the only problems left are questions for
-the person (missing properties and open questions); the caller asks them and sends the
-answers back.
+`completed` — the check is clean. `blocked` with `blocked_reason: needs_person` — the only
+problems left are questions for the person (missing properties and open questions); the
+caller asks them and sends the answers back. The statuses are ADR 016's.
 
 ## Failure Protocol
 

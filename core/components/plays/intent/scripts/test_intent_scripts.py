@@ -32,6 +32,7 @@ import persist_intent as pi  # noqa: E402
 
 PASSED = 0
 FAILED = 0
+SKIPPED = []
 
 
 def check(name, cond):
@@ -44,6 +45,13 @@ def check(name, cond):
         print(f"  [FAIL] {name}")
         if os.environ.get("PYTEST_CURRENT_TEST"):
             raise AssertionError(name)
+
+
+def skip(names, reason):
+    """Record checks that could not run, so the summary says so instead of hiding them."""
+    for name in names:
+        SKIPPED.append(name)
+        print(f"  [SKIP] {name} — {reason}")
 
 
 def read_json(path):
@@ -116,6 +124,10 @@ def test_capture():
         m = read_json(man)
         if "Playwright" in (m.get("problem") or "") and "installed" in m["problem"]:
             check("an HTML prototype without Playwright fails plainly (F1)", rc == 2)
+            skip(["an HTML prototype is copied and rendered", "the screenshot is a real image",
+                  "a named tab is clicked and captured", "the clicked view's text is kept beside its picture",
+                  "a tab that does not exist fails, not skipped", "a file path with # or ? is captured"],
+                 "Playwright is not installed")
         else:
             check("an HTML prototype is copied and rendered", rc == 0 and "screen-01.png" in m["files"])
             check("the screenshot is a real image",
@@ -134,6 +146,13 @@ def test_capture():
             check("a tab that does not exist fails, not skipped",
                   cs.main(["--source", tabs, "--out-dir", out, "--given-by", "Kapil", "--manifest", man,
                            "--click", "Nowhere"]) == 2)
+            odd = os.path.join(tmp, "draft #2?.html")
+            with open(odd, "w") as fh:
+                fh.write("<html><body><p>odd name</p></body></html>")
+            out, man = os.path.join(tmp, "src9"), os.path.join(tmp, "m9.json")
+            check("a file path with # or ? is captured",
+                  cs.main(["--source", odd, "--out-dir", out, "--given-by", "Kapil", "--manifest", man]) == 0
+                  and "screen-01.png" in read_json(man)["files"])
 
         proj = os.path.join(tmp, "proj")
         os.makedirs(os.path.join(proj, "app"))
@@ -257,6 +276,23 @@ def test_check():
     bad["intents"][1]["id"] = "grow-online-sales"
     check("two intents with one id are caught", any("not unique" in p for p in ci.check(bad)["problems"]))
     bad = fresh()
+    bad["ice"][0]["id"] = "../../escape"
+    check("an id that is not file-name safe is caught",
+          any("lower-case letters, digits and dashes" in p for p in ci.check(bad)["problems"]))
+    bad = fresh()
+    bad["intents"][0]["provenance"] = "person"
+    check("a provenance of the wrong shape is reported, not a crash",
+          any("provenance `none`" in p for p in ci.check(bad)["problems"]))
+    with tempfile.TemporaryDirectory() as tmp:
+        lst = os.path.join(tmp, "list.yaml")
+        with open(lst, "w") as fh:
+            fh.write("- not\n- a mapping\n")
+        good = os.path.join(tmp, "g.yaml")
+        with open(good, "w") as fh:
+            yaml.safe_dump(GOOD, fh)
+        check("a draft of the wrong shape exits 3, not a traceback", ci.main(["--draft", lst]) == 3)
+        check("an answers record of the wrong shape exits 3", ci.main(["--draft", good, "--answers", lst]) == 3)
+    bad = fresh()
     bad["sources"][0]["shows"] = ""
     check("a source with no 'what it shows' is caught", any("what it shows" in p for p in ci.check(bad)["problems"]))
 
@@ -356,14 +392,43 @@ def test_persist():
               pi.main(argv) == 2 and not os.path.exists(intent_file(tmp, "grow-online-sales")))
     with tempfile.TemporaryDirectory() as tmp:
         argv, working, _ = persist_setup(tmp, both(), shows=False)
-        check("a source with no 'what it shows' is not counted as linked", pi.main(argv) == 2)
+        check("a source with no 'what it shows' is refused before anything is written",
+              pi.main(argv) == 2 and not os.path.exists(intent_file(tmp, "grow-online-sales"))
+              and not os.path.exists(ice_file(tmp, "guest-checkout")))
+    for label, change in (("an ICE id that climbs out of the folder", ("ice", 0, "../../../escape")),
+                          ("a business intent id with a slash", ("intents", 1, "a/b")),
+                          ("two ICE with one id", ("ice", 1, "guest-checkout"))):
+        with tempfile.TemporaryDirectory() as tmp:
+            argv, working, _ = persist_setup(tmp, both())
+            draft_path = argv[argv.index("--draft") + 1]
+            with open(draft_path) as fh:
+                d = yaml.safe_load(fh)
+            key, n, value = change
+            d[key][n]["id"] = value
+            if key == "intents":
+                with open(argv[argv.index("--confirmation") + 1]) as fh:
+                    c = yaml.safe_load(fh)
+                c["confirmation"]["decisions"][n]["intent"] = value
+                with open(argv[argv.index("--confirmation") + 1], "w") as fh:
+                    yaml.safe_dump(c, fh)
+            with open(draft_path, "w") as fh:
+                yaml.safe_dump(d, fh)
+            rc = pi.main(argv)
+            written = [os.path.join(r, f) for r, _, fs in os.walk(tmp) for f in fs
+                       if f.endswith((".md", ".yaml")) and "product-os" in r]
+            check(f"{label} is refused and nothing is written", rc == 2 and not written)
+    with tempfile.TemporaryDirectory() as tmp:
+        argv, working, _ = persist_setup(tmp, both())
+        with open(argv[argv.index("--draft") + 1], "w") as fh:
+            fh.write("- not a mapping\n")
+        check("a draft of the wrong shape is refused, not a traceback", pi.main(argv) == 2)
 
 
 def main():
     for test in (test_capture, test_check, test_persist):
         print(test.__name__)
         test()
-    print(f"\n{PASSED} passed, {FAILED} failed")
+    print(f"\n{PASSED} passed, {FAILED} failed, {len(SKIPPED)} skipped")
     sys.exit(1 if FAILED else 0)
 
 
