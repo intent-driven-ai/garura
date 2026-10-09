@@ -24,7 +24,7 @@ Every kind and relationship exists to answer at least one of these. A question n
 answers yet says so.
 
 - **Q1** — {the question, in plain words}
-  **Answered by:** {kinds and relationships, e.g. Business Intent; Agent Intent serves Business Intent}
+  **Answered by:** {kinds and relationships, e.g. Business Intent; Work serves Business Intent}
   **Status:** {answered | partly | not yet}
 
 ## Kinds
