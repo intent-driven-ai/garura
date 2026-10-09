@@ -1,0 +1,526 @@
+pr: 631
+issue: 612
+round: 1
+confidence: 0.9
+findings:
+- id: F1
+  category: executable-code
+  severity: P3
+  file: core/components/plays/intent/scripts/persist_intent.py
+  line: 127
+  title: An intent or ICE id is used as a file name with no shape check, so an id with ../ writes outside the model
+    folder
+  evidence: 'paths = {str(i[''id'']): os.path.join(intents_dir, f"{i[''id'']}.md") ...}; ice_paths likewise (line
+    132). Probe: a confirmed intent with id ''../../../escape'' exited 0 and wrote escape.md three levels above
+    product-os/intents. check_intent.py does not check id shape either, and scoped_write_guard only watches product-os.'
+  why_it_matters: The id comes from an agent-authored draft. A stray or hostile id lands a file where the write
+    guard cannot see it. The script's own promise is that it writes only the two model folders and the source snapshot.
+  basis: 'review/code rubric: safe handling of paths and inputs, data-safety on write paths (knowledge/review/code.md)'
+  suggestion: Refuse any id that is not a plain slug (for example ^[a-z0-9][a-z0-9-]*$) in persist_intent.py before
+    building paths, and add the same check to check_intent.py so the draft fails early. Add a test.
+- id: F2
+  category: executable-code
+  severity: P3
+  file: core/components/plays/intent/scripts/persist_intent.py
+  line: 183
+  title: A source with no 'what it shows' is only found after everything is written, so the run exits 2 with files
+    saved and a re-run is then refused
+  evidence: 'missing_shows is computed at lines 183-185, after the ICE files (141), intent pages (166) and source.md
+    files (180) are written. Probe with shows='''': exit 2, four model files left on disk, re-run exits 2 with ''already
+    exist''. The header lists the cases that ''write nothing''; this one is not among them. The test at test_intent_scripts.py:358
+    asserts only the exit code, not that nothing was written.'
+  why_it_matters: 'The never-overwrite rule turns a fixable gap into a dead end: the person must delete files by
+    hand before the play can run again, and the saved pages carry an empty ''What it shows''.'
+  basis: 'review/code rubric: safe handling of destructive and irreversible operations; deterministic where it claims
+    to be (knowledge/review/code.md)'
+  suggestion: Move the missing-summary check up with the other refusals (before line 125) so it writes nothing,
+    and make the test assert no files exist.
+- id: F3
+  category: executable-code
+  severity: P4
+  file: core/components/plays/intent/scripts/persist_intent.py
+  line: 105
+  title: Two confirmed intents with the same id are both reported saved, but only one page exists
+  evidence: 'Probe: two intents with id grow-online-sales, one decision: exit 0, manifest lists two intents with
+    the same path, and the page holds only the second intent''s title. check_intent.py reports duplicate ids, but
+    persist_intent.py does not re-check.'
+  basis: 'review/code rubric: deterministic where it claims to be (knowledge/review/code.md)'
+  suggestion: Refuse duplicate intent ids and duplicate ICE ids with the other refusals.
+- id: F4
+  category: executable-code
+  severity: P4
+  file: core/components/plays/intent/scripts/check_intent.py
+  line: 122
+  title: Input of the wrong shape crashes with a traceback instead of the documented exit 3 or a problem line
+  evidence: 'Probes: provenance given as a string (line 122) and an answers file holding a list (line 200, and main
+    at 241) raise AttributeError (''str''/''list'' object has no attribute ''get''). Same pattern in persist_intent.py
+    lines 81-85 when the draft or confirmation file is not a mapping. Docstring promises exit 3 on unreadable input.'
+  basis: 'review/code rubric: error handling; the script''s own exit-code contract (knowledge/review/code.md)'
+  suggestion: Check isinstance(..., dict) after each yaml.safe_load and return 3 (or refuse with exit 2 in persist_intent.py).
+- id: F5
+  category: executable-code
+  severity: P4
+  file: core/components/plays/intent/scripts/capture_source.py
+  line: 139
+  title: 'An HTML file whose path contains # or ? cannot be captured because the file:// link is built by string
+    concatenation'
+  evidence: 'url = ''file://'' + os.path.abspath(args.source). Probe with ''sp ace#1/p q.html'': exit manifest problem
+    ''net::ERR_FILE_NOT_FOUND at file:///.../sp%20ace#1/p%20q.html''. Spaces work; # is read as the start of a fragment.'
+  why_it_matters: The failure is loud (F1, recorded in the manifest), so nothing is lost; the person just cannot
+    snapshot a prototype kept in such a folder.
+  basis: 'review/code rubric: safe handling of paths and inputs (knowledge/review/code.md)'
+  suggestion: Use pathlib.Path(args.source).resolve().as_uri().
+- id: F6
+  category: executable-code
+  severity: P4
+  file: core/components/plays/intent/scripts/persist_intent.py
+  line: 65
+  title: main() is 142 lines and check() in check_intent.py is 127 lines, each doing several unrelated jobs
+  evidence: persist_intent.main spans lines 65-206 (validate, build paths, write ICE, write intent pages, write
+    source pages, build manifest). check_intent.check spans lines 89-215. capture_source.main (78 lines) and check_ontology.check
+    (78 lines) are long but readable.
+  basis: 'review/code rubric: function size (knowledge/review/code.md)'
+  suggestion: Split persist_intent.main into refuse-checks, write, and manifest steps; this also makes F2 a one-line
+    move.
+- id: F7
+  category: executable-code
+  severity: P4
+  file: core/components/plays/install-garura/scripts/install.py
+  line: 201
+  title: The scope descriptions still say 'full' skips only the meta plays, but it now also skips meta skills
+  evidence: 'resolve_scope docstring (line 201: ''`full` is everything on disk EXCEPT the meta harness plays''),
+    the header text at line 19 (''every component except the meta harness plays'') and the comment at lines 160-164
+    are unchanged by this diff. The play''s SKILL.md was updated to say ''meta plays and the meta-utility skills''.
+    The docstring also says a None value means ''install every component of that kind'', which no longer holds for
+    skills under full.'
+  basis: 'review/code rubric: deterministic where it claims to be; code and its documentation say the same thing
+    (knowledge/review/code.md)'
+  suggestion: Update those three places to name META_SKILLS.
+- id: F8
+  category: executable-code
+  severity: P4
+  file: core/components/plays/intent/scripts/preflight.py
+  line: 127
+  title: ruff reports E741 (ambiguous variable name l) in two stamped copies
+  evidence: 'ruff check: preflight.py:127:45 and session_stamp.py:49:24, E741. Both files are byte-identical to
+    the copies in the other plays, so the same two hits exist in every sibling copy; the orchestrator''s ''ruff
+    clean'' run did not show them.'
+  basis: 'review/code rubric: the language linter (knowledge/review/code.md)'
+  suggestion: Fix once in the canonical copies under play-creator/references and re-stamp, not in intent/ alone,
+    so the copies stay identical.
+- id: F9
+  category: tests
+  severity: P4
+  file: core/components/plays/intent/scripts/test_intent_scripts.py
+  line: 117
+  title: Without Playwright the HTML, tab-click and missing-tab tests are silently skipped and the suite still reports
+    all passed
+  evidence: 'Lines 117-136: if the manifest problem mentions Playwright, one check (rc == 2) runs and the screenshot,
+    click and tab checks are never run. The summary line is the same either way, so ''65 passed'' does not say which
+    branch ran. Here Playwright is installed, so all ran.'
+  basis: 'review/tests rubric: no skipped or disabled tests sneaking in; say so explicitly when something was not
+    run (knowledge/review/tests.md)'
+  suggestion: Print a SKIPPED line and count skips separately, so the summary shows them.
+- id: F10
+  category: tests
+  severity: P4
+  file: core/components/skills/build-product-ontology/scripts/test_check_ontology.py
+  line: 5
+  title: Docstring says the suite 'pins every rule the check enforces', but four rules have no test
+  evidence: 'No test for: a missing front-matter field or a non-numeric version (check_ontology.py:137-139); a kind
+    with no **Relationships** heading (line 163); ''Answered by'' naming no known kind (line 200). The rest are
+    covered.'
+  basis: 'review/tests rubric: clear assertions that exercise the guarantee under change; the docstring''s own claim
+    (knowledge/review/tests.md)'
+  suggestion: Add one case for each, or reword the docstring.
+- id: F11
+  category: docs
+  severity: P4
+  file: docs/components/skills.md
+  line: 47
+  title: 'The roster intro still says every skill has user-invocable: false, but the roster now lists build-product-ontology,
+    which is user-invocable: true'
+  evidence: 'Line 47: ''Roughly 100 skills ... (each with user-invocable: false)''. The same page (line 38, added
+    by this PR) says build-product-ontology is a meta-utility skill, and the skill''s own frontmatter has user-invocable:
+    true.'
+  basis: 'review/docs rubric: terminology consistency and completeness (knowledge/review/docs.md)'
+  suggestion: 'Change the intro to ''each with user-invocable: false except the meta-utility skills''.'
+- id: F1
+  severity: P3
+  file: core/components/plays/intent/SKILL.md
+  principle: G3 - a drive does not stop for its plays' checkpoints and asks every question up front; Kickoff is
+    stated as not affected by pinned gates.
+  source: 'docs/adr/029-drives.md section 2 (''No stops for the plays'' checkpoints'') and Consequences (''Pinned
+    gates ... Kickoff is not affected: /vision and /understand have conditional gates'')'
+  finding: 'Step 4 is a pinned human checkpoint ''never skipped by config or policy, inside a drive or not'' (C4,
+    SE-5). That makes /intent the first Kickoff play with a pinned gate, which ADR 029 says Kickoff does not have.
+    The in-drive contract carries only drive_run_id and branch, so there is no path for a drive to ask the person
+    the confirm/drop questions up front and hand the typed replies in. Inside a drive the play still stops mid-run.
+    Scope note: the Kickoff drive is #613 and ADR 029 leaves pinned-gate handling to later drives, so this is a
+    design gap to settle, not a break of a built behaviour.'
+  fix: 'Record the decision (the person''s typed confirmation is the one allowed stop inside Kickoff, or define
+    how a drive collects it up front and passes it in the contract) in an ADR 029 amendment or the #613 design,
+    and say so in the play when the drive lands.'
+  category: harness
+- id: F2
+  severity: P3
+  file: core/components/plays/intent/SKILL.md
+  principle: G4 - a pinned checkpoint declares its class and pin inline, and the pinned set lives in the gate rule.
+  source: 'standards/rules/gate-config.md on main (Pinned gates: ''(class: <class>, pinned)''; ''the pinned set
+    is: grill, launch, learn, merge-change''s land-on-main step, and deploy''); play-close.md Checkpoint Decisions
+    rows'
+  finding: 'Step 4 / Phase: Confirm calls itself ''pinned'' in prose but carries no ''(class: <class>, pinned)''
+    declaration, and gate-config.md (unchanged on this branch) still lists five pinned gates without intent. The
+    gate machinery and any reader of the rule will not know a sixth pinned gate exists, and no per-play ''gates.plays.intent''
+    behaviour is stated. The rule says unpinning or pinning is an intent change recorded against the rule.'
+  fix: 'Declare ''(class: standard, pinned)'' on Step 4 in ice.md and recompile, and add intent to the pinned list
+    in gate-config.md in the same line of work.'
+  category: harness
+- id: F3
+  severity: P3
+  file: core/components/plays/intent/SKILL.md
+  principle: G9 - a promise about a later play must hold for that play as committed.
+  source: 'core/components/plays/vision/SKILL.md on main (business goal is a runtime input: play argument, else
+    interview); docs/adr/029-drives.md Work This Creates item 3 (#614: make /vision run inside a drive) - /vision
+    is not changed on this branch (empty diff)'
+  finding: 'The description says ''/vision starts from its result'', the close tells the person ''run /vision for
+    a confirmed intent; it finds the intent and its ICE in the model'', scenario S6 is titled ''hand-over to /vision'',
+    and pipeline-next.md gains ''intent -> vision: start the product model from this confirmed business intent''.
+    On main /vision takes a goal argument or interviews; it never reads product-os/intents or the unplaced ICE.
+    Until #614 lands, the Next line sends the person to a play that will ask for the goal again and ignore the saved
+    intents. ice.md (D7 in the branch notes: ''nothing waits'') is careful to say later plays ''read the model'';
+    the SKILL text and the Next line state it as already true.'
+  fix: 'Reword the close Next Steps and the description to say the saved intents are ready for /vision once #614
+    reads them, or land the /vision read in the same series; keep pipeline-next.md''s why-text accurate to what
+    /vision does today.'
+  category: harness
+- id: F4
+  severity: P3
+  file: core/components/plays/intent/reference/ice.md
+  principle: G10 - a built play that departs from an accepted decision is reflected in the decision record.
+  source: 'docs/adr/029-drives.md section 6 table and Goal (''/intent ... pulls out the intent: goal, constraints,
+    failure conditions''; ''the product model ... holds the intent''); docs/adr/024-amendment-record.md'
+  finding: ADR 029 describes /intent as producing goal, constraints and failure conditions. The built play produces
+    human-facing Business Intents (title, outcome, why, asked by, proof, must not) plus ICE goals only, with no
+    constraints or failure conditions drafted, and its input is widened from a working prototype to a document or
+    statement. The reasons sit in the branch's STM decisions.md (D4-D7), which is not a durable decision record,
+    and no ADR was changed or added (changed_paths has no docs/adr entry). A reader of ADR 029 gets a different
+    /intent than the one shipped.
+  fix: Add an amendment to ADR 029 section 6 (or a short new ADR) recording the two-level output, the widened source,
+    and that constraints and failure conditions come later; point the play's Context at it instead of at STM.
+  category: harness
+- id: F5
+  severity: P3
+  file: core/components/plays/intent/SKILL.md
+  principle: G5 - model-writing plays follow write-then-review; the rule is the single source of truth and any departure
+    is declared in it.
+  source: standards/rules/direct-model-write.md on main (rule in one line; item 2 'STM holds no model copy'; Order
+    of operations; L-DMW-3, L-DMW-6); docs/adr/026-direct-to-model-writes.md
+  finding: /intent drafts the intents and ICE in STM (intent-draft.yaml), asks the person at Step 4, and only then
+    persists (Step 5) and guards (Step 6). That is review-then-write, the order ADR 026 replaced, and it keeps a
+    model-shaped copy in STM (item 2). There is a good reason the person's confirmation must precede the write (a
+    record is saved as confirmed, never proposed), and the rule's own rationale for persist-first (the change-shape
+    classifier on a conditional gate) does not apply to a pinned gate. But the rule says it covers all model-writing
+    plays and lists thirteen; neither the rule nor the play's ICE states this exception, so L-DMW-3/L-DMW-6 would
+    fail it mechanically. The clean-tree entry check, keyed persist script, add-only guard and model-delta commit
+    before the tail do conform.
+  fix: 'Add /intent to the rule as the declared exception (confirmation-gated persist: write after the person''s
+    typed confirmation, cancel writes nothing) and note it in ice.md Context, so the rule and the lint stay the
+    single source.'
+  category: harness
+- id: F6
+  severity: P3
+  file: core/components/plays/intent/SKILL.md
+  principle: 'G2 - the opening is injected by the position rule, not hand-rolled; the drive skip is wired by the
+    rule work in #614/#615.'
+  source: 'standards/rules/pipeline-position.md on main (''Inside a drive the opening is skipped once the drive
+    has opened its change (ADR 030, P4; wired in #614/#615)''; ''No consumer play hand-rolls ... steps that duplicate
+    a member''); docs/adr/029-drives.md Consequences; docs/adr/016-agent-json-contract.md'
+  finding: The play adds its own '--contract <file>' with fields drive_run_id and branch, a run.json 'in_drive'
+    flag, and prose that marks T0 and E1-E4 'skipped (in_drive)'. No committed source defines a drive-to-play contract
+    (a search of main for drive_run_id, in_drive and --contract returns nothing), and the rule says the drive-skip
+    is wired later in the injected sequence, not per play. The injected head and tail are still named sub-plays,
+    so G2's core holds, but the conditional skip and the contract shape are invented here and the Kickoff drive
+    (#613) may define them differently, forcing a recompile of the play and of S5.
+  fix: 'Keep it, but mark the contract shape as provisional in ice.md and align it with the #613 drive design (or
+    the rule work in #614/#615) before another play copies it.'
+  category: harness
+- id: F7
+  severity: P3
+  file: core/components/plays/intent/SKILL.md
+  principle: G6 - the model's storage layout is committed; a new kind of folder under product-os changes that layout.
+  source: 'standards/schemas/product-os/product-os.yaml on main (Storage layout: ICE at <capability>/ice.yaml and
+    functionalities/<f>/ice.yaml, referenced by ice_ref); the file has an empty diff on this branch'
+  finding: persist_intent writes business intents to product-os/intents/<id>.md and unplaced ICE to a flat product-os/ice/<id>.yaml,
+    and the scoped guard allows exactly those two globs. Neither folder is in the committed storage layout; ICE
+    is committed to sit beside its node and be found through ice_ref. product-os.yaml (the layout, node ice_ref
+    and fill-rule notes) was not updated, so the two stores for ICE now disagree until a later play moves them.
+    The ontology and ice.yaml edits on this branch describe the new folders, but those are the branch's own text
+    and cannot stand in for the committed layout.
+  fix: Update the storage layout in product-os.yaml (and its fill rules) in the same change, saying where unplaced
+    ICE lives and how placement moves it to the node.
+  category: harness
+- id: F8
+  severity: P3
+  file: core/components/plays/intent/SKILL.md
+  principle: G7 - _evidence/<play>/ holds play-close run records; evidence is play-written and config-switched.
+  source: 'docs/adr/017-folder-whitelist.md (play-lifecycle folders: _evidence = play-close self-commit files);
+    standards/rules/evidence-recording.md on main (evidence.record switch; no snapshot mechanism)'
+  finding: C6/F6/SE-6 require each Source's snapshot to be 'saved through Garura's evidence method' into {product_base}_evidence/intent/<run-ts>/source-<name>/,
+    the same folder the Standard Play Close writes its run record to. No committed 'evidence method' for durable
+    snapshots exists (the term appears only in the branch's ontology and ice.md). Durable Source records are therefore
+    mixed into the folder ADR 017 reserves for play run records, and the Source is written regardless of evidence.record
+    (default false), so the run record and the durable snapshots follow different switches while sharing a path.
+  fix: Either define the snapshot method in a committed rule (and say why _evidence is the home) or give Sources
+    their own folder under the product root and keep _evidence for the run record.
+  category: harness
+- id: F9
+  severity: P3
+  file: core/components/agents/business-intent-keeper.md
+  principle: G8 - {domain}-{role} naming without agent explosion; ICE is owned by product-os-keeper.
+  source: docs/adr/004-agent-naming.md (specialist pattern creates agent explosion); core/components/agents/product-os-keeper.md
+    on main (domain 'ProductOS structure + ICE ... drafts and seeds model nodes/ICE')
+  finding: A new agent is added for one skill and one play. It drafts ICE goals, which product-os-keeper already
+    owns, and it also drafts the new business-intent kind. The reason given (one reading of the source shows both
+    levels) is a fair design argument, but it is recorded nowhere durable, and nothing says whether product-os-keeper
+    stops owning unplaced ICE. Two agents now describe themselves as the owner of ICE drafting.
+  fix: State in the agent (or the ADR 029 amendment from F4) why this is not a second skill on product-os-keeper,
+    and say which agent owns ICE once it is placed.
+  category: harness
+- id: F10
+  severity: P4
+  file: core/components/agents/business-intent-keeper.md
+  principle: G11 - the agent-to-play contract status set is completed | failed | blocked, with outputs under stm.output.
+  source: docs/adr/016-agent-json-contract.md (Output Contract)
+  finding: The output contract adds status 'needs_person' and uses a flat 'outputs' key. Recent agents on main (change-reviewer,
+    quality-auditor) also use the task/inputs/outputs shape, so the shape is established practice; only the new
+    status value is a departure from the ADR's enum (blocked is the nearest existing meaning).
+  fix: Use 'blocked' with a reason, or record needs_person as an accepted extension next time ADR 016 is touched.
+  category: harness
+- id: F11
+  severity: P4
+  file: core/components/plays/install-garura/SKILL.md
+  principle: G1 - a direct edit to a bootstrap meta-play must leave the file self-consistent.
+  source: 'core/components/plays/install-garura/SKILL.md on main (frontmatter description: ''full = every component
+    except the meta harness plays ... harness = meta plays + change chain + their workers only'')'
+  finding: The Options paragraph now says full also excludes the meta-utility skills and harness also installs build-product-ontology,
+    but the frontmatter description (the text a model reads to decide when to use the play) still states the old
+    scope definitions.
+  fix: Update the description's scope sentence to match the body.
+  category: harness
+- id: F12
+  severity: P4
+  file: core/components/skills/author-business-intent/SKILL.md
+  principle: G12 - the glossary defines every Garura concept.
+  source: 'CLAUDE.md (Reference: core/grounding/glossary.md); glossary on main has Drive and Kickoff but no entry
+    for ontology, Source, or Business Intent as a model kind'
+  finding: The branch introduces the product ontology, the Source kind, the Business Intent kind and unplaced ICE
+    across a play, two skills and an agent, and the glossary (not in changed_paths) was not extended. 'Source' also
+    collides in plain reading with an existing sense the branch's own ontology has to explain away ('Evidence already
+    means a play's run record').
+  fix: Add glossary entries for Business Intent (model kind), Source, product ontology and unplaced ICE, with the
+    NOT column.
+  category: harness
+- id: F13
+  severity: P4
+  file: core/components/plays/intent/reference/ice.md
+  principle: G12 - durable component sources should not point at transient STM paths.
+  source: docs/adr/010-stm-archival.md; docs/adr/017-folder-whitelist.md (archive-path .garura/project/issues/_archive/)
+  finding: The Context section cites '.garura/project/issues/612/specs/trial-token-burn/notes.md' as the origin
+    of the design. That file is issue STM and moves to the archive when the issue closes, so the ICE's pointer will
+    go stale. The compiled SKILL.md correctly omits it.
+  fix: Replace the path with the ADR amendment (F4) or state the lesson in the Context text itself.
+  category: harness
+- id: MEM-1
+  severity: P2
+  file: core/components/memory/standards/schemas/product-os/ontology.md
+  also: core/components/memory/standards/schemas/product-os/ice.yaml
+  lines: ontology.md ICE kind 'Lives at' (line 139); ice.yaml lines 14-18
+  principle: G1 - ICE is written inline in grounding docs; the standalone ICE record and `ice_ref` are retired.
+  basis: main:core/components/memory/standards/schemas/product-os/spine.yaml lines 17-21 and "Note what is GONE
+    vs v1" (per-node ice.yaml gone)
+  finding: 'The branch puts ICE back as a standalone record at `product-os/ice/<id>.yaml`, "pointed at" by its capability
+    or function once placed (this is `ice_ref` returning), and adds `id`, `title`, `built_from` to ice.yaml. The
+    committed spine schema v2 and the reference implementation retired exactly this. The branch does not amend spine.yaml,
+    does not say which source wins, and leaves the spine''s on-disk layout with no `ice/` or `intents/` folders.
+    An agent reading the spine and the new ontology will get two answers for where ICE lives. Note: main''s ice.yaml
+    is itself stale against spine v2 (it still describes `node_ref` and a node-attached ICE), so the committed sources
+    already disagree; the branch deepens the split instead of reconciling it.
+
+    '
+  fix_direction: 'Decide the storage of ICE once (inline in grounding docs per spine v2, or a revived standalone
+    record) and update spine.yaml''s layout and the reference implementation to match, in this change or a recorded
+    follow-up. Add `product-os/intents/` to the spine layout if it stays.
+
+    '
+  category: memory
+- id: MEM-2
+  severity: P2
+  file: core/components/memory/standards/schemas/product-os/ontology.md
+  also: core/components/memory/standards/schemas/product-os/ice.yaml
+  lines: ontology.md line 13 and Log v3 (line 193); ice.yaml fill_rules block (lines 73-84)
+  principle: G2 - writes to the model are contained by a per-play declared scope, enforced by the scoped guard (a
+    guarantee). Fill rules name which play writes what.
+  basis: main:docs/adr/026-direct-to-model-writes.md (Containment split); main:core/components/memory/standards/rules/direct-model-write.md
+    (guard, L-DMW-3, L-DMW-5); main:.../product-os.yaml and spine.yaml fill_rules (unchanged by the branch)
+  finding: 'The ontology says "No play owns a kind. Any play writes the intents, ICE or other kinds it finds ...
+    the parts may come in any order", and ice.yaml recasts fill rules as "a guide, not ownership. Any play may write
+    or add to an ICE." Stated without a carve-out, this contradicts the committed containment guarantee: a play
+    that writes outside its declared `--allow` scope is detected and reverted. Rules that "never stop a write" is
+    fine for ONTOLOGY rules (alignment targets), but the text reads as a licence for any play to write any kind.
+    Meanwhile product-os.yaml and spine.yaml (unchanged) still list `/vision` as seeding ICE and `/understand` as
+    enriching it, so the schema folder now states two ownership models.
+
+    '
+  fix_direction: 'Say that "any play may write" holds within the play''s declared write scope (direct-model-write.md),
+    and that the scope of each play is widened deliberately, not by this sentence. Bring product-os.yaml and spine.yaml
+    fill_rules in line, or state which file is the live one. Because D7 reaches ADR 026''s guarantee, record it
+    (see MEM-4).
+
+    '
+  category: memory
+- id: MEM-3
+  severity: P2
+  file: core/components/memory/standards/schemas/product-os/ontology.md
+  lines: 'Business Intent kind, ''What it is'' (line 40: ''It is not ICE'')'
+  principle: G3 - business intent and SDLC intent BOTH take ICE form (IDSD); G4 - `/intent` pulls goal, constraints,
+    failure conditions.
+  basis: main:docs/philosophy/idsd.md lines 26-27, 45, 129; main:docs/adr/027-ice-model-pcam-design.md; main:core/grounding/glossary.md
+    IDSD row; main:docs/adr/029-drives.md section 6
+  finding: 'The ontology defines Business Intent as a plain-words page that "is not ICE", with ICE as a separate,
+    lower kind. The committed doctrine says the opposite in three places: business intent takes ICE form, and `/intent`
+    extracts goal / constraints / failures. D4/D6 (the stated rationale) make Business Intent human-facing and put
+    ICE below it; that fits idsd.md''s "plan is the human''s interface" section, and the two-level split may well
+    be right. But the philosophy docs, ADR 027, ADR 029 and the glossary are not amended, so after this PR the standards
+    an agent reads and the doctrine a person reads disagree on what a business intent is.
+
+    '
+  fix_direction: 'Amend ADR 029 (and ADR 027''s layer line, idsd.md line 45, the glossary IDSD row) to say a business
+    intent is the person-facing statement from which ICE is drawn, or record why ICE form is kept at the business
+    level. Not a reason to reject the model; a reason to land the doctrine edit with it.
+
+    '
+  category: memory
+- id: MEM-4
+  severity: P3
+  file: core/components/memory/standards/schemas/product-os/ontology.md
+  also: core/components/memory/standards/schemas/product-os/ice.yaml
+  lines: ontology.md line 13 ('Alignment drive'), Log line 193; ice.yaml line 73-74
+  principle: G9 - a decision that changes doctrine is recorded in docs/adr and names what it amends; drives are
+    defined by an ADR (029).
+  basis: main:docs/adr/029-drives.md ("Each drive solves one transition"; first drive Kickoff; handover drive named);
+    main:docs/adr/030-plan-mode.md header
+  finding: 'Two standards now depend on an "Alignment drive" that finds and fixes drift. No committed ADR defines
+    it; D7 says it is "its own drive (not yet filed)" and the decision itself lives only in the branch-added STM
+    file. The standards cite the ontology log and an unfiled drive as authority. Agents following "drift goes to
+    the Alignment drive" have nowhere to send it.
+
+    '
+  fix_direction: 'File the Alignment drive and record D6-D7 in an ADR (amending ADR 026/027/029 as MEM-2 and MEM-3
+    need), or reword the standards to say "drift is left for a later drive" until it exists.
+
+    '
+  category: memory
+- id: MEM-5
+  severity: P3
+  file: core/components/memory/standards/schemas/product-os/ontology.md
+  lines: Source kind, 'Lives at' (line 102)
+  principle: G5 - evidence is a play-close run record, config-gated, play-written; a permanent input record is a
+    different thing.
+  basis: 'main:core/components/memory/standards/rules/evidence-recording.md; main:.garura/core/config.yaml (`evidence.record:
+    false`); main:docs/adr/017-folder-whitelist.md (`_evidence/` = play-lifecycle)'
+  finding: 'The ontology names the term "Source" so it will not be confused with Evidence, then stores every Source''s
+    permanent snapshot under `{product_base}_evidence/intent/<timestamp>/` "through Garura''s evidence method".
+    The evidence method is play-only and switchable off (default off), and `_evidence/` is the play-lifecycle bucket.
+    A Source''s required "Snapshot kept even if the link or file goes away" (and Q5 "answered") would depend on
+    a run-record folder that tooling may skip, archive or clean. The play''s own script writes the files directly,
+    so it works today; the standard''s wording and location tie a permanent kind to a run-record mechanism.
+
+    '
+  fix_direction: 'Give Sources their own home in the product model (or state in the standard that this folder is
+    exempt from `evidence.record` and from evidence archiving), and drop "through Garura''s evidence method".
+
+    '
+  category: memory
+- id: MEM-6
+  severity: P3
+  file: core/components/memory/standards/schemas/product-os/ice.yaml
+  lines: 'lines 11-18 (new id/title/built_from, node_ref may be null), schema.version: 1'
+  principle: G6 - changing a permanent record type is recorded as a migration note and version, because schema evolution
+    is parked.
+  basis: main:core/components/memory/standards/schemas/product-os/product-os.yaml (Migration note); main:.../_index.md
+    ("Schema evolution is parked")
+  finding: 'Adds three fields and relaxes `node_ref` to nullable on a permanent record, and leaves `schema.version:
+    1` with no migration note. The ontology file got a version bump (v3); the schema it extends did not. The change
+    is additive, so existing records stay valid, but that is the thing a migration note exists to say.
+
+    '
+  fix_direction: Add a short migration note (additive; node_ref nullable) and bump or explicitly keep the version
+    with the reason.
+  category: memory
+- id: MEM-7
+  severity: P3
+  file: core/components/memory/standards/rules/pipeline-next.md
+  lines: '''The flow'' bullets (Understand loop line); map line 36'
+  principle: G10 - pipeline-next.md is the single source of the order; ADR 029 makes the first loop Kickoff, `/intent`
+    -> `/vision` -> `/understand`.
+  basis: main:docs/adr/029-drives.md section 6 and its note on ADR 028; main:core/components/memory/standards/rules/pipeline-next.md
+    "The flow"
+  finding: 'The map gains `intent -> vision`, but "The flow" still reads "Understand loop: /vision -> /understand"
+    and the map comment still says "Understand loop, then Shape loop". The file now disagrees with itself on where
+    the first loop starts. (The prose was already behind ADR 029; the branch adds the new play without catching
+    it up.)
+
+    '
+  fix_direction: Update the first flow bullet to Kickoff (`/intent -> /vision -> /understand`) and the map comment.
+  category: memory
+- id: MEM-8
+  severity: P3
+  file: core/components/memory/standards/schemas/product-os/ontology.md
+  lines: Q2 and Not-yet-defined list ('Function')
+  principle: G8 - the glossary and spine name the leaf level 'Functionality'; one word per thing.
+  basis: main:core/grounding/glossary.md (Functionality row); main:core/components/memory/standards/schemas/product-os/spine.yaml
+  finding: 'The ontology says "Function" for the committed term "Functionality" (and notes the mapping once). Its
+    stated aim is that a person and an agent use the same words for the same things. Separately, the new concepts
+    it introduces (Business Intent as a kind, Source, product ontology) have no glossary row, and the glossary is
+    the canonical home (CLAUDE.md "Reference").
+
+    '
+  fix_direction: Use "Functionality", and add glossary rows for Business Intent (kind), Source and Product Ontology.
+  category: memory
+- id: MEM-9
+  severity: P3
+  file: core/components/memory/standards/schemas/product-os/ontology.md
+  lines: 'Q1 (Work: Feature, Story, Bug, Chore, Spike), ''Not yet defined'' (Work, Tracker Issue)'
+  principle: G7 - Garura's own tracker types belong to the plane that describes how Garura is built; the product
+    model is what Garura offers other teams.
+  basis: main:.garura/user-provided/managing-work.md first section; CLAUDE.md Work Tracking; main:docs/philosophy/garura-reference-implementation.md
+    (Work Item Types)
+  finding: 'Confidence medium. The ontology, deployed with the standards to every target project, names Garura''s
+    six tracker types as the kinds of Work a product''s business intent needs. managing-work.md warns against carrying
+    one plane''s vocabulary into the other. It may be intended (the ontology says a business intent IS the tracker''s
+    issue type), but the standard does not say these types are Garura''s convention and may differ elsewhere.
+
+    '
+  fix_direction: State whether Work types are fixed by Garura or by each team's tracker; keep the Work kind "not
+    yet defined" until decided.
+  category: memory
+- id: MEM-10
+  severity: P4
+  file: core/components/memory/standards/schemas/product-os/_index.md
+  also: core/components/memory/standards/templates/product-ontology.md
+  principle: Index and example text track the file they describe; template and instance agree.
+  basis: 'Branch-internal consistency only (no committed source covers it): _index.md row says "(v1: Business Intent,
+    Source, ICE)" while ontology.md is `version: 3`; the template example reads "Agent Intent serves Business Intent"
+    while ontology.md uses "Work", and main''s garura-reference-implementation.md calls "Agent Intent" a group,
+    not a kind; ice.yaml''s _index row still says only "Intent / Context / Expectations on a node".
+
+    '
+  fix_direction: Align the three strings.
+  category: memory
+- id: CFG-1
+  category: config-maps
+  severity: P4
+  summary: context.yaml review_shelf points at .garura/core/memory/knowledge/review/, which does not exist here;
+    the playbooks were read from core/components/memory/knowledge/review/
+  basis: fetch_pr_context.py output vs repo tree (observed this run)

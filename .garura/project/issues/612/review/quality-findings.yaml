@@ -1,0 +1,182 @@
+meta:
+  layer: 1
+  skill: quality-check-scoped
+  pr: 631
+  categories:
+  - executable-code
+  - tests
+  - docs
+  - config-maps
+  taxonomy_scan:
+    command: python3 core/components/skills/quality-check-scoped/scripts/scan_taxonomy.py --taxonomy core/components/memory/standards/rules/pr.md
+      --diff .garura/project/issues/612/review/pr.diff --paths <15 standards-driven paths>
+    result: P1=0 P2=0 P3=0 P4=0; CODE-20 catch-all covered 15 files; errors=0
+  executed:
+  - command: python3 core/components/plays/intent/scripts/test_intent_scripts.py
+    result: 65 passed, 0 failed
+  - command: python3 core/components/skills/build-product-ontology/scripts/test_check_ontology.py
+    result: 23 passed, 0 failed
+  - command: python3 core/components/skills/build-product-ontology/scripts/check_ontology.py --ontology core/components/memory/standards/schemas/product-os/ontology.md
+    result: valid true
+  - command: ruff check (intent scripts, build-product-ontology scripts, install.py), run from repo root
+    result: 2 errors, both E741 in vendored copies (see F8); the orchestrator's 'clean' run did not report them
+  - command: scratch probe script in the session scratchpad, temp dirs only, repo untouched
+    result: confirmed F1, F2, F3, F4 and F5 below
+  - command: diff of check_stop_condition.py, preflight.py, scoped_write_guard.py, session_stamp.py against sibling
+      plays
+    result: byte-identical to every sibling copy (the stamped-copy convention), so no per-file review of them beyond
+      F8
+  - command: 'manifest check: every path in .garura/install-manifest.json exists; counted agents 4, skills 11, plays
+      8'
+    result: all 23 paths exist, counts match, build-product-ontology is in the harness allow-list in install.py
+  not_applicable: 'config-maps and docs: no broken pointers or dead links found; the manifest and the three docs
+    pages match the components on disk, apart from F11. Design-bearing categories (harness, memory) and stm-run-records
+    are out of this layer.'
+findings:
+- id: F1
+  category: executable-code
+  severity: P3
+  file: core/components/plays/intent/scripts/persist_intent.py
+  line: 127
+  title: An intent or ICE id is used as a file name with no shape check, so an id with ../ writes outside the model
+    folder
+  evidence: 'paths = {str(i[''id'']): os.path.join(intents_dir, f"{i[''id'']}.md") ...}; ice_paths likewise (line
+    132). Probe: a confirmed intent with id ''../../../escape'' exited 0 and wrote escape.md three levels above
+    product-os/intents. check_intent.py does not check id shape either, and scoped_write_guard only watches product-os.'
+  why_it_matters: The id comes from an agent-authored draft. A stray or hostile id lands a file where the write
+    guard cannot see it. The script's own promise is that it writes only the two model folders and the source snapshot.
+  basis: 'review/code rubric: safe handling of paths and inputs, data-safety on write paths (knowledge/review/code.md)'
+  suggestion: Refuse any id that is not a plain slug (for example ^[a-z0-9][a-z0-9-]*$) in persist_intent.py before
+    building paths, and add the same check to check_intent.py so the draft fails early. Add a test.
+- id: F2
+  category: executable-code
+  severity: P3
+  file: core/components/plays/intent/scripts/persist_intent.py
+  line: 183
+  title: A source with no 'what it shows' is only found after everything is written, so the run exits 2 with files
+    saved and a re-run is then refused
+  evidence: 'missing_shows is computed at lines 183-185, after the ICE files (141), intent pages (166) and source.md
+    files (180) are written. Probe with shows='''': exit 2, four model files left on disk, re-run exits 2 with ''already
+    exist''. The header lists the cases that ''write nothing''; this one is not among them. The test at test_intent_scripts.py:358
+    asserts only the exit code, not that nothing was written.'
+  why_it_matters: 'The never-overwrite rule turns a fixable gap into a dead end: the person must delete files by
+    hand before the play can run again, and the saved pages carry an empty ''What it shows''.'
+  basis: 'review/code rubric: safe handling of destructive and irreversible operations; deterministic where it claims
+    to be (knowledge/review/code.md)'
+  suggestion: Move the missing-summary check up with the other refusals (before line 125) so it writes nothing,
+    and make the test assert no files exist.
+- id: F3
+  category: executable-code
+  severity: P4
+  file: core/components/plays/intent/scripts/persist_intent.py
+  line: 105
+  title: Two confirmed intents with the same id are both reported saved, but only one page exists
+  evidence: 'Probe: two intents with id grow-online-sales, one decision: exit 0, manifest lists two intents with
+    the same path, and the page holds only the second intent''s title. check_intent.py reports duplicate ids, but
+    persist_intent.py does not re-check.'
+  basis: 'review/code rubric: deterministic where it claims to be (knowledge/review/code.md)'
+  suggestion: Refuse duplicate intent ids and duplicate ICE ids with the other refusals.
+- id: F4
+  category: executable-code
+  severity: P4
+  file: core/components/plays/intent/scripts/check_intent.py
+  line: 122
+  title: Input of the wrong shape crashes with a traceback instead of the documented exit 3 or a problem line
+  evidence: 'Probes: provenance given as a string (line 122) and an answers file holding a list (line 200, and main
+    at 241) raise AttributeError (''str''/''list'' object has no attribute ''get''). Same pattern in persist_intent.py
+    lines 81-85 when the draft or confirmation file is not a mapping. Docstring promises exit 3 on unreadable input.'
+  basis: 'review/code rubric: error handling; the script''s own exit-code contract (knowledge/review/code.md)'
+  suggestion: Check isinstance(..., dict) after each yaml.safe_load and return 3 (or refuse with exit 2 in persist_intent.py).
+- id: F5
+  category: executable-code
+  severity: P4
+  file: core/components/plays/intent/scripts/capture_source.py
+  line: 139
+  title: 'An HTML file whose path contains # or ? cannot be captured because the file:// link is built by string
+    concatenation'
+  evidence: 'url = ''file://'' + os.path.abspath(args.source). Probe with ''sp ace#1/p q.html'': exit manifest problem
+    ''net::ERR_FILE_NOT_FOUND at file:///.../sp%20ace#1/p%20q.html''. Spaces work; # is read as the start of a fragment.'
+  why_it_matters: The failure is loud (F1, recorded in the manifest), so nothing is lost; the person just cannot
+    snapshot a prototype kept in such a folder.
+  basis: 'review/code rubric: safe handling of paths and inputs (knowledge/review/code.md)'
+  suggestion: Use pathlib.Path(args.source).resolve().as_uri().
+- id: F6
+  category: executable-code
+  severity: P4
+  file: core/components/plays/intent/scripts/persist_intent.py
+  line: 65
+  title: main() is 142 lines and check() in check_intent.py is 127 lines, each doing several unrelated jobs
+  evidence: persist_intent.main spans lines 65-206 (validate, build paths, write ICE, write intent pages, write
+    source pages, build manifest). check_intent.check spans lines 89-215. capture_source.main (78 lines) and check_ontology.check
+    (78 lines) are long but readable.
+  basis: 'review/code rubric: function size (knowledge/review/code.md)'
+  suggestion: Split persist_intent.main into refuse-checks, write, and manifest steps; this also makes F2 a one-line
+    move.
+- id: F7
+  category: executable-code
+  severity: P4
+  file: core/components/plays/install-garura/scripts/install.py
+  line: 201
+  title: The scope descriptions still say 'full' skips only the meta plays, but it now also skips meta skills
+  evidence: 'resolve_scope docstring (line 201: ''`full` is everything on disk EXCEPT the meta harness plays''),
+    the header text at line 19 (''every component except the meta harness plays'') and the comment at lines 160-164
+    are unchanged by this diff. The play''s SKILL.md was updated to say ''meta plays and the meta-utility skills''.
+    The docstring also says a None value means ''install every component of that kind'', which no longer holds for
+    skills under full.'
+  basis: 'review/code rubric: deterministic where it claims to be; code and its documentation say the same thing
+    (knowledge/review/code.md)'
+  suggestion: Update those three places to name META_SKILLS.
+- id: F8
+  category: executable-code
+  severity: P4
+  file: core/components/plays/intent/scripts/preflight.py
+  line: 127
+  title: ruff reports E741 (ambiguous variable name l) in two stamped copies
+  evidence: 'ruff check: preflight.py:127:45 and session_stamp.py:49:24, E741. Both files are byte-identical to
+    the copies in the other plays, so the same two hits exist in every sibling copy; the orchestrator''s ''ruff
+    clean'' run did not show them.'
+  basis: 'review/code rubric: the language linter (knowledge/review/code.md)'
+  suggestion: Fix once in the canonical copies under play-creator/references and re-stamp, not in intent/ alone,
+    so the copies stay identical.
+- id: F9
+  category: tests
+  severity: P4
+  file: core/components/plays/intent/scripts/test_intent_scripts.py
+  line: 117
+  title: Without Playwright the HTML, tab-click and missing-tab tests are silently skipped and the suite still reports
+    all passed
+  evidence: 'Lines 117-136: if the manifest problem mentions Playwright, one check (rc == 2) runs and the screenshot,
+    click and tab checks are never run. The summary line is the same either way, so ''65 passed'' does not say which
+    branch ran. Here Playwright is installed, so all ran.'
+  basis: 'review/tests rubric: no skipped or disabled tests sneaking in; say so explicitly when something was not
+    run (knowledge/review/tests.md)'
+  suggestion: Print a SKIPPED line and count skips separately, so the summary shows them.
+- id: F10
+  category: tests
+  severity: P4
+  file: core/components/skills/build-product-ontology/scripts/test_check_ontology.py
+  line: 5
+  title: Docstring says the suite 'pins every rule the check enforces', but four rules have no test
+  evidence: 'No test for: a missing front-matter field or a non-numeric version (check_ontology.py:137-139); a kind
+    with no **Relationships** heading (line 163); ''Answered by'' naming no known kind (line 200). The rest are
+    covered.'
+  basis: 'review/tests rubric: clear assertions that exercise the guarantee under change; the docstring''s own claim
+    (knowledge/review/tests.md)'
+  suggestion: Add one case for each, or reword the docstring.
+- id: F11
+  category: docs
+  severity: P4
+  file: docs/components/skills.md
+  line: 47
+  title: 'The roster intro still says every skill has user-invocable: false, but the roster now lists build-product-ontology,
+    which is user-invocable: true'
+  evidence: 'Line 47: ''Roughly 100 skills ... (each with user-invocable: false)''. The same page (line 38, added
+    by this PR) says build-product-ontology is a meta-utility skill, and the skill''s own frontmatter has user-invocable:
+    true.'
+  basis: 'review/docs rubric: terminology consistency and completeness (knowledge/review/docs.md)'
+  suggestion: 'Change the intro to ''each with user-invocable: false except the meta-utility skills''.'
+counts:
+  P1: 0
+  P2: 0
+  P3: 2
+  P4: 9
