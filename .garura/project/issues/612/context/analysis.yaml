@@ -1,80 +1,54 @@
 needs_judgment: false
 change_groups:
-  - id: product-os-ice-inline-on-capability
-    issue: 612
-    commit_type: feat
-    scope: product-os
-    subject: "keep ICE inline on a proposed capability, let a capability wait for its domain, add intents to spine entries and make ICE workable only with a confirmed business intent"
-    files:
-      - core/components/memory/standards/schemas/product-os/ontology.md
-      - core/components/memory/standards/schemas/product-os/spine.yaml
-      - core/components/memory/standards/schemas/product-os/ice.yaml
-      - core/components/memory/standards/schemas/product-os/_index.md
-      - core/grounding/glossary.md
-  - id: lint-grounding-capability-without-domain-warns
-    issue: 612
-    commit_type: fix
-    scope: lint-grounding
-    subject: "warn instead of error when a capability has no domain"
-    files:
-      - core/components/plays/agentic/scripts/lint_grounding.py
-      - core/components/plays/arch/scripts/lint_grounding.py
-      - core/components/plays/grill/scripts/lint_grounding.py
-      - core/components/plays/learn/scripts/lint_grounding.py
-      - core/components/plays/marketing/scripts/lint_grounding.py
-      - core/components/plays/measure/scripts/lint_grounding.py
-      - core/components/plays/quality/scripts/lint_grounding.py
-      - core/components/plays/run/scripts/lint_grounding.py
-      - core/components/plays/understand/scripts/lint_grounding.py
-      - core/components/plays/ux/scripts/lint_grounding.py
-      - core/components/plays/vision/scripts/lint_grounding.py
-  - id: play-creator-ice-workable-check
-    issue: 612
-    commit_type: feat
-    scope: play-creator
-    subject: "check that an ICE is workable before working on it"
-    files:
-      - core/components/plays/play-creator/references/check_ice_workable.py
-      - core/components/plays/play-creator/references/test_check_ice_workable.py
-      - core/components/plays/play-creator/SKILL.md
-  - id: intent-writes-ice-as-proposed-capability
-    issue: 612
-    commit_type: feat
-    scope: intent
-    subject: "write each ICE as a proposed capability"
-    files:
-      - core/components/plays/intent/reference/ice.md
-      - core/components/plays/intent/SKILL.md
-      - core/components/plays/intent/scripts/persist_intent.py
-      - core/components/plays/intent/scripts/check_intent.py
-      - core/components/plays/intent/scripts/test_intent_scripts.py
-      - core/components/plays/intent/scripts/lint_grounding.py
-      - core/components/plays/intent/scripts/check_ice_workable.py
-      - core/components/agents/business-intent-keeper.md
-      - core/components/skills/author-business-intent/SKILL.md
-  - id: stm-612-review-decisions-d8-d9
-    issue: 612
-    commit_type: chore
-    scope: stm
-    subject: "record review decisions D8 and D9 and plan follow-ups"
-    files:
-      - .garura/project/issues/612/specs/decisions.md
-      - .garura/project/issues/612/specs/plan.md
-      - .garura/project/issues/612/context/analysis.yaml
-      - .garura/project/issues/612/context/porcelain.txt
+- id: intent-proposed-in-drive
+  issue: 612
+  commit_type: feat
+  scope: intent
+  subject: skip approval stop inside a drive and save intents as proposed for final
+    review
+  files:
+  - core/components/plays/intent/SKILL.md
+  - core/components/plays/intent/reference/ice.md
+  - core/components/plays/intent/stop-condition.yaml
+  - core/components/plays/intent/scripts/persist_intent.py
+  - core/components/plays/intent/scripts/test_intent_scripts.py
+- id: adr-031-business-intent-and-ice
+  issue: 612
+  commit_type: docs
+  scope: adr
+  subject: record business intent and ICE in ADR 031 and amend ADR 029, ADR 027, idsd
+    and glossary
+  files:
+  - docs/adr/031-business-intent-and-ice.md
+  - docs/adr/029-drives.md
+  - docs/adr/027-ice-model-pcam-design.md
+  - docs/philosophy/idsd.md
+  - core/grounding/glossary.md
+  - core/components/memory/standards/rules/gate-config.md
+  - core/components/memory/standards/rules/direct-model-write.md
+- id: stm-612-decisions-and-plan
+  issue: 612
+  commit_type: chore
+  scope: stm
+  subject: record decisions D6 to D10, plan updates and run artifacts
+  files:
+  - .garura/project/issues/612/specs/decisions.md
+  - .garura/project/issues/612/specs/plan.md
+  - .garura/project/issues/612/context/analysis.yaml
+  - .garura/project/issues/612/context/porcelain.txt
+  - .garura/project/issues/612/specs/followup-adr-skill.md
 exclusions: []
 risks:
   sensitive_files: []
 notes:
   branch: feature/612-intent-play
-  total_files: 32
-  grouped_files: 32
-  lint_grounding_copies_in_group_2: 11
-  new_untracked_files: 4
-  breaking_changes: []
   hotfix_branch: false
+  breaking_changes: []
+  ambiguous_types: []
+  coverage: '16 changed files from git status: 5 + 7 + 4 = 16, each in exactly one
+    group'
   observations:
-    - "spine.yaml also carries a one-character YAML fix (maintainability:{)."
-    - "ice.yaml is reverted toward main; it shows as modified against HEAD and is kept with the ontology group."
-    - "lint_grounding.py in plays/intent is new (untracked) and kept with the intent group, not the lint-grounding fix group, because it is a new copy rather than an edit."
-    - "Group order suggested: product-os, lint-grounding, play-creator, intent, stm."
+  - gate-config.md and direct-model-write.md are standards rules (not docs/adr) but
+    follow ADR 031 per the suggested grouping; kept in the docs group
+  - context/analysis.yaml is this file itself, committed in the stm group like prior
+    run artifacts

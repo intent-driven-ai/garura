@@ -76,6 +76,7 @@ Kickoff, the first drive, starts from a working prototype that the person shares
 
 - `/vision` attaches domains to existing capabilities and links its ICE to a business intent (item 7 writes this up).
 - `/understand` and `/shape` link the ICE they write to a business intent; every play that works on ICE calls `check_ice_workable.py` first (play-creator now says so).
-- An ADR records the two-level design (D6), no play owns a kind (D7), D8 and D9, and amends ADR 029 §6 / ADR 027 / `idsd.md` / the glossary IDSD row — the review's MEM-3, MEM-4, F4.
-- Kickoff and the pinned confirm step (review F1/F2); confirm-then-write as a declared exception in `direct-model-write.md` (F5); the drive contract's shape (F6, #614/#615); where Sources live (MEM-5/F8); Garura's own work types named in the product ontology (MEM-9); why a separate agent (F9).
+- The Kickoff drive (#613) confirms or drops `/intent`'s proposed intents at its final review (ADR 031, D10); the drive contract's shape (review F6, #614/#615).
+- Where Sources live (review MEM-5/F8); Garura's own work types named in the product ontology (MEM-9); why a separate agent (F9); the Alignment drive.
 - Pre-existing, found on the way: `/understand`'s `lint_grounding.py` copy is older than the other ten; `preflight.py`, `session_stamp.py` and `lint_grounding.py` carry ruff E741 in every copy; review-change's stop condition looks for `verdict.yaml` while the play writes `decision.yaml`; the config's review-shelf path points at a folder that does not exist here.
+- 2026-10-09 — Kapil decided D10 (no approval stop inside a drive; the drive's end review confirms). ADR 031 records D6–D10 and amends ADR 029 §6, ADR 027, `idsd.md`, the glossary, the gate rules and the direct-write rule.
