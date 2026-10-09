@@ -6,6 +6,7 @@ the two delivery artifacts that ride on top.
 
 | Schema | Keeps | Lifecycle |
 |--------|-------|-----------|
+| `ontology.md` | the product ontology — the agreed, human-readable map of the kinds of things a product is made of (v1: Business Intent, Source, ICE), how they connect and their rules; built with `build-product-ontology` | permanent |
 | `product-os.yaml` | the Domain → Capability → Functionality tree, personas, journeys | permanent |
 | `ice.yaml` | Intent / Context / Expectations on a node (the build unit at functionality level) | permanent |
 | `decision.yaml` | decision records (ADRs) at any level | permanent |

@@ -11,7 +11,11 @@ schema:
   version: 1
 
 ice:
-  node_ref: string
+  id: string              # the record's own id — the file is product-os/ice/<id>.yaml
+  title: string           # a plain name for what it is about, for a person scanning the list
+  node_ref: string        # the capability or functionality it is placed under — null until
+                          # placed (an ICE may be written before its node exists; ontology v3)
+  built_from: [string]    # the business intent id(s) it serves (product-os/intents/<id>.md)
   intent:
     goals: []
     constraints: []
@@ -66,9 +70,15 @@ attaches_to: [capability, functionality]   # same shape at both levels;
 # different concern).
 
 # ---- Fill rules -------------------------------------------------------------
+# Who USUALLY writes what — a guide, not ownership. Any play may write or add to an
+# ICE, in any order (ontology v3); drift is fixed by the Alignment drive.
 fill_rules:
+  - play: "/intent"
+    writes: "unplaced ICE (goals only, node_ref null) for each confirmed business intent,
+             from what the source shows and the person said"
   - play: "/vision"
-    writes: "seed intent (goals only), at capability level"
+    writes: "seed intent (goals only), at capability level — or places an existing
+             unplaced ICE under the capability it creates"
   - play: "/understand"
     writes: "full intent, context (persona/systems/scope), expectations, and the
              capability's nfr_needs + compliance_needs — which roll up the product profile"

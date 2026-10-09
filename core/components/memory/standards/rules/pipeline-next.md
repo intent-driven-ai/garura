@@ -33,6 +33,7 @@ The lifecycle runs as five loops (ADR 028; the names are working names). The pla
 ```yaml
 next:
   # Understand loop, then Shape loop
+  intent:         { command: vision,         why: "start the product model from this confirmed business intent" }
   vision:         { command: understand,     why: "expand this capability's intent (ICE)" }
   understand:     { command: shape,          why: "cut the capability into slices" }
   shape:          { command: roadmap,        why: "prioritise the slices" }
