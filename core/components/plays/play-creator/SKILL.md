@@ -316,6 +316,13 @@ Write the play. If it has mechanical steps, write a **folder** — `<play-name>/
 `<play-name>/scripts/` for the scripts those steps call (and `references/` for anything it
 reads); a pure-judgment play can be a single `SKILL.md`.
 
+**Work only on workable ICE (ontology v3, #612).** When the play plans, breaks down or
+builds from an ICE, copy [`references/check_ice_workable.py`](references/check_ice_workable.py)
+unchanged to `scripts/` and call it on the node before that work. An ICE is workable only when
+its node's spine `intents` names a confirmed business intent; a non-zero exit skips that node
+(recorded in the run, never a halt) — the ICE stays as written. Writing an ICE is never gated
+by this check.
+
 **Add the stop condition (#464).** When the ICE has a "### Done means" section, write
 `<play-name>/stop-condition.yaml` (schema `{name: stop-condition}`, `content.done` =
 the clause list, unchanged) and copy
