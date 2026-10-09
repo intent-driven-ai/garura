@@ -29,3 +29,23 @@ Ontology rules say what holds once aligned and never block a write. ICE may exis
 placed under a capability. Only a person confirms or drops a business intent. The Alignment
 drive is its own drive (not yet filed).
 
+## D8 — ICE is placed at once, on a proposed capability; the domain comes later (2026-10-09)
+
+**Decided by:** Kapil, on review of PR #631 — "why would we have ICE that is not placed?";
+"intent doesn't need domain... domain can be added / attached later. isn't vision responsible
+for attaching domain?"
+`/intent` writes each ICE as a proposed capability: a spine entry (status proposed, detail
+directional, no domain yet, `intents` naming its business intent) and a capability grounding
+doc with the ICE inline — no separate ICE file (spine v2 retired them). `/vision` attaches the
+domain. A missing domain is a linter warning, not an error; a named domain that does not exist
+stays an error.
+
+## D9 — ICE is workable only with a confirmed business intent; writes are never blocked (2026-10-09)
+
+**Decided by:** Kapil — "without a bint, there is no need to work on ICE"; "our principle is also
+to not introduce blocks.. even if ice is written, it need to be captured, and marked in a way
+where it cant be processed."
+Any play may write an ICE. It is workable only when its node's spine `intents` names a
+confirmed business intent; otherwise it is kept but no play plans, breaks down or builds from
+it. Worked out from the link (`check_ice_workable.py`), not a separate status field.
+

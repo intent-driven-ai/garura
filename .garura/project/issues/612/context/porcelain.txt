@@ -1,18 +1,31 @@
  M .garura/project/issues/612/context/porcelain.txt
+ M .garura/project/issues/612/specs/decisions.md
+ M .garura/project/issues/612/specs/plan.md
  M core/components/agents/business-intent-keeper.md
- M core/components/memory/standards/rules/pipeline-next.md
  M core/components/memory/standards/schemas/product-os/_index.md
  M core/components/memory/standards/schemas/product-os/ice.yaml
  M core/components/memory/standards/schemas/product-os/ontology.md
- M core/components/memory/standards/templates/product-ontology.md
- M core/components/plays/install-garura/SKILL.md
- M core/components/plays/install-garura/scripts/install.py
+ M core/components/memory/standards/schemas/product-os/spine.yaml
+ M core/components/plays/agentic/scripts/lint_grounding.py
+ M core/components/plays/arch/scripts/lint_grounding.py
+ M core/components/plays/grill/scripts/lint_grounding.py
  M core/components/plays/intent/SKILL.md
  M core/components/plays/intent/reference/ice.md
- M core/components/plays/intent/scripts/capture_source.py
  M core/components/plays/intent/scripts/check_intent.py
  M core/components/plays/intent/scripts/persist_intent.py
  M core/components/plays/intent/scripts/test_intent_scripts.py
- M core/components/skills/build-product-ontology/scripts/test_check_ontology.py
+ M core/components/plays/learn/scripts/lint_grounding.py
+ M core/components/plays/marketing/scripts/lint_grounding.py
+ M core/components/plays/measure/scripts/lint_grounding.py
+ M core/components/plays/play-creator/SKILL.md
+ M core/components/plays/quality/scripts/lint_grounding.py
+ M core/components/plays/run/scripts/lint_grounding.py
+ M core/components/plays/understand/scripts/lint_grounding.py
+ M core/components/plays/ux/scripts/lint_grounding.py
+ M core/components/plays/vision/scripts/lint_grounding.py
+ M core/components/skills/author-business-intent/SKILL.md
  M core/grounding/glossary.md
- M docs/components/skills.md
+?? core/components/plays/intent/scripts/check_ice_workable.py
+?? core/components/plays/intent/scripts/lint_grounding.py
+?? core/components/plays/play-creator/references/check_ice_workable.py
+?? core/components/plays/play-creator/references/test_check_ice_workable.py
