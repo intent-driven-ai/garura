@@ -164,6 +164,9 @@ STATUS_GITIGNORE = (
 # receives them under `full`. (`harness` is an explicit allow-list and names the
 # two it does want.)
 META_PLAYS = {"play-creator", "play-editor", "install-garura", "uninstall-garura"}
+# Meta-utility skills are the same kind of build tooling, packaged as a skill: a person
+# invokes them in a harness repo to build garura itself. Never installed under `full`.
+META_SKILLS = {"build-product-ontology"}
 
 SCOPES = {
     "full": None,  # marker only — resolved at run time by resolve_scope()
@@ -181,6 +184,7 @@ SCOPES = {
             "analyze-changes", "analyze-pr", "create-commit", "manage-issue",
             "merge-pr", "platform-adapter", "quality-check-scoped",
             "resolve-issues", "setup-branch", "submit-pr",
+            "build-product-ontology",
         },
         "agents": {
             "change-reviewer", "project-orchestrator",
@@ -201,7 +205,9 @@ def resolve_scope(scope, components):
         return SCOPES[scope]
     plays_dir = os.path.join(components, "plays")
     plays = set(os.listdir(plays_dir)) if os.path.isdir(plays_dir) else set()
-    return {"plays": plays - META_PLAYS, "skills": None, "agents": None}
+    skills_dir = os.path.join(components, "skills")
+    skills = set(os.listdir(skills_dir)) if os.path.isdir(skills_dir) else set()
+    return {"plays": plays - META_PLAYS, "skills": skills - META_SKILLS, "agents": None}
 
 
 # --- the install --------------------------------------------------------------
