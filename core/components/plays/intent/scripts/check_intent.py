@@ -21,8 +21,8 @@ for every ICE:
 
 and for the draft as a whole:
 
-  - unique ids; every Source has a plain "what it shows"; with --source-manifest, every
-    manifest's snapshot is summarised                                     (C6)
+  - unique, file-name-safe ids; every Source has a plain "what it shows"; with
+    --source-manifest, every manifest's snapshot is summarised            (C6)
   - the coverage map: every part names an existing ICE; every ICE is mapped from a part
     — nothing left out, nothing from nothing                              (C12 / F12)
   - every question carries 1–3 example answers                            (C13 / F13)
@@ -54,6 +54,7 @@ REQUIRED = ["title", "outcome", "why", "asked_by", "proof"]
 PROSE = ["title", "outcome", "why", "proof", "must_not"]
 COPY_RUN = 8
 MAX_EXAMPLES = 3
+ID_SHAPE = re.compile(r"^[a-z0-9][a-z0-9-]{0,79}$")   # ids become file names: no paths, no dots
 CODE_LIKE = re.compile(r"(<[a-zA-Z/][^>]*>|[{}]|\b\w+\(\)|(?:\.{0,2}/)?[\w.-]+/[\w./-]+\.\w{1,5}\b)")
 
 
@@ -86,22 +87,24 @@ def as_list(value):
     return value if isinstance(value, list) else []
 
 
-def check(draft, source_text="", snapshot_dirs=(), answers=None):
-    person, other = [], []
-    intents = draft.get("intents") if isinstance(draft, dict) else None
-    if not isinstance(intents, list) or not intents or not all(isinstance(i, dict) for i in intents):
-        return {"clean": False, "person_only": False, "intents": 0, "ice": 0,
-                "problems": ["draft has no `intents` list — at least one business intent is required"]}
-    src_words = words(source_text)
+def as_map(value):
+    return value if isinstance(value, dict) else {}
 
-    ids = [str(i.get("id") or "").strip() for i in intents]
+
+def check_ids(kind, ids, other):
     if not all(ids):
-        other.append("a business intent has no `id`")
+        other.append(f"a {kind} has no `id`")
+    bad = [i for i in ids if i and not ID_SHAPE.match(i)]
+    if bad:
+        other.append(f"{kind} ids must be lower-case letters, digits and dashes (they become file "
+                     f"names): {', '.join(bad)}")
     dupes = sorted({i for i in ids if i and ids.count(i) > 1})
     if dupes:
-        other.append(f"business intent ids are not unique: {', '.join(dupes)}")
+        other.append(f"{kind} ids are not unique: {', '.join(dupes)}")
 
-    questions = [q for q in as_list(draft.get("questions")) if isinstance(q, dict)]
+
+def check_questions(questions, other):
+    """Open questions per intent; every question must carry example answers (C13)."""
     open_q = {}
     for q in questions:
         if not str(q.get("answer") or "").strip():
@@ -110,7 +113,10 @@ def check(draft, source_text="", snapshot_dirs=(), answers=None):
         if not 1 <= len(examples) <= MAX_EXAMPLES:
             other.append(f"[{q.get('intent') or 'all'}] question \"{q.get('ask', '')}\" needs 1 to "
                          f"{MAX_EXAMPLES} example answers")
+    return open_q
 
+
+def check_intents(intents, open_q, src_words, person, other):
     for intent in intents:
         iid = intent.get("id") or "?"
         missing = [p for p in REQUIRED if not str(intent.get(p) or "").strip()]
@@ -119,7 +125,7 @@ def check(draft, source_text="", snapshot_dirs=(), answers=None):
             gaps = (f"`{'`, `'.join(missing)}` missing" if missing else "") + \
                    ("; " if missing and asks else "") + (f"{asks} open question(s)" if asks else "")
             person.append(f"[{iid}] needs the person: {gaps}")
-        prov = intent.get("provenance") or {}
+        prov = as_map(intent.get("provenance"))
         for prop in REQUIRED + ["must_not"]:
             if str(intent.get(prop) or "").strip():
                 where = str(prov.get(prop) or "").strip().lower()
@@ -132,17 +138,9 @@ def check(draft, source_text="", snapshot_dirs=(), answers=None):
             text = str(intent.get(prop) or "").strip()
             if text and len(words(text)) < 3:
                 other.append(f"[{iid}] `{prop}` is a bare label (\"{text}\") — explain it in a plain sentence")
-    for who, qs in open_q.items():
-        if who not in ids:
-            person.append(f"[{who}] needs the person: {len(qs)} open question(s)")
 
-    ice = [c for c in as_list(draft.get("ice")) if isinstance(c, dict)]
-    ice_ids = [str(c.get("id") or "").strip() for c in ice]
-    if not all(ice_ids):
-        other.append("an ICE has no `id`")
-    dupes = sorted({i for i in ice_ids if i and ice_ids.count(i) > 1})
-    if dupes:
-        other.append(f"ICE ids are not unique: {', '.join(dupes)}")
+
+def check_ice(ice, ids, intents, src_words, other):
     served = set()
     for c in ice:
         cid = c.get("id") or "?"
@@ -161,13 +159,14 @@ def check(draft, source_text="", snapshot_dirs=(), answers=None):
         else:
             served.add(target)
     stated = {str(i.get("id") or "").strip() for i in intents
-              if str((i.get("provenance") or {}).get("outcome") or "").strip().lower() == "person"}
+              if str(as_map(i.get("provenance")).get("outcome") or "").strip().lower() == "person"}
     for iid in ids:
         if iid and iid not in served and iid not in stated:
             other.append(f"[{iid}] has no ICE under it — an intent the source shows needs at least "
                          f"one ICE; only an intent the person stated may have none yet")
 
-    sources = [s for s in as_list(draft.get("sources")) if isinstance(s, dict)]
+
+def check_sources(sources, snapshot_dirs, other):
     shown = {str(s.get("snapshot_dir") or ""): str(s.get("shows") or "").strip() for s in sources}
     if not sources:
         other.append("draft has no `sources` — say in plain words what each source shows")
@@ -178,10 +177,12 @@ def check(draft, source_text="", snapshot_dirs=(), answers=None):
         if d not in shown:
             other.append(f"source `{d}` is not summarised in the draft's `sources`")
 
-    coverage = [c for c in as_list(draft.get("coverage")) if isinstance(c, dict)]
+
+def check_coverage(coverage, ice_ids, other):
     if not coverage:
         other.append("draft has no `coverage` map — map every part of what the sources show to "
                      "the ICE it serves")
+        return
     mapped = set()
     for c in coverage:
         part = str(c.get("part") or "").strip()
@@ -192,24 +193,49 @@ def check(draft, source_text="", snapshot_dirs=(), answers=None):
             other.append(f"part \"{part}\" maps to no ICE (`{target or 'none'}`) — nothing may be left out")
         else:
             mapped.add(target)
-    if coverage:
-        for cid in ice_ids:
-            if cid and cid not in mapped:
-                other.append(f"ICE [{cid}] is mapped from no part of the source")
+    for cid in ice_ids:
+        if cid and cid not in mapped:
+            other.append(f"ICE [{cid}] is mapped from no part of the source")
 
-    for a in as_list((answers or {}).get("answers")):
-        if not isinstance(a, dict):
-            continue
+
+def check_answers(answers, other):
+    for a in as_list(as_map(answers).get("answers")):
+        if not isinstance(a, dict) or a.get("volunteered") is True:
+            continue                     # said unprompted — no question, so no examples
         offered = [str(e).strip() for e in as_list(a.get("offered")) if str(e).strip()]
         about = a.get("about", "?")
-        if a.get("volunteered") is True:
-            continue                     # said unprompted — no question, so no examples
         if not offered:
             other.append(f"answer about {about} lists no examples it was offered")
         reply = " ".join(words(a.get("reply", "")))
         if reply and any(reply == " ".join(words(e)) for e in offered) and a.get("picked") is not True:
             other.append(f"answer about {about} equals an offered example but is not marked picked")
 
+
+def entries(draft, key):
+    return [x for x in as_list(draft.get(key)) if isinstance(x, dict)]
+
+
+def check(draft, source_text="", snapshot_dirs=(), answers=None):
+    person, other = [], []
+    intents = draft.get("intents") if isinstance(draft, dict) else None
+    if not isinstance(intents, list) or not intents or not all(isinstance(i, dict) for i in intents):
+        return {"clean": False, "person_only": False, "intents": 0, "ice": 0,
+                "problems": ["draft has no `intents` list — at least one business intent is required"]}
+    src_words = words(source_text)
+    ids = [str(i.get("id") or "").strip() for i in intents]
+    check_ids("business intent", ids, other)
+    open_q = check_questions(entries(draft, "questions"), other)
+    check_intents(intents, open_q, src_words, person, other)
+    for who, qs in open_q.items():
+        if who not in ids:
+            person.append(f"[{who}] needs the person: {len(qs)} open question(s)")
+    ice = entries(draft, "ice")
+    ice_ids = [str(c.get("id") or "").strip() for c in ice]
+    check_ids("ICE", ice_ids, other)
+    check_ice(ice, ids, intents, src_words, other)
+    check_sources(entries(draft, "sources"), snapshot_dirs, other)
+    check_coverage(entries(draft, "coverage"), ice_ids, other)
+    check_answers(answers, other)
     problems = person + other
     return {"clean": not problems, "person_only": bool(person) and not other,
             "intents": len(intents), "ice": len(ice), "problems": problems}
@@ -240,6 +266,8 @@ def main(argv=None):
         if args.answers:
             with open(args.answers, encoding="utf-8") as fh:
                 answers = yaml.safe_load(fh) or {}
+        if not isinstance(draft, dict) or (answers is not None and not isinstance(answers, dict)):
+            raise ValueError("the draft and the answers record must each be a mapping")
     except (OSError, UnicodeDecodeError, KeyError, ValueError, yaml.YAMLError) as exc:
         print(json.dumps({"error": f"{exc.__class__.__name__}: {exc}"}))
         return 3

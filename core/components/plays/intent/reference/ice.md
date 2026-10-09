@@ -114,10 +114,9 @@ owns a kind (ontology v3): `/vision` and later plays place the ICE and add to it
 fixed by alignment, not by holding work back. A project folder is two Sources (its written
 docs and the running app), and the draft reads both.
 
-The first trial (`.garura/project/issues/612/specs/trial-token-burn/notes.md`) shaped this: a
-prototype shows what the person must see and decide; the business intents sit one "why?"
-above, and the person supplied them, including one no source showed. Example answers helped
-the person answer why and proof.
+The first trial on a real prototype shaped this: a prototype shows what the person must see
+and decide; the business intents sit one "why?" above, and the person supplied them,
+including one no source showed. Example answers helped the person answer why and proof.
 
 ## Expectation
 

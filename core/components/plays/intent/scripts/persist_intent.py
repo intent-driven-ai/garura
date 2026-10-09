@@ -15,11 +15,14 @@ writes — the product model is the hand-off; no separate hand-off file is writt
     shows, given by) naming every intent it shows: the link written on BOTH sides.
   - `<working>/intent-manifest.json` — the rollup the stop condition reads.
 
-ADDITIVE: refuses if any intent page or ICE file already exists. A dropped intent, and the ICE
-built from it, are not saved. It refuses (exit 2) and writes nothing when: the decisions are
-not the person's own typed replies; any drafted intent has no decision; no intent is
-confirmed; a confirmed intent misses a required property; a Source has no snapshot; or an
-intent page already exists. Only a person confirms (C4). No git, no network, no LLM.
+ADDITIVE: an intent page or ICE file is never overwritten. A dropped intent, and the ICE built
+from it, are not saved. Every check runs before the first write, so a refusal writes nothing.
+It refuses (exit 2) when: an input is unreadable or of the wrong shape; the decisions are not
+the person's own typed replies; any drafted intent has no decision; no intent is confirmed; a
+confirmed intent misses a required property; an id is badly shaped (ids become file names, so
+only lower-case letters, digits and dashes) or repeated; a Source has no snapshot or no "what
+it shows"; or a page or ICE already exists. Only a person confirms (C4). No git, no network,
+no LLM.
 
     python3 persist_intent.py --draft <working>/intent-draft.yaml \
         --confirmation <working>/confirmation.yaml \
@@ -37,16 +40,22 @@ confirmation.yaml:
 import argparse
 import json
 import os
+import re
 import sys
 
 import yaml
 
 REQUIRED = ("title", "outcome", "why", "asked_by", "proof")
+ID_SHAPE = re.compile(r"^[a-z0-9][a-z0-9-]{0,79}$")   # ids become file names: no paths, no dots
+
+
+class Refused(Exception):
+    """A reason to write nothing, in plain words."""
 
 
 def ice_record(c, created_at):
     """One ICE in the ice.yaml shape, goals only and not yet placed (ontology v3)."""
-    return {"schema": {"name": "ice", "version": 1},
+    return {"schema": {"name": "ice", "version": 2},
             "ice": {"id": str(c["id"]), "title": str(c.get("title") or ""), "node_ref": None,
                     "built_from": [str(c["built_from"])],
                     "intent": {"goals": [str(g) for g in c.get("goals") or []],
@@ -57,9 +66,170 @@ def ice_record(c, created_at):
                                  "created_at": created_at, "version": 1}}}
 
 
-def load_yaml(path):
-    with open(path, encoding="utf-8") as fh:
-        return yaml.safe_load(fh) or {}
+def load_mapping(path, what):
+    try:
+        with open(path, encoding="utf-8") as fh:
+            data = yaml.safe_load(fh) if not path.endswith(".json") else json.load(fh)
+    except (OSError, ValueError, yaml.YAMLError) as exc:
+        raise Refused(f"cannot read the {what} ({path}): {exc.__class__.__name__}") from exc
+    if not isinstance(data, dict):
+        raise Refused(f"the {what} ({path}) is not a mapping")
+    return data
+
+
+def check_ids(kind, ids):
+    bad = [i for i in ids if not ID_SHAPE.match(i)]
+    if bad:
+        raise Refused(f"{kind} ids must be lower-case letters, digits and dashes: {', '.join(bad)}")
+    dupes = sorted({i for i in ids if ids.count(i) > 1})
+    if dupes:
+        raise Refused(f"{kind} ids are not unique: {', '.join(dupes)}")
+
+
+def read_decisions(conf, ids):
+    """The person's decision per drafted intent; refuses unless every one is the person's own."""
+    if conf.get("by") != "person" or not str(conf.get("confirmed_by") or "").strip():
+        raise Refused("decisions must be the person's own (by: person, confirmed_by) — an agent "
+                      "never confirms or drops an intent")
+    decisions = {}
+    for d in conf.get("decisions") or []:
+        if not isinstance(d, dict):
+            continue
+        if d.get("decision") not in ("confirmed", "dropped"):
+            raise Refused(f"decision for `{d.get('intent')}` must be confirmed or dropped")
+        if not str(d.get("reply") or "").strip():
+            raise Refused(f"decision for `{d.get('intent')}` has no typed reply from the person")
+        decisions[str(d.get("intent"))] = d
+    unknown = sorted(set(decisions) - set(ids))
+    if unknown:
+        raise Refused(f"decisions name intents the draft does not have: {', '.join(unknown)}")
+    undecided = [i for i in ids if i not in decisions]
+    if undecided:
+        raise Refused(f"the person has not decided: {', '.join(undecided)} — every drafted "
+                      f"intent is confirmed or dropped")
+    return decisions
+
+
+def plan(args):
+    """Read and check every input; return what to write. Nothing is written here."""
+    for p in [args.draft, args.confirmation] + args.source_manifest:
+        if not os.path.isfile(p):
+            raise Refused(f"missing input {p}")
+    draft = load_mapping(args.draft, "draft")
+    conf = load_mapping(args.confirmation, "confirmation").get("confirmation")
+    if not isinstance(conf, dict):
+        raise Refused("the confirmation has no `confirmation` mapping")
+    sources = [load_mapping(p, "source manifest") for p in args.source_manifest]
+    intents = [i for i in (draft.get("intents") or []) if isinstance(i, dict)]
+    if not intents:
+        raise Refused("the draft has no intents")
+    ids = [str(i.get("id") or "") for i in intents]
+    check_ids("business intent", ids)
+    decisions = read_decisions(conf, ids)
+    confirmed = [i for i in intents if decisions[str(i["id"])]["decision"] == "confirmed"]
+    if not confirmed:
+        raise Refused("the person confirmed no intent — nothing is saved")
+    for i in confirmed:
+        for prop in REQUIRED:
+            if not str(i.get(prop) or "").strip():
+                raise Refused(f"the intent `{i['id']}` is missing `{prop}`")
+
+    shows = {str(s.get("snapshot_dir")): str(s.get("shows") or "").strip()
+             for s in (draft.get("sources") or []) if isinstance(s, dict)}
+    for s in sources:
+        if not s.get("snapshot_saved") or not s.get("snapshot_dir"):
+            raise Refused(f"the Source at {s.get('snapshot_dir')} has no saved snapshot")
+        if not shows.get(str(s["snapshot_dir"])):
+            raise Refused(f"the Source at {s['snapshot_dir']} has no 'what it shows' — re-draft "
+                          f"before saving")
+
+    kept = {str(i["id"]) for i in confirmed}
+    all_ice = [c for c in (draft.get("ice") or []) if isinstance(c, dict) and c.get("id")]
+    check_ids("ICE", [str(c["id"]) for c in all_ice])
+    intents_dir = os.path.join(args.product_base, "product-os", "intents")
+    ice_dir = os.path.join(args.product_base, "product-os", "ice")
+    ice = [c for c in all_ice if str(c.get("built_from")) in kept]
+    work = {"conf": conf, "decisions": decisions, "sources": sources, "shows": shows,
+            "confirmed": confirmed, "ice": ice, "intents_dir": intents_dir, "ice_dir": ice_dir,
+            "dropped": [str(i["id"]) for i in intents if str(i["id"]) not in kept],
+            "ice_dropped": [str(c["id"]) for c in all_ice if str(c.get("built_from")) not in kept],
+            "paths": {str(i["id"]): os.path.join(intents_dir, f"{i['id']}.md") for i in confirmed},
+            "ice_paths": {str(c["id"]): os.path.join(ice_dir, f"{c['id']}.yaml") for c in ice},
+            "source_mds": [os.path.join(s["snapshot_dir"], "source.md") for s in sources]}
+    existing = [p for p in list(work["paths"].values()) + list(work["ice_paths"].values())
+                if os.path.exists(p)]
+    if existing:
+        raise Refused(f"{', '.join(existing)} already exist — an intent or an ICE is never overwritten")
+    return work
+
+
+def write_ice(w):
+    if w["ice"]:
+        os.makedirs(w["ice_dir"], exist_ok=True)
+    for c in w["ice"]:
+        with open(w["ice_paths"][str(c["id"])], "w", encoding="utf-8") as fh:
+            yaml.safe_dump(ice_record(c, w["conf"].get("at", "")), fh, sort_keys=False, allow_unicode=True)
+
+
+def write_intents(w):
+    os.makedirs(w["intents_dir"], exist_ok=True)
+    for i in w["confirmed"]:
+        path = w["paths"][str(i["id"])]
+        here = os.path.dirname(path)
+        when = w["decisions"][str(i["id"])].get("at") or w["conf"].get("at", "")
+        lines = [f"# {i['title']}", "",
+                 f"**Outcome:** {i['outcome']}",
+                 f"**Why:** {i['why']}",
+                 f"**Asked by:** {i['asked_by']}",
+                 f"**Proof it is met:** {i['proof']}"]
+        if str(i.get("must_not") or "").strip():
+            lines.append(f"**Must not:** {i['must_not']}")
+        lines.append(f"**Stage:** confirmed — by {w['conf']['confirmed_by']}, {when}".rstrip(", "))
+        lines.append("**Sources:**")
+        for s, md in zip(w["sources"], w["source_mds"]):
+            lines.append(f"- [{s.get('kind')}, read {s.get('read_on')}]({os.path.relpath(md, here)})")
+        mine = [c for c in w["ice"] if str(c.get("built_from")) == str(i["id"])]
+        lines.append("**ICE built from it:**" + ("" if mine else " none yet"))
+        for c in mine:
+            rel = os.path.relpath(w["ice_paths"][str(c["id"])], here)
+            lines.append(f"- [{c.get('title') or c['id']}]({rel})")
+        lines += ["", "**What was done:** (nothing yet)", ""]
+        with open(path, "w", encoding="utf-8") as fh:
+            fh.write("\n".join(lines))
+
+
+def write_sources(w):
+    for s, md in zip(w["sources"], w["source_mds"]):
+        lines = ["# Source", "",
+                 f"**Kind:** {s.get('kind')}",
+                 f"**Read on:** {s.get('read_on')}",
+                 f"**Snapshot:** {', '.join(s.get('files', []))}",
+                 f"**What it shows:** {w['shows'][str(s['snapshot_dir'])]}",
+                 f"**Given by:** {s.get('given_by')}",
+                 "**Shows the intents:**"]
+        for i in w["confirmed"]:
+            lines.append(f"- [{i['title']}]({os.path.relpath(w['paths'][str(i['id'])], s['snapshot_dir'])})")
+        with open(md, "w", encoding="utf-8") as fh:
+            fh.write("\n".join(lines) + "\n")
+
+
+def manifest_for(w):
+    written = list(w["paths"].values()) + list(w["ice_paths"].values()) + w["source_mds"]
+    return {
+        "intents": [{"id": str(i["id"]), "path": w["paths"][str(i["id"])],
+                     "ice": [w["ice_paths"][str(c["id"])] for c in w["ice"]
+                             if str(c.get("built_from")) == str(i["id"])]}
+                    for i in w["confirmed"]],
+        "dropped": w["dropped"],
+        "ice_dropped": w["ice_dropped"],
+        "confirmed_by": w["conf"]["confirmed_by"],
+        "sources": w["source_mds"],
+        "any_confirmed": True,
+        "all_decided": True,
+        "confirmed_and_decided": True,
+        "sources_saved": all(s.get("snapshot_saved") for s in w["sources"]),
+        "linked": all(os.path.isfile(p) for p in written),
+    }
 
 
 def main(argv=None):
@@ -70,140 +240,19 @@ def main(argv=None):
     ap.add_argument("--product-base", required=True)
     ap.add_argument("--working", required=True)
     args = ap.parse_args(argv)
-
-    def refuse(msg):
-        sys.stderr.write(f"persist_intent.py: {msg}\n")
+    try:
+        work = plan(args)
+    except Refused as why:
+        sys.stderr.write(f"persist_intent.py: {why}\n")
         return 2
-
-    for p in [args.draft, args.confirmation] + args.source_manifest:
-        if not os.path.isfile(p):
-            return refuse(f"missing input {p}")
-    draft = load_yaml(args.draft)
-    intents = [i for i in (draft.get("intents") or []) if isinstance(i, dict)]
-    shows = {str(s.get("snapshot_dir")): str(s.get("shows") or "").strip()
-             for s in (draft.get("sources") or []) if isinstance(s, dict)}
-    conf = load_yaml(args.confirmation).get("confirmation") or {}
-    sources = []
-    for p in args.source_manifest:
-        with open(p, encoding="utf-8") as fh:
-            sources.append(json.load(fh))
-
-    if not intents:
-        return refuse("the draft has no intents")
-    if conf.get("by") != "person" or not str(conf.get("confirmed_by") or "").strip():
-        return refuse("decisions must be the person's own (by: person, confirmed_by) — an agent "
-                      "never confirms or drops an intent")
-    decisions = {}
-    for d in conf.get("decisions") or []:
-        if not isinstance(d, dict):
-            continue
-        if d.get("decision") not in ("confirmed", "dropped"):
-            return refuse(f"decision for `{d.get('intent')}` must be confirmed or dropped")
-        if not str(d.get("reply") or "").strip():
-            return refuse(f"decision for `{d.get('intent')}` has no typed reply from the person")
-        decisions[str(d.get("intent"))] = d
-    ids = [str(i.get("id") or "") for i in intents]
-    unknown = sorted(set(decisions) - set(ids))
-    if unknown:
-        return refuse(f"decisions name intents the draft does not have: {', '.join(unknown)}")
-    undecided = [i for i in ids if i not in decisions]
-    if undecided:
-        return refuse(f"the person has not decided: {', '.join(undecided)} — every drafted "
-                      f"intent is confirmed or dropped")
-    confirmed = [i for i in intents if decisions[str(i["id"])]["decision"] == "confirmed"]
-    dropped = [str(i["id"]) for i in intents if decisions[str(i["id"])]["decision"] == "dropped"]
-    if not confirmed:
-        return refuse("the person confirmed no intent — nothing is saved")
-    for i in confirmed:
-        for prop in REQUIRED:
-            if not str(i.get(prop) or "").strip():
-                return refuse(f"the intent `{i['id']}` is missing `{prop}`")
-    for s in sources:
-        if not s.get("snapshot_saved"):
-            return refuse(f"the Source at {s.get('snapshot_dir')} has no saved snapshot")
-
-    intents_dir = os.path.join(args.product_base, "product-os", "intents")
-    ice_dir = os.path.join(args.product_base, "product-os", "ice")
-    paths = {str(i["id"]): os.path.join(intents_dir, f"{i['id']}.md") for i in confirmed}
-    kept = {str(i["id"]) for i in confirmed}
-    all_ice = [c for c in (draft.get("ice") or []) if isinstance(c, dict) and c.get("id")]
-    ice = [c for c in all_ice if str(c.get("built_from")) in kept]
-    ice_dropped = [str(c["id"]) for c in all_ice if str(c.get("built_from")) not in kept]
-    ice_paths = {str(c["id"]): os.path.join(ice_dir, f"{c['id']}.yaml") for c in ice}
-    existing = [p for p in list(paths.values()) + list(ice_paths.values()) if os.path.exists(p)]
-    if existing:
-        return refuse(f"{', '.join(existing)} already exist — an intent or an ICE is never overwritten")
-    os.makedirs(intents_dir, exist_ok=True)
-    if ice:
-        os.makedirs(ice_dir, exist_ok=True)
-    when_all = conf.get("at", "")
-    for c in ice:
-        with open(ice_paths[str(c["id"])], "w", encoding="utf-8") as fh:
-            yaml.safe_dump(ice_record(c, when_all), fh, sort_keys=False, allow_unicode=True)
-
-    source_mds = [os.path.join(s["snapshot_dir"], "source.md") for s in sources]
-    for i in confirmed:
-        path = paths[str(i["id"])]
-        when = decisions[str(i["id"])].get("at") or conf.get("at", "")
-        lines = [f"# {i['title']}", "",
-                 f"**Outcome:** {i['outcome']}",
-                 f"**Why:** {i['why']}",
-                 f"**Asked by:** {i['asked_by']}",
-                 f"**Proof it is met:** {i['proof']}"]
-        if str(i.get("must_not") or "").strip():
-            lines.append(f"**Must not:** {i['must_not']}")
-        lines.append(f"**Stage:** confirmed — by {conf['confirmed_by']}, {when}".rstrip(", "))
-        lines.append("**Sources:**")
-        for s, md in zip(sources, source_mds):
-            lines.append(f"- [{s.get('kind')}, read {s.get('read_on')}]"
-                         f"({os.path.relpath(md, os.path.dirname(path))})")
-        mine = [c for c in ice if str(c.get("built_from")) == str(i["id"])]
-        lines.append("**ICE built from it:**" + ("" if mine else " none yet"))
-        for c in mine:
-            rel = os.path.relpath(ice_paths[str(c["id"])], os.path.dirname(path))
-            lines.append(f"- [{c.get('title') or c['id']}]({rel})")
-        lines += ["", "**What was done:** (nothing yet)", ""]
-        with open(path, "w", encoding="utf-8") as fh:
-            fh.write("\n".join(lines))
-
-    for s, md in zip(sources, source_mds):
-        src_lines = ["# Source", "",
-                     f"**Kind:** {s.get('kind')}",
-                     f"**Read on:** {s.get('read_on')}",
-                     f"**Snapshot:** {', '.join(s.get('files', []))}",
-                     f"**What it shows:** {shows.get(str(s['snapshot_dir']), '')}",
-                     f"**Given by:** {s.get('given_by')}",
-                     "**Shows the intents:**"]
-        for i in confirmed:
-            rel = os.path.relpath(paths[str(i["id"])], s["snapshot_dir"])
-            src_lines.append(f"- [{i['title']}]({rel})")
-        with open(md, "w", encoding="utf-8") as fh:
-            fh.write("\n".join(src_lines) + "\n")
-
-    missing_shows = [s["snapshot_dir"] for s in sources if not shows.get(str(s["snapshot_dir"]))]
-    linked = not missing_shows and all(os.path.isfile(m) for m in source_mds) \
-        and all(os.path.isfile(p) for p in list(paths.values()) + list(ice_paths.values()))
-    manifest = {
-        "intents": [{"id": str(i["id"]), "path": paths[str(i["id"])],
-                     "ice": [ice_paths[str(c["id"])] for c in ice
-                             if str(c.get("built_from")) == str(i["id"])]}
-                    for i in confirmed],
-        "dropped": dropped,
-        "ice_dropped": ice_dropped,
-        "confirmed_by": conf["confirmed_by"],
-        "sources": source_mds,
-        "any_confirmed": True,
-        "all_decided": True,
-        "confirmed_and_decided": True,
-        "sources_saved": all(s.get("snapshot_saved") for s in sources),
-        "linked": linked,
-    }
-    if missing_shows:
-        manifest["problem"] = f"no 'what it shows' summary for: {', '.join(missing_shows)}"
+    write_ice(work)
+    write_intents(work)
+    write_sources(work)
+    manifest = manifest_for(work)
     with open(os.path.join(args.working, "intent-manifest.json"), "w", encoding="utf-8") as fh:
         json.dump(manifest, fh, indent=2)
     print(json.dumps(manifest, indent=2))
-    return 0 if linked else 2
+    return 0 if manifest["linked"] else 2
 
 
 if __name__ == "__main__":
