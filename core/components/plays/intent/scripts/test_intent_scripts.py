@@ -417,6 +417,8 @@ def test_persist():
         i = argv.index("--confirmation")
         check("run by hand with no confirmation and no --proposed is refused",
               pi.main(argv[:i] + argv[i + 2:]) == 2)
+        check("both --confirmation and --proposed at once is refused",
+              pi.main(argv + ["--proposed"]) == 2 and not os.path.exists(intent_file(tmp, "grow-online-sales")))
     with tempfile.TemporaryDirectory() as tmp:
         argv, working, dirs = persist_setup(tmp, both(a="dropped"))
         check("dropping an intent drops its ICE too",
@@ -456,16 +458,24 @@ def test_persist():
         os.makedirs(model)
         with open(os.path.join(model, "_spine.yaml"), "w") as fh:
             yaml.safe_dump({"capabilities": [{"id": "saved-carts", "domain": "d1"}]}, fh)
-        check("a capability id already in the spine is refused, and nothing is written",
-              pi.main(argv) == 2 and not os.path.exists(intent_file(tmp, "grow-online-sales"))
-              and not os.path.exists(ice_file(tmp, "guest-checkout")))
+        check("a capability already in the spine is skipped, and the rest is saved",
+              pi.main(argv) == 0 and os.path.isfile(intent_file(tmp, "grow-online-sales"))
+              and os.path.isfile(ice_file(tmp, "guest-checkout"))
+              and not os.path.exists(ice_file(tmp, "saved-carts")))
+        m = read_json(os.path.join(working, "intent-manifest.json"))
+        check("the skipped capability is reported, and the existing entry is unchanged",
+              [x["id"] for x in m["ice_skipped"]] == ["saved-carts"]
+              and spine_of(tmp)["capabilities"][0] == {"id": "saved-carts", "domain": "d1"})
     with tempfile.TemporaryDirectory() as tmp:
         argv, working, _ = persist_setup(tmp, both())
         os.makedirs(os.path.dirname(ice_file(tmp, "saved-carts")))
         with open(ice_file(tmp, "saved-carts"), "w") as fh:
             fh.write("# Capability: Old\n")
-        check("an existing capability doc is never overwritten, and nothing is written",
-              pi.main(argv) == 2 and not os.path.exists(intent_file(tmp, "grow-online-sales")))
+        rc = pi.main(argv)
+        with open(ice_file(tmp, "saved-carts")) as fh:
+            kept = fh.read()
+        check("an existing capability doc is never overwritten — that ICE is skipped",
+              rc == 0 and kept == "# Capability: Old\n")
     with tempfile.TemporaryDirectory() as tmp:
         argv, working, _ = persist_setup(tmp, both(), shows=False)
         check("a source with no 'what it shows' is refused before anything is written",

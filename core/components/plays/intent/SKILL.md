@@ -272,7 +272,8 @@ ICE built from one a **proposed capability**: an entry appended to
 `intents` naming its business intent) and its grounding doc
 `<product_base>product-os/capabilities/<id>/capability.md` with the ICE goals inline. It never
 overwrites a page, a doc or an existing spine entry; a dropped intent and its ICE are not
-saved. It writes each Source record `source.md` beside its snapshot, links intents, ICE and
+saved; an ICE whose capability is already in the model is skipped and reported
+(`ice_skipped` in the manifest) — linking it is alignment's work. It writes each Source record `source.md` beside its snapshot, links intents, ICE and
 Sources, and writes `intent-manifest.json`. It writes no hand-off file: later plays read the
 model. It refuses, and writes nothing, unless the person decided every intent and confirmed at
 least one. Then check the capabilities it wrote, with the grounding linter and the workable
