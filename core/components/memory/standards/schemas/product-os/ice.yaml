@@ -1,4 +1,4 @@
-# ICE Schema — v2
+# ICE Schema — v1
 #
 # Intent / Context / Expectations attached to a ProductOS node. The second of
 # the three things ProductOS keeps forever: INTENT.
@@ -8,14 +8,10 @@
 
 schema:
   name: ice
-  version: 2
+  version: 1
 
 ice:
-  id: string              # the record's own id — the file is product-os/ice/<id>.yaml
-  title: string           # a plain name for what it is about, for a person scanning the list
-  node_ref: string        # the capability or functionality it is placed under — null until
-                          # placed (an ICE may be written before its node exists; ontology v3)
-  built_from: [string]    # the business intent id(s) it serves (product-os/intents/<id>.md)
+  node_ref: string
   intent:
     goals: []
     constraints: []
@@ -70,16 +66,9 @@ attaches_to: [capability, functionality]   # same shape at both levels;
 # different concern).
 
 # ---- Fill rules -------------------------------------------------------------
-# Who USUALLY writes what — a guide, not ownership. Any play may write or add to an
-# ICE, in any order (ontology v3), inside that play's declared write scope
-# (standards/rules/direct-model-write.md); drift is fixed by the Alignment drive.
 fill_rules:
-  - play: "/intent"
-    writes: "unplaced ICE (goals only, node_ref null) for each confirmed business intent,
-             from what the source shows and the person said"
   - play: "/vision"
-    writes: "seed intent (goals only), at capability level — or places an existing
-             unplaced ICE under the capability it creates"
+    writes: "seed intent (goals only), at capability level"
   - play: "/understand"
     writes: "full intent, context (persona/systems/scope), expectations, and the
              capability's nfr_needs + compliance_needs — which roll up the product profile"
@@ -92,8 +81,3 @@ fill_rules:
 # ---- Enhance rules ----------------------------------------------------------
 enhance_rules:
   governed_by: "PARKED — see product-os.yaml (future schema-evolution play)"
-
-# ---- Migration note (v1 -> v2, #612) ----------------------------------------
-# Additive. v2 adds `id`, `title` and `built_from`, and lets `node_ref` be null: an ICE
-# may now be written before its node exists (ontology v3), and later placed. Every v1
-# record stays valid as written; a v1 record simply has no built_from yet.

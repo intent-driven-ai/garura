@@ -10,7 +10,7 @@ The agreed map of what a product is made of in Garura: the kinds of things, what
 
 How it flows: a person gives an intent → it becomes a **Business Intent** here and a "Business Intent" issue in the tracker → plays break it into **Work** agents know (Feature, Story, Chore, Bug, Spike), each carrying the **ICE** its agent works on → as work finishes, the Business Intent is updated with what was done → when it is done, the Business Intent links to the value it got through the tracker's finished issues.
 
-**Who writes, and what the rules mean.** No play owns a kind. Any play may write the intents, ICE or other kinds it finds — from a prototype, while shaping, or in the middle of implementation — and the parts may come in any order. A play still writes only inside its own declared write scope (`standards/rules/direct-model-write.md`); a play's scope is widened on purpose, in that play, never by this sentence. The rules below say what holds once the product is **aligned**; they never stop a write. Drift between them is found and fixed by the Alignment drive. One thing is never left to alignment: only a person confirms or drops a business intent.
+**Who writes, and what the rules mean.** No play owns a kind. Any play may write the intents, ICE or other kinds it finds — from a prototype, while shaping, or in the middle of implementation — and the parts may come in any order. A play still writes only inside its own declared write scope (`standards/rules/direct-model-write.md`); a play's scope is widened on purpose, in that play, never by this sentence. The rules below say what holds once the product is **aligned**; they never stop a write. Drift between them is found and fixed by the Alignment drive. What a rule can stop is work, never a write: an ICE with no confirmed business intent is kept, but nothing is built from it. One thing is never left to alignment: only a person confirms or drops a business intent.
 
 ## Questions it must answer
 
@@ -71,7 +71,7 @@ How it flows: a person gives an intent → it becomes a **Business Intent** here
 
 - It is a destination: sources, ICE and work point at it; it points only at the tracker issue it is tracked as and the parts of the product it touches.
 - It is met by its proof, never because its work is finished.
-- Once aligned, every ICE and every piece of work points at a confirmed business intent. One found before its intent is confirmed — or before it exists — is drift for alignment, not a blocked write.
+- Work starts only from an ICE built from a confirmed business intent. An ICE or a piece of work found before its intent is confirmed — or before it exists — is kept, not worked on, and is drift for alignment, never a blocked write.
 - A source is never copied into it; the source shows the intent, it is not the intent.
 - It is written for a business reader, in plain words.
 - Only a person confirms or drops it; an agent never does.
@@ -134,48 +134,47 @@ proposed → confirmed (the person who asked confirms it says the right thing) �
 
 ### ICE
 
-**What it is:** The agent's intent for one part of the product — a capability or a functionality: what must be true there, for whom, and how it will be checked. It is what an agent works on, and it is built from a business intent. It may be written before its part of the product exists: it starts with the goals a business intent needs and is placed under a capability or functionality, and filled in, later. Defined in `ice.yaml`, plus the link to its business intents.
+**What it is:** The agent's intent for one part of the product — a capability or a functionality: what must be true there, for whom, and how it will be checked. It is what an agent works on, and it is built from a business intent. It starts with the goals a business intent needs; context, outcomes and quality needs are added as the product is shaped. Its capability may exist before that capability has a domain — `/vision` attaches the domain later.
 **Who reads it:** agent
-**Lives at:** `product-os/ice/<id>.yaml`, in the `ice.yaml` shape; its capability or functionality points at it once it is placed
+**Lives at:** written inline in its capability's or functionality's grounding doc (`spine.yaml` v2); the spine entry's `intents` names the business intents it is built from
 
 **Properties**
 
 | Property | What it holds | Required |
 |----------|---------------|----------|
-| Part of the product | The capability or functionality it belongs to | once aligned — empty until it is placed |
+| Part of the product | The capability or functionality it belongs to | yes |
 | Goals, limits, failures | What must be true, the limits, and what counts as failing | goals yes; limits and failures once aligned |
 | Context | Who it serves (personas), the systems it touches, what is in and out of scope | once aligned |
 | Outcomes | How each goal is checked | once aligned |
 | Quality and compliance needs | Concrete targets (speed, security, …) and regimes such as PCI | no |
-| Built from | The business intent(s) it serves | yes |
+| Built from | The business intent(s) it serves — its node's spine `intents` | to be workable |
 
 **Relationships**
 
 | Direction | Other kind | Count | Meaning |
 |-----------|-----------|-------|---------|
 | this → other | Business Intent | many | It is built from a business intent |
-| this → other | Capability | one, once placed | It belongs to a capability … |
-| this → other | Functionality | one, once placed | … or to a functionality |
+| this → other | Capability | one | It belongs to a capability … |
+| this → other | Functionality | one | … or to a functionality |
 | other → this | Work | many | A piece of work carries it — the intent its agent works on |
 
 **Rules**
 
+- It is workable only when it is built from at least one confirmed business intent. An ICE with no business intent, or only proposed ones, is kept as written but no play plans, breaks down or builds from it; linking it to a confirmed intent makes it workable.
+- Writing it is never blocked: any play may write or add to it, inside that play's declared write scope.
 - Once aligned, one part of the product has one ICE; two ICE for the same part are drift for alignment to merge.
-- Once aligned, it is placed under a capability or functionality, and built from at least one confirmed business intent.
-- Any play may write or add to it, inside that play's declared write scope. Its goals come first; context, outcomes and quality needs are added as the product is shaped.
 
 **Example**
 
-> **ICE — Guest checkout (function)**
+> **ICE — Guest checkout (functionality)**
 > **Built from:** Shoppers can check out without making an account
 > **Goal:** A shopper with no account completes a purchase. **Limit:** no change to returns. **Fails if:** a guest is asked to sign up.
 > **Context:** guest shopper on mobile · payment service, order store · in: card and wallet; out: saved addresses
 > **Outcome:** a guest completes checkout in under 2 minutes, in an end-to-end test
 >
-> **ICE — not yet placed** (written by `/intent` from a prototype)
-> **Built from:** Know whether the harnesses we build are useful and drive agent autonomy
+> **ICE — Harness steering** (capability written by `/intent` from a prototype; no domain yet)
+> **Built from:** Know whether the harnesses we build are useful and drive agent autonomy (confirmed — so it is workable)
 > **Goal:** For each harness, tell how often an agent finishes its work without a person stepping in.
-> **Part of the product:** none yet — `/vision` places it under a capability
 
 ## Not yet defined
 
@@ -192,3 +191,4 @@ proposed → confirmed (the person who asked confirms it says the right thing) �
 - 2026-10-08 — A Source may be a project folder (its written docs are kept; the running app is captured as a second, site Source).
 - 2026-10-09 — v3 (Kapil, #612): no play owns a kind — any play writes what it finds, in any order; rules say what holds once aligned and never block a write; drift goes to the Alignment drive. Only a person confirms or drops a business intent. ICE may be written before it is placed (`product-os/ice/<id>.yaml`, goals first); the writer rule for ICE is gone.
 - 2026-10-09 — Review of #631: "Function" renamed "Functionality" to match the glossary and the spine; any play may write a kind only inside its own declared write scope (`direct-model-write.md`).
+- 2026-10-09 — Kapil, on review of #631: ICE lives inline in its node's grounding doc (spine v2), never as a separate file; a capability may exist before its domain (`/vision` attaches it); an ICE is workable only when built from a confirmed business intent (spine `intents`) — unlinked ICE is kept, not worked on, never blocked.
