@@ -1,0 +1,14 @@
+{
+  "clean": false,
+  "person_only": true,
+  "intents": 5,
+  "ice": 12,
+  "problems": [
+    "[know-where-ai-spend-goes] needs the person: `why`, `proof` missing; 2 open question(s)",
+    "[hand-more-work-to-ai] needs the person: `why`, `proof` missing; 2 open question(s)",
+    "[right-model-for-the-work] needs the person: `why`, `proof` missing; 2 open question(s)",
+    "[less-steering-from-people] needs the person: `why`, `proof` missing; 2 open question(s)",
+    "[share-numbers-safely] needs the person: `why`, `proof` missing; 3 open question(s)",
+    "[all] needs the person: 2 open question(s)"
+  ]
+}

@@ -1,0 +1,125 @@
+intents:
+  - id: token-economics
+    title: "Know how AI tokens are spent and whether they bring in value"
+    outcome: "Kapil can see where the AI tokens, and the money they cost, are being spent: on which kind of work, through which tool and model, in which repeated workflow, and how that changes over time. From that, Kapil can judge whether the spend is bringing in value."
+    why: "AI spend is growing, and we need to show that it pays back."
+    asked_by: "Kapil"
+    proof: "Each team can show what its AI spend is and what it is delivering for that spend."
+    must_not: "Count any use from a guess instead of an exact record, lose a day that was already counted, or need anyone to keep the numbers up to date by hand."
+    provenance: { title: person, outcome: person, why: person, asked_by: person, proof: person, must_not: source }
+  - id: harness-autonomy
+    title: "Know whether the harnesses we build are useful and drive agent autonomy"
+    outcome: "For each harness we build, meaning the repeatable workflows and guardrails set up around AI agents, Kapil can tell whether it is useful and whether it lets the agent work on its own, needing less direction from a person."
+    why: "Building a harness is a real investment of time, and each one is meant to give value back. We need to see which harnesses work, by seeing the ones that drive agent autonomy and deliver good, consistent results."
+    asked_by: "Kapil"
+    proof: "Each harness carries an autonomy score, worked out from how it is actually used."
+    must_not: "Judge a harness from guessed figures rather than exact records of real runs."
+    provenance: { title: person, outcome: person, why: person, asked_by: person, proof: person, must_not: source }
+  - id: framework-adoption
+    title: "Drive adoption across teams by seeing who works through the frameworks and who vibe codes"
+    outcome: "Across the teams, Kapil can see who has taken up the frameworks and who is using AI like vibe coding, prompting freely with no framework, so that adoption of the frameworks can be pushed where it is lagging."
+    why: "Clients and leaders need to see that AI work follows a method, not luck."
+    asked_by: "Kapil"
+    proof: "People on each team use the harnesses consistently, and their autonomy score rises over time."
+    must_not: "Share or publish anything beyond figures and plain labels for the kind of work: never client names, project names, file locations or prompts, and nothing sent anywhere without the owner's say-so."
+    provenance: { title: person, outcome: person, why: person, asked_by: person, proof: person, must_not: source }
+  - id: collect-across-teams
+    title: "Collect this usage data across the teams"
+    outcome: "The data behind the first three intents, how tokens are spent, how useful the harnesses are and who uses the frameworks, is gathered from everyone across the teams, not only from Kapil's own work."
+    why: "Teams work together to deliver results, so seeing the data rolled up is critical. It rolls up at four levels: the individual, the team, the account and the unit."
+    asked_by: "Kapil"
+    proof: "Every day, an automated script collects the data from the people who have signed up to the tool, and each leader can see the level they lead. For an individual, the lead is that same person. Leaders of a team, an account or a unit see the combined total for their level and can drill down into the levels beneath it."
+    provenance: { title: person, outcome: person, why: person, asked_by: person, proof: person }
+sources:
+  - snapshot_dir: ".garura/product/_evidence/intent/20261008-143446/source-app"
+    shows: "A dashboard of one person's AI use, in four views. The first gives the overall picture: totals, the busiest day, recent averages, runs of active days, a calendar of quiet and busy days, the weekly direction, the split between two coding tools, the kinds of work driving use, and the last thirty days in detail. The second shows which AI models were used and how that changed day by day, and the third shows, for each repeated workflow grouped by project, its use per run and how much direction each model needed, with a suggested model. The fourth shows what the use cost in money, by kind of use, by model and by day."
+  - snapshot_dir: ".garura/product/_evidence/intent/20261008-143446/source-project"
+    shows: "The written notes behind the same dashboard: what it is for, where its numbers come from, and the rules it keeps. They say the numbers come only from exact records on Kapil's own machine and never from estimates, that each day is labelled by the kind of work that drove it and a wrong label can be fixed for good, that the record refreshes itself every night and never loses history, and that nothing leaves the machine without Kapil's say-so. It also keeps the notes of the starter kit it grew from, which aimed to show every AI tool side by side with exact and estimated use kept apart."
+coverage:
+  - part: "Page heading: the question the dashboard keeps in front of the reader, what the computer should do next"
+    intent: token-economics
+  - part: "Overall view: total use to date, the busiest day, and the 7-day and 30-day averages"
+    intent: token-economics
+  - part: "Overall view: a calendar of every day, shaded so quiet days and spikes can be told apart"
+    intent: token-economics
+  - part: "Overall view: the week-by-week direction of use over the whole period"
+    intent: token-economics
+  - part: "Overall view: the current run of active days, the longest run, and active days out of all days"
+    intent: token-economics
+  - part: "Overall view: the split of all use between the two coding tools, both from exact records"
+    intent: token-economics
+  - part: "Overall view: the share of use by kind of work, such as building, client work, writing and personal"
+    intent: token-economics
+  - part: "Overall view: the biggest day for each tool, with the kind of work that drove it"
+    intent: token-economics
+  - part: "Overall view: the last thirty days, each with its total, its 7-day average, its working sittings per tool and the kind of work that drove it"
+    intent: token-economics
+  - part: "Overall view: days counted before a fix are marked as likely about three times too high"
+    intent: token-economics
+  - part: "Models view: each model's share of all use, covering only days whose records are still kept"
+    intent: token-economics
+  - part: "Models view: day by day, how much each model was used, showing the move from older to newer models"
+    intent: token-economics
+  - part: "Workflows view: across all workflow runs, each model's typical and average use per run"
+    intent: token-economics
+  - part: "Workflows view: for each workflow, the typical use per run by model, counting only the main sitting and not the helpers it starts"
+    intent: token-economics
+  - part: "Cost view: total spend, spend over the last 30 days, and spend per active day"
+    intent: token-economics
+  - part: "Cost view: how the volume and the money split across the kinds of use, where most volume costs little and a small part costs the most"
+    intent: token-economics
+  - part: "Cost view: volume and spend for each model"
+    intent: token-economics
+  - part: "Cost view: volume and spend for each day from 7 September on, with prices checked every night and older days priced at the first price kept"
+    intent: token-economics
+  - part: "Written notes: use is counted as real working effort, leaving out repeated re-reads so they do not hide every other signal, and days follow Kapil's local time"
+    intent: token-economics
+  - part: "Written notes: each day's kind of work is worked out from where the work happened, and a wrong label can be corrected by hand and stays corrected"
+    intent: token-economics
+  - part: "Written notes: work done by helper agents is counted once, against the project that started it"
+    intent: token-economics
+  - part: "Written notes: the record refreshes itself every night, with nothing to edit by hand"
+    intent: token-economics
+  - part: "Written notes: only exact records are counted, the two chat tools without exact records are left out, and Kapil does not want estimates"
+    intent: token-economics
+  - part: "Written notes: when old records are cleared, days already counted are kept, and a backup is made before each update"
+    intent: token-economics
+  - part: "Starter kit notes: the kit this grew from aimed to put every AI tool on one view, with exact and estimated use kept clearly apart"
+    intent: token-economics
+  - part: "Workflows view: across all workflow runs, how many of Kapil's messages each model needed per run, where fewer means less direction was needed"
+    intent: harness-autonomy
+  - part: "Workflows view: for each workflow, how much direction each model needed per run, with the model that gives the best balance, marked as a hint when based on few runs"
+    intent: harness-autonomy
+  - part: "Workflows view: for each project, how many repeated workflows it has and how often they were run"
+    intent: framework-adoption
+  - part: "Written notes: the shareable data holds only numbers, plain work labels and plain notes, never names, file locations, prompts or raw records"
+    intent: framework-adoption
+  - part: "Written notes: the dashboard runs only on Kapil's machine, nothing is sent anywhere without Kapil's say-so, and some private projects are left out entirely"
+    intent: framework-adoption
+  - part: "Page footnote: keep raw exports and private project names out of anything shared"
+    intent: framework-adoption
+questions:
+  - intent: token-economics
+    ask: "Why does knowing how tokens are spent, and whether they bring in value, matter to the business?"
+    answer: "AI spend is growing and we need to show it pays back"
+  - intent: token-economics
+    ask: "How will we know this is met? What would tell you that the tokens spent are bringing in value?"
+    answer: "each team can show what its AI spend is and what they are delivering"
+  - intent: harness-autonomy
+    ask: "Why does knowing whether our harnesses are useful and drive agent autonomy matter to the business?"
+    answer: "building harness are real time investment, and they are supposed to prvide value. we need to see which one works, by seeign the ones that are driving autonomy and delivering quality and consistent results"
+  - intent: harness-autonomy
+    ask: "How will we know this is met? What would show you that a harness is useful and that agents need less direction because of it?"
+    answer: "harness usage will have autonomy scope. consistent and quality comes from another part of control tower later."
+  - intent: framework-adoption
+    ask: "Why does driving adoption of the frameworks across teams, instead of vibe coding, matter to the business?"
+    answer: "3rd (chose the offered example: Clients and leaders need to see that AI work follows a method, not luck.)"
+  - intent: framework-adoption
+    ask: "How will we know this is met? What would tell you a team has adopted the frameworks rather than vibe coding?"
+    answer: "people on team are using harness  consitently and also we see autonmy score rise"
+  - intent: collect-across-teams
+    ask: "Why does collecting this data across the teams matter to the business?"
+    answer: "teams work together to deliver results.. roll-ups will be critial. rollups are - individual, team, account, unit"
+  - intent: collect-across-teams
+    ask: "How will we know this is met? Which teams, or how many people, need to be sending their data before you call it collected?"
+    answer: "data is collected thru autoated script every day from the peple who are signed up on this tool and each leader can see it - intividual's lead is self. and team, account and unit can see cumulative and roll-downs"

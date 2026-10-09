@@ -1,0 +1,83 @@
+{
+  "ok": true,
+  "base_ref": "HEAD",
+  "tree": ".garura/product/product-os",
+  "allow": [],
+  "add_only": [
+    "product-os/intents/*.md",
+    "product-os/ice/*.yaml"
+  ],
+  "restore": false,
+  "changed": [
+    {
+      "path": ".garura/product/product-os/ice/ai-spend-in-money.yaml",
+      "status": "A"
+    },
+    {
+      "path": ".garura/product/product-os/ice/ai-use-over-time.yaml",
+      "status": "A"
+    },
+    {
+      "path": ".garura/product/product-os/ice/framework-use.yaml",
+      "status": "A"
+    },
+    {
+      "path": ".garura/product/product-os/ice/kinds-of-work.yaml",
+      "status": "A"
+    },
+    {
+      "path": ".garura/product/product-os/ice/model-mix-moves.yaml",
+      "status": "A"
+    },
+    {
+      "path": ".garura/product/product-os/ice/model-per-workflow.yaml",
+      "status": "A"
+    },
+    {
+      "path": ".garura/product/product-os/ice/safe-to-share.yaml",
+      "status": "A"
+    },
+    {
+      "path": ".garura/product/product-os/ice/steady-daily-use.yaml",
+      "status": "A"
+    },
+    {
+      "path": ".garura/product/product-os/ice/tool-split.yaml",
+      "status": "A"
+    },
+    {
+      "path": ".garura/product/product-os/ice/trust-the-numbers.yaml",
+      "status": "A"
+    },
+    {
+      "path": ".garura/product/product-os/ice/what-drives-the-bill.yaml",
+      "status": "A"
+    },
+    {
+      "path": ".garura/product/product-os/ice/workflow-cost.yaml",
+      "status": "A"
+    },
+    {
+      "path": ".garura/product/product-os/ice/workflow-steering.yaml",
+      "status": "A"
+    },
+    {
+      "path": ".garura/product/product-os/intents/collect-across-teams.md",
+      "status": "A"
+    },
+    {
+      "path": ".garura/product/product-os/intents/framework-adoption.md",
+      "status": "A"
+    },
+    {
+      "path": ".garura/product/product-os/intents/harness-autonomy.md",
+      "status": "A"
+    },
+    {
+      "path": ".garura/product/product-os/intents/token-economics.md",
+      "status": "A"
+    }
+  ],
+  "violations": [],
+  "restored": []
+}

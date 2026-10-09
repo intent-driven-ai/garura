@@ -1,0 +1,363 @@
+intents:
+- id: know-where-ai-spend-goes
+  title: Know where AI spend goes, and whether it goes to the right work
+  outcome: It is always clear what AI work costs in money, which kinds of work that money goes to, and
+    how far each figure can be relied on.
+  why: ''
+  asked_by: Kapil Viren Ahuja, who owns the dashboard and shared it
+  proof: ''
+  must_not: Never present an estimate as an exact count, and never change how usage is counted without
+    saying so. Never send the numbers anywhere without Kapil's clear go-ahead, and never let client or
+    project names, prompts, file locations or raw records into anything shared.
+  provenance:
+    title: source
+    outcome: source
+    why: ''
+    asked_by: source
+    proof: ''
+    must_not: source
+- id: hand-more-work-to-ai
+  title: Keep handing more of the work to AI, steadily
+  outcome: The amount of work done by AI is known day by day and week by week, and it keeps growing as
+    part of the normal way of working.
+  why: ''
+  asked_by: Kapil Viren Ahuja, who owns the dashboard and shared it
+  proof: ''
+  must_not: Never send the numbers anywhere without Kapil's clear go-ahead, and never let client or project
+    names, prompts, file locations or raw records into anything shared.
+  provenance:
+    title: source
+    outcome: source
+    why: ''
+    asked_by: source
+    proof: ''
+    must_not: source
+- id: right-model-for-the-work
+  title: Get each piece of AI work done at the lowest cost by running it on the right model
+  outcome: Every repeated piece of AI work runs on the model that does it for the least cost and the least
+    direction, and the move to newer models is made deliberately.
+  why: ''
+  asked_by: Kapil Viren Ahuja, who owns the dashboard and shared it
+  proof: ''
+  must_not: Never send the numbers anywhere without Kapil's clear go-ahead, and never let client or project
+    names, prompts, file locations or raw records into anything shared.
+  provenance:
+    title: source
+    outcome: source
+    why: ''
+    asked_by: source
+    proof: ''
+    must_not: source
+- id: less-steering-from-people
+  title: People spend less time steering AI while it does the work
+  outcome: AI finishes its work with fewer messages from the person directing it, so people spend less
+    of their time keeping it on track.
+  why: ''
+  asked_by: Kapil Viren Ahuja, who owns the dashboard and shared it
+  proof: ''
+  must_not: Never send the numbers anywhere without Kapil's clear go-ahead, and never let client or project
+    names, prompts, file locations or raw records into anything shared.
+  provenance:
+    title: source
+    outcome: source
+    why: ''
+    asked_by: source
+    proof: ''
+    must_not: source
+- id: share-numbers-safely
+  title: Make the AI numbers something others can see, without exposing private work
+  outcome: The AI numbers can be shown to other people, while names, prompts and private records stay
+    with the person whose work it is.
+  why: ''
+  asked_by: Kapil Viren Ahuja, who owns the dashboard and shared it
+  proof: ''
+  must_not: Never send the numbers anywhere without Kapil's clear go-ahead, and never let client or project
+    names, prompts, file locations or raw records into anything shared.
+  provenance:
+    title: source
+    outcome: source
+    why: ''
+    asked_by: source
+    proof: ''
+    must_not: source
+ice:
+- id: ai-spend-in-money
+  title: What AI work costs in money, and where the bill is heading
+  built_from: know-where-ai-spend-goes
+  goals:
+  - See what AI work has cost in total, over the last month and per working day, and judge whether the
+    spend is in line with what was expected.
+  - See the cost of each day and of each model, and tell which days and which models push the bill up.
+- id: what-drives-the-bill
+  title: Which kind of AI usage drives the bill
+  built_from: know-where-ai-spend-goes
+  goals:
+  - See how much of the usage and how much of the cost comes from each kind of usage (new instructions,
+    context saved for reuse, saved context read back, and the answers the AI writes), and decide where
+    a change in how work is run would cut the bill most.
+  - Tell when a large share of usage costs very little, so sheer volume is never mistaken for spend.
+- id: kinds-of-work
+  title: Which kinds of work AI is spent on
+  built_from: know-where-ai-spend-goes
+  goals:
+  - See what share of AI usage each kind of work takes, such as building, client work, writing, tooling,
+    leadership and personal work, and judge whether AI effort goes to the work that matters most.
+  - For the heaviest days, see which kind of work caused them, and decide whether those spikes were worth
+    it.
+  - Correct the kind of work a day is filed under when it is wrong, and have that correction hold from
+    then on.
+- id: trust-the-numbers
+  title: How far the numbers can be trusted
+  built_from: know-where-ai-spend-goes
+  goals:
+  - Tell for any figure whether it is an exact count, and which days were counted the old way and are
+    likely about three times too high.
+  - Know how up to date the numbers and the prices behind them are, and which days have no cost breakdown,
+    so no judgement rests on missing or stale figures.
+  - Rely on past days staying on record even after the records they came from are cleared away.
+- id: ai-use-over-time
+  title: How much work is handed to AI, and how that changes
+  built_from: hand-more-work-to-ai
+  goals:
+  - See the total amount of AI work, the busiest day, and the weekly and monthly averages, and judge whether
+    the amount handed to AI is growing, holding or falling.
+  - See every day and every week side by side, and spot quiet stretches and sudden spikes that are worth
+    a closer look.
+- id: steady-daily-use
+  title: Whether AI is used every day or in bursts
+  built_from: hand-more-work-to-ai
+  goals:
+  - See the current and the longest run of days with AI work, and the share of all days that had any,
+    and judge whether AI has become a daily way of working.
+- id: tool-split
+  title: Which AI tool carries the work
+  built_from: hand-more-work-to-ai
+  goals:
+  - See how much of the AI work, and how many working sessions, run through each AI tool, and judge how
+    heavily the work leans on one tool.
+- id: model-mix-moves
+  title: Moving work onto newer models
+  built_from: right-model-for-the-work
+  goals:
+  - See each model's share of AI usage and, day by day, which models were in use, and tell whether moves
+    to newer models happen fully and consistently or older models linger.
+- id: model-per-workflow
+  title: The right model for each repeated workflow
+  built_from: right-model-for-the-work
+  goals:
+  - For each repeated workflow, see what a typical run costs on each model and which model is suggested,
+    and decide which model to run it on.
+  - Tell how much weight a suggestion carries from how many runs it rests on.
+  - Compare models across all workflows by the typical cost of a run, and see when a few heavy runs distort
+    the average.
+- id: workflow-cost
+  title: What each repeated workflow and each project costs
+  built_from: know-where-ai-spend-goes
+  goals:
+  - See the total usage and the number of runs of each repeated workflow, grouped by project, and judge
+    which workflows and which projects take the most AI spend.
+- id: workflow-steering
+  title: How much steering each model and workflow needs
+  built_from: less-steering-from-people
+  goals:
+  - For each model and each workflow, see how many messages a person sends per run, and tell which finish
+    with little steering and which still need a lot.
+  - Decide which workflows to rework because people have to steer them far more than the rest.
+- id: safe-to-share
+  title: Sharing the numbers without exposing private work
+  built_from: share-numbers-safely
+  goals:
+  - Know that the numbers prepared for sharing hold only figures and general labels, with no client or
+    project names, prompts, file locations or raw records, and decide when it is safe to share or publish
+    them.
+  - Keep the numbers on the person's own machine until they choose otherwise.
+sources:
+- snapshot_dir: .garura/product/_evidence/intent/20261009-023928/source-app
+  shows: A running dashboard of one person's AI usage, read from that person's own records, in four views.
+    The first shows how much AI work happened over time, how steady it was, which AI tool and which kind
+    of work it went to, and the last month day by day. The second shows which AI models were used and
+    how use moved to newer ones; the third shows what each repeated workflow costs on each model, how
+    much steering it needed, and which model to pick; the fourth shows the cost in money and what drives
+    it.
+- snapshot_dir: .garura/product/_evidence/intent/20261009-023928/source-project
+  shows: 'The written notes behind the same dashboard: its purpose, how it counts AI usage and files each
+    day under a kind of work, and how it refreshes itself every night. They set firm rules: count only
+    exact usage, never estimates; keep history even when old records are cleared; and keep the shareable
+    numbers free of names, prompts and file locations, sending nothing anywhere without the owner''s go-ahead.
+    They also note the dashboard grew from a starter kit that tracked more tools, some only by estimate.'
+coverage:
+- part: Total AI work to date, the busiest day, and the weekly and monthly averages
+  ice: ai-use-over-time
+- part: The calendar of every day, shaded so quiet days and spikes show together
+  ice: ai-use-over-time
+- part: The week-by-week trend of AI work, from the first week to now
+  ice: ai-use-over-time
+- part: 'The last month day by day: total AI work and its seven-day average'
+  ice: ai-use-over-time
+- part: The current run of days with AI work, the longest run, and active days out of all days
+  ice: steady-daily-use
+- part: The split of AI work between the two AI tools, both counted exactly
+  ice: tool-split
+- part: 'The last month day by day: AI work and working sessions per tool'
+  ice: tool-split
+- part: The share of AI work each kind of work takes
+  ice: kinds-of-work
+- part: The heaviest single day overall and per tool, with the kind of work behind it
+  ice: kinds-of-work
+- part: 'The last month day by day: the kind of work each day is filed under'
+  ice: kinds-of-work
+- part: 'The guiding question printed on every view: what should the computer do next'
+  ice: ai-use-over-time
+- part: The warning that some days were counted the old way and are likely about three times too high
+  ice: trust-the-numbers
+- part: The reminder to keep private names and raw records out of anything shared
+  ice: safe-to-share
+- part: Each model's share of AI work
+  ice: model-mix-moves
+- part: Day by day, how much work each model did, showing the move to newer models
+  ice: model-mix-moves
+- part: The note that model shares cover only days still on record, so they lean to recent work
+  ice: trust-the-numbers
+- part: Across all workflows, the typical and the average cost of a run on each model
+  ice: model-per-workflow
+- part: Across all workflows, how many messages the person sends per run on each model
+  ice: workflow-steering
+- part: For each workflow, grouped by project, its total cost and number of runs
+  ice: workflow-cost
+- part: The note that workflow costs count only the main session, not the helper agents it starts
+  ice: trust-the-numbers
+- part: For each workflow, the typical cost of a run on each model, and the suggested model
+  ice: model-per-workflow
+- part: The note on each suggestion that few runs make it only a hint
+  ice: model-per-workflow
+- part: For each workflow, how many messages the person sends per run on each model
+  ice: workflow-steering
+- part: Total cost, cost for the last month, cost per working day, and total usage
+  ice: ai-spend-in-money
+- part: Usage and cost split by kind of usage, showing that most usage costs little
+  ice: what-drives-the-bill
+- part: Usage and cost per model
+  ice: ai-spend-in-money
+- part: Usage and cost day by day
+  ice: ai-spend-in-money
+- part: The note on where prices come from, how often they are checked, and which days lack a breakdown
+  ice: trust-the-numbers
+- part: 'The stated purpose: show where the AI spend goes, by day and by kind of work'
+  ice: kinds-of-work
+- part: Only tools with exact records are counted; chat tools are left out rather than estimated
+  ice: trust-the-numbers
+- part: Usage counts only real work by default, leaving out cheap re-read context unless asked
+  ice: trust-the-numbers
+- part: Days are counted in Indian time
+  ice: trust-the-numbers
+- part: The rules that file each day under one kind of work, from where the work was done and what it
+    touched
+  ice: kinds-of-work
+- part: Hand corrections to a day's kind of work, which survive every refresh
+  ice: kinds-of-work
+- part: Past days are kept even when the records they came from are cleared, with a backup before each
+    update
+  ice: trust-the-numbers
+- part: The numbers refresh on their own every night
+  ice: trust-the-numbers
+- part: Work done by helper agents is counted once, under the project that started it
+  ice: trust-the-numbers
+- part: The shareable numbers hold only figures and general labels, never names, prompts or file locations
+  ice: safe-to-share
+- part: Nothing is sent anywhere, or published, until the owner checks it is clean and says so
+  ice: safe-to-share
+- part: The starter kit it grew from, which also tracked chat tools by estimate
+  ice: trust-the-numbers
+questions:
+- intent: know-where-ai-spend-goes
+  ask: Why does it matter to the business to know where AI spend goes?
+  examples:
+  - AI costs about 68 dollars per working day, and we need to show it is worth it.
+  - We need to decide which work is worth handing to AI, and which is not.
+  - Budgets for AI tools need real numbers behind them.
+  answer: ''
+- intent: know-where-ai-spend-goes
+  ask: How will we know this intent is met?
+  examples:
+  - Each month we can say what AI cost and which kinds of work it went to.
+  - We can name the work where AI spend does not pay back, and stop or change it.
+  - No decision rests on a figure we cannot trust.
+  answer: ''
+- intent: hand-more-work-to-ai
+  ask: Why does it matter to the business to hand more of the work to AI?
+  examples:
+  - Work handed to AI frees people for work only they can do.
+  - We keep asking what the computer should do next, and want the answer to grow.
+  - We want AI to be part of daily work, not an occasional tool.
+  answer: ''
+- intent: hand-more-work-to-ai
+  ask: How will we know this intent is met?
+  examples:
+  - The weekly amount of AI work grows, quarter on quarter.
+  - AI is used on most working days.
+  - More kinds of work show up as done with AI.
+  answer: ''
+- intent: right-model-for-the-work
+  ask: Why does it matter to the business which model runs each piece of work?
+  examples:
+  - One model alone cost about 887 dollars, so the choice of model moves the bill.
+  - New models arrive often, and we should move to them only when they help.
+  - Picking models by habit wastes money.
+  answer: ''
+- intent: right-model-for-the-work
+  ask: How will we know this intent is met?
+  examples:
+  - Every repeated workflow has a chosen model backed by enough runs.
+  - The cost of a run of each workflow goes down after a model change.
+  - Older models stop being used within a set time once a newer one proves better.
+  answer: ''
+- intent: less-steering-from-people
+  ask: Why does it matter to the business that people steer AI less?
+  examples:
+  - Every message spent steering AI is time not spent on other work.
+  - A workflow that needs heavy steering has not really been handed over.
+  - We build workflows for AI, and need to know which ones earn that effort.
+  answer: ''
+- intent: less-steering-from-people
+  ask: How will we know this intent is met?
+  examples:
+  - Messages per run fall, workflow by workflow, over time.
+  - No workflow needs more than a set number of messages per run.
+  - Workflows that still need heavy steering are reworked or retired.
+  answer: ''
+- intent: share-numbers-safely
+  ask: Why does it matter to the business that others can see these numbers?
+  examples:
+  - A team, its leaders or clients need to see the numbers, not just one person.
+  - Numbers only one person can see cannot support a decision beyond that person.
+  - Showing the numbers proves how AI work is really done.
+  answer: ''
+- intent: share-numbers-safely
+  ask: How will we know this intent is met?
+  examples:
+  - The shared numbers are checked and hold no names, prompts or file locations.
+  - The people who need the numbers can see them, privately.
+  - Nothing leaves Kapil's machine without Kapil's go-ahead.
+  answer: ''
+- intent: share-numbers-safely
+  ask: The workflow view names projects, while the written rules say shared numbers never carry project
+    names. Should project names stay out of anything shared?
+  examples:
+  - Yes, keep project names out of anything shared.
+  - Project names are fine to share within the team, not outside it.
+  - Show project names to the owner only, and general labels to everyone else.
+  answer: ''
+- intent: all
+  ask: Whose AI work should these intents cover?
+  examples:
+  - Kapil's own work only.
+  - A team's work, added up from each person in it.
+  - Every team across the organisation.
+  answer: ''
+- intent: all
+  ask: Is there an intent you hold that these sources do not show, or one here that is not deep enough?
+  examples:
+  - Collect these numbers from many people, not just one.
+  - Show whether AI work follows a set method or is done ad hoc.
+  - None, these cover it.
+  answer: ''

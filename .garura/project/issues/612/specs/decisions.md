@@ -1,0 +1,31 @@
+# #612 — decisions
+
+Kapil answered plan item 1 on 2026-10-08 (taken as approval of the plan):
+
+**D1 — The confirmed intent lives in the product model.** It is a new kind of record there, and it is the **first piece of the product ontology** (#597) — built together with Kapil now, as the start of that ontology.
+
+**D2 — A prototype is anything you can run through:** a single file on disk, or a deployed solution (a link). `/intent` runs through it to read how it behaves.
+
+**D3 — Handoff is a JSON contract.** Garura's rule: components pass a JSON contract to each other. A drive dispatches `/intent` with a JSON contract (as plays already dispatch sub-plays with `parent_run_id`); with that contract, `/intent` skips opening its own issue and branch. Run by hand, with no contract, it opens and lands its own change.
+
+**D4 — What `/intent` creates is a Business Intent, and it is human-facing.** It is the person's outcome, written to be read by a person — not an ICE-shaped list of goal / constraints / failures. It is one kind of thing in the product ontology, which Kapil and Claude build together from here, step by step (Kapil has not built an ontology before). Kapil, 2026-10-08.
+
+**D5 — A source is anything that explains the intent** (widens D2). A prototype (a file or a deployed solution), a document, or a plain statement. A runnable source is also run through. Kapil, 2026-10-08, approving `/intent`'s intent source.
+
+## D6 — Two levels: business intents above, ICE below (2026-10-09)
+
+**Decided by:** Kapil, after the trial.
+A source shows what the person must see and decide; that is ICE, the agents' level, already
+in the ontology. The business intents sit one "why?" above and mostly come from the person.
+`/intent` drafts both and saves both. The ontology is the hand-off: no separate file for
+`/vision`.
+
+## D7 — No play owns a kind; alignment fixes drift (2026-10-09)
+
+**Decided by:** Kapil: "nothing is waiting.. we can find an intent and ICE while implementation
+and later we will align the drift.. there is no rule who writes ICE or any part of ontology.
+anyone can write.. that will be its own drive."
+Ontology rules say what holds once aligned and never block a write. ICE may exist before it is
+placed under a capability. Only a person confirms or drops a business intent. The Alignment
+drive is its own drive (not yet filed).
+
