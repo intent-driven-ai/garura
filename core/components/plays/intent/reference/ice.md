@@ -37,10 +37,14 @@ play pulls out what the person wants; it never copies how the source does it.
 - C3 — Outcome, not build: the Business Intent states what should be true for the person, not
   how the source achieves it; no screen-by-screen description, no copied content, no
   implementation detail from the source.
-- C4 — Only a person confirms: each Business Intent is written as `proposed`, shown to the
-  person, and becomes `confirmed` only on their typed confirmation of that intent, recorded
-  with who and when. The person may drop any intent instead; a dropped intent is not saved.
-  An agent never confirms or drops one.
+- C4 — Only a person confirms: each Business Intent is written as `proposed` and becomes
+  `confirmed` only on the person's typed confirmation of that intent, recorded with who and
+  when; the person may drop any intent instead, and a dropped intent is not saved. An agent
+  never confirms or drops one. Run by hand, the play asks the person to confirm or drop each
+  intent before saving — a pinned gate (class: standard, pinned). Inside a drive there is no approval stop: the drive may still ask its
+  questions, but the intents are saved as `proposed`, and the person confirms or drops them at
+  the drive's final review (the review and the pull request at its end). Until then their ICE
+  is not workable.
 - C5 — Nothing invented: every outcome, reason, proof and limit traces either to what the
   source shows or to the person's own answers; where the source cannot say (who asked, why,
   how we will know), the play asks the person and never fills the gap itself.
@@ -59,7 +63,7 @@ play pulls out what the person wants; it never copies how the source does it.
   changes.
 - C9 — Stands alone, or runs inside a drive: run by hand it needs no other play first, and it
   opens and lands its own change; handed a drive's JSON contract, it opens no issue or branch
-  of its own and works on the drive's branch.
+  of its own, works on the drive's branch, and does not stop for approval.
 - C10 — The model is the hand-off: each confirmed Business Intent and its ICE are saved in the
   product model in the ontology's shapes — the ICE inline in a proposed capability's grounding
   doc, the capability's spine entry naming its intent and leaving its domain for `/vision` —
@@ -90,7 +94,7 @@ play pulls out what the person wants; it never copies how the source does it.
 - F3 — A Business Intent describes the source — screens, fields, copied text, how it
   works — instead of the outcome the person wants.
 - F4 — A Business Intent was marked `confirmed` without the person's typed confirmation, or
-  by an agent.
+  by an agent; or, inside a drive, the play stopped to wait for an approval.
 - F5 — A property was filled with something neither the source shows nor the person said.
 - F6 — A Source has no snapshot, or the snapshot is not saved through the evidence method, or
   it is missing when it was read, what it shows, or who gave it.
@@ -132,7 +136,7 @@ including one no source showed. Example answers helped the person answer why and
 - S1 — (business owner, from a deployed prototype) Given a deployed site that shows what they
   want, when `/intent` runs and the person confirms, then each confirmed Business Intent and
   the Source exist, linked both ways, and the change is landed. Measure: the intent manifest
-  reads `any_confirmed: true` and `all_decided: true`, each saved intent has `confirmed_by` set
+  reads `decided: true` and `stage: confirmed`, each saved intent has `confirmed_by` set
   and every required property present; the Source manifest lists at least one screenshot under
   the evidence folder; the intent manifest reads `linked: true`; the scoped guard reads ok;
   merge-change reports the PR merged.
@@ -151,14 +155,16 @@ including one no source showed. Example answers helped the person answer why and
   paths are clean; the run closes HALTED with the reason recorded.
 - S5 — (Kickoff drive, inside a drive) Given a drive hands `/intent` its JSON contract, when it
   runs, then it opens no issue or branch of its own and writes on the drive's branch. Measure:
-  the run record shows `in_drive: true`, no start-change or end-sequence step ran, and the
-  current branch equals the contract's branch.
+  the run record shows `in_drive: true`, no start-change or end-sequence step ran, the current
+  branch equals the contract's branch, no confirmation step ran, every saved intent reads
+  `proposed`, and the workable check reads every capability it wrote as not workable.
 - S6 — (product strategist, hand-over through the model) Given a confirmed Business Intent with
   ICE under it, when the run ends, then a later play finds both in the product model. Measure:
   each ICE is a spine capability entry — status proposed, detail directional, domain empty,
   `intents` naming its business intent — with a capability grounding doc that passes the
   grounding linter (no error; "no domain yet" is the only warning); each intent page names its
-  capabilities; the workable check reads every one of them as workable; no hand-off file is
+  capabilities; run by hand, the workable check reads every one of them as workable (inside a
+  drive, none until the person confirms at the drive's final review); no hand-off file is
   written.
 - S7 — (business owner, a prototype that does several things) Given a prototype that lets the
   person see and decide several separate things, when `/intent` runs, then the draft holds one
@@ -180,8 +186,9 @@ captured scoped-write guard output.
 
 - D1 — says: "the Business Intents were saved"
   check: { type: artifact_exists, path: "intent-manifest.json" }
-- D2 — says: "a person confirmed at least one, and decided every one drafted"
-  check: { type: field_equals, file: "intent-manifest.json", field: "confirmed_and_decided", equals: true }
+- D2 — says: "run by hand, a person confirmed at least one and decided every one drafted; inside a
+  drive, every drafted intent was saved as proposed for the drive's final review"
+  check: { type: field_equals, file: "intent-manifest.json", field: "decided", equals: true }
 - D3 — says: "every Source was saved with a snapshot"
   check: { type: field_equals, file: "intent-manifest.json", field: "sources_saved", equals: true }
 - D4 — says: "the intents, their ICE and their Sources are linked"
@@ -200,8 +207,9 @@ captured scoped-write guard output.
 - REC3 (F3) — trigger: the intent describes the source instead of the outcome. direction:
   strip the description and restate the outcome the person wants; re-check. handoff: autonomous.
 - REC4 (F4) — trigger: the intent was marked confirmed without the person's typed yes, or by an
-  agent. direction: reset the stage to proposed, present it to the person, and record only their
-  own confirmation. handoff: human.
+  agent, or the play waited for approval inside a drive. direction: reset the stage to
+  proposed; by hand, present it to the person and record only their own confirmation; inside a
+  drive, save it as proposed and move on — the drive's final review confirms it. handoff: human.
 - REC5 (F5) — trigger: a property has no provenance in the source or the person's answers.
   direction: remove it and ask the person for it. handoff: human.
 - REC6 (F6) — trigger: the Source has no snapshot, is not saved through the evidence method, or

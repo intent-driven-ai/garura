@@ -3,8 +3,10 @@
 Sources (/intent, #612).
 
 One run drafts two levels from one or more Sources: business intents, and under each the ICE
-the sources show. The person confirms or drops each business intent. Only after that, this
-writes — the product model is the hand-off; no separate hand-off file is written:
+the sources show. Run by hand, the person confirms or drops each business intent first. Inside
+a drive (`--proposed`) there is no approval stop: every drafted intent is saved as `proposed`,
+and the person confirms or drops it at the drive's final review — until then its ICE is not
+workable. Then this writes — the product model is the hand-off; no separate hand-off file is written:
 
   - `<product_base>product-os/intents/<id>.md` — one page per CONFIRMED intent, in plain words,
     in the shape of the ontology's example (title, outcome, why, asked by, proof it is met,
@@ -28,7 +30,7 @@ no "what it shows"; or a page, a doc or a spine entry already exists. Only a per
 (C4). No git, no network, no LLM.
 
     python3 persist_intent.py --draft <working>/intent-draft.yaml \
-        --confirmation <working>/confirmation.yaml \
+        ( --confirmation <working>/confirmation.yaml | --proposed --at <date> ) \
         --source-manifest <working>/source-manifest.json [--source-manifest <another> ...] \
         --product-base <product_base> --working <working>
 
@@ -123,21 +125,30 @@ def read_decisions(conf, ids):
 
 def plan(args):
     """Read and check every input; return what to write. Nothing is written here."""
-    for p in [args.draft, args.confirmation] + args.source_manifest:
+    if not args.proposed and not args.confirmation:
+        raise Refused("run by hand, the person's confirmation is required (--confirmation); "
+                      "inside a drive, pass --proposed")
+    for p in [args.draft] + ([] if args.proposed else [args.confirmation]) + args.source_manifest:
         if not os.path.isfile(p):
             raise Refused(f"missing input {p}")
     draft = load_mapping(args.draft, "draft")
-    conf = load_mapping(args.confirmation, "confirmation").get("confirmation")
-    if not isinstance(conf, dict):
-        raise Refused("the confirmation has no `confirmation` mapping")
+    if args.proposed:
+        conf = {"by": "drive", "confirmed_by": "", "at": args.at or ""}
+    else:
+        conf = load_mapping(args.confirmation, "confirmation").get("confirmation")
+        if not isinstance(conf, dict):
+            raise Refused("the confirmation has no `confirmation` mapping")
     sources = [load_mapping(p, "source manifest") for p in args.source_manifest]
     intents = [i for i in (draft.get("intents") or []) if isinstance(i, dict)]
     if not intents:
         raise Refused("the draft has no intents")
     ids = [str(i.get("id") or "") for i in intents]
     check_ids("business intent", ids)
-    decisions = read_decisions(conf, ids)
-    confirmed = [i for i in intents if decisions[str(i["id"])]["decision"] == "confirmed"]
+    if args.proposed:   # inside a drive: no approval stop; the drive's final review confirms
+        decisions = {i: {"decision": "proposed"} for i in ids}
+    else:
+        decisions = read_decisions(conf, ids)
+    confirmed = [i for i in intents if decisions[str(i["id"])]["decision"] in ("confirmed", "proposed")]
     if not confirmed:
         raise Refused("the person confirmed no intent — nothing is saved")
     for i in confirmed:
@@ -218,7 +229,11 @@ def write_intents(w):
                  f"**Proof it is met:** {i['proof']}"]
         if str(i.get("must_not") or "").strip():
             lines.append(f"**Must not:** {i['must_not']}")
-        lines.append(f"**Stage:** confirmed — by {w['conf']['confirmed_by']}, {when}".rstrip(", "))
+        if w["decisions"][str(i["id"])]["decision"] == "proposed":
+            lines.append("**Stage:** proposed — saved inside a drive" + (f", {when}" if when else "")
+                         + "; the person confirms or drops it at the drive's final review")
+        else:
+            lines.append(f"**Stage:** confirmed — by {w['conf']['confirmed_by']}, {when}".rstrip(", "))
         lines.append("**Sources:**")
         for s, md in zip(w["sources"], w["source_mds"]):
             lines.append(f"- [{s.get('kind')}, read {s.get('read_on')}]({os.path.relpath(md, here)})")
@@ -258,11 +273,10 @@ def manifest_for(w):
         "spine": w["spine_path"] if w["ice"] else None,
         "dropped": w["dropped"],
         "ice_dropped": w["ice_dropped"],
-        "confirmed_by": w["conf"]["confirmed_by"],
+        "stage": "proposed" if w["conf"].get("by") == "drive" else "confirmed",
+        "confirmed_by": w["conf"]["confirmed_by"] or None,
         "sources": w["source_mds"],
-        "any_confirmed": True,
-        "all_decided": True,
-        "confirmed_and_decided": True,
+        "decided": True,
         "sources_saved": all(s.get("snapshot_saved") for s in w["sources"]),
         "linked": all(os.path.isfile(p) for p in written)
         and all(str(c["id"]) in in_spine for c in w["ice"]),
@@ -272,7 +286,10 @@ def manifest_for(w):
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--draft", required=True)
-    ap.add_argument("--confirmation", required=True)
+    ap.add_argument("--confirmation", help="the person's decisions (run by hand)")
+    ap.add_argument("--proposed", action="store_true",
+                    help="inside a drive: save every drafted intent as proposed, no approval stop")
+    ap.add_argument("--at", help="the date, for --proposed")
     ap.add_argument("--source-manifest", action="append", required=True)
     ap.add_argument("--product-base", required=True)
     ap.add_argument("--working", required=True)

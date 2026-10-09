@@ -364,7 +364,7 @@ def test_persist():
         check("two confirmed intents and their ICE from two sources are saved", pi.main(argv) == 0)
         m = read_json(os.path.join(working, "intent-manifest.json"))
         check("the manifest holds both, decided and linked",
-              len(m["intents"]) == 2 and m["confirmed_and_decided"] and m["linked"] and m["sources_saved"])
+              len(m["intents"]) == 2 and m["decided"] and m["stage"] == "confirmed" and m["linked"] and m["sources_saved"])
         caps = {c["id"]: c for c in spine_of(tmp)["capabilities"]}
         cap = caps.get("guest-checkout", {})
         check("each ICE is a proposed capability in the spine, no domain yet, built from its intent",
@@ -397,6 +397,26 @@ def test_persist():
         check("no separate hand-off file is written — the model is the hand-off",
               not [f for f in os.listdir(working) if f.startswith("vision-goal")])
         check("an existing intent is never overwritten", pi.main(argv) == 2)
+    with tempfile.TemporaryDirectory() as tmp:
+        argv, working, dirs = persist_setup(tmp, both())
+        i = argv.index("--confirmation")
+        drive = argv[:i] + argv[i + 2:] + ["--proposed", "--at", "2026-10-09"]
+        check("inside a drive every intent is saved as proposed, with no confirmation file",
+              pi.main(drive) == 0)
+        m = read_json(os.path.join(working, "intent-manifest.json"))
+        with open(intent_file(tmp, "grow-online-sales")) as fh:
+            body = fh.read()
+        check("the drive run is decided, its stage proposed, and the page says so",
+              m["decided"] and m["stage"] == "proposed" and "**Stage:** proposed" in body
+              and "final review" in body)
+        model = os.path.join(tmp, "product", "product-os")
+        check("its ICE is not workable until the person confirms the intent",
+              not any(n["workable"] for n in cw.check(spine_of(tmp), os.path.join(model, "intents"))))
+    with tempfile.TemporaryDirectory() as tmp:
+        argv, working, _ = persist_setup(tmp, both())
+        i = argv.index("--confirmation")
+        check("run by hand with no confirmation and no --proposed is refused",
+              pi.main(argv[:i] + argv[i + 2:]) == 2)
     with tempfile.TemporaryDirectory() as tmp:
         argv, working, dirs = persist_setup(tmp, both(a="dropped"))
         check("dropping an intent drops its ICE too",
