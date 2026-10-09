@@ -1,106 +1,83 @@
 ---
 needs_judgment: false
+branch: feature/612-intent-play
+issue: 612
 
 change_groups:
-  - id: intent-play
+  - id: fix-intent-play
     issue: 612
-    commit_type: feat
+    commit_type: fix
     scope: intent
-    subject: "add the intent play with its business-intent-keeper agent and author-business-intent skill"
+    subject: "harden the intent play scripts and tests and align the agent status word and play text with the review"
+    confidence: high
     files:
-      - core/components/plays/intent/SKILL.md
-      - core/components/plays/intent/reference/ice.md
-      - core/components/plays/intent/stop-condition.yaml
       - core/components/plays/intent/scripts/capture_source.py
       - core/components/plays/intent/scripts/check_intent.py
-      - core/components/plays/intent/scripts/check_stop_condition.py
       - core/components/plays/intent/scripts/persist_intent.py
-      - core/components/plays/intent/scripts/preflight.py
-      - core/components/plays/intent/scripts/scoped_write_guard.py
-      - core/components/plays/intent/scripts/session_stamp.py
       - core/components/plays/intent/scripts/test_intent_scripts.py
+      - core/components/plays/intent/SKILL.md
+      - core/components/plays/intent/reference/ice.md
       - core/components/agents/business-intent-keeper.md
-      - core/components/skills/author-business-intent/SKILL.md
-      - docs/components/agents.md
+    notes: "PR #631 review round 1. Scripts: ids checked and file-name safe, every check before any write, wrong-shaped input handled, file links for paths with # or ?, skipped tests shown, check split into small functions. Agent status word blocked/needs_person per ADR 016. Play text and its ICE source context line. SKILL.md edit is a non-intent surface edit; ice.md context line is the matching source edit."
 
-  - id: product-ontology
+  - id: fix-product-os
     issue: 612
-    commit_type: feat
+    commit_type: fix
     scope: product-os
-    subject: "add the product ontology, the build-product-ontology skill and ice.yaml updates"
+    subject: "say Functionality in the ontology, keep writes in a play's declared scope and bump ice.yaml to v2 with a migration note"
+    confidence: high
     files:
-      - core/components/skills/build-product-ontology/SKILL.md
-      - core/components/skills/build-product-ontology/scripts/check_ontology.py
-      - core/components/skills/build-product-ontology/scripts/test_check_ontology.py
-      - core/components/memory/standards/templates/product-ontology.md
-      - core/components/memory/standards/templates/_index.md
       - core/components/memory/standards/schemas/product-os/ontology.md
-      - core/components/memory/standards/schemas/product-os/_index.md
       - core/components/memory/standards/schemas/product-os/ice.yaml
+      - core/components/memory/standards/schemas/product-os/_index.md
+      - core/components/memory/standards/templates/product-ontology.md
       - core/components/memory/standards/rules/pipeline-next.md
+      - core/grounding/glossary.md
+    risks:
+      sensitive_files: []
+      breaking_changes: []
+    notes: "ice.yaml schema version 1 to 2 is additive (v1 records stay valid), documented in its migration note. Also: schema index and template strings, pipeline-next flow and why text, glossary rows for Business Intent, Source and product ontology."
 
-  - id: install-exclude-meta-skills
+  - id: fix-install-garura-scope
     issue: 612
-    commit_type: feat
+    commit_type: fix
     scope: install-garura
-    subject: "exclude meta skills from the full install scope"
+    subject: "word the install scope to say the full set leaves out the meta-utility skills"
+    confidence: high
     files:
-      - core/components/plays/install-garura/SKILL.md
       - core/components/plays/install-garura/scripts/install.py
-      - .garura/install-manifest.json
+      - core/components/plays/install-garura/SKILL.md
+    notes: "Wording only (docstring, comments, --scope help text); no install behaviour change in this diff."
+
+  - id: test-build-product-ontology
+    issue: 612
+    commit_type: test
+    scope: build-product-ontology
+    subject: "add the four missing rule tests to the ontology checker"
+    confidence: high
+    files:
+      - core/components/skills/build-product-ontology/scripts/test_check_ontology.py
+
+  - id: docs-skills-roster
+    issue: 612
+    commit_type: docs
+    scope: skills
+    subject: "fix the skills roster intro"
+    confidence: high
+    files:
       - docs/components/skills.md
 
-  - id: issue-612-records
-    issue: 612
-    commit_type: chore
-    scope: stm
-    subject: "record the intent play plan, decisions, ontology run and token-burn trial"
-    files:
-      - .garura/project/issues/612/specs/plan.md
-      - .garura/project/issues/612/specs/decisions.md
-      - .garura/project/issues/612/specs/ontology-run.md
-      - .garura/project/issues/612/specs/trial-token-burn/answers.yaml
-      - .garura/project/issues/612/specs/trial-token-burn/intent-check.json
-      - .garura/project/issues/612/specs/trial-token-burn/intent-draft.yaml
-      - .garura/project/issues/612/specs/trial-token-burn/notes.md
-      - .garura/project/issues/612/specs/trial-token-burn/rerun-20261009-023928/answers.yaml
-      - .garura/project/issues/612/specs/trial-token-burn/rerun-20261009-023928/guard-report.json
-      - .garura/project/issues/612/specs/trial-token-burn/rerun-20261009-023928/intent-check-pass-a.json
-      - .garura/project/issues/612/specs/trial-token-burn/rerun-20261009-023928/intent-check-pass-b.json
-      - .garura/project/issues/612/specs/trial-token-burn/rerun-20261009-023928/intent-draft-pass-a.yaml
-      - .garura/project/issues/612/specs/trial-token-burn/rerun-20261009-023928/intent-draft-pass-b.yaml
-      - .garura/project/issues/612/specs/trial-token-burn/rerun-20261009-023928/stop-condition-intent.yaml
-      - .garura/project/issues/612/context/ontology-check.json
-      - .garura/project/issues/612/context/plan-check.json
-      - .garura/project/issues/612/context/porcelain.txt
-      - .garura/project/issues/612/context/analysis.yaml
-
-  - id: issue-606-plan
-    issue: 606
-    commit_type: chore
-    scope: stm
-    subject: "update the plan"
-    files:
-      - .garura/project/issues/606/specs/plan.md
-
-  - id: issue-616-plan
-    issue: 616
-    commit_type: chore
-    scope: stm
-    subject: "update the plan"
-    files:
-      - .garura/project/issues/616/specs/plan.md
-
 exclusions:
-  []
+  - path: ".garura/project/issues/612/context/analysis.yaml"
+    reason: "this analysis file itself (scan artifact, rewritten each run); STM evidence, not part of the change"
+    blocking: false
+  - path: ".garura/project/issues/612/context/porcelain.txt"
+    reason: "scan artifact (git status snapshot) rewritten each run; STM evidence, not part of the change"
+    blocking: false
 
 risks:
-  sensitive_files:
-    []
-  breaking_changes: []
-  ambiguous_types: []
-  hotfix_branch: false
+  sensitive_files: []
 
 eval_gates:
-  SE-1: {status: PASS, evidence: "all 47 changed files assigned to exactly one group; no exclusions; nothing under core/tools/play-reviewer"}
-  SE-5: {status: PASS, evidence: "no sensitive patterns matched (name matches on 'token-burn' are the trial name, not credentials; content grep clean)"}
+  SE-1: {status: PASS, evidence: "19 changed files: 17 in five groups, 2 in exclusions; each file appears exactly once"}
+  SE-5: {status: PASS, evidence: "no sensitive filename patterns; diff scanned for password/api_key/secret/token assignments, private_key and key headers, no matches. Not a hotfix branch."}

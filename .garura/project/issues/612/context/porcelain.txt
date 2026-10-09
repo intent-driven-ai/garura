@@ -1,21 +1,18 @@
- M .garura/install-manifest.json
- M .garura/project/issues/606/specs/plan.md
- M .garura/project/issues/616/specs/plan.md
+ M .garura/project/issues/612/context/porcelain.txt
+ M core/components/agents/business-intent-keeper.md
  M core/components/memory/standards/rules/pipeline-next.md
  M core/components/memory/standards/schemas/product-os/_index.md
  M core/components/memory/standards/schemas/product-os/ice.yaml
- M core/components/memory/standards/templates/_index.md
+ M core/components/memory/standards/schemas/product-os/ontology.md
+ M core/components/memory/standards/templates/product-ontology.md
  M core/components/plays/install-garura/SKILL.md
  M core/components/plays/install-garura/scripts/install.py
- M docs/components/agents.md
+ M core/components/plays/intent/SKILL.md
+ M core/components/plays/intent/reference/ice.md
+ M core/components/plays/intent/scripts/capture_source.py
+ M core/components/plays/intent/scripts/check_intent.py
+ M core/components/plays/intent/scripts/persist_intent.py
+ M core/components/plays/intent/scripts/test_intent_scripts.py
+ M core/components/skills/build-product-ontology/scripts/test_check_ontology.py
+ M core/grounding/glossary.md
  M docs/components/skills.md
-?? .garura/project/issues/612/context/ontology-check.json
-?? .garura/project/issues/612/context/plan-check.json
-?? .garura/project/issues/612/context/porcelain.txt
-?? .garura/project/issues/612/specs/
-?? core/components/agents/business-intent-keeper.md
-?? core/components/memory/standards/schemas/product-os/ontology.md
-?? core/components/memory/standards/templates/product-ontology.md
-?? core/components/plays/intent/
-?? core/components/skills/author-business-intent/
-?? core/components/skills/build-product-ontology/
