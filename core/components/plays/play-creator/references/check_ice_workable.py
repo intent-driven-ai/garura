@@ -4,8 +4,9 @@
 An ICE lives inline in its capability's or functionality's grounding doc; the node's spine
 entry names, in `intents`, the business intents it is built from. The ICE is WORKABLE only
 when at least one of those intents is confirmed — its page under `product-os/intents/<id>.md`
-reads `**Stage:** confirmed`. An ICE with no intent, or only proposed or dropped ones, is
-kept as written but no play plans, breaks down or builds from it. Writing is never blocked;
+reads `**Stage:** confirmed`, or `met` (a met intent was confirmed first and its proof now
+holds; work that keeps it met is still wanted). An ICE with no intent, or only proposed or
+dropped ones, is kept as written but no play plans, breaks down or builds from it. Writing is never blocked;
 this check stops work, not writes.
 
 Canonical copy for play-creator: a play that works on ICE (plans, breaks down or builds
@@ -27,6 +28,7 @@ import sys
 
 import yaml
 
+WORKABLE_STAGES = {"confirmed", "met"}
 STAGE = re.compile(r"^\*\*Stage:\*\*\s*([a-z]+)", re.MULTILINE | re.IGNORECASE)
 
 
@@ -43,7 +45,7 @@ def stage_of(intents_dir, iid):
 def assess(entry, kind, intents_dir):
     named = [str(i) for i in (entry.get("intents") or []) if str(i).strip()]
     stages = {i: stage_of(intents_dir, i) for i in named}
-    confirmed = [i for i, st in stages.items() if st == "confirmed"]
+    confirmed = [i for i, st in stages.items() if st in WORKABLE_STAGES]
     if confirmed:
         reason = f"built from confirmed business intent(s): {', '.join(confirmed)}"
     elif not named:
