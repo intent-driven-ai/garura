@@ -1,36 +1,39 @@
 commits:
-  - sha: 9abdaadb
-    message: "feat(intent): skip approval stop inside a drive and save intents as proposed for final review (#612)"
+  - sha: 3c61e6d4
+    message: "fix(play-creator): keep an ICE built from a met intent workable (#612)"
     files:
-      - core/components/plays/intent/SKILL.md
-      - core/components/plays/intent/reference/ice.md
-      - core/components/plays/intent/stop-condition.yaml
-      - core/components/plays/intent/scripts/persist_intent.py
-      - core/components/plays/intent/scripts/test_intent_scripts.py
+      - core/components/plays/play-creator/references/check_ice_workable.py
+      - core/components/plays/play-creator/references/test_check_ice_workable.py
     branch: feature/612-intent-play
-  - sha: 76422b94
-    message: "docs(adr): record business intent and ICE in ADR 031 and amend ADR 029, ADR 027, idsd and glossary (#612)"
+  - sha: f20dd3d0
+    message: "docs(adr): say /vision will attach domains, point ADR 026 to ADR 031, scope the pinned gate to /intent and fix the idsd contradiction (#612)"
     files:
-      - docs/adr/031-business-intent-and-ice.md
+      - docs/adr/026-direct-to-model-writes.md
       - docs/adr/029-drives.md
-      - docs/adr/027-ice-model-pcam-design.md
+      - docs/adr/031-business-intent-and-ice.md
       - docs/philosophy/idsd.md
-      - core/grounding/glossary.md
       - core/components/memory/standards/rules/gate-config.md
-      - core/components/memory/standards/rules/direct-model-write.md
     branch: feature/612-intent-play
-  - sha: 5b052109
-    message: "chore(stm): record decisions D6 to D10, plan updates and run artifacts (#612)"
+  - sha: e0e85610
+    message: "fix(product-os): show intent pages and domainless capabilities in the spine layout, mark the old layout superseded and correct the ontology log and met rule (#612)"
+    files:
+      - core/components/memory/standards/schemas/product-os/spine.yaml
+      - core/components/memory/standards/schemas/product-os/product-os.yaml
+      - core/components/memory/standards/schemas/product-os/ontology.md
+    branch: feature/612-intent-play
+  - sha: 94e1bdfd
+    message: "chore(stm): record round-2 review fix decisions and run artifacts (#612)"
     files:
       - .garura/project/issues/612/specs/decisions.md
-      - .garura/project/issues/612/specs/plan.md
       - .garura/project/issues/612/context/analysis.yaml
       - .garura/project/issues/612/context/porcelain.txt
-      - .garura/project/issues/612/specs/followup-adr-skill.md
     branch: feature/612-intent-play
 excluded_files:
-  []
-leftover_count: 0
-tree_clean: true
+  - path: ".garura/project/issues/612/review/round2-closure.yaml"
+    reason: "review record, committed by review-change post_verdict"
+  - path: ".garura/project/issues/612/review/round2-new.yaml"
+    reason: "review record, committed by review-change post_verdict"
+leftover_count: 2
+tree_clean: false
 pushed: false
 run_state_committed: true
