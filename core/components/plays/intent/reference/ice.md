@@ -14,11 +14,13 @@ document, or a plain statement — into two levels of intent, and keep what they
   rarely shows these directly; they sit above what it shows and mostly come from the person.
 - **ICE** — the agents' level, under each business intent: the separate things a person must
   be able to see, decide or do to meet it, as ICE goals. This is what a source shows best.
+  Each ICE is written as a proposed capability: its ICE inline in the capability's grounding
+  doc, its spine entry naming the business intent it is built from, and no domain yet.
 
 All three are kinds of the product ontology (`standards/schemas/product-os/ontology.md`), and
 the ontology is the hand-off: every play after this one reads the intents and their ICE from
-the product model. No play owns a kind and nothing waits for another play — `/vision` and
-later plays place the ICE under capabilities and add to it, and drift is fixed by alignment.
+the product model. No play owns a kind and nothing waits for another play — `/vision`
+attaches the capabilities to domains and adds to them, and drift is fixed by alignment.
 
 The source is the input, never the intent: an intent must allow more than one way to build
 it (IDD Principle 1), and a prototype or a document describing a solution is one way. This
@@ -48,17 +50,20 @@ play pulls out what the person wants; it never copies how the source does it.
   plain words, and who gave it (the git user running the play) — saved through Garura's
   evidence method so it outlives the link or the file.
 - C7 — Every confirmed Business Intent and every Source of the run are linked: each Source
-  records every intent it shows, and each intent names every Source. Every ICE names the
-  business intent it is built from, and each intent names its ICE.
-- C8 — Additive and contained: the run writes only the new Business Intents, their ICE and
-  their Sources;
-  no other part of the product model changes.
+  records every intent it shows, and each intent names every Source. Every ICE's capability
+  names, in the spine, the business intent it is built from, and each intent names its
+  capabilities.
+- C8 — Additive and contained: the run writes only the new Business Intents, their ICE (as
+  new proposed capability entries added to the spine, each with its grounding doc) and their
+  Sources; no existing entry or doc is changed, and no other part of the product model
+  changes.
 - C9 — Stands alone, or runs inside a drive: run by hand it needs no other play first, and it
   opens and lands its own change; handed a drive's JSON contract, it opens no issue or branch
   of its own and works on the drive's branch.
 - C10 — The model is the hand-off: each confirmed Business Intent and its ICE are saved in the
-  product model in the ontology's shapes (ICE in the `ice.yaml` shape, not yet placed under a
-  capability), so any later play reads them there. No separate hand-off file is written.
+  product model in the ontology's shapes — the ICE inline in a proposed capability's grounding
+  doc, the capability's spine entry naming its intent and leaving its domain for `/vision` —
+  so any later play reads them there. No separate hand-off file is written.
 - C11 — The play ends by proving its Done means at close: at least one Business Intent and
   every Source exist, every saved intent is confirmed by a person, every intent drafted was
   confirmed or dropped by the person, and the intents and Sources are linked. The close never reads
@@ -110,8 +115,10 @@ built from it are the agents' interface (`docs/philosophy/idsd.md`, two interfac
 is where the two meet: it drafts both levels from one reading of the source, so the link from
 each ICE to the intent it serves is made at the moment both are known. The drafting judgment
 sits with the agent for the person's side, because the person confirms the result. No play
-owns a kind (ontology v3): `/vision` and later plays place the ICE and add to it, and drift is
-fixed by alignment, not by holding work back. A project folder is two Sources (its written
+owns a kind (ontology v3): this play writes capabilities without a domain, and `/vision`
+attaches the domain and adds to them; drift is fixed by alignment, not by holding work back.
+An ICE is workable only when built from a confirmed business intent, which this play's
+confirmation step provides. A project folder is two Sources (its written
 docs and the running app), and the draft reads both.
 
 The first trial on a real prototype shaped this: a prototype shows what the person must see
@@ -148,8 +155,11 @@ including one no source showed. Example answers helped the person answer why and
   current branch equals the contract's branch.
 - S6 — (product strategist, hand-over through the model) Given a confirmed Business Intent with
   ICE under it, when the run ends, then a later play finds both in the product model. Measure:
-  each ICE file is in the `ice.yaml` shape with goals, `node_ref` empty and `built_from` naming
-  its intent; each intent page names its ICE; no hand-off file is written.
+  each ICE is a spine capability entry — status proposed, detail directional, domain empty,
+  `intents` naming its business intent — with a capability grounding doc that passes the
+  grounding linter (no error; "no domain yet" is the only warning); each intent page names its
+  capabilities; the workable check reads every one of them as workable; no hand-off file is
+  written.
 - S7 — (business owner, a prototype that does several things) Given a prototype that lets the
   person see and decide several separate things, when `/intent` runs, then the draft holds one
   ICE per separate thing, each built from a business intent above it, every part of the source

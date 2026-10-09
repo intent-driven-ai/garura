@@ -14,9 +14,10 @@ Reports, for every business intent:
   - plain words: no property is a bare label (fewer than 3 words), apart from asked_by (C2)
   - it has at least one ICE built from it, unless the person stated it   (C12)
 
-for every ICE:
+for every ICE (each becomes a proposed capability):
 
-  - an id, a title, and at least one goal; built from an existing intent  (C12 / F12)
+  - an id, a title, a one-line descriptor, a directional paragraph, and at least one goal;
+    built from an existing intent                                         (C12 / F12)
   - its goals copy no run from the source, carry no code-like text, are no bare labels (C3)
 
 and for the draft as a whole:
@@ -146,6 +147,14 @@ def check_ice(ice, ids, intents, src_words, other):
         cid = c.get("id") or "?"
         if not str(c.get("title") or "").strip():
             other.append(f"ICE [{cid}] has no title")
+        for prop in ("one_line", "directional_intent"):
+            text = str(c.get(prop) or "").strip()
+            if not text:
+                other.append(f"ICE [{cid}] has no `{prop}` — it becomes a proposed capability")
+            elif len(words(text)) < 3:
+                other.append(f"ICE [{cid}] `{prop}` is a bare label (\"{text}\") — explain it")
+            else:
+                plain_text(f"ICE [{cid}] `{prop}`", text, src_words, other)
         goals = [g for g in as_list(c.get("goals")) if str(g).strip()]
         if not goals:
             other.append(f"ICE [{cid}] has no goals")
