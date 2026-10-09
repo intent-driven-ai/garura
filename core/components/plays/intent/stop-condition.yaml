@@ -8,8 +8,8 @@ content:
       says: "the Business Intents were saved"
       check: { type: artifact_exists, path: "intent-manifest.json" }
     - id: D2
-      says: "a person confirmed at least one, and decided every one drafted"
-      check: { type: field_equals, file: "intent-manifest.json", field: "confirmed_and_decided", equals: true }
+      says: "by hand, a person confirmed at least one and decided every one drafted; in a drive, every drafted intent was saved as proposed for the drive's final review"
+      check: { type: field_equals, file: "intent-manifest.json", field: "decided", equals: true }
     - id: D3
       says: "every Source was saved with a snapshot"
       check: { type: field_equals, file: "intent-manifest.json", field: "sources_saved", equals: true }

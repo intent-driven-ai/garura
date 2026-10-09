@@ -108,7 +108,7 @@ E1–E4 are created and marked skipped (`in_drive`), never run.
 [T1] Capture the sources                                  blockedBy: [T0]
 [T2] Draft the intents and their ICE                      blockedBy: [T1]
 [T3] Ask and check (≤3 rounds)                            blockedBy: [T2]
-[T4] Confirm or drop each intent (pinned)                 blockedBy: [T3]
+[T4] Confirm or drop each intent (by hand; none in a drive) blockedBy: [T3]
 [T5] Save the intents and ICE, link the sources           blockedBy: [T4]
 [T6] Guard the model                                      blockedBy: [T5]
 [T7] Commit the delta                                     blockedBy: [T6]
@@ -227,10 +227,14 @@ found no unmapped page, tab or section, no merged ICE, and no intent that restat
 `--answers` — every recorded answer listing the examples it was offered, with every reply that
 equals an example marked `picked: true`.
 
-### Phase: Confirm (pinned human checkpoint)
+### Phase: Confirm (human checkpoint — run by hand only)
 
-**Step 4 — Confirm or drop each intent** · Owner: play · Depends on: Step 3 · **pinned — never
-skipped by config or policy, inside a drive or not**
+**Step 4 — Confirm or drop each intent** · Owner: play · Depends on: Step 3 · Checkpoint
+(class: standard, pinned) · **run by hand: never skipped by config or policy. Inside a drive: skipped — no approval stop**
+*Inside a drive (`in_drive`), skip this step: the drive may still ask its questions (Step 3),
+but nothing waits for approval. Step 5 saves every drafted intent as `proposed`, and the person
+confirms or drops each at the drive's final review — the review and the pull request at the
+drive's end. Until then its ICE is not workable (C4).*
 First show what each source shows and the coverage map — every part of the sources, the ICE
 it serves, and the intent that ICE is built from — so the person sees nothing was left out or
 merged. The person may type **missing: <what>** or **merged: <item>** here; add it to
@@ -244,9 +248,10 @@ their goals, and ask the person to type one of: **confirm**, **drop**, **change:
 - **stop** → save nothing, and close HALTED with the reason (S4).
 When every intent is decided, write `<working>/confirmation.yaml`:
 `confirmation: { by: person, confirmed_by: <git user>, at: <date>, decisions: [ { intent: <id>, decision: confirmed | dropped, reply: <their exact words> } ] }`.
-**SE-5 (F4/C4):** `confirmation.yaml` reads `by: person`, holds one decision for every
-drafted intent, each with the person's own non-empty reply, and was written only after each
-intent was shown to them; no agent wrote or edited it.
+**SE-5 (F4/C4):** run by hand, `confirmation.yaml` reads `by: person`, holds one decision for
+every drafted intent, each with the person's own non-empty reply, and was written only after
+each intent was shown to them; no agent wrote or edited it. Inside a drive, no
+`confirmation.yaml` exists, the play did not wait, and every saved intent reads `proposed`.
 
 ### Phase: Save
 
@@ -254,12 +259,14 @@ intent was shown to them; no agent wrote or edited it.
 
 ```
 python3 scripts/persist_intent.py --draft <working>/intent-draft.yaml \
-    --confirmation <working>/confirmation.yaml \
+    ( --confirmation <working>/confirmation.yaml | --proposed --at <date> ) \
     --source-manifest <working>/source-manifest-<name>.json [--source-manifest <one per Source>] \
     --product-base <product_base> --working <working>
 ```
 
-It writes `<product_base>product-os/intents/<id>.md` for each confirmed intent, and for each
+Run by hand it passes `--confirmation`; inside a drive it passes `--proposed` and saves every
+drafted intent as `proposed`. It writes `<product_base>product-os/intents/<id>.md` for each
+confirmed (or, in a drive, proposed) intent, and for each
 ICE built from one a **proposed capability**: an entry appended to
 `<product_base>product-os/_spine.yaml` (status proposed, detail directional, no domain yet,
 `intents` naming its business intent) and its grounding doc
@@ -282,7 +289,8 @@ Source and its capabilities, each capability's spine entry names its intent in `
 each `source.md` names every confirmed intent.
 **SE-10 (F10/C10):** every confirmed intent has its page; every ICE built from it is a spine
 capability entry with its grounding doc; `grounding-lint.json` has no errors (only "no domain
-yet" warnings for these capabilities); `workable.json` reads every one of them workable; no
+yet" warnings for these capabilities); `workable.json` reads every one of them workable when run by hand (inside a drive, not
+workable until the drive's final review confirms the intent); no
 `vision-goal` file exists.
 
 **Step 6 — Guard the model** · Owner: play (script) · Depends on: Step 5
@@ -340,7 +348,7 @@ end member ran, and the branch the commit landed on equals the contract's branch
 
 **Step 8 — Scenario evals** · Owner: play · Depends on: the end sequence (or Step 7 in a drive)
 - **SCE-1 (S1 — business owner, deployed prototype):** `intent-manifest.json` reads
-  `any_confirmed: true`, `all_decided: true` and `confirmed_by`; every required property is on
+  `decided: true`, `stage: confirmed` and `confirmed_by`; every required property is on
   each intent page; the site's `source-manifest-<name>.json` lists at least one screenshot;
   the manifest reads `linked: true`; the guard reads ok; `merge-change.json` reports the PR
   merged.
@@ -354,11 +362,13 @@ end member ran, and the branch the commit landed on equals the contract's branch
   dropped every intent, no intent page exists, `persist_intent.py` refused, the model paths are
   clean, and the run closed HALTED with the reason.
 - **SCE-5 (S5 — Kickoff drive):** `run.json` reads `in_drive: true`; no `start-change` or end
-  result file exists for this run; the commit is on the contract's branch.
+  result file exists for this run; the commit is on the contract's branch; no
+  `confirmation.yaml` exists; `intent-manifest.json` reads `stage: proposed`; `workable.json`
+  reads every capability it wrote as not workable.
 - **SCE-6 (S6 — product strategist, hand-over through the model):** each ICE is a spine
   capability entry (status proposed, detail directional, domain empty, `intents` naming its
   business intent) with a grounding doc; `grounding-lint.json` has no errors, only "no domain
-  yet" warnings; `workable.json` reads each workable; each intent page names its capabilities;
+  yet" warnings; `workable.json` reads each workable when run by hand; each intent page names its capabilities;
   no `vision-goal` file exists.
 - **SCE-7 (S7 — business owner, a prototype that does several things):** the draft holds one
   ICE per separate thing; the coverage map names every part and an existing ICE for each;
@@ -374,7 +384,8 @@ end member ran, and the branch the commit landed on equals the contract's branch
 Run the Standard Play Close. `/intent` writes product-scoped evidence beside the Sources'
 snapshots, so the record of the run and what it read stay together.
 **SE-11 (F11/C11):** the close is stop-condition gated — `check_stop_condition.py` over the
-baked `stop-condition.yaml` (D1 intents saved; D2 at least one confirmed and every one decided;
+baked `stop-condition.yaml` (D1 intents saved; D2 decided — by hand, at least one confirmed and
+every one decided; in a drive, every one saved as proposed for the drive's final review;
 D3 every Source snapshot saved; D4 intents, ICE and Sources linked; D5 guard ok) reads **held** before any COMPLETED
 close.
 
@@ -480,11 +491,11 @@ Inside a drive, a resume keeps `in_drive` from `run.json`.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:c5b575f163c505e15dda0076cb7e9d8aa7600b3641bfd548ece4863eb6fcff26 (of `reference/ice.md`) |
+| fingerprint | sha256:229ee4503307123fade8768fcb63f031b5e7d1c9ad7a95723925907ef590fd7b (of `reference/ice.md`) |
 | compiled_by | play-creator (#612) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close; both skipped inside a drive) |
 | position_exception | model-writing both play — writes the intent on its started branch (or the drive's) and commits its own model delta (Step 7) BEFORE the injected end sequence lands it |
-| workflow_structure | B with one pinned human checkpoint (the person confirms or drops each intent); ask-and-check loop ≤3 rounds; stop-condition gated close |
+| workflow_structure | B with one human checkpoint — pinned when run by hand (the person confirms or drops each intent), none inside a drive (intents saved as proposed for the drive's final review); ask-and-check loop ≤3 rounds; stop-condition gated close |
 | stop_condition | stop-condition.yaml (D1–D5), gate live at Step C0 |
 | domain_agents | 1 (business-intent-keeper) |
 | utility_agents | 0 |
