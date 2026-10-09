@@ -68,7 +68,8 @@ Every checkpoint in a compiled play declares its risk class inline (e.g.
 
 **Pinned gates (#466 Batch B, re-ruled #467).** A checkpoint whose play's own intent
 mandates it declares `(class: <class>, pinned)`. A pinned gate NEVER resolves off — no
-config value can disable it; the switch machinery records `pinned — config bypass
+config value can disable it (one exception, by intent not config: `/intent`'s confirm is
+skipped when the play runs inside a drive's contract — ADR 031); the switch machinery records `pinned — config bypass
 refused` if an off value would otherwise match. Unpinning is an intent change to that
 play (play-editor), never a config edit. Per the #467 ruling the pinned set is: **grill**
 (a wrong epic cut poisons everything downstream), **launch** (the one HITL gate of the
@@ -76,7 +77,9 @@ implement trinity — the acceptance walk), **learn** (a wrong model learning be
 product model), and **merge-change's land-on-main step** (the #467 re-pin correction —
 merging to main is the one irreversible action in the chain, so the actual land always
 keeps its human beat; the rest of merge-change is automatic), and **deploy** (standing up a live cloud
-environment is outward-facing — always requires a human). The eleven document plays
+environment is outward-facing — always requires a human), and **intent's confirm step when run by
+hand** (only a person confirms a business intent — ADR 031; inside a drive there is no approval
+stop: the intents are saved as proposed and confirmed at the drive's end review). The eleven document plays
 (vision, understand, shape, roadmap, and the seven realize lenses) are **conditional**;
 the other pipeline/execute mechanical gates are **off** with replacement checks.
 

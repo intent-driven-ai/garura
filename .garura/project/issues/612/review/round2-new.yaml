@@ -1,0 +1,124 @@
+# Round-2 review of the NEW work only (D8-D10), branch head of feature/612-intent-play.
+# Checked and clean: both test suites pass (85/85 and 10/10); all 12 lint_grounding.py copies
+# carry the identical capability-domain edit (one md5 for the 11 non-understand copies, understand
+# differs only by its own lens contracts, as on main); check_ice_workable.py is byte-identical in
+# play-creator and intent; an end-to-end run (persist_intent --proposed, then check_spine) gives
+# zero errors and only the "no domain yet" warnings; next/scan_model and check_model_agreement
+# skip a domainless capability without crashing; an existing product with every capability
+# placed behaves exactly as before; no broken ADR/decision paths found.
+# Severity vocabulary follows memory/standards/rules/pr.md (medium, low).
+findings:
+  - id: P1
+    severity: medium
+    file: core/components/plays/vision/scripts/persist_seed.py (against docs/adr/029-drives.md §6 table and docs/adr/031 §3)
+    finding: >
+      ADR 029's Kickoff table and ADR 031 §3 say /vision attaches the domain to the proposed
+      capabilities /intent wrote. Today /vision cannot: persist_seed merges "additively" and
+      skips any capability id already in the spine ("never modify an existing entry"), and
+      persist_understand only mutates detail/needs on an existing entry. A capability written
+      by /intent therefore keeps domain '' for good, the linter warning never clears, and
+      /understand runs on a capability with no domain. ADR 031 lists this as follow-up (plan
+      item 7), but the ADR 029 table states it as current behaviour.
+    basis: >
+      D8 ("isn't vision responsible for attaching domain?"); persist_seed.py merge_spine
+      skip-if-id-exists rule (lines 63-75, same file on main); ADR 031 Negative/Risks bullet 1.
+    fix: >
+      Until plan item 7 lands, word the ADR 029 table row as "will attach" (or add a one-line
+      "not yet built" note), or let persist_seed set `domain` (and only `domain`) on an existing
+      entry whose domain is empty.
+
+  - id: P2
+    severity: low
+    file: docs/philosophy/idsd.md
+    finding: >
+      Only the ICE-section opener was amended. Line 27 ("One shape both intents take - ICE")
+      and line 45 ("two distinct intents, and both take ICE form") still say a business intent
+      is ICE. The amended line 129 also opens "ICE ... is the shape both intents take" and then
+      says a person's Business Intent is not ICE, so the same paragraph contradicts itself.
+    basis: >
+      ADR 031 §1 ("It is not ICE") and D4/D6; the same ADR names idsd.md as amended.
+    fix: >
+      Reword lines 27, 45 and the 129 opener to "the work that carries either intent takes ICE
+      form; a person's Business Intent is the level above it".
+
+  - id: P3
+    severity: low
+    file: docs/adr/026-direct-to-model-writes.md
+    finding: >
+      ADR 031's "Amends" line says it amends ADR 026 (the /intent-by-hand confirm-then-write
+      exception), but ADR 026 carries no status pointer. ADR 027 and ADR 029 were given one.
+      A reader of ADR 026 will not learn of the exception except from direct-model-write.md.
+    basis: >
+      Precedent on main: ADR 029's status line points to ADR 030 for its amendment
+      (git show main:docs/adr/029-drives.md).
+    fix: Add "amended in part by ADR 031" to ADR 026's Status line.
+
+  - id: P4
+    severity: low
+    file: core/components/plays/play-creator/references/check_ice_workable.py (copy in plays/intent/scripts)
+    finding: >
+      Workable means Stage is exactly "confirmed". The ontology's states run proposed ->
+      confirmed -> met, so once an intent's proof holds ("met"), every ICE built from it turns
+      not workable. D9 says "a confirmed business intent" and does not address met.
+    basis: >
+      D9; ontology.md Business Intent States (proposed -> confirmed -> met); the script's own
+      docstring only names `**Stage:** confirmed`.
+    fix: >
+      Decide and write it down: either treat confirmed and met as workable, or state in D9, the
+      ontology rule and the script docstring that a met intent's ICE is closed.
+
+  - id: P5
+    severity: low
+    file: core/components/plays/intent/scripts/persist_intent.py
+    finding: >
+      The header was not brought in line with --proposed. It still says "save the confirmed
+      Business Intents", "one page per CONFIRMED intent", "It refuses when ... no intent is
+      confirmed", and "Only a person confirms (C4)". In --proposed mode it saves proposed pages,
+      the "no intent is confirmed" refusal cannot fire, and the manifest's confirmed_by is
+      None. Passing both --proposed and --confirmation silently ignores the confirmation.
+    basis: D10 (inside a drive every drafted intent is saved as proposed).
+    fix: >
+      Reword the docstring for the two modes; refuse (exit 2) when --confirmation and
+      --proposed are both given.
+
+  - id: P6
+    severity: low
+    file: core/components/memory/standards/schemas/product-os/ontology.md
+    finding: >
+      The Log's 2026-10-09 "v3" entry still says ICE may be written before it is placed
+      "(`product-os/ice/<id>.yaml`, goals first)", a separate ICE file. D8 and the next log line
+      say there is no separate ICE file. The later line corrects it, but the v3 line is left
+      standing and the version was not bumped.
+    basis: D8 ("no separate ICE file (spine v2 retired them)"); ontology ICE kind "Lives at".
+    fix: Fix the v3 log line in place, or mark it "superseded by the next entry".
+
+  - id: P7
+    severity: low
+    file: core/components/plays/intent/scripts/persist_intent.py
+    finding: >
+      On an existing product, an ICE id that already exists in the spine makes the whole run
+      refuse and write nothing, and there is no way to add an `intents` link to an existing
+      capability. So ICE already in the model can never be made workable through /intent, and
+      one clashing id blocks every other intent in the run.
+    basis: >
+      D7 and D9 ("writes are never blocked"; link makes it workable); the script's own refusal
+      "an existing entry is never changed".
+    fix: >
+      Skip-and-report a clashing id, or append the new intent id to the existing entry's
+      `intents` list (the one field it may extend).
+
+  - id: P8
+    severity: low
+    file: core/components/memory/standards/rules/gate-config.md (and docs/adr/031 §5)
+    finding: >
+      Two wordings overreach. gate-config still says a pinned gate "NEVER resolves off", while
+      intent's pinned gate is skipped inside a drive; the carve-out is only a parenthesis in the
+      new list item. ADR 031 §5 opens "A drive ... does not stop for approval" in general, but
+      grill, launch, learn, deploy and the merge-to-main step stay pinned, and ADR 029 §89/§113
+      still lists how pinned gates fit a drive as open, without naming /intent.
+    basis: >
+      ADR 029 lines 89 and 113 on main; gate-config.md "A pinned gate NEVER resolves off".
+    fix: >
+      Say in gate-config that a drive's contract is the one condition under which intent's
+      pinned gate is skipped; scope ADR 031 §5's first sentence to "/intent"; add /intent to
+      ADR 029's pinned-gates note.

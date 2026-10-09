@@ -1,0 +1,18 @@
+ M .garura/project/issues/612/context/porcelain.txt
+ M .garura/project/issues/612/specs/decisions.md
+ M core/components/memory/standards/rules/gate-config.md
+ M core/components/memory/standards/schemas/product-os/ontology.md
+ M core/components/memory/standards/schemas/product-os/product-os.yaml
+ M core/components/memory/standards/schemas/product-os/spine.yaml
+ M core/components/plays/intent/SKILL.md
+ M core/components/plays/intent/scripts/check_ice_workable.py
+ M core/components/plays/intent/scripts/persist_intent.py
+ M core/components/plays/intent/scripts/test_intent_scripts.py
+ M core/components/plays/play-creator/references/check_ice_workable.py
+ M core/components/plays/play-creator/references/test_check_ice_workable.py
+ M docs/adr/026-direct-to-model-writes.md
+ M docs/adr/029-drives.md
+ M docs/adr/031-business-intent-and-ice.md
+ M docs/philosophy/idsd.md
+?? .garura/project/issues/612/review/round2-closure.yaml
+?? .garura/project/issues/612/review/round2-new.yaml

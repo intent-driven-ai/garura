@@ -294,7 +294,11 @@ def check_spine(root, spine_path, errors, warnings, counts):
                 errors.append(f"spine {kind} '{eid}': missing one_line descriptor")
             if parent_field:
                 pref = e.get(parent_field)
-                if not pref:
+                if not pref and kind == "capability":
+                    # ontology v3: a capability may be written before its domain exists;
+                    # /vision attaches it. Missing is alignment work, not a broken link.
+                    warnings.append(f"spine capability '{eid}': no domain yet — /vision attaches it")
+                elif not pref:
                     errors.append(f"spine {kind} '{eid}': missing '{parent_field}' parent ref")
                 elif pref not in parent_ids:
                     errors.append(f"spine {kind} '{eid}': {parent_field} '{pref}' does not "

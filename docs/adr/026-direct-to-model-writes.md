@@ -1,6 +1,6 @@
 # ADR 026: Model-Writing Plays Edit the Product Model Directly
 
-**Status:** Accepted
+**Status:** Accepted — amended in part by [ADR 031](031-business-intent-and-ice.md): `/intent` run by hand confirms before it writes (a declared exception to write-then-review)
 **Date:** 2026-07-20
 **Related:** ADR 008 (issue-centric STM), ADR 011 (STM as inter-skill transport), ADR 017 (folder whitelist), ADR 022 (surface contract), ADR 025 (Level 3 skeleton), issue #498, the #467 conditional-gate work
 

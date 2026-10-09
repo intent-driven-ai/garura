@@ -1,0 +1,49 @@
+# The person's answers, in their exact words (/intent Step 3 / Step 4 "change:"), 2026-10-08.
+answered_by: Kapil Viren Ahuja
+answers:
+  - about: the drafted intents (all ten)
+    reply: >-
+      when i read these, they dont sound liek intent. foe example kapil knows how much AI work
+      happens... this isnt intent. intent will be deeper.
+  - about: the intents, replacing the ten
+    reply: >-
+      intents — 1) token economics aka how ar tokens spent and are they bringing in value.
+      2) When we build harness, are they bring useful, driving agent autonomy? 3) drive adotion
+      across teams, who is adopting frameworks or are they using it like vibe coding. and
+      4) collect this data across team(2) -> this one isnt in dashboard as this was created as
+      concept.. this is the intent that i want to run with
+  - about: token-economics — why
+    reply: AI spend is growing and we need to show it pays back
+  - about: token-economics — proof
+    reply: each team can show what its AI spend is and what they are delivering
+  - about: harness-autonomy — why
+    reply: >-
+      building harness are real time investment, and they are supposed to prvide value. we need
+      to see which one works, by seeign the ones that are driving autonomy and delivering quality
+      and consistent results
+  - about: harness-autonomy — proof
+    reply: >-
+      harness usage will have autonomy scope. consistent and quality comes from another part of
+      control tower later.
+  - about: framework-adoption — why
+    reply: 3rd
+    chose: >-
+      Clients and leaders need to see that AI work follows a method, not luck.
+      (one of three examples the play offered; the person picked it)
+  - about: framework-adoption — proof
+    reply: people on team are using harness  consitently and also we see autonmy score rise
+  - about: collect-across-teams — why
+    reply: >-
+      teams work together to deliver results.. roll-ups will be critial. rollups are -
+      individual, team, account, unit
+  - about: collect-across-teams — proof
+    reply: >-
+      data is collected thru autoated script every day from the peple who are signed up on this
+      tool and each leader can see it - intividual's lead is self. and team, account and unit
+      can see cumulative and roll-downs
+caller_notes: >-
+  Draft exactly these four intents, as the person framed them; do not add a fifth. Keep the
+  earlier ten as parts in the coverage map, each mapped to the one of these four it serves.
+  Intent 4 comes from the person only (provenance person); nothing in the sources shows it.
+  "Stays current", "trusted" and "safe to share" become must_not limits where they apply.
+  Why and proof stay empty unless the person's words above give them; ask for them.

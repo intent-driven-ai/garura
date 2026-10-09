@@ -1,0 +1,152 @@
+category: harness
+pr: 631
+base: main
+grounding_method: "Principles read from committed sources on main (git show main:...) and the deployed rules; nothing grounded in the branch's decisions.md, plan.md, ontology.md, or any other file this branch adds or rewrites. Where the branch's own text is quoted below it is the thing under test, never the standard."
+mechanical_checks:
+  lint_play_intent: "PASS (0 gaps) - python3 core/components/plays/play-editor/scripts/lint_play.py core/components/plays/intent/SKILL.md (all 12 checks incl. position both, Standard Play Close anchors, stop condition, next-command)"
+  fingerprint_intent: "MATCH - shasum -a 256 core/components/plays/intent/reference/ice.md = a77e4fe0...67af9 = SKILL.md Compilation Metadata fingerprint"
+  stamped_scripts_identical: "PASS - plays/intent/scripts/{scoped_write_guard,session_stamp,check_stop_condition}.py are byte-identical to play-creator/references/ canonical copies; preflight.py identical to main's understand copy"
+  review_runnable_checks: "runnable-checks.txt reports intent script tests 65/65, ontology tests 23/23, ruff clean (not re-run here)"
+principles:
+  - id: G1
+    principle: "An intent change goes through the play's ICE source and is recompiled; compiled SKILL.md is never hand-edited for intent. A play with no ICE source (a bootstrap meta-play) is direct-edited."
+    source: "CLAUDE.md (Play Pipeline Rules); core/components/plays/install-garura/SKILL.md on main (bootstrap meta-play, no ICE)"
+  - id: G2
+    principle: "A play with position both gets start-change at the head and commit-change, propose-change, review-change, merge-change at the back, before the Standard Play Close, as named sub-plays; the play hand-rolls none of it. Inside a drive the opening is skipped once the drive has opened its change; that wiring is assigned to #614/#615."
+    source: "standards/rules/pipeline-position.md on main; docs/adr/029-drives.md sections 3-4 and Consequences ('The start-change rule must learn about drives'); docs/adr/030-plan-mode.md section 4"
+  - id: G3
+    principle: "A drive asks every question its plays' checkpoints would ask before it starts, and does not stop for the plays' checkpoints. Pinned gates are a known open point for later drives; Kickoff is stated as not affected."
+    source: "docs/adr/029-drives.md section 2 and Consequences ('Pinned gates ... Kickoff is not affected')"
+  - id: G4
+    principle: "A checkpoint declares its risk class inline; a pinned gate declares '(class: <class>, pinned)' and the pinned set is a named list in the gate rule, changed only by an intent change plus an update to that rule."
+    source: "standards/rules/gate-config.md on main (Pinned gates, #466/#467; 'the pinned set is: grill, launch, learn, merge-change land, deploy')"
+  - id: G5
+    principle: "A model-writing play writes the live model by the deterministic keyed script, guards once, asserts a clean model tree at entry, and commits its own model delta before the end sequence. The rule is written as write-then-review (persist before the checkpoint), STM holds no model copy, and it is the single source of truth for model-writing plays."
+    source: "docs/adr/026-direct-to-model-writes.md; standards/rules/direct-model-write.md on main (items 2, 7; lint anchors L-DMW-3, L-DMW-4, L-DMW-6)"
+  - id: G6
+    principle: "Where the product model keeps things is the committed storage layout: ICE sits beside its node (<node>/ice.yaml, pointed at by the node's ice_ref); a new kind of folder under product-os is a schema change to that layout."
+    source: "standards/schemas/product-os/product-os.yaml on main (Storage layout, ice_ref); standards/schemas/product-os/_index.md on main"
+  - id: G7
+    principle: "_evidence/<play>/ is the play-lifecycle folder for play-close self-commit files; evidence is the record of one run written by the play, switched by evidence.record config; no committed definition of a 'snapshot evidence method' exists."
+    source: "docs/adr/017-folder-whitelist.md (play-lifecycle folders); standards/rules/evidence-recording.md and play-close.md on main"
+  - id: G8
+    principle: "Agents are named {domain}-{role} and avoid agent explosion; ICE and the product model already have an owning agent (product-os-keeper)."
+    source: "docs/adr/004-agent-naming.md; core/components/agents/product-os-keeper.md on main (domain: ProductOS structure + ICE)"
+  - id: G9
+    principle: "A play's promise about what a later play does must be true of that later play as committed. /vision takes a business goal as a runtime input (argument or interview) and does not read the model for intents."
+    source: "core/components/plays/vision/SKILL.md on main (pre-flight 'Business goal present (play argument, else interview)', Step 'the business goal is a runtime input'); docs/adr/029-drives.md Work This Creates item 3 (#614)"
+  - id: G10
+    principle: "An accepted decision that a built play departs from is amended in the decision record, not only in work-tracking notes."
+    source: "docs/adr/029-drives.md section 6 (table: /intent 'pulls out the intent: goal, constraints, failure conditions'); docs/adr/024-amendment-record.md (append-only change record)"
+  - id: G11
+    principle: "Agent to play contract: status in completed | failed | blocked, outputs named under stm.output."
+    source: "docs/adr/016-agent-json-contract.md"
+  - id: G12
+    principle: "The glossary is the canonical definition of every Garura concept; edit history and rationale for direct edits go in the commit and issue, and durable sources do not lean on transient STM paths (STM is archived on issue close)."
+    source: "CLAUDE.md (Reference; Play Pipeline Rules); docs/adr/010-stm-archival.md; docs/adr/017-folder-whitelist.md (archive-path)"
+conformance_checked:
+  skill_traces_to_ice: "PASS. Fingerprint matches ice.md; C1-C13, F1-F13, S1-S8, D1-D5, REC1-REC13 in ice.md all appear in SKILL.md; stop-condition.yaml D1-D5 equals ice.md Done means; new play with new ICE, so no hand-edited compiled file (commit 2b853087 adds ice.md and SKILL.md together)."
+  position_both_sequence: "PASS in shape. start-change at head, model-delta commit (Step 7) before the tail, then E1-E4 as parent_run_id sub-plays, scenario validation after the tail, clean-tree assertion after Step 0, review reject stops before merge; same shape as /measure on main. The in-drive skip is a play-side conditional, see F6."
+  standard_play_close: "PASS. Canonical anchor pair present (lint D1); product-scoped evidence_base matches the play-close.md convention; Next line rendered and 'intent: vision' added to pipeline-next.md (resolves in lint)."
+  play_orchestrates_agent_judges_skill_produces_script_mechanical: "PASS. Play owns step order and the one human checkpoint; scripts do capture, check, persist, guard; business-intent-keeper (Read, Glob, Grep, Skill, Bash, no Write) invokes author-business-intent (allowed-tools Read, Write, Glob; user-invocable false) which writes only the STM draft. Skill input contract (source_manifests, answers, ontology_path, draft_path) matches what the agent is handed."
+  meta_utility_skill: "PASS. build-product-ontology is user-invocable: true, which docs/components/skills.md on main permits for meta-utility skills; install.py keeps it out of full scope and into harness scope, matching the doc line the branch adds."
+  install_garura_edit: "PASS in path. install-garura is a bootstrap meta-play with no ICE (ls shows only SKILL.md and scripts), so the wording edit is a correct direct edit; the branch adds no new deviation note to the skill file (the #434/#478/#546 notes already on main are untouched). One stale spot, see F11."
+  nothing_invented_gate: "PASS. persist_intent refuses without confirmation by person; C4/F4 wired through SE-5. Presence-style guard on who typed the reply is a code-category question, not raised here."
+findings:
+  - id: F1
+    severity: P3
+    file: core/components/plays/intent/SKILL.md
+    principle: "G3 - a drive does not stop for its plays' checkpoints and asks every question up front; Kickoff is stated as not affected by pinned gates."
+    source: "docs/adr/029-drives.md section 2 ('No stops for the plays' checkpoints') and Consequences ('Pinned gates ... Kickoff is not affected: /vision and /understand have conditional gates')"
+    finding: "Step 4 is a pinned human checkpoint 'never skipped by config or policy, inside a drive or not' (C4, SE-5). That makes /intent the first Kickoff play with a pinned gate, which ADR 029 says Kickoff does not have. The in-drive contract carries only drive_run_id and branch, so there is no path for a drive to ask the person the confirm/drop questions up front and hand the typed replies in. Inside a drive the play still stops mid-run. Scope note: the Kickoff drive is #613 and ADR 029 leaves pinned-gate handling to later drives, so this is a design gap to settle, not a break of a built behaviour."
+    fix: "Record the decision (the person's typed confirmation is the one allowed stop inside Kickoff, or define how a drive collects it up front and passes it in the contract) in an ADR 029 amendment or the #613 design, and say so in the play when the drive lands."
+  - id: F2
+    severity: P3
+    file: core/components/plays/intent/SKILL.md
+    principle: "G4 - a pinned checkpoint declares its class and pin inline, and the pinned set lives in the gate rule."
+    source: "standards/rules/gate-config.md on main (Pinned gates: '(class: <class>, pinned)'; 'the pinned set is: grill, launch, learn, merge-change's land-on-main step, and deploy'); play-close.md Checkpoint Decisions rows"
+    finding: "Step 4 / Phase: Confirm calls itself 'pinned' in prose but carries no '(class: <class>, pinned)' declaration, and gate-config.md (unchanged on this branch) still lists five pinned gates without intent. The gate machinery and any reader of the rule will not know a sixth pinned gate exists, and no per-play 'gates.plays.intent' behaviour is stated. The rule says unpinning or pinning is an intent change recorded against the rule."
+    fix: "Declare '(class: standard, pinned)' on Step 4 in ice.md and recompile, and add intent to the pinned list in gate-config.md in the same line of work."
+  - id: F3
+    severity: P3
+    file: core/components/plays/intent/SKILL.md
+    principle: "G9 - a promise about a later play must hold for that play as committed."
+    source: "core/components/plays/vision/SKILL.md on main (business goal is a runtime input: play argument, else interview); docs/adr/029-drives.md Work This Creates item 3 (#614: make /vision run inside a drive) - /vision is not changed on this branch (empty diff)"
+    finding: "The description says '/vision starts from its result', the close tells the person 'run /vision for a confirmed intent; it finds the intent and its ICE in the model', scenario S6 is titled 'hand-over to /vision', and pipeline-next.md gains 'intent -> vision: start the product model from this confirmed business intent'. On main /vision takes a goal argument or interviews; it never reads product-os/intents or the unplaced ICE. Until #614 lands, the Next line sends the person to a play that will ask for the goal again and ignore the saved intents. ice.md (D7 in the branch notes: 'nothing waits') is careful to say later plays 'read the model'; the SKILL text and the Next line state it as already true."
+    fix: "Reword the close Next Steps and the description to say the saved intents are ready for /vision once #614 reads them, or land the /vision read in the same series; keep pipeline-next.md's why-text accurate to what /vision does today."
+  - id: F4
+    severity: P3
+    file: core/components/plays/intent/reference/ice.md
+    principle: "G10 - a built play that departs from an accepted decision is reflected in the decision record."
+    source: "docs/adr/029-drives.md section 6 table and Goal ('/intent ... pulls out the intent: goal, constraints, failure conditions'; 'the product model ... holds the intent'); docs/adr/024-amendment-record.md"
+    finding: "ADR 029 describes /intent as producing goal, constraints and failure conditions. The built play produces human-facing Business Intents (title, outcome, why, asked by, proof, must not) plus ICE goals only, with no constraints or failure conditions drafted, and its input is widened from a working prototype to a document or statement. The reasons sit in the branch's STM decisions.md (D4-D7), which is not a durable decision record, and no ADR was changed or added (changed_paths has no docs/adr entry). A reader of ADR 029 gets a different /intent than the one shipped."
+    fix: "Add an amendment to ADR 029 section 6 (or a short new ADR) recording the two-level output, the widened source, and that constraints and failure conditions come later; point the play's Context at it instead of at STM."
+  - id: F5
+    severity: P3
+    file: core/components/plays/intent/SKILL.md
+    principle: "G5 - model-writing plays follow write-then-review; the rule is the single source of truth and any departure is declared in it."
+    source: "standards/rules/direct-model-write.md on main (rule in one line; item 2 'STM holds no model copy'; Order of operations; L-DMW-3, L-DMW-6); docs/adr/026-direct-to-model-writes.md"
+    finding: "/intent drafts the intents and ICE in STM (intent-draft.yaml), asks the person at Step 4, and only then persists (Step 5) and guards (Step 6). That is review-then-write, the order ADR 026 replaced, and it keeps a model-shaped copy in STM (item 2). There is a good reason the person's confirmation must precede the write (a record is saved as confirmed, never proposed), and the rule's own rationale for persist-first (the change-shape classifier on a conditional gate) does not apply to a pinned gate. But the rule says it covers all model-writing plays and lists thirteen; neither the rule nor the play's ICE states this exception, so L-DMW-3/L-DMW-6 would fail it mechanically. The clean-tree entry check, keyed persist script, add-only guard and model-delta commit before the tail do conform."
+    fix: "Add /intent to the rule as the declared exception (confirmation-gated persist: write after the person's typed confirmation, cancel writes nothing) and note it in ice.md Context, so the rule and the lint stay the single source."
+  - id: F6
+    severity: P3
+    file: core/components/plays/intent/SKILL.md
+    principle: "G2 - the opening is injected by the position rule, not hand-rolled; the drive skip is wired by the rule work in #614/#615."
+    source: "standards/rules/pipeline-position.md on main ('Inside a drive the opening is skipped once the drive has opened its change (ADR 030, P4; wired in #614/#615)'; 'No consumer play hand-rolls ... steps that duplicate a member'); docs/adr/029-drives.md Consequences; docs/adr/016-agent-json-contract.md"
+    finding: "The play adds its own '--contract <file>' with fields drive_run_id and branch, a run.json 'in_drive' flag, and prose that marks T0 and E1-E4 'skipped (in_drive)'. No committed source defines a drive-to-play contract (a search of main for drive_run_id, in_drive and --contract returns nothing), and the rule says the drive-skip is wired later in the injected sequence, not per play. The injected head and tail are still named sub-plays, so G2's core holds, but the conditional skip and the contract shape are invented here and the Kickoff drive (#613) may define them differently, forcing a recompile of the play and of S5."
+    fix: "Keep it, but mark the contract shape as provisional in ice.md and align it with the #613 drive design (or the rule work in #614/#615) before another play copies it."
+  - id: F7
+    severity: P3
+    file: core/components/plays/intent/SKILL.md
+    principle: "G6 - the model's storage layout is committed; a new kind of folder under product-os changes that layout."
+    source: "standards/schemas/product-os/product-os.yaml on main (Storage layout: ICE at <capability>/ice.yaml and functionalities/<f>/ice.yaml, referenced by ice_ref); the file has an empty diff on this branch"
+    finding: "persist_intent writes business intents to product-os/intents/<id>.md and unplaced ICE to a flat product-os/ice/<id>.yaml, and the scoped guard allows exactly those two globs. Neither folder is in the committed storage layout; ICE is committed to sit beside its node and be found through ice_ref. product-os.yaml (the layout, node ice_ref and fill-rule notes) was not updated, so the two stores for ICE now disagree until a later play moves them. The ontology and ice.yaml edits on this branch describe the new folders, but those are the branch's own text and cannot stand in for the committed layout."
+    fix: "Update the storage layout in product-os.yaml (and its fill rules) in the same change, saying where unplaced ICE lives and how placement moves it to the node."
+  - id: F8
+    severity: P3
+    file: core/components/plays/intent/SKILL.md
+    principle: "G7 - _evidence/<play>/ holds play-close run records; evidence is play-written and config-switched."
+    source: "docs/adr/017-folder-whitelist.md (play-lifecycle folders: _evidence = play-close self-commit files); standards/rules/evidence-recording.md on main (evidence.record switch; no snapshot mechanism)"
+    finding: "C6/F6/SE-6 require each Source's snapshot to be 'saved through Garura's evidence method' into {product_base}_evidence/intent/<run-ts>/source-<name>/, the same folder the Standard Play Close writes its run record to. No committed 'evidence method' for durable snapshots exists (the term appears only in the branch's ontology and ice.md). Durable Source records are therefore mixed into the folder ADR 017 reserves for play run records, and the Source is written regardless of evidence.record (default false), so the run record and the durable snapshots follow different switches while sharing a path."
+    fix: "Either define the snapshot method in a committed rule (and say why _evidence is the home) or give Sources their own folder under the product root and keep _evidence for the run record."
+  - id: F9
+    severity: P3
+    file: core/components/agents/business-intent-keeper.md
+    principle: "G8 - {domain}-{role} naming without agent explosion; ICE is owned by product-os-keeper."
+    source: "docs/adr/004-agent-naming.md (specialist pattern creates agent explosion); core/components/agents/product-os-keeper.md on main (domain 'ProductOS structure + ICE ... drafts and seeds model nodes/ICE')"
+    finding: "A new agent is added for one skill and one play. It drafts ICE goals, which product-os-keeper already owns, and it also drafts the new business-intent kind. The reason given (one reading of the source shows both levels) is a fair design argument, but it is recorded nowhere durable, and nothing says whether product-os-keeper stops owning unplaced ICE. Two agents now describe themselves as the owner of ICE drafting."
+    fix: "State in the agent (or the ADR 029 amendment from F4) why this is not a second skill on product-os-keeper, and say which agent owns ICE once it is placed."
+  - id: F10
+    severity: P4
+    file: core/components/agents/business-intent-keeper.md
+    principle: "G11 - the agent-to-play contract status set is completed | failed | blocked, with outputs under stm.output."
+    source: "docs/adr/016-agent-json-contract.md (Output Contract)"
+    finding: "The output contract adds status 'needs_person' and uses a flat 'outputs' key. Recent agents on main (change-reviewer, quality-auditor) also use the task/inputs/outputs shape, so the shape is established practice; only the new status value is a departure from the ADR's enum (blocked is the nearest existing meaning)."
+    fix: "Use 'blocked' with a reason, or record needs_person as an accepted extension next time ADR 016 is touched."
+  - id: F11
+    severity: P4
+    file: core/components/plays/install-garura/SKILL.md
+    principle: "G1 - a direct edit to a bootstrap meta-play must leave the file self-consistent."
+    source: "core/components/plays/install-garura/SKILL.md on main (frontmatter description: 'full = every component except the meta harness plays ... harness = meta plays + change chain + their workers only')"
+    finding: "The Options paragraph now says full also excludes the meta-utility skills and harness also installs build-product-ontology, but the frontmatter description (the text a model reads to decide when to use the play) still states the old scope definitions."
+    fix: "Update the description's scope sentence to match the body."
+  - id: F12
+    severity: P4
+    file: core/components/skills/author-business-intent/SKILL.md
+    principle: "G12 - the glossary defines every Garura concept."
+    source: "CLAUDE.md (Reference: core/grounding/glossary.md); glossary on main has Drive and Kickoff but no entry for ontology, Source, or Business Intent as a model kind"
+    finding: "The branch introduces the product ontology, the Source kind, the Business Intent kind and unplaced ICE across a play, two skills and an agent, and the glossary (not in changed_paths) was not extended. 'Source' also collides in plain reading with an existing sense the branch's own ontology has to explain away ('Evidence already means a play's run record')."
+    fix: "Add glossary entries for Business Intent (model kind), Source, product ontology and unplaced ICE, with the NOT column."
+  - id: F13
+    severity: P4
+    file: core/components/plays/intent/reference/ice.md
+    principle: "G12 - durable component sources should not point at transient STM paths."
+    source: "docs/adr/010-stm-archival.md; docs/adr/017-folder-whitelist.md (archive-path .garura/project/issues/_archive/)"
+    finding: "The Context section cites '.garura/project/issues/612/specs/trial-token-burn/notes.md' as the origin of the design. That file is issue STM and moves to the archive when the issue closes, so the ICE's pointer will go stale. The compiled SKILL.md correctly omits it."
+    fix: "Replace the path with the ADR amendment (F4) or state the lesson in the Context text itself."
+summary:
+  p1: 0
+  p2: 0
+  p3: 9
+  p4: 4
+  note: "No blocker or major structural defect. The play compiles cleanly from its ICE, wires the position-both sequence and the Standard Play Close correctly, and keeps the agent/skill/script split. The P3 findings are mostly places where the branch ships ahead of, or departs from, a committed rule or ADR without amending it (pinned gate, write order, storage layout, evidence folder, ADR 029 /intent description, /vision hand-over claim, drive contract)."

@@ -1,0 +1,39 @@
+commits:
+  - sha: 3c61e6d4
+    message: "fix(play-creator): keep an ICE built from a met intent workable (#612)"
+    files:
+      - core/components/plays/play-creator/references/check_ice_workable.py
+      - core/components/plays/play-creator/references/test_check_ice_workable.py
+    branch: feature/612-intent-play
+  - sha: f20dd3d0
+    message: "docs(adr): say /vision will attach domains, point ADR 026 to ADR 031, scope the pinned gate to /intent and fix the idsd contradiction (#612)"
+    files:
+      - docs/adr/026-direct-to-model-writes.md
+      - docs/adr/029-drives.md
+      - docs/adr/031-business-intent-and-ice.md
+      - docs/philosophy/idsd.md
+      - core/components/memory/standards/rules/gate-config.md
+    branch: feature/612-intent-play
+  - sha: e0e85610
+    message: "fix(product-os): show intent pages and domainless capabilities in the spine layout, mark the old layout superseded and correct the ontology log and met rule (#612)"
+    files:
+      - core/components/memory/standards/schemas/product-os/spine.yaml
+      - core/components/memory/standards/schemas/product-os/product-os.yaml
+      - core/components/memory/standards/schemas/product-os/ontology.md
+    branch: feature/612-intent-play
+  - sha: 94e1bdfd
+    message: "chore(stm): record round-2 review fix decisions and run artifacts (#612)"
+    files:
+      - .garura/project/issues/612/specs/decisions.md
+      - .garura/project/issues/612/context/analysis.yaml
+      - .garura/project/issues/612/context/porcelain.txt
+    branch: feature/612-intent-play
+excluded_files:
+  - path: ".garura/project/issues/612/review/round2-closure.yaml"
+    reason: "review record, committed by review-change post_verdict"
+  - path: ".garura/project/issues/612/review/round2-new.yaml"
+    reason: "review record, committed by review-change post_verdict"
+leftover_count: 2
+tree_clean: false
+pushed: false
+run_state_committed: true

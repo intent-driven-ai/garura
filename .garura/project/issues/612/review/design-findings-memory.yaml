@@ -1,0 +1,236 @@
+pr: 631
+category: memory
+playbook: review/memory
+base: main
+scope_note: >
+  Files in scope: schemas/product-os/ontology.md (new), schemas/product-os/ice.yaml,
+  schemas/product-os/_index.md, templates/product-ontology.md (new), templates/_index.md,
+  rules/pipeline-next.md. ontology.md and product-ontology.md are branch-added and were never used
+  as grounding. specs/decisions.md D6-D7 (branch-added) is treated as the stated rationale only.
+severity_note: >
+  rules/pr.md has no Standard ID row for design-conformance findings on prose standards (its grep rules are
+  ineligible on garura-prose; no DOC row matches these paths). Severity below follows the bucket definitions
+  in pr.md: P2 structural/contract violation, P3 minor (missing docs, naming, stale cross-reference), P4 nit.
+  No finding carries a Standard ID.
+
+grounding:
+  - id: G1
+    principle: >
+      The product model keeps ICE INLINE in grounding docs. The spine retires `ice_ref` and the standalone ICE
+      record; per-node `ice.yaml` is gone from the on-disk layout.
+    source: main:core/components/memory/standards/schemas/product-os/spine.yaml (header, lines 17-21; "On-disk layout", "Note what is GONE vs v1")
+    corroborated_by: "main:docs/philosophy/garura-reference-implementation.md (\"Business intent lives in the product model\": meaning = grounding docs with ICE inline)"
+  - id: G2
+    principle: >
+      Model-writing plays edit the live model under a per-play declared write scope, enforced by a post-write scoped guard.
+      The LLM writes only per-node doc files; a keyed script owns shared files. Containment is a guarantee, not advice.
+    source: main:docs/adr/026-direct-to-model-writes.md (Decision, Containment split); main:core/components/memory/standards/rules/direct-model-write.md (steps 3-4, "The shared scoped-write guard", L-DMW-3, L-DMW-5)
+  - id: G3
+    principle: >
+      IDSD: business intent and SDLC intent are two intents and BOTH take ICE form; business intent is stored as ICE in the product model.
+      A person's interfaces are the intent they give, the plan, and the ontology (so a human-readable ontology is grounded).
+    source: main:docs/philosophy/idsd.md (lines 26-27, 45, 98-110, 129); main:docs/adr/027-ice-model-pcam-design.md (layers table); main:core/grounding/glossary.md (IDSD row)
+  - id: G4
+    principle: >
+      Kickoff (`/intent` -> `/vision` -> `/understand`): `/intent` pulls goal, constraints and failure conditions; `/vision`
+      "takes that intent as its business goal"; plays stand on their own; the ontology (#597) is built alongside, "the parts these plays need".
+    source: main:docs/adr/029-drives.md (sections 4 and 6, closing paragraph)
+  - id: G5
+    principle: >
+      Evidence is a run record: written only by a play at its Standard Play Close, switchable by config (`evidence.record`, default false).
+      `_evidence/` is a play-lifecycle folder of play-close files.
+    source: "main:core/components/memory/standards/rules/evidence-recording.md; main:.garura/core/config.yaml (`evidence.record: false`); main:docs/adr/017-folder-whitelist.md (`_evidence/`); main:core/grounding/glossary.md (Evidence row)"
+  - id: G6
+    principle: >
+      Changing a permanent record type is recorded as a migration note and a schema version; schema evolution is parked, so the change is not silent.
+    source: main:core/components/memory/standards/schemas/product-os/product-os.yaml ("Migration note ... IS the migration record that enhance_rules / _index.md ask for"); main:core/components/memory/standards/schemas/product-os/_index.md ("Schema evolution is parked ... implies migrating existing records")
+  - id: G7
+    principle: >
+      Garura's own tracker types (Business Intent, Feature, Story, Bug, Chore, Spike) are the plane for how Garura is BUILT; the product model
+      (domain -> capability -> functionality -> epic) is what Garura OFFERS other teams. The two planes must not be confused.
+    source: "main:.garura/user-provided/managing-work.md (\"First: two planes that must never be confused\"); /Users/kapilahuja/cto/builder/garura/CLAUDE.md (Work Tracking); main:docs/philosophy/garura-reference-implementation.md (\"Work Item Types in the Tracker\")"
+  - id: G8
+    principle: >
+      The glossary is the canonical definition of every Garura concept; "Functionality" is the third product-model level.
+    source: /Users/kapilahuja/cto/builder/garura/CLAUDE.md (Reference); main:core/grounding/glossary.md (Functionality row)
+  - id: G9
+    principle: >
+      Decisions that change doctrine are recorded in docs/adr and name what they amend (ADR 029 "Amends/Affects" and ADR 030 "Amends" headers).
+    source: main:docs/adr/029-drives.md, main:docs/adr/030-plan-mode.md (header blocks); main:docs/adr/024-amendment-record.md
+  - id: G10
+    principle: >
+      The successor map and flow list in pipeline-next.md are the single source of the pipeline order; ADR 029 makes the first loop Kickoff.
+    source: main:core/components/memory/standards/rules/pipeline-next.md ("The flow"); main:docs/adr/029-drives.md (section 6, ADR 028 "Affects" line)
+
+conforms:
+  - file: core/components/memory/standards/schemas/product-os/ontology.md
+    note: >
+      A person-readable ontology as a human interface, grown a kind at a time with the plays, matches G3 (idsd.md "A person has exactly two
+      interfaces ... and the product ontology") and G4 (ADR 029: ontology built alongside, parts the plays need).
+  - file: core/components/memory/standards/schemas/product-os/ontology.md
+    note: >
+      Business Intent properties "met by its proof, never because its work is finished" and "destination every item serves" match the committed
+      definition (garura-reference-implementation.md, Work Item Types). "Only a person confirms or drops" matches ADR 028 section 1 (confirm with the user).
+  - file: core/components/memory/standards/rules/pipeline-next.md
+    note: >
+      The new `intent` entry satisfies the "every user-invocable compiled play is listed" contract and the one-successor shape; it does not make
+      `/vision` depend on `/intent`, so ADR 029 section 4 (plays stand alone) holds.
+  - file: core/components/memory/standards/templates/_index.md
+    note: Row follows the existing template-index shape (what it is, consumers); consumer skill exists on the branch.
+
+findings:
+  - id: MEM-1
+    severity: P2
+    file: core/components/memory/standards/schemas/product-os/ontology.md
+    also: core/components/memory/standards/schemas/product-os/ice.yaml
+    lines: "ontology.md ICE kind 'Lives at' (line 139); ice.yaml lines 14-18"
+    principle: "G1 - ICE is written inline in grounding docs; the standalone ICE record and `ice_ref` are retired."
+    basis: main:core/components/memory/standards/schemas/product-os/spine.yaml lines 17-21 and "Note what is GONE vs v1" (per-node ice.yaml gone)
+    finding: >
+      The branch puts ICE back as a standalone record at `product-os/ice/<id>.yaml`, "pointed at" by its capability or function once placed
+      (this is `ice_ref` returning), and adds `id`, `title`, `built_from` to ice.yaml. The committed spine schema v2 and the reference implementation
+      retired exactly this. The branch does not amend spine.yaml, does not say which source wins, and leaves the spine's on-disk layout with no
+      `ice/` or `intents/` folders. An agent reading the spine and the new ontology will get two answers for where ICE lives.
+      Note: main's ice.yaml is itself stale against spine v2 (it still describes `node_ref` and a node-attached ICE), so the committed sources already
+      disagree; the branch deepens the split instead of reconciling it.
+    fix_direction: >
+      Decide the storage of ICE once (inline in grounding docs per spine v2, or a revived standalone record) and update spine.yaml's layout and the
+      reference implementation to match, in this change or a recorded follow-up. Add `product-os/intents/` to the spine layout if it stays.
+
+  - id: MEM-2
+    severity: P2
+    file: core/components/memory/standards/schemas/product-os/ontology.md
+    also: core/components/memory/standards/schemas/product-os/ice.yaml
+    lines: "ontology.md line 13 and Log v3 (line 193); ice.yaml fill_rules block (lines 73-84)"
+    principle: "G2 - writes to the model are contained by a per-play declared scope, enforced by the scoped guard (a guarantee). Fill rules name which play writes what."
+    basis: main:docs/adr/026-direct-to-model-writes.md (Containment split); main:core/components/memory/standards/rules/direct-model-write.md (guard, L-DMW-3, L-DMW-5); main:.../product-os.yaml and spine.yaml fill_rules (unchanged by the branch)
+    finding: >
+      The ontology says "No play owns a kind. Any play writes the intents, ICE or other kinds it finds ... the parts may come in any order",
+      and ice.yaml recasts fill rules as "a guide, not ownership. Any play may write or add to an ICE." Stated without a carve-out, this contradicts
+      the committed containment guarantee: a play that writes outside its declared `--allow` scope is detected and reverted. Rules that "never stop a write"
+      is fine for ONTOLOGY rules (alignment targets), but the text reads as a licence for any play to write any kind. Meanwhile product-os.yaml and
+      spine.yaml (unchanged) still list `/vision` as seeding ICE and `/understand` as enriching it, so the schema folder now states two ownership models.
+    fix_direction: >
+      Say that "any play may write" holds within the play's declared write scope (direct-model-write.md), and that the scope of each play is
+      widened deliberately, not by this sentence. Bring product-os.yaml and spine.yaml fill_rules in line, or state which file is the live one.
+      Because D7 reaches ADR 026's guarantee, record it (see MEM-4).
+
+  - id: MEM-3
+    severity: P2
+    file: core/components/memory/standards/schemas/product-os/ontology.md
+    lines: "Business Intent kind, 'What it is' (line 40: 'It is not ICE')"
+    principle: "G3 - business intent and SDLC intent BOTH take ICE form (IDSD); G4 - `/intent` pulls goal, constraints, failure conditions."
+    basis: main:docs/philosophy/idsd.md lines 26-27, 45, 129; main:docs/adr/027-ice-model-pcam-design.md; main:core/grounding/glossary.md IDSD row; main:docs/adr/029-drives.md section 6
+    finding: >
+      The ontology defines Business Intent as a plain-words page that "is not ICE", with ICE as a separate, lower kind. The committed doctrine says the
+      opposite in three places: business intent takes ICE form, and `/intent` extracts goal / constraints / failures. D4/D6 (the stated rationale) make
+      Business Intent human-facing and put ICE below it; that fits idsd.md's "plan is the human's interface" section, and the two-level split may well be
+      right. But the philosophy docs, ADR 027, ADR 029 and the glossary are not amended, so after this PR the standards an agent reads and the doctrine a
+      person reads disagree on what a business intent is.
+    fix_direction: >
+      Amend ADR 029 (and ADR 027's layer line, idsd.md line 45, the glossary IDSD row) to say a business intent is the person-facing statement from which
+      ICE is drawn, or record why ICE form is kept at the business level. Not a reason to reject the model; a reason to land the doctrine edit with it.
+
+  - id: MEM-4
+    severity: P3
+    file: core/components/memory/standards/schemas/product-os/ontology.md
+    also: core/components/memory/standards/schemas/product-os/ice.yaml
+    lines: "ontology.md line 13 ('Alignment drive'), Log line 193; ice.yaml line 73-74"
+    principle: "G9 - a decision that changes doctrine is recorded in docs/adr and names what it amends; drives are defined by an ADR (029)."
+    basis: main:docs/adr/029-drives.md ("Each drive solves one transition"; first drive Kickoff; handover drive named); main:docs/adr/030-plan-mode.md header
+    finding: >
+      Two standards now depend on an "Alignment drive" that finds and fixes drift. No committed ADR defines it; D7 says it is "its own drive (not yet filed)"
+      and the decision itself lives only in the branch-added STM file. The standards cite the ontology log and an unfiled drive as authority. Agents
+      following "drift goes to the Alignment drive" have nowhere to send it.
+    fix_direction: >
+      File the Alignment drive and record D6-D7 in an ADR (amending ADR 026/027/029 as MEM-2 and MEM-3 need), or reword the standards to say
+      "drift is left for a later drive" until it exists.
+
+  - id: MEM-5
+    severity: P3
+    file: core/components/memory/standards/schemas/product-os/ontology.md
+    lines: "Source kind, 'Lives at' (line 102)"
+    principle: "G5 - evidence is a play-close run record, config-gated, play-written; a permanent input record is a different thing."
+    basis: "main:core/components/memory/standards/rules/evidence-recording.md; main:.garura/core/config.yaml (`evidence.record: false`); main:docs/adr/017-folder-whitelist.md (`_evidence/` = play-lifecycle)"
+    finding: >
+      The ontology names the term "Source" so it will not be confused with Evidence, then stores every Source's permanent snapshot under
+      `{product_base}_evidence/intent/<timestamp>/` "through Garura's evidence method". The evidence method is play-only and switchable off (default off),
+      and `_evidence/` is the play-lifecycle bucket. A Source's required "Snapshot kept even if the link or file goes away" (and Q5 "answered") would
+      depend on a run-record folder that tooling may skip, archive or clean. The play's own script writes the files directly, so it works today; the
+      standard's wording and location tie a permanent kind to a run-record mechanism.
+    fix_direction: >
+      Give Sources their own home in the product model (or state in the standard that this folder is exempt from `evidence.record` and from
+      evidence archiving), and drop "through Garura's evidence method".
+
+  - id: MEM-6
+    severity: P3
+    file: core/components/memory/standards/schemas/product-os/ice.yaml
+    lines: "lines 11-18 (new id/title/built_from, node_ref may be null), schema.version: 1"
+    principle: "G6 - changing a permanent record type is recorded as a migration note and version, because schema evolution is parked."
+    basis: main:core/components/memory/standards/schemas/product-os/product-os.yaml (Migration note); main:.../_index.md ("Schema evolution is parked")
+    finding: >
+      Adds three fields and relaxes `node_ref` to nullable on a permanent record, and leaves `schema.version: 1` with no migration note.
+      The ontology file got a version bump (v3); the schema it extends did not. The change is additive, so existing records stay valid, but that
+      is the thing a migration note exists to say.
+    fix_direction: Add a short migration note (additive; node_ref nullable) and bump or explicitly keep the version with the reason.
+
+  - id: MEM-7
+    severity: P3
+    file: core/components/memory/standards/rules/pipeline-next.md
+    lines: "'The flow' bullets (Understand loop line); map line 36"
+    principle: "G10 - pipeline-next.md is the single source of the order; ADR 029 makes the first loop Kickoff, `/intent` -> `/vision` -> `/understand`."
+    basis: main:docs/adr/029-drives.md section 6 and its note on ADR 028; main:core/components/memory/standards/rules/pipeline-next.md "The flow"
+    finding: >
+      The map gains `intent -> vision`, but "The flow" still reads "Understand loop: /vision -> /understand" and the map comment still says
+      "Understand loop, then Shape loop". The file now disagrees with itself on where the first loop starts. (The prose was already behind ADR 029;
+      the branch adds the new play without catching it up.)
+    fix_direction: Update the first flow bullet to Kickoff (`/intent -> /vision -> /understand`) and the map comment.
+
+  - id: MEM-8
+    severity: P3
+    file: core/components/memory/standards/schemas/product-os/ontology.md
+    lines: "Q2 and Not-yet-defined list ('Function')"
+    principle: "G8 - the glossary and spine name the leaf level 'Functionality'; one word per thing."
+    basis: main:core/grounding/glossary.md (Functionality row); main:core/components/memory/standards/schemas/product-os/spine.yaml
+    finding: >
+      The ontology says "Function" for the committed term "Functionality" (and notes the mapping once). Its stated aim is that a person and an agent use the
+      same words for the same things. Separately, the new concepts it introduces (Business Intent as a kind, Source, product ontology) have no glossary row,
+      and the glossary is the canonical home (CLAUDE.md "Reference").
+    fix_direction: Use "Functionality", and add glossary rows for Business Intent (kind), Source and Product Ontology.
+
+  - id: MEM-9
+    severity: P3
+    file: core/components/memory/standards/schemas/product-os/ontology.md
+    lines: "Q1 (Work: Feature, Story, Bug, Chore, Spike), 'Not yet defined' (Work, Tracker Issue)"
+    principle: "G7 - Garura's own tracker types belong to the plane that describes how Garura is built; the product model is what Garura offers other teams."
+    basis: main:.garura/user-provided/managing-work.md first section; CLAUDE.md Work Tracking; main:docs/philosophy/garura-reference-implementation.md (Work Item Types)
+    finding: >
+      Confidence medium. The ontology, deployed with the standards to every target project, names Garura's six tracker types as the kinds of Work a
+      product's business intent needs. managing-work.md warns against carrying one plane's vocabulary into the other. It may be intended (the ontology
+      says a business intent IS the tracker's issue type), but the standard does not say these types are Garura's convention and may differ elsewhere.
+    fix_direction: State whether Work types are fixed by Garura or by each team's tracker; keep the Work kind "not yet defined" until decided.
+
+  - id: MEM-10
+    severity: P4
+    file: core/components/memory/standards/schemas/product-os/_index.md
+    also: core/components/memory/standards/templates/product-ontology.md
+    principle: "Index and example text track the file they describe; template and instance agree."
+    basis: >
+      Branch-internal consistency only (no committed source covers it): _index.md row says "(v1: Business Intent, Source, ICE)" while ontology.md is
+      `version: 3`; the template example reads "Agent Intent serves Business Intent" while ontology.md uses "Work", and main's
+      garura-reference-implementation.md calls "Agent Intent" a group, not a kind; ice.yaml's _index row still says only "Intent / Context / Expectations on a node".
+    fix_direction: Align the three strings.
+
+grounding_unavailable:
+  - subject: "Shape of the product ontology document itself (sections, 'Questions it must answer', per-kind property tables)"
+    detail: >
+      No committed standard or ADR defines an ontology file format; ADR 029 only says #597 builds it. The only source for the format is the
+      branch-added templates/product-ontology.md, which cannot ground ontology.md. Conformance of ontology.md to its template was not treated as design grounding.
+      The template's own "two or three plain sentences" intro versus ontology.md's three paragraphs is therefore not reported as a finding.
+    suggested: A decision record (or a playbook) that fixes the ontology format before more kinds are added.
+
+summary:
+  p1: 0
+  p2: 3
+  p3: 6
+  p4: 1

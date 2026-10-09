@@ -322,6 +322,7 @@ Recovery reasoning is loaded from LTM: `docs/framework/intent-driven-recovery.md
 
 | Play | Purpose |
 |--------|---------|
+| `intent` | Turn what a person shares — a prototype, a project folder, a site, a document or a statement — into their business intents and, under each, the ICE the source shows; the person confirms each intent; keeps the source as a snapshot and links all three |
 | `vision` | Turn a business goal into the seed of the product model — domain grounding, directional capability grounding, spine entries |
 | `understand` | Detail one capability that `/vision` seeded — promote its grounding to detailed, create its functionalities |
 | `shape` | Select what to build in one domain and compose it into deliverable vertical slices |

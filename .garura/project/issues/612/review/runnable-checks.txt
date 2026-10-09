@@ -1,0 +1,10 @@
+## lint_play intent
+VERDICT: PASS (0 gap(s))
+## intent script tests
+65 passed, 0 failed
+## ontology check tests
+23 passed, 0 failed
+## ontology check
+valid True
+## ruff (changed python)
+All checks passed!
