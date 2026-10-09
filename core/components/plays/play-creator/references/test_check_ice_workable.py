@@ -40,7 +40,7 @@ def setup(tmp):
     intents = os.path.join(tmp, "intents")
     os.makedirs(intents)
     for iid, stage in (("confirmed-one", "confirmed"), ("proposed-one", "proposed"),
-                       ("dropped-one", "dropped")):
+                       ("dropped-one", "dropped"), ("met-one", "met")):
         with open(os.path.join(intents, f"{iid}.md"), "w") as fh:
             fh.write(page(stage))
     spine = {"capabilities": [
@@ -48,7 +48,8 @@ def setup(tmp):
         {"id": "cap-none", "domain": "d1"},
         {"id": "cap-proposed", "domain": "d1", "intents": ["proposed-one"]},
         {"id": "cap-dropped", "domain": "d1", "intents": ["dropped-one"]},
-        {"id": "cap-missing", "domain": "d1", "intents": ["no-such-intent"]}],
+        {"id": "cap-missing", "domain": "d1", "intents": ["no-such-intent"]},
+        {"id": "cap-met", "domain": "d1", "intents": ["met-one"]}],
         "functionalities": [{"id": "fn-ok", "capability": "cap-ok", "intents": ["confirmed-one"]}]}
     path = os.path.join(tmp, "_spine.yaml")
     with open(path, "w") as fh:
@@ -63,6 +64,7 @@ def main():
         check("built from a confirmed intent is workable (one confirmed is enough)",
               cw.main(args + ["--node", "cap-ok"]) == 0)
         check("a functionality is checked the same way", cw.main(args + ["--node", "fn-ok"]) == 0)
+        check("built from a met intent stays workable", cw.main(args + ["--node", "cap-met"]) == 0)
         for node, label in (("cap-none", "no intent at all"), ("cap-proposed", "only a proposed intent"),
                             ("cap-dropped", "only a dropped intent"), ("cap-missing", "an intent with no page")):
             check(f"{label} is kept but not workable", cw.main(args + ["--node", node]) == 1)
@@ -72,7 +74,7 @@ def main():
         import json
         with open(out) as fh:
             r = json.load(fh)
-        check("the report counts workable and not workable", r["workable"] == 2 and r["not_workable"] == 4)
+        check("the report counts workable and not workable", r["workable"] == 3 and r["not_workable"] == 4)
         bad = os.path.join(tmp, "bad.yaml")
         with open(bad, "w") as fh:
             fh.write("- not a mapping\n")
