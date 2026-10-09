@@ -1,0 +1,36 @@
+# Round-2 closure check for PR #631. Note: ids F1-F11 repeat across categories (executable-code/tests/docs vs harness); category tells them apart.
+- {id: F1, category: executable-code, status: closed, evidence: "persist_intent.py:54 ID_SHAPE and check_ids() at :93-100 refuse non-slug ids; check_intent.py:58,95-103 does the same"}
+- {id: F2, category: executable-code, status: closed, evidence: "persist_intent.py:159-166 refuses a Source with no 'shows' inside plan() (:126), before any write_* function runs"}
+- {id: F3, category: executable-code, status: closed, evidence: "persist_intent.py:97-100 refuses duplicate ids; ICE ids checked at :170"}
+- {id: F4, category: executable-code, status: closed, evidence: "persist_intent.py:82-90 load_mapping refuses a non-mapping; check_intent.py:87-92 as_list/as_map and :229,278 isinstance guards"}
+- {id: F5, category: executable-code, status: closed, evidence: "capture_source.py:140 uses pathlib.Path(...).as_uri() ('escapes # and ?')"}
+- {id: F6, category: executable-code, status: closed, evidence: "persist_intent.py now split into plan/write_ice/write_intents/write_sources/manifest_for; main() starts at :286 (27 lines); check_intent.check is :227-252"}
+- {id: F7, category: executable-code, status: closed, evidence: "install.py:19-21, 156-157 and resolve_scope docstring :202-203 now name the meta-utility skills; META_SKILLS applied at :212"}
+- {id: F8, category: executable-code, status: follow-up, evidence: "E741 still at preflight.py:127 and session_stamp.py:49; plan.md Follow-ups lists 'preflight.py, session_stamp.py ... carry ruff E741 in every copy'"}
+- {id: F9, category: tests, status: closed, evidence: "test_intent_scripts.py:38,53-57,140-143 skip() prints [SKIP] lines; summary at :507 shows '{n} skipped'"}
+- {id: F10, category: tests, status: closed, evidence: "test_check_ontology.py:129-138 adds tests for missing front-matter field, non-numeric version and missing Relationships heading; :124-125 for unknown Answered by"}
+- {id: F11, category: docs, status: closed, evidence: "docs/components/skills.md:47 now reads 'user-invocable: false except the meta-utility skills above (build-product-ontology)'"}
+- {id: F1, category: harness, status: closed, evidence: "ADR 031 section 5 (no approval stop inside a drive; person confirms at the drive's end review); intent/SKILL.md:233 'Inside a drive: skipped'; ADR 029 header and section 6 amended"}
+- {id: F2, category: harness, status: closed, evidence: "intent/SKILL.md:233 declares '(class: standard, pinned)'; gate-config.md pinned list now includes intent's confirm step when run by hand"}
+- {id: F3, category: harness, status: follow-up, evidence: "plan.md Follow-ups: '/vision attaches domains ... links its ICE to a business intent (item 7)'; ADR 031 Work This Creates lists it. SKILL.md:4 and :442 still say /vision finds the intent (pipeline-next.md reworded to hand /vision the title/outcome/why as its goal)"}
+- {id: F4, category: harness, status: closed, evidence: "docs/adr/031-business-intent-and-ice.md added; amends ADR 029 section 6 (table rewritten) and ADR 027; ice.md no longer cites STM decisions"}
+- {id: F5, category: harness, status: closed, evidence: "direct-model-write.md adds 'Declared exception — /intent run by hand (ADR 031)'; ADR 031 section 5 states it"}
+- {id: F6, category: harness, status: follow-up, evidence: "plan.md Follow-ups: 'the drive contract's shape (review F6, #614/#615)'; intent/SKILL.md:80,95 still carry the --contract shape unchanged"}
+- {id: F7, category: harness, status: open, evidence: "ICE now inline (the flat product-os/ice folder is gone), but spine.yaml on-disk layout :209-223 has no product-os/intents/ folder and product-os.yaml is untouched; not listed in plan.md Follow-ups"}
+- {id: F8, category: harness, status: follow-up, evidence: "plan.md Follow-ups: 'Where Sources live (review MEM-5/F8)'; intent/SKILL.md:98,150 still write snapshots under _evidence/intent/"}
+- {id: F9, category: harness, status: follow-up, evidence: "plan.md Follow-ups: 'why a separate agent (F9)'; business-intent-keeper.md has no rationale yet"}
+- {id: F10, category: harness, status: closed, evidence: "business-intent-keeper.md:102-103,116 uses status 'blocked' with blocked_reason: needs_person (ADR 016 enum)"}
+- {id: F11, category: harness, status: closed, evidence: "install-garura/SKILL.md:3 frontmatter description now says 'except the meta harness plays and the meta-utility skills'"}
+- {id: F12, category: harness, status: closed, evidence: "glossary.md adds Business Intent (ProductOS), Source (ProductOS) and Product ontology rows with NOT columns; the 'unplaced ICE' concept is gone"}
+- {id: F13, category: harness, status: closed, evidence: "grep of intent/reference/ice.md finds no path to specs/trial-token-burn/notes.md or any STM path"}
+- {id: MEM-1, category: memory, status: closed, evidence: "ontology.md:139 ICE is 'written inline in its grounding doc (spine.yaml v2)'; spine.yaml:61,95 adds intents; no standalone ICE record or ice.yaml change. Residual: ontology.md:192 Log still mentions product-os/ice/<id>.yaml, and intents/ is not in the spine layout (see harness F7)"}
+- {id: MEM-2, category: memory, status: closed, evidence: "ontology.md:13 and :164 limit 'any play may write' to the play's declared write scope (direct-model-write.md); ice.yaml no longer edited; ADR 031 section 2 records it"}
+- {id: MEM-3, category: memory, status: closed, evidence: "ADR 031 section 1 amends ADR 027 (line 28), idsd.md:129 and the glossary IDSD row all say a Business Intent is the person-facing kind ICE is built from"}
+- {id: MEM-4, category: memory, status: closed, evidence: "ADR 031 section 2 and Work This Creates record the Alignment drive and D6-D7; the unfiled drive itself is a plan.md Follow-up"}
+- {id: MEM-5, category: memory, status: follow-up, evidence: "plan.md Follow-ups: 'Where Sources live (review MEM-5/F8)'; ontology.md:102 still says 'saved through Garura's evidence method'"}
+- {id: MEM-6, category: memory, status: closed, evidence: "ice.yaml is no longer in the branch diff (git diff main --stat), so no unversioned field change remains"}
+- {id: MEM-7, category: memory, status: closed, evidence: "pipeline-next.md flow bullet now 'Kickoff loop: /intent -> /vision -> /understand' and map comment 'Kickoff loop, then Shape loop'"}
+- {id: MEM-8, category: memory, status: closed, evidence: "ontology.md Log :193 renames Function to Functionality; glossary has the three new rows. Residual: example at ontology.md:94 still says '(function)'"}
+- {id: MEM-9, category: memory, status: follow-up, evidence: "plan.md Follow-ups: 'Garura's own work types named in the product ontology (MEM-9)'"}
+- {id: MEM-10, category: memory, status: closed, evidence: "_index.md:9 now says 'v3'; templates/product-ontology.md:27 uses 'Work serves Business Intent'; ice.yaml _index row unchanged because ice.yaml is unchanged"}
+- {id: CFG-1, category: config-maps, status: follow-up, evidence: "plan.md Follow-ups: 'the config's review-shelf path points at a folder that does not exist here'"}

@@ -524,3 +524,7 @@ findings:
   summary: context.yaml review_shelf points at .garura/core/memory/knowledge/review/, which does not exist here;
     the playbooks were read from core/components/memory/knowledge/review/
   basis: fetch_pr_context.py output vs repo tree (observed this run)
+rounds:
+  round1: '35 findings (P2 3, P3 17, P4 15; none blocking) — 26 closed, 8 recorded as follow-ups in the #612 plan,
+    1 (F7 layout) closed in round 2'
+  round2: 8 new (1 medium, 7 low; none blocking) — all fixed after round 2
