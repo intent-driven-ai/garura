@@ -1,0 +1,21 @@
+# intent stop condition — baked from reference/ice.md "### Done means" (#464, #612).
+# Evaluated by scripts/check_stop_condition.py at Step C0 of the Standard Play Close.
+# Paths are relative to the run's working folder ({stm_base}_kickoff/intent/<run-ts>/).
+schema: { name: stop-condition }
+content:
+  done:
+    - id: D1
+      says: "the Business Intents were saved"
+      check: { type: artifact_exists, path: "intent-manifest.json" }
+    - id: D2
+      says: "a person confirmed at least one, and decided every one drafted"
+      check: { type: field_equals, file: "intent-manifest.json", field: "confirmed_and_decided", equals: true }
+    - id: D3
+      says: "every Source was saved with a snapshot"
+      check: { type: field_equals, file: "intent-manifest.json", field: "sources_saved", equals: true }
+    - id: D4
+      says: "the intents, their ICE and their Sources are linked"
+      check: { type: field_equals, file: "intent-manifest.json", field: "linked", equals: true }
+    - id: D5
+      says: "nothing else in the product model changed"
+      check: { type: field_equals, file: "guard-report.json", field: "ok", equals: true }
