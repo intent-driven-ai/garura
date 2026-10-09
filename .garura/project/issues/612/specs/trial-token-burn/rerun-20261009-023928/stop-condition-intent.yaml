@@ -1,0 +1,22 @@
+stop_condition: held
+clauses:
+- id: D1
+  says: the Business Intents were saved
+  status: held
+  detail: 1 match(es) for intent-manifest.json
+- id: D2
+  says: a person confirmed at least one, and decided every one drafted
+  status: held
+  detail: confirmed_and_decided = True (want True)
+- id: D3
+  says: every Source was saved with a snapshot
+  status: held
+  detail: sources_saved = True (want True)
+- id: D4
+  says: the intents, their ICE and their Sources are linked
+  status: held
+  detail: linked = True (want True)
+- id: D5
+  says: nothing else in the product model changed
+  status: held
+  detail: ok = True (want True)

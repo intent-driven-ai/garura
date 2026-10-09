@@ -55,7 +55,13 @@ domains:
 capabilities:
   - id: string
     slug: string
-    domain: string        # parent DOMAIN id — REQUIRED (the named relation, not "parent")
+    domain: string        # parent DOMAIN id — the named relation, not "parent". May be empty
+                          # while proposed: a capability can be written before its domain
+                          # exists (e.g. by /intent); /vision attaches the domain later.
+    intents: [string]     # the BUSINESS INTENT ids (product-os/intents/<id>.md) this
+                          # capability's ICE is built from. Its ICE is workable only when at
+                          # least one of them is confirmed; with none, the ICE is kept but no
+                          # play works on it (ontology v3).
     status: string        # proposed | active | deprecated
     detail: string        # directional (/vision) | detailed (/understand) — drives which
                           # capability.md shape the linter requires
@@ -86,6 +92,7 @@ functionalities:
   - id: string
     slug: string
     capability: string    # parent CAPABILITY id — REQUIRED (the named relation)
+    intents: [string]     # business intent ids its ICE is built from (as on capabilities)
     status: string        # proposed | active | deprecated
     one_line: string
     doc: string           # pointer to its functionality.md
@@ -97,8 +104,10 @@ functionalities:
       version: integer
 
 # Tree rules: exactly three levels, in this order. A domain has no parent; every
-# capability names a domain that exists; every functionality names a capability that
-# exists. The linter enforces that every parent ref resolves.
+# functionality names a capability that exists. A capability names a domain once it is
+# aligned — one with no domain yet is allowed (the linter warns; /vision attaches it); a
+# domain that is named but does not exist is an error. The linter enforces that every
+# named parent ref resolves.
 
 # ---- The profile: THE BOX (structured; lives in the spine) ------------------
 # Decision: the profile is structured machine data — levels + gates — so it stays in
@@ -123,7 +132,7 @@ profile:
     reliability:    { level: string, gate: string }
     privacy:        { level: string, gate: string }
     observability:  { level: string, gate: string }
-    maintainability:{ level: string, gate: string }
+    maintainability: { level: string, gate: string }
     # products may carry additional named dimensions (e.g. explainability, accuracy)
   compliance: [string]
   quality_vision:
@@ -165,6 +174,11 @@ epics:
 
 # ---- Fill rules: which play writes which part of the spine -------------------
 fill_rules:
+  # Who USUALLY writes what — a guide, not ownership: any play may write any kind inside its
+  # declared write scope (ontology v3, ADR 031).
+  - play: "/intent"
+    writes: "business intent pages, and one proposed capability per ICE (domain empty,
+             detail directional, intents = its business intent) with its grounding doc."
   - play: "/vision"
     writes: "seeds the tree — one `domains` entry + candidate `capabilities` entries
              (status proposed, detail directional, with one_line + doc pointers to the
@@ -200,6 +214,10 @@ fill_rules:
 # ---- On-disk layout ---------------------------------------------------------
 # product-os/
 #   _spine.yaml                                  # THIS file's instance — the map
+#   intents/{intent}.md                          # business intent pages (ontology v3, /intent)
+#   capabilities/{capability}/capability.md      # a capability with no domain yet (written by
+#                                                #   /intent); /vision attaches the domain and
+#                                                #   may move the doc under {domain}/
 #   {domain}/
 #     domain.md                                  # grounding (domain template)
 #     {capability}/

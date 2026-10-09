@@ -1,0 +1,68 @@
+needs_judgment: false
+change_groups:
+- id: intent-save-skip-existing
+  issue: 612
+  commit_type: fix
+  scope: intent
+  subject: skip a capability already in the model on save, refuse both modes at once and cover both modes in the header
+  files:
+  - core/components/plays/intent/SKILL.md
+  - core/components/plays/intent/scripts/persist_intent.py
+  - core/components/plays/intent/scripts/test_intent_scripts.py
+  - core/components/plays/intent/scripts/check_ice_workable.py
+- id: play-creator-ice-met-intent
+  issue: 612
+  commit_type: fix
+  scope: play-creator
+  subject: keep an ICE built from a met intent workable
+  files:
+  - core/components/plays/play-creator/references/check_ice_workable.py
+  - core/components/plays/play-creator/references/test_check_ice_workable.py
+- id: adr-vision-attaches-domains
+  issue: 612
+  commit_type: docs
+  scope: adr
+  subject: say /vision will attach domains, point ADR 026 to ADR 031, scope the pinned gate to /intent and fix the idsd contradiction
+  files:
+  - docs/adr/026-direct-to-model-writes.md
+  - docs/adr/029-drives.md
+  - docs/adr/031-business-intent-and-ice.md
+  - docs/philosophy/idsd.md
+  - core/components/memory/standards/rules/gate-config.md
+- id: product-os-spine-intent-pages
+  issue: 612
+  commit_type: fix
+  scope: product-os
+  subject: show intent pages and domainless capabilities in the spine layout, mark the old layout superseded and correct the ontology log and met rule
+  files:
+  - core/components/memory/standards/schemas/product-os/spine.yaml
+  - core/components/memory/standards/schemas/product-os/product-os.yaml
+  - core/components/memory/standards/schemas/product-os/ontology.md
+- id: stm-612-round2-fixes
+  issue: 612
+  commit_type: chore
+  scope: stm
+  subject: record round-2 review fix decisions and run artifacts
+  files:
+  - .garura/project/issues/612/specs/decisions.md
+  - .garura/project/issues/612/context/analysis.yaml
+  - .garura/project/issues/612/context/porcelain.txt
+exclusions:
+- path: ".garura/project/issues/612/review/round2-closure.yaml"
+  reason: "review record, committed by review-change post_verdict"
+  blocking: false
+- path: ".garura/project/issues/612/review/round2-new.yaml"
+  reason: "review record, committed by review-change post_verdict"
+  blocking: false
+risks:
+  sensitive_files: []
+notes:
+  branch: feature/612-intent-play
+  hotfix_branch: false
+  breaking_changes: []
+  ambiguous_types: []
+  coverage: '19 changed files from git status: 4 + 2 + 5 + 3 + 3 = 17 in groups, plus 2 excluded = 19, each in exactly one place'
+  observations:
+  - gate-config.md is a standards rule, not an ADR, but belongs to the docs group per the requested concerns
+  - context/analysis.yaml is this file itself, committed in the stm group like prior run artifacts
+  - diff scan for secret patterns (password, api_key, secret, token, private_key) found nothing

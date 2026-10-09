@@ -1,6 +1,6 @@
 ---
 name: install-garura
-description: 'Install Garura into a target project or repository so its skills, agents, and plays become discoverable by a host coding tool — Claude Code or the OpenAI Codex CLI. Reads this garura checkout''s core/components and runs a per-tool ADAPTER that lays them down in the host''s native shape: for claude, .claude/ skills + agents with model tiers resolved to Claude models; for codex, .agents/skills Agent Skills plus AGENTS.md and ~/.codex model/sandbox/approval profiles. Always writes a .garura/ tooling tree (config + STM scaffold) and copies shared memory to the machine-global ~/.garura, and records an install manifest so uninstall-garura can reverse exactly what was placed. Use when the user wants to install, set up, bootstrap, add, or enable Garura in another folder or repo for claude or codex — "install garura into X", "set up garura in this repo for codex", "bootstrap garura", "make codex see the garura skills". Takes the target path, an optional --tool, and an optional --scope (full = every component except the meta harness plays, the default; harness = meta plays + change chain + their workers only). For the reverse, see uninstall-garura.'
+description: 'Install Garura into a target project or repository so its skills, agents, and plays become discoverable by a host coding tool — Claude Code or the OpenAI Codex CLI. Reads this garura checkout''s core/components and runs a per-tool ADAPTER that lays them down in the host''s native shape: for claude, .claude/ skills + agents with model tiers resolved to Claude models; for codex, .agents/skills Agent Skills plus AGENTS.md and ~/.codex model/sandbox/approval profiles. Always writes a .garura/ tooling tree (config + STM scaffold) and copies shared memory to the machine-global ~/.garura, and records an install manifest so uninstall-garura can reverse exactly what was placed. Use when the user wants to install, set up, bootstrap, add, or enable Garura in another folder or repo for claude or codex — "install garura into X", "set up garura in this repo for codex", "bootstrap garura", "make codex see the garura skills". Takes the target path, an optional --tool, and an optional --scope (full = every component except the meta harness plays and the meta-utility skills, the default; harness = meta plays + meta-utility skills + change chain + their workers only). For the reverse, see uninstall-garura.'
 user-invocable: true
 ---
 
@@ -105,8 +105,9 @@ python3 core/components/plays/install-garura/scripts/install.py --target <path> 
 Options:
 - `--tool claude|codex` — which host tool to target (default `claude`).
 - `--scope full|harness` — which component set the target receives (default `full`, every
-  component except the meta harness plays). `harness` installs only the meta plays
-  (play-creator, play-editor), the five *change plays, and the worker skills/agents those
+  component except the meta harness plays and the meta-utility skills). `harness` installs
+  only the meta plays (play-creator, play-editor), the meta-utility skills
+  (build-product-ontology), the five *change plays, and the worker skills/agents those
   plays dispatch — for harness-type repos (garura itself) that must not carry product
   plays. The scope filters **components only**;
   shared memory, config, the STM scaffold, and the manifest are written the same either way.

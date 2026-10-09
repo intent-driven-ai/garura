@@ -35,6 +35,8 @@ Some skills exist to manage the Garura framework itself. These are classified as
 
 Example: deployment of Garura components into a target project runs via the `install-garura` play (reverse: `uninstall-garura`). Deployment is invoked directly by the user because it manages the deployment pipeline, not a domain task.
 
+Today's meta-utility skill: `build-product-ontology` — builds Garura's product ontology with a person, one kind at a time. It is installed only by `install-garura --scope harness`, never into a product project.
+
 Meta-utility skills:
 - Are user-invocable
 - Serve framework operations, not domain work
@@ -42,12 +44,12 @@ Meta-utility skills:
 
 ## Available Skills
 
-Roughly 100 skills are authored in `core/components/skills/` (each with `user-invocable: false`). The roster, grouped by family — see each skill's `SKILL.md` frontmatter for its full description and model:
+Roughly 100 skills are authored in `core/components/skills/`, each with `user-invocable: false` except the meta-utility skills above (`build-product-ontology`). The roster, grouped by family — see each skill's `SKILL.md` frontmatter for its full description and model:
 
 | Family | Skills |
 |--------|--------|
 | **Repository / project operations** | `analyze-changes`, `analyze-pr`, `create-commit`, `setup-branch`, `submit-pr`, `merge-pr`, `platform-adapter`, `manage-issue`, `resolve-issues`, `manage-plan`, `write-evidence` |
-| **ProductOS model & KB** | `author-vision-seed`, `enrich-capability-ice`, `author-shape-bundle`, `author-roadmap`, `author-quality-lens`, `author-ux-lens`, `author-agentic-lens`, `author-architecture-lens`, `author-marketing-lens`, `author-run-lens`, `author-measure-lens`, `author-epics`, `check-cut-tensions`, `author-hitl-scenarios`, `rank-recommendations`, `search-kb`, `kb-search`, `propose-kb-node` |
+| **ProductOS model & KB** | `author-business-intent`, `author-vision-seed`, `build-product-ontology`, `enrich-capability-ice`, `author-shape-bundle`, `author-roadmap`, `author-quality-lens`, `author-ux-lens`, `author-agentic-lens`, `author-architecture-lens`, `author-marketing-lens`, `author-run-lens`, `author-measure-lens`, `author-epics`, `check-cut-tensions`, `author-hitl-scenarios`, `rank-recommendations`, `search-kb`, `kb-search`, `propose-kb-node` |
 | **Specification / design drafting** | `draft-product-spec`, `draft-technical-approach`, `draft-lld`, `draft-tech-spec`, `draft-implementation-plan`, `draft-reference-algorithms`, `draft-epic-expectation`, `draft-verification-scenarios`, `author-build-plan`, `author-intent-yaml`, `validate-implementation-design`, `validate-abstraction-layer` |
 | **Defect resolution** | `draft-rca`, `draft-fix-design`, `author-regression-test` |
 | **Architecture & quality derivation** | `derive-systems-inventory`, `derive-logical-architecture`, `derive-physical-architecture`, `derive-tech-stack`, `derive-design-patterns`, `derive-nfr-spec`, `derive-quality-vision`, `derive-quality-profile-from-epics`, `refine-quality-profile`, `validate-architecture-spec`, `infer-architecture`, `build-dependency-graph` |

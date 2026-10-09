@@ -4,7 +4,7 @@ kind: business-intent
 serves: "#606 — Garura's agentic lifecycle runs as five loops (drives), starting from a working prototype"
 status: active
 updated: 2026-10-08
-now: 2
+now: 3
 ---
 
 # Plan — #606: the lifecycle runs as drives
@@ -27,7 +27,7 @@ There are five drives, one for each step from product to running software. We bu
 
 ## Where we are now
 
-Three decisions are made: the lifecycle is five loops (#592), a loop is a drive and the first is Kickoff (#607, ADR 029), and every change works from a plan (#619, ADR 030). Next is untangling `/intent`, `/vision` and `/understand` so each runs on its own (item 2, #616).
+Three decisions are made (#592, #607, #619) and two things are shipped: plan mode's first pieces (#619) and the Kickoff plays standing alone (#616). Next is building `/intent`, the play that reads a prototype (item 3, #612).
 
 ## The plan, in order
 
@@ -35,17 +35,10 @@ Three decisions are made: the lifecycle is five loops (#592), a loop is a drive 
 
 - **Decided: the lifecycle is five loops** — #592. ADR 028. A design decision only; no loop is built yet.
 - **1. Decided and shipped in part: plan mode** — #619. Decided in ADR 030: every change works from a plan on disk, kept current, done only when the plan is done. Shipped (merged in PR #629): the template and rules, the plan skill and its check, and issue reads that see type, parent and children. Not yet done: wiring it into the plays (Feature #621).
+- **2. Shipped: `/vision` and `/understand` each stand alone** — #616, PR #630. Each opens and lands its own change; `/understand` seeds a missing capability from the person's answers. Not yet done: skipping the opening inside a drive (#614, #615); `/shape` and `/roadmap` still expect the old shared branch (follow-up written up in #616's notes, not filed).
 - **Decided: a loop is a drive; the first drive is Kickoff** — #607. ADR 029, a design decision only; nothing is built yet. It settled what a drive is, how it runs, that it owns one issue, one branch and one pull request, and that Kickoff runs `/intent` → `/vision` → `/understand`.
 
-### 2. The three plays stop depending on each other — now
-
-**Issue:** #616.
-**What:** today `/understand` refuses to run unless `/vision` ran first, and `/vision`'s work stays open until `/roadmap` finishes. Remove those links, so `/intent`, `/vision` and `/understand` each work when run on their own.
-**Why here:** Kickoff runs the three plays, but each must also work by hand. Untangling them first means items 3 to 5 build on clean plays.
-**Done when:** each of the three plays runs by hand with nothing run before it.
-**Needs:** nothing — item 1 is done.
-
-### 3. A new play that reads a prototype: `/intent`
+### 3. A new play that reads a prototype: `/intent` — now
 
 **Issue:** #612.
 **What:** a new play. It reads a working prototype and writes down the intent: the goal, the limits, and what counts as failure. The user confirms it. The prototype is kept as an example, never treated as the intent itself.
@@ -133,3 +126,4 @@ Nothing below starts before item 7 is done. Each later drive is decided by a spi
 - 2026-10-08 — Item 1 done: plan mode decided (ADR 030); wiring filed as Feature #621. Now on item 2 (#616).
 - 2026-10-08 — Kickoff restated as the human interface (Kapil): it makes a plan and issues for the person, and the product model for the agents.
 - 2026-10-08 — Added item 12, the handover drive (the handoff out, Kickoff's pair). The Learn drive is now item 13.
+- 2026-10-08 — Item 2 done: `/vision` and `/understand` stand alone (#616, PR #630). Now on item 3 (#612).

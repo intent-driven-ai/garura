@@ -11,6 +11,7 @@
       ".claude/agents/repo-orchestrator.md",
       ".claude/skills/analyze-changes",
       ".claude/skills/analyze-pr",
+      ".claude/skills/build-product-ontology",
       ".claude/skills/create-commit",
       ".claude/skills/manage-issue",
       ".claude/skills/merge-pr",
@@ -30,7 +31,7 @@
     ],
     "counts": {
       "agents": 4,
-      "skills": 10,
+      "skills": 11,
       "plays": 8
     },
     "instruction_surface": "CLAUDE.md.new",
