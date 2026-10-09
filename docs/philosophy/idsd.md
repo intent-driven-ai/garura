@@ -24,7 +24,7 @@ Moving from spec-driven to intent-driven development is a simple shift: the huma
 But intent does not carry itself. Left on its own it decays into prompts: written once, interpreted differently at every step, and silently out of date the moment reality moves. Three things are missing from intent alone, and IDSD supplies them:
 
 1. **Two intents, kept apart — the dual-intent system.** Business intent (what to build) and SDLC intent (how each step operates) are authored, stored, and changed separately. This is the core of IDSD.
-2. **One shape both intents take — ICE.** Intent, Context, and Expectation, the same shape at every step, so nothing is re-interpreted on the way down.
+2. **One shape for the work both intents drive — ICE.** Intent, Context, and Expectation, the same shape at every step, so nothing is re-interpreted on the way down. A person's Business Intent sits one level above it (ADR 031).
 3. **Loops that keep stored intent true.** Five loops — understand, shape, execute, change, learn — each defined by the intent it must meet (ADR 028).
 
 IDD is the principle; IDSD is the system that makes it work; Garura is the reference implementation that proves it runs.
@@ -42,7 +42,7 @@ IDD is the principle; IDSD is the system that makes it work; Garura is the refer
 
 ## The Dual-Intent System
 
-IDSD operates with two distinct intents, and both take ICE form. This is how IDD's intent principles manifest when a system handles both business goals and lifecycle operations. How Garura gives each intent a home is in the [reference implementation](./garura-reference-implementation.md#where-each-intent-lives).
+IDSD operates with two distinct intents, and the work that carries either one takes ICE form. This is how IDD's intent principles manifest when a system handles both business goals and lifecycle operations. How Garura gives each intent a home is in the [reference implementation](./garura-reference-implementation.md#where-each-intent-lives).
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -126,7 +126,7 @@ Between the two handoffs the person follows along through the plan. They are ask
 
 ## ICE: The IDSD Model
 
-**ICE — Intent, Context, Expectation — is the shape both intents take.** Every piece of work takes ICE form, whether it carries business intent or SDLC intent. A person's Business Intent itself is not ICE: it is the person's interface — an outcome, why it matters, and the proof it is met — and the ICE built from it carries it into agent work. An ICE is worked on only when the business intent it is built from is confirmed (ADR 031). ICE is *what moves*; PCAM — Perception, Cognition, Action, Manifestation — is the design of the tool that moves it ([IDD](./intent-driven-development.md#pcam-the-design-that-drives-ice), ADR 027). The two are never merged.
+**ICE — Intent, Context, Expectation — is the shape of the work both intents drive.** Every piece of work takes ICE form, whether it carries business intent or SDLC intent. A person's Business Intent itself is not ICE: it is the person's interface — an outcome, why it matters, and the proof it is met — and the ICE built from it carries it into agent work. An ICE is worked on only when the business intent it is built from is confirmed (ADR 031). ICE is *what moves*; PCAM — Perception, Cognition, Action, Manifestation — is the design of the tool that moves it ([IDD](./intent-driven-development.md#pcam-the-design-that-drives-ice), ADR 027). The two are never merged.
 
 | Layer | What it holds | Authored or generated |
 |-------|---------------|-----------------------|

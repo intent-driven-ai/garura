@@ -40,19 +40,20 @@ product is aligned; they never stop a write. Drift is found and fixed by an **Al
 
 ICE lives inline in its capability's or functionality's grounding doc (spine v2). A play that
 finds ICE before the product has domains writes it on a **proposed capability with no domain
-yet**; `/vision` attaches the domain. The grounding linter reports a missing domain as a
+yet**; `/vision` attaches the domain — once it is taught to (Work This Creates); today it
+leaves capabilities that already exist as they are. The grounding linter reports a missing domain as a
 warning; a domain that is named but does not exist stays an error.
 
 ### 4. ICE is worked on only when its intent is confirmed
 
 A node's spine entry names, in `intents`, the business intents its ICE is built from. The ICE
-is **workable** only when at least one of them is confirmed. An ICE with none is kept as
+is **workable** only when at least one of them is confirmed (or, later, met). An ICE with none is kept as
 written, but no play plans, breaks down or builds from it. Workability is worked out from the
 link (`check_ice_workable.py`), not stored as a field, so it cannot drift from the link.
 
 ### 5. No approval stop inside a drive
 
-A drive may ask questions, but it does not stop for approval. Inside a drive `/intent` saves
+A drive may ask questions, but `/intent` inside a drive does not stop for approval. It saves
 every drafted intent as `proposed`; the person confirms or drops them at the drive's final
 review — the review and the pull request at its end. Until then their ICE is not workable.
 Run by hand, `/intent` asks the person to confirm or drop each intent before it saves anything:

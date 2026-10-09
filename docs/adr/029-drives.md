@@ -59,7 +59,7 @@ A drive ends in a score or a fail, and a review follows either way. How a finish
 | Play | What it does in Kickoff |
 |------|-------------------------|
 | `/intent` (new) | Reads the working prototype and pulls out the person's business intents and, under each, the ICE the prototype shows, written as proposed capabilities with no domain yet. Inside Kickoff it saves the intents as proposed; the person confirms them at the drive's end review (ADR 031) |
-| `/vision` | Takes those intents as its business goal, attaches the capabilities `/intent` wrote to domains, and writes what a prototype cannot show: the why, the bet, the scope, the grounding in the knowledge base, the rough product profile |
+| `/vision` | Takes those intents as its business goal, will attach the capabilities `/intent` wrote to domains (not built yet — #612 plan item 7; today it leaves existing capabilities as they are), and writes what a prototype cannot show: the why, the bet, the scope, the grounding in the knowledge base, the rough product profile |
 | `/understand` | Runs once for every capability `/vision` seeded, and details it |
 
 - **Goal:** from a working prototype, two outputs: the person gets a plan and its issues that break the confirmed intent into small pieces they can understand; the agents get a product model that holds the intent, a domain with its capabilities, and every capability detailed.
@@ -110,7 +110,7 @@ The product-model ontology (#597) is built alongside this work: the parts of it 
 ## Open Questions
 
 1. How a finished drive is reviewed (#617).
-2. How pinned gates fit a drive — settled in the later drive spikes (#608–#611).
+2. How pinned gates fit a drive — settled in the later drive spikes (#608–#611). Settled for `/intent` by ADR 031: its pinned confirm runs only by hand; inside a drive it does not stop, and the drive's end review confirms.
 
 Settled while locking: the one-issue rule (Kapil, 2026-10-07) — see section 3.
 
