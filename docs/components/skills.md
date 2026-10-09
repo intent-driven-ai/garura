@@ -44,7 +44,7 @@ Meta-utility skills:
 
 ## Available Skills
 
-Roughly 100 skills are authored in `core/components/skills/` (each with `user-invocable: false`). The roster, grouped by family — see each skill's `SKILL.md` frontmatter for its full description and model:
+Roughly 100 skills are authored in `core/components/skills/`, each with `user-invocable: false` except the meta-utility skills above (`build-product-ontology`). The roster, grouped by family — see each skill's `SKILL.md` frontmatter for its full description and model:
 
 | Family | Skills |
 |--------|--------|
