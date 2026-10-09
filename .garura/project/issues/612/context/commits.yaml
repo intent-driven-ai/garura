@@ -1,77 +1,46 @@
 commits:
-  - sha: 2b853087
-    message: "feat(intent): add the intent play with its business-intent-keeper agent and author-business-intent skill (#612)"
+  - sha: 030db9e0
+    message: "fix(intent): harden the intent play scripts and tests and align the agent status word and play text with the review (#612)"
     files:
-      - core/components/plays/intent/SKILL.md
-      - core/components/plays/intent/reference/ice.md
-      - core/components/plays/intent/stop-condition.yaml
       - core/components/plays/intent/scripts/capture_source.py
       - core/components/plays/intent/scripts/check_intent.py
-      - core/components/plays/intent/scripts/check_stop_condition.py
       - core/components/plays/intent/scripts/persist_intent.py
-      - core/components/plays/intent/scripts/preflight.py
-      - core/components/plays/intent/scripts/scoped_write_guard.py
-      - core/components/plays/intent/scripts/session_stamp.py
       - core/components/plays/intent/scripts/test_intent_scripts.py
+      - core/components/plays/intent/SKILL.md
+      - core/components/plays/intent/reference/ice.md
       - core/components/agents/business-intent-keeper.md
-      - core/components/skills/author-business-intent/SKILL.md
-      - docs/components/agents.md
     branch: feature/612-intent-play
-  - sha: 67bc4ae6
-    message: "feat(product-os): add the product ontology, the build-product-ontology skill and ice.yaml updates (#612)"
+  - sha: ea78aefa
+    message: "fix(product-os): say Functionality in the ontology, keep writes in a play's declared scope and bump ice.yaml to v2 with a migration note (#612)"
     files:
-      - core/components/skills/build-product-ontology/SKILL.md
-      - core/components/skills/build-product-ontology/scripts/check_ontology.py
-      - core/components/skills/build-product-ontology/scripts/test_check_ontology.py
-      - core/components/memory/standards/templates/product-ontology.md
-      - core/components/memory/standards/templates/_index.md
       - core/components/memory/standards/schemas/product-os/ontology.md
-      - core/components/memory/standards/schemas/product-os/_index.md
       - core/components/memory/standards/schemas/product-os/ice.yaml
+      - core/components/memory/standards/schemas/product-os/_index.md
+      - core/components/memory/standards/templates/product-ontology.md
       - core/components/memory/standards/rules/pipeline-next.md
+      - core/grounding/glossary.md
     branch: feature/612-intent-play
-  - sha: 2eb4c4c1
-    message: "feat(install-garura): exclude meta skills from the full install scope (#612)"
+  - sha: ef72bc31
+    message: "fix(install-garura): word the install scope to say the full set leaves out the meta-utility skills (#612)"
     files:
-      - core/components/plays/install-garura/SKILL.md
       - core/components/plays/install-garura/scripts/install.py
-      - .garura/install-manifest.json
+      - core/components/plays/install-garura/SKILL.md
+    branch: feature/612-intent-play
+  - sha: 003363e5
+    message: "test(build-product-ontology): add the four missing rule tests to the ontology checker (#612)"
+    files:
+      - core/components/skills/build-product-ontology/scripts/test_check_ontology.py
+    branch: feature/612-intent-play
+  - sha: 73a989db
+    message: "docs(skills): fix the skills roster intro (#612)"
+    files:
       - docs/components/skills.md
     branch: feature/612-intent-play
-  - sha: ff6aa2cd
-    message: "chore(stm): record the intent play plan, decisions, ontology run and token-burn trial (#612)"
-    files:
-      - .garura/project/issues/612/specs/plan.md
-      - .garura/project/issues/612/specs/decisions.md
-      - .garura/project/issues/612/specs/ontology-run.md
-      - .garura/project/issues/612/specs/trial-token-burn/answers.yaml
-      - .garura/project/issues/612/specs/trial-token-burn/intent-check.json
-      - .garura/project/issues/612/specs/trial-token-burn/intent-draft.yaml
-      - .garura/project/issues/612/specs/trial-token-burn/notes.md
-      - .garura/project/issues/612/specs/trial-token-burn/rerun-20261009-023928/answers.yaml
-      - .garura/project/issues/612/specs/trial-token-burn/rerun-20261009-023928/guard-report.json
-      - .garura/project/issues/612/specs/trial-token-burn/rerun-20261009-023928/intent-check-pass-a.json
-      - .garura/project/issues/612/specs/trial-token-burn/rerun-20261009-023928/intent-check-pass-b.json
-      - .garura/project/issues/612/specs/trial-token-burn/rerun-20261009-023928/intent-draft-pass-a.yaml
-      - .garura/project/issues/612/specs/trial-token-burn/rerun-20261009-023928/intent-draft-pass-b.yaml
-      - .garura/project/issues/612/specs/trial-token-burn/rerun-20261009-023928/stop-condition-intent.yaml
-      - .garura/project/issues/612/context/ontology-check.json
-      - .garura/project/issues/612/context/plan-check.json
-      - .garura/project/issues/612/context/porcelain.txt
-      - .garura/project/issues/612/context/analysis.yaml
-    branch: feature/612-intent-play
-  - sha: 59d06cac
-    message: "chore(stm): update the plan (#606)"
-    files:
-      - .garura/project/issues/606/specs/plan.md
-    branch: feature/612-intent-play
-  - sha: 691c2030
-    message: "chore(stm): update the plan (#616)"
-    files:
-      - .garura/project/issues/616/specs/plan.md
-    branch: feature/612-intent-play
 excluded_files:
-  []
+  - path: ".garura/project/issues/612/context/analysis.yaml"
+    reason: "this analysis file itself (scan artifact, rewritten each run); STM evidence, not part of the change"
+  - path: ".garura/project/issues/612/context/porcelain.txt"
+    reason: "scan artifact (git status snapshot) rewritten each run; STM evidence, not part of the change"
 leftover_count: 0
 tree_clean: true
 pushed: false
