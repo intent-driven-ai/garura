@@ -160,7 +160,7 @@ proposed → confirmed (the person who asked confirms it says the right thing) �
 
 **Rules**
 
-- It is workable only when it is built from at least one confirmed business intent. An ICE with no business intent, or only proposed ones, is kept as written but no play plans, breaks down or builds from it; linking it to a confirmed intent makes it workable.
+- It is workable only when it is built from at least one confirmed business intent (or one since met). An ICE with no business intent, or only proposed ones, is kept as written but no play plans, breaks down or builds from it; linking it to a confirmed intent makes it workable.
 - Writing it is never blocked: any play may write or add to it, inside that play's declared write scope.
 - Once aligned, one part of the product has one ICE; two ICE for the same part are drift for alignment to merge.
 
@@ -189,6 +189,6 @@ proposed → confirmed (the person who asked confirms it says the right thing) �
 - 2026-10-08 — First version, built with Kapil through `build-product-ontology` for #612: six questions; kinds Business Intent, Source and ICE (reused from `ice.yaml`); Work, Tracker Issue, Domain, Capability and Function named but not yet defined. Working notes: `.garura/project/issues/612/specs/ontology-run.md`.
 - 2026-10-08 — v2: a Source is anything that explains the intent — a prototype, a document, or a plain statement — not only a prototype (Kapil, approving `/intent`'s intent). Snapshot and Kind widened to match.
 - 2026-10-08 — A Source may be a project folder (its written docs are kept; the running app is captured as a second, site Source).
-- 2026-10-09 — v3 (Kapil, #612): no play owns a kind — any play writes what it finds, in any order; rules say what holds once aligned and never block a write; drift goes to the Alignment drive. Only a person confirms or drops a business intent. ICE may be written before it is placed (`product-os/ice/<id>.yaml`, goals first); the writer rule for ICE is gone.
+- 2026-10-09 — v3 (Kapil, #612): no play owns a kind — any play writes what it finds, in any order; rules say what holds once aligned and never block a write; drift goes to the Alignment drive. Only a person confirms or drops a business intent. The writer rule for ICE is gone. (Where ICE lives and when it is workable: see the next entry, which replaced a first idea of separate ICE files.)
 - 2026-10-09 — Review of #631: "Function" renamed "Functionality" to match the glossary and the spine; any play may write a kind only inside its own declared write scope (`direct-model-write.md`).
 - 2026-10-09 — Kapil, on review of #631: ICE lives inline in its node's grounding doc (spine v2), never as a separate file; a capability may exist before its domain (`/vision` attaches it); an ICE is workable only when built from a confirmed business intent (spine `intents`) — unlinked ICE is kept, not worked on, never blocked.

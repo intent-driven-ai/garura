@@ -148,6 +148,9 @@ enhance_rules:
   immutable_in_v1: [structure.levels]   # the 3-level shape is fixed for v1
 
 # ---- Storage layout (the product-os folder) --------------------------------
+# NOTE: the v1 per-node layout below (node.yaml, ice.yaml) is superseded by spine.yaml v2's
+# on-disk layout — structure in _spine.yaml, ICE inline in the grounding docs. Kept for v1
+# records only.
 # Two lifecycle tiers live here:
 #   PERMANENT  — structure, ICE, decisions, the 5 lenses, and epics: epics are
 #                written by /grill and stamped `delivered` (kept) when their issue
