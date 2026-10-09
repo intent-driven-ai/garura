@@ -126,7 +126,7 @@ Between the two handoffs the person follows along through the plan. They are ask
 
 ## ICE: The IDSD Model
 
-**ICE — Intent, Context, Expectation — is the shape both intents take.** Every piece of work takes ICE form, whether it carries business intent or SDLC intent. ICE is *what moves*; PCAM — Perception, Cognition, Action, Manifestation — is the design of the tool that moves it ([IDD](./intent-driven-development.md#pcam-the-design-that-drives-ice), ADR 027). The two are never merged.
+**ICE — Intent, Context, Expectation — is the shape both intents take.** Every piece of work takes ICE form, whether it carries business intent or SDLC intent. A person's Business Intent itself is not ICE: it is the person's interface — an outcome, why it matters, and the proof it is met — and the ICE built from it carries it into agent work. An ICE is worked on only when the business intent it is built from is confirmed (ADR 031). ICE is *what moves*; PCAM — Perception, Cognition, Action, Manifestation — is the design of the tool that moves it ([IDD](./intent-driven-development.md#pcam-the-design-that-drives-ice), ADR 027). The two are never merged.
 
 | Layer | What it holds | Authored or generated |
 |-------|---------------|-----------------------|

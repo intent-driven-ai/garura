@@ -1,6 +1,6 @@
 # ADR 029 — Drives: A Run of Plays That Ends in a Score or a Fail
 
-**Status:** Accepted — amended in part by [ADR 030](030-plan-mode.md): a drive keeps one work plan for all its plays, and its big plan updates are approved together at its end review.
+**Status:** Accepted — amended in part by [ADR 030](030-plan-mode.md): a drive keeps one work plan for all its plays, and its big plan updates are approved together at its end review; and by [ADR 031](031-business-intent-and-ice.md): `/intent` yields business intents with ICE under them, and a drive asks questions but never stops for approval.
 **Date:** 2026-10-07 (proposed and accepted)
 **Supersedes:** ADR 003 (guardian approval), in full · ADR 002 (checkpoint model) and ADR 028 (five loops), in part
 **Decided in:** #607 (spike: the first loop's recipe), under #594 and business intent #606
@@ -58,8 +58,8 @@ A drive ends in a score or a fail, and a review follows either way. How a finish
 
 | Play | What it does in Kickoff |
 |------|-------------------------|
-| `/intent` (new) | Reads the working prototype and pulls out the intent: goal, constraints, failure conditions |
-| `/vision` | Takes that intent as its business goal and writes what a prototype cannot show: the why, the bet, the scope, the grounding in the knowledge base, the rough product profile |
+| `/intent` (new) | Reads the working prototype and pulls out the person's business intents and, under each, the ICE the prototype shows, written as proposed capabilities with no domain yet. Inside Kickoff it saves the intents as proposed; the person confirms them at the drive's end review (ADR 031) |
+| `/vision` | Takes those intents as its business goal, attaches the capabilities `/intent` wrote to domains, and writes what a prototype cannot show: the why, the bet, the scope, the grounding in the knowledge base, the rough product profile |
 | `/understand` | Runs once for every capability `/vision` seeded, and details it |
 
 - **Goal:** from a working prototype, two outputs: the person gets a plan and its issues that break the confirmed intent into small pieces they can understand; the agents get a product model that holds the intent, a domain with its capabilities, and every capability detailed.

@@ -114,6 +114,12 @@ auto-approve out-of-box moves as low-impact — a safety regression. Writing bef
 and gating the COMMIT (not the disk write) keeps every guarantee: nothing out-of-box is
 *committed* without approval, and cancel reverts the uncommitted writes.
 
+**Declared exception — `/intent` run by hand (ADR 031).** A business intent becomes confirmed
+only on the person's typed confirmation, which a written file cannot carry, so `/intent` run by
+hand confirms first and writes after; a cancel writes nothing, so there is nothing to revert.
+Inside a drive it writes the intents as `proposed` with no checkpoint, and the drive's end
+review confirms them. Its writes still run through the scoped-write guard.
+
 ## The shared scoped-write guard
 
 Canonical script: `play-creator/references/scoped_write_guard.py`, stamped into each

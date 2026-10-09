@@ -25,7 +25,7 @@ Working the IDSD documentation through against what Garura actually ships surfac
 | Layer | What it is | Its model |
 |-------|------------|-----------|
 | **IDD** | The principles | The eight principles (P1–P8), compartmented evaluation, symptom-based feedback |
-| **IDSD** | The method — what every piece of work is made of | **ICE**. Business intent and SDLC intent both take ICE form; the loop (strategy ↔ implementation, joined by realize and learn) is how ICE moves |
+| **IDSD** | The method — what every piece of work is made of | **ICE**. Business intent and SDLC intent both take ICE form — the work that carries a person's Business Intent is ICE, while the Business Intent itself is the person-facing kind the ICE is built from (ADR 031); the loop (strategy ↔ implementation, joined by realize and learn) is how ICE moves |
 | **Agentic tool design** | How a tool drives ICE | **PCAM** |
 | **Garura** | The reference implementation of PCAM | Plays, agents, skills, memory, checkers |
 
