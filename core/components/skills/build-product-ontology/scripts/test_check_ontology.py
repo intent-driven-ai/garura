@@ -121,6 +121,21 @@ def test_references():
     check("a bad status is caught", any("Status" in p for p in problems(doc(questions=q4))))
     both = doc(pending="- **Business Intent** — dup.\n- **Prototype** — a runnable example.")
     check("a kind both defined and pending is caught", any("both defined" in p for p in problems(both)))
+    q5 = "- **Q1** — Can a reader tell?\n  **Answered by:** Nothing we know\n  **Status:** partly\n"
+    check("an Answered by that names no known kind is caught",
+          any("names no known kind" in p for p in problems(doc(questions=q5))))
+
+
+def test_front_matter_and_headings():
+    no_field = doc().replace("updated: 2026-10-08\n", "")
+    check("a missing front-matter field is caught",
+          any("missing `updated`" in p for p in problems(no_field)))
+    bad_version = doc().replace("version: 1\n", "version: one\n")
+    check("a version that is not a whole number is caught",
+          any("whole number" in p for p in problems(bad_version)))
+    no_rel_heading = KIND.split("**Relationships**")[0] + "**Rules**" + KIND.split("**Rules**")[1]
+    check("a kind with no Relationships heading is caught",
+          any("no **Relationships** heading" in p for p in problems(doc(kinds=no_rel_heading))))
 
 
 def test_exit_codes():
@@ -143,7 +158,7 @@ def test_exit_codes():
 
 
 def main():
-    for test in (test_valid, test_structure, test_kind_parts, test_references, test_exit_codes):
+    for test in (test_valid, test_structure, test_kind_parts, test_references, test_exit_codes, test_front_matter_and_headings):
         print(test.__name__)
         test()
     print(f"\n{PASSED} passed, {FAILED} failed")
