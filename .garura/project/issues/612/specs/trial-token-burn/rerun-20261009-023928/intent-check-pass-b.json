@@ -1,0 +1,9 @@
+{
+  "clean": false,
+  "person_only": true,
+  "intents": 4,
+  "ice": 13,
+  "problems": [
+    "[collect-across-teams] needs the person: 1 open question(s)"
+  ]
+}

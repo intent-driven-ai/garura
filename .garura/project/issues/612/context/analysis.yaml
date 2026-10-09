@@ -1,0 +1,106 @@
+---
+needs_judgment: false
+
+change_groups:
+  - id: intent-play
+    issue: 612
+    commit_type: feat
+    scope: intent
+    subject: "add the intent play with its business-intent-keeper agent and author-business-intent skill"
+    files:
+      - core/components/plays/intent/SKILL.md
+      - core/components/plays/intent/reference/ice.md
+      - core/components/plays/intent/stop-condition.yaml
+      - core/components/plays/intent/scripts/capture_source.py
+      - core/components/plays/intent/scripts/check_intent.py
+      - core/components/plays/intent/scripts/check_stop_condition.py
+      - core/components/plays/intent/scripts/persist_intent.py
+      - core/components/plays/intent/scripts/preflight.py
+      - core/components/plays/intent/scripts/scoped_write_guard.py
+      - core/components/plays/intent/scripts/session_stamp.py
+      - core/components/plays/intent/scripts/test_intent_scripts.py
+      - core/components/agents/business-intent-keeper.md
+      - core/components/skills/author-business-intent/SKILL.md
+      - docs/components/agents.md
+
+  - id: product-ontology
+    issue: 612
+    commit_type: feat
+    scope: product-os
+    subject: "add the product ontology, the build-product-ontology skill and ice.yaml updates"
+    files:
+      - core/components/skills/build-product-ontology/SKILL.md
+      - core/components/skills/build-product-ontology/scripts/check_ontology.py
+      - core/components/skills/build-product-ontology/scripts/test_check_ontology.py
+      - core/components/memory/standards/templates/product-ontology.md
+      - core/components/memory/standards/templates/_index.md
+      - core/components/memory/standards/schemas/product-os/ontology.md
+      - core/components/memory/standards/schemas/product-os/_index.md
+      - core/components/memory/standards/schemas/product-os/ice.yaml
+      - core/components/memory/standards/rules/pipeline-next.md
+
+  - id: install-exclude-meta-skills
+    issue: 612
+    commit_type: feat
+    scope: install-garura
+    subject: "exclude meta skills from the full install scope"
+    files:
+      - core/components/plays/install-garura/SKILL.md
+      - core/components/plays/install-garura/scripts/install.py
+      - .garura/install-manifest.json
+      - docs/components/skills.md
+
+  - id: issue-612-records
+    issue: 612
+    commit_type: chore
+    scope: stm
+    subject: "record the intent play plan, decisions, ontology run and token-burn trial"
+    files:
+      - .garura/project/issues/612/specs/plan.md
+      - .garura/project/issues/612/specs/decisions.md
+      - .garura/project/issues/612/specs/ontology-run.md
+      - .garura/project/issues/612/specs/trial-token-burn/answers.yaml
+      - .garura/project/issues/612/specs/trial-token-burn/intent-check.json
+      - .garura/project/issues/612/specs/trial-token-burn/intent-draft.yaml
+      - .garura/project/issues/612/specs/trial-token-burn/notes.md
+      - .garura/project/issues/612/specs/trial-token-burn/rerun-20261009-023928/answers.yaml
+      - .garura/project/issues/612/specs/trial-token-burn/rerun-20261009-023928/guard-report.json
+      - .garura/project/issues/612/specs/trial-token-burn/rerun-20261009-023928/intent-check-pass-a.json
+      - .garura/project/issues/612/specs/trial-token-burn/rerun-20261009-023928/intent-check-pass-b.json
+      - .garura/project/issues/612/specs/trial-token-burn/rerun-20261009-023928/intent-draft-pass-a.yaml
+      - .garura/project/issues/612/specs/trial-token-burn/rerun-20261009-023928/intent-draft-pass-b.yaml
+      - .garura/project/issues/612/specs/trial-token-burn/rerun-20261009-023928/stop-condition-intent.yaml
+      - .garura/project/issues/612/context/ontology-check.json
+      - .garura/project/issues/612/context/plan-check.json
+      - .garura/project/issues/612/context/porcelain.txt
+      - .garura/project/issues/612/context/analysis.yaml
+
+  - id: issue-606-plan
+    issue: 606
+    commit_type: chore
+    scope: stm
+    subject: "update the plan"
+    files:
+      - .garura/project/issues/606/specs/plan.md
+
+  - id: issue-616-plan
+    issue: 616
+    commit_type: chore
+    scope: stm
+    subject: "update the plan"
+    files:
+      - .garura/project/issues/616/specs/plan.md
+
+exclusions:
+  []
+
+risks:
+  sensitive_files:
+    []
+  breaking_changes: []
+  ambiguous_types: []
+  hotfix_branch: false
+
+eval_gates:
+  SE-1: {status: PASS, evidence: "all 47 changed files assigned to exactly one group; no exclusions; nothing under core/tools/play-reviewer"}
+  SE-5: {status: PASS, evidence: "no sensitive patterns matched (name matches on 'token-burn' are the trial name, not credentials; content grep clean)"}

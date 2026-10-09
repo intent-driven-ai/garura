@@ -1,0 +1,364 @@
+intents:
+- id: token-economics
+  title: Know how AI tokens are spent, and whether they bring in value
+  outcome: For every team, it is clear what its AI spend is, what that spend goes to, and what it delivers
+    in return, so the spend can be shown to pay back.
+  why: AI spend is growing, and we need to show it pays back.
+  asked_by: Kapil Viren Ahuja
+  proof: Each team can show what its AI spend is and what it is delivering.
+  must_not: Never present an estimate as an exact count, and never change how usage is counted without
+    saying so.
+  provenance:
+    title: person
+    outcome: person
+    why: person
+    asked_by: person
+    proof: person
+    must_not: source
+- id: harness-autonomy
+  title: Know whether the harnesses we build are useful and drive agent autonomy
+  outcome: For every harness we build, we can see whether it is useful and how far it lets agents work
+    on their own, so we keep the ones that earn the time put into them.
+  why: Building harnesses is a real investment of time, and they are meant to give value back. We need
+    to see which ones work, by seeing the ones that drive autonomy and deliver quality, consistent results.
+  asked_by: Kapil Viren Ahuja
+  proof: How each harness is used shows how much autonomy it gives the agents.
+  must_not: Do not judge harnesses on the quality or consistency of their results here; that comes later,
+    from another part of the control tower.
+  provenance:
+    title: person
+    outcome: person
+    why: person
+    asked_by: person
+    proof: person
+    must_not: person
+- id: framework-adoption
+  title: Drive adoption of the frameworks across teams, instead of ad hoc vibe coding
+  outcome: Across teams, it is clear who works through the frameworks and who uses AI ad hoc, without
+    a method, and more of the work moves onto the frameworks.
+  why: Clients and leaders need to see that AI work follows a method, not luck.
+  asked_by: Kapil Viren Ahuja
+  proof: People on each team use the harnesses consistently, and their autonomy score rises.
+  must_not: ''
+  provenance:
+    title: person
+    outcome: person
+    why: person
+    asked_by: person
+    proof: person
+    must_not: ''
+- id: collect-across-teams
+  title: Collect this data across teams, rolled up from each person to team, account and unit
+  outcome: The AI numbers are gathered every day from everyone signed up, and add up from each person
+    to their team, account and unit, so every leader sees the picture for the people they lead.
+  why: 'Teams work together to deliver results, so roll-ups are critical: from each individual, to the
+    team, the account and the unit.'
+  asked_by: Kapil Viren Ahuja
+  proof: An automatic job collects the data every day from everyone signed up to the tool. Each person
+    sees their own numbers, and the leaders of a team, an account or a unit see the totals for their group
+    and can drill down into the parts below it.
+  must_not: Never let prompts, file locations or raw records into the numbers that leave a person's machine,
+    and never send them anywhere without their owner's clear go-ahead.
+  provenance:
+    title: person
+    outcome: person
+    why: person
+    asked_by: person
+    proof: person
+    must_not: source
+ice:
+- id: ai-spend-in-money
+  title: What AI work costs in money, and where the bill is heading
+  built_from: token-economics
+  goals:
+  - See what AI work has cost in total, over the last month and per working day, and judge whether the
+    spend is in line with what was expected.
+  - See the cost of each day and of each model, and tell which days and which models push the bill up.
+- id: what-drives-the-bill
+  title: Which kind of AI usage drives the bill
+  built_from: token-economics
+  goals:
+  - See how much of the usage and how much of the cost comes from each kind of usage (new instructions,
+    context saved for reuse, saved context read back, and the answers the AI writes), and decide where
+    a change in how work is run would cut the bill most.
+  - Tell when a large share of usage costs very little, so sheer volume is never mistaken for spend.
+- id: kinds-of-work
+  title: Which kinds of work AI is spent on
+  built_from: token-economics
+  goals:
+  - See what share of AI usage each kind of work takes, such as building, client work, writing, tooling,
+    leadership and personal work, and judge whether AI effort goes to the work that matters most.
+  - For the heaviest days, see which kind of work caused them, and decide whether those spikes were worth
+    it.
+  - Correct the kind of work a day is filed under when it is wrong, and have that correction hold from
+    then on.
+- id: ai-use-over-time
+  title: How much AI work there is, and how that changes
+  built_from: token-economics
+  goals:
+  - See the total amount of AI work, the busiest day, and the weekly and monthly averages, and judge whether
+    the amount spent on AI is growing, holding or falling.
+  - See every day and every week side by side, and spot quiet stretches and sudden spikes that are worth
+    a closer look.
+- id: tool-split
+  title: Which AI tool carries the work
+  built_from: token-economics
+  goals:
+  - See how much of the AI work, and how many working sessions, run through each AI tool, and judge how
+    heavily the work leans on one tool.
+- id: model-mix-moves
+  title: Moving work onto newer models
+  built_from: token-economics
+  goals:
+  - See each model's share of AI usage and, day by day, which models were in use, and tell whether moves
+    to newer models happen fully and consistently or older models linger.
+- id: model-per-workflow
+  title: The right model for each repeated workflow
+  built_from: token-economics
+  goals:
+  - For each repeated workflow, see what a typical run costs on each model and which model is suggested,
+    and decide which model to run it on.
+  - Tell how much weight a suggestion carries from how many runs it rests on.
+  - Compare models across all workflows by the typical cost of a run, and see when a few heavy runs distort
+    the average.
+- id: workflow-cost
+  title: What each repeated workflow and each project costs
+  built_from: token-economics
+  goals:
+  - See the total usage of each repeated workflow, grouped by project, and judge which workflows and which
+    projects take the most AI spend.
+- id: trust-the-numbers
+  title: How far the numbers can be trusted
+  built_from: token-economics
+  goals:
+  - Tell for any figure whether it is an exact count, and which days were counted the old way and are
+    likely about three times too high.
+  - Know how up to date the numbers and the prices behind them are, which days have no cost breakdown,
+    and which work is left out of the count, so no judgement rests on missing or stale figures.
+  - Rely on past days staying on record even after the records they came from are cleared away.
+- id: workflow-steering
+  title: How much a person has to steer each workflow and model
+  built_from: harness-autonomy
+  goals:
+  - For each repeated workflow, see how many messages a person sends per run, and tell which ones let
+    the agent finish with little steering and which still need a lot.
+  - Across all workflows, see how much steering each model needs per run, and tell which models work most
+    on their own.
+  - Decide which workflows to rework or stop because people have to steer them far more than the rest.
+- id: framework-use
+  title: Which frameworks' workflows are really used
+  built_from: framework-adoption
+  goals:
+  - For each project, see which of its repeated workflows are run and how often, and tell which frameworks
+    are in real use and which are barely touched.
+- id: steady-daily-use
+  title: Whether AI is used every day or in bursts
+  built_from: framework-adoption
+  goals:
+  - See the current and the longest run of days with AI work, and the share of all days that had any,
+    and judge whether AI has become a daily way of working or is used only in bursts.
+- id: safe-to-share
+  title: Sharing the numbers without exposing private work
+  built_from: collect-across-teams
+  goals:
+  - Know that the numbers prepared for sharing hold only figures and general labels, with no client or
+    project names, prompts, file locations or raw records, and decide when it is safe to share them.
+  - Keep each person's numbers on their own machine until they agree to share them.
+sources:
+- snapshot_dir: .garura/product/_evidence/intent/20261009-023928/source-app
+  shows: A running dashboard of one person's AI usage, read from that person's own records, in four views.
+    The first shows how much AI work happened over time, how steady it was, which AI tool and which kind
+    of work it went to, and the last month day by day. The second shows which AI models were used and
+    how use moved to newer ones; the third shows what each repeated workflow costs on each model, how
+    much steering it needed, and which model to pick; the fourth shows the cost in money and what drives
+    it.
+- snapshot_dir: .garura/product/_evidence/intent/20261009-023928/source-project
+  shows: 'The written notes behind the same dashboard: its purpose, how it counts AI usage and files each
+    day under a kind of work, and how it refreshes itself every night. They set firm rules: count only
+    exact usage, never estimates; keep history even when old records are cleared; and keep the shareable
+    numbers free of names, prompts and file locations, sending nothing anywhere without the owner''s go-ahead.
+    They also note the dashboard grew from a starter kit that tracked more tools, some only by estimate.'
+coverage:
+- part: Total AI work to date, the busiest day, and the weekly and monthly averages
+  ice: ai-use-over-time
+- part: The calendar of every day, shaded so quiet days and spikes show together
+  ice: ai-use-over-time
+- part: The week-by-week trend of AI work, from the first week to now
+  ice: ai-use-over-time
+- part: 'The last month day by day: total AI work and its seven-day average'
+  ice: ai-use-over-time
+- part: The current run of days with AI work, the longest run, and active days out of all days
+  ice: steady-daily-use
+- part: The split of AI work between the two AI tools, both counted exactly
+  ice: tool-split
+- part: 'The last month day by day: AI work and working sessions per tool'
+  ice: tool-split
+- part: The share of AI work each kind of work takes
+  ice: kinds-of-work
+- part: The heaviest single day overall and per tool, with the kind of work behind it
+  ice: kinds-of-work
+- part: 'The last month day by day: the kind of work each day is filed under'
+  ice: kinds-of-work
+- part: 'The guiding question printed on every view: what should the computer do next'
+  ice: kinds-of-work
+- part: The warning that some days were counted the old way and are likely about three times too high
+  ice: trust-the-numbers
+- part: The reminder to keep private names and raw records out of anything shared
+  ice: safe-to-share
+- part: Each model's share of AI work
+  ice: model-mix-moves
+- part: Day by day, how much work each model did, showing the move to newer models
+  ice: model-mix-moves
+- part: The note that model shares cover only days still on record, so they lean to recent work
+  ice: trust-the-numbers
+- part: Across all workflows, the typical and the average cost of a run on each model
+  ice: model-per-workflow
+- part: Across all workflows, how many messages the person sends per run on each model
+  ice: workflow-steering
+- part: For each workflow, grouped by project, its total usage
+  ice: workflow-cost
+- part: For each workflow, grouped by project, how many times it was run
+  ice: framework-use
+- part: For each project, how many of its workflows were used and how many runs they had in all
+  ice: framework-use
+- part: The note that workflow costs count only the main session, not the helper agents it starts
+  ice: trust-the-numbers
+- part: For each workflow, the typical cost of a run on each model, and the suggested model
+  ice: model-per-workflow
+- part: The note on each suggestion that few runs make it only a hint
+  ice: model-per-workflow
+- part: For each workflow, how many messages the person sends per run on each model
+  ice: workflow-steering
+- part: Total cost, cost for the last month, cost per working day, and total usage including cheap re-read
+    context
+  ice: ai-spend-in-money
+- part: Usage and cost split by kind of usage, showing that most usage costs little
+  ice: what-drives-the-bill
+- part: Usage and cost per model
+  ice: ai-spend-in-money
+- part: Usage and cost day by day
+  ice: ai-spend-in-money
+- part: The note on where prices come from, how often they are checked, and which days lack a breakdown
+  ice: trust-the-numbers
+- part: 'The stated purpose: show where the AI spend goes, by day and by kind of work'
+  ice: kinds-of-work
+- part: Only tools with exact records are counted; chat tools are left out rather than estimated
+  ice: trust-the-numbers
+- part: Usage counts only real work by default, leaving out cheap re-read context unless asked
+  ice: trust-the-numbers
+- part: Days are counted in Indian time
+  ice: trust-the-numbers
+- part: Some private work is left out of the count on purpose
+  ice: trust-the-numbers
+- part: The rules that file each day under one kind of work, from where the work was done and what it
+    touched
+  ice: kinds-of-work
+- part: The kinds of work can be renamed or extended, and a project can be dropped from tracking
+  ice: kinds-of-work
+- part: Hand corrections to a day's kind of work, which survive every refresh
+  ice: kinds-of-work
+- part: Past days are kept even when the records they came from are cleared, with a backup before each
+    update
+  ice: trust-the-numbers
+- part: The numbers refresh on their own every night
+  ice: trust-the-numbers
+- part: Work done by helper agents is counted once, under the project that started it
+  ice: trust-the-numbers
+- part: The shareable numbers hold only figures and general labels, never names, prompts or file locations
+  ice: safe-to-share
+- part: Nothing is sent anywhere, or published, until the owner checks it is clean and says so
+  ice: safe-to-share
+- part: The starter kit it grew from, which also tracked chat tools by estimate
+  ice: trust-the-numbers
+questions:
+- intent: all
+  ask: Is there an intent you hold that these sources do not show, or one here that is not deep enough?
+  examples:
+  - Collect these numbers from many people, not just one.
+  - Show whether AI work follows a set method or is done ad hoc.
+  - None, these cover it.
+  answer: when i read these, they dont sound liek intent. foe example kapil knows how much AI work happens...
+    this isnt intent. intent will be deeper. / intents — 1) token economics aka how ar tokens spent and
+    are they bringing in value. 2) When we build harness, are they bring useful, driving agent autonomy?
+    3) drive adotion across teams, who is adopting frameworks or are they using it like vibe coding. and
+    4) collect this data across team(2) -> this one isnt in dashboard as this was created as concept..
+    this is the intent that i want to run with
+- intent: token-economics
+  ask: Why does it matter to the business to know how AI tokens are spent and whether they bring in value?
+  examples:
+  - AI spend is growing, and we need to show it pays back.
+  - We need to know which work is worth handing to AI, and which is not.
+  - We pick models and plans by habit today, not by cost and value.
+  answer: AI spend is growing and we need to show it pays back
+  picked: true
+- intent: token-economics
+  ask: How will we know this intent is met?
+  examples:
+  - Cost per piece of finished work goes down month on month.
+  - Each team can show what its AI spend delivered.
+  - We can name the workflows where AI does not pay back, and stop or change them.
+  answer: each team can show what its AI spend is and what they are delivering
+- intent: harness-autonomy
+  ask: Why does it matter to the business whether the harnesses we build are useful and drive autonomy?
+  examples:
+  - We put real effort into building harnesses, and we need to know which ones earn it.
+  - More agent autonomy means people spend less time steering, so they can do more.
+  - We want to keep the harnesses that work and stop building ones that do not.
+  answer: building harness are real time investment, and they are supposed to prvide value. we need to
+    see which one works, by seeign the ones that are driving autonomy and delivering quality and consistent
+    results
+- intent: harness-autonomy
+  ask: How will we know this intent is met?
+  examples:
+  - Each harness shows how often agents finish without a person stepping in, the quality of what they
+    deliver, and how alike the results are from run to run.
+  - Harnesses that do not improve autonomy or quality within a set time are reworked or retired.
+  - Fewer steering messages per finished task, release after release.
+  answer: harness usage will have autonomy scope. consistent and quality comes from another part of control
+    tower later.
+- intent: framework-adoption
+  ask: Why does it matter to the business that teams adopt the frameworks?
+  examples:
+  - Work done through the frameworks is repeatable and can be checked; vibe-coded work is not.
+  - The frameworks are where we put our investment and our learning; if teams skip them, the investment
+    is lost.
+  - Clients and leaders need to see that AI work follows a method, not luck.
+  answer: Clients and leaders need to see that AI work follows a method, not luck.
+  picked: true
+- intent: framework-adoption
+  ask: How will we know this intent is met?
+  examples:
+  - For each team, we see what share of its AI work runs through the frameworks, and that share goes up
+    over time.
+  - Every team has at least one person who uses the frameworks each week.
+  - Leaders can see, for any team, how much of its AI work followed a method.
+  answer: people on team are using harness  consitently and also we see autonmy score rise
+- intent: collect-across-teams
+  ask: Why does it matter to the business to collect this data across teams?
+  examples:
+  - One person's numbers prove nothing; the first three intents only work if every team's data is in.
+  - Leaders need one view of AI spend, harness use and adoption across the whole organisation.
+  - Teams can compare themselves and learn from the ones that do it well.
+  answer: teams work together to deliver results.. roll-ups will be critial. rollups are - individual,
+    team, account, unit
+- intent: collect-across-teams
+  ask: How will we know this intent is met?
+  examples:
+  - Every person on the pilot teams sends their data each day, and it rolls up to team, account, and unit
+    with no manual work.
+  - One account sees its full roll-up, from each person up to the account, every week.
+  - Each unit's leader can see the roll-up for every team and account in their unit.
+  answer: data is collected thru autoated script every day from the peple who are signed up on this tool
+    and each leader can see it - intividual's lead is self. and team, account and unit can see cumulative
+    and roll-downs
+- intent: collect-across-teams
+  ask: 'Today''s written rules keep each person''s numbers private: no client or project names, no prompts,
+    no file locations, and nothing sent anywhere without the owner''s go-ahead. A roll-up from each person
+    to team, account and unit needs to know who each person is and where they belong, and the workflow
+    view already names projects. What may the collected numbers carry?'
+  examples:
+  - Person, team, account and unit names, but never prompts, file locations or raw records.
+  - Team, account and unit names only; a person's own numbers show by name only to that person and their
+    lead.
+  - All of that plus project names, so leaders can see which work the spend went to.
+  answer: ''

@@ -1,0 +1,76 @@
+answered_by: Kapil Viren Ahuja
+note: Replayed from the first trial (2026-10-08) for an unattended re-run. Replies are Kapil's exact words;
+  offered lists the example answers shown with each question then.
+answers:
+- about: the drafted intents (all ten)
+  reply: when i read these, they dont sound liek intent. foe example kapil knows how much AI work happens...
+    this isnt intent. intent will be deeper.
+  volunteered: true
+- about: the intents, replacing the ten
+  reply: intents — 1) token economics aka how ar tokens spent and are they bringing in value. 2) When
+    we build harness, are they bring useful, driving agent autonomy? 3) drive adotion across teams, who
+    is adopting frameworks or are they using it like vibe coding. and 4) collect this data across team(2)
+    -> this one isnt in dashboard as this was created as concept.. this is the intent that i want to run
+    with
+  volunteered: true
+- about: token-economics — why
+  reply: AI spend is growing and we need to show it pays back
+  offered:
+  - AI spend is growing, and we need to show it pays back.
+  - We need to know which work is worth handing to AI, and which is not.
+  - We pick models and plans by habit today, not by cost and value.
+  picked: true
+- about: token-economics — proof
+  reply: each team can show what its AI spend is and what they are delivering
+  offered:
+  - Cost per piece of finished work goes down month on month.
+  - Each team can show what its AI spend delivered.
+  - We can name the workflows where AI does not pay back, and stop or change them.
+- about: harness-autonomy — why
+  reply: building harness are real time investment, and they are supposed to prvide value. we need to
+    see which one works, by seeign the ones that are driving autonomy and delivering quality and consistent
+    results
+  offered:
+  - We put real effort into building harnesses, and we need to know which ones earn it.
+  - More agent autonomy means people spend less time steering, so they can do more.
+  - We want to keep the harnesses that work and stop building ones that do not.
+- about: harness-autonomy — proof
+  reply: harness usage will have autonomy scope. consistent and quality comes from another part of control
+    tower later.
+  offered:
+  - Each harness shows how often agents finish without a person stepping in, the quality of what they
+    deliver, and how alike the results are from run to run.
+  - Harnesses that do not improve autonomy or quality within a set time are reworked or retired.
+  - Fewer steering messages per finished task, release after release.
+- about: framework-adoption — why
+  reply: Clients and leaders need to see that AI work follows a method, not luck.
+  offered:
+  - Work done through the frameworks is repeatable and can be checked; vibe-coded work is not.
+  - The frameworks are where we put our investment and our learning; if teams skip them, the investment
+    is lost.
+  - Clients and leaders need to see that AI work follows a method, not luck.
+  typed: 3rd
+  picked: true
+- about: framework-adoption — proof
+  reply: people on team are using harness  consitently and also we see autonmy score rise
+  offered:
+  - For each team, we see what share of its AI work runs through the frameworks, and that share goes up
+    over time.
+  - Every team has at least one person who uses the frameworks each week.
+  - Leaders can see, for any team, how much of its AI work followed a method.
+- about: collect-across-teams — why
+  reply: teams work together to deliver results.. roll-ups will be critial. rollups are - individual,
+    team, account, unit
+  offered:
+  - One person's numbers prove nothing; the first three intents only work if every team's data is in.
+  - Leaders need one view of AI spend, harness use and adoption across the whole organisation.
+  - Teams can compare themselves and learn from the ones that do it well.
+- about: collect-across-teams — proof
+  reply: data is collected thru autoated script every day from the peple who are signed up on this tool
+    and each leader can see it - intividual's lead is self. and team, account and unit can see cumulative
+    and roll-downs
+  offered:
+  - Every person on the pilot teams sends their data each day, and it rolls up to team, account, and unit
+    with no manual work.
+  - One account sees its full roll-up, from each person up to the account, every week.
+  - Each unit's leader can see the roll-up for every team and account in their unit.
