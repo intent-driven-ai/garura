@@ -17,8 +17,9 @@ host coding tool can discover them in the target.
   --target        the project directory to install into (a path, created if absent)
   --tool          which host tool to target: claude (default) or codex
   --scope         which component set to install: full (default, every
-                  component except the meta harness plays) or harness (meta
-                  plays + change chain + their workers only)
+                  component except the meta harness plays and the meta-utility
+                  skills) or harness (meta plays + meta-utility skills + change
+                  chain + their workers only)
   --source        the garura checkout to install FROM (auto-derived if omitted)
   --memory-dest   where shared memory goes (default ~/.garura/core/memory)
   --force-config  overwrite an existing target .garura/core/config.yaml
@@ -152,8 +153,8 @@ STATUS_GITIGNORE = (
 
 # A scope names WHICH components a target receives; everything else about the
 # install (shared memory, config, STM scaffold, manifest) is unchanged. `full`
-# is the default and installs every component EXCEPT the meta harness plays —
-# a product project's ADLC has no use for garura's own build tooling. `harness`
+# is the default and installs every component EXCEPT the meta harness plays and the
+# meta-utility skills — a product project's ADLC has no use for garura's own build tooling. `harness`
 # is for garura-style harness repos that must carry only the meta plays, the
 # change chain, and the workers those plays dispatch — nothing product-facing.
 # Membership is explicit and deterministic: when a kept play gains a new
@@ -199,7 +200,8 @@ def resolve_scope(scope, components):
 
     A value of None for a kind means "install every component of that kind".
     `harness` is a fixed allow-list. `full` is everything on disk EXCEPT the
-    meta harness plays, so it is resolved against the source tree at run time.
+    meta harness plays and the meta-utility skills, so it is resolved against the
+    source tree at run time.
     """
     if scope != "full":
         return SCOPES[scope]
@@ -333,8 +335,8 @@ def main(argv=None):
                     help="host tool to target (default: claude)")
     ap.add_argument("--scope", default="full", choices=sorted(SCOPES),
                     help="component set to install: full (default, every component "
-                         "except the meta harness plays) or harness "
-                         "(meta plays + change chain + their workers)")
+                         "except the meta harness plays and meta-utility skills) or harness "
+                         "(meta plays + meta-utility skills + change chain + their workers)")
     ap.add_argument("--source", help="garura checkout to install from (auto-derived if omitted)")
     ap.add_argument("--memory-dest", default="~/.garura/core/memory",
                     help="where shared memory goes (default ~/.garura/core/memory)")
