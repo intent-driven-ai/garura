@@ -49,3 +49,11 @@ Any play may write an ICE. It is workable only when its node's spine `intents` n
 confirmed business intent; otherwise it is kept but no play plans, breaks down or builds from
 it. Worked out from the link (`check_ice_workable.py`), not a separate status field.
 
+
+## D10 — No approval stop inside a drive; the drive's end is the review (2026-10-09)
+
+**Decided by:** Kapil — "no stop... drive can ask questions, but no need to approve. the last
+steps of a drive is where validation final review happens - that is the review, pr etc."
+Inside a drive `/intent` asks its questions but does not wait for approval: every drafted intent
+is saved as `proposed`, and the person confirms or drops it at the drive's final review. Until
+then its ICE is not workable (D9). Run by hand, `/intent` still asks for confirmation first.
