@@ -29,6 +29,9 @@ sys.path.insert(0, HERE)
 import capture_source as cs  # noqa: E402
 import check_intent as ci  # noqa: E402
 import persist_intent as pi  # noqa: E402
+import lint_grounding as lg  # noqa: E402
+
+import check_ice_workable as cw  # noqa: E402
 
 PASSED = 0
 FAILED = 0
@@ -77,8 +80,18 @@ INTENT_B = {
     "provenance": {"title": "person", "outcome": "person", "why": "person", "asked_by": "person",
                    "proof": "person"}}
 ICE_1 = {"id": "guest-checkout", "title": "Buy without an account", "built_from": "grow-online-sales",
+         "one_line": "Lets a shopper buy without making an account.",
+         "directional_intent": "Guest checkout is about letting a shopper finish a purchase with no "
+                               "account. It broadly owns the path from cart to paid order for a "
+                               "shopper who never signs up, and it matters because four in ten "
+                               "shoppers leave at the sign-up step.",
          "goals": ["A shopper with no account can buy, start to finish."]}
 ICE_2 = {"id": "saved-carts", "title": "Come back to a left cart", "built_from": "grow-online-sales",
+         "one_line": "Keeps a shopper's cart until they come back.",
+         "directional_intent": "Saved carts is about not losing a shopper who leaves halfway. It "
+                               "broadly owns keeping a cart and bringing it back on the next visit, "
+                               "and it matters because many carts are left half full and never "
+                               "bought.",
          "goals": ["A shopper who leaves finds the same cart waiting when they return."]}
 SNAP = "/evidence/source"
 EXAMPLES = ["Sales are flat.", "Shoppers leave at sign-up.", "Costs are rising."]
@@ -262,6 +275,10 @@ def test_check():
     bad["ice"][0]["goals"] = []
     check("an ICE with no goals is caught", any("has no goals" in p for p in ci.check(bad)["problems"]))
     bad = fresh()
+    del bad["ice"][1]["directional_intent"]
+    check("an ICE with no directional paragraph is caught",
+          any("no `directional_intent`" in p for p in ci.check(bad)["problems"]))
+    bad = fresh()
     bad["intents"][1]["provenance"]["outcome"] = "source"
     check("an intent the source shows with no ICE under it is caught",
           any("[know-the-customer] has no ICE" in p for p in ci.check(bad)["problems"]))
@@ -333,7 +350,12 @@ def intent_file(tmp, iid):
 
 
 def ice_file(tmp, cid):
-    return os.path.join(tmp, "product", "product-os", "ice", f"{cid}.yaml")
+    return os.path.join(tmp, "product", "product-os", "capabilities", cid, "capability.md")
+
+
+def spine_of(tmp):
+    with open(os.path.join(tmp, "product", "product-os", "_spine.yaml")) as fh:
+        return yaml.safe_load(fh)
 
 
 def test_persist():
@@ -343,18 +365,30 @@ def test_persist():
         m = read_json(os.path.join(working, "intent-manifest.json"))
         check("the manifest holds both, decided and linked",
               len(m["intents"]) == 2 and m["confirmed_and_decided"] and m["linked"] and m["sources_saved"])
+        caps = {c["id"]: c for c in spine_of(tmp)["capabilities"]}
+        cap = caps.get("guest-checkout", {})
+        check("each ICE is a proposed capability in the spine, no domain yet, built from its intent",
+              cap.get("status") == "proposed" and cap.get("detail") == "directional"
+              and cap.get("domain") == "" and cap.get("intents") == ["grow-online-sales"]
+              and cap.get("doc") == "capabilities/guest-checkout/capability.md")
         with open(ice_file(tmp, "guest-checkout")) as fh:
-            rec = yaml.safe_load(fh)["ice"]
-        check("each ICE is saved in the ICE shape, not yet placed, built from its intent",
-              rec["node_ref"] is None and rec["built_from"] == ["grow-online-sales"]
-              and rec["intent"]["goals"] == ICE_1["goals"] and "context" in rec and "expectations" in rec)
+            doc = fh.read()
+        check("its grounding doc carries the ICE goals inline",
+              doc.startswith("# Capability: Buy without an account") and ICE_1["goals"][0] in doc)
+        model = os.path.join(tmp, "product", "product-os")
+        errors, warnings = [], []
+        lg.check_spine(model, os.path.join(model, "_spine.yaml"), errors, warnings, {})
+        check("the grounding linter passes; 'no domain yet' is only a warning",
+              not errors and warnings and all("no domain yet" in w for w in warnings))
+        check("every capability it wrote is workable (its intent is confirmed)",
+              all(n["workable"] for n in cw.check(spine_of(tmp), os.path.join(model, "intents"))))
         with open(intent_file(tmp, "grow-online-sales")) as fh:
             body = fh.read()
-        check("the intent page names every source and its ICE",
+        check("the intent page names every source and its capabilities",
               body.count("source.md") == 2 and "**Sources:**" in body
-              and "guest-checkout.yaml" in body and "saved-carts.yaml" in body)
+              and "guest-checkout/capability.md" in body and "saved-carts/capability.md" in body)
         with open(intent_file(tmp, "know-the-customer")) as fh:
-            check("an intent with no ICE says so", "**ICE built from it:** none yet" in fh.read())
+            check("an intent with no ICE says so", "none yet" in fh.read().split("**ICE built from it")[1])
         for d in dirs:
             with open(os.path.join(d, "source.md")) as fh:
                 text = fh.read()
@@ -385,10 +419,32 @@ def test_persist():
                   and not os.path.exists(os.path.join(working, "intent-manifest.json")))
     with tempfile.TemporaryDirectory() as tmp:
         argv, working, _ = persist_setup(tmp, both())
+        model = os.path.join(tmp, "product", "product-os")
+        os.makedirs(model)
+        keep = {"domains": [{"id": "d1", "one_line": "x"}], "capabilities": [
+            {"id": "existing-cap", "domain": "d1", "one_line": "Already here."}], "functionalities": []}
+        with open(os.path.join(model, "_spine.yaml"), "w") as fh:
+            yaml.safe_dump(keep, fh)
+        check("an existing spine gains the new capabilities", pi.main(argv) == 0)
+        ids = [c["id"] for c in spine_of(tmp)["capabilities"]]
+        check("its existing entries are kept unchanged",
+              ids[0] == "existing-cap" and spine_of(tmp)["capabilities"][0] == keep["capabilities"][0]
+              and spine_of(tmp)["domains"] == keep["domains"] and set(ids[1:]) == {"guest-checkout", "saved-carts"})
+    with tempfile.TemporaryDirectory() as tmp:
+        argv, working, _ = persist_setup(tmp, both())
+        model = os.path.join(tmp, "product", "product-os")
+        os.makedirs(model)
+        with open(os.path.join(model, "_spine.yaml"), "w") as fh:
+            yaml.safe_dump({"capabilities": [{"id": "saved-carts", "domain": "d1"}]}, fh)
+        check("a capability id already in the spine is refused, and nothing is written",
+              pi.main(argv) == 2 and not os.path.exists(intent_file(tmp, "grow-online-sales"))
+              and not os.path.exists(ice_file(tmp, "guest-checkout")))
+    with tempfile.TemporaryDirectory() as tmp:
+        argv, working, _ = persist_setup(tmp, both())
         os.makedirs(os.path.dirname(ice_file(tmp, "saved-carts")))
         with open(ice_file(tmp, "saved-carts"), "w") as fh:
-            fh.write("ice: {}\n")
-        check("an existing ICE is never overwritten, and nothing is written",
+            fh.write("# Capability: Old\n")
+        check("an existing capability doc is never overwritten, and nothing is written",
               pi.main(argv) == 2 and not os.path.exists(intent_file(tmp, "grow-online-sales")))
     with tempfile.TemporaryDirectory() as tmp:
         argv, working, _ = persist_setup(tmp, both(), shows=False)

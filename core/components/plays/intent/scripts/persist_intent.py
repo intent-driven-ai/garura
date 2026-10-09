@@ -8,21 +8,24 @@ writes — the product model is the hand-off; no separate hand-off file is writt
 
   - `<product_base>product-os/intents/<id>.md` — one page per CONFIRMED intent, in plain words,
     in the shape of the ontology's example (title, outcome, why, asked by, proof it is met,
-    must not, stage, confirmed by and when, sources, its ICE).
-  - `<product_base>product-os/ice/<id>.yaml` — one ICE per ICE built from a confirmed intent, in
-    the `ice.yaml` shape: goals only, `node_ref` null (not yet placed), `built_from` its intent.
+    must not, stage, confirmed by and when, sources, the capabilities built from it).
+  - for each ICE built from a confirmed intent, a PROPOSED CAPABILITY (spine.yaml v2): an entry
+    appended to `<product_base>product-os/_spine.yaml` (status proposed, detail directional, no
+    domain yet — /vision attaches it — and `intents` naming the business intent), and its
+    grounding doc `product-os/capabilities/<id>/capability.md` with the ICE goals inline.
   - `<snapshot_dir>/source.md` — one Source record per Source (kind, read on, snapshot, what it
     shows, given by) naming every intent it shows: the link written on BOTH sides.
   - `<working>/intent-manifest.json` — the rollup the stop condition reads.
 
-ADDITIVE: an intent page or ICE file is never overwritten. A dropped intent, and the ICE built
-from it, are not saved. Every check runs before the first write, so a refusal writes nothing.
-It refuses (exit 2) when: an input is unreadable or of the wrong shape; the decisions are not
-the person's own typed replies; any drafted intent has no decision; no intent is confirmed; a
-confirmed intent misses a required property; an id is badly shaped (ids become file names, so
-only lower-case letters, digits and dashes) or repeated; a Source has no snapshot or no "what
-it shows"; or a page or ICE already exists. Only a person confirms (C4). No git, no network,
-no LLM.
+ADDITIVE: an intent page, a capability doc or an existing spine entry is never overwritten.
+A dropped intent, and the ICE built from it, are not saved. Every check runs before the first
+write, so a refusal writes nothing. It refuses (exit 2) when: an input is unreadable or of the
+wrong shape; the decisions are not the person's own typed replies; any drafted intent has no
+decision; no intent is confirmed; a confirmed intent misses a required property; an id is
+badly shaped (ids become file names, so only lower-case letters, digits and dashes) or
+repeated; an ICE lacks its name, one-line or directional paragraph; a Source has no snapshot or
+no "what it shows"; or a page, a doc or a spine entry already exists. Only a person confirms
+(C4). No git, no network, no LLM.
 
     python3 persist_intent.py --draft <working>/intent-draft.yaml \
         --confirmation <working>/confirmation.yaml \
@@ -53,17 +56,25 @@ class Refused(Exception):
     """A reason to write nothing, in plain words."""
 
 
-def ice_record(c, created_at):
-    """One ICE in the ice.yaml shape, goals only and not yet placed (ontology v3)."""
-    return {"schema": {"name": "ice", "version": 2},
-            "ice": {"id": str(c["id"]), "title": str(c.get("title") or ""), "node_ref": None,
-                    "built_from": [str(c["built_from"])],
-                    "intent": {"goals": [str(g) for g in c.get("goals") or []],
-                               "constraints": [], "failures": []},
-                    "context": {"persona": [], "systems": [], "scope": []},
-                    "expectations": {"outcomes": []},
-                    "metadata": {"created_by": "/intent", "updated_by": "/intent",
-                                 "created_at": created_at, "version": 1}}}
+SPINE = "_spine.yaml"
+CAP_DOC = "capabilities/{id}/capability.md"      # relative to product-os; /vision may move it
+
+
+def capability_entry(c):
+    """A proposed capability for one ICE, in the spine.yaml v2 shape. No domain yet — /vision
+    attaches it; `intents` names the business intent the ICE is built from (ontology v3)."""
+    return {"id": str(c["id"]), "slug": str(c["id"]), "domain": "",
+            "intents": [str(c["built_from"])], "status": "proposed", "detail": "directional",
+            "one_line": str(c["one_line"]).strip(), "doc": CAP_DOC.format(id=c["id"]),
+            "depends_on": [], "decisions": [], "personas": [], "journeys": [],
+            "metadata": {"created_by": "/intent", "updated_by": "/intent", "version": 1}}
+
+
+def capability_doc(c):
+    """The capability's grounding doc at the directional stage, its ICE goals written inline."""
+    goals = "\n".join(f"- {g}" for g in c.get("goals") or [])
+    return (f"# Capability: {c['title']}\n\n## Directional intent\n"
+            f"{str(c['directional_intent']).strip()}\n\nGoals:\n{goals}\n")
 
 
 def load_mapping(path, what):
@@ -146,29 +157,52 @@ def plan(args):
     kept = {str(i["id"]) for i in confirmed}
     all_ice = [c for c in (draft.get("ice") or []) if isinstance(c, dict) and c.get("id")]
     check_ids("ICE", [str(c["id"]) for c in all_ice])
-    intents_dir = os.path.join(args.product_base, "product-os", "intents")
-    ice_dir = os.path.join(args.product_base, "product-os", "ice")
+    model = os.path.join(args.product_base, "product-os")
+    intents_dir = os.path.join(model, "intents")
     ice = [c for c in all_ice if str(c.get("built_from")) in kept]
+    for c in ice:
+        for prop in ("title", "one_line", "directional_intent"):
+            if not str(c.get(prop) or "").strip():
+                raise Refused(f"the ICE `{c['id']}` is missing `{prop}` — it becomes a proposed capability")
+    spine_path = os.path.join(model, SPINE)
+    spine = load_mapping(spine_path, "spine") if os.path.exists(spine_path) else \
+        {"domains": [], "capabilities": [], "functionalities": []}
+    taken = {str(e.get("id")) for e in spine.get("capabilities") or [] if isinstance(e, dict)}
     work = {"conf": conf, "decisions": decisions, "sources": sources, "shows": shows,
-            "confirmed": confirmed, "ice": ice, "intents_dir": intents_dir, "ice_dir": ice_dir,
+            "confirmed": confirmed, "ice": ice, "intents_dir": intents_dir,
+            "spine": spine, "spine_path": spine_path,
             "dropped": [str(i["id"]) for i in intents if str(i["id"]) not in kept],
             "ice_dropped": [str(c["id"]) for c in all_ice if str(c.get("built_from")) not in kept],
             "paths": {str(i["id"]): os.path.join(intents_dir, f"{i['id']}.md") for i in confirmed},
-            "ice_paths": {str(c["id"]): os.path.join(ice_dir, f"{c['id']}.yaml") for c in ice},
+            "ice_paths": {str(c["id"]): os.path.join(model, CAP_DOC.format(id=c["id"])) for c in ice},
             "source_mds": [os.path.join(s["snapshot_dir"], "source.md") for s in sources]}
+    clash = sorted(str(c["id"]) for c in ice if str(c["id"]) in taken)
+    if clash:
+        raise Refused(f"the spine already has capabilities {', '.join(clash)} — an existing entry is "
+                      f"never changed")
     existing = [p for p in list(work["paths"].values()) + list(work["ice_paths"].values())
                 if os.path.exists(p)]
     if existing:
-        raise Refused(f"{', '.join(existing)} already exist — an intent or an ICE is never overwritten")
+        raise Refused(f"{', '.join(existing)} already exist — an intent or a capability doc is never "
+                      f"overwritten")
     return work
 
 
 def write_ice(w):
-    if w["ice"]:
-        os.makedirs(w["ice_dir"], exist_ok=True)
+    """Each ICE as a proposed capability: its doc, and its entry appended to the spine."""
+    if not w["ice"]:
+        return
     for c in w["ice"]:
-        with open(w["ice_paths"][str(c["id"])], "w", encoding="utf-8") as fh:
-            yaml.safe_dump(ice_record(c, w["conf"].get("at", "")), fh, sort_keys=False, allow_unicode=True)
+        path = w["ice_paths"][str(c["id"])]
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, "w", encoding="utf-8") as fh:
+            fh.write(capability_doc(c))
+    spine = w["spine"]
+    spine.setdefault("capabilities", [])
+    spine["capabilities"] = list(spine["capabilities"] or []) + [capability_entry(c) for c in w["ice"]]
+    os.makedirs(os.path.dirname(w["spine_path"]), exist_ok=True)
+    with open(w["spine_path"], "w", encoding="utf-8") as fh:
+        yaml.safe_dump(spine, fh, sort_keys=False, allow_unicode=True, width=100)
 
 
 def write_intents(w):
@@ -189,7 +223,7 @@ def write_intents(w):
         for s, md in zip(w["sources"], w["source_mds"]):
             lines.append(f"- [{s.get('kind')}, read {s.get('read_on')}]({os.path.relpath(md, here)})")
         mine = [c for c in w["ice"] if str(c.get("built_from")) == str(i["id"])]
-        lines.append("**ICE built from it:**" + ("" if mine else " none yet"))
+        lines.append("**ICE built from it (proposed capabilities, no domain yet):**" + ("" if mine else " none yet"))
         for c in mine:
             rel = os.path.relpath(w["ice_paths"][str(c["id"])], here)
             lines.append(f"- [{c.get('title') or c['id']}]({rel})")
@@ -215,11 +249,13 @@ def write_sources(w):
 
 def manifest_for(w):
     written = list(w["paths"].values()) + list(w["ice_paths"].values()) + w["source_mds"]
+    in_spine = {str(e.get("id")) for e in w["spine"].get("capabilities") or [] if isinstance(e, dict)}
     return {
         "intents": [{"id": str(i["id"]), "path": w["paths"][str(i["id"])],
-                     "ice": [w["ice_paths"][str(c["id"])] for c in w["ice"]
-                             if str(c.get("built_from")) == str(i["id"])]}
+                     "capabilities": [w["ice_paths"][str(c["id"])] for c in w["ice"]
+                                      if str(c.get("built_from")) == str(i["id"])]}
                     for i in w["confirmed"]],
+        "spine": w["spine_path"] if w["ice"] else None,
         "dropped": w["dropped"],
         "ice_dropped": w["ice_dropped"],
         "confirmed_by": w["conf"]["confirmed_by"],
@@ -228,7 +264,8 @@ def manifest_for(w):
         "all_decided": True,
         "confirmed_and_decided": True,
         "sources_saved": all(s.get("snapshot_saved") for s in w["sources"]),
-        "linked": all(os.path.isfile(p) for p in written),
+        "linked": all(os.path.isfile(p) for p in written)
+        and all(str(c["id"]) in in_spine for c in w["ice"]),
     }
 
 

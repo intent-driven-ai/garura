@@ -45,7 +45,10 @@ wants, and leave how the source does it behind (IDD Principle 1).
    are two. Write its goals as plain outcomes: what the person can see **and** what they can
    decide or judge from it (not only "see each model's use" but "tell whether moves to newer
    models happen consistently"). Never write screens, fields, tabs, charts, or how the source
-   works.
+   works. Each ICE becomes a proposed capability, so also write its `one_line` (one sentence:
+   what this capability is) and its `directional_intent` (a short paragraph a stranger
+   understands: what it is about, what it will broadly own, and why it matters — the why
+   comes from the business intent it serves).
 4. **Find the business intents above them.** For each ICE ask "why does the person want
    this?", one level at a time, and stop when the answer no longer names the product — that
    answer is a business intent. ICE that reach the same answer share it. Keep an intent the
@@ -81,9 +84,11 @@ intents:
     proof: <how we will know it is met>            # often from the person
     must_not: <limits the person stated, and qualities every intent keeps>   # optional
     provenance: { title: source|person, outcome: …, why: …, asked_by: …, proof: …, must_not: … }
-ice:
-  - id: <short-slug>
-    title: <the separate thing, in plain words>
+ice:                                              # each becomes a proposed capability
+  - id: <short-slug>                              # lower-case letters, digits, dashes
+    title: <the separate thing, in plain words>   # the capability's name
+    one_line: <one sentence: what this capability is>
+    directional_intent: <a short paragraph: what it is about, what it broadly owns, why it matters>
     built_from: <the id of the business intent it serves>
     goals:
       - <what the person can see, and what they can decide or judge from it>

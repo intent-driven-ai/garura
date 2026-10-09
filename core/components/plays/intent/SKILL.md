@@ -1,7 +1,7 @@
 ---
 name: intent
 position: both
-description: 'Turn whatever a person shares to explain what they want — a prototype (a file, a project folder or a deployed site), a document, or a plain statement — into two levels of intent: the person''s Business Intents (what they want for the business, with why it matters, who asked, and how we will know it is met, each confirmed or dropped by them) and, under each, the ICE the source shows (the separate things they must see, decide or do, as goals, not yet placed under a capability). Keeps what they shared as Sources, exactly as they were when read, and links intents, ICE and Sources. The product model is the hand-off to later plays. Both are kinds of the product ontology. The first play of the Kickoff drive, and the hand-in from a person to the product model: /vision starts from its result. Run by hand it opens and lands its own change; handed a drive''s JSON contract it opens nothing of its own.'
+description: 'Turn whatever a person shares to explain what they want — a prototype (a file, a project folder or a deployed site), a document, or a plain statement — into two levels of intent: the person''s Business Intents (what they want for the business, with why it matters, who asked, and how we will know it is met, each confirmed or dropped by them) and, under each, the ICE the source shows (the separate things they must see, decide or do, as goals), each written as a proposed capability with no domain yet — /vision attaches the domain. Keeps what they shared as Sources, exactly as they were when read, and links intents, ICE and Sources. The product model is the hand-off to later plays. Both are kinds of the product ontology. The first play of the Kickoff drive, and the hand-in from a person to the product model: /vision starts from its result. Run by hand it opens and lands its own change; handed a drive''s JSON contract it opens nothing of its own.'
 user-invocable: true
 ---
 
@@ -14,8 +14,11 @@ Turn what a person shares into two levels of intent, and keep what they shared a
   with why it matters and how we will know it is met. They sit one "why?" above what a source
   shows, and mostly come from the person. The person confirms or drops each; nothing else does.
 - **ICE** — the agents' level, under each intent: one per separate thing the source lets the
-  person see, decide or do, as goals. Saved in the `ice.yaml` shape, not yet placed under a
-  capability; `/vision` and later plays place it and add to it.
+  person see, decide or do, as goals. Each is written as a **proposed capability**: an entry in
+  the spine naming the business intent it is built from (`intents`), and a short capability
+  grounding doc with the ICE inline. It has no domain yet; `/vision` attaches the domain and
+  adds to it. An ICE is workable only when its intent is confirmed — which this play's
+  confirmation step does.
 
 All are kinds of the product ontology (`standards/schemas/product-os/ontology.md`), and the
 product model is the hand-off. No play owns a kind; drift is fixed by alignment (ontology v3).
@@ -53,8 +56,9 @@ answers, and only their typed reply confirms or drops each intent.
 property the source does not show and the person did not say (C5); describing the source
 inside an intent or an ICE goal (C3); merging separate things into one ICE, leaving a part
 unmapped, or saving an ICE with no business intent (C12); asking why or proof with no example
-answers (C13); writing any model file other than the new intents and ICE (C8); opening an issue or a branch
-while running inside a drive (C9); closing COMPLETED without the stop condition held (C11).
+answers (C13); writing any model file other than the new intents, their proposed capabilities
+(spine entries appended, docs added) and sources (C8); opening an issue or a branch while
+running inside a drive (C9); closing COMPLETED without the stop condition held (C11).
 
 **Agent boundaries:**
 
@@ -255,37 +259,53 @@ python3 scripts/persist_intent.py --draft <working>/intent-draft.yaml \
     --product-base <product_base> --working <working>
 ```
 
-It writes `<product_base>product-os/intents/<id>.md` for each confirmed intent and
-`<product_base>product-os/ice/<id>.yaml` for each ICE built from one (the `ice.yaml` shape,
-goals only, `node_ref` empty, `built_from` its intent) — never over an existing file; a dropped
-intent and its ICE are not saved. It writes each Source record `source.md` beside its snapshot,
-links intents, ICE and Sources, and writes `intent-manifest.json`. It writes no hand-off file:
-later plays read the model. It refuses, and writes nothing, unless the person decided every
-intent and confirmed at least one.
+It writes `<product_base>product-os/intents/<id>.md` for each confirmed intent, and for each
+ICE built from one a **proposed capability**: an entry appended to
+`<product_base>product-os/_spine.yaml` (status proposed, detail directional, no domain yet,
+`intents` naming its business intent) and its grounding doc
+`<product_base>product-os/capabilities/<id>/capability.md` with the ICE goals inline. It never
+overwrites a page, a doc or an existing spine entry; a dropped intent and its ICE are not
+saved. It writes each Source record `source.md` beside its snapshot, links intents, ICE and
+Sources, and writes `intent-manifest.json`. It writes no hand-off file: later plays read the
+model. It refuses, and writes nothing, unless the person decided every intent and confirmed at
+least one. Then check the capabilities it wrote, with the grounding linter and the workable
+check:
+
+```
+python3 scripts/lint_grounding.py --root <product_base>product-os \
+    --spine <product_base>product-os/_spine.yaml > <working>/grounding-lint.json
+python3 scripts/check_ice_workable.py --spine <product_base>product-os/_spine.yaml \
+    --intents-dir <product_base>product-os/intents --out <working>/workable.json
+```
 **SE-7 (F7/C7):** `intent-manifest.json` reads `linked: true`; each intent page names every
-Source and its ICE, each ICE names its intent, and each `source.md` names every confirmed
-intent.
-**SE-10 (F10/C10):** every confirmed intent has its page and every ICE built from it has its
-file in the `ice.yaml` shape under the product model; no `vision-goal` file exists.
+Source and its capabilities, each capability's spine entry names its intent in `intents`, and
+each `source.md` names every confirmed intent.
+**SE-10 (F10/C10):** every confirmed intent has its page; every ICE built from it is a spine
+capability entry with its grounding doc; `grounding-lint.json` has no errors (only "no domain
+yet" warnings for these capabilities); `workable.json` reads every one of them workable; no
+`vision-goal` file exists.
 
 **Step 6 — Guard the model** · Owner: play (script) · Depends on: Step 5
 
 ```
 python3 scripts/scoped_write_guard.py --product-base <product_base> --base-ref HEAD \
-    --add-only 'product-os/intents/*.md' --add-only 'product-os/ice/*.yaml' \
+    --allow 'product-os/_spine.yaml' \
+    --add-only 'product-os/intents/*.md' --add-only 'product-os/capabilities/*/capability.md' \
     --out <working>/guard-report.json
 ```
 
 On a non-zero exit, re-run with `--restore` and apply REC8.
-**SE-8 (F8/C8):** `guard-report.json` reads `ok: true` — only new intent pages and new ICE files
-were added under the product model.
+**SE-8 (F8/C8):** `guard-report.json` reads `ok: true` — only new intent pages and new capability
+docs were added, and only the spine changed, under the product model; the spine's existing
+entries are unchanged (the save script appends and refuses a clash).
 
 **Step 7 — Commit the delta** · Owner: play · Depends on: Step 6
 Make the intents, their ICE and their Sources durable on the branch (the drive's branch inside
 a drive):
 
 ```
-git add -- <product_base>product-os/intents <product_base>product-os/ice <product_base>_evidence/intent/<run-ts>
+git add -- <product_base>product-os/intents <product_base>product-os/capabilities \
+    <product_base>product-os/_spine.yaml <product_base>_evidence/intent/<run-ts>
 git commit -m "feat(model): business intents — <n> from <what the source is> (#<issue>)"
 ```
 
@@ -335,9 +355,11 @@ end member ran, and the branch the commit landed on equals the contract's branch
   clean, and the run closed HALTED with the reason.
 - **SCE-5 (S5 — Kickoff drive):** `run.json` reads `in_drive: true`; no `start-change` or end
   result file exists for this run; the commit is on the contract's branch.
-- **SCE-6 (S6 — product strategist, hand-over through the model):** each ICE file is in the
-  `ice.yaml` shape with goals, `node_ref` empty and `built_from` naming its intent; each intent
-  page names its ICE; no `vision-goal` file exists.
+- **SCE-6 (S6 — product strategist, hand-over through the model):** each ICE is a spine
+  capability entry (status proposed, detail directional, domain empty, `intents` naming its
+  business intent) with a grounding doc; `grounding-lint.json` has no errors, only "no domain
+  yet" warnings; `workable.json` reads each workable; each intent page names its capabilities;
+  no `vision-goal` file exists.
 - **SCE-7 (S7 — business owner, a prototype that does several things):** the draft holds one
   ICE per separate thing; the coverage map names every part and an existing ICE for each;
   every ICE names an existing intent; every intent with no ICE was stated by the person;
@@ -393,7 +415,8 @@ per-play `evidence.plays.intent`; first match wins, absent ⇒ record). When fal
 write and record `evidence skipped (record=false)` in the report's pointer line. Otherwise
 fill the `evidence-file.md` slots (play `intent`, run_id `intent-${ts}`, the confirmed and
 dropped intent ids and ICE ids, started_at/completed_at, status per C0, exit_reason; artifacts
-produced: the intent pages, the ICE files, each Source's snapshot and `source.md`, every
+produced: the intent pages, the spine entries and capability docs (the ICE),
+`grounding-lint.json`, `workable.json`, each Source's snapshot and `source.md`, every
 `source-manifest-<name>.json`, `intent-draft.yaml`, `intent-check.json`, `answers.yaml`,
 `confirmation.yaml`, `intent-manifest.json`, `guard-report.json`, the model-delta commit sha;
 `in_drive`; step and scenario eval results SE-1…SE-13 / SCE-1…SCE-8; the checkpoint decisions from Step 4
@@ -457,7 +480,7 @@ Inside a drive, a resume keeps `in_drive` from `run.json`.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:5bd68aa5c17739c873b0c091532bd901a13e251516454afd85cabc50dff6e71e (of `reference/ice.md`) |
+| fingerprint | sha256:c5b575f163c505e15dda0076cb7e9d8aa7600b3641bfd548ece4863eb6fcff26 (of `reference/ice.md`) |
 | compiled_by | play-creator (#612) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close; both skipped inside a drive) |
 | position_exception | model-writing both play — writes the intent on its started branch (or the drive's) and commits its own model delta (Step 7) BEFORE the injected end sequence lands it |
@@ -466,7 +489,7 @@ Inside a drive, a resume keeps `in_drive` from `run.json`.
 | domain_agents | 1 (business-intent-keeper) |
 | utility_agents | 0 |
 | skills_used | author-business-intent |
-| scripts | 7 (preflight.py, session_stamp.py, check_stop_condition.py, scoped_write_guard.py, capture_source.py, check_intent.py, persist_intent.py) + test_intent_scripts.py |
+| scripts | 9 (preflight.py, session_stamp.py, check_stop_condition.py, scoped_write_guard.py, capture_source.py, check_intent.py, persist_intent.py, lint_grounding.py — copied from /vision, check_ice_workable.py — copied from play-creator references) + test_intent_scripts.py |
 | step_evals | 13 (SE-1…SE-13) |
 | scenario_evals | 8 (SCE-1…SCE-8) |
 | recovery_entries | 13 (one per failure condition; 8 autonomous / 5 human) |
