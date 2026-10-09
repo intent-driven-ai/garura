@@ -8,7 +8,7 @@ the two delivery artifacts that ride on top.
 |--------|-------|-----------|
 | `ontology.md` | the product ontology — the agreed, human-readable map of the kinds of things a product is made of (v3: Business Intent, Source, ICE), how they connect and their rules; built with `build-product-ontology` | permanent |
 | `product-os.yaml` | the Domain → Capability → Functionality tree, personas, journeys | permanent |
-| `ice.yaml` | Intent / Context / Expectations on a node (the build unit at functionality level); since v2 an ICE may be written before it is placed, linked to the business intent it is built from | permanent |
+| `ice.yaml` | Intent / Context / Expectations on a node (the build unit at functionality level) | permanent |
 | `decision.yaml` | decision records (ADRs) at any level | permanent |
 | `lens/` (one file per type) | the 5 realize lenses (ux, architecture, run, quality, agentic) | permanent |
 | `slice.yaml` | a vertical product increment — functionalities (across capabilities of one domain) bundled into a usable increment; written by /shape, planned by /roadmap | permanent |
