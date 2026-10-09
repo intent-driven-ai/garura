@@ -57,3 +57,7 @@ steps of a drive is where validation final review happens - that is the review, 
 Inside a drive `/intent` asks its questions but does not wait for approval: every drafted intent
 is saved as `proposed`, and the person confirms or drops it at the drive's final review. Until
 then its ICE is not workable (D9). Run by hand, `/intent` still asks for confirmation first.
+
+Note on D9 (2026-10-09, review round 2): an intent whose proof now holds (`met`) was confirmed
+first, so its ICE stays workable — work that keeps it met is still wanted. Only proposed,
+dropped or missing intents leave an ICE not workable.
