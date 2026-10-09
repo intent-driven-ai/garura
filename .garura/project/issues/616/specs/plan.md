@@ -2,9 +2,9 @@
 plan_for: 616
 kind: story
 serves: "#616 — /intent, /vision and /understand each run by hand without needing another to run first"
-status: active
+status: done
 updated: 2026-10-08
-now: 5
+now: -
 serves_plan: 606
 serves_item: 2
 ---
@@ -29,7 +29,7 @@ When this is done, a person can run `/vision` or `/understand` alone and get a f
 
 ## Where we are now
 
-Both plays are changed and checked, and the `/shape` / `/roadmap` follow-up is written up. Next is shipping (item 5).
+Done. `/vision` and `/understand` each stand alone, merged in PR #630. #606's plan moves to its item 3 (`/intent`, #612).
 
 ## The plan, in order
 
@@ -41,14 +41,6 @@ Both plays are changed and checked, and the `/shape` / `/roadmap` follow-up is w
 - **3. Built: `/understand` needs nothing run first** — #616. An absent capability is seeded thinly from the person's recorded answers (new seed step; `persist_understand.py --seed`, 19 tests), never invented; it opens and lands its own change (position both); the dirty-tree halt no longer sends you to an earlier play. Play check passes. Not merged yet.
 - **4. Checked: `/shape` and `/roadmap`** — #616. They break after this change: `/shape` would write straight onto main, and `/roadmap`'s commit stops on main. Not fixed here (D3); written up as a follow-up in `specs/followup-shape-roadmap.md`, not filed.
 
-### 5. Ship it — now
-
-**Issue:** #616.
-**What:** commit, open the pull request, review it, merge it, and write the handoff on #616.
-**Why here:** last.
-**Done when:** the pull request is merged and #616 is closed with its handoff.
-**Needs:** nothing — items 2 to 4 are done.
-
 ## Log
 
 - 2026-10-08 — Plan written by hand (the `plan-change` play is not built yet, #622), from #616, its parent #594, the #606 plan (item 2) and the three plays' intent sources.
@@ -56,3 +48,4 @@ Both plays are changed and checked, and the `/shape` / `/roadmap` follow-up is w
 - 2026-10-08 — Item 2 built: `/vision` changed to position both through its intent source; play check passes. Now on item 3.
 - 2026-10-08 — Items 3 and 4 done: `/understand` changed; `/shape` and `/roadmap` found to break, written up as a follow-up (not filed). Now on item 5.
 - 2026-10-08 — PR #630 review: 12 findings (1 P2) fixed before merge — the enrich skill now writes a seeded capability's first doc; `/understand` asks before opening any change; the persist refuses a seed not answered by a human; tests 19 → 32; edit notes removed; the pipeline rule's position list corrected. Follow-ups recorded in `specs/decisions.md`.
+- 2026-10-08 — Item 5 done: PR #630 merged; #616 closed. Plan done.
