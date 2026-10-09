@@ -105,8 +105,9 @@ python3 core/components/plays/install-garura/scripts/install.py --target <path> 
 Options:
 - `--tool claude|codex` — which host tool to target (default `claude`).
 - `--scope full|harness` — which component set the target receives (default `full`, every
-  component except the meta harness plays). `harness` installs only the meta plays
-  (play-creator, play-editor), the five *change plays, and the worker skills/agents those
+  component except the meta harness plays and the meta-utility skills). `harness` installs
+  only the meta plays (play-creator, play-editor), the meta-utility skills
+  (build-product-ontology), the five *change plays, and the worker skills/agents those
   plays dispatch — for harness-type repos (garura itself) that must not carry product
   plays. The scope filters **components only**;
   shared memory, config, the STM scaffold, and the manifest are written the same either way.
