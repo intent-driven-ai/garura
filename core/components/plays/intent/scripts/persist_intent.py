@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-"""persist_intent.py — save the confirmed Business Intents and their ICE, and link them to their
-Sources (/intent, #612).
+"""persist_intent.py — save the Business Intents and their ICE, and link them to their Sources
+(/intent, #612). Run by hand it saves the intents the person confirmed; inside a drive
+(`--proposed`) it saves every drafted intent as proposed.
 
 One run drafts two levels from one or more Sources: business intents, and under each the ICE
 the sources show. Run by hand, the person confirms or drops each business intent first. Inside
@@ -8,10 +9,11 @@ a drive (`--proposed`) there is no approval stop: every drafted intent is saved 
 and the person confirms or drops it at the drive's final review — until then its ICE is not
 workable. Then this writes — the product model is the hand-off; no separate hand-off file is written:
 
-  - `<product_base>product-os/intents/<id>.md` — one page per CONFIRMED intent, in plain words,
+  - `<product_base>product-os/intents/<id>.md` — one page per confirmed intent (by hand) or per
+    drafted intent, stage proposed (in a drive), in plain words,
     in the shape of the ontology's example (title, outcome, why, asked by, proof it is met,
     must not, stage, confirmed by and when, sources, the capabilities built from it).
-  - for each ICE built from a confirmed intent, a PROPOSED CAPABILITY (spine.yaml v2): an entry
+  - for each ICE built from a saved intent, a PROPOSED CAPABILITY (spine.yaml v2): an entry
     appended to `<product_base>product-os/_spine.yaml` (status proposed, detail directional, no
     domain yet — /vision attaches it — and `intents` naming the business intent), and its
     grounding doc `product-os/capabilities/<id>/capability.md` with the ICE goals inline.
@@ -19,15 +21,17 @@ workable. Then this writes — the product model is the hand-off; no separate ha
     shows, given by) naming every intent it shows: the link written on BOTH sides.
   - `<working>/intent-manifest.json` — the rollup the stop condition reads.
 
-ADDITIVE: an intent page, a capability doc or an existing spine entry is never overwritten.
-A dropped intent, and the ICE built from it, are not saved. Every check runs before the first
-write, so a refusal writes nothing. It refuses (exit 2) when: an input is unreadable or of the
-wrong shape; the decisions are not the person's own typed replies; any drafted intent has no
-decision; no intent is confirmed; a confirmed intent misses a required property; an id is
-badly shaped (ids become file names, so only lower-case letters, digits and dashes) or
-repeated; an ICE lacks its name, one-line or directional paragraph; a Source has no snapshot or
-no "what it shows"; or a page, a doc or a spine entry already exists. Only a person confirms
-(C4). No git, no network, no LLM.
+ADDITIVE: an intent page, a capability doc or an existing spine entry is never overwritten. A
+dropped intent, and the ICE built from it, are not saved. An ICE whose capability is already in
+the model is skipped and reported (`ice_skipped`), never merged in. Every check runs before the
+first write, so a refusal writes nothing. It refuses (exit 2) when: an input is unreadable or of
+the wrong shape; both or neither of --confirmation and --proposed are given; (by hand) the
+decisions are not the person's own typed replies, any drafted intent has no decision, or none
+is confirmed; a saved intent misses a required property; an id is badly shaped (ids become
+file names, so only lower-case letters, digits and dashes) or repeated; an ICE lacks its name,
+one-line or directional paragraph; a Source has no snapshot or no "what it shows"; or an
+intent page already exists. Only a person confirms (C4) — by hand here, or at a drive's final
+review. No git, no network, no LLM.
 
     python3 persist_intent.py --draft <working>/intent-draft.yaml \
         ( --confirmation <working>/confirmation.yaml | --proposed --at <date> ) \
@@ -125,9 +129,9 @@ def read_decisions(conf, ids):
 
 def plan(args):
     """Read and check every input; return what to write. Nothing is written here."""
-    if not args.proposed and not args.confirmation:
-        raise Refused("run by hand, the person's confirmation is required (--confirmation); "
-                      "inside a drive, pass --proposed")
+    if bool(args.proposed) == bool(args.confirmation):
+        raise Refused("pass exactly one of --confirmation (run by hand: the person's decisions) "
+                      "or --proposed (inside a drive)")
     for p in [args.draft] + ([] if args.proposed else [args.confirmation]) + args.source_manifest:
         if not os.path.isfile(p):
             raise Refused(f"missing input {p}")
@@ -187,15 +191,21 @@ def plan(args):
             "paths": {str(i["id"]): os.path.join(intents_dir, f"{i['id']}.md") for i in confirmed},
             "ice_paths": {str(c["id"]): os.path.join(model, CAP_DOC.format(id=c["id"])) for c in ice},
             "source_mds": [os.path.join(s["snapshot_dir"], "source.md") for s in sources]}
-    clash = sorted(str(c["id"]) for c in ice if str(c["id"]) in taken)
-    if clash:
-        raise Refused(f"the spine already has capabilities {', '.join(clash)} — an existing entry is "
-                      f"never changed")
-    existing = [p for p in list(work["paths"].values()) + list(work["ice_paths"].values())
-                if os.path.exists(p)]
+    # An ICE whose capability is already in the model is skipped and reported, never merged in:
+    # an existing entry or doc is never changed (C8), and one clash must not stop the rest.
+    # Linking it to the intent is alignment's work.
+    work["ice_skipped"] = []
+    for c in list(ice):
+        cid = str(c["id"])
+        why = ("the spine already has this capability" if cid in taken else
+               "its capability doc already exists" if os.path.exists(work["ice_paths"][cid]) else None)
+        if why:
+            work["ice_skipped"].append({"id": cid, "built_from": str(c.get("built_from")), "reason": why})
+            ice.remove(c)
+            del work["ice_paths"][cid]
+    existing = [p for p in work["paths"].values() if os.path.exists(p)]
     if existing:
-        raise Refused(f"{', '.join(existing)} already exist — an intent or a capability doc is never "
-                      f"overwritten")
+        raise Refused(f"{', '.join(existing)} already exist — a business intent is never overwritten")
     return work
 
 
@@ -273,6 +283,7 @@ def manifest_for(w):
         "spine": w["spine_path"] if w["ice"] else None,
         "dropped": w["dropped"],
         "ice_dropped": w["ice_dropped"],
+        "ice_skipped": w["ice_skipped"],
         "stage": "proposed" if w["conf"].get("by") == "drive" else "confirmed",
         "confirmed_by": w["conf"]["confirmed_by"] or None,
         "sources": w["source_mds"],
