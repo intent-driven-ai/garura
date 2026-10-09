@@ -1,46 +1,58 @@
 commits:
-  - sha: 030db9e0
-    message: "fix(intent): harden the intent play scripts and tests and align the agent status word and play text with the review (#612)"
-    files:
-      - core/components/plays/intent/scripts/capture_source.py
-      - core/components/plays/intent/scripts/check_intent.py
-      - core/components/plays/intent/scripts/persist_intent.py
-      - core/components/plays/intent/scripts/test_intent_scripts.py
-      - core/components/plays/intent/SKILL.md
-      - core/components/plays/intent/reference/ice.md
-      - core/components/agents/business-intent-keeper.md
-    branch: feature/612-intent-play
-  - sha: ea78aefa
-    message: "fix(product-os): say Functionality in the ontology, keep writes in a play's declared scope and bump ice.yaml to v2 with a migration note (#612)"
+  - sha: 150f8042
+    message: "feat(product-os): keep ICE inline on a proposed capability, let a capability wait for its domain, add intents to spine entries and make ICE workable only with a confirmed business intent (#612)"
     files:
       - core/components/memory/standards/schemas/product-os/ontology.md
+      - core/components/memory/standards/schemas/product-os/spine.yaml
       - core/components/memory/standards/schemas/product-os/ice.yaml
       - core/components/memory/standards/schemas/product-os/_index.md
-      - core/components/memory/standards/templates/product-ontology.md
-      - core/components/memory/standards/rules/pipeline-next.md
       - core/grounding/glossary.md
     branch: feature/612-intent-play
-  - sha: ef72bc31
-    message: "fix(install-garura): word the install scope to say the full set leaves out the meta-utility skills (#612)"
+  - sha: 1fb9169c
+    message: "fix(lint-grounding): warn instead of error when a capability has no domain (#612)"
     files:
-      - core/components/plays/install-garura/scripts/install.py
-      - core/components/plays/install-garura/SKILL.md
+      - core/components/plays/agentic/scripts/lint_grounding.py
+      - core/components/plays/arch/scripts/lint_grounding.py
+      - core/components/plays/grill/scripts/lint_grounding.py
+      - core/components/plays/learn/scripts/lint_grounding.py
+      - core/components/plays/marketing/scripts/lint_grounding.py
+      - core/components/plays/measure/scripts/lint_grounding.py
+      - core/components/plays/quality/scripts/lint_grounding.py
+      - core/components/plays/run/scripts/lint_grounding.py
+      - core/components/plays/understand/scripts/lint_grounding.py
+      - core/components/plays/ux/scripts/lint_grounding.py
+      - core/components/plays/vision/scripts/lint_grounding.py
     branch: feature/612-intent-play
-  - sha: 003363e5
-    message: "test(build-product-ontology): add the four missing rule tests to the ontology checker (#612)"
+  - sha: d2a71a72
+    message: "feat(play-creator): check that an ICE is workable before working on it (#612)"
     files:
-      - core/components/skills/build-product-ontology/scripts/test_check_ontology.py
+      - core/components/plays/play-creator/references/check_ice_workable.py
+      - core/components/plays/play-creator/references/test_check_ice_workable.py
+      - core/components/plays/play-creator/SKILL.md
     branch: feature/612-intent-play
-  - sha: 73a989db
-    message: "docs(skills): fix the skills roster intro (#612)"
+  - sha: 8c419784
+    message: "feat(intent): write each ICE as a proposed capability (#612)"
     files:
-      - docs/components/skills.md
+      - core/components/plays/intent/reference/ice.md
+      - core/components/plays/intent/SKILL.md
+      - core/components/plays/intent/scripts/persist_intent.py
+      - core/components/plays/intent/scripts/check_intent.py
+      - core/components/plays/intent/scripts/test_intent_scripts.py
+      - core/components/plays/intent/scripts/lint_grounding.py
+      - core/components/plays/intent/scripts/check_ice_workable.py
+      - core/components/agents/business-intent-keeper.md
+      - core/components/skills/author-business-intent/SKILL.md
+    branch: feature/612-intent-play
+  - sha: 85b179df
+    message: "chore(stm): record review decisions D8 and D9 and plan follow-ups (#612)"
+    files:
+      - .garura/project/issues/612/specs/decisions.md
+      - .garura/project/issues/612/specs/plan.md
+      - .garura/project/issues/612/context/analysis.yaml
+      - .garura/project/issues/612/context/porcelain.txt
     branch: feature/612-intent-play
 excluded_files:
-  - path: ".garura/project/issues/612/context/analysis.yaml"
-    reason: "this analysis file itself (scan artifact, rewritten each run); STM evidence, not part of the change"
-  - path: ".garura/project/issues/612/context/porcelain.txt"
-    reason: "scan artifact (git status snapshot) rewritten each run; STM evidence, not part of the change"
+  []
 leftover_count: 0
 tree_clean: true
 pushed: false
