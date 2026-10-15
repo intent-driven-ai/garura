@@ -349,6 +349,7 @@ def check_spine(root, spine_path, errors, warnings, counts):
             errors.append(f"spine slice '{sid}': record not found at '{rec}'")
 
     # --- reverse: orphan grounding docs on disk not referenced by the spine ---
+    slice_keys = {str(k) for s in slices for k in (s.get("id"), s.get("slug")) if k}
     for dirpath, _dirs, files in os.walk(root):
         for fn in files:
             if not fn.endswith(".md"):
@@ -358,6 +359,17 @@ def check_spine(root, spine_path, errors, warnings, counts):
             kind = infer_kind(parse_sections(text)[0])
             if kind is None:
                 continue  # not a grounding doc (e.g. a README)
+            if kind.startswith("lens-"):
+                # a lens doc belongs to its slice (<domain>/slices/<slice>/lens/<type>.md), not to
+                # a spine node, so the spine never points at it: it is an orphan only when its
+                # slice is unknown (#634)
+                parts = os.path.relpath(full, root).split(os.sep)
+                owner = parts[parts.index("slices") + 1] if "slices" in parts[:-2] else None
+                if owner not in slice_keys:
+                    errors.append(
+                        f"orphan grounding doc '{os.path.relpath(full, root)}' "
+                        f"({kind}) — a lens doc whose slice is not in the spine")
+                continue
             if full not in referenced_docs:
                 errors.append(
                     f"orphan grounding doc '{os.path.relpath(full, root)}' "
