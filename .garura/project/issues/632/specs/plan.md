@@ -111,3 +111,11 @@ see that ADR 031 changes the Business Intent and ICE kinds but no person's busin
 - 2026-10-15 — Kapil: "Go". Opened #632 (Feature, no parent; #574 noted as related) and `feature/632-adr-play`; plan moved here from `_pending`.
 - 2026-10-15 — Item 4 built. Now on item 5 (trial on ADR 031 as if new).
 - 2026-10-15 — Item 5 done: trial passed. Now on item 6.
+- 2026-10-15 — Review of PR #633: 33 findings, none blocking; all fixed in round 1 except the follow-ups below.
+
+## Follow-ups (not in this issue)
+
+- Record `/adr`'s pinned-gate exception (accept waits for a drive's end review) as an ADR — with `/adr` itself (review M3).
+- Wire the plays that record product decisions (`/understand`, `/shape`, the lens plays, `/learn`) to call `author-adr` and accept at their own review (review H6).
+- A review playbook for STM run records (`knowledge/review/`) — the category has none (review, PR #631 and #633).
+- Shared-script lint (E741 in `preflight.py`, `session_stamp.py`) and the other pre-existing items carried from #612.
