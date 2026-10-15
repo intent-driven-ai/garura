@@ -1,0 +1,154 @@
+# round-2 review of 84e65c1c..HEAD (fix commits only). All three runnable checks pass:
+# test_adr.py 42/0, test_apply_adr.py 28/0, lint_play.py adr VERDICT PASS.
+# The findings below are things the passing tests do not catch. P1 = none found.
+findings:
+  - id: P2-1
+    severity: P2
+    file: core/components/plays/adr/scripts/apply_adr.py
+    finding: >
+      The new "every check runs before the first write, so a stop writes nothing" promise
+      (module docstring, play Step 4 text) is false for forward pointers. adr.py pointer gained
+      new refusals this round (a second full supersede; a YAML newer decision with no id) but
+      apply_adr never pre-checks them. accept_and_link marks the record Accepted first, then
+      write_pointers treats a refused pointer as "missing". Reproduced in a scratch folder:
+      --accept-existing on ADR 003 that supersedes ADR 002 (already "Superseded by ADR 005")
+      and amends ADR 001 left ADR 003 Accepted, wrote the pointer on ADR 001, refused 002, and
+      set linked:false. That is a half-applied accept: the person's accept is spent, one older
+      ADR is pointed and one is not, and a re-run is refused (draft no longer Proposed). The
+      new tests only cover a missing older file, not a refused pointer.
+    basis: >
+      ice.md C7/F7 and SKILL.md Step 4 (older ADRs must end up pointing forward, in one
+      consistent state); the fix's own stated aim (round-1 F4: refuse before writing);
+      templates/adr.md rule "a record is superseded in full only once".
+    fix: >
+      In resolve_olders (or a new pre-check next to it), for each full-supersede target read
+      its Status/superseded_by and Stop(2) before any write when it is already superseded by a
+      different record; run the same for the YAML newer-has-no-id case. Add a test: accept a
+      record whose older is already superseded, assert nothing changed and exit 2.
+
+  - id: P2-2
+    severity: P2
+    file: core/components/plays/adr/scripts/apply_adr.py
+    finding: >
+      Regression from the plan-then-write move: plan_new refuses when the --index folder does
+      not exist, but the old code created the target's folder (os.makedirs) before writing.
+      Reproduced: a first ADR in a project with no docs/adr yet (--target
+      newdocs/adr/003-x.md --adr-dir newdocs/adr --index newdocs/adr/_index.md) now stops with
+      "the index folder ... does not exist" and writes nothing; before the fix it created
+      the folder. The play is deployed into target projects, where docs/adr/ will often not
+      exist on the first ADR. No test covers a missing ADR folder.
+    basis: >
+      Play Step 4 / ice.md C3 (the play writes the new record at the target); the round-1 fix
+      commit's own intent is to add checks without removing a working path.
+    fix: >
+      Skip the index-folder check when dirname(args.index) equals dirname(args.target) (or
+      adr_dir) since the write step creates it; keep the check only for an index elsewhere.
+      Add a test for a first ADR into a missing folder.
+
+  - id: P2-3
+    severity: P2
+    file: core/components/skills/author-adr/scripts/adr.py (same file in plays/adr/scripts/adr.py)
+    finding: >
+      The new "already superseded by X, supersede that one instead" guard in cmd_pointer
+      treats any YAML superseded_by as a full supersede. A partial supersede also sets
+      superseded_by (only status stays accepted), so a second, different partial supersede is
+      refused. Reproduced: pointer --kind superseded --what "the cache length" by dec-7, then
+      --what "the retry rule" by dec-8 -> refused, exit 2. The Markdown branch only refuses
+      when the Status line already says "Superseded by" (a full one), so the two shapes
+      disagree, and a legitimate second partial supersede on a product decision now blocks an
+      accept (see P2-1 for what that does to the run).
+    basis: >
+      templates/adr.md (the new rule says "a record is superseded in full only once", not
+      "only once in part"); the Markdown branch of the same function.
+    fix: >
+      Refuse only when the existing record's status is already superseded (full) or the
+      incoming supersede is full and superseded_by is set to a different id. Add a test for two
+      partial supersedes on a YAML record. Keep the two copies of adr.py identical
+      (test_copy_in_sync enforces it).
+
+  - id: P3-1
+    severity: P3
+    file: core/components/plays/adr/SKILL.md
+    finding: >
+      The new pre-flight row "Clean record tree ... Hard halt (REC9)" is a guarantee (a new
+      hard halt) that is not in the play's ICE: ice.md C9 still reads only "writes only the new
+      record, pointers and index", F9/REC9 triggers are about a path changing during the run,
+      not about a dirty tree before it. It also has no executor: the row says "after Step 0"
+      but sits in pre-flight (which runs before Step 0), and neither the pre-flight command
+      block nor preflight.py runs the git status on docs/adr and product-os; <product_base>
+      is an unresolved placeholder there. direct-model-write.md now states this as a rule
+      ("run by hand it starts from a clean record tree"), so the rule is documented but
+      nothing enforces it, and a rebuild from ice.md would drop the row.
+    basis: >
+      CLAUDE.md Play Pipeline Rules (intent changes go through ice.md then play-editor; a hand
+      edit to a compiled SKILL.md is clobbered by a rebuild); direct-model-write.md (the new
+      declared exception).
+    fix: >
+      Add the clean-tree condition to ice.md C9 and F9/REC9, recompile with play-editor, and
+      put the git status check and its resolved path in the pre-flight command block (placed
+      after Step 0 in the run order, or moved into Step 0's follow-up capture).
+
+  - id: P3-2
+    severity: P3
+    file: core/components/plays/adr/scripts/apply_adr.py
+    finding: >
+      The Stop refactor drops evidence the manifest used to carry on halted runs. lint_ok is
+      only set True after the whole plan passes, so a business-intent stop (exit 4) or a reject
+      (exit 5) now records lint_ok:false although the lint passed; manifest["guard"] is no
+      longer written at all. SCE-2 reads "the guard exited 4" and SCE-5 "rejected: true";
+      the guard output is gone and D3 (lint_ok) would read unmet on a clean reject.
+    basis: >
+      SKILL.md Step 7 SCE-2 and stop-condition.yaml D3 (read lint_ok from adr-manifest.json).
+    fix: >
+      Set manifest["lint_ok"] = True and manifest["guard"] right after each call succeeds
+      inside plan_new (pass the manifest in), and add test asserts for the exit 4 and exit 5
+      manifests.
+
+  - id: P4-1
+    severity: P4
+    file: core/components/memory/standards/rules/pipeline-next.md
+    finding: >
+      adr was moved under the "# Learn loop - navigation" heading with a comment saying it is
+      "standalone, in no loop". The heading and the comment disagree, and the file text just
+      above says the lifecycle runs as five loops.
+    basis: pipeline-next.md's own loop header and the ADR 028 five-loop description it cites.
+    fix: >
+      Give adr its own "# Standalone (no loop)" comment line above it instead of filing it under
+      the Learn loop heading.
+
+  - id: P4-2
+    severity: P4
+    file: core/components/plays/adr/SKILL.md
+    finding: >
+      Working-folder change to the fixed {stm_base}_adr/<run-ts>/ is applied consistently to
+      the steps, the close block and stop-condition.yaml, but the evidence line in the close
+      (evidence_base="${stm_base}${issue}/evidence/adr/") still keys on the issue, and the
+      session-stamp marker is one shared file {stm_base}_adr/status/ for every run and drive
+      (a second run overwrites the first's start stamp). The /intent precedent keys its marker
+      the same way, so this is a nit, but two ADR runs in one checkout (a drive plus a hand
+      run) share the marker.
+    basis: core/components/plays/intent/SKILL.md (same pattern, {stm_base}_kickoff/intent/).
+    fix: >
+      Put the session marker inside the run folder ({stm_base}_adr/<run-ts>/status/...) so each
+      run owns its stamp; leave the evidence path as is (the issue exists by close).
+
+  - id: P4-3
+    severity: P4
+    file: core/components/skills/author-adr/scripts/test_adr.py, core/components/plays/adr/scripts/test_apply_adr.py
+    finding: >
+      Test gaps behind the findings above: no test for a refused pointer during accept
+      (P2-1), a first ADR into a missing folder (P2-2), two partial supersedes on a YAML record
+      (P2-3), the manifest content on exit 4/5 (P3-2), or the clean-record-tree check (P3-1).
+      The lint now requires consequences, metadata.date and metadata.decided_in for a YAML
+      record, while decision.yaml's migration note says earlier records "stay valid as
+      written": accept-existing on a pre-#632 proposed decision.yaml would fail lint. Worth a
+      sentence in the schema note, or a test that states the intended behaviour.
+    basis: decision.yaml migration note (additive, earlier records stay valid) vs adr.py lint_yaml.
+    fix: Add the five tests; add one line to the decision.yaml note that lint applies to records written through /adr.
+
+# Checked and found consistent (no finding): author-adr skill without Bash (SKILL text, scripts
+# table and adr-keeper all say the agent runs number/overlaps/lint/guard; keeper keeps Bash);
+# decision.yaml version back to 1 (matches main, nothing reads a version number); gate-config,
+# architecture.md and ice.md agree on pinned-by-hand-only for /adr and /intent; pipeline-position
+# lists /adr as both and the play declares both; the new Supersedes "none ..." and anchored
+# match handle every Supersedes line form in docs/adr.
