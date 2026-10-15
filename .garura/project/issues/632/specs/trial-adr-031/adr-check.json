@@ -1,0 +1,27 @@
+{
+  "task_id": "draft-adr",
+  "draft": "/private/tmp/claude-503/-Users-kapilahuja-cto-builder-garura/59a99578-9d71-4f2a-994e-c0b90c398ecc/scratchpad/adr-trial/work/adr-draft.md",
+  "number": "031",
+  "status": "proposed",
+  "lint": { "exit": 0, "valid": true, "problems": [] },
+  "guard": {
+    "exit": 0,
+    "declared": "kind",
+    "touches_an_intent": [],
+    "verdict": "no person's business intent changes",
+    "agrees_with_context": true,
+    "intents_dir": null
+  },
+  "overlaps_on_draft": [
+    { "adr": "028", "judged": "not_affected" },
+    { "adr": "029", "judged": "amended", "part": "section 6 (what /intent and /vision do in Kickoff), with section 2's no-stop rule applied to /intent" },
+    { "adr": "030", "judged": "not_affected" },
+    { "adr": "026", "judged": "amended", "part": "/intent run by hand confirms before it writes" },
+    { "adr": "027", "judged": "amended", "part": "the IDSD row of 'The layers' — a business intent sits above ICE" },
+    { "adr": "002", "judged": "not_affected" },
+    { "adr": "003", "judged": "not_affected" }
+  ],
+  "supersedes": 0,
+  "amends": 3,
+  "retries": 0
+}

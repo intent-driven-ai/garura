@@ -1,0 +1,21 @@
+# adr stop condition — baked from reference/ice.md "### Done means" (#632).
+# Evaluated by scripts/check_stop_condition.py at Step C0 of the Standard Play Close.
+# Paths are relative to the run's working folder ({stm_base}_adr/<run-ts>/ — fixed, not keyed on the issue).
+schema: { name: stop-condition }
+content:
+  done:
+    - id: D1
+      says: "the decision record was saved"
+      check: { type: artifact_exists, path: "adr-manifest.json" }
+    - id: D2
+      says: "it was decided — accepted by a person (by hand), or saved as proposed for the drive's final review"
+      check: { type: field_equals, file: "adr-manifest.json", field: "decided", equals: true }
+    - id: D3
+      says: "it follows the template"
+      check: { type: field_equals, file: "adr-manifest.json", field: "lint_ok", equals: true }
+    - id: D4
+      says: "every older ADR it changes points forward to it (or, when proposed, the pointers wait for acceptance)"
+      check: { type: field_equals, file: "adr-manifest.json", field: "linked", equals: true }
+    - id: D5
+      says: "nothing else in the repository changed"
+      check: { type: field_equals, file: "guard-report.json", field: "ok", equals: true }

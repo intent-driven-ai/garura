@@ -1,0 +1,203 @@
+pr: 633
+category: memory
+base: main
+playbook: review/memory
+also_read: review/adrs   # the adr template must satisfy it (shape-only linter; human judges merit)
+grounding_unavailable: []   # every principle below was read from main; nothing was grounded in the branch's own new text
+
+grounding_sources:
+  - id: G1
+    path: "main:core/components/memory/standards/schemas/product-os/decision.yaml"
+    principle: >-
+      v1 decision record: reason, alternatives, status, superseded_by, metadata.decided_by = the
+      PLAY that recorded it; immutability line says accepted decisions are not edited; fill_rules
+      lists each play that writes decisions.
+  - id: G2
+    path: "main:core/components/memory/standards/rules/gate-config.md"
+    principle: >-
+      Pinned gates never resolve off; the one exception, by intent not config, is /intent's confirm
+      inside a drive (ADR 031). Unpinning is an intent change. The pinned set was set by issue
+      ruling (#467).
+  - id: G3
+    path: "main:core/components/memory/standards/rules/pipeline-next.md"
+    principle: >-
+      One map entry per user-invocable play (lint_play.py fails any play not listed); command null
+      renders only the /next pointer.
+  - id: G4
+    path: "main:core/components/memory/standards/schemas/product-os/_index.md"
+    principle: >-
+      Schema evolution is parked for v1; a dedicated play will own versioned migration. Base
+      precedent for additive changes: an in-file migration note with no version bump (product-os.yaml
+      #550 persona note, lens/ux.yaml #548).
+  - id: G5
+    path: "main:docs/adr/026-direct-to-model-writes.md, 029-drives.md, 031-business-intent-and-ice.md"
+    principle: >-
+      Shape of a Garura ADR: bold header lines (Status, Date, Supersedes/Amends, Decided in, Affects,
+      Related), then Context, Decision, Consequences (Positive / Negative-Risks), Alternatives
+      Considered, optional Work This Creates and References. A forward pointer lives only in the
+      older ADR's Status line. Inside a drive nothing stops for approval (029 section 2); a person
+      alone confirms a business intent (031 section 1 and 5).
+  - id: G6
+    path: "main:core/grounding/glossary.md (rows for Decision/ADR (ProductOS) and ADR)"
+    principle: >-
+      Row 61: a decision record = an ADR at any level; accepted decisions are never edited. Row 113:
+      a Garura ADR lives in docs/adr/ and is NOT the ProductOS decision record.
+  - id: G7
+    path: "core/components/memory/knowledge/review/adrs.md and memory.md (on main)"
+    principle: >-
+      An ADR is checked for shape only (required sections, allowed status values, numbered and linked
+      from the index); memory changes must resolve cross-references and not duplicate or contradict
+      existing knowledge.
+  - id: G8
+    path: "main:core/components/memory/standards/rules/pr.md"
+    principle: >-
+      Severity buckets. P1 blocker (security, data loss, breaking contract). P2 major (lint errors,
+      structural violations). P3 minor (missing docs, naming, borderline). P4 nit (style).
+
+findings:
+  - id: M1
+    severity: P3
+    files:
+      - core/components/memory/standards/templates/adr.md
+      - core/components/memory/standards/templates/_index.md
+    principle: "A standards file's cross-references and named consumers must resolve to real files (review/memory rubric)."
+    source: G7
+    finding: >-
+      Both files name `lint_adr.py` as the linter. No such file exists on main or on this branch.
+      The linter that was built is `adr.py lint` (in author-adr/scripts and plays/adr/scripts).
+      An agent following the template or the index will look for a script that is not there.
+    basis: "git ls-files finds no lint_adr.py; the only hits for the name are these two lines. cmd_lint in skills/author-adr/scripts/adr.py is the real linter."
+    fix: "Name `adr.py lint` (author-adr) in both places."
+
+  - id: M2
+    severity: P3
+    files: [core/components/memory/standards/rules/gate-config.md]
+    principle: "The pinned-gate paragraph states its exceptions exactly; the one exception is /intent's confirm inside a drive (ADR 031)."
+    source: G2
+    finding: >-
+      The edit adds a second inside-a-drive exception (adr's accept step is saved proposed and
+      accepted at the drive's end review) but leaves the sentence "one exception, by intent not
+      config: /intent's confirm is skipped ... inside a drive" untouched. The rule now contradicts
+      itself, and the pinned-bypass machinery text reads as if only /intent can be skipped.
+    basis: "Base gate-config.md pinned paragraph; the added lines sit in the same paragraph, a few lines below the 'one exception' clause."
+    fix: "Reword to name both exceptions (or say 'the drive exceptions'), keeping 'by intent not config'."
+
+  - id: M3
+    severity: P4
+    files: [core/components/memory/standards/rules/gate-config.md]
+    principle: "The pinned set changed through a recorded ruling: #467 by issue, the /intent exception by ADR 031."
+    source: G2
+    finding: >-
+      adr's accept step joins the pinned set citing only #632. This matches the #467 style, so it is
+      not a violation, but unlike the /intent case no ADR records why a drive may defer the accept.
+      ADR 029 open question 2 left pinned-gates-in-a-drive to later spikes.
+    basis: "Base gate-config cites ADR 031 for the /intent exception; ADR 029 'Open Questions' item 2."
+    fix: "Optional: cite the ADR that records the adr-play decision once it is accepted."
+
+  - id: M4
+    severity: P3
+    files: [core/components/memory/standards/schemas/product-os/decision.yaml]
+    principle: "Accepted decisions are never edited; the schema's immutability line and the glossary say so without exception."
+    source: G1, G6
+    finding: >-
+      The v2 migration note says forward pointers (superseded_by, amended_by) and status
+      `superseded` are written on an accepted record later. The `immutability:` line directly above
+      is unchanged ("accepted decisions are not edited - supersede with a new record"), and the
+      glossary row says the same. The file now states both. The practice itself is sound: base ADRs
+      026 and 029 already carry amended-by pointers in their Status lines.
+    basis: "Base decision.yaml 'immutability' key; glossary row 61; base ADR 026 and 029 Status lines."
+    fix: "Update the immutability line to name the pointer exception. The glossary row is outside this diff; flag it."
+
+  - id: M5
+    severity: P3
+    files:
+      - core/components/memory/standards/schemas/product-os/decision.yaml
+      - core/components/memory/standards/schemas/product-os/_index.md
+    principle: "Schema evolution is parked for v1 and versioned migration belongs to a future schema-evolution play; additive changes to date used an in-file migration note without a version bump."
+    source: G4
+    finding: >-
+      decision.yaml goes to `version: 2`, the first version bump of a product-os schema. The base
+      precedents (persona fields #550, ux states #548) stayed at version 1 with a note. The branch
+      gives no reason for departing from that, and the _index still says evolution is parked.
+      Targeted search found no script on main that reads the decision schema's version, so the bump
+      is harmless today, but it sets a precedent the _index says belongs to another play.
+    basis: "Base schemas/product-os/_index.md line 28; product-os.yaml migration notes; git grep of schema version on main found no reader (search was targeted, not exhaustive)."
+    fix: "Either keep version 1 with the additive note, or add a line to the _index saying why decision.yaml is the exception."
+
+  - id: M6
+    severity: P3
+    files: [core/components/memory/standards/schemas/product-os/decision.yaml]
+    principle: "fill_rules names every play that writes decision records."
+    source: G1
+    finding: >-
+      The /adr play writes product decision records (apply_adr.py targets
+      <product-os>/<node>/decisions/<id>.yaml) but fill_rules still lists only /understand, /shape
+      and /realize. The new writer is undeclared in the file that governs who writes this record.
+    basis: "Base fill_rules block; apply_adr.py usage line (--target <product-os>/<node>/decisions/<id>.yaml)."
+    fix: "Add an /adr entry to fill_rules."
+
+  - id: M7
+    severity: P3
+    files:
+      - core/components/memory/standards/templates/adr.md
+      - core/components/memory/standards/schemas/product-os/decision.yaml
+    principle: "metadata.decided_by means the play that recorded the decision (v1, kept)."
+    source: G1
+    finding: >-
+      The template's core table says `decided_by` is the person who accepted it, then says both
+      shapes share the core fields. In the YAML shape `decided_by` is the play and the person is
+      `accepted_by`. One name, two meanings across the two shapes of the same record.
+    basis: "Base decision.yaml: 'decided_by: play that recorded the decision'; CLAUDE.md challenge principle 5 (naming clarity)."
+    fix: "In the core table, name the person field `accepted_by` for both shapes, or say plainly that the YAML field is different."
+
+  - id: M8
+    severity: P4
+    files: [core/components/memory/standards/rules/pipeline-next.md]
+    principle: "Map entries are grouped under the loop they belong to; null-successor entries sit with navigation or change members."
+    source: G3
+    finding: >-
+      `adr` is listed under the 'Kickoff loop, then Shape loop' comment, though it is in neither
+      loop. Its null command is correct and it satisfies the lint_play.py listing rule. The flow
+      prose above the map does not mention it.
+    basis: "Base map: next, focus and start-change (null) sit under their own comments."
+    fix: "Give it its own comment line, for example 'Decision records'."
+
+  - id: M9
+    severity: P4
+    files: [core/components/memory/standards/templates/adr.md]
+    principle: "The template must match the linter that checks it (review/adrs: shape only, template-driven)."
+    source: G7
+    finding: >-
+      Three small mismatches against author-adr's adr.py. (a) The template marks `consequences`,
+      `date` and `decided_in` required for the YAML shape; YAML_REQUIRED does not check them.
+      (b) The YAML shape lists level as product | capability | functionality; the schema and linter
+      also allow framework. (c) Neither the template nor its rules say an ADR must be numbered and
+      linked from docs/adr/_index.md, which review/adrs.md lists as a structural check.
+    basis: "adrs.md Treatment (linter checks status values, required sections, numbered and linked from the index); YAML_REQUIRED and LEVELS in author-adr/scripts/adr.py."
+    fix: "Align the required column and the level list; add one rule line about the index."
+
+  - id: M10
+    severity: P4
+    files: [core/components/memory/standards/templates/_index.md, core/components/memory/standards/templates/adr.md]
+    principle: "The glossary defines the ADR and ProductOS decision as separate things."
+    source: G6
+    finding: >-
+      The template unifies the two under one template, following glossary row 61. Glossary row 113
+      still says a Garura ADR is NOT the ProductOS decision record. The glossary is not in this
+      diff, so the two rows now disagree with the template.
+    basis: "Base glossary rows 61 and 113 (they already differ; the branch picks one without reconciling)."
+    fix: "Follow-up: reconcile the glossary rows."
+
+conforms:
+  - "adr.md follows the shape of ADRs 029-031: headers, section order, Positive / Negative-Risks, Alternatives, optional Work This Creates and References (G5)."
+  - "Forward pointer written into the older ADR's Status line only matches base ADR 026 and 029 practice (G5)."
+  - "Inside a drive an ADR is saved proposed and accepted at the drive's end review: matches ADR 029 section 2 and ADR 031 section 5 (G5)."
+  - "business_intent_check instance is never applied and goes to the person: matches ADR 031 section 1 (G5)."
+  - "Gold example checked against base ADR 031: date, Decided in, the three amended ADRs and the ADR 027 IDSD row all match."
+  - "decision.yaml v2 is additive: every v1 field is unchanged and the note says v1 records stay valid (G1)."
+  - "pipeline-next: adr is listed (so lint_play.py will not fail it) and null follows the documented meaning (G3)."
+  - "gate-config: adding adr's accept to the pinned set follows the /intent precedent; only the stale 'one exception' text is wrong (M2)."
+  - "product-os/_index.md and templates/_index.md rows are in the right tables, in the same form as their neighbours."
+notes:
+  - "templates/adr.md is a new file with no base-ref version, so it was graded against ADRs 029-031, decision.yaml, the glossary and review/adrs.md, never against its own text."
+  - "No P1 or P2 findings. Reads were targeted: the knowledge/_DESIGN, _TEMPLATE shelf files were not read because no knowledge shelf file changed."

@@ -120,6 +120,14 @@ hand confirms first and writes after; a cancel writes nothing, so there is nothi
 Inside a drive it writes the intents as `proposed` with no checkpoint, and the drive's end
 review confirms them. Its writes still run through the scoped-write guard.
 
+**Declared exception — `/adr` run by hand (#632).** A decision record becomes accepted only on
+the person's typed word, so `/adr` run by hand checks everything and asks first, then writes —
+a reject writes nothing, so there is nothing to revert. Inside a drive it writes the record as
+`proposed` with no checkpoint, and the drive's end review accepts it. Because it also writes
+outside the product model (`docs/adr/`), its containment check is its own `check_adr_scope.py`
+over the whole repository, not the shared scoped-write guard; run by hand it starts from a clean
+record tree (`docs/adr/` and `product-os/`).
+
 ## The shared scoped-write guard
 
 Canonical script: `play-creator/references/scoped_write_guard.py`, stamped into each

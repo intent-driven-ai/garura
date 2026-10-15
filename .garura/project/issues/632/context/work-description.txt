@@ -1,0 +1,17 @@
+[FEAT] /adr — a play, skill and sub-agent that manage ADRs
+
+Why: decisions are recorded by hand and nothing checks what a new one overrides. Writing ADR 031 needed a manual search for the older ADRs it amends, and the PR #631 review found the gaps. Kapil (2026-10-09): "we need a skill that manages adrs... adr format, write it, approve it and also to check if this adr invalidates any older ones. and impact of AINT... ADRs ideally should not impact bint".
+
+What (decided A1–A8 with Kapil):
+- One ADR template in core memory (standards/templates/adr.md) with two shapes sharing core fields: Markdown for Garura's ADRs (docs/adr/), decision.yaml records for product decisions; decision.yaml gains the new fields additively.
+- A skill (author-adr) that drafts an ADR from the template.
+- A sub-agent (adr-keeper) that gathers context (older ADRs, the ontology, the ICE, rules, plays and schemas a decision may touch), runs the checks and judges what is superseded or amended.
+- Scripts: next ADR number, ADR linter (the gap knowledge/review/adrs.md names), ADR index, overlap candidates, forward pointers on older ADRs (the only edit to an old ADR), and a business-intent guard (a decision that changes a business intent is flagged to the person, never applied).
+- A /adr play: run by hand, the person approves (pinned) before anything is written; inside a drive, ADRs are saved as proposed and accepted at the drive's final review. Plays that make product decisions call the skill directly.
+- Existing ADRs stay as written for now; reviewing them is later work.
+
+Not a child of #612 or #606 (an offshoot, by Kapil's word).
+
+Done when: the template, skill, agent, scripts (with tests) and the /adr play exist; a trial on ADR 031 as if new finds ADR 026, 027 and 029 on its own and tells the Business Intent kind from a person's business intent; reviewed and merged.
+
+Plan: .garura/project/issues/_pending/adr-skill/specs/plan.md (moves into the issue folder).

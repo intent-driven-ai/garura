@@ -32,6 +32,8 @@ The lifecycle runs as five loops (ADR 028; the names are working names). The pla
 
 ```yaml
 next:
+  # Standalone (no loop)
+  adr:            { command: null,           why: "a decision record stands on its own; nothing follows it by default" }
   # Kickoff loop, then Shape loop
   intent:         { command: vision,         why: "seed the product model from a confirmed business intent (give /vision its title, outcome and why as the goal)" }
   vision:         { command: understand,     why: "expand this capability's intent (ICE)" }
