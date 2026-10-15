@@ -231,11 +231,11 @@ def check_doc(path, text, kind, errors, warnings, expected_stage=None):
         if h not in body_by_h:
             continue  # already reported missing
         lines = body_by_h[h]
-        content = "\n".join(l for l in lines).strip()
+        content = "\n".join(line for line in lines).strip()
         if not content:
             errors.append(f"{path}: section '## {h}' is empty")
             continue
-        has_bullets = any(re.match(r"^[-*]\s+", l.strip()) for l in lines)
+        has_bullets = any(re.match(r"^[-*]\s+", line.strip()) for line in lines)
         # Section-total floor applies to PROSE sections only. List sections vary in
         # length (a one-functionality capability is legitimately short); their
         # substance is guarded per-bullet below, so the section-total floor would
@@ -245,8 +245,8 @@ def check_doc(path, text, kind, errors, warnings, expected_stage=None):
                 f"{path}: section '## {h}' is below the substance floor "
                 f"({_words(content)} words < {MIN_SECTION_WORDS}) — looks like a label, not an explanation")
         # per top-level bullet floor
-        for l in lines:
-            s = l.strip()
+        for line in lines:
+            s = line.strip()
             m = re.match(r"^[-*]\s+(.*)$", s)
             if not m:
                 continue
