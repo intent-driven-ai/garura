@@ -2,7 +2,7 @@
 """adr.py — the mechanical half of managing decision records (ADRs) (#632).
 
 Template: `standards/templates/adr.md` — one set of core fields, two shapes: Markdown for
-Garura's ADRs (`docs/adr/NNN-<slug>.md`), YAML for product decisions (`decision.yaml` v2).
+Garura's ADRs (`docs/adr/NNN-<slug>.md`), YAML for product decisions (`decision.yaml`, with the #632 fields).
 Judgment — what a decision really supersedes or changes, and the draft itself — belongs to
 the `adr-keeper` agent and the `author-adr` skill. This script only counts, parses, checks
 and writes the one field an accepted ADR may gain. No git, no network, no LLM.
@@ -49,7 +49,7 @@ def read(path):
     try:
         with open(path, encoding="utf-8") as fh:
             return fh.read()
-    except OSError as exc:
+    except (OSError, UnicodeDecodeError) as exc:
         raise Bad(f"cannot read {path}: {exc.__class__.__name__}") from exc
 
 
@@ -164,6 +164,21 @@ def lint_yaml(d):
     for k in YAML_REQUIRED:
         if d.get(k) in (None, "", []):
             problems.append(f"missing `{k}`")
+    for k in ("id", "title", "status", "level", "reason", "ice_impact", "business_intent_check"):
+        if d.get(k) is not None and not isinstance(d.get(k), (str, int)):
+            problems.append(f"`{k}` must be a single value")
+    for k in ("affects", "alternatives", "supersedes", "amends", "amended_by"):
+        if d.get(k) is not None and not isinstance(d.get(k), list):
+            problems.append(f"`{k}` must be a list")
+    meta = d.get("metadata") if isinstance(d.get("metadata"), dict) else {}
+    for k in ("date", "decided_in"):
+        if not meta.get(k):
+            problems.append(f"missing `metadata.{k}`")
+    cons = d.get("consequences")
+    if not isinstance(cons, dict) or not (cons.get("positive") or cons.get("negative")):
+        problems.append("missing `consequences` (positive and/or negative)")
+    if problems and any("single value" in p or "must be a list" in p for p in problems):
+        return problems
     if d.get("status") and d["status"] not in STATUSES:
         problems.append(f"`status` must be one of {sorted(STATUSES)}")
     if d.get("level") and d["level"] not in LEVELS:
@@ -172,7 +187,6 @@ def lint_yaml(d):
         problems.append("a capability or functionality decision names its `node_ref`")
     if d.get("business_intent_check") and d["business_intent_check"] not in BI_CHECKS:
         problems.append(f"`business_intent_check` must be one of {sorted(BI_CHECKS)}")
-    meta = d.get("metadata") or {}
     if d.get("status") == "accepted" and not meta.get("accepted_by"):
         problems.append("an accepted decision names who accepted it (`metadata.accepted_by`)")
     for a in d.get("alternatives") or []:
@@ -235,7 +249,13 @@ def cmd_pointer(args):
     if is_yaml(args.older):
         data, d = load_decision(args.older)
         _, new = load_decision(args.newer)
+        if not new.get("id"):
+            print(json.dumps({"refused": "the newer decision has no id"}))
+            return 2
         if args.kind == "superseded":
+            if d.get("superseded_by") and d["superseded_by"] != new["id"]:
+                print(json.dumps({"refused": f"already superseded by {d['superseded_by']} — supersede that one instead"}))
+                return 2
             d["superseded_by"] = new["id"]
             if (args.what or "full") == "full":
                 d["status"] = "superseded"
@@ -258,6 +278,9 @@ def cmd_pointer(args):
     phrase = (f"superseded by {link}{what}" if args.kind == "superseded" else
               f"amended in part by {link}{what}")
     status = re.search(r"^\*\*Status:\*\*\s*(.*)$", old_text, re.MULTILINE)
+    if status and args.kind == "superseded" and status.group(1).lower().startswith("superseded by"):
+        print(json.dumps({"refused": f"already {status.group(1).strip()} — supersede that one instead"}))
+        return 2
     if status:
         current = status.group(1).rstrip().rstrip(".")
         if args.kind == "superseded" and (args.what or "full") == "full":
@@ -304,13 +327,14 @@ def cmd_accept(args):
         if f.get("status", "").split(" ")[0].lower() != "proposed":
             print(json.dumps({"refused": f"status is `{f.get('status')}`, not Proposed"}))
             return 2
-        text = re.sub(r"^\*\*Status:\*\*.*$", "**Status:** Accepted", text, count=1, flags=re.MULTILINE)
-        text = re.sub(r"^\*\*Date:\*\*.*$", f"**Date:** {args.date}", text, count=1, flags=re.MULTILINE)
+        by = args.by.strip()            # replacements are functions: a name like CORP\kapil is text
+        text = re.sub(r"^\*\*Status:\*\*.*$", lambda m: "**Status:** Accepted", text, count=1, flags=re.MULTILINE)
+        text = re.sub(r"^\*\*Date:\*\*.*$", lambda m: f"**Date:** {args.date}", text, count=1, flags=re.MULTILINE)
         if re.search(r"^\*\*Decided by:\*\*", text, re.MULTILINE):
-            text = re.sub(r"^\*\*Decided by:\*\*[^·\n]*", f"**Decided by:** {args.by.strip()} ", text, count=1,
+            text = re.sub(r"^\*\*Decided by:\*\*[^·\n]*", lambda m: f"**Decided by:** {by} ", text, count=1,
                           flags=re.MULTILINE)
         else:
-            text = re.sub(r"^(\*\*Level:\*\*.*)$", rf"\1\n**Decided by:** {args.by.strip()}", text, count=1,
+            text = re.sub(r"^(\*\*Level:\*\*.*)$", lambda m: f"{m.group(1)}\n**Decided by:** {by}", text, count=1,
                           flags=re.MULTILINE)
         with open(args.adr, "w", encoding="utf-8") as fh:
             fh.write(text)
@@ -335,7 +359,8 @@ def cmd_guard(args):
     if is_yaml(args.adr):
         _, d = load_decision(args.adr)
         declared = str(d.get("business_intent_check") or "").strip().lower()
-        affects = " ".join(str(a) for a in d.get("affects") or [])
+        raw = d.get("affects") or []
+        affects = raw if isinstance(raw, str) else " ".join(str(a) for a in raw)
     else:
         f = parse_md(text)["fields"]
         declared = f.get("business intent check", "").split(" ")[0].strip("—").lower()
@@ -393,8 +418,9 @@ def main(argv=None):
     try:
         return {"number": cmd_number, "lint": cmd_lint, "index": cmd_index, "overlaps": cmd_overlaps,
                 "pointer": cmd_pointer, "guard": cmd_guard, "accept": cmd_accept}[args.cmd](args)
-    except (Bad, OSError) as exc:
-        print(json.dumps({"error": str(exc)}))
+    except (Bad, OSError, UnicodeDecodeError, ValueError, TypeError, AttributeError, KeyError,
+            yaml.YAMLError) as exc:
+        print(json.dumps({"error": f"unreadable or wrong-shaped input: {exc.__class__.__name__}: {exc}"}))
         return 3
 
 

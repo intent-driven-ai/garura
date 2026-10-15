@@ -16,7 +16,9 @@ author-adr skill) for every check and write, so the rules live in one place.
 decision.yaml (written by the play from the person's typed reply):
     decision: { verdict: accept | reject, by: person, accepted_by: <name>, reply: <their words> }
 
-What it does, in order, and only in this order:
+What it does, in order — every check runs before the first write, so a stop writes nothing:
+  0. the draft must be Proposed, the number must match its file name and be unused, every
+     older ADR it names must exist (when accepting now), and the index folder must exist
   1. lint the draft against the template; a problem stops the run (exit 2)
   2. guard: a decision that would change a person's business intent stops the run before
      anything is written (exit 4) — it goes to the person
@@ -102,8 +104,11 @@ def refs_from_record(path):
         return out
     fields = adr.parse_md(adr.read(path))["fields"]
     for kind, key in (("superseded", "supersedes"), ("amended", "amends")):
-        for chunk in re.split(r"\s·\s", fields.get(key, "")):
-            m = re.search(r"ADR\s*0*(\d{1,3})\s*(?:\(([^)]*)\)|—\s*(.+))?", chunk)
+        value = fields.get(key, "").strip()
+        if not value or value.lower().startswith("none"):
+            continue
+        for chunk in re.split(r"\s·\s", value):
+            m = re.match(r"\s*ADR\s*0*(\d{1,3})\s*(?:\(([^)]*)\)|—\s*(.+))?", chunk)
             if m:
                 out.append({"kind": kind, "ref": m.group(1), "part": (m.group(2) or m.group(3) or "full").strip()})
     return out
@@ -143,6 +148,117 @@ def accept_and_link(path, by, date, olders, adr_dir, index, manifest):
     return True
 
 
+class Stop(Exception):
+    """A reason to write nothing: (exit code, message)."""
+
+
+def draft_status(path):
+    if adr.is_yaml(path):
+        return str(adr.load_decision(path)[1].get("status") or "").lower()
+    return adr.parse_md(adr.read(path))["fields"].get("status", "").split(" ")[0].lower()
+
+
+def resolve_olders(olders):
+    """Every older ADR must exist before anything is written (F1, F4)."""
+    missing = [ref or str(path) for path, _, _, ref in olders if not path or not os.path.exists(path)]
+    if missing:
+        raise Stop(2, f"older ADRs named but not found: {', '.join(missing)} — nothing is written")
+
+
+def check_number(target, draft, adr_dir):
+    """A Markdown ADR's number matches its file name and is not taken by another file (F5)."""
+    if adr.is_yaml(target):
+        return
+    num = adr.parse_md(adr.read(draft))["number"]
+    m = re.match(r"^(\d{3})-", os.path.basename(target))
+    if not num or not m or m.group(1) != num:
+        raise Stop(2, f"the ADR number ({num}) does not match the file name {os.path.basename(target)}")
+    if adr_dir and os.path.isdir(adr_dir):
+        taken = adr.numbers(adr_dir)
+        if int(num) in taken and taken[int(num)] != os.path.basename(target):
+            raise Stop(2, f"ADR {num} is already taken by {taken[int(num)]}")
+
+
+def plan_new(args):
+    """Read and check every input for a new record. Writes nothing."""
+    for need in ("draft", "context", "target"):
+        if not getattr(args, need):
+            raise Stop(2, f"--{need} is required")
+    if bool(args.proposed) == bool(args.decision):
+        raise Stop(2, "pass exactly one of --decision (by hand) or --proposed (inside a drive)")
+    if not adr.is_yaml(args.target) and not args.adr_dir:
+        raise Stop(2, "--adr-dir is required for a Markdown ADR")
+    try:
+        context = load_yaml(args.context)
+        verdict = None if args.proposed else load_yaml(args.decision).get("decision") or {}
+    except (OSError, ValueError, yaml.YAMLError) as exc:
+        raise Stop(3, f"cannot read an input: {exc}") from exc
+    code, out = call(["lint", "--adr", args.draft])                       # 1. template
+    if code != 0:
+        raise Stop(2, out.get("problems") or out)
+    if draft_status(args.draft) != "proposed":                            # only a person accepts
+        raise Stop(2, "the draft must be Proposed — only a person's word makes it accepted")
+    guard = ["guard", "--adr", args.draft] + (["--intents-dir", args.intents_dir] if args.intents_dir else [])
+    code, out = call(guard)                                                # 2. business intent
+    if code == 4:
+        raise Stop(4, "the decision would change a person's business intent — ask the person")
+    if code != 0:
+        raise Stop(2, out.get("problem") or out)
+    if verdict is not None:                                                # 3. the person's word
+        if verdict.get("by") != "person" or not str(verdict.get("reply") or "").strip():
+            raise Stop(2, "the decision must be the person's own typed reply (by: person, reply)")
+        if verdict.get("verdict") == "reject":
+            raise Stop(5, "the person rejected the ADR — nothing is written")
+        if verdict.get("verdict") != "accept" or not str(verdict.get("accepted_by") or "").strip():
+            raise Stop(2, "verdict must be accept (with accepted_by) or reject")
+    if os.path.exists(args.target):
+        raise Stop(2, f"{args.target} already exists — a record is never overwritten")
+    check_number(args.target, args.draft, args.adr_dir)
+    olders = older_targets(context, args.adr_dir)
+    if verdict is not None:            # pointers are written now, so their targets must exist now
+        resolve_olders(olders)
+    if args.index and not os.path.isdir(os.path.dirname(args.index) or "."):
+        raise Stop(2, f"the index folder for {args.index} does not exist")
+    return verdict, olders
+
+
+def run_new(args, manifest):
+    verdict, olders = plan_new(args)
+    manifest["lint_ok"] = True
+    manifest["olders"] = [{"adr": r, "file": p, "kind": k, "part": pt} for p, k, pt, r in olders]
+    os.makedirs(os.path.dirname(args.target) or ".", exist_ok=True)       # 4. write
+    shutil.copyfile(args.draft, args.target)
+    if verdict is None:                                                    # 5. drive: proposed
+        manifest.update(status="proposed", pointers_deferred=True, decided=True, linked=True)
+        return 0
+    ok = accept_and_link(args.target, str(verdict["accepted_by"]).strip(), args.date, olders,
+                         args.adr_dir, args.index, manifest)
+    manifest["decided"] = ok
+    return 0 if ok and manifest["linked"] else 2
+
+
+def run_accept_existing(args, manifest):
+    path = args.accept_existing
+    manifest["path"] = path
+    code, out = call(["lint", "--adr", path])
+    if code != 0:
+        raise Stop(2, out.get("problems") or out)
+    manifest["lint_ok"] = True
+    if not (args.by or "").strip():
+        raise Stop(2, "only a person accepts an ADR — --by names them")
+    if draft_status(path) != "proposed":
+        raise Stop(2, "only a proposed ADR can be accepted")
+    adr_dir = args.adr_dir or os.path.dirname(path)
+    olders = []
+    for r in refs_from_record(path):
+        key = "supersedes" if r["kind"] == "superseded" else "amends"
+        olders += older_targets({key: [{"adr": r["ref"], "id": r["ref"], "part": r["part"]}]}, adr_dir)
+    resolve_olders(olders)                                                 # before accepting (F4)
+    ok = accept_and_link(path, args.by.strip(), args.date, olders, adr_dir, args.index, manifest)
+    manifest["decided"] = ok
+    return 0 if ok and manifest["linked"] else 2
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--draft")
@@ -160,81 +276,21 @@ def main(argv=None):
     args = ap.parse_args(argv)
     os.makedirs(args.working, exist_ok=True)
     manifest = {"decided": False, "lint_ok": False, "linked": False}
-
-    if args.accept_existing:                    # complete a proposed ADR later
-        path = args.accept_existing
-        code, out = call(["lint", "--adr", path])
-        manifest.update(path=path, lint_ok=code == 0)
-        if code != 0:
-            manifest["problem"] = out.get("problems")
-            return finish(args.working, manifest, 2)
-        if not (args.by or "").strip():
-            manifest["problem"] = "only a person accepts an ADR — --by names them"
-            return finish(args.working, manifest, 2)
-        olders = []
-        for r in refs_from_record(path):
-            olders += older_targets({("supersedes" if r["kind"] == "superseded" else "amends"):
-                                     [{"adr": r["ref"], "part": r["part"]}]},
-                                    args.adr_dir or os.path.dirname(path))
-        ok = accept_and_link(path, args.by.strip(), args.date, olders,
-                             args.adr_dir or os.path.dirname(path), args.index, manifest)
-        manifest["decided"] = ok
-        return finish(args.working, manifest, 0 if ok and manifest["linked"] else 2)
-
-    for need in ("draft", "context", "target"):
-        if not getattr(args, need):
-            manifest["problem"] = f"--{need} is required"
-            return finish(args.working, manifest, 2)
-    if bool(args.proposed) == bool(args.decision):
-        manifest["problem"] = "pass exactly one of --decision (by hand) or --proposed (inside a drive)"
-        return finish(args.working, manifest, 2)
+    if not args.accept_existing:
+        manifest.update(target=args.target, shape="yaml" if adr.is_yaml(args.target or "") else "markdown")
     try:
-        context = load_yaml(args.context)
-        verdict = None if args.proposed else load_yaml(args.decision).get("decision") or {}
-    except (OSError, ValueError, yaml.YAMLError) as exc:
-        manifest["problem"] = f"cannot read an input: {exc}"
-        return finish(args.working, manifest, 3)
-    manifest.update(target=args.target, shape="yaml" if adr.is_yaml(args.target) else "markdown")
-
-    code, out = call(["lint", "--adr", args.draft])                       # 1. template
-    manifest["lint_ok"] = code == 0
-    if code != 0:
-        manifest["problem"] = out.get("problems") or out
-        return finish(args.working, manifest, 2)
-    guard = ["guard", "--adr", args.draft] + (["--intents-dir", args.intents_dir] if args.intents_dir else [])
-    code, out = call(guard)                                                # 2. business intent
-    manifest["guard"] = out
-    if code == 4:
-        manifest["business_intent"] = True
-        manifest["problem"] = "the decision would change a person's business intent — ask the person"
-        return finish(args.working, manifest, 4)
-    if code != 0:
-        manifest["problem"] = out.get("problem") or out
-        return finish(args.working, manifest, 2)
-    if verdict is not None:                                                # 3. the person's word
-        if verdict.get("by") != "person" or not str(verdict.get("reply") or "").strip():
-            manifest["problem"] = "the decision must be the person's own typed reply (by: person, reply)"
-            return finish(args.working, manifest, 2)
-        if verdict.get("verdict") == "reject":
-            manifest.update(rejected=True, problem="the person rejected the ADR — nothing is written")
-            return finish(args.working, manifest, 5)
-        if verdict.get("verdict") != "accept" or not str(verdict.get("accepted_by") or "").strip():
-            manifest["problem"] = "verdict must be accept (with accepted_by) or reject"
-            return finish(args.working, manifest, 2)
-    if os.path.exists(args.target):                                        # 4. write, never over
-        manifest["problem"] = f"{args.target} already exists — a record is never overwritten"
-        return finish(args.working, manifest, 2)
-    os.makedirs(os.path.dirname(args.target) or ".", exist_ok=True)
-    shutil.copyfile(args.draft, args.target)
-    olders = older_targets(context, args.adr_dir)
-    manifest["olders"] = [{"adr": r, "file": p, "kind": k, "part": pt} for p, k, pt, r in olders]
-    if args.proposed:                                                      # 5. drive: proposed
-        manifest.update(status="proposed", pointers_deferred=True, decided=True, linked=True)
-        return finish(args.working, manifest, 0)
-    ok = accept_and_link(args.target, str(verdict["accepted_by"]).strip(), args.date, olders,
-                         args.adr_dir, args.index, manifest)
-    manifest["decided"] = ok
-    return finish(args.working, manifest, 0 if ok and manifest["linked"] else 2)
+        code = run_accept_existing(args, manifest) if args.accept_existing else run_new(args, manifest)
+    except Stop as stop:
+        code, why = stop.args
+        manifest["problem"] = why
+        if code == 4:
+            manifest["business_intent"] = True
+        if code == 5:
+            manifest["rejected"] = True
+    except (adr.Bad, OSError, ValueError, TypeError, AttributeError, yaml.YAMLError) as exc:
+        code = 3
+        manifest["problem"] = f"unreadable or wrong-shaped input: {exc}"
+    return finish(args.working, manifest, code)
 
 
 if __name__ == "__main__":

@@ -77,7 +77,8 @@ PRODUCT = {"decision": {
     "alternatives": [{"name": "No cache", "why_not": "Too slow."}],
     "amends": [{"id": "dec-1", "part": "the cache length"}],
     "affects": ["capabilities/cap-sessions/capability.md"], "ice_impact": "none — no goal changes",
-    "business_intent_check": "none", "metadata": {"decided_by": "/understand", "date": "2026-10-15"}}}
+    "business_intent_check": "none", "consequences": {"positive": ["Faster reads."], "negative": ["Stale for an hour."]},
+    "metadata": {"decided_by": "/understand", "date": "2026-10-15", "decided_in": "#632"}}}
 
 
 def write(path, text):
@@ -232,9 +233,58 @@ def test_scope():
         check("any other change is a violation", code == 1)
 
 
+def test_nothing_half_written():
+    with tempfile.TemporaryDirectory() as tmp:
+        ctx = dict(CONTEXT, amends=[{"adr": "009", "part": "a part"}])
+        p = setup(tmp, context=ctx)
+        code = run(base(p, ["--decision", accept_file(p["work"])]))
+        check("an older ADR that does not exist stops the run before anything is written",
+              code == 2 and not os.path.exists(p["target"]) and "not found" in str(manifest(p["work"])["problem"]))
+        p2 = setup(os.path.join(tmp, "a"), draft=DRAFT.replace("**Status:** Proposed", "**Status:** Accepted\n**Decided by:** Someone"))
+        for mode in (["--proposed"], ["--decision", accept_file(p2["work"])]):
+            code = run(base(p2, mode))
+            check(f"a draft already marked Accepted is refused ({mode[0]}), nothing written",
+                  code == 2 and not os.path.exists(p2["target"]))
+        p3 = setup(os.path.join(tmp, "n"))
+        p3["target"] = os.path.join(p3["dir"], "004-cache-in-memory.md")
+        check("a number that does not match the file name is refused",
+              run(base(p3, ["--proposed"])) == 2 and not os.path.exists(p3["target"]))
+        p4 = setup(os.path.join(tmp, "t"))
+        write(os.path.join(p4["dir"], "003-someone-else.md"), "# ADR 003 — Taken\n")
+        check("a number already taken by another file is refused", run(base(p4, ["--proposed"])) == 2
+              and not os.path.exists(p4["target"]))
+
+
+def test_accept_later_safely():
+    with tempfile.TemporaryDirectory() as tmp:
+        p = setup(tmp)
+        run(base(p, ["--proposed"]))
+        os.remove(os.path.join(p["dir"], "002-retry.md"))
+        code = run(["--accept-existing", p["target"], "--by", "Kapil", "--adr-dir", p["dir"], "--index", p["index"],
+                    "--date", "2026-10-17", "--working", os.path.join(tmp, "later")])
+        check("accepting later with a missing older ADR stops before accepting",
+              code == 2 and "**Status:** Proposed" in open(p["target"]).read()
+              and open(os.path.join(p["dir"], "001-cache-on-disk.md")).read() == OLD_1)
+        none = DRAFT.replace("**Supersedes:** ADR 002 (in full)", "**Supersedes:** none — unlike ADR 002, nothing")
+        q = setup(os.path.join(tmp, "q"), draft=none, context=dict(CONTEXT, supersedes=[]))
+        run(base(q, ["--proposed"]))
+        run(["--accept-existing", q["target"], "--by", "Kapil", "--adr-dir", q["dir"], "--index", q["index"],
+             "--date", "2026-10-17", "--working", os.path.join(tmp, "q2")])
+        check("a Supersedes line that reads 'none — unlike ADR 002' supersedes nothing",
+              open(os.path.join(q["dir"], "002-retry.md")).read() == OLD_2)
+
+
+def test_copy_in_sync():
+    skill = os.path.join(HERE, "..", "..", "..", "skills", "author-adr", "scripts", "adr.py")
+    if os.path.isfile(skill):
+        check("the play's adr.py is the author-adr skill's adr.py, unchanged",
+              open(skill, "rb").read() == open(os.path.join(HERE, "adr.py"), "rb").read())
+
+
 def main():
     for test in (test_accept_by_hand, test_business_intent_stop, test_product_decision,
-                 test_drive_then_accept_later, test_reject_and_refusals, test_scope):
+                 test_drive_then_accept_later, test_reject_and_refusals, test_scope,
+                 test_nothing_half_written, test_accept_later_safely, test_copy_in_sync):
         print(test.__name__)
         test()
     print(f"\n{PASSED} passed, {FAILED} failed")

@@ -11,7 +11,7 @@ Record a decision as an **ADR** — a decision record — from the one template 
 `standards/templates/adr.md`. One set of core fields, two shapes:
 
 - **Markdown** — Garura's own ADRs, `docs/adr/NNN-<slug>.md`.
-- **YAML** — a product decision, a `decision.yaml` (v2) record beside its node.
+- **YAML** — a product decision, a `decision.yaml` record (with the #632 fields) beside its node.
 
 The play makes what a decision overrides and what it changes visible before anyone accepts it,
 keeps every older ADR pointing forward, and never lets a decision change a person's business
@@ -71,22 +71,24 @@ Everything else is a script.
 | A decision brief was given: what is decided, why now, the options, who decides, where (or, for `accept`, a proposed ADR file) | C1 | Ask for what is missing (gather, not a halt) |
 | Drive contract: when `--contract <file>` is passed, it is valid JSON naming `drive_run_id` and `branch`, and the current branch equals that branch | C10 | Hard halt (REC10) |
 | The ADR template exists (`standards/templates/adr.md`) | C2 | Hard halt |
+| **Clean record tree** — run by hand, after Step 0, `git status --porcelain -- docs/adr <product_base>product-os` is empty | C9 | Hard halt (REC9) |
 
 Resolve the facts with the bundled resolver — not by inference:
 
 ```
 git branch --show-current
-git status --porcelain -uall > <working>/porcelain-before.txt
+git -c core.quotepath=off status --porcelain -uall > <working>/porcelain-before.txt
 python3 scripts/preflight.py --play adr --config .garura/core/config.yaml \
     --branch "<current branch>" --porcelain-file <working>/porcelain-before.txt
 python3 scripts/session_stamp.py --phase start \
-    --marker "{stm_base}{issue}/status/session-stamp-adr.json" \
+    --marker "{stm_base}_adr/status/session-stamp-adr.json" \
     --cwd "$(pwd)" --branch "$(git branch --show-current)"
 ```
 
 `in_drive` is true exactly when a valid `--contract` was passed; record it in
 `<working>/run.json` with the contract's `drive_run_id` and `branch`. The working folder
-`<working>` is `{stm_base}{issue}/context/adr-<run-ts>/` (the drive's issue inside a drive).
+`<working>` is `{stm_base}_adr/<run-ts>/` — fixed, not keyed on the issue, because run by hand
+pre-flight runs before start-change has created it (as `/intent` does).
 `porcelain-before.txt` is captured again after Step 0 when run by hand, so the scope check sees
 only this run's changes.
 
@@ -122,11 +124,11 @@ runtime reordering. On resume, skip completed and reset in-progress to pending.
 **Step 0 — start-change** · Owner: `start-change` (sub-play) · Depends on: pre-flight
 *Skipped when `in_drive`.* Run the start-of-pipeline member as a sub-play with `parent_run_id`:
 it resolves or creates the issue, cuts the branch off fresh main, and inits STM. Then capture
-`git status --porcelain -uall > <working>/porcelain-before.txt` again on the new branch.
+`git -c core.quotepath=off status --porcelain -uall > <working>/porcelain-before.txt` again on the new branch.
 
     { "play": "start-change", "parent_run_id": "<this run id>",
       "inputs": { "title": "adr: <the decision in a few words>" },
-      "outputs": { "result": "{stm_base}{issue}/context/adr-<run-ts>/start-change.json" } }
+      "outputs": { "result": "{stm_base}_adr/<run-ts>/start-change.json" } }
 
 ### Phase: Brief
 
@@ -159,7 +161,9 @@ superseded / amended (with the part) / not affected, names what the decision aff
 ICE impact with real paths, sets the business-intent check (`none`, `kind` or `instance`), has
 `author-adr` draft the record as proposed, and checks it (lint and guard). It returns only its
 contract. `blocked` with `needs_person` means the decision would change a person's business
-intent, or the brief is incomplete — go to the person.
+intent, or the brief is incomplete — go to the person. **This stop applies in both modes:** run
+by hand, Step 3 shows the person; inside a drive, it is a new question, and a new question
+stops the drive (ADR 029 §2) — the ADR is never applied to the intent either way.
 **SE-2 (F2/C2):** `adr-check.json` reports the lint clean for the draft.
 **SE-3 (F3/C3):** `adr-context.yaml` lists every older ADR it supersedes or amends, each with a
 part; every ADR named in the draft's Supersedes/Amends is in that list and vice versa.
@@ -173,7 +177,8 @@ one-way-door, pinned) · **run by hand: never skipped by config or policy. Insid
 skipped — no approval stop.**
 *Inside a drive (`in_drive`), skip this step: the ADR is saved as proposed (Step 4 with
 `--proposed`), and the person accepts it at the drive's final review with `/adr accept <file>`.*
-If the business-intent check is `instance` (or the guard exits 4), stop here: show the person
+If the business-intent check is `instance` (or the guard exits 4), stop here — run by hand or
+inside a drive: show the person
 which business intent the decision would change and why, and close HALTED with
 `exit_reason: business_intent` — the person changes the brief or ends it (S2).
 Otherwise show the draft exactly as it will read, the older ADRs it supersedes or amends (with
@@ -207,8 +212,10 @@ In `accept` mode: `python3 scripts/apply_adr.py --accept-existing <file> --by "<
 --date <date> [--adr-dir docs/adr] [--index docs/adr/_index.md] --working <working>`, after the
 person typed **accept** on the proposed ADR shown to them.
 
-It lints, runs the business-intent guard (exit 4 stops before writing), writes nothing on a
-reject (exit 5), writes the record at the target (never over an existing file), and — only on
+Every check runs before the first write, so a stop writes nothing: the draft must still be
+Proposed, its number must match its file name and be unused, and (when accepting now) every
+older ADR it names must exist. It lints, runs the business-intent guard (exit 4 stops before
+writing), writes nothing on a reject (exit 5), writes the record at the target (never over an existing file), and — only on
 accept — marks it accepted with the person's name, writes each forward pointer on the older
 ADRs (the only edit they get), and rebuilds the index. Inside a drive it saves the record as
 proposed and leaves the pointers for acceptance. It writes `adr-manifest.json`.
@@ -221,7 +228,7 @@ the index has a row for every ADR file in the folder.
 **Step 5 — Scope check** · Owner: play (script) · Depends on: Step 4
 
 ```
-git status --porcelain -uall > <working>/porcelain-after.txt
+git -c core.quotepath=off status --porcelain -uall > <working>/porcelain-after.txt
 python3 scripts/check_adr_scope.py --before <working>/porcelain-before.txt \
     --after <working>/porcelain-after.txt --allow <the target> \
     --allow <each older ADR file it pointed> [--allow docs/adr/_index.md] \
@@ -245,19 +252,19 @@ injects the close sequence, each a sub-play with `parent_run_id`:
 
 **Step E1 — commit-change** · blockedBy: Step 6
 
-    { "play": "commit-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "{stm_base}{issue}/context/adr-<run-ts>/commit-change.json" } }
+    { "play": "commit-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "{stm_base}_adr/<run-ts>/commit-change.json" } }
 
 **Step E2 — propose-change** · blockedBy: E1
 
-    { "play": "propose-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "{stm_base}{issue}/context/adr-<run-ts>/propose-change.json" } }
+    { "play": "propose-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "{stm_base}_adr/<run-ts>/propose-change.json" } }
 
 **Step E3 — review-change** · blockedBy: E2
 
-    { "play": "review-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "{stm_base}{issue}/context/adr-<run-ts>/review-change.json" } }
+    { "play": "review-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "{stm_base}_adr/<run-ts>/review-change.json" } }
 
 **Step E4 — merge-change** · blockedBy: E3
 
-    { "play": "merge-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "{stm_base}{issue}/context/adr-<run-ts>/merge-change.json" } }
+    { "play": "merge-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "{stm_base}_adr/<run-ts>/merge-change.json" } }
 
 Each end member owns its own evals; a review reject stops the chain before merge; the land on
 main keeps its pinned human approval.
@@ -306,13 +313,13 @@ evidence_dest="${evidence_base}${ts}.md"
 mkdir -p "$(dirname "$evidence_dest")"
 # Session identity stamp (#463) — close phase; start phase ran at pre-flight
 session_stamp=$(python3 scripts/session_stamp.py --phase close \
-    --marker "${stm_base}${issue}/status/session-stamp-adr.json")
+    --marker "${stm_base}_adr/status/session-stamp-adr.json")
 # Stop-condition gate (#464) — Step C0: this play carries a baked manifest, so the
 # gate is LIVE. Evaluate the Done means here as the close's authoritative input.
 python3 scripts/check_stop_condition.py \
     --manifest "<play-dir>/stop-condition.yaml" \
     --base "<working>/" \
-    --out "${stm_base}${issue}/status/stop-condition-adr.yaml"
+    --out "${stm_base}_adr/status/stop-condition-adr.yaml"
 sc_exit=$?   # 0 held · 1 unmet · 2 error
 ```
 
@@ -385,7 +392,7 @@ after Step 2 reuses the draft and its context; a resume never re-asks the person
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:0ffcc2545c988f81d24115a3e555f288d1edc72a11cebc36a3990cf3cdf0435d (of `reference/ice.md`) |
+| fingerprint | sha256:fc1439ac28dbfb073b3d138ffae7c666098af42be5330e9fc15c36767b6ddc85 (of `reference/ice.md`) |
 | compiled_by | play-creator (#632) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close; both skipped inside a drive) |
 | position_exception | record-writing both play — writes the ADR on its started branch (or the drive's) and commits it (Step 6) BEFORE the injected end sequence lands it |
