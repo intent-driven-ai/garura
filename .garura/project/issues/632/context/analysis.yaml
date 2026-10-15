@@ -1,84 +1,75 @@
 needs_judgment: false
+
 change_groups:
-- id: adr-template-and-decision-schema
-  issue: 632
-  commit_type: feat
-  scope: memory
-  subject: add the one ADR template and move decision.yaml to v2 so both ADR shapes share it
-  files:
-  - core/components/memory/standards/templates/adr.md
-  - core/components/memory/standards/templates/_index.md
-  - core/components/memory/standards/schemas/product-os/decision.yaml
-  - core/components/memory/standards/schemas/product-os/_index.md
-- id: author-adr-skill
-  issue: 632
-  commit_type: feat
-  scope: author-adr
-  subject: add the skill that drafts an ADR from the template, with its mechanical scripts and tests
-  files:
-  - core/components/skills/author-adr/SKILL.md
-  - core/components/skills/author-adr/scripts/adr.py
-  - core/components/skills/author-adr/scripts/test_adr.py
-- id: adr-keeper-agent
-  issue: 632
-  commit_type: feat
-  scope: adr-keeper
-  subject: add the agent that gathers ADR context and checks the drafted record
-  files:
-  - core/components/agents/adr-keeper.md
-- id: adr-play
-  issue: 632
-  commit_type: feat
-  scope: adr
-  subject: add the /adr play, pin its approval gate and list it as a next step
-  files:
-  - core/components/plays/adr/SKILL.md
-  - core/components/plays/adr/reference/ice.md
-  - core/components/plays/adr/stop-condition.yaml
-  - core/components/plays/adr/scripts/adr.py
-  - core/components/plays/adr/scripts/apply_adr.py
-  - core/components/plays/adr/scripts/check_adr_scope.py
-  - core/components/plays/adr/scripts/check_stop_condition.py
-  - core/components/plays/adr/scripts/preflight.py
-  - core/components/plays/adr/scripts/session_stamp.py
-  - core/components/plays/adr/scripts/test_apply_adr.py
-  - core/components/memory/standards/rules/gate-config.md
-  - core/components/memory/standards/rules/pipeline-next.md
-- id: install-adr-in-harness-scope
-  issue: 632
-  commit_type: feat
-  scope: install-garura
-  subject: install /adr, author-adr and adr-keeper in the harness scope
-  files:
-  - core/components/plays/install-garura/scripts/install.py
-  - .garura/install-manifest.json
-- id: docs-adr-components
-  issue: 632
-  commit_type: docs
-  scope: adr
-  subject: document the adr-keeper agent and author-adr skill and add the generated ADR index
-  files:
-  - docs/components/agents.md
-  - docs/components/skills.md
-  - docs/adr/_index.md
-- id: stm-632-adr-play-artifacts
-  issue: 632
-  commit_type: chore
-  scope: stm
-  subject: record the ADR play plan, trial run artifacts and context files
-  files:
-  - .garura/project/issues/632/specs/plan.md
-  - .garura/project/issues/632/specs/trial-adr-031/adr-check.json
-  - .garura/project/issues/632/specs/trial-adr-031/adr-context.yaml
-  - .garura/project/issues/632/specs/trial-adr-031/adr-draft.md
-  - .garura/project/issues/632/specs/trial-adr-031/adr-manifest-accepted.json
-  - .garura/project/issues/632/specs/trial-adr-031/brief.md
-  - .garura/project/issues/632/specs/trial-adr-031/notes.md
-  - .garura/project/issues/632/context/analysis.yaml
-  - .garura/project/issues/632/context/porcelain.txt
+  - id: author-adr-edge-cases
+    issue: 632
+    commit_type: fix
+    scope: author-adr
+    subject: "handle adr.py edge cases and drop the skill's shell"
+    files:
+      - core/components/skills/author-adr/SKILL.md
+      - core/components/skills/author-adr/scripts/adr.py
+      - core/components/skills/author-adr/scripts/test_adr.py
+
+  - id: adr-play-check-before-write
+    issue: 632
+    commit_type: fix
+    scope: adr
+    subject: "check everything before writing and stop on business intent in both modes"
+    files:
+      - core/components/plays/adr/SKILL.md
+      - core/components/plays/adr/reference/ice.md
+      - core/components/plays/adr/stop-condition.yaml
+      - core/components/plays/adr/scripts/adr.py
+      - core/components/plays/adr/scripts/apply_adr.py
+      - core/components/plays/adr/scripts/check_adr_scope.py
+      - core/components/plays/adr/scripts/test_apply_adr.py
+
+  - id: adr-keeper-domain-and-shell
+    issue: 632
+    commit_type: fix
+    scope: adr-keeper
+    subject: "set the adr domain and limit shell use"
+    files:
+      - core/components/agents/adr-keeper.md
+      - docs/components/agents.md
+
+  - id: memory-adr-rules-and-schema
+    issue: 632
+    commit_type: fix
+    scope: memory
+    subject: "align the ADR template, decision schema, rules, indexes and glossary"
+    files:
+      - core/components/memory/standards/templates/adr.md
+      - core/components/memory/standards/templates/_index.md
+      - core/components/memory/standards/schemas/product-os/decision.yaml
+      - core/components/memory/standards/schemas/product-os/_index.md
+      - core/components/memory/standards/rules/gate-config.md
+      - core/components/memory/standards/rules/pipeline-position.md
+      - core/components/memory/standards/rules/pipeline-next.md
+      - core/components/memory/standards/rules/direct-model-write.md
+      - core/grounding/glossary.md
+      - docs/philosophy/architecture.md
+
+  - id: stm-632-evidence
+    issue: 632
+    commit_type: chore
+    scope: stm
+    subject: "update the plan and context files"
+    files:
+      - .garura/project/issues/632/specs/plan.md
+      - .garura/project/issues/632/context/analysis.yaml
+      - .garura/project/issues/632/context/porcelain.txt
+
 exclusions: []
+
 risks:
   sensitive_files: []
+
+notes:
+  branch: feature/632-adr-play
+  hotfix_branch: false
   breaking_changes: []
   ambiguous_types: []
-  hotfix_branch: false
+  file_count: 25
+  content_scan: "no password/api_key/secret/token/private_key patterns in added lines; no sensitive filenames"

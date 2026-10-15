@@ -1,17 +1,24 @@
- M .garura/install-manifest.json
+ M .garura/project/issues/632/context/porcelain.txt
  M .garura/project/issues/632/specs/plan.md
+ M core/components/agents/adr-keeper.md
+ M core/components/memory/standards/rules/direct-model-write.md
  M core/components/memory/standards/rules/gate-config.md
  M core/components/memory/standards/rules/pipeline-next.md
+ M core/components/memory/standards/rules/pipeline-position.md
  M core/components/memory/standards/schemas/product-os/_index.md
  M core/components/memory/standards/schemas/product-os/decision.yaml
  M core/components/memory/standards/templates/_index.md
- M core/components/plays/install-garura/scripts/install.py
+ M core/components/memory/standards/templates/adr.md
+ M core/components/plays/adr/SKILL.md
+ M core/components/plays/adr/reference/ice.md
+ M core/components/plays/adr/scripts/adr.py
+ M core/components/plays/adr/scripts/apply_adr.py
+ M core/components/plays/adr/scripts/check_adr_scope.py
+ M core/components/plays/adr/scripts/test_apply_adr.py
+ M core/components/plays/adr/stop-condition.yaml
+ M core/components/skills/author-adr/SKILL.md
+ M core/components/skills/author-adr/scripts/adr.py
+ M core/components/skills/author-adr/scripts/test_adr.py
+ M core/grounding/glossary.md
  M docs/components/agents.md
- M docs/components/skills.md
-?? .garura/project/issues/632/context/porcelain.txt
-?? .garura/project/issues/632/specs/trial-adr-031/
-?? core/components/agents/adr-keeper.md
-?? core/components/memory/standards/templates/adr.md
-?? core/components/plays/adr/
-?? core/components/skills/author-adr/
-?? docs/adr/_index.md
+ M docs/philosophy/architecture.md
