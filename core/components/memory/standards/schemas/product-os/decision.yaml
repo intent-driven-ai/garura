@@ -68,7 +68,9 @@ enhance_rules:
 # Additive. #632 adds the core fields of standards/templates/adr.md — supersedes, amends,
 # amended_by, affects, ice_impact, business_intent_check, consequences, and
 # metadata.accepted_by / decided_in. Every earlier record stays valid as written; the new
-# fields are empty on it. The version stays 1: additive changes keep the version here (the
+# fields are empty on it — until /adr accepts one: a record /adr writes or accepts must carry
+# the #632 fields its lint requires (consequences, metadata.date, metadata.decided_in), so an
+# older proposed record gains them when it is accepted through /adr. The version stays 1: additive changes keep the version here (the
 # #548 / #550 precedent; schema evolution is parked — schemas/product-os/_index.md). The only
 # field ever written on an accepted record later is a forward pointer (superseded_by /
 # amended_by), plus status superseded when replaced in full.
