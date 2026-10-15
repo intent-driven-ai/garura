@@ -6,10 +6,11 @@
 >
 > - **Markdown** — Garura's own ADRs, `docs/adr/NNN-<slug>.md`, read by people.
 > - **YAML** — product decisions, a `decision.yaml` record in the product model, written by the
->   plays that make them.
+>   plays that make them. YAML records are machine data: a forward pointer or an acceptance
+>   rewrites the record, and comments in it are not kept.
 >
-> The `/adr` play and the `author-adr` skill write from this template; `lint_adr.py` checks a
-> record against it. It checks the shape, never the merit — whether a decision is *right* is a
+> The `/adr` play and the `author-adr` skill write from this template; `adr.py lint` (in the `author-adr`
+> skill) checks a record against it. It checks the shape, never the merit — whether a decision is *right* is a
 > person's call (`knowledge/review/adrs.md`). Built from `decision.yaml`, that review playbook,
 > and the shape ADRs 029–031 share. ADRs written before it stay as they are until they are
 > reviewed (#632, A4).
@@ -24,11 +25,11 @@
 | `date` | When it was decided (accepted), or proposed | yes |
 | `level` | `framework`, `product`, `capability` or `functionality` | yes |
 | `node_ref` | The part of the product it affects; empty for a framework ADR | product levels |
-| `decided_by` | The person who accepted it; empty while proposed | once accepted |
+| `accepted_by` | The PERSON who accepted it; empty while proposed. Markdown: the **Decided by:** line. YAML: `metadata.accepted_by` (YAML's `metadata.decided_by` keeps its original meaning: the play that recorded it) | once accepted |
 | `decided_in` | Where it was decided — the issue, the run, the review | yes |
 | `supersedes` | Older ADRs it replaces, in full or in part (each with what part) | when any |
 | `amends` | Older ADRs it changes in part, and what part | when any |
-| `superseded_by` / `amended_by` | The forward pointers — the ONLY fields ever written on an accepted ADR after it is accepted | when any |
+| `superseded_by` / `amended_by` | The forward pointers — the ONLY fields ever written on an accepted ADR after it is accepted; a record is superseded in full only once | when any |
 | `affects` | The files, rules, schemas, plays and agents the decision changes | yes |
 | `ice_impact` | The agent intents (ICE) the decision changes, or `none` — and why | yes |
 | `business_intent_check` | `none` — no business intent changes; `kind` — it changes the Business Intent *kind* (framework doctrine), no person's intent; `instance` — it would change a person's business intent: the person is asked, it is never applied by the ADR | yes |
@@ -46,6 +47,8 @@
   only its forward pointer (`superseded_by` / `amended_by`) and, when superseded in full, the
   status `superseded`.
 - Every ADR it supersedes or amends names it back through that pointer — both directions.
+- Every Markdown ADR is listed in `docs/adr/_index.md`; `/adr` rebuilds the index after each
+  acceptance (`adr.py index`).
 - An ADR never changes a person's business intent. `business_intent_check: instance` stops the
   ADR from being applied and goes to the person (ADR 031: only a person confirms or drops a
   business intent).
@@ -107,15 +110,15 @@ A forward pointer on an older Markdown ADR is written into its `**Status:**` lin
 
 ## Shape 2 — YAML (product decisions)
 
-A `decision.yaml` record (schema v2 — the core fields above, added to v1 without changing it):
+A `decision.yaml` record (the core fields above, added in #632 without changing the original ones):
 
 ```yaml
 decision:
   id: <id>
   title: <the decision as a statement>
   status: proposed | accepted | superseded | rejected
-  level: product | capability | functionality
-  node_ref: <the node it affects>
+  level: framework | product | capability | functionality
+  node_ref: <the node it affects — empty for framework or product level>
   reason: <context and decision, in plain words>          # v1 field: context + decision
   alternatives:
     - { name: <option>, why_not: <why> }

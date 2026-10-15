@@ -9,7 +9,7 @@ each play re-deciding how a change is opened and landed.
 It governs only the **delivery pipeline** (the path that opens an issue, does the work, and
 lands it on main). Every play declares where it sits; many model-building plays now open and
 land their own change. As compiled today: `both` — /vision, /understand (#616), /measure,
-/grill, /learn, /fix-bug, /refactor; `start` — /arch, /ux, /implement; `end` — /roadmap,
+/grill, /learn, /fix-bug, /refactor, /intent (#612), /adr (#632); `start` — /arch, /ux, /implement; `end` — /roadmap,
 /marketing, /run, /launch; `none` — /shape, /agentic, /quality, /validate, /deploy, /next,
 /focus. (A `none` play runs on whatever branch is already started — /shape and /roadmap's
 reliance on /vision's old shared branch is a known follow-up from #616.) Inside a drive the
