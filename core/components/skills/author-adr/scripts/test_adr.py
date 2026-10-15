@@ -87,7 +87,8 @@ GOOD_YAML = {"decision": {
     "node_ref": "cap-sessions", "reason": "Sessions are read often.",
     "alternatives": [{"name": "No cache", "why_not": "Too slow."}],
     "affects": ["capabilities/cap-sessions/capability.md"], "ice_impact": "none — no goal changes",
-    "business_intent_check": "none", "metadata": {"decided_by": "/understand", "date": "2026-10-15"}}}
+    "business_intent_check": "none", "consequences": {"positive": ["Faster reads."], "negative": ["Stale for an hour."]},
+    "metadata": {"decided_by": "/understand", "date": "2026-10-15", "decided_in": "#632"}}}
 
 
 def write(path, text):
@@ -273,8 +274,53 @@ def test_accept():
               and d["metadata"]["decided_by"] == "/understand")
 
 
+def test_edges():
+    with tempfile.TemporaryDirectory() as tmp:
+        prop = GOOD_MD.replace("**Status:** Accepted", "**Status:** Proposed").replace("**Decided by:** Kapil · ", "")
+        path = write(os.path.join(tmp, "003-x.md"), prop)
+        code, _ = run(["accept", "--adr", path, "--by", "CORP\\kapil", "--date", "2026-10-16"])
+        check("a name with a backslash is accepted as written", code == 0 and "**Decided by:** CORP\\kapil" in open(path).read())
+        y = os.path.join(tmp, "dec.yaml")
+        bad = yaml.safe_load(yaml.safe_dump(GOOD_YAML))
+        bad["decision"]["affects"] = "product-os/intents/grow.md"
+        with open(y, "w") as fh:
+            yaml.safe_dump(bad, fh)
+        check("a plain-text affects is a lint problem", run(["lint", "--adr", y])[0] == 2)
+        check("and the guard still sees the intent page in it", run(["guard", "--adr", y])[0] == 4)
+        for label, change in (("a status given as a list", ("status", ["accepted"])),
+                              ("amended_by given as text", ("amended_by", "dec-9"))):
+            bad = yaml.safe_load(yaml.safe_dump(GOOD_YAML))
+            bad["decision"][change[0]] = change[1]
+            with open(y, "w") as fh:
+                yaml.safe_dump(bad, fh)
+            check(f"{label} is reported, not a crash", run(["lint", "--adr", y])[0] == 2)
+        binary = os.path.join(tmp, "b.md")
+        with open(binary, "wb") as fh:
+            fh.write(b"\xff\xfe\x00garbage")
+        check("a file that is not text exits 3", run(["lint", "--adr", binary])[0] == 3)
+        with open(y, "w") as fh:
+            fh.write("decision: just text\n")
+        check("a decision that is not a mapping exits 3", run(["lint", "--adr", y])[0] == 3)
+        d = folder(tmp)
+        new = os.path.join(d, "003-cache-in-memory.md")
+        old = os.path.join(d, "001-cache-on-disk.md")
+        run(["pointer", "--older", old, "--newer", new, "--kind", "superseded"])
+        other = write(os.path.join(d, "006-other.md"), GOOD_MD.replace("ADR 003", "ADR 006"))
+        check("a second full supersede is refused", run(["pointer", "--older", old, "--newer", other, "--kind", "superseded"])[0] == 2)
+        before = yaml.safe_load(yaml.safe_dump(GOOD_YAML))
+        before["decision"]["id"] = "dec-1"
+        y_old, y_new = os.path.join(tmp, "o.yaml"), os.path.join(tmp, "n.yaml")
+        for p_, data in ((y_old, before), (y_new, GOOD_YAML)):
+            with open(p_, "w") as fh:
+                yaml.safe_dump(data, fh)
+        run(["pointer", "--older", y_old, "--newer", y_new, "--kind", "amended"])
+        after = yaml.safe_load(open(y_old))["decision"]
+        changed = {k for k in set(after) | set(before["decision"]) if after.get(k) != before["decision"].get(k)}
+        check("a YAML pointer changes only the pointer field", changed == {"amended_by"})
+
+
 def main():
-    for test in (test_number_and_index, test_lint, test_overlaps, test_pointer, test_guard, test_accept):
+    for test in (test_number_and_index, test_lint, test_overlaps, test_pointer, test_guard, test_accept, test_edges):
         print(test.__name__)
         test()
     print(f"\n{PASSED} passed, {FAILED} failed")
