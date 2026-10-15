@@ -1,0 +1,114 @@
+---
+# analyze-changes output (executor schema), issue 634, branch feature/634-shared-script-lint
+# Rename of the one-letter variable `l` to `line` (ruff E741) across the shared play scripts.
+needs_judgment: false
+
+change_groups:
+  - id: play-creator-shared-scripts
+    issue: 634
+    commit_type: fix
+    scope: play-creator
+    subject: "rename the one-letter variable l to line in preflight.py and session_stamp.py, canonical and every play copy"
+    files:
+      - core/components/plays/adr/scripts/preflight.py
+      - core/components/plays/adr/scripts/session_stamp.py
+      - core/components/plays/agentic/scripts/preflight.py
+      - core/components/plays/agentic/scripts/session_stamp.py
+      - core/components/plays/arch/scripts/preflight.py
+      - core/components/plays/arch/scripts/session_stamp.py
+      - core/components/plays/commit-change/scripts/preflight.py
+      - core/components/plays/commit-change/scripts/session_stamp.py
+      - core/components/plays/deploy/scripts/preflight.py
+      - core/components/plays/deploy/scripts/session_stamp.py
+      - core/components/plays/fix-bug/scripts/session_stamp.py
+      - core/components/plays/focus/scripts/preflight.py
+      - core/components/plays/focus/scripts/session_stamp.py
+      - core/components/plays/grill/scripts/preflight.py
+      - core/components/plays/grill/scripts/session_stamp.py
+      - core/components/plays/implement/scripts/preflight.py
+      - core/components/plays/implement/scripts/session_stamp.py
+      - core/components/plays/intent/scripts/preflight.py
+      - core/components/plays/intent/scripts/session_stamp.py
+      - core/components/plays/launch/scripts/preflight.py
+      - core/components/plays/launch/scripts/session_stamp.py
+      - core/components/plays/learn/scripts/preflight.py
+      - core/components/plays/learn/scripts/session_stamp.py
+      - core/components/plays/marketing/scripts/preflight.py
+      - core/components/plays/marketing/scripts/session_stamp.py
+      - core/components/plays/measure/scripts/preflight.py
+      - core/components/plays/measure/scripts/session_stamp.py
+      - core/components/plays/merge-change/scripts/preflight.py
+      - core/components/plays/merge-change/scripts/session_stamp.py
+      - core/components/plays/next/scripts/preflight.py
+      - core/components/plays/next/scripts/session_stamp.py
+      - core/components/plays/play-creator/references/preflight.py
+      - core/components/plays/play-creator/references/session_stamp.py
+      - core/components/plays/propose-change/scripts/preflight.py
+      - core/components/plays/propose-change/scripts/session_stamp.py
+      - core/components/plays/quality/scripts/preflight.py
+      - core/components/plays/quality/scripts/session_stamp.py
+      - core/components/plays/refactor/scripts/preflight.py
+      - core/components/plays/refactor/scripts/session_stamp.py
+      - core/components/plays/review-change/scripts/preflight.py
+      - core/components/plays/review-change/scripts/session_stamp.py
+      - core/components/plays/roadmap/scripts/preflight.py
+      - core/components/plays/roadmap/scripts/session_stamp.py
+      - core/components/plays/run/scripts/preflight.py
+      - core/components/plays/run/scripts/session_stamp.py
+      - core/components/plays/shape/scripts/preflight.py
+      - core/components/plays/shape/scripts/session_stamp.py
+      - core/components/plays/start-change/scripts/preflight.py
+      - core/components/plays/start-change/scripts/session_stamp.py
+      - core/components/plays/understand/scripts/preflight.py
+      - core/components/plays/understand/scripts/session_stamp.py
+      - core/components/plays/ux/scripts/preflight.py
+      - core/components/plays/ux/scripts/session_stamp.py
+      - core/components/plays/validate/scripts/preflight.py
+      - core/components/plays/validate/scripts/session_stamp.py
+      - core/components/plays/vision/scripts/preflight.py
+      - core/components/plays/vision/scripts/session_stamp.py
+
+  - id: lint-grounding-rename
+    issue: 634
+    commit_type: fix
+    scope: lint-grounding
+    subject: "rename the one-letter variable l to line in the lint_grounding.py copies"
+    files:
+      - core/components/plays/agentic/scripts/lint_grounding.py
+      - core/components/plays/arch/scripts/lint_grounding.py
+      - core/components/plays/grill/scripts/lint_grounding.py
+      - core/components/plays/intent/scripts/lint_grounding.py
+      - core/components/plays/learn/scripts/lint_grounding.py
+      - core/components/plays/marketing/scripts/lint_grounding.py
+      - core/components/plays/measure/scripts/lint_grounding.py
+      - core/components/plays/quality/scripts/lint_grounding.py
+      - core/components/plays/run/scripts/lint_grounding.py
+      - core/components/plays/ux/scripts/lint_grounding.py
+      - core/components/plays/vision/scripts/lint_grounding.py
+
+  - id: understand-lint-grounding-level
+    issue: 634
+    commit_type: fix
+    scope: understand
+    subject: "bring lint_grounding.py level with the other copies so it gains the realize-lens contracts"
+    files:
+      - core/components/plays/understand/scripts/lint_grounding.py
+
+  - id: stm-context-files
+    issue: 634
+    commit_type: chore
+    scope: stm
+    subject: "update the context files"
+    files:
+      - .garura/project/issues/634/context/analysis.yaml
+      - .garura/project/issues/634/context/porcelain.txt
+
+exclusions: []
+
+risks:
+  sensitive_files: []
+  # Raw facts below (ignored by the executor).
+  breaking_changes: []
+  ambiguous_types: []
+  hotfix_branch: false
+  content_scan: "no password/api_key/secret/token/private_key patterns in added code; one match is the literal heading text 'Config & secrets' in a string in understand/scripts/lint_grounding.py, not a credential"
