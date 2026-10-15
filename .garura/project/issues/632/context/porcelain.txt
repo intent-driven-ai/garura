@@ -1,0 +1,17 @@
+ M .garura/install-manifest.json
+ M .garura/project/issues/632/specs/plan.md
+ M core/components/memory/standards/rules/gate-config.md
+ M core/components/memory/standards/rules/pipeline-next.md
+ M core/components/memory/standards/schemas/product-os/_index.md
+ M core/components/memory/standards/schemas/product-os/decision.yaml
+ M core/components/memory/standards/templates/_index.md
+ M core/components/plays/install-garura/scripts/install.py
+ M docs/components/agents.md
+ M docs/components/skills.md
+?? .garura/project/issues/632/context/porcelain.txt
+?? .garura/project/issues/632/specs/trial-adr-031/
+?? core/components/agents/adr-keeper.md
+?? core/components/memory/standards/templates/adr.md
+?? core/components/plays/adr/
+?? core/components/skills/author-adr/
+?? docs/adr/_index.md

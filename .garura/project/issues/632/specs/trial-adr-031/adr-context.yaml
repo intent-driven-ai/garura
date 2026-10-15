@@ -1,0 +1,124 @@
+# Context for the ADR draft — gathered by adr-keeper (task draft-adr), 2026-10-15.
+# Supersede/amend judged against the trial ADR snapshot only (docs/adr in the trial folder,
+# ADRs 001-030). "Affects" paths are from the current Garura repository.
+
+shape: markdown
+number: "031"
+slug: business-intent-above-ice
+level: framework
+date: 2026-10-15
+decided_in: "#612 (the /intent play) and the review of PR #631"
+decided_by_in_brief: Kapil   # the brief names him; the header stays empty until a person accepts
+
+supersedes: []
+
+amends:
+  - adr: "026"
+    part: >-
+      The direct-write review model ("the writes are already on disk and reviewable"; a cancel is
+      a git restore) gains one exception: /intent run by hand asks the person to confirm before it
+      saves, so it confirms before it writes and a cancel writes nothing. Its writes still stay
+      inside its declared write scope. Everything else in ADR 026 stands.
+  - adr: "027"
+    part: >-
+      The IDSD row of "The layers" table, "Business intent and SDLC intent both take ICE form".
+      A person's Business Intent is not ICE: it sits one level above, and ICE is built from it.
+      The work still takes ICE form; ICE as the IDSD model and PCAM stand.
+  - adr: "029"
+    part: >-
+      Section 6, what /intent and /vision do in Kickoff. /intent pulls out business intents (what
+      the person wants, why it matters, the proof it is met) and an ICE for each separate thing
+      the person must see, decide or do, placed inline on proposed capabilities that may have no
+      domain yet; /vision starts from a confirmed business intent and attaches the domain. Inside
+      the drive /intent saves its intents as proposed and the person confirms them at the drive's
+      end review (section 2's no-stop rule, applied to /intent). Sections 1-5 stand.
+
+not_affected:
+  - adr: "028"
+    why: >-
+      Its first loop (pull the intent from a prototype and confirm it with the user) was already
+      replaced in part by ADR 029's Kickoff; this decision lands on ADR 029's section 6, the live
+      statement. The other four loops are untouched. Overlap script candidate (shared /intent,
+      /vision, /understand, idsd.md, pipeline-next.md).
+  - adr: "030"
+    why: >-
+      Consistent, not changed: its section 0 already says a business intent is what a person wants
+      and the plan breaks it into agent intents. This decision names the same two levels in the
+      product model. Overlap script candidate (shared /play-creator).
+  - adr: "002"
+    why: >-
+      "Every play stops at a checkpoint" inside a drive was already superseded in part by ADR 029.
+      /intent's no-stop inside a drive and confirm-by-hand follow from that; nothing more changes.
+  - adr: "003"
+    why: >-
+      Already superseded in full by ADR 029; it shares only the gate-config.md path. Overlap
+      script candidate on the draft.
+  - adr: "022"
+    why: >-
+      The surface contract is one field on an epic, declared by /grill at cut. "No play owns a
+      kind" is about which plays may write instances of a kind; it does not move who declares the
+      surface field.
+  - adr: "023"
+    why: >-
+      Its rejected "/enhance skips the model" alternative is about bypassing the model. This
+      decision still writes everything to the model; drift is found and fixed by alignment.
+  - adr: "019"
+    why: Epic persistence; mentions functionality ICE only as a record holder. Untouched.
+  - adr: "020"
+    why: Advisory-play self-clean; "ICE" there is a play's own ICE source. Untouched.
+  - adr: "025"
+    why: Level 3 skeleton and goal loop; "ICE" there is the play compile pipeline. Untouched.
+
+affects:
+  - path: core/components/memory/standards/schemas/product-os/ontology.md
+    what: Business Intent, Source and ICE kinds; "no play owns a kind"; rules hold once aligned and never block a write; ICE workable only from a confirmed business intent
+  - path: core/components/memory/standards/schemas/product-os/spine.yaml
+    what: a capability's domain may be empty while proposed (/vision attaches it); a node's `intents` names the business intents its ICE is built from; ICE written inline in the node's grounding doc
+  - path: "core/components/plays/{agentic,arch,grill,intent,learn,marketing,measure,quality,run,understand,ux,vision}/scripts/lint_grounding.py"
+    what: all twelve copies warn, not fail, on a capability with no domain yet
+  - path: core/components/plays/intent/
+    what: SKILL.md, reference/ice.md, scripts/persist_intent.py, scripts/check_ice_workable.py — business intents above ICE, no stop inside a drive, confirm before write by hand
+  - path: core/components/plays/play-creator/
+    what: SKILL.md and references/check_ice_workable.py — compiled plays work only on workable ICE
+  - path: core/components/memory/standards/rules/gate-config.md
+    what: /intent's confirm is pinned by hand; no approval stop inside a drive
+  - path: core/components/memory/standards/rules/direct-model-write.md
+    what: declared exception — /intent run by hand confirms first and writes after
+  - path: core/components/memory/standards/rules/pipeline-next.md
+    what: /vision seeds the model from a confirmed business intent
+  - path: core/components/agents/business-intent-keeper.md
+    what: no play owns a kind; /vision attaches the domain
+  - path: core/grounding/glossary.md
+    what: ICE (workable only from a confirmed business intent) and IDSD (Business Intent sits above ICE) entries
+  - path: docs/philosophy/idsd.md
+    what: a person's Business Intent sits one level above ICE
+  - path: core/components/plays/vision/
+    what: /vision attaches the domain to capabilities /intent proposed — not yet in the play's text (repo search found no such step)
+
+ice_impact: >-
+  Changes the ICE kind and the agent intents of /intent and of every compiled play that plans,
+  breaks down or builds from an ICE. An ICE is now built from a business intent and is workable
+  only when that business intent is confirmed; an unlinked ICE is kept but no play works on it.
+  ICE may be written inline on a proposed capability before it has a domain. /intent's own ICE
+  changes: one business intent per want plus one ICE per separate thing to see, decide or do; no
+  approval stop inside a drive; confirm before write by hand.
+
+business_intent_check:
+  value: kind
+  why: >-
+    It changes the Business Intent kind and its rules (only a person confirms or drops one; ICE
+    built from it is workable only once confirmed) — framework doctrine. It changes no person's
+    business intent, and it names no business intent page.
+
+related:
+  - ADR 028 — the five loops; its first loop is now Kickoff
+  - ADR 030 — the plan is the person's interface; business intent breaks into agent intents
+  - ADR 002 — checkpoint model, already superseded in part by ADR 029
+  - "#612 — the /intent play"
+  - "PR #631 — the review that settled ICE placement and workability"
+  - "#597 — the product model as an ontology"
+
+notes_for_author:
+  - The brief names Kapil as the decider; leave Decided by empty — it is filled when a person accepts.
+  - Do not put any business-intent page path in Affects (the guard reads it as a person's intent).
+  - Reasons and alternatives come only from the brief.

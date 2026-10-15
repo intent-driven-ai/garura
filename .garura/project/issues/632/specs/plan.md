@@ -4,7 +4,7 @@ kind: story
 serves: "an offshoot — not part of #612 or #606 (Kapil, 2026-10-09)"
 status: active
 updated: 2026-10-15
-now: 4
+now: 6
 ---
 
 # Plan — a skill that manages ADRs
@@ -76,12 +76,16 @@ Two kinds of ADR exist today:
     linter the review playbook says is missing. Judgment (agent + skill): what a decision
     changes, and the draft.
 
-### 4. Build it — now
+- **4. Built: the template, scripts, skill, agent and the `/adr` play** — #632. `standards/templates/adr.md` (one template, two shapes) and `decision.yaml` v2; `author-adr` with `scripts/adr.py` (number, lint, index, overlaps, pointer, accept, guard — 32 tests); `adr-keeper`; `/adr` compiled from its intent source (Kapil approved the intent) with `apply_adr.py` and `check_adr_scope.py` (20 tests); `/adr`'s accept step added to the pinned gates; Next entry added. Play check passes.
+
+### 4. Build it (done — see above)
 
 **What:** the format, the skill, the scripts and their tests, through the right compiler.
 **Needs:** item 3.
 
-### 5. Try it on a real case
+- **5. Tried: on ADR 031 as if new** — #632. Found ADR 026, 027 and 029 on its own, each with its part; business-intent check `kind`; drive mode, accept-later, pointers and index all worked. One fix (a full stop before a pointer). Records in `specs/trial-adr-031/`.
+
+### 5. Try it on a real case (done — see above)
 
 **What:** run it on ADR 031 as if new — it should find ADR 026, 027 and 029 on its own, and
 see that ADR 031 changes the Business Intent and ICE kinds but no person's business intent.
@@ -91,7 +95,7 @@ see that ADR 031 changes the Business Intent and ICE kinds but no person's busin
 
 - Review the 31 existing ADRs and bring them into the template (A4).
 
-### 6. Ship it
+### 6. Ship it — now
 
 **What:** a pull request, review, merge on Kapil's word.
 **Needs:** item 5.
@@ -105,3 +109,5 @@ see that ADR 031 changes the Business Intent and ICE kinds but no person's busin
 - 2026-10-09 — A7 decided (one template, two shapes). Now on item 3.
 - 2026-10-15 — A8 decided (a `/adr` play + skill + sub-agent). Design done; item 4 waits on an issue.
 - 2026-10-15 — Kapil: "Go". Opened #632 (Feature, no parent; #574 noted as related) and `feature/632-adr-play`; plan moved here from `_pending`.
+- 2026-10-15 — Item 4 built. Now on item 5 (trial on ADR 031 as if new).
+- 2026-10-15 — Item 5 done: trial passed. Now on item 6.
