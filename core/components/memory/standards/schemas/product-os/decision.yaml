@@ -1,4 +1,4 @@
-# Decision Schema (ADR) — v1
+# Decision Schema (ADR) — v2
 #
 # A decision record IS an ADR — usable at product, capability, functionality, or
 # framework level. The third thing ProductOS keeps forever: DECISIONS.
@@ -7,7 +7,7 @@
 
 schema:
   name: decision
-  version: 1
+  version: 2
   is_adr: true            # these records are ADRs, at any level
 
 decision:
@@ -21,8 +21,25 @@ decision:
       why_not: string
   status: string          # one of: proposed | accepted | superseded | rejected
   superseded_by: string   # id of the decision that replaced this one; else null
+  # --- v2 (#632): the core fields of standards/templates/adr.md, added; v1 fields unchanged ---
+  supersedes:             # older decisions this one replaces
+    - id: string
+      part: string        # "full" or what part
+  amends:                 # older decisions this one changes in part
+    - id: string
+      part: string
+  amended_by: [string]    # forward pointers from newer decisions (the only later edit)
+  affects: [string]       # files, rules, schemas, nodes the decision changes
+  ice_impact: string      # the ICE it changes, or "none — why"
+  business_intent_check: string   # none | kind | instance — `instance` is never applied;
+                                  # it goes to the person (ADR 031)
+  consequences:
+    positive: [string]
+    negative: [string]
   metadata:
     decided_by: string    # play that recorded the decision
+    accepted_by: string   # v2 — the person who accepted it; empty while proposed
+    decided_in: string    # v2 — the issue or run it was decided in
     date: string          # passed in by the play; not auto-generated
     version: integer
 
@@ -44,3 +61,10 @@ fill_rules:
 # ---- Enhance rules ----------------------------------------------------------
 enhance_rules:
   governed_by: "PARKED — see product-os.yaml (future schema-evolution play)"
+
+# ---- Migration note (v1 -> v2, #632) ----------------------------------------
+# Additive. v2 adds the core fields of standards/templates/adr.md — supersedes, amends,
+# amended_by, affects, ice_impact, business_intent_check, consequences, and
+# metadata.accepted_by / decided_in. Every v1 record stays valid as written; the new
+# fields are empty on it. The only field ever written on an accepted record later is a
+# forward pointer (superseded_by / amended_by), plus status superseded when replaced in full.
