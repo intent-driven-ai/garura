@@ -165,7 +165,9 @@ skills in order — it does NOT author these artifacts inline:
 1. `draft-rca` → `rca.yaml` (+ `resolution-trace.yaml` when LTM context is present)
 2. `draft-fix-design` → `design.yaml`
 3. `author-regression-test` → the failing regression test at the repo's canonical eval path
-   (red-verified), with its path recorded
+   (red-verified). The agent writes the skill's output block — `regression_test_path`,
+   `red_verified: true`, `verified_at` — to `regression-test-path.yaml`; the Done means D3
+   reads `red_verified` there
 
     {
       "task":   "trace root cause, design the fix with alternatives, author a failing regression test",
