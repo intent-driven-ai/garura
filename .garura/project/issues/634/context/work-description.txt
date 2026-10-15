@@ -1,0 +1,12 @@
+The shared play scripts pass lint, and /understand's grounding linter matches the other plays'
+
+Found while building /intent (#612) and /adr (#632). Two mechanical defects, each with one clear fix.
+
+1. **Shared-script lint.** `preflight.py` and `session_stamp.py` (canonical in `play-creator/references/`, copied unchanged into every play — 28 and 29 copies) and `lint_grounding.py` (copied into 12 plays) carry ruff E741, a variable named `l`. Fix the canonical copies and every play copy, keeping all copies byte-identical.
+2. **`/understand`'s grounding linter is older than the other 11 copies** — it lacks the realize-lens contracts. Bring it level with the others.
+
+Not in this issue (found at the same time, owned elsewhere):
+- review-change's stop condition naming `verdict.yaml` while the play writes `decision.yaml` — that is #536 (approved; next, as its own change).
+- the review shelf path built from `ltm.project-target` only — that is #534, which needs a design decision first and must not be patched as a one-liner.
+
+Done when: ruff reports no E741 in those scripts; every copy of each shared script is identical; reviewed and merged.

@@ -1,0 +1,15 @@
+{
+  "resolved": true,
+  "issue_number": 634,
+  "title": "[BUG] Fix four small defects found while building /intent and /adr",
+  "created": true,
+  "url": "https://github.com/intent-driven-ai/garura/issues/634",
+  "type": "Bug",
+  "parent": null,
+  "candidates": [
+    "536: covers defect 3 only (review-change stop condition names verdict.yaml); approved to fix; its criteria also ask for a sweep of every other play's stop-condition, beyond this change",
+    "534: covers defect 4 only (review shelf from ltm.project-target) and is marked NOT approved to fix as written, with an explicit 'do not patch fetch_pr_context.py:86 and close this'; the one-line fix in this change is that shallow patch, so #534 must stay open and should not be closed by this PR",
+    "580, 530, 535, 438, 583: other review-change issues, unrelated to these four defects",
+    "no open issue mentions E741 or lint_grounding.py (defects 1 and 2)"
+  ]
+}
