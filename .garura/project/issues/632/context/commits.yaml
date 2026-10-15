@@ -1,18 +1,13 @@
 commits:
-  - sha: b3a3daa2
-    message: "feat(author-adr): add the skill that drafts an ADR from the template, with its mechanical scripts and tests (#632)"
+  - sha: 806c36ba
+    message: "fix(author-adr): handle adr.py edge cases and drop the skill's shell (#632)"
     files:
       - core/components/skills/author-adr/SKILL.md
       - core/components/skills/author-adr/scripts/adr.py
       - core/components/skills/author-adr/scripts/test_adr.py
     branch: feature/632-adr-play
-  - sha: 51c58478
-    message: "feat(adr-keeper): add the agent that gathers ADR context and checks the drafted record (#632)"
-    files:
-      - core/components/agents/adr-keeper.md
-    branch: feature/632-adr-play
-  - sha: 3c3aea2d
-    message: "feat(adr): add the /adr play, pin its approval gate and list it as a next step (#632)"
+  - sha: 209ef20c
+    message: "fix(adr): check everything before writing and stop on business intent in both modes (#632)"
     files:
       - core/components/plays/adr/SKILL.md
       - core/components/plays/adr/reference/ice.md
@@ -20,36 +15,32 @@ commits:
       - core/components/plays/adr/scripts/adr.py
       - core/components/plays/adr/scripts/apply_adr.py
       - core/components/plays/adr/scripts/check_adr_scope.py
-      - core/components/plays/adr/scripts/check_stop_condition.py
-      - core/components/plays/adr/scripts/preflight.py
-      - core/components/plays/adr/scripts/session_stamp.py
       - core/components/plays/adr/scripts/test_apply_adr.py
-      - core/components/memory/standards/rules/gate-config.md
-      - core/components/memory/standards/rules/pipeline-next.md
     branch: feature/632-adr-play
-  - sha: c4e8de3b
-    message: "feat(install-garura): install /adr, author-adr and adr-keeper in the harness scope (#632)"
+  - sha: c173edde
+    message: "fix(adr-keeper): set the adr domain and limit shell use (#632)"
     files:
-      - core/components/plays/install-garura/scripts/install.py
-      - .garura/install-manifest.json
-    branch: feature/632-adr-play
-  - sha: b8c1c05c
-    message: "docs(adr): document the adr-keeper agent and author-adr skill and add the generated ADR index (#632)"
-    files:
+      - core/components/agents/adr-keeper.md
       - docs/components/agents.md
-      - docs/components/skills.md
-      - docs/adr/_index.md
     branch: feature/632-adr-play
-  - sha: 661703ff
-    message: "chore(stm): record the ADR play plan, trial run artifacts and context files (#632)"
+  - sha: 9d25967d
+    message: "fix(memory): align the ADR template, decision schema, rules, indexes and glossary (#632)"
+    files:
+      - core/components/memory/standards/templates/adr.md
+      - core/components/memory/standards/templates/_index.md
+      - core/components/memory/standards/schemas/product-os/decision.yaml
+      - core/components/memory/standards/schemas/product-os/_index.md
+      - core/components/memory/standards/rules/gate-config.md
+      - core/components/memory/standards/rules/pipeline-position.md
+      - core/components/memory/standards/rules/pipeline-next.md
+      - core/components/memory/standards/rules/direct-model-write.md
+      - core/grounding/glossary.md
+      - docs/philosophy/architecture.md
+    branch: feature/632-adr-play
+  - sha: 84b5e077
+    message: "chore(stm): update the plan and context files (#632)"
     files:
       - .garura/project/issues/632/specs/plan.md
-      - .garura/project/issues/632/specs/trial-adr-031/adr-check.json
-      - .garura/project/issues/632/specs/trial-adr-031/adr-context.yaml
-      - .garura/project/issues/632/specs/trial-adr-031/adr-draft.md
-      - .garura/project/issues/632/specs/trial-adr-031/adr-manifest-accepted.json
-      - .garura/project/issues/632/specs/trial-adr-031/brief.md
-      - .garura/project/issues/632/specs/trial-adr-031/notes.md
       - .garura/project/issues/632/context/analysis.yaml
       - .garura/project/issues/632/context/porcelain.txt
     branch: feature/632-adr-play
