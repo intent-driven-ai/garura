@@ -8,8 +8,8 @@ content:
       says: "findings exist"
       check: { type: artifact_exists, path: "review/findings.yaml" }
     - id: D2
-      says: "the verdict exists"
-      check: { type: artifact_exists, path: "review/verdict.yaml" }
+      says: "a decision was recorded with its decider, and that is the decision posted"
+      check: { type: field_equals, file: "review/posted.json", field: "decision_recorded", equals: true }
     - id: D3
       says: "the verdict is on the PR"
       check: { type: field_equals, file: "review/posted.json", field: "posted", equals: true }
