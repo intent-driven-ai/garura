@@ -1,0 +1,40 @@
+needs_judgment: false
+
+change_groups:
+  - id: review-change-done-means
+    issue: 536
+    commit_type: fix
+    scope: review-change
+    subject: "prove a decision was recorded with its decider before the review is called done"
+    files:
+      - core/components/plays/review-change/reference/ice.md
+      - core/components/plays/review-change/stop-condition.yaml
+      - core/components/plays/review-change/SKILL.md
+      - core/components/plays/review-change/scripts/post_verdict.py
+      - core/components/plays/play-creator/references/post_verdict.py
+      - core/components/plays/play-creator/references/test_post_verdict.py
+  - id: fix-bug-regression-test-path
+    issue: 536
+    commit_type: docs
+    scope: fix-bug
+    subject: "name what regression-test-path.yaml holds so the done check can read it"
+    files:
+      - core/components/plays/fix-bug/SKILL.md
+  - id: stm-context-536
+    issue: 536
+    commit_type: chore
+    scope: stm
+    subject: "update the context files"
+    files:
+      - .garura/project/issues/536/context/analysis.yaml
+      - .garura/project/issues/536/context/porcelain.txt
+
+exclusions: []
+
+risks:
+  sensitive_files: []
+
+notes:
+  - "post_verdict.py in review-change/scripts/ and play-creator/references/ are byte-identical copies (verified with diff); they stay in the same commit so the copies never drift."
+  - "review-change SKILL.md carries a new ice.md fingerprint and a compiled_by entry for #536, so it belongs with the ice.md intent change."
+  - "Branch feature/536-review-stop-condition is not a hotfix branch. No breaking changes or ambiguous types detected."
