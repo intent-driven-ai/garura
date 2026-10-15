@@ -47,13 +47,13 @@ def write(path, text):
         fh.write(text)
 
 
-def run_post(base, decision_text, post_ok=True):
+def run_post(base, decision_text, post_ok=True, comment="Harness verdict (gate off): approve"):
     """Run post_verdict.main with the host and git stubbed. Return (exit code, posts made)."""
     review = os.path.join(base, "review")
     write(os.path.join(review, "findings.yaml"), "findings: []\n")
     if decision_text is not None:
         write(os.path.join(review, "decision.yaml"), decision_text)
-    write(os.path.join(base, "decision-comment.md"), "Harness verdict: approve\n")
+    write(os.path.join(base, "decision-comment.md"), comment + "\n")
     posts = []
 
     def fake_dispatch(op, args, config_path=None):
@@ -86,10 +86,13 @@ def stop_condition(base):
 
 def test_posted_decision_holds():
     print("test_posted_decision_holds")
-    for decider in ("harness", "human"):
+    comments = {"harness": "Harness verdict (gate off per gates.plays.review-change): reject",
+                "human": "Reviewer's verdict: reject"}
+    for decider, comment in comments.items():
         with tempfile.TemporaryDirectory() as base:
-            code, posts = run_post(base, f"decision: reject\ndecided_by: {decider}\n")
-            posted = json.load(open(os.path.join(base, "review", "posted.json")))
+            code, posts = run_post(base, f"decision: reject\ndecided_by: {decider}\n", comment=comment)
+            with open(os.path.join(base, "review", "posted.json"), encoding="utf-8") as fh:
+                posted = json.load(fh)
             check(f"a {decider} decision posts and exits 0", code == 0 and posts == ["comment-pr"])
             check(f"posted.json carries the {decider} decision and its decider",
                   posted["decision"] == "reject" and posted["decided_by"] == decider
@@ -125,6 +128,25 @@ def test_no_valid_decision_posts_nothing():
             check(f"{name}: the stop condition is unmet", stop_condition(base) == 1)
 
 
+def test_comment_must_match_the_record():
+    print("test_comment_must_match_the_record")
+    cases = {
+        "a comment that names the other decision": ("decision: reject\ndecided_by: harness\n",
+                                                     "Harness verdict (gate off): approve"),
+        "a comment that names both decisions": ("decision: approve\ndecided_by: harness\n",
+                                                "Harness verdict (gate off): approve or reject"),
+        "a harness decision posted as a human one": ("decision: approve\ndecided_by: harness\n",
+                                                     "Reviewer's verdict: approve"),
+        "a human decision posted as a harness one": ("decision: approve\ndecided_by: human\n",
+                                                     "Harness verdict (gate off): approve"),
+    }
+    for name, (record, comment) in cases.items():
+        with tempfile.TemporaryDirectory() as base:
+            code, posts = run_post(base, record, comment=comment)
+            check(f"{name}: exits 2 and posts nothing", code == 2 and posts == [])
+            check(f"{name}: the stop condition is unmet", stop_condition(base) == 1)
+
+
 def test_a_hand_made_verdict_file_does_not_pass():
     print("test_a_hand_made_verdict_file_does_not_pass")
     with tempfile.TemporaryDirectory() as base:
@@ -137,14 +159,17 @@ def test_a_hand_made_verdict_file_does_not_pass():
 
 def test_copies_are_identical():
     print("test_copies_are_identical")
-    mine = open(os.path.join(HERE, "post_verdict.py"), "rb").read()
-    play_copy = open(os.path.join(PLAY, "scripts", "post_verdict.py"), "rb").read()
+    with open(os.path.join(HERE, "post_verdict.py"), "rb") as fh:
+        mine = fh.read()
+    with open(os.path.join(PLAY, "scripts", "post_verdict.py"), "rb") as fh:
+        play_copy = fh.read()
     check("review-change's post_verdict.py is identical to this one", mine == play_copy)
 
 
 def main():
     for test in (test_posted_decision_holds, test_failed_post_stays_unmet,
-                 test_no_valid_decision_posts_nothing, test_a_hand_made_verdict_file_does_not_pass,
+                 test_no_valid_decision_posts_nothing, test_comment_must_match_the_record,
+                 test_a_hand_made_verdict_file_does_not_pass,
                  test_copies_are_identical):
         test()
     print(f"\n{PASSED} passed, {FAILED} failed")

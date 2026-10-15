@@ -9,10 +9,12 @@ the human, or by the harness when the gate is off); this only publishes and
 records it.
 
 Before it posts, it reads the decision record (decision.yaml). The record must
-hold a decision (approve | reject) and its decider (harness | human). When it
-does not, nothing is posted and the script exits 2. posted.json carries the
-decision, the decider and `decision_recorded: true` — the field review-change's
-Done means D2 checks (#536).
+hold a decision (approve | reject) and its decider (harness | human), and the
+comment's first line must name that same decision and decider: it reads
+"Harness verdict" exactly when the harness decided. When either check fails,
+nothing is posted and the script exits 2. posted.json carries the decision, the
+decider and `decision_recorded: true` — the field review-change's Done means D2
+checks (#536).
 
     python3 post_verdict.py --config .garura/core/config.yaml \
         --pr-number N --comment-file <decision-comment.md> \
@@ -20,7 +22,7 @@ Done means D2 checks (#536).
         --issue N --artifacts-dir <review/> --out <posted.json>
 
 Exit 0 on success, 1 on a post/commit failure, 2 on a missing or invalid
-decision record.
+decision record, or a comment that does not match it.
 """
 
 import argparse
@@ -60,6 +62,20 @@ def read_decision(path):
     return decision, decided_by, None
 
 
+def check_comment(body, decision, decided_by):
+    """Return an error when the comment's first line does not name the recorded decision and decider."""
+    first = next((line for line in body.splitlines() if line.strip()), "")
+    words = first.lower()
+    if decision not in words:
+        return f"the comment's first line does not name the decision {decision!r}: {first!r}"
+    for other in DECISIONS:
+        if other != decision and other in words:
+            return f"the comment's first line names {other!r}, but the record says {decision!r}: {first!r}"
+    if ("harness verdict" in words) != (decided_by == "harness"):
+        return f"the comment's first line does not name the decider {decided_by!r}: {first!r}"
+    return None
+
+
 def _git(*args):
     proc = subprocess.run(["git", *args], capture_output=True, text=True)
     return proc.returncode, proc.stdout.strip(), proc.stderr.strip()
@@ -84,6 +100,10 @@ def main(argv=None):
 
     with open(ns.comment_file, encoding="utf-8") as fh:
         body = fh.read()
+    error = check_comment(body, decision, decided_by)
+    if error:
+        sys.stderr.write(f"post_verdict.py: {error}\n")
+        sys.exit(2)
 
     # Post the verdict comment.
     res = pa.dispatch("comment-pr", {"pr_number": ns.pr_number, "body": body},

@@ -251,13 +251,13 @@ by this switch.
   consolidated findings grouped by category and severity, each with its basis; and the
   recommended verdict with its reason. Then output the summary and **wait for the
   reviewer's typed approve or reject** (do NOT use AskUserQuestion; do NOT proceed on the
-  recommendation alone). Record the reviewer's decision verbatim to `decision.yaml`
-  (`decided_by: human`).
+  recommendation alone). Record the reviewer's decision verbatim to `decision.yaml`:
+  `decision: approve | reject` and `decided_by: human` (C9).
 - **Off — the recommendation becomes the decision.** Do not wait. Record
   `gate skipped by config (gates.plays.review-change)` as a Checkpoint Decisions row in
   the evidence. Write `decision.yaml` directly from `recommended_verdict.yaml`:
-  `decided_by: harness`, the recommendation **verbatim**, and the citing (blocking)
-  findings. A `reject` outcome stands exactly as a human reject would — fix the cited
+  `decision:` its `verdict` **verbatim** (approve | reject), `decided_by: harness`, and the
+  citing (blocking) findings (C9). A `reject` outcome stands exactly as a human reject would — fix the cited
   findings and re-raise. The verdict is still never silent and never unposted (C9).
 
 **Step 6 — Post Decision to PR** · Owner: play (script) · Depends on: Step 5
@@ -266,7 +266,8 @@ comment ALWAYS names its decider: a human decision is posted as the reviewer's v
 off-gate decision leads with `Harness verdict (gate off per gates.plays.review-change):
 <decision>` so no reader mistakes it for a human review (C8, F10). Then run the bundled
 `post_verdict.py` — it reads `decision.yaml` first and posts nothing (exit 2) unless the
-record holds a decision (approve | reject) and its decider (harness | human) (C9, #536);
+record holds a decision (approve | reject) and its decider (harness | human), and the
+comment's first line names that same decision and decider (C9, #536);
 then it posts the comment (via `platform_adapter.py`), writes `review/posted.json`
 `{posted: true, comment_url, decision, decided_by, decision_recorded: true}`, and
 commits+pushes the review run artifacts, so the PR updates with its own review record. No
@@ -424,7 +425,7 @@ current decision rather than adding a conflicting second one.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:91ef6311b0f6f6ece39936729a21b84639636c6bd9b50c4c1b384c773ac255ed (of `reference/ice.md`) |
+| fingerprint | sha256:2f62e324d3a3797d92a1c6b98c9ffbf283a0e9aa6aaf6eb2565c8f96aefceb9e (of `reference/ice.md`) |
 | compiled_by | play-editor (#466 Batch A; #467 Batch C; #484 scripted chain; #496 grounding fan-out; #536 Done means) |
 | pipeline_position | end |
 | workflow_structure | A (multi-agent; agentic assessment → concurrent read-only design-grounding fan-out (one agent per design-bearing category) → consolidation; config-resolved verdict gate; gated close) |
