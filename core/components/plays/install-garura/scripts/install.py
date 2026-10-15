@@ -180,16 +180,19 @@ SCOPES = {
             # works in a harness repo exactly as it does in a product one. Its only
             # workers are platform-adapter + project-orchestrator, both already kept.
             "focus",
+            # adr manages a repo's decision records — a harness repo's own ADRs too (#632).
+            # Its workers: adr-keeper + author-adr, and the change chain already kept.
+            "adr",
         },
         "skills": {
             "analyze-changes", "analyze-pr", "create-commit", "manage-issue",
             "merge-pr", "platform-adapter", "quality-check-scoped",
             "resolve-issues", "setup-branch", "submit-pr",
-            "build-product-ontology",
+            "build-product-ontology", "author-adr",
         },
         "agents": {
             "change-reviewer", "project-orchestrator",
-            "quality-auditor", "repo-orchestrator",
+            "quality-auditor", "repo-orchestrator", "adr-keeper",
         },
     },
 }
