@@ -46,7 +46,9 @@
 - An accepted ADR is never edited. A new ADR supersedes or amends it, and the older one gains
   only its forward pointer (`superseded_by` / `amended_by`) and, when superseded in full, the
   status `superseded`.
-- Every ADR it supersedes or amends names it back through that pointer — both directions.
+- Every ADR it supersedes or amends names it back through that pointer — both directions. In
+  the YAML shape `superseded_by` holds the one full supersede; an amendment or a supersede in
+  part points back through `amended_by`, which can hold many.
 - Every Markdown ADR is listed in `docs/adr/_index.md`; `/adr` rebuilds the index after each
   acceptance (`adr.py index`).
 - An ADR never changes a person's business intent. `business_intent_check: instance` stops the
