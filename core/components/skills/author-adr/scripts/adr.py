@@ -242,6 +242,15 @@ def cmd_overlaps(args):
 
 # ---- pointer -------------------------------------------------------------------------------
 
+def superseded_in_full_by(path):
+    """Who already supersedes this record in full, or None — read-only, for pre-checks."""
+    if is_yaml(path):
+        _, d = load_decision(path)
+        return d.get("superseded_by") if d.get("status") == "superseded" else None
+    m = re.search(r"^\*\*Status:\*\*\s*Superseded by \[ADR (\d{3})\]", read(path), re.MULTILINE)
+    return m.group(1) if m else None
+
+
 def cmd_pointer(args):
     if is_yaml(args.older) != is_yaml(args.newer):
         print(json.dumps({"refused": "older and newer must be the same shape"}))
@@ -252,14 +261,17 @@ def cmd_pointer(args):
         if not new.get("id"):
             print(json.dumps({"refused": "the newer decision has no id"}))
             return 2
-        if args.kind == "superseded":
-            if d.get("superseded_by") and d["superseded_by"] != new["id"]:
-                print(json.dumps({"refused": f"already superseded by {d['superseded_by']} — supersede that one instead"}))
+        full = args.kind == "superseded" and (args.what or "full") == "full"
+        if full:
+            if d.get("status") == "superseded" and d.get("superseded_by") not in (None, new["id"]):
+                print(json.dumps({"refused": f"already superseded in full by {d['superseded_by']} — "
+                                             f"supersede that one instead"}))
                 return 2
             d["superseded_by"] = new["id"]
-            if (args.what or "full") == "full":
-                d["status"] = "superseded"
+            d["status"] = "superseded"
         else:
+            # an amendment, or a supersede in part: the YAML shape points back through
+            # amended_by, which can hold many (superseded_by is for the one full supersede)
             d["amended_by"] = sorted(set((d.get("amended_by") or []) + [new["id"]]))
         with open(args.older, "w", encoding="utf-8") as fh:
             yaml.safe_dump(data, fh, sort_keys=False, allow_unicode=True)
