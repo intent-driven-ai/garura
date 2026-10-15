@@ -71,7 +71,7 @@ Everything else is a script.
 | A decision brief was given: what is decided, why now, the options, who decides, where (or, for `accept`, a proposed ADR file) | C1 | Ask for what is missing (gather, not a halt) |
 | Drive contract: when `--contract <file>` is passed, it is valid JSON naming `drive_run_id` and `branch`, and the current branch equals that branch | C10 | Hard halt (REC10) |
 | The ADR template exists (`standards/templates/adr.md`) | C2 | Hard halt |
-| **Clean record tree** — run by hand, after Step 0, `git status --porcelain -- docs/adr <product_base>product-os` is empty | C9 | Hard halt (REC9) |
+| **Clean record tree** — run by hand, checked at the end of Step 0 (the branch must exist first): `git status --porcelain -- docs/adr <product_base>product-os` is empty | C9 | Hard halt (REC9) |
 
 Resolve the facts with the bundled resolver — not by inference:
 
@@ -81,7 +81,7 @@ git -c core.quotepath=off status --porcelain -uall > <working>/porcelain-before.
 python3 scripts/preflight.py --play adr --config .garura/core/config.yaml \
     --branch "<current branch>" --porcelain-file <working>/porcelain-before.txt
 python3 scripts/session_stamp.py --phase start \
-    --marker "{stm_base}_adr/status/session-stamp-adr.json" \
+    --marker "<working>/status/session-stamp-adr.json" \
     --cwd "$(pwd)" --branch "$(git branch --show-current)"
 ```
 
@@ -90,7 +90,13 @@ python3 scripts/session_stamp.py --phase start \
 `<working>` is `{stm_base}_adr/<run-ts>/` — fixed, not keyed on the issue, because run by hand
 pre-flight runs before start-change has created it (as `/intent` does).
 `porcelain-before.txt` is captured again after Step 0 when run by hand, so the scope check sees
-only this run's changes.
+only this run's changes. Then snapshot the files already changed (inside a drive there will be
+some), so a second change to one of them is caught:
+
+```
+python3 scripts/check_adr_scope.py --snapshot --before <working>/porcelain-before.txt \
+    --out <working>/hashes-before.json
+```
 
 ## Task DAG
 
@@ -123,8 +129,13 @@ runtime reordering. On resume, skip completed and reset in-progress to pending.
 
 **Step 0 — start-change** · Owner: `start-change` (sub-play) · Depends on: pre-flight
 *Skipped when `in_drive`.* Run the start-of-pipeline member as a sub-play with `parent_run_id`:
-it resolves or creates the issue, cuts the branch off fresh main, and inits STM. Then capture
-`git -c core.quotepath=off status --porcelain -uall > <working>/porcelain-before.txt` again on the new branch.
+it resolves or creates the issue, cuts the branch off fresh main, and inits STM. Then check the
+record tree is clean and capture the starting state on the new branch:
+
+```
+test -z "$(git status --porcelain -- docs/adr <product_base>product-os)"   # else hard halt (REC9)
+git -c core.quotepath=off status --porcelain -uall > <working>/porcelain-before.txt
+```
 
     { "play": "start-change", "parent_run_id": "<this run id>",
       "inputs": { "title": "adr: <the decision in a few words>" },
@@ -230,6 +241,7 @@ the index has a row for every ADR file in the folder.
 ```
 git -c core.quotepath=off status --porcelain -uall > <working>/porcelain-after.txt
 python3 scripts/check_adr_scope.py --before <working>/porcelain-before.txt \
+    --before-hashes <working>/hashes-before.json \
     --after <working>/porcelain-after.txt --allow <the target> \
     --allow <each older ADR file it pointed> [--allow docs/adr/_index.md] \
     --out <working>/guard-report.json
@@ -313,13 +325,13 @@ evidence_dest="${evidence_base}${ts}.md"
 mkdir -p "$(dirname "$evidence_dest")"
 # Session identity stamp (#463) — close phase; start phase ran at pre-flight
 session_stamp=$(python3 scripts/session_stamp.py --phase close \
-    --marker "${stm_base}_adr/status/session-stamp-adr.json")
+    --marker "<working>/status/session-stamp-adr.json")
 # Stop-condition gate (#464) — Step C0: this play carries a baked manifest, so the
 # gate is LIVE. Evaluate the Done means here as the close's authoritative input.
 python3 scripts/check_stop_condition.py \
     --manifest "<play-dir>/stop-condition.yaml" \
     --base "<working>/" \
-    --out "${stm_base}_adr/status/stop-condition-adr.yaml"
+    --out "<working>/status/stop-condition-adr.yaml"
 sc_exit=$?   # 0 held · 1 unmet · 2 error
 ```
 
@@ -392,7 +404,7 @@ after Step 2 reuses the draft and its context; a resume never re-asks the person
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:fc1439ac28dbfb073b3d138ffae7c666098af42be5330e9fc15c36767b6ddc85 (of `reference/ice.md`) |
+| fingerprint | sha256:4b5264b713239fa643fb722b10ce0452ec6dd5aa8c96f0ffe12adcfcd7d526a6 (of `reference/ice.md`) |
 | compiled_by | play-creator (#632) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close; both skipped inside a drive) |
 | position_exception | record-writing both play — writes the ADR on its started branch (or the drive's) and commits it (Step 6) BEFORE the injected end sequence lands it |

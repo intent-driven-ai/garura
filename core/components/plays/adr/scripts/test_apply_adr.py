@@ -194,6 +194,10 @@ def test_drive_then_accept_later():
         code = run(["--accept-existing", p["target"], "--by", "Kapil", "--adr-dir", p["dir"], "--index", p["index"],
                     "--date", "2026-10-17", "--working", os.path.join(tmp, "later")])
         m = manifest(os.path.join(tmp, "later"))
+        check("a supersede 'in full' read back from the ADR is written as a full supersede",
+              "**Status:** (not recorded) — superseded by [ADR 003](003-cache-in-memory.md)\n" in
+              open(os.path.join(p["dir"], "002-retry.md")).read()
+              or "Superseded by [ADR 003]" in open(os.path.join(p["dir"], "002-retry.md")).read())
         check("accepted later, its pointers come from its own Supersedes and Amends lines",
               code == 0 and m["linked"] and sorted(m["pointers_written"]) == ["001-cache-on-disk.md", "002-retry.md"]
               and "amended in part by [ADR 003]" in open(os.path.join(p["dir"], "001-cache-on-disk.md")).read())
@@ -231,6 +235,19 @@ def test_scope():
         with redirect_stdout(io.StringIO()):
             code = cs.main(["--before", before, "--after", bad, "--allow", "docs/adr/*"])
         check("any other change is a violation", code == 1)
+        dirty = write(os.path.join(tmp, "docs-other.md"), "first\n")
+        before2 = write(os.path.join(tmp, "b2.txt"), f" M {dirty}\n")
+        hashes = os.path.join(tmp, "h.json")
+        with redirect_stdout(io.StringIO()):
+            cs.main(["--snapshot", "--before", before2, "--out", hashes])
+        after2 = write(os.path.join(tmp, "a2.txt"), f" M {dirty}\n")
+        with redirect_stdout(io.StringIO()):
+            code = cs.main(["--before", before2, "--after", after2, "--before-hashes", hashes])
+        check("a file already changed before the run and untouched since is fine", code == 0)
+        write(dirty, "changed again inside the run\n")
+        with redirect_stdout(io.StringIO()):
+            code = cs.main(["--before", before2, "--after", after2, "--before-hashes", hashes])
+        check("a file already changed before the run and changed again is caught", code == 1)
 
 
 def test_nothing_half_written():
@@ -274,6 +291,53 @@ def test_accept_later_safely():
               open(os.path.join(q["dir"], "002-retry.md")).read() == OLD_2)
 
 
+def test_round_two():
+    with tempfile.TemporaryDirectory() as tmp:
+        p = setup(tmp)
+        write(os.path.join(p["dir"], "002-retry.md"),
+              OLD_2.replace("# ADR 002: Retry three times\n", "# ADR 002: Retry three times\n\n"
+                            "**Status:** Superseded by [ADR 005](005-x.md)\n"))
+        code = run(base(p, ["--decision", accept_file(p["work"])]))
+        check("an older ADR already superseded in full by another stops the run before writing",
+              code == 2 and not os.path.exists(p["target"]) and "already superseded" in str(manifest(p["work"])["problem"]))
+        q = setup(os.path.join(tmp, "q"))
+        run(base(q, ["--proposed"]))
+        write(os.path.join(q["dir"], "002-retry.md"),
+              OLD_2.replace("# ADR 002: Retry three times\n", "# ADR 002: Retry three times\n\n"
+                            "**Status:** Superseded by [ADR 005](005-x.md)\n"))
+        code = run(["--accept-existing", q["target"], "--by", "Kapil", "--adr-dir", q["dir"], "--index", q["index"],
+                    "--date", "2026-10-17", "--working", os.path.join(tmp, "q2")])
+        check("accepting later with such an older ADR stops before accepting",
+              code == 2 and "**Status:** Proposed" in open(q["target"]).read())
+        r = os.path.join(tmp, "r")
+        w = os.path.join(r, "work")
+        draft = write(os.path.join(w, "adr-draft.md"), DRAFT.replace("**Supersedes:** ADR 002 (in full)\n", "")
+                      .replace("**Amends:** ADR 001 — the storage section\n", ""))
+        ctx = dump(os.path.join(w, "adr-context.yaml"), {"shape": "markdown", "number": "003"})
+        new_dir = os.path.join(r, "newdocs", "adr")
+        code = run(["--draft", draft, "--context", ctx, "--target", os.path.join(new_dir, "003-first.md"),
+                    "--adr-dir", new_dir, "--index", os.path.join(new_dir, "_index.md"),
+                    "--decision", accept_file(w), "--date", "2026-10-17", "--working", w])
+        check("the first ADR in a project with no ADR folder creates it, and its index",
+              code == 0 and os.path.isfile(os.path.join(new_dir, "003-first.md"))
+              and "[003](003-first.md)" in open(os.path.join(new_dir, "_index.md")).read())
+        s4 = setup(os.path.join(tmp, "s4"), draft=DRAFT.replace("**Business intent check:** none",
+                                                                 "**Business intent check:** instance — grow"))
+        run(base(s4, ["--decision", accept_file(s4["work"])]))
+        m = manifest(s4["work"])
+        check("a business-intent stop still records that the lint passed and what the guard said",
+              m["lint_ok"] and m.get("guard", {}).get("declared") == "instance" and m.get("business_intent"))
+        s5 = setup(os.path.join(tmp, "s5"))
+        run(base(s5, ["--decision", accept_file(s5["work"], verdict="reject")]))
+        m = manifest(s5["work"])
+        check("a reject still records that the lint passed", m["lint_ok"] and m.get("rejected"))
+        bad = setup(os.path.join(tmp, "bad"))
+        with open(bad["context"], "w") as fh:
+            fh.write("- not\n- a mapping\n")
+        check("a context of the wrong shape exits 3 and writes nothing",
+              run(base(bad, ["--proposed"])) == 3 and not os.path.exists(bad["target"]))
+
+
 def test_copy_in_sync():
     skill = os.path.join(HERE, "..", "..", "..", "skills", "author-adr", "scripts", "adr.py")
     if os.path.isfile(skill):
@@ -284,7 +348,7 @@ def test_copy_in_sync():
 def main():
     for test in (test_accept_by_hand, test_business_intent_stop, test_product_decision,
                  test_drive_then_accept_later, test_reject_and_refusals, test_scope,
-                 test_nothing_half_written, test_accept_later_safely, test_copy_in_sync):
+                 test_nothing_half_written, test_accept_later_safely, test_round_two, test_copy_in_sync):
         print(test.__name__)
         test()
     print(f"\n{PASSED} passed, {FAILED} failed")

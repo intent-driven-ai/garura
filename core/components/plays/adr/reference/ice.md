@@ -34,8 +34,9 @@ changes points forward to it.
   only once the new ADR is accepted.
 - C8 — The index of the framework's ADRs is rebuilt after each one is accepted, so it is never
   stale.
-- C9 — Additive and contained: the run writes only the new record, the forward pointers and
-  the index; nothing else in the repository changes.
+- C9 — Additive and contained: run by hand, it starts from a clean record tree (no uncommitted
+  change to the framework's ADRs or the product model); it writes only the new record, the
+  forward pointers and the index; nothing else in the repository changes.
 - C10 — Stands alone, or runs inside a drive: run by hand it opens and lands its own change;
   handed a drive's contract, it opens no issue or branch of its own and works on the drive's
   branch.
@@ -57,7 +58,8 @@ changes points forward to it.
 - F7 — An older ADR was edited beyond its forward pointer, or a pointer was written before the
   new ADR was accepted.
 - F8 — The index does not list an accepted framework ADR, or lists it with the wrong status.
-- F9 — Something other than the new record, the pointers and the index changed.
+- F9 — Run by hand from a record tree that was not clean, or something other than the new
+  record, the pointers and the index changed.
 - F10 — Run by hand, the change was not opened and landed; or, handed a drive's contract, the
   play opened an issue or a branch of its own.
 - F11 — The run closed COMPLETED without its done checks held.
@@ -143,8 +145,10 @@ run by hand the play starts before its issue exists.
   handoff: autonomous.
 - REC8 (F8) — trigger: the index is stale. direction: rebuild it from the ADR folder.
   handoff: autonomous.
-- REC9 (F9) — trigger: a path outside the new record, the pointers and the index changed.
-  direction: restore the offending paths from git, after a person confirms. handoff: human.
+- REC9 (F9) — trigger: the record tree was not clean at the start, or a path outside the new
+  record, the pointers and the index changed. direction: before writing, stop and ask the person
+  to commit or set aside the open changes; after writing, restore the offending paths from git,
+  after a person confirms. handoff: human.
 - REC10 (F10) — trigger: by hand without opening or landing the change, or an issue or branch
   opened inside a drive. direction: by hand, run the missing opening or end step; in a drive,
   close the stray issue and branch and continue on the drive's branch. handoff: human.
