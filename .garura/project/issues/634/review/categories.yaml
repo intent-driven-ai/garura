@@ -1,0 +1,95 @@
+pr: 635
+base: main
+categories:
+  - id: executable-code
+    playbook: review/code
+    design_bearing: false
+    summary: "Python helper scripts shared across the plays. 28 copies of preflight.py and 29 of session_stamp.py (canonical copies in play-creator/references) and 12 copies of lint_grounding.py get a one-letter variable renamed (l to line) so the linter stops flagging it; the /understand copy of lint_grounding.py also catches up with the others by gaining the seven realize-lens contracts and an exact-title check."
+    evidence:
+      - core/components/plays/adr/scripts/preflight.py
+      - core/components/plays/adr/scripts/session_stamp.py
+      - core/components/plays/agentic/scripts/lint_grounding.py
+      - core/components/plays/agentic/scripts/preflight.py
+      - core/components/plays/agentic/scripts/session_stamp.py
+      - core/components/plays/arch/scripts/lint_grounding.py
+      - core/components/plays/arch/scripts/preflight.py
+      - core/components/plays/arch/scripts/session_stamp.py
+      - core/components/plays/commit-change/scripts/preflight.py
+      - core/components/plays/commit-change/scripts/session_stamp.py
+      - core/components/plays/deploy/scripts/preflight.py
+      - core/components/plays/deploy/scripts/session_stamp.py
+      - core/components/plays/fix-bug/scripts/session_stamp.py
+      - core/components/plays/focus/scripts/preflight.py
+      - core/components/plays/focus/scripts/session_stamp.py
+      - core/components/plays/grill/scripts/lint_grounding.py
+      - core/components/plays/grill/scripts/preflight.py
+      - core/components/plays/grill/scripts/session_stamp.py
+      - core/components/plays/implement/scripts/preflight.py
+      - core/components/plays/implement/scripts/session_stamp.py
+      - core/components/plays/intent/scripts/lint_grounding.py
+      - core/components/plays/intent/scripts/preflight.py
+      - core/components/plays/intent/scripts/session_stamp.py
+      - core/components/plays/launch/scripts/preflight.py
+      - core/components/plays/launch/scripts/session_stamp.py
+      - core/components/plays/learn/scripts/lint_grounding.py
+      - core/components/plays/learn/scripts/preflight.py
+      - core/components/plays/learn/scripts/session_stamp.py
+      - core/components/plays/marketing/scripts/lint_grounding.py
+      - core/components/plays/marketing/scripts/preflight.py
+      - core/components/plays/marketing/scripts/session_stamp.py
+      - core/components/plays/measure/scripts/lint_grounding.py
+      - core/components/plays/measure/scripts/preflight.py
+      - core/components/plays/measure/scripts/session_stamp.py
+      - core/components/plays/merge-change/scripts/preflight.py
+      - core/components/plays/merge-change/scripts/session_stamp.py
+      - core/components/plays/next/scripts/preflight.py
+      - core/components/plays/next/scripts/session_stamp.py
+      - core/components/plays/play-creator/references/preflight.py
+      - core/components/plays/play-creator/references/session_stamp.py
+      - core/components/plays/propose-change/scripts/preflight.py
+      - core/components/plays/propose-change/scripts/session_stamp.py
+      - core/components/plays/quality/scripts/lint_grounding.py
+      - core/components/plays/quality/scripts/preflight.py
+      - core/components/plays/quality/scripts/session_stamp.py
+      - core/components/plays/refactor/scripts/preflight.py
+      - core/components/plays/refactor/scripts/session_stamp.py
+      - core/components/plays/review-change/scripts/preflight.py
+      - core/components/plays/review-change/scripts/session_stamp.py
+      - core/components/plays/roadmap/scripts/preflight.py
+      - core/components/plays/roadmap/scripts/session_stamp.py
+      - core/components/plays/run/scripts/lint_grounding.py
+      - core/components/plays/run/scripts/preflight.py
+      - core/components/plays/run/scripts/session_stamp.py
+      - core/components/plays/shape/scripts/preflight.py
+      - core/components/plays/shape/scripts/session_stamp.py
+      - core/components/plays/start-change/scripts/preflight.py
+      - core/components/plays/start-change/scripts/session_stamp.py
+      - core/components/plays/understand/scripts/lint_grounding.py
+      - core/components/plays/understand/scripts/preflight.py
+      - core/components/plays/understand/scripts/session_stamp.py
+      - core/components/plays/ux/scripts/lint_grounding.py
+      - core/components/plays/ux/scripts/preflight.py
+      - core/components/plays/ux/scripts/session_stamp.py
+      - core/components/plays/validate/scripts/preflight.py
+      - core/components/plays/validate/scripts/session_stamp.py
+      - core/components/plays/vision/scripts/lint_grounding.py
+      - core/components/plays/vision/scripts/preflight.py
+      - core/components/plays/vision/scripts/session_stamp.py
+    notes: "Mechanical rename in 68 of the 69 files, so the main check is that every copy of each script stays byte-identical and behaviour is unchanged. The one real behaviour change is the /understand lint_grounding.py: 19 added lines (lens-quality, lens-ux, lens-agentic, lens-architecture, lens-measure, lens-run, lens-marketing contracts plus exact_title handling). Check that they match the other 11 copies and that the lens section lists are the same ones the lens docs are actually written to. Layer 1 only: ruff E741 and quality-check-scoped; no design-grounding. These are Python scripts inside play folders, not Markdown harness, so the harness playbook is not applied even though the paths sit under core/components/plays."
+  - id: stm-run-records
+    playbook: null
+    playbook_missing: true
+    design_bearing: false
+    note: "Playbook missing. These are work-tracking and run artifacts under .garura/project/issues/634/context (analysis, branch, commits, issue and PR snapshots, porcelain output, PR body, resolved-rules record, self-review, work description). They are not KB memory, docs or ADRs. Needs its own playbook, or an explicit decision that they are out of review scope. The work description and PR body state the intended scope the change can be checked against, but they are branch-added, so never design grounding."
+    summary: "Short-term-memory records for issue 634 work and the propose-change run."
+    evidence:
+      - .garura/project/issues/634/context/analysis.yaml
+      - .garura/project/issues/634/context/branch.json
+      - .garura/project/issues/634/context/commits.yaml
+      - .garura/project/issues/634/context/issue.json
+      - .garura/project/issues/634/context/porcelain.txt
+      - .garura/project/issues/634/context/pr-body.md
+      - .garura/project/issues/634/context/pr.json
+      - .garura/project/issues/634/context/resolved-rules.json
+      - .garura/project/issues/634/context/self-review.md
+      - .garura/project/issues/634/context/work-description.txt

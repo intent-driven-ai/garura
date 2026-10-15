@@ -1,0 +1,22 @@
+## ruff E741 on all copies
+All checks passed!
+## copies identical
+preflight.py: 1 distinct
+session_stamp.py: 1 distinct
+lint_grounding.py: 1 distinct
+## test suites
+test_check_ice_workable.py: 11 passed, 0 failed
+test_gate_learning.py: ALL PASS
+test_concurrent_fanout.py: 13 passed, 0 failed
+test_platform_adapter.py: 37 passed, 0 failed
+test_chain_checks.py: ALL PASS
+test_merge_scripts.py: 15 passed, 0 failed
+test_derive_candidates.py: 15/15 passed
+test_validate_epics.py: VERDICT: PASS (6/6 passed)
+test_apply_adr.py: 37 passed, 0 failed
+test_persist_understand.py: 39 passed, 0 failed
+test_intent_scripts.py: 87 passed, 0 failed, 0 skipped
+test_adr.py: 43 passed, 0 failed
+test_check_ontology.py: 27 passed, 0 failed
+test_check_plan.py: 27 passed, 0 failed
+test_kb.py: 15 passed, 0 failed

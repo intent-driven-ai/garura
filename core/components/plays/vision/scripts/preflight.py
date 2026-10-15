@@ -124,7 +124,7 @@ def resolve(cfg, play, branch, porcelain_text):
 
     changes_present = None
     if porcelain_text is not None:
-        changes_present = any(l.strip() for l in porcelain_text.splitlines())
+        changes_present = any(line.strip() for line in porcelain_text.splitlines())
 
     has_product_ltm = False
     if product_base:

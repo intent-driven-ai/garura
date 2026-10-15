@@ -1,0 +1,43 @@
+---
+needs_judgment: false
+
+change_groups:
+  - id: lint-grounding-lens-orphan
+    issue: 634
+    commit_type: fix
+    scope: lint-grounding
+    subject: "stop reporting a lens doc as an orphan when its slice is in the spine"
+    files:
+      - core/components/plays/agentic/scripts/lint_grounding.py
+      - core/components/plays/arch/scripts/lint_grounding.py
+      - core/components/plays/grill/scripts/lint_grounding.py
+      - core/components/plays/intent/scripts/lint_grounding.py
+      - core/components/plays/learn/scripts/lint_grounding.py
+      - core/components/plays/marketing/scripts/lint_grounding.py
+      - core/components/plays/measure/scripts/lint_grounding.py
+      - core/components/plays/quality/scripts/lint_grounding.py
+      - core/components/plays/run/scripts/lint_grounding.py
+      - core/components/plays/understand/scripts/lint_grounding.py
+      - core/components/plays/ux/scripts/lint_grounding.py
+      - core/components/plays/vision/scripts/lint_grounding.py
+      - core/components/plays/vision/scripts/test_lint_grounding.py
+  - id: stm-context-634
+    issue: 634
+    commit_type: chore
+    scope: stm
+    subject: "update the context files"
+    files:
+      - .garura/project/issues/634/context/analysis.yaml
+      - .garura/project/issues/634/context/porcelain.txt
+
+exclusions:
+  - path: ".garura/project/issues/634/review/"
+    reason: "review record, committed by review-change post_verdict"
+    blocking: false
+
+risks:
+  sensitive_files: []
+
+notes:
+  - "The scan's content warning on review/pr.diff (match 'private_key') is a pattern match inside a saved diff, not a secret; the file is excluded with the rest of review/."
+  - "Branch feature/634-shared-script-lint is not a hotfix branch. No breaking changes or ambiguous types detected."

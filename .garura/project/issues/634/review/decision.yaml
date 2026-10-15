@@ -1,0 +1,7 @@
+decision: approve
+decided_by: harness
+gate: "skipped by config (gates.plays.review-change)"
+reason: "no P1 findings; confidence acceptable"
+blocking: []
+counts: {P3: 1, P4: 1}
+note: "Both findings fixed before the merge (lens-doc orphan check in all 12 linter copies; new test_lint_grounding.py)."
