@@ -522,3 +522,8 @@ findings:
   basis: Base glossary rows 61 and 113 (they already differ; the branch picks one without reconciling).
   fix: 'Follow-up: reconcile the glossary rows.'
   category: memory
+rounds:
+  round1: 33 findings (P2 3, P3 15, P4 15; none blocking) — 30 closed in round 1, 1 recorded as a follow-up, 2 (scope
+    check, tests) closed in round 2
+  round2: 8 new from the round-1 fixes (P2 3, P3 2, P4 3; none blocking) — all fixed after round 2, each with a
+    test
