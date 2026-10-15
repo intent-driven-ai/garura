@@ -1,0 +1,45 @@
+pr: 636
+base: main
+categories:
+  - id: harness
+    playbook: review/harness
+    design_bearing: true
+    summary: "The review-change play's Done means is rewritten so its stop condition checks something the play really writes: D2 now checks that a decision was recorded with its decider (posted.json decision_recorded: true) instead of a verdict.yaml file the play never produces. The play's intent source (ice.md), its compiled SKILL.md (Step 6 and SE-9, fingerprint and compiled_by row) and its stop-condition manifest are changed together. A one-line clarification in fix-bug names the file that holds the regression-test record the Done means reads."
+    evidence:
+      - core/components/plays/review-change/reference/ice.md
+      - core/components/plays/review-change/SKILL.md
+      - core/components/plays/review-change/stop-condition.yaml
+      - core/components/plays/fix-bug/SKILL.md
+    notes: "Intent change to review-change (C9 and D2 in the ICE), so the check is that it traces to the ICE source and the compiled SKILL.md plus stop-condition.yaml match it, and that D2 is meaningful rather than cosmetic (see standards/rules/no-unbacked-recommendation.md). The fix-bug edit is prose that names an artifact file (regression-test-path.yaml); check it against fix-bug's own ICE/stop-condition on the base ref. Layer 1 (lint_play.py, lint-components) and Layer 2 design-grounding both apply; ground only in committed sources (base-ref play, docs/philosophy, docs/adr, standards), never in the branch's own ice.md edits."
+  - id: executable-code
+    playbook: review/code
+    design_bearing: false
+    summary: "post_verdict.py (canonical copy in play-creator/references, bundled copy in review-change/scripts) now reads decision.yaml before posting, refuses to post (exit 2) unless it holds a decision (approve|reject) and a decider (harness|human), and writes decision, decided_by and decision_recorded into posted.json."
+    evidence:
+      - core/components/plays/play-creator/references/post_verdict.py
+      - core/components/plays/review-change/scripts/post_verdict.py
+    notes: "Behaviour change, not a rename. Check the two copies stay byte-identical, the new --decision argument is required and wired in SKILL.md Step 6, exit codes match the docstring, and PyYAML import handling is acceptable. Layer 1 only (ruff and quality-check-scoped); no design-grounding. Python scripts inside play folders, so the harness playbook is not applied to them."
+  - id: tests
+    playbook: review/tests
+    design_bearing: false
+    summary: "New fixture test file for post_verdict.py and review-change's Done means: a posted decision (harness or human) holds the stop condition, a failed post or an invalid decision record leaves it unmet, a hand-made verdict.yaml does not pass, and the two post_verdict.py copies are identical. Host and git are stubbed."
+    evidence:
+      - core/components/plays/play-creator/references/test_post_verdict.py
+    notes: "Check the tests really exercise check_stop_condition.py against the real manifest (not a stub), that the failure cases are real failures, and that the file runs (python3 test_post_verdict.py) and is picked up by the suite where one exists. Layer 1 only: test run plus lint; no design-grounding. It sits next to the script it tests in play-creator/references rather than under a tests/ folder, so path alone would not have flagged it; content decided."
+  - id: stm-run-records
+    playbook: null
+    playbook_missing: true
+    design_bearing: false
+    note: "Playbook missing. These are work-tracking and run artifacts under .garura/project/issues/536/context (analysis, branch, commits, issue and PR snapshots, porcelain output, PR body, resolved-rules record, self-review, work description). They are not KB memory, docs or ADRs. Needs its own playbook, or an explicit decision that they are out of review scope. The work description and PR body state the intended scope the change can be checked against, but they are branch-added, so never design grounding."
+    summary: "Short-term-memory records for issue 536 work and the propose-change run."
+    evidence:
+      - .garura/project/issues/536/context/analysis.yaml
+      - .garura/project/issues/536/context/branch.json
+      - .garura/project/issues/536/context/commits.yaml
+      - .garura/project/issues/536/context/issue.json
+      - .garura/project/issues/536/context/porcelain.txt
+      - .garura/project/issues/536/context/pr-body.md
+      - .garura/project/issues/536/context/pr.json
+      - .garura/project/issues/536/context/resolved-rules.json
+      - .garura/project/issues/536/context/self-review.md
+      - .garura/project/issues/536/context/work-description.txt

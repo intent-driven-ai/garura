@@ -1,0 +1,849 @@
+diff --git a/.garura/project/issues/536/context/analysis.yaml b/.garura/project/issues/536/context/analysis.yaml
+new file mode 100644
+index 00000000..16af5bc8
+--- /dev/null
++++ b/.garura/project/issues/536/context/analysis.yaml
+@@ -0,0 +1,43 @@
++---
++needs_judgment: false
++
++change_groups:
++  - id: review-change-comment-matches-decision
++    issue: 536
++    commit_type: fix
++    scope: review-change
++    subject: "refuse to post a verdict comment that does not name the recorded decision and decider"
++    files:
++      - core/components/plays/review-change/scripts/post_verdict.py
++      - core/components/plays/play-creator/references/post_verdict.py
++      - core/components/plays/play-creator/references/test_post_verdict.py
++      - core/components/plays/review-change/reference/ice.md
++      - core/components/plays/review-change/SKILL.md
++  - id: fix-bug-name-test-and-record
++    issue: 536
++    commit_type: docs
++    scope: fix-bug
++    subject: "say which file is the regression test and which is its record"
++    files:
++      - core/components/plays/fix-bug/SKILL.md
++  - id: stm-context-536
++    issue: 536
++    commit_type: chore
++    scope: stm
++    subject: "update the context files"
++    files:
++      - .garura/project/issues/536/context/analysis.yaml
++      - .garura/project/issues/536/context/porcelain.txt
++
++exclusions:
++  - path: ".garura/project/issues/536/review/"
++    reason: "review record, committed by review-change post_verdict"
++    blocking: false
++
++risks:
++  sensitive_files: []
++
++notes:
++  - "The scan's content warning on review/pr.diff (match 'private_key') is a pattern match inside a saved diff, not a secret; the file is excluded with the rest of review/."
++  - "Both post_verdict.py copies are byte-identical (verified with cmp); they and the SKILL.md fingerprint refresh belong with the ice.md change they track, so they stay in one group."
++  - "Branch feature/536-review-stop-condition is not a hotfix branch. No breaking changes or ambiguous types detected."
+diff --git a/.garura/project/issues/536/context/branch.json b/.garura/project/issues/536/context/branch.json
+new file mode 100644
+index 00000000..9feef68c
+--- /dev/null
++++ b/.garura/project/issues/536/context/branch.json
+@@ -0,0 +1,6 @@
++{
++  "branch_name": "feature/536-review-stop-condition",
++  "base_sha": "dccd82c5f1a2aaf97d5d9cce2bf2a5826d911e53",
++  "on_default_branch": false,
++  "worktree_path": null
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/536/context/commits.yaml b/.garura/project/issues/536/context/commits.yaml
+new file mode 100644
+index 00000000..f12f7184
+--- /dev/null
++++ b/.garura/project/issues/536/context/commits.yaml
+@@ -0,0 +1,28 @@
++commits:
++  - sha: 084366a1
++    message: "fix(review-change): refuse to post a verdict comment that does not name the recorded decision and decider (#536)"
++    files:
++      - core/components/plays/review-change/scripts/post_verdict.py
++      - core/components/plays/play-creator/references/post_verdict.py
++      - core/components/plays/play-creator/references/test_post_verdict.py
++      - core/components/plays/review-change/reference/ice.md
++      - core/components/plays/review-change/SKILL.md
++    branch: feature/536-review-stop-condition
++  - sha: a44120ec
++    message: "docs(fix-bug): say which file is the regression test and which is its record (#536)"
++    files:
++      - core/components/plays/fix-bug/SKILL.md
++    branch: feature/536-review-stop-condition
++  - sha: f3d46fd5
++    message: "chore(stm): update the context files (#536)"
++    files:
++      - .garura/project/issues/536/context/analysis.yaml
++      - .garura/project/issues/536/context/porcelain.txt
++    branch: feature/536-review-stop-condition
++excluded_files:
++  - path: ".garura/project/issues/536/review/"
++    reason: "review record, committed by review-change post_verdict"
++leftover_count: 0
++tree_clean: true
++pushed: false
++run_state_committed: true
+diff --git a/.garura/project/issues/536/context/issue.json b/.garura/project/issues/536/context/issue.json
+new file mode 100644
+index 00000000..92bab3af
+--- /dev/null
++++ b/.garura/project/issues/536/context/issue.json
+@@ -0,0 +1 @@
++{"created":false,"issue_number":536,"resolved":true,"title":"/review-change can never close COMPLETED — its stop condition names a file the play never writes"}
+diff --git a/.garura/project/issues/536/context/porcelain.txt b/.garura/project/issues/536/context/porcelain.txt
+new file mode 100644
+index 00000000..9313eff0
+--- /dev/null
++++ b/.garura/project/issues/536/context/porcelain.txt
+@@ -0,0 +1,8 @@
++ M .garura/project/issues/536/context/porcelain.txt
++ M core/components/plays/fix-bug/SKILL.md
++ M core/components/plays/play-creator/references/post_verdict.py
++ M core/components/plays/play-creator/references/test_post_verdict.py
++ M core/components/plays/review-change/SKILL.md
++ M core/components/plays/review-change/reference/ice.md
++ M core/components/plays/review-change/scripts/post_verdict.py
++?? .garura/project/issues/536/review/
+diff --git a/.garura/project/issues/536/context/pr-body.md b/.garura/project/issues/536/context/pr-body.md
+new file mode 100644
+index 00000000..360e4efb
+--- /dev/null
++++ b/.garura/project/issues/536/context/pr-body.md
+@@ -0,0 +1,30 @@
++Closes #536.
++
++## What this fixes
++
++`/review-change` could never close COMPLETED. Its stop condition (D2) looked for `review/verdict.yaml`, a file the play never writes. Every run closed HALTED, even when it did the whole job.
++
++## What changed
++
++- **D2 now proves a decision with its decider.** The post step (`post_verdict.py`) reads `review/decision.yaml` first. It posts nothing (exit 2) unless the record holds a decision (approve or reject) and its decider (harness or human). After the post, `posted.json` carries `decision`, `decided_by` and `decision_recorded: true`. D2 checks that field.
++- **Intent first.** The change went through `review-change/reference/ice.md` (C9 and D2), then the compiled `SKILL.md` (Step 6, SE-9, new fingerprint) and `stop-condition.yaml`.
++- **Tests.** New `play-creator/references/test_post_verdict.py` (23 pass):
++  - a posted decision (harness or human) holds the stop condition, so the run closes COMPLETED;
++  - a failed post leaves it unmet, so the run closes HALTED;
++  - six bad decision records post nothing;
++  - a hand-made `verdict.yaml` no longer passes;
++  - the two copies of the script stay identical.
++
++## The sweep (last acceptance item)
++
++All stop conditions under `core/components/plays/` were checked. Each clause's file and field was matched, by whole name, against what its play and scripts say they write. The check finds the old D2 bug on main and finds nothing on this branch except the two fix-bug items below.
++
++- **fix-bug D3: real drift, fixed.** The check reads `red_verified` in `regression-test-path.yaml`. The play never said that record holds the field. Step 3 now says the agent writes the test skill's output block there. This is a wording change only; fix-bug's intent and fingerprint stay the same.
++- **fix-bug D4: not drift.** `review/merge-gate.json` and `pr_merged` are written by the merge-change step that fix-bug runs.
++- **Values other than `true`:** the clauses in commit-change, deploy, focus, grill, implement, propose-change and start-change were each matched to the script that writes the value. All are consistent.
++
++## Not in this change
++
++- `lint_play` still reports one gap on review-change: the "no unbacked recommendation" wiring. That gap is on main already and is tracked by #530.
++
++🤖 Generated with [Claude Code](https://claude.com/claude-code)
+diff --git a/.garura/project/issues/536/context/pr.json b/.garura/project/issues/536/context/pr.json
+new file mode 100644
+index 00000000..ee7c00bc
+--- /dev/null
++++ b/.garura/project/issues/536/context/pr.json
+@@ -0,0 +1,6 @@
++{
++  "number": 636,
++  "url": "https://github.com/intent-driven-ai/garura/pull/636",
++  "state": "OPEN",
++  "base": "main"
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/536/context/resolved-rules.json b/.garura/project/issues/536/context/resolved-rules.json
+new file mode 100644
+index 00000000..70b8f431
+--- /dev/null
++++ b/.garura/project/issues/536/context/resolved-rules.json
+@@ -0,0 +1,6 @@
++{
++  "resolved": true,
++  "path": "/Users/kapilahuja/.garura/core/memory/standards/rules/self-review.md",
++  "source": "/Users/kapilahuja/.garura/core/memory/standards/rules",
++  "is_override": false
++}
+diff --git a/.garura/project/issues/536/context/self-review.md b/.garura/project/issues/536/context/self-review.md
+new file mode 100644
+index 00000000..b2ad05b1
+--- /dev/null
++++ b/.garura/project/issues/536/context/self-review.md
+@@ -0,0 +1,72 @@
++# Self-Review — #536 (feature/536-review-stop-condition vs main)
++
++Rules source: /Users/kapilahuja/.garura/core/memory/standards/rules/self-review.md (base file, not a project override).
++Diff: `git diff main...HEAD` — 5 commits, 13 files, +378 / -31.
++Informational only. The approve/reject gate is review-change's job.
++
++## Branch Info
++
++- Branch: feature/536-review-stop-condition
++- Base: main
++- Branch pattern: feature
++- Suggested PR title: `fix(review-change): prove a decision was recorded with its decider before the review is called done (#536)`
++
++## Scope checks
++
++| Check | Status | Evidence |
++|-------|--------|----------|
++| Matches the issue | PASS | Issue #536: review-change's Done means named `review/verdict.yaml`, which the play never writes. The diff changes that clause (D2) to read `decision_recorded` in `review/posted.json`, and makes `post_verdict.py` write that field only after reading a valid `decision.yaml`. |
++| No scope creep | PASS | Play files all sit in review-change (ice.md, SKILL.md, stop-condition.yaml, scripts/post_verdict.py) plus its play-creator reference copy and test. The one outside file, fix-bug SKILL.md, is the sweep finding the issue's last criterion calls for (fix-bug D3 reads a file the prose never said to write). fix-bug D4 is written by the injected merge-change sub-play, so it is correctly left alone. |
++| Reasonable size | PASS | 7 source files carry the change (about 75 lines of play edits, 49 lines of script, 155 lines of test). The other 6 files are STM run records under `.garura/project/issues/536/context/`. |
++| No stray artifacts | PASS | No debug prints in play code (the prints in the test are its report output). No TODO or FIXME added. No `__pycache__` tracked (0 tracked). Untracked `resolved-rules.json` is this run's own input, not part of the diff. |
++| Intent change went through the ICE | PASS | `reference/ice.md` was edited, and the SKILL.md fingerprint `sha256:91ef6311...c255ed` matches the current hash of ice.md. The fix-bug edit is non-intent prose (it names a file), so a direct edit is the correct path. |
++
++## Quality checks
++
++| Check | Status | Evidence |
++|-------|--------|----------|
++| Tests present | PASS | New `test_post_verdict.py`: 23 passed, 0 failed (run now). Covers a posted harness decision and a posted human decision (stop condition holds), a failed post (no posted.json, stop condition unmet), six invalid-decision cases (nothing posted, exit 2), a hand-made `verdict.yaml` (still unmet), and the two script copies being identical. |
++| Commits are clean | PASS | 5 commits, all conventional format, all reference #536. The fix, the fix-bug doc edit and the STM records are separate concerns. |
++| No secrets | PASS | Added lines scanned for key, token, secret, password, private-key and cloud-key patterns: no matches. |
++| Docs in step | PASS | SKILL.md (Step 6 and SE-9), ice.md (C9, D2) and the script docstring all describe the new behaviour. No leftover `verdict.yaml` reference except the test that proves it no longer passes. |
++| Nothing obviously broken | PASS | No merge conflicts (`git merge-tree --write-tree main HEAD` returned a tree hash). `stop-condition.yaml` parses. The two copies of `post_verdict.py` are byte-identical. |
++
++## Points for the reviewer (non-blocking)
++
++- REVIEW: The "closes COMPLETED" proof is a fixture test with the host and git stubbed. No live `/review-change` run on a real PR was done in this branch.
++- REVIEW: The issue asks that the sweep of the other plays' stop-condition.yaml be done. 28 manifests exist; the sweep result (one drift found, in fix-bug D3) is not recorded in a file in this diff. Worth stating the sweep outcome in the PR description.
++- REVIEW: `decision_recorded: true` is trusted if someone hand-writes `posted.json`. The script is the only intended writer, and a hand-made verdict file is covered by a test, but a hand-made posted.json is not.
++- REVIEW: `post_verdict.py` now needs a new `--decision` argument. The only caller found is review-change's SKILL.md Step 6, which was updated.
++
++## Blocking Issues
++
++None. Blocking findings: 0.
++
++## Readiness Assessment
++
++- Ready: yes
++- Blocking findings: 0
++- Review items: 4
++- Recommendation: Raise the PR.
++
++---
++
++## YAML Output
++
++```yaml
++analysis:
++  branch: feature/536-review-stop-condition
++  base: main
++  branch_pattern: feature
++  commits: 5
++  changes: {files: 13, additions: 378, deletions: 31}
++  suggested_title: "fix(review-change): prove a decision was recorded with its decider before the review is called done (#536)"
++  rules_file: /Users/kapilahuja/.garura/core/memory/standards/rules/self-review.md
++  checklist:
++    scope: {matches_issue: PASS, no_scope_creep: PASS, reasonable_size: PASS, no_stray_artifacts: PASS}
++    quality: {tests_present: PASS, commits_clean: PASS, no_secrets: PASS, docs_in_step: PASS, nothing_broken: PASS}
++  blocking_issues: []
++  blocking_count: 0
++  ready: true
++  recommendation: "Raise the PR"
++```
+diff --git a/.garura/project/issues/536/context/work-description.txt b/.garura/project/issues/536/context/work-description.txt
+new file mode 100644
+index 00000000..cb9b2928
+--- /dev/null
++++ b/.garura/project/issues/536/context/work-description.txt
+@@ -0,0 +1,23 @@
++> **Approved to fix.**
++
++## Description
++
++`review-change`'s baked `stop-condition.yaml` clause D2 requires `review/verdict.yaml`.
++
++The play does not write that file. Its own prose (`SKILL.md` lines 236, 254, 258) says Step 4 emits `recommended_verdict.yaml` and Step 5 records `decision.yaml`. The #467 gate-off recompile split "the verdict" into a recommendation plus a decision, and the Done means was never updated to match.
++
++Result: D2 is unmet on every run. Per `play-close.md` an unmet stop condition forces `HALTED` with `exit_reason: stop_condition_unmet`. So `/review-change` halts even when it did its entire job — assessed the categories, ran both review layers, consolidated cited findings, decided, and posted the verdict to the PR.
++
++Observed on PR #532 on 2026-09-08: D1 held, D3 held, D2 unmet on the filename alone. The run closed HALTED.
++
++A `verdict.yaml` was deliberately **not** created to make the gate pass. Satisfying a check by manufacturing the artifact it looks for is the failure mode `standards/rules/no-unbacked-recommendation.md` exists to prevent, one layer down.
++
++The Done means lives in the ICE, so this is an intent change: `/play-editor` on `reference/ice.md`, then recompile. Never a hand-edit of the compiled `SKILL.md`.
++
++## Acceptance criteria
++
++- [ ] The ICE's "Done means" names the artifacts the play actually writes
++- [ ] The check is meaningful, not cosmetic — it proves a decision was recorded with its decider, not merely that some file exists
++- [ ] A full `/review-change` run that posts a verdict closes COMPLETED
++- [ ] A run that fails to post still closes HALTED
++- [ ] Every other play's `stop-condition.yaml` is swept for the same prose-versus-manifest drift
+diff --git a/core/components/plays/fix-bug/SKILL.md b/core/components/plays/fix-bug/SKILL.md
+index 50516b5a..180db92a 100644
+--- a/core/components/plays/fix-bug/SKILL.md
++++ b/core/components/plays/fix-bug/SKILL.md
+@@ -165,7 +165,10 @@ skills in order — it does NOT author these artifacts inline:
+ 1. `draft-rca` → `rca.yaml` (+ `resolution-trace.yaml` when LTM context is present)
+ 2. `draft-fix-design` → `design.yaml`
+ 3. `author-regression-test` → the failing regression test at the repo's canonical eval path
+-   (red-verified), with its path recorded
++   (red-verified). The test itself is the file the skill names in its output block. The
++   agent writes that output block — `regression_test_path` (the test's path),
++   `red_verified: true`, `verified_at` — to the record `regression-test-path.yaml`; the
++   Done means D3 reads `red_verified` there
+ 
+     {
+       "task":   "trace root cause, design the fix with alternatives, author a failing regression test",
+diff --git a/core/components/plays/play-creator/references/post_verdict.py b/core/components/plays/play-creator/references/post_verdict.py
+index 843d8703..700e5a8c 100644
+--- a/core/components/plays/play-creator/references/post_verdict.py
++++ b/core/components/plays/play-creator/references/post_verdict.py
+@@ -2,16 +2,27 @@
+ """
+ post_verdict.py — review-change Step 6 as a script (#484).
+ 
+-Posts the human's decision comment to the PR (via platform_adapter.py), commits
+-and pushes the review run artifacts, and writes posted.json. Replaces the
+-repo-orchestrator dispatch. Zero judgment — the decision is the human's (Step 5),
+-this only publishes and records it.
++Posts the decision comment to the PR (via platform_adapter.py), commits and
++pushes the review run artifacts, and writes posted.json. Replaces the
++repo-orchestrator dispatch. Zero judgment — the decision is made at Step 5 (by
++the human, or by the harness when the gate is off); this only publishes and
++records it.
++
++Before it posts, it reads the decision record (decision.yaml). The record must
++hold a decision (approve | reject) and its decider (harness | human), and the
++comment's first line must name that same decision and decider: it reads
++"Harness verdict" exactly when the harness decided. When either check fails,
++nothing is posted and the script exits 2. posted.json carries the decision, the
++decider and `decision_recorded: true` — the field review-change's Done means D2
++checks (#536).
+ 
+     python3 post_verdict.py --config .garura/core/config.yaml \
+         --pr-number N --comment-file <decision-comment.md> \
++        --decision <review/decision.yaml> \
+         --issue N --artifacts-dir <review/> --out <posted.json>
+ 
+-Exit 0 on success, 1 on a post/commit failure.
++Exit 0 on success, 1 on a post/commit failure, 2 on a missing or invalid
++decision record, or a comment that does not match it.
+ """
+ 
+ import argparse
+@@ -24,6 +35,46 @@
+ sys.path.insert(0, HERE)
+ import platform_adapter as pa  # noqa: E402
+ 
++DECISIONS = ("approve", "reject")
++DECIDERS = ("harness", "human")
++
++
++def read_decision(path):
++    """Return (decision, decided_by, error). error is None when the record is valid."""
++    try:
++        import yaml
++    except ImportError:
++        return None, None, "PyYAML required: pip install pyyaml"
++    if not os.path.exists(path):
++        return None, None, f"decision record missing: {path}"
++    try:
++        with open(path, encoding="utf-8") as fh:
++            doc = yaml.safe_load(fh)
++    except yaml.YAMLError as exc:
++        return None, None, f"decision record unreadable: {exc}"
++    if not isinstance(doc, dict):
++        return None, None, "decision record is not a mapping"
++    decision, decided_by = doc.get("decision"), doc.get("decided_by")
++    if decision not in DECISIONS:
++        return decision, decided_by, f"decision must be one of {DECISIONS}, got {decision!r}"
++    if decided_by not in DECIDERS:
++        return decision, decided_by, f"decided_by must be one of {DECIDERS}, got {decided_by!r}"
++    return decision, decided_by, None
++
++
++def check_comment(body, decision, decided_by):
++    """Return an error when the comment's first line does not name the recorded decision and decider."""
++    first = next((line for line in body.splitlines() if line.strip()), "")
++    words = first.lower()
++    if decision not in words:
++        return f"the comment's first line does not name the decision {decision!r}: {first!r}"
++    for other in DECISIONS:
++        if other != decision and other in words:
++            return f"the comment's first line names {other!r}, but the record says {decision!r}: {first!r}"
++    if ("harness verdict" in words) != (decided_by == "harness"):
++        return f"the comment's first line does not name the decider {decided_by!r}: {first!r}"
++    return None
++
+ 
+ def _git(*args):
+     proc = subprocess.run(["git", *args], capture_output=True, text=True)
+@@ -35,13 +86,24 @@ def main(argv=None):
+     ap.add_argument("--config", default=".garura/core/config.yaml")
+     ap.add_argument("--pr-number", required=True)
+     ap.add_argument("--comment-file", required=True)
++    ap.add_argument("--decision", required=True)
+     ap.add_argument("--issue", required=True)
+     ap.add_argument("--artifacts-dir", required=True)
+     ap.add_argument("--out", required=True)
+     ns = ap.parse_args(argv)
+ 
++    # No decision with its decider → nothing is posted (#536).
++    decision, decided_by, error = read_decision(ns.decision)
++    if error:
++        sys.stderr.write(f"post_verdict.py: {error}\n")
++        sys.exit(2)
++
+     with open(ns.comment_file, encoding="utf-8") as fh:
+         body = fh.read()
++    error = check_comment(body, decision, decided_by)
++    if error:
++        sys.stderr.write(f"post_verdict.py: {error}\n")
++        sys.exit(2)
+ 
+     # Post the verdict comment.
+     res = pa.dispatch("comment-pr", {"pr_number": ns.pr_number, "body": body},
+@@ -52,7 +114,8 @@ def main(argv=None):
+     # gh prints the created comment URL on stdout.
+     comment_url = res["stdout"].strip().splitlines()[-1] if res["stdout"].strip() else None
+ 
+-    posted = {"posted": True, "comment_url": comment_url, "pr_number": ns.pr_number}
++    posted = {"posted": True, "comment_url": comment_url, "pr_number": ns.pr_number,
++              "decision": decision, "decided_by": decided_by, "decision_recorded": True}
+     with open(ns.out, "w", encoding="utf-8") as fh:
+         json.dump(posted, fh, indent=2)
+ 
+diff --git a/core/components/plays/play-creator/references/test_post_verdict.py b/core/components/plays/play-creator/references/test_post_verdict.py
+new file mode 100644
+index 00000000..af239c84
+--- /dev/null
++++ b/core/components/plays/play-creator/references/test_post_verdict.py
+@@ -0,0 +1,180 @@
++#!/usr/bin/env python3
++"""
++test_post_verdict.py — fixture tests for post_verdict.py and review-change's Done means (#536).
++
++A run that records a decision with its decider and posts it must hold the stop condition
++(the close may read COMPLETED). A run that fails to post, or has no valid decision record,
++must leave it unmet (the close reads HALTED). The host and git are stubbed: nothing is
++posted and nothing is committed.
++
++    python3 test_post_verdict.py
++"""
++
++import json
++import os
++import subprocess
++import sys
++import tempfile
++
++HERE = os.path.dirname(os.path.abspath(__file__))
++PY = sys.executable or "python3"
++sys.path.insert(0, HERE)
++import post_verdict as pv  # noqa: E402
++
++REPO = os.path.normpath(os.path.join(HERE, "..", "..", "..", "..", ".."))
++PLAY = os.path.join(REPO, "core", "components", "plays", "review-change")
++MANIFEST = os.path.join(PLAY, "stop-condition.yaml")
++
++PASSED = 0
++FAILED = 0
++
++
++def check(name, cond):
++    global PASSED, FAILED
++    if cond:
++        PASSED += 1
++        print(f"  [PASS] {name}")
++    else:
++        FAILED += 1
++        print(f"  [FAIL] {name}")
++        if os.environ.get("PYTEST_CURRENT_TEST"):
++            raise AssertionError(name)
++
++
++def write(path, text):
++    os.makedirs(os.path.dirname(path), exist_ok=True)
++    with open(path, "w", encoding="utf-8") as fh:
++        fh.write(text)
++
++
++def run_post(base, decision_text, post_ok=True, comment="Harness verdict (gate off): approve"):
++    """Run post_verdict.main with the host and git stubbed. Return (exit code, posts made)."""
++    review = os.path.join(base, "review")
++    write(os.path.join(review, "findings.yaml"), "findings: []\n")
++    if decision_text is not None:
++        write(os.path.join(review, "decision.yaml"), decision_text)
++    write(os.path.join(base, "decision-comment.md"), comment + "\n")
++    posts = []
++
++    def fake_dispatch(op, args, config_path=None):
++        posts.append(op)
++        if post_ok:
++            return {"exit_code": 0, "stdout": "https://example.test/pr/1#c1\n", "stderr": ""}
++        return {"exit_code": 1, "stdout": "", "stderr": "host refused"}
++
++    real_dispatch, real_git = pv.pa.dispatch, pv._git
++    pv.pa.dispatch, pv._git = fake_dispatch, (lambda *a: (0, "", ""))
++    try:
++        pv.main(["--pr-number", "1", "--comment-file", os.path.join(base, "decision-comment.md"),
++                 "--decision", os.path.join(review, "decision.yaml"), "--issue", "536",
++                 "--artifacts-dir", review, "--out", os.path.join(review, "posted.json")])
++        code = 0
++    except SystemExit as exc:
++        code = exc.code
++    finally:
++        pv.pa.dispatch, pv._git = real_dispatch, real_git
++    return code, posts
++
++
++def stop_condition(base):
++    proc = subprocess.run([PY, os.path.join(PLAY, "scripts", "check_stop_condition.py"),
++                           "--manifest", MANIFEST, "--base", base + os.sep,
++                           "--out", os.path.join(base, "verdict-out.yaml")],
++                          capture_output=True, text=True)
++    return proc.returncode
++
++
++def test_posted_decision_holds():
++    print("test_posted_decision_holds")
++    comments = {"harness": "Harness verdict (gate off per gates.plays.review-change): reject",
++                "human": "Reviewer's verdict: reject"}
++    for decider, comment in comments.items():
++        with tempfile.TemporaryDirectory() as base:
++            code, posts = run_post(base, f"decision: reject\ndecided_by: {decider}\n", comment=comment)
++            with open(os.path.join(base, "review", "posted.json"), encoding="utf-8") as fh:
++                posted = json.load(fh)
++            check(f"a {decider} decision posts and exits 0", code == 0 and posts == ["comment-pr"])
++            check(f"posted.json carries the {decider} decision and its decider",
++                  posted["decision"] == "reject" and posted["decided_by"] == decider
++                  and posted["decision_recorded"] is True and posted["posted"] is True)
++            check(f"the stop condition holds — the close may read COMPLETED ({decider})",
++                  stop_condition(base) == 0)
++
++
++def test_failed_post_stays_unmet():
++    print("test_failed_post_stays_unmet")
++    with tempfile.TemporaryDirectory() as base:
++        code, _ = run_post(base, "decision: approve\ndecided_by: harness\n", post_ok=False)
++        check("a failed post exits 1", code == 1)
++        check("a failed post writes no posted.json",
++              not os.path.exists(os.path.join(base, "review", "posted.json")))
++        check("the stop condition is unmet — the close reads HALTED", stop_condition(base) == 1)
++
++
++def test_no_valid_decision_posts_nothing():
++    print("test_no_valid_decision_posts_nothing")
++    cases = {
++        "no decision record": None,
++        "no decider": "decision: approve\n",
++        "an unknown decider": "decision: approve\ndecided_by: robot\n",
++        "no decision": "decided_by: harness\n",
++        "an unknown decision": "decision: maybe\ndecided_by: human\n",
++        "a record that is not a mapping": "- approve\n",
++    }
++    for name, text in cases.items():
++        with tempfile.TemporaryDirectory() as base:
++            code, posts = run_post(base, text)
++            check(f"{name}: exits 2 and posts nothing", code == 2 and posts == [])
++            check(f"{name}: the stop condition is unmet", stop_condition(base) == 1)
++
++
++def test_comment_must_match_the_record():
++    print("test_comment_must_match_the_record")
++    cases = {
++        "a comment that names the other decision": ("decision: reject\ndecided_by: harness\n",
++                                                     "Harness verdict (gate off): approve"),
++        "a comment that names both decisions": ("decision: approve\ndecided_by: harness\n",
++                                                "Harness verdict (gate off): approve or reject"),
++        "a harness decision posted as a human one": ("decision: approve\ndecided_by: harness\n",
++                                                     "Reviewer's verdict: approve"),
++        "a human decision posted as a harness one": ("decision: approve\ndecided_by: human\n",
++                                                     "Harness verdict (gate off): approve"),
++    }
++    for name, (record, comment) in cases.items():
++        with tempfile.TemporaryDirectory() as base:
++            code, posts = run_post(base, record, comment=comment)
++            check(f"{name}: exits 2 and posts nothing", code == 2 and posts == [])
++            check(f"{name}: the stop condition is unmet", stop_condition(base) == 1)
++
++
++def test_a_hand_made_verdict_file_does_not_pass():
++    print("test_a_hand_made_verdict_file_does_not_pass")
++    with tempfile.TemporaryDirectory() as base:
++        write(os.path.join(base, "review", "findings.yaml"), "findings: []\n")
++        write(os.path.join(base, "review", "verdict.yaml"), "decision: approve\n")
++        write(os.path.join(base, "review", "posted.json"), json.dumps({"posted": True}))
++        check("an old-style posted.json with a copied verdict.yaml is unmet",
++              stop_condition(base) == 1)
++
++
++def test_copies_are_identical():
++    print("test_copies_are_identical")
++    with open(os.path.join(HERE, "post_verdict.py"), "rb") as fh:
++        mine = fh.read()
++    with open(os.path.join(PLAY, "scripts", "post_verdict.py"), "rb") as fh:
++        play_copy = fh.read()
++    check("review-change's post_verdict.py is identical to this one", mine == play_copy)
++
++
++def main():
++    for test in (test_posted_decision_holds, test_failed_post_stays_unmet,
++                 test_no_valid_decision_posts_nothing, test_comment_must_match_the_record,
++                 test_a_hand_made_verdict_file_does_not_pass,
++                 test_copies_are_identical):
++        test()
++    print(f"\n{PASSED} passed, {FAILED} failed")
++    sys.exit(1 if FAILED else 0)
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/core/components/plays/review-change/SKILL.md b/core/components/plays/review-change/SKILL.md
+index 31495277..9868724c 100644
+--- a/core/components/plays/review-change/SKILL.md
++++ b/core/components/plays/review-change/SKILL.md
+@@ -251,13 +251,13 @@ by this switch.
+   consolidated findings grouped by category and severity, each with its basis; and the
+   recommended verdict with its reason. Then output the summary and **wait for the
+   reviewer's typed approve or reject** (do NOT use AskUserQuestion; do NOT proceed on the
+-  recommendation alone). Record the reviewer's decision verbatim to `decision.yaml`
+-  (`decided_by: human`).
++  recommendation alone). Record the reviewer's decision verbatim to `decision.yaml`:
++  `decision: approve | reject` and `decided_by: human` (C9).
+ - **Off — the recommendation becomes the decision.** Do not wait. Record
+   `gate skipped by config (gates.plays.review-change)` as a Checkpoint Decisions row in
+   the evidence. Write `decision.yaml` directly from `recommended_verdict.yaml`:
+-  `decided_by: harness`, the recommendation **verbatim**, and the citing (blocking)
+-  findings. A `reject` outcome stands exactly as a human reject would — fix the cited
++  `decision:` its `verdict` **verbatim** (approve | reject), `decided_by: harness`, and the
++  citing (blocking) findings (C9). A `reject` outcome stands exactly as a human reject would — fix the cited
+   findings and re-raise. The verdict is still never silent and never unposted (C9).
+ 
+ **Step 6 — Post Decision to PR** · Owner: play (script) · Depends on: Step 5
+@@ -265,26 +265,32 @@ Assemble the decision comment (decision + the cited findings + routing) into a f
+ comment ALWAYS names its decider: a human decision is posted as the reviewer's verdict; an
+ off-gate decision leads with `Harness verdict (gate off per gates.plays.review-change):
+ <decision>` so no reader mistakes it for a human review (C8, F10). Then run the bundled
+-`post_verdict.py` — it posts the comment (via `platform_adapter.py`), writes
+-`review/posted.json` `{posted: true, comment_url}`, and commits+pushes the review run
+-artifacts, so the PR updates with its own review record. No agent (C10):
++`post_verdict.py` — it reads `decision.yaml` first and posts nothing (exit 2) unless the
++record holds a decision (approve | reject) and its decider (harness | human), and the
++comment's first line names that same decision and decider (C9, #536);
++then it posts the comment (via `platform_adapter.py`), writes `review/posted.json`
++`{posted: true, comment_url, decision, decided_by, decision_recorded: true}`, and
++commits+pushes the review run artifacts, so the PR updates with its own review record. No
++agent (C10):
+ 
+ ```
+ python3 scripts/post_verdict.py --config .garura/core/config.yaml \
+     --pr-number "<pr number>" --comment-file "<working>/decision-comment.md" \
++    --decision "{stm_base}{issue}/review/decision.yaml" \
+     --issue <issue> --artifacts-dir "{stm_base}{issue}/review/" \
+     --out "<working>/posted.json"
+ ```
+ 
+ Whether a `reject` hard-blocks the downstream merge is governed by config
+-(`review-pr.bypass`), unchanged from prior behavior. A verdict rendered AND posted counts as
+-done regardless of approve/reject (C9).
++(`review-pr.bypass`), unchanged from prior behavior. A decision recorded with its decider
++AND posted counts as done regardless of approve/reject (C9).
+ 
+ **SE-8 (F8/C8):** the recommended verdict was computed; when the gate resolved on, the
+ recorded decision equals the reviewer's typed input; a verdict comment authored by this
+ run exists on the PR after the step.
+-**SE-9 (F9/C9):** `posted.json` reads `posted: true` with a comment URL; the run artifacts
+-are on the remote branch; the stop-condition verdict reads held before the close may read
++**SE-9 (F9/C9):** `posted.json` reads `posted: true` with a comment URL, and
++`decision_recorded: true` with the `decision` and `decided_by` of `decision.yaml`; the run
++artifacts are on the remote branch; the stop-condition verdict reads held before the close may read
+ COMPLETED.
+ **SE-10 (F10/C8):** when the gate resolved off, `decision.yaml` reads `decided_by: harness`
+ and equals the computed recommendation verbatim with its citing findings, and the posted
+@@ -419,8 +425,8 @@ current decision rather than adding a conflicting second one.
+ 
+ | Field | Value |
+ |-------|-------|
+-| fingerprint | sha256:b4adce1338cabd935698234cf8157be971f9e8c589d48e2f5865733c99167cdd (of `reference/ice.md`) |
+-| compiled_by | play-editor (#466 Batch A; #467 Batch C; #484 scripted chain; #496 grounding fan-out) |
++| fingerprint | sha256:2f62e324d3a3797d92a1c6b98c9ffbf283a0e9aa6aaf6eb2565c8f96aefceb9e (of `reference/ice.md`) |
++| compiled_by | play-editor (#466 Batch A; #467 Batch C; #484 scripted chain; #496 grounding fan-out; #536 Done means) |
+ | pipeline_position | end |
+ | workflow_structure | A (multi-agent; agentic assessment → concurrent read-only design-grounding fan-out (one agent per design-bearing category) → consolidation; config-resolved verdict gate; gated close) |
+ | stop_condition | stop-condition.yaml (D1–D3), gate live at Step C0 |
+diff --git a/core/components/plays/review-change/reference/ice.md b/core/components/plays/review-change/reference/ice.md
+index ac4532c7..f5257d38 100644
+--- a/core/components/plays/review-change/reference/ice.md
++++ b/core/components/plays/review-change/reference/ice.md
+@@ -55,11 +55,15 @@ enforced by pre-flight (an open PR must exist).
+   harness verdict; a REJECT outcome stands exactly as a human reject would (fix the cited
+   findings, re-raise; `review-pr.bypass` semantics untouched). The verdict is still never
+   silent and never unposted (C9 unchanged).
+-- C9 — The play ends by proving its Done means at close (gated, #464): a verdict rendered
+-  AND posted counts as done regardless of approve/reject; after posting, the play records
+-  `review/posted.json` `{posted: true, comment_url}` and commits+pushes its run artifacts
+-  (`context.yaml`, `findings.yaml`, `verdict.yaml`, `posted.json`) to the feature branch —
+-  the open PR carries its own review record.
++- C9 — The play ends by proving its Done means at close (gated, #464): a decision recorded
++  with its decider AND posted counts as done regardless of approve/reject. The decision
++  record `review/decision.yaml` holds `decision: approve | reject` and `decided_by: harness
++  | human`. The post reads it first and posts nothing unless it holds both, and unless the
++  comment's first line names that same decision and decider (#536). After posting, the play records
++  `review/posted.json` `{posted: true, comment_url, decision, decided_by,
++  decision_recorded: true}` and commits+pushes its run artifacts (`context.yaml`,
++  `findings.yaml`, `recommended_verdict.yaml`, `decision.yaml`, `posted.json`) to the
++  feature branch — the open PR carries its own review record.
+ - C10 — The mechanical PR/host I/O runs in bundled scripts calling git/gh directly (via
+   `platform_adapter.py`), not an agent dispatch (#484, tool-first + ADR 025): binding the PR
+   context (diff, changed paths, base, standards_order, review shelf) runs in
+@@ -142,8 +146,8 @@ enforced by pre-flight (an open PR must exist).
+ 
+ - D1 — says: "findings exist"
+   check: { type: artifact_exists, path: "review/findings.yaml" }
+-- D2 — says: "the verdict exists"
+-  check: { type: artifact_exists, path: "review/verdict.yaml" }
++- D2 — says: "a decision was recorded with its decider, and that is the decision posted"
++  check: { type: field_equals, file: "review/posted.json", field: "decision_recorded", equals: true }
+ - D3 — says: "the verdict is on the PR"
+   check: { type: field_equals, file: "review/posted.json", field: "posted", equals: true }
+ 
+diff --git a/core/components/plays/review-change/scripts/post_verdict.py b/core/components/plays/review-change/scripts/post_verdict.py
+index 843d8703..700e5a8c 100644
+--- a/core/components/plays/review-change/scripts/post_verdict.py
++++ b/core/components/plays/review-change/scripts/post_verdict.py
+@@ -2,16 +2,27 @@
+ """
+ post_verdict.py — review-change Step 6 as a script (#484).
+ 
+-Posts the human's decision comment to the PR (via platform_adapter.py), commits
+-and pushes the review run artifacts, and writes posted.json. Replaces the
+-repo-orchestrator dispatch. Zero judgment — the decision is the human's (Step 5),
+-this only publishes and records it.
++Posts the decision comment to the PR (via platform_adapter.py), commits and
++pushes the review run artifacts, and writes posted.json. Replaces the
++repo-orchestrator dispatch. Zero judgment — the decision is made at Step 5 (by
++the human, or by the harness when the gate is off); this only publishes and
++records it.
++
++Before it posts, it reads the decision record (decision.yaml). The record must
++hold a decision (approve | reject) and its decider (harness | human), and the
++comment's first line must name that same decision and decider: it reads
++"Harness verdict" exactly when the harness decided. When either check fails,
++nothing is posted and the script exits 2. posted.json carries the decision, the
++decider and `decision_recorded: true` — the field review-change's Done means D2
++checks (#536).
+ 
+     python3 post_verdict.py --config .garura/core/config.yaml \
+         --pr-number N --comment-file <decision-comment.md> \
++        --decision <review/decision.yaml> \
+         --issue N --artifacts-dir <review/> --out <posted.json>
+ 
+-Exit 0 on success, 1 on a post/commit failure.
++Exit 0 on success, 1 on a post/commit failure, 2 on a missing or invalid
++decision record, or a comment that does not match it.
+ """
+ 
+ import argparse
+@@ -24,6 +35,46 @@
+ sys.path.insert(0, HERE)
+ import platform_adapter as pa  # noqa: E402
+ 
++DECISIONS = ("approve", "reject")
++DECIDERS = ("harness", "human")
++
++
++def read_decision(path):
++    """Return (decision, decided_by, error). error is None when the record is valid."""
++    try:
++        import yaml
++    except ImportError:
++        return None, None, "PyYAML required: pip install pyyaml"
++    if not os.path.exists(path):
++        return None, None, f"decision record missing: {path}"
++    try:
++        with open(path, encoding="utf-8") as fh:
++            doc = yaml.safe_load(fh)
++    except yaml.YAMLError as exc:
++        return None, None, f"decision record unreadable: {exc}"
++    if not isinstance(doc, dict):
++        return None, None, "decision record is not a mapping"
++    decision, decided_by = doc.get("decision"), doc.get("decided_by")
++    if decision not in DECISIONS:
++        return decision, decided_by, f"decision must be one of {DECISIONS}, got {decision!r}"
++    if decided_by not in DECIDERS:
++        return decision, decided_by, f"decided_by must be one of {DECIDERS}, got {decided_by!r}"
++    return decision, decided_by, None
++
++
++def check_comment(body, decision, decided_by):
++    """Return an error when the comment's first line does not name the recorded decision and decider."""
++    first = next((line for line in body.splitlines() if line.strip()), "")
++    words = first.lower()
++    if decision not in words:
++        return f"the comment's first line does not name the decision {decision!r}: {first!r}"
++    for other in DECISIONS:
++        if other != decision and other in words:
++            return f"the comment's first line names {other!r}, but the record says {decision!r}: {first!r}"
++    if ("harness verdict" in words) != (decided_by == "harness"):
++        return f"the comment's first line does not name the decider {decided_by!r}: {first!r}"
++    return None
++
+ 
+ def _git(*args):
+     proc = subprocess.run(["git", *args], capture_output=True, text=True)
+@@ -35,13 +86,24 @@ def main(argv=None):
+     ap.add_argument("--config", default=".garura/core/config.yaml")
+     ap.add_argument("--pr-number", required=True)
+     ap.add_argument("--comment-file", required=True)
++    ap.add_argument("--decision", required=True)
+     ap.add_argument("--issue", required=True)
+     ap.add_argument("--artifacts-dir", required=True)
+     ap.add_argument("--out", required=True)
+     ns = ap.parse_args(argv)
+ 
++    # No decision with its decider → nothing is posted (#536).
++    decision, decided_by, error = read_decision(ns.decision)
++    if error:
++        sys.stderr.write(f"post_verdict.py: {error}\n")
++        sys.exit(2)
++
+     with open(ns.comment_file, encoding="utf-8") as fh:
+         body = fh.read()
++    error = check_comment(body, decision, decided_by)
++    if error:
++        sys.stderr.write(f"post_verdict.py: {error}\n")
++        sys.exit(2)
+ 
+     # Post the verdict comment.
+     res = pa.dispatch("comment-pr", {"pr_number": ns.pr_number, "body": body},
+@@ -52,7 +114,8 @@ def main(argv=None):
+     # gh prints the created comment URL on stdout.
+     comment_url = res["stdout"].strip().splitlines()[-1] if res["stdout"].strip() else None
+ 
+-    posted = {"posted": True, "comment_url": comment_url, "pr_number": ns.pr_number}
++    posted = {"posted": True, "comment_url": comment_url, "pr_number": ns.pr_number,
++              "decision": decision, "decided_by": decided_by, "decision_recorded": True}
+     with open(ns.out, "w", encoding="utf-8") as fh:
+         json.dump(posted, fh, indent=2)
+ 
+diff --git a/core/components/plays/review-change/stop-condition.yaml b/core/components/plays/review-change/stop-condition.yaml
+index 88e92526..c070e7d5 100644
+--- a/core/components/plays/review-change/stop-condition.yaml
++++ b/core/components/plays/review-change/stop-condition.yaml
+@@ -8,8 +8,8 @@ content:
+       says: "findings exist"
+       check: { type: artifact_exists, path: "review/findings.yaml" }
+     - id: D2
+-      says: "the verdict exists"
+-      check: { type: artifact_exists, path: "review/verdict.yaml" }
++      says: "a decision was recorded with its decider, and that is the decision posted"
++      check: { type: field_equals, file: "review/posted.json", field: "decision_recorded", equals: true }
+     - id: D3
+       says: "the verdict is on the PR"
+       check: { type: field_equals, file: "review/posted.json", field: "posted", equals: true }
