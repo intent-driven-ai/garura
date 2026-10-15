@@ -1,0 +1,31 @@
+commits:
+  - sha: ad0671c2
+    message: "fix(lint-grounding): stop reporting a lens doc as an orphan when its slice is in the spine (#634)"
+    files:
+      - core/components/plays/agentic/scripts/lint_grounding.py
+      - core/components/plays/arch/scripts/lint_grounding.py
+      - core/components/plays/grill/scripts/lint_grounding.py
+      - core/components/plays/intent/scripts/lint_grounding.py
+      - core/components/plays/learn/scripts/lint_grounding.py
+      - core/components/plays/marketing/scripts/lint_grounding.py
+      - core/components/plays/measure/scripts/lint_grounding.py
+      - core/components/plays/quality/scripts/lint_grounding.py
+      - core/components/plays/run/scripts/lint_grounding.py
+      - core/components/plays/understand/scripts/lint_grounding.py
+      - core/components/plays/ux/scripts/lint_grounding.py
+      - core/components/plays/vision/scripts/lint_grounding.py
+      - core/components/plays/vision/scripts/test_lint_grounding.py
+    branch: feature/634-shared-script-lint
+  - sha: 826761b5
+    message: "chore(stm): update the context files (#634)"
+    files:
+      - .garura/project/issues/634/context/analysis.yaml
+      - .garura/project/issues/634/context/porcelain.txt
+    branch: feature/634-shared-script-lint
+excluded_files:
+  - path: ".garura/project/issues/634/review/"
+    reason: "review record, committed by review-change post_verdict"
+leftover_count: 0
+tree_clean: true
+pushed: false
+run_state_committed: true

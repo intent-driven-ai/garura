@@ -1,0 +1,1592 @@
+diff --git a/.garura/project/issues/634/context/analysis.yaml b/.garura/project/issues/634/context/analysis.yaml
+new file mode 100644
+index 00000000..ec528596
+--- /dev/null
++++ b/.garura/project/issues/634/context/analysis.yaml
+@@ -0,0 +1,114 @@
++---
++# analyze-changes output (executor schema), issue 634, branch feature/634-shared-script-lint
++# Rename of the one-letter variable `l` to `line` (ruff E741) across the shared play scripts.
++needs_judgment: false
++
++change_groups:
++  - id: play-creator-shared-scripts
++    issue: 634
++    commit_type: fix
++    scope: play-creator
++    subject: "rename the one-letter variable l to line in preflight.py and session_stamp.py, canonical and every play copy"
++    files:
++      - core/components/plays/adr/scripts/preflight.py
++      - core/components/plays/adr/scripts/session_stamp.py
++      - core/components/plays/agentic/scripts/preflight.py
++      - core/components/plays/agentic/scripts/session_stamp.py
++      - core/components/plays/arch/scripts/preflight.py
++      - core/components/plays/arch/scripts/session_stamp.py
++      - core/components/plays/commit-change/scripts/preflight.py
++      - core/components/plays/commit-change/scripts/session_stamp.py
++      - core/components/plays/deploy/scripts/preflight.py
++      - core/components/plays/deploy/scripts/session_stamp.py
++      - core/components/plays/fix-bug/scripts/session_stamp.py
++      - core/components/plays/focus/scripts/preflight.py
++      - core/components/plays/focus/scripts/session_stamp.py
++      - core/components/plays/grill/scripts/preflight.py
++      - core/components/plays/grill/scripts/session_stamp.py
++      - core/components/plays/implement/scripts/preflight.py
++      - core/components/plays/implement/scripts/session_stamp.py
++      - core/components/plays/intent/scripts/preflight.py
++      - core/components/plays/intent/scripts/session_stamp.py
++      - core/components/plays/launch/scripts/preflight.py
++      - core/components/plays/launch/scripts/session_stamp.py
++      - core/components/plays/learn/scripts/preflight.py
++      - core/components/plays/learn/scripts/session_stamp.py
++      - core/components/plays/marketing/scripts/preflight.py
++      - core/components/plays/marketing/scripts/session_stamp.py
++      - core/components/plays/measure/scripts/preflight.py
++      - core/components/plays/measure/scripts/session_stamp.py
++      - core/components/plays/merge-change/scripts/preflight.py
++      - core/components/plays/merge-change/scripts/session_stamp.py
++      - core/components/plays/next/scripts/preflight.py
++      - core/components/plays/next/scripts/session_stamp.py
++      - core/components/plays/play-creator/references/preflight.py
++      - core/components/plays/play-creator/references/session_stamp.py
++      - core/components/plays/propose-change/scripts/preflight.py
++      - core/components/plays/propose-change/scripts/session_stamp.py
++      - core/components/plays/quality/scripts/preflight.py
++      - core/components/plays/quality/scripts/session_stamp.py
++      - core/components/plays/refactor/scripts/preflight.py
++      - core/components/plays/refactor/scripts/session_stamp.py
++      - core/components/plays/review-change/scripts/preflight.py
++      - core/components/plays/review-change/scripts/session_stamp.py
++      - core/components/plays/roadmap/scripts/preflight.py
++      - core/components/plays/roadmap/scripts/session_stamp.py
++      - core/components/plays/run/scripts/preflight.py
++      - core/components/plays/run/scripts/session_stamp.py
++      - core/components/plays/shape/scripts/preflight.py
++      - core/components/plays/shape/scripts/session_stamp.py
++      - core/components/plays/start-change/scripts/preflight.py
++      - core/components/plays/start-change/scripts/session_stamp.py
++      - core/components/plays/understand/scripts/preflight.py
++      - core/components/plays/understand/scripts/session_stamp.py
++      - core/components/plays/ux/scripts/preflight.py
++      - core/components/plays/ux/scripts/session_stamp.py
++      - core/components/plays/validate/scripts/preflight.py
++      - core/components/plays/validate/scripts/session_stamp.py
++      - core/components/plays/vision/scripts/preflight.py
++      - core/components/plays/vision/scripts/session_stamp.py
++
++  - id: lint-grounding-rename
++    issue: 634
++    commit_type: fix
++    scope: lint-grounding
++    subject: "rename the one-letter variable l to line in the lint_grounding.py copies"
++    files:
++      - core/components/plays/agentic/scripts/lint_grounding.py
++      - core/components/plays/arch/scripts/lint_grounding.py
++      - core/components/plays/grill/scripts/lint_grounding.py
++      - core/components/plays/intent/scripts/lint_grounding.py
++      - core/components/plays/learn/scripts/lint_grounding.py
++      - core/components/plays/marketing/scripts/lint_grounding.py
++      - core/components/plays/measure/scripts/lint_grounding.py
++      - core/components/plays/quality/scripts/lint_grounding.py
++      - core/components/plays/run/scripts/lint_grounding.py
++      - core/components/plays/ux/scripts/lint_grounding.py
++      - core/components/plays/vision/scripts/lint_grounding.py
++
++  - id: understand-lint-grounding-level
++    issue: 634
++    commit_type: fix
++    scope: understand
++    subject: "bring lint_grounding.py level with the other copies so it gains the realize-lens contracts"
++    files:
++      - core/components/plays/understand/scripts/lint_grounding.py
++
++  - id: stm-context-files
++    issue: 634
++    commit_type: chore
++    scope: stm
++    subject: "update the context files"
++    files:
++      - .garura/project/issues/634/context/analysis.yaml
++      - .garura/project/issues/634/context/porcelain.txt
++
++exclusions: []
++
++risks:
++  sensitive_files: []
++  # Raw facts below (ignored by the executor).
++  breaking_changes: []
++  ambiguous_types: []
++  hotfix_branch: false
++  content_scan: "no password/api_key/secret/token/private_key patterns in added code; one match is the literal heading text 'Config & secrets' in a string in understand/scripts/lint_grounding.py, not a credential"
+diff --git a/.garura/project/issues/634/context/branch.json b/.garura/project/issues/634/context/branch.json
+new file mode 100644
+index 00000000..3e0f442b
+--- /dev/null
++++ b/.garura/project/issues/634/context/branch.json
+@@ -0,0 +1,6 @@
++{
++  "branch_name": "feature/634-shared-script-lint",
++  "base_sha": "bb1dbda79641b537a7091dd3535b994bebf332d4",
++  "on_default_branch": false,
++  "worktree_path": null
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/634/context/commits.yaml b/.garura/project/issues/634/context/commits.yaml
+new file mode 100644
+index 00000000..755047d4
+--- /dev/null
++++ b/.garura/project/issues/634/context/commits.yaml
+@@ -0,0 +1,94 @@
++commits:
++  - sha: 5e020a18
++    message: "fix(play-creator): rename the one-letter variable l to line in preflight.py and session_stamp.py, canonical and every play copy (#634)"
++    files:
++      - core/components/plays/adr/scripts/preflight.py
++      - core/components/plays/adr/scripts/session_stamp.py
++      - core/components/plays/agentic/scripts/preflight.py
++      - core/components/plays/agentic/scripts/session_stamp.py
++      - core/components/plays/arch/scripts/preflight.py
++      - core/components/plays/arch/scripts/session_stamp.py
++      - core/components/plays/commit-change/scripts/preflight.py
++      - core/components/plays/commit-change/scripts/session_stamp.py
++      - core/components/plays/deploy/scripts/preflight.py
++      - core/components/plays/deploy/scripts/session_stamp.py
++      - core/components/plays/fix-bug/scripts/session_stamp.py
++      - core/components/plays/focus/scripts/preflight.py
++      - core/components/plays/focus/scripts/session_stamp.py
++      - core/components/plays/grill/scripts/preflight.py
++      - core/components/plays/grill/scripts/session_stamp.py
++      - core/components/plays/implement/scripts/preflight.py
++      - core/components/plays/implement/scripts/session_stamp.py
++      - core/components/plays/intent/scripts/preflight.py
++      - core/components/plays/intent/scripts/session_stamp.py
++      - core/components/plays/launch/scripts/preflight.py
++      - core/components/plays/launch/scripts/session_stamp.py
++      - core/components/plays/learn/scripts/preflight.py
++      - core/components/plays/learn/scripts/session_stamp.py
++      - core/components/plays/marketing/scripts/preflight.py
++      - core/components/plays/marketing/scripts/session_stamp.py
++      - core/components/plays/measure/scripts/preflight.py
++      - core/components/plays/measure/scripts/session_stamp.py
++      - core/components/plays/merge-change/scripts/preflight.py
++      - core/components/plays/merge-change/scripts/session_stamp.py
++      - core/components/plays/next/scripts/preflight.py
++      - core/components/plays/next/scripts/session_stamp.py
++      - core/components/plays/play-creator/references/preflight.py
++      - core/components/plays/play-creator/references/session_stamp.py
++      - core/components/plays/propose-change/scripts/preflight.py
++      - core/components/plays/propose-change/scripts/session_stamp.py
++      - core/components/plays/quality/scripts/preflight.py
++      - core/components/plays/quality/scripts/session_stamp.py
++      - core/components/plays/refactor/scripts/preflight.py
++      - core/components/plays/refactor/scripts/session_stamp.py
++      - core/components/plays/review-change/scripts/preflight.py
++      - core/components/plays/review-change/scripts/session_stamp.py
++      - core/components/plays/roadmap/scripts/preflight.py
++      - core/components/plays/roadmap/scripts/session_stamp.py
++      - core/components/plays/run/scripts/preflight.py
++      - core/components/plays/run/scripts/session_stamp.py
++      - core/components/plays/shape/scripts/preflight.py
++      - core/components/plays/shape/scripts/session_stamp.py
++      - core/components/plays/start-change/scripts/preflight.py
++      - core/components/plays/start-change/scripts/session_stamp.py
++      - core/components/plays/understand/scripts/preflight.py
++      - core/components/plays/understand/scripts/session_stamp.py
++      - core/components/plays/ux/scripts/preflight.py
++      - core/components/plays/ux/scripts/session_stamp.py
++      - core/components/plays/validate/scripts/preflight.py
++      - core/components/plays/validate/scripts/session_stamp.py
++      - core/components/plays/vision/scripts/preflight.py
++      - core/components/plays/vision/scripts/session_stamp.py
++    branch: feature/634-shared-script-lint
++  - sha: 78e47bad
++    message: "fix(lint-grounding): rename the one-letter variable l to line in the lint_grounding.py copies (#634)"
++    files:
++      - core/components/plays/agentic/scripts/lint_grounding.py
++      - core/components/plays/arch/scripts/lint_grounding.py
++      - core/components/plays/grill/scripts/lint_grounding.py
++      - core/components/plays/intent/scripts/lint_grounding.py
++      - core/components/plays/learn/scripts/lint_grounding.py
++      - core/components/plays/marketing/scripts/lint_grounding.py
++      - core/components/plays/measure/scripts/lint_grounding.py
++      - core/components/plays/quality/scripts/lint_grounding.py
++      - core/components/plays/run/scripts/lint_grounding.py
++      - core/components/plays/ux/scripts/lint_grounding.py
++      - core/components/plays/vision/scripts/lint_grounding.py
++    branch: feature/634-shared-script-lint
++  - sha: d95f30c8
++    message: "fix(understand): bring lint_grounding.py level with the other copies so it gains the realize-lens contracts (#634)"
++    files:
++      - core/components/plays/understand/scripts/lint_grounding.py
++    branch: feature/634-shared-script-lint
++  - sha: fc07d0c1
++    message: "chore(stm): update the context files (#634)"
++    files:
++      - .garura/project/issues/634/context/analysis.yaml
++      - .garura/project/issues/634/context/porcelain.txt
++    branch: feature/634-shared-script-lint
++excluded_files:
++  []
++leftover_count: 0
++tree_clean: true
++pushed: false
++run_state_committed: true
+diff --git a/.garura/project/issues/634/context/issue.json b/.garura/project/issues/634/context/issue.json
+new file mode 100644
+index 00000000..a8b0485d
+--- /dev/null
++++ b/.garura/project/issues/634/context/issue.json
+@@ -0,0 +1,15 @@
++{
++  "resolved": true,
++  "issue_number": 634,
++  "title": "[BUG] Fix four small defects found while building /intent and /adr",
++  "created": true,
++  "url": "https://github.com/intent-driven-ai/garura/issues/634",
++  "type": "Bug",
++  "parent": null,
++  "candidates": [
++    "536: covers defect 3 only (review-change stop condition names verdict.yaml); approved to fix; its criteria also ask for a sweep of every other play's stop-condition, beyond this change",
++    "534: covers defect 4 only (review shelf from ltm.project-target) and is marked NOT approved to fix as written, with an explicit 'do not patch fetch_pr_context.py:86 and close this'; the one-line fix in this change is that shallow patch, so #534 must stay open and should not be closed by this PR",
++    "580, 530, 535, 438, 583: other review-change issues, unrelated to these four defects",
++    "no open issue mentions E741 or lint_grounding.py (defects 1 and 2)"
++  ]
++}
+diff --git a/.garura/project/issues/634/context/porcelain.txt b/.garura/project/issues/634/context/porcelain.txt
+new file mode 100644
+index 00000000..4f2793fe
+--- /dev/null
++++ b/.garura/project/issues/634/context/porcelain.txt
+@@ -0,0 +1,70 @@
++ M core/components/plays/adr/scripts/preflight.py
++ M core/components/plays/adr/scripts/session_stamp.py
++ M core/components/plays/agentic/scripts/lint_grounding.py
++ M core/components/plays/agentic/scripts/preflight.py
++ M core/components/plays/agentic/scripts/session_stamp.py
++ M core/components/plays/arch/scripts/lint_grounding.py
++ M core/components/plays/arch/scripts/preflight.py
++ M core/components/plays/arch/scripts/session_stamp.py
++ M core/components/plays/commit-change/scripts/preflight.py
++ M core/components/plays/commit-change/scripts/session_stamp.py
++ M core/components/plays/deploy/scripts/preflight.py
++ M core/components/plays/deploy/scripts/session_stamp.py
++ M core/components/plays/fix-bug/scripts/session_stamp.py
++ M core/components/plays/focus/scripts/preflight.py
++ M core/components/plays/focus/scripts/session_stamp.py
++ M core/components/plays/grill/scripts/lint_grounding.py
++ M core/components/plays/grill/scripts/preflight.py
++ M core/components/plays/grill/scripts/session_stamp.py
++ M core/components/plays/implement/scripts/preflight.py
++ M core/components/plays/implement/scripts/session_stamp.py
++ M core/components/plays/intent/scripts/lint_grounding.py
++ M core/components/plays/intent/scripts/preflight.py
++ M core/components/plays/intent/scripts/session_stamp.py
++ M core/components/plays/launch/scripts/preflight.py
++ M core/components/plays/launch/scripts/session_stamp.py
++ M core/components/plays/learn/scripts/lint_grounding.py
++ M core/components/plays/learn/scripts/preflight.py
++ M core/components/plays/learn/scripts/session_stamp.py
++ M core/components/plays/marketing/scripts/lint_grounding.py
++ M core/components/plays/marketing/scripts/preflight.py
++ M core/components/plays/marketing/scripts/session_stamp.py
++ M core/components/plays/measure/scripts/lint_grounding.py
++ M core/components/plays/measure/scripts/preflight.py
++ M core/components/plays/measure/scripts/session_stamp.py
++ M core/components/plays/merge-change/scripts/preflight.py
++ M core/components/plays/merge-change/scripts/session_stamp.py
++ M core/components/plays/next/scripts/preflight.py
++ M core/components/plays/next/scripts/session_stamp.py
++ M core/components/plays/play-creator/references/preflight.py
++ M core/components/plays/play-creator/references/session_stamp.py
++ M core/components/plays/propose-change/scripts/preflight.py
++ M core/components/plays/propose-change/scripts/session_stamp.py
++ M core/components/plays/quality/scripts/lint_grounding.py
++ M core/components/plays/quality/scripts/preflight.py
++ M core/components/plays/quality/scripts/session_stamp.py
++ M core/components/plays/refactor/scripts/preflight.py
++ M core/components/plays/refactor/scripts/session_stamp.py
++ M core/components/plays/review-change/scripts/preflight.py
++ M core/components/plays/review-change/scripts/session_stamp.py
++ M core/components/plays/roadmap/scripts/preflight.py
++ M core/components/plays/roadmap/scripts/session_stamp.py
++ M core/components/plays/run/scripts/lint_grounding.py
++ M core/components/plays/run/scripts/preflight.py
++ M core/components/plays/run/scripts/session_stamp.py
++ M core/components/plays/shape/scripts/preflight.py
++ M core/components/plays/shape/scripts/session_stamp.py
++ M core/components/plays/start-change/scripts/preflight.py
++ M core/components/plays/start-change/scripts/session_stamp.py
++ M core/components/plays/understand/scripts/lint_grounding.py
++ M core/components/plays/understand/scripts/preflight.py
++ M core/components/plays/understand/scripts/session_stamp.py
++ M core/components/plays/ux/scripts/lint_grounding.py
++ M core/components/plays/ux/scripts/preflight.py
++ M core/components/plays/ux/scripts/session_stamp.py
++ M core/components/plays/validate/scripts/preflight.py
++ M core/components/plays/validate/scripts/session_stamp.py
++ M core/components/plays/vision/scripts/lint_grounding.py
++ M core/components/plays/vision/scripts/preflight.py
++ M core/components/plays/vision/scripts/session_stamp.py
++?? .garura/project/issues/634/context/porcelain.txt
+diff --git a/.garura/project/issues/634/context/pr-body.md b/.garura/project/issues/634/context/pr-body.md
+new file mode 100644
+index 00000000..31e153dd
+--- /dev/null
++++ b/.garura/project/issues/634/context/pr-body.md
+@@ -0,0 +1,51 @@
++## What this fixes
++
++Two mechanical defects found while building `/intent` (#612) and `/adr` (#632):
++
++- **Shared-script lint.** `preflight.py` and `session_stamp.py` (canonical in `play-creator/references/`, stamped unchanged into every play — 28 and 29 copies) and `lint_grounding.py` (12 copies) carried ruff E741, a variable named `l`. It is renamed to `line` in the canonical copies and every play copy; every copy of each script is still byte-identical. Behaviour is unchanged: each fixed script gives the same output as its `main` version on the same inputs.
++- **`/understand`'s grounding linter** was older than the other 11 copies and lacked the realize-lens contracts. It is now identical to the others.
++
++All 15 test suites under `core/components` pass, including `/understand`'s.
++
++Not in this change (found at the same time, owned elsewhere): review-change's `verdict.yaml` stop condition is #536 (next, as its own change); the review-shelf path is #534 (needs a design decision first — not patched here).
++
++Closes #634
++
++## Self-review
++
++# Self-Review: #634 shared-script lint
++
++Rules applied: `~/.garura/core/memory/standards/rules/self-review.md` (base, not a project override).
++Range reviewed: `origin/main...HEAD` on `feature/634-shared-script-lint` (6 commits, 75 files, +435 / -105).
++
++Informational only. This is not the approve/reject gate.
++
++## Scope checks
++
++- [PASS] Matches the issue. The change renames the one-letter variable `l` to `line` in the shared scripts so `ruff --select E741` is clean, and brings the `/understand` copy of `lint_grounding.py` level with the other copies.
++  - Evidence: the only changed lines under `core/components` are the `l` to `line` renames, plus 19 added lines in `plays/understand/scripts/lint_grounding.py` (the realize-lens contracts it was missing).
++- [PASS] No scope creep. 69 of the 75 files are the three shared scripts: `preflight.py` (28 copies), `session_stamp.py` (29), `lint_grounding.py` (12). The 6 others are STM context files under `.garura/project/issues/634/context/`.
++  - The canonical copies are `plays/play-creator/references/preflight.py` and `session_stamp.py`. Nothing else changed outside `core/components/plays/*/scripts` and that STM folder.
++- [PASS] Copies are byte-identical. Every copy of each script across `core/components` has one checksum.
++  - `preflight.py`: 28 copies, 1 distinct checksum.
++  - `session_stamp.py`: 29 copies, 1 distinct checksum.
++  - `lint_grounding.py`: 12 copies, 1 distinct checksum.
++- [PASS] Canonical diff is the rename only. The changed lines in `preflight.py` and `session_stamp.py` are exactly the `l` to `line` swap (one line each in the two scripts). Non-rename diff lines in these files: 0.
++- [PASS] `/understand` now equals the others. `plays/understand/scripts/lint_grounding.py` is identical (`cmp`) to `plays/vision/scripts/lint_grounding.py`. Its diff is the rename plus the seven realize-lens contracts and the `exact_title` check. Every other `lint_grounding.py` copy changed by the rename only (4 lines added, 4 removed).
++- [PASS] Reasonable size. The diff is large by file count but mechanical: the same 1 to 4 line edit repeated across copies. The PR description should say so.
++- [PASS] No stray artifacts. No debug prints, TODO or FIXME markers, or scratch files added in `core/components`.
++- [REVIEW] One untracked file sits in the tree: `.garura/project/issues/634/context/resolved-rules.json`. It is the record of which rules file this review used, written by the propose-change run. Decide whether it is committed with the other STM context files. It is not part of the code change.
++
++## Quality checks
++
++- [PASS] Lint clean. `ruff 0.15.20 check --select E741` over all 69 copies reports "All checks passed!".
++- [PASS] Tests present and passing. This is a behavior-preserving rename, so no new tests are needed. The existing suites under `core/components` were run (15 files, 0 failures):
++  - pytest style, 11 files: 51 passed (`build-product-ontology` 6, `manage-plan` 4, `author-adr` 7, `adr` 10, `understand/test_persist_understand` 8, `play-creator` gate_learning 2, concurrent_fanout 3, platform_adapter 6, chain_checks 2, merge_scripts 3, `intent` 3).
++  - Self-running script style, 4 files (pytest collects nothing from these; run directly): `next` 15/15, `grill` 6/6, `.pageindex/test_kb.py` 15/15, `play-creator/test_check_ice_workable.py` 11/11.
++- [REVIEW] The 19 lines added to the `/understand` copy (realize-lens contracts, `exact_title`) have no dedicated test in this change. `test_persist_understand.py` passes, but it does not exercise the lens checks. This matches the issue's intent (the copy had drifted), so it is a note rather than a problem.
++- [PASS] Commits are clean. All 6 commits use conventional format (`fix(...)` or `chore(stm)`) and each ends with `(#634)`. Each is one concern: canonical rename, `lint_grounding` rename, `/understand` catch-up, STM records.
++- [PASS] No secrets. Scan of added lines found no credentials or keys. The only keyword hit is the literal heading text "Config & secrets" in the lens contract for `/understand`, which is not a credential.
++- [PASS] Docs in step. No interface or user-facing behavior changed, so no docs or README need updating.
++- [PASS] Nothing obviously broken. No known-failing paths introduced; all test suites above pass.
++
++🤖 Generated with [Claude Code](https://claude.com/claude-code)
+diff --git a/.garura/project/issues/634/context/pr.json b/.garura/project/issues/634/context/pr.json
+new file mode 100644
+index 00000000..83392f82
+--- /dev/null
++++ b/.garura/project/issues/634/context/pr.json
+@@ -0,0 +1,6 @@
++{
++  "number": 635,
++  "url": "https://github.com/intent-driven-ai/garura/pull/635",
++  "state": "OPEN",
++  "base": "main"
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/634/context/resolved-rules.json b/.garura/project/issues/634/context/resolved-rules.json
+new file mode 100644
+index 00000000..70b8f431
+--- /dev/null
++++ b/.garura/project/issues/634/context/resolved-rules.json
+@@ -0,0 +1,6 @@
++{
++  "resolved": true,
++  "path": "~/.garura/core/memory/standards/rules/self-review.md",
++  "source": "~/.garura/core/memory/standards/rules",
++  "is_override": false
++}
+diff --git a/.garura/project/issues/634/context/self-review.md b/.garura/project/issues/634/context/self-review.md
+new file mode 100644
+index 00000000..ab394f93
+--- /dev/null
++++ b/.garura/project/issues/634/context/self-review.md
+@@ -0,0 +1,34 @@
++# Self-Review: #634 shared-script lint
++
++Rules applied: `~/.garura/core/memory/standards/rules/self-review.md` (base, not a project override).
++Range reviewed: `origin/main...HEAD` on `feature/634-shared-script-lint` (6 commits, 75 files, +435 / -105).
++
++Informational only. This is not the approve/reject gate.
++
++## Scope checks
++
++- [PASS] Matches the issue. The change renames the one-letter variable `l` to `line` in the shared scripts so `ruff --select E741` is clean, and brings the `/understand` copy of `lint_grounding.py` level with the other copies.
++  - Evidence: the only changed lines under `core/components` are the `l` to `line` renames, plus 19 added lines in `plays/understand/scripts/lint_grounding.py` (the realize-lens contracts it was missing).
++- [PASS] No scope creep. 69 of the 75 files are the three shared scripts: `preflight.py` (28 copies), `session_stamp.py` (29), `lint_grounding.py` (12). The 6 others are STM context files under `.garura/project/issues/634/context/`.
++  - The canonical copies are `plays/play-creator/references/preflight.py` and `session_stamp.py`. Nothing else changed outside `core/components/plays/*/scripts` and that STM folder.
++- [PASS] Copies are byte-identical. Every copy of each script across `core/components` has one checksum.
++  - `preflight.py`: 28 copies, 1 distinct checksum.
++  - `session_stamp.py`: 29 copies, 1 distinct checksum.
++  - `lint_grounding.py`: 12 copies, 1 distinct checksum.
++- [PASS] Canonical diff is the rename only. The changed lines in `preflight.py` and `session_stamp.py` are exactly the `l` to `line` swap (one line each in the two scripts). Non-rename diff lines in these files: 0.
++- [PASS] `/understand` now equals the others. `plays/understand/scripts/lint_grounding.py` is identical (`cmp`) to `plays/vision/scripts/lint_grounding.py`. Its diff is the rename plus the seven realize-lens contracts and the `exact_title` check. Every other `lint_grounding.py` copy changed by the rename only (4 lines added, 4 removed).
++- [PASS] Reasonable size. The diff is large by file count but mechanical: the same 1 to 4 line edit repeated across copies. The PR description should say so.
++- [PASS] No stray artifacts. No debug prints, TODO or FIXME markers, or scratch files added in `core/components`.
++- [REVIEW] One untracked file sits in the tree: `.garura/project/issues/634/context/resolved-rules.json`. It is the record of which rules file this review used, written by the propose-change run. Decide whether it is committed with the other STM context files. It is not part of the code change.
++
++## Quality checks
++
++- [PASS] Lint clean. `ruff 0.15.20 check --select E741` over all 69 copies reports "All checks passed!".
++- [PASS] Tests present and passing. This is a behavior-preserving rename, so no new tests are needed. The existing suites under `core/components` were run (15 files, 0 failures):
++  - pytest style, 11 files: 51 passed (`build-product-ontology` 6, `manage-plan` 4, `author-adr` 7, `adr` 10, `understand/test_persist_understand` 8, `play-creator` gate_learning 2, concurrent_fanout 3, platform_adapter 6, chain_checks 2, merge_scripts 3, `intent` 3).
++  - Self-running script style, 4 files (pytest collects nothing from these; run directly): `next` 15/15, `grill` 6/6, `.pageindex/test_kb.py` 15/15, `play-creator/test_check_ice_workable.py` 11/11.
++- [REVIEW] The 19 lines added to the `/understand` copy (realize-lens contracts, `exact_title`) have no dedicated test in this change. `test_persist_understand.py` passes, but it does not exercise the lens checks. This matches the issue's intent (the copy had drifted), so it is a note rather than a problem.
++- [PASS] Commits are clean. All 6 commits use conventional format (`fix(...)` or `chore(stm)`) and each ends with `(#634)`. Each is one concern: canonical rename, `lint_grounding` rename, `/understand` catch-up, STM records.
++- [PASS] No secrets. Scan of added lines found no credentials or keys. The only keyword hit is the literal heading text "Config & secrets" in the lens contract for `/understand`, which is not a credential.
++- [PASS] Docs in step. No interface or user-facing behavior changed, so no docs or README need updating.
++- [PASS] Nothing obviously broken. No known-failing paths introduced; all test suites above pass.
+diff --git a/.garura/project/issues/634/context/work-description.txt b/.garura/project/issues/634/context/work-description.txt
+new file mode 100644
+index 00000000..479962a0
+--- /dev/null
++++ b/.garura/project/issues/634/context/work-description.txt
+@@ -0,0 +1,12 @@
++The shared play scripts pass lint, and /understand's grounding linter matches the other plays'
++
++Found while building /intent (#612) and /adr (#632). Two mechanical defects, each with one clear fix.
++
++1. **Shared-script lint.** `preflight.py` and `session_stamp.py` (canonical in `play-creator/references/`, copied unchanged into every play — 28 and 29 copies) and `lint_grounding.py` (copied into 12 plays) carry ruff E741, a variable named `l`. Fix the canonical copies and every play copy, keeping all copies byte-identical.
++2. **`/understand`'s grounding linter is older than the other 11 copies** — it lacks the realize-lens contracts. Bring it level with the others.
++
++Not in this issue (found at the same time, owned elsewhere):
++- review-change's stop condition naming `verdict.yaml` while the play writes `decision.yaml` — that is #536 (approved; next, as its own change).
++- the review shelf path built from `ltm.project-target` only — that is #534, which needs a design decision first and must not be patched as a one-liner.
++
++Done when: ruff reports no E741 in those scripts; every copy of each shared script is identical; reviewed and merged.
+diff --git a/core/components/plays/adr/scripts/preflight.py b/core/components/plays/adr/scripts/preflight.py
+index 1e99c109..8d71e9d8 100644
+--- a/core/components/plays/adr/scripts/preflight.py
++++ b/core/components/plays/adr/scripts/preflight.py
+@@ -124,7 +124,7 @@ def resolve(cfg, play, branch, porcelain_text):
+ 
+     changes_present = None
+     if porcelain_text is not None:
+-        changes_present = any(l.strip() for l in porcelain_text.splitlines())
++        changes_present = any(line.strip() for line in porcelain_text.splitlines())
+ 
+     has_product_ltm = False
+     if product_base:
+diff --git a/core/components/plays/adr/scripts/session_stamp.py b/core/components/plays/adr/scripts/session_stamp.py
+index dd9171e6..22b18ba0 100644
+--- a/core/components/plays/adr/scripts/session_stamp.py
++++ b/core/components/plays/adr/scripts/session_stamp.py
+@@ -46,7 +46,7 @@ def last_line(path, max_tail=65536):
+             size = fh.tell()
+             fh.seek(max(0, size - max_tail))
+             tail = fh.read().decode("utf-8", errors="replace")
+-        lines = [l for l in tail.strip().splitlines() if l.strip()]
++        lines = [line for line in tail.strip().splitlines() if line.strip()]
+         return json.loads(lines[-1]) if lines else None
+     except Exception:
+         return None
+diff --git a/core/components/plays/agentic/scripts/lint_grounding.py b/core/components/plays/agentic/scripts/lint_grounding.py
+index 58d167c9..f752c6c8 100644
+--- a/core/components/plays/agentic/scripts/lint_grounding.py
++++ b/core/components/plays/agentic/scripts/lint_grounding.py
+@@ -231,11 +231,11 @@ def check_doc(path, text, kind, errors, warnings, expected_stage=None):
+         if h not in body_by_h:
+             continue  # already reported missing
+         lines = body_by_h[h]
+-        content = "\n".join(l for l in lines).strip()
++        content = "\n".join(line for line in lines).strip()
+         if not content:
+             errors.append(f"{path}: section '## {h}' is empty")
+             continue
+-        has_bullets = any(re.match(r"^[-*]\s+", l.strip()) for l in lines)
++        has_bullets = any(re.match(r"^[-*]\s+", line.strip()) for line in lines)
+         # Section-total floor applies to PROSE sections only. List sections vary in
+         # length (a one-functionality capability is legitimately short); their
+         # substance is guarded per-bullet below, so the section-total floor would
+@@ -245,8 +245,8 @@ def check_doc(path, text, kind, errors, warnings, expected_stage=None):
+                 f"{path}: section '## {h}' is below the substance floor "
+                 f"({_words(content)} words < {MIN_SECTION_WORDS}) — looks like a label, not an explanation")
+         # per top-level bullet floor
+-        for l in lines:
+-            s = l.strip()
++        for line in lines:
++            s = line.strip()
+             m = re.match(r"^[-*]\s+(.*)$", s)
+             if not m:
+                 continue
+diff --git a/core/components/plays/agentic/scripts/preflight.py b/core/components/plays/agentic/scripts/preflight.py
+index 1e99c109..8d71e9d8 100644
+--- a/core/components/plays/agentic/scripts/preflight.py
++++ b/core/components/plays/agentic/scripts/preflight.py
+@@ -124,7 +124,7 @@ def resolve(cfg, play, branch, porcelain_text):
+ 
+     changes_present = None
+     if porcelain_text is not None:
+-        changes_present = any(l.strip() for l in porcelain_text.splitlines())
++        changes_present = any(line.strip() for line in porcelain_text.splitlines())
+ 
+     has_product_ltm = False
+     if product_base:
+diff --git a/core/components/plays/agentic/scripts/session_stamp.py b/core/components/plays/agentic/scripts/session_stamp.py
+index dd9171e6..22b18ba0 100644
+--- a/core/components/plays/agentic/scripts/session_stamp.py
++++ b/core/components/plays/agentic/scripts/session_stamp.py
+@@ -46,7 +46,7 @@ def last_line(path, max_tail=65536):
+             size = fh.tell()
+             fh.seek(max(0, size - max_tail))
+             tail = fh.read().decode("utf-8", errors="replace")
+-        lines = [l for l in tail.strip().splitlines() if l.strip()]
++        lines = [line for line in tail.strip().splitlines() if line.strip()]
+         return json.loads(lines[-1]) if lines else None
+     except Exception:
+         return None
+diff --git a/core/components/plays/arch/scripts/lint_grounding.py b/core/components/plays/arch/scripts/lint_grounding.py
+index 58d167c9..f752c6c8 100644
+--- a/core/components/plays/arch/scripts/lint_grounding.py
++++ b/core/components/plays/arch/scripts/lint_grounding.py
+@@ -231,11 +231,11 @@ def check_doc(path, text, kind, errors, warnings, expected_stage=None):
+         if h not in body_by_h:
+             continue  # already reported missing
+         lines = body_by_h[h]
+-        content = "\n".join(l for l in lines).strip()
++        content = "\n".join(line for line in lines).strip()
+         if not content:
+             errors.append(f"{path}: section '## {h}' is empty")
+             continue
+-        has_bullets = any(re.match(r"^[-*]\s+", l.strip()) for l in lines)
++        has_bullets = any(re.match(r"^[-*]\s+", line.strip()) for line in lines)
+         # Section-total floor applies to PROSE sections only. List sections vary in
+         # length (a one-functionality capability is legitimately short); their
+         # substance is guarded per-bullet below, so the section-total floor would
+@@ -245,8 +245,8 @@ def check_doc(path, text, kind, errors, warnings, expected_stage=None):
+                 f"{path}: section '## {h}' is below the substance floor "
+                 f"({_words(content)} words < {MIN_SECTION_WORDS}) — looks like a label, not an explanation")
+         # per top-level bullet floor
+-        for l in lines:
+-            s = l.strip()
++        for line in lines:
++            s = line.strip()
+             m = re.match(r"^[-*]\s+(.*)$", s)
+             if not m:
+                 continue
+diff --git a/core/components/plays/arch/scripts/preflight.py b/core/components/plays/arch/scripts/preflight.py
+index 1e99c109..8d71e9d8 100644
+--- a/core/components/plays/arch/scripts/preflight.py
++++ b/core/components/plays/arch/scripts/preflight.py
+@@ -124,7 +124,7 @@ def resolve(cfg, play, branch, porcelain_text):
+ 
+     changes_present = None
+     if porcelain_text is not None:
+-        changes_present = any(l.strip() for l in porcelain_text.splitlines())
++        changes_present = any(line.strip() for line in porcelain_text.splitlines())
+ 
+     has_product_ltm = False
+     if product_base:
+diff --git a/core/components/plays/arch/scripts/session_stamp.py b/core/components/plays/arch/scripts/session_stamp.py
+index dd9171e6..22b18ba0 100644
+--- a/core/components/plays/arch/scripts/session_stamp.py
++++ b/core/components/plays/arch/scripts/session_stamp.py
+@@ -46,7 +46,7 @@ def last_line(path, max_tail=65536):
+             size = fh.tell()
+             fh.seek(max(0, size - max_tail))
+             tail = fh.read().decode("utf-8", errors="replace")
+-        lines = [l for l in tail.strip().splitlines() if l.strip()]
++        lines = [line for line in tail.strip().splitlines() if line.strip()]
+         return json.loads(lines[-1]) if lines else None
+     except Exception:
+         return None
+diff --git a/core/components/plays/commit-change/scripts/preflight.py b/core/components/plays/commit-change/scripts/preflight.py
+index 1e99c109..8d71e9d8 100644
+--- a/core/components/plays/commit-change/scripts/preflight.py
++++ b/core/components/plays/commit-change/scripts/preflight.py
+@@ -124,7 +124,7 @@ def resolve(cfg, play, branch, porcelain_text):
+ 
+     changes_present = None
+     if porcelain_text is not None:
+-        changes_present = any(l.strip() for l in porcelain_text.splitlines())
++        changes_present = any(line.strip() for line in porcelain_text.splitlines())
+ 
+     has_product_ltm = False
+     if product_base:
+diff --git a/core/components/plays/commit-change/scripts/session_stamp.py b/core/components/plays/commit-change/scripts/session_stamp.py
+index dd9171e6..22b18ba0 100644
+--- a/core/components/plays/commit-change/scripts/session_stamp.py
++++ b/core/components/plays/commit-change/scripts/session_stamp.py
+@@ -46,7 +46,7 @@ def last_line(path, max_tail=65536):
+             size = fh.tell()
+             fh.seek(max(0, size - max_tail))
+             tail = fh.read().decode("utf-8", errors="replace")
+-        lines = [l for l in tail.strip().splitlines() if l.strip()]
++        lines = [line for line in tail.strip().splitlines() if line.strip()]
+         return json.loads(lines[-1]) if lines else None
+     except Exception:
+         return None
+diff --git a/core/components/plays/deploy/scripts/preflight.py b/core/components/plays/deploy/scripts/preflight.py
+index 1e99c109..8d71e9d8 100644
+--- a/core/components/plays/deploy/scripts/preflight.py
++++ b/core/components/plays/deploy/scripts/preflight.py
+@@ -124,7 +124,7 @@ def resolve(cfg, play, branch, porcelain_text):
+ 
+     changes_present = None
+     if porcelain_text is not None:
+-        changes_present = any(l.strip() for l in porcelain_text.splitlines())
++        changes_present = any(line.strip() for line in porcelain_text.splitlines())
+ 
+     has_product_ltm = False
+     if product_base:
+diff --git a/core/components/plays/deploy/scripts/session_stamp.py b/core/components/plays/deploy/scripts/session_stamp.py
+index dd9171e6..22b18ba0 100644
+--- a/core/components/plays/deploy/scripts/session_stamp.py
++++ b/core/components/plays/deploy/scripts/session_stamp.py
+@@ -46,7 +46,7 @@ def last_line(path, max_tail=65536):
+             size = fh.tell()
+             fh.seek(max(0, size - max_tail))
+             tail = fh.read().decode("utf-8", errors="replace")
+-        lines = [l for l in tail.strip().splitlines() if l.strip()]
++        lines = [line for line in tail.strip().splitlines() if line.strip()]
+         return json.loads(lines[-1]) if lines else None
+     except Exception:
+         return None
+diff --git a/core/components/plays/fix-bug/scripts/session_stamp.py b/core/components/plays/fix-bug/scripts/session_stamp.py
+index dd9171e6..22b18ba0 100644
+--- a/core/components/plays/fix-bug/scripts/session_stamp.py
++++ b/core/components/plays/fix-bug/scripts/session_stamp.py
+@@ -46,7 +46,7 @@ def last_line(path, max_tail=65536):
+             size = fh.tell()
+             fh.seek(max(0, size - max_tail))
+             tail = fh.read().decode("utf-8", errors="replace")
+-        lines = [l for l in tail.strip().splitlines() if l.strip()]
++        lines = [line for line in tail.strip().splitlines() if line.strip()]
+         return json.loads(lines[-1]) if lines else None
+     except Exception:
+         return None
+diff --git a/core/components/plays/focus/scripts/preflight.py b/core/components/plays/focus/scripts/preflight.py
+index 1e99c109..8d71e9d8 100644
+--- a/core/components/plays/focus/scripts/preflight.py
++++ b/core/components/plays/focus/scripts/preflight.py
+@@ -124,7 +124,7 @@ def resolve(cfg, play, branch, porcelain_text):
+ 
+     changes_present = None
+     if porcelain_text is not None:
+-        changes_present = any(l.strip() for l in porcelain_text.splitlines())
++        changes_present = any(line.strip() for line in porcelain_text.splitlines())
+ 
+     has_product_ltm = False
+     if product_base:
+diff --git a/core/components/plays/focus/scripts/session_stamp.py b/core/components/plays/focus/scripts/session_stamp.py
+index dd9171e6..22b18ba0 100644
+--- a/core/components/plays/focus/scripts/session_stamp.py
++++ b/core/components/plays/focus/scripts/session_stamp.py
+@@ -46,7 +46,7 @@ def last_line(path, max_tail=65536):
+             size = fh.tell()
+             fh.seek(max(0, size - max_tail))
+             tail = fh.read().decode("utf-8", errors="replace")
+-        lines = [l for l in tail.strip().splitlines() if l.strip()]
++        lines = [line for line in tail.strip().splitlines() if line.strip()]
+         return json.loads(lines[-1]) if lines else None
+     except Exception:
+         return None
+diff --git a/core/components/plays/grill/scripts/lint_grounding.py b/core/components/plays/grill/scripts/lint_grounding.py
+index 58d167c9..f752c6c8 100644
+--- a/core/components/plays/grill/scripts/lint_grounding.py
++++ b/core/components/plays/grill/scripts/lint_grounding.py
+@@ -231,11 +231,11 @@ def check_doc(path, text, kind, errors, warnings, expected_stage=None):
+         if h not in body_by_h:
+             continue  # already reported missing
+         lines = body_by_h[h]
+-        content = "\n".join(l for l in lines).strip()
++        content = "\n".join(line for line in lines).strip()
+         if not content:
+             errors.append(f"{path}: section '## {h}' is empty")
+             continue
+-        has_bullets = any(re.match(r"^[-*]\s+", l.strip()) for l in lines)
++        has_bullets = any(re.match(r"^[-*]\s+", line.strip()) for line in lines)
+         # Section-total floor applies to PROSE sections only. List sections vary in
+         # length (a one-functionality capability is legitimately short); their
+         # substance is guarded per-bullet below, so the section-total floor would
+@@ -245,8 +245,8 @@ def check_doc(path, text, kind, errors, warnings, expected_stage=None):
+                 f"{path}: section '## {h}' is below the substance floor "
+                 f"({_words(content)} words < {MIN_SECTION_WORDS}) — looks like a label, not an explanation")
+         # per top-level bullet floor
+-        for l in lines:
+-            s = l.strip()
++        for line in lines:
++            s = line.strip()
+             m = re.match(r"^[-*]\s+(.*)$", s)
+             if not m:
+                 continue
+diff --git a/core/components/plays/grill/scripts/preflight.py b/core/components/plays/grill/scripts/preflight.py
+index 1e99c109..8d71e9d8 100644
+--- a/core/components/plays/grill/scripts/preflight.py
++++ b/core/components/plays/grill/scripts/preflight.py
+@@ -124,7 +124,7 @@ def resolve(cfg, play, branch, porcelain_text):
+ 
+     changes_present = None
+     if porcelain_text is not None:
+-        changes_present = any(l.strip() for l in porcelain_text.splitlines())
++        changes_present = any(line.strip() for line in porcelain_text.splitlines())
+ 
+     has_product_ltm = False
+     if product_base:
+diff --git a/core/components/plays/grill/scripts/session_stamp.py b/core/components/plays/grill/scripts/session_stamp.py
+index dd9171e6..22b18ba0 100644
+--- a/core/components/plays/grill/scripts/session_stamp.py
++++ b/core/components/plays/grill/scripts/session_stamp.py
+@@ -46,7 +46,7 @@ def last_line(path, max_tail=65536):
+             size = fh.tell()
+             fh.seek(max(0, size - max_tail))
+             tail = fh.read().decode("utf-8", errors="replace")
+-        lines = [l for l in tail.strip().splitlines() if l.strip()]
++        lines = [line for line in tail.strip().splitlines() if line.strip()]
+         return json.loads(lines[-1]) if lines else None
+     except Exception:
+         return None
+diff --git a/core/components/plays/implement/scripts/preflight.py b/core/components/plays/implement/scripts/preflight.py
+index 1e99c109..8d71e9d8 100644
+--- a/core/components/plays/implement/scripts/preflight.py
++++ b/core/components/plays/implement/scripts/preflight.py
+@@ -124,7 +124,7 @@ def resolve(cfg, play, branch, porcelain_text):
+ 
+     changes_present = None
+     if porcelain_text is not None:
+-        changes_present = any(l.strip() for l in porcelain_text.splitlines())
++        changes_present = any(line.strip() for line in porcelain_text.splitlines())
+ 
+     has_product_ltm = False
+     if product_base:
+diff --git a/core/components/plays/implement/scripts/session_stamp.py b/core/components/plays/implement/scripts/session_stamp.py
+index dd9171e6..22b18ba0 100644
+--- a/core/components/plays/implement/scripts/session_stamp.py
++++ b/core/components/plays/implement/scripts/session_stamp.py
+@@ -46,7 +46,7 @@ def last_line(path, max_tail=65536):
+             size = fh.tell()
+             fh.seek(max(0, size - max_tail))
+             tail = fh.read().decode("utf-8", errors="replace")
+-        lines = [l for l in tail.strip().splitlines() if l.strip()]
++        lines = [line for line in tail.strip().splitlines() if line.strip()]
+         return json.loads(lines[-1]) if lines else None
+     except Exception:
+         return None
+diff --git a/core/components/plays/intent/scripts/lint_grounding.py b/core/components/plays/intent/scripts/lint_grounding.py
+index 58d167c9..f752c6c8 100644
+--- a/core/components/plays/intent/scripts/lint_grounding.py
++++ b/core/components/plays/intent/scripts/lint_grounding.py
+@@ -231,11 +231,11 @@ def check_doc(path, text, kind, errors, warnings, expected_stage=None):
+         if h not in body_by_h:
+             continue  # already reported missing
+         lines = body_by_h[h]
+-        content = "\n".join(l for l in lines).strip()
++        content = "\n".join(line for line in lines).strip()
+         if not content:
+             errors.append(f"{path}: section '## {h}' is empty")
+             continue
+-        has_bullets = any(re.match(r"^[-*]\s+", l.strip()) for l in lines)
++        has_bullets = any(re.match(r"^[-*]\s+", line.strip()) for line in lines)
+         # Section-total floor applies to PROSE sections only. List sections vary in
+         # length (a one-functionality capability is legitimately short); their
+         # substance is guarded per-bullet below, so the section-total floor would
+@@ -245,8 +245,8 @@ def check_doc(path, text, kind, errors, warnings, expected_stage=None):
+                 f"{path}: section '## {h}' is below the substance floor "
+                 f"({_words(content)} words < {MIN_SECTION_WORDS}) — looks like a label, not an explanation")
+         # per top-level bullet floor
+-        for l in lines:
+-            s = l.strip()
++        for line in lines:
++            s = line.strip()
+             m = re.match(r"^[-*]\s+(.*)$", s)
+             if not m:
+                 continue
+diff --git a/core/components/plays/intent/scripts/preflight.py b/core/components/plays/intent/scripts/preflight.py
+index 1e99c109..8d71e9d8 100644
+--- a/core/components/plays/intent/scripts/preflight.py
++++ b/core/components/plays/intent/scripts/preflight.py
+@@ -124,7 +124,7 @@ def resolve(cfg, play, branch, porcelain_text):
+ 
+     changes_present = None
+     if porcelain_text is not None:
+-        changes_present = any(l.strip() for l in porcelain_text.splitlines())
++        changes_present = any(line.strip() for line in porcelain_text.splitlines())
+ 
+     has_product_ltm = False
+     if product_base:
+diff --git a/core/components/plays/intent/scripts/session_stamp.py b/core/components/plays/intent/scripts/session_stamp.py
+index dd9171e6..22b18ba0 100644
+--- a/core/components/plays/intent/scripts/session_stamp.py
++++ b/core/components/plays/intent/scripts/session_stamp.py
+@@ -46,7 +46,7 @@ def last_line(path, max_tail=65536):
+             size = fh.tell()
+             fh.seek(max(0, size - max_tail))
+             tail = fh.read().decode("utf-8", errors="replace")
+-        lines = [l for l in tail.strip().splitlines() if l.strip()]
++        lines = [line for line in tail.strip().splitlines() if line.strip()]
+         return json.loads(lines[-1]) if lines else None
+     except Exception:
+         return None
+diff --git a/core/components/plays/launch/scripts/preflight.py b/core/components/plays/launch/scripts/preflight.py
+index 1e99c109..8d71e9d8 100644
+--- a/core/components/plays/launch/scripts/preflight.py
++++ b/core/components/plays/launch/scripts/preflight.py
+@@ -124,7 +124,7 @@ def resolve(cfg, play, branch, porcelain_text):
+ 
+     changes_present = None
+     if porcelain_text is not None:
+-        changes_present = any(l.strip() for l in porcelain_text.splitlines())
++        changes_present = any(line.strip() for line in porcelain_text.splitlines())
+ 
+     has_product_ltm = False
+     if product_base:
+diff --git a/core/components/plays/launch/scripts/session_stamp.py b/core/components/plays/launch/scripts/session_stamp.py
+index dd9171e6..22b18ba0 100644
+--- a/core/components/plays/launch/scripts/session_stamp.py
++++ b/core/components/plays/launch/scripts/session_stamp.py
+@@ -46,7 +46,7 @@ def last_line(path, max_tail=65536):
+             size = fh.tell()
+             fh.seek(max(0, size - max_tail))
+             tail = fh.read().decode("utf-8", errors="replace")
+-        lines = [l for l in tail.strip().splitlines() if l.strip()]
++        lines = [line for line in tail.strip().splitlines() if line.strip()]
+         return json.loads(lines[-1]) if lines else None
+     except Exception:
+         return None
+diff --git a/core/components/plays/learn/scripts/lint_grounding.py b/core/components/plays/learn/scripts/lint_grounding.py
+index 58d167c9..f752c6c8 100644
+--- a/core/components/plays/learn/scripts/lint_grounding.py
++++ b/core/components/plays/learn/scripts/lint_grounding.py
+@@ -231,11 +231,11 @@ def check_doc(path, text, kind, errors, warnings, expected_stage=None):
+         if h not in body_by_h:
+             continue  # already reported missing
+         lines = body_by_h[h]
+-        content = "\n".join(l for l in lines).strip()
++        content = "\n".join(line for line in lines).strip()
+         if not content:
+             errors.append(f"{path}: section '## {h}' is empty")
+             continue
+-        has_bullets = any(re.match(r"^[-*]\s+", l.strip()) for l in lines)
++        has_bullets = any(re.match(r"^[-*]\s+", line.strip()) for line in lines)
+         # Section-total floor applies to PROSE sections only. List sections vary in
+         # length (a one-functionality capability is legitimately short); their
+         # substance is guarded per-bullet below, so the section-total floor would
+@@ -245,8 +245,8 @@ def check_doc(path, text, kind, errors, warnings, expected_stage=None):
+                 f"{path}: section '## {h}' is below the substance floor "
+                 f"({_words(content)} words < {MIN_SECTION_WORDS}) — looks like a label, not an explanation")
+         # per top-level bullet floor
+-        for l in lines:
+-            s = l.strip()
++        for line in lines:
++            s = line.strip()
+             m = re.match(r"^[-*]\s+(.*)$", s)
+             if not m:
+                 continue
+diff --git a/core/components/plays/learn/scripts/preflight.py b/core/components/plays/learn/scripts/preflight.py
+index 1e99c109..8d71e9d8 100644
+--- a/core/components/plays/learn/scripts/preflight.py
++++ b/core/components/plays/learn/scripts/preflight.py
+@@ -124,7 +124,7 @@ def resolve(cfg, play, branch, porcelain_text):
+ 
+     changes_present = None
+     if porcelain_text is not None:
+-        changes_present = any(l.strip() for l in porcelain_text.splitlines())
++        changes_present = any(line.strip() for line in porcelain_text.splitlines())
+ 
+     has_product_ltm = False
+     if product_base:
+diff --git a/core/components/plays/learn/scripts/session_stamp.py b/core/components/plays/learn/scripts/session_stamp.py
+index dd9171e6..22b18ba0 100644
+--- a/core/components/plays/learn/scripts/session_stamp.py
++++ b/core/components/plays/learn/scripts/session_stamp.py
+@@ -46,7 +46,7 @@ def last_line(path, max_tail=65536):
+             size = fh.tell()
+             fh.seek(max(0, size - max_tail))
+             tail = fh.read().decode("utf-8", errors="replace")
+-        lines = [l for l in tail.strip().splitlines() if l.strip()]
++        lines = [line for line in tail.strip().splitlines() if line.strip()]
+         return json.loads(lines[-1]) if lines else None
+     except Exception:
+         return None
+diff --git a/core/components/plays/marketing/scripts/lint_grounding.py b/core/components/plays/marketing/scripts/lint_grounding.py
+index 58d167c9..f752c6c8 100644
+--- a/core/components/plays/marketing/scripts/lint_grounding.py
++++ b/core/components/plays/marketing/scripts/lint_grounding.py
+@@ -231,11 +231,11 @@ def check_doc(path, text, kind, errors, warnings, expected_stage=None):
+         if h not in body_by_h:
+             continue  # already reported missing
+         lines = body_by_h[h]
+-        content = "\n".join(l for l in lines).strip()
++        content = "\n".join(line for line in lines).strip()
+         if not content:
+             errors.append(f"{path}: section '## {h}' is empty")
+             continue
+-        has_bullets = any(re.match(r"^[-*]\s+", l.strip()) for l in lines)
++        has_bullets = any(re.match(r"^[-*]\s+", line.strip()) for line in lines)
+         # Section-total floor applies to PROSE sections only. List sections vary in
+         # length (a one-functionality capability is legitimately short); their
+         # substance is guarded per-bullet below, so the section-total floor would
+@@ -245,8 +245,8 @@ def check_doc(path, text, kind, errors, warnings, expected_stage=None):
+                 f"{path}: section '## {h}' is below the substance floor "
+                 f"({_words(content)} words < {MIN_SECTION_WORDS}) — looks like a label, not an explanation")
+         # per top-level bullet floor
+-        for l in lines:
+-            s = l.strip()
++        for line in lines:
++            s = line.strip()
+             m = re.match(r"^[-*]\s+(.*)$", s)
+             if not m:
+                 continue
+diff --git a/core/components/plays/marketing/scripts/preflight.py b/core/components/plays/marketing/scripts/preflight.py
+index 1e99c109..8d71e9d8 100644
+--- a/core/components/plays/marketing/scripts/preflight.py
++++ b/core/components/plays/marketing/scripts/preflight.py
+@@ -124,7 +124,7 @@ def resolve(cfg, play, branch, porcelain_text):
+ 
+     changes_present = None
+     if porcelain_text is not None:
+-        changes_present = any(l.strip() for l in porcelain_text.splitlines())
++        changes_present = any(line.strip() for line in porcelain_text.splitlines())
+ 
+     has_product_ltm = False
+     if product_base:
+diff --git a/core/components/plays/marketing/scripts/session_stamp.py b/core/components/plays/marketing/scripts/session_stamp.py
+index dd9171e6..22b18ba0 100644
+--- a/core/components/plays/marketing/scripts/session_stamp.py
++++ b/core/components/plays/marketing/scripts/session_stamp.py
+@@ -46,7 +46,7 @@ def last_line(path, max_tail=65536):
+             size = fh.tell()
+             fh.seek(max(0, size - max_tail))
+             tail = fh.read().decode("utf-8", errors="replace")
+-        lines = [l for l in tail.strip().splitlines() if l.strip()]
++        lines = [line for line in tail.strip().splitlines() if line.strip()]
+         return json.loads(lines[-1]) if lines else None
+     except Exception:
+         return None
+diff --git a/core/components/plays/measure/scripts/lint_grounding.py b/core/components/plays/measure/scripts/lint_grounding.py
+index 58d167c9..f752c6c8 100644
+--- a/core/components/plays/measure/scripts/lint_grounding.py
++++ b/core/components/plays/measure/scripts/lint_grounding.py
+@@ -231,11 +231,11 @@ def check_doc(path, text, kind, errors, warnings, expected_stage=None):
+         if h not in body_by_h:
+             continue  # already reported missing
+         lines = body_by_h[h]
+-        content = "\n".join(l for l in lines).strip()
++        content = "\n".join(line for line in lines).strip()
+         if not content:
+             errors.append(f"{path}: section '## {h}' is empty")
+             continue
+-        has_bullets = any(re.match(r"^[-*]\s+", l.strip()) for l in lines)
++        has_bullets = any(re.match(r"^[-*]\s+", line.strip()) for line in lines)
+         # Section-total floor applies to PROSE sections only. List sections vary in
+         # length (a one-functionality capability is legitimately short); their
+         # substance is guarded per-bullet below, so the section-total floor would
+@@ -245,8 +245,8 @@ def check_doc(path, text, kind, errors, warnings, expected_stage=None):
+                 f"{path}: section '## {h}' is below the substance floor "
+                 f"({_words(content)} words < {MIN_SECTION_WORDS}) — looks like a label, not an explanation")
+         # per top-level bullet floor
+-        for l in lines:
+-            s = l.strip()
++        for line in lines:
++            s = line.strip()
+             m = re.match(r"^[-*]\s+(.*)$", s)
+             if not m:
+                 continue
+diff --git a/core/components/plays/measure/scripts/preflight.py b/core/components/plays/measure/scripts/preflight.py
+index 1e99c109..8d71e9d8 100644
+--- a/core/components/plays/measure/scripts/preflight.py
++++ b/core/components/plays/measure/scripts/preflight.py
+@@ -124,7 +124,7 @@ def resolve(cfg, play, branch, porcelain_text):
+ 
+     changes_present = None
+     if porcelain_text is not None:
+-        changes_present = any(l.strip() for l in porcelain_text.splitlines())
++        changes_present = any(line.strip() for line in porcelain_text.splitlines())
+ 
+     has_product_ltm = False
+     if product_base:
+diff --git a/core/components/plays/measure/scripts/session_stamp.py b/core/components/plays/measure/scripts/session_stamp.py
+index dd9171e6..22b18ba0 100644
+--- a/core/components/plays/measure/scripts/session_stamp.py
++++ b/core/components/plays/measure/scripts/session_stamp.py
+@@ -46,7 +46,7 @@ def last_line(path, max_tail=65536):
+             size = fh.tell()
+             fh.seek(max(0, size - max_tail))
+             tail = fh.read().decode("utf-8", errors="replace")
+-        lines = [l for l in tail.strip().splitlines() if l.strip()]
++        lines = [line for line in tail.strip().splitlines() if line.strip()]
+         return json.loads(lines[-1]) if lines else None
+     except Exception:
+         return None
+diff --git a/core/components/plays/merge-change/scripts/preflight.py b/core/components/plays/merge-change/scripts/preflight.py
+index 1e99c109..8d71e9d8 100644
+--- a/core/components/plays/merge-change/scripts/preflight.py
++++ b/core/components/plays/merge-change/scripts/preflight.py
+@@ -124,7 +124,7 @@ def resolve(cfg, play, branch, porcelain_text):
+ 
+     changes_present = None
+     if porcelain_text is not None:
+-        changes_present = any(l.strip() for l in porcelain_text.splitlines())
++        changes_present = any(line.strip() for line in porcelain_text.splitlines())
+ 
+     has_product_ltm = False
+     if product_base:
+diff --git a/core/components/plays/merge-change/scripts/session_stamp.py b/core/components/plays/merge-change/scripts/session_stamp.py
+index dd9171e6..22b18ba0 100644
+--- a/core/components/plays/merge-change/scripts/session_stamp.py
++++ b/core/components/plays/merge-change/scripts/session_stamp.py
+@@ -46,7 +46,7 @@ def last_line(path, max_tail=65536):
+             size = fh.tell()
+             fh.seek(max(0, size - max_tail))
+             tail = fh.read().decode("utf-8", errors="replace")
+-        lines = [l for l in tail.strip().splitlines() if l.strip()]
++        lines = [line for line in tail.strip().splitlines() if line.strip()]
+         return json.loads(lines[-1]) if lines else None
+     except Exception:
+         return None
+diff --git a/core/components/plays/next/scripts/preflight.py b/core/components/plays/next/scripts/preflight.py
+index 1e99c109..8d71e9d8 100644
+--- a/core/components/plays/next/scripts/preflight.py
++++ b/core/components/plays/next/scripts/preflight.py
+@@ -124,7 +124,7 @@ def resolve(cfg, play, branch, porcelain_text):
+ 
+     changes_present = None
+     if porcelain_text is not None:
+-        changes_present = any(l.strip() for l in porcelain_text.splitlines())
++        changes_present = any(line.strip() for line in porcelain_text.splitlines())
+ 
+     has_product_ltm = False
+     if product_base:
+diff --git a/core/components/plays/next/scripts/session_stamp.py b/core/components/plays/next/scripts/session_stamp.py
+index dd9171e6..22b18ba0 100644
+--- a/core/components/plays/next/scripts/session_stamp.py
++++ b/core/components/plays/next/scripts/session_stamp.py
+@@ -46,7 +46,7 @@ def last_line(path, max_tail=65536):
+             size = fh.tell()
+             fh.seek(max(0, size - max_tail))
+             tail = fh.read().decode("utf-8", errors="replace")
+-        lines = [l for l in tail.strip().splitlines() if l.strip()]
++        lines = [line for line in tail.strip().splitlines() if line.strip()]
+         return json.loads(lines[-1]) if lines else None
+     except Exception:
+         return None
+diff --git a/core/components/plays/play-creator/references/preflight.py b/core/components/plays/play-creator/references/preflight.py
+index 1e99c109..8d71e9d8 100644
+--- a/core/components/plays/play-creator/references/preflight.py
++++ b/core/components/plays/play-creator/references/preflight.py
+@@ -124,7 +124,7 @@ def resolve(cfg, play, branch, porcelain_text):
+ 
+     changes_present = None
+     if porcelain_text is not None:
+-        changes_present = any(l.strip() for l in porcelain_text.splitlines())
++        changes_present = any(line.strip() for line in porcelain_text.splitlines())
+ 
+     has_product_ltm = False
+     if product_base:
+diff --git a/core/components/plays/play-creator/references/session_stamp.py b/core/components/plays/play-creator/references/session_stamp.py
+index dd9171e6..22b18ba0 100644
+--- a/core/components/plays/play-creator/references/session_stamp.py
++++ b/core/components/plays/play-creator/references/session_stamp.py
+@@ -46,7 +46,7 @@ def last_line(path, max_tail=65536):
+             size = fh.tell()
+             fh.seek(max(0, size - max_tail))
+             tail = fh.read().decode("utf-8", errors="replace")
+-        lines = [l for l in tail.strip().splitlines() if l.strip()]
++        lines = [line for line in tail.strip().splitlines() if line.strip()]
+         return json.loads(lines[-1]) if lines else None
+     except Exception:
+         return None
+diff --git a/core/components/plays/propose-change/scripts/preflight.py b/core/components/plays/propose-change/scripts/preflight.py
+index 1e99c109..8d71e9d8 100644
+--- a/core/components/plays/propose-change/scripts/preflight.py
++++ b/core/components/plays/propose-change/scripts/preflight.py
+@@ -124,7 +124,7 @@ def resolve(cfg, play, branch, porcelain_text):
+ 
+     changes_present = None
+     if porcelain_text is not None:
+-        changes_present = any(l.strip() for l in porcelain_text.splitlines())
++        changes_present = any(line.strip() for line in porcelain_text.splitlines())
+ 
+     has_product_ltm = False
+     if product_base:
+diff --git a/core/components/plays/propose-change/scripts/session_stamp.py b/core/components/plays/propose-change/scripts/session_stamp.py
+index dd9171e6..22b18ba0 100644
+--- a/core/components/plays/propose-change/scripts/session_stamp.py
++++ b/core/components/plays/propose-change/scripts/session_stamp.py
+@@ -46,7 +46,7 @@ def last_line(path, max_tail=65536):
+             size = fh.tell()
+             fh.seek(max(0, size - max_tail))
+             tail = fh.read().decode("utf-8", errors="replace")
+-        lines = [l for l in tail.strip().splitlines() if l.strip()]
++        lines = [line for line in tail.strip().splitlines() if line.strip()]
+         return json.loads(lines[-1]) if lines else None
+     except Exception:
+         return None
+diff --git a/core/components/plays/quality/scripts/lint_grounding.py b/core/components/plays/quality/scripts/lint_grounding.py
+index 58d167c9..f752c6c8 100644
+--- a/core/components/plays/quality/scripts/lint_grounding.py
++++ b/core/components/plays/quality/scripts/lint_grounding.py
+@@ -231,11 +231,11 @@ def check_doc(path, text, kind, errors, warnings, expected_stage=None):
+         if h not in body_by_h:
+             continue  # already reported missing
+         lines = body_by_h[h]
+-        content = "\n".join(l for l in lines).strip()
++        content = "\n".join(line for line in lines).strip()
+         if not content:
+             errors.append(f"{path}: section '## {h}' is empty")
+             continue
+-        has_bullets = any(re.match(r"^[-*]\s+", l.strip()) for l in lines)
++        has_bullets = any(re.match(r"^[-*]\s+", line.strip()) for line in lines)
+         # Section-total floor applies to PROSE sections only. List sections vary in
+         # length (a one-functionality capability is legitimately short); their
+         # substance is guarded per-bullet below, so the section-total floor would
+@@ -245,8 +245,8 @@ def check_doc(path, text, kind, errors, warnings, expected_stage=None):
+                 f"{path}: section '## {h}' is below the substance floor "
+                 f"({_words(content)} words < {MIN_SECTION_WORDS}) — looks like a label, not an explanation")
+         # per top-level bullet floor
+-        for l in lines:
+-            s = l.strip()
++        for line in lines:
++            s = line.strip()
+             m = re.match(r"^[-*]\s+(.*)$", s)
+             if not m:
+                 continue
+diff --git a/core/components/plays/quality/scripts/preflight.py b/core/components/plays/quality/scripts/preflight.py
+index 1e99c109..8d71e9d8 100644
+--- a/core/components/plays/quality/scripts/preflight.py
++++ b/core/components/plays/quality/scripts/preflight.py
+@@ -124,7 +124,7 @@ def resolve(cfg, play, branch, porcelain_text):
+ 
+     changes_present = None
+     if porcelain_text is not None:
+-        changes_present = any(l.strip() for l in porcelain_text.splitlines())
++        changes_present = any(line.strip() for line in porcelain_text.splitlines())
+ 
+     has_product_ltm = False
+     if product_base:
+diff --git a/core/components/plays/quality/scripts/session_stamp.py b/core/components/plays/quality/scripts/session_stamp.py
+index dd9171e6..22b18ba0 100644
+--- a/core/components/plays/quality/scripts/session_stamp.py
++++ b/core/components/plays/quality/scripts/session_stamp.py
+@@ -46,7 +46,7 @@ def last_line(path, max_tail=65536):
+             size = fh.tell()
+             fh.seek(max(0, size - max_tail))
+             tail = fh.read().decode("utf-8", errors="replace")
+-        lines = [l for l in tail.strip().splitlines() if l.strip()]
++        lines = [line for line in tail.strip().splitlines() if line.strip()]
+         return json.loads(lines[-1]) if lines else None
+     except Exception:
+         return None
+diff --git a/core/components/plays/refactor/scripts/preflight.py b/core/components/plays/refactor/scripts/preflight.py
+index 1e99c109..8d71e9d8 100644
+--- a/core/components/plays/refactor/scripts/preflight.py
++++ b/core/components/plays/refactor/scripts/preflight.py
+@@ -124,7 +124,7 @@ def resolve(cfg, play, branch, porcelain_text):
+ 
+     changes_present = None
+     if porcelain_text is not None:
+-        changes_present = any(l.strip() for l in porcelain_text.splitlines())
++        changes_present = any(line.strip() for line in porcelain_text.splitlines())
+ 
+     has_product_ltm = False
+     if product_base:
+diff --git a/core/components/plays/refactor/scripts/session_stamp.py b/core/components/plays/refactor/scripts/session_stamp.py
+index dd9171e6..22b18ba0 100644
+--- a/core/components/plays/refactor/scripts/session_stamp.py
++++ b/core/components/plays/refactor/scripts/session_stamp.py
+@@ -46,7 +46,7 @@ def last_line(path, max_tail=65536):
+             size = fh.tell()
+             fh.seek(max(0, size - max_tail))
+             tail = fh.read().decode("utf-8", errors="replace")
+-        lines = [l for l in tail.strip().splitlines() if l.strip()]
++        lines = [line for line in tail.strip().splitlines() if line.strip()]
+         return json.loads(lines[-1]) if lines else None
+     except Exception:
+         return None
+diff --git a/core/components/plays/review-change/scripts/preflight.py b/core/components/plays/review-change/scripts/preflight.py
+index 1e99c109..8d71e9d8 100644
+--- a/core/components/plays/review-change/scripts/preflight.py
++++ b/core/components/plays/review-change/scripts/preflight.py
+@@ -124,7 +124,7 @@ def resolve(cfg, play, branch, porcelain_text):
+ 
+     changes_present = None
+     if porcelain_text is not None:
+-        changes_present = any(l.strip() for l in porcelain_text.splitlines())
++        changes_present = any(line.strip() for line in porcelain_text.splitlines())
+ 
+     has_product_ltm = False
+     if product_base:
+diff --git a/core/components/plays/review-change/scripts/session_stamp.py b/core/components/plays/review-change/scripts/session_stamp.py
+index dd9171e6..22b18ba0 100644
+--- a/core/components/plays/review-change/scripts/session_stamp.py
++++ b/core/components/plays/review-change/scripts/session_stamp.py
+@@ -46,7 +46,7 @@ def last_line(path, max_tail=65536):
+             size = fh.tell()
+             fh.seek(max(0, size - max_tail))
+             tail = fh.read().decode("utf-8", errors="replace")
+-        lines = [l for l in tail.strip().splitlines() if l.strip()]
++        lines = [line for line in tail.strip().splitlines() if line.strip()]
+         return json.loads(lines[-1]) if lines else None
+     except Exception:
+         return None
+diff --git a/core/components/plays/roadmap/scripts/preflight.py b/core/components/plays/roadmap/scripts/preflight.py
+index 1e99c109..8d71e9d8 100644
+--- a/core/components/plays/roadmap/scripts/preflight.py
++++ b/core/components/plays/roadmap/scripts/preflight.py
+@@ -124,7 +124,7 @@ def resolve(cfg, play, branch, porcelain_text):
+ 
+     changes_present = None
+     if porcelain_text is not None:
+-        changes_present = any(l.strip() for l in porcelain_text.splitlines())
++        changes_present = any(line.strip() for line in porcelain_text.splitlines())
+ 
+     has_product_ltm = False
+     if product_base:
+diff --git a/core/components/plays/roadmap/scripts/session_stamp.py b/core/components/plays/roadmap/scripts/session_stamp.py
+index dd9171e6..22b18ba0 100644
+--- a/core/components/plays/roadmap/scripts/session_stamp.py
++++ b/core/components/plays/roadmap/scripts/session_stamp.py
+@@ -46,7 +46,7 @@ def last_line(path, max_tail=65536):
+             size = fh.tell()
+             fh.seek(max(0, size - max_tail))
+             tail = fh.read().decode("utf-8", errors="replace")
+-        lines = [l for l in tail.strip().splitlines() if l.strip()]
++        lines = [line for line in tail.strip().splitlines() if line.strip()]
+         return json.loads(lines[-1]) if lines else None
+     except Exception:
+         return None
+diff --git a/core/components/plays/run/scripts/lint_grounding.py b/core/components/plays/run/scripts/lint_grounding.py
+index 58d167c9..f752c6c8 100644
+--- a/core/components/plays/run/scripts/lint_grounding.py
++++ b/core/components/plays/run/scripts/lint_grounding.py
+@@ -231,11 +231,11 @@ def check_doc(path, text, kind, errors, warnings, expected_stage=None):
+         if h not in body_by_h:
+             continue  # already reported missing
+         lines = body_by_h[h]
+-        content = "\n".join(l for l in lines).strip()
++        content = "\n".join(line for line in lines).strip()
+         if not content:
+             errors.append(f"{path}: section '## {h}' is empty")
+             continue
+-        has_bullets = any(re.match(r"^[-*]\s+", l.strip()) for l in lines)
++        has_bullets = any(re.match(r"^[-*]\s+", line.strip()) for line in lines)
+         # Section-total floor applies to PROSE sections only. List sections vary in
+         # length (a one-functionality capability is legitimately short); their
+         # substance is guarded per-bullet below, so the section-total floor would
+@@ -245,8 +245,8 @@ def check_doc(path, text, kind, errors, warnings, expected_stage=None):
+                 f"{path}: section '## {h}' is below the substance floor "
+                 f"({_words(content)} words < {MIN_SECTION_WORDS}) — looks like a label, not an explanation")
+         # per top-level bullet floor
+-        for l in lines:
+-            s = l.strip()
++        for line in lines:
++            s = line.strip()
+             m = re.match(r"^[-*]\s+(.*)$", s)
+             if not m:
+                 continue
+diff --git a/core/components/plays/run/scripts/preflight.py b/core/components/plays/run/scripts/preflight.py
+index 1e99c109..8d71e9d8 100644
+--- a/core/components/plays/run/scripts/preflight.py
++++ b/core/components/plays/run/scripts/preflight.py
+@@ -124,7 +124,7 @@ def resolve(cfg, play, branch, porcelain_text):
+ 
+     changes_present = None
+     if porcelain_text is not None:
+-        changes_present = any(l.strip() for l in porcelain_text.splitlines())
++        changes_present = any(line.strip() for line in porcelain_text.splitlines())
+ 
+     has_product_ltm = False
+     if product_base:
+diff --git a/core/components/plays/run/scripts/session_stamp.py b/core/components/plays/run/scripts/session_stamp.py
+index dd9171e6..22b18ba0 100644
+--- a/core/components/plays/run/scripts/session_stamp.py
++++ b/core/components/plays/run/scripts/session_stamp.py
+@@ -46,7 +46,7 @@ def last_line(path, max_tail=65536):
+             size = fh.tell()
+             fh.seek(max(0, size - max_tail))
+             tail = fh.read().decode("utf-8", errors="replace")
+-        lines = [l for l in tail.strip().splitlines() if l.strip()]
++        lines = [line for line in tail.strip().splitlines() if line.strip()]
+         return json.loads(lines[-1]) if lines else None
+     except Exception:
+         return None
+diff --git a/core/components/plays/shape/scripts/preflight.py b/core/components/plays/shape/scripts/preflight.py
+index 1e99c109..8d71e9d8 100644
+--- a/core/components/plays/shape/scripts/preflight.py
++++ b/core/components/plays/shape/scripts/preflight.py
+@@ -124,7 +124,7 @@ def resolve(cfg, play, branch, porcelain_text):
+ 
+     changes_present = None
+     if porcelain_text is not None:
+-        changes_present = any(l.strip() for l in porcelain_text.splitlines())
++        changes_present = any(line.strip() for line in porcelain_text.splitlines())
+ 
+     has_product_ltm = False
+     if product_base:
+diff --git a/core/components/plays/shape/scripts/session_stamp.py b/core/components/plays/shape/scripts/session_stamp.py
+index dd9171e6..22b18ba0 100644
+--- a/core/components/plays/shape/scripts/session_stamp.py
++++ b/core/components/plays/shape/scripts/session_stamp.py
+@@ -46,7 +46,7 @@ def last_line(path, max_tail=65536):
+             size = fh.tell()
+             fh.seek(max(0, size - max_tail))
+             tail = fh.read().decode("utf-8", errors="replace")
+-        lines = [l for l in tail.strip().splitlines() if l.strip()]
++        lines = [line for line in tail.strip().splitlines() if line.strip()]
+         return json.loads(lines[-1]) if lines else None
+     except Exception:
+         return None
+diff --git a/core/components/plays/start-change/scripts/preflight.py b/core/components/plays/start-change/scripts/preflight.py
+index 1e99c109..8d71e9d8 100644
+--- a/core/components/plays/start-change/scripts/preflight.py
++++ b/core/components/plays/start-change/scripts/preflight.py
+@@ -124,7 +124,7 @@ def resolve(cfg, play, branch, porcelain_text):
+ 
+     changes_present = None
+     if porcelain_text is not None:
+-        changes_present = any(l.strip() for l in porcelain_text.splitlines())
++        changes_present = any(line.strip() for line in porcelain_text.splitlines())
+ 
+     has_product_ltm = False
+     if product_base:
+diff --git a/core/components/plays/start-change/scripts/session_stamp.py b/core/components/plays/start-change/scripts/session_stamp.py
+index dd9171e6..22b18ba0 100644
+--- a/core/components/plays/start-change/scripts/session_stamp.py
++++ b/core/components/plays/start-change/scripts/session_stamp.py
+@@ -46,7 +46,7 @@ def last_line(path, max_tail=65536):
+             size = fh.tell()
+             fh.seek(max(0, size - max_tail))
+             tail = fh.read().decode("utf-8", errors="replace")
+-        lines = [l for l in tail.strip().splitlines() if l.strip()]
++        lines = [line for line in tail.strip().splitlines() if line.strip()]
+         return json.loads(lines[-1]) if lines else None
+     except Exception:
+         return None
+diff --git a/core/components/plays/understand/scripts/lint_grounding.py b/core/components/plays/understand/scripts/lint_grounding.py
+index 1b7852b4..f752c6c8 100644
+--- a/core/components/plays/understand/scripts/lint_grounding.py
++++ b/core/components/plays/understand/scripts/lint_grounding.py
+@@ -99,6 +99,21 @@
+             "Acceptance criteria",
+         ],
+     },
++    # --- The seven realize lenses (per-slice grounding docs). H1 is exactly "<Type> Lens". ---
++    "lens-quality": {"title": "Quality Lens", "exact_title": True,
++                     "h2": ["Intent", "Gates"]},
++    "lens-ux": {"title": "UX Lens", "exact_title": True,
++                "h2": ["Intent", "Screens", "Flows", "States", "Visual core"]},
++    "lens-agentic": {"title": "Agentic Lens", "exact_title": True,
++                     "h2": ["Is it an agent?", "Load weights", "Controls"]},
++    "lens-architecture": {"title": "Architecture Lens", "exact_title": True,
++                          "h2": ["Intent", "Components", "Stack", "Vertical build"]},
++    "lens-measure": {"title": "Measure Lens", "exact_title": True,
++                     "h2": ["Focus", "Metrics", "Out of scope"]},
++    "lens-run": {"title": "Run Lens", "exact_title": True,
++                 "h2": ["Environments", "Rollout", "Migrations", "Config & secrets", "CI/CD"]},
++    "lens-marketing": {"title": "Marketing Lens", "exact_title": True,
++                       "h2": ["Intent", "Discoverability", "Accessibility", "Marketing analytics"]},
+ }
+ 
+ # H1 prefix -> kind, for inferring a doc's kind from its title.
+@@ -188,6 +203,10 @@ def check_doc(path, text, kind, errors, warnings, expected_stage=None):
+     # --- H1 title ---
+     if title is None:
+         errors.append(f"{path}: no H1 title line")
++    elif contract.get("exact_title"):
++        # lens docs are titled exactly "<Type> Lens" — no trailing name
++        if title.strip() != contract["title"]:
++            errors.append(f"{path}: H1 '{title}' must be exactly '{contract['title']}'")
+     elif not title.startswith(contract["title"]):
+         errors.append(f"{path}: H1 '{title}' must start with '{contract['title']}' for a {kind} doc")
+     elif _words(title[len(contract['title']):]) < 1:
+@@ -212,11 +231,11 @@ def check_doc(path, text, kind, errors, warnings, expected_stage=None):
+         if h not in body_by_h:
+             continue  # already reported missing
+         lines = body_by_h[h]
+-        content = "\n".join(l for l in lines).strip()
++        content = "\n".join(line for line in lines).strip()
+         if not content:
+             errors.append(f"{path}: section '## {h}' is empty")
+             continue
+-        has_bullets = any(re.match(r"^[-*]\s+", l.strip()) for l in lines)
++        has_bullets = any(re.match(r"^[-*]\s+", line.strip()) for line in lines)
+         # Section-total floor applies to PROSE sections only. List sections vary in
+         # length (a one-functionality capability is legitimately short); their
+         # substance is guarded per-bullet below, so the section-total floor would
+@@ -226,8 +245,8 @@ def check_doc(path, text, kind, errors, warnings, expected_stage=None):
+                 f"{path}: section '## {h}' is below the substance floor "
+                 f"({_words(content)} words < {MIN_SECTION_WORDS}) — looks like a label, not an explanation")
+         # per top-level bullet floor
+-        for l in lines:
+-            s = l.strip()
++        for line in lines:
++            s = line.strip()
+             m = re.match(r"^[-*]\s+(.*)$", s)
+             if not m:
+                 continue
+diff --git a/core/components/plays/understand/scripts/preflight.py b/core/components/plays/understand/scripts/preflight.py
+index 1e99c109..8d71e9d8 100644
+--- a/core/components/plays/understand/scripts/preflight.py
++++ b/core/components/plays/understand/scripts/preflight.py
+@@ -124,7 +124,7 @@ def resolve(cfg, play, branch, porcelain_text):
+ 
+     changes_present = None
+     if porcelain_text is not None:
+-        changes_present = any(l.strip() for l in porcelain_text.splitlines())
++        changes_present = any(line.strip() for line in porcelain_text.splitlines())
+ 
+     has_product_ltm = False
+     if product_base:
+diff --git a/core/components/plays/understand/scripts/session_stamp.py b/core/components/plays/understand/scripts/session_stamp.py
+index dd9171e6..22b18ba0 100644
+--- a/core/components/plays/understand/scripts/session_stamp.py
++++ b/core/components/plays/understand/scripts/session_stamp.py
+@@ -46,7 +46,7 @@ def last_line(path, max_tail=65536):
+             size = fh.tell()
+             fh.seek(max(0, size - max_tail))
+             tail = fh.read().decode("utf-8", errors="replace")
+-        lines = [l for l in tail.strip().splitlines() if l.strip()]
++        lines = [line for line in tail.strip().splitlines() if line.strip()]
+         return json.loads(lines[-1]) if lines else None
+     except Exception:
+         return None
+diff --git a/core/components/plays/ux/scripts/lint_grounding.py b/core/components/plays/ux/scripts/lint_grounding.py
+index 58d167c9..f752c6c8 100644
+--- a/core/components/plays/ux/scripts/lint_grounding.py
++++ b/core/components/plays/ux/scripts/lint_grounding.py
+@@ -231,11 +231,11 @@ def check_doc(path, text, kind, errors, warnings, expected_stage=None):
+         if h not in body_by_h:
+             continue  # already reported missing
+         lines = body_by_h[h]
+-        content = "\n".join(l for l in lines).strip()
++        content = "\n".join(line for line in lines).strip()
+         if not content:
+             errors.append(f"{path}: section '## {h}' is empty")
+             continue
+-        has_bullets = any(re.match(r"^[-*]\s+", l.strip()) for l in lines)
++        has_bullets = any(re.match(r"^[-*]\s+", line.strip()) for line in lines)
+         # Section-total floor applies to PROSE sections only. List sections vary in
+         # length (a one-functionality capability is legitimately short); their
+         # substance is guarded per-bullet below, so the section-total floor would
+@@ -245,8 +245,8 @@ def check_doc(path, text, kind, errors, warnings, expected_stage=None):
+                 f"{path}: section '## {h}' is below the substance floor "
+                 f"({_words(content)} words < {MIN_SECTION_WORDS}) — looks like a label, not an explanation")
+         # per top-level bullet floor
+-        for l in lines:
+-            s = l.strip()
++        for line in lines:
++            s = line.strip()
+             m = re.match(r"^[-*]\s+(.*)$", s)
+             if not m:
+                 continue
+diff --git a/core/components/plays/ux/scripts/preflight.py b/core/components/plays/ux/scripts/preflight.py
+index 1e99c109..8d71e9d8 100644
+--- a/core/components/plays/ux/scripts/preflight.py
++++ b/core/components/plays/ux/scripts/preflight.py
+@@ -124,7 +124,7 @@ def resolve(cfg, play, branch, porcelain_text):
+ 
+     changes_present = None
+     if porcelain_text is not None:
+-        changes_present = any(l.strip() for l in porcelain_text.splitlines())
++        changes_present = any(line.strip() for line in porcelain_text.splitlines())
+ 
+     has_product_ltm = False
+     if product_base:
+diff --git a/core/components/plays/ux/scripts/session_stamp.py b/core/components/plays/ux/scripts/session_stamp.py
+index dd9171e6..22b18ba0 100644
+--- a/core/components/plays/ux/scripts/session_stamp.py
++++ b/core/components/plays/ux/scripts/session_stamp.py
+@@ -46,7 +46,7 @@ def last_line(path, max_tail=65536):
+             size = fh.tell()
+             fh.seek(max(0, size - max_tail))
+             tail = fh.read().decode("utf-8", errors="replace")
+-        lines = [l for l in tail.strip().splitlines() if l.strip()]
++        lines = [line for line in tail.strip().splitlines() if line.strip()]
+         return json.loads(lines[-1]) if lines else None
+     except Exception:
+         return None
+diff --git a/core/components/plays/validate/scripts/preflight.py b/core/components/plays/validate/scripts/preflight.py
+index 1e99c109..8d71e9d8 100644
+--- a/core/components/plays/validate/scripts/preflight.py
++++ b/core/components/plays/validate/scripts/preflight.py
+@@ -124,7 +124,7 @@ def resolve(cfg, play, branch, porcelain_text):
+ 
+     changes_present = None
+     if porcelain_text is not None:
+-        changes_present = any(l.strip() for l in porcelain_text.splitlines())
++        changes_present = any(line.strip() for line in porcelain_text.splitlines())
+ 
+     has_product_ltm = False
+     if product_base:
+diff --git a/core/components/plays/validate/scripts/session_stamp.py b/core/components/plays/validate/scripts/session_stamp.py
+index dd9171e6..22b18ba0 100644
+--- a/core/components/plays/validate/scripts/session_stamp.py
++++ b/core/components/plays/validate/scripts/session_stamp.py
+@@ -46,7 +46,7 @@ def last_line(path, max_tail=65536):
+             size = fh.tell()
+             fh.seek(max(0, size - max_tail))
+             tail = fh.read().decode("utf-8", errors="replace")
+-        lines = [l for l in tail.strip().splitlines() if l.strip()]
++        lines = [line for line in tail.strip().splitlines() if line.strip()]
+         return json.loads(lines[-1]) if lines else None
+     except Exception:
+         return None
+diff --git a/core/components/plays/vision/scripts/lint_grounding.py b/core/components/plays/vision/scripts/lint_grounding.py
+index 58d167c9..f752c6c8 100644
+--- a/core/components/plays/vision/scripts/lint_grounding.py
++++ b/core/components/plays/vision/scripts/lint_grounding.py
+@@ -231,11 +231,11 @@ def check_doc(path, text, kind, errors, warnings, expected_stage=None):
+         if h not in body_by_h:
+             continue  # already reported missing
+         lines = body_by_h[h]
+-        content = "\n".join(l for l in lines).strip()
++        content = "\n".join(line for line in lines).strip()
+         if not content:
+             errors.append(f"{path}: section '## {h}' is empty")
+             continue
+-        has_bullets = any(re.match(r"^[-*]\s+", l.strip()) for l in lines)
++        has_bullets = any(re.match(r"^[-*]\s+", line.strip()) for line in lines)
+         # Section-total floor applies to PROSE sections only. List sections vary in
+         # length (a one-functionality capability is legitimately short); their
+         # substance is guarded per-bullet below, so the section-total floor would
+@@ -245,8 +245,8 @@ def check_doc(path, text, kind, errors, warnings, expected_stage=None):
+                 f"{path}: section '## {h}' is below the substance floor "
+                 f"({_words(content)} words < {MIN_SECTION_WORDS}) — looks like a label, not an explanation")
+         # per top-level bullet floor
+-        for l in lines:
+-            s = l.strip()
++        for line in lines:
++            s = line.strip()
+             m = re.match(r"^[-*]\s+(.*)$", s)
+             if not m:
+                 continue
+diff --git a/core/components/plays/vision/scripts/preflight.py b/core/components/plays/vision/scripts/preflight.py
+index 1e99c109..8d71e9d8 100644
+--- a/core/components/plays/vision/scripts/preflight.py
++++ b/core/components/plays/vision/scripts/preflight.py
+@@ -124,7 +124,7 @@ def resolve(cfg, play, branch, porcelain_text):
+ 
+     changes_present = None
+     if porcelain_text is not None:
+-        changes_present = any(l.strip() for l in porcelain_text.splitlines())
++        changes_present = any(line.strip() for line in porcelain_text.splitlines())
+ 
+     has_product_ltm = False
+     if product_base:
+diff --git a/core/components/plays/vision/scripts/session_stamp.py b/core/components/plays/vision/scripts/session_stamp.py
+index dd9171e6..22b18ba0 100644
+--- a/core/components/plays/vision/scripts/session_stamp.py
++++ b/core/components/plays/vision/scripts/session_stamp.py
+@@ -46,7 +46,7 @@ def last_line(path, max_tail=65536):
+             size = fh.tell()
+             fh.seek(max(0, size - max_tail))
+             tail = fh.read().decode("utf-8", errors="replace")
+-        lines = [l for l in tail.strip().splitlines() if l.strip()]
++        lines = [line for line in tail.strip().splitlines() if line.strip()]
+         return json.loads(lines[-1]) if lines else None
+     except Exception:
+         return None

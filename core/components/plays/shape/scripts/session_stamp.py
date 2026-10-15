@@ -46,7 +46,7 @@ def last_line(path, max_tail=65536):
             size = fh.tell()
             fh.seek(max(0, size - max_tail))
             tail = fh.read().decode("utf-8", errors="replace")
-        lines = [l for l in tail.strip().splitlines() if l.strip()]
+        lines = [line for line in tail.strip().splitlines() if line.strip()]
         return json.loads(lines[-1]) if lines else None
     except Exception:
         return None

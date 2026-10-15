@@ -231,11 +231,11 @@ def check_doc(path, text, kind, errors, warnings, expected_stage=None):
         if h not in body_by_h:
             continue  # already reported missing
         lines = body_by_h[h]
-        content = "\n".join(l for l in lines).strip()
+        content = "\n".join(line for line in lines).strip()
         if not content:
             errors.append(f"{path}: section '## {h}' is empty")
             continue
-        has_bullets = any(re.match(r"^[-*]\s+", l.strip()) for l in lines)
+        has_bullets = any(re.match(r"^[-*]\s+", line.strip()) for line in lines)
         # Section-total floor applies to PROSE sections only. List sections vary in
         # length (a one-functionality capability is legitimately short); their
         # substance is guarded per-bullet below, so the section-total floor would
@@ -245,8 +245,8 @@ def check_doc(path, text, kind, errors, warnings, expected_stage=None):
                 f"{path}: section '## {h}' is below the substance floor "
                 f"({_words(content)} words < {MIN_SECTION_WORDS}) — looks like a label, not an explanation")
         # per top-level bullet floor
-        for l in lines:
-            s = l.strip()
+        for line in lines:
+            s = line.strip()
             m = re.match(r"^[-*]\s+(.*)$", s)
             if not m:
                 continue
@@ -349,6 +349,7 @@ def check_spine(root, spine_path, errors, warnings, counts):
             errors.append(f"spine slice '{sid}': record not found at '{rec}'")
 
     # --- reverse: orphan grounding docs on disk not referenced by the spine ---
+    slice_keys = {str(k) for s in slices for k in (s.get("id"), s.get("slug")) if k}
     for dirpath, _dirs, files in os.walk(root):
         for fn in files:
             if not fn.endswith(".md"):
@@ -358,6 +359,17 @@ def check_spine(root, spine_path, errors, warnings, counts):
             kind = infer_kind(parse_sections(text)[0])
             if kind is None:
                 continue  # not a grounding doc (e.g. a README)
+            if kind.startswith("lens-"):
+                # a lens doc belongs to its slice (<domain>/slices/<slice>/lens/<type>.md), not to
+                # a spine node, so the spine never points at it: it is an orphan only when its
+                # slice is unknown (#634)
+                parts = os.path.relpath(full, root).split(os.sep)
+                owner = parts[parts.index("slices") + 1] if "slices" in parts[:-2] else None
+                if owner not in slice_keys:
+                    errors.append(
+                        f"orphan grounding doc '{os.path.relpath(full, root)}' "
+                        f"({kind}) — a lens doc whose slice is not in the spine")
+                continue
             if full not in referenced_docs:
                 errors.append(
                     f"orphan grounding doc '{os.path.relpath(full, root)}' "

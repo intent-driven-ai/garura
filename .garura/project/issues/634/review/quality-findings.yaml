@@ -1,0 +1,95 @@
+meta:
+  layer: 1
+  skill: quality-check-scoped
+  pr: 635
+  categories:
+  - executable-code
+  taxonomy_scan:
+    command: python3 core/components/skills/quality-check-scoped/scripts/scan_taxonomy.py --taxonomy core/components/memory/standards/rules/pr.md
+      --diff .garura/project/issues/634/review/pr.diff --paths <the 69 executable-code paths> --out <session scratchpad>
+    result: P1=0 P2=0 P3=0 P4=0; CODE-20 catch-all covered 69 files; errors=0. No taxonomy row fires on these scripts.
+  executed:
+  - command: for each of the 69 files, took the file as it was at the merge base, replaced the whole-word token l with
+      line, and compared the result with the file on the branch
+    result: 68 files match exactly, so each of those 68 changes only by the l to line rename. The one file that does not
+      match is understand/scripts/lint_grounding.py, covered by the next two checks. Per script the changed lines are
+      only the rename sites (preflight 28 files x 1 line, session_stamp 29 files x 1 line, lint_grounding 12 files x 5 lines).
+  - command: for each renamed function, checked whether a variable called line already existed in the same scope before the rename
+    result: none did. In preflight.py the other use of line is in parse_config, the rename is in resolve (separate
+      functions). In lint_grounding.py check_doc the only earlier 'line' is inside a message string. No variable is shadowed,
+      no behaviour moves.
+  - command: understand/scripts/lint_grounding.py compared with the merge-base copy plus the rename, and md5 of all 12 copies
+    result: the only extra differences are 19 added lines (seven lens contracts lens-quality, lens-ux, lens-agentic,
+      lens-architecture, lens-measure, lens-run, lens-marketing, and the exact_title branch in check_doc). The 11 other
+      copies were identical to each other before the change; now all 12 share one md5 (96725883...). Also 28 preflight
+      copies share one md5 and 29 session_stamp copies share one md5. No copy of these three scripts exists in the
+      repo outside the 69 listed.
+  - command: compared the heading lists in the seven new contracts with the Heading contract of each lens template in
+      core/components/memory/standards/schemas/product-os/grounding/lens/*.md
+    result: all seven titles and H2 lists match the templates, same words and same order. Each template's gold example
+      lints clean as its lens kind.
+  - command: probe in a temp folder only (scratchpad, repo untouched, no pycache). Built a small product-os tree from the
+      gold examples of the four kinds /understand writes (domain, capability detailed, functionality, epic) with a spine, plus
+      variants (a thin functionality; seven valid lens docs; one thin lens doc). Ran the merge-base copy and the new copy
+      with --root and with --root --spine, and compared the JSON output and exit code.
+    result: on /understand's own four kinds, old and new give byte-identical output and exit code, both in the clean tree and
+      with a broken functionality (4 of 4 runs same). Output differs only when lens docs sit under the same product-os
+      folder, see F1. Title collision check, no /understand title (Theme:, Capability:, Functionality:, Epic:) starts with
+      any of the seven new lens titles.
+  - command: ast.parse on all 69 files
+    result: all parse
+  already_run_by_orchestrator: ruff E741 clean on all copies, each script's copies identical, 15 test suites pass
+    (runnable-checks.txt); not repeated except the identity check above.
+  not_applicable: 'stm-run-records has no playbook, so it is not reviewed in this layer. Design-bearing categories: none.
+    Not in the diff, noted only: the comment block in core/components/memory/standards/schemas/product-os/spine.yaml
+    (line 231) still says lens files are {slice}/lens/{type}.yaml, while the lens plays write {type}.md under
+    product-os/<domain>/slices/<slice>/lens/.'
+  tool_note: scan_taxonomy.py output and the probe files went to the scratchpad, not the repo; the only repo write is this file.
+findings:
+- id: F1
+  category: executable-code
+  severity: P3
+  file: core/components/plays/understand/scripts/lint_grounding.py
+  line: 358
+  title: With the lens contracts added, /understand's spine check now reports every realize-lens doc in the product model
+    as an orphan error
+  evidence: 'Probe in a temp folder, new copy against the merge-base copy, same tree plus seven valid lens docs at
+    d/slices/s1/lens/{quality,ux,agentic,architecture,measure,run,marketing}.md, run with --root <product-os> --spine
+    <spine>. Old copy: those docs are skipped (kind not recognised). New copy: seven new errors of the form "orphan
+    grounding doc ''d/slices/s1/lens/quality.md'' (lens-quality) - present on disk but no spine node/epic references it",
+    exit stays 1 only because of the unrelated baseline, a clean tree would go from 0 to 1. Cause: check_spine collects
+    referenced_docs only from domains, capabilities, functionalities and epics (lines 306-345) and the orphan sweep
+    (lines 351-365) now treats a lens doc as a grounding doc. The spine has no field that points at a lens doc (slices
+    carry only record). Without --spine (lint_tree) lens docs are just counted and linted, and valid ones pass. Same
+    behaviour already exists in the other 11 copies; this change spreads it to /understand.'
+  why_it_matters: '/understand runs that spine check right after its keyed persist (SKILL.md line 376, SE-3). On a product
+    model where a slice has already had its lens docs written by /quality, /ux, /arch and the others, a re-run of
+    /understand would fail the lint on docs it never touched, and the person would have to chase errors that are not theirs.
+    It only bites once lens docs exist, so today it is latent, not failing. Because the 12 copies are meant to be identical,
+    the fix has to be made in all of them.'
+  basis: 'knowledge/review/code.md rubric: deterministic where it claims to be (the linter says "orphan" for a doc the
+    spine has no way to reference); error handling. Severity P3 per pr.md: highlights without blocking, latent until lens
+    docs exist under the linted root.'
+  suggestion: In check_spine, skip kinds that start with lens- in the orphan sweep (or add the lens docs to referenced_docs
+    from a slice-level pointer), then re-stamp all 12 copies the same way. Add one test that a valid lens doc under the root
+    with --spine does not raise an error.
+- id: F2
+  category: executable-code
+  severity: P4
+  file: core/components/plays/understand/scripts/lint_grounding.py
+  line: 102
+  title: The seven lens contracts and the exact-title branch have no test in any of the 12 copies' suites
+  evidence: 'grep for lint_grounding in the plays'' test files finds only core/components/plays/intent/scripts/test_intent_scripts.py,
+    and it has no mention of exact_title, lens- or Lens. The 19 added lines in understand (lines 102-116 and 206-209) are
+    exercised by no committed test. The probe above is what showed they behave as intended on the gold lens docs.'
+  why_it_matters: The next copy edit can drift one of the seven heading lists away from its template and nothing fails.
+    Low impact because the lens plays also run their own validators.
+  basis: 'knowledge/review/code.md rubric: deterministic where it claims to be; pr.md TEST rows (new code without tests,
+    P2 for new behaviour in general, kept P4 here since the logic is data tables plus one branch copied from the other 11)'
+  suggestion: Add a small test next to the intent suite that lints each lens template's gold example as its kind, and one
+    wrong H1 (Quality Lens followed by a name) that must fail with the exact-title message.
+counts:
+  P1: 0
+  P2: 0
+  P3: 1
+  P4: 1
