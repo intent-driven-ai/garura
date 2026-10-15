@@ -1,75 +1,63 @@
+---
+# analyze-changes output (executor schema), issue 632, branch feature/632-adr-play
+# Round-2 review fixes for PR #633.
 needs_judgment: false
 
 change_groups:
-  - id: author-adr-edge-cases
+  - id: author-adr-supersede-in-part
     issue: 632
     commit_type: fix
     scope: author-adr
-    subject: "handle adr.py edge cases and drop the skill's shell"
+    subject: "point a YAML supersede in part back through amended_by and add a read-only pre-check"
     files:
-      - core/components/skills/author-adr/SKILL.md
       - core/components/skills/author-adr/scripts/adr.py
       - core/components/skills/author-adr/scripts/test_adr.py
 
-  - id: adr-play-check-before-write
+  - id: adr-play-precheck-and-guards
     issue: 632
     commit_type: fix
     scope: adr
-    subject: "check everything before writing and stop on business intent in both modes"
+    subject: "pre-check a full supersede before writing, keep lint and guard records on a stopped run, and catch a second change to an already-changed file"
     files:
       - core/components/plays/adr/SKILL.md
       - core/components/plays/adr/reference/ice.md
-      - core/components/plays/adr/stop-condition.yaml
       - core/components/plays/adr/scripts/adr.py
       - core/components/plays/adr/scripts/apply_adr.py
       - core/components/plays/adr/scripts/check_adr_scope.py
       - core/components/plays/adr/scripts/test_apply_adr.py
 
-  - id: adr-keeper-domain-and-shell
-    issue: 632
-    commit_type: fix
-    scope: adr-keeper
-    subject: "set the adr domain and limit shell use"
-    files:
-      - core/components/agents/adr-keeper.md
-      - docs/components/agents.md
-
   - id: memory-adr-rules-and-schema
     issue: 632
     commit_type: fix
     scope: memory
-    subject: "align the ADR template, decision schema, rules, indexes and glossary"
+    subject: "fix the Next map standalone comment, note older records accepted through /adr in the decision schema, and state the partial-supersede rule in the ADR template"
     files:
-      - core/components/memory/standards/templates/adr.md
-      - core/components/memory/standards/templates/_index.md
-      - core/components/memory/standards/schemas/product-os/decision.yaml
-      - core/components/memory/standards/schemas/product-os/_index.md
-      - core/components/memory/standards/rules/gate-config.md
-      - core/components/memory/standards/rules/pipeline-position.md
       - core/components/memory/standards/rules/pipeline-next.md
-      - core/components/memory/standards/rules/direct-model-write.md
-      - core/grounding/glossary.md
-      - docs/philosophy/architecture.md
+      - core/components/memory/standards/schemas/product-os/decision.yaml
+      - core/components/memory/standards/templates/adr.md
 
-  - id: stm-632-evidence
+  - id: stm-context-files
     issue: 632
     commit_type: chore
     scope: stm
-    subject: "update the plan and context files"
+    subject: "update the context files"
     files:
-      - .garura/project/issues/632/specs/plan.md
       - .garura/project/issues/632/context/analysis.yaml
       - .garura/project/issues/632/context/porcelain.txt
 
-exclusions: []
+exclusions:
+  - path: ".garura/project/issues/632/review/round2-closure.yaml"
+    reason: "review record, committed by review-change post_verdict"
+    blocking: false
+  - path: ".garura/project/issues/632/review/round2-new.yaml"
+    reason: "review record, committed by review-change post_verdict"
+    blocking: false
 
 risks:
   sensitive_files: []
-
-notes:
-  branch: feature/632-adr-play
-  hotfix_branch: false
-  breaking_changes: []
+  # Raw facts below (ignored by the executor).
+  breaking_changes:
+    - "core/components/plays/adr/scripts/apply_adr.py: internal signatures changed, resolve_olders(olders) -> resolve_olders(olders, new_ref) and plan_new(args) -> plan_new(args, manifest). No other caller found in core/."
   ambiguous_types: []
-  file_count: 25
-  content_scan: "no password/api_key/secret/token/private_key patterns in added lines; no sensitive filenames"
+  hotfix_branch: false
+  content_scan: "no password/api_key/secret/token/private_key patterns in added lines"
