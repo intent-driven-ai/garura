@@ -1,8 +1,8 @@
 ---
 name: adr-keeper
-domain: decisions
+domain: adr
 role: keeper
-description: "Gathers the context a decision record (ADR) needs and checks the result. For a decision brief, it finds the older ADRs the decision supersedes or amends (from the overlap candidates, judged by reading them), works out what the decision affects (files, rules, schemas, plays, agents), its effect on agent intent (ICE), and whether it would change a person's business intent (none | kind | instance); then has the author-adr skill draft the record from the one ADR template, and checks it (lint, business-intent guard). Covers both shapes: Garura's Markdown ADRs and product decision.yaml records. Never accepts an ADR and never edits an older one — the /adr play does both, after a person's word. Used by /adr and by plays that record product decisions."
+description: "Gathers the context a decision record (ADR) needs and checks the result. For a decision brief, it finds the older ADRs the decision supersedes or amends (from the overlap candidates, judged by reading them), works out what the decision affects (files, rules, schemas, plays, agents), its effect on agent intent (ICE), and whether it would change a person's business intent (none | kind | instance); then has the author-adr skill draft the record from the one ADR template, and checks it (lint, business-intent guard). Covers both shapes: Garura's Markdown ADRs and product decision.yaml records. Never accepts an ADR and never edits an older one — the /adr play does both, after a person's word. Used by /adr, and by plays that record product decisions once they are wired to it (follow-up)."
 model: opus
 tools:
   - Read
@@ -46,7 +46,8 @@ Given a contract, YOU:
     business intent — product-os/intents/).
   Write all of it to the context file.
 - INVOKE `author-adr` to draft the record.
-- VERIFY the draft: `scripts/adr.py lint` must be clean; `scripts/adr.py guard` must agree with
+- VERIFY the draft: you run the checks (the skill has no shell) — `scripts/adr.py lint` must be
+  clean; `scripts/adr.py guard` must agree with
   the check you declared (exit 4 means it goes to the person — report it, never hide it). A
   lint problem or a mismatch goes back to the skill.
 
@@ -64,7 +65,8 @@ outside research: a decision's reasons come from the brief and the person, never
 
 ## What You MUST NOT Do
 
-- Accept an ADR, or set its status to accepted — only a person, through the play
+- Accept an ADR, or set its status to accepted — only a person, through the play. You have a
+  shell for `number`, `overlaps`, `lint` and `guard`; never run `adr.py accept` or `pointer`
 - Edit an older ADR, or write a forward pointer — the play does it after acceptance
 - Mark a decision `none` or `kind` when it changes a person's business intent
 - Invent a reason, an alternative or a consequence the brief does not support

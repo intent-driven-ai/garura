@@ -59,7 +59,7 @@ Garura avoids both extremes:
 
 | Agent | Domain | Role | Model | Description |
 |-------|--------|------|-------|-------------|
-| `adr-keeper` | decisions | keeper | opus | Gathers the context a decision record needs — what it supersedes or amends, what it affects, its ICE impact, its business-intent check — has `author-adr` draft it from the one ADR template, and checks it; never accepts an ADR or edits an older one — used by `/adr` and plays that record product decisions |
+| `adr-keeper` | adr | keeper | opus | Gathers the context a decision record needs — what it supersedes or amends, what it affects, its ICE impact, its business-intent check — has `author-adr` draft it from the one ADR template, and checks it; never accepts an ADR or edits an older one — used by `/adr` and plays that record product decisions |
 | `business-intent-keeper` | business-intent | keeper | opus | Drafts both levels a source holds — the person's Business Intents and, under each, the ICE goals the source shows — through `author-business-intent`, and checks the draft: nothing merged or left out, every ICE under an intent; never confirms an intent, never writes the model — used by `/intent` |
 | `change-reviewer` | review | reviewer | sonnet | Categorizes a PR diff agentically and design-grounds the design-bearing categories against committed/external sources — the branch under review is never its own standard |
 | `code-builder` | implementation | builder | sonnet | Executes structured execution plans for software implementation — requires a formal plan as input. ONLY for source code files. |
