@@ -317,6 +317,20 @@ def test_edges():
         after = yaml.safe_load(open(y_old))["decision"]
         changed = {k for k in set(after) | set(before["decision"]) if after.get(k) != before["decision"].get(k)}
         check("a YAML pointer changes only the pointer field", changed == {"amended_by"})
+        y3 = os.path.join(tmp, "p3.yaml")
+        with open(y3, "w") as fh:
+            yaml.safe_dump(before, fh)
+        for nid, part in (("dec-7", "the cache length"), ("dec-8", "the retry rule")):
+            nf = os.path.join(tmp, f"{nid}.yaml")
+            data = yaml.safe_load(yaml.safe_dump(GOOD_YAML))
+            data["decision"]["id"] = nid
+            with open(nf, "w") as fh:
+                yaml.safe_dump(data, fh)
+            code = run(["pointer", "--older", y3, "--newer", nf, "--kind", "superseded", "--what", part])[0]
+        d3 = yaml.safe_load(open(y3))["decision"]
+        check("two partial supersedes on a YAML record both point back, and it stays accepted",
+              code == 0 and d3["amended_by"] == ["dec-7", "dec-8"] and d3["status"] == "proposed"
+              and not d3.get("superseded_by"))
 
 
 def main():
