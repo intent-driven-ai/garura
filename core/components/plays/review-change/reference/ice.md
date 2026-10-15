@@ -56,9 +56,10 @@ enforced by pre-flight (an open PR must exist).
   findings, re-raise; `review-pr.bypass` semantics untouched). The verdict is still never
   silent and never unposted (C9 unchanged).
 - C9 — The play ends by proving its Done means at close (gated, #464): a decision recorded
-  with its decider AND posted counts as done regardless of approve/reject. The post reads
-  `review/decision.yaml` first and posts nothing unless it holds a decision (approve |
-  reject) and its decider (harness | human) (#536). After posting, the play records
+  with its decider AND posted counts as done regardless of approve/reject. The decision
+  record `review/decision.yaml` holds `decision: approve | reject` and `decided_by: harness
+  | human`. The post reads it first and posts nothing unless it holds both, and unless the
+  comment's first line names that same decision and decider (#536). After posting, the play records
   `review/posted.json` `{posted: true, comment_url, decision, decided_by,
   decision_recorded: true}` and commits+pushes its run artifacts (`context.yaml`,
   `findings.yaml`, `recommended_verdict.yaml`, `decision.yaml`, `posted.json`) to the
