@@ -74,6 +74,8 @@ def older_targets(context, adr_dir):
         for item in context.get(key) or []:
             ref = str(item.get("adr") or item.get("id") or "").strip()
             part = str(item.get("part") or "full").strip()
+            if part.lower() in ("full", "in full"):           # one spelling for a full supersede
+                part = "full"
             path = item.get("file")
             if not path and adr_dir and re.fullmatch(r"\d{1,3}", ref):
                 hits = [n for n in os.listdir(adr_dir) if n.startswith(f"{int(ref):03d}-")]
@@ -158,11 +160,26 @@ def draft_status(path):
     return adr.parse_md(adr.read(path))["fields"].get("status", "").split(" ")[0].lower()
 
 
-def resolve_olders(olders):
-    """Every older ADR must exist before anything is written (F1, F4)."""
+def resolve_olders(olders, new_ref):
+    """Every older ADR must exist, and none it supersedes in full may already be superseded in
+    full by another record — checked before anything is written, so a refused pointer can never
+    leave a record accepted with a link missing."""
     missing = [ref or str(path) for path, _, _, ref in olders if not path or not os.path.exists(path)]
     if missing:
         raise Stop(2, f"older ADRs named but not found: {', '.join(missing)} — nothing is written")
+    for path, kind, part, ref in olders:
+        if kind == "superseded" and part == "full":
+            by = adr.superseded_in_full_by(path)
+            if by and str(by).lstrip("0") != str(new_ref).lstrip("0"):
+                raise Stop(2, f"{os.path.basename(path)} is already superseded in full by {by} — "
+                              f"supersede that one instead; nothing is written")
+
+
+def record_ref(path):
+    """The record's own number (Markdown) or id (YAML)."""
+    if adr.is_yaml(path):
+        return str(adr.load_decision(path)[1].get("id") or "")
+    return adr.parse_md(adr.read(path))["number"] or ""
 
 
 def check_number(target, draft, adr_dir):
@@ -179,8 +196,9 @@ def check_number(target, draft, adr_dir):
             raise Stop(2, f"ADR {num} is already taken by {taken[int(num)]}")
 
 
-def plan_new(args):
-    """Read and check every input for a new record. Writes nothing."""
+def plan_new(args, manifest):
+    """Read and check every input for a new record. Writes nothing. Records each check that
+    passes in the manifest, so a stopped run still shows what held (SCE-2, SCE-5)."""
     for need in ("draft", "context", "target"):
         if not getattr(args, need):
             raise Stop(2, f"--{need} is required")
@@ -193,13 +211,17 @@ def plan_new(args):
         verdict = None if args.proposed else load_yaml(args.decision).get("decision") or {}
     except (OSError, ValueError, yaml.YAMLError) as exc:
         raise Stop(3, f"cannot read an input: {exc}") from exc
+    if not isinstance(context, dict):
+        raise Stop(3, "the context is not a mapping")
     code, out = call(["lint", "--adr", args.draft])                       # 1. template
     if code != 0:
         raise Stop(2, out.get("problems") or out)
+    manifest["lint_ok"] = True
     if draft_status(args.draft) != "proposed":                            # only a person accepts
         raise Stop(2, "the draft must be Proposed — only a person's word makes it accepted")
     guard = ["guard", "--adr", args.draft] + (["--intents-dir", args.intents_dir] if args.intents_dir else [])
     code, out = call(guard)                                                # 2. business intent
+    manifest["guard"] = out
     if code == 4:
         raise Stop(4, "the decision would change a person's business intent — ask the person")
     if code != 0:
@@ -215,16 +237,19 @@ def plan_new(args):
         raise Stop(2, f"{args.target} already exists — a record is never overwritten")
     check_number(args.target, args.draft, args.adr_dir)
     olders = older_targets(context, args.adr_dir)
-    if verdict is not None:            # pointers are written now, so their targets must exist now
-        resolve_olders(olders)
-    if args.index and not os.path.isdir(os.path.dirname(args.index) or "."):
+    if verdict is not None:            # pointers are written now, so their targets must be sound now
+        resolve_olders(olders, record_ref(args.draft))
+    index_dir = os.path.dirname(args.index) if args.index else None
+    if index_dir and os.path.normpath(index_dir) not in {
+            os.path.normpath(os.path.dirname(args.target) or "."),
+            os.path.normpath(args.adr_dir or os.path.dirname(args.target) or ".")} \
+            and not os.path.isdir(index_dir):
         raise Stop(2, f"the index folder for {args.index} does not exist")
     return verdict, olders
 
 
 def run_new(args, manifest):
-    verdict, olders = plan_new(args)
-    manifest["lint_ok"] = True
+    verdict, olders = plan_new(args, manifest)
     manifest["olders"] = [{"adr": r, "file": p, "kind": k, "part": pt} for p, k, pt, r in olders]
     os.makedirs(os.path.dirname(args.target) or ".", exist_ok=True)       # 4. write
     shutil.copyfile(args.draft, args.target)
@@ -253,7 +278,7 @@ def run_accept_existing(args, manifest):
     for r in refs_from_record(path):
         key = "supersedes" if r["kind"] == "superseded" else "amends"
         olders += older_targets({key: [{"adr": r["ref"], "id": r["ref"], "part": r["part"]}]}, adr_dir)
-    resolve_olders(olders)                                                 # before accepting (F4)
+    resolve_olders(olders, record_ref(path))                               # before accepting (F4)
     ok = accept_and_link(path, args.by.strip(), args.date, olders, adr_dir, args.index, manifest)
     manifest["decided"] = ok
     return 0 if ok and manifest["linked"] else 2
