@@ -1,0 +1,53 @@
+pr: 635
+issue: 634
+round: 1
+confidence: 0.9
+findings:
+- id: F1
+  category: executable-code
+  severity: P3
+  file: core/components/plays/understand/scripts/lint_grounding.py
+  line: 358
+  title: With the lens contracts added, /understand's spine check now reports every realize-lens doc in the product
+    model as an orphan error
+  evidence: 'Probe in a temp folder, new copy against the merge-base copy, same tree plus seven valid lens docs
+    at d/slices/s1/lens/{quality,ux,agentic,architecture,measure,run,marketing}.md, run with --root <product-os>
+    --spine <spine>. Old copy: those docs are skipped (kind not recognised). New copy: seven new errors of the form
+    "orphan grounding doc ''d/slices/s1/lens/quality.md'' (lens-quality) - present on disk but no spine node/epic
+    references it", exit stays 1 only because of the unrelated baseline, a clean tree would go from 0 to 1. Cause:
+    check_spine collects referenced_docs only from domains, capabilities, functionalities and epics (lines 306-345)
+    and the orphan sweep (lines 351-365) now treats a lens doc as a grounding doc. The spine has no field that points
+    at a lens doc (slices carry only record). Without --spine (lint_tree) lens docs are just counted and linted,
+    and valid ones pass. Same behaviour already exists in the other 11 copies; this change spreads it to /understand.'
+  why_it_matters: /understand runs that spine check right after its keyed persist (SKILL.md line 376, SE-3). On
+    a product model where a slice has already had its lens docs written by /quality, /ux, /arch and the others,
+    a re-run of /understand would fail the lint on docs it never touched, and the person would have to chase errors
+    that are not theirs. It only bites once lens docs exist, so today it is latent, not failing. Because the 12
+    copies are meant to be identical, the fix has to be made in all of them.
+  basis: 'knowledge/review/code.md rubric: deterministic where it claims to be (the linter says "orphan" for a doc
+    the spine has no way to reference); error handling. Severity P3 per pr.md: highlights without blocking, latent
+    until lens docs exist under the linted root.'
+  suggestion: In check_spine, skip kinds that start with lens- in the orphan sweep (or add the lens docs to referenced_docs
+    from a slice-level pointer), then re-stamp all 12 copies the same way. Add one test that a valid lens doc under
+    the root with --spine does not raise an error.
+- id: F2
+  category: executable-code
+  severity: P4
+  file: core/components/plays/understand/scripts/lint_grounding.py
+  line: 102
+  title: The seven lens contracts and the exact-title branch have no test in any of the 12 copies' suites
+  evidence: grep for lint_grounding in the plays' test files finds only core/components/plays/intent/scripts/test_intent_scripts.py,
+    and it has no mention of exact_title, lens- or Lens. The 19 added lines in understand (lines 102-116 and 206-209)
+    are exercised by no committed test. The probe above is what showed they behave as intended on the gold lens
+    docs.
+  why_it_matters: The next copy edit can drift one of the seven heading lists away from its template and nothing
+    fails. Low impact because the lens plays also run their own validators.
+  basis: 'knowledge/review/code.md rubric: deterministic where it claims to be; pr.md TEST rows (new code without
+    tests, P2 for new behaviour in general, kept P4 here since the logic is data tables plus one branch copied from
+    the other 11)'
+  suggestion: Add a small test next to the intent suite that lints each lens template's gold example as its kind,
+    and one wrong H1 (Quality Lens followed by a name) that must fail with the exact-title message.
+rounds:
+  round1: '2 findings (P3 1, P4 1; none blocking) — both fixed before the merge: lens docs are no longer orphans
+    when their slice exists (all 12 linter copies), and a new linter test covers the lens contracts and the orphan
+    check'
