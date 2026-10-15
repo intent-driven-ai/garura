@@ -1,9 +1,9 @@
 ---
 name: author-adr
-description: Draft a decision record (ADR) from the one ADR template (standards/templates/adr.md), in either of its two shapes — a Markdown ADR for Garura's own decisions (docs/adr/NNN-<slug>.md) or a decision.yaml record for a product decision — from a decision brief and the context the adr-keeper agent gathered: the older ADRs it supersedes or amends (with what part), what it affects, its effect on agent intent (ICE), and its business-intent check. Always writes the record as proposed; only a person accepts it, through the /adr play or the calling play's review. Its bundled scripts/adr.py does the mechanical work — next number, lint, index, overlap candidates, forward pointers, accept, and the business-intent guard. Generative artifact production for /adr and for any play that records a product decision. Use when a decision needs to be written down as an ADR.
+description: Draft a decision record (ADR) from the one ADR template (standards/templates/adr.md), in either of its two shapes — a Markdown ADR for Garura's own decisions (docs/adr/NNN-<slug>.md) or a decision.yaml record for a product decision — from a decision brief and the context the adr-keeper agent gathered: the older ADRs it supersedes or amends (with what part), what it affects, its effect on agent intent (ICE), and its business-intent check. Always writes the record as proposed; only a person accepts it, through the /adr play or the calling play's review. Its bundled scripts/adr.py does the mechanical work — next number, lint, index, overlap candidates, forward pointers, accept, and the business-intent guard. Generative artifact production for /adr, and for plays that record product decisions once they are wired to it (follow-up). Use when a decision needs to be written down as an ADR.
 user-invocable: false
 model: opus
-allowed-tools: Read, Write, Glob, Bash
+allowed-tools: Read, Write, Glob
 ---
 
 # author-adr
@@ -12,7 +12,7 @@ Writes the **draft** of one decision record from the template at
 `standards/templates/adr.md`. The template has one set of core fields and two shapes:
 
 - **Markdown** — Garura's own ADRs, `docs/adr/NNN-<slug>.md`, read by people.
-- **YAML** — a product decision, a `decision.yaml` (v2) record in the product model.
+- **YAML** — a product decision, a `decision.yaml` record (with the #632 fields) in the product model.
 
 You draft; you never accept. Every record you write has status `proposed`. A person accepts it
 — by hand through the `/adr` play, or at the review of the play or drive that made the decision.
@@ -43,9 +43,11 @@ You draft; you never accept. Every record you write has status `proposed`. A per
    it is filled when a person accepts.
 6. **Never write a forward pointer on an older ADR**, and never change an older ADR. The play
    does that, after acceptance, with `scripts/adr.py pointer`.
-7. **Check your own draft:** `python3 scripts/adr.py lint --adr <draft_path>`; fix what it
-   reports. A business-intent check of `instance` stays as the context says — the play takes it
-   to the person.
+7. **Check your own draft against the template's rules** before you return it. The agent runs
+   the linter and the guard on it (`scripts/adr.py lint` / `guard`); you have no shell, so you
+   cannot accept an ADR or write a pointer — those are the play's, after a person's word. A
+   business-intent check of `instance` stays as the context says — the play takes it to the
+   person.
 
 ## Output
 
@@ -54,12 +56,13 @@ Write `draft_path` and return its path — never the content:
 ```yaml
 draft_path: <path>
 shape: markdown | yaml
-lint: valid | <problems>
 ```
 
 ## Scripts
 
-`scripts/adr.py` (tests: `scripts/test_adr.py`) — deterministic, no git, no LLM:
+`scripts/adr.py` (tests: `scripts/test_adr.py`) — deterministic, no git, no LLM. Run by the
+`adr-keeper` agent (number, overlaps, lint, guard) and by the `/adr` play (index, pointer,
+accept — only after a person's word); this skill does not run it:
 
 | Command | What it does |
 |---------|--------------|
