@@ -1,0 +1,212 @@
+# design-findings-harness.yaml — PR #633, category: harness
+# Grounded only in committed sources on main (git show main:<path>), plus CLAUDE.md (unchanged by the branch).
+# plan.md A1-A8 (branch-added) was read as the stated intent only, never as grounding.
+pr: 633
+category: harness
+base: main
+artifacts_in_scope:
+  - core/components/plays/adr/SKILL.md
+  - core/components/plays/adr/reference/ice.md
+  - core/components/plays/adr/stop-condition.yaml
+  - core/components/skills/author-adr/SKILL.md
+  - core/components/agents/adr-keeper.md
+
+severity_note: >
+  standards/rules/pr.md (main) has no Standard ID row for harness design conformance; its severity table is
+  code/ops/doc oriented and its prose artifact types never fire grep rules. Buckets below are assigned from
+  the bucket definitions in pr.md (P1 blocker: breaking contract / data loss; P2 major: structural violation;
+  P3 minor; P4 nit), not from a table row. No P1 found.
+
+grounding:
+  - id: G1
+    principle: >
+      Play orchestrates, agent gathers context, skill produces, scripts do mechanical work. Agents hold the
+      context-crafting role; skills do the actual work. Plays delegate domain tasks to agents.
+    source: "CLAUDE.md sections 2 and 4 (Agent-First; Agents hold the role of Context Crafting)"
+  - id: G2
+    principle: >
+      Every play-to-agent handoff is a JSON contract over files on disk, with task_id, inputs and outputs wired
+      step to step; statuses are completed | failed | blocked.
+    source: "main:docs/adr/016-agent-json-contract.md"
+  - id: G3
+    principle: >
+      Intent changes go through the play's ICE source and a recompile; the compiled SKILL.md is never hand-edited
+      for intent; no edit notes in the skill file; the Standard Play Close block is emitted from play-close.md.
+    source: "CLAUDE.md 'Play Pipeline Rules'; main:core/components/memory/standards/rules/play-close.md"
+  - id: G4
+    principle: >
+      A play that writes the product model edits it in place on the branch; the LLM writes only per-node docs and
+      a keyed script owns every shared file (containment by construction); one post-write scoped guard; clean model
+      tree asserted at pre-flight; model delta committed by the play; write-then-review order, with ONE declared
+      exception (/intent run by hand, ADR 031).
+    source: "main:core/components/memory/standards/rules/direct-model-write.md (items 3, 4, 7; 'Declared exception'); main:docs/adr/026-direct-to-model-writes.md"
+  - id: G5
+    principle: >
+      Inside a drive a play opens no issue or branch, works on the drive's branch, and has no approval stop; the
+      pinned human confirmation runs only by hand, saved as proposed inside a drive and decided at the drive's
+      final review. Drive plays take a --contract JSON naming drive_run_id and branch.
+    source: "main:docs/adr/031-business-intent-and-ice.md section 5; main:docs/adr/029-drives.md (change opens at drive start; plays open no issue/branch); main:core/components/plays/intent/SKILL.md (nearest sibling)"
+  - id: G6
+    principle: >
+      Pipeline position: a 'both' play gets start-change at the head and commit -> propose -> review -> merge at the
+      back as named sub-plays; start-change resolves or creates the issue and cuts the branch.
+    source: "main:core/components/memory/standards/rules/pipeline-position.md"
+  - id: G7
+    principle: >
+      Pinned gates are declared '(class: <class>, pinned)'; the pinned set is recorded in gate-config.md (and the
+      architecture philosophy page); changing the set was done through an ADR for /intent.
+    source: "main:core/components/memory/standards/rules/gate-config.md; main:docs/adr/031-business-intent-and-ice.md ('Affects' line names gate-config pinned set and direct-model-write.md); main:docs/philosophy/architecture.md line 107"
+  - id: G8
+    principle: >
+      Sibling model-working plays use fixed, product-scoped working folders (not issue-keyed) so pre-flight can
+      write before start-change has created the issue; sibling skills are given the narrowest tools.
+    source: "main:core/components/plays/intent/SKILL.md ('<working> is {stm_base}_kickoff/intent/<run-ts>/'); main:core/components/plays/vision/SKILL.md ('{stm_base}_shaping/vision/'); main:core/components/skills/author-business-intent/SKILL.md (allowed-tools: Read, Write, Glob)"
+  - id: G9
+    principle: "Agent naming is {domain}-{role}; skills {action}-{object}; plays start with a verb (the noun-named strategy plays are an existing exception)."
+    source: "main:docs/adr/004-agent-naming.md; main:docs/adr/006-naming-conventions.md"
+
+conforms:
+  - "Layer 1: lint_play.py on core/components/plays/adr/SKILL.md reads VERDICT PASS (0 gaps): 11 failures each have a step eval, 6 scenarios each have an eval, one recovery per failure, D2 position both, Standard Play Close anchors present, pre-flight resolver and baked stop-condition present, next-command resolves."
+  - "Fingerprint is real: sha256 of reference/ice.md = 0ffcc254...cdf0435d, equal to the fingerprint in the compiled SKILL.md (G3)."
+  - "ICE to SKILL trace: C1-C11 / F1-F11 / S1-S6 / D1-D5 / REC1-REC11 match between ice.md and SKILL.md (one drift, see H5). Compiled file carries no edit notes (G3)."
+  - "Wiring: orchestrator play -> one domain agent (adr-keeper) -> one skill (author-adr) -> scripts (apply_adr.py, check_adr_scope.py, check_stop_condition.py); the agent never accepts or edits older ADRs; accept and pointers sit in the play's script (G1). adr-keeper has the same shape as business-intent-keeper (Read/Glob/Grep/Skill/Bash, JSON in/out, needs_person blocked path, retry-twice failure protocol)."
+  - "Drive behaviour is a faithful copy of /intent's: --contract with drive_run_id and branch, branch equality hard halt, T0 and E1-E4 skipped, no approval stop, saved as proposed, accepted at the final review (G5, G6)."
+  - "One pinned human checkpoint, declared '(class: one-way-door, pinned)' in the form gate-config expects, and the gate-config pinned list is extended in the same change (G7)."
+  - "Standard Play Close block is the canonical block; close is stop-condition gated (D1-D5 baked), Next resolves to a null command in pipeline-next.md."
+  - "Skill is user-invocable: false and agent is not user-facing, like the siblings (CLAUDE.md Architecture)."
+  - "Copying shared scripts (preflight.py, session_stamp.py, check_stop_condition.py, and adr.py from the skill) into the play follows the existing 'copied from ...' convention in /intent's metadata."
+
+observations_not_findings:
+  - "ADR 016's envelope (intent_path, stm_base, stm.input/stm.output) is not what adr-keeper or the Step 2 dispatch uses (task / inputs / outputs / task_id, returns outputs). business-intent-keeper and change-reviewer on main use the same shape, so this is existing drift from ADR 016, not introduced here; not attributed to #633."
+  - "Play name 'adr' is a noun and not verb-first (ADR 006); intent, vision, shape, learn on main are the same, so left as an existing convention."
+  - "Decisions A1-A8 and the trial live only in branch-added plan.md and trial-adr-031/; they were not used as grounding. The trial ran the drafting, the drive-mode apply and a simulated accept; the by-hand path through start-change was not exercised (see H1)."
+
+findings:
+  - id: H1
+    severity: P2
+    file: core/components/plays/adr/SKILL.md
+    where: "Pre-flight ('Resolve the facts'), Task DAG, Step 0 and Step 6 paths, Standard Play Close paths"
+    principle: >
+      A 'both' play's start-change is what resolves or creates the issue; anything that needs the issue number must
+      come after Step 0, or use a fixed path. Sibling plays that run before an issue exists use fixed working paths.
+    source: "G6 (pipeline-position.md: start-change 'resolve/create the issue, cut the branch'); G8 (/intent and /vision working folders)"
+    detail: >
+      Run by hand, pre-flight runs BEFORE Step 0 on main, where preflight.py extracts the issue from the branch
+      name and gets none. The play still defines <working> as {stm_base}{issue}/context/adr-<run-ts>/, writes
+      porcelain-before.txt and run.json there, and stamps the session at {stm_base}{issue}/status/..., then says the
+      porcelain is 'captured again after Step 0'. The start-change contract output is also keyed on {issue}. In the
+      by-hand (primary) mode the issue number does not exist yet at those writes. Inside a drive the branch name
+      supplies it, so drive mode is unaffected. /intent avoids this with a fixed '_kickoff/intent/' working folder.
+    suggested_direction: "Key the working folder and stamp marker on a fixed play folder (e.g. {stm_base}_adr/...) or move the first writes after Step 0; an ICE-level change if it alters the contract, so via ice.md and play-editor."
+
+  - id: H2
+    severity: P3
+    file: core/components/plays/adr/SKILL.md (with core/components/plays/adr/reference/ice.md C6, C9)
+    where: "Step 3 (confirm-before-write), Step 5 (scope check), pre-flight"
+    principle: >
+      Model-writing plays write first and review the git diff (ADR 026); the only declared exception is /intent run
+      by hand. They assert a clean product-os tree at pre-flight and run the shared scoped-write guard once over the
+      full delta.
+    source: "G4 (direct-model-write.md items 4 and 7, 'Declared exception - /intent run by hand'; L-DMW-3, L-DMW-4); ADR 031 'Affects' lists direct-model-write.md for the /intent exception"
+    detail: >
+      In its YAML shape /adr writes a decision.yaml into product-os decisions/, so it is a model write. It confirms
+      before it writes (accept/reject first), which is a second exception to ADR 026's order, but
+      direct-model-write.md and ADR 026/031 name only /intent, and this branch does not touch direct-model-write.md.
+      It also replaces the clean-tree assertion with a porcelain-before baseline, and the shared scoped_write_guard.py
+      with its own check_adr_scope.py (no restore). The reason is sound (a typed accept cannot be carried by a file,
+      the same reason as ADR 031) and the repo-wide before/after check is arguably stricter, but the exception is
+      undeclared in the rule that defines the exceptions. No mechanical lint enforces L-DMW-3/4 today (searched
+      play-creator/scripts and lint-components), so nothing will catch it.
+    suggested_direction: "Declare /adr's by-hand accept as a second exception (and its scope guard / baseline choice) in direct-model-write.md, or record it in an ADR amending 026 the way 031 did for /intent."
+
+  - id: H3
+    severity: P3
+    file: core/components/skills/author-adr/SKILL.md
+    where: "frontmatter allowed-tools: Read, Write, Glob, Bash; 'Scripts' table (pointer, accept commands)"
+    principle: >
+      Containment by construction: the LLM-facing skill writes only its own artifact; the keyed, deterministic
+      script in the play owns the shared writes. The sibling authoring skill has no Bash and no accept/confirm in
+      reach.
+    source: "G4 (direct-model-write.md item 3; ADR 026 Decision, containment split); G8 (author-business-intent allowed-tools: Read, Write, Glob)"
+    detail: >
+      C6 and C7 (a person accepts; older ADRs get only a forward pointer, after acceptance) are guaranteed in
+      prose for the skill and agent ('never accept', 'never edit an older ADR'), but both hold Bash and the skill's
+      own scripts/adr.py exposes 'accept' and 'pointer' (the same copy the play uses). The guarantee therefore rests
+      on instruction, with detection afterwards (SE-6, SE-7, SE-9 and the scope check), not on the skill being unable
+      to do it. Detect-and-recover exists, so this is not blocking.
+    suggested_direction: "Keep Bash (the lint needs it) but split the mutating commands (accept, pointer) into the play-only script, leaving the skill's adr.py with number, lint, overlaps, guard and index, or add the prohibition to the scope check's allow list for the draft run."
+
+  - id: H4
+    severity: P3
+    file: core/components/plays/adr/SKILL.md
+    where: "Step 3 vs Step 4 and Task DAG ('T3 is skipped' in a drive)"
+    principle: "Inside a drive a play may ask questions but has no approval stop; a decision that needs the person is surfaced, not silently dropped."
+    source: "G5 (ADR 031 section 5; ADR 029 drive rules)"
+    detail: >
+      The business-intent halt ('if the check is instance or the guard exits 4, stop here ... close HALTED with
+      exit_reason: business_intent') is written inside Step 3, and Step 3 is skipped in a drive. What happens in a
+      drive when adr-keeper reports instance (blocked / needs_person) or apply_adr.py exits 4 is left implicit: the
+      Step 2 note says 'go to the person', Step 4 says exit 4 stops before writing, SCE-2 only describes the
+      by-hand run. Whether a drive halts, asks, or records and moves on is not stated.
+    suggested_direction: "State the in-drive path for business_intent explicitly (ask, as ADR 031 allows, and write nothing), as an ICE addition to S2/C10."
+
+  - id: H5
+    severity: P4
+    file: core/components/plays/adr/SKILL.md (Recovery F9) vs core/components/plays/adr/reference/ice.md (REC9)
+    principle: "A compiled play must trace to its ICE source; the shared guard's restore is the existing recovery mechanism."
+    source: "G3 (CLAUDE.md Play Pipeline Rules); G4 (scoped_write_guard --restore in direct-model-write.md)"
+    detail: >
+      ice.md REC9 says 'the scoped-write guard's restore reverts it, after a person confirms'. The compiled
+      Recovery row says 'restore the offending paths from git, after a person confirms', and check_adr_scope.py has
+      no restore option (flags: --before, --after, --allow, --out). Source and compiled text diverge; the recovery
+      the ICE names does not exist in the bundled script.
+    suggested_direction: "Make REC9 say what is bundled (manual git restore after confirmation), recompile; or add --restore."
+
+  - id: H6
+    severity: P4
+    file: core/components/agents/adr-keeper.md (description); core/components/skills/author-adr/SKILL.md (description)
+    principle: "Agent and skill descriptions are what plays dispatch on (ADR 016 handoff); they should describe callers that exist."
+    source: "G2 (ADR 016); git grep of core/ and docs/ shows /adr is the only caller of adr-keeper and author-adr"
+    detail: >
+      Both descriptions say they are 'used by ... plays that record product decisions'. No such play calls either
+      today (persist_arch.py and the other persist scripts write decisions directly). This is the stated direction
+      (A8) but reads as present fact in files that are loaded on every dispatch.
+    suggested_direction: "Say 'used by /adr; product-decision plays are expected to call it later'."
+
+  - id: H7
+    severity: P4
+    file: core/components/plays/adr/scripts/adr.py (byte-identical to core/components/skills/author-adr/scripts/adr.py)
+    principle: "Copied scripts carry a single canonical source and a stated sync rule."
+    source: "main:core/components/plays/intent/SKILL.md metadata ('copied from /vision', 'copied from play-creator references'); G1 (script ownership)"
+    detail: >
+      adr.py exists twice (diff shows identical today). The play hands adr-keeper the skill copy
+      ('<skill-dir>/scripts/adr.py') while apply_adr.py runs the play copy, so the lint the agent runs and the lint
+      the play runs can drift with no check. The compiled metadata does record 'copied from the author-adr skill',
+      so the convention is followed; only the missing sync check is the gap. adr-keeper also names the script as a
+      bare 'scripts/adr.py'.
+    suggested_direction: "Point both at one copy, or add a one-line equality check to the play's tests."
+
+  - id: H8
+    severity: P4
+    file: core/components/agents/adr-keeper.md
+    where: "frontmatter 'domain: decisions'"
+    principle: "Agent name is {domain}-{role}; the name's domain and the declared domain agree (business-intent-keeper: domain business-intent)."
+    source: "G9 (ADR 004); main:core/components/agents/business-intent-keeper.md"
+    detail: "The name says domain 'adr', the frontmatter says 'decisions'. Naming clarity only."
+    suggested_direction: "Set domain to adr, or rename the agent."
+
+  - id: H9
+    severity: P4
+    file: core/components/memory/standards/rules/gate-config.md (adjacent; memory category); core/components/plays/adr/SKILL.md C6
+    principle: >
+      The pinned set is recorded in one coherent place and a change to it is recorded as a decision; the pinned
+      paragraph names its drive exception.
+    source: "G7 (gate-config.md pinned paragraph: 'one exception ... /intent's confirm is skipped ... inside a drive'; docs/philosophy/architecture.md:107 'Today: grill, launch, learn, deploy, land-on-main'; ADR 031 recorded the /intent addition)"
+    detail: >
+      The branch adds adr's accept to the pinned list but the same paragraph still says /intent is the 'one'
+      by-intent exception to the pin inside a drive; adr has the same skip, so it is now two. The architecture
+      philosophy page's pinned list on main was already missing /intent and still misses /adr.
+      pipeline-position.md's 'As compiled today' list also omits /adr (and /intent). The decision to add a new
+      pinned gate is recorded only in branch-added plan.md, where ADR 031 recorded the /intent one. Flag to the
+      memory/docs reviewers; listed here because it is the play's gate declaration.
+    suggested_direction: "Reword 'one exception' to cover both, refresh the two lists, and record the new pinned gate in an ADR."

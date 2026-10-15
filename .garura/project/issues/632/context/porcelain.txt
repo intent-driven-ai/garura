@@ -1,0 +1,14 @@
+ M .garura/project/issues/632/context/porcelain.txt
+ M core/components/memory/standards/rules/pipeline-next.md
+ M core/components/memory/standards/schemas/product-os/decision.yaml
+ M core/components/memory/standards/templates/adr.md
+ M core/components/plays/adr/SKILL.md
+ M core/components/plays/adr/reference/ice.md
+ M core/components/plays/adr/scripts/adr.py
+ M core/components/plays/adr/scripts/apply_adr.py
+ M core/components/plays/adr/scripts/check_adr_scope.py
+ M core/components/plays/adr/scripts/test_apply_adr.py
+ M core/components/skills/author-adr/scripts/adr.py
+ M core/components/skills/author-adr/scripts/test_adr.py
+?? .garura/project/issues/632/review/round2-closure.yaml
+?? .garura/project/issues/632/review/round2-new.yaml

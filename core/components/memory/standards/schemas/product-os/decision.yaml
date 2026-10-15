@@ -1,4 +1,4 @@
-# Decision Schema (ADR) — v1
+# Decision Schema (ADR) — v1 (+ the #632 fields)
 #
 # A decision record IS an ADR — usable at product, capability, functionality, or
 # framework level. The third thing ProductOS keeps forever: DECISIONS.
@@ -21,15 +21,34 @@ decision:
       why_not: string
   status: string          # one of: proposed | accepted | superseded | rejected
   superseded_by: string   # id of the decision that replaced this one; else null
+  # --- #632: the core fields of standards/templates/adr.md, added; the original fields unchanged ---
+  supersedes:             # older decisions this one replaces
+    - id: string
+      part: string        # "full" or what part
+  amends:                 # older decisions this one changes in part
+    - id: string
+      part: string
+  amended_by: [string]    # forward pointers from newer decisions (the only later edit)
+  affects: [string]       # files, rules, schemas, nodes the decision changes
+  ice_impact: string      # the ICE it changes, or "none — why"
+  business_intent_check: string   # none | kind | instance — `instance` is never applied;
+                                  # it goes to the person (ADR 031)
+  consequences:
+    positive: [string]
+    negative: [string]
   metadata:
     decided_by: string    # play that recorded the decision
+    accepted_by: string   # #632 — the PERSON who accepted it; empty while proposed
+    decided_in: string    # #632 — the issue or run it was decided in
     date: string          # passed in by the play; not auto-generated
     version: integer
 
-immutability: "accepted decisions are not edited — supersede with a new record"
+immutability: "accepted decisions are not edited — supersede or amend with a new record; the only later edits are the forward pointers (superseded_by, amended_by) and status superseded when replaced in full"
 
 # ---- Fill rules -------------------------------------------------------------
 fill_rules:
+  - play: "/adr"
+    writes: "any decision a person brings, from the one ADR template (#632); accepted only on the person's word"
   - play: "/understand"
     writes: "decisions made while clarifying intent"
   - play: "/shape"
@@ -44,3 +63,14 @@ fill_rules:
 # ---- Enhance rules ----------------------------------------------------------
 enhance_rules:
   governed_by: "PARKED — see product-os.yaml (future schema-evolution play)"
+
+# ---- Migration note (#632) --------------------------------------------------
+# Additive. #632 adds the core fields of standards/templates/adr.md — supersedes, amends,
+# amended_by, affects, ice_impact, business_intent_check, consequences, and
+# metadata.accepted_by / decided_in. Every earlier record stays valid as written; the new
+# fields are empty on it — until /adr accepts one: a record /adr writes or accepts must carry
+# the #632 fields its lint requires (consequences, metadata.date, metadata.decided_in), so an
+# older proposed record gains them when it is accepted through /adr. The version stays 1: additive changes keep the version here (the
+# #548 / #550 precedent; schema evolution is parked — schemas/product-os/_index.md). The only
+# field ever written on an accepted record later is a forward pointer (superseded_by /
+# amended_by), plus status superseded when replaced in full.

@@ -5,12 +5,14 @@
     "tool": "claude",
     "scope": "harness",
     "components": [
+      ".claude/agents/adr-keeper.md",
       ".claude/agents/change-reviewer.md",
       ".claude/agents/project-orchestrator.md",
       ".claude/agents/quality-auditor.md",
       ".claude/agents/repo-orchestrator.md",
       ".claude/skills/analyze-changes",
       ".claude/skills/analyze-pr",
+      ".claude/skills/author-adr",
       ".claude/skills/build-product-ontology",
       ".claude/skills/create-commit",
       ".claude/skills/manage-issue",
@@ -20,6 +22,7 @@
       ".claude/skills/resolve-issues",
       ".claude/skills/setup-branch",
       ".claude/skills/submit-pr",
+      ".claude/skills/adr",
       ".claude/skills/commit-change",
       ".claude/skills/focus",
       ".claude/skills/merge-change",
@@ -30,9 +33,9 @@
       ".claude/skills/start-change"
     ],
     "counts": {
-      "agents": 4,
-      "skills": 11,
-      "plays": 8
+      "agents": 5,
+      "skills": 12,
+      "plays": 9
     },
     "instruction_surface": "CLAUDE.md.new",
     "config": ".garura/core/config.yaml",

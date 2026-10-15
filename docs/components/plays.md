@@ -322,6 +322,7 @@ Recovery reasoning is loaded from LTM: `docs/framework/intent-driven-recovery.md
 
 | Play | Purpose |
 |--------|---------|
+| `adr` | Record a decision as an ADR from the one template — what it supersedes or amends, what it affects, its ICE impact, and a business-intent guard; accepted only on a person's word (proposed inside a drive); older ADRs gain only a forward pointer; the ADR index is rebuilt |
 | `intent` | Turn what a person shares — a prototype, a project folder, a site, a document or a statement — into their business intents and, under each, the ICE the source shows; the person confirms each intent; keeps the source as a snapshot and links all three |
 | `vision` | Turn a business goal into the seed of the product model — domain grounding, directional capability grounding, spine entries |
 | `understand` | Detail one capability that `/vision` seeded — promote its grounding to detailed, create its functionalities |
