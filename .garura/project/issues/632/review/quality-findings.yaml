@@ -1,0 +1,265 @@
+meta:
+  layer: 1
+  skill: quality-check-scoped
+  pr: 633
+  categories:
+  - executable-code
+  - tests
+  - docs
+  - config-maps
+  taxonomy_scan:
+    command: python3 core/components/skills/quality-check-scoped/scripts/scan_taxonomy.py --taxonomy core/components/memory/standards/rules/pr.md
+      --diff .garura/project/issues/632/review/pr.diff --paths <15 standards-driven paths> --out <session scratchpad>
+    result: P1=0 P2=0 P3=1 P4=2; CODE-20 catch-all covered 15 files; errors=0. The three hits are path-only rules
+      on docs/adr/_index.md (DOC-04 P3, DOC-05 P4, ARCH-23 P4). They ask for 'at least one ADR exists', 'ADRs cover
+      major technology choices' and 'scaling is documented' - API-product documentation checks. The index lists
+      31 ADRs, so they are satisfied or not applicable to a framework repo; no defect raised.
+  executed:
+  - command: throwaway probe script run against copies of adr.py, apply_adr.py and check_adr_scope.py in the session
+      scratchpad, temp folders only, repo untouched (PYTHONDONTWRITEBYTECODE, copies, no pycache in the repo)
+    result: confirmed F1-F11; 19 probe groups
+  - command: python3 adr.py index --dir docs/adr --out <scratchpad>, diffed with docs/adr/_index.md
+    result: identical; 31 ADRs, every row links to a file that exists
+  - command: cmp of check_stop_condition.py, preflight.py, session_stamp.py with the copies in agentic, arch and
+      commit-change plays; cmp of the two adr.py copies
+    result: byte-identical, so no per-file review beyond the stamped-copy convention
+  - command: 'manifest check: every path in .garura/install-manifest.json record.components resolved from the repo
+      root; counted agents, skills, plays'
+    result: 26 paths all exist; 5 agents, 12 skills, 9 plays, matching counts {agents 5, skills 12, plays 9}; the
+      three new entries (adr-keeper, author-adr, adr) are also in the harness allow-list in install.py
+  - command: docs pages diff against the components on disk
+    result: agents.md, plays.md and skills.md rows match the adr-keeper agent (model opus), the adr play and the
+      author-adr skill; no broken links
+  already_run_by_orchestrator: lint_play PASS, 33 + 20 tests pass, ruff clean, the two adr.py copies identical (runnable-checks.txt);
+    not repeated.
+  not_applicable: 'config-maps: no defects. docs: no defects in the three component pages or the generated index,
+    apart from F14 (in two memory files). The generated index shows ''(not recorded)'' for 12 older ADRs and trims
+    ''amended/superseded in part'' to plain Accepted; both are stated in its own header and are not defects. Design-bearing
+    categories (harness, memory) and stm-run-records are out of this layer.'
+  tool_note: scan_taxonomy.py output went to the scratchpad, not the repo; the only repo write is this file.
+findings:
+- id: F1
+  category: executable-code
+  severity: P2
+  file: core/components/plays/adr/scripts/apply_adr.py
+  line: 229
+  title: 'The ADR file is written before the older-ADR lookups run, so a bad context or a missing folder crashes
+    after the write: a file is left behind, no manifest is written, and a re-run is refused'
+  evidence: 'Line 227-228 copies the draft to the target; line 229 then calls older_targets, which does item.get
+    on every context entry (line 73), os.listdir(adr_dir) (line 77) and later open(index) (line 141), none inside
+    a try. Probes in a temp folder: (a) context supersedes: [''ADR 001''] -> AttributeError, target left on disk,
+    adr-manifest.json absent, re-run exits 2 ''already exists''; (b) --adr-dir pointing at a folder that does not
+    exist -> FileNotFoundError; (c) --index in a folder that does not exist -> FileNotFoundError after the ADR was
+    accepted and the older ADRs edited, again no manifest. All three leave the same state.'
+  why_it_matters: 'The play''s whole stop condition reads adr-manifest.json. A crash leaves the ADR half-applied
+    with no record of it, and the never-overwrite rule then blocks the fix: the person has to delete the file by
+    hand. The header promises the steps run ''in this order'' with the manifest last; it never says a crash can
+    leave a written ADR.'
+  basis: 'knowledge/review/code.md rubric: error handling; safe handling of destructive or irreversible operations;
+    deterministic where it claims to be'
+  suggestion: Do every read and shape check (context items, adr-dir, index folder) before line 227, and wrap main()
+    so any unexpected error still writes a manifest with the problem. Add a test that a bad context writes nothing.
+- id: F2
+  category: executable-code
+  severity: P2
+  file: core/components/plays/adr/scripts/apply_adr.py
+  line: 231
+  title: --proposed writes a draft that already says Accepted, and the manifest reports it as proposed
+  evidence: 'Probe: a draft with ''**Status:** Accepted'' and ''**Decided by:** Agent'' (lint passes it) run with
+    --proposed: exit 0, the file on disk reads Accepted, the manifest says status: proposed, decided: true. The
+    same draft with --decision accept writes the file, then adr.py accept refuses (''status is Accepted, not Proposed''),
+    exit 2, file left on disk, re-run refused (same dead end as F1). Nothing in apply_adr checks that the draft
+    is Proposed before copying it.'
+  why_it_matters: The template and the play promise that only a person moves an ADR to accepted. Inside a drive
+    the keeper's draft is the only input, so a draft that declares itself accepted skips the person with no trace;
+    the manifest even says the opposite of the file.
+  basis: 'knowledge/review/code.md rubric: deterministic where it claims to be; error handling (the template rule
+    ''only a person moves it to accepted'')'
+  suggestion: After the lint step, refuse any draft whose status is not proposed (exit 2, write nothing), in both
+    modes. Add a test for an Accepted draft in each mode.
+- id: F3
+  category: executable-code
+  severity: P3
+  file: core/components/skills/author-adr/scripts/adr.py
+  line: 307
+  title: A person's name or a date containing a backslash crashes accept, after the person has said yes, leaving
+    the ADR written as Proposed
+  evidence: 'Lines 310 and 313 pass the name inside the replacement text of re.sub. Probe: --by ''CORP\kapil'' ->
+    re.PatternError ''bad escape \k''. Through apply_adr (accepted_by: CORP\kapil) the target is already copied
+    (still Status Proposed), no manifest, re-run refused. A direct ''adr.py accept --by A\B'' crashes the same way.'
+  why_it_matters: Domain-style names (DOMAIN\user) are ordinary; the person's accept is lost and the file is stuck.
+  basis: 'knowledge/review/code.md rubric: safe handling of inputs; error handling'
+  suggestion: 'Pass a function as the replacement (lambda m: ...) or re.escape the value, for the name and the date
+    (lines 307-314). Add a test with a backslash name.'
+- id: F4
+  category: executable-code
+  severity: P3
+  file: core/components/plays/adr/scripts/apply_adr.py
+  line: 182
+  title: --accept-existing accepts first and checks the older ADRs after, so one missing older ADR leaves it accepted,
+    exits 2, and the missing pointer can never be written by the script
+  evidence: 'Probe: a Proposed ADR whose Supersedes line names ADR 009 (not on disk), --accept-existing: the file
+    is now Accepted, manifest linked: false, exit 2. Re-run: adr.py accept refuses (''status is Accepted, not Proposed''),
+    exit 2, and write_pointers is never reached.'
+  why_it_matters: The drive's final review is the normal path for this command. A mistyped or renamed older ADR
+    makes the accepted ADR and the older one disagree (no forward pointer), and the tool offers no way to repair
+    it.
+  basis: 'knowledge/review/code.md rubric: safe handling of destructive or irreversible operations; deterministic
+    where it claims to be'
+  suggestion: Resolve every older ADR (line 175-178) and stop with exit 2 before accepting if any is missing; or
+    let a re-run on an already accepted ADR write only the missing pointers.
+- id: F5
+  category: executable-code
+  severity: P3
+  file: core/components/plays/adr/scripts/apply_adr.py
+  line: 224
+  title: Nothing checks that the ADR's number matches its file name or is unused, and two files with the same number
+    silently drop one from the index
+  evidence: 'Probes: a draft titled ''# ADR 003'' written to 099-x.md: exit 0, accepted. A draft ''# ADR 003'' written
+    to 003-x.md while 003-other.md already exists: exit 0, both files on disk; the regenerated index has one row
+    [003] (numbers() in adr.py lines 88-94 keeps a dict keyed by number, so the later file wins) and ''adr.py number''
+    reports taken: 2 for the 3 files. Two files 005-a.md and 005-b.md: the index shows 1 ADR.'
+  why_it_matters: The play's one structural job is a clean ADR numbering and index. A number clash is easy to cause
+    with two branches adding ADRs, and the generated index then hides a real decision.
+  basis: 'knowledge/review/code.md rubric: deterministic where it claims to be; error handling'
+  suggestion: Lint (or apply) should require the title number to equal the file-name number and to be free in --adr-dir;
+    numbers() should fail on a duplicate instead of overwriting.
+- id: F6
+  category: executable-code
+  severity: P3
+  file: core/components/skills/author-adr/scripts/adr.py
+  line: 338
+  title: The business-intent guard is bypassed by a YAML decision whose `affects` is a plain string, and lint accepts
+    that shape
+  evidence: 'Line 338: '' ''.join(str(a) for a in d.get(''affects'') or []) splits a string into single characters,
+    so ''product-os/intents/grow-sales.md'' becomes ''p r o d ...'' and the regex at line 344 never matches. Probe:
+    affects as a string with business_intent_check none -> lint valid, guard exit 0 ''no person''s business intent
+    changes''. The same record with affects as a list -> guard exit 4. lint_yaml (lines 162-182) does not check
+    the type of affects.'
+  why_it_matters: The guard is the mechanical line that keeps an ADR from touching a person's business intent (ADR
+    031). A shape slip by the author defeats it silently.
+  basis: 'knowledge/review/code.md rubric: safe handling of inputs; deterministic where it claims to be'
+  suggestion: Reject a non-list affects in lint_yaml and make guard treat a string as one entry.
+- id: F7
+  category: executable-code
+  severity: P3
+  file: core/components/skills/author-adr/scripts/adr.py
+  line: 244
+  title: Forward pointers and accept on a YAML decision rewrite the whole file, dropping every comment and re-flowing
+    it, although the pointer is meant to be the only edit
+  evidence: 'Lines 244-245 and 299-300 use yaml.safe_dump on the full document. Probe: an older record with ''#
+    keep this comment'' and an inline ''# note'' came back as ''decision:\n  id: old\n  status: accepted\n  amended_by:\n  -
+    new\n'' with both comments gone. The Markdown path keeps every other byte, and test_apply_adr.py proves that
+    for Markdown only (line ''only its Status line changed''); no test checks it for YAML.'
+  why_it_matters: The template says an accepted record is never edited except its forward pointer. For product decisions
+    the pointer edit also erases whatever the person annotated.
+  basis: 'knowledge/review/code.md rubric: safe handling of destructive or irreversible operations (an edit to an
+    accepted record)'
+  suggestion: Edit the one line in place (as the Markdown path does) or use a round-trip YAML loader that keeps
+    comments; add a test comparing the rest of the file.
+- id: F8
+  category: executable-code
+  severity: P4
+  file: core/components/skills/author-adr/scripts/adr.py
+  line: 48
+  title: Input of the wrong shape or encoding crashes with a traceback instead of the exit-3 or problem-list the
+    header promises
+  evidence: 'Probes (all uncaught): lint on a binary file -> UnicodeDecodeError (read() at line 48-53 catches OSError
+    only); lint with status: [proposed] or level: {a: 1} -> TypeError unhashable (lines 167-170); pointer on an
+    older record whose amended_by is a string -> TypeError (line 243); pointer with a newer record that has no id
+    -> KeyError (lines 239, 246); apply_adr with a decision file where decision is a string -> AttributeError (apply_adr.py
+    line 215); lint with metadata: ''x'' is accepted as valid although accepted-by cannot be read (line 175). Also
+    ''adr.py accept'' on a Markdown ADR with no Level line writes Accepted with no Decided by (lines 309-314; apply
+    runs lint first so the play path is safe).'
+  why_it_matters: 'Docstring: ''Exit codes: ... 3 unreadable input''. Agent-written files are the inputs, so a bad
+    one should come back as a readable problem the keeper can fix.'
+  basis: 'knowledge/review/code.md rubric: error handling; the script''s own exit-code contract'
+  suggestion: Catch ValueError (covers UnicodeDecodeError) in read(), check isinstance before .get/in-set tests,
+    and treat a non-mapping decision as a problem.
+- id: F9
+  category: executable-code
+  severity: P4
+  file: core/components/plays/adr/scripts/apply_adr.py
+  line: 105
+  title: A Supersedes line that says 'none' but mentions another ADR is read as superseding it
+  evidence: 'Probe: ''**Supersedes:** none — unlike ADR 012, this keeps the old file'' -> refs_from_record returns
+    superseded ADR 12; --accept-existing would mark ADR 012 superseded. The regex at line 106 takes any ''ADR n''
+    in the field.'
+  why_it_matters: Wrongly marking an accepted ADR as superseded is an edit to history. Rare (needs prose in that
+    field) but silent.
+  basis: 'knowledge/review/code.md rubric: deterministic where it claims to be'
+  suggestion: Read only the leading reference of each ' · ' chunk, and skip a field that starts with none or a dash.
+- id: F10
+  category: executable-code
+  severity: P4
+  file: core/components/skills/author-adr/scripts/adr.py
+  line: 263
+  title: A second full supersede overwrites the first one's pointer instead of keeping both
+  evidence: 'Probe: ADR 001 superseded by 002, then by 003: the Status line reads ''Superseded by [ADR 003](003-c.md)''
+    and the 002 link is gone (lines 263-264 replace the whole line).'
+  why_it_matters: Rare, but the history of who replaced what is lost on the older ADR.
+  basis: 'knowledge/review/code.md rubric: deterministic where it claims to be'
+  suggestion: Append the second pointer when the status already reads Superseded by.
+- id: F11
+  category: executable-code
+  severity: P4
+  file: core/components/plays/adr/scripts/check_adr_scope.py
+  line: 51
+  title: The scope check cannot see a second change to a file that was already dirty before the run, and its allow
+    globs are wider than they read
+  evidence: 'Probe: a core/ file listed as '' M'' before and ''MM'' after -> ok true, no violation (documented in
+    the comment at line 51, but a drive starts with a dirty tree, which is exactly when /adr runs proposed). fnmatch
+    ''*'' crosses ''/'', so ''--allow docs/adr/*'' (the pattern the play passes) also allows docs/adr/sub/deep/x.md.
+    A non-ASCII file name arrives from git as ''docs/adr/caf\303\251.md'' (octal escapes, quotes stripped) and never
+    matches an allow entry; that fails closed, so it is only a false alarm.'
+  why_it_matters: The check is the only mechanical proof that /adr touched nothing but the ADR, its pointers and
+    the index; its blind spot sits in the drive path.
+  basis: 'knowledge/review/code.md rubric: deterministic where it claims to be'
+  suggestion: Compare per-path status or a content hash instead of the path set, and match globs with a segment-aware
+    matcher.
+- id: F12
+  category: executable-code
+  severity: P4
+  file: core/components/plays/adr/scripts/apply_adr.py
+  line: 146
+  title: main() is 92 lines and does argument parsing, three modes, five checks and the writes in one function
+  evidence: apply_adr.main spans lines 146-237; adr.cmd_pointer is 50 lines (231-280). The F1 order problem is hard
+    to see because the steps are in one body.
+  why_it_matters: Harder to keep the 'check first, write last' order that F1 and F2 show is not holding.
+  basis: 'knowledge/review/code.md rubric: function size'
+  suggestion: Split into validate (read-only), write, and finish steps; do the validate step first.
+- id: F13
+  category: tests
+  severity: P3
+  file: core/components/plays/adr/scripts/test_apply_adr.py
+  line: 1
+  title: The tests cover the happy paths and the listed refusals, but none of the write-then-crash, wrong-shape
+    or duplicate-number cases above
+  evidence: 'Both suites pass (33 and 20) and every test uses a temp folder. Missing: a bad context or missing folder
+    after the write (F1), a draft that says Accepted (F2), a backslash name (F3), accept-existing with a missing
+    older ADR and its re-run (F4), duplicate numbers (F5), string `affects` through guard (F6), YAML pointer keeping
+    the rest of the file (F7), and check_adr_scope on already-dirty paths (F11). The existing scope test (test_scope)
+    covers only the plain case.'
+  why_it_matters: Each gap is a case a probe turned into a crash or a wrong result; the suite would stay green through
+    all of them.
+  basis: 'knowledge/review/tests.md: tests assert real behaviour; pr.md P2 ''missing tests for new code'' (partial:
+    tests exist, edge paths do not)'
+  suggestion: Add one test per finding above as the fixes land.
+- id: F14
+  category: docs
+  severity: P4
+  file: core/components/memory/standards/templates/adr.md
+  line: 11
+  title: The template and its index entry name a checker, lint_adr.py, that does not exist; the check is 'adr.py
+    lint'
+  evidence: adr.md line 11 and templates/_index.md line 22 say 'lint_adr.py checks a record against it'. grep for
+    lint_adr finds only those two places; the script is core/components/skills/author-adr/scripts/adr.py (lint subcommand).
+    These two files belong to the memory layer; listed here because the probe found them.
+  why_it_matters: A reader following the pointer finds nothing.
+  basis: 'knowledge/review/docs.md: docs name things that exist'
+  suggestion: Change both mentions to 'adr.py lint'.
+counts:
+  P1: 0
+  P2: 2
+  P3: 6
+  P4: 6

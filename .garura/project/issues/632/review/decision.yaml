@@ -1,0 +1,7 @@
+decision: approve
+decided_by: harness
+gate: "skipped by config (gates.plays.review-change)"
+reason: "no P1 findings; confidence acceptable"
+blocking: []
+counts: {P2: 3, P3: 15, P4: 15}
+note: "Recommendation recorded verbatim. A fix round follows before the merge (Kapil's standing preference)."

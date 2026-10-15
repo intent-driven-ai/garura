@@ -1,0 +1,12 @@
+## lint_play adr
+VERDICT: PASS (0 gap(s))
+## author-adr tests
+33 passed, 0 failed
+## apply tests
+20 passed, 0 failed
+## adr.py copies identical
+yes
+## ruff (new python)
+All checks passed!
+## yaml parses
+ok
