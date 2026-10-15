@@ -7,6 +7,12 @@ on any path that changed in between and is not allowed. The run's own records un
 folder (`.garura/project/issues/`) are always allowed. No git call of its own (the play passes
 the captures), no network.
 
+Capture both with `git -c core.quotepath=off status --porcelain -uall` — `-uall` lists files
+inside new folders, and quotepath off keeps non-English names as they are (otherwise git quotes
+them and the check fails closed). Allow exact paths where you can: a `*` glob also matches
+nested folders. Inside a drive, a file already changed before the run and changed again is not
+seen — the drive's own final review covers it.
+
     python3 check_adr_scope.py --before <working>/porcelain-before.txt \
         --after <working>/porcelain-after.txt --allow <path or glob> [--allow ...] \
         --out <working>/guard-report.json

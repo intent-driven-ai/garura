@@ -22,8 +22,9 @@ changes points forward to it.
 - C4 — What it changes is recorded with real names: the files, rules, schemas, plays and agents
   it affects, and its effect on agent intent (ICE).
 - C5 — An ADR never changes a person's business intent. A decision that would is shown to the
-  person and not applied; changing the Business Intent kind (framework doctrine) is allowed and
-  recorded as such.
+  person and not applied — run by hand or inside a drive, where it is a new question that stops
+  the drive; changing the Business Intent kind (framework doctrine) is allowed and recorded as
+  such.
 - C6 — Only a person accepts an ADR. Run by hand, the person accepts or rejects it before it is
   written as accepted (a pinned gate, class one-way-door: a record of a decision is the
   project's memory). Inside a drive there is no approval stop: it is saved as proposed and
@@ -104,8 +105,8 @@ ADR is later accepted.
 
 ### Done means
 
-Paths are relative to the run's working folder (`{stm_base}{issue}/context/adr-<run-ts>/` — the
-drive's issue inside a drive).
+Paths are relative to the run's working folder, `{stm_base}_adr/<run-ts>/` — fixed, because
+run by hand the play starts before its issue exists.
 
 - D1 — says: "the decision record was saved"
   check: { type: artifact_exists, path: "adr-manifest.json" }
@@ -143,8 +144,7 @@ drive's issue inside a drive).
 - REC8 (F8) — trigger: the index is stale. direction: rebuild it from the ADR folder.
   handoff: autonomous.
 - REC9 (F9) — trigger: a path outside the new record, the pointers and the index changed.
-  direction: the scoped-write guard's restore reverts it, after a person confirms. handoff:
-  human.
+  direction: restore the offending paths from git, after a person confirms. handoff: human.
 - REC10 (F10) — trigger: by hand without opening or landing the change, or an issue or branch
   opened inside a drive. direction: by hand, run the missing opening or end step; in a drive,
   close the stray issue and branch and continue on the drive's branch. handoff: human.
