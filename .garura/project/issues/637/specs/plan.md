@@ -2,9 +2,9 @@
 plan_for: 637
 kind: story
 serves: "#637 — /vision starts from the business intents /intent saved, and gives their capabilities a domain"
-status: active
+status: done
 updated: 2026-10-17
-now: 4
+now: -
 serves_plan: 606
 serves_item: 4
 ---
@@ -55,33 +55,27 @@ capabilities in the tree.
 
 ## Where we are now
 
-Items 1 to 3 are built on the branch (`feature/637-vision-starts-from-intents`),
-not committed yet. Both plays pass the play lint; all 20 test files in the repo
-pass. Now: item 4, landing the change.
+Done. PR #638 merged on 17 October and closed #637. The review left 12 small
+findings open (5 P3, 7 P4), listed in the PR comment; none is filed yet.
 
 ## The plan, in order
 
 ### Done
 
-- **1. Built: what `/intent` and `/vision` promise** — #637. Both ICE sources
+- **1. Shipped: what `/intent` and `/vision` promise** — #637. Both ICE sources
   rewritten for the one model (ontology v4); the ontology, the page templates
-  and the spine schema updated with them. Not merged.
-- **2. Built: the scripts that keep the promises** — #637. Page checker (light
+  and the spine schema updated with them.
+- **2. Shipped: the scripts that keep the promises** — #637. Page checker (light
   and full domains, the agent intent section; 12 copies), safety check
   (remove-only, modify-only; 15 copies), the Touches helper, `/intent`'s save
   and draft check, `/vision`'s save, intent reader and keep check; with tests.
-  Not merged.
-- **3. Built: both plays recompiled** — #637. `/intent` and `/vision` rebuilt
+  Shipped (PR #638).
+- **3. Shipped: both plays recompiled** — #637. `/intent` and `/vision` rebuilt
   from their ICE, fingerprints refreshed, play lint clean; the two authoring
-  skills and the keeper agent brought in line. Not merged.
-
-### 4. Land the change — now
-
-**Issue:** #637.
-**What:** commit, raise the pull request, review, merge.
-**Why here:** last.
-**Done when:** merged to main, and #606's plan shows item 4 done.
-**Needs:** items 1 to 3.
+  skills and the keeper agent brought in line.
+- **4. Shipped: landed** — PR #638, merged 17 October (ac97a759); #637 closed.
+  Still not done: 12 small review findings left open (listed on the PR), among
+  them no ADR yet for `/intent` placing capabilities.
 
 ## Log
 
@@ -106,3 +100,5 @@ pass. Now: item 4, landing the change.
   `.garura/project/issues/637/specs/design.md`.
 - 2026-10-17 — Items 1 to 3 built. All tests and both plays' lint pass. Now on
   item 4.
+- 2026-10-17 — Item 4 done: PR #638 reviewed (harness approve; 11 findings
+  fixed in the round), merged (ac97a759), #637 closed. Plan done.
