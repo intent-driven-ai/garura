@@ -47,7 +47,7 @@ without stopping until this changes.
 
 ## Where we are now
 
-Items 1 to 3 are built on the branch, not committed yet. All 21 test files
+Items 1 to 3 are built and committed on the branch, not merged yet. All 21 test files
 pass and `/vision` passes the play lint. Now: item 4, landing the change.
 
 Still not done after this issue: `/intent` keeps its own contract check until
