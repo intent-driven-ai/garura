@@ -1,0 +1,170 @@
+meta:
+  layer: 1
+  skill: quality-check-scoped
+  pr: 638
+  issue: 637
+  categories:
+  - executable-code
+  - tests
+  - docs
+  - stm-run-records
+  - stm-plans-and-design
+  scope: 58 paths from categories.yaml (36 executable-code, 5 tests, 1 docs, 12 stm-run-records, 4 stm-plans-and-design).
+    Not run here (not standards-driven for this layer) - harness (8 paths) and memory (5 paths), which go to their own playbooks.
+  taxonomy_scan:
+    command: python3 core/components/skills/quality-check-scoped/scripts/scan_taxonomy.py --taxonomy core/components/memory/standards/rules/pr.md
+      --diff .garura/project/issues/637/review/pr.diff --paths <the 58 paths, one per line> --out <session scratchpad>
+    result: P1=0 P2=0 P3=0 P4=0; CODE-20 catch-all covered 58 files; errors=0. No taxonomy row fires.
+    limit: every one of the 41 python files sits under core/components/**, which the taxonomy classifies as garura-prose,
+      so its grep rules (SEC, CODE-23/25 and so on) are switched off for them by design (#438). The empty scan is therefore not
+      evidence the scripts are clean. To cover that, the added python lines were also grepped by hand for shell=True, eval, exec,
+      os.system, pickle, yaml.load, bare except, secrets, debug stops and TODO/FIXME. Hits were only two os.remove calls
+      in test fixtures (test_vision_scripts.py, test_intent_scripts.py). Every finding below is therefore taken from the ruff run,
+      the test runs, or a read of the code, with its basis named.
+  executed:
+  - command: ruff check --no-cache --no-fix --output-format concise <the 41 python files>
+    result: ruff 0.15.20, exit 1, 5 errors, all E741 "Ambiguous variable name l" (intent_touches.py:103 in 3 copies, check_kept.py:39,
+      read_intents.py:41). No ruff config in the repo, so default rules. See F5.
+  - command: python3 -W error <each of the 5 test files>
+    result: test_intent_scripts.py 102 passed 0 failed; test_intent_touches.py 18 passed 0 failed; test_scoped_write_guard.py
+      11 passed 0 failed; vision test_lint_grounding.py 29 passed 0 failed; test_vision_scripts.py 27 passed 0 failed. All exit
+      0. Total 187 passed, 0 failed, 0 skipped. The tree was clean afterwards (only gitignored __pycache__ written).
+  - command: cmp each copy against its canonical file (scoped_write_guard.py and intent_touches.py against play-creator/references/,
+      lint_grounding.py against vision/scripts/)
+    result: scoped_write_guard.py 15 copies byte-identical (canonical plus 14 in plays); lint_grounding.py 12 copies byte-identical;
+      intent_touches.py 3 copies byte-identical (canonical plus intent and vision). The three copy-identity tests also pass.
+  - command: read persist_seed.py, persist_intent.py, check_kept.py, read_intents.py, intent_touches.py, check_intent.py diff,
+      grounding_check.py diff, and the canonical scoped_write_guard.py and lint_grounding.py diffs
+    result: write-scope guard change is sound (renames off so a removal cannot hide inside a move; add/modify/remove-only are
+      checked against the git status letter). Four defects found by running small fixtures in the scratchpad, see F1 to F4.
+  - command: read docs/components/plays.md diff against the changed intent and vision play descriptions
+    result: the two table rows agree with the new play descriptions. No dead links, spelling errors or leftover TODOs in the changed
+      rows. One terminology gap, F7.
+  - command: parse the STM records (5 json files plus analysis.yaml, commits.yaml) and read the 606 and 612 plan edits
+    result: all parse; the 606 plan edit (item 4 grew, history line) matches the plan-file shape and the work description.
+      The 612 plan edit and the other records show nothing wrong. No secrets found; the records carry absolute home-folder paths,
+      which is normal for run records here.
+  not_applicable: Design grounding (Layer 2) is not part of this skill. The harness and memory categories are design-bearing and
+    are handled elsewhere.
+  tool_note: the scan output and all fixture experiments went to the session scratchpad; the only repo write is this file.
+findings:
+- id: F1
+  category: executable-code
+  severity: P2
+  rule_id: knowledge/review/code.md (deterministic where it claims to be; data-safety paths); vision/stop-condition.yaml D4 text
+  file: core/components/plays/vision/scripts/check_kept.py
+  line: 65
+  title: The keep check never looks at a page that moved, so a placed page can lose its words and still pass D4
+  evidence: 'check_kept.py runs git diff with --no-renames (line 57) and then only looks at status "M" (line 65). A holding-folder
+    capability page that /vision places is, by design, a removal at the old path plus an addition at the new path, so it is
+    never "M" and is never compared with the base copy. Reproduced in a scratch git repo: base has capabilities/a/capability.md
+    with an Intent paragraph and a Goal line; the working tree has d/a/capability.md reduced to "Replaced." and the old page
+    removed. check_kept.py printed {"ok": true, "checked": [], "lost": []} and exited 0, so D4 would be met.'
+  why_it_matters: D4 says "every existing doc the run changed still has each section it had", and the vision plan puts it there
+    to protect what /intent wrote. Placing a /intent page is the main path where /vision both rewrites and moves another play's
+    page in one run, and it is exactly the case the check skips. A green report with checked=[] reads as safe when nothing was
+    checked.
+  basis: knowledge/review/code.md rubric, deterministic where it claims to be; stop-condition.yaml D4 says what was there was
+    kept; the script docstring says "for every grounding doc that existed at the base and was changed".
+  suggestion: Read persist-manifest.json placed[] (from, to) and compare the base copy of the old path with the file at the new
+    path with the same section and ICE-line rules; or treat a removed page with no matching placed entry as lost. Add a fixture
+    to test_vision_scripts.py test_keep_check that moves and trims a page. Canonical copy is the vision copy (not a shared script).
+- id: F2
+  category: executable-code
+  severity: P2
+  rule_id: knowledge/review/code.md (safe handling of destructive and irreversible operations); persist_seed.py docstring (moved byte-identical)
+  file: core/components/plays/vision/scripts/persist_seed.py
+  line: 194
+  title: Two capabilities that land on the same new page path overwrite each other; one page is lost and the record says both moved unchanged
+  evidence: 'place() refuses only when the target already exists on disk (line 194), not when two planned moves share a target,
+    and do_place() then calls os.rename (line 204), which silently replaces an existing file on this platform. Reproduced with
+    two holding-folder capabilities a and b that both have slug "same" and are updated to domain d: both moved to d/same/capability.md,
+    only the page of b is left on disk (the page of a is gone), and persist-manifest.json lists both with "unchanged": true.'
+  why_it_matters: This is the one place in persist_seed.py that destroys content, and the docstring promises the page moves
+    byte-identical. It needs two different capabilities with the same slug under one domain, so it is narrow, but the slug is
+    not checked for uniqueness anywhere on this path and the result is silent data loss (it would be P1 if slug clashes are
+    expected in real models). The check_kept report (F1) would not catch it either.
+  basis: knowledge/review/code.md rubric, safe handling of destructive/irreversible operations; pr.md P1 bucket names data-loss,
+    rated P2 here because the trigger is narrow.
+  suggestion: In place(), also refuse (Refused, nothing written) when two entries of the plan share new_abs; in do_place() use a
+    move that fails on an existing target rather than os.rename. Add a case to test_named_updates_only or the placing test.
+- id: F3
+  category: executable-code
+  severity: P3
+  rule_id: knowledge/review/code.md (error handling; deterministic where it claims to be); persist_seed.py and read_intents.py docstrings (exit codes)
+  file: core/components/plays/vision/scripts/persist_seed.py
+  line: 77
+  title: A malformed spine or manifest crashes with a traceback and exit 1 where the docstrings promise a clean exit 2 (persist_seed) or exit 0 (read_intents)
+  evidence: 'persist_seed.py load() (lines 77-81) does not catch yaml.YAMLError, and its docstring (lines 39-40) says exit 2 on a
+    parse error with nothing written. Reproduced: a spine file containing "domains: [" gave a ParserError traceback and exit 1.
+    Nothing is written in that case, so no data is at risk. read_intents.py line 99 calls spine.get() on whatever the spine
+    loads as, and its docstring (line 18) says "Exit 0 always once the arguments parse". Reproduced: a spine file that is a
+    list gave AttributeError and exit 1. read_page() (line 39) is also unguarded for an unreadable intent page. Malformed YAML
+    itself is handled in read_intents (warning, exit 0).'
+  why_it_matters: The plays read these exit codes to decide whether to stop. A crash is not a data risk here, but "never blocks"
+    (C10) is the point of read_intents.py, and a refusal with a plain reason is what the person sees in persist_seed.
+  basis: knowledge/review/code.md rubric, error handling and deterministic where it claims to be; pr.md P2 lists error-handling
+    violations, rated P3 because nothing is written or lost on these paths.
+  suggestion: Catch yaml.YAMLError/OSError in persist_seed.load and return 2 with a plain message; in read_intents treat a
+    non-mapping spine as a warning and wrap read_page in the same way.
+- id: F4
+  category: executable-code
+  severity: P3
+  rule_id: knowledge/review/code.md (validate before the first write); persist_intent.py docstring (refusal list)
+  file: core/components/plays/intent/scripts/persist_intent.py
+  line: 211
+  title: persist_intent.py saves a capability page with an empty agent-intent section when the draft's ICE has no goals
+  evidence: 'plan() requires title, one_line and directional_intent for each ICE (lines 211-214) but not goals; capability_doc()
+    (lines 98-104) then writes "## Agent intent (ICE)" with nothing under it. Reproduced: a draft ICE with no goals saved with
+    exit 0, and lint_grounding.py on the result reported "has no Goal — an agent intent starts with what must be true". The
+    spine entry names the intent, so the linter also requires the section.'
+  why_it_matters: Today check_intent.py (C12) already requires at least one goal, so this only happens if the draft check is
+    skipped. persist_intent.py says every check runs before the first write and lists what it refuses; a page the repo own
+    linter rejects is saved as proposed and has to be fixed by hand afterwards.
+  basis: knowledge/review/code.md rubric, deterministic where it claims to be; the script refusal list in its docstring omits goals.
+  suggestion: Refuse (exit 2) in plan() when an ICE has no goal line, and add the case to test_intent_scripts.py.
+- id: F5
+  category: executable-code
+  severity: P3
+  rule_id: ruff E741 (ambiguous variable name); pr.md P3 naming
+  file: core/components/plays/play-creator/references/intent_touches.py
+  line: 103
+  title: Variable named "l" in five places, three of them copies of the canonical script
+  evidence: 'ruff check exit 1: intent_touches.py:103:29 (canonical, and its identical copies in plays/intent/scripts and
+    plays/vision/scripts), check_kept.py:39:37, read_intents.py:41:45, each "E741 Ambiguous variable name: l".'
+  why_it_matters: Naming only, no behaviour effect. pr.md lists "lint errors" under P2, but the repo has no committed ruff
+    config, so this is a default-rules lint run, and the rule is a naming one; rated P3. Treat as P2 if the team counts the
+    default ruff run as the gate. The canonical intent_touches.py must be fixed first and the two copies re-stamped so the
+    three stay identical (the copy tests enforce that).
+  basis: ruff E741; pr.md severity buckets, P3 naming (P2 lint errors considered).
+  suggestion: Rename to line (or ln) in the five places and re-copy intent_touches.py from play-creator/references.
+- id: F6
+  category: tests
+  severity: P4
+  rule_id: knowledge/review/tests.md (clear assertions, tidy test code); pr.md TEST rows (none fired)
+  file: core/components/plays/vision/scripts/test_vision_scripts.py
+  line: 137
+  title: Files are opened and never closed in ten places in the tests
+  evidence: 'json.load(open(...)) or open(...).read() without a with block at test_vision_scripts.py lines 137, 166, 176, 198,
+    222, 245, 248, 287, 295 and test_lint_grounding.py line 202. They pass with python3 -W error because the file handle is
+    freed at once, and ruff default rules do not flag it.'
+  why_it_matters: Cosmetic; same pattern as the 536 review. Could turn into a warning on a stricter runner.
+  basis: knowledge/review/tests.md, linter on the test code (clear, tidy test code)
+  suggestion: Use "with open(...) as fh" in those places.
+- id: F7
+  category: docs
+  severity: P4
+  rule_id: knowledge/review/docs.md (terminology consistency, completeness)
+  file: docs/components/plays.md
+  line: 326
+  title: The term holding folder is used in the intent row with no explanation anywhere in docs/
+  evidence: 'The new intent row says "else in the holding folder". A search of docs/ finds that phrase only here, so a reader
+    of the plays table has no way to learn what it is.'
+  why_it_matters: Small; the row is a one-line purpose. The term is explained in the play and the ontology, not in the docs.
+  basis: knowledge/review/docs.md rubric, terminology consistency and completeness
+  suggestion: Add a few words ("a capability waiting for a domain") or link the ontology page.
+counts:
+  P1: 0
+  P2: 2
+  P3: 3
+  P4: 2

@@ -35,7 +35,7 @@ You are AUTONOMOUS. Every prompt you receive carries two levels of structure:
 
 1. **Intent** — the goal (e.g., "seed the model for this business goal").
 2. **Constraints** — the boundaries (e.g., "directional only", "goals-only ICE",
-   "never overwrite an existing node").
+   "keep what is there").
 
 Constraints are first-class inputs, not metadata. They shape skill selection and
 output shape. A constraint like "everything is directional" means you refuse to
@@ -59,7 +59,7 @@ intent and execute.
 |-------|---------|---------|
 | `search-kb` | Route a piece of work to its place in the KB tree (domain → capability → functionality) by running the inference sandwich over the KB router. Placement only — no profile-condition evaluation. Emits a routing-result. | /vision (ground the goal); later strategic plays |
 | `propose-kb-node` | The nothing-fits path: when `search-kb` returns unmatched, research the gap and draft a properly-shaped node (new domain/capability/functionality) as a proposal for human review. NEVER writes the KB. | /vision (cover gaps); later strategic plays |
-| `author-vision-seed` | Draft the /vision seed — a domain node, its candidate capability nodes (status `proposed`), a goals-only ICE per capability, and a directional product profile — into a draft folder in STM, from the goal + grounding result. Generative; writes drafts only, never the live model. | /vision |
+| `author-vision-seed` | Author or grow the /vision seed — a detailed domain page, directional capability pages with their `## Agent intent (ICE)`, and a directional product profile — from business intents and/or a goal plus the grounding result, building on whatever the model already holds. Writes the per-node docs in place (keeping what is there) and the spine-delta into the seed manifest; never `_spine.yaml` or an intent page. | /vision |
 | `enrich-capability-ice` | Deepen one capability's goals-only seed ICE into a rich ICE (full intent, context, expectations, concrete NFR + compliance needs) grounded in its KB shelf, and emit the per-dimension required levels the profile roll-up maxes against. Draft only, never the live model. | /understand |
 | `author-shape-bundle` | Draft one domain's selection bundle — confirm/prune capabilities against the firmed profile + KB, select functionalities, author build-unit functionality ICE, persona + journey records, and the prune/selection decisions — with stable ids. Reads the profile (never writes it); draft only. | /shape |
 | `author-roadmap` | Draft the plan for /roadmap over /shape's vertical slices — for each slice estimate effort, resolve its dependency_notes (+ shared functionalities + their ICE depends_on) into concrete depends_on slice ids, and propose a value order. Writes `plan-draft.yaml` only — no final order numbers, no topological sort/cycle logic (those are the play's `compute_plan.py`), never the live model. | /roadmap |
@@ -138,9 +138,11 @@ a path belongs.
   `compliance_needs` during a /vision seed — that is over-reach beyond the seed scope.
 - Emit a capability at status `active` or a profile at state `set`/`locked` from a
   seed — seed output is directional (`proposed` / `directional`).
-- Write to the live product model directly — your skills draft to STM; persisting
-  is the play's apply step.
-- Overwrite or redraw an existing node, ICE record, or profile.
+- Write a shared model file yourself (the spine, the profile, an intent page) — under
+  direct-model-write (ADR 026) your skills write only per-node grounding docs, in place;
+  the play's keyed persist script owns every shared file and every page move.
+- Remove a node, or lose what an existing node holds — a doc another play wrote is grown
+  in place, keeping every section and agent-intent line it had (ontology v4).
 - Hand-write model YAML yourself — always go through a skill.
 - Load the whole KB into context — route selectively through the interface.
 

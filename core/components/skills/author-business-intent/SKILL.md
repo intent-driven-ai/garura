@@ -30,6 +30,7 @@ wants, and leave how the source does it behind (IDD Principle 1).
 | `answers` | no | The person's answers so far (`<working>/answers.yaml`): replies to earlier questions (with the examples offered and whether one was picked), intents they stated, items they named as missing or merged, and any correction |
 | `draft_path` | yes | Where to write the draft (`<working>/intent-draft.yaml`) |
 | `ontology_path` | no | Default: `~/.garura/core/memory/standards/schemas/product-os/ontology.md` |
+| `spine_path` | no | The product model's `_spine.yaml`, when one exists — read only, to see which domains the model already has |
 
 ## Process
 
@@ -48,7 +49,16 @@ wants, and leave how the source does it behind (IDD Principle 1).
    works. Each ICE becomes a proposed capability, so also write its `one_line` (one sentence:
    what this capability is) and its `directional_intent` (a short paragraph a stranger
    understands: what it is about, what it will broadly own, and why it matters — the why
-   comes from the business intent it serves).
+   comes from the business intent it serves). Where the source or the person says what must
+   not happen there, or what would count as failing, add it as `limits` or `fails_if` — only
+   what is shown or said.
+   **Name its domain when something shows it.** If the sources, the person's words, or a
+   domain already in the model (`spine_path`) make clear which big area of the product this
+   ICE belongs to, set its `domain` and list that domain under `domains` with `shown_by`
+   (`source`, `person` or `model`; for a model domain, use its id from the spine). A domain
+   not in the model gets a `title`, a `one_line` and a light `intent` paragraph: what the
+   area is for and why, in plain words. If nothing shows the domain, leave `domain` out —
+   the capability waits for `/vision`. Never guess a domain to avoid that.
 4. **Find the business intents above them.** For each ICE ask "why does the person want
    this?", one level at a time, and stop when the answer no longer names the product — that
    answer is a business intent. ICE that reach the same answer share it. Keep an intent the
@@ -90,8 +100,17 @@ ice:                                              # each becomes a proposed capa
     one_line: <one sentence: what this capability is>
     directional_intent: <a short paragraph: what it is about, what it broadly owns, why it matters>
     built_from: <the id of the business intent it serves>
+    domain: <a domain id from `domains`>         # optional — only when something shows it
     goals:
       - <what the person can see, and what they can decide or judge from it>
+    limits: [<what must not happen here>]         # optional — only what is shown or said
+    fails_if: [<what would count as failing>]     # optional — only what is shown or said
+domains:                                          # optional — the big areas the ICE belong to
+  - id: <short-slug, or the model's id>           # never `capabilities` or `intents`
+    title: <the area's name>
+    one_line: <one sentence: what this area is>
+    intent: <a short paragraph: what the area is for and why>   # 12 words or more
+    shown_by: source|person|model
 sources:
   - snapshot_dir: <the manifest's snapshot_dir, exactly>
     shows: <what this source shows, in plain words>
@@ -111,5 +130,5 @@ questions:
 - **One ICE per separate thing; every ICE under an intent.** Never merge; never leave a part unmapped.
 - **Intents above, not beside.** A business intent says what the business wants; it never restates what the source shows.
 - **Outcome, not build.** Nothing that describes the source belongs in an intent or an ICE goal.
-- **Nothing invented.** A property with no source and no answer stays empty, with a question and examples.
+- **Nothing invented.** A property with no source and no answer stays empty, with a question and examples. A domain is named only when something shows it.
 - **Plain words.** The draft is read by a business person.

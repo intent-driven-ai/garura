@@ -6,7 +6,10 @@ grounding_check.py — assert every seeded capability is grounded (C5/F3).
 (recorded by search-kb) or was raised as a propose-kb-node proposal. This script
 reads the seed manifest author-vision-seed wrote and asserts that every capability
 carries one or the other — and, when a proposal path is named, that the proposal
-file actually exists on disk.
+file actually exists on disk. That covers every capability the run adds, places or
+changes, its own and another play's (#637): each id in the spine-delta's new
+`capabilities` and its capability `updates` must be listed in the manifest's
+`capabilities`, with its grounding.
 
 Layer rule: reads files on disk only; no git/gh/network.
 
@@ -52,6 +55,16 @@ def main(argv=None):
 
     if not caps:
         errors.append("manifest lists no capabilities — /vision seeds at least one")
+
+    listed = {str(c.get("id")) for c in caps if isinstance(c, dict)}
+    delta = seed.get("spine_delta") or {}
+    touched = [str(c.get("id")) for c in delta.get("capabilities") or [] if isinstance(c, dict)]
+    touched += [str(u.get("id")) for u in delta.get("updates") or []
+                if isinstance(u, dict) and u.get("kind") == "capability"]
+    for cid in dict.fromkeys(touched):
+        if cid not in listed:
+            errors.append(f"capability '{cid}' is added or changed by this run but not listed in the "
+                          f"manifest's capabilities — record its KB shelf or proposal (C5)")
 
     for cap in caps:
         name = cap.get("name") or cap.get("id") or "<unnamed>"

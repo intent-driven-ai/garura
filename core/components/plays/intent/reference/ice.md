@@ -14,13 +14,21 @@ document, or a plain statement — into two levels of intent, and keep what they
   rarely shows these directly; they sit above what it shows and mostly come from the person.
 - **ICE** — the agents' level, under each business intent: the separate things a person must
   be able to see, decide or do to meet it, as ICE goals. This is what a source shows best.
-  Each ICE is written as a proposed capability: its ICE inline in the capability's grounding
-  doc, its spine entry naming the business intent it is built from, and no domain yet.
+  Each ICE is written as a proposed capability in the one product model: its ICE in the
+  capability page's `## Agent intent (ICE)` section, its spine entry naming the business
+  intent it is built from. When the play can tell which domain the capability belongs to —
+  from the source, the person's words, or a domain already in the model — the capability
+  goes under that domain, and a domain not yet in the model is added as a light
+  (directional) domain page; when it cannot tell, the capability waits in the holding
+  folder with no domain.
 
 All three are kinds of the product ontology (`standards/schemas/product-os/ontology.md`), and
 the ontology is the hand-off: every play after this one reads the intents and their ICE from
-the product model. No play owns a kind and nothing waits for another play — `/vision`
-attaches the capabilities to domains and adds to them, and drift is fixed by alignment.
+the product model. One model, written at the depth that is known: no play owns a kind and
+nothing waits for another play — `/vision` places what is still in the holding folder, raises
+light domain pages and adds to the capabilities, and drift is fixed by alignment. Each part an
+intent touches is linked both ways: the part's spine entry names the intent, and the intent
+page's Touches list names the part, marked adds or changes.
 
 The source is the input, never the intent: an intent must allow more than one way to build
 it (IDD Principle 1), and a prototype or a document describing a solution is one way. This
@@ -54,20 +62,28 @@ play pulls out what the person wants; it never copies how the source does it.
   plain words, and who gave it (the git user running the play) — saved through Garura's
   evidence method so it outlives the link or the file.
 - C7 — Every confirmed Business Intent and every Source of the run are linked: each Source
-  records every intent it shows, and each intent names every Source. Every ICE's capability
-  names, in the spine, the business intent it is built from, and each intent names its
-  capabilities.
+  records every intent it shows, and each intent names every Source. Every part an intent
+  touches is linked both ways: each ICE's capability — and the domain it is placed under —
+  names the intent in its spine `intents`, and the intent page's Touches list names each of
+  them, marked `adds` (written by this run) or `changes` (already in the model), with a link
+  to its page. The Touches list is written by the save script, never by hand.
 - C8 — Additive and contained: the run writes only the new Business Intents, their ICE (as
-  new proposed capability entries added to the spine, each with its grounding doc) and their
-  Sources; no existing entry or doc is changed, and no other part of the product model
-  changes.
+  new proposed capability entries added to the spine, each with its grounding doc), the light
+  domain entry and page for a domain not yet in the model, and their Sources. On a domain
+  already in the model it only adds the intent to the domain's spine `intents`; no existing
+  doc is changed, and no other part of the product model changes.
 - C9 — Stands alone, or runs inside a drive: run by hand it needs no other play first, and it
   opens and lands its own change; handed a drive's JSON contract, it opens no issue or branch
   of its own, works on the drive's branch, and does not stop for approval.
 - C10 — The model is the hand-off: each confirmed Business Intent and its ICE are saved in the
-  product model in the ontology's shapes — the ICE inline in a proposed capability's grounding
-  doc, the capability's spine entry naming its intent and leaving its domain for `/vision` —
-  so any later play reads them there. No separate hand-off file is written.
+  product model in the ontology's shapes — the ICE in the `## Agent intent (ICE)` section of a
+  proposed, directional capability page, the capability's spine entry naming its intent, under
+  its domain at `<domain>/<capability>/capability.md` when the domain is known (a new domain
+  as a light, directional page: `# Theme:` and `## Intent`), else in the holding folder
+  `capabilities/<capability>/capability.md` with its domain left for `/vision` — so any later
+  play reads them there. A domain is never invented to avoid the holding folder: it is named
+  only when the source, the person, or the model shows it. No separate hand-off file is
+  written.
 - C11 — The play ends by proving its Done means at close: at least one Business Intent and
   every Source exist, every saved intent is confirmed by a person, every intent drafted was
   confirmed or dropped by the person, and the intents and Sources are linked. The close never reads
@@ -98,12 +114,18 @@ play pulls out what the person wants; it never copies how the source does it.
 - F5 — A property was filled with something neither the source shows nor the person said.
 - F6 — A Source has no snapshot, or the snapshot is not saved through the evidence method, or
   it is missing when it was read, what it shows, or who gave it.
-- F7 — A confirmed Business Intent and a Source of the run are not linked both ways.
-- F8 — A model file other than the new Business Intents and their Sources changed during the run.
+- F7 — A confirmed Business Intent and a Source of the run are not linked both ways, or a part
+  the intent touches is not linked both ways (spine `intents` and the intent page's Touches
+  list).
+- F8 — A model file other than the new Business Intents, their capabilities, the light pages of
+  new domains, the spine, and their Sources changed during the run, or an existing doc was
+  changed.
 - F9 — Run by hand, the change was not opened and landed; or, handed a drive's contract, the
   play opened an issue or a branch of its own.
 - F10 — A confirmed Business Intent or its ICE is missing from the product model, or not in
-  the ontology's shape, so a later play cannot read it there.
+  the ontology's shape (the ICE outside its named section, a capability under a domain that
+  is not in the spine), so a later play cannot read it there; or a domain was named that
+  neither the source, the person, nor the model shows.
 - F11 — The run closed COMPLETED without the Done means held.
 - F12 — Separate things the person must see or decide were merged into one ICE, a part of
   what the source shows is mapped to no ICE, an ICE is built from no business intent, or a
@@ -119,8 +141,9 @@ built from it are the agents' interface (`docs/philosophy/idsd.md`, two interfac
 is where the two meet: it drafts both levels from one reading of the source, so the link from
 each ICE to the intent it serves is made at the moment both are known. The drafting judgment
 sits with the agent for the person's side, because the person confirms the result. No play
-owns a kind (ontology v3): this play writes capabilities without a domain, and `/vision`
-attaches the domain and adds to them; drift is fixed by alignment, not by holding work back.
+owns a kind (ontology v3–v4): this play writes capabilities under the domain it can tell, or
+without one when it cannot, and `/vision` places them, raises the light domain pages and adds
+to them; drift is fixed by alignment, not by holding work back.
 An ICE is workable only when built from a confirmed business intent, which this play's
 confirmation step provides. A project folder is two Sources (its written
 docs and the running app), and the draft reads both.
@@ -160,12 +183,16 @@ including one no source showed. Example answers helped the person answer why and
   `proposed`, and the workable check reads every capability it wrote as not workable.
 - S6 — (product strategist, hand-over through the model) Given a confirmed Business Intent with
   ICE under it, when the run ends, then a later play finds both in the product model. Measure:
-  each ICE is a spine capability entry — status proposed, detail directional, domain empty,
-  `intents` naming its business intent — with a capability grounding doc that passes the
-  grounding linter (no error; "no domain yet" is the only warning); each intent page names its
-  capabilities; run by hand, the workable check reads every one of them as workable (inside a
-  drive, none until the person confirms at the drive's final review); no hand-off file is
-  written.
+  each ICE is a spine capability entry — status proposed, detail directional, `intents` naming
+  its business intent, and either `domain` naming a domain in the spine (its page under that
+  domain's folder) or empty (its page in the holding folder) — with a capability page whose
+  last section is `## Agent intent (ICE)`; a domain this run added is a spine entry with
+  `detail: directional` and a light page; the grounding linter passes with the spine (no
+  error; "no domain yet" is the only warning); each intent page's Touches list names every
+  capability and domain built from or linked to it, each with its mark, and each of those
+  names the intent in its spine `intents`; run by hand, the workable check reads every
+  capability as workable (inside a drive, none until the person confirms at the drive's final
+  review); no hand-off file is written.
 - S7 — (business owner, a prototype that does several things) Given a prototype that lets the
   person see and decide several separate things, when `/intent` runs, then the draft holds one
   ICE per separate thing, each built from a business intent above it, every part of the source
@@ -215,18 +242,20 @@ captured scoped-write guard output.
 - REC6 (F6) — trigger: the Source has no snapshot, is not saved through the evidence method, or
   is missing when it was read, what it shows, or who gave it. direction: take the snapshot again
   and re-save it through the evidence method with every field before the close. handoff: autonomous.
-- REC7 (F7) — trigger: an intent and a Source are not linked both ways. direction: write the
-  missing link on whichever side lacks it. handoff: autonomous.
-- REC8 (F8) — trigger: a model path outside the new intent and source changed. direction: the
-  guard's restore reverts the offending paths; re-write only the intent and source, after a
-  human confirms the restore. handoff: human.
+- REC7 (F7) — trigger: an intent and a Source, or an intent and a part it touches, are not
+  linked both ways. direction: write the missing link on whichever side lacks it — through the
+  save script for the Touches list and the spine `intents`. handoff: autonomous.
+- REC8 (F8) — trigger: a model path outside the run's scope changed, or an existing doc was
+  changed. direction: the guard's restore reverts the offending paths; re-write only the
+  run's own records, after a human confirms the restore. handoff: human.
 - REC9 (F9) — trigger: run by hand without opening or landing its change, or opened its own
   issue or branch inside a drive. direction: by hand, run the missing opening or end-sequence
   step; inside a drive, close the stray issue and branch and continue on the drive's branch.
   handoff: human.
 - REC10 (F10) — trigger: an intent or its ICE is not in the product model in the ontology's
-  shape. direction: re-write the missing or misshapen record from the confirmed draft.
-  handoff: autonomous.
+  shape, or a domain was named with nothing to show it. direction: re-write the missing or
+  misshapen record from the confirmed draft; drop a domain nothing shows and put its
+  capabilities in the holding folder. handoff: autonomous.
 - REC11 (F11) — trigger: the close would read COMPLETED with the Done means unmet. direction:
   close HALTED with the unmet clauses named; fix the state and re-evaluate. handoff: autonomous.
 - REC12 (F12) — trigger: two separate things share one ICE, a part maps to no ICE, an ICE has no

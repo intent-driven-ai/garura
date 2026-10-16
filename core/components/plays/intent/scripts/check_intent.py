@@ -18,7 +18,14 @@ for every ICE (each becomes a proposed capability):
 
   - an id, a title, a one-line descriptor, a directional paragraph, and at least one goal;
     built from an existing intent                                         (C12 / F12)
-  - its goals copy no run from the source, carry no code-like text, are no bare labels (C3)
+  - its goals, limits and fails-if lines copy no run from the source, carry no code-like
+    text, are no bare labels                                              (C3)
+  - its `domain`, when named, is one of the draft's `domains`             (C10 / F10)
+
+for every domain the draft names (optional — only when the play can tell one):
+
+  - an id, a title, a one-line descriptor, a light intent paragraph, and `shown_by`:
+    `source`, `person` or `model` — a domain nothing shows is never named (C10 / F10)
 
 and for the draft as a whole:
 
@@ -56,6 +63,7 @@ PROSE = ["title", "outcome", "why", "proof", "must_not"]
 COPY_RUN = 8
 MAX_EXAMPLES = 3
 ID_SHAPE = re.compile(r"^[a-z0-9][a-z0-9-]{0,79}$")   # ids become file names: no paths, no dots
+RESERVED = ("capabilities", "intents")              # product-os folders that are not domains
 CODE_LIKE = re.compile(r"(<[a-zA-Z/][^>]*>|[{}]|\b\w+\(\)|(?:\.{0,2}/)?[\w.-]+/[\w./-]+\.\w{1,5}\b)")
 
 
@@ -141,7 +149,25 @@ def check_intents(intents, open_q, src_words, person, other):
                 other.append(f"[{iid}] `{prop}` is a bare label (\"{text}\") — explain it in a plain sentence")
 
 
-def check_ice(ice, ids, intents, src_words, other):
+def check_domains(domains, other):
+    """A domain is named only when the source, the person or the model shows it (C10)."""
+    for d in domains:
+        did = d.get("id") or "?"
+        for prop in ("title", "one_line"):
+            if not str(d.get(prop) or "").strip():
+                other.append(f"domain [{did}] has no `{prop}`")
+        intent = str(d.get("intent") or "").strip()
+        if len(words(intent)) < 12:
+            other.append(f"domain [{did}] needs a light `intent` paragraph (12 words or more) — what "
+                         f"the domain is for and why")
+        if str(did) in RESERVED:
+            other.append(f"domain [{did}] uses a folder name the model keeps for itself")
+        if str(d.get("shown_by") or "").strip() not in ("source", "person", "model"):
+            other.append(f"domain [{did}] says nothing showed it (`shown_by` must be source, person "
+                         f"or model) — leave the capability in the holding folder instead")
+
+
+def check_ice(ice, ids, intents, src_words, other, domain_ids=()):
     served = set()
     for c in ice:
         cid = c.get("id") or "?"
@@ -162,6 +188,14 @@ def check_ice(ice, ids, intents, src_words, other):
             plain_text(f"ICE [{cid}] goal", str(g), src_words, other)
             if len(words(g)) < 3:
                 other.append(f"ICE [{cid}] goal \"{g}\" is a bare label — explain it in a plain sentence")
+        for prop in ("limits", "fails_if"):
+            for line in [x for x in as_list(c.get(prop)) if str(x).strip()]:
+                plain_text(f"ICE [{cid}] {prop}", str(line), src_words, other)
+                if len(words(line)) < 3:
+                    other.append(f"ICE [{cid}] {prop} \"{line}\" is a bare label — explain it")
+        dom = str(c.get("domain") or "").strip()
+        if dom and dom not in domain_ids:
+            other.append(f"ICE [{cid}] names domain `{dom}`, which is not in the draft's `domains`")
         target = str(c.get("built_from") or "").strip()
         if target not in ids:
             other.append(f"ICE [{cid}] is built from no business intent (`{target or 'none'}`)")
@@ -241,7 +275,11 @@ def check(draft, source_text="", snapshot_dirs=(), answers=None):
     ice = entries(draft, "ice")
     ice_ids = [str(c.get("id") or "").strip() for c in ice]
     check_ids("ICE", ice_ids, other)
-    check_ice(ice, ids, intents, src_words, other)
+    domains = entries(draft, "domains")
+    domain_ids = [str(d.get("id") or "").strip() for d in domains]
+    check_ids("domain", domain_ids, other)
+    check_domains(domains, other)
+    check_ice(ice, ids, intents, src_words, other, set(domain_ids))
     check_sources(entries(draft, "sources"), snapshot_dirs, other)
     check_coverage(entries(draft, "coverage"), ice_ids, other)
     check_answers(answers, other)

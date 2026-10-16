@@ -1,0 +1,31 @@
+/vision starts from the business intents /intent saved, and gives their capabilities a domain
+
+> Parent: #594 (drives). Found by #612 item 7; write-up: [`.garura/project/issues/612/specs/vision-pickup.md`](.garura/project/issues/612/specs/vision-pickup.md). Decisions it follows: [ADR 031](docs/adr/031-business-intent-and-ice.md) (D8–D10).
+
+## What
+
+`/intent` saves business intents and, under each, proposed capabilities with no domain yet. The Kickoff drive hands that straight to `/vision`. Today `/vision` ignores it: it takes a goal typed as text, never reads the spine, adds no intent link to what it writes, and its save step never changes an existing capability — so it cannot give `/intent`'s capabilities a domain, and it may add a second capability for the same thing.
+
+This change lets `/vision` start from the business intents `/intent` saved.
+
+## Acceptance criteria
+
+- [ ] `/vision` takes a set of business intents (by id, or `/intent`'s save record) as its input, and draws the goal from their pages. A typed goal still works when run by hand.
+- [ ] It reads the capabilities built from those intents that have no domain, and treats them as candidates that already exist. A KB candidate for the same thing is not added a second time.
+- [ ] It sets the domain on those capabilities — only when the domain is empty, and nothing else on the entry. The rule is kept by the save script, like the add-only rule today.
+- [ ] Every capability it adds names the business intent it serves (`intents`).
+- [ ] Every capability it places — its own and `/intent`'s — is matched to a KB shelf or gets a KB-node proposal, recorded in the seed manifest.
+- [ ] It accepts intents that are only proposed (inside Kickoff they are confirmed at the drive's end review, D10), and it does not stop on the workable check.
+- [ ] Changed through `/vision`'s ICE source and `/play-editor`; play lint and the save script's tests pass.
+
+## Choices made in the write-up (change them here if they are wrong)
+
+- `/intent`'s capability doc stays where `/intent` put it (`capabilities/<id>/capability.md`); the spine points at it. Moving it would trip `/vision`'s add-only guard.
+- `/vision` does not add detail to `/intent`'s capability docs. That is `/understand`'s job (`enrich-capability-ice`), and `/vision` writes at CXO level only (its C3).
+
+## Out of scope
+
+- `/vision` running inside a drive without stopping — #614.
+- `/understand` and `/shape` linking the ICE they write to an intent.
+- Confirming or dropping the intents — the Kickoff drive's end review (#613).
+
