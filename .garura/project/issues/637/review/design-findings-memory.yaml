@@ -1,0 +1,138 @@
+pr: 638
+issue: 637
+category: memory
+grounding:
+  - principle: "No play owns a kind; the ontology's rules say what holds once the product is aligned and never stop a write; drift goes to the Alignment drive, not to a hard failure"
+    source: "main:core/components/memory/standards/schemas/product-os/ontology.md (v3 'Who writes' paragraph and v3 log) and main:docs/adr/031-business-intent-and-ice.md section 2"
+  - principle: "ICE lives inline in its capability's or functionality's grounding doc (spine v2); a node whose ICE has no confirmed intent is kept as written, never blocked; workability is worked out from the spine `intents` link"
+    source: "main:docs/adr/031-business-intent-and-ice.md sections 3 and 4; main:core/components/memory/standards/schemas/product-os/spine.yaml (capability `intents` comment: 'this capability's ICE is built from')"
+  - principle: "Existing records stay readable: a grounding linter is a contract over pages already written; the only committed migration stance is 'schema evolution is parked; a dedicated play will own migrations'"
+    source: "main:core/components/memory/standards/schemas/product-os/_index.md (last paragraph) and main:core/components/memory/standards/schemas/product-os/spine.yaml (enhance_rules.governed_by: PARKED)"
+  - principle: "An ontology change is built with the person: steps 1, 4 and 6 end with their confirmation; bump version, set updated, add a dated log line; never redefine a kind silently; every kind a relationship names is defined or listed under Not yet defined with ONE line; the checker decides valid"
+    source: "main:core/components/skills/build-product-ontology/SKILL.md (Process, Write and check, Constraints)"
+  - principle: "The three product-os layers agree: ontology, spine schema and the grounding templates describe the same shape; the linter enforces the template contract (heading set, stage by spine `detail`)"
+    source: "main:core/components/memory/standards/schemas/product-os/spine.yaml header and fill_rules; main:core/components/memory/standards/schemas/product-os/grounding/*.md; main:core/components/plays/vision/scripts/lint_grounding.py"
+  - principle: "A template carries a gold example for every shape it declares, and each gold example passes the linter"
+    source: "main:core/components/memory/standards/schemas/product-os/grounding/capability.md (one gold example per stage) and main:core/components/plays/vision/scripts/test_lint_grounding.py (every gold example passes)"
+  - principle: "Decisions that change an accepted ADR are recorded as an amendment to it; the ADR lists the files it affects"
+    source: "main:docs/adr/031-business-intent-and-ice.md header ('Amends', 'Affects': ontology v3, spine.yaml) and main:docs/adr/026-direct-to-model-writes.md (Status: 'amended in part by ADR 031')"
+conformance_notes:
+  - "Ontology checker passes: check_ontology.py on the branch ontology.md returns valid: true, no problems (re-run at review time; the build-product-ontology 'script decides valid' rule is met). Version 4 and updated 2026-10-17 are set and a dated v4 log line exists (method: bump, set updated, add log)."
+  - "Vision test_lint_grounding.py: 29 passed, 0 failed, including every gold example in the capability and functionality templates and the 12-copy identity check. The domain template has no new gold example (see M5)."
+  - "Approval basis for v4: the log line names Kapil (#637) and the caller records approval in the 2026-10-17 session. No committed source on the base ref records it (the only places are branch-added: the v4 log line and design.md), so this is a stated basis, not grounding. The method's confirmation points (steps 1, 4, 6) cannot be verified from the diff; nothing in the diff contradicts them."
+  - "Back-compat that holds: a v3 capability or functionality with NO business-intent link still lints clean; a detailed domain page with all five headings lints clean with detail absent; a v3 spine with domain entries lacking `detail` and `intents` is still valid (fields are optional and additive). intent_touches.py handles the pre-v4 Touches list on intent pages (checked by reading, out of this category)."
+  - "Back-compat that breaks: see M1 (reproduced with the main and branch copies of lint_grounding.py on the same fixture)."
+  - "Ontology, spine and templates agree on: the section name `## Agent intent (ICE)`, last section, six labels, at least one Goal, required once spine `intents` is set; domain `detail: directional|detailed` with Intent-only vs five-heading shapes; domain `intents`; Touches on the intent page with both-way link; holding folder `capabilities/<id>/`."
+findings:
+  - id: M1
+    category: memory
+    severity: P2
+    title: "Capability and functionality pages that lint clean on main now fail lint: the ICE section is required as soon as a node names an intent, with no migration and no v4 log note"
+    basis: "Existing records stay readable (a linter tightened over pages already written needs a stated migration); ontology v3 and ADR 031 say rules never stop work except by the workable check, and v3 left the ICE form open ('written inline'), so pages written to v3 were valid. The only committed migration stance is 'parked' (_index.md, spine enhance_rules)."
+    source: "main:core/components/memory/standards/schemas/product-os/ontology.md (v3 ICE 'Lives at': inline, no fixed shape); main:core/components/plays/intent/scripts/persist_intent.py (writes a capability with `intents` set and a '## Directional intent' + 'Goals:' page, no ICE section); main:docs/adr/031-business-intent-and-ice.md sections 2-4; main:core/components/memory/standards/schemas/product-os/_index.md"
+    path: core/components/memory/standards/schemas/product-os/ontology.md
+    detail: >
+      Reproduced. A fixture shaped exactly like what main's /intent writes (spine capability with
+      `intents: [know-harness]`, page with '## Directional intent' and a 'Goals:' list, no '## Agent intent (ICE)')
+      lints ok:true on main's lint_grounding.py and ok:false on the branch's, error "missing '## Agent intent (ICE)'
+      - its spine entry names a business intent, so its agent intent must be written". The same holds for any
+      functionality with `intents`. The ontology rule ("The section is required once that link exists") and the
+      templates add the requirement, but neither the v4 log entry nor the spine says what to do with pages
+      already written (the /vision play happens to add the section when it touches a holding-folder capability,
+      but any other play linting such a model, 12 copies of the linter, now fails on it). The Touches list for
+      old intent pages does get a migration in intent_touches.py; the capability and functionality pages do not.
+      Add a migration line to the v4 log (and say who fixes an old page), or make the missing section a warning
+      until the Alignment drive exists, which is how ADR 031 treats a missing domain.
+  - id: M2
+    category: memory
+    severity: P3
+    title: "Spine `intents` now means two things: 'ICE built from' and 'touched by', so an intent that only removes or changes a part forces an ICE section on it"
+    basis: "Naming clarity and one meaning per field. The committed spine defines capability and functionality `intents` as the intents the ICE is built from, and ADR 031 s4 derives workability from that link. v4 reuses the same field as the back-link for every touch (adds, changes or removes) on capabilities and functionalities, while the spine comment for them is unchanged."
+    source: "main:core/components/memory/standards/schemas/product-os/spine.yaml (capabilities.intents and functionalities.intents comments); main:docs/adr/031-business-intent-and-ice.md section 4; main:core/components/memory/standards/schemas/product-os/ontology.md v3 (ICE 'Built from' = spine intents)"
+    path: core/components/memory/standards/schemas/product-os/ontology.md
+    detail: >
+      Ontology v4 (Business Intent Rules and Relationships) says 'the capability's spine intents holds the other
+      side' of a Touches entry, for adds, changes and removes alike. The ICE kind (same file) says the same field
+      is the 'Built from' link, and the linter requires the ICE section whenever it is non-empty. So an intent that
+      removes a capability, or merely changes a functionality, makes that node 'built from' the intent: it needs an
+      ICE section, and once the intent is confirmed its ICE counts as workable. The domain entry already carries the
+      cleaner meaning ('the intents that touch this domain; a domain carries no ICE'). State in spine.yaml and the
+      ontology which meaning applies to capabilities and functionalities, or split the back-link from the
+      ICE-source link. The spine comments on those two fields still say only 'ICE is built from'.
+  - id: M3
+    category: memory
+    severity: P3
+    title: "ADR 031 is not amended and no committed decision record carries v4: the ICE location, the 'domain holds no ICE' rule and the both-ways link are decisions beyond v3"
+    basis: "A change to a decided design is recorded against the ADR it amends; ADR 031 lists the ontology (v3) and spine as what it affects and states 'ICE lives inline in its ... grounding doc (spine v2)'. v4 narrows that to one named last section and changes what a play must write. The approval is stated by the caller and the v4 log line, both branch-side."
+    source: "main:docs/adr/031-business-intent-and-ice.md (sections 3-4, header Affects); main:core/components/skills/build-product-ontology/SKILL.md (Constraints: the person decides; log every redefinition)"
+    path: core/components/memory/standards/schemas/product-os/ontology.md
+    detail: >
+      The v4 log line points to .garura/project/issues/637/specs/design.md, a branch-added file, as its design.
+      Nothing under docs/adr/ changed in the diff. v3 had a matching ADR (031) in its own PR; v4 has only the log
+      line. Not a violation of the build-product-ontology method (which asks for the log line and the person's
+      confirmation, both present or stated), but the ADR-level decisions (named ICE section, domain stage,
+      both-ways touch link, /vision attaching domains, which ADR 031 'Work This Creates' only anticipated) have no
+      amendment. Add an ADR 031 amendment note or a short new ADR.
+  - id: M4
+    category: memory
+    severity: P3
+    title: "Spine-schema domain `detail` is optional and a domain page with only '## Intent' passes as directional even when the page is a truncated full page (a check that failed on main now passes)"
+    basis: "The linter enforces the template contract; on main a domain page missing any of the five sections is an error. v4 makes 'Intent only' a valid shape and, when `detail` is absent, infers the stage from the page's headings, so the contract no longer catches an incomplete full page."
+    source: "main:core/components/memory/standards/schemas/product-os/grounding/domain.md (heading contract: five sections, none missing); main:core/components/plays/vision/scripts/lint_grounding.py (CONTRACTS.domain flat list of five)"
+    path: core/components/memory/standards/schemas/product-os/spine.yaml
+    detail: >
+      Reproduced: a domain page with only '## Intent' and a spine entry with no `detail` lints errors on main
+      (four missing sections) and ok:true on the branch. With `detail: detailed` the branch still errors, so the
+      guard exists only where `detail` is written. The spine comment says 'absent -> read from the page's
+      headings', but domain entries written under v3 never carried `detail`, so every v3 domain entry is now
+      judged by its headings. Either make `detail` required on domain entries from v4, or say in the template that
+      an entry without it is treated as directional.
+  - id: M5
+    category: memory
+    severity: P3
+    title: "Version-and-cross-reference drift: the schema index still says the ontology is v3 and the spine header still describes ICE the old way"
+    basis: "Ontology, spine and index describe the same model; a version named in the index must match the ontology file."
+    source: "main:core/components/memory/standards/schemas/product-os/_index.md (the ontology.md row: 'v3: Business Intent, Source, ICE'); main:core/components/memory/standards/schemas/product-os/spine.yaml (header: ICE 'written INLINE ... a capability's benefit + boundary, a functionality's acceptance'; capability `detail` comment: 'directional (/vision) | detailed (/understand)')"
+    path: core/components/memory/standards/schemas/product-os/_index.md
+    detail: >
+      _index.md (not in the diff) still reads 'v3'. spine.yaml keeps schema.version 2 although it gains `domains.detail`
+      and `domains.intents` (additive and optional, so no bump is defensible, but then the ontology and ADR 031
+      should say 'spine v2 + domain detail/intents'). Its header still says ICE is inline in 'a capability's benefit +
+      boundary', while v4 says a named last section. The capability `detail` comment still says 'directional (/vision)',
+      while capability.md now says /intent or /vision. The functionality template header still says 'Written by
+      /shape' (pre-existing). Light edits: update _index.md to v4 and refresh the three spine comments.
+  - id: M6
+    category: memory
+    severity: P4
+    title: "Gold examples do not cover every declared shape: no directional domain example, no ICE in the detailed capability or any functionality example"
+    basis: "A template carries a gold example for every shape it declares (capability.md has one per stage)."
+    source: "main:core/components/memory/standards/schemas/product-os/grounding/capability.md (Gold example DIRECTIONAL and DETAILED); main:core/components/memory/standards/schemas/product-os/grounding/domain.md (single gold example)"
+    path: core/components/memory/standards/schemas/product-os/grounding/domain.md
+    detail: >
+      domain.md declares two stages but keeps one gold example (detailed). functionality.md adds the ICE section
+      but its only gold example has none, so the one place the section is described for functionalities is never
+      shown filled in. The detailed capability gold is also without it, though the section applies 'at every stage'.
+      All gold examples pass the linter (29 of 29), so this is only a teaching gap.
+  - id: M7
+    category: memory
+    severity: P4
+    title: "ICE property names in the ontology and the section's labels do not line up"
+    basis: "Naming clarity: one name per idea across ontology and template."
+    source: "main:core/components/memory/standards/schemas/product-os/ontology.md v3 (ICE properties: 'Goals, limits, failures', 'Outcomes', 'Quality and compliance needs')"
+    path: core/components/memory/standards/schemas/product-os/ontology.md
+    detail: >
+      The ICE kind's properties are 'Outcomes' (how each goal is checked) and 'Quality and compliance needs', while the
+      page labels are 'Checked by' and 'Quality need'. The ontology's own example in v3 used 'Outcome'. A reader
+      mapping one to the other has to guess. Rename the label or the property so they match.
+  - id: M8
+    category: memory
+    severity: P4
+    title: "Method hygiene: no question added or re-marked, and rules for kinds still under 'Not yet defined'"
+    basis: "build-product-ontology step 1 (questions), step 7 (re-mark each question answered/partly/not yet) and step 6 (a kind a relationship names is defined, or listed under Not yet defined with one line)."
+    source: "main:core/components/skills/build-product-ontology/SKILL.md (steps 1, 6, 7)"
+    path: core/components/memory/standards/schemas/product-os/ontology.md
+    detail: >
+      v4 adds the Touches property and a both-ways link rule but leaves Q1 to Q6 and their Status lines as in v3
+      (Q2, 'which parts does it touch', stays 'partly'). The Not yet defined entries for Domain, Capability and
+      Functionality grow into rule statements (light or full page, holds no ICE, may sit in the holding folder) rather
+      than staying one line. The checker passes; this is for a later full definition of those three kinds.
