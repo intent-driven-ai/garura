@@ -4,7 +4,7 @@ kind: business-intent
 serves: "#606 — Garura's agentic lifecycle runs as five loops (drives), starting from a working prototype"
 status: active
 updated: 2026-10-17
-now: 5
+now: 6
 ---
 
 # Plan — #606: the lifecycle runs as drives
@@ -27,7 +27,7 @@ There are five drives, one for each step from product to running software. We bu
 
 ## Where we are now
 
-Three decisions are made (#592, #607, #619) and four things are shipped: plan mode's first pieces (#619), the Kickoff plays standing alone (#616), `/intent` (#612, PR #631, ADR 031), and the one product model that `/intent` and `/vision` both write (#637, PR #638, ontology v4). Now: items 5, 6 and 7, which can run side by side, and then Kickoff (item 8).
+Three decisions are made (#592, #607, #619) and five things are shipped: plan mode's first pieces (#619), the Kickoff plays standing alone (#616), `/intent` (#612), the one product model that `/intent` and `/vision` both write (#637), and `/vision` running inside a drive (#614). Now: items 6 and 7, which can run side by side, and then Kickoff (item 8).
 
 ## The plan, in order
 
@@ -39,16 +39,9 @@ Three decisions are made (#592, #607, #619) and four things are shipped: plan mo
 - **Decided: a loop is a drive; the first drive is Kickoff** — #607. ADR 029, a design decision only; nothing is built yet. It settled what a drive is, how it runs, that it owns one issue, one branch and one pull request, and that Kickoff runs `/intent` → `/vision` → `/understand`.
 - **3. Shipped: `/intent`, the play that reads a prototype** — #612, PR #631, merged 9 October; #612 closed with its handoff on 16 October. It writes two levels: business intents for the person, and under each the ICE for the agents, as proposed capabilities with no domain yet. ADR 031 (D6–D10) records the decisions made on the way: no play owns a kind of thing in the product model; any play writes what it finds and an Alignment drive fixes drift; only a person confirms an intent; no approval stop inside a drive. Not yet done: `/vision` cannot take its output (item 4). Its own plan: `.garura/project/issues/612/specs/plan.md`.
 - **4. Shipped: `/intent` and `/vision` write one product model** — #637, PR #638, merged 17 October. `/vision` starts from business intents, a goal or both, places capabilities waiting for a domain and never waits for another play; `/intent` places a capability under its domain when something shows it; every capability and functionality page carries its agent intent in a named section; every business intent is linked both ways to the parts it touches (ontology v4). Not yet done: 12 small review findings open on PR #638, among them an ADR for `/intent` placing capabilities (ADR 031 part 3 gave that to `/vision`).
+- **5. Shipped: `/vision` runs inside a drive** — #614, PR #639, merged 17 October. Handed a drive's contract it opens nothing, never waits at its checkpoint (it keeps a review record for the drive's review instead), and commits on the drive's branch; a question the drive did not answer still stops it. Added a shared drive contract (`standards/rules/drive-contract.md`, one checker, one review-record writer), and the checkpoint's learning record now takes a "decided at the drive's review" answer. Not yet done: `/intent` still uses its own contract check; the drive's review writing the real answer back is #617 / #613.
 
-### 5. `/vision` runs inside a drive — now
-
-**Issue:** #614.
-**What:** when a drive runs `/vision`, it does not stop for its human check. The drive gives it what it needs, and the review happens after the drive. Run by hand, `/vision` works as it does today.
-**Why here:** Kickoff cannot run without stopping until `/vision` can.
-**Done when:** `/vision` runs inside a drive with no stop, on the drive's branch, and keeps a record for the later review.
-**Needs:** item 2.
-
-### 6. `/understand` runs inside a drive
+### 6. `/understand` runs inside a drive — now
 
 **Issue:** #615.
 **What:** the same change as item 5, for `/understand`.
@@ -77,7 +70,7 @@ Three decisions are made (#592, #607, #619) and four things are shipped: plan mo
 **Issue:** #597.
 **What:** rebuild the product model as a proper model of what the product is. Only the parts the Kickoff plays need are built now, as those plays are fixed.
 **Why alongside:** ADR 029 ties it to this work. It is built piece by piece, not as one step.
-**State:** version 3 is written (`core/components/memory/standards/schemas/product-os/ontology.md`, through #612): Business Intent, Source and ICE are defined; Work, Tracker Issue, Domain, Capability and Functionality are named but not yet defined.
+**State:** version 4 is written (`core/components/memory/standards/schemas/product-os/ontology.md`, through #612 and #637): Business Intent, Source and ICE are defined; Work, Tracker Issue, Domain, Capability and Functionality are named but not yet defined.
 
 ### Milestone: Kickoff lands
 
@@ -139,3 +132,4 @@ Not part of this plan; recorded so the gaps in time make sense.
 - 2026-10-17 — Item 3 done: the handoff was posted on #612 and the issue closed on 16 October, just after the last plan update, so this plan still said "now: 3". Now on item 4 (#637), with items 5, 6 and 7 free to run beside it.
 - 2026-10-17 — Item 4 (#637) grew, on Kapil's word: it now changes `/intent` as well as `/vision`, gives the agent intent its own section, and links every business intent both ways (ontology v4). Built on the branch; not merged yet.
 - 2026-10-17 — Item 4 done: #637 merged as PR #638 (ontology v4; `/intent` and `/vision` write one model). Now on item 5 (#614), with 6 and 7 free to run beside it.
+- 2026-10-17 — Item 5 done: #614 merged as PR #639 (`/vision` runs inside a drive; shared drive contract). Now on item 6 (#615), with 7 free to run beside it. The "Alongside" item now says the ontology is version 4.

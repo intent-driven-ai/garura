@@ -2,9 +2,9 @@
 plan_for: 614
 kind: story
 serves: "#614 — /vision runs inside a drive without stopping, and its review happens after the drive"
-status: active
+status: done
 updated: 2026-10-17
-now: 4
+now: -
 serves_plan: 606
 serves_item: 5
 ---
@@ -47,37 +47,31 @@ without stopping until this changes.
 
 ## Where we are now
 
-Items 1 to 3 are built and committed on the branch, not merged yet. All 21 test files
-pass and `/vision` passes the play lint. Now: item 4, landing the change.
+Done. PR #639 merged on 17 October and closed #614.
 
 Still not done after this issue: `/intent` keeps its own contract check until
-it moves to the shared one, and the drive's review writing the person's real
-answer into the checkpoint's learning record is #617 / #613 work.
+it moves to the shared one; the drive's review writing the person's real
+answer into the checkpoint's learning record is #617 / #613 work; and the
+review's 6 open findings (listed on PR #639).
 
 ## The plan, in order
 
 ### Done
 
-- **1. Built: what `/vision` promises inside a drive** — #614. Its ICE gains C11
+- **1. Shipped: what `/vision` promises inside a drive** — #614. Its ICE gains C11
   (runs inside a drive), F12, F13, S7 and their recovery. Run by hand, every
   promise stands. Not merged.
-- **2. Built: the pieces that keep those promises** — #614. A shared rule
+- **2. Shipped: the pieces that keep those promises** — #614. A shared rule
   (`standards/rules/drive-contract.md`), a shared contract checker and a shared
   review-record writer (canonical in play-creator references, stamped into
   `/vision`), and the checkpoint's learning scripts now take a
   `deferred_to_drive_review` answer that they skip (12 copies each). Tests
   pass. Not merged.
-- **3. Built: `/vision` rebuilt** — #614. Recompiled from its ICE, fingerprint
+- **3. Shipped: `/vision` rebuilt** — #614. Recompiled from its ICE, fingerprint
   refreshed, play lint clean; the pipeline-position rule's drive note updated.
-  Not merged.
+- **4. Shipped: landed** — PR #639, merged 17 October (830c19d4); #614 closed.
+  The review fixed 17 findings in the round; 6 small ones stay open (on the PR).
 
-### 4. Land the change — now
-
-**Issue:** #614.
-**What:** commit, raise the pull request, review, merge.
-**Why here:** last.
-**Done when:** merged to main, and #606's plan shows item 5 done.
-**Needs:** item 3.
 
 ## Decided (Kapil, 2026-10-17: "A and A")
 
@@ -96,3 +90,5 @@ answer into the checkpoint's learning record is #617 / #613 work.
 - 2026-10-17 — Kapil chose A and A: one shared drive contract (rule + checker),
   and the checkpoint records drive runs as decided at the drive's review.
 - 2026-10-17 — Items 1 to 3 built. All tests and the play lint pass. Now on item 4.
+- 2026-10-17 — Item 4 done: PR #639 reviewed (harness approve; 17 findings fixed
+  in the round), merged (830c19d4), #614 closed. Plan done.
