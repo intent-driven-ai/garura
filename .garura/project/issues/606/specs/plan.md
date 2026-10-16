@@ -3,8 +3,8 @@ plan_for: 606
 kind: business-intent
 serves: "#606 — Garura's agentic lifecycle runs as five loops (drives), starting from a working prototype"
 status: active
-updated: 2026-10-16
-now: 3
+updated: 2026-10-17
+now: 4
 ---
 
 # Plan — #606: the lifecycle runs as drives
@@ -27,7 +27,7 @@ There are five drives, one for each step from product to running software. We bu
 
 ## Where we are now
 
-Three decisions are made (#592, #607, #619) and three things are shipped: plan mode's first pieces (#619), the Kickoff plays standing alone (#616), and `/intent` (#612, PR #631, with ADR 031). Item 3 is down to its last step: the handoff on #612 and closing it. Checking the hand-over to `/vision` found that `/vision` cannot start from `/intent`'s output yet; that change is new item 4. Then items 4, 5, 6 and 7, which can run side by side, and then Kickoff (item 8).
+Three decisions are made (#592, #607, #619) and three things are shipped: plan mode's first pieces (#619), the Kickoff plays standing alone (#616), and `/intent` (#612, PR #631, with ADR 031). Item 3 is done: #612 has its handoff and was closed on 16 October. Its hand-over check found that `/vision` cannot start from `/intent`'s output yet; that change is item 4. Now: items 4, 5, 6 and 7, which can run side by side, and then Kickoff (item 8).
 
 ## The plan, in order
 
@@ -37,17 +37,9 @@ Three decisions are made (#592, #607, #619) and three things are shipped: plan m
 - **1. Decided and shipped in part: plan mode** — #619. Decided in ADR 030: every change works from a plan on disk, kept current, done only when the plan is done. Shipped (merged in PR #629): the template and rules, the plan skill and its check, and issue reads that see type, parent and children. Not yet done: wiring it into the plays (Feature #621).
 - **2. Shipped: `/vision` and `/understand` each stand alone** — #616, PR #630. Each opens and lands its own change; `/understand` seeds a missing capability from the person's answers. Not yet done: skipping the opening inside a drive (#614, #615); `/shape` and `/roadmap` still expect the old shared branch (follow-up written up in #616's notes, not filed).
 - **Decided: a loop is a drive; the first drive is Kickoff** — #607. ADR 029, a design decision only; nothing is built yet. It settled what a drive is, how it runs, that it owns one issue, one branch and one pull request, and that Kickoff runs `/intent` → `/vision` → `/understand`.
+- **3. Shipped: `/intent`, the play that reads a prototype** — #612, PR #631, merged 9 October; #612 closed with its handoff on 16 October. It writes two levels: business intents for the person, and under each the ICE for the agents, as proposed capabilities with no domain yet. ADR 031 (D6–D10) records the decisions made on the way: no play owns a kind of thing in the product model; any play writes what it finds and an Alignment drive fixes drift; only a person confirms an intent; no approval stop inside a drive. Not yet done: `/vision` cannot take its output (item 4). Its own plan: `.garura/project/issues/612/specs/plan.md`.
 
-### 3. A new play that reads a prototype: `/intent` — now
-
-**Issue:** #612.
-**What:** a new play. It reads a working prototype and writes down the intent: the goal, the limits, and what counts as failure. The user confirms it. The prototype is kept as an example, never treated as the intent itself.
-**Why here:** it is Kickoff's first play, and nothing does this job today.
-**Done when:** given a prototype, `/intent` writes a confirmed intent that `/vision` can take as its starting goal.
-**Needs:** nothing — item 1 is done.
-**State:** built, tried on the token-burn dashboard, and merged (PR #631, 9 October). It writes two levels: business intents for the person, and under each the ICE for the agents, as proposed capabilities with no domain yet. ADR 031 records the decisions made on the way (D6–D10): no play owns a kind of thing in the product model; any play writes what it finds and an Alignment drive fixes drift; only a person confirms an intent; and no approval stop inside a drive — the drive's end review confirms. The check of the hand-over found `/vision` cannot take this output yet (item 4). Left: the handoff on #612 and closing it. Its own plan: `.garura/project/issues/612/specs/plan.md`.
-
-### 4. `/vision` starts from business intents
+### 4. `/vision` starts from business intents — now
 
 **Issue:** #637 (Story under #594).
 **What:** `/vision` takes the business intents `/intent` saved, instead of a goal typed as text. It attaches a domain to the capabilities `/intent` wrote, checks them against the KB, adds no second capability for the same thing, and links every capability it adds to the intent it serves. It must accept intents that are only proposed, because inside Kickoff they are confirmed at the end. Seven gaps and two choices are written up in `.garura/project/issues/612/specs/vision-pickup.md`.
@@ -151,3 +143,4 @@ Not part of this plan; recorded so the gaps in time make sense.
 - 2026-10-08 — Added item 12, the handover drive (the handoff out, Kickoff's pair). The Learn drive is now item 13.
 - 2026-10-08 — Item 2 done: `/vision` and `/understand` stand alone (#616, PR #630). Now on item 3 (#612).
 - 2026-10-16 — Plan found a week stale: it still said item 3 was being built, after `/intent` merged on 9 October. Brought up to date: item 3's state, ADR 031, the ontology's state, the Alignment drive, and the side work. Item 3's hand-over check is done (`.garura/project/issues/612/specs/vision-pickup.md`); it found the `/vision` change, added as item 4; the items after it moved down one (Kickoff is now item 8, the Learn drive item 14). Still on item 3 (handoff and close).
+- 2026-10-17 — Item 3 done: the handoff was posted on #612 and the issue closed on 16 October, just after the last plan update, so this plan still said "now: 3". Now on item 4 (#637), with items 5, 6 and 7 free to run beside it.

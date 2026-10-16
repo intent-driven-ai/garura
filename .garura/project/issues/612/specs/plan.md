@@ -2,9 +2,9 @@
 plan_for: 612
 kind: story
 serves: "#612 — /intent pulls the intent out of a working prototype"
-status: active
-updated: 2026-10-16
-now: 8
+status: done
+updated: 2026-10-17
+now: -
 serves_plan: 606
 serves_item: 3
 ---
@@ -29,7 +29,7 @@ Kickoff, the first drive, starts from a working prototype that the person shares
 
 ## Where we are now
 
-`/intent` is built, tried and merged (PR #631, 9 October). Item 7 is done: `/vision` cannot start from `/intent`'s output yet, and the change it needs is written up in `specs/vision-pickup.md` (7 gaps, 2 choices). What is left is item 8's last step: the handoff on #612 and closing it.
+`/intent` is built, tried and merged (PR #631, 9 October). Item 7 is done: `/vision` cannot start from `/intent`'s output yet, and the change it needs is written up in `specs/vision-pickup.md` (7 gaps, 2 choices). Item 8 is done: the handoff is on #612 and the issue is closed (16 October). This plan is done. The `/vision` change carries on as #637 (#606 plan, item 4).
 
 ## The plan, in order
 
@@ -46,14 +46,7 @@ Kickoff, the first drive, starts from a working prototype that the person shares
 
 - **7. Checked: can `/vision` start from it** — #612. No, not yet. `/vision` takes a goal as text, never reads the spine, adds no `intents` to what it writes, and its save step never changes an existing capability — so it cannot attach a domain to the ones `/intent` wrote. Seven gaps and two choices (leave the doc where `/intent` put it; leave enriching to `/understand`) are in `specs/vision-pickup.md`. The change is an intent change to `/vision`, filed as #637 (#606 plan, item 4).
 
-### 8. Ship it — now
-
-**Issue:** #612.
-**What:** commit, open the pull request, review it, merge it, and write the handoff on #612.
-**Why here:** last.
-**Done when:** the pull request is merged and #612 is closed with its handoff.
-**Needs:** items 4 to 7.
-**State:** the pull request (PR #631) was merged on 9 October. Left: commit this write-up and the plan updates, then the handoff comment on #612 and closing it — both are GitHub writes and wait for Kapil's word.
+- **8. Shipped: `/intent`** — #612. PR #631 merged on 9 October; the handoff is on #612 and the issue was closed on 16 October.
 
 ## Log
 
@@ -78,3 +71,4 @@ Kickoff, the first drive, starts from a working prototype that the person shares
 - 2026-10-09 — PR #631 merged: `/intent`, ontology v3, ADR 031. #612 left open for items 7 and 8.
 - 2026-10-15/16 — Side work, not in this plan, cleared two follow-ups: `/understand`'s `lint_grounding.py` copy and the ruff E741 findings (#634, PR #635), and review-change's `verdict.yaml` stop condition (#536, PR #636). The review-shelf path is #534, open and waiting on a design. `/adr` was built as its own offshoot (#632, PR #633).
 - 2026-10-16 — Plan found stale (still said "now: 7" a week after the merge). Item 7 done: `specs/vision-pickup.md`. Now on item 8.
+- 2026-10-17 — Item 8 done: the handoff was posted on #612 and the issue closed on 16 October, just after the last plan update, so this plan still said "now: 8". Plan done.
