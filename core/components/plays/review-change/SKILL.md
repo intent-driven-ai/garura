@@ -251,13 +251,13 @@ by this switch.
   consolidated findings grouped by category and severity, each with its basis; and the
   recommended verdict with its reason. Then output the summary and **wait for the
   reviewer's typed approve or reject** (do NOT use AskUserQuestion; do NOT proceed on the
-  recommendation alone). Record the reviewer's decision verbatim to `decision.yaml`
-  (`decided_by: human`).
+  recommendation alone). Record the reviewer's decision verbatim to `decision.yaml`:
+  `decision: approve | reject` and `decided_by: human` (C9).
 - **Off — the recommendation becomes the decision.** Do not wait. Record
   `gate skipped by config (gates.plays.review-change)` as a Checkpoint Decisions row in
   the evidence. Write `decision.yaml` directly from `recommended_verdict.yaml`:
-  `decided_by: harness`, the recommendation **verbatim**, and the citing (blocking)
-  findings. A `reject` outcome stands exactly as a human reject would — fix the cited
+  `decision:` its `verdict` **verbatim** (approve | reject), `decided_by: harness`, and the
+  citing (blocking) findings (C9). A `reject` outcome stands exactly as a human reject would — fix the cited
   findings and re-raise. The verdict is still never silent and never unposted (C9).
 
 **Step 6 — Post Decision to PR** · Owner: play (script) · Depends on: Step 5
@@ -265,26 +265,32 @@ Assemble the decision comment (decision + the cited findings + routing) into a f
 comment ALWAYS names its decider: a human decision is posted as the reviewer's verdict; an
 off-gate decision leads with `Harness verdict (gate off per gates.plays.review-change):
 <decision>` so no reader mistakes it for a human review (C8, F10). Then run the bundled
-`post_verdict.py` — it posts the comment (via `platform_adapter.py`), writes
-`review/posted.json` `{posted: true, comment_url}`, and commits+pushes the review run
-artifacts, so the PR updates with its own review record. No agent (C10):
+`post_verdict.py` — it reads `decision.yaml` first and posts nothing (exit 2) unless the
+record holds a decision (approve | reject) and its decider (harness | human), and the
+comment's first line names that same decision and decider (C9, #536);
+then it posts the comment (via `platform_adapter.py`), writes `review/posted.json`
+`{posted: true, comment_url, decision, decided_by, decision_recorded: true}`, and
+commits+pushes the review run artifacts, so the PR updates with its own review record. No
+agent (C10):
 
 ```
 python3 scripts/post_verdict.py --config .garura/core/config.yaml \
     --pr-number "<pr number>" --comment-file "<working>/decision-comment.md" \
+    --decision "{stm_base}{issue}/review/decision.yaml" \
     --issue <issue> --artifacts-dir "{stm_base}{issue}/review/" \
     --out "<working>/posted.json"
 ```
 
 Whether a `reject` hard-blocks the downstream merge is governed by config
-(`review-pr.bypass`), unchanged from prior behavior. A verdict rendered AND posted counts as
-done regardless of approve/reject (C9).
+(`review-pr.bypass`), unchanged from prior behavior. A decision recorded with its decider
+AND posted counts as done regardless of approve/reject (C9).
 
 **SE-8 (F8/C8):** the recommended verdict was computed; when the gate resolved on, the
 recorded decision equals the reviewer's typed input; a verdict comment authored by this
 run exists on the PR after the step.
-**SE-9 (F9/C9):** `posted.json` reads `posted: true` with a comment URL; the run artifacts
-are on the remote branch; the stop-condition verdict reads held before the close may read
+**SE-9 (F9/C9):** `posted.json` reads `posted: true` with a comment URL, and
+`decision_recorded: true` with the `decision` and `decided_by` of `decision.yaml`; the run
+artifacts are on the remote branch; the stop-condition verdict reads held before the close may read
 COMPLETED.
 **SE-10 (F10/C8):** when the gate resolved off, `decision.yaml` reads `decided_by: harness`
 and equals the computed recommendation verbatim with its citing findings, and the posted
@@ -419,8 +425,8 @@ current decision rather than adding a conflicting second one.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:b4adce1338cabd935698234cf8157be971f9e8c589d48e2f5865733c99167cdd (of `reference/ice.md`) |
-| compiled_by | play-editor (#466 Batch A; #467 Batch C; #484 scripted chain; #496 grounding fan-out) |
+| fingerprint | sha256:2f62e324d3a3797d92a1c6b98c9ffbf283a0e9aa6aaf6eb2565c8f96aefceb9e (of `reference/ice.md`) |
+| compiled_by | play-editor (#466 Batch A; #467 Batch C; #484 scripted chain; #496 grounding fan-out; #536 Done means) |
 | pipeline_position | end |
 | workflow_structure | A (multi-agent; agentic assessment → concurrent read-only design-grounding fan-out (one agent per design-bearing category) → consolidation; config-resolved verdict gate; gated close) |
 | stop_condition | stop-condition.yaml (D1–D3), gate live at Step C0 |

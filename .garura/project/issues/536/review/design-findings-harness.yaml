@@ -1,0 +1,81 @@
+pr: 636
+issue: 536
+category: harness
+grounding:
+  - principle: "A play's Done means is drawn from a closed clause set and must be mechanically evaluable against what the run actually produces; a done that cannot be composed mechanically means the measures are not binary"
+    source: "main:core/components/plays/play-creator/SKILL.md (Done means section, #464) and main:core/components/plays/play-creator/references/check_stop_condition.py docstring (pure assertions on what exists on disk at close)"
+  - principle: "Intent changes (constraints, failures, scenarios, Done means) go ICE source first, then recompile; the compiled SKILL.md and stop-condition.yaml must match the ICE"
+    source: "CLAUDE.md Play Pipeline Rules (on main) and main:core/components/plays/play-creator/SKILL.md (stop-condition.yaml is baked from the ICE Done means)"
+  - principle: "Steps are wired as contracts that name the files they read and write; scripts do mechanical work; a writer step and a reader step agree on one shape"
+    source: "main:core/components/plays/play-creator/SKILL.md (JSON-contract wiring, scripts for mechanical work)"
+  - principle: "No unbacked recommendation: a play that recommends must wire constraint + failure + step eval + strip-not-replace recovery; review-change is listed 'caught, not yet wired (#530)'"
+    source: "main:core/components/memory/standards/rules/no-unbacked-recommendation.md"
+  - principle: "Review-change's own scenario S4 and failure F8/F10: the posted decision equals the recorded decision and names its decider"
+    source: "main:core/components/plays/review-change/reference/ice.md (S4, F8, F10, REC8-REC10; not the branch's C9/D2 edit)"
+conformance_notes:
+  - "ICE-first discipline held: ice.md, SKILL.md and stop-condition.yaml were changed together; the fingerprint in SKILL.md (sha256:91ef6311...) matches the sha256 of the branch ice.md; compiled_by names #536."
+  - "D2 uses field_equals, which is inside the closed clause set; no clause-type change."
+  - "The old D2 (verdict.yaml) pointed at a file the play never writes (the play writes recommended_verdict.yaml and decision.yaml); the rewrite fixes a real defect and leaves no stale verdict.yaml reference in ice.md or SKILL.md."
+  - "post_verdict.py: the two copies are byte-identical; no other play bundles a copy, so the new required --decision argument breaks no other caller."
+findings:
+  - id: H1
+    category: harness
+    severity: P3
+    title: "Step 6 now refuses to post unless decision.yaml has exact keys and values, but Step 5, which writes that file, never states them"
+    basis: "Writer and reader steps agree on one shape (play-creator contract wiring). Step 5 only says 'record the reviewer's decision verbatim (decided_by: human)' or 'write decision.yaml from recommended_verdict.yaml (decided_by: harness, recommendation verbatim)'."
+    source: "main:core/components/plays/review-change/SKILL.md Step 5 (unchanged by the branch); main:.garura/project/issues/466/review/decision.yaml and main:.garura/project/issues/478/review/decision.yaml (committed precedent)"
+    path: core/components/plays/review-change/SKILL.md
+    detail: >
+      The script requires the key `decision` to be exactly approve or reject and `decided_by` to be exactly
+      harness or human, else it exits 2 and posts nothing. Step 5 does not name the key `decision` or the value
+      lists. The computed recommendation is stored under the key `verdict` in recommended_verdict.yaml, so
+      "recommendation verbatim" does not tell the writer to use the key `decision`. Committed precedent shows the
+      drift: issue 466's decision.yaml has no decided_by at all, and issue 478's has
+      `decided_by: human (Kapil Viren Ahuja)` and `typed_input: approved`. Either record would now be refused. The
+      refusal is loud, not silent, and REC9 ("fix the run state") loosely covers it, but the writing step and its
+      recovery do not say what a valid record is. Name the keys and allowed values at Step 5 (and in C8), or have
+      the recovery row say what to rewrite.
+  - id: H2
+    category: harness
+    severity: P3
+    title: "D2 reads a flag the same script writes in the same step as D3, and its wording ('that is the decision posted') promises more than the check proves"
+    basis: "A Done means is composed from the scenarios' measures and must prove what the run produced, not restate another clause (play-creator Done means rule; check_stop_condition: assertions on what exists). S4's measure is that the posted decision equals the recorded decision."
+    source: "main:core/components/plays/play-creator/SKILL.md (Done means); main:core/components/plays/review-change/reference/ice.md S4"
+    path: core/components/plays/review-change/stop-condition.yaml
+    detail: >
+      post_verdict.py writes `decision_recorded: true` unconditionally in the same dictionary as `posted: true`, so
+      once the post succeeds D2 and D3 are always true together; D2 adds no independent proof at close. Its real
+      value is indirect: the script refuses to post without a valid decision record, so a held D3 implies a valid
+      decision.yaml existed. The D2 sentence says "and that is the decision posted", but no clause compares
+      posted.json's `decision` with decision.yaml or with the comment body, so S4's equality is still not checked at
+      close. This is a clear improvement over the old D2 (a file the play never wrote) and not a blocker. Either
+      soften the `says` to what is checked, or add a clause that compares posted.json `decision` with the record.
+  - id: H3
+    category: harness
+    severity: P4
+    title: "review-change still carries the open no-unbacked-recommendation gap; this change touches the play and the new decision gate is related but not the wiring the rule asks for"
+    basis: "no-unbacked-recommendation requires constraint + failure + step eval + strip-not-replace recovery for any recommending play; the rule's own table lists review-change as 'caught, not yet wired (#530)', naming 'can it post a computed verdict with no completed review behind it'."
+    source: "main:core/components/memory/standards/rules/no-unbacked-recommendation.md"
+    path: core/components/plays/review-change/SKILL.md
+    detail: >
+      lint_play reports one gap for review-change (no-unbacked-recommendation) on the branch, as the rule file already
+      says it does on main, so it is pre-existing and tracked by #530. The new refusal to post without a recorded
+      decision and decider narrows that risk but does not satisfy the rule. Informational: do not count it against
+      this PR; do not claim #530 is closed by it.
+  - id: H4
+    category: harness
+    severity: P4
+    title: "fix-bug: the clarification matches the base ICE's D3, but 'regression_test_path' now names two different things in one step"
+    basis: "Contract output names must mean one thing (play-creator contract wiring); the base fix-bug D3 already reads regression-test-path.yaml field red_verified."
+    source: "main:core/components/plays/fix-bug/reference/ice.md (D3) and main:core/components/plays/fix-bug/stop-condition.yaml; main:core/components/skills/author-regression-test/SKILL.md (output block names regression_test_path and regression-test.yaml)"
+    path: core/components/plays/fix-bug/SKILL.md
+    detail: >
+      The added sentence is a non-intent direct edit and agrees with the base ICE and manifest, so it conforms: no
+      fingerprint change is needed and the intent is untouched. One residue remains. The contract's output key
+      `regression_test_path` points to regression-test-path.yaml (the record), while SE-5 and the post-verify
+      paragraph read `regression_test_path` as the test file itself, and the skill's output block puts the test
+      at regression-test.yaml. A reader can take the record file for the test. Pre-existing ambiguity made slightly
+      more visible, not introduced.
+summary:
+  total: 4
+  by_severity: {P1: 0, P2: 0, P3: 2, P4: 2}

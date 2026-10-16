@@ -1,0 +1,23 @@
+> **Approved to fix.**
+
+## Description
+
+`review-change`'s baked `stop-condition.yaml` clause D2 requires `review/verdict.yaml`.
+
+The play does not write that file. Its own prose (`SKILL.md` lines 236, 254, 258) says Step 4 emits `recommended_verdict.yaml` and Step 5 records `decision.yaml`. The #467 gate-off recompile split "the verdict" into a recommendation plus a decision, and the Done means was never updated to match.
+
+Result: D2 is unmet on every run. Per `play-close.md` an unmet stop condition forces `HALTED` with `exit_reason: stop_condition_unmet`. So `/review-change` halts even when it did its entire job — assessed the categories, ran both review layers, consolidated cited findings, decided, and posted the verdict to the PR.
+
+Observed on PR #532 on 2026-09-08: D1 held, D3 held, D2 unmet on the filename alone. The run closed HALTED.
+
+A `verdict.yaml` was deliberately **not** created to make the gate pass. Satisfying a check by manufacturing the artifact it looks for is the failure mode `standards/rules/no-unbacked-recommendation.md` exists to prevent, one layer down.
+
+The Done means lives in the ICE, so this is an intent change: `/play-editor` on `reference/ice.md`, then recompile. Never a hand-edit of the compiled `SKILL.md`.
+
+## Acceptance criteria
+
+- [ ] The ICE's "Done means" names the artifacts the play actually writes
+- [ ] The check is meaningful, not cosmetic — it proves a decision was recorded with its decider, not merely that some file exists
+- [ ] A full `/review-change` run that posts a verdict closes COMPLETED
+- [ ] A run that fails to post still closes HALTED
+- [ ] Every other play's `stop-condition.yaml` is swept for the same prose-versus-manifest drift
