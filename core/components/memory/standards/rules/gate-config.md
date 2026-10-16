@@ -51,12 +51,17 @@ Scripts (canonical copies in `play-creator/references/`, stamped into conditiona
   (nodes added/removed, status changes, profile bars, decisions added, sections
   rewritten, prose edits); the shape key is `<play>:<non-zero axes>`.
 - `gate_eval.py append` — one JSONL line per crossing: shape, predicted (gate|auto),
-  human action (`approved_clean` | `approved_edited` | `rejected` | `auto_pass`).
-  A later correction is a NEW line with `refutes: <line>` — the ledger is append-only.
+  human action (`approved_clean` | `approved_edited` | `rejected` | `auto_pass` |
+  `deferred_to_drive_review`). A later correction is a NEW line with `refutes: <line>` —
+  the ledger is append-only. `deferred_to_drive_review` (#614,
+  `standards/rules/drive-contract.md`) records a crossing inside a drive, where no person
+  answered at that moment; it pairs with `predicted gate` only.
 - `distill_gate_policy.py` — the learner, run at the play's close. Pure rule: a shape's
   last `streak` consecutive entries all `approved_clean` (auto_pass extends a streak,
   never starts one) and no unrefuted correction ⇒ `auto:`. Any rejection, requested
-  edit, or correction resets the shape to gated. `never_auto:` in the policy file is
+  edit, or correction resets the shape to gated. A `deferred_to_drive_review` line is
+  skipped — neither an approval nor a reset — until the drive's review appends the
+  person's real answer. `never_auto:` in the policy file is
   the human's permanent pin — preserved verbatim across distills, never earnable.
 
 Learning happens BETWEEN runs (the distill at close); inside the loop the policy is a
