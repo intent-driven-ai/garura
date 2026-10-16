@@ -53,8 +53,8 @@ a decision).
 ## Where we are now
 
 The change is open (branch `feature/615-understand-runs-inside-a-drive`).
-Kapil chose A. Items 2 to 4 are built and checked on the branch, not committed
-yet. Now on item 5: commit, then the pull request.
+Kapil chose A. Items 2 to 4 are built, checked and committed on the branch
+(7b1894d7, a904d1a6, db947761). Now on item 5: raising the pull request.
 
 Inside a drive every box-move decision is written `proposed`, not only when the
 checkpoint is deferred. The save step runs before the checkpoint resolves, so
@@ -72,11 +72,11 @@ This is choice A, applied at the only point where it can be applied.
   (runs inside a drive), F14, F15, S7, REC14 and REC15; C1 (seed answers from
   the contract, `answers.understand.seeds.<capability>`), C8 (box-move
   decisions `proposed` in a drive), C9, C11, C12, F7 and REC7 say what changes
-  in a drive. Not committed.
+  in a drive. Committed (7b1894d7).
 - **3. Built: `/understand` rebuilt** — recompiled from its ICE, fingerprint
   refreshed; the shared contract checker and review-record writer stamped in;
   the save script takes `--decision-status proposed`; the pipeline-position
-  rule now lists `/understand` as wired. Not committed.
+  rule now lists `/understand` as wired. Committed (7b1894d7, a904d1a6).
 - **4. Checked** — play lint passes (0 gaps); all 21 script test files pass
   (the save script's 46, the drive contract's 26 with every copy identical).
   The component lint's 114 errors are all in files this change does not touch.
@@ -112,3 +112,5 @@ at that checkpoint.
   rebuilt play, the stamped drive scripts, `--decision-status` on the save
   script with tests. Box-move decisions are `proposed` on every drive run, not
   only deferred ones (the save step runs before the gate). Now on item 5.
+- 2026-10-17 — Committed on the branch (4 commits). Self-review: 0 blocking
+  findings, 5 notes. Raising the pull request.
