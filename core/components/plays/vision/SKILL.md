@@ -69,8 +69,9 @@ JSON contracts over files on disk, and you run the mechanical work (shape/spine
 validation, grounding, the content-quality eval, the keyed in-place persist, and the
 post-write scoped guard) through bundled scripts and an isolated judge. You never write
 the grounding docs or the spine yourself, you never remove a node or lose what one holds, and you
-never persist the shared spine before the single checkpoint (C7) resolves — a typed
-approval, a recorded config skip, or a recorded policy auto-pass.
+never commit the model delta before the single checkpoint (C7) resolves — a typed
+approval, a recorded config skip, a recorded policy auto-pass, or, inside a drive, a
+recorded deferral to the drive's review (C11).
 
 **Forbidden:** hand-writing grounding docs or spine entries; writing the shared spine
 (`_spine.yaml`/profile) by any route other than `scripts/persist_seed.py`; committing
@@ -438,9 +439,10 @@ the keyed persist), and no existing doc lost a section or an agent-intent line.
 ### Phase: Checkpoint (conditional gate, C7)
 
 **Step 6 — Human review (class: standard, conditional)** · Owner: play · Depends on: Step 5
-**Inside a drive (C11), this step does not wait.** Resolve the learned policy exactly as below.
-If the shape would auto-pass, record the auto-pass and its ledger line as below. Otherwise,
-render the checkpoint exactly as it would have been shown (the same content as the "on" path
+**Inside a drive (C11), this step never waits.** Resolve the gate exactly as below, first match
+wins: an explicit config skip is recorded as a skip, and a policy auto-pass as an auto-pass,
+exactly as by hand. Only where the gate resolves ON — where a run by hand would wait — render
+the checkpoint exactly as it would have been shown (the same content as the "on" path
 below) to `<working>/checkpoint.md`, write it as the drive's review record, and append the
 crossing as deferred:
 
@@ -515,8 +517,8 @@ field. `<run ts>` is the run's own UTC timestamp, derived the same way the close
 derives `ts` (`date -u`), passed by the orchestrator.
 **SE-7 (F6/C7):** the model delta was written to the live model by Steps 2 + 4 but is
 COMMITTED (made durable) only at Step 7 on approval — so no product-model change is
-COMMITTED before the gate resolves (a typed approval, a recorded config skip, or a recorded
-policy auto-pass); on cancel the whole working-tree delta is reverted before any commit, so
+COMMITTED before the gate resolves (a typed approval, a recorded config skip, a recorded
+policy auto-pass, or — inside a drive — a recorded deferral to the drive's review); on cancel the whole working-tree delta is reverted before any commit, so
 nothing is left on the tree.
 **SE-9 (F8):** every crossing of this gate appended exactly one live-eval ledger line
 (shape, predicted `gate|auto`, the human's real action or `auto_pass`), and an
@@ -718,7 +720,7 @@ pointer to `$evidence_dest`. Always emitted; never gated.
 | F3 | a functionality, a detailed capability, acceptance criteria, a `set`/`locked` profile, a `detail: detailed` capability, or a lowered `detail` appears | strip the over-reach — drop the functionality, demote the capability to directional, remove the acceptance criteria, reset the profile to `directional`, restore a lowered `detail` | autonomous |
 | F4 | a capability has neither a KB shelf match nor a KB-node proposal | search the KB to ground it, or record a propose-kb-node proposal; never leave it ungrounded | autonomous |
 | F5 | the scoped-write guard or the keep check report is not ok, or the persist refused an update outside the named ones | the guard's `--restore` already reverted the offending paths; restore any doc that lost a section from HEAD and re-apply only the additions; re-run the keyed persist with only the named updates, after a human confirms the restore | human |
-| F6 | the model delta was committed before the checkpoint resolved, or a cancelled checkpoint left writes on the working tree | revert the premature commit and the working-tree writes (guard `--restore`, empty allow set) and re-present the checkpoint; commit only after the human approves | human |
+| F6 | the model delta was committed before the checkpoint resolved (no approval, config skip, auto-pass, or — inside a drive — recorded deferral), or a cancelled checkpoint left writes on the working tree | revert the premature commit and the working-tree writes (guard `--restore`, empty allow set) and re-present the checkpoint; commit only after the human approves (inside a drive, only after the deferral is recorded) | human |
 | F7 | the close would report COMPLETED without the Done means held | close HALTED (`stop_condition_unmet`) with the unmet clauses named; fix the state — re-run the keyed persist, re-capture the scoped-write guard report, or make the model-delta commit — and re-evaluate; the close stays HALTED until the verdict reads held | autonomous |
 | F8 | a conditional-gate crossing left no live-eval ledger line, or an auto-pass fired for a shape the policy does not list as auto (or that carried a blocking finding) | re-append the missing ledger line for the recorded crossing; when the auto-pass was unearned, re-run the gate as a live wait — render the approval prompt and wait for the typed response — before proceeding | autonomous |
 | F9 | the product-os tree is dirty once start-change has cut the branch (uncommitted model edits present) | halt and ask for a clean model tree — commit or revert the pending model edits — before /vision writes the seed | human |
@@ -741,7 +743,7 @@ continues at the first end-sequence member that has not finished.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:658fba576ce177d577c73d078b3269acb584d10df8570f8642cc751ec03d8b8e (of `reference/ice.md`) |
+| fingerprint | sha256:4047823fe3747ca22b955bf1e269271d17fd066b9b552427825676e6bdf7b118 (of `reference/ice.md`) |
 | compiled_by | play-editor (#614 runs inside a drive); play-editor (#637 one product model with /intent); play-editor (#616 position both); play-editor (#500 direct-model-write, ADR 026); prior: play-editor (#467 Batch B, #466 Batch C); play-creator (edited via play-editor, #437; spine+grounding+eval model) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close — #616) |
 | position_exception | model-writing both play — writes the model on the started branch and commits its own model delta (C9) BEFORE the injected end sequence lands it (same shape as /measure) |

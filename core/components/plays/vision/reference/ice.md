@@ -115,8 +115,9 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
   (ADR 026): the run writes the full delta to the live model FIRST (docs by the authoring
   skill, the spine + profile by the keyed persist), so the checkpoint presents the real
   model git diff and the change-shape is classified over the full delta; nothing is
-  COMMITTED before the gate resolves — a typed approval, a recorded config skip, OR a
-  recorded policy auto-pass. On cancel the whole model delta is reverted (`git restore` +
+  COMMITTED before the gate resolves — a typed approval, a recorded config skip, a
+  recorded policy auto-pass, OR, inside a drive, a recorded deferral to the drive's review
+  (C11). On cancel the whole model delta is reverted (`git restore` +
   `git clean` over the model paths via the guard `--restore` with an empty allow set) — the
   branch, issue, and STM that start-change created are its own committed side effects and
   are left as-is. At close the play refreshes the learned policy with the bundled
@@ -154,13 +155,13 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
   drive's, halts — and records `in_drive` in `run.json`. Inside a drive it runs no
   `start-change` and no end sequence (the drive opens and lands the change); it takes its
   intents and goal from the contract's inputs and its answers from the contract's answers;
-  it asserts the clean model tree at once; it does NOT wait at its checkpoint (C7): it
-  renders the checkpoint exactly as it would have been shown and writes it, with the files
+  it asserts the clean model tree at once; it resolves its checkpoint (C7) exactly as by
+  hand — a config skip or a policy auto-pass is recorded as by hand — and only where the
+  gate would WAIT does it not wait: it renders the checkpoint exactly as it would have been shown and writes it, with the files
   it stands on (the shape, the keep check, the guard report, the persist record), as a
   review record into the contract's `review_dir` with the bundled `write_drive_review.py`,
   and appends the crossing to the gate ledger as `deferred_to_drive_review` (the learner
-  skips it until the drive's review writes the person's real answer); a crossing the
-  learned policy would auto-pass is recorded as an auto-pass, as by hand. It still commits
+  skips it until the drive's review writes the person's real answer). It still commits
   its model delta on the drive's branch (C9). A question neither the contract nor the model
   answers — no intents and no goal — stops the run and asks the person; the play never
   picks an answer itself. Run by hand (no contract), every step runs as before.
@@ -186,8 +187,9 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
   changed, `detail` lowered, an intent link removed), a moved page's bytes changed, or an
   intent page changed beyond its Touches list and the links to a moved page.
 - F6 — The model delta was COMMITTED before the checkpoint gate resolved (no typed
-  approval, no recorded config skip, and no recorded policy auto-pass), or a cancelled
-  checkpoint left model writes on the working tree instead of reverting them.
+  approval, no recorded config skip, no recorded policy auto-pass, and — inside a drive — no
+  recorded deferral to the drive's review), or a cancelled checkpoint left model writes on
+  the working tree instead of reverting them.
 - F7 — The close proves nothing — the play closes COMPLETED without the Done means held
   (no persist record, the persist not stamped applied, the scoped-write guard report not
   captured or not ok, or the model delta not committed).
@@ -201,6 +203,10 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
   HALTED because an intent was only proposed, an intent page or a domain was missing or
   light, a capability sat in the holding folder, or no intents were given at all — or it ran
   the workable check.
+- F11 — A link or a gap was left silent or one-sided: a second capability was added for one
+  already in the model; a part linked to an intent is missing from the intent's Touches list,
+  or the intent is missing from the part's spine `intents`; a capability built from an input
+  intent was left with no domain and no warning saying why.
 - F12 — Inside a drive, the play opened an issue or a branch, ran the end sequence, waited at
   its checkpoint, or worked on a branch other than the drive's; or, run by hand, it skipped
   its opening, its checkpoint or its end sequence.
@@ -208,10 +214,6 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
   the record differs from what the checkpoint would have shown, the gate ledger has no line
   for the crossing, or a line records an approval no person gave; or the play picked an
   answer to a question the drive had not answered.
-- F11 — A link or a gap was left silent or one-sided: a second capability was added for one
-  already in the model; a part linked to an intent is missing from the intent's Touches list,
-  or the intent is missing from the part's spine `intents`; a capability built from an input
-  intent was left with no domain and no warning saying why.
 
 ## Expectation
 
@@ -329,7 +331,8 @@ not per-node docs.
 - REC6 (F6) — trigger: the model delta was committed before the checkpoint resolved, or a
   cancelled checkpoint left writes on the working tree. direction: revert the premature
   commit and the working-tree writes (guard `--restore`, empty allow set) and re-present
-  the checkpoint; commit only after the human approves. handoff: human.
+  the checkpoint; commit only after the human approves (inside a drive, only after the
+  deferral is recorded). handoff: human.
 - REC7 (F7) — trigger: the close would report COMPLETED without the Done means held.
   direction: close HALTED with `exit_reason: stop_condition_unmet` and the unmet clauses
   named; fix the state — re-run the keyed persist, re-capture the scoped-write guard
