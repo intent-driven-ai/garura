@@ -1,0 +1,5 @@
+ M .garura/project/issues/606/specs/plan.md
+ M core/components/memory/standards/rules/pipeline-position.md
+?? .garura/project/issues/615/context/analysis.yaml
+?? .garura/project/issues/615/context/porcelain.txt
+?? .garura/project/issues/615/specs/
