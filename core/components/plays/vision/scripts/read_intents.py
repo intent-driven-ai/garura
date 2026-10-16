@@ -38,7 +38,7 @@ def read_page(path):
     """Title, outcome, why and stage from an intent page, as /intent writes it."""
     with open(path, encoding="utf-8") as fh:
         lines = fh.read().splitlines()
-    out = {"title": next((l[2:].strip() for l in lines if l.startswith("# ")), "")}
+    out = {"title": next((line[2:].strip() for line in lines if line.startswith("# ")), "")}
     for line in lines:
         m = FIELD.match(line.strip())
         if m:
@@ -79,13 +79,20 @@ def main(argv=None):
                 spine = yaml.safe_load(fh) or {}
         except (OSError, yaml.YAMLError) as exc:
             warnings.append(f"could not read the spine: {exc.__class__.__name__}")
+        if not isinstance(spine, dict):
+            warnings.append("the spine is not a mapping — read as empty")
+            spine = {}
 
     intents = []
     for iid in ids:
         page = os.path.join(model, "intents", f"{iid}.md")
         rec = {"id": iid, "path": os.path.relpath(page, model).replace(os.sep, "/"), "exists": os.path.isfile(page)}
         if rec["exists"]:
-            rec.update(read_page(page))
+            try:
+                rec.update(read_page(page))
+            except (OSError, UnicodeDecodeError) as exc:
+                rec.update({"title": "", "stage": "unknown"})
+                warnings.append(f"intent `{iid}`: its page could not be read ({exc.__class__.__name__})")
             rec["accepted"] = rec["stage"] != "dropped"
             if rec["stage"] == "dropped":
                 warnings.append(f"intent `{iid}` is dropped — /vision does not build on it")

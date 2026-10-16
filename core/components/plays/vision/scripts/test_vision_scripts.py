@@ -219,7 +219,10 @@ def test_the_hand_over():
         kept = os.path.join(work, "kept.json")
         check("the keep check holds: the raised domain kept its intent",
               ck.main(["--product-base", base + "/", "--out", kept]) == 0
-              and json.load(open(kept))["checked"] == ["product/product-os/shop/domain.md"])
+              and json.load(open(kept))["checked"] == [
+                  "product/product-os/shop/domain.md",
+                  "product/product-os/capabilities/guest-checkout/capability.md -> "
+                  "product/product-os/shop/guest-checkout/capability.md"])
         sh(tmp, "git", "add", "-A")
         sh(tmp, "git", "commit", "-q", "-m", "after /vision")
         rc, again = run_vision(tmp, base, m, work)
@@ -255,6 +258,36 @@ def test_named_updates_only():
         check("moving a capability between domains is not applied, only warned",
               rc == 0 and spine(m)["capabilities"][0]["domain"] == "shop"
               and any("alignment work" in w for w in out["warnings"]))
+
+
+def test_bad_inputs():
+    with tempfile.TemporaryDirectory() as tmp:
+        base, m = model_after_intent(tmp)
+        work = os.path.join(tmp, "work")
+        os.makedirs(work)
+        sp = spine(m)
+        sp["capabilities"].append(dict(sp["capabilities"][0], id="guest-checkout-2",
+                                       doc="capabilities/guest-checkout-2/capability.md"))
+        sp["capabilities"][1]["slug"] = "guest-checkout"
+        write(os.path.join(m, "_spine.yaml"), yaml.safe_dump(sp))
+        write(os.path.join(m, "capabilities", "guest-checkout-2", "capability.md"), CAP_DOC)
+        before = open(os.path.join(m, "_spine.yaml")).read()
+        rc, _ = persist(base, work, {"updates": [{"kind": "capability", "id": "guest-checkout", "domain": "shop"},
+                                                 {"kind": "capability", "id": "guest-checkout-2", "domain": "shop"}]})
+        check("two placements onto one page refuse the run and write nothing",
+              rc == 2 and open(os.path.join(m, "_spine.yaml")).read() == before
+              and os.path.isfile(os.path.join(m, "capabilities", "guest-checkout", "capability.md")))
+        write(os.path.join(m, "_spine.yaml"), "domains: [\n")
+        rc = subprocess.run([sys.executable, os.path.join(HERE, "persist_seed.py"), "--seed-manifest",
+                             seed(work, {"updates": [{"kind": "capability", "id": "guest-checkout", "one_line": "a b c d"}]}),
+                             "--product-base", base + "/", "--out-manifest", os.path.join(work, "p.json")],
+                            capture_output=True, text=True)
+        check("a broken spine exits 2 with nothing written, not a crash",
+              rc.returncode == 2 and "cannot read" in rc.stderr and "Traceback" not in rc.stderr)
+        write(os.path.join(m, "_spine.yaml"), "- a list\n")
+        rc = ri.main(["--product-base", base + "/", "--intent", "grow-online-sales", "--out", os.path.join(work, "i.json")])
+        check("read_intents reads a spine that is not a mapping as empty, with a warning",
+              rc == 0 and any("not a mapping" in w for w in json.load(open(os.path.join(work, "i.json")))["warnings"]))
 
 
 def test_never_blocks():
@@ -296,6 +329,20 @@ def test_keep_check():
         write(os.path.join(m, "capabilities", "guest-checkout", "capability.md"),
               CAP_DOC + "- Limit: Nothing about how returns work changes for anyone.\n")
         check("adding to the agent intent passes", ck.main(["--product-base", base + "/", "--out", out]) == 0)
+    with tempfile.TemporaryDirectory() as tmp:
+        base, m = model_after_intent(tmp)
+        out = os.path.join(tmp, "kept.json")
+        os.makedirs(os.path.join(m, "shop", "guest-checkout"))
+        os.rename(os.path.join(m, "capabilities", "guest-checkout", "capability.md"),
+                  os.path.join(m, "shop", "guest-checkout", "capability.md"))
+        write(os.path.join(m, "shop", "guest-checkout", "capability.md"), "# Capability: Replaced.\n")
+        check("a page cut down while it was moved out of the holding folder fails the keep check",
+              ck.main(["--product-base", base + "/", "--out", out]) == 1
+              and any(x["section"] == "Directional intent" for x in json.load(open(out))["lost"]))
+        os.remove(os.path.join(m, "shop", "guest-checkout", "capability.md"))
+        check("a holding page removed and placed nowhere fails the keep check",
+              ck.main(["--product-base", base + "/", "--out", out]) == 1
+              and "placed nowhere" in json.load(open(out))["lost"][0]["what"])
 
 
 def test_grounding_covers_every_capability():
@@ -309,7 +356,7 @@ def test_grounding_covers_every_capability():
 
 
 def main():
-    for test in (test_read_intents, test_the_hand_over, test_named_updates_only, test_never_blocks,
+    for test in (test_read_intents, test_the_hand_over, test_named_updates_only, test_bad_inputs, test_never_blocks,
                  test_keep_check, test_grounding_covers_every_capability):
         print(test.__name__)
         test()

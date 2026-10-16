@@ -6,7 +6,10 @@ the full one, add light detail to a capability — but it must keep what was the
 the model tree against the base ref and, for every grounding doc that existed at the base and
 was changed, checks that each `##` section it had is still there and not empty. A section may
 grow or be reworded; it may not disappear. Lines of the `## Agent intent (ICE)` section are
-checked one by one: an agent-intent line may be added to, never dropped.
+checked one by one: an agent-intent line may be added to, never dropped. A capability page
+moved out of the holding folder (`capabilities/<id>/capability.md` removed, `*/<id>/capability.md`
+added) is checked the same way, its new page against its old one — a move is never a way
+around the check.
 
 Layer rule: git reads + file reads only; no gh/network.
 
@@ -24,6 +27,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from lint_grounding import ICE_SECTION, parse_sections  # noqa: E402
 
 DOCS = ("domain.md", "capability.md", "functionality.md")
+HOLDING = "capabilities/"
 
 
 def git(root, *args):
@@ -36,7 +40,19 @@ def sections(text):
 
 
 def ice_lines(body):
-    return {" ".join(l.split()) for l in body.splitlines() if l.strip().startswith(("-", "*"))}
+    return {" ".join(line.split()) for line in body.splitlines() if line.strip().startswith(("-", "*"))}
+
+
+def compare(path, old, new, lost):
+    was, now = sections(old), sections(new)
+    for head, body in was.items():
+        if not body:
+            continue
+        if not now.get(head):
+            lost.append({"path": path, "section": head, "what": "the section is gone or empty"})
+        elif head == ICE_SECTION:
+            for item in sorted(ice_lines(body) - ice_lines(now[head])):
+                lost.append({"path": path, "section": head, "what": f"dropped: {item[:80]}"})
 
 
 def main(argv=None):
@@ -60,26 +76,43 @@ def main(argv=None):
         return 2
 
     checked, lost = [], []
+    removed, added = {}, []
     for line in diff.splitlines():
         parts = line.split("\t")
-        if len(parts) < 2 or parts[0].strip() != "M" or os.path.basename(parts[-1]) not in DOCS:
+        if len(parts) < 2 or os.path.basename(parts[-1]) not in DOCS:
             continue
-        path = parts[-1].strip()
+        status, path = parts[0].strip(), parts[-1].strip()
+        rel = path[len(tree) + 1:] if path.startswith(tree + "/") else path
+        if status == "D" and rel.startswith(HOLDING):
+            removed[rel.split("/")[1]] = path       # holding page, keyed by capability id
+        elif status == "A":
+            added.append(path)
+        if status != "M":
+            continue
         rc, old = git(root, "show", f"{args.base_ref}:{path}")
         if rc:
             continue
         with open(os.path.join(root, path), encoding="utf-8") as fh:
             new = fh.read()
-        was, now = sections(old), sections(new)
         checked.append(path)
-        for head, body in was.items():
-            if not body:
-                continue
-            if not now.get(head):
-                lost.append({"path": path, "section": head, "what": "the section is gone or empty"})
-            elif head == ICE_SECTION:
-                for item in sorted(ice_lines(body) - ice_lines(now[head])):
-                    lost.append({"path": path, "section": head, "what": f"dropped: {item[:80]}"})
+        compare(path, old, new, lost)
+    rc, others = git(root, "ls-files", "--others", "--exclude-standard", "--", tree)
+    added += [p.strip() for p in others.splitlines() if p.strip()]
+    for path in added:
+        parts = path.split("/")
+        if os.path.basename(path) != "capability.md" or len(parts) < 3 or parts[-2] not in removed:
+            continue
+        old_path = removed.pop(parts[-2])
+        rc, old = git(root, "show", f"{args.base_ref}:{old_path}")
+        if rc:
+            continue
+        with open(os.path.join(root, path), encoding="utf-8") as fh:
+            new = fh.read()
+        checked.append(f"{old_path} -> {path}")
+        compare(path, old, new, lost)
+    for old_path in removed.values():
+        lost.append({"path": old_path, "section": "(whole page)",
+                     "what": "removed from the holding folder but placed nowhere"})
 
     report = {"ok": not lost, "base_ref": args.base_ref, "checked": checked, "lost": lost}
     os.makedirs(os.path.dirname(os.path.abspath(args.out)), exist_ok=True)
