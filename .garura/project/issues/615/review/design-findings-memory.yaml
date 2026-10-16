@@ -1,0 +1,83 @@
+pr: 640
+issue: 615
+category: memory
+changed_artifact: core/components/memory/standards/rules/pipeline-position.md
+grounding:
+  - principle: "A drive hands a play a contract; inside a drive the play skips the injected start-change and the injected end sequence (commit-change, propose-change, review-change, merge-change); the drive opens and lands the one change; the play keeps its own model commit on the drive's branch"
+    source: "main:core/components/memory/standards/rules/drive-contract.md ('How a play runs inside a drive', steps 1-2); main:docs/adr/029-drives.md sections 2-3"
+  - principle: "ADR 029 lists making /understand run inside a drive as its own piece of work (#615), separate from #614 (/vision) and #616 (break the hard chain)"
+    source: "main:docs/adr/029-drives.md ('Work This Creates' items 3-5)"
+  - principle: "The play-owned checker is one canonical script stamped into each play; plays read the contract rule and do not restate it"
+    source: "main:core/components/memory/standards/rules/drive-contract.md (intro: 'Canonical checker: play-creator/references/check_drive_contract.py, stamped into each play'); main:core/components/memory/standards/rules/_index.md ('When to Add Here')"
+  - principle: "A drive-run play with a conditional (not pinned) checkpoint never waits: it writes a review record with write_drive_review.py and records 'checkpoint deferred to the drive's review' as a Checkpoint Decisions row; a pinned one is never deferred by contract"
+    source: "main:core/components/memory/standards/rules/drive-contract.md (step 3); main:core/components/memory/standards/rules/gate-config.md ('Pinned gates'; 'The live-eval loop'); main:docs/adr/029-drives.md (Consequences 'Pinned gates': /vision and /understand are conditional)"
+  - principle: "Inside a drive a saved decision is 'proposed' and accepted at the drive's end review (declared for /intent and /adr)"
+    source: "main:core/components/memory/standards/rules/direct-model-write.md (declared exceptions, /intent and /adr, lines ~120-126); main:docs/adr/030-plan-mode.md section 5"
+  - principle: "Status lists in rules are kept in step with the code; every rule is listed in rules/_index.md with its consumers"
+    source: "main:core/components/memory/standards/rules/_index.md ('When to Add Here'; row 43 for drive-contract.md; row 42 for pipeline-position.md)"
+conformance_notes:
+  - "The one-sentence change is accurate. The edited sentence says /understand (#615) is wired with the shared check_drive_contract.py. Compared byte for byte, core/components/plays/understand/scripts/check_drive_contract.py and write_drive_review.py are identical to play-creator/references/ (the canonical copies named by drive-contract.md on main), the same as /vision's. /understand's compiled SKILL.md runs the check first (Step 0a), skips start-change and the four end plays when in_drive is true, and keeps its own model commit on the drive's branch. All of that is what drive-contract.md steps 1-2 and ADR 029 s2-3 require."
+  - "The edit is consistent with drive-contract.md on main. That rule never says /understand is unwired and does not name consumers, so it is not stale about /understand. /understand's checkpoint is conditional (ADR 029 Consequences 'Pinned gates' names it so), so deferring it in a drive does not collide with the pinned-gate rule in drive-contract.md step 3 or gate-config.md."
+  - "The other 'as compiled today' text in pipeline-position.md is untouched and still right: /understand is listed under 'both' (#616 changed position none to both), which matches /understand's frontmatter on this branch (position: both)."
+  - "Wording check: 'and /vision (#614) and /understand (#615), both with the shared check_drive_contract.py' reads correctly with the comma before 'and'. 'Shared' is accurate as 'the same canonical script stamped into the play', not a single imported file. It is a little unclear to a reader who does not know about stamping."
+  - "Layer 2 limit: nothing was grounded on text this PR adds. The diff for this category is two changed lines in pipeline-position.md; every principle above is from the base ref."
+findings:
+  - id: M1
+    category: memory
+    severity: P3
+    title: "rules/_index.md (on main) still lists /understand as a future consumer ('/understand (#615)') of drive-contract.md, so the index disagrees with the edited rule"
+    basis: "The index row for drive-contract.md says '/vision (wired), /intent (own check), /understand (#615)'. After this PR pipeline-position.md says /understand is wired. The index is the first place an agent looks to learn what rules apply and who consumes them; two committed rules now give different wired status for the same play."
+    source: "main:core/components/memory/standards/rules/_index.md (row 43; 'When to Add Here' - each rule listed with its consumers)"
+    path: core/components/memory/standards/rules/_index.md
+    detail: >
+      This file is on main and is not in the diff, so it is a follow-up the PR leaves open, not an error in the changed lines.
+      The fix is a one-word edit on row 43: '/understand (wired)'. Same pattern as the /vision entry. Because the index is
+      not in changed_paths, the same-PR sweep for 'wired' wording missed it.
+  - id: M2
+    category: memory
+    severity: P3
+    title: "No committed rule says box-move decisions are saved as 'proposed' inside a drive; /understand does it only in its own play text"
+    basis: "The rule that governs a drive-run play (drive-contract.md) never mentions decisions. The 'proposed inside a drive, accepted at the drive's end review' convention is declared only for /intent and /adr (direct-model-write.md). /understand now saves each box-move decision as 'proposed' and has the drive's review accept or drop it, but the rule files that /understand's SKILL.md cites do not say so."
+    source: "main:core/components/memory/standards/rules/direct-model-write.md (declared exceptions /intent and /adr); main:core/components/memory/standards/rules/drive-contract.md (steps 1-5, no decision-status clause); main:docs/adr/030-plan-mode.md section 5"
+    path: core/components/memory/standards/rules/drive-contract.md
+    detail: >
+      The one-line edit in pipeline-position.md says only that /understand is wired; it does not repeat this and does not
+      need to. The gap is in drive-contract.md / direct-model-write.md, both on main. A later drive-run play that
+      writes decisions (for example /shape or /grill) has no rule to read. Suggested fix: add one line to
+      direct-model-write.md's 'declared exceptions' naming /understand's box-move decisions (proposed in a drive,
+      accepted or dropped at the drive's end review, as with /intent and /adr), or a general sentence in drive-contract.md.
+      Related to #617 (how a finished drive is reviewed), which does not exist yet.
+  - id: M3
+    category: memory
+    severity: P3
+    title: "pipeline-position.md's mechanics sections still describe unconditional injection although two (now three) plays skip it inside a drive by hand-written text"
+    basis: "Shared play scaffolding must be emitted by play-creator and checked by lint-components so a hand edit and a rebuild converge. 'How play-creator injects it' and 'Enforced' do not mention the in-drive skip, and play-creator/SKILL.md and lint_play.py contain no 'in_drive' or drive-contract reference (0 matches in each, checked on this branch). /understand is a third play whose in-drive skip lives only in its hand-compiled SKILL.md and ice.md."
+    source: "main:CLAUDE.md (Play Pipeline Rules > Durability rule for non-intent edits); main:core/components/memory/standards/rules/pipeline-position.md ('How play-creator injects it', 'Enforced')"
+    path: core/components/memory/standards/rules/pipeline-position.md
+    detail: >
+      Carried over from the #614 review (that review's M7). It is not caused by this PR, but this PR widens it: the rule's
+      first paragraph says the opening and end are skipped in a drive and lists the wired plays, while 'How play-creator
+      injects it' and 'Enforced' still say injection is unconditional. A rebuild of /understand through play-creator today
+      would drop the drive check and the skip. Say in the rule that wiring is by hand until play-creator learns the skip
+      (cite the follow-up issue), or open that issue and cite it. The 'Wired so far' list is the right place for the note.
+  - id: M4
+    category: memory
+    severity: P4
+    title: "The 'wired so far' list is a moving status inside a standing rule, and now repeats issue numbers that go stale on the next play"
+    basis: "The rule already carries an 'As compiled today' list, so a status list has precedent. The edit removes one stale 'follows in #615' but adds two more issue numbers, so the next wired play (/grill, /learn, ...) needs the same edit again. Carried over from the #614 review (M9)."
+    source: "main:core/components/memory/standards/rules/pipeline-position.md (introductory paragraph, 'As compiled today')"
+    path: core/components/memory/standards/rules/pipeline-position.md
+    detail: "Low cost. Optionally state 'wired plays are those whose SKILL.md runs check_drive_contract.py' (greppable) instead of naming plays and issues."
+  - id: M5
+    category: memory
+    severity: P4
+    title: "Pre-existing stale text lower in pipeline-position.md ('the five plays here are all members, so no consumer exists yet')"
+    basis: "The introductory paragraph lists a dozen consumer plays with positions 'both', 'start' and 'end', yet 'Enforced' still says no consumer play exists and the mechanical lint check of an injected sequence 'lands with the first consumer play (Phase E)'. The file contradicts itself on main."
+    source: "main:core/components/memory/standards/rules/pipeline-position.md ('As compiled today' versus 'Enforced', last paragraph)"
+    path: core/components/memory/standards/rules/pipeline-position.md
+    detail: "Not touched by this PR and not caused by it; recorded because the reviewer opened the file. Fix when the file is next edited, or when the lint check for injected sequences is built."
+summary:
+  P1: 0
+  P2: 0
+  P3: 3
+  P4: 2

@@ -1,0 +1,68 @@
+pr: 640
+issue: 615
+base: main
+categories:
+  - id: harness
+    playbook: review/harness
+    design_bearing: true
+    path_count: 2
+    summary: "The /understand play gains a drive-run contract: when it runs inside a drive it skips its own opening and end sequence, records its deferred answers, saves box-move decisions as proposed (not accepted) and writes a drive review; its compiled steps, constraints and evals change to match (ICE source plus compiled SKILL.md)."
+    evidence:
+      - core/components/plays/understand/SKILL.md
+      - core/components/plays/understand/reference/ice.md
+    notes: "Intent change to the play (ice.md plus compiled SKILL.md), so check each SKILL.md change traces to its ice.md and that constraints, failures, scenarios and evals stay covered (lint_play.py, lint-components). Layer 2 applies: ground only in committed base-ref sources (docs/philosophy, ADRs on drives and gates incl. ADR 029 and 030, standards rules such as play-close, no-unbacked-recommendation, gate-config, pipeline-position and drive-contract.md as they stand on main, the base-ref understand ice.md and SKILL.md via git show main:path, and the merged /vision change from #614 as precedent), never the branch's own ice.md, plan.md or work description."
+  - id: memory
+    playbook: review/memory
+    design_bearing: true
+    path_count: 1
+    summary: "Standards rule edit: the pipeline-position rule now lists /understand (#615) as wired for drive runs alongside /intent and /vision (a 2-line wording change)."
+    evidence:
+      - core/components/memory/standards/rules/pipeline-position.md
+    notes: "Small edit to a standards rule agents read, so Layer 1 (structure, cross-references) and Layer 2 both apply, scaled to the size of the change. Ground in the base-ref pipeline-position.md and drive-contract.md (git show main:path), ADR 029 and 030. Check the claim 'understand is wired with the shared check_drive_contract.py' is true of the branch's understand play (SKILL.md calls it; script copy is byte-identical to play-creator/references)."
+  - id: executable-code
+    playbook: review/code
+    design_bearing: false
+    path_count: 3
+    summary: "Python scripts inside the understand play: new check_drive_contract.py and write_drive_review.py (verified byte-identical copies of the canonical play-creator/references versions) and a small edit to persist_understand.py adding a --decision-status accepted|proposed option (default accepted) that sets the status of box-move decision records."
+    evidence:
+      - core/components/plays/understand/scripts/check_drive_contract.py
+      - core/components/plays/understand/scripts/write_drive_review.py
+      - core/components/plays/understand/scripts/persist_understand.py
+    notes: "Layer 1 only (ruff, quality-check-scoped with the pr.md taxonomy). Confirm the two copies stay identical to the canonical source, that the new flag defaults to the old behaviour (accepted) so hand runs are unchanged, that invalid values are refused, and that write_drive_review.py is safe to rerun. Scripts inside a play folder, so the harness playbook is not applied to them."
+  - id: tests
+    playbook: review/tests
+    design_bearing: false
+    path_count: 1
+    summary: "test_persist_understand.py gains test_box_move_status: a hand run writes the decision as accepted, a drive run writes it as proposed, the decision is linked onto the capability, and a bad status is refused."
+    evidence:
+      - core/components/plays/understand/scripts/test_persist_understand.py
+    notes: "Run the suite, do not only read it (python3 core/components/plays/understand/scripts/test_persist_understand.py); confirm the refusal case is a real failure case and no test asserts nothing. Layer 1 only; no design-grounding. Test file sits beside its script, content decided."
+  - id: stm-run-records
+    playbook: null
+    playbook_missing: true
+    design_bearing: false
+    path_count: 10
+    summary: "Short-term-memory records for issue 615 and the propose-change run (analysis, branch, commits, issue and PR snapshots, porcelain output, PR body, resolved-rules record, self-review, work description)."
+    evidence:
+      - .garura/project/issues/615/context/analysis.yaml
+      - .garura/project/issues/615/context/branch.json
+      - .garura/project/issues/615/context/commits.yaml
+      - .garura/project/issues/615/context/issue.json
+      - .garura/project/issues/615/context/porcelain.txt
+      - .garura/project/issues/615/context/pr-body.md
+      - .garura/project/issues/615/context/pr.json
+      - .garura/project/issues/615/context/resolved-rules.json
+      - .garura/project/issues/615/context/self-review.md
+      - .garura/project/issues/615/context/work-description.txt
+    notes: "Playbook missing. Work-tracking and run artifacts under .garura/project/issues/615/context, not KB memory, docs or ADRs. Needs its own playbook, or an explicit decision that they are out of review scope. The work description and PR body state the intended scope the change can be checked against, but they are branch-added, so never design grounding."
+  - id: stm-plans-and-design
+    playbook: null
+    playbook_missing: true
+    design_bearing: false
+    path_count: 3
+    summary: "The new plan for issue 615, plus progress notes added to the existing plans for issues 606 (roadmap item 6 started, Kapil chose box-moves are proposed inside a drive) and 614 (plan edit)."
+    evidence:
+      - .garura/project/issues/615/specs/plan.md
+      - .garura/project/issues/606/specs/plan.md
+      - .garura/project/issues/614/specs/plan.md
+    notes: "Playbook missing. Planning records, not harness, memory or ADRs. They state intended scope but are branch-added or branch-edited, so never grounding for judging the harness or memory changes (circular). Needs a playbook or an explicit out-of-scope decision."
