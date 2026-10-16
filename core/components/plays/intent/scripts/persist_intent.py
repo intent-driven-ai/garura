@@ -14,14 +14,23 @@ workable. Then this writes — the product model is the hand-off; no separate ha
     in the shape of the ontology's example (title, outcome, why, asked by, proof it is met,
     must not, stage, confirmed by and when, sources, the capabilities built from it).
   - for each ICE built from a saved intent, a PROPOSED CAPABILITY (spine.yaml v2): an entry
-    appended to `<product_base>product-os/_spine.yaml` (status proposed, detail directional, no
-    domain yet — /vision attaches it — and `intents` naming the business intent), and its
-    grounding doc `product-os/capabilities/<id>/capability.md` with the ICE goals inline.
+    appended to `<product_base>product-os/_spine.yaml` (status proposed, detail directional,
+    `intents` naming the business intent) and its grounding doc with the ICE in its
+    `## Agent intent (ICE)` section. When the draft names the ICE's domain (ontology v4: only
+    when the source, the person or the model shows it) the doc goes under that domain —
+    `<domain>/<id>/capability.md` — and a domain not yet in the model is added as a light,
+    directional domain entry and page (`<domain>/domain.md`); a domain already in the model
+    only gains the intent in its `intents`. With no domain, or one that cannot be used, the
+    doc waits in the holding folder `capabilities/<id>/capability.md` with `domain` empty —
+    /vision places it — and the reason is recorded in `warnings`.
+  - on each intent page, the Touches list (intent_touches.py): every capability and domain
+    the intent reaches, marked `adds` (written by this run) or `changes` (already there).
   - `<snapshot_dir>/source.md` — one Source record per Source (kind, read on, snapshot, what it
     shows, given by) naming every intent it shows: the link written on BOTH sides.
   - `<working>/intent-manifest.json` — the rollup the stop condition reads.
 
-ADDITIVE: an intent page, a capability doc or an existing spine entry is never overwritten. A
+ADDITIVE: an intent page, a capability or domain doc, or an existing spine entry is never
+overwritten (the one update: an existing domain's `intents` gains the intent). A
 dropped intent, and the ICE built from it, are not saved. An ICE whose capability is already in
 the model is skipped and reported (`ice_skipped`), never merged in. Every check runs before the
 first write, so a refusal writes nothing. It refuses (exit 2) when: an input is unreadable or of
@@ -54,6 +63,9 @@ import sys
 
 import yaml
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import intent_touches as touches  # noqa: E402
+
 REQUIRED = ("title", "outcome", "why", "asked_by", "proof")
 ID_SHAPE = re.compile(r"^[a-z0-9][a-z0-9-]{0,79}$")   # ids become file names: no paths, no dots
 
@@ -63,24 +75,45 @@ class Refused(Exception):
 
 
 SPINE = "_spine.yaml"
-CAP_DOC = "capabilities/{id}/capability.md"      # relative to product-os; /vision may move it
+HOLDING_DOC = "capabilities/{id}/capability.md"  # relative to product-os; /vision places it
+CAP_DOC = "{domain}/{id}/capability.md"
+DOMAIN_DOC = "{id}/domain.md"
+RESERVED = ("capabilities", "intents")           # product-os folders that are not domains
 
 
-def capability_entry(c):
-    """A proposed capability for one ICE, in the spine.yaml v2 shape. No domain yet — /vision
-    attaches it; `intents` names the business intent the ICE is built from (ontology v3)."""
-    return {"id": str(c["id"]), "slug": str(c["id"]), "domain": "",
+def as_list(v):
+    return [x for x in (v if isinstance(v, list) else [v] if v else []) if str(x).strip()]
+
+
+def capability_entry(c, domain, doc):
+    """A proposed capability for one ICE, in the spine.yaml v2 shape: under `domain` when known,
+    else empty — /vision places it; `intents` names the business intent its ICE is built from."""
+    return {"id": str(c["id"]), "slug": str(c["id"]), "domain": domain,
             "intents": [str(c["built_from"])], "status": "proposed", "detail": "directional",
-            "one_line": str(c["one_line"]).strip(), "doc": CAP_DOC.format(id=c["id"]),
+            "one_line": str(c["one_line"]).strip(), "doc": doc,
             "depends_on": [], "decisions": [], "personas": [], "journeys": [],
             "metadata": {"created_by": "/intent", "updated_by": "/intent", "version": 1}}
 
 
 def capability_doc(c):
-    """The capability's grounding doc at the directional stage, its ICE goals written inline."""
-    goals = "\n".join(f"- {g}" for g in c.get("goals") or [])
+    """The capability's grounding doc at the directional stage, its ICE in the named section."""
+    ice = [f"- Goal: {g}" for g in as_list(c.get("goals"))]
+    ice += [f"- Limit: {x}" for x in as_list(c.get("limits"))]
+    ice += [f"- Fails if: {x}" for x in as_list(c.get("fails_if"))]
     return (f"# Capability: {c['title']}\n\n## Directional intent\n"
-            f"{str(c['directional_intent']).strip()}\n\nGoals:\n{goals}\n")
+            f"{str(c['directional_intent']).strip()}\n\n## Agent intent (ICE)\n" + "\n".join(ice) + "\n")
+
+
+def domain_entry(d, intents):
+    """A light (directional) domain for a domain the source, the person or the model showed."""
+    return {"id": str(d["id"]), "slug": str(d["id"]), "status": "proposed", "detail": "directional",
+            "one_line": str(d["one_line"]).strip(), "doc": DOMAIN_DOC.format(id=d["id"]),
+            "intents": sorted(intents), "decisions": [],
+            "metadata": {"created_by": "/intent", "updated_by": "/intent", "version": 1}}
+
+
+def domain_doc(d):
+    return f"# Theme: {d['title']}\n\n## Intent\n{str(d['intent']).strip()}\n"
 
 
 def load_mapping(path, what):
@@ -183,14 +216,20 @@ def plan(args):
     spine = load_mapping(spine_path, "spine") if os.path.exists(spine_path) else \
         {"domains": [], "capabilities": [], "functionalities": []}
     taken = {str(e.get("id")) for e in spine.get("capabilities") or [] if isinstance(e, dict)}
-    work = {"conf": conf, "decisions": decisions, "sources": sources, "shows": shows,
-            "confirmed": confirmed, "ice": ice, "intents_dir": intents_dir,
-            "spine": spine, "spine_path": spine_path,
+    drafted = {str(d.get("id")): d for d in (draft.get("domains") or []) if isinstance(d, dict)}
+    check_ids("domain", list(drafted))
+    in_model = {str(d.get("id")): d for d in spine.get("domains") or [] if isinstance(d, dict)}
+    work = {"conf": conf, "decisions": decisions, "sources": sources, "shows": shows, "drafted": drafted,
+            "confirmed": confirmed, "ice": ice, "intents_dir": intents_dir, "model": model,
+            "spine": spine, "spine_path": spine_path, "warnings": [],
+            "new_domains": {}, "old_domains": {}, "placed": {},
             "dropped": [str(i["id"]) for i in intents if str(i["id"]) not in kept],
             "ice_dropped": [str(c["id"]) for c in all_ice if str(c.get("built_from")) not in kept],
             "paths": {str(i["id"]): os.path.join(intents_dir, f"{i['id']}.md") for i in confirmed},
-            "ice_paths": {str(c["id"]): os.path.join(model, CAP_DOC.format(id=c["id"])) for c in ice},
             "source_mds": [os.path.join(s["snapshot_dir"], "source.md") for s in sources]}
+    for c in ice:
+        work["placed"][str(c["id"])] = place(c, drafted, in_model, model, work)
+    work["ice_paths"] = {cid: os.path.join(model, doc) for cid, (_d, doc) in work["placed"].items()}
     # An ICE whose capability is already in the model is skipped and reported, never merged in:
     # an existing entry or doc is never changed (C8), and one clash must not stop the rest.
     # Linking it to the intent is alignment's work.
@@ -203,27 +242,103 @@ def plan(args):
             work["ice_skipped"].append({"id": cid, "built_from": str(c.get("built_from")), "reason": why})
             ice.remove(c)
             del work["ice_paths"][cid]
+            del work["placed"][cid]
+    # A domain is written or linked only for the ICE that are actually saved under it.
+    used = {}
+    for c in ice:
+        dom = work["placed"][str(c["id"])][0]
+        if dom:
+            used.setdefault(dom, set()).add(str(c["built_from"]))
+    work["new_domains"] = {k: v for k, v in used.items() if k not in in_model}
+    work["old_domains"] = {k: v for k, v in used.items() if k in in_model}
     existing = [p for p in work["paths"].values() if os.path.exists(p)]
     if existing:
         raise Refused(f"{', '.join(existing)} already exist — a business intent is never overwritten")
     return work
 
 
+def place(c, drafted, in_model, model, work):
+    """(domain id, doc path) for one ICE: under its domain when the draft names one that can be
+    used, else the holding folder — with the reason in `warnings`. Never a refusal."""
+    cid, dom = str(c["id"]), str(c.get("domain") or "").strip()
+    holding = ("", HOLDING_DOC.format(id=cid))
+    if not dom:
+        return holding
+    if dom in in_model:
+        slug = str(in_model[dom].get("slug") or dom)
+        return dom, CAP_DOC.format(domain=slug, id=cid)
+    d = drafted.get(dom)
+    why = None
+    if d is None:
+        why = f"its domain `{dom}` is neither in the draft's domains nor in the model"
+    elif dom in RESERVED:
+        why = f"`{dom}` is a folder the model keeps for itself"
+    elif not all(str(d.get(k) or "").strip() for k in ("title", "one_line", "intent")):
+        why = f"its domain `{dom}` lacks a title, one-line or intent"
+    elif os.path.exists(os.path.join(model, DOMAIN_DOC.format(id=dom))):
+        why = f"a page for domain `{dom}` exists but the spine does not list it"
+    if why:
+        work["warnings"].append(f"ICE `{cid}` waits in the holding folder: {why}")
+        return holding
+    work.setdefault("drafted_domains", {})[dom] = d
+    return dom, CAP_DOC.format(domain=dom, id=cid)
+
+
 def write_ice(w):
-    """Each ICE as a proposed capability: its doc, and its entry appended to the spine."""
+    """Each ICE as a proposed capability (doc + spine entry); new domains as light pages; the
+    intents added to the domains already in the model."""
     if not w["ice"]:
         return
+    spine = w["spine"]
+    for dom, intents in w["new_domains"].items():
+        d = w["drafted_domains"][dom]
+        path = os.path.join(w["model"], DOMAIN_DOC.format(id=dom))
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, "w", encoding="utf-8") as fh:
+            fh.write(domain_doc(d))
+        spine["domains"] = list(spine.get("domains") or []) + [domain_entry(d, intents)]
+    for e in spine.get("domains") or []:
+        if isinstance(e, dict) and str(e.get("id")) in w["old_domains"]:
+            have = [str(x) for x in e.get("intents") or []]
+            e["intents"] = have + sorted(set(w["old_domains"][str(e["id"])]) - set(have))
     for c in w["ice"]:
         path = w["ice_paths"][str(c["id"])]
         os.makedirs(os.path.dirname(path), exist_ok=True)
         with open(path, "w", encoding="utf-8") as fh:
             fh.write(capability_doc(c))
-    spine = w["spine"]
-    spine.setdefault("capabilities", [])
-    spine["capabilities"] = list(spine["capabilities"] or []) + [capability_entry(c) for c in w["ice"]]
+    spine["capabilities"] = list(spine.get("capabilities") or []) + [
+        capability_entry(c, *w["placed"][str(c["id"])]) for c in w["ice"]]
     os.makedirs(os.path.dirname(w["spine_path"]), exist_ok=True)
     with open(w["spine_path"], "w", encoding="utf-8") as fh:
         yaml.safe_dump(spine, fh, sort_keys=False, allow_unicode=True, width=100)
+
+
+def domain_title(w, dom, doc):
+    """The domain's name: from the draft, else its page's `# Theme:` line, else its id."""
+    title = str((w["drafted"].get(dom) or {}).get("title") or "").strip()
+    if not title and os.path.isfile(doc):
+        with open(doc, encoding="utf-8") as fh:
+            first = fh.readline().strip()
+        title = first[len("# Theme:"):].strip() if first.startswith("# Theme:") else ""
+    return title or dom
+
+
+def touched(w, iid, page):
+    """The Touches entries for one intent: its capabilities (adds) and their domains."""
+    out, seen = [], set()
+    docs = {str(e.get("id")): str(e.get("doc")) for e in w["spine"].get("domains") or [] if isinstance(e, dict)}
+    for c in w["ice"]:
+        if str(c.get("built_from")) != iid:
+            continue
+        dom, doc = w["placed"][str(c["id"])]
+        if dom and dom not in seen:
+            seen.add(dom)
+            doc_d = os.path.join(w["model"], docs[dom])
+            out.append(touches.entry(domain_title(w, dom, doc_d), touches.rel(page, doc_d), "domain",
+                                     "adds" if dom in w["new_domains"] else "changes"))
+        out.append(touches.entry(c.get("title") or c["id"], touches.rel(page, os.path.join(w["model"], doc)),
+                                 "capability", "adds"))
+    return out
 
 
 def write_intents(w):
@@ -247,14 +362,10 @@ def write_intents(w):
         lines.append("**Sources:**")
         for s, md in zip(w["sources"], w["source_mds"]):
             lines.append(f"- [{s.get('kind')}, read {s.get('read_on')}]({os.path.relpath(md, here)})")
-        mine = [c for c in w["ice"] if str(c.get("built_from")) == str(i["id"])]
-        lines.append("**ICE built from it (proposed capabilities, no domain yet):**" + ("" if mine else " none yet"))
-        for c in mine:
-            rel = os.path.relpath(w["ice_paths"][str(c["id"])], here)
-            lines.append(f"- [{c.get('title') or c['id']}]({rel})")
         lines += ["", "**What was done:** (nothing yet)", ""]
+        text = touches.upsert("\n".join(lines), touched(w, str(i["id"]), path))
         with open(path, "w", encoding="utf-8") as fh:
-            fh.write("\n".join(lines))
+            fh.write(text)
 
 
 def write_sources(w):
@@ -272,6 +383,29 @@ def write_sources(w):
             fh.write("\n".join(lines) + "\n")
 
 
+def both_ways(w):
+    """Every part an intent touches names the intent in the spine, and the intent page lists it."""
+    by_id = {(k, str(e.get("id"))): e for k in ("domains", "capabilities")
+             for e in w["spine"].get(k) or [] if isinstance(e, dict)}
+    for i in w["confirmed"]:
+        iid, page = str(i["id"]), w["paths"][str(i["id"])]
+        with open(page, encoding="utf-8") as fh:
+            listed = {e["link"] for e in touches.read(fh.read())}
+        for c in w["ice"]:
+            if str(c.get("built_from")) != iid:
+                continue
+            dom, doc = w["placed"][str(c["id"])]
+            parts = [("capabilities", str(c["id"]), doc)]
+            if dom:
+                parts.append(("domains", dom, str(by_id.get(("domains", dom), {}).get("doc"))))
+            for kind, pid, pdoc in parts:
+                if iid not in [str(x) for x in by_id.get((kind, pid), {}).get("intents") or []]:
+                    return False
+                if touches.rel(page, os.path.join(w["model"], pdoc)) not in listed:
+                    return False
+    return True
+
+
 def manifest_for(w):
     written = list(w["paths"].values()) + list(w["ice_paths"].values()) + w["source_mds"]
     in_spine = {str(e.get("id")) for e in w["spine"].get("capabilities") or [] if isinstance(e, dict)}
@@ -281,6 +415,10 @@ def manifest_for(w):
                                       if str(c.get("built_from")) == str(i["id"])]}
                     for i in w["confirmed"]],
         "spine": w["spine_path"] if w["ice"] else None,
+        "domains_added": sorted(w["new_domains"]),
+        "domains_linked": sorted(w["old_domains"]),
+        "in_holding_folder": sorted(cid for cid, (dom, _doc) in w["placed"].items() if not dom),
+        "warnings": w["warnings"],
         "dropped": w["dropped"],
         "ice_dropped": w["ice_dropped"],
         "ice_skipped": w["ice_skipped"],
@@ -290,7 +428,7 @@ def manifest_for(w):
         "decided": True,
         "sources_saved": all(s.get("snapshot_saved") for s in w["sources"]),
         "linked": all(os.path.isfile(p) for p in written)
-        and all(str(c["id"]) in in_spine for c in w["ice"]),
+        and all(str(c["id"]) in in_spine for c in w["ice"]) and both_ways(w),
     }
 
 
