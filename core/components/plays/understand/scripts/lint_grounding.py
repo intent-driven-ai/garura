@@ -51,13 +51,19 @@ except ImportError:
 CONTRACTS = {
     "domain": {
         "title": "Theme:",
-        "h2": [
-            "Intent",
-            "Business goal",
-            "Guiding rules",
-            "Capabilities",
-            "Scope (In / Out)",
-        ],
+        # Domain is STAGE-AWARE like capability: a play that knows little writes the
+        # directional (light) page, /vision writes or raises it to the detailed page. The
+        # spine entry's `detail:` says which applies; absent → inferred from content.
+        "stages": {
+            "directional": ["Intent"],
+            "detailed": [
+                "Intent",
+                "Business goal",
+                "Guiding rules",
+                "Capabilities",
+                "Scope (In / Out)",
+            ],
+        },
     },
     "capability": {
         "title": "Capability:",
@@ -118,6 +124,14 @@ CONTRACTS = {
 
 # H1 prefix -> kind, for inferring a doc's kind from its title.
 TITLE_TO_KIND = {v["title"]: k for k, v in CONTRACTS.items()}
+
+# The agent intent (ICE) of a capability or functionality is written in ONE named section,
+# always the last, in labelled lines a play fills as far as it knows (ontology v4, #637).
+# Optional on a page with no business-intent link; required once its spine entry names one
+# in `intents` — the link says the node is built from an intent, so its ICE must be visible.
+ICE_SECTION = "Agent intent (ICE)"
+ICE_KINDS = ("capability", "functionality")
+ICE_LABELS = ("Goal", "Limit", "Fails if", "Context", "Checked by", "Quality need")
 
 # Coarse substance floor — a FLOOR, not a quality bar. Tuned to catch labels
 # ("Local fixtures only") without false-failing terse-but-real content. The eval
@@ -190,10 +204,41 @@ def resolve_stage_h2(stages, got, expected_stage, path, errors):
     return stages["detailed"]
 
 
-def check_doc(path, text, kind, errors, warnings, expected_stage=None):
+def check_ice(path, lines, errors):
+    """The agent intent section: labelled bullets only, known labels, at least one Goal."""
+    labels = []
+    for line in lines:
+        s = line.strip()
+        if not s:
+            continue
+        m = re.match(r"^[-*]\s+([^:]{1,30}):\s*(.*)$", s)
+        if not m or m.group(1).strip() not in ICE_LABELS:
+            errors.append(f"{path}: line in '## {ICE_SECTION}' is not a labelled item "
+                          f"(\"{s[:50]}\") — start it with one of: {', '.join(ICE_LABELS)}")
+            continue
+        label, body = m.group(1).strip(), m.group(2)
+        labels.append(label)
+        if _words(body) < MIN_BULLET_WORDS:
+            errors.append(f"{path}: '{label}' in '## {ICE_SECTION}' is a telegraphic label "
+                          f"(\"{body[:50]}\") — explain it (>= {MIN_BULLET_WORDS} words)")
+    if "Goal" not in labels:
+        errors.append(f"{path}: '## {ICE_SECTION}' has no Goal — an agent intent starts with what must be true")
+
+
+def check_doc(path, text, kind, errors, warnings, expected_stage=None, require_ice=False):
     """Validate one grounding doc against its kind's contract. Bumps nothing; caller counts."""
     contract = CONTRACTS[kind]
     title, sections = parse_sections(text)
+    if kind in ICE_KINDS:
+        ice = [i for i, (h, _) in enumerate(sections) if h == ICE_SECTION]
+        if ice and ice != [len(sections) - 1]:
+            errors.append(f"{path}: '## {ICE_SECTION}' must appear once, as the last section")
+        elif ice:
+            check_ice(path, sections[-1][1], errors)
+        elif require_ice:
+            errors.append(f"{path}: missing '## {ICE_SECTION}' — its spine entry names a business "
+                          f"intent, so its agent intent must be written")
+        sections = [sec for sec in sections if sec[0] != ICE_SECTION]
     got_pre = [h for h, _ in sections]
     if "stages" in contract:
         want_h2 = resolve_stage_h2(contract["stages"], got_pre, expected_stage, path, errors)
@@ -317,7 +362,8 @@ def check_spine(root, spine_path, errors, warnings, counts):
             if title != kind:
                 errors.append(f"spine {kind} '{eid}': its doc '{doc}' reads as '{title}' — mismatch")
             check_doc(full, text, kind, errors, warnings,
-                      expected_stage=e.get("detail") if kind == "capability" else None)
+                      expected_stage=e.get("detail") if kind in ("capability", "domain") else None,
+                      require_ice=kind in ICE_KINDS and bool(e.get("intents")))
             counts[kind] = counts.get(kind, 0) + 1
 
     # --- epics: doc exists + contract, and functionality_refs resolve (link integrity) ---
@@ -400,7 +446,7 @@ def main(argv=None):
     ap.add_argument("--doc", help="lint a single grounding doc")
     ap.add_argument("--kind", choices=sorted(CONTRACTS), help="force the doc kind (else inferred from H1)")
     ap.add_argument("--stage", choices=["directional", "detailed"],
-                    help="for a stage-aware kind (capability): which shape to require")
+                    help="for a stage-aware kind (domain, capability): which shape to require")
     ap.add_argument("--root", help="product-os tree root to lint")
     ap.add_argument("--spine", help="spine file; enables spine<->doc consistency checks (needs --root)")
     args = ap.parse_args(argv)
