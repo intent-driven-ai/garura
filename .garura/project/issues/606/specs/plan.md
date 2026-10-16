@@ -44,7 +44,8 @@ Three decisions are made (#592, #607, #619) and three things are shipped: plan m
 **Issue:** #637 (Story under #594).
 **What:** `/vision` takes the business intents `/intent` saved, instead of a goal typed as text. It attaches a domain to the capabilities `/intent` wrote, checks them against the KB, adds no second capability for the same thing, and links every capability it adds to the intent it serves. It must accept intents that are only proposed, because inside Kickoff they are confirmed at the end. Seven gaps and two choices are written up in `.garura/project/issues/612/specs/vision-pickup.md`.
 **Why here:** Kickoff hands `/intent`'s output straight to `/vision`. Without this, `/vision` ignores it.
-**Done when:** `/vision`, given `/intent`'s saved intents, places their capabilities under a domain and adds its own, each linked to an intent.
+**Grew on 17 October (Kapil):** both `/intent` and `/vision` now write the one product model and never wait for each other — each writes at the depth it knows, and a later play adds to it. `/intent` places a capability under its domain when something shows it. Every capability and functionality page carries its agent intent in one named section, and each business intent is linked both ways to every part it touches. Ontology v4. Design: `.garura/project/issues/637/specs/design.md`.
+**Done when:** `/vision`, given `/intent`'s saved intents, places their capabilities under a domain and adds its own, each linked to an intent — and both plays write the one model as above.
 **Needs:** item 3.
 
 ### 5. `/vision` runs inside a drive
@@ -144,3 +145,4 @@ Not part of this plan; recorded so the gaps in time make sense.
 - 2026-10-08 — Item 2 done: `/vision` and `/understand` stand alone (#616, PR #630). Now on item 3 (#612).
 - 2026-10-16 — Plan found a week stale: it still said item 3 was being built, after `/intent` merged on 9 October. Brought up to date: item 3's state, ADR 031, the ontology's state, the Alignment drive, and the side work. Item 3's hand-over check is done (`.garura/project/issues/612/specs/vision-pickup.md`); it found the `/vision` change, added as item 4; the items after it moved down one (Kickoff is now item 8, the Learn drive item 14). Still on item 3 (handoff and close).
 - 2026-10-17 — Item 3 done: the handoff was posted on #612 and the issue closed on 16 October, just after the last plan update, so this plan still said "now: 3". Now on item 4 (#637), with items 5, 6 and 7 free to run beside it.
+- 2026-10-17 — Item 4 (#637) grew, on Kapil's word: it now changes `/intent` as well as `/vision`, gives the agent intent its own section, and links every business intent both ways (ontology v4). Built on the branch; not merged yet.
