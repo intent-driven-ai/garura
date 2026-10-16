@@ -51,7 +51,7 @@ The grounding docs are the unit of meaning: each conforms to its locked template
 must clear the **content-quality eval** (a judge), so a thin or label-only doc cannot
 pass. Structure lives in the spine; meaning lives in the docs.
 
-Pipeline position: **both**. /vision stands on its own (ADR 029 §4; #616): run by hand, it opens its own change and lands it. The D2 rule prepends `start-change` — resolve or create the issue, cut the branch off fresh main, optional worktree, init STM — and, after the model delta is committed, appends the close sequence `commit-change → propose-change → review-change → merge-change`, landing the change on main. No later play needs to run for /vision's work to be finished: /understand and the plays after it start from main. It writes the persistent product model **directly, in place** on the started branch — there is no draft copy and no apply/promote step; review is the branch git diff and the end PR. (#437, #500, ADR 026; position changed from start to both in #616.)
+Pipeline position: **both**. /vision stands on its own (ADR 029 §4; #616): run by hand, it opens its own change and lands it. Inside a drive (ADR 029 §2–3; #614) it is handed the drive's contract (`standards/rules/drive-contract.md`) and opens nothing: no `start-change`, no end sequence, no wait at its checkpoint — it works on the drive's branch, commits its model change there, and keeps what its checkpoint would have shown as a review record for the drive's end review. The D2 rule prepends `start-change` — resolve or create the issue, cut the branch off fresh main, optional worktree, init STM — and, after the model delta is committed, appends the close sequence `commit-change → propose-change → review-change → merge-change`, landing the change on main. No later play needs to run for /vision's work to be finished: /understand and the plays after it start from main. It writes the persistent product model **directly, in place** on the started branch — there is no draft copy and no apply/promote step; review is the branch git diff and the end PR. (#437, #500, ADR 026; position changed from start to both in #616.)
 
 Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM authoring skill writes ONLY the per-node grounding docs (`domain.md`, `capability.md`) straight to the live model — new docs, and updates to existing docs at its altitude that keep what was there; it never removes a doc and never writes a shared file. Every shared-file mutation (the spine `_spine.yaml`, including its `profile` block) and every page move is done by the deterministic keyed persist script, in place: it adds entries whose id is absent and the profile only if none exists, makes only the named updates to an existing entry, places holding-folder capabilities, and refuses anything else (the node-level containment the file-level scoped guard cannot see inside the shared spine). Containment is a post-write scoped guard over the full delta (`scoped_write_guard.py`) plus a keep check over every existing doc the run changed, not a draft. Clean tree in, committed delta out: the product-os tree is asserted clean once start-change has cut the fresh branch, and after the approved checkpoint the play commits its own model delta on the branch, so the working-tree diff vs HEAD is exactly this run's delta and the end sequence lands exactly that delta.
 
@@ -101,7 +101,8 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
   intent pages may only be changed (`--modify-only`); the spine `_spine.yaml` (with its
   profile block) is `--allow`. A re-run with nothing new to add changes nothing.
 - C7 — Exactly one human checkpoint, presenting the domain, the directional
-  capabilities, and the directional profile. The checkpoint is a **conditional gate**
+  capabilities, and the directional profile. (Inside a drive the checkpoint does not wait;
+  it becomes a review record for the drive's end review — C11.) The checkpoint is a **conditional gate**
   (#467; `gate-config.md` three gate kinds — /vision is one of the eleven conditional
   document plays). Resolution order: pinned (n/a here) → the `gates.plays` override →
   the learned policy (classify the working-tree change shape — the model tree's diff vs
@@ -114,8 +115,9 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
   (ADR 026): the run writes the full delta to the live model FIRST (docs by the authoring
   skill, the spine + profile by the keyed persist), so the checkpoint presents the real
   model git diff and the change-shape is classified over the full delta; nothing is
-  COMMITTED before the gate resolves — a typed approval, a recorded config skip, OR a
-  recorded policy auto-pass. On cancel the whole model delta is reverted (`git restore` +
+  COMMITTED before the gate resolves — a typed approval, a recorded config skip, a
+  recorded policy auto-pass, OR, inside a drive, a recorded deferral to the drive's review
+  (C11). On cancel the whole model delta is reverted (`git restore` +
   `git clean` over the model paths via the guard `--restore` with an empty allow set) — the
   branch, issue, and STM that start-change created are its own committed side effects and
   are left as-is. At close the play refreshes the learned policy with the bundled
@@ -147,6 +149,22 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
   names the part, marked `adds` (written by this run) or `changes` (already there) — both
   written by the keyed persist script, never by hand. Each capability built from an input
   intent that had no domain is placed under one, or has a warning saying why not.
+- C11 — Runs inside a drive without stopping (ADR 029 §2–3; `standards/rules/drive-contract.md`):
+  handed a drive's contract (`--contract`), the play checks it first with the bundled
+  `check_drive_contract.py` — an invalid contract, or a current branch other than the
+  drive's, halts — and records `in_drive` in `run.json`. Inside a drive it runs no
+  `start-change` and no end sequence (the drive opens and lands the change); it takes its
+  intents and goal from the contract's inputs and its answers from the contract's answers;
+  it asserts the clean model tree at once; it resolves its checkpoint (C7) exactly as by
+  hand — a config skip or a policy auto-pass is recorded as by hand — and only where the
+  gate would WAIT does it not wait: it renders the checkpoint exactly as it would have been shown and writes it, with the files
+  it stands on (the shape, the keep check, the guard report, the persist record), as a
+  review record into the contract's `review_dir` with the bundled `write_drive_review.py`,
+  and appends the crossing to the gate ledger as `deferred_to_drive_review` (the learner
+  skips it until the drive's review writes the person's real answer). It still commits
+  its model delta on the drive's branch (C9). A question neither the contract nor the model
+  answers — no intents and no goal — stops the run and asks the person; the play never
+  picks an answer itself. Run by hand (no contract), every step runs as before.
 
 ### Failure conditions
 
@@ -169,8 +187,9 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
   changed, `detail` lowered, an intent link removed), a moved page's bytes changed, or an
   intent page changed beyond its Touches list and the links to a moved page.
 - F6 — The model delta was COMMITTED before the checkpoint gate resolved (no typed
-  approval, no recorded config skip, and no recorded policy auto-pass), or a cancelled
-  checkpoint left model writes on the working tree instead of reverting them.
+  approval, no recorded config skip, no recorded policy auto-pass, and — inside a drive — no
+  recorded deferral to the drive's review), or a cancelled checkpoint left model writes on
+  the working tree instead of reverting them.
 - F7 — The close proves nothing — the play closes COMPLETED without the Done means held
   (no persist record, the persist not stamped applied, the scoped-write guard report not
   captured or not ok, or the model delta not committed).
@@ -188,6 +207,13 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
   already in the model; a part linked to an intent is missing from the intent's Touches list,
   or the intent is missing from the part's spine `intents`; a capability built from an input
   intent was left with no domain and no warning saying why.
+- F12 — Inside a drive, the play opened an issue or a branch, ran the end sequence, waited at
+  its checkpoint, or worked on a branch other than the drive's; or, run by hand, it skipped
+  its opening, its checkpoint or its end sequence.
+- F13 — Inside a drive, the checkpoint left no review record in the drive's `review_dir`,
+  the record differs from what the checkpoint would have shown, the gate ledger has no line
+  for the crossing, or a line records an approval no person gave; or the play picked an
+  answer to a question the drive had not answered.
 
 ## Expectation
 
@@ -243,6 +269,18 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
   page. Measure: the run closes COMPLETED in both cases; the second run's persist manifest
   lists the missing pages in `warnings`.
 
+- S7 — (Kickoff drive, inside a drive) Given a drive hands /vision its contract — the
+  drive's branch, its issue, its `review_dir`, the intents /intent saved and the answers to
+  /vision's questions — when /vision runs, then it opens nothing, does not stop at its
+  checkpoint, commits its model change on the drive's branch and leaves a review record for
+  the drive's review. Measure: `run.json` reads `in_drive: true` with the contract's
+  `drive_run_id` and branch; no `start-change` or end-sequence step ran and the current
+  branch equals the contract's branch; a `<review_dir>/vision-<ts>.json` record exists with
+  `decided: false` and its summary file; the gate ledger's line for the run reads
+  `deferred_to_drive_review` (or `auto_pass` on a policy-listed shape); the model delta is
+  committed on the drive's branch; the stop-condition verdict reads held. Run by hand, the
+  same play's `run.json` reads `in_drive: false` and every step ran as before.
+
 ### Done means
 
 Paths are relative to the run's working folder (`<working>`, under
@@ -293,7 +331,8 @@ not per-node docs.
 - REC6 (F6) — trigger: the model delta was committed before the checkpoint resolved, or a
   cancelled checkpoint left writes on the working tree. direction: revert the premature
   commit and the working-tree writes (guard `--restore`, empty allow set) and re-present
-  the checkpoint; commit only after the human approves. handoff: human.
+  the checkpoint; commit only after the human approves (inside a drive, only after the
+  deferral is recorded). handoff: human.
 - REC7 (F7) — trigger: the close would report COMPLETED without the Done means held.
   direction: close HALTED with `exit_reason: stop_condition_unmet` and the unmet clauses
   named; fix the state — re-run the keyed persist, re-capture the scoped-write guard
@@ -316,3 +355,13 @@ not per-node docs.
   with no warning. direction: drop the duplicate and record `same_as`; re-run the keyed persist
   so it writes the missing side of each link; place the capability or record why it could not
   be placed. handoff: autonomous.
+- REC12 (F12) — trigger: inside a drive the play opened an issue or branch, ran the end
+  sequence, waited at its checkpoint, or worked off the drive's branch; or by hand it skipped
+  a step. direction: inside a drive, close the stray issue and branch, switch to the drive's
+  branch, and write the review record in place of the wait; by hand, run the skipped step.
+  handoff: human.
+- REC13 (F13) — trigger: no review record, a record that differs from the checkpoint, no
+  ledger line, an approval no person gave, or an answer the play picked itself. direction:
+  re-render the checkpoint and re-write the review record with `write_drive_review.py`;
+  append the missing `deferred_to_drive_review` line, or a correction refuting a made-up
+  approval; drop the picked answer and ask the person. handoff: autonomous.

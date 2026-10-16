@@ -51,12 +51,17 @@ Scripts (canonical copies in `play-creator/references/`, stamped into conditiona
   (nodes added/removed, status changes, profile bars, decisions added, sections
   rewritten, prose edits); the shape key is `<play>:<non-zero axes>`.
 - `gate_eval.py append` — one JSONL line per crossing: shape, predicted (gate|auto),
-  human action (`approved_clean` | `approved_edited` | `rejected` | `auto_pass`).
-  A later correction is a NEW line with `refutes: <line>` — the ledger is append-only.
+  human action (`approved_clean` | `approved_edited` | `rejected` | `auto_pass` |
+  `deferred_to_drive_review`). A later correction is a NEW line with `refutes: <line>` —
+  the ledger is append-only. `deferred_to_drive_review` (#614,
+  `standards/rules/drive-contract.md`) records a crossing inside a drive, where no person
+  answered at that moment; it pairs with `predicted gate` only.
 - `distill_gate_policy.py` — the learner, run at the play's close. Pure rule: a shape's
   last `streak` consecutive entries all `approved_clean` (auto_pass extends a streak,
   never starts one) and no unrefuted correction ⇒ `auto:`. Any rejection, requested
-  edit, or correction resets the shape to gated. `never_auto:` in the policy file is
+  edit, or correction resets the shape to gated. A `deferred_to_drive_review` line is
+  skipped — neither an approval nor a reset — until the drive's review appends the
+  person's real answer. `never_auto:` in the policy file is
   the human's permanent pin — preserved verbatim across distills, never earnable.
 
 Learning happens BETWEEN runs (the distill at close); inside the loop the policy is a
@@ -69,7 +74,9 @@ Every checkpoint in a compiled play declares its risk class inline (e.g.
 **Pinned gates (#466 Batch B, re-ruled #467).** A checkpoint whose play's own intent
 mandates it declares `(class: <class>, pinned)`. A pinned gate NEVER resolves off — no
 config value can disable it (two exceptions, by intent not config: `/intent`'s confirm and
-`/adr`'s accept are skipped when the play runs inside a drive's contract — ADR 031, #632); the switch machinery records `pinned — config bypass
+`/adr`'s accept are skipped when the play runs inside a drive's contract — ADR 031, #632; any
+other pinned gate inside a drive is asked up front or stops the play, never deferred —
+`drive-contract.md`); the switch machinery records `pinned — config bypass
 refused` if an off value would otherwise match. Unpinning is an intent change to that
 play (play-editor), never a config edit. Per the #467 ruling the pinned set is: **grill**
 (a wrong epic cut poisons everything downstream), **launch** (the one HITL gate of the
@@ -107,3 +114,4 @@ the other pipeline/execute mechanical gates are **off** with replacement checks.
 - `templates/approval-prompt.md` — the checkpoint rendering this switch gates
 - `rules/play-close.md` — Checkpoint Decisions rows record skips
 - ADR 025 — the determinism rule; gates are skeleton, their firing is config
+- `rules/drive-contract.md` — how a gate resolves inside a drive; the `deferred_to_drive_review` answer

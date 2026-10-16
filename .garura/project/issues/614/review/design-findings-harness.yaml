@@ -1,0 +1,109 @@
+pr: 639
+issue: 614
+category: harness
+scope: "core/components/plays/vision/reference/ice.md and core/components/plays/vision/SKILL.md (the two harness paths). Scripts, rules and tests are other categories."
+grounding:
+  - principle: "Intent changes (constraints, failures, scenarios, flow) go ICE source first, then recompile; never hand-edit a compiled SKILL.md for an intent change. No deviation notes or change logs in skill files."
+    source: "CLAUDE.md Play Pipeline Rules (on main)"
+  - principle: "A drive asks every question first, passes no stops for the plays' checkpoints (reviews happen after the drive ends), stops and asks on a new question and never picks an answer itself; the drive opens the issue, branch and PR and closes the change; plays inside open none and work on the drive's branch."
+    source: "main:docs/adr/029-drives.md sections 2 and 3"
+  - principle: "Every play a drive runs can also be run by hand, and run by hand it depends on no other play; a play run by hand still stops as its gate settings say."
+    source: "main:docs/adr/029-drives.md section 4 and 'ADRs This Retires' (002 in part)"
+  - principle: "A drive asks questions but never stops for approval; the person confirms at the drive's final review."
+    source: "main:docs/adr/031-business-intent-and-ice.md part 5 (amends ADR 029 section 6)"
+  - principle: "Precedent for a play inside a drive: /intent (a) checks the contract in pre-flight and halts on an invalid one or a branch mismatch, (b) records in_drive in run.json, (c) creates T0 and E1-E4 and marks them skipped, (d) asserts the clean model tree at once, (e) skips its pinned checkpoint with no approval stop, (f) commits on the drive's branch, and (g) its Done means and step evals state the in-drive reading."
+    source: "main:core/components/plays/intent/SKILL.md (pipeline position paragraph, pre-flight table, Task DAG, Step 4, Step 7, SE/SCE-5, compile metadata); main:core/components/plays/intent/stop-condition.yaml D2"
+  - principle: "A conditional gate resolves first match wins (pinned, gates.plays override, learned policy, class, default), including an explicit gates.plays off that skips the checkpoint; every crossing appends one ledger line; the learner never counts a non-human line as an approval."
+    source: "main:core/components/memory/standards/rules/gate-config.md; main:core/components/plays/vision/reference/ice.md C7, F6, F8"
+  - principle: "A play's Done means is 2-6 clauses from the closed clause set, mechanically evaluable against the run's artifacts at close."
+    source: "main:core/components/plays/play-creator/SKILL.md (expectation step, 'Done means (#464)')"
+  - principle: "Start-change is injected at a play's head and the end sequence at its tail unless a drive owns the change; the position declaration decides injection."
+    source: "main:core/components/memory/standards/rules/pipeline-position.md; main:docs/adr/029-drives.md ('The start-change rule must learn about drives')"
+conformance_notes:
+  - "ICE-first discipline held: ice.md and SKILL.md changed together; stop-condition.yaml correctly unchanged. Fingerprint in the SKILL.md metadata (sha256:658fba57...03d8b8e) equals shasum -a 256 of reference/ice.md (verified)."
+  - "lint_play.py on vision/SKILL.md: VERDICT PASS (0 gaps) - required sections, failure and scenario coverage, constraint coverage, recovery 1:1, no orphans, position both, standard play close, stop condition, fingerprint, fan-out. Compiled header declares C1-C11, F1-F13, S1-S7, SE-1..SE-14, SCE-1..SCE-7, 13 recoveries; ICE has C11, F12, F13, S7, REC12, REC13 and the SKILL.md has each of them once (counts agree with the metadata table)."
+  - "Drive path matches ADR 029 section 2-3: contract checked first and an invalid contract or wrong branch halts (REC12); no start-change and no end sequence; clean-tree assertion moved to 'at once'; no wait at the checkpoint (Step 6 writes a review record and a deferred ledger line); the play commits on the drive's branch (Step 7); a question the contract and model do not answer (no intents and no goal) stops and asks, never picked (F13). Consistent with /intent's in-drive behaviour on every point in the grounding list except (g) - see H1 and H3."
+  - "By-hand path unchanged: the diff removes only one sentence ('A drive hands its intents in its JSON contract.') and rewords T0/E1-E4 labels, the clean-tree sentence and the Step 7 sentence; every by-hand step, the approval prompt, the cancel-revert and the Step 0 and E1-E4 steps still read as before and in_drive false is recorded explicitly."
+  - "Done means D1-D4 are provable on both paths: persist-manifest.json, guard-report.json and kept-report.json are all written before the checkpoint in Steps 4-5, so a drive run that defers Step 6 still produces every artifact the four clauses read. D4 and the stop-condition.yaml text are unchanged."
+  - "No deviation or change-log note was added to SKILL.md: the '#614' mention in the 'Compiled From' paragraph and the 'compiled_by' metadata cell follow the existing compiler-emitted pattern (#616, #637 sit there already); the new prose is behaviour, not history."
+  - "Shared scaffolding: the Standard Play Close anchors are untouched (lint D1 PASS)."
+findings:
+  - id: H1
+    category: harness
+    severity: P2
+    title: "F6, SE-7 and REC6 still say a commit before a typed approval, a config skip or a policy auto-pass is a failure; the new in-drive path commits on a deferred answer, so the play's own eval and recovery now contradict it"
+    path: core/components/plays/vision/reference/ice.md
+    also: core/components/plays/vision/SKILL.md
+    principle: "A play's constraints, failure conditions, evals and recoveries are one contract the executing model reads whole every run; an intent change that adds a new way a gate can resolve must update every failure, eval and recovery that enumerates how a gate resolves. /intent (the precedent) states its in-drive reading in the places a run is judged."
+    source: "CLAUDE.md Play Pipeline Rules (intent change goes through ICE and recompile; the compiled file is the generated whole); main:core/components/plays/intent/SKILL.md (Done means D2 and SE/SCE-5 state the in-drive reading); main:docs/adr/029-drives.md section 2"
+    detail: >
+      F6 (ice.md, SKILL.md Recovery F6, REC6): 'The model delta was COMMITTED before the checkpoint gate resolved
+      (no typed approval, no recorded config skip, and no recorded policy auto-pass)'; SE-7 (SKILL.md Step 6 tail):
+      'no product-model change is COMMITTED before the gate resolves (a typed approval, a recorded config skip, or a
+      recorded policy auto-pass); on cancel the whole working-tree delta is reverted'; REC6: 'commit only after the
+      human approves', with the recovery being to revert the commit and the working-tree writes. The branch adds a
+      fourth resolution - 'deferred to the drive's review' - in C11, Step 6 and Step 7, and tells the play to commit
+      on it and to revert nothing. A run that follows the new text satisfies F6 as written (commit with no approval,
+      skip or auto-pass), so SE-7 reads fail on every deferred in-drive run, and REC6, if applied, would undo the
+      drive path. The branch also left the C7 and F6 sentences about the cancel revert untouched. Fix in ice.md first
+      (F6, REC6, and the C7 aside), then recompile, so F6 and SE-7 name the deferred resolution as a fourth valid gate
+      outcome inside a drive (and SE-7's cancel clause is by-hand only).
+  - id: H2
+    category: harness
+    severity: P3
+    title: "In a drive the play writes a review record and a deferred ledger line even when the gate would have been skipped by config (gates.plays.vision off)"
+    path: core/components/plays/vision/SKILL.md
+    principle: "A conditional gate resolves first match wins, and an explicit gates.plays 'off' skips the checkpoint with a recorded row; a drive removes the stop, not the resolution order."
+    source: "main:core/components/memory/standards/rules/gate-config.md; main:core/components/plays/vision/SKILL.md Step 6 (config skip row); ADR 029 section 2 (no stops for the plays' checkpoints; reviews after)"
+    detail: >
+      The in-drive paragraph handles only two outcomes: 'If the shape would auto-pass ... Otherwise, render ... and
+      append the crossing as deferred'. The by-hand text right below still has a third outcome - an explicit
+      gates.plays.vision off records 'gate skipped by config' and proceeds. Read literally, an in-drive run with the
+      gate off writes a review record the person did not configure and appends deferred_to_drive_review where by hand
+      it would have recorded a skip. Not harmful, but the order of resolution is not preserved, and SE-14 and F13
+      ('no ledger line ... a line records ...') would then be judged against a line the gate should not have written.
+      Say 'resolve exactly as below; skipped-by-config and auto-pass record as by hand; only a gate that would have
+      waited becomes a review record', in C7/C11 first.
+  - id: H3
+    category: harness
+    severity: P3
+    title: "Done means cannot tell a drive run from a by-hand run, so F12 and F13 are proven only by step evals, not at close; /intent's Done means names the in-drive reading"
+    path: core/components/plays/vision/reference/ice.md
+    principle: "A play's Done means is composed from the scenarios' measures and the artifact-verifiable constraints; /intent's Done clause D2 states both readings (by hand and in a drive) so the close proves the in-drive path too."
+    source: "main:core/components/plays/play-creator/SKILL.md ('Done means (#464)'); main:core/components/plays/intent/stop-condition.yaml D2 ('by hand ... in a drive ...')"
+    detail: >
+      S7's measure lists the review record (decided false), the ledger line and the commit on the drive's branch,
+      all artifact-verifiable, but D1-D4 are unchanged and none reads run.json or the review record; S7's last
+      measure ('stop-condition verdict reads held') is the same on both paths. So a drive run that wrote no review
+      record still closes COMPLETED; only SE-14 (an eval, not the close) would notice. The four existing clauses are
+      still provable on both paths (checked), so this is a gap in coverage, not a regression. The closed clause set may
+      not allow a conditional clause; if so, say in the ICE that the in-drive record is held by SE-13/SE-14 and
+      record that choice, rather than leave S7's Done-means measure implying a close check that does not exist.
+  - id: H4
+    category: harness
+    severity: P4
+    title: "Contract 'answers' are read into run.json but no step uses them; the play does not list the questions a drive must ask first"
+    path: core/components/plays/vision/SKILL.md
+    principle: "A drive asks 'every question their checkpoints would ask' before it starts (questions first); a play inside a drive takes its answers from the contract."
+    source: "main:docs/adr/029-drives.md section 2"
+    detail: >
+      C11 and the pre-flight say the play 'takes its answers from the contract's answers', but the only question
+      /vision asks is the goal (and the dirty-tree halt); the goal is read from inputs, and no step consumes
+      run.json answers. The drive therefore has no declared list of /vision's questions to ask up front. Low risk for
+      one question; worth one line naming the question ids /vision accepts (for example the goal) so the Kickoff
+      drive (#613) knows what to ask.
+  - id: H5
+    category: harness
+    severity: P4
+    title: "ICE ordering: F12 and F13 sit between F10 and F11"
+    path: core/components/plays/vision/reference/ice.md
+    principle: "Constraints, failures and recoveries are numbered and read in order; the compiled SKILL.md and lint count by id, not position."
+    source: "main:core/components/plays/vision/reference/ice.md (F1-F11 ascending); CLAUDE.md Play Pipeline Rules"
+    detail: >
+      In ice.md the new F12 and F13 are inserted before F11. Lint passes (matches by id), but the ICE no longer reads
+      in order. Move them after F11 when H1 is fixed.
+summary:
+  P1: 0
+  P2: 1
+  P3: 2
+  P4: 2

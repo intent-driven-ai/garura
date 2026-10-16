@@ -1,0 +1,37 @@
+ M core/components/memory/standards/rules/pipeline-position.md
+ M core/components/plays/agentic/scripts/distill_gate_policy.py
+ M core/components/plays/agentic/scripts/gate_eval.py
+ M core/components/plays/arch/scripts/distill_gate_policy.py
+ M core/components/plays/arch/scripts/gate_eval.py
+ M core/components/plays/marketing/scripts/distill_gate_policy.py
+ M core/components/plays/marketing/scripts/gate_eval.py
+ M core/components/plays/measure/scripts/distill_gate_policy.py
+ M core/components/plays/measure/scripts/gate_eval.py
+ M core/components/plays/play-creator/references/distill_gate_policy.py
+ M core/components/plays/play-creator/references/gate_eval.py
+ M core/components/plays/play-creator/references/test_gate_learning.py
+ M core/components/plays/quality/scripts/distill_gate_policy.py
+ M core/components/plays/quality/scripts/gate_eval.py
+ M core/components/plays/roadmap/scripts/distill_gate_policy.py
+ M core/components/plays/roadmap/scripts/gate_eval.py
+ M core/components/plays/run/scripts/distill_gate_policy.py
+ M core/components/plays/run/scripts/gate_eval.py
+ M core/components/plays/shape/scripts/distill_gate_policy.py
+ M core/components/plays/shape/scripts/gate_eval.py
+ M core/components/plays/understand/scripts/distill_gate_policy.py
+ M core/components/plays/understand/scripts/gate_eval.py
+ M core/components/plays/ux/scripts/distill_gate_policy.py
+ M core/components/plays/ux/scripts/gate_eval.py
+ M core/components/plays/vision/SKILL.md
+ M core/components/plays/vision/reference/ice.md
+ M core/components/plays/vision/scripts/distill_gate_policy.py
+ M core/components/plays/vision/scripts/gate_eval.py
+?? .garura/project/issues/614/context/plan-check.json
+?? .garura/project/issues/614/context/porcelain.txt
+?? .garura/project/issues/614/specs/
+?? core/components/memory/standards/rules/drive-contract.md
+?? core/components/plays/play-creator/references/check_drive_contract.py
+?? core/components/plays/play-creator/references/test_drive_contract.py
+?? core/components/plays/play-creator/references/write_drive_review.py
+?? core/components/plays/vision/scripts/check_drive_contract.py
+?? core/components/plays/vision/scripts/write_drive_review.py

@@ -1,0 +1,192 @@
+meta:
+  layer: 1
+  skill: quality-check-scoped
+  pr: 639
+  issue: 614
+  categories:
+  - executable-code
+  - tests
+  - stm-run-records
+  - stm-plans-and-design
+  scope: 42 paths from categories.yaml (28 executable-code, 2 tests, 11 stm-run-records, 1 stm-plans-and-design). Not run here
+    (not standards-driven for this layer) - harness (2 paths, vision SKILL.md and ice.md) and memory (3 paths, the three
+    standards rules), which go to their own playbooks.
+  taxonomy_scan:
+    command: python3 core/components/skills/quality-check-scoped/scripts/scan_taxonomy.py --taxonomy core/components/memory/standards/rules/pr.md
+      --diff .garura/project/issues/614/review/pr.diff --paths <the 42 paths, one per line> --out <session scratchpad>
+    result: P1=0 P2=0 P3=0 P4=0; CODE-20 catch-all covered 42 files; errors=0. No taxonomy row fires.
+    limit: every python file sits under core/components/**, which the taxonomy classifies as garura-prose, so its grep rules
+      are switched off for them by design (#438). The empty scan is not evidence the scripts are clean. Every finding below
+      is therefore taken from the test runs, ruff, a read of the code, or a small fixture run, with its basis named.
+  executed:
+  - command: ruff check --no-cache --no-fix --output-format concise <the 6 canonical python files, then all 28>
+    result: ruff 0.15.20, exit 0, "All checks passed!" on both runs. No ruff config in the repo, so default rules.
+  - command: python3 -W error test_drive_contract.py and python3 -W error test_gate_learning.py (play-creator/references)
+    result: test_drive_contract.py 14 passed, 0 failed; test_gate_learning.py classifier 8/8, learner 10/10, ALL PASS. Both exit 0.
+      Tree unchanged afterwards (git status shows only the untracked review folder). vision test_vision_scripts.py also run, 32 passed.
+  - command: mutation check on a scratch copy - remove the deferred branch in distill_gate_policy.py; make write_drive_review.py
+      accept a by-hand run
+    result: both mutants were caught by the tests (test_gate_learning.py assertion at line 254; test_drive_contract.py crash at
+      the by-hand case). So the new tests assert something real for the plain paths. Gaps are listed in F6.
+  - command: byte comparison of every copy against the canonical file in play-creator/references (cmp, md5)
+    result: gate_eval.py 12 tracked copies (canonical plus 11 plays) one checksum 0681e7e6...; distill_gate_policy.py 12 tracked
+      copies one checksum c63bb57d...; check_drive_contract.py 2 copies identical; write_drive_review.py 2 copies identical.
+      No stale tracked copy elsewhere (git ls-files shows 24 gate-script files). The deployed .claude/skills/play-creator copies
+      differ, but that folder is gitignored and is rebuilt by install-garura.
+  - command: small fixtures in /private/tmp/claude-503/q614 against the canonical scripts (check_drive_contract.py 24 contract
+      shapes; write_drive_review.py 18 argument and run-file shapes; distill_gate_policy.py 4 ledgers)
+    result: bool issue refused; missing keys refused; non-dict contract, inputs, answers and per-play values refused; branch
+      mismatch refused with exit 2; by-hand run refused by the writer with exit 2 and nothing written; a missing summary or
+      attachment refused with nothing written; a same-timestamp rerun overwrites the same two files (safe to rerun). Defects
+      found are F1 to F5.
+  - command: parse the 7 json and yaml STM records and read self-review.md, pr-body.md, work-description.txt, plan.md
+    result: all parse; no secrets (the only hits are the words in the self-review's own scan line). Staleness found, see F8.
+  not_applicable: Design grounding (Layer 2) is not part of this skill.
+findings:
+- id: F1
+  category: executable-code
+  severity: P2
+  rule_id: knowledge/review/code.md (deterministic where it claims to be); gate-config.md and drive-contract.md (a deferred line is neither an approval nor a reset)
+  file: core/components/plays/play-creator/references/distill_gate_policy.py
+  line: 98
+  title: A deferred line that a later line refutes still resets the streak, so the learner treats it as a reset
+  evidence: 'In _trailing_streak the refuted check (line 98) runs before the new deferred skip (line 100). The ledger convention
+    in gate-config.md line 55 is that a later answer is a NEW line with refutes pointing at the old one, so the drive review
+    answering a deferred line will naturally carry refutes=<deferred line>. Reproduced in /private/tmp/claude-503/q614 with
+    --streak 3: (a) lines approved_clean, approved_clean, deferred, approved_clean, approved_clean(refutes 3) gives auto_shapes [];
+    the same ledger without the refutes field gives ["S"]. (b) three approved_clean, deferred, then approved_clean(refutes 4)
+    gives auto_shapes [] although the shape had already earned auto from the first three. Same code in all 12 copies.'
+  why_it_matters: The documented rule says the deferred line is skipped, neither approval nor reset, until the real answer
+    arrives. The one way the answer arrives (a corrective line) triggers the reset the rule rules out, and a shape that had
+    earned auto loses it. The failure is on the safe side (the shape goes back to gated, never wrongly to auto), so nothing
+    unsafe happens, but the drive review for issues 617 and 613 will hit this on its first use, and the self-review and PR body say
+    the case is covered when it is not (F6).
+  basis: knowledge/review/code.md rubric, deterministic where it claims to be; drive-contract.md rule 5 and gate-config.md
+    lines 62-64 ("neither an approval nor a reset"); caller's explicit requirement to include a refutes line pointing at a
+    deferred line.
+  suggestion: In _trailing_streak test the deferred case first (continue before the refuted check), so a refuted deferred line
+    is skipped too; keep the refuting line itself counted as its own answer. Add the two ledgers above to test_gate_learning.py
+    (and a refutes-on-append refusal case), then re-stamp the 11 copies from the canonical file.
+- id: F2
+  category: executable-code
+  severity: P3
+  rule_id: knowledge/review/code.md (validate input before use); drive-contract.md field table (required fields)
+  file: core/components/plays/play-creator/references/check_drive_contract.py
+  line: 35
+  title: Required fields are checked for presence only, so a non-text drive_run_id, drive, branch or review_dir is accepted and turned into text
+  evidence: 'Line 35 only rejects None and "". Line 52 and the neighbouring lines wrap values in str(). Reproduced: review_dir 0
+    wrote run.json with review_dir "0"; review_dir false gave "False"; review_dir ["a"] gave "[''a'']"; all exit 0. A review_dir
+    of "../../x" is also passed through unchanged (the drive is the trusted author, so only noted). Also issue 0 and issue -5
+    are accepted, and "inputs": null is refused although inputs is optional in the field table.'
+  why_it_matters: The checker is the one gate between a drive and every play. A wrongly typed review_dir makes write_drive_review.py
+    create a folder named False or [''a''] and the drive review would not find the record. The cases are unlikely from a
+    well-behaved drive, so P3.
+  basis: knowledge/review/code.md rubric, validate input at the boundary; drive-contract.md says every field has a meaning.
+  suggestion: Require drive_run_id, drive, branch and review_dir to be non-empty strings (and issue a positive integer), treat
+    a null inputs or null answers as absent, and add the cases to test_drive_contract.py. Re-stamp the vision copy.
+- id: F3
+  category: executable-code
+  severity: P3
+  rule_id: knowledge/review/code.md (error handling; validate before the first write); write_drive_review.py docstring (exit 0 or 2, nothing written)
+  file: core/components/plays/play-creator/references/write_drive_review.py
+  line: 57
+  title: A run file that says in_drive but lacks a key crashes with a traceback, and one case leaves half a record on disk
+  evidence: 'Only in_drive is checked (line 41). Reproduced: run.json {"in_drive": true} gives KeyError review_dir, exit 1, nothing
+    written. run.json {"in_drive": true, "play": "vision", "review_dir": "rv"} gives KeyError drive_run_id at line 60 AFTER
+    shutil.copyfile (line 59) wrote rv/vision-T1.md, so a summary file is left with no matching json record. {"in_drive": "false"}
+    (a string) counts as in a drive.'
+  why_it_matters: The docstring promises exit 2 and nothing written on a bad run. A run file normally comes straight from
+    check_drive_contract.py, which always has the keys, so only a hand-edited or stale file hits this.
+  basis: knowledge/review/code.md rubric, error handling; the script docstring promise.
+  suggestion: Check in_drive is True (not just truthy) and that review_dir, play, drive_run_id and branch are present before the
+    first write; build the record before copying the summary; return 2 with a plain reason.
+- id: F4
+  category: executable-code
+  severity: P4
+  rule_id: knowledge/review/code.md (error handling at the edges)
+  file: core/components/plays/play-creator/references/write_drive_review.py
+  line: 57
+  title: Odd --ts values and a summary that is already the target file give a traceback instead of exit 2
+  evidence: 'Reproduced: --ts ../x gives FileNotFoundError (exit 1) and --ts "../../x" would write outside review_dir; --ts ""
+    writes vision-.md and vision-.json; --summary rv/vision-T1.md (the file that would be written) gives shutil.SameFileError,
+    exit 1. The same-timestamp rerun is fine (it overwrites the same two files with the same content).'
+  why_it_matters: The timestamp is passed by the play itself, so a bad value is a play bug, not user input. Low impact.
+  basis: knowledge/review/code.md rubric, error handling; docstring "exit 0 written, 2 usage error".
+  suggestion: Refuse a --ts that is empty or contains a path separator, and refuse a summary that resolves to the target.
+- id: F5
+  category: executable-code
+  severity: P4
+  rule_id: knowledge/review/code.md (error handling); check_drive_contract.py docstring (exit 0 or 2)
+  file: core/components/plays/play-creator/references/check_drive_contract.py
+  line: 76
+  title: An unwritable --out gives a traceback and exit 1; the docstring lists only exit 0 and 2
+  evidence: 'Reproduced with --out /proc/x/o.json: OSError Read-only file system from os.makedirs, exit 1. Reading side is clean:
+    a missing, directory, undecodable or invalid-JSON contract all give exit 2 with a plain reason.'
+  why_it_matters: Rare; the play's working folder is its own.
+  basis: knowledge/review/code.md rubric, exit codes match docstrings
+  suggestion: Catch OSError around the write and return 2 with a plain message, or add exit 1 to the docstring.
+- id: F6
+  category: tests
+  severity: P3
+  rule_id: knowledge/review/tests.md (edge cases and failure paths covered); pr.md P2 bucket (tests for new code) considered
+  file: core/components/plays/play-creator/references/test_drive_contract.py
+  line: 60
+  title: Tests cover the plain paths only; the edge cases this review reproduced have no test, and the refuted-deferred case is untested
+  evidence: 'test_checker covers wrong branch, missing review_dir, issue as a string, answers as a list and bad JSON. Not covered:
+    bool issue (the code handles it, true is not tested), contract that is a list, inputs or inputs.<play> not an object, a
+    play with no entry in inputs, the by-hand path writing nothing (line 107 asserts only exit 2, not that no file appeared),
+    a missing summary file, a rerun. test_gate_learning.py test 9 and 10 cover deferred in the middle of a streak and
+    deferred paired with auto, but not a deferred line that is refuted (F1) and not deferred with --refutes on append (line 62
+    of gate_eval.py). Mutation runs show the tests do catch removal of the deferred branch and of the by-hand refusal, so
+    nothing asserts nothing.'
+  why_it_matters: The refuted-deferred hole in F1 got through exactly because the case is untested, and the self-review and PR
+    body say the deferred handling is covered.
+  basis: knowledge/review/tests.md rubric, failure cases covered; mutation check above.
+  suggestion: Add the cases listed, with F1 and F2 fixtures first.
+- id: F7
+  category: tests
+  severity: P4
+  rule_id: knowledge/review/tests.md (guard against copy drift)
+  file: core/components/plays/play-creator/references/test_gate_learning.py
+  line: 1
+  title: Nothing in the suite checks that the 24 stamped gate_eval.py and distill_gate_policy.py copies stay identical to the canonical ones
+  evidence: 'test_drive_contract.py has a copy-identity test for the two new scripts (line 111). For gate_eval.py and
+    distill_gate_policy.py the identity was only checked by a one-off checksum in the run (runnable-checks.txt shows "1 version(s)").
+    grep of core finds no test or lint that compares them. All 24 tracked copies are identical today.'
+  why_it_matters: This PR changed all 24 by hand-stamping; the next change to either script can drift one copy silently. The
+    gap predates this PR, so P4.
+  basis: knowledge/review/tests.md rubric; the same pattern the PR already applies to the two new scripts.
+  suggestion: Extend test_every_copy_is_identical (or test_gate_learning.py) to cover gate_eval.py and distill_gate_policy.py.
+- id: F8
+  category: stm-run-records
+  severity: P4
+  rule_id: knowledge/review/docs.md (accuracy, up to date) used as the nearest stand-in; no playbook for STM records (playbook_missing)
+  file: .garura/project/issues/614/context/pr-body.md
+  line: 44
+  title: The PR body and self-review are stale against the branch as it now stands
+  evidence: 'pr-body.md and self-review.md say "Commits: 6" and "Files changed: 42"; the branch now has 10 commits and 47 files
+    (git log main..HEAD, git diff main...HEAD --shortstat). Both say gate-config.md still lists only four answers (note N1,
+    "Docs in step: REVIEW"); commit f167fb4e since added the deferred answer to gate-config.md. Both say the learner skipping a
+    deferred line is "covered by test_gate_learning.py", which does not cover a refuted line (F1, F6). porcelain.txt is a
+    snapshot of the uncommitted state and lists files that are now committed.'
+  why_it_matters: A reviewer reading the PR body is told a doc gap exists that does not, and that one case is covered when it
+    is not. Run records are snapshots, so staleness is expected; the PR body is the part a reader acts on.
+  basis: pr.md P4 bucket (informational); records are branch-added so not grounding.
+  suggestion: Refresh the PR body counts and the N1 line when the PR is next updated; leave the other records as snapshots.
+- id: F9
+  category: tests
+  severity: P4
+  rule_id: knowledge/review/tests.md (tidy test code)
+  file: core/components/plays/play-creator/references/test_drive_contract.py
+  line: 57
+  title: Files are opened and never closed in five places
+  evidence: 'json.load(open(out)) at line 57, json.load(open(rec_path)) at 96, open(...).read() twice at 101, and open(...).read()
+    at 113 and 115. They pass under python3 -W error because CPython frees the handle at once.'
+  why_it_matters: Cosmetic; same pattern raised in earlier reviews.
+  basis: knowledge/review/tests.md rubric, tidy test code
+  suggestion: Use with open(...) as fh.
+counts:
+  P1: 0
+  P2: 1
+  P3: 3
+  P4: 5
