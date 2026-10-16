@@ -1,0 +1,18 @@
+commits:
+  - sha: a904d1a6
+    message: "docs(pipeline-position): list understand as wired for drives (#615)"
+    files:
+      - core/components/memory/standards/rules/pipeline-position.md
+    branch: feature/615-understand-runs-inside-a-drive
+  - sha: db947761
+    message: "chore(stm): record the plan for understand inside a drive (#615)"
+    files:
+      - .garura/project/issues/615/specs/plan.md
+      - .garura/project/issues/606/specs/plan.md
+    branch: feature/615-understand-runs-inside-a-drive
+excluded_files:
+  []
+leftover_count: 0
+tree_clean: true
+pushed: false
+run_state_committed: true
