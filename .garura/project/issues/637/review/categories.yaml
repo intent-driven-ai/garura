@@ -1,0 +1,126 @@
+pr: 638
+issue: 637
+base: main
+categories:
+  - id: harness
+    playbook: review/harness
+    design_bearing: true
+    path_count: 8
+    summary: "The /intent and /vision plays are rewritten so both write the one product model and neither waits for the other: /vision now starts from the business intents /intent saved (and/or a goal), grows what the model already holds, places holding-folder capabilities under a domain, and links every part to its intents both ways; /intent now places a capability under its domain when something shows it. The two author skills and the product-os-keeper agent row change to match; vision gains a fourth stop-condition clause (D4, what was there was kept)."
+    evidence:
+      - core/components/agents/product-os-keeper.md
+      - core/components/plays/intent/SKILL.md
+      - core/components/plays/intent/reference/ice.md
+      - core/components/plays/vision/SKILL.md
+      - core/components/plays/vision/reference/ice.md
+      - core/components/plays/vision/stop-condition.yaml
+      - core/components/skills/author-business-intent/SKILL.md
+      - core/components/skills/author-vision-seed/SKILL.md
+    notes: "Intent change to both plays (ICE ice.md plus compiled SKILL.md plus stop-condition.yaml for vision), so check that each SKILL.md change traces to its ice.md and that the stop-condition D4 matches the ICE Done means (lint_play.py, lint-components). Layer 2 applies: ground only in committed base-ref sources (ADR 031, ADR 026, docs/philosophy, standards rules such as no-unbacked-recommendation and play-close, the base-ref versions of intent/vision ice.md), never in the branch's own ice.md, design.md or plan.md edits. D4 must be meaningful, not cosmetic. The skills and agent are harness too (agent holds context crafting; skills do the writing)."
+  - id: memory
+    playbook: review/memory
+    design_bearing: true
+    path_count: 5
+    summary: "The product-os ontology moves to v4 and its schemas change: the spine gains a domain 'detail' stage (directional or detailed) and an 'intents' link on domains, the domain and capability grounding templates are reshaped, the functionality template gains a section, and the capability carries its agent intent in one named section."
+    evidence:
+      - core/components/memory/standards/schemas/product-os/grounding/capability.md
+      - core/components/memory/standards/schemas/product-os/grounding/domain.md
+      - core/components/memory/standards/schemas/product-os/grounding/functionality.md
+      - core/components/memory/standards/schemas/product-os/ontology.md
+      - core/components/memory/standards/schemas/product-os/spine.yaml
+    notes: "Standards schemas are memory the agents read, so Layer 1 (structure, cross-references, version consistency across ontology.md and spine.yaml) and Layer 2 both apply. Ground in the base-ref ontology v3, ADR 031 (no play owns a kind; a capability may exist before its domain) and the base-ref schema files via git show main:path; never in design.md (branch-added). Check the changed schema stays consistent with the linters in the plays that read it (lint_grounding.py)."
+  - id: executable-code
+    playbook: review/code
+    design_bearing: false
+    path_count: 36
+    summary: "Python scripts inside the plays: persist_seed.py, persist_intent.py, check_intent.py, check_kept.py (new), read_intents.py (new), grounding_check.py, intent_touches.py (new, 3 copies) and the shared lint_grounding.py (12 identical copies) and scoped_write_guard.py (15 identical copies) now stage-aware for domains and directional or detailed pages. The vision and intent persist scripts carry the largest behaviour change (keyed, keep-what-was-there writes)."
+    evidence:
+      - core/components/plays/agentic/scripts/lint_grounding.py
+      - core/components/plays/agentic/scripts/scoped_write_guard.py
+      - core/components/plays/arch/scripts/lint_grounding.py
+      - core/components/plays/arch/scripts/scoped_write_guard.py
+      - core/components/plays/grill/scripts/lint_grounding.py
+      - core/components/plays/grill/scripts/scoped_write_guard.py
+      - core/components/plays/intent/scripts/check_intent.py
+      - core/components/plays/intent/scripts/intent_touches.py
+      - core/components/plays/intent/scripts/lint_grounding.py
+      - core/components/plays/intent/scripts/persist_intent.py
+      - core/components/plays/intent/scripts/scoped_write_guard.py
+      - core/components/plays/learn/scripts/lint_grounding.py
+      - core/components/plays/learn/scripts/scoped_write_guard.py
+      - core/components/plays/marketing/scripts/lint_grounding.py
+      - core/components/plays/marketing/scripts/scoped_write_guard.py
+      - core/components/plays/measure/scripts/lint_grounding.py
+      - core/components/plays/measure/scripts/scoped_write_guard.py
+      - core/components/plays/play-creator/references/intent_touches.py
+      - core/components/plays/play-creator/references/scoped_write_guard.py
+      - core/components/plays/quality/scripts/lint_grounding.py
+      - core/components/plays/quality/scripts/scoped_write_guard.py
+      - core/components/plays/roadmap/scripts/scoped_write_guard.py
+      - core/components/plays/run/scripts/lint_grounding.py
+      - core/components/plays/run/scripts/scoped_write_guard.py
+      - core/components/plays/shape/scripts/scoped_write_guard.py
+      - core/components/plays/understand/scripts/lint_grounding.py
+      - core/components/plays/understand/scripts/scoped_write_guard.py
+      - core/components/plays/ux/scripts/lint_grounding.py
+      - core/components/plays/ux/scripts/scoped_write_guard.py
+      - core/components/plays/vision/scripts/check_kept.py
+      - core/components/plays/vision/scripts/grounding_check.py
+      - core/components/plays/vision/scripts/intent_touches.py
+      - core/components/plays/vision/scripts/lint_grounding.py
+      - core/components/plays/vision/scripts/persist_seed.py
+      - core/components/plays/vision/scripts/read_intents.py
+      - core/components/plays/vision/scripts/scoped_write_guard.py
+    notes: "Behaviour change, not a rename. Check the copies stay byte-identical (verified on the branch: scoped_write_guard.py 15 identical, lint_grounding.py 12 identical, intent_touches.py 3 identical, but re-check against the canonical play-creator/references source), persist scripts never overwrite or drop existing sections, exit codes match docstrings, and the write-scope guard still holds. Layer 1 only (ruff, quality-check-scoped). Scripts inside play folders, so the harness playbook is not applied to them. Review the data-safety paths (persist_seed.py, persist_intent.py, scoped_write_guard.py) hard."
+  - id: tests
+    playbook: review/tests
+    design_bearing: false
+    path_count: 5
+    summary: "New and extended fixture tests for the intent and vision scripts: test_vision_scripts.py (new, covers read_intents, check_kept, persist_seed), extended test_intent_scripts.py and vision test_lint_grounding.py, and new test_intent_touches.py and test_scoped_write_guard.py beside the canonical scripts in play-creator/references."
+    evidence:
+      - core/components/plays/intent/scripts/test_intent_scripts.py
+      - core/components/plays/play-creator/references/test_intent_touches.py
+      - core/components/plays/play-creator/references/test_scoped_write_guard.py
+      - core/components/plays/vision/scripts/test_lint_grounding.py
+      - core/components/plays/vision/scripts/test_vision_scripts.py
+    notes: "Run the suites, do not only read them (python3 on each test file); confirm failure cases are real failures and no test asserts nothing. Layer 1 only; no design-grounding. Test files sit beside their scripts rather than under a tests/ folder, so content decided."
+  - id: docs
+    playbook: review/docs
+    design_bearing: false
+    path_count: 1
+    summary: "The plays table in docs/components/plays.md updates the one-line purpose of the intent and vision plays to describe them as writers of the one product model."
+    evidence:
+      - docs/components/plays.md
+    notes: "Layer 1 prose checks only (spelling, links, terminology). Check the two table rows agree with the changed play descriptions, as a consistency read; no design-grounding."
+  - id: stm-run-records
+    playbook: null
+    playbook_missing: true
+    design_bearing: false
+    path_count: 12
+    summary: "Short-term-memory records for issue 637 and the propose-change run (analysis, branch, commits, issue and PR snapshots, ontology and plan checks, porcelain output, PR body, resolved-rules record, self-review, work description)."
+    evidence:
+      - .garura/project/issues/637/context/analysis.yaml
+      - .garura/project/issues/637/context/branch.json
+      - .garura/project/issues/637/context/commits.yaml
+      - .garura/project/issues/637/context/issue.json
+      - .garura/project/issues/637/context/ontology-check.json
+      - .garura/project/issues/637/context/plan-check.json
+      - .garura/project/issues/637/context/porcelain.txt
+      - .garura/project/issues/637/context/pr-body.md
+      - .garura/project/issues/637/context/pr.json
+      - .garura/project/issues/637/context/resolved-rules.json
+      - .garura/project/issues/637/context/self-review.md
+      - .garura/project/issues/637/context/work-description.txt
+    notes: "Playbook missing. Work-tracking and run artifacts under .garura/project/issues/637/context, not KB memory, docs or ADRs. Needs its own playbook, or an explicit decision that they are out of review scope. The work description and PR body state the intended scope the change can be checked against, but they are branch-added, so never design grounding."
+  - id: stm-plans-and-design
+    playbook: null
+    playbook_missing: true
+    design_bearing: false
+    path_count: 4
+    summary: "Plan and design documents under .garura/project/issues/*/specs: the new design.md and plan.md for 637 (the design of the two-plays-one-model change and its plan), plus status and history edits to the 606 and 612 plans (item 4 grew; 612 marked done)."
+    evidence:
+      - .garura/project/issues/606/specs/plan.md
+      - .garura/project/issues/612/specs/plan.md
+      - .garura/project/issues/637/specs/design.md
+      - .garura/project/issues/637/specs/plan.md
+    notes: "Playbook missing. Planning and design records for issues, not harness, memory or ADRs. design.md is the branch's own design statement, so it can be read to learn intended scope but is never grounding for judging the harness or memory changes (circular). The 606 and 612 plan edits are status and history updates to other issues' plans; check they match the plan-file shape and are accurate. Needs a playbook or an explicit out-of-scope decision."

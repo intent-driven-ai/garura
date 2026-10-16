@@ -1,0 +1,133 @@
+pr: 638
+issue: 637
+category: harness
+grounding:
+  - principle: "Intent changes (constraints, failures, scenarios, Done means, flow) go ICE source first, then recompile; never hand-edit a compiled SKILL.md for an intent change. No deviation notes or change logs in skill files."
+    source: "CLAUDE.md Play Pipeline Rules (on main)"
+  - principle: "A play's Done means is 2-6 clauses from the closed clause set, composed from the scenarios' measures and the artifact-verifiable constraints, mechanically evaluable against the run's artifacts at close"
+    source: "main:core/components/plays/play-creator/SKILL.md (expectation step, 'Done means (#464)'; 'Add the stop condition (#464)')"
+  - principle: "direct-model-write is the single source of truth for every model-writing play and for /play-editor; the LLM writes only per-node docs, a keyed script owns shared files, containment is one post-write scoped guard (interface --allow / --add-only / --restore / --out), each play declares its own scope; any play's scope is widened on purpose, in that play"
+    source: "main:core/components/memory/standards/rules/direct-model-write.md; main:docs/adr/026-direct-to-model-writes.md"
+  - principle: "Shared scaffolding follows converge-and-lint: a hand edit and a rebuild must reach the same shape, so the single source of truth changes with the behaviour"
+    source: "CLAUDE.md 'Durability rule for non-intent edits' (on main); direct-model-write.md closing paragraph"
+  - principle: "No play owns a kind; any play may write what it finds inside its declared write scope; /intent writes a capability with no domain yet and /vision attaches the domain; /vision accepts existing capabilities, links ICE to intents; the ICE workable check is used by plays that work on ICE, never by a writer"
+    source: "main:docs/adr/031-business-intent-and-ice.md (parts 2, 3, 4, Work This Creates); main:core/components/memory/standards/schemas/product-os/ontology.md v3 (ICE kind; Business Intent 'touches ... marked change, add or remove')"
+  - principle: "Agent-first / context crafting: agents hold context, skills write, scripts do mechanical work; an agent definition's rows and boundaries agree with each other"
+    source: "CLAUDE.md Behavioral Rules 2 and 4 (on main); main:core/components/agents/product-os-keeper.md (NEVER/ALWAYS section)"
+conformance_notes:
+  - "ICE-first discipline held for both plays: ice.md, SKILL.md and (vision) stop-condition.yaml changed together in commits 89c3ad21 and f04500cd. Fingerprints match: intent sha256 9b6fddb2...fbe5a3 and vision sha256 492b0ab5...dc5 equal shasum of reference/ice.md and the SKILL.md metadata table."
+  - "lint_play.py: intent SKILL.md PASS (0 gaps), vision SKILL.md PASS (0 gaps): constraint, failure, scenario coverage, recovery 1:1 (intent 13/13, vision REC1-REC11), no orphans, stop condition present, fan-out safety. New vision C10, F10, F11, S5, S6, REC10, REC11 and intent C7/C8/C10, F7/F8/F10, S6 changes each appear 1:1 in the compiled SKILL.md and evals (SE-12 / SCE-5, SCE-6)."
+  - "vision D4 (kept-report.json ok) matches the ICE Done means D4 text verbatim and is a closed-set field_equals clause; check_kept.py fails closed (exit 2, no report, D4 unmet on git error) and is wired before the guard and before the checkpoint (Step 5), so D4 is meaningful and not cosmetic: it proves no existing grounding doc lost a '##' section or an Agent-intent line. Its limit: it proves section presence, not that wording is kept, which is exactly what C6/D4 say."
+  - "Agent-first and script-for-mechanical-work held: read_intents.py, persist_seed.py (keyed spine, page moves, Touches lists), check_kept.py, scoped_write_guard.py, intent_touches.py do the mechanical work; author-vision-seed / author-business-intent write only per-node docs and a manifest or draft, never _spine.yaml, profile or an intent page (ADR 026 containment split kept). Order write-then-review kept (persist Step 4, keep check + guard Step 5, gate Step 6, commit Step 7)."
+  - "Intent play write-scope: widened in the play itself (ICE C8, guard globs for light domain pages, existing domain gains the intent in spine intents), as ontology v3 'scope is widened on purpose, in that play' requires. Intent stop-condition.yaml is unchanged and still proves the new both-ways Touches links, because persist_intent.py's `linked` now includes both_ways()."
+  - "Workable check: vision never runs it (C10) and intent still does; consistent with ADR 031 part 4."
+findings:
+  - id: H1
+    category: harness
+    severity: P2
+    title: "direct-model-write.md, the single source of truth for the write guard and per-play scope, was not updated for the new guard modes or for vision no longer being add-only"
+    path: core/components/memory/standards/rules/direct-model-write.md
+    principle: "direct-model-write is the SOT for all model-writing plays and for /play-editor; shared scaffolding follows converge-and-lint so a rebuild reproduces the hand edit; ADR 031 'Affects' names this rule"
+    source: "main:core/components/memory/standards/rules/direct-model-write.md ('The shared scoped-write guard' interface lists only --allow and --add-only; 'vision: --add-only over grounding docs so it never overwrites an existing one'); main:docs/adr/031-business-intent-and-ice.md (Affects); CLAUDE.md Durability rule"
+    detail: >
+      The branch adds --modify-only and --remove-only to the canonical guard (play-creator/references/scoped_write_guard.py
+      and every bundled copy) and has vision use all four modes (grow domain/capability docs in place, remove only
+      holding-folder pages, modify only intent pages) and intent use --add-only on domain pages. The rule file is not in the
+      changed paths. It still documents a two-mode interface and still gives vision as the --add-only example 'so it never
+      overwrites an existing one', which is now false. /play-editor and /play-creator read this rule to emit the model-writing
+      shape, so a rebuild from the rule would drop the new modes and the vision scope. Update the interface block, the
+      per-play scope paragraph and (if wanted) add the keep-check as a vision-specific Done-means input.
+  - id: H2
+    category: harness
+    severity: P3
+    title: "vision SKILL.md still carries statements from the old add-only design that contradict the recompiled constraints C6/F5"
+    path: core/components/plays/vision/SKILL.md
+    principle: "A compiled play must match its ICE: the executing model reads the whole SKILL.md every run, so Forbidden/contract text must not contradict the constraints and failures"
+    source: "CLAUDE.md Play Pipeline Rules (compiled SKILL.md is generated from ICE); main:core/components/plays/vision/reference/ice.md C6/F5 replaced by this branch (the contradiction is between the branch's SKILL.md and the branch's ice.md, shown here against the CLAUDE.md compile rule)"
+    detail: >
+      Left unchanged in the compiled file: the orchestrator preamble 'you never overwrite an existing node'; the Forbidden
+      list item 'overwriting or redrawing an existing spine entry or grounding doc (additive-only - F5)'; the Step 2 contract
+      task string '... in place on the live model (skip-if-exists) ...'; and the 'Recompiled note (#500)' block, which still says
+      the persist is 'add-only by id ... never modifying an existing entry' and the guard is 'grounding docs --add-only'. New F5/C6
+      allow named updates to existing spine entries, in-place growth of existing docs, page moves and intent-page edits. Remove or
+      reword these lines (and the stale #500 note) so Forbidden and the Step 2 contract say 'keep what is there'.
+  - id: H3
+    category: harness
+    severity: P3
+    title: "product-os-keeper agent now contradicts itself: the author-vision-seed row says it writes docs in place, the NEVER rules still say skills only draft to STM and never overwrite"
+    path: core/components/agents/product-os-keeper.md
+    principle: "An agent definition's skill rows and its boundaries must agree; ADR 026 lets the authoring skill write per-node docs straight to the live model"
+    source: "main:core/components/agents/product-os-keeper.md NEVER section ('Write to the live product model directly - your skills draft to STM; persisting is the play's apply step'; 'Overwrite or redraw an existing node, ICE record, or profile'); main:docs/adr/026-direct-to-model-writes.md"
+    detail: >
+      The branch rewrites the row to 'Writes the per-node docs in place (keeping what is there)'. The NEVER rules in the same file
+      (pre-existing, already stale after ADR 026) still forbid exactly that, and 'overwrite or redraw an existing node' reads against
+      the new keep-and-grow behaviour. The row was previously consistent with the NEVER text ('draft folder in STM'); this change makes
+      the file self-contradictory. Update the two NEVER lines to the ADR 026 containment split.
+  - id: H4
+    category: harness
+    severity: P3
+    title: "vision's Done means proves only 'kept', not the both-ways links, placement and no-duplicate guarantees that the change makes its core new behaviour"
+    path: core/components/plays/vision/stop-condition.yaml
+    principle: "Done means is composed from the scenarios' measures and the artifact-verifiable constraints; mechanical, closed clause set"
+    source: "main:core/components/plays/play-creator/SKILL.md ('Done means (#464)': 'Compose the clauses from the scenarios' measures and the artifact-verifiable constraints'); contrast main-pattern in the sibling play intent whose D4 reads intent-manifest.json `linked`"
+    detail: >
+      S5's measure and C10/F11 are artifact-verifiable (each part whose spine `intents` names an intent is on that intent's Touches list
+      and the reverse; every moved capability has an unchanged hash; no KB candidate matching an existing capability is in the spine-delta),
+      and persist_seed.py already computes `links[]`, `placed[]`, `same_as`. D1-D4 do not read any of it, so a run with a one-sided link or a
+      duplicate capability can close COMPLETED; only step evals SE-12 / scenario SCE-5 (agent-judged) catch it. /intent solved the same
+      problem by folding both_ways() into the manifest's `linked` field. Add a persist-manifest field (for example `links_both_ways`) and a D5,
+      or state in the ICE why F10/F11 are deliberately left to evals.
+  - id: H5
+    category: harness
+    severity: P3
+    title: "/intent now places capabilities under a domain and writes light domain pages, which ADR 031 part 3 and ontology v3 say /vision does; no decision record carries the change"
+    path: core/components/plays/intent/reference/ice.md
+    principle: "ADR 031 part 3 states the division: a play that finds ICE before domains exist writes a proposed capability with no domain yet; /vision attaches the domain. A change to what a play decides is recorded where the decision lives."
+    source: "main:docs/adr/031-business-intent-and-ice.md (part 3; Work This Creates); main:core/components/memory/standards/schemas/product-os/ontology.md v3 (ICE kind: 'its capability may exist before that capability has a domain - /vision attaches the domain later')"
+    detail: >
+      ADR 031 part 2 (no play owns a kind) permits /intent to write a domain when it finds one, and the design is guarded (a domain is never guessed;
+      F10 and check_intent.py shown_by). So this is not a violation. But the specific split in part 3 and in the base ontology wording is
+      changed (intent C10, S6, F10), and no ADR amendment or new record is in the diff; the only statement of the reasoning is design.md, which is
+      branch-added and cannot ground itself. Record the decision (amend ADR 031 part 3 or a new ADR) so the next reader of the ADR does not
+      find it contradicted by the play.
+  - id: H6
+    category: harness
+    severity: P3
+    title: "A change-log sentence was added to vision SKILL.md ('Compiled From' history) and compiled_by lines accumulate #637 history"
+    path: core/components/plays/vision/SKILL.md
+    principle: "Add no deviation notes or change logs to skill files; direct-edit history goes in the commit message and the issue"
+    source: "CLAUDE.md Play Pipeline Rules, non-intent changes (on main); user feedback 'No edit notes in SKILL.md'"
+    detail: >
+      The branch extends the 'Compiled From' paragraph with '#637 - one product model with /intent: starts from intents and whatever is there,
+      never blocks, keeps what is there, links intents both ways' (a change-log entry), and prepends '#637 ...' to compiled_by in both plays.
+      The compiled_by metadata field and the issue-number list in vision's paragraph follow an existing pattern on main, and the old
+      'Recompiled note' / 'Direct-edit deviation note' blocks (not added by this branch) are the larger breach. The new sentence adds to it;
+      drop it, and let the commit and issue carry the history.
+  - id: H7
+    category: harness
+    severity: P4
+    title: "Small staleness inside the new vision and intent ICE text"
+    path: core/components/plays/vision/reference/ice.md
+    principle: "ICE text should agree with the ontology version and vocabulary it grounds in"
+    source: "main:core/components/memory/standards/schemas/product-os/ontology.md (v3 Business Intent 'touches ... marked change, add or remove'); the branch moves the ontology to v4 (memory category)"
+    detail: >
+      (1) vision ICE intro cites 'ontology v3' while its SKILL.md and the intent ICE say v4 / v3-v4. (2) The vision Done means preamble still says
+      'A re-run over an existing domain writes only absent pieces', no longer true now that existing entries get named updates. (3) C6 has a stray
+      long line mid-sentence ('...recorded as a warning; it moves a placed...') from editing. (4) Touches marks are `adds`/`changes` in both plays;
+      the base ontology vocabulary is add/change/remove, so confirm the v4 ontology defines the 'adds'/'changes' spelling and omits remove on purpose.
+  - id: H8
+    category: harness
+    severity: P4
+    title: "compiled_by names play-editor for both plays but the branch carries no play-editor run record, and vision's SKILL.md still states play-editor convergence is unverified"
+    path: core/components/plays/intent/SKILL.md
+    principle: "ICE -> recompile via /play-editor for an intent change; provenance fields must reflect what ran"
+    source: "CLAUDE.md Play Pipeline Rules (on main); main:core/components/plays/vision/SKILL.md 'Direct-edit deviation note (#500)' (play-editor may not run headless, convergence unverified)"
+    detail: >
+      ICE, SKILL.md and stop-condition.yaml were committed together and fingerprints match, which is the ICE-first discipline. But
+      .garura/project/issues/637/evidence/ is empty and no play-editor session artifacts are in the diff, so 'compiled_by play-editor (#637 ...)' cannot be
+      confirmed from committed content. If hand-compiled, say so in the commit/issue (not the SKILL); if play-editor ran, link its record.
+summary:
+  P1: 0
+  P2: 1
+  P3: 5
+  P4: 2

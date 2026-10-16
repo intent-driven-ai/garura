@@ -1,0 +1,229 @@
+pr: 638
+issue: 637
+round: 1
+confidence: 0.9
+findings:
+- id: F1
+  category: executable-code
+  severity: P2
+  file: core/components/plays/vision/scripts/check_kept.py
+  title: The keep check never looks at a page that moved, so a placed page can lose its words and still pass D4
+  basis: knowledge/review/code.md rubric, deterministic where it claims to be; stop-condition.yaml D4 says what
+    was there was kept; the script docstring says "for every grounding doc that existed at the base and was changed".
+  status: fixed
+  fix: 'a8a3fa75: check_kept.py pairs each holding page removed with its new page and compares them; a holding page
+    placed nowhere is a loss; two new tests.'
+- id: F2
+  category: executable-code
+  severity: P2
+  file: core/components/plays/vision/scripts/persist_seed.py
+  title: Two capabilities that land on the same new page path overwrite each other; one page is lost and the record
+    says both moved unchanged
+  basis: knowledge/review/code.md rubric, safe handling of destructive/irreversible operations; pr.md P1 bucket
+    names data-loss, rated P2 here because the trigger is narrow.
+  status: fixed
+  fix: 'a8a3fa75: persist_seed.py refuses, before any write, a placement whose target exists or is another placement''s
+    target; new test.'
+- id: F3
+  category: executable-code
+  severity: P3
+  file: core/components/plays/vision/scripts/persist_seed.py
+  title: A malformed spine or manifest crashes with a traceback and exit 1 where the docstrings promise a clean
+    exit 2 (persist_seed) or exit 0 (read_intents)
+  basis: knowledge/review/code.md rubric, error handling and deterministic where it claims to be; pr.md P2 lists
+    error-handling violations, rated P3 because nothing is written or lost on these paths.
+  status: fixed
+  fix: 'a8a3fa75: persist_seed.py exits 2 with a plain message on an unreadable or non-mapping spine or manifest;
+    read_intents.py reads a non-mapping spine as empty with a warning and guards unreadable pages; new tests.'
+- id: F4
+  category: executable-code
+  severity: P3
+  file: core/components/plays/intent/scripts/persist_intent.py
+  title: persist_intent.py saves a capability page with an empty agent-intent section when the draft's ICE has no
+    goals
+  basis: knowledge/review/code.md rubric, deterministic where it claims to be; the script refusal list in its docstring
+    omits goals.
+  status: fixed
+  fix: '7518fe30: persist_intent.py refuses an ICE with no goal before writing anything; new test.'
+- id: F5
+  category: executable-code
+  severity: P3
+  file: core/components/plays/play-creator/references/intent_touches.py
+  title: Variable named "l" in five places, three of them copies of the canonical script
+  basis: ruff E741; pr.md severity buckets, P3 naming (P2 lint errors considered).
+  status: fixed
+  fix: '7518fe30: the short name is renamed in intent_touches.py (all 3 copies), check_kept.py and read_intents.py;
+    the 3 E741 left in the tree are in files this PR does not touch.'
+- id: F6
+  category: tests
+  severity: P4
+  file: core/components/plays/vision/scripts/test_vision_scripts.py
+  title: Files are opened and never closed in ten places in the tests
+  basis: knowledge/review/tests.md, linter on the test code (clear, tidy test code)
+  status: open
+- id: F7
+  category: docs
+  severity: P4
+  file: docs/components/plays.md
+  title: The term holding folder is used in the intent row with no explanation anywhere in docs/
+  basis: knowledge/review/docs.md rubric, terminology consistency and completeness
+  status: open
+- id: H1
+  category: harness
+  severity: P2
+  file: null
+  title: direct-model-write.md, the single source of truth for the write guard and per-play scope, was not updated
+    for the new guard modes or for vision no longer being add-only
+  basis: 'main:core/components/memory/standards/rules/direct-model-write.md (''The shared scoped-write guard'' interface
+    lists only --allow and --add-only; ''vision: --add-only over grounding docs so it never overwrites an existing
+    one''); main:docs/adr/031-business-intent-and-ice.md (Affects); CLAUDE.md Durability rule'
+  status: fixed
+  fix: 'cc48e1c1: direct-model-write.md documents --modify-only/--remove-only/--no-renames, the per-play scopes
+    of intent and vision, and the keep check.'
+- id: H2
+  category: harness
+  severity: P3
+  file: null
+  title: vision SKILL.md still carries statements from the old add-only design that contradict the recompiled constraints
+    C6/F5
+  basis: CLAUDE.md Play Pipeline Rules (compiled SKILL.md is generated from ICE); main:core/components/plays/vision/reference/ice.md
+    C6/F5 replaced by this branch (the contradiction is between the branch's SKILL.md and the branch's ice.md, shown
+    here against the CLAUDE.md compile rule)
+  status: fixed
+  fix: 'cc48e1c1: vision SKILL.md: the Role, Forbidden and Step 2 contract lines now say keep what is there; the
+    stale #500 Recompiled note is removed. lint_play still PASS; ICE and fingerprint unchanged.'
+- id: H3
+  category: harness
+  severity: P3
+  file: null
+  title: 'product-os-keeper agent now contradicts itself: the author-vision-seed row says it writes docs in place,
+    the NEVER rules still say skills only draft to STM and never overwrite'
+  basis: main:core/components/agents/product-os-keeper.md NEVER section ('Write to the live product model directly
+    - your skills draft to STM; persisting is the play's apply step'; 'Overwrite or redraw an existing node, ICE
+    record, or profile'); main:docs/adr/026-direct-to-model-writes.md
+  status: fixed
+  fix: 'cc48e1c1: product-os-keeper NEVER rules rewritten to the ADR 026 containment split and keep-what-is-there.'
+- id: H4
+  category: harness
+  severity: P3
+  file: null
+  title: vision's Done means proves only 'kept', not the both-ways links, placement and no-duplicate guarantees
+    that the change makes its core new behaviour
+  basis: 'main:core/components/plays/play-creator/SKILL.md (''Done means (#464)'': ''Compose the clauses from the
+    scenarios'' measures and the artifact-verifiable constraints''); contrast main-pattern in the sibling play intent
+    whose D4 reads intent-manifest.json `linked`'
+  status: open
+- id: H5
+  category: harness
+  severity: P3
+  file: null
+  title: /intent now places capabilities under a domain and writes light domain pages, which ADR 031 part 3 and
+    ontology v3 say /vision does; no decision record carries the change
+  basis: 'main:docs/adr/031-business-intent-and-ice.md (part 3; Work This Creates); main:core/components/memory/standards/schemas/product-os/ontology.md
+    v3 (ICE kind: ''its capability may exist before that capability has a domain - /vision attaches the domain later'')'
+  status: open
+- id: H6
+  category: harness
+  severity: P3
+  file: null
+  title: 'A change-log sentence was added to vision SKILL.md (''Compiled From'' history) and compiled_by lines accumulate
+    #637 history'
+  basis: CLAUDE.md Play Pipeline Rules, non-intent changes (on main); user feedback 'No edit notes in SKILL.md'
+  status: fixed
+  fix: 'cc48e1c1: the #637 change-log sentence in vision''s Compiled From paragraph is cut to the issue number,
+    as the earlier entries are.'
+- id: H7
+  category: harness
+  severity: P4
+  file: null
+  title: Small staleness inside the new vision and intent ICE text
+  basis: main:core/components/memory/standards/schemas/product-os/ontology.md (v3 Business Intent 'touches ... marked
+    change, add or remove'); the branch moves the ontology to v4 (memory category)
+  status: open
+- id: H8
+  category: harness
+  severity: P4
+  file: null
+  title: compiled_by names play-editor for both plays but the branch carries no play-editor run record, and vision's
+    SKILL.md still states play-editor convergence is unverified
+  basis: CLAUDE.md Play Pipeline Rules (on main); main:core/components/plays/vision/SKILL.md 'Direct-edit deviation
+    note (#500)' (play-editor may not run headless, convergence unverified)
+  status: open
+- id: M1
+  category: memory
+  severity: P2
+  file: null
+  title: 'Capability and functionality pages that lint clean on main now fail lint: the ICE section is required
+    as soon as a node names an intent, with no migration and no v4 log note'
+  basis: Existing records stay readable (a linter tightened over pages already written needs a stated migration);
+    ontology v3 and ADR 031 say rules never stop work except by the workable check, and v3 left the ICE form open
+    ('written inline'), so pages written to v3 were valid. The only committed migration stance is 'parked' (_index.md,
+    spine enhance_rules).
+  status: fixed
+  fix: 'df6f48f0: a linked page with no agent intent section is now a linter warning (alignment), not an error;
+    a pre-v4 /intent page with a loose Goals list passes; ontology and templates say so; new tests.'
+- id: M2
+  category: memory
+  severity: P3
+  file: null
+  title: 'Spine `intents` now means two things: ''ICE built from'' and ''touched by'', so an intent that only removes
+    or changes a part forces an ICE section on it'
+  basis: Naming clarity and one meaning per field. The committed spine defines capability and functionality `intents`
+    as the intents the ICE is built from, and ADR 031 s4 derives workability from that link. v4 reuses the same
+    field as the back-link for every touch (adds, changes or removes) on capabilities and functionalities, while
+    the spine comment for them is unchanged.
+  status: open
+- id: M3
+  category: memory
+  severity: P3
+  file: null
+  title: 'ADR 031 is not amended and no committed decision record carries v4: the ICE location, the ''domain holds
+    no ICE'' rule and the both-ways link are decisions beyond v3'
+  basis: A change to a decided design is recorded against the ADR it amends; ADR 031 lists the ontology (v3) and
+    spine as what it affects and states 'ICE lives inline in its ... grounding doc (spine v2)'. v4 narrows that
+    to one named last section and changes what a play must write. The approval is stated by the caller and the v4
+    log line, both branch-side.
+  status: open
+- id: M4
+  category: memory
+  severity: P3
+  file: null
+  title: Spine-schema domain `detail` is optional and a domain page with only '## Intent' passes as directional
+    even when the page is a truncated full page (a check that failed on main now passes)
+  basis: The linter enforces the template contract; on main a domain page missing any of the five sections is an
+    error. v4 makes 'Intent only' a valid shape and, when `detail` is absent, infers the stage from the page's headings,
+    so the contract no longer catches an incomplete full page.
+  status: open
+- id: M5
+  category: memory
+  severity: P3
+  file: null
+  title: 'Version-and-cross-reference drift: the schema index still says the ontology is v3 and the spine header
+    still describes ICE the old way'
+  basis: Ontology, spine and index describe the same model; a version named in the index must match the ontology
+    file.
+  status: fixed
+  fix: 'cc48e1c1: _index.md reads v4; the spine header and the capability detail comment use the v4 wording.'
+- id: M6
+  category: memory
+  severity: P4
+  file: null
+  title: 'Gold examples do not cover every declared shape: no directional domain example, no ICE in the detailed
+    capability or any functionality example'
+  basis: A template carries a gold example for every shape it declares (capability.md has one per stage).
+  status: open
+- id: M7
+  category: memory
+  severity: P4
+  file: null
+  title: ICE property names in the ontology and the section's labels do not line up
+  basis: 'Naming clarity: one name per idea across ontology and template.'
+  status: open
+- id: M8
+  category: memory
+  severity: P4
+  file: null
+  title: 'Method hygiene: no question added or re-marked, and rules for kinds still under ''Not yet defined'''
+  basis: build-product-ontology step 1 (questions), step 7 (re-mark each question answered/partly/not yet) and step
+    6 (a kind a relationship names is defined, or listed under Not yet defined with one line).
+  status: open
