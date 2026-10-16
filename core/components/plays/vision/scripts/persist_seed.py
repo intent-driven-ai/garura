@@ -77,8 +77,14 @@ class Refused(Exception):
 def load(path):
     if not os.path.isfile(path):
         return {}
-    with open(path, encoding="utf-8") as fh:
-        return yaml.safe_load(fh) or {}
+    try:
+        with open(path, encoding="utf-8") as fh:
+            data = yaml.safe_load(fh) or {}
+    except (OSError, yaml.YAMLError) as exc:
+        raise Refused(f"cannot read {path}: {exc.__class__.__name__}") from exc
+    if not isinstance(data, dict):
+        raise Refused(f"{path} is not a mapping")
+    return data
 
 
 def sha(path):
@@ -177,7 +183,7 @@ def add_intents(entry, ids):
 def place(live, root, rec):
     """Move each holding-folder capability that now has a domain into its domain's folder."""
     domains = by_id(live, "domains")
-    plan = []
+    plan, targets = [], set()
     for c in live.get("capabilities") or []:
         if not isinstance(c, dict) or not c.get("domain") or not str(c.get("doc", "")).startswith(HOLDING):
             continue
@@ -191,8 +197,10 @@ def place(live, root, rec):
         if not os.path.isfile(old_abs):
             rec["warnings"].append(f"capability `{c.get('id')}`: its page {c['doc']} is missing — not moved")
             continue
-        if os.path.exists(new_abs):
-            raise Refused(f"cannot place `{c.get('id')}`: {new_doc} already exists")
+        if os.path.exists(new_abs) or new_doc in targets:
+            raise Refused(f"cannot place `{c.get('id')}`: {new_doc} already exists or is the "
+                          f"target of another placement")
+        targets.add(new_doc)
         plan.append((c, old_abs, new_abs, new_doc))
     return plan
 
@@ -311,7 +319,11 @@ def main(argv=None):
         sys.stderr.write(f"persist_seed.py: missing seed manifest {args.seed_manifest}\n")
         return 2
 
-    man = load(args.seed_manifest)
+    try:
+        man = load(args.seed_manifest)
+    except Refused as why:
+        sys.stderr.write(f"persist_seed.py: {why} — nothing written\n")
+        return 2
     seed = man.get("seed", man) if isinstance(man, dict) else {}
     delta = seed.get("spine_delta") or seed.get("spine") or {}
     updates = [u for u in (delta.get("updates") or []) if isinstance(u, dict)] if isinstance(delta, dict) else []
@@ -322,7 +334,11 @@ def main(argv=None):
 
     root = os.path.join(args.product_base, "product-os")
     live_spine_path = os.path.join(root, SPINE_NAME)
-    live = load(live_spine_path)
+    try:
+        live = load(live_spine_path)
+    except Refused as why:
+        sys.stderr.write(f"persist_seed.py: {why} — nothing written\n")
+        return 2
 
     rec = {"written": [], "skipped": [], "updated": [], "placed": [], "links": [], "warnings": [],
            "intent_pages": [], "changed": {}, "new": set(), "touched": set(), "moves": {}}
