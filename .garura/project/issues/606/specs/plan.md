@@ -3,7 +3,7 @@ plan_for: 606
 kind: business-intent
 serves: "#606 — Garura's agentic lifecycle runs as five loops (drives), starting from a working prototype"
 status: active
-updated: 2026-10-08
+updated: 2026-10-16
 now: 3
 ---
 
@@ -27,7 +27,7 @@ There are five drives, one for each step from product to running software. We bu
 
 ## Where we are now
 
-Three decisions are made (#592, #607, #619) and two things are shipped: plan mode's first pieces (#619) and the Kickoff plays standing alone (#616). Next is building `/intent`, the play that reads a prototype (item 3, #612).
+Three decisions are made (#592, #607, #619) and three things are shipped: plan mode's first pieces (#619), the Kickoff plays standing alone (#616), and `/intent` (#612, PR #631, with ADR 031). Item 3 is down to its last step: the handoff on #612 and closing it. Checking the hand-over to `/vision` found that `/vision` cannot start from `/intent`'s output yet; that change is new item 4. Then items 4, 5, 6 and 7, which can run side by side, and then Kickoff (item 8).
 
 ## The plan, in order
 
@@ -45,8 +45,17 @@ Three decisions are made (#592, #607, #619) and two things are shipped: plan mod
 **Why here:** it is Kickoff's first play, and nothing does this job today.
 **Done when:** given a prototype, `/intent` writes a confirmed intent that `/vision` can take as its starting goal.
 **Needs:** nothing — item 1 is done.
+**State:** built, tried on the token-burn dashboard, and merged (PR #631, 9 October). It writes two levels: business intents for the person, and under each the ICE for the agents, as proposed capabilities with no domain yet. ADR 031 records the decisions made on the way (D6–D10): no play owns a kind of thing in the product model; any play writes what it finds and an Alignment drive fixes drift; only a person confirms an intent; and no approval stop inside a drive — the drive's end review confirms. The check of the hand-over found `/vision` cannot take this output yet (item 4). Left: the handoff on #612 and closing it. Its own plan: `.garura/project/issues/612/specs/plan.md`.
 
-### 4. `/vision` runs inside a drive
+### 4. `/vision` starts from business intents
+
+**Issue:** #637 (Story under #594).
+**What:** `/vision` takes the business intents `/intent` saved, instead of a goal typed as text. It attaches a domain to the capabilities `/intent` wrote, checks them against the KB, adds no second capability for the same thing, and links every capability it adds to the intent it serves. It must accept intents that are only proposed, because inside Kickoff they are confirmed at the end. Seven gaps and two choices are written up in `.garura/project/issues/612/specs/vision-pickup.md`.
+**Why here:** Kickoff hands `/intent`'s output straight to `/vision`. Without this, `/vision` ignores it.
+**Done when:** `/vision`, given `/intent`'s saved intents, places their capabilities under a domain and adds its own, each linked to an intent.
+**Needs:** item 3.
+
+### 5. `/vision` runs inside a drive
 
 **Issue:** #614.
 **What:** when a drive runs `/vision`, it does not stop for its human check. The drive gives it what it needs, and the review happens after the drive. Run by hand, `/vision` works as it does today.
@@ -54,15 +63,15 @@ Three decisions are made (#592, #607, #619) and two things are shipped: plan mod
 **Done when:** `/vision` runs inside a drive with no stop, on the drive's branch, and keeps a record for the later review.
 **Needs:** item 2.
 
-### 5. `/understand` runs inside a drive
+### 6. `/understand` runs inside a drive
 
 **Issue:** #615.
-**What:** the same change as item 4, for `/understand`.
+**What:** the same change as item 5, for `/understand`.
 **Why here:** Kickoff's third play.
-**Done when:** the same as item 4, for `/understand`.
+**Done when:** the same as item 5, for `/understand`.
 **Needs:** item 2.
 
-### 6. Decide how a finished drive is reviewed
+### 7. Decide how a finished drive is reviewed
 
 **Issue:** #617 (spike).
 **What:** a drive ends in a score or a fail, and a review follows either way. Decide what the review looks at, who does it, and whether review is a drive of its own.
@@ -70,53 +79,67 @@ Three decisions are made (#592, #607, #619) and two things are shipped: plan mod
 **Done when:** the answers are in an ADR, and the stories to build it are filed.
 **Needs:** nothing — item 1 is done.
 
-### 7. Build the Kickoff drive
+### 8. Build the Kickoff drive
 
 **Issue:** #613.
-**What:** the drive itself. It asks all its questions first, runs `/intent` → `/vision` → `/understand` (once for each capability), stops only for a new question, has a different model or agent check the result, and writes its evidence.
-**Why here:** it needs all of items 3 to 6.
+**What:** the drive itself. It asks all its questions first, runs `/intent` → `/vision` → `/understand` (once for each capability), stops only for a new question, has a different model or agent check the result, and writes its evidence. At its end review the person confirms or drops each intent `/intent` proposed (ADR 031, D10).
+**Why here:** it needs all of items 3 to 7.
 **Done when:** a working prototype goes in; the person approves the plan; out come a plan and issues the person can read, and a detailed product model for the agents — checked and reviewed.
-**Needs:** items 3, 4, 5 and 6.
+**Needs:** items 3 to 7.
 
-### Alongside items 2 to 7: the product-model ontology
+### Alongside items 2 to 8: the product-model ontology
 
 **Issue:** #597.
 **What:** rebuild the product model as a proper model of what the product is. Only the parts the Kickoff plays need are built now, as those plays are fixed.
 **Why alongside:** ADR 029 ties it to this work. It is built piece by piece, not as one step.
+**State:** version 3 is written (`core/components/memory/standards/schemas/product-os/ontology.md`, through #612): Business Intent, Source and ICE are defined; Work, Tracker Issue, Domain, Capability and Functionality are named but not yet defined.
 
 ### Milestone: Kickoff lands
 
-Nothing below starts before item 7 is done. Each later drive is decided by a spike, then built from the stories that spike files.
+Nothing below starts before item 8 is done. Each later drive is decided by a spike, then built from the stories that spike files.
 
-### 8. Decide the second drive: intent → design
+### 9. Decide the second drive: intent → design
 
 **Issue:** #608. The issue still says "Shape loop". It needs a new name, because `/shape` is a play.
 **What:** decide the drive that takes the intent to a design: lock the product model, cut it into slices, and design the project once.
 
-### 9. Decide the Execute drive
+### 10. Decide the Execute drive
 
 **Issue:** #609.
 **What:** decide the drive that builds the code: `/grill` → `/implement` → `/validate` → `/launch`. It must settle the human checks that always stop today.
 
-### 10. `/grill` can cut any slice
+### 11. `/grill` can cut any slice
 
 **Issue:** #595.
 **What:** `/grill` no longer waits for every design area of a slice. It cuts the slice and asks about any missing areas itself. It belongs to the Execute drive.
 
-### 11. Decide the Change drive
+### 12. Decide the Change drive
 
 **Issue:** #610.
 **What:** decide the drive that lands every change: start, commit, propose, review, merge.
 
-### 12. Decide the handover drive
+### 13. Decide the handover drive
 
 **Issue:** none yet.
 **What:** the last drive, the handoff out: it takes everything the agents made and delivers it as the thing the person uses — a website, an application, whatever the intent asked for. Kickoff is the handoff in; this is its pair (Kapil, 2026-10-08).
 
-### 13. Decide the Learn drive
+### 14. Decide the Learn drive
 
 **Issue:** #611. The issue still says "Learn loop". It needs a new name, because `/learn` is a play.
 **What:** decide the drive that works out what to do next and corrects the intent.
+
+### Not yet placed: the Alignment drive
+
+**Issue:** none yet.
+**What:** a drive that finds and fixes drift in the product model — two ICE for one part, an ICE with no intent, a capability with no domain. It exists because any play may now write any kind of thing it finds (ADR 031, ontology v3). It is not one of the five drives; where it sits is not decided (Kapil, 2026-10-09).
+
+## Side work done while this plan ran
+
+Not part of this plan; recorded so the gaps in time make sense.
+
+- `/adr`, a play, skill and agent that manage decision records — #632, PR #633, merged 15 October.
+- The shared play scripts pass lint, and `/understand`'s grounding linter matches the other plays' — #634, PR #635, merged 15 October.
+- The review play proves a decision was recorded and posted before it is called done — #536, PR #636, merged 16 October.
 
 ## Log
 
@@ -127,3 +150,4 @@ Nothing below starts before item 7 is done. Each later drive is decided by a spi
 - 2026-10-08 — Kickoff restated as the human interface (Kapil): it makes a plan and issues for the person, and the product model for the agents.
 - 2026-10-08 — Added item 12, the handover drive (the handoff out, Kickoff's pair). The Learn drive is now item 13.
 - 2026-10-08 — Item 2 done: `/vision` and `/understand` stand alone (#616, PR #630). Now on item 3 (#612).
+- 2026-10-16 — Plan found a week stale: it still said item 3 was being built, after `/intent` merged on 9 October. Brought up to date: item 3's state, ADR 031, the ontology's state, the Alignment drive, and the side work. Item 3's hand-over check is done (`.garura/project/issues/612/specs/vision-pickup.md`); it found the `/vision` change, added as item 4; the items after it moved down one (Kickoff is now item 8, the Learn drive item 14). Still on item 3 (handoff and close).
