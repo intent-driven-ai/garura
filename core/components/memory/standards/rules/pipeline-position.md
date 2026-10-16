@@ -117,3 +117,4 @@ by play-creator at compile, not re-verified by the linter.
 - `evidence-recording.md` — D1; the injected sub-plays record evidence the play-only way
 - `start-change`, `commit-change`, `propose-change`, `review-change`, `merge-change` — the
   member plays this rule composes
+- `drive-contract.md` — inside a drive the injected opening and end sequence are skipped
