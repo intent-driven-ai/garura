@@ -3,8 +3,8 @@ plan_for: 612
 kind: story
 serves: "#612 — /intent pulls the intent out of a working prototype"
 status: active
-updated: 2026-10-09
-now: 7
+updated: 2026-10-16
+now: 8
 serves_plan: 606
 serves_item: 3
 ---
@@ -29,7 +29,7 @@ Kickoff, the first drive, starts from a working prototype that the person shares
 
 ## Where we are now
 
-`/intent` now writes two levels — business intents and the ICE under them — and passed an unattended re-run on the token-burn dashboard (items 5 and 6). Next is checking how `/vision` picks them up from the model (item 7).
+`/intent` is built, tried and merged (PR #631, 9 October). Item 7 is done: `/vision` cannot start from `/intent`'s output yet, and the change it needs is written up in `specs/vision-pickup.md` (7 gaps, 2 choices). What is left is item 8's last step: the handoff on #612 and closing it.
 
 ## The plan, in order
 
@@ -44,21 +44,16 @@ Kickoff, the first drive, starts from a working prototype that the person shares
 - **5. Tried: `/intent` on a real prototype** — #612. The token-burn dashboard, docs and all four tabs. Along the way: built the `business-intent-keeper` agent; one source now gives many intents, each confirmed or dropped; every tab keeps its text. Ended at the confirm step with Kapil's four deep intents, each with why and proof. Trial output removed; the intents and findings are in `specs/trial-token-burn/`.
 - **6. Built: two levels in `/intent` — business intents above, ICE below** — #612. Ontology v3 (no play owns a kind; rules are alignment targets; ICE may be unplaced), `ice.yaml` links ICE to its intent, play rebuilt (C12 changed, C13 example answers), 65 tests. Unattended re-run: with no answers the agent proposed 5 intents one "why?" above the dashboard; with Kapil's recorded answers it gave exactly his four intents with 13 ICE; save, guard and stop condition passed on a simulated confirmation. Output removed; records in `specs/trial-token-burn/rerun-20261009-023928/`. Open: one question for Kapil (roll-ups vs privacy); qualities still drafted as items; a new agent does not load mid-session.
 
-### 7. Check `/vision` can start from it — now
+- **7. Checked: can `/vision` start from it** — #612. No, not yet. `/vision` takes a goal as text, never reads the spine, adds no `intents` to what it writes, and its save step never changes an existing capability — so it cannot attach a domain to the ones `/intent` wrote. Seven gaps and two choices (leave the doc where `/intent` put it; leave enriching to `/understand`) are in `specs/vision-pickup.md`. The change is an intent change to `/vision`, filed as #637 (#606 plan, item 4).
 
-**Issue:** #612.
-**What:** check how `/vision` picks up a business intent and the proposed capabilities `/intent` wrote (no domain yet) — today it takes a business goal as text and seeds capabilities itself — and write up the change it needs: attach domains to existing capabilities, enrich their ICE, and link any ICE it writes to a business intent (D8, D9). The change is a follow-up (out of scope here).
-**Why here:** that hand-over is the reason `/intent` exists.
-**Done when:** `/vision`'s input takes the intent as written; any gap is written up as a follow-up.
-**Needs:** item 6.
-
-### 8. Ship it
+### 8. Ship it — now
 
 **Issue:** #612.
 **What:** commit, open the pull request, review it, merge it, and write the handoff on #612.
 **Why here:** last.
 **Done when:** the pull request is merged and #612 is closed with its handoff.
 **Needs:** items 4 to 7.
+**State:** the pull request (PR #631) was merged on 9 October. Left: commit this write-up and the plan updates, then the handoff comment on #612 and closing it — both are GitHub writes and wait for Kapil's word.
 
 ## Log
 
@@ -74,9 +69,12 @@ Kickoff, the first drive, starts from a working prototype that the person shares
 
 ## Follow-ups (not in this issue)
 
-- `/vision` attaches domains to existing capabilities and links its ICE to a business intent (item 7 writes this up).
+- `/vision` starts from business intents, attaches domains to existing capabilities and links its ICE to a business intent — written up in `specs/vision-pickup.md` (item 7); filed as #637.
 - `/understand` and `/shape` link the ICE they write to a business intent; every play that works on ICE calls `check_ice_workable.py` first (play-creator now says so).
 - The Kickoff drive (#613) confirms or drops `/intent`'s proposed intents at its final review (ADR 031, D10); the drive contract's shape (review F6, #614/#615).
 - Where Sources live (review MEM-5/F8); Garura's own work types named in the product ontology (MEM-9); why a separate agent (F9); the Alignment drive.
-- Pre-existing, found on the way: `/understand`'s `lint_grounding.py` copy is older than the other ten; `preflight.py`, `session_stamp.py` and `lint_grounding.py` carry ruff E741 in every copy; review-change's stop condition looks for `verdict.yaml` while the play writes `decision.yaml`; the config's review-shelf path points at a folder that does not exist here.
+- Pre-existing, found on the way: `/understand`'s `lint_grounding.py` copy is older than the other ten, and `preflight.py`, `session_stamp.py` and `lint_grounding.py` carry ruff E741 in every copy (both fixed, #634); review-change's stop condition looks for `verdict.yaml` while the play writes `decision.yaml` (fixed, #536); the config's review-shelf path points at a folder that does not exist here (#534, open, needs a design).
 - 2026-10-09 — Kapil decided D10 (no approval stop inside a drive; the drive's end review confirms). ADR 031 records D6–D10 and amends ADR 029 §6, ADR 027, `idsd.md`, the glossary, the gate rules and the direct-write rule.
+- 2026-10-09 — PR #631 merged: `/intent`, ontology v3, ADR 031. #612 left open for items 7 and 8.
+- 2026-10-15/16 — Side work, not in this plan, cleared two follow-ups: `/understand`'s `lint_grounding.py` copy and the ruff E741 findings (#634, PR #635), and review-change's `verdict.yaml` stop condition (#536, PR #636). The review-shelf path is #534, open and waiting on a design. `/adr` was built as its own offshoot (#632, PR #633).
+- 2026-10-16 — Plan found stale (still said "now: 7" a week after the merge). Item 7 done: `specs/vision-pickup.md`. Now on item 8.
