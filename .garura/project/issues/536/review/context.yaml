@@ -1,0 +1,29 @@
+{
+  "pr_number": "636",
+  "base": "main",
+  "changed_paths": [
+    ".garura/project/issues/536/context/analysis.yaml",
+    ".garura/project/issues/536/context/branch.json",
+    ".garura/project/issues/536/context/commits.yaml",
+    ".garura/project/issues/536/context/issue.json",
+    ".garura/project/issues/536/context/porcelain.txt",
+    ".garura/project/issues/536/context/pr-body.md",
+    ".garura/project/issues/536/context/pr.json",
+    ".garura/project/issues/536/context/resolved-rules.json",
+    ".garura/project/issues/536/context/self-review.md",
+    ".garura/project/issues/536/context/work-description.txt",
+    "core/components/plays/fix-bug/SKILL.md",
+    "core/components/plays/play-creator/references/post_verdict.py",
+    "core/components/plays/play-creator/references/test_post_verdict.py",
+    "core/components/plays/review-change/SKILL.md",
+    "core/components/plays/review-change/reference/ice.md",
+    "core/components/plays/review-change/scripts/post_verdict.py",
+    "core/components/plays/review-change/stop-condition.yaml"
+  ],
+  "standards_order": [
+    "kb",
+    "ltm",
+    "stm"
+  ],
+  "review_shelf": "./.garura/core/memory/knowledge/review/"
+}

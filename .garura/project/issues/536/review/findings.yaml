@@ -1,0 +1,54 @@
+pr: 636
+issue: 536
+round: 1
+confidence: 0.9
+findings:
+- id: Q1
+  category: executable-code
+  severity: P3
+  file: core/components/plays/play-creator/references/post_verdict.py
+  title: The posted comment was never checked against the recorded decision
+  basis: "knowledge/review/code.md rubric: deterministic where it claims to be (D2 says 'that is the decision posted')"
+  status: fixed
+  fix: post_verdict.py now refuses (exit 2, nothing posted) unless the comment's first line names the recorded decision and decider; four new test cases. Both copies identical.
+- id: Q2
+  category: tests
+  severity: P4
+  file: core/components/plays/play-creator/references/test_post_verdict.py
+  title: Three files opened and never closed
+  basis: "knowledge/review/tests.md: clear, tidy test code"
+  status: fixed
+  fix: all three use 'with open(...)'; the suite passes under -W error::ResourceWarning.
+- id: H1
+  category: harness
+  severity: P3
+  file: core/components/plays/review-change/SKILL.md
+  title: Step 5 never named the decision record's keys and values that Step 6 now insists on
+  basis: "play-creator SKILL.md on main: writer and reader steps agree on one shape"
+  status: fixed
+  fix: ice.md C9 and SKILL.md Steps 5 and 6 name the shape — decision approve|reject (the off-gate path copies recommended_verdict.yaml's verdict), decided_by harness|human. Fingerprint refreshed.
+- id: H2
+  category: harness
+  severity: P3
+  file: core/components/plays/review-change/stop-condition.yaml
+  title: D2's wording ('that is the decision posted') promised more than the check proved
+  basis: "play-creator SKILL.md on main (Done means proves what the run produced); review-change ice.md S4 on main"
+  status: fixed
+  fix: the post now proves it — decision_recorded is written only after the record is valid AND the posted comment names the same decision and decider (same fix as Q1).
+- id: H3
+  category: harness
+  severity: P4
+  file: core/components/plays/review-change/SKILL.md
+  title: review-change still carries the no-unbacked-recommendation gap
+  basis: "standards/rules/no-unbacked-recommendation.md on main lists review-change as caught, not yet wired (#530)"
+  status: not_this_change
+  fix: pre-existing on main and tracked by #530; not counted against this PR.
+- id: H4
+  category: harness
+  severity: P4
+  file: core/components/plays/fix-bug/SKILL.md
+  title: regression_test_path named both the test and its record
+  basis: "play-creator SKILL.md on main: contract output names mean one thing"
+  status: fixed
+  fix: Step 3 now says the test is the file the skill names; regression-test-path.yaml is the record that holds red_verified.
+counts: {P1: 0, P2: 0, P3: 3, P4: 3}

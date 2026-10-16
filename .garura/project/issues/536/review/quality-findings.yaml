@@ -1,0 +1,74 @@
+meta:
+  layer: 1
+  skill: quality-check-scoped
+  pr: 636
+  categories:
+  - executable-code
+  - tests
+  scope: core/components/plays/play-creator/references/post_verdict.py, core/components/plays/review-change/scripts/post_verdict.py, core/components/plays/play-creator/references/test_post_verdict.py
+  taxonomy_scan:
+    command: python3 core/components/skills/quality-check-scoped/scripts/scan_taxonomy.py --taxonomy core/components/memory/standards/rules/pr.md
+      --diff .garura/project/issues/536/review/pr.diff --paths <the 3 paths, one per line> --out <session scratchpad>
+    result: P1=0 P2=0 P3=0 P4=0; CODE-20 catch-all covered 3 files; errors=0. No taxonomy row fires on these three files.
+  executed:
+  - command: ruff check --no-cache core/components/plays/play-creator/references/post_verdict.py core/components/plays/review-change/scripts/post_verdict.py
+      core/components/plays/play-creator/references/test_post_verdict.py
+    result: ruff 0.15.20, exit 0, "All checks passed!" on all three files.
+  - command: python3 core/components/plays/play-creator/references/test_post_verdict.py
+    result: exit 0, 23 passed, 0 failed. Covers a harness and a human decision posting and holding the stop condition,
+      a failed post (exit 1, no posted.json, stop condition unmet), six invalid decision records (exit 2, nothing posted,
+      stop condition unmet), a hand-made verdict.yaml not passing, and the two copies being identical.
+  - command: cmp core/components/plays/play-creator/references/post_verdict.py core/components/plays/review-change/scripts/post_verdict.py
+    result: byte-identical.
+  - command: read the changed lines of post_verdict.py against its docstring and against the sibling check_stop_condition.py
+    result: exit codes match the docstring (0 ok, 1 post or commit failure, 2 missing or invalid decision record); --decision
+      is required and is wired in review-change/SKILL.md Step 6; the PyYAML import guard matches check_stop_condition.py
+      (message "PyYAML required", exit 2), so it is acceptable. The test builds its stop-condition check from the real
+      review-change/stop-condition.yaml and the real check_stop_condition.py, not a stub; the failure cases are real
+      failures (exit codes and unmet stop condition both asserted).
+  - command: looked for a suite runner or CI entry that picks up test_post_verdict.py
+    result: none found in the repo (no CI config, Makefile or script lists the play-creator reference tests); the file
+      follows the same run-by-hand pattern as test_platform_adapter.py and test_merge_scripts.py, so this is not a new gap.
+  not_applicable: 'harness and stm-run-records are not standards-driven here. Design-bearing categories: none for this layer.'
+  tool_note: the scan output went to the scratchpad; the only repo write is this file. Running the tests may leave
+    gitignored __pycache__ folders.
+findings:
+- id: F1
+  category: executable-code
+  severity: P3
+  rule_id: knowledge/review/code.md (deterministic where it claims to be); pr.md severity P3 (highlight, does not block)
+  file: core/components/plays/play-creator/references/post_verdict.py
+  line: 80
+  title: The comment that gets posted is never checked against the decision recorded in decision.yaml
+  evidence: 'main() reads decision.yaml (line 80) and separately reads the comment body from --comment-file (line 86),
+    posts the body as is, then writes decision and decided_by from decision.yaml into posted.json. Nothing compares the
+    two. The test itself shows it: run_post (test_post_verdict.py line 56) always posts "Harness verdict: approve",
+    and test_posted_decision_holds (line 90) records "decision: reject" and still passes with posted.json
+    decision=reject and the stop condition held. The stop-condition D2 text says "that is the decision posted".'
+  why_it_matters: The new stop condition reads decision_recorded true as proof that the decision on the PR is the recorded
+    one. A PR could carry a comment that says approve while posted.json says reject, and the play would still close
+    COMPLETED. Step 6 builds the comment from the decision, so this needs a bug or a hand edit to happen; today it is
+    latent. The same copy edit must be made in both script copies.
+  basis: knowledge/review/code.md rubric, deterministic where it claims to be; the script says decision_recorded means the
+    decision was recorded and posted, but it only checks that the record is valid.
+  suggestion: Either have the script write the comment first line from decision.yaml, or fail with exit 2 when the comment
+    does not name the same decision and decider. Change the test fixture so the comment follows the decision, and add a
+    case where they disagree. Apply to both copies and keep them identical.
+- id: F2
+  category: tests
+  severity: P4
+  rule_id: knowledge/review/tests.md (clear assertions, tidy test code); pr.md TEST rows (none fired)
+  file: core/components/plays/play-creator/references/test_post_verdict.py
+  line: 92
+  title: Files are opened and never closed in three places
+  evidence: 'Line 92 json.load(open(...)), lines 140 and 141 open(...).read(). The handles are left to be cleaned up by
+    garbage collection; python will warn (ResourceWarning) when run with warnings on, and the pattern differs from the
+    "with open(...)" form used everywhere else in the two scripts. ruff default rules do not flag it.'
+  why_it_matters: Cosmetic. No effect on the result today; on a stricter runner (pytest -W error) it could turn into a failure.
+  basis: knowledge/review/tests.md, linter on the test code (clear, tidy test code)
+  suggestion: Use "with open(...) as fh" in those three spots.
+counts:
+  P1: 0
+  P2: 0
+  P3: 1
+  P4: 1

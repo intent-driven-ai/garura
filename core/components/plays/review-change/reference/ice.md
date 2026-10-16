@@ -55,11 +55,15 @@ enforced by pre-flight (an open PR must exist).
   harness verdict; a REJECT outcome stands exactly as a human reject would (fix the cited
   findings, re-raise; `review-pr.bypass` semantics untouched). The verdict is still never
   silent and never unposted (C9 unchanged).
-- C9 — The play ends by proving its Done means at close (gated, #464): a verdict rendered
-  AND posted counts as done regardless of approve/reject; after posting, the play records
-  `review/posted.json` `{posted: true, comment_url}` and commits+pushes its run artifacts
-  (`context.yaml`, `findings.yaml`, `verdict.yaml`, `posted.json`) to the feature branch —
-  the open PR carries its own review record.
+- C9 — The play ends by proving its Done means at close (gated, #464): a decision recorded
+  with its decider AND posted counts as done regardless of approve/reject. The decision
+  record `review/decision.yaml` holds `decision: approve | reject` and `decided_by: harness
+  | human`. The post reads it first and posts nothing unless it holds both, and unless the
+  comment's first line names that same decision and decider (#536). After posting, the play records
+  `review/posted.json` `{posted: true, comment_url, decision, decided_by,
+  decision_recorded: true}` and commits+pushes its run artifacts (`context.yaml`,
+  `findings.yaml`, `recommended_verdict.yaml`, `decision.yaml`, `posted.json`) to the
+  feature branch — the open PR carries its own review record.
 - C10 — The mechanical PR/host I/O runs in bundled scripts calling git/gh directly (via
   `platform_adapter.py`), not an agent dispatch (#484, tool-first + ADR 025): binding the PR
   context (diff, changed paths, base, standards_order, review shelf) runs in
@@ -142,8 +146,8 @@ enforced by pre-flight (an open PR must exist).
 
 - D1 — says: "findings exist"
   check: { type: artifact_exists, path: "review/findings.yaml" }
-- D2 — says: "the verdict exists"
-  check: { type: artifact_exists, path: "review/verdict.yaml" }
+- D2 — says: "a decision was recorded with its decider, and that is the decision posted"
+  check: { type: field_equals, file: "review/posted.json", field: "decision_recorded", equals: true }
 - D3 — says: "the verdict is on the PR"
   check: { type: field_equals, file: "review/posted.json", field: "posted", equals: true }
 

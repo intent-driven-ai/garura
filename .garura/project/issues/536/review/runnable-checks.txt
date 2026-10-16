@@ -1,0 +1,16 @@
+## lint_play review-change
+  [PASS] concurrent fan-out (#468): fan-out declares its join + read-only safety
+  [GAP ] no-unbacked-recommendation: this play's description says it recommends — it must cite standards/rules/no-unbacked-recommendation.md and wire the rule (constraint + failure condition + step eval + strip-not-replace recovery)
+VERDICT: FAIL (1 gap(s))
+## lint_play fix-bug
+VERDICT: PASS (0 gap(s))
+## test_post_verdict
+23 passed, 0 failed
+## other play-creator reference tests
+test_chain_checks.py: ALL PASS
+test_check_ice_workable.py: 11 passed, 0 failed
+test_concurrent_fanout.py: 13 passed, 0 failed
+test_gate_learning.py: ALL PASS
+test_merge_scripts.py: 15 passed, 0 failed
+test_platform_adapter.py: 37 passed, 0 failed
+test_post_verdict.py: 23 passed, 0 failed

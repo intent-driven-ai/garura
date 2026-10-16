@@ -1,0 +1,8 @@
+ M .garura/project/issues/536/context/porcelain.txt
+ M core/components/plays/fix-bug/SKILL.md
+ M core/components/plays/play-creator/references/post_verdict.py
+ M core/components/plays/play-creator/references/test_post_verdict.py
+ M core/components/plays/review-change/SKILL.md
+ M core/components/plays/review-change/reference/ice.md
+ M core/components/plays/review-change/scripts/post_verdict.py
+?? .garura/project/issues/536/review/

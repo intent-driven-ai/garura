@@ -1,0 +1,43 @@
+---
+needs_judgment: false
+
+change_groups:
+  - id: review-change-comment-matches-decision
+    issue: 536
+    commit_type: fix
+    scope: review-change
+    subject: "refuse to post a verdict comment that does not name the recorded decision and decider"
+    files:
+      - core/components/plays/review-change/scripts/post_verdict.py
+      - core/components/plays/play-creator/references/post_verdict.py
+      - core/components/plays/play-creator/references/test_post_verdict.py
+      - core/components/plays/review-change/reference/ice.md
+      - core/components/plays/review-change/SKILL.md
+  - id: fix-bug-name-test-and-record
+    issue: 536
+    commit_type: docs
+    scope: fix-bug
+    subject: "say which file is the regression test and which is its record"
+    files:
+      - core/components/plays/fix-bug/SKILL.md
+  - id: stm-context-536
+    issue: 536
+    commit_type: chore
+    scope: stm
+    subject: "update the context files"
+    files:
+      - .garura/project/issues/536/context/analysis.yaml
+      - .garura/project/issues/536/context/porcelain.txt
+
+exclusions:
+  - path: ".garura/project/issues/536/review/"
+    reason: "review record, committed by review-change post_verdict"
+    blocking: false
+
+risks:
+  sensitive_files: []
+
+notes:
+  - "The scan's content warning on review/pr.diff (match 'private_key') is a pattern match inside a saved diff, not a secret; the file is excluded with the rest of review/."
+  - "Both post_verdict.py copies are byte-identical (verified with cmp); they and the SKILL.md fingerprint refresh belong with the ice.md change they track, so they stay in one group."
+  - "Branch feature/536-review-stop-condition is not a hotfix branch. No breaking changes or ambiguous types detected."
