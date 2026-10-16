@@ -55,9 +55,11 @@
 The agent's intent for this node (ontology: ICE), in one place an agent can point at.
 Each line starts with one of the six labels; a label may repeat; at least one **Goal**.
 A play fills the lines it knows — a light section has only goals, a full one has every
-label — and a later play adds to it, keeping what is there. The section is required once
+label — and a later play adds to it, keeping what is there. The section is expected once
 the node's spine entry names a business intent in `intents` (the node is built from that
-intent, so its agent intent must be written); a node with no intent link may leave it out.
+intent, so its agent intent should be written); a linked node without it gets a linter
+warning — alignment work, never a stop — so pages written before ontology v4 still pass.
+A node with no intent link may leave it out.
 The other sections explain the node to a person; this one is the short, fixed form an
 agent works from. Each line explains itself (at least five words), like every other item.
 

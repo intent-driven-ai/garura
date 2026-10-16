@@ -127,8 +127,9 @@ TITLE_TO_KIND = {v["title"]: k for k, v in CONTRACTS.items()}
 
 # The agent intent (ICE) of a capability or functionality is written in ONE named section,
 # always the last, in labelled lines a play fills as far as it knows (ontology v4, #637).
-# Optional on a page with no business-intent link; required once its spine entry names one
-# in `intents` — the link says the node is built from an intent, so its ICE must be visible.
+# Expected once its spine entry names a business intent in `intents`: a linked node with no
+# section is a warning — alignment work, like a capability with no domain — so pages written
+# before ontology v4 still pass. A section that IS there must be well formed (errors).
 ICE_SECTION = "Agent intent (ICE)"
 ICE_KINDS = ("capability", "functionality")
 ICE_LABELS = ("Goal", "Limit", "Fails if", "Context", "Checked by", "Quality need")
@@ -236,8 +237,8 @@ def check_doc(path, text, kind, errors, warnings, expected_stage=None, require_i
         elif ice:
             check_ice(path, sections[-1][1], errors)
         elif require_ice:
-            errors.append(f"{path}: missing '## {ICE_SECTION}' — its spine entry names a business "
-                          f"intent, so its agent intent must be written")
+            warnings.append(f"{path}: no '## {ICE_SECTION}' yet — its spine entry names a business "
+                            f"intent, so its agent intent should be written (alignment)")
         sections = [sec for sec in sections if sec[0] != ICE_SECTION]
     got_pre = [h for h, _ in sections]
     if "stages" in contract:
