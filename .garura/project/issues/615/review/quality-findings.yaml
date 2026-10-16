@@ -1,0 +1,62 @@
+meta:
+  layer: 1
+  skill: quality-check-scoped
+  pr: 640
+  issue: 615
+  categories:
+  - executable-code
+  - tests
+  scope: 20 paths from context.yaml scanned by the taxonomy script. Standards-driven categories judged here are executable-code
+    (3 paths) and tests (1 path). Not run here - harness (2 paths, understand SKILL.md and ice.md) and memory (1 path,
+    pipeline-position.md), which go to their own playbooks; stm-run-records (10 paths) and stm-plans-and-design (3 paths)
+    have no playbook (playbook_missing) and were not judged. No standards-driven docs/prose category exists in this diff.
+  taxonomy_scan:
+    command: python3 core/components/skills/quality-check-scoped/scripts/scan_taxonomy.py --taxonomy core/components/memory/standards/rules/pr.md
+      --diff .garura/project/issues/615/review/pr.diff --paths <the 20 changed paths, one per line> --out <session scratchpad>
+    result: P1=0 P2=0 P3=0 P4=0; CODE-20 catch-all covered 20 files; errors=0. No taxonomy row fires.
+    limit: every python file sits under core/components/**, which the taxonomy classifies as garura-prose, so its grep rules
+      are switched off for them by design (#438). The empty scan is not evidence the scripts are clean. The findings below
+      come from ruff, the test run, mutation runs and fixture runs, with the basis named.
+  executed:
+  - command: ruff check --no-cache --no-fix --output-format concise core/components/plays/understand/scripts/*.py
+    result: ruff 0.15.20, exit 0, "All checks passed!". No ruff config in the repo, so default rules.
+  - command: python3 -W error core/components/plays/understand/scripts/test_persist_understand.py
+    result: 46 passed, 0 failed, exit 0. Tree unchanged afterwards (git status shows only the untracked review folder).
+  - command: cmp of understand/scripts/check_drive_contract.py and write_drive_review.py against play-creator/references
+    result: both identical to the canonical copy.
+  - command: mutation check on a scratch copy of persist_understand.py - (a) hard-code status accepted; (b) drop the
+      choices=accepted|proposed check; (c) change the default from accepted to proposed
+    result: all three caught (FAIL on "inside a drive, its decision reads proposed"; "a status other than accepted or
+      proposed is refused"; "by hand, its decision reads accepted"). The new test asserts something real, and the refusal
+      case is a real failure case.
+  - command: fixture runs of write_drive_review.py in the scratchpad - run file with only in_drive, run file missing
+      drive_run_id and branch, and --ts ../x
+    result: each refused with exit 2 and a plain reason, nothing written (no rv folder created). The earlier findings from the 614 review
+      on this script (half-written record, odd --ts, summary equal to target) are fixed in this copy. check_drive_contract.py
+      source also now rejects non-text required fields and a non-positive issue number.
+  - command: fixture run of persist_understand.py - a hand run (accepted), then a drive run with --decision-status proposed
+      on the same capability
+    result: the second run is refused ("already detailed"), so an accepted decision cannot be silently reset to proposed
+      by a rerun. Default (flag absent) is unchanged behaviour, accepted.
+  not_applicable: Design grounding (Layer 2) is not part of this skill.
+findings:
+- id: F1
+  category: tests
+  severity: P4
+  rule_id: knowledge/review/tests.md (failure cases assert the whole refusal)
+  file: core/components/plays/understand/scripts/test_persist_understand.py
+  line: 229
+  title: The bad-status refusal case checks only that the exit was non-zero
+  evidence: 'The case (lines 228-233) runs with --decision-status rejected and passes when the exit code is not 0. It does not
+    assert that no decision file and no spine change were written, and argparse prints its usage message into the test
+    output. The check is a real failure case (mutation (b) above makes it fail), so this is a tightening, not a hole.'
+  why_it_matters: A future change that wrote the decision before the argument was refused would still pass this case. Low
+    risk today because argparse refuses before any file is read.
+  basis: knowledge/review/tests.md rubric, failure cases; mutation check above.
+  suggestion: After the refusal, assert the decisions folder does not exist and the spine is unchanged; redirect stderr
+    for the call so the test output stays clean.
+counts:
+  P1: 0
+  P2: 0
+  P3: 0
+  P4: 1

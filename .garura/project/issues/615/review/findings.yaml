@@ -1,0 +1,135 @@
+pr: 640
+issue: 615
+round: 1
+confidence: 0.9
+findings:
+- id: H1
+  category: harness
+  severity: P3
+  file: core/components/plays/understand/reference/ice.md
+  title: Inside a drive the box is raised and committed while its decision is only proposed; the play does not say
+    what dropping the decision does to the raised box, and a later capability in the same drive reads the raised
+    ceiling
+  basis: 'main:core/components/memory/standards/rules/direct-model-write.md (''Order of operations'' final paragraph,
+    ''Declared exception'' paragraphs for /intent and /adr); main:core/components/plays/understand/scripts/rollup_box.py
+    (header: committed level); main:core/components/memory/standards/schemas/product-os/decision.yaml (status values
+    proposed | accepted | superseded | rejected); main:docs/adr/031-business-intent-and-ice.md part 5 (the same
+    ''confirm or drop at the end review'' shape, with alignment cleaning up after a drop)'
+- id: H2
+  category: harness
+  severity: P3
+  file: core/components/plays/understand/SKILL.md
+  title: SE-16 expects a review record whenever the gate did not auto-pass, but Step 6 and C13 write none when a
+    config skip resolves the gate; a skipped gate leaves proposed box-moves with no record for the drive's review
+  basis: main:core/components/memory/standards/rules/drive-contract.md ('How a play runs inside a drive' item 3);
+    main:core/components/memory/standards/rules/gate-config.md (config skip and ledger lines); main:core/components/plays/vision/SKILL.md
+    SE-14 (same wording, the precedent this inherits)
+- id: H3
+  category: harness
+  severity: P3
+  file: core/components/plays/understand/SKILL.md
+  title: SE-15 says an in-drive run 'did not wait at Step 0a', but C1, C13 and Step 0a require the play to stop
+    and ask when the contract has no seed answers
+  basis: main:docs/adr/029-drives.md section 2 ('A new question stops it'); main:core/components/memory/standards/rules/drive-contract.md
+    ('How a play runs inside a drive' item 4)
+- id: H4
+  category: harness
+  severity: P4
+  file: core/components/plays/understand/reference/ice.md
+  title: The play reads nested seed answers (answers.understand.seeds.<capability>.one_line/why/domain) that drive-contract.md
+    does not describe
+  basis: main:core/components/memory/standards/rules/drive-contract.md ('What a contract holds', answers row); main:docs/adr/029-drives.md
+    section 2 (questions first)
+- id: H5
+  category: harness
+  severity: P4
+  file: core/components/plays/understand/reference/ice.md
+  title: The review record is named understand-<ts> and carries no capability, though Kickoff runs /understand once
+    per capability and ADR 029 expects one record per capability
+  basis: 'main:docs/adr/029-drives.md section 6 (''Done when'': ''one /understand record per capability''); main:core/components/memory/standards/rules/drive-contract.md
+    (''drive_run_id ... so the drive''s review can find each play''s record'')'
+- id: H6
+  category: harness
+  severity: P4
+  file: core/components/plays/understand/reference/ice.md
+  title: Three stale statements still read as if nothing is committed without an approval and every decision is
+    accepted
+  basis: CLAUDE.md Play Pipeline Rules (the compiled file is the generated whole); main:core/components/plays/vision/SKILL.md
+    (precedent reworded its F6/REC6 for the deferral)
+- id: H7
+  category: harness
+  severity: P4
+  file: core/components/plays/understand/reference/ice.md
+  title: F14 and REC14 call a by-hand run that 'skipped its checkpoint' a failure, though a config skip or learned
+    auto-pass legitimately skips it
+  basis: main:docs/adr/029-drives.md section 4 and 'ADRs This Retires' (002 in part); main:core/components/memory/standards/rules/gate-config.md
+- id: H8
+  category: harness
+  severity: P4
+  file: core/components/plays/understand/reference/ice.md
+  title: Done means (D1-D3) is unchanged, so the in-drive path (record written, decisions proposed, no wait) is
+    proven only by step evals SE-15/SE-16, not at close
+  basis: 'main:core/components/plays/play-creator/SKILL.md (''Done means (#464)''); main:core/components/plays/understand/stop-condition.yaml
+    (D1-D3 as on main); main:core/components/plays/vision (same choice, merged under #614)'
+- id: M1
+  category: memory
+  severity: P3
+  file: core/components/memory/standards/rules/_index.md
+  title: rules/_index.md (on main) still lists /understand as a future consumer ('/understand (#615)') of drive-contract.md,
+    so the index disagrees with the edited rule
+  basis: 'The index row for drive-contract.md says ''/vision (wired), /intent (own check), /understand (#615)''.
+    After this PR pipeline-position.md says /understand is wired. The index is the first place an agent looks to
+    learn what rules apply and who consumes them; two committed rules now give different wired status for the same
+    play. Source: main:core/components/memory/standards/rules/_index.md (row 43; ''When to Add Here'' - each rule
+    listed with its consumers)'
+- id: M2
+  category: memory
+  severity: P3
+  file: core/components/memory/standards/rules/drive-contract.md
+  title: No committed rule says box-move decisions are saved as 'proposed' inside a drive; /understand does it only
+    in its own play text
+  basis: 'The rule that governs a drive-run play (drive-contract.md) never mentions decisions. The ''proposed inside
+    a drive, accepted at the drive''s end review'' convention is declared only for /intent and /adr (direct-model-write.md).
+    /understand now saves each box-move decision as ''proposed'' and has the drive''s review accept or drop it,
+    but the rule files that /understand''s SKILL.md cites do not say so. Source: main:core/components/memory/standards/rules/direct-model-write.md
+    (declared exceptions /intent and /adr); main:core/components/memory/standards/rules/drive-contract.md (steps
+    1-5, no decision-status clause); main:docs/adr/030-plan-mode.md section 5'
+- id: M3
+  category: memory
+  severity: P3
+  file: core/components/memory/standards/rules/pipeline-position.md
+  title: pipeline-position.md's mechanics sections still describe unconditional injection although two (now three)
+    plays skip it inside a drive by hand-written text
+  basis: 'Shared play scaffolding must be emitted by play-creator and checked by lint-components so a hand edit
+    and a rebuild converge. ''How play-creator injects it'' and ''Enforced'' do not mention the in-drive skip, and
+    play-creator/SKILL.md and lint_play.py contain no ''in_drive'' or drive-contract reference (0 matches in each,
+    checked on this branch). /understand is a third play whose in-drive skip lives only in its hand-compiled SKILL.md
+    and ice.md. Source: main:CLAUDE.md (Play Pipeline Rules > Durability rule for non-intent edits); main:core/components/memory/standards/rules/pipeline-position.md
+    (''How play-creator injects it'', ''Enforced'')'
+- id: M4
+  category: memory
+  severity: P4
+  file: core/components/memory/standards/rules/pipeline-position.md
+  title: The 'wired so far' list is a moving status inside a standing rule, and now repeats issue numbers that go
+    stale on the next play
+  basis: 'The rule already carries an ''As compiled today'' list, so a status list has precedent. The edit removes
+    one stale ''follows in #615'' but adds two more issue numbers, so the next wired play (/grill, /learn, ...)
+    needs the same edit again. Carried over from the #614 review (M9). Source: main:core/components/memory/standards/rules/pipeline-position.md
+    (introductory paragraph, ''As compiled today'')'
+- id: M5
+  category: memory
+  severity: P4
+  file: core/components/memory/standards/rules/pipeline-position.md
+  title: Pre-existing stale text lower in pipeline-position.md ('the five plays here are all members, so no consumer
+    exists yet')
+  basis: 'The introductory paragraph lists a dozen consumer plays with positions ''both'', ''start'' and ''end'',
+    yet ''Enforced'' still says no consumer play exists and the mechanical lint check of an injected sequence ''lands
+    with the first consumer play (Phase E)''. The file contradicts itself on main. Source: main:core/components/memory/standards/rules/pipeline-position.md
+    (''As compiled today'' versus ''Enforced'', last paragraph)'
+- id: F1
+  category: tests
+  severity: P4
+  file: core/components/plays/understand/scripts/test_persist_understand.py
+  title: The bad-status refusal case checks only that the exit was non-zero
+  basis: 'knowledge/review/tests.md rubric, failure cases; mutation check above. Source: knowledge/review/tests.md
+    (failure cases assert the whole refusal)'
