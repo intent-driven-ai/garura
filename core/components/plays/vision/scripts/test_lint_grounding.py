@@ -98,6 +98,119 @@ def test_lens_contracts_match_their_templates():
               kind == f"lens-{lens}" and not errors)
 
 
+LIGHT_DOMAIN = """# Theme: Commerce
+
+## Intent
+Let shoppers find what they want and pay for it without friction, so the store turns
+visits into orders it can trust and fulfil.
+"""
+
+
+def spine_errors(root, spine_text):
+    write(os.path.join(root, "_spine.yaml"), spine_text)
+    errors, warnings = [], []
+    lg.check_spine(root, os.path.join(root, "_spine.yaml"), errors, warnings, {})
+    return errors
+
+
+def test_domain_stages():
+    domain_template = os.path.join(LENS_TEMPLATES, "..", "domain.md")
+    with open(domain_template, encoding="utf-8") as fh:
+        full = re.search(r"```markdown\n(.*?)\n```", fh.read(), re.DOTALL).group(1) + "\n"
+    errors = []
+    lg.check_doc("light.md", LIGHT_DOMAIN, "domain", errors, [], expected_stage="directional")
+    check("a light domain page passes as directional", errors == [])
+    errors = []
+    lg.check_doc("light.md", LIGHT_DOMAIN, "domain", errors, [])
+    check("a light domain page with no stage given is read as directional", errors == [])
+    errors = []
+    lg.check_doc("light.md", LIGHT_DOMAIN, "domain", errors, [], expected_stage="detailed")
+    check("a light domain page fails when the spine says detailed",
+          any("missing required section '## Business goal'" in e for e in errors))
+    errors = []
+    lg.check_doc("full.md", full, "domain", errors, [], expected_stage="detailed")
+    check("the domain template's gold example passes as detailed", errors == [])
+    with tempfile.TemporaryDirectory() as tmp:
+        root = os.path.join(tmp, "product-os")
+        write(os.path.join(root, "commerce", "domain.md"), LIGHT_DOMAIN)
+        entry = ("domains:\n  - id: dom-commerce\n    slug: commerce\n    status: proposed\n"
+                 "    detail: {}\n    one_line: Selling to shoppers\n    doc: commerce/domain.md\n"
+                 "capabilities: []\nfunctionalities: []\n")
+        check("the spine's `detail: directional` on a domain is honoured",
+              spine_errors(root, entry.format("directional")) == [])
+        check("the spine's `detail: detailed` on a light domain page is an error",
+              any("Business goal" in e for e in spine_errors(root, entry.format("detailed"))))
+
+
+CAP = """# Capability: Checkout
+
+## Directional intent
+Checkout turns a full cart into a paid order, so a shopper who has decided to buy is never
+lost at the last step; it owns paying and confirming, and leaves the cart to its neighbour.
+"""
+ICE = """
+## Agent intent (ICE)
+- Goal: A shopper with no account completes a purchase from start to finish.
+- Limit: Nothing about how returns work may change for any shopper.
+- Fails if: a guest shopper is asked to sign up before paying.
+"""
+
+
+def lint(text, **kw):
+    errors = []
+    lg.check_doc("cap.md", text, "capability", errors, [], **kw)
+    return errors
+
+
+def lint_warnings(text, **kw):
+    warnings = []
+    lg.check_doc("cap.md", text, "capability", [], warnings, **kw)
+    return warnings
+
+
+def test_agent_intent_section():
+    for kind in ("capability", "functionality"):
+        with open(os.path.join(LENS_TEMPLATES, "..", f"{kind}.md"), encoding="utf-8") as fh:
+            golds = re.findall(r"```markdown\n(.*?)\n```", fh.read(), re.DOTALL)
+        errors = []
+        for g in golds:
+            lg.check_doc(f"{kind}.md", g + "\n", kind, errors, [])
+        check(f"every gold example in the {kind} template passes", golds and errors == [])
+    check("a capability page with no agent intent passes when nothing requires it", lint(CAP) == [])
+    check("a capability page with no agent intent is a warning, not an error, when its spine entry names an intent",
+          lint(CAP, require_ice=True) == []
+          and any("no '## Agent intent (ICE)' yet" in w for w in lint_warnings(CAP, require_ice=True)))
+    legacy = CAP + "\nGoals:\n- A shopper with no account can buy, start to finish.\n"
+    check("a page /intent wrote before ontology v4 (a loose Goals list) still passes",
+          lint(legacy, expected_stage="directional", require_ice=True) == [])
+    check("a light agent intent section passes, at the directional stage",
+          lint(CAP + ICE, expected_stage="directional", require_ice=True) == [])
+    moved = CAP.replace("## Directional intent", ICE.strip() + "\n\n## Directional intent")
+    check("the agent intent section must be the last section",
+          any("as the last section" in e for e in lint(moved)))
+    check("an unknown label is an error",
+          any("not a labelled item" in e for e in lint(CAP + ICE + "- Wish: something nice for every shopper here\n")))
+    check("an agent intent with no Goal is an error",
+          any("has no Goal" in e for e in lint(CAP + "\n## Agent intent (ICE)\n- Limit: returns stay exactly as they are today\n")))
+    check("a telegraphic item is an error",
+          any("telegraphic" in e for e in lint(CAP + "\n## Agent intent (ICE)\n- Goal: guest checkout\n")))
+    with tempfile.TemporaryDirectory() as tmp:
+        root = os.path.join(tmp, "product-os")
+        write(os.path.join(root, "commerce", "domain.md"), LIGHT_DOMAIN)
+        write(os.path.join(root, "commerce", "checkout", "capability.md"), CAP)
+        spine = ("domains:\n  - {id: dom-commerce, slug: commerce, detail: directional, one_line: Selling, "
+                 "doc: commerce/domain.md}\ncapabilities:\n  - {id: cap-checkout, slug: checkout, domain: "
+                 "dom-commerce, detail: directional, one_line: Paying, doc: commerce/checkout/capability.md%s}\n"
+                 "functionalities: []\n")
+        write(os.path.join(root, "_spine.yaml"), spine % ", intents: [guest-checkout]")
+        errors, warnings = [], []
+        lg.check_spine(root, os.path.join(root, "_spine.yaml"), errors, warnings, {})
+        check("in the spine, a capability linked to an intent with no agent intent gets a warning",
+              errors == [] and any("Agent intent" in w for w in warnings))
+        check("in the spine, a capability with no intent link need not",
+              spine_errors(root, spine % "") == [])
+
+
 def test_every_copy_is_identical():
     mine = open(os.path.join(HERE, "lint_grounding.py"), "rb").read()
     copies = glob.glob(os.path.join(REPO, "core", "components", "plays", "*", "scripts", "lint_grounding.py"))
@@ -108,7 +221,7 @@ def test_every_copy_is_identical():
 
 def main():
     for test in (test_lens_docs_and_the_orphan_check, test_lens_contracts_match_their_templates,
-                 test_every_copy_is_identical):
+                 test_domain_stages, test_agent_intent_section, test_every_copy_is_identical):
         print(test.__name__)
         test()
     print(f"\n{PASSED} passed, {FAILED} failed")

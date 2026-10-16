@@ -1,0 +1,7 @@
+decision: approve
+decided_by: harness
+gate: "skipped by config (gates.plays.review-change)"
+reason: "no P1 findings; confidence acceptable"
+blocking: []
+counts: {P2: 4, P3: 12, P4: 7}
+note: "11 findings fixed in this PR before the merge (all 4 P2s); 12 open (5 P3, 7 P4), none blocking."

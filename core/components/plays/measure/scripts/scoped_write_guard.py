@@ -16,8 +16,10 @@ session_stamp.py, classify_change.py).
     python3 scripts/scoped_write_guard.py
         --product-base <product_base>
         --base-ref HEAD
-        --allow <glob> [--allow <glob> ...]       # paths this run MAY change (add or modify)
+        --allow <glob> [--allow <glob> ...]       # paths this run MAY change (add, modify, remove)
         [--add-only <glob> ...]                   # paths that may be ADDED but not modified
+        [--modify-only <glob> ...]                # paths that may be MODIFIED, not added or removed
+        [--remove-only <glob> ...]                # paths that may be REMOVED, not added or modified
         [--restore]                               # revert violations instead of only reporting
         [--out <report.json>]
 
@@ -26,7 +28,11 @@ Behavior:
     tracked/untracked additions + tracked deletions) under <product_base>product-os/.
   - A path is IN SCOPE iff it matches an --allow glob; a path matching an --add-only glob
     is in scope only when it is a NEW file (added). A modification of an existing file that
-    matches only --add-only is a VIOLATION.
+    matches only --add-only is a VIOLATION. Likewise --modify-only admits only a change to a
+    file that existed at base, and --remove-only only a removal of one (e.g. a doc moved out
+    of a holding folder: its old path --remove-only, its new path --add-only).
+  - Renames are never detected (`--no-renames`): a move is always seen as a removal plus an
+    addition, so a removal can never hide inside a rename.
   - Without --restore: exit non-zero and list every out-of-scope path (the play halts).
   - With --restore: `git restore`/`git checkout` each out-of-scope tracked path to its
     base-ref content, remove each out-of-scope new/untracked file, then exit 0 (the
@@ -97,7 +103,7 @@ def changed_paths(root, base_ref, tree_rel):
     """
     out = {}
 
-    rc, diff = git(root, "diff", "--name-status", base_ref, "--", tree_rel)
+    rc, diff = git(root, "diff", "--name-status", "--no-renames", base_ref, "--", tree_rel)
     if rc != 0:
         fail(f"git diff against {base_ref} failed under {tree_rel}")
     for line in diff.splitlines():
@@ -160,6 +166,10 @@ def main(argv=None):
                     help="glob a changed path MAY match (add or modify); repeatable")
     ap.add_argument("--add-only", action="append", default=[],
                     help="glob a changed path may match only when it is a NEW file; repeatable")
+    ap.add_argument("--modify-only", action="append", default=[],
+                    help="glob a changed path may match only when it is a MODIFIED existing file; repeatable")
+    ap.add_argument("--remove-only", action="append", default=[],
+                    help="glob a changed path may match only when it is a REMOVED file; repeatable")
     ap.add_argument("--restore", action="store_true",
                     help="revert out-of-scope paths instead of only reporting")
     ap.add_argument("--out", help="write guard-report.json here (also printed)")
@@ -188,15 +198,21 @@ def main(argv=None):
         tree_prefix = tree_rel + "/"
         if path.startswith(tree_prefix):
             variants.append(path[len(tree_prefix):])
-        is_new = status == "A"
         allowed = in_globs(variants, args.allow)
         add_only = in_globs(variants, args.add_only)
-        in_scope = allowed or (add_only and is_new)
+        modify_only = in_globs(variants, args.modify_only)
+        remove_only = in_globs(variants, args.remove_only)
+        in_scope = (allowed or (add_only and status == "A") or (modify_only and status == "M")
+                    or (remove_only and status == "D"))
         if in_scope:
             continue
         reason = "out-of-scope"
-        if add_only and not is_new:
-            reason = "modification of an add-only path"
+        if add_only or modify_only or remove_only:
+            kinds = [k for k, hit in (("add-only", add_only), ("modify-only", modify_only),
+                                      ("remove-only", remove_only)) if hit]
+            done = {"A": "addition", "M": "modification", "D": "removal"}.get(status, "change")
+            names = "/".join(kinds)
+            reason = f"{done} of {'an' if names[0] in 'aeiou' else 'a'} {names} path"
         violations.append({"path": path, "status": status, "reason": reason})
         if args.restore:
             action = restore_path(root, args.base_ref, path)
@@ -209,6 +225,8 @@ def main(argv=None):
         "tree": tree_rel,
         "allow": args.allow,
         "add_only": args.add_only,
+        "modify_only": args.modify_only,
+        "remove_only": args.remove_only,
         "restore": args.restore,
         "changed": [{"path": p, "status": s} for p, s in sorted(changed.items())],
         "violations": violations,
