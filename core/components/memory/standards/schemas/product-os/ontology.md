@@ -1,7 +1,7 @@
 ---
 ontology: product
-version: 3
-updated: 2026-10-09
+version: 4
+updated: 2026-10-17
 ---
 
 # Product Ontology
@@ -53,6 +53,7 @@ How it flows: a person gives an intent → it becomes a **Business Intent** here
 | Must not | Limits the person stated | no |
 | Stage | proposed, confirmed, met, or dropped | yes |
 | Confirmed by and when | Who agreed it says the right thing, and when | yes, once confirmed |
+| Touches | Every domain, capability and functionality it reaches into, each marked adds, changes or removes, with a link to that part's page — the **Touches** list on its page, written by a script whenever a play links a part to it | no, until a part is linked |
 | What was done | What was delivered for it and the value each piece brought, with links to the finished issues — updated as work finishes | no, until work finishes |
 
 **Relationships**
@@ -63,13 +64,14 @@ How it flows: a person gives an intent → it becomes a **Business Intent** here
 | other → this | ICE | many | An ICE is built from it — the agent's intent for one part of the product |
 | other → this | Work | many | A piece of work serves it |
 | this → other | Tracker Issue | one | It is tracked as one "Business Intent" issue in the team's tracker |
-| this → other | Domain | many | It touches a domain — marked change, add or remove |
-| this → other | Capability | many | It touches a capability — marked change, add or remove |
-| this → other | Functionality | many | It touches a functionality — marked change, add or remove |
+| this → other | Domain | many | It touches a domain — marked change, add or remove (its Touches list; the domain's spine `intents` holds the other side) |
+| this → other | Capability | many | It touches a capability — marked change, add or remove (its Touches list; the capability's spine `intents` holds the other side) |
+| this → other | Functionality | many | It touches a functionality — marked change, add or remove (its Touches list; the functionality's spine `intents` holds the other side) |
 
 **Rules**
 
 - It is a destination: sources, ICE and work point at it; it points only at the tracker issue it is tracked as and the parts of the product it touches.
+- Each part it touches is linked both ways: the part's spine entry names it in `intents`, and its own Touches list names the part with the mark. A play that makes one side writes the other.
 - It is met by its proof, never because its work is finished.
 - Work starts only from an ICE built from a confirmed business intent. An ICE or a piece of work found before its intent is confirmed — or before it exists — is kept, not worked on, and is drift for alignment, never a blocked write.
 - A source is never copied into it; the source shows the intent, it is not the intent.
@@ -91,8 +93,11 @@ proposed → confirmed (the person who asked confirms it says the right thing) �
 > **Proof it is met:** Fewer than 2 in 10 shoppers leave at sign-up, for a month.
 > **Must not:** Change how returns work.
 > **Stage:** confirmed — by Priya, 8 October 2026
-> **Touches:** Checkout (capability) — changes · Guest checkout (function) — added · Orders (domain) — unchanged
 > **Source:** the checkout prototype, read 8 October 2026
+> **Touches:**
+> - [Orders](../orders/domain.md) (domain) — changes
+> - [Checkout](../orders/checkout/capability.md) (capability) — changes
+> - [Guest checkout](../orders/checkout/guest-checkout/functionality.md) (functionality) — adds
 > **What was done:** (nothing yet)
 
 ### Source
@@ -136,7 +141,7 @@ proposed → confirmed (the person who asked confirms it says the right thing) �
 
 **What it is:** The agent's intent for one part of the product — a capability or a functionality: what must be true there, for whom, and how it will be checked. It is what an agent works on, and it is built from a business intent. It starts with the goals a business intent needs; context, outcomes and quality needs are added as the product is shaped. Its capability may exist before that capability has a domain — `/vision` attaches the domain later.
 **Who reads it:** agent
-**Lives at:** written inline in its capability's or functionality's grounding doc (`spine.yaml` v2); the spine entry's `intents` names the business intents it is built from
+**Lives at:** one named section, `## Agent intent (ICE)`, always the last section of its capability's or functionality's grounding doc (`grounding/capability.md`, `grounding/functionality.md`) — labelled lines (Goal, Limit, Fails if, Context, Checked by, Quality need) filled as far as is known; the spine entry's `intents` names the business intents it is built from. The section is required once that link exists.
 
 **Properties**
 
@@ -161,28 +166,33 @@ proposed → confirmed (the person who asked confirms it says the right thing) �
 **Rules**
 
 - It is workable only when it is built from at least one confirmed business intent (or one since met). An ICE with no business intent, or only proposed ones, is kept as written but no play plans, breaks down or builds from it; linking it to a confirmed intent makes it workable.
-- Writing it is never blocked: any play may write or add to it, inside that play's declared write scope.
+- Writing it is never blocked: any play may write or add to it, inside that play's declared write scope, keeping what is there.
+- It is written at the depth that is known: a light ICE is goals only; a full one has every label.
 - Once aligned, one part of the product has one ICE; two ICE for the same part are drift for alignment to merge.
 
 **Example**
 
-> **ICE — Guest checkout (functionality)**
-> **Built from:** Shoppers can check out without making an account
-> **Goal:** A shopper with no account completes a purchase. **Limit:** no change to returns. **Fails if:** a guest is asked to sign up.
-> **Context:** guest shopper on mobile · payment service, order store · in: card and wallet; out: saved addresses
-> **Outcome:** a guest completes checkout in under 2 minutes, in an end-to-end test
+> The last section of `orders/checkout/guest-checkout/functionality.md`, whose spine entry has `intents: [guest-checkout]`:
 >
-> **ICE — Harness steering** (capability written by `/intent` from a prototype; no domain yet)
-> **Built from:** Know whether the harnesses we build are useful and drive agent autonomy (confirmed — so it is workable)
-> **Goal:** For each harness, tell how often an agent finishes its work without a person stepping in.
+> ## Agent intent (ICE)
+> - Goal: A shopper with no account completes a purchase from start to finish.
+> - Limit: Nothing about how returns work changes for any shopper.
+> - Fails if: a guest shopper is asked to sign up before paying.
+> - Context: a guest shopper on mobile, the payment service and the order store; card and wallet are in, saved addresses are out.
+> - Checked by: an end-to-end test in which a guest completes checkout in under two minutes.
+>
+> A light ICE: the last section of `capabilities/harness-steering/capability.md`, written by `/intent` from a prototype, in the holding folder because no domain was known yet. Its spine entry's `intents` names "Know whether the harnesses we build are useful and drive agent autonomy" (confirmed — so it is workable):
+>
+> ## Agent intent (ICE)
+> - Goal: For each harness, tell how often an agent finishes its work without a person stepping in.
 
 ## Not yet defined
 
 - **Work** — a piece of work agents do: a Feature, Story, Chore, Bug or Spike; it serves a business intent and carries the ICE its agent works on.
 - **Tracker Issue** — an issue in the team's tracker (GitHub, Jira, …) that tracks a business intent or a piece of work.
-- **Domain** — a big area of the product (exists today in `product-os.yaml`).
-- **Capability** — something the product can do, inside a domain (exists today in `product-os.yaml`).
-- **Functionality** — one specific action inside a capability (the leaf of `product-os.yaml`).
+- **Domain** — a big area of the product (exists today in `product-os.yaml`). Its page is light (directional) or full (detailed); it holds no ICE; its spine `intents` names the business intents that touch it.
+- **Capability** — something the product can do, inside a domain (exists today in `product-os.yaml`). Its page is directional or detailed, and carries its ICE in the `## Agent intent (ICE)` section. It may sit in the holding folder `capabilities/<id>/` until its domain is known.
+- **Functionality** — one specific action inside a capability (the leaf of `product-os.yaml`). Its page carries its ICE in the `## Agent intent (ICE)` section.
 
 ## Log
 
@@ -192,3 +202,4 @@ proposed → confirmed (the person who asked confirms it says the right thing) �
 - 2026-10-09 — v3 (Kapil, #612): no play owns a kind — any play writes what it finds, in any order; rules say what holds once aligned and never block a write; drift goes to the Alignment drive. Only a person confirms or drops a business intent. The writer rule for ICE is gone. (Where ICE lives and when it is workable: see the next entry, which replaced a first idea of separate ICE files.)
 - 2026-10-09 — Review of #631: "Function" renamed "Functionality" to match the glossary and the spine; any play may write a kind only inside its own declared write scope (`direct-model-write.md`).
 - 2026-10-09 — Kapil, on review of #631: ICE lives inline in its node's grounding doc (spine v2), never as a separate file; a capability may exist before its domain (`/vision` attaches it); an ICE is workable only when built from a confirmed business intent (spine `intents`) — unlinked ICE is kept, not worked on, never blocked.
+- 2026-10-17 — v4 (Kapil, #637): one product model that every play writes, at the depth it knows, and nothing waits for another play. ICE now has one named place — `## Agent intent (ICE)`, the last section of a capability's or functionality's page, in labelled lines filled as far as is known; required once the node names a business intent. A business intent's touches are kept on its page as a **Touches** list (adds / changes / removes, with links), and the domain's spine entry gains `intents`, so every part an intent touches is linked both ways. A domain page is light (directional) or full (detailed), like a capability's. Design: `.garura/project/issues/637/specs/design.md`.

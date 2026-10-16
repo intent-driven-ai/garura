@@ -8,15 +8,17 @@
 > **This doc is STAGE-AWARE — it has two valid shapes, and the spine records which
 > one applies via the capability entry's `detail:` field (`directional | detailed`):**
 >
-> - **directional** — written by `/vision`. Vision NAMES the capability and gives it
->   directionality only; it does not detail it and never touches functionalities.
+> - **directional** — written by `/intent` (from a source) or `/vision` (from the KB and
+>   the intents). It NAMES the capability and gives it directionality only; it does not
+>   detail it and never touches functionalities. Any play may add to it later, keeping
+>   what is there (ontology v3: no play owns a kind).
 > - **detailed** — written by `/understand`. Understand is the last detailing step: it
 >   fills the full capability and creates its functionality nodes + docs.
 >
 > The linter validates the doc against the shape its `detail:` field names; the eval
 > scores depth and self-explanation against `_content-standard.md`.
 
-## Heading contract — DIRECTIONAL stage (required, in order) · written by /vision
+## Heading contract — DIRECTIONAL stage (required, in order) · usually /intent or /vision
 
 ```
 # Capability: <Capability Name>
@@ -28,7 +30,7 @@
   paragraph a stranger understands at a directional level — not the full detail, which
   is /understand's job. It must still self-explain (the *why*), not just name the area.
 
-## Heading contract — DETAILED stage (required, in order) · written by /understand
+## Heading contract — DETAILED stage (required, in order) · usually /understand
 
 ```
 # Capability: <Capability Name>
@@ -37,6 +39,27 @@
 ## Guiding rules
 ## Functionalities
 ```
+
+## Agent intent (ICE) — the last section, at every stage
+
+```
+## Agent intent (ICE)
+- Goal: <what must be true here — one line per goal>
+- Limit: <a line that must not be crossed>
+- Fails if: <what counts as failing>
+- Context: <who it serves, the systems it touches, what is in and out>
+- Checked by: <how a goal is checked>
+- Quality need: <a concrete target, e.g. speed, security, a regime such as PCI>
+```
+
+The agent's intent for this node (ontology: ICE), in one place an agent can point at.
+Each line starts with one of the six labels; a label may repeat; at least one **Goal**.
+A play fills the lines it knows — a light section has only goals, a full one has every
+label — and a later play adds to it, keeping what is there. The section is required once
+the node's spine entry names a business intent in `intents` (the node is built from that
+intent, so its agent intent must be written); a node with no intent link may leave it out.
+The other sections explain the node to a person; this one is the short, fixed form an
+agent works from. Each line explains itself (at least five words), like every other item.
 
 ## Per-section guidance (detailed stage)
 
@@ -66,6 +89,12 @@ and privacy — and it stops short of presenting or judging that data, which oth
 capabilities own. It matters because nothing downstream can be trusted if the data
 beneath it is incomplete, unlabeled, or leaks private content; this capability is where
 that trust is won or lost.
+
+## Agent intent (ICE)
+- Goal: Every usage record from the AI tools and the harness is collected into one fact set.
+- Goal: Every collected record says where it came from and how far it can be trusted.
+- Limit: No raw prompt, path, secret or client name ever reaches a shared view.
+- Fails if: a source is missing or partial and no view shows that it is.
 ```
 
 ## Gold example — DETAILED stage (/understand)
