@@ -42,10 +42,17 @@ domains:
   - id: string            # opaque, stable — never changes once assigned
     slug: string          # human slug (the path is derived from slugs)
     status: string        # proposed | active | deprecated
+    detail: string        # directional (a light page, e.g. from /intent) | detailed (the
+                          # full page, /vision) — drives which domain.md shape the linter
+                          # requires; absent → read from the page's headings
     one_line: string      # the descriptor — what this domain is, readable WITHOUT opening
                           # the doc. One sentence. This is what makes the spine browsable.
     doc: string           # pointer to its domain.md, relative to product-os root.
                           # The linter checks it exists and reads as a Theme doc.
+    intents: [string]     # the BUSINESS INTENT ids that touch this domain (as on capabilities
+                          # and functionalities). A domain carries no ICE of its own; the
+                          # link says which intents reach into it. How each intent touches it
+                          # (adds / changes / removes) is on the intent page's Touches list.
     decisions: [string]   # decision (ADR) record ids affecting this domain
     metadata:
       created_by: string
@@ -57,7 +64,8 @@ capabilities:
     slug: string
     domain: string        # parent DOMAIN id — the named relation, not "parent". May be empty
                           # while proposed: a capability can be written before its domain
-                          # exists (e.g. by /intent); /vision attaches the domain later.
+                          # is known (e.g. by /intent, when it cannot tell one); /vision
+                          # attaches the domain later.
     intents: [string]     # the BUSINESS INTENT ids (product-os/intents/<id>.md) this
                           # capability's ICE is built from. Its ICE is workable only when at
                           # least one of them is confirmed; with none, the ICE is kept but no
@@ -177,12 +185,16 @@ fill_rules:
   # Who USUALLY writes what — a guide, not ownership: any play may write any kind inside its
   # declared write scope (ontology v3, ADR 031).
   - play: "/intent"
-    writes: "business intent pages, and one proposed capability per ICE (domain empty,
-             detail directional, intents = its business intent) with its grounding doc."
+    writes: "business intent pages, and one proposed capability per ICE (detail directional,
+             intents = its business intent) with its grounding doc — under its domain when
+             the play can tell one (adding a light, directional domain entry + page when that
+             domain is not in the model yet), else in the holding folder with domain empty."
   - play: "/vision"
-    writes: "seeds the tree — one `domains` entry + candidate `capabilities` entries
-             (status proposed, detail directional, with one_line + doc pointers to the
-             domain.md and each directional capability.md it authors); writes the
+    writes: "seeds and grows the tree from business intents and/or a goal — a `domains` entry
+             (detailed; raises a directional one) + candidate `capabilities` entries (status
+             proposed, detail directional, intents = the intents they serve, with one_line +
+             doc pointers); places holding-folder capabilities under a domain (moving their
+             doc); may add light directional detail to capabilities already there; writes the
              directional profile."
   - play: "/understand"
     writes: "promotes each capability to detail: detailed (deepening its capability.md),
@@ -215,9 +227,10 @@ fill_rules:
 # product-os/
 #   _spine.yaml                                  # THIS file's instance — the map
 #   intents/{intent}.md                          # business intent pages (ontology v3, /intent)
-#   capabilities/{capability}/capability.md      # a capability with no domain yet (written by
-#                                                #   /intent); /vision attaches the domain and
-#                                                #   may move the doc under {domain}/
+#   capabilities/{capability}/capability.md      # holding folder: a capability whose domain is
+#                                                #   not known yet (/intent, when it cannot tell
+#                                                #   one); /vision attaches the domain and moves
+#                                                #   the doc under {domain}/
 #   {domain}/
 #     domain.md                                  # grounding (domain template)
 #     {capability}/

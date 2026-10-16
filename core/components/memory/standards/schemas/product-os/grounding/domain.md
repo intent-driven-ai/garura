@@ -5,9 +5,31 @@
 > (present, ordered, no extras, none empty). The content-quality eval scores each
 > section against `_content-standard.md`. Fill every section to the depth of the gold
 > example: each item is a complete, self-explaining statement a stranger understands
-> cold. Written by `/vision`.
+> cold.
+>
+> **This doc is STAGE-AWARE — it has two valid shapes, and the spine records which
+> one applies via the domain entry's `detail:` field (`directional | detailed`).** No
+> play owns a domain (ontology v3): any play writes the page at the depth of what it
+> knows, and a later play raises it.
+>
+> - **directional** — a light page: what the domain is for, when that is all a play
+>   knows yet (for example `/intent`, reading a prototype).
+> - **detailed** — the full page, written or raised by `/vision`, keeping what the
+>   light page said.
+>
+> A domain entry with no `detail:` is read from its page's headings.
 
-## Heading contract (required, in order)
+## Heading contract — DIRECTIONAL stage (required, in order)
+
+```
+# Theme: <Domain Name>
+## Intent
+```
+
+- **Intent** — as below: what this domain is for, in plain terms, and the line it
+  will not cross. A short paragraph, not a label.
+
+## Heading contract — DETAILED stage (required, in order)
 
 ```
 # Theme: <Domain Name>
