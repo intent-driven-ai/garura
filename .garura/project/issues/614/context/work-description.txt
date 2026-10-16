@@ -1,0 +1,22 @@
+/vision runs inside a drive without stopping, and its review happens after the drive
+
+> Parent: #594 (drives). Decided in spike #607; source of truth: [ADR 029 — Drives](docs/adr/029-drives.md).
+
+## What
+
+When a drive runs `/vision`, the drive passes it what it needs, so `/vision` does not stop at its checkpoint. Its review happens after the drive ends. Run by hand, `/vision` keeps its checkpoint as its gate settings say.
+
+Inside a drive, `/vision` opens no issue or branch: today the pipeline-position rule adds `/start-change` to its head (`pipeline-position.md`), and that must be skipped inside a drive.
+
+## Acceptance criteria
+
+- [ ] Inside a drive, `/vision` takes its answers from the drive and does not wait at its checkpoint.
+- [ ] Inside a drive, `/vision` does not run `/start-change` and works on the drive's branch.
+- [ ] Its review record is kept so the drive review can use it.
+- [ ] Run by hand, `/vision` behaves as today.
+- [ ] Changed through its ICE source and `/play-editor`.
+
+## Out of scope
+
+- Breaking the hard chain with `/understand` (its own Story).
+- Taking a prototype directly — that is `/intent`'s job.
