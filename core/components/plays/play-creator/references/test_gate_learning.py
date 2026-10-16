@@ -242,8 +242,27 @@ def test_learner():
     r = distill(ledger, policy)
     assert S2 not in r["auto_shapes"], r
 
+    # 9. a crossing inside a drive is deferred: it neither earns nor breaks a streak
+    S3 = "vision:new_domain"
+    for ts in ("v1", "v2"):
+        ledger_line(ledger, "vision", S3, "approved_clean", ts)
+    ledger_line(ledger, "vision", S3, "deferred_to_drive_review", "v3")
+    r = distill(ledger, policy)
+    assert S3 not in r["auto_shapes"], r  # two cleans + a deferred is still two
+    ledger_line(ledger, "vision", S3, "approved_clean", "v4")
+    r = distill(ledger, policy)
+    assert S3 in r["auto_shapes"], r  # the deferred line did not break the run
+
+    # 10. deferred pairs with predicted=gate only
+    refused = False
+    try:
+        ledger_line(ledger, "vision", S3, "deferred_to_drive_review", "v5", predicted="auto")
+    except AssertionError as exc:
+        refused = "pairs with predicted=gate" in str(exc)
+    assert refused, "deferred with predicted=auto was accepted"
+
     shutil.rmtree(t)
-    print("learner: 8/8 pass")
+    print("learner: 10/10 pass")
 
 
 if __name__ == "__main__":
