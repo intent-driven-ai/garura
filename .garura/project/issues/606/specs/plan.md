@@ -4,7 +4,7 @@ kind: business-intent
 serves: "#606 — Garura's agentic lifecycle runs as five loops (drives), starting from a working prototype"
 status: active
 updated: 2026-10-17
-now: 4
+now: 5
 ---
 
 # Plan — #606: the lifecycle runs as drives
@@ -27,7 +27,7 @@ There are five drives, one for each step from product to running software. We bu
 
 ## Where we are now
 
-Three decisions are made (#592, #607, #619) and three things are shipped: plan mode's first pieces (#619), the Kickoff plays standing alone (#616), and `/intent` (#612, PR #631, with ADR 031). Item 3 is done: #612 has its handoff and was closed on 16 October. Its hand-over check found that `/vision` cannot start from `/intent`'s output yet; that change is item 4. Now: items 4, 5, 6 and 7, which can run side by side, and then Kickoff (item 8).
+Three decisions are made (#592, #607, #619) and four things are shipped: plan mode's first pieces (#619), the Kickoff plays standing alone (#616), `/intent` (#612, PR #631, ADR 031), and the one product model that `/intent` and `/vision` both write (#637, PR #638, ontology v4). Now: items 5, 6 and 7, which can run side by side, and then Kickoff (item 8).
 
 ## The plan, in order
 
@@ -38,17 +38,9 @@ Three decisions are made (#592, #607, #619) and three things are shipped: plan m
 - **2. Shipped: `/vision` and `/understand` each stand alone** — #616, PR #630. Each opens and lands its own change; `/understand` seeds a missing capability from the person's answers. Not yet done: skipping the opening inside a drive (#614, #615); `/shape` and `/roadmap` still expect the old shared branch (follow-up written up in #616's notes, not filed).
 - **Decided: a loop is a drive; the first drive is Kickoff** — #607. ADR 029, a design decision only; nothing is built yet. It settled what a drive is, how it runs, that it owns one issue, one branch and one pull request, and that Kickoff runs `/intent` → `/vision` → `/understand`.
 - **3. Shipped: `/intent`, the play that reads a prototype** — #612, PR #631, merged 9 October; #612 closed with its handoff on 16 October. It writes two levels: business intents for the person, and under each the ICE for the agents, as proposed capabilities with no domain yet. ADR 031 (D6–D10) records the decisions made on the way: no play owns a kind of thing in the product model; any play writes what it finds and an Alignment drive fixes drift; only a person confirms an intent; no approval stop inside a drive. Not yet done: `/vision` cannot take its output (item 4). Its own plan: `.garura/project/issues/612/specs/plan.md`.
+- **4. Shipped: `/intent` and `/vision` write one product model** — #637, PR #638, merged 17 October. `/vision` starts from business intents, a goal or both, places capabilities waiting for a domain and never waits for another play; `/intent` places a capability under its domain when something shows it; every capability and functionality page carries its agent intent in a named section; every business intent is linked both ways to the parts it touches (ontology v4). Not yet done: 12 small review findings open on PR #638, among them an ADR for `/intent` placing capabilities (ADR 031 part 3 gave that to `/vision`).
 
-### 4. `/vision` starts from business intents — now
-
-**Issue:** #637 (Story under #594).
-**What:** `/vision` takes the business intents `/intent` saved, instead of a goal typed as text. It attaches a domain to the capabilities `/intent` wrote, checks them against the KB, adds no second capability for the same thing, and links every capability it adds to the intent it serves. It must accept intents that are only proposed, because inside Kickoff they are confirmed at the end. Seven gaps and two choices are written up in `.garura/project/issues/612/specs/vision-pickup.md`.
-**Why here:** Kickoff hands `/intent`'s output straight to `/vision`. Without this, `/vision` ignores it.
-**Grew on 17 October (Kapil):** both `/intent` and `/vision` now write the one product model and never wait for each other — each writes at the depth it knows, and a later play adds to it. `/intent` places a capability under its domain when something shows it. Every capability and functionality page carries its agent intent in one named section, and each business intent is linked both ways to every part it touches. Ontology v4. Design: `.garura/project/issues/637/specs/design.md`.
-**Done when:** `/vision`, given `/intent`'s saved intents, places their capabilities under a domain and adds its own, each linked to an intent — and both plays write the one model as above.
-**Needs:** item 3.
-
-### 5. `/vision` runs inside a drive
+### 5. `/vision` runs inside a drive — now
 
 **Issue:** #614.
 **What:** when a drive runs `/vision`, it does not stop for its human check. The drive gives it what it needs, and the review happens after the drive. Run by hand, `/vision` works as it does today.
@@ -146,3 +138,4 @@ Not part of this plan; recorded so the gaps in time make sense.
 - 2026-10-16 — Plan found a week stale: it still said item 3 was being built, after `/intent` merged on 9 October. Brought up to date: item 3's state, ADR 031, the ontology's state, the Alignment drive, and the side work. Item 3's hand-over check is done (`.garura/project/issues/612/specs/vision-pickup.md`); it found the `/vision` change, added as item 4; the items after it moved down one (Kickoff is now item 8, the Learn drive item 14). Still on item 3 (handoff and close).
 - 2026-10-17 — Item 3 done: the handoff was posted on #612 and the issue closed on 16 October, just after the last plan update, so this plan still said "now: 3". Now on item 4 (#637), with items 5, 6 and 7 free to run beside it.
 - 2026-10-17 — Item 4 (#637) grew, on Kapil's word: it now changes `/intent` as well as `/vision`, gives the agent intent its own section, and links every business intent both ways (ontology v4). Built on the branch; not merged yet.
+- 2026-10-17 — Item 4 done: #637 merged as PR #638 (ontology v4; `/intent` and `/vision` write one model). Now on item 5 (#614), with 6 and 7 free to run beside it.
