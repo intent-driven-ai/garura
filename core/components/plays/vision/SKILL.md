@@ -1,7 +1,7 @@
 ---
 name: vision
 position: both
-description: 'Turn business intents, a business goal, or both into the seed of the product model — or grow the model already there — a detailed domain grounding doc, directional capability grounding docs with their agent intent, the spine entries that wire them, the links to the business intents both ways, and a directional product profile — written directly in place on the live model. Builds on whatever /intent or any play already wrote (light domain pages, capabilities waiting in the holding folder, proposed intents) and never waits for another play. The CXO conversation of the ProductOS command model. Use when starting or growing a product area, before /understand and /shape. Run by hand, it opens its own change and lands it on main — no later play is needed to finish it.'
+description: 'Turn business intents, a business goal, or both into the seed of the product model — or grow the model already there — a detailed domain grounding doc, directional capability grounding docs with their agent intent, the spine entries that wire them, the links to the business intents both ways, and a directional product profile — written directly in place on the live model. Builds on whatever /intent or any play already wrote (light domain pages, capabilities waiting in the holding folder, proposed intents) and never waits for another play. The CXO conversation of the ProductOS command model. Use when starting or growing a product area, before /understand and /shape. Run by hand, it opens its own change and lands it on main — no later play is needed to finish it; handed a drive''s contract, it opens nothing, does not stop at its checkpoint, works on the drive''s branch and leaves a review record for the drive''s end review.'
 user-invocable: true
 ---
 
@@ -30,7 +30,7 @@ adds the same capability twice. Every part it links to an intent is linked both 
 part's spine `intents` and the intent page's Touches list — by the persist script. Anything
 missing or odd is a warning, never a stop.
 
-**Pipeline position: both.** /vision stands on its own (ADR 029 §4; #616): run by hand, it opens its own change and lands it. The D2 rule prepends `start-change` — resolve or create the issue, cut the branch off fresh main, optional worktree, init STM — and, after the model delta is committed, appends the close sequence `commit-change → propose-change → review-change → merge-change`, landing the seed on main. No later play needs to run for /vision's work to be finished: /understand and the plays after it start from main. It writes the persistent product model **directly, in place** (additively) on the started branch — there is no draft copy and no apply/promote step; review is the branch git diff and the end PR. (#437, #500, ADR 026; position changed from start to both in #616.)
+**Pipeline position: both.** /vision stands on its own (ADR 029 §4; #616): run by hand, it opens its own change and lands it. **Inside a drive** (ADR 029 §2–3; #614; `standards/rules/drive-contract.md`) the drive hands it a contract (`--contract`); then it runs no `start-change` and no end sequence, does not wait at its checkpoint (Step 6 writes a review record for the drive's end review instead), and commits its model change on the drive's branch. The D2 rule prepends `start-change` — resolve or create the issue, cut the branch off fresh main, optional worktree, init STM — and, after the model delta is committed, appends the close sequence `commit-change → propose-change → review-change → merge-change`, landing the seed on main. No later play needs to run for /vision's work to be finished: /understand and the plays after it start from main. It writes the persistent product model **directly, in place** (additively) on the started branch — there is no draft copy and no apply/promote step; review is the branch git diff and the end PR. (#437, #500, ADR 026; position changed from start to both in #616.)
 
 **Write discipline (ADR 026, `standards/rules/direct-model-write.md`).** The LLM authoring
 skill writes ONLY the per-node grounding docs (`domain.md`, `capability.md`) straight to
@@ -53,9 +53,10 @@ This play was compiled from the vision ICE (`reference/ice.md`) by play-editor
 (#466 Batch C, Level 3 rollout per ADR 025; #467 Batch B — the checkpoint upgraded to a
 conditional learned gate, see `standards/rules/gate-config.md`; #500 — migrated to
 direct-model-write per ADR 026 and `standards/rules/direct-model-write.md`; #616 — position
-start → both, so /vision lands its own change instead of leaving it for /roadmap; #637).
-Intent defines constraints (C1–C10) and failure conditions (F1–F11); the expectation
-defines success scenarios (S1–S6), a Done means (D1–D4, baked to
+start → both, so /vision lands its own change instead of leaving it for /roadmap; #637;
+#614).
+Intent defines constraints (C1–C11) and failure conditions (F1–F13); the expectation
+defines success scenarios (S1–S7), a Done means (D1–D4, baked to
 `stop-condition.yaml`), and one recovery entry per failure condition.
 To modify this play, update `reference/ice.md` and recompile with play-editor.
 Do NOT edit this file manually — it is a compiled artifact.
@@ -99,7 +100,8 @@ orchestrator's own context.
 | Resolve config + `product_base` (`.garura/core/config.yaml`) | — | Hard halt |
 | Resolve `grounding-eval.judge` (optional model override) | C2 | Default: sub-agent on the session model |
 | Business intents (ids, or /intent's save record) and/or a business goal present (play argument; with neither, interview the user for a goal) | C10 | Gather (interview), not a halt |
-| **Clean model tree** — after start-change (Step 0), `git status --porcelain -- <product_base>product-os` is empty | C9/F9 | Hard halt (REC9) |
+| Drive contract: when `--contract <file>` is passed, `check_drive_contract.py` accepts it (valid, complete, current branch = the drive's branch) and writes `run.json` | C11/F12 | Hard halt (REC12) |
+| **Clean model tree** — after start-change (Step 0), or at once inside a drive, `git status --porcelain -- <product_base>product-os` is empty | C9/F9 | Hard halt (REC9) |
 
 Resolve the pre-flight facts mechanically with the bundled resolver — do not derive
 them by inference:
@@ -115,7 +117,24 @@ the resolved `grounding-eval.judge` config (the optional judge model override), 
 to seed the model. The business intents and the business goal are runtime inputs: take
 them from the play argument (intent ids, or the path of /intent's `intent-manifest.json`, or
 a goal as text — any of them, or both); with neither, interview the user for a goal before
-Step 1. A drive hands its intents in its JSON contract.
+Step 1.
+
+**Run by hand or inside a drive (C11).** Check the drive contract first — always, so the run
+records which path it takes:
+
+```
+python3 scripts/check_drive_contract.py --play vision \
+    --branch "$(git branch --show-current)" [--contract <contract.json>] \
+    --out <working>/run.json
+```
+
+`run.json` reads `in_drive: false` with no contract — every step below runs as written. With
+a valid contract it reads `in_drive: true` with the drive's `drive_run_id`, `branch`, `issue`,
+`review_dir`, and /vision's own `inputs` (intent ids or `/intent`'s save record, and/or a goal)
+and `answers`. Inside a drive the intents and goal come from those inputs; if the contract and
+the model give neither, the run stops and asks the person (ADR 029: a new question stops the
+drive) — it never picks a goal itself. A non-zero exit (an invalid contract, or the current
+branch is not the drive's) is a hard halt (REC12).
 
 `<working>` — the run's working folder — is `{stm_base}_shaping/vision/<product_slug>/`;
 the grounding, the seed manifest, the change-shape, the persist record
@@ -125,7 +144,8 @@ written IN PLACE under `<product_base>product-os/`, never into `<working>`. The 
 condition evaluates against `<working>`.
 
 **Clean-tree assertion (C9/F9, ADR 026).** start-change cuts the branch off fresh main, so
-the product-os tree is clean by construction; still assert it right after Step 0 — `HEAD`
+the product-os tree is clean by construction; still assert it right after Step 0 (inside a
+drive, at once — the earlier plays in the drive committed their model change) — `HEAD`
 is only a correct base for the scoped guard and the change-shape if the tree is clean
 before the seed writes:
 
@@ -160,7 +180,7 @@ the change-shape, and the human all see the real delta. Nothing is COMMITTED bef
 gate resolves; cancel reverts the uncommitted writes.
 
 ```
-[T0] start-change (injected — start, head)          blockedBy: []
+[T0] start-change (injected — start; skipped in a drive) blockedBy: []
 [T1] Ground the goal                                blockedBy: [T0]
 [T2] Author the seed (docs to live)                 blockedBy: [T1]
 [T3] Validate the live docs                         blockedBy: [T2]
@@ -168,10 +188,10 @@ gate resolves; cancel reverts the uncommitted writes.
 [T5] Guard the full delta + classify the shape      blockedBy: [T4]
 [T6] Checkpoint (approval over the full git diff)   blockedBy: [T5]
 [T7] Commit the model delta                         blockedBy: [T6]
-[E1] commit-change (injected — end)                 blockedBy: [T7]
-[E2] propose-change (injected — end)                blockedBy: [E1]
-[E3] review-change (injected — end)                 blockedBy: [E2]
-[E4] merge-change (injected — end)                  blockedBy: [E3]
+[E1] commit-change (injected — end; skipped in a drive)  blockedBy: [T7]
+[E2] propose-change (injected — end; skipped in a drive) blockedBy: [E1]
+[E3] review-change (injected — end; skipped in a drive)  blockedBy: [E2]
+[E4] merge-change (injected — end; skipped in a drive)   blockedBy: [E3]
 [T8] Scenario Validation                            blockedBy: [E4]
 [T9] Close                                          blockedBy: [T8]
 ```
@@ -184,6 +204,7 @@ No runtime reordering. On resume, skip completed and reset in-progress to pendin
 ### Phase: Start (injected — D2 position: start)
 
 **Step 0 — start-change** · Owner: `start-change` (sub-play) · Depends on: pre-flight
+*Skipped when `run.json` reads `in_drive: true` — the drive opened the change (C11).*
 Run the start-of-pipeline member as a sub-play, dispatched with `parent_run_id` so it
 emits only its own C1 evidence and this play's close absorbs it. It resolves or creates
 the issue for this /vision run, cuts the branch off fresh main, sets up a worktree iff config
@@ -417,6 +438,27 @@ the keyed persist), and no existing doc lost a section or an agent-intent line.
 ### Phase: Checkpoint (conditional gate, C7)
 
 **Step 6 — Human review (class: standard, conditional)** · Owner: play · Depends on: Step 5
+**Inside a drive (C11), this step does not wait.** Resolve the learned policy exactly as below.
+If the shape would auto-pass, record the auto-pass and its ledger line as below. Otherwise,
+render the checkpoint exactly as it would have been shown (the same content as the "on" path
+below) to `<working>/checkpoint.md`, write it as the drive's review record, and append the
+crossing as deferred:
+
+```
+python3 scripts/write_drive_review.py --run <working>/run.json \
+        --summary <working>/checkpoint.md \
+        --attach shape=<working>/shape.json --attach kept=<working>/kept-report.json \
+        --attach guard=<working>/guard-report.json --attach persist=<working>/persist-manifest.json \
+        --ts <run ts>
+python3 scripts/gate_eval.py append --ledger <gates.conditional.ledger> --play vision \
+        --issue <the drive's issue> --shape <shape-key> --predicted gate \
+        --human deferred_to_drive_review --ts <run ts>
+```
+
+Record `checkpoint deferred to the drive's review (drive <drive_run_id>)` as a Checkpoint
+Decisions row and proceed to Step 7. Nothing is reverted: a cancel at the drive's review is the
+drive's to act on. Run by hand, the rest of this step applies as written.
+
 This checkpoint is a **conditional gate** (#467) per `standards/rules/gate-config.md` —
 /vision is one of the eleven conditional document plays. Resolve it first match wins:
 pinned (n/a here) → `gates.plays.vision` → the learned policy → `gates.classes.standard`
@@ -480,12 +522,22 @@ nothing is left on the tree.
 (shape, predicted `gate|auto`, the human's real action or `auto_pass`), and an
 auto-pass fired only for a shape the policy lists in `auto:` (and not in `never_auto:`)
 with no blocking finding standing.
+**SE-13 (F12/C11):** `run.json` records the path taken. Inside a drive (`in_drive: true`): no
+`start-change` (Step 0) or end-sequence step (E1–E4) ran, the run did not wait at Step 6, and
+every commit is on the contract's branch. By hand (`in_drive: false`): Step 0, Step 6 and
+E1–E4 ran as written.
+**SE-14 (F13/C11):** inside a drive, when the gate did not auto-pass, a
+`<review_dir>/vision-<ts>.json` record exists with `decided: false`, its summary file equals
+`<working>/checkpoint.md`, and its attachments exist; the gate ledger holds exactly one line for
+the crossing, reading `deferred_to_drive_review` (or `auto_pass` on a policy-listed shape) and
+never an approval; no goal or answer was filled in that the contract or the person did not give.
 
 ### Phase: Commit (make the delta durable, ADR 026 step 7)
 
 **Step 7 — Commit the model delta** · Owner: play · Depends on: Step 6
-The gate approved (or auto-passed / was skipped by config). Commit the full model delta on
-the branch (C9, ADR 026 step 7) — a lightweight persist step that makes the writes durable
+The gate approved (or auto-passed / was skipped by config / was deferred to the drive's review
+inside a drive). Commit the full model delta on the branch — the drive's branch inside a drive
+(C9, ADR 026 step 7) — a lightweight persist step that makes the writes durable
 and advances HEAD so the end sequence lands exactly this run's delta; it is NOT the end
 sequence itself. A cancelled checkpoint never reaches this step (nor the end sequence) — its
 tree was already restored in Step 6:
@@ -504,6 +556,7 @@ unmet.
 
 ### Phase: End sequence (injected — D2 position: end)
 
+*Skipped when `run.json` reads `in_drive: true` — the drive lands its own change (C11).*
 After the model delta is committed, the D2 rule injects the close sequence — each a sub-play
 dispatched with `parent_run_id`, resolving its own context — to commit any remaining change,
 raise the PR, take the verdict, and merge the seed to main (C8).
@@ -559,6 +612,13 @@ merge; the land on main keeps its pinned human approval (merge-change C7).
 - **SCE-6 (S6 — founder, by hand, nothing else run):** with only a typed goal and an empty
   model the run seeds as in SCE-1; with intents whose pages are gone the run still closes
   COMPLETED and the persist manifest names each missing page in `warnings`.
+- **SCE-7 (S7 — Kickoff drive):** handed a valid contract, `run.json` reads `in_drive: true`
+  with the contract's `drive_run_id` and branch; no `start-change` or end-sequence step ran; the
+  current branch equals the contract's; a `vision-<ts>.json` review record with
+  `decided: false` and its summary exist in the contract's `review_dir`; the ledger line reads
+  `deferred_to_drive_review` (or `auto_pass`); the model delta is committed on the drive's
+  branch; the stop-condition verdict reads held. The same play run by hand reads
+  `in_drive: false` and ran every step.
 
 ### Phase: Evidence & Close
 
@@ -618,7 +678,7 @@ persisted spine + grounding-doc paths, the persist manifest (`persist-manifest.j
 its placed pages, intent links and warnings), the captured `kept-report.json` and
 `guard-report.json`, the
 model-delta commit sha, the stop-condition verdict; the content-eval verdicts; step and
-scenario eval results SE-1…SE-12 / SCE-1…SCE-6; checkpoint decision from Step 6 (or the
+scenario eval results SE-1…SE-14 / SCE-1…SCE-7; `run.json` (`in_drive`) and, inside a drive, the review record's path; checkpoint decision from Step 6 (or the
 `gate skipped by config` / `gate auto-passed by learned policy` row when the gate
 resolved without a wait) plus the gate ledger line(s) appended this run; the session
 identity stamp fields from $session_stamp (#463): session_id, ledger_file,
@@ -647,6 +707,7 @@ pointer to `$evidence_dest`. Always emitted; never gated.
 | S4 — the checkpoint | reviewer | SCE-4 |
 | S5 — after /intent | product strategist | SCE-5 |
 | S6 — by hand, nothing else run | founder | SCE-6 |
+| S7 — Kickoff drive | product strategist | SCE-7 |
 
 ## Recovery
 
@@ -663,6 +724,8 @@ pointer to `$evidence_dest`. Always emitted; never gated.
 | F9 | the product-os tree is dirty once start-change has cut the branch (uncommitted model edits present) | halt and ask for a clean model tree — commit or revert the pending model edits — before /vision writes the seed | human |
 | F10 | the run refused, stopped, waited or closed HALTED over another play's work, or ran the workable check | drop the check or the wait; record what was missing or light as a warning in the persist record and carry on with what is there | autonomous |
 | F11 | a capability added twice, a one-sided intent link, or an unplaced capability with no warning | drop the duplicate and record `same_as`; re-run the keyed persist so it writes the missing side of each link; place the capability or record why it could not be placed | autonomous |
+| F12 | inside a drive the play opened an issue or branch, ran the end sequence, waited at its checkpoint, or worked off the drive's branch; or by hand it skipped a step | inside a drive, close the stray issue and branch, switch to the drive's branch, and write the review record in place of the wait; by hand, run the skipped step | human |
+| F13 | no review record, a record that differs from the checkpoint, no ledger line, an approval no person gave, or an answer the play picked itself | re-render the checkpoint and re-write the review record with `write_drive_review.py`; append the missing `deferred_to_drive_review` line, or a correction refuting a made-up approval; drop the picked answer and ask the person | autonomous |
 
 ## Pause and Resume
 
@@ -678,8 +741,8 @@ continues at the first end-sequence member that has not finished.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:492b0ab595beb5fa629b68305be0fbc5b8f3132408b4bbaa9bfe51c699fb2dc5 (of `reference/ice.md`) |
-| compiled_by | play-editor (#637 one product model with /intent); play-editor (#616 position both); play-editor (#500 direct-model-write, ADR 026); prior: play-editor (#467 Batch B, #466 Batch C); play-creator (edited via play-editor, #437; spine+grounding+eval model) |
+| fingerprint | sha256:658fba576ce177d577c73d078b3269acb584d10df8570f8642cc751ec03d8b8e (of `reference/ice.md`) |
+| compiled_by | play-editor (#614 runs inside a drive); play-editor (#637 one product model with /intent); play-editor (#616 position both); play-editor (#500 direct-model-write, ADR 026); prior: play-editor (#467 Batch B, #466 Batch C); play-creator (edited via play-editor, #437; spine+grounding+eval model) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close — #616) |
 | position_exception | model-writing both play — writes the model on the started branch and commits its own model delta (C9) BEFORE the injected end sequence lands it (same shape as /measure) |
 | workflow_structure | A (single checkpoint — class: standard, conditional gate per gate-config.md #467; direct-model-write WRITE-THEN-REVIEW per ADR 026 — persist + guard + classify before the gate, commit after; stop-condition gated close) |
@@ -687,10 +750,10 @@ continues at the first end-sequence member that has not finished.
 | domain_agents | 1 (product-os-keeper) |
 | utility_agents | 0 (start-change is the injected head, not a domain agent) |
 | skills_used | search-kb, propose-kb-node, author-vision-seed |
-| scripts | 14 (preflight.py, read_intents.py, lint_grounding.py, grounding_check.py, grounding_gate.py, persist_seed.py, intent_touches.py, check_kept.py, scoped_write_guard.py, classify_change.py, gate_eval.py, distill_gate_policy.py, check_stop_condition.py, session_stamp.py) |
-| step_evals | 12 (SE-1…SE-12) |
-| scenario_evals | 6 (SCE-1…SCE-6) |
-| recovery_entries | 11 (one per failure condition; 9 autonomous / 2 human) |
+| scripts | 16 (preflight.py, check_drive_contract.py, write_drive_review.py, read_intents.py, lint_grounding.py, grounding_check.py, grounding_gate.py, persist_seed.py, intent_touches.py, check_kept.py, scoped_write_guard.py, classify_change.py, gate_eval.py, distill_gate_policy.py, check_stop_condition.py, session_stamp.py) |
+| step_evals | 14 (SE-1…SE-14) |
+| scenario_evals | 7 (SCE-1…SCE-7) |
+| recovery_entries | 13 (one per failure condition; 10 autonomous / 3 human) |
 
 **Recompiled note (#467 Batch B):** checkpoint upgraded to a conditional learned gate;
 see `gate-config.md`.
