@@ -14,8 +14,9 @@ each play that can run inside a drive. Layer rule: file reads/writes only; no gi
         [--attach name=<path> ...] --ts <run ts>
 
 Writes `<review_dir>/<play>-<ts>.md` (the summary, as shown) and `<review_dir>/<play>-<ts>.json`
-(the record) and prints the record. Exit 0 written · 2 usage error, or the run is not in a
-drive, or a named file is missing (nothing written).
+(the record) and prints the record. Exit 0 written · 2 usage error, the run is not in a drive
+or lacks a field, the timestamp is not plain, or a named file is missing (nothing written).
+Re-running with the same timestamp overwrites the same two files.
 """
 import argparse
 import json
@@ -38,9 +39,17 @@ def main(argv=None):
     except (OSError, ValueError) as exc:
         sys.stderr.write(f"write_drive_review.py: cannot read {args.run}: {exc.__class__.__name__}\n")
         return 2
-    if not isinstance(run, dict) or not run.get("in_drive"):
+    if not isinstance(run, dict) or run.get("in_drive") is not True:
         sys.stderr.write("write_drive_review.py: this run is not inside a drive — the play's own "
                          "checkpoint applies\n")
+        return 2
+    lacking = [k for k in ("play", "drive_run_id", "branch", "review_dir")
+               if not isinstance(run.get(k), str) or not run[k].strip()]
+    if lacking:
+        sys.stderr.write(f"write_drive_review.py: run.json lacks {', '.join(lacking)} — nothing written\n")
+        return 2
+    if not args.ts.strip() or any(c in args.ts for c in "/\\") or args.ts.startswith("."):
+        sys.stderr.write(f"write_drive_review.py: --ts `{args.ts}` must be a plain timestamp\n")
         return 2
     attached = {}
     for item in args.attach:
@@ -55,6 +64,9 @@ def main(argv=None):
         return 2
 
     base = os.path.join(run["review_dir"], f"{run['play']}-{args.ts}")
+    if os.path.abspath(args.summary) == os.path.abspath(base + ".md"):
+        sys.stderr.write("write_drive_review.py: --summary is the record's own file — nothing written\n")
+        return 2
     os.makedirs(run["review_dir"], exist_ok=True)
     shutil.copyfile(args.summary, base + ".md")
     record = {"play": run["play"], "drive_run_id": run["drive_run_id"], "drive": run.get("drive"),
