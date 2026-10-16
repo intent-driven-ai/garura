@@ -1,0 +1,1 @@
+Make /understand run inside a drive without stopping at its checkpoint, open no issue or branch of its own inside a drive, keep a review record for the drive's end review, and behave as today when run by hand (issue #615, the same change #614 made for /vision).
