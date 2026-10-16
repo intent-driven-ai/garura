@@ -10,6 +10,9 @@ derives from ledger content — no wall clock):
     (auto_pass lines EXTEND an earned streak but never start one) and no unrefuted
     correction stands against it;
   - any rejected / approved_edited / correction line RESETS that shape to gated;
+  - a deferred_to_drive_review line (a crossing inside a drive, #614) is SKIPPED: it is
+    not an approval and does not break a run of them, until the drive's review appends
+    the person's real answer as its own line;
   - shapes in `never_auto` (human-pinned, preserved verbatim from the existing policy)
     are never emitted as auto regardless of the ledger.
 
@@ -94,6 +97,8 @@ def _trailing_streak(recs, refuted):
         human = rec.get("human")
         if rec["_line"] in refuted:
             run = []  # a refuted line breaks the streak it sat in
+        elif human == "deferred_to_drive_review":
+            continue  # no answer yet — the drive's review appends it later
         elif human == "approved_clean":
             run.append(rec)
         elif human == "auto_pass" and run:
