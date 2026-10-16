@@ -212,6 +212,8 @@ def plan(args):
         for prop in ("title", "one_line", "directional_intent"):
             if not str(c.get(prop) or "").strip():
                 raise Refused(f"the ICE `{c['id']}` is missing `{prop}` — it becomes a proposed capability")
+        if not as_list(c.get("goals")):
+            raise Refused(f"the ICE `{c['id']}` has no goal — its agent intent starts with what must be true")
     spine_path = os.path.join(model, SPINE)
     spine = load_mapping(spine_path, "spine") if os.path.exists(spine_path) else \
         {"domains": [], "capabilities": [], "functionalities": []}

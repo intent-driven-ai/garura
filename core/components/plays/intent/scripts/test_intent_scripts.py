@@ -509,6 +509,16 @@ def test_persist():
             check(f"{label} is refused and nothing is written", rc == 2 and not written)
     with tempfile.TemporaryDirectory() as tmp:
         argv, working, _ = persist_setup(tmp, both())
+        draft_path = argv[argv.index("--draft") + 1]
+        with open(draft_path) as fh:
+            d = yaml.safe_load(fh)
+        d["ice"][0]["goals"] = []
+        with open(draft_path, "w") as fh:
+            yaml.safe_dump(d, fh)
+        check("an ICE with no goal is refused and nothing is written",
+              pi.main(argv) == 2 and not os.path.exists(ice_file(tmp, "guest-checkout")))
+    with tempfile.TemporaryDirectory() as tmp:
+        argv, working, _ = persist_setup(tmp, both())
         with open(argv[argv.index("--draft") + 1], "w") as fh:
             fh.write("- not a mapping\n")
         check("a draft of the wrong shape is refused, not a traceback", pi.main(argv) == 2)

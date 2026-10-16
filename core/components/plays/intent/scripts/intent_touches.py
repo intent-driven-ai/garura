@@ -100,7 +100,7 @@ def upsert(text, entries):
     if found:
         lines[found[0]:found[1]] = render(merged)
     else:
-        at = next((i for i, l in enumerate(lines) if l.startswith(NEXT_ANCHOR)), len(lines))
+        at = next((i for i, line in enumerate(lines) if line.startswith(NEXT_ANCHOR)), len(lines))
         while at > 0 and not lines[at - 1].strip():
             at -= 1
         after = lines[at:]
