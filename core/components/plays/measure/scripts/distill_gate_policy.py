@@ -95,10 +95,10 @@ def _trailing_streak(recs, refuted):
     run = []
     for rec in recs:
         human = rec.get("human")
+        if human == "deferred_to_drive_review":
+            continue  # no answer yet — skipped, even when a later line answers it
         if rec["_line"] in refuted:
             run = []  # a refuted line breaks the streak it sat in
-        elif human == "deferred_to_drive_review":
-            continue  # no answer yet — the drive's review appends it later
         elif human == "approved_clean":
             run.append(rec)
         elif human == "auto_pass" and run:
