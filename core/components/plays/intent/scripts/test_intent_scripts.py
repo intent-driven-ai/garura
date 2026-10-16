@@ -373,8 +373,9 @@ def test_persist():
               and cap.get("doc") == "capabilities/guest-checkout/capability.md")
         with open(ice_file(tmp, "guest-checkout")) as fh:
             doc = fh.read()
-        check("its grounding doc carries the ICE goals inline",
-              doc.startswith("# Capability: Buy without an account") and ICE_1["goals"][0] in doc)
+        check("its grounding doc carries the ICE in its named section",
+              doc.startswith("# Capability: Buy without an account")
+              and f"## Agent intent (ICE)\n- Goal: {ICE_1['goals'][0]}" in doc)
         model = os.path.join(tmp, "product", "product-os")
         errors, warnings = [], []
         lg.check_spine(model, os.path.join(model, "_spine.yaml"), errors, warnings, {})
@@ -387,8 +388,11 @@ def test_persist():
         check("the intent page names every source and its capabilities",
               body.count("source.md") == 2 and "**Sources:**" in body
               and "guest-checkout/capability.md" in body and "saved-carts/capability.md" in body)
+        check("the intent page's Touches list names each capability it adds",
+              "- [Buy without an account](../capabilities/guest-checkout/capability.md) (capability) — adds" in body
+              and "(../capabilities/saved-carts/capability.md) (capability) — adds" in body)
         with open(intent_file(tmp, "know-the-customer")) as fh:
-            check("an intent with no ICE says so", "none yet" in fh.read().split("**ICE built from it")[1])
+            check("an intent with no ICE says so", "**Touches:** none yet" in fh.read())
         for d in dirs:
             with open(os.path.join(d, "source.md")) as fh:
                 text = fh.read()
@@ -510,8 +514,98 @@ def test_persist():
         check("a draft of the wrong shape is refused, not a traceback", pi.main(argv) == 2)
 
 
+COMMERCE = {"id": "commerce", "title": "Commerce", "one_line": "Selling to shoppers online.",
+            "intent": "Commerce is where shoppers find what they want and pay for it, so the store turns "
+                      "visits into orders without losing anyone at the last step.",
+            "shown_by": "source"}
+
+
+def test_domains():
+    with tempfile.TemporaryDirectory() as tmp:
+        argv, working, _ = persist_setup(tmp, both())
+        model = os.path.join(tmp, "product", "product-os")
+        os.makedirs(os.path.join(model, "shop"))
+        with open(os.path.join(model, "shop", "domain.md"), "w") as fh:
+            fh.write("# Theme: Shop\n\n## Intent\nThe shop is where returning customers keep their "
+                     "carts and come back to finish what they started buying.\n")
+        with open(os.path.join(model, "_spine.yaml"), "w") as fh:
+            yaml.safe_dump({"domains": [{"id": "shop", "slug": "shop", "detail": "directional",
+                                         "one_line": "The shop.", "doc": "shop/domain.md", "intents": []}],
+                            "capabilities": [], "functionalities": []}, fh)
+        draft_path = argv[argv.index("--draft") + 1]
+        with open(draft_path) as fh:
+            d = yaml.safe_load(fh)
+        d["domains"] = [COMMERCE, {"id": "shop", "title": "Shop", "one_line": "The shop.",
+                                   "intent": "x", "shown_by": "model"}]
+        d["ice"][0]["domain"] = "commerce"
+        d["ice"][0]["limits"] = ["Nothing about how returns work changes for anyone."]
+        d["ice"][1]["domain"] = "shop"
+        with open(draft_path, "w") as fh:
+            yaml.safe_dump(d, fh)
+        check("ICE with a known domain are saved", pi.main(argv) == 0)
+        sp = spine_of(tmp)
+        caps = {c["id"]: c for c in sp["capabilities"]}
+        doms = {x["id"]: x for x in sp["domains"]}
+        check("a capability goes under its domain's folder, with its domain set",
+              caps["guest-checkout"]["domain"] == "commerce"
+              and caps["guest-checkout"]["doc"] == "commerce/guest-checkout/capability.md"
+              and os.path.isfile(os.path.join(model, "commerce", "guest-checkout", "capability.md")))
+        check("a domain not in the model is added light, linked to the intent",
+              doms["commerce"]["detail"] == "directional" and doms["commerce"]["intents"] == ["grow-online-sales"]
+              and open(os.path.join(model, "commerce", "domain.md")).read().startswith("# Theme: Commerce\n\n## Intent\n"))
+        check("a domain already in the model only gains the intent; its page is untouched",
+              doms["shop"]["intents"] == ["grow-online-sales"] and doms["shop"]["one_line"] == "The shop."
+              and caps["saved-carts"]["doc"] == "shop/saved-carts/capability.md"
+              and not os.path.exists(os.path.join(model, "shop", "domain.md.new")))
+        with open(os.path.join(model, "commerce", "guest-checkout", "capability.md")) as fh:
+            check("a limit lands in the agent intent section", "- Limit: Nothing about how returns" in fh.read())
+        with open(intent_file(tmp, "grow-online-sales")) as fh:
+            body = fh.read()
+        check("the Touches list marks the new domain adds and the existing one changes",
+              "- [Commerce](../commerce/domain.md) (domain) — adds" in body
+              and "- [Shop](../shop/domain.md) (domain) — changes" in body
+              and "(../commerce/guest-checkout/capability.md) (capability) — adds" in body)
+        errors, warnings = [], []
+        lg.check_spine(model, os.path.join(model, "_spine.yaml"), errors, warnings, {})
+        check("the grounding linter passes with no warning", not errors and not warnings)
+        m = read_json(os.path.join(working, "intent-manifest.json"))
+        check("the manifest says what was added, linked and left waiting, and reads linked",
+              m["domains_added"] == ["commerce"] and m["domains_linked"] == ["shop"]
+              and m["in_holding_folder"] == [] and m["linked"])
+    with tempfile.TemporaryDirectory() as tmp:
+        argv, working, _ = persist_setup(tmp, both())
+        draft_path = argv[argv.index("--draft") + 1]
+        with open(draft_path) as fh:
+            d = yaml.safe_load(fh)
+        d["ice"][0]["domain"] = "nowhere"
+        with open(draft_path, "w") as fh:
+            yaml.safe_dump(d, fh)
+        check("a domain nothing shows does not stop the run", pi.main(argv) == 0)
+        m = read_json(os.path.join(working, "intent-manifest.json"))
+        check("its capability waits in the holding folder, with the reason as a warning",
+              os.path.isfile(ice_file(tmp, "guest-checkout")) and "guest-checkout" in m["in_holding_folder"]
+              and any("nowhere" in w for w in m["warnings"]) and m["linked"])
+    bad = fresh()
+    bad["domains"] = [dict(COMMERCE, shown_by="agent")]
+    bad["ice"][0]["domain"] = "commerce"
+    check("the draft check catches a domain nothing showed",
+          any("says nothing showed it" in p for p in ci.check(bad)["problems"]))
+    bad = fresh()
+    bad["ice"][0]["domain"] = "commerce"
+    check("the draft check catches an ICE naming a domain the draft lacks",
+          any("not in the draft's `domains`" in p for p in ci.check(bad)["problems"]))
+    good = fresh()
+    good["domains"] = [COMMERCE]
+    good["ice"][0]["domain"] = "commerce"
+    check("a draft with a shown domain is clean", ci.check(good)["clean"])
+    bad = fresh()
+    bad["domains"] = [dict(COMMERCE, id="capabilities")]
+    check("the draft check keeps domain ids off reserved folders",
+          any("keeps for itself" in p for p in ci.check(bad)["problems"]))
+
+
 def main():
-    for test in (test_capture, test_check, test_persist):
+    for test in (test_capture, test_check, test_persist, test_domains):
         print(test.__name__)
         test()
     print(f"\n{PASSED} passed, {FAILED} failed, {len(SKIPPED)} skipped")
