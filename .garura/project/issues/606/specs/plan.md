@@ -43,7 +43,10 @@ Three decisions are made (#592, #607, #619) and five things are shipped: plan mo
 
 ### 6. `/understand` runs inside a drive — now
 
-**Issue:** #615.
+**Issue:** #615. Started 17 October on `feature/615-understand-runs-inside-a-drive`;
+its plan: `.garura/project/issues/615/specs/plan.md`. Kapil chose that a
+box-move inside a drive is saved as `proposed` and waits for the drive's
+review. Built and checked; not yet raised.
 **What:** the same change as item 5, for `/understand`.
 **Why here:** Kickoff's third play.
 **Done when:** the same as item 5, for `/understand`.
@@ -133,3 +136,6 @@ Not part of this plan; recorded so the gaps in time make sense.
 - 2026-10-17 — Item 4 (#637) grew, on Kapil's word: it now changes `/intent` as well as `/vision`, gives the agent intent its own section, and links every business intent both ways (ontology v4). Built on the branch; not merged yet.
 - 2026-10-17 — Item 4 done: #637 merged as PR #638 (ontology v4; `/intent` and `/vision` write one model). Now on item 5 (#614), with 6 and 7 free to run beside it.
 - 2026-10-17 — Item 5 done: #614 merged as PR #639 (`/vision` runs inside a drive; shared drive contract). Now on item 6 (#615), with 7 free to run beside it. The "Alongside" item now says the ontology is version 4.
+- 2026-10-17 — Item 6 (#615) started: change opened, plan written, Kapil chose
+  A (box-moves inside a drive are `proposed` and wait for the drive's review).
+  Built and checked on the branch; not yet raised.
