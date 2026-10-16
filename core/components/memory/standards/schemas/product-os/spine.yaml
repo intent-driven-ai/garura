@@ -16,9 +16,10 @@
 # Supersedes the per-node `node.yaml` structural role: the tree's structural fields
 # now live as entries in the spine, not as a file in every folder. Also retires
 # `ice_ref` and the standalone ICE record — ICE content is now written INLINE in the
-# grounding docs (a capability's benefit + boundary, a functionality's acceptance, an
-# epic's full intent/constraints/failures/expectations/context). See the grounding
-# templates under `schemas/product-os/grounding/`.
+# grounding docs: since ontology v4, a capability's or functionality's ICE sits in its
+# page's last section, `## Agent intent (ICE)`; an epic carries its full
+# intent/constraints/failures/expectations/context. See the grounding templates under
+# `schemas/product-os/grounding/`.
 
 schema:
   name: product-os-spine
@@ -71,7 +72,7 @@ capabilities:
                           # least one of them is confirmed; with none, the ICE is kept but no
                           # play works on it (ontology v3).
     status: string        # proposed | active | deprecated
-    detail: string        # directional (/vision) | detailed (/understand) — drives which
+    detail: string        # directional (/intent or /vision) | detailed (/understand) — drives which
                           # capability.md shape the linter requires
     one_line: string
     doc: string           # pointer to its capability.md

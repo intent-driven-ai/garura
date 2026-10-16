@@ -140,8 +140,10 @@ Interface (ratified by the /understand reference implementation, issue #498):
 python3 scripts/scoped_write_guard.py \
     --product-base <product_base> \
     --base-ref HEAD \
-    --allow <glob> [--allow <glob> ...] \        # paths this run MAY change
-    [--add-only <glob> ...] \                    # paths that may be ADDED but not modified
+    --allow <glob> [--allow <glob> ...] \        # paths this run MAY change (add, modify, remove)
+    [--add-only <glob> ...] \                    # paths that may be ADDED, not modified or removed
+    [--modify-only <glob> ...] \                 # paths that may be MODIFIED, not added or removed
+    [--remove-only <glob> ...] \                 # paths that may be REMOVED, not added or modified
     [--restore] \                                # revert violations instead of only reporting
     [--out <report.json>]
 ```
@@ -149,20 +151,31 @@ python3 scripts/scoped_write_guard.py \
 Behavior:
 
 - Compute the set of model paths changed vs `--base-ref` (tracked modifications +
-  untracked additions) under `<product_base>product-os/`.
-- A path is **in scope** iff it matches an `--allow` glob; a path matching an
-  `--add-only` glob is in scope only when it is a new file (added), and a violation
-  when it is a modification of an existing file.
+  removals + untracked additions) under `<product_base>product-os/`. Renames are never
+  detected (`--no-renames`): a move is a removal plus an addition, so a removal cannot
+  hide inside a rename.
+- A path is **in scope** iff it matches an `--allow` glob, or an `--add-only` glob and it
+  is new, or a `--modify-only` glob and it existed and changed, or a `--remove-only` glob
+  and it was removed. Globs combine: `--add-only X --modify-only X` means "added or grown,
+  never removed". Any other change to a path is a violation.
 - Without `--restore`: exit non-zero and list every out-of-scope path (the play halts).
 - With `--restore`: `git restore` each out-of-scope tracked path and remove each
   out-of-scope untracked file, then exit zero (the checkpoint-cancel path reuses this to
   revert the whole model change by passing an empty allow set).
 
-Each play declares its own `--allow`/`--add-only` scope — that is the per-play policy the
-old `apply_<play>.py` encoded (e.g. understand: the target capability's docs +
-`_spine.yaml` + `profile.yaml` + its decisions; vision: `--add-only` over grounding docs
-so it never overwrites an existing one). The guard is the shared mechanism; the scope is
-the play's.
+Each play declares its own scope — that is the per-play policy the old `apply_<play>.py`
+encoded (e.g. understand: the target capability's docs + `_spine.yaml` + `profile.yaml` +
+its decisions; intent: `--add-only` over intent pages, capability pages and light domain
+pages; vision (ontology v4, #637): grounding docs `--add-only` + `--modify-only` — added
+or grown in place, never removed — holding-folder pages `--remove-only` (placed under
+their domain), intent pages `--modify-only` (the persist's Touches list and relinks), and
+`_spine.yaml` `--allow`). The guard is the shared mechanism; the scope is the play's.
+
+A play that grows docs another play wrote also proves it kept what was there: vision runs
+`check_kept.py` (every existing doc it changed — or moved out of the holding folder —
+still has each section and agent-intent line it had) and makes its report a Done-means
+clause. The guard says *which* files changed; the keep check says nothing was lost
+inside them.
 
 ## classify_change git mode
 

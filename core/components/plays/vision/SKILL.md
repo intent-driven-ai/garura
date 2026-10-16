@@ -53,9 +53,7 @@ This play was compiled from the vision ICE (`reference/ice.md`) by play-editor
 (#466 Batch C, Level 3 rollout per ADR 025; #467 Batch B — the checkpoint upgraded to a
 conditional learned gate, see `standards/rules/gate-config.md`; #500 — migrated to
 direct-model-write per ADR 026 and `standards/rules/direct-model-write.md`; #616 — position
-start → both, so /vision lands its own change instead of leaving it for /roadmap; #637 —
-one product model with /intent: starts from intents and whatever is there, never blocks,
-keeps what is there, links intents both ways).
+start → both, so /vision lands its own change instead of leaving it for /roadmap; #637).
 Intent defines constraints (C1–C10) and failure conditions (F1–F11); the expectation
 defines success scenarios (S1–S6), a Done means (D1–D4, baked to
 `stop-condition.yaml`), and one recovery entry per failure condition.
@@ -69,14 +67,15 @@ domain work — KB grounding and seed authoring — to the `product-os-keeper` a
 JSON contracts over files on disk, and you run the mechanical work (shape/spine
 validation, grounding, the content-quality eval, the keyed in-place persist, and the
 post-write scoped guard) through bundled scripts and an isolated judge. You never write
-the grounding docs or the spine yourself, you never overwrite an existing node, and you
+the grounding docs or the spine yourself, you never remove a node or lose what one holds, and you
 never persist the shared spine before the single checkpoint (C7) resolves — a typed
 approval, a recorded config skip, or a recorded policy auto-pass.
 
 **Forbidden:** hand-writing grounding docs or spine entries; writing the shared spine
 (`_spine.yaml`/profile) by any route other than `scripts/persist_seed.py`; committing
-the model delta before the Step 6 gate resolves; overwriting or redrawing an existing
-spine entry or grounding doc (additive-only — F5); writing a functionality, a detailed
+the model delta before the Step 6 gate resolves; changing an existing spine entry beyond
+the named updates, or removing or cutting down an existing grounding doc (keep what is
+there — C6/F5); writing a functionality, a detailed
 capability, acceptance criteria, or a `set`/`locked` profile (over-reach — F3); running the
 seed writes against a dirty product-os tree (C9/F9); closing COMPLETED without the
 stop-condition verdict reading held (C8/F7).
@@ -259,7 +258,7 @@ file (`_spine.yaml`, the profile, an intent page) and moves no page — the keye
 (Step 4) applies the manifest:
 
     {
-      "task":    "author the directional vision seed from the goal + grounding — write the detailed domain doc + directional capability docs in place on the live model (skip-if-exists), emit the spine-delta (spine entries + directional profile) into the manifest",
+      "task":    "author the directional vision seed from the goal + grounding — write or grow the detailed domain doc + directional capability docs in place on the live model (keeping what is there), emit the spine-delta (new entries, named updates, directional profile), same_as and warnings into the manifest",
       "inputs":  { "goal": "<the business goal>",
                    "grounding": "<working>/grounding.yaml",
                    "proposals_dir": "<working>/proposals/",
@@ -381,7 +380,7 @@ Step 2 and the keyed persist from Step 4), run the keep check — every existing
 changed kept each section and agent-intent line it had; its report is the stop condition's
 D4 input — then the scoped guard a single time over the whole delta (its `ok` field is D3).
 Then re-run the linter over the merged live spine to complete spine↔doc consistency (a
-capability whose spine entry names an intent must carry its `## Agent intent (ICE)`):
+capability whose spine entry names an intent and has no `## Agent intent (ICE)` is a warning):
 
 ```
 python3 scripts/check_kept.py --product-base <product_base> --base-ref HEAD \
@@ -692,23 +691,6 @@ continues at the first end-sequence member that has not finished.
 | step_evals | 12 (SE-1…SE-12) |
 | scenario_evals | 6 (SCE-1…SCE-6) |
 | recovery_entries | 11 (one per failure condition; 9 autonomous / 2 human) |
-
-**Recompiled note (#500, direct-model-write / ADR 026):** migrated from draft-then-apply to
-direct-model-write. The old draft model tree and the `apply_seed.py`/`check_apply` promotion
-path are removed; the authoring skill (`author-vision-seed`) writes the per-node docs
-(`domain.md`, `capability.md`) straight to the live model skip-if-exists and emits the
-spine-delta as manifest data; the new keyed `persist_seed.py` merges the spine/profile in
-place additively (add-only by id, profile-if-absent, never modifying an existing entry);
-containment is the post-write `scoped_write_guard.py` (grounding docs `--add-only`, the
-spine `--allow`; its `guard-report.json` is D3); `classify_change.py` reads the working-tree
-git diff (`--product-base`/`--base-ref HEAD`); checkpoint cancel reverts the working tree via
-the guard `--restore`; the play asserts a clean product-os tree once start-change has cut the
-branch (F9) and commits its own `feat(model)` delta after approval (C9). Order is
-**write-then-review** (ADR 026 "Order of operations"): the full delta — LLM docs AND the
-keyed persist's spine merge — is written to the live model FIRST (Steps 2+4), then guarded
-ONCE and classified over the full delta (Step 5), then the gate resolves over the real git
-diff (Step 6), and only an approved gate COMMITS (Step 7). Nothing is COMMITTED before
-approval; cancel reverts the uncommitted writes. See `standards/rules/direct-model-write.md`.
 
 **Recompiled note (#467 Batch B):** checkpoint upgraded to a conditional learned gate;
 see `gate-config.md`.
