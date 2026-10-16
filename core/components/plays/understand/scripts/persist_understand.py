@@ -20,7 +20,9 @@ spine-delta to the live model IN PLACE, keyed to --capability-ref:
      target; additive — an id already present is left untouched).
   3. the rolled-up `profile` (the firmed box) from the proposed-profile.
   4. one decision record per approved box-move (ADR, level product, status accepted), each
-     linked onto the target capability's `decisions` list.
+     linked onto the target capability's `decisions` list. Inside a drive (#615) the play
+     passes --decision-status proposed: no person has said yes, so the drive's review
+     accepts or drops each move.
 
 It reads the manifest (STM, non-model) + the roll-up output; it does NOT read a draft tree
 and does NOT copy docs. Layer rule: pure file writes from disk inputs; no git/gh/network.
@@ -29,7 +31,7 @@ and does NOT copy docs. Layer rule: pure file writes from disk inputs; no git/gh
         --product-base <product_base> --proposed-profile <proposed-profile.yaml> \
         --rollup-report <rollup.json> --capability-ref <cap-id> \
         --decided-by /understand --date <YYYY-MM-DD> --out-manifest <persist-manifest.json> \
-        [--seed <seed.yaml>]
+        [--seed <seed.yaml>] [--decision-status accepted|proposed]
 
 Exit 0 on success, 2 on usage/parse/containment error.
 """
@@ -72,6 +74,8 @@ def main(argv=None):
     ap.add_argument("--decided-by", default="/understand")
     ap.add_argument("--date", required=True, help="decision date (play passes it; never auto-generated)")
     ap.add_argument("--out-manifest", required=True)
+    ap.add_argument("--decision-status", choices=("accepted", "proposed"), default="accepted",
+                    help="box-move decision status; proposed inside a drive (#615)")
     ap.add_argument("--seed", default=None,
                     help="seed.yaml with the person's answers; lets an ABSENT target be seeded (#616)")
     args = ap.parse_args(argv)
@@ -206,7 +210,7 @@ def main(argv=None):
                            f"committed box ({frm}); the box is raised to admit it."),
                 "alternatives": [{"name": f"keep {dim} at {frm}",
                                   "why_not": f"would block {cap_id}'s required {dim} level"}],
-                "status": "accepted", "superseded_by": None,
+                "status": args.decision_status, "superseded_by": None,
                 "metadata": {"decided_by": args.decided_by, "date": args.date, "version": 1},
             }}
             dpath = os.path.join(dec_dir, f"{did}.yaml")

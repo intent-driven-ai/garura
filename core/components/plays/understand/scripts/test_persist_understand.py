@@ -7,7 +7,8 @@ sibling is never written) and the seed path (#616): an absent capability is seed
 from the person's recorded answers (answered_by: human), under an existing domain, at a
 '<domain>/<capability>/capability.md' doc path, then promoted; without a seed it is still
 refused; a malformed seed file is refused, not a crash; an already-detailed capability is
-never re-detailed.
+never re-detailed. Inside a drive (#615) a box-move decision is written `proposed`; by hand
+it stays `accepted`.
 
     python3 test_persist_understand.py
 """
@@ -66,7 +67,7 @@ def setup(tmp, caps=None):
     return base, root, work
 
 
-def run(base, work, seed=None):
+def run(base, work, seed=None, extra=()):
     argv = ["--enrich-manifest", os.path.join(work, "enrich.yaml"), "--product-base", base,
             "--proposed-profile", os.path.join(work, "profile.yaml"),
             "--rollup-report", os.path.join(work, "rollup.json"), "--capability-ref", "checkout",
@@ -76,7 +77,7 @@ def run(base, work, seed=None):
         with open(path, "w") as fh:
             yaml.safe_dump({"seed": seed}, fh)
         argv += ["--seed", path]
-    return pu.main(argv)
+    return pu.main(argv + list(extra))
 
 
 def spine(root):
@@ -203,11 +204,37 @@ def test_already_detailed():
         check("an already-detailed capability is not re-detailed", run(base, work) == 2)
 
 
+def test_box_move_status():
+    caps = [{"id": "checkout", "domain": "commerce", "status": "proposed",
+             "detail": "directional", "doc": "commerce/checkout/capability.md"}]
+    move = {"dimension": "security", "from": "high", "to": "xhigh"}
+    did = "dec-checkout-security-high-xhigh"
+    for label, extra, want in (("by hand", (), "accepted"),
+                               ("inside a drive", ("--decision-status", "proposed"), "proposed")):
+        with tempfile.TemporaryDirectory() as tmp:
+            base, root, work = setup(tmp, caps)
+            with open(os.path.join(work, "rollup.json"), "w") as fh:
+                json.dump({"box_moves": [move]}, fh)
+            check(f"{label}, a box-move persists", run(base, work, extra=extra) == 0)
+            with open(os.path.join(root, "decisions", f"{did}.yaml")) as fh:
+                status = yaml.safe_load(fh)["decision"]["status"]
+            check(f"{label}, its decision reads {want}", status == want)
+            check(f"{label}, the decision is linked onto the capability",
+                  did in spine(root)["capabilities"][0].get("decisions", []))
+    with tempfile.TemporaryDirectory() as tmp:
+        base, root, work = setup(tmp, caps)
+        try:
+            refused = run(base, work, extra=("--decision-status", "rejected")) != 0
+        except SystemExit as exc:
+            refused = exc.code != 0
+        check("a status other than accepted or proposed is refused", refused)
+
+
 def main():
     for test in (test_existing_seed, test_absent_without_seed, test_absent_with_seed,
                  test_seed_refusals, test_domain_folder_differs_from_id, test_seed_not_a_mapping,
                  test_sibling_containment,
-                 test_already_detailed):
+                 test_already_detailed, test_box_move_status):
         print(test.__name__)
         test()
     print(f"\n{PASSED} passed, {FAILED} failed")

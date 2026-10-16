@@ -22,7 +22,7 @@ capability per run; one human checkpoint approves the detailed grounding and any
 before anything persists. The grounding docs are gated by the structural linter (shape)
 and the content-quality eval (a judge).
 
-Pipeline position: **both**. /understand stands on its own (ADR 029 §4; #616 D2): run by hand, it needs no other play to have run first. The D2 rule prepends `start-change` — resolve or create the issue, cut the branch off fresh main, optional worktree, init STM — and, after the model delta is committed, appends the close sequence `commit-change → propose-change → review-change → merge-change`, landing the detailed capability on main. It writes the persistent product model directly, in place, on its own started branch — there is no draft copy and no apply/promote step; review is the branch git diff and the end PR. (#437, #498, ADR 026; position changed from none to both in #616.)
+Pipeline position: **both**. /understand stands on its own (ADR 029 §4; #616 D2): run by hand, it needs no other play to have run first. Inside a drive (ADR 029 §2–3; #615) it is handed the drive's contract (`standards/rules/drive-contract.md`) and opens nothing: no `start-change`, no end sequence, no wait at its checkpoint — it works on the drive's branch, commits its model delta there, and keeps what its checkpoint would have shown, every box-move included, as a review record for the drive's end review. Kickoff runs it once for each capability, so each run leaves its own record. The D2 rule prepends `start-change` — resolve or create the issue, cut the branch off fresh main, optional worktree, init STM — and, after the model delta is committed, appends the close sequence `commit-change → propose-change → review-change → merge-change`, landing the detailed capability on main. It writes the persistent product model directly, in place, on its own started branch — there is no draft copy and no apply/promote step; review is the branch git diff and the end PR. (#437, #498, ADR 026; position changed from none to both in #616.)
 
 Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM enrichment skill writes ONLY the per-node docs (`capability.md`, `functionality.md`) straight to the live model; every shared-file mutation (the spine `_spine.yaml`, `profile.yaml`, the box-move decisions) is done by the deterministic keyed persist script, in place, keyed to the target capability so it cannot touch a sibling node inside a shared file. The model tree is asserted clean at entry and the play commits its own model delta at close, so the working-tree diff vs HEAD is exactly this run's delta.
 
@@ -38,7 +38,10 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM enr
   nothing invented; the keyed persist refuses a seed not marked `answered_by: human`. With no
   answer, or a domain that is not in the spine, it halts — before any issue or branch exists
   — and says plainly what it needs. A capability that is already `detailed` is not
-  re-detailed.
+  re-detailed. Inside a drive (C13) the answers come from the contract (the drive asked
+  them before it started); the seed records them with `answered_by: human` only because a
+  person gave them up front. With no answers in the contract, the play stops and asks the
+  person before any model write — it never fills them in itself.
 - C2 — It promotes the target capability `directional → detailed` and CREATES its
   functionalities (each a spine `functionalities` entry plus a detailed `functionality.md`).
   This is the structure /understand owns — the last detailing step. It never touches
@@ -65,7 +68,10 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM enr
   exceeds the committed ceiling is an out-of-box event: it halts for human approval; each
   box-move is written as its own product-level decision (ADR) and COMMITTED only on
   approval (on cancel the write is reverted with the rest of the delta). A need inside the
-  box never halts.
+  box never halts. Inside a drive (C13) each box-move is written with its decision at
+  status `proposed` — never `accepted`, because no person at a checkpoint says yes inside a
+  drive — and appears as its own line in the review record when the checkpoint is
+  deferred; the drive's review accepts or drops it (Kapil, #615).
 - C9 — Exactly one human checkpoint, presenting the detailed capability, its
   functionalities, the per-capability NFR needs, and the profile changes — every box-move
   as its own line item (dimension, from→to, the decision it creates). The checkpoint is a
@@ -82,9 +88,11 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM enr
   the run writes the full delta to the live model FIRST (docs by the skill, shared files by
   the keyed persist), so the checkpoint presents the real model git diff and the change-shape
   is classified over the full delta; nothing is COMMITTED before the gate resolves — a typed
-  approval, a recorded config skip, OR a recorded policy auto-pass. On cancel the whole delta
+  approval, a recorded config skip, a recorded policy auto-pass, OR, inside a drive, a
+  recorded deferral to the drive's review (C13). On cancel the whole delta
   is reverted (`git restore` + `git clean`). Box-move approvals ride this same gate, so the
-  recorded skip or auto-pass stands in evidence for them too. At close the play refreshes the
+  recorded skip or auto-pass stands in evidence for them too. (Inside a drive the checkpoint
+  does not wait; it becomes a review record for the drive's end review — C13.) At close the play refreshes the
   learned policy with
   the bundled `distill_gate_policy.py` (config `gates.conditional`: streak/ledger/policy
   paths).
@@ -103,16 +111,38 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM enr
   written, and the scoped-write guard report reads ok (the allowlist held). The play then
   commits its own model delta on the branch, and the injected end sequence (commit →
   propose → review → merge) lands it on main; each member proves its own Done means, and a
-  review reject stops the chain before merge. The close never reads COMPLETED with the
+  review reject stops the chain before merge. Inside a drive the end sequence does not run
+  — the drive lands the change (C13). The close never reads COMPLETED with the
   stop-condition verdict unmet.
 - C12 — Clean tree in, committed delta out (ADR 026): the product-os tree is asserted clean
   at entry (pre-flight halts on a dirty model tree), and after the approved checkpoint the
   play commits its model delta on the branch (`feat(model): … (#<issue>)`), so HEAD is a
   correct base for the guard and the change-shape, and the end sequence lands exactly this
-  run's delta. The tree is asserted clean right after `start-change` cuts the fresh branch,
+  run's delta. The tree is asserted clean right after `start-change` cuts the fresh branch
+  (inside a drive, at once — the earlier plays in the drive committed their model change),
   so a dirty tree means uncommitted edits, never a missing earlier play. This model-delta
   commit is a lightweight persist step, distinct from both the end sequence and the
   per-play Standard Play Close (evidence + delivery report).
+- C13 — Runs inside a drive without stopping (ADR 029 §2–3; `standards/rules/drive-contract.md`):
+  handed a drive's contract (`--contract`), the play checks it first with the bundled
+  `check_drive_contract.py` — an invalid contract, or a current branch other than the
+  drive's, halts — and records `in_drive` in `run.json`. Inside a drive it runs no
+  `start-change` and no end sequence (the drive opens and lands the change); it takes the
+  target capability from the play argument and a seed's answers from the contract's
+  `answers.understand.seeds.<capability>` (`one_line`, `why`, `domain`); it asserts the
+  clean model tree at once; it resolves its checkpoint (C9) exactly as by hand — a config
+  skip or a policy auto-pass is recorded as by hand — and only where the gate would WAIT
+  does it not wait: it renders the checkpoint exactly as it would have been shown, every
+  box-move as its own line, and writes it, with the files it stands on (the roll-up, the
+  shape, the guard report, the persist record), as a review record into the contract's
+  `review_dir` with the bundled `write_drive_review.py`, and appends the crossing to the
+  gate ledger as `deferred_to_drive_review` (the learner skips it until the drive's review
+  writes the person's real answer). Inside a drive every box-move decision is written
+  `proposed` (C8) — the keyed persist runs before the gate resolves, so it is told by
+  `in_drive`, not by the gate's outcome. It still commits its model delta on the drive's branch (C12). A
+  question neither the contract nor the model answers — an absent capability with no seed
+  answers — stops the run and asks the person; the play never picks an answer itself. Run
+  by hand (no contract), every step runs as before.
 
 ### Failure conditions
 
@@ -129,8 +159,9 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM enr
 - F6 — A profile dimension was lowered, or the box was firmed to a state other than `set`
   (left `directional`, or written `locked`).
 - F7 — Against a `set` box, an out-of-box need was persisted without the checkpoint gate
-  resolving for it — no typed approval, no recorded config skip, and no recorded policy
-  auto-pass.
+  resolving for it — no typed approval, no recorded config skip, no recorded policy
+  auto-pass, and — inside a drive — no recorded deferral to the drive's review; or, inside
+  a drive, a box-move decision was written `accepted` instead of `proposed`.
 - F8 — A box-move was persisted without its own decision record, or a decision omits the
   dimension or the from→to it represents.
 - F9 — Allowlist breach: a capability, functionality, or domain other than the target (and
@@ -145,6 +176,14 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM enr
 - F13 — The play ran against a dirty product-os tree (uncommitted model edits present at
   entry), so the change-shape and the scoped guard could not be trusted to reflect only
   this run's delta.
+- F14 — Inside a drive, the play opened an issue or a branch, ran the end sequence, waited at
+  its checkpoint, or worked on a branch other than the drive's; or, run by hand, it skipped
+  its opening, its checkpoint or its end sequence.
+- F15 — Inside a drive, the checkpoint left no review record in the drive's `review_dir`,
+  the record differs from what the checkpoint would have shown (a box-move missing as its
+  own line), the gate ledger has no line for the crossing, or a line records an approval no
+  person gave; or the play picked an answer — a seed's what, why or domain — that the drive
+  had not given.
 
 ## Expectation
 
@@ -191,6 +230,19 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM enr
   `<working>/seed.yaml` holds the person's answers; the persist record reads `seeded: true`;
   the spine entry exists under the named domain with `detail: detailed`; merge-change reports
   the PR merged; the stop-condition verdict reads held.
+- S7 — (Kickoff drive, inside a drive) Given a drive hands /understand its contract — the
+  drive's branch, its issue, its `review_dir`, and any seed answers — and names one
+  capability, when /understand runs, then it opens nothing, does not stop at its
+  checkpoint, commits its model delta on the drive's branch and leaves a review record for
+  the drive's review, with every box-move as its own line and its decision `proposed`.
+  Measure: `run.json` reads `in_drive: true` with the contract's `drive_run_id` and branch;
+  no `start-change` or end-sequence step ran and the current branch equals the contract's
+  branch; a `<review_dir>/understand-<ts>.json` record exists with `decided: false` and its
+  summary file; the gate ledger's line for the run reads `deferred_to_drive_review` (or
+  `auto_pass` on a policy-listed shape); every decision in `persist-manifest.json`
+  `box_moves` reads `proposed`; the model delta is committed on the drive's branch; the
+  stop-condition verdict reads held. Run by hand, the same play's `run.json` reads
+  `in_drive: false` and every step ran as before.
 
 ### Done means
 
@@ -238,7 +290,8 @@ record.
   lower a dimension. handoff: autonomous.
 - REC7 (F7) — trigger: an out-of-box need against a `set` box was persisted with no approved
   decision. direction: revert the box change, surface the move at the checkpoint, and persist
-  only after a human approves it. handoff: human.
+  only after a human approves it (inside a drive, re-write the decision as `proposed` and
+  record the deferral). handoff: human.
 - REC8 (F8) — trigger: a box-move lacks its decision record, or a decision omits the
   dimension or from→to. direction: write (or complete) the product-level decision for each
   move with its dimension and from→to before persisting. handoff: autonomous.
@@ -261,3 +314,14 @@ record.
 - REC13 (F13) — trigger: the product-os tree is dirty at entry (uncommitted model edits
   present). direction: halt at pre-flight and ask for a clean model tree — commit or revert
   the pending model edits — before /understand proceeds. handoff: human.
+- REC14 (F14) — trigger: inside a drive the play opened an issue or branch, ran the end
+  sequence, waited at its checkpoint, or worked off the drive's branch; or by hand it skipped
+  a step. direction: inside a drive, close the stray issue and branch, switch to the drive's
+  branch, and write the review record in place of the wait; by hand, run the skipped step.
+  handoff: human.
+- REC15 (F15) — trigger: no review record, a record that differs from the checkpoint (a
+  box-move missing as its own line), no ledger line, an approval no person gave, or an
+  answer the play picked itself. direction: re-render the checkpoint and re-write the review
+  record with `write_drive_review.py`; append the missing `deferred_to_drive_review` line, or
+  a correction refuting a made-up approval; drop the picked answer and ask the person.
+  handoff: autonomous.
