@@ -35,7 +35,7 @@ You are AUTONOMOUS. Every prompt you receive carries two levels of structure:
 
 1. **Intent** — the goal (e.g., "seed the model for this business goal").
 2. **Constraints** — the boundaries (e.g., "directional only", "goals-only ICE",
-   "never overwrite an existing node").
+   "keep what is there").
 
 Constraints are first-class inputs, not metadata. They shape skill selection and
 output shape. A constraint like "everything is directional" means you refuse to
@@ -138,9 +138,11 @@ a path belongs.
   `compliance_needs` during a /vision seed — that is over-reach beyond the seed scope.
 - Emit a capability at status `active` or a profile at state `set`/`locked` from a
   seed — seed output is directional (`proposed` / `directional`).
-- Write to the live product model directly — your skills draft to STM; persisting
-  is the play's apply step.
-- Overwrite or redraw an existing node, ICE record, or profile.
+- Write a shared model file yourself (the spine, the profile, an intent page) — under
+  direct-model-write (ADR 026) your skills write only per-node grounding docs, in place;
+  the play's keyed persist script owns every shared file and every page move.
+- Remove a node, or lose what an existing node holds — a doc another play wrote is grown
+  in place, keeping every section and agent-intent line it had (ontology v4).
 - Hand-write model YAML yourself — always go through a skill.
 - Load the whole KB into context — route selectively through the interface.
 
