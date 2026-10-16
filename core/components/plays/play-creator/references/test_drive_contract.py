@@ -54,7 +54,10 @@ def contract(tmp, **change):
 def run(tmp, *args):
     out = os.path.join(tmp, "run.json")
     rc = cdc.main(["--play", "vision", "--out", out, *args])
-    return rc, (json.load(open(out)) if rc == 0 else None)
+    if rc != 0:
+        return rc, None
+    with open(out) as fh:
+        return rc, json.load(fh)
 
 
 def test_checker():
@@ -68,13 +71,28 @@ def test_checker():
               r["inputs"] == {"intents": ["grow-online-sales"]} and r["answers"]["goal"].startswith("Sell"))
         cases = (("the wrong branch", ["--branch", "main", "--contract", contract(tmp)], "switch to it first"),
                  ("a missing field", ["--branch", BRANCH, "--contract", contract(tmp, review_dir=None)], "missing review_dir"),
-                 ("an issue that is not a number", ["--branch", BRANCH, "--contract", contract(tmp, issue="613")], "must be a number"),
-                 ("answers that are not keyed by play", ["--branch", BRANCH, "--contract", contract(tmp, answers=["x"])], "keyed by play"))
+                 ("an issue that is not a number", ["--branch", BRANCH, "--contract", contract(tmp, issue="613")], "positive issue number"),
+                 ("answers that are not keyed by play", ["--branch", BRANCH, "--contract", contract(tmp, answers=["x"])], "keyed by play"),
+                 ("an issue that is true or false", ["--branch", BRANCH, "--contract", contract(tmp, issue=True)], "positive issue number"),
+                 ("an issue that is zero", ["--branch", BRANCH, "--contract", contract(tmp, issue=0)], "positive issue number"),
+                 ("a review_dir that is not text", ["--branch", BRANCH, "--contract", contract(tmp, review_dir=["a"])], "non-empty text"))
         for label, args, why in cases:
             err = io.StringIO()
             with contextlib.redirect_stderr(err):
                 rc = run(tmp, *args)[0]
             check(f"{label} is refused (exit 2) for that reason", rc == 2 and why in err.getvalue())
+        nul = contract(tmp, inputs=None)
+        with open(nul) as fh:
+            c = json.load(fh)
+        c["inputs"] = None
+        with open(nul, "w") as fh:
+            json.dump(c, fh)
+        rc, r = run(tmp, "--branch", BRANCH, "--contract", nul)
+        check("a null optional `inputs` is read as none", rc == 0 and r["inputs"] == {})
+        lst = os.path.join(tmp, "list.json")
+        with open(lst, "w") as fh:
+            fh.write("[1, 2]")
+        check("a contract that is a list is refused", run(tmp, "--branch", BRANCH, "--contract", lst)[0] == 2)
         bad = os.path.join(tmp, "bad.json")
         with open(bad, "w") as fh:
             fh.write("{not json")
@@ -93,26 +111,58 @@ def test_review_writer():
         rc = wdr.main(["--run", os.path.join(tmp, "run.json"), "--summary", summary,
                        "--attach", f"guard={guard}", "--ts", "20261017-120000"])
         rec_path = os.path.join(r["review_dir"], "vision-20261017-120000.json")
-        rec = json.load(open(rec_path)) if os.path.isfile(rec_path) else {}
+        rec = {}
+        if os.path.isfile(rec_path):
+            with open(rec_path) as fh:
+                rec = json.load(fh)
         check("the review record is written for the drive, undecided",
               rc == 0 and rec.get("decided") is False and rec.get("drive_run_id") == "kickoff-1"
               and rec.get("attachments") == {"guard": guard})
-        check("the summary is kept exactly as it would have been shown",
-              open(os.path.join(r["review_dir"], "vision-20261017-120000.md")).read() == open(summary).read())
+        with open(os.path.join(r["review_dir"], "vision-20261017-120000.md")) as a, open(summary) as b:
+            check("the summary is kept exactly as it would have been shown", a.read() == b.read())
         check("a missing attached file writes nothing",
               wdr.main(["--run", os.path.join(tmp, "run.json"), "--summary", summary,
                         "--attach", "x=/nope", "--ts", "t2"]) == 2
               and not os.path.exists(os.path.join(r["review_dir"], "vision-t2.json")))
+        runp = os.path.join(tmp, "run.json")
+        check("a missing summary writes nothing",
+              wdr.main(["--run", runp, "--summary", "/nope.md", "--ts", "t4"]) == 2)
+        for ts in ("../x", "", ".hidden"):
+            check(f"a timestamp like `{ts}` is refused",
+                  wdr.main(["--run", runp, "--summary", summary, "--ts", ts]) == 2)
+        check("re-running with the same timestamp rewrites the same record",
+              wdr.main(["--run", runp, "--summary", summary, "--ts", "20261017-120000"]) == 0
+              and len([f for f in os.listdir(r["review_dir"]) if f.startswith("vision-20261017-120000")]) == 2)
+        with open(runp) as fh:
+            broken = json.load(fh)
+        del broken["drive_run_id"]
+        brokenp = os.path.join(tmp, "broken-run.json")
+        with open(brokenp, "w") as fh:
+            json.dump(broken, fh)
+        check("a run record lacking a field writes nothing",
+              wdr.main(["--run", brokenp, "--summary", summary, "--ts", "t5"]) == 2
+              and not os.path.exists(os.path.join(r["review_dir"], "vision-t5.md")))
+        with open(brokenp, "w") as fh:
+            json.dump(dict(broken, drive_run_id="k", in_drive="false"), fh)
+        check("in_drive as the text 'false' is not a drive run",
+              wdr.main(["--run", brokenp, "--summary", summary, "--ts", "t6"]) == 2)
+        before = sorted(os.listdir(r["review_dir"]))
         run(tmp, "--branch", "main")
         check("a run by hand writes no drive record",
-              wdr.main(["--run", os.path.join(tmp, "run.json"), "--summary", summary, "--ts", "t3"]) == 2)
+              wdr.main(["--run", runp, "--summary", summary, "--ts", "t3"]) == 2
+              and sorted(os.listdir(r["review_dir"])) == before)
 
 
 def test_every_copy_is_identical():
     for name in ("check_drive_contract.py", "write_drive_review.py"):
-        mine = open(os.path.join(HERE, name), "rb").read()
+        with open(os.path.join(HERE, name), "rb") as fh:
+            mine = fh.read()
         copies = glob.glob(os.path.join(REPO, "core", "components", "plays", "*", "scripts", name))
-        different = [c for c in copies if open(c, "rb").read() != mine]
+        different = []
+        for c in copies:
+            with open(c, "rb") as fh:
+                if fh.read() != mine:
+                    different.append(c)
         check(f"every play's {name} is identical to the canonical one ({len(copies)} copies)",
               copies and not different)
 

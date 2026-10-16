@@ -14,8 +14,8 @@ passed in; no git/gh/network.
     python3 check_drive_contract.py --play vision --branch "$(git branch --show-current)" \
         [--contract <contract.json>] --out <working>/run.json
 
-Exit 0 — run.json written (in a drive, or by hand). Exit 2 — the contract is invalid or the
-branch does not match: nothing to run; the play halts and says why.
+Exit 0 — run.json written (in a drive, or by hand). Exit 2 — the contract is invalid, the
+branch does not match, or run.json cannot be written: the play halts and says why.
 """
 import argparse
 import json
@@ -35,10 +35,14 @@ def check(contract, play, branch):
     missing = [k for k in REQUIRED if contract.get(k) in (None, "")]
     if missing:
         raise Invalid(f"the contract is missing {', '.join(missing)}")
-    if not isinstance(contract["issue"], int) or isinstance(contract["issue"], bool):
-        raise Invalid("the contract's `issue` must be a number")
+    issue = contract["issue"]
+    if not isinstance(issue, int) or isinstance(issue, bool) or issue < 1:
+        raise Invalid("the contract's `issue` must be a positive issue number")
+    for key in ("drive_run_id", "drive", "branch", "review_dir"):
+        if not isinstance(contract[key], str) or not contract[key].strip():
+            raise Invalid(f"the contract's `{key}` must be a non-empty text")
     for key in ("inputs", "answers"):
-        if key in contract and not isinstance(contract[key], dict):
+        if contract.get(key) is not None and not isinstance(contract[key], dict):
             raise Invalid(f"the contract's `{key}` must be an object keyed by play")
         mine = (contract.get(key) or {}).get(play)
         if mine is not None and not isinstance(mine, dict):
@@ -48,7 +52,7 @@ def check(contract, play, branch):
                       f"`{contract['branch']}` — switch to it first")
     return {"in_drive": True, "play": play,
             "drive_run_id": str(contract["drive_run_id"]), "drive": str(contract["drive"]),
-            "branch": branch, "issue": contract["issue"],
+            "branch": branch, "issue": issue,
             "review_dir": str(contract["review_dir"]),
             "inputs": (contract.get("inputs") or {}).get(play) or {},
             "answers": (contract.get("answers") or {}).get(play) or {}}
@@ -73,9 +77,13 @@ def main(argv=None):
             msg = why if isinstance(why, Invalid) else f"cannot read the contract: {why.__class__.__name__}"
             sys.stderr.write(f"check_drive_contract.py: {msg}\n")
             return 2
-    os.makedirs(os.path.dirname(os.path.abspath(args.out)), exist_ok=True)
-    with open(args.out, "w", encoding="utf-8") as fh:
-        json.dump(run, fh, indent=2)
+    try:
+        os.makedirs(os.path.dirname(os.path.abspath(args.out)), exist_ok=True)
+        with open(args.out, "w", encoding="utf-8") as fh:
+            json.dump(run, fh, indent=2)
+    except OSError as exc:
+        sys.stderr.write(f"check_drive_contract.py: cannot write {args.out}: {exc.__class__.__name__}\n")
+        return 2
     print(json.dumps(run, indent=2))
     return 0
 
