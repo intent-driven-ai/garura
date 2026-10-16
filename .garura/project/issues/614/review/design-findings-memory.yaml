@@ -1,0 +1,137 @@
+pr: 639
+issue: 614
+category: memory
+grounding:
+  - principle: "A drive asks every question first, has no stops for plays' checkpoints, stops on a new question, and owns one issue/branch/PR; plays open none"
+    source: "main:docs/adr/029-drives.md section 2 (How a drive runs) and section 3 (The drive owns the change)"
+  - principle: "Pinned gates are a settled-later question: ADR 029 lists 'Pinned gates' as a Negative/Risk and Open Question 2 ('how pinned gates fit a drive - settled in the later drive spikes'); only /intent's confirm (ADR 031) and /adr's accept (#632) are named as skipped inside a drive"
+    source: "main:docs/adr/029-drives.md (Consequences > Negative/Risks 'Pinned gates'; Open Questions 2); main:core/components/memory/standards/rules/gate-config.md ('Pinned gates' paragraph: 'A pinned gate NEVER resolves off ... two exceptions, by intent not config')"
+  - principle: "A skipped checkpoint is never silent: it is recorded as a Checkpoint Decisions row in the play's evidence"
+    source: "main:core/components/memory/standards/rules/gate-config.md ('Behaviour of the switch', off: 'Skips are always visible in evidence - a silent gate is not a gate'); main:core/components/memory/standards/rules/play-close.md (Checkpoint Decisions rows record skips)"
+  - principle: "The ledger is append-only; a later correction is a NEW line with `refutes: <line>`; the learner is a pure rule over the last `streak` consecutive entries"
+    source: "main:core/components/memory/standards/rules/gate-config.md ('The live-eval loop')"
+  - principle: "Each rule file is the single source of truth for its domain, is listed in rules/_index.md, and a rule that others compose carries a Related section; plays read rules and do not restate them"
+    source: "main:core/components/memory/standards/rules/_index.md ('When to Add Here'; every sibling rule has a Contents row); main:core/components/memory/standards/rules/concurrent-fanout.md and gate-config.md and pipeline-position.md (each ends with ## Related)"
+  - principle: "Shared play scaffolding is emitted by play-creator and checked by lint-components so a hand edit and a rebuild converge (the Standard Play Close pattern)"
+    source: "main:CLAUDE.md (Play Pipeline Rules > Durability rule for non-intent edits); main:core/components/memory/standards/rules/play-close.md ('single source of truth for both the manual editor and the /play-creator compiler')"
+  - principle: "Position-injected start/end sequences are composed by play-creator into named steps; the member plays define behaviour; commit-change is a member of the end sequence"
+    source: "main:core/components/memory/standards/rules/pipeline-position.md ('The two sequences', 'How play-creator injects it', 'Enforced')"
+  - principle: "Inside a drive the plan's big updates and the plays' reviews wait for the end review; how a finished drive is reviewed is still open (#617)"
+    source: "main:docs/adr/029-drives.md sections 2 and 5 and Open Questions 1; main:docs/adr/030-plan-mode.md section 5 (inside a drive, big updates approved together at the end review)"
+conformance_notes:
+  - "Agrees with ADR 029: the rule's checks and run steps match sections 2 and 3 (questions first via `answers`; no stop at the play's own checkpoint; an unanswered question stops the play; the drive opens and lands the one change; the play opens none and must already be on the drive's branch). ADR 030 P4 is matched by 'skip the injected start-change'."
+  - "Agrees with check_drive_contract.py: required fields, `issue` as a number, `inputs`/`answers` as objects keyed by play, branch must equal the drive's branch, exit 2 = hard halt, no --contract = in_drive false. The rule and the script say the same thing."
+  - "gate-config.md edits are internally consistent: the new `deferred_to_drive_review` action, 'pairs with predicted gate only' and 'skipped, neither an approval nor a reset' match the gate_eval.py change (human set, pairing check) in the same diff. The existing 'never_auto: preserved verbatim' and streak wording are untouched. Pre-existing mid-sentence line wrap left a short line ('person's real answer. `never_auto:` in the policy file is') - cosmetic only."
+  - "pipeline-position.md edit is consistent with ADR 029 s3 and ADR 030 P4 (opening and end sequence skipped; the drive opens and lands). It replaces the earlier 'wired in #614/#615' with an accurate wired list that matches the /intent and /vision SKILL.md on this branch."
+  - "Layer 2 limit: drive-contract.md is branch-added, so it was checked against the base-ref ADRs and rules and was never used as grounding for anything else."
+findings:
+  - id: M1
+    category: memory
+    severity: P2
+    title: "The rule tells every play to skip its own checkpoint inside a drive but says nothing about a pinned checkpoint, which gate-config says no mechanism may skip"
+    basis: "Pinned gates NEVER resolve off, with exactly two named exceptions granted by each play's intent (/intent confirm, /adr accept). ADR 029 leaves 'how pinned gates fit a drive' open and says Kickoff is unaffected only because /vision and /understand are conditional. drive-contract.md step 3 ('Do not stop at the play's own checkpoint') is written for any play that runs inside a drive, with no condition, and the rule is the single source plays read."
+    source: "main:core/components/memory/standards/rules/gate-config.md ('Pinned gates' paragraph); main:docs/adr/029-drives.md (Consequences 'Pinned gates'; Open Questions 2)"
+    path: core/components/memory/standards/rules/drive-contract.md
+    detail: >
+      A reader of drive-contract.md alone (a play author for /grill, /learn, /deploy or the merge-to-main step in a
+      later drive, or play-creator emitting the shared block) would conclude every checkpoint is deferred to the
+      drive review. That contradicts the pinned rule. Today it is harmless because /vision is conditional, but the
+      rule's own opening says it governs 'a play ... handed a contract'. It should say: step 3 applies to
+      conditional and off checkpoints; a pinned checkpoint still stops unless that play's own intent names the
+      in-drive exception (as /intent and /adr do). gate-config.md's pinned paragraph also still says the exceptions
+      are 'by intent not config' and lists none of this rule, so the two files do not cross-point on the question.
+  - id: M2
+    category: memory
+    severity: P3
+    title: "The rule does not say a deferred checkpoint is recorded as a Checkpoint Decisions row, though a skipped gate must never be silent"
+    basis: "A skipped or deferred checkpoint is visible in the play's evidence as a Checkpoint Decisions row; the contract's step 3 only writes a separate review record into review_dir."
+    source: "main:core/components/memory/standards/rules/gate-config.md ('Behaviour of the switch'); main:core/components/memory/standards/rules/play-close.md"
+    path: core/components/memory/standards/rules/drive-contract.md
+    detail: >
+      /vision's compiled Step 6 does record 'checkpoint deferred to the drive's review' as a Checkpoint Decisions row,
+      but that is the play's own wording, not the rule's. The rule is meant to be the one place plays read; the next
+      play wired to it (/understand, #615) has to copy /vision rather than follow the rule. Add one line to step 3.
+  - id: M3
+    category: memory
+    severity: P3
+    title: "How a deferred line is later resolved is left undefined (who writes the real answer, as which ledger line, with what link)"
+    basis: "The ledger is append-only and a later correction is a NEW line with `refutes: <line>`; the learner counts the last `streak` consecutive entries. The new text says the learner skips a deferred line 'until the drive's review writes the person's real answer' but not what that write is. gate_eval.py now forbids `refutes` on a deferred line itself, so the real answer is a fresh crossing line, not a correction of it, which is not stated anywhere."
+    source: "main:core/components/memory/standards/rules/gate-config.md ('The live-eval loop'); main:docs/adr/029-drives.md (Open Questions 1: how a finished drive is reviewed, #617)"
+    path: core/components/memory/standards/rules/gate-config.md
+    detail: >
+      Both drive-contract.md step 5 and the gate-config.md edit depend on a drive-review writer that does not exist
+      yet (#617 is open). Say explicitly that until then a deferred line stays skipped, and what line shape the drive
+      review will append (a new crossing with the same shape key, not a `refutes`), so the learner's streak order is
+      defined. Also step 5 says a learned checkpoint 'records the crossing as deferred' without the condition
+      'when it would have stopped (predicted gate)'; a policy-auto crossing inside a drive is auto_pass per the
+      pairing rule. vision's SKILL.md gets this right; the rule should too.
+  - id: M4
+    category: memory
+    severity: P3
+    title: "The rule skips the end sequence (which includes commit-change) yet says the play 'still commits its own work', and never says how"
+    basis: "commit-change is a member of the end sequence that pipeline-position.md says is skipped; the commit conventions live in commits.md and commit-change. A play that skips commit-change has no stated way to commit to the standard."
+    source: "main:core/components/memory/standards/rules/pipeline-position.md ('The two sequences', 'Enforced'); main:core/components/memory/standards/rules/commits.md; main:docs/adr/029-drives.md section 3 (plays work on the drive's branch; says nothing about who commits)"
+    path: core/components/memory/standards/rules/drive-contract.md
+    detail: >
+      pipeline-position.md now says 'the opening and the end sequence are both skipped', and drive-contract.md step
+      2 lists commit-change inside what is skipped while adding that the play commits its own work. ADR 029 does not
+      settle it. State which rules the play's own commit follows (commits.md conventions, commit-change's skill, or
+      the drive's job) so a play does not invent a commit routine.
+  - id: M5
+    category: memory
+    severity: P3
+    title: "'Questions first' cannot be carried out from the rule: it never says where a play declares its questions or what an answer id is"
+    basis: "ADR 029 requires the drive to read everything its plays need and ask every question their checkpoints would ask before starting, and to stop on any question not answered. The contract has an `answers` map keyed by 'question id', but no committed source or rule defines question ids or where a play lists them."
+    source: "main:docs/adr/029-drives.md section 2 (Questions first; A new question stops it)"
+    path: core/components/memory/standards/rules/drive-contract.md
+    detail: >
+      check_drive_contract.py validates only that `answers` is an object keyed by play. Without a place where each
+      play declares its questions, the drive cannot ask them first and the play cannot tell 'not answered' from 'not
+      asked'. Name the declaration (for example a section of the compiled play) or mark it as a follow-up with an
+      issue number, as the rule already does for /understand.
+  - id: M6
+    category: memory
+    severity: P3
+    title: "New rule is not listed in rules/_index.md and has no Related section; the two edited rules do not point back to it in theirs"
+    basis: "Every rule file has a Contents row in _index.md (consumers listed), and the rules that compose with others end with a Related section. drive-contract.md has neither; gate-config.md Related and pipeline-position.md Related are unchanged."
+    source: "main:core/components/memory/standards/rules/_index.md (Contents; 'When to Add Here'); main:core/components/memory/standards/rules/gate-config.md, pipeline-position.md, concurrent-fanout.md (## Related)"
+    path: core/components/memory/standards/rules/_index.md
+    detail: >
+      grep -c drive-contract on the branch _index.md returns 0, so an agent asking 'what rules apply' never finds
+      it. Add a row (consumers: play-creator, /vision, /understand, the Kickoff drive) and a Related section to
+      drive-contract.md (ADR 029, ADR 030, gate-config.md, pipeline-position.md, play-close.md). The file also lacks
+      the sibling 'Enforced' framing (what a linter checks versus what play-creator emits), see M7.
+  - id: M7
+    category: memory
+    severity: P3
+    title: "pipeline-position.md now says injected steps are skipped inside a drive, but its own injection and Enforced sections, play-creator and lint-components do not carry it; only /vision's hand-compiled SKILL.md does"
+    basis: "Shared scaffolding must be emitted by play-creator and checked by lint-components so a rebuild converges with the hand edit. pipeline-position.md says play-creator injects the named steps; it does not say it marks them skipped when in_drive. grep finds no 'in_drive' or 'drive' in play-creator/SKILL.md or any lint script, only in the new scripts and vision."
+    source: "main:CLAUDE.md (Play Pipeline Rules, Durability rule); main:core/components/memory/standards/rules/pipeline-position.md ('How play-creator injects it', 'Enforced')"
+    path: core/components/memory/standards/rules/pipeline-position.md
+    detail: >
+      The edited paragraph at the top is correct about intent (ADR 029 s3, ADR 030 P4), but the rule's mechanics
+      sections still describe unconditional injection. Another play rebuilt by play-creator gets no drive check and
+      no skip, and a lint run cannot catch a play that forgot it. Either add the in-drive skip to the injection and
+      Enforced sections and open the play-creator/lint-components follow-up (cite its issue in the rule), or say in
+      the rule that wiring is by hand until then. The rule does say 'wired so far', so this is a gap in the plan,
+      not a wrong statement.
+  - id: M8
+    category: memory
+    severity: P3
+    title: "The rule claims to be the single source for a drive contract, but /intent already has its own contract check and a different shape"
+    basis: "A rule file is the single source for its domain; a second definition of the same thing drifts. /intent (base-ref SKILL, #612) requires only drive_run_id and branch and writes no review record; the new shared checker requires drive, issue and review_dir as well. pipeline-position.md names /intent 'its own contract check' but drive-contract.md never mentions /intent."
+    source: "main:core/components/memory/standards/rules/_index.md ('When to Add Here': single source of truth, not a copy of skill prose); main:core/components/memory/standards/rules/pipeline-position.md; main:docs/adr/029-drives.md section 6 (Kickoff runs /intent then /vision then /understand with one drive)"
+    path: core/components/memory/standards/rules/drive-contract.md
+    detail: >
+      One Kickoff drive will hand /intent and /vision the same contract file. A contract that satisfies /intent
+      (two fields) can fail /vision's check (five required fields) at the second play. Say in the rule that /intent
+      is to move onto this checker (and open or cite the issue), or that the shared contract's required fields are a
+      superset /intent also accepts.
+  - id: M9
+    category: memory
+    severity: P4
+    title: "pipeline-position.md puts a moving 'wired so far' status list inside a standing rule"
+    basis: "The file already carries an 'As compiled today' list of positions, so the pattern has precedent; the new sentence adds issue numbers and 'follows in #615', which goes stale on the next merge."
+    source: "main:core/components/memory/standards/rules/pipeline-position.md (introductory paragraph, 'As compiled today')"
+    path: core/components/memory/standards/rules/pipeline-position.md
+    detail: "Low cost: update it when /understand lands, or point at the play list instead of repeating it."

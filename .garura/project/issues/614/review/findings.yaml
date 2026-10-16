@@ -1,0 +1,242 @@
+pr: 639
+issue: 614
+round: 1
+confidence: 0.9
+findings:
+- id: F1
+  category: executable-code
+  severity: P2
+  file: core/components/plays/play-creator/references/distill_gate_policy.py
+  title: A deferred line that a later line refutes still resets the streak, so the learner treats it as a reset
+  basis: knowledge/review/code.md rubric, deterministic where it claims to be; drive-contract.md rule 5 and gate-config.md
+    lines 62-64 ("neither an approval nor a reset"); caller's explicit requirement to include a refutes line pointing
+    at a deferred line.
+  status: fixed
+  fix: 'dce14390: distill skips a deferred line before the refuted check, so a later answer pointing at it no longer
+    resets the streak; new learner case 11.'
+- id: F2
+  category: executable-code
+  severity: P3
+  file: core/components/plays/play-creator/references/check_drive_contract.py
+  title: Required fields are checked for presence only, so a non-text drive_run_id, drive, branch or review_dir
+    is accepted and turned into text
+  basis: knowledge/review/code.md rubric, validate input at the boundary; drive-contract.md says every field has
+    a meaning.
+  status: fixed
+  fix: '3893bc30: the checker now requires a positive issue number and non-empty text for drive_run_id, drive, branch
+    and review_dir, and reads a null optional inputs/answers as none; new tests.'
+- id: F3
+  category: executable-code
+  severity: P3
+  file: core/components/plays/play-creator/references/write_drive_review.py
+  title: A run file that says in_drive but lacks a key crashes with a traceback, and one case leaves half a record
+    on disk
+  basis: knowledge/review/code.md rubric, error handling; the script docstring promise.
+  status: fixed
+  fix: '3893bc30: the writer checks in_drive is exactly true and every needed run field before writing anything,
+    so no half record is left; new tests.'
+- id: F4
+  category: executable-code
+  severity: P4
+  file: core/components/plays/play-creator/references/write_drive_review.py
+  title: Odd --ts values and a summary that is already the target file give a traceback instead of exit 2
+  basis: knowledge/review/code.md rubric, error handling; docstring "exit 0 written, 2 usage error".
+  status: fixed
+  fix: '3893bc30: the writer refuses an empty, dotted or path-like timestamp and a summary that is its own target;
+    new tests.'
+- id: F5
+  category: executable-code
+  severity: P4
+  file: core/components/plays/play-creator/references/check_drive_contract.py
+  title: An unwritable --out gives a traceback and exit 1; the docstring lists only exit 0 and 2
+  basis: knowledge/review/code.md rubric, exit codes match docstrings
+  status: fixed
+  fix: '3893bc30: an unwritable run.json now exits 2 with a plain message; the docstring says so.'
+- id: F6
+  category: tests
+  severity: P3
+  file: core/components/plays/play-creator/references/test_drive_contract.py
+  title: Tests cover the plain paths only; the edge cases this review reproduced have no test, and the refuted-deferred
+    case is untested
+  basis: knowledge/review/tests.md rubric, failure cases covered; mutation check above.
+  status: fixed
+  fix: '3893bc30: tests added for a bool and zero issue, a list contract, a null inputs, a missing summary, odd
+    timestamps, a rerun, a lacking run field, and a by-hand run writing nothing; 26 cases.'
+- id: F7
+  category: tests
+  severity: P4
+  file: core/components/plays/play-creator/references/test_gate_learning.py
+  title: Nothing in the suite checks that the 24 stamped gate_eval.py and distill_gate_policy.py copies stay identical
+    to the canonical ones
+  basis: knowledge/review/tests.md rubric; the same pattern the PR already applies to the two new scripts.
+  status: fixed
+  fix: 'dce14390: test_gate_learning.py now checks every copy of gate_eval.py, distill_gate_policy.py and classify_change.py
+    is identical to the canonical one.'
+- id: F8
+  category: stm-run-records
+  severity: P4
+  file: .garura/project/issues/614/context/pr-body.md
+  title: The PR body and self-review are stale against the branch as it now stands
+  basis: pr.md P4 bucket (informational); records are branch-added so not grounding.
+  status: open
+- id: F9
+  category: tests
+  severity: P4
+  file: core/components/plays/play-creator/references/test_drive_contract.py
+  title: Files are opened and never closed in five places
+  basis: knowledge/review/tests.md rubric, tidy test code
+  status: fixed
+  fix: '3893bc30: every file in test_drive_contract.py is opened with `with`; the suite passes under -W error.'
+- id: H1
+  category: harness
+  severity: P2
+  file: null
+  title: F6, SE-7 and REC6 still say a commit before a typed approval, a config skip or a policy auto-pass is a
+    failure; the new in-drive path commits on a deferred answer, so the play's own eval and recovery now contradict
+    it
+  basis: CLAUDE.md Play Pipeline Rules (intent change goes through ICE and recompile; the compiled file is the generated
+    whole); main:core/components/plays/intent/SKILL.md (Done means D2 and SE/SCE-5 state the in-drive reading);
+    main:docs/adr/029-drives.md section 2
+  status: fixed
+  fix: '92e588b5: C7, F6, REC6 (ICE) and the Role line, SE-7 and the F6 row (SKILL) now count a recorded deferral
+    to the drive''s review as a resolved checkpoint inside a drive; fingerprint refreshed; lint PASS.'
+- id: H2
+  category: harness
+  severity: P3
+  file: null
+  title: In a drive the play writes a review record and a deferred ledger line even when the gate would have been
+    skipped by config (gates.plays.vision off)
+  basis: main:core/components/memory/standards/rules/gate-config.md; main:core/components/plays/vision/SKILL.md
+    Step 6 (config skip row); ADR 029 section 2 (no stops for the plays' checkpoints; reviews after)
+  status: fixed
+  fix: '92e588b5: inside a drive the gate resolves exactly as by hand first — a config skip or policy auto-pass
+    is recorded as by hand — and only a would-wait gate is deferred (ICE C11, SKILL Step 6).'
+- id: H3
+  category: harness
+  severity: P3
+  file: null
+  title: Done means cannot tell a drive run from a by-hand run, so F12 and F13 are proven only by step evals, not
+    at close; /intent's Done means names the in-drive reading
+  basis: main:core/components/plays/play-creator/SKILL.md ('Done means (#464)'); main:core/components/plays/intent/stop-condition.yaml
+    D2 ('by hand ... in a drive ...')
+  status: open
+- id: H4
+  category: harness
+  severity: P4
+  file: null
+  title: Contract 'answers' are read into run.json but no step uses them; the play does not list the questions a
+    drive must ask first
+  basis: main:docs/adr/029-drives.md section 2
+  status: open
+- id: H5
+  category: harness
+  severity: P4
+  file: null
+  title: 'ICE ordering: F12 and F13 sit between F10 and F11'
+  basis: main:core/components/plays/vision/reference/ice.md (F1-F11 ascending); CLAUDE.md Play Pipeline Rules
+  status: fixed
+  fix: '92e588b5: F12 and F13 now follow F11 in the ICE.'
+- id: M1
+  category: memory
+  severity: P2
+  file: null
+  title: The rule tells every play to skip its own checkpoint inside a drive but says nothing about a pinned checkpoint,
+    which gate-config says no mechanism may skip
+  basis: Pinned gates NEVER resolve off, with exactly two named exceptions granted by each play's intent (/intent
+    confirm, /adr accept). ADR 029 leaves 'how pinned gates fit a drive' open and says Kickoff is unaffected only
+    because /vision and /understand are conditional. drive-contract.md step 3 ('Do not stop at the play's own checkpoint')
+    is written for any play that runs inside a drive, with no condition, and the rule is the single source plays
+    read.
+  status: fixed
+  fix: 'e8cfab0c: drive-contract.md: a pinned checkpoint is never deferred by a contract — asked up front or it
+    stops the play — unless the play''s own intent names the exception; gate-config.md''s pinned paragraph points
+    there.'
+- id: M2
+  category: memory
+  severity: P3
+  file: null
+  title: The rule does not say a deferred checkpoint is recorded as a Checkpoint Decisions row, though a skipped
+    gate must never be silent
+  basis: A skipped or deferred checkpoint is visible in the play's evidence as a Checkpoint Decisions row; the contract's
+    step 3 only writes a separate review record into review_dir.
+  status: fixed
+  fix: 'e8cfab0c: drive-contract.md step 3 names the Checkpoint Decisions row a deferral records.'
+- id: M3
+  category: memory
+  severity: P3
+  file: null
+  title: How a deferred line is later resolved is left undefined (who writes the real answer, as which ledger line,
+    with what link)
+  basis: 'The ledger is append-only and a later correction is a NEW line with `refutes: <line>`; the learner counts
+    the last `streak` consecutive entries. The new text says the learner skips a deferred line ''until the drive''s
+    review writes the person''s real answer'' but not what that write is. gate_eval.py now forbids `refutes` on
+    a deferred line itself, so the real answer is a fresh crossing line, not a correction of it, which is not stated
+    anywhere.'
+  status: fixed
+  fix: 'e8cfab0c: drive-contract.md step 5 says skips and auto-passes stay as by hand and the drive review appends
+    the real answer as a new line (how: #617).'
+- id: M4
+  category: memory
+  severity: P3
+  file: null
+  title: The rule skips the end sequence (which includes commit-change) yet says the play 'still commits its own
+    work', and never says how
+  basis: commit-change is a member of the end sequence that pipeline-position.md says is skipped; the commit conventions
+    live in commits.md and commit-change. A play that skips commit-change has no stated way to commit to the standard.
+  status: fixed
+  fix: 'e8cfab0c: drive-contract.md step 2 says the play''s own commit step still runs on the drive''s branch; only
+    the injected end sequence is skipped.'
+- id: M5
+  category: memory
+  severity: P3
+  file: null
+  title: '''Questions first'' cannot be carried out from the rule: it never says where a play declares its questions
+    or what an answer id is'
+  basis: ADR 029 requires the drive to read everything its plays need and ask every question their checkpoints would
+    ask before starting, and to stop on any question not answered. The contract has an `answers` map keyed by 'question
+    id', but no committed source or rule defines question ids or where a play lists them.
+  status: open
+- id: M6
+  category: memory
+  severity: P3
+  file: null
+  title: New rule is not listed in rules/_index.md and has no Related section; the two edited rules do not point
+    back to it in theirs
+  basis: Every rule file has a Contents row in _index.md (consumers listed), and the rules that compose with others
+    end with a Related section. drive-contract.md has neither; gate-config.md Related and pipeline-position.md Related
+    are unchanged.
+  status: fixed
+  fix: 'e8cfab0c: drive-contract.md is in rules/_index.md and has a Related section; gate-config.md and pipeline-position.md
+    link back.'
+- id: M7
+  category: memory
+  severity: P3
+  file: null
+  title: pipeline-position.md now says injected steps are skipped inside a drive, but its own injection and Enforced
+    sections, play-creator and lint-components do not carry it; only /vision's hand-compiled SKILL.md does
+  basis: Shared scaffolding must be emitted by play-creator and checked by lint-components so a rebuild converges
+    with the hand edit. pipeline-position.md says play-creator injects the named steps; it does not say it marks
+    them skipped when in_drive. grep finds no 'in_drive' or 'drive' in play-creator/SKILL.md or any lint script,
+    only in the new scripts and vision.
+  status: open
+- id: M8
+  category: memory
+  severity: P3
+  file: null
+  title: The rule claims to be the single source for a drive contract, but /intent already has its own contract
+    check and a different shape
+  basis: 'A rule file is the single source for its domain; a second definition of the same thing drifts. /intent
+    (base-ref SKILL, #612) requires only drive_run_id and branch and writes no review record; the new shared checker
+    requires drive, issue and review_dir as well. pipeline-position.md names /intent ''its own contract check''
+    but drive-contract.md never mentions /intent.'
+  status: fixed
+  fix: 'e8cfab0c: drive-contract.md says one contract serves the whole drive and /intent''s narrower check accepts
+    it.'
+- id: M9
+  category: memory
+  severity: P4
+  file: null
+  title: pipeline-position.md puts a moving 'wired so far' status list inside a standing rule
+  basis: 'The file already carries an ''As compiled today'' list of positions, so the pattern has precedent; the
+    new sentence adds issue numbers and ''follows in #615'', which goes stale on the next merge.'
+  status: open

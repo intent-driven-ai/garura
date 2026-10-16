@@ -1,0 +1,2233 @@
+diff --git a/.garura/project/issues/614/context/analysis.yaml b/.garura/project/issues/614/context/analysis.yaml
+new file mode 100644
+index 00000000..fba185d6
+--- /dev/null
++++ b/.garura/project/issues/614/context/analysis.yaml
+@@ -0,0 +1,64 @@
++needs_judgment: false
++change_groups:
++  - id: drive-contract
++    commit_type: feat
++    scope: drive
++    subject: add shared drive contract and its checks
++    issue: 614
++    files:
++      - core/components/memory/standards/rules/drive-contract.md
++      - core/components/memory/standards/rules/pipeline-position.md
++      - core/components/plays/play-creator/references/check_drive_contract.py
++      - core/components/plays/play-creator/references/test_drive_contract.py
++      - core/components/plays/play-creator/references/write_drive_review.py
++      - core/components/plays/vision/scripts/check_drive_contract.py
++      - core/components/plays/vision/scripts/write_drive_review.py
++  - id: gate-learning-drive-runs
++    commit_type: feat
++    scope: checkpoint
++    subject: record drive runs as deferred in checkpoint learning
++    issue: 614
++    files:
++      - core/components/plays/agentic/scripts/distill_gate_policy.py
++      - core/components/plays/agentic/scripts/gate_eval.py
++      - core/components/plays/arch/scripts/distill_gate_policy.py
++      - core/components/plays/arch/scripts/gate_eval.py
++      - core/components/plays/marketing/scripts/distill_gate_policy.py
++      - core/components/plays/marketing/scripts/gate_eval.py
++      - core/components/plays/measure/scripts/distill_gate_policy.py
++      - core/components/plays/measure/scripts/gate_eval.py
++      - core/components/plays/play-creator/references/distill_gate_policy.py
++      - core/components/plays/play-creator/references/gate_eval.py
++      - core/components/plays/play-creator/references/test_gate_learning.py
++      - core/components/plays/quality/scripts/distill_gate_policy.py
++      - core/components/plays/quality/scripts/gate_eval.py
++      - core/components/plays/roadmap/scripts/distill_gate_policy.py
++      - core/components/plays/roadmap/scripts/gate_eval.py
++      - core/components/plays/run/scripts/distill_gate_policy.py
++      - core/components/plays/run/scripts/gate_eval.py
++      - core/components/plays/shape/scripts/distill_gate_policy.py
++      - core/components/plays/shape/scripts/gate_eval.py
++      - core/components/plays/understand/scripts/distill_gate_policy.py
++      - core/components/plays/understand/scripts/gate_eval.py
++      - core/components/plays/ux/scripts/distill_gate_policy.py
++      - core/components/plays/ux/scripts/gate_eval.py
++      - core/components/plays/vision/scripts/distill_gate_policy.py
++      - core/components/plays/vision/scripts/gate_eval.py
++  - id: vision-runs-in-drive
++    commit_type: feat
++    scope: vision
++    subject: let vision run inside a drive
++    issue: 614
++    files:
++      - core/components/plays/vision/SKILL.md
++      - core/components/plays/vision/reference/ice.md
++  - id: stm-614-plan
++    commit_type: chore
++    scope: stm
++    subject: record the plan for vision inside a drive
++    issue: 614
++    files:
++      - .garura/project/issues/614/specs/plan.md
++exclusions: []
++risks:
++  sensitive_files: []
+diff --git a/.garura/project/issues/614/context/branch.json b/.garura/project/issues/614/context/branch.json
+new file mode 100644
+index 00000000..ed90c5a5
+--- /dev/null
++++ b/.garura/project/issues/614/context/branch.json
+@@ -0,0 +1,6 @@
++{
++  "branch_name": "feature/614-vision-runs-inside-a-drive",
++  "base_sha": "191439946ffd77582b87bf0f92954a8749384b97",
++  "on_default_branch": false,
++  "worktree_path": null
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/614/context/commits.yaml b/.garura/project/issues/614/context/commits.yaml
+new file mode 100644
+index 00000000..f3a612b4
+--- /dev/null
++++ b/.garura/project/issues/614/context/commits.yaml
+@@ -0,0 +1,58 @@
++commits:
++  - sha: 772b4af7
++    message: "feat(drive): add shared drive contract and its checks (#614)"
++    files:
++      - core/components/memory/standards/rules/drive-contract.md
++      - core/components/memory/standards/rules/pipeline-position.md
++      - core/components/plays/play-creator/references/check_drive_contract.py
++      - core/components/plays/play-creator/references/test_drive_contract.py
++      - core/components/plays/play-creator/references/write_drive_review.py
++      - core/components/plays/vision/scripts/check_drive_contract.py
++      - core/components/plays/vision/scripts/write_drive_review.py
++    branch: feature/614-vision-runs-inside-a-drive
++  - sha: e4efe80f
++    message: "feat(checkpoint): record drive runs as deferred in checkpoint learning (#614)"
++    files:
++      - core/components/plays/agentic/scripts/distill_gate_policy.py
++      - core/components/plays/agentic/scripts/gate_eval.py
++      - core/components/plays/arch/scripts/distill_gate_policy.py
++      - core/components/plays/arch/scripts/gate_eval.py
++      - core/components/plays/marketing/scripts/distill_gate_policy.py
++      - core/components/plays/marketing/scripts/gate_eval.py
++      - core/components/plays/measure/scripts/distill_gate_policy.py
++      - core/components/plays/measure/scripts/gate_eval.py
++      - core/components/plays/play-creator/references/distill_gate_policy.py
++      - core/components/plays/play-creator/references/gate_eval.py
++      - core/components/plays/play-creator/references/test_gate_learning.py
++      - core/components/plays/quality/scripts/distill_gate_policy.py
++      - core/components/plays/quality/scripts/gate_eval.py
++      - core/components/plays/roadmap/scripts/distill_gate_policy.py
++      - core/components/plays/roadmap/scripts/gate_eval.py
++      - core/components/plays/run/scripts/distill_gate_policy.py
++      - core/components/plays/run/scripts/gate_eval.py
++      - core/components/plays/shape/scripts/distill_gate_policy.py
++      - core/components/plays/shape/scripts/gate_eval.py
++      - core/components/plays/understand/scripts/distill_gate_policy.py
++      - core/components/plays/understand/scripts/gate_eval.py
++      - core/components/plays/ux/scripts/distill_gate_policy.py
++      - core/components/plays/ux/scripts/gate_eval.py
++      - core/components/plays/vision/scripts/distill_gate_policy.py
++      - core/components/plays/vision/scripts/gate_eval.py
++    branch: feature/614-vision-runs-inside-a-drive
++  - sha: 4add9e37
++    message: "feat(vision): let vision run inside a drive (#614)"
++    files:
++      - core/components/plays/vision/SKILL.md
++      - core/components/plays/vision/reference/ice.md
++    branch: feature/614-vision-runs-inside-a-drive
++  - sha: bbb3e2ba
++    message: "chore(stm): record the plan for vision inside a drive (#614)"
++    files:
++      - .garura/project/issues/614/specs/plan.md
++    branch: feature/614-vision-runs-inside-a-drive
++excluded_files:
++  []
++leftover_count: 0
++tree_clean: true
++pushed: false
++run_state_committed: true
+diff --git a/.garura/project/issues/614/context/issue.json b/.garura/project/issues/614/context/issue.json
+new file mode 100644
+index 00000000..168022d8
+--- /dev/null
++++ b/.garura/project/issues/614/context/issue.json
+@@ -0,0 +1 @@
++{ "resolved": true, "issue_number": 614, "title": "/vision runs inside a drive without stopping, and its review happens after the drive", "created": false }
+diff --git a/.garura/project/issues/614/context/plan-check.json b/.garura/project/issues/614/context/plan-check.json
+new file mode 100644
+index 00000000..025b8a2a
+--- /dev/null
++++ b/.garura/project/issues/614/context/plan-check.json
+@@ -0,0 +1,12 @@
++{
++  "valid": true,
++  "done": false,
++  "status": "active",
++  "now": "4",
++  "open_items": [
++    4
++  ],
++  "serves_plan": "/Users/kapilahuja/cto/builder/garura/.garura/project/issues/606/specs/plan.md",
++  "problems": [],
++  "plan": ".garura/project/issues/614/specs/plan.md"
++}
+diff --git a/.garura/project/issues/614/context/porcelain.txt b/.garura/project/issues/614/context/porcelain.txt
+new file mode 100644
+index 00000000..9d82d18c
+--- /dev/null
++++ b/.garura/project/issues/614/context/porcelain.txt
+@@ -0,0 +1,37 @@
++ M core/components/memory/standards/rules/pipeline-position.md
++ M core/components/plays/agentic/scripts/distill_gate_policy.py
++ M core/components/plays/agentic/scripts/gate_eval.py
++ M core/components/plays/arch/scripts/distill_gate_policy.py
++ M core/components/plays/arch/scripts/gate_eval.py
++ M core/components/plays/marketing/scripts/distill_gate_policy.py
++ M core/components/plays/marketing/scripts/gate_eval.py
++ M core/components/plays/measure/scripts/distill_gate_policy.py
++ M core/components/plays/measure/scripts/gate_eval.py
++ M core/components/plays/play-creator/references/distill_gate_policy.py
++ M core/components/plays/play-creator/references/gate_eval.py
++ M core/components/plays/play-creator/references/test_gate_learning.py
++ M core/components/plays/quality/scripts/distill_gate_policy.py
++ M core/components/plays/quality/scripts/gate_eval.py
++ M core/components/plays/roadmap/scripts/distill_gate_policy.py
++ M core/components/plays/roadmap/scripts/gate_eval.py
++ M core/components/plays/run/scripts/distill_gate_policy.py
++ M core/components/plays/run/scripts/gate_eval.py
++ M core/components/plays/shape/scripts/distill_gate_policy.py
++ M core/components/plays/shape/scripts/gate_eval.py
++ M core/components/plays/understand/scripts/distill_gate_policy.py
++ M core/components/plays/understand/scripts/gate_eval.py
++ M core/components/plays/ux/scripts/distill_gate_policy.py
++ M core/components/plays/ux/scripts/gate_eval.py
++ M core/components/plays/vision/SKILL.md
++ M core/components/plays/vision/reference/ice.md
++ M core/components/plays/vision/scripts/distill_gate_policy.py
++ M core/components/plays/vision/scripts/gate_eval.py
++?? .garura/project/issues/614/context/plan-check.json
++?? .garura/project/issues/614/context/porcelain.txt
++?? .garura/project/issues/614/specs/
++?? core/components/memory/standards/rules/drive-contract.md
++?? core/components/plays/play-creator/references/check_drive_contract.py
++?? core/components/plays/play-creator/references/test_drive_contract.py
++?? core/components/plays/play-creator/references/write_drive_review.py
++?? core/components/plays/vision/scripts/check_drive_contract.py
++?? core/components/plays/vision/scripts/write_drive_review.py
+diff --git a/.garura/project/issues/614/context/pr-body.md b/.garura/project/issues/614/context/pr-body.md
+new file mode 100644
+index 00000000..92dcd6be
+--- /dev/null
++++ b/.garura/project/issues/614/context/pr-body.md
+@@ -0,0 +1,117 @@
++Closes #614.
++
++## What this changes
++
++`/vision` can now run inside a **drive**. A drive is a run of plays that keeps going until its goal is met, then gets reviewed (ADR 029). This is item 5 of the #606 plan, one of the three pieces the Kickoff drive (#613) needs.
++
++- **Handed a drive's contract, `/vision` opens nothing.** It runs no `start-change`, and no commit, propose, review or merge of its own. It works on the drive's branch and still commits its model change there.
++- **It does not wait at its checkpoint.** It renders the checkpoint exactly as it would have been shown, then saves it, with the files it stands on, as a review record in the drive's review folder for the drive's end review.
++- **A question the drive did not answer still stops it.** With no intents and no goal, it asks the person. It never picks an answer itself (ADR 029: a new question stops the drive).
++- **Run by hand, nothing changes.**
++
++## Kapil's two choices (recorded in `.garura/project/issues/614/specs/plan.md`)
++
++1. **One shared drive contract.** A new rule, `standards/rules/drive-contract.md`, says what a drive hands a play. There is one shared checker (`check_drive_contract.py`) and one shared review-record writer (`write_drive_review.py`), canonical in `play-creator/references/` and stamped into `/vision`. `/intent` keeps its own check for now; `/understand` (#615) will use the shared one.
++2. **The checkpoint keeps learning from drives.** `gate_eval.py` takes a new answer, `deferred_to_drive_review`. `distill_gate_policy.py` skips it: it is not an approval and does not break a run of approvals, until the drive's review writes the person's real answer (that write-back is #617 / #613 work).
++
++## Where to look
++
++24 of the files are identical copies of two small edits to `gate_eval.py` and `distill_gate_policy.py`, one per play. Review the canonical copies in `core/components/plays/play-creator/references/`. The intent change went through `core/components/plays/vision/reference/ice.md` (C11, F12, F13, S7) and was recompiled; the fingerprint is refreshed.
++
++## Tests
++
++- All 21 test files under `core/` pass. New: `test_drive_contract.py` (14), plus 2 new cases in `test_gate_learning.py`.
++- `lint_play` passes on `/vision`.
++- All shared-script copies are byte-identical.
++
++## Not in this change
++
++- `/intent` moving to the shared contract checker.
++- The drive's review writing the person's real answer back into the checkpoint's learning record (#617 / #613).
++
++<details><summary>Self-review (scope + quality)</summary>
++
++# Self-Review — #614 (feature/614-vision-runs-inside-a-drive)
++
++Rules: /Users/kapilahuja/.garura/core/memory/standards/rules/self-review.md (resolved, base, not an override; record at .garura/project/issues/614/context/resolved-rules.json).
++This review is informational. The rules file says it never blocks the raise on its own, so no item below is marked as a blocker.
++
++## Branch Info
++
++- Branch: feature/614-vision-runs-inside-a-drive
++- Base: main
++- Branch pattern: feature
++- Commits: 6
++- Files changed: 42 (34 under core/, 8 under .garura/project/issues/614/)
++- Size: total +1111 / -50
++
++## Suggested PR Title
++
++```
++feat(vision): let /vision run inside a drive without stopping (#614)
++```
++
++## Scope in play
++
++Issue #614: "/vision runs inside a drive without stopping, and its review happens after the drive" (ADR 029 sections 2 and 3). On 2026-10-17 Kapil chose, in .garura/project/issues/614/specs/plan.md ("Decided"): (1) one shared drive contract, meaning a rule plus one shared checker plus a review-record writer, canonical in play-creator/references and stamped into vision/scripts; (2) the checkpoint keeps learning from drives, meaning gate_eval.py accepts the `deferred_to_drive_review` answer and distill_gate_policy.py skips it, in the canonical copy and identical copies in 11 plays. Those shared files are in scope by that decision. Out of scope by the plan and not touched: /intent moving to the shared checker; the drive review writing the real answer back (#617 / #613).
++
++## Context Detected
++
++| Pattern | Files |
++|---------|-------|
++| Python scripts and tests (code) | 30 under core/ (24 are identical shared-script copies; 4 are the 2 new scripts, each canonical plus a stamped copy; 2 test files) |
++| Markdown (vision SKILL, vision ICE, new drive-contract rule, pipeline-position rule) | 4 |
++| STM record files for this issue | 8 (7 under context/, plus specs/plan.md) |
++| Auth / security / migrations / UI | none |
++
++| Commit type | Count | Example |
++|-------------|-------|---------|
++| feat | 3 | feat(vision): let vision run inside a drive (#614) |
++| chore | 3 | chore(stm): record the plan for vision inside a drive (#614) |
++
++## Scope Checks
++
++| Item | Status | Evidence |
++|------|--------|----------|
++| Matches the issue | PASS | Every area changed maps to the issue and Kapil's two recorded choices: drive-contract.md, check_drive_contract.py and write_drive_review.py (canonical + vision copies), gate_eval.py and distill_gate_policy.py (12 copies each), vision ICE + SKILL.md, the drive note in pipeline-position.md, and the tests for the new scripts. |
++| No scope creep | PASS | Copy sets verified by checksum: gate_eval.py 12 files, one checksum (5bf52a92...); distill_gate_policy.py 12 files, one checksum (253685f4...); check_drive_contract.py 2 files, one checksum; write_drive_review.py 2 files, one checksum. No edits to /intent, to the drive's review, or to any play that does not carry the gate scripts. |
++| Reasonable size | REVIEW | 42 files and +1111 lines, but 24 of the core files are mechanical identical copies of two small edits (about 15 lines each). The PR description should say so and point reviewers at the canonical copies in play-creator/references, drive-contract.md, and vision/reference/ice.md. |
++| No stray artifacts | PASS | No pycache, .pyc, .DS_Store, env, key or scratch files in the diff. No leftover TODO/FIXME or debug prints in added core lines (the print calls are the scripts' intended JSON output and test reporting). Working tree has one untracked file, .garura/project/issues/614/context/resolved-rules.json, which is this run's own record, not part of the commits. |
++| STM files in the diff | PASS | The 8 files under .garura/project/issues/614/ are record files committed on purpose by chore(stm) commits. |
++
++## Quality Checks
++
++| Item | Status | Evidence |
++|------|--------|----------|
++| Tests present | PASS | All 21 test files under core/ run and pass (run directly, since pytest is not installed): drive contract 14, gate learning 8 classifier + 10 learner, vision scripts 32, vision lint 30, intent 103, and the rest all report zero failures. New tests came with the change: test_drive_contract.py (new), test_gate_learning.py (extended for the deferred answer). The vision SKILL's new step and scenario evals (SE-13, SE-14, SCE-7) are prose evals, run by the play, not by a script test. |
++| Play lint | PASS | lint_play.py on vision/SKILL.md gives VERDICT: PASS (0 gaps), including the fingerprint, failure-coverage, scenario-coverage and recovery 1:1 checks. |
++| ICE fingerprint | PASS | shasum of vision/reference/ice.md is 658fba576ce177d577c73d078b3269acb584d10df8570f8642cc751ec03d8b8e, equal to the fingerprint in the SKILL.md metadata table. |
++| Commits are clean | PASS | All 6 commits are conventional (feat / chore) and all 6 name #614. One subject is long, see note N3. |
++| No secrets | PASS | Pattern scan of added core lines (password, secret, api_key, token) found nothing. No credential values. |
++| No merge conflicts | PASS | git merge-tree --write-tree main HEAD returns a clean tree (5b803612...), exit 0, no conflict. |
++| Docs in step | REVIEW | The new `deferred_to_drive_review` answer is documented in drive-contract.md, in the two scripts, and in pipeline-position.md, but the standard that defines the ledger's answers, standards/rules/gate-config.md (line 54), still lists only approved_clean, approved_edited, rejected and auto_pass. See note N1. |
++| Nothing obviously broken | PASS | gate_eval.py rejects a deferred line that pairs with predicted=auto or is a correction; the learner skips it without breaking a streak (covered by test_gate_learning.py). The checker halts on a bad contract or a branch mismatch (covered by test_drive_contract.py). No known-failing path introduced. |
++
++## Blocking Issues
++
++None. Zero items are marked as stopping the raise. Ready to raise.
++
++## Non-blocking Notes
++
++- N1 (docs in step): add `deferred_to_drive_review` to the list of human actions in core/components/memory/standards/rules/gate-config.md (line 54) and note in the learner paragraph that it is skipped. core/components/memory/standards/templates/approval-prompt.md also lists the four answers but is about what a person answers at a prompt, so it likely needs no change. Small follow-up or a tiny extra commit.
++- N2 (play compiled by hand?): the issue says "Changed through its ICE source and /play-editor". ICE and SKILL.md are consistent (fingerprint matches, lint passes), and the SKILL's compiled_by line now names play-editor for #614. The SKILL.md already carries an older note (from #500) that no interactive play-editor convergence run has been done. This diff does not add a convergence run, so that caveat still stands for the reviewer. Not new, not caused by this change.
++- N3 (commit subject length): the subject of e4efe80f "feat(checkpoint): record drive runs as deferred in checkpoint learning (#614)" is about 78 characters, a little over the usual 72. Cosmetic.
++- N4 (ICE ordering): in vision/reference/ice.md the new F12 and F13 sit before F11 in the failure list. The SKILL.md recovery table has them in order. Cosmetic.
++- N5 (history line in SKILL.md): the diff appends "#614" to the "compiled from the vision ICE" history sentence and to compiled_by, following the file's existing pattern. The project's rule is that edit history belongs in the commit and the issue, not the SKILL; the pattern predates this change and these two lines are the generated provenance fields. Mention only.
++- N6 (size): see "Reasonable size" above. Put the mechanical-copies explanation in the PR body.
++- N7 (plan record): plan.md says "Items 1 to 3 are built on the branch, not committed yet" in its Where we are now section, but they are committed on this branch. It is a plan line to refresh when the PR lands.
++
++## Readiness Assessment
++
++- Ready: yes
++- Blocking count: 0
++- Review required: 2 (size justification in the PR body; gate-config.md answer list)
++
++</details>
++
++🤖 Generated with [Claude Code](https://claude.com/claude-code)
+diff --git a/.garura/project/issues/614/context/pr.json b/.garura/project/issues/614/context/pr.json
+new file mode 100644
+index 00000000..304b43cc
+--- /dev/null
++++ b/.garura/project/issues/614/context/pr.json
+@@ -0,0 +1,6 @@
++{
++  "number": 639,
++  "url": "https://github.com/intent-driven-ai/garura/pull/639",
++  "state": "OPEN",
++  "base": "main"
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/614/context/resolved-rules.json b/.garura/project/issues/614/context/resolved-rules.json
+new file mode 100644
+index 00000000..70b8f431
+--- /dev/null
++++ b/.garura/project/issues/614/context/resolved-rules.json
+@@ -0,0 +1,6 @@
++{
++  "resolved": true,
++  "path": "/Users/kapilahuja/.garura/core/memory/standards/rules/self-review.md",
++  "source": "/Users/kapilahuja/.garura/core/memory/standards/rules",
++  "is_override": false
++}
+diff --git a/.garura/project/issues/614/context/self-review.md b/.garura/project/issues/614/context/self-review.md
+new file mode 100644
+index 00000000..aaded0cd
+--- /dev/null
++++ b/.garura/project/issues/614/context/self-review.md
+@@ -0,0 +1,80 @@
++# Self-Review — #614 (feature/614-vision-runs-inside-a-drive)
++
++Rules: /Users/kapilahuja/.garura/core/memory/standards/rules/self-review.md (resolved, base, not an override; record at .garura/project/issues/614/context/resolved-rules.json).
++This review is informational. The rules file says it never blocks the raise on its own, so no item below is marked as a blocker.
++
++## Branch Info
++
++- Branch: feature/614-vision-runs-inside-a-drive
++- Base: main
++- Branch pattern: feature
++- Commits: 6
++- Files changed: 42 (34 under core/, 8 under .garura/project/issues/614/)
++- Size: total +1111 / -50
++
++## Suggested PR Title
++
++```
++feat(vision): let /vision run inside a drive without stopping (#614)
++```
++
++## Scope in play
++
++Issue #614: "/vision runs inside a drive without stopping, and its review happens after the drive" (ADR 029 sections 2 and 3). On 2026-10-17 Kapil chose, in .garura/project/issues/614/specs/plan.md ("Decided"): (1) one shared drive contract, meaning a rule plus one shared checker plus a review-record writer, canonical in play-creator/references and stamped into vision/scripts; (2) the checkpoint keeps learning from drives, meaning gate_eval.py accepts the `deferred_to_drive_review` answer and distill_gate_policy.py skips it, in the canonical copy and identical copies in 11 plays. Those shared files are in scope by that decision. Out of scope by the plan and not touched: /intent moving to the shared checker; the drive review writing the real answer back (#617 / #613).
++
++## Context Detected
++
++| Pattern | Files |
++|---------|-------|
++| Python scripts and tests (code) | 30 under core/ (24 are identical shared-script copies; 4 are the 2 new scripts, each canonical plus a stamped copy; 2 test files) |
++| Markdown (vision SKILL, vision ICE, new drive-contract rule, pipeline-position rule) | 4 |
++| STM record files for this issue | 8 (7 under context/, plus specs/plan.md) |
++| Auth / security / migrations / UI | none |
++
++| Commit type | Count | Example |
++|-------------|-------|---------|
++| feat | 3 | feat(vision): let vision run inside a drive (#614) |
++| chore | 3 | chore(stm): record the plan for vision inside a drive (#614) |
++
++## Scope Checks
++
++| Item | Status | Evidence |
++|------|--------|----------|
++| Matches the issue | PASS | Every area changed maps to the issue and Kapil's two recorded choices: drive-contract.md, check_drive_contract.py and write_drive_review.py (canonical + vision copies), gate_eval.py and distill_gate_policy.py (12 copies each), vision ICE + SKILL.md, the drive note in pipeline-position.md, and the tests for the new scripts. |
++| No scope creep | PASS | Copy sets verified by checksum: gate_eval.py 12 files, one checksum (5bf52a92...); distill_gate_policy.py 12 files, one checksum (253685f4...); check_drive_contract.py 2 files, one checksum; write_drive_review.py 2 files, one checksum. No edits to /intent, to the drive's review, or to any play that does not carry the gate scripts. |
++| Reasonable size | REVIEW | 42 files and +1111 lines, but 24 of the core files are mechanical identical copies of two small edits (about 15 lines each). The PR description should say so and point reviewers at the canonical copies in play-creator/references, drive-contract.md, and vision/reference/ice.md. |
++| No stray artifacts | PASS | No pycache, .pyc, .DS_Store, env, key or scratch files in the diff. No leftover TODO/FIXME or debug prints in added core lines (the print calls are the scripts' intended JSON output and test reporting). Working tree has one untracked file, .garura/project/issues/614/context/resolved-rules.json, which is this run's own record, not part of the commits. |
++| STM files in the diff | PASS | The 8 files under .garura/project/issues/614/ are record files committed on purpose by chore(stm) commits. |
++
++## Quality Checks
++
++| Item | Status | Evidence |
++|------|--------|----------|
++| Tests present | PASS | All 21 test files under core/ run and pass (run directly, since pytest is not installed): drive contract 14, gate learning 8 classifier + 10 learner, vision scripts 32, vision lint 30, intent 103, and the rest all report zero failures. New tests came with the change: test_drive_contract.py (new), test_gate_learning.py (extended for the deferred answer). The vision SKILL's new step and scenario evals (SE-13, SE-14, SCE-7) are prose evals, run by the play, not by a script test. |
++| Play lint | PASS | lint_play.py on vision/SKILL.md gives VERDICT: PASS (0 gaps), including the fingerprint, failure-coverage, scenario-coverage and recovery 1:1 checks. |
++| ICE fingerprint | PASS | shasum of vision/reference/ice.md is 658fba576ce177d577c73d078b3269acb584d10df8570f8642cc751ec03d8b8e, equal to the fingerprint in the SKILL.md metadata table. |
++| Commits are clean | PASS | All 6 commits are conventional (feat / chore) and all 6 name #614. One subject is long, see note N3. |
++| No secrets | PASS | Pattern scan of added core lines (password, secret, api_key, token) found nothing. No credential values. |
++| No merge conflicts | PASS | git merge-tree --write-tree main HEAD returns a clean tree (5b803612...), exit 0, no conflict. |
++| Docs in step | REVIEW | The new `deferred_to_drive_review` answer is documented in drive-contract.md, in the two scripts, and in pipeline-position.md, but the standard that defines the ledger's answers, standards/rules/gate-config.md (line 54), still lists only approved_clean, approved_edited, rejected and auto_pass. See note N1. |
++| Nothing obviously broken | PASS | gate_eval.py rejects a deferred line that pairs with predicted=auto or is a correction; the learner skips it without breaking a streak (covered by test_gate_learning.py). The checker halts on a bad contract or a branch mismatch (covered by test_drive_contract.py). No known-failing path introduced. |
++
++## Blocking Issues
++
++None. Zero items are marked as stopping the raise. Ready to raise.
++
++## Non-blocking Notes
++
++- N1 (docs in step): add `deferred_to_drive_review` to the list of human actions in core/components/memory/standards/rules/gate-config.md (line 54) and note in the learner paragraph that it is skipped. core/components/memory/standards/templates/approval-prompt.md also lists the four answers but is about what a person answers at a prompt, so it likely needs no change. Small follow-up or a tiny extra commit.
++- N2 (play compiled by hand?): the issue says "Changed through its ICE source and /play-editor". ICE and SKILL.md are consistent (fingerprint matches, lint passes), and the SKILL's compiled_by line now names play-editor for #614. The SKILL.md already carries an older note (from #500) that no interactive play-editor convergence run has been done. This diff does not add a convergence run, so that caveat still stands for the reviewer. Not new, not caused by this change.
++- N3 (commit subject length): the subject of e4efe80f "feat(checkpoint): record drive runs as deferred in checkpoint learning (#614)" is about 78 characters, a little over the usual 72. Cosmetic.
++- N4 (ICE ordering): in vision/reference/ice.md the new F12 and F13 sit before F11 in the failure list. The SKILL.md recovery table has them in order. Cosmetic.
++- N5 (history line in SKILL.md): the diff appends "#614" to the "compiled from the vision ICE" history sentence and to compiled_by, following the file's existing pattern. The project's rule is that edit history belongs in the commit and the issue, not the SKILL; the pattern predates this change and these two lines are the generated provenance fields. Mention only.
++- N6 (size): see "Reasonable size" above. Put the mechanical-copies explanation in the PR body.
++- N7 (plan record): plan.md says "Items 1 to 3 are built on the branch, not committed yet" in its Where we are now section, but they are committed on this branch. It is a plan line to refresh when the PR lands.
++
++## Readiness Assessment
++
++- Ready: yes
++- Blocking count: 0
++- Review required: 2 (size justification in the PR body; gate-config.md answer list)
+diff --git a/.garura/project/issues/614/context/work-description.txt b/.garura/project/issues/614/context/work-description.txt
+new file mode 100644
+index 00000000..b50bf8d0
+--- /dev/null
++++ b/.garura/project/issues/614/context/work-description.txt
+@@ -0,0 +1,22 @@
++/vision runs inside a drive without stopping, and its review happens after the drive
++
++> Parent: #594 (drives). Decided in spike #607; source of truth: [ADR 029 — Drives](docs/adr/029-drives.md).
++
++## What
++
++When a drive runs `/vision`, the drive passes it what it needs, so `/vision` does not stop at its checkpoint. Its review happens after the drive ends. Run by hand, `/vision` keeps its checkpoint as its gate settings say.
++
++Inside a drive, `/vision` opens no issue or branch: today the pipeline-position rule adds `/start-change` to its head (`pipeline-position.md`), and that must be skipped inside a drive.
++
++## Acceptance criteria
++
++- [ ] Inside a drive, `/vision` takes its answers from the drive and does not wait at its checkpoint.
++- [ ] Inside a drive, `/vision` does not run `/start-change` and works on the drive's branch.
++- [ ] Its review record is kept so the drive review can use it.
++- [ ] Run by hand, `/vision` behaves as today.
++- [ ] Changed through its ICE source and `/play-editor`.
++
++## Out of scope
++
++- Breaking the hard chain with `/understand` (its own Story).
++- Taking a prototype directly — that is `/intent`'s job.
+diff --git a/.garura/project/issues/614/specs/plan.md b/.garura/project/issues/614/specs/plan.md
+new file mode 100644
+index 00000000..2a298c11
+--- /dev/null
++++ b/.garura/project/issues/614/specs/plan.md
+@@ -0,0 +1,98 @@
++---
++plan_for: 614
++kind: story
++serves: "#614 — /vision runs inside a drive without stopping, and its review happens after the drive"
++status: active
++updated: 2026-10-17
++now: 4
++serves_plan: 606
++serves_item: 5
++---
++
++# Plan — #614: `/vision` runs inside a drive
++
++This is a plan, not a design. It says what gets done, in what order, and why
++that order. How each item is built is decided in its own issue.
++
++## What we are trying to reach
++
++A **drive** is a run of plays that keeps going until its goal is met, then gets
++reviewed (ADR 029). The first drive, Kickoff, runs `/intent`, then `/vision`,
++then `/understand`. ADR 029 says how a drive runs: it asks every question its
++plays would ask **before** it starts, it does not stop for the plays' own
++checkpoints, and the plays' reviews happen **after** the drive ends. The drive
++owns one issue, one branch and one pull request; the plays inside it open none
++of their own.
++
++`/intent` can already run this way: handed a drive's contract (a small JSON
++file naming the drive's run and branch), it opens nothing of its own, skips its
++approval stop, and writes on the drive's branch.
++
++`/vision` cannot. Run inside a drive today, it would open its own issue and
++branch (`/start-change` is added to its head), stop at its checkpoint to wait
++for a person, and then raise and merge its own pull request. Kickoff cannot run
++without stopping until this changes.
++
++## When this plan is done
++
++- Handed a drive's contract, `/vision` opens no issue or branch, runs no end
++  sequence (commit, propose, review, merge), and works on the drive's branch.
++- Inside a drive it does not wait at its checkpoint. It writes down what the
++  checkpoint would have shown — the change, its shape, its warnings — as a
++  review record the drive's end review reads.
++- A question the drive did not answer up front still stops `/vision` and asks;
++  it never picks an answer itself (ADR 029).
++- Run by hand, `/vision` works exactly as it does today.
++- The change is merged; the play lint and the scripts' tests pass.
++
++## Where we are now
++
++Items 1 to 3 are built and committed on the branch, not merged yet. All 21 test files
++pass and `/vision` passes the play lint. Now: item 4, landing the change.
++
++Still not done after this issue: `/intent` keeps its own contract check until
++it moves to the shared one, and the drive's review writing the person's real
++answer into the checkpoint's learning record is #617 / #613 work.
++
++## The plan, in order
++
++### Done
++
++- **1. Built: what `/vision` promises inside a drive** — #614. Its ICE gains C11
++  (runs inside a drive), F12, F13, S7 and their recovery. Run by hand, every
++  promise stands. Not merged.
++- **2. Built: the pieces that keep those promises** — #614. A shared rule
++  (`standards/rules/drive-contract.md`), a shared contract checker and a shared
++  review-record writer (canonical in play-creator references, stamped into
++  `/vision`), and the checkpoint's learning scripts now take a
++  `deferred_to_drive_review` answer that they skip (12 copies each). Tests
++  pass. Not merged.
++- **3. Built: `/vision` rebuilt** — #614. Recompiled from its ICE, fingerprint
++  refreshed, play lint clean; the pipeline-position rule's drive note updated.
++  Not merged.
++
++### 4. Land the change — now
++
++**Issue:** #614.
++**What:** commit, raise the pull request, review, merge.
++**Why here:** last.
++**Done when:** merged to main, and #606's plan shows item 5 done.
++**Needs:** item 3.
++
++## Decided (Kapil, 2026-10-17: "A and A")
++
++1. **One shared drive contract.** A rule says what a drive contract holds, and
++   one shared checker script checks it. `/vision` uses it now; `/intent` and
++   `/understand` (#615) move to it later.
++2. **The checkpoint still learns from drives.** Inside a drive, `/vision`
++   records its checkpoint as "decided at the drive's review". That line neither
++   counts as an approval nor breaks a run of approvals, until the drive's review
++   writes the person's real answer (that write is #617 / #613 work).
++
++## Log
++
++- 2026-10-17 — Plan written from #614, ADR 029 (parts 2–4), and how `/intent`
++  already runs inside a drive. Two choices left for Kapil.
++- 2026-10-17 — Kapil chose A and A: one shared drive contract (rule + checker),
++  and the checkpoint records drive runs as decided at the drive's review.
++- 2026-10-17 — Items 1 to 3 built. All tests and the play lint pass. Now on item 4.
+diff --git a/core/components/memory/standards/rules/drive-contract.md b/core/components/memory/standards/rules/drive-contract.md
+new file mode 100644
+index 00000000..752a88e5
+--- /dev/null
++++ b/core/components/memory/standards/rules/drive-contract.md
+@@ -0,0 +1,61 @@
++# Drive Contract
++
++Single source of what a **drive contract** holds and how a play runs when it is handed
++one (ADR 029; #614). A drive is a run of plays that keeps going until its goal is met,
++then gets reviewed. The drive owns one issue, one branch and one pull request; the plays
++inside it open none of their own. The contract is how a drive hands a play what it needs.
++
++Canonical checker: `play-creator/references/check_drive_contract.py`, stamped into each
++play that can run inside a drive. Canonical review-record writer:
++`play-creator/references/write_drive_review.py`. Plays read this rule; they do not
++restate it.
++
++## What a contract holds
++
++A JSON file, passed to the play as `--contract <path>`:
++
++```json
++{
++  "drive_run_id": "kickoff-20261017-120000",
++  "drive": "kickoff",
++  "branch": "feature/613-kickoff",
++  "issue": 613,
++  "review_dir": ".garura/project/issues/613/review/drive/",
++  "inputs":  { "<play>": { "<input name>": "<path or value>" } },
++  "answers": { "<play>": { "<question id>": "<the person's answer, asked before the drive started>" } }
++}
++```
++
++| Field | Required | Meaning |
++|-------|----------|---------|
++| `drive_run_id` | yes | The drive's run id; every play records it, so the drive's review can find each play's record. |
++| `drive` | yes | Which drive is running (e.g. `kickoff`). |
++| `branch` | yes | The drive's branch. The play must already be on it. |
++| `issue` | yes | The drive's main issue. |
++| `review_dir` | yes | Where each play writes its review record for the drive's end review. |
++| `inputs` | no | Per play, the inputs the drive hands it (paths, or values such as intent ids). |
++| `answers` | no | Per play, the answers to the questions the play would ask, gathered before the drive started (ADR 029: questions first). |
++
++## How a play runs inside a drive
++
++1. **Check the contract first.** Run `check_drive_contract.py`. It writes `run.json`
++   (`in_drive`, `drive_run_id`, `branch`, `issue`, `review_dir`, the play's own
++   `inputs` and `answers`). An invalid contract, or a current branch that is not the
++   contract's branch, is a hard halt. With no `--contract`, it writes `in_drive: false`
++   and the play runs by hand, unchanged.
++2. **Open nothing.** Skip the injected `start-change` and the injected end sequence
++   (commit-change → propose-change → review-change → merge-change). The drive opens and
++   lands the change. The play still commits its own work on the drive's branch.
++3. **Do not stop at the play's own checkpoint.** Write what the checkpoint would have
++   shown — its summary and the files it stands on — as a review record, with
++   `write_drive_review.py`, into `review_dir`. The drive's end review reads it.
++4. **A question the drive did not answer still stops the play.** The play asks the
++   person and never picks an answer for itself (ADR 029: a new question stops the
++   drive).
++5. **A learned checkpoint still learns.** A play whose checkpoint learns from people's
++   answers (`gate_eval.py`) records the crossing as `deferred_to_drive_review`. The
++   learner skips that line — it neither counts as an approval nor breaks a run of them —
++   until the drive's review writes the person's real answer.
++
++Run by hand, a play is unchanged: its opening, its checkpoint and its end sequence run as
++its gate settings say.
+diff --git a/core/components/memory/standards/rules/gate-config.md b/core/components/memory/standards/rules/gate-config.md
+index 55f2b2a5..05a190a3 100644
+--- a/core/components/memory/standards/rules/gate-config.md
++++ b/core/components/memory/standards/rules/gate-config.md
+@@ -51,12 +51,17 @@ Scripts (canonical copies in `play-creator/references/`, stamped into conditiona
+   (nodes added/removed, status changes, profile bars, decisions added, sections
+   rewritten, prose edits); the shape key is `<play>:<non-zero axes>`.
+ - `gate_eval.py append` — one JSONL line per crossing: shape, predicted (gate|auto),
+-  human action (`approved_clean` | `approved_edited` | `rejected` | `auto_pass`).
+-  A later correction is a NEW line with `refutes: <line>` — the ledger is append-only.
++  human action (`approved_clean` | `approved_edited` | `rejected` | `auto_pass` |
++  `deferred_to_drive_review`). A later correction is a NEW line with `refutes: <line>` —
++  the ledger is append-only. `deferred_to_drive_review` (#614,
++  `standards/rules/drive-contract.md`) records a crossing inside a drive, where no person
++  answered at that moment; it pairs with `predicted gate` only.
+ - `distill_gate_policy.py` — the learner, run at the play's close. Pure rule: a shape's
+   last `streak` consecutive entries all `approved_clean` (auto_pass extends a streak,
+   never starts one) and no unrefuted correction ⇒ `auto:`. Any rejection, requested
+-  edit, or correction resets the shape to gated. `never_auto:` in the policy file is
++  edit, or correction resets the shape to gated. A `deferred_to_drive_review` line is
++  skipped — neither an approval nor a reset — until the drive's review appends the
++  person's real answer. `never_auto:` in the policy file is
+   the human's permanent pin — preserved verbatim across distills, never earnable.
+ 
+ Learning happens BETWEEN runs (the distill at close); inside the loop the policy is a
+diff --git a/core/components/memory/standards/rules/pipeline-position.md b/core/components/memory/standards/rules/pipeline-position.md
+index 3022db1b..1f1f8386 100644
+--- a/core/components/memory/standards/rules/pipeline-position.md
++++ b/core/components/memory/standards/rules/pipeline-position.md
+@@ -13,7 +13,10 @@ land their own change. As compiled today: `both` — /vision, /understand (#616)
+ /marketing, /run, /launch; `none` — /shape, /agentic, /quality, /validate, /deploy, /next,
+ /focus. (A `none` play runs on whatever branch is already started — /shape and /roadmap's
+ reliance on /vision's old shared branch is a known follow-up from #616.) Inside a drive the
+-opening is skipped once the drive has opened its change (ADR 030, P4; wired in #614/#615).
++opening and the end sequence are both skipped — the drive opens and lands the change — and a
++play knows it is inside a drive from the drive's contract (`standards/rules/drive-contract.md`;
++ADR 029, ADR 030 P4). Wired so far: /intent (#612, its own contract check) and /vision (#614,
++the shared `check_drive_contract.py`); /understand follows in #615.
+ 
+ ## The declaration
+ 
+diff --git a/core/components/plays/agentic/scripts/distill_gate_policy.py b/core/components/plays/agentic/scripts/distill_gate_policy.py
+index 206a88a1..b9f6b29c 100644
+--- a/core/components/plays/agentic/scripts/distill_gate_policy.py
++++ b/core/components/plays/agentic/scripts/distill_gate_policy.py
+@@ -10,6 +10,9 @@
+     (auto_pass lines EXTEND an earned streak but never start one) and no unrefuted
+     correction stands against it;
+   - any rejected / approved_edited / correction line RESETS that shape to gated;
++  - a deferred_to_drive_review line (a crossing inside a drive, #614) is SKIPPED: it is
++    not an approval and does not break a run of them, until the drive's review appends
++    the person's real answer as its own line;
+   - shapes in `never_auto` (human-pinned, preserved verbatim from the existing policy)
+     are never emitted as auto regardless of the ledger.
+ 
+@@ -94,6 +97,8 @@ def _trailing_streak(recs, refuted):
+         human = rec.get("human")
+         if rec["_line"] in refuted:
+             run = []  # a refuted line breaks the streak it sat in
++        elif human == "deferred_to_drive_review":
++            continue  # no answer yet — the drive's review appends it later
+         elif human == "approved_clean":
+             run.append(rec)
+         elif human == "auto_pass" and run:
+diff --git a/core/components/plays/agentic/scripts/gate_eval.py b/core/components/plays/agentic/scripts/gate_eval.py
+index 59d5a743..f11ec3a8 100644
+--- a/core/components/plays/agentic/scripts/gate_eval.py
++++ b/core/components/plays/agentic/scripts/gate_eval.py
+@@ -14,8 +14,12 @@
+ `--ts` is REQUIRED on append — the caller passes the run's own timestamp so the script
+ stays replay-deterministic (no wall-clock reads here).
+ 
+-human ∈ approved_clean | approved_edited | rejected | auto_pass
++human ∈ approved_clean | approved_edited | rejected | auto_pass | deferred_to_drive_review
+ predicted ∈ gate | auto
++
++`deferred_to_drive_review` (#614, `standards/rules/drive-contract.md`): the gate would have
++stopped, but the play ran inside a drive, so no person answered at that moment — the drive's
++end review will. It pairs with `predicted gate` only; the learner skips it.
+ """
+ 
+ import argparse
+@@ -23,7 +27,7 @@
+ import os
+ import sys
+ 
+-HUMAN = {"approved_clean", "approved_edited", "rejected", "auto_pass"}
++HUMAN = {"approved_clean", "approved_edited", "rejected", "auto_pass", "deferred_to_drive_review"}
+ PREDICTED = {"gate", "auto"}
+ 
+ 
+@@ -55,6 +59,8 @@ def cmd_append(args):
+         fail(f"human must be one of {sorted(HUMAN)}")
+     if args.predicted not in PREDICTED:
+         fail(f"predicted must be one of {sorted(PREDICTED)}")
++    if args.human == "deferred_to_drive_review" and (args.predicted != "gate" or args.refutes):
++        fail("deferred_to_drive_review pairs with predicted=gate and is never a correction")
+     if (args.human == "auto_pass") != (args.predicted == "auto") and not args.refutes:
+         fail(
+             "auto_pass pairs with predicted=auto (and vice versa) except on corrections"
+diff --git a/core/components/plays/arch/scripts/distill_gate_policy.py b/core/components/plays/arch/scripts/distill_gate_policy.py
+index 206a88a1..b9f6b29c 100644
+--- a/core/components/plays/arch/scripts/distill_gate_policy.py
++++ b/core/components/plays/arch/scripts/distill_gate_policy.py
+@@ -10,6 +10,9 @@
+     (auto_pass lines EXTEND an earned streak but never start one) and no unrefuted
+     correction stands against it;
+   - any rejected / approved_edited / correction line RESETS that shape to gated;
++  - a deferred_to_drive_review line (a crossing inside a drive, #614) is SKIPPED: it is
++    not an approval and does not break a run of them, until the drive's review appends
++    the person's real answer as its own line;
+   - shapes in `never_auto` (human-pinned, preserved verbatim from the existing policy)
+     are never emitted as auto regardless of the ledger.
+ 
+@@ -94,6 +97,8 @@ def _trailing_streak(recs, refuted):
+         human = rec.get("human")
+         if rec["_line"] in refuted:
+             run = []  # a refuted line breaks the streak it sat in
++        elif human == "deferred_to_drive_review":
++            continue  # no answer yet — the drive's review appends it later
+         elif human == "approved_clean":
+             run.append(rec)
+         elif human == "auto_pass" and run:
+diff --git a/core/components/plays/arch/scripts/gate_eval.py b/core/components/plays/arch/scripts/gate_eval.py
+index 59d5a743..f11ec3a8 100644
+--- a/core/components/plays/arch/scripts/gate_eval.py
++++ b/core/components/plays/arch/scripts/gate_eval.py
+@@ -14,8 +14,12 @@
+ `--ts` is REQUIRED on append — the caller passes the run's own timestamp so the script
+ stays replay-deterministic (no wall-clock reads here).
+ 
+-human ∈ approved_clean | approved_edited | rejected | auto_pass
++human ∈ approved_clean | approved_edited | rejected | auto_pass | deferred_to_drive_review
+ predicted ∈ gate | auto
++
++`deferred_to_drive_review` (#614, `standards/rules/drive-contract.md`): the gate would have
++stopped, but the play ran inside a drive, so no person answered at that moment — the drive's
++end review will. It pairs with `predicted gate` only; the learner skips it.
+ """
+ 
+ import argparse
+@@ -23,7 +27,7 @@
+ import os
+ import sys
+ 
+-HUMAN = {"approved_clean", "approved_edited", "rejected", "auto_pass"}
++HUMAN = {"approved_clean", "approved_edited", "rejected", "auto_pass", "deferred_to_drive_review"}
+ PREDICTED = {"gate", "auto"}
+ 
+ 
+@@ -55,6 +59,8 @@ def cmd_append(args):
+         fail(f"human must be one of {sorted(HUMAN)}")
+     if args.predicted not in PREDICTED:
+         fail(f"predicted must be one of {sorted(PREDICTED)}")
++    if args.human == "deferred_to_drive_review" and (args.predicted != "gate" or args.refutes):
++        fail("deferred_to_drive_review pairs with predicted=gate and is never a correction")
+     if (args.human == "auto_pass") != (args.predicted == "auto") and not args.refutes:
+         fail(
+             "auto_pass pairs with predicted=auto (and vice versa) except on corrections"
+diff --git a/core/components/plays/marketing/scripts/distill_gate_policy.py b/core/components/plays/marketing/scripts/distill_gate_policy.py
+index 206a88a1..b9f6b29c 100644
+--- a/core/components/plays/marketing/scripts/distill_gate_policy.py
++++ b/core/components/plays/marketing/scripts/distill_gate_policy.py
+@@ -10,6 +10,9 @@
+     (auto_pass lines EXTEND an earned streak but never start one) and no unrefuted
+     correction stands against it;
+   - any rejected / approved_edited / correction line RESETS that shape to gated;
++  - a deferred_to_drive_review line (a crossing inside a drive, #614) is SKIPPED: it is
++    not an approval and does not break a run of them, until the drive's review appends
++    the person's real answer as its own line;
+   - shapes in `never_auto` (human-pinned, preserved verbatim from the existing policy)
+     are never emitted as auto regardless of the ledger.
+ 
+@@ -94,6 +97,8 @@ def _trailing_streak(recs, refuted):
+         human = rec.get("human")
+         if rec["_line"] in refuted:
+             run = []  # a refuted line breaks the streak it sat in
++        elif human == "deferred_to_drive_review":
++            continue  # no answer yet — the drive's review appends it later
+         elif human == "approved_clean":
+             run.append(rec)
+         elif human == "auto_pass" and run:
+diff --git a/core/components/plays/marketing/scripts/gate_eval.py b/core/components/plays/marketing/scripts/gate_eval.py
+index 59d5a743..f11ec3a8 100644
+--- a/core/components/plays/marketing/scripts/gate_eval.py
++++ b/core/components/plays/marketing/scripts/gate_eval.py
+@@ -14,8 +14,12 @@
+ `--ts` is REQUIRED on append — the caller passes the run's own timestamp so the script
+ stays replay-deterministic (no wall-clock reads here).
+ 
+-human ∈ approved_clean | approved_edited | rejected | auto_pass
++human ∈ approved_clean | approved_edited | rejected | auto_pass | deferred_to_drive_review
+ predicted ∈ gate | auto
++
++`deferred_to_drive_review` (#614, `standards/rules/drive-contract.md`): the gate would have
++stopped, but the play ran inside a drive, so no person answered at that moment — the drive's
++end review will. It pairs with `predicted gate` only; the learner skips it.
+ """
+ 
+ import argparse
+@@ -23,7 +27,7 @@
+ import os
+ import sys
+ 
+-HUMAN = {"approved_clean", "approved_edited", "rejected", "auto_pass"}
++HUMAN = {"approved_clean", "approved_edited", "rejected", "auto_pass", "deferred_to_drive_review"}
+ PREDICTED = {"gate", "auto"}
+ 
+ 
+@@ -55,6 +59,8 @@ def cmd_append(args):
+         fail(f"human must be one of {sorted(HUMAN)}")
+     if args.predicted not in PREDICTED:
+         fail(f"predicted must be one of {sorted(PREDICTED)}")
++    if args.human == "deferred_to_drive_review" and (args.predicted != "gate" or args.refutes):
++        fail("deferred_to_drive_review pairs with predicted=gate and is never a correction")
+     if (args.human == "auto_pass") != (args.predicted == "auto") and not args.refutes:
+         fail(
+             "auto_pass pairs with predicted=auto (and vice versa) except on corrections"
+diff --git a/core/components/plays/measure/scripts/distill_gate_policy.py b/core/components/plays/measure/scripts/distill_gate_policy.py
+index 206a88a1..b9f6b29c 100644
+--- a/core/components/plays/measure/scripts/distill_gate_policy.py
++++ b/core/components/plays/measure/scripts/distill_gate_policy.py
+@@ -10,6 +10,9 @@
+     (auto_pass lines EXTEND an earned streak but never start one) and no unrefuted
+     correction stands against it;
+   - any rejected / approved_edited / correction line RESETS that shape to gated;
++  - a deferred_to_drive_review line (a crossing inside a drive, #614) is SKIPPED: it is
++    not an approval and does not break a run of them, until the drive's review appends
++    the person's real answer as its own line;
+   - shapes in `never_auto` (human-pinned, preserved verbatim from the existing policy)
+     are never emitted as auto regardless of the ledger.
+ 
+@@ -94,6 +97,8 @@ def _trailing_streak(recs, refuted):
+         human = rec.get("human")
+         if rec["_line"] in refuted:
+             run = []  # a refuted line breaks the streak it sat in
++        elif human == "deferred_to_drive_review":
++            continue  # no answer yet — the drive's review appends it later
+         elif human == "approved_clean":
+             run.append(rec)
+         elif human == "auto_pass" and run:
+diff --git a/core/components/plays/measure/scripts/gate_eval.py b/core/components/plays/measure/scripts/gate_eval.py
+index 59d5a743..f11ec3a8 100644
+--- a/core/components/plays/measure/scripts/gate_eval.py
++++ b/core/components/plays/measure/scripts/gate_eval.py
+@@ -14,8 +14,12 @@
+ `--ts` is REQUIRED on append — the caller passes the run's own timestamp so the script
+ stays replay-deterministic (no wall-clock reads here).
+ 
+-human ∈ approved_clean | approved_edited | rejected | auto_pass
++human ∈ approved_clean | approved_edited | rejected | auto_pass | deferred_to_drive_review
+ predicted ∈ gate | auto
++
++`deferred_to_drive_review` (#614, `standards/rules/drive-contract.md`): the gate would have
++stopped, but the play ran inside a drive, so no person answered at that moment — the drive's
++end review will. It pairs with `predicted gate` only; the learner skips it.
+ """
+ 
+ import argparse
+@@ -23,7 +27,7 @@
+ import os
+ import sys
+ 
+-HUMAN = {"approved_clean", "approved_edited", "rejected", "auto_pass"}
++HUMAN = {"approved_clean", "approved_edited", "rejected", "auto_pass", "deferred_to_drive_review"}
+ PREDICTED = {"gate", "auto"}
+ 
+ 
+@@ -55,6 +59,8 @@ def cmd_append(args):
+         fail(f"human must be one of {sorted(HUMAN)}")
+     if args.predicted not in PREDICTED:
+         fail(f"predicted must be one of {sorted(PREDICTED)}")
++    if args.human == "deferred_to_drive_review" and (args.predicted != "gate" or args.refutes):
++        fail("deferred_to_drive_review pairs with predicted=gate and is never a correction")
+     if (args.human == "auto_pass") != (args.predicted == "auto") and not args.refutes:
+         fail(
+             "auto_pass pairs with predicted=auto (and vice versa) except on corrections"
+diff --git a/core/components/plays/play-creator/references/check_drive_contract.py b/core/components/plays/play-creator/references/check_drive_contract.py
+new file mode 100644
+index 00000000..6b2ee417
+--- /dev/null
++++ b/core/components/plays/play-creator/references/check_drive_contract.py
+@@ -0,0 +1,84 @@
++#!/usr/bin/env python3
++"""check_drive_contract.py — check a drive's contract and record how this run starts (#614).
++
++The single shared checker for `standards/rules/drive-contract.md`. A play that can run
++inside a drive calls it first. With `--contract`, it checks the contract — valid JSON,
++every required field present, and the current branch equal to the drive's branch — and
++writes `run.json` with `in_drive: true` and the play's own inputs and answers. With no
++`--contract`, it writes `in_drive: false`: the play runs by hand, unchanged.
++
++Canonical copy lives at play-creator/references/check_drive_contract.py and is stamped into
++each play that can run inside a drive. Layer rule: reads files only; the current branch is
++passed in; no git/gh/network.
++
++    python3 check_drive_contract.py --play vision --branch "$(git branch --show-current)" \
++        [--contract <contract.json>] --out <working>/run.json
++
++Exit 0 — run.json written (in a drive, or by hand). Exit 2 — the contract is invalid or the
++branch does not match: nothing to run; the play halts and says why.
++"""
++import argparse
++import json
++import os
++import sys
++
++REQUIRED = ("drive_run_id", "drive", "branch", "issue", "review_dir")
++
++
++class Invalid(Exception):
++    """A reason the contract cannot be used, in plain words."""
++
++
++def check(contract, play, branch):
++    if not isinstance(contract, dict):
++        raise Invalid("the contract is not a JSON object")
++    missing = [k for k in REQUIRED if contract.get(k) in (None, "")]
++    if missing:
++        raise Invalid(f"the contract is missing {', '.join(missing)}")
++    if not isinstance(contract["issue"], int) or isinstance(contract["issue"], bool):
++        raise Invalid("the contract's `issue` must be a number")
++    for key in ("inputs", "answers"):
++        if key in contract and not isinstance(contract[key], dict):
++            raise Invalid(f"the contract's `{key}` must be an object keyed by play")
++        mine = (contract.get(key) or {}).get(play)
++        if mine is not None and not isinstance(mine, dict):
++            raise Invalid(f"the contract's `{key}.{play}` must be an object")
++    if str(contract["branch"]) != branch:
++        raise Invalid(f"the current branch is `{branch}`, but the drive's branch is "
++                      f"`{contract['branch']}` — switch to it first")
++    return {"in_drive": True, "play": play,
++            "drive_run_id": str(contract["drive_run_id"]), "drive": str(contract["drive"]),
++            "branch": branch, "issue": contract["issue"],
++            "review_dir": str(contract["review_dir"]),
++            "inputs": (contract.get("inputs") or {}).get(play) or {},
++            "answers": (contract.get("answers") or {}).get(play) or {}}
++
++
++def main(argv=None):
++    ap = argparse.ArgumentParser(description="Check a drive contract (drive-contract.md).")
++    ap.add_argument("--play", required=True)
++    ap.add_argument("--branch", required=True, help="the current git branch")
++    ap.add_argument("--contract", help="the drive's contract; absent ⇒ run by hand")
++    ap.add_argument("--out", required=True)
++    args = ap.parse_args(argv)
++
++    if not args.contract:
++        run = {"in_drive": False, "play": args.play, "branch": args.branch}
++    else:
++        try:
++            with open(args.contract, encoding="utf-8") as fh:
++                contract = json.load(fh)
++            run = check(contract, args.play, args.branch)
++        except (OSError, ValueError, Invalid) as why:
++            msg = why if isinstance(why, Invalid) else f"cannot read the contract: {why.__class__.__name__}"
++            sys.stderr.write(f"check_drive_contract.py: {msg}\n")
++            return 2
++    os.makedirs(os.path.dirname(os.path.abspath(args.out)), exist_ok=True)
++    with open(args.out, "w", encoding="utf-8") as fh:
++        json.dump(run, fh, indent=2)
++    print(json.dumps(run, indent=2))
++    return 0
++
++
++if __name__ == "__main__":
++    sys.exit(main(sys.argv[1:]))
+diff --git a/core/components/plays/play-creator/references/distill_gate_policy.py b/core/components/plays/play-creator/references/distill_gate_policy.py
+index 206a88a1..b9f6b29c 100644
+--- a/core/components/plays/play-creator/references/distill_gate_policy.py
++++ b/core/components/plays/play-creator/references/distill_gate_policy.py
+@@ -10,6 +10,9 @@
+     (auto_pass lines EXTEND an earned streak but never start one) and no unrefuted
+     correction stands against it;
+   - any rejected / approved_edited / correction line RESETS that shape to gated;
++  - a deferred_to_drive_review line (a crossing inside a drive, #614) is SKIPPED: it is
++    not an approval and does not break a run of them, until the drive's review appends
++    the person's real answer as its own line;
+   - shapes in `never_auto` (human-pinned, preserved verbatim from the existing policy)
+     are never emitted as auto regardless of the ledger.
+ 
+@@ -94,6 +97,8 @@ def _trailing_streak(recs, refuted):
+         human = rec.get("human")
+         if rec["_line"] in refuted:
+             run = []  # a refuted line breaks the streak it sat in
++        elif human == "deferred_to_drive_review":
++            continue  # no answer yet — the drive's review appends it later
+         elif human == "approved_clean":
+             run.append(rec)
+         elif human == "auto_pass" and run:
+diff --git a/core/components/plays/play-creator/references/gate_eval.py b/core/components/plays/play-creator/references/gate_eval.py
+index 59d5a743..f11ec3a8 100644
+--- a/core/components/plays/play-creator/references/gate_eval.py
++++ b/core/components/plays/play-creator/references/gate_eval.py
+@@ -14,8 +14,12 @@
+ `--ts` is REQUIRED on append — the caller passes the run's own timestamp so the script
+ stays replay-deterministic (no wall-clock reads here).
+ 
+-human ∈ approved_clean | approved_edited | rejected | auto_pass
++human ∈ approved_clean | approved_edited | rejected | auto_pass | deferred_to_drive_review
+ predicted ∈ gate | auto
++
++`deferred_to_drive_review` (#614, `standards/rules/drive-contract.md`): the gate would have
++stopped, but the play ran inside a drive, so no person answered at that moment — the drive's
++end review will. It pairs with `predicted gate` only; the learner skips it.
+ """
+ 
+ import argparse
+@@ -23,7 +27,7 @@
+ import os
+ import sys
+ 
+-HUMAN = {"approved_clean", "approved_edited", "rejected", "auto_pass"}
++HUMAN = {"approved_clean", "approved_edited", "rejected", "auto_pass", "deferred_to_drive_review"}
+ PREDICTED = {"gate", "auto"}
+ 
+ 
+@@ -55,6 +59,8 @@ def cmd_append(args):
+         fail(f"human must be one of {sorted(HUMAN)}")
+     if args.predicted not in PREDICTED:
+         fail(f"predicted must be one of {sorted(PREDICTED)}")
++    if args.human == "deferred_to_drive_review" and (args.predicted != "gate" or args.refutes):
++        fail("deferred_to_drive_review pairs with predicted=gate and is never a correction")
+     if (args.human == "auto_pass") != (args.predicted == "auto") and not args.refutes:
+         fail(
+             "auto_pass pairs with predicted=auto (and vice versa) except on corrections"
+diff --git a/core/components/plays/play-creator/references/test_drive_contract.py b/core/components/plays/play-creator/references/test_drive_contract.py
+new file mode 100644
+index 00000000..c3c0d184
+--- /dev/null
++++ b/core/components/plays/play-creator/references/test_drive_contract.py
+@@ -0,0 +1,129 @@
++#!/usr/bin/env python3
++"""test_drive_contract.py — tests for the shared drive-contract checker and review-record writer.
++
++Every play's stamped copy of check_drive_contract.py and write_drive_review.py must be
++identical to the canonical one here.
++
++    python3 test_drive_contract.py
++"""
++import contextlib
++import glob
++import io
++import json
++import os
++import sys
++import tempfile
++
++HERE = os.path.dirname(os.path.abspath(__file__))
++sys.path.insert(0, HERE)
++import check_drive_contract as cdc  # noqa: E402
++import write_drive_review as wdr  # noqa: E402
++
++REPO = os.path.normpath(os.path.join(HERE, "..", "..", "..", "..", ".."))
++PASSED = 0
++FAILED = 0
++BRANCH = "feature/613-kickoff"
++
++
++def check(name, cond):
++    global PASSED, FAILED
++    if cond:
++        PASSED += 1
++        print(f"  [PASS] {name}")
++    else:
++        FAILED += 1
++        print(f"  [FAIL] {name}")
++        if os.environ.get("PYTEST_CURRENT_TEST"):
++            raise AssertionError(name)
++
++
++def contract(tmp, **change):
++    c = {"drive_run_id": "kickoff-1", "drive": "kickoff", "branch": BRANCH, "issue": 613,
++         "review_dir": os.path.join(tmp, "review", "drive"),
++         "inputs": {"vision": {"intents": ["grow-online-sales"]}},
++         "answers": {"vision": {"goal": "Sell online without sign-up friction."}}}
++    c.update(change)
++    for k in [k for k, v in change.items() if v is None]:
++        del c[k]
++    path = os.path.join(tmp, f"contract-{len(os.listdir(tmp))}.json")
++    with open(path, "w") as fh:
++        json.dump(c, fh)
++    return path
++
++
++def run(tmp, *args):
++    out = os.path.join(tmp, "run.json")
++    rc = cdc.main(["--play", "vision", "--out", out, *args])
++    return rc, (json.load(open(out)) if rc == 0 else None)
++
++
++def test_checker():
++    with tempfile.TemporaryDirectory() as tmp:
++        rc, r = run(tmp, "--branch", "main")
++        check("with no contract the run is by hand", rc == 0 and r["in_drive"] is False)
++        rc, r = run(tmp, "--branch", BRANCH, "--contract", contract(tmp))
++        check("a valid contract on its branch starts a drive run",
++              rc == 0 and r["in_drive"] and r["drive_run_id"] == "kickoff-1" and r["issue"] == 613)
++        check("the run carries only this play's inputs and answers",
++              r["inputs"] == {"intents": ["grow-online-sales"]} and r["answers"]["goal"].startswith("Sell"))
++        cases = (("the wrong branch", ["--branch", "main", "--contract", contract(tmp)], "switch to it first"),
++                 ("a missing field", ["--branch", BRANCH, "--contract", contract(tmp, review_dir=None)], "missing review_dir"),
++                 ("an issue that is not a number", ["--branch", BRANCH, "--contract", contract(tmp, issue="613")], "must be a number"),
++                 ("answers that are not keyed by play", ["--branch", BRANCH, "--contract", contract(tmp, answers=["x"])], "keyed by play"))
++        for label, args, why in cases:
++            err = io.StringIO()
++            with contextlib.redirect_stderr(err):
++                rc = run(tmp, *args)[0]
++            check(f"{label} is refused (exit 2) for that reason", rc == 2 and why in err.getvalue())
++        bad = os.path.join(tmp, "bad.json")
++        with open(bad, "w") as fh:
++            fh.write("{not json")
++        check("a contract that is not JSON is refused", run(tmp, "--branch", BRANCH, "--contract", bad)[0] == 2)
++
++
++def test_review_writer():
++    with tempfile.TemporaryDirectory() as tmp:
++        _, r = run(tmp, "--branch", BRANCH, "--contract", contract(tmp))
++        summary = os.path.join(tmp, "checkpoint.md")
++        with open(summary, "w") as fh:
++            fh.write("# Proposed seed\nThe domain, the capabilities and the profile.\n")
++        guard = os.path.join(tmp, "guard-report.json")
++        with open(guard, "w") as fh:
++            fh.write('{"ok": true}')
++        rc = wdr.main(["--run", os.path.join(tmp, "run.json"), "--summary", summary,
++                       "--attach", f"guard={guard}", "--ts", "20261017-120000"])
++        rec_path = os.path.join(r["review_dir"], "vision-20261017-120000.json")
++        rec = json.load(open(rec_path)) if os.path.isfile(rec_path) else {}
++        check("the review record is written for the drive, undecided",
++              rc == 0 and rec.get("decided") is False and rec.get("drive_run_id") == "kickoff-1"
++              and rec.get("attachments") == {"guard": guard})
++        check("the summary is kept exactly as it would have been shown",
++              open(os.path.join(r["review_dir"], "vision-20261017-120000.md")).read() == open(summary).read())
++        check("a missing attached file writes nothing",
++              wdr.main(["--run", os.path.join(tmp, "run.json"), "--summary", summary,
++                        "--attach", "x=/nope", "--ts", "t2"]) == 2
++              and not os.path.exists(os.path.join(r["review_dir"], "vision-t2.json")))
++        run(tmp, "--branch", "main")
++        check("a run by hand writes no drive record",
++              wdr.main(["--run", os.path.join(tmp, "run.json"), "--summary", summary, "--ts", "t3"]) == 2)
++
++
++def test_every_copy_is_identical():
++    for name in ("check_drive_contract.py", "write_drive_review.py"):
++        mine = open(os.path.join(HERE, name), "rb").read()
++        copies = glob.glob(os.path.join(REPO, "core", "components", "plays", "*", "scripts", name))
++        different = [c for c in copies if open(c, "rb").read() != mine]
++        check(f"every play's {name} is identical to the canonical one ({len(copies)} copies)",
++              copies and not different)
++
++
++def main():
++    for test in (test_checker, test_review_writer, test_every_copy_is_identical):
++        print(test.__name__)
++        test()
++    print(f"\n{PASSED} passed, {FAILED} failed")
++    sys.exit(1 if FAILED else 0)
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/core/components/plays/play-creator/references/test_gate_learning.py b/core/components/plays/play-creator/references/test_gate_learning.py
+index 30c4fcec..d124e53f 100644
+--- a/core/components/plays/play-creator/references/test_gate_learning.py
++++ b/core/components/plays/play-creator/references/test_gate_learning.py
+@@ -242,8 +242,27 @@ def test_learner():
+     r = distill(ledger, policy)
+     assert S2 not in r["auto_shapes"], r
+ 
++    # 9. a crossing inside a drive is deferred: it neither earns nor breaks a streak
++    S3 = "vision:new_domain"
++    for ts in ("v1", "v2"):
++        ledger_line(ledger, "vision", S3, "approved_clean", ts)
++    ledger_line(ledger, "vision", S3, "deferred_to_drive_review", "v3")
++    r = distill(ledger, policy)
++    assert S3 not in r["auto_shapes"], r  # two cleans + a deferred is still two
++    ledger_line(ledger, "vision", S3, "approved_clean", "v4")
++    r = distill(ledger, policy)
++    assert S3 in r["auto_shapes"], r  # the deferred line did not break the run
++
++    # 10. deferred pairs with predicted=gate only
++    refused = False
++    try:
++        ledger_line(ledger, "vision", S3, "deferred_to_drive_review", "v5", predicted="auto")
++    except AssertionError as exc:
++        refused = "pairs with predicted=gate" in str(exc)
++    assert refused, "deferred with predicted=auto was accepted"
++
+     shutil.rmtree(t)
+-    print("learner: 8/8 pass")
++    print("learner: 10/10 pass")
+ 
+ 
+ if __name__ == "__main__":
+diff --git a/core/components/plays/play-creator/references/write_drive_review.py b/core/components/plays/play-creator/references/write_drive_review.py
+new file mode 100644
+index 00000000..abbcfba3
+--- /dev/null
++++ b/core/components/plays/play-creator/references/write_drive_review.py
+@@ -0,0 +1,71 @@
++#!/usr/bin/env python3
++"""write_drive_review.py — keep a play's checkpoint as a review record for the drive (#614).
++
++Inside a drive a play does not stop at its own checkpoint (ADR 029; drive-contract.md).
++Instead it writes what the checkpoint would have shown — the rendered summary, and the
++files the decision stands on — into the drive's `review_dir`, so the drive's end review
++can read every play's record in one place. Nothing here decides anything: the record
++reads `decided: false` until the drive's review answers it.
++
++Canonical copy lives at play-creator/references/write_drive_review.py and is stamped into
++each play that can run inside a drive. Layer rule: file reads/writes only; no git/gh/network.
++
++    python3 write_drive_review.py --run <working>/run.json --summary <checkpoint.md> \
++        [--attach name=<path> ...] --ts <run ts>
++
++Writes `<review_dir>/<play>-<ts>.md` (the summary, as shown) and `<review_dir>/<play>-<ts>.json`
++(the record) and prints the record. Exit 0 written · 2 usage error, or the run is not in a
++drive, or a named file is missing (nothing written).
++"""
++import argparse
++import json
++import os
++import shutil
++import sys
++
++
++def main(argv=None):
++    ap = argparse.ArgumentParser(description="Write a play's review record for the drive.")
++    ap.add_argument("--run", required=True, help="run.json from check_drive_contract.py")
++    ap.add_argument("--summary", required=True, help="the checkpoint as it would have been shown")
++    ap.add_argument("--attach", action="append", default=[], help="name=path of a file the decision stands on")
++    ap.add_argument("--ts", required=True, help="the run's UTC timestamp")
++    args = ap.parse_args(argv)
++
++    try:
++        with open(args.run, encoding="utf-8") as fh:
++            run = json.load(fh)
++    except (OSError, ValueError) as exc:
++        sys.stderr.write(f"write_drive_review.py: cannot read {args.run}: {exc.__class__.__name__}\n")
++        return 2
++    if not isinstance(run, dict) or not run.get("in_drive"):
++        sys.stderr.write("write_drive_review.py: this run is not inside a drive — the play's own "
++                         "checkpoint applies\n")
++        return 2
++    attached = {}
++    for item in args.attach:
++        name, sep, path = item.partition("=")
++        if not sep or not name or not path:
++            sys.stderr.write(f"write_drive_review.py: --attach wants name=path, got `{item}`\n")
++            return 2
++        attached[name] = path
++    missing = [p for p in [args.summary, *attached.values()] if not os.path.isfile(p)]
++    if missing:
++        sys.stderr.write(f"write_drive_review.py: missing {', '.join(missing)} — nothing written\n")
++        return 2
++
++    base = os.path.join(run["review_dir"], f"{run['play']}-{args.ts}")
++    os.makedirs(run["review_dir"], exist_ok=True)
++    shutil.copyfile(args.summary, base + ".md")
++    record = {"play": run["play"], "drive_run_id": run["drive_run_id"], "drive": run.get("drive"),
++              "issue": run.get("issue"), "branch": run["branch"], "recorded_at": args.ts,
++              "summary": os.path.basename(base + ".md"), "attachments": attached,
++              "decided": False}
++    with open(base + ".json", "w", encoding="utf-8") as fh:
++        json.dump(record, fh, indent=2)
++    print(json.dumps(record, indent=2))
++    return 0
++
++
++if __name__ == "__main__":
++    sys.exit(main(sys.argv[1:]))
+diff --git a/core/components/plays/quality/scripts/distill_gate_policy.py b/core/components/plays/quality/scripts/distill_gate_policy.py
+index 206a88a1..b9f6b29c 100644
+--- a/core/components/plays/quality/scripts/distill_gate_policy.py
++++ b/core/components/plays/quality/scripts/distill_gate_policy.py
+@@ -10,6 +10,9 @@
+     (auto_pass lines EXTEND an earned streak but never start one) and no unrefuted
+     correction stands against it;
+   - any rejected / approved_edited / correction line RESETS that shape to gated;
++  - a deferred_to_drive_review line (a crossing inside a drive, #614) is SKIPPED: it is
++    not an approval and does not break a run of them, until the drive's review appends
++    the person's real answer as its own line;
+   - shapes in `never_auto` (human-pinned, preserved verbatim from the existing policy)
+     are never emitted as auto regardless of the ledger.
+ 
+@@ -94,6 +97,8 @@ def _trailing_streak(recs, refuted):
+         human = rec.get("human")
+         if rec["_line"] in refuted:
+             run = []  # a refuted line breaks the streak it sat in
++        elif human == "deferred_to_drive_review":
++            continue  # no answer yet — the drive's review appends it later
+         elif human == "approved_clean":
+             run.append(rec)
+         elif human == "auto_pass" and run:
+diff --git a/core/components/plays/quality/scripts/gate_eval.py b/core/components/plays/quality/scripts/gate_eval.py
+index 59d5a743..f11ec3a8 100644
+--- a/core/components/plays/quality/scripts/gate_eval.py
++++ b/core/components/plays/quality/scripts/gate_eval.py
+@@ -14,8 +14,12 @@
+ `--ts` is REQUIRED on append — the caller passes the run's own timestamp so the script
+ stays replay-deterministic (no wall-clock reads here).
+ 
+-human ∈ approved_clean | approved_edited | rejected | auto_pass
++human ∈ approved_clean | approved_edited | rejected | auto_pass | deferred_to_drive_review
+ predicted ∈ gate | auto
++
++`deferred_to_drive_review` (#614, `standards/rules/drive-contract.md`): the gate would have
++stopped, but the play ran inside a drive, so no person answered at that moment — the drive's
++end review will. It pairs with `predicted gate` only; the learner skips it.
+ """
+ 
+ import argparse
+@@ -23,7 +27,7 @@
+ import os
+ import sys
+ 
+-HUMAN = {"approved_clean", "approved_edited", "rejected", "auto_pass"}
++HUMAN = {"approved_clean", "approved_edited", "rejected", "auto_pass", "deferred_to_drive_review"}
+ PREDICTED = {"gate", "auto"}
+ 
+ 
+@@ -55,6 +59,8 @@ def cmd_append(args):
+         fail(f"human must be one of {sorted(HUMAN)}")
+     if args.predicted not in PREDICTED:
+         fail(f"predicted must be one of {sorted(PREDICTED)}")
++    if args.human == "deferred_to_drive_review" and (args.predicted != "gate" or args.refutes):
++        fail("deferred_to_drive_review pairs with predicted=gate and is never a correction")
+     if (args.human == "auto_pass") != (args.predicted == "auto") and not args.refutes:
+         fail(
+             "auto_pass pairs with predicted=auto (and vice versa) except on corrections"
+diff --git a/core/components/plays/roadmap/scripts/distill_gate_policy.py b/core/components/plays/roadmap/scripts/distill_gate_policy.py
+index 206a88a1..b9f6b29c 100644
+--- a/core/components/plays/roadmap/scripts/distill_gate_policy.py
++++ b/core/components/plays/roadmap/scripts/distill_gate_policy.py
+@@ -10,6 +10,9 @@
+     (auto_pass lines EXTEND an earned streak but never start one) and no unrefuted
+     correction stands against it;
+   - any rejected / approved_edited / correction line RESETS that shape to gated;
++  - a deferred_to_drive_review line (a crossing inside a drive, #614) is SKIPPED: it is
++    not an approval and does not break a run of them, until the drive's review appends
++    the person's real answer as its own line;
+   - shapes in `never_auto` (human-pinned, preserved verbatim from the existing policy)
+     are never emitted as auto regardless of the ledger.
+ 
+@@ -94,6 +97,8 @@ def _trailing_streak(recs, refuted):
+         human = rec.get("human")
+         if rec["_line"] in refuted:
+             run = []  # a refuted line breaks the streak it sat in
++        elif human == "deferred_to_drive_review":
++            continue  # no answer yet — the drive's review appends it later
+         elif human == "approved_clean":
+             run.append(rec)
+         elif human == "auto_pass" and run:
+diff --git a/core/components/plays/roadmap/scripts/gate_eval.py b/core/components/plays/roadmap/scripts/gate_eval.py
+index 59d5a743..f11ec3a8 100644
+--- a/core/components/plays/roadmap/scripts/gate_eval.py
++++ b/core/components/plays/roadmap/scripts/gate_eval.py
+@@ -14,8 +14,12 @@
+ `--ts` is REQUIRED on append — the caller passes the run's own timestamp so the script
+ stays replay-deterministic (no wall-clock reads here).
+ 
+-human ∈ approved_clean | approved_edited | rejected | auto_pass
++human ∈ approved_clean | approved_edited | rejected | auto_pass | deferred_to_drive_review
+ predicted ∈ gate | auto
++
++`deferred_to_drive_review` (#614, `standards/rules/drive-contract.md`): the gate would have
++stopped, but the play ran inside a drive, so no person answered at that moment — the drive's
++end review will. It pairs with `predicted gate` only; the learner skips it.
+ """
+ 
+ import argparse
+@@ -23,7 +27,7 @@
+ import os
+ import sys
+ 
+-HUMAN = {"approved_clean", "approved_edited", "rejected", "auto_pass"}
++HUMAN = {"approved_clean", "approved_edited", "rejected", "auto_pass", "deferred_to_drive_review"}
+ PREDICTED = {"gate", "auto"}
+ 
+ 
+@@ -55,6 +59,8 @@ def cmd_append(args):
+         fail(f"human must be one of {sorted(HUMAN)}")
+     if args.predicted not in PREDICTED:
+         fail(f"predicted must be one of {sorted(PREDICTED)}")
++    if args.human == "deferred_to_drive_review" and (args.predicted != "gate" or args.refutes):
++        fail("deferred_to_drive_review pairs with predicted=gate and is never a correction")
+     if (args.human == "auto_pass") != (args.predicted == "auto") and not args.refutes:
+         fail(
+             "auto_pass pairs with predicted=auto (and vice versa) except on corrections"
+diff --git a/core/components/plays/run/scripts/distill_gate_policy.py b/core/components/plays/run/scripts/distill_gate_policy.py
+index 206a88a1..b9f6b29c 100644
+--- a/core/components/plays/run/scripts/distill_gate_policy.py
++++ b/core/components/plays/run/scripts/distill_gate_policy.py
+@@ -10,6 +10,9 @@
+     (auto_pass lines EXTEND an earned streak but never start one) and no unrefuted
+     correction stands against it;
+   - any rejected / approved_edited / correction line RESETS that shape to gated;
++  - a deferred_to_drive_review line (a crossing inside a drive, #614) is SKIPPED: it is
++    not an approval and does not break a run of them, until the drive's review appends
++    the person's real answer as its own line;
+   - shapes in `never_auto` (human-pinned, preserved verbatim from the existing policy)
+     are never emitted as auto regardless of the ledger.
+ 
+@@ -94,6 +97,8 @@ def _trailing_streak(recs, refuted):
+         human = rec.get("human")
+         if rec["_line"] in refuted:
+             run = []  # a refuted line breaks the streak it sat in
++        elif human == "deferred_to_drive_review":
++            continue  # no answer yet — the drive's review appends it later
+         elif human == "approved_clean":
+             run.append(rec)
+         elif human == "auto_pass" and run:
+diff --git a/core/components/plays/run/scripts/gate_eval.py b/core/components/plays/run/scripts/gate_eval.py
+index 59d5a743..f11ec3a8 100644
+--- a/core/components/plays/run/scripts/gate_eval.py
++++ b/core/components/plays/run/scripts/gate_eval.py
+@@ -14,8 +14,12 @@
+ `--ts` is REQUIRED on append — the caller passes the run's own timestamp so the script
+ stays replay-deterministic (no wall-clock reads here).
+ 
+-human ∈ approved_clean | approved_edited | rejected | auto_pass
++human ∈ approved_clean | approved_edited | rejected | auto_pass | deferred_to_drive_review
+ predicted ∈ gate | auto
++
++`deferred_to_drive_review` (#614, `standards/rules/drive-contract.md`): the gate would have
++stopped, but the play ran inside a drive, so no person answered at that moment — the drive's
++end review will. It pairs with `predicted gate` only; the learner skips it.
+ """
+ 
+ import argparse
+@@ -23,7 +27,7 @@
+ import os
+ import sys
+ 
+-HUMAN = {"approved_clean", "approved_edited", "rejected", "auto_pass"}
++HUMAN = {"approved_clean", "approved_edited", "rejected", "auto_pass", "deferred_to_drive_review"}
+ PREDICTED = {"gate", "auto"}
+ 
+ 
+@@ -55,6 +59,8 @@ def cmd_append(args):
+         fail(f"human must be one of {sorted(HUMAN)}")
+     if args.predicted not in PREDICTED:
+         fail(f"predicted must be one of {sorted(PREDICTED)}")
++    if args.human == "deferred_to_drive_review" and (args.predicted != "gate" or args.refutes):
++        fail("deferred_to_drive_review pairs with predicted=gate and is never a correction")
+     if (args.human == "auto_pass") != (args.predicted == "auto") and not args.refutes:
+         fail(
+             "auto_pass pairs with predicted=auto (and vice versa) except on corrections"
+diff --git a/core/components/plays/shape/scripts/distill_gate_policy.py b/core/components/plays/shape/scripts/distill_gate_policy.py
+index 206a88a1..b9f6b29c 100644
+--- a/core/components/plays/shape/scripts/distill_gate_policy.py
++++ b/core/components/plays/shape/scripts/distill_gate_policy.py
+@@ -10,6 +10,9 @@
+     (auto_pass lines EXTEND an earned streak but never start one) and no unrefuted
+     correction stands against it;
+   - any rejected / approved_edited / correction line RESETS that shape to gated;
++  - a deferred_to_drive_review line (a crossing inside a drive, #614) is SKIPPED: it is
++    not an approval and does not break a run of them, until the drive's review appends
++    the person's real answer as its own line;
+   - shapes in `never_auto` (human-pinned, preserved verbatim from the existing policy)
+     are never emitted as auto regardless of the ledger.
+ 
+@@ -94,6 +97,8 @@ def _trailing_streak(recs, refuted):
+         human = rec.get("human")
+         if rec["_line"] in refuted:
+             run = []  # a refuted line breaks the streak it sat in
++        elif human == "deferred_to_drive_review":
++            continue  # no answer yet — the drive's review appends it later
+         elif human == "approved_clean":
+             run.append(rec)
+         elif human == "auto_pass" and run:
+diff --git a/core/components/plays/shape/scripts/gate_eval.py b/core/components/plays/shape/scripts/gate_eval.py
+index 59d5a743..f11ec3a8 100644
+--- a/core/components/plays/shape/scripts/gate_eval.py
++++ b/core/components/plays/shape/scripts/gate_eval.py
+@@ -14,8 +14,12 @@
+ `--ts` is REQUIRED on append — the caller passes the run's own timestamp so the script
+ stays replay-deterministic (no wall-clock reads here).
+ 
+-human ∈ approved_clean | approved_edited | rejected | auto_pass
++human ∈ approved_clean | approved_edited | rejected | auto_pass | deferred_to_drive_review
+ predicted ∈ gate | auto
++
++`deferred_to_drive_review` (#614, `standards/rules/drive-contract.md`): the gate would have
++stopped, but the play ran inside a drive, so no person answered at that moment — the drive's
++end review will. It pairs with `predicted gate` only; the learner skips it.
+ """
+ 
+ import argparse
+@@ -23,7 +27,7 @@
+ import os
+ import sys
+ 
+-HUMAN = {"approved_clean", "approved_edited", "rejected", "auto_pass"}
++HUMAN = {"approved_clean", "approved_edited", "rejected", "auto_pass", "deferred_to_drive_review"}
+ PREDICTED = {"gate", "auto"}
+ 
+ 
+@@ -55,6 +59,8 @@ def cmd_append(args):
+         fail(f"human must be one of {sorted(HUMAN)}")
+     if args.predicted not in PREDICTED:
+         fail(f"predicted must be one of {sorted(PREDICTED)}")
++    if args.human == "deferred_to_drive_review" and (args.predicted != "gate" or args.refutes):
++        fail("deferred_to_drive_review pairs with predicted=gate and is never a correction")
+     if (args.human == "auto_pass") != (args.predicted == "auto") and not args.refutes:
+         fail(
+             "auto_pass pairs with predicted=auto (and vice versa) except on corrections"
+diff --git a/core/components/plays/understand/scripts/distill_gate_policy.py b/core/components/plays/understand/scripts/distill_gate_policy.py
+index 206a88a1..b9f6b29c 100644
+--- a/core/components/plays/understand/scripts/distill_gate_policy.py
++++ b/core/components/plays/understand/scripts/distill_gate_policy.py
+@@ -10,6 +10,9 @@
+     (auto_pass lines EXTEND an earned streak but never start one) and no unrefuted
+     correction stands against it;
+   - any rejected / approved_edited / correction line RESETS that shape to gated;
++  - a deferred_to_drive_review line (a crossing inside a drive, #614) is SKIPPED: it is
++    not an approval and does not break a run of them, until the drive's review appends
++    the person's real answer as its own line;
+   - shapes in `never_auto` (human-pinned, preserved verbatim from the existing policy)
+     are never emitted as auto regardless of the ledger.
+ 
+@@ -94,6 +97,8 @@ def _trailing_streak(recs, refuted):
+         human = rec.get("human")
+         if rec["_line"] in refuted:
+             run = []  # a refuted line breaks the streak it sat in
++        elif human == "deferred_to_drive_review":
++            continue  # no answer yet — the drive's review appends it later
+         elif human == "approved_clean":
+             run.append(rec)
+         elif human == "auto_pass" and run:
+diff --git a/core/components/plays/understand/scripts/gate_eval.py b/core/components/plays/understand/scripts/gate_eval.py
+index 59d5a743..f11ec3a8 100644
+--- a/core/components/plays/understand/scripts/gate_eval.py
++++ b/core/components/plays/understand/scripts/gate_eval.py
+@@ -14,8 +14,12 @@
+ `--ts` is REQUIRED on append — the caller passes the run's own timestamp so the script
+ stays replay-deterministic (no wall-clock reads here).
+ 
+-human ∈ approved_clean | approved_edited | rejected | auto_pass
++human ∈ approved_clean | approved_edited | rejected | auto_pass | deferred_to_drive_review
+ predicted ∈ gate | auto
++
++`deferred_to_drive_review` (#614, `standards/rules/drive-contract.md`): the gate would have
++stopped, but the play ran inside a drive, so no person answered at that moment — the drive's
++end review will. It pairs with `predicted gate` only; the learner skips it.
+ """
+ 
+ import argparse
+@@ -23,7 +27,7 @@
+ import os
+ import sys
+ 
+-HUMAN = {"approved_clean", "approved_edited", "rejected", "auto_pass"}
++HUMAN = {"approved_clean", "approved_edited", "rejected", "auto_pass", "deferred_to_drive_review"}
+ PREDICTED = {"gate", "auto"}
+ 
+ 
+@@ -55,6 +59,8 @@ def cmd_append(args):
+         fail(f"human must be one of {sorted(HUMAN)}")
+     if args.predicted not in PREDICTED:
+         fail(f"predicted must be one of {sorted(PREDICTED)}")
++    if args.human == "deferred_to_drive_review" and (args.predicted != "gate" or args.refutes):
++        fail("deferred_to_drive_review pairs with predicted=gate and is never a correction")
+     if (args.human == "auto_pass") != (args.predicted == "auto") and not args.refutes:
+         fail(
+             "auto_pass pairs with predicted=auto (and vice versa) except on corrections"
+diff --git a/core/components/plays/ux/scripts/distill_gate_policy.py b/core/components/plays/ux/scripts/distill_gate_policy.py
+index 206a88a1..b9f6b29c 100644
+--- a/core/components/plays/ux/scripts/distill_gate_policy.py
++++ b/core/components/plays/ux/scripts/distill_gate_policy.py
+@@ -10,6 +10,9 @@
+     (auto_pass lines EXTEND an earned streak but never start one) and no unrefuted
+     correction stands against it;
+   - any rejected / approved_edited / correction line RESETS that shape to gated;
++  - a deferred_to_drive_review line (a crossing inside a drive, #614) is SKIPPED: it is
++    not an approval and does not break a run of them, until the drive's review appends
++    the person's real answer as its own line;
+   - shapes in `never_auto` (human-pinned, preserved verbatim from the existing policy)
+     are never emitted as auto regardless of the ledger.
+ 
+@@ -94,6 +97,8 @@ def _trailing_streak(recs, refuted):
+         human = rec.get("human")
+         if rec["_line"] in refuted:
+             run = []  # a refuted line breaks the streak it sat in
++        elif human == "deferred_to_drive_review":
++            continue  # no answer yet — the drive's review appends it later
+         elif human == "approved_clean":
+             run.append(rec)
+         elif human == "auto_pass" and run:
+diff --git a/core/components/plays/ux/scripts/gate_eval.py b/core/components/plays/ux/scripts/gate_eval.py
+index 59d5a743..f11ec3a8 100644
+--- a/core/components/plays/ux/scripts/gate_eval.py
++++ b/core/components/plays/ux/scripts/gate_eval.py
+@@ -14,8 +14,12 @@
+ `--ts` is REQUIRED on append — the caller passes the run's own timestamp so the script
+ stays replay-deterministic (no wall-clock reads here).
+ 
+-human ∈ approved_clean | approved_edited | rejected | auto_pass
++human ∈ approved_clean | approved_edited | rejected | auto_pass | deferred_to_drive_review
+ predicted ∈ gate | auto
++
++`deferred_to_drive_review` (#614, `standards/rules/drive-contract.md`): the gate would have
++stopped, but the play ran inside a drive, so no person answered at that moment — the drive's
++end review will. It pairs with `predicted gate` only; the learner skips it.
+ """
+ 
+ import argparse
+@@ -23,7 +27,7 @@
+ import os
+ import sys
+ 
+-HUMAN = {"approved_clean", "approved_edited", "rejected", "auto_pass"}
++HUMAN = {"approved_clean", "approved_edited", "rejected", "auto_pass", "deferred_to_drive_review"}
+ PREDICTED = {"gate", "auto"}
+ 
+ 
+@@ -55,6 +59,8 @@ def cmd_append(args):
+         fail(f"human must be one of {sorted(HUMAN)}")
+     if args.predicted not in PREDICTED:
+         fail(f"predicted must be one of {sorted(PREDICTED)}")
++    if args.human == "deferred_to_drive_review" and (args.predicted != "gate" or args.refutes):
++        fail("deferred_to_drive_review pairs with predicted=gate and is never a correction")
+     if (args.human == "auto_pass") != (args.predicted == "auto") and not args.refutes:
+         fail(
+             "auto_pass pairs with predicted=auto (and vice versa) except on corrections"
+diff --git a/core/components/plays/vision/SKILL.md b/core/components/plays/vision/SKILL.md
+index 31f9d2ef..082b9e1d 100644
+--- a/core/components/plays/vision/SKILL.md
++++ b/core/components/plays/vision/SKILL.md
+@@ -1,7 +1,7 @@
+ ---
+ name: vision
+ position: both
+-description: 'Turn business intents, a business goal, or both into the seed of the product model — or grow the model already there — a detailed domain grounding doc, directional capability grounding docs with their agent intent, the spine entries that wire them, the links to the business intents both ways, and a directional product profile — written directly in place on the live model. Builds on whatever /intent or any play already wrote (light domain pages, capabilities waiting in the holding folder, proposed intents) and never waits for another play. The CXO conversation of the ProductOS command model. Use when starting or growing a product area, before /understand and /shape. Run by hand, it opens its own change and lands it on main — no later play is needed to finish it.'
++description: 'Turn business intents, a business goal, or both into the seed of the product model — or grow the model already there — a detailed domain grounding doc, directional capability grounding docs with their agent intent, the spine entries that wire them, the links to the business intents both ways, and a directional product profile — written directly in place on the live model. Builds on whatever /intent or any play already wrote (light domain pages, capabilities waiting in the holding folder, proposed intents) and never waits for another play. The CXO conversation of the ProductOS command model. Use when starting or growing a product area, before /understand and /shape. Run by hand, it opens its own change and lands it on main — no later play is needed to finish it; handed a drive''s contract, it opens nothing, does not stop at its checkpoint, works on the drive''s branch and leaves a review record for the drive''s end review.'
+ user-invocable: true
+ ---
+ 
+@@ -30,7 +30,7 @@ adds the same capability twice. Every part it links to an intent is linked both
+ part's spine `intents` and the intent page's Touches list — by the persist script. Anything
+ missing or odd is a warning, never a stop.
+ 
+-**Pipeline position: both.** /vision stands on its own (ADR 029 §4; #616): run by hand, it opens its own change and lands it. The D2 rule prepends `start-change` — resolve or create the issue, cut the branch off fresh main, optional worktree, init STM — and, after the model delta is committed, appends the close sequence `commit-change → propose-change → review-change → merge-change`, landing the seed on main. No later play needs to run for /vision's work to be finished: /understand and the plays after it start from main. It writes the persistent product model **directly, in place** (additively) on the started branch — there is no draft copy and no apply/promote step; review is the branch git diff and the end PR. (#437, #500, ADR 026; position changed from start to both in #616.)
++**Pipeline position: both.** /vision stands on its own (ADR 029 §4; #616): run by hand, it opens its own change and lands it. **Inside a drive** (ADR 029 §2–3; #614; `standards/rules/drive-contract.md`) the drive hands it a contract (`--contract`); then it runs no `start-change` and no end sequence, does not wait at its checkpoint (Step 6 writes a review record for the drive's end review instead), and commits its model change on the drive's branch. The D2 rule prepends `start-change` — resolve or create the issue, cut the branch off fresh main, optional worktree, init STM — and, after the model delta is committed, appends the close sequence `commit-change → propose-change → review-change → merge-change`, landing the seed on main. No later play needs to run for /vision's work to be finished: /understand and the plays after it start from main. It writes the persistent product model **directly, in place** (additively) on the started branch — there is no draft copy and no apply/promote step; review is the branch git diff and the end PR. (#437, #500, ADR 026; position changed from start to both in #616.)
+ 
+ **Write discipline (ADR 026, `standards/rules/direct-model-write.md`).** The LLM authoring
+ skill writes ONLY the per-node grounding docs (`domain.md`, `capability.md`) straight to
+@@ -53,9 +53,10 @@ This play was compiled from the vision ICE (`reference/ice.md`) by play-editor
+ (#466 Batch C, Level 3 rollout per ADR 025; #467 Batch B — the checkpoint upgraded to a
+ conditional learned gate, see `standards/rules/gate-config.md`; #500 — migrated to
+ direct-model-write per ADR 026 and `standards/rules/direct-model-write.md`; #616 — position
+-start → both, so /vision lands its own change instead of leaving it for /roadmap; #637).
+-Intent defines constraints (C1–C10) and failure conditions (F1–F11); the expectation
+-defines success scenarios (S1–S6), a Done means (D1–D4, baked to
++start → both, so /vision lands its own change instead of leaving it for /roadmap; #637;
++#614).
++Intent defines constraints (C1–C11) and failure conditions (F1–F13); the expectation
++defines success scenarios (S1–S7), a Done means (D1–D4, baked to
+ `stop-condition.yaml`), and one recovery entry per failure condition.
+ To modify this play, update `reference/ice.md` and recompile with play-editor.
+ Do NOT edit this file manually — it is a compiled artifact.
+@@ -99,7 +100,8 @@ orchestrator's own context.
+ | Resolve config + `product_base` (`.garura/core/config.yaml`) | — | Hard halt |
+ | Resolve `grounding-eval.judge` (optional model override) | C2 | Default: sub-agent on the session model |
+ | Business intents (ids, or /intent's save record) and/or a business goal present (play argument; with neither, interview the user for a goal) | C10 | Gather (interview), not a halt |
+-| **Clean model tree** — after start-change (Step 0), `git status --porcelain -- <product_base>product-os` is empty | C9/F9 | Hard halt (REC9) |
++| Drive contract: when `--contract <file>` is passed, `check_drive_contract.py` accepts it (valid, complete, current branch = the drive's branch) and writes `run.json` | C11/F12 | Hard halt (REC12) |
++| **Clean model tree** — after start-change (Step 0), or at once inside a drive, `git status --porcelain -- <product_base>product-os` is empty | C9/F9 | Hard halt (REC9) |
+ 
+ Resolve the pre-flight facts mechanically with the bundled resolver — do not derive
+ them by inference:
+@@ -115,7 +117,24 @@ the resolved `grounding-eval.judge` config (the optional judge model override),
+ to seed the model. The business intents and the business goal are runtime inputs: take
+ them from the play argument (intent ids, or the path of /intent's `intent-manifest.json`, or
+ a goal as text — any of them, or both); with neither, interview the user for a goal before
+-Step 1. A drive hands its intents in its JSON contract.
++Step 1.
++
++**Run by hand or inside a drive (C11).** Check the drive contract first — always, so the run
++records which path it takes:
++
++```
++python3 scripts/check_drive_contract.py --play vision \
++    --branch "$(git branch --show-current)" [--contract <contract.json>] \
++    --out <working>/run.json
++```
++
++`run.json` reads `in_drive: false` with no contract — every step below runs as written. With
++a valid contract it reads `in_drive: true` with the drive's `drive_run_id`, `branch`, `issue`,
++`review_dir`, and /vision's own `inputs` (intent ids or `/intent`'s save record, and/or a goal)
++and `answers`. Inside a drive the intents and goal come from those inputs; if the contract and
++the model give neither, the run stops and asks the person (ADR 029: a new question stops the
++drive) — it never picks a goal itself. A non-zero exit (an invalid contract, or the current
++branch is not the drive's) is a hard halt (REC12).
+ 
+ `<working>` — the run's working folder — is `{stm_base}_shaping/vision/<product_slug>/`;
+ the grounding, the seed manifest, the change-shape, the persist record
+@@ -125,7 +144,8 @@ written IN PLACE under `<product_base>product-os/`, never into `<working>`. The
+ condition evaluates against `<working>`.
+ 
+ **Clean-tree assertion (C9/F9, ADR 026).** start-change cuts the branch off fresh main, so
+-the product-os tree is clean by construction; still assert it right after Step 0 — `HEAD`
++the product-os tree is clean by construction; still assert it right after Step 0 (inside a
++drive, at once — the earlier plays in the drive committed their model change) — `HEAD`
+ is only a correct base for the scoped guard and the change-shape if the tree is clean
+ before the seed writes:
+ 
+@@ -160,7 +180,7 @@ the change-shape, and the human all see the real delta. Nothing is COMMITTED bef
+ gate resolves; cancel reverts the uncommitted writes.
+ 
+ ```
+-[T0] start-change (injected — start, head)          blockedBy: []
++[T0] start-change (injected — start; skipped in a drive) blockedBy: []
+ [T1] Ground the goal                                blockedBy: [T0]
+ [T2] Author the seed (docs to live)                 blockedBy: [T1]
+ [T3] Validate the live docs                         blockedBy: [T2]
+@@ -168,10 +188,10 @@ gate resolves; cancel reverts the uncommitted writes.
+ [T5] Guard the full delta + classify the shape      blockedBy: [T4]
+ [T6] Checkpoint (approval over the full git diff)   blockedBy: [T5]
+ [T7] Commit the model delta                         blockedBy: [T6]
+-[E1] commit-change (injected — end)                 blockedBy: [T7]
+-[E2] propose-change (injected — end)                blockedBy: [E1]
+-[E3] review-change (injected — end)                 blockedBy: [E2]
+-[E4] merge-change (injected — end)                  blockedBy: [E3]
++[E1] commit-change (injected — end; skipped in a drive)  blockedBy: [T7]
++[E2] propose-change (injected — end; skipped in a drive) blockedBy: [E1]
++[E3] review-change (injected — end; skipped in a drive)  blockedBy: [E2]
++[E4] merge-change (injected — end; skipped in a drive)   blockedBy: [E3]
+ [T8] Scenario Validation                            blockedBy: [E4]
+ [T9] Close                                          blockedBy: [T8]
+ ```
+@@ -184,6 +204,7 @@ No runtime reordering. On resume, skip completed and reset in-progress to pendin
+ ### Phase: Start (injected — D2 position: start)
+ 
+ **Step 0 — start-change** · Owner: `start-change` (sub-play) · Depends on: pre-flight
++*Skipped when `run.json` reads `in_drive: true` — the drive opened the change (C11).*
+ Run the start-of-pipeline member as a sub-play, dispatched with `parent_run_id` so it
+ emits only its own C1 evidence and this play's close absorbs it. It resolves or creates
+ the issue for this /vision run, cuts the branch off fresh main, sets up a worktree iff config
+@@ -417,6 +438,27 @@ the keyed persist), and no existing doc lost a section or an agent-intent line.
+ ### Phase: Checkpoint (conditional gate, C7)
+ 
+ **Step 6 — Human review (class: standard, conditional)** · Owner: play · Depends on: Step 5
++**Inside a drive (C11), this step does not wait.** Resolve the learned policy exactly as below.
++If the shape would auto-pass, record the auto-pass and its ledger line as below. Otherwise,
++render the checkpoint exactly as it would have been shown (the same content as the "on" path
++below) to `<working>/checkpoint.md`, write it as the drive's review record, and append the
++crossing as deferred:
++
++```
++python3 scripts/write_drive_review.py --run <working>/run.json \
++        --summary <working>/checkpoint.md \
++        --attach shape=<working>/shape.json --attach kept=<working>/kept-report.json \
++        --attach guard=<working>/guard-report.json --attach persist=<working>/persist-manifest.json \
++        --ts <run ts>
++python3 scripts/gate_eval.py append --ledger <gates.conditional.ledger> --play vision \
++        --issue <the drive's issue> --shape <shape-key> --predicted gate \
++        --human deferred_to_drive_review --ts <run ts>
++```
++
++Record `checkpoint deferred to the drive's review (drive <drive_run_id>)` as a Checkpoint
++Decisions row and proceed to Step 7. Nothing is reverted: a cancel at the drive's review is the
++drive's to act on. Run by hand, the rest of this step applies as written.
++
+ This checkpoint is a **conditional gate** (#467) per `standards/rules/gate-config.md` —
+ /vision is one of the eleven conditional document plays. Resolve it first match wins:
+ pinned (n/a here) → `gates.plays.vision` → the learned policy → `gates.classes.standard`
+@@ -480,12 +522,22 @@ nothing is left on the tree.
+ (shape, predicted `gate|auto`, the human's real action or `auto_pass`), and an
+ auto-pass fired only for a shape the policy lists in `auto:` (and not in `never_auto:`)
+ with no blocking finding standing.
++**SE-13 (F12/C11):** `run.json` records the path taken. Inside a drive (`in_drive: true`): no
++`start-change` (Step 0) or end-sequence step (E1–E4) ran, the run did not wait at Step 6, and
++every commit is on the contract's branch. By hand (`in_drive: false`): Step 0, Step 6 and
++E1–E4 ran as written.
++**SE-14 (F13/C11):** inside a drive, when the gate did not auto-pass, a
++`<review_dir>/vision-<ts>.json` record exists with `decided: false`, its summary file equals
++`<working>/checkpoint.md`, and its attachments exist; the gate ledger holds exactly one line for
++the crossing, reading `deferred_to_drive_review` (or `auto_pass` on a policy-listed shape) and
++never an approval; no goal or answer was filled in that the contract or the person did not give.
+ 
+ ### Phase: Commit (make the delta durable, ADR 026 step 7)
+ 
+ **Step 7 — Commit the model delta** · Owner: play · Depends on: Step 6
+-The gate approved (or auto-passed / was skipped by config). Commit the full model delta on
+-the branch (C9, ADR 026 step 7) — a lightweight persist step that makes the writes durable
++The gate approved (or auto-passed / was skipped by config / was deferred to the drive's review
++inside a drive). Commit the full model delta on the branch — the drive's branch inside a drive
++(C9, ADR 026 step 7) — a lightweight persist step that makes the writes durable
+ and advances HEAD so the end sequence lands exactly this run's delta; it is NOT the end
+ sequence itself. A cancelled checkpoint never reaches this step (nor the end sequence) — its
+ tree was already restored in Step 6:
+@@ -504,6 +556,7 @@ unmet.
+ 
+ ### Phase: End sequence (injected — D2 position: end)
+ 
++*Skipped when `run.json` reads `in_drive: true` — the drive lands its own change (C11).*
+ After the model delta is committed, the D2 rule injects the close sequence — each a sub-play
+ dispatched with `parent_run_id`, resolving its own context — to commit any remaining change,
+ raise the PR, take the verdict, and merge the seed to main (C8).
+@@ -559,6 +612,13 @@ merge; the land on main keeps its pinned human approval (merge-change C7).
+ - **SCE-6 (S6 — founder, by hand, nothing else run):** with only a typed goal and an empty
+   model the run seeds as in SCE-1; with intents whose pages are gone the run still closes
+   COMPLETED and the persist manifest names each missing page in `warnings`.
++- **SCE-7 (S7 — Kickoff drive):** handed a valid contract, `run.json` reads `in_drive: true`
++  with the contract's `drive_run_id` and branch; no `start-change` or end-sequence step ran; the
++  current branch equals the contract's; a `vision-<ts>.json` review record with
++  `decided: false` and its summary exist in the contract's `review_dir`; the ledger line reads
++  `deferred_to_drive_review` (or `auto_pass`); the model delta is committed on the drive's
++  branch; the stop-condition verdict reads held. The same play run by hand reads
++  `in_drive: false` and ran every step.
+ 
+ ### Phase: Evidence & Close
+ 
+@@ -618,7 +678,7 @@ persisted spine + grounding-doc paths, the persist manifest (`persist-manifest.j
+ its placed pages, intent links and warnings), the captured `kept-report.json` and
+ `guard-report.json`, the
+ model-delta commit sha, the stop-condition verdict; the content-eval verdicts; step and
+-scenario eval results SE-1…SE-12 / SCE-1…SCE-6; checkpoint decision from Step 6 (or the
++scenario eval results SE-1…SE-14 / SCE-1…SCE-7; `run.json` (`in_drive`) and, inside a drive, the review record's path; checkpoint decision from Step 6 (or the
+ `gate skipped by config` / `gate auto-passed by learned policy` row when the gate
+ resolved without a wait) plus the gate ledger line(s) appended this run; the session
+ identity stamp fields from $session_stamp (#463): session_id, ledger_file,
+@@ -647,6 +707,7 @@ pointer to `$evidence_dest`. Always emitted; never gated.
+ | S4 — the checkpoint | reviewer | SCE-4 |
+ | S5 — after /intent | product strategist | SCE-5 |
+ | S6 — by hand, nothing else run | founder | SCE-6 |
++| S7 — Kickoff drive | product strategist | SCE-7 |
+ 
+ ## Recovery
+ 
+@@ -663,6 +724,8 @@ pointer to `$evidence_dest`. Always emitted; never gated.
+ | F9 | the product-os tree is dirty once start-change has cut the branch (uncommitted model edits present) | halt and ask for a clean model tree — commit or revert the pending model edits — before /vision writes the seed | human |
+ | F10 | the run refused, stopped, waited or closed HALTED over another play's work, or ran the workable check | drop the check or the wait; record what was missing or light as a warning in the persist record and carry on with what is there | autonomous |
+ | F11 | a capability added twice, a one-sided intent link, or an unplaced capability with no warning | drop the duplicate and record `same_as`; re-run the keyed persist so it writes the missing side of each link; place the capability or record why it could not be placed | autonomous |
++| F12 | inside a drive the play opened an issue or branch, ran the end sequence, waited at its checkpoint, or worked off the drive's branch; or by hand it skipped a step | inside a drive, close the stray issue and branch, switch to the drive's branch, and write the review record in place of the wait; by hand, run the skipped step | human |
++| F13 | no review record, a record that differs from the checkpoint, no ledger line, an approval no person gave, or an answer the play picked itself | re-render the checkpoint and re-write the review record with `write_drive_review.py`; append the missing `deferred_to_drive_review` line, or a correction refuting a made-up approval; drop the picked answer and ask the person | autonomous |
+ 
+ ## Pause and Resume
+ 
+@@ -678,8 +741,8 @@ continues at the first end-sequence member that has not finished.
+ 
+ | Field | Value |
+ |-------|-------|
+-| fingerprint | sha256:492b0ab595beb5fa629b68305be0fbc5b8f3132408b4bbaa9bfe51c699fb2dc5 (of `reference/ice.md`) |
+-| compiled_by | play-editor (#637 one product model with /intent); play-editor (#616 position both); play-editor (#500 direct-model-write, ADR 026); prior: play-editor (#467 Batch B, #466 Batch C); play-creator (edited via play-editor, #437; spine+grounding+eval model) |
++| fingerprint | sha256:658fba576ce177d577c73d078b3269acb584d10df8570f8642cc751ec03d8b8e (of `reference/ice.md`) |
++| compiled_by | play-editor (#614 runs inside a drive); play-editor (#637 one product model with /intent); play-editor (#616 position both); play-editor (#500 direct-model-write, ADR 026); prior: play-editor (#467 Batch B, #466 Batch C); play-creator (edited via play-editor, #437; spine+grounding+eval model) |
+ | pipeline_position | both (start-change head; commit → propose → review → merge close — #616) |
+ | position_exception | model-writing both play — writes the model on the started branch and commits its own model delta (C9) BEFORE the injected end sequence lands it (same shape as /measure) |
+ | workflow_structure | A (single checkpoint — class: standard, conditional gate per gate-config.md #467; direct-model-write WRITE-THEN-REVIEW per ADR 026 — persist + guard + classify before the gate, commit after; stop-condition gated close) |
+@@ -687,10 +750,10 @@ continues at the first end-sequence member that has not finished.
+ | domain_agents | 1 (product-os-keeper) |
+ | utility_agents | 0 (start-change is the injected head, not a domain agent) |
+ | skills_used | search-kb, propose-kb-node, author-vision-seed |
+-| scripts | 14 (preflight.py, read_intents.py, lint_grounding.py, grounding_check.py, grounding_gate.py, persist_seed.py, intent_touches.py, check_kept.py, scoped_write_guard.py, classify_change.py, gate_eval.py, distill_gate_policy.py, check_stop_condition.py, session_stamp.py) |
+-| step_evals | 12 (SE-1…SE-12) |
+-| scenario_evals | 6 (SCE-1…SCE-6) |
+-| recovery_entries | 11 (one per failure condition; 9 autonomous / 2 human) |
++| scripts | 16 (preflight.py, check_drive_contract.py, write_drive_review.py, read_intents.py, lint_grounding.py, grounding_check.py, grounding_gate.py, persist_seed.py, intent_touches.py, check_kept.py, scoped_write_guard.py, classify_change.py, gate_eval.py, distill_gate_policy.py, check_stop_condition.py, session_stamp.py) |
++| step_evals | 14 (SE-1…SE-14) |
++| scenario_evals | 7 (SCE-1…SCE-7) |
++| recovery_entries | 13 (one per failure condition; 10 autonomous / 3 human) |
+ 
+ **Recompiled note (#467 Batch B):** checkpoint upgraded to a conditional learned gate;
+ see `gate-config.md`.
+diff --git a/core/components/plays/vision/reference/ice.md b/core/components/plays/vision/reference/ice.md
+index 9c94756a..9de7401f 100644
+--- a/core/components/plays/vision/reference/ice.md
++++ b/core/components/plays/vision/reference/ice.md
+@@ -51,7 +51,7 @@ The grounding docs are the unit of meaning: each conforms to its locked template
+ must clear the **content-quality eval** (a judge), so a thin or label-only doc cannot
+ pass. Structure lives in the spine; meaning lives in the docs.
+ 
+-Pipeline position: **both**. /vision stands on its own (ADR 029 §4; #616): run by hand, it opens its own change and lands it. The D2 rule prepends `start-change` — resolve or create the issue, cut the branch off fresh main, optional worktree, init STM — and, after the model delta is committed, appends the close sequence `commit-change → propose-change → review-change → merge-change`, landing the change on main. No later play needs to run for /vision's work to be finished: /understand and the plays after it start from main. It writes the persistent product model **directly, in place** on the started branch — there is no draft copy and no apply/promote step; review is the branch git diff and the end PR. (#437, #500, ADR 026; position changed from start to both in #616.)
++Pipeline position: **both**. /vision stands on its own (ADR 029 §4; #616): run by hand, it opens its own change and lands it. Inside a drive (ADR 029 §2–3; #614) it is handed the drive's contract (`standards/rules/drive-contract.md`) and opens nothing: no `start-change`, no end sequence, no wait at its checkpoint — it works on the drive's branch, commits its model change there, and keeps what its checkpoint would have shown as a review record for the drive's end review. The D2 rule prepends `start-change` — resolve or create the issue, cut the branch off fresh main, optional worktree, init STM — and, after the model delta is committed, appends the close sequence `commit-change → propose-change → review-change → merge-change`, landing the change on main. No later play needs to run for /vision's work to be finished: /understand and the plays after it start from main. It writes the persistent product model **directly, in place** on the started branch — there is no draft copy and no apply/promote step; review is the branch git diff and the end PR. (#437, #500, ADR 026; position changed from start to both in #616.)
+ 
+ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM authoring skill writes ONLY the per-node grounding docs (`domain.md`, `capability.md`) straight to the live model — new docs, and updates to existing docs at its altitude that keep what was there; it never removes a doc and never writes a shared file. Every shared-file mutation (the spine `_spine.yaml`, including its `profile` block) and every page move is done by the deterministic keyed persist script, in place: it adds entries whose id is absent and the profile only if none exists, makes only the named updates to an existing entry, places holding-folder capabilities, and refuses anything else (the node-level containment the file-level scoped guard cannot see inside the shared spine). Containment is a post-write scoped guard over the full delta (`scoped_write_guard.py`) plus a keep check over every existing doc the run changed, not a draft. Clean tree in, committed delta out: the product-os tree is asserted clean once start-change has cut the fresh branch, and after the approved checkpoint the play commits its own model delta on the branch, so the working-tree diff vs HEAD is exactly this run's delta and the end sequence lands exactly that delta.
+ 
+@@ -101,7 +101,8 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
+   intent pages may only be changed (`--modify-only`); the spine `_spine.yaml` (with its
+   profile block) is `--allow`. A re-run with nothing new to add changes nothing.
+ - C7 — Exactly one human checkpoint, presenting the domain, the directional
+-  capabilities, and the directional profile. The checkpoint is a **conditional gate**
++  capabilities, and the directional profile. (Inside a drive the checkpoint does not wait;
++  it becomes a review record for the drive's end review — C11.) The checkpoint is a **conditional gate**
+   (#467; `gate-config.md` three gate kinds — /vision is one of the eleven conditional
+   document plays). Resolution order: pinned (n/a here) → the `gates.plays` override →
+   the learned policy (classify the working-tree change shape — the model tree's diff vs
+@@ -147,6 +148,22 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
+   names the part, marked `adds` (written by this run) or `changes` (already there) — both
+   written by the keyed persist script, never by hand. Each capability built from an input
+   intent that had no domain is placed under one, or has a warning saying why not.
++- C11 — Runs inside a drive without stopping (ADR 029 §2–3; `standards/rules/drive-contract.md`):
++  handed a drive's contract (`--contract`), the play checks it first with the bundled
++  `check_drive_contract.py` — an invalid contract, or a current branch other than the
++  drive's, halts — and records `in_drive` in `run.json`. Inside a drive it runs no
++  `start-change` and no end sequence (the drive opens and lands the change); it takes its
++  intents and goal from the contract's inputs and its answers from the contract's answers;
++  it asserts the clean model tree at once; it does NOT wait at its checkpoint (C7): it
++  renders the checkpoint exactly as it would have been shown and writes it, with the files
++  it stands on (the shape, the keep check, the guard report, the persist record), as a
++  review record into the contract's `review_dir` with the bundled `write_drive_review.py`,
++  and appends the crossing to the gate ledger as `deferred_to_drive_review` (the learner
++  skips it until the drive's review writes the person's real answer); a crossing the
++  learned policy would auto-pass is recorded as an auto-pass, as by hand. It still commits
++  its model delta on the drive's branch (C9). A question neither the contract nor the model
++  answers — no intents and no goal — stops the run and asks the person; the play never
++  picks an answer itself. Run by hand (no contract), every step runs as before.
+ 
+ ### Failure conditions
+ 
+@@ -184,6 +201,13 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
+   HALTED because an intent was only proposed, an intent page or a domain was missing or
+   light, a capability sat in the holding folder, or no intents were given at all — or it ran
+   the workable check.
++- F12 — Inside a drive, the play opened an issue or a branch, ran the end sequence, waited at
++  its checkpoint, or worked on a branch other than the drive's; or, run by hand, it skipped
++  its opening, its checkpoint or its end sequence.
++- F13 — Inside a drive, the checkpoint left no review record in the drive's `review_dir`,
++  the record differs from what the checkpoint would have shown, the gate ledger has no line
++  for the crossing, or a line records an approval no person gave; or the play picked an
++  answer to a question the drive had not answered.
+ - F11 — A link or a gap was left silent or one-sided: a second capability was added for one
+   already in the model; a part linked to an intent is missing from the intent's Touches list,
+   or the intent is missing from the part's spine `intents`; a capability built from an input
+@@ -243,6 +267,18 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
+   page. Measure: the run closes COMPLETED in both cases; the second run's persist manifest
+   lists the missing pages in `warnings`.
+ 
++- S7 — (Kickoff drive, inside a drive) Given a drive hands /vision its contract — the
++  drive's branch, its issue, its `review_dir`, the intents /intent saved and the answers to
++  /vision's questions — when /vision runs, then it opens nothing, does not stop at its
++  checkpoint, commits its model change on the drive's branch and leaves a review record for
++  the drive's review. Measure: `run.json` reads `in_drive: true` with the contract's
++  `drive_run_id` and branch; no `start-change` or end-sequence step ran and the current
++  branch equals the contract's branch; a `<review_dir>/vision-<ts>.json` record exists with
++  `decided: false` and its summary file; the gate ledger's line for the run reads
++  `deferred_to_drive_review` (or `auto_pass` on a policy-listed shape); the model delta is
++  committed on the drive's branch; the stop-condition verdict reads held. Run by hand, the
++  same play's `run.json` reads `in_drive: false` and every step ran as before.
++
+ ### Done means
+ 
+ Paths are relative to the run's working folder (`<working>`, under
+@@ -316,3 +352,13 @@ not per-node docs.
+   with no warning. direction: drop the duplicate and record `same_as`; re-run the keyed persist
+   so it writes the missing side of each link; place the capability or record why it could not
+   be placed. handoff: autonomous.
++- REC12 (F12) — trigger: inside a drive the play opened an issue or branch, ran the end
++  sequence, waited at its checkpoint, or worked off the drive's branch; or by hand it skipped
++  a step. direction: inside a drive, close the stray issue and branch, switch to the drive's
++  branch, and write the review record in place of the wait; by hand, run the skipped step.
++  handoff: human.
++- REC13 (F13) — trigger: no review record, a record that differs from the checkpoint, no
++  ledger line, an approval no person gave, or an answer the play picked itself. direction:
++  re-render the checkpoint and re-write the review record with `write_drive_review.py`;
++  append the missing `deferred_to_drive_review` line, or a correction refuting a made-up
++  approval; drop the picked answer and ask the person. handoff: autonomous.
+diff --git a/core/components/plays/vision/scripts/check_drive_contract.py b/core/components/plays/vision/scripts/check_drive_contract.py
+new file mode 100644
+index 00000000..6b2ee417
+--- /dev/null
++++ b/core/components/plays/vision/scripts/check_drive_contract.py
+@@ -0,0 +1,84 @@
++#!/usr/bin/env python3
++"""check_drive_contract.py — check a drive's contract and record how this run starts (#614).
++
++The single shared checker for `standards/rules/drive-contract.md`. A play that can run
++inside a drive calls it first. With `--contract`, it checks the contract — valid JSON,
++every required field present, and the current branch equal to the drive's branch — and
++writes `run.json` with `in_drive: true` and the play's own inputs and answers. With no
++`--contract`, it writes `in_drive: false`: the play runs by hand, unchanged.
++
++Canonical copy lives at play-creator/references/check_drive_contract.py and is stamped into
++each play that can run inside a drive. Layer rule: reads files only; the current branch is
++passed in; no git/gh/network.
++
++    python3 check_drive_contract.py --play vision --branch "$(git branch --show-current)" \
++        [--contract <contract.json>] --out <working>/run.json
++
++Exit 0 — run.json written (in a drive, or by hand). Exit 2 — the contract is invalid or the
++branch does not match: nothing to run; the play halts and says why.
++"""
++import argparse
++import json
++import os
++import sys
++
++REQUIRED = ("drive_run_id", "drive", "branch", "issue", "review_dir")
++
++
++class Invalid(Exception):
++    """A reason the contract cannot be used, in plain words."""
++
++
++def check(contract, play, branch):
++    if not isinstance(contract, dict):
++        raise Invalid("the contract is not a JSON object")
++    missing = [k for k in REQUIRED if contract.get(k) in (None, "")]
++    if missing:
++        raise Invalid(f"the contract is missing {', '.join(missing)}")
++    if not isinstance(contract["issue"], int) or isinstance(contract["issue"], bool):
++        raise Invalid("the contract's `issue` must be a number")
++    for key in ("inputs", "answers"):
++        if key in contract and not isinstance(contract[key], dict):
++            raise Invalid(f"the contract's `{key}` must be an object keyed by play")
++        mine = (contract.get(key) or {}).get(play)
++        if mine is not None and not isinstance(mine, dict):
++            raise Invalid(f"the contract's `{key}.{play}` must be an object")
++    if str(contract["branch"]) != branch:
++        raise Invalid(f"the current branch is `{branch}`, but the drive's branch is "
++                      f"`{contract['branch']}` — switch to it first")
++    return {"in_drive": True, "play": play,
++            "drive_run_id": str(contract["drive_run_id"]), "drive": str(contract["drive"]),
++            "branch": branch, "issue": contract["issue"],
++            "review_dir": str(contract["review_dir"]),
++            "inputs": (contract.get("inputs") or {}).get(play) or {},
++            "answers": (contract.get("answers") or {}).get(play) or {}}
++
++
++def main(argv=None):
++    ap = argparse.ArgumentParser(description="Check a drive contract (drive-contract.md).")
++    ap.add_argument("--play", required=True)
++    ap.add_argument("--branch", required=True, help="the current git branch")
++    ap.add_argument("--contract", help="the drive's contract; absent ⇒ run by hand")
++    ap.add_argument("--out", required=True)
++    args = ap.parse_args(argv)
++
++    if not args.contract:
++        run = {"in_drive": False, "play": args.play, "branch": args.branch}
++    else:
++        try:
++            with open(args.contract, encoding="utf-8") as fh:
++                contract = json.load(fh)
++            run = check(contract, args.play, args.branch)
++        except (OSError, ValueError, Invalid) as why:
++            msg = why if isinstance(why, Invalid) else f"cannot read the contract: {why.__class__.__name__}"
++            sys.stderr.write(f"check_drive_contract.py: {msg}\n")
++            return 2
++    os.makedirs(os.path.dirname(os.path.abspath(args.out)), exist_ok=True)
++    with open(args.out, "w", encoding="utf-8") as fh:
++        json.dump(run, fh, indent=2)
++    print(json.dumps(run, indent=2))
++    return 0
++
++
++if __name__ == "__main__":
++    sys.exit(main(sys.argv[1:]))
+diff --git a/core/components/plays/vision/scripts/distill_gate_policy.py b/core/components/plays/vision/scripts/distill_gate_policy.py
+index 206a88a1..b9f6b29c 100644
+--- a/core/components/plays/vision/scripts/distill_gate_policy.py
++++ b/core/components/plays/vision/scripts/distill_gate_policy.py
+@@ -10,6 +10,9 @@
+     (auto_pass lines EXTEND an earned streak but never start one) and no unrefuted
+     correction stands against it;
+   - any rejected / approved_edited / correction line RESETS that shape to gated;
++  - a deferred_to_drive_review line (a crossing inside a drive, #614) is SKIPPED: it is
++    not an approval and does not break a run of them, until the drive's review appends
++    the person's real answer as its own line;
+   - shapes in `never_auto` (human-pinned, preserved verbatim from the existing policy)
+     are never emitted as auto regardless of the ledger.
+ 
+@@ -94,6 +97,8 @@ def _trailing_streak(recs, refuted):
+         human = rec.get("human")
+         if rec["_line"] in refuted:
+             run = []  # a refuted line breaks the streak it sat in
++        elif human == "deferred_to_drive_review":
++            continue  # no answer yet — the drive's review appends it later
+         elif human == "approved_clean":
+             run.append(rec)
+         elif human == "auto_pass" and run:
+diff --git a/core/components/plays/vision/scripts/gate_eval.py b/core/components/plays/vision/scripts/gate_eval.py
+index 59d5a743..f11ec3a8 100644
+--- a/core/components/plays/vision/scripts/gate_eval.py
++++ b/core/components/plays/vision/scripts/gate_eval.py
+@@ -14,8 +14,12 @@
+ `--ts` is REQUIRED on append — the caller passes the run's own timestamp so the script
+ stays replay-deterministic (no wall-clock reads here).
+ 
+-human ∈ approved_clean | approved_edited | rejected | auto_pass
++human ∈ approved_clean | approved_edited | rejected | auto_pass | deferred_to_drive_review
+ predicted ∈ gate | auto
++
++`deferred_to_drive_review` (#614, `standards/rules/drive-contract.md`): the gate would have
++stopped, but the play ran inside a drive, so no person answered at that moment — the drive's
++end review will. It pairs with `predicted gate` only; the learner skips it.
+ """
+ 
+ import argparse
+@@ -23,7 +27,7 @@
+ import os
+ import sys
+ 
+-HUMAN = {"approved_clean", "approved_edited", "rejected", "auto_pass"}
++HUMAN = {"approved_clean", "approved_edited", "rejected", "auto_pass", "deferred_to_drive_review"}
+ PREDICTED = {"gate", "auto"}
+ 
+ 
+@@ -55,6 +59,8 @@ def cmd_append(args):
+         fail(f"human must be one of {sorted(HUMAN)}")
+     if args.predicted not in PREDICTED:
+         fail(f"predicted must be one of {sorted(PREDICTED)}")
++    if args.human == "deferred_to_drive_review" and (args.predicted != "gate" or args.refutes):
++        fail("deferred_to_drive_review pairs with predicted=gate and is never a correction")
+     if (args.human == "auto_pass") != (args.predicted == "auto") and not args.refutes:
+         fail(
+             "auto_pass pairs with predicted=auto (and vice versa) except on corrections"
+diff --git a/core/components/plays/vision/scripts/write_drive_review.py b/core/components/plays/vision/scripts/write_drive_review.py
+new file mode 100644
+index 00000000..abbcfba3
+--- /dev/null
++++ b/core/components/plays/vision/scripts/write_drive_review.py
+@@ -0,0 +1,71 @@
++#!/usr/bin/env python3
++"""write_drive_review.py — keep a play's checkpoint as a review record for the drive (#614).
++
++Inside a drive a play does not stop at its own checkpoint (ADR 029; drive-contract.md).
++Instead it writes what the checkpoint would have shown — the rendered summary, and the
++files the decision stands on — into the drive's `review_dir`, so the drive's end review
++can read every play's record in one place. Nothing here decides anything: the record
++reads `decided: false` until the drive's review answers it.
++
++Canonical copy lives at play-creator/references/write_drive_review.py and is stamped into
++each play that can run inside a drive. Layer rule: file reads/writes only; no git/gh/network.
++
++    python3 write_drive_review.py --run <working>/run.json --summary <checkpoint.md> \
++        [--attach name=<path> ...] --ts <run ts>
++
++Writes `<review_dir>/<play>-<ts>.md` (the summary, as shown) and `<review_dir>/<play>-<ts>.json`
++(the record) and prints the record. Exit 0 written · 2 usage error, or the run is not in a
++drive, or a named file is missing (nothing written).
++"""
++import argparse
++import json
++import os
++import shutil
++import sys
++
++
++def main(argv=None):
++    ap = argparse.ArgumentParser(description="Write a play's review record for the drive.")
++    ap.add_argument("--run", required=True, help="run.json from check_drive_contract.py")
++    ap.add_argument("--summary", required=True, help="the checkpoint as it would have been shown")
++    ap.add_argument("--attach", action="append", default=[], help="name=path of a file the decision stands on")
++    ap.add_argument("--ts", required=True, help="the run's UTC timestamp")
++    args = ap.parse_args(argv)
++
++    try:
++        with open(args.run, encoding="utf-8") as fh:
++            run = json.load(fh)
++    except (OSError, ValueError) as exc:
++        sys.stderr.write(f"write_drive_review.py: cannot read {args.run}: {exc.__class__.__name__}\n")
++        return 2
++    if not isinstance(run, dict) or not run.get("in_drive"):
++        sys.stderr.write("write_drive_review.py: this run is not inside a drive — the play's own "
++                         "checkpoint applies\n")
++        return 2
++    attached = {}
++    for item in args.attach:
++        name, sep, path = item.partition("=")
++        if not sep or not name or not path:
++            sys.stderr.write(f"write_drive_review.py: --attach wants name=path, got `{item}`\n")
++            return 2
++        attached[name] = path
++    missing = [p for p in [args.summary, *attached.values()] if not os.path.isfile(p)]
++    if missing:
++        sys.stderr.write(f"write_drive_review.py: missing {', '.join(missing)} — nothing written\n")
++        return 2
++
++    base = os.path.join(run["review_dir"], f"{run['play']}-{args.ts}")
++    os.makedirs(run["review_dir"], exist_ok=True)
++    shutil.copyfile(args.summary, base + ".md")
++    record = {"play": run["play"], "drive_run_id": run["drive_run_id"], "drive": run.get("drive"),
++              "issue": run.get("issue"), "branch": run["branch"], "recorded_at": args.ts,
++              "summary": os.path.basename(base + ".md"), "attachments": attached,
++              "decided": False}
++    with open(base + ".json", "w", encoding="utf-8") as fh:
++        json.dump(record, fh, indent=2)
++    print(json.dumps(record, indent=2))
++    return 0
++
++
++if __name__ == "__main__":
++    sys.exit(main(sys.argv[1:]))
