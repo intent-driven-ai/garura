@@ -1,4 +1,4 @@
-# vision stop condition — baked from reference/ice.md "### Done means" (#464/#466 Batch C; #500 direct-model-write, ADR 026).
+# vision stop condition — baked from reference/ice.md "### Done means" (#464/#466 Batch C; #500 direct-model-write, ADR 026; #637 keep check).
 # Evaluated by scripts/check_stop_condition.py at Step C0 of the Standard Play Close.
 # Paths are relative to the run's working folder (<working>, under {stm_base}_shaping/vision/<product_slug>/).
 # A run whose keyed persist or scoped-write guard did not land leaves a clause unmet —
@@ -15,3 +15,6 @@ content:
     - id: D3
       says: "the scoped-write guard held — no model path changed outside the seed's write scope (the allowlist held)"
       check: { type: field_equals, file: "guard-report.json", field: "ok", equals: true }
+    - id: D4
+      says: "what was there was kept — every existing doc the run changed still has each section it had"
+      check: { type: field_equals, file: "kept-report.json", field: "ok", equals: true }

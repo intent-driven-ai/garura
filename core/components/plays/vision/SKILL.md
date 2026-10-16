@@ -1,15 +1,17 @@
 ---
 name: vision
 position: both
-description: 'Turn a business goal into the seed of the product model — a detailed domain grounding doc, directional capability grounding docs, the spine entries that wire them, and a directional product profile — written directly in place on the live model. The entry play of the strategic (shaping) pipeline in the ProductOS command model — the CXO conversation. Use when starting a new product area from a business goal, before /understand and /shape. Run by hand, it opens its own change and lands it on main — no later play is needed to finish it.'
+description: 'Turn business intents, a business goal, or both into the seed of the product model — or grow the model already there — a detailed domain grounding doc, directional capability grounding docs with their agent intent, the spine entries that wire them, the links to the business intents both ways, and a directional product profile — written directly in place on the live model. Builds on whatever /intent or any play already wrote (light domain pages, capabilities waiting in the holding folder, proposed intents) and never waits for another play. The CXO conversation of the ProductOS command model. Use when starting or growing a product area, before /understand and /shape. Run by hand, it opens its own change and lands it on main — no later play is needed to finish it.'
 user-invocable: true
 ---
 
 # vision
 
-Turn a business goal into the **seed** of the product model: a **detailed domain**
-grounding doc, **directional capability** grounding docs, the **spine** entries that
-wire them (domain + capability nodes), and a **directional** product profile. /vision is
+Turn business intents, a business goal, or both into the **seed** of the product model —
+or grow the model already there: a **detailed domain** grounding doc, **directional
+capability** grounding docs with their `## Agent intent (ICE)`, the **spine** entries that
+wire them (domain + capability nodes), the links to the business intents (both ways), and a
+**directional** product profile. /vision is
 the **CXO conversation** — what you take to a CXO and get back: strategic, directional,
 CXO altitude. The domain is named and detailed; each capability is named and given
 directionality only. The deeper work — detailing the capabilities and introducing their
@@ -17,15 +19,29 @@ functionalities (/understand, the product-manager step), then breaking the model
 deliverable end-to-end verticals and epics (/shape, the product-owner step) — is not done
 here.
 
+**One model, nothing waits (ontology v4, #637).** /intent and /vision write the same tree —
+domain → capability → functionality, the business intents beside it, one spine — and either
+may run first. /vision starts from whatever the model holds: it accepts proposed intents
+(it never runs the workable check and never waits for a confirmation), raises a light domain
+page to the full page keeping its intent, places each capability waiting in the holding
+folder `capabilities/<id>/` under a domain (moving its page unchanged and fixing the intent
+pages' links), adds light directional detail to capabilities another play wrote, and never
+adds the same capability twice. Every part it links to an intent is linked both ways — the
+part's spine `intents` and the intent page's Touches list — by the persist script. Anything
+missing or odd is a warning, never a stop.
+
 **Pipeline position: both.** /vision stands on its own (ADR 029 §4; #616): run by hand, it opens its own change and lands it. The D2 rule prepends `start-change` — resolve or create the issue, cut the branch off fresh main, optional worktree, init STM — and, after the model delta is committed, appends the close sequence `commit-change → propose-change → review-change → merge-change`, landing the seed on main. No later play needs to run for /vision's work to be finished: /understand and the plays after it start from main. It writes the persistent product model **directly, in place** (additively) on the started branch — there is no draft copy and no apply/promote step; review is the branch git diff and the end PR. (#437, #500, ADR 026; position changed from start to both in #616.)
 
 **Write discipline (ADR 026, `standards/rules/direct-model-write.md`).** The LLM authoring
 skill writes ONLY the per-node grounding docs (`domain.md`, `capability.md`) straight to
-the live model, skip-if-exists (it never overwrites an existing doc); every shared-file
-mutation (the spine `_spine.yaml`, including its `profile` block) is done by the
-deterministic keyed persist script, in place, merging the manifest's spine-delta additively
-— it adds only entries whose id is absent and the profile only if none exists, and refuses
-to modify any existing entry (the node-level containment the file-level scoped guard cannot
+the live model — new docs, and updates that keep every section and agent-intent line they
+had (C6; the keep check proves it); it never removes or moves a doc and never writes a shared
+file. Every shared-file mutation (the spine `_spine.yaml` with its `profile` block, and the
+intent pages' Touches lists) and every page move is done by the deterministic keyed persist
+script, in place: it adds entries whose id is absent and the profile only if none exists,
+makes only the named updates to an existing entry (set an empty `domain`, repoint `doc`,
+raise `detail`, refresh `one_line`, add to `intents`), places holding-folder capabilities,
+and refuses anything else (the node-level containment the file-level scoped guard cannot
 see inside the shared spine). The model tree is asserted clean once start-change has cut the
 branch (F9) and the play commits its own model delta after approval (C9), so the working-tree
 diff vs HEAD is exactly this run's delta. Containment is a post-write scoped guard
@@ -37,9 +53,11 @@ This play was compiled from the vision ICE (`reference/ice.md`) by play-editor
 (#466 Batch C, Level 3 rollout per ADR 025; #467 Batch B — the checkpoint upgraded to a
 conditional learned gate, see `standards/rules/gate-config.md`; #500 — migrated to
 direct-model-write per ADR 026 and `standards/rules/direct-model-write.md`; #616 — position
-start → both, so /vision lands its own change instead of leaving it for /roadmap).
-Intent defines constraints (C1–C9) and failure conditions (F1–F9); the expectation
-defines success scenarios (S1–S4), a Done means (D1–D3, baked to
+start → both, so /vision lands its own change instead of leaving it for /roadmap; #637 —
+one product model with /intent: starts from intents and whatever is there, never blocks,
+keeps what is there, links intents both ways).
+Intent defines constraints (C1–C10) and failure conditions (F1–F11); the expectation
+defines success scenarios (S1–S6), a Done means (D1–D4, baked to
 `stop-condition.yaml`), and one recovery entry per failure condition.
 To modify this play, update `reference/ice.md` and recompile with play-editor.
 Do NOT edit this file manually — it is a compiled artifact.
@@ -81,7 +99,7 @@ orchestrator's own context.
 |-------|-----------|-------------------|
 | Resolve config + `product_base` (`.garura/core/config.yaml`) | — | Hard halt |
 | Resolve `grounding-eval.judge` (optional model override) | C2 | Default: sub-agent on the session model |
-| Business goal present (play argument, else interview the user for it) | — | Gather (interview), not a halt |
+| Business intents (ids, or /intent's save record) and/or a business goal present (play argument; with neither, interview the user for a goal) | C10 | Gather (interview), not a halt |
 | **Clean model tree** — after start-change (Step 0), `git status --porcelain -- <product_base>product-os` is empty | C9/F9 | Hard halt (REC9) |
 
 Resolve the pre-flight facts mechanically with the bundled resolver — do not derive
@@ -95,8 +113,10 @@ It returns one JSON object of facts. /vision reads `product_base` (the live mode
 spine `_spine.yaml` and the grounding docs), `stm_base` (working artifacts + evidence),
 the resolved `grounding-eval.judge` config (the optional judge model override), and
 `evidence_record` (the D1 gate). If `product_base` is null, hard halt — there is nowhere
-to seed the model. The business goal is a runtime input: take it from the play argument;
-if absent, interview the user for one before Step 1.
+to seed the model. The business intents and the business goal are runtime inputs: take
+them from the play argument (intent ids, or the path of /intent's `intent-manifest.json`, or
+a goal as text — any of them, or both); with neither, interview the user for a goal before
+Step 1. A drive hands its intents in its JSON contract.
 
 `<working>` — the run's working folder — is `{stm_base}_shaping/vision/<product_slug>/`;
 the grounding, the seed manifest, the change-shape, the persist record
@@ -190,7 +210,17 @@ reflect only this run's delta.
 ### Phase: Grounding
 
 **Step 1 — Ground the goal** · Owner: `product-os-keeper` · Depends on: Step 0
-The agent does two things, in order: (1) route the goal to its **domain** with
+When the run starts from business intents, the play first reads them — mechanically, never
+refusing (C10): a proposed intent is accepted, a missing page is a warning:
+
+```
+python3 scripts/read_intents.py --product-base <product_base> \
+        ( --intent <id> [--intent <id> ...] | --intent-manifest <intent-manifest.json> ) \
+        --out <working>/intents.json
+```
+
+The goal is then drawn from the intent pages (title, outcome, why) — joined with a typed goal
+when both are given. The agent does two things, in order: (1) route the goal to its **domain** with
 `search-kb`, then (2) read that domain's full shelf through the KB router
 (`python3 $KB shelf <domain>`) to **enumerate the candidate capability set** the
 domain offers — breadth, not a single placement. For any capability or whole domain the
@@ -200,7 +230,8 @@ proposals to disk:
 
     {
       "task":    "route the goal to its domain, then enumerate the candidate capability set from that domain's shelf; propose KB nodes for gaps",
-      "inputs":  { "goal": "<the business goal>" },
+      "inputs":  { "goal": "<the business goal, or drawn from the intents>",
+                   "intents": "<working>/intents.json (when starting from intents)" },
       "outputs": { "grounding": "<working>/grounding.yaml",
                    "proposals_dir": "<working>/proposals/" }
     }
@@ -214,30 +245,35 @@ block the seed on a KB-write approval (the single human gate is Step 6).
 ### Phase: Author (write the docs to the live model, ADR 026)
 
 **Step 2 — Author the seed (docs to live)** · Owner: `product-os-keeper` · Depends on: Step 1
-The agent invokes `author-vision-seed` to write the directional seed. Per ADR 026 the skill
-writes the per-node docs **straight to the live model** — a **detailed** `domain.md` (Theme
-template) and a **directional** `capability.md` per capability (capability template,
-directional stage), all at CXO altitude, each in place under `<product_base>product-os/`
-and **skip-if-exists** — and emits the spine-delta (the domain entry, the capability
-entries `status: proposed`/`detail: directional`, and the directional `profile` block) as
-structured data in `seed-manifest.yaml`. It writes NO shared model file (`_spine.yaml`, the
-profile) — the keyed persist (Step 4) applies the manifest's spine-delta:
+The agent invokes `author-vision-seed` to write or grow the directional seed. Per ADR 026 the
+skill writes the per-node docs **straight to the live model** — a **detailed** `domain.md`
+(Theme template; a light page is raised, keeping its intent) and a **directional**
+`capability.md` per new capability (directional stage, ending in `## Agent intent (ICE)` when
+it serves an intent), all at CXO altitude, in place under `<product_base>product-os/`; on a
+capability another play wrote it adds only light directional detail, keeping every line —
+and emits the spine-delta (new domain and capability entries with their `intents`, the named
+`updates` to existing entries — including the `domain` of each holding-folder capability it
+places — and the directional `profile` block), `same_as` for each KB candidate that already
+exists, and `warnings`, as structured data in `seed-manifest.yaml`. It writes NO shared model
+file (`_spine.yaml`, the profile, an intent page) and moves no page — the keyed persist
+(Step 4) applies the manifest:
 
     {
       "task":    "author the directional vision seed from the goal + grounding — write the detailed domain doc + directional capability docs in place on the live model (skip-if-exists), emit the spine-delta (spine entries + directional profile) into the manifest",
       "inputs":  { "goal": "<the business goal>",
                    "grounding": "<working>/grounding.yaml",
                    "proposals_dir": "<working>/proposals/",
+                   "intents_path": "<working>/intents.json (when starting from intents)",
                    "product_base": "<product_base>",
                    "manifest_path": "<working>/seed-manifest.yaml" },
       "outputs": { "manifest": "<working>/seed-manifest.yaml" }
     }
 
-The skill reads `product_base` to write only ABSENT docs and to emit spine-delta entries
-only for ids absent from the live spine, and writes the `domain.md` + `capability.md` docs
-IN PLACE under `<product_base>product-os/`. It writes `seed-manifest.yaml` under `<working>`
-(STM) with the spine-delta as structured data. It writes NO `_spine.yaml` and NO profile.
-It returns the contract with the output paths on disk — never inline content.
+The skill reads `product_base` to see what exists — it emits new spine-delta entries only
+for ids absent from the live spine, and named `updates` for the rest — and writes the
+`domain.md` + `capability.md` docs IN PLACE under `<product_base>product-os/`. It writes
+`seed-manifest.yaml` under `<working>` (STM). It writes NO `_spine.yaml`, NO profile, NO
+intent page. It returns the contract with the output paths on disk — never inline content.
 
 **Step 3 — Validate the live docs** · Owner: play · Depends on: Step 2
 Run the two guards over the LIVE docs this run wrote, before the checkpoint — shape first
@@ -253,8 +289,9 @@ python3 scripts/grounding_check.py --manifest <working>/seed-manifest.yaml \
         --proposals-dir <working>/proposals
 ```
 
-Then run the **content-quality eval** over the grounding docs this run wrote (the detailed
-`domain.md` and every directional `capability.md`, at their live paths) as a **concurrent
+Then run the **content-quality eval** over the grounding docs this run wrote or changed (the
+detailed `domain.md` and every directional `capability.md` it wrote or added to, at their live
+paths — a page it only moves, unchanged, is not re-judged) as a **concurrent
 read-only fan-out** (`standards/rules/concurrent-fanout.md`): dispatch one isolated,
 clean-context judge sub-agent PER doc, ALL IN ONE CONCURRENT BATCH — each handed the judge
 prompt (`standards/rules/grounding-eval.md`), its doc, and the kind's per-section guidance
@@ -279,8 +316,9 @@ functionality doc appears, no acceptance criteria appear, and the manifest's pro
 not `set`/`locked` (`lint_grounding.py` stage check + manifest scan).
 **SE-4 (C4):** directional state — every capability entry in the manifest is
 `status: proposed` and `detail: directional`; the profile is `state: directional`.
-**SE-5 (F4/C5):** `grounding_check.py` exits 0 — every capability in the manifest
-carries a KB shelf match or an existing KB-node proposal; none is ungrounded.
+**SE-5 (F4/C5):** `grounding_check.py` exits 0 — every capability the run adds, places or
+changes (another play's included) is listed in the manifest with a KB shelf match or an
+existing KB-node proposal; none is ungrounded.
 On any GAP, apply the matching recovery (REC1–REC4) and re-run before the checkpoint —
 for a content-eval fail (SE-2), REC2 rewrites the doc to the judge's cited fixes and
 re-judges until the gate passes.
@@ -290,55 +328,78 @@ re-judges until the gate passes.
 **Step 4 — Persist (keyed, in place — spine/profile)** · Owner: play · Depends on: Step 3
 Write-then-review (ADR 026): the FULL model delta is written to the live model BEFORE the
 checkpoint, so the guard, the change-shape, and the human all see the real delta. The docs
-are already on the live model (Step 2). `persist_seed.py` now writes the SHARED spine in
-place, merging the manifest's spine-delta ADDITIVELY: it adds only entries whose id is
-absent (domains/capabilities), adds the profile only if the live spine has none, and
-REFUSES to modify any existing entry (this is the node-level containment the file-level
-guard cannot provide). No draft, no doc copy. Nothing is COMMITTED yet — the commit (Step 7)
-happens only after the gate approves; on cancel the whole delta is reverted (Step 6):
+are already on the live model (Step 2). `persist_seed.py` now writes the SHARED files in
+place: it adds spine entries whose id is absent and the profile only if the live spine has
+none; it applies only the named `updates` to existing entries and REFUSES the whole run,
+before any write, on any other field, an unknown id, a lowered `detail` or a detailed
+capability (the node-level containment the file-level guard cannot provide); it moves each
+holding-folder capability that now has a domain into the domain's folder, byte-identical;
+it adds to each domain the intents of the capabilities under it that the run touched; and it
+writes each intent page's Touches list (relinking moved pages; `adds` for parts new in this
+run, `changes` for parts already there). A missing intent page or an unplaced capability is a
+`warnings` line, never a stop. No draft, no doc copy. Nothing is COMMITTED yet — the commit
+(Step 7) happens only after the gate approves; on cancel the whole delta is reverted (Step 6):
 
 ```
 python3 scripts/persist_seed.py --seed-manifest <working>/seed-manifest.yaml \
-        --product-base <product_base> --out-manifest <working>/persist-manifest.json
+        --product-base <product_base> --out-manifest <working>/persist-manifest.json \
+        [--intents <working>/intents.json]
 ```
 
 **SE-6 (F5/C6):** the persist manifest's `written` list contains no entry that already
-existed (those appear only in `skipped`), and the profile is written only when the live
-spine had none — the merge-by-id + profile-if-absent writer makes overwriting an existing
-spine entry structurally impossible; the scoped guard (Step 5) confirms no existing doc or
-path outside the seed's write scope changed.
+existed (those appear only in `skipped`), every `updated` entry names only named-update
+fields, every `placed` entry reads `unchanged: true`, and the profile is written only when
+the live spine had none; the keep check and the scoped guard (Step 5) confirm no existing
+doc lost a section and no path outside the run's write scope changed.
+**SE-11 (F10/C10):** the run never refused, stopped or waited over another play's work:
+`intents.json` lists every input intent, proposed ones `accepted: true`; no workable check
+ran; anything missing appears in the persist manifest's `warnings`, and the run continued.
+**SE-12 (F11/C10):** links are whole and nothing is added twice: no capability id in the
+spine-delta's new `capabilities` is also in the seed manifest's `same_as`; for every
+`links` entry the part's spine `intents` names the intent and the intent page's Touches list
+names the part; every capability built from an input intent has a domain or a `warnings`
+line saying why not.
 
 ### Phase: Guard + Classify (over the full delta)
 
 **Step 5 — Guard the full delta + classify the shape** · Owner: play · Depends on: Step 4
 
-**The run's write scope (the per-play guard policy, ADR 026).** The old `apply_seed.py`
-encoded /vision's additive write scope by construction — grounding docs skip-if-exists,
-the spine merged by id; under direct-model-write that same scope is the
-`scoped_write_guard.py` policy. /vision SEEDS (it adds new docs, never overwrites), so its
-scope is heavily `--add-only`:
+**The run's write scope (the per-play guard policy, ADR 026).** /vision adds and grows
+grounding docs but never removes one; it moves holding-folder pages; it changes intent pages
+only through the persist's Touches list and relinking; the persist merges the spine:
 
-    --add-only 'product-os/*/domain.md'          # new domain grounding doc (added, never modified)
-    --add-only 'product-os/*/*/capability.md'    # new directional capability docs (added, never modified)
-    --allow    'product-os/_spine.yaml'          # the shared spine + profile block (the keyed persist merges it in place)
+    --add-only    'product-os/*/domain.md'               # a domain page may be added …
+    --modify-only 'product-os/*/domain.md'               # … or grown in place — never removed
+    --add-only    'product-os/*/*/capability.md'         # a capability page may be added …
+    --modify-only 'product-os/*/*/capability.md'         # … or grown in place — never removed
+    --remove-only 'product-os/capabilities/*/capability.md'  # a holding-folder page may only leave (placed)
+    --modify-only 'product-os/intents/*.md'              # an intent page may only change (Touches, links)
+    --allow       'product-os/_spine.yaml'               # the shared spine + profile (the keyed persist)
 
-**Guard ONCE over the full delta (C6).** After ALL writes (the LLM docs from Step 2 and the
-keyed persist's spine merge from Step 4), run the scoped guard a single time over the whole
-delta. Capture its report — its `ok` field is the stop condition's D3 input. Then re-run the
-linter over the merged live spine to complete spine↔doc consistency:
+**Keep check, then guard ONCE over the full delta (C6).** After ALL writes (the LLM docs from
+Step 2 and the keyed persist from Step 4), run the keep check — every existing doc the run
+changed kept each section and agent-intent line it had; its report is the stop condition's
+D4 input — then the scoped guard a single time over the whole delta (its `ok` field is D3).
+Then re-run the linter over the merged live spine to complete spine↔doc consistency (a
+capability whose spine entry names an intent must carry its `## Agent intent (ICE)`):
 
 ```
+python3 scripts/check_kept.py --product-base <product_base> --base-ref HEAD \
+        --out <working>/kept-report.json
 python3 scripts/scoped_write_guard.py --product-base <product_base> --base-ref HEAD \
-        --add-only 'product-os/*/domain.md' --add-only 'product-os/*/*/capability.md' \
-        --allow 'product-os/_spine.yaml' \
+        --add-only 'product-os/*/domain.md' --modify-only 'product-os/*/domain.md' \
+        --add-only 'product-os/*/*/capability.md' --modify-only 'product-os/*/*/capability.md' \
+        --remove-only 'product-os/capabilities/*/capability.md' \
+        --modify-only 'product-os/intents/*.md' --allow 'product-os/_spine.yaml' \
         --out <working>/guard-report.json
 python3 scripts/lint_grounding.py --root <product_base>/product-os \
         --spine <product_base>/product-os/_spine.yaml
 ```
 
-If the guard exits non-zero (an existing doc was overwritten, or a path outside the seed's
-write scope changed), re-run with `--restore` to revert the offending paths, apply REC5,
-and re-persist before the checkpoint.
+If the keep check fails, restore the doc from HEAD and re-apply only the additions (REC5). If
+the guard exits non-zero (a doc was removed, or a path outside the run's write scope changed),
+re-run with `--restore` to revert the offending paths, apply REC5, and re-persist before the
+checkpoint.
 
 **Classify the full working-tree delta (C7).** Classify the model tree's diff vs HEAD — now
 the FULL delta (docs + spine entries + profile), per ADR 026 write-then-review (no draft
@@ -349,10 +410,10 @@ python3 scripts/classify_change.py --play vision \
         --product-base <product_base> --base-ref HEAD --out <working>/shape.json
 ```
 
-**SE-6 (F5/C6):** the scoped-write guard report reads `ok: true` — the model delta is
-confined to the seed's write scope (new docs added, the spine merged additively); no
-existing spine entry, doc, or the profile was modified, and no path outside the scope
-changed.
+**SE-6 (F5/C6):** the keep-check report and the scoped-write guard report both read
+`ok: true` — the model delta is confined to the run's write scope (docs added or grown, never
+removed; holding-folder pages only moved out; intent pages only changed; the spine merged by
+the keyed persist), and no existing doc lost a section or an agent-intent line.
 
 ### Phase: Checkpoint (conditional gate, C7)
 
@@ -380,8 +441,10 @@ python3 scripts/gate_eval.py append --ledger <gates.conditional.ledger> --play v
 Anything else resolves the gate on (an explicit `gates.plays.vision: off` instead
 records `gate skipped by config (<resolution path>)` as a Checkpoint Decisions row and
 proceeds). When on, present the proposed seed **inline over the real model git diff** — the
-domain (its intent, the bet, its guiding rules, the directional capabilities), each
-capability's directional intent, and the directional profile (shape + rough NFR levels) —
+domain (its intent, the bet, its guiding rules, the directional capabilities; raised from a
+light page when it was one), each capability's directional intent and agent intent, the
+capabilities placed from the holding folder, the intent links written (each intent's Touches
+list), the persist's `warnings`, and the directional profile (shape + rough NFR levels) —
 render the approval prompt (`standards/templates/approval-prompt.md`) and wait for the
 typed response. Approve → continue to Step 7 (commit). **Cancel → revert the working tree
 (ADR 026 step 6):** the full delta is already on disk, so run the guard with `--restore` and
@@ -434,9 +497,11 @@ git commit -m "feat(model): seed <domain> — domain, directional capabilities, 
 ```
 **SE-8 (F7/C8):** the close is stop-condition gated — `check_stop_condition.py` over the
 baked `stop-condition.yaml` (D1 the persist record `persist-manifest.json` exists; D2 it
-stamps `applied: true`; D3 the captured `guard-report.json` reads `ok: true`) must read
-**held** before any COMPLETED close, and the model delta is committed (C9); a run whose
-persist or guard did not land closes HALTED, never COMPLETED (REC7).
+stamps `applied: true`; D3 the captured `guard-report.json` reads `ok: true`; D4 the captured
+`kept-report.json` reads `ok: true`) must read **held** before any COMPLETED close, and the
+model delta is committed (C9); a run whose persist, keep check or guard did not land closes
+HALTED, never COMPLETED (REC7). No clause depends on another play: warnings never make one
+unmet.
 
 ### Phase: End sequence (injected — D2 position: end)
 
@@ -476,16 +541,25 @@ merge; the land on main keeps its pinned human approval (merge-change C7).
   needed to finish it; the stop-condition verdict reads held.
 - **SCE-2 (S2 — architect):** every persisted capability traces to a KB shelf or a
   recorded proposal in the seed manifest (`grounding_check.py` is clean).
-- **SCE-3 (S3 — product owner, non-destructive re-run):** on a re-run over an existing
-  domain, the persist manifest's `skipped` list holds every pre-existing spine entry and
-  `written` holds only newly-added capabilities, the scoped-guard report reads `ok` (no
-  add-only doc was modified), and every pre-existing doc is byte-identical before and after.
+- **SCE-3 (S3 — product owner, re-run keeps what is there):** on a re-run over an existing
+  domain, `written` holds only newly-added entries, `updated` names only named-update fields,
+  every other pre-existing entry is in `skipped`, the keep-check and scoped-guard reports read
+  `ok`, and a re-run with nothing new leaves every model file byte-identical.
 - **SCE-4 (S4 — reviewer):** the Step 6 checkpoint showed the domain, the directional
   capabilities, and the directional profile inline over the real model git diff, and no
   product-model change was COMMITTED before that gate resolved — on cancel the working tree
   returns byte-clean to HEAD — or, on the auto-pass path (a policy-listed shape), the gate
   resolved with no wait and the recorded auto-pass, the appended ledger line, and the diff
   summary stand in the approval's place.
+- **SCE-5 (S5 — product strategist, after /intent):** starting from /intent's intents (some
+  proposed) with a light domain and a holding-folder capability: `intents.json` accepts every
+  input intent; the persist manifest's `placed` names the holding-folder capability with
+  `unchanged: true`, `updated` raises the domain to `detailed`; each KB candidate already in
+  the model is in `same_as` and not added; every intent's Touches list and every linked part's
+  spine `intents` match both ways; the keep check and guard read `ok`; `warnings` is empty.
+- **SCE-6 (S6 — founder, by hand, nothing else run):** with only a typed goal and an empty
+  model the run seeds as in SCE-1; with intents whose pages are gone the run still closes
+  COMPLETED and the persist manifest names each missing page in `warnings`.
 
 ### Phase: Evidence & Close
 
@@ -495,9 +569,9 @@ use the product-scoped evidence base and slug. Evidence recording is play-only a
 config-gated per the D1 evidence rule (`standards/rules/evidence-recording.md`).
 **SE-8 (F7/C8):** the close is stop-condition gated — `check_stop_condition.py` over
 the baked `stop-condition.yaml` (D1 the persist record exists; D2 it stamps
-`applied: true`; D3 the captured guard report reads `ok: true`) reads **held** before the
-run closes COMPLETED, and the model delta is committed (C9); anything else closes HALTED
-with the unmet clauses named.
+`applied: true`; D3 the captured guard report reads `ok: true`; D4 the captured keep-check
+report reads `ok: true`) reads **held** before the run closes COMPLETED, and the model delta
+is committed (C9); anything else closes HALTED with the unmet clauses named.
 
 ```bash
 # --- Standard Play Close (canonical; see standards/rules/play-close.md) ---
@@ -540,10 +614,12 @@ unevaluable verdict is never a pass.
 the write and record `evidence skipped (record=false)` in the report's pointer line.
 Otherwise fill the `evidence-file.md` slots (play `vision`, run_id `vision-${ts}`,
 product_slug, started_at/completed_at, status per C0, exit_reason; artifacts produced:
-`grounding.yaml`, `seed-manifest.yaml`, the persisted spine + grounding-doc paths, the
-persist manifest (`persist-manifest.json`), the captured `guard-report.json`, the
+`grounding.yaml`, `intents.json` (when starting from intents), `seed-manifest.yaml`, the
+persisted spine + grounding-doc paths, the persist manifest (`persist-manifest.json`, with
+its placed pages, intent links and warnings), the captured `kept-report.json` and
+`guard-report.json`, the
 model-delta commit sha, the stop-condition verdict; the content-eval verdicts; step and
-scenario eval results SE-1…SE-10 / SCE-1…SCE-4; checkpoint decision from Step 6 (or the
+scenario eval results SE-1…SE-12 / SCE-1…SCE-6; checkpoint decision from Step 6 (or the
 `gate skipped by config` / `gate auto-passed by learned policy` row when the gate
 resolved without a wait) plus the gate ledger line(s) appended this run; the session
 identity stamp fields from $session_stamp (#463): session_id, ledger_file,
@@ -570,6 +646,8 @@ pointer to `$evidence_dest`. Always emitted; never gated.
 | S2 — grounding audit | architect | SCE-2 |
 | S3 — non-destructive re-run | product owner | SCE-3 |
 | S4 — the checkpoint | reviewer | SCE-4 |
+| S5 — after /intent | product strategist | SCE-5 |
+| S6 — by hand, nothing else run | founder | SCE-6 |
 
 ## Recovery
 
@@ -577,13 +655,15 @@ pointer to `$evidence_dest`. Always emitted; never gated.
 |-----|---------|-----------|---------|
 | F1 | a grounding doc fails its template/shape, or a spine entry fails the schema or spine↔doc consistency | re-emit the failing doc or spine entry to conform and restore consistency before the checkpoint | autonomous |
 | F2 | a grounding doc fails the content-quality eval | rewrite the failing doc to the judge's cited fixes — raise each flagged section to a self-explaining, CXO-altitude statement — and re-judge until the gate passes | autonomous |
-| F3 | a functionality, a detailed capability, acceptance criteria, a `set`/`locked` profile, or a `detail: detailed` capability appears | strip the over-reach — drop the functionality, demote the capability to directional, remove the acceptance criteria, reset the profile to `directional` | autonomous |
+| F3 | a functionality, a detailed capability, acceptance criteria, a `set`/`locked` profile, a `detail: detailed` capability, or a lowered `detail` appears | strip the over-reach — drop the functionality, demote the capability to directional, remove the acceptance criteria, reset the profile to `directional`, restore a lowered `detail` | autonomous |
 | F4 | a capability has neither a KB shelf match nor a KB-node proposal | search the KB to ground it, or record a propose-kb-node proposal; never leave it ungrounded | autonomous |
-| F5 | the scoped-write guard report is not ok — an existing spine entry, doc, or the profile was modified, or a path outside the seed's write scope changed | the guard's `--restore` already reverted the offending paths; re-run the keyed persist writing only the additive seed (absent entries + absent docs), after a human confirms the restore | human |
+| F5 | the scoped-write guard or the keep check report is not ok, or the persist refused an update outside the named ones | the guard's `--restore` already reverted the offending paths; restore any doc that lost a section from HEAD and re-apply only the additions; re-run the keyed persist with only the named updates, after a human confirms the restore | human |
 | F6 | the model delta was committed before the checkpoint resolved, or a cancelled checkpoint left writes on the working tree | revert the premature commit and the working-tree writes (guard `--restore`, empty allow set) and re-present the checkpoint; commit only after the human approves | human |
 | F7 | the close would report COMPLETED without the Done means held | close HALTED (`stop_condition_unmet`) with the unmet clauses named; fix the state — re-run the keyed persist, re-capture the scoped-write guard report, or make the model-delta commit — and re-evaluate; the close stays HALTED until the verdict reads held | autonomous |
 | F8 | a conditional-gate crossing left no live-eval ledger line, or an auto-pass fired for a shape the policy does not list as auto (or that carried a blocking finding) | re-append the missing ledger line for the recorded crossing; when the auto-pass was unearned, re-run the gate as a live wait — render the approval prompt and wait for the typed response — before proceeding | autonomous |
 | F9 | the product-os tree is dirty once start-change has cut the branch (uncommitted model edits present) | halt and ask for a clean model tree — commit or revert the pending model edits — before /vision writes the seed | human |
+| F10 | the run refused, stopped, waited or closed HALTED over another play's work, or ran the workable check | drop the check or the wait; record what was missing or light as a warning in the persist record and carry on with what is there | autonomous |
+| F11 | a capability added twice, a one-sided intent link, or an unplaced capability with no warning | drop the duplicate and record `same_as`; re-run the keyed persist so it writes the missing side of each link; place the capability or record why it could not be placed | autonomous |
 
 ## Pause and Resume
 
@@ -599,19 +679,19 @@ continues at the first end-sequence member that has not finished.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:6bc46df25077660412dd210bbb9dd0e94c6e47b520ab4a5387a0511b8ae78617 (of `reference/ice.md`) |
-| compiled_by | play-editor (#616 position both); play-editor (#500 direct-model-write, ADR 026); prior: play-editor (#467 Batch B, #466 Batch C); play-creator (edited via play-editor, #437; spine+grounding+eval model) |
+| fingerprint | sha256:492b0ab595beb5fa629b68305be0fbc5b8f3132408b4bbaa9bfe51c699fb2dc5 (of `reference/ice.md`) |
+| compiled_by | play-editor (#637 one product model with /intent); play-editor (#616 position both); play-editor (#500 direct-model-write, ADR 026); prior: play-editor (#467 Batch B, #466 Batch C); play-creator (edited via play-editor, #437; spine+grounding+eval model) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close — #616) |
 | position_exception | model-writing both play — writes the model on the started branch and commits its own model delta (C9) BEFORE the injected end sequence lands it (same shape as /measure) |
 | workflow_structure | A (single checkpoint — class: standard, conditional gate per gate-config.md #467; direct-model-write WRITE-THEN-REVIEW per ADR 026 — persist + guard + classify before the gate, commit after; stop-condition gated close) |
-| stop_condition | stop-condition.yaml (D1–D3), gate live at Step C0 |
+| stop_condition | stop-condition.yaml (D1–D4), gate live at Step C0 |
 | domain_agents | 1 (product-os-keeper) |
 | utility_agents | 0 (start-change is the injected head, not a domain agent) |
 | skills_used | search-kb, propose-kb-node, author-vision-seed |
-| scripts | 11 (preflight.py, lint_grounding.py, grounding_check.py, grounding_gate.py, persist_seed.py, scoped_write_guard.py, classify_change.py, gate_eval.py, distill_gate_policy.py, check_stop_condition.py, session_stamp.py) |
-| step_evals | 10 (SE-1…SE-10) |
-| scenario_evals | 4 (SCE-1…SCE-4) |
-| recovery_entries | 9 (one per failure condition; 7 autonomous / 2 human) |
+| scripts | 14 (preflight.py, read_intents.py, lint_grounding.py, grounding_check.py, grounding_gate.py, persist_seed.py, intent_touches.py, check_kept.py, scoped_write_guard.py, classify_change.py, gate_eval.py, distill_gate_policy.py, check_stop_condition.py, session_stamp.py) |
+| step_evals | 12 (SE-1…SE-12) |
+| scenario_evals | 6 (SCE-1…SCE-6) |
+| recovery_entries | 11 (one per failure condition; 9 autonomous / 2 human) |
 
 **Recompiled note (#500, direct-model-write / ADR 026):** migrated from draft-then-apply to
 direct-model-write. The old draft model tree and the `apply_seed.py`/`check_apply` promotion
