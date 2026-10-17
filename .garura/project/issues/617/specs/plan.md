@@ -4,7 +4,7 @@ kind: spike
 serves: "#617 — decide how a finished drive is reviewed"
 status: active
 updated: 2026-10-17
-now: 1
+now: 3
 serves_plan: 606
 serves_item: 7
 ---
@@ -37,42 +37,27 @@ be finished until that end review exists.
 
 ## Where we are now
 
-The draft answers are written (`specs/decisions.md`). Kapil chose that the
-review is every drive's last step (Q4 A), and that a dropped box-move lowers
-the limit and sends the capability back (Q6 A). He then named the key part:
-how the review happens. A drive writes too many files for a pull request to be
-the place to review them. The person reviews the outcome — the business
-intents and the product model — never the plays, in two tools: an intent
-review tool and a product review tool (Q1, Q7). Now on item 1: the tools'
-draft answers go to Kapil.
+ADR 032 is accepted: a drive ends with a review of its outcome, in an intent
+review tool and a product review tool. Now on item 3: filing the stories to
+build it, which waits for Kapil to ask, since it writes to GitHub.
 
 ## The plan, in order
 
-### 1. Kapil settles the open choices — now
+### Done
 
-**Issue:** #617.
-**What:** Kapil reads the draft answers. Q4 and Q6 are chosen. Q1 and the shape
-of Q7 are chosen: review the outcome, in two tools. Left: what each tool shows
-and does (the drafts under Q7).
-He may change any other draft.
-**Why here:** the ADR records his choices, so they come first.
-**Done when:** each question has an answer Kapil agreed, recorded in
-`specs/decisions.md` with his words and the date.
-**Needs:** nothing.
+- **1. Decided: the open choices** — Kapil chose every answer on 17 October
+  (Q1–Q7 in `specs/decisions.md`, with his words): the review is the drive's
+  last step; the person reviews the outcome — the intents and the product
+  model — never the plays, in an intent review tool and a product review tool;
+  a dropped box-move lowers the limit and sends the capability back.
+- **2. Decided: ADR 032** — accepted by Kapil on 17 October
+  (`docs/adr/032-drive-review-of-outcomes.md`). It amends ADR 029 (§5 and open
+  question 1), ADR 030 §5, ADR 031 §5 and ADR 026; `docs/philosophy/idsd.md`
+  now says the person reviews the product model. Not yet done: nothing is
+  built; one gap stays open — big plan updates are marked approved though the
+  plan is not shown in the review.
 
-### 2. Write the ADR
-
-**Issue:** #617.
-**What:** record the answers with `/adr` — a new ADR that amends ADR 029 §5,
-or an amendment to ADR 029 itself, as `/adr` judges.
-**Why here:** the spike's answer is the ADR; the stories are cut from it.
-**Done when:** the ADR is accepted by Kapil and ADR 029's open question 1
-points at it. The ADR also amends `docs/philosophy/idsd.md`: the product model
-is reviewed by the person at the outcome level; the ontology is the fixed
-structure it follows.
-**Needs:** item 1.
-
-### 3. File the stories
+### 3. File the stories — now
 
 **Issue:** #617.
 **What:** the stories to build the review, the review tool first — the draft
@@ -114,3 +99,5 @@ GitHub, so it happens only when Kapil asks for it.
   idsd.md's "not a human interface; only its ontology is" no longer holds; the
   ADR amends it. The note before this one, which said no change was needed,
   was wrong.
+- 2026-10-17 — Items 1 and 2 done: Kapil accepted ADR 032; idsd.md amended to
+  match. Now on item 3 (file the stories — only when Kapil asks).
