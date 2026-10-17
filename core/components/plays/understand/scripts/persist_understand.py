@@ -280,11 +280,11 @@ def main(argv=None):
     moves = report.get("box_moves", [])
     decisions, recorded_moves = [], []
     for mv in moves:
+        if not isinstance(mv, dict) or not all(mv.get(k) for k in ("dimension", "from", "to")):
+            return refuse(f"box-move {mv} lacks a dimension, from or to — refusing")
         cap_id = mv.get("capability") or (cap_ids[0] if len(cap_ids) == 1 else None)
         if cap_id not in targets:
             return refuse(f"box-move {mv} names no target capability of this run — refusing")
-        if not isinstance(mv, dict) or not all(mv.get(k) for k in ("dimension", "from", "to")):
-            return refuse(f"box-move {mv} lacks a dimension, from or to — refusing")
         dim, frm, to = mv["dimension"], mv["from"], mv["to"]
         did = f"dec-{slug(cap_id)}-{slug(dim)}-{slug(frm)}-{slug(to)}"
         recorded_moves.append({**mv, "capability": cap_id, "decision": did,
