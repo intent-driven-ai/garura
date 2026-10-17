@@ -80,7 +80,7 @@ reading held (C11/F11).
 | `product-os-keeper` | For one target per dispatch: recover the capability's KB shelf (re-route), then detail the capability (directional → detailed) writing the docs in place on the live model, author its functionalities, and set its NFR + compliance needs (into its manifest) grounded in that shelf | `search-kb`, `enrich-capability-ice` | Enrich |
 
 `product-os-keeper` is the single **domain agent** this play uses (1 of the ≤5
-budget), dispatched once per target, one after another (C14). No utility agents are needed — the git/issue machinery is the injected `start-change`
+budget), dispatched once per target, all at once as a scoped-write fan-out (C14). No utility agents are needed — the git/issue machinery is the injected `start-change`
 head and end sequence, run as sub-plays.
 The content-quality judge always runs as an isolated, clean-context sub-agent (optionally
 on a configured different model) — never the orchestrator's own context.
@@ -188,7 +188,7 @@ resolves; cancel reverts the uncommitted writes.
 [T0p] Pick the targets                                  blockedBy: []
 [T0a] Ask for the seeds of absent targets (all at once)  blockedBy: [T0p]
 [T0] start-change (injected — start; skipped in a drive) blockedBy: [T0a]
-[T1] Enrich each target, one after another (docs live)   blockedBy: [T0]
+[T1] Enrich every target at once (scoped-write fan-out) blockedBy: [T0]
 [T2] Validate the live docs                              blockedBy: [T1]
 [T3] Roll up the box                                     blockedBy: [T1]
 [T4] Persist (keyed, in place — shared files)            blockedBy: [T2, T3]
@@ -211,7 +211,9 @@ No runtime reordering. On resume, skip completed and reset in-progress to pendin
 ### Phase: Ask (only when a target is absent, #616 D1)
 
 **Step 0a — Ask for the seeds of absent targets** · Owner: play · Depends on: pre-flight
-*Skip when `targets.json` `ask` is empty.* This runs BEFORE `start-change`, so a stop here leaves no issue or branch behind. For every capability in `ask`, in one message, ask the person — a
+*Skip when `targets.json` `ask` is empty.* After recording the answers, run `pick_targets.py`
+again (same arguments): the seed files now count as the answers, `ask` must read empty, and
+every target gets its `scope`. This runs BEFORE `start-change`, so a stop here leaves no issue or branch behind. For every capability in `ask`, in one message, ask the person — a
 plain, typed question, not a tool prompt — three things each: what the capability is (one
 line), why it matters, and which existing domain it belongs to (list the domain ids in the
 spine). Record each capability's answers verbatim, nothing added, in
@@ -262,10 +264,14 @@ returns, run the clean-tree assertion (pre-flight, C12/F13).
 ### Phase: Enrich
 
 **Step 1 — Enrich each target (detail + functionalities, docs to live)** · Owner: `product-os-keeper` · Depends on: pre-flight
-Dispatch the agent once per target in `targets.json`, in its order, **one after another** —
-each dispatch writes the live model, so this is not a concurrent fan-out
-(`standards/rules/concurrent-fanout.md` admits only read-only work at once; C14). Each
-dispatch handles one capability and writes only that capability's docs and manifest.
+Dispatch the agent once per target in `targets.json`, **all in one concurrent batch** — a
+**scoped-write fan-out** (`standards/rules/concurrent-fanout.md`; C14): each dispatch is handed
+its target's write scope (`targets.json` `scope`, the target's own folder, checked distinct and
+not nested by `pick_targets.py`) and writes the model only inside that write scope, plus its own
+manifest under `<working>/caps/<capability>/`; no dispatch writes a shared file (the spine, the
+profile, decisions — the keyed persist in Step 4 writes those); no dispatch reads another's
+output. **Join** — wait for every dispatch to return before Step 2 reads the model; collect the
+manifests in `targets.json` order. The whole delta is guarded once in Step 5.
 The persisted model does **not** record which KB shelf a capability came from (/vision
 kept that only in STM). So the agent first **re-routes** the capability to its KB shelf
 with `search-kb`, then invokes `enrich-capability-ice` to detail it — promote the
@@ -278,6 +284,7 @@ per-dimension levels the roll-up consumes. Per ADR 026 the skill writes the per-
     {
       "task":    "re-route this capability to its KB shelf, then detail it (directional->detailed) writing capability.md + functionality.md docs in place on the live model, set its nfr_needs; emit implied NFR levels + the spine-delta into the manifest",
       "inputs":  { "capability": "<id + slug + path to its directional capability.md, or <working>/caps/<capability>/seed.yaml when it was absent>",
+                   "write_scope": "<targets.json scope, e.g. product-os/commerce/checkout/>",
                    "product_base": "<product_base>",
                    "manifest_path": "<working>/caps/<capability>/enrich-manifest.yaml" },
       "outputs": { "routing":         "<working>/caps/<capability>/routing.yaml",
@@ -302,8 +309,10 @@ shelf `search-kb` routed to in its `routing.yaml` — the detail is grounded in 
 shelf.
 **SE-17 (F16/C1/C14):** `targets.json` lists the named capabilities in the order given, or,
 with none named, every `detail: directional` capability in spine order (inside a drive, plus
-every contract-seeded one); every target has its own `caps/<capability>/enrich-manifest.yaml`;
-the agent was dispatched once per target, one after another.
+every contract-seeded one), each with a distinct, non-nested `scope`; every target has its own
+`caps/<capability>/enrich-manifest.yaml`; the agent was dispatched once per target in one
+concurrent batch, joined before Step 2; every new or changed doc lies inside its target's
+`scope`, and no dispatch wrote the spine, the profile or a decision (those change only in Step 4).
 **SE-14 (F13/C12):** the product-os tree was clean at entry — the pre-flight assertion
 (`git status --porcelain -- <product_base>product-os` empty) passed on a fresh start; a dirty
 model tree halted at pre-flight (REC13), so the change-shape and the scoped guard reflect
@@ -802,7 +811,7 @@ reuses each `<working>/caps/<capability>/seed.yaml` rather than asking again.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:bf592fd016b3117e60d52bfb1b7ff9f162e9f37ea5fc458028f61739ccd28821 (of `reference/ice.md`) |
+| fingerprint | sha256:395c8bd05e88b1b4ac2c8490511a9c5c4e783d9c5cf2541c9968403ed0821099 (of `reference/ice.md`) |
 | compiled_by | play-editor (#615 runs inside a drive; one run details every pending capability); play-editor (#616 stands alone); play-editor (#498 direct-model-write, ADR 026); prior: play-editor (#467 Batch B, #466 Batch C) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close — #616) |
 | position_exception | model-writing both play — writes the model on its own started branch and commits its own model delta (C12) BEFORE the injected end sequence lands it (same shape as /measure and /vision) |
@@ -815,6 +824,7 @@ reuses each `<working>/caps/<capability>/seed.yaml` rather than asking again.
 | step_evals | 17 (SE-1…SE-17) |
 | scenario_evals | 8 (SCE-1…SCE-8) |
 | recovery_entries | 16 (one per failure condition; 12 autonomous / 4 human) |
+| concurrency | Step 1 scoped-write fan-out (one agent per target); Step 2 read-only fan-out (one judge per doc) |
 
 **Recompiled note (#498, direct-model-write / ADR 026):** migrated from draft-then-apply to
 direct-model-write. The old draft model tree and the apply/check promotion scripts are
