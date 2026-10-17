@@ -171,11 +171,23 @@ and an intent review tool" — see his words under Q1.
 
 **The level the person reviews at** (Kapil, 2026-10-17: "I'm not looking at the
 low-level plans, the pieces, and the details, but an outcome is critical"): the
-outcome — what the intents are and what the product is — not the detail under it. This
-fits `docs/philosophy/idsd.md`, which says the product model is "not a human interface;
-only its ontology is": the tools show the outcome as the ontology names it (business
-intents, domains, capabilities, limits, decisions), never the agents' detailed files. No
-change to that line is needed.
+outcome — what the intents are and what the product is — not the detail under it.
+
+**The product model is reviewed by the person; the ontology is not** (Kapil, 2026-10-17:
+"Ontology is the structure. We are going to create it once, and everything is going to
+follow the ontology. We don't need to update the ontology every single time. It's what
+the ontology outputs." And: "the user gives the intents. Agent intents are what the agent
+performs on, but the human looks at what the outcome is. The product model is what the
+agents work on. They give that piece, right, so that has to be reviewed by the human.
+Without that, we don't know what it is that we are building.").
+
+- The ontology is the fixed structure, made once. It is not what the person reviews.
+- The product model is what the agents produce inside that structure. It is the outcome,
+  and the person reviews it.
+- `docs/philosophy/idsd.md` says the product model is "not a human interface; only its
+  ontology is". That no longer holds: the product model is written for the agents and
+  reviewed by the person at the end of each drive, at the outcome level. The ADR amends
+  that line and its table.
 
 **The plan is not reviewed here** (Kapil, 2026-10-17: "No, the plan is not that we have
 to review it. We have to look at the outcomes: the intents and the product model."). The
