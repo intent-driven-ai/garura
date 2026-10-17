@@ -5,45 +5,57 @@ play-editor; never hand-edit the compiled SKILL.md.
 
 ## Intent
 
-Given one capability — seeded by /vision (named, directional, no functionalities), or named
-by the person and not yet in the model — **detail it**. When the capability is not yet in
-the model, /understand asks the person what it is, why it matters, and which existing domain
-it joins — before it opens any change, so a stop leaves nothing behind — and seeds it thinly
-from those answers: a spine entry, enough for the detailing to start, whose first
-`capability.md` is then written straight at the detailed stage. Never invented (#616 D1). /understand is the **product-manager** step, the last detailing step:
-promote the capability's `capability.md` from the directional stage to the detailed stage
-(benefit hypothesis, boundary, guiding rules, functionalities), **create its
-functionalities** (a spine entry plus a detailed `functionality.md` for each), and set the
-capability's own concrete NFR + compliance needs. Then roll those per-capability needs up
-into the product profile box: on a still-directional box the roll-up establishes the box
-and firms it to `set`; on an already-set box, a need that exceeds the committed ceiling is
-an out-of-box event that halts for a human decision moving the box and recording why. One
-capability per run; one human checkpoint approves the detailed grounding and any box-moves
-before anything persists. The grounding docs are gated by the structural linter (shape)
-and the content-quality eval (a judge).
+Given the pending capabilities — every capability seeded by /vision (named, directional,
+no functionalities) that nobody has detailed yet, or the capabilities the person names,
+including ones not yet in the model — **detail them all in one run** (Kapil, #615: one at a
+time is too slow). When a named capability is not yet in the model, /understand asks the
+person what it is, why it matters, and which existing domain it joins — for every such
+capability at once, before it opens any change, so a stop leaves nothing behind — and seeds
+it thinly from those answers: a spine entry, enough for the detailing to start, whose first
+`capability.md` is then written straight at the detailed stage. Never invented (#616 D1).
+/understand is the **product-manager** step, the last detailing step: for each target,
+promote its `capability.md` from the directional stage to the detailed stage (benefit
+hypothesis, boundary, guiding rules, functionalities), **create its functionalities** (a
+spine entry plus a detailed `functionality.md` for each), and set the capability's own
+concrete NFR + compliance needs. Then roll all the targets' needs up together into the
+product profile box, each measured against the box as it stood at the start of the run: on
+a still-directional box the roll-up establishes the box and firms it to `set`; on an
+already-set box, each capability's need that exceeds the committed ceiling is an
+out-of-box event that halts for a human decision moving the box and recording why. One run,
+one save, one human checkpoint that approves every target's detailed grounding and every
+box-move before anything is committed, one commit. The grounding docs are gated by the
+structural linter (shape) and the content-quality eval (a judge).
 
-Pipeline position: **both**. /understand stands on its own (ADR 029 §4; #616 D2): run by hand, it needs no other play to have run first. The D2 rule prepends `start-change` — resolve or create the issue, cut the branch off fresh main, optional worktree, init STM — and, after the model delta is committed, appends the close sequence `commit-change → propose-change → review-change → merge-change`, landing the detailed capability on main. It writes the persistent product model directly, in place, on its own started branch — there is no draft copy and no apply/promote step; review is the branch git diff and the end PR. (#437, #498, ADR 026; position changed from none to both in #616.)
+Pipeline position: **both**. /understand stands on its own (ADR 029 §4; #616 D2): run by hand, it needs no other play to have run first. Inside a drive (ADR 029 §2–3; #615) it is handed the drive's contract (`standards/rules/drive-contract.md`) and opens nothing: no `start-change`, no end sequence, no wait at its checkpoint — it works on the drive's branch, commits its model delta there, and keeps what its checkpoint would have shown, every box-move included, as review records for the drive's end review. Kickoff runs it once for all the capabilities; the run leaves one review record per capability (ADR 029: "one `/understand` record per capability"). The D2 rule prepends `start-change` — resolve or create the issue, cut the branch off fresh main, optional worktree, init STM — and, after the model delta is committed, appends the close sequence `commit-change → propose-change → review-change → merge-change`, landing the detailed capability on main. It writes the persistent product model directly, in place, on its own started branch — there is no draft copy and no apply/promote step; review is the branch git diff and the end PR. (#437, #498, ADR 026; position changed from none to both in #616.)
 
-Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM enrichment skill writes ONLY the per-node docs (`capability.md`, `functionality.md`) straight to the live model; every shared-file mutation (the spine `_spine.yaml`, `profile.yaml`, the box-move decisions) is done by the deterministic keyed persist script, in place, keyed to the target capability so it cannot touch a sibling node inside a shared file. The model tree is asserted clean at entry and the play commits its own model delta at close, so the working-tree diff vs HEAD is exactly this run's delta.
+Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM enrichment skill writes ONLY the per-node docs (`capability.md`, `functionality.md`) straight to the live model; every shared-file mutation (the spine `_spine.yaml`, `profile.yaml`, the box-move decisions) is done by the deterministic keyed persist script, in place, keyed to the run's target capabilities so it cannot touch any other node inside a shared file. The model tree is asserted clean at entry and the play commits its own model delta at close, so the working-tree diff vs HEAD is exactly this run's delta.
 
 ### Constraints
 
-- C1 — Operates on exactly ONE capability per run. If the target is in the spine as a
-  directional seed (`detail: directional`), it is detailed as is. If it is **absent**, the
-  play — before it opens any change — asks the person what the capability is, why it
-  matters, and which existing domain it belongs to, records the answers verbatim
-  (`<working>/seed.yaml`, `answered_by: human`), and seeds it thinly: a spine entry at
-  `status: proposed`, `detail: directional`, under that domain, whose first `capability.md`
-  this run writes straight at the detailed stage. The seed carries only the person's answers,
-  nothing invented; the keyed persist refuses a seed not marked `answered_by: human`. With no
-  answer, or a domain that is not in the spine, it halts — before any issue or branch exists
-  — and says plainly what it needs. A capability that is already `detailed` is not
-  re-detailed.
-- C2 — It promotes the target capability `directional → detailed` and CREATES its
+- C1 — One run details every target (#615). The targets are the capabilities the person
+  names (the play argument), in the order given; with none named, every capability in the
+  spine at `detail: directional` — seeded and not yet detailed — in spine order. The pick is
+  made by the bundled `pick_targets.py`, before any change opens; with nothing pending the
+  play ends at once, opening nothing. A target in the spine as a directional seed is detailed
+  as is. For each **absent** target the play — before it opens any change, and for all of
+  them in one round of questions — asks the person what the capability is, why it matters,
+  and which existing domain it belongs to, records the answers verbatim
+  (`<working>/caps/<capability>/seed.yaml`, `answered_by: human`), and seeds it thinly: a
+  spine entry at `status: proposed`, `detail: directional`, under that domain, whose first
+  `capability.md` this run writes straight at the detailed stage. The seed carries only the
+  person's answers, nothing invented; the keyed persist refuses a seed not marked
+  `answered_by: human`. With no answer, or a domain that is not in the spine, it halts —
+  before any issue or branch exists — and says plainly what it needs. A named target that
+  is already `detailed` halts the run; it is not re-detailed. Inside a drive (C13) the
+  answers come from the contract (the drive asked them before it started); the seed records
+  them with `answered_by: human` only because a person gave them up front. With no answers
+  in the contract, the play stops and asks the person before any model write — it never
+  fills them in itself.
+- C2 — It promotes each target capability `directional → detailed` and CREATES its
   functionalities (each a spine `functionalities` entry plus a detailed `functionality.md`).
-  This is the structure /understand owns — the last detailing step. It never touches
-  another capability or a domain, and never prioritizes (no slices, no epics, no capability
-  status flip — that is /shape).
+  This is the structure /understand owns — the last detailing step. It never touches a
+  capability outside the run's targets or a domain, and never prioritizes (no slices, no
+  epics, no capability status flip — that is /shape).
 - C3 — The detailed `capability.md` is complete to its template (benefit hypothesis,
   boundary In/Out/Never, guiding rules, and a Functionalities index whose entries link to
   real functionality ids), and every `functionality.md` is complete to its template (what
@@ -58,17 +70,24 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM enr
 - C6 — Detail is grounded in the capability's KB shelf (personas, systems, NFR hints,
   scope, functionality baseline) — it does not invent what the shelf already covers.
 - C7 — Profile roll-up is monotonic-up: each dimension's committed level becomes the
-  greater of the current box and this capability's required level; no dimension is ever
-  lowered. On a still-directional box the roll-up establishes it and firms it to `set`.
+  greater of the current box and every target's required level; no dimension is ever
+  lowered. Every target is measured against the box as it stood at the start of the run
+  (the bundled `rollup_box.py` takes one manifest per target), never against a box another
+  target in the same run already raised. On a still-directional box the roll-up establishes it and firms it to `set`.
   /understand never writes `locked`.
 - C8 — Against an already-`set` box, a need (an NFR level or a compliance regime) that
-  exceeds the committed ceiling is an out-of-box event: it halts for human approval; each
-  box-move is written as its own product-level decision (ADR) and COMMITTED only on
-  approval (on cancel the write is reverted with the rest of the delta). A need inside the
-  box never halts.
-- C9 — Exactly one human checkpoint, presenting the detailed capability, its
-  functionalities, the per-capability NFR needs, and the profile changes — every box-move
-  as its own line item (dimension, from→to, the decision it creates). The checkpoint is a
+  exceeds the committed ceiling is an out-of-box event: it halts for human approval. Each
+  target whose need exceeds the starting box gets its own box-move (the capability, the
+  dimension, from the starting level to its need), so no capability's box-move hides behind
+  another's; each box-move is written as its own product-level decision (ADR), linked to its
+  capability, and COMMITTED only on approval (on cancel the write is reverted with the rest of the delta). A need inside the
+  box never halts. Inside a drive (C13) each box-move is written with its decision at
+  status `proposed` — never `accepted`, because no person at a checkpoint says yes inside a
+  drive — and appears as its own line in the review record when the checkpoint is
+  deferred; the drive's review accepts or drops it (Kapil, #615).
+- C9 — Exactly one human checkpoint for the whole run, presenting each target's detailed
+  capability, its functionalities and its NFR needs, and the profile changes — every
+  box-move as its own line item (capability, dimension, from→to, the decision it creates). The checkpoint is a
   **conditional gate** (#467; `gate-config.md` three gate kinds — /understand is one of
   the eleven conditional document plays). Resolution order: pinned (n/a here) → the
   `gates.plays` override → the learned policy (classify the working-tree change shape —
@@ -82,37 +101,75 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM enr
   the run writes the full delta to the live model FIRST (docs by the skill, shared files by
   the keyed persist), so the checkpoint presents the real model git diff and the change-shape
   is classified over the full delta; nothing is COMMITTED before the gate resolves — a typed
-  approval, a recorded config skip, OR a recorded policy auto-pass. On cancel the whole delta
+  approval, a recorded config skip, a recorded policy auto-pass, OR, inside a drive, a
+  recorded deferral to the drive's review (C13). On cancel the whole delta
   is reverted (`git restore` + `git clean`). Box-move approvals ride this same gate, so the
-  recorded skip or auto-pass stands in evidence for them too. At close the play refreshes the
+  recorded skip or auto-pass stands in evidence for them too. (Inside a drive the checkpoint
+  does not wait; it becomes a review record for the drive's end review — C13.) At close the play refreshes the
   learned policy with
   the bundled `distill_gate_policy.py` (config `gates.conditional`: streak/ledger/policy
   paths).
 - C10 — Non-destructive to the rest of the model, enforced by the post-write scoped guard:
-  the run writes only the target capability (its doc + spine entry), its new functionalities
-  (docs + entries), the firmed profile, and the box-move decisions. After the writes and
-  before the checkpoint, the bundled `scoped_write_guard.py` diffs the model tree against
-  HEAD and FAILS the run (reverting the offending paths) if any model path outside that
-  scope changed. No other capability, functionality, or domain is changed; the monotonic-up
+  the run writes only the target capabilities (each doc + spine entry), their new
+  functionalities (docs + entries), the firmed profile, and the box-move decisions. After the
+  writes and before the checkpoint, the bundled `scoped_write_guard.py` diffs the model tree
+  against HEAD and FAILS the run (reverting the offending paths) if any model path outside
+  that scope changed. No capability outside the targets, and no other functionality or
+  domain, is changed; the monotonic-up
   roll-up guarantees no other capability's need is undercut. Node-level containment inside
   the shared spine/profile is kept by the keyed persist script (only it writes those files),
   not the guard.
 - C11 — The play ends by proving its Done means at close (gated, #464): the keyed persist
-  record exists (the detailed capability grounding, its functionality docs, and the profile
+  record exists (every target's detailed grounding, its functionality docs, and the profile
   roll-up were written in place on the live model), the persist record stamps the roll-up as
   written, and the scoped-write guard report reads ok (the allowlist held). The play then
   commits its own model delta on the branch, and the injected end sequence (commit →
   propose → review → merge) lands it on main; each member proves its own Done means, and a
-  review reject stops the chain before merge. The close never reads COMPLETED with the
+  review reject stops the chain before merge. Inside a drive the end sequence does not run
+  — the drive lands the change (C13). The close never reads COMPLETED with the
   stop-condition verdict unmet.
 - C12 — Clean tree in, committed delta out (ADR 026): the product-os tree is asserted clean
   at entry (pre-flight halts on a dirty model tree), and after the approved checkpoint the
   play commits its model delta on the branch (`feat(model): … (#<issue>)`), so HEAD is a
   correct base for the guard and the change-shape, and the end sequence lands exactly this
-  run's delta. The tree is asserted clean right after `start-change` cuts the fresh branch,
+  run's delta. The tree is asserted clean right after `start-change` cuts the fresh branch
+  (inside a drive, at once — the earlier plays in the drive committed their model change),
   so a dirty tree means uncommitted edits, never a missing earlier play. This model-delta
   commit is a lightweight persist step, distinct from both the end sequence and the
   per-play Standard Play Close (evidence + delivery report).
+- C13 — Runs inside a drive without stopping (ADR 029 §2–3; `standards/rules/drive-contract.md`):
+  handed a drive's contract (`--contract`), the play checks it first with the bundled
+  `check_drive_contract.py` — an invalid contract, or a current branch other than the
+  drive's, halts — and records `in_drive` in `run.json`. Inside a drive it runs no
+  `start-change` and no end sequence (the drive opens and lands the change); it takes the
+  targets as by hand (C1) — the named capabilities, else every pending one — plus every
+  capability the contract seeds, with a seed's answers from the contract's
+  `answers.understand.seeds.<capability>` (`one_line`, `why`, `domain`); it asserts the
+  clean model tree at once; it resolves its checkpoint (C9) exactly as by hand — a config
+  skip or a policy auto-pass is recorded as by hand — and only where the gate would WAIT
+  does it not wait: it renders each target's part of the checkpoint exactly as it would have
+  been shown, that capability's box-moves each as its own line, and writes it, with the
+  files it stands on (the roll-up, the shape, the guard report, the persist record), as that
+  capability's review record into the contract's `review_dir` with the bundled
+  `write_drive_review.py` — one record per capability, named for it — and appends the
+  crossing to the gate ledger once as `deferred_to_drive_review` (the learner skips it until the drive's review
+  writes the person's real answer). Inside a drive every box-move decision is written
+  `proposed` (C8) — the keyed persist runs before the gate resolves, so it is told by
+  `in_drive`, not by the gate's outcome. It still commits its model delta on the drive's branch (C12). A
+  question neither the contract nor the model answers — an absent capability with no seed
+  answers — stops the run and asks the person; the play never picks an answer itself. Run
+  by hand (no contract), every step runs as before.
+- C14 — One run, all or nothing, the targets at once (#615). The run opens one change,
+  saves once, guards once, has one checkpoint and makes one model-delta commit for all its
+  targets. The enrichment runs for every target at once, as a **scoped-write fan-out**
+  (`standards/rules/concurrent-fanout.md`; Kapil, #615: "B"): `pick_targets.py` gives each
+  target its write scope — its own folder in the model — and refuses two targets whose
+  folders overlap; each dispatch writes only that target's docs inside its write scope and
+  its own manifest, no dispatch writes a shared file (the spine, the profile, decisions —
+  those go to the one keyed persist), and the batch is joined before any later step reads
+  the model. The content-quality judges, which only read, run as one concurrent read-only
+  batch over every doc of every target. If any target cannot pass its checks after its
+  recovery, the whole run halts and nothing is committed — no target lands alone.
 
 ### Failure conditions
 
@@ -129,13 +186,14 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM enr
 - F6 — A profile dimension was lowered, or the box was firmed to a state other than `set`
   (left `directional`, or written `locked`).
 - F7 — Against a `set` box, an out-of-box need was persisted without the checkpoint gate
-  resolving for it — no typed approval, no recorded config skip, and no recorded policy
-  auto-pass.
+  resolving for it — no typed approval, no recorded config skip, no recorded policy
+  auto-pass, and — inside a drive — no recorded deferral to the drive's review; or, inside
+  a drive, a box-move decision was written `accepted` instead of `proposed`.
 - F8 — A box-move was persisted without its own decision record, or a decision omits the
   dimension or the from→to it represents.
-- F9 — Allowlist breach: a capability, functionality, or domain other than the target (and
-  its new functionalities) was changed during the run.
-- F10 — Over-reach into prioritization: a slice or an epic was written, or the target
+- F9 — Allowlist breach: a capability, functionality, or domain other than the targets (and
+  their new functionalities) was changed during the run.
+- F10 — Over-reach into prioritization: a slice or an epic was written, or a target
   capability's status was flipped to active — that is /shape's job.
 - F11 — The run closed COMPLETED without the Done means held (no persist record, the
   profile roll-up not stamped as written, the scoped-write guard report not captured or not
@@ -145,40 +203,54 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM enr
 - F13 — The play ran against a dirty product-os tree (uncommitted model edits present at
   entry), so the change-shape and the scoped guard could not be trusted to reflect only
   this run's delta.
+- F14 — Inside a drive, the play opened an issue or a branch, ran the end sequence, waited at
+  its checkpoint, or worked on a branch other than the drive's; or, run by hand, it skipped
+  its opening, its checkpoint or its end sequence.
+- F15 — Inside a drive, the checkpoint left no review record in the drive's `review_dir`,
+  the record differs from what the checkpoint would have shown (a box-move missing as its
+  own line), the gate ledger has no line for the crossing, or a line records an approval no
+  person gave; or the play picked an answer — a seed's what, why or domain — that the drive
+  had not given.
+- F16 — The run left out a pending capability it should have taken (none named, yet a
+  `detail: directional` capability was not a target), took one the person did not name, or
+  measured a target against a box another target in the same run had raised (a box-move
+  hidden); or it committed some targets while another failed its checks; or an enrichment
+  dispatch wrote outside its target's write scope or wrote a shared file.
 
 ## Expectation
 
 ### Success scenarios
 
-- S1 — (product manager, detail + functionalities) Given a directional capability, when
-  /understand runs and the checkpoint is approved, then the capability is detailed (its
+- S1 — (product manager, detail + functionalities) Given directional capabilities, when
+  /understand runs and the checkpoint is approved, then each is detailed (its
   `capability.md` promoted, its spine entry `detail: detailed`) and its functionalities are
   created (each a spine entry plus a detailed `functionality.md`), all conforming to their
-  templates and clearing the content-quality eval. Measure: the capability entry is
-  `detail: detailed` and carries `nfr_needs`; at least one functionality entry exists with
-  `capability` set to the target and its doc present; the linter is clean; the content eval
+  templates and clearing the content-quality eval. Measure: every target entry is
+  `detail: detailed` and carries `nfr_needs`; each target has at least one functionality
+  entry with `capability` set to it and its doc present; the linter is clean; the content eval
   gate passes for every grounding doc; the run's change is landed on main by the injected
   end sequence (merge-change reports the PR merged); the stop-condition verdict reads held.
 - S2 — (product strategist, first firm-up) Given a still-directional profile, when
   /understand runs and is approved, then the roll-up establishes the box and firms it to
   `set` with no per-dimension ADR. Measure: the profile `state` is `set`; no decision
   record was written this run.
-- S3 — (architect, out-of-box move) Given an already-`set` box and a capability whose need
-  exceeds it on a dimension, when /understand runs, then it halts at the checkpoint
-  surfacing that box-move as its own line item, and on approval the box is raised and a
-  product-level decision records the move. Measure: a decision exists with level `product`,
-  a from→to on the named dimension, and status `accepted`; the profile's level on that
-  dimension equals the new (higher) value.
+- S3 — (architect, out-of-box move) Given an already-`set` box and targets whose needs
+  exceed it on a dimension, when /understand runs, then it halts at the checkpoint
+  surfacing each capability's box-move as its own line item, and on approval the box is
+  raised and a product-level decision records each move. Measure: for each target over the
+  starting box, a decision exists with level `product`, its `node_ref` that capability, a
+  from→to on the named dimension starting at the run's starting level, and status
+  `accepted`; the profile's level on that dimension equals the highest need.
 - S4 — (product owner, non-destructive) Given several capabilities already detailed, when
-  /understand runs on one more, then only the target (its doc + entry), its new
+  /understand runs on more, then only the targets (each doc + entry), their new
   functionalities, the profile, and the box-move decisions change — and no dimension of the
   box is lowered. Measure: a before/after diff of the spine shows changes only to the target
-  capability, its new functionalities, the profile, and decisions; every profile dimension
+  capabilities, their new functionalities, the profile, and decisions; every profile dimension
   level is greater than or equal to its pre-run value.
 - S5 — (reviewer, the checkpoint) Given the detailed grounding and the profile changes are
-  ready, when the checkpoint is presented, then it shows the detailed capability, its
-  functionalities, the per-capability NFR needs, and, for each box-move, an explicit line
-  naming the dimension, the from→to levels, and the ADR it will create — rendered inline,
+  ready, when the checkpoint is presented, then it shows each detailed capability, its
+  functionalities, its NFR needs, and, for each box-move, an explicit line naming the
+  capability, the dimension, the from→to levels, and the ADR it will create — rendered inline,
   over the full written delta. Measure: each box-move appears as its own line item; no
   product-model change is COMMITTED before the approval, and on cancel the working tree
   returns byte-clean to HEAD (`git restore` + `git clean`) — or, on the auto-pass path (a
@@ -191,26 +263,47 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM enr
   `<working>/seed.yaml` holds the person's answers; the persist record reads `seeded: true`;
   the spine entry exists under the named domain with `detail: detailed`; merge-change reports
   the PR merged; the stop-condition verdict reads held.
+- S7 — (Kickoff drive, inside a drive) Given a drive hands /understand its contract — the
+  drive's branch, its issue, its `review_dir`, and any seed answers — when /understand runs,
+  then it details every pending capability in one run, opens nothing, does not stop at its
+  checkpoint, commits its model delta on the drive's branch and leaves one review record per
+  capability for the drive's review, with every box-move as its own line and its decision
+  `proposed`. Measure: `run.json` reads `in_drive: true` with the contract's `drive_run_id`
+  and branch; no `start-change` or end-sequence step ran and the current branch equals the
+  contract's branch; for each target a `<review_dir>/understand-<ts>-<capability>.json`
+  record exists with `decided: false` and its summary file; the gate ledger's line for the run reads `deferred_to_drive_review` (or
+  `auto_pass` on a policy-listed shape); every decision in `persist-manifest.json`
+  `box_moves` reads `proposed`; the model delta is committed on the drive's branch; the
+  stop-condition verdict reads held. Run by hand, the same play's `run.json` reads
+  `in_drive: false` and every step ran as before.
+- S8 — (product manager, many at once) Given three capabilities /vision seeded and nobody
+  has detailed, and two of them need more security than the set box allows, when
+  /understand runs with none named, then one run details all three, shows both box-moves at
+  one checkpoint and makes one commit. Measure: `targets.json` lists the three in spine
+  order; every one reads `detail: detailed`; `rollup.json` holds one box-move per capability
+  over the box, each from the starting level; `persist-manifest.json` `changed.capabilities`
+  lists the three; one `feat(model)` commit holds the whole delta; the stop-condition verdict
+  reads held.
 
 ### Done means
 
-Paths are relative to the run's working root (`{stm_base}_shaping/understand/<capability>/`).
-`persist-manifest.json` is the record the keyed persist script writes after the approved
-checkpoint (its contract: `written`, `capability_ref`, `changed.{capability,
-functionalities_added, profile, decisions}`, `box_moves`) — the detailed capability
+Paths are relative to the run's working root (`{stm_base}_shaping/understand/<run ts>/`).
+`persist-manifest.json` is the record the keyed persist script writes before the checkpoint
+(its contract: `written`, `capability_refs`, `seeded`, `changed.{capabilities,
+functionalities_added, profile, decisions}`, `box_moves`) — every target's detailed
 grounding, its functionality docs, and the profile roll-up, all written in place on the
 live model; `guard-report.json` is the captured `scoped_write_guard.py` output — the play
 always writes it, and its `ok` field is the mechanical proof that no model path changed
-outside the target's scope (the allowlist held). Node-level promotion, concrete needs,
+outside the targets' scope (the allowlist held). Node-level promotion, concrete needs,
 monotonic-up box to `set`, and each box-move's accepted decision are stamped in the persist
 record.
 
-- D1 — says: "the persist record exists — the detailed capability grounding, its
+- D1 — says: "the persist record exists — every target's detailed grounding, its
   functionality docs, and the roll-up were written in place on the live model"
   check: { type: artifact_exists, path: "persist-manifest.json" }
 - D2 — says: "the profile roll-up was persisted — the persist record stamps the firmed box"
   check: { type: field_equals, file: "persist-manifest.json", field: "changed.profile", equals: true }
-- D3 — says: "the scoped-write guard held — no model path changed outside the target's scope"
+- D3 — says: "the scoped-write guard held — no model path changed outside the targets' scope"
   check: { type: field_equals, file: "guard-report.json", field: "ok", equals: true }
 
 ### Recovery (one per failure condition)
@@ -238,13 +331,14 @@ record.
   lower a dimension. handoff: autonomous.
 - REC7 (F7) — trigger: an out-of-box need against a `set` box was persisted with no approved
   decision. direction: revert the box change, surface the move at the checkpoint, and persist
-  only after a human approves it. handoff: human.
+  only after a human approves it (inside a drive, re-write the decision as `proposed` and
+  record the deferral). handoff: human.
 - REC8 (F8) — trigger: a box-move lacks its decision record, or a decision omits the
   dimension or from→to. direction: write (or complete) the product-level decision for each
   move with its dimension and from→to before persisting. handoff: autonomous.
-- REC9 (F9) — trigger: a capability, functionality, or domain other than the target was
+- REC9 (F9) — trigger: a capability, functionality, or domain other than the targets was
   changed. direction: restore the other artifact and re-run writing only the target
-  capability and its functionalities, after a human confirms the restore. handoff: human.
+  capabilities and their functionalities, after a human confirms the restore. handoff: human.
 - REC10 (F10) — trigger: a slice, an epic, or a capability status flip was written.
   direction: strip the prioritization over-reach — remove the slice/epic, reset the status —
   leaving only /understand's detailing scope. handoff: autonomous.
@@ -261,3 +355,21 @@ record.
 - REC13 (F13) — trigger: the product-os tree is dirty at entry (uncommitted model edits
   present). direction: halt at pre-flight and ask for a clean model tree — commit or revert
   the pending model edits — before /understand proceeds. handoff: human.
+- REC14 (F14) — trigger: inside a drive the play opened an issue or branch, ran the end
+  sequence, waited at its checkpoint, or worked off the drive's branch; or by hand it skipped
+  a step. direction: inside a drive, close the stray issue and branch, switch to the drive's
+  branch, and write the review record in place of the wait; by hand, run the skipped step.
+  handoff: human.
+- REC15 (F15) — trigger: no review record, a record that differs from the checkpoint (a
+  box-move missing as its own line), no ledger line, an approval no person gave, or an
+  answer the play picked itself. direction: re-render the checkpoint and re-write the review
+  record with `write_drive_review.py`; append the missing `deferred_to_drive_review` line, or
+  a correction refuting a made-up approval; drop the picked answer and ask the person.
+  handoff: autonomous.
+- REC16 (F16) — trigger: a pending capability left out, an unnamed one taken, a target
+  measured against a box raised in the same run, a part of the run committed while another
+  target failed, or a dispatch that wrote outside its write scope or a shared file.
+  direction: re-pick the targets with `pick_targets.py`, re-run the roll-up with every
+  target's manifest against the starting box, and re-render the checkpoint; when a target
+  failed or a dispatch strayed, revert the uncommitted delta and halt the whole run.
+  handoff: autonomous.

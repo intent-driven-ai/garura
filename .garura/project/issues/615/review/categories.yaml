@@ -1,0 +1,82 @@
+pr: 640
+issue: 615
+base: main
+round: 2
+categories:
+  - id: harness
+    playbook: review/harness
+    design_bearing: true
+    path_count: 5
+    summary: "The /understand play is reworked: it runs inside a drive (skips its own opening and end, saves box-moves as proposed, writes a drive review) and now details every pending target capability at once through a scoped-write fan-out (one agent per capability, each writing only inside its own folder, one keyed persist and one guard after the join). Compiled steps, constraints, failures and evals change to match. The play-creator and play-editor workflow-structures guides are updated to describe the scoped-write fan-out."
+    evidence:
+      - core/components/plays/understand/SKILL.md
+      - core/components/plays/understand/reference/ice.md
+      - core/components/plays/play-creator/references/workflow-structures.md
+      - core/components/plays/play-editor/references/workflow-structures.md
+    notes: "Intent change (ice.md plus compiled SKILL.md): check each SKILL.md change traces to ice.md and every constraint, failure and scenario stays covered by an eval (lint_play.py, lint-components). Layer 2 applies: ground only in committed base-ref sources (docs/philosophy, ADR 025 determinism, ADR 026 direct-model-write, ADR 029 and 030, standards rules such as concurrent-fanout, direct-model-write, drive-contract, play-close, no-unbacked-recommendation, pipeline-position, as they stand on main via git show main:path, the base-ref understand ice.md and SKILL.md, and the merged /vision change from #614 as precedent), never the branch's own ice.md, plan.md or work description. The two workflow-structures.md files are byte-identical to each other (verified); they are play-builder guidance, judged as harness."
+  - id: memory
+    playbook: review/memory
+    design_bearing: true
+    path_count: 3
+    summary: "Standards rules edited. concurrent-fanout.md gains a second kind of allowed concurrency, the scoped-write fan-out (five conditions: own declared write scope, no shared file, distinct output paths, no sibling dependency, guarded after the join and committed only after review), loosening the earlier read-only-only rule. _index.md row for it is updated. pipeline-position.md lists /understand (#615) as wired for drive runs."
+    evidence:
+      - core/components/memory/standards/rules/concurrent-fanout.md
+      - core/components/memory/standards/rules/_index.md
+      - core/components/memory/standards/rules/pipeline-position.md
+    notes: "The concurrent-fanout.md change is the weightiest: it relaxes a safety rule that ADR 025 (single deterministic node) and ADR 026 (direct-model-write, writes by keyed persist) bound, so Layer 2 must test it against both as they stand on main and against the base-ref concurrent-fanout.md and direct-model-write.md. Check the claim that scoped_write_guard.py exists on main and behaves as described, and that the rule's declared lint wording matches check_fanout_declaration. pipeline-position.md: check 'understand is wired with the shared check_drive_contract.py' is true of the branch. Layer 1: _index row matches the rule, cross-references resolve."
+  - id: executable-code
+    playbook: review/code
+    design_bearing: false
+    path_count: 11
+    summary: "Python scripts. In the understand play: new pick_targets.py (chooses the pending targets for the fan-out), new check_drive_contract.py and write_drive_review.py (byte-identical copies of the canonical play-creator/references versions, verified), reworked persist_understand.py (keyed persist for per-capability records, --decision-status accepted|proposed) and rollup_box.py. In play-creator and play-editor: lint_play.py check_fanout_declaration now also checks scoped-write fan-out declarations (the two lint_play.py copies are identical, verified)."
+    evidence:
+      - core/components/plays/understand/scripts/pick_targets.py
+      - core/components/plays/understand/scripts/check_drive_contract.py
+      - core/components/plays/understand/scripts/write_drive_review.py
+      - core/components/plays/understand/scripts/persist_understand.py
+      - core/components/plays/understand/scripts/rollup_box.py
+      - core/components/plays/play-creator/scripts/lint_play.py
+      - core/components/plays/play-editor/scripts/lint_play.py
+    notes: "Layer 1 only (ruff, quality-check-scoped with the pr.md taxonomy). persist_understand.py is a large rewrite (about 326 lines changed) that writes the model, so review idempotency, rerun safety, path scoping (no write outside the declared scope or shared files) and the default behaviour of --decision-status (accepted) hard. Confirm the duplicated scripts stay identical to their canonical sources. Scripts inside a play folder, so the harness playbook is not applied to them; no design-grounding."
+  - id: tests
+    playbook: review/tests
+    design_bearing: false
+    path_count: 4
+    summary: "New test_pick_targets.py and test_rollup_box.py; test_persist_understand.py extended (box-move status, keyed persist); test_concurrent_fanout.py in play-creator/references extended to cover the scoped-write declaration check."
+    evidence:
+      - core/components/plays/understand/scripts/test_pick_targets.py
+      - core/components/plays/understand/scripts/test_rollup_box.py
+      - core/components/plays/understand/scripts/test_persist_understand.py
+      - core/components/plays/play-creator/references/test_concurrent_fanout.py
+    notes: "Run the suites, do not only read them. Confirm failure and refusal cases are real and no test asserts nothing. Layer 1 only; no design-grounding. Test files sit beside their scripts; content decides."
+  - id: stm-run-records
+    playbook: null
+    playbook_missing: true
+    design_bearing: false
+    path_count: 10
+    summary: "Short-term-memory records for issue 615 and its propose-change run (analysis, branch, commits, issue and PR snapshots, porcelain output, PR body, resolved-rules record, self-review, work description)."
+    evidence:
+      - .garura/project/issues/615/context/analysis.yaml
+      - .garura/project/issues/615/context/branch.json
+      - .garura/project/issues/615/context/commits.yaml
+      - .garura/project/issues/615/context/issue.json
+      - .garura/project/issues/615/context/porcelain.txt
+      - .garura/project/issues/615/context/pr-body.md
+      - .garura/project/issues/615/context/pr.json
+      - .garura/project/issues/615/context/resolved-rules.json
+      - .garura/project/issues/615/context/self-review.md
+      - .garura/project/issues/615/context/work-description.txt
+    notes: "Playbook missing: run records, not KB memory, docs or ADRs. The work description and PR body state the intended scope the change can be checked against, but they are branch-added, so never design grounding. Excluded from this list as not reviewable work: .garura/project/issues/615/review/** (round-1 review run records)."
+  - id: stm-plans-and-design
+    playbook: null
+    playbook_missing: true
+    design_bearing: false
+    path_count: 3
+    summary: "The plan for issue 615 (now covering item 6, detailing all targets at once), plus progress notes in the plans for issues 606 and 614."
+    evidence:
+      - .garura/project/issues/615/specs/plan.md
+      - .garura/project/issues/606/specs/plan.md
+      - .garura/project/issues/614/specs/plan.md
+    notes: "Playbook missing: planning records, not harness, memory or ADRs. They state intended scope but are branch-added or branch-edited, so never grounding for the harness or memory changes (circular)."
+excluded_as_run_records:
+  - ".garura/project/issues/615/review/** (round-1 review run records; not reviewable work)"

@@ -1,0 +1,8 @@
+decision: approve
+decided_by: harness
+gate: "skipped by config (gates.plays.review-change)"
+round: 3
+reason: "no P1 findings; confidence acceptable"
+blocking: []
+counts: {P4: 3}
+note: "Round 3 checked the fixes for M-N1, Q1, Q2 and H11: all four closed. Three new P4; R3-1 fixed in f3d06fb3, R3-2 and R3-3 open. Round-2 findings not named here stay open as posted."

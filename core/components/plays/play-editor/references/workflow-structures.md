@@ -64,8 +64,13 @@ However you word the step, it must state that it fans out AND name the join barr
 read-only condition — `lint_play.py`'s `check_fanout_declaration` fails a play that cites
 `concurrent-fanout.md` without declaring both. A fan-out is always bounded (a fixed set) and
 joined (a barrier before any downstream read), so the step stays a single deterministic node
-(ADR 025). A step whose sub-tasks WRITE the tree is NOT this — that is #488 (worktree
-isolation), out of scope here; keep it serial.
+(ADR 025). A step whose sub-tasks WRITE the tree runs at once only as a **scoped-write
+fan-out** (#615): each sub-task writes only inside its own declared write scope (one node's
+folder, checked distinct before dispatch), no sub-task writes a shared file (one keyed
+persist does that after the join), and the scoped guard checks the whole delta before any
+commit. Name it, and declare its write scope, the no-shared-file condition and the join —
+`check_fanout_declaration` fails the play otherwise. Anything else that writes the tree is
+#488 (worktree isolation); keep it serial.
 
 ---
 

@@ -1,0 +1,478 @@
+pr: 640
+issue: 615
+round: 2
+confidence: 0.9
+sources:
+- design-findings-harness.yaml
+- design-findings-memory.yaml
+- quality-findings.yaml
+- runnable-checks.txt (all suites green)
+findings:
+- id: H1
+  category: harness
+  severity: P3
+  status: changed
+  file: core/components/plays/understand/reference/ice.md
+  line: 83-87, 140-161
+  title: Inside a drive a box is raised and committed while its decision is only proposed; the play still does not
+    say what dropping the decision does to the raised box
+  basis: "A box-move has two halves, the raised profile level and its decision. Write-then-review guarantees nothing\
+    \ out-of-box is COMMITTED without approval and names only /intent and /adr as declared exceptions; the roll-up\
+    \ reads the committed box as the next ceiling. \u2014 main:core/components/memory/standards/rules/direct-model-write.md\
+    \ lines 109-129; main:core/components/plays/understand/scripts/rollup_box.py (reads the live profile); main:core/components/memory/standards/schemas/product-os/decision.yaml\
+    \ (status values); main:docs/adr/031-business-intent-and-ice.md part 5"
+- id: H2
+  category: harness
+  severity: P3
+  status: open
+  file: core/components/plays/understand/SKILL.md
+  line: 588-595 (SE-16), 491-493 (Step 6)
+  title: SE-16 expects a review record whenever the gate did not auto-pass, but a config skip writes none
+  basis: "Inside a drive a config skip is recorded as a skip, as by hand; only a would-wait gate becomes a review\
+    \ record and a deferred ledger line. A play's evals must judge the cases its steps produce. \u2014 main:core/components/memory/standards/rules/drive-contract.md\
+    \ ('How a play runs inside a drive' item 3); main:core/components/memory/standards/rules/gate-config.md; main:core/components/plays/vision/SKILL.md\
+    \ SE-14"
+- id: H3
+  category: harness
+  severity: P3
+  status: open
+  file: core/components/plays/understand/SKILL.md
+  line: 584-587; Step 0a 235-240
+  title: SE-15 says an in-drive run 'did not wait at Step 6 or Step 0a', but C1, C13 and Step 0a require the play
+    to stop and ask when a seed has no contract answers
+  basis: "A drive does not stop for the plays' checkpoints, but a question the drive did not answer stops the play\
+    \ and the play never picks the answer. \u2014 main:docs/adr/029-drives.md section 2 (line 36); main:core/components/memory/standards/rules/drive-contract.md\
+    \ item 4"
+- id: H4
+  category: harness
+  severity: P4
+  status: open
+  file: core/components/plays/understand/reference/ice.md
+  line: 146-147
+  title: The play reads nested seed answers (answers.understand.seeds.<capability>.one_line/why/domain) that drive-contract.md
+    does not describe
+  basis: "One contract serves every play and describes answers as 'question id to answer'; the questions a play\
+    \ needs the drive to ask must be findable by the drive (#613). \u2014 main:core/components/memory/standards/rules/drive-contract.md\
+    \ ('What a contract holds'); main:docs/adr/029-drives.md section 2"
+- id: H5
+  category: harness
+  severity: P4
+  status: changed
+  file: core/components/plays/understand/SKILL.md
+  line: 497-508
+  title: Review records are now one per capability, but the canonical writer stores the composite '<run ts>-<capability>'
+    in recorded_at and has no capability field
+  basis: "Each play shows its saved record, one /understand record per capability, so the drive's review can tell\
+    \ them apart. The writer's own contract is '--ts the run's UTC timestamp' and 'must be a plain timestamp'. \u2014\
+    \ main:docs/adr/029-drives.md section 6 (line 67); main:core/components/memory/standards/rules/drive-contract.md\
+    \ ('drive_run_id ... so the drive's review can find each play's record')"
+- id: H6
+  category: harness
+  severity: P4
+  status: open
+  file: core/components/plays/understand/reference/ice.md
+  line: 83 (C8), 297-299 (Done means preamble)
+  title: Three statements still read as if nothing is committed without an approval and every decision is accepted
+  basis: "A compiled play is one contract read whole every run; an intent change must reword every sentence that\
+    \ enumerates how a gate resolves or what status a decision has. \u2014 CLAUDE.md Play Pipeline Rules; main:core/components/plays/vision/SKILL.md\
+    \ (precedent rewording F6/REC6)"
+- id: H7
+  category: harness
+  severity: P4
+  status: open
+  file: core/components/plays/understand/reference/ice.md
+  line: 206-208, 358-362
+  title: F14 and REC14 call a by-hand run that 'skipped its checkpoint' a failure, though a config skip or learned
+    auto-pass legitimately skips it
+  basis: "Run by hand, a play still stops as its gate settings say; a config skip and a policy auto-pass are valid\
+    \ resolutions of a conditional gate. \u2014 main:docs/adr/029-drives.md section 4 and 'ADRs This Retires'; main:core/components/memory/standards/rules/gate-config.md"
+- id: H8
+  category: harness
+  severity: P4
+  status: open
+  file: core/components/plays/understand/reference/ice.md
+  line: 288-307
+  title: Done means (D1-D3) is unchanged, so neither the in-drive path nor 'every target landed' is proven at close
+  basis: "A play's Done means is composed from the scenarios' measures and the artifact-verifiable constraints.\
+    \ \u2014 main:core/components/plays/play-creator/SKILL.md ('Done means (#464)'); main:core/components/plays/understand/stop-condition.yaml\
+    \ (D1-D3 as on main); main:core/components/plays/vision (same choice under #614)"
+- id: H9
+  category: harness
+  severity: P3
+  status: new
+  file: core/components/plays/understand/reference/ice.md
+  line: 6-27, 29, 162-172
+  title: ADR 029 still says /understand 'runs once for every capability'; the play now runs once for all of them,
+    with no amendment to the ADR
+  basis: "A play's drive behaviour is set by the drive ADR; later changes to a drive's shape are recorded by amending\
+    \ that ADR (as ADRs 030 and 031 did in its Status line). \u2014 main:docs/adr/029-drives.md lines 3, 63, 67\
+    \ (Status amendments; Kickoff table; Done when); decision record: .garura/project/issues/615/specs/plan.md item\
+    \ 6 (Kapil, 2026-10-17)"
+- id: H10
+  category: harness
+  severity: P3
+  status: new
+  file: core/components/plays/understand/SKILL.md
+  line: 266-274, 310-315; ice.md 162-172
+  title: Step 1 is conformant only to the changed fan-out rule; against the base-ref rule it is a forbidden writing
+    fan-out, and the rule change has no decision record outside the PR's plan
+  basis: "The fan-out rule names the ONE exception to the deterministic skeleton and sends sub-tasks that WRITE\
+    \ the tree to #488 (worktree isolation); parallelism is allowed 'last', under one parent, bounded and joined,\
+    \ because it multiplies a runaway. Widening that exception is itself a design decision. \u2014 main:core/components/memory/standards/rules/concurrent-fanout.md\
+    \ lines 5-8, 12-25 (condition 1 and its parenthesis, line 17); main:docs/adr/025-level-3-redefined-skeleton-and-loop.md\
+    \ lines 125-132; main:core/components/memory/standards/rules/direct-model-write.md item 3 (lines 28-40); #488\
+    \ (open). Decision record: plan.md item 6 (Kapil, 2026-10-17, 'B')"
+- id: H11
+  category: harness
+  severity: P3
+  status: new
+  file: core/components/plays/understand/SKILL.md
+  line: 433-435 (SE-9), 593-595 (SE-16), 682-683 (SCE-7)
+  title: 'S7, SE-16 and SE-9 test a field the earlier step never records: persist-manifest.json box_moves carries
+    no decision status'
+  basis: "A step eval is a check that can be run from artifacts an earlier step records; the Done-means and measures\
+    \ name verifiable fields. \u2014 main:core/components/plays/play-creator/SKILL.md ('Done means (#464)': artifact-verifiable\
+    \ clauses); main:core/components/plays/understand/scripts/persist_understand.py (manifest shape: written, capability_refs,\
+    \ seeded, changed, box_moves)"
+- id: H12
+  category: harness
+  severity: P3
+  status: new
+  file: core/components/plays/understand/reference/ice.md
+  line: 259-265
+  title: 'ICE S6 still names ''<working>/seed.yaml'' and ''seeded: true''; the compiled SCE-6 was updated to the
+    per-capability path and the seeded list, so SKILL.md and ice.md disagree'
+  basis: "The compiled play must trace to the ICE it is fingerprinted against; a rebuild from the ICE must reproduce\
+    \ the compiled evals. \u2014 CLAUDE.md Play Pipeline Rules (ICE is the intent source; recompile from it); main:core/components/plays/understand/scripts/persist_understand.py\
+    \ (manifest 'seeded' is a list, as on this branch)"
+- id: H13
+  category: harness
+  severity: P3
+  status: new
+  file: core/components/plays/understand/reference/ice.md
+  line: 369-375, 72-77
+  title: REC16 tells the play to re-run the roll-up 'against the starting box', but after the persist the live spine
+    already holds the raised box and the roll-up reads the live spine
+  basis: "C7: every target is measured against the box as it stood at the start of the run. The roll-up reads the\
+    \ committed box in the live spine when it runs; the persist refuses a capability that is already detailed. \u2014\
+    \ main:core/components/plays/understand/scripts/rollup_box.py (profile read from the live spine); main:core/components/plays/understand/scripts/persist_understand.py\
+    \ line 160"
+- id: H14
+  category: harness
+  severity: P4
+  status: new
+  file: core/components/plays/understand/SKILL.md
+  line: 325-328, 358
+  title: Step 2 and SE-5 still say the keyed persist runs 'after approval' and in 'Step 6'; the persist is Step
+    4, before the checkpoint
+  basis: "A compiled play is one contract read whole; step references must match the step order. \u2014 main:core/components/plays/understand/SKILL.md\
+    \ (the same text sits on main at lines 256-258, 287, left from #498); main:core/components/memory/standards/rules/direct-model-write.md\
+    \ 'Order of operations'"
+- id: H15
+  category: harness
+  severity: P4
+  status: new
+  file: core/components/plays/understand/SKILL.md
+  line: '826'
+  title: Compilation Metadata says 16 recoveries, 12 autonomous / 4 human; the play has 11 autonomous and 5 human
+    (F1, F7, F9, F13, F14)
+  basis: "Compiled metadata states counts the ICE yields. \u2014 main:core/components/plays/understand/reference/ice.md\
+    \ (handoff lines: main had 4 human; main's metadata already said 3); lint_play.py checks counts of recoveries,\
+    \ not the split"
+- id: H16
+  category: harness
+  severity: P4
+  status: new
+  file: core/components/plays/understand/reference/ice.md
+  line: 37-40
+  title: '''Nothing pending, end at once'' leaves the close undefined: no persist record exists, so the stop condition
+    cannot read held'
+  basis: "The close never reads COMPLETED with the stop-condition verdict unmet; every play ends with the Standard\
+    \ Play Close. \u2014 main:core/components/memory/standards/rules/play-close.md (Standard Play Close); main:core/components/plays/understand/stop-condition.yaml\
+    \ (D1-D3 as on main); ice.md C11 on main"
+- id: H17
+  category: harness
+  severity: P4
+  status: new
+  file: core/components/plays/understand/SKILL.md
+  line: 266-274, 310-315, 363-366
+  title: Step 1 and C14 do not say what happens when one dispatch errors or returns no manifest while its siblings
+    have already written docs
+  basis: "A fan-out is bounded and joined; if any sub-task fails, no later step sees a partial set; all-or-nothing\
+    \ means nothing is committed. \u2014 main:core/components/memory/standards/rules/concurrent-fanout.md ('The\
+    \ bounded join', lines 28-40)"
+- id: H18
+  category: harness
+  severity: P4
+  status: new
+  file: core/components/plays/understand/SKILL.md
+  line: 310-315, 454-472
+  title: 'SE-17 and F16 promise a per-dispatch scope check the harness cannot make: the guard sees only the union
+    of scopes and nothing records which dispatch wrote what'
+  basis: "Run-level containment is the guard plus the keyed persist; each sub-task is told one scope before dispatch.\
+    \ The changed rule itself states that a stray write into a sibling's scope 'stays inside the union'. \u2014\
+    \ main:core/components/memory/standards/rules/direct-model-write.md item 3-4 (guard is file-level, run-level);\
+    \ main:core/components/skills/enrich-capability-ice/SKILL.md Inputs ('never a sibling node's doc')"
+- id: H19
+  category: harness
+  severity: P4
+  status: new
+  file: core/components/plays/understand/reference/ice.md
+  line: 162-172
+  title: 'The fan-out is bounded only by ''every pending capability'': N targets mean N concurrent writers plus
+    one judge per doc at once, with no cap or batching'
+  basis: "Parallelism multiplies a runaway; it is allowed under one parent after the budget wall exists, as a fixed\
+    \ bounded set. \u2014 main:docs/adr/025-level-3-redefined-skeleton-and-loop.md lines 125-127; main:core/components/memory/standards/rules/concurrent-fanout.md\
+    \ ('Bounded')"
+- id: H20
+  category: harness
+  severity: P4
+  status: new
+  file: core/components/plays/understand/SKILL.md
+  line: 266-292
+  title: 'The agent and skill contracts were not updated for the scoped-write dispatch: write_scope is an undeclared
+    input, the skill still names ''<working>/seed.yaml'', and agent self-recovery can rebuild a shared KB index'
+  basis: "A play's dispatch contract uses the inputs its agent and skill declare; sub-tasks of a scoped-write fan-out\
+    \ write no shared file (any index). \u2014 main:core/components/skills/enrich-capability-ice/SKILL.md (Inputs\
+    \ table: capability, kb_domain, product_base, manifest_path, stm_base); main:core/components/agents/product-os-keeper.md\
+    \ (JSON Contract Mode; Self-Recovery 'run kb.py rebuild'); main:core/components/memory/standards/rules/concurrent-fanout.md\
+    \ (base: distinct output paths)"
+- id: M-N1
+  category: memory
+  severity: P2
+  status: null
+  file: core/components/plays/play-creator/SKILL.md
+  line: 196-203 (not in the diff)
+  title: play-creator/SKILL.md still tells the compiler that a step whose sub-tasks write the repo stays serial,
+    so the scoped-write fan-out is not emitted by the compiler and is contradicted by it
+  basis: "Durability rule: shared scaffolding must converge-and-lint so a direct edit and a rebuild produce the\
+    \ same result. The PR adds the scoped-write form to concurrent-fanout.md and to references/workflow-structures.md,\
+    \ and /understand is compiled with it by hand. play-creator/SKILL.md (the instruction the compiler reads on\
+    \ every run) still says 'A step whose sub-tasks write to the repo stays serial (#488)' and describes only the\
+    \ read-only form with 'the three safety conditions'. Two instruction files the compiler reads now disagree;\
+    \ a rebuild of /understand from ice.md follows whichever the compiler weighs, and the lint would pass a serial\
+    \ result silently (it only checks declarations, never that the form is used). \u2014 main:CLAUDE.md (Durability\
+    \ rule); main:core/components/plays/play-creator/SKILL.md lines 196-203; main:core/components/memory/standards/rules/concurrent-fanout.md"
+- id: M-N2
+  category: memory
+  severity: P3
+  status: null
+  file: core/components/memory/standards/rules/concurrent-fanout.md
+  line: '19 (condition 1 parenthetical ''A run whose sub-tasks WRITE the tree needs isolation - that is #488, not
+    this''); 88 (''Both forms obey the same three conditions''); 1 (H1 ''Concurrent Read-Only Fan-Out''); _index.md
+    row 47'
+  title: 'concurrent-fanout.md keeps three sentences that the new section contradicts or makes stale: the condition-1
+    parenthetical, ''Both forms obey the same three conditions'', and the title/_index label ''read-only'''
+  basis: "A rule must not give two answers to one question. Line 19 says a writing run needs isolation and is #488;\
+    \ the new section (lines 28-58) runs a writing step with no isolation. The scoped-write form obeys five conditions,\
+    \ not three. The title and index label still say the rule is read-only and the index calls it 'the one allowed\
+    \ intra-step concurrency' before listing a second kind. An agent reading only the title, index row or condition\
+    \ 1 gets the old rule. \u2014 main:core/components/memory/standards/rules/_index.md ('When to Add Here': the\
+    \ index tells agents which rules apply); main:core/components/memory/standards/rules/concurrent-fanout.md (the\
+    \ base text of lines 1, 17, 66)"
+- id: M-N3
+  category: memory
+  severity: P3
+  status: null
+  file: core/components/memory/standards/rules/concurrent-fanout.md
+  line: 53-57 and 69-71
+  title: The stated limit (a stray write into a sibling's scope stays inside the guard's union) is documented but
+    only weakly mitigated, and it makes the rule's own determinism claim untrue in that case
+  basis: "ADR 025 needs the fan-out to be order-stable ('same outcome concurrent or serial', rule lines 69-71).\
+    \ With disjoint scopes that holds. A stray write by sub-task A into B's folder races with B's own writes: the\
+    \ last writer wins by timing, so the tree depends on scheduling, which is what order-stability forbids. The\
+    \ guard cannot see it (ADR 026: the guard detects out-of-scope paths only; the union hides which sibling wrote).\
+    \ The rule mitigates by 'every node's content is still checked downstream (linter, judges, checkpoint)': those\
+    \ check a doc's shape and grounding, not who wrote it, so a plausible doc about the wrong capability can pass.\
+    \ Mitigated enough NOT to be P1/P2: the tree is on a feature branch, nothing is committed before review (condition\
+    \ 5), the effect is a content defect and not data loss, and the old serial run had the same union blind spot.\
+    \ But a cheap mechanical check exists and the rule does not use it. \u2014 main:docs/adr/025-level-3-redefined-skeleton-and-loop.md\
+    \ (determinism rule, bounded/joined); main:docs/adr/026-direct-to-model-writes.md (Decision 4 containment is\
+    \ detect-after-the-fact; Why this is the wrong shape point 1 'a language model can write outside its lane');\
+    \ main:core/components/memory/standards/rules/direct-model-write.md ('The shared scoped-write guard')"
+- id: M-N4
+  category: memory
+  severity: P3
+  status: null
+  file: core/components/plays/play-creator/scripts/lint_play.py
+  line: check_fanout_declaration (~lines 349-378; the new block is after 'results = [...]')
+  title: 'The lint counterpart (check_fanout_declaration) is a partial converge-and-lint: whole-text substring checks,
+    silent unless the play names the form, and no check of conditions 1 and 5'
+  basis: "Durability rule wants the rule change to have a lint counterpart. The new block fires only if the play\
+    \ text contains the exact phrase 'scoped-write fan-out' (a play that writes concurrently and declares only 'concurrent\
+    \ read-only fan-out' is accepted by the first result), and it passes if the tokens 'write scope' and 'shared\
+    \ file' appear anywhere in the whole play text, not in the fan-out step. It does not check that the scopes are\
+    \ verified distinct (condition 1), or that the guard runs after the join (condition 5). Condition 5's guard\
+    \ half is covered by the existing L-DMW-3/L-DMW-6 lint rows, so the gap is smaller than it looks. This is the\
+    \ same level of strength as the #468 read-only check it extends, so it is not P2. \u2014 main:CLAUDE.md (Durability\
+    \ rule); main:core/components/memory/standards/rules/direct-model-write.md (L-DMW-3, L-DMW-6); main:core/components/plays/play-creator/scripts/lint_play.py\
+    \ (check_fanout_declaration as it stood)"
+- id: M-N5
+  category: memory
+  severity: P4
+  status: null
+  file: core/components/memory/standards/rules/direct-model-write.md
+  line: n/a (not in the diff)
+  title: 'One-way cross-references: direct-model-write.md and ADR 026 do not mention the scoped-write fan-out, and
+    #488''s body still says its survey found no other writing fan-out'
+  basis: "concurrent-fanout.md now cites ADR 026 / direct-model-write.md as the write discipline it keeps, but direct-model-write.md\
+    \ never says concurrent per-node writers are a permitted shape or that the guard allow-list may be a union of\
+    \ scopes. A reader of the write rule alone would not learn it. #488's body says 'the only WRITING fan-out in\
+    \ the whole play catalog' - no longer true once /understand ships. \u2014 main:core/components/memory/standards/rules/direct-model-write.md;\
+    \ GitHub issue #488 body"
+- id: M-N6
+  category: memory
+  severity: P4
+  status: null
+  file: core/components/memory/standards/rules/concurrent-fanout.md
+  line: 35-37
+  title: Condition 1 says the scopes are 'checked by a script to be distinct' but names no canonical script; each
+    consuming play re-implements it
+  basis: "The guard and the drive checker are named canonical scripts stamped into plays; the distinctness check\
+    \ is the one safety condition that lives only in /understand's pick_targets.py (its overlap/nested refusal,\
+    \ lines ~150-160). A second consumer would copy the logic. \u2014 main:core/components/memory/standards/rules/direct-model-write.md\
+    \ ('Canonical script: play-creator/references/scoped_write_guard.py, stamped into each play')"
+- id: M1
+  category: memory
+  severity: P3
+  status: open_from_round_1
+  file: core/components/memory/standards/rules/_index.md
+  line: 43
+  title: _index.md row 43 (drive-contract.md) still lists '/understand (#615)' as a future consumer while pipeline-position.md
+    says it is wired
+  basis: "The PR edits row 47 of this same file but not row 43, so the index disagrees with the edited pipeline-position.md;\
+    \ the index is where agents look for rule consumers. \u2014 main:core/components/memory/standards/rules/_index.md\
+    \ ('When to Add Here'; row 43)"
+- id: M2
+  category: memory
+  severity: P3
+  status: open_from_round_1
+  file: core/components/memory/standards/rules/direct-model-write.md
+  line: declared exceptions (~120-126)
+  title: No committed rule says box-move decisions are saved 'proposed' inside a drive
+  basis: "Only /intent and /adr are declared. /understand's SKILL.md (F7, SE-11) now makes 'accepted inside a drive'\
+    \ a failure with no rule behind it. \u2014 main:core/components/memory/standards/rules/direct-model-write.md;\
+    \ main:docs/adr/030-plan-mode.md section 5"
+- id: M3
+  category: memory
+  severity: P3
+  status: open_from_round_1
+  file: core/components/memory/standards/rules/pipeline-position.md
+  line: '''How play-creator injects it'', ''Enforced'''
+  title: pipeline-position.md mechanics still say unconditional injection; the in-drive skip and now the scoped-write
+    fan-out exist only in hand-compiled play text
+  basis: "Durability rule; see M-N1. \u2014 main:CLAUDE.md (Durability rule); main:core/components/memory/standards/rules/pipeline-position.md"
+- id: M4
+  category: memory
+  severity: P4
+  status: open_from_round_1
+  file: core/components/memory/standards/rules/pipeline-position.md
+  line: 18
+  title: '''Wired so far'' list is a moving status with issue numbers'
+  basis: "The next wired play needs the same edit. \u2014 main:core/components/memory/standards/rules/pipeline-position.md"
+- id: M5
+  category: memory
+  severity: P4
+  status: open_from_round_1
+  file: core/components/memory/standards/rules/pipeline-position.md
+  line: 109-110
+  title: 'Pre-existing stale text: ''no consumer exists yet'''
+  basis: "The file contradicts itself on main. \u2014 main:core/components/memory/standards/rules/pipeline-position.md"
+- id: Q1
+  category: executable-code
+  severity: P2
+  status: null
+  file: core/components/plays/understand/scripts/persist_understand.py
+  line: 228
+  title: persist replaces the live profile with whatever the proposed-profile file holds, so an empty or lowered
+    file wipes or lowers the box
+  basis: pr.md severity definition P2 (error-handling violation); script's own contract C7/F6 (a box dimension is
+    never lowered)
+- id: Q2
+  category: executable-code
+  severity: P2
+  status: null
+  file: core/components/plays/understand/scripts/persist_understand.py
+  line: 222
+  title: A functionality id that two targets both declare is kept for the first and silently dropped for the second;
+    an id-less functionality is written
+  basis: pr.md severity definition P2 (error-handling violation, silent data loss)
+- id: Q3
+  category: executable-code
+  severity: P3
+  status: null
+  file: core/components/plays/understand/scripts/rollup_box.py
+  line: 51
+  title: A level outside the scale is read as 'none', so an unrecognised need never moves the box and is never reported
+  basis: pr.md severity definition P3 (borderline robustness); error handling
+- id: Q4
+  category: executable-code
+  severity: P3
+  status: null
+  file: core/components/plays/understand/scripts/pick_targets.py
+  line: 116
+  title: Write scope is built from a doc path that is never checked, and the check persist applies to seed docs
+    is not applied here
+  basis: pr.md severity definition P3; error handling (input validation inconsistent between two scripts)
+- id: Q5
+  category: executable-code
+  severity: P3
+  status: null
+  file: core/components/plays/understand/scripts/persist_understand.py
+  line: 232
+  title: Malformed rollup report or manifest gives a Python traceback and exit 1, not the documented exit 2; a box-move
+    missing a key crashes at line 239
+  basis: pr.md severity definition P3; error handling (documented exit contract not kept)
+- id: Q6
+  category: executable-code
+  severity: P3
+  status: null
+  file: core/components/plays/understand/scripts/persist_understand.py
+  line: 207
+  title: The manifest's `doc` for a capability and for each functionality is copied into the spine with no path
+    check
+  basis: pr.md severity definition P3; containment (the persist docstring claims node-level containment)
+- id: Q7
+  category: executable-code
+  severity: P3
+  status: null
+  file: core/components/plays/play-creator/scripts/lint_play.py
+  line: 355
+  title: The scoped-write declaration check is skipped unless the play also cites concurrent-fanout.md, and a scoped-write-only
+    play is still told to declare 'read-only'
+  basis: knowledge/review/code.md (a lint check should test what it names); naming and wording
+- id: Q8
+  category: tests
+  severity: P3
+  status: null
+  file: core/components/plays/understand/scripts/test_pick_targets.py
+  line: 136
+  title: The new scripts' sharpest edges have no test, so the defects above pass the suites
+  basis: knowledge/review/tests.md (failure and edge cases assert the whole refusal; cover the new behaviour)
+- id: Q9
+  category: tests
+  severity: P4
+  status: null
+  file: core/components/plays/understand/scripts/test_persist_understand.py
+  line: 229
+  title: The bad decision-status refusal still checks only that the exit was non-zero (carried from round 1, F1)
+  basis: knowledge/review/tests.md (failure cases assert the whole refusal)
+- id: Q10
+  category: executable-code
+  severity: P4
+  status: null
+  file: core/components/plays/understand/scripts/persist_understand.py
+  line: 265
+  title: The spine is rewritten in place and decisions are written before it, so a crash between or during the writes
+    leaves partial state
+  basis: ruff-adjacent hygiene; knowledge/review/code.md (write safety)
+- id: Q11
+  category: executable-code
+  severity: P4
+  status: null
+  file: core/components/plays/understand/scripts/pick_targets.py
+  line: 116
+  title: The seed-folder rule (domain's folder from its doc, else its id, then slug of the capability id) is written
+    twice
+  basis: naming and duplication (code.md); abstraction later, not sooner (three-line rule applies, this is two copies
+    of a rule)

@@ -1,0 +1,87 @@
+pr: 640
+round: 3
+scope: fix commits fd946f96 (play-creator/SKILL.md) and 8e5dd019 (persist_understand.py + test_persist_understand.py)
+tests: 'test_persist_understand.py: 86 passed, 0 failed (run on this branch)'
+closed:
+- id: M-N1
+  verdict: closed
+  evidence: 'play-creator/SKILL.md lines 202-213 now emit the scoped-write fan-out. It lists the five conditions
+    in the same order as concurrent-fanout.md ''The scoped-write fan-out (#615)'': own write scope fixed and checked
+    distinct by a script; no shared file; distinct output paths; no sibling dependency; guard checks the whole delta
+    before any commit. It says to name it ''scoped-write fan-out'' and declare ''write scope'' and ''shared file'',
+    the two tokens lint_play.py (play-creator/scripts/lint_play.py lines 367-378) checks; the join is checked by
+    the existing fan-out check at the lines above. The ''stays serial (#488)'' sentence now says ''Any other step''.
+    references/workflow-structures.md (lines 67-73, both play-creator and play-editor) already agreed, so the compiler''s
+    two instruction files no longer disagree. No edit note was added to the skill file.'
+- id: Q1
+  verdict: closed
+  evidence: 'persist_understand.py profile_error (lines 118-132), called before the profile is replaced (line 273).
+    Ran scratch fixtures: empty proposed profile -> exit 2 (not firmed to set); a dimension lowered -> exit 2; a
+    dimension omitted from a directional live box with levels -> exit 2; a dropped compliance regime -> exit 2.
+    Legitimate runs pass (exit 0): live dimension as a bare string with proposed as a dict and the reverse, live
+    profile with no nfr, live profile None, directional box with levels kept as is, upper-case level vs lower-case.
+    rollup_box.py always copies every live dimension (lines 99-101, 142-145) and unions compliance, so the real
+    roll-up output is not refused. The refusal happens before any write (spine and decisions are written only after
+    every check), covered by new tests. Residual gaps are P4 only (R3-2, R3-3).'
+- id: Q2
+  verdict: closed
+  evidence: 'persist_understand.py lines 251-270. Fixtures: id declared twice in one manifest -> exit 2; id-less
+    or non-string id -> exit 2; id already live under another capability -> exit 2; id already live under the same
+    capability -> exit 0, left untouched, no duplicate row, not listed in functionalities_added; a live row with
+    no capability key and the same id -> exit 2 (refused as ''under None'', conservative). The same id declared
+    by two targets is refused through the `declared` set (each manifest''s f.capability must equal its own target,
+    so a second target declaring it hits ''declared twice''). Nothing is written on refusal.'
+- id: H11
+  verdict: closed
+  evidence: 'recorded_moves (lines 281-295, manifest line 321) put capability, decision id and status (args.decision_status:
+    proposed inside a drive, accepted by hand) on every box_moves entry; the fixture with --decision-status proposed
+    shows status proposed. SE-9 (SKILL.md 433-435), SE-16 (593-595) and SCE-7 (682-683) read persist-manifest.json
+    box_moves for status and now find it. write_drive_review.py only attaches the file by path (--attach name=path,
+    lines 54-74) and never parses box_moves, so the added keys break no reader; the ICE Done-means does not name
+    box_moves (grep of understand/reference/ice.md finds none); stop-condition.yaml reads only changed.profile and
+    file existence, both unchanged. The original move keys (dimension, from, to, capability) are kept; keys are
+    added, none removed.'
+findings:
+- id: R3-1
+  category: executable-code
+  severity: P4
+  file: core/components/plays/understand/scripts/persist_understand.py
+  line: 283-286
+  title: The new box-move shape guard sits after a call that already assumes a dict, so a non-dict move still crashes
+    with a traceback instead of being refused
+  basis: The fix added `not isinstance(mv, dict)` at line 286, but line 283 calls mv.get('capability') first; a
+    move such as 'oops' raised AttributeError in a scratch run (exit by traceback, nothing written, so no data loss).
+    The test 'a box-move missing from/to is refused, not a crash' covers only a dict. The intent (refuse, not crash)
+    is the commit message's own. Unreachable guard, rollup_box.py never emits a non-dict, so style-level. pr.md
+    severity P4 (nit, tech-debt).
+  status: fixed in f3d06fb3
+- id: R3-2
+  category: executable-code
+  severity: P4
+  file: core/components/plays/understand/scripts/persist_understand.py
+  line: 111-114, 124
+  title: The never-lower check cannot see a level outside the none-to-xhigh scale, and crashes on a live nfr that
+    is not a mapping
+  basis: rank() maps any unknown level to 0 (same as rollup_box.py), so a live level like 'critical' lowered to
+    'none' passes (exit 0 in a scratch run); a live nfr that is a list raises AttributeError at live_nfr.items().
+    ICE C5 fixes the scale at none<low<medium<high<xhigh and product-profile.yaml defines nfr as a per-dimension
+    mapping, so both inputs are out of contract and unlikely; the script is the guard C7 relies on, so refusing
+    unknown levels would be the robust form. pr.md severity P4.
+- id: R3-3
+  category: executable-code
+  severity: P4
+  file: core/components/plays/understand/scripts/persist_understand.py
+  line: 120
+  title: The check requires the proposed state to be `set` but not that the live state is not `locked`, so a locked
+    box is quietly returned to `set`
+  basis: "Scratch run: live state locked with equal levels, proposed state set -> exit 0, profile now set. product-profile.yaml\
+    \ (state: directional | set | locked; 'locked \u2014 selection (/shape) runs against it') and ICE C7 ('/understand\
+    \ never writes locked', box never lowered). rollup_box.py line 139 always writes `set`, so this is also a roll-up\
+    \ gap that predates the fix; the Q1 fix is the natural place to hold it. A locked box with a pending capability\
+    \ is possible only after /shape has run. pr.md severity P4."
+counts:
+  P1: 0
+  P2: 0
+  P3: 0
+  P4: 3
+confidence: 0.9

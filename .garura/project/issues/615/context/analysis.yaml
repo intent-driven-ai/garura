@@ -1,0 +1,20 @@
+needs_judgment: false
+change_groups:
+- id: pipeline-position-understand
+  commit_type: docs
+  scope: pipeline-position
+  subject: list understand as wired for drives
+  issue: 615
+  files:
+  - core/components/memory/standards/rules/pipeline-position.md
+- id: stm-615-plan
+  commit_type: chore
+  scope: stm
+  subject: record the plan for understand inside a drive
+  issue: 615
+  files:
+  - .garura/project/issues/615/specs/plan.md
+  - .garura/project/issues/606/specs/plan.md
+exclusions: []
+risks:
+  sensitive_files: []
