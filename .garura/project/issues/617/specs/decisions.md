@@ -169,16 +169,23 @@ and an intent review tool" — see his words under Q1.
   for a viewer per play; its loop (comment on any part, fix the comments, approve) carries
   over to the two outcome tools, but the per-play viewer does not.
 
-**How this fits what is written:** `docs/philosophy/idsd.md` says the product model is
-"not a human interface; only its ontology is". The product review tool fits that if it
-shows the model through its ontology — the person reads business intents, domains and
-capabilities as named things, never the agents' files. The ADR should say so, or amend
-that line.
+**The level the person reviews at** (Kapil, 2026-10-17: "I'm not looking at the
+low-level plans, the pieces, and the details, but an outcome is critical"): the
+outcome — what the intents are and what the product is — not the detail under it. This
+fits `docs/philosophy/idsd.md`, which says the product model is "not a human interface;
+only its ontology is": the tools show the outcome as the ontology names it (business
+intents, domains, capabilities, limits, decisions), never the agents' detailed files. No
+change to that line is needed.
+
+**The plan is not reviewed here** (Kapil, 2026-10-17: "No, the plan is not that we have
+to review it. We have to look at the outcomes: the intents and the product model."). The
+plan stays the person's way to follow the work (ADR 030); the review tools show only the
+intents and the product model.
 
 **Draft answers (not yet put to Kapil):**
 
 - **Each piece shows what changed in this drive** — added, changed or removed — against
-  main. The files stay one click away.
+  main, at the outcome level. The detail under it is not what the person reviews.
 - **Each piece is a decision** — accept, drop, or send back with a comment (Q2). A comment
   on any part. Nothing is lost if the person closes the page and comes back.
 - **The two tools link both ways.** Business intents are already linked both ways to the
@@ -191,9 +198,7 @@ that line.
 - **Used outside a drive too.** Any play that changes intents or the product model can
   open the same tools when run by hand, because they review the outcome, not the play.
 
-**Still to decide:** whether the plan (the person's view of what the intent is being
-broken into, ADR 030) is shown in the intent review tool; the design system (#569);
-what #569 becomes.
+**Still to decide:** the design system (#569); what #569 becomes.
 
 **Prior art, not the thing to ship:** the local `pr-reviewer` and `play-reviewer`
 prototypes (comments, verdicts, a watcher that tells Claude a review is finished).
