@@ -37,3 +37,4 @@ may have no Status line.
 | [029](029-drives.md) | Drives: A Run of Plays That Ends in a Score or a Fail | Accepted | 2026-10-07 |
 | [030](030-plan-mode.md) | Plan Mode: Every Change Works From a Plan on Disk | Accepted | 2026-10-08 |
 | [031](031-business-intent-and-ice.md) | Business Intent and ICE: Two Levels, Written Freely, Worked Only When Confirmed | Accepted | 2026-10-09 |
+| [032](032-drive-review-of-outcomes.md) | A Drive Ends With a Review of Its Outcome, in an Intent Review Tool and a Product Review Tool | Accepted | 2026-10-17 |

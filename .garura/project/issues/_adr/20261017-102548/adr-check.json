@@ -1,0 +1,29 @@
+{
+  "task_id": "draft-adr",
+  "draft": ".garura/project/issues/_adr/20261017-102548/adr-draft.md",
+  "number": "032",
+  "lint": {"exit": 0, "valid": true, "problems": []},
+  "guard": {
+    "exit": 0,
+    "declared": "none",
+    "touches_an_intent": [],
+    "verdict": "no person's business intent changes",
+    "agrees_with_context": true,
+    "note": "the intents dir named in the contract (.garura/product/product-os/intents) does not exist, so the guard checked only the Affects line for a product-os/intents/ path, not intent titles"
+  },
+  "overlaps_on_draft": {
+    "candidates": ["029", "031", "028", "030", "026"],
+    "judged": {
+      "029": "amended - §5 and Open Question 1 (with how §2's play reviews are done)",
+      "030": "amended - §5, big plan updates inside a drive",
+      "031": "amended - §5, where intents are confirmed",
+      "026": "amended - where model writes are reviewed inside a drive; write-then-review kept",
+      "028": "not affected - shares play names and idsd.md only; its review mention is the change chain, unchanged",
+      "027": "not affected"
+    }
+  },
+  "supersedes": 0,
+  "amends": 4,
+  "open_point_for_person": "ADR 030 §5: the brief says big plan updates are marked approved when the answers are applied and that the plan is not reviewed; it does not say whether the person sees those updates at all. The draft records only what the brief says.",
+  "retries": 0
+}
