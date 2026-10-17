@@ -33,9 +33,15 @@ Closes #615.
 
 Commit 914cbd6b (the #614 done mark and the #606 plan moving to item 6) was on local main and never pushed. It rides along; the 606 and 614 plan edits are not part of #615.
 
+## Fixes from review round 2
+
+- `play-creator` now emits the scoped-write fan-out, so a rebuild of `/understand` keeps detailing the capabilities at the same time (M-N1).
+- The save script refuses a profile that is not `set`, lowers a level or drops a regime; refuses a functionality id declared twice, already under another capability, or missing; and refuses a box-move with no dimension, from or to (Q1, Q2).
+- The save record's `box_moves` now carry each decision's id and status, so the in-drive checks can read "proposed" there (H11).
+
 ## Tests
 
-- `test_persist_understand.py` 64, `test_rollup_box.py` 18 (new), `test_pick_targets.py` 20 (new), `test_drive_contract.py` 26, `test_concurrent_fanout.py` 17 — all pass; all 23 test files under `core/components` pass.
+- `test_persist_understand.py` 86, `test_rollup_box.py` 18 (new), `test_pick_targets.py` 20 (new), `test_drive_contract.py` 26, `test_concurrent_fanout.py` 17 — all pass; all 23 test files under `core/components` pass.
 - `lint_play` passes on `/understand` (0 gaps), including the new scoped-write check. Ruff clean. All stamped copies identical.
 - The component lint reports the same 114 errors as before, none in files this change touches.
 
