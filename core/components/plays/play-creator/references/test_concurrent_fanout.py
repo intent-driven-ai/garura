@@ -4,7 +4,8 @@ test_concurrent_fanout.py — fixture tests for the #468 Stage 5 concurrent
 read-only fan-out (epic #460). Two subjects:
 
   1. lint_play.py check_fanout_declaration — the convergence-lint that a play
-     citing concurrent-fanout.md must declare its join + read-only safety.
+     citing concurrent-fanout.md must declare its join + read-only safety, and a
+     play naming the scoped-write fan-out (#615) its write scope + no shared file.
   2. validate/scripts/run_checks.py — the script-internal fan-out: proves the
      concurrent run is byte-identical to the serial run (order-stable join),
      that every check's result is present (nothing dropped at the barrier), and
@@ -164,8 +165,30 @@ def test_duplicate_cid_guarded():
         check("run not ok (errors present)", summary["ok"] is False and rc == 1)
 
 
+def test_scoped_write_declaration():
+    print("test_scoped_write_declaration")
+    base = ("judges run as a concurrent read-only fan-out "
+            "(standards/rules/concurrent-fanout.md), join before gating. ")
+    res = lint_play.check_fanout_declaration({"text": base})
+    check("read-only fan-out only → no scoped-write result", len(res) == 1)
+    good = base + ("Enrich runs as a scoped-write fan-out: each agent writes only inside "
+                   "its own write scope, no shared file.")
+    res = lint_play.check_fanout_declaration({"text": good})
+    check("scoped-write fan-out declared in full → PASS",
+          len(res) == 2 and res[1][0] is True)
+    no_scope = base + "Enrich runs as a scoped-write fan-out with no shared file."
+    res = lint_play.check_fanout_declaration({"text": no_scope})
+    check("scoped-write fan-out without its write scope → FAIL",
+          res[1][0] is False and "write scope" in res[1][2])
+    no_shared = base + "Enrich runs as a scoped-write fan-out inside each write scope."
+    res = lint_play.check_fanout_declaration({"text": no_shared})
+    check("scoped-write fan-out without the no-shared-file condition → FAIL",
+          res[1][0] is False and "shared file" in res[1][2])
+
+
 def main():
     test_lint_declaration()
+    test_scoped_write_declaration()
     test_serial_equals_concurrent()
     test_duplicate_cid_guarded()
     print(f"\n{PASSED} passed, {FAILED} failed")
