@@ -1,6 +1,6 @@
 # ADR 030 — Plan Mode: Every Change Works From a Plan on Disk
 
-**Status:** Accepted
+**Status:** Accepted — amended in part by [ADR 032](032-drive-review-of-outcomes.md): §5, the bullet "Inside a drive, big updates are ... approved together at the drive's end review" - the plan is not shown in the review; the drive's big plan updates are marked approved when the person's answers are applied, in the same commit.
 **Date:** 2026-10-08
 **Decided in:** #619 (spike), under business intent #539
 **Amends:** ADR 025 (Level 3) in part — the task DAG no longer carries the evidence contract; the plan does. ADR 029 (drives) — a drive keeps one plan for all its plays.

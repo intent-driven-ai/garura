@@ -1,0 +1,49 @@
+{
+  "decided": true,
+  "lint_ok": true,
+  "linked": true,
+  "target": "docs/adr/032-drive-review-of-outcomes.md",
+  "shape": "markdown",
+  "guard": {
+    "adr": ".garura/project/issues/_adr/20261017-102548/adr-draft.md",
+    "declared": "none",
+    "touches_an_intent": [],
+    "verdict": "no person's business intent changes"
+  },
+  "olders": [
+    {
+      "adr": "029",
+      "file": "docs/adr/029-drives.md",
+      "kind": "amended",
+      "part": "\u00a75 \"Every drive ends in a review\" and Open Question 1 - the review is the drive's last step, not a drive of its own; it looks at the outcome (intents and product model), never the plays. This also settles how \u00a72's \"the plays' reviews happen after the drive ends\" is done: the person answers the plays' review records through the outcome, not play by play."
+    },
+    {
+      "adr": "030",
+      "file": "docs/adr/030-plan-mode.md",
+      "kind": "amended",
+      "part": "\u00a75, the bullet \"Inside a drive, big updates are ... approved together at the drive's end review\" - the plan is not shown in the review; the drive's big plan updates are marked approved when the person's answers are applied, in the same commit."
+    },
+    {
+      "adr": "031",
+      "file": "docs/adr/031-business-intent-and-ice.md",
+      "kind": "amended",
+      "part": "\u00a75 \"No approval stop inside a drive\" - the person confirms or drops the proposed intents in the intent review tool at the drive's last step, not \"the review and the pull request at its end\"; they may also send an intent back with a comment."
+    },
+    {
+      "adr": "026",
+      "file": "docs/adr/026-direct-to-model-writes.md",
+      "kind": "amended",
+      "part": "Decision, \"Review happens through the feature-branch git diff and the end-sequence PR\" - inside a drive the person reviews the model writes in the two review tools, by meaning; the pull request only lands them. Write-then-review itself is kept."
+    }
+  ],
+  "status": "accepted",
+  "accepted_by": "Kapil Viren Ahuja",
+  "pointers_written": [
+    "029-drives.md",
+    "030-plan-mode.md",
+    "031-business-intent-and-ice.md",
+    "026-direct-to-model-writes.md"
+  ],
+  "pointers_missing": [],
+  "index_ok": true
+}

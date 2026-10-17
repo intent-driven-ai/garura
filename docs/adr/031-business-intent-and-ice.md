@@ -1,6 +1,6 @@
 # ADR 031 — Business Intent and ICE: Two Levels, Written Freely, Worked Only When Confirmed
 
-**Status:** Accepted
+**Status:** Accepted — amended in part by [ADR 032](032-drive-review-of-outcomes.md): §5 "No approval stop inside a drive" - the person confirms or drops the proposed intents in the intent review tool at the drive's last step, not "the review and the pull request at its end"; they may also send an intent back with a comment.
 **Date:** 2026-10-09
 **Decided in:** #612 (the `/intent` play) and the review of PR #631, by Kapil; recorded as D6–D10 in the issue's decisions
 **Amends:** ADR 029 §6 (what `/intent` and `/vision` do in Kickoff; no approval stop inside a drive), ADR 027 and `docs/philosophy/idsd.md` (a person's Business Intent is not itself ICE), ADR 026 (`/intent` run by hand confirms before it writes — a declared exception)
