@@ -1,0 +1,15 @@
+# Runnable checks — review round 2 (2026-10-17T05:57:18Z), HEAD 5d6115bb
+core/components/plays/understand/scripts/test_persist_understand.py: 64 passed, 0 failed
+core/components/plays/understand/scripts/test_rollup_box.py: 18 passed, 0 failed
+core/components/plays/understand/scripts/test_pick_targets.py: 20 passed, 0 failed
+core/components/plays/play-creator/references/test_concurrent_fanout.py: 17 passed, 0 failed
+core/components/plays/play-creator/references/test_drive_contract.py: 26 passed, 0 failed
+all test files: 23, failed: 0
+lint_play understand: VERDICT: PASS (0 gap(s))
+lint_play vision: VERDICT: PASS (0 gap(s))
+fingerprint: ice=395c8bd05e88b1b4 skill=395c8bd05e88b1b4
+ruff: All checks passed!
+lint_play copies: 1 distinct
+drive script copies: 1 / 1 distinct
+lint-components: "errors":114,
+lint-components understand/rules hits: 0
