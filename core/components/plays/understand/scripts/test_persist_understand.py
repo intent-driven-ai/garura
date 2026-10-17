@@ -9,7 +9,10 @@ from the person's recorded answers (answered_by: human), under an existing domai
 refused; a malformed seed file is refused, not a crash; an already-detailed capability is
 never re-detailed. Inside a drive (#615) a box-move decision is written `proposed`; by hand
 it stays `accepted`. One run details many targets (#615): each manifest is keyed to its own
-target, a box-move is linked to the capability it names, and a refusal writes nothing.
+target, a box-move is linked to the capability it names, and a refusal writes nothing. The
+box never goes down (a lowered, unfirmed or regime-dropping profile is refused), a
+functionality id is never clashed or left empty, and the record's box_moves carry each
+decision's id and status.
 
     python3 test_persist_understand.py
 """
@@ -310,12 +313,113 @@ def test_many_targets_refusals():
               and not os.path.isdir(os.path.join(root, "decisions")))
 
 
+def write_profiles(root, work, live_profile, proposed):
+    sp = spine(root)
+    sp["profile"] = live_profile
+    with open(os.path.join(root, "_spine.yaml"), "w") as fh:
+        yaml.safe_dump(sp, fh)
+    with open(os.path.join(work, "profile.yaml"), "w") as fh:
+        yaml.safe_dump({"profile": proposed}, fh)
+
+
+def test_profile_never_lowered():
+    caps = [{"id": "checkout", "domain": "commerce", "status": "proposed",
+             "detail": "directional", "doc": "commerce/checkout/capability.md"}]
+    live = {"state": "set", "nfr": {"security": {"level": "high"}}, "compliance": ["gdpr"]}
+    for label, proposed in (
+            ("a lowered dimension", {"state": "set", "nfr": {"security": {"level": "medium"}},
+                                     "compliance": ["gdpr"]}),
+            ("a missing dimension", {"state": "set", "nfr": {}, "compliance": ["gdpr"]}),
+            ("a dropped regime", {"state": "set", "nfr": {"security": {"level": "high"}},
+                                  "compliance": []}),
+            ("an empty profile", {}),
+            ("a profile not firmed to set", {"state": "directional",
+                                             "nfr": {"security": {"level": "high"}},
+                                             "compliance": ["gdpr"]})):
+        with tempfile.TemporaryDirectory() as tmp:
+            base, root, work = setup(tmp, caps)
+            write_profiles(root, work, live, proposed)
+            check(f"{label} is refused", run(base, work) == 2)
+            check(f"nothing written for {label}",
+                  spine(root)["capabilities"][0]["detail"] == "directional"
+                  and spine(root)["profile"] == live)
+    with tempfile.TemporaryDirectory() as tmp:
+        base, root, work = setup(tmp, caps)
+        write_profiles(root, work, live, {"state": "set", "nfr": {"security": {"level": "xhigh"}},
+                                          "compliance": ["gdpr", "pci-dss"]})
+        check("a raised profile is saved", run(base, work) == 0
+              and spine(root)["profile"]["nfr"]["security"]["level"] == "xhigh")
+
+
+def test_functionality_ids():
+    move = {"capability": "checkout", "dimension": "security", "from": "high", "to": "xhigh"}
+    with tempfile.TemporaryDirectory() as tmp:
+        base, root, work, paths = setup_two(tmp, [move])
+        with open(paths[1]) as fh:
+            man = yaml.safe_load(fh)
+        man["enrich"]["functionalities"][0]["id"] = "checkout-main"
+        with open(paths[1], "w") as fh:
+            yaml.safe_dump(man, fh)
+        check("a functionality id declared by two targets is refused",
+              run_many(base, work, paths, ["checkout", "refunds"]) == 2)
+        check("nothing written on an id clash", spine(root)["functionalities"] == [])
+    with tempfile.TemporaryDirectory() as tmp:
+        base, root, work, paths = setup_two(tmp, [move])
+        with open(paths[0]) as fh:
+            man = yaml.safe_load(fh)
+        del man["enrich"]["functionalities"][0]["id"]
+        with open(paths[0], "w") as fh:
+            yaml.safe_dump(man, fh)
+        check("a functionality with no id is refused",
+              run_many(base, work, paths, ["checkout", "refunds"]) == 2)
+    with tempfile.TemporaryDirectory() as tmp:
+        base, root, work, paths = setup_two(tmp, [move])
+        sp = spine(root)
+        sp["functionalities"] = [{"id": "refunds-main", "capability": "cart"}]
+        with open(os.path.join(root, "_spine.yaml"), "w") as fh:
+            yaml.safe_dump(sp, fh)
+        check("an id already in the spine under another capability is refused",
+              run_many(base, work, paths, ["checkout", "refunds"]) == 2)
+    with tempfile.TemporaryDirectory() as tmp:
+        base, root, work, paths = setup_two(tmp, [move])
+        sp = spine(root)
+        kept = {"id": "refunds-main", "capability": "refunds", "doc": "old.md"}
+        sp["functionalities"] = [kept]
+        with open(os.path.join(root, "_spine.yaml"), "w") as fh:
+            yaml.safe_dump(sp, fh)
+        check("an id already in the spine under the same capability is accepted",
+              run_many(base, work, paths, ["checkout", "refunds"]) == 0)
+        check("and the existing entry is left untouched",
+              next(f for f in spine(root)["functionalities"] if f["id"] == "refunds-main") == kept)
+
+
+def test_record_carries_decision_status():
+    moves = [{"capability": "checkout", "dimension": "security", "from": "high", "to": "xhigh"},
+             {"capability": "refunds", "dimension": "security", "from": "high", "to": "xhigh"}]
+    for label, extra, want in (("by hand", (), "accepted"),
+                               ("inside a drive", ("--decision-status", "proposed"), "proposed")):
+        with tempfile.TemporaryDirectory() as tmp:
+            base, root, work, paths = setup_two(tmp, moves)
+            run_many(base, work, paths, ["checkout", "refunds"], extra)
+            rec = read_json(os.path.join(work, "persist.json"))
+            check(f"{label}, every box-move in the record reads {want}",
+                  [m["status"] for m in rec["box_moves"]] == [want, want])
+            check(f"{label}, each record line names its decision",
+                  [m["decision"] for m in rec["box_moves"]]
+                  == ["dec-checkout-security-high-xhigh", "dec-refunds-security-high-xhigh"])
+    with tempfile.TemporaryDirectory() as tmp:
+        base, root, work, paths = setup_two(tmp, [{"capability": "checkout", "dimension": "security"}])
+        check("a box-move missing from/to is refused, not a crash",
+              run_many(base, work, paths, ["checkout", "refunds"]) == 2)
+
+
 def main():
     for test in (test_existing_seed, test_absent_without_seed, test_absent_with_seed,
                  test_seed_refusals, test_domain_folder_differs_from_id, test_seed_not_a_mapping,
                  test_sibling_containment,
                  test_already_detailed, test_box_move_status, test_many_targets,
-                 test_many_targets_refusals):
+                 test_many_targets_refusals, test_profile_never_lowered, test_functionality_ids,
+                 test_record_carries_decision_status):
         print(test.__name__)
         test()
     print(f"\n{PASSED} passed, {FAILED} failed")
