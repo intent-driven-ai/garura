@@ -30,22 +30,27 @@ be finished until that end review exists.
   is a drive of its own, and how the review closes the drive's change.
 - The ADR also says what happens when the review drops a box-move that
   `/understand` already raised (carried from #615).
+- The ADR says how the person reviews: in a proper review tool, not on the
+  pull request (Kapil, 2026-10-17), and what that tool must do.
 - The stories to build it are filed, when Kapil asks for them.
 
 ## Where we are now
 
-The draft answers are written (`specs/decisions.md`). Four follow from what is
-already decided. Two need Kapil's choice: whether the review is a play every
-drive runs last or a drive of its own (Q4), and what a dropped box-move does to
-the product's limit (Q6). Now on item 1.
+The draft answers are written (`specs/decisions.md`). Kapil chose that the
+review is every drive's last step (Q4 A), and that a dropped box-move lowers
+the limit and sends the capability back (Q6 A). He then named the key part:
+how the review happens. A drive writes too many files for a pull request to be
+the place to review them, so it needs a proper review tool (Q7). Now on item 1:
+the review tool's draft answers go to Kapil.
 
 ## The plan, in order
 
 ### 1. Kapil settles the open choices — now
 
 **Issue:** #617.
-**What:** Kapil reads the draft answers and picks Q4 and Q6; he may change any
-other draft.
+**What:** Kapil reads the draft answers. Q4 and Q6 are chosen. Left: the review
+tool (Q7) — whether it is one tool with #569's play review, and what it shows.
+He may change any other draft.
 **Why here:** the ADR records his choices, so they come first.
 **Done when:** each question has an answer Kapil agreed, recorded in
 `specs/decisions.md` with his words and the date.
@@ -64,8 +69,9 @@ points at it.
 ### 3. File the stories
 
 **Issue:** #617.
-**What:** the stories to build the review — the draft list is in
-`specs/decisions.md`. Filed under #594, linked to #613.
+**What:** the stories to build the review, the review tool first — the draft
+list is in `specs/decisions.md`. Filed under #594, linked to #613; #569 is
+folded in if Q7 makes it one tool.
 **Why here:** they are cut from the ADR.
 **Done when:** each story is filed with a clear done check. Filing writes to
 GitHub, so it happens only when Kapil asks for it.
@@ -84,3 +90,7 @@ GitHub, so it happens only when Kapil asks for it.
   drive contract rule, and what `/vision` and `/understand` leave behind inside
   a drive (#614, #615). Draft answers in `specs/decisions.md`; Q4 and Q6 open
   for Kapil.
+- 2026-10-17 — Kapil chose Q4 A ("this is last step") and Q6 A. He named the
+  key part: "the drive will create a lot of files and lot of content and PR
+  cant be be way toreview this. this needs a proper review tooling. we hae to
+  build that right". Added Q7, the review tool, tied to #569.
