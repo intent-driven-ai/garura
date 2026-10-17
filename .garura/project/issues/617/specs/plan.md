@@ -67,7 +67,9 @@ He may change any other draft.
 or an amendment to ADR 029 itself, as `/adr` judges.
 **Why here:** the spike's answer is the ADR; the stories are cut from it.
 **Done when:** the ADR is accepted by Kapil and ADR 029's open question 1
-points at it.
+points at it. The ADR also amends `docs/philosophy/idsd.md`: the product model
+is reviewed by the person at the outcome level; the ontology is the fixed
+structure it follows.
 **Needs:** item 1.
 
 ### 3. File the stories
@@ -107,3 +109,8 @@ GitHub, so it happens only when Kapil asks for it.
   outcome — the intents and the product model — at the outcome level, not the
   detail. This fits idsd.md ("only its ontology is" a human interface); the
   earlier note calling it a clash was wrong and is removed.
+- 2026-10-17 — Kapil: the ontology is the fixed structure, made once; the
+  product model is the agents' outcome, and the person must review it. So
+  idsd.md's "not a human interface; only its ontology is" no longer holds; the
+  ADR amends it. The note before this one, which said no change was needed,
+  was wrong.
