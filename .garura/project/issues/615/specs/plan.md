@@ -97,9 +97,9 @@ limit the first one already raised in the same drive (review finding H1).
 - The run takes the capabilities the person names; with none named, it takes
   every capability that /vision seeded and nobody has detailed yet.
 - It asks every missing seed question at once, before it opens anything.
-- It details them one after another inside the run, judges every doc at once,
-  rolls all their needs up together, saves once, guards once, has one checkpoint
-  and one commit.
+- It details them all at the same time, judges every doc at once, rolls all
+  their needs up together, saves once, guards once, has one checkpoint and one
+  commit.
 - Every capability is measured against the limits as they stood at the start of
   the run. Each capability that needs more gets its own box-move line and its own
   decision, so no box-move hides behind another.
@@ -107,10 +107,13 @@ limit the first one already raised in the same drive (review finding H1).
   run (ADR 029 says "one /understand record per capability").
 - All or nothing: if one capability cannot pass its checks, nothing is committed.
 
-**Not in this item:** detailing the capabilities at the same time. Detailing
-writes the model, and the parallel-work rule (`concurrent-fanout.md`) allows
-only read-only work to run at the same time; parallel writing waits for #488.
-That needs Kapil's word.
+**Detailing at the same time (Kapil, 2026-10-17: "B").** Detailing writes the
+model, and the parallel-work rule (`concurrent-fanout.md`) allowed only
+read-only work at the same time. So the rule gains a second form, the
+scoped-write fan-out: each capability gets its own folder, checked not to
+overlap; no one writes a shared file (one save does that after); one guard
+checks the whole change before the commit. `lint_play.py` checks that a play
+using it says so. Parallel code-building stays with #488.
 
 **Needs:** item 5.
 
@@ -151,3 +154,7 @@ at that checkpoint.
 - 2026-10-17 — Kapil: run all pending capabilities in one run, "fix that part
   now". Added item 6; detailing stays one after another inside the run until
   the parallel-writing rule allows more.
+- 2026-10-17 — Built and committed item 6 with detailing one after another
+  (27cfc37d). Kapil chose "B": detail them at the same time. Added the
+  scoped-write fan-out to the parallel-work rule and its lint check, and made
+  /understand use it.
