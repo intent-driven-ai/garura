@@ -1,83 +1,154 @@
 pr: 640
 issue: 615
+round: 2
 category: memory
-changed_artifact: core/components/memory/standards/rules/pipeline-position.md
+changed_artifacts:
+  - core/components/memory/standards/rules/concurrent-fanout.md
+  - core/components/memory/standards/rules/_index.md
+  - core/components/memory/standards/rules/pipeline-position.md
 grounding:
-  - principle: "A drive hands a play a contract; inside a drive the play skips the injected start-change and the injected end sequence (commit-change, propose-change, review-change, merge-change); the drive opens and lands the one change; the play keeps its own model commit on the drive's branch"
-    source: "main:core/components/memory/standards/rules/drive-contract.md ('How a play runs inside a drive', steps 1-2); main:docs/adr/029-drives.md sections 2-3"
-  - principle: "ADR 029 lists making /understand run inside a drive as its own piece of work (#615), separate from #614 (/vision) and #616 (break the hard chain)"
-    source: "main:docs/adr/029-drives.md ('Work This Creates' items 3-5)"
-  - principle: "The play-owned checker is one canonical script stamped into each play; plays read the contract rule and do not restate it"
-    source: "main:core/components/memory/standards/rules/drive-contract.md (intro: 'Canonical checker: play-creator/references/check_drive_contract.py, stamped into each play'); main:core/components/memory/standards/rules/_index.md ('When to Add Here')"
-  - principle: "A drive-run play with a conditional (not pinned) checkpoint never waits: it writes a review record with write_drive_review.py and records 'checkpoint deferred to the drive's review' as a Checkpoint Decisions row; a pinned one is never deferred by contract"
-    source: "main:core/components/memory/standards/rules/drive-contract.md (step 3); main:core/components/memory/standards/rules/gate-config.md ('Pinned gates'; 'The live-eval loop'); main:docs/adr/029-drives.md (Consequences 'Pinned gates': /vision and /understand are conditional)"
-  - principle: "Inside a drive a saved decision is 'proposed' and accepted at the drive's end review (declared for /intent and /adr)"
-    source: "main:core/components/memory/standards/rules/direct-model-write.md (declared exceptions, /intent and /adr, lines ~120-126); main:docs/adr/030-plan-mode.md section 5"
-  - principle: "Status lists in rules are kept in step with the code; every rule is listed in rules/_index.md with its consumers"
-    source: "main:core/components/memory/standards/rules/_index.md ('When to Add Here'; row 43 for drive-contract.md; row 42 for pipeline-position.md)"
+  - principle: "Determinism lives at the skeleton; a play is a fixed skeleton. Parallelism is allowed last: independent boxes and checks may run concurrently under one parent. A fan-out must be bounded, joined and order-stable so the step stays one deterministic node."
+    source: "main:docs/adr/025-level-3-redefined-skeleton-and-loop.md (Decision 'The determinism rule'; Consequences 'Parallelism becomes possible last'; Migration #468)"
+  - principle: "Under direct-model-write the LLM writes only per-node doc files; a keyed script owns every shared file; containment is ONE post-write scoped guard over the full delta, run once before the checkpoint; the guard detects and reverts, it does not prevent. Its blind spot is stated: it sees out-of-scope paths, not which sibling wrote what."
+    source: "main:docs/adr/026-direct-to-model-writes.md (Decision 1-4; 'Why this is the wrong shape', containment); main:core/components/memory/standards/rules/direct-model-write.md (steps 3-4, 'The shared scoped-write guard', L-DMW-3, L-DMW-6)"
+  - principle: "The base concurrent-fanout.md allows only read-only concurrency under three conditions and states in two places that a writing run needs isolation and is #488, not covered"
+    source: "main:core/components/memory/standards/rules/concurrent-fanout.md (intro lines 5-8; condition 1 parenthetical line 17; Related)"
+  - principle: "#488 is parallel code-building: worktree pool, convergence before the gate, per-worktree changeset attribution, dynamic DAG frontier, per-piece retry"
+    source: "GitHub issue #488 (committed record, read-only): 'Parallel build-loop: build independent DAG pieces concurrently with worktree isolation'"
+  - principle: "Durability rule: shared scaffolding changed by hand must be reproduced by the play-creator compiler and checked by lint-components, so a direct edit and a rebuild converge"
+    source: "main:CLAUDE.md (Play Pipeline Rules, 'Durability rule for non-intent edits')"
+  - principle: "play-creator/SKILL.md is the compiler's own instruction file: it tells the compiler how to write a fan-out step and says a step whose sub-tasks write the repo stays serial (#488)"
+    source: "main:core/components/plays/play-creator/SKILL.md lines 196-203 (file not changed by this PR)"
+  - principle: "Every rule is listed in rules/_index.md with its consumers; status in the index stays in step with the rules"
+    source: "main:core/components/memory/standards/rules/_index.md ('When to Add Here'; rows 43, 47)"
+  - principle: "Drive contract: a drive-run play skips the opening and end sequence; /vision is the wired precedent; the shared checker is stamped into the play"
+    source: "main:core/components/memory/standards/rules/drive-contract.md; main:docs/adr/029-drives.md"
+  - principle: "Severity buckets P1-P4"
+    source: "main:core/components/memory/standards/rules/pr.md (Severity buckets)"
+grounding_unavailable: []
 conformance_notes:
-  - "The one-sentence change is accurate. The edited sentence says /understand (#615) is wired with the shared check_drive_contract.py. Compared byte for byte, core/components/plays/understand/scripts/check_drive_contract.py and write_drive_review.py are identical to play-creator/references/ (the canonical copies named by drive-contract.md on main), the same as /vision's. /understand's compiled SKILL.md runs the check first (Step 0a), skips start-change and the four end plays when in_drive is true, and keeps its own model commit on the drive's branch. All of that is what drive-contract.md steps 1-2 and ADR 029 s2-3 require."
-  - "The edit is consistent with drive-contract.md on main. That rule never says /understand is unwired and does not name consumers, so it is not stale about /understand. /understand's checkpoint is conditional (ADR 029 Consequences 'Pinned gates' names it so), so deferring it in a drive does not collide with the pinned-gate rule in drive-contract.md step 3 or gate-config.md."
-  - "The other 'as compiled today' text in pipeline-position.md is untouched and still right: /understand is listed under 'both' (#616 changed position none to both), which matches /understand's frontmatter on this branch (position: both)."
-  - "Wording check: 'and /vision (#614) and /understand (#615), both with the shared check_drive_contract.py' reads correctly with the comma before 'and'. 'Shared' is accurate as 'the same canonical script stamped into the play', not a single imported file. It is a little unclear to a reader who does not know about stamping."
-  - "Layer 2 limit: nothing was grounded on text this PR adds. The diff for this category is two changed lines in pipeline-position.md; every principle above is from the base ref."
+  scoped_write_guard_exists_on_main: "True. play-creator/references/scoped_write_guard.py exists on main with a test, and the copy in understand/scripts is byte-identical (cmp). It diffs the model tree against --base-ref and checks changed paths against the union of --allow globs, as the rule says. It does not attribute a changed path to a sub-task (nothing in the base script can)."
+  coherence_with_adr_025: "Coherent. ADR 025 'Parallelism becomes possible last' allows independent boxes to run concurrently under one parent and names no read-only limit; the read-only limit lived only in the #468 rule, not in the ADR. The new section keeps the three ADR properties by stating them: fixed set (bounded), barrier before any later read (joined), outputs in input order (order-stable). One overstatement: the rule's own sentence 'Concurrency changes only timing, never the outcome' (line 71) is true for disjoint scopes but not for a stray write (see M-N3)."
+  coherence_with_adr_026: "Coherent. Per-node docs by the sub-tasks, shared files by ONE keyed persist, ONE guard after all writes and before the checkpoint: this is ADR 026 steps 3-4 unchanged, with the guard allow-list widened to a union of scopes. direct-model-write.md says 'run once' and the new section runs it once after the join. direct-model-write.md is silent on concurrency (no 'concurren/parallel/fan' match), so there is no contradiction, only a one-way cross-reference."
+  adr_needed: "No ADR or ADR amendment is required. ADR 025's determinism rule is untouched (the skeleton stays fixed, the join is bounded and order-stable) and it already permits concurrent independent boxes; the read-only restriction being loosened was set by the #468 rule file, and the rule file is the home of the fan-out decision (no ADR was written for #468 either). Optional: one line in direct-model-write.md or ADR 026's follow-ups naming scoped-write fan-out as a permitted shape (see M-N5)."
+  overlap_with_488: "No overlap, no contradiction. #488 is code-building with SHARED files, worktree isolation, convergence and per-piece attribution. The scoped-write section requires disjoint, non-nested folders, no shared file, one persist and one guard, so it needs none of that machinery. The rule keeps #488 as the home for anything that may touch the same files. #488's body claims the survey found 'the only WRITING fan-out in the whole play catalog' - now stale (P4, M-N5)."
+  pipeline_position: "The edited sentence is accurate: /understand's compiled SKILL.md runs check_drive_contract.py (Step 0a) and check_drive_contract.py is byte-identical to the play-creator canonical copy (cmp). Unchanged from round 1."
+  pipeline_position_pos_wiring: "/understand stays listed under 'both' (#616), matching its frontmatter."
+round_1_status:
+  M1: "OPEN (P3). _index.md row 43 (drive-contract.md) still reads '/understand (#615)' as a future consumer; the PR edited row 47 of the same file but not row 43."
+  M2: "OPEN (P3). Neither direct-model-write.md nor drive-contract.md says box-move decisions are saved 'proposed' inside a drive. /understand's SKILL.md now relies on it (F7, SE-11, line ~423) and cites no rule for it."
+  M3: "OPEN (P3, wider). pipeline-position.md 'How play-creator injects it' and 'Enforced' still say unconditional injection; play-creator still has no in-drive emission. Round 2 adds a second hand-compiled-only construct (the scoped-write fan-out, see M-N1)."
+  M4: "OPEN (P4, unchanged). The 'Wired so far' list (pipeline-position.md line 18) is still a moving status list with issue numbers."
+  M5: "OPEN (P4, unchanged). pipeline-position.md lines 109-110 still say 'no consumer exists yet'."
 findings:
+  - id: M-N1
+    category: memory
+    severity: P2
+    title: "play-creator/SKILL.md still tells the compiler that a step whose sub-tasks write the repo stays serial, so the scoped-write fan-out is not emitted by the compiler and is contradicted by it"
+    file: core/components/plays/play-creator/SKILL.md
+    line: "196-203 (not in the diff)"
+    basis: "Durability rule: shared scaffolding must converge-and-lint so a direct edit and a rebuild produce the same result. The PR adds the scoped-write form to concurrent-fanout.md and to references/workflow-structures.md, and /understand is compiled with it by hand. play-creator/SKILL.md (the instruction the compiler reads on every run) still says 'A step whose sub-tasks write to the repo stays serial (#488)' and describes only the read-only form with 'the three safety conditions'. Two instruction files the compiler reads now disagree; a rebuild of /understand from ice.md follows whichever the compiler weighs, and the lint would pass a serial result silently (it only checks declarations, never that the form is used)."
+    source: "main:CLAUDE.md (Durability rule); main:core/components/plays/play-creator/SKILL.md lines 196-203; main:core/components/memory/standards/rules/concurrent-fanout.md"
+    fix: "Change the play-creator/SKILL.md paragraph (a non-intent direct edit, it is the compiler bootstrap) to name both forms and point at the five scoped-write conditions; keep 'anything else that writes stays serial (#488)'. The mirror in play-editor has no such sentence, so only play-creator needs it."
+  - id: M-N2
+    category: memory
+    severity: P3
+    title: "concurrent-fanout.md keeps three sentences that the new section contradicts or makes stale: the condition-1 parenthetical, 'Both forms obey the same three conditions', and the title/_index label 'read-only'"
+    file: core/components/memory/standards/rules/concurrent-fanout.md
+    line: "19 (condition 1 parenthetical 'A run whose sub-tasks WRITE the tree needs isolation - that is #488, not this'); 88 ('Both forms obey the same three conditions'); 1 (H1 'Concurrent Read-Only Fan-Out'); _index.md row 47"
+    basis: "A rule must not give two answers to one question. Line 19 says a writing run needs isolation and is #488; the new section (lines 28-58) runs a writing step with no isolation. The scoped-write form obeys five conditions, not three. The title and index label still say the rule is read-only and the index calls it 'the one allowed intra-step concurrency' before listing a second kind. An agent reading only the title, index row or condition 1 gets the old rule."
+    source: "main:core/components/memory/standards/rules/_index.md ('When to Add Here': the index tells agents which rules apply); main:core/components/memory/standards/rules/concurrent-fanout.md (the base text of lines 1, 17, 66)"
+    fix: "Edit line 19 to 'a run whose sub-tasks write the tree under conditions other than the scoped-write ones needs isolation (#488)'; line 88 'the same bounded join'; retitle to 'Concurrent Fan-Out' and the _index label to match."
+  - id: M-N3
+    category: memory
+    severity: P3
+    title: "The stated limit (a stray write into a sibling's scope stays inside the guard's union) is documented but only weakly mitigated, and it makes the rule's own determinism claim untrue in that case"
+    file: core/components/memory/standards/rules/concurrent-fanout.md
+    line: "53-57 and 69-71"
+    basis: "ADR 025 needs the fan-out to be order-stable ('same outcome concurrent or serial', rule lines 69-71). With disjoint scopes that holds. A stray write by sub-task A into B's folder races with B's own writes: the last writer wins by timing, so the tree depends on scheduling, which is what order-stability forbids. The guard cannot see it (ADR 026: the guard detects out-of-scope paths only; the union hides which sibling wrote). The rule mitigates by 'every node's content is still checked downstream (linter, judges, checkpoint)': those check a doc's shape and grounding, not who wrote it, so a plausible doc about the wrong capability can pass. Mitigated enough NOT to be P1/P2: the tree is on a feature branch, nothing is committed before review (condition 5), the effect is a content defect and not data loss, and the old serial run had the same union blind spot. But a cheap mechanical check exists and the rule does not use it."
+    source: "main:docs/adr/025-level-3-redefined-skeleton-and-loop.md (determinism rule, bounded/joined); main:docs/adr/026-direct-to-model-writes.md (Decision 4 containment is detect-after-the-fact; Why this is the wrong shape point 1 'a language model can write outside its lane'); main:core/components/memory/standards/rules/direct-model-write.md ('The shared scoped-write guard')"
+    fix: "Add a sixth condition or a sentence: each sub-task lists the model paths it wrote in its own output record, and one script checks after the join that every listed path sits in that sub-task's own scope and that the lists together cover the whole delta. That turns a sibling-scope stray write into a hard stop. Also soften 'never the outcome' to 'when no sub-task leaves its scope'. Escalate to P2 if /understand's step has no such check and the playbook treats the fan-out as proven."
+  - id: M-N4
+    category: memory
+    severity: P3
+    title: "The lint counterpart (check_fanout_declaration) is a partial converge-and-lint: whole-text substring checks, silent unless the play names the form, and no check of conditions 1 and 5"
+    file: core/components/plays/play-creator/scripts/lint_play.py
+    line: "check_fanout_declaration (~lines 349-378; the new block is after 'results = [...]')"
+    basis: "Durability rule wants the rule change to have a lint counterpart. The new block fires only if the play text contains the exact phrase 'scoped-write fan-out' (a play that writes concurrently and declares only 'concurrent read-only fan-out' is accepted by the first result), and it passes if the tokens 'write scope' and 'shared file' appear anywhere in the whole play text, not in the fan-out step. It does not check that the scopes are verified distinct (condition 1), or that the guard runs after the join (condition 5). Condition 5's guard half is covered by the existing L-DMW-3/L-DMW-6 lint rows, so the gap is smaller than it looks. This is the same level of strength as the #468 read-only check it extends, so it is not P2."
+    source: "main:CLAUDE.md (Durability rule); main:core/components/memory/standards/rules/direct-model-write.md (L-DMW-3, L-DMW-6); main:core/components/plays/play-creator/scripts/lint_play.py (check_fanout_declaration as it stood)"
+    fix: "Scope the token check to the fan-out step's text, and fail a play whose step dispatches 'one agent per' item while citing neither form. Accept the rest as prose-only if no mechanical test is cheap."
+  - id: M-N5
+    category: memory
+    severity: P4
+    title: "One-way cross-references: direct-model-write.md and ADR 026 do not mention the scoped-write fan-out, and #488's body still says its survey found no other writing fan-out"
+    file: core/components/memory/standards/rules/direct-model-write.md
+    line: "n/a (not in the diff)"
+    basis: "concurrent-fanout.md now cites ADR 026 / direct-model-write.md as the write discipline it keeps, but direct-model-write.md never says concurrent per-node writers are a permitted shape or that the guard allow-list may be a union of scopes. A reader of the write rule alone would not learn it. #488's body says 'the only WRITING fan-out in the whole play catalog' - no longer true once /understand ships."
+    source: "main:core/components/memory/standards/rules/direct-model-write.md; GitHub issue #488 body"
+    fix: "Add one line to direct-model-write.md ('Containment') pointing to concurrent-fanout.md; add a note on #488 that /understand's scoped-write fan-out is a separate, disjoint-folder case."
+  - id: M-N6
+    category: memory
+    severity: P4
+    title: "Condition 1 says the scopes are 'checked by a script to be distinct' but names no canonical script; each consuming play re-implements it"
+    file: core/components/memory/standards/rules/concurrent-fanout.md
+    line: "35-37"
+    basis: "The guard and the drive checker are named canonical scripts stamped into plays; the distinctness check is the one safety condition that lives only in /understand's pick_targets.py (its overlap/nested refusal, lines ~150-160). A second consumer would copy the logic."
+    source: "main:core/components/memory/standards/rules/direct-model-write.md ('Canonical script: play-creator/references/scoped_write_guard.py, stamped into each play')"
+    fix: "Name pick_targets.py's check as the reference implementation in the rule, or lift it into play-creator/references when a second play needs it."
   - id: M1
     category: memory
     severity: P3
-    title: "rules/_index.md (on main) still lists /understand as a future consumer ('/understand (#615)') of drive-contract.md, so the index disagrees with the edited rule"
-    basis: "The index row for drive-contract.md says '/vision (wired), /intent (own check), /understand (#615)'. After this PR pipeline-position.md says /understand is wired. The index is the first place an agent looks to learn what rules apply and who consumes them; two committed rules now give different wired status for the same play."
-    source: "main:core/components/memory/standards/rules/_index.md (row 43; 'When to Add Here' - each rule listed with its consumers)"
-    path: core/components/memory/standards/rules/_index.md
-    detail: >
-      This file is on main and is not in the diff, so it is a follow-up the PR leaves open, not an error in the changed lines.
-      The fix is a one-word edit on row 43: '/understand (wired)'. Same pattern as the /vision entry. Because the index is
-      not in changed_paths, the same-PR sweep for 'wired' wording missed it.
+    status: open_from_round_1
+    title: "_index.md row 43 (drive-contract.md) still lists '/understand (#615)' as a future consumer while pipeline-position.md says it is wired"
+    file: core/components/memory/standards/rules/_index.md
+    line: 43
+    basis: "The PR edits row 47 of this same file but not row 43, so the index disagrees with the edited pipeline-position.md; the index is where agents look for rule consumers."
+    source: "main:core/components/memory/standards/rules/_index.md ('When to Add Here'; row 43)"
+    fix: "Row 43: '/understand (wired)'."
   - id: M2
     category: memory
     severity: P3
-    title: "No committed rule says box-move decisions are saved as 'proposed' inside a drive; /understand does it only in its own play text"
-    basis: "The rule that governs a drive-run play (drive-contract.md) never mentions decisions. The 'proposed inside a drive, accepted at the drive's end review' convention is declared only for /intent and /adr (direct-model-write.md). /understand now saves each box-move decision as 'proposed' and has the drive's review accept or drop it, but the rule files that /understand's SKILL.md cites do not say so."
-    source: "main:core/components/memory/standards/rules/direct-model-write.md (declared exceptions /intent and /adr); main:core/components/memory/standards/rules/drive-contract.md (steps 1-5, no decision-status clause); main:docs/adr/030-plan-mode.md section 5"
-    path: core/components/memory/standards/rules/drive-contract.md
-    detail: >
-      The one-line edit in pipeline-position.md says only that /understand is wired; it does not repeat this and does not
-      need to. The gap is in drive-contract.md / direct-model-write.md, both on main. A later drive-run play that
-      writes decisions (for example /shape or /grill) has no rule to read. Suggested fix: add one line to
-      direct-model-write.md's 'declared exceptions' naming /understand's box-move decisions (proposed in a drive,
-      accepted or dropped at the drive's end review, as with /intent and /adr), or a general sentence in drive-contract.md.
-      Related to #617 (how a finished drive is reviewed), which does not exist yet.
+    status: open_from_round_1
+    title: "No committed rule says box-move decisions are saved 'proposed' inside a drive"
+    file: core/components/memory/standards/rules/direct-model-write.md
+    line: "declared exceptions (~120-126)"
+    basis: "Only /intent and /adr are declared. /understand's SKILL.md (F7, SE-11) now makes 'accepted inside a drive' a failure with no rule behind it."
+    source: "main:core/components/memory/standards/rules/direct-model-write.md; main:docs/adr/030-plan-mode.md section 5"
+    fix: "Add /understand's box-move decisions to the declared exceptions."
   - id: M3
     category: memory
     severity: P3
-    title: "pipeline-position.md's mechanics sections still describe unconditional injection although two (now three) plays skip it inside a drive by hand-written text"
-    basis: "Shared play scaffolding must be emitted by play-creator and checked by lint-components so a hand edit and a rebuild converge. 'How play-creator injects it' and 'Enforced' do not mention the in-drive skip, and play-creator/SKILL.md and lint_play.py contain no 'in_drive' or drive-contract reference (0 matches in each, checked on this branch). /understand is a third play whose in-drive skip lives only in its hand-compiled SKILL.md and ice.md."
-    source: "main:CLAUDE.md (Play Pipeline Rules > Durability rule for non-intent edits); main:core/components/memory/standards/rules/pipeline-position.md ('How play-creator injects it', 'Enforced')"
-    path: core/components/memory/standards/rules/pipeline-position.md
-    detail: >
-      Carried over from the #614 review (that review's M7). It is not caused by this PR, but this PR widens it: the rule's
-      first paragraph says the opening and end are skipped in a drive and lists the wired plays, while 'How play-creator
-      injects it' and 'Enforced' still say injection is unconditional. A rebuild of /understand through play-creator today
-      would drop the drive check and the skip. Say in the rule that wiring is by hand until play-creator learns the skip
-      (cite the follow-up issue), or open that issue and cite it. The 'Wired so far' list is the right place for the note.
+    status: open_from_round_1
+    title: "pipeline-position.md mechanics still say unconditional injection; the in-drive skip and now the scoped-write fan-out exist only in hand-compiled play text"
+    file: core/components/memory/standards/rules/pipeline-position.md
+    line: "'How play-creator injects it', 'Enforced'"
+    basis: "Durability rule; see M-N1."
+    source: "main:CLAUDE.md (Durability rule); main:core/components/memory/standards/rules/pipeline-position.md"
+    fix: "Note hand-wired status until play-creator learns it, citing a follow-up issue."
   - id: M4
     category: memory
     severity: P4
-    title: "The 'wired so far' list is a moving status inside a standing rule, and now repeats issue numbers that go stale on the next play"
-    basis: "The rule already carries an 'As compiled today' list, so a status list has precedent. The edit removes one stale 'follows in #615' but adds two more issue numbers, so the next wired play (/grill, /learn, ...) needs the same edit again. Carried over from the #614 review (M9)."
-    source: "main:core/components/memory/standards/rules/pipeline-position.md (introductory paragraph, 'As compiled today')"
-    path: core/components/memory/standards/rules/pipeline-position.md
-    detail: "Low cost. Optionally state 'wired plays are those whose SKILL.md runs check_drive_contract.py' (greppable) instead of naming plays and issues."
+    status: open_from_round_1
+    title: "'Wired so far' list is a moving status with issue numbers"
+    file: core/components/memory/standards/rules/pipeline-position.md
+    line: 18
+    basis: "The next wired play needs the same edit."
+    source: "main:core/components/memory/standards/rules/pipeline-position.md"
+    fix: "State the test instead: a wired play's SKILL.md runs check_drive_contract.py."
   - id: M5
     category: memory
     severity: P4
-    title: "Pre-existing stale text lower in pipeline-position.md ('the five plays here are all members, so no consumer exists yet')"
-    basis: "The introductory paragraph lists a dozen consumer plays with positions 'both', 'start' and 'end', yet 'Enforced' still says no consumer play exists and the mechanical lint check of an injected sequence 'lands with the first consumer play (Phase E)'. The file contradicts itself on main."
-    source: "main:core/components/memory/standards/rules/pipeline-position.md ('As compiled today' versus 'Enforced', last paragraph)"
-    path: core/components/memory/standards/rules/pipeline-position.md
-    detail: "Not touched by this PR and not caused by it; recorded because the reviewer opened the file. Fix when the file is next edited, or when the lint check for injected sequences is built."
+    status: open_from_round_1
+    title: "Pre-existing stale text: 'no consumer exists yet'"
+    file: core/components/memory/standards/rules/pipeline-position.md
+    line: "109-110"
+    basis: "The file contradicts itself on main."
+    source: "main:core/components/memory/standards/rules/pipeline-position.md"
+    fix: "Fix on next touch."
 summary:
   P1: 0
-  P2: 0
-  P3: 3
-  P4: 2
+  P2: 1
+  P3: 6
+  P4: 4
+  new_this_round: 6
+  carried_from_round_1: 5

@@ -3,60 +3,227 @@ meta:
   skill: quality-check-scoped
   pr: 640
   issue: 615
-  categories:
-  - executable-code
-  - tests
-  scope: 20 paths from context.yaml scanned by the taxonomy script. Standards-driven categories judged here are executable-code
-    (3 paths) and tests (1 path). Not run here - harness (2 paths, understand SKILL.md and ice.md) and memory (1 path,
-    pipeline-position.md), which go to their own playbooks; stm-run-records (10 paths) and stm-plans-and-design (3 paths)
-    have no playbook (playbook_missing) and were not judged. No standards-driven docs/prose category exists in this diff.
+  round: 2
+  categories: [executable-code, tests]
+  scope: >-
+    understand/scripts pick_targets.py, rollup_box.py, persist_understand.py and their three
+    test files; play-creator/scripts/lint_play.py (play-editor copy is byte-identical, cmp
+    verified); play-creator/references/test_concurrent_fanout.py. check_drive_contract.py and
+    write_drive_review.py were not judged again (identical to the canonical copies, judged in
+    round 1). Design grounding (Layer 2) is not part of this skill.
   taxonomy_scan:
-    command: python3 core/components/skills/quality-check-scoped/scripts/scan_taxonomy.py --taxonomy core/components/memory/standards/rules/pr.md
-      --diff .garura/project/issues/615/review/pr.diff --paths <the 20 changed paths, one per line> --out <session scratchpad>
-    result: P1=0 P2=0 P3=0 P4=0; CODE-20 catch-all covered 20 files; errors=0. No taxonomy row fires.
-    limit: every python file sits under core/components/**, which the taxonomy classifies as garura-prose, so its grep rules
-      are switched off for them by design (#438). The empty scan is not evidence the scripts are clean. The findings below
-      come from ruff, the test run, mutation runs and fixture runs, with the basis named.
+    command: scan_taxonomy.py --taxonomy core/components/memory/standards/rules/pr.md --diff review/pr.diff --paths <11 script/test paths>
+    result: P1=0 P2=0 P3=0 P4=0, CODE-20 catch-all=11, errors=0
+    limit: >-
+      every file sits under core/components/**, classified garura-prose, so grep rules are off
+      by design (#438). The empty scan is not evidence the scripts are clean; the findings below
+      come from fixture runs against the real scripts (scratchpad, nothing in the repo touched)
+      and from reading the tests.
   executed:
-  - command: ruff check --no-cache --no-fix --output-format concise core/components/plays/understand/scripts/*.py
-    result: ruff 0.15.20, exit 0, "All checks passed!". No ruff config in the repo, so default rules.
-  - command: python3 -W error core/components/plays/understand/scripts/test_persist_understand.py
-    result: 46 passed, 0 failed, exit 0. Tree unchanged afterwards (git status shows only the untracked review folder).
-  - command: cmp of understand/scripts/check_drive_contract.py and write_drive_review.py against play-creator/references
-    result: both identical to the canonical copy.
-  - command: mutation check on a scratch copy of persist_understand.py - (a) hard-code status accepted; (b) drop the
-      choices=accepted|proposed check; (c) change the default from accepted to proposed
-    result: all three caught (FAIL on "inside a drive, its decision reads proposed"; "a status other than accepted or
-      proposed is refused"; "by hand, its decision reads accepted"). The new test asserts something real, and the refusal
-      case is a real failure case.
-  - command: fixture runs of write_drive_review.py in the scratchpad - run file with only in_drive, run file missing
-      drive_run_id and branch, and --ts ../x
-    result: each refused with exit 2 and a plain reason, nothing written (no rv folder created). The earlier findings from the 614 review
-      on this script (half-written record, odd --ts, summary equal to target) are fixed in this copy. check_drive_contract.py
-      source also now rejects non-text required fields and a non-positive issue number.
-  - command: fixture run of persist_understand.py - a hand run (accepted), then a drive run with --decision-status proposed
-      on the same capability
-    result: the second run is refused ("already detailed"), so an accepted decision cannot be silently reset to proposed
-      by a rerun. Default (flag absent) is unchanged behaviour, accepted.
-  not_applicable: Design grounding (Layer 2) is not part of this skill.
+    - "ruff check (default rules) on understand/scripts, lint_play.py, test_concurrent_fanout.py: All checks passed"
+    - "test_pick_targets 20/0, test_rollup_box 18/0, test_persist_understand 64/0, test_concurrent_fanout 17/0 (re-run, all pass)"
+    - "pick_targets fixtures: commerce/check vs commerce/checkout -> NOT refused (no false positive; the '/'-suffixed prefix test is correct); commerce vs commerce/check -> refused; seed doc '../../evil/capability.md' -> scope product-os/../../evil/; spine doc 'commerce/capability.md' -> scope product-os/commerce/ (whole domain)"
+    - "rollup fixtures: bare-string implied level and bare-string start level both handled; unknown level 'critical' silently ignored; implied_levels as list, int level, int state -> AttributeError traceback"
+    - "persist fixtures: refusal for a functionality under the wrong capability leaves the model untouched (checked before any write); empty proposed profile -> exit 0 and live profile becomes {}; lowered proposed profile -> exit 0 and box lowered; box-move missing 'from' -> KeyError exit 1; non-JSON rollup report -> JSONDecodeError exit 1; same functionality id from two targets -> second silently dropped; functionality with no id -> written as an id-less entry"
 findings:
-- id: F1
-  category: tests
-  severity: P4
-  rule_id: knowledge/review/tests.md (failure cases assert the whole refusal)
-  file: core/components/plays/understand/scripts/test_persist_understand.py
-  line: 229
-  title: The bad-status refusal case checks only that the exit was non-zero
-  evidence: 'The case (lines 228-233) runs with --decision-status rejected and passes when the exit code is not 0. It does not
-    assert that no decision file and no spine change were written, and argparse prints its usage message into the test
-    output. The check is a real failure case (mutation (b) above makes it fail), so this is a tightening, not a hole.'
-  why_it_matters: A future change that wrote the decision before the argument was refused would still pass this case. Low
-    risk today because argparse refuses before any file is read.
-  basis: knowledge/review/tests.md rubric, failure cases; mutation check above.
-  suggestion: After the refusal, assert the decisions folder does not exist and the spine is unchanged; redirect stderr
-    for the call so the test output stays clean.
+  - id: Q1
+    category: executable-code
+    severity: P2
+    rule_id: pr.md severity definition P2 (error-handling violation); script's own contract C7/F6 (a box dimension is never lowered)
+    file: core/components/plays/understand/scripts/persist_understand.py
+    line: 228
+    title: persist replaces the live profile with whatever the proposed-profile file holds, so an empty or lowered file wipes or lowers the box
+    evidence: >-
+      `live["profile"] = proposed_profile`, where proposed_profile is `load(...).get("profile") or {}` (line 179).
+      Fixture: a proposed-profile file `{}` -> exit 0, spine now reads `profile: {}`. A file with perf level none over a
+      live perf low -> exit 0, box lowered. The rollup script guarantees never-lower, but persist is the writer and
+      trusts the file without comparing it to the live box.
+    why_it_matters: >-
+      The box is the product's committed quality ceiling. A missing, stale or hand-edited file (or a rollup that crashed
+      and left an older file) silently erases or lowers it, with no decision recorded. Persist is the last gate before
+      the live model changes, and it is documented as running every check before writing.
+    suggestion: >-
+      Refuse when the file has no non-empty `profile` mapping, and refuse when any dimension or compliance regime in the
+      live profile is lower or absent in the proposed one (same check the rollup promises). Add both as tests.
+  - id: Q2
+    category: executable-code
+    severity: P2
+    rule_id: pr.md severity definition P2 (error-handling violation, silent data loss)
+    file: core/components/plays/understand/scripts/persist_understand.py
+    line: 222
+    title: A functionality id that two targets both declare is kept for the first and silently dropped for the second; an id-less functionality is written
+    evidence: >-
+      `if f.get("id") not in have:` skips any id already present, whatever capability owns it. Fixture: cap-a and cap-b both
+      declare f1 -> exit 0, the spine holds only cap-a's f1; cap-b is marked detailed with no f1 entry even though its
+      agent wrote the doc. A functionality with no id is appended as an entry with no id, and later id-less ones are then
+      skipped because None is in `have`.
+    why_it_matters: >-
+      Targets now run side by side and each agent picks functionality ids on its own, so a clash like 'create-order' under
+      two capabilities is plausible. The run reports success while one capability's functionality is missing from the
+      spine, and its doc is orphaned.
+    suggestion: >-
+      Keep additive for an id already owned by the same capability (rerun safety). Refuse an id owned by a different
+      capability, a duplicate across this run's manifests, and a missing or non-text id. Add a test beside
+      test_many_targets_refusals.
+  - id: Q3
+    category: executable-code
+    severity: P3
+    rule_id: pr.md severity definition P3 (borderline robustness); error handling
+    file: core/components/plays/understand/scripts/rollup_box.py
+    line: 51
+    title: A level outside the scale is read as 'none', so an unrecognised need never moves the box and is never reported
+    evidence: >-
+      rank() maps any unknown level to 0. Fixture: implied level 'critical' over a box of high -> no box-move, no
+      warning, exit 0. The same happens for a typo ('hihg') on a dimension that is currently low: the need is dropped. A
+      dimension absent from the box with need 'none' is written as `level: null` (line 126).
+    why_it_matters: >-
+      The roll-up is the check that keeps a capability from quietly exceeding the committed box. The enrich skill is told
+      to use the scale (enrich-capability-ice SKILL.md line 110), so this needs a typo or drift to trigger, but when it does
+      the out-of-box halt is skipped without a trace.
+    suggestion: >-
+      Exit 2 (or list the dimension under a `unrecognised_levels` key in the report that the play halts on) when a
+      need level is not in SCALE. Write `level: none` rather than null.
+  - id: Q4
+    category: executable-code
+    severity: P3
+    rule_id: pr.md severity definition P3; error handling (input validation inconsistent between two scripts)
+    file: core/components/plays/understand/scripts/pick_targets.py
+    line: 116
+    title: Write scope is built from a doc path that is never checked, and the check persist applies to seed docs is not applied here
+    evidence: >-
+      doc_dir(seed.get("doc")) (line 120) and doc_dir(cap.get("doc")) (line 130) trust the path. Fixtures: seed doc
+      '../../evil/capability.md' -> scope 'product-os/../../evil/' with no refusal; spine doc 'commerce/capability.md' ->
+      scope 'product-os/commerce/', the whole domain folder (it would hold every capability of the domain and the domain's
+      own files); seed doc 'commerce/capability.md' passes pick_targets but persist_understand seed_entry refuses it
+      (needs exactly domain/capability/capability.md). The overlap test also compares raw strings, so 'a/./b' vs 'a/b' or
+      'a//b' are seen as distinct folders.
+    why_it_matters: >-
+      The scope is what the scoped-write guard later allows, so a '..' or a domain-wide scope widens the area a single
+      agent may write, which is the property the fan-out rule's condition 1 depends on. Mismatch with persist means a run
+      can pass the pick, spend the fan-out, and only then be refused at persist.
+    suggestion: >-
+      Normalise with posixpath.normpath, refuse '..' and absolute parts, require the doc to be 'domain/<capability>/capability.md'
+      (three parts) for spine capabilities too, and share one helper with persist_understand.seed_entry. Add tests for
+      traversal, a 2-part doc and 'commerce/check' vs 'commerce/checkout' (the last passes today and should be pinned).
+  - id: Q5
+    category: executable-code
+    severity: P3
+    rule_id: pr.md severity definition P3; error handling (documented exit contract not kept)
+    file: core/components/plays/understand/scripts/persist_understand.py
+    line: 232
+    title: Malformed rollup report or manifest gives a Python traceback and exit 1, not the documented exit 2; a box-move missing a key crashes at line 239
+    evidence: >-
+      Docstring: "Exit 0 on success, 2 on usage/parse/containment error". Fixtures: a box-move without 'from' -> KeyError
+      'from', exit 1; a non-JSON rollup file -> JSONDecodeError exit 1 (and `json.load(open(...))` leaves the handle to the
+      garbage collector); a manifest whose `capability` is text, not a mapping, fails at line 207-209. rollup_box.py: an
+      implied_levels list, an int level or an int state give AttributeError exit 1 (rank, line 54; load/state, lines 91, 99).
+      Nothing is written in these cases (all fail before the write phase), so this is about the exit contract and the
+      message, not data.
+    why_it_matters: >-
+      The play reads exit 2 as "refused, read the reason". Exit 1 with a traceback reads as a tool crash and is harder to
+      act on; the two scripts are the part the play must not re-reason.
+    suggestion: >-
+      Validate shapes up front (box-move has text dimension/from/to; report is a mapping; capability delta is a mapping)
+      and route through refuse(); use `with open` for the report.
+  - id: Q6
+    category: executable-code
+    severity: P3
+    rule_id: pr.md severity definition P3; containment (the persist docstring claims node-level containment)
+    file: core/components/plays/understand/scripts/persist_understand.py
+    line: 207
+    title: The manifest's `doc` for a capability and for each functionality is copied into the spine with no path check
+    evidence: >-
+      The capability delta copies `doc` and `one_line` straight in (lines 208-210); functionalities are appended whole.
+      Fixture: capability doc '../../outside/capability.md' and functionality doc '/abs/x.md' were both written to the
+      spine, exit 0. Only a seed's doc is validated (seed_entry).
+    why_it_matters: >-
+      The next /understand run derives its write scope from this field (see Q4), so a bad value stored now moves the
+      scope later. Containment is checked for ids, not for the paths the entries point at.
+    suggestion: >-
+      Require each doc to sit under the capability's own folder (the same prefix the pick gave it) and refuse otherwise.
+  - id: Q7
+    category: executable-code
+    severity: P3
+    rule_id: knowledge/review/code.md (a lint check should test what it names); naming and wording
+    file: core/components/plays/play-creator/scripts/lint_play.py
+    line: 355
+    title: The scoped-write declaration check is skipped unless the play also cites concurrent-fanout.md, and a scoped-write-only play is still told to declare 'read-only'
+    evidence: >-
+      The early return at line 355 precedes the new block at line 370. Run: a play text 'Enrich runs as a scoped-write fan-out,
+      no sharing.' -> [] (no check at all). A play text that cites the rule and declares write scope, shared file and join
+      for a scoped-write fan-out but never says 'read-only' -> first result FAIL 'does not declare the read-only condition',
+      second result PASS. Only two of the rule's five conditions are checked (no distinct-paths, no after-join guard, no
+      commit-after-review). The play-editor copy is identical, so both share this.
+    why_it_matters: >-
+      The lint is the convergence check that keeps a play honest about a safety relaxation. A play that writes at once but
+      does not cite the rule file escapes it, and a correct scoped-write play can be forced to add a stray 'read-only' phrase
+      just to pass. Current understand SKILL.md passes only because it mentions both kinds.
+    suggestion: >-
+      Trigger the scoped-write check on the phrase alone (before the early return), require the read-only token only when the
+      play claims a read-only fan-out, and add the guard and distinct-scope conditions to the declared tokens.
+  - id: Q8
+    category: tests
+    severity: P3
+    rule_id: knowledge/review/tests.md (failure and edge cases assert the whole refusal; cover the new behaviour)
+    file: core/components/plays/understand/scripts/test_pick_targets.py
+    line: 136
+    title: The new scripts' sharpest edges have no test, so the defects above pass the suites
+    evidence: >-
+      test_pick_targets: no sibling-prefix case ('commerce/check' vs 'commerce/checkout', correct today, unpinned), no
+      traversal or 2-part doc, no overlap between a seeded target and a spine target, no exit-2 case (unreadable spine,
+      seeds not a mapping). test_rollup_box: no bare-string implied level (the code tolerates it, line 111, untested), no
+      unknown level, no start nfr given as a bare string. test_persist_understand (line 287): no empty or lowered profile,
+      no functionality id clash across targets, no failure raised inside the per-target loop (the all-or-nothing claim is
+      only exercised for checks that run before the loop), no box-move missing a key. test_concurrent_fanout: no case for a
+      scoped-write phrase without the rule citation.
+    why_it_matters: >-
+      The suites pass 119 checks, all of them real (mutation of the refusals in test_many_targets_refusals and
+      test_pick_targets scopes would fail them), but none exercise the inputs where the scripts misbehave.
+    suggestion: >-
+      Add one case per gap named above alongside fixes for Q1, Q2, Q4, Q5, Q7.
+  - id: Q9
+    category: tests
+    severity: P4
+    rule_id: knowledge/review/tests.md (failure cases assert the whole refusal)
+    file: core/components/plays/understand/scripts/test_persist_understand.py
+    line: 229
+    title: The bad decision-status refusal still checks only that the exit was non-zero (carried from round 1, F1)
+    evidence: >-
+      Lines 228-233 catch SystemExit from argparse and assert `exc.code != 0`; they do not assert the decisions folder is
+      absent or the spine unchanged, and argparse prints usage into the test output. It is a real failure case.
+    why_it_matters: >-
+      A later change that wrote the decision before refusing the status would still pass. Low risk today because argparse
+      refuses first.
+    suggestion: >-
+      After the refusal assert no decisions folder and an unchanged spine; capture stderr.
+  - id: Q10
+    category: executable-code
+    severity: P4
+    rule_id: ruff-adjacent hygiene; knowledge/review/code.md (write safety)
+    file: core/components/plays/understand/scripts/persist_understand.py
+    line: 265
+    title: The spine is rewritten in place and decisions are written before it, so a crash between or during the writes leaves partial state
+    evidence: >-
+      Decision files are written (lines 254-264), then the spine is opened with "w" and dumped. A failure after the first
+      decision, or during the dump, leaves decisions on disk and a truncated or old spine. The "every check runs before
+      anything is written" claim holds for refusals but not for I/O failure.
+    why_it_matters: Rare, and the work sits in git so it is recoverable, hence nit.
+    suggestion: Write the spine to a temp file and os.replace it; write it before the decisions or clean up on failure.
+  - id: Q11
+    category: executable-code
+    severity: P4
+    rule_id: naming and duplication (code.md); abstraction later, not sooner (three-line rule applies, this is two copies of a rule)
+    file: core/components/plays/understand/scripts/pick_targets.py
+    line: 116
+    title: The seed-folder rule (domain's folder from its doc, else its id, then slug of the capability id) is written twice
+    evidence: >-
+      pick_targets.seed_dir (lines 116-120) and persist_understand.seed_entry (lines 103-119) both derive dom_dir and the
+      capability folder, and both define slug(). They agree today; they are the same rule in two places and Q4 shows
+      they already differ on doc validation.
+    why_it_matters: A future change to one folder rule can desync the scope the agents get from the folder persist accepts.
+    suggestion: Fold into the shared helper proposed under Q4.
 counts:
   P1: 0
-  P2: 0
-  P3: 0
-  P4: 1
+  P2: 2
+  P3: 6
+  P4: 3
