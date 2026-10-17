@@ -19,13 +19,18 @@ capability, #615):
      (+ doc/one_line if its manifest carries them). It refuses to mutate any capability that
      is not a target — this is the node-level containment the file-level scoped guard
      cannot provide.
-  2. the new `functionalities` entries from each manifest (each must carry capability ==
-     that manifest's target; additive — an id already present is left untouched).
-  3. the rolled-up `profile` (the firmed box) from the proposed-profile.
+  2. the new `functionalities` entries from each manifest (each must carry an id and
+     capability == that manifest's target; additive — an id already present under the same
+     capability is left untouched; an id declared twice in the run, or already present under
+     another capability, is refused).
+  3. the rolled-up `profile` (the firmed box) from the proposed-profile. It refuses a
+     profile that is not `set`, lowers a dimension the live box holds, or drops a
+     compliance regime — the box only ever goes up (C7).
   4. one decision record per box-move (ADR, level product, status accepted), each linked onto
      the `decisions` list of the capability the move names. Inside a drive (#615) the play
      passes --decision-status proposed: no person has said yes, so the drive's review
-     accepts or drops each move.
+     accepts or drops each move. The persist record's `box_moves` carry each move's
+     decision id and status, so the run's record shows what was written.
 
 Every check runs before anything is written: a refusal leaves the model untouched.
 It reads the manifests (STM, non-model) + the roll-up output; it does NOT read a draft tree
@@ -98,6 +103,35 @@ def read_seed(path, cap_ids):
         return None, (f"seed id '{seed['id']}' is not a --capability-ref of this run "
                       f"— refusing (containment)")
     return seed, None
+
+
+SCALE = ["none", "low", "medium", "high", "xhigh"]
+
+
+def rank(level):
+    try:
+        return SCALE.index((level or "none").strip().lower())
+    except (AttributeError, ValueError):
+        return 0
+
+
+def profile_error(live_profile, proposed):
+    """Why the proposed profile may not replace the live one, or None (C7: never lower)."""
+    if not isinstance(proposed, dict) or proposed.get("state") != "set":
+        return "the proposed profile is not firmed to `set`"
+    live_nfr = (live_profile or {}).get("nfr") or {}
+    new_nfr = proposed.get("nfr") or {}
+    for dim, spec in live_nfr.items():
+        old = spec.get("level") if isinstance(spec, dict) else spec
+        new = new_nfr.get(dim)
+        new = new.get("level") if isinstance(new, dict) else new
+        if rank(new) < rank(old):
+            return f"the proposed profile lowers {dim} from {old} to {new or 'nothing'}"
+    dropped = [r for r in (live_profile or {}).get("compliance") or []
+               if r not in (proposed.get("compliance") or [])]
+    if dropped:
+        return f"the proposed profile drops compliance {dropped}"
+    return None
 
 
 def seed_entry(seed, live):
@@ -179,7 +213,8 @@ def main(argv=None):
     proposed_profile = (load(args.proposed_profile).get("profile") or {})
     live_caps = live.setdefault("capabilities", [])
     live_funcs = live.setdefault("functionalities", [])
-    have = {f.get("id") for f in live_funcs if isinstance(f, dict)}
+    have = {f.get("id"): f.get("capability") for f in live_funcs if isinstance(f, dict)}
+    declared = set()
 
     written, seeded = [], []
     changed = {"capabilities": [], "functionalities_added": [], "profile": False, "decisions": []}
@@ -216,28 +251,44 @@ def main(argv=None):
         for f in enrich.get("functionalities") or []:
             if not isinstance(f, dict):
                 continue
+            fid = f.get("id")
+            if not isinstance(fid, str) or not fid.strip():
+                return refuse(f"a functionality under '{cap_id}' has no id — refusing")
             if f.get("capability") != cap_id:
-                return refuse(f"functionality '{f.get('id')}' is not under '{cap_id}' "
+                return refuse(f"functionality '{fid}' is not under '{cap_id}' "
                               f"— refusing (containment)")
-            if f.get("id") not in have:
+            if fid in declared:
+                return refuse(f"functionality '{fid}' is declared twice in this run — refusing")
+            declared.add(fid)
+            if fid in have and have[fid] != cap_id:
+                return refuse(f"functionality '{fid}' already exists under '{have[fid]}' "
+                              f"— refusing (containment)")
+            if fid not in have:
                 live_funcs.append(f)
-                have.add(f.get("id"))
-                changed["functionalities_added"].append(f.get("id"))
+                have[fid] = cap_id
+                changed["functionalities_added"].append(fid)
 
-    # --- 3. the rolled-up profile (replace the box) ------------------------------------
+    # --- 3. the rolled-up profile (replace the box; never lower it, C7) ---------------
+    err = profile_error(live.get("profile"), proposed_profile)
+    if err:
+        return refuse(f"{err} — refusing (the box only ever goes up)")
     live["profile"] = proposed_profile
     changed["profile"] = True
 
     # --- 4. one decision per box-move, linked onto the capability the move names -------
     report = json.load(open(args.rollup_report, encoding="utf-8"))
     moves = report.get("box_moves", [])
-    decisions = []
+    decisions, recorded_moves = [], []
     for mv in moves:
         cap_id = mv.get("capability") or (cap_ids[0] if len(cap_ids) == 1 else None)
         if cap_id not in targets:
             return refuse(f"box-move {mv} names no target capability of this run — refusing")
+        if not isinstance(mv, dict) or not all(mv.get(k) for k in ("dimension", "from", "to")):
+            return refuse(f"box-move {mv} lacks a dimension, from or to — refusing")
         dim, frm, to = mv["dimension"], mv["from"], mv["to"]
         did = f"dec-{slug(cap_id)}-{slug(dim)}-{slug(frm)}-{slug(to)}"
+        recorded_moves.append({**mv, "capability": cap_id, "decision": did,
+                               "status": args.decision_status})
         decisions.append((cap_id, did, {"decision": {
             "id": did, "node_ref": cap_id, "level": "product",
             "title": f"Move {dim} box {frm} -> {to} for {cap_id}",
@@ -267,7 +318,7 @@ def main(argv=None):
     written.append("spine:_spine.yaml")
 
     manifest = {"written": written, "capability_refs": cap_ids, "seeded": seeded,
-                "changed": changed, "box_moves": moves}
+                "changed": changed, "box_moves": recorded_moves}
     with open(args.out_manifest, "w", encoding="utf-8") as fh:
         json.dump(manifest, fh, indent=2)
     print(json.dumps(manifest, indent=2))
