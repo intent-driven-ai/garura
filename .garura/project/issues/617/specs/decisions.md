@@ -36,7 +36,7 @@ reviews to the end, so the end review must show all of them.
 
 ## Q2 — Who reviews, and what they can do
 
-**Draft:** a person reviews, on the drive's pull request. The checker runs first, and its
+**Draft:** a person reviews, in the review tool (Q7) — not on the pull request. The checker runs first, and its
 result is in the pack; it never decides for the person. For each line the person can:
 
 - **accept** — the proposed thing becomes real (intent confirmed, decision accepted, the
@@ -68,7 +68,7 @@ person resumes. It is thrown away only if they drop the drive.
 **Stands on:** ADR 029 §3 (one branch, one pull request); ADR 029 §5 (a review follows
 either way).
 
-## Q4 — Is the review a drive of its own — **open**
+## Q4 — Is the review a drive of its own — **decided: A**
 
 ADR 029 §5 and the issue expect the review to become a drive of its own.
 
@@ -78,7 +78,10 @@ ADR 029 §5 and the issue expect the review to become a drive of its own.
 - **B — a review drive.** Its own run of plays — for example check, decide, land — that
   starts after a work drive ends.
 
-**Recommendation: A.** A drive does not stop for checkpoints (ADR 029 §2), and the review
+**Decided: A** (Kapil, 2026-10-17: "this is last step"). The review is the last step of
+every drive, not a drive of its own.
+
+Why A was recommended: a drive does not stop for checkpoints (ADR 029 §2), and the review
 is the one place that must stop for a person. A review drive would be the only drive whose
 whole job is stopping. One play is fewer parts (Occam), and it can grow into a drive later
 without undoing anything: the pack, the answers and the apply step stay the same
@@ -89,12 +92,13 @@ without a person.
 
 **Draft:** in this order, all on the drive's branch:
 
-1. The person answers every line (accept, drop, send back). Send-backs run and come back
+1. The person answers every line (accept, drop, send back) in the review tool (Q7). Send-backs run and come back
    until no line is open.
 2. The answers are applied as one commit: statuses set, dropped pieces removed, records
    marked `decided: true`, learned answers appended, big plan updates marked approved.
 3. The end sequence runs: commit-change → propose-change → review-change →
-   merge-change. The merge is pinned and waits for the person, as today.
+   merge-change. The pull request lands the change; it is not where the person reviews
+   it (Q7). The merge is pinned and waits for the person, as today.
 4. The merge closes the main issue and its child issues; the drive writes its one handoff
    on the main issue.
 
@@ -102,7 +106,7 @@ without a person.
 handoff); drive-contract.md §5 (the review appends the real learned answer); merge-change
 C7.
 
-## Q6 — A dropped box-move — **open**
+## Q6 — A dropped box-move — **decided: A**
 
 Inside a drive `/understand` raises the product's limit at once (for example security from
 high to xhigh) and writes the box-move's decision as `proposed`. If the person drops that
@@ -116,18 +120,64 @@ decision, the capability still needs more than the product now allows.
   drive it writes the box-move and its decision but leaves the limit as it is; accepting
   raises it. Dropping still sends the capability back.
 
-**Recommendation: A.** It keeps write-then-review (ADR 026) and the play as just merged.
+**Decided: A** (Kapil, 2026-10-17: "A"). Lower the limit and send the capability back.
+
+Why A was recommended: it keeps write-then-review (ADR 026) and the play as just merged.
 Undoing is mechanical, because every capability is already measured against the limit as
 it stood at the start of the run (#615). In Kickoff `/understand` is the last play, so no
 later play reads the raised limit before the review. Choose B if a limit must never show a
 level nobody has agreed to, even on a branch.
 
+## Q7 — The review tool — **the key question**
+
+Kapil, 2026-10-17: "what is key is how the review happens. the drive will create a lot of
+files and lot of content and PR cant be be way toreview this. this needs a proper review
+tooling. we hae to build that right"
+
+So the pull request only lands the change. The person reviews in a proper review tool.
+One Kickoff run writes intents, a vision, domains, capabilities, functionalities, a
+profile and decisions: dozens of files. A file-by-file diff on a pull request shows lines
+that changed, not what the product now says.
+
+**What exists to build on:**
+
+- **#569** (open, no parent): the human-review loop for plays — a browser viewer per
+  play, comments on any part, `--refine` fixes the comments, `--approved` is the only way
+  the play is done, `--view` opens it again; one shared design system; each play decides
+  what its viewer shows. It was written for a play run by hand. Its open questions
+  (how a play declares its view, where comments live, how approval fits the gates) are the
+  same questions the drive review has.
+- **Two local prototypes**, not Garura features: `pr-reviewer` (reviews a pull request's
+  files, with comments and per-file verdicts, and a watcher that tells Claude when a
+  review is finished) and `play-reviewer` (reviews one play's files). They show what
+  works and what does not; they are not the thing to ship.
+
+**Draft answers (not yet put to Kapil):**
+
+- **One tool, for a play run by hand and for a drive.** A play run by hand is a review of
+  one play; a drive's review is the same tool showing every play's part. #569 becomes part
+  of this work instead of a separate track.
+- **It shows the product, not files.** The person reads by meaning: business intent →
+  domain → capability → its functionalities and needs, with the vision, the profile and
+  the decisions beside them. Each piece shows what changed in this drive. The files stay
+  one click away.
+- **Each line is a decision.** Accept, drop, or send back with a comment (Q2). A comment
+  on any part. Nothing is lost if the person closes the page and comes back.
+- **The answers are files on the branch.** The tool writes the person's answers into the
+  drive's `review_dir`; the review step reads them and applies them (Q5). Claude never
+  reads a web page to learn an answer.
+- **Local.** It runs on the person's machine, from the repo, like the prototypes.
+
+**Still to decide:** how each play declares what it shows; the design system (#569); how
+send back and refine meet; whether the tool also shows the checker's findings inline.
+
 ## Stories this would file (draft — filed only when Kapil asks)
 
 1. A script that gathers the review pack from a drive's `review_dir`, the model and the
    plan.
-2. The review step: show the pack, take accept / drop / send back per line, apply the
-   answers (Q2, Q5) — as a play (Q4 A) or a drive (Q4 B).
-3. The failed-drive path: fix and resume, or drop the drive (Q3).
-4. Dropping a box-move (Q6).
-5. Kickoff (#613) runs the review as its last step.
+2. The review tool (Q7), built with #569 as one tool for plays and drives.
+3. The review step, the drive's last step (Q4 A): open the tool on the pack, read the
+   person's answers, apply them (Q2, Q5).
+4. The failed-drive path: fix and resume, or drop the drive (Q3).
+5. Dropping a box-move: lower the limit, send the capability back (Q6 A).
+6. Kickoff (#613) runs the review as its last step.
