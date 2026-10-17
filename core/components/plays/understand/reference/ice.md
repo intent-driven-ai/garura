@@ -159,13 +159,17 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM enr
   question neither the contract nor the model answers — an absent capability with no seed
   answers — stops the run and asks the person; the play never picks an answer itself. Run
   by hand (no contract), every step runs as before.
-- C14 — One run, all or nothing (#615). The run opens one change, saves once, guards once,
-  has one checkpoint and makes one model-delta commit for all its targets. The enrichment
-  runs once per target, one after another — it writes the live model, and the concurrent
-  fan-out rule (`standards/rules/concurrent-fanout.md`) admits only read-only work at once;
-  the content-quality judges, which only read, run as one concurrent batch over every doc of
-  every target. If any target cannot pass its checks after its recovery, the whole run halts
-  and nothing is committed — no target lands alone.
+- C14 — One run, all or nothing, the targets at once (#615). The run opens one change,
+  saves once, guards once, has one checkpoint and makes one model-delta commit for all its
+  targets. The enrichment runs for every target at once, as a **scoped-write fan-out**
+  (`standards/rules/concurrent-fanout.md`; Kapil, #615: "B"): `pick_targets.py` gives each
+  target its write scope — its own folder in the model — and refuses two targets whose
+  folders overlap; each dispatch writes only that target's docs inside its write scope and
+  its own manifest, no dispatch writes a shared file (the spine, the profile, decisions —
+  those go to the one keyed persist), and the batch is joined before any later step reads
+  the model. The content-quality judges, which only read, run as one concurrent read-only
+  batch over every doc of every target. If any target cannot pass its checks after its
+  recovery, the whole run halts and nothing is committed — no target lands alone.
 
 ### Failure conditions
 
@@ -210,7 +214,8 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM enr
 - F16 — The run left out a pending capability it should have taken (none named, yet a
   `detail: directional` capability was not a target), took one the person did not name, or
   measured a target against a box another target in the same run had raised (a box-move
-  hidden); or it committed some targets while another failed its checks.
+  hidden); or it committed some targets while another failed its checks; or an enrichment
+  dispatch wrote outside its target's write scope or wrote a shared file.
 
 ## Expectation
 
@@ -362,8 +367,9 @@ record.
   a correction refuting a made-up approval; drop the picked answer and ask the person.
   handoff: autonomous.
 - REC16 (F16) — trigger: a pending capability left out, an unnamed one taken, a target
-  measured against a box raised in the same run, or a part of the run committed while
-  another target failed. direction: re-pick the targets with `pick_targets.py`, re-run the
-  roll-up with every target's manifest against the starting box, and re-render the
-  checkpoint; when a target failed, revert the uncommitted delta and halt the whole run.
+  measured against a box raised in the same run, a part of the run committed while another
+  target failed, or a dispatch that wrote outside its write scope or a shared file.
+  direction: re-pick the targets with `pick_targets.py`, re-run the roll-up with every
+  target's manifest against the starting box, and re-render the checkpoint; when a target
+  failed or a dispatch strayed, revert the uncommitted delta and halt the whole run.
   handoff: autonomous.

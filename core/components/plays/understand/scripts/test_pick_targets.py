@@ -6,7 +6,9 @@ Pins how one /understand run picks its targets: with none named, every direction
 capability in spine order (and, inside a drive, every capability the contract seeds);
 named ones in the order given; an already-detailed target refused; an absent target
 asked for unless the drive's contract answered it — then its seed is written verbatim
-with answered_by: human; a contract answer naming an unknown domain is asked again.
+with answered_by: human; a contract answer naming an unknown domain is asked again; a
+seed file already written counts as the answers; each target gets its own folder as its
+write scope, and two targets sharing or nesting a folder are refused.
 
     python3 test_pick_targets.py
 """
@@ -40,16 +42,19 @@ def check(name, cond):
 
 SPINE = {"domains": [{"id": "commerce", "doc": "commerce/domain.md"}],
          "capabilities": [
-             {"id": "checkout", "domain": "commerce", "detail": "directional"},
-             {"id": "cart", "domain": "commerce", "detail": "detailed"},
-             {"id": "refunds", "domain": "commerce", "detail": "directional"}]}
+             {"id": "checkout", "domain": "commerce", "detail": "directional",
+              "doc": "commerce/checkout/capability.md"},
+             {"id": "cart", "domain": "commerce", "detail": "detailed",
+              "doc": "commerce/cart/capability.md"},
+             {"id": "refunds", "domain": "commerce", "detail": "directional",
+              "doc": "commerce/refunds/capability.md"}]}
 ANSWER = {"one_line": "Let a shopper return an item", "why": "Trust", "domain": "commerce"}
 
 
-def pick(tmp, run, names=()):
+def pick(tmp, run, names=(), spine_doc=None):
     spine = os.path.join(tmp, "_spine.yaml")
     with open(spine, "w") as fh:
-        yaml.safe_dump(SPINE, fh)
+        yaml.safe_dump(spine_doc or SPINE, fh)
     run_path = os.path.join(tmp, "run.json")
     with open(run_path, "w") as fh:
         json.dump(run, fh)
@@ -128,8 +133,45 @@ def test_nothing_pending():
         check("with nothing pending, the pick says so", code == 0 and res["nothing_pending"] is True)
 
 
+def test_scopes():
+    with tempfile.TemporaryDirectory() as tmp:
+        code, res = pick(tmp, {"in_drive": True, "answers": {"seeds": {"returns": ANSWER}}})
+        check("each target's write scope is its own folder",
+              [t["scope"] for t in res["targets"]] == ["product-os/commerce/checkout/",
+                                                       "product-os/commerce/refunds/",
+                                                       "product-os/commerce/returns/"])
+    for label, doc in (("the same folder", "commerce/checkout/capability.md"),
+                       ("a folder inside another", "commerce/checkout/sub/capability.md")):
+        spine = json.loads(json.dumps(SPINE))
+        spine["capabilities"][2]["doc"] = doc
+        with tempfile.TemporaryDirectory() as tmp:
+            code, res = pick(tmp, {"in_drive": False}, spine_doc=spine)
+            check(f"two targets in {label} are refused",
+                  [r["id"] for r in res["refused"]] == ["refunds"])
+    spine = json.loads(json.dumps(SPINE))
+    del spine["capabilities"][0]["doc"]
+    with tempfile.TemporaryDirectory() as tmp:
+        code, res = pick(tmp, {"in_drive": False}, spine_doc=spine)
+        check("a target with no doc folder is refused",
+              [r["id"] for r in res["refused"]] == ["checkout"])
+
+
+def test_seed_file_counts():
+    with tempfile.TemporaryDirectory() as tmp:
+        path = os.path.join(tmp, "caps", "wishlist", "seed.yaml")
+        os.makedirs(os.path.dirname(path))
+        with open(path, "w") as fh:
+            yaml.safe_dump({"seed": dict(ANSWER, id="wishlist", answered_by="human")}, fh)
+        code, res = pick(tmp, {"in_drive": False}, ["wishlist"])
+        check("after the person answered, the seed file counts as the answers",
+              res["ask"] == [] and res["targets"][0]["seed"] == path)
+        check("and the seeded target gets its scope",
+              res["targets"][0]["scope"] == "product-os/commerce/wishlist/")
+
+
 def main():
-    for test in (test_all_pending_by_hand, test_named, test_drive_seeds, test_nothing_pending):
+    for test in (test_all_pending_by_hand, test_named, test_drive_seeds, test_nothing_pending,
+                 test_scopes, test_seed_file_counts):
         print(test.__name__)
         test()
     print(f"\n{PASSED} passed, {FAILED} failed")
