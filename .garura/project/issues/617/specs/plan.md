@@ -103,3 +103,7 @@ GitHub, so it happens only when Kapil asks for it.
   product review tool and an intent review tool". Q1 and Q7 rewritten: the
   review looks at what the drive changed in the business intents and the
   product model; two tools; #569's per-play viewer is not the goal.
+- 2026-10-17 — Kapil: the plan is not reviewed; the review looks only at the
+  outcome — the intents and the product model — at the outcome level, not the
+  detail. This fits idsd.md ("only its ontology is" a human interface); the
+  earlier note calling it a clash was wrong and is removed.
