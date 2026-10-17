@@ -360,10 +360,22 @@ def check_fanout_declaration(ctx):
         missing.append("the join barrier ('join')")
     if "read-only" not in low:
         missing.append("the read-only condition ('read-only')")
-    return [(not missing, "concurrent fan-out (#468)",
-             "fan-out declares its join + read-only safety"
-             if not missing else "cites concurrent-fanout.md but does not declare "
-                                  + " and ".join(missing))]
+    results = [(not missing, "concurrent fan-out (#468)",
+                "fan-out declares its join + read-only safety"
+                if not missing else "cites concurrent-fanout.md but does not declare "
+                                     + " and ".join(missing))]
+    # A step whose sub-tasks WRITE the model at once must name the scoped-write fan-out
+    # and declare its own conditions too (#615): each sub-task's write scope, and that no
+    # sub-task writes a shared file. Silent for a play that only fans out read-only.
+    if "scoped-write fan-out" in low:
+        gaps = [label for token, label in (("write scope", "each sub-task's write scope ('write scope')"),
+                                           ("shared file", "the no-shared-file condition ('shared file')"))
+                if token not in low]
+        results.append((not gaps, "scoped-write fan-out (#615)",
+                        "declares its write scope + no shared file"
+                        if not gaps else "names the scoped-write fan-out but does not declare "
+                                         + " and ".join(gaps)))
+    return results
 
 
 # --- no unbacked recommendation (the cardinal rule) -------------------------------
