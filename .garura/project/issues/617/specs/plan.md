@@ -30,8 +30,9 @@ be finished until that end review exists.
   is a drive of its own, and how the review closes the drive's change.
 - The ADR also says what happens when the review drops a box-move that
   `/understand` already raised (carried from #615).
-- The ADR says how the person reviews: in a proper review tool, not on the
-  pull request (Kapil, 2026-10-17), and what that tool must do.
+- The ADR says how the person reviews: the outcome, not the plays — in an
+  intent review tool and a product review tool, not on the pull request
+  (Kapil, 2026-10-17) — and what each tool must do.
 - The stories to build it are filed, when Kapil asks for them.
 
 ## Where we are now
@@ -40,16 +41,19 @@ The draft answers are written (`specs/decisions.md`). Kapil chose that the
 review is every drive's last step (Q4 A), and that a dropped box-move lowers
 the limit and sends the capability back (Q6 A). He then named the key part:
 how the review happens. A drive writes too many files for a pull request to be
-the place to review them, so it needs a proper review tool (Q7). Now on item 1:
-the review tool's draft answers go to Kapil.
+the place to review them. The person reviews the outcome — the business
+intents and the product model — never the plays, in two tools: an intent
+review tool and a product review tool (Q1, Q7). Now on item 1: the tools'
+draft answers go to Kapil.
 
 ## The plan, in order
 
 ### 1. Kapil settles the open choices — now
 
 **Issue:** #617.
-**What:** Kapil reads the draft answers. Q4 and Q6 are chosen. Left: the review
-tool (Q7) — whether it is one tool with #569's play review, and what it shows.
+**What:** Kapil reads the draft answers. Q4 and Q6 are chosen. Q1 and the shape
+of Q7 are chosen: review the outcome, in two tools. Left: what each tool shows
+and does (the drafts under Q7).
 He may change any other draft.
 **Why here:** the ADR records his choices, so they come first.
 **Done when:** each question has an answer Kapil agreed, recorded in
@@ -71,7 +75,7 @@ points at it.
 **Issue:** #617.
 **What:** the stories to build the review, the review tool first — the draft
 list is in `specs/decisions.md`. Filed under #594, linked to #613; #569 is
-folded in if Q7 makes it one tool.
+rewritten or closed to match.
 **Why here:** they are cut from the ADR.
 **Done when:** each story is filed with a clear done check. Filing writes to
 GitHub, so it happens only when Kapil asks for it.
@@ -94,3 +98,8 @@ GitHub, so it happens only when Kapil asks for it.
   key part: "the drive will create a lot of files and lot of content and PR
   cant be be way toreview this. this needs a proper review tooling. we hae to
   build that right". Added Q7, the review tool, tied to #569.
+
+- 2026-10-17 — Kapil: review the outcome, not the plays — "what we need is a
+  product review tool and an intent review tool". Q1 and Q7 rewritten: the
+  review looks at what the drive changed in the business intents and the
+  product model; two tools; #569's per-play viewer is not the goal.
