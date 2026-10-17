@@ -4,7 +4,7 @@ kind: story
 serves: "#615 — /understand runs inside a drive without stopping, and its review happens after the drive"
 status: active
 updated: 2026-10-17
-now: 5
+now: 6
 serves_plan: 606
 serves_item: 6
 ---
@@ -52,9 +52,10 @@ a decision).
 
 ## Where we are now
 
-The change is open (branch `feature/615-understand-runs-inside-a-drive`).
-Kapil chose A. Items 2 to 4 are built, checked and committed on the branch
-(7b1894d7, a904d1a6, db947761). Now on item 5: raising the pull request.
+The change is open (branch `feature/615-understand-runs-inside-a-drive`),
+and its pull request is #640 (review: approve, 14 small findings). Kapil then
+asked for one more thing in this change (item 6): `/understand` details every
+pending capability in one run, not one capability per run. Now on item 6.
 
 Inside a drive every box-move decision is written `proposed`, not only when the
 checkpoint is deferred. The save step runs before the checkpoint resolves, so
@@ -81,11 +82,42 @@ This is choice A, applied at the only point where it can be applied.
   (the save script's 46, the drive contract's 26 with every copy identical).
   The component lint's 114 errors are all in files this change does not touch.
 
-### 5. Land it — now
+- **5. Raised** — pull request #640; review-change verdict approve (harness),
+  14 findings, none blocking.
 
-**What:** commit, raise the pull request, write the handoff on #615. Merge is
-Kapil's.
-**Needs:** item 4.
+### 6. One run details every pending capability — now
+
+**Why:** Kapil, 2026-10-17: "understand needs to run for all the pending things
+/ capabilities not one by one.. 1 a a time is to slow. fix that part now". One
+run per capability repeats the opening, the checkpoint and the end sequence for
+each one. It also hides box-moves: the second capability is measured against a
+limit the first one already raised in the same drive (review finding H1).
+
+**What:**
+- The run takes the capabilities the person names; with none named, it takes
+  every capability that /vision seeded and nobody has detailed yet.
+- It asks every missing seed question at once, before it opens anything.
+- It details them one after another inside the run, judges every doc at once,
+  rolls all their needs up together, saves once, guards once, has one checkpoint
+  and one commit.
+- Every capability is measured against the limits as they stood at the start of
+  the run. Each capability that needs more gets its own box-move line and its own
+  decision, so no box-move hides behind another.
+- Inside a drive it writes one review record per capability, all from the one
+  run (ADR 029 says "one /understand record per capability").
+- All or nothing: if one capability cannot pass its checks, nothing is committed.
+
+**Not in this item:** detailing the capabilities at the same time. Detailing
+writes the model, and the parallel-work rule (`concurrent-fanout.md`) allows
+only read-only work to run at the same time; parallel writing waits for #488.
+That needs Kapil's word.
+
+**Needs:** item 5.
+
+### 7. Land it
+
+**What:** commit on the branch, update #640. Merge is Kapil's.
+**Needs:** item 6.
 
 ## Decided (Kapil, 2026-10-17: "A")
 
@@ -114,3 +146,8 @@ at that checkpoint.
   only deferred ones (the save step runs before the gate). Now on item 5.
 - 2026-10-17 — Committed on the branch (4 commits). Self-review: 0 blocking
   findings, 5 notes. Raising the pull request.
+- 2026-10-17 — Raised as #640; review approve (harness), 14 findings, none
+  blocking.
+- 2026-10-17 — Kapil: run all pending capabilities in one run, "fix that part
+  now". Added item 6; detailing stays one after another inside the run until
+  the parallel-writing rule allows more.
