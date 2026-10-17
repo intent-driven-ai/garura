@@ -8,7 +8,8 @@ from the person's recorded answers (answered_by: human), under an existing domai
 '<domain>/<capability>/capability.md' doc path, then promoted; without a seed it is still
 refused; a malformed seed file is refused, not a crash; an already-detailed capability is
 never re-detailed. Inside a drive (#615) a box-move decision is written `proposed`; by hand
-it stays `accepted`.
+it stays `accepted`. One run details many targets (#615): each manifest is keyed to its own
+target, a box-move is linked to the capability it names, and a refusal writes nothing.
 
     python3 test_persist_understand.py
 """
@@ -97,7 +98,7 @@ def test_existing_seed():
         cap = spine(root)["capabilities"][0]
         check("it is promoted to detailed", cap["detail"] == "detailed")
         check("the record says it was not seeded here",
-              read_json(os.path.join(work, "persist.json"))["seeded"] is False)
+              read_json(os.path.join(work, "persist.json"))["seeded"] == [])
 
 
 def test_absent_without_seed():
@@ -115,7 +116,8 @@ def test_absent_with_seed():
         check("the seed joins the named domain", cap["domain"] == "commerce")
         check("the seed is then detailed in the same run", cap["detail"] == "detailed")
         check("the seed keeps status proposed", cap["status"] == "proposed")
-        check("the record says seeded", read_json(os.path.join(work, "persist.json"))["seeded"] is True)
+        check("the record says seeded",
+              read_json(os.path.join(work, "persist.json"))["seeded"] == ["checkout"])
 
 
 def test_seed_refusals():
@@ -230,11 +232,90 @@ def test_box_move_status():
         check("a status other than accepted or proposed is refused", refused)
 
 
+def setup_two(tmp, moves):
+    """Two directional targets, checkout and refunds, one manifest each."""
+    caps = [{"id": cid, "domain": "commerce", "status": "proposed", "detail": "directional",
+             "doc": f"commerce/{cid}/capability.md"} for cid in ("checkout", "refunds")]
+    base, root, work = setup(tmp, caps)
+    paths = []
+    for cid in ("checkout", "refunds"):
+        path = os.path.join(work, f"enrich-{cid}.yaml")
+        with open(path, "w") as fh:
+            yaml.safe_dump({"enrich": {"capability_ref": cid,
+                                       "capability": {"nfr_needs": {"security": {"level": "xhigh"}}},
+                                       "functionalities": [{"id": f"{cid}-main", "capability": cid,
+                                                            "doc": f"commerce/{cid}/main/functionality.md"}]}},
+                           fh)
+        paths.append(path)
+    with open(os.path.join(work, "rollup.json"), "w") as fh:
+        json.dump({"box_moves": moves}, fh)
+    return base, root, work, paths
+
+
+def run_many(base, work, manifests, refs, extra=()):
+    argv = ["--product-base", base, "--proposed-profile", os.path.join(work, "profile.yaml"),
+            "--rollup-report", os.path.join(work, "rollup.json"), "--date", "2026-10-17",
+            "--out-manifest", os.path.join(work, "persist.json")]
+    for m in manifests:
+        argv += ["--enrich-manifest", m]
+    for r in refs:
+        argv += ["--capability-ref", r]
+    return pu.main(argv + list(extra))
+
+
+def test_many_targets():
+    moves = [{"capability": "checkout", "dimension": "security", "from": "high", "to": "xhigh"},
+             {"capability": "refunds", "dimension": "security", "from": "high", "to": "xhigh"}]
+    with tempfile.TemporaryDirectory() as tmp:
+        base, root, work, paths = setup_two(tmp, moves)
+        check("one run details two targets", run_many(base, work, paths, ["checkout", "refunds"]) == 0)
+        caps = {c["id"]: c for c in spine(root)["capabilities"]}
+        check("both targets are detailed",
+              caps["checkout"]["detail"] == "detailed" and caps["refunds"]["detail"] == "detailed")
+        funcs = {f["id"]: f["capability"] for f in spine(root)["functionalities"]}
+        check("each target keeps its own functionalities",
+              funcs == {"checkout-main": "checkout", "refunds-main": "refunds"})
+        for cid in ("checkout", "refunds"):
+            did = f"dec-{cid}-security-high-xhigh"
+            check(f"{cid} gets its own box-move decision",
+                  os.path.isfile(os.path.join(root, "decisions", f"{did}.yaml")))
+            check(f"{cid}'s decision is linked onto {cid} only", caps[cid].get("decisions") == [did])
+        rec = read_json(os.path.join(work, "persist.json"))
+        check("the record lists both targets", rec["changed"]["capabilities"] == ["checkout", "refunds"])
+
+
+def test_many_targets_refusals():
+    move = {"capability": "checkout", "dimension": "security", "from": "high", "to": "xhigh"}
+    cases = (
+        ("a manifest whose target is not named", lambda p: (p, ["checkout"])),
+        ("a named target with no manifest", lambda p: (p[:1], ["checkout", "refunds"])),
+        ("a target named twice", lambda p: (p, ["checkout", "refunds", "checkout"])),
+        ("two manifests for one target", lambda p: ([p[0], p[0]], ["checkout", "refunds"])),
+    )
+    for label, pick in cases:
+        with tempfile.TemporaryDirectory() as tmp:
+            base, root, work, paths = setup_two(tmp, [move])
+            manifests, refs = pick(paths)
+            check(f"{label} is refused", run_many(base, work, manifests, refs) == 2)
+            check(f"nothing written for {label}",
+                  all(c["detail"] == "directional" for c in spine(root)["capabilities"])
+                  and not os.path.isdir(os.path.join(root, "decisions")))
+    with tempfile.TemporaryDirectory() as tmp:
+        stray = dict(move, capability="cart")
+        base, root, work, paths = setup_two(tmp, [move, stray])
+        check("a box-move for a capability outside the run is refused",
+              run_many(base, work, paths, ["checkout", "refunds"]) == 2)
+        check("nothing written when a box-move is stray",
+              all(c["detail"] == "directional" for c in spine(root)["capabilities"])
+              and not os.path.isdir(os.path.join(root, "decisions")))
+
+
 def main():
     for test in (test_existing_seed, test_absent_without_seed, test_absent_with_seed,
                  test_seed_refusals, test_domain_folder_differs_from_id, test_seed_not_a_mapping,
                  test_sibling_containment,
-                 test_already_detailed, test_box_move_status):
+                 test_already_detailed, test_box_move_status, test_many_targets,
+                 test_many_targets_refusals):
         print(test.__name__)
         test()
     print(f"\n{PASSED} passed, {FAILED} failed")
