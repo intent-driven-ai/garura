@@ -199,8 +199,18 @@ concurrent fan-out (one batch, then join), not a serial loop, provided the three
 conditions hold (read-only over shared inputs, distinct output paths, no sibling
 dependency). The form and the required declaration are in
 [`references/workflow-structures.md`](references/workflow-structures.md) and
-`standards/rules/concurrent-fanout.md`. A step whose sub-tasks write to the repo stays
-serial (#488).
+`standards/rules/concurrent-fanout.md`.
+
+**Scoped-write fan-out (#615).** When a step writes the live model once per node — one
+agent per capability, each writing only that capability's own docs — write it as a
+scoped-write fan-out (one batch, then join), not a serial loop, provided all five of the
+rule's conditions hold: each sub-task has its own write scope (one node's folder, fixed and
+checked distinct by a script before dispatch); no sub-task writes a shared file (the spine,
+the profile, decisions — one keyed persist writes those after the join); distinct output
+paths; no sibling dependency; and the scoped write guard checks the whole delta before any
+commit. Name it "scoped-write fan-out" and declare its write scope, the no-shared-file
+condition and the join (`lint_play.py` checks this). Any other step whose sub-tasks write to
+the repo stays serial (#488).
 
 **Pre-flight script.** The start-up facts a play needs are always worked out the same way,
 so a script finds them, not the model. A script gives the same answer every run; reasoning
