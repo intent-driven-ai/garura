@@ -46,7 +46,9 @@ Three decisions are made (#592, #607, #619) and five things are shipped: plan mo
 **Issue:** #615. Started 17 October on `feature/615-understand-runs-inside-a-drive`;
 its plan: `.garura/project/issues/615/specs/plan.md`. Kapil chose that a
 box-move inside a drive is saved as `proposed` and waits for the drive's
-review. Built and checked; not yet raised.
+review. Raised as PR #640. Kapil also asked that one run details every
+pending capability, at the same time (a new "scoped-write" form in the
+parallel-work rule).
 **What:** the same change as item 5, for `/understand`.
 **Why here:** Kickoff's third play.
 **Done when:** the same as item 5, for `/understand`.
@@ -63,7 +65,7 @@ review. Built and checked; not yet raised.
 ### 8. Build the Kickoff drive
 
 **Issue:** #613.
-**What:** the drive itself. It asks all its questions first, runs `/intent` → `/vision` → `/understand` (once for each capability), stops only for a new question, has a different model or agent check the result, and writes its evidence. At its end review the person confirms or drops each intent `/intent` proposed (ADR 031, D10).
+**What:** the drive itself. It asks all its questions first, runs `/intent` → `/vision` → `/understand` (once, for all the capabilities), stops only for a new question, has a different model or agent check the result, and writes its evidence. At its end review the person confirms or drops each intent `/intent` proposed (ADR 031, D10).
 **Why here:** it needs all of items 3 to 7.
 **Done when:** a working prototype goes in; the person approves the plan; out come a plan and issues the person can read, and a detailed product model for the agents — checked and reviewed.
 **Needs:** items 3 to 7.
@@ -139,3 +141,6 @@ Not part of this plan; recorded so the gaps in time make sense.
 - 2026-10-17 — Item 6 (#615) started: change opened, plan written, Kapil chose
   A (box-moves inside a drive are `proposed` and wait for the drive's review).
   Built and checked on the branch; not yet raised.
+- 2026-10-17 — Item 6 raised as PR #640. Kapil added to it: one `/understand`
+  run details every pending capability, all at the same time. Item 8 now runs
+  `/understand` once for all capabilities, not once for each.

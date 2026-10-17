@@ -4,7 +4,7 @@ kind: story
 serves: "#615 — /understand runs inside a drive without stopping, and its review happens after the drive"
 status: active
 updated: 2026-10-17
-now: 6
+now: 7
 serves_plan: 606
 serves_item: 6
 ---
@@ -85,7 +85,12 @@ This is choice A, applied at the only point where it can be applied.
 - **5. Raised** — pull request #640; review-change verdict approve (harness),
   14 findings, none blocking.
 
-### 6. One run details every pending capability — now
+### Done (continued)
+
+- **6. Built: one run details every pending capability, at the same time** —
+  committed (27cfc37d, 797ad724, efd8af5a); self-review 0 blocking.
+
+### What item 6 does, in detail
 
 **Why:** Kapil, 2026-10-17: "understand needs to run for all the pending things
 / capabilities not one by one.. 1 a a time is to slow. fix that part now". One
@@ -117,7 +122,7 @@ using it says so. Parallel code-building stays with #488.
 
 **Needs:** item 5.
 
-### 7. Land it
+### 7. Land it — now
 
 **What:** commit on the branch, update #640. Merge is Kapil's.
 **Needs:** item 6.
@@ -158,3 +163,5 @@ at that checkpoint.
   (27cfc37d). Kapil chose "B": detail them at the same time. Added the
   scoped-write fan-out to the parallel-work rule and its lint check, and made
   /understand use it.
+- 2026-10-17 — Item 6 committed and self-reviewed (0 blocking, 8 notes).
+  Updating #640. Now on item 7.
