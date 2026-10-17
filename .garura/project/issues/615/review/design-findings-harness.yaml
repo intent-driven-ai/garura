@@ -1,167 +1,360 @@
 pr: 640
 issue: 615
+round: 2
 category: harness
-scope: "core/components/plays/understand/reference/ice.md and core/components/plays/understand/SKILL.md (the two harness paths). The scripts, the pipeline-position rule and the test are other categories."
+scope: "core/components/plays/understand/reference/ice.md and core/components/plays/understand/SKILL.md (compiled play), plus the two byte-identical play-creator/play-editor references/workflow-structures.md guides. Scripts, tests, the standards rules and lint_play.py belong to other categories; they are read here only as the thing the play's text must agree with."
 grounding:
-  - principle: "Intent changes (constraints, failures, scenarios, flow) go ICE source first, then recompile; never hand-edit a compiled SKILL.md for an intent change. No deviation notes or change logs in skill files."
-    source: "CLAUDE.md Play Pipeline Rules (on main)"
-  - principle: "A drive asks every question first, passes no stops for the plays' checkpoints (reviews happen after the drive ends), stops and asks on a new question and never picks an answer itself; the drive opens the issue, branch and PR and closes the change; plays inside open none and work on the drive's branch."
-    source: "main:docs/adr/029-drives.md sections 2 and 3"
+  - principle: "Intent changes go ICE source first, then recompile; a compiled SKILL.md is never hand-edited for an intent change; no deviation notes or change logs are added to skill files."
+    source: "CLAUDE.md, Play Pipeline Rules (checked in on main)"
+  - principle: "A drive asks every question first, passes no stops for the plays' checkpoints, stops and asks on a new question and never picks an answer itself; plays inside a drive open no issue or branch. Kickoff table: /understand 'Runs once for every capability /vision seeded, and details it'. Kickoff Done when: 'each play shows its saved record (one /understand record per capability)'."
+    source: "main:docs/adr/029-drives.md sections 2, 3 and 6 (lines 34-43, 63, 67)"
   - principle: "Every play a drive runs can also be run by hand; run by hand it depends on no other play and still stops as its gate settings say."
-    source: "main:docs/adr/029-drives.md section 4 and 'ADRs This Retires' (002 in part)"
-  - principle: "A drive asks questions but never stops for approval; the person confirms at the drive's final review (ADR 031 applies this to /intent: saved as proposed, confirmed at the drive's end review)."
-    source: "main:docs/adr/031-business-intent-and-ice.md part 5"
-  - principle: "Drive path of a play: (1) check the contract first, an invalid contract or wrong branch is a hard halt, no contract writes in_drive false and the play runs unchanged; (2) open nothing, skip start-change and the end sequence, but the play's own commit step still runs on the drive's branch; (3) resolve the checkpoint as by hand, never wait at a conditional one, write a review record only where the gate would WAIT; a pinned checkpoint is never deferred by a contract; (4) a question the drive did not answer stops the play; (5) a deferred crossing is recorded as deferred_to_drive_review."
-    source: "main:core/components/memory/standards/rules/drive-contract.md ('How a play runs inside a drive' 1-5)"
-  - principle: "A drive contract's answers are 'per play, the answers to the questions the play would ask ... question id to answer'."
-    source: "main:core/components/memory/standards/rules/drive-contract.md ('What a contract holds')"
-  - principle: "A conditional gate resolves first match wins (pinned, gates.plays override, learned policy, class, default); every crossing appends one ledger line; deferred_to_drive_review is skipped by the learner, neither an approval nor a reset."
-    source: "main:core/components/memory/standards/rules/gate-config.md (lines on deferred_to_drive_review and pinned gates)"
-  - principle: "Write-then-review: the keyed persist writes shared files (spine, profile, decisions) BEFORE the checkpoint so the shape sees the full delta; the gate guards the COMMIT, so 'nothing out-of-box is committed without approval'. Declared exceptions to confirm-before-write exist only for /intent and /adr, each named in the rule."
-    source: "main:core/components/memory/standards/rules/direct-model-write.md ('Order of operations', 'Declared exception' paragraphs); main:docs/adr/026-direct-to-model-writes.md"
-  - principle: "A box-move decision is a product-level decision 'proposed during /understand and accepted by a human'; status is one of proposed | accepted | superseded | rejected; accepted_by is empty while proposed."
+    source: "main:docs/adr/029-drives.md section 4 (line 47) and 'ADRs This Retires' (line 122)"
+  - principle: "Drive path of a play: check the contract first; open nothing; resolve the checkpoint as by hand, writing a review record only where the gate would WAIT; a question the drive did not answer stops the play; a deferred crossing is recorded as deferred_to_drive_review. Answers are 'per play ... question id to answer'."
+    source: "main:core/components/memory/standards/rules/drive-contract.md ('What a contract holds', 'How a play runs inside a drive' 1-5)"
+  - principle: "The LLM writes only per-node doc files; a keyed script owns every shared file; because the LLM never writes a shared file the file-level guard is sufficient. Write-then-review order: write everything, guard once, classify, checkpoint, commit; nothing out-of-box is COMMITTED without approval; declared exceptions to confirm-before-write exist only for /intent and /adr."
+    source: "main:core/components/memory/standards/rules/direct-model-write.md (item 3 lines 28-40, 'Order of operations' lines 93-129); main:docs/adr/026-direct-to-model-writes.md"
+  - principle: "BASE concurrent fan-out rule: a step may run sub-tasks at once only when they are read-only over shared inputs, write distinct output paths, and have no sibling dependency; 'A run whose sub-tasks WRITE the tree needs isolation - that is #488, not this'. Always bounded (fixed set) and joined."
+    source: "main:core/components/memory/standards/rules/concurrent-fanout.md (lines 5-8, 12-25, 28-40); #488 (open: parallel build-loop with worktree isolation)"
+  - principle: "Parallelism is allowed only for independent boxes and checks under one parent, 'possible last', after the budget wall is proven, because it 'multiplies whatever one loop does, including a runaway'; the skeleton stays deterministic at outcome level."
+    source: "main:docs/adr/025-level-3-redefined-skeleton-and-loop.md (lines 120-132)"
+  - principle: "A box-move is a product-level decision 'proposed during /understand and accepted by a human'; status is proposed | accepted | superseded | rejected."
     source: "main:core/components/memory/standards/schemas/product-os/decision.yaml (status, metadata.accepted_by, fill_rules)"
-  - principle: "The roll-up compares needs against the COMMITTED profile level on a set box, so a profile level raised by an earlier run becomes the ceiling for the next run."
-    source: "main:core/components/plays/understand/scripts/rollup_box.py (header: 'state == set -> any dimension whose need exceeds the committed level')"
-  - principle: "Precedent for a play inside a drive: /vision (#614) on main: contract check first, in_drive in run.json, T0 and E1-E4 marked skipped in a drive, clean tree 'at once', config skip and auto-pass recorded as by hand, only a would-wait gate becomes a review record and a deferred ledger line, F6/REC6 name the deferral as a valid resolution, commit on the drive's branch, stop on an unanswered goal."
-    source: "main:core/components/plays/vision/SKILL.md (pipeline position, pre-flight, Step 6, SE-13/SE-14, Recovery F6/F12/F13) and main:core/components/plays/vision/reference/ice.md C11"
+  - principle: "The roll-up compares needs against the box that is committed in the live spine at the moment it runs (it reads _spine.yaml's profile block)."
+    source: "main:core/components/plays/understand/scripts/rollup_box.py (header and profile read, as on main)"
+  - principle: "The persist refuses to re-detail a capability that is already detailed in the live spine."
+    source: "main:core/components/plays/understand/scripts/persist_understand.py (line 160 on main)"
+  - principle: "The enrich skill writes only the target node's docs - 'never a shared file, never a sibling node's doc' - and its declared inputs are capability, kb_domain, product_base, manifest_path, stm_base."
+    source: "main:core/components/skills/enrich-capability-ice/SKILL.md (Inputs table); main:core/components/agents/product-os-keeper.md (NEVER list, 'JSON Contract Mode')"
+  - principle: "Severity buckets: P1 blocker (halts ship), P2 major (error-handling, missing tests, structural violations), P3 minor (missing docs, borderline, naming), P4 nit."
+    source: "main:core/components/memory/standards/rules/pr.md (Severity buckets, lines 9-12). Design findings have no taxonomy row; they use the bucket definitions, as in round 1."
+  - principle: "Precedent for a play inside a drive: /vision (#614) on main."
+    source: "main:core/components/plays/vision/SKILL.md and reference/ice.md (C11, SE-13/SE-14, F6/F12/F13)"
+decision_record_note: "The one-run-for-all-capabilities choice and the scoped-write fan-out ('B') were chosen by Kapil on 2026-10-17. The only record of that choice is the PR's own plan (.garura/project/issues/615/specs/plan.md, item 6 and Log), which is cited here as the decision record, never as a design principle. No ADR or standards text on main records either choice (see H9, H10)."
+round1_status:
+  H1: "changed - the hidden-box-move half is fixed (every target is measured against the starting box inside one run, C7/C8/S8). The drop half is still open: nothing says what dropping a proposed decision does to a raised box. Kept as P3."
+  H2: "still open - SE-16 still reads 'when the gate did not auto-pass' (SKILL.md:588) and S7 still names only deferred or auto_pass (ice.md:274)."
+  H3: "still open - SE-15 still reads 'did not wait at Step 6 or Step 0a' (SKILL.md:585-586) against C1/C13 and Step 0a (a stop for an unanswered seed is required)."
+  H4: "still open - drive-contract.md is unchanged on main; the nested answers.understand.seeds.<capability> shape is still described only in the play."
+  H5: "changed - fixed in substance: one record per capability, named understand-<ts>-<capability>, ADR 029's Done-when is now met. A small residual remains (the writer stores the composite in recorded_at and has no capability field)."
+  H6: "still open - C8 ice.md:83 'COMMITTED only on approval', Done-means preamble ice.md:298 'accepted decision', and the #498 note SKILL.md:840 are unchanged."
+  H7: "still open - F14/REC14 ice.md:207-208, 360-361 unchanged."
+  H8: "still open, extended - D1-D3 unchanged; with the batch there is now also no clause proving every target landed."
 conformance_notes:
-  - "ICE-first discipline held: ice.md and SKILL.md changed together. The fingerprint in the SKILL.md metadata (sha256:575a3b68...cce79d2) equals shasum -a 256 of reference/ice.md (verified). stop-condition.yaml unchanged."
-  - "lint_play.py (play-creator and play-editor copies) on understand/SKILL.md: VERDICT PASS (0 gaps), including no orphans, failure coverage, scenario coverage, recovery 1:1, standard play close, stop condition, fingerprint. Counts in the compiled header and metadata agree with the ICE: C1-C13, F1-F15, S1-S7, SE-1..SE-16, SCE-1..SCE-7, 15 recoveries (11 autonomous, 4 human: F7, F9, F13, F14)."
-  - "Every SKILL.md change traces to ice.md: C13 -> pre-flight row, Run-by-hand-or-in-drive block, Task DAG skip marks, Step 0a drive branch, Step 4 --decision-status, Step 6 drive paragraph, Step 7 and end-sequence skip notes; C8/F7/REC7 -> the proposed reading; F14/F15 -> SE-15/SE-16 and Recovery rows; S7 -> SCE-7. The Role and Forbidden rewording ('persist before the checkpoint' -> 'commit before the checkpoint resolves') restates ice C9 ('nothing is COMMITTED before the gate resolves') and matches /vision's compiled wording on main; it also removes an existing contradiction with the write-then-review order (Step 4 persists before Step 6)."
-  - "Drive path matches drive-contract.md and ADR 029 section 2-3: contract checked first with the shared canonical check_drive_contract.py (byte-identical to play-creator/references, which is unchanged on main), invalid contract or wrong branch halts (REC14), open nothing (T0 and E1-E4 skipped, end-sequence block skipped), play's own model-delta commit still runs on the drive's branch, config skip and auto-pass resolve as by hand and only a would-wait gate becomes a review record plus a deferred ledger line, and a seed with no contract answers stops and asks, never filled in (C1/C13). The earlier /vision review's H1 (F6/REC6 not naming the deferral) and H2 (config skip order of resolution) do not recur: F7/REC7 name the deferral, and Step 6 and C13 resolve the gate first."
-  - "Box-move decision 'proposed' is consistent with the decision schema (status proposed is valid, accepted_by stays empty, the schema's own fill rule says the boundary move is 'proposed during /understand and accepted by a human'), the keyed persist is told by in_drive (not the gate outcome, because it runs before the gate), the default stays accepted, and a bad value is refused by argparse choices. F7/SE-9/SE-16/S7 judge it."
-  - "Run by hand unchanged: no contract writes in_drive false and every step reads as before; the only new by-hand step is the always-run contract check, as in /vision. The by-hand Step 6 text, approval prompt, cancel revert, Step 0 and E1-E4 are untouched; --decision-status defaults to accepted."
-  - "No deviation note or change log added to SKILL.md. The '#615' mentions in 'Compiled From' and the compiled_by cell follow the compiler-emitted pattern (#616 already sits there). The older deviation notes (#468, #498) are on main, not added here."
+  - "ICE-first held for this round. The SKILL.md fingerprint (sha256:395c8bd0...0821099) equals shasum -a 256 of reference/ice.md (checked). lint_play.py (play-creator and play-editor copies, run on understand/SKILL.md) gives VERDICT PASS, 0 gaps, including the concurrent fan-out and the new scoped-write fan-out checks. Counts agree: C1-C14, F1-F16, S1-S8, SE-1..SE-17, SCE-1..SCE-8, 16 recoveries. (The recovery split in the metadata is wrong, see H15.)"
+  - "No deviation note or change log was added to SKILL.md in this round (grep over the added lines). The '#615' tokens sit in Compiled From, the description and compiled_by, the compiler-emitted places. The older #468/#498 notes are on main."
+  - "The batch keeps run-level containment and atomicity. Targets and scopes come from pick_targets.py, which refuses a seed with no human answers, a named detailed target and any two overlapping folders. The persist checks every manifest, seed, capability and box-move before the first write, so a refusal leaves the model untouched (persist_understand.py lines 98-232 run before the first write at 237). One guard run covers the union of scopes plus the spine and decisions (SKILL.md Step 5). Halt on any failed target reverts with guard --restore (Step 2 end, REC16). One checkpoint and one commit (Step 7). The only weakening is between sibling targets (H18)."
+  - "Step 1 conforms to the five conditions of the NEW scoped-write rule (own scope declared before dispatch and checked distinct, no shared file, distinct manifest paths, no sibling read, guard after join and commit after checkpoint). It does NOT conform to the BASE rule, whose condition 1 and line 17 forbid sub-tasks that write the tree. The play is therefore only conformant if the rule change ships with it (H10)."
+  - "The drive path still matches drive-contract.md and ADR 029: contract checked first, nothing opened, own model commit on the drive's branch, config skip and auto-pass resolve as by hand, only a would-wait gate writes records plus one deferred ledger line, unanswered seed stops and asks. Run by hand is unchanged apart from the batch. The review-record naming fits write_drive_review.py mechanically: it only rejects a --ts with a slash, a backslash or a leading dot (write_drive_review.py:51), and writes <review_dir>/<play>-<ts>.md/.json."
+  - "Step 0a ordering is sound: all absent targets are asked in one round before start-change, answers land in STM only, pick_targets.py is re-run so the seeds count and every target gets a scope; run.json answers.seeds.<capability> (SKILL.md) is the same data as the contract's answers.understand.seeds.<capability> (ice.md C13), because check_drive_contract.py copies answers.<play> into run.json."
+  - "Resume: a resume after Step 0a reuses each seed.yaml and the in-progress targets.json, which correctly avoids re-picking after the persist has already marked targets detailed (SKILL.md:798-808)."
 findings:
   - id: H1
     category: harness
     severity: P3
-    title: "Inside a drive the box is raised and committed while its decision is only proposed; the play does not say what dropping the decision does to the raised box, and a later capability in the same drive reads the raised ceiling"
+    status: changed
+    title: "Inside a drive a box is raised and committed while its decision is only proposed; the play still does not say what dropping the decision does to the raised box"
     path: core/components/plays/understand/reference/ice.md
-    also: core/components/plays/understand/SKILL.md
-    principle: "A box-move has two halves, the raised profile level and its decision. The write-then-review rule guarantees nothing out-of-box is committed without approval and declares exceptions only for /intent and /adr; the roll-up reads the committed profile level as the ceiling, so a committed raise stands for the next run. A play that commits the raise on a deferral must say how the drive's review can undo it."
-    source: "main:core/components/memory/standards/rules/direct-model-write.md ('Order of operations' final paragraph, 'Declared exception' paragraphs for /intent and /adr); main:core/components/plays/understand/scripts/rollup_box.py (header: committed level); main:core/components/memory/standards/schemas/product-os/decision.yaml (status values proposed | accepted | superseded | rejected); main:docs/adr/031-business-intent-and-ice.md part 5 (the same 'confirm or drop at the end review' shape, with alignment cleaning up after a drop)"
+    line: "83-87, 140-161"
+    also: "core/components/plays/understand/SKILL.md:573-579"
+    principle: "A box-move has two halves, the raised profile level and its decision. Write-then-review guarantees nothing out-of-box is COMMITTED without approval and names only /intent and /adr as declared exceptions; the roll-up reads the committed box as the next ceiling."
+    source: "main:core/components/memory/standards/rules/direct-model-write.md lines 109-129; main:core/components/plays/understand/scripts/rollup_box.py (reads the live profile); main:core/components/memory/standards/schemas/product-os/decision.yaml (status values); main:docs/adr/031-business-intent-and-ice.md part 5"
     detail: >
-      C8 and C13 say each box-move is written with its decision proposed and 'the drive's review accepts or
-      drops it'. But the keyed persist has already raised the profile dimension, and Step 7 commits that raise
-      on the drive's branch. Nothing in C8, C13, F7/F15, REC7 or S7 says what 'drops it' does to the profile:
-      a rejected decision with the box still raised leaves the model saying the box moved with no decision
-      behind it. Kickoff runs /understand once per capability (ice.md's own pipeline paragraph), and
-      rollup_box.py compares needs to the committed level, so the second capability's need that fits inside
-      the first run's raised box is read as in-box and never appears as a box-move line for the person, even if
-      the first move is later dropped. direct-model-write.md still says nothing out-of-box is committed without
-      approval and names /intent and /adr as the only declared exceptions; the branch adds a third behaviour
-      (commit on deferral) without that rule naming it. Not a blocker (the commit is on the drive's branch, the
-      decision exists as a record and the choice was made on #606), but the drop path should be stated. Fix in
-      ice.md first: one sentence in C8/C13 that a dropped decision is reversed by the drive's review (or that
-      the box stays raised and the drop supersedes it), and one line in direct-model-write.md as a declared
-      exception (a memory-category follow-up).
+      Round 1 also said a second capability in the same drive would read the first one's raised box and hide
+      its own box-move. That half is fixed: one run measures every target against the starting box (C7, S8).
+      What is left: C8/C13 say the drive's review 'accepts or drops' each proposed decision, but the keyed
+      persist has already written the raised profile and Step 7 commits it. A dropped (rejected) decision
+      leaves a model whose box moved with no decision behind it, and a later /understand reads that raised
+      box as the committed ceiling. Nothing in C8, C13, F7, REC7 or S7 says the drop also lowers the box or
+      supersedes it. direct-model-write.md still names only /intent and /adr as exceptions to
+      nothing-committed-before-approval; commit-on-deferral is a third. Fix in ice.md first: one sentence
+      saying what a drop does to the box, then name the exception in direct-model-write.md (memory follow-up).
   - id: H2
     category: harness
     severity: P3
-    title: "SE-16 expects a review record whenever the gate did not auto-pass, but Step 6 and C13 write none when a config skip resolves the gate; a skipped gate leaves proposed box-moves with no record for the drive's review"
+    status: open
+    title: "SE-16 expects a review record whenever the gate did not auto-pass, but a config skip writes none"
     path: core/components/plays/understand/SKILL.md
-    also: core/components/plays/understand/reference/ice.md
-    principle: "Inside a drive a config skip is recorded as a skip, as by hand, and only a would-wait gate becomes a review record. A play's evals must judge the same cases its steps produce. And because /understand writes box-move decisions as proposed, the drive's review has to be able to find every one of them."
-    source: "main:core/components/memory/standards/rules/drive-contract.md ('How a play runs inside a drive' item 3); main:core/components/memory/standards/rules/gate-config.md (config skip and ledger lines); main:core/components/plays/vision/SKILL.md SE-14 (same wording, the precedent this inherits)"
+    line: "588-595 (SE-16), 491-493 (Step 6)"
+    also: "core/components/plays/understand/reference/ice.md:148-155, 266-278 (C13, S7)"
+    principle: "Inside a drive a config skip is recorded as a skip, as by hand; only a would-wait gate becomes a review record and a deferred ledger line. A play's evals must judge the cases its steps produce."
+    source: "main:core/components/memory/standards/rules/drive-contract.md ('How a play runs inside a drive' item 3); main:core/components/memory/standards/rules/gate-config.md; main:core/components/plays/vision/SKILL.md SE-14"
     detail: >
-      SKILL.md Step 6 (drive paragraph) and ice C13 say a config skip is 'recorded as a skip' and the review
-      record is written only 'where the gate resolves ON'. SE-16 (and S7's measure) then say 'when the gate did
-      not auto-pass, a <review_dir>/understand-<ts>.json record exists ... the ledger line reads
-      deferred_to_drive_review (or auto_pass ...)'. A gates.plays.understand off run is neither an auto-pass nor
-      a deferral, so a correct run fails SE-16, or a play following SE-16 writes a review record the config said
-      not to. The same gap has a real consequence here that /vision did not have: with the gate skipped by
-      config, a run that raised the box leaves a proposed decision in the model and no review record naming it
-      as its own line, so the drive's review can miss it. Say in C13 first how a skipped or auto-passed gate
-      that moved the box still reaches the review (for example, a record that carries the box-moves whenever
-      any move exists), then align SE-16 and S7 to name the config-skip case.
+      Step 6 and C13 write records only where the gate resolves ON. SE-16 says 'when the gate did not
+      auto-pass, for each target a review record exists ... the ledger reads deferred_to_drive_review (or
+      auto_pass)'. A gates.plays.understand off run is neither, so a correct run fails SE-16, or a play that
+      follows SE-16 writes records the config said not to. The gap matters more here: with the gate skipped,
+      a run that raised the box leaves proposed decisions and no record naming them. Say first in C13/S7 how a
+      skipped or auto-passed gate that moved the box still reaches the drive's review, then align SE-16 and
+      SCE-7.
   - id: H3
     category: harness
     severity: P3
-    title: "SE-15 says an in-drive run 'did not wait at Step 0a', but C1, C13 and Step 0a require the play to stop and ask when the contract has no seed answers"
+    status: open
+    title: "SE-15 says an in-drive run 'did not wait at Step 6 or Step 0a', but C1, C13 and Step 0a require the play to stop and ask when a seed has no contract answers"
     path: core/components/plays/understand/SKILL.md
-    also: core/components/plays/understand/reference/ice.md
-    principle: "A drive does not stop for plays' checkpoints, but a question the drive did not answer stops the play; the play never picks an answer itself."
-    source: "main:docs/adr/029-drives.md section 2 ('A new question stops it'); main:core/components/memory/standards/rules/drive-contract.md ('How a play runs inside a drive' item 4)"
+    line: "584-587; Step 0a 235-240"
+    also: "core/components/plays/understand/reference/ice.md:49-53, 159-161, 206-208"
+    principle: "A drive does not stop for the plays' checkpoints, but a question the drive did not answer stops the play and the play never picks the answer."
+    source: "main:docs/adr/029-drives.md section 2 (line 36); main:core/components/memory/standards/rules/drive-contract.md item 4"
     detail: >
-      SE-15 (F14/C13): 'Inside a drive ... the run did not wait at Step 6 or Step 0a'. Step 0a's drive text, C1
-      and C13 all say that with no answers in the contract for an absent capability the play 'stops and asks the
-      person'. That is the required behaviour under ADR 029, yet a run that did it reads as failing SE-15 (and
-      F14 'waited'). Only the wait at the checkpoint is forbidden. Fix in ice.md first (the F14 and S7 text,
-      then SE-15 on recompile): scope the no-wait to the checkpoint, and say a stop for an unanswered question
-      is the permitted exception.
+      With the batch, Step 0a is now the one place a drive can legitimately stop (any capability with no
+      contract answers). A run that correctly stopped and asked reads as failing SE-15. Only the wait at the
+      checkpoint is forbidden. Fix in ice.md (F14 and S7 text), recompile SE-15 to scope the no-wait to Step 6.
   - id: H4
     category: harness
     severity: P4
+    status: open
     title: "The play reads nested seed answers (answers.understand.seeds.<capability>.one_line/why/domain) that drive-contract.md does not describe"
     path: core/components/plays/understand/reference/ice.md
-    also: core/components/plays/understand/SKILL.md
-    principle: "A drive writes one contract for all plays and asks every question first; the contract describes answers as 'question id to answer'. The questions /understand needs the drive to ask must be declared where the drive (#613) can find them."
-    source: "main:core/components/memory/standards/rules/drive-contract.md ('What a contract holds', answers row); main:docs/adr/029-drives.md section 2 (questions first)"
+    line: "146-147"
+    also: "core/components/plays/understand/SKILL.md:147-151"
+    principle: "One contract serves every play and describes answers as 'question id to answer'; the questions a play needs the drive to ask must be findable by the drive (#613)."
+    source: "main:core/components/memory/standards/rules/drive-contract.md ('What a contract holds'); main:docs/adr/029-drives.md section 2"
     detail: >
-      C13 and Step 0a name a per-capability nested shape for the seed answers. The shared checker only requires
-      answers.<play> to be an object, so the shape passes, but the rule never says answers may nest by
-      capability. This is the same low-risk gap as /vision's earlier H4: worth one line (in the rule, or the
-      play's contract paragraph) listing the three question ids so the Kickoff drive knows what to ask per
-      capability. SE-16 also checks the seed equals the contract's answers, so the shape is at least testable.
+      The shared checker only requires answers.<play> to be an object, so the shape passes, but the rule never
+      says answers may nest by capability. The batch makes it matter more: Kickoff must ask three questions
+      per capability and the contract is the only place those are written. One line in the rule (memory
+      follow-up) listing the three question ids per capability would close it.
   - id: H5
     category: harness
     severity: P4
-    title: "The review record is named understand-<ts> and carries no capability, though Kickoff runs /understand once per capability and ADR 029 expects one record per capability"
-    path: core/components/plays/understand/reference/ice.md
-    also: core/components/plays/understand/SKILL.md
-    principle: "Each play shows its saved record, one /understand record per capability, so the drive's review can tell them apart."
-    source: "main:docs/adr/029-drives.md section 6 ('Done when': 'one /understand record per capability'); main:core/components/memory/standards/rules/drive-contract.md ('drive_run_id ... so the drive's review can find each play's record')"
+    status: changed
+    title: "Review records are now one per capability, but the canonical writer stores the composite '<run ts>-<capability>' in recorded_at and has no capability field"
+    path: core/components/plays/understand/SKILL.md
+    line: "497-508"
+    also: "core/components/plays/understand/scripts/write_drive_review.py:33, 51, 73 (canonical copy in play-creator/references, byte-identical)"
+    principle: "Each play shows its saved record, one /understand record per capability, so the drive's review can tell them apart. The writer's own contract is '--ts the run's UTC timestamp' and 'must be a plain timestamp'."
+    source: "main:docs/adr/029-drives.md section 6 (line 67); main:core/components/memory/standards/rules/drive-contract.md ('drive_run_id ... so the drive's review can find each play's record')"
     detail: >
-      C13, S7 and SE-16 say each run leaves its own record at <review_dir>/understand-<ts>.json. The canonical
-      writer names the file by play and timestamp only and records no capability; the capability shows only
-      inside the summary and the attachment paths. Two runs started in the same second would overwrite each
-      other, and a reader of the JSON cannot tell which capability it is. Have the play put the capability in
-      the summary's first line and check it in SE-16 (the writer is shared, so the fix is on the play side or a
-      follow-up on the canonical script).
+      Fixed in substance: ADR 029's Done-when is now met and the names cannot collide between targets. The
+      residual: the play fits the shared writer by passing --ts <run ts>-<capability>, so recorded_at in the
+      JSON is not a timestamp and the capability is readable only from the file name and the summary. The
+      drive review (#617) reading recorded_at as a time would break. Either carry the capability in the
+      summary's first line (SE-16 can check it) or add an optional subject to the canonical writer.
   - id: H6
     category: harness
     severity: P4
-    title: "Three stale statements still read as if nothing is committed without an approval and every decision is accepted"
+    status: open
+    title: "Three statements still read as if nothing is committed without an approval and every decision is accepted"
     path: core/components/plays/understand/reference/ice.md
-    also: core/components/plays/understand/SKILL.md
+    line: "83 (C8), 297-299 (Done means preamble)"
+    also: "core/components/plays/understand/SKILL.md:572-579 (SE-8), 840 (#498 note); the Done means preamble exists only in ice.md"
     principle: "A compiled play is one contract read whole every run; an intent change must reword every sentence that enumerates how a gate resolves or what status a decision has."
-    source: "CLAUDE.md Play Pipeline Rules (the compiled file is the generated whole); main:core/components/plays/vision/SKILL.md (precedent reworded its F6/REC6 for the deferral)"
+    source: "CLAUDE.md Play Pipeline Rules; main:core/components/plays/vision/SKILL.md (precedent rewording F6/REC6)"
     detail: >
-      (a) ice.md C8 still says each box-move decision is 'COMMITTED only on approval' with no in-drive
-      clause, while C13 commits it on a deferral; the in-drive reading sits only in the sentence added after it.
-      (b) The Done means preamble in ice.md (and the Done means paragraph in SKILL.md) says 'each box-move's
-      accepted decision are stamped in the persist record'; inside a drive it is a proposed decision.
-      (c) The older '#498 Recompiled note' in SKILL.md ('Nothing out-of-box is COMMITTED before approval')
-      predates this change. None breaks the drive path; reword (a) and (b) in ice.md with the next edit.
+      C8 still says each box-move decision is 'COMMITTED only on approval' with the in-drive reading only in a
+      later sentence; the Done-means preamble still says 'each box-move's accepted decision'; SE-8 says the
+      move is 'COMMITTED ... only here on approval' while Step 7 is where it is committed and the same
+      sentence then allows commit on deferral. None breaks the drive path; reword with the next ICE edit.
   - id: H7
     category: harness
     severity: P4
+    status: open
     title: "F14 and REC14 call a by-hand run that 'skipped its checkpoint' a failure, though a config skip or learned auto-pass legitimately skips it"
     path: core/components/plays/understand/reference/ice.md
+    line: "206-208, 358-362"
     principle: "Run by hand, a play still stops as its gate settings say; a config skip and a policy auto-pass are valid resolutions of a conditional gate."
-    source: "main:docs/adr/029-drives.md section 4 and 'ADRs This Retires' (002 in part); main:core/components/memory/standards/rules/gate-config.md"
-    detail: >
-      F14's tail: 'run by hand, it skipped its opening, its checkpoint or its end sequence'; REC14: 'by hand, run
-      the skipped step'. SE-15 reads more carefully ('Step 6 ... ran as written'). Add 'unless its gate
-      settings resolved it' to F14 and REC14 so the failure and the eval agree. The same wording sits on main in
-      /vision's F12, so this is low risk.
+    source: "main:docs/adr/029-drives.md section 4 and 'ADRs This Retires'; main:core/components/memory/standards/rules/gate-config.md"
+    detail: "Add 'unless its gate settings resolved it' to F14 and REC14 so the failure and SE-15 agree. The same wording sits on main in /vision's F12."
   - id: H8
     category: harness
     severity: P4
-    title: "Done means (D1-D3) is unchanged, so the in-drive path (record written, decisions proposed, no wait) is proven only by step evals SE-15/SE-16, not at close"
+    status: open
+    title: "Done means (D1-D3) is unchanged, so neither the in-drive path nor 'every target landed' is proven at close"
     path: core/components/plays/understand/reference/ice.md
-    principle: "A play's Done means is composed from the scenarios' measures and the artifact-verifiable constraints; S7's measure lists the review record, the ledger line and the proposed decisions, all artifact-verifiable."
-    source: "main:core/components/plays/play-creator/SKILL.md ('Done means (#464)'); main:core/components/plays/understand/stop-condition.yaml (D1-D3 as on main); main:core/components/plays/vision (same choice, merged under #614)"
+    line: "288-307"
+    principle: "A play's Done means is composed from the scenarios' measures and the artifact-verifiable constraints."
+    source: "main:core/components/plays/play-creator/SKILL.md ('Done means (#464)'); main:core/components/plays/understand/stop-condition.yaml (D1-D3 as on main); main:core/components/plays/vision (same choice under #614)"
     detail: >
-      D1-D3 still hold on both paths (persist-manifest.json, changed.profile, guard-report ok are all written
-      before Step 6), so this is a coverage gap, not a regression. A drive run with no review record or an
-      accepted decision would still close COMPLETED; only SE-15/SE-16 would notice. /vision made the same choice
-      on main. If the closed clause set cannot hold a conditional clause, say in the ICE that SE-15/SE-16 hold
-      the in-drive record, rather than leave S7's measure implying a close check.
+      D1-D3 still hold on both paths. New with the batch: no clause compares persist-manifest
+      changed.capabilities with targets.json, so a persist that missed a target still reads held. S7 and S8
+      state those measures but only SE-15/16/17 would notice. If the closed clause set cannot hold a
+      conditional clause, say in the ICE that the step evals carry them.
+  - id: H9
+    category: harness
+    severity: P3
+    status: new
+    title: "ADR 029 still says /understand 'runs once for every capability'; the play now runs once for all of them, with no amendment to the ADR"
+    path: core/components/plays/understand/reference/ice.md
+    line: "6-27, 29, 162-172"
+    also: "core/components/plays/understand/SKILL.md:10-25, 27"
+    principle: "A play's drive behaviour is set by the drive ADR; later changes to a drive's shape are recorded by amending that ADR (as ADRs 030 and 031 did in its Status line)."
+    source: "main:docs/adr/029-drives.md lines 3, 63, 67 (Status amendments; Kickoff table; Done when); decision record: .garura/project/issues/615/specs/plan.md item 6 (Kapil, 2026-10-17)"
+    detail: >
+      ADR 029 section 6 reads as one /understand run per capability; the play (and ICE pipeline paragraph)
+      now says 'Kickoff runs it once for all the capabilities' and leaves one record per capability so the
+      Done-when line still holds. The choice is legitimate (Kapil's, on the plan), but the ADR on main and the
+      play now disagree and a reader of the ADR will expect N runs. Add a short amendment line to ADR 029
+      (docs/adr category) or record the decision in an ADR; not a blocker.
+  - id: H10
+    category: harness
+    severity: P3
+    status: new
+    title: "Step 1 is conformant only to the changed fan-out rule; against the base-ref rule it is a forbidden writing fan-out, and the rule change has no decision record outside the PR's plan"
+    path: core/components/plays/understand/SKILL.md
+    line: "266-274, 310-315; ice.md 162-172"
+    also: "core/components/plays/play-creator/references/workflow-structures.md (and the play-editor copy, identical)"
+    principle: "The fan-out rule names the ONE exception to the deterministic skeleton and sends sub-tasks that WRITE the tree to #488 (worktree isolation); parallelism is allowed 'last', under one parent, bounded and joined, because it multiplies a runaway. Widening that exception is itself a design decision."
+    source: "main:core/components/memory/standards/rules/concurrent-fanout.md lines 5-8, 12-25 (condition 1 and its parenthesis, line 17); main:docs/adr/025-level-3-redefined-skeleton-and-loop.md lines 125-132; main:core/components/memory/standards/rules/direct-model-write.md item 3 (lines 28-40); #488 (open). Decision record: plan.md item 6 (Kapil, 2026-10-17, 'B')"
+    detail: >
+      Judged against the base rule, Step 1 breaks condition 1 (read-only) and so must stay serial. Judged
+      against the new five-condition rule it conforms (see conformance_notes), and the new rule is consistent
+      with direct-model-write.md item 3: the sub-tasks write only per-node docs and one keyed persist owns the
+      shared files. So the play and the rule must ship together and the rule change is the weightiest design
+      decision in the PR (the memory category tests the rule text itself). Nothing on main records the
+      decision: it is not in ADR 025/026 and #488 is a different thing (code builds with worktrees). Recommend
+      a one-paragraph amendment on ADR 025 or 026 (or a decision note on #488) naming the scoped-write
+      fan-out as the second allowed form. The two workflow-structures.md guides follow the new rule and are
+      identical to each other.
+  - id: H11
+    category: harness
+    severity: P3
+    status: new
+    title: "S7, SE-16 and SE-9 test a field the earlier step never records: persist-manifest.json box_moves carries no decision status"
+    path: core/components/plays/understand/SKILL.md
+    line: "433-435 (SE-9), 593-595 (SE-16), 682-683 (SCE-7)"
+    also: "core/components/plays/understand/reference/ice.md:275-276 (S7); scripts/persist_understand.py:233, 269-270"
+    principle: "A step eval is a check that can be run from artifacts an earlier step records; the Done-means and measures name verifiable fields."
+    source: "main:core/components/plays/play-creator/SKILL.md ('Done means (#464)': artifact-verifiable clauses); main:core/components/plays/understand/scripts/persist_understand.py (manifest shape: written, capability_refs, seeded, changed, box_moves)"
+    detail: >
+      S7 says 'every decision in persist-manifest.json box_moves reads proposed' and SE-16 repeats it. The
+      persist writes box_moves as a straight copy of the roll-up's moves (dimension, from, to, capability), and
+      changed.decisions holds ids only. The status exists only inside decisions/<id>.yaml. A correct run
+      cannot satisfy the eval as written. Say in the ICE that the status is read from the written decision
+      records (SE-9 already says 'and the written decision records'), or have the persist stamp it into the
+      manifest.
+  - id: H12
+    category: harness
+    severity: P3
+    status: new
+    title: "ICE S6 still names '<working>/seed.yaml' and 'seeded: true'; the compiled SCE-6 was updated to the per-capability path and the seeded list, so SKILL.md and ice.md disagree"
+    path: core/components/plays/understand/reference/ice.md
+    line: "259-265"
+    also: "core/components/plays/understand/SKILL.md:671-675 (SCE-6)"
+    principle: "The compiled play must trace to the ICE it is fingerprinted against; a rebuild from the ICE must reproduce the compiled evals."
+    source: "CLAUDE.md Play Pipeline Rules (ICE is the intent source; recompile from it); main:core/components/plays/understand/scripts/persist_understand.py (manifest 'seeded' is a list, as on this branch)"
+    detail: >
+      S6's measure was left as on main. Seeds now live at <working>/caps/<capability>/seed.yaml and the
+      persist record's seeded is a list of capability ids. SCE-6 says that; the ICE says the old thing, so the
+      next recompile would bring the stale, unrunnable measure back. Fix S6 in ice.md first.
+  - id: H13
+    category: harness
+    severity: P3
+    status: new
+    title: "REC16 tells the play to re-run the roll-up 'against the starting box', but after the persist the live spine already holds the raised box and the roll-up reads the live spine"
+    path: core/components/plays/understand/reference/ice.md
+    line: "369-375, 72-77"
+    also: "core/components/plays/understand/SKILL.md:796 (F16 row), 366, 470-472; scripts/rollup_box.py:80"
+    principle: "C7: every target is measured against the box as it stood at the start of the run. The roll-up reads the committed box in the live spine when it runs; the persist refuses a capability that is already detailed."
+    source: "main:core/components/plays/understand/scripts/rollup_box.py (profile read from the live spine); main:core/components/plays/understand/scripts/persist_understand.py line 160"
+    detail: >
+      Inside Step 3 the roll-up is correct (the persist has not run). After Step 4, REC16 (and F11's
+      'rerun the persist', Step 5's 're-persist') cannot be done as written: the roll-up would now see the
+      raised box and report no box-moves, which is exactly the F16 failure it is meant to cure, and the persist
+      would refuse the now-detailed targets. The all-or-nothing line says to revert the uncommitted delta
+      first, which is the working path; say so in REC16 and Step 5 (revert with guard --restore, then re-run
+      from Step 3), and say the roll-up input is the spine as at HEAD.
+  - id: H14
+    category: harness
+    severity: P4
+    status: new
+    title: "Step 2 and SE-5 still say the keyed persist runs 'after approval' and in 'Step 6'; the persist is Step 4, before the checkpoint"
+    path: core/components/plays/understand/SKILL.md
+    line: "325-328, 358"
+    principle: "A compiled play is one contract read whole; step references must match the step order."
+    source: "main:core/components/plays/understand/SKILL.md (the same text sits on main at lines 256-258, 287, left from #498); main:core/components/memory/standards/rules/direct-model-write.md 'Order of operations'"
+    detail: >
+      Carried from main, not introduced here, but the PR rewrote the paragraph around it and Step 4 now says the
+      opposite ('written BEFORE the checkpoint'). It tells the reader the spine is not yet mutated 'after
+      approval' and that spine-doc consistency waits for 'Step 6'. Reword to 'Step 4 / before the checkpoint'
+      in ice.md-driven recompile.
+  - id: H15
+    category: harness
+    severity: P4
+    status: new
+    title: "Compilation Metadata says 16 recoveries, 12 autonomous / 4 human; the play has 11 autonomous and 5 human (F1, F7, F9, F13, F14)"
+    path: core/components/plays/understand/SKILL.md
+    line: "826"
+    principle: "Compiled metadata states counts the ICE yields."
+    source: "main:core/components/plays/understand/reference/ice.md (handoff lines: main had 4 human; main's metadata already said 3); lint_play.py checks counts of recoveries, not the split"
+    detail: "Counted in ice.md: 5 'handoff: human', 11 'handoff: autonomous'; the SKILL.md Recovery table agrees (5 human, 11 autonomous). The metadata line is stale and the linter does not catch the split."
+  - id: H16
+    category: harness
+    severity: P4
+    status: new
+    title: "'Nothing pending, end at once' leaves the close undefined: no persist record exists, so the stop condition cannot read held"
+    path: core/components/plays/understand/reference/ice.md
+    line: "37-40"
+    also: "core/components/plays/understand/SKILL.md:132-133, 692-733"
+    principle: "The close never reads COMPLETED with the stop-condition verdict unmet; every play ends with the Standard Play Close."
+    source: "main:core/components/memory/standards/rules/play-close.md (Standard Play Close); main:core/components/plays/understand/stop-condition.yaml (D1-D3 as on main); ice.md C11 on main"
+    detail: >
+      A run with nothing pending (common once Kickoff has run) writes none of D1-D3's artifacts. 'End at once,
+      opening nothing' does not say whether Step 9 runs and what it records (HALTED with no work, or a
+      COMPLETED no-op that skips the verdict). Name the no-op end in C1 and S-level text and make the close
+      honest about it.
+  - id: H17
+    category: harness
+    severity: P4
+    status: new
+    title: "Step 1 and C14 do not say what happens when one dispatch errors or returns no manifest while its siblings have already written docs"
+    path: core/components/plays/understand/SKILL.md
+    line: "266-274, 310-315, 363-366"
+    also: "core/components/plays/understand/reference/ice.md:170-172"
+    principle: "A fan-out is bounded and joined; if any sub-task fails, no later step sees a partial set; all-or-nothing means nothing is committed."
+    source: "main:core/components/memory/standards/rules/concurrent-fanout.md ('The bounded join', lines 28-40)"
+    detail: >
+      The all-or-nothing line covers a target that 'cannot pass its checks after its recovery' (Step 2) and
+      a stray write (REC16). A dispatch that fails outright is not a check. The join waits for every dispatch,
+      then SE-17 notices a missing manifest, but no step says to revert the siblings' uncommitted docs and
+      halt. State it in C14 and Step 1.
+  - id: H18
+    category: harness
+    severity: P4
+    status: new
+    title: "SE-17 and F16 promise a per-dispatch scope check the harness cannot make: the guard sees only the union of scopes and nothing records which dispatch wrote what"
+    path: core/components/plays/understand/SKILL.md
+    line: "310-315, 454-472"
+    also: "core/components/plays/understand/reference/ice.md:214-218, 162-172"
+    principle: "Run-level containment is the guard plus the keyed persist; each sub-task is told one scope before dispatch. The changed rule itself states that a stray write into a sibling's scope 'stays inside the union'."
+    source: "main:core/components/memory/standards/rules/direct-model-write.md item 3-4 (guard is file-level, run-level); main:core/components/skills/enrich-capability-ice/SKILL.md Inputs ('never a sibling node's doc')"
+    detail: >
+      Run-level containment (C10, D3) holds. Between siblings it is trust plus downstream checks (linter,
+      judges, checkpoint). SE-17 ('every new or changed doc lies inside its target's scope', 'dispatched once
+      per target in one concurrent batch, joined') names evidence that nobody records: there is no dispatch log
+      and no per-dispatch file list, and a path-in-scope test cannot say which dispatch wrote it. Soften SE-17
+      to what is checkable (every changed path lies inside some target's scope and the manifests exist) and
+      let the batch's single message be the evidence of concurrency. Low risk.
+  - id: H19
+    category: harness
+    severity: P4
+    status: new
+    title: "The fan-out is bounded only by 'every pending capability': N targets mean N concurrent writers plus one judge per doc at once, with no cap or batching"
+    path: core/components/plays/understand/reference/ice.md
+    line: "162-172"
+    also: "core/components/plays/understand/SKILL.md:266-268, 337-340"
+    principle: "Parallelism multiplies a runaway; it is allowed under one parent after the budget wall exists, as a fixed bounded set."
+    source: "main:docs/adr/025-level-3-redefined-skeleton-and-loop.md lines 125-127; main:core/components/memory/standards/rules/concurrent-fanout.md ('Bounded')"
+    detail: "The set is fixed when the step starts, so the rule's boundedness holds. A seeded product with many capabilities still puts that many agents and judges in one batch. A maximum batch width (or batching in input order) would keep the cost predictable; the ICE says nothing."
+  - id: H20
+    category: harness
+    severity: P4
+    status: new
+    title: "The agent and skill contracts were not updated for the scoped-write dispatch: write_scope is an undeclared input, the skill still names '<working>/seed.yaml', and agent self-recovery can rebuild a shared KB index"
+    path: core/components/plays/understand/SKILL.md
+    line: "266-292"
+    principle: "A play's dispatch contract uses the inputs its agent and skill declare; sub-tasks of a scoped-write fan-out write no shared file (any index)."
+    source: "main:core/components/skills/enrich-capability-ice/SKILL.md (Inputs table: capability, kb_domain, product_base, manifest_path, stm_base); main:core/components/agents/product-os-keeper.md (JSON Contract Mode; Self-Recovery 'run kb.py rebuild'); main:core/components/memory/standards/rules/concurrent-fanout.md (base: distinct output paths)"
+    detail: >
+      The dispatch hands the agent write_scope, which neither the agent nor the skill declares (the skill's
+      rule 'never a sibling node's doc' is what actually holds it). The skill's capability input still points
+      to '<working>/seed.yaml'. The keeper's self-recovery runs the KB router's rebuild when the index is
+      stale; with N concurrent agents all N could do that on the same shared index file, outside the model tree
+      so the guard would not see it. Condition 2 of the new rule ('no shared file') is not carried into the
+      agent. Both files are outside this PR; a follow-up to add the input and the seed path would close it.
 summary:
   P1: 0
   P2: 0
-  P3: 3
-  P4: 5
+  P3: 8
+  P4: 12
