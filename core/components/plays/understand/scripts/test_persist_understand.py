@@ -411,6 +411,10 @@ def test_record_carries_decision_status():
         base, root, work, paths = setup_two(tmp, [{"capability": "checkout", "dimension": "security"}])
         check("a box-move missing from/to is refused, not a crash",
               run_many(base, work, paths, ["checkout", "refunds"]) == 2)
+    with tempfile.TemporaryDirectory() as tmp:
+        base, root, work, paths = setup_two(tmp, ["security"])
+        check("a box-move that is not a mapping is refused, not a crash",
+              run_many(base, work, paths, ["checkout", "refunds"]) == 2)
 
 
 def main():
