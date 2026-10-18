@@ -1,0 +1,261 @@
+# adr-context.yaml — gathered by adr-keeper for the /adr play, Step 2 (task draft-adr), 2026-10-19
+# Brief: .garura/project/issues/_adr/20261018-200059/brief.md (complete: decision in two parts, why now,
+# five options each with why it lost, decided by, decided in)
+shape: markdown
+number: "037"                       # adr.py number --dir docs/adr -> {"next": "037", "taken": 36}
+suggested_file: docs/adr/037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md
+suggested_title: "Every Agent Decision Keeps a Trace of the Memory It Rested On, and the Review Tool Has Five Sections"
+template: ~/.garura/phoenix-memory/standards/templates/adr.md   # Garura memory has no copy
+status: proposed
+date: 2026-10-19
+level: framework
+decided_by: ""                      # empty while proposed; the brief names Kapil (the owner), 18 and 19 October 2026 — filled on acceptance
+decided_in: >-
+  #659 (every decision names its memory), under Feature #653 and business intent #606, with PR #676
+  and its review; the #659 plan log (.garura/project/issues/659/specs/plan.md, items 1e and 2, and
+  the log of 19 October); the review tool's design (.garura/project/issues/617/specs/review-tool.md, §4 item 7)
+
+overlap_candidates_from_script:      # adr.py overlaps --adr brief.md --dir docs/adr --top 20
+  - {adr: "036", score: 11.6, named_in_new: true, shared: ".garura/project/issues/617/specs/review-tool.md, /adr"}
+  - {adr: "032", score: 9.32, named_in_new: true, shared: "/adr"}
+  - {adr: "035", score: 8.12, named_in_new: true}
+  - {adr: "033", score: 6.17, shared: ".garura/project/issues/617/specs/review-tool.md, /adr"}
+  - {adr: "034", score: 4.25, shared: "/adr"}
+  # also read: 012 (evidence), 015 (the older resolution trace), 016, 008, 011, 029, 031
+
+supersedes: []
+
+amends:
+  - adr: "035"
+    file: docs/adr/035-agents-work-only-from-memory.md
+    part: >-
+      §6 "Every decision names its memory": a decision keeps a trace — the steps the agent took, in
+      order, each with what it looked for, what it found, and the memory lines that said so (a tier,
+      a file, the lines and a fingerprint of that text), kept with the exact text, the version of
+      memory it was read from and up to three lines before and after — not one source ("the tier,
+      the file and the lines it rests on"); a check reads every step's source again, names the step
+      whose source changed or is gone, and flags a decision with no trace; §7 "A memory review" (a
+      Memory view, made Memory and ADRs by ADR 036): the review tool's sections are Intents, Product,
+      ADRs, Memory and Agent decisions, and which memory each decision came from is shown in Agent
+      decisions, as its trace (and with it §9's line on ADR 032 §3)
+    why: >-
+      Brief part 1 and "Why now": §6 names one source per decision, while contract version 4
+      (core/tools/memory/contract/v4.json, cite and citations) records a trace of steps with the text,
+      the version and the lines around. §6's own last line says "The shape of an answer and its
+      source is settled in plan item 6" — this is that shape, and it changes §6's words, so a pointer
+      is owed. Brief part 2: §7's view (already renamed by ADR 036) is split into three sections.
+      §9's line "ADR 032 §3 — the review tool has a third view, Memory" changes with §7, as ADR 036
+      did. Everything else in ADR 035 stands — see not_affected for §4, §5 and §9's line on ADR 034 §4.
+  - adr: "036"
+    file: docs/adr/036-approved-answer-lands-in-short-term-memory.md
+    part: >-
+      §7 "Memory and ADRs are reviewed in the review tool": the one Memory and ADRs section is
+      replaced by three — ADRs (the ADRs a person records with /adr, waiting for a person); Memory
+      (the memory that exists: mostly Garura memory, and an issue's short-term memory once one is
+      picked; the memory updates waiting for a person; and Ask memory, a plain-words search over all
+      three tiers on the same vectorless memory tool, mocked only for now); and Agent decisions (every
+      decision an agent made, with its trace); and with it §8's lines on ADR 035 §7 and ADR 032 §3.
+      Where the brief is silent, §7 stands: the reviews happen in the review tool, on the Catch up
+      cards, and a person approves by typing until the sections exist
+    why: >-
+      Brief part 2, in Kapil's words ("intents - product - adr(s) ... - memory ... then the agent adrs
+      - we call this evidence, aka agent-decisions"). ADR 036 §7 is the decision that names the third
+      section "Memory and ADRs" and lists what it shows; the brief replaces it. ADR 036 is accepted and
+      its Status line has no pointer yet, so a reader of 036 would see the old section unless this ADR
+      points to it. §1 to §6 of ADR 036 stand; its "Not decided here" questions stay open (see
+      open_points_for_the_person).
+  - adr: "032"
+    file: docs/adr/032-drive-review-of-outcomes.md
+    part: >-
+      §3 "Two review tools", as amended by ADR 033, ADR 035 and ADR 036: the review tool has five
+      sections — Intents, Product, ADRs, Memory and Agent decisions — in place of a third section
+      called Memory and ADRs; the Intents and Product views, and ADR 033's part of §3 (they show the
+      whole model's approval state when they open), stand
+    why: >-
+      Judgment call, following ADR 036's own (it pointed ADR 032 §3 to its new name so a reader of 032
+      needs no second hop). It is stronger here: ADR 032's Status line today quotes ADR 036's pointer,
+      "the third section is Memory and ADRs, not Memory", which this decision makes wrong. The brief
+      names "ADR 032 §3 (as amended by ADR 035 and ADR 036)" as one of the records behind the change.
+      Drop this amendment if one hop through ADR 036 is preferred. The rest of ADR 032 stands.
+
+not_affected:
+  - adr: "034"
+    why: >-
+      §4 "Every answer names its source" stands as written: an answer is still recorded with where it
+      came from, the drive's review still shows what was assumed and on what basis, and an answer with
+      no source is still not allowed (now also flagged by the check). A trace is where an answer came
+      from, step by step. ADR 035 widened §4 through its part 6 (035 §9: "§4 stands and is widened by
+      part 6") without a pointer on 034 (034's Status line lists §2, §3 and §6 only); the trace reaches
+      §4 the same way, through ADR 035 §6, which this ADR amends. Judgment call — see open points. §2,
+      §3 and §6 untouched.
+  - adr: "035 §4"
+    why: >-
+      One tool finds and updates memory, searching the way Claude Code does — stands, and this
+      decision rests on it. Ask memory is a plain-words interface for a person over the same tool, with
+      no index (vectorless); the brief's last option (a vector index behind Ask memory) lost for that
+      reason. Kapil's Griffin remark ("will use nlp, but it will use vectorless search") changes the
+      interface only, as §4 already says Griffin changes nothing for Garura and its agents.
+  - adr: "035 §5"
+    why: >-
+      Nothing from the model or the web without an approved memory update — stands. Every trace
+      step's source is memory (contract v4 cite: "No source from the model or the web"); a decision
+      from an approved memory update names the update, and its written file is a step's source.
+  - adr: "035 §9 (other lines)"
+    why: "Its line on ADR 034 §4 (\"§4 stands and is widened by part 6\") stays true; only its line on ADR 032 §3 changes, with §7."
+  - adr: "033"
+    why: >-
+      Approval in the product model unchanged. §6 (only the review step writes approval; the review
+      tool writes nothing to the model) is not touched: Agent decisions shows the memory tool's
+      records. Who writes the approval when a person accepts a card stays open (ADR 036). Related.
+  - adr: "012"
+    why: >-
+      Evidence self-commit unchanged. "Evidence" already names a play's run records (also the
+      glossary's Evidence row, core/grounding/glossary.md) — the reason the section is named Agent
+      decisions, not evidence. Related.
+  - adr: "015"
+    why: >-
+      Already superseded in part by ADR 035, including "the resolution trace built on it". The
+      decision trace here is not ADR 015's resolution trace; resolution.md keeps the old Resolution
+      Trace Output for agents not yet on the tool, and it gives way when they move (#663), as
+      resolution.md's new section says. Its Knowledge File Standard stands.
+  - adr: "016"
+    why: "resolution_trace_path already went under ADR 035. cite is a memory tool command, not an agent contract field; the contract is unchanged."
+  - adr: "008"
+    why: "Short-term memory stays per issue. Decision records are kept in the issue's own short-term folder (context/citations.jsonl, a setting) and never found by a lookup."
+  - adr: "011"
+    why: "A play's step-to-step files stay direct. The drive review record is written directly by write_drive_review.py."
+  - adr: "029"
+    why: "Drives unchanged. The drive's review record may now carry the play's decisions (optional --decisions); the review is still the drive's last step (ADR 032)."
+  - adr: "031"
+    why: "Only a person confirms or drops a business intent — stands. The Intents section is unchanged. Related."
+
+  - adr: "028 / 030 / 026"
+    why: "Surfaced by the overlap check on the draft through shared play names only (/intent, /vision, /understand, /play-editor; 030 also through the #606 plan). The five loops, plan mode and direct model writes are not about traces or the review tool's sections."
+  - adr: "034 (open point on where a source is recorded)"
+    why: "034's Negative / Risks left open where each answer's source is recorded; ADR 035 §6 handed the shape to plan item 6, and #659 built it (cite in the issue's short-term memory; the drive review record carries it). This ADR records the trace's shape only; 034 needs no pointer for it."
+
+affects:                              # every path verified to exist on 2026-10-19, on feature/659-decisions-name-their-memory
+  - path: core/tools/memory/contract/v4.json
+    what: >-
+      already follows part 1: cite records a decision with its trace (trace_step, traced_step, around
+      — up to 3 lines before and after); citations lists an issue's records and, with check, names a
+      problem by its step (no_source, source_missing, source_changed); decision records and waiting
+      drafts are never found by a lookup. Its cite summary cites ADR 035 §6 and ADR 034 §4 only.
+  - path: core/tools/memory/citations.py
+    what: "cite and citations: reads every source first, keeps the text, version and 3 lines around (AROUND = 3); its header cites ADR 035 §6 only."
+  - path: core/tools/memory/memory.py
+    what: "wires the cite and citations commands and the citations_file setting (default context/citations.jsonl)."
+  - path: core/tools/memory/README.md
+    what: "describes cite, citations and the trace (contract version 4); no rule changes."
+  - path: core/tools/memory/contract/check_contract.py
+    what: "checks samples against contract v4, including the trace (samples/cite.json, samples/citations.json, samples/citations-check.json and the broken citations samples)."
+  - path: core/components/memory/standards/rules/resolution.md
+    what: >-
+      the new section "Every Decision Names Its Memory (ADR 035 §6)": the decision trace every agent
+      keeps once it works through the memory tool; it cites ADR 034 §4 and ADR 035 §5, §6 and §9 —
+      this ADR is the record it rests on. Goes to Phoenix memory when #659 lands.
+  - path: core/components/memory/standards/rules/_index.md
+    what: "resolution.md's row: \"the decision trace every agent keeps (ADR 035 §6)\"."
+  - path: ~/.garura/phoenix-memory/standards/rules/resolution.md
+    what: "the Phoenix memory copy; it has no \"Every Decision Names Its Memory\" section yet (it lands with #659, plan item 6)."
+  - path: core/components/plays/play-creator/references/write_drive_review.py
+    what: >-
+      the drive review record takes --decisions (the memory tool's citations --check answer, contract
+      version 4) and carries each decision with its trace and any problem; optional, so plays run as
+      before. Stamped copies, identical: core/components/plays/vision/scripts/write_drive_review.py and
+      core/components/plays/understand/scripts/write_drive_review.py (tests:
+      core/components/plays/play-creator/references/test_drive_contract.py).
+  - path: .garura/project/issues/617/specs/review-tool.md
+    what: >-
+      §4 "What the person sees": one page, five sections (Intents | Product | ADRs | Memory | Agent
+      decisions); item 7 describes ADRs, Memory with Ask memory, and Agent decisions with each step's
+      source in its place; the plain-words rule gains one exception (a source shown as its memory, file
+      and lines); story 9 is the three sections in two halves.
+  - path: .garura/project/issues/617/specs/review-tool-mockup.html
+    what: "the five-section switch, the Ask memory mock, and Agent decisions over real traces (12 records made by .garura/project/issues/659/evidence/make_decisions.py)."
+  - path: .garura/project/issues/653/specs/plan.md
+    what: "item 11 (#664): the three sections in place of one \"Memory and ADRs\" section (changed on this branch)."
+  - path: .garura/project/issues/606/specs/plan.md
+    what: "item 8's order, step 2: #664 is the ADRs, Memory and Agent decisions sections (changed on this branch)."
+  - path: .garura/project/issues/654/specs/stories.yaml
+    what: >-
+      item 11 (#664), the filed text, not changed on this branch: titled "a Memory and ADRs section",
+      and "A person sees, for a decision, the tier, file and lines it rested on" (one source, not a
+      trace). GitHub holds the current text.
+  - path: core/components/plays/adr/reference/ice.md
+    what: >-
+      C6 (only a person accepts an ADR; typed when run by hand, at the drive's final review inside a
+      drive). ADR 036 moves the accept onto a card in Memory and ADRs once it exists; under this ADR
+      that card sits in the ADRs section. Changed through /play-editor, which recompiles
+      core/components/plays/adr/SKILL.md — never hand-edited. Not changed now.
+  - path: core/grounding/glossary.md
+    what: >-
+      not changed: its Evidence row is why the section is not called evidence; its Resolution trace
+      row is ADR 015's R1–R4 trace, a different thing from this decision trace (see open points).
+  - path: (not built yet)
+    what: >-
+      the review tool's ADRs, Memory and Agent decisions sections (#664, built with the review tool,
+      #641–#644, in the #606 plan); Ask memory (mocked only); the agents' move onto cite (#661 for
+      Kickoff's plays and every play's close, #663 for the rest).
+
+ice_impact: >-
+  The agent intents of the plays whose agents make decisions change as those agents move onto the
+  memory tool (#661: /intent, /vision, /understand and every play's close; #663: every other play),
+  each through its ICE source and /play-editor: each decision is recorded with the tool's cite as a
+  trace — the steps taken, each with its source — not as one source. No play's ICE changes on this
+  branch: no agent calls cite yet, and the drive review record's --decisions option is optional, so
+  /vision and /understand run as before. The /adr play's C6: once the review tool's ADRs section
+  exists, the accept card ADR 036 placed in Memory and ADRs sits in ADRs; until then C6 stands as
+  written. The ICE kind does not change (ontology.md: Goal, Limit, Fails if, Context, Checked by,
+  Quality need); a decision record is not an ICE.
+
+business_intent_check: none
+business_intent_check_reason: >-
+  A framework decision on how an agent records a decision and how the review tool is laid out. No
+  person's business intent changes. The Business Intent kind and its rules stand: only a person
+  confirms or drops one (ADR 031), and the Intents section is unchanged. The project has no business
+  intents folder (.garura/product/product-os/intents does not exist), and Affects names no business
+  intent page.
+
+related: "ADR 033 (approval in the product model), ADR 031 (business intent and ICE), ADR 012 (evidence self-commit — why the section is not called evidence), ADR 015 (the older resolution trace), #659, PR #676, #653, #661, #663, #664, #641–#644 (the review tool), #606"
+
+consequences_sources:                # where the consequences the draft may name come from — the brief or files on this branch
+  positive:
+    - "brief part 1: a person sees each step in its place, with the lines the agent used marked; a check names the step whose source changed or is gone; a decision with no trace is flagged"
+    - "brief why-now: the ADRs, contract v4 and the review tool's design say the same thing again"
+    - "brief options: a person's ADRs, the memory that exists and the agents' decisions are three different things to review; 'evidence' keeps one meaning; one memory tool, vectorless, under Ask memory"
+  negative:
+    - "resolution.md (branch): the check sees only recorded decisions — a decision never recorded is not flagged, so recording is the agent's duty"
+    - "resolution.md (branch): until an agent moves onto the tool, R1–R4 and the old Resolution Trace Output still govern it — two traces side by side until #663"
+    - "review-tool.md §4: a source is shown as its memory, file and lines — an exception to the plain-words rule, which Kapil asked for"
+    - "brief part 2 and plan 1e: Ask memory and the three sections are mocked only; the local prototype stands in until the review tool is built (#664 in the #606 plan)"
+    - "stories.yaml item 11 (#664) and its GitHub text still describe one Memory and ADRs section and one source per decision"
+
+work_this_creates: >-
+  None filed; filed only when Kapil asks. (1) Once accepted, the rule's section in resolution.md, its
+  row in rules/_index.md, contract v4's cite summary and citations.py's header name this ADR beside
+  ADR 035 §6. (2) The rule's new section goes to Phoenix memory when #659 lands (#659 plan item 6).
+  (3) Story #664 (stories.yaml item 11 and its GitHub text): the three sections, Ask memory mocked,
+  and each decision shown with its trace. (4) /adr's C6, through its ICE source and /play-editor once
+  the ADRs section exists (ADR 036's item 3, now naming ADRs).
+
+open_points_for_the_person:
+  - "What a person does on an agent decision is not decided by the brief. The design (review-tool.md §4 item 7) has 'Looks right, or send back so the agent decides again from memory'; ADR 033 §6 (only the review step writes approval) bears on it."
+  - "Whether the Memory section lists Phoenix memory or reaches it only through Ask memory: the brief says 'mostly garura memory ... and once an issue is selected then its STM'; ADR 036 §7 listed all three tiers."
+  - "Still open from ADR 036: whether a product decision (decision.yaml) waiting for a person is reviewed in ADRs or under Decisions in the Product view; who writes the approval when a person accepts a card (ADR 033 §6)."
+  - "Naming: the glossary's 'Resolution trace' row (ADR 015's R1–R4 trace) and this ADR's 'trace' share a word, and resolution.md holds both until the agents move (#663). The brief does not say whether the glossary gains a row."
+  - "Judgment calls: ADR 032 §3 amended directly (its Status line already names Memory and ADRs); ADR 034 §4 judged not affected (it is reached through ADR 035 §6)."
+
+sources:
+  - .garura/project/issues/_adr/20261018-200059/brief.md
+  - .garura/project/issues/_adr/20261018-112701/ (ADR 036's run: the expected shape)
+  - .garura/project/issues/659/specs/plan.md (items 1e, 2–5, log of 19 October)
+  - .garura/project/issues/617/specs/review-tool.md (§3, §4 item 7, story 9) and review-tool-mockup.html
+  - .garura/project/issues/653/specs/plan.md (items 8, 10, 11), .garura/project/issues/606/specs/plan.md, .garura/project/issues/654/specs/stories.yaml (item 11)
+  - core/tools/memory/contract/v4.json, citations.py, memory.py, README.md
+  - core/components/memory/standards/rules/resolution.md, _index.md
+  - core/components/plays/play-creator/references/write_drive_review.py
+  - core/components/plays/adr/reference/ice.md (C6)
+  - core/components/memory/standards/schemas/product-os/ontology.md (ICE kind)
+  - core/grounding/glossary.md (Evidence, Resolution trace)
+  - docs/adr/008, 011, 012, 015, 016, 029, 031, 032, 033, 034, 035, 036

@@ -1,6 +1,6 @@
 # ADR 036 — An Approved Researched Answer Lands in the Current Issue's Short-Term Memory, and Memory and ADRs Are Reviewed in the Review Tool
 
-**Status:** Accepted
+**Status:** Accepted — amended in part by [ADR 037](037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md): §7 "Memory and ADRs are reviewed in the review tool": the one Memory and ADRs section is replaced by three — ADRs (the ADRs a person records with /adr, waiting for a person); Memory (the memory that exists: mostly Garura memory, and an issue's short-term memory once one is picked; the memory updates waiting for a person; and Ask memory, a plain-words search over all three tiers on the same vectorless memory tool, mocked only for now); and Agent decisions (every decision an agent made, with its trace); and with it §8's lines on ADR 035 §7 and ADR 032 §3. Where the brief is silent, §7 stands: the reviews happen in the review tool, on the Catch up cards, and a person approves by typing until the sections exist
 **Date:** 2026-10-18
 **Level:** framework
 **Decided by:** Kapil Viren Ahuja
