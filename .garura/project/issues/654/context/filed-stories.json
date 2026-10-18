@@ -67,6 +67,6 @@
   "number": 664,
   "type": "Story",
   "parent": 653,
-  "title": "The review tool has a Memory view: what each tier holds, the updates waiting, and each decision's source"
+  "title": "The review tool has a Memory and ADRs section: the three tiers, the updates and ADRs waiting, and each decision's source"
  }
 ]

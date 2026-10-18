@@ -175,9 +175,10 @@ changed" line; the plays are never shown.
 
 ## 4. What the person sees
 
-**One page, two tools in it.** A switch at the top left: **Intents** | **Product**.
-These are the two tools ADR 032 names, as two views of one app. One server, one
-link, one review. (Occam: two servers would mean two listeners and two links for
+**One page, three sections in it.** A switch at the top left: **Intents** |
+**Product** | **Memory and ADRs**. Intents and Product are the two tools ADR 032
+names, as two views of one app; Memory and ADRs is the third section ADR 036
+adds (item 7 below). One server, one link, one review. (Occam: two servers would mean two listeners and two links for
 one decision.)
 
 **Two switches, each with two settings.** These answer Kapil's four things to see:
@@ -192,7 +193,8 @@ gives the full model or the clean final text.
 
 **Layout** (like the screenshot):
 
-1. **Left rail.** Phoenix mark and name. The Intents | Product switch. The list of
+1. **Left rail.** Phoenix mark and name. The Intents | Product | Memory and ADRs
+   switch. The list of
    pieces: intents grouped by stage, each with its agent intents (ICE) listed
    under it as their own pieces, one per capability or functionality it is built
    into; the product as domain → capability → functionality, then Limits, then
