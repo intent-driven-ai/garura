@@ -4,7 +4,7 @@ kind: feature
 serves: "#653 — agents work only from memory, so drives can make their own decisions"
 status: active
 updated: 2026-10-18
-now: 2
+now: 3
 serves_plan: 606
 serves_item: 8
 ---
@@ -91,11 +91,11 @@ answer came from in a way anyone checks.
 
 ## Where we are now
 
-Decided, nothing built: ADR 035 is accepted. The review (`.garura/project/issues/613/specs/memory-review.md`)
+Decided, and the first piece built: ADR 035 is accepted. The review (`.garura/project/issues/613/specs/memory-review.md`)
 and the map of how agents read memory are done. Kapil set the model above and
 chose B. The feature (#653), its decision spike (#654) and its stories
-(#655–#664) are filed. Next: item 2, the memory tool's contract (#655), once
-#654 lands.
+(#655–#664) are filed. The contract (item 2, #655) is built and lands with its
+pull request. Next: item 3, Phoenix memory and the subset a project pulls (#656).
 
 ## The plan, in order
 
@@ -112,23 +112,17 @@ chose B. The feature (#653), its decision spike (#654) and its stories
   memory, whether files passed between a play's own steps go through the tool,
   whether a drive keeps going while one update waits, and the folder for Garura
   memory.
+- **2. Built: the memory tool's contract** — #655. Version 1 in
+  `core/tools/memory/contract/v1.json`, with a plain guide, 20 sample answers,
+  23 broken samples and a check with its own tests. Eleven commands; every piece
+  of text carries tier, file, lines and fingerprint; a lookup never skips a tier;
+  every lookup names its issue, and short-term memory is that issue only.
+  Settled with Kapil: learned checkpoint answers are not memory; a play's own
+  working files stay direct; an approved researched answer goes to the issue's
+  short-term memory, and promotion happens outside the work. Lands with #655's
+  pull request.
 
-### 2. Write the memory tool's contract — now
-
-**Issue:** #655.
-**What:** the written agreement between agents and the tool: its commands to
-find memory (find, search, read, go up to Phoenix memory, cite) and to update it
-(pull a piece into the project, propose an update, list updates, apply an
-approved update),
-what each returns, and its errors. Same rules as the review tool: its own
-folder, a version number, no Garura names inside, the engine behind it
-swappable.
-**Why here:** every later item builds against it, and it is what makes the move
-to Griffin cost nothing.
-**Done when:** the contract file exists and sample answers pass its check.
-**Needs:** item 1.
-
-### 3. Set up Phoenix memory, and the subset each project pulls
+### 3. Set up Phoenix memory, and the subset each project pulls — now
 
 **Issue:** #656.
 **What:** Phoenix memory gets its one home outside Garura's code, seeded from
@@ -139,6 +133,9 @@ Phoenix memory each piece came from. The two stale copies are retired
 (`~/.garura/core/memory/` and `.garura/core/memory/`). The installer writes
 correct settings into projects it installs into. Garura memory's own folders
 are settled (product model, the person's own files, the person's answers).
+Also: the memory keys in `.garura/core/config.yaml` (`components.memory`, the
+`ltm.*` keys, `review-pr.standards_order`) point at the new homes, here and in
+installed projects.
 **Why here:** the tool needs a known place for each tier.
 **Done when:** an install into a test project pulls only what it needs, a piece
 pulled later arrives on request, and a check shows which pulled pieces are
@@ -212,6 +209,8 @@ its check passes, and an agent there finds a piece of memory through the tool.
 the close of every play, read memory only through the tool, raise memory
 updates, and name their sources. Play changes go through each play's ICE source
 and `/play-editor`.
+Also: rule 4 of the drive contract, its row in the rules index and the
+glossary's Drive entry say what ADR 034 and ADR 035 decided.
 **Why here:** Kickoff waits on these three plays, so they move first.
 **Done when:** the three plays and every play's close name no memory path.
 **Needs:** items 5, 6 and 7.
@@ -238,18 +237,28 @@ the Kickoff build.
 fall back to the web or the model (`tech-designer`, `research-domain-context`);
 the R1–R4 rule rewritten; a lint rule that fails any component naming a memory
 path. The seven retired agents are not installed and are left as they are.
+Also: `CLAUDE.md`, `docs/components/memory.md` and the glossary's install rows
+describe the three tiers and the tool, and the locked knowledge-base design note
+(`knowledge/_DESIGN.md`) is rewritten under ADR 035.
 **Done when:** the lint passes across every component.
 **Needs:** item 9.
 
 ### 11. The memory review
 
 **Issue:** #664.
-**What:** a Memory view in the review tool, next to Intents and Product: what
-each tier holds, the memory updates waiting for a person (approve, change,
-reject), and which memory each decision came from.
-**Done when:** a person approves a memory update and sees a decision's source in
-the tool.
+**What:** a third section in the review tool, **Memory and ADRs**, next to
+Intents and Product. It shows short-term, Garura and Phoenix memory: what each
+tier holds, the memory updates waiting for a person (approve, change, reject),
+and which memory each decision came from. It also shows the ADRs waiting for a
+person. Every memory review and ADR review happens there, with the same card
+method as intents and product: Catch up (#644), one card per change, swipe
+right to accept, swipe left to leave for later.
+**Done when:** a person approves a memory update and accepts an ADR on a card
+in the tool, and sees a decision's source there.
 **Needs:** items 5 and 6, and the review tool (#641–#644).
+**Also:** ADR 035 §7 names a Memory view only. Adding ADRs to it, and moving
+the `/adr` accept step (typed today, pinned) into the tool, need an ADR
+amendment and an `/adr` intent change (its ICE, then `/play-editor`) first.
 
 ## Log
 
@@ -276,3 +285,20 @@ the tool.
   confused with the memory Claude Code and Codex keep. Now on item 2; its story
   is filed once Kapil says so (#654 plan item 2).
 - 2026-10-18 — Kapil: "file the stories". Items 2 to 11 filed as Stories #655 to #664 under #653 (texts: `.garura/project/issues/654/specs/stories.yaml`).
+- 2026-10-18 — Kapil: "update the stories … merge this as part of our current
+  plan". The files ADR 035 names under Affects that no story covered were added
+  to existing items, not new ones: config keys to item 3 (#656), the drive
+  contract's rule 4 to item 8 (#661), the docs, glossary rows and the locked
+  knowledge-base design note to item 10 (#663). The three stories were edited to
+  match.
+- 2026-10-18 — Item 2 built on #655: the contract, samples and check. Now on item 3 (#656).
+- 2026-10-18 — Kapil, on where reviews happen: "There needs to be a third
+  section of memory and ADRs in it, where it should be showing the STM, LTM,
+  and Phoenix memory allowed. Any reviews that happen happen there, and the
+  same card sweeping next method should be used." Item 11 now reads Memory and
+  ADRs, with the Catch up cards (#644).
+- 2026-10-18 — Kapil, on #655: when no tier answers, a person approves the
+  researched answer and it goes into the issue's short-term memory; promotion
+  to Garura or Phoenix memory happens outside the work. Short-term lookups read
+  only the current issue. This touches item 5 (#658): an approved update lands
+  in short-term memory first. ADR 035 §5 needs an amendment for it.

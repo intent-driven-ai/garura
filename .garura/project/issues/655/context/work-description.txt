@@ -1,0 +1,20 @@
+Issue #655 — The memory tool has a written contract for finding and updating memory (Story; parent Feature #653; plan item 2; ADR 035).
+
+Write the one agreement between agents and the memory tool (ADR 035 §4): the commands to find
+memory (find files, search text, read exact lines, go up a tier, cite) and to update it (pull a
+piece into Garura memory, propose a memory update, list waiting updates, apply an approved
+one), what each returns, and its errors. Every result names its tier (short-term, Garura or
+Phoenix memory), file, lines and a fingerprint of the text. A missing tier is an error, never
+"nothing found". The lookup order is short-term, then Garura, then Phoenix memory, stopping at
+the first tier that answers (ADR 035 §3).
+
+Settle here: whether the learned checkpoint answers count as memory, and whether the files a
+play passes between its own steps (ADR 011) go through the tool or only memory lookups do.
+
+Also on this branch: the #653 plan update of 2026-10-18 (files ADR 035 names under Affects,
+folded into plan items 3, 8 and 10), carried from main.
+
+Done when: the contract file exists in the tool's own folder with a version number; sample
+answers for each command pass the contract's check, including an error for a missing tier;
+the lookup order is in the contract. Out of scope: building the tool (#657), Phoenix memory
+(#656). The tool's folder names no Garura path and imports no Garura code.

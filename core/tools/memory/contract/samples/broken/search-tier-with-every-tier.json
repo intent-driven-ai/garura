@@ -1,0 +1,20 @@
+{
+  "command": "search",
+  "request": {
+    "issue": 613,
+    "pattern": "checkout",
+    "tier": "garura",
+    "every_tier": true
+  },
+  "response": {
+    "ok": true,
+    "contract_version": "1",
+    "command": "search",
+    "looked_in": [
+      "garura"
+    ],
+    "answered_by": null,
+    "hits": [],
+    "truncated": false
+  }
+}

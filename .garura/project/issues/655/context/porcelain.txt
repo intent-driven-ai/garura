@@ -1,0 +1,4 @@
+ M .garura/project/issues/655/context/plan-check.json
+ M .garura/project/issues/655/specs/plan.md
+?? .garura/project/issues/655/context/porcelain.txt
+?? core/tools/memory/

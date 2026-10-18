@@ -1,0 +1,28 @@
+{
+  "command": "search",
+  "request": {
+    "issue": 613,
+    "pattern": "checkout",
+    "tier": "project"
+  },
+  "response": {
+    "ok": true,
+    "contract_version": "1",
+    "command": "search",
+    "looked_in": [
+      "short-term",
+      "garura",
+      "phoenix"
+    ],
+    "answered_by": "phoenix",
+    "hits": [
+      {
+        "tier": "phoenix",
+        "path": "knowledge/domains/ecommerce.md",
+        "line": 42,
+        "text": "- Guest checkout lowers drop-off for first-time buyers."
+      }
+    ],
+    "truncated": false
+  }
+}

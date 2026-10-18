@@ -1,0 +1,12 @@
+{
+  "valid": true,
+  "done": false,
+  "status": "active",
+  "now": "4",
+  "open_items": [
+    4
+  ],
+  "serves_plan": "~/projects/garura/.garura/project/issues/653/specs/plan.md",
+  "problems": [],
+  "plan": ".garura/project/issues/655/specs/plan.md"
+}

@@ -1,0 +1,30 @@
+{
+  "command": "search",
+  "request": {
+    "issue": 613,
+    "pattern": "guest checkout",
+    "ignore_case": true,
+    "every_tier": true,
+    "max": 20
+  },
+  "response": {
+    "ok": true,
+    "contract_version": "1",
+    "command": "search",
+    "looked_in": [
+      "short-term",
+      "garura"
+    ],
+    "answered_by": "garura",
+    "hits": [
+      {
+        "tier": "garura",
+        "path": "product-os/checkout/checkout/capability.md",
+        "line": 12,
+        "text": "Guest checkout: allowed at launch; an account is offered after payment.",
+        "fingerprint": "sha256:686f4b787324c50327ccf227d33ee8bf6cdeec1a133a32088c6e24fcd802823d"
+      }
+    ],
+    "truncated": false
+  }
+}

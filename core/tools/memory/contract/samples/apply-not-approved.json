@@ -1,0 +1,16 @@
+{
+  "command": "apply",
+  "request": {
+    "id": "mu-20261018-002"
+  },
+  "response": {
+    "ok": false,
+    "contract_version": "1",
+    "command": "apply",
+    "error": {
+      "code": "not_approved",
+      "message": "Memory update mu-20261018-002 is waiting; a person must approve it first.",
+      "tier": null
+    }
+  }
+}
