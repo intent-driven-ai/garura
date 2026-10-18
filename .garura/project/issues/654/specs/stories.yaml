@@ -1,0 +1,186 @@
+# The stories filed under Feature #653 from plan items 2 to 11 (ADR 035).
+# Filed in this order; {item:N} in a body is replaced with item N's issue number at filing.
+common_read_first: |
+  - ADR 035 — agents work only from memory (`docs/adr/035-agents-work-only-from-memory.md`)
+  - The feature plan: `.garura/project/issues/653/specs/plan.md`
+  - The memory review that led here: `.garura/project/issues/613/specs/memory-review.md`
+  - Decided in #654.
+stories:
+  - item: 2
+    title: "The memory tool has a written contract for finding and updating memory"
+    body: |
+      ## What this delivers
+      The one agreement between agents and the memory tool (ADR 035 §4): the commands to **find** memory (find files, search text, read exact lines, go up a tier, cite) and to **update** it (pull a piece into Garura memory, propose a memory update, list waiting updates, apply an approved one), what each returns, and its errors. Every result names its tier (short-term, Garura or Phoenix memory), its file, its lines and a fingerprint of the text. A missing tier is an error, never "nothing found".
+
+      Settle here, from ADR 035's "Not decided here":
+      - whether the learned checkpoint answers count as memory (they hold checkpoint verdicts, not answers);
+      - whether the files a play passes between its own steps (ADR 011) go through the tool, or only memory lookups do.
+
+      ## Done when
+      - The contract file exists in the tool's own folder, with a version number.
+      - Sample answers for each command pass the contract's check, including an error for a missing tier.
+      - The lookup order is in the contract: short-term memory, then Garura memory, then Phoenix memory, stopping at the first tier that answers (ADR 035 §3).
+
+      ## Not in this story
+      - Building the tool (item 4) or setting up Phoenix memory (item 3).
+      - The tool's folder names no Garura path and imports no Garura code, so it can move to Griffin (ADR 035 §4; the same rule as the review tool, #641).
+
+      ## Needs
+      Nothing — ADR 035 is accepted.
+  - item: 3
+    title: "Phoenix memory has its own repository, and each project pulls only the subset it needs into Garura memory"
+    body: |
+      ## What this delivers
+      Phoenix memory gets its one home: its own git repository (for example `phoenix-memory`), seeded from everything in `core/components/memory/`, with the shelves deleted in #434 left out (ADR 035 §2). Installing Garura no longer copies all of memory: it pulls a starting set — Garura's rulebook and the memory guide — into the project's Garura memory, and records in a short list what it pulled and from which version. The two stale copies are retired: `~/.garura/core/memory/` and `.garura/core/memory/`. The installer writes correct settings into projects it installs into (today it leaves `ltm.project-target` pointing at nothing, `install-garura/scripts/install.py`).
+
+      Settle here: the folder inside `.garura/` that holds Garura memory (ADR 017's folder list).
+
+      ## Done when
+      - The Phoenix memory repository exists and holds the seeded content.
+      - An install into a test project pulls only the starting set, and writes the list of what it pulled with versions.
+      - A check shows which pulled pieces are behind Phoenix memory.
+      - Neither stale copy is written or read any more.
+      - The install never blocks a play: a project with nothing pulled still runs, and the tool goes up when needed (ADR 035 §3).
+
+      ## Not in this story
+      - The memory tool itself (item 4) and the memory guide's text (item 7).
+      - Moving any agent onto the tool (items 8, 10).
+
+      ## Needs
+      Nothing — ADR 035 is accepted.
+  - item: 4
+    title: "The memory tool finds memory across short-term, Garura and Phoenix memory the way Claude Code searches"
+    body: |
+      ## What this delivers
+      The command-line tool from the contract ({item:2}), with a folder engine. It finds files, searches their text and reads exact lines — the way Claude Code does, with the same kind of tools (ADR 035 §4: "this is critical as this is why claude-code is so good"). It looks in short-term memory, then Garura memory, then Phoenix memory, and stops at the first tier that answers. It pulls a piece into Garura memory when it finds it in Phoenix memory, and it writes approved updates. Every result carries its tier, file, lines and fingerprint. It works the same from Claude Code and from Codex.
+
+      ## Done when
+      - Its tests pass on sample memory in all three tiers, including going up a tier and pulling a piece.
+      - A missing tier gives an error, not an empty answer.
+      - A boundary check passes: nothing in its folder names Garura.
+      - Pointing it at Griffin later means changing one setting.
+
+      ## Not in this story
+      - Memory updates' approval flow (item 5) and citations in agents' output (item 6).
+      - No search index, vector search or MCP server (ADR 035 §4; `core/components/memory/knowledge/_DESIGN.md`).
+
+      ## Needs
+      {item:2} and {item:3}.
+  - item: 5
+    title: "When no memory answers, an agent raises a memory update a person approves, and then decides from memory"
+    body: |
+      ## What this delivers
+      ADR 035 §5. When no tier answers, an agent does not decide from the model or the web. It raises a **memory update**: what is missing, which tier it belongs in, a drafted entry, and where the draft came from (the person, the web, the model — marked). Nothing in it is used until a person approves it. The approved update is written to Garura memory (something only this project needs) or to Phoenix memory (something any project could use, as a commit in its repository), and the waiting work decides from memory. A person's answers to questions become Garura memory with stable ids, so they are never asked twice (the question store in `standards/rules/product.md`, rule 12). The knowledge-base proposal (`propose-kb-node`) becomes one kind of memory update. Until the memory review exists (the Memory view, feature plan item 11), the person approves by typing.
+
+      Settle here, from ADR 035's "Not decided here": whether the rest of a drive keeps going while one memory update waits for a person.
+
+      ## Done when
+      - A gap, a memory update, an approval, a write and an answer from memory run end to end on a sample.
+      - A rejected update writes nothing, and the work stays stopped at that point.
+      - A sample run shows nothing taken from the model or the web without an approved update.
+
+      ## Not in this story
+      - The Memory view in the review tool (feature plan item 11).
+      - Moving agents onto this flow (items 8, 10).
+
+      ## Needs
+      {item:4}.
+  - item: 6
+    title: "Every decision an agent makes names the memory it came from, and a script checks it"
+    body: |
+      ## What this delivers
+      ADR 035 §6. One shape for an answer and its source — the tier, the file, the lines and the fingerprint — built on the trace format Garura already has (`standards/rules/resolution.md`, "Resolution Trace Output"). Agents write it to the issue's short-term memory. A script checks that each named source exists and its fingerprint still matches. A drive's review record carries these sources, so the drive's review can show what each decision rested on (ADR 034 §4).
+
+      ## Done when
+      - The shape is written down, and a sample record passes the check.
+      - The check fails a decision that names no source, and one whose source changed.
+      - The drive review writer (`play-creator/references/write_drive_review.py`) carries the sources.
+
+      ## Not in this story
+      - Moving agents onto it (items 8, 10).
+      - Showing the sources in the review tool (feature plan item 11).
+
+      ## Needs
+      {item:4}.
+  - item: 7
+    title: "Every Garura install carries the memory tool, a memory guide, and a check that the tool works"
+    body: |
+      ## What this delivers
+      ADR 035 §8. Installing Garura into a project installs the memory tool and a short memory guide every agent reads: the three tiers (Phoenix memory, Garura memory, short-term memory), what the tool does, and how to find memory, go up a tier, update it, name a source and raise a memory update. The install checks that the tool runs and reaches each tier, and fails if it does not. Kapil: "Anytime Garura gets installed, every project would need to know what that tool is, what it does, and how the memory works. Otherwise, the subagents will fail." It works for both Claude Code and Codex (`install-garura/scripts/adapters/`).
+
+      ## Done when
+      - A fresh install into a test project has the tool and the guide, and its check passes.
+      - An agent in that project finds a piece of memory through the tool.
+      - An install whose tool cannot reach a tier fails with that tier named.
+
+      ## Not in this story
+      - Moving the agents themselves onto the tool (items 8, 10).
+
+      ## Needs
+      {item:3}, {item:4}, {item:5} and {item:6}.
+  - item: 8
+    title: "/intent, /vision, /understand and every play's close read memory only through the memory tool"
+    body: |
+      ## What this delivers
+      The plays Kickoff (#613) runs move first. The agents and skills behind `/intent`, `/vision` and `/understand` — `business-intent-keeper`, `product-os-keeper` and the skills they call (among them `search-kb`, `kb-search`, `propose-kb-node`) — find and update memory only through the tool, raise memory updates instead of asking or guessing, and name their sources. Every play's close stops reading templates from the stale project copy (`standards/rules/play-close.md`). Changes to a play go through its ICE source and `/play-editor`; the shared close goes through `play-close.md` and `/play-creator`.
+
+      ## Done when
+      - The three plays, their agents and skills, and every play's close name no memory path.
+      - The lines ADR 034 and ADR 035 changed (`/intent` C4, C5 and Step 3; `/vision` C11; `/understand` C13) read memory as the three tiers and "ask the person" as a memory update.
+      - `check_intent.py` and `persist_understand.py` accept answers from memory with a source, not only from the person.
+      - Each play's own checks pass.
+
+      ## Not in this story
+      - Every other agent and skill (feature plan item 10).
+      - The Kickoff runner (#613).
+
+      ## Needs
+      {item:5}, {item:6} and {item:7}.
+  - item: 9
+    title: "/intent, /vision and /understand run on a test project from memory alone"
+    body: |
+      ## What this delivers
+      Proof before a drive relies on it. Run `/intent`, `/vision` and `/understand` by hand on a test project with Garura installed: every answer names its memory, a gap raises a memory update, and nothing comes from the model alone.
+
+      ## Done when
+      - The run is recorded in this issue's folder: each answer with its source, and at least one memory update raised, approved and used.
+      - No answer in the run lacks a source.
+      - The Kickoff milestone in the feature plan is passed, and #613 can pick up again.
+
+      ## Not in this story
+      - Fixing what the run finds beyond small fixes: each larger finding becomes its own issue.
+
+      ## Needs
+      {item:8}.
+  - item: 10
+    title: "Every agent and skill reads memory only through the memory tool, and lint fails any that names a memory path"
+    body: |
+      ## What this delivers
+      The rest of Garura moves onto the tool: the remaining active agents (among them `tech-designer`, `test-engineer`, `code-builder`, `quality-auditor`, `repo-orchestrator`, `change-reviewer`, `adr-keeper`, `intent-resolver`) and skills that name memory paths, including the two that fall back to the web or the model (`tech-designer`, `research-domain-context`). `/fix-bug` stops passing `ltm_context`. The lookup rule (`standards/rules/resolution.md`, R1–R4) is rewritten for ADR 035. A lint rule in `core/tools/lint-components/` fails any component that names a memory path. The seven retired agents are left as they are.
+
+      ## Done when
+      - The lint rule passes across every active component and fails a sample that names a memory path.
+      - No active agent or skill falls back to the web or the model without a memory update.
+      - `resolution.md` and the glossary's Memory Architecture section describe the three tiers and the tool.
+
+      ## Not in this story
+      - The retired agents.
+
+      ## Needs
+      {item:9}.
+  - item: 11
+    title: "The review tool has a Memory view: what each tier holds, the updates waiting, and each decision's source"
+    body: |
+      ## What this delivers
+      ADR 035 §7. A **Memory** view in the review tool, next to Intents and Product (ADR 032, amended by ADR 035): what each tier holds, the memory updates waiting for a person (approve, change, reject), and which memory each decision came from. Approving an update here replaces approval by typing.
+
+      ## Done when
+      - A person approves a memory update in the tool, and it is written to its tier.
+      - A person sees, for a decision, the tier, file and lines it rested on.
+      - The review tool's contract covers the memory kinds and the approve, change and reject actions.
+
+      ## Not in this story
+      - The review tool's server, pages and contract themselves (#641–#644); this story adds the Memory view to them.
+
+      ## Needs
+      {item:5}, {item:6}, and the review tool (#641–#644).
