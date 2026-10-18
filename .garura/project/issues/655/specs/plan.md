@@ -80,3 +80,8 @@ plan done.
 - 2026-10-18 — Kapil approved the plan: "approve, A, A". Learned checkpoint
   answers are not memory; a play's own working files stay direct.
 - 2026-10-18 — Items 2 and 3 built: the contract (11 commands), 14 samples, 6 broken samples, the check (passes).
+- 2026-10-18 — The self-review found gaps, fixed before raising: a skipped tier
+  could pass as "nothing found"; search hits and pull lacked fingerprint or
+  tier; the check had no tests and missed a newline in a path and `1` as
+  `true`; the boundary scan was narrow. Now 15 samples, 12 broken samples, and
+  20 tests for the check.
