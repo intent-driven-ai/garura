@@ -7,6 +7,7 @@
     "ok": true,
     "contract_version": "1",
     "command": "pull",
+    "tier": "garura",
     "path": "knowledge/domains/ecommerce.md",
     "version": "4f1c2e9a7b3d",
     "fingerprint": "sha256:ca4a87aecb3c9a09f40795c2998f224896bca45f509f5309815b01c7790c51e5"

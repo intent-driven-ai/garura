@@ -9,11 +9,30 @@
     "garura": "Garura memory: the project's long-term memory. Holds the subset of Phoenix memory the project pulled, and what the project makes itself (product model, intents, decisions, answers).",
     "phoenix": "Phoenix memory: the global memory and the superset. Its own git repository until Griffin serves it."
   },
-  "lookup_order": ["short-term", "garura", "phoenix"],
-  "lookup_rule": "find and search look in lookup_order and stop at the first tier with at least one result. tier asks one tier only. every_tier looks in all three and does not stop.",
+  "lookup_order": [
+    "short-term",
+    "garura",
+    "phoenix"
+  ],
+  "lookup_rule": "find and search look in lookup_order and stop at the first tier with at least one result. tier asks one tier only. every_tier looks in all three and does not stop. A lookup never skips a tier: one that reaches a tier with no setting, or one it cannot reach, fails with tier_missing. 'Never blocks a play' (ADR 035 §3) means a piece the project has not pulled is found a level up, not that a tier may be skipped.",
+  "request_rules": {
+    "glob": "Shell-style: * matches within one folder, ** matches any depth, ? matches one character.",
+    "pattern": "An extended regular expression, as grep -E reads it, unless fixed is true; then it is plain text.",
+    "tier_and_every_tier": "Asking for tier and every_tier together is bad_request.",
+    "read_lines": "start defaults to 1 and end to the last line. end before start is bad_request. Lines outside the file are out_of_range.",
+    "every_tier_answered_by": "With every_tier, answered_by is the first tier in lookup_order that has a result."
+  },
+  "answer_rules": {
+    "looked_in": "looked_in lists the tiers looked in, in lookup_order.",
+    "nothing_found": "answered_by null (nothing found) is allowed only after every tier was looked in: looked_in is the whole lookup_order, or just the asked tier when tier is given. Anything else is a silent skip.",
+    "first_answer_stops": "Without every_tier, answered_by is the last tier in looked_in.",
+    "results_from_looked_in": "Every hit and match comes from a tier in looked_in; without every_tier, only from answered_by.",
+    "fingerprint_is_the_text": "A fingerprint is the sha256 of the exact text it travels with: read.text, a hit's text."
+  },
   "settings": "The tool reads where each tier lives from its settings (environment variables or a settings file), never from a fixed path. A tier with no setting, or one that cannot be reached, is the error tier_missing.",
   "paths": "Every path in a request or response is relative to its tier's root, uses forward slashes, never starts with a slash, and never contains '..'.",
   "fingerprint": "sha256 of the exact text returned or cited, as 'sha256:' and 64 lowercase hex characters. A citation whose fingerprint no longer matches the file has gone stale.",
+  "every_result": "Every piece of text the tool returns carries its tier, file, lines and fingerprint (read, search hits, cite sources). A file list (find) carries tier, file and version. pull names the tier it wrote to.",
   "commands": {
     "health": {
       "summary": "Report each tier: can it be reached, is it a folder or a server, and which version it is at. The install check calls this.",
@@ -27,15 +46,34 @@
           {
             "type": "object",
             "properties": {
-              "ok": {"const": true},
-              "contract_version": {"const": "1"},
-              "command": {"const": "health"},
-              "tiers": {"type": "array", "minItems": 3, "items": {"$ref": "#/$defs/tier_health"}}
+              "ok": {
+                "const": true
+              },
+              "contract_version": {
+                "const": "1"
+              },
+              "command": {
+                "const": "health"
+              },
+              "tiers": {
+                "type": "array",
+                "minItems": 3,
+                "items": {
+                  "$ref": "#/$defs/tier_health"
+                }
+              }
             },
-            "required": ["ok", "contract_version", "command", "tiers"],
+            "required": [
+              "ok",
+              "contract_version",
+              "command",
+              "tiers"
+            ],
             "additionalProperties": false
           },
-          {"$ref": "#/$defs/error"}
+          {
+            "$ref": "#/$defs/error"
+          }
         ]
       }
     },
@@ -44,11 +82,20 @@
       "request": {
         "type": "object",
         "properties": {
-          "glob": {"type": "string", "minLength": 1},
-          "tier": {"$ref": "#/$defs/tier"},
-          "every_tier": {"type": "boolean"}
+          "glob": {
+            "type": "string",
+            "minLength": 1
+          },
+          "tier": {
+            "$ref": "#/$defs/tier"
+          },
+          "every_tier": {
+            "type": "boolean"
+          }
         },
-        "required": ["glob"],
+        "required": [
+          "glob"
+        ],
         "additionalProperties": false
       },
       "response": {
@@ -56,17 +103,41 @@
           {
             "type": "object",
             "properties": {
-              "ok": {"const": true},
-              "contract_version": {"const": "1"},
-              "command": {"const": "find"},
-              "looked_in": {"$ref": "#/$defs/tier_list"},
-              "answered_by": {"$ref": "#/$defs/tier_or_null"},
-              "matches": {"type": "array", "items": {"$ref": "#/$defs/match"}}
+              "ok": {
+                "const": true
+              },
+              "contract_version": {
+                "const": "1"
+              },
+              "command": {
+                "const": "find"
+              },
+              "looked_in": {
+                "$ref": "#/$defs/tier_list"
+              },
+              "answered_by": {
+                "$ref": "#/$defs/tier_or_null"
+              },
+              "matches": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/match"
+                }
+              }
             },
-            "required": ["ok", "contract_version", "command", "looked_in", "answered_by", "matches"],
+            "required": [
+              "ok",
+              "contract_version",
+              "command",
+              "looked_in",
+              "answered_by",
+              "matches"
+            ],
             "additionalProperties": false
           },
-          {"$ref": "#/$defs/error"}
+          {
+            "$ref": "#/$defs/error"
+          }
         ]
       }
     },
@@ -75,15 +146,34 @@
       "request": {
         "type": "object",
         "properties": {
-          "pattern": {"type": "string", "minLength": 1},
-          "fixed": {"type": "boolean"},
-          "ignore_case": {"type": "boolean"},
-          "glob": {"type": "string", "minLength": 1},
-          "tier": {"$ref": "#/$defs/tier"},
-          "every_tier": {"type": "boolean"},
-          "max": {"type": "integer", "minimum": 1}
+          "pattern": {
+            "type": "string",
+            "minLength": 1
+          },
+          "fixed": {
+            "type": "boolean"
+          },
+          "ignore_case": {
+            "type": "boolean"
+          },
+          "glob": {
+            "type": "string",
+            "minLength": 1
+          },
+          "tier": {
+            "$ref": "#/$defs/tier"
+          },
+          "every_tier": {
+            "type": "boolean"
+          },
+          "max": {
+            "type": "integer",
+            "minimum": 1
+          }
         },
-        "required": ["pattern"],
+        "required": [
+          "pattern"
+        ],
         "additionalProperties": false
       },
       "response": {
@@ -91,18 +181,45 @@
           {
             "type": "object",
             "properties": {
-              "ok": {"const": true},
-              "contract_version": {"const": "1"},
-              "command": {"const": "search"},
-              "looked_in": {"$ref": "#/$defs/tier_list"},
-              "answered_by": {"$ref": "#/$defs/tier_or_null"},
-              "hits": {"type": "array", "items": {"$ref": "#/$defs/hit"}},
-              "truncated": {"type": "boolean"}
+              "ok": {
+                "const": true
+              },
+              "contract_version": {
+                "const": "1"
+              },
+              "command": {
+                "const": "search"
+              },
+              "looked_in": {
+                "$ref": "#/$defs/tier_list"
+              },
+              "answered_by": {
+                "$ref": "#/$defs/tier_or_null"
+              },
+              "hits": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/hit"
+                }
+              },
+              "truncated": {
+                "type": "boolean"
+              }
             },
-            "required": ["ok", "contract_version", "command", "looked_in", "answered_by", "hits", "truncated"],
+            "required": [
+              "ok",
+              "contract_version",
+              "command",
+              "looked_in",
+              "answered_by",
+              "hits",
+              "truncated"
+            ],
             "additionalProperties": false
           },
-          {"$ref": "#/$defs/error"}
+          {
+            "$ref": "#/$defs/error"
+          }
         ]
       }
     },
@@ -111,12 +228,25 @@
       "request": {
         "type": "object",
         "properties": {
-          "tier": {"$ref": "#/$defs/tier"},
-          "path": {"$ref": "#/$defs/path"},
-          "start": {"type": "integer", "minimum": 1},
-          "end": {"type": "integer", "minimum": 1}
+          "tier": {
+            "$ref": "#/$defs/tier"
+          },
+          "path": {
+            "$ref": "#/$defs/path"
+          },
+          "start": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "end": {
+            "type": "integer",
+            "minimum": 1
+          }
         },
-        "required": ["tier", "path"],
+        "required": [
+          "tier",
+          "path"
+        ],
         "additionalProperties": false
       },
       "response": {
@@ -124,21 +254,56 @@
           {
             "type": "object",
             "properties": {
-              "ok": {"const": true},
-              "contract_version": {"const": "1"},
-              "command": {"const": "read"},
-              "tier": {"$ref": "#/$defs/tier"},
-              "path": {"$ref": "#/$defs/path"},
-              "start": {"type": "integer", "minimum": 1},
-              "end": {"type": "integer", "minimum": 1},
-              "text": {"type": "string"},
-              "fingerprint": {"$ref": "#/$defs/fingerprint"},
-              "version": {"$ref": "#/$defs/version"}
+              "ok": {
+                "const": true
+              },
+              "contract_version": {
+                "const": "1"
+              },
+              "command": {
+                "const": "read"
+              },
+              "tier": {
+                "$ref": "#/$defs/tier"
+              },
+              "path": {
+                "$ref": "#/$defs/path"
+              },
+              "start": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "end": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "text": {
+                "type": "string"
+              },
+              "fingerprint": {
+                "$ref": "#/$defs/fingerprint"
+              },
+              "version": {
+                "$ref": "#/$defs/version"
+              }
             },
-            "required": ["ok", "contract_version", "command", "tier", "path", "start", "end", "text", "fingerprint", "version"],
+            "required": [
+              "ok",
+              "contract_version",
+              "command",
+              "tier",
+              "path",
+              "start",
+              "end",
+              "text",
+              "fingerprint",
+              "version"
+            ],
             "additionalProperties": false
           },
-          {"$ref": "#/$defs/error"}
+          {
+            "$ref": "#/$defs/error"
+          }
         ]
       }
     },
@@ -147,13 +312,37 @@
       "request": {
         "type": "object",
         "properties": {
-          "issue": {"type": "integer", "minimum": 1},
-          "question": {"type": "string", "minLength": 1},
-          "answer": {"type": "string", "minLength": 1},
-          "decided_by": {"type": "string", "minLength": 1},
-          "sources": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/source"}}
+          "issue": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "question": {
+            "type": "string",
+            "minLength": 1
+          },
+          "answer": {
+            "type": "string",
+            "minLength": 1
+          },
+          "decided_by": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sources": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "$ref": "#/$defs/source"
+            }
+          }
         },
-        "required": ["issue", "question", "answer", "decided_by", "sources"],
+        "required": [
+          "issue",
+          "question",
+          "answer",
+          "decided_by",
+          "sources"
+        ],
         "additionalProperties": false
       },
       "response": {
@@ -161,24 +350,48 @@
           {
             "type": "object",
             "properties": {
-              "ok": {"const": true},
-              "contract_version": {"const": "1"},
-              "command": {"const": "cite"},
-              "citation_id": {"type": "string", "minLength": 1},
+              "ok": {
+                "const": true
+              },
+              "contract_version": {
+                "const": "1"
+              },
+              "command": {
+                "const": "cite"
+              },
+              "citation_id": {
+                "type": "string",
+                "minLength": 1
+              },
               "stored": {
                 "type": "object",
                 "properties": {
-                  "tier": {"const": "short-term"},
-                  "path": {"$ref": "#/$defs/path"}
+                  "tier": {
+                    "const": "short-term"
+                  },
+                  "path": {
+                    "$ref": "#/$defs/path"
+                  }
                 },
-                "required": ["tier", "path"],
+                "required": [
+                  "tier",
+                  "path"
+                ],
                 "additionalProperties": false
               }
             },
-            "required": ["ok", "contract_version", "command", "citation_id", "stored"],
+            "required": [
+              "ok",
+              "contract_version",
+              "command",
+              "citation_id",
+              "stored"
+            ],
             "additionalProperties": false
           },
-          {"$ref": "#/$defs/error"}
+          {
+            "$ref": "#/$defs/error"
+          }
         ]
       }
     },
@@ -187,9 +400,13 @@
       "request": {
         "type": "object",
         "properties": {
-          "path": {"$ref": "#/$defs/path"}
+          "path": {
+            "$ref": "#/$defs/path"
+          }
         },
-        "required": ["path"],
+        "required": [
+          "path"
+        ],
         "additionalProperties": false
       },
       "response": {
@@ -197,17 +414,43 @@
           {
             "type": "object",
             "properties": {
-              "ok": {"const": true},
-              "contract_version": {"const": "1"},
-              "command": {"const": "pull"},
-              "path": {"$ref": "#/$defs/path"},
-              "version": {"type": "string", "minLength": 1},
-              "fingerprint": {"$ref": "#/$defs/fingerprint"}
+              "ok": {
+                "const": true
+              },
+              "contract_version": {
+                "const": "1"
+              },
+              "command": {
+                "const": "pull"
+              },
+              "tier": {
+                "const": "garura"
+              },
+              "path": {
+                "$ref": "#/$defs/path"
+              },
+              "version": {
+                "type": "string",
+                "minLength": 1
+              },
+              "fingerprint": {
+                "$ref": "#/$defs/fingerprint"
+              }
             },
-            "required": ["ok", "contract_version", "command", "path", "version", "fingerprint"],
+            "required": [
+              "ok",
+              "contract_version",
+              "command",
+              "tier",
+              "path",
+              "version",
+              "fingerprint"
+            ],
             "additionalProperties": false
           },
-          {"$ref": "#/$defs/error"}
+          {
+            "$ref": "#/$defs/error"
+          }
         ]
       }
     },
@@ -216,7 +459,9 @@
       "request": {
         "type": "object",
         "properties": {
-          "behind": {"type": "boolean"}
+          "behind": {
+            "type": "boolean"
+          }
         },
         "additionalProperties": false
       },
@@ -225,15 +470,33 @@
           {
             "type": "object",
             "properties": {
-              "ok": {"const": true},
-              "contract_version": {"const": "1"},
-              "command": {"const": "pulled"},
-              "pieces": {"type": "array", "items": {"$ref": "#/$defs/pulled_piece"}}
+              "ok": {
+                "const": true
+              },
+              "contract_version": {
+                "const": "1"
+              },
+              "command": {
+                "const": "pulled"
+              },
+              "pieces": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/pulled_piece"
+                }
+              }
             },
-            "required": ["ok", "contract_version", "command", "pieces"],
+            "required": [
+              "ok",
+              "contract_version",
+              "command",
+              "pieces"
+            ],
             "additionalProperties": false
           },
-          {"$ref": "#/$defs/error"}
+          {
+            "$ref": "#/$defs/error"
+          }
         ]
       }
     },
@@ -242,16 +505,47 @@
       "request": {
         "type": "object",
         "properties": {
-          "issue": {"type": "integer", "minimum": 1},
-          "missing": {"type": "string", "minLength": 1},
-          "target_tier": {"$ref": "#/$defs/update_tier"},
-          "target_path": {"$ref": "#/$defs/path"},
-          "draft": {"type": "string", "minLength": 1},
-          "draft_source": {"$ref": "#/$defs/draft_source"},
-          "sources": {"type": "array", "items": {"$ref": "#/$defs/source"}},
-          "requested_by": {"type": "string", "minLength": 1}
+          "issue": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "missing": {
+            "type": "string",
+            "minLength": 1
+          },
+          "target_tier": {
+            "$ref": "#/$defs/update_tier"
+          },
+          "target_path": {
+            "$ref": "#/$defs/path"
+          },
+          "draft": {
+            "type": "string",
+            "minLength": 1
+          },
+          "draft_source": {
+            "$ref": "#/$defs/draft_source"
+          },
+          "sources": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/source"
+            }
+          },
+          "requested_by": {
+            "type": "string",
+            "minLength": 1
+          }
         },
-        "required": ["missing", "target_tier", "target_path", "draft", "draft_source", "sources", "requested_by"],
+        "required": [
+          "missing",
+          "target_tier",
+          "target_path",
+          "draft",
+          "draft_source",
+          "sources",
+          "requested_by"
+        ],
         "additionalProperties": false
       },
       "response": {
@@ -259,15 +553,30 @@
           {
             "type": "object",
             "properties": {
-              "ok": {"const": true},
-              "contract_version": {"const": "1"},
-              "command": {"const": "propose"},
-              "update": {"$ref": "#/$defs/update"}
+              "ok": {
+                "const": true
+              },
+              "contract_version": {
+                "const": "1"
+              },
+              "command": {
+                "const": "propose"
+              },
+              "update": {
+                "$ref": "#/$defs/update"
+              }
             },
-            "required": ["ok", "contract_version", "command", "update"],
+            "required": [
+              "ok",
+              "contract_version",
+              "command",
+              "update"
+            ],
             "additionalProperties": false
           },
-          {"$ref": "#/$defs/error"}
+          {
+            "$ref": "#/$defs/error"
+          }
         ]
       }
     },
@@ -276,7 +585,9 @@
       "request": {
         "type": "object",
         "properties": {
-          "status": {"$ref": "#/$defs/update_status"}
+          "status": {
+            "$ref": "#/$defs/update_status"
+          }
         },
         "additionalProperties": false
       },
@@ -285,15 +596,33 @@
           {
             "type": "object",
             "properties": {
-              "ok": {"const": true},
-              "contract_version": {"const": "1"},
-              "command": {"const": "updates"},
-              "updates": {"type": "array", "items": {"$ref": "#/$defs/update"}}
+              "ok": {
+                "const": true
+              },
+              "contract_version": {
+                "const": "1"
+              },
+              "command": {
+                "const": "updates"
+              },
+              "updates": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/update"
+                }
+              }
             },
-            "required": ["ok", "contract_version", "command", "updates"],
+            "required": [
+              "ok",
+              "contract_version",
+              "command",
+              "updates"
+            ],
             "additionalProperties": false
           },
-          {"$ref": "#/$defs/error"}
+          {
+            "$ref": "#/$defs/error"
+          }
         ]
       }
     },
@@ -302,12 +631,31 @@
       "request": {
         "type": "object",
         "properties": {
-          "id": {"type": "string", "minLength": 1},
-          "verdict": {"enum": ["approve", "reject"]},
-          "by": {"type": "string", "minLength": 1},
-          "reply": {"type": "string", "minLength": 1}
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "verdict": {
+            "enum": [
+              "approve",
+              "reject"
+            ]
+          },
+          "by": {
+            "type": "string",
+            "minLength": 1
+          },
+          "reply": {
+            "type": "string",
+            "minLength": 1
+          }
         },
-        "required": ["id", "verdict", "by", "reply"],
+        "required": [
+          "id",
+          "verdict",
+          "by",
+          "reply"
+        ],
         "additionalProperties": false
       },
       "response": {
@@ -315,15 +663,30 @@
           {
             "type": "object",
             "properties": {
-              "ok": {"const": true},
-              "contract_version": {"const": "1"},
-              "command": {"const": "decide"},
-              "update": {"$ref": "#/$defs/update"}
+              "ok": {
+                "const": true
+              },
+              "contract_version": {
+                "const": "1"
+              },
+              "command": {
+                "const": "decide"
+              },
+              "update": {
+                "$ref": "#/$defs/update"
+              }
             },
-            "required": ["ok", "contract_version", "command", "update"],
+            "required": [
+              "ok",
+              "contract_version",
+              "command",
+              "update"
+            ],
             "additionalProperties": false
           },
-          {"$ref": "#/$defs/error"}
+          {
+            "$ref": "#/$defs/error"
+          }
         ]
       }
     },
@@ -332,9 +695,14 @@
       "request": {
         "type": "object",
         "properties": {
-          "id": {"type": "string", "minLength": 1}
+          "id": {
+            "type": "string",
+            "minLength": 1
+          }
         },
-        "required": ["id"],
+        "required": [
+          "id"
+        ],
         "additionalProperties": false
       },
       "response": {
@@ -342,26 +710,55 @@
           {
             "type": "object",
             "properties": {
-              "ok": {"const": true},
-              "contract_version": {"const": "1"},
-              "command": {"const": "apply"},
-              "update": {"$ref": "#/$defs/update"},
+              "ok": {
+                "const": true
+              },
+              "contract_version": {
+                "const": "1"
+              },
+              "command": {
+                "const": "apply"
+              },
+              "update": {
+                "$ref": "#/$defs/update"
+              },
               "written": {
                 "type": "object",
                 "properties": {
-                  "tier": {"$ref": "#/$defs/update_tier"},
-                  "path": {"$ref": "#/$defs/path"},
-                  "version": {"$ref": "#/$defs/version"},
-                  "fingerprint": {"$ref": "#/$defs/fingerprint"}
+                  "tier": {
+                    "$ref": "#/$defs/update_tier"
+                  },
+                  "path": {
+                    "$ref": "#/$defs/path"
+                  },
+                  "version": {
+                    "$ref": "#/$defs/version"
+                  },
+                  "fingerprint": {
+                    "$ref": "#/$defs/fingerprint"
+                  }
                 },
-                "required": ["tier", "path", "version", "fingerprint"],
+                "required": [
+                  "tier",
+                  "path",
+                  "version",
+                  "fingerprint"
+                ],
                 "additionalProperties": false
               }
             },
-            "required": ["ok", "contract_version", "command", "update", "written"],
+            "required": [
+              "ok",
+              "contract_version",
+              "command",
+              "update",
+              "written"
+            ],
             "additionalProperties": false
           },
-          {"$ref": "#/$defs/error"}
+          {
+            "$ref": "#/$defs/error"
+          }
         ]
       }
     }
@@ -376,110 +773,350 @@
     "changed": "The target changed after the update was proposed; propose again from the current text."
   },
   "$defs": {
-    "tier": {"enum": ["short-term", "garura", "phoenix"]},
-    "tier_or_null": {"oneOf": [{"$ref": "#/$defs/tier"}, {"type": "null"}]},
-    "tier_list": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/tier"}},
-    "update_tier": {"enum": ["garura", "phoenix"]},
-    "path": {"type": "string", "minLength": 1, "pattern": "^(?!/)(?!.*\\.\\.)[^\\\\]+$"},
-    "fingerprint": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
-    "version": {"type": ["string", "null"]},
-    "draft_source": {"enum": ["person", "web", "model", "memory"]},
-    "update_status": {"enum": ["waiting", "approved", "rejected", "applied"]},
+    "tier": {
+      "enum": [
+        "short-term",
+        "garura",
+        "phoenix"
+      ]
+    },
+    "tier_or_null": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/tier"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "tier_list": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/tier"
+      }
+    },
+    "update_tier": {
+      "enum": [
+        "garura",
+        "phoenix"
+      ]
+    },
+    "path": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?!.*\\.\\.)[^\\\\\\n\\r]+$"
+    },
+    "fingerprint": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "version": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "draft_source": {
+      "enum": [
+        "person",
+        "web",
+        "model",
+        "memory"
+      ]
+    },
+    "update_status": {
+      "enum": [
+        "waiting",
+        "approved",
+        "rejected",
+        "applied"
+      ]
+    },
     "tier_health": {
       "type": "object",
       "properties": {
-        "tier": {"$ref": "#/$defs/tier"},
-        "reachable": {"type": "boolean"},
-        "kind": {"enum": ["folder", "server"]},
-        "version": {"$ref": "#/$defs/version"}
+        "tier": {
+          "$ref": "#/$defs/tier"
+        },
+        "reachable": {
+          "type": "boolean"
+        },
+        "kind": {
+          "enum": [
+            "folder",
+            "server"
+          ]
+        },
+        "version": {
+          "$ref": "#/$defs/version"
+        }
       },
-      "required": ["tier", "reachable", "kind", "version"],
+      "required": [
+        "tier",
+        "reachable",
+        "kind",
+        "version"
+      ],
       "additionalProperties": false
     },
     "match": {
       "type": "object",
       "properties": {
-        "tier": {"$ref": "#/$defs/tier"},
-        "path": {"$ref": "#/$defs/path"},
-        "version": {"$ref": "#/$defs/version"}
+        "tier": {
+          "$ref": "#/$defs/tier"
+        },
+        "path": {
+          "$ref": "#/$defs/path"
+        },
+        "version": {
+          "$ref": "#/$defs/version"
+        }
       },
-      "required": ["tier", "path", "version"],
+      "required": [
+        "tier",
+        "path",
+        "version"
+      ],
       "additionalProperties": false
     },
     "hit": {
       "type": "object",
       "properties": {
-        "tier": {"$ref": "#/$defs/tier"},
-        "path": {"$ref": "#/$defs/path"},
-        "line": {"type": "integer", "minimum": 1},
-        "text": {"type": "string"}
+        "tier": {
+          "$ref": "#/$defs/tier"
+        },
+        "path": {
+          "$ref": "#/$defs/path"
+        },
+        "line": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "text": {
+          "type": "string"
+        },
+        "fingerprint": {
+          "$ref": "#/$defs/fingerprint"
+        }
       },
-      "required": ["tier", "path", "line", "text"],
+      "required": [
+        "tier",
+        "path",
+        "line",
+        "text",
+        "fingerprint"
+      ],
       "additionalProperties": false
     },
     "source": {
       "type": "object",
       "properties": {
-        "tier": {"$ref": "#/$defs/tier"},
-        "path": {"$ref": "#/$defs/path"},
-        "start": {"type": "integer", "minimum": 1},
-        "end": {"type": "integer", "minimum": 1},
-        "fingerprint": {"$ref": "#/$defs/fingerprint"}
+        "tier": {
+          "$ref": "#/$defs/tier"
+        },
+        "path": {
+          "$ref": "#/$defs/path"
+        },
+        "start": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "end": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "fingerprint": {
+          "$ref": "#/$defs/fingerprint"
+        }
       },
-      "required": ["tier", "path", "start", "end", "fingerprint"],
+      "required": [
+        "tier",
+        "path",
+        "start",
+        "end",
+        "fingerprint"
+      ],
       "additionalProperties": false
     },
     "pulled_piece": {
       "type": "object",
       "properties": {
-        "path": {"$ref": "#/$defs/path"},
-        "version": {"type": "string", "minLength": 1},
-        "current_version": {"type": "string", "minLength": 1},
-        "behind": {"type": "boolean"}
+        "path": {
+          "$ref": "#/$defs/path"
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "current_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "behind": {
+          "type": "boolean"
+        }
       },
-      "required": ["path", "version", "current_version", "behind"],
+      "required": [
+        "path",
+        "version",
+        "current_version",
+        "behind"
+      ],
       "additionalProperties": false
     },
     "update": {
       "type": "object",
       "properties": {
-        "id": {"type": "string", "minLength": 1},
-        "status": {"$ref": "#/$defs/update_status"},
-        "issue": {"type": ["integer", "null"]},
-        "missing": {"type": "string", "minLength": 1},
-        "target_tier": {"$ref": "#/$defs/update_tier"},
-        "target_path": {"$ref": "#/$defs/path"},
-        "draft": {"type": "string", "minLength": 1},
-        "draft_source": {"$ref": "#/$defs/draft_source"},
-        "sources": {"type": "array", "items": {"$ref": "#/$defs/source"}},
-        "requested_by": {"type": "string", "minLength": 1},
-        "requested_at": {"type": "string", "minLength": 1},
-        "decided_by": {"type": ["string", "null"]},
-        "reply": {"type": ["string", "null"]},
-        "decided_at": {"type": ["string", "null"]},
-        "applied_version": {"type": ["string", "null"]}
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "$ref": "#/$defs/update_status"
+        },
+        "issue": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "missing": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target_tier": {
+          "$ref": "#/$defs/update_tier"
+        },
+        "target_path": {
+          "$ref": "#/$defs/path"
+        },
+        "draft": {
+          "type": "string",
+          "minLength": 1
+        },
+        "draft_source": {
+          "$ref": "#/$defs/draft_source"
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/source"
+          }
+        },
+        "requested_by": {
+          "type": "string",
+          "minLength": 1
+        },
+        "requested_at": {
+          "type": "string",
+          "minLength": 1
+        },
+        "decided_by": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "reply": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "decided_at": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "applied_version": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
       },
-      "required": ["id", "status", "issue", "missing", "target_tier", "target_path", "draft", "draft_source", "sources", "requested_by", "requested_at", "decided_by", "reply", "decided_at", "applied_version"],
+      "required": [
+        "id",
+        "status",
+        "issue",
+        "missing",
+        "target_tier",
+        "target_path",
+        "draft",
+        "draft_source",
+        "sources",
+        "requested_by",
+        "requested_at",
+        "decided_by",
+        "reply",
+        "decided_at",
+        "applied_version"
+      ],
       "additionalProperties": false
     },
     "error": {
       "type": "object",
       "properties": {
-        "ok": {"const": false},
-        "contract_version": {"const": "1"},
-        "command": {"enum": ["health", "find", "search", "read", "cite", "pull", "pulled", "propose", "updates", "decide", "apply"]},
+        "ok": {
+          "const": false
+        },
+        "contract_version": {
+          "const": "1"
+        },
+        "command": {
+          "enum": [
+            "health",
+            "find",
+            "search",
+            "read",
+            "cite",
+            "pull",
+            "pulled",
+            "propose",
+            "updates",
+            "decide",
+            "apply"
+          ]
+        },
         "error": {
           "type": "object",
           "properties": {
-            "code": {"enum": ["settings_missing", "tier_missing", "bad_request", "not_found", "out_of_range", "not_approved", "changed"]},
-            "message": {"type": "string", "minLength": 1},
-            "tier": {"$ref": "#/$defs/tier_or_null"}
+            "code": {
+              "enum": [
+                "settings_missing",
+                "tier_missing",
+                "bad_request",
+                "not_found",
+                "out_of_range",
+                "not_approved",
+                "changed"
+              ]
+            },
+            "message": {
+              "type": "string",
+              "minLength": 1
+            },
+            "tier": {
+              "$ref": "#/$defs/tier_or_null"
+            }
           },
-          "required": ["code", "message", "tier"],
+          "required": [
+            "code",
+            "message",
+            "tier"
+          ],
           "additionalProperties": false
         }
       },
-      "required": ["ok", "contract_version", "command", "error"],
+      "required": [
+        "ok",
+        "contract_version",
+        "command",
+        "error"
+      ],
       "additionalProperties": false
     }
   }
