@@ -16,7 +16,7 @@ sys.path.insert(0, os.path.join(HERE, "contract"))
 import check_contract as cc  # noqa: E402
 import pull  # noqa: E402
 
-CONTRACT = cc.load(os.path.join(HERE, "contract", "v1.json"))
+CONTRACT = cc.load(os.path.join(HERE, "contract", "v2.json"))
 
 
 def git(repo, *args):

@@ -12,7 +12,7 @@
   },
   "response": {
     "ok": true,
-    "contract_version": "1",
+    "contract_version": "2",
     "command": "propose",
     "update": {
       "id": "mu-20261018-001",

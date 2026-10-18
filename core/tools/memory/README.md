@@ -2,7 +2,7 @@
 
 The one way agents find memory and update it. Today it works on folders. Later it calls a
 server in Griffin. Agents that call it do not change when that happens, because they only ever
-talk to this tool, through the contract in `contract/v1.json`.
+talk to this tool, through the contract in `contract/v2.json`.
 
 This folder holds the contract (version 1), sample answers, the check that keeps them in
 step, and the tool: `memory.py`. Today the tool answers `health`, `find`, `search`, `read`,
@@ -68,7 +68,12 @@ Every lookup names the issue the work is on. Short-term memory is read only in t
 folder (`<issue>/`), never in another issue's. Otherwise another issue's old notes would answer
 first, and Garura and Phoenix memory would never be reached. For example, an agent that searches
 for "commit message" must not stop at another issue's old fix notes; it goes on to the commit rule
-in Garura memory. A read of another issue's short-term path is refused (`bad_request`).
+in Garura memory. A read of another issue's short-term path is refused (`bad_request`), and so
+is a glob or path that steps outside its tier (`../613/**`).
+
+A lookup with no issue has no short-term memory: it goes Garura, then Phoenix memory. This lets
+work look things up before its issue exists. Asking for short-term memory without an issue is
+refused (`bad_request`).
 
 - `tier` asks one tier only.
 - `every_tier` looks in all three and does not stop at the first answer. `answered_by` is then
@@ -199,7 +204,10 @@ The check holds every sample to these, beyond its shape:
 - Nothing here names a path inside a project or imports code from outside the folder, so the
   folder can move to Griffin as it is.
 - Python standard library only, Python 3.10 or newer. No installs.
-- The contract changes only by a new version. Version 1 is `contract/v1.json`.
+- The contract changes only by a new version. Version 2 is `contract/v2.json` (#657: lookups
+  without an issue, globs that never step outside their tier, Phoenix memory read only at its
+  approved version, and memory that is used is saved). Version 1, `contract/v1.json`, is kept
+  as it was.
 
 ## Checking the contract
 

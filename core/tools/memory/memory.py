@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-memory.py — the memory tool: the one way agents find memory (contract version 1).
+memory.py — the memory tool: the one way agents find memory (contract version 2).
 
     python3 memory.py health
     python3 memory.py find   --issue N --glob GLOB [--tier T | --every-tier]
@@ -12,11 +12,12 @@ memory.py — the memory tool: the one way agents find memory (contract version 
     python3 memory.py <command> --request '{"issue": 657, ...}'
 
 Each request field is a flag, or the whole request is one JSON object (--request). Every
-answer is one JSON object per line, in the contract's shapes (contract/v1.json). A request
+answer is one JSON object per line, in the contract's shapes (contract/v2.json). A request
 that does not match the contract is refused with bad_request.
 
 Lookups go short-term -> garura -> phoenix and stop at the first tier that answers.
-Short-term memory is read only in the request's issue folder. Phoenix memory is read only
+Short-term memory is read only in the request's issue folder; a request with no issue has
+no short-term memory and starts at Garura memory. Phoenix memory is read only
 at its approved version (phoenix_ref). A file read from Phoenix memory is used, so it is
 pulled into Garura memory: the next lookup answers from the project.
 
@@ -52,7 +53,7 @@ import check_contract  # noqa: E402
 import pull as phoenix_git  # noqa: E402
 from pull import CONTRACT_VERSION, SAFE_PATH, Refusal, error, glob_regex  # noqa: E402
 
-CONTRACT = check_contract.load(os.path.join(HERE, "contract", "v1.json"))
+CONTRACT = check_contract.load(os.path.join(HERE, "contract", "v2.json"))
 ORDER = CONTRACT["lookup_order"]
 KEYS = {"engine": "MEMORY_ENGINE", "short-term": "MEMORY_SHORT_TERM_ROOT",
         "garura": "MEMORY_GARURA_ROOT", "phoenix": "MEMORY_PHOENIX_ROOT",
@@ -217,9 +218,13 @@ def tiers_for(request):
     """The tiers a lookup reads, in order, and whether it stops at the first answer."""
     if request.get("tier") and request.get("every_tier"):
         raise Refusal("bad_request", "Ask for tier or every_tier, not both.")
+    if request.get("issue") is None and request.get("tier") == "short-term":
+        raise Refusal("bad_request", "Short-term memory is one issue's memory: a lookup without an "
+                      "issue cannot ask for it.", "short-term")
     if request.get("tier"):
         return [request["tier"]], True
-    return list(ORDER), not request.get("every_tier")
+    order = ORDER if request.get("issue") is not None else [t for t in ORDER if t != "short-term"]
+    return list(order), not request.get("every_tier")
 
 
 def safe_glob(glob):
@@ -261,7 +266,7 @@ def cmd_health(engine, request):
 
 
 def cmd_find(engine, request):
-    issue, rx = request["issue"], safe_glob(request["glob"])
+    issue, rx = request.get("issue"), safe_glob(request["glob"])
 
     def found(tier):
         version = engine.version(tier)
@@ -273,7 +278,7 @@ def cmd_find(engine, request):
 
 
 def cmd_search(engine, request):
-    issue = request["issue"]
+    issue = request.get("issue")
     rx = safe_glob(request["glob"]) if request.get("glob") else None
 
     def found(tier):
@@ -290,7 +295,7 @@ def cmd_search(engine, request):
 
 
 def cmd_read(engine, request):
-    issue, tier, path = request["issue"], request["tier"], request["path"]
+    issue, tier, path = request.get("issue"), request["tier"], request["path"]
     if tier == "short-term" and not path.startswith(f"{issue}/"):
         raise Refusal("bad_request", f"Short-term path {path} is outside issue {issue}; "
                       "short-term memory is that issue only.", tier)

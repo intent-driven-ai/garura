@@ -2,7 +2,7 @@
 """
 check_contract.py — keep the memory tool's contract, its samples and its folder in step.
 
-    python3 contract/check_contract.py [--contract contract/v1.json]
+    python3 contract/check_contract.py [--contract contract/v2.json]
 
 Four checks, all from this folder alone (standard library only, Python 3.10 or newer):
   1. every sample in samples/ matches the contract: its request against the
@@ -205,6 +205,8 @@ def refusal(command, request):
     """Why the contract refuses this request with bad_request, or None (answer rule refusals)."""
     if request.get("tier") and request.get("every_tier"):
         return "tier with every_tier"
+    if command in ("find", "search") and request.get("tier") == "short-term" and request.get("issue") is None:
+        return "tier short-term without an issue"
     if command == "read":
         start, end = request.get("start"), request.get("end")
         if start is not None and end is not None and end < start:
@@ -243,12 +245,16 @@ def check_meaning(sample, contract):
         return []
     problems = check_scope(request, response) + check_lifecycle(request, response)
     order = contract["lookup_order"]
+    if request.get("issue") is None:
+        # no issue, no short-term memory: the lookup order starts at Garura memory
+        order = [t for t in order if t != "short-term"]
     if response.get("command") in ("find", "search"):
         looked, answered = response.get("looked_in", []), response.get("answered_by")
         asked, every = request.get("tier"), request.get("every_tier") is True
         expected_all = [asked] if asked else order
         if [t for t in order if t in looked] != looked:
-            problems.append("looked_in is not in lookup order")
+            problems.append("looked_in is not in lookup order" if all(t in order for t in looked)
+                            else "looked_in has short-term memory, but the request names no issue")
         if answered is None and looked != expected_all:
             problems.append(f"nothing found after looking in {looked}, not {expected_all}: a tier was skipped")
         if every and looked != order:
@@ -352,7 +358,7 @@ def check_boundary(root=TOOL):
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[1])
-    ap.add_argument("--contract", default=os.path.join(HERE, "v1.json"))
+    ap.add_argument("--contract", default=os.path.join(HERE, "v2.json"))
     ns = ap.parse_args(argv)
     try:
         contract = load(ns.contract)

@@ -10,7 +10,7 @@ import unittest
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import check_contract as cc  # noqa: E402
 
-CONTRACT = cc.load(os.path.join(cc.HERE, "v1.json"))
+CONTRACT = cc.load(os.path.join(cc.HERE, "v2.json"))
 
 
 def v(value, schema):
@@ -132,7 +132,7 @@ class Scope(unittest.TestCase):
         hit = s["response"]["hits"][0]
         read = {"command": "read", "request": {"issue": 655, "tier": "short-term", "path": hit["path"],
                                                "start": hit["line"], "end": hit["line"]},
-                "response": {"ok": True, "contract_version": "1", "command": "read", "tier": "short-term",
+                "response": {"ok": True, "contract_version": "2", "command": "read", "tier": "short-term",
                              "path": hit["path"], "start": hit["line"], "end": hit["line"], "text": hit["text"],
                              "fingerprint": hit["fingerprint"], "version": None}}
         self.assertTrue(cc.check_meaning(read, CONTRACT))
@@ -147,11 +147,24 @@ class Scope(unittest.TestCase):
         s["request"]["sources"][0]["path"] = "613/specs/plan.md"
         self.assertTrue(cc.check_meaning(s, CONTRACT))
 
-    def test_every_lookup_names_its_issue(self):
-        for name in ("find.json", "search.json", "read.json"):
+    def test_without_an_issue_there_is_no_short_term_memory(self):
+        # find.json and search.json looked in short-term memory: without an issue, that is wrong
+        for name in ("find.json", "search.json"):
             s = sample(name)
             s["request"].pop("issue")
             self.assertTrue(cc.check_sample(s, CONTRACT), name)
+        # a read of Phoenix memory needs no issue (version 2)
+        s = sample("read.json")
+        s["request"].pop("issue")
+        self.assertEqual(cc.check_sample(s, CONTRACT), [])
+        # a read of short-term memory, or a lookup asking for it, without an issue is refused
+        s = sample("read.json")
+        s["request"].pop("issue")
+        s["request"].update({"tier": "short-term", "path": "613/specs/plan.md"})
+        s["response"].update({"tier": "short-term", "path": "613/specs/plan.md"})
+        self.assertTrue(cc.check_meaning(s, CONTRACT))
+        self.assertEqual(cc.refusal("search", {"pattern": "x", "tier": "short-term"}),
+                         "tier short-term without an issue")
 
 
 class Lifecycle(unittest.TestCase):
@@ -310,7 +323,7 @@ class Refusals(unittest.TestCase):
 
     def test_answer_names_its_own_command(self):
         s = {"command": "find", "request": {"issue": 613, "glob": "x"},
-             "response": {"ok": False, "contract_version": "1", "command": "health",
+             "response": {"ok": False, "contract_version": "2", "command": "health",
                           "error": {"code": "tier_missing", "message": "m", "tier": None}}}
         self.assertTrue(cc.check_sample(s, CONTRACT))
 

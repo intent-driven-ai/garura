@@ -2,7 +2,7 @@
 """Tests for memory.py. Run from the tool's folder: python3 test_memory.py
 
 Every answer the tool gives is also put through the contract check (shape and answer
-rules), so the tool cannot drift from contract/v1.json.
+rules), so the tool cannot drift from contract/v2.json.
 """
 
 import os
@@ -147,6 +147,28 @@ class ShortTerm(Tiers):
         write(self.short, "7/specs/plan.md", "the plan\n")
         a = self.ask("find", {"issue": 7, "glob": "specs/*.md"})
         self.assertEqual([m["path"] for m in a["matches"]], ["7/specs/plan.md"])
+
+
+class WithoutAnIssue(Tiers):
+    """Version 2: work can look things up before its issue exists."""
+
+    def test_the_lookup_starts_at_garura_memory(self):
+        write(self.short, "7/notes.md", "reset link: ask the person\n")
+        a = self.ask("search", {"pattern": "reset link"})
+        self.assertEqual((a["looked_in"], a["answered_by"]), (["garura", "phoenix"], "phoenix"))
+
+    def test_nothing_found_looks_in_garura_and_phoenix(self):
+        a = self.ask("find", {"glob": "**/nothing.md"})
+        self.assertEqual((a["looked_in"], a["answered_by"]), (["garura", "phoenix"], None))
+
+    def test_short_term_needs_an_issue(self):
+        self.assertEqual(self.ask("search", {"pattern": "x", "tier": "short-term"})["error"]["code"], "bad_request")
+        a = self.ask("read", {"tier": "short-term", "path": "7/notes.md"})
+        self.assertEqual(a["error"]["code"], "bad_request")
+
+    def test_a_phoenix_read_needs_no_issue(self):
+        a = self.ask("read", {"tier": "phoenix", "path": "standards/rules/commits.md"})
+        self.assertEqual(a["text"], "# Commits\nSubject under 72.")
 
 
 class Read(Tiers):

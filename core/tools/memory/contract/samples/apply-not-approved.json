@@ -5,7 +5,7 @@
   },
   "response": {
     "ok": false,
-    "contract_version": "1",
+    "contract_version": "2",
     "command": "apply",
     "error": {
       "code": "not_approved",
