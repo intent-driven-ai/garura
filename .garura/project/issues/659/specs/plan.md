@@ -117,3 +117,4 @@ commit, raise, review, merge.
 - 2026-10-19 — Item 1e: the review tool's five sections and the Ask memory mock (design only).
 - 2026-10-19 — Items 2–4 done: the decision record, contract version 4, `cite` and `citations`.
 - 2026-10-19 — Item 5 built: the drive review record carries the decisions and their sources.
+- 2026-10-19 — Kapil: the Agent decisions screen looked thin. The mockup now shows the memory tool's real `citations --check` and `updates` answers (12 records over real Phoenix lines, 3 problems; both pass contract v4), made by `evidence/make_decisions.py`. The tool's problem text reads right for one line.
