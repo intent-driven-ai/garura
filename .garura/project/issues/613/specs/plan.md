@@ -68,8 +68,8 @@ the wrong move."* When memory and the system hold nothing to go on, they ask.
 The change is open: branch `feature/613-the-kickoff-drive`, cut from main on
 2026-10-18. Item 1 is decided: ADR 034 says how the plays decide inside a drive.
 Item 2 is done: the memory review found memory not ready, and Kapil chose to fix
-the whole memory system first, as its own feature (draft plan:
-`specs/memory-system-plan.md`). Nothing is built. Item 3 is next, but it waits
+the whole memory system first, as its own feature (Feature #653,
+`.garura/project/issues/653/specs/plan.md`). Nothing is built. Item 3 is next, but it waits
 at the milestone below until the memory system reaches its own milestone.
 
 ## The plan, in order
@@ -99,7 +99,7 @@ project pulls, memory updates, every decision naming its memory, the memory
 system in every Garura install, and
 `/intent`, `/vision` and `/understand` moved onto the tool and tried on a test
 project. That work is its own feature, outside this issue
-(`specs/memory-system-plan.md`, not filed yet).
+(Feature #653, `.garura/project/issues/653/specs/plan.md`).
 
 ### 3. Decide the runner's shape — now
 
@@ -198,7 +198,7 @@ mark step 1 of item 8 done in the #606 plan.
   "item 3" now means item 4.
 - 2026-10-18 — Item 2 done: the memory review is written. Kapil chose B — fix
   the whole memory system before the drive — as its own feature with its own
-  issues and branches (draft plan `specs/memory-system-plan.md`), and set its
+  issues and branches (Feature #653), and set its
   model: Phoenix memory is the superset; Garura memory in a project is the
   subset it pulls; one tool finds and updates memory. A milestone now holds
   item 3 until that feature passes its own milestone. Item 4's play fixes
@@ -209,3 +209,4 @@ mark step 1 of item 8 done in the #606 plan.
   start from main. #613 stays open; Kickoff gets a fresh branch when the memory
   milestone is passed. Kapil also made the memory system part of every Garura
   install (memory plan item 7).
+- 2026-10-18 — The memory system is filed as Feature #653 (spike #654 for its decision); its plan moved to `.garura/project/issues/653/specs/plan.md`.

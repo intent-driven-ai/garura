@@ -85,7 +85,7 @@ it.
 **Why here:** it needs all of items 3 to 7.
 **Done when:** a working prototype goes in; the person approves the plan; out come a plan and issues the person can read, and a detailed product model for the agents — checked and reviewed.
 **Order inside this item** (Kapil, 2026-10-18, "A" — the runner first, then the review; and "B" — the whole memory system before the runner):
-0. **The memory system — its own feature, not filed yet.** Phoenix memory is the superset; each project pulls the subset it needs; one tool finds and updates memory, searching like Claude Code; nothing comes from the model or the web without a memory update a person approved. Draft plan: `.garura/project/issues/613/specs/memory-system-plan.md`. The runner starts at its milestone (its items 1 to 9).
+0. **The memory system — Feature #653** (decision: spike #654). Phoenix memory is the superset; each project pulls the subset it needs; one tool finds and updates memory, searching like Claude Code; nothing comes from the model or the web without a memory update a person approved. Its plan: `.garura/project/issues/653/specs/plan.md`. The runner starts at its milestone (its items 1 to 9).
 1. **The runner — #613.** Questions first, then `/intent` → `/vision` → `/understand`, the checker, the evidence. Until the review exists, the drive ends with the plays' review records and a pull request.
 2. **The review — #641–#644** (the tool), **#645–#646** (approval in the product model), **#648–#649** (open, listen, send back). #641 takes its example pack from a real Kickoff run, which only the runner can make.
 3. **The review joins the drive — #650.** The review step becomes the drive's last step and writes approval.
@@ -173,3 +173,4 @@ Not part of this plan; recorded so the gaps in time make sense.
   a drive). Kapil had memory reviewed before the runner is built, then chose to
   fix the whole memory system first, as its own feature — added as step 0 of
   item 8. Big update: an added piece of work, logged here.
+- 2026-10-18 — The memory system is filed: Feature #653 under #606, with spike #654 for its decision. Step 0 of item 8 now names them.
