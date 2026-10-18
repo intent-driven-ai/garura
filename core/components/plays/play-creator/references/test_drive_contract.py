@@ -162,6 +162,17 @@ def test_review_writer():
         check("the review record carries each decision and its trace",
               rc == 0 and [d["question"] for d in rec7["decisions"]] == ["Guest checkout?"]
               and rec7["decisions"][0]["trace"][0]["source"]["tier"] == "garura" and rec7["decision_problems"] == [])
+        with open(citations) as fh:
+            good = json.load(fh)
+        for name, bad in (("another play", dict(good, records=[dict(good["records"][0], play="/understand")])),
+                          ("another issue", dict(good, records=[dict(good["records"][0], issue=999)])),
+                          ("records that are not a list", dict(good, records="oops")),
+                          ("an older contract", dict(good, contract_version="3"))):
+            wrong = os.path.join(tmp, "wrong.json")
+            with open(wrong, "w") as fh:
+                json.dump(bad, fh)
+            check(f"a citations answer with {name} writes nothing",
+                  wdr.main(["--run", runp, "--summary", summary, "--decisions", wrong, "--ts", "t9"]) == 2)
         not_citations = os.path.join(tmp, "not-citations.json")
         with open(not_citations, "w") as fh:
             fh.write('{"ok": true, "command": "search"}')

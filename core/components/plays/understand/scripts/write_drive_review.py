@@ -76,11 +76,21 @@ def main(argv=None):
                 answer = json.load(fh)
         except ValueError:
             answer = None
-        if not (isinstance(answer, dict) and answer.get("ok") is True and answer.get("command") == "citations"):
+        if not (isinstance(answer, dict) and answer.get("ok") is True and answer.get("command") == "citations"
+                and answer.get("contract_version") == "4" and isinstance(answer.get("records"), list)
+                and isinstance(answer.get("problems"), list)):
             sys.stderr.write(f"write_drive_review.py: {args.decisions} is not the memory tool's citations "
-                             "answer — nothing written\n")
+                             "answer (contract version 4) — nothing written\n")
             return 2
-        decisions, problems = answer.get("records", []), answer.get("problems", [])
+        decisions, problems = answer["records"], answer["problems"]
+        # only this play's decisions, for this run's issue: another play's would read as this one's
+        play = "/" + run["play"].lstrip("/")
+        foreign = [r.get("citation_id") for r in decisions if not isinstance(r, dict) or r.get("play") != play
+                   or (run.get("issue") is not None and str(r.get("issue")) != str(run["issue"]))]
+        if foreign:
+            sys.stderr.write(f"write_drive_review.py: {args.decisions} holds decisions of another play or issue "
+                             f"({', '.join(map(str, foreign))}) — nothing written\n")
+            return 2
 
     base = os.path.join(run["review_dir"], f"{run['play']}-{args.ts}")
     if os.path.abspath(args.summary) == os.path.abspath(base + ".md"):
