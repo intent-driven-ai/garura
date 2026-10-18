@@ -133,6 +133,9 @@ Next: item 5, memory updates (#658), starting with the two fixes from the #674 r
   Garura or Phoenix memory works without an issue. Kapil's login and change-password test
   passed on a fresh project. No agent calls it yet (item 8). ADR 035 §2 and ADR 036 §1
   need amending for these decisions.
+- **11. Moved: the memory review** — #664 is built with the whole review tool, all
+  sections inside Garura, in the #606 plan (item 8, the review). Kapil, 2026-10-18 (#658): "we will build the tool with all the sections inside garura - as part of 606 plan. it remains a local prototype for now."
+  Until then, a local prototype page approves memory updates (#658 plan, item 5).
 
 ### 5. Memory updates instead of guesses — now
 
@@ -239,26 +242,6 @@ describe the three tiers and the tool, and the locked knowledge-base design note
 **Done when:** the lint passes across every component.
 **Needs:** item 9.
 
-### 11. The memory review
-
-**Issue:** #664.
-**What:** a third section in the review tool, **Memory and ADRs**, next to
-Intents and Product. It shows short-term, Garura and Phoenix memory: what each
-tier holds, the memory updates waiting for a person (accept, send back, drop,
-or leave for later), and which memory each decision came from. It also shows the ADRs waiting for a
-person. Every memory review and ADR review happens there, with the same card
-method as intents and product: Catch up (#644), one card per change, swipe
-right to accept, swipe left to leave for later.
-**Done when:** a person approves a memory update and accepts an ADR on a card
-in the tool, and sees a decision's source there.
-**Needs:** items 5 and 6, and the review tool (#641–#644).
-**Also:** decided in ADR 036 §7 (#667). Building it includes the `/adr` intent
-change: its pinned accept, typed today, moves onto a card in this section,
-through its ICE source and `/play-editor`. Two points stay open in ADR 036 and
-are settled with Kapil before building: whether a product decision waiting for
-a person is reviewed here or under Decisions in the Product view, and who
-writes the approval when a person swipes right (ADR 033 §6).
-
 ## Log
 
 - 2026-10-18 — Drafted in #613 from Kapil's memory model (three tiers; one tool;
@@ -312,3 +295,4 @@ writes the approval when a person swipes right (ADR 033 §6).
 - 2026-10-18 — Kapil: memory updates land in short-term memory only; `learn` and `promote` plays move memory up; unapproved Phoenix memory is not read (item 5 note).
 - 2026-10-18 — Kapil kept the order: the agents move onto the tool in #661 after #658–#660, not right after #657. No agent calls the tool yet.
 - 2026-10-18 — Item 4 done: #657 approved by Kapil (PR #674). Now item 5 (#658).
+- 2026-10-18 — Item 11 moved: the memory review (#664) is built with the review tool in the #606 plan.

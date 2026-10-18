@@ -4,7 +4,7 @@ kind: story
 serves: "#658 — when no memory answers, an agent raises a memory update a person approves, and then decides from memory"
 status: active
 updated: 2026-10-18
-now: 1
+now: 2
 serves_plan: 653
 serves_item: 5
 ---
@@ -55,8 +55,9 @@ and its text still lets an update target Garura or Phoenix memory.
 
 ## Where we are now
 
-The change is open on `feature/658-memory-updates`. Kapil answered two of the
-three questions (1b, 1c). Next: item 1, how a person's approval is given.
+The change is open on `feature/658-memory-updates`. Kapil answered all three
+questions (items 1, 1b, 1c), and the review tool's design is updated. Next:
+item 2, the two faults from the PR #674 review.
 
 ## The plan, in order
 
@@ -71,22 +72,17 @@ three questions (1b, 1c). Next: item 1, how a person's approval is given.
   STM. i told you we will have /learn-memory and /promote-memory that will take
   care of project and phoenix memory". A person's own answers land in short-term
   memory too; `/learn-memory` and `/promote-memory` move memory up.
+- **1. Decided: a person approves each update in the review tool** — Kapil,
+  2026-10-18: "use the tool we built for product and intent... that now shows
+  memory's created in STM, and each needs an explicit approval from a human";
+  "update the design of that tool. until the tool is built, we will use the local
+  tool itself"; "we will build the tool with all the sections inside garura - as
+  part of 606 plan. it remains a local prototype for now." The review tool's
+  design (`.garura/project/issues/617/specs/review-tool.md`) now shows memory
+  updates with an explicit Approve or Reject on each, and names the local
+  prototype (`core/tools/play-reviewer/`, never committed) as the stand-in.
 
-### 1. Decide how a person's approval is given — now
-
-**Issue:** #658.
-**What:** Kapil, 2026-10-18: "use the tool we built for product and intent...
-that now shows memory's created in STM, and each needs an explicit approval from
-a human". That review tool is designed (ADR 032, #617:
-`.garura/project/issues/617/specs/review-tool.md` and its mockup) but not built:
-its stories #641–#644 and its Memory and ADRs section #664 are open. Kapil to
-choose: build the updates now and approve in the tool once it exists, or build
-the tool first.
-**Why here:** it decides whether this story waits for the review tool.
-**Done when:** Kapil chooses.
-**Needs:** nothing.
-
-### 2. Fix the two faults from the PR #674 review
+### 2. Fix the two faults from the PR #674 review — now
 
 **Issue:** #658.
 **What:** `pull` takes the contract's request shape (`{path}`) as well as the
@@ -117,33 +113,47 @@ refused (`not_approved`).
 **Done when:** every answer passes the contract check in the tests.
 **Needs:** item 3.
 
-### 5. Show it end to end
+### 5. The local prototype's memory-updates page
+
+**Issue:** #658 (the page itself is local and never committed).
+**What:** a page in `core/tools/play-reviewer/` that lists the memory updates
+waiting in short-term memory, one at a time — the issue, what was missing, the
+draft, where it came from, whether it blocks — and records the person's Approve
+or Reject, with their words, through the memory tool's `decide`.
+**Why here:** a person's approval needs a place a person acts in, not an agent's
+command. The real section is #664, built with the review tool in the #606 plan.
+**Done when:** an update raised by a test is approved on the page, and its
+record shows the person's words.
+**Needs:** item 4.
+
+### 6. Show it end to end
 
 **Issue:** #658.
-**What:** on a fresh project: a gap, an update, a person's approval, the write,
+**What:** on a fresh project: a gap, an update, a person's approval on the
+local page, the write,
 and the answer from memory; the same in another issue finds nothing; a
 rejection writes nothing; nothing comes from the model or the web without an
 approved update. Keep the record in this issue's short-term memory.
 **Why here:** the issue's done-when, shown.
 **Done when:** every case behaves as written.
-**Needs:** item 4.
+**Needs:** item 5.
 
-### 6. Land the change
+### 7. Land the change
 
 **Issue:** #658.
 **What:** in the last commit before the merge, mark this plan done and item 5
 of the #653 plan done; commit, raise, review, merge. Story texts that these
 answers change (#658, #661, #663) are fixed only when Kapil asks.
 **Done when:** merged to main.
-**Needs:** item 5.
+**Needs:** item 6.
 
 ## Not in this plan
 
 - Moving memory up: the `learn` and `promote` plays (not filed yet).
 - Turning the knowledge-base proposal (`propose-kb-node`) into a memory update:
   that changes a skill, so it moves with the skills (#661, #663).
-- The review tool's Memory and ADRs section (#664). Until it exists, a person
-  approves by typing.
+- The review tool's Memory and ADRs section (#664): built with the whole tool in
+  the #606 plan. Until then the local prototype's page stands in (item 5).
 
 ## Log
 
@@ -151,3 +161,4 @@ answers change (#658, #661, #663) are fixed only when Kapil asks.
   (`core/tools/memory/contract/v2.json`), ADR 035 §5, ADR 036 §2–§4, the #653
   plan item 5 and Kapil's decisions of 2026-10-18 (#657 plan, item 1).
 - 2026-10-18 — Kapil: the drive keeps going unless an update really blocks; updates always land in short-term memory (`/learn-memory`, `/promote-memory` move memory up); approval in the product and intent review tool, which is designed but not built.
+- 2026-10-18 — Item 1 decided: approval in the review tool, a local prototype page until it is built; the tool's design updated. Item 5 added (the local page).
