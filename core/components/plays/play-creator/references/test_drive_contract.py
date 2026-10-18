@@ -146,6 +146,26 @@ def test_review_writer():
             json.dump(dict(broken, drive_run_id="k", in_drive="false"), fh)
         check("in_drive as the text 'false' is not a drive run",
               wdr.main(["--run", brokenp, "--summary", summary, "--ts", "t6"]) == 2)
+        citations = os.path.join(tmp, "citations.json")
+        with open(citations, "w") as fh:
+            json.dump({"ok": True, "contract_version": "4", "command": "citations", "records": [
+                {"citation_id": "cite-20261019-001", "issue": 613, "play": "/vision", "question": "Guest checkout?",
+                 "answer": "Yes.", "decided_by": "product-os-keeper (/vision)", "decided_at": "2026-10-19T09:00:00Z",
+                 "sources": [{"tier": "garura", "path": "product-os/checkout/checkout/capability.md", "start": 12,
+                              "end": 12, "fingerprint": "sha256:" + "0" * 64}], "from_update": None}],
+                "problems": []}, fh)
+        rc = wdr.main(["--run", runp, "--summary", summary, "--decisions", citations, "--ts", "t7"])
+        with open(os.path.join(r["review_dir"], "vision-t7.json")) as fh:
+            rec7 = json.load(fh)
+        check("the review record carries each decision and the memory it rested on",
+              rc == 0 and [d["question"] for d in rec7["decisions"]] == ["Guest checkout?"]
+              and rec7["decisions"][0]["sources"][0]["tier"] == "garura" and rec7["decision_problems"] == [])
+        not_citations = os.path.join(tmp, "not-citations.json")
+        with open(not_citations, "w") as fh:
+            fh.write('{"ok": true, "command": "search"}')
+        check("a decisions file that is not a citations answer writes nothing",
+              wdr.main(["--run", runp, "--summary", summary, "--decisions", not_citations, "--ts", "t8"]) == 2
+              and not os.path.exists(os.path.join(r["review_dir"], "vision-t8.json")))
         before = sorted(os.listdir(r["review_dir"]))
         run(tmp, "--branch", "main")
         check("a run by hand writes no drive record",
