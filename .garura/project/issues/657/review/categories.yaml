@@ -1,0 +1,312 @@
+# categories.yaml (round 1) -- derived from the PR #674 diff content (base main). Not matched from a fixed list.
+# Review shelf used: ~/.garura/phoenix-memory/knowledge/review/ (context.yaml's ./.garura/core/memory/knowledge/review/ has no copy; tier order short-term, then Garura memory, then Phoenix memory, per context.yaml review_shelf_note). Files read: _index, adrs, code, config-maps, docs, harness, memory, tests.
+pr: 674
+issue: 657
+base: main
+round: 1
+head_assessed: b398fb5f   # the branch head this assessment was made at
+changed_path_count: 73   # 18 added + 55 modified (git diff main...HEAD --name-status); equals the 73 changed_paths in context.yaml and the 73 file headers in pr.diff (checked: same set). The review folder .garura/project/issues/657/review/ is not in the diff (untracked, written by this run).
+scope_warning: >
+  The working copy of .garura/core/config.yaml differs from the committed one by one line
+  (gates.plays.review-change set from off to on, uncommitted, for this run only; context.yaml
+  gate_this_run). That file is not in the PR diff, so no config-map category is listed.
+categories:
+  - name: tool-interface-contract
+    playbook: null
+    playbook_missing: true   # not on the shelf; the same category was named in the issue 655 review (design-findings-tool-interface-contract.yaml); a playbook is still missing
+    design_bearing: true   # the contract IS the written design of the memory tool's interface. Whether version 2 conforms to the decisions committed on main (ADR 034, 035, 036) cannot be settled by a linter. The play should dispatch one grounding for this category.
+    layers: [linters, runnable-checks, design-grounding]   # Layer 1 = the contract check below; Layer 2 = grounding against main's ADRs
+    evidence:
+      - core/tools/memory/contract/v2.json   # new, 1154 lines: version 2.0.0 of the contract, a copy of v1 (kept unchanged on main) with the version 2 changes; the JSON-Schema-subset contract, eleven commands, three tiers, lookup order, request rules, answer rules, error codes
+      # 20 sample answers moved from contract_version "1" to "2" (one version line each, 1 added + 1 removed)
+      - core/tools/memory/contract/samples/apply-not-approved.json
+      - core/tools/memory/contract/samples/apply-promotion.json
+      - core/tools/memory/contract/samples/apply.json
+      - core/tools/memory/contract/samples/cite.json
+      - core/tools/memory/contract/samples/decide-not-waiting.json
+      - core/tools/memory/contract/samples/decide.json
+      - core/tools/memory/contract/samples/find.json
+      - core/tools/memory/contract/samples/health.json
+      - core/tools/memory/contract/samples/propose.json
+      - core/tools/memory/contract/samples/pull.json
+      - core/tools/memory/contract/samples/pulled.json
+      - core/tools/memory/contract/samples/read-other-issue-refused.json
+      - core/tools/memory/contract/samples/read.json
+      - core/tools/memory/contract/samples/search-every-tier.json
+      - core/tools/memory/contract/samples/search-nothing.json
+      - core/tools/memory/contract/samples/search-one-tier-nothing.json
+      - core/tools/memory/contract/samples/search-short-term.json
+      - core/tools/memory/contract/samples/search-tier-missing.json
+      - core/tools/memory/contract/samples/search.json
+      - core/tools/memory/contract/samples/updates.json
+      # 2 new samples that pin the new rule: a lookup with no issue starts at Garura memory; asking for short-term memory with no issue is refused (bad_request)
+      - core/tools/memory/contract/samples/find-without-issue-starts-at-garura.json
+      - core/tools/memory/contract/samples/search-short-term-without-issue-refused.json
+      # 23 deliberately broken samples moved to version 2 the same way; each must still fail the check
+      - core/tools/memory/contract/samples/broken/apply-waiting-update.json
+      - core/tools/memory/contract/samples/broken/apply-written-to-another-tier.json
+      - core/tools/memory/contract/samples/broken/cite-absolute-path.json
+      - core/tools/memory/contract/samples/broken/decide-reject-answered-approved.json
+      - core/tools/memory/contract/samples/broken/find-silent-missing-tier.json
+      - core/tools/memory/contract/samples/broken/find-without-issue.json
+      - core/tools/memory/contract/samples/broken/health-ok-as-number.json
+      - core/tools/memory/contract/samples/broken/propose-answered-approved.json
+      - core/tools/memory/contract/samples/broken/propose-short-term-other-issue.json
+      - core/tools/memory/contract/samples/broken/propose-unknown-draft-source.json
+      - core/tools/memory/contract/samples/broken/propose-web-draft-to-phoenix.json
+      - core/tools/memory/contract/samples/broken/read-end-before-start.json
+      - core/tools/memory/contract/samples/broken/read-other-file.json
+      - core/tools/memory/contract/samples/broken/read-other-issue.json
+      - core/tools/memory/contract/samples/broken/read-path-with-newline.json
+      - core/tools/memory/contract/samples/broken/read-without-fingerprint.json
+      - core/tools/memory/contract/samples/broken/read-wrong-fingerprint.json
+      - core/tools/memory/contract/samples/broken/search-every-tier-stopped.json
+      - core/tools/memory/contract/samples/broken/search-other-issue.json
+      - core/tools/memory/contract/samples/broken/search-skipped-a-tier.json
+      - core/tools/memory/contract/samples/broken/search-tier-with-every-tier.json
+      - core/tools/memory/contract/samples/broken/search-unknown-tier.json
+      - core/tools/memory/contract/samples/broken/search-went-past-first-answer.json
+    runnable_checks:
+      - command: "cd core/tools/memory && python3 contract/check_contract.py"
+        note: "validates every sample against v2.json's shapes and answer rules, requires every broken sample to fail, scans the folder boundary; prints a JSON report, exit 0 when all hold. Observed (bytecode writing off): exit 0, ok true, contract_version 2, 22 samples valid, 0 failed, no command without a sample, 23 of 23 broken samples refused, 0 boundary problems. What it does NOT check: the contract's 'saving' rule (a read of Phoenix memory saves the file into Garura memory) and the Phoenix-memory 'approved version' text are prose in v2.json; a search of check_contract.py finds no code that reads them. test_memory.py is what exercises them."
+    notes: >
+      Same kind of work as the contract in the issue 655 review: a machine-readable interface
+      contract for a tool, with its worked examples. Not a config map (it points at no files),
+      not harness (nothing under core/components/**), not memory (not under
+      core/components/memory/**), not executable code (it is data the check script reads).
+      Design-bearing because other stories build against it (#658 to #664) and because it
+      changes a rule that ADR 036 wrote down. v1.json is not in the diff (unchanged on main);
+      the base-ref contract and README are the 'before' (git show main:core/tools/memory/contract/v1.json,
+      git show main:core/tools/memory/README.md). The change from v1 to v2, read from the diff:
+      version and contract_version; 'issue' is no longer required by find, search and read;
+      short-term memory is out of the lookup when no issue is named and asking for it is
+      bad_request; a new $defs/glob that refuses a leading slash and any '..'; looked_in and
+      nothing_found rules worded against the request's own lookup order; a new top-level
+      'saving' clause; the phoenix tier text says it is read only at its approved version.
+      Layer 2 grounds ONLY from what is committed on main: docs/adr/035-agents-work-only-from-memory.md
+      (as amended), docs/adr/036-approved-answer-lands-in-short-term-memory.md,
+      docs/adr/034-plays-answer-from-memory-inside-a-drive.md, docs/adr/008 (STM per issue),
+      docs/adr/011 (STM as inter-skill transport), docs/adr/016 (agent JSON contract),
+      core/grounding/glossary.md (Memory Architecture), docs/philosophy/**, the base version of
+      .garura/project/issues/653/specs/plan.md (git show main:...), and the base v1.json and
+      README. Not groundable: v2.json's own description, lookup_rule, request_rules,
+      answer_rules and saving prose; core/tools/memory/README.md; the new 657 plan; the 653
+      plan's added lines; the PR body; the self-review; evidence/kapil-test.md; the comments in
+      the tool's code. The decision records the PR itself asks to have amended are not changed
+      by this diff (no docs/adr/** path in it), so ADR 035 and 036 on main are intact and are the
+      grounding. The 655 review records on main (.garura/project/issues/655/review/) are history
+      of an earlier review of this contract: read them to see what was already settled, never
+      as the answer. The tool that implements the contract (memory.py, pull.py) is in
+      executable-code (Layer 1); the grounding may read it only to know what the contract is
+      tested against, never as a source of principle.
+      Design pointers the grounding should test, taken from reading the diff, not findings:
+      (a) ADR 036 section 1 on main: 'Every lookup names its issue.' Version 2 lets a lookup of
+      Garura or Phoenix memory name none (it then goes Garura, then Phoenix) and refuses
+      short-term memory without one. ADR 036's Affects line says v1.json already follows its
+      parts 1 to 6 with no rule change. The basis given for the change is the issue's own
+      done-when and the owner's choice, recorded in the 657 plan and the PR body; the plan
+      itself says ADR 035 and 036 need an amendment through /adr (not in this diff).
+      (b) 'Phoenix memory is read only at its approved version', the commit phoenix_ref names
+      (default origin/main). On main: ADR 035 section 2 (Phoenix memory is a git repository, every
+      update a commit with history, review and versions), section 5 (an approved update is
+      written to Phoenix memory) and ADR 036 section 3 (promotion happens outside the work, as
+      an update a person approves). No ADR names a branch as the approved version; the 657 plan
+      item 1 calls this 'this plan's reading, for the owner to correct'.
+      (c) 'Memory that is used is saved': a read of a file in Phoenix memory pulls it into
+      Garura memory; a search hit pulls nothing. ADR 035 section 2 says the tool 'pulls more
+      whenever [it] goes up to Phoenix memory and finds something' (finds, not reads). The
+      saving rule gives the 'read' command a write side effect that the command's own request
+      and response shapes do not show (prose only, not checked by check_contract.py).
+      (d) The contract still lists eleven commands and keeps 'apply' writing an approved update
+      to its tier, including Phoenix memory (see the README table too), while the 657 plan and
+      the PR body say this tool writes no memory update to Garura or Phoenix memory and that
+      updates land in short-term memory with learn and promote plays moving them up. The plan
+      places the contract and README wording under #658. Test against ADR 036 sections 2 and 3.
+      (e) version policy: README 'The contract changes only by a new version'. v1 is kept as it
+      was, but every sample (43 moved, none left at version 1) and the check now run on v2 only,
+      so nothing exercises v1 any more.
+      (f) the glob rule refuses '..' anywhere in the text, not only as a path segment: a probe
+      with the glob 'notes..md' was refused as bad_request. Probably intended; test it against
+      the paths rule ('never contains ..').
+
+  - name: executable-code
+    playbook: review/code
+    design_bearing: false   # playbook: "Design-grounding: no -- the standard is industry best practice, not a garura-internal design." Layer 1 only; no grounding dispatch. Data-safety paths get extra weight.
+    layers: [linters, runnable-checks]
+    evidence:
+      - core/tools/memory/memory.py   # new, 433 lines: the tool's one entry; health, find, search, read, pull, pulled over a folder engine; settings from one file or the environment; searches with git grep; reads Phoenix memory only at a git ref; a read of Phoenix memory pulls the file into Garura memory
+      - core/tools/memory/pull.py   # modified (85 added, 39 removed): reads Phoenix memory through git (ls-tree, cat-file) at an approved ref instead of its working tree; its own glob matcher; no empty pulled list after a refusal; now called by memory.py
+      - core/tools/memory/contract/check_contract.py   # modified (9 added, 3 removed): default contract is v2; a find or search with no issue has no short-term tier; refuses tier short-term without an issue
+    runnable_checks:
+      - command: "ruff check --no-cache core/tools/memory/memory.py core/tools/memory/pull.py core/tools/memory/test_memory.py core/tools/memory/test_pull.py core/tools/memory/contract/check_contract.py core/tools/memory/contract/test_check_contract.py .garura/project/issues/657/evidence/kapil_test.py"
+        note: "the language linter (ruff is installed; the repo commits no ruff config that this check read). Observed: All checks passed."
+      - command: "cd core/tools/memory && python3 contract/check_contract.py"
+        note: "also the contract category's check, so its result is shared: exit 0, 22 samples valid, 23 broken refused, 0 boundary problems. It scans the folder for paths into a project, the framework's source or a home folder, and for imports from outside the standard library or the folder."
+      - command: "git diff --check main...HEAD -- core"
+        note: "whitespace and conflict-marker check over the changed product files. Observed: clean (exit 0). A scan of the added lines under core/ for a home-folder prefix, a company name or a personal-vault name found nothing. The branch merges into main with no conflict (git merge-tree, exit 0)."
+      - command: "quality-check-scoped over the diff of these three files, severity from pr.md"
+        note: "run by the play (SEC-*, CODE-*, ARCH-*, BE-*, PERF-*, DATA-* rows). Not run in this assessment."
+    notes: >
+      Read these hard, per the playbook: memory.py and pull.py touch the filesystem and git.
+      memory.py runs git grep and git cat-file in Phoenix memory with argument lists (no shell),
+      walks the short-term and Garura folders, and writes into Garura memory (makedirs, then a
+      binary write of each pulled file and a rewrite of pulled.json) whenever a Phoenix file is
+      read. Points for the reviewer, not findings: (1) cmd_read answers with the pull's error if
+      saving the used file fails, even though the text was read (the self-review fixed the
+      uncaught OSError; the choice to fail the read is the code's). (2) A read of short-term
+      memory with no issue is refused through a 'path starts with <issue>/' test, so the message
+      says 'outside issue None' (observed by a probe). (3) pull.py changed how a glob is matched:
+      from the filesystem glob (which does not match dot-names with '*') to a regex over git's
+      file list (which does), and '[' is no longer a glob character; a pull of a wide glob can now
+      reach dot-folders in Phoenix memory. (4) pull.py no longer writes an empty pulled.json when
+      a pull is refused (the #656 review note). (5) check_contract.py's refusal() and
+      check_meaning() both encode the no-issue rule; the same rule is also written in memory.py
+      (tiers_for, cmd_read) and in v2.json prose: three places to keep in step.
+      (6) memory.py imports check_contract to validate a request before touching memory, so the
+      tool needs the contract folder next to it to run.
+
+  - name: tests
+    playbook: review/tests
+    design_bearing: false   # playbook: "Design-grounding: no." Run the suite. A red suite is a blocker.
+    layers: [linters, runnable-checks]
+    evidence:
+      - core/tools/memory/test_memory.py   # new, 284 lines, 36 tests: builds on test_pull.Tiers (one shared throwaway Phoenix repository) and puts every answer the tool gives through the contract check
+      - core/tools/memory/test_pull.py   # modified (14 added, 6 removed): contract v2; temp folders now removed when each test ends
+      - core/tools/memory/contract/test_check_contract.py   # modified (18 added, 5 removed): v2; the one-issue test now states the version 2 no-issue rule
+      - .garura/project/issues/657/evidence/kapil_test.py   # new, 111 lines: the runner for the owner's finish test (a fresh project, a clone of Phoenix memory, two stories, then project memory removed); takes the tool folder and a Phoenix memory clone as arguments; prints a Markdown record
+      - .garura/project/issues/657/evidence/kapil-test.md   # new, 50 lines: the recorded output of that runner
+    runnable_checks:
+      - command: "cd core/tools/memory && python3 test_memory.py"
+        note: "the playbook says run the suite. Observed (TMPDIR in the scratchpad, bytecode writing off): Ran 36 tests, OK."
+      - command: "cd core/tools/memory && python3 test_pull.py"
+        note: "Observed: Ran 12 tests, OK."
+      - command: "cd core/tools/memory && python3 contract/test_check_contract.py"
+        note: "Observed: Ran 49 tests, OK."
+      - command: "python3 .garura/project/issues/657/evidence/kapil_test.py core/tools/memory <a clone of Phoenix memory>"
+        note: "the owner's finish test. Observed: exit 0, 'All steps behaved as expected', and its printed record is identical (diff) to the committed evidence/kapil-test.md. It needs a clone of Phoenix memory at its approved version and clones it into a temp folder it removes."
+      - command: "quality-check-scoped, TEST-* rows"
+        note: "run by the play. Not run in this assessment."
+    notes: >
+      Four suites and one acceptance runner, all green. The runner and its record sit in the
+      issue's evidence folder, not next to the code, so no path signal marks them as tests; the
+      content does (a runner that checks answered_by at each step and exits 1 on a miss). They are
+      listed here, not under the run records, because the playbook's 'run, don't just read'
+      applies to them. Points for the reviewer, not findings: (1) test_memory.py builds on
+      test_pull.Tiers, so it is coupled to that file's setup (including the demo-address comment
+      that records an approved exception to PR rule DATA-18, committed on main by #656; the
+      lines are unchanged in this diff). (2) no suite runs memory.py as a separate
+      process; they call memory.run and memory.main in-process (only the runner starts it as a
+      process, with a settings file). (3) kapil_test.py and kapil-test.md were first committed in this PR; the 657 plan and PR body
+      cite the record as the proof of the finish test, so the record is a claim that the runner
+      reproduces (it does), not an independent source.
+
+  - name: documentation
+    playbook: review/docs
+    design_bearing: false   # playbook: Layer 1 only, no design-grounding
+    layers: [linters]   # the playbook names no committed prose linter (a known gap), so the tool performs the checks and cites each
+    evidence:
+      - core/tools/memory/README.md   # modified (58 added, 7 removed), now 229 lines: the plain-words guide gains 'Running the tool', the settings table, the no-issue lookup rule, the version 2 note, and the test commands
+    runnable_checks:
+      - command: "grep for links, headings, TODO/FIXME and the retired terms 'project memory' and 'LTM' in core/tools/memory/README.md"
+        note: "the prose checks the playbook asks for, done by hand because no prose linter is committed. Observed: no markdown links to resolve, headings step down one level at a time (one H1, then H2s), no TODO or FIXME, neither retired term; the tiers are called Garura memory and Phoenix memory throughout. The four test and check commands in 'Checking the contract' were run above and pass; the example lookups in 'Running the tool' need configured tiers and were not run here."
+    notes: >
+      Human-facing prose that is not an ADR, a harness file or a memory file, so the docs
+      playbook governs. Judgement flag, as in the issue 655 review: this README is not only a
+      guide. Its 'The lookup order', 'The commands' and 'When no tier answers' sections restate
+      normative behaviour, and the new 'Two rules the folder engine keeps' (Phoenix memory read
+      only at its approved version; memory that is used is saved) are design statements that
+      appear first here. That content is routed to the contract category's grounding as claims
+      to test (see its pointers a to d), not handled here. Prose points for the reviewer, not
+      findings: the README's 'The commands' table (unchanged lines) still lists pull and pulled
+      under 'Updating memory' and says apply writes to Phoenix memory as a commit, while its new
+      intro says the update commands come in later steps.
+
+  - name: stm-working-notes-plans-and-design
+    playbook: null
+    playbook_missing: true
+    design_bearing: false   # plans: Garura's own working notes. The decisions they record (memory updates land in short-term memory only; learn and promote plays; skills read short-term memory only; agents move onto the tool after #658 to #660) are the owner's of 18 October and are tested in the contract category's grounding, since no committed source on main holds them except what ADR 035 and 036 already say. No grounding dispatch of their own.
+    layers: [linters]   # plan format check, plus agreement of the plans with each other and with the diff as a consistency read only
+    evidence:
+      - .garura/project/issues/606/specs/plan.md   # modified: a status sentence about memory (#653), the merge-play plan check added to item 1, one log line
+      - .garura/project/issues/617/specs/plan.md   # modified: closed out (status active to done, now to '-'), item 5 turned into a Shipped line, one log line
+      - .garura/project/issues/632/specs/plan.md   # modified: closed out the same way (items 4 to 6 folded into Shipped lines), one log line
+      - .garura/project/issues/653/specs/plan.md   # modified: now 3 to 4; item 3 turned into Shipped; item 4 rewritten (the tool writes no update; it pulls on read); owner's 18 October answers added to items 5 and 8; three log lines
+      - .garura/project/issues/654/specs/plan.md   # modified: closed out the same way, one log line
+      - .garura/project/issues/655/specs/plan.md   # modified: closed out the same way, one log line
+      - .garura/project/issues/656/specs/plan.md   # modified: closed out the same way, one log line
+      - .garura/project/issues/657/specs/plan.md   # new, 142 lines: the plan for this story (#657), status active, now 6 (land the change); items 0 to 5 done
+    runnable_checks:
+      - command: "python3 core/components/skills/manage-plan/scripts/check_plan.py --plan <each of the eight plans> --out <scratch>/planN.json"
+        note: "plan format check. Observed for all eight: valid true, no problems. 657: active, now 6; 653: active, now 4; 606: active, now 8; 617, 632, 654, 655, 656: status done, now '-'. Exit 1 for the three active plans only because they are not finished (the script's own meaning: 0 valid and done, 1 valid not done)."
+    notes: >
+      Same kind of work as the plans in the issue 656 review: Garura's own working notes under
+      .garura/project/issues/**; no playbook covers them, and the memory playbook does not apply
+      because none of these paths is under core/components/memory/. Two kinds sit in the set.
+      Five are close-outs (617, 632, 654, 655, 656): the same edit each, status active to done,
+      now to '-', the 'Land it' item replaced by a Shipped line, one log line; they were left
+      active after their merges. Three carry current decisions (657 new, 653 and 606 modified).
+      Consistency points to read, not findings: (1) the 657 plan's 'Done' items say what the diff
+      is supposed to contain (29 then 33 then 36 memory tests, 22 samples, 23 broken, 49 contract
+      tests, 12 pull tests): the run checks above give 36, 22, 23, 49 and 12. The plan's item 4
+      still says '33 tool tests' while the PR body says 36 after the fixes. (2) the
+      653 plan's item 4 and the 657 plan agree on the decisions (no update writing here; pull on
+      read; Phoenix read at its approved version; no agent calls the tool yet). (3) the 653 plan
+      records the owner's answers of 18 October (notes under items 5 and 8, two log lines); none
+      of them is in an ADR on main, and the 657 plan's 'After this story' says an amendment to ADR 035 and 036 is
+      owed through /adr, with ADR 035 section 2's amendment already owed from #656. (4) the 606
+      plan's item 1 text names Story #673 (the merge-play plan check) and its added log line names
+      #621; whether those issues say so is not checked here (a read of the tracker is the play's
+      job). Plans say what and in what order, never how; the 657 plan states 'a
+      plan, not a design'.
+
+  - name: stm-run-records
+    playbook: null
+    playbook_missing: true
+    design_bearing: false   # machine-written run artifacts and play outputs; no design content
+    layers: []   # parse only; nothing to lint or ground
+    evidence:
+      - .garura/project/issues/657/context/analysis.yaml   # the commit-change run's grouping of its last two commits
+      - .garura/project/issues/657/context/branch.json   # start-change receipt
+      - .garura/project/issues/657/context/commits.yaml   # commit-change receipt
+      - .garura/project/issues/657/context/issue.json   # issue read receipt
+      - .garura/project/issues/657/context/porcelain.txt   # git status snapshot at the last commit-change run
+      - .garura/project/issues/657/context/pr-body.md   # the PR body (propose-change)
+      - .garura/project/issues/657/context/pr.json   # propose-change receipt (PR 674)
+      - .garura/project/issues/657/context/resolved-rules.json   # which self-review rules file was used
+      - .garura/project/issues/657/context/self-review.md   # 247 lines: the propose-change self-review (0 blocking, 12 notes)
+      - .garura/project/issues/657/context/work-description.txt   # the issue's first-version text
+    runnable_checks:
+      - command: "python3 -c <yaml.safe_load analysis.yaml; json.load the four .json files>"
+        note: "parse only. Observed: all parse."
+    notes: >
+      Same kind of work as the run records in the issue 656 review: receipts from the
+      start-change, commit-change and propose-change runs, a PR body, and a self-review.
+      Treatment: skim for consistency, never review as work, never ground from it. Points to
+      know: analysis.yaml and commits.yaml describe only the last two commits of the branch
+      (a test restructure and a plan-text change), because they were written by the last
+      commit-change run; the PR body and the self-review make claims about the whole branch
+      (36 tests, 22 samples, no secret or home-folder text, merges cleanly). Those are claims to
+      test against the diff, never evidence for a verdict; the run checks above agree with the
+      numbers. work-description.txt is the issue's first-version text (it still says the tool
+      writes approved updates to their tier), which the plan and the PR body say was changed.
+      All of these are branch content: history to read, never grounding. No design-grounding.
+design_bearing_categories: [tool-interface-contract]   # the one category that needs a Layer 2 grounding dispatch. Not design-bearing: executable-code, tests, documentation (Layer 1 only) and the two STM categories (no playbook, no design content of their own).
+absent_seeded_categories: [decision-records, harness, memory, config-maps]   # no docs/adr/** path; nothing under core/components/**; nothing under core/components/memory/**; the one config file with a change (.garura/core/config.yaml) is an uncommitted working-copy edit, not in the diff
+path_accounting:   # 46 + 3 + 5 + 1 + 8 + 10 = 73
+  tool-interface-contract: 46   # v2.json + 45 samples (43 modified, 2 new)
+  executable-code: 3
+  tests: 5   # 3 suites + the finish-test runner + its record
+  documentation: 1
+  stm-working-notes-plans-and-design: 8
+  stm-run-records: 10
+missing_playbooks:
+  - tool-interface-contract   # a machine-readable interface contract for a tool, with worked examples and a check; also named in the issue 655 review; design-bearing, so its missing playbook matters most
+  - stm-working-notes-plans-and-design   # Garura's own plans under .garura/project/issues/**; also missing in the 656, 667 and 655 reviews
+  - stm-run-records   # play run receipts under .garura/project/issues/**; also missing in the 656 and 667 reviews
+playbook_sharpening:
+  - id: review/tests
+    note: "its signals are test folders and runners under the validate play; it does not say where an acceptance runner and its recorded output belong when they sit in an issue's evidence folder. It also says 'run the suite' without saying what to do when a runner needs an input the review does not have by default (here a clone of Phoenix memory)."
+  - id: review/docs
+    note: "it says a README that is not an ADR, harness or memory file is documentation with Layer 1 only; it does not say what to do when the README carries design statements that first appear in it (here, two rules of the folder engine). The categories file routes them to the design-bearing neighbour as claims to test."
+  - id: review/code
+    note: "it says to read data-safety paths hard; it does not say how to treat a command whose read has a write side effect (here a read of Phoenix memory that saves into Garura memory)."
