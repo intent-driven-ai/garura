@@ -22,6 +22,7 @@ import re
 from pull import Refusal
 
 ID = re.compile(r"^cite-(\d{8})-(\d{3,})$")
+TIER_NAMES = {"short-term": "Short-term memory", "garura": "Garura memory", "phoenix": "Phoenix memory"}
 
 
 def fingerprint(text):
@@ -65,14 +66,16 @@ class CitationStore:
         """(None, text now) when the source still says what its fingerprint says;
         else (problem, detail, text now or None)."""
         text = engine.read(source["tier"], source["path"])
-        where = f"{source['tier']} memory {source['path']} lines {source['start']}–{source['end']}"
+        one = source["start"] == source["end"]
+        span = f"line {source['start']}" if one else f"lines {source['start']}–{source['end']}"
+        where = f"{TIER_NAMES.get(source['tier'], source['tier'])} {source['path']} {span}"
         if text is None:
             return "source_missing", f"{where}: the file is not there.", None
         chunk = lines_of(text, source["start"], source["end"])
         if chunk is None:
-            return "source_missing", f"{where}: those lines are not there.", None
+            return "source_missing", f"{where}: {'that line is' if one else 'those lines are'} not there.", None
         if fingerprint(chunk) != source["fingerprint"]:
-            return "source_changed", f"{where} no longer say what the decision rested on.", chunk
+            return "source_changed", f"{where} no longer {'says' if one else 'say'} what the decision rested on.", chunk
         return None, None, chunk
 
     def cite(self, request, engine, updates):
