@@ -1,0 +1,30 @@
+meta:
+  pr: 668
+  issue: 667
+  head: 51513db0
+  categories: categories.yaml
+  layers_run:
+    decision-records: 'Layer 1 — adrs playbook objective checks: adr.py lint (036, 035, 034, 032 valid), guard (none), index
+      rebuild identical, older ADRs differ on the Status line only, links and named paths exist, git diff --check clean. No
+      design-grounding: the playbook leaves the decision to the person.'
+    stm-working-notes-plans-and-design: Layer 1 — check_plan.py on the 653 plan (no problems); stories.yaml parses. Playbook
+      missing.
+    stm-run-records: skimmed; JSON and YAML parse. Playbook missing.
+  layer2: none — no design-bearing category in categories.yaml
+  runnable_checks: runnable-checks.txt
+findings:
+- id: REV-1
+  severity: P4
+  category: decision-records
+  file: core/components/memory/knowledge/review/adrs.md
+  basis: categories.yaml playbook_sharpening — the adrs playbook says no ADR linter exists; adr.py lint exists and ran clean
+  finding: The adrs review playbook is stale about the ADR linter.
+- id: REV-2
+  severity: P4
+  category: stm-working-notes-plans-and-design
+  file: .garura/project/issues/653/specs/plan.md
+  basis: 'review-change C2 — each category''s treatment comes from a knowledge/review playbook; none exists for STM plans
+    or run records (also missing in the PR #666 review)'
+  finding: No review playbook for STM plans and story texts, or for run records.
+counts:
+  P4: 2
