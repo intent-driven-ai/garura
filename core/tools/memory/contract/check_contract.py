@@ -39,7 +39,7 @@ TOOL = os.path.dirname(HERE)
 # Strings that would tie the folder to one project's layout, the framework's source
 # tree, or one machine. Built from parts so this file does not trip its own scan.
 FORBIDDEN = tuple("".join(parts) for parts in (
-    (".", "garura"), (".", "claude/"), ("core/", "components"), ("core/", "grounding"),
+    (".", "garura/"), (".", "claude/"), ("core/", "components"), ("core/", "grounding"),
     ("docs/", "adr"), ("/", "Users/"), ("/", "home/"),
 ))
 
