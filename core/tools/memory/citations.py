@@ -61,9 +61,12 @@ def whole(record):
     if not isinstance(record, dict) or not isinstance(record.get("citation_id"), str):
         return False
     trace = record.get("trace", [])
-    return isinstance(trace, list) and all(
-        isinstance(st, dict) and isinstance(st.get("source"), dict)
-        and all(k in st["source"] for k in ("tier", "path", "start", "end", "fingerprint")) for st in trace)
+    return isinstance(trace, list) and all(isinstance(st, dict) and whole_source(st.get("source")) for st in trace)
+
+
+def whole_source(src):
+    return (isinstance(src, dict) and all(isinstance(src.get(k), str) for k in ("tier", "path", "fingerprint"))
+            and all(isinstance(src.get(k), int) and not isinstance(src.get(k), bool) for k in ("start", "end")))
 
 
 class CitationStore:

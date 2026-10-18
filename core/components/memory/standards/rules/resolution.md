@@ -106,7 +106,8 @@ contract's `stm.output` block (per DD10 in tech.yaml).
 **Scope.** This section binds every agent decision once the agent works through the memory
 tool. It does not depend on `ltm_context`. Until an agent has moved onto the tool, R1–R4, the
 Resolution Trace Output and Backward Compatibility still govern it. The evals-engineer and the
-judge stay isolated: they read no memory, so they keep no decision trace.
+judge stay isolated as Context Isolation Exemptions says; whether they keep a decision trace is
+settled when the agents move onto the memory tool.
 
 A decision trace is the steps the agent took, in order. Each step says what the agent looked
 for, what it found, and the memory lines that said so: a tier (short-term, Garura or Phoenix

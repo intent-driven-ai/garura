@@ -451,7 +451,9 @@ class Citations(Tiers):
         folder = os.path.join(self.short, "8", "context")
         os.makedirs(folder)
         step_without_source = {"citation_id": "cite-20261019-001", "trace": [{"asked": "q", "found": "f"}]}
-        for line in ("null", "[1]", '{"play": "/x"}', json.dumps(step_without_source)):
+        line_as_text = {"citation_id": "cite-20261019-002", "trace": [{"asked": "q", "found": "f", "source": {
+            "tier": "phoenix", "path": "a.md", "start": "1", "end": 1, "fingerprint": cc.fingerprint("x")}}]}
+        for line in ("null", "[1]", '{"play": "/x"}', json.dumps(step_without_source), json.dumps(line_as_text)):
             with open(os.path.join(folder, "citations.jsonl"), "w") as fh:
                 fh.write(line + "\n")
             self.assertEqual(self.ask("citations", {"issue": 8, "check": True})["error"]["code"], "unreadable", line)
