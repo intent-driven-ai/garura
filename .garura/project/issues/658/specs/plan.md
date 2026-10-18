@@ -4,7 +4,7 @@ kind: story
 serves: "#658 — when no memory answers, an agent raises a memory update a person approves, and then decides from memory"
 status: active
 updated: 2026-10-18
-now: 5
+now: 6
 serves_plan: 653
 serves_item: 5
 ---
@@ -57,7 +57,7 @@ and its text still lets an update target Garura or Phoenix memory.
 
 The change is open on `feature/658-memory-updates`. Kapil's questions are answered;
 the two review faults are fixed; contract version 3 and the update commands are built.
-Next: item 5, the local prototype's memory-updates page.
+The local approval page works. Next: item 6, end to end, with Kapil approving on the page.
 
 ## The plan, in order
 
@@ -102,21 +102,15 @@ Next: item 5, the local prototype's memory-updates page.
   applied, and a target that changed since the update was raised. A lookup never reads a
   waiting draft (a test caught that it did, and it is fixed). 50 tool tests, 13 pull, 51
   contract tests pass.
+- **5. Built (local, never committed): the approval page** — `core/tools/play-reviewer/
+  memory_updates.py` and `memory.html`, run with `python3 core/tools/play-reviewer/
+  memory_updates.py`. It lists each update waiting in short-term memory — issue, what was
+  missing, the draft, its source, whether it blocks — and records the person's Approve or
+  Reject with their words through `decide`, as decided in the review tool, by the git user
+  at the machine. An answer with no words is refused. Tried on a raised update: approved
+  on the page, applied, found by a search in the same issue.
 
-### 5. The local prototype's memory-updates page — now
-
-**Issue:** #658 (the page itself is local and never committed).
-**What:** a page in `core/tools/play-reviewer/` that lists the memory updates
-waiting in short-term memory, one at a time — the issue, what was missing, the
-draft, where it came from, whether it blocks — and records the person's Approve
-or Reject, with their words, through the memory tool's `decide`.
-**Why here:** a person's approval needs a place a person acts in, not an agent's
-command. The real section is #664, built with the review tool in the #606 plan.
-**Done when:** an update raised by a test is approved on the page, and its
-record shows the person's words.
-**Needs:** item 4.
-
-### 6. Show it end to end
+### 6. Show it end to end — now
 
 **Issue:** #658.
 **What:** on a fresh project: a gap, an update, a person's approval on the
@@ -154,3 +148,4 @@ answers change (#658, #661, #663) are fixed only when Kapil asks.
 - 2026-10-18 — Item 1 decided: approval in the review tool, a local prototype page until it is built; the tool's design updated. Item 5 added (the local page).
 - 2026-10-18 — Items 2 and 3 done: the two #674 faults fixed; contract version 3.
 - 2026-10-18 — Item 4 built: propose, updates, decide, apply; waiting drafts hidden from lookups.
+- 2026-10-18 — Item 5 built: the local approval page (never committed).
