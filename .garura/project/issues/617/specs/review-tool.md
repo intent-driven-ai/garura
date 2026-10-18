@@ -261,7 +261,8 @@ gives the full model or the clean final text.
    apply the update to the issue's short-term memory. Moving memory up is not
    done here: `/learn-memory` (short-term to Garura memory) and
    `/promote-memory` (Garura to Phoenix memory, approved outside Garura) are
-   their own plays.
+   their own plays — planned, not filed yet. The mockup shows this section
+   (the "Memory and ADRs" switch).
 
 **Keeping the load low** — the rules the page follows:
 
@@ -427,12 +428,18 @@ Each line is one story. Each is a slice that works on its own.
    one commit that matches what the person chose.
 8. **Kickoff uses it.** #613 runs the review as its last step.
 
-9. **Memory and ADRs.** The third section (#664): what each memory tier holds,
+9. **Memory and ADRs.** The third section (#664), in two halves like the rest.
+   The tool half: the section's page and cards — what each memory tier holds,
    the memory updates waiting in short-term memory with an explicit Approve or
    Reject on each, the ADRs waiting, and which memory each decision came from.
+   The Garura half: the pack of what is waiting (from the memory tool's
+   `updates` and the decision records), and applying each answer — Garura calls
+   the memory tool's `decide` with the person's words and then `apply`, and the
+   `/adr` accept for an ADR.
 
-Stories 1–4 and 9 touch only the tool. Stories 5–8 touch only Garura. That split
-is the extraction line, tested every day it is built.
+Stories 1–4 and the tool half of 9 touch only the tool. Stories 5–8 and the
+Garura half of 9 touch only Garura. That split is the extraction line, tested
+every day it is built.
 
 **Where it is built, and what stands in until then** (Kapil, 18 Oct, #658: "we
 will build the tool with all the sections inside garura - as part of 606 plan.

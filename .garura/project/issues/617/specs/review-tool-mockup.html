@@ -316,10 +316,11 @@ mark.cmt { background: var(--mark); color: inherit; border-bottom: 2px solid var
     <div class="seg" role="group" aria-label="Which tool">
       <button id="t-intents" aria-pressed="true">Intents</button>
       <button id="t-product" aria-pressed="false">Product</button>
+      <button id="t-memory" aria-pressed="false">Memory and ADRs</button>
     </div>
     <nav class="nav" id="nav" aria-label="Pieces"></nav>
     <div class="rail-foot">
-      <span>Keys: j / k move · a accept · s send back · c comment · p point · f final / changes</span>
+      <span>Keys: j / k move · a accept · s send back · c comment · p point · f final / changes · in Memory and ADRs: a approve · r reject</span>
       <span>Mockup · sample data · 17 Oct 2026</span>
     </div>
   </aside>
@@ -1064,6 +1065,163 @@ function toast(msg, undo) {
 { const h = location.hash.slice(1); if (byId[h]) { S.cur = h; S.tool = byId[h].tool; } }
 render();
 if (location.hash === '#catchup') cuStart();
+</script>
+<script>
+// ───────── Memory and ADRs: the third section (ADR 036 §7; #664; Kapil, 18 Oct) ─────────
+// Every memory update lands in an issue's short-term memory ("STM - always STM"). Each one
+// needs its own explicit answer from a person — Approve or Reject, with the person's words.
+// Nothing is approved in bulk; an agent never answers one. Garura applies an approved update.
+// Moving memory up is /learn-memory and /promote-memory (planned), never this section.
+const MEM = {
+  tiers: [
+    { tier:'Short-term memory', what:'this issue only', n:'14 files', note:'plans, answers, notes for #613' },
+    { tier:'Garura memory', what:'this project', n:'52 files', note:'product model, decisions, pulled pieces' },
+    { tier:'Phoenix memory', what:'every project', n:'147 files', note:'approved version 4f1c2e9a7b3d' },
+  ],
+  updates: [
+    { id:'mu-20261017-004', issue:613, missing:'How long a guest\'s cart is kept before it is cleared.', draft:'Keep a guest cart for 7 days. Clear it after that, and tell the guest when they come back.', source:'web', blocking:true, by:'product-os-keeper (/vision)', at:'17 Oct, 14:02', status:'waiting', sources:[] },
+    { id:'mu-20261017-005', issue:613, missing:'Which payment providers the shop supports at launch.', draft:'Launch with card payments only. Add wallets after the first month.', source:'model', blocking:false, by:'product-os-keeper (/vision)', at:'17 Oct, 14:05', status:'waiting', sources:[] },
+    { id:'mu-20261017-006', issue:613, missing:'Whether gift cards are part of launch.', draft:'Leave gift cards out of launch. Add them with the first promotions.', source:'person', blocking:false, by:'intent-resolver (/intent)', at:'17 Oct, 14:09', status:'waiting', sources:[] },
+  ],
+  adrs: [
+    { id:'adr-037', title:'ADR 037 — A guest cart is kept for 7 days', why:'Proposed by /vision for the checkout capability. It follows the memory update about guest carts, once that is approved.', status:'waiting' },
+  ],
+  decisions: [
+    { q:'Is guest checkout allowed at launch?', a:'Yes. An account is offered after payment.', src:[['Garura memory','product model · checkout capability','line 12','sha256:686f…823d']] },
+    { q:'Do we cap the cart size?', a:'No cap at launch.', src:[['Phoenix memory','knowledge · ecommerce domain','lines 41–42','sha256:4394…de0f']] },
+  ],
+  cur:null, words:{}, cu:false, later:[], err:'',
+  noteTitle:'Sample review', note:'This is a mockup with made-up shop data. Nothing here is real.',
+};
+const MSRC = { person:'Drafted by a person', web:'Drafted from the web', model:'Drafted by the model', memory:'Drafted from memory' };
+const mWaiting = () => MEM.updates.filter(u => u.status === 'waiting');
+const mDecided = () => MEM.updates.filter(u => u.status !== 'waiting');
+const mById = id => MEM.updates.find(u => u.id === id) || MEM.adrs.find(a => a.id === id);
+const mChips = u => `<span class="chip kind">Issue #${u.issue}</span><span class="chip ${u.source === 'web' || u.source === 'model' ? 'changed' : 'kind'}">${MSRC[u.source]}</span>${u.blocking ? '<span class="chip removed">Blocks the work</span>' : ''}${u.status !== 'waiting' ? `<span class="chip ${u.status === 'rejected' ? 'removed' : 'added'}">${u.status === 'rejected' ? 'Rejected' : 'Approved'}</span>` : ''}`;
+const TOPBAR = ['v-final', 'v-changes', 's-changed', 's-all', 'point', 'finish'];
+
+function memTopbar(on) {
+  TOPBAR.forEach(id => { const el = $('#' + id); const box = el.closest('.seg') || el; box.style.display = on ? 'none' : ''; });
+  $('#t-memory').setAttribute('aria-pressed', on);
+  if (on) { $('#t-intents').setAttribute('aria-pressed', false); $('#t-product').setAttribute('aria-pressed', false); }
+}
+function memNav() {
+  const item = u => `<button class="item" data-mgo="${u.id}" aria-current="${MEM.cur === u.id}"><span class="dot ${u.status === 'waiting' ? 'changed' : u.status === 'rejected' ? 'removed' : 'added'}"></span><span class="t">${esc(u.missing || u.title)}</span><span class="tick ${u.status === 'rejected' ? 'drop' : 'accept'}">${u.status === 'waiting' ? '' : u.status === 'rejected' ? '✕' : '✓'}</span></button>`;
+  $('#nav').innerHTML = `<button class="item" data-mgo="" aria-current="${MEM.cur === null}"><span class="dot"></span><span class="t"><b>Overview</b></span></button>`
+    + (mWaiting().length ? `<div class="label">Memory updates waiting</div>${mWaiting().map(item).join('')}` : '')
+    + (MEM.adrs.length ? `<div class="label">ADRs waiting</div>${MEM.adrs.map(item).join('')}` : '')
+    + (mDecided().length ? `<div class="label">Decided</div>${mDecided().map(item).join('')}` : '');
+}
+function memOverview() {
+  const w = mWaiting(), all = MEM.updates.length, d = all - w.length;
+  const order = w.slice().sort((a, b) => b.blocking - a.blocking);
+  $('#content').innerHTML = `<div class="content-in ov">
+    <div class="note"><b>${esc(MEM.noteTitle)}</b><span>${esc(MEM.note)}</span></div>
+    <div class="mstate" aria-label="The three memory tiers">
+      <div class="ms-h"><span class="label">Memory</span><span>Agents decide only from memory. Short-term first, then Garura, then Phoenix.</span></div>
+      ${MEM.tiers.map(t => `<div class="ms"><b>${esc(t.n)}</b><span>${esc(t.tier)}</span><small>${esc(t.what)} · ${esc(t.note)}</small></div>`).join('')}
+    </div>
+    <h1>${w.length || MEM.adrs.length ? `<em>${w.length}</em> memory update${w.length === 1 ? '' : 's'}${MEM.adrs.length ? ` and <em>${MEM.adrs.length}</em> ADR${MEM.adrs.length > 1 ? 's' : ''}` : ''} wait${w.length + MEM.adrs.length === 1 ? 's' : ''} for you.` : 'Nothing waits for you.'}</h1>
+    <p class="sub">Each memory update is an answer no memory held. Read it, then approve or reject it with your own words. Nothing in it is used before you approve it. Garura writes an approved update to its issue's short-term memory.</p>
+    <div class="sig"></div>
+    <div class="stats">
+      <div class="stat"><div class="label">Waiting for you</div><div class="n key">${w.length}</div><div class="h">memory updates</div></div>
+      <div class="stat"><div class="label">Blocking</div><div class="n">${w.filter(u => u.blocking).length}</div><div class="h">work waits on these</div></div>
+      <div class="stat"><div class="label">Approved</div><div class="n">${mDecided().filter(u => u.status !== 'rejected').length}</div><div class="h">Garura writes them</div></div>
+      <div class="stat"><div class="label">Rejected</div><div class="n">${mDecided().filter(u => u.status === 'rejected').length}</div><div class="h">nothing written</div></div>
+      <div class="stat"><div class="label">ADRs</div><div class="n">${MEM.adrs.length}</div><div class="h">waiting to be accepted</div></div>
+    </div>
+    <div class="bar"><i style="width:${all ? Math.round(d / all * 100) : 0}%"></i></div>
+    <div class="barcap"><span>${d} answered</span><span>${w.length} left</span></div>
+    ${w.length ? `<div class="cu-invite"><div><b>Catch up on ${w.length} memory update${w.length > 1 ? 's' : ''}, one at a time</b><span>Each update opens as a card. Approve it or reject it with your words, or leave it for later.</span></div><button class="btn cu-open" data-mcu-start>Start catch up</button></div>` : ''}
+    <div class="sect"><div class="sect-h"><h2>Needs you</h2><span>Blocking first</span></div>
+      ${order.length ? order.map(u => `<button class="row" data-mgo="${u.id}"><span class="chips"><span class="chip changed">Waiting</span></span><span><div class="rt">${esc(u.missing)}</div><div class="rw">Issue #${u.issue} · ${MSRC[u.source]}${u.blocking ? ' · blocks the work' : ''}</div></span><span class="go">→</span></button>`).join('') : '<p class="empty" style="padding:18px 4px">Every memory update has an answer.</p>'}
+      ${MEM.adrs.map(a => `<button class="row" data-mgo="${a.id}"><span class="chips"><span class="chip kind">ADR</span></span><span><div class="rt">${esc(a.title)}</div><div class="rw">${esc(a.why)}</div></span><span class="go">→</span></button>`).join('')}
+    </div>
+    ${MEM.decisions.length ? `<div class="sect"><div class="sect-h"><h2>What each decision rested on</h2><span>Every decision names its memory</span></div>
+      ${MEM.decisions.map(x => `<div class="row" style="cursor:default"><span class="chips"><span class="chip kind">Decision</span></span><span><div class="rt">${esc(x.q)} — ${esc(x.a)}</div><div class="rw">${x.src.map(s => `${esc(s[0])} · ${esc(s[1])} · ${esc(s[2])}`).join('; ')}</div></span><span></span></div>`).join('')}</div>` : ''}
+    </div>`;
+}
+function memPiece(u) {
+  if (u.title) {
+    $('#content').innerHTML = `<div class="content-in"><div class="chips"><span class="chip kind">ADR</span><span class="chip changed">Proposed</span></div>
+      <h1 style="margin-top:14px">${esc(u.title)}</h1><p class="why"><b>Why:</b> ${esc(u.why)}</p><div class="sig" style="margin-top:18px"></div>
+      <div class="sec"><div class="label">The decision</div><div class="tx"><p>A guest cart is kept for 7 days, then cleared. The guest is told when they come back.</p></div></div></div>`;
+    return;
+  }
+  $('#content').innerHTML = `<div class="content-in">
+    <div class="chips">${mChips(u)}</div>
+    <h1 style="margin-top:14px">${esc(u.missing)}</h1>
+    <p class="why"><b>Why:</b> no memory held this. Raised by ${esc(u.by)}, ${esc(u.at)}.</p>
+    <div class="sig" style="margin-top:18px"></div>
+    <div class="sec"><div class="label">The draft</div><div class="tx"><p>${esc(u.draft)}</p></div></div>
+    <div class="sec"><div class="label">If you approve it</div><div class="tx"><p>Garura writes it to issue #${u.issue}'s short-term memory, and the work that waits on it goes on. ${u.blocking ? 'This work is stopped until you answer.' : 'The rest of the work is not waiting on it.'}</p></div></div>
+  </div>`;
+}
+function memSide(u) {
+  const side = $('#side');
+  if (!u) { side.innerHTML = `<div class="decide"><div class="q">How this works</div><p class="empty">Open an update on the left, or start Catch up. Read the draft, write your words, then approve or reject it. Each update is answered on its own.</p></div>`; return; }
+  if (u.title) { side.innerHTML = `<div class="decide"><div class="q">Accept this decision?</div>
+    <button class="dbtn accept" data-mans="accept"><span class="ico">✓</span><span>Accept<small>The ADR is accepted, and older ones get a pointer.</small></span><span class="k">a</span></button>
+    <button class="dbtn send" data-mans="send"><span class="ico">↩</span><span>Send back<small>The /adr play reworks it from your comment.</small></span><span class="k">s</span></button></div>`; return; }
+  if (u.status !== 'waiting') { side.innerHTML = `<div class="decide"><div class="q">${u.status === 'rejected' ? 'You rejected this.' : 'You approved this.'}</div><p class="empty">“${esc(u.reply)}”</p></div>`; return; }
+  side.innerHTML = `<div class="decide"><div class="q">What do you want to do with this?</div>
+    <div class="composer"><textarea id="m-words" placeholder="Your words — needed to approve or reject">${esc(MEM.words[u.id] || '')}</textarea></div>
+    <button class="dbtn accept" data-mans="approve"><span class="ico">✓</span><span>Approve<small>Garura writes it to the issue's short-term memory.</small></span><span class="k">a</span></button>
+    <button class="dbtn drop" data-mans="reject"><span class="ico">✕</span><span>Reject<small>Nothing is written. Work that waits on it stays stopped.</small></span><span class="k">r</span></button>
+    <p class="empty">${esc(MEM.err)}</p></div>`;
+}
+function memRender() {
+  memTopbar(true); memNav();
+  const u = MEM.cur ? mById(MEM.cur) : null;
+  u ? memPiece(u) : memOverview(); memSide(u);
+  $('#cu-btn').textContent = mWaiting().length ? `Catch up (${mWaiting().length})` : 'Catch up';
+}
+var memDecide = function (u, verdict, words) {
+  if (!words.trim()) { MEM.err = 'Write your words first.'; return false; }
+  u.status = verdict === 'approve' ? 'approved' : 'rejected'; u.reply = words.trim(); MEM.err = '';
+  event(verdict === 'approve' ? 'memory_approved' : 'memory_rejected', { id:u.id, title:u.missing });
+  return true;
+};
+// Catch up for memory updates: one card each; words are needed, so Approve and Reject are buttons.
+function memCuQueue() { return mWaiting().filter(u => !MEM.later.includes(u.id)).concat(mWaiting().filter(u => MEM.later.includes(u.id))); }
+function memCuRender() {
+  let el = $('#cu'); if (!el) { el = document.createElement('div'); el.id = 'cu'; el.className = 'cu'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-label', 'Catch up'); document.body.appendChild(el); }
+  const q = memCuQueue(), u = q[0];
+  el.innerHTML = `<div class="cu-top"><div class="ttl"><b>Catch up</b><span>Memory updates · one at a time</span></div><span class="cu-count">${q.length ? q.length + ' left' : ''}</span><button class="btn" data-mcu-exit>Exit</button></div>
+    <div class="cu-segs">${MEM.updates.map(x => `<i class="${x === u ? 'now' : x.status === 'waiting' ? '' : x.status === 'rejected' ? 'drop' : 'accept'}"></i>`).join('')}</div>
+    <div class="cu-stage"><div class="cu-deck">${u ? `<div class="cu-card cu-now"><div class="cu-head"><div class="ctx">Memory update · issue #${u.issue}</div><h2>${esc(u.missing)}</h2><div class="chips">${mChips(u)}</div><p class="why"><b>Why:</b> no memory held this. Raised by ${esc(u.by)}.</p></div>
+      <div class="cu-body"><div class="sec"><div class="label">The draft</div><div class="tx"><p>${esc(u.draft)}</p></div></div><div class="composer" style="margin-top:12px"><textarea id="mcu-words" placeholder="Your words — needed to approve or reject"></textarea></div><p class="empty">${esc(MEM.err)}</p></div>
+      <div class="cu-acts"><button class="cu-act later" data-mcu="later">Later<small>keep it waiting · ←</small></button><button class="cu-act drop" data-mcu="reject">✕ Reject<small>with your words · r</small></button><button class="cu-act accept" data-mcu="approve">✓ Approve<small>with your words · a</small></button></div></div>`
+      : `<div class="cu-card cu-now"><div class="cu-head"><h2>All caught up</h2><p class="why">Every memory update has your answer.</p></div><div class="cu-acts"><button class="cu-act accept" data-mcu-exit>Back to the overview</button></div></div>`}</div></div>
+    <div class="cu-foot">Approve or reject needs your words · ← leaves it for later · Esc to exit</div>`;
+  const ta = $('#mcu-words'); if (ta) ta.focus();
+}
+function memCuClose() { MEM.cu = false; MEM.err = ''; const el = $('#cu'); if (el) el.remove(); memRender(); }
+
+// Wire the section in without touching the Intents and Product code paths.
+const baseRender = render;
+render = function () { if (S.tool === 'memory') return memRender(); memTopbar(false); return baseRender(); };
+$('#t-memory').onclick = () => { S.tool = 'memory'; MEM.cur = null; render(); };
+document.addEventListener('click', e => {
+  const t = e.target.closest('button'); if (!t || S.tool !== 'memory') return;
+  if (t.id === 'cu-btn' || t.hasAttribute('data-cu-start') || t.hasAttribute('data-mcu-start')) { e.stopImmediatePropagation(); MEM.cu = true; MEM.err = ''; return memCuRender(); }
+  if (t.hasAttribute('data-mcu-exit')) { e.stopImmediatePropagation(); return memCuClose(); }
+  if (t.dataset.mcu === 'later') { e.stopImmediatePropagation(); const u = memCuQueue()[0]; if (u) MEM.later = MEM.later.filter(x => x !== u.id).concat(u.id); return memCuRender(); }
+  if (t.dataset.mcu) { e.stopImmediatePropagation(); const u = memCuQueue()[0]; return Promise.resolve(u && memDecide(u, t.dataset.mcu, $('#mcu-words').value)).then(memCuRender); }
+  if (t.dataset.mgo !== undefined) { e.stopImmediatePropagation(); MEM.cur = t.dataset.mgo || null; MEM.err = ''; render(); return window.scrollTo(0, 0); }
+  if (t.dataset.mans) { e.stopImmediatePropagation(); const u = mById(MEM.cur); if (u.title) { u.status = t.dataset.mans; MEM.adrs = MEM.adrs.filter(a => a !== u); MEM.cur = null; return render(); } return Promise.resolve(memDecide(u, t.dataset.mans, $('#m-words').value)).then(render); }
+}, true);
+document.addEventListener('input', e => { if (e.target.id === 'm-words' && MEM.cur) MEM.words[MEM.cur] = e.target.value; }, true);
+document.addEventListener('keydown', e => {
+  if (S.tool !== 'memory') return;
+  e.stopImmediatePropagation();
+  if (e.target.closest('textarea')) { if (e.key === 'Escape' && MEM.cu) memCuClose(); return; }
+  if (MEM.cu) { if (e.key === 'Escape') return memCuClose(); const m = { ArrowLeft:'later', a:'approve', r:'reject' }[e.key]; if (m) document.querySelector(`[data-mcu="${m}"]`)?.click(); return; }
+  if ((e.key === 'a' || e.key === 'r') && MEM.cur) return document.querySelector(`[data-mans="${e.key === 'a' ? 'approve' : 'reject'}"], [data-mans="${e.key === 'a' ? 'accept' : 'send'}"]`)?.click();
+  if (e.key === 'j' || e.key === 'k') { const ids = [null].concat(mWaiting().map(u => u.id), MEM.adrs.map(a => a.id), mDecided().map(u => u.id)); const i = ids.indexOf(MEM.cur); MEM.cur = ids[Math.max(0, Math.min(ids.length - 1, i + (e.key === 'j' ? 1 : -1)))]; render(); }
+}, true);
+{ if (location.hash === '#memory') { S.tool = 'memory'; render(); } }
 </script>
 </body>
 </html>
