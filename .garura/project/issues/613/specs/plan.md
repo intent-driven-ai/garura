@@ -4,7 +4,7 @@ kind: story
 serves: "#613 — the Kickoff drive runs /intent, /vision and /understand from a working prototype to a detailed product model"
 status: active
 updated: 2026-10-18
-now: 1
+now: 2
 serves_plan: 606
 serves_item: 8
 ---
@@ -66,40 +66,50 @@ the wrong move."* When memory and the system hold nothing to go on, they ask.
 ## Where we are now
 
 The change is open: branch `feature/613-the-kickoff-drive`, cut from main on
-2026-10-18. Nothing is built. A read of the three plays found what stops them
-running back to back today (item 3). The first step is item 1: record how the
-plays decide inside a drive, because it changes an earlier decision.
+2026-10-18. Item 1 is decided: ADR 034 says how the plays decide inside a drive.
+Nothing is built. Now: item 2, a review of the memory the plays answer from,
+before anything is designed or built on it (Kapil, 2026-10-18).
 
 ## The plan, in order
 
-### 1. Decide how a play answers its own questions inside a drive — now
+### Done
+
+- **1. Decided: inside a drive, a play answers from memory** — ADR 034,
+  accepted by Kapil on 18 October (`docs/adr/034-plays-answer-from-memory-inside-a-drive.md`).
+  A play answers its questions from memory and what the system gives it,
+  records where each answer came from, and asks only when nothing supports an
+  answer; never from the model alone. It amends ADR 029 §2. Nothing is built.
+  Still open: whether a play may answer from a piece not yet approved, and
+  where each answer's source is recorded (items 2 and 3).
+
+### 2. Review the memory the plays answer from — now
 
 **Issue:** #613.
-**What:** record Kapil's rule of 2026-10-18: inside a drive, a play answers from
-memory and from what the system gives it, and asks only when nothing there
-supports an answer. Say what counts as memory (for example the product model,
-the knowledge base, the prototype's sources, the drive's own answers, learned
-checkpoint answers), and that every answer taken this way is recorded with where
-it came from, so the review can show it.
-**Why here:** it changes ADR 029 ("the drive stops and asks; it never picks an
-answer for itself") and rule 4 of the drive contract. The runner's question
-step and the play fixes in item 3 both depend on it.
-**Done when:** the decision is an accepted ADR, made with `/adr`.
-**Needs:** nothing.
+**What:** check each kind of memory ADR 034 names — the drive's up-front
+answers, the prototype's sources, the product model, the knowledge base, the
+learned checkpoint answers — and how a play reads it, whether it is current,
+whether an answer taken from it can name where it came from, and what is broken
+or missing. Fix what the review finds, or file it, as Kapil decides.
+**Why here:** Kapil, 2026-10-18: "Before we build the drive, we need to review
+the memory mechanism and make sure it is done absolutely correctly." Every
+item after this one rests on it.
+**Done when:** the review is written in this issue's `specs/` folder, Kapil has
+read it, and what he chose to fix is fixed.
+**Needs:** item 1.
 
-### 2. Decide the runner's shape
+### 3. Decide the runner's shape
 
 **Issue:** #613.
 **What:** settle what the drive is as a component and how it runs end to end:
 how it is built and compiled, where its run and records live, how it asks its
-questions first under item 1's rule, how the config picks the checker, what
-evidence it writes, and how it ends until the review exists.
-**Why here:** items 4 to 6 build what this item decides.
+questions first under ADR 034, how the config picks the checker, what evidence
+it writes, and how it ends until the review exists.
+**Why here:** items 5 to 7 build what this item decides.
 **Done when:** a short design note in this issue's `specs/` folder that Kapil
 agrees with; anything that changes an earlier decision is an ADR.
-**Needs:** item 1.
+**Needs:** items 1 and 2.
 
-### 3. Make the three plays run back to back without a person
+### 4. Make the three plays run back to back without a person
 
 **Issue:** #613 — the fixes ride on this branch (Kapil's choice A, 2026-10-18).
 **What:** fix what stops the plays running one after another. Found so far:
@@ -111,9 +121,9 @@ can stop for a review; the names `/vision` reads its input under are not fixed;
 through its ICE source and `/play-editor`.
 **Why here:** the runner cannot be proven end to end while any of these stop it.
 **Done when:** each fix is on this branch and each play's own checks pass.
-**Needs:** item 1; item 2 for the input names.
+**Needs:** items 1 and 2; item 3 for the input names.
 
-### 4. Teach the play compiler what a drive is
+### 5. Teach the play compiler what a drive is
 
 **Issue:** #613.
 **What:** `/play-creator` builds plays that run their own steps. A drive runs
@@ -123,9 +133,9 @@ lint must check one.
 is too; and every later drive (#608–#611) will need the same.
 **Done when:** the compiler can build a drive, and its lint passes and fails a
 drive as it does a play.
-**Needs:** item 2.
+**Needs:** item 3.
 
-### 5. Build the checker
+### 6. Build the checker
 
 **Issue:** #613.
 **What:** at the end of a drive, a different model, sub-agent or coding agent
@@ -134,19 +144,19 @@ with reasons written to a file. A rejection halts the drive.
 **Why here:** Kickoff's done check needs it, and no checker exists today.
 **Done when:** the config names the checker, and a pass and a rejection both
 work on a sample result.
-**Needs:** item 2.
+**Needs:** item 3.
 
-### 6. Build the Kickoff drive
+### 7. Build the Kickoff drive
 
 **Issue:** #613.
 **What:** write Kickoff's intent source (ICE) from #613's acceptance criteria and
 compile it: questions first, `/intent` → `/vision` → `/understand` (once, for
 all capabilities), the checker, the evidence.
-**Why here:** it puts items 3 to 5 together.
+**Why here:** it puts items 4 to 6 together.
 **Done when:** Kickoff compiles, its lint passes, and its done check is baked in.
-**Needs:** items 3, 4 and 5.
+**Needs:** items 4, 5 and 6.
 
-### 7. Prove Kickoff on a real prototype
+### 8. Prove Kickoff on a real prototype
 
 **Issue:** #613.
 **What:** run Kickoff end to end on a real working prototype, in a test project
@@ -156,15 +166,15 @@ prototype that does not run, a checker rejection.
 example pack from this run (#641).
 **Done when:** the run and the three halts are recorded in this issue's folder,
 and the run's output is kept as #641's example pack.
-**Needs:** item 6. Kapil picks the prototype.
+**Needs:** item 7. Kapil picks the prototype.
 
-### 8. Land the runner
+### 9. Land the runner
 
 **Issue:** #613.
 **What:** commit, raise, review and merge the change; post the handoff on #613;
 mark step 1 of item 8 done in the #606 plan.
 **Done when:** merged to main.
-**Needs:** item 7.
+**Needs:** item 8.
 
 ## Log
 
@@ -176,3 +186,9 @@ mark step 1 of item 8 done in the #606 plan.
 - 2026-10-18 — Kapil approved the plan and chose A for item 3: the play fixes
   are done on this branch, in this change, even though #613 lists play changes
   as out of its scope.
+- 2026-10-18 — Item 1 done: ADR 034 accepted ("approved"). Kapil added a review
+  of the memory the plays answer from before anything is built on it; it is the
+  new item 2, and the items after it moved down one (the runner's shape is now
+  item 3, the play fixes item 4, the compiler 5, the checker 6, Kickoff 7, the
+  real run 8, landing 9). ADR 034's "#613 plan item 2" now means item 3, and its
+  "item 3" now means item 4.
