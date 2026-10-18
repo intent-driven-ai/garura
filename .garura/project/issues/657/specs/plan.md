@@ -4,7 +4,7 @@ kind: story
 serves: "#657 — the memory tool finds memory across short-term, Garura and Phoenix memory the way Claude Code searches"
 status: active
 updated: 2026-10-18
-now: 5
+now: 6
 serves_plan: 653
 serves_item: 4
 ---
@@ -51,8 +51,8 @@ contract (#655, `core/tools/memory/contract/v1.json`) and `pull` / `pulled`
 ## Where we are now
 
 The change is open on `feature/657-memory-tool-search`. Its first commit closed
-out five finished plans. Items 2 and 3 are built: the tool finds, searches, reads and pulls. Item 4, contract version 2, is built.
-Next: item 5, Kapil's test on a fresh project.
+out five finished plans. Items 2 and 3 are built: the tool finds, searches, reads and pulls. Items 4 and 5 are done: contract version 2, and
+Kapil's test passed on a fresh project. Next: item 6, land the change.
 
 ## The plan, in order
 
@@ -95,20 +95,17 @@ Next: item 5, Kapil's test on a fresh project.
   memory. 43 samples moved to version 2 and 2 added; the check, its tests (one test now
   states the version 2 rule), `pull.py` and the tool follow. 33 tool tests, 12 pull tests,
   49 contract tests pass; the contract check (22 samples, 23 broken, boundary) passes.
+- **5. Shown: Kapil's test on a fresh project** — #657. A fresh project with empty Garura
+  memory and a clone of Phoenix memory at its approved version. Login story: the lookup
+  went short-term → Garura → Phoenix and was answered by Phoenix memory
+  (`knowledge/domains/user-management.md`); reading it pulled it into the project. Re-run:
+  answered by Garura memory. Change-password story: password reset answered by Garura
+  memory, password strength by Phoenix memory (`standards/rules/kb-extension.md`), then
+  pulled. Project memory removed: the lookup went up to Phoenix memory again; a lookup no
+  tier can answer gave the empty answer, the cue for a memory update (#658). Record:
+  `evidence/kapil-test.md`; runner: `evidence/kapil_test.py`.
 
-### 5. Kapil's test on a fresh project — now
-
-**Issue:** #657.
-**What:** an empty test project and a copy of Phoenix memory (its
-`knowledge/domains/user-management.md` covers sign-in and passwords); run the
-login story, the re-run, the change-password story and the removed-memory case (it ends at the empty
-answer, the cue for a memory update; raising it is #658),
-and keep the record in this issue's short-term memory.
-**Why here:** it is the done-when of the story, shown end to end.
-**Done when:** all four cases behave as written above.
-**Needs:** items 3 and 4.
-
-### 6. Land the change
+### 6. Land the change — now
 
 **Issue:** #657.
 **What:** in the last commit before the merge, mark this plan done and item 4 of
@@ -125,3 +122,4 @@ answers change (#657, #658) are fixed only when Kapil asks.
 - 2026-10-18 — Item 1 done: memory updates land in short-term memory only; `learn` and `promote` plays move them up; the reader uses only approved Phoenix memory; a file is pulled when it is used.
 - 2026-10-18 — Items 2 and 3 built: `memory.py`, 29 tests; `pull` reads Phoenix memory at its approved version.
 - 2026-10-18 — Item 4 built: contract version 2.
+- 2026-10-18 — Item 5 shown: Kapil's test passed on a fresh project.
