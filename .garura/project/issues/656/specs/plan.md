@@ -135,6 +135,18 @@ change (#656, #657, #661, #663) are fixed only when Kapil asks.
 **Done when:** merged to main.
 **Needs:** item 4.
 
+## Left as notes by the review (P4, not blocking)
+
+- MEM-10: the "no names in memory" rule sits only in
+  `core/components/memory/knowledge/_TEMPLATE.md`; its "memory is shared
+  across projects" holds for Phoenix memory, not Garura memory. A decision
+  record could carry the rule.
+- MEM-11: "the team's position", "The person asked me" do not say who is
+  meant; the delegation note is worded two ways.
+- MEM-12: the ADR template's gold example copies ADR 031's header but names a
+  made-up person.
+- `core/tools/memory/test_pull.py` never deletes its temp folders.
+
 ## After this story (test cases for the tool)
 
 - Kapil, 2026-10-18: "If somebody removes the project memory, then it needs to
@@ -182,3 +194,6 @@ change (#656, #657, #661, #663) are fixed only when Kapil asks.
   test). Kapil approved it as an exception; 9 memory wording fixes made (item
   4b). Small issue found, not fixed: `test_pull.py` never deletes its temp
   folders.
+- 2026-10-18 — PR #671 re-reviewed with the gate on for that run: Kapil
+  approved ("approve"). The nine round-1 findings are resolved; three P4 notes
+  kept above. Gate set back off.
