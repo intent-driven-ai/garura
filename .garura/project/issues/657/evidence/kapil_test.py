@@ -50,7 +50,8 @@ def step(title, args, expect=None):
         results = a.get("hits", a.get("matches", []))
         first = results[0] if results else None
         where = f"`{first['tier']}` `{first['path']}`" + (f" line {first['line']}" if first and "line" in first else "") if first else "nothing"
-        got = f"looked in {', '.join(a['looked_in'])} → answered by **{a['answered_by']}**; first result: {where}"
+        by = a["answered_by"] or "none (nothing found)"
+        got = f"looked in {', '.join(a['looked_in'])} → answered by **{by}**; first result: {where}"
     elif a["command"] == "read":
         got = f"read `{a['tier']}` `{a['path']}` lines {a['start']}–{a['end']}"
     else:
@@ -58,7 +59,7 @@ def step(title, args, expect=None):
     ok = expect is None or (a.get("answered_by") == expect if a.get("ok") else expect == a["error"]["code"])
     if not ok:
         failures.append(title)
-    lines.append(f"- {title}  \n  `memory.py {' '.join(args)}`  \n  {got} {'✓' if ok else '✗ expected ' + str(expect)}")
+    lines.append(f"- {title}\n  - `memory.py {' '.join(args)}`\n  - {got} {'✓' if ok else '✗ expected ' + str(expect)}")
     return a
 
 
