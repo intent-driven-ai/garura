@@ -4,7 +4,7 @@ kind: story
 serves: "#658 — when no memory answers, an agent raises a memory update a person approves, and then decides from memory"
 status: active
 updated: 2026-10-18
-now: 6
+now: 7
 serves_plan: 653
 serves_item: 5
 ---
@@ -57,7 +57,8 @@ and its text still lets an update target Garura or Phoenix memory.
 
 The change is open on `feature/658-memory-updates`. Kapil's questions are answered;
 the two review faults are fixed; contract version 3 and the update commands are built.
-The local approval page works. Next: item 6, end to end, with Kapil approving on the page.
+The local approval page works, and the end-to-end run passed with Kapil approving.
+Next: item 7, land the change.
 
 ## The plan, in order
 
@@ -109,20 +110,15 @@ The local approval page works. Next: item 6, end to end, with Kapil approving on
   Reject with their words through `decide`, as decided in the review tool, by the git user
   at the machine. An answer with no words is refused. Tried on a raised update: approved
   on the page, applied, found by a search in the same issue.
+- **6. Shown: end to end, with Kapil approving on the page** — #658, 2026-10-18. A fresh
+  project and a clone of Phoenix memory. Two lookups found nothing in any tier; each raised
+  an update (one from the web that blocks, one from the model that does not); neither was
+  found while it waited. Kapil approved both on the local page; both were applied to issue
+  658's short-term memory; a new lookup in issue 658 found each, and issue 659 found
+  neither. No update was rejected in the run; the reject path is covered by the tool's
+  tests. Record: `evidence/e2e-658.md`; runner: `evidence/e2e_658.py`.
 
-### 6. Show it end to end — now
-
-**Issue:** #658.
-**What:** on a fresh project: a gap, an update, a person's approval on the
-local page, the write,
-and the answer from memory; the same in another issue finds nothing; a
-rejection writes nothing; nothing comes from the model or the web without an
-approved update. Keep the record in this issue's short-term memory.
-**Why here:** the issue's done-when, shown.
-**Done when:** every case behaves as written.
-**Needs:** item 5.
-
-### 7. Land the change
+### 7. Land the change — now
 
 **Issue:** #658.
 **What:** in the last commit before the merge, mark this plan done and item 5
@@ -149,3 +145,4 @@ answers change (#658, #661, #663) are fixed only when Kapil asks.
 - 2026-10-18 — Items 2 and 3 done: the two #674 faults fixed; contract version 3.
 - 2026-10-18 — Item 4 built: propose, updates, decide, apply; waiting drafts hidden from lookups.
 - 2026-10-18 — Item 5 built: the local approval page (never committed).
+- 2026-10-18 — Item 6 shown: end to end, Kapil approved both updates on the local page.
