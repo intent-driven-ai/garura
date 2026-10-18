@@ -1,0 +1,31 @@
+{
+  "task_id": "draft-adr",
+  "draft": ".garura/project/issues/_adr/20261018-112701/adr-draft.md",
+  "number": "036",
+  "title": "An Approved Researched Answer Lands in the Current Issue's Short-Term Memory, and Memory and ADRs Are Reviewed in the Review Tool",
+  "lint": {"command": "adr.py lint --adr adr-draft.md", "exit": 0, "valid": true, "problems": []},
+  "guard": {"command": "adr.py guard --adr adr-draft.md (no --intents-dir: a framework ADR, intents_dir null)", "exit": 0, "declared": "none", "touches_an_intent": [], "verdict": "no person's business intent changes", "agrees_with_context": true},
+  "overlaps_on_brief": ["034", "035", "011", "032", "033"],
+  "overlaps_on_draft": ["035", "034", "032", "033", "031", "029", "028", "008", "011", "030", "026"],
+  "overlap_judgment": {
+    "supersedes": [],
+    "amends": [
+      {"adr": "035", "part": "§1 short-term memory is the current issue only; §5 the approved researched answer lands in the issue's short-term memory, promotion outside the work, a person's own answer to Garura memory; §7 the Memory and ADRs section (with §9's line on ADR 032 §3); \"Not decided here\": first two questions settled"},
+      {"adr": "034", "part": "§2 the learned checkpoint answers come off the list of memory"},
+      {"adr": "032", "part": "§3 as amended by ADR 035: the third section is Memory and ADRs (judgment call)"}
+    ],
+    "not_affected": ["002", "008", "010", "011", "015", "016", "026", "028", "029", "030", "031", "033"]
+  },
+  "affects_paths_checked": [
+    "core/tools/memory/contract/v1.json",
+    "core/tools/memory/README.md",
+    ".garura/project/issues/653/specs/plan.md",
+    ".garura/project/issues/654/specs/stories.yaml",
+    ".garura/project/issues/617/specs/review-tool.md",
+    "core/components/plays/adr/reference/ice.md",
+    "core/components/plays/adr/SKILL.md"
+  ],
+  "affects_paths_all_exist": true,
+  "retries": 0,
+  "status": "clean"
+}
