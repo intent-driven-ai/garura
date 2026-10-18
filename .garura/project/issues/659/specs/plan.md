@@ -4,7 +4,7 @@ kind: story
 serves: "#659 — every decision an agent makes names the memory it came from, and a script checks it"
 status: active
 updated: 2026-10-18
-now: 5
+now: 6
 serves_plan: 653
 serves_item: 6
 ---
@@ -45,7 +45,8 @@ or from a memory update a person approved (#658).
 
 The change is open on `feature/659-decisions-name-their-memory`. The mockup has the
 Memory and ADRs section; the decision record, contract version 4, and `cite` and
-`citations` are built. Next: item 5, the drive review record carries the sources.
+`citations` are built, and the drive review record carries the decisions. Next:
+item 6, land the change.
 
 ## The plan, in order
 
@@ -84,18 +85,15 @@ Memory and ADRs section; the decision record, contract version 4, and `cite` and
   (`changed`) one; a decision from a memory update needs it applied and names its written
   file. Records are kept in `context/citations.jsonl` of the issue (a setting) and hidden
   from lookups. 58 tool tests pass, 7 of them new.
+- **5. Built: the drive review record carries the decisions** — #659.
+  `write_drive_review.py` (canonical in `play-creator/references/`, copies in `/vision`
+  and `/understand`) takes `--decisions`, the memory tool's `citations --check` answer for
+  the play, and puts each decision, its sources and any problem into the review record.
+  The option is optional, so the plays run as before until their agents move onto the
+  tool (#661). Drive tests: 28 pass, 2 of them new; every copy is identical; no new
+  component-lint finding (116 before and after).
 
-### 5. The drive review record carries the sources — now
-
-**Issue:** #659.
-**What:** `write_drive_review.py` (the canonical copy in `play-creator/references/`
-and the copies in `/vision` and `/understand`) includes the decision records of
-the run, so the drive's review shows what each decision rested on.
-**Why here:** the issue's done-when.
-**Done when:** a sample run's review record lists its sources.
-**Needs:** item 4.
-
-### 6. Land the change
+### 6. Land the change — now
 
 **Issue:** #659.
 **What:** in the last commit before the merge, mark this plan done and item 6
@@ -118,3 +116,4 @@ commit, raise, review, merge.
 - 2026-10-18 — Item 1 done (a, c): the mockup's Memory and ADRs section; the local page serves the mockup.
 - 2026-10-19 — Item 1e: the review tool's five sections and the Ask memory mock (design only).
 - 2026-10-19 — Items 2–4 done: the decision record, contract version 4, `cite` and `citations`.
+- 2026-10-19 — Item 5 built: the drive review record carries the decisions and their sources.
