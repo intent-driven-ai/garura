@@ -1,0 +1,72 @@
+[
+ {
+  "key": 1,
+  "number": 641,
+  "type": "Story",
+  "parent": 594,
+  "title": "The review tool has a written contract for what Garura sends it and what comes back"
+ },
+ {
+  "key": 2,
+  "number": 642,
+  "type": "Story",
+  "parent": 594,
+  "title": "The review tool runs as a server that keeps every review action as a numbered event"
+ },
+ {
+  "key": 3,
+  "number": 643,
+  "type": "Story",
+  "parent": 594,
+  "title": "A person can read a review: the whole model's approval state, each intent with its ICE, and the product"
+ },
+ {
+  "key": 4,
+  "number": 644,
+  "type": "Story",
+  "parent": 594,
+  "title": "A person can answer a review in the page or one card at a time: comment, edit, remove, accept, send back, drop"
+ },
+ {
+  "key": 5,
+  "number": 645,
+  "type": "Story",
+  "parent": 597,
+  "title": "Every piece of the product model carries its approval state: approved, changed or in progress"
+ },
+ {
+  "key": 6,
+  "number": 646,
+  "type": "Story",
+  "parent": 597,
+  "title": "Agents build only from approved pieces"
+ },
+ {
+  "key": 7,
+  "number": 647,
+  "type": "Spike",
+  "parent": 597,
+  "title": "Decide how approval is recorded outside the review step"
+ },
+ {
+  "key": 8,
+  "number": 648,
+  "type": "Story",
+  "parent": 594,
+  "title": "Garura opens a review on what a drive changed and records every answer on the drive's branch"
+ },
+ {
+  "key": 9,
+  "number": 649,
+  "type": "Story",
+  "parent": 594,
+  "title": "A sent-back piece comes back reworked, with Garura's reply on the comment"
+ },
+ {
+  "key": 10,
+  "number": 650,
+  "type": "Story",
+  "parent": 594,
+  "title": "The drive's last step applies the review's answers in one commit and writes approval"
+ }
+]

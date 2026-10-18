@@ -215,15 +215,59 @@ intents and the product model.
 **Prior art, not the thing to ship:** the local `pr-reviewer` and `play-reviewer`
 prototypes (comments, verdicts, a watcher that tells Claude a review is finished).
 
-## Stories this would file (draft — filed only when Kapil asks)
+## Stories — filed 2026-10-18 (Kapil: "file the stories and land it")
 
-1. The intent review tool (Q7).
-2. The product review tool (Q7).
-3. A script that works out what a drive changed in the intents and the product model,
-   against main, with the play records behind each change.
-4. The review step, the drive's last step (Q4 A): open the tools on the drive's outcome,
-   read the person's answers, apply them (Q2, Q5).
-5. The failed-drive path: fix and resume, or drop the drive (Q3).
-6. Dropping a box-move: lower the limit, send the capability back (Q6 A).
-7. Kickoff (#613) runs the review as its last step.
-8. #569 rewritten or closed to match (Q7) — a GitHub write, only when Kapil asks.
+One list, merged 2026-10-18 from three that overlapped: ADR 032's "Work This
+Creates", ADR 033's "Work This Creates", and the tool plan (`specs/review-tool.md`
+§7). Each story names what a person gets and how we know it works.
+
+**A. The review tool** — its own folder, built to move into Griffin.
+
+1. **#641 · The contract.** The written agreement between Garura and the tool: what a
+   review pack holds (each BInt, ICE and product part, before and after, with its
+   approval state) and what events come back. Done when two example packs — a
+   finished Kickoff and a failed one — pass the check.
+2. **#642 · The server.** Garura can start a review, the tool keeps it, and every action
+   comes back as a numbered event that is never lost. Done when the server's tests
+   pass on the example packs and nothing in its folder mentions Garura.
+3. **#643 · Reading.** The person sees the whole model's state (approved, changed, in
+   progress), the Intents view (each BInt with its ICE under it) and the Product
+   view, Final or Changes, Only changed or Everything. Light only. Done when the
+   example pack reads well on a laptop and on a phone.
+4. **#644 · Acting.** Comment on words or on an area, edit, remove, accept, send back,
+   drop, Finish — in the full page and in Catch up (one card at a time). Done when
+   each action, from either place, arrives as the same event.
+
+**B. Approval in the product model** (ADR 033) — with the ontology work, #597.
+
+5. **#645 · The approval states in the model.** Every piece carries approved, changed or
+   in progress, with the fingerprint of its words, who and when; mapped onto
+   confirmed, accepted and active. Done when a piece approved once shows "changed"
+   after a play edits its words, and stays "approved" when nothing touches it.
+6. **#646 · Agents work only on approved pieces.** The readiness check reads approval and
+   follows links (ICE, its capability or functionality, its BInt). Done when an
+   agent refuses an ICE whose BInt is not approved.
+7. **#647 · Approval outside the review.** How `/intent` and `/adr` run by hand, and
+   `/shape`, record approval. Needs a decision first (ADR 033, its Work item 6).
+
+**C. Garura's side of the review** — under #594.
+
+8. **#648 · Open and listen.** Garura works out what changed against main, builds the
+   pack, opens the tool, and its listener writes each event onto the branch.
+   Done when an action in the tool lands as a file on the branch.
+9. **#649 · The send-back loop.** Garura reworks one sent-back piece, sends the new
+   version, and replies on the comment. Done when a send-back comes back to the
+   tool with the reply, and the comment is still pinned.
+10. **#650 · The review step.** The drive's last step applies all answers as one commit
+    and writes approval; it also handles a failed drive (fix and resume, or drop)
+    and a dropped box-move (the limit goes back down). Done when a Kickoff branch
+    ends in one commit that matches what the person chose.
+
+**Changes to issues that already exist** (not new stories):
+
+- #613 (Kickoff): "runs the review as its last step" added to its acceptance criteria (done).
+- #569 (old per-play review viewer): closed as not planned, with a comment pointing to #641–#644 and #648–#650 (done).
+
+Settled while building, not before filing: D1 (how events reach Garura, story 2
+and 8) and D2 (the person's direct edits, story 4 and 10) — `specs/review-tool.md`
+§9.
