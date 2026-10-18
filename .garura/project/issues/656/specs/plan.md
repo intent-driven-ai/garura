@@ -4,12 +4,12 @@ kind: story
 serves: "#656 — Phoenix memory has its own repository, and each project pulls only the subset it needs into Garura memory"
 status: active
 updated: 2026-10-18
-now: 2
+now: 5
 serves_plan: 653
 serves_item: 3
 ---
 
-# Plan — #656: Phoenix memory's own home, and the subset a project pulls
+# Plan — #656: Phoenix memory built, ready for the memory tool
 
 This is a plan, not a design. It says what gets done, in what order, and why
 that order. How each item is built is decided in its own step.
@@ -17,120 +17,130 @@ that order. How each item is built is decided in its own step.
 ## What we are trying to reach
 
 ADR 035 §2 gives Phoenix memory one home: its own git repository, outside
-Garura's code. A project no longer holds a copy of all memory. It pulls the
-subset it needs into its own Garura memory and records what it pulled and from
-which version. Today memory sits in three places that drift apart:
-`core/components/memory/` (151 files, the source), `~/.garura/core/memory/`
-(241 files: the source plus shelves deleted in #434 — `knowledge/arch/`,
-`knowledge/quality/`, `standards/rules/feature-expectation-generation.md` —
-and 12 files that differ) and the project copy `.garura/core/memory/` (41 files,
-gitignored, partly stale). The memory tool (#657) needs one known place per
-tier.
+Garura's code. Garura's memory (`core/components/memory/`, 147 files git
+tracks) moves there. The memory tool (#657) is built next and proves it; only
+then is the old folder removed and everything that pointed at it fixed.
+
+Memory is read in one order (ADR 035 §3): short-term memory first, then Garura
+memory (the project's `.garura/` folder), and only then Phoenix memory.
 
 ## When this plan is done
 
-- The Phoenix memory repository exists and holds the seeded content, at a
-  version (its commit).
-- An install into a test project pulls only the starting set into Garura
-  memory and writes the list of what it pulled, with versions.
-- A piece pulled later arrives on request; a check shows which pulled pieces
-  are behind Phoenix memory.
-- Neither stale copy (`~/.garura/core/memory/`, the old project copy) is
-  written or read any more.
-- A project with nothing extra pulled still runs its plays (ADR 035 §3).
-- The memory keys in `.garura/core/config.yaml` (`components.memory`,
-  `ltm.source`, `ltm.project-target`, `ltm.global-target`,
-  `review-pr.standards_order`) point at Phoenix memory and Garura memory, here
-  and in every project the installer writes.
+- The Phoenix memory repository holds everything that was in
+  `core/components/memory/`, at a version (its commit).
+- `pull` and `pulled` are built and tested, ready for the memory tool.
+- Garura's config has no dead memory settings, and the PR review rules are read
+  from `.garura/`.
+- ADR 035 §2 says the installer pulls nothing.
+- The rest has a home: the tool and its test in #657; removing
+  `core/components/memory/` and fixing what pointed at it after the tool.
+- `.garura/` is not touched beyond its config. Its clean-up is #670.
 
 ## Where we are now
 
-The change is open on `feature/656-phoenix-memory-repository`. Kapil answered
-the three questions. Next: item 2, create and seed Phoenix memory.
+Phoenix memory is built and checked. The dead config settings are gone, and the
+PR review rules are read from `.garura/`. Kapil: build the tool first. Next:
+land this change (item 5), then the tool (#657) on its own branch.
 
 ## The plan, in order
 
 ### Done
 
-- **1. Decided: where Phoenix memory and Garura memory live** — #656. Kapil,
-  2026-10-18 ("1A 2A 3 …"): (a) Phoenix memory is a **private** repository,
+- **1. Decided: where memory lives** — #656. Kapil, 2026-10-18 ("1A 2A 3 …"):
+  (a) Phoenix memory is a **private** repository,
   `intent-driven-ai/phoenix-memory`. (b) Garura memory is the project's
   `.garura/` folder, without `.garura/project/issues/` (that is short-term
-  memory); the pieces pulled from Phoenix memory go to `.garura/core/memory/`,
-  now tracked in git, with the list of what was pulled; the product model stays
-  in `.garura/product/`. (c) `core/components/memory/` **stays in Garura's
-  repository**. It is not moved. Phoenix memory is seeded from it as a copy, and
-  later changes reach Phoenix memory by promotion — short-term memory to Garura
-  memory to Phoenix memory — never by moving anything out.
+  memory); the product model stays in `.garura/product/`. (c) Changed by item
+  1c below: this plan first read Kapil's answer as "`core/components/memory/`
+  stays in Garura". It does not stay. It moves into Phoenix memory and is then
+  removed.
+- **1b. Decided: the installer pulls nothing** — #656. Kapil, 2026-10-18:
+  "installer doesnt need to pull starting set.. we will build a trinity of plays
+  that will setup initial memory." And: "2 is not needed. it install with no
+  memory." The installer needs no change: it copies memory only when
+  `core/components/memory/` exists (`install.py`, step 3 of the install). Three
+  plays, not filed yet, will set up a project's first memory. This changes ADR
+  035 §2 ("At install, a project pulls a starting set"); the ADR is amended in
+  item 5.
+- **1c. Decided: the order, and what skills read** — #656. Kapil, 2026-10-18:
+  "first we move the memory into phoenix memory ensuring it works. this folder
+  is core/components. the .garura is working copy and shoudl not be touched …
+  once this memory is moved to phoenic, we can remove it. we clean up adrs, and
+  links and fix skills and agents." And: "35 skills using memory is wrong
+  design. they should referring to stm only or calling sub-agents to load the
+  context." And: "first source if stm, then garura mamory which is .garara and
+  only then phoenix memory." The `.garura/` clean-up is recorded as #670
+  (Business Intent, not approved to build).
+- **1d. Decided: the tool first, and how to test it** — Kapil, 2026-10-18:
+  "that skill shold point to .garura location. clean up deal setting. then
+  build the tool first." The test that proves the tool, in his words: in an
+  empty project, simulate a story such as login. "Nothing would be in STM. It
+  would go to project memory. Nothing would be there. Then it is going to go to
+  the Phoenix memory, which should have stuff … It should be able to pull the
+  memory down into the project … Re-running that test should now read everything
+  from Garura or project memory. Then, let's say you go from login to change
+  password. Something should come from the Garura project memory, and the
+  pending stuff should go to the Phoenix memory." This replaces the
+  empty-memory install test this plan had as its item 3. It is the tool's test
+  (#657).
+- **2. Phoenix memory created and seeded: built and pushed** — #656. Before
+  seeding, three commits took client and personal references out of memory
+  (`cedfdef2`, `d65770f8`, `10f10c79`). The repository
+  `intent-driven-ai/phoenix-memory` holds the seed at commit `3f3347b`, on
+  GitHub and cloned at `~/.garura/phoenix-memory/`. Check, 2026-10-18: all 147
+  files git tracks in `core/components/memory/` match Phoenix memory byte for
+  byte; Phoenix memory adds only its README.
+  Also built on this branch: `pull` and `pulled`
+  (`core/tools/memory/pull.py`, 12 tests pass). `pull` copies a piece from
+  Phoenix memory into Garura memory and records it in `pulled.json`; `pulled
+  --behind` names pieces that changed in Phoenix memory since. The memory tool
+  (#657) uses it.
+- **3. Dead config settings removed: built (not merged)** — #656. Nothing in
+  Garura read `components.memory`, `ltm.source` or `ltm.global-target`; all
+  three are gone from `.garura/core/config.yaml`, and the installer no longer
+  rewrites a `memory:` line into projects' config. The config still loads and
+  the installer's config rewrite still runs.
 
-### 2. Create Phoenix memory and seed it — now
+- **4. The PR review rules are read from `.garura/`: built (not merged)** —
+  #656. `standards.pr-severity-taxonomy` (read by the `quality-check-scoped`
+  skill) now points at `.garura/core/memory/standards/rules/pr.md`. Nothing was
+  copied or pulled by hand. Kapil, 2026-10-18: "Skill should always point to
+  .Garura core memory … If nothing exists because it hasn't been pulled, it will
+  actually fail, and that is the whole point. That pull has to go to the root
+  and build it." And: "The file will get into garura when the pull tool
+  executes." Known for now: the copy there is old (30 May), without the July
+  fixes from #454, and git ignores the folder; #670 and the tool's test settle
+  it.
 
-**Issue:** #656.
-**What:** create the repository (per 1a), seed it from
-`core/components/memory/` — the shelves deleted in #434 stay out, because they
-exist only in the stale machine copy — with a short README that names it
-Phoenix memory and says it is the superset, fed by promotion. Clone it onto the
-machine at one known place (`~/.garura/phoenix-memory/`), which replaces
-`~/.garura/core/memory/`.
-**Why here:** the pull in item 3 needs a source with versions.
-**Done when:** the repository holds the seeded content; a check shows Phoenix
-memory holds every file of `core/components/memory/` unchanged (the superset
-check), and lists any Garura piece not promoted yet.
-**Needs:** item 1.
-
-### 3. Garura memory in a project, and the pull
-
-**Issue:** #656.
-**What:** the Garura memory folder (per 1b: `.garura/core/memory/`, no longer
-gitignored) and its pulled list: each piece
-pulled, the Phoenix version it came from, and a fingerprint. The starting set
-is Garura's rulebook (`standards/`: rules, templates, schemas) and the memory
-guide (its text is #660), plus anything a play still reads by path until items
-8 to 10 move it onto the tool (today the review guides, `knowledge/review/`).
-Pulling one more piece on request, and a check that lists pulled pieces behind
-Phoenix memory. One implementation, in the memory tool's folder, that the tool
-(#657) reuses for its `pull` and `pulled` commands.
-**Why here:** the installer (item 4) calls it.
-**Done when:** a pull into an empty test folder writes the starting set and
-the list; a second pull adds one piece; after a change in Phoenix memory the
-check names that piece as behind.
-**Needs:** item 2.
-
-### 4. The installer pulls instead of copying
-
-**Issue:** #656.
-**What:** `core/components/plays/install-garura/scripts/install.py` stops
-copying all memory to `~/.garura/core/memory/`. It clones or updates Phoenix
-memory on the machine, pulls the starting set into the project's Garura memory,
-and writes correct memory keys into the project's config (today it leaves
-`ltm.project-target` pointing at nothing). The uninstall play removes what the
-install wrote. Garura's own `.garura/core/config.yaml` keys move the same way.
-**Why here:** this is where the two stale copies come from.
-**Done when:** an install into a test project leaves no `~/.garura/core/memory/`
-write and no full copy; the project's config keys point at Phoenix memory and
-Garura memory; `review-pr.standards_order` reads the same order as the memory
-tool.
-**Needs:** item 3.
-
-### 5. Prove it on a test project
-
-**Issue:** #656.
-**What:** install into a fresh test project and run a play that reads memory by
-path (a play's close reads its templates), with nothing pulled beyond the
-starting set. Pull one more piece by hand; change it in a Phoenix test copy and
-run the behind check. Search for any writer or reader of the two stale copies.
-**Why here:** the done-when of the story, shown on a real install.
-**Done when:** all of the above pass, and the search finds no reader or writer
-of the stale copies outside the uninstall clean-up.
-**Needs:** item 4.
-
-### 6. Land the change
+### 5. Land the change — now
 
 **Issue:** #656.
 **What:** commit, raise, review and merge; close #656; mark item 3 of the #653
-plan done; fix any story text these answers change (#657, #660, #663).
+plan done; amend ADR 035 §2 through `/adr` (the installer pulls nothing; the
+set-up plays fill a project's first memory). Story texts that these answers
+change (#656, #657, #661, #663) are fixed only when Kapil asks.
 **Done when:** merged to main.
-**Needs:** item 5.
+**Needs:** item 4.
+
+## After this story (test cases for the tool)
+
+- Kapil, 2026-10-18: "If somebody removes the project memory, then it needs to
+  raise an issue or go to Phoenix memory or put it in banks. Then an approval is
+  needed." A case for the tool's test (#657). Not yet clear: what "put it in
+  banks" means.
+
+## After this story
+
+- **The memory tool** (#657), on its own branch. Its done-when is Kapil's test
+  in item 1d.
+- **Remove `core/components/memory/`, and fix what pointed at it**, once the
+  tool exists: ADRs and docs point at Phoenix memory; 35 skills read only
+  short-term memory or call an agent for context; 7 agents load context through
+  the tool (short-term memory, then `.garura/`, then Phoenix memory); 2 scripts
+  (`commit-change/scripts/analyze_changeset.py`,
+  `kb-search/scripts/kb_search.py`). The #653 plan already moves agents and
+  skills onto the tool in #661 and #663; the folder goes last, when nothing
+  names it.
 
 ## Log
 
@@ -140,6 +150,18 @@ plan done; fix any story text these answers change (#657, #660, #663).
   would not. It would stay there. That is the whole point. It can be promoted
   to Phoenix memory, but then Phoenix memory, as I said, is a superset of the
   Garura memory. There is a learning stage from short-term to Garura memory to
-  Phoenix memory, but it never leaves it." Item 1 done. The third question
-  rested on a wrong reading: ADR 035 says `core/components/memory/` seeds
-  Phoenix memory, not that it moves out.
+  Phoenix memory, but it never leaves it." Item 1 done. This plan read "it" as
+  `core/components/memory/`; item 1c corrects that.
+- 2026-10-18 — Item 2 done: memory cleaned of client and personal references,
+  Phoenix memory created, seeded and pushed; check passed. `pull` and `pulled`
+  built, 12 tests pass.
+- 2026-10-18 — Kapil: the installer pulls no starting set (item 1b).
+- 2026-10-18 — Kapil set the order and the skill rule (item 1c). #670 filed
+  for the `.garura/` clean-up.
+- 2026-10-18 — Kapil: the PR rules skill reads from `.garura/`, dead settings
+  go, the tool comes first, with his test (item 1d). Item 3 done. The
+  empty-memory install test, the folder removal and the fixes moved after the
+  tool.
+- 2026-10-18 — Item 4 done: the PR rules setting points at `.garura/`; the
+  file arrives when the pull tool runs (Kapil). Removed-memory case added for
+  the tool's test.

@@ -158,9 +158,17 @@ Phoenix memory when the project has no answer, and that writes approved updates
 and pulls pieces into the project. Every result carries its tier, file, lines
 and fingerprint. It works the same from Claude Code and Codex.
 **Why here:** items 5 to 8 call it.
-**Done when:** its tests pass on sample memory, and nothing in its folder names
-Garura.
+**Done when:** its tests pass on sample memory, nothing in its folder names
+Garura, and Kapil's test passes (2026-10-18, set in the #656 plan, item 1d): in
+an empty project, a simulated login story finds nothing in short-term or
+Garura memory, finds it in Phoenix memory and pulls it into the project; a
+re-run reads it all from Garura memory; a second story, change password, gets
+part from Garura memory and the rest from Phoenix memory. And when project
+memory is removed, the tool goes to Phoenix memory or raises a memory update
+that needs a person's approval (Kapil, 2026-10-18).
 **Needs:** items 2 and 3.
+Also, after this tool: `core/components/memory/` is removed from Garura once
+nothing names it (Kapil, 2026-10-18; see the #656 plan, "After this story").
 
 ### 5. Memory updates instead of guesses
 
