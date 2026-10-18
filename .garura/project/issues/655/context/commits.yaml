@@ -1,0 +1,40 @@
+commits:
+  - sha: 1bde641a
+    message: "feat(memory-tool): add the memory tool contract version 1 with sample answers and a check (#655)"
+    files:
+      - core/tools/memory/README.md
+      - core/tools/memory/contract/v1.json
+      - core/tools/memory/contract/check_contract.py
+      - core/tools/memory/contract/samples/apply-not-approved.json
+      - core/tools/memory/contract/samples/apply.json
+      - core/tools/memory/contract/samples/cite.json
+      - core/tools/memory/contract/samples/decide.json
+      - core/tools/memory/contract/samples/find.json
+      - core/tools/memory/contract/samples/health.json
+      - core/tools/memory/contract/samples/propose.json
+      - core/tools/memory/contract/samples/pull.json
+      - core/tools/memory/contract/samples/pulled.json
+      - core/tools/memory/contract/samples/read.json
+      - core/tools/memory/contract/samples/search-nothing.json
+      - core/tools/memory/contract/samples/search-tier-missing.json
+      - core/tools/memory/contract/samples/search.json
+      - core/tools/memory/contract/samples/updates.json
+      - core/tools/memory/contract/samples/broken/apply-written-to-short-term.json
+      - core/tools/memory/contract/samples/broken/cite-absolute-path.json
+      - core/tools/memory/contract/samples/broken/find-silent-missing-tier.json
+      - core/tools/memory/contract/samples/broken/propose-unknown-draft-source.json
+      - core/tools/memory/contract/samples/broken/read-without-fingerprint.json
+      - core/tools/memory/contract/samples/broken/search-unknown-tier.json
+    branch: feature/655-memory-tool-contract
+  - sha: f6c99fc9
+    message: "chore(stm): mark #655 plan items 2 and 3 built and move to item 4 (#655)"
+    files:
+      - .garura/project/issues/655/specs/plan.md
+      - .garura/project/issues/655/context/plan-check.json
+    branch: feature/655-memory-tool-contract
+excluded_files:
+  []
+leftover_count: 0
+tree_clean: true
+pushed: false
+run_state_committed: true

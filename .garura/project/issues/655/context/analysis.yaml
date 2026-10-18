@@ -1,0 +1,66 @@
+---
+# analyze-changes output (judgment path) — executor schema
+# issue: 655
+# branch: feature/655-memory-tool-contract
+needs_judgment: false
+
+change_groups:
+  - id: feat-memory-tool-contract
+    issue: 655
+    commit_type: feat
+    scope: memory-tool
+    subject: "add the memory tool contract version 1 with sample answers and a check"
+    confidence: high
+    files:
+      - core/tools/memory/README.md
+      - core/tools/memory/contract/v1.json
+      - core/tools/memory/contract/check_contract.py
+      - core/tools/memory/contract/samples/apply-not-approved.json
+      - core/tools/memory/contract/samples/apply.json
+      - core/tools/memory/contract/samples/cite.json
+      - core/tools/memory/contract/samples/decide.json
+      - core/tools/memory/contract/samples/find.json
+      - core/tools/memory/contract/samples/health.json
+      - core/tools/memory/contract/samples/propose.json
+      - core/tools/memory/contract/samples/pull.json
+      - core/tools/memory/contract/samples/pulled.json
+      - core/tools/memory/contract/samples/read.json
+      - core/tools/memory/contract/samples/search-nothing.json
+      - core/tools/memory/contract/samples/search-tier-missing.json
+      - core/tools/memory/contract/samples/search.json
+      - core/tools/memory/contract/samples/updates.json
+      - core/tools/memory/contract/samples/broken/apply-written-to-short-term.json
+      - core/tools/memory/contract/samples/broken/cite-absolute-path.json
+      - core/tools/memory/contract/samples/broken/find-silent-missing-tier.json
+      - core/tools/memory/contract/samples/broken/propose-unknown-draft-source.json
+      - core/tools/memory/contract/samples/broken/read-without-fingerprint.json
+      - core/tools/memory/contract/samples/broken/search-unknown-tier.json
+    risks:
+      sensitive_files: []
+      breaking_changes: []
+    notes: "ADR 035 memory tool contract (version 1): eleven commands, three tiers, plain guide, 14 valid samples, 6 broken samples, standard-library check. New folder, nothing existing changed. Content scan found no secret patterns."
+
+  - id: chore-stm-655-plan
+    issue: 655
+    commit_type: chore
+    scope: stm
+    subject: "mark #655 plan items 2 and 3 built and move to item 4"
+    confidence: high
+    files:
+      - .garura/project/issues/655/specs/plan.md
+      - .garura/project/issues/655/context/plan-check.json
+    risks:
+      sensitive_files: []
+      breaking_changes: []
+    notes: "Operational STM plan update, kept apart from the feature commit (same chore(stm) style as recent history)."
+
+exclusions:
+  []
+
+risks:
+  sensitive_files:
+    []
+
+eval_gates:
+  SE-1: {status: PASS, evidence: "25 changed files grouped: 23 in feat-memory-tool-contract, 2 in chore-stm-655-plan; the run-state files porcelain.txt and analysis.yaml are left to the executor's run-state commit"}
+  SE-5: {status: PASS, evidence: "no sensitive filename patterns and no secret content patterns matched in the changeset; branch is feature/*, not a hotfix branch"}
