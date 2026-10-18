@@ -1,12 +1,12 @@
 meta:
-  generated_at: '2026-10-18T09:22:51Z'
+  generated_at: '2026-10-18T11:08:14Z'
   diff_path: '.garura/project/issues/655/review/pr.diff'
   taxonomy_path: 'core/components/memory/standards/rules/pr.md'
-  changed_paths_count: 45
+  changed_paths_count: 3
   scan_coverage: 1.0000
-  standards_relevant: 27
+  standards_relevant: 26
   catchall:
-    CODE-20: 45
+    CODE-20: 3
 findings:
   - standard_id: 'ARCH-02'
     severity: P2
@@ -53,98 +53,91 @@ findings:
   - standard_id: 'BE-19'
     severity: P2
     file: 'core/tools/memory/contract/check_contract.py'
-    line: 15
+    line: 17
     evidence: 'from'
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'BE-19'
   - standard_id: 'BE-19'
     severity: P2
     file: 'core/tools/memory/contract/check_contract.py'
-    line: 38
+    line: 40
     evidence: 'from'
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'BE-19'
   - standard_id: 'BE-19'
     severity: P2
     file: 'core/tools/memory/contract/check_contract.py'
-    line: 39
+    line: 41
     evidence: 'join'
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'BE-19'
   - standard_id: 'BE-19'
     severity: P2
     file: 'core/tools/memory/contract/check_contract.py'
-    line: 87
+    line: 89
     evidence: 'join'
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'BE-19'
   - standard_id: 'BE-19'
     severity: P2
     file: 'core/tools/memory/contract/check_contract.py'
-    line: 141
+    line: 261
     evidence: 'from'
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'BE-19'
   - standard_id: 'BE-19'
     severity: P2
     file: 'core/tools/memory/contract/check_contract.py'
-    line: 143
-    evidence: 'from'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'BE-19'
-  - standard_id: 'BE-19'
-    severity: P2
-    file: 'core/tools/memory/contract/check_contract.py'
-    line: 182
+    line: 300
     evidence: 'join'
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'BE-19'
   - standard_id: 'BE-19'
     severity: P2
     file: 'core/tools/memory/contract/check_contract.py'
-    line: 186
+    line: 304
     evidence: 'from'
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'BE-19'
   - standard_id: 'BE-19'
     severity: P2
     file: 'core/tools/memory/contract/check_contract.py'
-    line: 196
+    line: 314
     evidence: 'From'
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'BE-19'
   - standard_id: 'BE-19'
     severity: P2
     file: 'core/tools/memory/contract/check_contract.py'
-    line: 220
+    line: 338
     evidence: 'join'
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'BE-19'
   - standard_id: 'BE-19'
     severity: P2
     file: 'core/tools/memory/contract/check_contract.py'
-    line: 237
+    line: 355
     evidence: 'join'
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'BE-19'
   - standard_id: 'BE-19'
     severity: P2
     file: 'core/tools/memory/contract/check_contract.py'
-    line: 246
+    line: 364
     evidence: 'join'
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'BE-19'
   - standard_id: 'BE-19'
     severity: P2
     file: 'core/tools/memory/contract/check_contract.py'
-    line: 248
+    line: 366
     evidence: 'join'
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'BE-19'
   - standard_id: 'BE-19'
     severity: P2
     file: 'core/tools/memory/contract/check_contract.py'
-    line: 251
+    line: 369
     evidence: 'join'
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'BE-19'
@@ -207,63 +200,42 @@ findings:
   - standard_id: 'BE-19'
     severity: P2
     file: 'core/tools/memory/contract/test_check_contract.py'
+    line: 117
+    evidence: 'from'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/memory/contract/test_check_contract.py'
     line: 120
+    evidence: 'from'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/memory/contract/test_check_contract.py'
+    line: 256
+    evidence: 'from'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/memory/contract/test_check_contract.py'
+    line: 322
     evidence: 'join'
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'BE-19'
   - standard_id: 'BE-19'
     severity: P2
     file: 'core/tools/memory/contract/test_check_contract.py'
-    line: 125
+    line: 327
     evidence: 'from'
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'BE-19'
   - standard_id: 'BE-19'
     severity: P2
     file: 'core/tools/memory/contract/test_check_contract.py'
-    line: 132
-    evidence: 'from'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'BE-19'
-  - standard_id: 'BE-19'
-    severity: P2
-    file: 'core/tools/memory/contract/v1.json'
-    line: 29
-    evidence: 'from'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'BE-19'
-  - standard_id: 'BE-19'
-    severity: P2
-    file: 'core/tools/memory/contract/v1.json'
-    line: 32
-    evidence: 'from'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'BE-19'
-  - standard_id: 'BE-19'
-    severity: P2
-    file: 'core/tools/memory/contract/v1.json'
-    line: 399
-    evidence: 'from'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'BE-19'
-  - standard_id: 'BE-19'
-    severity: P2
-    file: 'core/tools/memory/contract/v1.json'
-    line: 458
-    evidence: 'from'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'BE-19'
-  - standard_id: 'BE-19'
-    severity: P2
-    file: 'core/tools/memory/contract/v1.json'
-    line: 504
-    evidence: 'from'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'BE-19'
-  - standard_id: 'BE-19'
-    severity: P2
-    file: 'core/tools/memory/contract/v1.json'
-    line: 773
+    line: 334
     evidence: 'from'
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'BE-19'
@@ -368,409 +340,31 @@ findings:
   - standard_id: 'CODE-25'
     severity: P3
     file: 'core/tools/memory/contract/check_contract.py'
-    line: 190
+    line: 308
     evidence: 'except '
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'CODE-25'
   - standard_id: 'PERF-19'
     severity: P3
     file: 'core/tools/memory/contract/check_contract.py'
-    line: 218
+    line: 336
     evidence: 'cache'
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'PERF-19'
   - standard_id: 'CODE-25'
     severity: P3
     file: 'core/tools/memory/contract/check_contract.py'
-    line: 225
+    line: 343
     evidence: 'except '
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'CODE-25'
   - standard_id: 'CODE-25'
     severity: P3
     file: 'core/tools/memory/contract/check_contract.py'
-    line: 241
+    line: 359
     evidence: 'except '
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'CODE-25'
-  - standard_id: 'TEST-14'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/apply-not-approved.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/apply-not-approved.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-14'
-  - standard_id: 'TEST-18'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/apply-not-approved.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/apply-not-approved.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-18'
-  - standard_id: 'TEST-14'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/apply.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/apply.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-14'
-  - standard_id: 'TEST-18'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/apply.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/apply.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-18'
-  - standard_id: 'TEST-14'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/broken/apply-written-to-short-term.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/broken/apply-written-to-short-term.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-14'
-  - standard_id: 'TEST-18'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/broken/apply-written-to-short-term.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/broken/apply-written-to-short-term.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-18'
-  - standard_id: 'TEST-14'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/broken/cite-absolute-path.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/broken/cite-absolute-path.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-14'
-  - standard_id: 'TEST-18'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/broken/cite-absolute-path.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/broken/cite-absolute-path.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-18'
-  - standard_id: 'TEST-14'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/broken/find-silent-missing-tier.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/broken/find-silent-missing-tier.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-14'
-  - standard_id: 'TEST-18'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/broken/find-silent-missing-tier.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/broken/find-silent-missing-tier.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-18'
-  - standard_id: 'TEST-14'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/broken/health-ok-as-number.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/broken/health-ok-as-number.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-14'
-  - standard_id: 'TEST-18'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/broken/health-ok-as-number.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/broken/health-ok-as-number.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-18'
-  - standard_id: 'TEST-14'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/broken/propose-unknown-draft-source.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/broken/propose-unknown-draft-source.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-14'
-  - standard_id: 'TEST-18'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/broken/propose-unknown-draft-source.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/broken/propose-unknown-draft-source.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-18'
-  - standard_id: 'TEST-14'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/broken/read-path-with-newline.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/broken/read-path-with-newline.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-14'
-  - standard_id: 'TEST-18'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/broken/read-path-with-newline.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/broken/read-path-with-newline.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-18'
-  - standard_id: 'TEST-14'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/broken/read-without-fingerprint.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/broken/read-without-fingerprint.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-14'
-  - standard_id: 'TEST-18'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/broken/read-without-fingerprint.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/broken/read-without-fingerprint.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-18'
-  - standard_id: 'TEST-14'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/broken/read-wrong-fingerprint.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/broken/read-wrong-fingerprint.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-14'
-  - standard_id: 'TEST-18'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/broken/read-wrong-fingerprint.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/broken/read-wrong-fingerprint.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-18'
-  - standard_id: 'TEST-14'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/broken/search-skipped-a-tier.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/broken/search-skipped-a-tier.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-14'
-  - standard_id: 'TEST-18'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/broken/search-skipped-a-tier.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/broken/search-skipped-a-tier.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-18'
-  - standard_id: 'TEST-14'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/broken/search-tier-with-every-tier.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/broken/search-tier-with-every-tier.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-14'
-  - standard_id: 'TEST-18'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/broken/search-tier-with-every-tier.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/broken/search-tier-with-every-tier.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-18'
-  - standard_id: 'TEST-14'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/broken/search-unknown-tier.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/broken/search-unknown-tier.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-14'
-  - standard_id: 'TEST-18'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/broken/search-unknown-tier.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/broken/search-unknown-tier.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-18'
-  - standard_id: 'TEST-14'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/broken/search-went-past-first-answer.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/broken/search-went-past-first-answer.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-14'
-  - standard_id: 'TEST-18'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/broken/search-went-past-first-answer.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/broken/search-went-past-first-answer.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-18'
-  - standard_id: 'TEST-14'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/cite.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/cite.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-14'
-  - standard_id: 'TEST-18'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/cite.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/cite.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-18'
-  - standard_id: 'TEST-14'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/decide.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/decide.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-14'
-  - standard_id: 'TEST-18'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/decide.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/decide.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-18'
-  - standard_id: 'TEST-14'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/find.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/find.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-14'
-  - standard_id: 'TEST-18'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/find.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/find.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-18'
-  - standard_id: 'TEST-14'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/health.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/health.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-14'
-  - standard_id: 'TEST-18'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/health.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/health.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-18'
-  - standard_id: 'TEST-14'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/propose.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/propose.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-14'
-  - standard_id: 'TEST-18'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/propose.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/propose.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-18'
-  - standard_id: 'TEST-14'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/pull.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/pull.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-14'
-  - standard_id: 'TEST-18'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/pull.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/pull.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-18'
-  - standard_id: 'TEST-14'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/pulled.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/pulled.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-14'
-  - standard_id: 'TEST-18'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/pulled.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/pulled.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-18'
-  - standard_id: 'TEST-14'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/read.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/read.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-14'
-  - standard_id: 'TEST-18'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/read.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/read.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-18'
-  - standard_id: 'TEST-14'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/search-nothing.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/search-nothing.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-14'
-  - standard_id: 'TEST-18'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/search-nothing.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/search-nothing.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-18'
-  - standard_id: 'TEST-14'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/search-one-tier-nothing.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/search-one-tier-nothing.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-14'
-  - standard_id: 'TEST-18'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/search-one-tier-nothing.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/search-one-tier-nothing.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-18'
-  - standard_id: 'TEST-14'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/search-tier-missing.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/search-tier-missing.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-14'
-  - standard_id: 'TEST-18'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/search-tier-missing.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/search-tier-missing.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-18'
-  - standard_id: 'TEST-14'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/search.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/search.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-14'
-  - standard_id: 'TEST-18'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/search.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/search.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-18'
-  - standard_id: 'TEST-14'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/updates.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/updates.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-14'
-  - standard_id: 'TEST-18'
-    severity: P3
-    file: 'core/tools/memory/contract/samples/updates.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/samples/updates.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-18'
   - standard_id: 'ARCH-03'
     severity: P3
     file: 'core/tools/memory/contract/test_check_contract.py'
@@ -841,20 +435,6 @@ findings:
     evidence: 'core/tools/memory/contract/test_check_contract.py'
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'TEST-18'
-  - standard_id: 'TEST-14'
-    severity: P3
-    file: 'core/tools/memory/contract/v1.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/v1.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-14'
-  - standard_id: 'TEST-18'
-    severity: P3
-    file: 'core/tools/memory/contract/v1.json'
-    line: 1
-    evidence: 'core/tools/memory/contract/v1.json'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'TEST-18'
   - standard_id: 'DOC-14'
     severity: P4
     file: 'core/tools/memory/README.md'
@@ -904,15 +484,8 @@ findings:
     evidence: 'core/tools/memory/contract/test_check_contract.py'
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'CODE-19'
-  - standard_id: 'BE-23'
-    severity: P4
-    file: 'core/tools/memory/contract/v1.json'
-    line: 17
-    evidence: 'lock'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'BE-23'
 counts:
   P1: 0
-  P2: 37
-  P3: 84
-  P4: 8
+  P2: 33
+  P3: 28
+  P4: 7
