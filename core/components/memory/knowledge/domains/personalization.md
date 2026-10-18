@@ -48,7 +48,7 @@ top. Don't sell L3 to an L1 client.
   Personalized **separately** from content — and this is the differentiator.
 
 ## Intents this domain captures (proposed — sanity-check)
-Intent-first. (the owner delegated the intent list — confirm or correct.)
+Intent-first. (The intent list was delegated to Claude — confirm or correct.)
 
 **Visitor intents**
 - **Be recognised** — "know me across visits and devices" → identity resolution, profile.
@@ -156,4 +156,4 @@ interview (#434): the three maturity levels (tagging/rules-light → CDP +
 tools → real-time hyper-personalization), content-and-experience-separately with
 experience personalization as the "shiny MOAT", and "all of it is intelligence,
 L1 = lightweight rules". Intents proposed by Claude per delegation —
-pending his confirmation. NOT a generic capability list.
+pending the person's confirmation. NOT a generic capability list.

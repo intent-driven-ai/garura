@@ -9,7 +9,7 @@ provenance: Claude-drafted on delegation, reviewed and accepted (#434) + distill
 
 # Payments: taking money safely
 
-> **Claude-drafted on delegation; reviewed and accepted (#434).** the owner
+> **Claude-drafted on delegation; reviewed and accepted (#434).** The person
 > asked me to take the first pass here rather than be interviewed, and signed off on
 > this version. Payments is infrastructure, not the content-led strength of this
 > practice, so it's treated as a likely **hand-off / partner domain** — same logic

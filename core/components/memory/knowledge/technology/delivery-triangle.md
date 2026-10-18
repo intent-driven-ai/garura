@@ -12,7 +12,7 @@ provenance: "documented (#434 — measurement interview, 2026-06-11)"
 # The delivery triangle: minimum tokens and cognition for maximum speed
 
 ## Topic
-THE primary frame for measuring delivery on an agent-led pipeline — the owner's frame, and
+THE primary frame for measuring delivery on an agent-led pipeline — the team's frame, and
 the moat. Three axes, one objective: the right spend of tokens and cognition to get the
 maximum speed. This is what a slice's measure lens grounds its metric choices in;
 industry frames (DORA/Flow/SPACE/DX) are derived translations, never the primary

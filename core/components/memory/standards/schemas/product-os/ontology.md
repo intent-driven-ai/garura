@@ -1,7 +1,7 @@
 ---
 ontology: product
 version: 4
-updated: 2026-10-17
+updated: 2026-10-18
 ---
 
 # Product Ontology
@@ -135,7 +135,7 @@ proposed → confirmed (the person who asked confirms it says the right thing) �
 > **Read on:** 8 October 2026
 > **Snapshot:** `_evidence/intent/20261008-1412/` — 6 screenshots, from the cart to the order confirmation
 > **What it shows:** A checkout with a "continue as guest" button; no sign-up step; card and wallet payments.
-> **Given by:** the owner
+> **Given by:** alex-example
 
 ### ICE
 
@@ -197,9 +197,10 @@ proposed → confirmed (the person who asked confirms it says the right thing) �
 ## Log
 
 - 2026-10-08 — First version, built through `build-product-ontology` for #612: six questions; kinds Business Intent, Source and ICE (reused from `ice.yaml`); Work, Tracker Issue, Domain, Capability and Function named but not yet defined. Working notes: `.garura/project/issues/612/specs/ontology-run.md`.
-- 2026-10-08 — v2: a Source is anything that explains the intent — a prototype, a document, or a plain statement — not only a prototype (approving `/intent`'s intent). Snapshot and Kind widened to match.
+- 2026-10-08 — v2: a Source is anything that explains the intent — a prototype, a document, or a plain statement — not only a prototype (#612, approving `/intent`'s intent). Snapshot and Kind widened to match.
 - 2026-10-08 — A Source may be a project folder (its written docs are kept; the running app is captured as a second, site Source).
 - 2026-10-09 — v3 (#612): no play owns a kind — any play writes what it finds, in any order; rules say what holds once aligned and never block a write; drift goes to the Alignment drive. Only a person confirms or drops a business intent. The writer rule for ICE is gone. (Where ICE lives and when it is workable: see the next entry, which replaced a first idea of separate ICE files.)
 - 2026-10-09 — Review of #631: "Function" renamed "Functionality" to match the glossary and the spine; any play may write a kind only inside its own declared write scope (`direct-model-write.md`).
 - 2026-10-09 — On review of #631: ICE lives inline in its node's grounding doc (spine v2), never as a separate file; a capability may exist before its domain (`/vision` attaches it); an ICE is workable only when built from a confirmed business intent (spine `intents`) — unlinked ICE is kept, not worked on, never blocked.
 - 2026-10-17 — v4 (#637): one product model that every play writes, at the depth it knows, and nothing waits for another play. ICE now has one named place — `## Agent intent (ICE)`, the last section of a capability's or functionality's page, in labelled lines filled as far as is known; expected once the node names a business intent (missing is a linter warning, so earlier pages still pass). A business intent's touches are kept on its page as a **Touches** list (adds / changes / removes, with links), and the domain's spine entry gains `intents`, so every part an intent touches is linked both ways. A domain page is light (directional) or full (detailed), like a capability's. Design: `.garura/project/issues/637/specs/design.md`.
+- 2026-10-18 — #656: personal names taken out of the Source example and of this Log, so the ontology can live in Phoenix memory for any project. No kind, field or rule changed.

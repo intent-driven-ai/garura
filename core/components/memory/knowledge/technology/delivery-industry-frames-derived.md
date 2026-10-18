@@ -36,7 +36,7 @@ reporting) alongside the triangle.
     adjustment rounds, review time, /launch defect count) IS the experience measure —
     with agents building, "team experience" means how much directing the human gets to
     do versus correcting.
-- Position: this is the **moat** — a new way of tracking product delivery. The
+- The team's position: this is the **moat** — a new way of tracking product delivery. The
   industry frames are what people get today, and the bet is they go obsolete as
   agent-led adoption matures: when product is delivered every day, deployment
   frequency and lead time stop discriminating. Until then, the translations keep us

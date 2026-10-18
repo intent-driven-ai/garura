@@ -6,7 +6,7 @@ conditions:
   has-forms: true
   stage: any
 evolve_when: []
-provenance: "seeded (assistant, #434 — reviewed and accepted)"
+provenance: "seeded (assistant, #434 — accepted)"
 ---
 
 # Forms: inline validation, progressive disclosure, autosave, plain-language recovery
@@ -48,4 +48,4 @@ input) → add a step pattern (a wizard with a progress indicator, save-and-resu
 validation/confirmation, rather than stretching a single long form.
 
 ## Provenance
-seeded (assistant, #434 — reviewed and accepted).
+seeded (assistant, #434 — accepted).

@@ -5,7 +5,7 @@ conditions:
   surface: any-public-ui
   stage: any
 evolve_when: []
-provenance: "seeded (assistant, #434 — reviewed and accepted)"
+provenance: "seeded (assistant, #434 — accepted)"
 ---
 
 # Accessibility is a gate, not a feature: WCAG AA, keyboard-first, semantic HTML
@@ -49,4 +49,4 @@ a regulated-sector requirement) → raise the profile's a11y bar for that produc
 here still holds as the minimum.
 
 ## Provenance
-seeded (assistant, #434 — reviewed and accepted).
+seeded (assistant, #434 — accepted).
