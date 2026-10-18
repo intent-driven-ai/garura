@@ -1,0 +1,28 @@
+{
+  "decided": true,
+  "lint_ok": true,
+  "linked": true,
+  "target": "docs/adr/034-plays-answer-from-memory-inside-a-drive.md",
+  "shape": "markdown",
+  "guard": {
+    "adr": ".garura/project/issues/_adr/20261018-071440/adr-draft.md",
+    "declared": "none",
+    "touches_an_intent": [],
+    "verdict": "no person's business intent changes"
+  },
+  "olders": [
+    {
+      "adr": "029",
+      "file": "docs/adr/029-drives.md",
+      "kind": "amended",
+      "part": "\u00a72 \"A new question stops it\": inside a drive a play answers from memory and the system, recording each answer's source, and the question stops the drive only when nothing there supports an answer; never from the model's own knowledge"
+    }
+  ],
+  "status": "accepted",
+  "accepted_by": "Kapil Viren Ahuja",
+  "pointers_written": [
+    "029-drives.md"
+  ],
+  "pointers_missing": [],
+  "index_ok": true
+}

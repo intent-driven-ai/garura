@@ -1,0 +1,28 @@
+{
+  "draft": ".garura/project/issues/_adr/20261018-071440/adr-draft.md",
+  "number": "034",
+  "suggested_file": "docs/adr/034-plays-answer-from-memory-inside-a-drive.md",
+  "lint": {"exit": 0, "valid": true, "problems": []},
+  "guard": {"exit": 0, "declared": "none", "touches_an_intent": [], "verdict": "no person's business intent changes", "intents_dir": "null in the contract; .garura/product/product-os/intents does not exist, so no intent titles to match"},
+  "declared_check_agrees": true,
+  "supersedes": [],
+  "amends": [
+    {"adr": "029", "part": "§2 \"A new question stops it\": a play answers from memory and the system, with each answer's source recorded; the question stops the drive only when nothing there supports an answer; never from the model's own knowledge"}
+  ],
+  "not_affected": [
+    {"adr": "032", "why": "relied on: §2's review records already carry what changed and why; the review stays at the outcome level"},
+    {"adr": "033", "why": "relied on: pieces written from memory still wait as changed until a person approves them"},
+    {"adr": "031", "why": "relied on: §5 'a drive may ask questions' still true; only a person confirms or drops a business intent"},
+    {"adr": "002", "why": "about checkpoints, not questions; rule 2 already superseded in part by ADR 029"},
+    {"adr": "028", "why": "the five loops; nothing on how a play answers questions"},
+    {"adr": "026", "why": "write-then-review stands"}
+  ],
+  "affects_paths_verified": true,
+  "open_points_for_the_person": [
+    "Decision part 6 ('what this does not change') is the agent's reading of the brief's scope, backed by gate-config.md and ADR 031: checkpoints are not questions, so a pinned checkpoint is never answered from memory; drive contract rule 3 is unchanged. Kapil confirms this at acceptance.",
+    "The product model counts as memory, but ADR 033 lets agents work only on approved pieces. Whether a play may answer from a piece not yet approved is named as a risk, not decided.",
+    "Where each answer's source is recorded is not in the brief; left to #613 plan items 2 and 3.",
+    "Business intent check is none. The edge: inside a drive /intent may now fill a proposed intent's why, who asked or proof from memory instead of asking. If Kapil reads ADR 031 §1 ('an outcome in their words') as Business Intent kind doctrine, the check would be kind, never instance."
+  ],
+  "decided_by_note": "The Decided by line is left out while Proposed; adr.py accept --by fills it when Kapil accepts."
+}
