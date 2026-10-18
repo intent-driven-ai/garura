@@ -12,10 +12,10 @@
       "status": "applied",
       "issue": 613,
       "missing": "Which payment providers the shop must support at launch.",
-      "target_tier": "garura",
-      "target_path": "product-os/decisions/payment-providers.md",
+      "target_tier": "short-term",
+      "target_path": "613/context/answers/payment-providers.md",
       "draft": "Launch with card payments only; add wallets after the first month.",
-      "draft_source": "person",
+      "draft_source": "web",
       "sources": [],
       "requested_by": "product-os-keeper (/vision)",
       "requested_at": "2026-10-18T09:12:00Z",
@@ -25,8 +25,8 @@
       "applied_version": null
     },
     "written": {
-      "tier": "garura",
-      "path": "product-os/decisions/payment-providers.md",
+      "tier": "short-term",
+      "path": "613/context/answers/payment-providers.md",
       "version": null,
       "fingerprint": "sha256:8762286eb08cff190ab8033f935ea9fc13f4ff302c5c107962d78c1a03c9a265"
     }

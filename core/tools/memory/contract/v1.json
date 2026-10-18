@@ -5,7 +5,7 @@
   "contract_version": "1",
   "description": "The one agreement between agents and the memory tool: the commands to find memory and to update it, what each takes and gives back, and how each fails. A request is a JSON object; on the command line its fields are the flags, and on a server they are the request body. A response is always a JSON object with ok, contract_version and command. Plain-words guide: ../README.md.",
   "tiers": {
-    "short-term": "The issue's own memory: plans, specs and context of work on one issue. Root: the folder that holds one folder per issue.",
+    "short-term": "One issue's own memory: the plans, specs and context of the work on that issue. Root: the folder that holds one folder per issue. Every lookup names its issue, and the tool reads short-term memory only in that issue's folder ('<issue>/'), never in another issue's. Otherwise another issue's notes would answer first, and Garura and Phoenix memory would never be reached.",
     "garura": "Garura memory: the project's long-term memory. Holds the subset of Phoenix memory the project pulled, and what the project makes itself (product model, intents, decisions, answers).",
     "phoenix": "Phoenix memory: the global memory and the superset. Its own git repository until Griffin serves it."
   },
@@ -14,8 +14,9 @@
     "garura",
     "phoenix"
   ],
-  "lookup_rule": "find and search look in lookup_order and stop at the first tier with at least one result. tier asks one tier only. every_tier looks in all three and does not stop. A lookup never skips a tier: one that reaches a tier with no setting, or one it cannot reach, fails with tier_missing. 'Never blocks a play' (ADR 035 §3) means a piece the project has not pulled is found a level up, not that a tier may be skipped.",
+  "lookup_rule": "find and search look in lookup_order and stop at the first tier with at least one result. tier asks one tier only. every_tier looks in all three and does not stop. A lookup never skips a tier: one that reaches a tier with no setting, or one it cannot reach, fails with tier_missing. 'Never blocks a play' (ADR 035 §3) means a piece the project has not pulled is found a level up, not that a tier may be skipped. Short-term memory is only the request's issue: the tool looks in '<issue>/' under its root and nowhere else.",
   "request_rules": {
+    "issue": "find, search and read name the issue the work is on. Short-term memory is read only in that issue's folder. A read of a short-term path outside it is bad_request.",
     "glob": "Shell-style: * matches within one folder, ** matches any depth, ? matches one character.",
     "pattern": "An extended regular expression, as grep -E reads it, unless fixed is true; then it is plain text.",
     "tier_and_every_tier": "Asking for tier and every_tier together is bad_request.",
@@ -27,7 +28,14 @@
     "nothing_found": "answered_by null (nothing found) is allowed only after every tier was looked in: looked_in is the whole lookup_order, or just the asked tier when tier is given. Anything else is a silent skip.",
     "first_answer_stops": "Without every_tier, answered_by is the last tier in looked_in.",
     "results_from_looked_in": "Every hit and match comes from a tier in looked_in; without every_tier, only from answered_by.",
-    "fingerprint_is_the_text": "A fingerprint is the sha256 of the exact text it travels with: read.text, a hit's text."
+    "fingerprint_is_the_text": "A fingerprint is the sha256 of the exact text it travels with: read.text, a hit's text.",
+    "short_term_is_this_issue": "Every short-term path in an answer (a match, a hit, a read, a cite source, where a cite is stored) starts with '<issue>/', the request's issue.",
+    "update_matches_its_status": "waiting: no decision yet (decided_by, reply, decided_at and applied_version are null). approved or rejected: decided_by, reply and decided_at are set; applied_version is null. applied: decided_by, reply and decided_at are set; for Phoenix memory applied_version is the commit.",
+    "short_term_update_names_its_issue": "An update to short-term memory names its issue, and its target_path starts with '<issue>/'.",
+    "propose_waits": "propose answers status waiting, with the request's issue, missing, target_tier, target_path, draft, draft_source, sources and requested_by as given.",
+    "decide_records_the_person": "decide answers approve as approved and reject as rejected, for the update named, with decided_by and reply exactly as given.",
+    "apply_writes_only_approved": "apply answers ok only with status applied, for the update named. written.tier and written.path are the update's target_tier and target_path, and applied_version is written.version. Any update a person has not approved is not_approved.",
+    "updates_filter": "With status, updates lists only updates with that status."
   },
   "settings": "The tool reads where each tier lives from its settings (environment variables or a settings file), never from a fixed path. A tier with no setting, or one that cannot be reached, is the error tier_missing.",
   "paths": "Every path in a request or response is relative to its tier's root, uses forward slashes, never starts with a slash, and never contains '..'.",
@@ -78,10 +86,13 @@
       }
     },
     "find": {
-      "summary": "Find files by name pattern, in lookup order.",
+      "summary": "Find files by name pattern, in lookup order. Short-term memory is the request's issue only.",
       "request": {
         "type": "object",
         "properties": {
+          "issue": {
+            "$ref": "#/$defs/issue"
+          },
           "glob": {
             "type": "string",
             "minLength": 1
@@ -94,6 +105,7 @@
           }
         },
         "required": [
+          "issue",
           "glob"
         ],
         "additionalProperties": false
@@ -142,10 +154,13 @@
       }
     },
     "search": {
-      "summary": "Search the text of files, in lookup order. An empty answer (answered_by null, no hits) means no tier holds it: that is the cue for a memory update.",
+      "summary": "Search the text of files, in lookup order. Short-term memory is the request's issue only. An empty answer (answered_by null, no hits) means no tier holds it: that is the cue for a memory update.",
       "request": {
         "type": "object",
         "properties": {
+          "issue": {
+            "$ref": "#/$defs/issue"
+          },
           "pattern": {
             "type": "string",
             "minLength": 1
@@ -172,6 +187,7 @@
           }
         },
         "required": [
+          "issue",
           "pattern"
         ],
         "additionalProperties": false
@@ -224,10 +240,13 @@
       }
     },
     "read": {
-      "summary": "Read exact lines of one file in one tier, with the fingerprint of the text returned.",
+      "summary": "Read exact lines of one file in one tier, with the fingerprint of the text returned. A short-term path must be in the request's issue.",
       "request": {
         "type": "object",
         "properties": {
+          "issue": {
+            "$ref": "#/$defs/issue"
+          },
           "tier": {
             "$ref": "#/$defs/tier"
           },
@@ -244,6 +263,7 @@
           }
         },
         "required": [
+          "issue",
           "tier",
           "path"
         ],
@@ -313,8 +333,7 @@
         "type": "object",
         "properties": {
           "issue": {
-            "type": "integer",
-            "minimum": 1
+            "$ref": "#/$defs/issue"
           },
           "question": {
             "type": "string",
@@ -501,13 +520,12 @@
       }
     },
     "propose": {
-      "summary": "Raise a memory update when no tier answers (ADR 035 §5): what is missing, where it belongs, a drafted entry and where the draft came from. Nothing in it is used until a person approves it.",
+      "summary": "Raise a memory update when no tier answers (ADR 035 §5): what is missing, where it belongs, a drafted entry and where the draft came from. Research may draft it (the web, the model). Nothing in it is used until a person approves it. Inside a piece of work the update goes to the issue's own short-term memory. Moving it up to Garura or Phoenix memory is a promotion, done outside the work, through the same propose, decide and apply.",
       "request": {
         "type": "object",
         "properties": {
           "issue": {
-            "type": "integer",
-            "minimum": 1
+            "$ref": "#/$defs/issue"
           },
           "missing": {
             "type": "string",
@@ -691,7 +709,7 @@
       }
     },
     "apply": {
-      "summary": "Write an approved memory update to its tier — in Phoenix memory as a commit. An update that is not approved is the error not_approved.",
+      "summary": "Write an approved memory update to its tier: the issue's short-term memory, Garura memory, or Phoenix memory as a commit. An update a person has not approved is the error not_approved.",
       "request": {
         "type": "object",
         "properties": {
@@ -797,8 +815,13 @@
         "$ref": "#/$defs/tier"
       }
     },
+    "issue": {
+      "type": "integer",
+      "minimum": 1
+    },
     "update_tier": {
       "enum": [
+        "short-term",
         "garura",
         "phoenix"
       ]

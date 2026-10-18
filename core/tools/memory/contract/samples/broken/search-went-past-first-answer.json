@@ -1,6 +1,7 @@
 {
   "command": "search",
   "request": {
+    "issue": 613,
     "pattern": "guest checkout",
     "ignore_case": true,
     "max": 20

@@ -1,6 +1,7 @@
 {
   "command": "find",
   "request": {
+    "issue": 613,
     "glob": "product-os/**/capability.md"
   },
   "response": {

@@ -1,0 +1,42 @@
+{
+  "command": "apply",
+  "request": {
+    "id": "mu-20261018-003"
+  },
+  "response": {
+    "ok": true,
+    "contract_version": "1",
+    "command": "apply",
+    "update": {
+      "id": "mu-20261018-003",
+      "status": "applied",
+      "issue": 613,
+      "missing": "Which payment providers the shop must support at launch.",
+      "target_tier": "garura",
+      "target_path": "product-os/decisions/payment-providers.md",
+      "draft": "Launch with card payments only; add wallets after the first month.",
+      "draft_source": "memory",
+      "sources": [
+        {
+          "tier": "short-term",
+          "path": "613/context/answers/payment-providers.md",
+          "start": 1,
+          "end": 1,
+          "fingerprint": "sha256:8762286eb08cff190ab8033f935ea9fc13f4ff302c5c107962d78c1a03c9a265"
+        }
+      ],
+      "requested_by": "Kapil Viren Ahuja",
+      "requested_at": "2026-10-18T11:00:00Z",
+      "decided_by": "Kapil Viren Ahuja",
+      "reply": "approve — promote to Garura memory",
+      "decided_at": "2026-10-18T11:05:00Z",
+      "applied_version": null
+    },
+    "written": {
+      "tier": "garura",
+      "path": "product-os/decisions/payment-providers.md",
+      "version": null,
+      "fingerprint": "sha256:8762286eb08cff190ab8033f935ea9fc13f4ff302c5c107962d78c1a03c9a265"
+    }
+  }
+}

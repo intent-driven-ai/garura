@@ -1,0 +1,27 @@
+{
+  "command": "search",
+  "request": {
+    "issue": 613,
+    "pattern": "nothing in memory can answer",
+    "fixed": true
+  },
+  "response": {
+    "ok": true,
+    "contract_version": "1",
+    "command": "search",
+    "looked_in": [
+      "short-term"
+    ],
+    "answered_by": "short-term",
+    "hits": [
+      {
+        "tier": "short-term",
+        "path": "613/specs/plan.md",
+        "line": 45,
+        "text": "  on one branch, with no stop except a question nothing in memory can answer.",
+        "fingerprint": "sha256:c847ef3adeb90710d7ceb4984e22077c84ad014d20dcf5c0e0b422ed0e394db5"
+      }
+    ],
+    "truncated": false
+  }
+}
