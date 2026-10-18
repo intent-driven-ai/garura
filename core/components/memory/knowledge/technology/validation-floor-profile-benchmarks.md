@@ -6,7 +6,7 @@ conditions:
   delivery: agent-led
   stage: any
 evolve_when: []
-provenance: "documented (Kapil, #434 — validate interview, 2026-06-12)"
+provenance: "documented (#434 — validate interview, 2026-06-12)"
 ---
 
 # Green is the entry, the profile floor is the bar
@@ -50,4 +50,4 @@ floors emerge (e.g. every product lands on the same coverage floor) → consider
 documented default here, still overrideable per profile.
 
 ## Provenance
-documented (Kapil, #434 — validate interview, 2026-06-12).
+documented (#434 — validate interview, 2026-06-12).

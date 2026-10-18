@@ -4,7 +4,7 @@ title: "Notifications: real-time, multi-channel, nudge-first — adapt the exper
 conditions:
   trigger: "the product reaches a user with a timely message — in-app, push, email, SMS — transactional or lifecycle"
   selection_keys: [presence-real-time, channel-mix, message-type, player-type-tailoring, consent-regime]
-provenance: interview (#434 — Kapil)
+provenance: interview (#434)
 ---
 
 # Notifications: how we build it
@@ -128,7 +128,7 @@ not noise.
 - Fatigue shows up → tighten frequency and value thresholds.
 
 ## Provenance
-interview (#434 — Kapil): real-time, multi-channel, nudge-first; the "if a person is
+interview (#434): real-time, multi-channel, nudge-first; the "if a person is
 on, nudge the experience not a bell" shift; notifications spans transactional +
 marketing-type messages while outbound reach stays in `marketing`; per-channel
 templates defined via the experience layer; brand-tone connects to nudges; and

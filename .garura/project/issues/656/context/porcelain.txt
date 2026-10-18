@@ -1,0 +1,4 @@
+ M .garura/project/issues/656/context/analysis.yaml
+ M .garura/project/issues/656/context/porcelain.txt
+ M .garura/project/issues/656/specs/plan.md
+ M core/tools/memory/test_pull.py

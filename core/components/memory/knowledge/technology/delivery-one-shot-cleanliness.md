@@ -6,7 +6,7 @@ conditions:
   delivery: agent-led
   stage: any
 evolve_when: []
-provenance: "documented (Kapil, #434 — measurement interview, 2026-06-11)"
+provenance: "documented (#434 — measurement interview, 2026-06-11)"
 ---
 
 # One-shot cleanliness: deployed and running first try, zero errors, deterministic gates green
@@ -47,4 +47,4 @@ the gate list here; /capture shows one-shot is consistently met → tighten what
 as "clean" (e.g. include perceived-quality review).
 
 ## Provenance
-documented (Kapil, #434 — measurement interview).
+documented (#434 — measurement interview).

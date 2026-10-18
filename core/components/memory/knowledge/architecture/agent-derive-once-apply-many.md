@@ -6,7 +6,7 @@ conditions:
   surface: agentic-feature
   stage: any
 evolve_when: []
-provenance: "documented (Kapil — content-migrator production design session, 2026-06-10) + assistant"
+provenance: "documented (content-migrator production design session, 2026-06-10) + assistant"
 ---
 
 # Derive once, apply many: LLM derives the plan, deterministic code applies it at scale
@@ -72,5 +72,5 @@ grows so wide it stops being a meaningful security boundary → split catalogs p
 stage.
 
 ## Provenance
-documented (Kapil — content-migrator → Bedrock production design session, 2026-06-10;
-prototype at a working prototype) + assistant.
+documented (content-migrator → Bedrock production design session, 2026-06-10;
+from a working prototype) + assistant.

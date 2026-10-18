@@ -4,8 +4,8 @@
 the source that backs it. Where it cannot, it says nothing — it never fills the gap with a
 default, a generic pointer, or another play's name.
 
-Kapil, 2026-09-08: *"there is a cardinal rule. its better to not recommend if you dont
-know rather than recommending wrongly."*
+Set on 2026-09-08 as a cardinal rule: it is better not to recommend when the source is not
+known than to recommend wrongly.
 
 ## The failure this exists to stop
 

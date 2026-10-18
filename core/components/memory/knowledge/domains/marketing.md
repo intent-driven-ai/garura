@@ -4,7 +4,7 @@ title: "Marketing: how we build it — AEO/GEO/SEO for reach + campaign pages fa
 conditions:
   trigger: "the product needs reach and acquisition — discoverability for campaigns and fast campaign landing pages"
   selection_keys: [reach-channel-mix, campaign-page-velocity, attribution-need, consent-regime, omni-channel-need]
-provenance: interview (#434 — Kapil)
+provenance: interview (#434)
 ---
 
 # Marketing: how we build it
@@ -138,7 +138,7 @@ teams from quietly rebuilding the same thing.
 - Cross-channel becomes the norm → design campaigns omni-channel from the start.
 
 ## Provenance
-interview (#434 — Kapil): marketing scoped to AEO/GEO/SEO + fast, scalable campaign
+interview (#434): marketing scoped to AEO/GEO/SEO + fast, scalable campaign
 pages, explicitly NO martech; the three named burns (consent/privacy, omni/cross-
 channel, web attribution); and the intelligence set (campaign intelligence via
 analytics, send-time optimisation, dwell-time tracking, GEO/AEO for reach). Intents

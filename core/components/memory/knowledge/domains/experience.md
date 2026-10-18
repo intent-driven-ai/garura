@@ -4,7 +4,7 @@ title: "Experience: intelligent experience — semantic front-end modeling, inte
 conditions:
   trigger: "the product helps people find, understand, and be guided — discovery, intent, conversational/generative/agentic experience, real-time behavioural intervention"
   selection_keys: [discovery-channel-mix, intent-modelling-need, ax-surface-mix, real-time-behavioural-need, evidence-rigor]
-provenance: interview (#434 — Kapil) + an "experience intelligence" reference body of work
+provenance: interview (#434) + an "experience intelligence" reference body of work
 ---
 
 # Experience: intelligent experience
@@ -83,7 +83,7 @@ risk rises, **escalate to a human**. This is in-session intelligence — not CDP
 personalisation.
 
 ## Intents this domain captures (proposed — sanity-check)
-Intent-first. (Kapil delegated the intent list — confirm or correct.)
+Intent-first. (The intent list was drafted on delegation — confirm or correct.)
 
 **Visitor intents**
 - **Find** — "get me to the right thing" → search, discovery, answer.
@@ -227,7 +227,7 @@ Evidence-first is what makes any of it defensible to a client.
   become next" off it.
 
 ## Provenance
-interview (#434 — Kapil): "intelligent experience" as the core, **semantic
+interview (#434): "intelligent experience" as the core, **semantic
 front-end modeling = the MOAT**, the funnels-are-wrong / LLMs-own-top-of-funnel POV,
 conversational vs generative vs agentic (agentic orthogonal), gamified behavioural
 psychology as real-time/STM (distinct from personalisation), and the mobile/A2UI/

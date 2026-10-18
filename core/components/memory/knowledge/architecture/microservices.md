@@ -101,6 +101,6 @@ demand service boundaries, the architecture shouldn't impose them.
 - **Architecture cosplay** — copying Netflix's topology without Netflix's load.
 
 ## Provenance
-documented — the user's microservices learning, recovered from the prior KB
+documented — a microservices learning, recovered from the prior KB
 (`arch/patterns/microservices.md`) and reshaped into the v1 template under #434.
 Old profile codes (PP-6/7, NFR-4/6) translated to plain conditions.

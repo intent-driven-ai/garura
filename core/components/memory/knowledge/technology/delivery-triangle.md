@@ -6,13 +6,13 @@ conditions:
   delivery: agent-led
   stage: any
 evolve_when: []
-provenance: "documented (Kapil, #434 — measurement interview, 2026-06-11)"
+provenance: "documented (#434 — measurement interview, 2026-06-11)"
 ---
 
 # The delivery triangle: minimum tokens and cognition for maximum speed
 
 ## Topic
-THE primary frame for measuring delivery on an agent-led pipeline — Kapil's frame, and
+THE primary frame for measuring delivery on an agent-led pipeline — the team's frame, and
 the moat. Three axes, one objective: the right spend of tokens and cognition to get the
 maximum speed. This is what a slice's measure lens grounds its metric choices in;
 industry frames (DORA/Flow/SPACE/DX) are derived translations, never the primary
@@ -58,4 +58,4 @@ Real slice deliveries show an axis is mis-priced (e.g. token cost becomes neglig
 or a better cognition proxy emerges from /capture data) → reweight via /learn.
 
 ## Provenance
-documented (Kapil, #434 — measurement interview).
+documented (#434 — measurement interview).

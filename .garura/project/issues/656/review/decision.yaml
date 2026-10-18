@@ -1,0 +1,8 @@
+decision: approve
+decided_by: human
+reviewer_input: "approve"
+gate: "on for this run (gates.plays.review-change set on at Kapil's choice; set back off after)"
+recommended: reject
+recommended_reason: "1 P1 (blocker) finding(s)"
+note: "The one P1 (DATA-18, core/tools/memory/test_pull.py:46, demo address t@example.com) is the exception Kapil approved on 2026-10-18; recorded in a comment at the line and in plan item 4b."
+citing_findings: []

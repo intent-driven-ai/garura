@@ -8,7 +8,7 @@ conditions:
   stage: first-agentic-feature
 evolve_when:
   - architecture/agent-supervised-autonomous
-provenance: "seeded (Kapil + assistant, #434 — agentic seed)"
+provenance: "seeded (#434 — agentic seed)"
 ---
 
 # Assistive agent: suggest, never act — a human approves every real effect
@@ -50,4 +50,4 @@ inside a fence and escalates only when unsure. See
 `architecture/agent-supervised-autonomous`.
 
 ## Provenance
-seeded (Kapil + assistant, #434).
+seeded (#434).

@@ -39,3 +39,6 @@ The trigger that changes the conditions, and the learning to climb to next
 
 ## Provenance
 seeded | learned from {product / issue}
+
+Provenance names a source (an issue, a product, a work context), never a person or a client.
+Memory is shared across projects, so it carries no personal or client names.

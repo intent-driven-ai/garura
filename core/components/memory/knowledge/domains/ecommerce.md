@@ -4,7 +4,7 @@ title: "Ecommerce: how we build it — content-first MACH, selected on the comme
 conditions:
   trigger: "the product sells physical or digital goods — catalog, cart, orders, storefront"
   selection_keys: [commerce-vs-content-weight, sku-count, traffic-volume, merchandising-depth, nfr.performance]
-provenance: interview (#434 — Kapil) + an eCommerce selection-criterion reference
+provenance: interview (#434) + an eCommerce selection-criterion reference
 ---
 
 # Ecommerce: how we build it
@@ -196,7 +196,7 @@ current edge.
   analysis into the default offer.
 
 ## Provenance
-interview (#434 — Kapil): MACH/headless + content-first stance, the four-point
+interview (#434): MACH/headless + content-first stance, the four-point
 commerce↔content selection spectrum (from a selection-criterion reference),
 the core-journey-first rule, and the named non-negotiables and intelligence
 features. NOT a generic capability list.

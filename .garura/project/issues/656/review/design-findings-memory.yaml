@@ -1,0 +1,242 @@
+# design-findings-memory.yaml -- Layer 2 design-grounding of the 'memory' category, PR #671 (issue #656), base main. ROUND 2.
+# Playbook: review/memory, read from ~/.garura/phoenix-memory/knowledge/review/memory.md (Garura memory has no copy).
+# Every principle below is read from the base ref (git show main:<path>) or a committed decision record.
+# Not used as grounding: anything this branch adds or rewrites (the two sentences added to knowledge/_TEMPLATE.md, the 656 plan,
+# the PR body, the self-review, the round-1 review records, the scrubbed text itself), and Phoenix memory's copies of the
+# changed files (seeded from this branch). The template is read as it is on main.
+# Reviewed head: f7221657. Round-1 findings: commit 07cbf992 (design-findings-memory.yaml). Answer to them: commit 218a2d54.
+# This file overwrites the round-1 file; the round-1 findings are carried below with their round-2 status.
+category: memory
+pr: 671
+issue: 656
+base: main
+round: 2
+scope: 43 changed paths under core/components/memory/ (36 knowledge shelves, knowledge/_TEMPLATE.md, 5 standards files, and one script under knowledge/domains/.pageindex that is executable code and is judged in the code category). The memory-side lines of the supplied diff were compared to git diff main...HEAD and are identical (200 changed lines each way).
+severity_basis: >
+  Buckets from core/components/memory/standards/rules/pr.md on main (lines 8-11: P1 blocker; P2 major; P3 minor: missing docs,
+  naming; P4 nit: style). The table rows there are mechanical code rules and none targets memory prose, so each class below is
+  chosen from the bucket definitions. Prose is never a code defect (pr.md, "Prose is never a code/data defect (#454)").
+
+principles_grounded:
+  - id: G1
+    principle: >
+      A shelf file follows the template; its provenance is "seeded | learned from {product / issue}" and references an issue or
+      work context. The template names no person.
+    sources:
+      - "main:core/components/memory/knowledge/_TEMPLATE.md:15 (provenance: seeded | learned:product-or-issue) and :40-41 (## Provenance, seeded | learned from {product / issue}) -- read as on main, before this branch's two added sentences"
+      - "main:core/components/memory/standards/templates/knowledge-file.md:86 (Provenance references an issue or work context)"
+  - id: G2
+    principle: >
+      The knowledge base is a bank of empirical learnings, each answering a conditional question; the selection facets (id, title,
+      conditions, evolve_when) and the Conditions / Recommendation prose are the durable content, and the real risk is content
+      quality and contradiction.
+    sources:
+      - "main:core/components/memory/knowledge/_DESIGN.md:1-8 (empirical learnings bank), :20-26 (durable content and the template's sections), :60-62 (the real risk)"
+  - id: G3
+    principle: >
+      Where a standard defines a field as a person, the field holds a person. An accepted ADR must name who accepted it; a
+      reading play must record the git user who ran it.
+    sources:
+      - "main:core/components/memory/standards/templates/adr.md:28 (accepted_by = The PERSON who accepted it) and :70 (**Decided by:** <person>)"
+      - "main:core/components/skills/author-adr/scripts/adr.py:147-148 (an accepted ADR names who accepted it)"
+      - "main:core/components/memory/standards/schemas/product-os/ontology.md:117 (Given by = The git user who ran the reading play, required)"
+      - "main:core/components/plays/intent/scripts/capture_source.py:107-108 (given-by must be the git user running the play)"
+  - id: G4
+    principle: >
+      A worked example in a standard is a real, filled-in instance written the way the reader will see it; a person-facing kind is
+      written in plain words with a plain example.
+    sources:
+      - "main:core/components/memory/standards/templates/product-ontology.md:60-62 (Example: a real, filled-in instance, written the way the reader will see it)"
+      - "main:core/components/skills/build-product-ontology/SKILL.md:125 (Readable by its reader ... a plain example)"
+  - id: G5
+    principle: >
+      One name carries one meaning, and terms are chosen so they are never confused. The framework's word for the human who
+      decides or confirms is "person".
+    sources:
+      - "main:docs/adr/035-agents-work-only-from-memory.md section 1 (the project tier is called Garura memory, not project memory or LTM, so it is never confused)"
+      - "main:core/components/memory/standards/schemas/product-os/ontology.md:84 (the person who asked confirms it; a person drops it) and ADR 035 section 10 (only a person confirms or drops a business intent)"
+      - "main:core/components/memory/knowledge/technology/delivery-industry-frames-derived.md:37 ('team experience' already means how much directing the human gets to do)"
+      - "main:core/components/memory/standards/rules/pr.md:10 (P3 bucket names 'naming')"
+  - id: G6
+    principle: >
+      A change to the ontology is logged: set updated and add one dated Log line saying what changed and why. The version is bumped
+      when a kind is added, changed or removed. The Log line records what changed and why, not who. Every change to Phoenix memory
+      is a commit with history.
+    sources:
+      - "main:core/components/memory/standards/templates/product-ontology.md:12 (version: bumped when a kind is added, changed or removed) and :73 (Log: what changed in the ontology, and why)"
+      - "main:core/components/skills/build-product-ontology/SKILL.md:99-100 (bump version, set updated, add one dated log line) -- read with the template, which is the more specific rule for when the version moves"
+      - "main:docs/adr/035-agents-work-only-from-memory.md:48 (every memory update is a commit, with history, review and versions)"
+  - id: G7
+    principle: >
+      Everything in core/components/memory/ seeds Phoenix memory. The knowledge base is org-wide knowledge read across projects;
+      the project tier (Garura memory) holds what the project makes itself.
+    sources:
+      - "main:docs/adr/035-agents-work-only-from-memory.md (Affects line; section 1, the three tiers)"
+      - "main:docs/philosophy/garura-reference-implementation.md:241 (Knowledge base: org-wide knowledge, written by framework authors through PR review)"
+  - id: G8
+    principle: >
+      The knowledge base's design is LOCKED and changes to it go through a decision record; the shelf template is part of the
+      durable content contract it names.
+    sources:
+      - "main:core/components/memory/knowledge/_DESIGN.md:3-4 (LOCKED; changes go through a decision record, not an ad-hoc edit) and :20-26 (content = markdown learnings, one template)"
+  - id: G9
+    principle: >
+      A client name is kept out of anything shared. (An analogue: the committed rule covers views of the product model, not memory.)
+    sources:
+      - "main:core/components/memory/standards/schemas/product-os/grounding/capability.md:98 and grounding/epic.md:70 and grounding/functionality.md:77 (no client name reaches a shared view or row)"
+  - id: G10
+    principle: >
+      The ADR template's gold example is stated as the header that a real, named ADR (031) would have if written from the
+      template.
+    sources:
+      - "main:core/components/memory/standards/templates/adr.md:145-146 (ADR 031 is the nearest written example; written from this template its header would read)"
+      - "main:docs/adr/031-business-intent-and-ice.md:5 (the real record attributes the decision to a named person)"
+
+round_1_status:
+  - id: MEM-01
+    status: resolved
+    evidence: "ontology.md line 138 now reads 'Given by: alex-example', a git-user-shaped fictional handle (G3, G4). check_ontology.py reports valid and its 27 tests pass."
+  - id: MEM-02
+    status: resolved
+    evidence: "adr.md line 154 now reads 'Decided by: Alex Example', a person (G3). One small follow-on is raised as MEM-12."
+  - id: MEM-03
+    status: resolved
+    evidence: >
+      The undefined term is gone: a search of core/components/memory finds 'owner' only in the defined senses (quality-gate owner,
+      product owner, document owner, repo owner placeholders). The three lower-case starts are fixed (payments.md:12 'The person';
+      personalization.md:51 'The intent list was delegated to Claude'; the quote in no-unbacked-recommendation.md is gone). The
+      ontology and ADR-template sites use a fictional name. What is left is wording variety and two holders with no antecedent;
+      that is raised as MEM-11 (P4).
+  - id: MEM-04
+    status: resolved
+    evidence: >
+      no-unbacked-recommendation.md:7-8 now states the rule without the quote: 'Set on 2026-09-08 as a cardinal rule'. The date
+      is traceable in committed history (the rule file was added on main on 2026-09-08, #531, commit 79da321c).
+  - id: MEM-05
+    status: resolved
+    evidence: >
+      personalization.md:159 now reads 'Intents proposed by Claude per delegation -- pending the person's confirmation', and line 51
+      says 'delegated to Claude'. The pronoun with no antecedent is gone and the two lines agree. 'The person' is the framework's
+      word for who confirms (G5).
+  - id: MEM-06
+    status: resolved_with_residual
+    evidence: >
+      The rule is now written down in the shelf template's Provenance section (one of the two homes round 1 offered). Per the
+      brief, those two sentences are not used as grounding; the committed support for the rule's reason is that the knowledge
+      base is org-wide (G7) and, for the client half only, an analogue for shared views (G9). No committed source on main states
+      the personal-name half. What is left (scope, form, no decision record) is raised as MEM-10 (P4).
+  - id: MEM-07
+    status: resolved
+    evidence: "All five ux-* shelves now read 'seeded (assistant, #434 -- accepted)' in frontmatter and in ## Provenance: the main text with only the name removed. 'reviewed' is gone (G1)."
+  - id: MEM-08
+    status: resolved
+    evidence: "delivery-industry-frames-derived.md:39 now reads 'The team's position: this is the moat', so the stance has a holder (G2). The word 'team' is the residual in MEM-11."
+  - id: MEM-09
+    status: resolved
+    evidence: >
+      ontology.md: updated moved to 2026-10-18; a dated Log line was added ('2026-10-18 -- #656: personal names taken out of the
+      Source example and of this Log ... No kind, field or rule changed'); the v2 entry now carries '#612'. The version stays at 4
+      and that conforms: the template bumps it only when a kind is added, changed or removed (product-ontology.md:12 on main),
+      and no kind changed (G6).
+
+findings:
+  - id: MEM-10
+    severity: P4
+    round: 2
+    file: core/components/memory/knowledge/_TEMPLATE.md
+    line: "43-44"
+    what: >
+      The no-personal-or-client-names rule now sits as two plain sentences at the end of the shelf template's Provenance section
+      ('... never a person or a client. Memory is shared across projects, so it carries no personal or client names.').
+      Three loose ends. (1) Scope: the rule says 'Memory', but it lives in the template that governs only knowledge shelves, while
+      this PR applied it to five standards files too (two rules, two schemas, the ADR template); the other knowledge-file standard,
+      standards/templates/knowledge-file.md, still reads 'Provenance references an issue or work context' and does not carry it.
+      An author of a standards rule has no reason to open the shelf template. (2) Tier: 'Memory is shared across projects' is true
+      of Phoenix memory and the knowledge base, not of Garura memory, which holds what a project makes itself; and the same template
+      names a product as a valid provenance source, which in a project's own memory may be a client's product. (3) Form: the two
+      sentences are body prose where the template's other guidance is a placeholder or a comment, so a new learning that copies the
+      template carries them into its own Provenance.
+    principle: G1, G5, G7, G8
+    basis: >
+      ADR 035 section 1 names three tiers and says the project tier holds what the project makes itself; it takes care that one
+      word never means two things. The knowledge base is org-wide (garura-reference-implementation.md:241). _DESIGN.md names the
+      template as part of the durable content and says changes to the design go through a decision record (:3-4, :20-26); round 1
+      offered a template line or an ADR amendment as the two homes, so the template line is accepted and a decision record is a
+      follow-up, not a defect. The client half has a committed analogue for shared views (G9); the personal-name half has none on main.
+    fix: >
+      Say 'Phoenix memory' (or 'the knowledge base') instead of 'Memory'; say in one line that the standards files follow the same
+      rule, or move the rule to a standards rule file; put the two sentences in a comment line under the heading so copies do not
+      carry them; consider one line in a decision record so the next review has a committed source.
+
+  - id: MEM-11
+    severity: P4
+    round: 2
+    file: "core/components/memory/knowledge/domains/payments.md:12; knowledge/domains/experience.md:86 and :237; knowledge/domains/personalization.md:51 and :159; knowledge/technology/delivery-triangle.md:15; knowledge/technology/delivery-industry-frames-derived.md:39"
+    what: >
+      Two leftovers from the name removal. (1) The same note is still worded two ways: experience.md:86 'The intent list was drafted
+      on delegation' against personalization.md:51 'The intent list was delegated to Claude'; and the closing note experience.md:237
+      'pending confirmation' against personalization.md:159 'pending the person's confirmation'. (2) Three holders have no antecedent:
+      payments.md:12 opens a sentence 'The person asked me ...' with no earlier mention of who; delivery-triangle.md:15 'the team's
+      frame'; delivery-industry-frames-derived.md:39 'The team's position'. Read from another project's memory, each points at the
+      reader's own person or team, and the same file already uses 'team experience' for the human who directs the agents.
+    principle: G5
+    basis: >
+      One name, one meaning (ADR 035 section 1). 'Person' is the framework's word for who decides or confirms (ontology.md:84 on main;
+      ADR 035 section 10), but on main it comes with an antecedent ('the person who asked'). 'Team experience' already has a defined
+      sense in delivery-industry-frames-derived.md:37 on main. These are the round-1 fixes taken literally, so this is wording left
+      open, not a regression.
+    fix: >
+      Use one wording for each kind of note (suggest 'delegated to Claude' and 'pending the person's confirmation' in both files);
+      for payments.md write 'A person asked me ...'; for the two delivery files either say 'the framework's frame/position' or
+      drop the holder where the sentence stands without it.
+
+  - id: MEM-12
+    severity: P4
+    round: 2
+    file: core/components/memory/standards/templates/adr.md
+    line: 154
+    what: >
+      The gold example is introduced as the header ADR 031 'would read' if written from the template. After the fix it names a
+      fictional person ('Alex Example') for a real record whose own text attributes the decision to a named person, so a reader
+      who compares the two sees a different decider. ('Decided by: the owner' in round 1 had the same fault in a different form.)
+    principle: G10, G4
+    basis: >
+      adr.md:145-146 on main says the example is ADR 031's header as the template would write it; ADR 031 on main (line 5) names the
+      person who decided. A worked example is meant to be a real instance (product-ontology.md:60-62), but this one is a rendering of
+      a real record, so a fictional name makes it a different record.
+    fix: >
+      Add three words to the lead-in ('with the person's name changed') or call the example a made-up record rather than ADR 031's
+      header. Either keeps the name out of memory and keeps the example honest.
+
+conformance_checks_passed:
+  - check: "Frontmatter facets unchanged in all 36 knowledge files (main vs HEAD, excluding provenance)"
+    principle: G2
+    result: "Re-run this round with a script: 36 files, frontmatter parses in all, id equals path in all, every evolve_when target exists, no facet other than provenance differs, and the set of ## headings in each file equals main's. 0 problems."
+  - check: "Fix commit 218a2d54 touched Conditions, Recommendation or Rationale prose"
+    principle: G2
+    result: "Only one Recommendation line changed (delivery-industry-frames-derived.md:39, a holder word, MEM-08). The rest is provenance lines, short lead-in notes, the quote, two worked examples and one Log line."
+  - check: "Provenance still references an issue or work context in all 36 files"
+    principle: G1
+    result: "Unchanged from round 1: no issue reference lost. The five ux-* shelves keep '#434'; payments, personalization and experience keep '#434'."
+  - check: "Ontology still valid after the edits"
+    principle: G6
+    result: "check_ontology.py on the HEAD file: valid, no problems; its own tests: 27 passed, 0 failed."
+  - check: "No personal, company, personal-vault or home-folder reference remains in core/components/memory"
+    principle: G1
+    result: "Scanned the whole folder (case-insensitive). One hit, standards/rules/pr.md line 153 (BE-08, a security regex for user-token URL paths, matched only because the scan ignores case), unchanged by this branch. Scanned the added lines of the memory diff: no hits. 'owner' remains only in its defined senses."
+  - check: "The fictional names agree across files"
+    principle: G4
+    result: "'alex-example' (ontology Source example) and 'Alex Example' (ADR gold example) are one made-up person; neither matches a person named elsewhere in memory."
+  - check: "No duplicate or contradicting learning introduced"
+    principle: G2
+    result: "No learning added or removed; cross-references untouched."
+
+summary:
+  principles_grounded: 10
+  round_1: {resolved: 8, resolved_with_residual: 1, not_resolved: 0}
+  findings: {P1: 0, P2: 0, P3: 0, P4: 3}
+  p1: none
+  verdict_note: >
+    All nine round-1 findings are answered. The fixes follow the round-1 suggestions closely and introduce nothing above P4:
+    the three new findings are wording and placement of the rule, wording that still lacks an antecedent, and the example's
+    fidelity to ADR 031. The scrub leaves every selection facet and recommendation alone.

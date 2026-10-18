@@ -151,7 +151,7 @@ from this template its header would read:
 **Status:** Accepted
 **Date:** 2026-10-09
 **Level:** framework
-**Decided by:** Kapil · **Decided in:** #612 (the /intent play) and the review of PR #631
+**Decided by:** Alex Example · **Decided in:** #612 (the /intent play) and the review of PR #631
 **Amends:** ADR 029 — §6, what /intent and /vision do in Kickoff · ADR 027 — the IDSD row · ADR 026 — /intent by hand confirms before it writes
 **Affects:** ontology.md (v3), spine.yaml, every lint_grounding.py copy, play-creator, gate-config.md, direct-model-write.md
 **ICE impact:** ICE may be written before its capability has a domain; an ICE is workable only when built from a confirmed business intent

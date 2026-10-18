@@ -24,7 +24,6 @@ components:
   skills: ./core/components/skills/
   plays: ./core/components/plays/
   agents: ./core/components/agents/
-  memory: ./core/components/memory/
 
 # Claude Code derived locations (populated by /sud:install)
 claude:
@@ -48,9 +47,7 @@ global-factory:
 
 # Long-Term Memory (LTM)
 ltm:
-  source: ./core/components/memory/
   project-target: ./.garura/core/memory/
-  global-target: ~/.garura/core/memory/
 
 # Short-Term Memory (STM) — Issue-centric artifacts (ADR 008, ADR 010, ADR 017)
 # Variables: {stm_base} = base-path, {stm_pending} = pending-path, {stm_archive} = archive-path
@@ -75,7 +72,7 @@ product:
 
 # Standards resolution — first play-specific section; pattern for future plays
 standards:
-  pr-severity-taxonomy: ./core/components/memory/standards/rules/pr.md
+  pr-severity-taxonomy: ./.garura/core/memory/standards/rules/pr.md
 
 # start-change play configuration
 start-change:

@@ -6,7 +6,7 @@ conditions:
   delivery: agent-led
   stage: any
 evolve_when: []
-provenance: "documented (Kapil, #434 — measurement interview, 2026-06-11)"
+provenance: "documented (#434 — measurement interview, 2026-06-11)"
 ---
 
 # Industry delivery frames (DORA/Flow/SPACE/DX) are derived translations of the triangle, never the primary
@@ -36,7 +36,7 @@ reporting) alongside the triangle.
     adjustment rounds, review time, /launch defect count) IS the experience measure —
     with agents building, "team experience" means how much directing the human gets to
     do versus correcting.
-- Position (Kapil): this is the **moat** — a new way of tracking product delivery. The
+- The team's position: this is the **moat** — a new way of tracking product delivery. The
   industry frames are what people get today, and the bet is they go obsolete as
   agent-led adoption matures: when product is delivered every day, deployment
   frequency and lead time stop discriminating. Until then, the translations keep us
@@ -54,4 +54,4 @@ translation; a stakeholder needs a frame not listed → add a translation, never
 parallel claim.
 
 ## Provenance
-documented (Kapil, #434 — measurement interview).
+documented (#434 — measurement interview).

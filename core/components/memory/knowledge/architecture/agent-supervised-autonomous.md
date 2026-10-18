@@ -7,7 +7,7 @@ conditions:
   consequence: low-to-medium    # reversible / bounded blast radius
   stage: earned-after-assistive
 evolve_when: []
-provenance: "seeded (Kapil + assistant, #434 — agentic seed)"
+provenance: "seeded (#434 — agentic seed)"
 ---
 
 # Supervised autonomous agent: acts inside a fenced sandbox, escalates when unsure
@@ -53,4 +53,4 @@ risky actions (back toward assistive for those), or split the agent so the dange
 isolated.
 
 ## Provenance
-seeded (Kapil + assistant, #434).
+seeded (#434).

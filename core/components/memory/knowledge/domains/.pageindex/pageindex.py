@@ -10,15 +10,15 @@ Inspired by VectifyAI/PageIndex — similarity is not relevance, reasoning is.
 
 Usage:
   # Index
-  python3 .pageindex/pageindex.py                          # Index all
-  python3 .pageindex/pageindex.py --folder <folder>     # Index one folder
+  python3 .pageindex/pageindex.py                                   # Index all
+  python3 .pageindex/pageindex.py          --folder <folder>        # Index one folder
 
   # Retrieve (vectorless RAG — the LLM navigates these)
-  python3 .pageindex/pageindex.py --tree                   # Top-level tree
-  python3 .pageindex/pageindex.py --tree --depth 2         # Two levels deep
-  python3 .pageindex/pageindex.py --navigate 0003          # Drill into node
-  python3 .pageindex/pageindex.py --read 0003              # Full text of node
-  python3 .pageindex/pageindex.py --query "Messiness Index" # Keyword search
+  python3 .pageindex/pageindex.py          --tree                   # Top-level tree
+  python3 .pageindex/pageindex.py          --tree --depth 2         # Two levels deep
+  python3 .pageindex/pageindex.py          --navigate 0003          # Drill into node
+  python3 .pageindex/pageindex.py          --read 0003              # Full text of node
+  python3 .pageindex/pageindex.py --query "guest checkout"        # Keyword search
 """
 
 import sys
@@ -108,9 +108,7 @@ KB_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 INDEX_PATH = os.path.join(KB_ROOT, '.pageindex', 'kb-index.json')
 
 EXCLUDE_DIRS = {
-    '.obsidian', 'node_modules', '.claude', '.vault-index',
-    '.markdown_vault_mcp', '.pageindex', '.git', 'assets',
-    'published', '.deploy'
+    '.git', '.pageindex', '.claude', '.obsidian', 'node_modules', 'assets'
 }
 
 

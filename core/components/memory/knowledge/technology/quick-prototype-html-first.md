@@ -8,7 +8,7 @@ conditions:
   audience: self-then-share
 evolve_when:
   - technology/astro-content-sites
-provenance: "documented (the user's preferred prototyping flow)"
+provenance: "documented (a preferred prototyping flow)"
 ---
 
 # Quick prototype: HTML-first with readable logic, then promote to Astro to share
@@ -66,5 +66,5 @@ content-led until it genuinely needs to become an application.
 | HTML-first prototype | [React + Next.js](./frontend-react-nextjs.md) app | it becomes a real product — persistence, users, load |
 
 ## Provenance
-documented — the user's stated prototyping flow (HTML-first, readable logic, then
+documented — a stated prototyping flow (HTML-first, readable logic, then
 Astro to share), captured into the v1 KB.

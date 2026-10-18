@@ -5,7 +5,7 @@ conditions:
   surface: web-app-or-site
   stage: any
 evolve_when: []
-provenance: "seeded (assistant, #434 — accepted by Kapil)"
+provenance: "seeded (assistant, #434 — accepted)"
 ---
 
 # Design tokens + component reuse: the visual core sits on a small token set
@@ -46,4 +46,4 @@ inconsistent → formalize into a fuller design system (documented components, u
 rather than letting tokens proliferate ad hoc.
 
 ## Provenance
-seeded (assistant, #434 — accepted by Kapil).
+seeded (assistant, #434 — accepted).

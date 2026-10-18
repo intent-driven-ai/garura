@@ -1,0 +1,1755 @@
+# quality-findings.yaml -- review-change Step 3, Layer 1 (standards linter), PR #671 / issue #656, round 2
+# Written by the quality-check-scoped run; severity is read from the taxonomy table, never inferred.
+meta:
+  generated_at: '2026-10-18T15:37:44Z'
+  play: review-change, Step 3 Layer 1 (standards linter), round 2
+  pr: 671
+  issue: 656
+  branch: feature/656-phoenix-memory-repository
+  base: main
+  skill: quality-check-scoped (deployed copy identical to core/components source; script scan_taxonomy.py, run unmodified)
+  diff_path: .garura/project/issues/656/review/pr.diff
+  diff_note: 'Committed diff of the branch against main (added lines identical to git diff main...HEAD; only hunk-header context text differs). The uncommitted working-copy line gates.plays.review-change: on in .garura/core/config.yaml (run-only) is not in this diff and was not linted.'
+  taxonomy_path: ./.garura/core/memory/standards/rules/pr.md
+  taxonomy_used:
+    file: ./.garura/core/memory/standards/rules/pr.md
+    source: config standards.pr-severity-taxonomy, used exactly as configured (deliberate older Garura-memory copy)
+    size_bytes: 22478
+    git_tracked: false
+    note: This copy has no Artifact-Type Scoping or Glob-semantics section; the copy under core/components/memory/standards/rules/ on main has both. With no classification table, the scanner gives every path the default type runtime-code, so grep rules were eligible on markdown and yaml files too.
+  standards_source_resolved: kb (machine-global Garura memory knowledge/quality); ltm and stm quality shelves not present
+  changed_paths_count_in_diff: 71
+  changed_paths_scanned: 48
+  scan_coverage: 1.0
+  standards_relevant: 24
+  catchall:
+    CODE-20: 48
+  scope:
+    scanned_categories:
+      memory: 42
+      executable-code: 4
+      tests: 1
+      config-maps: 1
+    skipped:
+      stm-run-records: 11
+      stm-review-records: 10
+      stm-working-notes-plans-and-design: 2
+    skipped_note: Run-record files under issues/656/context/ and review-record files under issues/656/review/ were skipped as instructed (round-1 review output is not work to lint; its diff copy would hit its own text). The two plan files (issues/653 and issues/656 specs/plan.md) were also left out because the dispatch named four categories only; they were not scanned.
+taxonomy_errors: []
+findings:
+- standard_id: DATA-18
+  severity: P1
+  file: core/tools/memory/test_pull.py
+  line: 46
+  evidence: email
+  artifact_type: runtime-code
+  taxonomy_rule_id: DATA-18
+  category: tests
+  basis: pr.md DATA-18 (P1)
+  approved_exception: true
+  exception_basis: 'Reviewer approval of 2026-10-18 for the demo git address in a throwaway test repository, recorded in two comment lines above the line (core/tools/memory/test_pull.py lines 44-45, citing PR rule DATA-18 and PR #671) and in the #656 plan item 4b. The rules file has no exception mechanism, so the finding stays P1 as the rules dictate; the flag is for the decision step.'
+- standard_id: BE-19
+  severity: P2
+  file: core/components/memory/knowledge/architecture/agent-derive-once-apply-many.md
+  line: 76
+  evidence: from
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: memory
+  basis: pr.md BE-19 (P2)
+  approved_exception: false
+- standard_id: BE-19
+  severity: P2
+  file: core/components/memory/knowledge/architecture/microservices.md
+  line: 104
+  evidence: from
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: memory
+  basis: pr.md BE-19 (P2)
+  approved_exception: false
+- standard_id: BE-19
+  severity: P2
+  file: core/components/memory/knowledge/architecture/modular-monolith.md
+  line: 154
+  evidence: from
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: memory
+  basis: pr.md BE-19 (P2)
+  approved_exception: false
+- standard_id: ARCH-02
+  severity: P2
+  file: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+  line: 1
+  evidence: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-02
+  category: executable-code
+  basis: pr.md ARCH-02 (P2)
+  approved_exception: false
+- standard_id: CODE-03
+  severity: P2
+  file: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+  line: 1
+  evidence: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-03
+  category: executable-code
+  basis: pr.md CODE-03 (P2)
+  approved_exception: false
+- standard_id: CODE-04
+  severity: P2
+  file: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+  line: 1
+  evidence: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-04
+  category: executable-code
+  basis: pr.md CODE-04 (P2)
+  approved_exception: false
+- standard_id: CODE-14
+  severity: P2
+  file: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+  line: 1
+  evidence: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-14
+  category: executable-code
+  basis: pr.md CODE-14 (P2)
+  approved_exception: false
+- standard_id: BE-19
+  severity: P2
+  file: core/components/memory/knowledge/domains/ecommerce.md
+  line: 7
+  evidence: select
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: memory
+  basis: pr.md BE-19 (P2)
+  approved_exception: false
+- standard_id: BE-19
+  severity: P2
+  file: core/components/memory/knowledge/domains/payments.md
+  line: 7
+  evidence: from
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: memory
+  basis: pr.md BE-19 (P2)
+  approved_exception: false
+- standard_id: BE-19
+  severity: P2
+  file: core/components/memory/knowledge/domains/payments.md
+  line: 107
+  evidence: from
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: memory
+  basis: pr.md BE-19 (P2)
+  approved_exception: false
+- standard_id: BE-19
+  severity: P2
+  file: core/components/memory/knowledge/technology/frontend-component-orchestration.md
+  line: 173
+  evidence: from
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: memory
+  basis: pr.md BE-19 (P2)
+  approved_exception: false
+- standard_id: BE-19
+  severity: P2
+  file: core/components/memory/standards/schemas/product-os/ontology.md
+  line: 199
+  evidence: from
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: memory
+  basis: pr.md BE-19 (P2)
+  approved_exception: false
+- standard_id: BE-19
+  severity: P2
+  file: core/components/memory/standards/schemas/product-os/ontology.md
+  line: 204
+  evidence: from
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: memory
+  basis: pr.md BE-19 (P2)
+  approved_exception: false
+- standard_id: ARCH-02
+  severity: P2
+  file: core/components/plays/install-garura/scripts/install.py
+  line: 1
+  evidence: core/components/plays/install-garura/scripts/install.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-02
+  category: executable-code
+  basis: pr.md ARCH-02 (P2)
+  approved_exception: false
+- standard_id: CODE-03
+  severity: P2
+  file: core/components/plays/install-garura/scripts/install.py
+  line: 1
+  evidence: core/components/plays/install-garura/scripts/install.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-03
+  category: executable-code
+  basis: pr.md CODE-03 (P2)
+  approved_exception: false
+- standard_id: CODE-04
+  severity: P2
+  file: core/components/plays/install-garura/scripts/install.py
+  line: 1
+  evidence: core/components/plays/install-garura/scripts/install.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-04
+  category: executable-code
+  basis: pr.md CODE-04 (P2)
+  approved_exception: false
+- standard_id: CODE-14
+  severity: P2
+  file: core/components/plays/install-garura/scripts/install.py
+  line: 1
+  evidence: core/components/plays/install-garura/scripts/install.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-14
+  category: executable-code
+  basis: pr.md CODE-14 (P2)
+  approved_exception: false
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-02
+  category: executable-code
+  basis: pr.md ARCH-02 (P2)
+  approved_exception: false
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-03
+  category: executable-code
+  basis: pr.md CODE-03 (P2)
+  approved_exception: false
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-04
+  category: executable-code
+  basis: pr.md CODE-04 (P2)
+  approved_exception: false
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-14
+  category: executable-code
+  basis: pr.md CODE-14 (P2)
+  approved_exception: false
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/memory/pull.py
+  line: 1
+  evidence: core/tools/memory/pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-02
+  category: executable-code
+  basis: pr.md ARCH-02 (P2)
+  approved_exception: false
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/memory/pull.py
+  line: 1
+  evidence: core/tools/memory/pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-03
+  category: executable-code
+  basis: pr.md CODE-03 (P2)
+  approved_exception: false
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/memory/pull.py
+  line: 1
+  evidence: core/tools/memory/pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-04
+  category: executable-code
+  basis: pr.md CODE-04 (P2)
+  approved_exception: false
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/memory/pull.py
+  line: 1
+  evidence: core/tools/memory/pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-14
+  category: executable-code
+  basis: pr.md CODE-14 (P2)
+  approved_exception: false
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/pull.py
+  line: 9
+  evidence: from
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: executable-code
+  basis: pr.md BE-19 (P2)
+  approved_exception: false
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/pull.py
+  line: 10
+  evidence: from
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: executable-code
+  basis: pr.md BE-19 (P2)
+  approved_exception: false
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/pull.py
+  line: 12
+  evidence: from
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: executable-code
+  basis: pr.md BE-19 (P2)
+  approved_exception: false
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/pull.py
+  line: 14
+  evidence: from
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: executable-code
+  basis: pr.md BE-19 (P2)
+  approved_exception: false
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/pull.py
+  line: 59
+  evidence: from
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: executable-code
+  basis: pr.md BE-19 (P2)
+  approved_exception: false
+- standard_id: SEC-23
+  severity: P2
+  file: core/tools/memory/pull.py
+  line: 60
+  evidence: os.environ
+  artifact_type: runtime-code
+  taxonomy_rule_id: SEC-23
+  category: executable-code
+  basis: pr.md SEC-23 (P2)
+  approved_exception: false
+- standard_id: SEC-23
+  severity: P2
+  file: core/tools/memory/pull.py
+  line: 61
+  evidence: os.environ
+  artifact_type: runtime-code
+  taxonomy_rule_id: SEC-23
+  category: executable-code
+  basis: pr.md SEC-23 (P2)
+  approved_exception: false
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/pull.py
+  line: 87
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: executable-code
+  basis: pr.md BE-19 (P2)
+  approved_exception: false
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/pull.py
+  line: 91
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: executable-code
+  basis: pr.md BE-19 (P2)
+  approved_exception: false
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/pull.py
+  line: 98
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: executable-code
+  basis: pr.md BE-19 (P2)
+  approved_exception: false
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/pull.py
+  line: 107
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: executable-code
+  basis: pr.md BE-19 (P2)
+  approved_exception: false
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/pull.py
+  line: 123
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: executable-code
+  basis: pr.md BE-19 (P2)
+  approved_exception: false
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/pull.py
+  line: 138
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: executable-code
+  basis: pr.md BE-19 (P2)
+  approved_exception: false
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/memory/test_pull.py
+  line: 1
+  evidence: core/tools/memory/test_pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-02
+  category: tests
+  basis: pr.md ARCH-02 (P2)
+  approved_exception: false
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/memory/test_pull.py
+  line: 1
+  evidence: core/tools/memory/test_pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-03
+  category: tests
+  basis: pr.md CODE-03 (P2)
+  approved_exception: false
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/memory/test_pull.py
+  line: 1
+  evidence: core/tools/memory/test_pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-04
+  category: tests
+  basis: pr.md CODE-04 (P2)
+  approved_exception: false
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/memory/test_pull.py
+  line: 1
+  evidence: core/tools/memory/test_pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-14
+  category: tests
+  basis: pr.md CODE-14 (P2)
+  approved_exception: false
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/test_pull.py
+  line: 2
+  evidence: from
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: tests
+  basis: pr.md BE-19 (P2)
+  approved_exception: false
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/test_pull.py
+  line: 15
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: tests
+  basis: pr.md BE-19 (P2)
+  approved_exception: false
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/test_pull.py
+  line: 19
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: tests
+  basis: pr.md BE-19 (P2)
+  approved_exception: false
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/test_pull.py
+  line: 27
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: tests
+  basis: pr.md BE-19 (P2)
+  approved_exception: false
+- standard_id: DATA-17
+  severity: P2
+  file: core/tools/memory/test_pull.py
+  line: 46
+  evidence: email
+  artifact_type: runtime-code
+  taxonomy_rule_id: DATA-17
+  category: tests
+  basis: pr.md DATA-17 (P2)
+  approved_exception: false
+  note: Same line and same address as the DATA-18 exception. The comment above the line names DATA-18 only, so this P2 is not marked as an approved exception; the decision step may treat it as covered by the same reasoning.
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/test_pull.py
+  line: 66
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: tests
+  basis: pr.md BE-19 (P2)
+  approved_exception: false
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/test_pull.py
+  line: 72
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: tests
+  basis: pr.md BE-19 (P2)
+  approved_exception: false
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/test_pull.py
+  line: 78
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: tests
+  basis: pr.md BE-19 (P2)
+  approved_exception: false
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/test_pull.py
+  line: 117
+  evidence: from
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: tests
+  basis: pr.md BE-19 (P2)
+  approved_exception: false
+- standard_id: SEC-23
+  severity: P2
+  file: core/tools/memory/test_pull.py
+  line: 126
+  evidence: os.environ
+  artifact_type: runtime-code
+  taxonomy_rule_id: SEC-23
+  category: tests
+  basis: pr.md SEC-23 (P2)
+  approved_exception: false
+- standard_id: SEC-23
+  severity: P2
+  file: core/tools/memory/test_pull.py
+  line: 127
+  evidence: os.environ
+  artifact_type: runtime-code
+  taxonomy_rule_id: SEC-23
+  category: tests
+  basis: pr.md SEC-23 (P2)
+  approved_exception: false
+- standard_id: SEC-23
+  severity: P2
+  file: core/tools/memory/test_pull.py
+  line: 128
+  evidence: os.environ
+  artifact_type: runtime-code
+  taxonomy_rule_id: SEC-23
+  category: tests
+  basis: pr.md SEC-23 (P2)
+  approved_exception: false
+- standard_id: SEC-23
+  severity: P2
+  file: core/tools/memory/test_pull.py
+  line: 129
+  evidence: os.environ
+  artifact_type: runtime-code
+  taxonomy_rule_id: SEC-23
+  category: tests
+  basis: pr.md SEC-23 (P2)
+  approved_exception: false
+- standard_id: SEC-23
+  severity: P2
+  file: core/tools/memory/test_pull.py
+  line: 134
+  evidence: os.environ
+  artifact_type: runtime-code
+  taxonomy_rule_id: SEC-23
+  category: tests
+  basis: pr.md SEC-23 (P2)
+  approved_exception: false
+- standard_id: SEC-23
+  severity: P2
+  file: core/tools/memory/test_pull.py
+  line: 135
+  evidence: os.environ
+  artifact_type: runtime-code
+  taxonomy_rule_id: SEC-23
+  category: tests
+  basis: pr.md SEC-23 (P2)
+  approved_exception: false
+- standard_id: ARCH-03
+  severity: P3
+  file: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+  line: 1
+  evidence: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-03
+  category: executable-code
+  basis: pr.md ARCH-03 (P3)
+  approved_exception: false
+- standard_id: ARCH-08
+  severity: P3
+  file: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+  line: 1
+  evidence: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-08
+  category: executable-code
+  basis: pr.md ARCH-08 (P3)
+  approved_exception: false
+- standard_id: CODE-09
+  severity: P3
+  file: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+  line: 1
+  evidence: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-09
+  category: executable-code
+  basis: pr.md CODE-09 (P3)
+  approved_exception: false
+- standard_id: CODE-10
+  severity: P3
+  file: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+  line: 1
+  evidence: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-10
+  category: executable-code
+  basis: pr.md CODE-10 (P3)
+  approved_exception: false
+- standard_id: CODE-11
+  severity: P3
+  file: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+  line: 1
+  evidence: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-11
+  category: executable-code
+  basis: pr.md CODE-11 (P3)
+  approved_exception: false
+- standard_id: CODE-12
+  severity: P3
+  file: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+  line: 1
+  evidence: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-12
+  category: executable-code
+  basis: pr.md CODE-12 (P3)
+  approved_exception: false
+- standard_id: CODE-15
+  severity: P3
+  file: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+  line: 1
+  evidence: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-15
+  category: executable-code
+  basis: pr.md CODE-15 (P3)
+  approved_exception: false
+- standard_id: CODE-17
+  severity: P3
+  file: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+  line: 1
+  evidence: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-17
+  category: executable-code
+  basis: pr.md CODE-17 (P3)
+  approved_exception: false
+- standard_id: ARCH-03
+  severity: P3
+  file: core/components/plays/install-garura/scripts/install.py
+  line: 1
+  evidence: core/components/plays/install-garura/scripts/install.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-03
+  category: executable-code
+  basis: pr.md ARCH-03 (P3)
+  approved_exception: false
+- standard_id: ARCH-08
+  severity: P3
+  file: core/components/plays/install-garura/scripts/install.py
+  line: 1
+  evidence: core/components/plays/install-garura/scripts/install.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-08
+  category: executable-code
+  basis: pr.md ARCH-08 (P3)
+  approved_exception: false
+- standard_id: CODE-09
+  severity: P3
+  file: core/components/plays/install-garura/scripts/install.py
+  line: 1
+  evidence: core/components/plays/install-garura/scripts/install.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-09
+  category: executable-code
+  basis: pr.md CODE-09 (P3)
+  approved_exception: false
+- standard_id: CODE-10
+  severity: P3
+  file: core/components/plays/install-garura/scripts/install.py
+  line: 1
+  evidence: core/components/plays/install-garura/scripts/install.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-10
+  category: executable-code
+  basis: pr.md CODE-10 (P3)
+  approved_exception: false
+- standard_id: CODE-11
+  severity: P3
+  file: core/components/plays/install-garura/scripts/install.py
+  line: 1
+  evidence: core/components/plays/install-garura/scripts/install.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-11
+  category: executable-code
+  basis: pr.md CODE-11 (P3)
+  approved_exception: false
+- standard_id: CODE-12
+  severity: P3
+  file: core/components/plays/install-garura/scripts/install.py
+  line: 1
+  evidence: core/components/plays/install-garura/scripts/install.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-12
+  category: executable-code
+  basis: pr.md CODE-12 (P3)
+  approved_exception: false
+- standard_id: CODE-15
+  severity: P3
+  file: core/components/plays/install-garura/scripts/install.py
+  line: 1
+  evidence: core/components/plays/install-garura/scripts/install.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-15
+  category: executable-code
+  basis: pr.md CODE-15 (P3)
+  approved_exception: false
+- standard_id: CODE-17
+  severity: P3
+  file: core/components/plays/install-garura/scripts/install.py
+  line: 1
+  evidence: core/components/plays/install-garura/scripts/install.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-17
+  category: executable-code
+  basis: pr.md CODE-17 (P3)
+  approved_exception: false
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-03
+  category: executable-code
+  basis: pr.md ARCH-03 (P3)
+  approved_exception: false
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-08
+  category: executable-code
+  basis: pr.md ARCH-08 (P3)
+  approved_exception: false
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-09
+  category: executable-code
+  basis: pr.md CODE-09 (P3)
+  approved_exception: false
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-10
+  category: executable-code
+  basis: pr.md CODE-10 (P3)
+  approved_exception: false
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-11
+  category: executable-code
+  basis: pr.md CODE-11 (P3)
+  approved_exception: false
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-12
+  category: executable-code
+  basis: pr.md CODE-12 (P3)
+  approved_exception: false
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-15
+  category: executable-code
+  basis: pr.md CODE-15 (P3)
+  approved_exception: false
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-17
+  category: executable-code
+  basis: pr.md CODE-17 (P3)
+  approved_exception: false
+- standard_id: TEST-14
+  severity: P3
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-14
+  category: executable-code
+  basis: pr.md TEST-14 (P3)
+  approved_exception: false
+- standard_id: TEST-18
+  severity: P3
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-18
+  category: executable-code
+  basis: pr.md TEST-18 (P3)
+  approved_exception: false
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/memory/pull.py
+  line: 1
+  evidence: core/tools/memory/pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-03
+  category: executable-code
+  basis: pr.md ARCH-03 (P3)
+  approved_exception: false
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/memory/pull.py
+  line: 1
+  evidence: core/tools/memory/pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-08
+  category: executable-code
+  basis: pr.md ARCH-08 (P3)
+  approved_exception: false
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/memory/pull.py
+  line: 1
+  evidence: core/tools/memory/pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-09
+  category: executable-code
+  basis: pr.md CODE-09 (P3)
+  approved_exception: false
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/memory/pull.py
+  line: 1
+  evidence: core/tools/memory/pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-10
+  category: executable-code
+  basis: pr.md CODE-10 (P3)
+  approved_exception: false
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/memory/pull.py
+  line: 1
+  evidence: core/tools/memory/pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-11
+  category: executable-code
+  basis: pr.md CODE-11 (P3)
+  approved_exception: false
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/memory/pull.py
+  line: 1
+  evidence: core/tools/memory/pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-12
+  category: executable-code
+  basis: pr.md CODE-12 (P3)
+  approved_exception: false
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/memory/pull.py
+  line: 1
+  evidence: core/tools/memory/pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-15
+  category: executable-code
+  basis: pr.md CODE-15 (P3)
+  approved_exception: false
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/memory/pull.py
+  line: 1
+  evidence: core/tools/memory/pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-17
+  category: executable-code
+  basis: pr.md CODE-17 (P3)
+  approved_exception: false
+- standard_id: CODE-25
+  severity: P3
+  file: core/tools/memory/pull.py
+  line: 119
+  evidence: 'except '
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-25
+  category: executable-code
+  basis: pr.md CODE-25 (P3)
+  approved_exception: false
+- standard_id: CODE-25
+  severity: P3
+  file: core/tools/memory/pull.py
+  line: 161
+  evidence: 'except '
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-25
+  category: executable-code
+  basis: pr.md CODE-25 (P3)
+  approved_exception: false
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/memory/test_pull.py
+  line: 1
+  evidence: core/tools/memory/test_pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-03
+  category: tests
+  basis: pr.md ARCH-03 (P3)
+  approved_exception: false
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/memory/test_pull.py
+  line: 1
+  evidence: core/tools/memory/test_pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-08
+  category: tests
+  basis: pr.md ARCH-08 (P3)
+  approved_exception: false
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/memory/test_pull.py
+  line: 1
+  evidence: core/tools/memory/test_pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-09
+  category: tests
+  basis: pr.md CODE-09 (P3)
+  approved_exception: false
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/memory/test_pull.py
+  line: 1
+  evidence: core/tools/memory/test_pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-10
+  category: tests
+  basis: pr.md CODE-10 (P3)
+  approved_exception: false
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/memory/test_pull.py
+  line: 1
+  evidence: core/tools/memory/test_pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-11
+  category: tests
+  basis: pr.md CODE-11 (P3)
+  approved_exception: false
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/memory/test_pull.py
+  line: 1
+  evidence: core/tools/memory/test_pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-12
+  category: tests
+  basis: pr.md CODE-12 (P3)
+  approved_exception: false
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/memory/test_pull.py
+  line: 1
+  evidence: core/tools/memory/test_pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-15
+  category: tests
+  basis: pr.md CODE-15 (P3)
+  approved_exception: false
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/memory/test_pull.py
+  line: 1
+  evidence: core/tools/memory/test_pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-17
+  category: tests
+  basis: pr.md CODE-17 (P3)
+  approved_exception: false
+- standard_id: FE-16
+  severity: P4
+  file: core/components/memory/knowledge/_TEMPLATE.md
+  line: 1
+  evidence: core/components/memory/knowledge/_TEMPLATE.md
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-16
+  category: memory
+  basis: pr.md FE-16 (P4)
+  approved_exception: false
+- standard_id: FE-16
+  severity: P4
+  file: core/components/memory/knowledge/architecture/agent-assistive.md
+  line: 1
+  evidence: core/components/memory/knowledge/architecture/agent-assistive.md
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-16
+  category: memory
+  basis: pr.md FE-16 (P4)
+  approved_exception: false
+- standard_id: FE-16
+  severity: P4
+  file: core/components/memory/knowledge/architecture/agent-derive-once-apply-many.md
+  line: 1
+  evidence: core/components/memory/knowledge/architecture/agent-derive-once-apply-many.md
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-16
+  category: memory
+  basis: pr.md FE-16 (P4)
+  approved_exception: false
+- standard_id: FE-16
+  severity: P4
+  file: core/components/memory/knowledge/architecture/agent-orchestration-patterns.md
+  line: 1
+  evidence: core/components/memory/knowledge/architecture/agent-orchestration-patterns.md
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-16
+  category: memory
+  basis: pr.md FE-16 (P4)
+  approved_exception: false
+- standard_id: FE-16
+  severity: P4
+  file: core/components/memory/knowledge/architecture/agent-supervised-autonomous.md
+  line: 1
+  evidence: core/components/memory/knowledge/architecture/agent-supervised-autonomous.md
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-16
+  category: memory
+  basis: pr.md FE-16 (P4)
+  approved_exception: false
+- standard_id: FE-16
+  severity: P4
+  file: core/components/memory/knowledge/architecture/agentic-guardrails-baseline.md
+  line: 1
+  evidence: core/components/memory/knowledge/architecture/agentic-guardrails-baseline.md
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-16
+  category: memory
+  basis: pr.md FE-16 (P4)
+  approved_exception: false
+- standard_id: FE-16
+  severity: P4
+  file: core/components/memory/knowledge/architecture/microservices.md
+  line: 1
+  evidence: core/components/memory/knowledge/architecture/microservices.md
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-16
+  category: memory
+  basis: pr.md FE-16 (P4)
+  approved_exception: false
+- standard_id: FE-16
+  severity: P4
+  file: core/components/memory/knowledge/architecture/modular-monolith.md
+  line: 1
+  evidence: core/components/memory/knowledge/architecture/modular-monolith.md
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-16
+  category: memory
+  basis: pr.md FE-16 (P4)
+  approved_exception: false
+- standard_id: FE-16
+  severity: P4
+  file: core/components/memory/knowledge/architecture/regression-by-blast-radius.md
+  line: 1
+  evidence: core/components/memory/knowledge/architecture/regression-by-blast-radius.md
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-16
+  category: memory
+  basis: pr.md FE-16 (P4)
+  approved_exception: false
+- standard_id: CODE-13
+  severity: P4
+  file: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+  line: 1
+  evidence: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-13
+  category: executable-code
+  basis: pr.md CODE-13 (P4)
+  approved_exception: false
+- standard_id: CODE-19
+  severity: P4
+  file: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+  line: 1
+  evidence: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-19
+  category: executable-code
+  basis: pr.md CODE-19 (P4)
+  approved_exception: false
+- standard_id: FE-16
+  severity: P4
+  file: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+  line: 1
+  evidence: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-16
+  category: executable-code
+  basis: pr.md FE-16 (P4)
+  approved_exception: false
+- standard_id: FE-16
+  severity: P4
+  file: core/components/memory/knowledge/domains/analytics.md
+  line: 1
+  evidence: core/components/memory/knowledge/domains/analytics.md
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-16
+  category: memory
+  basis: pr.md FE-16 (P4)
+  approved_exception: false
+- standard_id: FE-16
+  severity: P4
+  file: core/components/memory/knowledge/domains/collaboration.md
+  line: 1
+  evidence: core/components/memory/knowledge/domains/collaboration.md
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-16
+  category: memory
+  basis: pr.md FE-16 (P4)
+  approved_exception: false
+- standard_id: BE-23
+  severity: P4
+  file: core/components/memory/knowledge/domains/collaboration.md
+  line: 106
+  evidence: lock
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-23
+  category: memory
+  basis: pr.md BE-23 (P4)
+  approved_exception: false
+- standard_id: FE-16
+  severity: P4
+  file: core/components/memory/knowledge/domains/content-management.md
+  line: 1
+  evidence: core/components/memory/knowledge/domains/content-management.md
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-16
+  category: memory
+  basis: pr.md FE-16 (P4)
+  approved_exception: false
+- standard_id: FE-16
+  severity: P4
+  file: core/components/memory/knowledge/domains/ecommerce.md
+  line: 1
+  evidence: core/components/memory/knowledge/domains/ecommerce.md
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-16
+  category: memory
+  basis: pr.md FE-16 (P4)
+  approved_exception: false
+- standard_id: FE-16
+  severity: P4
+  file: core/components/memory/knowledge/domains/experience.md
+  line: 1
+  evidence: core/components/memory/knowledge/domains/experience.md
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-16
+  category: memory
+  basis: pr.md FE-16 (P4)
+  approved_exception: false
+- standard_id: FE-16
+  severity: P4
+  file: core/components/memory/knowledge/domains/marketing.md
+  line: 1
+  evidence: core/components/memory/knowledge/domains/marketing.md
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-16
+  category: memory
+  basis: pr.md FE-16 (P4)
+  approved_exception: false
+- standard_id: FE-16
+  severity: P4
+  file: core/components/memory/knowledge/domains/notifications.md
+  line: 1
+  evidence: core/components/memory/knowledge/domains/notifications.md
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-16
+  category: memory
+  basis: pr.md FE-16 (P4)
+  approved_exception: false
+- standard_id: FE-16
+  severity: P4
+  file: core/components/memory/knowledge/domains/payments.md
+  line: 1
+  evidence: core/components/memory/knowledge/domains/payments.md
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-16
+  category: memory
+  basis: pr.md FE-16 (P4)
+  approved_exception: false
+- standard_id: FE-16
+  severity: P4
+  file: core/components/memory/knowledge/domains/personalization.md
+  line: 1
+  evidence: core/components/memory/knowledge/domains/personalization.md
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-16
+  category: memory
+  basis: pr.md FE-16 (P4)
+  approved_exception: false
+- standard_id: FE-16
+  severity: P4
+  file: core/components/memory/knowledge/technology/agent-building-blocks.md
+  line: 1
+  evidence: core/components/memory/knowledge/technology/agent-building-blocks.md
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-16
+  category: memory
+  basis: pr.md FE-16 (P4)
+  approved_exception: false
+- standard_id: FE-16
+  severity: P4
+  file: core/components/memory/knowledge/technology/agent-deploy-dev-uat-prod.md
+  line: 1
+  evidence: core/components/memory/knowledge/technology/agent-deploy-dev-uat-prod.md
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-16
+  category: memory
+  basis: pr.md FE-16 (P4)
+  approved_exception: false
+- standard_id: FE-16
+  severity: P4
+  file: core/components/memory/knowledge/technology/agent-model-selection.md
+  line: 1
+  evidence: core/components/memory/knowledge/technology/agent-model-selection.md
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-16
+  category: memory
+  basis: pr.md FE-16 (P4)
+  approved_exception: false
+- standard_id: FE-16
+  severity: P4
+  file: core/components/memory/knowledge/technology/agent-platform-bedrock-gcp.md
+  line: 1
+  evidence: core/components/memory/knowledge/technology/agent-platform-bedrock-gcp.md
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-16
+  category: memory
+  basis: pr.md FE-16 (P4)
+  approved_exception: false
+- standard_id: FE-16
+  severity: P4
+  file: core/components/memory/knowledge/technology/astro-content-sites.md
+  line: 1
+  evidence: core/components/memory/knowledge/technology/astro-content-sites.md
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-16
+  category: memory
+  basis: pr.md FE-16 (P4)
+  approved_exception: false
+- standard_id: FE-16
+  severity: P4
+  file: core/components/memory/knowledge/technology/delivery-industry-frames-derived.md
+  line: 1
+  evidence: core/components/memory/knowledge/technology/delivery-industry-frames-derived.md
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-16
+  category: memory
+  basis: pr.md FE-16 (P4)
+  approved_exception: false
+- standard_id: FE-16
+  severity: P4
+  file: core/components/memory/knowledge/technology/delivery-one-shot-cleanliness.md
+  line: 1
+  evidence: core/components/memory/knowledge/technology/delivery-one-shot-cleanliness.md
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-16
+  category: memory
+  basis: pr.md FE-16 (P4)
+  approved_exception: false
+- standard_id: FE-16
+  severity: P4
+  file: core/components/memory/knowledge/technology/delivery-triangle.md
+  line: 1
+  evidence: core/components/memory/knowledge/technology/delivery-triangle.md
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-16
+  category: memory
+  basis: pr.md FE-16 (P4)
+  approved_exception: false
+- standard_id: FE-16
+  severity: P4
+  file: core/components/memory/knowledge/technology/frontend-component-orchestration.md
+  line: 1
+  evidence: core/components/memory/knowledge/technology/frontend-component-orchestration.md
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-16
+  category: memory
+  basis: pr.md FE-16 (P4)
+  approved_exception: false
+- standard_id: FE-16
+  severity: P4
+  file: core/components/memory/knowledge/technology/gcp-modular-monolith-runtime.md
+  line: 1
+  evidence: core/components/memory/knowledge/technology/gcp-modular-monolith-runtime.md
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-16
+  category: memory
+  basis: pr.md FE-16 (P4)
+  approved_exception: false
+- standard_id: FE-16
+  severity: P4
+  file: core/components/memory/knowledge/technology/quick-prototype-html-first.md
+  line: 1
+  evidence: core/components/memory/knowledge/technology/quick-prototype-html-first.md
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-16
+  category: memory
+  basis: pr.md FE-16 (P4)
+  approved_exception: false
+- standard_id: FE-16
+  severity: P4
+  file: core/components/memory/knowledge/technology/run-environments-canary-migrations.md
+  line: 1
+  evidence: core/components/memory/knowledge/technology/run-environments-canary-migrations.md
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-16
+  category: memory
+  basis: pr.md FE-16 (P4)
+  approved_exception: false
+- standard_id: FE-16
+  severity: P4
+  file: core/components/memory/knowledge/technology/ux-accessibility-floor.md
+  line: 1
+  evidence: core/components/memory/knowledge/technology/ux-accessibility-floor.md
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-16
+  category: memory
+  basis: pr.md FE-16 (P4)
+  approved_exception: false
+- standard_id: FE-16
+  severity: P4
+  file: core/components/memory/knowledge/technology/ux-design-system-tokens.md
+  line: 1
+  evidence: core/components/memory/knowledge/technology/ux-design-system-tokens.md
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-16
+  category: memory
+  basis: pr.md FE-16 (P4)
+  approved_exception: false
+- standard_id: FE-16
+  severity: P4
+  file: core/components/memory/knowledge/technology/ux-forms-and-validation.md
+  line: 1
+  evidence: core/components/memory/knowledge/technology/ux-forms-and-validation.md
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-16
+  category: memory
+  basis: pr.md FE-16 (P4)
+  approved_exception: false
+- standard_id: FE-16
+  severity: P4
+  file: core/components/memory/knowledge/technology/ux-navigation-by-shape.md
+  line: 1
+  evidence: core/components/memory/knowledge/technology/ux-navigation-by-shape.md
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-16
+  category: memory
+  basis: pr.md FE-16 (P4)
+  approved_exception: false
+- standard_id: FE-16
+  severity: P4
+  file: core/components/memory/knowledge/technology/ux-responsive-default-adaptive-on-evidence.md
+  line: 1
+  evidence: core/components/memory/knowledge/technology/ux-responsive-default-adaptive-on-evidence.md
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-16
+  category: memory
+  basis: pr.md FE-16 (P4)
+  approved_exception: false
+- standard_id: FE-16
+  severity: P4
+  file: core/components/memory/knowledge/technology/ux-state-and-feedback.md
+  line: 1
+  evidence: core/components/memory/knowledge/technology/ux-state-and-feedback.md
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-16
+  category: memory
+  basis: pr.md FE-16 (P4)
+  approved_exception: false
+- standard_id: FE-16
+  severity: P4
+  file: core/components/memory/knowledge/technology/validation-floor-profile-benchmarks.md
+  line: 1
+  evidence: core/components/memory/knowledge/technology/validation-floor-profile-benchmarks.md
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-16
+  category: memory
+  basis: pr.md FE-16 (P4)
+  approved_exception: false
+- standard_id: FE-16
+  severity: P4
+  file: core/components/memory/standards/rules/builder-isolation.md
+  line: 1
+  evidence: core/components/memory/standards/rules/builder-isolation.md
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-16
+  category: memory
+  basis: pr.md FE-16 (P4)
+  approved_exception: false
+- standard_id: FE-16
+  severity: P4
+  file: core/components/memory/standards/rules/no-unbacked-recommendation.md
+  line: 1
+  evidence: core/components/memory/standards/rules/no-unbacked-recommendation.md
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-16
+  category: memory
+  basis: pr.md FE-16 (P4)
+  approved_exception: false
+- standard_id: FE-16
+  severity: P4
+  file: core/components/memory/standards/schemas/product-os/lens/measure.yaml
+  line: 1
+  evidence: core/components/memory/standards/schemas/product-os/lens/measure.yaml
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-16
+  category: memory
+  basis: pr.md FE-16 (P4)
+  approved_exception: false
+- standard_id: FE-16
+  severity: P4
+  file: core/components/memory/standards/schemas/product-os/ontology.md
+  line: 1
+  evidence: core/components/memory/standards/schemas/product-os/ontology.md
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-16
+  category: memory
+  basis: pr.md FE-16 (P4)
+  approved_exception: false
+- standard_id: TEST-09
+  severity: P4
+  file: core/components/memory/standards/schemas/product-os/ontology.md
+  line: 200
+  evidence: Snapshot
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-09
+  category: memory
+  basis: pr.md TEST-09 (P4)
+  approved_exception: false
+- standard_id: BE-23
+  severity: P4
+  file: core/components/memory/standards/schemas/product-os/ontology.md
+  line: 202
+  evidence: lock
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-23
+  category: memory
+  basis: pr.md BE-23 (P4)
+  approved_exception: false
+- standard_id: BE-23
+  severity: P4
+  file: core/components/memory/standards/schemas/product-os/ontology.md
+  line: 204
+  evidence: lock
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-23
+  category: memory
+  basis: pr.md BE-23 (P4)
+  approved_exception: false
+- standard_id: FE-16
+  severity: P4
+  file: core/components/memory/standards/templates/adr.md
+  line: 1
+  evidence: core/components/memory/standards/templates/adr.md
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-16
+  category: memory
+  basis: pr.md FE-16 (P4)
+  approved_exception: false
+- standard_id: CODE-13
+  severity: P4
+  file: core/components/plays/install-garura/scripts/install.py
+  line: 1
+  evidence: core/components/plays/install-garura/scripts/install.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-13
+  category: executable-code
+  basis: pr.md CODE-13 (P4)
+  approved_exception: false
+- standard_id: CODE-19
+  severity: P4
+  file: core/components/plays/install-garura/scripts/install.py
+  line: 1
+  evidence: core/components/plays/install-garura/scripts/install.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-19
+  category: executable-code
+  basis: pr.md CODE-19 (P4)
+  approved_exception: false
+- standard_id: FE-16
+  severity: P4
+  file: core/components/plays/install-garura/scripts/install.py
+  line: 1
+  evidence: core/components/plays/install-garura/scripts/install.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-16
+  category: executable-code
+  basis: pr.md FE-16 (P4)
+  approved_exception: false
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-13
+  category: executable-code
+  basis: pr.md CODE-13 (P4)
+  approved_exception: false
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-19
+  category: executable-code
+  basis: pr.md CODE-19 (P4)
+  approved_exception: false
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/memory/pull.py
+  line: 1
+  evidence: core/tools/memory/pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-13
+  category: executable-code
+  basis: pr.md CODE-13 (P4)
+  approved_exception: false
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/memory/pull.py
+  line: 1
+  evidence: core/tools/memory/pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-19
+  category: executable-code
+  basis: pr.md CODE-19 (P4)
+  approved_exception: false
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/memory/test_pull.py
+  line: 1
+  evidence: core/tools/memory/test_pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-13
+  category: tests
+  basis: pr.md CODE-13 (P4)
+  approved_exception: false
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/memory/test_pull.py
+  line: 1
+  evidence: core/tools/memory/test_pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-19
+  category: tests
+  basis: pr.md CODE-19 (P4)
+  approved_exception: false
+counts:
+  P1: 1
+  P2: 57
+  P3: 44
+  P4: 58
+counts_by_category:
+  executable-code:
+    P1: 0
+    P2: 29
+    P3: 36
+    P4: 10
+  memory:
+    P1: 0
+    P2: 9
+    P3: 0
+    P4: 46
+  tests:
+    P1: 1
+    P2: 19
+    P3: 8
+    P4: 2
+counts_by_rule:
+- standard_id: DATA-18
+  severity: P1
+  count: 1
+- standard_id: ARCH-02
+  severity: P2
+  count: 5
+- standard_id: BE-19
+  severity: P2
+  count: 28
+- standard_id: CODE-03
+  severity: P2
+  count: 5
+- standard_id: CODE-04
+  severity: P2
+  count: 5
+- standard_id: CODE-14
+  severity: P2
+  count: 5
+- standard_id: DATA-17
+  severity: P2
+  count: 1
+- standard_id: SEC-23
+  severity: P2
+  count: 8
+- standard_id: ARCH-03
+  severity: P3
+  count: 5
+- standard_id: ARCH-08
+  severity: P3
+  count: 5
+- standard_id: CODE-09
+  severity: P3
+  count: 5
+- standard_id: CODE-10
+  severity: P3
+  count: 5
+- standard_id: CODE-11
+  severity: P3
+  count: 5
+- standard_id: CODE-12
+  severity: P3
+  count: 5
+- standard_id: CODE-15
+  severity: P3
+  count: 5
+- standard_id: CODE-17
+  severity: P3
+  count: 5
+- standard_id: CODE-25
+  severity: P3
+  count: 2
+- standard_id: TEST-14
+  severity: P3
+  count: 1
+- standard_id: TEST-18
+  severity: P3
+  count: 1
+- standard_id: BE-23
+  severity: P4
+  count: 3
+- standard_id: CODE-13
+  severity: P4
+  count: 5
+- standard_id: CODE-19
+  severity: P4
+  count: 5
+- standard_id: FE-16
+  severity: P4
+  count: 44
+- standard_id: TEST-09
+  severity: P4
+  count: 1
+p1_summary:
+- standard_id: DATA-18
+  file: core/tools/memory/test_pull.py
+  line: 46
+  basis: pr.md DATA-18 (P1)
+  approved_exception: true
+runnable_checks:
+- command: cd core/tools/memory && python3 test_pull.py
+  result: PASS
+  evidence: Ran 12 tests, OK (temp folders and bytecode kept out of the repo for the run)
+- command: ruff check --no-cache core/tools/memory/pull.py core/tools/memory/test_pull.py core/tools/memory/contract/check_contract.py core/components/plays/install-garura/scripts/install.py core/components/memory/knowledge/domains/.pageindex/pageindex.py
+  result: PASS
+  evidence: All checks passed!
+observations:
+- 'How to read the counts: path-only rules (ARCH-*, CODE-*, FE-16, TEST-14, TEST-18) fire once per matching path at line 1 with the path as evidence. They record that the rule applies to the file; the scan does not measure a violation (no complexity, cycle or length score is computed). Grep rules fire on a case-insensitive match of the word anywhere in an added line.'
+- 'Grep hits that are ordinary words, from the evidence column itself: BE-19 matches ''from'', ''join'' and ''select'' (28 findings, in markdown prose and in Python import and os.path.join lines); BE-23 matches ''lock'' (3) and TEST-09 matches ''Snapshot'' (1) in knowledge prose. SEC-23 matches os.environ in pull.py (2 lines) and test_pull.py (6 lines).'
+- FE-16 (44 findings) fired because the glob **/{components,ui}/** matches the components folder in the path of every file under core/components/ (the 42 memory-category files, pageindex.py under the memory folder, and install.py). The folder name, not UI code, is the match.
+- TEST-14 and TEST-18 fired on core/tools/memory/contract/check_contract.py because the folder is named 'contract'; the rules look for contract/pact test folders by name.
+- CODE-25 fired on 'except ' at pull.py lines 119 and 161 (added lines, grep rule).
+- No finding on .garura/core/config.yaml (config-maps), and no taxonomy rows failed to compile.

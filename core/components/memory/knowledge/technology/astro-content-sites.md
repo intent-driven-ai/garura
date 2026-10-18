@@ -8,7 +8,7 @@ conditions:
   persistence: none
   audience: readers-and-sharers
 evolve_when: []
-provenance: "documented (a working content-site setup — preferred Astro setup)"
+provenance: "documented (a working content-site setup — the preferred Astro setup)"
 ---
 
 # Astro content sites: file-based markdown, SSR on Node, with a coauthor edit loop

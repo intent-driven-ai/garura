@@ -6,7 +6,7 @@ conditions:
   delivery: agent-led
   stage: any
 evolve_when: []
-provenance: "documented (Kapil, #434 — validate interview, 2026-06-12)"
+provenance: "documented (#434 — validate interview, 2026-06-12)"
 ---
 
 # Regression scoped to the blast radius, narrowing every fix round
@@ -46,4 +46,4 @@ a real dependency) → widen the scope derivation (e.g. add dependency-graph
 expansion) via /learn, don't fall back to full-suite.
 
 ## Provenance
-documented (Kapil, #434 — validate interview, 2026-06-12).
+documented (#434 — validate interview, 2026-06-12).

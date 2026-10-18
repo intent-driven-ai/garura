@@ -6,7 +6,7 @@ conditions:
   surface: agentic-feature
   stage: any
 evolve_when: []
-provenance: "seeded (Kapil + assistant, #434 — agentic seed)"
+provenance: "seeded (#434 — agentic seed)"
 ---
 
 # Agent orchestration patterns: from single agent to multi-agent, and when each fits
@@ -55,4 +55,4 @@ separable specialties, or needs parallelism → introduce a router, a pipeline, 
 supervisor — the smallest step that closes the specific gap.
 
 ## Provenance
-seeded (Kapil + assistant, #434).
+seeded (#434).

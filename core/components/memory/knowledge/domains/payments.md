@@ -4,12 +4,12 @@ title: "Payments: taking money safely — PSP-first, PCI-scope-minimised"
 conditions:
   trigger: "the product takes money — card charges, wallets, refunds, fraud control"
   selection_keys: [shape.monetization, nfr.security, compliance, fraud-risk, regions]
-provenance: Claude-drafted on delegation, reviewed and accepted by Kapil (#434) + distilled from the wiped payments shelf
+provenance: Claude-drafted on delegation, reviewed and accepted (#434) + distilled from the wiped payments shelf
 ---
 
 # Payments: taking money safely
 
-> **Claude-drafted on delegation; reviewed and accepted by Kapil (#434).** Kapil
+> **Claude-drafted on delegation; reviewed and accepted (#434).** The person
 > asked me to take the first pass here rather than be interviewed, and signed off on
 > this version. Payments is infrastructure, not the content-led strength of this
 > practice, so it's treated as a likely **hand-off / partner domain** — same logic
@@ -104,6 +104,6 @@ heavy payments work — same logic as commerce-heavy `ecommerce`.
 - Repeat purchase becomes the norm → add saved methods / one-click.
 
 ## Provenance
-Claude-drafted on delegation, reviewed and accepted by Kapil (#434). Distilled from
+Claude-drafted on delegation, reviewed and accepted (#434). Distilled from
 the wiped `payments.md` and re-expressed against the v1 product profile and the
 locked shelf template. Treated as a likely hand-off / partner domain.

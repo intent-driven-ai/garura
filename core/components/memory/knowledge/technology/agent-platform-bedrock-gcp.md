@@ -8,7 +8,7 @@ conditions:
   stage: any
 evolve_when:
   - technology/agent-deploy-dev-uat-prod
-provenance: "documented (Kapil, #434 — preferred agent platforms) + assistant"
+provenance: "documented (#434 — preferred agent platforms) + assistant"
 ---
 
 # Agent platform: build on AWS Bedrock and GCP Vertex AI — managed models, tools, and guardrails
@@ -56,4 +56,4 @@ The agent is built and working in dev → it needs an environment-promotion and 
 story before it reaches users. See `technology/agent-deploy-dev-uat-prod`.
 
 ## Provenance
-documented (Kapil, #434) + assistant.
+documented (#434) + assistant.

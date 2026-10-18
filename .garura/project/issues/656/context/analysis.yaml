@@ -1,0 +1,30 @@
+needs_judgment: true
+change_groups:
+- id: plan-review-outcome
+  issue: 656
+  concern: 'the #656 plan records the PR #671 review outcome'
+  commit_type: chore
+  scope: plan
+  subject: record the review outcome and fixes in the plan
+  confidence: high
+  files:
+  - .garura/project/issues/656/specs/plan.md
+  notes: 'Planning text only: new item 4b (review fixes built, not merged) and a dated progress line. Committed last because
+    it describes the two groups above. Follows the earlier chore(plan) commits for this plan. Rendered message is 67 characters.'
+  risks:
+    sensitive_files: []
+    breaking_changes: []
+exclusions: []
+risks:
+  sensitive_files: []
+eval_gates:
+  SE-1:
+    status: PASS
+    evidence: 3 concern groups on one single-issue branch (memory wording fixes, the approved test-comment exception, the
+      plan record); every changed file from the scan is in exactly one group, except the two run artifacts under context/
+      which go to the executor's final chore(stm) commit; all three rendered subjects are under 72 characters (71, 68, 67)
+  SE-5:
+    status: PASS
+    evidence: no sensitive filename patterns matched; no sensitive content patterns (password/api_key/secret/token/private_key)
+      in added lines of the diff. The one DATA-18 item (t@example.com in test_pull.py) is untouched context, not an added
+      line, and is a reviewer-approved exception
