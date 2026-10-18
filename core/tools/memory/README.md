@@ -4,8 +4,47 @@ The one way agents find memory and update it. Today it works on folders. Later i
 server in Griffin. Agents that call it do not change when that happens, because they only ever
 talk to this tool, through the contract in `contract/v1.json`.
 
-This folder holds the contract (version 1), sample answers and the check that keeps them in
-step. The tool itself is built against this contract in a later step.
+This folder holds the contract (version 1), sample answers, the check that keeps them in
+step, and the tool: `memory.py`. Today the tool answers `health`, `find`, `search`, `read`,
+`pull` and `pulled`. The memory-update commands (`propose`, `updates`, `decide`, `apply`) and
+`cite` come in later steps.
+
+## Running the tool
+
+```
+python3 memory.py health
+python3 memory.py search --issue 657 --pattern "reset link" --ignore-case --max 20
+python3 memory.py read --issue 657 --tier phoenix --path knowledge/domains/user-management.md --start 1 --end 5
+python3 memory.py find --request '{"issue": 657, "glob": "**/user-management.md"}'
+```
+
+Each request field is a flag, or the whole request is one JSON object (`--request`). Each
+answer is one JSON object per line. A request the contract does not allow is refused with
+`bad_request` before any memory is read.
+
+The tool learns where each tier lives from one source: the JSON file `MEMORY_SETTINGS` names
+(places in it are relative to the file), else these environment variables:
+
+| Setting | Environment | What |
+|---|---|---|
+| `short-term` | `MEMORY_SHORT_TERM_ROOT` | The folder that holds one folder per issue |
+| `garura` | `MEMORY_GARURA_ROOT` | Garura memory's folder. If the short-term folder sits inside it, that part is short-term memory, not Garura memory |
+| `phoenix` | `MEMORY_PHOENIX_ROOT` | Phoenix memory's git repository |
+| `phoenix_ref` | `MEMORY_PHOENIX_REF` | Phoenix memory's approved version (default `origin/main`) |
+| `garura_pull_dir` | `MEMORY_GARURA_PULL_DIR` | Where pulled pieces land inside Garura memory (default: its root) |
+| `engine` | `MEMORY_ENGINE` | `folder`, the only engine built. A server engine is one setting away |
+
+Two rules the folder engine keeps:
+
+- **Phoenix memory is read only at its approved version**, the commit `phoenix_ref` names. A
+  change reaches Phoenix memory when a person approves it outside Garura; until then — on a
+  branch, or edited on disk — the tool does not read it.
+- **Memory that is used is saved.** When an agent reads a file from Phoenix memory, the tool
+  pulls it into Garura memory, so the next lookup answers from the project. A search hit alone
+  pulls nothing.
+
+`pull.py` holds the Phoenix side (the approved files, `pull`, `pulled`); its own command line
+stays for direct use.
 
 ## The three tiers
 
@@ -169,10 +208,14 @@ From this folder:
 ```
 python3 contract/check_contract.py
 python3 contract/test_check_contract.py
+python3 test_memory.py
+python3 test_pull.py
 ```
 
 The first checks every sample in `contract/samples/` against the contract's shapes and its
 answer rules, checks that every sample in `contract/samples/broken/` fails, and checks the
 folder's boundary: no path into a project, the framework's source or a home folder, and no
 import from outside the standard library or the folder. It prints a JSON report and exits 0
-when all hold. The second tests the check itself. Both need Python 3.10 or newer.
+when all hold. The second tests the check itself. `test_memory.py` tests the tool, and puts
+every answer it gives through the same contract check. `test_pull.py` tests the Phoenix side.
+All need Python 3.10 or newer.
