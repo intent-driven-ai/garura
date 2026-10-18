@@ -1,0 +1,555 @@
+category: tool-interface-contract
+pr: 666
+issue: 655
+base: main
+task_id: null
+playbook: null
+playbook_missing: true   # no knowledge/review playbook covers a tool's interface contract; follow-up noted in notes
+
+# Every source below was read from the base ref (git show main:<path>) or is a read-only
+# issue/plan text that predates this branch. Nothing here is taken from v1.json's prose, the
+# README, the new 655 plan or the PR body; those were only tested as claims.
+grounded_principles:
+  - id: ADR035-S1-TIERS
+    statement: >
+      Memory has three tiers: Phoenix memory (global, the superset), Garura memory (the project's
+      long-term memory: the subset it pulled plus what the project makes itself: product model,
+      intents, decisions, the person's answers) and short-term memory (per issue, in the issue's
+      folder: plans, specs and context of the work). Agents also read the git repository, the
+      product model and the intents.
+    source: "docs/adr/035-agents-work-only-from-memory.md, Decision part 1 (main)"
+  - id: ADR035-S2-PULL-AND-VERSION
+    statement: >
+      A project pulls the subset it needs; a short list records what it pulled and from which
+      version of Phoenix memory. Until Griffin, Phoenix memory is a git repository and every
+      memory update is a commit, so it has history, review and versions.
+    source: "docs/adr/035-agents-work-only-from-memory.md, Decision part 2 (main)"
+  - id: ADR035-S3-LOOKUP-ORDER
+    statement: >
+      The tool looks in short-term memory first, then Garura memory, then Phoenix memory, and
+      stops at the first tier that answers. A piece the project has not pulled yet does not
+      stop a play: the tool finds it a level up. (Kapil: "this is not blocking".)
+    source: "docs/adr/035-agents-work-only-from-memory.md, Decision part 3 (main)"
+  - id: ADR035-S4-ONE-TOOL
+    statement: >
+      Agents and skills never read or write memory by a path. They call one memory tool, a
+      command-line tool that both finds and updates memory, over all three tiers, so every
+      answer is cited the same way. The tool sits outside Garura; when it moves to Griffin the
+      impact on Garura and the agents is zero. It searches the way Claude Code does (find
+      files, search text, read exact lines).
+    source: "docs/adr/035-agents-work-only-from-memory.md, Decision part 4 (main)"
+  - id: ADR035-S5-PERSON-APPROVES
+    statement: >
+      When no tier answers, the agent raises a memory update (what is missing, a drafted entry).
+      The model or the web may help draft it. Nothing in it is used until a person approves it.
+      The approved update is written to memory first (Garura memory for what only this project
+      needs, Phoenix memory for what any project could use). Until the memory review exists a
+      person approves by typing. Holds for every agent and skill.
+    source: "docs/adr/035-agents-work-only-from-memory.md, Decision part 5 (main)"
+  - id: ADR035-S6-EVERY-DECISION-NAMES-MEMORY
+    statement: >
+      Every decision an agent makes names the memory it came from: the tier, the file and the
+      lines. This widens ADR 034 section 4 from a play's answers inside a drive to every decision.
+      The shape is settled in plan item 6.
+    source: "docs/adr/035-agents-work-only-from-memory.md, Decision part 6; docs/adr/034-plays-answer-from-memory-inside-a-drive.md, Decision part 4 (main)"
+  - id: ADR034-S4-NO-ANSWER-WITHOUT-SOURCE
+    statement: >
+      Every answer a play takes from memory is recorded with where it came from. An answer with
+      no source is not allowed.
+    source: "docs/adr/034-plays-answer-from-memory-inside-a-drive.md, Decision part 4 (main)"
+  - id: ADR035-NOT-DECIDED-HERE
+    statement: >
+      Left open by ADR 035: (1) whether ADR 034's learned checkpoint answers stay on the list of
+      memory; (2) whether files a play passes between its own steps (ADR 011; ADR 016 stm paths)
+      also go through the tool; (3) whether a drive goes on while one update waits; (4) where in
+      .garura/ Garura memory lives. The base 653 plan item 1 says (1) and (2) are "left to the
+      stories". Issue 655's text asks the story to settle (1) and (2).
+    source: "docs/adr/035-agents-work-only-from-memory.md, Consequences / Not decided here; .garura/project/issues/653/specs/plan.md item 1 (main); gh issue view 655 (read only)"
+  - id: ADR034-S6-CHECKPOINTS-NOT-QUESTIONS
+    statement: >
+      ADR 034 is about questions, not checkpoints. A pinned checkpoint always fires and "the
+      learned checkpoint answers do not answer it".
+    source: "docs/adr/034-plays-answer-from-memory-inside-a-drive.md, Decision part 6 (main)"
+  - id: GATECONFIG-LEDGER-HOLDS-VERDICTS
+    statement: >
+      The learned-gate ledger records, per crossing, the change shape, the predicted outcome and
+      the human action (approved_clean, approved_edited, rejected, auto_pass,
+      deferred_to_drive_review). Conditional gates auto-pass from that learned policy, so a
+      checkpoint approval can be resolved with no person answering at that moment.
+    source: "core/components/memory/standards/rules/gate-config.md, 'The three gate kinds' and 'The live-eval loop' (main)"
+  - id: ADR011-STM-PATHS-ARE-THE-CONTRACT
+    statement: >
+      Skills write structured data to STM files and hand the next step a path; the downstream
+      skill reads that path explicitly. "Paths are the contract, not data shapes." ADR 016's
+      stm.input / stm.output carry the same named paths. ADR 035 amends ADR 016 only for
+      ltm_context, resolution_trace_path and the Resolution Protocol Hook, and ADR 009 only for
+      Rule 3; ADR 011 is untouched.
+    source: "docs/adr/011-stm-as-inter-skill-data-transport.md, Rules 1-3; docs/adr/016-agent-json-contract.md; docs/adr/035 Decision part 9 (main)"
+  - id: ADR008-STM-PER-ISSUE-AND-PENDING
+    statement: >
+      STM is issue-centric, under .garura/project/issues/{issue}/. Work can start without an
+      issue (exploration); before the issue number exists, STM is written to _pending/ and moved
+      into the issue's folder in the same run.
+    source: "docs/adr/008-issue-centric-stm-and-nwwi.md, Decision parts 1, 2 and 4; core/grounding/glossary.md 'STM' and 'NWWI' rows (main)"
+  - id: ADR009-R4-FAILURE-IS-LOUD
+    statement: >
+      Failure is loud. A missing memory reference fails visibly, not silently. Rule 4 stands
+      after ADR 035 ("Rules 1, 2, 4 and 5 stand").
+    source: "docs/adr/009-skill-ltm-organizational-knowledge.md, Rules 4 (main); docs/adr/035 Decision part 9"
+  - id: ADR033-APPROVAL-IS-ABOUT-EXACT-WORDS
+    statement: >
+      Approval means a person accepted these exact words: the approved thing keeps a fingerprint
+      of its words, who approved, when, and in which review. Only the review step writes
+      approval, from a person's answers; the tool shows and records, it does not approve. (Scope
+      of ADR 033 is the product model; used here as the committed pattern ADR 035 lists as Related.)
+    source: "docs/adr/033-approval-in-the-product-model.md, Decision parts 2 and 6; ADR 035 'Related' (main)"
+  - id: PLAN653-ITEM2-SCOPE-AND-RULES
+    statement: >
+      Item 2 (the contract): commands to find memory (find, search, read, go up to Phoenix
+      memory, cite) and to update it (pull, propose, list updates, apply); what each returns and
+      its errors. "Same rules as the review tool: its own folder, a version number, no Garura
+      names inside, the engine behind it swappable." Plan-done bar: every result carries tier,
+      file, lines and fingerprint; "Missing memory is an error, never 'nothing found'". Item 5:
+      draft marked as from the person, the web or the model. Item 11: waiting updates are
+      approved, changed or rejected.
+    source: ".garura/project/issues/653/specs/plan.md items 2, 5, 11 and 'When this plan is done' (main); issue 655 text (read only)"
+  - id: REVIEWTOOL-S1-EXTRACTABLE
+    statement: >
+      An extractable tool: (1) one folder, own README, tests and version, imports no Garura code,
+      reads no Garura path; (2) Garura words are data, not code; (3) talks only through the
+      contract, a JSON schema in the tool's folder, with a test on the Garura side that checks
+      what Garura sends against it; (4) storage behind one small door; (5) settings from outside;
+      (6) everything bundled; (7) a boundary check, a test in Garura's lint, fails if any file in
+      the tool's folder mentions .garura, core/components or imports from outside its folder;
+      (8) the move is copy the folder, change one address.
+    source: ".garura/project/issues/617/specs/review-tool.md section 1 (main)"
+  - id: KBDESIGN-DURABLE-SWAPPABLE
+    statement: >
+      The search engine is disposable; the content and the contract are not. Design the contract
+      for the end state and let version 1 be a crude engine behind it; agents and skills above it
+      do not change. "A CLI, not MCP". ADR 035 deliberately replaces the planned facet matching,
+      ranking and semantic search with the memory tool's Claude Code-style search and keeps
+      "a CLI, not MCP".
+    source: "core/components/memory/knowledge/_DESIGN.md (LOCKED, main); docs/adr/035 Affects and Decision part 9"
+  - id: PR-SEVERITY-TAXONOMY
+    statement: "P1 blocker (security, auth, data loss, breaking contract); P2 major; P3 minor; P4 nit."
+    source: "core/components/memory/standards/rules/pr.md, Severity buckets (main)"
+
+verification:
+  grounding_unavailable: false
+  mechanical_checks_run_read_only:
+    note: >
+      The contract's own check was loaded in a throwaway interpreter (no bytecode written) and
+      fed hand-edited copies of the shipped samples. Each edited sample below is still
+      accepted by check_sample() against v1.json, so each rule named is not held by the
+      contract or its check today.
+    results:
+      - "i   apply returns ok:true for an update with status waiting, decided_by null, reply null: ACCEPTED"
+      - "ii  decide approve with by and decided_by set to the requesting agent ('product-os-keeper (/vision)'): ACCEPTED"
+      - "iii propose returns an update already status approved, with decided_by and reply set: ACCEPTED"
+      - "iv  apply writes to phoenix with written.version null: ACCEPTED"
+      - "v   search with every_tier where answered_by is not the first tier that has a hit: ACCEPTED (request_rules.every_tier_answered_by is prose only)"
+      - "vi  propose with draft_source web and sources []: ACCEPTED"
+      - "vii decide with verdict reject answered with update.status approved: ACCEPTED"
+      - "viii cite for issue 613 answered with stored.path under 999/: ACCEPTED"
+
+verdicts:
+  - point: "Pointer (a): eleven commands against the nine the issue lists"
+    verdict: >
+      CONFORMS, with the weight on one command. The issue and base plan item 2 list nine: find,
+      search, read, go up to Phoenix memory, cite, pull, propose, updates, apply. The contract
+      has eight of them as commands and realises "go up to Phoenix memory" as the lookup itself
+      (find and search fall through the tiers; tier and every_tier address Phoenix directly),
+      which is exactly what ADR 035 part 3 says ("the tool finds it a level up"). It adds three:
+      health (ADR 035 part 8 and plan item 7: the install checks the tool reaches each tier),
+      pulled (ADR 035 part 2: a short list of what was pulled and from which version; plan item
+      3: a check shows which pieces are behind) and decide (ADR 035 part 5 and plan items 5, 11:
+      a person approves by typing, then later in the memory review). All three trace to committed
+      text, so the count is not a defect. health and pulled pre-decide the interfaces of items 7
+      and 3 (#660, #656); acceptable for a contract meant to be built against. decide is the one
+      with design weight and carries findings TIC-1, TIC-2 and TIC-11.
+  - point: "Pointer (b): decide cannot tell a person from an agent, against ADR 035 part 5"
+    verdict: "CONFIRMED. See TIC-1 (P2) and TIC-2 (P2)."
+  - point: "Pointer (c): tier_missing against 'never blocks a play' (ADR 035 part 3)"
+    verdict: >
+      CONFORMS. ADR 035 part 3 is about a piece the project has not pulled ("the tool finds it a
+      level up"), not about an unconfigured or unreachable tier; the contract's reading
+      (lookup_rule, line 17) is the same as the ADR's. A missing or unreachable tier is a setup
+      fault, and two committed sources want it loud: the base plan's done-bar ("Missing memory
+      is an error, never 'nothing found'") and ADR 009 Rule 4 "Failure is loud", which ADR 035
+      says stands. Reporting it as "nothing found" would also trigger a memory update (part 5)
+      for something memory may well hold. Two small gaps are recorded, not raised: the contract
+      does not say what the calling agent does on tier_missing (stop and report, never fall
+      back to the model or the web), and with every_tier one dead tier voids the answers of the
+      other two (no partial result). Both are build-story (#657, #660) decisions.
+  - point: "Pointer (d), first settlement: 'learned checkpoint answers are not memory'"
+    verdict: >
+      CONTENT CONFORMS; the record is thin. The README's claim that the ledger holds "approved
+      or not" for a kind of change matches gate-config.md (shape, predicted, human action). ADR
+      034 part 6 already separates checkpoints from questions, and ADR 035 part 1 already puts
+      "the person's answers" in Garura memory, which is where the README sends them. Issue 655
+      asks the story to settle it. The gap is only where it is written down: see TIC-4.
+  - point: "Pointer (d), second settlement: 'a play's own working files stay direct'"
+    verdict: >
+      CONTENT CONFORMS; the record is thin. ADR 011 (paths are the contract; explicit Read of
+      the given path) and ADR 016 (stm.input and stm.output) are untouched by ADR 035, so
+      routing a play's step-to-step files through the tool would have needed amendments to both.
+      Keeping them direct is the reading the committed ADRs support, and the README's "the tool
+      can still find those files later, as short-term memory" matches ADR 035 part 1 and the
+      glossary's STM row. The literal ADR 035 part 4 ("never read or write memory by a path")
+      plus part 1 (STM is the issue's folder) could be read the other way, which is exactly why
+      the ADR listed it as not decided; see TIC-4 for the record and TIC-3 for the
+      short-term scope the tool then has to honour.
+  - point: "ADR 035 part 1, tiers"
+    verdict: "CONFORMS on names, count and what each tier holds (tiers, lines 6-12). Short-term scope is TIC-3."
+  - point: "ADR 035 part 3, lookup order and stop at the first tier"
+    verdict: >
+      CONFORMS. lookup_order, the stop rule, the nothing-found rule (answered_by null only after
+      every tier was looked in) and tier_missing are in the contract and are held by answer
+      rules, three good samples and six broken ones. Opt-outs (tier, every_tier) are additions
+      ADR 035 does not name; pull and the read command need them, so they are justified.
+      Judgement recorded: the contract reads "answers" as "has at least one hit", which is the
+      only thing a tool can know; combined with TIC-3 that makes the first tier too eager.
+  - point: "ADR 035 part 4, one tool finds and updates; outside Garura"
+    verdict: >
+      CONFORMS. Both families are in one contract; requests are transport-neutral JSON (flags
+      today, request body later); engine kind is informational only (tier_health.kind). Open
+      points: how a nested field becomes a flag (TIC-12) and how a writing agent names a
+      destination (TIC-9).
+  - point: "ADR 035 part 5, memory update flow"
+    verdict: >
+      PARTLY. Raise (propose), list (updates), approve (decide), write (apply, Garura or
+      Phoenix only; short-term correctly excluded from update_tier) and the not_approved error
+      are all there, and draft_source marks person, web, model, memory. The guarantee that only
+      a person approves, and that nothing is used before then, is not representable or checked:
+      TIC-1, TIC-2, TIC-11.
+  - point: "ADR 035 part 6, every decision names its memory"
+    verdict: >
+      PARTLY. cite requires at least one source with tier, path, start, end and a sha256 of the
+      cited lines, which is the part 6 shape. It cannot name a git repository basis and it
+      cannot be called before an issue exists: TIC-5, TIC-6. It also fixes a "first version" of
+      a shape that part 6 says plan item 6 settles; the base plan lists cite in item 2, so this
+      is in scope.
+  - point: "ADR 035 part 2, pull and version"
+    verdict: >
+      CONFORMS for pull and pulled (version and fingerprint required, behind flag). One gap:
+      a Phoenix write may come back with no version (TIC-10).
+  - point: "ADR 016 / ADR 009 / ADR 017 as amended by ADR 035"
+    verdict: >
+      CONFORMS. The tool contract is a separate surface from the agent JSON contract and does
+      not bring back ltm_context, a resolution trace or a resolution hook; it fixes no Garura
+      memory path (the tool folder has no .garura or core/components string; the boundary scan
+      passes); failure is loud (tier_missing, not_found, out_of_range, not_approved, changed).
+  - point: "Knowledge base design note: durable contract, swappable engine"
+    verdict: >
+      CONFORMS. The contract is engine-neutral apart from the grep -E and shell-glob semantics
+      that ADR 035 part 4 itself adopts, and the facet-matching and ranking response shape the
+      note once called durable is deliberately replaced by ADR 035 (Affects). Template
+      discipline and reconciliation in /learn (the note's "real risk") are play and skill work
+      for items 5 and 10, not a contract matter. No finding.
+  - point: "Review tool plan section 1, extractable-tool rules"
+    verdict: >
+      MOSTLY CONFORMS. Rule 1 (own folder, README, tests, version, no Garura import, no Garura
+      path), rule 3 (contract is a JSON file in the tool's folder; the Garura-side test is a
+      later story), rule 4 (engine behind the contract) and rule 5 (settings from outside; the
+      names and shape of the settings are left to #657 and #656, as the review tool's contract
+      also leaves its settings out) hold. Rule 2 is TIC-7; rule 7 is TIC-8. Rules 6 and 8
+      cannot be tested yet.
+  - point: "find results carry tier, file and version but not lines or a fingerprint"
+    verdict: >
+      CONFORMS WITH A NAMED CARVE-OUT. The base plan's done-bar says every result carries tier,
+      file, lines and fingerprint; the contract's every_result rule exempts a file list because
+      it is not text, and a caller reads the lines to cite them. Defensible and stated in the
+      contract; not a finding.
+  - point: "Product-model approval state is not surfaced in search or read results"
+    verdict: >
+      NOT TESTABLE. ADR 034 lists "whether a play may answer from a piece not yet approved" as
+      not decided here, and ADR 033 reads approval from the model itself. No contract field is
+      required today. Flag for the citations story (#659) so cite can say whether a source piece
+      was approved.
+
+findings:
+  - id: TIC-1
+    severity: P2
+    file: "core/tools/memory/contract/v1.json (commands.decide lines 629-692, commands.propose lines 503-582, $defs.update lines 969-1058); core/tools/memory/contract/samples/decide.json"
+    finding: >
+      ADR 035 part 5 says nothing in a memory update is used until a person approves it. The
+      contract records the approval as two free-text strings, `by` (decide request) and
+      `decided_by` (update), plus the person's `reply`, on a command that sits on the same
+      agent-callable surface as `propose`. The requester is also a free string (`requested_by`,
+      for example "product-os-keeper (/vision)"). Nothing in the contract separates a person from
+      an agent, nothing forbids the requester from being the decider, and nothing says how the
+      approval is evidenced beyond the typed words. A drive (inside which, gate-config.md records,
+      no person answers at that moment: deferred_to_drive_review) or any agent can therefore
+      call decide with a person's name and the rest of the flow runs. The shipped sample shows the intended case only.
+      The check accepts a decide whose `by` is the requesting agent (verification ii).
+      Committed patterns point elsewhere: ADR 033 part 6 has the review step, not the tool or a
+      play, write approval from a person's answers; the pinned checkpoint with a typed
+      Tether/Orbit/Vanish answer is how Garura gets a person's word today; and gate-config
+      shows a checkpoint answer can be auto-resolved by the learned ledger, so "a typed
+      answer" is not by itself proof of a person.
+      Why P2 and not P1: nothing is built; this is a contract edit before any engine exists and
+      the guarantee can still be placed. It becomes a P1 (auth bypass in a shipped interface)
+      if #658 builds on v1 as it stands.
+    principle_violated: ADR035-S5-PERSON-APPROVES
+    committed_source: "docs/adr/035 Decision part 5; docs/adr/033 Decision part 6; core/components/memory/standards/rules/gate-config.md (main)"
+    suggested_direction: >
+      Decide where "a person" is established and put that in the contract, not in a summary
+      sentence. Options, not exclusive: (a) decide takes a `channel` from a closed set (typed
+      reply at a pinned checkpoint now; memory review later) and a `record` pointing at the
+      checkpoint or review record that holds the person's words, as {tier, path, start, end,
+      fingerprint}, so the approval can be checked the way cite sources are checked; (b) the
+      contract states that the requester may not be the decider, and that a reply resolved by a
+      learned checkpoint answer or by a drive is never an approval; (c) record in the plan (item
+      5, #658) that decide is invoked only by the surface a person is at (the checkpoint step, the
+      Memory view), never by an agent step, and add a broken sample for each rule.
+  - id: TIC-2
+    severity: P2
+    file: "core/tools/memory/contract/v1.json (answer_rules lines 25-31; commands.apply lines 693-765; $defs.update lines 969-1058; $defs.update_status lines 829-836); core/tools/memory/contract/check_contract.py (check_meaning)"
+    finding: >
+      The contract protects the lookup with answer rules and broken samples (no silent tier skip,
+      first answer stops, fingerprint is the text), but the approval flow, which is the
+      guarantee the whole feature rests on (ADR 035 part 5), has none. The update lifecycle
+      (waiting, approved or rejected, applied) exists only in the README and the status enum; the
+      allowed transitions, and the link between status and the decided_by, reply, decided_at and
+      applied_version fields, are not in v1.json. Hand-edited samples that the check accepts:
+      apply answering ok:true for an update that is still waiting with no decided_by
+      (verification i); propose answering an update that is already approved (iii); decide
+      reject answered with status approved (vii). The only pin on "not approved" is the error
+      code and one good sample. The contract also has no error for an illegal move (decide on
+      an applied update, apply twice).
+      Related and same cause: request_rules.every_tier_answered_by is stated in the contract
+      and not enforced by the check (v). That one belongs to the check's own review
+      (executable-code, tests) but it is the same pattern: a rule written in prose that the
+      contract's one test does not hold.
+    principle_violated: ADR035-S5-PERSON-APPROVES
+    committed_source: "docs/adr/035 Decision part 5; .garura/project/issues/653/specs/plan.md item 2 'apply an approved update' (main)"
+    suggested_direction: >
+      Add an update_rules block next to answer_rules and enforce it in check_meaning: propose
+      answers status waiting with decided_* and applied_version null; decide answers approved
+      for approve and rejected for reject, with decided_by, reply and decided_at set; apply
+      answers applied only from approved, with applied_version set; the transition table
+      (waiting to approved or rejected; approved to applied; nothing out of rejected or
+      applied); a named error for an illegal move. Add a broken sample per rule. This is the
+      cheapest place to make part 5 testable, and it needs no engine.
+  - id: TIC-3
+    severity: P2
+    file: "core/tools/memory/contract/v1.json (tiers.short-term line 8; commands.find, search, read; lookup_rule line 17); core/tools/memory/contract/samples/cite.json (stored.path '613/context/citations.jsonl')"
+    finding: >
+      ADR 035 part 1 defines short-term memory as per issue, in the issue's folder, and ADR 008
+      and the glossary scope STM to one issue. The contract describes it as "the issue's own
+      memory ... on one issue" and in the same sentence sets its root to "the folder that holds
+      one folder per issue". find, search and read take no issue; only cite and propose do. The
+      sample paths confirm it (a short-term path starts with the issue number). So a short-term
+      lookup covers every issue's plans, specs, evidence and context at once, not the issue at
+      hand. Combined with the stop rule (first tier with at least one hit stops), any pattern that
+      appears in any issue's working files, including closed issues and the notes of the very
+      branch under review, answers from short-term and the lookup never reaches Garura or
+      Phoenix memory. That turns part 3's purpose (the lowest tier answers when it truly can, so
+      curated content is protected) upside down, and it mixes other issues' working notes into
+      what an agent treats as memory.
+    principle_violated: ADR035-S1-TIERS
+    committed_source: "docs/adr/035 Decision parts 1 and 3; docs/adr/008 Decision parts 1-2; core/grounding/glossary.md STM row (main)"
+    suggested_direction: >
+      Make the issue part of a short-term lookup: an `issue` field on find, search and read
+      (required when the tier is short-term, or defaulted from the tool's settings), and say what
+      a lookup does for a parent plan or a sibling issue (an explicit `issue`, or a separate
+      command), since a feature's plan sits in another issue's folder. Fix the tier description
+      so root and scope agree, and add a sample and a broken sample for it. Doing it in v1 avoids
+      a v2 for #657.
+  - id: TIC-4
+    severity: P3
+    file: "core/tools/memory/README.md ('What is not memory', line 112 onward); .garura/project/issues/655/specs/plan.md (log); docs/adr/035-agents-work-only-from-memory.md and docs/adr/034-plays-answer-from-memory-inside-a-drive.md (unchanged by this PR)"
+    finding: >
+      Two questions ADR 035 lists under "Not decided here" are settled in this PR, in the tool's
+      README and the story's plan log (a claim: Kapil, 2026-10-18, "approve, A, A"). The content
+      conforms (see verdicts) and issue 655 asks the story to settle both. But the ADRs that
+      raised them are unchanged: ADR 034 part 2 on main still lists "the learned checkpoint
+      answers" as memory, ADR 035 still lists both as open, and neither carries a pointer to the
+      settlement. This repo records amendments on the amended ADR's Status line (034, 009, 016
+      and 017 all carry one for ADR 035), and ADR 035 part 8 has every agent read a memory guide,
+      so a reader of the ADRs, or an agent briefed from them, will find the questions open while
+      the tool's README says they are closed. The README is also not a record anyone is told to
+      consult for a decision.
+    principle_violated: ADR035-NOT-DECIDED-HERE
+    committed_source: "docs/adr/035 Consequences / Not decided here; docs/adr/034 Status line and Decision part 2; .garura/project/issues/653/specs/plan.md item 1 (main)"
+    suggested_direction: >
+      Record the two settlements where the decision trail lives: a short amendment note on ADR
+      035 (and a pointer from ADR 034 part 2) saying both questions are answered, with Kapil's
+      date, written through the adr play, not by hand. Keep the README sentence; it is a fair
+      plain-words restatement once the ADR says it. No contract change.
+  - id: TIC-5
+    severity: P3
+    file: "core/tools/memory/contract/v1.json (commands.cite lines 310-397; $defs.source lines 913-942; tier enum lines 776-781)"
+    finding: >
+      ADR 035 part 1 and ADR 034 (as amended) name the git repository, the product model and the
+      intents as things agents read alongside the tiers, and ADR 034 part 4 says an answer with no
+      source is not allowed. cite requires at least one source and a source's `tier` is one of
+      the three memory tiers. The product model and intents live in Garura memory, so those can
+      be cited. A decision that rests on the repository (a code fact, a commit) cannot be named:
+      the agent must either skip the citation (breaking part 6 "every decision") or cite an
+      unrelated memory piece to satisfy minItems 1.
+    principle_violated: ADR035-S6-EVERY-DECISION-NAMES-MEMORY
+    committed_source: "docs/adr/035 Decision parts 1 and 6; docs/adr/034 Decision part 4 (main)"
+    suggested_direction: >
+      Decide whether the repository is a citable basis. If yes, add a second source kind (for
+      example repository: path, lines, commit) to $defs.source; if no, say so in the contract
+      and in the citations story (#659) so agents know a repository-only decision is out of
+      part 6's scope.
+  - id: TIC-6
+    severity: P3
+    file: "core/tools/memory/contract/v1.json (commands.cite request, `issue`: integer minimum 1, required)"
+    finding: >
+      ADR 008 allows work to start before an issue exists and parks its STM in _pending/ until
+      the number is known (start-feature, start-change). cite requires an issue number of at
+      least 1, so a decision made in that phase cannot name its memory; part 6 applies to
+      "every decision". propose treats `issue` as optional, so the two commands disagree on
+      the same point.
+    principle_violated: ADR035-S6-EVERY-DECISION-NAMES-MEMORY
+    committed_source: "docs/adr/035 Decision part 6; docs/adr/008 Decision parts 1 and 4; core/grounding/glossary.md NWWI row (main)"
+    suggested_direction: >
+      Let cite take the pending location (issue optional, with the tool writing to the pending
+      area and the existing move at the end of the run carrying it), or state that decisions
+      before the issue exists are recorded after it does. Make cite and propose agree.
+  - id: TIC-7
+    severity: P3
+    file: "core/tools/memory/contract/v1.json (tiers lines 7-11; lookup_order; $defs.tier, $defs.update_tier, commands.pull.tier const 'garura'; descriptions citing 'ADR 035 §n' on lines 17, 311 and 504)"
+    finding: >
+      The base plan item 2 asks for "no Garura names inside" and the review tool plan's rule 2
+      says Garura words are data, not code (a product other than Garura could send its own
+      kinds). The contract hard-wires `garura` and `phoenix` as tier identifiers in three enums
+      and one const, and its prose cites Garura decision records by number. ADR 035 itself names
+      the tiers "Garura memory" and "Phoenix memory", and the issue's "Not in this story" only bars
+      a Garura path and Garura code, so this is a trade-off rather than a plain violation; what is
+      missing is a recorded choice. Renaming a tier later is a v2.
+    principle_violated: REVIEWTOOL-S1-EXTRACTABLE
+    committed_source: ".garura/project/issues/617/specs/review-tool.md section 1 rule 2; .garura/project/issues/653/specs/plan.md item 2 (main)"
+    suggested_direction: >
+      Choose and write down one of: (a) accept that the three tier names are the memory
+      system's own vocabulary (ADR 035) and drop only the ADR-number citations from the
+      contract text; or (b) make the tier names settings data (an id, a label and a role such as
+      issue, project, global) with lookup_order as data, and keep the enum out of the schema.
+  - id: TIC-8
+    severity: P3
+    file: "core/tools/memory/contract/check_contract.py (check_boundary, FORBIDDEN); core/tools/lint-components/ (not changed by this PR)"
+    finding: >
+      Rule 7 of the extractable-tool plan puts the boundary check in Garura's lint, so that the
+      tool cannot move or change its own wall. Here the boundary scan is part of the tool's own
+      check_contract.py, runs only when someone runs that script (the play executes it), and
+      nothing on the Garura side (lint-components, the release workflow) calls it. The tool's
+      folder polices itself, and a later edit that weakens FORBIDDEN passes silently. Rule 3's
+      Garura-side contract test is correctly left to a later story; rule 7 is not tied to a
+      later story anywhere in the plan.
+    principle_violated: REVIEWTOOL-S1-EXTRACTABLE
+    committed_source: ".garura/project/issues/617/specs/review-tool.md section 1 rules 3 and 7 (main)"
+    suggested_direction: >
+      Name the story that wires check_contract.py (or an equivalent boundary rule) into
+      Garura's lint, for example #657 or #663 alongside the memory-path rule, and keep the
+      in-folder check as the tool's own guard. Cheap to record now.
+  - id: TIC-9
+    severity: P3
+    file: "core/tools/memory/contract/v1.json (commands.propose, target_path lines 519-525; commands.pull; $defs.update.target_path); core/tools/memory/contract/samples/propose.json"
+    finding: >
+      ADR 035 part 4 says agents never read or write memory by a path and that a move to Griffin
+      has zero impact on agents; plan item 10 ends in a lint rule that fails any component naming
+      a memory path. To write, the agent chooses `target_path` itself (the sample has
+      "product-os/decisions/payment-providers.md"), so every writing agent must carry the layout of
+      Garura or Phoenix memory in its instructions, and any change to that layout (a Griffin
+      tier, a re-folder) reaches every agent. Search by glob is inherent to the Claude
+      Code-style search the ADR adopts; choosing a write destination is a different thing.
+    principle_violated: ADR035-S4-ONE-TOOL
+    committed_source: "docs/adr/035 Decision part 4 and Affects; .garura/project/issues/653/specs/plan.md items 10 (main)"
+    suggested_direction: >
+      Let propose name what the entry is (a kind and a name) and let the engine map it to a
+      path, or state that target_path is always found through find (an existing sibling) and
+      never written into an agent. Decide before #658 and the memory-path lint (#663) are written.
+  - id: TIC-10
+    severity: P3
+    file: "core/tools/memory/contract/v1.json (commands.apply written.version, $defs.version lines 815-820, $defs.update.applied_version)"
+    finding: >
+      ADR 035 part 2: every memory update is a commit, so it has history, review and versions;
+      pull records the version, and pull and pulled already require a non-empty one. apply is
+      the other write, and its `written.version` and `applied_version` may be null for any tier,
+      including Phoenix (verification iv). A Phoenix write without a version breaks the
+      behind check the project relies on for what it pulled next.
+    principle_violated: ADR035-S2-PULL-AND-VERSION
+    committed_source: "docs/adr/035 Decision part 2 (main)"
+    suggested_direction: >
+      Add an answer rule: an apply to phoenix returns a non-null version (and applied_version),
+      with a broken sample; garura may stay null.
+  - id: TIC-11
+    severity: P3
+    file: "core/tools/memory/contract/v1.json (commands.decide, verdict enum lines 638-643; $defs.update)"
+    finding: >
+      Two gaps in how a person's word is recorded. (1) The verdicts are approve and reject; the
+      base plan's item 11 has the person approve, change or reject a waiting update (for
+      example send it to Phoenix instead of Garura, or fix the wording). With no change verb
+      the only route is reject and propose again, and adding it later is a new contract
+      version. (2) The approval is not tied to the words approved: ADR 033's pattern is "a
+      person accepted these exact words" with a fingerprint, who and when; here the update
+      keeps who, when and the reply but no fingerprint of the draft the person saw, so an
+      engine that lets a draft change between propose and decide cannot be caught by the
+      contract.
+    principle_violated: ADR033-APPROVAL-IS-ABOUT-EXACT-WORDS
+    committed_source: "docs/adr/033 Decision part 2; .garura/project/issues/653/specs/plan.md item 11 (main)"
+    suggested_direction: >
+      Add `draft_fingerprint` to decide (and keep it on the update), and either add a change
+      verdict now or record in plan item 11 that a v2 adds it.
+  - id: TIC-12
+    severity: P3
+    file: "core/tools/memory/contract/v1.json (description line 6); core/tools/memory/README.md (line 41 'On the command line its fields are the flags')"
+    finding: >
+      ADR 035 part 4 and the KB note make the agent-facing surface a command-line tool, and
+      the plan has the contract say "what each returns". The command-line form is defined by one
+      sentence ("its fields are the flags"). cite and propose carry an array of objects
+      (`sources`), which has no flag form; nothing says how a boolean, an array or a multi-line
+      draft is passed, what stdout and stderr carry, or what the exit code is for ok:false. #657
+      builds the tool and #661 and #663 write agent calls against it, so each will have to
+      invent this.
+    principle_violated: ADR035-S4-ONE-TOOL
+    committed_source: "docs/adr/035 Decision part 4; core/components/memory/knowledge/_DESIGN.md 'Final' (a CLI) (main)"
+    suggested_direction: >
+      Add a short CLI mapping to the contract: a command name, flags for scalar fields, a
+      `--json` or stdin form for any request, JSON on stdout for every answer, and an exit code
+      rule. One sample per form.
+  - id: TIC-13
+    severity: P4
+    file: "core/tools/memory/contract/v1.json (version '1.0.0', contract_version '1', cite summary line 311); core/tools/memory/README.md ('The contract changes only by a new version')"
+    finding: >
+      Two version fields in one file (naming clarity) and a rule that every change is a new
+      version, while the contract itself says the cite shape will be refined by the citations
+      story. Each refinement, and TIC-3, TIC-11 and TIC-12 if taken later, then forces v2 and a
+      rewrite of the const "1" in every response. No committed source defines the rule, so this
+      is an observation.
+    principle_violated: null
+    committed_source: null
+    suggested_direction: >
+      State what counts as additive (an optional field) and stays version 1, and which of the two
+      version fields a caller reads.
+  - id: TIC-14
+    severity: P4
+    file: "core/tools/memory/contract/v1.json ($defs.draft_source lines 821-828, $defs.source); core/tools/memory/contract/samples/broken/propose-unknown-draft-source.json"
+    finding: >
+      Plan item 5 asks that the draft's origin is marked (person, web, model). The contract
+      marks it, and adds a fourth value, memory, that no committed source names. A web or model
+      draft carries only the category: `sources` can name memory pieces only, and `sources: []`
+      is accepted for a web draft (verification vi), so the person approving cannot see which
+      page the draft came from unless it is in the free text.
+    principle_violated: null
+    committed_source: ".garura/project/issues/653/specs/plan.md item 5 (main)"
+    suggested_direction: >
+      Add an optional `origin` string (a URL or a name) required when draft_source is web, and
+      note why memory was added.
+
+status: completed
+notes: >
+  Counts: P1 0, P2 3, P3 9, P4 2 (14 findings). Every principle is cited to a file on main or to
+  a read-only issue text; nothing was grounded in v1.json, the README, the new 655 plan or the PR
+  body. Where a committed source was only partly applicable it is said so (ADR 033 is about the
+  product model and is used as the pattern ADR 035 lists as Related; the glossary's Memory
+  Architecture section predates ADR 035 and was used only for the STM definition ADR 035 keeps).
+  The most important single point is TIC-1 together with TIC-2: the contract carries the
+  approval flow as words, and the check does not test it. A missing playbook for this kind of
+  work (a tool's interface contract) stands: categories.yaml lists it under missing_playbooks.
+  The Layer-2 dispatch cannot create tasks (no TaskCreate tool in this agent's tool set), so the
+  follow-up task for the missing playbook is left to the play.
