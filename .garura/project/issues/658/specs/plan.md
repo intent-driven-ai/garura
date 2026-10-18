@@ -109,7 +109,10 @@ Next: item 7, land the change.
   missing, the draft, its source, whether it blocks — and records the person's Approve or
   Reject with their words through `decide`, as decided in the review tool, by the git user
   at the machine. An answer with no words is refused. Tried on a raised update: approved
-  on the page, applied, found by a search in the same issue.
+  on the page, applied, found by a search in the same issue. Rebuilt the same day on the
+  review tool's own design (Kapil: "the design of this tool isnt matching the bint/product
+  model review tool. ensue that its part of same design. and not build solo"): the mockup's
+  rail, top bar, look and Catch up cards, opened on the Memory and ADRs section.
 - **6. Shown: end to end, with Kapil approving on the page** — #658, 2026-10-18. A fresh
   project and a clone of Phoenix memory. Two lookups found nothing in any tier; each raised
   an update (one from the web that blocks, one from the model that does not); neither was

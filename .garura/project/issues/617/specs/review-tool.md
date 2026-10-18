@@ -441,7 +441,10 @@ built inside Garura as part of the #606 plan. Until then, "we will use the local
 tool itself": the local prototype in `core/tools/play-reviewer/` (never
 committed) gains a memory-updates page that lists the updates waiting in
 short-term memory and records each person's Approve or Reject through the
-memory tool. #658 builds that page.
+memory tool. #658 builds that page. It is not a design of its own (Kapil, 18 Oct: "ensure
+that its part of same design. and not build solo"): it uses this tool's mockup — the same rail,
+top bar, look and Catch up cards — opened on the Memory and ADRs section, with Intents and
+Product shown but not yet built.
 
 ## 8. Risks
 
