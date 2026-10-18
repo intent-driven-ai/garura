@@ -1,0 +1,4 @@
+ M .garura/project/issues/606/specs/plan.md
+ M .garura/project/issues/613/specs/memory-system-plan.md
+ M .garura/project/issues/613/specs/plan.md
+?? .garura/project/issues/613/context/porcelain.txt

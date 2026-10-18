@@ -1,0 +1,41 @@
+{
+  "pr_number": "652",
+  "base": "main",
+  "changed_paths": [
+    ".garura/project/issues/606/specs/plan.md",
+    ".garura/project/issues/613/context/analysis.yaml",
+    ".garura/project/issues/613/context/branch.json",
+    ".garura/project/issues/613/context/commits.yaml",
+    ".garura/project/issues/613/context/issue.json",
+    ".garura/project/issues/613/context/plan-check.json",
+    ".garura/project/issues/613/context/porcelain.txt",
+    ".garura/project/issues/613/context/pr-body.md",
+    ".garura/project/issues/613/context/pr.json",
+    ".garura/project/issues/613/context/resolved-rules.json",
+    ".garura/project/issues/613/context/self-review.md",
+    ".garura/project/issues/613/context/work-description.txt",
+    ".garura/project/issues/613/specs/memory-review.md",
+    ".garura/project/issues/613/specs/memory-system-plan.md",
+    ".garura/project/issues/613/specs/plan.md",
+    ".garura/project/issues/_adr/20261018-071440/adr-check.json",
+    ".garura/project/issues/_adr/20261018-071440/adr-context.yaml",
+    ".garura/project/issues/_adr/20261018-071440/adr-draft.md",
+    ".garura/project/issues/_adr/20261018-071440/adr-manifest.json",
+    ".garura/project/issues/_adr/20261018-071440/brief.md",
+    ".garura/project/issues/_adr/20261018-071440/decision.yaml",
+    ".garura/project/issues/_adr/20261018-071440/guard-report.json",
+    ".garura/project/issues/_adr/20261018-071440/hashes-before.json",
+    ".garura/project/issues/_adr/20261018-071440/porcelain-after.txt",
+    ".garura/project/issues/_adr/20261018-071440/porcelain-before.txt",
+    ".garura/project/issues/_adr/20261018-071440/run.json",
+    "docs/adr/029-drives.md",
+    "docs/adr/034-plays-answer-from-memory-inside-a-drive.md",
+    "docs/adr/_index.md"
+  ],
+  "standards_order": [
+    "kb",
+    "ltm",
+    "stm"
+  ],
+  "review_shelf": "./.garura/core/memory/knowledge/review/"
+}

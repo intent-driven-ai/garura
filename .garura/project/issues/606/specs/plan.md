@@ -3,8 +3,8 @@ plan_for: 606
 kind: business-intent
 serves: "#606 — Garura's agentic lifecycle runs as five loops (drives), starting from a working prototype"
 status: active
-updated: 2026-10-17
-now: 7
+updated: 2026-10-18
+now: 8
 ---
 
 # Plan — #606: the lifecycle runs as drives
@@ -57,7 +57,11 @@ Items 13 (the handover drive) and the Alignment drive have no issue yet.
 
 ## Where we are now
 
-Three decisions are made (#592, #607, #619) and six things are shipped: plan mode's first pieces (#619), the Kickoff plays standing alone (#616), `/intent` (#612), the one product model that `/intent` and `/vision` both write (#637), `/vision` running inside a drive (#614), and `/understand` running inside a drive, detailing every pending capability in one run (#615). Now: item 7, how a finished drive is reviewed. Then Kickoff (item 8).
+Three decisions are made (#592, #607, #619) and six things are shipped: plan mode's first pieces (#619), the Kickoff plays standing alone (#616), `/intent` (#612), the one product model that `/intent` and `/vision` both write (#637), `/vision` running inside a drive (#614), and `/understand` running inside a drive, detailing every pending capability in one run (#615). Item 7 is decided: a drive ends with a review of its outcome (ADR 032), and approval lives in the product model, so agents build only from approved pieces (ADR 033); its stories are filed. Now: item 8, Kickoff. Its plan (`.garura/project/issues/613/specs/plan.md`) has
+ADR 034 decided — inside a drive a play answers from memory and asks only when
+memory holds nothing — and a review that found memory not ready. Kapil chose to
+fix the whole memory system first, as its own feature; Kickoff's runner waits for
+it.
 
 ## The plan, in order
 
@@ -72,20 +76,19 @@ Three decisions are made (#592, #607, #619) and six things are shipped: plan mod
 - **5. Shipped: `/vision` runs inside a drive** — #614, PR #639, merged 17 October. Handed a drive's contract it opens nothing, never waits at its checkpoint (it keeps a review record for the drive's review instead), and commits on the drive's branch; a question the drive did not answer still stops it. Added a shared drive contract (`standards/rules/drive-contract.md`, one checker, one review-record writer), and the checkpoint's learning record now takes a "decided at the drive's review" answer. Not yet done: `/intent` still uses its own contract check; the drive's review writing the real answer back is #617 / #613.
 - **6. Shipped: `/understand` runs inside a drive** — #615, PR #640, merged 17 October. Handed a drive's contract it opens nothing, never waits at its checkpoint (one review record per capability instead), and commits on the drive's branch; seed answers for a capability not yet in the model come from the contract, or it stops and asks. A box-move inside a drive is saved as a `proposed` decision and waits for the drive's review (Kapil's choice A). On Kapil's ask, one run now details every pending capability at the same time, measured against the product's limits as they stood at the start of the run; the parallel-work rule gained a "scoped-write" form for this (`standards/rules/concurrent-fanout.md`). Not yet done: when the drive's review drops a `proposed` box-move, nothing lowers the limit again (goes to item 7, #617); small review findings stay open on PR #640. Its own plan: `.garura/project/issues/615/specs/plan.md`.
 
-### 7. Decide how a finished drive is reviewed — now
+- **7. Decided: how a finished drive is reviewed** — #617, PR #651, merged 18 October. ADR 032: every drive ends with a review of its outcome — the business intents, the agent intents under them and the product model, never the plays — in a review tool, not on the pull request; each piece is accepted, sent back or dropped; a dropped box-move lowers the limit again. ADR 033: approval is part of the product model; agents build only from approved pieces. The review tool is designed (plan and mockup in `.garura/project/issues/617/specs/`). Not yet done: nothing is built. Stories filed — under #594: #641 contract, #642 server, #643 reading, #644 acting, #648 open and listen, #649 send-back loop, #650 the review step; under #597: #645 approval states, #646 agents build only from approved, #647 spike on approval outside the review.
 
-**Issue:** #617 (spike).
-**What:** a drive ends in a score or a fail, and a review follows either way. Decide what the review looks at, who does it, and whether review is a drive of its own.
-**Why here:** the drive moves each play's review to the end, so the end review must exist before Kickoff can be called finished.
-**Done when:** the answers are in an ADR, and the stories to build it are filed. The ADR also says what happens to a product limit raised by a `proposed` box-move when the review drops that decision (left open by #615).
-**Needs:** nothing — item 1 is done.
-
-### 8. Build the Kickoff drive
+### 8. Build the Kickoff drive — now
 
 **Issue:** #613.
-**What:** the drive itself. It asks all its questions first, runs `/intent` → `/vision` → `/understand` (once, for all the capabilities), stops only for a new question, has a different model or agent check the result, and writes its evidence. At its end review the person confirms or drops each intent `/intent` proposed (ADR 031, D10).
+**What:** the drive itself. It asks all its questions first, runs `/intent` → `/vision` → `/understand` (once, for all the capabilities), stops only for a question nothing in memory answers (ADR 034), has a different model or agent check the result, and writes its evidence. At its end review the person confirms or drops each intent `/intent` proposed (ADR 031, D10).
 **Why here:** it needs all of items 3 to 7.
 **Done when:** a working prototype goes in; the person approves the plan; out come a plan and issues the person can read, and a detailed product model for the agents — checked and reviewed.
+**Order inside this item** (Kapil, 2026-10-18, "A" — the runner first, then the review; and "B" — the whole memory system before the runner):
+0. **The memory system — its own feature, not filed yet.** Phoenix memory is the superset; each project pulls the subset it needs; one tool finds and updates memory, searching like Claude Code; nothing comes from the model or the web without a memory update a person approved. Draft plan: `.garura/project/issues/613/specs/memory-system-plan.md`. The runner starts at its milestone (its items 1 to 9).
+1. **The runner — #613.** Questions first, then `/intent` → `/vision` → `/understand`, the checker, the evidence. Until the review exists, the drive ends with the plays' review records and a pull request.
+2. **The review — #641–#644** (the tool), **#645–#646** (approval in the product model), **#648–#649** (open, listen, send back). #641 takes its example pack from a real Kickoff run, which only the runner can make.
+3. **The review joins the drive — #650.** The review step becomes the drive's last step and writes approval.
 **Needs:** items 3 to 7.
 
 ### Alongside items 2 to 8: the product-model ontology
@@ -164,3 +167,9 @@ Not part of this plan; recorded so the gaps in time make sense.
   `/understand` once for all capabilities, not once for each.
 - 2026-10-17 — Item 6 done: #615 merged as PR #640 (`/understand` runs inside a drive and details every pending capability in one run; the scoped-write form of the parallel-work rule). Now on item 7 (#617). It also takes the open question of lowering a limit when the review drops a `proposed` box-move.
 - 2026-10-17 — Added "How the issues sit": most items are children of #594 (itself under #606), and plan mode (#619, #621) sits under #539. The plan had left #594 out (Kapil asked).
+- 2026-10-18 — Item 7 done: #617 merged (PR #651) with ADR 032 and ADR 033; review stories #641–#650 filed. Now on item 8, Kickoff.
+- 2026-10-18 — Kapil chose A: build the Kickoff runner (#613) first, then the review stories; #650 puts the review at the drive's end.
+- 2026-10-18 — Inside item 8: ADR 034 accepted (a play answers from memory inside
+  a drive). Kapil had memory reviewed before the runner is built, then chose to
+  fix the whole memory system first, as its own feature — added as step 0 of
+  item 8. Big update: an added piece of work, logged here.

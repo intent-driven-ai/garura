@@ -1,0 +1,30 @@
+---
+# analyze-changes output (judgment path, loop round 1)
+# issue: 613
+branch: feature/613-the-kickoff-drive
+issue: 613
+needs_judgment: false
+
+change_groups:
+  - id: chore-stm-memory-install
+    issue: 613
+    commit_type: chore
+    scope: stm
+    subject: "plan the memory system as part of every install"
+    confidence: high
+    files:
+      - .garura/project/issues/613/specs/memory-system-plan.md
+      - .garura/project/issues/613/specs/plan.md
+      - .garura/project/issues/606/specs/plan.md
+    notes: "One concern on one issue branch: Kapil's 2026-10-18 decision that every Garura install carries the memory tool and guide. The memory plan gains the item and renumbers the later ones; the Kickoff plan and the lifecycle plan now wait on the memory plan's items 1 to 9. Short-term-memory planning files only; no code. Run-state files under context/ are left to the executor's final chore(stm) group."
+
+exclusions:
+  []
+
+risks:
+  sensitive_files:
+    []
+
+eval_gates:
+  SE-1: {status: PASS, evidence: "3 changed tracked files, all in one group on a single-issue branch; context/ run-state files left to the executor's run-state commit"}
+  SE-5: {status: PASS, evidence: "no sensitive filename or content patterns in the diff; no breaking changes; branch is not a hotfix branch"}

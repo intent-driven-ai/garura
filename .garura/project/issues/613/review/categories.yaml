@@ -1,0 +1,67 @@
+# categories.yaml — derived from the PR #652 diff content (base main). Not matched from a fixed list.
+# Review shelf used: ~/.garura/core/memory/knowledge/review/ (context.yaml's ./.garura/core/memory/knowledge/review/ does not exist in this checkout; the machine-global shelf is byte-identical to core/components/memory/knowledge/review/ on main)
+pr: 652
+issue: 613
+base: main
+changed_path_count: 29
+categories:
+  - name: decision-records
+    playbook: review/adrs
+    design_bearing: false   # playbook: the decision IS the design; Layer 1 only, human judges merit
+    evidence:
+      - docs/adr/034-plays-answer-from-memory-inside-a-drive.md   # new ADR (Accepted, 2026-10-18); amends ADR 029 section 2
+      - docs/adr/_index.md                                        # one index row added (034)
+      - docs/adr/029-drives.md                                    # Status line amended to point at ADR 034
+    notes: >
+      Layer 1 structural checklist applies (sections, status value, numbering, index link). No
+      in-repo ADR linter exists (playbook gap). ADR 029 is edited only on its Status line
+      (amendment cross-reference). ADR 034 lists many files under "Affects" (drive-contract.md,
+      the glossary, the intent / vision / understand / adr plays and their scripts) but the diff
+      changes none of them, so those are named consequences, not changed artifacts, and neither
+      harness nor memory is present. Judgement flag for the human: ADR 034 changes how plays
+      behave inside a drive (a play answers from memory and asks only when memory holds nothing,
+      instead of stopping on every new question as ADR 029 section 2 said). The playbook calls
+      for no Layer 2, so no fan-out is requested, but the human should read it as a design
+      decision, not just as a document. The self-review (613/context/self-review.md) already
+      notes that ADR 034 points at plan item numbers that have since moved.
+  - name: stm-working-notes-plans-and-design
+    playbook: null
+    playbook_missing: true
+    design_bearing: false   # plans and review notes that precede or follow the ADR; nothing committed on base to conform to
+    evidence:
+      - .garura/project/issues/613/specs/plan.md                 # new: plan for the Kickoff drive (#613), status active
+      - .garura/project/issues/613/specs/memory-system-plan.md   # new: draft plan for a separate memory-system feature (status draft)
+      - .garura/project/issues/613/specs/memory-review.md        # new: review note on whether memory is ready for ADR 034
+      - .garura/project/issues/606/specs/plan.md                 # plan updates: now 7 -> 8, item 7 marked decided, item 8 gains its inside-order
+    notes: >
+      Same category as in the #617 review: Garura's own STM working notes (plans, a review
+      note). No playbook covers it. Suggested Layer 1 only: plan front-matter sanity, link and
+      reference resolution, and consistency with the ADR that landed in the same PR (ADR 034)
+      and with the issue numbers named. These are STM files under .garura/project/issues/**,
+      not the knowledge base under core/components/memory/**, so the memory playbook does not
+      apply even though memory-system-plan.md and memory-review.md are about memory.
+  - name: stm-run-records
+    playbook: null
+    playbook_missing: true
+    design_bearing: false   # machine-written run artifacts; no design content
+    evidence:
+      - .garura/project/issues/613/context/{analysis.yaml,commits.yaml}                       # analyze-changes / commit-change output
+      - .garura/project/issues/613/context/{branch,issue,plan-check,pr,resolved-rules}.json   # context receipts
+      - .garura/project/issues/613/context/{porcelain.txt,work-description.txt}               # git status snapshot, work description
+      - .garura/project/issues/613/context/{pr-body.md,self-review.md}                        # propose-change outputs (PR body, informational self-review)
+      - .garura/project/issues/_adr/20261018-071440/*   # propose-change/ADR run for ADR 034 (11 files: adr-check, adr-context, adr-draft, adr-manifest, brief, decision, guard-report, hashes-before, porcelain-after, porcelain-before, run)
+    notes: >
+      Same category as in the #617 review: play run records (receipts, guard reports, hashes,
+      porcelain snapshots, JSON context). No playbook covers it. Suggested treatment: skim only
+      for consistency with the committed ADR they produced (adr-draft.md vs docs/adr/034, and
+      brief.md / decision.yaml for who approved it); no design-grounding. 22 paths: 11 under
+      613/context and 11 under _adr/20261018-071440.
+design_bearing_categories: []   # none: harness and memory are absent (no core/components/** change); decision-records is Layer 1 only
+absent_seeded_categories: [documentation, harness, memory, executable-code, config-maps, tests]
+path_accounting:   # 3 + 4 + 22 = 29
+  decision-records: 3
+  stm-working-notes-plans-and-design: 4
+  stm-run-records: 22
+missing_playbooks:
+  - stm-working-notes-plans-and-design
+  - stm-run-records
