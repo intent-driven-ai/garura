@@ -262,14 +262,19 @@ gives the full model or the clean final text.
      Mocked only for now ("design the interface and create some mocks for now.
      no need to build this whole this now"). The memory updates waiting for a
      person live here too, below.
-   - **Agent decisions** — every decision an agent made, with the memory it
-     rested on (#659), each source checked again: unchanged, changed, gone, or
-     no source. The page shows the memory tool's own answers, in the contract's
-     shape: `citations --check` (each record with the exact text the agent
-     read, from which tier, file, lines and version; each problem with what the
-     lines say now) and `updates` (for a decision that came from a memory
-     update: what was missing, who approved it, and their words). Grouped by
-     play, problems first. Looks right, or send back so the agent decides again
+   - **Agent decisions** — every decision an agent made, with its trace
+     (#659): the steps the agent took, in order. Kapil, 19 Oct: one or two
+     lines "leave no context"; a decision rests on several things — "a project
+     profile, domain, its security level and then the file where knowledge is
+     put... this sort of thinking is critical to show.. these are called
+     traces". So each step shows what the agent looked for, what it found, and
+     its source — the tier, file and lines, in their place: the lines around
+     them, numbered, with the lines the agent used marked. Each step's source
+     is checked again: unchanged, changed (with what the lines say now, in
+     their place), gone, or no source. The page shows the memory tool's own
+     answers, in the contract's shape: `citations --check` and `updates` (for
+     a decision that came from a memory update: what was missing, who approved
+     it, and their words). Grouped by play, problems first. Looks right, or send back so the agent decides again
      from memory as it is now. The mockup's records are real tool output over
      real Phoenix memory lines, made by `.garura/project/issues/659/evidence/
      make_decisions.py`; the local page reads them live.

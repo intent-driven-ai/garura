@@ -4,9 +4,11 @@
     python3 make_decisions.py <scratch folder> <Phoenix memory clone> <out folder>
 
 A fresh shop project (issue 613, the Kickoff sample) and a clone of Phoenix memory. The real
-memory tool records the decisions /intent, /vision and /understand would make — each source
-read from real Phoenix memory lines, or from the project's own Garura memory, or from a memory
-update a person approved. Then memory moves on, the way it does: one Phoenix line is edited,
+memory tool records the decisions /intent, /vision and /understand would make, each with its
+trace: the steps the agent took, in order. A step reads the shop's own Garura memory (its
+product profile — who the users are, the surfaces, the security level, the compliance regimes —
+and its product model), or real Phoenix memory lines (the domain knowledge those values select),
+or a memory update a person approved. Then memory moves on, the way it does: one Phoenix line is edited,
 one Garura memory file is removed, and one old record names no memory. The tool's own answers
 are written to the out folder, exactly as the contract shapes them: decisions.json is
 `citations --check` (the records and the problems), updates.json is `updates` (the memory update
@@ -43,7 +45,16 @@ def write(rel, text):
         fh.write(text)
 
 
-# The shop's own Garura memory: two pages of its product model.
+# The shop's own Garura memory: its product profile (the product-profile schema in Phoenix
+# memory) and two pages of its product model.
+write("product/product-os/profile.yaml",
+      "profile:\n  product_ref: shop\n  state: set\n  shape:\n    stage: public\n    users: public\n"
+      "    monetization: paywall\n    surfaces: [web, mobile]\n  nfr:\n"
+      '    performance:   { level: high, gate: "p95 page load under 2 s" }\n'
+      '    security:      { level: high, gate: "OWASP ASVS L2; no P1/P2" }\n'
+      '    accessibility: { level: high, gate: "WCAG 2.1 AA" }\n'
+      '    privacy:       { level: high, gate: "PII encrypted at rest and in transit" }\n'
+      "  compliance: [PCI-DSS, GDPR]\n")
 write("product/product-os/checkout/checkout/capability.md",
       "# Checkout\n\nDomain: checkout\nLevel: detailed\n\n## What it does\nTakes a shopper from the cart to a paid order.\n\n"
       "## Decisions\n- Payment through a PSP; card data never touches our servers.\n\n"
@@ -64,15 +75,17 @@ def tool(command, request):
     return answer
 
 
-def source(tier, path, start, end):
-    """Read the lines the way an agent would, and name them with their fingerprint."""
+def step(asked, found, tier, path, start, end):
+    """One step of a trace: read the lines the way an agent would, and name them with their
+    fingerprint."""
     a = tool("read", {"issue": 613, "tier": tier, "path": path, "start": start, "end": end})
-    return {"tier": tier, "path": path, "start": start, "end": end, "fingerprint": a["fingerprint"]}
+    return {"asked": asked, "found": found,
+            "source": {"tier": tier, "path": path, "start": start, "end": end, "fingerprint": a["fingerprint"]}}
 
 
-def cite(play, by, question, answer, sources, **extra):
+def cite(play, by, question, answer, trace, **extra):
     tool("cite", {"issue": 613, "play": play, "decided_by": by, "question": question, "answer": answer,
-                  "sources": sources, **extra})
+                  "trace": trace, **extra})
 
 
 # A memory update a person approved: how long a guest cart is kept.
@@ -86,31 +99,75 @@ tool("decide", {"id": u["id"], "verdict": "approve", "by": "sample reviewer", "r
 tool("apply", {"id": u["id"]})
 
 PAY, USERS, SHOP = "knowledge/domains/payments.md", "knowledge/domains/user-management.md", "knowledge/domains/ecommerce.md"
+PROFILE = "product/product-os/profile.yaml"
 CHECKOUT, LIMITS = "product/product-os/checkout/checkout/capability.md", "product/product-os/checkout/limits.md"
-cite("/intent", "intent-resolver (/intent)", "What path does a shopper take from the storefront to paying?",
-     "Home, category pages, product listing, product detail, cart, then checkout.", [source("phoenix", SHOP, 87, 88)])
-cite("/vision", "product-os-keeper (/vision)", "How does the shop take card payments?",
-     "Through a payment provider with hosted fields, so card data never touches our servers.",
-     [source("phoenix", PAY, 19, 21), source("phoenix", PAY, 44, 44)])
-cite("/vision", "product-os-keeper (/vision)", "Can a returning shopper pay with a saved card?",
-     "Yes, as a provider token only — never the card number.", [source("phoenix", PAY, 63, 65)])
-cite("/vision", "product-os-keeper (/vision)", "Are Apple Pay and Google Pay part of launch?",
-     "Yes. The shop has a mobile app, so wallets are in.", [source("phoenix", PAY, 47, 47)])
-cite("/vision", "product-os-keeper (/vision)", "Is guest checkout allowed at launch?",
-     "Yes. An account is offered after payment.", [source("garura", CHECKOUT, 12, 12)])
-cite("/vision", "product-os-keeper (/vision)", "How long is a guest's cart kept?",
-     "Seven days, then it is cleared and the guest is told.",
-     [source("short-term", "613/context/answers/guest-cart.md", 1, 1)], from_update=u["id"])
-cite("/vision", "product-os-keeper (/vision)", "Is there a cap on items in a cart?",
-     "No cap at launch.", [source("garura", LIMITS, 3, 3)])
-cite("/understand", "product-os-keeper (/understand)", "How do shoppers sign in?",
-     "Email and password, with social login for public shoppers.", [source("phoenix", USERS, 45, 46)])
-cite("/understand", "product-os-keeper (/understand)", "Does the shop need MFA at launch?",
-     "Yes. Taking card payments brings PCI-DSS, and MFA comes with it.", [source("phoenix", USERS, 47, 47)])
-cite("/understand", "product-os-keeper (/understand)", "Which refunds are in launch?",
-     "Full and partial refunds through the payment provider.", [source("phoenix", PAY, 60, 60)])
-cite("/understand", "product-os-keeper (/understand)", "How does a shopper get back into a locked account?",
-     "Password reset, the floor for any password login.", [source("phoenix", USERS, 61, 62)])
+INTENT, VISION, UNDERSTAND = "intent-resolver (/intent)", "product-os-keeper (/vision)", "product-os-keeper (/understand)"
+USERS_ARE = step("Who are the shop's users, and where do they use it?", "The public, on web and mobile.",
+                 "garura", PROFILE, 6, 8)
+SECURITY = step("What security level and compliance does the profile set?",
+                "Security is high; PCI-DSS and GDPR are in force.", "garura", PROFILE, 11, 14)
+
+cite("/intent", INTENT, "What path does a shopper take from the storefront to paying?",
+     "Home, category pages, product listing, product detail, cart, then checkout.", [
+         step("Which domain is this product in?", "Ecommerce: the shop sells goods — catalog, cart, orders, storefront.",
+              "phoenix", SHOP, 5, 5),
+         step("What journey must an ecommerce product always have?",
+              "The core journey: home, category pages, product listing, product detail, cart, checkout handoff.",
+              "phoenix", SHOP, 87, 88)])
+cite("/vision", VISION, "How does the shop take card payments?",
+     "Through a payment provider with hosted fields, so card data never touches our servers.", [
+         step("Does the shop take money?", "Yes: monetization is paywall.", "garura", PROFILE, 7, 7),
+         step("Which domain covers taking money?", "Payments, not ecommerce.", "phoenix", SHOP, 22, 22),
+         step("What is the payments stance?", "Never hold card data you don't have to: charge through a PSP "
+              "with hosted fields and tokenisation.", "phoenix", PAY, 19, 21),
+         step("What is the floor for card payments?", "Card via PSP with hosted fields.", "phoenix", PAY, 44, 44)])
+cite("/vision", VISION, "Can a returning shopper pay with a saved card?",
+     "Yes, as a provider token only — never the card number.", [
+         SECURITY,
+         step("What does a saved card need under PCI-DSS?", "Tokenised vaulting is the floor and mandatory under "
+              "PCI-DSS: store the PSP token, never the card.", "phoenix", PAY, 63, 65)])
+cite("/vision", VISION, "Are Apple Pay and Google Pay part of launch?",
+     "Yes. The shop has a mobile app, so wallets are in.", [
+         USERS_ARE,
+         step("When are wallets included?", "Add wallets when the surfaces include mobile.", "phoenix", PAY, 47, 47)])
+cite("/vision", VISION, "Is guest checkout allowed at launch?",
+     "Yes. An account is offered after payment.", [
+         USERS_ARE,
+         step("What has the product model decided for checkout?", "Guest checkout is allowed at launch; an account "
+              "is offered after payment.", "garura", CHECKOUT, 12, 12)])
+cite("/vision", VISION, "How long is a guest's cart kept?",
+     "Seven days, then it is cleared and the guest is told.", [
+         step("Do guests have carts?", "Yes: guest checkout is allowed at launch.", "garura", CHECKOUT, 12, 12),
+         step("How long is a guest cart kept?", "Seven days, then cleared; the guest is told.",
+              "short-term", "613/context/answers/guest-cart.md", 1, 1)], from_update=u["id"])
+cite("/vision", VISION, "Is there a cap on items in a cart?", "No cap at launch.", [
+         step("What limits has the product model set for checkout?", "Cart size: no cap at launch.",
+              "garura", LIMITS, 3, 3)])
+cite("/understand", UNDERSTAND, "How do shoppers sign in?",
+     "Email and password, social login, and MFA.", [
+         USERS_ARE,
+         step("Which domain covers sign-in, and what decides its parts?", "User management. Its parts are picked by "
+              "the profile: the users, the surfaces, security, accessibility and compliance.", "phoenix", USERS, 4, 6),
+         SECURITY,
+         step("Which sign-in methods do those values select?", "Email and password is the floor; social login "
+              "because the users are public; MFA because security is high and PCI-DSS is in force.",
+              "phoenix", USERS, 44, 47)])
+cite("/understand", UNDERSTAND, "Does the shop need MFA at launch?",
+     "Yes. Security is high and PCI-DSS is in force; either one brings MFA.", [
+         SECURITY,
+         step("When is MFA included?", "When security is high or more, or compliance includes PCI-DSS.",
+              "phoenix", USERS, 47, 47)])
+cite("/understand", UNDERSTAND, "Which refunds are in launch?",
+     "Full and partial refunds through the payment provider. Chargeback handling waits.", [
+         step("What is the refunds floor?", "Full and partial refunds through the PSP.", "phoenix", PAY, 60, 60),
+         step("Does the shop's monetization call for more?", "Monetization is paywall.", "garura", PROFILE, 7, 7),
+         step("When is chargeback handling added?", "When monetization is monetized — not this shop, yet.",
+              "phoenix", PAY, 61, 61)])
+cite("/understand", UNDERSTAND, "How does a shopper get back into a locked account?",
+     "Password reset, unlock, and timed self-service auto-unlock.", [
+         SECURITY,
+         step("Which recovery do those values select?", "Password reset is the floor; unlock at medium security; "
+              "auto-unlock at high.", "phoenix", USERS, 61, 64)])
 
 # Memory moves on. A Phoenix line is edited (approved outside Garura), a Garura file is removed,
 # and one old record, written before every decision had to name its memory, has no source.
@@ -127,7 +184,7 @@ with open(os.path.join(short, "613", "context", "citations.jsonl"), "a") as fh:
     fh.write(json.dumps({"citation_id": "cite-20261009-001", "issue": 613, "play": "/understand",
                          "question": "Does checkout need an address book?", "answer": "Not at launch.",
                          "decided_by": "product-os-keeper (/understand)", "decided_at": "2026-10-09T11:20:00Z",
-                         "sources": [], "from_update": None}) + "\n")
+                         "trace": [], "from_update": None}) + "\n")
 
 for name, command, request in (("decisions.json", "citations", {"issue": 613, "check": True}),
                                ("updates.json", "updates", {})):
