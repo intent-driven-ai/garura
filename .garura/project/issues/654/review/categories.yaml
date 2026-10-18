@@ -1,0 +1,100 @@
+# categories.yaml — derived from the PR #665 diff content (base main). Not matched from a fixed list.
+# Review shelf used: ~/.garura/core/memory/knowledge/review/ (context.yaml's ./.garura/core/memory/knowledge/review/ does not exist in this checkout; the machine-global shelf is byte-identical to core/components/memory/knowledge/review/ on main)
+pr: 665
+issue: 654
+base: main
+changed_path_count: 32
+categories:
+  - name: decision-records
+    playbook: review/adrs
+    design_bearing: false   # playbook: the decision IS the design; Layer 1 only, human judges merit
+    evidence:
+      - docs/adr/035-agents-work-only-from-memory.md                 # new ADR (Accepted, 2026-10-18); supersedes ADR 015 in part, amends 034, 009, 016, 017, 032
+      - docs/adr/_index.md                                           # one index row added (035)
+      - docs/adr/009-skill-ltm-organizational-knowledge.md           # forward pointer to ADR 035 (a new top Status line)
+      - docs/adr/015-ltm-resolution-protocol.md                      # Status line: superseded in part by ADR 035
+      - docs/adr/016-agent-json-contract.md                          # Status line: amended in part by ADR 035
+      - docs/adr/017-folder-whitelist.md                             # Status line: amended in part by ADR 035
+      - docs/adr/032-drive-review-of-outcomes.md                     # Status line: amended in part by ADR 035 (added after the ADR 033 clause)
+      - docs/adr/034-plays-answer-from-memory-inside-a-drive.md      # Status line: amended in part by ADR 035
+    notes: >
+      Layer 1 structural checklist applies (sections, status value, numbering, index link,
+      forward pointers). An in-repo ADR linter now exists on main
+      (core/components/plays/adr/scripts/adr.py: number, lint, index, overlaps, pointer, accept,
+      guard), so the review/adrs playbook's "Gap: no ADR linter exists in-repo yet" is stale;
+      the run record (_adr/20261018-082455/adr-check.json) shows lint and guard were run on the
+      draft, but the lint on the committed files is for the play's Layer 1 step to run. The six
+      older ADRs are edited only on their Status line (pointer text); no body section changes.
+      Layer 1 observation for the human: ADR 009 now has a top "**Status:** (not recorded) —
+      amended ..." line above its existing "## Status / Accepted" section, so it carries two
+      status statements that disagree; the generated index row for 009 still reads "(not
+      recorded)". ADR 035 lists a long "Affects" set (core/components/memory/**, glossary,
+      config.yaml, install-garura, many agents and skills, plays' ICE sources, CLAUDE.md,
+      docs/components/memory.md) but the diff changes none of them, so those are named
+      consequences, not changed artifacts, and neither harness nor memory is present. Judgement
+      flag: ADR 035 changes where agents may get answers (memory only, never the model or the
+      web) and partly supersedes ADR 015, an accepted decision. The playbook calls for no
+      Layer 2, so no fan-out is requested, but the human should read it as a design decision,
+      not just a document.
+  - name: stm-working-notes-plans-and-design
+    playbook: null
+    playbook_missing: true
+    design_bearing: false   # plans and story drafts that follow the ADR; nothing committed on base to conform to
+    evidence:
+      - .garura/project/issues/654/specs/plan.md      # new: plan for this spike (#654), status active, serves #653 item 1
+      - .garura/project/issues/654/specs/stories.yaml # new: drafts of the ten stories (items 2-11) filed under #653, with {item:N} placeholders; authored text, not a machine receipt
+      - .garura/project/issues/653/specs/plan.md      # new path (git rename R076 from 613/specs/memory-system-plan.md, 278 lines, 76% similar); plan for Feature #653, status active
+      - .garura/project/issues/606/specs/plan.md      # pointer update: step 0 of item 8 now names Feature #653 and its plan path; one log line added
+      - .garura/project/issues/613/specs/plan.md      # pointer updates: memory-system-plan.md references now point to Feature #653 and 653/specs/plan.md; one log line added
+    notes: >
+      Same category as in the #652 review (613): Garura's own STM working notes. No playbook
+      covers it. Suggested Layer 1 only: plan front-matter sanity (plan_for, kind, status,
+      serves_plan, serves_item), link and path resolution (every reference to
+      613/specs/memory-system-plan.md must now resolve to 653/specs/plan.md), and consistency
+      with ADR 035 and with the issue numbers named (#653, #654, #655-#664, #606, #613). The
+      old path 613/specs/memory-system-plan.md is the rename source and is not in context.yaml's
+      changed_paths; it is counted once, as the new path 653/specs/plan.md. The 606 and 613
+      edits exist on base, but the diff there is pointer updates and log lines only, so no
+      design principle is at stake. These are STM files under .garura/project/issues/**, not
+      the knowledge base under core/components/memory/**, so the memory playbook does not
+      apply even though the plans are about memory.
+  - name: stm-run-records
+    playbook: null
+    playbook_missing: true
+    design_bearing: false   # machine-written run artifacts and play outputs; no design content
+    evidence:
+      - .garura/project/issues/654/context/branch.json              # context receipt
+      - .garura/project/issues/654/context/filed-stories.json       # record of the stories filed: item to issue number (#655-#664), parent #653
+      - .garura/project/issues/654/context/issue.json               # context receipt
+      - .garura/project/issues/654/context/pr.json                  # context receipt (PR #665)
+      - .garura/project/issues/654/context/resolved-rules.json      # context receipt (self-review rule path)
+      - .garura/project/issues/654/context/work-description.txt     # work description
+      - .garura/project/issues/654/context/pr-body.md               # propose-change output (PR body)
+      - .garura/project/issues/654/context/self-review.md           # propose-change output (informational self-review)
+      - .garura/project/issues/_adr/20261018-082455/adr-check.json
+      - .garura/project/issues/_adr/20261018-082455/adr-context.yaml
+      - .garura/project/issues/_adr/20261018-082455/adr-draft.md
+      - .garura/project/issues/_adr/20261018-082455/adr-manifest.json
+      - .garura/project/issues/_adr/20261018-082455/brief.md
+      - .garura/project/issues/_adr/20261018-082455/decision.yaml
+      - .garura/project/issues/_adr/20261018-082455/guard-report.json
+      - .garura/project/issues/_adr/20261018-082455/hashes-before.json
+      - .garura/project/issues/_adr/20261018-082455/porcelain-after.txt
+      - .garura/project/issues/_adr/20261018-082455/porcelain-before.txt
+      - .garura/project/issues/_adr/20261018-082455/run.json
+    notes: >
+      Same category as in the #652 review (613): play run records (receipts, guard reports,
+      hashes, porcelain snapshots, JSON context). No playbook covers it. Suggested treatment:
+      skim only for consistency with the committed ADR they produced (adr-draft.md vs
+      docs/adr/035, and brief.md / decision.yaml for who accepted it), and that
+      filed-stories.json agrees with stories.yaml and the PR body. No design-grounding.
+      19 paths: 8 under 654/context and 11 under _adr/20261018-082455.
+design_bearing_categories: []   # none: harness and memory are absent (no core/components/** change); decision-records is Layer 1 only
+absent_seeded_categories: [documentation, harness, memory, executable-code, config-maps, tests]
+path_accounting:   # 8 + 5 + 19 = 32
+  decision-records: 8
+  stm-working-notes-plans-and-design: 5
+  stm-run-records: 19
+missing_playbooks:
+  - stm-working-notes-plans-and-design
+  - stm-run-records

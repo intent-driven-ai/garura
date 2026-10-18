@@ -1,6 +1,6 @@
 # ADR 032 — A Drive Ends With a Review of Its Outcome, in an Intent Review Tool and a Product Review Tool
 
-**Status:** Accepted — amended in part by [ADR 033](033-approval-in-the-product-model.md): §5 statuses set at the review become a lasting approval on each piece; §2/§3 the tools show the whole model's approval state every time they open; a send-back leaves the piece in progress
+**Status:** Accepted — amended in part by [ADR 033](033-approval-in-the-product-model.md): §5 statuses set at the review become a lasting approval on each piece; §2/§3 the tools show the whole model's approval state every time they open; a send-back leaves the piece in progress; and amended in part by [ADR 035](035-agents-work-only-from-memory.md): §3 "Two review tools": the review tool (one app with Intents and Product views — .garura/project/issues/617/specs/review-tool.md) gains a third view, Memory: what each tier holds, the memory updates waiting for a person, and which memory each decision came from.
 **Date:** 2026-10-17
 **Level:** framework
 **Decided by:** Kapil Viren Ahuja · **Decided in:** #617 (spike: how a finished drive is reviewed), under #594 and business intent #606; working notes in `.garura/project/issues/617/specs/decisions.md` (Q1–Q7)

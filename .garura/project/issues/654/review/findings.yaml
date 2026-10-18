@@ -1,0 +1,172 @@
+meta:
+  pr: 665
+  issue: 654
+  categories: categories.yaml
+  layers_run:
+    decision-records: Layer 1 — adr.py lint on 035 (valid, no problems); index rebuilt from docs/adr matches _index.md;
+      older ADRs changed only by one pointer line each (009 gained its first Status line); quality-check-scoped
+      path rules (playbook review/adrs)
+    stm-working-notes-plans-and-design: 'Layer 1 — every backticked repo path in ADR 035, the #653 and #654 plans
+      and stories.yaml checked (39; 2 were a branch name and an installer-relative path); no link left to the moved
+      memory-system-plan.md; playbook missing'
+    stm-run-records: 'Layer 1 — skimmed for consistency with ADR 035 (decision.yaml records Kapil''s rename and
+      accept; filed-stories.json matches #655-#664 on GitHub); playbook missing'
+  layer2: none — no design-bearing category in categories.yaml
+  runnable_checks: adr-lint.txt
+findings:
+- id: null
+  severity: P3
+  category: decision-records
+  file: docs/adr/009-skill-ltm-organizational-knowledge.md
+  basis: 'pr.md taxonomy rule None (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: null
+  severity: P3
+  category: decision-records
+  file: docs/adr/015-ltm-resolution-protocol.md
+  basis: 'pr.md taxonomy rule None (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: null
+  severity: P3
+  category: decision-records
+  file: docs/adr/016-agent-json-contract.md
+  basis: 'pr.md taxonomy rule None (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: null
+  severity: P3
+  category: decision-records
+  file: docs/adr/017-folder-whitelist.md
+  basis: 'pr.md taxonomy rule None (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: null
+  severity: P3
+  category: decision-records
+  file: docs/adr/032-drive-review-of-outcomes.md
+  basis: 'pr.md taxonomy rule None (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: null
+  severity: P3
+  category: decision-records
+  file: docs/adr/034-plays-answer-from-memory-inside-a-drive.md
+  basis: 'pr.md taxonomy rule None (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: null
+  severity: P3
+  category: decision-records
+  file: docs/adr/035-agents-work-only-from-memory.md
+  basis: 'pr.md taxonomy rule None (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: null
+  severity: P3
+  category: decision-records
+  file: docs/adr/_index.md
+  basis: 'pr.md taxonomy rule None (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: null
+  severity: P4
+  category: decision-records
+  file: docs/adr/009-skill-ltm-organizational-knowledge.md
+  basis: 'pr.md taxonomy rule None (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: null
+  severity: P4
+  category: decision-records
+  file: docs/adr/009-skill-ltm-organizational-knowledge.md
+  basis: 'pr.md taxonomy rule None (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: null
+  severity: P4
+  category: decision-records
+  file: docs/adr/015-ltm-resolution-protocol.md
+  basis: 'pr.md taxonomy rule None (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: null
+  severity: P4
+  category: decision-records
+  file: docs/adr/015-ltm-resolution-protocol.md
+  basis: 'pr.md taxonomy rule None (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: null
+  severity: P4
+  category: decision-records
+  file: docs/adr/016-agent-json-contract.md
+  basis: 'pr.md taxonomy rule None (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: null
+  severity: P4
+  category: decision-records
+  file: docs/adr/016-agent-json-contract.md
+  basis: 'pr.md taxonomy rule None (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: null
+  severity: P4
+  category: decision-records
+  file: docs/adr/017-folder-whitelist.md
+  basis: 'pr.md taxonomy rule None (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: null
+  severity: P4
+  category: decision-records
+  file: docs/adr/017-folder-whitelist.md
+  basis: 'pr.md taxonomy rule None (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: null
+  severity: P4
+  category: decision-records
+  file: docs/adr/032-drive-review-of-outcomes.md
+  basis: 'pr.md taxonomy rule None (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: null
+  severity: P4
+  category: decision-records
+  file: docs/adr/032-drive-review-of-outcomes.md
+  basis: 'pr.md taxonomy rule None (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: null
+  severity: P4
+  category: decision-records
+  file: docs/adr/034-plays-answer-from-memory-inside-a-drive.md
+  basis: 'pr.md taxonomy rule None (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: null
+  severity: P4
+  category: decision-records
+  file: docs/adr/034-plays-answer-from-memory-inside-a-drive.md
+  basis: 'pr.md taxonomy rule None (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: null
+  severity: P4
+  category: decision-records
+  file: docs/adr/035-agents-work-only-from-memory.md
+  basis: 'pr.md taxonomy rule None (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: null
+  severity: P4
+  category: decision-records
+  file: docs/adr/035-agents-work-only-from-memory.md
+  basis: 'pr.md taxonomy rule None (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: null
+  severity: P4
+  category: decision-records
+  file: docs/adr/_index.md
+  basis: 'pr.md taxonomy rule None (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: null
+  severity: P4
+  category: decision-records
+  file: docs/adr/_index.md
+  basis: 'pr.md taxonomy rule None (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: REV-STORY-GAP
+  severity: P3
+  category: decision-records
+  file: docs/adr/035-agents-work-only-from-memory.md
+  basis: 'pr.md P3 ''missing docs'': ADR 035 Affects names CLAUDE.md, docs/components/memory.md, .garura/core/config.yaml
+    memory keys, drive-contract rule 4, the glossary''s install rows and the locked knowledge/_DESIGN.md; no story
+    #655-#664 owns them yet (self-review finding 6). Proposed to Kapil.'
+- id: REV-ADR009-STATUS
+  severity: P4
+  category: decision-records
+  file: docs/adr/009-skill-ltm-organizational-knowledge.md
+  basis: 'playbook review/adrs (status field allowed values): ADR 009 had no **Status:** line; apply_adr.py added
+    one reading ''(not recorded)'' above its own ''## Status: Accepted'' section.'
+- id: REV-WORK-FILED
+  severity: P4
+  category: decision-records
+  file: docs/adr/035-agents-work-only-from-memory.md
+  basis: 'playbook review/adrs (consistency): ''Work This Creates'' says none is filed; #655-#664 were filed later
+    in this change. Accepted record, not edited.'
+- id: REV-PLAYBOOK-GAP
+  severity: P4
+  category: stm-working-notes-plans-and-design
+  file: .garura/project/issues/654/specs/plan.md
+  basis: 'categories.yaml missing_playbooks: no review playbook for STM working notes or run records; review/adrs
+    still says no ADR linter exists though adr.py lint does.'
+- id: REV-SCOPE-ORDER
+  severity: P4
+  category: stm-run-records
+  file: .garura/project/issues/_adr/20261018-082455/guard-report.json
+  basis: 'adr play Step 5 before Step 6: the scope check ran after the record commit, on the pre-commit snapshot,
+    and passed (ok: true, no violations; commit 8b650262).'
+- id: REV-SUBJECT-LEN
+  severity: P4
+  category: stm-run-records
+  file: (commits c0973b07, 10a592fe)
+  basis: 'standards/rules/commits.md subject-length (72): two subjects run 88 and 75 characters.'

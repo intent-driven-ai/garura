@@ -1,5 +1,7 @@
 # ADR 009: Skill LTM Reads for Organizational Knowledge
 
+**Status:** (not recorded) — amended in part by [ADR 035](035-agents-work-only-from-memory.md): Rule 3 "LTM paths are stable conventions … treated as API contracts", with its "LTM Reference Paths" and "Skill Reference Pattern" (load from `~/.garura/core/memory/…`): skills find organisational standards through the memory tool, never by a path. Rules 1, 2, 4 and 5 stand (behaviour embedded; standards in memory; failure is loud; no duplication).
+
 ## Status
 
 Accepted
