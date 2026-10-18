@@ -112,6 +112,19 @@ land this change (item 5), then the tool (#657) on its own branch.
   fixes from #454, and git ignores the folder; #670 and the tool's test settle
   it.
 
+- **4b. Review fixes (PR #671): built (not merged)** — #656. The first review
+  of PR #671 (harness verdict: reject) found one P1 and 9 memory wording
+  defects. The 9 are fixed in `core/components/memory/` and in Phoenix memory
+  (local commit `5fcd88e`): person fields in the ADR template and the ontology
+  example name a made-up person ("Alex Example"); "the owner" is gone; the
+  2026-09-08 rule is stated without a quote; the ux files say "accepted"; the
+  ontology Log has a dated line; the knowledge template says provenance names
+  a source, never a person or a client. The P1 is rule DATA-18 on
+  `core/tools/memory/test_pull.py` — the fake git address `t@example.com` in a
+  temp repository. Kapil, 2026-10-18: "approve. capture these are demos emails,
+  and part of tool that is using this as sample data. this is exception that
+  is approved". A comment at the line records the exception.
+
 ### 5. Land the change — now
 
 **Issue:** #656.
@@ -165,3 +178,7 @@ change (#656, #657, #661, #663) are fixed only when Kapil asks.
 - 2026-10-18 — Item 4 done: the PR rules setting points at `.garura/`; the
   file arrives when the pull tool runs (Kapil). Removed-memory case added for
   the tool's test.
+- 2026-10-18 — PR #671 reviewed: reject on one P1 (DATA-18, a demo address in a
+  test). Kapil approved it as an exception; 9 memory wording fixes made (item
+  4b). Small issue found, not fixed: `test_pull.py` never deletes its temp
+  folders.
