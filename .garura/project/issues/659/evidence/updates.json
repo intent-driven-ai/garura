@@ -1,0 +1,26 @@
+{
+  "ok": true,
+  "contract_version": "4",
+  "command": "updates",
+  "updates": [
+    {
+      "id": "mu-20261018-001",
+      "status": "applied",
+      "issue": 613,
+      "missing": "How long a guest's cart is kept before it is cleared.",
+      "target_tier": "short-term",
+      "target_path": "613/context/answers/guest-cart.md",
+      "draft": "A guest cart is kept for 7 days, then cleared. The guest is told when they come back.\n",
+      "draft_source": "web",
+      "sources": [],
+      "requested_by": "product-os-keeper (/vision)",
+      "requested_at": "2026-10-18T18:49:05Z",
+      "decided_by": "sample reviewer",
+      "reply": "Yes, 7 days.",
+      "decided_at": "2026-10-18T18:49:05Z",
+      "applied_version": null,
+      "blocking": true,
+      "decided_in": "review-tool"
+    }
+  ]
+}

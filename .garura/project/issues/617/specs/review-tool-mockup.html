@@ -50,6 +50,9 @@ h1, h2, h3 { font-family: var(--f-head); letter-spacing: -.01em; text-wrap: bala
 .seg { display: flex; background: var(--raised); border-radius: 10px; padding: 3px; gap: 2px; }
 .seg button { flex: 1; border: 0; background: transparent; border-radius: 8px; padding: 7px 12px; font-weight: 600; font-size: 13px; color: var(--fg2); white-space: nowrap; }
 .seg.sections { flex-wrap: wrap; }
+.quote { font: 13px/1.55 var(--f-mono); white-space: pre-wrap; background: var(--raised); border-radius: 8px; padding: 10px 12px; margin-top: 8px; }
+.quote.now { background: var(--chg-soft); }
+.lands { margin: 8px 0 0; color: var(--fg2); font-size: 12px; }
 .seg.sections button { flex: 1 0 30%; }
 .seg button[aria-pressed="true"] { background: var(--bg); color: var(--fg); box-shadow: 0 1px 3px rgba(10,14,26,.12); }
 .nav { display: flex; flex-direction: column; gap: 2px; }
@@ -158,6 +161,7 @@ h1, h2, h3 { font-family: var(--f-head); letter-spacing: -.01em; text-wrap: bala
 .sec + .sec { border-top: 1px solid var(--line); }
 .sec.added { border-left-color: var(--add); }
 .sec.removed { border-left-color: var(--del); }
+.sec.changed { border-left-color: var(--chg); }
 .sec.removed .tx { text-decoration: line-through; text-decoration-color: var(--del); color: var(--fg2); }
 .sec .tx { margin-top: 6px; font-size: 16px; max-width: 66ch; }
 .tx p { margin: 0 0 8px; } .tx p:last-child { margin-bottom: 0; }
@@ -1104,19 +1108,35 @@ const MEM = {
     { id:'adr-037', title:'ADR 037 — A guest cart is kept for 7 days', why:'Proposed through /adr for the checkout capability, after the memory update about guest carts.', text:'A guest cart is kept for 7 days, then cleared. The guest is told when they come back.', status:'waiting' },
     { id:'adr-036', title:'ADR 036 — An approved researched answer lands in short-term memory', why:'Accepted on 18 Oct.', text:'A researched answer a person approves is written to the issue\'s short-term memory.', status:'accepted' },
   ],
-  decisions: [
-    { id:'cite-20261017-001', play:'/vision', by:'product-os-keeper', q:'Is guest checkout allowed at launch?', a:'Yes. An account is offered after payment.', src:[['Garura memory','product model · checkout capability','line 12']], check:'same' },
-    { id:'cite-20261017-002', play:'/vision', by:'product-os-keeper', q:'Do we cap the cart size?', a:'No cap at launch.', src:[['Phoenix memory','knowledge · ecommerce domain','lines 41–42']], check:'changed', note:'Phoenix memory moved on: these lines now say a cart holds at most 100 items.' },
-    { id:'cite-20261017-003', play:'/understand', by:'product-os-keeper', q:'Does checkout need an address book?', a:'Not at launch.', src:[], check:'none', note:'No memory was named for this decision.' },
-  ],
+  // Agent decisions: the memory tool's own `citations --check` answer (contract v4), made by
+  // .garura/project/issues/659/evidence/make_decisions.py against real Phoenix memory lines.
+  citations: {"ok": true, "contract_version": "4", "command": "citations", "records": [{"citation_id": "cite-20261018-001", "issue": 613, "play": "/intent", "question": "What path does a shopper take from the storefront to paying?", "answer": "Home, category pages, product listing, product detail, cart, then checkout.", "decided_by": "intent-resolver (/intent)", "decided_at": "2026-10-18T18:49:06Z", "sources": [{"tier": "phoenix", "path": "knowledge/domains/ecommerce.md", "start": 87, "end": 88, "fingerprint": "sha256:7fe917d2d71c88a49db9745f6170abe113db7fe23863f36e7f921ad19163a6b5", "text": "**home → category pages → PLP (product listing) → PDP (product detail) → cart →\ncheckout handoff.**", "version": "5fcd88e05cf6"}], "from_update": null}, {"citation_id": "cite-20261018-002", "issue": 613, "play": "/vision", "question": "How does the shop take card payments?", "answer": "Through a payment provider with hosted fields, so card data never touches our servers.", "decided_by": "product-os-keeper (/vision)", "decided_at": "2026-10-18T18:49:06Z", "sources": [{"tier": "phoenix", "path": "knowledge/domains/payments.md", "start": 19, "end": 21, "fingerprint": "sha256:a7616b3002d1670c52f7fb9d8bcc8a80d4b9d5a354daddbcf7c433e3bad6ab39", "text": "The one organising rule: **never hold card data you don't have to.** Charge through\na **PSP** (Stripe/Adyen/etc.) with **hosted fields / tokenisation**, so you stay\nout of the worst of PCI scope. Payments is **trust infrastructure** — almost every", "version": "5fcd88e05cf6"}, {"tier": "phoenix", "path": "knowledge/domains/payments.md", "start": 44, "end": 44, "fingerprint": "sha256:fd7868764e0280c165b2ef7106df640b30e3686d1bae635bfb9f2ed6fd113892", "text": "  - Card via PSP / hosted fields — charge through Stripe/Adyen with hosted fields so card data never touches your servers. The floor.", "version": "5fcd88e05cf6"}], "from_update": null}, {"citation_id": "cite-20261018-003", "issue": 613, "play": "/vision", "question": "Can a returning shopper pay with a saved card?", "answer": "Yes, as a provider token only — never the card number.", "decided_by": "product-os-keeper (/vision)", "decided_at": "2026-10-18T18:49:06Z", "sources": [{"tier": "phoenix", "path": "knowledge/domains/payments.md", "start": 63, "end": 65, "fingerprint": "sha256:85ad97c8e33a8641f2dee207bc6f564dddb4fad2d0a1394feb5feb96b3aa165e", "text": "- **Saved Methods / One-Click** — when repeat purchase or conversion speed matters;\n  tokenised vaulting only (mandatory under PCI-DSS).\n  - Tokenised vaulting — store the PSP token, never the card, for one-click reuse. The floor of this capability; mandatory when `compliance` includes PCI-DSS.", "version": "5fcd88e05cf6"}], "from_update": null}, {"citation_id": "cite-20261018-004", "issue": 613, "play": "/vision", "question": "Are Apple Pay and Google Pay part of launch?", "answer": "Yes. The shop has a mobile app, so wallets are in.", "decided_by": "product-os-keeper (/vision)", "decided_at": "2026-10-18T18:49:06Z", "sources": [{"tier": "phoenix", "path": "knowledge/domains/payments.md", "start": 47, "end": 47, "fingerprint": "sha256:bc8ec15bae47abe96db5d0e267587d42041ad8fc38915131f6c38acfc63f172e", "text": "  - Wallets — Apple Pay / Google Pay one-tap. Add when `shape.surfaces` includes mobile.", "version": "5fcd88e05cf6"}], "from_update": null}, {"citation_id": "cite-20261018-005", "issue": 613, "play": "/vision", "question": "Is guest checkout allowed at launch?", "answer": "Yes. An account is offered after payment.", "decided_by": "product-os-keeper (/vision)", "decided_at": "2026-10-18T18:49:07Z", "sources": [{"tier": "garura", "path": "product/product-os/checkout/checkout/capability.md", "start": 12, "end": 12, "fingerprint": "sha256:686f4b787324c50327ccf227d33ee8bf6cdeec1a133a32088c6e24fcd802823d", "text": "Guest checkout: allowed at launch; an account is offered after payment.", "version": null}], "from_update": null}, {"citation_id": "cite-20261018-006", "issue": 613, "play": "/vision", "question": "How long is a guest's cart kept?", "answer": "Seven days, then it is cleared and the guest is told.", "decided_by": "product-os-keeper (/vision)", "decided_at": "2026-10-18T18:49:07Z", "sources": [{"tier": "short-term", "path": "613/context/answers/guest-cart.md", "start": 1, "end": 1, "fingerprint": "sha256:fe87c37c6249a10ffb228c9df087a92b68b600834299a996b4b5639ffb8fe7b6", "text": "A guest cart is kept for 7 days, then cleared. The guest is told when they come back.", "version": null}], "from_update": "mu-20261018-001"}, {"citation_id": "cite-20261018-007", "issue": 613, "play": "/vision", "question": "Is there a cap on items in a cart?", "answer": "No cap at launch.", "decided_by": "product-os-keeper (/vision)", "decided_at": "2026-10-18T18:49:07Z", "sources": [{"tier": "garura", "path": "product/product-os/checkout/limits.md", "start": 3, "end": 3, "fingerprint": "sha256:9bfc2372738dcb11a0470d665c799a22b3878f880bc19724d68175574daa2862", "text": "Cart size: no cap at launch.", "version": null}], "from_update": null}, {"citation_id": "cite-20261018-008", "issue": 613, "play": "/understand", "question": "How do shoppers sign in?", "answer": "Email and password, with social login for public shoppers.", "decided_by": "product-os-keeper (/understand)", "decided_at": "2026-10-18T18:49:07Z", "sources": [{"tier": "phoenix", "path": "knowledge/domains/user-management.md", "start": 45, "end": 46, "fingerprint": "sha256:c228e5b98a99caee2b4e341ed8b33fa7b98f13c841c615b519c7e46677f773c4", "text": "  - Email & password — the default credential login (the floor).\n  - Social login — when `shape.users: public` and signup friction matters.", "version": "5fcd88e05cf6"}], "from_update": null}, {"citation_id": "cite-20261018-009", "issue": 613, "play": "/understand", "question": "Does the shop need MFA at launch?", "answer": "Yes. Taking card payments brings PCI-DSS, and MFA comes with it.", "decided_by": "product-os-keeper (/understand)", "decided_at": "2026-10-18T18:49:07Z", "sources": [{"tier": "phoenix", "path": "knowledge/domains/user-management.md", "start": 47, "end": 47, "fingerprint": "sha256:c89448a174063a7fd38563ddc89c1a0248c42701647a0f1bd7b13b280b2c293e", "text": "  - MFA — when `nfr.security >= high`, or `compliance` includes SOC2 / HIPAA / PCI-DSS.", "version": "5fcd88e05cf6"}], "from_update": null}, {"citation_id": "cite-20261018-010", "issue": 613, "play": "/understand", "question": "Which refunds are in launch?", "answer": "Full and partial refunds through the payment provider.", "decided_by": "product-os-keeper (/understand)", "decided_at": "2026-10-18T18:49:08Z", "sources": [{"tier": "phoenix", "path": "knowledge/domains/payments.md", "start": 60, "end": 60, "fingerprint": "sha256:9917ad82b9768f99546cca1c1836396623548c3997c552b6165b23149a133e2d", "text": "  - Level 1 — full / partial refunds: reverse a charge in whole or part via the PSP. The floor.", "version": "5fcd88e05cf6"}], "from_update": null}, {"citation_id": "cite-20261018-011", "issue": 613, "play": "/understand", "question": "How does a shopper get back into a locked account?", "answer": "Password reset, the floor for any password login.", "decided_by": "product-os-keeper (/understand)", "decided_at": "2026-10-18T18:49:08Z", "sources": [{"tier": "phoenix", "path": "knowledge/domains/user-management.md", "start": 61, "end": 62, "fingerprint": "sha256:a14c71e08178448441b9619f19e0e7bcc745c74198781ea9c4f64f81c0e13ef3", "text": "- **Account Recovery** — include with any credential-based auth.\n  - Password reset — the floor; any credential login.", "version": "5fcd88e05cf6"}], "from_update": null}, {"citation_id": "cite-20261009-001", "issue": 613, "play": "/understand", "question": "Does checkout need an address book?", "answer": "Not at launch.", "decided_by": "product-os-keeper (/understand)", "decided_at": "2026-10-09T11:20:00Z", "sources": [], "from_update": null}], "problems": [{"citation_id": "cite-20261018-004", "problem": "source_changed", "source": {"tier": "phoenix", "path": "knowledge/domains/payments.md", "start": 47, "end": 47, "fingerprint": "sha256:bc8ec15bae47abe96db5d0e267587d42041ad8fc38915131f6c38acfc63f172e", "text": "  - Wallets — Apple Pay / Google Pay one-tap. Add when `shape.surfaces` includes mobile.", "version": "5fcd88e05cf6"}, "detail": "Phoenix memory knowledge/domains/payments.md line 47 no longer says what the decision rested on.", "now": "  - Wallets — Apple Pay / Google Pay one-tap. Add when `shape.surfaces` includes mobile and the PSP supports wallets in every launch region."}, {"citation_id": "cite-20261018-007", "problem": "source_missing", "source": {"tier": "garura", "path": "product/product-os/checkout/limits.md", "start": 3, "end": 3, "fingerprint": "sha256:9bfc2372738dcb11a0470d665c799a22b3878f880bc19724d68175574daa2862", "text": "Cart size: no cap at launch.", "version": null}, "detail": "Garura memory product/product-os/checkout/limits.md line 3: the file is not there.", "now": null}, {"citation_id": "cite-20261009-001", "problem": "no_source", "source": null, "detail": "The decision names no memory.", "now": null}]},
+  // the memory tool's `updates` answer: the memory update a decision came from, and who approved it
+  citedUpdates: [{"id": "mu-20261018-001", "status": "applied", "issue": 613, "missing": "How long a guest's cart is kept before it is cleared.", "target_tier": "short-term", "target_path": "613/context/answers/guest-cart.md", "draft": "A guest cart is kept for 7 days, then cleared. The guest is told when they come back.\n", "draft_source": "web", "sources": [], "requested_by": "product-os-keeper (/vision)", "requested_at": "2026-10-18T18:49:05Z", "decided_by": "sample reviewer", "reply": "Yes, 7 days.", "decided_at": "2026-10-18T18:49:05Z", "applied_version": null, "blocking": true, "decided_in": "review-tool"}],
+  reviewed: {},
+  decisionsNote: 'These records are the real memory tool\'s answer, read from real Phoenix memory lines. The shop, issue #613 and the reviewer are samples.',
   cur:null, words:{}, cu:false, later:[], err:'',
 };
 const MSRC = { person:'Drafted by a person', web:'Drafted from the web', model:'Drafted by the model', memory:'Drafted from memory' };
-const CHECK = { same:['added','Sources unchanged'], changed:['changed','A source changed'], none:['removed','No source'] };
+const STATUS = { same:['added','Unchanged'], changed:['changed','A source changed'], missing:['removed','A source is gone'], none:['removed','No source'] };
+const TIER = { 'short-term':'Short-term memory', garura:'Garura memory', phoenix:'Phoenix memory' };
+const lineSpan = x => x.start === x.end ? `line ${x.start}` : `lines ${x.start}–${x.end}`;
+const when = t => (t || '').replace('T', ' ').replace(/:\d\dZ$/, ' UTC');
+function decisions() {
+  const c = MEM.citations || { records:[], problems:[] };
+  return c.records.map(r => {
+    const probs = c.problems.filter(p => p.citation_id === r.citation_id), kinds = probs.map(p => p.problem);
+    const status = kinds.includes('no_source') ? 'none' : kinds.includes('source_missing') ? 'missing' : kinds.includes('source_changed') ? 'changed' : 'same';
+    return { id:r.citation_id, r, probs, status };
+  });
+}
+const PLAYS = ['/intent', '/vision', '/understand'];
+const byPlay = list => [...new Set(PLAYS.concat(list.map(d => d.r.play || 'no play')))].filter(pl => list.some(d => (d.r.play || 'no play') === pl));
+const srcSummary = r => r.sources.length ? r.sources.map(x => `${TIER[x.tier]} · ${x.path.split('/').pop()} ${lineSpan(x)}`).join('; ') : 'no memory named';
 const SEC = { adrs:'ADRs', memory:'Memory', decisions:'Agent decisions' };
 const mWaiting = () => MEM.updates.filter(u => u.status === 'waiting');
 const mDecided = () => MEM.updates.filter(u => u.status !== 'waiting');
-const mFind = id => MEM.updates.find(u => u.id === id) || MEM.adrs.find(a => a.id === id) || MEM.decisions.find(d => d.id === id);
+const mFind = id => MEM.updates.find(u => u.id === id) || MEM.adrs.find(a => a.id === id) || decisions().find(d => d.id === id);
 const mChips = u => `<span class="chip kind">Issue #${u.issue}</span><span class="chip ${u.source === 'web' || u.source === 'model' ? 'changed' : 'kind'}">${MSRC[u.source]}</span>${u.blocking ? '<span class="chip removed">Blocks the work</span>' : ''}${u.status !== 'waiting' ? `<span class="chip ${u.status === 'rejected' ? 'removed' : 'added'}">${u.status === 'rejected' ? 'Rejected' : 'Approved'}</span>` : ''}`;
 const srcLine = s => `${esc(s[0])} · ${esc(s[1])} · ${esc(s[2])}`;
 const TOPBAR = ['v-final', 'v-changes', 's-changed', 's-all', 'point', 'finish'];
@@ -1140,8 +1160,9 @@ function memNav() {
     if (d.length) h += `<div class="label">Accepted</div>` + d.map(a => navItem(a.id, a.title, 'added', '✓')).join('');
   }
   if (S.tool === 'decisions') {
-    for (const play of [...new Set(MEM.decisions.map(d => d.play))]) {
-      h += `<div class="label">${esc(play)}</div>` + MEM.decisions.filter(d => d.play === play).map(d => navItem(d.id, d.q, CHECK[d.check][0], d.reviewed ? '✓' : '')).join('');
+    const all = decisions();
+    for (const play of byPlay(all)) {
+      h += `<div class="label">${esc(play)}</div>` + all.filter(d => (d.r.play || 'no play') === play).map(d => navItem(d.id, d.r.question, STATUS[d.status][0], MEM.reviewed[d.id] === 'ok' ? '✓' : MEM.reviewed[d.id] ? '↩' : '')).join('');
     }
   }
   $('#nav').innerHTML = h;
@@ -1181,29 +1202,49 @@ function adrsOverview() {
       ${MEM.adrs.map(a => `<button class="row" data-mgo="${a.id}"><span class="chips"><span class="chip ${a.status === 'waiting' ? 'changed' : 'added'}">${a.status === 'waiting' ? 'Proposed' : 'Accepted'}</span></span><span><div class="rt">${esc(a.title)}</div><div class="rw">${esc(a.why)}</div></span><span class="go">→</span></button>`).join('')}</div></div>`;
 }
 function decisionsOverview() {
-  const n = k => MEM.decisions.filter(d => d.check === k).length;
-  const order = MEM.decisions.slice().sort((a, b) => ['none', 'changed', 'same'].indexOf(a.check) - ['none', 'changed', 'same'].indexOf(b.check));
-  return `<div class="content-in ov"><div class="note"><b>${esc(MEM.noteTitle)}</b><span>${esc(MEM.note)}</span></div>
-    <h1>Agents made <em>${MEM.decisions.length}</em> decisions${n('changed') + n('none') ? `; <em>${n('changed') + n('none')}</em> need a look` : ''}.</h1>
-    <p class="sub">Every decision an agent makes names the memory it came from. Each source is checked again: it still says the same thing, it changed, or there was none.</p><div class="sig"></div>
+  const all = decisions(), n = k => all.filter(d => d.status === k).length, look = all.length - n('same');
+  const order = all.slice().sort((a, b) => ['none', 'missing', 'changed', 'same'].indexOf(a.status) - ['none', 'missing', 'changed', 'same'].indexOf(b.status));
+  const issues = [...new Set(all.map(d => d.r.issue))];
+  return `<div class="content-in ov"><div class="note"><b>${esc(MEM.noteTitle)}</b><span>${esc(MEM.decisionsNote || MEM.note)}</span></div>
+    <h1>${all.length ? `Agents made <em>${all.length}</em> decisions${issues.length === 1 ? ` for issue #${issues[0]}` : ''}${look ? `; <em>${look}</em> need${look === 1 ? 's' : ''} a look` : ''}.` : 'No agent decision is recorded yet.'}</h1>
+    <p class="sub">Every decision an agent makes names the memory it came from — the tier, the file, the lines — and keeps the exact text it read. Each source is read again now: it still says the same, it changed, or it is gone.</p><div class="sig"></div>
     <div class="stats">
-      <div class="stat"><div class="label">Decisions</div><div class="n">${MEM.decisions.length}</div><div class="h">recorded</div></div>
-      <div class="stat"><div class="label">Sources unchanged</div><div class="n">${n('same')}</div><div class="h">still say the same</div></div>
-      <div class="stat"><div class="label">A source changed</div><div class="n key">${n('changed')}</div><div class="h">memory moved on</div></div>
-      <div class="stat"><div class="label">No source</div><div class="n key">${n('none')}</div><div class="h">not allowed</div></div>
-      <div class="stat"><div class="label">Plays</div><div class="n">${new Set(MEM.decisions.map(d => d.play)).size}</div><div class="h">made them</div></div>
+      <div class="stat"><div class="label">Decisions</div><div class="n">${all.length}</div><div class="h">by ${byPlay(all).length} plays</div></div>
+      <div class="stat"><div class="label">Unchanged</div><div class="n">${n('same')}</div><div class="h">memory still says the same</div></div>
+      <div class="stat"><div class="label">Changed</div><div class="n${n('changed') ? ' key' : ''}">${n('changed')}</div><div class="h">memory moved on</div></div>
+      <div class="stat"><div class="label">Gone</div><div class="n${n('missing') ? ' key' : ''}">${n('missing')}</div><div class="h">the source is not there</div></div>
+      <div class="stat"><div class="label">No source</div><div class="n${n('none') ? ' key' : ''}">${n('none')}</div><div class="h">not allowed</div></div>
     </div>
-    <div class="sect"><div class="sect-h"><h2>Decisions</h2><span>Problems first</span></div>
-      ${order.map(d => `<button class="row" data-mgo="${d.id}"><span class="chips"><span class="chip ${CHECK[d.check][0]}">${CHECK[d.check][1]}</span></span><span><div class="rt">${esc(d.q)} — ${esc(d.a)}</div><div class="rw">${esc(d.play)} · ${d.src.length ? d.src.map(srcLine).join('; ') : 'no memory named'}</div></span><span class="go">→</span></button>`).join('')}</div></div>`;
+    ${byPlay(order).map(play => `<div class="sect"><div class="sect-h"><h2>${esc(play)}</h2><span>${(k => k + (k === 1 ? ' decision' : ' decisions'))(order.filter(d => (d.r.play || 'no play') === play).length)} · problems first</span></div>
+      ${order.filter(d => (d.r.play || 'no play') === play).map(d => `<button class="row" data-mgo="${d.id}"><span class="chips"><span class="chip ${STATUS[d.status][0]}">${STATUS[d.status][1]}</span></span><span><div class="rt">${esc(d.r.question)}</div><div class="rw">${esc(d.r.answer)}</div><div class="rw">${esc(srcSummary(d.r))}</div></span><span class="go">→</span></button>`).join('')}</div>`).join('')}
+  </div>`;
 }
 function memPiece(x) {
   if (x.title) return `<div class="content-in"><div class="chips"><span class="chip kind">ADR</span><span class="chip ${x.status === 'waiting' ? 'changed' : 'added'}">${x.status === 'waiting' ? 'Proposed' : 'Accepted'}</span></div>
     <h1 style="margin-top:14px">${esc(x.title)}</h1><p class="why"><b>Why:</b> ${esc(x.why)}</p><div class="sig" style="margin-top:18px"></div>
     <div class="sec"><div class="label">The decision</div><div class="tx"><p>${esc(x.text)}</p></div></div></div>`;
-  if (x.q) return `<div class="content-in"><div class="chips"><span class="chip kind">${esc(x.play)}</span><span class="chip ${CHECK[x.check][0]}">${CHECK[x.check][1]}</span></div>
-    <h1 style="margin-top:14px">${esc(x.q)}</h1><p class="why"><b>Decided by</b> ${esc(x.by)} in ${esc(x.play)}.</p><div class="sig" style="margin-top:18px"></div>
-    <div class="sec"><div class="label">The answer</div><div class="tx"><p>${esc(x.a)}</p></div></div>
-    <div class="sec ${x.check === 'same' ? 'added' : x.check === 'none' ? 'removed' : ''}"><div class="label">The memory it rested on</div><div class="tx">${x.src.length ? `<ul>${x.src.map(s => `<li>${srcLine(s)}</li>`).join('')}</ul>` : '<p>None was named.</p>'}</div>${x.note ? `<p class="lands">${esc(x.note)}</p>` : ''}</div></div>`;
+  if (x.r) {
+    const r = x.r, probFor = src => x.probs.find(p => p.source && p.source.path === src.path && p.source.start === src.start);
+    const sources = r.sources.map((src, i) => { const pr = probFor(src);
+      return `<div class="sec ${pr ? (pr.problem === 'source_changed' ? 'changed' : 'removed') : 'added'}"><div class="label">Source ${i + 1} · ${TIER[src.tier]}</div>
+        <div class="tx"><p><b>${esc(src.path)}</b> · ${lineSpan(src)}</p></div>
+        <div class="label" style="margin-top:10px">What the agent read</div>
+        <div class="quote">${esc(src.text)}</div>
+        <p class="lands">Read ${src.version ? 'at Phoenix version ' + esc(src.version.slice(0, 12)) : src.tier === 'short-term' ? 'from the issue\'s folder' : 'from the project\'s Garura memory'} · fingerprint ${esc(src.fingerprint.slice(7, 15))}…</p>
+        ${pr ? (pr.problem === 'source_changed' ? `<div class="label" style="margin-top:10px">What those lines say now</div><div class="quote now">${esc(pr.now)}</div><p class="lands">${esc(pr.detail)}</p>`
+                                                 : `<p class="lands"><b>Now:</b> ${esc(pr.detail)}</p>`) : '<p class="lands">Read again now: it still says the same.</p>'}</div>`; }).join('');
+    return `<div class="content-in"><div class="chips"><span class="chip kind">${esc(r.play || 'no play')}</span><span class="chip ${STATUS[x.status][0]}">${STATUS[x.status][1]}</span>${r.from_update ? '<span class="chip added">From an approved memory update</span>' : ''}<span class="chip kind">Issue #${r.issue}</span></div>
+      <h1 style="margin-top:14px">${esc(r.question)}</h1>
+      <p class="why"><b>Decided by</b> ${esc(r.decided_by)} · ${esc(when(r.decided_at))} · ${esc(r.citation_id)}</p><div class="sig" style="margin-top:18px"></div>
+      <div class="sec"><div class="label">The answer</div><div class="tx"><p>${esc(r.answer)}</p></div></div>
+      ${r.from_update ? (u => `<div class="sec added"><div class="label">From a memory update · ${esc(r.from_update)}</div>
+        <div class="tx"><p>No memory held this, so ${u ? esc(u.requested_by) : 'the agent'} asked for it. A person approved it, and it was written to the issue's short-term memory. That file is the source below.</p></div>
+        ${u ? `<p class="lands"><b>Missing:</b> ${esc(u.missing)}</p>
+        <p class="lands"><b>Approved by</b> ${esc(u.decided_by)} in the ${u.decided_in === 'review-tool' ? 'review tool' : esc(u.decided_in)} · ${esc(when(u.decided_at))}${u.reply ? ` · “${esc(u.reply)}”` : ''}</p>` : ''}</div>`)((MEM.citedUpdates || []).concat(MEM.updates).find(x => x.id === r.from_update)) : ''}
+      <div class="label" style="margin:22px 0 4px">The memory it rested on</div>
+      ${sources || `<div class="sec removed"><p>No memory was named for this decision.</p><p class="lands">${esc((x.probs[0] || {}).detail || '')} Every decision must name its memory (ADR 035 §6). Send it back, and the agent decides again from memory.</p></div>`}
+    </div>`;
+  }
   return `<div class="content-in"><div class="chips">${mChips(x)}</div>
     <h1 style="margin-top:14px">${esc(x.missing)}</h1><p class="why"><b>Why:</b> no memory held this. Raised by ${esc(x.by)}, ${esc(x.at)}.</p><div class="sig" style="margin-top:18px"></div>
     <div class="sec"><div class="label">The draft</div><div class="tx"><p>${esc(x.draft)}</p></div></div>
@@ -1215,9 +1256,9 @@ function memSide(x) {
   if (x.title) { side.innerHTML = x.status !== 'waiting' ? `<div class="decide"><div class="q">Accepted.</div></div>` : `<div class="decide"><div class="q">Accept this decision?</div>
     <button class="dbtn accept" data-mans="accept"><span class="ico">✓</span><span>Accept<small>The ADR is accepted, and older ones get a pointer.</small></span><span class="k">a</span></button>
     <button class="dbtn send" data-mans="send"><span class="ico">↩</span><span>Send back<small>The /adr play reworks it from your comment.</small></span><span class="k">s</span></button></div>`; return; }
-  if (x.q) { side.innerHTML = `<div class="decide"><div class="q">${x.check === 'same' ? 'The memory still says the same.' : 'Does this decision still hold?'}</div>
-    <button class="dbtn accept" data-mans="ok" aria-pressed="${!!x.reviewed}"><span class="ico">✓</span><span>Looks right<small>The decision stands as it is.</small></span><span class="k">a</span></button>
-    <button class="dbtn send" data-mans="redo"><span class="ico">↩</span><span>Send back<small>The agent decides again, from memory as it is now.</small></span><span class="k">s</span></button></div>`; return; }
+  if (x.r) { side.innerHTML = `<div class="decide"><div class="q">${x.status === 'same' ? 'The memory still says the same.' : 'Does this decision still hold?'}</div>
+    <button class="dbtn accept" data-mans="ok" aria-pressed="${MEM.reviewed[x.id] === 'ok'}"><span class="ico">✓</span><span>Looks right<small>The decision stands as it is.</small></span><span class="k">a</span></button>
+    <button class="dbtn send" data-mans="redo" aria-pressed="${MEM.reviewed[x.id] === 'redo'}"><span class="ico">↩</span><span>Send back<small>The agent decides again, from memory as it is now.</small></span><span class="k">s</span></button></div>`; return; }
   if (x.status !== 'waiting') { side.innerHTML = `<div class="decide"><div class="q">${x.status === 'rejected' ? 'You rejected this.' : 'You approved this.'}</div><p class="empty">“${esc(x.reply)}”</p></div>`; return; }
   side.innerHTML = `<div class="decide"><div class="q">What do you want to do with this?</div>
     <div class="composer"><textarea id="m-words" placeholder="Your words — needed to approve or reject">${esc(MEM.words[x.id] || '')}</textarea></div>
@@ -1269,7 +1310,7 @@ document.addEventListener('click', e => {
   if (t.dataset.mans) {
     e.stopImmediatePropagation(); const x = mFind(MEM.cur);
     if (x.title) { if (t.dataset.mans === 'accept') x.status = 'accepted'; event('adr_' + t.dataset.mans, { title:x.title }); return render(); }
-    if (x.q) { x.reviewed = t.dataset.mans === 'ok'; event('decision_' + t.dataset.mans, { title:x.q }); return render(); }
+    if (x.r) { MEM.reviewed[x.id] = t.dataset.mans; event('decision_' + t.dataset.mans, { title:x.r.question }); return render(); }
     return Promise.resolve(memDecide(x, t.dataset.mans, $('#m-words').value)).then(render);
   }
 }, true);
@@ -1282,11 +1323,11 @@ document.addEventListener('keydown', e => {
   if (MEM.cu) { if (e.key === 'Escape') return memCuClose(); const m = { ArrowLeft:'later', a:'approve', r:'reject' }[e.key]; if (m) document.querySelector(`[data-mcu="${m}"]`)?.click(); return; }
   if ((e.key === 'a' || e.key === 'r' || e.key === 's') && MEM.cur) return document.querySelector({ a:'[data-mans="approve"], [data-mans="accept"], [data-mans="ok"]', r:'[data-mans="reject"]', s:'[data-mans="send"], [data-mans="redo"]' }[e.key])?.click();
   if (e.key === 'j' || e.key === 'k') {
-    const ids = [null].concat(S.tool === 'memory' ? mWaiting().concat(mDecided()).map(u => u.id) : S.tool === 'adrs' ? MEM.adrs.map(a => a.id) : MEM.decisions.map(d => d.id));
+    const ids = [null].concat(S.tool === 'memory' ? mWaiting().concat(mDecided()).map(u => u.id) : S.tool === 'adrs' ? MEM.adrs.map(a => a.id) : decisions().map(d => d.id));
     const i = ids.indexOf(MEM.cur); MEM.cur = ids[Math.max(0, Math.min(ids.length - 1, i + (e.key === 'j' ? 1 : -1)))]; render();
   }
 }, true);
-{ const h = location.hash.slice(1); if (h in SEC) { S.tool = h; render(); } }
+{ const [h, id] = location.hash.slice(1).split('/'); if (h in SEC) { S.tool = h; if (id && mFind(id)) MEM.cur = id; render(); } }
 </script>
 </body>
 </html>
