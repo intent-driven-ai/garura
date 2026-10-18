@@ -109,8 +109,7 @@ def transform_config(content, project_name, tool):
     """Transform garura's own config for a target project + host tool.
 
     name->project name, type->Project, component paths->the tool's install
-    location, memory->the shared ~/.garura, and drop the platform/github lines
-    (a fresh project sets its own).
+    location, and drop the platform/github lines (a fresh project sets its own).
     """
     cp = _COMPONENT_PATHS[tool]
     out_lines = []
@@ -130,7 +129,6 @@ def transform_config(content, project_name, tool):
         line = re.sub(r"^(\s*skills:\s*).+$", r"\1" + cp["skills"], line)
         line = re.sub(r"^(\s*plays:\s*).+$", r"\1" + cp["plays"], line)
         line = re.sub(r"^(\s*agents:\s*).+$", r"\1" + cp["agents"], line)
-        line = re.sub(r"^(\s*memory:\s*).+$", r"\1~/.garura/core/memory/", line)
         out_lines.append(line)
     text = "\n".join(out_lines)
     text = re.sub(r"\n{3,}", "\n\n", text)
