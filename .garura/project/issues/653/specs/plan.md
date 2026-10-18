@@ -130,7 +130,7 @@ with Kapil's login and change-password test as its finish test.
 
 ### 4. Build the memory tool — now
 
-**Issue:** #657.
+**Issue:** #657. Its plan: `.garura/project/issues/657/specs/plan.md`.
 **What:** the command-line tool from the contract, with a folder engine that
 finds, searches and reads exact lines across the three tiers, going up to
 Phoenix memory when the project has no answer, and that writes approved updates
