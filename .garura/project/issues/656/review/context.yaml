@@ -15,7 +15,18 @@
     ".garura/project/issues/656/context/resolved-rules.json",
     ".garura/project/issues/656/context/self-review.md",
     ".garura/project/issues/656/context/work-description.txt",
+    ".garura/project/issues/656/review/categories.yaml",
+    ".garura/project/issues/656/review/context.yaml",
+    ".garura/project/issues/656/review/decision-comment.md",
+    ".garura/project/issues/656/review/decision.yaml",
+    ".garura/project/issues/656/review/design-findings-memory.yaml",
+    ".garura/project/issues/656/review/findings.yaml",
+    ".garura/project/issues/656/review/posted.json",
+    ".garura/project/issues/656/review/pr.diff",
+    ".garura/project/issues/656/review/quality-findings.yaml",
+    ".garura/project/issues/656/review/recommended_verdict.yaml",
     ".garura/project/issues/656/specs/plan.md",
+    "core/components/memory/knowledge/_TEMPLATE.md",
     "core/components/memory/knowledge/architecture/agent-assistive.md",
     "core/components/memory/knowledge/architecture/agent-derive-once-apply-many.md",
     "core/components/memory/knowledge/architecture/agent-orchestration-patterns.md",
@@ -70,5 +81,7 @@
   ],
   "review_shelf": "./.garura/core/memory/knowledge/review/",
   "review_shelf_resolved": "~/.garura/phoenix-memory/knowledge/review/",
-  "review_shelf_note": "Resolved in tier order (short-term, then Garura memory, then Phoenix memory; Kapil 2026-10-18): Garura memory has no ./.garura/core/memory/knowledge/review/, so Phoenix memory's copy is used. review_shelf above is what fetch_pr_context.py wrote from ltm.project-target."
+  "review_shelf_note": "Resolved in tier order (short-term, then Garura memory, then Phoenix memory): Garura memory has no ./.garura/core/memory/knowledge/review/, so Phoenix memory's copy is used.",
+  "round": 2,
+  "gate_this_run": "on (gates.plays.review-change set on for this run only, at Kapil's choice; set back off after)"
 }

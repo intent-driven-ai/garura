@@ -1,26 +1,22 @@
 meta:
   pr: 671
   issue: 656
-  head: 0ca31ad2
+  round: 2
+  head: f7221657
   categories: categories.yaml
-  layers_run:
-    memory: Layer 1 linter (quality-check-scoped) + Layer 2 design-grounding (one change-reviewer; design-findings-memory.yaml)
-    executable-code: Layer 1 linter; ruff clean; all five files parse
-    tests: Layer 1 linter; test_pull.py 12/12 pass; test_check_contract.py 49 pass
-    config-maps: Layer 1 linter; removed keys unread; new pointer exists locally only (git-ignored folder)
-    stm-working-notes-plans-and-design: 'check_plan.py on both plans: valid. Playbook missing.'
-    stm-run-records: parse only. Playbook missing.
+  gate: on for this run (gates.plays.review-change), at Kapil's choice
   review_shelf: ~/.garura/phoenix-memory/knowledge/review/ (Garura memory has none; tier order)
-  taxonomy: './.garura/core/memory/standards/rules/pr.md (the configured Garura memory copy, 30 May; lacks the #454 prose
-    scoping, so prose files were scanned as code)'
+  taxonomy: ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy, 30 May; no prose scoping)
+  round1_memory_findings: MEM-01..MEM-09 resolved (MEM-06 with residual MEM-10); see design-findings-memory.yaml
 findings:
 - id: DATA-18
   severity: P1
   layer: linter (quality-check-scoped)
   file: core/tools/memory/test_pull.py
-  line: 44
+  line: 46
   basis: rule DATA-18 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
   finding: email
+  approved_exception: true
 - id: BE-19
   severity: P2
   layer: linter (quality-check-scoped)
@@ -347,51 +343,37 @@ findings:
   severity: P2
   layer: linter (quality-check-scoped)
   file: core/tools/memory/test_pull.py
-  line: 44
+  line: 46
   basis: rule DATA-17 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
   finding: email
 - id: BE-19
   severity: P2
   layer: linter (quality-check-scoped)
   file: core/tools/memory/test_pull.py
-  line: 64
+  line: 66
   basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
   finding: join
 - id: BE-19
   severity: P2
   layer: linter (quality-check-scoped)
   file: core/tools/memory/test_pull.py
-  line: 70
+  line: 72
   basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
   finding: join
 - id: BE-19
   severity: P2
   layer: linter (quality-check-scoped)
   file: core/tools/memory/test_pull.py
-  line: 76
+  line: 78
   basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
   finding: join
 - id: BE-19
   severity: P2
   layer: linter (quality-check-scoped)
   file: core/tools/memory/test_pull.py
-  line: 115
+  line: 117
   basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
   finding: from
-- id: SEC-23
-  severity: P2
-  layer: linter (quality-check-scoped)
-  file: core/tools/memory/test_pull.py
-  line: 124
-  basis: rule SEC-23 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
-  finding: os.environ
-- id: SEC-23
-  severity: P2
-  layer: linter (quality-check-scoped)
-  file: core/tools/memory/test_pull.py
-  line: 125
-  basis: rule SEC-23 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
-  finding: os.environ
 - id: SEC-23
   severity: P2
   layer: linter (quality-check-scoped)
@@ -410,14 +392,28 @@ findings:
   severity: P2
   layer: linter (quality-check-scoped)
   file: core/tools/memory/test_pull.py
-  line: 132
+  line: 128
   basis: rule SEC-23 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
   finding: os.environ
 - id: SEC-23
   severity: P2
   layer: linter (quality-check-scoped)
   file: core/tools/memory/test_pull.py
-  line: 133
+  line: 129
+  basis: rule SEC-23 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: os.environ
+- id: SEC-23
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 134
+  basis: rule SEC-23 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: os.environ
+- id: SEC-23
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 135
   basis: rule SEC-23 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
   finding: os.environ
 - id: ARCH-03
@@ -728,6 +724,13 @@ findings:
   line: 1
   basis: rule CODE-17 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
   finding: core/tools/memory/test_pull.py
+- id: FE-16
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/_TEMPLATE.md
+  line: 1
+  basis: rule FE-16 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/knowledge/_TEMPLATE.md
 - id: FE-16
   severity: P4
   layer: linter (quality-check-scoped)
@@ -1127,138 +1130,73 @@ findings:
   line: 1
   basis: rule CODE-19 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
   finding: core/tools/memory/test_pull.py
-- id: MEM-01
-  severity: P3
+- id: MEM-10
+  severity: P4
   layer: design-grounding (memory)
   category: memory
-  file: core/components/memory/standards/schemas/product-os/ontology.md
-  line: 138
-  basis: 'The same file defines Given by as ''The git user who ran the reading play'' (required, line 117 on main), and the
-    /intent play refuses an empty value because it ''must be the git user running the play'' (capture_source.py:107-108 on
-    main). The example no longer matches what the play writes, and the product-ontology template asks for a real, filled-in
-    instance as the reader will see it (templates/product-ontology.md:60-62 on main).
+  file: core/components/memory/knowledge/_TEMPLATE.md
+  line: 43-44
+  basis: 'ADR 035 section 1 names three tiers and says the project tier holds what the project makes itself; it takes care
+    that one word never means two things. The knowledge base is org-wide (garura-reference-implementation.md:241). _DESIGN.md
+    names the template as part of the durable content and says changes to the design go through a decision record (:3-4, :20-26);
+    round 1 offered a template line or an ADR amendment as the two homes, so the template line is accepted and a decision
+    record is a follow-up, not a defect. The client half has a committed analogue for shared views (G9); the personal-name
+    half has none on main.
 
     '
-  finding: The Source worked example now reads '**Given by:** the owner'.
-- id: MEM-02
-  severity: P3
+  finding: 'The no-personal-or-client-names rule now sits as two plain sentences at the end of the shelf template''s Provenance
+    section (''... never a person or a client. Memory is shared across projects, so it carries no personal or client names.'').
+    Three loose ends. (1) Scope: the rule says ''Memory'', but it lives in the template that governs only knowledge shelves,
+    while this PR applied it to five standards files too (two rules, two schemas, the ADR template); the other knowledge-file
+    standard, standards/templates/knowledge-file.md, still reads ''Provenance references an issue or work context'' and does
+    not carry it. An author of a standards rule has no reason to open the shelf template. (2) Tier: ''Memory is shared across
+    projects'' is true of Phoenix memory and the knowledge base, not of Garura memory, which holds what a project makes itself;
+    and the same template names a product as a valid provenance source, which in a project''s own memory may be a client''s
+    product. (3) Form: the two sentences are body prose where the template''s other guidance is a placeholder or a comment,
+    so a new learning that copies the template carries them into its own Provenance.
+
+    '
+- id: MEM-11
+  severity: P4
+  layer: design-grounding (memory)
+  category: memory
+  file: core/components/memory/knowledge/domains/payments.md:12; knowledge/domains/experience.md:86 and :237; knowledge/domains/personalization.md:51
+    and :159; knowledge/technology/delivery-triangle.md:15; knowledge/technology/delivery-industry-frames-derived.md:39
+  line: null
+  basis: 'One name, one meaning (ADR 035 section 1). ''Person'' is the framework''s word for who decides or confirms (ontology.md:84
+    on main; ADR 035 section 10), but on main it comes with an antecedent (''the person who asked''). ''Team experience''
+    already has a defined sense in delivery-industry-frames-derived.md:37 on main. These are the round-1 fixes taken literally,
+    so this is wording left open, not a regression.
+
+    '
+  finding: 'Two leftovers from the name removal. (1) The same note is still worded two ways: experience.md:86 ''The intent
+    list was drafted on delegation'' against personalization.md:51 ''The intent list was delegated to Claude''; and the closing
+    note experience.md:237 ''pending confirmation'' against personalization.md:159 ''pending the person''s confirmation''.
+    (2) Three holders have no antecedent: payments.md:12 opens a sentence ''The person asked me ...'' with no earlier mention
+    of who; delivery-triangle.md:15 ''the team''s frame''; delivery-industry-frames-derived.md:39 ''The team''s position''.
+    Read from another project''s memory, each points at the reader''s own person or team, and the same file already uses ''team
+    experience'' for the human who directs the agents.
+
+    '
+- id: MEM-12
+  severity: P4
   layer: design-grounding (memory)
   category: memory
   file: core/components/memory/standards/templates/adr.md
   line: 154
-  basis: 'The template''s own field is ''**Decided by:** <person>'' (line 70) and accepted_by is ''The PERSON who accepted
-    it'' (line 28); adr.py requires an accepted ADR to name who accepted it (147-148). The lint only tests that the field
-    is non-empty, so the example passes it while teaching a role label where the template wants a person. The committed ADRs
-    035 and 036 name a person.
+  basis: 'adr.md:145-146 on main says the example is ADR 031''s header as the template would write it; ADR 031 on main (line
+    5) names the person who decided. A worked example is meant to be a real instance (product-ontology.md:60-62), but this
+    one is a rendering of a real record, so a fictional name makes it a different record.
 
     '
-  finding: The gold example header now reads '**Decided by:** the owner'.
-- id: MEM-03
-  severity: P3
-  layer: design-grounding (memory)
-  category: memory
-  file: core/components/memory/knowledge/domains/personalization.md:51; knowledge/domains/payments.md:12; knowledge/technology/delivery-triangle.md:15;
-    standards/rules/no-unbacked-recommendation.md:7 (and the two sites in MEM-01 and MEM-02)
-  line: null
-  basis: 'Main holds no use of ''owner'' for the person who decides or gave an answer. It uses ''owner'' for other, defined
-    things: the quality-gate field ''owner: machine | human'' (lens/quality.md:15-17, quality-gates.yaml:21), a ''product
-    owner'' (rules/epics.md:13) and a document owner (domains/collaboration.md:58). ADRs 035 and 036 say ''person''. Once
-    Phoenix memory is read from other projects, ''the owner'' reads as the reader''s own owner, not the person it replaced.
-
-    '
-  finding: '''The owner'' is a new term used at six sites. Three of them start a sentence or paragraph in lower case (payments.md:12
-    after a bold lead-in, personalization.md:51, no-unbacked-recommendation.md:7). The same removal is worded four other ways
-    (experience.md:86 ''drafted on delegation'', personalization.md:158 ''per delegation'', measure.yaml:20 ''the PRIMARY
-    frame'', delivery-triangle.md:15 ''the owner''s frame'').
-
-    '
-- id: MEM-04
-  severity: P3
-  layer: design-grounding (memory)
-  category: memory
-  file: core/components/memory/standards/rules/no-unbacked-recommendation.md
-  line: 7
-  basis: 'The committed decision records attribute quoted answers by name (''Kapil: "..."'' throughout ADR 035 and 036), and
-    the rule itself says a recommendation must name the source that backs it. A dated quotation with no speaker cannot be
-    traced, and in another project''s Garura memory it is attributed to that project''s owner.
-
-    '
-  finding: The verbatim quote that gives the rule its authority is now headed 'the owner, 2026-09-08:'.
-- id: MEM-05
-  severity: P3
-  layer: design-grounding (memory)
-  category: memory
-  file: core/components/memory/knowledge/domains/personalization.md
-  line: 159
-  basis: 'On main the sentence read ''per Kapil''s delegation -- pending his confirmation''. The scrub removed the name and
-    left ''his'', so the open confirmation has no named confirmer. Line 51 of the same file now says ''the owner delegated
-    the intent list'', so the file names the person two different ways. Only a person confirms (ADR 031, main), so the open
-    confirmation should say whose.
-
-    '
-  finding: '''Intents proposed by Claude per delegation -- pending his confirmation.'' The pronoun has lost its antecedent.'
-- id: MEM-06
-  severity: P3
-  layer: design-grounding (memory)
-  category: memory
-  file: core/components/memory/** (41 changed paths)
-  line: null
-  basis: 'ADR 035 says everything in core/components/memory/ seeds Phoenix memory; it neither allows nor forbids rewriting
-    content at the seed. The committed schemas also require a person in some fields (G3), so a blanket rule needs its exceptions
-    written down. The policy exists only in text this branch adds and in the maintainer''s own notes outside the repo; neither
-    counts as grounding.
-
-    '
-  finding: 'The rule this change applies, that memory carries no personal names, is not in any committed source on main: not
-    in _TEMPLATE.md, _DESIGN.md, knowledge-file.md, ADR 035 or ADR 036. A search of main for a policy on personal names or
-    attribution in memory found none.
-
-    '
-- id: MEM-07
-  severity: P4
-  layer: design-grounding (memory)
-  category: memory
-  file: 'core/components/memory/knowledge/technology/ux-accessibility-floor.md, ux-design-system-tokens.md, ux-forms-and-validation.md,
-    ux-navigation-by-shape.md, ux-state-and-feedback.md (frontmatter and ## Provenance of each)'
-  line: null
-  basis: 'Provenance records the work context that produced the knowledge (knowledge-file.md:86 on main). The base text of
-    these five files says only ''accepted by Kapil'' (git show main:<path>), with no review step. The two files that did say
-    ''reviewed and accepted by Kapil'' (collaboration.md, payments.md) are unaffected.
-
-    '
-  finding: '''accepted by Kapil'' became ''reviewed and accepted''. The word ''reviewed'' is new.'
-- id: MEM-08
-  severity: P4
-  layer: design-grounding (memory)
-  category: memory
-  file: core/components/memory/knowledge/technology/delivery-industry-frames-derived.md
-  line: 39
-  basis: 'The shelf is a bank of empirical learnings, and the Rationale is the empirical why (_DESIGN.md:8, :26 on main).
-    A stance with no holder reads as a finding. The file''s provenance still names a measurement interview (#434), so it stays
-    weakly traceable.
-
-    '
-  finding: '''Position (Kapil): this is the moat'' became ''Position: this is the moat'', inside the ## Recommendation section.'
-- id: MEM-09
-  severity: P4
-  layer: design-grounding (memory)
-  category: memory
-  file: core/components/memory/standards/schemas/product-os/ontology.md
-  line: 199-205 (Log)
-  basis: 'The ontology''s maintenance rule is to bump version, set updated and add a dated line saying what changed and why
-    (build-product-ontology SKILL.md:99-100). On whether a Log entry must carry its decider: it need not. The committed Log
-    shape is ''what changed in the ontology, and why'' (templates/product-ontology.md:71), and the v3 decisions are held in
-    ADR 031 on main (''Decided in #612 ... by Kapil''), so removing names from the entries conforms. What remains is the unlogged
-    edit and the v2 fragment.
-
-    '
-  finding: 'Five Log entries are edited in place, and no new Log line, version bump or ''updated'' change records the edit.
-    The v2 entry (line 200) now reads ''(approving /intent''s intent)'', a fragment with no approver and, unlike the other
-    entries, no issue number.
+  finding: 'The gold example is introduced as the header ADR 031 ''would read'' if written from the template. After the fix
+    it names a fictional person (''Alex Example'') for a real record whose own text attributes the decision to a named person,
+    so a reader who compares the two sees a different decider. (''Decided by: the owner'' in round 1 had the same fault in
+    a different form.)
 
     '
 counts:
   P1: 1
   P2: 57
-  P3: 50
-  P4: 60
+  P3: 44
+  P4: 61

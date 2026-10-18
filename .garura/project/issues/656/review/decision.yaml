@@ -1,11 +1,8 @@
-decision: reject
-decided_by: harness
-gate: "gate skipped by config (gates.plays.review-change)"
-reason: "1 P1 (blocker) finding(s)"
-citing_findings:
-  - id: DATA-18
-    severity: P1
-    file: core/tools/memory/test_pull.py
-    line: 44
-    basis: "rule DATA-18 in ./.garura/core/memory/standards/rules/pr.md — the word 'email' with no proof of encryption"
-    finding: "git(self.phoenix, \"config\", \"user.email\", \"t@example.com\") sets the author of a throwaway test repository in a temp folder"
+decision: approve
+decided_by: human
+reviewer_input: "approve"
+gate: "on for this run (gates.plays.review-change set on at Kapil's choice; set back off after)"
+recommended: reject
+recommended_reason: "1 P1 (blocker) finding(s)"
+note: "The one P1 (DATA-18, core/tools/memory/test_pull.py:46, demo address t@example.com) is the exception Kapil approved on 2026-10-18; recorded in a comment at the line and in plan item 4b."
+citing_findings: []
