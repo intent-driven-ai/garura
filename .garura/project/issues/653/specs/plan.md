@@ -144,25 +144,16 @@ Next: item 5, memory updates (#658), starting with the two fixes from the #674 r
 contract's `pull` request (`{path}`) is refused by the tool; and a read from Phoenix
 memory can overwrite a different file at the same path in Garura memory.
 **What:** when no memory answers, the agent raises a memory update: what is
-missing, which tier it belongs in, a drafted entry, and where the draft came
-from (the person, the web, the model — marked). Nothing is used until a person
-approves it. The approved answer is written to the issue's short-term memory,
-and the waiting work decides from memory (ADR 036 §2). A draft from the web or
-the model never goes straight to Garura or Phoenix memory. Moving an answer up
-— to Garura memory for something only this project needs, to Phoenix memory
-for something any project could use — is a promotion: its own memory update, a
-person approves it, and it happens outside the work (ADR 036 §3). A person's
-own answers to questions become Garura memory
-with stable ids, so they are never asked twice (Garura's existing question
-store, `standards/rules/product.md` rule 12). The knowledge-base proposal
-(`propose-kb-node`) becomes one kind of memory update. Until the memory review
-exists, the person approves by typing.
-Kapil, 2026-10-18 (#657 plan, item 1): memory updates land in short-term
-memory only. Moving them up is a set of plays, not this tool: `learn` reads
-short-term memory and learns into Garura memory; `promote` sends a version of
-Garura memory to Phoenix memory for an approval that sits outside Garura, and
-the reader cannot use Phoenix memory until it is approved. Kapil named three
-plays and described two; the plays are not filed yet.
+missing, a drafted entry, where the draft came from (the person, the web, the
+model — marked), and whether it blocks the work. Nothing is used until a person
+approves it, one update at a time, in the review tool (a local prototype page
+until it is built). The approved answer is written to the issue's short-term
+memory, and the work decides from memory. Every update lands in short-term
+memory, a person's own answers too (Kapil, 2026-10-18: "STM - always STM");
+moving memory up is the `/learn-memory` and `/promote-memory` plays, not filed
+yet. A drive keeps going while an update waits, unless it blocks. This changes
+ADR 035 §5 and ADR 036 §2–§4 (promotion, a person's answers in Garura memory,
+approval by typing); they need an amendment.
 **Why here:** without it, "only from memory" stops every time memory is thin.
 **Done when:** a gap, an update, an approval, a write and an answer from memory
 run end to end on a sample.

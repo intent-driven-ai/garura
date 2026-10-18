@@ -34,8 +34,9 @@ memory only. Moving memory up — to Garura memory (`learn`) or Phoenix memory
 moves to them.
 
 The contract already holds the steps (`propose` → `decide` → `apply`, and
-`updates` to list them; `core/tools/memory/contract/v2.json`), but none is built,
-and its text still lets an update target Garura or Phoenix memory.
+`updates` to list them; `core/tools/memory/contract/v2.json`). At the start none
+was built, and the text let an update target Garura or Phoenix memory; version 3
+(item 3) changed that.
 
 ## When this plan is done
 
@@ -48,7 +49,10 @@ and its text still lets an update target Garura or Phoenix memory.
   approves it; it is written to the issue's short-term memory; a later lookup in
   the same issue finds it, and another issue does not.
 - A rejected update writes nothing, and the work stays stopped at that point.
-- The approval record shows a person gave the word, not an agent (item 1a).
+- The approval record shows a person gave the word in the review tool (item 1;
+  the local page until the tool is built). It records who and where; it does not
+  yet stop an agent that calls `decide` itself — the review tool's server (#642)
+  keeps the person's answer as its own event.
 - A sample run shows nothing taken from the model or the web without an
   approved update.
 - The contract says all this in a new version, and its check passes.
