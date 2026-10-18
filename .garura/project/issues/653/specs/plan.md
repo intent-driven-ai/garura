@@ -136,7 +136,7 @@ Next: item 5, memory updates (#658), starting with the two fixes from the #674 r
 
 ### 5. Memory updates instead of guesses — now
 
-**Issue:** #658.
+**Issue:** #658. Its plan: `.garura/project/issues/658/specs/plan.md`.
 **First:** two faults from the PR #674 review, fixed before any agent uses the tool: the
 contract's `pull` request (`{path}`) is refused by the tool; and a read from Phoenix
 memory can overwrite a different file at the same path in Garura memory.
