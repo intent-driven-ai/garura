@@ -1,0 +1,162 @@
+meta:
+  generated_at: '2026-10-18T06:51:46Z'
+  diff_path: '.garura/project/issues/617/review/pr.diff'
+  taxonomy_path: '~/.garura/core/memory/standards/rules/pr.md'
+  changed_paths_count: 45
+  scan_coverage: 1.0000
+  standards_relevant: 3
+  catchall:
+    CODE-20: 45
+findings:
+  - standard_id: 'DOC-04'
+    severity: P3
+    file: 'docs/adr/026-direct-to-model-writes.md'
+    line: 1
+    evidence: 'docs/adr/026-direct-to-model-writes.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-04'
+  - standard_id: 'DOC-04'
+    severity: P3
+    file: 'docs/adr/029-drives.md'
+    line: 1
+    evidence: 'docs/adr/029-drives.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-04'
+  - standard_id: 'DOC-04'
+    severity: P3
+    file: 'docs/adr/030-plan-mode.md'
+    line: 1
+    evidence: 'docs/adr/030-plan-mode.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-04'
+  - standard_id: 'DOC-04'
+    severity: P3
+    file: 'docs/adr/031-business-intent-and-ice.md'
+    line: 1
+    evidence: 'docs/adr/031-business-intent-and-ice.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-04'
+  - standard_id: 'DOC-04'
+    severity: P3
+    file: 'docs/adr/032-drive-review-of-outcomes.md'
+    line: 1
+    evidence: 'docs/adr/032-drive-review-of-outcomes.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-04'
+  - standard_id: 'DOC-04'
+    severity: P3
+    file: 'docs/adr/033-approval-in-the-product-model.md'
+    line: 1
+    evidence: 'docs/adr/033-approval-in-the-product-model.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-04'
+  - standard_id: 'DOC-04'
+    severity: P3
+    file: 'docs/adr/_index.md'
+    line: 1
+    evidence: 'docs/adr/_index.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-04'
+  - standard_id: 'ARCH-23'
+    severity: P4
+    file: 'docs/adr/026-direct-to-model-writes.md'
+    line: 1
+    evidence: 'docs/adr/026-direct-to-model-writes.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'ARCH-23'
+  - standard_id: 'DOC-05'
+    severity: P4
+    file: 'docs/adr/026-direct-to-model-writes.md'
+    line: 1
+    evidence: 'docs/adr/026-direct-to-model-writes.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-05'
+  - standard_id: 'ARCH-23'
+    severity: P4
+    file: 'docs/adr/029-drives.md'
+    line: 1
+    evidence: 'docs/adr/029-drives.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'ARCH-23'
+  - standard_id: 'DOC-05'
+    severity: P4
+    file: 'docs/adr/029-drives.md'
+    line: 1
+    evidence: 'docs/adr/029-drives.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-05'
+  - standard_id: 'ARCH-23'
+    severity: P4
+    file: 'docs/adr/030-plan-mode.md'
+    line: 1
+    evidence: 'docs/adr/030-plan-mode.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'ARCH-23'
+  - standard_id: 'DOC-05'
+    severity: P4
+    file: 'docs/adr/030-plan-mode.md'
+    line: 1
+    evidence: 'docs/adr/030-plan-mode.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-05'
+  - standard_id: 'ARCH-23'
+    severity: P4
+    file: 'docs/adr/031-business-intent-and-ice.md'
+    line: 1
+    evidence: 'docs/adr/031-business-intent-and-ice.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'ARCH-23'
+  - standard_id: 'DOC-05'
+    severity: P4
+    file: 'docs/adr/031-business-intent-and-ice.md'
+    line: 1
+    evidence: 'docs/adr/031-business-intent-and-ice.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-05'
+  - standard_id: 'ARCH-23'
+    severity: P4
+    file: 'docs/adr/032-drive-review-of-outcomes.md'
+    line: 1
+    evidence: 'docs/adr/032-drive-review-of-outcomes.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'ARCH-23'
+  - standard_id: 'DOC-05'
+    severity: P4
+    file: 'docs/adr/032-drive-review-of-outcomes.md'
+    line: 1
+    evidence: 'docs/adr/032-drive-review-of-outcomes.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-05'
+  - standard_id: 'ARCH-23'
+    severity: P4
+    file: 'docs/adr/033-approval-in-the-product-model.md'
+    line: 1
+    evidence: 'docs/adr/033-approval-in-the-product-model.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'ARCH-23'
+  - standard_id: 'DOC-05'
+    severity: P4
+    file: 'docs/adr/033-approval-in-the-product-model.md'
+    line: 1
+    evidence: 'docs/adr/033-approval-in-the-product-model.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-05'
+  - standard_id: 'ARCH-23'
+    severity: P4
+    file: 'docs/adr/_index.md'
+    line: 1
+    evidence: 'docs/adr/_index.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'ARCH-23'
+  - standard_id: 'DOC-05'
+    severity: P4
+    file: 'docs/adr/_index.md'
+    line: 1
+    evidence: 'docs/adr/_index.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-05'
+counts:
+  P1: 0
+  P2: 0
+  P3: 7
+  P4: 14

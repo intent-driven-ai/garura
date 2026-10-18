@@ -1,0 +1,21 @@
+{
+  "draft": ".garura/project/issues/_adr/20261018-063523/adr-draft.md",
+  "number": "033",
+  "lint": {"exit": 0, "valid": true, "problems": []},
+  "guard": {"exit": 0, "declared": "kind", "touches_an_intent": [], "verdict": "no person's business intent changes", "intents_dir": ".garura/product/product-os/intents (does not exist; no intent titles to match)"},
+  "declared_check_agrees": true,
+  "supersedes": [],
+  "amends": [
+    {"adr": "032", "part": "§5 statuses become a lasting approval on each piece; §2/§3 tools show the whole model's approval state every time they open; §4 send back leaves the piece in progress"},
+    {"adr": "031", "part": "§4 workable only when the ICE, its node and its business intent are all approved"}
+  ],
+  "not_affected": [
+    {"adr": "026", "why": "write-then-review stands; relied on"},
+    {"adr": "029", "why": "its review parts were already answered by ADR 032; relied on"},
+    {"adr": "030", "why": "the plan is not part of the product model"}
+  ],
+  "open_points_for_the_person": [
+    "Only the review step writes approval, but /intent by hand (pinned confirm, ADR 031 §5), /adr by hand (typed acceptance) and /shape (sets capabilities active) approve outside it today. The brief does not say how these record approval; the draft names it as a risk and as work (#597), without deciding it."
+  ],
+  "decided_by_note": "The Decided by line is left out while Proposed; adr.py accept --by fills it when Kapil accepts."
+}

@@ -1,6 +1,6 @@
 # ADR 029 — Drives: A Run of Plays That Ends in a Score or a Fail
 
-**Status:** Accepted — amended in part by [ADR 030](030-plan-mode.md): a drive keeps one work plan for all its plays, and its big plan updates are approved together at its end review; and by [ADR 031](031-business-intent-and-ice.md): `/intent` yields business intents with ICE under them, and a drive asks questions but never stops for approval.
+**Status:** Accepted — amended in part by [ADR 030](030-plan-mode.md): a drive keeps one work plan for all its plays, and its big plan updates are approved together at its end review; and by [ADR 031](031-business-intent-and-ice.md): `/intent` yields business intents with ICE under them, and a drive asks questions but never stops for approval; and amended in part by [ADR 032](032-drive-review-of-outcomes.md): §5 "Every drive ends in a review" and Open Question 1 - the review is the drive's last step, not a drive of its own; it looks at the outcome (intents and product model), never the plays. This also settles how §2's "the plays' reviews happen after the drive ends" is done: the person answers the plays' review records through the outcome, not play by play.
 **Date:** 2026-10-07 (proposed and accepted)
 **Supersedes:** ADR 003 (guardian approval), in full · ADR 002 (checkpoint model) and ADR 028 (five loops), in part
 **Decided in:** #607 (spike: the first loop's recipe), under #594 and business intent #606

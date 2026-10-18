@@ -2,9 +2,9 @@
 plan_for: 615
 kind: story
 serves: "#615 — /understand runs inside a drive without stopping, and its review happens after the drive"
-status: active
+status: done
 updated: 2026-10-17
-now: 7
+now: -
 serves_plan: 606
 serves_item: 6
 ---
@@ -52,10 +52,12 @@ a decision).
 
 ## Where we are now
 
-The change is open (branch `feature/615-understand-runs-inside-a-drive`),
-and its pull request is #640 (review: approve, 14 small findings). Kapil then
-asked for one more thing in this change (item 6): `/understand` details every
-pending capability in one run, not one capability per run. Now on item 6.
+Done. PR #640 merged on 17 October (merge commit 3165d4ab) and closed #615.
+
+Still not done after this issue: when the drive's review drops a `proposed`
+box-move decision, nothing lowers the product's limit again — that rule
+belongs to the drive's review (#617). The review's other small findings stay
+open on PR #640; none blocks.
 
 Inside a drive every box-move decision is written `proposed`, not only when the
 checkpoint is deferred. The save step runs before the checkpoint resolves, so
@@ -90,6 +92,10 @@ This is choice A, applied at the only point where it can be applied.
 - **6. Built: one run details every pending capability, at the same time** —
   committed (27cfc37d, 797ad724, efd8af5a); self-review 0 blocking.
 
+- **7. Landed** — three review rounds, all approve; the last round's four
+  chosen fixes went in first. Kapil approved the merge; PR #640 merged
+  (3165d4ab), the branch deleted, #615 closed.
+
 ### What item 6 does, in detail
 
 **Why:** Kapil, 2026-10-17: "understand needs to run for all the pending things
@@ -121,11 +127,6 @@ checks the whole change before the commit. `lint_play.py` checks that a play
 using it says so. Parallel code-building stays with #488.
 
 **Needs:** item 5.
-
-### 7. Land it — now
-
-**What:** commit on the branch, update #640. Merge is Kapil's.
-**Needs:** item 6.
 
 ## Decided (Kapil, 2026-10-17: "A")
 
@@ -165,3 +166,8 @@ at that checkpoint.
   /understand use it.
 - 2026-10-17 — Item 6 committed and self-reviewed (0 blocking, 8 notes).
   Updating #640. Now on item 7.
+- 2026-10-17 — Kapil chose to fix four review findings first (the play's
+  rebuild rule, the save never lowering a limit, unique functionality ids, the
+  decision status on each box-move). Fixed; round-3 review approve.
+- 2026-10-17 — Item 7 done: Kapil approved the merge; PR #640 merged
+  (3165d4ab) and #615 closed. Plan done.

@@ -1,0 +1,14 @@
+Issue #617 — Decide how a finished drive is reviewed (spike; parent #594; ADR 029).
+
+A drive ends when it scores (its intent is met) or fails; a review follows either way.
+Inside a drive the plays' own reviews move to after the drive, so this review carries them.
+
+Decide: what the review looks at (play review records, checker result, evidence, mid-run
+questions); who reviews and what they can do (accept, send back, reopen part of the drive);
+how a failed drive is reviewed versus one that scored; whether review is a drive of its own
+and which plays it runs; how the review closes the drive's change.
+
+Also carried from #615 (plan 606 item 7): when the review drops a `proposed` box-move
+decision written by /understand inside a drive, what happens to the product limit it raised.
+
+Done when: each answer is in ADR 029 or a new ADR, and the stories to build it are filed.
