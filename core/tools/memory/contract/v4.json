@@ -50,7 +50,7 @@
     "around_holds_the_text": "In a decision record, each source's around starts at most 3 lines before the source and ends at most 3 after it, and the source's own lines inside it are its text."
   },
   "settings": "The tool reads where each tier lives from its settings (environment variables or a settings file), never from a fixed path. A tier with no setting, or one that cannot be reached, is the error tier_missing. The settings name each tier's place, Phoenix memory's approved version (phoenix_ref: the version a person approved outside Garura; a folder engine reads the commit it names), and where pulled pieces land in Garura memory.",
-  "paths": "Every path in a request or response is relative to its tier's root, uses forward slashes, never starts or ends with a slash, and never contains '..', a '.' segment or an empty segment. One file has one spelling, so what a lookup hides cannot be reached by spelling its path another way.",
+  "paths": "Every path in a request or response is relative to its tier's root, uses forward slashes, never starts or ends with a slash, and never contains '..', a '.' segment, an empty segment, or a control character. So a path has one spelling, and the tool decides what a lookup hides (find, search and read alike) on the file a path reaches, not on how it is written.",
   "fingerprint": "sha256 of the exact text returned or cited, as 'sha256:' and 64 lowercase hex characters. A citation whose fingerprint no longer matches the file has gone stale.",
   "every_result": "Every piece of text the tool returns carries its tier, file, lines and fingerprint (read, search hits, each trace step's source). A file list (find) carries tier, file and version. pull names the tier it wrote to.",
   "commands": {
@@ -938,7 +938,7 @@
     "path": {
       "type": "string",
       "minLength": 1,
-      "pattern": "^(?!/)(?!.*\\.\\.)(?!.*//)(?!.*/$)(?!(?:.*/)?\\.(?:/|$))[^\\\\\\n\\r]+$"
+      "pattern": "^(?![\\s\\S]*[\\x00-\\x1f\\x7f\\ud800-\\udfff])(?!/)(?!.*\\.\\.)(?!.*//)(?!.*/$)(?!(?:.*/)?\\.(?:/|$))[^\\\\]+$"
     },
     "fingerprint": {
       "type": "string",

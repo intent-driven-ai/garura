@@ -139,8 +139,11 @@ A memory update moves through `waiting` → `approved` or `rejected` → `applie
 - **Every piece of text** the tool returns — from `read`, a `search` hit, a trace step's source —
   carries its tier, file, lines and fingerprint. A file list from `find` carries tier, file and
   version. `pull` names the tier it wrote to.
-- **Paths** are relative to the tier's root, use forward slashes, never start with a slash and
-  never contain `..`.
+- **Paths** are relative to the tier's root and use forward slashes. A path never starts or ends
+  with a slash, and never holds `..`, a `.` segment, an empty segment or a control character, so
+  one file has one spelling. What a lookup hides (waiting drafts, decision records, and an
+  issue's short-term memory inside Garura memory) is decided on the file a path reaches, so
+  another letter case or a link reaches nothing hidden.
 - **Fingerprint** — `sha256:` and 64 hex characters, taken over the exact text returned or
   cited. When a file changes, an old citation's fingerprint no longer matches, so a stale
   answer can be seen.

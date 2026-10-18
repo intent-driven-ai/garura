@@ -155,15 +155,22 @@ person to check (section 4, Agent decisions).
 review pack
 ├── review: id, title ("Kickoff — Shop checkout"), drive, branch, base,
 │           started, revision, checker note, stopped-because (failed drive only)
-├── kinds: intent, domain, capability, functionality, limit, decision
-│          (label, plural, icon, which tool shows it, which verbs it allows)
-├── pieces[] — one per intent, domain, capability, functionality, limit, decision
+├── kinds: intent, domain, capability, functionality, limit, decision,
+│          agent decision (label, plural, icon, which tool shows it, which
+│          verbs it allows; "decision" is a product decision record, "agent
+│          decision" is an agent's decision with its trace)
+├── pieces[] — one per intent, domain, capability, functionality, limit,
+│              decision, agent decision
 │   ├── id, kind, title, one line
 │   ├── change: added | changed | removed | same
 │   ├── status: e.g. proposed / confirmed (shown, never edited by the tool)
 │   ├── sections[] — labelled parts in reading order
 │   │     label ("Outcome", "Why", "Proof it is met", "Goal", "Limit" …),
-│   │     before (text or empty), after (text or empty), editable yes/no
+│   │     before (text or empty), after (text or empty), editable yes/no;
+│   │     for an agent decision, one section per trace step: what was looked
+│   │     for, what was found, the source in plain words (memory, file,
+│   │     lines), the lines around it with the used lines marked, its state
+│   │     (same, changed, gone, no source) and, when changed, the lines now
 │   ├── links[] — to other pieces (an intent's Touches; a capability's intents)
 │   ├── parent — where it sits (capability → domain)
 │   └── why changed — one plain sentence from the play record behind it
@@ -273,10 +280,10 @@ gives the full model or the clean final text.
      its source — the tier, file and lines, in their place: the lines around
      them, numbered, with the lines the agent used marked. Each step's source
      is checked again: unchanged, changed (with what the lines say now, in
-     their place), gone, or no source. The page shows the memory tool's own
-     answers, in the contract's shape: `citations --check` and `updates` (for
-     a decision that came from a memory update: what was missing, who approved
-     it, and their words). Grouped by play, problems first.
+     their place), gone, or no source. What is shown comes from the memory
+     tool's own answers: `citations --check`, and `updates` (for a decision
+     that came from a memory update: what was missing, who approved it, and
+     their words). Grouped by play, problems first.
      The page does not read those answers itself: that would put the memory
      tool's words and contract inside the review tool, across the extraction
      line (section 1). Garura's half turns each answer into pieces in the pack:
@@ -287,10 +294,13 @@ gives the full model or the clean final text.
      plain-words rule (section 4) that Kapil asked for, because the person must
      check it. The fingerprint, the memory version and the ids sit in a
      Details fold: they are for the check, not for the person's judgement. The
-     mockup embeds the memory tool's raw answers as a stand-in only. Looks right, or send back so the agent decides again
-     from memory as it is now. The mockup's records are real tool output over
-     real Phoenix memory lines, made by `.garura/project/issues/659/evidence/
-     make_decisions.py`; the local page reads them live.
+     mockup embeds the memory tool's raw answers as a stand-in only. Looks
+     right, or send back so the agent decides again from memory as it is now.
+     The mockup's records are real tool output over real Phoenix memory lines,
+     made by `.garura/project/issues/659/evidence/make_decisions.py`. The local
+     prototype page (`core/tools/play-reviewer/`, outside git and outside the
+     extraction line) reads them live from the memory tool; the review tool
+     itself never will.
    The paragraphs below were written for the one combined section; they now
    read across these three.
 

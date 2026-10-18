@@ -158,7 +158,8 @@ class FolderEngine:
             return (self.s["updates_dir"].strip("/") + "/", self.s["citations_file"].strip("/"))
         if tier != "garura" or not self.s.get("short-term"):
             return ()
-        rel = os.path.relpath(self.s["short-term"], self.s["garura"])
+        # on the folders the settings reach, so a link or another spelling of a root changes nothing
+        rel = os.path.relpath(os.path.realpath(self.s["short-term"]), os.path.realpath(self.s["garura"]))
         return () if rel == "." or rel.startswith("..") else (rel.replace(os.sep, "/").rstrip("/") + "/",)
 
     def hidden(self, tier, path):
@@ -166,7 +167,10 @@ class FolderEngine:
         how the path is spelled (a '.' segment, a doubled slash, other letter case, a link) — or
         when it reaches outside its tier."""
         root = os.path.realpath(self.root(tier))
-        real = os.path.realpath(os.path.join(root, path))
+        try:
+            real = os.path.realpath(os.path.join(root, path))
+        except ValueError:  # a character no file name can hold: nothing to read
+            return True
         if real != root and not real.startswith(root + os.sep):
             return True
         rel = os.path.relpath(real, root).replace(os.sep, "/")
@@ -186,12 +190,12 @@ class FolderEngine:
         if tier == "phoenix":
             return phoenix_git.files(self.root(tier), self.s["phoenix_ref"])
         folder, prefix = self.scope(tier, issue)
-        skip, found = self.excluded(tier), []
+        found = []
         for dirpath, dirnames, names in os.walk(folder):
             dirnames[:] = sorted(d for d in dirnames if d != ".git")
             for name in sorted(names):
                 rel = os.path.relpath(os.path.join(dirpath, name), folder).replace(os.sep, "/")
-                if rel.startswith(skip):
+                if self.hidden(tier, prefix + rel):
                     continue
                 found.append(prefix + rel)
         return found
@@ -215,14 +219,14 @@ class FolderEngine:
         if run.returncode != 0:
             raise Refusal("bad_request", f"The pattern {pattern!r} cannot be searched: "
                           f"{run.stderr.decode(errors='replace').strip()}")
-        skip, hits = self.excluded(tier), []
+        hits = []
         for record in run.stdout.decode("utf-8", errors="replace").split("\n"):
             parts = record.split("\0")
             if len(parts) != 3:
                 continue
             path, line, text = parts
             path = path[len(strip):] if strip and path.startswith(strip) else path
-            if path.startswith(skip) or path.startswith(".git/") or "/.git/" in path:
+            if path.startswith(".git/") or "/.git/" in path or (tier != "phoenix" and self.hidden(tier, prefix + path)):
                 continue
             hits.append((prefix + path, int(line), text))
         return hits

@@ -514,6 +514,26 @@ class HiddenWhateverTheSpelling(Tiers):
         self.assertFalse(self.read("garura", "Issues/7/notes.md").get("ok"))
         self.assertEqual(self.read("short-term", "7/notes.md")["text"], "a short-term note")
 
+    def test_a_path_with_a_control_character_is_refused(self):
+        for path in ("7/notes\x00.md", "7/notes.md\n", "7/no\ntes.md"):
+            self.assertEqual(self.read("short-term", path)["error"]["code"], "bad_request", repr(path))
+
+    def test_find_and_search_never_list_a_draft_in_another_letter_case(self):
+        os.makedirs(os.path.join(self.short, "9", "Review", "memory-updates"))
+        self.ask("propose", {"issue": 9, "missing": "Gift cards.", "target_tier": "short-term",
+                             "target_path": "9/context/answers/gift.md", "draft": "A secret draft line.",
+                             "draft_source": "model", "sources": [], "requested_by": "test agent"})
+        hits = self.ask("search", {"issue": 9, "pattern": "secret draft", "tier": "short-term"})["hits"]
+        files = self.ask("find", {"issue": 9, "glob": "**", "tier": "short-term"})["matches"]
+        self.assertEqual(([h["path"] for h in hits], [m["path"] for m in files if "emory-updates" in m["path"]]), ([], []))
+
+    def test_short_term_memory_given_through_a_link_is_still_not_garura_memory(self):
+        link = os.path.join(self.project, "short-term-link")
+        os.symlink(self.short, link)
+        env = dict(self.env, MEMORY_SHORT_TERM_ROOT=link)
+        self.assertFalse(self.ask("read", {"issue": 7, "tier": "garura", "path": "issues/7/notes.md"}, env=env).get("ok"))
+        self.assertEqual(self.ask("find", {"issue": 7, "glob": "issues/**", "tier": "garura"}, env=env)["matches"], [])
+
     def test_a_decision_never_rests_on_a_draft_or_a_decision(self):
         for path in (f"7/review/memory-updates/{self.draft['id']}.json", "7/context/citations.jsonl",
                      f"7/Review/memory-updates/{self.draft['id']}.json"):
