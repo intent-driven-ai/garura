@@ -3,7 +3,7 @@ plan_for: 617
 kind: tool-plan
 serves: "#617 — the intent review tool and the product review tool (ADR 032, Q7)"
 status: draft
-updated: 2026-10-17
+updated: 2026-10-18
 ---
 
 # Tool plan — the outcome review tool
@@ -175,9 +175,10 @@ changed" line; the plays are never shown.
 
 ## 4. What the person sees
 
-**One page, two tools in it.** A switch at the top left: **Intents** | **Product**.
-These are the two tools ADR 032 names, as two views of one app. One server, one
-link, one review. (Occam: two servers would mean two listeners and two links for
+**One page, three sections in it.** A switch at the top left: **Intents** |
+**Product** | **Memory and ADRs**. Intents and Product are the two tools ADR 032
+names, as two views of one app; Memory and ADRs is the third section ADR 036
+adds (item 7 below). One server, one link, one review. (Occam: two servers would mean two listeners and two links for
 one decision.)
 
 **Two switches, each with two settings.** These answer Kapil's four things to see:
@@ -192,7 +193,8 @@ gives the full model or the clean final text.
 
 **Layout** (like the screenshot):
 
-1. **Left rail.** Phoenix mark and name. The Intents | Product switch. The list of
+1. **Left rail.** Phoenix mark and name. The Intents | Product | Memory and ADRs
+   switch. The list of
    pieces: intents grouped by stage, each with its agent intents (ICE) listed
    under it as their own pieces, one per capability or functionality it is built
    into; the product as domain → capability → functionality, then Limits, then
@@ -239,6 +241,12 @@ gives the full model or the clean final text.
    chat (Microsoft message MC1260707, rolled out April–June 2026).
    Every action in Catch up is the same event as in the full page, so Garura
    cannot tell them apart and nothing changes on its side.
+
+7. **Memory and ADRs** — a third section next to Intents and Product (ADR 036
+   §7, Kapil 18 Oct). It shows short-term, Garura and Phoenix memory: what each
+   tier holds, the memory updates waiting for a person, the ADRs waiting for a
+   person, and which memory each decision came from. Every memory review and
+   ADR review happens here, with the Catch up cards above. Built in #664.
 
 **Keeping the load low** — the rules the page follows:
 

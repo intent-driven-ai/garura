@@ -1,0 +1,25 @@
+== adr.py lint ADR 036 (head 51513db0)
+{
+  "adr": "docs/adr/036-approved-answer-lands-in-short-term-memory.md",
+  "valid": true,
+  "problems": []
+}
+exit 0
+== adr.py guard ADR 036
+{
+  "adr": "docs/adr/036-approved-answer-lands-in-short-term-memory.md",
+  "declared": "none",
+  "touches_an_intent": [],
+  "verdict": "no person's business intent changes"
+}
+exit 0
+== older ADRs differ from main only on the Status line
+032-drive-review-of-outcomes: non-status changed lines = 0
+034-plays-answer-from-memory-inside-a-drive: non-status changed lines = 0
+035-agents-work-only-from-memory: non-status changed lines = 0
+== #653 plan check
+problems []
+== stories.yaml parses
+10 stories
+== index rebuild matches docs/adr/_index.md
+identical
