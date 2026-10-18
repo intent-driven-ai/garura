@@ -4,7 +4,7 @@ kind: story
 serves: "#659 — every decision an agent makes names the memory it came from, and a script checks it"
 status: active
 updated: 2026-10-18
-now: 2
+now: 5
 serves_plan: 653
 serves_item: 6
 ---
@@ -44,7 +44,8 @@ or from a memory update a person approved (#658).
 ## Where we are now
 
 The change is open on `feature/659-decisions-name-their-memory`. The mockup has the
-Memory and ADRs section. Next: item 2, the shape of a decision and its sources.
+Memory and ADRs section; the decision record, contract version 4, and `cite` and
+`citations` are built. Next: item 5, the drive review record carries the sources.
 
 ## The plan, in order
 
@@ -67,38 +68,24 @@ Memory and ADRs section. Next: item 2, the shape of a decision and its sources.
   tool, vectorless, the way Claude Code works ("the same tool under both, just that the
   interface for tool should be nlp"). Mocked in the review tool's mockup and design; "no
   need to build this whole this now". The local page opens on Memory.
+- **2. Decided: the shape of a decision record** — #659. One record per decision: the
+  question, the answer, who decided, the play, and its sources — each a tier, file, lines
+  and fingerprint — or the approved memory update it came from. No source from the model or
+  the web. The shape lives in the memory tool's contract; `standards/rules/resolution.md`
+  gains a "Decision Records" section pointing to it. Rewriting its trace and R4's model
+  fallback stays with the agents' move (#663), where the #653 plan put it (item 10).
+- **3. Built: contract version 4** — #659. `cite` in its full shape; a new `citations`
+  command (list an issue's records; with `check`, read every source again: `no_source`,
+  `source_missing`, `source_changed`); waiting drafts and decision records are never found by
+  a lookup (the #675 note). 50 samples moved, 2 added, 2 broken added; the check and its 51
+  tests pass.
+- **4. Built: `cite` and `citations` in the memory tool** — #659 (`core/tools/memory/
+  citations.py`). `cite` reads every source first and refuses a gone (`not_found`) or changed
+  (`changed`) one; a decision from a memory update needs it applied and names its written
+  file. Records are kept in `context/citations.jsonl` of the issue (a setting) and hidden
+  from lookups. 58 tool tests pass, 7 of them new.
 
-### 2. The shape of a decision and its sources — now
-
-**Issue:** #659.
-**What:** one record per decision: the question, the answer, who decided, and
-one or more sources — tier, file, lines, fingerprint — or the memory update the
-answer came from. No source from the model or the web. Written in the
-resolution rule (`standards/rules/resolution.md`), replacing `resolved_from:
-llm`.
-**Why here:** the contract and the check follow it.
-**Done when:** the rule is written and a sample record reads well.
-**Needs:** nothing.
-
-### 3. Contract version 4
-
-**Issue:** #659.
-**What:** `cite` in its full shape (item 2); the waiting-draft rule (item 1b).
-**Why here:** the tool and the check are built against it.
-**Done when:** the contract check passes on version 4.
-**Needs:** item 2.
-
-### 4. `cite` in the memory tool, and the check
-
-**Issue:** #659.
-**What:** `cite` writes the record to the issue's short-term memory; a check
-script reads an issue's records and, for each source, finds the file in its tier
-and compares the fingerprint.
-**Why here:** the drive review and the agents (#661) use both.
-**Done when:** tests show the four cases in "When this plan is done".
-**Needs:** item 3.
-
-### 5. The drive review record carries the sources
+### 5. The drive review record carries the sources — now
 
 **Issue:** #659.
 **What:** `write_drive_review.py` (the canonical copy in `play-creator/references/`
@@ -130,3 +117,4 @@ commit, raise, review, merge.
   the three notes Kapil approved #675 on.
 - 2026-10-18 — Item 1 done (a, c): the mockup's Memory and ADRs section; the local page serves the mockup.
 - 2026-10-19 — Item 1e: the review tool's five sections and the Ask memory mock (design only).
+- 2026-10-19 — Items 2–4 done: the decision record, contract version 4, `cite` and `citations`.
