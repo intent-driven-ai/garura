@@ -14,6 +14,16 @@ What this does not do yet: no agent calls `cite`, and no play passes `--decision
 
 Closes #659
 
+## Review round 1: rejected, and what was fixed
+
+Kapil rejected round 1 with "fix all the items first". All five items are fixed on this branch:
+
+1. **The hiding hole.** A waiting draft or a decision record could be read by spelling its path oddly (`7/review/./memory-updates/...`, another letter case, a link), and `cite` could rest a decision on one. The contract's path rule now refuses `.` and empty segments, and the tool decides what is hidden on the file a path reaches. New tests fail on the old tool and pass now.
+2. **The memory rule** ("Every Decision Names Its Memory", which goes to Phoenix memory at landing) now says when it binds, tells the agent to `cite` each decision and to raise a memory update when no tier answers, and says the model fallback does not carry over.
+3. **Code faults:** `citations --check` on a line that is not a whole record answers `unreadable`; the drive record writer refuses a record that is not an object; the sample script deletes only a folder it made.
+4. **The design** says Agent decisions reach the page as pack pieces built by Garura, and that showing a source's file and lines is an exception Kapil asked for; the mock folds fingerprints and ids into Details.
+5. **ADR 037** (accepted by Kapil through `/adr`): every agent decision keeps a trace, and the review tool has five sections. It amends ADR 035 §6/§7, ADR 036 §7 and ADR 032 §3.
+
 ## Where the issue text no longer matches
 
 | Issue says | What happened |
@@ -24,20 +34,17 @@ Closes #659
 
 ## How it was checked
 
-- Memory tool: 130 tests pass (61 tool, 13 pull, 56 contract). The contract check passes: 26 samples valid, 32 broken samples refused, no boundary problems.
-- Drive review record: 32 checks pass; the three copies are identical.
+- Memory tool: 134 tests pass (tool, pull and contract). The contract check passes: 26 samples valid, 34 broken samples refused, no boundary problems.
+- Drive review record: 33 checks pass; the three copies are identical.
 - `lint-components`: 116 findings, the same as on main; none in a changed file.
 - The three plans (#659, #653, #606) are valid; the #659 plan closes in the last commit before the merge.
-- The evidence script re-runs to the same 12 records and 3 problems.
 - Merges cleanly with main. No client, personal or secret text.
 
 ## Self-review
 
-The full self-review is in `.garura/project/issues/659/context/self-review.md`: 0 blocking, 13 notes.
+Round 2's self-review is in `.garura/project/issues/659/context/self-review.md`: 0 blocking, 11 notes; it confirms the five items above, each run against the code. Three of its notes were fixed before this update (a wrong-typed source value answers `unreadable`; a failed read names short-term memory; one unsourced sentence in the rule). Round 1's review record is in `.garura/project/issues/659/review/`.
 
-Fixed after the self-review: one unreadable line in an issue's decision records now answers `unreadable` for that issue only, and no longer stops every other issue; a failed decision write names short-term memory; the drive record refuses another play's or issue's decisions; the README and two design lines describe the trace.
-
-Carried: ADR 035 §6 and ADRs 032 and 036 still describe one source and a "Memory and ADRs" section (their own `/adr` change); four older commit subjects are 74 to 83 characters against 72.
+Carried: four older commit subjects are 74 to 83 characters against 72; the glossary row for "trace" and the open questions ADR 037 lists.
 
 Where to read: `core/tools/memory/citations.py`, the changes to `memory.py` and `contract/check_contract.py`, the lines of `v4.json` that differ from `v3.json`, the tests, the README, the resolution rule section, and one copy of `write_drive_review.py` (about 855 lines). The rest is the contract copy, samples, evidence, plans and the mock.
 
