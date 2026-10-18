@@ -1,0 +1,17 @@
+Issue #654 — Decide Garura's memory system: three tiers, one memory tool, and a memory update before any guess (Spike; parent Feature #653, under business intent #606).
+
+Record Kapil's memory model of 2026-10-18 as an ADR with /adr, and settle what it leaves open:
+the three tiers (Phoenix memory as the superset, project memory as the pulled subset plus what
+the project makes, short-term memory per issue) and where the git repository, the product
+model and the intents fit; where Phoenix memory lives outside Garura's code today, and how a
+project pulls the subset it needs and goes up for more; the memory tool as the only way to
+read and update memory (a command-line tool, Claude Code-style search, folders now and
+Griffin later); the read order; no answer from the model or the web without a memory update
+a person approves; how every decision names its memory. It replaces ADR 015 and changes
+ADR 034, ADR 009, ADR 017 and the locked knowledge-base design note.
+
+Also on this branch: move the memory system plan from #613's folder to the feature's
+(#653), and write this spike's own plan.
+
+Done when: the ADR is accepted by Kapil, and the feature's stories are filed from plan items
+2 to 11, matching the ADR.

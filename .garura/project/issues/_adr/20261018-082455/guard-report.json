@@ -1,0 +1,34 @@
+{
+  "ok": true,
+  "changed": [
+    ".garura/project/issues/_adr/20261018-082455/adr-check.json",
+    ".garura/project/issues/_adr/20261018-082455/adr-context.yaml",
+    ".garura/project/issues/_adr/20261018-082455/adr-draft.md",
+    ".garura/project/issues/_adr/20261018-082455/adr-manifest.json",
+    ".garura/project/issues/_adr/20261018-082455/brief.md",
+    ".garura/project/issues/_adr/20261018-082455/decision.yaml",
+    ".garura/project/issues/_adr/20261018-082455/hashes-before.json",
+    ".garura/project/issues/_adr/20261018-082455/porcelain-after.txt",
+    ".garura/project/issues/_adr/20261018-082455/run.json",
+    "docs/adr/009-skill-ltm-organizational-knowledge.md",
+    "docs/adr/015-ltm-resolution-protocol.md",
+    "docs/adr/016-agent-json-contract.md",
+    "docs/adr/017-folder-whitelist.md",
+    "docs/adr/032-drive-review-of-outcomes.md",
+    "docs/adr/034-plays-answer-from-memory-inside-a-drive.md",
+    "docs/adr/035-agents-work-only-from-memory.md",
+    "docs/adr/_index.md"
+  ],
+  "violations": [],
+  "allowed": [
+    "docs/adr/035-agents-work-only-from-memory.md",
+    "docs/adr/015-ltm-resolution-protocol.md",
+    "docs/adr/034-plays-answer-from-memory-inside-a-drive.md",
+    "docs/adr/009-skill-ltm-organizational-knowledge.md",
+    "docs/adr/016-agent-json-contract.md",
+    "docs/adr/017-folder-whitelist.md",
+    "docs/adr/032-drive-review-of-outcomes.md",
+    "docs/adr/_index.md",
+    ".garura/project/issues/*"
+  ]
+}
