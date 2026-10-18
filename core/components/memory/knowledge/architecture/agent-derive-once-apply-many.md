@@ -73,4 +73,4 @@ stage.
 
 ## Provenance
 documented (Kapil — content-migrator → Bedrock production design session, 2026-06-10;
-prototype at a working prototype) + assistant.
+from a working prototype) + assistant.

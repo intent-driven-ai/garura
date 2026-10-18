@@ -80,5 +80,5 @@ checks results after construction is complete (failure condition).
 
 ## Provenance
 
-- Source article: the source article "An intent is three things: the goal"
+- Source article: "An intent is three things: the goal"
 - Originating issue: #388
