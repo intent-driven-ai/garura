@@ -26,7 +26,12 @@ memory is reached only when the lower tiers have nothing. A lookup never stops a
 because the project has not pulled something yet: the tool goes a level up and finds it.
 
 - `tier` asks one tier only.
-- `every_tier` looks in all three and does not stop at the first answer.
+- `every_tier` looks in all three and does not stop at the first answer. Asking for `tier` and
+  `every_tier` together is an error (`bad_request`).
+
+A lookup never skips a tier. If it reaches a tier with no setting, or one it cannot reach, it
+fails with `tier_missing`. "Never stops a piece of work" means a piece the project has not
+pulled is found a level up — not that a tier may be passed over.
 
 An empty answer — `answered_by: null`, no hits — means no tier holds it. That is the cue to
 raise a memory update. Agents never fill the gap from the model or the web on their own.
@@ -62,6 +67,9 @@ A memory update moves through `waiting` → `approved` or `rejected` → `applie
 
 ## What every answer carries
 
+- **Every piece of text** the tool returns — from `read`, a `search` hit, a `cite` source —
+  carries its tier, file, lines and fingerprint. A file list from `find` carries tier, file and
+  version. `pull` names the tier it wrote to.
 - **Paths** are relative to the tier's root, use forward slashes, never start with a slash and
   never contain `..`.
 - **Fingerprint** — `sha256:` and 64 hex characters, taken over the exact text returned or
@@ -69,6 +77,25 @@ A memory update moves through `waiting` → `approved` or `rejected` → `applie
   answer can be seen.
 - **Version** — for Phoenix memory, the repository's commit. For the other tiers it may be
   empty.
+
+## How a request reads
+
+- `glob` is shell-style: `*` within one folder, `**` at any depth, `?` one character.
+- `pattern` is an extended regular expression, as `grep -E` reads it — or plain text when
+  `fixed` is true.
+- `read` reads from `start` (default the first line) to `end` (default the last). `end` before
+  `start` is `bad_request`; lines outside the file are `out_of_range`.
+
+## The answer rules
+
+The check holds every sample to these, beyond its shape:
+
+- `looked_in` lists the tiers looked in, in the lookup order.
+- "Nothing found" (`answered_by: null`) only after every tier was looked in — or just the one
+  asked for. A shorter `looked_in` with nothing found is a silent skip, and fails.
+- Without `every_tier`, the lookup stops at the first tier that answers, and every result comes
+  from that tier.
+- A fingerprint is the sha256 of the exact text it travels with.
 
 ## Errors
 
@@ -95,7 +122,7 @@ A memory update moves through `waiting` → `approved` or `rejected` → `applie
 
 - Nothing here names a path inside a project or imports code from outside the folder, so the
   folder can move to Griffin as it is.
-- Python standard library only. No installs.
+- Python standard library only, Python 3.10 or newer. No installs.
 - The contract changes only by a new version. Version 1 is `contract/v1.json`.
 
 ## Checking the contract
@@ -104,8 +131,11 @@ From this folder:
 
 ```
 python3 contract/check_contract.py
+python3 contract/test_check_contract.py
 ```
 
-It checks every sample in `contract/samples/` against the contract, checks that every sample
-in `contract/samples/broken/` fails, and checks the folder's boundary. It prints a JSON report
-and exits 0 when all three hold.
+The first checks every sample in `contract/samples/` against the contract's shapes and its
+answer rules, checks that every sample in `contract/samples/broken/` fails, and checks the
+folder's boundary: no path into a project, the framework's source or a home folder, and no
+import from outside the standard library or the folder. It prints a JSON report and exits 0
+when all hold. The second tests the check itself. Both need Python 3.10 or newer.

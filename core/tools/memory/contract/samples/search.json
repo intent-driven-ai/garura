@@ -20,7 +20,8 @@
         "tier": "phoenix",
         "path": "knowledge/domains/ecommerce.md",
         "line": 42,
-        "text": "- Guest checkout lowers drop-off for first-time buyers."
+        "text": "- Guest checkout lowers drop-off for first-time buyers.",
+        "fingerprint": "sha256:95467362ff686f366cdb0d03b3a49b37f0e777b1f58e744f73019bf7014facae"
       }
     ],
     "truncated": false
