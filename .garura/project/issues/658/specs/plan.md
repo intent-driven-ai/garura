@@ -2,9 +2,9 @@
 plan_for: 658
 kind: story
 serves: "#658 — when no memory answers, an agent raises a memory update a person approves, and then decides from memory"
-status: active
+status: done
 updated: 2026-10-18
-now: 7
+now: -
 serves_plan: 653
 serves_item: 5
 ---
@@ -59,10 +59,10 @@ was built, and the text let an update target Garura or Phoenix memory; version 3
 
 ## Where we are now
 
-The change is open on `feature/658-memory-updates`. Kapil's questions are answered;
-the two review faults are fixed; contract version 3 and the update commands are built.
-The local approval page works, and the end-to-end run passed with Kapil approving.
-Next: item 7, land the change.
+Done. Memory updates land in the issue's short-term memory; a person approves each one in
+the review tool (a local page until it is built); contract version 3; shown end to end
+twice with Kapil approving; PR #675 approved and merged. This plan is done. Next in the
+#653 plan: item 6, every decision names its memory (#659).
 
 ## The plan, in order
 
@@ -126,15 +126,11 @@ Next: item 7, land the change.
   and rejected one; the rejected update was refused at apply (`not_approved`), nothing was
   written, and no lookup found it. Records: `evidence/e2e-658.md`, `evidence/e2e-658-run2.md`;
   runner: `evidence/e2e_658.py`.
-
-### 7. Land the change — now
-
-**Issue:** #658.
-**What:** in the last commit before the merge, mark this plan done and item 5
-of the #653 plan done; commit, raise, review, merge. Story texts that these
-answers change (#658, #661, #663) are fixed only when Kapil asks.
-**Done when:** merged to main.
-**Needs:** item 6.
+- **7. Shipped: memory updates** — #658, PR #675. Reviewed with the gate on for that
+  run; the machine recommended reject on 5 P1s, all demo words in the end-to-end runner
+  and records; Kapil approved on 18 October. Three design notes from that review are the
+  first work of #659 (#653 plan, item 6). This plan and item 5 of the #653 plan are closed
+  in the last commit before the merge.
 
 ## Not in this plan
 
@@ -156,3 +152,4 @@ answers change (#658, #661, #663) are fixed only when Kapil asks.
 - 2026-10-18 — Item 5 built: the local approval page (never committed).
 - 2026-10-18 — Item 6 shown: end to end, Kapil approved both updates on the local page.
 - 2026-10-18 — Second end-to-end run on the rebuilt page: one approved, one rejected; the rejection wrote nothing.
+- 2026-10-18 — Item 7 done: PR #675 approved by Kapil; plan closed before the merge.

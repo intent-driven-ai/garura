@@ -4,7 +4,7 @@ kind: feature
 serves: "#653 — agents work only from memory, so drives can make their own decisions"
 status: active
 updated: 2026-10-18
-now: 5
+now: 6
 serves_plan: 606
 serves_item: 8
 ---
@@ -91,9 +91,10 @@ answer came from in a way anyone checks.
 
 ## Where we are now
 
-Decided, and four pieces shipped: ADR 035 and ADR 036 (#654, #667), the contract (#655),
-Phoenix memory with `pull` and `pulled` (#656), and the memory tool (#657, PR #674).
-Next: item 5, memory updates (#658), starting with the two fixes from the #674 review.
+Decided, and five pieces shipped: ADR 035 and ADR 036 (#654, #667), the contract (#655),
+Phoenix memory with `pull` and `pulled` (#656), the memory tool (#657) and memory updates
+(#658, PR #675). Next: item 6, every decision names its memory (#659), starting with the
+three notes from the #675 review.
 
 ## The plan, in order
 
@@ -136,32 +137,21 @@ Next: item 5, memory updates (#658), starting with the two fixes from the #674 r
 - **11. Moved: the memory review** — #664 is built with the whole review tool, all
   sections inside Garura, in the #606 plan (item 8, the review). Kapil, 2026-10-18 (#658): "we will build the tool with all the sections inside garura - as part of 606 plan. it remains a local prototype for now."
   Until then, a local prototype page approves memory updates (#658 plan, item 5).
+- **5. Shipped: memory updates** — #658, PR #675, approved by Kapil on 18 October. When
+  no tier answers, an agent raises an update in the issue's short-term memory ("STM -
+  always STM"), a person approves or rejects each one in the review tool (a local page on
+  the tool's design until it is built), and the approved answer is written to the issue's
+  short-term memory. A drive keeps going unless an update blocks. Contract version 3.
+  Moving memory up is `/learn-memory` and `/promote-memory` (not filed). ADR 035 §5 and
+  ADR 036 §2–§4 need amending.
 
-### 5. Memory updates instead of guesses — now
-
-**Issue:** #658. Its plan: `.garura/project/issues/658/specs/plan.md`.
-**First:** two faults from the PR #674 review, fixed before any agent uses the tool: the
-contract's `pull` request (`{path}`) is refused by the tool; and a read from Phoenix
-memory can overwrite a different file at the same path in Garura memory.
-**What:** when no memory answers, the agent raises a memory update: what is
-missing, a drafted entry, where the draft came from (the person, the web, the
-model — marked), and whether it blocks the work. Nothing is used until a person
-approves it, one update at a time, in the review tool (a local prototype page
-until it is built). The approved answer is written to the issue's short-term
-memory, and the work decides from memory. Every update lands in short-term
-memory, a person's own answers too (Kapil, 2026-10-18: "STM - always STM");
-moving memory up is the `/learn-memory` and `/promote-memory` plays, not filed
-yet. A drive keeps going while an update waits, unless it blocks. This changes
-ADR 035 §5 and ADR 036 §2–§4 (promotion, a person's answers in Garura memory,
-approval by typing); they need an amendment.
-**Why here:** without it, "only from memory" stops every time memory is thin.
-**Done when:** a gap, an update, an approval, a write and an answer from memory
-run end to end on a sample.
-**Needs:** item 4.
-
-### 6. Every decision names its memory
+### 6. Every decision names its memory — now
 
 **Issue:** #659.
+**First:** three notes from the PR #675 review: the review tool's mockup gains the Memory
+and ADRs section, so the memory page is part of the committed design (Kapil: "not build
+solo"); contract version 3 says a waiting draft is hidden from lookups; the design says
+the Memory and ADRs section (#664) needs Garura-side work too.
 **What:** one shape for an answer and its source, built on the trace format
 Garura already has. Agents write it to short-term memory; a script checks each
 named source exists and its fingerprint still matches; a drive's review record
@@ -287,3 +277,4 @@ describe the three tiers and the tool, and the locked knowledge-base design note
 - 2026-10-18 — Kapil kept the order: the agents move onto the tool in #661 after #658–#660, not right after #657. No agent calls the tool yet.
 - 2026-10-18 — Item 4 done: #657 approved by Kapil (PR #674). Now item 5 (#658).
 - 2026-10-18 — Item 11 moved: the memory review (#664) is built with the review tool in the #606 plan.
+- 2026-10-18 — Item 5 done: #658 approved by Kapil (PR #675). Now item 6 (#659).
