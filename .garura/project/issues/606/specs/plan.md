@@ -85,7 +85,7 @@ it.
 **Why here:** it needs all of items 3 to 7.
 **Done when:** a working prototype goes in; the person approves the plan; out come a plan and issues the person can read, and a detailed product model for the agents — checked and reviewed.
 **Order inside this item** (Kapil, 2026-10-18, "A" — the runner first, then the review; and "B" — the whole memory system before the runner):
-0. **The memory system — its own feature, not filed yet.** Phoenix memory is the superset; each project pulls the subset it needs; one tool finds and updates memory, searching like Claude Code; nothing comes from the model or the web without a memory update a person approved. Draft plan: `.garura/project/issues/613/specs/memory-system-plan.md`. The runner starts at its milestone (its items 1 to 8).
+0. **The memory system — its own feature, not filed yet.** Phoenix memory is the superset; each project pulls the subset it needs; one tool finds and updates memory, searching like Claude Code; nothing comes from the model or the web without a memory update a person approved. Draft plan: `.garura/project/issues/613/specs/memory-system-plan.md`. The runner starts at its milestone (its items 1 to 9).
 1. **The runner — #613.** Questions first, then `/intent` → `/vision` → `/understand`, the checker, the evidence. Until the review exists, the drive ends with the plays' review records and a pull request.
 2. **The review — #641–#644** (the tool), **#645–#646** (approval in the product model), **#648–#649** (open, listen, send back). #641 takes its example pack from a real Kickoff run, which only the runner can make.
 3. **The review joins the drive — #650.** The review step becomes the drive's last step and writes approval.

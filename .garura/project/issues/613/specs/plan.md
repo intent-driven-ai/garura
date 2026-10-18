@@ -94,8 +94,9 @@ at the milestone below until the memory system reaches its own milestone.
 ### Milestone: Kickoff's plays work from memory
 
 Nothing below starts until the memory system's own milestone is passed: its
-items 1 to 8 — the decision, the memory tool, Phoenix memory and the subset a
-project pulls, memory updates, every decision naming its memory, and
+items 1 to 9 — the decision, the memory tool, Phoenix memory and the subset a
+project pulls, memory updates, every decision naming its memory, the memory
+system in every Garura install, and
 `/intent`, `/vision` and `/understand` moved onto the tool and tried on a test
 project. That work is its own feature, outside this issue
 (`specs/memory-system-plan.md`, not filed yet).
@@ -203,3 +204,8 @@ mark step 1 of item 8 done in the #606 plan.
   item 3 until that feature passes its own milestone. Item 4's play fixes
   overlap with the memory feature's item 7; what is left of item 4 after it is
   settled at item 3.
+- 2026-10-18 — Kapil chose A: land what this branch holds now (ADR 034, the
+  plans, the memory review) as one pull request, so the memory feature can
+  start from main. #613 stays open; Kickoff gets a fresh branch when the memory
+  milestone is passed. Kapil also made the memory system part of every Garura
+  install (memory plan item 7).
