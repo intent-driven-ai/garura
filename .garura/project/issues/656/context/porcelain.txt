@@ -1,0 +1,5 @@
+ M .garura/core/config.yaml
+ M .garura/project/issues/653/specs/plan.md
+ M .garura/project/issues/656/specs/plan.md
+ M core/components/plays/install-garura/scripts/install.py
+?? .garura/project/issues/656/context/porcelain.txt
