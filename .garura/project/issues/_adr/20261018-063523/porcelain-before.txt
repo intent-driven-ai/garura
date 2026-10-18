@@ -1,0 +1,6 @@
+ M .garura/project/issues/617/context/plan-check.json
+ M .garura/project/issues/617/specs/decisions.md
+ M .garura/project/issues/617/specs/plan.md
+?? .garura/project/issues/617/specs/review-tool-mockup.html
+?? .garura/project/issues/617/specs/review-tool.md
+?? .garura/project/issues/_adr/20261018-063523/porcelain-before.txt

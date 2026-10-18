@@ -1,0 +1,35 @@
+{
+  "decided": true,
+  "lint_ok": true,
+  "linked": true,
+  "target": "docs/adr/033-approval-in-the-product-model.md",
+  "shape": "markdown",
+  "guard": {
+    "adr": ".garura/project/issues/_adr/20261018-063523/adr-draft.md",
+    "declared": "kind",
+    "touches_an_intent": [],
+    "verdict": "no person's business intent changes"
+  },
+  "olders": [
+    {
+      "adr": "032",
+      "file": "docs/adr/032-drive-review-of-outcomes.md",
+      "kind": "amended",
+      "part": "\u00a75 statuses set at the review become a lasting approval on each piece; \u00a72/\u00a73 the tools show the whole model's approval state every time they open; a send-back leaves the piece in progress"
+    },
+    {
+      "adr": "031",
+      "file": "docs/adr/031-business-intent-and-ice.md",
+      "kind": "amended",
+      "part": "\u00a74 workable widened: the ICE, its node and its business intent must all be approved; approval follows links"
+    }
+  ],
+  "status": "accepted",
+  "accepted_by": "Kapil Viren Ahuja",
+  "pointers_written": [
+    "032-drive-review-of-outcomes.md",
+    "031-business-intent-and-ice.md"
+  ],
+  "pointers_missing": [],
+  "index_ok": true
+}

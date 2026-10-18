@@ -1,6 +1,6 @@
 # ADR 032 — A Drive Ends With a Review of Its Outcome, in an Intent Review Tool and a Product Review Tool
 
-**Status:** Accepted
+**Status:** Accepted — amended in part by [ADR 033](033-approval-in-the-product-model.md): §5 statuses set at the review become a lasting approval on each piece; §2/§3 the tools show the whole model's approval state every time they open; a send-back leaves the piece in progress
 **Date:** 2026-10-17
 **Level:** framework
 **Decided by:** Kapil Viren Ahuja · **Decided in:** #617 (spike: how a finished drive is reviewed), under #594 and business intent #606; working notes in `.garura/project/issues/617/specs/decisions.md` (Q1–Q7)
