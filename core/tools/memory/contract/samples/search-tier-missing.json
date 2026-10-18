@@ -1,0 +1,16 @@
+{
+  "command": "search",
+  "request": {
+    "pattern": "checkout"
+  },
+  "response": {
+    "ok": false,
+    "contract_version": "1",
+    "command": "search",
+    "error": {
+      "code": "tier_missing",
+      "message": "Phoenix memory has no setting: no folder or server is configured for it.",
+      "tier": "phoenix"
+    }
+  }
+}

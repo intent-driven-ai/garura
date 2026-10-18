@@ -1,0 +1,20 @@
+{
+  "command": "search",
+  "request": {
+    "pattern": "payment providers at launch",
+    "fixed": true
+  },
+  "response": {
+    "ok": true,
+    "contract_version": "1",
+    "command": "search",
+    "looked_in": [
+      "short-term",
+      "garura",
+      "phoenix"
+    ],
+    "answered_by": null,
+    "hits": [],
+    "truncated": false
+  }
+}
