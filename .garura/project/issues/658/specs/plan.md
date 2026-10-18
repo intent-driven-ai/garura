@@ -118,8 +118,10 @@ Next: item 7, land the change.
   an update (one from the web that blocks, one from the model that does not); neither was
   found while it waited. Kapil approved both on the local page; both were applied to issue
   658's short-term memory; a new lookup in issue 658 found each, and issue 659 found
-  neither. No update was rejected in the run; the reject path is covered by the tool's
-  tests. Record: `evidence/e2e-658.md`; runner: `evidence/e2e_658.py`.
+  neither. Second run, on the page rebuilt on the review tool's design: Kapil approved one
+  and rejected one; the rejected update was refused at apply (`not_approved`), nothing was
+  written, and no lookup found it. Records: `evidence/e2e-658.md`, `evidence/e2e-658-run2.md`;
+  runner: `evidence/e2e_658.py`.
 
 ### 7. Land the change — now
 
@@ -149,3 +151,4 @@ answers change (#658, #661, #663) are fixed only when Kapil asks.
 - 2026-10-18 — Item 4 built: propose, updates, decide, apply; waiting drafts hidden from lookups.
 - 2026-10-18 — Item 5 built: the local approval page (never committed).
 - 2026-10-18 — Item 6 shown: end to end, Kapil approved both updates on the local page.
+- 2026-10-18 — Second end-to-end run on the rebuilt page: one approved, one rejected; the rejection wrote nothing.
