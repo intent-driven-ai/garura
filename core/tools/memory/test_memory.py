@@ -259,6 +259,91 @@ class Settings(Tiers):
                          "bad_request")
 
 
+class Updates(Tiers):
+    """A gap, a memory update, a person's word, the write — all in the issue's short-term memory."""
+
+    def raise_update(self, **extra):
+        request = {"issue": 7, "missing": "How long a reset link lasts in this product.",
+                   "target_tier": "short-term", "target_path": "7/context/answers/reset-link.md",
+                   "draft": "A reset link lasts 30 minutes in this product.", "draft_source": "web",
+                   "sources": [], "requested_by": "test agent"} | extra
+        return self.ask("propose", request)["update"]
+
+    def decide(self, uid, verdict="approve"):
+        return self.ask("decide", {"id": uid, "verdict": verdict, "by": "a person", "reply": verdict,
+                                   "decided_in": "review-tool"})
+
+    def test_the_whole_way_in_one_issue(self):
+        gap = self.ask("search", {"issue": 7, "pattern": "30 minutes"})
+        self.assertEqual(gap["answered_by"], None)
+        update = self.raise_update()
+        self.assertEqual((update["status"], update["blocking"]), ("waiting", False))
+        self.assertEqual(self.ask("search", {"issue": 7, "pattern": "30 minutes"})["answered_by"], None)
+        self.assertEqual(self.decide(update["id"])["update"]["status"], "approved")
+        applied = self.ask("apply", {"id": update["id"]})
+        self.assertEqual(applied["written"]["path"], "7/context/answers/reset-link.md")
+        found = self.ask("search", {"issue": 7, "pattern": "30 minutes"})
+        self.assertEqual((found["answered_by"], found["hits"][0]["path"]),
+                         ("short-term", "7/context/answers/reset-link.md"))
+        self.assertEqual(self.ask("search", {"issue": 8, "pattern": "30 minutes"})["answered_by"], None)
+
+    def test_a_waiting_draft_is_never_found_or_read(self):
+        update = self.raise_update()
+        self.assertEqual(self.ask("search", {"issue": 7, "pattern": "30 minutes"})["answered_by"], None)
+        self.assertEqual(self.ask("find", {"issue": 7, "glob": "**/mu-*.json"})["matches"], [])
+        stored = f"7/review/memory-updates/{update['id']}.json"
+        self.assertEqual(self.ask("read", {"issue": 7, "tier": "short-term", "path": stored})["error"]["code"],
+                         "not_found")
+
+    def test_a_rejected_update_writes_nothing(self):
+        update = self.raise_update()
+        self.decide(update["id"], "reject")
+        self.assertEqual(self.ask("apply", {"id": update["id"]})["error"]["code"], "not_approved")
+        self.assertFalse(os.path.exists(os.path.join(self.short, "7/context/answers/reset-link.md")))
+
+    def test_nothing_is_written_before_a_person_decides(self):
+        update = self.raise_update()
+        self.assertEqual(self.ask("apply", {"id": update["id"]})["error"]["code"], "not_approved")
+
+    def test_a_person_decides_once_and_it_is_applied_once(self):
+        update = self.raise_update()
+        self.decide(update["id"])
+        self.assertEqual(self.decide(update["id"])["error"]["code"], "wrong_state")
+        self.ask("apply", {"id": update["id"]})
+        self.assertEqual(self.ask("apply", {"id": update["id"]})["error"]["code"], "wrong_state")
+
+    def test_a_target_that_changed_is_not_written_over(self):
+        update = self.raise_update()
+        self.decide(update["id"])
+        write(self.short, "7/context/answers/reset-link.md", "someone wrote here first\n")
+        self.assertEqual(self.ask("apply", {"id": update["id"]})["error"]["code"], "changed")
+
+    def test_an_update_stays_in_its_issue(self):
+        a = self.ask("propose", {"issue": 7, "missing": "x", "target_tier": "short-term",
+                                 "target_path": "8/context/x.md", "draft": "x", "draft_source": "person",
+                                 "sources": [], "requested_by": "test agent"})
+        self.assertEqual(a["error"]["code"], "bad_request")
+
+    def test_an_update_never_targets_garura_or_phoenix(self):
+        for tier in ("garura", "phoenix"):
+            a = self.ask("propose", {"issue": 7, "missing": "x", "target_tier": tier, "target_path": "7/x.md",
+                                     "draft": "x", "draft_source": "person", "sources": [],
+                                     "requested_by": "test agent"})
+            self.assertEqual(a["error"]["code"], "bad_request", tier)
+
+    def test_listing_and_blocking(self):
+        first = self.raise_update(blocking=True)
+        second = self.raise_update(target_path="7/context/answers/other.md")
+        self.decide(second["id"])
+        waiting = self.ask("updates", {"status": "waiting"})["updates"]
+        self.assertEqual([(u["id"], u["blocking"]) for u in waiting], [(first["id"], True)])
+        self.assertEqual(len(self.ask("updates", {})["updates"]), 2)
+        self.assertNotEqual(first["id"], second["id"])
+
+    def test_an_unknown_update(self):
+        self.assertEqual(self.ask("apply", {"id": "mu-20000101-001"})["error"]["code"], "not_found")
+
+
 class CommandLine(Tiers):
     """Every command line gets a JSON answer, even one the tool cannot read."""
 

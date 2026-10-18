@@ -5,9 +5,9 @@ server in Griffin. Agents that call it do not change when that happens, because 
 talk to this tool, through the contract in `contract/v3.json`.
 
 This folder holds the contract (version 3), sample answers, the check that keeps them in
-step, and the tool: `memory.py`. Today the tool answers `health`, `find`, `search`, `read`,
-`pull` and `pulled`. The memory-update commands (`propose`, `updates`, `decide`, `apply`) and
-`cite` come in later steps.
+step, and the tool: `memory.py` (with `pull.py` for Phoenix memory and `updates.py` for memory
+updates). Today the tool answers `health`, `find`, `search`, `read`, `pull`, `pulled`, `propose`,
+`updates`, `decide` and `apply`. `cite` comes in a later step (#659).
 
 ## Running the tool
 
@@ -32,6 +32,7 @@ The tool learns where each tier lives from one source: the JSON file `MEMORY_SET
 | `phoenix` | `MEMORY_PHOENIX_ROOT` | Phoenix memory's git repository |
 | `phoenix_ref` | `MEMORY_PHOENIX_REF` | Phoenix memory's approved version (default `origin/main`) |
 | `garura_pull_dir` | `MEMORY_GARURA_PULL_DIR` | Where pulled pieces land inside Garura memory (default: its root) |
+| `updates_dir` | `MEMORY_UPDATES_DIR` | Where an issue's memory updates are kept, inside its short-term folder (default `review/memory-updates`). A lookup never reads them: a draft is used only once a person approved it and it was applied |
 | `engine` | `MEMORY_ENGINE` | `folder`, the only engine built. A server engine is one setting away |
 
 Two rules the folder engine keeps:
