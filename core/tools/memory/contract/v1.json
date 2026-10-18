@@ -1,0 +1,1153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Memory tool contract",
+  "version": "1.0.0",
+  "contract_version": "1",
+  "description": "The one agreement between agents and the memory tool: the commands to find memory and to update it, what each takes and gives back, and how each fails. A request is a JSON object; on the command line its fields are the flags, and on a server they are the request body. A response is always a JSON object with ok, contract_version and command. Plain-words guide: ../README.md.",
+  "tiers": {
+    "short-term": "One issue's own memory: the plans, specs and context of the work on that issue. Root: the folder that holds one folder per issue. Every lookup names its issue, and the tool reads short-term memory only in that issue's folder ('<issue>/'), never in another issue's. Otherwise another issue's notes would answer first, and Garura and Phoenix memory would never be reached.",
+    "garura": "Garura memory: the project's long-term memory. Holds the subset of Phoenix memory the project pulled, and what the project makes itself (product model, intents, decisions, answers).",
+    "phoenix": "Phoenix memory: the global memory and the superset. Its own git repository until Griffin serves it."
+  },
+  "lookup_order": [
+    "short-term",
+    "garura",
+    "phoenix"
+  ],
+  "lookup_rule": "find and search look in lookup_order and stop at the first tier with at least one result. tier asks one tier only. every_tier looks in all three and does not stop. A lookup never skips a tier: one that reaches a tier with no setting, or one it cannot reach, fails with tier_missing. 'Never blocks a play' (ADR 035 §3) means a piece the project has not pulled is found a level up, not that a tier may be skipped. Short-term memory is only the request's issue: the tool looks in '<issue>/' under its root and nowhere else.",
+  "request_rules": {
+    "issue": "find, search and read name the issue the work is on. Short-term memory is read only in that issue's folder. A read of a short-term path outside it is bad_request.",
+    "glob": "Shell-style: * matches within one folder, ** matches any depth, ? matches one character.",
+    "pattern": "An extended regular expression, as grep -E reads it, unless fixed is true; then it is plain text.",
+    "tier_and_every_tier": "Asking for tier and every_tier together is bad_request.",
+    "read_lines": "start defaults to 1 and end to the last line. end before start is bad_request. Lines outside the file are out_of_range.",
+    "every_tier_answered_by": "With every_tier, answered_by is the first tier in lookup_order that has a result."
+  },
+  "answer_rules": {
+    "looked_in": "looked_in lists the tiers looked in, in lookup_order.",
+    "nothing_found": "answered_by null (nothing found) is allowed only after every tier was looked in: looked_in is the whole lookup_order, or just the asked tier when tier is given. Anything else is a silent skip.",
+    "first_answer_stops": "Without every_tier, answered_by is the last tier in looked_in.",
+    "results_from_looked_in": "Every hit and match comes from a tier in looked_in; without every_tier, only from answered_by.",
+    "fingerprint_is_the_text": "A fingerprint is the sha256 of the exact text it travels with: read.text, a hit's text.",
+    "short_term_is_this_issue": "Every short-term path in an answer (a match, a hit, a read, a cite source, where a cite is stored) starts with '<issue>/', the request's issue.",
+    "update_matches_its_status": "waiting: no decision yet (decided_by, reply, decided_at and applied_version are null). approved or rejected: decided_by, reply and decided_at are set; applied_version is null. applied: decided_by, reply and decided_at are set; for Phoenix memory applied_version is the commit.",
+    "short_term_update_names_its_issue": "An update to short-term memory names its issue, and its target_path starts with '<issue>/'.",
+    "propose_waits": "propose answers status waiting, with the request's issue, missing, target_tier, target_path, draft, draft_source, sources and requested_by as given.",
+    "decide_records_the_person": "decide answers approve as approved and reject as rejected, for the update named, with decided_by and reply exactly as given.",
+    "apply_writes_only_approved": "apply answers ok only with status applied, for the update named. written.tier and written.path are the update's target_tier and target_path, and applied_version is written.version. Any update a person has not approved is not_approved.",
+    "updates_filter": "With status, updates lists only updates with that status.",
+    "answered_by_has_a_result": "answered_by names a tier only when that tier has at least one result, and it is null only when there are no results.",
+    "every_tier_looks_everywhere": "With every_tier, looked_in is the whole lookup_order, and answered_by is the first tier in lookup_order that has a result.",
+    "read_answers_what_was_asked": "read answers the tier and path asked, the start and end asked (start 1 and the last line when not given), and end is never before start.",
+    "refusals": "A request the contract refuses is answered with that error, never with ok: tier with every_tier, a read with end before start, and a read of a short-term path outside the issue are bad_request.",
+    "researched_goes_to_short_term": "An update drafted by research (draft_source web or model) targets short-term memory. Garura and Phoenix memory get it only by a promotion, drafted from memory or by a person."
+  },
+  "settings": "The tool reads where each tier lives from its settings (environment variables or a settings file), never from a fixed path. A tier with no setting, or one that cannot be reached, is the error tier_missing.",
+  "paths": "Every path in a request or response is relative to its tier's root, uses forward slashes, never starts with a slash, and never contains '..'.",
+  "fingerprint": "sha256 of the exact text returned or cited, as 'sha256:' and 64 lowercase hex characters. A citation whose fingerprint no longer matches the file has gone stale.",
+  "every_result": "Every piece of text the tool returns carries its tier, file, lines and fingerprint (read, search hits, cite sources). A file list (find) carries tier, file and version. pull names the tier it wrote to.",
+  "commands": {
+    "health": {
+      "summary": "Report each tier: can it be reached, is it a folder or a server, and which version it is at. The install check calls this.",
+      "request": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      },
+      "response": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "ok": {
+                "const": true
+              },
+              "contract_version": {
+                "const": "1"
+              },
+              "command": {
+                "const": "health"
+              },
+              "tiers": {
+                "type": "array",
+                "minItems": 3,
+                "items": {
+                  "$ref": "#/$defs/tier_health"
+                }
+              }
+            },
+            "required": [
+              "ok",
+              "contract_version",
+              "command",
+              "tiers"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "$ref": "#/$defs/error"
+          }
+        ]
+      }
+    },
+    "find": {
+      "summary": "Find files by name pattern, in lookup order. Short-term memory is the request's issue only.",
+      "request": {
+        "type": "object",
+        "properties": {
+          "issue": {
+            "$ref": "#/$defs/issue"
+          },
+          "glob": {
+            "type": "string",
+            "minLength": 1
+          },
+          "tier": {
+            "$ref": "#/$defs/tier"
+          },
+          "every_tier": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "issue",
+          "glob"
+        ],
+        "additionalProperties": false
+      },
+      "response": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "ok": {
+                "const": true
+              },
+              "contract_version": {
+                "const": "1"
+              },
+              "command": {
+                "const": "find"
+              },
+              "looked_in": {
+                "$ref": "#/$defs/tier_list"
+              },
+              "answered_by": {
+                "$ref": "#/$defs/tier_or_null"
+              },
+              "matches": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/match"
+                }
+              }
+            },
+            "required": [
+              "ok",
+              "contract_version",
+              "command",
+              "looked_in",
+              "answered_by",
+              "matches"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "$ref": "#/$defs/error"
+          }
+        ]
+      }
+    },
+    "search": {
+      "summary": "Search the text of files, in lookup order. Short-term memory is the request's issue only. An empty answer (answered_by null, no hits) means no tier holds it: that is the cue for a memory update.",
+      "request": {
+        "type": "object",
+        "properties": {
+          "issue": {
+            "$ref": "#/$defs/issue"
+          },
+          "pattern": {
+            "type": "string",
+            "minLength": 1
+          },
+          "fixed": {
+            "type": "boolean"
+          },
+          "ignore_case": {
+            "type": "boolean"
+          },
+          "glob": {
+            "type": "string",
+            "minLength": 1
+          },
+          "tier": {
+            "$ref": "#/$defs/tier"
+          },
+          "every_tier": {
+            "type": "boolean"
+          },
+          "max": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "required": [
+          "issue",
+          "pattern"
+        ],
+        "additionalProperties": false
+      },
+      "response": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "ok": {
+                "const": true
+              },
+              "contract_version": {
+                "const": "1"
+              },
+              "command": {
+                "const": "search"
+              },
+              "looked_in": {
+                "$ref": "#/$defs/tier_list"
+              },
+              "answered_by": {
+                "$ref": "#/$defs/tier_or_null"
+              },
+              "hits": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/hit"
+                }
+              },
+              "truncated": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "ok",
+              "contract_version",
+              "command",
+              "looked_in",
+              "answered_by",
+              "hits",
+              "truncated"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "$ref": "#/$defs/error"
+          }
+        ]
+      }
+    },
+    "read": {
+      "summary": "Read exact lines of one file in one tier, with the fingerprint of the text returned. A short-term path must be in the request's issue.",
+      "request": {
+        "type": "object",
+        "properties": {
+          "issue": {
+            "$ref": "#/$defs/issue"
+          },
+          "tier": {
+            "$ref": "#/$defs/tier"
+          },
+          "path": {
+            "$ref": "#/$defs/path"
+          },
+          "start": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "end": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "required": [
+          "issue",
+          "tier",
+          "path"
+        ],
+        "additionalProperties": false
+      },
+      "response": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "ok": {
+                "const": true
+              },
+              "contract_version": {
+                "const": "1"
+              },
+              "command": {
+                "const": "read"
+              },
+              "tier": {
+                "$ref": "#/$defs/tier"
+              },
+              "path": {
+                "$ref": "#/$defs/path"
+              },
+              "start": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "end": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "text": {
+                "type": "string"
+              },
+              "fingerprint": {
+                "$ref": "#/$defs/fingerprint"
+              },
+              "version": {
+                "$ref": "#/$defs/version"
+              }
+            },
+            "required": [
+              "ok",
+              "contract_version",
+              "command",
+              "tier",
+              "path",
+              "start",
+              "end",
+              "text",
+              "fingerprint",
+              "version"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "$ref": "#/$defs/error"
+          }
+        ]
+      }
+    },
+    "cite": {
+      "summary": "Record a decision and the memory it rests on, in the issue's short-term memory (ADR 035 §6). The record's full shape is refined by the citations story; this is its first version.",
+      "request": {
+        "type": "object",
+        "properties": {
+          "issue": {
+            "$ref": "#/$defs/issue"
+          },
+          "question": {
+            "type": "string",
+            "minLength": 1
+          },
+          "answer": {
+            "type": "string",
+            "minLength": 1
+          },
+          "decided_by": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sources": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "$ref": "#/$defs/source"
+            }
+          }
+        },
+        "required": [
+          "issue",
+          "question",
+          "answer",
+          "decided_by",
+          "sources"
+        ],
+        "additionalProperties": false
+      },
+      "response": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "ok": {
+                "const": true
+              },
+              "contract_version": {
+                "const": "1"
+              },
+              "command": {
+                "const": "cite"
+              },
+              "citation_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "stored": {
+                "type": "object",
+                "properties": {
+                  "tier": {
+                    "const": "short-term"
+                  },
+                  "path": {
+                    "$ref": "#/$defs/path"
+                  }
+                },
+                "required": [
+                  "tier",
+                  "path"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "ok",
+              "contract_version",
+              "command",
+              "citation_id",
+              "stored"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "$ref": "#/$defs/error"
+          }
+        ]
+      }
+    },
+    "pull": {
+      "summary": "Copy one piece of Phoenix memory into Garura memory, and record the version it came from.",
+      "request": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "$ref": "#/$defs/path"
+          }
+        },
+        "required": [
+          "path"
+        ],
+        "additionalProperties": false
+      },
+      "response": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "ok": {
+                "const": true
+              },
+              "contract_version": {
+                "const": "1"
+              },
+              "command": {
+                "const": "pull"
+              },
+              "tier": {
+                "const": "garura"
+              },
+              "path": {
+                "$ref": "#/$defs/path"
+              },
+              "version": {
+                "type": "string",
+                "minLength": 1
+              },
+              "fingerprint": {
+                "$ref": "#/$defs/fingerprint"
+              }
+            },
+            "required": [
+              "ok",
+              "contract_version",
+              "command",
+              "tier",
+              "path",
+              "version",
+              "fingerprint"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "$ref": "#/$defs/error"
+          }
+        ]
+      }
+    },
+    "pulled": {
+      "summary": "List what Garura memory pulled from Phoenix memory, with the version each piece came from and whether Phoenix memory has moved on.",
+      "request": {
+        "type": "object",
+        "properties": {
+          "behind": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "response": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "ok": {
+                "const": true
+              },
+              "contract_version": {
+                "const": "1"
+              },
+              "command": {
+                "const": "pulled"
+              },
+              "pieces": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/pulled_piece"
+                }
+              }
+            },
+            "required": [
+              "ok",
+              "contract_version",
+              "command",
+              "pieces"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "$ref": "#/$defs/error"
+          }
+        ]
+      }
+    },
+    "propose": {
+      "summary": "Raise a memory update when no tier answers (ADR 035 §5): what is missing, where it belongs, a drafted entry and where the draft came from. Research may draft it (the web, the model). Nothing in it is used until a person approves it. Inside a piece of work the update goes to the issue's own short-term memory. Moving it up to Garura or Phoenix memory is a promotion, done outside the work, through the same propose, decide and apply.",
+      "request": {
+        "type": "object",
+        "properties": {
+          "issue": {
+            "$ref": "#/$defs/issue"
+          },
+          "missing": {
+            "type": "string",
+            "minLength": 1
+          },
+          "target_tier": {
+            "$ref": "#/$defs/update_tier"
+          },
+          "target_path": {
+            "$ref": "#/$defs/path"
+          },
+          "draft": {
+            "type": "string",
+            "minLength": 1
+          },
+          "draft_source": {
+            "$ref": "#/$defs/draft_source"
+          },
+          "sources": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/source"
+            }
+          },
+          "requested_by": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "missing",
+          "target_tier",
+          "target_path",
+          "draft",
+          "draft_source",
+          "sources",
+          "requested_by"
+        ],
+        "additionalProperties": false
+      },
+      "response": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "ok": {
+                "const": true
+              },
+              "contract_version": {
+                "const": "1"
+              },
+              "command": {
+                "const": "propose"
+              },
+              "update": {
+                "$ref": "#/$defs/update"
+              }
+            },
+            "required": [
+              "ok",
+              "contract_version",
+              "command",
+              "update"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "$ref": "#/$defs/error"
+          }
+        ]
+      }
+    },
+    "updates": {
+      "summary": "List memory updates, optionally only those with one status.",
+      "request": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "$ref": "#/$defs/update_status"
+          }
+        },
+        "additionalProperties": false
+      },
+      "response": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "ok": {
+                "const": true
+              },
+              "contract_version": {
+                "const": "1"
+              },
+              "command": {
+                "const": "updates"
+              },
+              "updates": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/update"
+                }
+              }
+            },
+            "required": [
+              "ok",
+              "contract_version",
+              "command",
+              "updates"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "$ref": "#/$defs/error"
+          }
+        ]
+      }
+    },
+    "decide": {
+      "summary": "Record a person's word on a waiting memory update: approve or reject, who, and their exact reply. Only a person decides; until the memory review exists, the person types it. An update that is not waiting is the error wrong_state.",
+      "request": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "verdict": {
+            "enum": [
+              "approve",
+              "reject"
+            ]
+          },
+          "by": {
+            "type": "string",
+            "minLength": 1
+          },
+          "reply": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "id",
+          "verdict",
+          "by",
+          "reply"
+        ],
+        "additionalProperties": false
+      },
+      "response": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "ok": {
+                "const": true
+              },
+              "contract_version": {
+                "const": "1"
+              },
+              "command": {
+                "const": "decide"
+              },
+              "update": {
+                "$ref": "#/$defs/update"
+              }
+            },
+            "required": [
+              "ok",
+              "contract_version",
+              "command",
+              "update"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "$ref": "#/$defs/error"
+          }
+        ]
+      }
+    },
+    "apply": {
+      "summary": "Write an approved memory update to its tier: the issue's short-term memory, Garura memory, or Phoenix memory as a commit. An update a person has not approved is the error not_approved; one already applied is wrong_state.",
+      "request": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      },
+      "response": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "ok": {
+                "const": true
+              },
+              "contract_version": {
+                "const": "1"
+              },
+              "command": {
+                "const": "apply"
+              },
+              "update": {
+                "$ref": "#/$defs/update"
+              },
+              "written": {
+                "type": "object",
+                "properties": {
+                  "tier": {
+                    "$ref": "#/$defs/update_tier"
+                  },
+                  "path": {
+                    "$ref": "#/$defs/path"
+                  },
+                  "version": {
+                    "$ref": "#/$defs/version"
+                  },
+                  "fingerprint": {
+                    "$ref": "#/$defs/fingerprint"
+                  }
+                },
+                "required": [
+                  "tier",
+                  "path",
+                  "version",
+                  "fingerprint"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "ok",
+              "contract_version",
+              "command",
+              "update",
+              "written"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "$ref": "#/$defs/error"
+          }
+        ]
+      }
+    }
+  },
+  "errors": {
+    "settings_missing": "The tool has no settings at all.",
+    "tier_missing": "A tier has no setting, or cannot be reached. Never reported as 'nothing found'.",
+    "bad_request": "The request does not match this contract, or reads a short-term path outside its issue.",
+    "not_found": "The file or update named does not exist in the tier asked.",
+    "out_of_range": "The lines asked for are outside the file.",
+    "not_approved": "apply on an update no person approved: it is waiting or was rejected.",
+    "changed": "The target changed after the update was proposed; propose again from the current text.",
+    "wrong_state": "decide on an update that is not waiting, or apply on an update already applied."
+  },
+  "$defs": {
+    "tier": {
+      "enum": [
+        "short-term",
+        "garura",
+        "phoenix"
+      ]
+    },
+    "tier_or_null": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/tier"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "tier_list": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/tier"
+      }
+    },
+    "issue": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "update_tier": {
+      "enum": [
+        "short-term",
+        "garura",
+        "phoenix"
+      ]
+    },
+    "path": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?!.*\\.\\.)[^\\\\\\n\\r]+$"
+    },
+    "fingerprint": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "version": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "draft_source": {
+      "enum": [
+        "person",
+        "web",
+        "model",
+        "memory"
+      ]
+    },
+    "update_status": {
+      "enum": [
+        "waiting",
+        "approved",
+        "rejected",
+        "applied"
+      ]
+    },
+    "tier_health": {
+      "type": "object",
+      "properties": {
+        "tier": {
+          "$ref": "#/$defs/tier"
+        },
+        "reachable": {
+          "type": "boolean"
+        },
+        "kind": {
+          "enum": [
+            "folder",
+            "server"
+          ]
+        },
+        "version": {
+          "$ref": "#/$defs/version"
+        }
+      },
+      "required": [
+        "tier",
+        "reachable",
+        "kind",
+        "version"
+      ],
+      "additionalProperties": false
+    },
+    "match": {
+      "type": "object",
+      "properties": {
+        "tier": {
+          "$ref": "#/$defs/tier"
+        },
+        "path": {
+          "$ref": "#/$defs/path"
+        },
+        "version": {
+          "$ref": "#/$defs/version"
+        }
+      },
+      "required": [
+        "tier",
+        "path",
+        "version"
+      ],
+      "additionalProperties": false
+    },
+    "hit": {
+      "type": "object",
+      "properties": {
+        "tier": {
+          "$ref": "#/$defs/tier"
+        },
+        "path": {
+          "$ref": "#/$defs/path"
+        },
+        "line": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "text": {
+          "type": "string"
+        },
+        "fingerprint": {
+          "$ref": "#/$defs/fingerprint"
+        }
+      },
+      "required": [
+        "tier",
+        "path",
+        "line",
+        "text",
+        "fingerprint"
+      ],
+      "additionalProperties": false
+    },
+    "source": {
+      "type": "object",
+      "properties": {
+        "tier": {
+          "$ref": "#/$defs/tier"
+        },
+        "path": {
+          "$ref": "#/$defs/path"
+        },
+        "start": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "end": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "fingerprint": {
+          "$ref": "#/$defs/fingerprint"
+        }
+      },
+      "required": [
+        "tier",
+        "path",
+        "start",
+        "end",
+        "fingerprint"
+      ],
+      "additionalProperties": false
+    },
+    "pulled_piece": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/path"
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "current_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "behind": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "path",
+        "version",
+        "current_version",
+        "behind"
+      ],
+      "additionalProperties": false
+    },
+    "update": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "$ref": "#/$defs/update_status"
+        },
+        "issue": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "missing": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target_tier": {
+          "$ref": "#/$defs/update_tier"
+        },
+        "target_path": {
+          "$ref": "#/$defs/path"
+        },
+        "draft": {
+          "type": "string",
+          "minLength": 1
+        },
+        "draft_source": {
+          "$ref": "#/$defs/draft_source"
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/source"
+          }
+        },
+        "requested_by": {
+          "type": "string",
+          "minLength": 1
+        },
+        "requested_at": {
+          "type": "string",
+          "minLength": 1
+        },
+        "decided_by": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "reply": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "decided_at": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "applied_version": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "status",
+        "issue",
+        "missing",
+        "target_tier",
+        "target_path",
+        "draft",
+        "draft_source",
+        "sources",
+        "requested_by",
+        "requested_at",
+        "decided_by",
+        "reply",
+        "decided_at",
+        "applied_version"
+      ],
+      "additionalProperties": false
+    },
+    "error": {
+      "type": "object",
+      "properties": {
+        "ok": {
+          "const": false
+        },
+        "contract_version": {
+          "const": "1"
+        },
+        "command": {
+          "enum": [
+            "health",
+            "find",
+            "search",
+            "read",
+            "cite",
+            "pull",
+            "pulled",
+            "propose",
+            "updates",
+            "decide",
+            "apply"
+          ]
+        },
+        "error": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "enum": [
+                "settings_missing",
+                "tier_missing",
+                "bad_request",
+                "not_found",
+                "out_of_range",
+                "not_approved",
+                "changed",
+                "wrong_state"
+              ]
+            },
+            "message": {
+              "type": "string",
+              "minLength": 1
+            },
+            "tier": {
+              "$ref": "#/$defs/tier_or_null"
+            }
+          },
+          "required": [
+            "code",
+            "message",
+            "tier"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "ok",
+        "contract_version",
+        "command",
+        "error"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

@@ -1,0 +1,545 @@
+category: tool-interface-contract
+pr: 666
+issue: 655
+base: main
+head: d72ba56d
+re_review: true   # overwrites the first review's file; nothing below is carried over from its verdicts
+task_id: null
+playbook: null
+playbook_missing: true   # no knowledge/review playbook covers a tool's interface contract; follow-up task is left to the play (this agent has no TaskCreate)
+
+# Every source below was read with `git show main:<path>` (main = bbf2ab5a, also the merge-base of this branch).
+# Nothing here is taken from v1.json's prose, the README, the 655 plan, the PR body or the first review's files;
+# those were only tested as claims. The three answers the decision owner gave on 2026-10-18 (short-term lookups
+# read only the current issue; when no tier answers, research drafts, a person approves, it is written to the
+# issue's short-term memory; promotion to Garura or Phoenix memory happens outside the work) are decisions UNDER TEST
+# stated by the caller. They are not on main, so they are not used as grounding anywhere; TIC-1 reports exactly that gap.
+grounded_principles:
+  - id: ADR035-S1-TIERS
+    statement: >
+      Three tiers. Short-term memory is per issue, in the issue's folder: the plans, specs and context of the
+      work. Garura memory holds the pulled subset plus the product model, intents, decisions and the person's
+      answers. Phoenix memory is the global superset. Agents also read the git repository, the product model
+      and the intents.
+    source: "docs/adr/035-agents-work-only-from-memory.md, Decision part 1 (lines 36-42, main)"
+  - id: ADR035-S2-PULL-AND-VERSION
+    statement: >
+      A project pulls the subset it needs and records what it pulled and from which version of Phoenix memory.
+      Phoenix memory is a git repository; every memory update is a commit, so it has history, review and versions.
+    source: "docs/adr/035, Decision part 2 (lines 46-53, main)"
+  - id: ADR035-S3-LOOKUP-ORDER
+    statement: >
+      The tool looks in short-term memory first, then Garura memory, then Phoenix memory, and stops at the first
+      tier that answers. The lookup never blocks a play: a piece not pulled yet is found a level up.
+    source: "docs/adr/035, Decision part 3 (lines 55-59, main)"
+  - id: ADR035-S4-ONE-TOOL
+    statement: >
+      Agents and skills never read or write memory by a path. They call one command-line memory tool that finds
+      and updates memory over all three tiers, so every answer is cited the same way. The tool sits outside
+      Garura; a move to Griffin changes nothing for Garura or the agents.
+    source: "docs/adr/035, Decision part 4 (lines 61-68, main)"
+  - id: ADR035-S5-AS-COMMITTED
+    statement: >
+      When no tier answers, the agent raises a memory update (what is missing, a drafted entry). The model or the
+      web may help draft it. Nothing in it is used until a person approves it. "The approved update is written to
+      memory first: to Garura memory for something only this project needs, or to Phoenix memory for something any
+      project could use. The waiting work then decides from memory." Until the memory review exists a person
+      approves by typing. "This holds for every agent and skill, run by hand or inside a drive." Consequences:
+      "A gap in memory, once filled, is there for the next run" (positive); "Thin memory means many memory updates
+      at first" (negative).
+    source: "docs/adr/035, Decision part 5 (lines 70-78, the write-to clause is line 74); Consequences lines 122 and 126 (main)"
+  - id: ADR035-S6-EVERY-DECISION-NAMES-MEMORY
+    statement: >
+      Every decision an agent makes names the memory it came from: the tier, the file and the lines. This widens
+      ADR 034 section 4, which stands: "An answer with no source is not allowed."
+    source: "docs/adr/035, Decision part 6 (lines 80-82) and part 9; docs/adr/034-plays-answer-from-memory-inside-a-drive.md, Decision part 4 (line 62, main)"
+  - id: ADR035-S10-SHORT-TERM-PER-ISSUE
+    statement: "Short-term memory stays per issue (ADR 008)."
+    source: "docs/adr/035, Decision part 10 (line 109, main)"
+  - id: ADR035-NOT-DECIDED-HERE
+    statement: >
+      Left open by ADR 035: whether ADR 034's learned checkpoint answers stay on the list of memory; whether the
+      files a play passes between its own steps (ADR 011; ADR 016 stm paths) also go through the tool; whether
+      a drive goes on while one update waits; where in .garura/ Garura memory lives. ADR 034 part 2 still lists
+      "the learned checkpoint answers" as memory.
+    source: "docs/adr/035, Consequences / Not decided here (lines 131-135); docs/adr/034, Decision part 2 (lines 46-54, main)"
+  - id: ADR008-NWWI-AND-PENDING
+    statement: >
+      Work can start without an issue (exploration); before the issue number exists STM is written to
+      _pending/ and moved into the issue's folder in the same run. start-change resolves or creates the issue at
+      the head of every unit of work. Checkpoint artifacts persist forever as the audit trail (section 8).
+    source: "docs/adr/008-issue-centric-stm-and-nwwi.md, Decision parts 1, 4 and 8 (lines 33-41, 88-106, 174+); core/grounding/glossary.md, NWWI row (line 91, main)"
+  - id: ADR017-ISSUE-FOLDERS
+    statement: >
+      Inside an issue's folder only five folders are permitted: specs, evidence, checkpoint, context, review.
+    source: "docs/adr/017-folder-whitelist.md, Decision parts 1 and 3 (stm.structure, main)"
+  - id: ADR033-APPROVAL-AND-WRITER
+    statement: >
+      Approval means a person accepted these exact words: the approved thing keeps a fingerprint of its words,
+      who approved, when, and in which review. Only the review step writes approval, from the person's answers.
+      Scope is the product model; used as the pattern ADR 035 lists under Related.
+    source: "docs/adr/033-approval-in-the-product-model.md, Decision parts 2 and 6; docs/adr/035 'Related' (main)"
+  - id: DIRECTMODELWRITE-KEYED-SCRIPT
+    statement: >
+      The product model (product-os/, including decisions/) is written in place by the play's deterministic keyed
+      script under a scoped-write guard. The LLM writes only per-node doc files; it never writes a shared model file.
+    source: "core/components/memory/standards/rules/direct-model-write.md, 'What every model-writing play does' item 3 (line 28, main)"
+  - id: WORKPLAN-R11-SERVES
+    statement: >
+      Every plan except a business intent's names its parent plan, so any work can be traced up to the business
+      intent it serves. The filed stories tell their agents to read the feature plan in another issue's folder
+      (common_read_first: ".garura/project/issues/653/specs/plan.md").
+    source: "core/components/memory/standards/rules/work-plan.md, rule 11 (line 30); .garura/project/issues/654/specs/stories.yaml, common_read_first (lines 3-8, main)"
+  - id: STORY655-AND-PLAN653-ITEM2-5-11
+    statement: >
+      The filed text of the contract story (item 2): commands to find (find, search, read, go up a tier, cite) and
+      update (pull, propose, list updates, apply); every result names tier, file, lines, fingerprint; a missing
+      tier is an error; done when the contract file exists with a version and sample answers pass its check; the
+      tool's folder names no Garura path and imports no Garura code. Plan item 2 adds "no Garura names inside".
+      Story item 5 and plan item 5 say the approved update is written to Garura or Phoenix memory. Plan item 11 has
+      the memory review offer approve, change, reject.
+    source: ".garura/project/issues/654/specs/stories.yaml items 2 and 5 (lines 9-30, 69-80); .garura/project/issues/653/specs/plan.md items 2, 5, 11 (lines 116, 161-172, 244-252, main)"
+  - id: REVIEWTOOL-EXTRACTABLE
+    statement: >
+      An extractable tool: (1) one folder, own README, tests and version, imports no Garura code, reads no Garura
+      path; (2) Garura words are data, not code; (3) talks only through a JSON-schema contract in its folder, with
+      a test on the Garura side; (7) a boundary check, "a test in Garura's lint", fails if any file in the tool's
+      folder mentions .garura or core/components or imports from outside. Its section 2 also writes down the
+      transport form of every request.
+    source: ".garura/project/issues/617/specs/review-tool.md section 1 rules 1, 2, 3, 7 (lines 58-86) and section 2 (line 107+, main)"
+  - id: IDD-P3-OBSERVABLE-BINARY
+    statement: >
+      A condition that cannot be observed and evaluated true or false "creates false confidence that problems will
+      be caught".
+    source: "docs/philosophy/idd-principles.md, Principle 3 (line 96, main)"
+  - id: ADR009-R4-FAILURE-IS-LOUD
+    statement: "Failure is loud. Rule 4 stands after ADR 035 (Rules 1, 2, 4 and 5 stand)."
+    source: "docs/adr/009-skill-ltm-organizational-knowledge.md Rule 4; docs/adr/035 Decision part 9 (main)"
+  - id: TOOLS-ON-MAIN
+    statement: >
+      Only one tool is committed on main under core/tools: lint-components (package.json with name, version and
+      bin; a doc page at docs/agentic-methodology/tools/lint-components.md). The review tool's folder
+      (core/tools/outcome-review/) exists only as a plan. There is no second committed tool pattern to test the
+      memory tool's layout against; no finding is raised on layout.
+    source: "git ls-tree main core/tools; docs/agentic-methodology/tools/lint-components.md (main)"
+  - id: PR-SEVERITY-TAXONOMY
+    statement: "P1 blocker (security, auth, data-loss, breaking API contract); P2 major; P3 minor (missing docs, naming); P4 nit."
+    source: "core/components/memory/standards/rules/pr.md, Severity buckets (lines 7-11, main)"
+
+verification:
+  grounding_unavailable: false
+  grounding_gap_reported: "ADR 035 part 5 as committed contradicts the contract's research-draft rule: see TIC-1."
+  mechanical_checks_run_read_only:
+    note: >
+      check_contract.py and its tests were run as shipped with bytecode writing off: samples 20 good, 23 broken
+      (all fail as they should), boundary clean, 49 tests OK. Then the check was loaded in a throwaway interpreter
+      and fed hand-edited copies of shipped samples (scratchpad only, no repository file touched). Each ACCEPTED line
+      is a sample the contract and its check let through today.
+    results:
+      - "A  decide approved by the requesting agent ('product-os-keeper (/vision)' as by and decided_by): ACCEPTED"
+      - "B  promotion with draft_source memory, sources [], target phoenix (applied_version set): ACCEPTED"
+      - "C  propose requested by an agent, draft_source person, target phoenix: ACCEPTED"
+      - "D  propose for issue 655 whose source is short-term memory of issue 613: ACCEPTED (check_scope covers cite sources only)"
+      - "E  find request with glob '../613/**' or '/etc/**' for issue 655: request shape ACCEPTED (glob is any non-empty string)"
+      - "F  path pattern against 'a/b.md' + trailing newline: matches under Python re.search; 'a<newline>b.md' does not"
+      - "G  read from phoenix with version null, health with phoenix version null: ACCEPTED"
+      - "H  updates request with an issue filter: REJECTED (additionalProperties false: the queue cannot be scoped to an issue)"
+      - "I  apply of a web draft whose short-term target is 613/specs/plan.md, 613/checkpoint/..., 613/review/...: ACCEPTED (each)"
+      - "J  read or find of Phoenix or Garura memory without an issue: REFUSED as shaped (issue is required on find, search, read, cite)"
+      - "K  short-term propose with no issue; apply whose update.issue disagrees with its target path; model draft promoted to garura: all REJECTED (rules hold)"
+      - "L  error codes that have a good sample: bad_request, not_approved, tier_missing, wrong_state; no sample for settings_missing, not_found, out_of_range, changed"
+
+verdicts:
+  - point: "Owner answer 1: short-term lookups read only the current issue"
+    verdict: >
+      IMPLEMENTED, WITH HOLES. tiers.short-term, request_rules.issue, answer rule short_term_is_this_issue, the
+      refused read-other-issue sample, four broken samples and check_scope hold it for paths in answers. It matches
+      ADR 035 part 1 (short-term is per issue) and part 10. Holes: the request side is not refused for a glob and
+      the queue and update sources are not scoped (TIC-7); the issue is required even where there is none (TIC-3);
+      the parent plan the filed stories tell agents to read becomes unreadable and uncitable (TIC-6); part 3's
+      text is silent on the scope (TIC-4).
+  - point: "Owner answer 2: research drafts, a person approves, written to the issue's short-term memory"
+    verdict: >
+      IMPLEMENTED, AGAINST THE COMMITTED TEXT. researched_goes_to_short_term, propose and apply summaries, the
+      apply sample and one broken sample implement it. ADR 035 part 5 as committed says the approved update goes to
+      Garura or Phoenix memory. See TIC-1 for the gap and the amendment. How a person approval is told from an agent's
+      is TIC-2.
+  - point: "Owner answer 3: promotion to Garura or Phoenix memory happens outside the work"
+    verdict: >
+      NOT REPRESENTABLE. The contract says it in two summaries and one README line; a promotion is an ordinary
+      propose with draft_source memory and free sources. See TIC-5.
+  - point: "ADR 035 part 3, lookup order, stop at the first tier, tier_missing, never blocks"
+    verdict: >
+      CONFORMS on the order, the stop rule, nothing-found only after every tier was looked in, tier and every_tier
+      as additions, and tier_missing as a loud error (ADR 009 Rule 4; the filed story's "a missing tier is an error").
+      Two things sit beside it: the issue requirement (TIC-3) and "answers" read as "has at least one hit", which
+      is ADR 035's own simplification (see TIC-11 for what can then answer).
+  - point: "First review's lifecycle gap: update status, decision fields, Phoenix commit"
+    verdict: >
+      NOW HELD. check_update and check_lifecycle enforce waiting, approved or rejected, applied against decided_by,
+      reply, decided_at and applied_version, a Phoenix commit on apply, propose and decide answering what was asked,
+      and apply only after approval; the rules are in answer_rules and each has a broken sample. Verified (K). What
+      is still open is who approves (TIC-2), not the shape of the flow.
+  - point: "ADR 035 part 2, pull and version"
+    verdict: >
+      CONFORMS for pull, pulled and apply to Phoenix (version, current_version, behind; applied_version required for
+      Phoenix). A small gap on read, find and health: TIC-17.
+  - point: "ADR 035 part 4, one tool, command line, outside Garura"
+    verdict: >
+      CONFORMS on one contract for both families, transport-neutral requests, engine kind informational. Open: the
+      write destination chosen by the caller (TIC-8), how a request becomes flags (TIC-12).
+  - point: "ADR 035 part 6 and ADR 034 part 4, every decision names its memory"
+    verdict: "PARTLY. cite requires tier, path, lines and a sha256 per source; it cannot name the repository or the parent plan (TIC-6)."
+  - point: "Settled in the README: learned checkpoint answers are not memory; a play's own working files stay direct"
+    verdict: >
+      CONTENT CONFORMS to ADR 034 part 6 (a checkpoint is not a question), ADR 011 and ADR 016 (paths are the contract;
+      untouched by ADR 035) and ADR 035 part 1 (the person's answers sit in Garura memory). Not a finding on content.
+      The record is the gap: TIC-4.
+  - point: "Review tool plan section 1, extractable-tool rules"
+    verdict: >
+      MOSTLY CONFORMS. Rules 1 (own folder, README, tests, version, no Garura import, no Garura path), 3 (JSON
+      contract in the folder) and 4/5 hold or are left to #657. Rule 7 is TIC-13; rule 2 and the plan's "no Garura
+      names" are TIC-14. Story 655's own bar is narrower ("no Garura path, no Garura code") and holds.
+  - point: "find results carry tier, file and version but not lines or a fingerprint"
+    verdict: "CONFORMS WITH A NAMED CARVE-OUT (every_result exempts a file list). Not a finding."
+  - point: "Tools-first-class layout"
+    verdict: "NOT TESTABLE: one committed tool only (TOOLS-ON-MAIN). No finding."
+  - point: "ADR 016 / 009 / 017 as amended by ADR 035"
+    verdict: >
+      CONFORMS. The contract does not bring back ltm_context, a resolution trace or a hook; failure is loud; the
+      folder names no Garura path (boundary scan passes). The one ADR 017 point (what a short-term write may touch)
+      is TIC-8.
+
+findings:
+  - id: TIC-1
+    severity: P2
+    file: "core/tools/memory/contract/v1.json (answer_rules.researched_goes_to_short_term line 43; commands.propose summary line 528; commands.apply summary line 717); core/tools/memory/README.md (lines 75-85); core/tools/memory/contract/samples/apply.json, samples/apply-promotion.json, samples/broken/propose-web-draft-to-phoenix.json"
+    finding: >
+      The contract, following the owner's 2026-10-18 answer, sends every draft made by the web or the model to the
+      issue's own short-term memory, and lets Garura or Phoenix memory get it only through a second, separately
+      approved promotion made outside the work. The committed decision says otherwise. ADR 035 part 5 (line 74):
+      "The approved update is written to memory first: to Garura memory for something only this project needs, or to
+      Phoenix memory for something any project could use. The waiting work then decides from memory." Nothing on
+      main records the change: docs/adr is untouched by this PR and neither ADR 035's nor ADR 034's Status line
+      carries a note. Plan item 5 (lines 161-172) and story item 5 (line 73) repeat part 5, and ADR 035's
+      Consequences build on it ("A gap in memory, once filled, is there for the next run", line 122). With one-issue
+      short-term lookups that last sentence now holds only after a
+      promotion nobody is assigned to make, and the Negative consequence (line 126, thin memory means many updates)
+      doubles: a durable answer takes two approvals, and the next issue asks again. The contract is right to follow
+      the owner; the record is what is wrong, and #657 and #658 builders read the record.
+    failure_scenario: "A #658 builder reads ADR 035 part 5 and story item 5, writes approved web drafts straight to Garura or Phoenix memory, and the contract's own rule rejects the result."
+    principle_violated: ADR035-S5-AS-COMMITTED
+    committed_source: "docs/adr/035-agents-work-only-from-memory.md, Decision part 5 line 74 and Consequences lines 122, 126; .garura/project/issues/653/specs/plan.md item 5 lines 161-172; .garura/project/issues/654/specs/stories.yaml item 5 line 73 (main)"
+    suggested_direction: >
+      Amend ADR 035 through the adr play (a Status-line amendment note, as 034, 009, 016 and 017 carry for 035), with
+      the owner's name and date 2026-10-18, so that part 5 reads: "When research (the web or the model) drafted the
+      entry, the approved update is written to the issue's short-term memory, not to Garura or Phoenix memory. Moving
+      it to Garura or Phoenix memory is a promotion: its own memory update, drafted from memory or by a person,
+      approved by a person, made outside the work." The owner must also say whether an update a person drafted, or one
+      drafted from memory, may be written to Garura or Phoenix memory directly after approval (the contract allows it
+      today; his answer does not cover it). In the same change: Consequences line 122 gains "and promoted", line 126
+      names the second approval, part 3 says a lookup's short-term tier is the issue the work is on (see TIC-4), the
+      ICE-impact sentence on /vision's knowledge-base proposal says where it lands, plan item 5 and story item 5 (#658)
+      are reworded to match. ADR 034's Status line needs no new note: it already points to ADR 035 part 5.
+  - id: TIC-2
+    severity: P2
+    file: "core/tools/memory/contract/v1.json (commands.decide summary line 653 and request lines 654-683; commands.propose requested_by lines 558-561; commands.cite decided_by lines 351-354; $defs.update decided_by, requested_by lines 1037-1050); core/tools/memory/contract/check_contract.py (check_lifecycle lines 183-188); samples/decide.json, samples/cite.json, samples/apply-promotion.json"
+    finding: >
+      ADR 035 part 5 makes one guarantee the whole feature rests on: nothing from the model or the web is used until a
+      person approves it, "for every agent and skill". The contract states it in one prose sentence on decide ("Only a
+      person decides") and carries it as free strings: by, decided_by and reply on decide; requested_by on propose, which
+      holds an agent in one sample ("product-os-keeper (/vision)") and a person in another ("Kapil Viren Ahuja").
+      Nothing says what a person is, nothing forbids the requester from also being the decider, and decide is on the
+      same agent-callable surface as propose. The check lets an agent approve its own proposal (A) and lets an
+      agent-requested draft labelled person go to Phoenix (C). The same word also means opposite things: cite's
+      decided_by is the agent that made a decision (cite.json), update.decided_by is the person who approved
+      (decide.json), so a reader or an engine cannot rely on the field. Under IDD Principle 3 a rule nobody can observe
+      is false confidence. Why P2 and not P1: nothing is built and the owner's design has the person type the approval
+      in the session, so the tool can never prove identity; what the contract can do is make the claim checkable
+      afterwards and refuse the plain bypass. It becomes a P1 (auth bypass in a shipped interface) if #658 builds on v1
+      as it stands.
+    failure_scenario: "An agent proposes a model draft, then calls decide with by 'Kapil Viren Ahuja' and a reply it wrote itself, then apply: the contract and its check accept every step."
+    principle_violated: ADR035-S5-AS-COMMITTED
+    committed_source: "docs/adr/035 Decision part 5 lines 70-78; docs/philosophy/idd-principles.md Principle 3 line 96; docs/adr/033 Decision part 6 (only the review step writes approval, from the person's answers) (main)"
+    suggested_direction: >
+      Give the who-fields a kind, for example {name, kind: person|agent} on requested_by and decided_by, and add the
+      answer rules: an update requested by an agent is decided only by a person; a decide whose person is the
+      requesting agent fails. Say which surface may call decide (the typed-approval checkpoint step now, the Memory view
+      later) and, if a closed set is wanted, add a channel field naming it. Rename cite's decided_by (for example
+      decided_by_agent) so the word keeps one meaning. One broken sample per rule (agent approves its own update;
+      model draft labelled person).
+  - id: TIC-3
+    severity: P2
+    file: "core/tools/memory/contract/v1.json (commands.find required lines 112-115, commands.search 194-197, commands.read 270-274, commands.cite 363-369; $defs.issue lines 824-827; tiers.short-term line 8; lookup_rule line 17); core/tools/memory/contract/samples/broken/find-without-issue.json"
+    finding: >
+      Every find, search, read and cite requires an issue, an integer of at least 1, even a lookup that asks only for
+      Garura or Phoenix memory (J). ADR 008 lets work start without an issue and parks its STM in _pending/ until the
+      number exists; the glossary's NWWI row says start-change resolves or creates the issue at the head of every unit of
+      work. ADR 035 part 3 says the lookup never blocks a play. A step that runs before the issue number exists cannot
+      look up even a Phoenix rule without making a number up. The contract is also silent on a new issue whose folder
+      does not exist yet: short-term is first in every lookup, so if that is tier_missing, the first lookup of every new
+      issue fails, and if it is an empty short-term, the rule that a lookup never skips a tier needs a sentence for the
+      no-issue case. The requirement covers every lookup, not only cite, and a fix after #657 is a version 2 for every
+      caller (#661 and #663 write calls against v1).
+    failure_scenario: "start-change's first agent searches Phoenix memory for the branch-naming rule before the issue exists; the request is refused for a missing issue, or the agent invents an issue number."
+    principle_violated: ADR035-S3-LOOKUP-ORDER
+    committed_source: "docs/adr/035 Decision part 3 lines 55-59; docs/adr/008 Decision parts 1 and 4 lines 33-41, 88-106; core/grounding/glossary.md NWWI row line 91 (main)"
+    suggested_direction: >
+      Make issue optional on find, search and read, required only when short-term is part of the lookup (a request with
+      tier short-term, or no tier). Say in lookup_rule what a request with no issue does: short-term is not looked in,
+      looked_in shows that, and it is a stated rule, not a silent skip. Say that an issue with no folder yet is an
+      empty short-term, not tier_missing. For cite before an issue exists, name the pending location or say the record
+      is written after the issue exists. Add one good sample and one broken sample for each.
+  - id: TIC-4
+    severity: P3
+    file: "core/tools/memory/README.md ('What is not memory', lines 149-156); docs/adr/035-agents-work-only-from-memory.md and docs/adr/034-plays-answer-from-memory-inside-a-drive.md (unchanged by this PR)"
+    finding: >
+      Three things the branch treats as settled are open or silent in the committed record. ADR 035 lines 131-135 still
+      list "whether ADR 034's learned checkpoint answers stay on the list of memory" and "whether the files a play passes
+      between its own steps also go through the tool" as not decided, and ADR 034 part 2 (lines 46-54) still lists the
+      learned checkpoint answers as memory. ADR 035 part 3 says "looks in short-term memory first" with no scope, while
+      the contract says it is the issue the work is on (part 10 supports it, but only as "stays per issue"). The README is
+      the only place the settlements are written, and no one is told to consult a tool README for a decision. The content
+      conforms (see verdicts); only the record is missing.
+    failure_scenario: "An agent briefed from the ADRs treats learned checkpoint answers as memory and searches all issues' short-term folders, while the tool refuses both."
+    principle_violated: ADR035-NOT-DECIDED-HERE
+    committed_source: "docs/adr/035 Consequences / Not decided here lines 131-135; docs/adr/034 Decision part 2 lines 46-54 (main)"
+    suggested_direction: >
+      Carry all three in the same amendment as TIC-1: a short note on ADR 035 (and a pointer on ADR 034 part 2) saying
+      learned checkpoint answers are not memory, a play's own step-to-step files stay direct (ADR 011, ADR 016), and a
+      lookup's short-term tier is the issue the work is on. Written through the adr play with the owner's date; no
+      contract change; keep the README sentences.
+  - id: TIC-5
+    severity: P3
+    file: "core/tools/memory/contract/v1.json (commands.propose summary line 528; $defs.draft_source lines 850-857; $defs.update lines 998-1088; commands.updates request lines 608-616); core/tools/memory/contract/samples/apply-promotion.json"
+    finding: >
+      A promotion is the only route from short-term to Garura or Phoenix memory, and the contract has no form for it. It
+      is an ordinary propose whose draft_source is memory or person; those labels are the caller's own word (C), a
+      memory draft may carry no source at all (B), nothing links a promotion to the short-term entry it lifts except free
+      sources, and nothing lists the entries still waiting for a promotion (updates filters by status only, and the
+      request has no target_tier). ADR 034 part 4 says an answer with no source is not allowed; ADR 035's positive
+      consequence (a gap, once filled, is there for the next run) now depends on promotions happening. The text "outside
+      the work" cannot be checked in any form.
+    failure_scenario: "A model-written entry is labelled memory with sources [] and goes to Phoenix memory on one approval; or no one ever promotes and Phoenix memory never grows."
+    principle_violated: ADR035-S5-AS-COMMITTED
+    committed_source: "docs/adr/035 Decision part 5 line 74 and Consequences line 122; docs/adr/034 Decision part 4 line 62 (main)"
+    suggested_direction: >
+      Add answer rules: draft_source memory needs at least one source, and an update aimed at garura or phoenix with
+      draft_source memory names, as a source, the short-term entry it promotes. Let updates filter by target_tier and
+      by "applied to short-term, not yet promoted". Broken samples for each. Whether the contract should also carry a
+      named promote step is for the owner; the rules above work without one.
+  - id: TIC-6
+    severity: P3
+    file: "core/tools/memory/contract/v1.json (commands.cite sources lines 355-361; $defs.source lines 942-971; $defs.tier lines 800-806; request_rules.issue line 19); core/tools/memory/contract/samples/read-other-issue-refused.json"
+    finding: >
+      cite names a source only as one of the three tiers. ADR 035 part 1 has agents also read the git repository, and the
+      filed stories tell every story's agents to read the feature plan, which sits in another issue's folder
+      (stories.yaml common_read_first: 653's plan). Under the one-issue rule that plan is refused by read
+      (read-other-issue-refused.json is the same case, 655 reading 613's plan), and the contract has no source kind for
+      a repository file. A decision that rests on the parent plan, a commit or a code fact has no way to name its basis,
+      and ADR 034 part 4 does not allow an answer with no source: the agent skips the citation or cites an unrelated
+      memory piece to satisfy minItems 1. Work-plan rule 11 wants every piece of work traceable up to the plan it serves.
+    failure_scenario: "A story agent decides from item 5 of the feature plan; read is refused, it reads the file by path, and cite cannot name that plan."
+    principle_violated: ADR035-S6-EVERY-DECISION-NAMES-MEMORY
+    committed_source: "docs/adr/035 Decision parts 1 and 6 lines 36-42, 80-82; docs/adr/034 Decision part 4 line 62; core/components/memory/standards/rules/work-plan.md rule 11; .garura/project/issues/654/specs/stories.yaml common_read_first (main)"
+    suggested_direction: >
+      Decide how a story reads the plan it serves: either a second source kind (repository: path, lines, commit) in
+      $defs.source, plus a stated rule that the parent plan is read as repository content, or an explicit
+      serving-issue read the tool allows for the plan chain only. Record the choice where the citations story (#659)
+      and the stories' read-first list will see it.
+  - id: TIC-7
+    severity: P3
+    file: "core/tools/memory/contract/v1.json (commands.find glob lines 101-104, commands.search glob lines 179-182; paths line 46; answer_rules.refusals line 42; commands.updates request lines 608-616); core/tools/memory/contract/check_contract.py (check_scope lines 128-140)"
+    finding: >
+      The one-issue rule is held for the paths in an answer and for a read, and not for three other ways in. (1) A glob
+      is any non-empty string: '../613/**' or '/etc/**' is a valid find or search request for issue 655 (E). The paths
+      rule covers path fields only and the refusals list names only read, so the engine's behaviour is undefined; the
+      answer would be rejected after the fact but the contract does not say bad_request. (2) check_scope looks at
+      cite sources only; the sources inside an update (propose, decide, apply, updates) are not scoped, so a propose
+      for 655 can cite 613's short-term lines (D). A legitimate promotion cites its origin issue (apply-promotion.json,
+      issue 613), so the rule needs to be exact, not absent. (3) updates has no issue filter and lists every issue's
+      waiting drafts to any caller (H).
+    failure_scenario: "An agent on issue 655 sends find with glob '../613/**' and gets the plans of issue 613 back as short-term hits."
+    principle_violated: ADR035-S1-TIERS
+    committed_source: "docs/adr/035 Decision part 1 lines 36-42 and part 10 line 109; docs/adr/008 Decision part 2 (main)"
+    suggested_direction: >
+      Refuse a glob that leaves its tier root (starts with a slash or contains '..') as bad_request and add it to the
+      refusals list and the check; add an update-source rule (a short-term source in an update is in the update's
+      issue); add an optional issue filter to updates. A broken sample for each.
+  - id: TIC-8
+    severity: P3
+    file: "core/tools/memory/contract/v1.json (commands.propose target_path lines 542-544; commands.apply lines 716-787; $defs.update target_path lines 1021-1023); core/tools/memory/contract/samples/apply-promotion.json (target_path 'product-os/decisions/payment-providers.md'), samples/propose.json"
+    finding: >
+      The caller chooses where an approved entry is written, and the contract puts no rule on where it may land.
+      (1) ADR 035 part 4 says agents never write memory by a path; every writing agent must now carry the layout of the
+      tier it writes to. (2) The sample promotion writes into product-os/decisions/, a folder the committed model-write
+      rule reserves for the play's keyed script and scoped-write guard (the LLM never writes a shared model file), and
+      where ADR 033 lets only the review step write approval. (3) A short-term entry may target the issue's own plan,
+      checkpoint or review records (I): an approved web draft aimed at 613/checkpoint/vision/<time>.md replaces an
+      audit-trail record that ADR 008 says persists forever. ADR 017 allows five folders in an issue; nothing says apply
+      stays out of the ones that are records. If an engine replaces an existing file this is P1-class data loss; the
+      contract does not say whether it replaces, appends or refuses (see TIC-9).
+    failure_scenario: "A person approves a 'payment providers' answer whose target is the issue's specs/plan.md; apply rewrites the plan."
+    principle_violated: ADR035-S4-ONE-TOOL
+    committed_source: "docs/adr/035 Decision part 4 line 63; core/components/memory/standards/rules/direct-model-write.md item 3 line 28; docs/adr/033 Decision part 6; docs/adr/008 Decision part 8; docs/adr/017 Decision part 3 (main)"
+    suggested_direction: >
+      Let propose name what the entry is (a kind and a name) and let the engine map it to a path from its settings, which
+      also carry the list of folders each tier accepts updates in (so the contract stays free of Garura names). A target
+      outside that list is refused with a named error. Change the sample's path to one that is not a model path.
+  - id: TIC-9
+    severity: P3
+    file: "core/tools/memory/contract/v1.json (errors.changed line 796; commands.apply lines 716-787; $defs.update lines 998-1088)"
+    finding: >
+      The error 'changed' ("the target changed after the update was proposed; propose again") cannot be produced from the
+      data the contract carries: neither propose nor the update record holds a fingerprint or version of the target as it
+      stood when the update was proposed. No sample shows it (L). The contract also does not say what apply does when the
+      target exists (replace, append or refuse). ADR 035 part 2 wants every memory update to have history and versions,
+      and ADR 009 Rule 4 wants failure loud; an error with nothing behind it leaves each engine to make its own rule.
+    failure_scenario: "Two engines implement 'changed' differently, so the same update applies on one and fails on the other."
+    principle_violated: ADR035-S2-PULL-AND-VERSION
+    committed_source: "docs/adr/035 Decision part 2 lines 46-53; docs/adr/009 Rule 4 (main)"
+    suggested_direction: >
+      Add base_fingerprint (and the Phoenix version) of the target to the update at propose time, state the write
+      semantics of apply in one sentence, and add a good sample and a broken sample for 'changed'.
+  - id: TIC-10
+    severity: P3
+    file: "core/tools/memory/contract/v1.json (commands.decide verdict enum lines 661-666; $defs.update lines 998-1088)"
+    finding: >
+      Two gaps in how a person's word is recorded. (1) The verdicts are approve and reject; plan item 11 has the memory
+      review offer approve, change, reject (for example send an update to Phoenix instead of Garura, or fix its wording).
+      With no change verb the only route is reject and propose again, and adding the verb later is a new contract
+      version. (2) The approval is not tied to the words approved: ADR 033's pattern is that a person accepted these
+      exact words, with a fingerprint, who and when; here the update keeps who, when and the reply but no fingerprint of
+      the draft the person saw. ADR 033's scope is the product model, so this is the pattern, not a rule.
+    failure_scenario: "A draft is edited between propose and decide and nothing in the record shows the person approved different words."
+    principle_violated: ADR033-APPROVAL-AND-WRITER
+    committed_source: "docs/adr/033 Decision part 2; .garura/project/issues/653/specs/plan.md item 11 lines 244-252 (main)"
+    suggested_direction: >
+      Add draft_fingerprint to decide and keep it on the update, and either add a change verdict now or record in plan
+      item 11 that version 2 adds it.
+  - id: TIC-11
+    severity: P3
+    file: "core/tools/memory/contract/v1.json (tiers.short-term line 8; lookup_rule line 17; commands.cite request answer lines 347-350 and response stored lines 390-405); core/tools/memory/README.md (line 155)"
+    finding: >
+      Short-term memory is the issue's folder, and the glossary says that folder holds what the plays and agents write:
+      evidence, context, checkpoints, review records. A search that hits any of it is a short-term answer and stops
+      before Garura memory is reached. So an agent's own earlier guess in the issue's context folder, or the free-text
+      answer a cite command stores in that folder, can answer a later lookup as if it were memory, with no approval.
+      ADR 035 part 5 says nothing from the model is used until a person approves it. The contract has no field that tells
+      an approved entry (written by apply) from a working file, and cite writes agent-authored text into the tier that is
+      searched first. This is mostly a property of ADR 035 part 1 as committed; the contract is where it can be made
+      visible.
+    failure_scenario: "A model's reasoning saved in the issue's context folder answers the next search, and the decision cites it as memory."
+    principle_violated: ADR035-S5-AS-COMMITTED
+    committed_source: "docs/adr/035 Decision parts 1 and 5; core/grounding/glossary.md STM row line 38 (main)"
+    suggested_direction: >
+      Let a hit and a match say what they are (an applied update id, or a working file), so a caller or the memory review
+      can tell approved memory from working notes; or have cite store references to its sources and no answer text.
+      The owner should decide whether working files answer lookups at all.
+  - id: TIC-12
+    severity: P3
+    file: "core/tools/memory/contract/v1.json (description line 6); core/tools/memory/README.md (lines 48-50)"
+    finding: >
+      ADR 035 part 4 makes the agent-facing surface a command-line tool. The command-line form is one sentence ("its
+      fields are the flags"). cite and propose carry arrays of objects (sources) that have no flag form, and every lookup
+      now needs an issue flag; nothing says how a boolean, an array or a multi-line draft is passed, what stdout and stderr
+      carry, or what the exit code is for ok:false. The review tool's plan, the one committed precedent, writes down the
+      transport form of every request in its contract section. #657 builds the tool and #661 and #663 write agent calls
+      against it, so each would invent this.
+    failure_scenario: "#657 and #661 pick different ways to pass sources, and the first run of an agent fails on a flag."
+    principle_violated: ADR035-S4-ONE-TOOL
+    committed_source: "docs/adr/035 Decision part 4 lines 61-68; .garura/project/issues/617/specs/review-tool.md section 2 (line 107 on, main)"
+    suggested_direction: >
+      Add a short command-line mapping to the contract: command name, flags for scalar fields, a --json or stdin form for
+      any request, JSON on stdout for every answer, and an exit code rule. One sample per form.
+  - id: TIC-13
+    severity: P3
+    file: "core/tools/memory/contract/check_contract.py (check_boundary lines 328-350, FORBIDDEN lines 41-44); core/tools/lint-components/ (not changed by this PR)"
+    finding: >
+      Rule 7 of the extractable-tool plan puts the boundary check in Garura's lint so the tool cannot move or weaken its
+      own wall. Here the check lives in the tool's own check_contract.py and runs only when someone runs that script;
+      nothing in Garura's lint or CI calls it, and a later edit that weakens FORBIDDEN passes silently. The filed story
+      for the tool (#657) asks for "a boundary check passes", and #663 owns the memory-path lint, but no story says who
+      wires this one into Garura's lint. Rule 3's Garura-side contract test is rightly left to later stories.
+    failure_scenario: "Someone removes a string from FORBIDDEN and nothing in Garura's lint notices."
+    principle_violated: REVIEWTOOL-EXTRACTABLE
+    committed_source: ".garura/project/issues/617/specs/review-tool.md section 1 rules 3 and 7 (lines 70-85); .garura/project/issues/654/specs/stories.yaml item 4 (main)"
+    suggested_direction: >
+      Name the story that runs check_contract.py (or an equivalent boundary rule) from Garura's lint, for example #657
+      or #663, and keep the in-folder check as the tool's own guard.
+  - id: TIC-14
+    severity: P4
+    file: "core/tools/memory/contract/v1.json (tiers lines 7-11, $defs.tier, $defs.update_tier, commands.pull tier const; 'ADR 035' citations in lookup_rule line 17, cite summary line 336, propose summary line 528)"
+    finding: >
+      Plan item 2 says "no Garura names inside" and the review tool's rule 2 says Garura words are data. The contract
+      hard-wires garura and phoenix as tier ids in enums and a const, and cites Garura decision records by number in its
+      text. The filed story's bar is narrower (no Garura path, no Garura code) and holds, and ADR 035 itself names the
+      tiers "Garura memory" and "Phoenix memory", so this is a trade-off with no recorded choice. Renaming a tier later is
+      a version 2.
+    failure_scenario: "A non-Garura product reuses the tool and finds Garura's decision numbers in its contract."
+    principle_violated: REVIEWTOOL-EXTRACTABLE
+    committed_source: ".garura/project/issues/617/specs/review-tool.md section 1 rule 2 line 67; .garura/project/issues/653/specs/plan.md item 2 line 116 (main)"
+    suggested_direction: >
+      Write down one choice: the tier names are the memory system's own vocabulary and only the ADR numbers leave the
+      contract text; or the tier names become settings data.
+  - id: TIC-15
+    severity: P4
+    file: "core/tools/memory/contract/v1.json (version '1.0.0' line 4, contract_version '1' line 5); core/tools/memory/README.md ('The contract changes only by a new version')"
+    finding: >
+      Two version fields in one file, and a rule that every change is a new version, while the contract says the cite shape
+      will be refined by the citations story. Each refinement (and TIC-3, TIC-10, TIC-12 if taken later) then forces a
+      version 2 and a rewrite of the const '1' in every response. No committed source defines the rule, so this is an
+      observation.
+    failure_scenario: "A small additive field forces every caller and every sample to move to version 2."
+    principle_violated: null
+    committed_source: null
+    suggested_direction: "State what counts as additive (an optional field) and stays version 1, and which of the two version fields a caller reads."
+  - id: TIC-16
+    severity: P4
+    file: "core/tools/memory/contract/v1.json ($defs.draft_source lines 850-857, $defs.update sources lines 1031-1036); core/tools/memory/contract/samples/propose.json, samples/apply.json"
+    finding: >
+      Plan item 5 asks that a draft's origin is marked (the person, the web, the model). The contract marks the category,
+      and adds a fourth value, memory. A web or model draft carries sources [] in the shipped samples, so the person
+      approving cannot see which page it came from unless it is in the draft's text, and the origin and the approval do
+      not travel with the written short-term entry, so a later reader of that file cannot tell it began as a web draft.
+    failure_scenario: "A person approves 'cards only at launch' from the web with no way to see which page said so, and a later agent reads it as plain memory."
+    principle_violated: null
+    committed_source: ".garura/project/issues/653/specs/plan.md item 5 lines 161-172 (main)"
+    suggested_direction: "Add an optional origin string (a URL or a name) required when draft_source is web, and note why memory was added."
+  - id: TIC-17
+    severity: P4
+    file: "core/tools/memory/contract/v1.json ($defs.version lines 844-849; $defs.tier_health, $defs.match; commands.read version line 311); core/tools/memory/README.md (lines 97-98)"
+    finding: >
+      The README says Phoenix memory's version is the repository's commit. The contract allows null for every tier on
+      read, find and health (G). pull, pulled and apply to Phoenix already require a version, so the behind check works,
+      but a read from Phoenix can come back with no version, and a citation carries none at all.
+    failure_scenario: "A Phoenix read returns version null and the memory review cannot say which commit the text came from."
+    principle_violated: ADR035-S2-PULL-AND-VERSION
+    committed_source: "docs/adr/035 Decision part 2 lines 46-53 (main)"
+    suggested_direction: "Add an answer rule: a result from phoenix carries a non-null version; garura and short-term may stay null."
+  - id: TIC-18
+    severity: P4
+    file: "core/tools/memory/contract/v1.json ($defs.path pattern line 838); core/tools/memory/contract/check_contract.py (validate, re.search line 112); samples/broken/read-path-with-newline.json"
+    finding: >
+      The contract says a path never contains a newline. The pattern ends in $ and the check uses Python's re.search,
+      where $ also matches before a final newline, so 'a/b.md' followed by a newline passes (F); the dialect JSON Schema
+      names (ECMA 262) would refuse it. The broken sample for this rule uses an embedded newline and also contains '..',
+      so it would fail for the second reason alone.
+    failure_scenario: "A path with a trailing newline reaches a command-line flag unrefused."
+    principle_violated: null
+    committed_source: null
+    suggested_direction: "Have the check use re.fullmatch (or refuse a trailing newline explicitly) and make the broken sample a newline-only case."
+
+status: completed
+notes: >
+  Counts: P1 0, P2 3, P3 10, P4 5 (18 findings). Every principle is cited to a file on main (bbf2ab5a, the merge-base);
+  nothing was grounded in v1.json, the README, the 655 plan, the PR body or the first review's files. The owner's three
+  answers of 2026-10-18 were treated as decisions under test; TIC-1 reports that ADR 035 part 5 on main still says the
+  approved update is written to Garura or Phoenix memory, with the amendment that would close it (a Status-line note on
+  ADR 035, through the adr play, plus rewording of Consequences lines 122 and 126, part 3's scope, plan item 5 and story
+  item 5; TIC-4's three settlements go in the same amendment). Two open questions are the owner's to answer before the
+  amendment is written: may an update a person drafted, or one drafted from memory, be written to Garura or Phoenix memory
+  directly after approval; and do working files in the issue's folder answer lookups at all (TIC-11). What the first
+  review raised and is now held: the update lifecycle and the Phoenix commit are enforced by answer rules and broken
+  samples (verdicts). The Layer-2 dispatch cannot create tasks (no TaskCreate tool in this agent's tool set), so the
+  follow-up task for the missing playbook is left to the play.

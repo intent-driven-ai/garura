@@ -1,0 +1,34 @@
+{
+  "command": "apply",
+  "request": {
+    "id": "mu-20261018-001"
+  },
+  "response": {
+    "ok": true,
+    "contract_version": "1",
+    "command": "apply",
+    "update": {
+      "id": "mu-20261018-001",
+      "status": "waiting",
+      "issue": 613,
+      "missing": "Which payment providers the shop must support at launch.",
+      "target_tier": "short-term",
+      "target_path": "613/context/answers/payment-providers.md",
+      "draft": "Launch with card payments only; add wallets after the first month.",
+      "draft_source": "web",
+      "sources": [],
+      "requested_by": "product-os-keeper (/vision)",
+      "requested_at": "2026-10-18T09:12:00Z",
+      "decided_by": null,
+      "reply": null,
+      "decided_at": null,
+      "applied_version": null
+    },
+    "written": {
+      "tier": "short-term",
+      "path": "613/context/answers/payment-providers.md",
+      "version": null,
+      "fingerprint": "sha256:8762286eb08cff190ab8033f935ea9fc13f4ff302c5c107962d78c1a03c9a265"
+    }
+  }
+}

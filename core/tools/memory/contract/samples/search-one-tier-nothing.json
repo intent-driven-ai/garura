@@ -1,0 +1,19 @@
+{
+  "command": "search",
+  "request": {
+    "issue": 613,
+    "pattern": "refund window",
+    "tier": "garura"
+  },
+  "response": {
+    "ok": true,
+    "contract_version": "1",
+    "command": "search",
+    "looked_in": [
+      "garura"
+    ],
+    "answered_by": null,
+    "hits": [],
+    "truncated": false
+  }
+}

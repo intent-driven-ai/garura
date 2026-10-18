@@ -1,0 +1,19 @@
+{
+  "command": "decide",
+  "request": {
+    "id": "mu-20261018-001",
+    "verdict": "reject",
+    "by": "Kapil Viren Ahuja",
+    "reply": "reject"
+  },
+  "response": {
+    "ok": false,
+    "contract_version": "1",
+    "command": "decide",
+    "error": {
+      "code": "wrong_state",
+      "message": "Memory update mu-20261018-001 is approved, not waiting; it was already decided.",
+      "tier": null
+    }
+  }
+}

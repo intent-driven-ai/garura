@@ -1,0 +1,22 @@
+{
+  "command": "read",
+  "request": {
+    "issue": 655,
+    "tier": "short-term",
+    "path": "613/specs/plan.md",
+    "start": 45,
+    "end": 45
+  },
+  "response": {
+    "ok": true,
+    "contract_version": "1",
+    "command": "read",
+    "tier": "short-term",
+    "path": "613/specs/plan.md",
+    "start": 45,
+    "end": 45,
+    "text": "  on one branch, with no stop except a question nothing in memory can answer.",
+    "fingerprint": "sha256:c847ef3adeb90710d7ceb4984e22077c84ad014d20dcf5c0e0b422ed0e394db5",
+    "version": null
+  }
+}

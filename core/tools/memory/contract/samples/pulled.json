@@ -1,0 +1,19 @@
+{
+  "command": "pulled",
+  "request": {
+    "behind": true
+  },
+  "response": {
+    "ok": true,
+    "contract_version": "1",
+    "command": "pulled",
+    "pieces": [
+      {
+        "path": "knowledge/domains/ecommerce.md",
+        "version": "2b7d01aa9c40",
+        "current_version": "4f1c2e9a7b3d",
+        "behind": true
+      }
+    ]
+  }
+}

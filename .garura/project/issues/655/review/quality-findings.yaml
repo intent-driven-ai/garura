@@ -1,0 +1,491 @@
+meta:
+  generated_at: '2026-10-18T11:08:14Z'
+  diff_path: '.garura/project/issues/655/review/pr.diff'
+  taxonomy_path: 'core/components/memory/standards/rules/pr.md'
+  changed_paths_count: 3
+  scan_coverage: 1.0000
+  standards_relevant: 26
+  catchall:
+    CODE-20: 3
+findings:
+  - standard_id: 'ARCH-02'
+    severity: P2
+    file: 'core/tools/memory/contract/check_contract.py'
+    line: 1
+    evidence: 'core/tools/memory/contract/check_contract.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-02'
+  - standard_id: 'CODE-03'
+    severity: P2
+    file: 'core/tools/memory/contract/check_contract.py'
+    line: 1
+    evidence: 'core/tools/memory/contract/check_contract.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-03'
+  - standard_id: 'CODE-04'
+    severity: P2
+    file: 'core/tools/memory/contract/check_contract.py'
+    line: 1
+    evidence: 'core/tools/memory/contract/check_contract.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-04'
+  - standard_id: 'CODE-14'
+    severity: P2
+    file: 'core/tools/memory/contract/check_contract.py'
+    line: 1
+    evidence: 'core/tools/memory/contract/check_contract.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-14'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/memory/contract/check_contract.py'
+    line: 7
+    evidence: 'from'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/memory/contract/check_contract.py'
+    line: 11
+    evidence: 'from'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/memory/contract/check_contract.py'
+    line: 17
+    evidence: 'from'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/memory/contract/check_contract.py'
+    line: 40
+    evidence: 'from'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/memory/contract/check_contract.py'
+    line: 41
+    evidence: 'join'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/memory/contract/check_contract.py'
+    line: 89
+    evidence: 'join'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/memory/contract/check_contract.py'
+    line: 261
+    evidence: 'from'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/memory/contract/check_contract.py'
+    line: 300
+    evidence: 'join'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/memory/contract/check_contract.py'
+    line: 304
+    evidence: 'from'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/memory/contract/check_contract.py'
+    line: 314
+    evidence: 'From'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/memory/contract/check_contract.py'
+    line: 338
+    evidence: 'join'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/memory/contract/check_contract.py'
+    line: 355
+    evidence: 'join'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/memory/contract/check_contract.py'
+    line: 364
+    evidence: 'join'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/memory/contract/check_contract.py'
+    line: 366
+    evidence: 'join'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/memory/contract/check_contract.py'
+    line: 369
+    evidence: 'join'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'ARCH-02'
+    severity: P2
+    file: 'core/tools/memory/contract/test_check_contract.py'
+    line: 1
+    evidence: 'core/tools/memory/contract/test_check_contract.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-02'
+  - standard_id: 'CODE-03'
+    severity: P2
+    file: 'core/tools/memory/contract/test_check_contract.py'
+    line: 1
+    evidence: 'core/tools/memory/contract/test_check_contract.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-03'
+  - standard_id: 'CODE-04'
+    severity: P2
+    file: 'core/tools/memory/contract/test_check_contract.py'
+    line: 1
+    evidence: 'core/tools/memory/contract/test_check_contract.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-04'
+  - standard_id: 'CODE-14'
+    severity: P2
+    file: 'core/tools/memory/contract/test_check_contract.py'
+    line: 1
+    evidence: 'core/tools/memory/contract/test_check_contract.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-14'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/memory/contract/test_check_contract.py'
+    line: 2
+    evidence: 'from'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/memory/contract/test_check_contract.py'
+    line: 13
+    evidence: 'join'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/memory/contract/test_check_contract.py'
+    line: 21
+    evidence: 'join'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/memory/contract/test_check_contract.py'
+    line: 82
+    evidence: 'join'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/memory/contract/test_check_contract.py'
+    line: 117
+    evidence: 'from'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/memory/contract/test_check_contract.py'
+    line: 120
+    evidence: 'from'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/memory/contract/test_check_contract.py'
+    line: 256
+    evidence: 'from'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/memory/contract/test_check_contract.py'
+    line: 322
+    evidence: 'join'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/memory/contract/test_check_contract.py'
+    line: 327
+    evidence: 'from'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/memory/contract/test_check_contract.py'
+    line: 334
+    evidence: 'from'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'DOC-01'
+    severity: P3
+    file: 'core/tools/memory/README.md'
+    line: 1
+    evidence: 'core/tools/memory/README.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-01'
+  - standard_id: 'DOC-09'
+    severity: P3
+    file: 'core/tools/memory/README.md'
+    line: 1
+    evidence: 'core/tools/memory/README.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-09'
+  - standard_id: 'DOC-10'
+    severity: P3
+    file: 'core/tools/memory/README.md'
+    line: 1
+    evidence: 'core/tools/memory/README.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-10'
+  - standard_id: 'DOC-11'
+    severity: P3
+    file: 'core/tools/memory/README.md'
+    line: 1
+    evidence: 'core/tools/memory/README.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-11'
+  - standard_id: 'ARCH-03'
+    severity: P3
+    file: 'core/tools/memory/contract/check_contract.py'
+    line: 1
+    evidence: 'core/tools/memory/contract/check_contract.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-03'
+  - standard_id: 'ARCH-08'
+    severity: P3
+    file: 'core/tools/memory/contract/check_contract.py'
+    line: 1
+    evidence: 'core/tools/memory/contract/check_contract.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-08'
+  - standard_id: 'CODE-09'
+    severity: P3
+    file: 'core/tools/memory/contract/check_contract.py'
+    line: 1
+    evidence: 'core/tools/memory/contract/check_contract.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-09'
+  - standard_id: 'CODE-10'
+    severity: P3
+    file: 'core/tools/memory/contract/check_contract.py'
+    line: 1
+    evidence: 'core/tools/memory/contract/check_contract.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-10'
+  - standard_id: 'CODE-11'
+    severity: P3
+    file: 'core/tools/memory/contract/check_contract.py'
+    line: 1
+    evidence: 'core/tools/memory/contract/check_contract.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-11'
+  - standard_id: 'CODE-12'
+    severity: P3
+    file: 'core/tools/memory/contract/check_contract.py'
+    line: 1
+    evidence: 'core/tools/memory/contract/check_contract.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-12'
+  - standard_id: 'CODE-15'
+    severity: P3
+    file: 'core/tools/memory/contract/check_contract.py'
+    line: 1
+    evidence: 'core/tools/memory/contract/check_contract.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-15'
+  - standard_id: 'CODE-17'
+    severity: P3
+    file: 'core/tools/memory/contract/check_contract.py'
+    line: 1
+    evidence: 'core/tools/memory/contract/check_contract.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-17'
+  - standard_id: 'TEST-14'
+    severity: P3
+    file: 'core/tools/memory/contract/check_contract.py'
+    line: 1
+    evidence: 'core/tools/memory/contract/check_contract.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'TEST-14'
+  - standard_id: 'TEST-18'
+    severity: P3
+    file: 'core/tools/memory/contract/check_contract.py'
+    line: 1
+    evidence: 'core/tools/memory/contract/check_contract.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'TEST-18'
+  - standard_id: 'CODE-25'
+    severity: P3
+    file: 'core/tools/memory/contract/check_contract.py'
+    line: 308
+    evidence: 'except '
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-25'
+  - standard_id: 'PERF-19'
+    severity: P3
+    file: 'core/tools/memory/contract/check_contract.py'
+    line: 336
+    evidence: 'cache'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'PERF-19'
+  - standard_id: 'CODE-25'
+    severity: P3
+    file: 'core/tools/memory/contract/check_contract.py'
+    line: 343
+    evidence: 'except '
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-25'
+  - standard_id: 'CODE-25'
+    severity: P3
+    file: 'core/tools/memory/contract/check_contract.py'
+    line: 359
+    evidence: 'except '
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-25'
+  - standard_id: 'ARCH-03'
+    severity: P3
+    file: 'core/tools/memory/contract/test_check_contract.py'
+    line: 1
+    evidence: 'core/tools/memory/contract/test_check_contract.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-03'
+  - standard_id: 'ARCH-08'
+    severity: P3
+    file: 'core/tools/memory/contract/test_check_contract.py'
+    line: 1
+    evidence: 'core/tools/memory/contract/test_check_contract.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-08'
+  - standard_id: 'CODE-09'
+    severity: P3
+    file: 'core/tools/memory/contract/test_check_contract.py'
+    line: 1
+    evidence: 'core/tools/memory/contract/test_check_contract.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-09'
+  - standard_id: 'CODE-10'
+    severity: P3
+    file: 'core/tools/memory/contract/test_check_contract.py'
+    line: 1
+    evidence: 'core/tools/memory/contract/test_check_contract.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-10'
+  - standard_id: 'CODE-11'
+    severity: P3
+    file: 'core/tools/memory/contract/test_check_contract.py'
+    line: 1
+    evidence: 'core/tools/memory/contract/test_check_contract.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-11'
+  - standard_id: 'CODE-12'
+    severity: P3
+    file: 'core/tools/memory/contract/test_check_contract.py'
+    line: 1
+    evidence: 'core/tools/memory/contract/test_check_contract.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-12'
+  - standard_id: 'CODE-15'
+    severity: P3
+    file: 'core/tools/memory/contract/test_check_contract.py'
+    line: 1
+    evidence: 'core/tools/memory/contract/test_check_contract.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-15'
+  - standard_id: 'CODE-17'
+    severity: P3
+    file: 'core/tools/memory/contract/test_check_contract.py'
+    line: 1
+    evidence: 'core/tools/memory/contract/test_check_contract.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-17'
+  - standard_id: 'TEST-14'
+    severity: P3
+    file: 'core/tools/memory/contract/test_check_contract.py'
+    line: 1
+    evidence: 'core/tools/memory/contract/test_check_contract.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'TEST-14'
+  - standard_id: 'TEST-18'
+    severity: P3
+    file: 'core/tools/memory/contract/test_check_contract.py'
+    line: 1
+    evidence: 'core/tools/memory/contract/test_check_contract.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'TEST-18'
+  - standard_id: 'DOC-14'
+    severity: P4
+    file: 'core/tools/memory/README.md'
+    line: 1
+    evidence: 'core/tools/memory/README.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-14'
+  - standard_id: 'DOC-15'
+    severity: P4
+    file: 'core/tools/memory/README.md'
+    line: 1
+    evidence: 'core/tools/memory/README.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-15'
+  - standard_id: 'DOC-16'
+    severity: P4
+    file: 'core/tools/memory/README.md'
+    line: 1
+    evidence: 'core/tools/memory/README.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-16'
+  - standard_id: 'CODE-13'
+    severity: P4
+    file: 'core/tools/memory/contract/check_contract.py'
+    line: 1
+    evidence: 'core/tools/memory/contract/check_contract.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-13'
+  - standard_id: 'CODE-19'
+    severity: P4
+    file: 'core/tools/memory/contract/check_contract.py'
+    line: 1
+    evidence: 'core/tools/memory/contract/check_contract.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-19'
+  - standard_id: 'CODE-13'
+    severity: P4
+    file: 'core/tools/memory/contract/test_check_contract.py'
+    line: 1
+    evidence: 'core/tools/memory/contract/test_check_contract.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-13'
+  - standard_id: 'CODE-19'
+    severity: P4
+    file: 'core/tools/memory/contract/test_check_contract.py'
+    line: 1
+    evidence: 'core/tools/memory/contract/test_check_contract.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-19'
+counts:
+  P1: 0
+  P2: 33
+  P3: 28
+  P4: 7
