@@ -1,0 +1,18 @@
+ M docs/adr/009-skill-ltm-organizational-knowledge.md
+ M docs/adr/015-ltm-resolution-protocol.md
+ M docs/adr/016-agent-json-contract.md
+ M docs/adr/017-folder-whitelist.md
+ M docs/adr/032-drive-review-of-outcomes.md
+ M docs/adr/034-plays-answer-from-memory-inside-a-drive.md
+ M docs/adr/_index.md
+?? .garura/project/issues/_adr/20261018-082455/adr-check.json
+?? .garura/project/issues/_adr/20261018-082455/adr-context.yaml
+?? .garura/project/issues/_adr/20261018-082455/adr-draft.md
+?? .garura/project/issues/_adr/20261018-082455/adr-manifest.json
+?? .garura/project/issues/_adr/20261018-082455/brief.md
+?? .garura/project/issues/_adr/20261018-082455/decision.yaml
+?? .garura/project/issues/_adr/20261018-082455/hashes-before.json
+?? .garura/project/issues/_adr/20261018-082455/porcelain-after.txt
+?? .garura/project/issues/_adr/20261018-082455/porcelain-before.txt
+?? .garura/project/issues/_adr/20261018-082455/run.json
+?? docs/adr/035-agents-work-only-from-memory.md

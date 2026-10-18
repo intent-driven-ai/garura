@@ -1,0 +1,178 @@
+# adr-context.yaml — gathered by adr-keeper for the /adr play, Step 2 (task draft-adr), 2026-10-18
+# Brief: .garura/project/issues/_adr/20261018-082455/brief.md
+shape: markdown
+number: "035"                       # adr.py number --dir docs/adr -> {"next": "035", "taken": 34}
+suggested_file: docs/adr/035-agents-work-only-from-memory.md
+template: core/components/memory/standards/templates/adr.md
+status: proposed
+date: 2026-10-18
+level: framework
+decided_by: ""                      # empty while proposed; the brief names Kapil Ahuja, 2026-10-18 — filled on acceptance
+decided_in: "#654 (spike: decide the memory system), under Feature #653 and business intent #606; plan: .garura/project/issues/653/specs/plan.md, item 1"
+
+overlap_candidates_from_script:      # adr.py overlaps --adr brief.md --dir docs/adr --top 20
+  - {adr: "034", score: 8.05, named_in_new: true}
+  - {adr: "015", score: 6.0,  named_in_new: true}
+  - {adr: "029", score: 5.42, shared: "/learn"}
+  - {adr: "028", score: 4.58, shared: "/learn"}
+  # plus the ADRs the caller asked to judge: 001, 008, 009, 010, 011, 016, 017, 026, 032, 033
+
+supersedes:
+  - adr: "015"
+    file: docs/adr/015-ltm-resolution-protocol.md
+    part: >-
+      in part — the resolution protocol (R1–R4): its three layers (project LTM, core LTM, then
+      the model's own reasoning as a flagged fallback); the `ltm_context` input and the
+      resolution trace built on it; the agent and play updates that use them; and the learning
+      play's model of promoting the model's guesses into memory afterwards. Its Knowledge File
+      Standard (core/components/memory/standards/templates/knowledge-file.md) stands.
+    why: >-
+      The brief rejects "Keep ADR 015 (R1–R4 with a model fallback that /learn promotes later)".
+      Memory is now three tiers read through one tool, and nothing comes from the model without
+      an approved memory update first. The Knowledge File Standard is a content template the
+      brief does not touch, and it is still in use, so a full supersede would leave it with no
+      decision behind it. (The learning-play part is already gone in practice: /learn today
+      updates the product model from outcomes, and the knowledge-extractor agent no longer
+      exists — core/components/plays/learn/SKILL.md.)
+
+amends:
+  - adr: "034"
+    file: docs/adr/034-plays-answer-from-memory-inside-a-drive.md
+    part: >-
+      §2 "What counts as memory": the list becomes the three tiers (short-term, project, Phoenix
+      memory), read through the memory tool, with the git repository, the product model and the
+      intents; §3 "Never from the model alone": when no tier answers, the agent raises a memory
+      update a person approves, written to memory first, and decides from memory — never from
+      the model or the web; §6 "Run by hand, a play is unchanged" no longer holds for where an
+      agent's answers come from — the memory rule applies by hand and inside a drive.
+    why: >-
+      Kapil's words in the brief are general ("agents work within the realm of global memory …
+      The system should work only within the memory"), not limited to drives. §4 (every answer
+      names its source) stands and is widened to every decision. The memory review found two of
+      §2's five items cannot answer (the learned checkpoint answers hold verdicts, and the
+      prototype's sources are never read again) — whether the learned checkpoint answers stay on
+      the list is NOT decided by the brief; flag it as open.
+  - adr: "009"
+    file: docs/adr/009-skill-ltm-organizational-knowledge.md
+    part: >-
+      Rule 3 "LTM paths are stable conventions … treated as API contracts", with its "LTM
+      Reference Paths" and "Skill Reference Pattern" (load from `~/.garura/core/memory/…`):
+      skills find organisational standards through the memory tool, never by a path. Rules 1,
+      2, 4 and 5 stand (behaviour embedded; standards in memory; failure is loud; no duplication).
+  - adr: "016"
+    file: docs/adr/016-agent-json-contract.md
+    part: >-
+      the optional `ltm_context` input field, the `resolution_trace_path` output field, and the
+      "Resolution Protocol Hook" section: they rest on ADR 015's R1–R4. Agents get memory from
+      the tool, not from paths passed in the contract; how each answer's source is recorded is
+      settled in plan item 6. ADR 016 itself says "Any change requires a new ADR".
+  - adr: "017"
+    file: docs/adr/017-folder-whitelist.md
+    part: >-
+      §1's `.garura/core/` entry ("framework state (config, synced memory)") and §2's line that
+      `.garura/core/memory/` stays a gitignored synced copy: a project no longer holds a copy of
+      all memory; it holds the subset it pulled from Phoenix memory, with a short list of what
+      it pulled and from which version. Where in `.garura/` that lives is settled in plan item 3.
+  - adr: "032"
+    file: docs/adr/032-drive-review-of-outcomes.md
+    part: >-
+      §3 "Two review tools": the review tool (one app with Intents and Product views —
+      .garura/project/issues/617/specs/review-tool.md) gains a third view, Memory: what each tier
+      holds, the memory updates waiting for a person, and which memory each decision came from.
+    why: >-
+      Judgment call. ADR 032 §3 names exactly two tools; a reader of it would miss the memory
+      view. Its review of a drive's outcome is otherwise unchanged.
+
+not_affected:
+  - {adr: "001", why: "Plays → agents → skills stands; agents still gather context, now through the tool."}
+  - {adr: "008", why: "Short-term memory stays per issue under .garura/project/issues/{N}/; it becomes the first tier."}
+  - {adr: "010", why: "Archival unchanged; whether the tool searches _archive/ is not raised by the brief."}
+  - {adr: "011", why: "Steps still pass files through short-term memory. Whether a play's step-to-step files also go through the tool is NOT decided by the brief — flag as open."}
+  - {adr: "026", why: "Direct model writes unchanged."}
+  - {adr: "028", why: "The five loops unchanged; /learn is not touched by the brief."}
+  - {adr: "029", why: "§2 already amended by ADR 034; this ADR changes ADR 034 §3, not 029 directly. Related."}
+  - {adr: "031", why: "Only a person confirms or drops a business intent — stands. Related."}
+  - {adr: "033", why: "Agents work only on approved pieces — consistent; memory updates are approved by a person. Related."}
+
+affects:                              # every path verified to exist on 2026-10-18
+  - path: core/components/memory/
+    what: "everything in it seeds Phoenix memory, which becomes its one home outside Garura's code (plan item 3)"
+  - path: core/components/memory/knowledge/_DESIGN.md
+    what: >-
+      LOCKED; changes through this record: the knowledge base's home moves to Phoenix memory, and
+      its search engine becomes the memory tool's Claude Code-style search, in place of the
+      "Final" server's facet matching, ranking and later semantic search. Kept: "a CLI, not MCP"
+      (its words: "server behind a `kb` CLI … Not MCP (too expensive per call)").
+  - path: core/components/memory/standards/rules/resolution.md
+    what: "R1–R4 and the R4 fallback to the model (lines 71–78) are rewritten (plan item 10)"
+  - path: core/components/memory/standards/rules/play-close.md
+    what: "every play's close reads its templates from the project copy (`ltm.project-target`), which installed projects do not have"
+  - path: core/components/memory/standards/rules/drive-contract.md
+    what: "rule 4, as ADR 034 left it: a question no memory answers raises a memory update"
+  - path: core/grounding/glossary.md
+    what: "the Memory Architecture section (LTM, Core LTM, STM, KB, Standards, Formats rows) and the Global mode, Project mode and /install-garura rows, which say shared memory is copied to ~/.garura/core/memory/"
+  - path: .garura/core/config.yaml
+    what: "`components.memory`; `ltm.source`, `ltm.project-target`, `ltm.global-target`; and `review-pr.standards_order`, a second lookup order"
+  - path: core/components/plays/install-garura/
+    what: "scripts/install.py copies all of memory to ~/.garura/core/memory/; it will pull the starting set, install the tool and the memory guide, and check them"
+  - path: core/components/agents/
+    what: >-
+      the active agents that name memory paths: tech-designer, product-os-keeper, test-engineer,
+      change-reviewer, repo-orchestrator, code-builder, quality-auditor, adr-keeper,
+      business-intent-keeper, intent-resolver. The seven retired agents (epic-expectation-crafter,
+      feature-steward, market-analyst, product-keeper, scriber, tech-architect, test-runner) are
+      left as they are.
+  - path: core/components/skills/
+    what: "the skills that name memory paths (32 active, per the memory review), among them kb-search (scripts/kb_search.py), search-kb, propose-kb-node, and research-domain-context (falls back to the web)"
+  - path: core/components/plays/intent/, core/components/plays/vision/, core/components/plays/understand/
+    what: "their ICE sources (reference/ice.md) and the agents and skills they use (plan item 8)"
+  - path: core/components/plays/fix-bug/
+    what: "the one play that passes `ltm_context`"
+  - path: core/tools/lint-components/
+    what: "a new rule that fails any component naming a memory path (plan item 10)"
+  - path: CLAUDE.md, docs/components/memory.md
+    what: "describe memory as copied to ~/.garura/core/memory/"
+  - path: (not built yet)
+    what: "the memory tool; Phoenix memory's own git repository; the review tool's Memory view (.garura/project/issues/617/specs/review-tool.md)"
+
+ice_impact: >-
+  The agent intents of every play whose agents read memory change, each through its ICE source
+  and /play-editor: their agents find and update memory only through the memory tool; when no
+  tier answers they raise a memory update instead of falling back to the model or the web; and
+  every decision names the memory it came from. First /intent, /vision and /understand (plan
+  item 8): the lines ADR 034 changed — /intent C4, C5 and Step 3, /vision C11, /understand C13 —
+  now read "memory" as the three tiers, and "ask the person" as a memory update the person
+  approves; /vision's knowledge-base proposal, which rests on web research today, becomes a
+  memory update. /fix-bug stops passing `ltm_context`. Then every other play and agent (plan
+  item 10), including tech-designer and the research-domain-context skill, which fall back to
+  the web or the model today. The Standard Play Close is shared scaffolding, not intent. The ICE
+  kind does not change: an ICE's Context is still assembled from memory.
+
+business_intent_check: none
+business_intent_check_reason: >-
+  A framework decision on where agents find memory and what they may do when memory holds
+  nothing. No person's business intent changes. The Business Intent kind and its rules stand:
+  only a person confirms or drops one (ADR 031). Affects names no business intent page.
+
+related: "ADR 029 (drives), ADR 031 (business intent and ICE), ADR 033 (approval in the product model), ADR 008 (issue-centric STM), ADR 011 (STM as inter-skill transport), ADR 001 (three-layer hierarchy), #653, #654, #613 (Kickoff), #606, #641–#644 (review tool)"
+
+work_this_creates: >-
+  Plan items 2 to 11 of .garura/project/issues/653/specs/plan.md; none filed yet — filed once
+  this ADR is accepted (.garura/user-provided/managing-work.md). Item 11 extends the review
+  tool's stories (#641–#644).
+
+open_points_for_the_person:
+  - "ADR 015 is superseded in part, not in full: its Knowledge File Standard stands. Supersede in full only if that standard gets a new home."
+  - "Not decided by the brief: whether ADR 034's 'learned checkpoint answers' stay on the list of memory (the memory review found they hold verdicts, not answers)."
+  - "Not decided by the brief: whether a play's step-to-step files in short-term memory (ADR 011, ADR 016's stm paths) also go through the tool, or only memory lookups do."
+  - "Not decided by the brief: whether the rest of a drive goes on while one memory update waits for a person."
+  - "Where in .garura/ the project's memory lives is left to plan item 3 (ADR 017's whitelist)."
+  - "ADR 032 amendment (a Memory view) is a judgment call."
+
+sources:
+  - .garura/project/issues/_adr/20261018-082455/brief.md
+  - .garura/project/issues/613/specs/memory-review.md
+  - .garura/project/issues/653/specs/plan.md
+  - core/components/memory/knowledge/_DESIGN.md
+  - core/components/memory/standards/rules/resolution.md
+  - docs/adr/001, 008, 009, 010, 011, 015, 016, 017, 026, 028, 029, 031, 032, 033, 034

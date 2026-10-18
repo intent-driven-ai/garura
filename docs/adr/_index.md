@@ -40,3 +40,4 @@ may have no Status line.
 | [032](032-drive-review-of-outcomes.md) | A Drive Ends With a Review of Its Outcome, in an Intent Review Tool and a Product Review Tool | Accepted | 2026-10-17 |
 | [033](033-approval-in-the-product-model.md) | Approval Is Part of the Product Model, and Agents Work Only on Approved Pieces | Accepted | 2026-10-18 |
 | [034](034-plays-answer-from-memory-inside-a-drive.md) | Inside a Drive, a Play Answers From Memory and Asks Only When Memory Holds Nothing | Accepted | 2026-10-18 |
+| [035](035-agents-work-only-from-memory.md) | Agents Work Only From Memory: Three Tiers, One Memory Tool, and a Memory Update Before Anything From Outside | Accepted | 2026-10-18 |
