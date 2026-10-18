@@ -93,9 +93,9 @@ answer came from in a way anyone checks.
 
 Decided, nothing built: ADR 035 is accepted. The review (`.garura/project/issues/613/specs/memory-review.md`)
 and the map of how agents read memory are done. Kapil set the model above and
-chose B. The feature (#653), its decision spike (#654) and its stories (#655–#664) are filed. Next:
-item 1, the decision record, on #654's branch. The stories for items 2 to 11 are
-filed once that decision is accepted (`.garura/user-provided/managing-work.md`).
+chose B. The feature (#653), its decision spike (#654) and its stories
+(#655–#664) are filed. Next: item 2, the memory tool's contract (#655), once
+#654 lands.
 
 ## The plan, in order
 
@@ -192,8 +192,8 @@ changed.
 
 **Issue:** #660.
 **What:** installing Garura into a project installs the memory tool and a short
-memory guide every agent reads: the three tiers (Phoenix memory, the project's
-memory, short-term memory), what the tool does, how to find memory, go up to
+memory guide every agent reads: the three tiers (Phoenix memory, Garura memory,
+short-term memory), what the tool does, how to find memory, go up to
 Phoenix memory, update it, name a source, and raise a memory update. The
 install checks the tool runs and reaches each tier, and fails if it does not.
 Kapil, 2026-10-18: the three tiers "should be part of the Garura installation.

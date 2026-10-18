@@ -39,7 +39,7 @@ amends:
   - adr: "034"
     file: docs/adr/034-plays-answer-from-memory-inside-a-drive.md
     part: >-
-      §2 "What counts as memory": the list becomes the three tiers (short-term, project, Phoenix
+      §2 "What counts as memory": the list becomes the three tiers (short-term, Garura, Phoenix
       memory), read through the memory tool, with the git repository, the product model and the
       intents; §3 "Never from the model alone": when no tier answers, the agent raises a memory
       update a person approves, written to memory first, and decides from memory — never from
