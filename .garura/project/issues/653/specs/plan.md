@@ -113,11 +113,14 @@ pull request. Next: item 3, Phoenix memory and the subset a project pulls (#656)
   whether a drive keeps going while one update waits, and the folder for Garura
   memory.
 - **2. Built: the memory tool's contract** — #655. Version 1 in
-  `core/tools/memory/contract/v1.json`, with a plain guide, 15 sample answers,
-  12 broken samples and a check with its own tests. Eleven commands; every piece
-  of text carries tier, file, lines and fingerprint; a lookup never skips a tier.
+  `core/tools/memory/contract/v1.json`, with a plain guide, 20 sample answers,
+  23 broken samples and a check with its own tests. Eleven commands; every piece
+  of text carries tier, file, lines and fingerprint; a lookup never skips a tier;
+  every lookup names its issue, and short-term memory is that issue only.
   Settled with Kapil: learned checkpoint answers are not memory; a play's own
-  working files stay direct. Lands with #655's pull request.
+  working files stay direct; an approved researched answer goes to the issue's
+  short-term memory, and promotion happens outside the work. Lands with #655's
+  pull request.
 
 ### 3. Set up Phoenix memory, and the subset each project pulls — now
 
