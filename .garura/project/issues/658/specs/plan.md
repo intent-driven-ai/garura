@@ -55,8 +55,8 @@ and its text still lets an update target Garura or Phoenix memory.
 
 ## Where we are now
 
-The change is open on `feature/658-memory-updates`. Next: item 1, three
-questions for Kapil.
+The change is open on `feature/658-memory-updates`. Kapil answered two of the
+three questions (1b, 1c). Next: item 1, how a person's approval is given.
 
 ## The plan, in order
 
@@ -64,17 +64,26 @@ questions for Kapil.
 
 - **0. Opened** — #658. Branch `feature/658-memory-updates` off main
   (`d9b2d098`).
+- **1b. Decided: the drive keeps going** — Kapil, 2026-10-18: "yes keeps going,
+  unless the memory is really blocking". Only the work that needs the answer
+  waits; an update says whether it blocks the rest.
+- **1c. Decided: always short-term memory** — Kapil, 2026-10-18: "STM - always
+  STM. i told you we will have /learn-memory and /promote-memory that will take
+  care of project and phoenix memory". A person's own answers land in short-term
+  memory too; `/learn-memory` and `/promote-memory` move memory up.
 
-### 1. Decide three open questions — now
+### 1. Decide how a person's approval is given — now
 
 **Issue:** #658.
-**What:** (a) How a person's word is proven, not an agent's: today `decide`
-takes any name as `by` (PR #666 review, TIC-2). (b) Whether the rest of a drive
-keeps going while one memory update waits for a person (ADR 035, "Not decided
-here"). (c) Where a person's own answers to questions land: ADR 036 §4 says
-Garura memory; Kapil's rule says updates land in short-term memory only.
-**Why here:** they change what items 3 to 5 build.
-**Done when:** Kapil answers all three.
+**What:** Kapil, 2026-10-18: "use the tool we built for product and intent...
+that now shows memory's created in STM, and each needs an explicit approval from
+a human". That review tool is designed (ADR 032, #617:
+`.garura/project/issues/617/specs/review-tool.md` and its mockup) but not built:
+its stories #641–#644 and its Memory and ADRs section #664 are open. Kapil to
+choose: build the updates now and approve in the tool once it exists, or build
+the tool first.
+**Why here:** it decides whether this story waits for the review tool.
+**Done when:** Kapil chooses.
 **Needs:** nothing.
 
 ### 2. Fix the two faults from the PR #674 review
@@ -141,3 +150,4 @@ answers change (#658, #661, #663) are fixed only when Kapil asks.
 - 2026-10-18 — Created at the start of #658 from the issue, the contract
   (`core/tools/memory/contract/v2.json`), ADR 035 §5, ADR 036 §2–§4, the #653
   plan item 5 and Kapil's decisions of 2026-10-18 (#657 plan, item 1).
+- 2026-10-18 — Kapil: the drive keeps going unless an update really blocks; updates always land in short-term memory (`/learn-memory`, `/promote-memory` move memory up); approval in the product and intent review tool, which is designed but not built.
