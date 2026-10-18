@@ -1,0 +1,1264 @@
+meta:
+  pr: 671
+  issue: 656
+  head: 0ca31ad2
+  categories: categories.yaml
+  layers_run:
+    memory: Layer 1 linter (quality-check-scoped) + Layer 2 design-grounding (one change-reviewer; design-findings-memory.yaml)
+    executable-code: Layer 1 linter; ruff clean; all five files parse
+    tests: Layer 1 linter; test_pull.py 12/12 pass; test_check_contract.py 49 pass
+    config-maps: Layer 1 linter; removed keys unread; new pointer exists locally only (git-ignored folder)
+    stm-working-notes-plans-and-design: 'check_plan.py on both plans: valid. Playbook missing.'
+    stm-run-records: parse only. Playbook missing.
+  review_shelf: ~/.garura/phoenix-memory/knowledge/review/ (Garura memory has none; tier order)
+  taxonomy: './.garura/core/memory/standards/rules/pr.md (the configured Garura memory copy, 30 May; lacks the #454 prose
+    scoping, so prose files were scanned as code)'
+findings:
+- id: DATA-18
+  severity: P1
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 44
+  basis: rule DATA-18 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: email
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/architecture/agent-derive-once-apply-many.md
+  line: 76
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: from
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/architecture/microservices.md
+  line: 104
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: from
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/architecture/modular-monolith.md
+  line: 154
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: from
+- id: ARCH-02
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+  line: 1
+  basis: rule ARCH-02 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+- id: CODE-03
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+  line: 1
+  basis: rule CODE-03 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+- id: CODE-04
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+  line: 1
+  basis: rule CODE-04 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+- id: CODE-14
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+  line: 1
+  basis: rule CODE-14 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/domains/ecommerce.md
+  line: 7
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: select
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/domains/payments.md
+  line: 7
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: from
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/domains/payments.md
+  line: 107
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: from
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/technology/frontend-component-orchestration.md
+  line: 173
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: from
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/standards/schemas/product-os/ontology.md
+  line: 199
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: from
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/standards/schemas/product-os/ontology.md
+  line: 204
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: from
+- id: ARCH-02
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/components/plays/install-garura/scripts/install.py
+  line: 1
+  basis: rule ARCH-02 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/plays/install-garura/scripts/install.py
+- id: CODE-03
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/components/plays/install-garura/scripts/install.py
+  line: 1
+  basis: rule CODE-03 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/plays/install-garura/scripts/install.py
+- id: CODE-04
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/components/plays/install-garura/scripts/install.py
+  line: 1
+  basis: rule CODE-04 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/plays/install-garura/scripts/install.py
+- id: CODE-14
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/components/plays/install-garura/scripts/install.py
+  line: 1
+  basis: rule CODE-14 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/plays/install-garura/scripts/install.py
+- id: ARCH-02
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule ARCH-02 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/tools/memory/contract/check_contract.py
+- id: CODE-03
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule CODE-03 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/tools/memory/contract/check_contract.py
+- id: CODE-04
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule CODE-04 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/tools/memory/contract/check_contract.py
+- id: CODE-14
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule CODE-14 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/tools/memory/contract/check_contract.py
+- id: ARCH-02
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule ARCH-02 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/tools/memory/pull.py
+- id: CODE-03
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule CODE-03 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/tools/memory/pull.py
+- id: CODE-04
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule CODE-04 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/tools/memory/pull.py
+- id: CODE-14
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule CODE-14 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/tools/memory/pull.py
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 9
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: from
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 10
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: from
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 12
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: from
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 14
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: from
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 59
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: from
+- id: SEC-23
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 60
+  basis: rule SEC-23 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: os.environ
+- id: SEC-23
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 61
+  basis: rule SEC-23 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: os.environ
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 87
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: join
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 91
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: join
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 98
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: join
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 107
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: join
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 123
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: join
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 138
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: join
+- id: ARCH-02
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule ARCH-02 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/tools/memory/test_pull.py
+- id: CODE-03
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule CODE-03 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/tools/memory/test_pull.py
+- id: CODE-04
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule CODE-04 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/tools/memory/test_pull.py
+- id: CODE-14
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule CODE-14 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/tools/memory/test_pull.py
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 2
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: from
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 15
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: join
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 19
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: join
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 27
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: join
+- id: DATA-17
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 44
+  basis: rule DATA-17 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: email
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 64
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: join
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 70
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: join
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 76
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: join
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 115
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: from
+- id: SEC-23
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 124
+  basis: rule SEC-23 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: os.environ
+- id: SEC-23
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 125
+  basis: rule SEC-23 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: os.environ
+- id: SEC-23
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 126
+  basis: rule SEC-23 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: os.environ
+- id: SEC-23
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 127
+  basis: rule SEC-23 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: os.environ
+- id: SEC-23
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 132
+  basis: rule SEC-23 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: os.environ
+- id: SEC-23
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 133
+  basis: rule SEC-23 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: os.environ
+- id: ARCH-03
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+  line: 1
+  basis: rule ARCH-03 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+- id: ARCH-08
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+  line: 1
+  basis: rule ARCH-08 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+- id: CODE-09
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+  line: 1
+  basis: rule CODE-09 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+- id: CODE-10
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+  line: 1
+  basis: rule CODE-10 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+- id: CODE-11
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+  line: 1
+  basis: rule CODE-11 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+- id: CODE-12
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+  line: 1
+  basis: rule CODE-12 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+- id: CODE-15
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+  line: 1
+  basis: rule CODE-15 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+- id: CODE-17
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+  line: 1
+  basis: rule CODE-17 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+- id: ARCH-03
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/components/plays/install-garura/scripts/install.py
+  line: 1
+  basis: rule ARCH-03 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/plays/install-garura/scripts/install.py
+- id: ARCH-08
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/components/plays/install-garura/scripts/install.py
+  line: 1
+  basis: rule ARCH-08 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/plays/install-garura/scripts/install.py
+- id: CODE-09
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/components/plays/install-garura/scripts/install.py
+  line: 1
+  basis: rule CODE-09 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/plays/install-garura/scripts/install.py
+- id: CODE-10
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/components/plays/install-garura/scripts/install.py
+  line: 1
+  basis: rule CODE-10 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/plays/install-garura/scripts/install.py
+- id: CODE-11
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/components/plays/install-garura/scripts/install.py
+  line: 1
+  basis: rule CODE-11 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/plays/install-garura/scripts/install.py
+- id: CODE-12
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/components/plays/install-garura/scripts/install.py
+  line: 1
+  basis: rule CODE-12 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/plays/install-garura/scripts/install.py
+- id: CODE-15
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/components/plays/install-garura/scripts/install.py
+  line: 1
+  basis: rule CODE-15 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/plays/install-garura/scripts/install.py
+- id: CODE-17
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/components/plays/install-garura/scripts/install.py
+  line: 1
+  basis: rule CODE-17 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/plays/install-garura/scripts/install.py
+- id: ARCH-03
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule ARCH-03 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/tools/memory/contract/check_contract.py
+- id: ARCH-08
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule ARCH-08 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/tools/memory/contract/check_contract.py
+- id: CODE-09
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule CODE-09 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/tools/memory/contract/check_contract.py
+- id: CODE-10
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule CODE-10 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/tools/memory/contract/check_contract.py
+- id: CODE-11
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule CODE-11 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/tools/memory/contract/check_contract.py
+- id: CODE-12
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule CODE-12 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/tools/memory/contract/check_contract.py
+- id: CODE-15
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule CODE-15 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/tools/memory/contract/check_contract.py
+- id: CODE-17
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule CODE-17 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/tools/memory/contract/check_contract.py
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/tools/memory/contract/check_contract.py
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/tools/memory/contract/check_contract.py
+- id: ARCH-03
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule ARCH-03 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/tools/memory/pull.py
+- id: ARCH-08
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule ARCH-08 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/tools/memory/pull.py
+- id: CODE-09
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule CODE-09 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/tools/memory/pull.py
+- id: CODE-10
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule CODE-10 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/tools/memory/pull.py
+- id: CODE-11
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule CODE-11 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/tools/memory/pull.py
+- id: CODE-12
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule CODE-12 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/tools/memory/pull.py
+- id: CODE-15
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule CODE-15 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/tools/memory/pull.py
+- id: CODE-17
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule CODE-17 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/tools/memory/pull.py
+- id: CODE-25
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 119
+  basis: rule CODE-25 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: 'except '
+- id: CODE-25
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 161
+  basis: rule CODE-25 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: 'except '
+- id: ARCH-03
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule ARCH-03 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/tools/memory/test_pull.py
+- id: ARCH-08
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule ARCH-08 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/tools/memory/test_pull.py
+- id: CODE-09
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule CODE-09 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/tools/memory/test_pull.py
+- id: CODE-10
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule CODE-10 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/tools/memory/test_pull.py
+- id: CODE-11
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule CODE-11 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/tools/memory/test_pull.py
+- id: CODE-12
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule CODE-12 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/tools/memory/test_pull.py
+- id: CODE-15
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule CODE-15 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/tools/memory/test_pull.py
+- id: CODE-17
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule CODE-17 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/tools/memory/test_pull.py
+- id: FE-16
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/architecture/agent-assistive.md
+  line: 1
+  basis: rule FE-16 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/knowledge/architecture/agent-assistive.md
+- id: FE-16
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/architecture/agent-derive-once-apply-many.md
+  line: 1
+  basis: rule FE-16 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/knowledge/architecture/agent-derive-once-apply-many.md
+- id: FE-16
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/architecture/agent-orchestration-patterns.md
+  line: 1
+  basis: rule FE-16 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/knowledge/architecture/agent-orchestration-patterns.md
+- id: FE-16
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/architecture/agent-supervised-autonomous.md
+  line: 1
+  basis: rule FE-16 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/knowledge/architecture/agent-supervised-autonomous.md
+- id: FE-16
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/architecture/agentic-guardrails-baseline.md
+  line: 1
+  basis: rule FE-16 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/knowledge/architecture/agentic-guardrails-baseline.md
+- id: FE-16
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/architecture/microservices.md
+  line: 1
+  basis: rule FE-16 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/knowledge/architecture/microservices.md
+- id: FE-16
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/architecture/modular-monolith.md
+  line: 1
+  basis: rule FE-16 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/knowledge/architecture/modular-monolith.md
+- id: FE-16
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/architecture/regression-by-blast-radius.md
+  line: 1
+  basis: rule FE-16 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/knowledge/architecture/regression-by-blast-radius.md
+- id: CODE-13
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+  line: 1
+  basis: rule CODE-13 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+- id: CODE-19
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+  line: 1
+  basis: rule CODE-19 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+- id: FE-16
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+  line: 1
+  basis: rule FE-16 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/knowledge/domains/.pageindex/pageindex.py
+- id: FE-16
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/domains/analytics.md
+  line: 1
+  basis: rule FE-16 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/knowledge/domains/analytics.md
+- id: FE-16
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/domains/collaboration.md
+  line: 1
+  basis: rule FE-16 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/knowledge/domains/collaboration.md
+- id: BE-23
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/domains/collaboration.md
+  line: 106
+  basis: rule BE-23 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: lock
+- id: FE-16
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/domains/content-management.md
+  line: 1
+  basis: rule FE-16 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/knowledge/domains/content-management.md
+- id: FE-16
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/domains/ecommerce.md
+  line: 1
+  basis: rule FE-16 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/knowledge/domains/ecommerce.md
+- id: FE-16
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/domains/experience.md
+  line: 1
+  basis: rule FE-16 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/knowledge/domains/experience.md
+- id: FE-16
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/domains/marketing.md
+  line: 1
+  basis: rule FE-16 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/knowledge/domains/marketing.md
+- id: FE-16
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/domains/notifications.md
+  line: 1
+  basis: rule FE-16 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/knowledge/domains/notifications.md
+- id: FE-16
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/domains/payments.md
+  line: 1
+  basis: rule FE-16 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/knowledge/domains/payments.md
+- id: FE-16
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/domains/personalization.md
+  line: 1
+  basis: rule FE-16 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/knowledge/domains/personalization.md
+- id: FE-16
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/technology/agent-building-blocks.md
+  line: 1
+  basis: rule FE-16 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/knowledge/technology/agent-building-blocks.md
+- id: FE-16
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/technology/agent-deploy-dev-uat-prod.md
+  line: 1
+  basis: rule FE-16 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/knowledge/technology/agent-deploy-dev-uat-prod.md
+- id: FE-16
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/technology/agent-model-selection.md
+  line: 1
+  basis: rule FE-16 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/knowledge/technology/agent-model-selection.md
+- id: FE-16
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/technology/agent-platform-bedrock-gcp.md
+  line: 1
+  basis: rule FE-16 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/knowledge/technology/agent-platform-bedrock-gcp.md
+- id: FE-16
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/technology/astro-content-sites.md
+  line: 1
+  basis: rule FE-16 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/knowledge/technology/astro-content-sites.md
+- id: FE-16
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/technology/delivery-industry-frames-derived.md
+  line: 1
+  basis: rule FE-16 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/knowledge/technology/delivery-industry-frames-derived.md
+- id: FE-16
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/technology/delivery-one-shot-cleanliness.md
+  line: 1
+  basis: rule FE-16 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/knowledge/technology/delivery-one-shot-cleanliness.md
+- id: FE-16
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/technology/delivery-triangle.md
+  line: 1
+  basis: rule FE-16 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/knowledge/technology/delivery-triangle.md
+- id: FE-16
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/technology/frontend-component-orchestration.md
+  line: 1
+  basis: rule FE-16 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/knowledge/technology/frontend-component-orchestration.md
+- id: FE-16
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/technology/gcp-modular-monolith-runtime.md
+  line: 1
+  basis: rule FE-16 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/knowledge/technology/gcp-modular-monolith-runtime.md
+- id: FE-16
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/technology/quick-prototype-html-first.md
+  line: 1
+  basis: rule FE-16 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/knowledge/technology/quick-prototype-html-first.md
+- id: FE-16
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/technology/run-environments-canary-migrations.md
+  line: 1
+  basis: rule FE-16 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/knowledge/technology/run-environments-canary-migrations.md
+- id: FE-16
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/technology/ux-accessibility-floor.md
+  line: 1
+  basis: rule FE-16 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/knowledge/technology/ux-accessibility-floor.md
+- id: FE-16
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/technology/ux-design-system-tokens.md
+  line: 1
+  basis: rule FE-16 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/knowledge/technology/ux-design-system-tokens.md
+- id: FE-16
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/technology/ux-forms-and-validation.md
+  line: 1
+  basis: rule FE-16 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/knowledge/technology/ux-forms-and-validation.md
+- id: FE-16
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/technology/ux-navigation-by-shape.md
+  line: 1
+  basis: rule FE-16 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/knowledge/technology/ux-navigation-by-shape.md
+- id: FE-16
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/technology/ux-responsive-default-adaptive-on-evidence.md
+  line: 1
+  basis: rule FE-16 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/knowledge/technology/ux-responsive-default-adaptive-on-evidence.md
+- id: FE-16
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/technology/ux-state-and-feedback.md
+  line: 1
+  basis: rule FE-16 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/knowledge/technology/ux-state-and-feedback.md
+- id: FE-16
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/knowledge/technology/validation-floor-profile-benchmarks.md
+  line: 1
+  basis: rule FE-16 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/knowledge/technology/validation-floor-profile-benchmarks.md
+- id: FE-16
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/standards/rules/builder-isolation.md
+  line: 1
+  basis: rule FE-16 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/standards/rules/builder-isolation.md
+- id: FE-16
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/standards/rules/no-unbacked-recommendation.md
+  line: 1
+  basis: rule FE-16 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/standards/rules/no-unbacked-recommendation.md
+- id: FE-16
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/standards/schemas/product-os/lens/measure.yaml
+  line: 1
+  basis: rule FE-16 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/standards/schemas/product-os/lens/measure.yaml
+- id: FE-16
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/standards/schemas/product-os/ontology.md
+  line: 1
+  basis: rule FE-16 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/standards/schemas/product-os/ontology.md
+- id: TEST-09
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/standards/schemas/product-os/ontology.md
+  line: 200
+  basis: rule TEST-09 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: Snapshot
+- id: BE-23
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/standards/schemas/product-os/ontology.md
+  line: 202
+  basis: rule BE-23 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: lock
+- id: BE-23
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/standards/schemas/product-os/ontology.md
+  line: 204
+  basis: rule BE-23 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: lock
+- id: FE-16
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/components/memory/standards/templates/adr.md
+  line: 1
+  basis: rule FE-16 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/memory/standards/templates/adr.md
+- id: CODE-13
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/components/plays/install-garura/scripts/install.py
+  line: 1
+  basis: rule CODE-13 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/plays/install-garura/scripts/install.py
+- id: CODE-19
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/components/plays/install-garura/scripts/install.py
+  line: 1
+  basis: rule CODE-19 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/plays/install-garura/scripts/install.py
+- id: FE-16
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/components/plays/install-garura/scripts/install.py
+  line: 1
+  basis: rule FE-16 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/components/plays/install-garura/scripts/install.py
+- id: CODE-13
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule CODE-13 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/tools/memory/contract/check_contract.py
+- id: CODE-19
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule CODE-19 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/tools/memory/contract/check_contract.py
+- id: CODE-13
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule CODE-13 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/tools/memory/pull.py
+- id: CODE-19
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule CODE-19 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/tools/memory/pull.py
+- id: CODE-13
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule CODE-13 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/tools/memory/test_pull.py
+- id: CODE-19
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule CODE-19 in ./.garura/core/memory/standards/rules/pr.md (30 May copy, as configured)
+  finding: core/tools/memory/test_pull.py
+- id: MEM-01
+  severity: P3
+  layer: design-grounding (memory)
+  category: memory
+  file: core/components/memory/standards/schemas/product-os/ontology.md
+  line: 138
+  basis: 'The same file defines Given by as ''The git user who ran the reading play'' (required, line 117 on main), and the
+    /intent play refuses an empty value because it ''must be the git user running the play'' (capture_source.py:107-108 on
+    main). The example no longer matches what the play writes, and the product-ontology template asks for a real, filled-in
+    instance as the reader will see it (templates/product-ontology.md:60-62 on main).
+
+    '
+  finding: The Source worked example now reads '**Given by:** the owner'.
+- id: MEM-02
+  severity: P3
+  layer: design-grounding (memory)
+  category: memory
+  file: core/components/memory/standards/templates/adr.md
+  line: 154
+  basis: 'The template''s own field is ''**Decided by:** <person>'' (line 70) and accepted_by is ''The PERSON who accepted
+    it'' (line 28); adr.py requires an accepted ADR to name who accepted it (147-148). The lint only tests that the field
+    is non-empty, so the example passes it while teaching a role label where the template wants a person. The committed ADRs
+    035 and 036 name a person.
+
+    '
+  finding: The gold example header now reads '**Decided by:** the owner'.
+- id: MEM-03
+  severity: P3
+  layer: design-grounding (memory)
+  category: memory
+  file: core/components/memory/knowledge/domains/personalization.md:51; knowledge/domains/payments.md:12; knowledge/technology/delivery-triangle.md:15;
+    standards/rules/no-unbacked-recommendation.md:7 (and the two sites in MEM-01 and MEM-02)
+  line: null
+  basis: 'Main holds no use of ''owner'' for the person who decides or gave an answer. It uses ''owner'' for other, defined
+    things: the quality-gate field ''owner: machine | human'' (lens/quality.md:15-17, quality-gates.yaml:21), a ''product
+    owner'' (rules/epics.md:13) and a document owner (domains/collaboration.md:58). ADRs 035 and 036 say ''person''. Once
+    Phoenix memory is read from other projects, ''the owner'' reads as the reader''s own owner, not the person it replaced.
+
+    '
+  finding: '''The owner'' is a new term used at six sites. Three of them start a sentence or paragraph in lower case (payments.md:12
+    after a bold lead-in, personalization.md:51, no-unbacked-recommendation.md:7). The same removal is worded four other ways
+    (experience.md:86 ''drafted on delegation'', personalization.md:158 ''per delegation'', measure.yaml:20 ''the PRIMARY
+    frame'', delivery-triangle.md:15 ''the owner''s frame'').
+
+    '
+- id: MEM-04
+  severity: P3
+  layer: design-grounding (memory)
+  category: memory
+  file: core/components/memory/standards/rules/no-unbacked-recommendation.md
+  line: 7
+  basis: 'The committed decision records attribute quoted answers by name (''Kapil: "..."'' throughout ADR 035 and 036), and
+    the rule itself says a recommendation must name the source that backs it. A dated quotation with no speaker cannot be
+    traced, and in another project''s Garura memory it is attributed to that project''s owner.
+
+    '
+  finding: The verbatim quote that gives the rule its authority is now headed 'the owner, 2026-09-08:'.
+- id: MEM-05
+  severity: P3
+  layer: design-grounding (memory)
+  category: memory
+  file: core/components/memory/knowledge/domains/personalization.md
+  line: 159
+  basis: 'On main the sentence read ''per Kapil''s delegation -- pending his confirmation''. The scrub removed the name and
+    left ''his'', so the open confirmation has no named confirmer. Line 51 of the same file now says ''the owner delegated
+    the intent list'', so the file names the person two different ways. Only a person confirms (ADR 031, main), so the open
+    confirmation should say whose.
+
+    '
+  finding: '''Intents proposed by Claude per delegation -- pending his confirmation.'' The pronoun has lost its antecedent.'
+- id: MEM-06
+  severity: P3
+  layer: design-grounding (memory)
+  category: memory
+  file: core/components/memory/** (41 changed paths)
+  line: null
+  basis: 'ADR 035 says everything in core/components/memory/ seeds Phoenix memory; it neither allows nor forbids rewriting
+    content at the seed. The committed schemas also require a person in some fields (G3), so a blanket rule needs its exceptions
+    written down. The policy exists only in text this branch adds and in the maintainer''s own notes outside the repo; neither
+    counts as grounding.
+
+    '
+  finding: 'The rule this change applies, that memory carries no personal names, is not in any committed source on main: not
+    in _TEMPLATE.md, _DESIGN.md, knowledge-file.md, ADR 035 or ADR 036. A search of main for a policy on personal names or
+    attribution in memory found none.
+
+    '
+- id: MEM-07
+  severity: P4
+  layer: design-grounding (memory)
+  category: memory
+  file: 'core/components/memory/knowledge/technology/ux-accessibility-floor.md, ux-design-system-tokens.md, ux-forms-and-validation.md,
+    ux-navigation-by-shape.md, ux-state-and-feedback.md (frontmatter and ## Provenance of each)'
+  line: null
+  basis: 'Provenance records the work context that produced the knowledge (knowledge-file.md:86 on main). The base text of
+    these five files says only ''accepted by Kapil'' (git show main:<path>), with no review step. The two files that did say
+    ''reviewed and accepted by Kapil'' (collaboration.md, payments.md) are unaffected.
+
+    '
+  finding: '''accepted by Kapil'' became ''reviewed and accepted''. The word ''reviewed'' is new.'
+- id: MEM-08
+  severity: P4
+  layer: design-grounding (memory)
+  category: memory
+  file: core/components/memory/knowledge/technology/delivery-industry-frames-derived.md
+  line: 39
+  basis: 'The shelf is a bank of empirical learnings, and the Rationale is the empirical why (_DESIGN.md:8, :26 on main).
+    A stance with no holder reads as a finding. The file''s provenance still names a measurement interview (#434), so it stays
+    weakly traceable.
+
+    '
+  finding: '''Position (Kapil): this is the moat'' became ''Position: this is the moat'', inside the ## Recommendation section.'
+- id: MEM-09
+  severity: P4
+  layer: design-grounding (memory)
+  category: memory
+  file: core/components/memory/standards/schemas/product-os/ontology.md
+  line: 199-205 (Log)
+  basis: 'The ontology''s maintenance rule is to bump version, set updated and add a dated line saying what changed and why
+    (build-product-ontology SKILL.md:99-100). On whether a Log entry must carry its decider: it need not. The committed Log
+    shape is ''what changed in the ontology, and why'' (templates/product-ontology.md:71), and the v3 decisions are held in
+    ADR 031 on main (''Decided in #612 ... by Kapil''), so removing names from the entries conforms. What remains is the unlogged
+    edit and the v2 fragment.
+
+    '
+  finding: 'Five Log entries are edited in place, and no new Log line, version bump or ''updated'' change records the edit.
+    The v2 entry (line 200) now reads ''(approving /intent''s intent)'', a fragment with no approver and, unlike the other
+    entries, no issue number.
+
+    '
+counts:
+  P1: 1
+  P2: 57
+  P3: 50
+  P4: 60

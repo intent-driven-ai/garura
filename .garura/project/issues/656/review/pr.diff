@@ -1,0 +1,1906 @@
+diff --git a/.garura/core/config.yaml b/.garura/core/config.yaml
+index ce0d3253..671ccdc5 100644
+--- a/.garura/core/config.yaml
++++ b/.garura/core/config.yaml
+@@ -24,7 +24,6 @@ components:
+   skills: ./core/components/skills/
+   plays: ./core/components/plays/
+   agents: ./core/components/agents/
+-  memory: ./core/components/memory/
+ 
+ # Claude Code derived locations (populated by /sud:install)
+ claude:
+@@ -48,9 +47,7 @@ global-factory:
+ 
+ # Long-Term Memory (LTM)
+ ltm:
+-  source: ./core/components/memory/
+   project-target: ./.garura/core/memory/
+-  global-target: ~/.garura/core/memory/
+ 
+ # Short-Term Memory (STM) — Issue-centric artifacts (ADR 008, ADR 010, ADR 017)
+ # Variables: {stm_base} = base-path, {stm_pending} = pending-path, {stm_archive} = archive-path
+@@ -75,7 +72,7 @@ product:
+ 
+ # Standards resolution — first play-specific section; pattern for future plays
+ standards:
+-  pr-severity-taxonomy: ./core/components/memory/standards/rules/pr.md
++  pr-severity-taxonomy: ./.garura/core/memory/standards/rules/pr.md
+ 
+ # start-change play configuration
+ start-change:
+diff --git a/.garura/project/issues/653/specs/plan.md b/.garura/project/issues/653/specs/plan.md
+index 4d8f40cf..d893e3d9 100644
+--- a/.garura/project/issues/653/specs/plan.md
++++ b/.garura/project/issues/653/specs/plan.md
+@@ -158,9 +158,17 @@ Phoenix memory when the project has no answer, and that writes approved updates
+ and pulls pieces into the project. Every result carries its tier, file, lines
+ and fingerprint. It works the same from Claude Code and Codex.
+ **Why here:** items 5 to 8 call it.
+-**Done when:** its tests pass on sample memory, and nothing in its folder names
+-Garura.
++**Done when:** its tests pass on sample memory, nothing in its folder names
++Garura, and Kapil's test passes (2026-10-18, set in the #656 plan, item 1d): in
++an empty project, a simulated login story finds nothing in short-term or
++Garura memory, finds it in Phoenix memory and pulls it into the project; a
++re-run reads it all from Garura memory; a second story, change password, gets
++part from Garura memory and the rest from Phoenix memory. And when project
++memory is removed, the tool goes to Phoenix memory or raises a memory update
++that needs a person's approval (Kapil, 2026-10-18).
+ **Needs:** items 2 and 3.
++Also, after this tool: `core/components/memory/` is removed from Garura once
++nothing names it (Kapil, 2026-10-18; see the #656 plan, "After this story").
+ 
+ ### 5. Memory updates instead of guesses
+ 
+diff --git a/.garura/project/issues/656/context/analysis.yaml b/.garura/project/issues/656/context/analysis.yaml
+new file mode 100644
+index 00000000..6310c3aa
+--- /dev/null
++++ b/.garura/project/issues/656/context/analysis.yaml
+@@ -0,0 +1,57 @@
++---
++# analyze_changeset.py output (C8 fast path), grouping filled by analyze-changes
++# issue: 656
++needs_judgment: true
++
++change_groups:
++  - id: memory-config
++    issue: 656
++    concern: "Garura's own memory settings: unused ones dropped, PR rules read from .garura"
++    commit_type: chore
++    scope: config
++    subject: "drop unused memory settings and fix PR rules path"
++    confidence: high
++    files:
++      - .garura/core/config.yaml
++      - core/components/plays/install-garura/scripts/install.py
++    notes: >-
++      One concern, two files. config.yaml loses components.memory, ltm.source and
++      ltm.global-target (nothing read them) and standards.pr-severity-taxonomy now
++      points at ./.garura/core/memory/standards/rules/pr.md. install.py stops
++      writing a memory: line into installed projects' config, because that
++      setting is gone. The two files change together: the installer rewrote the
++      setting this config no longer has.
++
++  - id: memory-plans
++    issue: 656
++    concern: "the #656 plan and its parent #653 plan record Kapil's 2026-10-18 memory decisions"
++    commit_type: chore
++    scope: plan
++    subject: "record the memory decisions in both plans"
++    confidence: high
++    files:
++      - .garura/project/issues/656/specs/plan.md
++      - .garura/project/issues/653/specs/plan.md
++    notes: >-
++      Planning text only. The #656 plan is rewritten to Kapil's decisions (the
++      installer pulls nothing; core/components/memory moves to Phoenix memory and
++      is removed after the memory tool exists; skills read only short-term memory;
++      PR rules read from .garura; test cases for the tool). The #653 plan's
++      memory-tool item gains Kapil's test as its done-when. Same decisions, one
++      concern. Follows the earlier chore(plan) commit for this plan.
++
++exclusions:
++  []
++
++risks:
++  sensitive_files:
++    []
++
++# run artifacts of the play itself, committed by the executor as the final
++# chore(stm) group (not a concern group, not an exclusion):
++#   .garura/project/issues/656/context/porcelain.txt
++#   .garura/project/issues/656/context/analysis.yaml (this file)
++
++eval_gates:
++  SE-1: {status: PASS, evidence: "2 concern groups on one single-issue branch; every changed file is in exactly one group; the two run artifacts under context/ go to the executor's final chore(stm) commit"}
++  SE-5: {status: PASS, evidence: "no sensitive filename patterns matched; no sensitive content patterns (password/api_key/secret/token/private_key) in added lines of the diff"}
+diff --git a/.garura/project/issues/656/context/branch.json b/.garura/project/issues/656/context/branch.json
+new file mode 100644
+index 00000000..1b2607d0
+--- /dev/null
++++ b/.garura/project/issues/656/context/branch.json
+@@ -0,0 +1,6 @@
++{
++  "branch_name": "feature/656-phoenix-memory-repository",
++  "base_sha": "7d68e476b4bc045db6d18d94dfae1bb52bf52bec",
++  "on_default_branch": false,
++  "worktree_path": null
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/656/context/commits.yaml b/.garura/project/issues/656/context/commits.yaml
+new file mode 100644
+index 00000000..0b95ee72
+--- /dev/null
++++ b/.garura/project/issues/656/context/commits.yaml
+@@ -0,0 +1,19 @@
++commits:
++  - sha: deab49c9
++    message: "chore(config): drop unused memory settings and fix PR rules path (#656)"
++    files:
++      - .garura/core/config.yaml
++      - core/components/plays/install-garura/scripts/install.py
++    branch: feature/656-phoenix-memory-repository
++  - sha: 7252f2d1
++    message: "chore(plan): record the memory decisions in both plans (#656)"
++    files:
++      - .garura/project/issues/656/specs/plan.md
++      - .garura/project/issues/653/specs/plan.md
++    branch: feature/656-phoenix-memory-repository
++excluded_files:
++  []
++leftover_count: 0
++tree_clean: true
++pushed: false
++run_state_committed: true
+diff --git a/.garura/project/issues/656/context/issue.json b/.garura/project/issues/656/context/issue.json
+new file mode 100644
+index 00000000..4cfe42ff
+--- /dev/null
++++ b/.garura/project/issues/656/context/issue.json
+@@ -0,0 +1 @@
++{"resolved": true, "issue_number": 656, "title": "Phoenix memory has its own repository, and each project pulls only the subset it needs into Garura memory", "created": false}
+diff --git a/.garura/project/issues/656/context/plan-check.json b/.garura/project/issues/656/context/plan-check.json
+new file mode 100644
+index 00000000..c4ed269a
+--- /dev/null
++++ b/.garura/project/issues/656/context/plan-check.json
+@@ -0,0 +1,16 @@
++{
++  "valid": true,
++  "done": false,
++  "status": "active",
++  "now": "2",
++  "open_items": [
++    2,
++    3,
++    4,
++    5,
++    6
++  ],
++  "serves_plan": "~/projects/garura/.garura/project/issues/653/specs/plan.md",
++  "problems": [],
++  "plan": ".garura/project/issues/656/specs/plan.md"
++}
+diff --git a/.garura/project/issues/656/context/porcelain.txt b/.garura/project/issues/656/context/porcelain.txt
+new file mode 100644
+index 00000000..b6d9dddc
+--- /dev/null
++++ b/.garura/project/issues/656/context/porcelain.txt
+@@ -0,0 +1,5 @@
++ M .garura/core/config.yaml
++ M .garura/project/issues/653/specs/plan.md
++ M .garura/project/issues/656/specs/plan.md
++ M core/components/plays/install-garura/scripts/install.py
++?? .garura/project/issues/656/context/porcelain.txt
+diff --git a/.garura/project/issues/656/context/pr-body.md b/.garura/project/issues/656/context/pr-body.md
+new file mode 100644
+index 00000000..47ab1218
+--- /dev/null
++++ b/.garura/project/issues/656/context/pr-body.md
+@@ -0,0 +1,53 @@
++## What this delivers
++
++**Phoenix memory has its own home.** `intent-driven-ai/phoenix-memory` is a private repository, seeded with everything in Garura's memory (`core/components/memory/`): 147 of 147 files identical, plus its README. It is cloned at `~/.garura/phoenix-memory/`.
++
++**Memory is clean before it moved.** No client name, company name, personal name, personal knowledge-vault link or home-folder path is left in memory (3 commits).
++
++**Two commands to bring memory into a project.** `pull` copies a piece from Phoenix memory into the project's Garura memory and records it in `pulled.json` (path, Phoenix version, fingerprint). `pulled --behind` names pieces that changed in Phoenix memory since. They live in `core/tools/memory/pull.py`, for the memory tool (#657) to use. 12 tests pass.
++
++**Dead memory settings are gone.** Nothing read `components.memory`, `ltm.source` or `ltm.global-target`. All three are removed from `.garura/core/config.yaml`, and the installer no longer writes a memory line into projects' config.
++
++**The PR review rules are read from Garura memory.** `standards.pr-severity-taxonomy` now points at `.garura/core/memory/standards/rules/pr.md`. Kapil, 2026-10-18: "Skill should always point to .Garura core memory … If nothing exists because it hasn't been pulled, it will actually fail, and that is the whole point." The file gets into Garura memory when the pull tool runs.
++
++**Both plans carry Kapil's decisions of 18 October** (`.garura/project/issues/656/specs/plan.md`, `.garura/project/issues/653/specs/plan.md`):
++- The installer pulls nothing. Three set-up plays, not filed yet, will fill a project's first memory.
++- `core/components/memory/` moves into Phoenix memory. It is removed after the memory tool exists, and then its readers are fixed: ADRs, docs, 35 skills, 7 agents and 2 scripts.
++- Skills read only short-term memory, or call an agent for context. Memory is read in order: short-term, then Garura memory (`.garura/`), then Phoenix memory.
++- The memory tool comes first (#657). Its test is Kapil's login and change-password story.
++
++Closes #656
++
++## Where the issue text no longer matches
++
++The issue on GitHub still describes the first version of this story. Kapil changed it on 18 October; the plan is current, the issue text is not.
++
++| Issue says | What happened |
++|---|---|
++| The Phoenix memory repository exists and holds the seeded content | Delivered |
++| An install pulls only the starting set | Dropped: the installer pulls nothing (Kapil: "it install with no memory") |
++| A check shows which pulled pieces are behind | Delivered, as `pulled --behind` |
++| Neither stale copy is written or read | Moved: `.garura/` clean-up is #670; the tool's test covers the rest |
++| A project with nothing pulled still runs its plays | Holds; nothing changed it |
++| Memory keys point at Phoenix and Garura memory | Partly: 3 dead keys removed, PR rules key moved; `review-pr.standards_order` unchanged |
++
++## Not in this change
++
++- The memory tool (#657), on its own branch.
++- Removing `core/components/memory/` and fixing what reads it, after the tool.
++- ADR 035 §2 (it still says the installer pulls a starting set): its own `/adr` change.
++- The `.garura/` clean-up (#670).
++
++## Self-review
++
++Rules: `standards/rules/self-review.md` from Phoenix memory (Garura memory had no copy). Blocking: **0**. Non-blocking: 10. Full review: `.garura/project/issues/656/context/self-review.md`.
++
++Checks run: `pull` tests 12/12; memory contract check passes; the installer's config rewrite loads for both host tools; memory-reading tests 30 and 37 pass; both plan checks valid; merges cleanly with main; no client, personal or secret strings in the diff, memory or Phoenix memory.
++
++For the reviewer (non-blocking):
++- The PR rules setting points at a folder git ignores, and the copy there is the old 30 May one. A fresh clone has no such file. This is what Kapil asked for.
++- One commit subject (`d65770f8`) is 86 characters; the rules allow 72.
++- The `install-garura` play text still says installed config has memory at `~/.garura/core/memory/`.
++- A refused `pull` still leaves an empty `pulled.json`. For #657.
++
++🤖 Generated with [Claude Code](https://claude.com/claude-code)
+diff --git a/.garura/project/issues/656/context/pr.json b/.garura/project/issues/656/context/pr.json
+new file mode 100644
+index 00000000..a6ab9731
+--- /dev/null
++++ b/.garura/project/issues/656/context/pr.json
+@@ -0,0 +1,6 @@
++{
++  "number": 671,
++  "url": "https://github.com/intent-driven-ai/garura/pull/671",
++  "state": "OPEN",
++  "base": "main"
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/656/context/resolved-rules.json b/.garura/project/issues/656/context/resolved-rules.json
+new file mode 100644
+index 00000000..3fa24693
+--- /dev/null
++++ b/.garura/project/issues/656/context/resolved-rules.json
+@@ -0,0 +1,6 @@
++{
++  "resolved": true,
++  "path": "~/.garura/phoenix-memory/standards/rules/self-review.md",
++  "source": "~/.garura/phoenix-memory/standards/rules",
++  "is_override": false
++}
+diff --git a/.garura/project/issues/656/context/self-review.md b/.garura/project/issues/656/context/self-review.md
+new file mode 100644
+index 00000000..68571af9
+--- /dev/null
++++ b/.garura/project/issues/656/context/self-review.md
+@@ -0,0 +1,219 @@
++# Self-review for #656 — Phoenix memory has its own repository, and each project pulls only the subset it needs into Garura memory
++
++Rules used: `~/.garura/phoenix-memory/standards/rules/self-review.md` (base file from Phoenix memory; Garura memory had no copy; recorded in `resolved-rules.json`, not re-resolved).
++Reviewed: `git diff main..HEAD` on `feature/656-phoenix-memory-repository` at `dcfe110d`, read only. `main` and `origin/main` are the same commit (`6ac6edae`), so the branch is 0 behind and 9 ahead. This is the first self-review: no PR exists yet.
++Scope is judged against the plan as it stands (`.garura/project/issues/656/specs/plan.md`), and the issue's own text is compared separately (see "Where the issue's text no longer matches").
++The checks were run, not just read:
++- `pull` and `pulled` tests, `python3 -m unittest core.tools.memory.test_pull`: 12 ran, 12 OK.
++- The memory tool's contract check, `python3 core/tools/memory/contract/check_contract.py`: exit 0, `ok: true`, 20 of 20 samples valid, 23 of 23 broken samples refused, 0 boundary problems. This script's forbidden-word list was changed on this branch, so it was run on purpose.
++- The installer's config rewrite, called directly for both host tools (`claude`, `codex`) on this repository's config: both results load as YAML, neither has a `components.memory` line, `ltm` holds only `project-target`, and `standards.pr-severity-taxonomy` points at `./.garura/core/memory/standards/rules/pr.md`.
++- Other tests that read memory files: `test_lint_grounding.py` 30 passed, 0 failed; `test_apply_adr.py` 37 passed, 0 failed.
++- Phoenix memory against the folder it was seeded from: all 147 files git tracks in `core/components/memory/` are byte for byte the same in `~/.garura/phoenix-memory/`; the only extra file there is its `README.md`. Phoenix memory has one commit, `3f3347b`. GitHub says `intent-driven-ai/phoenix-memory` is PRIVATE (a read-only query).
++- Plan check on `656/specs/plan.md` and on `653/specs/plan.md`: both `valid: true`, `problems: []`. Both exit 1 only because the plans are not finished (`done: false`), the same "not done, not invalid" case as in the #667 review.
++- `git merge-tree --write-tree main HEAD`: exit 0. `git diff --check`: clean.
++- Scan of the added lines, of the 147 memory files and of Phoenix memory for client names, the company name, the personal knowledge vault, home-folder paths and personal email addresses: nothing found. The one hit is `BE-08` in `pr.md`, a security rule whose pattern text contains `/users/`, which is not a path. A scan of the added lines for keys, tokens, passwords, bearer strings and private-key markers also found nothing.
++- All 4 YAML and 3 JSON files in the diff parse.
++
++## In plain words
++
++Phoenix memory now has its own home: a private repository, `intent-driven-ai/phoenix-memory`, seeded with everything Garura's memory held. Before it was seeded, memory was cleaned so no client name, personal name, personal knowledge-vault link or home-folder path is left in it. The two commands a project needs to bring a piece of Phoenix memory into its own memory (`pull`) and to see which pieces have fallen behind (`pulled`) are built and tested. Three dead memory settings were removed from Garura's config, the installer no longer rewrites a memory line into projects' config, and the PR review rules setting now points into the project's own memory folder. Both plans were updated with Kapil's decisions of 18 October.
++
++Nothing found stops this from being raised. It merges cleanly with main, the new commands pass their 12 tests, the installer still produces a working config, and there are no secrets and no client or personal references.
++
++Ten things came up. None is blocking, because the rules file says this review is a note that travels with the PR and never blocks on its own. The ones worth Kapil's eye:
++
++- The issue's written text describes a different story from the one delivered. Of its 6 "done when" lines: 2 are delivered, 1 holds because nothing changed, 1 is partly delivered, and 2 are not delivered (they were dropped or moved on Kapil's word). The plan is current; the issue is not (finding 1).
++- The PR review rules setting now points at a folder that git ignores, and the copy there is the old one from 30 May. In a fresh clone the setting points at nothing. This is what Kapil asked for ("it will actually fail, and that is the whole point"), but it is a path that fails today (finding 2).
++- One commit subject is 86 characters; the commit rules allow 72 (finding 5).
++
++Blocking: 0. Non-blocking: 10. Findings 2, 4, 6 and 9 are known and carried, not new surprises.
++
++## Where the issue's text no longer matches
++
++Issue #656 on GitHub was read with `gh issue view 656` and was not changed (the plan says story texts are fixed only when Kapil asks). Against the plan, every part of the diff belongs. Against the issue's own text:
++
++| Issue says | What this branch delivers | Why |
++|------------|---------------------------|-----|
++| The Phoenix memory repository exists and holds the seeded content | Delivered. Private repository, one seed commit `3f3347b`, 147 of 147 files identical, plus its README. | Plan item 2 |
++| An install into a test project pulls only the starting set and writes the list of what it pulled | Not delivered. The installer pulls nothing and copies memory only if `core/components/memory/` exists, as before. Three set-up plays (not filed yet) will fill a project's first memory. | Kapil, 2026-10-18: "installer doesnt need to pull starting set.. we will build a trinity of plays that will setup initial memory" and "2 is not needed. it install with no memory" (plan item 1b) |
++| A check shows which pulled pieces are behind Phoenix memory | Delivered as a tool command: `pulled --behind` in `core/tools/memory/pull.py`, with tests. It is not part of the installer. | Plan item 2 |
++| Neither stale copy is written or read any more | Not delivered. Both still exist (`~/.garura/core/memory/` and `.garura/core/memory/`), and the PR review rules setting now reads the `.garura/` one on purpose until the pull tool fills it. The `.garura/` clean-up is #670. | Kapil, 2026-10-18 (plan items 1c and 4) |
++| The install never blocks a play | Holds, because the install is unchanged on this point. Not tested here. | n/a |
++| The memory settings in config point at Phoenix memory and Garura memory, here and in every installed project | Partly. The 3 dead settings (`components.memory`, `ltm.source`, `ltm.global-target`) are gone from this repository's config, and the installer no longer rewrites a `memory:` line. `ltm.project-target` still points at Garura memory (`./.garura/core/memory/`), and the PR rules setting now points there too. `review-pr.standards_order` is unchanged at `[kb, ltm, stm]`, and no plan item names it. Where Phoenix memory lives is given to the tool by a flag or an environment variable, not by config. | Plan items 3 and 4 |
++
++Smaller differences:
++- The issue's "Not in this story" list says the memory tool itself is not here. This branch adds `pull` and `pulled`, which are two commands of that tool. The plan accounts for it (item 2, "also built"); the memory tool (#657) uses them.
++- The issue's "Settle here" asks for the folder inside `.garura/` that holds Garura memory. Kapil answered it (the project's `.garura/` without `project/issues/`; pulled pieces go in `.garura/core/memory/`, plan item 1). ADR 017's folder list, which the issue names, is not in this diff.
++- Work in the diff that the issue's text does not mention at all: the clean-up of client and personal references in memory (3 commits, 42 files), on Kapil's word ("First, remove all the company client context" and "remove any links with the knowledge vault and make them generic").
++- Moved out of this story on Kapil's word and not in the diff (checked: no change under `docs/`, no change in `.garura/` beyond the config and the two plans, `core/components/memory/` still present): the memory tool (#657), removing `core/components/memory/` and fixing what points at it, the ADR 035 section 2 amendment (its own `/adr` change), and the `.garura/` clean-up (#670).
++
++## Branch and size
++
++- Branch: `feature/656-phoenix-memory-repository` (feature branch), base `main`; 0 behind, 9 ahead
++- Commits: 9. Every one ends `(#656)` and uses a conventional type (`chore` 8, `feat` 1). Subject lengths: 8 are 71 characters or fewer; `d65770f8` is 86.
++- Files: 56 (10 added, 46 changed), +699 / -106. Of that:
++  - 320 lines are new code: `core/tools/memory/pull.py` (169) and its tests `test_pull.py` (151);
++  - 190 lines are wording changes to 42 memory files (+94 / -96), most of them one-line changes to provenance lines;
++  - 177 added lines are plans: the new #656 plan (167) and a 10-line note in the #653 plan (+10 / -2);
++  - 5 lines are config (+1 / -4) and 6 lines are the installer and the contract check (+2 / -4);
++  - 105 lines are run records under `.garura/project/issues/656/context/` (7 files).
++  - Of the 805 changed lines (699 added + 106 removed), about 4 in 10 are the code, tests and config that need reading; about 1 in 4 is wording with no behaviour; the rest is plans and run records.
++- Not in the diff: `resolved-rules.json` is untracked and so is this file; both belong in a `chore(stm)` commit before or with the raise. `__pycache__` folders exist locally and git ignores them (none is tracked).
++- Suggested PR title: `feat(memory-tool): pull and pulled, and Phoenix memory in its own repo (#656)`
++
++## Findings (all non-blocking)
++
++1. **The issue's text no longer matches what was delivered.** See the table above. The PR description should carry that table's substance, because the PR will say it closes #656 while 2 of the 6 "done when" lines were dropped or moved. Plan item 5 says story texts are fixed only when Kapil asks, so nothing was changed on GitHub. (Rule: matches the issue)
++2. **Known: the PR review rules setting points at a folder git ignores, and the copy there is old.** `standards.pr-severity-taxonomy` is now `./.garura/core/memory/standards/rules/pr.md`. `.garura/core/memory/` is in `.gitignore` (line 151), so a fresh clone or CI run has no such file and the `quality-check-scoped` skill stops until a pull fills it. Kapil, 2026-10-18: "If nothing exists because it hasn't been pulled, it will actually fail, and that is the whole point." The local copy is dated 30 May and differs from the source in 79 lines of a line-by-line comparison; it lacks the glob-matching rules from #454. So the next step, the review of this PR, would use the old rules. Plan item 4 records both facts; #670 and the tool's test settle them. (Rule: nothing obviously broken)
++3. **A play's own description is now wrong about the installer.** `core/components/plays/install-garura/SKILL.md` (lines 62 to 63) still says the installed config has "memory at `~/.garura/core/memory/`". The installer no longer writes that line (this branch removed it). Fix: drop those words. The play has no ICE source (its folder holds only `SKILL.md` and `scripts/`), and the line describes surface wording, so this is a direct edit to `SKILL.md`. (Rule: docs in step)
++4. **Known: the amendment to ADR 035 section 2 and the tidy-up of what points at memory are still to do.** ADR 035 line 49 still says "At install, a project pulls a starting set" and line 142 records the starting set as Kapil's choice. The amendment is its own `/adr` change (plan item 5). Also in memory itself, `knowledge/review/config-maps.md` (line 18) names `ltm.source` as an example of a config path key; that key no longer exists. Example text only. Carried with the "fix what pointed at memory" work. (Rule: docs in step)
++5. **One commit subject is too long, and the history has two stale or odd lines.** `d65770f8` is "chore(memory): make memory generic — no the knowledge vault or personal links (#656)": 86 characters against the 72 limit in `standards/rules/commits.md` (`subject-length`, must-have), and it reads oddly (the words that were taken out left "no the knowledge vault"). The bodies of `cedfdef2` and `d65770f8` have the same marks ("the company", "a the company folder"). The body of `806e3bf8` says `core/components/memory/` "stays in Garura"; plan item 1c later reversed that. Fixing the subject means rewording and force-pushing, which was not asked for, so it is only noted. The PR description should state the final state. (Rule: commits are clean)
++6. **Known: the plan's own "what is next" depends on things that are not built.** The #653 plan note (item 4) now holds Kapil's test for the memory tool, and the #656 plan holds the "after this story" list. Neither is checkable yet; both are for #657. (Rule: no scope creep, as context)
++7. **Wording damage from the clean-up.** "the owner" now starts a sentence in lower case in three places: `knowledge/domains/payments.md` (line 12), `standards/rules/no-unbacked-recommendation.md` (line 7) and `knowledge/domains/personalization.md` (line 51). Several usage lines in the `pageindex.py` docstring gained extra spaces, and one phrase reads "a working content-site setup — the preferred Astro setup". The meaning is unchanged. A file for the knowledge index tool, `pageindex.py`, also lost 4 folder names from its skip list (`.vault-index`, `.markdown_vault_mcp`, `published`, `.deploy`). No folder with those names exists in memory, so the index is the same today, and the tool has no test. It still skips `.obsidian`, a generic tool-folder name rather than a link to anyone's vault; Kapil may still want it out. (Rule: nothing obviously broken)
++8. **A refused `pull` still leaves a pulled list behind.** In `core/tools/memory/pull.py`, `pull` writes `pulled.json` at the end even when every path it was given was refused. Reproduced in scratch folders (outside the repository): pulling a path Phoenix memory does not hold gave one `not_found` answer, exit 1, and left `pulled.json` holding `{"pieces": []}` in Garura memory. The tests check the answers of a refused pull, not the folder afterwards. It does not break the contract. Small. (Rule: tests present)
++9. **Known: the docs still describe the old install.** `CLAUDE.md`, `README.md` and `docs/components/memory.md` say memory is copied to `~/.garura/core/memory/`. The installer still does that, so they are still true. They become wrong when `core/components/memory/` is removed, which is after the tool (the plan's "after this story"). Not touched here. (Rule: docs in step)
++10. **Most of the diff is wording and records.** See "Branch and size": 190 lines are wording changes with no behaviour, 105 are run records, and `plan-check.json` in the records is an early snapshot (it says item 2 is current; the plan says item 5). The PR description should say where to look: `pull.py` and its tests, the config, and the table of what the issue said against what was delivered. (Rule: reasonable size)
++
++## Checklist from the rules file
++
++Scope checks
++
++| Item | Status | Evidence |
++|------|--------|----------|
++| Matches the issue | REVIEW | Against the plan as it stands, every part of the diff belongs: the memory clean-up and seeding (item 2), `pull` and `pulled` (item 2), the dead settings (item 3), the PR rules path (item 4), the plan notes. Against the issue's own text, 3 of 6 "done when" lines are delivered or hold and 3 are partly or not delivered, on Kapil's recorded word (finding 1). A person needs to accept the plan as the reference. |
++| No scope creep | PASS | Each file maps to a plan item. The one-line forbidden-word change in `check_contract.py` is the boundary check of the `pull` commit (stated in its message). The memory tool, the folder removal, the ADR amendment and the `.garura/` clean-up are not in the diff (no `docs/` change; `.garura/` touched only for the config, the two plans and the run records; `core/components/memory/` still present). |
++| Reasonable size | PASS | 56 files, +699 / -106, but 320 lines are the new code, 190 are wording changes and 105 are run records (finding 10). The make-up goes in the PR description. |
++| No stray artifacts | PASS | No TODO, FIXME, XXX, TBD, breakpoint or debug lines in the added lines. `__pycache__` folders are ignored and untracked. `resolved-rules.json` is an untracked run record, to be committed with this review. |
++
++Quality checks
++
++| Item | Status | Evidence |
++|------|--------|----------|
++| Tests present | PASS | `pull` and `pulled` carry 12 tests, which pass. The config and installer change has no test of its own; its effect was checked by running the config rewrite for both tools (see the top). The wording changes carry no behaviour; the `pageindex.py` skip-list change and the empty-list case in finding 8 have no test. |
++| Commits are clean | REVIEW | All 9 are conventional, each one concern, each ends `(#656)`. One subject is 86 characters against the 72 limit, and its wording is odd; one body states a plan position that was later reversed (finding 5). |
++| No secrets | PASS | Scan of added lines for key, token, password, bearer and private-key markers found nothing; no `.env`, key or certificate file names. No client, company, personal-vault, home-folder or personal-email strings in the diff, the memory folder or Phoenix memory. |
++| Docs in step | REVIEW | The memory tool README already lists `pull` and `pulled` (lines 66 and 67). Gaps: the install play's description (3), ADR 035 section 2 and the `ltm.source` example (4), the old-install docs (9). |
++| Nothing obviously broken | REVIEW | Tests, the contract check, the installer rewrite and the plan checks pass. One known path fails by design: the PR rules setting points at an ignored, old copy (finding 2). |
++
++## Checklist from the analyze-pr quality rules
++
++Must-have
++
++| Rule | Trigger | Status | Evidence |
++|------|---------|--------|----------|
++| no-conflicts | always | PASS | `git merge-tree --write-tree main HEAD` exit 0; 0 commits behind main |
++| no-secrets | always | PASS | pattern scan clean (above) |
++| config-valid | `.garura/core/config.yaml` and other `*.yaml` changed (4 files) | PASS | all 4 YAML and 3 JSON files parse; the installer's rewrite of the changed config loads for both tools |
++| deploy-components | `core/components/**` changed (memory files, the installer) | REVIEW | Nothing was deployed from this change. `install-garura` is not deployed under this repository's `.claude/skills/` (no such folder). Memory's deploy target is `~/.garura/core/memory/`, the old copy this work is retiring, so it was deliberately not redeployed. A person should confirm that. |
++| feat-documented | `feat:` commit (`2944141c`) | PASS | no README or docs file changes in the diff, but `core/tools/memory/README.md` (lines 66 and 67) and `contract/v1.json` already describe `pull` and `pulled`, and `pull.py` opens with its usage; the contract check passes against it |
++
++Nice-to-have
++
++| Rule | Trigger | Status | Evidence |
++|------|---------|--------|----------|
++| config-documented | `*.yaml` changed | PASS | the removed settings and the new PR rules path are recorded in plan items 3 and 4 and in the `deab49c9` message |
++| feat-adr | `feat:` commit | PASS | ADR 035 covers the memory repositories and the pull; its section 2 amendment is its own change (finding 4) |
++| docs-consistent, docs-examples, docs-only | not triggered | n/a | none of `README.md`, `CLAUDE.md`, `docs/philosophy` or `docs/components` changed; no `docs:` commit |
++| adr, agent, skill and play rules | not triggered | n/a | no file under `docs/adr/` or any ADR folder changed (`standards/templates/adr.md` is a template, not an ADR); no agent, skill or play `.md` changed (`install.py` is a script) |
++
++Branch: `feature/*`, standard priorities, no branch modifiers. Disabled rules (`tests-pass`, `build-succeeds` and the like) skipped as the quality rules say; the tests were run anyway.
++
++## What the PR description needs to say
++
++- It closes #656, and says plainly that the issue's text still describes the older plan: the installer pulls nothing (Kapil's word), the stale copies are still in place (#670), and `review-pr.standards_order` is untouched. The table above can be reused.
++- Size and make-up: 56 files, +699 / -106; 320 lines of new code and tests, 190 lines of wording changes in 42 memory files, 177 lines of plans, 105 lines of run records.
++- What it does, in the first paragraph of "In plain words".
++- How it was checked: 12 of 12 `pull` tests, the contract check, the installer rewrite for both tools, 147 of 147 memory files identical in Phoenix memory, and the scan for client and personal references.
++- That the PR rules setting points at a folder git ignores, on Kapil's instruction, and that the review of this PR will therefore read the old 30 May copy of the rules.
++- What is carried: the ADR 035 section 2 amendment, removing `core/components/memory/` and fixing what points at it, the memory tool (#657), the `.garura/` clean-up (#670), and `review-pr.standards_order`.
++
++## Readiness
++
++- Ready to raise: yes
++- Blocking: 0
++- Non-blocking: 10
++- Review required: 5 checklist items marked REVIEW (matches the issue, commits are clean, docs in step, nothing obviously broken, deploy-components)
++- Recommendation: Create PR. Finding 3 is a one-line edit worth making before review; finding 1 must go in the PR description; 2, 4, 6 and 9 are known and by design.
++
++---
++
++## Appendix (machine-readable)
++
++```yaml
++self_review:
++  issue: 656
++  branch: feature/656-phoenix-memory-repository
++  base: main
++  base_sha: 6ac6edae
++  head: dcfe110d
++  rules_file: ~/.garura/phoenix-memory/standards/rules/self-review.md
++  rules_is_override: false
++  reraise: null
++  commits: 9
++  changes: {files: 56, additions: 699, deletions: 106}
++  make_up:
++    new_code: {pull_py: 169, test_pull_py: 151}
++    wording_changes: {files: 42, additions: 94, deletions: 96}
++    plans: {new_656_plan: 167, "653_plan": {additions: 10, deletions: 2}}
++    config: {additions: 1, deletions: 4}
++    installer_and_contract_check: {additions: 2, deletions: 4}
++    run_records: {files: 7, additions: 105}
++  suggested_title: "feat(memory-tool): pull and pulled, and Phoenix memory in its own repo (#656)"
++  check_run:
++    - {command: "python3 -m unittest core.tools.memory.test_pull", ran: 12, ok: true}
++    - {command: "python3 core/tools/memory/contract/check_contract.py", exit: 0, ok: true, samples_checked: 20, broken_checked: 23, boundary_problems: 0}
++    - {check: "install.py transform_config on the repo config, tools claude and codex", loads: true, components_memory_line: false, ltm: {project-target: "./.garura/core/memory/"}, pr_severity_taxonomy: "./.garura/core/memory/standards/rules/pr.md"}
++    - {command: "core/components/plays/vision/scripts/test_lint_grounding.py", passed: 30, failed: 0}
++    - {command: "core/components/plays/adr/scripts/test_apply_adr.py", passed: 37, failed: 0}
++    - {command: "core/components/skills/manage-plan/scripts/check_plan.py (656 and 653 plans)", exit: 1, valid: true, problems: 0, done: false, note: "exit 1 means plan not finished, not invalid"}
++    - {command: "git merge-tree --write-tree main HEAD", exit: 0}
++    - {command: "git diff --check main..HEAD", exit: 0}
++    - {check: "yaml and json parse", yaml: 4, json: 3, failed: 0}
++    - {check: "phoenix memory vs core/components/memory", tracked_files: 147, identical: 147, extra_in_phoenix: ["README.md"], commit: 3f3347b, visibility: PRIVATE}
++    - {check: "scan for client, company, personal and home-folder strings", added_lines: clean, memory_folder: clean, phoenix_memory: clean}
++  verified:
++    github_issue_read: true
++    github_issue_changed: false
++    issue_done_when: {total: 6, delivered: 2, holds_unchanged: 1, partly: 1, not_delivered: 2}
++    moved_out_not_in_diff: ["memory tool (#657)", "remove core/components/memory/ and fix its readers", "ADR 035 section 2 amendment (own /adr change)", "clean-up of .garura (#670)"]
++  ready: true
++  blocking: 0
++  non_blocking: 10
++  findings:
++    - {id: 1, blocking: false, rule: matches-the-issue, path: "issue #656 (GitHub) against .garura/project/issues/656/specs/plan.md", what: "Issue text still describes the installer pulling a starting set, both stale copies retired, and standards_order pointing at Phoenix and Garura memory; delivered differs on Kapil's word"}
++    - {id: 2, blocking: false, known: true, rule: nothing-obviously-broken, path: ".garura/core/config.yaml (standards.pr-severity-taxonomy); .gitignore:151", what: "PR rules path points at an ignored folder holding the old 30 May copy (79 lines differ); fails in a fresh clone by Kapil's design"}
++    - {id: 3, blocking: false, rule: docs-in-step, path: "core/components/plays/install-garura/SKILL.md:62-63", what: "Play text still says the installed config has memory at ~/.garura/core/memory/; the installer no longer writes it"}
++    - {id: 4, blocking: false, known: true, rule: docs-in-step, path: "docs/adr/035-agents-work-only-from-memory.md:49,142; core/components/memory/knowledge/review/config-maps.md:18", what: "ADR 035 section 2 amendment still to do (own /adr change); config-maps.md names the removed key ltm.source as an example"}
++    - {id: 5, blocking: false, rule: commits-are-clean, path: "commits d65770f8, cedfdef2, 806e3bf8", what: "d65770f8 subject is 86 characters (limit 72) with odd wording; two bodies carry odd wording; 806e3bf8 body states a position later reversed in plan item 1c"}
++    - {id: 6, blocking: false, known: true, rule: no-scope-creep, path: ".garura/project/issues/653/specs/plan.md; .garura/project/issues/656/specs/plan.md", what: "Plan notes for the memory tool test and the after-this-story list depend on work not built yet (#657)"}
++    - {id: 7, blocking: false, rule: nothing-obviously-broken, path: "core/components/memory/knowledge/domains/payments.md:12; standards/rules/no-unbacked-recommendation.md:7; knowledge/domains/personalization.md:51; knowledge/domains/.pageindex/pageindex.py", what: "Wording damage from the clean-up (lower-case 'the owner' sentence starts, docstring spacing); pageindex.py skip list shortened by 4 names, no test, same index today"}
++    - {id: 8, blocking: false, rule: tests-present, path: "core/tools/memory/pull.py (pull, write_list)", what: "A refused pull still writes pulled.json (an empty list); reproduced in scratch folders; tests do not check the folder; contract and exit code unaffected"}
++    - {id: 9, blocking: false, known: true, rule: docs-in-step, path: "CLAUDE.md; README.md; docs/components/memory.md", what: "Docs still describe memory copied to ~/.garura/core/memory/; true until core/components/memory/ is removed"}
++    - {id: 10, blocking: false, rule: reasonable-size, path: ".garura/project/issues/656/context/", what: "190 lines are wording changes and 105 are run records; plan-check.json is an early snapshot"}
++  checks:
++    no_conflicts: {status: PASS, evidence: "git merge-tree --write-tree main HEAD exit 0; 0 behind, 9 ahead"}
++    no_secrets: {status: PASS, evidence: "pattern scan of added lines clean; no sensitive file names; no client or personal strings"}
++    config_valid: {status: PASS, evidence: "4 YAML and 3 JSON files parse; installer rewrite loads for both tools"}
++    deploy_components: {status: REVIEW, evidence: "nothing deployed; install-garura not deployed under .claude/skills; memory deploy target is the old copy being retired"}
++    feat_documented: {status: PASS, evidence: "core/tools/memory/README.md lines 66-67 and contract/v1.json already describe pull and pulled"}
++    config_documented: PASS
++    feat_adr: PASS
++  analyze_pr:
++    branch: feature/656-phoenix-memory-repository
++    base: main
++    branch_pattern: feature
++    commits: 9
++    changes: {files: 56, additions: 699, deletions: 106}
++    context:
++      file_patterns_matched:
++        - {name: "documentation (*.md): 40 memory documents and 2 plans", files: 42, trigger: "*.md"}
++        - {name: "code (*.py)", files: 5, trigger: "*.py"}
++        - {name: "configuration (*.yaml)", files: 4, trigger: "*.yaml"}
++        - {name: "data (*.json)", files: 3}
++        - {name: "text (*.txt)", files: 2}
++      commit_types: [{type: chore, count: 8}, {type: feat, count: 1}]
++      branch_modifiers: []
++    blocking_issues: []
++    ready: true
++    recommendation: "Create PR"
++```
+diff --git a/.garura/project/issues/656/context/work-description.txt b/.garura/project/issues/656/context/work-description.txt
+new file mode 100644
+index 00000000..bf028475
+--- /dev/null
++++ b/.garura/project/issues/656/context/work-description.txt
+@@ -0,0 +1 @@
++Story #656 under Feature #653 (feature plan item 3): Phoenix memory gets its own git repository, seeded from core/components/memory/ (without the shelves deleted in #434); installing Garura pulls only a starting set (the rulebook and the memory guide) into the project's Garura memory and records what it pulled and from which version; a check shows which pulled pieces are behind; the two stale copies (~/.garura/core/memory/ and .garura/core/memory/) are retired; the installer writes correct memory settings; config memory keys and review-pr.standards_order point at Phoenix memory and Garura memory. Settle the folder inside .garura/ that holds Garura memory (ADR 017). Decided in ADR 035 §2, amended by ADR 036.
+diff --git a/.garura/project/issues/656/specs/plan.md b/.garura/project/issues/656/specs/plan.md
+new file mode 100644
+index 00000000..5da1e1a5
+--- /dev/null
++++ b/.garura/project/issues/656/specs/plan.md
+@@ -0,0 +1,167 @@
++---
++plan_for: 656
++kind: story
++serves: "#656 — Phoenix memory has its own repository, and each project pulls only the subset it needs into Garura memory"
++status: active
++updated: 2026-10-18
++now: 5
++serves_plan: 653
++serves_item: 3
++---
++
++# Plan — #656: Phoenix memory built, ready for the memory tool
++
++This is a plan, not a design. It says what gets done, in what order, and why
++that order. How each item is built is decided in its own step.
++
++## What we are trying to reach
++
++ADR 035 §2 gives Phoenix memory one home: its own git repository, outside
++Garura's code. Garura's memory (`core/components/memory/`, 147 files git
++tracks) moves there. The memory tool (#657) is built next and proves it; only
++then is the old folder removed and everything that pointed at it fixed.
++
++Memory is read in one order (ADR 035 §3): short-term memory first, then Garura
++memory (the project's `.garura/` folder), and only then Phoenix memory.
++
++## When this plan is done
++
++- The Phoenix memory repository holds everything that was in
++  `core/components/memory/`, at a version (its commit).
++- `pull` and `pulled` are built and tested, ready for the memory tool.
++- Garura's config has no dead memory settings, and the PR review rules are read
++  from `.garura/`.
++- ADR 035 §2 says the installer pulls nothing.
++- The rest has a home: the tool and its test in #657; removing
++  `core/components/memory/` and fixing what pointed at it after the tool.
++- `.garura/` is not touched beyond its config. Its clean-up is #670.
++
++## Where we are now
++
++Phoenix memory is built and checked. The dead config settings are gone, and the
++PR review rules are read from `.garura/`. Kapil: build the tool first. Next:
++land this change (item 5), then the tool (#657) on its own branch.
++
++## The plan, in order
++
++### Done
++
++- **1. Decided: where memory lives** — #656. Kapil, 2026-10-18 ("1A 2A 3 …"):
++  (a) Phoenix memory is a **private** repository,
++  `intent-driven-ai/phoenix-memory`. (b) Garura memory is the project's
++  `.garura/` folder, without `.garura/project/issues/` (that is short-term
++  memory); the product model stays in `.garura/product/`. (c) Changed by item
++  1c below: this plan first read Kapil's answer as "`core/components/memory/`
++  stays in Garura". It does not stay. It moves into Phoenix memory and is then
++  removed.
++- **1b. Decided: the installer pulls nothing** — #656. Kapil, 2026-10-18:
++  "installer doesnt need to pull starting set.. we will build a trinity of plays
++  that will setup initial memory." And: "2 is not needed. it install with no
++  memory." The installer needs no change: it copies memory only when
++  `core/components/memory/` exists (`install.py`, step 3 of the install). Three
++  plays, not filed yet, will set up a project's first memory. This changes ADR
++  035 §2 ("At install, a project pulls a starting set"); the ADR is amended in
++  item 5.
++- **1c. Decided: the order, and what skills read** — #656. Kapil, 2026-10-18:
++  "first we move the memory into phoenix memory ensuring it works. this folder
++  is core/components. the .garura is working copy and shoudl not be touched …
++  once this memory is moved to phoenic, we can remove it. we clean up adrs, and
++  links and fix skills and agents." And: "35 skills using memory is wrong
++  design. they should referring to stm only or calling sub-agents to load the
++  context." And: "first source if stm, then garura mamory which is .garara and
++  only then phoenix memory." The `.garura/` clean-up is recorded as #670
++  (Business Intent, not approved to build).
++- **1d. Decided: the tool first, and how to test it** — Kapil, 2026-10-18:
++  "that skill shold point to .garura location. clean up deal setting. then
++  build the tool first." The test that proves the tool, in his words: in an
++  empty project, simulate a story such as login. "Nothing would be in STM. It
++  would go to project memory. Nothing would be there. Then it is going to go to
++  the Phoenix memory, which should have stuff … It should be able to pull the
++  memory down into the project … Re-running that test should now read everything
++  from Garura or project memory. Then, let's say you go from login to change
++  password. Something should come from the Garura project memory, and the
++  pending stuff should go to the Phoenix memory." This replaces the
++  empty-memory install test this plan had as its item 3. It is the tool's test
++  (#657).
++- **2. Phoenix memory created and seeded: built and pushed** — #656. Before
++  seeding, three commits took client and personal references out of memory
++  (`cedfdef2`, `d65770f8`, `10f10c79`). The repository
++  `intent-driven-ai/phoenix-memory` holds the seed at commit `3f3347b`, on
++  GitHub and cloned at `~/.garura/phoenix-memory/`. Check, 2026-10-18: all 147
++  files git tracks in `core/components/memory/` match Phoenix memory byte for
++  byte; Phoenix memory adds only its README.
++  Also built on this branch: `pull` and `pulled`
++  (`core/tools/memory/pull.py`, 12 tests pass). `pull` copies a piece from
++  Phoenix memory into Garura memory and records it in `pulled.json`; `pulled
++  --behind` names pieces that changed in Phoenix memory since. The memory tool
++  (#657) uses it.
++- **3. Dead config settings removed: built (not merged)** — #656. Nothing in
++  Garura read `components.memory`, `ltm.source` or `ltm.global-target`; all
++  three are gone from `.garura/core/config.yaml`, and the installer no longer
++  rewrites a `memory:` line into projects' config. The config still loads and
++  the installer's config rewrite still runs.
++
++- **4. The PR review rules are read from `.garura/`: built (not merged)** —
++  #656. `standards.pr-severity-taxonomy` (read by the `quality-check-scoped`
++  skill) now points at `.garura/core/memory/standards/rules/pr.md`. Nothing was
++  copied or pulled by hand. Kapil, 2026-10-18: "Skill should always point to
++  .Garura core memory … If nothing exists because it hasn't been pulled, it will
++  actually fail, and that is the whole point. That pull has to go to the root
++  and build it." And: "The file will get into garura when the pull tool
++  executes." Known for now: the copy there is old (30 May), without the July
++  fixes from #454, and git ignores the folder; #670 and the tool's test settle
++  it.
++
++### 5. Land the change — now
++
++**Issue:** #656.
++**What:** commit, raise, review and merge; close #656; mark item 3 of the #653
++plan done; amend ADR 035 §2 through `/adr` (the installer pulls nothing; the
++set-up plays fill a project's first memory). Story texts that these answers
++change (#656, #657, #661, #663) are fixed only when Kapil asks.
++**Done when:** merged to main.
++**Needs:** item 4.
++
++## After this story (test cases for the tool)
++
++- Kapil, 2026-10-18: "If somebody removes the project memory, then it needs to
++  raise an issue or go to Phoenix memory or put it in banks. Then an approval is
++  needed." A case for the tool's test (#657). Not yet clear: what "put it in
++  banks" means.
++
++## After this story
++
++- **The memory tool** (#657), on its own branch. Its done-when is Kapil's test
++  in item 1d.
++- **Remove `core/components/memory/`, and fix what pointed at it**, once the
++  tool exists: ADRs and docs point at Phoenix memory; 35 skills read only
++  short-term memory or call an agent for context; 7 agents load context through
++  the tool (short-term memory, then `.garura/`, then Phoenix memory); 2 scripts
++  (`commit-change/scripts/analyze_changeset.py`,
++  `kb-search/scripts/kb_search.py`). The #653 plan already moves agents and
++  skills onto the tool in #661 and #663; the folder goes last, when nothing
++  names it.
++
++## Log
++
++- 2026-10-18 — Created at the start of #656 from the issue, ADR 035 §2, ADR 036,
++  ADR 017 and a look at the three memory copies and the installer.
++- 2026-10-18 — Kapil answered: "1A 2A 3 Why would it leave Garura's repo? It
++  would not. It would stay there. That is the whole point. It can be promoted
++  to Phoenix memory, but then Phoenix memory, as I said, is a superset of the
++  Garura memory. There is a learning stage from short-term to Garura memory to
++  Phoenix memory, but it never leaves it." Item 1 done. This plan read "it" as
++  `core/components/memory/`; item 1c corrects that.
++- 2026-10-18 — Item 2 done: memory cleaned of client and personal references,
++  Phoenix memory created, seeded and pushed; check passed. `pull` and `pulled`
++  built, 12 tests pass.
++- 2026-10-18 — Kapil: the installer pulls no starting set (item 1b).
++- 2026-10-18 — Kapil set the order and the skill rule (item 1c). #670 filed
++  for the `.garura/` clean-up.
++- 2026-10-18 — Kapil: the PR rules skill reads from `.garura/`, dead settings
++  go, the tool comes first, with his test (item 1d). Item 3 done. The
++  empty-memory install test, the folder removal and the fixes moved after the
++  tool.
++- 2026-10-18 — Item 4 done: the PR rules setting points at `.garura/`; the
++  file arrives when the pull tool runs (Kapil). Removed-memory case added for
++  the tool's test.
+diff --git a/core/components/memory/knowledge/architecture/agent-assistive.md b/core/components/memory/knowledge/architecture/agent-assistive.md
+index 7825ed21..880663f4 100644
+--- a/core/components/memory/knowledge/architecture/agent-assistive.md
++++ b/core/components/memory/knowledge/architecture/agent-assistive.md
+@@ -8,7 +8,7 @@ conditions:
+   stage: first-agentic-feature
+ evolve_when:
+   - architecture/agent-supervised-autonomous
+-provenance: "seeded (Kapil + assistant, #434 — agentic seed)"
++provenance: "seeded (#434 — agentic seed)"
+ ---
+ 
+ # Assistive agent: suggest, never act — a human approves every real effect
+@@ -50,4 +50,4 @@ inside a fence and escalates only when unsure. See
+ `architecture/agent-supervised-autonomous`.
+ 
+ ## Provenance
+-seeded (Kapil + assistant, #434).
++seeded (#434).
+diff --git a/core/components/memory/knowledge/architecture/agent-derive-once-apply-many.md b/core/components/memory/knowledge/architecture/agent-derive-once-apply-many.md
+index 11db4d14..57126c07 100644
+--- a/core/components/memory/knowledge/architecture/agent-derive-once-apply-many.md
++++ b/core/components/memory/knowledge/architecture/agent-derive-once-apply-many.md
+@@ -6,7 +6,7 @@ conditions:
+   surface: agentic-feature
+   stage: any
+ evolve_when: []
+-provenance: "documented (Kapil — content-migrator production design session, 2026-06-10) + assistant"
++provenance: "documented (content-migrator production design session, 2026-06-10) + assistant"
+ ---
+ 
+ # Derive once, apply many: LLM derives the plan, deterministic code applies it at scale
+@@ -72,5 +72,5 @@ grows so wide it stops being a meaningful security boundary → split catalogs p
+ stage.
+ 
+ ## Provenance
+-documented (Kapil — content-migrator → Bedrock production design session, 2026-06-10;
+-prototype at a working prototype) + assistant.
++documented (content-migrator → Bedrock production design session, 2026-06-10;
++from a working prototype) + assistant.
+diff --git a/core/components/memory/knowledge/architecture/agent-orchestration-patterns.md b/core/components/memory/knowledge/architecture/agent-orchestration-patterns.md
+index a70ecfb4..3185ef88 100644
+--- a/core/components/memory/knowledge/architecture/agent-orchestration-patterns.md
++++ b/core/components/memory/knowledge/architecture/agent-orchestration-patterns.md
+@@ -6,7 +6,7 @@ conditions:
+   surface: agentic-feature
+   stage: any
+ evolve_when: []
+-provenance: "seeded (Kapil + assistant, #434 — agentic seed)"
++provenance: "seeded (#434 — agentic seed)"
+ ---
+ 
+ # Agent orchestration patterns: from single agent to multi-agent, and when each fits
+@@ -55,4 +55,4 @@ separable specialties, or needs parallelism → introduce a router, a pipeline,
+ supervisor — the smallest step that closes the specific gap.
+ 
+ ## Provenance
+-seeded (Kapil + assistant, #434).
++seeded (#434).
+diff --git a/core/components/memory/knowledge/architecture/agent-supervised-autonomous.md b/core/components/memory/knowledge/architecture/agent-supervised-autonomous.md
+index 43ca9b19..4dfcc23a 100644
+--- a/core/components/memory/knowledge/architecture/agent-supervised-autonomous.md
++++ b/core/components/memory/knowledge/architecture/agent-supervised-autonomous.md
+@@ -7,7 +7,7 @@ conditions:
+   consequence: low-to-medium    # reversible / bounded blast radius
+   stage: earned-after-assistive
+ evolve_when: []
+-provenance: "seeded (Kapil + assistant, #434 — agentic seed)"
++provenance: "seeded (#434 — agentic seed)"
+ ---
+ 
+ # Supervised autonomous agent: acts inside a fenced sandbox, escalates when unsure
+@@ -53,4 +53,4 @@ risky actions (back toward assistive for those), or split the agent so the dange
+ isolated.
+ 
+ ## Provenance
+-seeded (Kapil + assistant, #434).
++seeded (#434).
+diff --git a/core/components/memory/knowledge/architecture/agentic-guardrails-baseline.md b/core/components/memory/knowledge/architecture/agentic-guardrails-baseline.md
+index 57fd933a..bbeb526b 100644
+--- a/core/components/memory/knowledge/architecture/agentic-guardrails-baseline.md
++++ b/core/components/memory/knowledge/architecture/agentic-guardrails-baseline.md
+@@ -6,7 +6,7 @@ conditions:
+   surface: agentic-feature
+   stage: any
+ evolve_when: []
+-provenance: "seeded (Kapil + assistant, #434 — agentic seed)"
++provenance: "seeded (#434 — agentic seed)"
+ ---
+ 
+ # Agentic guardrails baseline: the floor under every agent, at any autonomy level
+@@ -54,4 +54,4 @@ supervised-autonomous) the controls *tighten* (smaller fence, stricter validatio
+ loop bounds), but every item here stays present.
+ 
+ ## Provenance
+-seeded (Kapil + assistant, #434).
++seeded (#434).
+diff --git a/core/components/memory/knowledge/architecture/microservices.md b/core/components/memory/knowledge/architecture/microservices.md
+index e82c14b1..94763586 100644
+--- a/core/components/memory/knowledge/architecture/microservices.md
++++ b/core/components/memory/knowledge/architecture/microservices.md
+@@ -101,6 +101,6 @@ demand service boundaries, the architecture shouldn't impose them.
+ - **Architecture cosplay** — copying Netflix's topology without Netflix's load.
+ 
+ ## Provenance
+-documented — the user's microservices learning, recovered from the prior KB
++documented — a microservices learning, recovered from the prior KB
+ (`arch/patterns/microservices.md`) and reshaped into the v1 template under #434.
+ Old profile codes (PP-6/7, NFR-4/6) translated to plain conditions.
+diff --git a/core/components/memory/knowledge/architecture/modular-monolith.md b/core/components/memory/knowledge/architecture/modular-monolith.md
+index a54389b2..5b51b69e 100644
+--- a/core/components/memory/knowledge/architecture/modular-monolith.md
++++ b/core/components/memory/knowledge/architecture/modular-monolith.md
+@@ -151,7 +151,7 @@ isn't earned yet.
+ - **Architecture cosplay** — copying Netflix's pattern without Netflix's problem.
+ 
+ ## Provenance
+-documented — the user's modular-monolith architecture learning, recovered from the
++documented — a modular-monolith architecture learning, recovered from the
+ prior KB (`arch/patterns/modular-monolith.md`) and reshaped into the v1 template
+ under #434. Old profile codes (PP-6 delivery ambition, NFR-6 scalability) were
+ translated to plain conditions.
+diff --git a/core/components/memory/knowledge/architecture/regression-by-blast-radius.md b/core/components/memory/knowledge/architecture/regression-by-blast-radius.md
+index 61c4a9a8..b5ba8711 100644
+--- a/core/components/memory/knowledge/architecture/regression-by-blast-radius.md
++++ b/core/components/memory/knowledge/architecture/regression-by-blast-radius.md
+@@ -6,7 +6,7 @@ conditions:
+   delivery: agent-led
+   stage: any
+ evolve_when: []
+-provenance: "documented (Kapil, #434 — validate interview, 2026-06-12)"
++provenance: "documented (#434 — validate interview, 2026-06-12)"
+ ---
+ 
+ # Regression scoped to the blast radius, narrowing every fix round
+@@ -46,4 +46,4 @@ a real dependency) → widen the scope derivation (e.g. add dependency-graph
+ expansion) via /learn, don't fall back to full-suite.
+ 
+ ## Provenance
+-documented (Kapil, #434 — validate interview, 2026-06-12).
++documented (#434 — validate interview, 2026-06-12).
+diff --git a/core/components/memory/knowledge/domains/.pageindex/pageindex.py b/core/components/memory/knowledge/domains/.pageindex/pageindex.py
+index eccac4a8..a4eac268 100644
+--- a/core/components/memory/knowledge/domains/.pageindex/pageindex.py
++++ b/core/components/memory/knowledge/domains/.pageindex/pageindex.py
+@@ -10,15 +10,15 @@
+ 
+ Usage:
+   # Index
+-  python3 .pageindex/pageindex.py                          # Index all
+-  python3 .pageindex/pageindex.py --folder <folder>     # Index one folder
++  python3 .pageindex/pageindex.py                                   # Index all
++  python3 .pageindex/pageindex.py          --folder <folder>        # Index one folder
+ 
+   # Retrieve (vectorless RAG — the LLM navigates these)
+-  python3 .pageindex/pageindex.py --tree                   # Top-level tree
+-  python3 .pageindex/pageindex.py --tree --depth 2         # Two levels deep
+-  python3 .pageindex/pageindex.py --navigate 0003          # Drill into node
+-  python3 .pageindex/pageindex.py --read 0003              # Full text of node
+-  python3 .pageindex/pageindex.py --query "Messiness Index" # Keyword search
++  python3 .pageindex/pageindex.py          --tree                   # Top-level tree
++  python3 .pageindex/pageindex.py          --tree --depth 2         # Two levels deep
++  python3 .pageindex/pageindex.py          --navigate 0003          # Drill into node
++  python3 .pageindex/pageindex.py          --read 0003              # Full text of node
++  python3 .pageindex/pageindex.py --query "guest checkout"        # Keyword search
+ """
+ 
+ import sys
+@@ -108,9 +108,7 @@ def build_tree_from_nodes(node_list):
+ INDEX_PATH = os.path.join(KB_ROOT, '.pageindex', 'kb-index.json')
+ 
+ EXCLUDE_DIRS = {
+-    '.obsidian', 'node_modules', '.claude', '.vault-index',
+-    '.markdown_vault_mcp', '.pageindex', '.git', 'assets',
+-    'published', '.deploy'
++    '.git', '.pageindex', '.claude', '.obsidian', 'node_modules', 'assets'
+ }
+ 
+ 
+diff --git a/core/components/memory/knowledge/domains/analytics.md b/core/components/memory/knowledge/domains/analytics.md
+index f163cab9..9ec2077c 100644
+--- a/core/components/memory/knowledge/domains/analytics.md
++++ b/core/components/memory/knowledge/domains/analytics.md
+@@ -4,7 +4,7 @@ title: "Analytics: measure goals and funnels, on web AND product — not just pa
+ conditions:
+   trigger: "the product needs to measure behaviour and outcomes — events, goals, funnels, product usage"
+   selection_keys: [goal-funnel-need, web-vs-product, decision-coupling, attribution-need, privacy-regime]
+-provenance: interview (#434 — Kapil)
++provenance: interview (#434)
+ ---
+ 
+ # Analytics: how we build it
+@@ -124,7 +124,7 @@ product usage — are in place.
+ - A privacy regime applies → tighten consent and data minimisation.
+ 
+ ## Provenance
+-interview (#434 — Kapil): today only page-load + CTA on web; the value gap is missing
++interview (#434): today only page-load + CTA on web; the value gap is missing
+ goals and funnels; and product analytics (beyond web) is missing and needed.
+ Reconciled with the `experience` funnel POV (discovery funnel dead, product funnel
+ alive). Intents proposed by Claude per delegation — pending confirmation. NOT a
+diff --git a/core/components/memory/knowledge/domains/collaboration.md b/core/components/memory/knowledge/domains/collaboration.md
+index e6fc6668..3a4cec01 100644
+--- a/core/components/memory/knowledge/domains/collaboration.md
++++ b/core/components/memory/knowledge/domains/collaboration.md
+@@ -4,12 +4,12 @@ title: "Collaboration: people working together on shared things — real-time, p
+ conditions:
+   trigger: "more than one person works on the same content/object — comments, sharing, presence, co-editing"
+   selection_keys: [real-time-need, co-edit-depth, sharing-permission-model, presence-need, scale]
+-provenance: Claude-drafted while Kapil away, reviewed and accepted (#434)
++provenance: Claude-drafted, reviewed and accepted (#434)
+ ---
+ 
+ # Collaboration: how we build it
+ 
+-> **Claude-drafted while Kapil was away; reviewed and accepted by Kapil (#434).**
++> **Claude-drafted; reviewed and accepted (#434).**
+ > Leaned toward this practice's themes (real-time, the experience layer, content,
+ > brand-tone). Accepted as the working shelf.
+ 
+@@ -103,7 +103,7 @@ presence-first, real-time-when-needed domain rather than a heavy standalone buil
+ - Activity volume rises → add AI activity summaries and smarter mention routing.
+ 
+ ## Provenance
+-Claude-drafted while Kapil away, reviewed and accepted (#434). Built on the locked
++Claude-drafted, reviewed and accepted (#434). Built on the locked
+ shelf template, leaned toward the practice's real-time/experience/content themes.
+ Treated as a productivity-product capability / likely hand-off unless the product is
+ inherently collaborative.
+diff --git a/core/components/memory/knowledge/domains/content-management.md b/core/components/memory/knowledge/domains/content-management.md
+index a3dbca43..174f85f3 100644
+--- a/core/components/memory/knowledge/domains/content-management.md
++++ b/core/components/memory/knowledge/domains/content-management.md
+@@ -4,7 +4,7 @@ title: "Content Management: how we build it — product-framed, MACH-first, drag
+ conditions:
+   trigger: "the product authors, models, and publishes content — pages, articles, structured entries, assets"
+   selection_keys: [experience-composability, content-modelling-depth, surfaces, responsive-vs-adaptive, dam-need]
+-provenance: interview (#434 — Kapil)
++provenance: interview (#434)
+ ---
+ 
+ # Content Management: how we build it
+@@ -139,7 +139,7 @@ brand-tone, SEO/GEO/AEO); DAM intelligence (tagging, translation) is adjacent.
+ - Personalization need grows → spin it out as its own domain (pending decision).
+ 
+ ## Provenance
+-interview (#434 — Kapil): headful/headless/hybrid + MACH-first drag-and-drop spine,
++interview (#434): headful/headless/hybrid + MACH-first drag-and-drop spine,
+ product-framing-over-templates POV (the bank-CMO example), responsive-default /
+ adaptive-on-evidence rule, the author/editor/marketer/administrator focus, the
+ migration/design/frontend failure modes, and the SEO/GEO/AEO + brand-tone + DAM
+diff --git a/core/components/memory/knowledge/domains/ecommerce.md b/core/components/memory/knowledge/domains/ecommerce.md
+index 7a4df4e0..f5f33c26 100644
+--- a/core/components/memory/knowledge/domains/ecommerce.md
++++ b/core/components/memory/knowledge/domains/ecommerce.md
+@@ -4,7 +4,7 @@ title: "Ecommerce: how we build it — content-first MACH, selected on the comme
+ conditions:
+   trigger: "the product sells physical or digital goods — catalog, cart, orders, storefront"
+   selection_keys: [commerce-vs-content-weight, sku-count, traffic-volume, merchandising-depth, nfr.performance]
+-provenance: interview (#434 — Kapil) + an eCommerce selection-criterion reference
++provenance: interview (#434) + an eCommerce selection-criterion reference
+ ---
+ 
+ # Ecommerce: how we build it
+@@ -196,7 +196,7 @@ current edge.
+   analysis into the default offer.
+ 
+ ## Provenance
+-interview (#434 — Kapil): MACH/headless + content-first stance, the four-point
++interview (#434): MACH/headless + content-first stance, the four-point
+ commerce↔content selection spectrum (from a selection-criterion reference),
+ the core-journey-first rule, and the named non-negotiables and intelligence
+ features. NOT a generic capability list.
+diff --git a/core/components/memory/knowledge/domains/experience.md b/core/components/memory/knowledge/domains/experience.md
+index 581befc4..f6ef82b1 100644
+--- a/core/components/memory/knowledge/domains/experience.md
++++ b/core/components/memory/knowledge/domains/experience.md
+@@ -4,7 +4,7 @@ title: "Experience: intelligent experience — semantic front-end modeling, inte
+ conditions:
+   trigger: "the product helps people find, understand, and be guided — discovery, intent, conversational/generative/agentic experience, real-time behavioural intervention"
+   selection_keys: [discovery-channel-mix, intent-modelling-need, ax-surface-mix, real-time-behavioural-need, evidence-rigor]
+-provenance: interview (#434 — Kapil) + an "experience intelligence" reference body of work
++provenance: interview (#434) + an "experience intelligence" reference body of work
+ ---
+ 
+ # Experience: intelligent experience
+@@ -83,7 +83,7 @@ risk rises, **escalate to a human**. This is in-session intelligence — not CDP
+ personalisation.
+ 
+ ## Intents this domain captures (proposed — sanity-check)
+-Intent-first. (Kapil delegated the intent list — confirm or correct.)
++Intent-first. (The intent list was drafted on delegation — confirm or correct.)
+ 
+ **Visitor intents**
+ - **Find** — "get me to the right thing" → search, discovery, answer.
+@@ -227,7 +227,7 @@ Evidence-first is what makes any of it defensible to a client.
+   become next" off it.
+ 
+ ## Provenance
+-interview (#434 — Kapil): "intelligent experience" as the core, **semantic
++interview (#434): "intelligent experience" as the core, **semantic
+ front-end modeling = the MOAT**, the funnels-are-wrong / LLMs-own-top-of-funnel POV,
+ conversational vs generative vs agentic (agentic orthogonal), gamified behavioural
+ psychology as real-time/STM (distinct from personalisation), and the mobile/A2UI/
+diff --git a/core/components/memory/knowledge/domains/marketing.md b/core/components/memory/knowledge/domains/marketing.md
+index e5c9e0e5..8daa50b0 100644
+--- a/core/components/memory/knowledge/domains/marketing.md
++++ b/core/components/memory/knowledge/domains/marketing.md
+@@ -4,7 +4,7 @@ title: "Marketing: how we build it — AEO/GEO/SEO for reach + campaign pages fa
+ conditions:
+   trigger: "the product needs reach and acquisition — discoverability for campaigns and fast campaign landing pages"
+   selection_keys: [reach-channel-mix, campaign-page-velocity, attribution-need, consent-regime, omni-channel-need]
+-provenance: interview (#434 — Kapil)
++provenance: interview (#434)
+ ---
+ 
+ # Marketing: how we build it
+@@ -138,7 +138,7 @@ teams from quietly rebuilding the same thing.
+ - Cross-channel becomes the norm → design campaigns omni-channel from the start.
+ 
+ ## Provenance
+-interview (#434 — Kapil): marketing scoped to AEO/GEO/SEO + fast, scalable campaign
++interview (#434): marketing scoped to AEO/GEO/SEO + fast, scalable campaign
+ pages, explicitly NO martech; the three named burns (consent/privacy, omni/cross-
+ channel, web attribution); and the intelligence set (campaign intelligence via
+ analytics, send-time optimisation, dwell-time tracking, GEO/AEO for reach). Intents
+diff --git a/core/components/memory/knowledge/domains/notifications.md b/core/components/memory/knowledge/domains/notifications.md
+index 2f995c66..520041b9 100644
+--- a/core/components/memory/knowledge/domains/notifications.md
++++ b/core/components/memory/knowledge/domains/notifications.md
+@@ -4,7 +4,7 @@ title: "Notifications: real-time, multi-channel, nudge-first — adapt the exper
+ conditions:
+   trigger: "the product reaches a user with a timely message — in-app, push, email, SMS — transactional or lifecycle"
+   selection_keys: [presence-real-time, channel-mix, message-type, player-type-tailoring, consent-regime]
+-provenance: interview (#434 — Kapil)
++provenance: interview (#434)
+ ---
+ 
+ # Notifications: how we build it
+@@ -128,7 +128,7 @@ not noise.
+ - Fatigue shows up → tighten frequency and value thresholds.
+ 
+ ## Provenance
+-interview (#434 — Kapil): real-time, multi-channel, nudge-first; the "if a person is
++interview (#434): real-time, multi-channel, nudge-first; the "if a person is
+ on, nudge the experience not a bell" shift; notifications spans transactional +
+ marketing-type messages while outbound reach stays in `marketing`; per-channel
+ templates defined via the experience layer; brand-tone connects to nudges; and
+diff --git a/core/components/memory/knowledge/domains/payments.md b/core/components/memory/knowledge/domains/payments.md
+index 121d41a1..72407d9d 100644
+--- a/core/components/memory/knowledge/domains/payments.md
++++ b/core/components/memory/knowledge/domains/payments.md
+@@ -4,12 +4,12 @@ title: "Payments: taking money safely — PSP-first, PCI-scope-minimised"
+ conditions:
+   trigger: "the product takes money — card charges, wallets, refunds, fraud control"
+   selection_keys: [shape.monetization, nfr.security, compliance, fraud-risk, regions]
+-provenance: Claude-drafted on delegation, reviewed and accepted by Kapil (#434) + distilled from the wiped payments shelf
++provenance: Claude-drafted on delegation, reviewed and accepted (#434) + distilled from the wiped payments shelf
+ ---
+ 
+ # Payments: taking money safely
+ 
+-> **Claude-drafted on delegation; reviewed and accepted by Kapil (#434).** Kapil
++> **Claude-drafted on delegation; reviewed and accepted (#434).** the owner
+ > asked me to take the first pass here rather than be interviewed, and signed off on
+ > this version. Payments is infrastructure, not the content-led strength of this
+ > practice, so it's treated as a likely **hand-off / partner domain** — same logic
+@@ -104,6 +104,6 @@ heavy payments work — same logic as commerce-heavy `ecommerce`.
+ - Repeat purchase becomes the norm → add saved methods / one-click.
+ 
+ ## Provenance
+-Claude-drafted on delegation, reviewed and accepted by Kapil (#434). Distilled from
++Claude-drafted on delegation, reviewed and accepted (#434). Distilled from
+ the wiped `payments.md` and re-expressed against the v1 product profile and the
+ locked shelf template. Treated as a likely hand-off / partner domain.
+diff --git a/core/components/memory/knowledge/domains/personalization.md b/core/components/memory/knowledge/domains/personalization.md
+index bd127461..f0986422 100644
+--- a/core/components/memory/knowledge/domains/personalization.md
++++ b/core/components/memory/knowledge/domains/personalization.md
+@@ -4,7 +4,7 @@ title: "Personalization: how we build it — content + experience, graded across
+ conditions:
+   trigger: "the product tailors content or experience to the individual or segment"
+   selection_keys: [personalization-maturity-level, content-vs-experience, real-time-need, cdp-need, nfr.privacy]
+-provenance: interview (#434 — Kapil)
++provenance: interview (#434)
+ ---
+ 
+ # Personalization: how we build it
+@@ -48,7 +48,7 @@ top. Don't sell L3 to an L1 client.
+   Personalized **separately** from content — and this is the differentiator.
+ 
+ ## Intents this domain captures (proposed — sanity-check)
+-Intent-first. (Kapil delegated the intent list — confirm or correct.)
++Intent-first. (the owner delegated the intent list — confirm or correct.)
+ 
+ **Visitor intents**
+ - **Be recognised** — "know me across visits and devices" → identity resolution, profile.
+@@ -152,8 +152,8 @@ and proof: consent, cold-start, creepiness, and showing the metric moved.
+ - Experience personalization proves out → invest in it as the differentiating moat.
+ 
+ ## Provenance
+-interview (#434 — Kapil): the three maturity levels (tagging/rules-light → CDP +
++interview (#434): the three maturity levels (tagging/rules-light → CDP +
+ tools → real-time hyper-personalization), content-and-experience-separately with
+ experience personalization as the "shiny MOAT", and "all of it is intelligence,
+-L1 = lightweight rules". Intents proposed by Claude per Kapil's delegation —
++L1 = lightweight rules". Intents proposed by Claude per delegation —
+ pending his confirmation. NOT a generic capability list.
+diff --git a/core/components/memory/knowledge/technology/agent-building-blocks.md b/core/components/memory/knowledge/technology/agent-building-blocks.md
+index 786b282e..efe520a1 100644
+--- a/core/components/memory/knowledge/technology/agent-building-blocks.md
++++ b/core/components/memory/knowledge/technology/agent-building-blocks.md
+@@ -8,7 +8,7 @@ conditions:
+ evolve_when:
+   - architecture/agent-orchestration-patterns
+   - technology/agent-model-selection
+-provenance: "seeded (Kapil + assistant, #434 — agentic seed)"
++provenance: "seeded (#434 — agentic seed)"
+ ---
+ 
+ # Agent building blocks: the seven parts you assemble
+@@ -57,4 +57,4 @@ and which model goes where. See `architecture/agent-orchestration-patterns` and
+ `technology/agent-model-selection`.
+ 
+ ## Provenance
+-seeded (Kapil + assistant, #434).
++seeded (#434).
+diff --git a/core/components/memory/knowledge/technology/agent-deploy-dev-uat-prod.md b/core/components/memory/knowledge/technology/agent-deploy-dev-uat-prod.md
+index 0ab3ef84..f3b13891 100644
+--- a/core/components/memory/knowledge/technology/agent-deploy-dev-uat-prod.md
++++ b/core/components/memory/knowledge/technology/agent-deploy-dev-uat-prod.md
+@@ -7,7 +7,7 @@ conditions:
+   cloud: aws-or-gcp
+   stage: any
+ evolve_when: []
+-provenance: "seeded (Kapil + assistant, #434 — agentic seed)"
++provenance: "seeded (#434 — agentic seed)"
+ ---
+ 
+ # Agent deployment: dev → uat → prod, promotion gated by an eval suite (not just tests)
+@@ -55,4 +55,4 @@ suite can vet them → invest in the eval suite and automate the gate before add
+ autonomy (`architecture/agent-supervised-autonomous`).
+ 
+ ## Provenance
+-seeded (Kapil + assistant, #434).
++seeded (#434).
+diff --git a/core/components/memory/knowledge/technology/agent-model-selection.md b/core/components/memory/knowledge/technology/agent-model-selection.md
+index b7134c40..ab49ba2f 100644
+--- a/core/components/memory/knowledge/technology/agent-model-selection.md
++++ b/core/components/memory/knowledge/technology/agent-model-selection.md
+@@ -7,7 +7,7 @@ conditions:
+   platform: bedrock-or-vertex
+   stage: any
+ evolve_when: []
+-provenance: "seeded (Kapil + assistant, #434 — agentic seed)"
++provenance: "seeded (#434 — agentic seed)"
+ ---
+ 
+ # Agent model selection: frontier model for hard reasoning, small/fast model for the rest
+@@ -50,4 +50,4 @@ A step that a small model handles starts failing (inputs got harder), or a front
+ became routine → re-route that step up or down. Re-run evals on any model change.
+ 
+ ## Provenance
+-seeded (Kapil + assistant, #434).
++seeded (#434).
+diff --git a/core/components/memory/knowledge/technology/agent-platform-bedrock-gcp.md b/core/components/memory/knowledge/technology/agent-platform-bedrock-gcp.md
+index 2f3599a0..4ad6bb72 100644
+--- a/core/components/memory/knowledge/technology/agent-platform-bedrock-gcp.md
++++ b/core/components/memory/knowledge/technology/agent-platform-bedrock-gcp.md
+@@ -8,7 +8,7 @@ conditions:
+   stage: any
+ evolve_when:
+   - technology/agent-deploy-dev-uat-prod
+-provenance: "documented (Kapil, #434 — preferred agent platforms) + assistant"
++provenance: "documented (#434 — preferred agent platforms) + assistant"
+ ---
+ 
+ # Agent platform: build on AWS Bedrock and GCP Vertex AI — managed models, tools, and guardrails
+@@ -56,4 +56,4 @@ The agent is built and working in dev → it needs an environment-promotion and
+ story before it reaches users. See `technology/agent-deploy-dev-uat-prod`.
+ 
+ ## Provenance
+-documented (Kapil, #434) + assistant.
++documented (#434) + assistant.
+diff --git a/core/components/memory/knowledge/technology/astro-content-sites.md b/core/components/memory/knowledge/technology/astro-content-sites.md
+index e19ceeeb..d2ca494b 100644
+--- a/core/components/memory/knowledge/technology/astro-content-sites.md
++++ b/core/components/memory/knowledge/technology/astro-content-sites.md
+@@ -8,7 +8,7 @@ conditions:
+   persistence: none
+   audience: readers-and-sharers
+ evolve_when: []
+-provenance: "documented (a working content-site setup — preferred Astro setup)"
++provenance: "documented (a working content-site setup — the preferred Astro setup)"
+ ---
+ 
+ # Astro content sites: file-based markdown, SSR on Node, with a coauthor edit loop
+diff --git a/core/components/memory/knowledge/technology/delivery-industry-frames-derived.md b/core/components/memory/knowledge/technology/delivery-industry-frames-derived.md
+index 246da482..f7ddf9c7 100644
+--- a/core/components/memory/knowledge/technology/delivery-industry-frames-derived.md
++++ b/core/components/memory/knowledge/technology/delivery-industry-frames-derived.md
+@@ -6,7 +6,7 @@ conditions:
+   delivery: agent-led
+   stage: any
+ evolve_when: []
+-provenance: "documented (Kapil, #434 — measurement interview, 2026-06-11)"
++provenance: "documented (#434 — measurement interview, 2026-06-11)"
+ ---
+ 
+ # Industry delivery frames (DORA/Flow/SPACE/DX) are derived translations of the triangle, never the primary
+@@ -36,7 +36,7 @@ reporting) alongside the triangle.
+     adjustment rounds, review time, /launch defect count) IS the experience measure —
+     with agents building, "team experience" means how much directing the human gets to
+     do versus correcting.
+-- Position (Kapil): this is the **moat** — a new way of tracking product delivery. The
++- Position: this is the **moat** — a new way of tracking product delivery. The
+   industry frames are what people get today, and the bet is they go obsolete as
+   agent-led adoption matures: when product is delivered every day, deployment
+   frequency and lead time stop discriminating. Until then, the translations keep us
+@@ -54,4 +54,4 @@ translation; a stakeholder needs a frame not listed → add a translation, never
+ parallel claim.
+ 
+ ## Provenance
+-documented (Kapil, #434 — measurement interview).
++documented (#434 — measurement interview).
+diff --git a/core/components/memory/knowledge/technology/delivery-one-shot-cleanliness.md b/core/components/memory/knowledge/technology/delivery-one-shot-cleanliness.md
+index 92a28c4f..4e951eb4 100644
+--- a/core/components/memory/knowledge/technology/delivery-one-shot-cleanliness.md
++++ b/core/components/memory/knowledge/technology/delivery-one-shot-cleanliness.md
+@@ -6,7 +6,7 @@ conditions:
+   delivery: agent-led
+   stage: any
+ evolve_when: []
+-provenance: "documented (Kapil, #434 — measurement interview, 2026-06-11)"
++provenance: "documented (#434 — measurement interview, 2026-06-11)"
+ ---
+ 
+ # One-shot cleanliness: deployed and running first try, zero errors, deterministic gates green
+@@ -47,4 +47,4 @@ the gate list here; /capture shows one-shot is consistently met → tighten what
+ as "clean" (e.g. include perceived-quality review).
+ 
+ ## Provenance
+-documented (Kapil, #434 — measurement interview).
++documented (#434 — measurement interview).
+diff --git a/core/components/memory/knowledge/technology/delivery-triangle.md b/core/components/memory/knowledge/technology/delivery-triangle.md
+index 40da9547..3f6110bc 100644
+--- a/core/components/memory/knowledge/technology/delivery-triangle.md
++++ b/core/components/memory/knowledge/technology/delivery-triangle.md
+@@ -6,13 +6,13 @@ conditions:
+   delivery: agent-led
+   stage: any
+ evolve_when: []
+-provenance: "documented (Kapil, #434 — measurement interview, 2026-06-11)"
++provenance: "documented (#434 — measurement interview, 2026-06-11)"
+ ---
+ 
+ # The delivery triangle: minimum tokens and cognition for maximum speed
+ 
+ ## Topic
+-THE primary frame for measuring delivery on an agent-led pipeline — Kapil's frame, and
++THE primary frame for measuring delivery on an agent-led pipeline — the owner's frame, and
+ the moat. Three axes, one objective: the right spend of tokens and cognition to get the
+ maximum speed. This is what a slice's measure lens grounds its metric choices in;
+ industry frames (DORA/Flow/SPACE/DX) are derived translations, never the primary
+@@ -58,4 +58,4 @@ Real slice deliveries show an axis is mis-priced (e.g. token cost becomes neglig
+ or a better cognition proxy emerges from /capture data) → reweight via /learn.
+ 
+ ## Provenance
+-documented (Kapil, #434 — measurement interview).
++documented (#434 — measurement interview).
+diff --git a/core/components/memory/knowledge/technology/frontend-component-orchestration.md b/core/components/memory/knowledge/technology/frontend-component-orchestration.md
+index a0199225..128351bc 100644
+--- a/core/components/memory/knowledge/technology/frontend-component-orchestration.md
++++ b/core/components/memory/knowledge/technology/frontend-component-orchestration.md
+@@ -170,7 +170,7 @@ keeps the library from sprawling. The costs are real and worth naming:
+ - **Component file > 300 lines** — refactor target; past 500 is critical.
+ 
+ ## Provenance
+-documented (the user's frontend-component-orchestration design, recovered from
++documented (a frontend-component-orchestration design, recovered from
+ the prior KB into the v1 KB under #434). Companion learnings referenced in the
+ original (modular-monolith backend, the React+Next.js stack choice, and the
+ component-architecture audit checklist) were also in the prior KB and are not yet
+diff --git a/core/components/memory/knowledge/technology/gcp-modular-monolith-runtime.md b/core/components/memory/knowledge/technology/gcp-modular-monolith-runtime.md
+index 6160db9d..26208628 100644
+--- a/core/components/memory/knowledge/technology/gcp-modular-monolith-runtime.md
++++ b/core/components/memory/knowledge/technology/gcp-modular-monolith-runtime.md
+@@ -8,7 +8,7 @@ conditions:
+   persistence: some-to-full
+   datastore: postgresql
+ evolve_when: []
+-provenance: "documented (Kapil, #434 — preferred runtime for a modular monolith)"
++provenance: "documented (#434 — preferred runtime for a modular monolith)"
+ ---
+ 
+ # Modular-monolith runtime on GCP: Cloud Run + Cloud SQL Postgres, cache only when it earns it, secure by default
+@@ -62,4 +62,4 @@ the product back → climb to a microservices runtime (each service its own depl
+ See `architecture/microservices`.
+ 
+ ## Provenance
+-documented (Kapil, #434).
++documented (#434).
+diff --git a/core/components/memory/knowledge/technology/quick-prototype-html-first.md b/core/components/memory/knowledge/technology/quick-prototype-html-first.md
+index 9aa30fa6..d9d2d325 100644
+--- a/core/components/memory/knowledge/technology/quick-prototype-html-first.md
++++ b/core/components/memory/knowledge/technology/quick-prototype-html-first.md
+@@ -8,7 +8,7 @@ conditions:
+   audience: self-then-share
+ evolve_when:
+   - technology/astro-content-sites
+-provenance: "documented (the user's preferred prototyping flow)"
++provenance: "documented (a preferred prototyping flow)"
+ ---
+ 
+ # Quick prototype: HTML-first with readable logic, then promote to Astro to share
+@@ -66,5 +66,5 @@ content-led until it genuinely needs to become an application.
+ | HTML-first prototype | [React + Next.js](./frontend-react-nextjs.md) app | it becomes a real product — persistence, users, load |
+ 
+ ## Provenance
+-documented — the user's stated prototyping flow (HTML-first, readable logic, then
++documented — a stated prototyping flow (HTML-first, readable logic, then
+ Astro to share), captured into the v1 KB.
+diff --git a/core/components/memory/knowledge/technology/run-environments-canary-migrations.md b/core/components/memory/knowledge/technology/run-environments-canary-migrations.md
+index efaa5db9..ad630ec5 100644
+--- a/core/components/memory/knowledge/technology/run-environments-canary-migrations.md
++++ b/core/components/memory/knowledge/technology/run-environments-canary-migrations.md
+@@ -7,7 +7,7 @@ conditions:
+   stage: internal-or-early
+   cloud: any
+ evolve_when: []
+-provenance: "documented (Kapil — run-lens checkpoint of a live deployment, Token data spine slice, 2026-06-11) + assistant"
++provenance: "documented (run-lens checkpoint of a live deployment, Token data spine slice, 2026-06-11) + assistant"
+ ---
+ 
+ # Release discipline for a modular monolith: fixture-only local, sanitized staging, cohort canary, flags as rollback, additive migrations
+@@ -94,5 +94,5 @@ the monolith → per-service pipelines and per-service migration discipline
+ (`architecture/microservices`).
+ 
+ ## Provenance
+-documented (Kapil — run-lens checkpoint of a live deployment, "Token data spine" slice,
++documented (run-lens checkpoint of a live deployment, "Token data spine" slice,
+ 2026-06-11) + assistant.
+diff --git a/core/components/memory/knowledge/technology/ux-accessibility-floor.md b/core/components/memory/knowledge/technology/ux-accessibility-floor.md
+index 23f8d5dd..fde0d08a 100644
+--- a/core/components/memory/knowledge/technology/ux-accessibility-floor.md
++++ b/core/components/memory/knowledge/technology/ux-accessibility-floor.md
+@@ -5,7 +5,7 @@ conditions:
+   surface: any-public-ui
+   stage: any
+ evolve_when: []
+-provenance: "seeded (assistant, #434 — accepted by Kapil)"
++provenance: "seeded (assistant, #434 — reviewed and accepted)"
+ ---
+ 
+ # Accessibility is a gate, not a feature: WCAG AA, keyboard-first, semantic HTML
+@@ -49,4 +49,4 @@ a regulated-sector requirement) → raise the profile's a11y bar for that produc
+ here still holds as the minimum.
+ 
+ ## Provenance
+-seeded (assistant, #434 — accepted by Kapil).
++seeded (assistant, #434 — reviewed and accepted).
+diff --git a/core/components/memory/knowledge/technology/ux-design-system-tokens.md b/core/components/memory/knowledge/technology/ux-design-system-tokens.md
+index 6907cb9d..2e411e0b 100644
+--- a/core/components/memory/knowledge/technology/ux-design-system-tokens.md
++++ b/core/components/memory/knowledge/technology/ux-design-system-tokens.md
+@@ -5,7 +5,7 @@ conditions:
+   surface: web-app-or-site
+   stage: any
+ evolve_when: []
+-provenance: "seeded (assistant, #434 — accepted by Kapil)"
++provenance: "seeded (assistant, #434 — reviewed and accepted)"
+ ---
+ 
+ # Design tokens + component reuse: the visual core sits on a small token set
+@@ -46,4 +46,4 @@ inconsistent → formalize into a fuller design system (documented components, u
+ rather than letting tokens proliferate ad hoc.
+ 
+ ## Provenance
+-seeded (assistant, #434 — accepted by Kapil).
++seeded (assistant, #434 — reviewed and accepted).
+diff --git a/core/components/memory/knowledge/technology/ux-forms-and-validation.md b/core/components/memory/knowledge/technology/ux-forms-and-validation.md
+index 3b9f82a7..63454a3f 100644
+--- a/core/components/memory/knowledge/technology/ux-forms-and-validation.md
++++ b/core/components/memory/knowledge/technology/ux-forms-and-validation.md
+@@ -6,7 +6,7 @@ conditions:
+   has-forms: true
+   stage: any
+ evolve_when: []
+-provenance: "seeded (assistant, #434 — accepted by Kapil)"
++provenance: "seeded (assistant, #434 — reviewed and accepted)"
+ ---
+ 
+ # Forms: inline validation, progressive disclosure, autosave, plain-language recovery
+@@ -48,4 +48,4 @@ input) → add a step pattern (a wizard with a progress indicator, save-and-resu
+ validation/confirmation, rather than stretching a single long form.
+ 
+ ## Provenance
+-seeded (assistant, #434 — accepted by Kapil).
++seeded (assistant, #434 — reviewed and accepted).
+diff --git a/core/components/memory/knowledge/technology/ux-navigation-by-shape.md b/core/components/memory/knowledge/technology/ux-navigation-by-shape.md
+index a3043f06..9e1ff654 100644
+--- a/core/components/memory/knowledge/technology/ux-navigation-by-shape.md
++++ b/core/components/memory/knowledge/technology/ux-navigation-by-shape.md
+@@ -5,7 +5,7 @@ conditions:
+   surface: web-app-or-site
+   stage: any
+ evolve_when: []
+-provenance: "seeded (assistant, #434 — accepted by Kapil)"
++provenance: "seeded (assistant, #434 — reviewed and accepted)"
+ ---
+ 
+ # Navigation follows product shape: sidebar for tools, top-nav for content, drawer for focus
+@@ -45,4 +45,4 @@ tool, or a sidebar passes ~7 top-level items) → re-shape the nav (introduce se
+ search, or grouping) rather than cramming more into the existing bar.
+ 
+ ## Provenance
+-seeded (assistant, #434 — accepted by Kapil).
++seeded (assistant, #434 — reviewed and accepted).
+diff --git a/core/components/memory/knowledge/technology/ux-responsive-default-adaptive-on-evidence.md b/core/components/memory/knowledge/technology/ux-responsive-default-adaptive-on-evidence.md
+index 16295046..c127551d 100644
+--- a/core/components/memory/knowledge/technology/ux-responsive-default-adaptive-on-evidence.md
++++ b/core/components/memory/knowledge/technology/ux-responsive-default-adaptive-on-evidence.md
+@@ -6,7 +6,7 @@ conditions:
+   multi-device: true
+   stage: any
+ evolve_when: []
+-provenance: "documented (Kapil's stated POV, #434) + assistant"
++provenance: "documented (stated POV, #434) + assistant"
+ ---
+ 
+ # Responsive by default, adaptive only on evidence
+@@ -41,4 +41,4 @@ Analytics or usability testing shows a specific device failing a specific key ta
+ responsive layout → build an adaptive layout for that case (and only that case).
+ 
+ ## Provenance
+-documented (Kapil's POV, #434) + assistant.
++documented (POV, #434) + assistant.
+diff --git a/core/components/memory/knowledge/technology/ux-state-and-feedback.md b/core/components/memory/knowledge/technology/ux-state-and-feedback.md
+index a0f18e31..49a0c297 100644
+--- a/core/components/memory/knowledge/technology/ux-state-and-feedback.md
++++ b/core/components/memory/knowledge/technology/ux-state-and-feedback.md
+@@ -5,7 +5,7 @@ conditions:
+   surface: web-app-or-site
+   stage: any
+ evolve_when: []
+-provenance: "seeded (assistant, #434 — accepted by Kapil)"
++provenance: "seeded (assistant, #434 — reviewed and accepted)"
+ ---
+ 
+ # Every screen handles its states; every action gives feedback
+@@ -45,4 +45,4 @@ A screen's data or actions get more complex (real-time updates, multi-step async
+ new states unhandled.
+ 
+ ## Provenance
+-seeded (assistant, #434 — accepted by Kapil).
++seeded (assistant, #434 — reviewed and accepted).
+diff --git a/core/components/memory/knowledge/technology/validation-floor-profile-benchmarks.md b/core/components/memory/knowledge/technology/validation-floor-profile-benchmarks.md
+index e660ce56..aba44a0b 100644
+--- a/core/components/memory/knowledge/technology/validation-floor-profile-benchmarks.md
++++ b/core/components/memory/knowledge/technology/validation-floor-profile-benchmarks.md
+@@ -6,7 +6,7 @@ conditions:
+   delivery: agent-led
+   stage: any
+ evolve_when: []
+-provenance: "documented (Kapil, #434 — validate interview, 2026-06-12)"
++provenance: "documented (#434 — validate interview, 2026-06-12)"
+ ---
+ 
+ # Green is the entry, the profile floor is the bar
+@@ -50,4 +50,4 @@ floors emerge (e.g. every product lands on the same coverage floor) → consider
+ documented default here, still overrideable per profile.
+ 
+ ## Provenance
+-documented (Kapil, #434 — validate interview, 2026-06-12).
++documented (#434 — validate interview, 2026-06-12).
+diff --git a/core/components/memory/standards/rules/builder-isolation.md b/core/components/memory/standards/rules/builder-isolation.md
+index bcd8bcd8..02ea0c7b 100644
+--- a/core/components/memory/standards/rules/builder-isolation.md
++++ b/core/components/memory/standards/rules/builder-isolation.md
+@@ -80,5 +80,5 @@ checks results after construction is complete (failure condition).
+ 
+ ## Provenance
+ 
+-- Source article: the source article "An intent is three things: the goal"
++- Source article: "An intent is three things: the goal"
+ - Originating issue: #388
+diff --git a/core/components/memory/standards/rules/no-unbacked-recommendation.md b/core/components/memory/standards/rules/no-unbacked-recommendation.md
+index 0784f3b3..97476ab4 100644
+--- a/core/components/memory/standards/rules/no-unbacked-recommendation.md
++++ b/core/components/memory/standards/rules/no-unbacked-recommendation.md
+@@ -4,7 +4,7 @@
+ the source that backs it. Where it cannot, it says nothing — it never fills the gap with a
+ default, a generic pointer, or another play's name.
+ 
+-Kapil, 2026-09-08: *"there is a cardinal rule. its better to not recommend if you dont
++the owner, 2026-09-08: *"there is a cardinal rule. its better to not recommend if you dont
+ know rather than recommending wrongly."*
+ 
+ ## The failure this exists to stop
+diff --git a/core/components/memory/standards/schemas/product-os/lens/measure.yaml b/core/components/memory/standards/schemas/product-os/lens/measure.yaml
+index 13140f3f..9cad0b42 100644
+--- a/core/components/memory/standards/schemas/product-os/lens/measure.yaml
++++ b/core/components/memory/standards/schemas/product-os/lens/measure.yaml
+@@ -17,7 +17,7 @@ content:
+   focus: string             # one line — the team benefit this slice's delivery drives
+   metrics:                  # >=1 — each entry is a provable claim
+     - framework: string     # triangle | dora | flow | space | dx
+-                            #   triangle = Kapil's PRIMARY frame — the three axes
++                            #   triangle = the PRIMARY frame — the three axes
+                             #   speed / tokens / cognition: min token + cognition
+                             #   spend for max speed. dora/flow/space/dx are the
+                             #   industry frames, kept alongside ("do both").
+diff --git a/core/components/memory/standards/schemas/product-os/ontology.md b/core/components/memory/standards/schemas/product-os/ontology.md
+index 96ea9c8d..f649bdc6 100644
+--- a/core/components/memory/standards/schemas/product-os/ontology.md
++++ b/core/components/memory/standards/schemas/product-os/ontology.md
+@@ -135,7 +135,7 @@ proposed → confirmed (the person who asked confirms it says the right thing) 
+ > **Read on:** 8 October 2026
+ > **Snapshot:** `_evidence/intent/20261008-1412/` — 6 screenshots, from the cart to the order confirmation
+ > **What it shows:** A checkout with a "continue as guest" button; no sign-up step; card and wallet payments.
+-> **Given by:** Kapil Viren Ahuja
++> **Given by:** the owner
+ 
+ ### ICE
+ 
+@@ -196,10 +196,10 @@ proposed → confirmed (the person who asked confirms it says the right thing) 
+ 
+ ## Log
+ 
+-- 2026-10-08 — First version, built with Kapil through `build-product-ontology` for #612: six questions; kinds Business Intent, Source and ICE (reused from `ice.yaml`); Work, Tracker Issue, Domain, Capability and Function named but not yet defined. Working notes: `.garura/project/issues/612/specs/ontology-run.md`.
+-- 2026-10-08 — v2: a Source is anything that explains the intent — a prototype, a document, or a plain statement — not only a prototype (Kapil, approving `/intent`'s intent). Snapshot and Kind widened to match.
++- 2026-10-08 — First version, built through `build-product-ontology` for #612: six questions; kinds Business Intent, Source and ICE (reused from `ice.yaml`); Work, Tracker Issue, Domain, Capability and Function named but not yet defined. Working notes: `.garura/project/issues/612/specs/ontology-run.md`.
++- 2026-10-08 — v2: a Source is anything that explains the intent — a prototype, a document, or a plain statement — not only a prototype (approving `/intent`'s intent). Snapshot and Kind widened to match.
+ - 2026-10-08 — A Source may be a project folder (its written docs are kept; the running app is captured as a second, site Source).
+-- 2026-10-09 — v3 (Kapil, #612): no play owns a kind — any play writes what it finds, in any order; rules say what holds once aligned and never block a write; drift goes to the Alignment drive. Only a person confirms or drops a business intent. The writer rule for ICE is gone. (Where ICE lives and when it is workable: see the next entry, which replaced a first idea of separate ICE files.)
++- 2026-10-09 — v3 (#612): no play owns a kind — any play writes what it finds, in any order; rules say what holds once aligned and never block a write; drift goes to the Alignment drive. Only a person confirms or drops a business intent. The writer rule for ICE is gone. (Where ICE lives and when it is workable: see the next entry, which replaced a first idea of separate ICE files.)
+ - 2026-10-09 — Review of #631: "Function" renamed "Functionality" to match the glossary and the spine; any play may write a kind only inside its own declared write scope (`direct-model-write.md`).
+-- 2026-10-09 — Kapil, on review of #631: ICE lives inline in its node's grounding doc (spine v2), never as a separate file; a capability may exist before its domain (`/vision` attaches it); an ICE is workable only when built from a confirmed business intent (spine `intents`) — unlinked ICE is kept, not worked on, never blocked.
+-- 2026-10-17 — v4 (Kapil, #637): one product model that every play writes, at the depth it knows, and nothing waits for another play. ICE now has one named place — `## Agent intent (ICE)`, the last section of a capability's or functionality's page, in labelled lines filled as far as is known; expected once the node names a business intent (missing is a linter warning, so earlier pages still pass). A business intent's touches are kept on its page as a **Touches** list (adds / changes / removes, with links), and the domain's spine entry gains `intents`, so every part an intent touches is linked both ways. A domain page is light (directional) or full (detailed), like a capability's. Design: `.garura/project/issues/637/specs/design.md`.
++- 2026-10-09 — On review of #631: ICE lives inline in its node's grounding doc (spine v2), never as a separate file; a capability may exist before its domain (`/vision` attaches it); an ICE is workable only when built from a confirmed business intent (spine `intents`) — unlinked ICE is kept, not worked on, never blocked.
++- 2026-10-17 — v4 (#637): one product model that every play writes, at the depth it knows, and nothing waits for another play. ICE now has one named place — `## Agent intent (ICE)`, the last section of a capability's or functionality's page, in labelled lines filled as far as is known; expected once the node names a business intent (missing is a linter warning, so earlier pages still pass). A business intent's touches are kept on its page as a **Touches** list (adds / changes / removes, with links), and the domain's spine entry gains `intents`, so every part an intent touches is linked both ways. A domain page is light (directional) or full (detailed), like a capability's. Design: `.garura/project/issues/637/specs/design.md`.
+diff --git a/core/components/memory/standards/templates/adr.md b/core/components/memory/standards/templates/adr.md
+index a00303a9..f026f1c8 100644
+--- a/core/components/memory/standards/templates/adr.md
++++ b/core/components/memory/standards/templates/adr.md
+@@ -151,7 +151,7 @@ from this template its header would read:
+ **Status:** Accepted
+ **Date:** 2026-10-09
+ **Level:** framework
+-**Decided by:** Kapil · **Decided in:** #612 (the /intent play) and the review of PR #631
++**Decided by:** the owner · **Decided in:** #612 (the /intent play) and the review of PR #631
+ **Amends:** ADR 029 — §6, what /intent and /vision do in Kickoff · ADR 027 — the IDSD row · ADR 026 — /intent by hand confirms before it writes
+ **Affects:** ontology.md (v3), spine.yaml, every lint_grounding.py copy, play-creator, gate-config.md, direct-model-write.md
+ **ICE impact:** ICE may be written before its capability has a domain; an ICE is workable only when built from a confirmed business intent
+diff --git a/core/components/plays/install-garura/scripts/install.py b/core/components/plays/install-garura/scripts/install.py
+index 0bf627fe..dd009b4d 100644
+--- a/core/components/plays/install-garura/scripts/install.py
++++ b/core/components/plays/install-garura/scripts/install.py
+@@ -109,8 +109,7 @@ def transform_config(content, project_name, tool):
+     """Transform garura's own config for a target project + host tool.
+ 
+     name->project name, type->Project, component paths->the tool's install
+-    location, memory->the shared ~/.garura, and drop the platform/github lines
+-    (a fresh project sets its own).
++    location, and drop the platform/github lines (a fresh project sets its own).
+     """
+     cp = _COMPONENT_PATHS[tool]
+     out_lines = []
+@@ -130,7 +129,6 @@ def transform_config(content, project_name, tool):
+         line = re.sub(r"^(\s*skills:\s*).+$", r"\1" + cp["skills"], line)
+         line = re.sub(r"^(\s*plays:\s*).+$", r"\1" + cp["plays"], line)
+         line = re.sub(r"^(\s*agents:\s*).+$", r"\1" + cp["agents"], line)
+-        line = re.sub(r"^(\s*memory:\s*).+$", r"\1~/.garura/core/memory/", line)
+         out_lines.append(line)
+     text = "\n".join(out_lines)
+     text = re.sub(r"\n{3,}", "\n\n", text)
+diff --git a/core/tools/memory/contract/check_contract.py b/core/tools/memory/contract/check_contract.py
+index 9e3b32b2..18a31490 100644
+--- a/core/tools/memory/contract/check_contract.py
++++ b/core/tools/memory/contract/check_contract.py
+@@ -39,7 +39,7 @@
+ # Strings that would tie the folder to one project's layout, the framework's source
+ # tree, or one machine. Built from parts so this file does not trip its own scan.
+ FORBIDDEN = tuple("".join(parts) for parts in (
+-    (".", "garura"), (".", "claude/"), ("core/", "components"), ("core/", "grounding"),
++    (".", "garura/"), (".", "claude/"), ("core/", "components"), ("core/", "grounding"),
+     ("docs/", "adr"), ("/", "Users/"), ("/", "home/"),
+ ))
+ 
+diff --git a/core/tools/memory/pull.py b/core/tools/memory/pull.py
+new file mode 100644
+index 00000000..90e90c78
+--- /dev/null
++++ b/core/tools/memory/pull.py
+@@ -0,0 +1,169 @@
++#!/usr/bin/env python3
++"""
++pull.py — the memory tool's pull and pulled commands, on folders (contract version 1).
++
++    python3 pull.py pull <path-or-glob>... [--phoenix DIR] [--garura DIR]
++    python3 pull.py pulled [--behind] [--phoenix DIR] [--garura DIR]
++
++Phoenix memory is a git repository on disk. Garura memory is a folder in the project.
++Their places come from the flags, else from MEMORY_PHOENIX_ROOT and MEMORY_GARURA_ROOT —
++never from a fixed path.
++
++pull copies pieces from Phoenix memory into Garura memory, at the same path. Nothing
++leaves Phoenix memory. Each piece is recorded in Garura memory's pulled list, pulled.json:
++its path, the Phoenix version it came from (the repository's commit) and the fingerprint
++of its text. Pulling a piece again refreshes its entry.
++
++pulled lists those pieces with the current Phoenix version, and says which are behind:
++the text in Phoenix memory no longer matches the fingerprint that was pulled.
++
++Answers are JSON in the contract's shapes (contract/v1.json). pull prints one answer per
++piece, one per line. Exit 0 when every answer is ok, 1 when any is an error.
++Standard library only, Python 3.10 or newer.
++"""
++
++import argparse
++import glob
++import hashlib
++import json
++import os
++import re
++import shutil
++import subprocess
++import sys
++
++CONTRACT_VERSION = "1"
++LIST = "pulled.json"
++SAFE_PATH = re.compile(r"^(?!/)(?!.*\.\.)[^\\\n\r]+\Z")
++
++
++class Refusal(Exception):
++    """An answer the contract gives as an error."""
++
++    def __init__(self, code, message, tier=None):
++        super().__init__(message)
++        self.code, self.message, self.tier = code, message, tier
++
++
++def error(command, refusal):
++    return {"ok": False, "contract_version": CONTRACT_VERSION, "command": command,
++            "error": {"code": refusal.code, "message": refusal.message, "tier": refusal.tier}}
++
++
++def fingerprint_file(path):
++    with open(path, "rb") as fh:
++        return "sha256:" + hashlib.sha256(fh.read()).hexdigest()
++
++
++def roots(phoenix, garura):
++    """The two tiers' folders, from the flags or the environment."""
++    phoenix = phoenix or os.environ.get("MEMORY_PHOENIX_ROOT")
++    garura = garura or os.environ.get("MEMORY_GARURA_ROOT")
++    if not phoenix and not garura:
++        raise Refusal("settings_missing", "No setting for Phoenix memory or Garura memory "
++                      "(--phoenix/--garura or MEMORY_PHOENIX_ROOT/MEMORY_GARURA_ROOT).")
++    for tier, path in (("phoenix", phoenix), ("garura", garura)):
++        if not path:
++            raise Refusal("tier_missing", f"{tier} memory has no setting.", tier)
++        if not os.path.isdir(os.path.expanduser(path)):
++            raise Refusal("tier_missing", f"{tier} memory cannot be reached at its setting.", tier)
++    return os.path.expanduser(phoenix), os.path.expanduser(garura)
++
++
++def version(phoenix):
++    """Phoenix memory's version: the commit it is at."""
++    run = subprocess.run(["git", "-C", phoenix, "rev-parse", "--short=12", "HEAD"],
++                         capture_output=True, text=True)
++    if run.returncode != 0 or not run.stdout.strip():
++        raise Refusal("tier_missing", "Phoenix memory is not a git repository with a commit.", "phoenix")
++    return run.stdout.strip()
++
++
++def expand(phoenix, pattern):
++    """The pieces of Phoenix memory a path or glob names, as paths relative to its root."""
++    if not SAFE_PATH.match(pattern):
++        raise Refusal("bad_request", f"{pattern!r} is not a path inside a tier.")
++    if any(c in pattern for c in "*?["):
++        found = glob.glob(os.path.join(phoenix, pattern), recursive=True)
++        rels = sorted(os.path.relpath(p, phoenix) for p in found if os.path.isfile(p))
++        rels = [r for r in rels if not r.startswith(".git" + os.sep) and os.sep + ".git" + os.sep not in r]
++    else:
++        rels = [pattern] if os.path.isfile(os.path.join(phoenix, pattern)) else []
++    if not rels:
++        raise Refusal("not_found", f"Phoenix memory holds nothing at {pattern!r}.", "phoenix")
++    return [r.replace(os.sep, "/") for r in rels]
++
++
++def read_list(garura):
++    path = os.path.join(garura, LIST)
++    if not os.path.isfile(path):
++        return {}
++    with open(path, encoding="utf-8") as fh:
++        return {p["path"]: p for p in json.load(fh)["pieces"]}
++
++
++def write_list(garura, entries):
++    data = {"pieces": [entries[k] for k in sorted(entries)]}
++    with open(os.path.join(garura, LIST), "w", encoding="utf-8") as fh:
++        json.dump(data, fh, indent=2)
++        fh.write("\n")
++
++
++def pull(phoenix, garura, patterns):
++    """Copy each named piece into Garura memory and record it. Returns the answers."""
++    at = version(phoenix)
++    entries, answers = read_list(garura), []
++    for pattern in patterns:
++        try:
++            rels = expand(phoenix, pattern)
++        except Refusal as r:
++            answers.append(error("pull", r))
++            continue
++        for rel in rels:
++            src, dest = os.path.join(phoenix, rel), os.path.join(garura, rel)
++            os.makedirs(os.path.dirname(dest), exist_ok=True)
++            shutil.copyfile(src, dest)
++            fp = fingerprint_file(dest)
++            entries[rel] = {"path": rel, "version": at, "fingerprint": fp}
++            answers.append({"ok": True, "contract_version": CONTRACT_VERSION, "command": "pull",
++                            "tier": "garura", "path": rel, "version": at, "fingerprint": fp})
++    write_list(garura, entries)
++    return answers
++
++
++def pulled(phoenix, garura, behind_only=False):
++    """What Garura memory pulled, and which pieces are behind Phoenix memory."""
++    now, pieces = version(phoenix), []
++    for rel, entry in sorted(read_list(garura).items()):
++        src = os.path.join(phoenix, rel)
++        behind = not os.path.isfile(src) or fingerprint_file(src) != entry["fingerprint"]
++        if behind or not behind_only:
++            pieces.append({"path": rel, "version": entry["version"], "current_version": now,
++                           "behind": behind})
++    return {"ok": True, "contract_version": CONTRACT_VERSION, "command": "pulled", "pieces": pieces}
++
++
++def main(argv=None):
++    ap = argparse.ArgumentParser(description=__doc__.splitlines()[1])
++    sub = ap.add_subparsers(dest="command", required=True)
++    p_pull = sub.add_parser("pull")
++    p_pull.add_argument("patterns", nargs="+")
++    p_pulled = sub.add_parser("pulled")
++    p_pulled.add_argument("--behind", action="store_true")
++    for p in (p_pull, p_pulled):
++        p.add_argument("--phoenix")
++        p.add_argument("--garura")
++    ns = ap.parse_args(argv)
++    try:
++        phoenix, garura = roots(ns.phoenix, ns.garura)
++        answers = pull(phoenix, garura, ns.patterns) if ns.command == "pull" else [
++            pulled(phoenix, garura, ns.behind)]
++    except Refusal as r:
++        answers = [error(ns.command, r)]
++    for a in answers:
++        print(json.dumps(a))
++    return 0 if all(a["ok"] for a in answers) else 1
++
++
++if __name__ == "__main__":
++    sys.exit(main())
+diff --git a/core/tools/memory/test_pull.py b/core/tools/memory/test_pull.py
+new file mode 100644
+index 00000000..a58b5a59
+--- /dev/null
++++ b/core/tools/memory/test_pull.py
+@@ -0,0 +1,151 @@
++#!/usr/bin/env python3
++"""Tests for pull.py. Run from the tool's folder: python3 test_pull.py"""
++
++import contextlib
++import io
++import json
++import os
++import subprocess
++import sys
++import tempfile
++import unittest
++
++HERE = os.path.dirname(os.path.abspath(__file__))
++sys.path.insert(0, HERE)
++sys.path.insert(0, os.path.join(HERE, "contract"))
++import check_contract as cc  # noqa: E402
++import pull  # noqa: E402
++
++CONTRACT = cc.load(os.path.join(HERE, "contract", "v1.json"))
++
++
++def git(repo, *args):
++    subprocess.run(["git", "-C", repo, *args], check=True, capture_output=True)
++
++
++def write(root, rel, text):
++    path = os.path.join(root, rel)
++    os.makedirs(os.path.dirname(path), exist_ok=True)
++    with open(path, "w", encoding="utf-8") as fh:
++        fh.write(text)
++
++
++def answers_of(command, request, answers):
++    """Each answer must match the contract's response shape for its command."""
++    spec = CONTRACT["commands"][command]["response"]
++    return [cc.validate(a, spec, CONTRACT) for a in answers]
++
++
++class Tiers(unittest.TestCase):
++    def setUp(self):
++        self.phoenix = tempfile.mkdtemp()
++        self.garura = tempfile.mkdtemp()
++        git(self.phoenix, "init", "-q", "-b", "main")
++        git(self.phoenix, "config", "user.email", "t@example.com")
++        git(self.phoenix, "config", "user.name", "test")
++        write(self.phoenix, "standards/rules/commits.md", "# Commits\nSubject under 72.\n")
++        write(self.phoenix, "standards/templates/adr.md", "# ADR template\n")
++        write(self.phoenix, "knowledge/domains/payments.md", "# Payments\n")
++        self.commit("seed")
++
++    def commit(self, message):
++        git(self.phoenix, "add", "-A")
++        git(self.phoenix, "commit", "-q", "-m", message)
++        return pull.version(self.phoenix)
++
++
++class Pull(Tiers):
++    def test_one_piece(self):
++        answers = pull.pull(self.phoenix, self.garura, ["standards/rules/commits.md"])
++        self.assertEqual(answers_of("pull", {}, answers), [[]])
++        a = answers[0]
++        self.assertEqual((a["tier"], a["path"], a["version"]), ("garura", "standards/rules/commits.md",
++                                                                 pull.version(self.phoenix)))
++        with open(os.path.join(self.garura, "standards/rules/commits.md"), encoding="utf-8") as fh:
++            self.assertEqual(fh.read(), "# Commits\nSubject under 72.\n")
++        self.assertEqual(a["fingerprint"], cc.fingerprint("# Commits\nSubject under 72.\n"))
++
++    def test_nothing_leaves_phoenix(self):
++        pull.pull(self.phoenix, self.garura, ["standards/**"])
++        self.assertTrue(os.path.isfile(os.path.join(self.phoenix, "standards/rules/commits.md")))
++
++    def test_glob_pulls_only_what_it_names(self):
++        answers = pull.pull(self.phoenix, self.garura, ["standards/**"])
++        self.assertEqual(sorted(a["path"] for a in answers),
++                         ["standards/rules/commits.md", "standards/templates/adr.md"])
++        self.assertFalse(os.path.exists(os.path.join(self.garura, "knowledge")))
++
++    def test_the_list_records_each_piece_once(self):
++        pull.pull(self.phoenix, self.garura, ["standards/**"])
++        write(self.phoenix, "standards/rules/commits.md", "# Commits\nSubject under 60.\n")
++        later = self.commit("change")
++        pull.pull(self.phoenix, self.garura, ["standards/rules/commits.md"])
++        entries = pull.read_list(self.garura)
++        self.assertEqual(sorted(entries), ["standards/rules/commits.md", "standards/templates/adr.md"])
++        self.assertEqual(entries["standards/rules/commits.md"]["version"], later)
++
++    def test_refusals(self):
++        for pattern, code in (("../outside.md", "bad_request"), ("/abs.md", "bad_request"),
++                              ("standards/missing.md", "not_found"), ("nothing/**", "not_found")):
++            a = pull.pull(self.phoenix, self.garura, [pattern])[0]
++            self.assertEqual(a["error"]["code"], code, pattern)
++            self.assertEqual(answers_of("pull", {}, [a]), [[]])
++
++    def test_never_pulls_git_internals(self):
++        answers = pull.pull(self.phoenix, self.garura, ["**"])
++        self.assertTrue(all(".git/" not in a["path"] and not a["path"].startswith(".git") for a in answers))
++        self.assertEqual(len(answers), 3)
++
++
++class Pulled(Tiers):
++    def test_nothing_behind_after_a_pull(self):
++        pull.pull(self.phoenix, self.garura, ["standards/**"])
++        answer = pull.pulled(self.phoenix, self.garura)
++        self.assertEqual(answers_of("pulled", {}, [answer]), [[]])
++        self.assertEqual([p["behind"] for p in answer["pieces"]], [False, False])
++
++    def test_a_change_in_phoenix_is_behind(self):
++        pull.pull(self.phoenix, self.garura, ["standards/**"])
++        write(self.phoenix, "standards/templates/adr.md", "# ADR template, version 2\n")
++        later = self.commit("change")
++        answer = pull.pulled(self.phoenix, self.garura, behind_only=True)
++        self.assertEqual([(p["path"], p["behind"], p["current_version"]) for p in answer["pieces"]],
++                         [("standards/templates/adr.md", True, later)])
++
++    def test_a_piece_removed_from_phoenix_is_behind(self):
++        pull.pull(self.phoenix, self.garura, ["knowledge/domains/payments.md"])
++        git(self.phoenix, "rm", "-q", "knowledge/domains/payments.md")
++        self.commit("remove")
++        self.assertTrue(pull.pulled(self.phoenix, self.garura)["pieces"][0]["behind"])
++
++
++class Settings(unittest.TestCase):
++    def run_main(self, argv, env):
++        old = dict(os.environ)
++        os.environ.pop("MEMORY_PHOENIX_ROOT", None)
++        os.environ.pop("MEMORY_GARURA_ROOT", None)
++        os.environ.update(env)
++        try:
++            with contextlib.redirect_stdout(io.StringIO()) as out:
++                code = pull.main(argv)
++        finally:
++            os.environ.clear()
++            os.environ.update(old)
++        return code, [json.loads(line) for line in out.getvalue().splitlines()]
++
++    def test_no_settings(self):
++        code, answers = self.run_main(["pulled"], {})
++        self.assertEqual((code, answers[0]["error"]["code"]), (1, "settings_missing"))
++
++    def test_a_tier_that_cannot_be_reached(self):
++        code, answers = self.run_main(["pulled", "--phoenix", tempfile.mkdtemp(), "--garura", "/no/such/folder"], {})
++        self.assertEqual((answers[0]["error"]["code"], answers[0]["error"]["tier"]), ("tier_missing", "garura"))
++
++    def test_phoenix_must_be_a_repository(self):
++        code, answers = self.run_main(["pulled"], {"MEMORY_PHOENIX_ROOT": tempfile.mkdtemp(),
++                                                   "MEMORY_GARURA_ROOT": tempfile.mkdtemp()})
++        self.assertEqual((answers[0]["error"]["code"], answers[0]["error"]["tier"]), ("tier_missing", "phoenix"))
++
++
++if __name__ == "__main__":
++    unittest.main(verbosity=1)

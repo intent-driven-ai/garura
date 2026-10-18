@@ -1,0 +1,232 @@
+# categories.yaml — derived from the PR #671 diff content (base main). Not matched from a fixed list.
+# Review shelf used: ~/.garura/phoenix-memory/knowledge/review/ (context.yaml's ./.garura/core/memory/knowledge/review/ has no copy; tier order short-term, then Garura memory, then Phoenix memory, per context.yaml review_shelf_note). That shelf is identical, file by file (diff -rq), to core/components/memory/knowledge/review/ in this checkout, and this branch changes nothing under that folder, so it is also main's copy. Files: _index, adrs, code, config-maps, docs, harness, memory, tests.
+pr: 671
+issue: 656
+base: main
+changed_path_count: 60   # 14 added + 46 modified (git diff main...HEAD --name-status); matches the 60 changed_paths in context.yaml. context.yaml and pr.diff themselves are untracked review inputs, not part of the change.
+categories:
+  - name: memory
+    playbook: review/memory
+    design_bearing: true   # playbook: "Design-grounding (Layer 2): yes" — reviewer human (design) + tool (conformance); Layers 1 and 2. The play should dispatch a grounding for this category.
+    layers: [linters, design-grounding]
+    evidence:
+      # knowledge shelves under core/components/memory/knowledge/ (36 files: architecture 8, domains 9, technology 19)
+      - core/components/memory/knowledge/architecture/agent-assistive.md
+      - core/components/memory/knowledge/architecture/agent-derive-once-apply-many.md
+      - core/components/memory/knowledge/architecture/agent-orchestration-patterns.md
+      - core/components/memory/knowledge/architecture/agent-supervised-autonomous.md
+      - core/components/memory/knowledge/architecture/agentic-guardrails-baseline.md
+      - core/components/memory/knowledge/architecture/microservices.md
+      - core/components/memory/knowledge/architecture/modular-monolith.md
+      - core/components/memory/knowledge/architecture/regression-by-blast-radius.md
+      - core/components/memory/knowledge/domains/analytics.md
+      - core/components/memory/knowledge/domains/collaboration.md
+      - core/components/memory/knowledge/domains/content-management.md
+      - core/components/memory/knowledge/domains/ecommerce.md
+      - core/components/memory/knowledge/domains/experience.md
+      - core/components/memory/knowledge/domains/marketing.md
+      - core/components/memory/knowledge/domains/notifications.md
+      - core/components/memory/knowledge/domains/payments.md
+      - core/components/memory/knowledge/domains/personalization.md
+      - core/components/memory/knowledge/technology/agent-building-blocks.md
+      - core/components/memory/knowledge/technology/agent-deploy-dev-uat-prod.md
+      - core/components/memory/knowledge/technology/agent-model-selection.md
+      - core/components/memory/knowledge/technology/agent-platform-bedrock-gcp.md
+      - core/components/memory/knowledge/technology/astro-content-sites.md
+      - core/components/memory/knowledge/technology/delivery-industry-frames-derived.md
+      - core/components/memory/knowledge/technology/delivery-one-shot-cleanliness.md
+      - core/components/memory/knowledge/technology/delivery-triangle.md
+      - core/components/memory/knowledge/technology/frontend-component-orchestration.md
+      - core/components/memory/knowledge/technology/gcp-modular-monolith-runtime.md
+      - core/components/memory/knowledge/technology/quick-prototype-html-first.md
+      - core/components/memory/knowledge/technology/run-environments-canary-migrations.md
+      - core/components/memory/knowledge/technology/ux-accessibility-floor.md
+      - core/components/memory/knowledge/technology/ux-design-system-tokens.md
+      - core/components/memory/knowledge/technology/ux-forms-and-validation.md
+      - core/components/memory/knowledge/technology/ux-navigation-by-shape.md
+      - core/components/memory/knowledge/technology/ux-responsive-default-adaptive-on-evidence.md
+      - core/components/memory/knowledge/technology/ux-state-and-feedback.md
+      - core/components/memory/knowledge/technology/validation-floor-profile-benchmarks.md
+      # standards under core/components/memory/standards/ (5 files: 2 rules, 2 schemas, 1 template)
+      - core/components/memory/standards/rules/builder-isolation.md
+      - core/components/memory/standards/rules/no-unbacked-recommendation.md
+      - core/components/memory/standards/schemas/product-os/lens/measure.yaml
+      - core/components/memory/standards/schemas/product-os/ontology.md
+      - core/components/memory/standards/templates/adr.md
+    runnable_checks:
+      - command: "python3 -c <for each changed knowledge .md: parse the frontmatter as YAML, compare frontmatter id with the path under knowledge/, resolve each evolve_when target to a real file>"
+        note: "the playbook's structure and cross-reference checks, built ad hoc because the playbook records the dedicated linter as a gap. Observed read-only: 36 files, frontmatter parses in all, id equals path in all, every evolve_when target exists. The playbook's 'listed in the shelf _index' clause does not apply as worded: core/components/memory/knowledge/_index.md lists the four shelves, not each file."
+      - command: "python3 -c <yaml.safe_load core/components/memory/standards/schemas/product-os/lens/measure.yaml>"
+        note: "observed: parses."
+      - command: "grep -rniE '<owner name>|<company name>|<home-folder prefix>' core/components/memory"
+        note: "tests the PR's own claim that memory is clean of personal references. Observed: one hit, core/components/memory/standards/rules/pr.md line 153 (BE-08), a security-rule pattern containing '/users/', not a path. Unchanged by this branch. The scan covers only a person's name, a company name and a home-folder prefix; the PR body's wider claim (client names, vault links) is not re-tested here."
+      - command: "git diff --check main...HEAD"
+        note: "whitespace and conflict-marker check over the whole diff. Observed: clean."
+    notes: >
+      All 41 paths are one kind of edit when the changed lines are read: personal attribution
+      stripped from provenance lines, narrative asides and example fields (a name removed, a
+      placeholder put in, or a phrase reworded), ahead of the move of memory into Phoenix
+      memory. No Conditions, Recommendation or selection key changes in any shelf file; the
+      standards files change the same way (builder-isolation.md source line,
+      no-unbacked-recommendation.md quote lead-in, measure.yaml comment, the ontology.md
+      'Given by' line and Log entries, the adr.md template's worked example). pageindex.py sits
+      under the knowledge folder but is executable code and is in the next category.
+      Grounding to read from committed sources, never from this branch's text: the shelf shape
+      and Provenance rule on main (core/components/memory/knowledge/_DESIGN.md,
+      _TEMPLATE.md, _index.md; the template's provenance is 'seeded | learned from {product /
+      issue}', which does not name a person), the standards under
+      core/components/memory/standards/rules/, and ADR 035 (docs/adr/035-agents-work-only-from-memory.md)
+      for what memory is for and where it moves. The base-ref text of each changed file
+      (git show main:<path>) is the 'before'. Phoenix memory's copy of these files is NOT
+      grounding for the scrub: it was seeded after the scrub, so it carries the branch's own
+      result. Points the grounding should weigh, taken from reading the diff, not findings:
+      (1) wording is not uniform. Where a name was removed the replacement varies:
+      experience.md reads 'The intent list was drafted on delegation', personalization.md
+      reads '(the owner delegated the intent list', payments.md now has 'the owner' at the
+      start of a sentence after a bold lead-in, no-unbacked-recommendation.md starts a
+      sentence with 'the owner, 2026-09-08:', delivery-triangle.md reads 'the owner's frame',
+      and adr.md and ontology.md use 'the owner' in worked-example fields. (2) the ontology.md
+      Log loses who decided in several entries ('Kapil, approving /intent's intent' becomes
+      '(approving /intent's intent)'); whether a decision's author belongs in a standard's Log
+      is for the grounding to settle against committed sources. (3) the adr.md template
+      example 'Decided by' now reads 'the owner' while the template's own field is meant to
+      name who decided. (4) agent-derive-once-apply-many.md also fixes a garbled phrase
+      ('prototype at a working prototype' becomes 'from a working prototype'); the edit is
+      not an attribution scrub, so it is the one change in this category that is not.
+
+  - name: executable-code
+    playbook: review/code
+    design_bearing: false   # playbook: "Design-grounding: no — the standard is industry best practice, not a garura-internal design." Layer 1 only; no grounding dispatch. Data-safety paths get extra weight.
+    layers: [linters]
+    evidence:
+      - core/tools/memory/pull.py                                              # new, 169 lines: the memory tool's pull and pulled commands; copies files from Phoenix memory into Garura memory and writes pulled.json
+      - core/components/plays/install-garura/scripts/install.py                # modified: transform_config stops writing a memory line into an installed project's config (one regex line and the docstring)
+      - core/tools/memory/contract/check_contract.py                           # modified: the FORBIDDEN scan list entry for the project folder changes from '.garura' to '.garura/' (one line)
+      - core/components/memory/knowledge/domains/.pageindex/pageindex.py       # modified: usage docstring (examples reworded, spacing changed) and the EXCLUDE_DIRS set shortened; lives under the memory folder but is a runnable script, so it is code
+    runnable_checks:
+      - command: "ruff check --no-cache core/tools/memory/pull.py core/tools/memory/contract/check_contract.py core/components/plays/install-garura/scripts/install.py core/components/memory/knowledge/domains/.pageindex/pageindex.py"
+        note: "the language linter on the four code files (ruff is installed; the repo commits no ruff config that this check read). Observed, run with test_pull.py in the same command: All checks passed. All five python files in the diff also parse (ast)."
+      - command: "python3 core/tools/memory/contract/check_contract.py"
+        note: "the contract self-check, because this branch edits its forbidden-word list. Observed: exit 0, ok true, 20 of 20 samples valid, 23 of 23 broken samples refused, 0 boundary problems."
+      - command: "quality-check-scoped over the diff of these four files, severity from pr.md"
+        note: "run by the play (SEC-*, CODE-*, ARCH-*, BE-*, PERF-*, DATA-* rows). Not run in this assessment."
+    notes: >
+      Read these hard, per the playbook: pull.py touches the filesystem and git. It copies with
+      shutil.copyfile into Garura memory, runs git rev-parse in Phoenix memory, and rewrites
+      pulled.json on every call (SAFE_PATH rejects a leading '/' and any '..' before a glob
+      is expanded). The PR's self-review records one known behaviour: a refused pull still
+      leaves an empty pulled.json. Points for the reviewer, not findings: (1) check_contract.py
+      narrows its scan from '.garura' anywhere to '.garura/' only, which loosens a guard that
+      stops the memory tool's folder from tying itself to one project's layout; the 653 plan's
+      item 4 says 'nothing in its folder names Garura'. (2) pageindex.py's EXCLUDE_DIRS drops
+      '.vault-index', '.markdown_vault_mcp', 'published' and '.deploy', so a folder with those
+      names under the domains shelf would now be indexed; and the rewritten usage lines carry
+      uneven spacing. (3) install.py's behaviour changed while the play's compiled
+      core/components/plays/install-garura/SKILL.md was not touched: its lines 62 to 63 still
+      say the installed config has memory at '~/.garura/core/memory/' (the PR body flags the
+      same). install-garura has no reference/ice.md, so the change cannot trace to an ICE source; a
+      script edit inside a play is code here, not a harness change, since no SKILL.md, agent,
+      skill or grounding file is in the diff. (4) no test covers transform_config or pageindex.py.
+
+  - name: tests
+    playbook: review/tests
+    design_bearing: false   # playbook: "Design-grounding: no." Run the suite.
+    layers: [linters]
+    evidence:
+      - core/tools/memory/test_pull.py   # new, 151 lines: 12 unittest tests for pull.py and pulled; builds throwaway git repos in temp folders and checks answers against contract/v1.json
+    runnable_checks:
+      - command: "cd core/tools/memory && python3 test_pull.py"
+        note: "the playbook says run the suite. Observed (TMPDIR pointed at the scratchpad, bytecode writing off): Ran 12 tests in 4.0s, OK. A red suite is a blocker; this one is green. The tests exercise pull.py only; the contract tests (core/tools/memory/contract/test_check_contract.py) are not in this diff and were not run."
+      - command: "quality-check-scoped, TEST-* rows"
+        note: "run by the play. Not run in this assessment."
+    notes: >
+      The test file is the only runnable suite for the new tool. It does not cover the
+      installer change or the pageindex.py change (see executable-code).
+
+  - name: config-maps
+    playbook: review/config-maps
+    design_bearing: false   # playbook: "Design-grounding: no." Human reviewer by name; Layer 1 is a narrow path-existence check.
+    layers: [linters]
+    evidence:
+      - .garura/core/config.yaml   # modified: removes components.memory, ltm.source and ltm.global-target; standards.pr-severity-taxonomy now points at ./.garura/core/memory/standards/rules/pr.md
+    runnable_checks:
+      - command: "resolve each path key the diff touches (python3 -c <yaml.safe_load + os.path.exists>) and check git ignore status of the new target"
+        note: "path-existence, the playbook's check (its committed linter is recorded as a gap). Observed: config.yaml parses. The new PR rules target .garura/core/memory/standards/rules/pr.md exists in this checkout (22,478 bytes, dated 30 May) but is ignored by git (.gitignore line 151, '.garura/core/memory/'), so a fresh clone has no such file; the PR body and self-review say this is intended and name it. ltm.project-target, the key kept, still has readers (the preflight.py copies in propose-change, next, validate, grill and learn). A grep of core/components, core/tools and docs (outside the memory folder and the run records) found no reader of the three removed keys."
+    notes: >
+      A pointer map in the playbook's sense: its job is to say where the PR review rules live
+      and where Garura memory is. The substance (is this the right wiring) is the human's call;
+      the tool only surfaces the changed keys and any pointer that misses. The one pointer that
+      aims at an ignored folder is the PR rules target; the quality-check-scoped skill reads it
+      through standards.pr-severity-taxonomy (its input-contract.md names that key). The
+      installer edit that goes with this config change is listed under executable-code.
+
+  - name: stm-working-notes-plans-and-design
+    playbook: null
+    playbook_missing: true
+    design_bearing: false   # plans for Feature #653 and Story #656; the decisions in them are Kapil's of 18 October and are judged by the human. No committed source on main to ground them in beyond ADR 035; no grounding dispatch.
+    layers: [linters]   # plan format check, plus agreement of the two plans with each other as a consistency read only
+    evidence:
+      - .garura/project/issues/653/specs/plan.md   # modified: item 4 'Done when' gains Kapil's login and change-password test and the removal of core/components/memory/ after the memory tool
+      - .garura/project/issues/656/specs/plan.md   # new, 167 lines: the plan for #656 (status active, now 5), with Kapil's answers of 18 October
+    runnable_checks:
+      - command: "python3 core/components/skills/manage-plan/scripts/check_plan.py --plan .garura/project/issues/656/specs/plan.md --out <scratch>/plan656.json"
+        note: "plan format check. Observed: valid true, status active, now 5, open item 5, no problems; exit 1 only because the plan is not finished (the script's own meaning: 0 valid and done, 1 valid not done, 2 not valid, 3 unreadable)."
+      - command: "python3 core/components/skills/manage-plan/scripts/check_plan.py --plan .garura/project/issues/653/specs/plan.md --out <scratch>/plan653.json"
+        note: "Observed: valid true, status active, now 3, open items 3 to 11, no problems; exit 1 for the same reason."
+    notes: >
+      Same kind of work as the plans in the issue 667 review: Garura's own working notes under
+      .garura/project/issues/**. No playbook covers them, and the memory playbook does not
+      apply because none of these paths is under core/components/memory/. Consistency points
+      to read, not findings: the two plans should say the same about the decisions of 18
+      October (installer pulls nothing; core/components/memory/ removed after the tool; memory
+      read in the order short-term, Garura, Phoenix; the memory tool first with Kapil's test).
+      The 656 plan's front matter says it serves plan 653 item 3, and 653's item 4 now carries
+      the test and the removal. The PR body says the issue's GitHub text no longer matches the
+      plan and that the plan is current. A plan says what and in what order, never how, and
+      this one states it is 'a plan, not a design'.
+
+  - name: stm-run-records
+    playbook: null
+    playbook_missing: true
+    design_bearing: false   # machine-written run artifacts and play outputs; no design content
+    layers: []   # skim only for consistency; nothing to lint or ground
+    evidence:
+      - .garura/project/issues/656/context/analysis.yaml
+      - .garura/project/issues/656/context/branch.json
+      - .garura/project/issues/656/context/commits.yaml
+      - .garura/project/issues/656/context/issue.json
+      - .garura/project/issues/656/context/plan-check.json
+      - .garura/project/issues/656/context/porcelain.txt
+      - .garura/project/issues/656/context/pr-body.md
+      - .garura/project/issues/656/context/pr.json
+      - .garura/project/issues/656/context/resolved-rules.json
+      - .garura/project/issues/656/context/self-review.md
+      - .garura/project/issues/656/context/work-description.txt
+    notes: >
+      Same kind of work as the run records in the issue 667 review: receipts from the
+      start-change, commit-change and propose-change runs, a PR body, and a self-review.
+      Treatment: skim for consistency, never review as work, never ground from it. The YAML
+      and JSON among them parse. Points to know: self-review.md is a point-in-time record at
+      commit dcfe110d and its own header says no PR existed yet (three later commits followed);
+      work-description.txt is the issue's first-version text (it still says the installer pulls
+      a starting set), which the plan and the PR body say was later dropped; plan-check.json
+      shows now 2 for the 656 plan while the committed plan says now 5, because it was written
+      earlier. All of these are branch content: history to read, never grounding for a
+      verdict. No design-grounding.
+design_bearing_categories: [memory]   # the one category whose playbook requires Layer 2. Not design-bearing: executable-code, tests, config-maps (Layer 1 only), and the two STM categories (no playbook).
+absent_seeded_categories: [decision-records, documentation, harness]   # no docs/adr/**, no docs, no SKILL.md, agent, skill or grounding file changes
+path_accounting:   # 41 + 4 + 1 + 1 + 2 + 11 = 60
+  memory: 41   # 36 knowledge shelves + 5 standards
+  executable-code: 4
+  tests: 1
+  config-maps: 1
+  stm-working-notes-plans-and-design: 2
+  stm-run-records: 11
+missing_playbooks:
+  - stm-working-notes-plans-and-design   # Garura's own plans, story mirrors and tool plans under .garura/project/issues/**; also missing in the issue 667 review
+  - stm-run-records                      # play run receipts under .garura/project/issues/**; also missing in the issue 667 review
+playbook_sharpening:
+  - id: review/memory
+    note: "its Linter line asks that a file be 'listed in the shelf _index'; core/components/memory/knowledge/_index.md lists shelves, not files, so that clause cannot be checked as written. The dedicated memory-integrity linter is still a gap, so the id, frontmatter and cross-reference checks above were built ad hoc."
+  - id: review/config-maps
+    note: "its Linter line says no config-map linter exists; the path-existence check above was again done ad hoc. It also does not say what to do when a pointer aims at a gitignored folder that exists locally but not in a fresh clone (the PR rules target here)."
