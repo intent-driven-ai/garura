@@ -4,7 +4,7 @@ kind: story
 serves: "#613 — the Kickoff drive runs /intent, /vision and /understand from a working prototype to a detailed product model"
 status: active
 updated: 2026-10-18
-now: 2
+now: 3
 serves_plan: 606
 serves_item: 8
 ---
@@ -67,8 +67,10 @@ the wrong move."* When memory and the system hold nothing to go on, they ask.
 
 The change is open: branch `feature/613-the-kickoff-drive`, cut from main on
 2026-10-18. Item 1 is decided: ADR 034 says how the plays decide inside a drive.
-Nothing is built. Now: item 2, a review of the memory the plays answer from,
-before anything is designed or built on it (Kapil, 2026-10-18).
+Item 2 is done: the memory review found memory not ready, and Kapil chose to fix
+the whole memory system first, as its own feature (draft plan:
+`specs/memory-system-plan.md`). Nothing is built. Item 3 is next, but it waits
+at the milestone below until the memory system reaches its own milestone.
 
 ## The plan, in order
 
@@ -81,23 +83,24 @@ before anything is designed or built on it (Kapil, 2026-10-18).
   answer; never from the model alone. It amends ADR 029 §2. Nothing is built.
   Still open: whether a play may answer from a piece not yet approved, and
   where each answer's source is recorded (items 2 and 3).
+- **2. Reviewed: the memory the plays answer from** — `specs/memory-review.md`.
+  Memory is not ready: three copies of long-term memory that disagree, two kinds
+  of memory that cannot answer a question, and nothing that records where an
+  answer came from. Kapil chose B: fix the whole memory system first, as its own
+  feature with its own issues and branches, and set its model (Phoenix memory as
+  the superset; each project pulls the subset it needs; one tool that finds and
+  updates memory, searching like Claude Code). Nothing is fixed yet.
 
-### 2. Review the memory the plays answer from — now
+### Milestone: Kickoff's plays work from memory
 
-**Issue:** #613.
-**What:** check each kind of memory ADR 034 names — the drive's up-front
-answers, the prototype's sources, the product model, the knowledge base, the
-learned checkpoint answers — and how a play reads it, whether it is current,
-whether an answer taken from it can name where it came from, and what is broken
-or missing. Fix what the review finds, or file it, as Kapil decides.
-**Why here:** Kapil, 2026-10-18: "Before we build the drive, we need to review
-the memory mechanism and make sure it is done absolutely correctly." Every
-item after this one rests on it.
-**Done when:** the review is written in this issue's `specs/` folder, Kapil has
-read it, and what he chose to fix is fixed.
-**Needs:** item 1.
+Nothing below starts until the memory system's own milestone is passed: its
+items 1 to 8 — the decision, the memory tool, Phoenix memory and the subset a
+project pulls, memory updates, every decision naming its memory, and
+`/intent`, `/vision` and `/understand` moved onto the tool and tried on a test
+project. That work is its own feature, outside this issue
+(`specs/memory-system-plan.md`, not filed yet).
 
-### 3. Decide the runner's shape
+### 3. Decide the runner's shape — now
 
 **Issue:** #613.
 **What:** settle what the drive is as a component and how it runs end to end:
@@ -107,7 +110,7 @@ it writes, and how it ends until the review exists.
 **Why here:** items 5 to 7 build what this item decides.
 **Done when:** a short design note in this issue's `specs/` folder that Kapil
 agrees with; anything that changes an earlier decision is an ADR.
-**Needs:** items 1 and 2.
+**Needs:** items 1 and 2, and the milestone above.
 
 ### 4. Make the three plays run back to back without a person
 
@@ -192,3 +195,11 @@ mark step 1 of item 8 done in the #606 plan.
   item 3, the play fixes item 4, the compiler 5, the checker 6, Kickoff 7, the
   real run 8, landing 9). ADR 034's "#613 plan item 2" now means item 3, and its
   "item 3" now means item 4.
+- 2026-10-18 — Item 2 done: the memory review is written. Kapil chose B — fix
+  the whole memory system before the drive — as its own feature with its own
+  issues and branches (draft plan `specs/memory-system-plan.md`), and set its
+  model: Phoenix memory is the superset; Garura memory in a project is the
+  subset it pulls; one tool finds and updates memory. A milestone now holds
+  item 3 until that feature passes its own milestone. Item 4's play fixes
+  overlap with the memory feature's item 7; what is left of item 4 after it is
+  settled at item 3.
