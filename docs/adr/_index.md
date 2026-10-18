@@ -41,3 +41,4 @@ may have no Status line.
 | [033](033-approval-in-the-product-model.md) | Approval Is Part of the Product Model, and Agents Work Only on Approved Pieces | Accepted | 2026-10-18 |
 | [034](034-plays-answer-from-memory-inside-a-drive.md) | Inside a Drive, a Play Answers From Memory and Asks Only When Memory Holds Nothing | Accepted | 2026-10-18 |
 | [035](035-agents-work-only-from-memory.md) | Agents Work Only From Memory: Three Tiers, One Memory Tool, and a Memory Update Before Anything From Outside | Accepted | 2026-10-18 |
+| [036](036-approved-answer-lands-in-short-term-memory.md) | An Approved Researched Answer Lands in the Current Issue's Short-Term Memory, and Memory and ADRs Are Reviewed in the Review Tool | Accepted | 2026-10-18 |

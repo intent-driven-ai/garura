@@ -1,0 +1,42 @@
+{
+  "decided": true,
+  "lint_ok": true,
+  "linked": true,
+  "target": "docs/adr/036-approved-answer-lands-in-short-term-memory.md",
+  "shape": "markdown",
+  "guard": {
+    "adr": ".garura/project/issues/_adr/20261018-112701/adr-draft.md",
+    "declared": "none",
+    "touches_an_intent": [],
+    "verdict": "no person's business intent changes"
+  },
+  "olders": [
+    {
+      "adr": "035",
+      "file": "docs/adr/035-agents-work-only-from-memory.md",
+      "kind": "amended",
+      "part": "\u00a71 short-term memory is the current issue's folder only, and every lookup names its issue; \u00a75 an approved researched answer is written to the issue's short-term memory, never straight to Garura or Phoenix memory, and moving it up is a promotion, its own memory update a person approves outside the work, while a person's own answer to a question goes to Garura memory; \u00a77 the review tool's third section is Memory and ADRs, where every memory review and ADR review happens, on the Catch up cards (and with it \u00a79's line on ADR 032 \u00a73); and Negative / Risks, \"Not decided here\": its first two questions are settled \u2014 learned checkpoint answers are not memory, and a play's own working files stay direct (ADR 011)."
+    },
+    {
+      "adr": "034",
+      "file": "docs/adr/034-plays-answer-from-memory-inside-a-drive.md",
+      "kind": "amended",
+      "part": "\u00a72 \"What counts as memory\": the learned checkpoint answers come off the list \u2014 they stay a checkpoint tool, which holds only \"approved or not\" for a kind of change and cannot answer a question; a person's answers to questions are kept in Garura memory."
+    },
+    {
+      "adr": "032",
+      "file": "docs/adr/032-drive-review-of-outcomes.md",
+      "kind": "amended",
+      "part": "\u00a73 \"Two review tools\", as amended by ADR 035: the third section is Memory and ADRs, not Memory \u2014 it also shows the ADRs waiting for a person, and every memory review and ADR review happens there, on the same Catch up cards as Intents and Product (#644)."
+    }
+  ],
+  "status": "accepted",
+  "accepted_by": "Kapil Viren Ahuja",
+  "pointers_written": [
+    "035-agents-work-only-from-memory.md",
+    "034-plays-answer-from-memory-inside-a-drive.md",
+    "032-drive-review-of-outcomes.md"
+  ],
+  "pointers_missing": [],
+  "index_ok": true
+}

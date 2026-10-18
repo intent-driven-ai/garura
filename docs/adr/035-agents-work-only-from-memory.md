@@ -1,6 +1,6 @@
 # ADR 035 — Agents Work Only From Memory: Three Tiers, One Memory Tool, and a Memory Update Before Anything From Outside
 
-**Status:** Accepted
+**Status:** Accepted — amended in part by [ADR 036](036-approved-answer-lands-in-short-term-memory.md): §1 short-term memory is the current issue's folder only, and every lookup names its issue; §5 an approved researched answer is written to the issue's short-term memory, never straight to Garura or Phoenix memory, and moving it up is a promotion, its own memory update a person approves outside the work, while a person's own answer to a question goes to Garura memory; §7 the review tool's third section is Memory and ADRs, where every memory review and ADR review happens, on the Catch up cards (and with it §9's line on ADR 032 §3); and Negative / Risks, "Not decided here": its first two questions are settled — learned checkpoint answers are not memory, and a play's own working files stay direct (ADR 011).
 **Date:** 2026-10-18
 **Level:** framework
 **Decided by:** Kapil Viren Ahuja
