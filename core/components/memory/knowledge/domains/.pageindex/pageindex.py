@@ -11,7 +11,7 @@ Inspired by VectifyAI/PageIndex — similarity is not relevance, reasoning is.
 Usage:
   # Index
   python3 .pageindex/pageindex.py                          # Index all
-  python3 .pageindex/pageindex.py --folder <folder>     # Index one folder
+  python3 .pageindex/pageindex.py --folder <folder>        # Index one folder
 
   # Retrieve (vectorless RAG — the LLM navigates these)
   python3 .pageindex/pageindex.py --tree                   # Top-level tree
@@ -521,7 +521,7 @@ if __name__ == '__main__':
     parser.add_argument('--folder', help='Index only this subfolder')
     parser.add_argument('--tree', action='store_true', help='Show document tree for navigation')
     parser.add_argument('--depth', type=int, default=1, help='Tree depth (default: 1)')
-    parser.add_argument('--domain', help='Filter tree to a domain (e.g., ecommerce, experience)')
+    parser.add_argument('--domain', help='Filter tree to a domain (e.g., Cognition, Content)')
     parser.add_argument('--navigate', metavar='NODE_ID', help='Drill into a node — show children with previews')
     parser.add_argument('--read', metavar='NODE_ID', help='Read full text of a node')
     parser.add_argument('--query', help='Keyword search across the index')
