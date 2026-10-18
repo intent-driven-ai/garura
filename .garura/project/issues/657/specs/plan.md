@@ -4,7 +4,7 @@ kind: story
 serves: "#657 — the memory tool finds memory across short-term, Garura and Phoenix memory the way Claude Code searches"
 status: active
 updated: 2026-10-18
-now: 4
+now: 5
 serves_plan: 653
 serves_item: 4
 ---
@@ -51,8 +51,8 @@ contract (#655, `core/tools/memory/contract/v1.json`) and `pull` / `pulled`
 ## Where we are now
 
 The change is open on `feature/657-memory-tool-search`. Its first commit closed
-out five finished plans. Items 2 and 3 are built: the tool finds, searches, reads and pulls. Next: item 4, the
-contract change.
+out five finished plans. Items 2 and 3 are built: the tool finds, searches, reads and pulls. Item 4, contract version 2, is built.
+Next: item 5, Kapil's test on a fresh project.
 
 ## The plan, in order
 
@@ -86,18 +86,17 @@ contract change.
   file into Garura memory (`garura_pull_dir`) and the pulled list; the next lookup answers
   from Garura memory. A search hit alone pulls nothing. `pull` no longer leaves an empty
   pulled list after a refusal (a #656 review note).
+- **4. Built: contract version 2** — #657. `core/tools/memory/contract/v2.json`; version 1 is
+  kept as it was. A lookup of Garura or Phoenix memory works without an issue: with no
+  issue there is no short-term memory, so the lookup goes Garura then Phoenix, and asking for
+  short-term memory without one is `bad_request` (TIC-3). A glob, like a path, never starts
+  with a slash or holds `..`, so `../613/**` is refused (TIC-7). Written down too: Phoenix
+  memory is read only at its approved version, and a file read from it is saved into Garura
+  memory. 43 samples moved to version 2 and 2 added; the check, its tests (one test now
+  states the version 2 rule), `pull.py` and the tool follow. 33 tool tests, 12 pull tests,
+  49 contract tests pass; the contract check (22 samples, 23 broken, boundary) passes.
 
-### 4. The contract change — now
-
-**Issue:** #657.
-**What:** a lookup of Garura or Phoenix memory works without an issue (PR #666
-review, TIC-3); the `../` refusal is written down (TIC-7); the contract gets a
-new version, and its samples and check follow.
-**Why here:** after the tool exists, the change is tested against it.
-**Done when:** the contract check passes on the new version.
-**Needs:** item 2.
-
-### 5. Kapil's test on a fresh project
+### 5. Kapil's test on a fresh project — now
 
 **Issue:** #657.
 **What:** an empty test project and a copy of Phoenix memory (its
@@ -125,3 +124,4 @@ answers change (#657, #658) are fixed only when Kapil asks.
   §1–§3, the #653 plan item 4 and Kapil's test from the #656 plan (item 1d).
 - 2026-10-18 — Item 1 done: memory updates land in short-term memory only; `learn` and `promote` plays move them up; the reader uses only approved Phoenix memory; a file is pulled when it is used.
 - 2026-10-18 — Items 2 and 3 built: `memory.py`, 29 tests; `pull` reads Phoenix memory at its approved version.
+- 2026-10-18 — Item 4 built: contract version 2.
