@@ -147,7 +147,7 @@ three notes from the #675 review.
 
 ### 6. Every decision names its memory — now
 
-**Issue:** #659.
+**Issue:** #659. Its plan: `.garura/project/issues/659/specs/plan.md`.
 **First:** three notes from the PR #675 review: the review tool's mockup gains the Memory
 and ADRs section, so the memory page is part of the committed design (Kapil: "not build
 solo"); contract version 3 says a waiting draft is hidden from lookups; the design says
