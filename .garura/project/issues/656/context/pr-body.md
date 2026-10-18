@@ -40,14 +40,18 @@ The issue on GitHub still describes the first version of this story. Kapil chang
 
 ## Self-review
 
-Rules: `standards/rules/self-review.md` from Phoenix memory (Garura memory had no copy). Blocking: **0**. Non-blocking: 10. Full review: `.garura/project/issues/656/context/self-review.md`.
+Rules: `standards/rules/self-review.md` from Phoenix memory (Garura memory had no copy). Blocking: **0**. Non-blocking: 13. Full review: `.garura/project/issues/656/context/self-review.md`.
 
 Checks run: `pull` tests 12/12; memory contract check passes; the installer's config rewrite loads for both host tools; memory-reading tests 30 and 37 pass; both plan checks valid; merges cleanly with main; no client, personal or secret strings in the diff, memory or Phoenix memory.
 
 For the reviewer (non-blocking):
 - The PR rules setting points at a folder git ignores, and the copy there is the old 30 May one. A fresh clone has no such file. This is what Kapil asked for.
-- One commit subject (`d65770f8`) is 86 characters; the rules allow 72.
+- One commit subject (`d65770f8`) is 84 characters; the rules allow 72.
 - The `install-garura` play text still says installed config has memory at `~/.garura/core/memory/`.
 - A refused `pull` still leaves an empty `pulled.json`. For #657.
+
+## After the first review (harness reject)
+
+The first review rejected on one P1: rule DATA-18 on the demo address `t@example.com` in `core/tools/memory/test_pull.py`, a throwaway test repository. Kapil approved it as an exception ("these are demos emails, and part of tool that is using this as sample data. this is exception that is approved"); a comment at the line records it (`9bbada8a`). The 9 memory wording findings are fixed (`218a2d54`), in Phoenix memory too (`5fcd88e`, pushed).
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
