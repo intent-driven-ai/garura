@@ -1,0 +1,184 @@
+# Context for the ADR drafted from brief.md — gathered by adr-keeper, 2026-10-18
+shape: markdown
+template: core/components/memory/standards/templates/adr.md
+brief: .garura/project/issues/_adr/20261018-071440/brief.md
+number: "034"            # adr.py number --dir docs/adr -> {"next": "034", "taken": 33}
+suggested_file: docs/adr/034-plays-answer-from-memory-inside-a-drive.md
+title: "Inside a Drive, a Play Answers From Memory and Asks Only When Memory Holds Nothing"
+status: Proposed
+date: 2026-10-18
+level: framework
+decided_by: Kapil Ahuja   # the brief's "Decided by"; the Decided by line stays out of the draft while Proposed — adr.py accept --by fills it
+decided_in: "#613 (the Kickoff drive), plan item 1 (.garura/project/issues/613/specs/plan.md), under #594 and business intent #606"
+run: {in_drive: false, issue: 613}   # run.json — run by hand; the person accepts before it is written accepted
+style_reference: docs/adr/032-drive-review-of-outcomes.md   # short sentences, plain words, numbered decision parts (as ADRs 029–033)
+
+# --- Overlaps: adr.py overlaps --adr brief.md --dir docs/adr -> 032 (10.9), 029 (9.03), 033 (5.95),
+# 031 (3.73), 028 (3.48), 026 (3.33). ADR 002 read by hand (named by the caller). Each judged by reading it.
+overlaps:
+  - adr: "029"
+    file: docs/adr/029-drives.md
+    verdict: amended
+    part: >-
+      §2, the bullet "A new question stops it. If a question comes up mid-run that was not
+      answered at the start, the drive stops and asks. It never picks an answer for itself."
+      Now: a play answers a new question from memory and the system, with the source recorded;
+      the question stops the drive and goes to the person only when nothing there supports an
+      answer; never from the model's own knowledge.
+    not_changed: >-
+      §2's other bullets stand: "Questions first" (the answers gathered up front are the first
+      memory a play reads); "No stops for the plays' checkpoints"; "No rules of its own";
+      "Checked by someone else"; the evidence record. The same bullet's last sentence also stands:
+      a drive does not run on a coding agent's own never-stop loop, because that pushes the
+      decision onto the model — this ADR keeps the decision off the model (memory, or the person).
+      §1, §3, §4, §6 not touched.
+  - adr: "032"
+    file: docs/adr/032-drive-review-of-outcomes.md
+    verdict: not affected (relied on)
+    why: >-
+      §2 already says the plays' review records tell the review step "what changed and why";
+      the sources of the answers a play took from memory are part of that "why", and the review
+      shows the person what was assumed. The review stays at the outcome level; no 032 clause
+      changes. The review step and tools are not built yet (#641–#650 in the #613 plan), so they
+      must carry the assumptions when built — named under Work This Creates, not as an amendment.
+  - adr: "033"
+    file: docs/adr/033-approval-in-the-product-model.md
+    verdict: not affected (relied on)
+    why: >-
+      Answers taken from memory land in pieces a play writes; every such piece is changed until
+      a person approves it, so nothing built from an assumption is worked on before a person
+      sees it. No 033 clause changes.
+    open_point: >-
+      The brief counts the product model as memory. ADR 033 §3 lets agents work only on approved
+      pieces. Whether a play may answer a question from a piece that is not yet approved (for
+      example an intent /intent saved as proposed earlier in the same drive) is not settled by
+      the brief. Named as a risk in the draft, not decided.
+  - adr: "031"
+    file: docs/adr/031-business-intent-and-ice.md
+    verdict: not affected (relied on)
+    why: >-
+      §5 says "A drive may ask questions, but /intent inside a drive does not stop for approval" —
+      still true: a drive may still ask (when memory holds nothing), and the approval rule is
+      untouched. §1 "Only a person confirms or drops" a business intent stands: an answer taken
+      from memory never confirms an intent; inside a drive every intent is still saved proposed.
+      The "nothing invented, ask the person" rule for /intent is play intent (/intent C5), not
+      in ADR 031's Decision — it is listed under Affects.
+  - adr: "002"
+    file: docs/adr/002-l1-checkpoint-model.md
+    verdict: not affected
+    why: >-
+      ADR 002 is about checkpoints (artifact + approval), not questions. Rule 2 was already
+      superseded in part by ADR 029 for drives. This ADR changes how a play answers a question,
+      not how a checkpoint is resolved (drive contract rule 3 is not changed by the brief).
+  - adr: "028"
+    file: docs/adr/028-agentic-lifecycle-five-loops.md
+    verdict: not affected
+    why: "The five loops and their recipes; nothing on how a play answers questions. Shares only the /intent name."
+  - adr: "026"
+    file: docs/adr/026-direct-to-model-writes.md
+    verdict: not affected
+    why: "Write-then-review stands; this ADR does not change where or how a play writes the model."
+supersedes: []
+amends:
+  - {adr: "029", part: "§2 \"A new question stops it\": inside a drive a play answers from memory and the system, recording each answer's source, and the question stops the drive only when nothing there supports an answer; never from the model's own knowledge"}
+
+# --- Affects: every path below verified to exist (test -e), 2026-10-18.
+affects:
+  - path: core/components/memory/standards/rules/drive-contract.md
+    what: >-
+      Rule 4, "A question the drive did not answer still stops the play. The play asks the person
+      and never picks an answer for itself" — changes the same way as ADR 029 §2 (the brief names
+      it). The Related line ("a new question stops the drive") follows. Rule 3's "or it stops the
+      play and asks, like any new question" (pinned checkpoints) is not changed by the brief — see
+      open_points.
+  - path: core/components/memory/standards/rules/_index.md
+    what: "the drive-contract row's summary: \"stop on a new question\"."
+  - path: core/grounding/glossary.md
+    what: "the Drive entry: \"stops only to ask a question that comes up mid-run\"."
+  - path: core/components/plays/intent/
+    what: >-
+      reference/ice.md C4 ("the drive may still ask its questions") and C5 ("Nothing invented:
+      every outcome, reason, proof and limit traces either to what the source shows or to the
+      person's own answers; ... the play asks the person and never fills the gap itself"), S5;
+      SKILL.md Step 3 "Ask and check" (asks every open question one at a time, up to 3 rounds)
+      and SE-4; scripts/check_intent.py (accepts only provenance `source` or `person`). Inside a
+      drive /intent answers from memory first, records the source, and asks only what nothing
+      supports. Through its ICE source and /play-editor (#613 plan item 3).
+  - path: core/components/plays/vision/
+    what: >-
+      reference/ice.md C11 and SKILL.md pre-flight: "A question neither the contract nor the
+      model answers — no intents and no goal — stops the run and asks the person; the play never
+      picks an answer itself" — widens to all of memory and the system.
+  - path: core/components/plays/understand/
+    what: >-
+      reference/ice.md C13 and SKILL.md Step 1: "an absent capability with no seed answers —
+      stops the run and asks the person"; scripts/pick_targets.py and
+      scripts/persist_understand.py accept seed answers only with `answered_by: human` (the
+      persist refuses any other value) — an answer taken from memory needs its source recorded
+      instead.
+  - path: core/components/plays/adr/
+    what: >-
+      reference/ice.md C5 and SKILL.md Step 2: the business-intent stop inside a drive is
+      justified as "a new question, and a new question stops the drive (ADR 029 §2)". The stop
+      itself stays — only a person changes their business intent (ADR 031 §1; the ADR template's
+      rule) — but its reason can no longer rest on ADR 029 §2 alone.
+  - path: core/components/plays/play-creator/references/write_drive_review.py
+    what: "the plays' review record — the likely carrier of each answer's source for the drive's review; where the sources are recorded is not decided by the brief."
+  - other: "the Kickoff drive (#613, not built yet): its question step (#613 plan item 2); the review step and the two review tools (not built yet; #641–#650): they show the person what was assumed and on what basis"
+
+# --- ICE impact (from each play's ICE source; ontology.md ICE kind read — unchanged)
+ice_impact: >-
+  The agent intents of the plays that run inside a drive change. /intent (C4, C5, Step 3): inside
+  a drive it answers its open questions from memory and the system first, records each answer's
+  source, and asks the person only what nothing supports; C5's "every property traces to the
+  source or the person's answers" widens, inside a drive, to the memory this ADR names, each with
+  its source. /vision (C11) and /understand (C13): "a question neither the contract nor the model
+  answers stops the run" widens to all of memory and the system. /adr (C5): its business-intent
+  stop stays, on ADR 031's rule rather than ADR 029 §2. The Kickoff drive (#613) stops mid-run
+  only for a question nothing in memory supports. Run by hand, no play changes. The ICE kind
+  does not change (ontology.md: its properties and rules say nothing on how a question is
+  answered).
+
+# --- Business-intent check
+business_intent_check: none
+business_intent_check_reason: >-
+  A framework rule about how plays answer questions inside a drive. No person's business intent
+  changes; nothing under product-os/intents/ is named or written. The Business Intent kind's rules
+  in ontology.md do not change either: they say nothing about where a draft's properties come
+  from, and "Only a person confirms or drops it; an agent never does" stands — inside a drive
+  every intent is still saved proposed and confirmed or dropped by a person at the drive's review
+  (ADR 031 §5, ADR 032 §4). Edge for the person to see: inside a drive /intent may now fill a
+  proposed intent's why, who asked or proof from memory (with its source) instead of asking; if
+  the person reads ADR 031 §1 ("an outcome in their words") as kind doctrine this touches, the
+  check would be `kind`, not `instance`.
+
+# --- Open points the brief does not settle (named, not decided — do not invent an answer)
+open_points:
+  - >-
+    Pinned checkpoints. The brief changes drive contract rule 4 only. Rule 3 says a pinned
+    checkpoint not asked up front "stops the play and asks, like any new question", and
+    gate-config.md says a pinned gate always fires: "No config value, policy, or ledger can turn
+    it off" — the learned answers live in that ledger. The draft states the scope: this ADR is
+    about questions, not checkpoints, and rule 3 is not changed; the wording "like any new
+    question" must not be read as letting memory answer a pinned checkpoint. Kapil confirms at
+    acceptance.
+  - >-
+    Product-model pieces not yet approved as memory (ADR 033 §3) — named as a risk, not decided.
+  - >-
+    Where each answer's source is recorded (an answers file, the review record, the run record)
+    — not in the brief; design for #613 plan items 2 and 3.
+
+related: "ADR 029 (drives), ADR 031 (business intent and ICE), ADR 032 (drive review of outcomes), ADR 033 (approval in the product model), ADR 002 (checkpoint model), #613 (Kickoff), #606, #594"
+
+# --- What the brief gives for each required section (no outside reasons)
+from_brief:
+  context: "Why now — Kickoff (#613) is built next; the 18 October read found /intent asks every open question from its draft one at a time, up to three rounds; these come out of the draft so cannot all be asked before the drive starts; under ADR 029 §2 and drive-contract rule 4 each would stop the drive; Kickoff would stop on nearly every run. The rule must be set before the runner and the play fixes (#613 plan items 1 to 3). Kapil's words, 2026-10-18."
+  decision_parts:
+    - "Inside a drive a play runs with a high level of autonomy: a question it would ask a person it answers from memory and the system, and may assume from them. It does not stop at every point."
+    - "What counts as memory and the system, as the plays have it today: the drive contract's answers (gathered before the drive started); the sources the person gave (the prototype and its saved snapshots); the product model; the knowledge base; the learned checkpoint answers."
+    - "Never from the model's own knowledge with nothing behind it. When nothing in memory or the system supports an answer, the play asks the person; that question stops the drive, as ADR 029 §2 says today."
+    - "Every answer taken this way is recorded with where it came from; the drive's review (ADR 032) shows the person what was assumed and on what basis. An answer with no source is not allowed."
+    - "What this changes: ADR 029 §2's bullet; drive contract rule 4, the same way."
+    - "Scope (agent's reading, stated as unchanged, not as a new rule): run by hand a play is unchanged; questions first stays; checkpoints are not questions — rule 3 and gate-config stand; only a person confirms or drops a business intent or accepts an ADR."
+  alternatives: "three, each with why it lost — from the brief's Options considered, with Kapil's words"
+  quotes: "Use Kapil's own words from the brief, exactly; do not add any."
