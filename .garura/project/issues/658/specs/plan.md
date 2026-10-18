@@ -4,7 +4,7 @@ kind: story
 serves: "#658 — when no memory answers, an agent raises a memory update a person approves, and then decides from memory"
 status: active
 updated: 2026-10-18
-now: 2
+now: 4
 serves_plan: 653
 serves_item: 5
 ---
@@ -55,9 +55,9 @@ and its text still lets an update target Garura or Phoenix memory.
 
 ## Where we are now
 
-The change is open on `feature/658-memory-updates`. Kapil answered all three
-questions (items 1, 1b, 1c), and the review tool's design is updated. Next:
-item 2, the two faults from the PR #674 review.
+The change is open on `feature/658-memory-updates`. Kapil's questions are answered;
+the two review faults are fixed; contract version 3 is built. Next: item 4, the update
+commands.
 
 ## The plan, in order
 
@@ -81,28 +81,22 @@ item 2, the two faults from the PR #674 review.
   design (`.garura/project/issues/617/specs/review-tool.md`) now shows memory
   updates with an explicit Approve or Reject on each, and names the local
   prototype (`core/tools/play-reviewer/`, never committed) as the stand-in.
+- **2. Fixed: the two faults from the PR #674 review** — #658. `pull` takes the
+  contract's request (`{path}`, or `--path`; the command line's list becomes one request
+  per path). A piece is never written over a different Garura file — one `pull` did not
+  write, or one changed since: `pull` answers `would_overwrite`, and a read from Phoenix
+  memory answers `not_saved` and keeps the person's file. A pulled piece that did not
+  change is refreshed when Phoenix memory moves on.
+- **3. Built: contract version 3** — #658. `core/tools/memory/contract/v3.json`; versions
+  1 and 2 kept. Every update targets the issue's short-term memory (promotion left the
+  tool: `/learn-memory`, `/promote-memory`); an update carries `blocking`; `decide`
+  records `decided_in: review-tool`; a Phoenix read says `saved_to` or `not_saved`;
+  new error `would_overwrite`; the v2 leftovers fixed (short-term wording, refusals, a
+  no-issue sample, the approved-version setting). 45 samples moved, 4 added, 2 broken
+  added, the promotion sample now broken. 51 contract tests, 40 tool tests, 13 pull tests
+  pass; the contract check passes.
 
-### 2. Fix the two faults from the PR #674 review — now
-
-**Issue:** #658.
-**What:** `pull` takes the contract's request shape (`{path}`) as well as the
-command line's list; a read from Phoenix memory refuses to overwrite a Garura
-file it did not pull (or that changed since it was pulled), and says so.
-**Why here:** no agent uses the tool yet; fix it before any does (#661).
-**Done when:** tests cover both, and all tool tests pass.
-**Needs:** nothing.
-
-### 3. Contract version 3
-
-**Issue:** #658.
-**What:** an update targets short-term memory only; the promotion wording
-leaves the tool (it moves to the `learn` and `promote` plays); `decide` records
-the proof item 1a settles; the `pull` request shape is one shape.
-**Why here:** the tool is built against it.
-**Done when:** the contract check passes on version 3.
-**Needs:** item 1.
-
-### 4. Build the update commands
+### 4. Build the update commands — now
 
 **Issue:** #658.
 **What:** `propose`, `updates`, `decide` and `apply` in the memory tool. An
@@ -162,3 +156,4 @@ answers change (#658, #661, #663) are fixed only when Kapil asks.
   plan item 5 and Kapil's decisions of 2026-10-18 (#657 plan, item 1).
 - 2026-10-18 — Kapil: the drive keeps going unless an update really blocks; updates always land in short-term memory (`/learn-memory`, `/promote-memory` move memory up); approval in the product and intent review tool, which is designed but not built.
 - 2026-10-18 — Item 1 decided: approval in the review tool, a local prototype page until it is built; the tool's design updated. Item 5 added (the local page).
+- 2026-10-18 — Items 2 and 3 done: the two #674 faults fixed; contract version 3.
