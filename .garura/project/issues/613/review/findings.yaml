@@ -1,0 +1,89 @@
+meta:
+  pr: 652
+  issue: 613
+  categories: categories.yaml
+  layers_run:
+    decision-records: Layer 1 — adr.py lint on 034 (valid, no problems); index rebuilt from docs/adr matches _index.md;
+      029 changed only on its Status line; quality-check-scoped path rules (playbook review/adrs)
+    stm-working-notes: 'Layer 1 — every backticked repo path in the #613 plans, the memory review and ADR 034 checked
+      for existence (44 checked; 4 were a branch name or issue-relative paths); playbook missing'
+    stm-run-records: Layer 1 — skimmed for consistency with ADR 034 (decision.yaml records accept by Kapil, reply
+      'approved'); playbook missing
+  layer2: none — no design-bearing category in categories.yaml
+  runnable_checks: adr-lint.txt
+findings:
+- id: null
+  severity: P3
+  category: decision-records
+  file: docs/adr/029-drives.md
+  basis: 'pr.md taxonomy rule None (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: null
+  severity: P3
+  category: decision-records
+  file: docs/adr/034-plays-answer-from-memory-inside-a-drive.md
+  basis: 'pr.md taxonomy rule None (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: null
+  severity: P3
+  category: decision-records
+  file: docs/adr/_index.md
+  basis: 'pr.md taxonomy rule None (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: null
+  severity: P4
+  category: decision-records
+  file: docs/adr/029-drives.md
+  basis: 'pr.md taxonomy rule None (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: null
+  severity: P4
+  category: decision-records
+  file: docs/adr/029-drives.md
+  basis: 'pr.md taxonomy rule None (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: null
+  severity: P4
+  category: decision-records
+  file: docs/adr/034-plays-answer-from-memory-inside-a-drive.md
+  basis: 'pr.md taxonomy rule None (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: null
+  severity: P4
+  category: decision-records
+  file: docs/adr/034-plays-answer-from-memory-inside-a-drive.md
+  basis: 'pr.md taxonomy rule None (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: null
+  severity: P4
+  category: decision-records
+  file: docs/adr/_index.md
+  basis: 'pr.md taxonomy rule None (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: null
+  severity: P4
+  category: decision-records
+  file: docs/adr/_index.md
+  basis: 'pr.md taxonomy rule None (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: REV-ADR-ITEMS
+  severity: P4
+  category: decision-records
+  file: docs/adr/034-plays-answer-from-memory-inside-a-drive.md
+  basis: 'playbook review/adrs (linked and consistent); the #613 plan log records that items moved down one after
+    ADR 034 was accepted. An accepted ADR is not edited; the log carries the mapping.'
+- id: REV-FOLLOWUP-WORDING
+  severity: P3
+  category: decision-records
+  file: core/components/memory/standards/rules/drive-contract.md
+  basis: 'pr.md P3 ''missing docs'': ADR 034''s Affects names drive-contract.md rule 4 (:64), rules/_index.md (:43)
+    and glossary.md (:17); on main they still carry ADR 029''s wording. Planned follow-up (ADR 034 ''Work This Creates'';
+    memory system plan).'
+- id: REV-PLAYBOOK-GAP
+  severity: P4
+  category: stm-working-notes
+  file: .garura/project/issues/613/specs/plan.md
+  basis: 'categories.yaml missing_playbooks: no review playbook for STM working notes or STM run records (same gap
+    as the #617 review).'
+- id: REV-SHELF-PATH
+  severity: P4
+  category: stm-run-records
+  file: .garura/project/issues/613/review/context.yaml
+  basis: review_shelf in context.yaml (./.garura/core/memory/knowledge/review/) does not exist; fetch_pr_context.py:86-87
+    builds it from ltm.project-target. Covered by the memory review (specs/memory-review.md).
+- id: REV-SUBJECT-LEN
+  severity: P4
+  category: stm-run-records
+  file: (commits 27d9e035, 85c6d3fa, e3b10ca1)
+  basis: 'standards/rules/commits.md subject-length (72): three subjects run 78, 81 and 112 characters.'

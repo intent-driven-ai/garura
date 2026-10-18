@@ -1,0 +1,1736 @@
+diff --git a/.garura/project/issues/606/specs/plan.md b/.garura/project/issues/606/specs/plan.md
+index 155579da..3697d368 100644
+--- a/.garura/project/issues/606/specs/plan.md
++++ b/.garura/project/issues/606/specs/plan.md
+@@ -3,8 +3,8 @@ plan_for: 606
+ kind: business-intent
+ serves: "#606 — Garura's agentic lifecycle runs as five loops (drives), starting from a working prototype"
+ status: active
+-updated: 2026-10-17
+-now: 7
++updated: 2026-10-18
++now: 8
+ ---
+ 
+ # Plan — #606: the lifecycle runs as drives
+@@ -57,7 +57,11 @@ Items 13 (the handover drive) and the Alignment drive have no issue yet.
+ 
+ ## Where we are now
+ 
+-Three decisions are made (#592, #607, #619) and six things are shipped: plan mode's first pieces (#619), the Kickoff plays standing alone (#616), `/intent` (#612), the one product model that `/intent` and `/vision` both write (#637), `/vision` running inside a drive (#614), and `/understand` running inside a drive, detailing every pending capability in one run (#615). Now: item 7, how a finished drive is reviewed. Then Kickoff (item 8).
++Three decisions are made (#592, #607, #619) and six things are shipped: plan mode's first pieces (#619), the Kickoff plays standing alone (#616), `/intent` (#612), the one product model that `/intent` and `/vision` both write (#637), `/vision` running inside a drive (#614), and `/understand` running inside a drive, detailing every pending capability in one run (#615). Item 7 is decided: a drive ends with a review of its outcome (ADR 032), and approval lives in the product model, so agents build only from approved pieces (ADR 033); its stories are filed. Now: item 8, Kickoff. Its plan (`.garura/project/issues/613/specs/plan.md`) has
++ADR 034 decided — inside a drive a play answers from memory and asks only when
++memory holds nothing — and a review that found memory not ready. Kapil chose to
++fix the whole memory system first, as its own feature; Kickoff's runner waits for
++it.
+ 
+ ## The plan, in order
+ 
+@@ -72,20 +76,19 @@ Three decisions are made (#592, #607, #619) and six things are shipped: plan mod
+ - **5. Shipped: `/vision` runs inside a drive** — #614, PR #639, merged 17 October. Handed a drive's contract it opens nothing, never waits at its checkpoint (it keeps a review record for the drive's review instead), and commits on the drive's branch; a question the drive did not answer still stops it. Added a shared drive contract (`standards/rules/drive-contract.md`, one checker, one review-record writer), and the checkpoint's learning record now takes a "decided at the drive's review" answer. Not yet done: `/intent` still uses its own contract check; the drive's review writing the real answer back is #617 / #613.
+ - **6. Shipped: `/understand` runs inside a drive** — #615, PR #640, merged 17 October. Handed a drive's contract it opens nothing, never waits at its checkpoint (one review record per capability instead), and commits on the drive's branch; seed answers for a capability not yet in the model come from the contract, or it stops and asks. A box-move inside a drive is saved as a `proposed` decision and waits for the drive's review (Kapil's choice A). On Kapil's ask, one run now details every pending capability at the same time, measured against the product's limits as they stood at the start of the run; the parallel-work rule gained a "scoped-write" form for this (`standards/rules/concurrent-fanout.md`). Not yet done: when the drive's review drops a `proposed` box-move, nothing lowers the limit again (goes to item 7, #617); small review findings stay open on PR #640. Its own plan: `.garura/project/issues/615/specs/plan.md`.
+ 
+-### 7. Decide how a finished drive is reviewed — now
++- **7. Decided: how a finished drive is reviewed** — #617, PR #651, merged 18 October. ADR 032: every drive ends with a review of its outcome — the business intents, the agent intents under them and the product model, never the plays — in a review tool, not on the pull request; each piece is accepted, sent back or dropped; a dropped box-move lowers the limit again. ADR 033: approval is part of the product model; agents build only from approved pieces. The review tool is designed (plan and mockup in `.garura/project/issues/617/specs/`). Not yet done: nothing is built. Stories filed — under #594: #641 contract, #642 server, #643 reading, #644 acting, #648 open and listen, #649 send-back loop, #650 the review step; under #597: #645 approval states, #646 agents build only from approved, #647 spike on approval outside the review.
+ 
+-**Issue:** #617 (spike).
+-**What:** a drive ends in a score or a fail, and a review follows either way. Decide what the review looks at, who does it, and whether review is a drive of its own.
+-**Why here:** the drive moves each play's review to the end, so the end review must exist before Kickoff can be called finished.
+-**Done when:** the answers are in an ADR, and the stories to build it are filed. The ADR also says what happens to a product limit raised by a `proposed` box-move when the review drops that decision (left open by #615).
+-**Needs:** nothing — item 1 is done.
+-
+-### 8. Build the Kickoff drive
++### 8. Build the Kickoff drive — now
+ 
+ **Issue:** #613.
+-**What:** the drive itself. It asks all its questions first, runs `/intent` → `/vision` → `/understand` (once, for all the capabilities), stops only for a new question, has a different model or agent check the result, and writes its evidence. At its end review the person confirms or drops each intent `/intent` proposed (ADR 031, D10).
++**What:** the drive itself. It asks all its questions first, runs `/intent` → `/vision` → `/understand` (once, for all the capabilities), stops only for a question nothing in memory answers (ADR 034), has a different model or agent check the result, and writes its evidence. At its end review the person confirms or drops each intent `/intent` proposed (ADR 031, D10).
+ **Why here:** it needs all of items 3 to 7.
+ **Done when:** a working prototype goes in; the person approves the plan; out come a plan and issues the person can read, and a detailed product model for the agents — checked and reviewed.
++**Order inside this item** (Kapil, 2026-10-18, "A" — the runner first, then the review; and "B" — the whole memory system before the runner):
++0. **The memory system — its own feature, not filed yet.** Phoenix memory is the superset; each project pulls the subset it needs; one tool finds and updates memory, searching like Claude Code; nothing comes from the model or the web without a memory update a person approved. Draft plan: `.garura/project/issues/613/specs/memory-system-plan.md`. The runner starts at its milestone (its items 1 to 9).
++1. **The runner — #613.** Questions first, then `/intent` → `/vision` → `/understand`, the checker, the evidence. Until the review exists, the drive ends with the plays' review records and a pull request.
++2. **The review — #641–#644** (the tool), **#645–#646** (approval in the product model), **#648–#649** (open, listen, send back). #641 takes its example pack from a real Kickoff run, which only the runner can make.
++3. **The review joins the drive — #650.** The review step becomes the drive's last step and writes approval.
+ **Needs:** items 3 to 7.
+ 
+ ### Alongside items 2 to 8: the product-model ontology
+@@ -164,3 +167,9 @@ Not part of this plan; recorded so the gaps in time make sense.
+   `/understand` once for all capabilities, not once for each.
+ - 2026-10-17 — Item 6 done: #615 merged as PR #640 (`/understand` runs inside a drive and details every pending capability in one run; the scoped-write form of the parallel-work rule). Now on item 7 (#617). It also takes the open question of lowering a limit when the review drops a `proposed` box-move.
+ - 2026-10-17 — Added "How the issues sit": most items are children of #594 (itself under #606), and plan mode (#619, #621) sits under #539. The plan had left #594 out (Kapil asked).
++- 2026-10-18 — Item 7 done: #617 merged (PR #651) with ADR 032 and ADR 033; review stories #641–#650 filed. Now on item 8, Kickoff.
++- 2026-10-18 — Kapil chose A: build the Kickoff runner (#613) first, then the review stories; #650 puts the review at the drive's end.
++- 2026-10-18 — Inside item 8: ADR 034 accepted (a play answers from memory inside
++  a drive). Kapil had memory reviewed before the runner is built, then chose to
++  fix the whole memory system first, as its own feature — added as step 0 of
++  item 8. Big update: an added piece of work, logged here.
+diff --git a/.garura/project/issues/613/context/analysis.yaml b/.garura/project/issues/613/context/analysis.yaml
+new file mode 100644
+index 00000000..f7f25e10
+--- /dev/null
++++ b/.garura/project/issues/613/context/analysis.yaml
+@@ -0,0 +1,30 @@
++---
++# analyze-changes output (judgment path, loop round 1)
++# issue: 613
++branch: feature/613-the-kickoff-drive
++issue: 613
++needs_judgment: false
++
++change_groups:
++  - id: chore-stm-memory-install
++    issue: 613
++    commit_type: chore
++    scope: stm
++    subject: "plan the memory system as part of every install"
++    confidence: high
++    files:
++      - .garura/project/issues/613/specs/memory-system-plan.md
++      - .garura/project/issues/613/specs/plan.md
++      - .garura/project/issues/606/specs/plan.md
++    notes: "One concern on one issue branch: Kapil's 2026-10-18 decision that every Garura install carries the memory tool and guide. The memory plan gains the item and renumbers the later ones; the Kickoff plan and the lifecycle plan now wait on the memory plan's items 1 to 9. Short-term-memory planning files only; no code. Run-state files under context/ are left to the executor's final chore(stm) group."
++
++exclusions:
++  []
++
++risks:
++  sensitive_files:
++    []
++
++eval_gates:
++  SE-1: {status: PASS, evidence: "3 changed tracked files, all in one group on a single-issue branch; context/ run-state files left to the executor's run-state commit"}
++  SE-5: {status: PASS, evidence: "no sensitive filename or content patterns in the diff; no breaking changes; branch is not a hotfix branch"}
+diff --git a/.garura/project/issues/613/context/branch.json b/.garura/project/issues/613/context/branch.json
+new file mode 100644
+index 00000000..941dd480
+--- /dev/null
++++ b/.garura/project/issues/613/context/branch.json
+@@ -0,0 +1,6 @@
++{
++  "branch_name": "feature/613-the-kickoff-drive",
++  "base_sha": "efa2d5b6163f7e50912fdd8acd500d2cc30f97c8",
++  "on_default_branch": false,
++  "worktree_path": null
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/613/context/commits.yaml b/.garura/project/issues/613/context/commits.yaml
+new file mode 100644
+index 00000000..ba2d720c
+--- /dev/null
++++ b/.garura/project/issues/613/context/commits.yaml
+@@ -0,0 +1,14 @@
++commits:
++  - sha: 96e13d7b
++    message: "chore(stm): plan the memory system as part of every install (#613)"
++    files:
++      - .garura/project/issues/613/specs/memory-system-plan.md
++      - .garura/project/issues/613/specs/plan.md
++      - .garura/project/issues/606/specs/plan.md
++    branch: feature/613-the-kickoff-drive
++excluded_files:
++  []
++leftover_count: 0
++tree_clean: true
++pushed: false
++run_state_committed: true
+diff --git a/.garura/project/issues/613/context/issue.json b/.garura/project/issues/613/context/issue.json
+new file mode 100644
+index 00000000..0e7e58fd
+--- /dev/null
++++ b/.garura/project/issues/613/context/issue.json
+@@ -0,0 +1,6 @@
++{
++  "resolved": true,
++  "issue_number": 613,
++  "title": "The Kickoff drive runs /intent, /vision and /understand from a prototype to a detailed product model",
++  "created": false
++}
+diff --git a/.garura/project/issues/613/context/plan-check.json b/.garura/project/issues/613/context/plan-check.json
+new file mode 100644
+index 00000000..b5708907
+--- /dev/null
++++ b/.garura/project/issues/613/context/plan-check.json
+@@ -0,0 +1,18 @@
++{
++  "valid": true,
++  "done": false,
++  "status": "active",
++  "now": "3",
++  "open_items": [
++    3,
++    4,
++    5,
++    6,
++    7,
++    8,
++    9
++  ],
++  "serves_plan": "/Users/kapilahuja/cto/builder/garura/.garura/project/issues/606/specs/plan.md",
++  "problems": [],
++  "plan": ".garura/project/issues/613/specs/plan.md"
++}
+diff --git a/.garura/project/issues/613/context/porcelain.txt b/.garura/project/issues/613/context/porcelain.txt
+new file mode 100644
+index 00000000..eb6908e9
+--- /dev/null
++++ b/.garura/project/issues/613/context/porcelain.txt
+@@ -0,0 +1,4 @@
++ M .garura/project/issues/606/specs/plan.md
++ M .garura/project/issues/613/specs/memory-system-plan.md
++ M .garura/project/issues/613/specs/plan.md
++?? .garura/project/issues/613/context/porcelain.txt
+diff --git a/.garura/project/issues/613/context/pr-body.md b/.garura/project/issues/613/context/pr-body.md
+new file mode 100644
+index 00000000..98f32ec5
+--- /dev/null
++++ b/.garura/project/issues/613/context/pr-body.md
+@@ -0,0 +1,34 @@
++## What this lands
++
++The decisions made so far on the Kickoff drive (#613), landed now so the memory work can start from main. Kapil chose this on 2026-10-18. Nothing is built: decision records, plans and notes only.
++
++- **ADR 034 — inside a drive, a play answers from memory.** A play answers its own questions from memory and from what the system gives it, names where each answer came from, and asks only when nothing in memory supports an answer. It never answers from the model alone. It amends ADR 029 §2. Accepted by Kapil.
++- **The memory review.** Memory is not ready for ADR 034: three copies of long-term memory that disagree, two kinds of memory that cannot answer a question, and nothing that records where an answer came from (`.garura/project/issues/613/specs/memory-review.md`).
++- **The memory system, planned (draft).** Kapil's model: **Phoenix memory** is the global superset; the Garura memory in each project is the subset it pulls, and it can go up to Phoenix memory for more; short-term memory per issue. Agents read and update memory only through one command-line tool that searches the way Claude Code does, on folders now and on Griffin later. Nothing comes from the model or the web unless a person approves a memory update first. Every Garura install carries the tool and a memory guide. Its own feature, not filed yet (`.garura/project/issues/613/specs/memory-system-plan.md`).
++- **Plans.** #613's plan holds the Kickoff runner at a milestone until the memory system reaches its own; #606's plan adds the memory system as step 0 of Kickoff.
++
++**Not yet true on main:** the drive contract rule, the rules index and the glossary still carry ADR 029's old wording, and the plays still ask instead of answering from memory. That is the planned follow-up (ADR 034 "Work This Creates"; the memory plan).
++
++Refs #613 — the issue stays open.
++
++## Self-review
++
++Rules: base `standards/rules/self-review.md` (no project override). Findings that stop the raise: **none**. Full review: `.garura/project/issues/613/context/self-review.md`.
++
++**Scope**
++- [PASS] Matches the planned landing: ADR 034, its pointer on ADR 029 and the index row; the #613 and #606 plans; the memory review and draft memory plan; `/adr` and play run records. No code, plays, skills or agents.
++- [REVIEW] Size: 26 files, about +1,330 lines, but 91 % is plans and run records. The decision to read is ADR 034 (114 lines).
++- [PASS] No stray artifacts.
++
++**Quality**
++- [PASS] No merge conflicts; no secrets; every JSON and YAML file parses.
++- [PASS] ADR 034 has every section, reads Accepted, and every path it cites exists.
++- [PASS] Commits are conventional, one concern each, and name #613.
++
++**For the reviewer (non-blocking)**
++- ADR 034 cites #613 plan items by the numbers they had when it was accepted. A review item was then added as item 2, so its "item 2" is now item 3 and its "item 3" is now item 4. The plan's log records the mapping; an accepted ADR is not edited.
++- Three commit subjects run past 72 characters (`27d9e035`, `85c6d3fa`, `e3b10ca1`).
++- The draft memory plan sits in #613's folder until its own feature is filed.
++- One stale line in the #606 plan ("stops only for a new question") was fixed in this change.
++
++🤖 Generated with [Claude Code](https://claude.com/claude-code)
+diff --git a/.garura/project/issues/613/context/pr.json b/.garura/project/issues/613/context/pr.json
+new file mode 100644
+index 00000000..643308a9
+--- /dev/null
++++ b/.garura/project/issues/613/context/pr.json
+@@ -0,0 +1,6 @@
++{
++  "number": 652,
++  "url": "https://github.com/intent-driven-ai/garura/pull/652",
++  "state": "OPEN",
++  "base": "main"
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/613/context/resolved-rules.json b/.garura/project/issues/613/context/resolved-rules.json
+new file mode 100644
+index 00000000..70b8f431
+--- /dev/null
++++ b/.garura/project/issues/613/context/resolved-rules.json
+@@ -0,0 +1,6 @@
++{
++  "resolved": true,
++  "path": "/Users/kapilahuja/.garura/core/memory/standards/rules/self-review.md",
++  "source": "/Users/kapilahuja/.garura/core/memory/standards/rules",
++  "is_override": false
++}
+diff --git a/.garura/project/issues/613/context/self-review.md b/.garura/project/issues/613/context/self-review.md
+new file mode 100644
+index 00000000..7068eaf9
+--- /dev/null
++++ b/.garura/project/issues/613/context/self-review.md
+@@ -0,0 +1,142 @@
++# Self-review — #613 (planned partial landing)
++
++Run on branch `feature/613-the-kickoff-drive` against `origin/main` (9 commits, 25 files). Driven by `/Users/kapilahuja/.garura/core/memory/standards/rules/self-review.md` (base file, no project override), plus the analyze-pr quality rules for a prompting project. This review is informational. Under the rules file it never blocks the raise; `review-change` owns approve and reject.
++
++## In plain words
++
++This change lands the decisions made so far on the Kickoff drive, before the memory work starts from main. It adds one accepted decision record (ADR 034: inside a drive, a play answers from memory and asks only when memory holds nothing), a pointer to it from ADR 029, the plans for #613 and #606, the memory review, and a draft plan for the memory system. It changes no code, no plays, no skills and no agents.
++
++The change fits that description. Nothing rides along, no secrets were found, there are no merge conflicts, and every commit is conventional and names #613. Nothing blocks the raise.
++
++There are 7 non-blocking notes. The two that matter most: the live drive rules still carry the old wording until the follow-up work lands, and ADR 034 points at plan item numbers that have since moved.
++
++Blocking: 0. Non-blocking: 7.
++
++## Branch info
++
++- Branch: `feature/613-the-kickoff-drive` (pattern: feature, standard priorities)
++- Base: `origin/main` (merge base is `origin/main` itself; branch is 9 ahead, 0 behind)
++- Commits: 9. Files: 25. Lines: +1,322 / -12
++- Suggested PR title: `docs(adr): ADR 034, inside a drive a play answers from memory; plans and memory review for #613`
++- The PR must say it refers to #613 and must not close it. The diff contains no "closes", "fixes" or "resolves" wording (scan returned nothing).
++
++## Scope checks
++
++| Check | Status | Evidence |
++|-------|--------|----------|
++| Matches the issue | PASS | Files fall into the groups the scope names and nothing else: ADR 034 + ADR 029 pointer + index row (3 files under `docs/adr/`), the #613 and #606 plans, the memory review and draft memory plan (`.garura/project/issues/613/specs/`), the `/adr` run records (`.garura/project/issues/_adr/20261018-071440/`, 11 files), and play run records (`.garura/project/issues/613/context/`, 7 files). `git diff --name-only` shows no path under `core/`, `.claude/` or any play, skill or agent. |
++| No scope creep | PASS, see note 5 | Every file maps to the planned partial landing. The one stretch is the draft memory system plan, which belongs to a feature that has no issue yet (note 5). |
++| Reasonable size | REVIEW, see note 4 | 25 files, +1,322 lines. Count: `docs/adr/` adds 114 + 1 + 1 = 116 lines; the other 1,322 - 116 = 1,206 lines (91%) are plans and run records under `.garura/project/`. The reviewable decision is the 116 lines in `docs/adr/`. Size must be justified in the PR description. |
++| No stray artifacts | PASS | No TODO, FIXME, XXX, HACK, debug print or commented-out block in added lines (scan returned nothing). The `_adr/` and `context/` files are run records the scope names as in scope. Note: the working tree holds one untracked file, `.garura/project/issues/613/context/resolved-rules.json`, plus this file once written. Both are this play's own outputs, not accidents; `commit-change` recorded `tree_clean: true` before this play ran. |
++
++## Quality checks
++
++| Check | Status | Evidence |
++|-------|--------|----------|
++| Tests present | PASS (none needed) | No behavior change: docs, plans and run records only. Rule `tests-pass` is disabled for this project (no automated tests in prompting projects). |
++| Commits are clean | PASS with note 3 | All 9 subjects are conventional (`chore(stm)` x8, `docs(adr)` x1) and all end with `(#613)`. Each commit is one concern (checked per commit with `git show --stat`). Three subjects run past 72 characters (note 3). |
++| No secrets | PASS | Pattern scan of every added line for cloud keys, private-key headers, GitHub and Slack tokens, `sk-` keys, bearer and JWT strings, and `password`, `secret`, `token`, `api_key` assignments: no hits. One local absolute path is present (note 7); it is not a credential. |
++| Docs in step | REVIEW, see note 1 | The ADR index row and the ADR 029 forward pointer are in. The live rules ADR 034 says it changes are not yet rewritten (note 1). |
++| Nothing obviously broken | PASS with notes 1, 2, 6 | All 12 JSON and YAML files parse; front matter in the three plans parses. Every path cited in ADR 034 exists on `origin/main`. Paths cited in the plans resolve (the ones that did not match are short forms, such as `standards/rules/...`, and the git-ignored `.garura/core/memory/` that the review describes). No known-failing path is introduced. |
++
++## Project rules (analyze-pr quality rules)
++
++| Rule | Priority | Trigger | Status | Evidence |
++|------|----------|---------|--------|----------|
++| `no-conflicts` | must-have | always | PASS | `git merge-tree --write-tree origin/main HEAD` exit 0, clean tree `d3d0d2254eef78b6545a013038968ed5ec0ee9ff` |
++| `no-secrets` | must-have | always | PASS | pattern scan, no hits |
++| `adr-structure` | must-have | `docs/adr/*.md` | PASS | ADR 034 has Status, Context, Decision, Consequences (plus Alternatives, Work This Creates, References) |
++| `adr-status` | must-have | `docs/adr/*.md` | PASS | `Status: Accepted`, `Decided by: Kapil Viren Ahuja`, 2026-10-18. Acceptance is on record in commit e3b10ca1 ("approved") and in the dispatch scope. The `/adr` lint recorded `valid: true, problems: []` before acceptance (`adr-check.json`); the accepted file differs from the draft only in the Status and Decided-by lines. |
++| `config-valid` | must-have | `*.yaml` | PASS | 4 YAML files parse (`analysis.yaml`, `commits.yaml`, `adr-context.yaml`, `decision.yaml`) |
++| `adr-numbered` | nice-to-have | `docs/adr/*.md` | PASS | `034-...md`; follows 033, no clash on `origin/main` |
++| `docs-only` | nice-to-have | commit type `docs:` | PASS | The `docs(adr)` commit adds no code. It carries JSON, YAML and text run records alongside the Markdown; none is functional. |
++| `config-documented` | nice-to-have | `*.yaml` | PASS | The YAML files are run records, not configuration |
++
++Not triggered: agent, skill and play rules (no such file changed), `docs-consistent` (no philosophy, components, README or CLAUDE.md change), `deploy-components` (nothing under `core/components/` changed), `feat-*` and `refactor-*` (no such commit type).
++
++## Findings (all non-blocking)
++
++1. **Live rules still carry the old wording.** ADR 034 is Accepted and says rule 4 of the drive contract, the rules index row and the glossary Drive entry change. On this branch they still read the old way: `core/components/memory/standards/rules/drive-contract.md:64` ("still stops the play"), `core/components/memory/standards/rules/_index.md:43` ("stop on a new question"), `core/grounding/glossary.md:17` ("stops only to ask a question that comes up mid-run"). The three plays are also unchanged. This is the planned gap: ADR 034 lists it under "Work This Creates", and #613 plan items 4 to 9 carry it. The PR description should say so, so main is not read as already following the new rule.
++2. **ADR 034 cites plan items by their old numbers.** The #613 plan log (2026-10-18, "Item 1 done") says ADR 034's "item 2" now means item 3 and its "item 3" now means item 4, because the memory review became item 2. The ADR text was not updated: `docs/adr/034-plays-answer-from-memory-inside-a-drive.md` lines 38, 88, 103, 104 and 105. The plan log carries the mapping, so the trail is not lost, but a reader of the ADR alone is pointed to the wrong items.
++3. **Three commit subjects are over 72 characters.** `commits.md` sets 72 as the limit (`subject-length`). Lengths: `27d9e035` is 78, `85c6d3fa` is 81, `e3b10ca1` is 112. The self-review rules file only asks for conventional format, one concern and an issue reference, which all 9 meet, so this is a note. The commits are unpushed; rewording needs an explicit ask.
++4. **Size and issue link need to be stated in the PR description.** 25 files and +1,322 lines is large, but 91% is plans and run records; say that, and say it is Kapil's chosen partial landing of 2026-10-18. The PR must refer to #613 and leave it open.
++5. **The draft memory system plan sits in #613's folder.** `.garura/project/issues/613/specs/memory-system-plan.md` (270 lines) describes a separate feature that no issue holds yet. It is in scope by the dispatch, and the plan and commit messages say why it is here. Once the memory feature is filed, it should move to that feature's own folder.
++6. **One line in the #606 plan is older than ADR 034.** `.garura/project/issues/606/specs/plan.md` line 84 (item 8, "What") still says the drive "stops only for a new question". ADR 034 narrows that to a question nothing in memory supports. The new "Order inside this item" lines below it are correct.
++7. **A local path is committed.** `.garura/project/issues/613/context/plan-check.json:15` holds `/Users/kapilahuja/cto/builder/garura/...`. It is not a secret, and run records on `origin/main` already hold such paths (for example `.garura/project/issues/241/review/pr.diff`). Noted only.
++
++## Blocking issues
++
++None. The rules file states this review does not block the raise.
++
++## Readiness
++
++- Ready: yes
++- Blocking count: 0
++- Non-blocking count: 7
++- Review required (rows marked REVIEW): 2 (size, docs in step), both settled by wording in the PR description
++- Recommendation: raise the PR
++
++---
++
++## YAML output
++
++```yaml
++analysis:
++  branch: feature/613-the-kickoff-drive
++  base: origin/main
++  branch_pattern: feature
++  commits: 9
++  changes:
++    files: 25
++    additions: 1322
++    deletions: 12
++  suggested_title: "docs(adr): ADR 034, inside a drive a play answers from memory; plans and memory review for #613"
++  rules_file: /Users/kapilahuja/.garura/core/memory/standards/rules/self-review.md
++  rules_file_is_override: false
++  context:
++    file_patterns_matched:
++      - { name: adr, files: 3, trigger: "docs/adr/*.md" }
++      - { name: yaml, files: 4, trigger: "*.yaml" }
++      - { name: stm_plans_and_records, files: 22, trigger: ".garura/project/issues/**" }
++    commit_types:
++      - { type: chore, count: 8 }
++      - { type: docs, count: 1 }
++    branch_modifiers: []
++  checklist:
++    scope:
++      - { item: matches_the_issue, status: PASS }
++      - { item: no_scope_creep, status: PASS, note: "finding 5" }
++      - { item: reasonable_size, status: REVIEW, note: "finding 4" }
++      - { item: no_stray_artifacts, status: PASS }
++    quality:
++      - { item: tests_present, status: PASS, note: "none needed, no behavior change" }
++      - { item: commits_are_clean, status: PASS, note: "finding 3" }
++      - { item: no_secrets, status: PASS }
++      - { item: docs_in_step, status: REVIEW, note: "finding 1" }
++      - { item: nothing_obviously_broken, status: PASS, note: "findings 1, 2, 6" }
++    must_have:
++      - { id: no-conflicts, status: PASS }
++      - { id: no-secrets, status: PASS }
++      - { id: adr-structure, status: PASS }
++      - { id: adr-status, status: PASS }
++      - { id: config-valid, status: PASS }
++    nice_to_have:
++      - { id: adr-numbered, status: PASS }
++      - { id: docs-only, status: PASS }
++      - { id: config-documented, status: PASS }
++  findings:
++    blocking: []
++    non_blocking:
++      - { n: 1, summary: "live drive rules and plays still carry the old wording until the follow-up lands (planned)" }
++      - { n: 2, summary: "ADR 034 cites plan items by their old numbers (lines 38, 88, 103, 104, 105)" }
++      - { n: 3, summary: "3 of 9 commit subjects exceed 72 characters (27d9e035, 85c6d3fa, e3b10ca1)" }
++      - { n: 4, summary: "PR description must justify size and refer to #613 without closing it" }
++      - { n: 5, summary: "draft memory system plan sits in #613's folder for a feature with no issue yet" }
++      - { n: 6, summary: "606 plan item 8 'What' line says 'stops only for a new question', older than ADR 034" }
++      - { n: 7, summary: "plan-check.json commits a local absolute path (precedent on main); not a secret" }
++  blocking_issues: []
++  blocking_count: 0
++  non_blocking_count: 7
++  ready: true
++  recommendation: "Create PR"
++```
+diff --git a/.garura/project/issues/613/context/work-description.txt b/.garura/project/issues/613/context/work-description.txt
+new file mode 100644
+index 00000000..91404b72
+--- /dev/null
++++ b/.garura/project/issues/613/context/work-description.txt
+@@ -0,0 +1,19 @@
++Issue #613 — The Kickoff drive runs /intent, /vision and /understand from a prototype to a detailed product model (parent #594; ADR 029; plan 606 item 8).
++
++Build Kickoff, the first drive. It takes a working prototype and runs /intent → /vision →
++/understand (one /understand run for all capabilities) to a detailed product model.
++
++This change is step 1 of item 8 (Kapil, 2026-10-18, choice "A" — the runner first, then
++the review): the runner. It asks every question its plays would ask before it starts,
++does not stop for the plays' checkpoints, stops and asks only for a new mid-run question,
++works on one issue and one branch (no play inside opens another), ends with a check by a
++checker chosen by configuration, and writes an evidence record. Until the review exists,
++the drive ends with the plays' review records and a pull request.
++
++Out of scope: changing the three plays; the review tool and step (#641–#650). The issue's
++last acceptance item (the review as the drive's last step) lands with #650.
++
++Done when: given a working prototype, Kickoff ends with a confirmed intent, a domain with
++its capabilities, every capability detailed, each play's saved record present, the checker
++passed, and evidence written; it halts on a missing or broken prototype, a play that misses
++its own done check, or a checker rejection.
+diff --git a/.garura/project/issues/613/specs/memory-review.md b/.garura/project/issues/613/specs/memory-review.md
+new file mode 100644
+index 00000000..7b137d40
+--- /dev/null
++++ b/.garura/project/issues/613/specs/memory-review.md
+@@ -0,0 +1,138 @@
++# Memory review — what the Kickoff plays answer from
++
++#613, plan item 2. Written 2026-10-18, after ADR 034 was accepted and before the
++runner is designed. Kapil: "Before we build the drive, we need to review the
++memory mechanism and make sure it is done absolutely correctly."
++
++## The short answer
++
++Memory is not ready for ADR 034. ADR 034 says a play inside a drive answers its
++questions from memory and names where each answer came from. Today three things
++stop that:
++
++1. **The plays read three different copies of Garura's long-term memory, and two
++   of them are out of date.** One run can read rules from one copy, templates
++   from another, and the knowledge base from a third.
++2. **Two of the five kinds of memory ADR 034 names cannot answer a question.**
++   The "learned checkpoint answers" hold no answers, only yes/no verdicts on
++   checkpoints, and the file does not exist yet. The prototype's sources are
++   saved by `/intent` and then never read again.
++3. **Nothing can record where an answer came from.** There is no shared shape
++   for "an answer and its source", no place for it in the drive's review
++   record, and two scripts reject any answer that did not come from a person.
++
++None of this is hard to fix. But every later item in the plan rests on it.
++
++Kapil, 2026-10-18: Griffin is not built yet, but a lot of this will go into
++Griffin later. So whatever is fixed here is kept in one place, behind a small
++written contract, so it can move — the same rule as the review tool
++(`.garura/project/issues/617/specs/review-tool.md`).
++
++## Each kind of memory, as it stands
++
++| Memory (ADR 034 §2) | Can a play read it in a drive? | Is it current? | Can an answer name it as its source? |
++|---|---|---|---|
++| The drive's up-front answers (contract `answers`) | `/understand` yes; `/vision` keys unsettled; `/intent` never reads them | yes | no — no question ids for `/intent`; `/understand` stamps them as typed by a person |
++| The prototype's sources | only `/intent`, which wrote them | yes, hashed | partly — a file path, but sources link to every intent of the run, not the one they support |
++| The product model | yes | yes, but no approval states yet (ADR 033 unbuilt) | yes for intents and spine ids; no for ICE lines; page paths move |
++| The knowledge base | `/vision` and `/understand`; not `/intent` | depends which copy is read | no — its node ids renumber on every rebuild; citations are free text no check looks up |
++| The learned checkpoint answers | — | file does not exist | no — it holds checkpoint verdicts, never answers to questions |
++
++## What is broken
++
++**The copies of long-term memory**
++- Three copies exist: the source (`core/components/memory/`, 151 files), the
++  project copy (`.garura/core/memory/`, 41 files, last written 30 May, git
++  ignores it), and the machine copy (`~/.garura/core/memory/`, 241 files).
++- ADR 015 says plays read the machine copy. But the close of 28 of 32 plays
++  reads the project copy (`standards/rules/play-close.md:105-110`), which nothing
++  writes any more (`install-garura/scripts/install.py:250-256`). In a project
++  Garura is installed into, that copy does not exist at all.
++- The machine copy is behind the source: no drive contract rule, ontology
++  version 3 instead of 4, and two knowledge shelves deleted in #434 still served
++  (`install.py` copies but never deletes).
++- The knowledge-base skills hard-code the source path
++  (`skills/search-kb/SKILL.md:20`, `skills/propose-kb-node/SKILL.md:28`), and
++  `kb_search.py` looks in the wrong folder once installed (`:82`); a missing
++  knowledge base returns an empty answer, not an error.
++
++**Answers and their sources**
++- `/intent` never reads the contract's answers, and its questions have no ids,
++  so the drive cannot answer them up front (`intent/SKILL.md:85,100-101`;
++  `skills/author-business-intent/SKILL.md:120-124`).
++- `/vision` reads its goal from `inputs` in one place and `answers` in another
++  (`vision/SKILL.md:134`; `play-creator/references/test_drive_contract.py:44`).
++- `/intent`'s check accepts an answer only from the source or the person
++  (`intent/scripts/check_intent.py:141`); `/understand` accepts a new
++  capability's answers only from a person (`understand/scripts/persist_understand.py:99-101`),
++  and stamps contract answers as a person's (`pick_targets.py:139`).
++- `/intent`'s "where this came from" is a label the drafting agent writes about
++  itself; no script checks it against the source or the answers, and it is
++  never saved in the model (`check_intent.py:137-143`).
++- The drive's review record has no place for assumptions or their sources, and
++  is written only when a checkpoint would have waited; `/intent` writes none
++  (`play-creator/references/write_drive_review.py:72-75`).
++- The rule on reading memory still lets a play fall back to the model's own
++  knowledge when memory has nothing (`standards/rules/resolution.md:71-74`,
++  rule R4). That contradicts ADR 034 §3, which did not amend it.
++
++**The prototype's sources**
++- `/vision` and `/understand` never read them; `read_intents.py` passes on only
++  an intent's outcome, why and stage — not its proof, who asked, or must-not
++  (`vision/scripts/read_intents.py:34`).
++- Every source links to every intent of the run, so nobody can tell which
++  source supports which intent (`intent/scripts/persist_intent.py:365-383`).
++
++## What is risky
++
++- `/understand` picks every rough capability in the whole model, not only the
++  drive's own (`pick_targets.py:113`).
++- Nothing tells "written earlier in this drive" from "approved by a person":
++  no drive id on any piece; a decision can read `accepted` with no person.
++- `/vision`'s proposal for a new knowledge-base node rests on web research, not
++  memory, and never reaches the drive's review (`vision/SKILL.md:262-264,450-454`).
++- `config.yaml` names a `profile.yaml` that does not exist; the profile lives in
++  the spine.
++
++## What is fine
++
++- Intent ids and spine ids are stable. Source snapshots are exact copies with
++  hashes, committed on the drive's branch.
++- The shared contract checker and review writer are identical in every play
++  that has them, and a test enforces it.
++- The knowledge base's architecture learnings (`kb-search`) have stable ids.
++- Two ready-made pieces exist and fit ADR 034: a citation format
++  (`resolution.md:87-93`: where an answer was resolved from, the source, the
++  section) and a durable question store with stable ids and the person's answers
++  (`standards/rules/product.md`, rule 12: `grounding-questions.md`, "questions
++  answered in prior runs are not re-asked; the pipeline reads their answers as
++  facts").
++
++## What "done correctly" needs, for Kickoff
++
++1. **One copy of memory.** Every play reads the machine copy, as ADR 015 says;
++   the installer keeps it equal to the source (deletes what the source deleted);
++   the project copy is retired.
++2. **One shape for "an answer and its source"**: the question, the answer, and
++   where it came from — which kind of memory, the exact file or id, and the words
++   it rests on. Built from the existing citation format.
++3. **Stable question ids** for every question `/intent`, `/vision` and
++   `/understand` can ask, and a contract check that knows them.
++4. **The plays accept answers from memory**, each with its source; a script
++   checks every source exists; a play with no source asks.
++5. **The review record carries every answer taken from memory**, for every
++   play, including `/intent`.
++6. **The "learned answers" are made real or dropped** from ADR 034's list.
++7. **Rule R4 no longer applies inside a drive**: no fallback to the model alone.
++8. **Pieces cited from the product model are cited by id**, not page path.
++
++Left for later (or Griffin): stable knowledge-base node ids, the knowledge
++base's index and staleness check, `review-change`'s missing review shelf, the
++installer's config paths in installed projects, and approval states (ADR 033,
++#645–#646).
++
++## Sources of this review
++
++Three read-only reviews on 2026-10-18 (the knowledge base and memory copies; the
++product model and sources; contract answers, learned answers and answer
++sources), with their main claims checked against the files.
+diff --git a/.garura/project/issues/613/specs/memory-system-plan.md b/.garura/project/issues/613/specs/memory-system-plan.md
+new file mode 100644
+index 00000000..e4a31739
+--- /dev/null
++++ b/.garura/project/issues/613/specs/memory-system-plan.md
+@@ -0,0 +1,270 @@
++---
++plan_for: none yet — a draft; it moves to its own issue's folder once filed
++kind: feature
++serves: "#606 — drives make their own decisions because they work only from memory"
++status: draft
++updated: 2026-10-18
++now: 1
++---
++
++# Plan — Garura's memory system
++
++This is a plan, not a design. It says what gets done, in what order, and why
++that order. How each item is built is decided in its own issue.
++
++Kapil chose B on 2026-10-18: fix the whole memory system now, before the
++Kickoff drive is built, as its own feature with its own issues and branches.
++This plan is drafted inside #613 because no issue holds it yet.
++
++## What we are trying to reach
++
++**Kapil's model** (2026-10-18). Plays call sub-agents to gather context, and
++that is where memory is read. Memory has three tiers:
++
++- **Phoenix memory** — the global memory, and the superset: it holds
++  everything that is in Garura's memory today, the rulebook (rules, templates,
++  schemas) and the knowledge alike. It lives outside Garura (in Griffin, later).
++- **Project memory** — long-term memory inside the project's own `.garura/`, in
++  two parts: the **Garura memory** — the subset of Phoenix memory this project
++  needs, pulled in when Garura is installed and whenever more is needed — and
++  what the project makes itself (its product model, intents, decisions, and the
++  person's answers).
++- **Short-term memory** — per issue: the plans, specs and context of the work.
++
++Kapil, 2026-10-18: "Phoenix memory is the superset, and Garura memory is the
++subset. Phoenix memory gets everything." A project pulls only what it needs, and
++can always go a level up to Phoenix memory for more. That keeps each project's
++memory small and clean.
++
++Agents also read the git repository, the product model and the intents.
++**Only when none of these holds an answer** may an agent go to the model or the
++web — and then only through a **memory update** a person approves. The update
++is written into memory first, and the decision is then made from memory. "The
++system should work only within the memory." That is what lets a drive make its
++own decisions.
++
++Agents never read or write memory by a path. They call **one memory tool**, a
++command-line tool that both **finds memory and updates it**. Today it works on
++folders; later it calls Griffin; agents and Garura do not change.
++The tool **searches the way Claude Code does** — find files, search their text,
++read exact lines — on the laptop now, and the same way on the server later
++(Kapil: "this is critical as this is why claude-code is so good").
++
++A **memory review**, in the review tool beside Intents and Product, shows what
++each tier holds, the memory updates waiting for a person, and which memory each
++decision came from.
++
++**What is true today** (`specs/memory-review.md`, and a map of every agent):
++memory is files that each agent and skill finds by its own path. Three copies of
++long-term memory exist and disagree. 13 active agents and 32 active skills name
++memory paths directly; every play's close reads a copy installed projects do not
++have. The one shared way in (`ltm_context`, ADR 015) is used by one play. Two
++agents still fall back to the web or the model's own reasoning, which ADR 015
++allows and ADR 034 now forbids inside a drive. Nothing records which memory an
++answer came from in a way anyone checks.
++
++## When this plan is done
++
++- Every agent and skill reads and updates memory only through the memory tool;
++  a lint check fails any component that names a memory path.
++- Phoenix memory has one home outside Garura. Each project holds only the subset
++  it pulled, and knows which version of Phoenix memory each piece came from, so
++  it can tell when a piece is behind.
++- When the project's memory has no answer, the tool goes up to Phoenix memory
++  before anything else.
++- Every Garura install carries the tool and a short memory guide, and checks
++  the tool works, so agents in any project know the three tiers and how to use
++  them.
++- The tool searches like Claude Code and returns, for every result, the tier,
++  the file, the lines and a fingerprint of the text. Missing memory is an
++  error, never "nothing found".
++- Nothing comes from the model or the web unless a person approved a memory
++  update first, and the decision was then made from memory.
++- Every decision an agent makes names the memory it came from, and a script
++  checks the source exists and has not changed.
++- The memory review shows the tiers, the waiting updates and each decision's
++  source.
++- Moving the tool to Griffin means changing one setting.
++
++## Where we are now
++
++Reviewed, nothing built. The review (`specs/memory-review.md`) and the map of
++how agents read memory are done. Kapil set the model above and chose B. Next:
++item 1, the decision record.
++
++## The plan, in order
++
++### 1. Decide the memory system — now
++
++**Issue:** none yet.
++**What:** record Kapil's model as an ADR: the three tiers and what lives in
++each, and where the git repo, product model and intents fit; Phoenix memory as
++the superset, holding everything in Garura's memory, with one home outside
++Garura's code; the Garura memory in a project as the subset it pulls, and going
++up to Phoenix memory for more; the memory tool as the only way to read and
++update memory (a command-line tool, Claude Code-style search, folders now,
++Griffin later); the order agents read in (the issue's short-term memory, then
++the project, then Phoenix memory); no answer from the model or the web without an approved
++memory update; how a memory update starts, who approves it, where it is
++written, and how the waiting work picks up again; every decision names its
++memory.
++**Why here:** it replaces ADR 015 (the R1–R4 rule, its model fallback, and
++`ltm_context`) and changes ADR 034, ADR 009, ADR 017 and the locked knowledge
++base design note — each needs a decision record before anything is built.
++**Done when:** the ADR is accepted, made with `/adr`.
++**Needs:** nothing.
++
++### 2. Write the memory tool's contract
++
++**Issue:** none yet.
++**What:** the written agreement between agents and the tool: its commands to
++find memory (find, search, read, go up to Phoenix memory, cite) and to update it
++(pull a piece into the project, propose an update, list updates, apply an
++approved update),
++what each returns, and its errors. Same rules as the review tool: its own
++folder, a version number, no Garura names inside, the engine behind it
++swappable.
++**Why here:** every later item builds against it, and it is what makes the move
++to Griffin cost nothing.
++**Done when:** the contract file exists and sample answers pass its check.
++**Needs:** item 1.
++
++### 3. Set up Phoenix memory, and the subset each project pulls
++
++**Issue:** none yet.
++**What:** Phoenix memory gets its one home outside Garura's code, seeded from
++everything in `core/components/memory/` (the shelves deleted in #434 left
++out). Installing Garura no longer copies all of memory: it pulls the subset the
++project needs into the project's Garura memory, and records which version of
++Phoenix memory each piece came from. The two stale copies are retired
++(`~/.garura/core/memory/` and `.garura/core/memory/`). The installer writes
++correct settings into projects it installs into. Project memory's own folders
++are settled (product model, the person's own files, the person's answers).
++**Why here:** the tool needs a known place for each tier.
++**Done when:** an install into a test project pulls only what it needs, a piece
++pulled later arrives on request, and a check shows which pulled pieces are
++behind Phoenix memory.
++**Needs:** item 1.
++
++### 4. Build the memory tool
++
++**Issue:** none yet.
++**What:** the command-line tool from the contract, with a folder engine that
++finds, searches and reads exact lines across the three tiers, going up to
++Phoenix memory when the project has no answer, and that writes approved updates
++and pulls pieces into the project. Every result carries its tier, file, lines
++and fingerprint. It works the same from Claude Code and Codex.
++**Why here:** items 5 to 8 call it.
++**Done when:** its tests pass on sample memory, and nothing in its folder names
++Garura.
++**Needs:** items 2 and 3.
++
++### 5. Memory updates instead of guesses
++
++**Issue:** none yet.
++**What:** when no memory answers, the agent raises a memory update: what is
++missing, which tier it belongs in, a drafted entry, and where the draft came
++from (the person, the web, the model — marked). Nothing is used until a person
++approves it. The approved update is written to its tier — the project's own
++memory for something only this project needs, Phoenix memory for something any
++project could use — and the waiting work decides from memory. A person's answers to questions become project memory
++with stable ids, so they are never asked twice (Garura's existing question
++store, `standards/rules/product.md` rule 12). The knowledge-base proposal
++(`propose-kb-node`) becomes one kind of memory update. Until the memory review
++exists, the person approves by typing.
++**Why here:** without it, "only from memory" stops every time memory is thin.
++**Done when:** a gap, an update, an approval, a write and an answer from memory
++run end to end on a sample.
++**Needs:** item 4.
++
++### 6. Every decision names its memory
++
++**Issue:** none yet.
++**What:** one shape for an answer and its source, built on the trace format
++Garura already has. Agents write it to short-term memory; a script checks each
++named source exists and its fingerprint still matches; a drive's review record
++carries them.
++**Why here:** the memory review and the drive's review both show these.
++**Done when:** the check fails an answer that names no source, or a source that
++changed.
++**Needs:** item 4.
++
++### 7. Every Garura install carries the memory system
++
++**Issue:** none yet.
++**What:** installing Garura into a project installs the memory tool and a short
++memory guide every agent reads: the three tiers (Phoenix memory, the project's
++memory, short-term memory), what the tool does, how to find memory, go up to
++Phoenix memory, update it, name a source, and raise a memory update. The
++install checks the tool runs and reaches each tier, and fails if it does not.
++Kapil, 2026-10-18: the three tiers "should be part of the Garura installation.
++Anytime Garura gets installed, every project would need to know what that tool
++is, what it does, and how the memory works. Otherwise, the subagents will fail."
++**Why here:** the agents moved in items 8 and 10 rely on it in every project,
++not only in Garura's own repo.
++**Done when:** a fresh install into a test project has the tool and the guide,
++its check passes, and an agent there finds a piece of memory through the tool.
++**Needs:** items 3 to 6.
++
++### 8. Move Kickoff's agents and skills onto the tool
++
++**Issue:** none yet.
++**What:** the agents and skills `/intent`, `/vision` and `/understand` use, and
++the close of every play, read memory only through the tool, raise memory
++updates, and name their sources. Play changes go through each play's ICE source
++and `/play-editor`.
++**Why here:** Kickoff waits on these three plays, so they move first.
++**Done when:** the three plays and every play's close name no memory path.
++**Needs:** items 5, 6 and 7.
++
++### 9. Prove it on Kickoff's three plays
++
++**Issue:** none yet.
++**What:** run `/intent`, `/vision` and `/understand` by hand on a test project:
++every answer names its memory, a gap raises an update, nothing comes from the
++model alone.
++**Why here:** only a real run shows the system works before a drive relies on it.
++**Done when:** the run is recorded.
++**Needs:** item 8.
++
++### Milestone: the Kickoff drive can be built
++
++#613 picks up again here, at the runner's design. Items 10 and 11 run alongside
++the Kickoff build.
++
++### 10. Move every other agent and skill onto the tool
++
++**Issue:** none yet.
++**What:** the remaining active agents and skills, including the two that still
++fall back to the web or the model (`tech-designer`, `research-domain-context`);
++the R1–R4 rule rewritten; a lint rule that fails any component naming a memory
++path. The seven retired agents are not installed and are left as they are.
++**Done when:** the lint passes across every component.
++**Needs:** item 9.
++
++### 11. The memory review
++
++**Issue:** none yet — it extends the review tool's stories (#641–#644).
++**What:** a Memory view in the review tool, next to Intents and Product: what
++each tier holds, the memory updates waiting for a person (approve, change,
++reject), and which memory each decision came from.
++**Done when:** a person approves a memory update and sees a decision's source in
++the tool.
++**Needs:** items 5 and 6, and the review tool (#641–#644).
++
++## Log
++
++- 2026-10-18 — Drafted in #613 from Kapil's memory model (three tiers; one tool;
++  memory updates before any model or web answer; a memory review; Griffin
++  later; Claude Code-style search), his choice B, the memory review, and a map
++  of how every agent reads memory today. Not filed; no issue holds it yet.
++- 2026-10-18 — Kapil's answers: the tool both finds and updates memory; the work
++  is its own feature, with its own issues and branches; global memory is
++  **Phoenix memory**, the superset holding everything in Garura's memory; the
++  Garura memory in a project is the subset it pulls, and it can go up to
++  Phoenix memory for more ("keep it small and clean"). Items 1 to 5 changed to
++  match.
++- 2026-10-18 — Kapil: the memory system is part of every Garura install, or the
++  sub-agents fail. Added item 7 (every install carries the tool, the memory
++  guide and a check); items 7 to 10 became 8 to 11. The Kickoff milestone now
++  follows item 9.
+diff --git a/.garura/project/issues/613/specs/plan.md b/.garura/project/issues/613/specs/plan.md
+new file mode 100644
+index 00000000..e1c4532d
+--- /dev/null
++++ b/.garura/project/issues/613/specs/plan.md
+@@ -0,0 +1,211 @@
++---
++plan_for: 613
++kind: story
++serves: "#613 — the Kickoff drive runs /intent, /vision and /understand from a working prototype to a detailed product model"
++status: active
++updated: 2026-10-18
++now: 3
++serves_plan: 606
++serves_item: 8
++---
++
++# Plan — #613: the Kickoff drive
++
++This is a plan, not a design. It says what gets done, in what order, and why
++that order. How each item is built is decided in its own issue.
++
++## What we are trying to reach
++
++Today a person runs `/intent`, then `/vision`, then `/understand` by hand, and
++each one stops to ask and to be approved. Each of the three can already run
++inside a drive (#612, #614, #615), but nothing runs them as one.
++
++Kickoff is that one run. A person gives it a working prototype. Kickoff pulls
++the intent out of it and ends with a detailed product model: business intents
++(proposed), a domain with its capabilities, and every capability detailed. It
++works on one issue and one branch, asks its questions first, does not stop for
++the plays' approvals, has a different model or agent check the result, and
++writes an evidence record (ADR 029).
++
++This plan builds the **runner** — the drive without its end review. Kapil chose
++this order on 2026-10-18 ("A": the runner first, then the review). Until the
++review exists (#641–#650), the drive ends with the plays' review records and a
++pull request.
++
++**How the plays decide inside the drive** (Kapil, 2026-10-18): the three plays
++run with a high level of autonomy. They decide from what memory and the system
++give them, and may assume from it. They do not stop at every point to ask. They
++never make something up from nothing: *"If you do not give any direction from
++the user or the memory, going to the underlying LLM and making a decision is
++the wrong move."* When memory and the system hold nothing to go on, they ask.
++
++## When this plan is done
++
++- Given a working prototype, Kickoff runs `/intent` → `/vision` → `/understand`
++  on one branch, with no stop except a question nothing in memory can answer.
++- It ends with proposed business intents, a domain with its capabilities, every
++  capability detailed, each play's saved record (one `/understand` record per
++  capability), a passed check by a checker chosen in the config, and evidence.
++- It halts when the prototype is missing or does not run, when a play misses its
++  own done check, or when the checker rejects the result.
++- The runner is merged, and one real run is kept as the example pack the review
++  tool needs (#641).
++
++## What this plan leaves out
++
++- **Confirmed intents and the review as the drive's last step.** Inside a drive,
++  `/intent` saves intents as proposed; the person confirms them in the review.
++  That comes with the review stories (#641–#650), and #650 makes it the drive's
++  last step.
++- **The person's plan and its issues.** ADR 029 says Kickoff also gives the
++  person a plan and issues that break the intent into small pieces. None of the
++  three plays makes them, and #613 does not ask for them. Waiting on Kapil.
++- **One plan for the whole drive** (#626). It needs the plays to write plans
++  first (#623).
++
++## Where we are now
++
++The change is open: branch `feature/613-the-kickoff-drive`, cut from main on
++2026-10-18. Item 1 is decided: ADR 034 says how the plays decide inside a drive.
++Item 2 is done: the memory review found memory not ready, and Kapil chose to fix
++the whole memory system first, as its own feature (draft plan:
++`specs/memory-system-plan.md`). Nothing is built. Item 3 is next, but it waits
++at the milestone below until the memory system reaches its own milestone.
++
++## The plan, in order
++
++### Done
++
++- **1. Decided: inside a drive, a play answers from memory** — ADR 034,
++  accepted by Kapil on 18 October (`docs/adr/034-plays-answer-from-memory-inside-a-drive.md`).
++  A play answers its questions from memory and what the system gives it,
++  records where each answer came from, and asks only when nothing supports an
++  answer; never from the model alone. It amends ADR 029 §2. Nothing is built.
++  Still open: whether a play may answer from a piece not yet approved, and
++  where each answer's source is recorded (items 2 and 3).
++- **2. Reviewed: the memory the plays answer from** — `specs/memory-review.md`.
++  Memory is not ready: three copies of long-term memory that disagree, two kinds
++  of memory that cannot answer a question, and nothing that records where an
++  answer came from. Kapil chose B: fix the whole memory system first, as its own
++  feature with its own issues and branches, and set its model (Phoenix memory as
++  the superset; each project pulls the subset it needs; one tool that finds and
++  updates memory, searching like Claude Code). Nothing is fixed yet.
++
++### Milestone: Kickoff's plays work from memory
++
++Nothing below starts until the memory system's own milestone is passed: its
++items 1 to 9 — the decision, the memory tool, Phoenix memory and the subset a
++project pulls, memory updates, every decision naming its memory, the memory
++system in every Garura install, and
++`/intent`, `/vision` and `/understand` moved onto the tool and tried on a test
++project. That work is its own feature, outside this issue
++(`specs/memory-system-plan.md`, not filed yet).
++
++### 3. Decide the runner's shape — now
++
++**Issue:** #613.
++**What:** settle what the drive is as a component and how it runs end to end:
++how it is built and compiled, where its run and records live, how it asks its
++questions first under ADR 034, how the config picks the checker, what evidence
++it writes, and how it ends until the review exists.
++**Why here:** items 5 to 7 build what this item decides.
++**Done when:** a short design note in this issue's `specs/` folder that Kapil
++agrees with; anything that changes an earlier decision is an ADR.
++**Needs:** items 1 and 2, and the milestone above.
++
++### 4. Make the three plays run back to back without a person
++
++**Issue:** #613 — the fixes ride on this branch (Kapil's choice A, 2026-10-18).
++**What:** fix what stops the plays running one after another. Found so far:
++`/intent`'s commit leaves new domain pages and capability docs uncommitted, so
++`/vision` stops on an unclean model; `/intent` asks its questions one by one
++instead of answering from memory first; `/vision`'s proposal for a new domain
++can stop for a review; the names `/vision` reads its input under are not fixed;
++`/intent` checks the drive contract its own way. Each change to a play goes
++through its ICE source and `/play-editor`.
++**Why here:** the runner cannot be proven end to end while any of these stop it.
++**Done when:** each fix is on this branch and each play's own checks pass.
++**Needs:** items 1 and 2; item 3 for the input names.
++
++### 5. Teach the play compiler what a drive is
++
++**Issue:** #613.
++**What:** `/play-creator` builds plays that run their own steps. A drive runs
++other plays in a fixed order. The compiler must be able to build one and its
++lint must check one.
++**Why here:** every play is built through the compiler (CLAUDE.md), so Kickoff
++is too; and every later drive (#608–#611) will need the same.
++**Done when:** the compiler can build a drive, and its lint passes and fails a
++drive as it does a play.
++**Needs:** item 3.
++
++### 6. Build the checker
++
++**Issue:** #613.
++**What:** at the end of a drive, a different model, sub-agent or coding agent
++checks the result, and the config picks which (ADR 029). It passes or rejects,
++with reasons written to a file. A rejection halts the drive.
++**Why here:** Kickoff's done check needs it, and no checker exists today.
++**Done when:** the config names the checker, and a pass and a rejection both
++work on a sample result.
++**Needs:** item 3.
++
++### 7. Build the Kickoff drive
++
++**Issue:** #613.
++**What:** write Kickoff's intent source (ICE) from #613's acceptance criteria and
++compile it: questions first, `/intent` → `/vision` → `/understand` (once, for
++all capabilities), the checker, the evidence.
++**Why here:** it puts items 4 to 6 together.
++**Done when:** Kickoff compiles, its lint passes, and its done check is baked in.
++**Needs:** items 4, 5 and 6.
++
++### 8. Prove Kickoff on a real prototype
++
++**Issue:** #613.
++**What:** run Kickoff end to end on a real working prototype, in a test project
++(not Garura's own product model). Then show the three halts: no prototype, a
++prototype that does not run, a checker rejection.
++**Why here:** only a real run shows it works; and the review tool takes its
++example pack from this run (#641).
++**Done when:** the run and the three halts are recorded in this issue's folder,
++and the run's output is kept as #641's example pack.
++**Needs:** item 7. Kapil picks the prototype.
++
++### 9. Land the runner
++
++**Issue:** #613.
++**What:** commit, raise, review and merge the change; post the handoff on #613;
++mark step 1 of item 8 done in the #606 plan.
++**Done when:** merged to main.
++**Needs:** item 8.
++
++## Log
++
++- 2026-10-18 — Created from #613, ADR 029 to 033, the drive contract rule, and a
++  read of `/intent`, `/vision` and `/understand` as they run inside a drive.
++  Scope is the runner (Kapil's choice "A"). Item 1 added from Kapil's rule on
++  how plays decide inside a drive. Item 3's fixes have no issue yet: filing
++  them is Kapil's call.
++- 2026-10-18 — Kapil approved the plan and chose A for item 3: the play fixes
++  are done on this branch, in this change, even though #613 lists play changes
++  as out of its scope.
++- 2026-10-18 — Item 1 done: ADR 034 accepted ("approved"). Kapil added a review
++  of the memory the plays answer from before anything is built on it; it is the
++  new item 2, and the items after it moved down one (the runner's shape is now
++  item 3, the play fixes item 4, the compiler 5, the checker 6, Kickoff 7, the
++  real run 8, landing 9). ADR 034's "#613 plan item 2" now means item 3, and its
++  "item 3" now means item 4.
++- 2026-10-18 — Item 2 done: the memory review is written. Kapil chose B — fix
++  the whole memory system before the drive — as its own feature with its own
++  issues and branches (draft plan `specs/memory-system-plan.md`), and set its
++  model: Phoenix memory is the superset; Garura memory in a project is the
++  subset it pulls; one tool finds and updates memory. A milestone now holds
++  item 3 until that feature passes its own milestone. Item 4's play fixes
++  overlap with the memory feature's item 7; what is left of item 4 after it is
++  settled at item 3.
++- 2026-10-18 — Kapil chose A: land what this branch holds now (ADR 034, the
++  plans, the memory review) as one pull request, so the memory feature can
++  start from main. #613 stays open; Kickoff gets a fresh branch when the memory
++  milestone is passed. Kapil also made the memory system part of every Garura
++  install (memory plan item 7).
+diff --git a/.garura/project/issues/_adr/20261018-071440/adr-check.json b/.garura/project/issues/_adr/20261018-071440/adr-check.json
+new file mode 100644
+index 00000000..bf71601a
+--- /dev/null
++++ b/.garura/project/issues/_adr/20261018-071440/adr-check.json
+@@ -0,0 +1,28 @@
++{
++  "draft": ".garura/project/issues/_adr/20261018-071440/adr-draft.md",
++  "number": "034",
++  "suggested_file": "docs/adr/034-plays-answer-from-memory-inside-a-drive.md",
++  "lint": {"exit": 0, "valid": true, "problems": []},
++  "guard": {"exit": 0, "declared": "none", "touches_an_intent": [], "verdict": "no person's business intent changes", "intents_dir": "null in the contract; .garura/product/product-os/intents does not exist, so no intent titles to match"},
++  "declared_check_agrees": true,
++  "supersedes": [],
++  "amends": [
++    {"adr": "029", "part": "§2 \"A new question stops it\": a play answers from memory and the system, with each answer's source recorded; the question stops the drive only when nothing there supports an answer; never from the model's own knowledge"}
++  ],
++  "not_affected": [
++    {"adr": "032", "why": "relied on: §2's review records already carry what changed and why; the review stays at the outcome level"},
++    {"adr": "033", "why": "relied on: pieces written from memory still wait as changed until a person approves them"},
++    {"adr": "031", "why": "relied on: §5 'a drive may ask questions' still true; only a person confirms or drops a business intent"},
++    {"adr": "002", "why": "about checkpoints, not questions; rule 2 already superseded in part by ADR 029"},
++    {"adr": "028", "why": "the five loops; nothing on how a play answers questions"},
++    {"adr": "026", "why": "write-then-review stands"}
++  ],
++  "affects_paths_verified": true,
++  "open_points_for_the_person": [
++    "Decision part 6 ('what this does not change') is the agent's reading of the brief's scope, backed by gate-config.md and ADR 031: checkpoints are not questions, so a pinned checkpoint is never answered from memory; drive contract rule 3 is unchanged. Kapil confirms this at acceptance.",
++    "The product model counts as memory, but ADR 033 lets agents work only on approved pieces. Whether a play may answer from a piece not yet approved is named as a risk, not decided.",
++    "Where each answer's source is recorded is not in the brief; left to #613 plan items 2 and 3.",
++    "Business intent check is none. The edge: inside a drive /intent may now fill a proposed intent's why, who asked or proof from memory instead of asking. If Kapil reads ADR 031 §1 ('an outcome in their words') as Business Intent kind doctrine, the check would be kind, never instance."
++  ],
++  "decided_by_note": "The Decided by line is left out while Proposed; adr.py accept --by fills it when Kapil accepts."
++}
+diff --git a/.garura/project/issues/_adr/20261018-071440/adr-context.yaml b/.garura/project/issues/_adr/20261018-071440/adr-context.yaml
+new file mode 100644
+index 00000000..eacac3b1
+--- /dev/null
++++ b/.garura/project/issues/_adr/20261018-071440/adr-context.yaml
+@@ -0,0 +1,184 @@
++# Context for the ADR drafted from brief.md — gathered by adr-keeper, 2026-10-18
++shape: markdown
++template: core/components/memory/standards/templates/adr.md
++brief: .garura/project/issues/_adr/20261018-071440/brief.md
++number: "034"            # adr.py number --dir docs/adr -> {"next": "034", "taken": 33}
++suggested_file: docs/adr/034-plays-answer-from-memory-inside-a-drive.md
++title: "Inside a Drive, a Play Answers From Memory and Asks Only When Memory Holds Nothing"
++status: Proposed
++date: 2026-10-18
++level: framework
++decided_by: Kapil Ahuja   # the brief's "Decided by"; the Decided by line stays out of the draft while Proposed — adr.py accept --by fills it
++decided_in: "#613 (the Kickoff drive), plan item 1 (.garura/project/issues/613/specs/plan.md), under #594 and business intent #606"
++run: {in_drive: false, issue: 613}   # run.json — run by hand; the person accepts before it is written accepted
++style_reference: docs/adr/032-drive-review-of-outcomes.md   # short sentences, plain words, numbered decision parts (as ADRs 029–033)
++
++# --- Overlaps: adr.py overlaps --adr brief.md --dir docs/adr -> 032 (10.9), 029 (9.03), 033 (5.95),
++# 031 (3.73), 028 (3.48), 026 (3.33). ADR 002 read by hand (named by the caller). Each judged by reading it.
++overlaps:
++  - adr: "029"
++    file: docs/adr/029-drives.md
++    verdict: amended
++    part: >-
++      §2, the bullet "A new question stops it. If a question comes up mid-run that was not
++      answered at the start, the drive stops and asks. It never picks an answer for itself."
++      Now: a play answers a new question from memory and the system, with the source recorded;
++      the question stops the drive and goes to the person only when nothing there supports an
++      answer; never from the model's own knowledge.
++    not_changed: >-
++      §2's other bullets stand: "Questions first" (the answers gathered up front are the first
++      memory a play reads); "No stops for the plays' checkpoints"; "No rules of its own";
++      "Checked by someone else"; the evidence record. The same bullet's last sentence also stands:
++      a drive does not run on a coding agent's own never-stop loop, because that pushes the
++      decision onto the model — this ADR keeps the decision off the model (memory, or the person).
++      §1, §3, §4, §6 not touched.
++  - adr: "032"
++    file: docs/adr/032-drive-review-of-outcomes.md
++    verdict: not affected (relied on)
++    why: >-
++      §2 already says the plays' review records tell the review step "what changed and why";
++      the sources of the answers a play took from memory are part of that "why", and the review
++      shows the person what was assumed. The review stays at the outcome level; no 032 clause
++      changes. The review step and tools are not built yet (#641–#650 in the #613 plan), so they
++      must carry the assumptions when built — named under Work This Creates, not as an amendment.
++  - adr: "033"
++    file: docs/adr/033-approval-in-the-product-model.md
++    verdict: not affected (relied on)
++    why: >-
++      Answers taken from memory land in pieces a play writes; every such piece is changed until
++      a person approves it, so nothing built from an assumption is worked on before a person
++      sees it. No 033 clause changes.
++    open_point: >-
++      The brief counts the product model as memory. ADR 033 §3 lets agents work only on approved
++      pieces. Whether a play may answer a question from a piece that is not yet approved (for
++      example an intent /intent saved as proposed earlier in the same drive) is not settled by
++      the brief. Named as a risk in the draft, not decided.
++  - adr: "031"
++    file: docs/adr/031-business-intent-and-ice.md
++    verdict: not affected (relied on)
++    why: >-
++      §5 says "A drive may ask questions, but /intent inside a drive does not stop for approval" —
++      still true: a drive may still ask (when memory holds nothing), and the approval rule is
++      untouched. §1 "Only a person confirms or drops" a business intent stands: an answer taken
++      from memory never confirms an intent; inside a drive every intent is still saved proposed.
++      The "nothing invented, ask the person" rule for /intent is play intent (/intent C5), not
++      in ADR 031's Decision — it is listed under Affects.
++  - adr: "002"
++    file: docs/adr/002-l1-checkpoint-model.md
++    verdict: not affected
++    why: >-
++      ADR 002 is about checkpoints (artifact + approval), not questions. Rule 2 was already
++      superseded in part by ADR 029 for drives. This ADR changes how a play answers a question,
++      not how a checkpoint is resolved (drive contract rule 3 is not changed by the brief).
++  - adr: "028"
++    file: docs/adr/028-agentic-lifecycle-five-loops.md
++    verdict: not affected
++    why: "The five loops and their recipes; nothing on how a play answers questions. Shares only the /intent name."
++  - adr: "026"
++    file: docs/adr/026-direct-to-model-writes.md
++    verdict: not affected
++    why: "Write-then-review stands; this ADR does not change where or how a play writes the model."
++supersedes: []
++amends:
++  - {adr: "029", part: "§2 \"A new question stops it\": inside a drive a play answers from memory and the system, recording each answer's source, and the question stops the drive only when nothing there supports an answer; never from the model's own knowledge"}
++
++# --- Affects: every path below verified to exist (test -e), 2026-10-18.
++affects:
++  - path: core/components/memory/standards/rules/drive-contract.md
++    what: >-
++      Rule 4, "A question the drive did not answer still stops the play. The play asks the person
++      and never picks an answer for itself" — changes the same way as ADR 029 §2 (the brief names
++      it). The Related line ("a new question stops the drive") follows. Rule 3's "or it stops the
++      play and asks, like any new question" (pinned checkpoints) is not changed by the brief — see
++      open_points.
++  - path: core/components/memory/standards/rules/_index.md
++    what: "the drive-contract row's summary: \"stop on a new question\"."
++  - path: core/grounding/glossary.md
++    what: "the Drive entry: \"stops only to ask a question that comes up mid-run\"."
++  - path: core/components/plays/intent/
++    what: >-
++      reference/ice.md C4 ("the drive may still ask its questions") and C5 ("Nothing invented:
++      every outcome, reason, proof and limit traces either to what the source shows or to the
++      person's own answers; ... the play asks the person and never fills the gap itself"), S5;
++      SKILL.md Step 3 "Ask and check" (asks every open question one at a time, up to 3 rounds)
++      and SE-4; scripts/check_intent.py (accepts only provenance `source` or `person`). Inside a
++      drive /intent answers from memory first, records the source, and asks only what nothing
++      supports. Through its ICE source and /play-editor (#613 plan item 3).
++  - path: core/components/plays/vision/
++    what: >-
++      reference/ice.md C11 and SKILL.md pre-flight: "A question neither the contract nor the
++      model answers — no intents and no goal — stops the run and asks the person; the play never
++      picks an answer itself" — widens to all of memory and the system.
++  - path: core/components/plays/understand/
++    what: >-
++      reference/ice.md C13 and SKILL.md Step 1: "an absent capability with no seed answers —
++      stops the run and asks the person"; scripts/pick_targets.py and
++      scripts/persist_understand.py accept seed answers only with `answered_by: human` (the
++      persist refuses any other value) — an answer taken from memory needs its source recorded
++      instead.
++  - path: core/components/plays/adr/
++    what: >-
++      reference/ice.md C5 and SKILL.md Step 2: the business-intent stop inside a drive is
++      justified as "a new question, and a new question stops the drive (ADR 029 §2)". The stop
++      itself stays — only a person changes their business intent (ADR 031 §1; the ADR template's
++      rule) — but its reason can no longer rest on ADR 029 §2 alone.
++  - path: core/components/plays/play-creator/references/write_drive_review.py
++    what: "the plays' review record — the likely carrier of each answer's source for the drive's review; where the sources are recorded is not decided by the brief."
++  - other: "the Kickoff drive (#613, not built yet): its question step (#613 plan item 2); the review step and the two review tools (not built yet; #641–#650): they show the person what was assumed and on what basis"
++
++# --- ICE impact (from each play's ICE source; ontology.md ICE kind read — unchanged)
++ice_impact: >-
++  The agent intents of the plays that run inside a drive change. /intent (C4, C5, Step 3): inside
++  a drive it answers its open questions from memory and the system first, records each answer's
++  source, and asks the person only what nothing supports; C5's "every property traces to the
++  source or the person's answers" widens, inside a drive, to the memory this ADR names, each with
++  its source. /vision (C11) and /understand (C13): "a question neither the contract nor the model
++  answers stops the run" widens to all of memory and the system. /adr (C5): its business-intent
++  stop stays, on ADR 031's rule rather than ADR 029 §2. The Kickoff drive (#613) stops mid-run
++  only for a question nothing in memory supports. Run by hand, no play changes. The ICE kind
++  does not change (ontology.md: its properties and rules say nothing on how a question is
++  answered).
++
++# --- Business-intent check
++business_intent_check: none
++business_intent_check_reason: >-
++  A framework rule about how plays answer questions inside a drive. No person's business intent
++  changes; nothing under product-os/intents/ is named or written. The Business Intent kind's rules
++  in ontology.md do not change either: they say nothing about where a draft's properties come
++  from, and "Only a person confirms or drops it; an agent never does" stands — inside a drive
++  every intent is still saved proposed and confirmed or dropped by a person at the drive's review
++  (ADR 031 §5, ADR 032 §4). Edge for the person to see: inside a drive /intent may now fill a
++  proposed intent's why, who asked or proof from memory (with its source) instead of asking; if
++  the person reads ADR 031 §1 ("an outcome in their words") as kind doctrine this touches, the
++  check would be `kind`, not `instance`.
++
++# --- Open points the brief does not settle (named, not decided — do not invent an answer)
++open_points:
++  - >-
++    Pinned checkpoints. The brief changes drive contract rule 4 only. Rule 3 says a pinned
++    checkpoint not asked up front "stops the play and asks, like any new question", and
++    gate-config.md says a pinned gate always fires: "No config value, policy, or ledger can turn
++    it off" — the learned answers live in that ledger. The draft states the scope: this ADR is
++    about questions, not checkpoints, and rule 3 is not changed; the wording "like any new
++    question" must not be read as letting memory answer a pinned checkpoint. Kapil confirms at
++    acceptance.
++  - >-
++    Product-model pieces not yet approved as memory (ADR 033 §3) — named as a risk, not decided.
++  - >-
++    Where each answer's source is recorded (an answers file, the review record, the run record)
++    — not in the brief; design for #613 plan items 2 and 3.
++
++related: "ADR 029 (drives), ADR 031 (business intent and ICE), ADR 032 (drive review of outcomes), ADR 033 (approval in the product model), ADR 002 (checkpoint model), #613 (Kickoff), #606, #594"
++
++# --- What the brief gives for each required section (no outside reasons)
++from_brief:
++  context: "Why now — Kickoff (#613) is built next; the 18 October read found /intent asks every open question from its draft one at a time, up to three rounds; these come out of the draft so cannot all be asked before the drive starts; under ADR 029 §2 and drive-contract rule 4 each would stop the drive; Kickoff would stop on nearly every run. The rule must be set before the runner and the play fixes (#613 plan items 1 to 3). Kapil's words, 2026-10-18."
++  decision_parts:
++    - "Inside a drive a play runs with a high level of autonomy: a question it would ask a person it answers from memory and the system, and may assume from them. It does not stop at every point."
++    - "What counts as memory and the system, as the plays have it today: the drive contract's answers (gathered before the drive started); the sources the person gave (the prototype and its saved snapshots); the product model; the knowledge base; the learned checkpoint answers."
++    - "Never from the model's own knowledge with nothing behind it. When nothing in memory or the system supports an answer, the play asks the person; that question stops the drive, as ADR 029 §2 says today."
++    - "Every answer taken this way is recorded with where it came from; the drive's review (ADR 032) shows the person what was assumed and on what basis. An answer with no source is not allowed."
++    - "What this changes: ADR 029 §2's bullet; drive contract rule 4, the same way."
++    - "Scope (agent's reading, stated as unchanged, not as a new rule): run by hand a play is unchanged; questions first stays; checkpoints are not questions — rule 3 and gate-config stand; only a person confirms or drops a business intent or accepts an ADR."
++  alternatives: "three, each with why it lost — from the brief's Options considered, with Kapil's words"
++  quotes: "Use Kapil's own words from the brief, exactly; do not add any."
+diff --git a/.garura/project/issues/_adr/20261018-071440/adr-draft.md b/.garura/project/issues/_adr/20261018-071440/adr-draft.md
+new file mode 100644
+index 00000000..c38461c1
+--- /dev/null
++++ b/.garura/project/issues/_adr/20261018-071440/adr-draft.md
+@@ -0,0 +1,113 @@
++# ADR 034 — Inside a Drive, a Play Answers From Memory and Asks Only When Memory Holds Nothing
++
++**Status:** Proposed
++**Date:** 2026-10-18
++**Level:** framework
++**Decided in:** #613 (the Kickoff drive), plan item 1 (`.garura/project/issues/613/specs/plan.md`), under #594 and business intent #606
++**Amends:** ADR 029 — §2 "A new question stops it": inside a drive a play answers from memory and the system, recording each answer's source, and the question stops the drive only when nothing there supports an answer; never from the model's own knowledge
++**Affects:** `core/components/memory/standards/rules/drive-contract.md` (rule 4, "a question the drive did not answer still stops the play", and its Related line), `core/components/memory/standards/rules/_index.md` (the drive contract's row: "stop on a new question"), `core/grounding/glossary.md` (the Drive entry: "stops only to ask a question that comes up mid-run"), the `/intent` play in `core/components/plays/intent/` (C4, C5 "Nothing invented", S5, Step 3 "Ask and check", and `core/components/plays/intent/scripts/check_intent.py`, which accepts an answer only from the source or the person), the `/vision` play in `core/components/plays/vision/` (C11: "a question neither the contract nor the model answers stops the run"), the `/understand` play in `core/components/plays/understand/` (C13 and Step 1, and `core/components/plays/understand/scripts/pick_targets.py` and `core/components/plays/understand/scripts/persist_understand.py`, which accept a new capability's answers only from a person), the `/adr` play in `core/components/plays/adr/` (C5 and Step 2: the reason given for its business-intent stop inside a drive), `core/components/plays/play-creator/references/write_drive_review.py` (the plays' review record, the likely carrier of each answer's source), the Kickoff drive (#613, not built yet), and the drive's review step and its two review tools (not built yet)
++**ICE impact:** The agent intents of the plays that run inside a drive change. `/intent` (C4, C5, Step 3): inside a drive it answers its open questions from memory and the system first, records each answer's source, and asks the person only what nothing supports; C5's "every property traces to the source or the person's answers" widens, inside a drive, to the memory this ADR names, each with its source. `/vision` (C11) and `/understand` (C13): "a question neither the contract nor the model answers stops the run" widens to all of memory and the system. `/adr` (C5): its business-intent stop stays, resting on ADR 031's rule rather than ADR 029 §2. The Kickoff drive (#613) stops mid-run only for a question nothing in memory supports. Run by hand, no play changes. The ICE kind does not change.
++**Business intent check:** none — a framework rule on how plays answer questions inside a drive; no person's business intent changes, and the Business Intent kind's rules stand: only a person confirms or drops one, and inside a drive every intent is still saved as proposed
++**Related:** ADR 029 (drives), ADR 031 (business intent and ICE), ADR 032 (drive review of outcomes), ADR 033 (approval in the product model), ADR 002 (checkpoint model), #613 (Kickoff), #606, #594
++
++## Context
++
++Kickoff (#613) is the first drive, and it is built next. It runs `/intent`, `/vision` and `/understand` one after another, with no person in between (ADR 029).
++
++ADR 029 §2 says how a drive treats a question that comes up mid-run: "A new question stops it. If a question comes up mid-run that was not answered at the start, the drive stops and asks. It never picks an answer for itself." Rule 4 of the drive contract says the same for each play.
++
++A read of the three plays inside a drive, on 18 October, found what that rule does to Kickoff. `/intent` asks every open question it finds in its draft, one at a time, for up to three rounds. These questions come out of the draft. So they cannot all be asked before the drive starts. Under ADR 029 §2, each one would stop the drive. Kickoff would stop on nearly every run, and the plays would not run on their own.
++
++Kapil, 2026-10-18, set how the plays should decide instead:
++
++> These three players internally have to run with a high level of autonomy: wrapping things
++> up, taking care of any domain capabilities, and understanding what to do together. They
++> should not stop and ask for every single point in time in review, but really decide when
++> they cannot come up with an answer.
++>
++> It's okay to take assumptions based on the memories that are given to them because there is
++> a memory element to it, but they cannot fabricate and create some things completely from
++> scratch. If they have no information about the memory or anything that the system has
++> provided, then they should definitely ask.
++>
++> In other words, reading the memory, making decisions from there, and coming up with things
++> is absolutely okay. If you do not give any direction from the user or the memory, going to
++> the underlying LLM and making a decision is the wrong move.
++
++The rule must be set before the runner and the play fixes are built (#613 plan, items 1 to 3).
++
++## Decision
++
++### 1. Inside a drive, a play answers from memory
++
++Inside a drive, the plays run with a high level of autonomy. When a play reaches a question it would ask a person, it answers it from memory and from what the system gives it. It may assume from them. It does not stop and ask at every point.
++
++### 2. What counts as memory
++
++As the plays have it today, memory and what the system gives are:
++
++- the answers the drive gathered before it started (the drive contract's `answers`);
++- the sources the person gave: the prototype and its saved snapshots;
++- the product model;
++- the knowledge base;
++- the learned checkpoint answers.
++
++### 3. Never from the model alone
++
++A play never answers from the underlying model's own knowledge with nothing behind it. When nothing in memory or the system supports an answer, the play asks the person. That question stops the drive, as ADR 029 §2 says today.
++
++### 4. Every answer names its source
++
++Every answer a play takes from memory is recorded with where it came from. The drive's review (ADR 032) shows the person what was assumed and on what basis. An answer with no source is not allowed.
++
++### 5. What this changes
++
++- **ADR 029 §2**, "A new question stops it": a new question stops the drive only when memory and the system hold nothing to answer it. The rest of §2 stands. Questions are still asked first, and their answers are the first memory a play reads. A drive still does not run on a coding agent's own never-stop loop: the decision stays off the model.
++- **Rule 4 of the drive contract** (`core/components/memory/standards/rules/drive-contract.md`), "a question the drive did not answer still stops the play": it changes the same way.
++
++### 6. What this does not change
++
++- Run by hand, a play is unchanged.
++- This ADR is about questions, not checkpoints. How a play resolves its checkpoint inside a drive stays as rule 3 of the drive contract says. A pinned checkpoint always fires: "No config value, policy, or ledger can turn it off" (`core/components/memory/standards/rules/gate-config.md`). The learned checkpoint answers do not answer it.
++- Only a person confirms or drops a business intent (ADR 031). Inside a drive every intent is still saved as proposed, and the person confirms or drops it at the drive's review. An answer taken from memory never confirms one.
++
++## Consequences
++
++### Positive
++
++- Kickoff can run its three plays without stopping at each question `/intent` finds in its draft.
++- The plays run on their own, as Kapil wants, and still make nothing up: every answer has a source.
++- The person sees every assumption, and what it rests on, at the drive's review.
++- A question nothing supports still stops the drive and goes to the person, as before.
++
++### Negative / Risks
++
++- **An assumption can be wrong.** The person sees it only at the drive's review. Later plays in the same drive may build on it before then.
++- **"Supports an answer" is a judgment.** The recorded source is what lets the review check it.
++- **Plays and scripts must change.** Today `/intent` asks every open question, and its check accepts an answer only from the source or the person (`check_intent.py`). `/understand` saves a new capability's answers only when a person gave them (`persist_understand.py`). `/vision` and `/understand` stop when "neither the contract nor the model" answers. Each play change goes through its ICE source and `/play-editor` (#613 plan item 3).
++- **Where each answer's source is recorded is not decided here.** The review step and its tools are not built yet (#641–#650), so they must show the assumptions once they are.
++- **The product model holds pieces not yet approved.** ADR 033 lets agents work only on approved pieces. Whether a play may answer from a piece that is not approved yet — such as an intent `/intent` saved as proposed earlier in the same drive — is not decided here.
++- **`/adr`'s stop needs a new reason.** Inside a drive, `/adr` stops on a decision that would change a person's business intent, because "a new question stops the drive (ADR 029 §2)". That stop stays — only a person changes their business intent (ADR 031) — but its wording must rest on that rule, not on ADR 029 §2.
++
++## Alternatives Considered
++
++- **Keep ADR 029 §2 as it is: every question not answered before the drive started stops it.** Lost: the plays would "stop and ask for every single point in time" (Kapil), and Kickoff would stop on nearly every run.
++- **Let the play answer every question itself, from the model's own knowledge.** Lost: it fabricates. Kapil: "going to the underlying LLM and making a decision is the wrong move."
++
++## Work This Creates
++
++None is filed yet; they are filed only when Kapil asks.
++
++1. Rewrite rule 4 of the drive contract, its row in the rules index, and the Drive entry in the glossary.
++2. `/intent`, `/vision` and `/understand` answer from memory first, record each answer's source, and ask only when nothing supports an answer (#613 plan item 3).
++3. Decide where each answer's source is recorded, so the drive's review can show it (#613 plan items 2 and 3).
++4. Kickoff's question step follows this rule (#613 plan item 2).
++5. The review step and its tools show the assumptions and their sources (#641–#650).
++6. `/adr`'s business-intent stop inside a drive rests on ADR 031, not on ADR 029 §2.
++
++## References
++
++- `.garura/project/issues/613/specs/plan.md` — item 1, and "How the plays decide inside the drive", with Kapil's words
++- ADR 029 — Drives; ADR 031 — Business intent and ICE; ADR 032 — Drive review of outcomes; ADR 033 — Approval in the product model
++- `core/components/memory/standards/rules/drive-contract.md` — how a play runs inside a drive
++- `core/components/memory/standards/rules/gate-config.md` — pinned and conditional checkpoints, and the ledger of learned answers
+diff --git a/.garura/project/issues/_adr/20261018-071440/adr-manifest.json b/.garura/project/issues/_adr/20261018-071440/adr-manifest.json
+new file mode 100644
+index 00000000..d862de1d
+--- /dev/null
++++ b/.garura/project/issues/_adr/20261018-071440/adr-manifest.json
+@@ -0,0 +1,28 @@
++{
++  "decided": true,
++  "lint_ok": true,
++  "linked": true,
++  "target": "docs/adr/034-plays-answer-from-memory-inside-a-drive.md",
++  "shape": "markdown",
++  "guard": {
++    "adr": ".garura/project/issues/_adr/20261018-071440/adr-draft.md",
++    "declared": "none",
++    "touches_an_intent": [],
++    "verdict": "no person's business intent changes"
++  },
++  "olders": [
++    {
++      "adr": "029",
++      "file": "docs/adr/029-drives.md",
++      "kind": "amended",
++      "part": "\u00a72 \"A new question stops it\": inside a drive a play answers from memory and the system, recording each answer's source, and the question stops the drive only when nothing there supports an answer; never from the model's own knowledge"
++    }
++  ],
++  "status": "accepted",
++  "accepted_by": "Kapil Viren Ahuja",
++  "pointers_written": [
++    "029-drives.md"
++  ],
++  "pointers_missing": [],
++  "index_ok": true
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/_adr/20261018-071440/brief.md b/.garura/project/issues/_adr/20261018-071440/brief.md
+new file mode 100644
+index 00000000..54068561
+--- /dev/null
++++ b/.garura/project/issues/_adr/20261018-071440/brief.md
+@@ -0,0 +1,70 @@
++# Brief — inside a drive, a play answers from memory and asks only when memory has nothing
++
++Shape: markdown (a framework decision, `docs/adr/`).
++
++## Decision
++
++Inside a drive, the plays run with a high level of autonomy. When a play reaches a question it
++would ask a person, it answers it from **memory and from what the system gives it**, and may
++assume from them. It does not stop and ask at every point. It asks the person **only when
++nothing in memory or the system supports an answer.** It never answers from the underlying
++model's own knowledge with nothing behind it.
++
++Kapil, 2026-10-18, in his own words:
++
++> These three players internally have to run with a high level of autonomy: wrapping things
++> up, taking care of any domain capabilities, and understanding what to do together. They
++> should not stop and ask for every single point in time in review, but really decide when
++> they cannot come up with an answer.
++>
++> It's okay to take assumptions based on the memories that are given to them because there is
++> a memory element to it, but they cannot fabricate and create some things completely from
++> scratch. If they have no information about the memory or anything that the system has
++> provided, then they should definitely ask.
++>
++> In other words, reading the memory, making decisions from there, and coming up with things
++> is absolutely okay. If you do not give any direction from the user or the memory, going to
++> the underlying LLM and making a decision is the wrong move.
++
++What counts as memory and what the system gives, as the plays have it today: the answers the
++drive gathered before it started (the drive contract's `answers`), the sources the person gave
++(the prototype and its saved snapshots), the product model, the knowledge base, and the
++learned checkpoint answers.
++
++Every answer a play takes this way is recorded with where it came from, so the drive's review
++(ADR 032) shows the person what was assumed and on what basis. An answer with no source is not
++allowed: that question stops the drive and goes to the person, as ADR 029 §2 says today.
++
++This changes ADR 029 §2 ("A new question stops it … It never picks an answer for itself"): a
++new question stops the drive only when memory and the system hold nothing to answer it. It
++changes rule 4 of the drive contract (`core/components/memory/standards/rules/drive-contract.md`,
++"a question the drive did not answer stops the play") the same way.
++
++## Why now
++
++The Kickoff drive (#613) is built next. A read of its three plays inside a drive (18 October)
++found that `/intent` asks every open question it finds in its draft one at a time, up to three
++rounds, and that these questions come out of the draft, so they cannot all be asked before the
++drive starts. Under ADR 029 §2 and the drive contract's rule 4, each one would stop the drive.
++Kickoff would stop on nearly every run, and the plays would not run on their own as Kapil
++wants. The rule must be set before the runner and the play fixes are built (#613 plan,
++items 1 to 3).
++
++## Options considered
++
++- **Keep ADR 029 §2 as it is: every question not answered before the drive started stops it.**
++  Lost: the plays would "stop and ask for every single point in time" (Kapil), and Kickoff would
++  stop on nearly every run.
++- **Let the play answer every question itself, from the model's own knowledge.** Lost: it
++  fabricates. Kapil: "going to the underlying LLM and making a decision is the wrong move."
++- **Answer from memory and the system, record where each answer came from, and ask only when
++  nothing supports an answer.** Chosen.
++
++## Decided by
++
++Kapil Ahuja, 2026-10-18.
++
++## Decided in
++
++#613 (the Kickoff drive), plan item 1 (`.garura/project/issues/613/specs/plan.md`), under #594
++and business intent #606.
+diff --git a/.garura/project/issues/_adr/20261018-071440/decision.yaml b/.garura/project/issues/_adr/20261018-071440/decision.yaml
+new file mode 100644
+index 00000000..4a7b2ece
+--- /dev/null
++++ b/.garura/project/issues/_adr/20261018-071440/decision.yaml
+@@ -0,0 +1,5 @@
++decision:
++  verdict: accept
++  by: person
++  accepted_by: Kapil Viren Ahuja
++  reply: "approved"
+diff --git a/.garura/project/issues/_adr/20261018-071440/guard-report.json b/.garura/project/issues/_adr/20261018-071440/guard-report.json
+new file mode 100644
+index 00000000..7106c252
+--- /dev/null
++++ b/.garura/project/issues/_adr/20261018-071440/guard-report.json
+@@ -0,0 +1,24 @@
++{
++  "ok": true,
++  "changed": [
++    ".garura/project/issues/_adr/20261018-071440/adr-check.json",
++    ".garura/project/issues/_adr/20261018-071440/adr-context.yaml",
++    ".garura/project/issues/_adr/20261018-071440/adr-draft.md",
++    ".garura/project/issues/_adr/20261018-071440/adr-manifest.json",
++    ".garura/project/issues/_adr/20261018-071440/brief.md",
++    ".garura/project/issues/_adr/20261018-071440/decision.yaml",
++    ".garura/project/issues/_adr/20261018-071440/hashes-before.json",
++    ".garura/project/issues/_adr/20261018-071440/porcelain-after.txt",
++    ".garura/project/issues/_adr/20261018-071440/run.json",
++    "docs/adr/029-drives.md",
++    "docs/adr/034-plays-answer-from-memory-inside-a-drive.md",
++    "docs/adr/_index.md"
++  ],
++  "violations": [],
++  "allowed": [
++    "docs/adr/034-plays-answer-from-memory-inside-a-drive.md",
++    "docs/adr/029-drives.md",
++    "docs/adr/_index.md",
++    ".garura/project/issues/*"
++  ]
++}
+diff --git a/.garura/project/issues/_adr/20261018-071440/hashes-before.json b/.garura/project/issues/_adr/20261018-071440/hashes-before.json
+new file mode 100644
+index 00000000..632191df
+--- /dev/null
++++ b/.garura/project/issues/_adr/20261018-071440/hashes-before.json
+@@ -0,0 +1,3 @@
++{
++  ".garura/project/issues/_adr/20261018-071440/porcelain-before.txt": "375397cdf892587ec8271c1154b08b3cca98611144161c7149e3a22366debe46"
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/_adr/20261018-071440/porcelain-after.txt b/.garura/project/issues/_adr/20261018-071440/porcelain-after.txt
+new file mode 100644
+index 00000000..f24110ea
+--- /dev/null
++++ b/.garura/project/issues/_adr/20261018-071440/porcelain-after.txt
+@@ -0,0 +1,13 @@
++ M docs/adr/029-drives.md
++ M docs/adr/_index.md
++?? .garura/project/issues/_adr/20261018-071440/adr-check.json
++?? .garura/project/issues/_adr/20261018-071440/adr-context.yaml
++?? .garura/project/issues/_adr/20261018-071440/adr-draft.md
++?? .garura/project/issues/_adr/20261018-071440/adr-manifest.json
++?? .garura/project/issues/_adr/20261018-071440/brief.md
++?? .garura/project/issues/_adr/20261018-071440/decision.yaml
++?? .garura/project/issues/_adr/20261018-071440/hashes-before.json
++?? .garura/project/issues/_adr/20261018-071440/porcelain-after.txt
++?? .garura/project/issues/_adr/20261018-071440/porcelain-before.txt
++?? .garura/project/issues/_adr/20261018-071440/run.json
++?? docs/adr/034-plays-answer-from-memory-inside-a-drive.md
+diff --git a/.garura/project/issues/_adr/20261018-071440/porcelain-before.txt b/.garura/project/issues/_adr/20261018-071440/porcelain-before.txt
+new file mode 100644
+index 00000000..b6da9320
+--- /dev/null
++++ b/.garura/project/issues/_adr/20261018-071440/porcelain-before.txt
+@@ -0,0 +1 @@
++?? .garura/project/issues/_adr/20261018-071440/porcelain-before.txt
+diff --git a/.garura/project/issues/_adr/20261018-071440/run.json b/.garura/project/issues/_adr/20261018-071440/run.json
+new file mode 100644
+index 00000000..97e44e66
+--- /dev/null
++++ b/.garura/project/issues/_adr/20261018-071440/run.json
+@@ -0,0 +1 @@
++{"in_drive": false, "drive_run_id": null, "branch": "feature/613-the-kickoff-drive", "issue": 613}
+diff --git a/docs/adr/029-drives.md b/docs/adr/029-drives.md
+index 91aac3ff..42343037 100644
+--- a/docs/adr/029-drives.md
++++ b/docs/adr/029-drives.md
+@@ -1,6 +1,6 @@
+ # ADR 029 — Drives: A Run of Plays That Ends in a Score or a Fail
+ 
+-**Status:** Accepted — amended in part by [ADR 030](030-plan-mode.md): a drive keeps one work plan for all its plays, and its big plan updates are approved together at its end review; and by [ADR 031](031-business-intent-and-ice.md): `/intent` yields business intents with ICE under them, and a drive asks questions but never stops for approval; and amended in part by [ADR 032](032-drive-review-of-outcomes.md): §5 "Every drive ends in a review" and Open Question 1 - the review is the drive's last step, not a drive of its own; it looks at the outcome (intents and product model), never the plays. This also settles how §2's "the plays' reviews happen after the drive ends" is done: the person answers the plays' review records through the outcome, not play by play.
++**Status:** Accepted — amended in part by [ADR 030](030-plan-mode.md): a drive keeps one work plan for all its plays, and its big plan updates are approved together at its end review; and by [ADR 031](031-business-intent-and-ice.md): `/intent` yields business intents with ICE under them, and a drive asks questions but never stops for approval; and amended in part by [ADR 032](032-drive-review-of-outcomes.md): §5 "Every drive ends in a review" and Open Question 1 - the review is the drive's last step, not a drive of its own; it looks at the outcome (intents and product model), never the plays. This also settles how §2's "the plays' reviews happen after the drive ends" is done: the person answers the plays' review records through the outcome, not play by play; and amended in part by [ADR 034](034-plays-answer-from-memory-inside-a-drive.md): §2 "A new question stops it": inside a drive a play answers from memory and the system, recording each answer's source, and the question stops the drive only when nothing there supports an answer; never from the model's own knowledge
+ **Date:** 2026-10-07 (proposed and accepted)
+ **Supersedes:** ADR 003 (guardian approval), in full · ADR 002 (checkpoint model) and ADR 028 (five loops), in part
+ **Decided in:** #607 (spike: the first loop's recipe), under #594 and business intent #606
+diff --git a/docs/adr/034-plays-answer-from-memory-inside-a-drive.md b/docs/adr/034-plays-answer-from-memory-inside-a-drive.md
+new file mode 100644
+index 00000000..c95ef2f7
+--- /dev/null
++++ b/docs/adr/034-plays-answer-from-memory-inside-a-drive.md
+@@ -0,0 +1,114 @@
++# ADR 034 — Inside a Drive, a Play Answers From Memory and Asks Only When Memory Holds Nothing
++
++**Status:** Accepted
++**Date:** 2026-10-18
++**Level:** framework
++**Decided by:** Kapil Viren Ahuja
++**Decided in:** #613 (the Kickoff drive), plan item 1 (`.garura/project/issues/613/specs/plan.md`), under #594 and business intent #606
++**Amends:** ADR 029 — §2 "A new question stops it": inside a drive a play answers from memory and the system, recording each answer's source, and the question stops the drive only when nothing there supports an answer; never from the model's own knowledge
++**Affects:** `core/components/memory/standards/rules/drive-contract.md` (rule 4, "a question the drive did not answer still stops the play", and its Related line), `core/components/memory/standards/rules/_index.md` (the drive contract's row: "stop on a new question"), `core/grounding/glossary.md` (the Drive entry: "stops only to ask a question that comes up mid-run"), the `/intent` play in `core/components/plays/intent/` (C4, C5 "Nothing invented", S5, Step 3 "Ask and check", and `core/components/plays/intent/scripts/check_intent.py`, which accepts an answer only from the source or the person), the `/vision` play in `core/components/plays/vision/` (C11: "a question neither the contract nor the model answers stops the run"), the `/understand` play in `core/components/plays/understand/` (C13 and Step 1, and `core/components/plays/understand/scripts/pick_targets.py` and `core/components/plays/understand/scripts/persist_understand.py`, which accept a new capability's answers only from a person), the `/adr` play in `core/components/plays/adr/` (C5 and Step 2: the reason given for its business-intent stop inside a drive), `core/components/plays/play-creator/references/write_drive_review.py` (the plays' review record, the likely carrier of each answer's source), the Kickoff drive (#613, not built yet), and the drive's review step and its two review tools (not built yet)
++**ICE impact:** The agent intents of the plays that run inside a drive change. `/intent` (C4, C5, Step 3): inside a drive it answers its open questions from memory and the system first, records each answer's source, and asks the person only what nothing supports; C5's "every property traces to the source or the person's answers" widens, inside a drive, to the memory this ADR names, each with its source. `/vision` (C11) and `/understand` (C13): "a question neither the contract nor the model answers stops the run" widens to all of memory and the system. `/adr` (C5): its business-intent stop stays, resting on ADR 031's rule rather than ADR 029 §2. The Kickoff drive (#613) stops mid-run only for a question nothing in memory supports. Run by hand, no play changes. The ICE kind does not change.
++**Business intent check:** none — a framework rule on how plays answer questions inside a drive; no person's business intent changes, and the Business Intent kind's rules stand: only a person confirms or drops one, and inside a drive every intent is still saved as proposed
++**Related:** ADR 029 (drives), ADR 031 (business intent and ICE), ADR 032 (drive review of outcomes), ADR 033 (approval in the product model), ADR 002 (checkpoint model), #613 (Kickoff), #606, #594
++
++## Context
++
++Kickoff (#613) is the first drive, and it is built next. It runs `/intent`, `/vision` and `/understand` one after another, with no person in between (ADR 029).
++
++ADR 029 §2 says how a drive treats a question that comes up mid-run: "A new question stops it. If a question comes up mid-run that was not answered at the start, the drive stops and asks. It never picks an answer for itself." Rule 4 of the drive contract says the same for each play.
++
++A read of the three plays inside a drive, on 18 October, found what that rule does to Kickoff. `/intent` asks every open question it finds in its draft, one at a time, for up to three rounds. These questions come out of the draft. So they cannot all be asked before the drive starts. Under ADR 029 §2, each one would stop the drive. Kickoff would stop on nearly every run, and the plays would not run on their own.
++
++Kapil, 2026-10-18, set how the plays should decide instead:
++
++> These three players internally have to run with a high level of autonomy: wrapping things
++> up, taking care of any domain capabilities, and understanding what to do together. They
++> should not stop and ask for every single point in time in review, but really decide when
++> they cannot come up with an answer.
++>
++> It's okay to take assumptions based on the memories that are given to them because there is
++> a memory element to it, but they cannot fabricate and create some things completely from
++> scratch. If they have no information about the memory or anything that the system has
++> provided, then they should definitely ask.
++>
++> In other words, reading the memory, making decisions from there, and coming up with things
++> is absolutely okay. If you do not give any direction from the user or the memory, going to
++> the underlying LLM and making a decision is the wrong move.
++
++The rule must be set before the runner and the play fixes are built (#613 plan, items 1 to 3).
++
++## Decision
++
++### 1. Inside a drive, a play answers from memory
++
++Inside a drive, the plays run with a high level of autonomy. When a play reaches a question it would ask a person, it answers it from memory and from what the system gives it. It may assume from them. It does not stop and ask at every point.
++
++### 2. What counts as memory
++
++As the plays have it today, memory and what the system gives are:
++
++- the answers the drive gathered before it started (the drive contract's `answers`);
++- the sources the person gave: the prototype and its saved snapshots;
++- the product model;
++- the knowledge base;
++- the learned checkpoint answers.
++
++### 3. Never from the model alone
++
++A play never answers from the underlying model's own knowledge with nothing behind it. When nothing in memory or the system supports an answer, the play asks the person. That question stops the drive, as ADR 029 §2 says today.
++
++### 4. Every answer names its source
++
++Every answer a play takes from memory is recorded with where it came from. The drive's review (ADR 032) shows the person what was assumed and on what basis. An answer with no source is not allowed.
++
++### 5. What this changes
++
++- **ADR 029 §2**, "A new question stops it": a new question stops the drive only when memory and the system hold nothing to answer it. The rest of §2 stands. Questions are still asked first, and their answers are the first memory a play reads. A drive still does not run on a coding agent's own never-stop loop: the decision stays off the model.
++- **Rule 4 of the drive contract** (`core/components/memory/standards/rules/drive-contract.md`), "a question the drive did not answer still stops the play": it changes the same way.
++
++### 6. What this does not change
++
++- Run by hand, a play is unchanged.
++- This ADR is about questions, not checkpoints. How a play resolves its checkpoint inside a drive stays as rule 3 of the drive contract says. A pinned checkpoint always fires: "No config value, policy, or ledger can turn it off" (`core/components/memory/standards/rules/gate-config.md`). The learned checkpoint answers do not answer it.
++- Only a person confirms or drops a business intent (ADR 031). Inside a drive every intent is still saved as proposed, and the person confirms or drops it at the drive's review. An answer taken from memory never confirms one.
++
++## Consequences
++
++### Positive
++
++- Kickoff can run its three plays without stopping at each question `/intent` finds in its draft.
++- The plays run on their own, as Kapil wants, and still make nothing up: every answer has a source.
++- The person sees every assumption, and what it rests on, at the drive's review.
++- A question nothing supports still stops the drive and goes to the person, as before.
++
++### Negative / Risks
++
++- **An assumption can be wrong.** The person sees it only at the drive's review. Later plays in the same drive may build on it before then.
++- **"Supports an answer" is a judgment.** The recorded source is what lets the review check it.
++- **Plays and scripts must change.** Today `/intent` asks every open question, and its check accepts an answer only from the source or the person (`check_intent.py`). `/understand` saves a new capability's answers only when a person gave them (`persist_understand.py`). `/vision` and `/understand` stop when "neither the contract nor the model" answers. Each play change goes through its ICE source and `/play-editor` (#613 plan item 3).
++- **Where each answer's source is recorded is not decided here.** The review step and its tools are not built yet (#641–#650), so they must show the assumptions once they are.
++- **The product model holds pieces not yet approved.** ADR 033 lets agents work only on approved pieces. Whether a play may answer from a piece that is not approved yet — such as an intent `/intent` saved as proposed earlier in the same drive — is not decided here.
++- **`/adr`'s stop needs a new reason.** Inside a drive, `/adr` stops on a decision that would change a person's business intent, because "a new question stops the drive (ADR 029 §2)". That stop stays — only a person changes their business intent (ADR 031) — but its wording must rest on that rule, not on ADR 029 §2.
++
++## Alternatives Considered
++
++- **Keep ADR 029 §2 as it is: every question not answered before the drive started stops it.** Lost: the plays would "stop and ask for every single point in time" (Kapil), and Kickoff would stop on nearly every run.
++- **Let the play answer every question itself, from the model's own knowledge.** Lost: it fabricates. Kapil: "going to the underlying LLM and making a decision is the wrong move."
++
++## Work This Creates
++
++None is filed yet; they are filed only when Kapil asks.
++
++1. Rewrite rule 4 of the drive contract, its row in the rules index, and the Drive entry in the glossary.
++2. `/intent`, `/vision` and `/understand` answer from memory first, record each answer's source, and ask only when nothing supports an answer (#613 plan item 3).
++3. Decide where each answer's source is recorded, so the drive's review can show it (#613 plan items 2 and 3).
++4. Kickoff's question step follows this rule (#613 plan item 2).
++5. The review step and its tools show the assumptions and their sources (#641–#650).
++6. `/adr`'s business-intent stop inside a drive rests on ADR 031, not on ADR 029 §2.
++
++## References
++
++- `.garura/project/issues/613/specs/plan.md` — item 1, and "How the plays decide inside the drive", with Kapil's words
++- ADR 029 — Drives; ADR 031 — Business intent and ICE; ADR 032 — Drive review of outcomes; ADR 033 — Approval in the product model
++- `core/components/memory/standards/rules/drive-contract.md` — how a play runs inside a drive
++- `core/components/memory/standards/rules/gate-config.md` — pinned and conditional checkpoints, and the ledger of learned answers
+diff --git a/docs/adr/_index.md b/docs/adr/_index.md
+index 67087d79..d7edae46 100644
+--- a/docs/adr/_index.md
++++ b/docs/adr/_index.md
+@@ -39,3 +39,4 @@ may have no Status line.
+ | [031](031-business-intent-and-ice.md) | Business Intent and ICE: Two Levels, Written Freely, Worked Only When Confirmed | Accepted | 2026-10-09 |
+ | [032](032-drive-review-of-outcomes.md) | A Drive Ends With a Review of Its Outcome, in an Intent Review Tool and a Product Review Tool | Accepted | 2026-10-17 |
+ | [033](033-approval-in-the-product-model.md) | Approval Is Part of the Product Model, and Agents Work Only on Approved Pieces | Accepted | 2026-10-18 |
++| [034](034-plays-answer-from-memory-inside-a-drive.md) | Inside a Drive, a Play Answers From Memory and Asks Only When Memory Holds Nothing | Accepted | 2026-10-18 |
