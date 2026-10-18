@@ -7,7 +7,7 @@ conditions:
   stage: internal-or-early
   cloud: any
 evolve_when: []
-provenance: "documented (Kapil — run-lens checkpoint of a live deployment, Token data spine slice, 2026-06-11) + assistant"
+provenance: "documented (run-lens checkpoint of a live deployment, Token data spine slice, 2026-06-11) + assistant"
 ---
 
 # Release discipline for a modular monolith: fixture-only local, sanitized staging, cohort canary, flags as rollback, additive migrations
@@ -94,5 +94,5 @@ the monolith → per-service pipelines and per-service migration discipline
 (`architecture/microservices`).
 
 ## Provenance
-documented (Kapil — run-lens checkpoint of a live deployment, "Token data spine" slice,
+documented (run-lens checkpoint of a live deployment, "Token data spine" slice,
 2026-06-11) + assistant.

@@ -7,7 +7,7 @@ conditions:
   platform: bedrock-or-vertex
   stage: any
 evolve_when: []
-provenance: "seeded (Kapil + assistant, #434 — agentic seed)"
+provenance: "seeded (#434 — agentic seed)"
 ---
 
 # Agent model selection: frontier model for hard reasoning, small/fast model for the rest
@@ -50,4 +50,4 @@ A step that a small model handles starts failing (inputs got harder), or a front
 became routine → re-route that step up or down. Re-run evals on any model change.
 
 ## Provenance
-seeded (Kapil + assistant, #434).
+seeded (#434).

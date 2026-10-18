@@ -8,7 +8,7 @@ conditions:
 evolve_when:
   - architecture/agent-orchestration-patterns
   - technology/agent-model-selection
-provenance: "seeded (Kapil + assistant, #434 — agentic seed)"
+provenance: "seeded (#434 — agentic seed)"
 ---
 
 # Agent building blocks: the seven parts you assemble
@@ -57,4 +57,4 @@ and which model goes where. See `architecture/agent-orchestration-patterns` and
 `technology/agent-model-selection`.
 
 ## Provenance
-seeded (Kapil + assistant, #434).
+seeded (#434).

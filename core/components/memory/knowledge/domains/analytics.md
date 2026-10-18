@@ -4,7 +4,7 @@ title: "Analytics: measure goals and funnels, on web AND product — not just pa
 conditions:
   trigger: "the product needs to measure behaviour and outcomes — events, goals, funnels, product usage"
   selection_keys: [goal-funnel-need, web-vs-product, decision-coupling, attribution-need, privacy-regime]
-provenance: interview (#434 — Kapil)
+provenance: interview (#434)
 ---
 
 # Analytics: how we build it
@@ -124,7 +124,7 @@ product usage — are in place.
 - A privacy regime applies → tighten consent and data minimisation.
 
 ## Provenance
-interview (#434 — Kapil): today only page-load + CTA on web; the value gap is missing
+interview (#434): today only page-load + CTA on web; the value gap is missing
 goals and funnels; and product analytics (beyond web) is missing and needed.
 Reconciled with the `experience` funnel POV (discovery funnel dead, product funnel
 alive). Intents proposed by Claude per delegation — pending confirmation. NOT a

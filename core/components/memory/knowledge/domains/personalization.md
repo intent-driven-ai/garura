@@ -4,7 +4,7 @@ title: "Personalization: how we build it — content + experience, graded across
 conditions:
   trigger: "the product tailors content or experience to the individual or segment"
   selection_keys: [personalization-maturity-level, content-vs-experience, real-time-need, cdp-need, nfr.privacy]
-provenance: interview (#434 — Kapil)
+provenance: interview (#434)
 ---
 
 # Personalization: how we build it
@@ -48,7 +48,7 @@ top. Don't sell L3 to an L1 client.
   Personalized **separately** from content — and this is the differentiator.
 
 ## Intents this domain captures (proposed — sanity-check)
-Intent-first. (Kapil delegated the intent list — confirm or correct.)
+Intent-first. (the owner delegated the intent list — confirm or correct.)
 
 **Visitor intents**
 - **Be recognised** — "know me across visits and devices" → identity resolution, profile.
@@ -152,8 +152,8 @@ and proof: consent, cold-start, creepiness, and showing the metric moved.
 - Experience personalization proves out → invest in it as the differentiating moat.
 
 ## Provenance
-interview (#434 — Kapil): the three maturity levels (tagging/rules-light → CDP +
+interview (#434): the three maturity levels (tagging/rules-light → CDP +
 tools → real-time hyper-personalization), content-and-experience-separately with
 experience personalization as the "shiny MOAT", and "all of it is intelligence,
-L1 = lightweight rules". Intents proposed by Claude per Kapil's delegation —
+L1 = lightweight rules". Intents proposed by Claude per delegation —
 pending his confirmation. NOT a generic capability list.

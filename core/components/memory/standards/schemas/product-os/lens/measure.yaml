@@ -17,7 +17,7 @@ content:
   focus: string             # one line — the team benefit this slice's delivery drives
   metrics:                  # >=1 — each entry is a provable claim
     - framework: string     # triangle | dora | flow | space | dx
-                            #   triangle = Kapil's PRIMARY frame — the three axes
+                            #   triangle = the PRIMARY frame — the three axes
                             #   speed / tokens / cognition: min token + cognition
                             #   spend for max speed. dora/flow/space/dx are the
                             #   industry frames, kept alongside ("do both").

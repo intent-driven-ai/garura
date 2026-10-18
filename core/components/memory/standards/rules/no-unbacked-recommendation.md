@@ -4,7 +4,7 @@
 the source that backs it. Where it cannot, it says nothing — it never fills the gap with a
 default, a generic pointer, or another play's name.
 
-Kapil, 2026-09-08: *"there is a cardinal rule. its better to not recommend if you dont
+the owner, 2026-09-08: *"there is a cardinal rule. its better to not recommend if you dont
 know rather than recommending wrongly."*
 
 ## The failure this exists to stop

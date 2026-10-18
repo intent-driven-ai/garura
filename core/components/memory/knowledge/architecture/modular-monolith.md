@@ -151,7 +151,7 @@ isn't earned yet.
 - **Architecture cosplay** — copying Netflix's pattern without Netflix's problem.
 
 ## Provenance
-documented — the user's modular-monolith architecture learning, recovered from the
+documented — a modular-monolith architecture learning, recovered from the
 prior KB (`arch/patterns/modular-monolith.md`) and reshaped into the v1 template
 under #434. Old profile codes (PP-6 delivery ambition, NFR-6 scalability) were
 translated to plain conditions.

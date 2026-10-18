@@ -5,7 +5,7 @@ conditions:
   surface: web-app-or-site
   stage: any
 evolve_when: []
-provenance: "seeded (assistant, #434 — accepted by Kapil)"
+provenance: "seeded (assistant, #434 — reviewed and accepted)"
 ---
 
 # Navigation follows product shape: sidebar for tools, top-nav for content, drawer for focus
@@ -45,4 +45,4 @@ tool, or a sidebar passes ~7 top-level items) → re-shape the nav (introduce se
 search, or grouping) rather than cramming more into the existing bar.
 
 ## Provenance
-seeded (assistant, #434 — accepted by Kapil).
+seeded (assistant, #434 — reviewed and accepted).

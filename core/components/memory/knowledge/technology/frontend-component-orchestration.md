@@ -170,7 +170,7 @@ keeps the library from sprawling. The costs are real and worth naming:
 - **Component file > 300 lines** — refactor target; past 500 is critical.
 
 ## Provenance
-documented (the user's frontend-component-orchestration design, recovered from
+documented (a frontend-component-orchestration design, recovered from
 the prior KB into the v1 KB under #434). Companion learnings referenced in the
 original (modular-monolith backend, the React+Next.js stack choice, and the
 component-architecture audit checklist) were also in the prior KB and are not yet

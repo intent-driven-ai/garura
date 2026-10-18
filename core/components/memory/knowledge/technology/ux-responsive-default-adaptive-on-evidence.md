@@ -6,7 +6,7 @@ conditions:
   multi-device: true
   stage: any
 evolve_when: []
-provenance: "documented (Kapil's stated POV, #434) + assistant"
+provenance: "documented (stated POV, #434) + assistant"
 ---
 
 # Responsive by default, adaptive only on evidence
@@ -41,4 +41,4 @@ Analytics or usability testing shows a specific device failing a specific key ta
 responsive layout → build an adaptive layout for that case (and only that case).
 
 ## Provenance
-documented (Kapil's POV, #434) + assistant.
+documented (POV, #434) + assistant.

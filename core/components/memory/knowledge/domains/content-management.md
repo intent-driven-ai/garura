@@ -4,7 +4,7 @@ title: "Content Management: how we build it — product-framed, MACH-first, drag
 conditions:
   trigger: "the product authors, models, and publishes content — pages, articles, structured entries, assets"
   selection_keys: [experience-composability, content-modelling-depth, surfaces, responsive-vs-adaptive, dam-need]
-provenance: interview (#434 — Kapil)
+provenance: interview (#434)
 ---
 
 # Content Management: how we build it
@@ -139,7 +139,7 @@ brand-tone, SEO/GEO/AEO); DAM intelligence (tagging, translation) is adjacent.
 - Personalization need grows → spin it out as its own domain (pending decision).
 
 ## Provenance
-interview (#434 — Kapil): headful/headless/hybrid + MACH-first drag-and-drop spine,
+interview (#434): headful/headless/hybrid + MACH-first drag-and-drop spine,
 product-framing-over-templates POV (the bank-CMO example), responsive-default /
 adaptive-on-evidence rule, the author/editor/marketer/administrator focus, the
 migration/design/frontend failure modes, and the SEO/GEO/AEO + brand-tone + DAM

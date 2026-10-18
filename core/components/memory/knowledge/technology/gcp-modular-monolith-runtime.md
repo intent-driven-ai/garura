@@ -8,7 +8,7 @@ conditions:
   persistence: some-to-full
   datastore: postgresql
 evolve_when: []
-provenance: "documented (Kapil, #434 — preferred runtime for a modular monolith)"
+provenance: "documented (#434 — preferred runtime for a modular monolith)"
 ---
 
 # Modular-monolith runtime on GCP: Cloud Run + Cloud SQL Postgres, cache only when it earns it, secure by default
@@ -62,4 +62,4 @@ the product back → climb to a microservices runtime (each service its own depl
 See `architecture/microservices`.
 
 ## Provenance
-documented (Kapil, #434).
+documented (#434).

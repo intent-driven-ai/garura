@@ -7,7 +7,7 @@ conditions:
   cloud: aws-or-gcp
   stage: any
 evolve_when: []
-provenance: "seeded (Kapil + assistant, #434 — agentic seed)"
+provenance: "seeded (#434 — agentic seed)"
 ---
 
 # Agent deployment: dev → uat → prod, promotion gated by an eval suite (not just tests)
@@ -55,4 +55,4 @@ suite can vet them → invest in the eval suite and automate the gate before add
 autonomy (`architecture/agent-supervised-autonomous`).
 
 ## Provenance
-seeded (Kapil + assistant, #434).
+seeded (#434).

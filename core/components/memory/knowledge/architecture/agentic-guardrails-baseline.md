@@ -6,7 +6,7 @@ conditions:
   surface: agentic-feature
   stage: any
 evolve_when: []
-provenance: "seeded (Kapil + assistant, #434 — agentic seed)"
+provenance: "seeded (#434 — agentic seed)"
 ---
 
 # Agentic guardrails baseline: the floor under every agent, at any autonomy level
@@ -54,4 +54,4 @@ supervised-autonomous) the controls *tighten* (smaller fence, stricter validatio
 loop bounds), but every item here stays present.
 
 ## Provenance
-seeded (Kapil + assistant, #434).
+seeded (#434).

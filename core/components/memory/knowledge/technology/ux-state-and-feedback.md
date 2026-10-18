@@ -5,7 +5,7 @@ conditions:
   surface: web-app-or-site
   stage: any
 evolve_when: []
-provenance: "seeded (assistant, #434 — accepted by Kapil)"
+provenance: "seeded (assistant, #434 — reviewed and accepted)"
 ---
 
 # Every screen handles its states; every action gives feedback
@@ -45,4 +45,4 @@ A screen's data or actions get more complex (real-time updates, multi-step async
 new states unhandled.
 
 ## Provenance
-seeded (assistant, #434 — accepted by Kapil).
+seeded (assistant, #434 — reviewed and accepted).

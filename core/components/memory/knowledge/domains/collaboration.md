@@ -4,12 +4,12 @@ title: "Collaboration: people working together on shared things — real-time, p
 conditions:
   trigger: "more than one person works on the same content/object — comments, sharing, presence, co-editing"
   selection_keys: [real-time-need, co-edit-depth, sharing-permission-model, presence-need, scale]
-provenance: Claude-drafted while Kapil away, reviewed and accepted (#434)
+provenance: Claude-drafted, reviewed and accepted (#434)
 ---
 
 # Collaboration: how we build it
 
-> **Claude-drafted while Kapil was away; reviewed and accepted by Kapil (#434).**
+> **Claude-drafted; reviewed and accepted (#434).**
 > Leaned toward this practice's themes (real-time, the experience layer, content,
 > brand-tone). Accepted as the working shelf.
 
@@ -103,7 +103,7 @@ presence-first, real-time-when-needed domain rather than a heavy standalone buil
 - Activity volume rises → add AI activity summaries and smarter mention routing.
 
 ## Provenance
-Claude-drafted while Kapil away, reviewed and accepted (#434). Built on the locked
+Claude-drafted, reviewed and accepted (#434). Built on the locked
 shelf template, leaned toward the practice's real-time/experience/content themes.
 Treated as a productivity-product capability / likely hand-off unless the product is
 inherently collaborative.
