@@ -4,7 +4,7 @@ kind: story
 serves: "#657 — the memory tool finds memory across short-term, Garura and Phoenix memory the way Claude Code searches"
 status: active
 updated: 2026-10-18
-now: 2
+now: 4
 serves_plan: 653
 serves_item: 4
 ---
@@ -51,7 +51,8 @@ contract (#655, `core/tools/memory/contract/v1.json`) and `pull` / `pulled`
 ## Where we are now
 
 The change is open on `feature/657-memory-tool-search`. Its first commit closed
-out five finished plans. Kapil answered item 1. Next: item 2, the lookups.
+out five finished plans. Items 2 and 3 are built: the tool finds, searches, reads and pulls. Next: item 4, the
+contract change.
 
 ## The plan, in order
 
@@ -71,32 +72,22 @@ out five finished plans. Kapil answered item 1. Next: item 2, the lookups.
   pulled when needed.. .once the memory is used, then it saved in garura /
   proejct memory." A Phoenix answer is pulled when the file is read (used),
   not on every search hit.
+- **2. Built: the lookups** — #657. `core/tools/memory/memory.py` is the one entry for
+  `health`, `find`, `search`, `read`, `pull` and `pulled`. Settings come from one source (a
+  settings file, else the environment); `engine` is the one setting a server engine will
+  change. Short-term memory is the issue's folder only, and is not Garura memory when it
+  sits inside it. Phoenix memory is read only at `phoenix_ref` (default `origin/main`):
+  a branch or an edit on disk is not read. Searches use git grep (extended regular
+  expressions, or plain text). A request the contract does not allow is refused before any
+  memory is read. Every answer the tests get is put through the contract check, in place
+  of replaying the samples (their versions and paths are made up). 29 tests; the 12 pull
+  tests, the contract check (boundary included) and its tests pass; ruff is clean.
+- **3. Built: memory that is used is saved** — #657. A read from Phoenix memory pulls the
+  file into Garura memory (`garura_pull_dir`) and the pulled list; the next lookup answers
+  from Garura memory. A search hit alone pulls nothing. `pull` no longer leaves an empty
+  pulled list after a refusal (a #656 review note).
 
-### 2. The lookups: health, find, search, read — now
-
-**Issue:** #657.
-**What:** one tool entry for every command, reading each tier's place from one
-settings source; the tier order, the issue's own short-term folder only, the
-refusals and errors, and fingerprints, all as the contract says. `pull` and
-`pulled` from #656 become commands of the same entry. Phoenix memory is read
-only at its approved version (item 1a).
-**Why here:** everything else calls these.
-**Done when:** the contract's samples pass through the tool, and tests cover
-each tier, going up a tier, a missing tier, and a refused path.
-**Needs:** item 1.
-
-### 3. Bring a Phoenix answer into the project
-
-**Issue:** #657.
-**What:** when a file is read from Phoenix memory (used), it is pulled into
-Garura memory and recorded in the pulled list (item 1b). Search hits alone pull
-nothing.
-**Why here:** Kapil's test needs the re-run to answer from Garura memory.
-**Done when:** a test shows the first lookup answered by Phoenix memory and the
-second by Garura memory.
-**Needs:** item 2.
-
-### 4. The contract change
+### 4. The contract change — now
 
 **Issue:** #657.
 **What:** a lookup of Garura or Phoenix memory works without an issue (PR #666
@@ -133,3 +124,4 @@ answers change (#657, #658) are fixed only when Kapil asks.
   (`core/tools/memory/contract/v1.json`, its README), ADR 035 §3–§4, ADR 036
   §1–§3, the #653 plan item 4 and Kapil's test from the #656 plan (item 1d).
 - 2026-10-18 — Item 1 done: memory updates land in short-term memory only; `learn` and `promote` plays move them up; the reader uses only approved Phoenix memory; a file is pulled when it is used.
+- 2026-10-18 — Items 2 and 3 built: `memory.py`, 29 tests; `pull` reads Phoenix memory at its approved version.
