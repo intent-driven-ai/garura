@@ -72,6 +72,9 @@ answer came from in a way anyone checks.
   it can tell when a piece is behind.
 - When the project's memory has no answer, the tool goes up to Phoenix memory
   before anything else.
+- Every Garura install carries the tool and a short memory guide, and checks
+  the tool works, so agents in any project know the three tiers and how to use
+  them.
 - The tool searches like Claude Code and returns, for every result, the tier,
   the file, the lines and a fingerprint of the text. Missing memory is an
   error, never "nothing found".
@@ -186,7 +189,24 @@ carries them.
 changed.
 **Needs:** item 4.
 
-### 7. Move Kickoff's agents and skills onto the tool
+### 7. Every Garura install carries the memory system
+
+**Issue:** none yet.
+**What:** installing Garura into a project installs the memory tool and a short
+memory guide every agent reads: the three tiers (Phoenix memory, the project's
+memory, short-term memory), what the tool does, how to find memory, go up to
+Phoenix memory, update it, name a source, and raise a memory update. The
+install checks the tool runs and reaches each tier, and fails if it does not.
+Kapil, 2026-10-18: the three tiers "should be part of the Garura installation.
+Anytime Garura gets installed, every project would need to know what that tool
+is, what it does, and how the memory works. Otherwise, the subagents will fail."
+**Why here:** the agents moved in items 8 and 10 rely on it in every project,
+not only in Garura's own repo.
+**Done when:** a fresh install into a test project has the tool and the guide,
+its check passes, and an agent there finds a piece of memory through the tool.
+**Needs:** items 3 to 6.
+
+### 8. Move Kickoff's agents and skills onto the tool
 
 **Issue:** none yet.
 **What:** the agents and skills `/intent`, `/vision` and `/understand` use, and
@@ -195,9 +215,9 @@ updates, and name their sources. Play changes go through each play's ICE source
 and `/play-editor`.
 **Why here:** Kickoff waits on these three plays, so they move first.
 **Done when:** the three plays and every play's close name no memory path.
-**Needs:** items 5 and 6.
+**Needs:** items 5, 6 and 7.
 
-### 8. Prove it on Kickoff's three plays
+### 9. Prove it on Kickoff's three plays
 
 **Issue:** none yet.
 **What:** run `/intent`, `/vision` and `/understand` by hand on a test project:
@@ -205,14 +225,14 @@ every answer names its memory, a gap raises an update, nothing comes from the
 model alone.
 **Why here:** only a real run shows the system works before a drive relies on it.
 **Done when:** the run is recorded.
-**Needs:** item 7.
+**Needs:** item 8.
 
 ### Milestone: the Kickoff drive can be built
 
-#613 picks up again here, at the runner's design. Items 9 and 10 run alongside
+#613 picks up again here, at the runner's design. Items 10 and 11 run alongside
 the Kickoff build.
 
-### 9. Move every other agent and skill onto the tool
+### 10. Move every other agent and skill onto the tool
 
 **Issue:** none yet.
 **What:** the remaining active agents and skills, including the two that still
@@ -220,9 +240,9 @@ fall back to the web or the model (`tech-designer`, `research-domain-context`);
 the R1–R4 rule rewritten; a lint rule that fails any component naming a memory
 path. The seven retired agents are not installed and are left as they are.
 **Done when:** the lint passes across every component.
-**Needs:** item 8.
+**Needs:** item 9.
 
-### 10. The memory review
+### 11. The memory review
 
 **Issue:** none yet — it extends the review tool's stories (#641–#644).
 **What:** a Memory view in the review tool, next to Intents and Product: what
@@ -244,3 +264,7 @@ the tool.
   Garura memory in a project is the subset it pulls, and it can go up to
   Phoenix memory for more ("keep it small and clean"). Items 1 to 5 changed to
   match.
+- 2026-10-18 — Kapil: the memory system is part of every Garura install, or the
+  sub-agents fail. Added item 7 (every install carries the tool, the memory
+  guide and a check); items 7 to 10 became 8 to 11. The Kickoff milestone now
+  follows item 9.
