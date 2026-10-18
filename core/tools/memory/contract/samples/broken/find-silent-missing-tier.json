@@ -1,0 +1,14 @@
+{
+  "command": "find",
+  "request": {
+    "glob": "product-os/**/capability.md"
+  },
+  "response": {
+    "ok": true,
+    "contract_version": "1",
+    "command": "find",
+    "looked_in": [],
+    "answered_by": null,
+    "matches": []
+  }
+}

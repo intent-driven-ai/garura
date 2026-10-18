@@ -1,0 +1,29 @@
+{
+  "command": "health",
+  "request": {},
+  "response": {
+    "ok": true,
+    "contract_version": "1",
+    "command": "health",
+    "tiers": [
+      {
+        "tier": "short-term",
+        "reachable": true,
+        "kind": "folder",
+        "version": null
+      },
+      {
+        "tier": "garura",
+        "reachable": true,
+        "kind": "folder",
+        "version": null
+      },
+      {
+        "tier": "phoenix",
+        "reachable": true,
+        "kind": "folder",
+        "version": "4f1c2e9a7b3d"
+      }
+    ]
+  }
+}
