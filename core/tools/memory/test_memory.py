@@ -447,6 +447,15 @@ class Citations(Tiers):
                                   "trace": [self.step("phoenix", "standards/rules/commits.md", 1, 1)]})
         self.assertEqual(again["error"]["code"], "unreadable")
 
+    def test_a_line_that_is_json_but_not_a_record_is_unreadable(self):
+        folder = os.path.join(self.short, "8", "context")
+        os.makedirs(folder)
+        step_without_source = {"citation_id": "cite-20261019-001", "trace": [{"asked": "q", "found": "f"}]}
+        for line in ("null", "[1]", '{"play": "/x"}', json.dumps(step_without_source)):
+            with open(os.path.join(folder, "citations.jsonl"), "w") as fh:
+                fh.write(line + "\n")
+            self.assertEqual(self.ask("citations", {"issue": 8, "check": True})["error"]["code"], "unreadable", line)
+
     def test_a_failed_write_names_short_term_memory(self):
         folder = os.path.join(self.short, "7")
         os.makedirs(folder)

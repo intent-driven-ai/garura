@@ -85,7 +85,8 @@ def main(argv=None):
         decisions, problems = answer["records"], answer["problems"]
         # only this play's decisions, for this run's issue: another play's would read as this one's
         play = "/" + run["play"].lstrip("/")
-        foreign = [r.get("citation_id") for r in decisions if not isinstance(r, dict) or r.get("play") != play
+        foreign = [r.get("citation_id") if isinstance(r, dict) else repr(r) for r in decisions
+                   if not isinstance(r, dict) or r.get("play") != play
                    or (run.get("issue") is not None and str(r.get("issue")) != str(run["issue"]))]
         if foreign:
             sys.stderr.write(f"write_drive_review.py: {args.decisions} holds decisions of another play or issue "

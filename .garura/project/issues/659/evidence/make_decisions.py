@@ -25,8 +25,13 @@ import sys
 TOOL = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", "..", "..",
                                     "core", "tools", "memory", "memory.py"))
 work, phoenix_src, out = os.path.abspath(sys.argv[1]), os.path.expanduser(sys.argv[2]), os.path.abspath(sys.argv[3])
+MARK = ".made-by-make_decisions"  # this script only ever deletes a folder it made
 if os.path.exists(work):
+    if not os.path.isfile(os.path.join(work, MARK)):
+        raise SystemExit(f"{work} exists and was not made by this script; give a new folder.")
     shutil.rmtree(work)
+os.makedirs(work)
+open(os.path.join(work, MARK), "w").close()
 project, phoenix = os.path.join(work, "shop"), os.path.join(work, "phoenix-memory")
 short = os.path.join(project, ".garura", "project", "issues")
 garura = os.path.join(project, ".garura")

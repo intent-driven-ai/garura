@@ -167,6 +167,7 @@ def test_review_writer():
         for name, bad in (("another play", dict(good, records=[dict(good["records"][0], play="/understand")])),
                           ("another issue", dict(good, records=[dict(good["records"][0], issue=999)])),
                           ("records that are not a list", dict(good, records="oops")),
+                          ("a record that is not an object", dict(good, records=[1])),
                           ("an older contract", dict(good, contract_version="3"))):
             wrong = os.path.join(tmp, "wrong.json")
             with open(wrong, "w") as fh:

@@ -55,6 +55,17 @@ def around(text, start, end):
     return {"start": first, "end": last, "text": "\n".join(lines[first - 1:last])}
 
 
+def whole(record):
+    """A decision record with the parts a check reads: an id, and a trace whose every step names
+    its source's tier, file, lines and fingerprint."""
+    if not isinstance(record, dict) or not isinstance(record.get("citation_id"), str):
+        return False
+    trace = record.get("trace", [])
+    return isinstance(trace, list) and all(
+        isinstance(st, dict) and isinstance(st.get("source"), dict)
+        and all(k in st["source"] for k in ("tier", "path", "start", "end", "fingerprint")) for st in trace)
+
+
 class CitationStore:
     def __init__(self, short_term_root, citations_file):
         self.root, self.file = short_term_root, citations_file.strip("/")
@@ -72,11 +83,14 @@ class CitationStore:
                 if not line.strip():
                     continue
                 try:
-                    found.append(json.loads(line))
+                    record = json.loads(line)
                 except ValueError:
+                    record = None
+                if not whole(record):
                     raise Refusal("unreadable", f"Short-term memory {issue}/{self.file} line {n} is not a whole "
                                   "decision record (a write cut off, or a hand edit). Fix or remove that line.",
-                                  "short-term") from None
+                                  "short-term")
+                found.append(record)
         return found
 
     def next_id(self):
