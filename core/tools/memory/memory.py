@@ -13,7 +13,7 @@ memory.py — the memory tool: the one way agents find memory (contract version 
     python3 memory.py updates [--status waiting]
     python3 memory.py decide  --request '{"id": "mu-...", "verdict": "approve", "by": ..., "reply": ..., "decided_in": "review-tool"}'
     python3 memory.py apply   --id mu-...
-    python3 memory.py cite    --request '{"issue": 659, "question": ..., "answer": ..., "sources": [...], ...}'
+    python3 memory.py cite    --request '{"issue": 659, "question": ..., "answer": ..., "trace": [{"asked", "found", "source"}...], ...}'
     python3 memory.py citations --issue 659 [--play /vision] [--check]
     python3 memory.py <command> --request '{"issue": 657, ...}'
 

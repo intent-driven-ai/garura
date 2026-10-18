@@ -351,79 +351,98 @@ class Updates(Tiers):
 
 
 class Citations(Tiers):
-    """Every decision names the memory it came from, and a check reads each source again."""
+    """Every decision names the memory it came from, as a trace of steps, and a check reads each
+    step's source again."""
 
-    def source(self, tier, path, start, end):
+    def step(self, tier, path, start, end, asked="What does memory say?", found="It says so."):
         text = self.ask("read", {"issue": 7, "tier": tier, "path": path, "start": start, "end": end})["text"]
-        return {"tier": tier, "path": path, "start": start, "end": end, "fingerprint": cc.fingerprint(text)}
+        return {"asked": asked, "found": found,
+                "source": {"tier": tier, "path": path, "start": start, "end": end, "fingerprint": cc.fingerprint(text)}}
 
-    def cite(self, sources, **extra):
+    def cite(self, trace, **extra):
         return self.ask("cite", {"issue": 7, "question": "How long does a reset link last?",
                                  "answer": "One hour.", "decided_by": "test agent", "play": "/vision",
-                                 "sources": sources} | extra)
+                                 "trace": trace} | extra)
 
     def test_a_decision_is_recorded_and_checked(self):
-        a = self.cite([self.source("phoenix", "knowledge/domains/user-management.md", 5, 5)])
+        a = self.cite([self.step("phoenix", "knowledge/domains/user-management.md", 5, 5)])
         self.assertEqual(a["stored"], {"tier": "short-term", "path": "7/context/citations.jsonl"})
         listed = self.ask("citations", {"issue": 7, "check": True})
         self.assertEqual(([r["citation_id"] for r in listed["records"]], listed["problems"]), ([a["citation_id"]], []))
 
     def test_nothing_is_recorded_from_a_wrong_or_missing_source(self):
-        bad = self.source("phoenix", "knowledge/domains/user-management.md", 5, 5) | {"fingerprint": cc.fingerprint("x")}
+        bad = self.step("phoenix", "knowledge/domains/user-management.md", 5, 5)
+        bad["source"]["fingerprint"] = cc.fingerprint("x")
         self.assertEqual(self.cite([bad])["error"]["code"], "changed")
-        gone = {"tier": "phoenix", "path": "knowledge/none.md", "start": 1, "end": 1, "fingerprint": cc.fingerprint("x")}
-        self.assertEqual(self.cite([gone])["error"]["code"], "not_found")
+        gone = {"asked": "q", "found": "f", "source": {"tier": "phoenix", "path": "knowledge/none.md", "start": 1,
+                                                       "end": 1, "fingerprint": cc.fingerprint("x")}}
+        self.assertEqual(self.cite([self.step("phoenix", "standards/rules/commits.md", 1, 1), gone])["error"]["code"],
+                         "not_found")
         self.assertEqual(self.ask("citations", {"issue": 7})["records"], [])
 
-    def test_the_check_finds_a_changed_and_a_missing_source(self):
-        self.cite([self.source("phoenix", "knowledge/domains/user-management.md", 5, 5)])
-        self.cite([self.source("phoenix", "standards/rules/commits.md", 1, 2)])
+    def test_the_check_names_the_step_whose_source_changed_or_went(self):
+        self.cite([self.step("phoenix", "standards/rules/commits.md", 1, 1),
+                   self.step("phoenix", "knowledge/domains/user-management.md", 5, 5)])
+        self.cite([self.step("phoenix", "standards/rules/commits.md", 2, 2)])
         write(self.phoenix, "knowledge/domains/user-management.md", "# User management\n\n\n\n- Links last 30 minutes.\n")
         git(self.phoenix, "rm", "-q", "standards/rules/commits.md")
         self.commit("memory moved on")
         problems = self.ask("citations", {"issue": 7, "check": True})["problems"]
-        self.assertEqual(sorted(p["problem"] for p in problems), ["source_changed", "source_missing"])
+        self.assertEqual(sorted((p["problem"], p["step"]) for p in problems),
+                         [("source_changed", 2), ("source_missing", 1), ("source_missing", 1)])
         changed = next(p for p in problems if p["problem"] == "source_changed")
         self.assertEqual((changed["source"]["text"], changed["now"]),
                          ("- A reset link expires after one hour.", "- Links last 30 minutes."))
+        self.assertEqual(changed["now_around"], {"start": 2, "end": 5, "text": "\n\n\n- Links last 30 minutes."})
+        missing = next(p for p in problems if p["problem"] == "source_missing")
+        self.assertEqual((missing["now"], missing["now_around"]), (None, None))
 
-    def test_the_record_keeps_what_the_agent_read(self):
-        self.cite([self.source("phoenix", "knowledge/domains/user-management.md", 5, 5)])
-        src = self.ask("citations", {"issue": 7})["records"][0]["sources"][0]
+    def test_the_record_keeps_each_step_with_what_the_agent_read_in_its_place(self):
+        self.cite([self.step("phoenix", "standards/rules/commits.md", 2, 2, asked="What is the subject limit?",
+                             found="72 characters."),
+                   self.step("phoenix", "knowledge/domains/user-management.md", 5, 5)])
+        trace = self.ask("citations", {"issue": 7})["records"][0]["trace"]
+        self.assertEqual([(st["asked"], st["found"]) for st in trace],
+                         [("What is the subject limit?", "72 characters."), ("What does memory say?", "It says so.")])
+        src = trace[1]["source"]
         self.assertEqual(src["text"], "- A reset link expires after one hour.")
+        self.assertEqual(src["around"], {"start": 2, "end": 5, "text": "## Sign-in\n- Lock the account after five "
+                                         "failed sign-ins.\n## Passwords\n- A reset link expires after one hour."})
+        self.assertEqual(trace[0]["source"]["around"], {"start": 1, "end": 2, "text": "# Commits\nSubject under 72."})
         self.assertEqual(src["version"], self.ask("health", {})["tiers"][2]["version"])
 
-    def test_a_decision_with_no_source_is_a_problem(self):
+    def test_a_decision_with_no_trace_is_a_problem(self):
         os.makedirs(os.path.join(self.short, "7", "context"))
         with open(os.path.join(self.short, "7", "context", "citations.jsonl"), "w") as fh:
             fh.write(json.dumps({"citation_id": "cite-20261018-001", "issue": 7, "play": None, "question": "q",
                                  "answer": "a", "decided_by": "someone", "decided_at": "2026-10-18T00:00:00Z",
-                                 "sources": [], "from_update": None}) + "\n")
+                                 "trace": [], "from_update": None}) + "\n")
         problems = self.ask("citations", {"issue": 7, "check": True})["problems"]
-        self.assertEqual([p["problem"] for p in problems], ["no_source"])
+        self.assertEqual([(p["problem"], p["step"], p["source"]) for p in problems], [("no_source", None, None)])
 
     def test_a_decision_from_an_approved_update(self):
         u = self.ask("propose", {"issue": 7, "missing": "Reset link length here.", "target_tier": "short-term",
                                  "target_path": "7/context/answers/reset.md", "draft": "Thirty minutes here.",
                                  "draft_source": "person", "sources": [], "requested_by": "test agent"})["update"]
-        self.assertEqual(self.cite([self.source("phoenix", "standards/rules/commits.md", 1, 1)],
+        self.assertEqual(self.cite([self.step("phoenix", "standards/rules/commits.md", 1, 1)],
                                    from_update=u["id"])["error"]["code"], "not_approved")
         self.ask("decide", {"id": u["id"], "verdict": "approve", "by": "a person", "reply": "yes",
                             "decided_in": "review-tool"})
         self.ask("apply", {"id": u["id"]})
-        self.assertEqual(self.cite([self.source("phoenix", "standards/rules/commits.md", 1, 1)],
+        self.assertEqual(self.cite([self.step("phoenix", "standards/rules/commits.md", 1, 1)],
                                    from_update=u["id"])["error"]["code"], "bad_request")
-        ok = self.cite([self.source("short-term", "7/context/answers/reset.md", 1, 1)], from_update=u["id"])
+        ok = self.cite([self.step("phoenix", "standards/rules/commits.md", 1, 1),
+                        self.step("short-term", "7/context/answers/reset.md", 1, 1)], from_update=u["id"])
         self.assertTrue(ok["ok"])
 
     def test_a_decision_is_not_memory(self):
-        self.cite([self.source("phoenix", "knowledge/domains/user-management.md", 5, 5)],
+        self.cite([self.step("phoenix", "knowledge/domains/user-management.md", 5, 5)],
                   answer="A remembered answer, only in the decision record.")
         self.assertEqual(self.ask("search", {"issue": 7, "pattern": "remembered answer"})["answered_by"], None)
 
     def test_listing_one_play(self):
-        self.cite([self.source("phoenix", "standards/rules/commits.md", 1, 1)], play="/vision")
-        self.cite([self.source("phoenix", "standards/rules/commits.md", 1, 1)], play="/understand")
+        self.cite([self.step("phoenix", "standards/rules/commits.md", 1, 1)], play="/vision")
+        self.cite([self.step("phoenix", "standards/rules/commits.md", 1, 1)], play="/understand")
         self.assertEqual([r["play"] for r in self.ask("citations", {"issue": 7, "play": "/understand"})["records"]],
                          ["/understand"])
 

@@ -29,7 +29,7 @@
     "first_answer_stops": "Without every_tier, answered_by is the last tier in looked_in.",
     "results_from_looked_in": "Every hit and match comes from a tier in looked_in; without every_tier, only from answered_by.",
     "fingerprint_is_the_text": "A fingerprint is the sha256 of the exact text it travels with: read.text, a hit's text.",
-    "short_term_is_this_issue": "Every short-term path in an answer (a match, a hit, a read, a cite source, where a cite is stored) starts with '<issue>/', the request's issue.",
+    "short_term_is_this_issue": "Every short-term path in an answer (a match, a hit, a read, a trace step's source, where a cite is stored) starts with '<issue>/', the request's issue.",
     "update_matches_its_status": "waiting: no decision yet (decided_by, reply, decided_at, decided_in and applied_version are null). approved or rejected: decided_by, reply, decided_at and decided_in are set; applied_version is null. applied: the decision is set and applied_version is the version written (null for a folder).",
     "short_term_update_names_its_issue": "An update to short-term memory names its issue, and its target_path starts with '<issue>/'.",
     "propose_waits": "propose answers status waiting, with the request's issue, missing, target_tier, target_path, draft, draft_source, sources and requested_by as given, and blocking as given (false when not given).",
@@ -44,14 +44,15 @@
     "read_saves_what_it_uses": "A read of Phoenix memory carries exactly one of saved_to (the Garura path it was saved to) or not_saved (why not). A read of any other tier carries neither.",
     "blocking": "An update with blocking false lets the rest of the work go on while it waits; only the work that needs the answer waits. An update with blocking true stops the work until a person decides (Kapil, 2026-10-18).",
     "waiting_drafts_are_hidden": "A lookup (find, search, read) never returns a memory update that waits for a person: updates are kept apart in the issue's short-term memory, and only an applied update's written file can be found. Otherwise a draft from the web or the model would drive the work with no person in between (ADR 036). Decision records are not memory either: a lookup never returns them, so an agent never decides from its own earlier decision.",
-    "cite_reads_its_sources": "cite records nothing unless every source exists in its tier and the text of its lines still has its fingerprint.",
-    "citations_problems": "Without check, problems is empty. With check, each record with no source is no_source; each source whose file is gone is source_missing; each source whose text no longer matches its fingerprint is source_changed. Every record and problem is of the request's issue. A problem's now is the text those lines hold now, or null when they are gone.",
-    "cited_text_is_its_fingerprint": "In a decision record, each source's fingerprint is the sha256 of its text — the exact lines the agent read when it decided."
+    "cite_reads_its_sources": "cite records nothing unless every step's source exists in its tier and the text of its lines still has its fingerprint.",
+    "citations_problems": "Without check, problems is empty. With check, each record with no trace is no_source (step and source null); each step whose source file or lines are gone is source_missing; each step whose source text no longer matches its fingerprint is source_changed. A problem's step is the step's number in the trace, from 1. Every record and problem is of the request's issue. A problem's now is the text those lines hold now, and now_around the lines around them now; both are null when the lines are gone.",
+    "cited_text_is_its_fingerprint": "In a decision record, each step's source fingerprint is the sha256 of its text — the exact lines the agent read when it decided.",
+    "around_holds_the_text": "In a decision record, each source's around starts at most 3 lines before the source and ends at most 3 after it, and the source's own lines inside it are its text."
   },
   "settings": "The tool reads where each tier lives from its settings (environment variables or a settings file), never from a fixed path. A tier with no setting, or one that cannot be reached, is the error tier_missing. The settings name each tier's place, Phoenix memory's approved version (phoenix_ref: the version a person approved outside Garura; a folder engine reads the commit it names), and where pulled pieces land in Garura memory.",
   "paths": "Every path in a request or response is relative to its tier's root, uses forward slashes, never starts with a slash, and never contains '..'.",
   "fingerprint": "sha256 of the exact text returned or cited, as 'sha256:' and 64 lowercase hex characters. A citation whose fingerprint no longer matches the file has gone stale.",
-  "every_result": "Every piece of text the tool returns carries its tier, file, lines and fingerprint (read, search hits, cite sources). A file list (find) carries tier, file and version. pull names the tier it wrote to.",
+  "every_result": "Every piece of text the tool returns carries its tier, file, lines and fingerprint (read, search hits, each trace step's source). A file list (find) carries tier, file and version. pull names the tier it wrote to.",
   "commands": {
     "health": {
       "summary": "Report each tier: can it be reached, is it a folder or a server, and which version it is at. The install check calls this.",
@@ -354,7 +355,7 @@
       }
     },
     "cite": {
-      "summary": "Record a decision and the memory it rests on, in the issue's short-term memory (ADR 035 §6, ADR 034 §4): the question, the answer, who decided, the play, and one or more sources — each a tier, file, lines and the fingerprint of that text. When the answer came from an approved memory update, from_update names it, and the update's written file is a source. Before it records anything, the tool reads each source: one that no longer exists is not_found, one whose text changed is changed. No source from the model or the web. The record keeps, for each source, the exact text the agent read and the version of memory it read it from, so a person auditing the decision sees what it rested on.",
+      "summary": "Record a decision and the trace of memory it rests on, in the issue's short-term memory (ADR 035 §6, ADR 034 §4): the question, the answer, who decided, the play, and the trace — the steps the agent took, in order. Each step says what the agent looked for, what it found, and the memory lines that said so: a tier, file, lines and the fingerprint of that text. A sign-in decision, for example, reads the product's profile (who the users are, the security level, the compliance regimes), then the knowledge file whose rules those values select. When the answer came from an approved memory update, from_update names it, and the update's written file is the source of a step. Before it records anything, the tool reads each source: one that no longer exists is not_found, one whose text changed is changed. No source from the model or the web. The record keeps, for each step, the exact text the agent read, the version of memory it read it from, and the lines around it, so a person auditing the decision sees each step in its place.",
       "request": {
         "type": "object",
         "properties": {
@@ -373,11 +374,11 @@
             "type": "string",
             "minLength": 1
           },
-          "sources": {
+          "trace": {
             "type": "array",
             "minItems": 1,
             "items": {
-              "$ref": "#/$defs/source"
+              "$ref": "#/$defs/trace_step"
             }
           },
           "play": {
@@ -394,7 +395,7 @@
           "question",
           "answer",
           "decided_by",
-          "sources"
+          "trace"
         ],
         "additionalProperties": false
       },
@@ -825,7 +826,7 @@
       }
     },
     "citations": {
-      "summary": "List the decision records of one issue (optionally of one play), each with its sources. With check, read every source again: a record with no source, a source whose file is gone, and a source whose text no longer matches its fingerprint are each a problem. A drive's review shows these records, so the person sees what each decision rested on.",
+      "summary": "List the decision records of one issue (optionally of one play), each with its trace. With check, read every step's source again: a record with no trace, a source whose file or lines are gone, and a source whose text no longer matches its fingerprint are each a problem, named by its step. A drive's review shows these records, so the person sees each step a decision rested on.",
       "request": {
         "type": "object",
         "properties": {
@@ -1306,10 +1307,10 @@
           "type": "string",
           "minLength": 1
         },
-        "sources": {
+        "trace": {
           "type": "array",
           "items": {
-            "$ref": "#/$defs/cited_source"
+            "$ref": "#/$defs/traced_step"
           }
         },
         "from_update": {
@@ -1327,7 +1328,7 @@
         "answer",
         "decided_by",
         "decided_at",
-        "sources",
+        "trace",
         "from_update"
       ],
       "additionalProperties": false
@@ -1345,6 +1346,13 @@
             "source_missing",
             "source_changed"
           ]
+        },
+        "step": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1
         },
         "source": {
           "oneOf": [
@@ -1365,14 +1373,26 @@
             "string",
             "null"
           ]
+        },
+        "now_around": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/around"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
         "citation_id",
         "problem",
+        "step",
         "source",
         "detail",
-        "now"
+        "now",
+        "now_around"
       ],
       "additionalProperties": false
     },
@@ -1401,6 +1421,9 @@
         },
         "version": {
           "$ref": "#/$defs/version"
+        },
+        "around": {
+          "$ref": "#/$defs/around"
         }
       },
       "required": [
@@ -1410,7 +1433,77 @@
         "end",
         "fingerprint",
         "text",
-        "version"
+        "version",
+        "around"
+      ],
+      "additionalProperties": false
+    },
+    "around": {
+      "description": "The lines around a source, as one piece of text: up to 3 lines before its first line and 3 after its last, within the file. The source's own lines sit inside it, so a person sees what the agent read in its place, with that part marked.",
+      "type": "object",
+      "properties": {
+        "start": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "end": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "text": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "start",
+        "end",
+        "text"
+      ],
+      "additionalProperties": false
+    },
+    "trace_step": {
+      "description": "One step of a decision's trace, as the agent asks for it to be recorded: what it looked for, what it found, and the memory lines that said so.",
+      "type": "object",
+      "properties": {
+        "asked": {
+          "type": "string",
+          "minLength": 1
+        },
+        "found": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source": {
+          "$ref": "#/$defs/source"
+        }
+      },
+      "required": [
+        "asked",
+        "found",
+        "source"
+      ],
+      "additionalProperties": false
+    },
+    "traced_step": {
+      "description": "One step of a recorded trace: what the agent looked for, what it found, and the memory it read — with the exact text, the version, and the lines around it.",
+      "type": "object",
+      "properties": {
+        "asked": {
+          "type": "string",
+          "minLength": 1
+        },
+        "found": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source": {
+          "$ref": "#/$defs/cited_source"
+        }
+      },
+      "required": [
+        "asked",
+        "found",
+        "source"
       ],
       "additionalProperties": false
     }

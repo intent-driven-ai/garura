@@ -116,6 +116,9 @@ def validate(value, schema, root, where="$"):
     return problems
 
 
+AROUND = 3  # lines before and after a cited source that a decision record keeps
+
+
 def fingerprint(text):
     return "sha256:" + hashlib.sha256(text.encode("utf-8")).hexdigest()
 
@@ -133,9 +136,9 @@ def check_scope(request, response):
     if command == "read":
         found = [response]
     if command == "cite":
-        found = list(request.get("sources", [])) + [response.get("stored", {})]
+        found = [st.get("source", {}) for st in request.get("trace", [])] + [response.get("stored", {})]
     if command == "citations":
-        found = [s for r in response.get("records", []) for s in r.get("sources", [])]
+        found = [st.get("source", {}) for r in response.get("records", []) for st in r.get("trace", [])]
         for r in response.get("records", []):
             if r.get("issue") != issue:
                 problems.append(f"citations answered a record of issue {r.get('issue')}, not {issue}")
@@ -291,16 +294,52 @@ def check_meaning(sample, contract):
     if response.get("command") == "read":
         problems += check_read(request, response)
     if response.get("command") == "citations":
-        for r in response.get("records", []):
-            for src in r.get("sources", []):
-                if "text" in src and src.get("fingerprint") != fingerprint(src["text"]):
-                    problems.append(f"record {r.get('citation_id')}: a source's fingerprint is not the sha256 of its text")
-        if not request.get("check") and response.get("problems"):
-            problems.append("citations listed problems without check (answer rule citations_problems)")
-        ids = {r.get("citation_id") for r in response.get("records", [])}
-        for pr in response.get("problems", []):
-            if pr.get("citation_id") not in ids:
-                problems.append(f"a problem names {pr.get('citation_id')!r}, which is not among the records")
+        problems += check_citations(request, response)
+    return problems
+
+
+def check_around(src):
+    """The lines around a source start at most AROUND before it, end at most AROUND after it,
+    and hold its text in its place (answer rule around_holds_the_text)."""
+    around = src.get("around") or {}
+    start, end = src.get("start", 0), src.get("end", 0)
+    lines = around.get("text", "").split("\n")
+    if not (start - AROUND <= around.get("start", 0) <= start and end <= around.get("end", 0) <= end + AROUND):
+        return f"its lines around run {around.get('start')}–{around.get('end')}, not within {AROUND} of {start}–{end}"
+    if len(lines) != around["end"] - around["start"] + 1:
+        return f"its lines around hold {len(lines)} lines, not {around['end'] - around['start'] + 1}"
+    if "\n".join(lines[start - around["start"]:end - around["start"] + 1]) != src.get("text"):
+        return "its lines around do not hold its text in its place"
+    return None
+
+
+def check_citations(request, response):
+    """A decision record's trace and the problems a check found (answer rules citations_problems,
+    cited_text_is_its_fingerprint, around_holds_the_text)."""
+    problems = []
+    records = {r.get("citation_id"): r for r in response.get("records", [])}
+    for r in records.values():
+        for n, st in enumerate(r.get("trace", []), 1):
+            src = st.get("source", {})
+            if "text" in src and src.get("fingerprint") != fingerprint(src["text"]):
+                problems.append(f"record {r.get('citation_id')} step {n}: the fingerprint is not the sha256 of its text")
+            elif (wrong := check_around(src)):
+                problems.append(f"record {r.get('citation_id')} step {n}: {wrong}")
+    if not request.get("check") and response.get("problems"):
+        problems.append("citations listed problems without check (answer rule citations_problems)")
+    for pr in response.get("problems", []):
+        r = records.get(pr.get("citation_id"))
+        if r is None:
+            problems.append(f"a problem names {pr.get('citation_id')!r}, which is not among the records")
+            continue
+        trace, step = r.get("trace", []), pr.get("step")
+        if pr.get("problem") == "no_source":
+            if trace or step is not None or pr.get("source") is not None:
+                problems.append(f"record {pr['citation_id']}: no_source is only for a record with no trace, with step and source null")
+        elif step is None or not 1 <= step <= len(trace) or pr.get("source") != trace[step - 1].get("source"):
+            problems.append(f"record {pr['citation_id']}: a problem's step must name the trace step whose source it is")
+        elif (pr.get("now") is None) != (pr.get("now_around") is None) or (pr.get("problem") == "source_missing") != (pr.get("now") is None):
+            problems.append(f"record {pr['citation_id']}: now and now_around are set for a changed source and null for a missing one")
     return problems
 
 
