@@ -4,7 +4,7 @@ kind: story
 serves: "#655 — the memory tool has a written contract for finding and updating memory"
 status: active
 updated: 2026-10-18
-now: 2
+now: 4
 serves_plan: 653
 serves_item: 2
 ---
@@ -40,7 +40,8 @@ same thing — and so moving to Griffin changes nothing on Garura's side.
 ## Where we are now
 
 The change is open on `feature/655-memory-tool-contract`. Kapil approved the
-plan and settled the two open questions. Next: item 2, the contract.
+plan and settled the two open questions. The contract, its samples and its
+check are built. Next: item 4, landing the change.
 
 ## The plan, in order
 
@@ -52,30 +53,18 @@ plan and settled the two open questions. Next: item 2, the contract.
   instead. (b) A play's own working files — the ones it passes between its
   steps inside one run (ADR 011) — stay direct; only memory lookups go through
   the tool, which can still find those files later as short-term memory.
+- **2. Built: the contract** — #655. `core/tools/memory/contract/v1.json`
+  (version 1) and its plain guide `core/tools/memory/README.md`: eleven
+  commands — health, find, search, read, cite, pull, pulled, propose, updates,
+  decide, apply — the three tiers, the lookup order, the errors, and every
+  result carrying tier, file, lines and fingerprint. Not merged yet.
+- **3. Built: sample answers and the check** — #655. 14 samples (every
+  command, a `tier_missing` and a `not_approved` error, and an empty answer that
+  cues a memory update) pass; 6 broken samples fail; the folder names no project
+  path. `python3 contract/check_contract.py` from the tool's folder. Not merged
+  yet.
 
-### 2. Write the contract — now
-
-**Issue:** #655.
-**What:** the commands, what each takes and gives back, the lookup order, the
-errors, and the version — in the tool's own folder, with a short plain guide
-beside it.
-**Why here:** it is the agreement items 3 and 4 check, and every later story
-builds on.
-**Done when:** the contract file and its guide exist, and name no Garura path.
-**Needs:** item 1.
-
-### 3. Sample answers and the contract check
-
-**Issue:** #655.
-**What:** a sample answer for every command, including a missing-tier error,
-and a small check (standard library only) that each sample matches the
-contract.
-**Why here:** the issue's done-when asks for it, and #657 reuses the samples as
-its first tests.
-**Done when:** the check passes every sample and fails a broken one.
-**Needs:** item 2.
-
-### 4. Land the change
+### 4. Land the change — now
 
 **Issue:** #655.
 **What:** commit, raise, review and merge; close #655; mark item 2 of the #653
@@ -90,3 +79,4 @@ plan done.
   tools, so it can move to Griffin as one folder.
 - 2026-10-18 — Kapil approved the plan: "approve, A, A". Learned checkpoint
   answers are not memory; a play's own working files stay direct.
+- 2026-10-18 — Items 2 and 3 built: the contract (11 commands), 14 samples, 6 broken samples, the check (passes).
