@@ -1,0 +1,43 @@
+commits:
+  - sha: 16cbe16e
+    message: "chore(stm): record start-change workspace context (#667)"
+    files:
+      - .garura/project/issues/667/context/branch.json
+      - .garura/project/issues/667/context/issue.json
+      - .garura/project/issues/667/context/work-description.txt
+    branch: feature/667-memory-update-lands-in-short-term
+  - sha: b39115cd
+    message: "docs(adr): ADR 036 — approved answer lands in short-term memory (#667)"
+    files:
+      - .garura/project/issues/_adr/20261018-112701/adr-check.json
+      - .garura/project/issues/_adr/20261018-112701/adr-context.yaml
+      - .garura/project/issues/_adr/20261018-112701/adr-draft.md
+      - .garura/project/issues/_adr/20261018-112701/adr-manifest.json
+      - .garura/project/issues/_adr/20261018-112701/brief.md
+      - .garura/project/issues/_adr/20261018-112701/decision.yaml
+      - .garura/project/issues/_adr/20261018-112701/guard-report.json
+      - .garura/project/issues/_adr/20261018-112701/hashes-before.json
+      - .garura/project/issues/_adr/20261018-112701/porcelain-after.txt
+      - .garura/project/issues/_adr/20261018-112701/porcelain-before.txt
+      - .garura/project/issues/_adr/20261018-112701/run.json
+      - .garura/project/issues/_adr/20261018-112701/start-change.json
+      - docs/adr/032-drive-review-of-outcomes.md
+      - docs/adr/034-plays-answer-from-memory-inside-a-drive.md
+      - docs/adr/035-agents-work-only-from-memory.md
+      - docs/adr/036-approved-answer-lands-in-short-term-memory.md
+      - docs/adr/_index.md
+    branch: feature/667-memory-update-lands-in-short-term
+  - sha: e60fd32a
+    message: "chore(plan): follow ADR 036 in the memory plan and story #664 (#667)"
+    files:
+      - .garura/project/issues/617/specs/review-tool.md
+      - .garura/project/issues/653/specs/plan.md
+      - .garura/project/issues/654/specs/stories.yaml
+    branch: feature/667-memory-update-lands-in-short-term
+excluded_files:
+  []
+leftover_count: 0
+tree_clean: true
+pushed: false
+run_state_committed: true
+note: "the /adr play committed each change itself (Steps 6 and the plan update on Kapil's word); the tree was clean when commit-change ran, so it made no new commit"
