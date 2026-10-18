@@ -5,7 +5,7 @@
   },
   "response": {
     "ok": true,
-    "contract_version": "2",
+    "contract_version": "3",
     "command": "pulled",
     "pieces": [
       {

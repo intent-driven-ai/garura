@@ -2,7 +2,7 @@
 """Tests for memory.py. Run from the tool's folder: python3 test_memory.py
 
 Every answer the tool gives is also put through the contract check (shape and answer
-rules), so the tool cannot drift from contract/v2.json.
+rules), so the tool cannot drift from contract/v3.json.
 """
 
 import contextlib
@@ -42,17 +42,15 @@ class Tiers(test_pull.Tiers):
     def ask(self, command, request, env=None):
         """One answer, checked against the contract before the test sees it."""
         answers = memory.run(command, request, self.env if env is None else env)
-        if command not in ("pull", "pulled"):
-            spec = memory.CONTRACT["commands"][command]
-            for a in answers:
-                if cc.validate(request, spec["request"], memory.CONTRACT):
-                    # a request the contract refuses: the answer must be that refusal
-                    self.assertEqual(cc.validate(a, spec["response"], memory.CONTRACT), [], a)
-                    self.assertEqual(a["error"]["code"], "bad_request", a)
-                    continue
-                problems = cc.check_sample({"command": command, "request": request, "response": a},
-                                           memory.CONTRACT)
-                self.assertEqual(problems, [], (command, request, a))
+        spec = memory.CONTRACT["commands"][command]
+        for a in answers:
+            if cc.validate(request, spec["request"], memory.CONTRACT):
+                # a request the contract refuses: the answer must be that refusal
+                self.assertEqual(cc.validate(a, spec["response"], memory.CONTRACT), [], a)
+                self.assertEqual(a["error"]["code"], "bad_request", a)
+                continue
+            problems = cc.check_sample({"command": command, "request": request, "response": a}, memory.CONTRACT)
+            self.assertEqual(problems, [], (command, request, a))
         return answers[0]
 
 
@@ -184,6 +182,28 @@ class UsedMemoryIsSaved(Tiers):
         listed = memory.run("pulled", {}, self.env)[0]["pieces"]
         self.assertEqual([p["path"] for p in listed], ["knowledge/domains/user-management.md"])
 
+    def test_the_read_says_where_it_saved(self):
+        a = self.ask("read", {"issue": 7, "tier": "phoenix", "path": "standards/rules/commits.md"})
+        self.assertEqual(a["saved_to"], {"tier": "garura", "path": "pulled-memory/standards/rules/commits.md"})
+
+    def test_never_saved_over_a_different_garura_file(self):
+        mine = os.path.join(self.garura, "pulled-memory", "standards/rules/commits.md")
+        os.makedirs(os.path.dirname(mine))
+        with open(mine, "w") as fh:
+            fh.write("# Commits\nOur own rule: subject under 50.\n")
+        a = self.ask("read", {"issue": 7, "tier": "phoenix", "path": "standards/rules/commits.md"})
+        self.assertIn("not_saved", a)
+        with open(mine) as fh:
+            self.assertEqual(fh.read(), "# Commits\nOur own rule: subject under 50.\n")
+        self.assertEqual(self.ask("pull", {"path": "standards/rules/commits.md"})["error"]["code"], "would_overwrite")
+
+    def test_a_pulled_piece_is_refreshed_when_phoenix_moves_on(self):
+        self.ask("read", {"issue": 7, "tier": "phoenix", "path": "standards/rules/commits.md"})
+        write(self.phoenix, "standards/rules/commits.md", "# Commits\nSubject under 60.\n")
+        self.commit("change")
+        a = self.ask("read", {"issue": 7, "tier": "phoenix", "path": "standards/rules/commits.md"})
+        self.assertIn("saved_to", a)
+
     def test_a_search_hit_alone_pulls_nothing(self):
         self.ask("search", {"issue": 7, "pattern": "reset link"})
         self.assertFalse(os.path.exists(os.path.join(self.garura, "pulled-memory")))
@@ -252,6 +272,13 @@ class CommandLine(Tiers):
             os.environ.clear()
             os.environ.update(old)
         return code, [json.loads(line) for line in out.getvalue().splitlines()]
+
+    def test_pull_takes_the_contract_request(self):
+        for argv in (["pull", "--path", "standards/rules/commits.md"],
+                     ["pull", "--request", '{"path": "standards/rules/commits.md"}'],
+                     ["pull", "standards/rules/commits.md"]):
+            code, answers = self.main(argv)
+            self.assertEqual((code, answers[0]["path"]), (0, "standards/rules/commits.md"), argv)
 
     def test_flags_and_a_whole_request_give_the_same_answer(self):
         _, by_flags = self.main(["search", "--issue", "7", "--pattern", "reset link"])

@@ -4,11 +4,12 @@
     "id": "mu-20261018-001",
     "verdict": "reject",
     "by": "Kapil Viren Ahuja",
-    "reply": "reject"
+    "reply": "reject",
+    "decided_in": "review-tool"
   },
   "response": {
     "ok": false,
-    "contract_version": "2",
+    "contract_version": "3",
     "command": "decide",
     "error": {
       "code": "wrong_state",

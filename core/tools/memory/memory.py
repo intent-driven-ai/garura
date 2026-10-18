@@ -1,25 +1,26 @@
 #!/usr/bin/env python3
 """
-memory.py — the memory tool: the one way agents find memory (contract version 2).
+memory.py — the memory tool: the one way agents find memory (contract version 3).
 
     python3 memory.py health
     python3 memory.py find   --issue N --glob GLOB [--tier T | --every-tier]
     python3 memory.py search --issue N --pattern P [--fixed] [--ignore-case] [--glob GLOB]
                              [--tier T | --every-tier] [--max M]
     python3 memory.py read   --issue N --tier T --path PATH [--start S] [--end E]
-    python3 memory.py pull   PATH-OR-GLOB...
+    python3 memory.py pull   PATH-OR-GLOB... | --path PATH
     python3 memory.py pulled [--behind]
     python3 memory.py <command> --request '{"issue": 657, ...}'
 
 Each request field is a flag, or the whole request is one JSON object (--request). Every
-answer is one JSON object per line, in the contract's shapes (contract/v2.json). A request
+answer is one JSON object per line, in the contract's shapes (contract/v3.json). A request
 that does not match the contract is refused with bad_request.
 
 Lookups go short-term -> garura -> phoenix and stop at the first tier that answers.
 Short-term memory is read only in the request's issue folder; a request with no issue has
 no short-term memory and starts at Garura memory. Phoenix memory is read only
 at its approved version (phoenix_ref). A file read from Phoenix memory is used, so it is
-pulled into Garura memory: the next lookup answers from the project.
+pulled into Garura memory: the next lookup answers from the project. It is never saved over
+a different Garura file; the read answer says saved_to, or not_saved and why.
 
 Settings — where each tier lives — come from one source: the JSON file MEMORY_SETTINGS
 names, else the environment. Relative places in the file are relative to the file.
@@ -53,7 +54,7 @@ import check_contract  # noqa: E402
 import pull as phoenix_git  # noqa: E402
 from pull import CONTRACT_VERSION, SAFE_PATH, Refusal, error, glob_regex  # noqa: E402
 
-CONTRACT = check_contract.load(os.path.join(HERE, "contract", "v2.json"))
+CONTRACT = check_contract.load(os.path.join(HERE, "contract", "v3.json"))
 ORDER = CONTRACT["lookup_order"]
 KEYS = {"engine": "MEMORY_ENGINE", "short-term": "MEMORY_SHORT_TERM_ROOT",
         "garura": "MEMORY_GARURA_ROOT", "phoenix": "MEMORY_PHOENIX_ROOT",
@@ -207,6 +208,10 @@ class FolderEngine:
         os.makedirs(garura, exist_ok=True)
         return phoenix_git.pull(self.root("phoenix"), garura, patterns, self.s["phoenix_ref"])
 
+    def garura_path(self, rel):
+        """Where a piece pulled from Phoenix memory sits, as a path in Garura memory."""
+        return "/".join(p for p in (self.s["garura_pull_dir"].strip("/"), rel) if p)
+
     def pulled(self, behind_only):
         garura = os.path.join(self.root("garura"), self.s["garura_pull_dir"])
         return phoenix_git.pulled(self.root("phoenix"), garura, behind_only, self.s["phoenix_ref"])
@@ -316,16 +321,18 @@ def cmd_read(engine, request):
                 fingerprint=fingerprint(chunk), version=engine.version(tier))
     if tier == "phoenix":
         # used, so saved: the next lookup answers from Garura memory
-        pulled = engine.pull([path])
-        if not pulled[0]["ok"]:
-            return pulled[0] | {"command": "read"}
+        saved = engine.pull([path])[0]
+        if saved["ok"]:
+            answer["saved_to"] = {"tier": "garura", "path": engine.garura_path(path)}
+        elif saved["error"]["code"] == "would_overwrite":
+            answer["not_saved"] = saved["error"]["message"]
+        else:
+            return saved | {"command": "read"}
     return answer
 
 
 def cmd_pull(engine, request):
-    if not request.get("patterns"):
-        raise Refusal("bad_request", "pull needs at least one path or glob.")
-    return engine.pull(request["patterns"])
+    return engine.pull([request["path"]])
 
 
 def cmd_pulled(engine, request):
@@ -338,8 +345,6 @@ COMMANDS = {"health": cmd_health, "find": cmd_find, "search": cmd_search, "read"
 
 def check_request(command, request):
     """Refuse any request the contract would refuse, before the tool touches memory."""
-    if command in ("pull", "pulled"):
-        return
     schema = CONTRACT["commands"][command]["request"]
     problems = check_contract.validate(request, schema, CONTRACT)
     if problems:
@@ -395,6 +400,7 @@ def parse(argv):
             p.add_argument("--end", type=int)
         if name == "pull":
             p.add_argument("patterns", nargs="*")
+            p.add_argument("--path")
         if name == "pulled":
             p.add_argument("--behind", action="store_true", default=None)
     for name, p in sub.choices.items():
@@ -416,6 +422,13 @@ def main(argv=None):
     argv = sys.argv[1:] if argv is None else argv
     try:
         command, request = parse(argv)
+        if command == "pull" and "patterns" in request:
+            # the command line's list is one contract request ({path}) per path
+            requests = [{"path": p} for p in request.pop("patterns")] + ([request] if request else [])
+            answers = [a for r in requests for a in run("pull", r)]
+            for a in answers:
+                print(json.dumps(a))
+            return 0 if all(a["ok"] for a in answers) else 1
     except BadFlags as exc:
         command = argv[0] if argv and argv[0] in COMMANDS else None
         if command is None:

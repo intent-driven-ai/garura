@@ -5,7 +5,7 @@
   },
   "response": {
     "ok": true,
-    "contract_version": "2",
+    "contract_version": "3",
     "command": "apply",
     "update": {
       "id": "mu-20261018-003",
@@ -30,7 +30,9 @@
       "decided_by": "Kapil Viren Ahuja",
       "reply": "approve — promote to Garura memory",
       "decided_at": "2026-10-18T11:05:00Z",
-      "applied_version": null
+      "applied_version": null,
+      "blocking": false,
+      "decided_in": "review-tool"
     },
     "written": {
       "tier": "garura",

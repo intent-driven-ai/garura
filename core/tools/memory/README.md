@@ -2,9 +2,9 @@
 
 The one way agents find memory and update it. Today it works on folders. Later it calls a
 server in Griffin. Agents that call it do not change when that happens, because they only ever
-talk to this tool, through the contract in `contract/v2.json`.
+talk to this tool, through the contract in `contract/v3.json`.
 
-This folder holds the contract (version 2), sample answers, the check that keeps them in
+This folder holds the contract (version 3), sample answers, the check that keeps them in
 step, and the tool: `memory.py`. Today the tool answers `health`, `find`, `search`, `read`,
 `pull` and `pulled`. The memory-update commands (`propose`, `updates`, `decide`, `apply`) and
 `cite` come in later steps.
@@ -84,8 +84,8 @@ A lookup never skips a tier. If it reaches a tier with no setting, or one it can
 fails with `tier_missing`. "Never stops a piece of work" means a piece the project has not
 pulled is found a level up — not that a tier may be passed over.
 
-An empty answer — `answered_by: null`, no hits — means no tier holds it. That is the cue to
-raise a memory update. Agents never fill the gap from the model or the web on their own.
+An empty answer — `answered_by: null`, no hits — means no tier it looked in holds it (with no
+issue, short-term memory is not looked in). That is the cue to raise a memory update. Agents never fill the gap from the model or the web on their own.
 
 ## The commands
 
@@ -107,26 +107,28 @@ with `ok`, `contract_version` and `command`.
 
 | Command | What it does |
 |---|---|
-| `pull` | Copies one piece of Phoenix memory into Garura memory and records the version it came from. |
+| `pull` | Copies one piece of Phoenix memory into Garura memory and records the version it came from. It never writes over a different Garura file (`would_overwrite`). |
 | `pulled` | Lists what Garura memory pulled, and whether Phoenix memory has moved on since. |
-| `propose` | Raises a memory update: what is missing, where it belongs, a drafted entry, and where the draft came from (`person`, `web`, `model` or `memory`). Nothing in it is used until a person approves it. |
+| `propose` | Raises a memory update in the issue's short-term memory: what is missing, a drafted entry, where the draft came from (`person`, `web`, `model` or `memory`), and whether it blocks the work. Nothing in it is used until a person approves it. |
 | `updates` | Lists memory updates, optionally only those with one status. |
-| `decide` | Records a person's word on a waiting update: approve or reject, who, and their exact reply. Only a person decides. |
-| `apply` | Writes an approved update to its tier: the issue's short-term memory, Garura memory, or Phoenix memory as a commit. An update no one approved is refused (`not_approved`). |
+| `decide` | Records a person's word on a waiting update: approve or reject, who, their exact reply, and where they decided (the review tool). Only a person decides, one update at a time. |
+| `apply` | Writes an approved update to the issue's short-term memory. An update no one approved is refused (`not_approved`). |
 
 A memory update moves through `waiting` → `approved` or `rejected` → `applied`.
 
 ## When no tier answers
 
 1. The agent finds the answer by research — the web or the model may draft it — and raises it
-   with `propose`, aimed at the issue's short-term memory. A draft from the web or the model
-   never goes straight to Garura or Phoenix memory.
-2. A person reviews the draft and approves or rejects it (`decide`). Nothing in it is used before
-   that.
+   with `propose`, in the issue's short-term memory. Every update lands there ("STM - always
+   STM"), whatever drafted it. It says whether it blocks the work: the rest of the work goes
+   on unless it does.
+2. A person approves or rejects it, one update at a time, in the review tool (`decide`). Until
+   that tool is built, a local prototype page stands in. Nothing in it is used before that.
 3. The approved answer is written to the issue's own short-term memory (`apply`). The work then
    decides from memory, and cites it.
-4. Moving it up to Garura or Phoenix memory is a **promotion**. It happens outside the work, as
-   its own memory update a person approves, drafted from memory (or by a person).
+4. Moving memory up is not this tool's job: `/learn-memory` learns from short-term memory into
+   Garura memory, and `/promote-memory` sends Garura memory to Phoenix memory for an approval
+   outside Garura.
 
 ## What every answer carries
 
@@ -189,6 +191,7 @@ The check holds every sample to these, beyond its shape:
 | `not_approved` | `apply` on an update no person approved: it is waiting or was rejected. |
 | `wrong_state` | `decide` on an update that is not waiting, or `apply` on one already applied. |
 | `changed` | The target changed after the update was proposed. |
+| `would_overwrite` | Garura memory already holds a different file at that path; nothing was overwritten. |
 
 ## What is not memory
 
@@ -204,10 +207,12 @@ The check holds every sample to these, beyond its shape:
 - Nothing here names a path inside a project or imports code from outside the folder, so the
   folder can move to Griffin as it is.
 - Python standard library only, Python 3.10 or newer. No installs.
-- The contract changes only by a new version. Version 2 is `contract/v2.json` (#657: lookups
-  without an issue, globs that never step outside their tier, Phoenix memory read only at its
-  approved version, and memory that is used is saved). Version 1, `contract/v1.json`, is kept
-  as it was.
+- The contract changes only by a new version. Version 3 is `contract/v3.json` (#658: every
+  memory update lands in short-term memory, an update says whether it blocks, a person decides
+  each one in the review tool, and a used file is never saved over a different Garura file).
+  Version 2 (#657: lookups without an issue, globs that never step outside their tier, Phoenix
+  memory read only at its approved version, memory that is used is saved) and version 1 are
+  kept as they were.
 
 ## Checking the contract
 

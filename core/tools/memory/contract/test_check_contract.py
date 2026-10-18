@@ -10,7 +10,7 @@ import unittest
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import check_contract as cc  # noqa: E402
 
-CONTRACT = cc.load(os.path.join(cc.HERE, "v2.json"))
+CONTRACT = cc.load(os.path.join(cc.HERE, "v3.json"))
 
 
 def v(value, schema):
@@ -132,7 +132,7 @@ class Scope(unittest.TestCase):
         hit = s["response"]["hits"][0]
         read = {"command": "read", "request": {"issue": 655, "tier": "short-term", "path": hit["path"],
                                                "start": hit["line"], "end": hit["line"]},
-                "response": {"ok": True, "contract_version": "2", "command": "read", "tier": "short-term",
+                "response": {"ok": True, "contract_version": "3", "command": "read", "tier": "short-term",
                              "path": hit["path"], "start": hit["line"], "end": hit["line"], "text": hit["text"],
                              "fingerprint": hit["fingerprint"], "version": None}}
         self.assertTrue(cc.check_meaning(read, CONTRACT))
@@ -169,7 +169,7 @@ class Scope(unittest.TestCase):
 
 class Lifecycle(unittest.TestCase):
     def test_the_chain_passes(self):
-        for name in ("propose.json", "updates.json", "decide.json", "apply.json", "apply-promotion.json"):
+        for name in ("propose.json", "updates.json", "decide.json", "apply.json"):
             self.assertEqual(cc.check_sample(sample(name), CONTRACT), [], name)
 
     def test_propose_waits_and_keeps_what_was_asked(self):
@@ -200,13 +200,9 @@ class Lifecycle(unittest.TestCase):
         s["response"]["written"]["path"] = "613/context/answers/other.md"
         self.assertTrue(cc.check_meaning(s, CONTRACT))
 
-    def test_phoenix_apply_is_a_commit(self):
-        s = sample("apply-promotion.json")
-        s["response"]["update"]["target_tier"] = "phoenix"
-        s["response"]["written"]["tier"] = "phoenix"
-        self.assertTrue(cc.check_meaning(s, CONTRACT))
-        s["response"]["update"]["applied_version"] = s["response"]["written"]["version"] = "4f1c2e9a7b3d"
-        self.assertEqual(cc.check_meaning(s, CONTRACT), [])
+    def test_a_promotion_is_not_this_tools_job(self):
+        # version 3: moving memory up is /learn-memory and /promote-memory, not apply
+        self.assertTrue(cc.check_sample(sample("broken/apply-promotion-not-in-this-tool.json"), CONTRACT))
 
     def test_short_term_update_names_its_issue(self):
         s = sample("propose.json")
@@ -233,14 +229,15 @@ class Lifecycle(unittest.TestCase):
         self.assertTrue(cc.check_meaning(self.listed(status="approved"), CONTRACT))
 
     def test_decided_is_not_yet_applied(self):
-        decided = dict(status="approved", decided_by="Kapil Viren Ahuja", reply="approve", decided_at="2026-10-18T09:20:00Z")
+        decided = dict(status="approved", decided_by="Kapil Viren Ahuja", reply="approve", decided_at="2026-10-18T09:20:00Z",
+                       decided_in="review-tool")
         self.assertEqual(cc.check_meaning(self.listed(**decided), CONTRACT), [])
         self.assertTrue(cc.check_meaning(self.listed(applied_version="4f1c2e9a7b3d", **decided), CONTRACT))
 
     def test_propose_keeps_its_issue(self):
         s = sample("propose.json")
         for part in (s["request"], s["response"]["update"]):
-            part.update({"target_tier": "garura", "target_path": "product-os/decisions/payment-providers.md",
+            part.update({"target_tier": "short-term", "target_path": "613/specs/answers/payment-providers.md",
                          "draft_source": "person"})
         self.assertEqual(cc.check_meaning(s, CONTRACT), [])
         s["response"]["update"]["issue"] = 614
@@ -251,11 +248,25 @@ class Lifecycle(unittest.TestCase):
         s["response"]["update"]["applied_version"] = "4f1c2e9a7b3d"
         self.assertTrue(cc.check_meaning(s, CONTRACT))
 
-    def test_research_goes_to_short_term_first(self):
-        for source in ("web", "model"):
-            s = sample("apply-promotion.json")
-            s["response"]["update"]["draft_source"] = source
-            self.assertTrue(cc.check_meaning(s, CONTRACT), source)
+    def test_every_update_goes_to_short_term(self):
+        # version 3: "STM - always STM", whatever drafted it
+        for source in ("person", "memory", "web", "model"):
+            s = sample("propose.json")
+            for part in (s["request"], s["response"]["update"]):
+                part.update({"target_tier": "garura", "target_path": "decisions/x.md", "draft_source": source})
+            self.assertTrue(cc.check_sample(s, CONTRACT), source)
+
+    def test_decide_records_where_the_person_decided(self):
+        s = sample("decide.json")
+        s["response"]["update"]["decided_in"] = None
+        self.assertTrue(cc.check_sample(s, CONTRACT))
+
+    def test_propose_keeps_blocking(self):
+        s = sample("propose.json")
+        s["request"]["blocking"] = True
+        self.assertTrue(cc.check_meaning(s, CONTRACT))
+        s["response"]["update"]["blocking"] = True
+        self.assertEqual(cc.check_meaning(s, CONTRACT), [])
 
 
 class Lookup(unittest.TestCase):
@@ -323,7 +334,7 @@ class Refusals(unittest.TestCase):
 
     def test_answer_names_its_own_command(self):
         s = {"command": "find", "request": {"issue": 613, "glob": "x"},
-             "response": {"ok": False, "contract_version": "2", "command": "health",
+             "response": {"ok": False, "contract_version": "3", "command": "health",
                           "error": {"code": "tier_missing", "message": "m", "tier": None}}}
         self.assertTrue(cc.check_sample(s, CONTRACT))
 

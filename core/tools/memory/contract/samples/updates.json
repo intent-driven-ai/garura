@@ -5,7 +5,7 @@
   },
   "response": {
     "ok": true,
-    "contract_version": "2",
+    "contract_version": "3",
     "command": "updates",
     "updates": [
       {
@@ -23,7 +23,9 @@
         "decided_by": null,
         "reply": null,
         "decided_at": null,
-        "applied_version": null
+        "applied_version": null,
+        "blocking": false,
+        "decided_in": null
       }
     ]
   }

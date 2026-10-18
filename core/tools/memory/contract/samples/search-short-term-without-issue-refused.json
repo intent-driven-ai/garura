@@ -6,7 +6,7 @@
   },
   "response": {
     "ok": false,
-    "contract_version": "2",
+    "contract_version": "3",
     "command": "search",
     "error": {
       "code": "bad_request",

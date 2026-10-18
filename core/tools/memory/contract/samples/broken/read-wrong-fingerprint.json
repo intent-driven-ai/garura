@@ -9,7 +9,7 @@
   },
   "response": {
     "ok": true,
-    "contract_version": "2",
+    "contract_version": "3",
     "command": "read",
     "tier": "phoenix",
     "path": "knowledge/domains/ecommerce.md",
