@@ -1,6 +1,6 @@
 # ADR 016 — Agent JSON Contract
 
-**Status:** Accepted
+**Status:** Accepted — amended in part by [ADR 035](035-agents-work-only-from-memory.md): the optional `ltm_context` input field, the `resolution_trace_path` output field, and the "Resolution Protocol Hook" section: they rest on ADR 015's R1–R4. Agents get memory from the tool, not from paths passed in the contract; how each answer's source is recorded is settled in plan item 6. ADR 016 itself says "Any change requires a new ADR".
 **Date:** 2026-04-13
 **Supersedes:** none
 **Related:** ADR 001 (three-layer hierarchy), ADR 011 (STM as inter-skill data transport), ADR 015 (LTM resolution protocol)

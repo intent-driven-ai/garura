@@ -1,6 +1,6 @@
 # ADR 015: LTM Resolution Protocol and Learning Play
 
-**Status:** Accepted
+**Status:** Accepted — superseded by [ADR 035](035-agents-work-only-from-memory.md): in part — the resolution protocol (R1–R4): its three layers (project LTM, core LTM, then the model's own reasoning as a flagged fallback); the `ltm_context` input and the resolution trace built on it; the agent and play updates that use them; and the learning play's model of promoting the model's guesses into memory afterwards. Its Knowledge File Standard (core/components/memory/standards/templates/knowledge-file.md) stands.
 **Date:** 2026-03-31
 **Deciders:** Kapil Ahuja
 

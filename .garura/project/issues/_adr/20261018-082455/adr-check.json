@@ -1,0 +1,15 @@
+{
+  "task_id": "draft-adr",
+  "draft": ".garura/project/issues/_adr/20261018-082455/adr-draft.md",
+  "number": "035",
+  "lint": {"command": "adr.py lint --adr adr-draft.md", "exit": 0, "valid": true, "problems": []},
+  "guard": {"command": "adr.py guard --adr adr-draft.md (no --intents-dir: a framework ADR, intents_dir null)", "exit": 0, "declared": "none", "touches_an_intent": [], "verdict": "no person's business intent changes", "agrees_with_context": true},
+  "overlaps_on_draft": ["029", "034", "032", "033", "031", "028", "017", "016", "008", "011", "009", "015", "030", "001", "026"],
+  "overlap_judgment": {
+    "supersedes": [{"adr": "015", "part": "in part — all but its Knowledge File Standard"}],
+    "amends": [{"adr": "034", "part": "§2, §3, §6 run by hand"}, {"adr": "009", "part": "Rule 3, reference paths"}, {"adr": "016", "part": "ltm_context, resolution_trace_path, Resolution Protocol Hook"}, {"adr": "017", "part": "§1/§2 synced memory copy"}, {"adr": "032", "part": "§3 two review tools"}],
+    "not_affected": ["001", "008", "010", "011", "026", "028", "029", "030", "031", "033"]
+  },
+  "retries": 0,
+  "status": "clean"
+}
