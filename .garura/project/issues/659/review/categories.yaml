@@ -1,0 +1,389 @@
+# categories.yaml (round 1) -- derived from the PR #676 diff content (base main). Not matched from a fixed list.
+# Review shelf used: ~/.garura/phoenix-memory/knowledge/review/ (Phoenix memory, the third tier). The short-term tier has no knowledge/review folder for this issue; Garura memory (.garura/core/memory/) holds only standards/ and tools/, so context.yaml's ./.garura/core/memory/knowledge/review/ does not exist. Files read there: _index, adrs, code, config-maps, docs, harness, memory, tests (git ls-files lists exactly these eight; no local edits to them; they are byte-identical to the committed copy under core/components/memory/knowledge/review/). The playbooks that govern a category present are code, tests, docs, memory; adrs, harness and config-maps were read to confirm they do not apply.
+pr: 676
+issue: 659
+base: main
+round: 1
+head_assessed: fa73b2b5   # the branch head this assessment was made at (24 commits ahead of main)
+changed_path_count: 88   # 21 added + 67 modified (git diff main...HEAD --name-status); equals the 88 changed_paths in context.yaml and the 88 file headers in pr.diff (checked: the same set, no renames). The review folder .garura/project/issues/659/review/ is not in the diff (untracked, written by this run).
+scope_warning: >
+  Four things sit outside the diff on purpose, or sit on the line between two categories.
+  (1) The working copy of .garura/core/config.yaml differs from the committed one by one line
+  (gates.plays.review-change set on, uncommitted, for this run only); that file is not in the PR diff,
+  so no config-map category is listed. (2) core/tools/play-reviewer/ is a local prototype excluded
+  from git; no path under it is in the diff, so it is not judged. The review tool's design document
+  and mock in this diff describe screens that page does not yet implement, and say so ('mock only').
+  (3) No docs/adr/** path is in the diff, although this change builds on ADR 035 section 6 and makes
+  the review tool's design disagree with the wording of ADR 032 section 3, ADR 035 section 7 and
+  ADR 036 section 7 as they stand on main (the PR body says the ADR change is its own /adr change,
+  carried). Where that gap shows is tested in the design-bearing categories below. (4) Boundary: the
+  three write_drive_review.py copies sit under core/components/plays/**, a path the harness playbook
+  lists as a signal, but the content is a mechanical python script; no SKILL.md, ICE, agent or skill
+  file is in the diff (git diff main...HEAD finds none) and no play passes the new --decisions option
+  yet. They are filed under executable-code, not harness. If a later change makes a play call the
+  option, that change is a harness change.
+categories:
+  - name: tool-interface-contract
+    playbook: null
+    playbook_missing: true   # not on the shelf; the same category was named in the issue 655, 657 and 658 reviews; a playbook is still missing
+    design_bearing: true   # the contract IS the written design of the memory tool's interface. Whether version 4 conforms to the decisions committed on main (ADR 032 to 036) cannot be settled by a linter. The play should dispatch one grounding for this category.
+    layers: [linters, runnable-checks, design-grounding]   # Layer 1 = the contract check below; Layer 2 = grounding against main's ADRs
+    evidence:
+      - core/tools/memory/contract/v4.json   # new, 1514 lines: version 4.0.0, a copy of v3.json (kept unchanged on main) with these top-level parts differing from it: version, contract_version, description, answer_rules (5 new rules: waiting_drafts_are_hidden, cite_reads_its_sources, citations_problems, cited_text_is_its_fingerprint, around_holds_the_text), every_result, commands (cite reshaped to a trace of steps; citations new, so 12 commands), errors (unreadable new), $defs. The 'settings' part is the same as v3's.
+      # 48 sample answers moved from contract_version 3 to 4 (one version line each, 1 added + 1 removed)
+      - core/tools/memory/contract/samples/apply-not-approved.json
+      - core/tools/memory/contract/samples/apply.json
+      - core/tools/memory/contract/samples/broken/apply-promotion-not-in-this-tool.json
+      - core/tools/memory/contract/samples/broken/apply-waiting-update.json
+      - core/tools/memory/contract/samples/broken/apply-written-to-another-tier.json
+      - core/tools/memory/contract/samples/broken/decide-reject-answered-approved.json
+      - core/tools/memory/contract/samples/broken/decide-without-review-tool.json
+      - core/tools/memory/contract/samples/broken/find-silent-missing-tier.json
+      - core/tools/memory/contract/samples/broken/find-without-issue.json
+      - core/tools/memory/contract/samples/broken/health-ok-as-number.json
+      - core/tools/memory/contract/samples/broken/propose-answered-approved.json
+      - core/tools/memory/contract/samples/broken/propose-short-term-other-issue.json
+      - core/tools/memory/contract/samples/broken/propose-unknown-draft-source.json
+      - core/tools/memory/contract/samples/broken/propose-web-draft-to-phoenix.json
+      - core/tools/memory/contract/samples/broken/read-end-before-start.json
+      - core/tools/memory/contract/samples/broken/read-other-file.json
+      - core/tools/memory/contract/samples/broken/read-other-issue.json
+      - core/tools/memory/contract/samples/broken/read-path-with-newline.json
+      - core/tools/memory/contract/samples/broken/read-phoenix-silent-about-saving.json
+      - core/tools/memory/contract/samples/broken/read-without-fingerprint.json
+      - core/tools/memory/contract/samples/broken/read-wrong-fingerprint.json
+      - core/tools/memory/contract/samples/broken/search-every-tier-stopped.json
+      - core/tools/memory/contract/samples/broken/search-other-issue.json
+      - core/tools/memory/contract/samples/broken/search-skipped-a-tier.json
+      - core/tools/memory/contract/samples/broken/search-tier-with-every-tier.json
+      - core/tools/memory/contract/samples/broken/search-unknown-tier.json
+      - core/tools/memory/contract/samples/broken/search-went-past-first-answer.json
+      - core/tools/memory/contract/samples/decide-not-waiting.json
+      - core/tools/memory/contract/samples/decide.json
+      - core/tools/memory/contract/samples/find-without-issue-starts-at-garura.json
+      - core/tools/memory/contract/samples/find.json
+      - core/tools/memory/contract/samples/health.json
+      - core/tools/memory/contract/samples/propose.json
+      - core/tools/memory/contract/samples/pull-would-overwrite.json
+      - core/tools/memory/contract/samples/pull.json
+      - core/tools/memory/contract/samples/pulled.json
+      - core/tools/memory/contract/samples/read-other-issue-refused.json
+      - core/tools/memory/contract/samples/read-phoenix-not-saved.json
+      - core/tools/memory/contract/samples/read.json
+      - core/tools/memory/contract/samples/search-every-tier.json
+      - core/tools/memory/contract/samples/search-nothing.json
+      - core/tools/memory/contract/samples/search-one-tier-nothing.json
+      - core/tools/memory/contract/samples/search-short-term-without-issue-refused.json
+      - core/tools/memory/contract/samples/search-short-term.json
+      - core/tools/memory/contract/samples/search-tier-missing.json
+      - core/tools/memory/contract/samples/search-without-issue-nothing.json
+      - core/tools/memory/contract/samples/search.json
+      - core/tools/memory/contract/samples/updates.json
+      # 2 samples reworked beyond the version line (cite now carries a trace)
+      - core/tools/memory/contract/samples/broken/cite-absolute-path.json
+      - core/tools/memory/contract/samples/cite.json
+      # 8 new samples that pin the new rules (2 samples, 6 samples the check must refuse)
+      - core/tools/memory/contract/samples/broken/citations-around-misplaces-the-text.json
+      - core/tools/memory/contract/samples/broken/citations-around-too-wide.json
+      - core/tools/memory/contract/samples/broken/citations-changed-without-a-step.json
+      - core/tools/memory/contract/samples/broken/citations-other-issue.json
+      - core/tools/memory/contract/samples/broken/citations-problem-names-the-wrong-step.json
+      - core/tools/memory/contract/samples/broken/citations-problems-without-check.json
+      - core/tools/memory/contract/samples/citations-check.json
+      - core/tools/memory/contract/samples/citations.json
+    runnable_checks:
+      - command: "cd core/tools/memory && python3 contract/check_contract.py"
+        note: "validates every sample against v4.json's shapes and answer rules, requires every broken sample to fail, scans the folder boundary. Observed (bytecode writing off): ok true, contract_version 4, 26 samples valid, 0 failed, 0 commands without a sample, 32 of 32 broken samples refused (each for its own reason), 0 boundary problems. What it does NOT check: that a trace's answer follows from the lines it names (the PR body says so too), who 'decided_by' is (a non-empty string any caller writes), the settings text (the contract's settings part names neither updates_dir nor the new citations_file, though the README and memory.py do), or the lookup-hiding rule's meaning (test_memory.py exercises that)."
+      - command: "check_sample on the committed evidence answers (.garura/project/issues/659/evidence/decisions.json as a citations --check answer for issue 613, and updates.json as an updates answer) against v4.json"
+        note: "Observed: no problems for either (12 records, 26 trace steps, 3 problems named by step). The two files are the tool's own answers over a sample shop, so this shows the contract and the tool agree on real output."
+      - command: "cd core/tools/memory && python3 -m unittest contract.test_check_contract"
+        note: "also the tests category's check, so its result is shared: see tests."
+    notes: >
+      Same kind of work as the contract in the issue 655, 657 and 658 reviews: a machine-readable
+      interface contract for a tool, with its worked examples. Not a config map (it points at no files),
+      not harness (nothing in it is under core/components/ except via the tool it describes), not memory
+      (not under core/components/memory/**), not executable code (it is data the check script reads).
+      Design-bearing because other stories build against it (#661 to #664) and because version 4
+      records rules no ADR on main states. The base-ref contract is the 'before':
+      git show main:core/tools/memory/contract/v3.json (and v1, v2; none of the three is in this diff) and
+      git show main:core/tools/memory/README.md. Layer 2 grounds ONLY from what is committed on main:
+      docs/adr/035-agents-work-only-from-memory.md (as amended by 036; section 6 'Every decision names its
+      memory', sections 1, 3, 4, 5), docs/adr/036-approved-answer-lands-in-short-term-memory.md (sections 2
+      to 4), docs/adr/034-plays-answer-from-memory-inside-a-drive.md (section 4 'every answer names its
+      source'), docs/adr/033-approval-in-the-product-model.md (section 6: only the review step writes
+      approval), docs/adr/032-drive-review-of-outcomes.md, docs/adr/016 (agent JSON contract),
+      docs/adr/008 and 011 (short-term memory per issue; as inter-skill transport),
+      core/grounding/glossary.md (Memory Architecture), docs/philosophy/**, and the base v3.json and README.
+      The base versions of .garura/project/issues/653/specs/plan.md (item 6) show what was planned, as a
+      working note, not a decision record. NOT groundable (branch content, added or rewritten here):
+      v4.json's own description, answer_rules and command summaries; core/tools/memory/README.md; the
+      659 plan; the PR body; the self-review; the owner's quotations ('these are called traces', 19
+      October) inside any of them; the comments in the tool's code. The tool that implements the contract
+      is in executable-code (Layer 1); the grounding may read it only to know what the contract is
+      tested against, never as a source of principle.
+      Design pointers the grounding should test, taken from reading the diff, not findings:
+      (a) ADR 035 section 6 on main says a decision 'names the tier, the file and the lines it rests on'
+      and that 'the shape of an answer and its source is settled in plan item 6'. Version 4 records a
+      trace: ordered steps, each with what was asked, what was found and a source (tier, file, lines,
+      fingerprint) plus the exact text, the memory version and up to 3 lines around it, a from_update
+      link and a decided_by string. The basis the branch gives is the owner's word in chat and plan item 2;
+      ADR 035 section 6 on main is unchanged by this diff. Test: is the wider shape a refinement the
+      ADR leaves open ('settled in plan item 6') or a conformance break, and what severity does the pr.md
+      taxonomy give a contract that is ahead of the ADR it cites.
+      (b) the hiding rule: decision records and waiting drafts are never found by a lookup, 'an agent
+      never decides from its own earlier decision'. ADR 035 section 1 on main says Garura memory holds what
+      the project makes itself, 'its decisions' among them, and section 3 fixes the lookup order and says
+      the lookup never blocks a play; ADR 036 and ADR 035 section 5 say a waiting draft is not used until
+      approved. Test: is the hiding of decision records a rule any committed record states, and does 'decision'
+      mean one thing across those sections and this contract (a naming question for the glossary).
+      (c) 'decided_by' and the approval line: ADR 033 section 6 says only the review step writes approval;
+      the design document in this diff adds a 'looks right' on an agent decision, and the drive record this
+      diff writes keeps decided false. The contract takes decided_by as a non-empty string the caller supplies;
+      check_contract.py checks its presence, not its origin (the same trust question the 658 review raised for
+      decided_in). Test the contract's wording about who decided against what it can enforce.
+      (d) the check's reach: the plan item says 'a script checks each source still exists and still says the
+      same thing'; the answer rules say a source is read first and again on check. Test that the contract's
+      own words claim no more than that (the lines still say what they said, not that the answer follows).
+      (e) version policy: README 'The contract changes only by a new version'. v1 to v3 are kept as they
+      were, but every sample and the check now run on v4 only, so nothing exercises v1 to v3. Version 4
+      also changed in place on the branch after its first commits (the plan log says it was not yet landed),
+      which is allowed while it is unlanded; the exact version number 4 is also pinned inside the three
+      drive-record writers, so a later version breaks them until they are changed.
+      (f) settings and paths: the contract's settings text (unchanged from v3) names neither updates_dir nor
+      the new citations_file; memory.py and the README do. Test where the contract is the source of truth for
+      a setting an agent or Griffin must provide.
+      (g) error naming: 'changed' now also answers a cite whose source no longer says what its fingerprint
+      says (the README's table says so); 'tier' in an error and in 'written' still carries all three tiers
+      while target_tier carries one value (carried from v3, not new here).
+
+  - name: tool-design-document
+    playbook: null
+    playbook_missing: true   # a design document for a tool (what the person sees and does, how it talks to Garura, build order) and its mock; not an ADR, not a plan of work, not documentation for readers of the tool; named as its own category in the issue 658 review
+    design_bearing: true   # judged on content: the lines added are design statements (five sections where ADR 036 names one, what an Agent decisions card shows and offers, the Ask memory box, who builds what and where), not an order of work. The grounding tests them against decisions committed on main; the plans category does not.
+    layers: [design-grounding]   # no mechanical check fits: the plan format check fails on this file on main and on the branch alike (see runnable_checks)
+    evidence:
+      - .garura/project/issues/617/specs/review-tool.md   # modified (+59 / -12): section 4 'one page, three sections' becomes five sections (Intents, Product, ADRs, Memory, Agent decisions); item 7 rewritten for ADRs, Memory (with Ask memory in plain words, 'vectorless, ADR 035 §4', mocked) and Agent decisions (each decision's trace, each step checked again: unchanged, changed, gone, no source; 'looks right, or send back so the agent decides again'; the page shows the memory tool's citations --check and updates answers); the earlier combined-section text is kept under 'Earlier text, kept'; story 9 split into a tool half and a Garura half; the stand-in paragraph now says the page opens on Memory with Agent decisions live
+      - .garura/project/issues/617/specs/review-tool-mockup.html   # modified (+291 / -2): the mock gains the three switches, the Memory section with Ask memory (sample answer), waiting memory updates with Approve and Reject, and the Agent decisions screen (traces, numbered source lines, used lines marked, a changed step shown with what the lines say now); it embeds its own copy of the two evidence answers. The mock says in its own text that its data is made up. It is a design mock, not shipped code.
+    runnable_checks:
+      - command: "python3 core/components/skills/manage-plan/scripts/check_plan.py --plan <review-tool.md> --out <scratch>/rt.json"
+        note: "not a regression and not a finding: the file is a tool plan (kind tool-plan, status draft), not a work plan in the canonical format. Observed: exit 2, valid false, 8 problems on the main version and exit 2, valid false, 8 problems on the branch version (same count)."
+    notes: >
+      Why this is a design document and not a plan. It says what the person sees and does and how the tool
+      talks to Garura; the earlier reviews of issues 617 and 667 filed it with the plans, and the issue 658
+      review split it out because the added words are design. Layer 2 grounds ONLY from committed sources:
+      the base version of this same file (git show main:.garura/project/issues/617/specs/review-tool.md:
+      section 1 'Extractable', section 2 events, section 4 layout and Catch up, section 5 'Approval is part
+      of the product model', section 7 build order), docs/adr/036 section 7 ('a third section, Memory and
+      ADRs, next to Intents and Product ... the same Catch up cards ... swipe right to accept, swipe left to
+      leave for later'), docs/adr/033 section 6, docs/adr/032 section 3, docs/adr/035 sections 4 and 7,
+      docs/adr/031, and core/grounding/glossary.md. NOT groundable: the lines this diff adds to the file and
+      the mock, the 659 plan, the PR body, the self-review, and the owner's quotations inside them (the 18
+      and 19 October remarks are quoted in the added text; none is in an ADR on main).
+      Design pointers the grounding should test, taken from reading the diff, not findings:
+      (a) sections: ADR 036 section 7 and ADR 035 section 7 on main say the review tool's third section is
+      'Memory and ADRs' (ADR 036 lines 87 and 90 also say ADR 032 section 3's third section is Memory and
+      ADRs, not Memory); this design makes it three sections and says the owner split it. Test: is the design
+      ahead of three accepted ADRs, and is the amendment named anywhere on main (none is in this diff).
+      (b) the new 'looks right, or send back' on an agent decision against ADR 033 section 6 (only the review
+      step writes approval) and ADR 036 section 7 (cards: swipe right accepts, swipe left leaves for later):
+      no ADR on main makes an agent decision something a person approves; the drive record the same diff writes
+      keeps decided false. Compare with the base section 5 (approval in the product model).
+      (c) Ask memory and 'vectorless, ADR 035 section 4': the word vectorless appears in no ADR on main
+      (git grep on main finds none); section 4 says the tool searches the way Claude Code does (find, search the
+      text, read exact lines). The added text also quotes 'the tool we are building for Griffin will use nlp'
+      and says the interface should be plain words. Test whether section 4 grounds each claim made in its name.
+      (d) the extraction line: base section 1 says the tool knows nothing about Garura, imports no Garura code,
+      reads no Garura path and talks only through its contract; base section 7 says stories 1 to 4 touch only
+      the tool and 5 to 8 only Garura. The added text says the mock's records are made by a script in a Garura
+      issue folder and that 'the local page reads them live', and that underneath Ask memory is 'the same
+      memory tool the agents use'. Test against base sections 1 and 7.
+      (e) a document that keeps its own superseded text ('Earlier text, kept', 'the paragraphs below were
+      written for the one combined section; they now read across these three') and names planned plays
+      (/learn-memory, /promote-memory, 'planned, not filed yet') that exist on main nowhere: what a reader of
+      the document on main can find, and which paragraph is the design.
+
+  - name: memory
+    playbook: review/memory
+    design_bearing: true   # playbook: 'Design-grounding (Layer 2): yes.' Layers 1 and 2. One grounding dispatch for this category.
+    layers: [linters, design-grounding]   # the memory-integrity linter is a known gap on the shelf; lint-components covers some shape and is run by the play, not here
+    evidence:
+      - core/components/memory/standards/rules/resolution.md   # modified (+19 / -0): a new section 'Decision Records (ADR 035 §6)' states that every decision an agent makes keeps its trace, made through the memory tool's cite, re-checked by citations --check, shown in a drive's review, and that the shape is the memory tool's contract (version 4); it says the existing R1 to R4 trace and R4's model fallback 'become this trace when the agents move onto the tool (#663)'
+    runnable_checks:
+      - command: "lint-components on core/components (the play's step; not run in this assessment)"
+        note: "the PR body and the self-review say 116 findings on main and the same 116 on the branch, none in a changed file; that is a claim to test, not evidence. No other memory linter is committed (a gap named on the shelf)."
+    notes: >
+      A standards rule under core/components/memory/standards/rules/, so the memory playbook governs. It is
+      the only file in the diff under core/components/memory/. Layer 2 grounds ONLY from committed sources:
+      the base version of this same file (git show main:core/components/memory/standards/rules/resolution.md:
+      'Resolution Trace Output', R1 to R4, R4 'Flag LLM Fallback', the trace's resolved_from values
+      'project | core | llm'; Phoenix memory's copy at ~/.garura/phoenix-memory/standards/rules/resolution.md is
+      the same text, checked), docs/adr/035 (sections 5 and 6), docs/adr/034 section 4, the other standards under
+      core/components/memory/standards/rules/ (play-close, user-facing-voice, evidence recording), the glossary,
+      core/components/memory/knowledge/_DESIGN.md, _TEMPLATE.md and _index.md for what a shelf and a rule are for
+      (a knowledge shelf's template does not strictly apply to a standards rule; read them for purpose). NOT
+      groundable: the added section's own sentences, the contract's prose, the PR body, the plan.
+      Design pointers the grounding should test, taken from reading the diff, not findings:
+      (a) one file, two rules: on main the file lets an answer come from the model ('resolved_from: llm', R4);
+      ADR 035 section 5 on main says nothing from the model or the web without an approved memory update. The
+      added section sits in the same file and defers the rewrite of R1 to R4 to #663. Test whether a standard that
+      states both is a rule an agent can follow today, and what the section binds an agent to now.
+      (b) tense: the section says 'Every decision an agent makes keeps its trace' and 'a drive's review shows these
+      records'; no agent or play calls cite or passes --decisions yet (PR body). Test whether a standards rule may
+      describe a not-yet-built behaviour in the present tense, against how the other rules in the folder are worded.
+      (c) the section copies the contract's shape in prose ('the shape is the memory tool's contract (cite,
+      citations, version 4)'): a pointer that goes stale with the next contract version, against the glossary's and
+      the standards' habit of pointing to one source of truth.
+      (d) the PR body and plan say the rule section is also promoted to Phoenix memory at landing; ADR 036 section 3
+      says promotion happens outside the work, as its own memory update a person approves. Phoenix memory's copy
+      lacks the section today (checked). Test how a change to a standards rule reaches Phoenix memory under ADR 035
+      section 2 and ADR 036 section 3.
+
+  - name: executable-code
+    playbook: review/code
+    design_bearing: false   # playbook: 'Design-grounding: no -- the standard is industry best practice, not a garura-internal design.' Layer 1 only; no grounding dispatch. Data-safety paths get extra weight. The design conformance of what this code does is tested in the two contract and design categories above.
+    layers: [linters, runnable-checks]
+    evidence:
+      - core/tools/memory/citations.py   # new, 165 lines: cite and citations (records kept one per line in an issue's context/citations.jsonl; every source read first; the lines around each source kept; citations --check reads every source again)
+      - core/tools/memory/memory.py   # modified (+43 / -15): the cite and citations commands, a citations_file setting, hiding of the records file from lookups, a failed write names short-term memory
+      - core/tools/memory/pull.py   # modified (+3 / -3): contract version 4 and its comments
+      - core/tools/memory/updates.py   # modified (+1 / -1): a comment says version 4
+      - core/tools/memory/contract/check_contract.py   # modified (+58 / -3): the check understands trace steps, citations answers, the lines around a source and a problem naming its step; default contract v4
+      - core/components/plays/play-creator/references/write_drive_review.py   # modified (+32 / -3): the canonical drive-record writer takes --decisions (the memory tool's citations answer, contract version 4) and carries each decision and its problems into the record; it refuses a file that is not that answer or that holds another play's or issue's decisions
+      - core/components/plays/understand/scripts/write_drive_review.py   # the stamped copy, byte-identical to the canonical one
+      - core/components/plays/vision/scripts/write_drive_review.py   # the stamped copy, byte-identical to the canonical one
+      - .garura/project/issues/659/evidence/make_decisions.py   # new, 194 lines: an evidence script that builds a sample shop in a scratch folder, clones Phoenix memory, records 12 decisions through the real tool, edits one Phoenix line and removes one Garura file so three problems show, and writes decisions.json and updates.json
+    runnable_checks:
+      - command: "ruff check --no-cache <the 13 python files in the diff>"
+        note: "the language linter named by the code playbook. Observed: all checks passed."
+      - command: "md5 of the three write_drive_review.py copies"
+        note: "observed: one checksum for all three (092ace02...). The drive test also checks this (see tests)."
+      - command: "quality-check-scoped against the diff with the pr.md taxonomy"
+        note: "the play's or quality-auditor's step; not run in this assessment."
+    notes: >
+      Real source the runtime executes, so the code playbook governs. Judgement flag: the three
+      write_drive_review.py copies sit under core/components/plays/**, which the harness playbook lists as a
+      path signal; the content decides here (see scope_warning, point 4). Also make_decisions.py lives in an
+      issue's evidence folder; it is executable, so it gets the code treatment, even though it is evidence.
+      Points to read hard (data-safety paths), not findings: (1) make_decisions.py deletes its first argument
+      with shutil.rmtree if it exists and again at the end, with no check that the folder is one it made; (2)
+      citations.py appends to a decision file other callers read, and makes a new record id by reading every
+      issue's file (the self-review says a broken line now stops only its own issue; the tests cover it); (3)
+      memory.py's catch-all for a failed write now picks the tier by command; (4) write_drive_review.py now
+      pins contract_version '4' exactly and reads a caller-named file; it writes only into the run's review
+      folder. The check scripts the play runs on the code (the tests below) are the runnable evidence.
+
+  - name: tests
+    playbook: review/tests
+    design_bearing: false   # playbook: 'Design-grounding: no.' Run the suite. A red suite is a blocker.
+    layers: [linters, runnable-checks]
+    evidence:
+      - core/tools/memory/test_memory.py   # modified (+119 / -1): tests for cite, citations, the hiding rule, the unreadable line, the failed-write tier
+      - core/tools/memory/contract/test_check_contract.py   # modified (+39 / -5): tests for the new answer rules, trace steps and problems
+      - core/tools/memory/test_pull.py   # modified (+1 / -1): loads contract v4
+      - core/components/plays/play-creator/references/test_drive_contract.py   # modified (+33): the drive-record test gains checks for --decisions (a good answer carries each decision and its trace; another play, another issue, records that are not a list, an older contract and a file that is not a citations answer each write nothing)
+    runnable_checks:
+      - command: "cd core/tools/memory && python3 -m unittest test_memory test_pull contract.test_check_contract"
+        note: "Observed (bytecode writing off, temp folders redirected): Ran 130 tests, OK."
+      - command: "python3 core/components/plays/play-creator/references/test_drive_contract.py"
+        note: "Observed: 32 passed, 0 failed, including 'every play's write_drive_review.py is identical to the canonical one (2 copies)'."
+    notes: >
+      Four test files and their runs; no skipped or disabled test was looked for beyond a read of the added
+      lines, which is the linter's job. The drive test is the only test in the diff under core/components/. Not
+      covered by any committed test (the self-review says so for the command-line flags of citations; not
+      re-verified here): the flags --issue, --play and --check.
+
+  - name: documentation
+    playbook: review/docs
+    design_bearing: false   # playbook: Layer 1 only, no design-grounding
+    layers: [linters]   # the playbook names no committed prose linter (a known gap), so the tool performs the checks and cites each
+    evidence:
+      - core/tools/memory/README.md   # modified (+17 / -9): version 4; the tool answers every command in the contract (cite and citations now listed); the citations_file setting; the cite and citations rows; 'a trace step's source' in what every answer carries; the changed and unreadable errors; the version-4 line of the version paragraph
+    runnable_checks:
+      - command: "grep for links, TODO/FIXME and the retired terms 'project memory' and 'LTM' in core/tools/memory/README.md"
+        note: "the prose checks the playbook asks for, done by hand because no prose linter is committed. Observed: no links, no TODO or FIXME, neither retired term; the tiers are called Garura memory and Phoenix memory."
+    notes: >
+      Human-facing prose that is not an ADR, a harness file or a memory file, so the docs playbook governs.
+      Judgement flag, as in the 655, 657 and 658 reviews: this README is not only a guide. Its commands table,
+      settings table, error table and 'Rules for this folder' restate normative behaviour (what cite and
+      citations do, what a lookup never reads, the unreadable error). That content is routed to the
+      tool-interface-contract grounding as claims to test against the contract, not handled here.
+      Prose point for the reviewer, not a finding: the README now says the tool answers all twelve commands,
+      where the previous README said cite came later (#659); the claim is checked by the contract check above
+      (no command without a sample).
+
+  - name: stm-working-notes-plans
+    playbook: null
+    playbook_missing: true
+    design_bearing: false   # plans: Garura's own working notes. They say what and in what order, never how (the 659 plan says 'a plan, not a design'). The decisions they record are tested in the design-bearing categories above. No grounding dispatch of their own.
+    layers: [linters]   # plan format check, plus agreement of the plans with each other and with the diff as a consistency read only
+    evidence:
+      - .garura/project/issues/659/specs/plan.md   # new, 123 lines: the plan for this story (#659), status active, now 6 (land the change); items 0 to 5 done
+      - .garura/project/issues/653/specs/plan.md   # modified (+3 / -2): item 11 says the review tool has the five sections; item 6 points to the 659 plan
+      - .garura/project/issues/606/specs/plan.md   # modified (+2 / -1): the review item names the tool's ADRs, Memory and Agent decisions sections; one log line
+    runnable_checks:
+      - command: "python3 core/components/skills/manage-plan/scripts/check_plan.py --plan <each of the three plans> --out <scratch>/planN.json"
+        note: "plan format check. Observed for all three: valid true, no problems; 606: active, now 8; 653: active, now 6; 659: active, now 6. Exit 1 for all three only because they are not finished (the script's own meaning: 0 valid and done, 1 valid not done)."
+    notes: >
+      Same kind of work as the plans in the 656, 657 and 658 reviews: Garura's own working notes under
+      .garura/project/issues/**; no playbook covers them, and the memory playbook does not apply because none of
+      these paths is under core/components/memory/. Consistency points to read, not findings: (1) the 659 plan's
+      front matter says updated 2026-10-18 while its log runs to 2026-10-19; item 3 says '2 broken added' and
+      'its 51 tests' where the diff adds 6 broken samples and the contract tests now run 56 (the whole suite
+      runs 130); item 4 says 58 tool tests where the whole tool suite is larger now. The plan closes in the last
+      commit before the merge, so these can be reconciled then. (2) The plan and the PR body agree on the decisions
+      (a trace of steps; no source from the model or the web; the review tool is mock only; no agent calls cite
+      yet). (3) The 606 and 653 plans record the owner's 19 October split of the review tool into five sections;
+      the ADRs that name three sections are not changed (see scope_warning, point 3). (4) The plans quote the
+      owner's words; a quotation inside a branch is branch content, never grounding.
+
+  - name: stm-run-records
+    playbook: null
+    playbook_missing: true
+    design_bearing: false   # machine-written run artifacts, a PR body, a self-review, and the tool's own sample output; no design content of their own
+    layers: []   # parse only; the two evidence answers are also checked against the contract (see tool-interface-contract); nothing to lint or ground
+    evidence:
+      - .garura/project/issues/659/context/branch.json   # start-change receipt
+      - .garura/project/issues/659/context/issue.json   # issue read receipt
+      - .garura/project/issues/659/context/pr-body.md   # the PR body (propose-change)
+      - .garura/project/issues/659/context/pr.json   # propose-change receipt (PR 676)
+      - .garura/project/issues/659/context/resolved-rules.json   # which self-review rules file was used
+      - .garura/project/issues/659/context/self-review.md   # 285 lines: the propose-change self-review (0 blocking, 13 notes), made at an earlier head (1eb92c7b), with a 'fixed after this review' block at its top
+      - .garura/project/issues/659/context/work-description.txt   # the issue's first-version text
+      - .garura/project/issues/659/evidence/decisions.json   # new, 677 lines: the memory tool's own citations --check answer over a sample shop (12 records, 26 steps, 3 problems); also embedded in the mock
+      - .garura/project/issues/659/evidence/updates.json   # new, 26 lines: the tool's own updates answer (one approved update a decision came from)
+    runnable_checks:
+      - command: "json.load each .json file in this category"
+        note: "parse only. Observed: the context receipts parse; decisions.json and updates.json parse and pass the contract check (see tool-interface-contract)."
+    notes: >
+      Same kind of work as the run records in the 656 to 658 reviews: receipts from the start-change and
+      propose-change runs, a PR body and a self-review. The two evidence answers are different in kind (the
+      tool's output, not a play's receipt), listed here because they hold no design and no code; the script that
+      makes them is in executable-code. Treatment: skim for consistency, never review as work, never ground from
+      it. Points to know: the PR body and the self-review make claims about the whole branch (130 tests, 26
+      samples, 32 broken samples refused, no secret or home-folder text, merges cleanly); the checks above agree
+      with the test and contract-check counts. The self-review names an earlier head than the one assessed, and
+      says which of its findings were fixed afterwards. The PR body says the issue's text no longer matches the
+      delivery (a trace in place of 'tier, file, lines, fingerprint'; the review tool's design and mock are in
+      the diff though the issue keeps the tool out) and lists it in a table. All of these are branch content:
+      history to read, never grounding. No design-grounding.
+design_bearing_categories: [tool-interface-contract, tool-design-document, memory]   # the three categories that need a Layer 2 grounding dispatch, one each, concurrent and read-only. Not design-bearing: executable-code, tests, documentation (Layer 1 only), and the two STM categories (no playbook, no design content of their own).
+absent_seeded_categories: [decision-records, harness, config-maps]   # no docs/adr/** path (the ADR change this work implies is not in the diff); no play SKILL.md, ICE, agent or skill file, and no grounding file changed (the stamped scripts are filed under executable-code, see scope_warning point 4); the one config file with a change (.garura/core/config.yaml) is an uncommitted working-copy edit, not in the diff
+path_accounting:   # 59 + 2 + 1 + 9 + 4 + 1 + 3 + 9 = 88
+  tool-interface-contract: 59   # v4.json + 58 samples (48 version-only, 2 reworked, 8 new)
+  tool-design-document: 2
+  memory: 1
+  executable-code: 9   # 5 memory-tool files (one of them the contract checker) + 3 copies of the drive-record writer + the evidence script
+  tests: 4
+  documentation: 1
+  stm-working-notes-plans: 3
+  stm-run-records: 9   # 7 context files + 2 evidence answers
+missing_playbooks:
+  - tool-interface-contract   # a machine-readable interface contract for a tool, with worked examples and a check; named in the 655, 657, 658 and now the 659 review; design-bearing, so its missing playbook matters most
+  - tool-design-document   # the design document of a tool and its mock (what the person sees and does, how it talks to the framework, build order); design-bearing; named in the 658 review
+  - stm-working-notes-plans   # Garura's own plans under .garura/project/issues/**; also missing in earlier reviews
+  - stm-run-records   # play run receipts and tool output under .garura/project/issues/**; also missing in earlier reviews
+playbook_sharpening:
+  - id: review/code
+    note: "it says python scripts inside plays are executable code, and the harness playbook lists core/components/plays/** as a path signal. It does not say how to file a script that is stamped as an identical copy into several plays: here the copies are filed under code, with a Layer 1 check that they match the canonical one, and the harness category is marked absent. It also does not mention evidence scripts that delete a caller-given folder."
+  - id: review/memory
+    note: "its Layer 2 grounding names the knowledge-shelf design files (_DESIGN, _TEMPLATE, _index) as the source of 'what a shelf is for'; a change to a standards rule under standards/rules/ has no equivalent named source, so the grounding falls back on the other standards, the glossary and the ADRs."

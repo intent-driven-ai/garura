@@ -1,0 +1,8 @@
+decision: reject
+decided_by: human
+reviewer_input: "fix all the items first"
+gate: "on for this run (gates.plays.review-change set on for this run; set back off after)"
+recommended: reject
+recommended_reason: "1 P1 (blocker) finding(s)"
+note: "The P1 is rule DATA-18 on the demo word 'Passwords' in a sign-in sample test line, not a credential. The reviewer rejected for five items to fix before landing: (1) the hiding hole — an odd path spelling reads waiting drafts and decision records, and cite can rest on them (TIC659-1); (2) the memory rule's wording before it goes to Phoenix memory (DR-1, DR-2, DR-4); (3) three code faults (citations --check on a valid-JSON non-record line, the drive record writer on a non-object record, make_decisions.py deleting the folder it is given); (4) the design states that Agent decisions shows file paths and the tool's words as an owner-approved exception (TDD-1); (5) the ADRs that still describe one source and one Memory and ADRs section (ADR 032, 035, 036)."
+citing_findings: [TIC659-1, DR-1, DR-2, DR-4, TDD-1]
