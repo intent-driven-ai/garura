@@ -4,7 +4,7 @@ kind: story
 serves: "#659 — every decision an agent makes names the memory it came from, and a script checks it"
 status: active
 updated: 2026-10-18
-now: 1
+now: 2
 serves_plan: 653
 serves_item: 6
 ---
@@ -43,8 +43,8 @@ or from a memory update a person approved (#658).
 
 ## Where we are now
 
-The change is open on `feature/659-decisions-name-their-memory`. Next: item 1,
-the three notes from the PR #675 review.
+The change is open on `feature/659-decisions-name-their-memory`. The mockup has the
+Memory and ADRs section. Next: item 2, the shape of a decision and its sources.
 
 ## The plan, in order
 
@@ -52,24 +52,15 @@ the three notes from the PR #675 review.
 
 - **0. Opened** — #659. Branch `feature/659-decisions-name-their-memory` off main
   (`440adb59`).
+- **1. Done: two of the three notes from the PR #675 review** — #659. (a) The review
+  tool's mockup (`.garura/project/issues/617/specs/review-tool-mockup.html`) has the
+  Memory and ADRs section: the third switch, the three tiers, the updates waiting with
+  Approve or Reject and the person's words, an ADR waiting, what each decision rested
+  on, and Catch up — in the mockup's own look. The local page now serves this mockup
+  with live updates, so there is one design, not two. (c) The design says the section
+  has a tool half and a Garura half. (b), the waiting-draft rule, lands with item 3.
 
-### 1. The three notes from the PR #675 review — now
-
-**Issue:** #659.
-**What:** (a) the review tool's mockup
-(`.garura/project/issues/617/specs/review-tool-mockup.html`) gains the Memory and
-ADRs section — the third switch, its overview and its update cards, in the same
-look and the same Catch up method — so the memory page is part of the committed
-design, not built solo (Kapil, 2026-10-18); the local page then follows the
-mockup. (b) The contract says a waiting draft is hidden from lookups (in the next
-contract version, item 3). (c) The design says the Memory and ADRs section (#664)
-needs Garura-side work too: Garura applies the person's answers.
-**Why here:** Kapil approved #675 on the word that these come first.
-**Done when:** the mockup shows the section; the design text is fixed; (b) lands
-with item 3.
-**Needs:** nothing.
-
-### 2. The shape of a decision and its sources
+### 2. The shape of a decision and its sources — now
 
 **Issue:** #659.
 **What:** one record per decision: the question, the answer, who decided, and
@@ -129,3 +120,4 @@ commit, raise, review, merge.
 - 2026-10-18 — Created at the start of #659 from the issue, ADR 035 §6, ADR 034
   §4, the resolution rule, the contract's `cite`, the drive review writer, and
   the three notes Kapil approved #675 on.
+- 2026-10-18 — Item 1 done (a, c): the mockup's Memory and ADRs section; the local page serves the mockup.
