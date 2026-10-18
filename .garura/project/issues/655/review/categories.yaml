@@ -1,0 +1,185 @@
+# categories.yaml — derived from the PR #666 diff content (base main). Not matched from a fixed list.
+# Review shelf used: ~/.garura/core/memory/knowledge/review/ (context.yaml's ./.garura/core/memory/knowledge/review/ does not exist in this checkout; the machine-global shelf is byte-identical to core/components/memory/knowledge/review/ on main)
+pr: 666
+issue: 655
+base: main
+changed_path_count: 45
+categories:
+  - name: tool-interface-contract
+    playbook: null
+    playbook_missing: true
+    design_bearing: true   # the contract IS the written design of the memory tool's interface; whether it conforms to ADR 035 cannot be settled by a linter, only against decisions committed on main
+    evidence:
+      - core/tools/memory/contract/v1.json   # version 1 of the contract: JSON-Schema-subset, eleven commands, three tiers, lookup order, request and answer rules, errors, $defs
+      # sample answers, one or more per command (15), each a request/response pair the check validates against v1.json
+      - core/tools/memory/contract/samples/apply-not-approved.json
+      - core/tools/memory/contract/samples/apply.json
+      - core/tools/memory/contract/samples/cite.json
+      - core/tools/memory/contract/samples/decide.json
+      - core/tools/memory/contract/samples/find.json
+      - core/tools/memory/contract/samples/health.json
+      - core/tools/memory/contract/samples/propose.json
+      - core/tools/memory/contract/samples/pull.json
+      - core/tools/memory/contract/samples/pulled.json
+      - core/tools/memory/contract/samples/read.json
+      - core/tools/memory/contract/samples/search-nothing.json
+      - core/tools/memory/contract/samples/search-one-tier-nothing.json
+      - core/tools/memory/contract/samples/search-tier-missing.json
+      - core/tools/memory/contract/samples/search.json
+      - core/tools/memory/contract/samples/updates.json
+      # deliberately broken samples (12), each must fail the check; they pin the contract's answer rules (silent tier skip, stopping at the first answer, fingerprint, path shape, approval)
+      - core/tools/memory/contract/samples/broken/apply-written-to-short-term.json
+      - core/tools/memory/contract/samples/broken/cite-absolute-path.json
+      - core/tools/memory/contract/samples/broken/find-silent-missing-tier.json
+      - core/tools/memory/contract/samples/broken/health-ok-as-number.json
+      - core/tools/memory/contract/samples/broken/propose-unknown-draft-source.json
+      - core/tools/memory/contract/samples/broken/read-path-with-newline.json
+      - core/tools/memory/contract/samples/broken/read-without-fingerprint.json
+      - core/tools/memory/contract/samples/broken/read-wrong-fingerprint.json
+      - core/tools/memory/contract/samples/broken/search-skipped-a-tier.json
+      - core/tools/memory/contract/samples/broken/search-tier-with-every-tier.json
+      - core/tools/memory/contract/samples/broken/search-unknown-tier.json
+      - core/tools/memory/contract/samples/broken/search-went-past-first-answer.json
+    runnable_checks:
+      - command: "cd core/tools/memory && python3 contract/check_contract.py"
+        note: "validates every sample against v1.json's shapes and answer rules, requires every broken sample to fail, scans the folder boundary; prints a JSON report, exit 0 when all hold. The play executes it (SE-7). Observed read-only while assessing: ok true, 15 samples pass, 12 broken fail, 0 boundary problems, exit 0."
+    notes: >
+      New kind of work, not on the shelf: a machine-readable interface contract for a tool, with
+      its worked examples. It is not a config map (it points at no files), not harness (nothing
+      under core/components/**), not memory (not under core/components/memory/**), not executable
+      code (it is data that the check script reads). It is design-bearing because it fixes
+      behaviour other stories build against (#656, #657, #658, #659) and implements ADR 035 s1
+      (three tiers), s3 (lookup order, never blocks a play), s4 (one tool, outside Garura, find
+      and update), s5 (nothing used until a person approves a memory update) and s6 (every
+      decision names tier, file, lines). Layer 2 grounds ONLY from what is committed on main:
+      docs/adr/035-agents-work-only-from-memory.md (incl. s9 and the "Not decided here" list),
+      docs/adr/034-plays-answer-from-memory-inside-a-drive.md (s2, s3, s4),
+      docs/adr/016-agent-json-contract.md (the JSON-contract principle), docs/adr/011 (STM as
+      inter-skill transport; the "a play's own working files stay direct" settlement),
+      docs/adr/009, 015 and 017 as 035 amends them, docs/adr/008 (STM per issue),
+      core/grounding/glossary.md (Memory Architecture), docs/philosophy/**, and the base version
+      of .garura/project/issues/653/specs/plan.md (git show main:...). Not groundable: v1.json's
+      own description and lookup_rule prose, core/tools/memory/README.md, the new 655 plan
+      and the PR body, all of which the branch adds or rewrites. Design pointers the grounding
+      should test, taken from reading the diff, not findings: (a) eleven commands against the
+      nine the issue lists (health, pulled, decide beyond it); (b) `decide` records `by` and
+      `reply` as free text and the contract cannot tell a person from an agent, against ADR 035
+      s5 "only a person approves"; (c) the lookup treats a missing tier as `tier_missing` while
+      ADR 035 s3 says the lookup never blocks a play; (d) the README settles two questions that
+      ADR 035 lists under "Not decided here" and that contradict ADR 034 s2 as it stands on
+      main (learned checkpoint answers listed as memory), recorded only in the README and the
+      plan, not in an ADR. The README is the one path of this design content that sits in
+      another category (documentation, below); the grounding agent should read its "What is
+      not memory" and "The lookup order" sections as claims to test, never as a source.
+      No playbook covers this kind of work: a playbook is missing (follow-up task needed).
+
+  - name: executable-code
+    playbook: review/code
+    design_bearing: false   # playbook: industry best practice, not a garura-internal design; Layer 1 only
+    evidence:
+      - core/tools/memory/contract/check_contract.py   # 275 lines; stdlib-only Python 3.10+ script the runtime executes: a JSON-Schema-subset validator, answer-rule checks, and a folder boundary scan (reads files, walks the tool folder, uses ast for imports)
+    runnable_checks:
+      - command: "ruff check core/tools/memory/contract/check_contract.py"
+        note: "language linter; ruff is on this machine at ~/.local/bin/ruff. Observed read-only while assessing: All checks passed."
+      - command: "<quality-check-scoped, dispatched by the play to quality-auditor against pr.diff>"
+        note: "best-practice and severity taxonomy (CODE-*, SEC-*, DATA-*, ARCH-* rows of pr.md); run by the play, not this agent. The script only reads files and walks its own folder; no git, network or destructive operation."
+    notes: >
+      One script. The playbook's data-safety emphasis is light here (no writes outside stdout,
+      no git, no network), so the weight falls on error handling, exit codes (0, 1, 2 as its
+      docstring says) and whether the boundary scan and validator do what they claim. The
+      script is also run as the contract category's check, so its result is shared.
+
+  - name: tests
+    playbook: review/tests
+    design_bearing: false   # playbook: no design-grounding; run the suite, a red suite is a blocker
+    evidence:
+      - core/tools/memory/contract/test_check_contract.py   # 151 lines; unittest suite for check_contract.py (validator, answer rules, boundary), uses tempfile
+    runnable_checks:
+      - command: "cd core/tools/memory && python3 contract/test_check_contract.py"
+        note: "the suite. Run it, do not just read it (SE-7); a red suite is a blocker. Observed read-only while assessing (PYTHONDONTWRITEBYTECODE=1): Ran 20 tests, OK."
+      - command: "ruff check core/tools/memory/contract/test_check_contract.py"
+        note: "language linter on the test code. Observed: All checks passed."
+    notes: >
+      Tests the check script only, not the contract's design. The playbook's Layer 1 points
+      apply: no skipped or disabled tests, no test that asserts nothing (quality-check-scoped,
+      TEST-* rows). No test file here tests anything except check_contract.py; the samples are
+      not counted here because they are the contract's examples and the check's inputs (see the
+      first category), not test code.
+
+  - name: documentation
+    playbook: review/docs
+    design_bearing: false   # playbook: Layer 1 only, no design-grounding
+    evidence:
+      - core/tools/memory/README.md   # 141 lines; plain-words guide to the tool: tiers, lookup order, commands, request and answer rules, errors, "what is not memory", rules for the folder, how to run the check
+    notes: >
+      Human-facing prose that is not an ADR, a harness file or a memory file, so the docs
+      playbook governs: spelling, grammar, dead links, heading hierarchy, leftover TODOs, terminology
+      consistency (the tool is "Garura memory" / "Phoenix memory", never "project memory" or
+      "LTM", per ADR 035 s1), and that every claim agrees with v1.json (eleven commands, seven
+      error codes, the answer rules, the check's behaviour). The playbook names no committed prose
+      linter (a known gap), so the tool performs these checks and cites each. Judgement flag: this
+      README is not only a guide. Its "What is not memory" section settles two open design
+      questions and its "The lookup order" and "The answer rules" restate normative behaviour,
+      so it carries design content even though its category is not design-bearing. That content
+      is routed to the first category's grounding as claims to test (see its notes), not
+      handled here. Path is in this category only; it is counted once.
+
+  - name: stm-working-notes-plans-and-design
+    playbook: null
+    playbook_missing: true
+    design_bearing: false   # plans and story drafts that follow ADR 035; nothing committed on base to conform to beyond what the first category's grounding already uses
+    evidence:
+      - .garura/project/issues/655/specs/plan.md       # new: plan for this story (#655), status active, now 4, serves #653 item 2
+      - .garura/project/issues/653/specs/plan.md       # modified: item 2 turned into "Built", now moved 2 to 3, three "Also:" lines added to items 3, 8 and 10, two log lines added
+      - .garura/project/issues/654/specs/stories.yaml  # modified: five comment lines appended recording that the Done-when lists of #656, #661 and #663 gained ADR 035's uncovered files; no structural change to the stories
+    notes: >
+      Same category as in the #665 review (654) and the #652 review (613): Garura's own STM
+      working notes. No playbook covers it. Suggested Layer 1 only: plan front-matter sanity
+      (plan_for, kind, status, serves_plan, serves_item, now) with 655/context/plan-check.json
+      as the receipt; the 653 plan's "Built" entry for item 2 agrees with what the diff
+      actually adds (15 samples, 12 broken samples, eleven commands, a check with its own
+      tests); the three "Also:" additions agree with the stories.yaml comment and with ADR 035's
+      Affects list; the stories.yaml comment keeps the file parseable. These are STM files under
+      .garura/project/issues/**, not the knowledge base under core/components/memory/**, so the
+      memory playbook does not apply even though the plans are about memory. No design-grounding
+      is requested: the plans are the branch's own bookkeeping and add no design the first
+      category does not already carry.
+
+  - name: stm-run-records
+    playbook: null
+    playbook_missing: true
+    design_bearing: false   # machine-written run artifacts and play outputs; no design content
+    evidence:
+      - .garura/project/issues/655/context/analysis.yaml          # analyze-changes output (commit grouping)
+      - .garura/project/issues/655/context/branch.json            # context receipt
+      - .garura/project/issues/655/context/commits.yaml           # commit-change record (commits and their files)
+      - .garura/project/issues/655/context/issue.json             # context receipt
+      - .garura/project/issues/655/context/plan-check.json        # plan checker receipt (valid, now 4)
+      - .garura/project/issues/655/context/porcelain.txt          # git status snapshot from an earlier moment
+      - .garura/project/issues/655/context/pr-body.md             # propose-change output (PR body)
+      - .garura/project/issues/655/context/pr.json                # context receipt (PR #666)
+      - .garura/project/issues/655/context/resolved-rules.json    # context receipt (self-review rule path)
+      - .garura/project/issues/655/context/self-review.md         # propose-change output (informational self-review)
+      - .garura/project/issues/655/context/work-description.txt   # work description
+    notes: >
+      Same category as in the #665 review (654): play run records (receipts, snapshots, JSON
+      context, the self-review and PR body). No playbook covers it. Suggested treatment: skim
+      only for consistency. self-review.md is a point-in-time record of an earlier state of the
+      branch (it counts 14 samples, 6 broken samples, 33 files and a 486-line contract; the
+      final branch has 15, 12 and 45, and the fix commit 0066c32e followed it), while pr-body.md
+      is current (15 samples, 12 broken, 20 tests); the PR body's "Fixed before raising" list is
+      what bridges the two. No design-grounding.
+design_bearing_categories:
+  - tool-interface-contract   # new category, no playbook; the fan-out runs one grounding dispatch for it (width one)
+absent_seeded_categories: [decision-records, harness, memory, config-maps]
+path_accounting:   # 28 + 1 + 1 + 1 + 3 + 11 = 45
+  tool-interface-contract: 28   # v1.json 1 + samples 15 + broken samples 12
+  executable-code: 1
+  tests: 1
+  documentation: 1
+  stm-working-notes-plans-and-design: 3
+  stm-run-records: 11
+missing_playbooks:
+  - tool-interface-contract   # a contract for a tool, with sample answers: how it is reviewed and whether it is design-bearing is undecided on the shelf
+  - stm-working-notes-plans-and-design
+  - stm-run-records

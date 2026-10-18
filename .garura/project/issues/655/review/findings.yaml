@@ -1,0 +1,742 @@
+meta:
+  pr: 666
+  issue: 655
+  categories: categories.yaml
+  layers_run:
+    tool-interface-contract: 'Layer 1 — check_contract.py (ok: 15 samples, 12 broken, boundary clean). Layer 2 —
+      design-grounding fan-out of width one (design-findings-tool-interface-contract.yaml), committed sources only'
+    executable-code: Layer 1 — ruff check (pass); quality-check-scoped (no real P1/P2; BE-19 hits are false matches)
+    tests: Layer 1 — test_check_contract.py run (20 tests, OK)
+    documentation: 'Layer 1 — README agrees with v1.json: every command, error and tier named in both; every path
+      it names exists'
+    stm-working-notes-plans-and-design: Layer 1 — plan checks valid (653, 655); playbook missing
+    stm-run-records: Layer 1 — skimmed; self-review.md predates fix commit 0066c32e; playbook missing
+  layer2: 'one dispatch: tool-interface-contract'
+  runnable_checks: runnable-checks.txt
+findings:
+- id: null
+  severity: P2
+  category: standards
+  file: core/tools/memory/contract/check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P2
+  category: standards
+  file: core/tools/memory/contract/check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P2
+  category: standards
+  file: core/tools/memory/contract/check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P2
+  category: standards
+  file: core/tools/memory/contract/check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P2
+  category: standards
+  file: core/tools/memory/contract/check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P2
+  category: standards
+  file: core/tools/memory/contract/check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P2
+  category: standards
+  file: core/tools/memory/contract/check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P2
+  category: standards
+  file: core/tools/memory/contract/check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P2
+  category: standards
+  file: core/tools/memory/contract/check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P2
+  category: standards
+  file: core/tools/memory/contract/check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P2
+  category: standards
+  file: core/tools/memory/contract/check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P2
+  category: standards
+  file: core/tools/memory/contract/check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P2
+  category: standards
+  file: core/tools/memory/contract/check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P2
+  category: standards
+  file: core/tools/memory/contract/check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P2
+  category: standards
+  file: core/tools/memory/contract/check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P2
+  category: standards
+  file: core/tools/memory/contract/check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P2
+  category: standards
+  file: core/tools/memory/contract/check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P2
+  category: standards
+  file: core/tools/memory/contract/check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P2
+  category: standards
+  file: core/tools/memory/contract/check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P2
+  category: standards
+  file: core/tools/memory/contract/check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P2
+  category: standards
+  file: core/tools/memory/contract/test_check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P2
+  category: standards
+  file: core/tools/memory/contract/test_check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P2
+  category: standards
+  file: core/tools/memory/contract/test_check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P2
+  category: standards
+  file: core/tools/memory/contract/test_check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P2
+  category: standards
+  file: core/tools/memory/contract/test_check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P2
+  category: standards
+  file: core/tools/memory/contract/test_check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P2
+  category: standards
+  file: core/tools/memory/contract/test_check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P2
+  category: standards
+  file: core/tools/memory/contract/test_check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P2
+  category: standards
+  file: core/tools/memory/contract/test_check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P2
+  category: standards
+  file: core/tools/memory/contract/test_check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P2
+  category: standards
+  file: core/tools/memory/contract/test_check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P2
+  category: standards
+  file: core/tools/memory/contract/v1.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P2
+  category: standards
+  file: core/tools/memory/contract/v1.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P2
+  category: standards
+  file: core/tools/memory/contract/v1.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P2
+  category: standards
+  file: core/tools/memory/contract/v1.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P2
+  category: standards
+  file: core/tools/memory/contract/v1.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P2
+  category: standards
+  file: core/tools/memory/contract/v1.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/README.md
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/README.md
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/README.md
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/README.md
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/apply-not-approved.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/apply-not-approved.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/apply.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/apply.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/apply-written-to-short-term.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/apply-written-to-short-term.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/cite-absolute-path.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/cite-absolute-path.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/find-silent-missing-tier.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/find-silent-missing-tier.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/health-ok-as-number.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/health-ok-as-number.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/propose-unknown-draft-source.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/propose-unknown-draft-source.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/read-path-with-newline.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/read-path-with-newline.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/read-without-fingerprint.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/read-without-fingerprint.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/read-wrong-fingerprint.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/read-wrong-fingerprint.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/search-skipped-a-tier.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/search-skipped-a-tier.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/search-tier-with-every-tier.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/search-tier-with-every-tier.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/search-unknown-tier.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/search-unknown-tier.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/search-went-past-first-answer.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/search-went-past-first-answer.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/cite.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/cite.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/decide.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/decide.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/find.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/find.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/health.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/health.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/propose.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/propose.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/pull.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/pull.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/pulled.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/pulled.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/read.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/read.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/search-nothing.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/search-nothing.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/search-one-tier-nothing.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/search-one-tier-nothing.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/search-tier-missing.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/search-tier-missing.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/search.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/search.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/updates.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/updates.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/test_check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/test_check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/test_check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/test_check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/test_check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/test_check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/test_check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/test_check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/test_check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/test_check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/v1.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/v1.json
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P4
+  category: standards
+  file: core/tools/memory/README.md
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P4
+  category: standards
+  file: core/tools/memory/README.md
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P4
+  category: standards
+  file: core/tools/memory/README.md
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P4
+  category: standards
+  file: core/tools/memory/contract/check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P4
+  category: standards
+  file: core/tools/memory/contract/check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P4
+  category: standards
+  file: core/tools/memory/contract/test_check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P4
+  category: standards
+  file: core/tools/memory/contract/test_check_contract.py
+  basis: pr.md taxonomy rule None
+- id: null
+  severity: P4
+  category: standards
+  file: core/tools/memory/contract/v1.json
+  basis: pr.md taxonomy rule None
+- id: TIC-1
+  severity: P2
+  category: tool-interface-contract
+  file: core/tools/memory/contract/v1.json (commands.decide lines 629-692, commands.propose lines 503-582, $defs.update
+    lines 969-1058); core/tools/memory/contract/samples/decide.json
+  basis: design-grounding (committed sources)
+- id: TIC-2
+  severity: P2
+  category: tool-interface-contract
+  file: core/tools/memory/contract/v1.json (answer_rules lines 25-31; commands.apply lines 693-765; $defs.update
+    lines 969-1058; $defs.update_status lines 829-836); core/tools/memory/contract/check_contract.py (check_meaning)
+  basis: design-grounding (committed sources)
+- id: TIC-3
+  severity: P2
+  category: tool-interface-contract
+  file: core/tools/memory/contract/v1.json (tiers.short-term line 8; commands.find, search, read; lookup_rule line
+    17); core/tools/memory/contract/samples/cite.json (stored.path '613/context/citations.jsonl')
+  basis: design-grounding (committed sources)
+- id: TIC-4
+  severity: P3
+  category: tool-interface-contract
+  file: core/tools/memory/README.md ('What is not memory', line 112 onward); .garura/project/issues/655/specs/plan.md
+    (log); docs/adr/035-agents-work-only-from-memory.md and docs/adr/034-plays-answer-from-memory-inside-a-drive.md
+    (unchanged by this PR)
+  basis: design-grounding (committed sources)
+- id: TIC-5
+  severity: P3
+  category: tool-interface-contract
+  file: core/tools/memory/contract/v1.json (commands.cite lines 310-397; $defs.source lines 913-942; tier enum lines
+    776-781)
+  basis: design-grounding (committed sources)
+- id: TIC-6
+  severity: P3
+  category: tool-interface-contract
+  file: 'core/tools/memory/contract/v1.json (commands.cite request, `issue`: integer minimum 1, required)'
+  basis: design-grounding (committed sources)
+- id: TIC-7
+  severity: P3
+  category: tool-interface-contract
+  file: core/tools/memory/contract/v1.json (tiers lines 7-11; lookup_order; $defs.tier, $defs.update_tier, commands.pull.tier
+    const 'garura'; descriptions citing 'ADR 035 §n' on lines 17, 311 and 504)
+  basis: design-grounding (committed sources)
+- id: TIC-8
+  severity: P3
+  category: tool-interface-contract
+  file: core/tools/memory/contract/check_contract.py (check_boundary, FORBIDDEN); core/tools/lint-components/ (not
+    changed by this PR)
+  basis: design-grounding (committed sources)
+- id: TIC-9
+  severity: P3
+  category: tool-interface-contract
+  file: core/tools/memory/contract/v1.json (commands.propose, target_path lines 519-525; commands.pull; $defs.update.target_path);
+    core/tools/memory/contract/samples/propose.json
+  basis: design-grounding (committed sources)
+- id: TIC-10
+  severity: P3
+  category: tool-interface-contract
+  file: core/tools/memory/contract/v1.json (commands.apply written.version, $defs.version lines 815-820, $defs.update.applied_version)
+  basis: design-grounding (committed sources)
+- id: TIC-11
+  severity: P3
+  category: tool-interface-contract
+  file: core/tools/memory/contract/v1.json (commands.decide, verdict enum lines 638-643; $defs.update)
+  basis: design-grounding (committed sources)
+- id: TIC-12
+  severity: P3
+  category: tool-interface-contract
+  file: core/tools/memory/contract/v1.json (description line 6); core/tools/memory/README.md (line 41 'On the command
+    line its fields are the flags')
+  basis: design-grounding (committed sources)
+- id: TIC-13
+  severity: P4
+  category: tool-interface-contract
+  file: core/tools/memory/contract/v1.json (version '1.0.0', contract_version '1', cite summary line 311); core/tools/memory/README.md
+    ('The contract changes only by a new version')
+  basis: design-grounding (committed sources)
+- id: TIC-14
+  severity: P4
+  category: tool-interface-contract
+  file: core/tools/memory/contract/v1.json ($defs.draft_source lines 821-828, $defs.source); core/tools/memory/contract/samples/broken/propose-unknown-draft-source.json
+  basis: design-grounding (committed sources)

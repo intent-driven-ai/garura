@@ -1,0 +1,8 @@
+== check_contract.py
+ok True samples 15 broken 12 boundary []
+== test_check_contract.py
+Ran 20 tests in 0.032s
+
+OK
+== ruff
+All checks passed!

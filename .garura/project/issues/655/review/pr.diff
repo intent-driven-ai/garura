@@ -1,0 +1,3172 @@
+diff --git a/.garura/project/issues/653/specs/plan.md b/.garura/project/issues/653/specs/plan.md
+index 220d250f..c2cef716 100644
+--- a/.garura/project/issues/653/specs/plan.md
++++ b/.garura/project/issues/653/specs/plan.md
+@@ -4,7 +4,7 @@ kind: feature
+ serves: "#653 — agents work only from memory, so drives can make their own decisions"
+ status: active
+ updated: 2026-10-18
+-now: 2
++now: 3
+ serves_plan: 606
+ serves_item: 8
+ ---
+@@ -94,8 +94,8 @@ answer came from in a way anyone checks.
+ Decided, nothing built: ADR 035 is accepted. The review (`.garura/project/issues/613/specs/memory-review.md`)
+ and the map of how agents read memory are done. Kapil set the model above and
+ chose B. The feature (#653), its decision spike (#654) and its stories
+-(#655–#664) are filed. Next: item 2, the memory tool's contract (#655), once
+-#654 lands.
++(#655–#664) are filed. The contract (item 2, #655) is built and lands with its
++pull request. Next: item 3, Phoenix memory and the subset a project pulls (#656).
+ 
+ ## The plan, in order
+ 
+@@ -112,23 +112,14 @@ chose B. The feature (#653), its decision spike (#654) and its stories
+   memory, whether files passed between a play's own steps go through the tool,
+   whether a drive keeps going while one update waits, and the folder for Garura
+   memory.
++- **2. Built: the memory tool's contract** — #655. Version 1 in
++  `core/tools/memory/contract/v1.json`, with a plain guide, 15 sample answers,
++  12 broken samples and a check with its own tests. Eleven commands; every piece
++  of text carries tier, file, lines and fingerprint; a lookup never skips a tier.
++  Settled with Kapil: learned checkpoint answers are not memory; a play's own
++  working files stay direct. Lands with #655's pull request.
+ 
+-### 2. Write the memory tool's contract — now
+-
+-**Issue:** #655.
+-**What:** the written agreement between agents and the tool: its commands to
+-find memory (find, search, read, go up to Phoenix memory, cite) and to update it
+-(pull a piece into the project, propose an update, list updates, apply an
+-approved update),
+-what each returns, and its errors. Same rules as the review tool: its own
+-folder, a version number, no Garura names inside, the engine behind it
+-swappable.
+-**Why here:** every later item builds against it, and it is what makes the move
+-to Griffin cost nothing.
+-**Done when:** the contract file exists and sample answers pass its check.
+-**Needs:** item 1.
+-
+-### 3. Set up Phoenix memory, and the subset each project pulls
++### 3. Set up Phoenix memory, and the subset each project pulls — now
+ 
+ **Issue:** #656.
+ **What:** Phoenix memory gets its one home outside Garura's code, seeded from
+@@ -139,6 +130,9 @@ Phoenix memory each piece came from. The two stale copies are retired
+ (`~/.garura/core/memory/` and `.garura/core/memory/`). The installer writes
+ correct settings into projects it installs into. Garura memory's own folders
+ are settled (product model, the person's own files, the person's answers).
++Also: the memory keys in `.garura/core/config.yaml` (`components.memory`, the
++`ltm.*` keys, `review-pr.standards_order`) point at the new homes, here and in
++installed projects.
+ **Why here:** the tool needs a known place for each tier.
+ **Done when:** an install into a test project pulls only what it needs, a piece
+ pulled later arrives on request, and a check shows which pulled pieces are
+@@ -212,6 +206,8 @@ its check passes, and an agent there finds a piece of memory through the tool.
+ the close of every play, read memory only through the tool, raise memory
+ updates, and name their sources. Play changes go through each play's ICE source
+ and `/play-editor`.
++Also: rule 4 of the drive contract, its row in the rules index and the
++glossary's Drive entry say what ADR 034 and ADR 035 decided.
+ **Why here:** Kickoff waits on these three plays, so they move first.
+ **Done when:** the three plays and every play's close name no memory path.
+ **Needs:** items 5, 6 and 7.
+@@ -238,6 +234,9 @@ the Kickoff build.
+ fall back to the web or the model (`tech-designer`, `research-domain-context`);
+ the R1–R4 rule rewritten; a lint rule that fails any component naming a memory
+ path. The seven retired agents are not installed and are left as they are.
++Also: `CLAUDE.md`, `docs/components/memory.md` and the glossary's install rows
++describe the three tiers and the tool, and the locked knowledge-base design note
++(`knowledge/_DESIGN.md`) is rewritten under ADR 035.
+ **Done when:** the lint passes across every component.
+ **Needs:** item 9.
+ 
+@@ -276,3 +275,10 @@ the tool.
+   confused with the memory Claude Code and Codex keep. Now on item 2; its story
+   is filed once Kapil says so (#654 plan item 2).
+ - 2026-10-18 — Kapil: "file the stories". Items 2 to 11 filed as Stories #655 to #664 under #653 (texts: `.garura/project/issues/654/specs/stories.yaml`).
++- 2026-10-18 — Kapil: "update the stories … merge this as part of our current
++  plan". The files ADR 035 names under Affects that no story covered were added
++  to existing items, not new ones: config keys to item 3 (#656), the drive
++  contract's rule 4 to item 8 (#661), the docs, glossary rows and the locked
++  knowledge-base design note to item 10 (#663). The three stories were edited to
++  match.
++- 2026-10-18 — Item 2 built on #655: the contract, samples and check. Now on item 3 (#656).
+diff --git a/.garura/project/issues/654/specs/stories.yaml b/.garura/project/issues/654/specs/stories.yaml
+index ea76a461..277be049 100644
+--- a/.garura/project/issues/654/specs/stories.yaml
++++ b/.garura/project/issues/654/specs/stories.yaml
+@@ -184,3 +184,8 @@ stories:
+ 
+       ## Needs
+       {item:5}, {item:6}, and the review tool (#641–#644).
++# 2026-10-18 — after filing, on Kapil's word ("update the stories"), the Done-when
++# lists of #656, #661 and #663 gained the files ADR 035 names under Affects that no
++# story covered: config memory keys (#656); drive-contract rule 4, its index row and
++# the glossary Drive entry (#661); CLAUDE.md, docs/components/memory.md, the
++# glossary install rows and knowledge/_DESIGN.md (#663). GitHub holds the current text.
+diff --git a/.garura/project/issues/655/context/analysis.yaml b/.garura/project/issues/655/context/analysis.yaml
+new file mode 100644
+index 00000000..2449507a
+--- /dev/null
++++ b/.garura/project/issues/655/context/analysis.yaml
+@@ -0,0 +1,66 @@
++---
++# analyze-changes output (judgment path) — executor schema
++# issue: 655
++# branch: feature/655-memory-tool-contract
++needs_judgment: false
++
++change_groups:
++  - id: feat-memory-tool-contract
++    issue: 655
++    commit_type: feat
++    scope: memory-tool
++    subject: "add the memory tool contract version 1 with sample answers and a check"
++    confidence: high
++    files:
++      - core/tools/memory/README.md
++      - core/tools/memory/contract/v1.json
++      - core/tools/memory/contract/check_contract.py
++      - core/tools/memory/contract/samples/apply-not-approved.json
++      - core/tools/memory/contract/samples/apply.json
++      - core/tools/memory/contract/samples/cite.json
++      - core/tools/memory/contract/samples/decide.json
++      - core/tools/memory/contract/samples/find.json
++      - core/tools/memory/contract/samples/health.json
++      - core/tools/memory/contract/samples/propose.json
++      - core/tools/memory/contract/samples/pull.json
++      - core/tools/memory/contract/samples/pulled.json
++      - core/tools/memory/contract/samples/read.json
++      - core/tools/memory/contract/samples/search-nothing.json
++      - core/tools/memory/contract/samples/search-tier-missing.json
++      - core/tools/memory/contract/samples/search.json
++      - core/tools/memory/contract/samples/updates.json
++      - core/tools/memory/contract/samples/broken/apply-written-to-short-term.json
++      - core/tools/memory/contract/samples/broken/cite-absolute-path.json
++      - core/tools/memory/contract/samples/broken/find-silent-missing-tier.json
++      - core/tools/memory/contract/samples/broken/propose-unknown-draft-source.json
++      - core/tools/memory/contract/samples/broken/read-without-fingerprint.json
++      - core/tools/memory/contract/samples/broken/search-unknown-tier.json
++    risks:
++      sensitive_files: []
++      breaking_changes: []
++    notes: "ADR 035 memory tool contract (version 1): eleven commands, three tiers, plain guide, 14 valid samples, 6 broken samples, standard-library check. New folder, nothing existing changed. Content scan found no secret patterns."
++
++  - id: chore-stm-655-plan
++    issue: 655
++    commit_type: chore
++    scope: stm
++    subject: "mark #655 plan items 2 and 3 built and move to item 4"
++    confidence: high
++    files:
++      - .garura/project/issues/655/specs/plan.md
++      - .garura/project/issues/655/context/plan-check.json
++    risks:
++      sensitive_files: []
++      breaking_changes: []
++    notes: "Operational STM plan update, kept apart from the feature commit (same chore(stm) style as recent history)."
++
++exclusions:
++  []
++
++risks:
++  sensitive_files:
++    []
++
++eval_gates:
++  SE-1: {status: PASS, evidence: "25 changed files grouped: 23 in feat-memory-tool-contract, 2 in chore-stm-655-plan; the run-state files porcelain.txt and analysis.yaml are left to the executor's run-state commit"}
++  SE-5: {status: PASS, evidence: "no sensitive filename patterns and no secret content patterns matched in the changeset; branch is feature/*, not a hotfix branch"}
+diff --git a/.garura/project/issues/655/context/branch.json b/.garura/project/issues/655/context/branch.json
+new file mode 100644
+index 00000000..3364daca
+--- /dev/null
++++ b/.garura/project/issues/655/context/branch.json
+@@ -0,0 +1,6 @@
++{
++  "branch_name": "feature/655-memory-tool-contract",
++  "base_sha": "bbf2ab5a0141be5a3f2f0bbcbe93e68512a4130e",
++  "on_default_branch": false,
++  "worktree_path": null
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/655/context/commits.yaml b/.garura/project/issues/655/context/commits.yaml
+new file mode 100644
+index 00000000..ddbe9cca
+--- /dev/null
++++ b/.garura/project/issues/655/context/commits.yaml
+@@ -0,0 +1,40 @@
++commits:
++  - sha: 1bde641a
++    message: "feat(memory-tool): add the memory tool contract version 1 with sample answers and a check (#655)"
++    files:
++      - core/tools/memory/README.md
++      - core/tools/memory/contract/v1.json
++      - core/tools/memory/contract/check_contract.py
++      - core/tools/memory/contract/samples/apply-not-approved.json
++      - core/tools/memory/contract/samples/apply.json
++      - core/tools/memory/contract/samples/cite.json
++      - core/tools/memory/contract/samples/decide.json
++      - core/tools/memory/contract/samples/find.json
++      - core/tools/memory/contract/samples/health.json
++      - core/tools/memory/contract/samples/propose.json
++      - core/tools/memory/contract/samples/pull.json
++      - core/tools/memory/contract/samples/pulled.json
++      - core/tools/memory/contract/samples/read.json
++      - core/tools/memory/contract/samples/search-nothing.json
++      - core/tools/memory/contract/samples/search-tier-missing.json
++      - core/tools/memory/contract/samples/search.json
++      - core/tools/memory/contract/samples/updates.json
++      - core/tools/memory/contract/samples/broken/apply-written-to-short-term.json
++      - core/tools/memory/contract/samples/broken/cite-absolute-path.json
++      - core/tools/memory/contract/samples/broken/find-silent-missing-tier.json
++      - core/tools/memory/contract/samples/broken/propose-unknown-draft-source.json
++      - core/tools/memory/contract/samples/broken/read-without-fingerprint.json
++      - core/tools/memory/contract/samples/broken/search-unknown-tier.json
++    branch: feature/655-memory-tool-contract
++  - sha: f6c99fc9
++    message: "chore(stm): mark #655 plan items 2 and 3 built and move to item 4 (#655)"
++    files:
++      - .garura/project/issues/655/specs/plan.md
++      - .garura/project/issues/655/context/plan-check.json
++    branch: feature/655-memory-tool-contract
++excluded_files:
++  []
++leftover_count: 0
++tree_clean: true
++pushed: false
++run_state_committed: true
+diff --git a/.garura/project/issues/655/context/issue.json b/.garura/project/issues/655/context/issue.json
+new file mode 100644
+index 00000000..af271855
+--- /dev/null
++++ b/.garura/project/issues/655/context/issue.json
+@@ -0,0 +1,6 @@
++{
++  "resolved": true,
++  "issue_number": 655,
++  "title": "The memory tool has a written contract for finding and updating memory",
++  "created": false
++}
+diff --git a/.garura/project/issues/655/context/plan-check.json b/.garura/project/issues/655/context/plan-check.json
+new file mode 100644
+index 00000000..b764716c
+--- /dev/null
++++ b/.garura/project/issues/655/context/plan-check.json
+@@ -0,0 +1,12 @@
++{
++  "valid": true,
++  "done": false,
++  "status": "active",
++  "now": "4",
++  "open_items": [
++    4
++  ],
++  "serves_plan": "~/projects/garura/.garura/project/issues/653/specs/plan.md",
++  "problems": [],
++  "plan": ".garura/project/issues/655/specs/plan.md"
++}
+diff --git a/.garura/project/issues/655/context/porcelain.txt b/.garura/project/issues/655/context/porcelain.txt
+new file mode 100644
+index 00000000..32aeb8d8
+--- /dev/null
++++ b/.garura/project/issues/655/context/porcelain.txt
+@@ -0,0 +1,4 @@
++ M .garura/project/issues/655/context/plan-check.json
++ M .garura/project/issues/655/specs/plan.md
++?? .garura/project/issues/655/context/porcelain.txt
++?? core/tools/memory/
+diff --git a/.garura/project/issues/655/context/pr-body.md b/.garura/project/issues/655/context/pr-body.md
+new file mode 100644
+index 00000000..a0b13e5e
+--- /dev/null
++++ b/.garura/project/issues/655/context/pr-body.md
+@@ -0,0 +1,35 @@
++## What this delivers
++
++The written agreement for how agents find and update memory (ADR 035 §4). The memory tool (#657), Phoenix memory (#656), memory updates (#658) and citations (#659) all build against it, and moving the tool to Griffin later changes nothing on Garura's side.
++
++- **`core/tools/memory/contract/v1.json`** — version 1, in a subset of JSON Schema. Eleven commands: `health`, `find`, `search`, `read`, `cite` to find memory; `pull`, `pulled`, `propose`, `updates`, `decide`, `apply` to update it. Three tiers — `short-term`, `garura`, `phoenix` — looked in that order, stopping at the first tier that answers. Every piece of text carries its tier, file, lines and a fingerprint (sha256 of the text). A lookup never skips a tier: a tier with no setting is the error `tier_missing`, never "nothing found". A memory update goes waiting → approved or rejected → applied, and only a person decides.
++- **`core/tools/memory/README.md`** — the plain guide: tiers, lookup order, commands, request and answer rules, errors, and what is not memory.
++- **Sample answers and a check** — 15 samples (every command, the `tier_missing` and `not_approved` errors, and the empty answer that cues a memory update) pass; 12 broken samples fail; 20 tests cover the check itself. Run from `core/tools/memory/`: `python3 contract/check_contract.py` and `python3 contract/test_check_contract.py`.
++- **Settled with Kapil** ("approve, A, A"): the learned checkpoint answers are not memory; a play's own working files stay direct — only memory lookups go through the tool.
++- The folder names no project path and imports only the standard library, so it can move to Griffin as it is.
++
++Also on this branch, as Kapil asked: the #653 plan update of 2026-10-18 (the files ADR 035 names, folded into plan items 3, 8 and 10) and a matching note in the #654 story texts.
++
++Closes #655
++
++## Self-review
++
++Rules: base `standards/rules/self-review.md` (no project override). Findings that stop the raise: **none**. Full review: `.garura/project/issues/655/context/self-review.md`.
++
++**Fixed before raising** (self-review findings 1–7 and 12): an answer could say "nothing found" after skipping a tier; search hits had no fingerprint and `pull` no tier; request and answer rules were unwritten; the check accepted `1` as `true` and a newline in a path, had a narrow boundary scan, and had no tests of its own; the #653 plan did not mark the contract built.
++
++**Scope**
++- [PASS] Matches #655: the contract, its guide, samples (including a missing-tier error) and a passing check, in the tool's own folder.
++- [PASS] No code outside `core/tools/memory/`; the rest is plans and run records.
++
++**Quality**
++- [PASS] The check and its 20 tests pass; no merge conflicts; no secrets.
++- [PASS] Commits are conventional and name #655.
++
++**For the reviewer (non-blocking)**
++- Eleven commands against the issue's list of nine: `health` is in the plan (the install check calls it); `pulled` shows what is behind; `decide` records a person's word. "Go up a tier" is the lookup order, not a command.
++- `decide` cannot yet tell a person from an agent; that is #658's to settle.
++- The two settled questions are recorded in the guide and the #655 plan; ADR 034 §2 still lists learned checkpoint answers, and ADR 035 still lists both as open.
++- Three commit subjects run past 72 characters.
++
++🤖 Generated with [Claude Code](https://claude.com/claude-code)
+diff --git a/.garura/project/issues/655/context/pr.json b/.garura/project/issues/655/context/pr.json
+new file mode 100644
+index 00000000..e72411af
+--- /dev/null
++++ b/.garura/project/issues/655/context/pr.json
+@@ -0,0 +1,6 @@
++{
++  "number": 666,
++  "url": "https://github.com/intent-driven-ai/garura/pull/666",
++  "state": "OPEN",
++  "base": "main"
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/655/context/resolved-rules.json b/.garura/project/issues/655/context/resolved-rules.json
+new file mode 100644
+index 00000000..70b8f431
+--- /dev/null
++++ b/.garura/project/issues/655/context/resolved-rules.json
+@@ -0,0 +1,6 @@
++{
++  "resolved": true,
++  "path": "~/.garura/core/memory/standards/rules/self-review.md",
++  "source": "~/.garura/core/memory/standards/rules",
++  "is_override": false
++}
+diff --git a/.garura/project/issues/655/context/self-review.md b/.garura/project/issues/655/context/self-review.md
+new file mode 100644
+index 00000000..fce4d859
+--- /dev/null
++++ b/.garura/project/issues/655/context/self-review.md
+@@ -0,0 +1,166 @@
++# Self-review for #655 — The memory tool has a written contract for finding and updating memory
++
++Rules used: `~/.garura/core/memory/standards/rules/self-review.md` (base file, no project override; recorded in `resolved-rules.json`).
++Reviewed: `git diff origin/main..HEAD` on `feature/655-memory-tool-contract`, read only. The check was run, not just read: `cd core/tools/memory && python3 contract/check_contract.py` exits 0 (14 samples pass, 6 broken samples fail as they should, no boundary problems).
++
++## In plain words
++
++This change writes down the agreement between Garura's agents and the memory tool: eleven commands to find memory and to update it, what each one answers, and how each one fails. It adds a version number, 14 sample answers, 6 deliberately broken ones, and a small check that keeps them honest. It builds no tool and touches no play, skill or agent. It also carries the 18 October plan note that folds ADR 035's missed files into the plans for #656, #661 and #663, which Kapil asked to ride on this branch.
++
++Nothing found stops this from being raised. The contract matches ADR 035 on the three memory levels (short-term, Garura, Phoenix), the lookup order, the rule that a missing level is an error, and the two settled questions. The branch merges cleanly with main, no secrets are in it, and nothing in the tool's folder names a project path.
++
++Fourteen things came up. None is blocking, because the rules file says this review is a note that travels with the PR and never blocks on its own. The four worth Kapil's eye:
++
++- The contract's strongest promise, "a missing memory level is an error, never nothing found", is only half enforced. An answer that quietly skipped Phoenix memory and said "nothing found" still passes the contract and its check. The one broken sample meant to catch this fails for a different reason (finding 1).
++- The issue and the plan say every result carries its level, file, lines and a fingerprint. Only `read` does. Search hits and file matches carry no fingerprint (finding 3).
++- The check is weaker than it looks. In a test where I broke the check on purpose in 14 places, 8 of the breaks went unnoticed, including both halves of the "names no project path" test (finding 4).
++- The "names no project path" test only knows three spellings; a README line naming `.claude/skills/...` or `docs/adr/...` passes (finding 5).
++
++Blocking: 0. Non-blocking: 14.
++
++## Branch and size
++
++- Branch: `feature/655-memory-tool-contract` (feature branch), base `origin/main`
++- Commits: 7 (1 `feat(memory-tool)`, 6 `chore(stm)`), every one carries `(#655)`
++- Files: 33, +1,549 / -0. Of that: 1,294 lines are the tool folder (23 files: the 486-line contract, a 195-line check, a 111-line README and 20 sample files of 14 to 35 lines each), 255 lines are #655 plan and run records, and the #653 plan and #654 stories notes
++- Suggested PR title: `feat(memory-tool): add the memory tool contract, version 1 (#655)`
++
++## Findings (all non-blocking)
++
++1. **A silent missing level passes the contract.** ADR 035 and the issue say a missing level is an error, never "nothing found". The contract can only say that an empty answer must list at least one level in `looked_in`. I fed the validator `looked_in: ["short-term","garura"], answered_by: null, matches: []` (Phoenix quietly skipped) and it accepted it. The broken sample `find-silent-missing-tier.json` uses `looked_in: []`, which fails because of the "at least one level" rule, not because a level was skipped, so the sample proves less than its name says. Fix: a small cross-check in `check_contract.py` (an empty answer's `looked_in` must equal the levels asked: all three, or the one `tier`), plus a broken sample with the realistic two-level case. (Rule: nothing obviously broken; the issue's done-when "an error for a missing tier")
++2. **The contract does not say what a lookup does when one level is missing but another holds the answer.** `settings` says any level with no setting or no reach is `tier_missing`. ADR 035 §3 says the lookup never blocks a play. If short-term memory has no setting (a play run by hand with no issue) and Garura memory holds the answer, does `search` error or go on up? The only sample (`search-tier-missing.json`) is the case where nothing before Phoenix answered. #657 will have to guess. Fix: one sentence in `lookup_rule` and the README, and one sample for the other case. (Rule: nothing obviously broken)
++3. **Not every result carries lines and a fingerprint.** The issue says "Every result names its tier, its file, its lines and a fingerprint". The plan's item 2 record says the same of the built contract. As built: `read` has tier, file, start, end and fingerprint; `cite` sources have all of them; `search` hits have tier, file, one line and the text but no fingerprint; `find` matches have tier, file and version only; `pull` has no tier. The README's "What every answer carries" lists the fingerprint as universal. Fix: either add a fingerprint to each hit, or say plainly in `v1.json` and the README that only `read` fingerprints, so a citation needs a `read` first, and correct the plan record. (Rule: docs in step; matches the issue)
++4. **The check cannot fail in most places.** I copied the folder and broke the check on purpose, one rule at a time. Caught: minimum item counts, patterns, allowed-value lists, required fields, types, list items (6). Not caught: minimum text length, minimum number, exact-value (`const`), unexpected-extra-fields, the "exactly one shape" rule for success-or-error, the response-names-the-right-command rule, the forbidden-path-strings scan and the import scan (8). A typo in any of those would leave the check green. Nothing proves either half of the boundary test can ever fail. Also, the read sample's fingerprint is the true sha256 of its text (I checked), but the check does not verify that, though the contract defines it so; and the command list and error list inside `$defs/error` repeat `commands` and `errors` with nothing checking they stay in step (they match today: 11 and 7). Fix: one broken sample per untested rule, a small self-test that runs the boundary check on a folder with planted violations, a fingerprint-equals-sha256-of-text check for `read` samples, and a keys-match check. (Rule: tests present)
++5. **The boundary check is narrow.** `FORBIDDEN` holds three strings: `.garura/`, `core/components`, `~/.garura`. I planted lines in a copy: `.garura/...` and `~/.garura` were caught; `core/grounding/glossary.md`, `.claude/skills/x`, `docs/adr/035` and `~/cto` were not. The script exempts itself from the scan entirely, so a Garura path added to `check_contract.py` is never caught. The import scan reads one name per line (`import os, requests` passes), misses `__import__` and `importlib`, and reports a relative import as `imports ''`. On Python before 3.10 (no `sys.stdlib_module_names`) the import scan switches off silently while the report still says ok. Today's folder is clean (grep over README, contract and samples found no project path), so this is about the next change. Fix: widen the list to Garura's known roots and home paths, scan the script except its own list, read imports with `ast`, and fail loudly when the standard-library list is missing. (Rule: nothing obviously broken; the issue's "names no Garura path and imports no Garura code")
++6. **Two small holes in the validator and the path pattern.** The `path` pattern `^(?!/)(?!.*\.\.)[^\\]+$` lets a newline through: `"a\n../b"` and `"a.md\n"` both match, so "never contains `..`" does not hold for text with a line break (the `.` in the pattern stops at a newline). And `const: true` accepts the number `1`, because Python treats `1 == True`, so `ok: 1` passes the success shape. Both are edge cases; the tool must sanitise paths itself in any case. Fix: keep newlines and control characters out of the path's allowed characters; compare type and value for `const`. (Rule: nothing obviously broken)
++7. **Some request fields have no stated meaning, which matters once Griffin serves the tool.** ADR 035 §4 says moving to Griffin changes nothing on Garura's side. The contract does not name the dialect of `glob` (does `**` cross folders?) or of `pattern` (which regular-expression flavour), does not say what `answered_by` holds when `every_tier` finds hits in several levels, does not say what happens when `tier` and `every_tier` are both given, and lets `read` with `end` before `start` pass the shape check (I tried it) without naming which error it is. An unknown command cannot be answered at all, since `error.command` must be one of the eleven. Fix: one line each in `v1.json` and the README. (Rule: docs in step)
++8. **Nothing stops an agent from calling `decide`.** `decide` records `by` and `reply` as free text and says "only a person decides". ADR 035 §5 says nothing in a memory update is used until a person approves it. The contract cannot tell a person from an agent, and `apply` only checks the status. This is probably right for a contract (the proof belongs to the build) but it should be carried to the story that builds updates (#658). Fix: note it in the PR description and on #658's plan. (Rule: matches the issue)
++9. **Three commands go beyond the issue's list.** The issue names find, search, read, "go up a tier" and cite; pull, propose, "list waiting updates" and apply. Built: eleven. `health` is in the approved plan and ADR 035 §8 needs it. `pulled` (ADR 035 §2's list of what was pulled) and `decide` (the typed approval in §5; `apply` has nothing to check without it) are not in the plan's "When this plan is done" list, which still shows nine. "Go up a tier" is not a command; it is the lookup order plus the `tier` and `every_tier` flags. All defensible, but a reviewer comparing against the issue will see eleven against nine. Fix: say so in the PR description. (Rule: matches the issue)
++10. **Two notes ride on this branch that are not #655's.** The #653 plan gains three "Also:" lines and a log entry (`b4238ee8`, folded files into items 3, 8 and 10), and `.garura/project/issues/654/specs/stories.yaml` gains a five-line comment recording the same story edits. Kapil asked for the plan note to ride here; the stories comment is part of the same ask but was not named, and the commit message does not mention it. Notes only, no code. Fix: name both in the PR description. (Rule: no scope creep)
++11. **The two settled questions are recorded in the README and the #655 plan only, not in the accepted decision records.** ADR 034 §2 still lists "the learned checkpoint answers" as memory (`docs/adr/034-plays-answer-from-memory-inside-a-drive.md` line 54), and ADR 035 still lists both questions under "Not decided here" (lines 131 to 133). The issue says "settle here", so the README meets it. Older records change only through a forward pointer written by `/adr`; plan items 8 and 10 do not cover one. Kapil's call: a one-line forward pointer through `/adr` as a separate step, or leave the README as the record. (Rule: docs in step)
++12. **The #653 plan reads as if nothing is built.** Its "Where we are now" says "nothing built ... once #654 lands" (#654 has landed) and item 2 is still marked "now". #655's plan item 4 says item 2 of the #653 plan is marked done at landing, so the marking is a landing step. The "once #654 lands" wording is already stale. Fix: update both in the landing commit. (Rule: nothing obviously broken)
++13. **Three commit subjects are longer than 72 characters.** `1bde641a` is 96, `b4238ee8` is 79, `c4638f4c` is 74. `commits.md` sets 72 when a commit is written. The self-review rules ask only for conventional form, one concern and the issue reference; all seven commits meet that. Rewriting history needs an explicit request, so this is only noted. (Rule: commits are clean)
++14. **Naming nit: three different things are called "version" in the contract.** The file's own `version: "1.0.0"`, its `contract_version: "1"`, and the `version` field in matches and reads (a Phoenix commit). Nothing reads the `1.0.0`. And `pull` and `pulled` differ by one letter for two different jobs. Fix before #657 builds against them: keep one contract version, rename the commit one (for example `source_version`), and consider `pulled` → `pulls`. Cheap now, a new contract version later. (Naming clarity, not in the rules file)
++
++## Checklist from the rules file
++
++Scope checks
++
++| Item | Status | Evidence |
++|------|--------|----------|
++| Matches the issue | REVIEW | The contract file with a version number, the lookup order, sample answers including a missing-level error, and the tool's folder free of project paths all map to the done-when. Eleven commands against the issue's nine (finding 9). The two settled questions are in the README (finding 11). |
++| No scope creep | REVIEW | Everything in `core/tools/memory/` and `.garura/project/issues/655/` is the issue's. The #653 plan note and the #654 stories comment are not #655's; they ride on Kapil's word (finding 10). Nothing under `core/components/`, `.claude/` or `docs/` changed. |
++| Reasonable size | PASS | 33 files, +1,549 / -0, one deliverable; the 20 samples are 14 to 35 lines each. The make-up goes in the PR description (above). |
++| No stray artifacts | PASS | No TODO, FIXME, debug or commented-out lines under `core/tools/memory/`; the only `print` in `check_contract.py` is the JSON report. No `__pycache__` or compiled files. The #655 run records match the set #654 committed (`chore(stm)`). `resolved-rules.json` and this file are untracked and not in the diff. |
++
++Quality checks
++
++| Item | Status | Evidence |
++|------|--------|----------|
++| Tests present | REVIEW | The check is the test and it passes (14 good, 6 broken, exit 0). It does not fail where it should in 8 of 14 places tried, and the "silent missing level" sample fails for the wrong reason (findings 1, 4). |
++| Commits are clean | REVIEW | All 7 are conventional (`feat`, `chore`), one concern each, all end `(#655)`. Three subjects pass 72 characters (finding 13). |
++| No secrets | PASS | Scan of added lines for key, token, password, bearer, private-key and common token prefixes found only the words "secret patterns" in a run record. The 64-character `sha256:` values in the samples are fingerprints, not secrets. No `.env`, key or certificate file names; no file over 500 lines; `git diff --check` is clean. |
++| Docs in step | REVIEW | The README covers all eleven commands, the errors, the tiers, the lookup order and both settled questions, and matches `v1.json` command for command. Gaps: the fingerprint claim (3), unstated field meanings (7), the older ADRs (11). |
++| Nothing obviously broken | REVIEW | The check exits 0 and the branch merges cleanly. The contract lets a silent missing level through (1), is silent on a lower level missing (2) and has two small holes (6). The #653 plan reads stale (12). |
++
++## Checklist from the analyze-pr quality rules
++
++Must-have
++
++| Rule | Trigger | Status | Evidence |
++|------|---------|--------|----------|
++| no-conflicts | always | PASS | `git merge-tree --write-tree origin/main HEAD` exit 0 |
++| no-secrets | always | PASS | pattern scan clean (above) |
++| config-valid | `*.yaml` changed (3 files) | PASS | `stories.yaml`, `analysis.yaml` and `commits.yaml` parse; all 24 JSON files parse (20 samples, `v1.json`, 3 run records) |
++| docs-consistent | `README.md` changed | REVIEW | README matches the contract command for command and error for error; the fingerprint claim overstates (finding 3) |
++| feat-documented | `feat:` commit | PASS | `core/tools/memory/README.md` documents the feature |
++
++Nice-to-have
++
++| Rule | Trigger | Status | Evidence |
++|------|---------|--------|----------|
++| docs-examples | `README.md` changed | PASS | README shows the check command and a `search --pattern` example |
++| feat-adr | `feat:` commit | PASS | ADR 035 is the decision this builds on |
++| config-documented | `*.yaml` changed | n/a | the changed YAML files are run records and a story list, not configuration |
++| deploy-components, agent, skill, play and ADR rules | not triggered | n/a | nothing under `core/components/`; no agent, skill, play or ADR file changed |
++
++Branch: `feature/*`, standard priorities, no branch modifiers. Disabled rules (`tests-pass`, `build-succeeds` and the like) skipped as the quality rules say.
++
++## What the PR description needs to say
++
++- It closes #655.
++- Size and make-up: 33 files, +1,549 / -0; 23 files and 1,294 lines are the tool folder (numbers above).
++- How to check it: `cd core/tools/memory && python3 contract/check_contract.py` (exit 0).
++- Eleven commands against the issue's nine, and why (finding 9).
++- The #653 plan note and the #654 stories comment ride on this branch on Kapil's word (finding 10).
++- The two settled questions and where they are recorded (finding 11).
++- What is carried to later stories: the person-versus-agent question to #658 (8), the tool's handling of a missing lower level to #657 (2).
++
++## Readiness
++
++- Ready to raise: yes
++- Blocking: 0
++- Non-blocking: 14
++- Review required: 7 checklist items marked REVIEW (matches the issue, no scope creep, tests present, commits are clean, docs in step, nothing obviously broken, docs-consistent)
++- Recommendation: Create PR. Findings 1, 3 and 12 are the ones most worth a quick direct edit before raising; the rest are Kapil's call or follow-ups.
++
++---
++
++## Appendix (machine-readable)
++
++```yaml
++self_review:
++  issue: 655
++  branch: feature/655-memory-tool-contract
++  base: origin/main
++  rules_file: ~/.garura/core/memory/standards/rules/self-review.md
++  rules_is_override: false
++  commits: 7
++  changes: {files: 33, additions: 1549, deletions: 0}
++  suggested_title: "feat(memory-tool): add the memory tool contract, version 1 (#655)"
++  check_run: {command: "cd core/tools/memory && python3 contract/check_contract.py", exit: 0, samples_checked: 14, broken_checked: 6, boundary_problems: 0}
++  ready: true
++  blocking: 0
++  non_blocking: 14
++  findings:
++    - {id: 1, blocking: false, rule: nothing-obviously-broken, path: "core/tools/memory/contract/v1.json; samples/broken/find-silent-missing-tier.json", what: "Empty answer with looked_in of two levels and answered_by null passes the contract; the broken sample fails only on looked_in minItems"}
++    - {id: 2, blocking: false, rule: nothing-obviously-broken, path: "core/tools/memory/contract/v1.json (settings, lookup_rule)", what: "Not stated whether a missing lower level errors when a higher level holds the answer; ADR 035 section 3 says lookup never blocks a play"}
++    - {id: 3, blocking: false, rule: docs-in-step, path: "core/tools/memory/contract/v1.json; README.md", what: "Only read (and cite sources) carry tier, file, lines and fingerprint; search hits and find matches carry no fingerprint; pull has no tier; README says every answer carries a fingerprint"}
++    - {id: 4, blocking: false, rule: tests-present, path: "core/tools/memory/contract/check_contract.py", what: "Mutation test: 8 of 14 deliberate breaks undetected (minLength, minimum, const, additionalProperties, oneOf exactly-one, response.command mismatch, forbidden-string scan, import scan); read fingerprint not checked against sha256 of text; error command and code lists not checked against commands and errors"}
++    - {id: 5, blocking: false, rule: nothing-obviously-broken, path: "core/tools/memory/contract/check_contract.py (check_boundary, FORBIDDEN)", what: "Three forbidden strings only; script exempt from its own scan; import regex misses multi-name lines, __import__, importlib; relative import reported as empty name; import scan silently off before Python 3.10"}
++    - {id: 6, blocking: false, rule: nothing-obviously-broken, path: "core/tools/memory/contract/v1.json ($defs/path); check_contract.py (validate)", what: "path pattern accepts a newline so 'a\\n../b' and trailing newline match; const true accepts 1"}
++    - {id: 7, blocking: false, rule: docs-in-step, path: "core/tools/memory/contract/v1.json; README.md", what: "glob and pattern dialects, answered_by under every_tier, tier plus every_tier, read end before start, and unknown command are not specified"}
++    - {id: 8, blocking: false, rule: matches-the-issue, path: "core/tools/memory/contract/v1.json (decide)", what: "decide cannot tell a person from an agent; carry to #658"}
++    - {id: 9, blocking: false, rule: matches-the-issue, path: "core/tools/memory/contract/v1.json", what: "Eleven commands against the issue's nine (health, pulled, decide added; go up a tier is the lookup order, not a command); plan's done list still shows nine"}
++    - {id: 10, blocking: false, rule: no-scope-creep, path: ".garura/project/issues/653/specs/plan.md; .garura/project/issues/654/specs/stories.yaml", what: "#653 plan note (b4238ee8) and a 5-line #654 stories comment ride on this branch; the stories comment is not named in the commit message"}
++    - {id: 11, blocking: false, rule: docs-in-step, path: "docs/adr/034-plays-answer-from-memory-inside-a-drive.md:54; docs/adr/035-agents-work-only-from-memory.md:131-133", what: "Settled questions recorded in README and plan only; ADR 034 still lists learned checkpoint answers as memory, ADR 035 still lists both as not decided; needs an /adr forward pointer or Kapil's word to leave it"}
++    - {id: 12, blocking: false, rule: nothing-obviously-broken, path: ".garura/project/issues/653/specs/plan.md", what: "Where-we-are-now says nothing built and once #654 lands; item 2 still marked now; #655 plan item 4 marks it done at landing"}
++    - {id: 13, blocking: false, rule: commits-are-clean, commits: ["1bde641a (96 chars)", "b4238ee8 (79 chars)", "c4638f4c (74 chars)"], what: "Subject longer than the 72-character limit in commits.md; history rewrite needs an explicit request"}
++    - {id: 14, blocking: false, rule: naming-clarity, path: "core/tools/memory/contract/v1.json", what: "version, contract_version and the commit-valued version field are three meanings of version; pull and pulled differ by one letter"}
++  checks:
++    no_conflicts: {status: PASS, evidence: "git merge-tree --write-tree origin/main HEAD exit 0"}
++    no_secrets: {status: PASS, evidence: "pattern scan of added lines clean; no sensitive file names; sha256 values in samples are fingerprints"}
++    config_valid: {status: PASS, evidence: "3 YAML files and 24 JSON files parse"}
++    docs_consistent: {status: REVIEW, evidence: "README matches contract; fingerprint claim overstates (finding 3)"}
++    feat_documented: PASS
++    docs_examples: PASS
++    feat_adr: PASS
++  analyze_pr:
++    branch: feature/655-memory-tool-contract
++    base: origin/main
++    branch_pattern: feature
++    commits: 7
++    changes: {files: 33, additions: 1549, deletions: 0}
++    context:
++      file_patterns_matched:
++        - {name: "code (*.py)", files: 1}
++        - {name: "documentation (*.md)", files: 3}
++        - {name: "configuration (*.yaml)", files: 3}
++        - {name: "data (*.json)", files: 24}
++        - {name: "text (*.txt)", files: 2}
++      commit_types: [{type: feat, count: 1}, {type: chore, count: 6}]
++      branch_modifiers: []
++    blocking_issues: []
++    ready: true
++    recommendation: "Create PR"
++```
+diff --git a/.garura/project/issues/655/context/work-description.txt b/.garura/project/issues/655/context/work-description.txt
+new file mode 100644
+index 00000000..28d8816c
+--- /dev/null
++++ b/.garura/project/issues/655/context/work-description.txt
+@@ -0,0 +1,20 @@
++Issue #655 — The memory tool has a written contract for finding and updating memory (Story; parent Feature #653; plan item 2; ADR 035).
++
++Write the one agreement between agents and the memory tool (ADR 035 §4): the commands to find
++memory (find files, search text, read exact lines, go up a tier, cite) and to update it (pull a
++piece into Garura memory, propose a memory update, list waiting updates, apply an approved
++one), what each returns, and its errors. Every result names its tier (short-term, Garura or
++Phoenix memory), file, lines and a fingerprint of the text. A missing tier is an error, never
++"nothing found". The lookup order is short-term, then Garura, then Phoenix memory, stopping at
++the first tier that answers (ADR 035 §3).
++
++Settle here: whether the learned checkpoint answers count as memory, and whether the files a
++play passes between its own steps (ADR 011) go through the tool or only memory lookups do.
++
++Also on this branch: the #653 plan update of 2026-10-18 (files ADR 035 names under Affects,
++folded into plan items 3, 8 and 10), carried from main.
++
++Done when: the contract file exists in the tool's own folder with a version number; sample
++answers for each command pass the contract's check, including an error for a missing tier;
++the lookup order is in the contract. Out of scope: building the tool (#657), Phoenix memory
++(#656). The tool's folder names no Garura path and imports no Garura code.
+diff --git a/.garura/project/issues/655/specs/plan.md b/.garura/project/issues/655/specs/plan.md
+new file mode 100644
+index 00000000..fe43145f
+--- /dev/null
++++ b/.garura/project/issues/655/specs/plan.md
+@@ -0,0 +1,87 @@
++---
++plan_for: 655
++kind: story
++serves: "#655 — the memory tool has a written contract for finding and updating memory"
++status: active
++updated: 2026-10-18
++now: 4
++serves_plan: 653
++serves_item: 2
++---
++
++# Plan — #655: the memory tool's contract
++
++This is a plan, not a design. It says what gets done, in what order, and why
++that order. How each item is built is decided in its own issue.
++
++## What we are trying to reach
++
++ADR 035 says agents find and update memory only through one command-line tool
++that searches the way Claude Code does, on folders now and on Griffin later.
++Nothing says yet what that tool's commands are, what they give back, or how
++they fail. This story writes that agreement down, so the tool (#657), Phoenix
++memory (#656), memory updates (#658) and citations (#659) all build against the
++same thing — and so moving to Griffin changes nothing on Garura's side.
++
++## When this plan is done
++
++- The contract sits in the tool's own folder (`core/tools/memory/`), with a
++  version number, and names no Garura path.
++- It lists the commands to find memory (find files, search text, read exact
++  lines, cite) and to update it (pull a piece into Garura memory, propose a
++  memory update, list waiting updates, apply an approved one), plus a health
++  command the install check (#660) can call.
++- Every result names its tier, file, lines and a fingerprint of the text.
++- The lookup order is in it: short-term, then Garura, then Phoenix memory,
++  stopping at the first tier that answers.
++- A missing tier is an error, never "nothing found".
++- Sample answers for every command, including that error, pass a check.
++
++## Where we are now
++
++The change is open on `feature/655-memory-tool-contract`. Kapil approved the
++plan and settled the two open questions. The contract, its samples and its
++check are built. Next: item 4, landing the change.
++
++## The plan, in order
++
++### Done
++
++- **1. Decided: the two open questions** — #655. Kapil, 2026-10-18 ("approve,
++  A, A"): (a) the learned checkpoint answers are **not** memory — they stay a
++  checkpoint tool; a person's answers to questions go into Garura memory
++  instead. (b) A play's own working files — the ones it passes between its
++  steps inside one run (ADR 011) — stay direct; only memory lookups go through
++  the tool, which can still find those files later as short-term memory.
++- **2. Built: the contract** — #655. `core/tools/memory/contract/v1.json`
++  (version 1) and its plain guide `core/tools/memory/README.md`: eleven
++  commands — health, find, search, read, cite, pull, pulled, propose, updates,
++  decide, apply — the three tiers, the lookup order, the errors, and every
++  result carrying tier, file, lines and fingerprint. Not merged yet.
++- **3. Built: sample answers and the check** — #655. 14 samples (every
++  command, a `tier_missing` and a `not_approved` error, and an empty answer that
++  cues a memory update) pass; 6 broken samples fail; the folder names no project
++  path. `python3 contract/check_contract.py` from the tool's folder. Not merged
++  yet.
++
++### 4. Land the change — now
++
++**Issue:** #655.
++**What:** commit, raise, review and merge; close #655; mark item 2 of the #653
++plan done.
++**Done when:** merged to main.
++**Needs:** item 3.
++
++## Log
++
++- 2026-10-18 — Created at the start of #655 from the issue, ADR 035 and the
++  feature plan. The tool's folder is `core/tools/memory/`, beside the other
++  tools, so it can move to Griffin as one folder.
++- 2026-10-18 — Kapil approved the plan: "approve, A, A". Learned checkpoint
++  answers are not memory; a play's own working files stay direct.
++- 2026-10-18 — Items 2 and 3 built: the contract (11 commands), 14 samples, 6 broken samples, the check (passes).
++- 2026-10-18 — The self-review found gaps, fixed before raising: a skipped tier
++  could pass as "nothing found"; search hits and pull lacked fingerprint or
++  tier; the check had no tests and missed a newline in a path and `1` as
++  `true`; the boundary scan was narrow. Now 15 samples, 12 broken samples, and
++  20 tests for the check.
+diff --git a/core/tools/memory/README.md b/core/tools/memory/README.md
+new file mode 100644
+index 00000000..b9273735
+--- /dev/null
++++ b/core/tools/memory/README.md
+@@ -0,0 +1,141 @@
++# Memory tool
++
++The one way agents find memory and update it. Today it works on folders. Later it calls a
++server in Griffin. Agents that call it do not change when that happens, because they only ever
++talk to this tool, through the contract in `contract/v1.json`.
++
++This folder holds the contract (version 1), sample answers and the check that keeps them in
++step. The tool itself is built against this contract in a later step.
++
++## The three tiers
++
++| Tier | What it holds |
++|---|---|
++| `short-term` | One issue's own memory: its plans, specs and context. |
++| `garura` | **Garura memory** — the project's long-term memory. It holds the part of Phoenix memory this project pulled, and what the project makes itself: its product model, intents, decisions and the person's answers. |
++| `phoenix` | **Phoenix memory** — the global memory, holding everything. Its own git repository until Griffin serves it. |
++
++The tool learns where each tier lives from its settings, never from a fixed path. A tier with
++no setting, or one it cannot reach, is an error (`tier_missing`) — never "nothing found".
++
++## The lookup order
++
++`find` and `search` look in **short-term**, then **Garura**, then **Phoenix** memory, and stop
++at the first tier that has an answer. So the lowest tier answers whenever it can, and Phoenix
++memory is reached only when the lower tiers have nothing. A lookup never stops a piece of work
++because the project has not pulled something yet: the tool goes a level up and finds it.
++
++- `tier` asks one tier only.
++- `every_tier` looks in all three and does not stop at the first answer. Asking for `tier` and
++  `every_tier` together is an error (`bad_request`).
++
++A lookup never skips a tier. If it reaches a tier with no setting, or one it cannot reach, it
++fails with `tier_missing`. "Never stops a piece of work" means a piece the project has not
++pulled is found a level up — not that a tier may be passed over.
++
++An empty answer — `answered_by: null`, no hits — means no tier holds it. That is the cue to
++raise a memory update. Agents never fill the gap from the model or the web on their own.
++
++## The commands
++
++Every request is a JSON object. On the command line its fields are the flags (`search --pattern
++"checkout" --max 20`); on a server they are the request body. Every answer is a JSON object
++with `ok`, `contract_version` and `command`.
++
++**Finding memory**
++
++| Command | What it does |
++|---|---|
++| `health` | Reports each tier: reachable or not, folder or server, and its version. The install check calls this. |
++| `find` | Finds files by name pattern, in the lookup order. |
++| `search` | Searches the text of files, in the lookup order, and returns each hit with its tier, file and line. |
++| `read` | Reads exact lines of one file and returns them with a fingerprint of the text. |
++| `cite` | Records a decision and the memory it rests on — tier, file, lines, fingerprint — in the issue's short-term memory. |
++
++**Updating memory**
++
++| Command | What it does |
++|---|---|
++| `pull` | Copies one piece of Phoenix memory into Garura memory and records the version it came from. |
++| `pulled` | Lists what Garura memory pulled, and whether Phoenix memory has moved on since. |
++| `propose` | Raises a memory update: what is missing, where it belongs, a drafted entry, and where the draft came from (`person`, `web`, `model` or `memory`). Nothing in it is used until a person approves it. |
++| `updates` | Lists memory updates, optionally only those with one status. |
++| `decide` | Records a person's word on a waiting update: approve or reject, who, and their exact reply. Only a person decides. |
++| `apply` | Writes an approved update to its tier — in Phoenix memory, as a commit. An update no one approved is refused (`not_approved`). |
++
++A memory update moves through `waiting` → `approved` or `rejected` → `applied`.
++
++## What every answer carries
++
++- **Every piece of text** the tool returns — from `read`, a `search` hit, a `cite` source —
++  carries its tier, file, lines and fingerprint. A file list from `find` carries tier, file and
++  version. `pull` names the tier it wrote to.
++- **Paths** are relative to the tier's root, use forward slashes, never start with a slash and
++  never contain `..`.
++- **Fingerprint** — `sha256:` and 64 hex characters, taken over the exact text returned or
++  cited. When a file changes, an old citation's fingerprint no longer matches, so a stale
++  answer can be seen.
++- **Version** — for Phoenix memory, the repository's commit. For the other tiers it may be
++  empty.
++
++## How a request reads
++
++- `glob` is shell-style: `*` within one folder, `**` at any depth, `?` one character.
++- `pattern` is an extended regular expression, as `grep -E` reads it — or plain text when
++  `fixed` is true.
++- `read` reads from `start` (default the first line) to `end` (default the last). `end` before
++  `start` is `bad_request`; lines outside the file are `out_of_range`.
++
++## The answer rules
++
++The check holds every sample to these, beyond its shape:
++
++- `looked_in` lists the tiers looked in, in the lookup order.
++- "Nothing found" (`answered_by: null`) only after every tier was looked in — or just the one
++  asked for. A shorter `looked_in` with nothing found is a silent skip, and fails.
++- Without `every_tier`, the lookup stops at the first tier that answers, and every result comes
++  from that tier.
++- A fingerprint is the sha256 of the exact text it travels with.
++
++## Errors
++
++| Code | When |
++|---|---|
++| `settings_missing` | The tool has no settings at all. |
++| `tier_missing` | A tier has no setting or cannot be reached. |
++| `bad_request` | The request does not match the contract. |
++| `not_found` | The file or update named does not exist. |
++| `out_of_range` | The lines asked for are outside the file. |
++| `not_approved` | `apply` on an update no person approved. |
++| `changed` | The target changed after the update was proposed. |
++
++## What is not memory
++
++- **Learned checkpoint answers.** The record of past checkpoint approvals is a checkpoint
++  tool, not memory. It holds "approved or not" for a kind of change and cannot answer a
++  question. A person's answers to questions are kept in Garura memory instead.
++- **A play's own working files.** The files a play hands from one of its steps to the next,
++  inside one run, are read and written directly. Only memory lookups go through the tool. The
++  tool can still find those files later, as short-term memory.
++
++## Rules for this folder
++
++- Nothing here names a path inside a project or imports code from outside the folder, so the
++  folder can move to Griffin as it is.
++- Python standard library only, Python 3.10 or newer. No installs.
++- The contract changes only by a new version. Version 1 is `contract/v1.json`.
++
++## Checking the contract
++
++From this folder:
++
++```
++python3 contract/check_contract.py
++python3 contract/test_check_contract.py
++```
++
++The first checks every sample in `contract/samples/` against the contract's shapes and its
++answer rules, checks that every sample in `contract/samples/broken/` fails, and checks the
++folder's boundary: no path into a project, the framework's source or a home folder, and no
++import from outside the standard library or the folder. It prints a JSON report and exits 0
++when all hold. The second tests the check itself. Both need Python 3.10 or newer.
+diff --git a/core/tools/memory/contract/check_contract.py b/core/tools/memory/contract/check_contract.py
+new file mode 100644
+index 00000000..6500450a
+--- /dev/null
++++ b/core/tools/memory/contract/check_contract.py
+@@ -0,0 +1,275 @@
++#!/usr/bin/env python3
++"""
++check_contract.py — keep the memory tool's contract, its samples and its folder in step.
++
++    python3 contract/check_contract.py [--contract contract/v1.json]
++
++Four checks, all from this folder alone (standard library only, Python 3.10 or newer):
++  1. every sample in samples/ matches the contract: its request against the
++     command's request shape, its response against the command's response shape;
++  2. every sample also keeps the contract's answer rules (answer_rules): no tier
++     is skipped silently, the first answer stops the lookup, results come from
++     tiers looked in, and a fingerprint is the sha256 of the text it travels with;
++  3. every sample in samples/broken/ fails at least one of those;
++  4. the boundary: no file in the tool's folder names a path inside a project, the
++     framework's source tree or a home folder, and no Python file imports from
++     outside the standard library or the folder.
++
++Prints a JSON report. Exit 0 when all hold, 1 when any fails, 2 on a usage error.
++
++The contract is written in a subset of JSON Schema (2020-12): type, const, enum,
++properties, required, additionalProperties, items, minItems, minLength, minimum,
++pattern, oneOf and local $ref. This file validates exactly that subset. Its own
++tests are in test_check_contract.py.
++"""
++
++import argparse
++import ast
++import hashlib
++import json
++import os
++import re
++import sys
++
++HERE = os.path.dirname(os.path.abspath(__file__))
++TOOL = os.path.dirname(HERE)
++
++# Strings that would tie the folder to one project's layout, the framework's source
++# tree, or one machine. Built from parts so this file does not trip its own scan.
++FORBIDDEN = tuple("".join(parts) for parts in (
++    (".", "garura"), (".", "claude/"), ("core/", "components"), ("core/", "grounding"),
++    ("docs/", "adr"), ("/", "Users/"), ("/", "home/"),
++))
++
++TYPES = {
++    "object": lambda v: isinstance(v, dict),
++    "array": lambda v: isinstance(v, list),
++    "string": lambda v: isinstance(v, str),
++    "integer": lambda v: isinstance(v, int) and not isinstance(v, bool),
++    "boolean": lambda v: isinstance(v, bool),
++    "null": lambda v: v is None,
++}
++
++
++def same(a, b):
++    """JSON equality: true is not 1, and 1 is not true."""
++    if isinstance(a, bool) or isinstance(b, bool):
++        return isinstance(a, bool) and isinstance(b, bool) and a == b
++    return type(a) is type(b) and a == b if isinstance(a, (int, float, str)) else a == b
++
++
++def resolve(ref, root):
++    if not ref.startswith("#/"):
++        raise ValueError(f"only local $ref is supported: {ref}")
++    node = root
++    for part in ref[2:].split("/"):
++        node = node[part]
++    return node
++
++
++def validate(value, schema, root, where="$"):
++    """Return a list of problems; empty means the value matches."""
++    if "$ref" in schema:
++        return validate(value, resolve(schema["$ref"], root), root, where)
++    problems = []
++    if "oneOf" in schema:
++        passing = [s for s in schema["oneOf"] if not validate(value, s, root, where)]
++        if len(passing) != 1:
++            problems.append(f"{where}: matches {len(passing)} of the oneOf shapes, needs exactly 1")
++        return problems
++    if "const" in schema and not same(value, schema["const"]):
++        problems.append(f"{where}: must be {schema['const']!r}")
++    if "enum" in schema and not any(same(value, e) for e in schema["enum"]):
++        problems.append(f"{where}: {value!r} is not one of {schema['enum']}")
++    if "type" in schema:
++        kinds = schema["type"] if isinstance(schema["type"], list) else [schema["type"]]
++        if not any(TYPES[k](value) for k in kinds):
++            problems.append(f"{where}: must be {' or '.join(kinds)}")
++            return problems
++    if isinstance(value, dict):
++        props = schema.get("properties", {})
++        for key in schema.get("required", []):
++            if key not in value:
++                problems.append(f"{where}: missing {key!r}")
++        if schema.get("additionalProperties") is False:
++            for key in value:
++                if key not in props:
++                    problems.append(f"{where}: unexpected {key!r}")
++        for key, sub in props.items():
++            if key in value:
++                problems += validate(value[key], sub, root, f"{where}.{key}")
++    if isinstance(value, list):
++        if len(value) < schema.get("minItems", 0):
++            problems.append(f"{where}: needs at least {schema['minItems']} items")
++        if "items" in schema:
++            for i, item in enumerate(value):
++                problems += validate(item, schema["items"], root, f"{where}[{i}]")
++    if isinstance(value, str):
++        if len(value) < schema.get("minLength", 0):
++            problems.append(f"{where}: too short")
++        if "pattern" in schema and not re.search(schema["pattern"], value):
++            problems.append(f"{where}: {value!r} does not match {schema['pattern']}")
++    if TYPES["integer"](value) and "minimum" in schema and value < schema["minimum"]:
++        problems.append(f"{where}: below {schema['minimum']}")
++    return problems
++
++
++def fingerprint(text):
++    return "sha256:" + hashlib.sha256(text.encode("utf-8")).hexdigest()
++
++
++def check_meaning(sample, contract):
++    """The contract's answer_rules, which a shape alone cannot express."""
++    request, response = sample.get("request", {}), sample.get("response", {})
++    if not isinstance(response, dict) or response.get("ok") is not True:
++        return []
++    problems = []
++    order = contract["lookup_order"]
++    if response.get("command") in ("find", "search"):
++        looked, answered = response.get("looked_in", []), response.get("answered_by")
++        asked, every = request.get("tier"), request.get("every_tier") is True
++        expected_all = [asked] if asked else order
++        if [t for t in order if t in looked] != looked:
++            problems.append("looked_in is not in lookup order")
++        if answered is None and looked != expected_all:
++            problems.append(f"nothing found after looking in {looked}, not {expected_all}: a tier was skipped")
++        if answered is not None and not every and looked and looked[-1] != answered:
++            problems.append(f"the lookup went on past {answered!r}, the first tier that answered")
++        results = response.get("hits", response.get("matches", []))
++        for r in results:
++            if r.get("tier") not in looked:
++                problems.append(f"a result comes from {r.get('tier')!r}, which is not in looked_in")
++            elif not every and r.get("tier") != answered:
++                problems.append(f"a result comes from {r.get('tier')!r}, not the tier that answered")
++        for h in response.get("hits", []):
++            if "text" in h and "fingerprint" in h and h["fingerprint"] != fingerprint(h["text"]):
++                problems.append(f"hit {h.get('path')}:{h.get('line')} fingerprint is not the sha256 of its text")
++    if response.get("command") == "read" and "text" in response and "fingerprint" in response:
++        if response["fingerprint"] != fingerprint(response["text"]):
++            problems.append("read fingerprint is not the sha256 of its text")
++    if request.get("tier") and request.get("every_tier") and response.get("ok") is True:
++        problems.append("tier with every_tier must be bad_request, not an answer")
++    return problems
++
++
++def check_sample(sample, contract):
++    """Problems with one sample file's content."""
++    command = sample.get("command")
++    spec = contract["commands"].get(command)
++    if spec is None:
++        return [f"unknown command {command!r}"]
++    if "request" not in sample or "response" not in sample:
++        return ["a sample needs both request and response"]
++    problems = []
++    problems += validate(sample["request"], spec["request"], contract, "request")
++    problems += validate(sample["response"], spec["response"], contract, "response")
++    response = sample["response"]
++    if isinstance(response, dict) and response.get("command") != command:
++        problems.append(f"response.command is {response.get('command')!r}, sample is for {command!r}")
++    if not problems:
++        problems += check_meaning(sample, contract)
++    return problems
++
++
++def load(path):
++    with open(path, encoding="utf-8") as fh:
++        return json.load(fh)
++
++
++def samples_in(folder):
++    if not os.path.isdir(folder):
++        return []
++    return sorted(os.path.join(folder, f) for f in os.listdir(folder) if f.endswith(".json"))
++
++
++def check_imports(text, rel, stdlib, local):
++    """Problems with one Python file's imports, read from its syntax tree."""
++    problems = []
++    try:
++        tree = ast.parse(text)
++    except SyntaxError as exc:
++        return [f"{rel}: cannot be parsed ({exc.msg})"]
++    for node in ast.walk(tree):
++        names = []
++        if isinstance(node, ast.Import):
++            names = [a.name for a in node.names]
++        elif isinstance(node, ast.ImportFrom) and node.level == 0 and node.module:
++            names = [node.module]
++        for name in names:
++            top = name.split(".")[0]
++            if top not in stdlib and top not in local:
++                problems.append(f"{rel}: imports {top!r}, not standard library or this folder")
++        if isinstance(node, ast.Call):
++            fn = node.func
++            called = fn.id if isinstance(fn, ast.Name) else fn.attr if isinstance(fn, ast.Attribute) else ""
++            if called in ("__import__", "import_module"):
++                problems.append(f"{rel}: imports by name at run time ({called}), which this check cannot follow")
++    return problems
++
++
++def check_boundary(root=TOOL):
++    """Problems that tie the folder to a project, a machine, or code outside it."""
++    stdlib = getattr(sys, "stdlib_module_names", None)
++    if stdlib is None:
++        return ["the boundary check needs Python 3.10 or newer to know the standard library"]
++    problems = []
++    local = {os.path.splitext(f)[0] for _, _, files in os.walk(root) for f in files if f.endswith(".py")}
++    for dirpath, dirnames, files in os.walk(root):
++        dirnames[:] = [d for d in dirnames if d != "__pycache__"]
++        for name in files:
++            path = os.path.join(dirpath, name)
++            rel = os.path.relpath(path, root)
++            try:
++                with open(path, encoding="utf-8") as fh:
++                    text = fh.read()
++            except (UnicodeDecodeError, OSError):
++                continue
++            for needle in FORBIDDEN:
++                if needle in text:
++                    problems.append(f"{rel}: names {needle!r}")
++            if name.endswith(".py"):
++                problems += check_imports(text, rel, set(stdlib), local)
++    return problems
++
++
++def main(argv=None):
++    ap = argparse.ArgumentParser(description=__doc__.splitlines()[1])
++    ap.add_argument("--contract", default=os.path.join(HERE, "v1.json"))
++    ns = ap.parse_args(argv)
++    try:
++        contract = load(ns.contract)
++    except (OSError, json.JSONDecodeError) as exc:
++        print(json.dumps({"ok": False, "error": f"cannot read the contract: {exc}"}))
++        return 2
++
++    good, broken = {}, {}
++    for path in samples_in(os.path.join(HERE, "samples")):
++        good[os.path.basename(path)] = check_sample(load(path), contract)
++    for path in samples_in(os.path.join(HERE, "samples", "broken")):
++        broken[os.path.basename(path)] = check_sample(load(path), contract)
++
++    covered = {load(p).get("command") for p in samples_in(os.path.join(HERE, "samples"))}
++    uncovered = sorted(set(contract["commands"]) - covered)
++    good_failed = {k: v for k, v in good.items() if v}
++    broken_passed = sorted(k for k, v in broken.items() if not v)
++    boundary = check_boundary()
++
++    ok = not good_failed and not broken_passed and not uncovered and bool(broken) and not boundary
++    report = {
++        "ok": ok,
++        "contract": os.path.relpath(ns.contract, TOOL),
++        "contract_version": contract.get("contract_version"),
++        "samples_checked": len(good),
++        "samples_failed": good_failed,
++        "commands_without_a_sample": uncovered,
++        "broken_checked": len(broken),
++        "broken_that_passed": broken_passed,
++        "broken_reasons": {k: v[:2] for k, v in broken.items() if v},
++        "boundary_problems": boundary,
++    }
++    print(json.dumps(report, indent=2))
++    return 0 if ok else 1
++
++
++if __name__ == "__main__":
++    sys.exit(main())
+diff --git a/core/tools/memory/contract/samples/apply-not-approved.json b/core/tools/memory/contract/samples/apply-not-approved.json
+new file mode 100644
+index 00000000..7b1fc2e8
+--- /dev/null
++++ b/core/tools/memory/contract/samples/apply-not-approved.json
+@@ -0,0 +1,16 @@
++{
++  "command": "apply",
++  "request": {
++    "id": "mu-20261018-002"
++  },
++  "response": {
++    "ok": false,
++    "contract_version": "1",
++    "command": "apply",
++    "error": {
++      "code": "not_approved",
++      "message": "Memory update mu-20261018-002 is waiting; a person must approve it first.",
++      "tier": null
++    }
++  }
++}
+diff --git a/core/tools/memory/contract/samples/apply.json b/core/tools/memory/contract/samples/apply.json
+new file mode 100644
+index 00000000..812ca7fa
+--- /dev/null
++++ b/core/tools/memory/contract/samples/apply.json
+@@ -0,0 +1,34 @@
++{
++  "command": "apply",
++  "request": {
++    "id": "mu-20261018-001"
++  },
++  "response": {
++    "ok": true,
++    "contract_version": "1",
++    "command": "apply",
++    "update": {
++      "id": "mu-20261018-001",
++      "status": "applied",
++      "issue": 613,
++      "missing": "Which payment providers the shop must support at launch.",
++      "target_tier": "garura",
++      "target_path": "product-os/decisions/payment-providers.md",
++      "draft": "Launch with card payments only; add wallets after the first month.",
++      "draft_source": "person",
++      "sources": [],
++      "requested_by": "product-os-keeper (/vision)",
++      "requested_at": "2026-10-18T09:12:00Z",
++      "decided_by": "Kapil Viren Ahuja",
++      "reply": "approve — cards only at launch",
++      "decided_at": "2026-10-18T09:20:00Z",
++      "applied_version": null
++    },
++    "written": {
++      "tier": "garura",
++      "path": "product-os/decisions/payment-providers.md",
++      "version": null,
++      "fingerprint": "sha256:8762286eb08cff190ab8033f935ea9fc13f4ff302c5c107962d78c1a03c9a265"
++    }
++  }
++}
+diff --git a/core/tools/memory/contract/samples/broken/apply-written-to-short-term.json b/core/tools/memory/contract/samples/broken/apply-written-to-short-term.json
+new file mode 100644
+index 00000000..b4d4ea4f
+--- /dev/null
++++ b/core/tools/memory/contract/samples/broken/apply-written-to-short-term.json
+@@ -0,0 +1,34 @@
++{
++  "command": "apply",
++  "request": {
++    "id": "mu-20261018-001"
++  },
++  "response": {
++    "ok": true,
++    "contract_version": "1",
++    "command": "apply",
++    "update": {
++      "id": "mu-20261018-001",
++      "status": "applied",
++      "issue": 613,
++      "missing": "Which payment providers the shop must support at launch.",
++      "target_tier": "garura",
++      "target_path": "product-os/decisions/payment-providers.md",
++      "draft": "Launch with card payments only; add wallets after the first month.",
++      "draft_source": "person",
++      "sources": [],
++      "requested_by": "product-os-keeper (/vision)",
++      "requested_at": "2026-10-18T09:12:00Z",
++      "decided_by": "Kapil Viren Ahuja",
++      "reply": "approve — cards only at launch",
++      "decided_at": "2026-10-18T09:20:00Z",
++      "applied_version": null
++    },
++    "written": {
++      "tier": "short-term",
++      "path": "product-os/decisions/payment-providers.md",
++      "version": null,
++      "fingerprint": "sha256:8762286eb08cff190ab8033f935ea9fc13f4ff302c5c107962d78c1a03c9a265"
++    }
++  }
++}
+diff --git a/core/tools/memory/contract/samples/broken/cite-absolute-path.json b/core/tools/memory/contract/samples/broken/cite-absolute-path.json
+new file mode 100644
+index 00000000..9fa46852
+--- /dev/null
++++ b/core/tools/memory/contract/samples/broken/cite-absolute-path.json
+@@ -0,0 +1,28 @@
++{
++  "command": "cite",
++  "request": {
++    "issue": 613,
++    "question": "Should first-time buyers be able to check out without an account?",
++    "answer": "Yes: guest checkout is a capability of the checkout domain.",
++    "decided_by": "product-os-keeper (/vision)",
++    "sources": [
++      {
++        "tier": "phoenix",
++        "path": "/abs/knowledge/domains/ecommerce.md",
++        "start": 41,
++        "end": 42,
++        "fingerprint": "sha256:439488cbd9d31c20d53491c785753dc71b74fc5354297825119037d5a597de0f"
++      }
++    ]
++  },
++  "response": {
++    "ok": true,
++    "contract_version": "1",
++    "command": "cite",
++    "citation_id": "cite-20261018-001",
++    "stored": {
++      "tier": "short-term",
++      "path": "613/context/citations.jsonl"
++    }
++  }
++}
+diff --git a/core/tools/memory/contract/samples/broken/find-silent-missing-tier.json b/core/tools/memory/contract/samples/broken/find-silent-missing-tier.json
+new file mode 100644
+index 00000000..a3333825
+--- /dev/null
++++ b/core/tools/memory/contract/samples/broken/find-silent-missing-tier.json
+@@ -0,0 +1,14 @@
++{
++  "command": "find",
++  "request": {
++    "glob": "product-os/**/capability.md"
++  },
++  "response": {
++    "ok": true,
++    "contract_version": "1",
++    "command": "find",
++    "looked_in": [],
++    "answered_by": null,
++    "matches": []
++  }
++}
+diff --git a/core/tools/memory/contract/samples/broken/health-ok-as-number.json b/core/tools/memory/contract/samples/broken/health-ok-as-number.json
+new file mode 100644
+index 00000000..7ef9b540
+--- /dev/null
++++ b/core/tools/memory/contract/samples/broken/health-ok-as-number.json
+@@ -0,0 +1,29 @@
++{
++  "command": "health",
++  "request": {},
++  "response": {
++    "ok": 1,
++    "contract_version": "1",
++    "command": "health",
++    "tiers": [
++      {
++        "tier": "short-term",
++        "reachable": true,
++        "kind": "folder",
++        "version": null
++      },
++      {
++        "tier": "garura",
++        "reachable": true,
++        "kind": "folder",
++        "version": null
++      },
++      {
++        "tier": "phoenix",
++        "reachable": true,
++        "kind": "folder",
++        "version": "4f1c2e9a7b3d"
++      }
++    ]
++  }
++}
+diff --git a/core/tools/memory/contract/samples/broken/propose-unknown-draft-source.json b/core/tools/memory/contract/samples/broken/propose-unknown-draft-source.json
+new file mode 100644
+index 00000000..c8ff98a7
+--- /dev/null
++++ b/core/tools/memory/contract/samples/broken/propose-unknown-draft-source.json
+@@ -0,0 +1,35 @@
++{
++  "command": "propose",
++  "request": {
++    "issue": 613,
++    "missing": "Which payment providers the shop must support at launch.",
++    "target_tier": "garura",
++    "target_path": "product-os/decisions/payment-providers.md",
++    "draft": "Launch with card payments only; add wallets after the first month.",
++    "draft_source": "llm",
++    "sources": [],
++    "requested_by": "product-os-keeper (/vision)"
++  },
++  "response": {
++    "ok": true,
++    "contract_version": "1",
++    "command": "propose",
++    "update": {
++      "id": "mu-20261018-001",
++      "status": "waiting",
++      "issue": 613,
++      "missing": "Which payment providers the shop must support at launch.",
++      "target_tier": "garura",
++      "target_path": "product-os/decisions/payment-providers.md",
++      "draft": "Launch with card payments only; add wallets after the first month.",
++      "draft_source": "person",
++      "sources": [],
++      "requested_by": "product-os-keeper (/vision)",
++      "requested_at": "2026-10-18T09:12:00Z",
++      "decided_by": null,
++      "reply": null,
++      "decided_at": null,
++      "applied_version": null
++    }
++  }
++}
+diff --git a/core/tools/memory/contract/samples/broken/read-path-with-newline.json b/core/tools/memory/contract/samples/broken/read-path-with-newline.json
+new file mode 100644
+index 00000000..fc1ff2ac
+--- /dev/null
++++ b/core/tools/memory/contract/samples/broken/read-path-with-newline.json
+@@ -0,0 +1,21 @@
++{
++  "command": "read",
++  "request": {
++    "tier": "phoenix",
++    "path": "a\n../b",
++    "start": 41,
++    "end": 42
++  },
++  "response": {
++    "ok": true,
++    "contract_version": "1",
++    "command": "read",
++    "tier": "phoenix",
++    "path": "knowledge/domains/ecommerce.md",
++    "start": 41,
++    "end": 42,
++    "text": "## Checkout\n- Guest checkout lowers drop-off for first-time buyers.",
++    "fingerprint": "sha256:439488cbd9d31c20d53491c785753dc71b74fc5354297825119037d5a597de0f",
++    "version": "4f1c2e9a7b3d"
++  }
++}
+diff --git a/core/tools/memory/contract/samples/broken/read-without-fingerprint.json b/core/tools/memory/contract/samples/broken/read-without-fingerprint.json
+new file mode 100644
+index 00000000..0fd70769
+--- /dev/null
++++ b/core/tools/memory/contract/samples/broken/read-without-fingerprint.json
+@@ -0,0 +1,20 @@
++{
++  "command": "read",
++  "request": {
++    "tier": "phoenix",
++    "path": "knowledge/domains/ecommerce.md",
++    "start": 41,
++    "end": 42
++  },
++  "response": {
++    "ok": true,
++    "contract_version": "1",
++    "command": "read",
++    "tier": "phoenix",
++    "path": "knowledge/domains/ecommerce.md",
++    "start": 41,
++    "end": 42,
++    "text": "## Checkout\n- Guest checkout lowers drop-off for first-time buyers.",
++    "version": "4f1c2e9a7b3d"
++  }
++}
+diff --git a/core/tools/memory/contract/samples/broken/read-wrong-fingerprint.json b/core/tools/memory/contract/samples/broken/read-wrong-fingerprint.json
+new file mode 100644
+index 00000000..57fbf34f
+--- /dev/null
++++ b/core/tools/memory/contract/samples/broken/read-wrong-fingerprint.json
+@@ -0,0 +1,21 @@
++{
++  "command": "read",
++  "request": {
++    "tier": "phoenix",
++    "path": "knowledge/domains/ecommerce.md",
++    "start": 41,
++    "end": 42
++  },
++  "response": {
++    "ok": true,
++    "contract_version": "1",
++    "command": "read",
++    "tier": "phoenix",
++    "path": "knowledge/domains/ecommerce.md",
++    "start": 41,
++    "end": 42,
++    "text": "## Checkout\n- Guest checkout lowers drop-off for first-time buyers.",
++    "fingerprint": "sha256:c08f2787f00de82881987c0b79f48be91fd0e123a3a4fc74344eb84ea52623ae",
++    "version": "4f1c2e9a7b3d"
++  }
++}
+diff --git a/core/tools/memory/contract/samples/broken/search-skipped-a-tier.json b/core/tools/memory/contract/samples/broken/search-skipped-a-tier.json
+new file mode 100644
+index 00000000..5ff00a6f
+--- /dev/null
++++ b/core/tools/memory/contract/samples/broken/search-skipped-a-tier.json
+@@ -0,0 +1,19 @@
++{
++  "command": "search",
++  "request": {
++    "pattern": "payment providers at launch",
++    "fixed": true
++  },
++  "response": {
++    "ok": true,
++    "contract_version": "1",
++    "command": "search",
++    "looked_in": [
++      "short-term",
++      "garura"
++    ],
++    "answered_by": null,
++    "hits": [],
++    "truncated": false
++  }
++}
+diff --git a/core/tools/memory/contract/samples/broken/search-tier-with-every-tier.json b/core/tools/memory/contract/samples/broken/search-tier-with-every-tier.json
+new file mode 100644
+index 00000000..f16606ed
+--- /dev/null
++++ b/core/tools/memory/contract/samples/broken/search-tier-with-every-tier.json
+@@ -0,0 +1,19 @@
++{
++  "command": "search",
++  "request": {
++    "pattern": "checkout",
++    "tier": "garura",
++    "every_tier": true
++  },
++  "response": {
++    "ok": true,
++    "contract_version": "1",
++    "command": "search",
++    "looked_in": [
++      "garura"
++    ],
++    "answered_by": null,
++    "hits": [],
++    "truncated": false
++  }
++}
+diff --git a/core/tools/memory/contract/samples/broken/search-unknown-tier.json b/core/tools/memory/contract/samples/broken/search-unknown-tier.json
+new file mode 100644
+index 00000000..61eeea68
+--- /dev/null
++++ b/core/tools/memory/contract/samples/broken/search-unknown-tier.json
+@@ -0,0 +1,27 @@
++{
++  "command": "search",
++  "request": {
++    "pattern": "checkout",
++    "tier": "project"
++  },
++  "response": {
++    "ok": true,
++    "contract_version": "1",
++    "command": "search",
++    "looked_in": [
++      "short-term",
++      "garura",
++      "phoenix"
++    ],
++    "answered_by": "phoenix",
++    "hits": [
++      {
++        "tier": "phoenix",
++        "path": "knowledge/domains/ecommerce.md",
++        "line": 42,
++        "text": "- Guest checkout lowers drop-off for first-time buyers."
++      }
++    ],
++    "truncated": false
++  }
++}
+diff --git a/core/tools/memory/contract/samples/broken/search-went-past-first-answer.json b/core/tools/memory/contract/samples/broken/search-went-past-first-answer.json
+new file mode 100644
+index 00000000..340a8331
+--- /dev/null
++++ b/core/tools/memory/contract/samples/broken/search-went-past-first-answer.json
+@@ -0,0 +1,29 @@
++{
++  "command": "search",
++  "request": {
++    "pattern": "guest checkout",
++    "ignore_case": true,
++    "max": 20
++  },
++  "response": {
++    "ok": true,
++    "contract_version": "1",
++    "command": "search",
++    "looked_in": [
++      "short-term",
++      "garura",
++      "phoenix"
++    ],
++    "answered_by": "garura",
++    "hits": [
++      {
++        "tier": "garura",
++        "path": "knowledge/domains/ecommerce.md",
++        "line": 42,
++        "text": "- Guest checkout lowers drop-off for first-time buyers.",
++        "fingerprint": "sha256:95467362ff686f366cdb0d03b3a49b37f0e777b1f58e744f73019bf7014facae"
++      }
++    ],
++    "truncated": false
++  }
++}
+diff --git a/core/tools/memory/contract/samples/cite.json b/core/tools/memory/contract/samples/cite.json
+new file mode 100644
+index 00000000..1610285b
+--- /dev/null
++++ b/core/tools/memory/contract/samples/cite.json
+@@ -0,0 +1,28 @@
++{
++  "command": "cite",
++  "request": {
++    "issue": 613,
++    "question": "Should first-time buyers be able to check out without an account?",
++    "answer": "Yes: guest checkout is a capability of the checkout domain.",
++    "decided_by": "product-os-keeper (/vision)",
++    "sources": [
++      {
++        "tier": "phoenix",
++        "path": "knowledge/domains/ecommerce.md",
++        "start": 41,
++        "end": 42,
++        "fingerprint": "sha256:439488cbd9d31c20d53491c785753dc71b74fc5354297825119037d5a597de0f"
++      }
++    ]
++  },
++  "response": {
++    "ok": true,
++    "contract_version": "1",
++    "command": "cite",
++    "citation_id": "cite-20261018-001",
++    "stored": {
++      "tier": "short-term",
++      "path": "613/context/citations.jsonl"
++    }
++  }
++}
+diff --git a/core/tools/memory/contract/samples/decide.json b/core/tools/memory/contract/samples/decide.json
+new file mode 100644
+index 00000000..1aa43747
+--- /dev/null
++++ b/core/tools/memory/contract/samples/decide.json
+@@ -0,0 +1,31 @@
++{
++  "command": "decide",
++  "request": {
++    "id": "mu-20261018-001",
++    "verdict": "approve",
++    "by": "Kapil Viren Ahuja",
++    "reply": "approve — cards only at launch"
++  },
++  "response": {
++    "ok": true,
++    "contract_version": "1",
++    "command": "decide",
++    "update": {
++      "id": "mu-20261018-001",
++      "status": "approved",
++      "issue": 613,
++      "missing": "Which payment providers the shop must support at launch.",
++      "target_tier": "garura",
++      "target_path": "product-os/decisions/payment-providers.md",
++      "draft": "Launch with card payments only; add wallets after the first month.",
++      "draft_source": "person",
++      "sources": [],
++      "requested_by": "product-os-keeper (/vision)",
++      "requested_at": "2026-10-18T09:12:00Z",
++      "decided_by": "Kapil Viren Ahuja",
++      "reply": "approve — cards only at launch",
++      "decided_at": "2026-10-18T09:20:00Z",
++      "applied_version": null
++    }
++  }
++}
+diff --git a/core/tools/memory/contract/samples/find.json b/core/tools/memory/contract/samples/find.json
+new file mode 100644
+index 00000000..eab888e5
+--- /dev/null
++++ b/core/tools/memory/contract/samples/find.json
+@@ -0,0 +1,23 @@
++{
++  "command": "find",
++  "request": {
++    "glob": "product-os/**/capability.md"
++  },
++  "response": {
++    "ok": true,
++    "contract_version": "1",
++    "command": "find",
++    "looked_in": [
++      "short-term",
++      "garura"
++    ],
++    "answered_by": "garura",
++    "matches": [
++      {
++        "tier": "garura",
++        "path": "product-os/checkout/checkout/capability.md",
++        "version": null
++      }
++    ]
++  }
++}
+diff --git a/core/tools/memory/contract/samples/health.json b/core/tools/memory/contract/samples/health.json
+new file mode 100644
+index 00000000..c1ef0def
+--- /dev/null
++++ b/core/tools/memory/contract/samples/health.json
+@@ -0,0 +1,29 @@
++{
++  "command": "health",
++  "request": {},
++  "response": {
++    "ok": true,
++    "contract_version": "1",
++    "command": "health",
++    "tiers": [
++      {
++        "tier": "short-term",
++        "reachable": true,
++        "kind": "folder",
++        "version": null
++      },
++      {
++        "tier": "garura",
++        "reachable": true,
++        "kind": "folder",
++        "version": null
++      },
++      {
++        "tier": "phoenix",
++        "reachable": true,
++        "kind": "folder",
++        "version": "4f1c2e9a7b3d"
++      }
++    ]
++  }
++}
+diff --git a/core/tools/memory/contract/samples/propose.json b/core/tools/memory/contract/samples/propose.json
+new file mode 100644
+index 00000000..43b39852
+--- /dev/null
++++ b/core/tools/memory/contract/samples/propose.json
+@@ -0,0 +1,35 @@
++{
++  "command": "propose",
++  "request": {
++    "issue": 613,
++    "missing": "Which payment providers the shop must support at launch.",
++    "target_tier": "garura",
++    "target_path": "product-os/decisions/payment-providers.md",
++    "draft": "Launch with card payments only; add wallets after the first month.",
++    "draft_source": "person",
++    "sources": [],
++    "requested_by": "product-os-keeper (/vision)"
++  },
++  "response": {
++    "ok": true,
++    "contract_version": "1",
++    "command": "propose",
++    "update": {
++      "id": "mu-20261018-001",
++      "status": "waiting",
++      "issue": 613,
++      "missing": "Which payment providers the shop must support at launch.",
++      "target_tier": "garura",
++      "target_path": "product-os/decisions/payment-providers.md",
++      "draft": "Launch with card payments only; add wallets after the first month.",
++      "draft_source": "person",
++      "sources": [],
++      "requested_by": "product-os-keeper (/vision)",
++      "requested_at": "2026-10-18T09:12:00Z",
++      "decided_by": null,
++      "reply": null,
++      "decided_at": null,
++      "applied_version": null
++    }
++  }
++}
+diff --git a/core/tools/memory/contract/samples/pull.json b/core/tools/memory/contract/samples/pull.json
+new file mode 100644
+index 00000000..dfc36450
+--- /dev/null
++++ b/core/tools/memory/contract/samples/pull.json
+@@ -0,0 +1,15 @@
++{
++  "command": "pull",
++  "request": {
++    "path": "knowledge/domains/ecommerce.md"
++  },
++  "response": {
++    "ok": true,
++    "contract_version": "1",
++    "command": "pull",
++    "tier": "garura",
++    "path": "knowledge/domains/ecommerce.md",
++    "version": "4f1c2e9a7b3d",
++    "fingerprint": "sha256:ca4a87aecb3c9a09f40795c2998f224896bca45f509f5309815b01c7790c51e5"
++  }
++}
+diff --git a/core/tools/memory/contract/samples/pulled.json b/core/tools/memory/contract/samples/pulled.json
+new file mode 100644
+index 00000000..e9e7bd82
+--- /dev/null
++++ b/core/tools/memory/contract/samples/pulled.json
+@@ -0,0 +1,19 @@
++{
++  "command": "pulled",
++  "request": {
++    "behind": true
++  },
++  "response": {
++    "ok": true,
++    "contract_version": "1",
++    "command": "pulled",
++    "pieces": [
++      {
++        "path": "knowledge/domains/ecommerce.md",
++        "version": "2b7d01aa9c40",
++        "current_version": "4f1c2e9a7b3d",
++        "behind": true
++      }
++    ]
++  }
++}
+diff --git a/core/tools/memory/contract/samples/read.json b/core/tools/memory/contract/samples/read.json
+new file mode 100644
+index 00000000..a311181c
+--- /dev/null
++++ b/core/tools/memory/contract/samples/read.json
+@@ -0,0 +1,21 @@
++{
++  "command": "read",
++  "request": {
++    "tier": "phoenix",
++    "path": "knowledge/domains/ecommerce.md",
++    "start": 41,
++    "end": 42
++  },
++  "response": {
++    "ok": true,
++    "contract_version": "1",
++    "command": "read",
++    "tier": "phoenix",
++    "path": "knowledge/domains/ecommerce.md",
++    "start": 41,
++    "end": 42,
++    "text": "## Checkout\n- Guest checkout lowers drop-off for first-time buyers.",
++    "fingerprint": "sha256:439488cbd9d31c20d53491c785753dc71b74fc5354297825119037d5a597de0f",
++    "version": "4f1c2e9a7b3d"
++  }
++}
+diff --git a/core/tools/memory/contract/samples/search-nothing.json b/core/tools/memory/contract/samples/search-nothing.json
+new file mode 100644
+index 00000000..42a9a339
+--- /dev/null
++++ b/core/tools/memory/contract/samples/search-nothing.json
+@@ -0,0 +1,20 @@
++{
++  "command": "search",
++  "request": {
++    "pattern": "payment providers at launch",
++    "fixed": true
++  },
++  "response": {
++    "ok": true,
++    "contract_version": "1",
++    "command": "search",
++    "looked_in": [
++      "short-term",
++      "garura",
++      "phoenix"
++    ],
++    "answered_by": null,
++    "hits": [],
++    "truncated": false
++  }
++}
+diff --git a/core/tools/memory/contract/samples/search-one-tier-nothing.json b/core/tools/memory/contract/samples/search-one-tier-nothing.json
+new file mode 100644
+index 00000000..14717706
+--- /dev/null
++++ b/core/tools/memory/contract/samples/search-one-tier-nothing.json
+@@ -0,0 +1,18 @@
++{
++  "command": "search",
++  "request": {
++    "pattern": "refund window",
++    "tier": "garura"
++  },
++  "response": {
++    "ok": true,
++    "contract_version": "1",
++    "command": "search",
++    "looked_in": [
++      "garura"
++    ],
++    "answered_by": null,
++    "hits": [],
++    "truncated": false
++  }
++}
+diff --git a/core/tools/memory/contract/samples/search-tier-missing.json b/core/tools/memory/contract/samples/search-tier-missing.json
+new file mode 100644
+index 00000000..8549f19d
+--- /dev/null
++++ b/core/tools/memory/contract/samples/search-tier-missing.json
+@@ -0,0 +1,16 @@
++{
++  "command": "search",
++  "request": {
++    "pattern": "checkout"
++  },
++  "response": {
++    "ok": false,
++    "contract_version": "1",
++    "command": "search",
++    "error": {
++      "code": "tier_missing",
++      "message": "Phoenix memory has no setting: no folder or server is configured for it.",
++      "tier": "phoenix"
++    }
++  }
++}
+diff --git a/core/tools/memory/contract/samples/search.json b/core/tools/memory/contract/samples/search.json
+new file mode 100644
+index 00000000..ade4e2a5
+--- /dev/null
++++ b/core/tools/memory/contract/samples/search.json
+@@ -0,0 +1,29 @@
++{
++  "command": "search",
++  "request": {
++    "pattern": "guest checkout",
++    "ignore_case": true,
++    "max": 20
++  },
++  "response": {
++    "ok": true,
++    "contract_version": "1",
++    "command": "search",
++    "looked_in": [
++      "short-term",
++      "garura",
++      "phoenix"
++    ],
++    "answered_by": "phoenix",
++    "hits": [
++      {
++        "tier": "phoenix",
++        "path": "knowledge/domains/ecommerce.md",
++        "line": 42,
++        "text": "- Guest checkout lowers drop-off for first-time buyers.",
++        "fingerprint": "sha256:95467362ff686f366cdb0d03b3a49b37f0e777b1f58e744f73019bf7014facae"
++      }
++    ],
++    "truncated": false
++  }
++}
+diff --git a/core/tools/memory/contract/samples/updates.json b/core/tools/memory/contract/samples/updates.json
+new file mode 100644
+index 00000000..e58c6e96
+--- /dev/null
++++ b/core/tools/memory/contract/samples/updates.json
+@@ -0,0 +1,30 @@
++{
++  "command": "updates",
++  "request": {
++    "status": "waiting"
++  },
++  "response": {
++    "ok": true,
++    "contract_version": "1",
++    "command": "updates",
++    "updates": [
++      {
++        "id": "mu-20261018-001",
++        "status": "waiting",
++        "issue": 613,
++        "missing": "Which payment providers the shop must support at launch.",
++        "target_tier": "garura",
++        "target_path": "product-os/decisions/payment-providers.md",
++        "draft": "Launch with card payments only; add wallets after the first month.",
++        "draft_source": "person",
++        "sources": [],
++        "requested_by": "product-os-keeper (/vision)",
++        "requested_at": "2026-10-18T09:12:00Z",
++        "decided_by": null,
++        "reply": null,
++        "decided_at": null,
++        "applied_version": null
++      }
++    ]
++  }
++}
+diff --git a/core/tools/memory/contract/test_check_contract.py b/core/tools/memory/contract/test_check_contract.py
+new file mode 100644
+index 00000000..8e3d9700
+--- /dev/null
++++ b/core/tools/memory/contract/test_check_contract.py
+@@ -0,0 +1,151 @@
++#!/usr/bin/env python3
++"""Tests for check_contract.py. Run from the tool's folder: python3 contract/test_check_contract.py"""
++
++import json
++import os
++import sys
++import tempfile
++import unittest
++
++sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
++import check_contract as cc  # noqa: E402
++
++CONTRACT = cc.load(os.path.join(cc.HERE, "v1.json"))
++
++
++def v(value, schema):
++    return cc.validate(value, schema, CONTRACT)
++
++
++def sample(name):
++    return cc.load(os.path.join(cc.HERE, "samples", name))
++
++
++class Validate(unittest.TestCase):
++    def test_const_is_type_aware(self):
++        self.assertEqual(v(True, {"const": True}), [])
++        self.assertTrue(v(1, {"const": True}))
++        self.assertTrue(v(True, {"const": 1}))
++        self.assertTrue(v("1", {"const": 1}))
++
++    def test_enum(self):
++        self.assertEqual(v("garura", {"enum": ["garura", "phoenix"]}), [])
++        self.assertTrue(v("project", {"enum": ["garura", "phoenix"]}))
++        self.assertTrue(v(1, {"enum": [True]}))
++
++    def test_type(self):
++        self.assertEqual(v(3, {"type": "integer"}), [])
++        self.assertTrue(v(True, {"type": "integer"}))
++        self.assertEqual(v(None, {"type": ["string", "null"]}), [])
++        self.assertTrue(v(3, {"type": ["string", "null"]}))
++
++    def test_required_and_additional(self):
++        s = {"type": "object", "properties": {"a": {"type": "string"}}, "required": ["a"], "additionalProperties": False}
++        self.assertEqual(v({"a": "x"}, s), [])
++        self.assertTrue(v({}, s))
++        self.assertTrue(v({"a": "x", "b": 1}, s))
++        self.assertTrue(v({"a": 1}, s))
++
++    def test_lengths_and_limits(self):
++        self.assertTrue(v("", {"type": "string", "minLength": 1}))
++        self.assertEqual(v("a", {"type": "string", "minLength": 1}), [])
++        self.assertTrue(v(0, {"type": "integer", "minimum": 1}))
++        self.assertEqual(v(1, {"type": "integer", "minimum": 1}), [])
++        self.assertTrue(v([], {"type": "array", "minItems": 1}))
++        self.assertTrue(v([1, "a"], {"type": "array", "items": {"type": "integer"}}))
++
++    def test_pattern_and_path(self):
++        path = {"$ref": "#/$defs/path"}
++        self.assertEqual(v("knowledge/domains/ecommerce.md", path), [])
++        for bad in ("/abs/x.md", "a/../b", "a\n../b", "a\\b", ""):
++            self.assertTrue(v(bad, path), bad)
++
++    def test_one_of_needs_exactly_one(self):
++        s = {"oneOf": [{"type": "string"}, {"type": "string", "minLength": 1}]}
++        self.assertTrue(v("abc", s))          # matches both: not exactly one
++        self.assertEqual(v("", s), [])        # matches only the first
++        self.assertTrue(v(3, s))              # matches neither
++
++
++class Samples(unittest.TestCase):
++    def test_response_command_must_match(self):
++        s = sample("health.json")
++        s["command"] = "find"
++        s["request"] = {"glob": "x"}
++        self.assertTrue(cc.check_sample(s, CONTRACT))
++
++    def test_unknown_command_and_missing_parts(self):
++        self.assertTrue(cc.check_sample({"command": "delete", "request": {}, "response": {}}, CONTRACT))
++        self.assertTrue(cc.check_sample({"command": "health", "request": {}}, CONTRACT))
++
++    def test_every_good_sample_passes(self):
++        for name in sorted(os.listdir(os.path.join(cc.HERE, "samples"))):
++            if name.endswith(".json"):
++                self.assertEqual(cc.check_sample(sample(name), CONTRACT), [], name)
++
++
++class Meaning(unittest.TestCase):
++    def test_skipped_tier_is_caught(self):
++        s = sample("search-nothing.json")
++        s["response"]["looked_in"] = ["short-term", "garura"]
++        self.assertTrue(cc.check_meaning(s, CONTRACT))
++
++    def test_one_tier_nothing_is_allowed(self):
++        self.assertEqual(cc.check_meaning(sample("search-one-tier-nothing.json"), CONTRACT), [])
++
++    def test_lookup_stops_at_first_answer(self):
++        s = sample("search.json")
++        s["response"]["answered_by"] = "garura"
++        s["response"]["hits"][0]["tier"] = "garura"
++        self.assertTrue(cc.check_meaning(s, CONTRACT))
++
++    def test_fingerprints_must_be_the_text(self):
++        s = sample("read.json")
++        s["response"]["text"] += " changed"
++        self.assertTrue(cc.check_meaning(s, CONTRACT))
++        s = sample("search.json")
++        s["response"]["hits"][0]["text"] += " changed"
++        self.assertTrue(cc.check_meaning(s, CONTRACT))
++
++    def test_tier_with_every_tier_cannot_answer(self):
++        s = sample("search-one-tier-nothing.json")
++        s["request"]["every_tier"] = True
++        self.assertTrue(cc.check_meaning(s, CONTRACT))
++
++
++class Boundary(unittest.TestCase):
++    def folder(self, files):
++        root = tempfile.mkdtemp()
++        for name, text in files.items():
++            with open(os.path.join(root, name), "w", encoding="utf-8") as fh:
++                fh.write(text)
++        return root
++
++    def test_clean_folder(self):
++        self.assertEqual(cc.check_boundary(self.folder({"a.py": "import os, json\nfrom re import search\n", "b.md": "plain"})), [])
++
++    def test_forbidden_paths(self):
++        for needle in cc.FORBIDDEN:
++            self.assertTrue(cc.check_boundary(self.folder({"b.md": f"see {needle}x"})), needle)
++
++    def test_imports(self):
++        for code in ("import requests\n", "import os, requests\n", "from yaml import safe_load\n",
++                     "__import__('requests')\n", "import importlib\nimportlib.import_module('x')\n"):
++            self.assertTrue(cc.check_boundary(self.folder({"a.py": code})), code)
++
++    def test_local_import_allowed(self):
++        self.assertEqual(cc.check_boundary(self.folder({"a.py": "import b\n", "b.py": "x = 1\n"})), [])
++
++
++class RealFolder(unittest.TestCase):
++    def test_the_check_passes(self):
++        import contextlib
++        import io
++        with contextlib.redirect_stdout(io.StringIO()) as out:
++            code = cc.main([])
++        self.assertEqual(code, 0, out.getvalue())
++        self.assertTrue(json.loads(out.getvalue())["ok"])
++
++
++if __name__ == "__main__":
++    unittest.main(verbosity=1)
+diff --git a/core/tools/memory/contract/v1.json b/core/tools/memory/contract/v1.json
+new file mode 100644
+index 00000000..a9014fd2
+--- /dev/null
++++ b/core/tools/memory/contract/v1.json
+@@ -0,0 +1,1123 @@
++{
++  "$schema": "https://json-schema.org/draft/2020-12/schema",
++  "title": "Memory tool contract",
++  "version": "1.0.0",
++  "contract_version": "1",
++  "description": "The one agreement between agents and the memory tool: the commands to find memory and to update it, what each takes and gives back, and how each fails. A request is a JSON object; on the command line its fields are the flags, and on a server they are the request body. A response is always a JSON object with ok, contract_version and command. Plain-words guide: ../README.md.",
++  "tiers": {
++    "short-term": "The issue's own memory: plans, specs and context of work on one issue. Root: the folder that holds one folder per issue.",
++    "garura": "Garura memory: the project's long-term memory. Holds the subset of Phoenix memory the project pulled, and what the project makes itself (product model, intents, decisions, answers).",
++    "phoenix": "Phoenix memory: the global memory and the superset. Its own git repository until Griffin serves it."
++  },
++  "lookup_order": [
++    "short-term",
++    "garura",
++    "phoenix"
++  ],
++  "lookup_rule": "find and search look in lookup_order and stop at the first tier with at least one result. tier asks one tier only. every_tier looks in all three and does not stop. A lookup never skips a tier: one that reaches a tier with no setting, or one it cannot reach, fails with tier_missing. 'Never blocks a play' (ADR 035 §3) means a piece the project has not pulled is found a level up, not that a tier may be skipped.",
++  "request_rules": {
++    "glob": "Shell-style: * matches within one folder, ** matches any depth, ? matches one character.",
++    "pattern": "An extended regular expression, as grep -E reads it, unless fixed is true; then it is plain text.",
++    "tier_and_every_tier": "Asking for tier and every_tier together is bad_request.",
++    "read_lines": "start defaults to 1 and end to the last line. end before start is bad_request. Lines outside the file are out_of_range.",
++    "every_tier_answered_by": "With every_tier, answered_by is the first tier in lookup_order that has a result."
++  },
++  "answer_rules": {
++    "looked_in": "looked_in lists the tiers looked in, in lookup_order.",
++    "nothing_found": "answered_by null (nothing found) is allowed only after every tier was looked in: looked_in is the whole lookup_order, or just the asked tier when tier is given. Anything else is a silent skip.",
++    "first_answer_stops": "Without every_tier, answered_by is the last tier in looked_in.",
++    "results_from_looked_in": "Every hit and match comes from a tier in looked_in; without every_tier, only from answered_by.",
++    "fingerprint_is_the_text": "A fingerprint is the sha256 of the exact text it travels with: read.text, a hit's text."
++  },
++  "settings": "The tool reads where each tier lives from its settings (environment variables or a settings file), never from a fixed path. A tier with no setting, or one that cannot be reached, is the error tier_missing.",
++  "paths": "Every path in a request or response is relative to its tier's root, uses forward slashes, never starts with a slash, and never contains '..'.",
++  "fingerprint": "sha256 of the exact text returned or cited, as 'sha256:' and 64 lowercase hex characters. A citation whose fingerprint no longer matches the file has gone stale.",
++  "every_result": "Every piece of text the tool returns carries its tier, file, lines and fingerprint (read, search hits, cite sources). A file list (find) carries tier, file and version. pull names the tier it wrote to.",
++  "commands": {
++    "health": {
++      "summary": "Report each tier: can it be reached, is it a folder or a server, and which version it is at. The install check calls this.",
++      "request": {
++        "type": "object",
++        "properties": {},
++        "additionalProperties": false
++      },
++      "response": {
++        "oneOf": [
++          {
++            "type": "object",
++            "properties": {
++              "ok": {
++                "const": true
++              },
++              "contract_version": {
++                "const": "1"
++              },
++              "command": {
++                "const": "health"
++              },
++              "tiers": {
++                "type": "array",
++                "minItems": 3,
++                "items": {
++                  "$ref": "#/$defs/tier_health"
++                }
++              }
++            },
++            "required": [
++              "ok",
++              "contract_version",
++              "command",
++              "tiers"
++            ],
++            "additionalProperties": false
++          },
++          {
++            "$ref": "#/$defs/error"
++          }
++        ]
++      }
++    },
++    "find": {
++      "summary": "Find files by name pattern, in lookup order.",
++      "request": {
++        "type": "object",
++        "properties": {
++          "glob": {
++            "type": "string",
++            "minLength": 1
++          },
++          "tier": {
++            "$ref": "#/$defs/tier"
++          },
++          "every_tier": {
++            "type": "boolean"
++          }
++        },
++        "required": [
++          "glob"
++        ],
++        "additionalProperties": false
++      },
++      "response": {
++        "oneOf": [
++          {
++            "type": "object",
++            "properties": {
++              "ok": {
++                "const": true
++              },
++              "contract_version": {
++                "const": "1"
++              },
++              "command": {
++                "const": "find"
++              },
++              "looked_in": {
++                "$ref": "#/$defs/tier_list"
++              },
++              "answered_by": {
++                "$ref": "#/$defs/tier_or_null"
++              },
++              "matches": {
++                "type": "array",
++                "items": {
++                  "$ref": "#/$defs/match"
++                }
++              }
++            },
++            "required": [
++              "ok",
++              "contract_version",
++              "command",
++              "looked_in",
++              "answered_by",
++              "matches"
++            ],
++            "additionalProperties": false
++          },
++          {
++            "$ref": "#/$defs/error"
++          }
++        ]
++      }
++    },
++    "search": {
++      "summary": "Search the text of files, in lookup order. An empty answer (answered_by null, no hits) means no tier holds it: that is the cue for a memory update.",
++      "request": {
++        "type": "object",
++        "properties": {
++          "pattern": {
++            "type": "string",
++            "minLength": 1
++          },
++          "fixed": {
++            "type": "boolean"
++          },
++          "ignore_case": {
++            "type": "boolean"
++          },
++          "glob": {
++            "type": "string",
++            "minLength": 1
++          },
++          "tier": {
++            "$ref": "#/$defs/tier"
++          },
++          "every_tier": {
++            "type": "boolean"
++          },
++          "max": {
++            "type": "integer",
++            "minimum": 1
++          }
++        },
++        "required": [
++          "pattern"
++        ],
++        "additionalProperties": false
++      },
++      "response": {
++        "oneOf": [
++          {
++            "type": "object",
++            "properties": {
++              "ok": {
++                "const": true
++              },
++              "contract_version": {
++                "const": "1"
++              },
++              "command": {
++                "const": "search"
++              },
++              "looked_in": {
++                "$ref": "#/$defs/tier_list"
++              },
++              "answered_by": {
++                "$ref": "#/$defs/tier_or_null"
++              },
++              "hits": {
++                "type": "array",
++                "items": {
++                  "$ref": "#/$defs/hit"
++                }
++              },
++              "truncated": {
++                "type": "boolean"
++              }
++            },
++            "required": [
++              "ok",
++              "contract_version",
++              "command",
++              "looked_in",
++              "answered_by",
++              "hits",
++              "truncated"
++            ],
++            "additionalProperties": false
++          },
++          {
++            "$ref": "#/$defs/error"
++          }
++        ]
++      }
++    },
++    "read": {
++      "summary": "Read exact lines of one file in one tier, with the fingerprint of the text returned.",
++      "request": {
++        "type": "object",
++        "properties": {
++          "tier": {
++            "$ref": "#/$defs/tier"
++          },
++          "path": {
++            "$ref": "#/$defs/path"
++          },
++          "start": {
++            "type": "integer",
++            "minimum": 1
++          },
++          "end": {
++            "type": "integer",
++            "minimum": 1
++          }
++        },
++        "required": [
++          "tier",
++          "path"
++        ],
++        "additionalProperties": false
++      },
++      "response": {
++        "oneOf": [
++          {
++            "type": "object",
++            "properties": {
++              "ok": {
++                "const": true
++              },
++              "contract_version": {
++                "const": "1"
++              },
++              "command": {
++                "const": "read"
++              },
++              "tier": {
++                "$ref": "#/$defs/tier"
++              },
++              "path": {
++                "$ref": "#/$defs/path"
++              },
++              "start": {
++                "type": "integer",
++                "minimum": 1
++              },
++              "end": {
++                "type": "integer",
++                "minimum": 1
++              },
++              "text": {
++                "type": "string"
++              },
++              "fingerprint": {
++                "$ref": "#/$defs/fingerprint"
++              },
++              "version": {
++                "$ref": "#/$defs/version"
++              }
++            },
++            "required": [
++              "ok",
++              "contract_version",
++              "command",
++              "tier",
++              "path",
++              "start",
++              "end",
++              "text",
++              "fingerprint",
++              "version"
++            ],
++            "additionalProperties": false
++          },
++          {
++            "$ref": "#/$defs/error"
++          }
++        ]
++      }
++    },
++    "cite": {
++      "summary": "Record a decision and the memory it rests on, in the issue's short-term memory (ADR 035 §6). The record's full shape is refined by the citations story; this is its first version.",
++      "request": {
++        "type": "object",
++        "properties": {
++          "issue": {
++            "type": "integer",
++            "minimum": 1
++          },
++          "question": {
++            "type": "string",
++            "minLength": 1
++          },
++          "answer": {
++            "type": "string",
++            "minLength": 1
++          },
++          "decided_by": {
++            "type": "string",
++            "minLength": 1
++          },
++          "sources": {
++            "type": "array",
++            "minItems": 1,
++            "items": {
++              "$ref": "#/$defs/source"
++            }
++          }
++        },
++        "required": [
++          "issue",
++          "question",
++          "answer",
++          "decided_by",
++          "sources"
++        ],
++        "additionalProperties": false
++      },
++      "response": {
++        "oneOf": [
++          {
++            "type": "object",
++            "properties": {
++              "ok": {
++                "const": true
++              },
++              "contract_version": {
++                "const": "1"
++              },
++              "command": {
++                "const": "cite"
++              },
++              "citation_id": {
++                "type": "string",
++                "minLength": 1
++              },
++              "stored": {
++                "type": "object",
++                "properties": {
++                  "tier": {
++                    "const": "short-term"
++                  },
++                  "path": {
++                    "$ref": "#/$defs/path"
++                  }
++                },
++                "required": [
++                  "tier",
++                  "path"
++                ],
++                "additionalProperties": false
++              }
++            },
++            "required": [
++              "ok",
++              "contract_version",
++              "command",
++              "citation_id",
++              "stored"
++            ],
++            "additionalProperties": false
++          },
++          {
++            "$ref": "#/$defs/error"
++          }
++        ]
++      }
++    },
++    "pull": {
++      "summary": "Copy one piece of Phoenix memory into Garura memory, and record the version it came from.",
++      "request": {
++        "type": "object",
++        "properties": {
++          "path": {
++            "$ref": "#/$defs/path"
++          }
++        },
++        "required": [
++          "path"
++        ],
++        "additionalProperties": false
++      },
++      "response": {
++        "oneOf": [
++          {
++            "type": "object",
++            "properties": {
++              "ok": {
++                "const": true
++              },
++              "contract_version": {
++                "const": "1"
++              },
++              "command": {
++                "const": "pull"
++              },
++              "tier": {
++                "const": "garura"
++              },
++              "path": {
++                "$ref": "#/$defs/path"
++              },
++              "version": {
++                "type": "string",
++                "minLength": 1
++              },
++              "fingerprint": {
++                "$ref": "#/$defs/fingerprint"
++              }
++            },
++            "required": [
++              "ok",
++              "contract_version",
++              "command",
++              "tier",
++              "path",
++              "version",
++              "fingerprint"
++            ],
++            "additionalProperties": false
++          },
++          {
++            "$ref": "#/$defs/error"
++          }
++        ]
++      }
++    },
++    "pulled": {
++      "summary": "List what Garura memory pulled from Phoenix memory, with the version each piece came from and whether Phoenix memory has moved on.",
++      "request": {
++        "type": "object",
++        "properties": {
++          "behind": {
++            "type": "boolean"
++          }
++        },
++        "additionalProperties": false
++      },
++      "response": {
++        "oneOf": [
++          {
++            "type": "object",
++            "properties": {
++              "ok": {
++                "const": true
++              },
++              "contract_version": {
++                "const": "1"
++              },
++              "command": {
++                "const": "pulled"
++              },
++              "pieces": {
++                "type": "array",
++                "items": {
++                  "$ref": "#/$defs/pulled_piece"
++                }
++              }
++            },
++            "required": [
++              "ok",
++              "contract_version",
++              "command",
++              "pieces"
++            ],
++            "additionalProperties": false
++          },
++          {
++            "$ref": "#/$defs/error"
++          }
++        ]
++      }
++    },
++    "propose": {
++      "summary": "Raise a memory update when no tier answers (ADR 035 §5): what is missing, where it belongs, a drafted entry and where the draft came from. Nothing in it is used until a person approves it.",
++      "request": {
++        "type": "object",
++        "properties": {
++          "issue": {
++            "type": "integer",
++            "minimum": 1
++          },
++          "missing": {
++            "type": "string",
++            "minLength": 1
++          },
++          "target_tier": {
++            "$ref": "#/$defs/update_tier"
++          },
++          "target_path": {
++            "$ref": "#/$defs/path"
++          },
++          "draft": {
++            "type": "string",
++            "minLength": 1
++          },
++          "draft_source": {
++            "$ref": "#/$defs/draft_source"
++          },
++          "sources": {
++            "type": "array",
++            "items": {
++              "$ref": "#/$defs/source"
++            }
++          },
++          "requested_by": {
++            "type": "string",
++            "minLength": 1
++          }
++        },
++        "required": [
++          "missing",
++          "target_tier",
++          "target_path",
++          "draft",
++          "draft_source",
++          "sources",
++          "requested_by"
++        ],
++        "additionalProperties": false
++      },
++      "response": {
++        "oneOf": [
++          {
++            "type": "object",
++            "properties": {
++              "ok": {
++                "const": true
++              },
++              "contract_version": {
++                "const": "1"
++              },
++              "command": {
++                "const": "propose"
++              },
++              "update": {
++                "$ref": "#/$defs/update"
++              }
++            },
++            "required": [
++              "ok",
++              "contract_version",
++              "command",
++              "update"
++            ],
++            "additionalProperties": false
++          },
++          {
++            "$ref": "#/$defs/error"
++          }
++        ]
++      }
++    },
++    "updates": {
++      "summary": "List memory updates, optionally only those with one status.",
++      "request": {
++        "type": "object",
++        "properties": {
++          "status": {
++            "$ref": "#/$defs/update_status"
++          }
++        },
++        "additionalProperties": false
++      },
++      "response": {
++        "oneOf": [
++          {
++            "type": "object",
++            "properties": {
++              "ok": {
++                "const": true
++              },
++              "contract_version": {
++                "const": "1"
++              },
++              "command": {
++                "const": "updates"
++              },
++              "updates": {
++                "type": "array",
++                "items": {
++                  "$ref": "#/$defs/update"
++                }
++              }
++            },
++            "required": [
++              "ok",
++              "contract_version",
++              "command",
++              "updates"
++            ],
++            "additionalProperties": false
++          },
++          {
++            "$ref": "#/$defs/error"
++          }
++        ]
++      }
++    },
++    "decide": {
++      "summary": "Record a person's word on a waiting memory update: approve or reject, who, and their exact reply. Only a person decides; until the memory review exists, the person types it.",
++      "request": {
++        "type": "object",
++        "properties": {
++          "id": {
++            "type": "string",
++            "minLength": 1
++          },
++          "verdict": {
++            "enum": [
++              "approve",
++              "reject"
++            ]
++          },
++          "by": {
++            "type": "string",
++            "minLength": 1
++          },
++          "reply": {
++            "type": "string",
++            "minLength": 1
++          }
++        },
++        "required": [
++          "id",
++          "verdict",
++          "by",
++          "reply"
++        ],
++        "additionalProperties": false
++      },
++      "response": {
++        "oneOf": [
++          {
++            "type": "object",
++            "properties": {
++              "ok": {
++                "const": true
++              },
++              "contract_version": {
++                "const": "1"
++              },
++              "command": {
++                "const": "decide"
++              },
++              "update": {
++                "$ref": "#/$defs/update"
++              }
++            },
++            "required": [
++              "ok",
++              "contract_version",
++              "command",
++              "update"
++            ],
++            "additionalProperties": false
++          },
++          {
++            "$ref": "#/$defs/error"
++          }
++        ]
++      }
++    },
++    "apply": {
++      "summary": "Write an approved memory update to its tier — in Phoenix memory as a commit. An update that is not approved is the error not_approved.",
++      "request": {
++        "type": "object",
++        "properties": {
++          "id": {
++            "type": "string",
++            "minLength": 1
++          }
++        },
++        "required": [
++          "id"
++        ],
++        "additionalProperties": false
++      },
++      "response": {
++        "oneOf": [
++          {
++            "type": "object",
++            "properties": {
++              "ok": {
++                "const": true
++              },
++              "contract_version": {
++                "const": "1"
++              },
++              "command": {
++                "const": "apply"
++              },
++              "update": {
++                "$ref": "#/$defs/update"
++              },
++              "written": {
++                "type": "object",
++                "properties": {
++                  "tier": {
++                    "$ref": "#/$defs/update_tier"
++                  },
++                  "path": {
++                    "$ref": "#/$defs/path"
++                  },
++                  "version": {
++                    "$ref": "#/$defs/version"
++                  },
++                  "fingerprint": {
++                    "$ref": "#/$defs/fingerprint"
++                  }
++                },
++                "required": [
++                  "tier",
++                  "path",
++                  "version",
++                  "fingerprint"
++                ],
++                "additionalProperties": false
++              }
++            },
++            "required": [
++              "ok",
++              "contract_version",
++              "command",
++              "update",
++              "written"
++            ],
++            "additionalProperties": false
++          },
++          {
++            "$ref": "#/$defs/error"
++          }
++        ]
++      }
++    }
++  },
++  "errors": {
++    "settings_missing": "The tool has no settings at all.",
++    "tier_missing": "A tier has no setting, or cannot be reached. Never reported as 'nothing found'.",
++    "bad_request": "The request does not match this contract.",
++    "not_found": "The file or update named does not exist in the tier asked.",
++    "out_of_range": "The lines asked for are outside the file.",
++    "not_approved": "apply was called on an update no person approved.",
++    "changed": "The target changed after the update was proposed; propose again from the current text."
++  },
++  "$defs": {
++    "tier": {
++      "enum": [
++        "short-term",
++        "garura",
++        "phoenix"
++      ]
++    },
++    "tier_or_null": {
++      "oneOf": [
++        {
++          "$ref": "#/$defs/tier"
++        },
++        {
++          "type": "null"
++        }
++      ]
++    },
++    "tier_list": {
++      "type": "array",
++      "minItems": 1,
++      "items": {
++        "$ref": "#/$defs/tier"
++      }
++    },
++    "update_tier": {
++      "enum": [
++        "garura",
++        "phoenix"
++      ]
++    },
++    "path": {
++      "type": "string",
++      "minLength": 1,
++      "pattern": "^(?!/)(?!.*\\.\\.)[^\\\\\\n\\r]+$"
++    },
++    "fingerprint": {
++      "type": "string",
++      "pattern": "^sha256:[0-9a-f]{64}$"
++    },
++    "version": {
++      "type": [
++        "string",
++        "null"
++      ]
++    },
++    "draft_source": {
++      "enum": [
++        "person",
++        "web",
++        "model",
++        "memory"
++      ]
++    },
++    "update_status": {
++      "enum": [
++        "waiting",
++        "approved",
++        "rejected",
++        "applied"
++      ]
++    },
++    "tier_health": {
++      "type": "object",
++      "properties": {
++        "tier": {
++          "$ref": "#/$defs/tier"
++        },
++        "reachable": {
++          "type": "boolean"
++        },
++        "kind": {
++          "enum": [
++            "folder",
++            "server"
++          ]
++        },
++        "version": {
++          "$ref": "#/$defs/version"
++        }
++      },
++      "required": [
++        "tier",
++        "reachable",
++        "kind",
++        "version"
++      ],
++      "additionalProperties": false
++    },
++    "match": {
++      "type": "object",
++      "properties": {
++        "tier": {
++          "$ref": "#/$defs/tier"
++        },
++        "path": {
++          "$ref": "#/$defs/path"
++        },
++        "version": {
++          "$ref": "#/$defs/version"
++        }
++      },
++      "required": [
++        "tier",
++        "path",
++        "version"
++      ],
++      "additionalProperties": false
++    },
++    "hit": {
++      "type": "object",
++      "properties": {
++        "tier": {
++          "$ref": "#/$defs/tier"
++        },
++        "path": {
++          "$ref": "#/$defs/path"
++        },
++        "line": {
++          "type": "integer",
++          "minimum": 1
++        },
++        "text": {
++          "type": "string"
++        },
++        "fingerprint": {
++          "$ref": "#/$defs/fingerprint"
++        }
++      },
++      "required": [
++        "tier",
++        "path",
++        "line",
++        "text",
++        "fingerprint"
++      ],
++      "additionalProperties": false
++    },
++    "source": {
++      "type": "object",
++      "properties": {
++        "tier": {
++          "$ref": "#/$defs/tier"
++        },
++        "path": {
++          "$ref": "#/$defs/path"
++        },
++        "start": {
++          "type": "integer",
++          "minimum": 1
++        },
++        "end": {
++          "type": "integer",
++          "minimum": 1
++        },
++        "fingerprint": {
++          "$ref": "#/$defs/fingerprint"
++        }
++      },
++      "required": [
++        "tier",
++        "path",
++        "start",
++        "end",
++        "fingerprint"
++      ],
++      "additionalProperties": false
++    },
++    "pulled_piece": {
++      "type": "object",
++      "properties": {
++        "path": {
++          "$ref": "#/$defs/path"
++        },
++        "version": {
++          "type": "string",
++          "minLength": 1
++        },
++        "current_version": {
++          "type": "string",
++          "minLength": 1
++        },
++        "behind": {
++          "type": "boolean"
++        }
++      },
++      "required": [
++        "path",
++        "version",
++        "current_version",
++        "behind"
++      ],
++      "additionalProperties": false
++    },
++    "update": {
++      "type": "object",
++      "properties": {
++        "id": {
++          "type": "string",
++          "minLength": 1
++        },
++        "status": {
++          "$ref": "#/$defs/update_status"
++        },
++        "issue": {
++          "type": [
++            "integer",
++            "null"
++          ]
++        },
++        "missing": {
++          "type": "string",
++          "minLength": 1
++        },
++        "target_tier": {
++          "$ref": "#/$defs/update_tier"
++        },
++        "target_path": {
++          "$ref": "#/$defs/path"
++        },
++        "draft": {
++          "type": "string",
++          "minLength": 1
++        },
++        "draft_source": {
++          "$ref": "#/$defs/draft_source"
++        },
++        "sources": {
++          "type": "array",
++          "items": {
++            "$ref": "#/$defs/source"
++          }
++        },
++        "requested_by": {
++          "type": "string",
++          "minLength": 1
++        },
++        "requested_at": {
++          "type": "string",
++          "minLength": 1
++        },
++        "decided_by": {
++          "type": [
++            "string",
++            "null"
++          ]
++        },
++        "reply": {
++          "type": [
++            "string",
++            "null"
++          ]
++        },
++        "decided_at": {
++          "type": [
++            "string",
++            "null"
++          ]
++        },
++        "applied_version": {
++          "type": [
++            "string",
++            "null"
++          ]
++        }
++      },
++      "required": [
++        "id",
++        "status",
++        "issue",
++        "missing",
++        "target_tier",
++        "target_path",
++        "draft",
++        "draft_source",
++        "sources",
++        "requested_by",
++        "requested_at",
++        "decided_by",
++        "reply",
++        "decided_at",
++        "applied_version"
++      ],
++      "additionalProperties": false
++    },
++    "error": {
++      "type": "object",
++      "properties": {
++        "ok": {
++          "const": false
++        },
++        "contract_version": {
++          "const": "1"
++        },
++        "command": {
++          "enum": [
++            "health",
++            "find",
++            "search",
++            "read",
++            "cite",
++            "pull",
++            "pulled",
++            "propose",
++            "updates",
++            "decide",
++            "apply"
++          ]
++        },
++        "error": {
++          "type": "object",
++          "properties": {
++            "code": {
++              "enum": [
++                "settings_missing",
++                "tier_missing",
++                "bad_request",
++                "not_found",
++                "out_of_range",
++                "not_approved",
++                "changed"
++              ]
++            },
++            "message": {
++              "type": "string",
++              "minLength": 1
++            },
++            "tier": {
++              "$ref": "#/$defs/tier_or_null"
++            }
++          },
++          "required": [
++            "code",
++            "message",
++            "tier"
++          ],
++          "additionalProperties": false
++        }
++      },
++      "required": [
++        "ok",
++        "contract_version",
++        "command",
++        "error"
++      ],
++      "additionalProperties": false
++    }
++  }
++}
