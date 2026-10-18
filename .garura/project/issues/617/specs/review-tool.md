@@ -175,10 +175,11 @@ changed" line; the plays are never shown.
 
 ## 4. What the person sees
 
-**One page, three sections in it.** A switch at the top left: **Intents** |
-**Product** | **Memory and ADRs**. Intents and Product are the two tools ADR 032
-names, as two views of one app; Memory and ADRs is the third section ADR 036
-adds (item 7 below). One server, one link, one review. (Occam: two servers would mean two listeners and two links for
+**One page, five sections in it.** A switch at the top left: **Intents** |
+**Product** | **ADRs** | **Memory** | **Agent decisions**. Intents and Product
+are the two tools ADR 032 names, as two views of one app; ADR 036 added a third
+section, "Memory and ADRs", which Kapil split into three on 18 Oct (item 7
+below). One server, one link, one review. (Occam: two servers would mean two listeners and two links for
 one decision.)
 
 **Two switches, each with two settings.** These answer Kapil's four things to see:
@@ -193,7 +194,7 @@ gives the full model or the clean final text.
 
 **Layout** (like the screenshot):
 
-1. **Left rail.** Phoenix mark and name. The Intents | Product | Memory and ADRs
+1. **Left rail.** Phoenix mark and name. The Intents | Product | ADRs | Memory | Agent decisions
    switch. The list of
    pieces: intents grouped by stage, each with its agent intents (ICE) listed
    under it as their own pieces, one per capability or functionality it is built
@@ -242,7 +243,33 @@ gives the full model or the clean final text.
    Every action in Catch up is the same event as in the full page, so Garura
    cannot tell them apart and nothing changes on its side.
 
-7. **Memory and ADRs** — a third section next to Intents and Product (ADR 036
+7. **ADRs, Memory and Agent decisions** (Kapil, 18 Oct: "intents · product ·
+   adr(s) -> these are the adrs that a human puts, using /adr · memory -> this is
+   list of memories that exist.. omstly garura memory inside the projecdt, and
+   once an issue is selected then its STM ... then the agent adrs - we call this
+   evidence, aka agent-decisions"; named **Agent decisions**, because "evidence"
+   already names each play's run records). The three sections:
+   - **ADRs** — the decisions a person records with `/adr`: the ones waiting to
+     be accepted, and the accepted ones. Accept, or send back with a comment.
+   - **Memory** — what memory holds: Garura memory for the project, and an
+     issue's short-term memory once an issue is picked. **Ask memory**: a
+     plain-words question box; the answer comes with the memory it came from.
+     Underneath is the same memory tool the agents use — find, search and read,
+     the way Claude Code works — with no index (vectorless, ADR 035 §4). Kapil:
+     "the tool withing garua is how claude code works. the tool we are building
+     which will got into griffin will use nlp, but it will use vectorless search.
+     the same tool under both, just that the interface for tool should be nlp."
+     Mocked only for now ("design the interface and create some mocks for now.
+     no need to build this whole this now"). The memory updates waiting for a
+     person live here too, below.
+   - **Agent decisions** — every decision an agent made, with the memory it
+     rested on (#659), each source checked again: unchanged, changed, or none.
+     Looks right, or send back so the agent decides again from memory as it is
+     now.
+   The paragraphs below were written for the one combined section; they now
+   read across these three.
+
+   Earlier text, kept: a third section next to Intents and Product (ADR 036
    §7, Kapil 18 Oct). It shows short-term, Garura and Phoenix memory: what each
    tier holds, the memory updates waiting for a person, the ADRs waiting for a
    person, and which memory each decision came from. Every memory review and
@@ -428,7 +455,8 @@ Each line is one story. Each is a slice that works on its own.
    one commit that matches what the person chose.
 8. **Kickoff uses it.** #613 runs the review as its last step.
 
-9. **Memory and ADRs.** The third section (#664), in two halves like the rest.
+9. **ADRs, Memory and Agent decisions.** The three sections (#664), in two halves
+   like the rest; Ask memory's plain-words interface is mocked only.
    The tool half: the section's page and cards — what each memory tier holds,
    the memory updates waiting in short-term memory with an explicit Approve or
    Reject on each, the ADRs waiting, and which memory each decision came from.
