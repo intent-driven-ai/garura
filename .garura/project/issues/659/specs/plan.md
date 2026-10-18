@@ -70,8 +70,10 @@ item 6, land the change.
   interface for tool should be nlp"). Mocked in the review tool's mockup and design; "no
   need to build this whole this now". The local page opens on Memory.
 - **2. Decided: the shape of a decision record** — #659. One record per decision: the
-  question, the answer, who decided, the play, and its sources — each a tier, file, lines
-  and fingerprint — or the approved memory update it came from. No source from the model or
+  question, the answer, who decided, the play, and its trace — the steps the agent took, in
+  order, each with what it looked for, what it found, and its source (a tier, file, lines and
+  fingerprint, kept with the text and the lines around it) — or the approved memory update it
+  came from (Kapil, 19 Oct: "these are called traces"). No source from the model or
   the web. The shape lives in the memory tool's contract; `standards/rules/resolution.md`
   gains a "Decision Records" section pointing to it. Rewriting its trace and R4's model
   fallback stays with the agents' move (#663), where the #653 plan put it (item 10).
@@ -118,3 +120,4 @@ commit, raise, review, merge.
 - 2026-10-19 — Items 2–4 done: the decision record, contract version 4, `cite` and `citations`.
 - 2026-10-19 — Item 5 built: the drive review record carries the decisions and their sources.
 - 2026-10-19 — Kapil: the Agent decisions screen looked thin. The mockup now shows the memory tool's real `citations --check` and `updates` answers (12 records over real Phoenix lines, 3 problems; both pass contract v4), made by `evidence/make_decisions.py`. The tool's problem text reads right for one line.
+- 2026-10-19 — Kapil: one or two lines leave no context; a decision rests on several steps (profile, domain, security level, knowledge file), and these are traces. Contract v4 (not yet landed) now records a trace: each step's question, finding and source, with up to three lines around it; a problem names its step. Tool, samples, drive record, rule and screen follow; 12 real traces of 1 to 4 steps.
