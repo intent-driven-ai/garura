@@ -41,6 +41,8 @@ class Tiers(unittest.TestCase):
         self.phoenix = tempfile.mkdtemp()
         self.garura = tempfile.mkdtemp()
         git(self.phoenix, "init", "-q", "-b", "main")
+        # Demo address: sample data for this throwaway repository, not personal data.
+        # Approved exception to PR rule DATA-18 (review of PR #671, 2026-10-18).
         git(self.phoenix, "config", "user.email", "t@example.com")
         git(self.phoenix, "config", "user.name", "test")
         write(self.phoenix, "standards/rules/commits.md", "# Commits\nSubject under 72.\n")
