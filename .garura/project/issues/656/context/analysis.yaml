@@ -1,57 +1,30 @@
----
-# analyze_changeset.py output (C8 fast path), grouping filled by analyze-changes
-# issue: 656
 needs_judgment: true
-
 change_groups:
-  - id: memory-config
-    issue: 656
-    concern: "Garura's own memory settings: unused ones dropped, PR rules read from .garura"
-    commit_type: chore
-    scope: config
-    subject: "drop unused memory settings and fix PR rules path"
-    confidence: high
-    files:
-      - .garura/core/config.yaml
-      - core/components/plays/install-garura/scripts/install.py
-    notes: >-
-      One concern, two files. config.yaml loses components.memory, ltm.source and
-      ltm.global-target (nothing read them) and standards.pr-severity-taxonomy now
-      points at ./.garura/core/memory/standards/rules/pr.md. install.py stops
-      writing a memory: line into installed projects' config, because that
-      setting is gone. The two files change together: the installer rewrote the
-      setting this config no longer has.
-
-  - id: memory-plans
-    issue: 656
-    concern: "the #656 plan and its parent #653 plan record Kapil's 2026-10-18 memory decisions"
-    commit_type: chore
-    scope: plan
-    subject: "record the memory decisions in both plans"
-    confidence: high
-    files:
-      - .garura/project/issues/656/specs/plan.md
-      - .garura/project/issues/653/specs/plan.md
-    notes: >-
-      Planning text only. The #656 plan is rewritten to Kapil's decisions (the
-      installer pulls nothing; core/components/memory moves to Phoenix memory and
-      is removed after the memory tool exists; skills read only short-term memory;
-      PR rules read from .garura; test cases for the tool). The #653 plan's
-      memory-tool item gains Kapil's test as its done-when. Same decisions, one
-      concern. Follows the earlier chore(plan) commit for this plan.
-
-exclusions:
-  []
-
+- id: plan-review-outcome
+  issue: 656
+  concern: 'the #656 plan records the PR #671 review outcome'
+  commit_type: chore
+  scope: plan
+  subject: record the review outcome and fixes in the plan
+  confidence: high
+  files:
+  - .garura/project/issues/656/specs/plan.md
+  notes: 'Planning text only: new item 4b (review fixes built, not merged) and a dated progress line. Committed last because
+    it describes the two groups above. Follows the earlier chore(plan) commits for this plan. Rendered message is 67 characters.'
+  risks:
+    sensitive_files: []
+    breaking_changes: []
+exclusions: []
 risks:
-  sensitive_files:
-    []
-
-# run artifacts of the play itself, committed by the executor as the final
-# chore(stm) group (not a concern group, not an exclusion):
-#   .garura/project/issues/656/context/porcelain.txt
-#   .garura/project/issues/656/context/analysis.yaml (this file)
-
+  sensitive_files: []
 eval_gates:
-  SE-1: {status: PASS, evidence: "2 concern groups on one single-issue branch; every changed file is in exactly one group; the two run artifacts under context/ go to the executor's final chore(stm) commit"}
-  SE-5: {status: PASS, evidence: "no sensitive filename patterns matched; no sensitive content patterns (password/api_key/secret/token/private_key) in added lines of the diff"}
+  SE-1:
+    status: PASS
+    evidence: 3 concern groups on one single-issue branch (memory wording fixes, the approved test-comment exception, the
+      plan record); every changed file from the scan is in exactly one group, except the two run artifacts under context/
+      which go to the executor's final chore(stm) commit; all three rendered subjects are under 72 characters (71, 68, 67)
+  SE-5:
+    status: PASS
+    evidence: no sensitive filename patterns matched; no sensitive content patterns (password/api_key/secret/token/private_key)
+      in added lines of the diff. The one DATA-18 item (t@example.com in test_pull.py) is untouched context, not an added
+      line, and is a reviewer-approved exception

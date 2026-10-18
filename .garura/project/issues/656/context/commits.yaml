@@ -1,15 +1,8 @@
 commits:
-  - sha: deab49c9
-    message: "chore(config): drop unused memory settings and fix PR rules path (#656)"
-    files:
-      - .garura/core/config.yaml
-      - core/components/plays/install-garura/scripts/install.py
-    branch: feature/656-phoenix-memory-repository
-  - sha: 7252f2d1
-    message: "chore(plan): record the memory decisions in both plans (#656)"
+  - sha: 4b72b755
+    message: "chore(plan): record the review outcome and fixes in the plan (#656)"
     files:
       - .garura/project/issues/656/specs/plan.md
-      - .garura/project/issues/653/specs/plan.md
     branch: feature/656-phoenix-memory-repository
 excluded_files:
   []
