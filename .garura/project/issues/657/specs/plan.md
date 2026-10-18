@@ -4,7 +4,7 @@ kind: story
 serves: "#657 — the memory tool finds memory across short-term, Garura and Phoenix memory the way Claude Code searches"
 status: active
 updated: 2026-10-18
-now: 1
+now: 2
 serves_plan: 653
 serves_item: 4
 ---
@@ -51,7 +51,7 @@ contract (#655, `core/tools/memory/contract/v1.json`) and `pull` / `pulled`
 ## Where we are now
 
 The change is open on `feature/657-memory-tool-search`. Its first commit closed
-out five finished plans. Next: item 1, two questions for Kapil.
+out five finished plans. Kapil answered item 1. Next: item 2, the lookups.
 
 ## The plan, in order
 
@@ -60,26 +60,26 @@ out five finished plans. Next: item 1, two questions for Kapil.
 - **0. Opened** — #657. Branch `feature/657-memory-tool-search` off main
   (`7a61f424`); five finished plans closed out (#617, #632, #654, #655, #656)
   as Kapil chose on 2026-10-18.
+- **1. Decided: what the tool writes, and when it pulls** — Kapil, 2026-10-18.
+  (a) "memory updates will be a different play. this will be a 3 set of plays - learn: this read STM and learns to proejct mem i.e. garura - promote: this reads project memory and send a version to phoenix-mem for approval. approval for this sits outside of garura. unless memory is approved (outside) the reader cant use that phoenix memory - so the memory updates land in STM only". So this tool writes no memory update to Garura or Phoenix memory:
+  updates land in short-term memory (#658), a `learn` play moves them to Garura
+  memory, and a `promote` play sends a version to Phoenix memory for an
+  approval that sits outside Garura. Those plays are not filed yet. The reader
+  uses only approved Phoenix memory: here, what is on the Phoenix memory
+  repository's `main` (a promotion arrives as a change a person merges outside
+  Garura) — this plan's reading, for Kapil to correct. (b) "yes the file is
+  pulled when needed.. .once the memory is used, then it saved in garura /
+  proejct memory." A Phoenix answer is pulled when the file is read (used),
+  not on every search hit.
 
-### 1. Decide two open questions — now
-
-**Issue:** #657.
-**What:** (a) Memory updates: the issue says the tool writes approved updates,
-but the approval flow is #658, and Kapil's removed-memory case ends in "raise a
-memory update". Do `propose` and `apply` belong here or in #658? (b) When does a
-Phoenix answer get pulled into Garura memory: on every hit, or only when a file
-is read?
-**Why here:** both change what items 2 to 5 build.
-**Done when:** Kapil answers both.
-**Needs:** nothing.
-
-### 2. The lookups: health, find, search, read
+### 2. The lookups: health, find, search, read — now
 
 **Issue:** #657.
 **What:** one tool entry for every command, reading each tier's place from one
 settings source; the tier order, the issue's own short-term folder only, the
 refusals and errors, and fingerprints, all as the contract says. `pull` and
-`pulled` from #656 become commands of the same entry.
+`pulled` from #656 become commands of the same entry. Phoenix memory is read
+only at its approved version (item 1a).
 **Why here:** everything else calls these.
 **Done when:** the contract's samples pass through the tool, and tests cover
 each tier, going up a tier, a missing tier, and a refused path.
@@ -88,8 +88,9 @@ each tier, going up a tier, a missing tier, and a refused path.
 ### 3. Bring a Phoenix answer into the project
 
 **Issue:** #657.
-**What:** when a lookup is answered by Phoenix memory, the piece is pulled into
-Garura memory (as item 1b decides) and recorded in the pulled list.
+**What:** when a file is read from Phoenix memory (used), it is pulled into
+Garura memory and recorded in the pulled list (item 1b). Search hits alone pull
+nothing.
 **Why here:** Kapil's test needs the re-run to answer from Garura memory.
 **Done when:** a test shows the first lookup answered by Phoenix memory and the
 second by Garura memory.
@@ -110,7 +111,8 @@ new version, and its samples and check follow.
 **Issue:** #657.
 **What:** an empty test project and a copy of Phoenix memory (its
 `knowledge/domains/user-management.md` covers sign-in and passwords); run the
-login story, the re-run, the change-password story and the removed-memory case,
+login story, the re-run, the change-password story and the removed-memory case (it ends at the empty
+answer, the cue for a memory update; raising it is #658),
 and keep the record in this issue's short-term memory.
 **Why here:** it is the done-when of the story, shown end to end.
 **Done when:** all four cases behave as written above.
@@ -130,3 +132,4 @@ answers change (#657, #658) are fixed only when Kapil asks.
 - 2026-10-18 — Created at the start of #657 from the issue, the contract
   (`core/tools/memory/contract/v1.json`, its README), ADR 035 §3–§4, ADR 036
   §1–§3, the #653 plan item 4 and Kapil's test from the #656 plan (item 1d).
+- 2026-10-18 — Item 1 done: memory updates land in short-term memory only; `learn` and `promote` plays move them up; the reader uses only approved Phoenix memory; a file is pulled when it is used.

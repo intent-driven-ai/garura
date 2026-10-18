@@ -166,6 +166,12 @@ with stable ids, so they are never asked twice (Garura's existing question
 store, `standards/rules/product.md` rule 12). The knowledge-base proposal
 (`propose-kb-node`) becomes one kind of memory update. Until the memory review
 exists, the person approves by typing.
+Kapil, 2026-10-18 (#657 plan, item 1): memory updates land in short-term
+memory only. Moving them up is a set of plays, not this tool: `learn` reads
+short-term memory and learns into Garura memory; `promote` sends a version of
+Garura memory to Phoenix memory for an approval that sits outside Garura, and
+the reader cannot use Phoenix memory until it is approved. Kapil named three
+plays and described two; the plays are not filed yet.
 **Why here:** without it, "only from memory" stops every time memory is thin.
 **Done when:** a gap, an update, an approval, a write and an answer from memory
 run end to end on a sample.
@@ -311,3 +317,4 @@ writes the approval when a person swipes right (ADR 033 §6).
   the third section. Story #658's filed text still says the approved update is
   written to Garura or Phoenix memory; item 5 here holds the current rule.
 - 2026-10-18 — Item 3 done: #656 merged (PR #671). Now item 4 (#657).
+- 2026-10-18 — Kapil: memory updates land in short-term memory only; `learn` and `promote` plays move memory up; unapproved Phoenix memory is not read (item 5 note).
