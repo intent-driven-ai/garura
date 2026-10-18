@@ -17,7 +17,7 @@ sys.path.insert(0, os.path.join(HERE, "contract"))
 import check_contract as cc  # noqa: E402
 import pull  # noqa: E402
 
-CONTRACT = cc.load(os.path.join(HERE, "contract", "v2.json"))
+CONTRACT = cc.load(os.path.join(HERE, "contract", "v3.json"))
 
 
 def git(repo, *args):
@@ -100,6 +100,13 @@ class Pull(Tiers):
             a = pull.pull(self.phoenix, self.garura, [pattern])[0]
             self.assertEqual(a["error"]["code"], code, pattern)
             self.assertEqual(answers_of("pull", {}, [a]), [[]])
+
+    def test_never_writes_over_a_different_file(self):
+        write(self.garura, "standards/rules/commits.md", "# Commits\nOur own rule.\n")
+        a = pull.pull(self.phoenix, self.garura, ["standards/rules/commits.md"])[0]
+        self.assertEqual(a["error"]["code"], "would_overwrite")
+        with open(os.path.join(self.garura, "standards/rules/commits.md")) as fh:
+            self.assertEqual(fh.read(), "# Commits\nOur own rule.\n")
 
     def test_never_pulls_git_internals(self):
         answers = pull.pull(self.phoenix, self.garura, ["**"])

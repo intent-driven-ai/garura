@@ -1,0 +1,19 @@
+{
+  "command": "search",
+  "request": {
+    "pattern": "passkey",
+    "ignore_case": true
+  },
+  "response": {
+    "ok": true,
+    "contract_version": "3",
+    "command": "search",
+    "looked_in": [
+      "garura",
+      "phoenix"
+    ],
+    "answered_by": null,
+    "hits": [],
+    "truncated": false
+  }
+}

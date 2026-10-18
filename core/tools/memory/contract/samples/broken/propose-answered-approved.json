@@ -12,7 +12,7 @@
   },
   "response": {
     "ok": true,
-    "contract_version": "2",
+    "contract_version": "3",
     "command": "propose",
     "update": {
       "id": "mu-20261018-001",
@@ -29,7 +29,9 @@
       "decided_by": "product-os-keeper (/vision)",
       "reply": "approve",
       "decided_at": "2026-10-18T09:12:00Z",
-      "applied_version": null
+      "applied_version": null,
+      "blocking": false,
+      "decided_in": "review-tool"
     }
   }
 }

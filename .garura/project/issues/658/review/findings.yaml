@@ -1,0 +1,2544 @@
+meta:
+  pr: 675
+  issue: 658
+  head: 8d74ecd4
+  categories: categories.yaml
+  gate: on for this run (gates.plays.review-change), so the owner decides
+  review_shelf: ~/.garura/phoenix-memory/knowledge/review/ (Garura memory has none; tier order)
+  taxonomy: ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy; no prose scoping)
+findings:
+- id: DATA-18
+  severity: P1
+  layer: linter (quality-check-scoped)
+  file: .garura/project/issues/658/evidence/e2e-658-run2.md
+  line: 7
+  basis: rule DATA-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: password
+  demo_test_data: true
+- id: DATA-18
+  severity: P1
+  layer: linter (quality-check-scoped)
+  file: .garura/project/issues/658/evidence/e2e-658.md
+  line: 7
+  basis: rule DATA-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: password
+  demo_test_data: true
+- id: DATA-18
+  severity: P1
+  layer: linter (quality-check-scoped)
+  file: .garura/project/issues/658/evidence/e2e_658.py
+  line: 22
+  basis: rule DATA-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: password
+  demo_test_data: true
+- id: DATA-18
+  severity: P1
+  layer: linter (quality-check-scoped)
+  file: .garura/project/issues/658/evidence/e2e_658.py
+  line: 23
+  basis: rule DATA-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: password
+  demo_test_data: true
+- id: DATA-18
+  severity: P1
+  layer: linter (quality-check-scoped)
+  file: .garura/project/issues/658/evidence/e2e_658.py
+  line: 26
+  basis: rule DATA-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: email
+  demo_test_data: true
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: .garura/project/issues/658/evidence/e2e-658-run2.md
+  line: 9
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: from
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: .garura/project/issues/658/evidence/e2e-658-run2.md
+  line: 17
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: from
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: .garura/project/issues/658/evidence/e2e-658.md
+  line: 9
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: from
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: .garura/project/issues/658/evidence/e2e-658.md
+  line: 17
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: from
+- id: ARCH-02
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: .garura/project/issues/658/evidence/e2e_658.py
+  line: 1
+  basis: rule ARCH-02 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: .garura/project/issues/658/evidence/e2e_658.py
+- id: CODE-03
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: .garura/project/issues/658/evidence/e2e_658.py
+  line: 1
+  basis: rule CODE-03 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: .garura/project/issues/658/evidence/e2e_658.py
+- id: CODE-04
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: .garura/project/issues/658/evidence/e2e_658.py
+  line: 1
+  basis: rule CODE-04 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: .garura/project/issues/658/evidence/e2e_658.py
+- id: CODE-14
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: .garura/project/issues/658/evidence/e2e_658.py
+  line: 1
+  basis: rule CODE-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: .garura/project/issues/658/evidence/e2e_658.py
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: .garura/project/issues/658/evidence/e2e_658.py
+  line: 3
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: from
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: .garura/project/issues/658/evidence/e2e_658.py
+  line: 19
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: join
+- id: DATA-17
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: .garura/project/issues/658/evidence/e2e_658.py
+  line: 26
+  basis: rule DATA-17 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: email
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: .garura/project/issues/658/evidence/e2e_658.py
+  line: 32
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: join
+- id: SEC-23
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: .garura/project/issues/658/evidence/e2e_658.py
+  line: 32
+  basis: rule SEC-23 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: os.environ
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: .garura/project/issues/658/evidence/e2e_658.py
+  line: 43
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: join
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: .garura/project/issues/658/evidence/e2e_658.py
+  line: 47
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: join
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: .garura/project/issues/658/evidence/e2e_658.py
+  line: 48
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: join
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: .garura/project/issues/658/evidence/e2e_658.py
+  line: 49
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: join
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: .garura/project/issues/658/evidence/e2e_658.py
+  line: 52
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: join
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: .garura/project/issues/658/evidence/e2e_658.py
+  line: 70
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: join
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: .garura/project/issues/658/evidence/e2e_658.py
+  line: 80
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: from
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: .garura/project/issues/658/evidence/e2e_658.py
+  line: 91
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: join
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: .garura/project/issues/658/evidence/e2e_658.py
+  line: 101
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: join
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/README.md
+  line: 89
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: from
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/README.md
+  line: 111
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: from
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/README.md
+  line: 113
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: from
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/README.md
+  line: 130
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: from
+- id: ARCH-02
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule ARCH-02 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/check_contract.py
+- id: CODE-03
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule CODE-03 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/check_contract.py
+- id: CODE-04
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule CODE-04 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/check_contract.py
+- id: CODE-14
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule CODE-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/check_contract.py
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/check_contract.py
+  line: 373
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: join
+- id: ARCH-02
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  basis: rule ARCH-02 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/test_check_contract.py
+- id: CODE-03
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  basis: rule CODE-03 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/test_check_contract.py
+- id: CODE-04
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  basis: rule CODE-04 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/test_check_contract.py
+- id: CODE-14
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  basis: rule CODE-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/test_check_contract.py
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 13
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: join
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/v3.json
+  line: 6
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: from
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/v3.json
+  line: 30
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: from
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/v3.json
+  line: 47
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: from
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/v3.json
+  line: 440
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: from
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/v3.json
+  line: 499
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: from
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/v3.json
+  line: 545
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: from
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/v3.json
+  line: 823
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: from
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/v3.json
+  line: 1202
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: from
+- id: ARCH-02
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/memory.py
+  line: 1
+  basis: rule ARCH-02 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/memory.py
+- id: CODE-03
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/memory.py
+  line: 1
+  basis: rule CODE-03 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/memory.py
+- id: CODE-04
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/memory.py
+  line: 1
+  basis: rule CODE-04 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/memory.py
+- id: CODE-14
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/memory.py
+  line: 1
+  basis: rule CODE-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/memory.py
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/memory.py
+  line: 26
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: from
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/memory.py
+  line: 63
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: from
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/memory.py
+  line: 65
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: join
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/memory.py
+  line: 232
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: from
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/memory.py
+  line: 233
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: join
+- id: ARCH-02
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule ARCH-02 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/pull.py
+- id: CODE-03
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule CODE-03 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/pull.py
+- id: CODE-04
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule CODE-04 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/pull.py
+- id: CODE-14
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule CODE-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/pull.py
+- id: ARCH-02
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 1
+  basis: rule ARCH-02 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/test_memory.py
+- id: CODE-03
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 1
+  basis: rule CODE-03 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/test_memory.py
+- id: CODE-04
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 1
+  basis: rule CODE-04 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/test_memory.py
+- id: CODE-14
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 1
+  basis: rule CODE-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/test_memory.py
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 5
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: from
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 190
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: join
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 302
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: join
+- id: ARCH-02
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule ARCH-02 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/test_pull.py
+- id: CODE-03
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule CODE-03 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/test_pull.py
+- id: CODE-04
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule CODE-04 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/test_pull.py
+- id: CODE-14
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule CODE-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/test_pull.py
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 20
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: join
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 108
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: join
+- id: ARCH-02
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/updates.py
+  line: 1
+  basis: rule ARCH-02 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/updates.py
+- id: CODE-03
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/updates.py
+  line: 1
+  basis: rule CODE-03 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/updates.py
+- id: CODE-04
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/updates.py
+  line: 1
+  basis: rule CODE-04 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/updates.py
+- id: CODE-14
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/updates.py
+  line: 1
+  basis: rule CODE-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/updates.py
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/updates.py
+  line: 21
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: from
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/updates.py
+  line: 40
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: join
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/updates.py
+  line: 51
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: join
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/updates.py
+  line: 71
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: join
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/updates.py
+  line: 104
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: join
+- id: BE-19
+  severity: P2
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/updates.py
+  line: 132
+  basis: rule BE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: from
+- id: ARCH-03
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: .garura/project/issues/658/evidence/e2e_658.py
+  line: 1
+  basis: rule ARCH-03 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: .garura/project/issues/658/evidence/e2e_658.py
+- id: ARCH-08
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: .garura/project/issues/658/evidence/e2e_658.py
+  line: 1
+  basis: rule ARCH-08 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: .garura/project/issues/658/evidence/e2e_658.py
+- id: CODE-09
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: .garura/project/issues/658/evidence/e2e_658.py
+  line: 1
+  basis: rule CODE-09 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: .garura/project/issues/658/evidence/e2e_658.py
+- id: CODE-10
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: .garura/project/issues/658/evidence/e2e_658.py
+  line: 1
+  basis: rule CODE-10 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: .garura/project/issues/658/evidence/e2e_658.py
+- id: CODE-11
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: .garura/project/issues/658/evidence/e2e_658.py
+  line: 1
+  basis: rule CODE-11 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: .garura/project/issues/658/evidence/e2e_658.py
+- id: CODE-12
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: .garura/project/issues/658/evidence/e2e_658.py
+  line: 1
+  basis: rule CODE-12 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: .garura/project/issues/658/evidence/e2e_658.py
+- id: CODE-15
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: .garura/project/issues/658/evidence/e2e_658.py
+  line: 1
+  basis: rule CODE-15 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: .garura/project/issues/658/evidence/e2e_658.py
+- id: CODE-17
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: .garura/project/issues/658/evidence/e2e_658.py
+  line: 1
+  basis: rule CODE-17 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: .garura/project/issues/658/evidence/e2e_658.py
+- id: DOC-01
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/README.md
+  line: 1
+  basis: rule DOC-01 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/README.md
+- id: DOC-09
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/README.md
+  line: 1
+  basis: rule DOC-09 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/README.md
+- id: DOC-10
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/README.md
+  line: 1
+  basis: rule DOC-10 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/README.md
+- id: DOC-11
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/README.md
+  line: 1
+  basis: rule DOC-11 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/README.md
+- id: ARCH-03
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule ARCH-03 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/check_contract.py
+- id: ARCH-08
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule ARCH-08 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/check_contract.py
+- id: CODE-09
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule CODE-09 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/check_contract.py
+- id: CODE-10
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule CODE-10 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/check_contract.py
+- id: CODE-11
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule CODE-11 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/check_contract.py
+- id: CODE-12
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule CODE-12 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/check_contract.py
+- id: CODE-15
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule CODE-15 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/check_contract.py
+- id: CODE-17
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule CODE-17 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/check_contract.py
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/check_contract.py
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/check_contract.py
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/apply-not-approved.json
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/apply-not-approved.json
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/apply-not-approved.json
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/apply-not-approved.json
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/apply.json
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/apply.json
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/apply.json
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/apply.json
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/apply-promotion-not-in-this-tool.json
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/broken/apply-promotion-not-in-this-tool.json
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/apply-promotion-not-in-this-tool.json
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/broken/apply-promotion-not-in-this-tool.json
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/apply-waiting-update.json
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/broken/apply-waiting-update.json
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/apply-waiting-update.json
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/broken/apply-waiting-update.json
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/apply-written-to-another-tier.json
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/broken/apply-written-to-another-tier.json
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/apply-written-to-another-tier.json
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/broken/apply-written-to-another-tier.json
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/cite-absolute-path.json
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/broken/cite-absolute-path.json
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/cite-absolute-path.json
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/broken/cite-absolute-path.json
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/decide-reject-answered-approved.json
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/broken/decide-reject-answered-approved.json
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/decide-reject-answered-approved.json
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/broken/decide-reject-answered-approved.json
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/decide-without-review-tool.json
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/broken/decide-without-review-tool.json
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/decide-without-review-tool.json
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/broken/decide-without-review-tool.json
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/find-silent-missing-tier.json
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/broken/find-silent-missing-tier.json
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/find-silent-missing-tier.json
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/broken/find-silent-missing-tier.json
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/find-without-issue.json
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/broken/find-without-issue.json
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/find-without-issue.json
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/broken/find-without-issue.json
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/health-ok-as-number.json
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/broken/health-ok-as-number.json
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/health-ok-as-number.json
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/broken/health-ok-as-number.json
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/propose-answered-approved.json
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/broken/propose-answered-approved.json
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/propose-answered-approved.json
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/broken/propose-answered-approved.json
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/propose-short-term-other-issue.json
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/broken/propose-short-term-other-issue.json
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/propose-short-term-other-issue.json
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/broken/propose-short-term-other-issue.json
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/propose-unknown-draft-source.json
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/broken/propose-unknown-draft-source.json
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/propose-unknown-draft-source.json
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/broken/propose-unknown-draft-source.json
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/propose-web-draft-to-phoenix.json
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/broken/propose-web-draft-to-phoenix.json
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/propose-web-draft-to-phoenix.json
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/broken/propose-web-draft-to-phoenix.json
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/read-end-before-start.json
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/broken/read-end-before-start.json
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/read-end-before-start.json
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/broken/read-end-before-start.json
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/read-other-file.json
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/broken/read-other-file.json
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/read-other-file.json
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/broken/read-other-file.json
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/read-other-issue.json
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/broken/read-other-issue.json
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/read-other-issue.json
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/broken/read-other-issue.json
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/read-path-with-newline.json
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/broken/read-path-with-newline.json
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/read-path-with-newline.json
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/broken/read-path-with-newline.json
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/read-phoenix-silent-about-saving.json
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/broken/read-phoenix-silent-about-saving.json
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/read-phoenix-silent-about-saving.json
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/broken/read-phoenix-silent-about-saving.json
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/read-without-fingerprint.json
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/broken/read-without-fingerprint.json
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/read-without-fingerprint.json
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/broken/read-without-fingerprint.json
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/read-wrong-fingerprint.json
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/broken/read-wrong-fingerprint.json
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/read-wrong-fingerprint.json
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/broken/read-wrong-fingerprint.json
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/search-every-tier-stopped.json
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/broken/search-every-tier-stopped.json
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/search-every-tier-stopped.json
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/broken/search-every-tier-stopped.json
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/search-other-issue.json
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/broken/search-other-issue.json
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/search-other-issue.json
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/broken/search-other-issue.json
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/search-skipped-a-tier.json
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/broken/search-skipped-a-tier.json
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/search-skipped-a-tier.json
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/broken/search-skipped-a-tier.json
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/search-tier-with-every-tier.json
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/broken/search-tier-with-every-tier.json
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/search-tier-with-every-tier.json
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/broken/search-tier-with-every-tier.json
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/search-unknown-tier.json
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/broken/search-unknown-tier.json
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/search-unknown-tier.json
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/broken/search-unknown-tier.json
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/search-went-past-first-answer.json
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/broken/search-went-past-first-answer.json
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/search-went-past-first-answer.json
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/broken/search-went-past-first-answer.json
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/cite.json
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/cite.json
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/cite.json
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/cite.json
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/decide-not-waiting.json
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/decide-not-waiting.json
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/decide-not-waiting.json
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/decide-not-waiting.json
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/decide.json
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/decide.json
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/decide.json
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/decide.json
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/find-without-issue-starts-at-garura.json
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/find-without-issue-starts-at-garura.json
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/find-without-issue-starts-at-garura.json
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/find-without-issue-starts-at-garura.json
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/find.json
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/find.json
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/find.json
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/find.json
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/health.json
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/health.json
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/health.json
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/health.json
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/propose.json
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/propose.json
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/propose.json
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/propose.json
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/pull-would-overwrite.json
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/pull-would-overwrite.json
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/pull-would-overwrite.json
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/pull-would-overwrite.json
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/pull.json
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/pull.json
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/pull.json
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/pull.json
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/pulled.json
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/pulled.json
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/pulled.json
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/pulled.json
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/read-other-issue-refused.json
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/read-other-issue-refused.json
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/read-other-issue-refused.json
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/read-other-issue-refused.json
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/read-phoenix-not-saved.json
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/read-phoenix-not-saved.json
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/read-phoenix-not-saved.json
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/read-phoenix-not-saved.json
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/read.json
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/read.json
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/read.json
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/read.json
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/search-every-tier.json
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/search-every-tier.json
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/search-every-tier.json
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/search-every-tier.json
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/search-nothing.json
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/search-nothing.json
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/search-nothing.json
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/search-nothing.json
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/search-one-tier-nothing.json
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/search-one-tier-nothing.json
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/search-one-tier-nothing.json
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/search-one-tier-nothing.json
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/search-short-term-without-issue-refused.json
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/search-short-term-without-issue-refused.json
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/search-short-term-without-issue-refused.json
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/search-short-term-without-issue-refused.json
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/search-short-term.json
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/search-short-term.json
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/search-short-term.json
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/search-short-term.json
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/search-tier-missing.json
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/search-tier-missing.json
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/search-tier-missing.json
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/search-tier-missing.json
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/search-without-issue-nothing.json
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/search-without-issue-nothing.json
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/search-without-issue-nothing.json
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/search-without-issue-nothing.json
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/search.json
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/search.json
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/search.json
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/search.json
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/updates.json
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/updates.json
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/updates.json
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/samples/updates.json
+- id: ARCH-03
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  basis: rule ARCH-03 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/test_check_contract.py
+- id: ARCH-08
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  basis: rule ARCH-08 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/test_check_contract.py
+- id: CODE-09
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  basis: rule CODE-09 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/test_check_contract.py
+- id: CODE-10
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  basis: rule CODE-10 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/test_check_contract.py
+- id: CODE-11
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  basis: rule CODE-11 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/test_check_contract.py
+- id: CODE-12
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  basis: rule CODE-12 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/test_check_contract.py
+- id: CODE-15
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  basis: rule CODE-15 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/test_check_contract.py
+- id: CODE-17
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  basis: rule CODE-17 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/test_check_contract.py
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/test_check_contract.py
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/test_check_contract.py
+- id: TEST-14
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/v3.json
+  line: 1
+  basis: rule TEST-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/v3.json
+- id: TEST-18
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/v3.json
+  line: 1
+  basis: rule TEST-18 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/v3.json
+- id: ARCH-03
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/memory.py
+  line: 1
+  basis: rule ARCH-03 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/memory.py
+- id: ARCH-08
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/memory.py
+  line: 1
+  basis: rule ARCH-08 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/memory.py
+- id: CODE-09
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/memory.py
+  line: 1
+  basis: rule CODE-09 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/memory.py
+- id: CODE-10
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/memory.py
+  line: 1
+  basis: rule CODE-10 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/memory.py
+- id: CODE-11
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/memory.py
+  line: 1
+  basis: rule CODE-11 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/memory.py
+- id: CODE-12
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/memory.py
+  line: 1
+  basis: rule CODE-12 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/memory.py
+- id: CODE-15
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/memory.py
+  line: 1
+  basis: rule CODE-15 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/memory.py
+- id: CODE-17
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/memory.py
+  line: 1
+  basis: rule CODE-17 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/memory.py
+- id: ARCH-03
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule ARCH-03 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/pull.py
+- id: ARCH-08
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule ARCH-08 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/pull.py
+- id: CODE-09
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule CODE-09 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/pull.py
+- id: CODE-10
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule CODE-10 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/pull.py
+- id: CODE-11
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule CODE-11 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/pull.py
+- id: CODE-12
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule CODE-12 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/pull.py
+- id: CODE-15
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule CODE-15 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/pull.py
+- id: CODE-17
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule CODE-17 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/pull.py
+- id: ARCH-03
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 1
+  basis: rule ARCH-03 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/test_memory.py
+- id: ARCH-08
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 1
+  basis: rule ARCH-08 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/test_memory.py
+- id: CODE-09
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 1
+  basis: rule CODE-09 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/test_memory.py
+- id: CODE-10
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 1
+  basis: rule CODE-10 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/test_memory.py
+- id: CODE-11
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 1
+  basis: rule CODE-11 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/test_memory.py
+- id: CODE-12
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 1
+  basis: rule CODE-12 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/test_memory.py
+- id: CODE-15
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 1
+  basis: rule CODE-15 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/test_memory.py
+- id: CODE-17
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 1
+  basis: rule CODE-17 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/test_memory.py
+- id: ARCH-03
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule ARCH-03 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/test_pull.py
+- id: ARCH-08
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule ARCH-08 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/test_pull.py
+- id: CODE-09
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule CODE-09 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/test_pull.py
+- id: CODE-10
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule CODE-10 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/test_pull.py
+- id: CODE-11
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule CODE-11 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/test_pull.py
+- id: CODE-12
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule CODE-12 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/test_pull.py
+- id: CODE-15
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule CODE-15 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/test_pull.py
+- id: CODE-17
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule CODE-17 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/test_pull.py
+- id: ARCH-03
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/updates.py
+  line: 1
+  basis: rule ARCH-03 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/updates.py
+- id: ARCH-08
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/updates.py
+  line: 1
+  basis: rule ARCH-08 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/updates.py
+- id: CODE-09
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/updates.py
+  line: 1
+  basis: rule CODE-09 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/updates.py
+- id: CODE-10
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/updates.py
+  line: 1
+  basis: rule CODE-10 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/updates.py
+- id: CODE-11
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/updates.py
+  line: 1
+  basis: rule CODE-11 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/updates.py
+- id: CODE-12
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/updates.py
+  line: 1
+  basis: rule CODE-12 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/updates.py
+- id: CODE-15
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/updates.py
+  line: 1
+  basis: rule CODE-15 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/updates.py
+- id: CODE-17
+  severity: P3
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/updates.py
+  line: 1
+  basis: rule CODE-17 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/updates.py
+- id: BE-23
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: .garura/project/issues/658/evidence/e2e-658-run2.md
+  line: 9
+  basis: rule BE-23 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: lock
+- id: BE-23
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: .garura/project/issues/658/evidence/e2e-658-run2.md
+  line: 17
+  basis: rule BE-23 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: lock
+- id: BE-23
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: .garura/project/issues/658/evidence/e2e-658.md
+  line: 9
+  basis: rule BE-23 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: lock
+- id: BE-23
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: .garura/project/issues/658/evidence/e2e-658.md
+  line: 17
+  basis: rule BE-23 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: lock
+- id: CODE-13
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: .garura/project/issues/658/evidence/e2e_658.py
+  line: 1
+  basis: rule CODE-13 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: .garura/project/issues/658/evidence/e2e_658.py
+- id: CODE-19
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: .garura/project/issues/658/evidence/e2e_658.py
+  line: 1
+  basis: rule CODE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: .garura/project/issues/658/evidence/e2e_658.py
+- id: BE-23
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: .garura/project/issues/658/evidence/e2e_658.py
+  line: 7
+  basis: rule BE-23 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: lock
+- id: BE-23
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: .garura/project/issues/658/evidence/e2e_658.py
+  line: 24
+  basis: rule BE-23 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: lock
+- id: BE-23
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: .garura/project/issues/658/evidence/e2e_658.py
+  line: 27
+  basis: rule BE-23 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: lock
+- id: BE-23
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: .garura/project/issues/658/evidence/e2e_658.py
+  line: 62
+  basis: rule BE-23 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: lock
+- id: BE-23
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: .garura/project/issues/658/evidence/e2e_658.py
+  line: 81
+  basis: rule BE-23 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: lock
+- id: DOC-14
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/README.md
+  line: 1
+  basis: rule DOC-14 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/README.md
+- id: DOC-15
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/README.md
+  line: 1
+  basis: rule DOC-15 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/README.md
+- id: DOC-16
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/README.md
+  line: 1
+  basis: rule DOC-16 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/README.md
+- id: BE-23
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/README.md
+  line: 113
+  basis: rule BE-23 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: lock
+- id: BE-23
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/README.md
+  line: 124
+  basis: rule BE-23 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: lock
+- id: BE-23
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/README.md
+  line: 212
+  basis: rule BE-23 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: lock
+- id: CODE-13
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule CODE-13 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/check_contract.py
+- id: CODE-19
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule CODE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/check_contract.py
+- id: BE-23
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/check_contract.py
+  line: 181
+  basis: rule BE-23 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: lock
+- id: BE-23
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/check_contract.py
+  line: 182
+  basis: rule BE-23 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: lock
+- id: BE-23
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/apply.json
+  line: 26
+  basis: rule BE-23 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: lock
+- id: BE-23
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/apply-promotion-not-in-this-tool.json
+  line: 34
+  basis: rule BE-23 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: lock
+- id: BE-23
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/apply-waiting-update.json
+  line: 26
+  basis: rule BE-23 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: lock
+- id: BE-23
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/apply-written-to-another-tier.json
+  line: 26
+  basis: rule BE-23 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: lock
+- id: BE-23
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/decide-reject-answered-approved.json
+  line: 30
+  basis: rule BE-23 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: lock
+- id: BE-23
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/decide-without-review-tool.json
+  line: 30
+  basis: rule BE-23 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: lock
+- id: BE-23
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/propose-answered-approved.json
+  line: 33
+  basis: rule BE-23 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: lock
+- id: BE-23
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/propose-short-term-other-issue.json
+  line: 33
+  basis: rule BE-23 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: lock
+- id: BE-23
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/propose-unknown-draft-source.json
+  line: 33
+  basis: rule BE-23 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: lock
+- id: BE-23
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/broken/propose-web-draft-to-phoenix.json
+  line: 33
+  basis: rule BE-23 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: lock
+- id: BE-23
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/decide.json
+  line: 30
+  basis: rule BE-23 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: lock
+- id: BE-23
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/propose.json
+  line: 33
+  basis: rule BE-23 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: lock
+- id: BE-23
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/samples/updates.json
+  line: 27
+  basis: rule BE-23 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: lock
+- id: CODE-13
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  basis: rule CODE-13 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/test_check_contract.py
+- id: CODE-19
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  basis: rule CODE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/contract/test_check_contract.py
+- id: BE-23
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 264
+  basis: rule BE-23 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: lock
+- id: BE-23
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 266
+  basis: rule BE-23 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: lock
+- id: BE-23
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 268
+  basis: rule BE-23 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: lock
+- id: BE-23
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/v3.json
+  line: 6
+  basis: rule BE-23 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: lock
+- id: BE-23
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/v3.json
+  line: 17
+  basis: rule BE-23 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: lock
+- id: BE-23
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/v3.json
+  line: 35
+  basis: rule BE-23 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: lock
+- id: BE-23
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/v3.json
+  line: 45
+  basis: rule BE-23 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: lock
+- id: BE-23
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/v3.json
+  line: 545
+  basis: rule BE-23 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: lock
+- id: BE-23
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/v3.json
+  line: 579
+  basis: rule BE-23 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: lock
+- id: BE-23
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/v3.json
+  line: 1095
+  basis: rule BE-23 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: lock
+- id: BE-23
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/v3.json
+  line: 1127
+  basis: rule BE-23 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: lock
+- id: CODE-13
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/memory.py
+  line: 1
+  basis: rule CODE-13 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/memory.py
+- id: CODE-19
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/memory.py
+  line: 1
+  basis: rule CODE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/memory.py
+- id: CODE-13
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule CODE-13 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/pull.py
+- id: CODE-19
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule CODE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/pull.py
+- id: CODE-13
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 1
+  basis: rule CODE-13 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/test_memory.py
+- id: CODE-19
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 1
+  basis: rule CODE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/test_memory.py
+- id: BE-23
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 280
+  basis: rule BE-23 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: lock
+- id: BE-23
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 340
+  basis: rule BE-23 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: lock
+- id: BE-23
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 341
+  basis: rule BE-23 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: lock
+- id: BE-23
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 345
+  basis: rule BE-23 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: lock
+- id: CODE-13
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule CODE-13 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/test_pull.py
+- id: CODE-19
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule CODE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/test_pull.py
+- id: CODE-13
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/updates.py
+  line: 1
+  basis: rule CODE-13 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/updates.py
+- id: CODE-19
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/updates.py
+  line: 1
+  basis: rule CODE-19 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: core/tools/memory/updates.py
+- id: BE-23
+  severity: P4
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/updates.py
+  line: 101
+  basis: rule BE-23 in ./.garura/core/memory/standards/rules/pr.md (configured Garura memory copy)
+  finding: lock
+- id: TIC658-1
+  severity: P2
+  layer: design-grounding (tool-interface-contract)
+  category: tool-interface-contract
+  file: 'core/tools/memory/contract/v3.json (answer_rules.researched_goes_to_short_term, decide_records_the_person, blocking;
+    tiers.short-term; commands.propose, decide and apply summaries; $defs.update_tier; request decided_in); core/tools/memory/README.md
+    (''When no tier answers'', the commands table, ''Rules for this folder'')
+
+    '
+  line: null
+  basis: null
+  finding: 'ADR 036 names the memory contract and the story text as artifacts that follow it ("no rule changes" for v1), and
+    says the next builds "must build the rules the owner set, not the old text". v3 now moves five rules ahead of the committed
+    ADRs: (1) every update lands in short-term memory and promotion leaves the tool (ADR 036 parts 3 and 8; backed on main
+    only in the 657 and 653 working notes and in the 658 plan); (2) a person''s own answer lands in short-term memory too
+    (ADR 036 part 4 and ADR 034 part 2 as amended; backed in the 658 plan only, TIC658-4); (3) a person decides in the review
+    tool, a local prototype page until it is built, and typed approval no longer has a valid record (ADR 035 part 5, ADR 036
+    part 7 and its risk line; backed in the 658 plan only, TIC658-6); (4) an update says whether it blocks the work (ADR 035
+    and 036 "Not decided here"; backed in the 658 plan only, TIC658-8); (5) the review tool, not the contract, is who writes
+    the approval (ADR 036 "Not decided here", second bullet; backed in the 658 plan only). The contract''s own text cites
+    the owner''s chat message ("STM - always STM") where v1 and v2 cited ADR sections. The branch states the amendment is
+    owed through /adr and is not in this change.
+
+    '
+- id: TIC658-2
+  severity: P2
+  layer: design-grounding (tool-interface-contract)
+  category: tool-interface-contract
+  file: 'core/tools/memory/contract/v3.json (answer_rules.decide_records_the_person; commands.decide request.decided_in and
+    its summary; $defs.update decided_by, decided_in, requested_by); core/tools/memory/contract/check_contract.py (check_lifecycle,
+    check_update); samples/decide.json, samples/broken/decide-without-review-tool.json
+
+    '
+  line: null
+  basis: null
+  finding: 'ADR 035 part 5 is the guarantee the whole feature rests on: nothing from the model or the web is used until a
+    person approves it, for every agent and skill. The filed done-when of #658 asks the contract to prove it: "the approval
+    record proves a person gave the word, not an agent ... settle how a person''s word is proven." v3''s answer is a one-value
+    label, decided_in "review-tool", plus decided_by and reply as free text. The contract then states, in the same list as
+    rules the check does enforce, "a person decides each update on its own ... an agent never decides one". Nothing in the
+    contract or its check can tell a person from an agent: requested_by and decided_by are free strings, nothing forbids the
+    requester from also being the decider, and decide is on the same agent-callable surface as propose. Checked on a scratch
+    copy of the committed folder: a decide sample in which the same name ("an-agent") is requested_by and decided_by, with
+    decided_in "review-tool", passes the contract check unchanged. The branch plan says plainly that the record "does not
+    yet stop an agent that calls decide itself". The contract does not say so: its description and its answer rule read as
+    a guarantee. Under IDD Principle 3 a rule nobody can observe is false confidence. The same gap was TIC-2 (P2) in the PR
+    #666 review, which said it would become P1 if #658 built on the contract "as it stands"; v3 adds the label and builds
+    the commands (propose, decide, apply now exist), and the bypass is open the same way. Why still P2: nothing calls the
+    tool yet (agents move onto it in #661), the owner knows and chose to record rather than enforce, a folder engine cannot
+    authenticate anyone, and the review tool''s server (#642) is where the person''s answer is meant to become its own event.
+
+    '
+- id: TIC658-3
+  severity: P2
+  layer: design-grounding (tool-interface-contract)
+  category: tool-interface-contract
+  file: 'core/tools/memory/contract/v3.json (tiers.short-term, ''Every memory update lands here''; answer_rules; settings);
+    core/tools/memory/README.md (settings row updates_dir is the only place the rule is written)
+
+    '
+  line: null
+  basis: null
+  finding: 'v3 says every memory update lands in short-term memory, the first tier every lookup reads. ADR 036 rejected writing
+    a draft to short-term memory alone for exactly this reason: the next lookup "would find its own draft and use it at once",
+    with no person between, "which ADR 035 section 5 forbids". The safeguard is that a waiting or rejected update is never
+    an answer to a lookup. v3.json states no such rule: not in answer_rules, not in tiers.short-term, not in settings (the
+    settings text names phoenix_ref and the pull folder, not where updates are kept). The only statement is one README row
+    for updates_dir ("A lookup never reads them"). The tool does it, and its own tests cover it (a waiting draft is never
+    found or read); the branch plan says an earlier version of the tool did read it. A second engine (a server in Griffin,
+    which the contract exists for) builds from the contract and would have no instruction, and the contract''s own sentence
+    points the other way.
+
+    '
+- id: TIC658-4
+  severity: P3
+  layer: design-grounding (tool-interface-contract)
+  category: tool-interface-contract
+  file: 'core/tools/memory/contract/v3.json ($defs.update_tier, $defs.draft_source person, answer_rules.researched_goes_to_short_term);
+    core/tools/memory/README.md (''When no tier answers'')
+
+    '
+  line: null
+  basis: null
+  finding: 'ADR 036 part 4 puts a person''s own answer into Garura memory, "so no one is asked the same thing twice", and
+    lists "a person is not asked the same question twice" as a benefit; ADR 034 as amended and product.md rule 12 keep a person''s
+    answers durable across runs. v3 allows draft_source person but lands it in the issue''s short-term memory, which another
+    issue never reads (ADR 036 part 1). So until /learn-memory exists (not built, not filed), a person''s answer given in
+    one issue is asked again in the next, and the person must also approve their own answer in the review tool, one update
+    at a time. ADR 036 accepted the repeat-asking risk for researched answers only (line 114); it deliberately kept a person''s
+    own answer out of it.
+
+    '
+- id: TIC658-5
+  severity: P3
+  layer: design-grounding (tool-interface-contract)
+  category: tool-interface-contract
+  file: 'core/tools/memory/contract/v3.json (answer_rules.researched_goes_to_short_term, commands.propose summary, errors,
+    $defs.update_tier); samples/broken/apply-promotion-not-in-this-tool.json; core/tools/memory/README.md (''When no tier
+    answers'' item 4)
+
+    '
+  line: null
+  basis: null
+  finding: 'ADR 035 part 4: agents and skills never write memory by a path; one tool finds and updates memory over all three
+    tiers. v3 takes promotion out of the tool (the old promotion sample is now a sample the check must refuse) and hands it
+    to /learn-memory and /promote-memory. Those two plays are named in the contract of record but exist on main nowhere and
+    are not filed. Nothing says how they write to Garura or Phoenix memory: if they go through the tool, the contract has
+    no command for it (the only command that writes Garura memory is pull, from Phoenix); if they write by path, ADR 035 part
+    4 is the thing to amend. The 657 review raised the same point as part of TIC657-1; v3 now makes the choice and leaves
+    the question open.
+
+    '
+- id: TIC658-6
+  severity: P3
+  layer: design-grounding (tool-interface-contract)
+  category: tool-interface-contract
+  file: 'core/tools/memory/contract/v3.json (commands.decide request.decided_in enum ["review-tool"], commands.decide summary);
+    $defs.update decided_in; samples/decide.json
+
+    '
+  line: null
+  basis: null
+  finding: 'ADR 035 part 5 and ADR 036 part 7 say a person approves by typing until the review tool has the Memory and ADRs
+    section. v3 requires decided_in on every decide, and the only allowed value is "review-tool". So the contract has no honest
+    value for the approval path the ADRs on main keep for now: a person who types "approve" in a session can have it recorded
+    only with a label that is not true. One label also covers two different surfaces (the review tool, and the local prototype
+    page that stands in until it is built, which is deliberately outside git and not in this diff). A repository clone has
+    no surface that matches the committed contract. A one-value enum also cannot grow without a new contract version.
+
+    '
+- id: TIC658-7
+  severity: P3
+  layer: design-grounding (tool-interface-contract)
+  category: tool-interface-contract
+  file: 'core/tools/memory/contract/v3.json (commands.propose request.required adds issue; $defs.issue integer >= 1; tiers.short-term);
+    core/tools/memory/README.md (''The lookup order'', ''When no tier answers'')
+
+    '
+  line: null
+  basis: null
+  finding: 'v2 let a lookup of Garura or Phoenix memory name no issue, so work can look things up before its issue exists
+    (ADR 008 part 4 parks that work in _pending/). The README says an empty answer, with or without an issue, "is the cue
+    to raise a memory update". v3 makes every update land in an issue''s short-term memory and requires issue on propose,
+    as an integer of at least one, with a target_path that starts with ''<issue>/''. So a no-issue lookup that finds nothing
+    ends in an update that cannot be raised. The 655 review raised the same shape for lookups (TIC-3, P2); v2 fixed it for
+    lookups, and v3 reopens it on the write side.
+
+    '
+- id: TIC658-8
+  severity: P3
+  layer: design-grounding (tool-interface-contract)
+  category: tool-interface-contract
+  file: 'core/tools/memory/contract/v3.json (answer_rules.blocking; commands.propose request.blocking; $defs.update blocking);
+    core/tools/memory/README.md (''When no tier answers'' item 1)
+
+    '
+  line: null
+  basis: null
+  finding: 'v3 answers the open question as an answer rule: false lets the rest of the work go on, true stops the work until
+    a person decides, and false is the default. Three things the contract cannot hold. (1) The proposer, the agent that wants
+    to go on, sets the flag; nothing checks it. (2) "Only the work that needs the answer waits" has no handle: an update names
+    its issue but not what depends on it. (3) No code reads the flag (the PR body says no drive reads it); the check only
+    holds that propose carries it as given. ADR 034 kept "a question nothing supports still stops the drive" as a recorded
+    benefit; the default now points the other way, a deliberate owner call, but it means a missing flag lets work go on. This
+    is a label, like decided_in.
+
+    '
+- id: TIC658-9
+  severity: P3
+  layer: design-grounding (tool-interface-contract)
+  category: tool-interface-contract
+  file: 'core/tools/memory/contract/v3.json against the filed text of story #658 (GitHub), read only'
+  line: null
+  basis: null
+  finding: 'The filed text of #658, the work order, still says three things v3 does not do: a person''s own answers become
+    Garura memory; a promotion moves an approved answer from short-term to Garura memory as its own approved update; the approval
+    record proves a person gave the word. At merge the work order and the contract disagree in three places. This review does
+    not suggest writing to the issue; whether and when it changes is the owner''s call.
+
+    '
+- id: TIC658-10
+  severity: P4
+  layer: design-grounding (tool-interface-contract)
+  category: tool-interface-contract
+  file: 'core/tools/memory/contract/v3.json ($defs read response not_saved; saving; errors.would_overwrite; commands.pull
+    and read summaries); core/tools/memory/contract/samples/read-phoenix-not-saved.json
+
+    '
+  line: null
+  basis: null
+  finding: '(1) not_saved is free text (one string, one minimum length), so a caller cannot tell a would_overwrite refusal
+    from any other reason; the same condition has two surfaces, the error would_overwrite on pull and a sentence on read.
+    (2) The contract does not say whether a pulled piece that did not change is refreshed when Phoenix memory moves on (the
+    branch plan says it is; the pull summary still says only "copy ... and record the version"); `pulled` shows behind, but
+    no command settles a piece a person edited, so it stays behind (ADR 035''s recorded risk). (3) The read summary does not
+    mention saving; the rule sits in one prose sentence at the end of the file.
+
+    '
+- id: TIC658-11
+  severity: P4
+  layer: design-grounding (tool-interface-contract)
+  category: tool-interface-contract
+  file: 'core/tools/memory/contract/v3.json ($defs.update_tier, $defs.draft_source, commands.cite decided_by); core/tools/memory/contract/samples/broken/apply-promotion-not-in-this-tool.json
+
+    '
+  line: null
+  basis: null
+  finding: '(1) target_tier, update.target_tier and written.tier are one-value enums named for a choice that no longer exists;
+    a rename or a note is cheaper now than after #659 to #664 build against it. (2) draft_source "memory" lost its main use
+    (a promotion drafted from memory); it stays allowed with no sample that needs it. (3) cite.decided_by (the agent that
+    made a decision) and update.decided_by (the person who approved) still share a name with opposite meanings (carried from
+    TIC-2 of the 655 review, not new here). (4) Nothing exercises v1 or v2 any more: every sample and the check run on v3.
+
+    '
+- id: RT-1
+  severity: P2
+  layer: design-grounding (tool-design-document)
+  category: tool-design-document
+  file: .garura/project/issues/617/specs/review-tool.md
+  line: null
+  basis: null
+  finding: null
+- id: RT-2
+  severity: P3
+  layer: design-grounding (tool-design-document)
+  category: tool-design-document
+  file: .garura/project/issues/617/specs/review-tool.md
+  line: null
+  basis: null
+  finding: null
+- id: RT-3
+  severity: P3
+  layer: design-grounding (tool-design-document)
+  category: tool-design-document
+  file: .garura/project/issues/617/specs/review-tool.md
+  line: null
+  basis: null
+  finding: null
+- id: RT-4
+  severity: P3
+  layer: design-grounding (tool-design-document)
+  category: tool-design-document
+  file: .garura/project/issues/617/specs/review-tool.md
+  line: null
+  basis: null
+  finding: null
+- id: RT-5
+  severity: P3
+  layer: design-grounding (tool-design-document)
+  category: tool-design-document
+  file: .garura/project/issues/617/specs/review-tool.md
+  line: null
+  basis: null
+  finding: null
+- id: RT-6
+  severity: P3
+  layer: design-grounding (tool-design-document)
+  category: tool-design-document
+  file: .garura/project/issues/617/specs/review-tool.md
+  line: null
+  basis: null
+  finding: null
+- id: RT-7
+  severity: P4
+  layer: design-grounding (tool-design-document)
+  category: tool-design-document
+  file: .garura/project/issues/617/specs/review-tool.md
+  line: null
+  basis: null
+  finding: null
+- id: RT-8
+  severity: P4
+  layer: design-grounding (tool-design-document)
+  category: tool-design-document
+  file: .garura/project/issues/617/specs/review-tool.md
+  line: null
+  basis: null
+  finding: null
+counts:
+  P1: 5
+  P2: 84
+  P3: 185
+  P4: 66

@@ -2,7 +2,7 @@
 """Tests for memory.py. Run from the tool's folder: python3 test_memory.py
 
 Every answer the tool gives is also put through the contract check (shape and answer
-rules), so the tool cannot drift from contract/v2.json.
+rules), so the tool cannot drift from contract/v3.json.
 """
 
 import contextlib
@@ -42,17 +42,15 @@ class Tiers(test_pull.Tiers):
     def ask(self, command, request, env=None):
         """One answer, checked against the contract before the test sees it."""
         answers = memory.run(command, request, self.env if env is None else env)
-        if command not in ("pull", "pulled"):
-            spec = memory.CONTRACT["commands"][command]
-            for a in answers:
-                if cc.validate(request, spec["request"], memory.CONTRACT):
-                    # a request the contract refuses: the answer must be that refusal
-                    self.assertEqual(cc.validate(a, spec["response"], memory.CONTRACT), [], a)
-                    self.assertEqual(a["error"]["code"], "bad_request", a)
-                    continue
-                problems = cc.check_sample({"command": command, "request": request, "response": a},
-                                           memory.CONTRACT)
-                self.assertEqual(problems, [], (command, request, a))
+        spec = memory.CONTRACT["commands"][command]
+        for a in answers:
+            if cc.validate(request, spec["request"], memory.CONTRACT):
+                # a request the contract refuses: the answer must be that refusal
+                self.assertEqual(cc.validate(a, spec["response"], memory.CONTRACT), [], a)
+                self.assertEqual(a["error"]["code"], "bad_request", a)
+                continue
+            problems = cc.check_sample({"command": command, "request": request, "response": a}, memory.CONTRACT)
+            self.assertEqual(problems, [], (command, request, a))
         return answers[0]
 
 
@@ -184,6 +182,28 @@ class UsedMemoryIsSaved(Tiers):
         listed = memory.run("pulled", {}, self.env)[0]["pieces"]
         self.assertEqual([p["path"] for p in listed], ["knowledge/domains/user-management.md"])
 
+    def test_the_read_says_where_it_saved(self):
+        a = self.ask("read", {"issue": 7, "tier": "phoenix", "path": "standards/rules/commits.md"})
+        self.assertEqual(a["saved_to"], {"tier": "garura", "path": "pulled-memory/standards/rules/commits.md"})
+
+    def test_never_saved_over_a_different_garura_file(self):
+        mine = os.path.join(self.garura, "pulled-memory", "standards/rules/commits.md")
+        os.makedirs(os.path.dirname(mine))
+        with open(mine, "w") as fh:
+            fh.write("# Commits\nOur own rule: subject under 50.\n")
+        a = self.ask("read", {"issue": 7, "tier": "phoenix", "path": "standards/rules/commits.md"})
+        self.assertIn("not_saved", a)
+        with open(mine) as fh:
+            self.assertEqual(fh.read(), "# Commits\nOur own rule: subject under 50.\n")
+        self.assertEqual(self.ask("pull", {"path": "standards/rules/commits.md"})["error"]["code"], "would_overwrite")
+
+    def test_a_pulled_piece_is_refreshed_when_phoenix_moves_on(self):
+        self.ask("read", {"issue": 7, "tier": "phoenix", "path": "standards/rules/commits.md"})
+        write(self.phoenix, "standards/rules/commits.md", "# Commits\nSubject under 60.\n")
+        self.commit("change")
+        a = self.ask("read", {"issue": 7, "tier": "phoenix", "path": "standards/rules/commits.md"})
+        self.assertIn("saved_to", a)
+
     def test_a_search_hit_alone_pulls_nothing(self):
         self.ask("search", {"issue": 7, "pattern": "reset link"})
         self.assertFalse(os.path.exists(os.path.join(self.garura, "pulled-memory")))
@@ -239,6 +259,97 @@ class Settings(Tiers):
                          "bad_request")
 
 
+class Updates(Tiers):
+    """A gap, a memory update, a person's word, the write — all in the issue's short-term memory."""
+
+    def raise_update(self, **extra):
+        request = {"issue": 7, "missing": "How long a reset link lasts in this product.",
+                   "target_tier": "short-term", "target_path": "7/context/answers/reset-link.md",
+                   "draft": "A reset link lasts 30 minutes in this product.", "draft_source": "web",
+                   "sources": [], "requested_by": "test agent"} | extra
+        return self.ask("propose", request)["update"]
+
+    def decide(self, uid, verdict="approve"):
+        return self.ask("decide", {"id": uid, "verdict": verdict, "by": "a person", "reply": verdict,
+                                   "decided_in": "review-tool"})
+
+    def test_the_whole_way_in_one_issue(self):
+        gap = self.ask("search", {"issue": 7, "pattern": "30 minutes"})
+        self.assertEqual(gap["answered_by"], None)
+        update = self.raise_update()
+        self.assertEqual((update["status"], update["blocking"]), ("waiting", False))
+        self.assertEqual(self.ask("search", {"issue": 7, "pattern": "30 minutes"})["answered_by"], None)
+        self.assertEqual(self.decide(update["id"])["update"]["status"], "approved")
+        applied = self.ask("apply", {"id": update["id"]})
+        self.assertEqual(applied["written"]["path"], "7/context/answers/reset-link.md")
+        found = self.ask("search", {"issue": 7, "pattern": "30 minutes"})
+        self.assertEqual((found["answered_by"], found["hits"][0]["path"]),
+                         ("short-term", "7/context/answers/reset-link.md"))
+        self.assertEqual(self.ask("search", {"issue": 8, "pattern": "30 minutes"})["answered_by"], None)
+
+    def test_a_waiting_draft_is_never_found_or_read(self):
+        update = self.raise_update()
+        self.assertEqual(self.ask("search", {"issue": 7, "pattern": "30 minutes"})["answered_by"], None)
+        self.assertEqual(self.ask("find", {"issue": 7, "glob": "**/mu-*.json"})["matches"], [])
+        stored = f"7/review/memory-updates/{update['id']}.json"
+        self.assertEqual(self.ask("read", {"issue": 7, "tier": "short-term", "path": stored})["error"]["code"],
+                         "not_found")
+
+    def test_a_rejected_update_writes_nothing(self):
+        update = self.raise_update()
+        self.decide(update["id"], "reject")
+        self.assertEqual(self.ask("apply", {"id": update["id"]})["error"]["code"], "not_approved")
+        self.assertFalse(os.path.exists(os.path.join(self.short, "7/context/answers/reset-link.md")))
+
+    def test_nothing_is_written_before_a_person_decides(self):
+        update = self.raise_update()
+        self.assertEqual(self.ask("apply", {"id": update["id"]})["error"]["code"], "not_approved")
+
+    def test_a_person_decides_once_and_it_is_applied_once(self):
+        update = self.raise_update()
+        self.decide(update["id"])
+        self.assertEqual(self.decide(update["id"])["error"]["code"], "wrong_state")
+        self.ask("apply", {"id": update["id"]})
+        self.assertEqual(self.ask("apply", {"id": update["id"]})["error"]["code"], "wrong_state")
+
+    def test_a_target_that_changed_is_not_written_over(self):
+        update = self.raise_update()
+        self.decide(update["id"])
+        write(self.short, "7/context/answers/reset-link.md", "someone wrote here first\n")
+        self.assertEqual(self.ask("apply", {"id": update["id"]})["error"]["code"], "changed")
+
+    def test_an_update_stays_in_its_issue(self):
+        a = self.ask("propose", {"issue": 7, "missing": "x", "target_tier": "short-term",
+                                 "target_path": "8/context/x.md", "draft": "x", "draft_source": "person",
+                                 "sources": [], "requested_by": "test agent"})
+        self.assertEqual(a["error"]["code"], "bad_request")
+
+    def test_an_update_never_writes_into_the_updates_folder(self):
+        a = self.ask("propose", {"issue": 7, "missing": "x", "target_tier": "short-term",
+                                 "target_path": "7/review/memory-updates/mu-20261018-001.json", "draft": "x",
+                                 "draft_source": "person", "sources": [], "requested_by": "test agent"})
+        self.assertEqual(a["error"]["code"], "bad_request")
+
+    def test_an_update_never_targets_garura_or_phoenix(self):
+        for tier in ("garura", "phoenix"):
+            a = self.ask("propose", {"issue": 7, "missing": "x", "target_tier": tier, "target_path": "7/x.md",
+                                     "draft": "x", "draft_source": "person", "sources": [],
+                                     "requested_by": "test agent"})
+            self.assertEqual(a["error"]["code"], "bad_request", tier)
+
+    def test_listing_and_blocking(self):
+        first = self.raise_update(blocking=True)
+        second = self.raise_update(target_path="7/context/answers/other.md")
+        self.decide(second["id"])
+        waiting = self.ask("updates", {"status": "waiting"})["updates"]
+        self.assertEqual([(u["id"], u["blocking"]) for u in waiting], [(first["id"], True)])
+        self.assertEqual(len(self.ask("updates", {})["updates"]), 2)
+        self.assertNotEqual(first["id"], second["id"])
+
+    def test_an_unknown_update(self):
+        self.assertEqual(self.ask("apply", {"id": "mu-20000101-001"})["error"]["code"], "not_found")
+
+
 class CommandLine(Tiers):
     """Every command line gets a JSON answer, even one the tool cannot read."""
 
@@ -252,6 +363,13 @@ class CommandLine(Tiers):
             os.environ.clear()
             os.environ.update(old)
         return code, [json.loads(line) for line in out.getvalue().splitlines()]
+
+    def test_pull_takes_the_contract_request(self):
+        for argv in (["pull", "--path", "standards/rules/commits.md"],
+                     ["pull", "--request", '{"path": "standards/rules/commits.md"}'],
+                     ["pull", "standards/rules/commits.md"]):
+            code, answers = self.main(argv)
+            self.assertEqual((code, answers[0]["path"]), (0, "standards/rules/commits.md"), argv)
 
     def test_flags_and_a_whole_request_give_the_same_answer(self):
         _, by_flags = self.main(["search", "--issue", "7", "--pattern", "reset link"])

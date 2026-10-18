@@ -248,6 +248,21 @@ gives the full model or the clean final text.
    person, and which memory each decision came from. Every memory review and
    ADR review happens here, with the Catch up cards above. Built in #664.
 
+   **Memory updates** (Kapil, 18 Oct, #658: "use the tool we built for product
+   and intent... that now shows memory's created in STM, and each needs an
+   explicit approval from a human"). Every memory update lands in an issue's
+   short-term memory ("STM - always STM"). The section lists each update
+   waiting for a person, one card each: the issue, what was missing, the drafted
+   entry, where the draft came from (the person, the web, the model, or memory —
+   marked), the sources, and whether it blocks the work. Each one needs its own
+   explicit answer from a person: **Approve** or **Reject**, with the person's
+   words. Nothing is approved in bulk, and an agent never answers one: the
+   tool records the person's answer as an event, and only then does Garura
+   apply the update to the issue's short-term memory. Moving memory up is not
+   done here: `/learn-memory` (short-term to Garura memory) and
+   `/promote-memory` (Garura to Phoenix memory, approved outside Garura) are
+   their own plays.
+
 **Keeping the load low** — the rules the page follows:
 
 - One question per piece: "What do you want to do with this?"
@@ -273,6 +288,8 @@ gives the full model or the clean final text.
 | **Accept** | the **Accept** button | the piece becomes real at Finish |
 | **Send back** | the **Send back** button, with a comment | Garura re-runs the play that writes that kind, for that one piece; it comes back as a new revision |
 | **Finish** | the **Finish review** button, once every changed piece has an answer | Garura applies all answers |
+| **Approve a memory update** | the **Approve** button on one update, with the person's words | the update is approved; Garura writes it to its issue's short-term memory |
+| **Reject a memory update** | the **Reject** button on one update, with the person's words | nothing is written; the work that waits on it stays stopped |
 
 **Comment states.** Each comment is open, answered (Garura replied) or resolved
 (the person ticked it). Resolving no longer means deleting, which was a gap in
@@ -410,8 +427,24 @@ Each line is one story. Each is a slice that works on its own.
    one commit that matches what the person chose.
 8. **Kickoff uses it.** #613 runs the review as its last step.
 
-Stories 1–4 touch only the tool. Stories 5–8 touch only Garura. That split is
-the extraction line, tested every day it is built.
+9. **Memory and ADRs.** The third section (#664): what each memory tier holds,
+   the memory updates waiting in short-term memory with an explicit Approve or
+   Reject on each, the ADRs waiting, and which memory each decision came from.
+
+Stories 1–4 and 9 touch only the tool. Stories 5–8 touch only Garura. That split
+is the extraction line, tested every day it is built.
+
+**Where it is built, and what stands in until then** (Kapil, 18 Oct, #658: "we
+will build the tool with all the sections inside garura - as part of 606 plan.
+it remains a local prototype for now."). The tool, with all its sections, is
+built inside Garura as part of the #606 plan. Until then, "we will use the local
+tool itself": the local prototype in `core/tools/play-reviewer/` (never
+committed) gains a memory-updates page that lists the updates waiting in
+short-term memory and records each person's Approve or Reject through the
+memory tool. #658 builds that page. It is not a design of its own (Kapil, 18 Oct: "ensure
+that its part of same design. and not build solo"): it uses this tool's mockup — the same rail,
+top bar, look and Catch up cards — opened on the Memory and ADRs section, with Intents and
+Product shown but not yet built.
 
 ## 8. Risks
 

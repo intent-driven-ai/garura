@@ -7,7 +7,7 @@
   },
   "response": {
     "ok": true,
-    "contract_version": "2",
+    "contract_version": "3",
     "command": "search",
     "looked_in": [
       "short-term",

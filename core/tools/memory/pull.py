@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-pull.py — the memory tool's pull and pulled commands, on folders (contract version 2).
+pull.py — the memory tool's pull and pulled commands, on folders (contract version 3).
 
     python3 pull.py pull <path-or-glob>... [--phoenix DIR] [--garura DIR] [--ref REF]
     python3 pull.py pulled [--behind] [--phoenix DIR] [--garura DIR] [--ref REF]
@@ -15,14 +15,16 @@ the project. Their places come from the flags, else from MEMORY_PHOENIX_ROOT,
 MEMORY_GARURA_ROOT and MEMORY_PHOENIX_REF — never from a fixed path.
 
 pull copies pieces from Phoenix memory into Garura memory, at the same path. Nothing
-leaves Phoenix memory. Each piece is recorded in Garura memory's pulled list, pulled.json:
+leaves Phoenix memory. A piece is never written over a different file: if Garura memory
+already holds a file at that path that pull did not write, or that changed since, the
+answer is would_overwrite and nothing is written. Each piece is recorded in Garura memory's pulled list, pulled.json:
 its path, the Phoenix version it came from (the repository's commit) and the fingerprint
 of its text. Pulling a piece again refreshes its entry.
 
 pulled lists those pieces with the current Phoenix version, and says which are behind:
 the text in Phoenix memory no longer matches the fingerprint that was pulled.
 
-Answers are JSON in the contract's shapes (contract/v2.json). pull prints one answer per
+Answers are JSON in the contract's shapes (contract/v3.json). pull prints one answer per
 piece, one per line. Exit 0 when every answer is ok, 1 when any is an error.
 Standard library only, Python 3.10 or newer.
 """
@@ -35,7 +37,7 @@ import re
 import subprocess
 import sys
 
-CONTRACT_VERSION = "2"
+CONTRACT_VERSION = "3"
 LIST = "pulled.json"
 SAFE_PATH = re.compile(r"^(?!/)(?!.*\.\.)[^\\\n\r]+\Z")
 
@@ -163,6 +165,15 @@ def pull(phoenix, garura, patterns, ref="HEAD"):
             continue
         for rel in rels:
             data, dest = show(phoenix, rel, ref), os.path.join(garura, rel)
+            if os.path.exists(dest):
+                with open(dest, "rb") as fh:
+                    here = fingerprint_bytes(fh.read())
+                ours = rel in entries and entries[rel]["fingerprint"] == here
+                if not ours and here != fingerprint_bytes(data):
+                    answers.append(error("pull", Refusal(
+                        "would_overwrite", f"Garura memory already holds a different file at {rel}, one pull did "
+                        "not write or one changed since; nothing was overwritten.", "garura")))
+                    continue
             os.makedirs(os.path.dirname(dest), exist_ok=True)
             with open(dest, "wb") as fh:
                 fh.write(data)

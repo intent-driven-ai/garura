@@ -1,0 +1,367 @@
+category: tool-design-document
+grounded_by: change-reviewer (Layer 2, PR #675 / issue 658)
+base_ref: main
+file_under_review: .garura/project/issues/617/specs/review-tool.md
+method: >
+  Principles were reconstructed only from sources committed on main (git show main:<path>):
+  the base version of this same design document (sections 1, 2, 3, 4, 5, 7, 10), its mockup,
+  ADR 031, 032, 033, 034, 035 and 036, the committed memory-tool contract (version 2), and the
+  committed #606 and #653 plans. Nothing the branch adds or rewrites was used as grounding.
+  The owner's decisions of 2026-10-18 are quoted in the branch's added text and in the branch's
+  #658 plan; they are used here only to answer "is this departure backed by an owner decision",
+  never to say what the committed design is. Where a decision is only on the branch, the finding
+  says so.
+status: completed
+grounding_unavailable: none
+
+sources_consulted:
+  - "main:.garura/project/issues/617/specs/review-tool.md   # sections 1 (Extractable), 2 (events, listener), 3 (pack kinds carry the verbs they allow), 4 (one page, three sections; Catch up; item 7 Memory and ADRs), 5 (actions table; Approval is part of the product model, Who writes it), 7 (build order and the extraction line), 10 (prototypes)"
+  - "main:.garura/project/issues/617/specs/review-tool-mockup.html   # switch has Intents and Product only; Catch up card answers are Drop, Send back, Later, Accept; no memory or ADR section"
+  - "main:docs/adr/032-drive-review-of-outcomes.md   # section 1 (review is the drive's last step), 4 (accept, drop, send back), 5 (answers applied as one commit)"
+  - "main:docs/adr/033-approval-in-the-product-model.md   # section 6 (only the review step writes approval; the review tool writes nothing to the model)"
+  - "main:docs/adr/034-plays-answer-from-memory-inside-a-drive.md   # a question nothing supports stops the drive and goes to the person; the review is at the drive's end"
+  - "main:docs/adr/035-agents-work-only-from-memory.md   # section 5 (nothing used until a person approves; until the memory review exists the person types), Not decided here"
+  - "main:docs/adr/036-approved-answer-lands-in-short-term-memory.md   # sections 2, 3, 4 (where an answer lands; promotion outside the work; a person's own answer goes to Garura memory), 7 (Memory and ADRs, same Catch up cards, typing until the section exists), Not decided here (who writes the approval)"
+  - "main:core/tools/memory/contract/v2.json   # decide: verdict approve or reject, by, reply (all required); 'Only a person decides; until the memory review exists, the person types it'; draft_source is person, web, model or memory"
+  - "main:.garura/project/issues/653/specs/plan.md   # item 5 (what a memory update holds; learn and promote plays, not filed yet), item 11 (#664: needs items 5 and 6 and the tool; includes the /adr play change; two points open, among them who writes the approval)"
+  - "main:.garura/project/issues/606/specs/plan.md   # item 8, order inside the item: the runner first, then the review (#641-#644 the tool)"
+  - "main:core/components/memory/standards/rules/pr.md   # P1-P4 severity buckets"
+
+principles_grounded:
+  - id: G1
+    principle: >
+      The tool is extractable. It lives in its own folder, imports no Garura code, reads no
+      Garura path, and talks to Garura only through the contract. Garura words reach it as
+      data (kinds with a label, an icon and the verbs they allow), never as code.
+    committed_source: "main:.garura/project/issues/617/specs/review-tool.md sections 1 (items 1, 2, 3, 7) and 3 (kinds carry 'which verbs it allows')"
+  - id: G2
+    principle: >
+      The extraction line is tested by the build order: stories 1 to 4 touch only the tool,
+      stories 5 to 8 touch only Garura. "That split is the extraction line, tested every day
+      it is built."
+    committed_source: "main:.garura/project/issues/617/specs/review-tool.md section 7, last paragraph"
+  - id: G3
+    principle: >
+      The tool writes nothing to the model or to Garura. It records each action as a numbered
+      event; Garura's listener connects to it, writes the events to files, and Garura applies
+      the answers (live only for a send-back, otherwise at Finish). Only the review step writes
+      approval.
+    committed_source: "main:.garura/project/issues/617/specs/review-tool.md sections 2 and 5 ('Who writes it'); main:docs/adr/033-approval-in-the-product-model.md section 6; main:docs/adr/032-drive-review-of-outcomes.md sections 1 and 5"
+  - id: G4
+    principle: >
+      Memory and ADRs are reviewed in the review tool's third section, on the same Catch up
+      cards as Intents and Product: one card per change, swipe right to accept, swipe left to
+      leave for later; Send back and Drop are buttons that take a comment. One app, one
+      server, one link, one review. The design is one design, not a second one.
+    committed_source: "main:docs/adr/036-approved-answer-lands-in-short-term-memory.md section 7; main:.garura/project/issues/617/specs/review-tool.md section 4 (one page, three sections; Catch up; item 7); main:.garura/project/issues/617/specs/review-tool-mockup.html (Catch up card)"
+  - id: G5
+    principle: >
+      Nothing from the model or the web is used until a person approves a memory update. The
+      memory tool's decide records a person's word as approve or reject with their reply
+      (required) and says only a person decides. A memory update carries what is missing, the
+      draft, where the draft came from (person, web, model, memory) and its sources.
+    committed_source: "main:docs/adr/035-agents-work-only-from-memory.md section 5; main:core/tools/memory/contract/v2.json (decide, propose, draft_source); main:.garura/project/issues/653/specs/plan.md item 5"
+  - id: G6
+    principle: >
+      An approved researched answer lands in the current issue's short-term memory. Moving it
+      up is a promotion, outside the work, its own memory update a person approves. A person's
+      own answer to a question goes to Garura memory. Until the Memory and ADRs section exists
+      a person approves by typing.
+    committed_source: "main:docs/adr/036-approved-answer-lands-in-short-term-memory.md sections 2, 3, 4, 7; main:docs/adr/035-agents-work-only-from-memory.md section 5"
+  - id: G7
+    principle: >
+      Points the committed ADRs leave open stay open until a decision record closes them: who
+      writes the approval when a person answers a memory update or an ADR card; whether the
+      rest of a drive goes on while one update waits.
+    committed_source: "main:docs/adr/036-approved-answer-lands-in-short-term-memory.md (Negative / Risks, Not decided here); main:docs/adr/035-agents-work-only-from-memory.md (Not decided here); main:.garura/project/issues/653/specs/plan.md item 11 ('settled with Kapil before building')"
+  - id: G8
+    principle: >
+      The tool is built as part of the #606 plan: the runner first, then the review (#641 to
+      #644 the tool), in the order the plan sets. The memory review (#664) needs the memory
+      updates and decision sources (653 items 5 and 6) and the tool, and also carries the
+      /adr play change.
+    committed_source: "main:.garura/project/issues/606/specs/plan.md item 8 (order inside the item); main:.garura/project/issues/653/specs/plan.md item 11"
+
+conformance:
+  # Changes that conform to the committed design (no finding).
+  - change: "Memory updates paragraph: one card per waiting update with the issue, what was missing, the drafted entry, where the draft came from (person, web, model or memory), the sources, and whether it blocks"
+    verdict: conforms
+    basis: "G5. 653 plan item 5 on main lists what is missing, the draft and its marked source; contract v2 propose carries missing, draft, draft_source (person, web, model, memory) and sources. The blocking flag rests on an owner decision recorded only on the branch (see RT-5)."
+  - change: "Approve or Reject, each with the person's words; nothing approved in bulk; an agent never answers one"
+    verdict: conforms
+    basis: "G5 and G4. Contract v2 decide takes verdict approve or reject plus a required reply, and says only a person decides; ADR 035 section 5 forbids use before approval; ADR 036 section 7 and base section 4 are one card per change. Per-kind verbs are allowed by base section 3 (a kind carries the verbs it allows), so Approve and Reject are a legitimate verb pair for a memory-update kind, delivered as data (G1). The way these two answers sit with the Catch up gestures is the open point in RT-2."
+  - change: "The tool records the person's answer as an event, and only then does Garura apply the update"
+    verdict: conforms
+    basis: "G3. Same shape as base section 2 (events, Garura listens and applies) and ADR 033 section 6 (the review tool writes nothing to the model). The stand-in's different flow is RT-3; the timing is RT-4; closing an open ADR point is RT-5."
+  - change: "Moving memory up is not done in this section; /learn-memory and /promote-memory are their own plays; promotion approved outside Garura"
+    verdict: conforms
+    basis: "G6. ADR 036 section 3 (promotion outside the work) and the 653 plan item 5 note on main (learn and promote are plays, not this tool; promote's approval sits outside Garura). The play names and their status are RT-7."
+  - change: "Section 4 item 7 and the switch: Memory and ADRs stay the third section of one page; the new paragraph sits under the existing item"
+    verdict: conforms
+    basis: "G4. Base section 4 already names Memory and ADRs as the third section of the one app; the branch adds to it and does not add a second tool, server or link."
+  - change: "Where it is built: the tool, with all its sections, inside Garura as part of the #606 plan; the local prototype stands in until then"
+    verdict: conforms
+    basis: "G8 and G1. #606 plan item 8 on main puts the review (#641 to #644, the tool) after the runner, so something must stand in for memory approvals meanwhile; base section 1 item 1 already puts the tool in a folder under core/tools/ inside the repository; base section 10 already names the local play-reviewer prototype as prior art. Wording points are in RT-8."
+
+findings:
+  - id: RT-1
+    file: .garura/project/issues/617/specs/review-tool.md
+    lines: "430-436 (story 9 and the sentence after it)"
+    severity: P2
+    principle: >
+      The build order is the extraction line: stories that touch only the tool are 1 to 4,
+      stories that touch only Garura are 5 to 8, and the split is tested every day it is built.
+      What the Memory and ADRs section shows (what each tier holds, the updates waiting, the
+      ADRs waiting, where each decision's memory came from) is Garura data. It must reach the
+      tool in the pack as kinds with their labels and verbs (G1), and Approve and Reject must
+      be applied on Garura's side.
+    committed_source: >
+      main:.garura/project/issues/617/specs/review-tool.md section 7 (last paragraph) and
+      section 1 items 2 and 7; section 2 (Garura listens and applies); section 3 (Garura builds
+      the pack). main:.garura/project/issues/653/specs/plan.md item 11 (#664 needs items 5 and 6,
+      which are memory updates and named sources, and includes the /adr play change, a
+      Garura-side change).
+    violation: >
+      The branch adds story 9 (Memory and ADRs, #664) and rewrites the line to "Stories 1-4 and
+      9 touch only the tool." Story 9 as written has a Garura half: building the memory part of
+      the pack from the memory tool's waiting updates, and applying an approved or rejected
+      answer to short-term memory (the same added paragraph says "only then does Garura apply
+      the update"). Calling it tool-only puts Garura work on the wrong side of the extraction
+      line, and it hides that the tool half must take "memory update" and its verbs as pack
+      data, never name them in code (base section 1 item 2).
+    backed_by_owner_decision: >
+      No. The quoted decisions say the tool is built inside Garura with all its sections and
+      that this is one design; none says story 9 is tool-only.
+    recommendation: >
+      Split story 9 the way stories 1 to 4 and 5 to 8 are split: a tool half (render a
+      memory-update kind and its Approve and Reject verbs from the pack) and a Garura half
+      (build the memory part of the pack from the memory tool, record the person's answer
+      through the memory tool on the event, the /adr accept card), and keep "touch only" true
+      for each half.
+
+  - id: RT-2
+    file: .garura/project/issues/617/specs/review-tool.md
+    lines: "245-249 with 251-262 (item 7 and the Memory updates paragraph); 291-292 (two table rows)"
+    severity: P3
+    principle: >
+      Memory reviews use the same Catch up cards as Intents and Product: one card per change,
+      swipe right to accept, swipe left to leave for later, Send back and Drop as buttons that
+      take a comment, with undo and a later pile. The committed #653 plan listed a memory
+      update's answers as accept, send back, drop or leave for later.
+    committed_source: >
+      main:docs/adr/036-approved-answer-lands-in-short-term-memory.md section 7;
+      main:.garura/project/issues/617/specs/review-tool.md section 4 item 6 and item 7 ("with
+      the Catch up cards above"); main:.garura/project/issues/617/specs/review-tool-mockup.html
+      (card answers Drop, Send back, Later, Accept); main:.garura/project/issues/653/specs/plan.md
+      item 11.
+    violation: >
+      The new paragraph gives a memory update exactly two answers, Approve and Reject, each with
+      the person's words, and says nothing about swipe right, swipe left (leave for later), Send
+      back, Undo or the later pile. Item 7 on main, two lines above it, still says memory
+      reviews happen "with the Catch up cards above". A reader cannot tell whether a memory
+      update appears in Catch up at all, how Approve maps to swipe right, or what a person does
+      with an update they are not ready to answer or want redrafted. After a Reject the added
+      table row says "the work that waits on it stays stopped" and offers no way forward
+      (a send-back for a redraft is the committed way for an agent to try again).
+    backed_by_owner_decision: >
+      Partly. "each needs an explicit approval from a human" backs an explicit answer. The words
+      are required by the committed memory contract (decide needs a reply), and a bare swipe
+      cannot supply them, so a bare swipe-to-approve is rightly not offered. Nothing quoted
+      backs dropping leave-for-later or send-back, and "ensure that its part of same design"
+      points the other way.
+    recommendation: >
+      Say in one sentence how a memory-update card sits in Catch up: for example swipe right
+      or Approve opens the words box, swipe left leaves it for later, Reject takes words, and
+      state whether Send back (a redraft) is offered. Keep Approve and Reject as the recorded
+      verbs.
+
+  - id: RT-3
+    file: .garura/project/issues/617/specs/review-tool.md
+    lines: "437-448 (Where it is built, and what stands in until then)"
+    severity: P3
+    principle: >
+      The designed flow is: the tool records an event, Garura's listener connects to the tool,
+      writes the event to a file, and Garura calls the memory tool. The tool imports no Garura
+      code, reads no Garura path, and writes nothing to Garura.
+    committed_source: >
+      main:.garura/project/issues/617/specs/review-tool.md section 1 (items 1, 3, 7) and section
+      2 (the listener; "Why the listener connects to the tool, not the other way round");
+      main:docs/adr/033-approval-in-the-product-model.md section 6.
+    violation: >
+      The stand-in page "records each person's Approve or Reject through the memory tool", that
+      is the page itself calls Garura's memory tool and reads the waiting updates from Garura's
+      short-term folders. That is the flow section 1 rules out for the real tool, and it is a
+      different flow from the one the first added paragraph describes (event, then Garura
+      applies). The text presents both as one design with no sign that the stand-in is a
+      temporary exception outside the extraction line, so a builder of the real tool could copy
+      the stand-in's direct call.
+    backed_by_owner_decision: >
+      Yes for having a stand-in ("until the tool is built, we will use the local tool itself";
+      "it remains a local prototype for now"). Not stated by any quoted decision: that the
+      stand-in may call the memory tool directly.
+    recommendation: >
+      Add one clause: the stand-in calls the memory tool directly and is outside the extraction
+      line; the real tool records an event and Garura's side calls the memory tool.
+
+  - id: RT-4
+    file: .garura/project/issues/617/specs/review-tool.md
+    lines: "251-262 (Memory updates paragraph); 291 (Approve row)"
+    severity: P3
+    principle: >
+      Answers are recorded as events and acted on at Finish, except a send-back, which Garura
+      may start at once. A drive's review is the drive's last step and its answers are applied
+      as one commit. A question nothing in memory supports stops the drive and goes to the
+      person while the drive is running.
+    committed_source: >
+      main:.garura/project/issues/617/specs/review-tool.md section 2 ("comment, edit, accept,
+      drop - recorded; acted on at Finish") and section 5 ("Accept ... becomes real at Finish";
+      "Finish ... Garura applies all answers"); main:docs/adr/032-drive-review-of-outcomes.md
+      sections 1 and 5; main:docs/adr/034-plays-answer-from-memory-inside-a-drive.md (a question
+      nothing supports stops the drive).
+    violation: >
+      The Approve row says the update is approved and "Garura writes it to its issue's
+      short-term memory", with no Finish step, which differs from how Accept works on every
+      other piece. The text does not say when the tool is opened for an update that blocks work
+      in the middle of a drive (the committed review is the last step), whether Finish waits
+      for updates still unanswered, or whether an Approve is applied at once or at Finish. The
+      design needed for a blocking update (answer mid-run, apply at once) is a second model next
+      to the committed one and is not named.
+    backed_by_owner_decision: >
+      No. The decision that a drive keeps going unless an update blocks (recorded on the
+      branch's #658 plan, item 1b) implies a mid-run answer for a blocking update but does not
+      set when the tool opens or when the answer is applied.
+    recommendation: >
+      State the timing in the paragraph: who opens the section when an update blocks, that an
+      Approve or Reject is applied when it is recorded (an exception to "acted on at Finish",
+      like a send-back), and that Finish does not wait on updates that do not block.
+
+  - id: RT-5
+    file: .garura/project/issues/617/specs/review-tool.md
+    lines: "251-262 (the sentences 'Every memory update lands in an issue's short-term memory', 'an agent never answers one', and 'whether it blocks the work'); 437-448 (stand-in instead of typing)"
+    severity: P3
+    principle: >
+      A design document does not close points that committed decision records say are open, or
+      state rules that contradict them, without a decision record. The committed text says: only
+      an approved researched answer lands in short-term memory and a person's own answer goes
+      to Garura memory; until the Memory and ADRs section exists a person approves by typing;
+      who writes the approval for a memory update or ADR card is not decided; whether a drive
+      goes on while one update waits is not decided.
+    committed_source: >
+      main:docs/adr/036-approved-answer-lands-in-short-term-memory.md sections 2, 4, 7 and
+      Negative / Risks (Not decided here); main:docs/adr/035-agents-work-only-from-memory.md
+      section 5 and Not decided here; main:core/tools/memory/contract/v2.json (decide summary:
+      "until the memory review exists, the person types it"); main:.garura/project/issues/653/specs/plan.md
+      item 11 ("settled with Kapil before building").
+    violation: >
+      (a) "Every memory update lands in an issue's short-term memory" is wider than ADR 036
+      sections 2 and 4 (only the approved researched answer lands in short-term memory; a
+      person's own answer goes to Garura memory). (b) The local page replaces typing as the
+      interim approval, which ADR 035 section 5, ADR 036 section 7 and the committed contract
+      each still say is typing. (c) The paragraph fixes, as design, who records and who applies
+      an answer, and that an update carries a blocking flag, both of which the ADRs list as not
+      decided. None of the three is recorded in a decision record on main, and the paragraph does
+      not say it departs from them.
+    backed_by_owner_decision: >
+      (a) Yes: "STM - always STM", quoted in the added text. (b) Yes: "until the tool is built,
+      we will use the local tool itself", quoted in the added text. (c) Blocking flag: yes, but
+      the decision ("keeps going, unless the memory is really blocking") is recorded only in the
+      branch's #658 plan, not in this document. Who records and who applies: no quoted owner
+      decision; the added sentence follows the committed shape (events, Garura applies) rather
+      than a new decision, so it is safe, but the ADR point stays formally open.
+    recommendation: >
+      Record the three points through /adr (an amendment to ADR 035 section 5 and ADR 036
+      sections 2 to 4 and 7, and closing the two "not decided here" points), and have this
+      document cite that record. Until then, mark the sentences as pending that amendment.
+
+  - id: RT-6
+    file: .garura/project/issues/617/specs/review-tool.md
+    lines: "437-448 (the sentence about the mockup)"
+    severity: P3
+    principle: >
+      The page is one design. The visual design of the tool is the mockup beside the plan, and
+      the owner's instruction is that the memory page is part of the same design and not built
+      solo. A design that is built should exist in the committed design first.
+    committed_source: >
+      main:.garura/project/issues/617/specs/review-tool.md (opening: "A mockup sits beside this
+      file"; section 4 one page, three sections); main:.garura/project/issues/617/specs/review-tool-mockup.html
+      (switch has Intents and Product only; no memory or ADR section, no memory-update card);
+      main:docs/adr/036-approved-answer-lands-in-short-term-memory.md Work This Creates item 4
+      (add the section to the plan, not the mockup).
+    violation: >
+      The added text says the stand-in uses the mockup's rail, top bar, look and Catch up
+      cards, "opened on the Memory and ADRs section". The mockup on main has no such section and
+      this change does not touch the mockup. The layout of the Memory and ADRs section and the
+      memory-update card therefore exists only in the new prose and in the stand-in page, which
+      is never committed. That is the "built solo" outcome the quoted instruction warns about,
+      even though the frame (rail, bar, look, Catch up) is shared.
+    backed_by_owner_decision: >
+      The instruction ("ensure that its part of same design. and not build solo") backs the
+      goal, not the gap. No decision says the mockup need not carry the section.
+    recommendation: >
+      Add the Memory and ADRs switch and one memory-update card (with Approve and Reject) to
+      the committed mockup, or reword the sentence so it does not imply the mockup already
+      shows that section.
+
+  - id: RT-7
+    file: .garura/project/issues/617/specs/review-tool.md
+    lines: "259-262 (/learn-memory, /promote-memory); 437-448 (core/tools/play-reviewer/, never committed)"
+    severity: P4
+    principle: >
+      A design document is read from main. What it names as existing or as the stand-in should
+      be findable there, or be marked as planned or local.
+    committed_source: >
+      main:.garura/project/issues/653/specs/plan.md item 5 (the two plays are called learn and
+      promote and "the plays are not filed yet"); main:.garura/project/issues/617/specs/review-tool.md
+      section 10 (the play-reviewer prototype is named as prior art); main:core/components/plays/
+      (a /learn play exists on main, the learning loop, which is a different play; no play named
+      /learn-memory or /promote-memory exists).
+    violation: >
+      "/learn-memory ... and /promote-memory ... are their own plays" reads as existing plays;
+      they are neither built nor filed, and their names appear on main nowhere. The stand-in
+      folder is kept out of git on the owner's machine, so no reader of main can open it; the
+      text does say "never committed", which is honest, but the only committed proof it works
+      is the two run records on the branch.
+    backed_by_owner_decision: >
+      Yes. The plays and their names are the owner's ("we will have /learn-memory and
+      /promote-memory"), and "it remains a local prototype for now" backs the uncommitted
+      stand-in.
+    recommendation: >
+      Add "(planned, not filed)" after the two play names; keep "never committed" as written.
+      Also say whether a learn card, the update that moves a memory up, appears in this
+      section for approval (ADR 036 section 7: every memory review happens there) or sits
+      outside Garura like a promotion.
+
+  - id: RT-8
+    file: .garura/project/issues/617/specs/review-tool.md
+    lines: "430-441 (story 9 position; 'built inside Garura')"
+    severity: P4
+    principle: >
+      The tool is extractable and movable to Griffin (G1). The memory review runs alongside the
+      Kickoff build and needs only the memory updates, the named sources and the tool.
+    committed_source: >
+      main:.garura/project/issues/617/specs/review-tool.md section 1 and the owner's 17 Oct
+      quote at the top ("easily extractable and movable out of Garura"); main:.garura/project/issues/653/specs/plan.md
+      (milestone note and item 11: "items 10 and 11 run alongside the Kickoff build").
+    violation: >
+      (a) "The tool, with all its sections, is built inside Garura" does not repeat that the
+      tool stays in its own folder and movable; a quick reader could take it as tighter
+      coupling (base section 1 item 1 already puts it in a folder under core/tools/, so the
+      sentence is compatible when read that way). (b) Story 9 is numbered after story 8
+      (Kickoff uses it) in a list headed "Build order", while the committed #653 plan says the
+      memory review runs alongside the Kickoff build, not after it.
+    backed_by_owner_decision: >
+      Yes for (a): "we will build the tool with all the sections inside garura". (b) is not
+      addressed by any quoted decision.
+    recommendation: >
+      (a) "inside Garura's repository, in its own folder (section 1)". (b) Say story 9 can be
+      built any time after stories 1 to 4 and 653's items 5 and 6.
+
+summary:
+  principles_grounded: 8
+  conforming_changes: 6
+  findings_total: 8
+  by_severity: {P1: 0, P2: 1, P3: 5, P4: 2}
+  p1_present: false
+  departures_not_backed_by_a_quoted_owner_decision: [RT-1, RT-4, RT-6]
+  departures_backed_by_a_quoted_owner_decision_but_needing_a_decision_record: [RT-5]
+  departures_partly_backed: [RT-2, RT-3]

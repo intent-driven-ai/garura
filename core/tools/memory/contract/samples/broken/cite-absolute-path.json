@@ -17,7 +17,7 @@
   },
   "response": {
     "ok": true,
-    "contract_version": "2",
+    "contract_version": "3",
     "command": "cite",
     "citation_id": "cite-20261018-001",
     "stored": {

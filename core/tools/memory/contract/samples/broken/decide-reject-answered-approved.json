@@ -4,11 +4,12 @@
     "id": "mu-20261018-001",
     "verdict": "reject",
     "by": "Kapil Viren Ahuja",
-    "reply": "reject — we have not chosen providers yet"
+    "reply": "reject — we have not chosen providers yet",
+    "decided_in": "review-tool"
   },
   "response": {
     "ok": true,
-    "contract_version": "2",
+    "contract_version": "3",
     "command": "decide",
     "update": {
       "id": "mu-20261018-001",
@@ -25,7 +26,9 @@
       "decided_by": "Kapil Viren Ahuja",
       "reply": "reject — we have not chosen providers yet",
       "decided_at": "2026-10-18T09:20:00Z",
-      "applied_version": null
+      "applied_version": null,
+      "blocking": false,
+      "decided_in": "review-tool"
     }
   }
 }

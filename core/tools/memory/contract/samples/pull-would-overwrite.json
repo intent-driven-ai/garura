@@ -1,0 +1,16 @@
+{
+  "command": "pull",
+  "request": {
+    "path": "knowledge/domains/ecommerce.md"
+  },
+  "response": {
+    "ok": false,
+    "contract_version": "3",
+    "command": "pull",
+    "error": {
+      "code": "would_overwrite",
+      "message": "Garura memory already holds a different file at knowledge/domains/ecommerce.md; nothing was overwritten.",
+      "tier": "garura"
+    }
+  }
+}

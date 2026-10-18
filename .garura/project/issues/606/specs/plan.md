@@ -61,8 +61,8 @@ Three decisions are made (#592, #607, #619) and six things are shipped: plan mod
 ADR 034 decided — inside a drive a play answers from memory and asks only when
 memory holds nothing — and a review that found memory not ready. Kapil chose to
 fix the whole memory system first, as its own feature; Kickoff's runner waits for
-it. Memory (#653): items 1 to 4 are shipped (#654, #655, #656, #657); now item 5,
-memory updates (#658).
+it. Memory (#653): items 1 to 5 are shipped (#654–#658); now item 6, every decision
+names its memory (#659).
 
 ## The plan, in order
 
@@ -88,7 +88,7 @@ memory updates (#658).
 **Order inside this item** (Kapil, 2026-10-18, "A" — the runner first, then the review; and "B" — the whole memory system before the runner):
 0. **The memory system — Feature #653** (decision: spike #654). Phoenix memory is the superset; each project pulls the subset it needs; one tool finds and updates memory, searching like Claude Code; nothing comes from the model or the web without a memory update a person approved. Its plan: `.garura/project/issues/653/specs/plan.md`. The runner starts at its milestone (its items 1 to 9).
 1. **The runner — #613.** Questions first, then `/intent` → `/vision` → `/understand`, the checker, the evidence. Until the review exists, the drive ends with the plays' review records and a pull request.
-2. **The review — #641–#644** (the tool), **#645–#646** (approval in the product model), **#648–#649** (open, listen, send back). #641 takes its example pack from a real Kickoff run, which only the runner can make.
+2. **The review — #641–#644** (the tool), **#664** (its Memory and ADRs section: memory updates approved one by one), **#645–#646** (approval in the product model), **#648–#649** (open, listen, send back). The tool is built inside Garura with all its sections; until then the local prototype stands in for memory approvals (Kapil, 2026-10-18 (#658): "we will build the tool with all the sections inside garura - as part of 606 plan. it remains a local prototype for now."). #641 takes its example pack from a real Kickoff run, which only the runner can make.
 3. **The review joins the drive — #650.** The review step becomes the drive's last step and writes approval.
 **Needs:** items 3 to 7.
 
@@ -177,3 +177,5 @@ Not part of this plan; recorded so the gaps in time make sense.
 - 2026-10-18 — The memory system is filed: Feature #653 under #606, with spike #654 for its decision. Step 0 of item 8 now names them.
 - 2026-10-18 — Memory items 1 to 3 shipped; five finished child plans closed out (#617, #632, #654, #655, #656). Merge-play plan check chosen (plan mode, #621).
 - 2026-10-18 — Memory item 4 shipped: the memory tool (#657).
+- 2026-10-18 — The review tool's Memory and ADRs section (#664) joins the review work here; the local prototype stands in until the tool is built.
+- 2026-10-18 — Memory item 5 shipped: memory updates (#658).

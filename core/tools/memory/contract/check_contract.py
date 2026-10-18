@@ -2,7 +2,7 @@
 """
 check_contract.py — keep the memory tool's contract, its samples and its folder in step.
 
-    python3 contract/check_contract.py [--contract contract/v2.json]
+    python3 contract/check_contract.py [--contract contract/v3.json]
 
 Four checks, all from this folder alone (standard library only, Python 3.10 or newer):
   1. every sample in samples/ matches the contract: its request against the
@@ -144,7 +144,7 @@ def check_update(u):
     """One update record agrees with its status (answer rules update_matches_its_status, short_term_update_names_its_issue)."""
     problems = []
     status, uid = u.get("status"), u.get("id")
-    decision = [u.get(k) for k in ("decided_by", "reply", "decided_at")]
+    decision = [u.get(k) for k in ("decided_by", "reply", "decided_at", "decided_in")]
     if status == "waiting" and (any(v is not None for v in decision) or u.get("applied_version") is not None):
         problems.append(f"update {uid} is waiting but carries a decision")
     if status in ("approved", "rejected", "applied") and any(v is None for v in decision):
@@ -178,6 +178,8 @@ def check_lifecycle(request, response):
                 problems.append(f"propose changed {key}: the update must carry it as given")
         if u.get("issue") != request.get("issue"):
             problems.append("propose changed issue: the update must carry it as given")
+        if u.get("blocking") != request.get("blocking", False):
+            problems.append("propose changed blocking: the update must carry it as given")
     if command in ("decide", "apply") and u.get("id") != request.get("id"):
         problems.append(f"{command} answered update {u.get('id')!r}, not {request.get('id')!r}")
     if command == "decide":
@@ -186,6 +188,8 @@ def check_lifecycle(request, response):
             problems.append(f"decide {request.get('verdict')!r} answered {u.get('status')!r}, not {expected!r}")
         if u.get("decided_by") != request.get("by") or u.get("reply") != request.get("reply"):
             problems.append("decide must record the person and their reply exactly as given")
+        if u.get("decided_in") != request.get("decided_in"):
+            problems.append("decide must record where the person decided (decided_in) exactly as given")
     if command == "apply":
         written = response.get("written", {})
         if u.get("status") != "applied":
@@ -229,6 +233,14 @@ def check_read(request, response):
         problems.append("read answered an end before its start")
     if "text" in response and "fingerprint" in response and response["fingerprint"] != fingerprint(response["text"]):
         problems.append("read fingerprint is not the sha256 of its text")
+    said = [k for k in ("saved_to", "not_saved") if k in response]
+    if response.get("tier") == "phoenix" and len(said) != 1:
+        problems.append("a read of Phoenix memory must say saved_to or not_saved, exactly one (answer rule read_saves_what_it_uses)")
+    if response.get("tier") != "phoenix" and said:
+        problems.append("only a read of Phoenix memory is saved: saved_to or not_saved on another tier")
+    saved = response.get("saved_to") or {}
+    if saved and not str(saved.get("path", "")).endswith(str(response.get("path"))):
+        problems.append("a used Phoenix file is saved at its own path, under Garura memory's pull folder")
     return problems
 
 
@@ -358,7 +370,7 @@ def check_boundary(root=TOOL):
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[1])
-    ap.add_argument("--contract", default=os.path.join(HERE, "v2.json"))
+    ap.add_argument("--contract", default=os.path.join(HERE, "v3.json"))
     ns = ap.parse_args(argv)
     try:
         contract = load(ns.contract)
