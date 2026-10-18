@@ -1,0 +1,183 @@
+meta:
+  generated_at: '2026-10-18T08:48:55Z'
+  diff_path: '.garura/project/issues/654/review/pr.diff'
+  taxonomy_path: 'core/components/memory/standards/rules/pr.md'
+  changed_paths_count: 32
+  scan_coverage: 1.0000
+  standards_relevant: 3
+  catchall:
+    CODE-20: 32
+findings:
+  - standard_id: 'DOC-04'
+    severity: P3
+    file: 'docs/adr/009-skill-ltm-organizational-knowledge.md'
+    line: 1
+    evidence: 'docs/adr/009-skill-ltm-organizational-knowledge.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-04'
+  - standard_id: 'DOC-04'
+    severity: P3
+    file: 'docs/adr/015-ltm-resolution-protocol.md'
+    line: 1
+    evidence: 'docs/adr/015-ltm-resolution-protocol.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-04'
+  - standard_id: 'DOC-04'
+    severity: P3
+    file: 'docs/adr/016-agent-json-contract.md'
+    line: 1
+    evidence: 'docs/adr/016-agent-json-contract.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-04'
+  - standard_id: 'DOC-04'
+    severity: P3
+    file: 'docs/adr/017-folder-whitelist.md'
+    line: 1
+    evidence: 'docs/adr/017-folder-whitelist.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-04'
+  - standard_id: 'DOC-04'
+    severity: P3
+    file: 'docs/adr/032-drive-review-of-outcomes.md'
+    line: 1
+    evidence: 'docs/adr/032-drive-review-of-outcomes.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-04'
+  - standard_id: 'DOC-04'
+    severity: P3
+    file: 'docs/adr/034-plays-answer-from-memory-inside-a-drive.md'
+    line: 1
+    evidence: 'docs/adr/034-plays-answer-from-memory-inside-a-drive.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-04'
+  - standard_id: 'DOC-04'
+    severity: P3
+    file: 'docs/adr/035-agents-work-only-from-memory.md'
+    line: 1
+    evidence: 'docs/adr/035-agents-work-only-from-memory.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-04'
+  - standard_id: 'DOC-04'
+    severity: P3
+    file: 'docs/adr/_index.md'
+    line: 1
+    evidence: 'docs/adr/_index.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-04'
+  - standard_id: 'ARCH-23'
+    severity: P4
+    file: 'docs/adr/009-skill-ltm-organizational-knowledge.md'
+    line: 1
+    evidence: 'docs/adr/009-skill-ltm-organizational-knowledge.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'ARCH-23'
+  - standard_id: 'DOC-05'
+    severity: P4
+    file: 'docs/adr/009-skill-ltm-organizational-knowledge.md'
+    line: 1
+    evidence: 'docs/adr/009-skill-ltm-organizational-knowledge.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-05'
+  - standard_id: 'ARCH-23'
+    severity: P4
+    file: 'docs/adr/015-ltm-resolution-protocol.md'
+    line: 1
+    evidence: 'docs/adr/015-ltm-resolution-protocol.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'ARCH-23'
+  - standard_id: 'DOC-05'
+    severity: P4
+    file: 'docs/adr/015-ltm-resolution-protocol.md'
+    line: 1
+    evidence: 'docs/adr/015-ltm-resolution-protocol.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-05'
+  - standard_id: 'ARCH-23'
+    severity: P4
+    file: 'docs/adr/016-agent-json-contract.md'
+    line: 1
+    evidence: 'docs/adr/016-agent-json-contract.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'ARCH-23'
+  - standard_id: 'DOC-05'
+    severity: P4
+    file: 'docs/adr/016-agent-json-contract.md'
+    line: 1
+    evidence: 'docs/adr/016-agent-json-contract.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-05'
+  - standard_id: 'ARCH-23'
+    severity: P4
+    file: 'docs/adr/017-folder-whitelist.md'
+    line: 1
+    evidence: 'docs/adr/017-folder-whitelist.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'ARCH-23'
+  - standard_id: 'DOC-05'
+    severity: P4
+    file: 'docs/adr/017-folder-whitelist.md'
+    line: 1
+    evidence: 'docs/adr/017-folder-whitelist.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-05'
+  - standard_id: 'ARCH-23'
+    severity: P4
+    file: 'docs/adr/032-drive-review-of-outcomes.md'
+    line: 1
+    evidence: 'docs/adr/032-drive-review-of-outcomes.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'ARCH-23'
+  - standard_id: 'DOC-05'
+    severity: P4
+    file: 'docs/adr/032-drive-review-of-outcomes.md'
+    line: 1
+    evidence: 'docs/adr/032-drive-review-of-outcomes.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-05'
+  - standard_id: 'ARCH-23'
+    severity: P4
+    file: 'docs/adr/034-plays-answer-from-memory-inside-a-drive.md'
+    line: 1
+    evidence: 'docs/adr/034-plays-answer-from-memory-inside-a-drive.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'ARCH-23'
+  - standard_id: 'DOC-05'
+    severity: P4
+    file: 'docs/adr/034-plays-answer-from-memory-inside-a-drive.md'
+    line: 1
+    evidence: 'docs/adr/034-plays-answer-from-memory-inside-a-drive.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-05'
+  - standard_id: 'ARCH-23'
+    severity: P4
+    file: 'docs/adr/035-agents-work-only-from-memory.md'
+    line: 1
+    evidence: 'docs/adr/035-agents-work-only-from-memory.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'ARCH-23'
+  - standard_id: 'DOC-05'
+    severity: P4
+    file: 'docs/adr/035-agents-work-only-from-memory.md'
+    line: 1
+    evidence: 'docs/adr/035-agents-work-only-from-memory.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-05'
+  - standard_id: 'ARCH-23'
+    severity: P4
+    file: 'docs/adr/_index.md'
+    line: 1
+    evidence: 'docs/adr/_index.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'ARCH-23'
+  - standard_id: 'DOC-05'
+    severity: P4
+    file: 'docs/adr/_index.md'
+    line: 1
+    evidence: 'docs/adr/_index.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-05'
+counts:
+  P1: 0
+  P2: 0
+  P3: 8
+  P4: 16

@@ -1,0 +1,7 @@
+== docs/adr/035-agents-work-only-from-memory.md
+{
+  "adr": "docs/adr/035-agents-work-only-from-memory.md",
+  "valid": true,
+  "problems": []
+}
+index matches a fresh rebuild
