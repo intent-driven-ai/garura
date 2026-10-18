@@ -53,9 +53,9 @@ The tool **searches the way Claude Code does** — find files, search their text
 read exact lines — on the laptop now, and the same way on the server later
 (Kapil: "this is critical as this is why claude-code is so good").
 
-A **memory review**, in the review tool beside Intents and Product, shows what
-each tier holds, the memory updates waiting for a person, and which memory each
-decision came from.
+A **Memory and ADRs** section, in the review tool beside Intents and Product,
+shows what each tier holds, the memory updates and ADRs waiting for a person,
+and which memory each decision came from (ADR 036 §7).
 
 **What is true today** (`.garura/project/issues/613/specs/memory-review.md`, and a map of every agent):
 memory is files that each agent and skill finds by its own path. Three copies of
@@ -85,17 +85,19 @@ answer came from in a way anyone checks.
   update first, and the decision was then made from memory.
 - Every decision an agent makes names the memory it came from, and a script
   checks the source exists and has not changed.
-- The memory review shows the tiers, the waiting updates and each decision's
-  source.
+- The Memory and ADRs section shows the tiers, the waiting updates and ADRs, and
+  each decision's source; a person answers them on the Catch up cards.
 - Moving the tool to Griffin means changing one setting.
 
 ## Where we are now
 
-Decided, and the first piece built: ADR 035 is accepted. The review (`.garura/project/issues/613/specs/memory-review.md`)
+Decided, and the first piece built: ADR 035 is accepted, and ADR 036 (#667)
+amends it with Kapil's answers of 18 October. The review (`.garura/project/issues/613/specs/memory-review.md`)
 and the map of how agents read memory are done. Kapil set the model above and
-chose B. The feature (#653), its decision spike (#654) and its stories
-(#655–#664) are filed. The contract (item 2, #655) is built and lands with its
-pull request. Next: item 3, Phoenix memory and the subset a project pulls (#656).
+chose B. The feature (#653), its decision spikes (#654, #667) and its stories
+(#655–#664) are filed, and the stories follow ADR 036. The contract (item 2,
+#655) is merged. Next: item 3, Phoenix memory and the subset a project pulls
+(#656).
 
 ## The plan, in order
 
@@ -257,8 +259,8 @@ describe the three tiers and the tool, and the locked knowledge-base design note
 **Issue:** #664.
 **What:** a third section in the review tool, **Memory and ADRs**, next to
 Intents and Product. It shows short-term, Garura and Phoenix memory: what each
-tier holds, the memory updates waiting for a person (approve, change, reject),
-and which memory each decision came from. It also shows the ADRs waiting for a
+tier holds, the memory updates waiting for a person (accept, send back, drop,
+or leave for later), and which memory each decision came from. It also shows the ADRs waiting for a
 person. Every memory review and ADR review happens there, with the same card
 method as intents and product: Catch up (#644), one card per change, swipe
 right to accept, swipe left to leave for later.
