@@ -96,6 +96,18 @@ resolution_trace:
 Return the path to this file as `resolution_trace_path` in the output
 contract's `stm.output` block (per DD10 in tech.yaml).
 
+## Decision Records (ADR 035 §6)
+
+Every decision an agent makes names the memory it came from. The record is made through the
+memory tool's `cite`: the question, the answer, who decided, the play, and one or more sources —
+each a tier (short-term, Garura or Phoenix memory), a file, the lines, and the fingerprint of
+that text — or the approved memory update the answer came from. The tool reads every source
+before it records anything, and `citations --check` reads them again later: a decision with no
+source, or whose source is gone or changed, is flagged. A drive's review shows these records.
+
+The shape is the memory tool's contract (`cite`, `citations`, version 4). The trace above, and
+R4's model fallback, are rewritten when the agents move onto the tool (#663).
+
 ## Context Isolation Exemptions
 
 The following agents NEVER receive `ltm_context` from any workflow. No
