@@ -1,7 +1,8 @@
-== check_contract.py
-ok True samples 15 broken 12 boundary []
+== check_contract.py (head b57afc47)
+ok True samples 20 broken 23 broken_that_passed [] uncovered [] boundary []
+exit 0
 == test_check_contract.py
-Ran 20 tests in 0.032s
+Ran 49 tests in 0.045s
 
 OK
 == ruff

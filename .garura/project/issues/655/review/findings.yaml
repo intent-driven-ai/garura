@@ -1,742 +1,769 @@
 meta:
   pr: 666
   issue: 655
+  head: d72ba56d
+  re_review: true
   categories: categories.yaml
   layers_run:
-    tool-interface-contract: 'Layer 1 — check_contract.py (ok: 15 samples, 12 broken, boundary clean). Layer 2 —
-      design-grounding fan-out of width one (design-findings-tool-interface-contract.yaml), committed sources only'
-    executable-code: Layer 1 — ruff check (pass); quality-check-scoped (no real P1/P2; BE-19 hits are false matches)
-    tests: Layer 1 — test_check_contract.py run (20 tests, OK)
-    documentation: 'Layer 1 — README agrees with v1.json: every command, error and tier named in both; every path
-      it names exists'
+    tool-interface-contract: 'Layer 1 — check_contract.py (ok: 20 samples, 23 broken, boundary clean). Layer 2 — design-grounding
+      fan-out of width one (design-findings-tool-interface-contract.yaml), committed sources only'
+    executable-code: Layer 1 — ruff (pass); quality-check-scoped (no P1; BE-19 hits match 'from' in imports)
+    tests: Layer 1 — test_check_contract.py run (49 tests, OK)
+    documentation: Layer 1 — quality-check-scoped on README.md (no P1)
     stm-working-notes-plans-and-design: Layer 1 — plan checks valid (653, 655); playbook missing
-    stm-run-records: Layer 1 — skimmed; self-review.md predates fix commit 0066c32e; playbook missing
+    stm-run-records: Layer 1 — skimmed; self-review.md predates fix commit 5a6bbc74; playbook missing
   layer2: 'one dispatch: tool-interface-contract'
   runnable_checks: runnable-checks.txt
 findings:
-- id: null
+- id: ARCH-02
   severity: P2
   category: standards
   file: core/tools/memory/contract/check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 1
+  basis: core/components/memory/standards/rules/pr.md ARCH-02 (trigger `path:**/*.{js,ts,py,go,java}`)
+  note: 'path-only trigger: the rule applies to this kind of file'
+- id: CODE-03
   severity: P2
   category: standards
   file: core/tools/memory/contract/check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 1
+  basis: core/components/memory/standards/rules/pr.md CODE-03 (trigger `path:**/*.{js,ts,jsx,tsx,py,go,rb}`)
+  note: 'path-only trigger: the rule applies to this kind of file'
+- id: CODE-04
   severity: P2
   category: standards
   file: core/tools/memory/contract/check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 1
+  basis: core/components/memory/standards/rules/pr.md CODE-04 (trigger `path:**/*.{js,ts,jsx,tsx,py,go,rb}`)
+  note: 'path-only trigger: the rule applies to this kind of file'
+- id: CODE-14
   severity: P2
   category: standards
   file: core/tools/memory/contract/check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 1
+  basis: core/components/memory/standards/rules/pr.md CODE-14 (trigger `path:**/*.{js,ts,jsx,tsx,py,go}`)
+  note: 'path-only trigger: the rule applies to this kind of file'
+- id: BE-19
   severity: P2
   category: standards
   file: core/tools/memory/contract/check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 7
+  basis: core/components/memory/standards/rules/pr.md BE-19 (trigger ?)
+  note: grep match on 'from' in Python import lines, not a query
+- id: BE-19
   severity: P2
   category: standards
   file: core/tools/memory/contract/check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 11
+  basis: core/components/memory/standards/rules/pr.md BE-19 (trigger ?)
+  note: grep match on 'from' in Python import lines, not a query
+- id: BE-19
   severity: P2
   category: standards
   file: core/tools/memory/contract/check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 17
+  basis: core/components/memory/standards/rules/pr.md BE-19 (trigger ?)
+  note: grep match on 'from' in Python import lines, not a query
+- id: BE-19
   severity: P2
   category: standards
   file: core/tools/memory/contract/check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 40
+  basis: core/components/memory/standards/rules/pr.md BE-19 (trigger ?)
+  note: grep match on 'from' in Python import lines, not a query
+- id: BE-19
   severity: P2
   category: standards
   file: core/tools/memory/contract/check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 41
+  basis: core/components/memory/standards/rules/pr.md BE-19 (trigger ?)
+  note: grep match on 'from' in Python import lines, not a query
+- id: BE-19
   severity: P2
   category: standards
   file: core/tools/memory/contract/check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 89
+  basis: core/components/memory/standards/rules/pr.md BE-19 (trigger ?)
+  note: grep match on 'from' in Python import lines, not a query
+- id: BE-19
   severity: P2
   category: standards
   file: core/tools/memory/contract/check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 261
+  basis: core/components/memory/standards/rules/pr.md BE-19 (trigger ?)
+  note: grep match on 'from' in Python import lines, not a query
+- id: BE-19
   severity: P2
   category: standards
   file: core/tools/memory/contract/check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 300
+  basis: core/components/memory/standards/rules/pr.md BE-19 (trigger ?)
+  note: grep match on 'from' in Python import lines, not a query
+- id: BE-19
   severity: P2
   category: standards
   file: core/tools/memory/contract/check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 304
+  basis: core/components/memory/standards/rules/pr.md BE-19 (trigger ?)
+  note: grep match on 'from' in Python import lines, not a query
+- id: BE-19
   severity: P2
   category: standards
   file: core/tools/memory/contract/check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 314
+  basis: core/components/memory/standards/rules/pr.md BE-19 (trigger ?)
+  note: grep match on 'from' in Python import lines, not a query
+- id: BE-19
   severity: P2
   category: standards
   file: core/tools/memory/contract/check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 338
+  basis: core/components/memory/standards/rules/pr.md BE-19 (trigger ?)
+  note: grep match on 'from' in Python import lines, not a query
+- id: BE-19
   severity: P2
   category: standards
   file: core/tools/memory/contract/check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 355
+  basis: core/components/memory/standards/rules/pr.md BE-19 (trigger ?)
+  note: grep match on 'from' in Python import lines, not a query
+- id: BE-19
   severity: P2
   category: standards
   file: core/tools/memory/contract/check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 364
+  basis: core/components/memory/standards/rules/pr.md BE-19 (trigger ?)
+  note: grep match on 'from' in Python import lines, not a query
+- id: BE-19
   severity: P2
   category: standards
   file: core/tools/memory/contract/check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 366
+  basis: core/components/memory/standards/rules/pr.md BE-19 (trigger ?)
+  note: grep match on 'from' in Python import lines, not a query
+- id: BE-19
   severity: P2
   category: standards
   file: core/tools/memory/contract/check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P2
-  category: standards
-  file: core/tools/memory/contract/check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 369
+  basis: core/components/memory/standards/rules/pr.md BE-19 (trigger ?)
+  note: grep match on 'from' in Python import lines, not a query
+- id: ARCH-02
   severity: P2
   category: standards
   file: core/tools/memory/contract/test_check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 1
+  basis: core/components/memory/standards/rules/pr.md ARCH-02 (trigger `path:**/*.{js,ts,py,go,java}`)
+  note: 'path-only trigger: the rule applies to this kind of file'
+- id: CODE-03
   severity: P2
   category: standards
   file: core/tools/memory/contract/test_check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 1
+  basis: core/components/memory/standards/rules/pr.md CODE-03 (trigger `path:**/*.{js,ts,jsx,tsx,py,go,rb}`)
+  note: 'path-only trigger: the rule applies to this kind of file'
+- id: CODE-04
   severity: P2
   category: standards
   file: core/tools/memory/contract/test_check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 1
+  basis: core/components/memory/standards/rules/pr.md CODE-04 (trigger `path:**/*.{js,ts,jsx,tsx,py,go,rb}`)
+  note: 'path-only trigger: the rule applies to this kind of file'
+- id: CODE-14
   severity: P2
   category: standards
   file: core/tools/memory/contract/test_check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 1
+  basis: core/components/memory/standards/rules/pr.md CODE-14 (trigger `path:**/*.{js,ts,jsx,tsx,py,go}`)
+  note: 'path-only trigger: the rule applies to this kind of file'
+- id: BE-19
   severity: P2
   category: standards
   file: core/tools/memory/contract/test_check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 2
+  basis: core/components/memory/standards/rules/pr.md BE-19 (trigger ?)
+  note: grep match on 'from' in Python import lines, not a query
+- id: BE-19
   severity: P2
   category: standards
   file: core/tools/memory/contract/test_check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 13
+  basis: core/components/memory/standards/rules/pr.md BE-19 (trigger ?)
+  note: grep match on 'from' in Python import lines, not a query
+- id: BE-19
   severity: P2
   category: standards
   file: core/tools/memory/contract/test_check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 21
+  basis: core/components/memory/standards/rules/pr.md BE-19 (trigger ?)
+  note: grep match on 'from' in Python import lines, not a query
+- id: BE-19
   severity: P2
   category: standards
   file: core/tools/memory/contract/test_check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 82
+  basis: core/components/memory/standards/rules/pr.md BE-19 (trigger ?)
+  note: grep match on 'from' in Python import lines, not a query
+- id: BE-19
   severity: P2
   category: standards
   file: core/tools/memory/contract/test_check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 117
+  basis: core/components/memory/standards/rules/pr.md BE-19 (trigger ?)
+  note: grep match on 'from' in Python import lines, not a query
+- id: BE-19
   severity: P2
   category: standards
   file: core/tools/memory/contract/test_check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 120
+  basis: core/components/memory/standards/rules/pr.md BE-19 (trigger ?)
+  note: grep match on 'from' in Python import lines, not a query
+- id: BE-19
   severity: P2
   category: standards
   file: core/tools/memory/contract/test_check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 256
+  basis: core/components/memory/standards/rules/pr.md BE-19 (trigger ?)
+  note: grep match on 'from' in Python import lines, not a query
+- id: BE-19
   severity: P2
   category: standards
-  file: core/tools/memory/contract/v1.json
-  basis: pr.md taxonomy rule None
-- id: null
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 322
+  basis: core/components/memory/standards/rules/pr.md BE-19 (trigger ?)
+  note: grep match on 'from' in Python import lines, not a query
+- id: BE-19
   severity: P2
   category: standards
-  file: core/tools/memory/contract/v1.json
-  basis: pr.md taxonomy rule None
-- id: null
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 327
+  basis: core/components/memory/standards/rules/pr.md BE-19 (trigger ?)
+  note: grep match on 'from' in Python import lines, not a query
+- id: BE-19
   severity: P2
   category: standards
-  file: core/tools/memory/contract/v1.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P2
-  category: standards
-  file: core/tools/memory/contract/v1.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P2
-  category: standards
-  file: core/tools/memory/contract/v1.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P2
-  category: standards
-  file: core/tools/memory/contract/v1.json
-  basis: pr.md taxonomy rule None
-- id: null
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 334
+  basis: core/components/memory/standards/rules/pr.md BE-19 (trigger ?)
+  note: grep match on 'from' in Python import lines, not a query
+- id: DOC-01
   severity: P3
   category: standards
   file: core/tools/memory/README.md
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 1
+  basis: core/components/memory/standards/rules/pr.md DOC-01 (trigger `path:README.md,README.rst,README.txt`)
+  note: 'path-only trigger: the rule applies to this kind of file'
+- id: DOC-09
   severity: P3
   category: standards
   file: core/tools/memory/README.md
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 1
+  basis: core/components/memory/standards/rules/pr.md DOC-09 (trigger `path:README.md`)
+  note: 'path-only trigger: the rule applies to this kind of file'
+- id: DOC-10
   severity: P3
   category: standards
   file: core/tools/memory/README.md
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 1
+  basis: core/components/memory/standards/rules/pr.md DOC-10 (trigger `path:README.md`)
+  note: 'path-only trigger: the rule applies to this kind of file'
+- id: DOC-11
   severity: P3
   category: standards
   file: core/tools/memory/README.md
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 1
+  basis: core/components/memory/standards/rules/pr.md DOC-11 (trigger `path:.env.example,README.md,docs/setup/**`)
+  note: 'path-only trigger: the rule applies to this kind of file'
+- id: ARCH-03
   severity: P3
   category: standards
   file: core/tools/memory/contract/check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 1
+  basis: core/components/memory/standards/rules/pr.md ARCH-03 (trigger `path:**/*.{js,ts,py,go,java,rb}`)
+  note: 'path-only trigger: the rule applies to this kind of file'
+- id: ARCH-08
   severity: P3
   category: standards
   file: core/tools/memory/contract/check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 1
+  basis: core/components/memory/standards/rules/pr.md ARCH-08 (trigger `path:**/*.{js,ts,py,go}`)
+  note: 'path-only trigger: the rule applies to this kind of file'
+- id: CODE-09
   severity: P3
   category: standards
   file: core/tools/memory/contract/check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 1
+  basis: core/components/memory/standards/rules/pr.md CODE-09 (trigger `path:**/*.{js,ts,jsx,tsx,py,go,rb,java}`)
+  note: 'path-only trigger: the rule applies to this kind of file'
+- id: CODE-10
   severity: P3
   category: standards
   file: core/tools/memory/contract/check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 1
+  basis: core/components/memory/standards/rules/pr.md CODE-10 (trigger `path:**/*.{js,ts,jsx,tsx,py,go,rb,java}`)
+  note: 'path-only trigger: the rule applies to this kind of file'
+- id: CODE-11
   severity: P3
   category: standards
   file: core/tools/memory/contract/check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 1
+  basis: core/components/memory/standards/rules/pr.md CODE-11 (trigger `path:**/*.{js,ts,jsx,tsx,py,go,rb,java}`)
+  note: 'path-only trigger: the rule applies to this kind of file'
+- id: CODE-12
   severity: P3
   category: standards
   file: core/tools/memory/contract/check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 1
+  basis: core/components/memory/standards/rules/pr.md CODE-12 (trigger `path:**/*.{js,ts,jsx,tsx,py,go,rb,java}`)
+  note: 'path-only trigger: the rule applies to this kind of file'
+- id: CODE-15
   severity: P3
   category: standards
   file: core/tools/memory/contract/check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 1
+  basis: core/components/memory/standards/rules/pr.md CODE-15 (trigger `path:**/*.{js,ts,jsx,tsx,py,go,rb,java}`)
+  note: 'path-only trigger: the rule applies to this kind of file'
+- id: CODE-17
   severity: P3
   category: standards
   file: core/tools/memory/contract/check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 1
+  basis: core/components/memory/standards/rules/pr.md CODE-17 (trigger `path:**/*.{js,ts,jsx,tsx,py,go,rb,java}`)
+  note: 'path-only trigger: the rule applies to this kind of file'
+- id: TEST-14
   severity: P3
   category: standards
   file: core/tools/memory/contract/check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 1
+  basis: core/components/memory/standards/rules/pr.md TEST-14 (trigger `path:**/{contract,pact}/**`)
+  note: 'path-only trigger: the rule applies to this kind of file'
+- id: TEST-18
   severity: P3
   category: standards
   file: core/tools/memory/contract/check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 1
+  basis: core/components/memory/standards/rules/pr.md TEST-18 (trigger `path:**/{contract,pact}/**`)
+  note: 'path-only trigger: the rule applies to this kind of file'
+- id: CODE-25
   severity: P3
   category: standards
   file: core/tools/memory/contract/check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 308
+  basis: core/components/memory/standards/rules/pr.md CODE-25 (trigger `grep:(catch\s*\(\)
+  note: 'except '
+- id: PERF-19
   severity: P3
   category: standards
   file: core/tools/memory/contract/check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 336
+  basis: core/components/memory/standards/rules/pr.md PERF-19 (trigger `grep:(cache\)
+  note: match on __pycache__
+- id: CODE-25
   severity: P3
   category: standards
   file: core/tools/memory/contract/check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 343
+  basis: core/components/memory/standards/rules/pr.md CODE-25 (trigger `grep:(catch\s*\(\)
+  note: 'except '
+- id: CODE-25
   severity: P3
   category: standards
   file: core/tools/memory/contract/check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/apply-not-approved.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/apply-not-approved.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/apply.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/apply.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/broken/apply-written-to-short-term.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/broken/apply-written-to-short-term.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/broken/cite-absolute-path.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/broken/cite-absolute-path.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/broken/find-silent-missing-tier.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/broken/find-silent-missing-tier.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/broken/health-ok-as-number.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/broken/health-ok-as-number.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/broken/propose-unknown-draft-source.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/broken/propose-unknown-draft-source.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/broken/read-path-with-newline.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/broken/read-path-with-newline.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/broken/read-without-fingerprint.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/broken/read-without-fingerprint.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/broken/read-wrong-fingerprint.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/broken/read-wrong-fingerprint.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/broken/search-skipped-a-tier.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/broken/search-skipped-a-tier.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/broken/search-tier-with-every-tier.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/broken/search-tier-with-every-tier.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/broken/search-unknown-tier.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/broken/search-unknown-tier.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/broken/search-went-past-first-answer.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/broken/search-went-past-first-answer.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/cite.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/cite.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/decide.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/decide.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/find.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/find.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/health.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/health.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/propose.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/propose.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/pull.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/pull.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/pulled.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/pulled.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/read.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/read.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/search-nothing.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/search-nothing.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/search-one-tier-nothing.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/search-one-tier-nothing.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/search-tier-missing.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/search-tier-missing.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/search.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/search.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/updates.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/samples/updates.json
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 359
+  basis: core/components/memory/standards/rules/pr.md CODE-25 (trigger `grep:(catch\s*\(\)
+  note: 'except '
+- id: ARCH-03
   severity: P3
   category: standards
   file: core/tools/memory/contract/test_check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 1
+  basis: core/components/memory/standards/rules/pr.md ARCH-03 (trigger `path:**/*.{js,ts,py,go,java,rb}`)
+  note: 'path-only trigger: the rule applies to this kind of file'
+- id: ARCH-08
   severity: P3
   category: standards
   file: core/tools/memory/contract/test_check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 1
+  basis: core/components/memory/standards/rules/pr.md ARCH-08 (trigger `path:**/*.{js,ts,py,go}`)
+  note: 'path-only trigger: the rule applies to this kind of file'
+- id: CODE-09
   severity: P3
   category: standards
   file: core/tools/memory/contract/test_check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 1
+  basis: core/components/memory/standards/rules/pr.md CODE-09 (trigger `path:**/*.{js,ts,jsx,tsx,py,go,rb,java}`)
+  note: 'path-only trigger: the rule applies to this kind of file'
+- id: CODE-10
   severity: P3
   category: standards
   file: core/tools/memory/contract/test_check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 1
+  basis: core/components/memory/standards/rules/pr.md CODE-10 (trigger `path:**/*.{js,ts,jsx,tsx,py,go,rb,java}`)
+  note: 'path-only trigger: the rule applies to this kind of file'
+- id: CODE-11
   severity: P3
   category: standards
   file: core/tools/memory/contract/test_check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 1
+  basis: core/components/memory/standards/rules/pr.md CODE-11 (trigger `path:**/*.{js,ts,jsx,tsx,py,go,rb,java}`)
+  note: 'path-only trigger: the rule applies to this kind of file'
+- id: CODE-12
   severity: P3
   category: standards
   file: core/tools/memory/contract/test_check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 1
+  basis: core/components/memory/standards/rules/pr.md CODE-12 (trigger `path:**/*.{js,ts,jsx,tsx,py,go,rb,java}`)
+  note: 'path-only trigger: the rule applies to this kind of file'
+- id: CODE-15
   severity: P3
   category: standards
   file: core/tools/memory/contract/test_check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 1
+  basis: core/components/memory/standards/rules/pr.md CODE-15 (trigger `path:**/*.{js,ts,jsx,tsx,py,go,rb,java}`)
+  note: 'path-only trigger: the rule applies to this kind of file'
+- id: CODE-17
   severity: P3
   category: standards
   file: core/tools/memory/contract/test_check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 1
+  basis: core/components/memory/standards/rules/pr.md CODE-17 (trigger `path:**/*.{js,ts,jsx,tsx,py,go,rb,java}`)
+  note: 'path-only trigger: the rule applies to this kind of file'
+- id: TEST-14
   severity: P3
   category: standards
   file: core/tools/memory/contract/test_check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 1
+  basis: core/components/memory/standards/rules/pr.md TEST-14 (trigger `path:**/{contract,pact}/**`)
+  note: 'path-only trigger: the rule applies to this kind of file'
+- id: TEST-18
   severity: P3
   category: standards
   file: core/tools/memory/contract/test_check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/v1.json
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P3
-  category: standards
-  file: core/tools/memory/contract/v1.json
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 1
+  basis: core/components/memory/standards/rules/pr.md TEST-18 (trigger `path:**/{contract,pact}/**`)
+  note: 'path-only trigger: the rule applies to this kind of file'
+- id: DOC-14
   severity: P4
   category: standards
   file: core/tools/memory/README.md
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 1
+  basis: core/components/memory/standards/rules/pr.md DOC-14 (trigger `path:README.md,docs/setup/**`)
+  note: 'path-only trigger: the rule applies to this kind of file'
+- id: DOC-15
   severity: P4
   category: standards
   file: core/tools/memory/README.md
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 1
+  basis: core/components/memory/standards/rules/pr.md DOC-15 (trigger `path:README.md,docs/troubleshooting/**`)
+  note: 'path-only trigger: the rule applies to this kind of file'
+- id: DOC-16
   severity: P4
   category: standards
   file: core/tools/memory/README.md
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 1
+  basis: core/components/memory/standards/rules/pr.md DOC-16 (trigger `path:README.md,docs/architecture/**`)
+  note: 'path-only trigger: the rule applies to this kind of file'
+- id: CODE-13
   severity: P4
   category: standards
   file: core/tools/memory/contract/check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 1
+  basis: core/components/memory/standards/rules/pr.md CODE-13 (trigger `path:**/*.{js,ts,jsx,tsx,py,go,rb,java}`)
+  note: 'path-only trigger: the rule applies to this kind of file'
+- id: CODE-19
   severity: P4
   category: standards
   file: core/tools/memory/contract/check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 1
+  basis: core/components/memory/standards/rules/pr.md CODE-19 (trigger `path:**/*.{js,ts,jsx,tsx,py,go,rb,java}`)
+  note: 'path-only trigger: the rule applies to this kind of file'
+- id: CODE-13
   severity: P4
   category: standards
   file: core/tools/memory/contract/test_check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
+  line: 1
+  basis: core/components/memory/standards/rules/pr.md CODE-13 (trigger `path:**/*.{js,ts,jsx,tsx,py,go,rb,java}`)
+  note: 'path-only trigger: the rule applies to this kind of file'
+- id: CODE-19
   severity: P4
   category: standards
   file: core/tools/memory/contract/test_check_contract.py
-  basis: pr.md taxonomy rule None
-- id: null
-  severity: P4
-  category: standards
-  file: core/tools/memory/contract/v1.json
-  basis: pr.md taxonomy rule None
+  line: 1
+  basis: core/components/memory/standards/rules/pr.md CODE-19 (trigger `path:**/*.{js,ts,jsx,tsx,py,go,rb,java}`)
+  note: 'path-only trigger: the rule applies to this kind of file'
 - id: TIC-1
   severity: P2
   category: tool-interface-contract
-  file: core/tools/memory/contract/v1.json (commands.decide lines 629-692, commands.propose lines 503-582, $defs.update
-    lines 969-1058); core/tools/memory/contract/samples/decide.json
-  basis: design-grounding (committed sources)
+  file: core/tools/memory/contract/v1.json (answer_rules.researched_goes_to_short_term line 43; commands.propose summary line
+    528; commands.apply summary line 717); core/tools/memory/README.md (lines 75-85); core/tools/memory/contract/samples/apply.json,
+    samples/apply-promotion.json, samples/broken/propose-web-draft-to-phoenix.json
+  basis: ADR035-S5-AS-COMMITTED — docs/adr/035-agents-work-only-from-memory.md, Decision part 5 line 74 and Consequences lines
+    122, 126; .garura/project/issues/653/specs/plan.md item 5 lines 161-172; .garura/project/issues/654/specs/stories.yaml
+    item 5 line 73 (main)
+  finding: 'The contract, following the owner''s 2026-10-18 answer, sends every draft made by the web or the model to the
+    issue''s own short-term memory, and lets Garura or Phoenix memory get it only through a second, separately approved promotion
+    made outside the work. The committed decision says otherwise. ADR 035 part 5 (line 74): "The approved update is written
+    to memory first: to Garura memory for something only this project needs, or to Phoenix memory for something any project
+    could use. The waiting work then decides from memory." Nothing on main records the change: docs/adr is untouched by this
+    PR and neither ADR 035''s nor ADR 034''s Status line carries a note. Plan item 5 (lines 161-172) and story item 5 (line
+    73) repeat part 5, and ADR 035''s Consequences build on it ("A gap in memory, once filled, is there for the next run",
+    line 122). With one-issue short-term lookups that last sentence now holds only after a promotion nobody is assigned to
+    make, and the Negative consequence (line 126, thin memory means many updates) doubles: a durable answer takes two approvals,
+    and the next issue asks again. The contract is right to follow the owner; the record is what is wrong, and #657 and #658
+    builders read the record.
+
+    '
 - id: TIC-2
   severity: P2
   category: tool-interface-contract
-  file: core/tools/memory/contract/v1.json (answer_rules lines 25-31; commands.apply lines 693-765; $defs.update
-    lines 969-1058; $defs.update_status lines 829-836); core/tools/memory/contract/check_contract.py (check_meaning)
-  basis: design-grounding (committed sources)
+  file: core/tools/memory/contract/v1.json (commands.decide summary line 653 and request lines 654-683; commands.propose requested_by
+    lines 558-561; commands.cite decided_by lines 351-354; $defs.update decided_by, requested_by lines 1037-1050); core/tools/memory/contract/check_contract.py
+    (check_lifecycle lines 183-188); samples/decide.json, samples/cite.json, samples/apply-promotion.json
+  basis: ADR035-S5-AS-COMMITTED — docs/adr/035 Decision part 5 lines 70-78; docs/philosophy/idd-principles.md Principle 3
+    line 96; docs/adr/033 Decision part 6 (only the review step writes approval, from the person's answers) (main)
+  finding: 'ADR 035 part 5 makes one guarantee the whole feature rests on: nothing from the model or the web is used until
+    a person approves it, "for every agent and skill". The contract states it in one prose sentence on decide ("Only a person
+    decides") and carries it as free strings: by, decided_by and reply on decide; requested_by on propose, which holds an
+    agent in one sample ("product-os-keeper (/vision)") and a person in another ("Kapil Viren Ahuja"). Nothing says what a
+    person is, nothing forbids the requester from also being the decider, and decide is on the same agent-callable surface
+    as propose. The check lets an agent approve its own proposal (A) and lets an agent-requested draft labelled person go
+    to Phoenix (C). The same word also means opposite things: cite''s decided_by is the agent that made a decision (cite.json),
+    update.decided_by is the person who approved (decide.json), so a reader or an engine cannot rely on the field. Under IDD
+    Principle 3 a rule nobody can observe is false confidence. Why P2 and not P1: nothing is built and the owner''s design
+    has the person type the approval in the session, so the tool can never prove identity; what the contract can do is make
+    the claim checkable afterwards and refuse the plain bypass. It becomes a P1 (auth bypass in a shipped interface) if #658
+    builds on v1 as it stands.
+
+    '
 - id: TIC-3
   severity: P2
   category: tool-interface-contract
-  file: core/tools/memory/contract/v1.json (tiers.short-term line 8; commands.find, search, read; lookup_rule line
-    17); core/tools/memory/contract/samples/cite.json (stored.path '613/context/citations.jsonl')
-  basis: design-grounding (committed sources)
+  file: core/tools/memory/contract/v1.json (commands.find required lines 112-115, commands.search 194-197, commands.read 270-274,
+    commands.cite 363-369; $defs.issue lines 824-827; tiers.short-term line 8; lookup_rule line 17); core/tools/memory/contract/samples/broken/find-without-issue.json
+  basis: ADR035-S3-LOOKUP-ORDER — docs/adr/035 Decision part 3 lines 55-59; docs/adr/008 Decision parts 1 and 4 lines 33-41,
+    88-106; core/grounding/glossary.md NWWI row line 91 (main)
+  finding: 'Every find, search, read and cite requires an issue, an integer of at least 1, even a lookup that asks only for
+    Garura or Phoenix memory (J). ADR 008 lets work start without an issue and parks its STM in _pending/ until the number
+    exists; the glossary''s NWWI row says start-change resolves or creates the issue at the head of every unit of work. ADR
+    035 part 3 says the lookup never blocks a play. A step that runs before the issue number exists cannot look up even a
+    Phoenix rule without making a number up. The contract is also silent on a new issue whose folder does not exist yet: short-term
+    is first in every lookup, so if that is tier_missing, the first lookup of every new issue fails, and if it is an empty
+    short-term, the rule that a lookup never skips a tier needs a sentence for the no-issue case. The requirement covers every
+    lookup, not only cite, and a fix after #657 is a version 2 for every caller (#661 and #663 write calls against v1).
+
+    '
 - id: TIC-4
   severity: P3
   category: tool-interface-contract
-  file: core/tools/memory/README.md ('What is not memory', line 112 onward); .garura/project/issues/655/specs/plan.md
-    (log); docs/adr/035-agents-work-only-from-memory.md and docs/adr/034-plays-answer-from-memory-inside-a-drive.md
-    (unchanged by this PR)
-  basis: design-grounding (committed sources)
+  file: core/tools/memory/README.md ('What is not memory', lines 149-156); docs/adr/035-agents-work-only-from-memory.md and
+    docs/adr/034-plays-answer-from-memory-inside-a-drive.md (unchanged by this PR)
+  basis: ADR035-NOT-DECIDED-HERE — docs/adr/035 Consequences / Not decided here lines 131-135; docs/adr/034 Decision part
+    2 lines 46-54 (main)
+  finding: 'Three things the branch treats as settled are open or silent in the committed record. ADR 035 lines 131-135 still
+    list "whether ADR 034''s learned checkpoint answers stay on the list of memory" and "whether the files a play passes between
+    its own steps also go through the tool" as not decided, and ADR 034 part 2 (lines 46-54) still lists the learned checkpoint
+    answers as memory. ADR 035 part 3 says "looks in short-term memory first" with no scope, while the contract says it is
+    the issue the work is on (part 10 supports it, but only as "stays per issue"). The README is the only place the settlements
+    are written, and no one is told to consult a tool README for a decision. The content conforms (see verdicts); only the
+    record is missing.
+
+    '
 - id: TIC-5
   severity: P3
   category: tool-interface-contract
-  file: core/tools/memory/contract/v1.json (commands.cite lines 310-397; $defs.source lines 913-942; tier enum lines
-    776-781)
-  basis: design-grounding (committed sources)
+  file: core/tools/memory/contract/v1.json (commands.propose summary line 528; $defs.draft_source lines 850-857; $defs.update
+    lines 998-1088; commands.updates request lines 608-616); core/tools/memory/contract/samples/apply-promotion.json
+  basis: ADR035-S5-AS-COMMITTED — docs/adr/035 Decision part 5 line 74 and Consequences line 122; docs/adr/034 Decision part
+    4 line 62 (main)
+  finding: 'A promotion is the only route from short-term to Garura or Phoenix memory, and the contract has no form for it.
+    It is an ordinary propose whose draft_source is memory or person; those labels are the caller''s own word (C), a memory
+    draft may carry no source at all (B), nothing links a promotion to the short-term entry it lifts except free sources,
+    and nothing lists the entries still waiting for a promotion (updates filters by status only, and the request has no target_tier).
+    ADR 034 part 4 says an answer with no source is not allowed; ADR 035''s positive consequence (a gap, once filled, is there
+    for the next run) now depends on promotions happening. The text "outside the work" cannot be checked in any form.
+
+    '
 - id: TIC-6
   severity: P3
   category: tool-interface-contract
-  file: 'core/tools/memory/contract/v1.json (commands.cite request, `issue`: integer minimum 1, required)'
-  basis: design-grounding (committed sources)
+  file: core/tools/memory/contract/v1.json (commands.cite sources lines 355-361; $defs.source lines 942-971; $defs.tier lines
+    800-806; request_rules.issue line 19); core/tools/memory/contract/samples/read-other-issue-refused.json
+  basis: ADR035-S6-EVERY-DECISION-NAMES-MEMORY — docs/adr/035 Decision parts 1 and 6 lines 36-42, 80-82; docs/adr/034 Decision
+    part 4 line 62; core/components/memory/standards/rules/work-plan.md rule 11; .garura/project/issues/654/specs/stories.yaml
+    common_read_first (main)
+  finding: 'cite names a source only as one of the three tiers. ADR 035 part 1 has agents also read the git repository, and
+    the filed stories tell every story''s agents to read the feature plan, which sits in another issue''s folder (stories.yaml
+    common_read_first: 653''s plan). Under the one-issue rule that plan is refused by read (read-other-issue-refused.json
+    is the same case, 655 reading 613''s plan), and the contract has no source kind for a repository file. A decision that
+    rests on the parent plan, a commit or a code fact has no way to name its basis, and ADR 034 part 4 does not allow an answer
+    with no source: the agent skips the citation or cites an unrelated memory piece to satisfy minItems 1. Work-plan rule
+    11 wants every piece of work traceable up to the plan it serves.
+
+    '
 - id: TIC-7
   severity: P3
   category: tool-interface-contract
-  file: core/tools/memory/contract/v1.json (tiers lines 7-11; lookup_order; $defs.tier, $defs.update_tier, commands.pull.tier
-    const 'garura'; descriptions citing 'ADR 035 §n' on lines 17, 311 and 504)
-  basis: design-grounding (committed sources)
+  file: core/tools/memory/contract/v1.json (commands.find glob lines 101-104, commands.search glob lines 179-182; paths line
+    46; answer_rules.refusals line 42; commands.updates request lines 608-616); core/tools/memory/contract/check_contract.py
+    (check_scope lines 128-140)
+  basis: ADR035-S1-TIERS — docs/adr/035 Decision part 1 lines 36-42 and part 10 line 109; docs/adr/008 Decision part 2 (main)
+  finding: 'The one-issue rule is held for the paths in an answer and for a read, and not for three other ways in. (1) A glob
+    is any non-empty string: ''../613/**'' or ''/etc/**'' is a valid find or search request for issue 655 (E). The paths rule
+    covers path fields only and the refusals list names only read, so the engine''s behaviour is undefined; the answer would
+    be rejected after the fact but the contract does not say bad_request. (2) check_scope looks at cite sources only; the
+    sources inside an update (propose, decide, apply, updates) are not scoped, so a propose for 655 can cite 613''s short-term
+    lines (D). A legitimate promotion cites its origin issue (apply-promotion.json, issue 613), so the rule needs to be exact,
+    not absent. (3) updates has no issue filter and lists every issue''s waiting drafts to any caller (H).
+
+    '
 - id: TIC-8
   severity: P3
   category: tool-interface-contract
-  file: core/tools/memory/contract/check_contract.py (check_boundary, FORBIDDEN); core/tools/lint-components/ (not
-    changed by this PR)
-  basis: design-grounding (committed sources)
+  file: core/tools/memory/contract/v1.json (commands.propose target_path lines 542-544; commands.apply lines 716-787; $defs.update
+    target_path lines 1021-1023); core/tools/memory/contract/samples/apply-promotion.json (target_path 'product-os/decisions/payment-providers.md'),
+    samples/propose.json
+  basis: ADR035-S4-ONE-TOOL — docs/adr/035 Decision part 4 line 63; core/components/memory/standards/rules/direct-model-write.md
+    item 3 line 28; docs/adr/033 Decision part 6; docs/adr/008 Decision part 8; docs/adr/017 Decision part 3 (main)
+  finding: 'The caller chooses where an approved entry is written, and the contract puts no rule on where it may land. (1)
+    ADR 035 part 4 says agents never write memory by a path; every writing agent must now carry the layout of the tier it
+    writes to. (2) The sample promotion writes into product-os/decisions/, a folder the committed model-write rule reserves
+    for the play''s keyed script and scoped-write guard (the LLM never writes a shared model file), and where ADR 033 lets
+    only the review step write approval. (3) A short-term entry may target the issue''s own plan, checkpoint or review records
+    (I): an approved web draft aimed at 613/checkpoint/vision/<time>.md replaces an audit-trail record that ADR 008 says persists
+    forever. ADR 017 allows five folders in an issue; nothing says apply stays out of the ones that are records. If an engine
+    replaces an existing file this is P1-class data loss; the contract does not say whether it replaces, appends or refuses
+    (see TIC-9).
+
+    '
 - id: TIC-9
   severity: P3
   category: tool-interface-contract
-  file: core/tools/memory/contract/v1.json (commands.propose, target_path lines 519-525; commands.pull; $defs.update.target_path);
-    core/tools/memory/contract/samples/propose.json
-  basis: design-grounding (committed sources)
+  file: core/tools/memory/contract/v1.json (errors.changed line 796; commands.apply lines 716-787; $defs.update lines 998-1088)
+  basis: ADR035-S2-PULL-AND-VERSION — docs/adr/035 Decision part 2 lines 46-53; docs/adr/009 Rule 4 (main)
+  finding: 'The error ''changed'' ("the target changed after the update was proposed; propose again") cannot be produced from
+    the data the contract carries: neither propose nor the update record holds a fingerprint or version of the target as it
+    stood when the update was proposed. No sample shows it (L). The contract also does not say what apply does when the target
+    exists (replace, append or refuse). ADR 035 part 2 wants every memory update to have history and versions, and ADR 009
+    Rule 4 wants failure loud; an error with nothing behind it leaves each engine to make its own rule.
+
+    '
 - id: TIC-10
   severity: P3
   category: tool-interface-contract
-  file: core/tools/memory/contract/v1.json (commands.apply written.version, $defs.version lines 815-820, $defs.update.applied_version)
-  basis: design-grounding (committed sources)
+  file: core/tools/memory/contract/v1.json (commands.decide verdict enum lines 661-666; $defs.update lines 998-1088)
+  basis: ADR033-APPROVAL-AND-WRITER — docs/adr/033 Decision part 2; .garura/project/issues/653/specs/plan.md item 11 lines
+    244-252 (main)
+  finding: 'Two gaps in how a person''s word is recorded. (1) The verdicts are approve and reject; plan item 11 has the memory
+    review offer approve, change, reject (for example send an update to Phoenix instead of Garura, or fix its wording). With
+    no change verb the only route is reject and propose again, and adding the verb later is a new contract version. (2) The
+    approval is not tied to the words approved: ADR 033''s pattern is that a person accepted these exact words, with a fingerprint,
+    who and when; here the update keeps who, when and the reply but no fingerprint of the draft the person saw. ADR 033''s
+    scope is the product model, so this is the pattern, not a rule.
+
+    '
 - id: TIC-11
   severity: P3
   category: tool-interface-contract
-  file: core/tools/memory/contract/v1.json (commands.decide, verdict enum lines 638-643; $defs.update)
-  basis: design-grounding (committed sources)
+  file: core/tools/memory/contract/v1.json (tiers.short-term line 8; lookup_rule line 17; commands.cite request answer lines
+    347-350 and response stored lines 390-405); core/tools/memory/README.md (line 155)
+  basis: ADR035-S5-AS-COMMITTED — docs/adr/035 Decision parts 1 and 5; core/grounding/glossary.md STM row line 38 (main)
+  finding: 'Short-term memory is the issue''s folder, and the glossary says that folder holds what the plays and agents write:
+    evidence, context, checkpoints, review records. A search that hits any of it is a short-term answer and stops before Garura
+    memory is reached. So an agent''s own earlier guess in the issue''s context folder, or the free-text answer a cite command
+    stores in that folder, can answer a later lookup as if it were memory, with no approval. ADR 035 part 5 says nothing from
+    the model is used until a person approves it. The contract has no field that tells an approved entry (written by apply)
+    from a working file, and cite writes agent-authored text into the tier that is searched first. This is mostly a property
+    of ADR 035 part 1 as committed; the contract is where it can be made visible.
+
+    '
 - id: TIC-12
   severity: P3
   category: tool-interface-contract
-  file: core/tools/memory/contract/v1.json (description line 6); core/tools/memory/README.md (line 41 'On the command
-    line its fields are the flags')
-  basis: design-grounding (committed sources)
+  file: core/tools/memory/contract/v1.json (description line 6); core/tools/memory/README.md (lines 48-50)
+  basis: ADR035-S4-ONE-TOOL — docs/adr/035 Decision part 4 lines 61-68; .garura/project/issues/617/specs/review-tool.md section
+    2 (line 107 on, main)
+  finding: 'ADR 035 part 4 makes the agent-facing surface a command-line tool. The command-line form is one sentence ("its
+    fields are the flags"). cite and propose carry arrays of objects (sources) that have no flag form, and every lookup now
+    needs an issue flag; nothing says how a boolean, an array or a multi-line draft is passed, what stdout and stderr carry,
+    or what the exit code is for ok:false. The review tool''s plan, the one committed precedent, writes down the transport
+    form of every request in its contract section. #657 builds the tool and #661 and #663 write agent calls against it, so
+    each would invent this.
+
+    '
 - id: TIC-13
-  severity: P4
+  severity: P3
   category: tool-interface-contract
-  file: core/tools/memory/contract/v1.json (version '1.0.0', contract_version '1', cite summary line 311); core/tools/memory/README.md
-    ('The contract changes only by a new version')
-  basis: design-grounding (committed sources)
+  file: core/tools/memory/contract/check_contract.py (check_boundary lines 328-350, FORBIDDEN lines 41-44); core/tools/lint-components/
+    (not changed by this PR)
+  basis: REVIEWTOOL-EXTRACTABLE — .garura/project/issues/617/specs/review-tool.md section 1 rules 3 and 7 (lines 70-85); .garura/project/issues/654/specs/stories.yaml
+    item 4 (main)
+  finding: 'Rule 7 of the extractable-tool plan puts the boundary check in Garura''s lint so the tool cannot move or weaken
+    its own wall. Here the check lives in the tool''s own check_contract.py and runs only when someone runs that script; nothing
+    in Garura''s lint or CI calls it, and a later edit that weakens FORBIDDEN passes silently. The filed story for the tool
+    (#657) asks for "a boundary check passes", and #663 owns the memory-path lint, but no story says who wires this one into
+    Garura''s lint. Rule 3''s Garura-side contract test is rightly left to later stories.
+
+    '
 - id: TIC-14
   severity: P4
   category: tool-interface-contract
-  file: core/tools/memory/contract/v1.json ($defs.draft_source lines 821-828, $defs.source); core/tools/memory/contract/samples/broken/propose-unknown-draft-source.json
-  basis: design-grounding (committed sources)
+  file: core/tools/memory/contract/v1.json (tiers lines 7-11, $defs.tier, $defs.update_tier, commands.pull tier const; 'ADR
+    035' citations in lookup_rule line 17, cite summary line 336, propose summary line 528)
+  basis: REVIEWTOOL-EXTRACTABLE — .garura/project/issues/617/specs/review-tool.md section 1 rule 2 line 67; .garura/project/issues/653/specs/plan.md
+    item 2 line 116 (main)
+  finding: 'Plan item 2 says "no Garura names inside" and the review tool''s rule 2 says Garura words are data. The contract
+    hard-wires garura and phoenix as tier ids in enums and a const, and cites Garura decision records by number in its text.
+    The filed story''s bar is narrower (no Garura path, no Garura code) and holds, and ADR 035 itself names the tiers "Garura
+    memory" and "Phoenix memory", so this is a trade-off with no recorded choice. Renaming a tier later is a version 2.
+
+    '
+- id: TIC-15
+  severity: P4
+  category: tool-interface-contract
+  file: core/tools/memory/contract/v1.json (version '1.0.0' line 4, contract_version '1' line 5); core/tools/memory/README.md
+    ('The contract changes only by a new version')
+  basis: None — None
+  finding: 'Two version fields in one file, and a rule that every change is a new version, while the contract says the cite
+    shape will be refined by the citations story. Each refinement (and TIC-3, TIC-10, TIC-12 if taken later) then forces a
+    version 2 and a rewrite of the const ''1'' in every response. No committed source defines the rule, so this is an observation.
+
+    '
+- id: TIC-16
+  severity: P4
+  category: tool-interface-contract
+  file: core/tools/memory/contract/v1.json ($defs.draft_source lines 850-857, $defs.update sources lines 1031-1036); core/tools/memory/contract/samples/propose.json,
+    samples/apply.json
+  basis: None — .garura/project/issues/653/specs/plan.md item 5 lines 161-172 (main)
+  finding: 'Plan item 5 asks that a draft''s origin is marked (the person, the web, the model). The contract marks the category,
+    and adds a fourth value, memory. A web or model draft carries sources [] in the shipped samples, so the person approving
+    cannot see which page it came from unless it is in the draft''s text, and the origin and the approval do not travel with
+    the written short-term entry, so a later reader of that file cannot tell it began as a web draft.
+
+    '
+- id: TIC-17
+  severity: P4
+  category: tool-interface-contract
+  file: core/tools/memory/contract/v1.json ($defs.version lines 844-849; $defs.tier_health, $defs.match; commands.read version
+    line 311); core/tools/memory/README.md (lines 97-98)
+  basis: ADR035-S2-PULL-AND-VERSION — docs/adr/035 Decision part 2 lines 46-53 (main)
+  finding: 'The README says Phoenix memory''s version is the repository''s commit. The contract allows null for every tier
+    on read, find and health (G). pull, pulled and apply to Phoenix already require a version, so the behind check works,
+    but a read from Phoenix can come back with no version, and a citation carries none at all.
+
+    '
+- id: TIC-18
+  severity: P4
+  category: tool-interface-contract
+  file: core/tools/memory/contract/v1.json ($defs.path pattern line 838); core/tools/memory/contract/check_contract.py (validate,
+    re.search line 112); samples/broken/read-path-with-newline.json
+  basis: None — None
+  finding: 'The contract says a path never contains a newline. The pattern ends in $ and the check uses Python''s re.search,
+    where $ also matches before a final newline, so ''a/b.md'' followed by a newline passes (F); the dialect JSON Schema names
+    (ECMA 262) would refuse it. The broken sample for this rule uses an embedded newline and also contains ''..'', so it would
+    fail for the second reason alone.
+
+    '
+counts:
+  P2: 36
+  P3: 38
+  P4: 12
