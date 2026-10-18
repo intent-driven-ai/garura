@@ -59,6 +59,14 @@ Memory and ADRs section. Next: item 2, the shape of a decision and its sources.
   on, and Catch up — in the mockup's own look. The local page now serves this mockup
   with live updates, so there is one design, not two. (c) The design says the section
   has a tool half and a Garura half. (b), the waiting-draft rule, lands with item 3.
+- **1e. Designed (mock only): five sections and Ask memory** — Kapil, 2026-10-18/19: the
+  review tool has Intents | Product | ADRs (a person's, through `/adr`) | Memory | Agent
+  decisions (named so, not "evidence", which already names play run records). Memory
+  shows Garura memory and, once an issue is picked, its short-term memory, with **Ask
+  memory**: plain words in, an answer with its sources out; underneath, the same memory
+  tool, vectorless, the way Claude Code works ("the same tool under both, just that the
+  interface for tool should be nlp"). Mocked in the review tool's mockup and design; "no
+  need to build this whole this now". The local page opens on Memory.
 
 ### 2. The shape of a decision and its sources — now
 
@@ -121,3 +129,4 @@ commit, raise, review, merge.
   §4, the resolution rule, the contract's `cite`, the drive review writer, and
   the three notes Kapil approved #675 on.
 - 2026-10-18 — Item 1 done (a, c): the mockup's Memory and ADRs section; the local page serves the mockup.
+- 2026-10-19 — Item 1e: the review tool's five sections and the Ask memory mock (design only).

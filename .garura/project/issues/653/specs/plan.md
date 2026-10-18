@@ -135,7 +135,8 @@ three notes from the #675 review.
   passed on a fresh project. No agent calls it yet (item 8). ADR 035 §2 and ADR 036 §1
   need amending for these decisions.
 - **11. Moved: the memory review** — #664 is built with the whole review tool, all
-  sections inside Garura, in the #606 plan (item 8, the review). Kapil, 2026-10-18 (#658): "we will build the tool with all the sections inside garura - as part of 606 plan. it remains a local prototype for now."
+  sections inside Garura (since 2026-10-19: ADRs, Memory with Ask memory, and Agent
+  decisions, in place of one "Memory and ADRs" section), in the #606 plan (item 8, the review). Kapil, 2026-10-18 (#658): "we will build the tool with all the sections inside garura - as part of 606 plan. it remains a local prototype for now."
   Until then, a local prototype page approves memory updates (#658 plan, item 5).
 - **5. Shipped: memory updates** — #658, PR #675, approved by Kapil on 18 October. When
   no tier answers, an agent raises an update in the issue's short-term memory ("STM -
