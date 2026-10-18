@@ -383,6 +383,15 @@ class Citations(Tiers):
         self.commit("memory moved on")
         problems = self.ask("citations", {"issue": 7, "check": True})["problems"]
         self.assertEqual(sorted(p["problem"] for p in problems), ["source_changed", "source_missing"])
+        changed = next(p for p in problems if p["problem"] == "source_changed")
+        self.assertEqual((changed["source"]["text"], changed["now"]),
+                         ("- A reset link expires after one hour.", "- Links last 30 minutes."))
+
+    def test_the_record_keeps_what_the_agent_read(self):
+        self.cite([self.source("phoenix", "knowledge/domains/user-management.md", 5, 5)])
+        src = self.ask("citations", {"issue": 7})["records"][0]["sources"][0]
+        self.assertEqual(src["text"], "- A reset link expires after one hour.")
+        self.assertEqual(src["version"], self.ask("health", {})["tiers"][2]["version"])
 
     def test_a_decision_with_no_source_is_a_problem(self):
         os.makedirs(os.path.join(self.short, "7", "context"))

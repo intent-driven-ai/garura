@@ -23,7 +23,9 @@
             "path": "knowledge/domains/ecommerce.md",
             "start": 41,
             "end": 42,
-            "fingerprint": "sha256:439488cbd9d31c20d53491c785753dc71b74fc5354297825119037d5a597de0f"
+            "fingerprint": "sha256:439488cbd9d31c20d53491c785753dc71b74fc5354297825119037d5a597de0f",
+            "text": "## Checkout\n- Guest checkout lowers drop-off for first-time buyers.",
+            "version": "4f1c2e9a7b3d"
           }
         ],
         "from_update": null
@@ -38,9 +40,12 @@
           "path": "knowledge/domains/ecommerce.md",
           "start": 41,
           "end": 42,
-          "fingerprint": "sha256:439488cbd9d31c20d53491c785753dc71b74fc5354297825119037d5a597de0f"
+          "fingerprint": "sha256:439488cbd9d31c20d53491c785753dc71b74fc5354297825119037d5a597de0f",
+          "text": "## Checkout\n- Guest checkout lowers drop-off for first-time buyers.",
+          "version": "4f1c2e9a7b3d"
         },
-        "detail": "knowledge/domains/ecommerce.md lines 41–42 no longer match their fingerprint."
+        "detail": "knowledge/domains/ecommerce.md lines 41–42 no longer match their fingerprint.",
+        "now": "## Checkout\n- Guest checkout is allowed; offer an account after payment."
       }
     ]
   }

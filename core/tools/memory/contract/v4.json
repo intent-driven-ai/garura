@@ -45,7 +45,8 @@
     "blocking": "An update with blocking false lets the rest of the work go on while it waits; only the work that needs the answer waits. An update with blocking true stops the work until a person decides (Kapil, 2026-10-18).",
     "waiting_drafts_are_hidden": "A lookup (find, search, read) never returns a memory update that waits for a person: updates are kept apart in the issue's short-term memory, and only an applied update's written file can be found. Otherwise a draft from the web or the model would drive the work with no person in between (ADR 036). Decision records are not memory either: a lookup never returns them, so an agent never decides from its own earlier decision.",
     "cite_reads_its_sources": "cite records nothing unless every source exists in its tier and the text of its lines still has its fingerprint.",
-    "citations_problems": "Without check, problems is empty. With check, each record with no source is no_source; each source whose file is gone is source_missing; each source whose text no longer matches its fingerprint is source_changed. Every record and problem is of the request's issue."
+    "citations_problems": "Without check, problems is empty. With check, each record with no source is no_source; each source whose file is gone is source_missing; each source whose text no longer matches its fingerprint is source_changed. Every record and problem is of the request's issue. A problem's now is the text those lines hold now, or null when they are gone.",
+    "cited_text_is_its_fingerprint": "In a decision record, each source's fingerprint is the sha256 of its text — the exact lines the agent read when it decided."
   },
   "settings": "The tool reads where each tier lives from its settings (environment variables or a settings file), never from a fixed path. A tier with no setting, or one that cannot be reached, is the error tier_missing. The settings name each tier's place, Phoenix memory's approved version (phoenix_ref: the version a person approved outside Garura; a folder engine reads the commit it names), and where pulled pieces land in Garura memory.",
   "paths": "Every path in a request or response is relative to its tier's root, uses forward slashes, never starts with a slash, and never contains '..'.",
@@ -353,7 +354,7 @@
       }
     },
     "cite": {
-      "summary": "Record a decision and the memory it rests on, in the issue's short-term memory (ADR 035 §6, ADR 034 §4): the question, the answer, who decided, the play, and one or more sources — each a tier, file, lines and the fingerprint of that text. When the answer came from an approved memory update, from_update names it, and the update's written file is a source. Before it records anything, the tool reads each source: one that no longer exists is not_found, one whose text changed is changed. No source from the model or the web.",
+      "summary": "Record a decision and the memory it rests on, in the issue's short-term memory (ADR 035 §6, ADR 034 §4): the question, the answer, who decided, the play, and one or more sources — each a tier, file, lines and the fingerprint of that text. When the answer came from an approved memory update, from_update names it, and the update's written file is a source. Before it records anything, the tool reads each source: one that no longer exists is not_found, one whose text changed is changed. No source from the model or the web. The record keeps, for each source, the exact text the agent read and the version of memory it read it from, so a person auditing the decision sees what it rested on.",
       "request": {
         "type": "object",
         "properties": {
@@ -1308,7 +1309,7 @@
         "sources": {
           "type": "array",
           "items": {
-            "$ref": "#/$defs/source"
+            "$ref": "#/$defs/cited_source"
           }
         },
         "from_update": {
@@ -1348,7 +1349,7 @@
         "source": {
           "oneOf": [
             {
-              "$ref": "#/$defs/source"
+              "$ref": "#/$defs/cited_source"
             },
             {
               "type": "null"
@@ -1358,13 +1359,58 @@
         "detail": {
           "type": "string",
           "minLength": 1
+        },
+        "now": {
+          "type": [
+            "string",
+            "null"
+          ]
         }
       },
       "required": [
         "citation_id",
         "problem",
         "source",
-        "detail"
+        "detail",
+        "now"
+      ],
+      "additionalProperties": false
+    },
+    "cited_source": {
+      "type": "object",
+      "properties": {
+        "tier": {
+          "$ref": "#/$defs/tier"
+        },
+        "path": {
+          "$ref": "#/$defs/path"
+        },
+        "start": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "end": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "fingerprint": {
+          "$ref": "#/$defs/fingerprint"
+        },
+        "text": {
+          "type": "string"
+        },
+        "version": {
+          "$ref": "#/$defs/version"
+        }
+      },
+      "required": [
+        "tier",
+        "path",
+        "start",
+        "end",
+        "fingerprint",
+        "text",
+        "version"
       ],
       "additionalProperties": false
     }

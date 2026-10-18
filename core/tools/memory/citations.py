@@ -62,28 +62,32 @@ class CitationStore:
         return f"cite-{day}-{max(taken, default=0) + 1:03d}"
 
     def source_problem(self, engine, source):
-        """None when the source still says what its fingerprint says; else (problem, detail)."""
+        """(None, text now) when the source still says what its fingerprint says;
+        else (problem, detail, text now or None)."""
         text = engine.read(source["tier"], source["path"])
         where = f"{source['tier']} memory {source['path']} lines {source['start']}–{source['end']}"
         if text is None:
-            return "source_missing", f"{where}: the file is not there."
+            return "source_missing", f"{where}: the file is not there.", None
         chunk = lines_of(text, source["start"], source["end"])
         if chunk is None:
-            return "source_missing", f"{where}: those lines are not there."
+            return "source_missing", f"{where}: those lines are not there.", None
         if fingerprint(chunk) != source["fingerprint"]:
-            return "source_changed", f"{where} no longer match their fingerprint."
-        return None
+            return "source_changed", f"{where} no longer say what the decision rested on.", chunk
+        return None, None, chunk
 
     def cite(self, request, engine, updates):
         issue = request["issue"]
+        cited = []
         for source in request["sources"]:
             if source["tier"] == "short-term" and not source["path"].startswith(f"{issue}/"):
                 raise Refusal("bad_request", f"Short-term path {source['path']} is outside issue {issue}.",
                               "short-term")
-            problem = self.source_problem(engine, source)
+            problem, detail, text = self.source_problem(engine, source)
             if problem:
-                code = "not_found" if problem[0] == "source_missing" else "changed"
-                raise Refusal(code, problem[1] + " Nothing was recorded.", source["tier"])
+                code = "not_found" if problem == "source_missing" else "changed"
+                raise Refusal(code, detail + " Nothing was recorded.", source["tier"])
+            # the exact text the agent read, and from which version of memory
+            cited.append(source | {"text": text, "version": engine.version(source["tier"])})
         if request.get("from_update"):
             update = next((u for u in updates.list() if u["id"] == request["from_update"]), None)
             if update is None:
@@ -98,7 +102,7 @@ class CitationStore:
             "citation_id": self.next_id(), "issue": issue, "play": request.get("play"),
             "question": request["question"], "answer": request["answer"], "decided_by": request["decided_by"],
             "decided_at": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-            "sources": request["sources"], "from_update": request.get("from_update"),
+            "sources": cited, "from_update": request.get("from_update"),
         }
         path = self.path(issue)
         os.makedirs(os.path.dirname(path), exist_ok=True)
@@ -114,10 +118,10 @@ class CitationStore:
             for r in records:
                 if not r.get("sources"):
                     problems.append({"citation_id": r["citation_id"], "problem": "no_source", "source": None,
-                                     "detail": "The decision names no memory."})
+                                     "detail": "The decision names no memory.", "now": None})
                 for source in r.get("sources", []):
-                    found = self.source_problem(engine, source)
-                    if found:
-                        problems.append({"citation_id": r["citation_id"], "problem": found[0], "source": source,
-                                         "detail": found[1]})
+                    problem, detail, now = self.source_problem(engine, source)
+                    if problem:
+                        problems.append({"citation_id": r["citation_id"], "problem": problem, "source": source,
+                                         "detail": detail, "now": now})
         return records, problems

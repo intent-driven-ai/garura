@@ -291,6 +291,10 @@ def check_meaning(sample, contract):
     if response.get("command") == "read":
         problems += check_read(request, response)
     if response.get("command") == "citations":
+        for r in response.get("records", []):
+            for src in r.get("sources", []):
+                if "text" in src and src.get("fingerprint") != fingerprint(src["text"]):
+                    problems.append(f"record {r.get('citation_id')}: a source's fingerprint is not the sha256 of its text")
         if not request.get("check") and response.get("problems"):
             problems.append("citations listed problems without check (answer rule citations_problems)")
         ids = {r.get("citation_id") for r in response.get("records", [])}
