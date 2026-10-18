@@ -1,0 +1,4 @@
+ M .garura/project/issues/653/specs/plan.md
+ M .garura/project/issues/657/specs/plan.md
+ M core/tools/memory/test_memory.py
+?? .garura/project/issues/657/context/porcelain.txt
