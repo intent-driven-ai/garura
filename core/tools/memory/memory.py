@@ -161,6 +161,19 @@ class FolderEngine:
         rel = os.path.relpath(self.s["short-term"], self.s["garura"])
         return () if rel == "." or rel.startswith("..") else (rel.replace(os.sep, "/").rstrip("/") + "/",)
 
+    def hidden(self, tier, path):
+        """True when a path is one a lookup never reads, decided on the file it reaches — not on
+        how the path is spelled (a '.' segment, a doubled slash, other letter case, a link) — or
+        when it reaches outside its tier."""
+        root = os.path.realpath(self.root(tier))
+        real = os.path.realpath(os.path.join(root, path))
+        if real != root and not real.startswith(root + os.sep):
+            return True
+        rel = os.path.relpath(real, root).replace(os.sep, "/")
+        if tier == "short-term":
+            rel = rel.split("/", 1)[1] if "/" in rel else ""
+        return rel.lower().startswith(tuple(p.lower() for p in self.excluded(tier)))
+
     def scope(self, tier, issue):
         """The folder a lookup reads in this tier, and the prefix its paths carry."""
         root = self.root(tier)
@@ -219,10 +232,10 @@ class FolderEngine:
         if tier == "phoenix":
             data = phoenix_git.show(self.root(tier), path, self.s["phoenix_ref"])
         else:
+            if self.hidden(tier, path):
+                return None
             full = os.path.join(self.root(tier), path)
-            skip = self.excluded(tier)
-            inner = path.split("/", 1)[1] if tier == "short-term" and "/" in path else path
-            if inner.startswith(skip) or not os.path.isfile(full):
+            if not os.path.isfile(full):
                 return None
             with open(full, "rb") as fh:
                 data = fh.read()

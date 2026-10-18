@@ -43,14 +43,14 @@
     "researched_goes_to_short_term": "Every memory update targets the issue's short-term memory, whatever drafted it (Kapil, 2026-10-18: \"STM - always STM\"). Moving memory up — to Garura memory (/learn-memory) or Phoenix memory (/promote-memory) — is done by those plays, not by this tool.",
     "read_saves_what_it_uses": "A read of Phoenix memory carries exactly one of saved_to (the Garura path it was saved to) or not_saved (why not). A read of any other tier carries neither.",
     "blocking": "An update with blocking false lets the rest of the work go on while it waits; only the work that needs the answer waits. An update with blocking true stops the work until a person decides (Kapil, 2026-10-18).",
-    "waiting_drafts_are_hidden": "A lookup (find, search, read) never returns a memory update that waits for a person: updates are kept apart in the issue's short-term memory, and only an applied update's written file can be found. Otherwise a draft from the web or the model would drive the work with no person in between (ADR 036). Decision records are not memory either: a lookup never returns them, so an agent never decides from its own earlier decision.",
+    "waiting_drafts_are_hidden": "A lookup (find, search, read) never returns a memory update that waits for a person, however its path is spelled (the tool decides on the file a path reaches, and a path has one spelling): updates are kept apart in the issue's short-term memory, and only an applied update's written file can be found. Otherwise a draft from the web or the model would drive the work with no person in between (ADR 036). Decision records are not memory either: a lookup never returns them, so an agent never decides from its own earlier decision.",
     "cite_reads_its_sources": "cite records nothing unless every step's source exists in its tier and the text of its lines still has its fingerprint.",
     "citations_problems": "Without check, problems is empty. With check, each record with no trace is no_source (step and source null); each step whose source file or lines are gone is source_missing; each step whose source text no longer matches its fingerprint is source_changed. A problem's step is the step's number in the trace, from 1. Every record and problem is of the request's issue. A problem's now is the text those lines hold now, and now_around the lines around them now; both are null when the lines are gone.",
     "cited_text_is_its_fingerprint": "In a decision record, each step's source fingerprint is the sha256 of its text — the exact lines the agent read when it decided.",
     "around_holds_the_text": "In a decision record, each source's around starts at most 3 lines before the source and ends at most 3 after it, and the source's own lines inside it are its text."
   },
   "settings": "The tool reads where each tier lives from its settings (environment variables or a settings file), never from a fixed path. A tier with no setting, or one that cannot be reached, is the error tier_missing. The settings name each tier's place, Phoenix memory's approved version (phoenix_ref: the version a person approved outside Garura; a folder engine reads the commit it names), and where pulled pieces land in Garura memory.",
-  "paths": "Every path in a request or response is relative to its tier's root, uses forward slashes, never starts with a slash, and never contains '..'.",
+  "paths": "Every path in a request or response is relative to its tier's root, uses forward slashes, never starts or ends with a slash, and never contains '..', a '.' segment or an empty segment. One file has one spelling, so what a lookup hides cannot be reached by spelling its path another way.",
   "fingerprint": "sha256 of the exact text returned or cited, as 'sha256:' and 64 lowercase hex characters. A citation whose fingerprint no longer matches the file has gone stale.",
   "every_result": "Every piece of text the tool returns carries its tier, file, lines and fingerprint (read, search hits, each trace step's source). A file list (find) carries tier, file and version. pull names the tier it wrote to.",
   "commands": {
@@ -938,7 +938,7 @@
     "path": {
       "type": "string",
       "minLength": 1,
-      "pattern": "^(?!/)(?!.*\\.\\.)[^\\\\\\n\\r]+$"
+      "pattern": "^(?!/)(?!.*\\.\\.)(?!.*//)(?!.*/$)(?!(?:.*/)?\\.(?:/|$))[^\\\\\\n\\r]+$"
     },
     "fingerprint": {
       "type": "string",

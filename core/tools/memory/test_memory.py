@@ -468,6 +468,50 @@ class Citations(Tiers):
                          ["/understand"])
 
 
+class HiddenWhateverTheSpelling(Tiers):
+    """A waiting draft and a decision record are never read, and an issue's short-term memory is
+    never read through Garura memory, however the path is spelled (the #676 review)."""
+
+    def setUp(self):
+        super().setUp()
+        self.draft = self.ask("propose", {"issue": 7, "missing": "Reset link length.", "target_tier": "short-term",
+                                          "target_path": "7/context/answers/reset.md", "draft": "Thirty minutes.",
+                                          "draft_source": "model", "sources": [],
+                                          "requested_by": "test agent"})["update"]
+        write(self.short, "7/notes.md", "a short-term note\n")
+        step = {"asked": "q", "found": "f", "source": {"tier": "phoenix", "path": "standards/rules/commits.md",
+                                                     "start": 1, "end": 1, "fingerprint": cc.fingerprint("# Commits")}}
+        self.ask("cite", {"issue": 7, "question": "q", "answer": "a", "decided_by": "test agent", "trace": [step]})
+
+    def read(self, tier, path, issue=7):
+        return self.ask("read", {"issue": issue, "tier": tier, "path": path})
+
+    def test_odd_spellings_are_refused(self):
+        name = self.draft["id"] + ".json"
+        for path in (f"7/review/./memory-updates/{name}", f"7/review//memory-updates/{name}",
+                     "7/context/./citations.jsonl", "7/notes.md/"):
+            self.assertEqual(self.read("short-term", path)["error"]["code"], "bad_request", path)
+        self.assertEqual(self.read("garura", "./issues/7/notes.md")["error"]["code"], "bad_request")
+
+    def test_other_letter_case_and_links_reach_nothing_hidden(self):
+        name = self.draft["id"] + ".json"
+        for path in (f"7/Review/memory-updates/{name}", f"7/review/Memory-Updates/{name}", "7/Context/citations.jsonl"):
+            self.assertFalse(self.read("short-term", path).get("ok"), path)
+        os.symlink(os.path.join(self.short, "7", "review"), os.path.join(self.short, "7", "drafts"))
+        self.assertFalse(self.read("short-term", f"7/drafts/memory-updates/{name}").get("ok"))
+        self.assertFalse(self.read("garura", "issues/7/notes.md").get("ok"))
+        self.assertFalse(self.read("garura", "Issues/7/notes.md").get("ok"))
+        self.assertEqual(self.read("short-term", "7/notes.md")["text"], "a short-term note")
+
+    def test_a_decision_never_rests_on_a_draft_or_a_decision(self):
+        for path in (f"7/review/memory-updates/{self.draft['id']}.json", "7/context/citations.jsonl",
+                     f"7/Review/memory-updates/{self.draft['id']}.json"):
+            step = {"asked": "q", "found": "f", "source": {"tier": "short-term", "path": path, "start": 1, "end": 1,
+                                                         "fingerprint": cc.fingerprint("x")}}
+            a = self.ask("cite", {"issue": 7, "question": "q", "answer": "a", "decided_by": "test agent", "trace": [step]})
+            self.assertEqual(a["error"]["code"], "not_found", path)
+
+
 class CommandLine(Tiers):
     """Every command line gets a JSON answer, even one the tool cannot read."""
 
