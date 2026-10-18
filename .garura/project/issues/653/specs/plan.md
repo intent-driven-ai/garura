@@ -4,7 +4,7 @@ kind: feature
 serves: "#653 — agents work only from memory, so drives can make their own decisions"
 status: active
 updated: 2026-10-18
-now: 2
+now: 3
 serves_plan: 606
 serves_item: 8
 ---
@@ -94,8 +94,8 @@ answer came from in a way anyone checks.
 Decided, nothing built: ADR 035 is accepted. The review (`.garura/project/issues/613/specs/memory-review.md`)
 and the map of how agents read memory are done. Kapil set the model above and
 chose B. The feature (#653), its decision spike (#654) and its stories
-(#655–#664) are filed. Next: item 2, the memory tool's contract (#655), once
-#654 lands.
+(#655–#664) are filed. The contract (item 2, #655) is built and lands with its
+pull request. Next: item 3, Phoenix memory and the subset a project pulls (#656).
 
 ## The plan, in order
 
@@ -112,23 +112,14 @@ chose B. The feature (#653), its decision spike (#654) and its stories
   memory, whether files passed between a play's own steps go through the tool,
   whether a drive keeps going while one update waits, and the folder for Garura
   memory.
+- **2. Built: the memory tool's contract** — #655. Version 1 in
+  `core/tools/memory/contract/v1.json`, with a plain guide, 15 sample answers,
+  12 broken samples and a check with its own tests. Eleven commands; every piece
+  of text carries tier, file, lines and fingerprint; a lookup never skips a tier.
+  Settled with Kapil: learned checkpoint answers are not memory; a play's own
+  working files stay direct. Lands with #655's pull request.
 
-### 2. Write the memory tool's contract — now
-
-**Issue:** #655.
-**What:** the written agreement between agents and the tool: its commands to
-find memory (find, search, read, go up to Phoenix memory, cite) and to update it
-(pull a piece into the project, propose an update, list updates, apply an
-approved update),
-what each returns, and its errors. Same rules as the review tool: its own
-folder, a version number, no Garura names inside, the engine behind it
-swappable.
-**Why here:** every later item builds against it, and it is what makes the move
-to Griffin cost nothing.
-**Done when:** the contract file exists and sample answers pass its check.
-**Needs:** item 1.
-
-### 3. Set up Phoenix memory, and the subset each project pulls
+### 3. Set up Phoenix memory, and the subset each project pulls — now
 
 **Issue:** #656.
 **What:** Phoenix memory gets its one home outside Garura's code, seeded from
@@ -290,3 +281,4 @@ the tool.
   contract's rule 4 to item 8 (#661), the docs, glossary rows and the locked
   knowledge-base design note to item 10 (#663). The three stories were edited to
   match.
+- 2026-10-18 — Item 2 built on #655: the contract, samples and check. Now on item 3 (#656).
