@@ -2,9 +2,9 @@
 plan_for: 632
 kind: story
 serves: "an offshoot — not part of #612 or #606 (Kapil, 2026-10-09)"
-status: active
-updated: 2026-10-15
-now: 6
+status: done
+updated: 2026-10-18
+now: -
 ---
 
 # Plan — a skill that manages ADRs
@@ -30,15 +30,7 @@ AINT... ADRs ideally should not impact bint".
 
 ## Where we are now
 
-The design is decided (items 1–3, A1–A8). Issue #632 and branch `feature/632-adr-play` are
-open. Building it is now (item 4).
-
-Two kinds of ADR exist today:
-- **Garura's own ADRs** — 31 Markdown files in `docs/adr/`, written by hand. Only 17 carry a
-  `**Status:**` line; 8 say "Supersedes", 3 say "Amends". The format has drifted.
-- **Product decisions** — `schemas/product-os/decision.yaml` ("a decision record IS an ADR",
-  at product, capability, functionality or framework level), written by plays' persist
-  scripts (`/understand`, `/shape`, the lens plays, `/learn`), immutable once accepted.
+Done. PR #633, merged 15 October; #632 closed. This plan is done.
 
 ## The plan, in order
 
@@ -78,27 +70,11 @@ Two kinds of ADR exist today:
 
 - **4. Built: the template, scripts, skill, agent and the `/adr` play** — #632. `standards/templates/adr.md` (one template, two shapes) and `decision.yaml` v2; `author-adr` with `scripts/adr.py` (number, lint, index, overlaps, pointer, accept, guard — 32 tests); `adr-keeper`; `/adr` compiled from its intent source (Kapil approved the intent) with `apply_adr.py` and `check_adr_scope.py` (20 tests); `/adr`'s accept step added to the pinned gates; Next entry added. Play check passes.
 
-### 4. Build it (done — see above)
-
-**What:** the format, the skill, the scripts and their tests, through the right compiler.
-**Needs:** item 3.
-
-- **5. Tried: on ADR 031 as if new** — #632. Found ADR 026, 027 and 029 on its own, each with its part; business-intent check `kind`; drive mode, accept-later, pointers and index all worked. One fix (a full stop before a pointer). Records in `specs/trial-adr-031/`.
-
-### 5. Try it on a real case (done — see above)
-
-**What:** run it on ADR 031 as if new — it should find ADR 026, 027 and 029 on its own, and
-see that ADR 031 changes the Business Intent and ICE kinds but no person's business intent.
-**Needs:** item 4.
+- **6. Shipped: the /adr play** — #632. PR #633, merged 15 October; #632 closed.
 
 ### Later (not in this plan)
 
 - Review the 31 existing ADRs and bring them into the template (A4).
-
-### 6. Ship it — now
-
-**What:** a pull request, review, merge on Kapil's word.
-**Needs:** item 5.
 
 ## Log
 
@@ -119,3 +95,4 @@ see that ADR 031 changes the Business Intent and ICE kinds but no person's busin
 - Wire the plays that record product decisions (`/understand`, `/shape`, the lens plays, `/learn`) to call `author-adr` and accept at their own review (review H6).
 - A review playbook for STM run records (`knowledge/review/`) — the category has none (review, PR #631 and #633).
 - Shared-script lint (E741 in `preflight.py`, `session_stamp.py`) and the other pre-existing items carried from #612.
+- 2026-10-18 — Closed out: item 6 done (PR #633, merged 15 October). The plan had been left active after the merge.

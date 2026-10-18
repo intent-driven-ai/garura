@@ -61,14 +61,15 @@ Three decisions are made (#592, #607, #619) and six things are shipped: plan mod
 ADR 034 decided — inside a drive a play answers from memory and asks only when
 memory holds nothing — and a review that found memory not ready. Kapil chose to
 fix the whole memory system first, as its own feature; Kickoff's runner waits for
-it.
+it. Memory (#653): items 1 to 3 are shipped (#654, #655, #656); now item 4, the memory
+tool (#657).
 
 ## The plan, in order
 
 ### Done
 
 - **Decided: the lifecycle is five loops** — #592. ADR 028. A design decision only; no loop is built yet.
-- **1. Decided and shipped in part: plan mode** — #619 (a child of #539, not of #606). Decided in ADR 030: every change works from a plan on disk, kept current, done only when the plan is done. Shipped (merged in PR #629): the template and rules, the plan skill and its check, and issue reads that see type, parent and children. Not yet done: wiring it into the plays (Feature #621).
+- **1. Decided and shipped in part: plan mode** — #619 (a child of #539, not of #606). Decided in ADR 030: every change works from a plan on disk, kept current, done only when the plan is done. Shipped (merged in PR #629): the template and rules, the plan skill and its check, and issue reads that see type, parent and children. Not yet done: wiring it into the plays (Feature #621), including a check in the merge play that refuses to merge while the issue's plan is not done (Kapil chose it, 2026-10-18; not filed yet).
 - **2. Shipped: `/vision` and `/understand` each stand alone** — #616, PR #630. Each opens and lands its own change; `/understand` seeds a missing capability from the person's answers. Not yet done: skipping the opening inside a drive (#614, #615); `/shape` and `/roadmap` still expect the old shared branch (follow-up written up in #616's notes, not filed).
 - **Decided: a loop is a drive; the first drive is Kickoff** — #607. ADR 029, a design decision only; nothing is built yet. It settled what a drive is, how it runs, that it owns one issue, one branch and one pull request, and that Kickoff runs `/intent` → `/vision` → `/understand`.
 - **3. Shipped: `/intent`, the play that reads a prototype** — #612, PR #631, merged 9 October; #612 closed with its handoff on 16 October. It writes two levels: business intents for the person, and under each the ICE for the agents, as proposed capabilities with no domain yet. ADR 031 (D6–D10) records the decisions made on the way: no play owns a kind of thing in the product model; any play writes what it finds and an Alignment drive fixes drift; only a person confirms an intent; no approval stop inside a drive. Not yet done: `/vision` cannot take its output (item 4). Its own plan: `.garura/project/issues/612/specs/plan.md`.
@@ -174,3 +175,4 @@ Not part of this plan; recorded so the gaps in time make sense.
   fix the whole memory system first, as its own feature — added as step 0 of
   item 8. Big update: an added piece of work, logged here.
 - 2026-10-18 — The memory system is filed: Feature #653 under #606, with spike #654 for its decision. Step 0 of item 8 now names them.
+- 2026-10-18 — Memory items 1 to 3 shipped; five finished child plans closed out (#617, #632, #654, #655, #656). Merge-play plan check chosen (plan mode, #621).

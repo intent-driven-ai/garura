@@ -2,9 +2,9 @@
 plan_for: 655
 kind: story
 serves: "#655 — the memory tool has a written contract for finding and updating memory"
-status: active
+status: done
 updated: 2026-10-18
-now: 4
+now: -
 serves_plan: 653
 serves_item: 2
 ---
@@ -39,9 +39,7 @@ same thing — and so moving to Griffin changes nothing on Garura's side.
 
 ## Where we are now
 
-The change is open on `feature/655-memory-tool-contract`. Kapil approved the
-plan and settled the two open questions. The contract, its samples and its
-check are built. Next: item 4, landing the change.
+Done. PR #666, merged 18 October; #655 closed. Item 2 of the #653 plan is done. This plan is done.
 
 ## The plan, in order
 
@@ -69,13 +67,7 @@ check are built. Next: item 4, landing the change.
   folder names no project path.
   `python3 contract/check_contract.py` from the tool's folder. Not merged yet.
 
-### 4. Land the change — now
-
-**Issue:** #655.
-**What:** commit, raise, review and merge; close #655; mark item 2 of the #653
-plan done.
-**Done when:** merged to main.
-**Needs:** item 3.
+- **4. Shipped: the memory tool contract** — #655. PR #666, merged 18 October; #655 closed. Item 2 of the #653 plan is done.
 
 ## Log
 
@@ -110,3 +102,4 @@ plan done.
   never checked (now `bad_request` is required for them, and `read` must
   answer what was asked). Added the `wrong_state` error for `decide` or
   `apply` on an update in the wrong state.
+- 2026-10-18 — Closed out: item 4 done (PR #666, merged 18 October). The plan had been left active after the merge.

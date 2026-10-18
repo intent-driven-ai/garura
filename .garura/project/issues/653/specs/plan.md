@@ -4,7 +4,7 @@ kind: feature
 serves: "#653 — agents work only from memory, so drives can make their own decisions"
 status: active
 updated: 2026-10-18
-now: 3
+now: 4
 serves_plan: 606
 serves_item: 8
 ---
@@ -91,13 +91,10 @@ answer came from in a way anyone checks.
 
 ## Where we are now
 
-Decided, and the first piece built: ADR 035 is accepted, and ADR 036 (#667)
-amends it with Kapil's answers of 18 October. The review (`.garura/project/issues/613/specs/memory-review.md`)
-and the map of how agents read memory are done. Kapil set the model above and
-chose B. The feature (#653), its decision spikes (#654, #667) and its stories
-(#655–#664) are filed, and the stories follow ADR 036. The contract (item 2,
-#655) is merged. Next: item 3, Phoenix memory and the subset a project pulls
-(#656).
+Decided, and three pieces shipped: ADR 035 and ADR 036 (#654, #667), the memory tool's
+contract (#655) and Phoenix memory with `pull` and `pulled` (#656, merged 18 October).
+Memory is now in Phoenix memory. Next: item 4, the memory tool's search and edit (#657),
+with Kapil's login and change-password test as its finish test.
 
 ## The plan, in order
 
@@ -129,27 +126,9 @@ chose B. The feature (#653), its decision spikes (#654, #667) and its stories
   short-term memory, and promotion happens outside the work. Lands with #655's
   pull request.
 
-### 3. Set up Phoenix memory, and the subset each project pulls — now
+- **3. Shipped: Phoenix memory and pull** — #656, PR #671, merged 18 October. `intent-driven-ai/phoenix-memory` (private) holds all of `core/components/memory/`; `pull` and `pulled` (`core/tools/memory/pull.py`) bring a piece into Garura memory and show what is behind; dead memory settings removed; the PR review rules are read from Garura memory. Changed on Kapil's word: the installer pulls nothing (three set-up plays will fill a project's first memory), `core/components/memory/` is removed after the memory tool (item 10), and the `.garura/` clean-up is #670. ADR 035 §2 still needs its amendment (its own `/adr` change).
 
-**Issue:** #656.
-**What:** Phoenix memory gets its one home outside Garura's code, seeded from
-everything in `core/components/memory/` (the shelves deleted in #434 left
-out). Installing Garura no longer copies all of memory: it pulls the subset the
-project needs into the project's Garura memory, and records which version of
-Phoenix memory each piece came from. The two stale copies are retired
-(`~/.garura/core/memory/` and `.garura/core/memory/`). The installer writes
-correct settings into projects it installs into. Garura memory's own folders
-are settled (product model, the person's own files, the person's answers).
-Also: the memory keys in `.garura/core/config.yaml` (`components.memory`, the
-`ltm.*` keys, `review-pr.standards_order`) point at the new homes, here and in
-installed projects.
-**Why here:** the tool needs a known place for each tier.
-**Done when:** an install into a test project pulls only what it needs, a piece
-pulled later arrives on request, and a check shows which pulled pieces are
-behind Phoenix memory.
-**Needs:** item 1.
-
-### 4. Build the memory tool
+### 4. Build the memory tool — now
 
 **Issue:** #657.
 **What:** the command-line tool from the contract, with a folder engine that
@@ -331,3 +310,4 @@ writes the approval when a person swipes right (ADR 033 §6).
   review tool plan (`.garura/project/issues/617/specs/review-tool.md` §4) gains
   the third section. Story #658's filed text still says the approved update is
   written to Garura or Phoenix memory; item 5 here holds the current rule.
+- 2026-10-18 — Item 3 done: #656 merged (PR #671). Now item 4 (#657).
