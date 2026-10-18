@@ -5,6 +5,7 @@ import contextlib
 import io
 import json
 import os
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -16,11 +17,18 @@ sys.path.insert(0, os.path.join(HERE, "contract"))
 import check_contract as cc  # noqa: E402
 import pull  # noqa: E402
 
-CONTRACT = cc.load(os.path.join(HERE, "contract", "v1.json"))
+CONTRACT = cc.load(os.path.join(HERE, "contract", "v2.json"))
 
 
 def git(repo, *args):
     subprocess.run(["git", "-C", repo, *args], check=True, capture_output=True)
+
+
+def scratch(case):
+    """A temporary folder removed when the test ends."""
+    path = tempfile.mkdtemp()
+    case.addCleanup(shutil.rmtree, path, ignore_errors=True)
+    return path
 
 
 def write(root, rel, text):
@@ -38,8 +46,8 @@ def answers_of(command, request, answers):
 
 class Tiers(unittest.TestCase):
     def setUp(self):
-        self.phoenix = tempfile.mkdtemp()
-        self.garura = tempfile.mkdtemp()
+        self.phoenix = scratch(self)
+        self.garura = scratch(self)
         git(self.phoenix, "init", "-q", "-b", "main")
         # Demo address: sample data for this throwaway repository, not personal data.
         # Approved exception to PR rule DATA-18 (review of PR #671, 2026-10-18).
@@ -140,12 +148,12 @@ class Settings(unittest.TestCase):
         self.assertEqual((code, answers[0]["error"]["code"]), (1, "settings_missing"))
 
     def test_a_tier_that_cannot_be_reached(self):
-        code, answers = self.run_main(["pulled", "--phoenix", tempfile.mkdtemp(), "--garura", "/no/such/folder"], {})
+        code, answers = self.run_main(["pulled", "--phoenix", scratch(self), "--garura", "/no/such/folder"], {})
         self.assertEqual((answers[0]["error"]["code"], answers[0]["error"]["tier"]), ("tier_missing", "garura"))
 
     def test_phoenix_must_be_a_repository(self):
-        code, answers = self.run_main(["pulled"], {"MEMORY_PHOENIX_ROOT": tempfile.mkdtemp(),
-                                                   "MEMORY_GARURA_ROOT": tempfile.mkdtemp()})
+        code, answers = self.run_main(["pulled"], {"MEMORY_PHOENIX_ROOT": scratch(self),
+                                                   "MEMORY_GARURA_ROOT": scratch(self)})
         self.assertEqual((answers[0]["error"]["code"], answers[0]["error"]["tier"]), ("tier_missing", "phoenix"))
 
 

@@ -2,9 +2,9 @@
 plan_for: 617
 kind: spike
 serves: "#617 — decide how a finished drive is reviewed"
-status: active
+status: done
 updated: 2026-10-18
-now: 5
+now: -
 serves_plan: 606
 serves_item: 7
 ---
@@ -37,10 +37,7 @@ be finished until that end review exists.
 
 ## Where we are now
 
-ADR 032 is accepted, and the review tool is designed: Kapil accepted the
-design on 18 October, with the detail to read later. The stories are filed
-(item 4). Now on item 5: landing this change. When it merges, #617 closes and
-the #606 plan moves to item 8 (the Kickoff drive).
+Done. PR #651, merged 18 October; #617 closed. The #606 plan moved to item 8. This plan is done.
 
 ## The plan, in order
 
@@ -85,13 +82,7 @@ the #606 plan moves to item 8 (the Kickoff drive).
   step is the review"; #569 closed with a pointer. Not yet done: nothing is
   built.
 
-### 5. Land it — now
-
-**What:** commit, raise, review and merge this change: the ADR, the tool plan,
-the mockup and these notes.
-**Why here:** last.
-**Done when:** merged; #617 closed; the #606 plan moves to item 8.
-**Needs:** item 4.
+- **5. Shipped: ADR 032, ADR 033, the review tool plan and the stories** — #617. PR #651, merged 18 October; #617 closed. The #606 plan moved to item 8.
 
 ## Log
 
@@ -148,3 +139,4 @@ the mockup and these notes.
   #617; commit fb95c9bc. Its end sequence lands with #617 (item 5).
 - 2026-10-18 — Kapil: "file the stories and land it". Filed #641–#650 (type and
   parent read back), updated #613, closed #569. Now on item 5.
+- 2026-10-18 — Closed out: item 5 done (PR #651, merged 18 October). The plan had been left active after the merge.

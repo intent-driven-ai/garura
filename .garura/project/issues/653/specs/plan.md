@@ -4,7 +4,7 @@ kind: feature
 serves: "#653 — agents work only from memory, so drives can make their own decisions"
 status: active
 updated: 2026-10-18
-now: 3
+now: 5
 serves_plan: 606
 serves_item: 8
 ---
@@ -91,13 +91,9 @@ answer came from in a way anyone checks.
 
 ## Where we are now
 
-Decided, and the first piece built: ADR 035 is accepted, and ADR 036 (#667)
-amends it with Kapil's answers of 18 October. The review (`.garura/project/issues/613/specs/memory-review.md`)
-and the map of how agents read memory are done. Kapil set the model above and
-chose B. The feature (#653), its decision spikes (#654, #667) and its stories
-(#655–#664) are filed, and the stories follow ADR 036. The contract (item 2,
-#655) is merged. Next: item 3, Phoenix memory and the subset a project pulls
-(#656).
+Decided, and four pieces shipped: ADR 035 and ADR 036 (#654, #667), the contract (#655),
+Phoenix memory with `pull` and `pulled` (#656), and the memory tool (#657, PR #674).
+Next: item 5, memory updates (#658), starting with the two fixes from the #674 review.
 
 ## The plan, in order
 
@@ -129,50 +125,21 @@ chose B. The feature (#653), its decision spikes (#654, #667) and its stories
   short-term memory, and promotion happens outside the work. Lands with #655's
   pull request.
 
-### 3. Set up Phoenix memory, and the subset each project pulls — now
+- **3. Shipped: Phoenix memory and pull** — #656, PR #671, merged 18 October. `intent-driven-ai/phoenix-memory` (private) holds all of `core/components/memory/`; `pull` and `pulled` (`core/tools/memory/pull.py`) bring a piece into Garura memory and show what is behind; dead memory settings removed; the PR review rules are read from Garura memory. Changed on Kapil's word: the installer pulls nothing (three set-up plays will fill a project's first memory), `core/components/memory/` is removed after the memory tool (item 10), and the `.garura/` clean-up is #670. ADR 035 §2 still needs its amendment (its own `/adr` change).
+- **4. Shipped: the memory tool** — #657, PR #674, approved by Kapil on 18 October.
+  `core/tools/memory/memory.py` finds, searches and reads across short-term, Garura and
+  Phoenix memory in that order, reads Phoenix memory only at its approved version, and
+  pulls a Phoenix file into Garura memory when it is read. Contract version 2: a lookup of
+  Garura or Phoenix memory works without an issue. Kapil's login and change-password test
+  passed on a fresh project. No agent calls it yet (item 8). ADR 035 §2 and ADR 036 §1
+  need amending for these decisions.
 
-**Issue:** #656.
-**What:** Phoenix memory gets its one home outside Garura's code, seeded from
-everything in `core/components/memory/` (the shelves deleted in #434 left
-out). Installing Garura no longer copies all of memory: it pulls the subset the
-project needs into the project's Garura memory, and records which version of
-Phoenix memory each piece came from. The two stale copies are retired
-(`~/.garura/core/memory/` and `.garura/core/memory/`). The installer writes
-correct settings into projects it installs into. Garura memory's own folders
-are settled (product model, the person's own files, the person's answers).
-Also: the memory keys in `.garura/core/config.yaml` (`components.memory`, the
-`ltm.*` keys, `review-pr.standards_order`) point at the new homes, here and in
-installed projects.
-**Why here:** the tool needs a known place for each tier.
-**Done when:** an install into a test project pulls only what it needs, a piece
-pulled later arrives on request, and a check shows which pulled pieces are
-behind Phoenix memory.
-**Needs:** item 1.
-
-### 4. Build the memory tool
-
-**Issue:** #657.
-**What:** the command-line tool from the contract, with a folder engine that
-finds, searches and reads exact lines across the three tiers, going up to
-Phoenix memory when the project has no answer, and that writes approved updates
-and pulls pieces into the project. Every result carries its tier, file, lines
-and fingerprint. It works the same from Claude Code and Codex.
-**Why here:** items 5 to 8 call it.
-**Done when:** its tests pass on sample memory, nothing in its folder names
-Garura, and Kapil's test passes (2026-10-18, set in the #656 plan, item 1d): in
-an empty project, a simulated login story finds nothing in short-term or
-Garura memory, finds it in Phoenix memory and pulls it into the project; a
-re-run reads it all from Garura memory; a second story, change password, gets
-part from Garura memory and the rest from Phoenix memory. And when project
-memory is removed, the tool goes to Phoenix memory or raises a memory update
-that needs a person's approval (Kapil, 2026-10-18).
-**Needs:** items 2 and 3.
-Also, after this tool: `core/components/memory/` is removed from Garura once
-nothing names it (Kapil, 2026-10-18; see the #656 plan, "After this story").
-
-### 5. Memory updates instead of guesses
+### 5. Memory updates instead of guesses — now
 
 **Issue:** #658.
+**First:** two faults from the PR #674 review, fixed before any agent uses the tool: the
+contract's `pull` request (`{path}`) is refused by the tool; and a read from Phoenix
+memory can overwrite a different file at the same path in Garura memory.
 **What:** when no memory answers, the agent raises a memory update: what is
 missing, which tier it belongs in, a drafted entry, and where the draft came
 from (the person, the web, the model — marked). Nothing is used until a person
@@ -187,6 +154,12 @@ with stable ids, so they are never asked twice (Garura's existing question
 store, `standards/rules/product.md` rule 12). The knowledge-base proposal
 (`propose-kb-node`) becomes one kind of memory update. Until the memory review
 exists, the person approves by typing.
+Kapil, 2026-10-18 (#657 plan, item 1): memory updates land in short-term
+memory only. Moving them up is a set of plays, not this tool: `learn` reads
+short-term memory and learns into Garura memory; `promote` sends a version of
+Garura memory to Phoenix memory for an approval that sits outside Garura, and
+the reader cannot use Phoenix memory until it is approved. Kapil named three
+plays and described two; the plays are not filed yet.
 **Why here:** without it, "only from memory" stops every time memory is thin.
 **Done when:** a gap, an update, an approval, a write and an answer from memory
 run end to end on a sample.
@@ -230,6 +203,10 @@ updates, and name their sources. Play changes go through each play's ICE source
 and `/play-editor`.
 Also: rule 4 of the drive contract, its row in the rules index and the
 glossary's Drive entry say what ADR 034 and ADR 035 decided.
+Kapil, 2026-10-18 ("1"): agents move after items 5 to 7, so each agent changes once,
+with lookup, memory updates and named sources together. Only agents call the tool and
+build context; skills read short-term memory only (Kapil, 2026-10-18), so the story
+texts of #661 and #663 ("agents and skills") need that fix when Kapil asks.
 **Why here:** Kickoff waits on these three plays, so they move first.
 **Done when:** the three plays and every play's close name no memory path.
 **Needs:** items 5, 6 and 7.
@@ -331,3 +308,7 @@ writes the approval when a person swipes right (ADR 033 §6).
   review tool plan (`.garura/project/issues/617/specs/review-tool.md` §4) gains
   the third section. Story #658's filed text still says the approved update is
   written to Garura or Phoenix memory; item 5 here holds the current rule.
+- 2026-10-18 — Item 3 done: #656 merged (PR #671). Now item 4 (#657).
+- 2026-10-18 — Kapil: memory updates land in short-term memory only; `learn` and `promote` plays move memory up; unapproved Phoenix memory is not read (item 5 note).
+- 2026-10-18 — Kapil kept the order: the agents move onto the tool in #661 after #658–#660, not right after #657. No agent calls the tool yet.
+- 2026-10-18 — Item 4 done: #657 approved by Kapil (PR #674). Now item 5 (#658).

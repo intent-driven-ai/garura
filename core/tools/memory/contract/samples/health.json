@@ -3,7 +3,7 @@
   "request": {},
   "response": {
     "ok": true,
-    "contract_version": "1",
+    "contract_version": "2",
     "command": "health",
     "tiers": [
       {

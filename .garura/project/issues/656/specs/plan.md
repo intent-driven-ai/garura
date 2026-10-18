@@ -2,9 +2,9 @@
 plan_for: 656
 kind: story
 serves: "#656 — Phoenix memory has its own repository, and each project pulls only the subset it needs into Garura memory"
-status: active
+status: done
 updated: 2026-10-18
-now: 5
+now: -
 serves_plan: 653
 serves_item: 3
 ---
@@ -38,9 +38,7 @@ memory (the project's `.garura/` folder), and only then Phoenix memory.
 
 ## Where we are now
 
-Phoenix memory is built and checked. The dead config settings are gone, and the
-PR review rules are read from `.garura/`. Kapil: build the tool first. Next:
-land this change (item 5), then the tool (#657) on its own branch.
+Done. PR #671, merged 18 October after two reviews (Kapil approved the second); #656 closed. Item 3 of the #653 plan is done. The ADR 035 §2 amendment and the notes above carry on outside this plan. This plan is done.
 
 ## The plan, in order
 
@@ -125,15 +123,7 @@ land this change (item 5), then the tool (#657) on its own branch.
   and part of tool that is using this as sample data. this is exception that
   is approved". A comment at the line records the exception.
 
-### 5. Land the change — now
-
-**Issue:** #656.
-**What:** commit, raise, review and merge; close #656; mark item 3 of the #653
-plan done; amend ADR 035 §2 through `/adr` (the installer pulls nothing; the
-set-up plays fill a project's first memory). Story texts that these answers
-change (#656, #657, #661, #663) are fixed only when Kapil asks.
-**Done when:** merged to main.
-**Needs:** item 4.
+- **5. Shipped: Phoenix memory, pull and pulled, the config clean-up** — #656. PR #671, merged 18 October after two reviews (Kapil approved the second); #656 closed. Item 3 of the #653 plan is done. The ADR 035 §2 amendment and the notes above carry on outside this plan.
 
 ## Left as notes by the review (P4, not blocking)
 
@@ -197,3 +187,4 @@ change (#656, #657, #661, #663) are fixed only when Kapil asks.
 - 2026-10-18 — PR #671 re-reviewed with the gate on for that run: Kapil
   approved ("approve"). The nine round-1 findings are resolved; three P4 notes
   kept above. Gate set back off.
+- 2026-10-18 — Closed out: item 5 done (PR #671, merged 18 October after two reviews (Kapil approved the second)). The plan had been left active after the merge.

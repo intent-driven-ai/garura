@@ -2,9 +2,9 @@
 plan_for: 654
 kind: spike
 serves: "#654 — decide Garura's memory system: three tiers, one memory tool, and a memory update before any guess"
-status: active
+status: done
 updated: 2026-10-18
-now: 3
+now: -
 serves_plan: 653
 serves_item: 1
 ---
@@ -33,9 +33,7 @@ settles what the model leaves open, and files the stories that build it.
 
 ## Where we are now
 
-The spike is open on branch `feature/654-decide-the-memory-system`. The
-feature's plan moved to `.garura/project/issues/653/specs/plan.md`. ADR 035 is
-accepted and the stories are filed (#655–#664). Next: item 3, landing the change.
+Done. PR #665, merged 18 October; #654 closed. This plan is done.
 
 ## The plan, in order
 
@@ -49,12 +47,7 @@ accepted and the stories are filed (#655–#664). Next: item 3, landing the chan
   item 2 to 11, under #653, each with acceptance criteria and a scope boundary
   (texts: `specs/stories.yaml`; numbers: `context/filed-stories.json`).
 
-### 3. Land the change — now
-
-**Issue:** #654.
-**What:** commit, raise, review and merge; close #654.
-**Done when:** merged to main.
-**Needs:** item 2.
+- **3. Shipped: ADR 035 and the stories** — #654. PR #665, merged 18 October; #654 closed.
 
 ## Log
 
@@ -63,3 +56,4 @@ accepted and the stories are filed (#655–#664). Next: item 3, landing the chan
   write to the tracker.
 - 2026-10-18 — Item 1 done: ADR 035 accepted, with the project tier renamed Garura memory.
 - 2026-10-18 — Item 2 done: Kapil said "file the stories"; #655 to #664 filed under #653.
+- 2026-10-18 — Closed out: item 3 done (PR #665, merged 18 October). The plan had been left active after the merge.

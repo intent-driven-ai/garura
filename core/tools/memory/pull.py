@@ -1,13 +1,18 @@
 #!/usr/bin/env python3
 """
-pull.py — the memory tool's pull and pulled commands, on folders (contract version 1).
+pull.py — the memory tool's pull and pulled commands, on folders (contract version 2).
 
-    python3 pull.py pull <path-or-glob>... [--phoenix DIR] [--garura DIR]
-    python3 pull.py pulled [--behind] [--phoenix DIR] [--garura DIR]
+    python3 pull.py pull <path-or-glob>... [--phoenix DIR] [--garura DIR] [--ref REF]
+    python3 pull.py pulled [--behind] [--phoenix DIR] [--garura DIR] [--ref REF]
 
-Phoenix memory is a git repository on disk. Garura memory is a folder in the project.
-Their places come from the flags, else from MEMORY_PHOENIX_ROOT and MEMORY_GARURA_ROOT —
-never from a fixed path.
+The memory tool's one entry is memory.py, which calls these functions with its settings;
+this command line stays for direct use.
+
+Phoenix memory is a git repository on disk, read only at its approved version: the commit
+REF names (default origin/main — a change reaches it when a person merges it, outside this
+tool). Working-tree edits and unmerged commits are never read. Garura memory is a folder in
+the project. Their places come from the flags, else from MEMORY_PHOENIX_ROOT,
+MEMORY_GARURA_ROOT and MEMORY_PHOENIX_REF — never from a fixed path.
 
 pull copies pieces from Phoenix memory into Garura memory, at the same path. Nothing
 leaves Phoenix memory. Each piece is recorded in Garura memory's pulled list, pulled.json:
@@ -17,22 +22,20 @@ of its text. Pulling a piece again refreshes its entry.
 pulled lists those pieces with the current Phoenix version, and says which are behind:
 the text in Phoenix memory no longer matches the fingerprint that was pulled.
 
-Answers are JSON in the contract's shapes (contract/v1.json). pull prints one answer per
+Answers are JSON in the contract's shapes (contract/v2.json). pull prints one answer per
 piece, one per line. Exit 0 when every answer is ok, 1 when any is an error.
 Standard library only, Python 3.10 or newer.
 """
 
 import argparse
-import glob
 import hashlib
 import json
 import os
 import re
-import shutil
 import subprocess
 import sys
 
-CONTRACT_VERSION = "1"
+CONTRACT_VERSION = "2"
 LIST = "pulled.json"
 SAFE_PATH = re.compile(r"^(?!/)(?!.*\.\.)[^\\\n\r]+\Z")
 
@@ -50,9 +53,35 @@ def error(command, refusal):
             "error": {"code": refusal.code, "message": refusal.message, "tier": refusal.tier}}
 
 
-def fingerprint_file(path):
-    with open(path, "rb") as fh:
-        return "sha256:" + hashlib.sha256(fh.read()).hexdigest()
+def fingerprint_bytes(data):
+    return "sha256:" + hashlib.sha256(data).hexdigest()
+
+
+def glob_regex(pattern):
+    """A shell-style glob as a regex over '/'-separated paths: * within one folder,
+    ** any depth, ? one character."""
+    out, i = [], 0
+    while i < len(pattern):
+        if pattern.startswith("**/", i):
+            out.append("(?:.*/)?")
+            i += 3
+        elif pattern.startswith("**", i):
+            out.append(".*")
+            i += 2
+        elif pattern[i] == "*":
+            out.append("[^/]*")
+            i += 1
+        elif pattern[i] == "?":
+            out.append("[^/]")
+            i += 1
+        else:
+            out.append(re.escape(pattern[i]))
+            i += 1
+    return re.compile("".join(out) + r"\Z")
+
+
+def git(phoenix, *args):
+    return subprocess.run(["git", "-C", phoenix, *args], capture_output=True)
 
 
 def roots(phoenix, garura):
@@ -70,28 +99,41 @@ def roots(phoenix, garura):
     return os.path.expanduser(phoenix), os.path.expanduser(garura)
 
 
-def version(phoenix):
-    """Phoenix memory's version: the commit it is at."""
-    run = subprocess.run(["git", "-C", phoenix, "rev-parse", "--short=12", "HEAD"],
-                         capture_output=True, text=True)
+def version(phoenix, ref="HEAD"):
+    """Phoenix memory's version: the commit its approved ref is at."""
+    run = git(phoenix, "rev-parse", "--short=12", "--verify", "--quiet", ref + "^{commit}")
     if run.returncode != 0 or not run.stdout.strip():
-        raise Refusal("tier_missing", "Phoenix memory is not a git repository with a commit.", "phoenix")
-    return run.stdout.strip()
+        raise Refusal("tier_missing", f"Phoenix memory has no approved version at {ref!r} "
+                      "(not a git repository, or no such commit).", "phoenix")
+    return run.stdout.decode().strip()
 
 
-def expand(phoenix, pattern):
+def files(phoenix, ref="HEAD"):
+    """Every file in Phoenix memory at the approved ref, as paths relative to its root."""
+    run = git(phoenix, "ls-tree", "-r", "--name-only", "-z", ref)
+    if run.returncode != 0:
+        raise Refusal("tier_missing", f"Phoenix memory cannot be listed at {ref!r}.", "phoenix")
+    return sorted(p for p in run.stdout.decode().split("\0") if p)
+
+
+def show(phoenix, rel, ref="HEAD"):
+    """The bytes of one file in Phoenix memory at the approved ref, or None."""
+    run = git(phoenix, "cat-file", "blob", f"{ref}:{rel}")
+    return run.stdout if run.returncode == 0 else None
+
+
+def expand(phoenix, pattern, ref="HEAD"):
     """The pieces of Phoenix memory a path or glob names, as paths relative to its root."""
     if not SAFE_PATH.match(pattern):
         raise Refusal("bad_request", f"{pattern!r} is not a path inside a tier.")
-    if any(c in pattern for c in "*?["):
-        found = glob.glob(os.path.join(phoenix, pattern), recursive=True)
-        rels = sorted(os.path.relpath(p, phoenix) for p in found if os.path.isfile(p))
-        rels = [r for r in rels if not r.startswith(".git" + os.sep) and os.sep + ".git" + os.sep not in r]
+    if any(c in pattern for c in "*?"):
+        rx = glob_regex(pattern)
+        rels = [r for r in files(phoenix, ref) if rx.match(r)]
     else:
-        rels = [pattern] if os.path.isfile(os.path.join(phoenix, pattern)) else []
+        rels = [pattern] if pattern in set(files(phoenix, ref)) else []
     if not rels:
         raise Refusal("not_found", f"Phoenix memory holds nothing at {pattern!r}.", "phoenix")
-    return [r.replace(os.sep, "/") for r in rels]
+    return rels
 
 
 def read_list(garura):
@@ -109,34 +151,36 @@ def write_list(garura, entries):
         fh.write("\n")
 
 
-def pull(phoenix, garura, patterns):
+def pull(phoenix, garura, patterns, ref="HEAD"):
     """Copy each named piece into Garura memory and record it. Returns the answers."""
-    at = version(phoenix)
+    at = version(phoenix, ref)
     entries, answers = read_list(garura), []
     for pattern in patterns:
         try:
-            rels = expand(phoenix, pattern)
+            rels = expand(phoenix, pattern, ref)
         except Refusal as r:
             answers.append(error("pull", r))
             continue
         for rel in rels:
-            src, dest = os.path.join(phoenix, rel), os.path.join(garura, rel)
+            data, dest = show(phoenix, rel, ref), os.path.join(garura, rel)
             os.makedirs(os.path.dirname(dest), exist_ok=True)
-            shutil.copyfile(src, dest)
-            fp = fingerprint_file(dest)
+            with open(dest, "wb") as fh:
+                fh.write(data)
+            fp = fingerprint_bytes(data)
             entries[rel] = {"path": rel, "version": at, "fingerprint": fp}
             answers.append({"ok": True, "contract_version": CONTRACT_VERSION, "command": "pull",
                             "tier": "garura", "path": rel, "version": at, "fingerprint": fp})
-    write_list(garura, entries)
+    if entries:
+        write_list(garura, entries)
     return answers
 
 
-def pulled(phoenix, garura, behind_only=False):
+def pulled(phoenix, garura, behind_only=False, ref="HEAD"):
     """What Garura memory pulled, and which pieces are behind Phoenix memory."""
-    now, pieces = version(phoenix), []
+    now, pieces = version(phoenix, ref), []
     for rel, entry in sorted(read_list(garura).items()):
-        src = os.path.join(phoenix, rel)
-        behind = not os.path.isfile(src) or fingerprint_file(src) != entry["fingerprint"]
+        data = show(phoenix, rel, ref)
+        behind = data is None or fingerprint_bytes(data) != entry["fingerprint"]
         if behind or not behind_only:
             pieces.append({"path": rel, "version": entry["version"], "current_version": now,
                            "behind": behind})
@@ -153,11 +197,13 @@ def main(argv=None):
     for p in (p_pull, p_pulled):
         p.add_argument("--phoenix")
         p.add_argument("--garura")
+        p.add_argument("--ref")
     ns = ap.parse_args(argv)
+    ref = ns.ref or os.environ.get("MEMORY_PHOENIX_REF") or "origin/main"
     try:
         phoenix, garura = roots(ns.phoenix, ns.garura)
-        answers = pull(phoenix, garura, ns.patterns) if ns.command == "pull" else [
-            pulled(phoenix, garura, ns.behind)]
+        answers = pull(phoenix, garura, ns.patterns, ref) if ns.command == "pull" else [
+            pulled(phoenix, garura, ns.behind, ref)]
     except Refusal as r:
         answers = [error(ns.command, r)]
     for a in answers:

@@ -9,7 +9,7 @@
   },
   "response": {
     "ok": true,
-    "contract_version": "1",
+    "contract_version": "2",
     "command": "read",
     "tier": "short-term",
     "path": "613/specs/plan.md",

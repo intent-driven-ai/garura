@@ -1,0 +1,18 @@
+commits:
+  - sha: c2bb54ca
+    message: "test(memory-tool): share the pull tests' throwaway repository (#657)"
+    files:
+      - core/tools/memory/test_memory.py
+    branch: feature/657-memory-tool-search
+  - sha: 78850b50
+    message: "chore(plan): record when agents move onto the memory tool (#657)"
+    files:
+      - .garura/project/issues/653/specs/plan.md
+      - .garura/project/issues/657/specs/plan.md
+    branch: feature/657-memory-tool-search
+excluded_files:
+  []
+leftover_count: 0
+tree_clean: true
+pushed: false
+run_state_committed: true

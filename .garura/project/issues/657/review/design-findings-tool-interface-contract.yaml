@@ -1,0 +1,369 @@
+category: tool-interface-contract
+pr: 674
+issue: 657
+base: main
+base_commit: 7a61f424   # main tip, also the merge-base of this branch
+head_assessed: b398fb5f
+round: 1
+task_id: null   # the dispatch carried no task_id and this agent has no task tool in this run
+playbook: null
+playbook_missing: true   # no knowledge/review playbook covers a tool's interface contract (same gap named in the issue 655 review); the play leaves the follow-up task
+
+# How the grounding was done.
+# Every principle below was read with `git show main:<path>` (ADR 034, 035, 036, 008, 009, the base v1 contract
+# and README, the filed story text in stories.yaml, the IDD principles). Nothing is grounded in what this branch adds:
+# the v2 prose, the new README text, the 657 plan, the PR body and the self-review were read only as claims under test.
+# One exception, stated so it is not hidden: the owner's decisions of 2026-10-18 on item 1 of the 657 plan are
+# quoted only in a file this branch adds (a search of main finds neither quote). The caller told this review to use
+# them to classify whether a departure is backed. They are used for that and nowhere else. They are never listed as a
+# grounded principle, and each finding that leans on them says "backed in the branch record only".
+# Observations about the tool were made in a throwaway folder (a small git repository and two empty folders); no
+# repository file was changed. The tool is read only to learn what the contract is tested against, never as a source.
+
+grounded_principles:
+  - id: ADR035-S1-TIERS
+    statement: >
+      Three tiers. Garura memory holds the subset of Phoenix memory the project pulled AND what the project makes
+      itself (product model, intents, decisions, the person's answers). Short-term memory is per issue.
+    source: "docs/adr/035-agents-work-only-from-memory.md, Decision part 1 (lines 36-44, main)"
+  - id: ADR035-S2-PHOENIX-GIT-AND-PULL
+    statement: >
+      Phoenix memory is its own git repository; every memory update is a commit, so it has history, review and
+      versions. A project pulls a starting set and "pulls more whenever the tool goes up to Phoenix memory and finds
+      something" (finds, not reads). A short list records what was pulled and from which version.
+    source: "docs/adr/035, Decision part 2 (lines 46-53; the pulls-more clause is line 49, main)"
+  - id: ADR035-S3-LOOKUP-ORDER-NEVER-BLOCKS
+    statement: >
+      Short-term, then Garura, then Phoenix; stop at the first tier that answers; the lookup never blocks a play
+      (a piece not pulled yet is found a level up).
+    source: "docs/adr/035, Decision part 3 (lines 55-59, main)"
+  - id: ADR035-S4-ONE-TOOL-FINDS-AND-UPDATES
+    statement: >
+      Agents and skills never read or write memory by a path. They call one memory tool that both finds and updates
+      memory over all three tiers, so a move to Griffin changes nothing for Garura or the agents.
+    source: "docs/adr/035, Decision part 4 (lines 61-68, main)"
+  - id: ADR035-S5-NOTHING-UNAPPROVED
+    statement: >
+      Nothing from the model or the web is used until a person approves a memory update. (The write-to clause, "to
+      Garura memory ... or to Phoenix memory", is amended by ADR 036.)
+    source: "docs/adr/035, Decision part 5 (lines 70-78, main)"
+  - id: ADR035-S6-DECISION-NAMES-MEMORY
+    statement: "Every decision an agent makes names the tier, file and lines it rests on."
+    source: "docs/adr/035, Decision part 6 (lines 80-82, main)"
+  - id: ADR036-S1-ISSUE-ONLY-AND-RESEARCH-LAST
+    statement: >
+      "Every lookup names its issue. Short-term memory is that issue's folder, never another issue's." Order unchanged.
+      "Research is allowed only after all three have nothing." The reason given: if a lookup read every issue's
+      short-term memory, another issue's old notes would answer first and Garura and Phoenix memory would never be reached.
+    source: "docs/adr/036-approved-answer-lands-in-short-term-memory.md, Decision part 1 (lines 36-43, main); Alternatives Considered, 'What short-term memory covers'"
+  - id: ADR036-S2-S3-S4-UPDATE-FLOW
+    statement: >
+      An approved researched answer is written to the issue's short-term memory, never straight to Garura or Phoenix
+      memory (part 2). Moving it up is a promotion, outside the work, its own memory update a person approves (part 3).
+      A person's own answer goes to Garura memory (part 4).
+    source: "docs/adr/036, Decision parts 2-4 (lines 45-62, main)"
+  - id: ADR036-AFFECTS-V1-NO-RULE-CHANGE
+    statement: >
+      ADR 036 says the v1 contract and README "already follow parts 1 to 6 ... no rule changes". So any later change
+      to a rule it records is a change to that record.
+    source: "docs/adr/036, Affects line (line 9, main)"
+  - id: ADR008-WORK-CAN-START-WITHOUT-ISSUE
+    statement: >
+      Work can start before the issue number exists; its short-term files go to _pending/ and are moved into the
+      issue's folder in the same run.
+    source: "docs/adr/008-issue-centric-stm-and-nwwi.md, Decision part 4 (lines 88-106, main)"
+  - id: ADR009-R4-FAILURE-IS-LOUD
+    statement: "Failure is loud, not silent. Rule 4 stands after ADR 035."
+    source: "docs/adr/009-skill-ltm-organizational-knowledge.md, Rule 4 (line 44, main); docs/adr/035 Decision part 9"
+  - id: FILED-STORY-657-DONE-WHEN
+    statement: >
+      The filed text of story #657 (committed on main, brought in line on the owner's word on 2026-10-18) says:
+      "A glob or path that steps outside the issue (for example ../613/**) is refused with bad_request" and "A lookup
+      that asks only Garura or Phoenix memory works without an issue ... This changes the contract; change it with its version."
+    source: ".garura/project/issues/654/specs/stories.yaml, item 4, Done when (lines 57-63, main; the 'brought in line' note is lines 213-217)"
+  - id: V1-CONTRACT-AND-README-BASE
+    statement: >
+      The base contract is "the one agreement between agents and the memory tool"; on the command line a request's
+      fields are the flags. "The contract changes only by a new version. Version 1 is contract/v1.json." Paths never
+      start with a slash and never contain '..'; the glob in v1 was any non-empty string.
+    source: "core/tools/memory/contract/v1.json (description, paths, $defs.path, main); core/tools/memory/README.md, 'Rules for this folder' (line 163, main)"
+  - id: IDD-P3-OBSERVABLE-BINARY
+    statement: >
+      A condition that cannot be observed and evaluated true or false "creates false confidence that problems will be caught."
+    source: "docs/philosophy/idd-principles.md, Principle 3 (lines 75-96, main)"
+  - id: PR-SEVERITY-TAXONOMY
+    statement: "P1 blocker (security, auth, data-loss, breaking API contract); P2 major; P3 minor; P4 nit."
+    source: "core/components/memory/standards/rules/pr.md, Severity buckets (lines 7-11, main)"
+
+grounding_not_available:
+  - >
+    No committed source on main defines what "approved Phoenix memory" is. ADR 035 part 2 says only that each update
+    is a commit with history, review and versions; ADR 036 part 3 says a promotion is approved by a person outside the
+    work. Which ref or branch counts as approved is named nowhere on main (see TIC657-6).
+  - >
+    The owner's 2026-10-18 decisions (updates land only in short-term memory; learn and promote plays move them up and
+    approval sits outside Garura; a Phoenix file is pulled when it is used) are not on main. No docs/adr path is in
+    this diff, so ADR 035 and 036 on main are intact and still say the opposite in places. Used for classification only.
+
+verdicts:
+  - question: "(a) No-issue lookup against ADR 036 part 1 'Every lookup names its issue'"
+    verdict: >
+      DEPARTS FROM THE RECORD, AND IS BACKED. ADR 036 part 1 and its Affects line say every lookup names its issue and
+      v1 needs no rule change. v2 lets a lookup of Garura or Phoenix memory name none (it then goes Garura, then Phoenix)
+      and refuses tier short-term without an issue. The change is the filed done-when of story #657 on main (stories.yaml
+      item 4), a story the owner brought in line on 2026-10-18, and it follows ADR 008 (work can start before an issue
+      exists) and ADR 035 part 3 (never blocks a play). It is safe in the direction ADR 036 cares about: no issue means
+      short-term memory is left out, never widened to other issues. Amendment owed to ADR 036 part 1 (and the first bullet
+      of its part 8). The contract itself is left inconsistent: TIC657-4, TIC657-5.
+  - question: "(b) Phoenix memory read only at its approved version"
+    verdict: >
+      PRINCIPLE BACKED IN THE BRANCH RECORD ONLY; MECHANISM UNBACKED. No ADR on main names an approved version. The owner's
+      decision (reader uses only approved Phoenix memory; approval sits outside Garura) is recorded only on this branch.
+      The mechanism v2 writes down (a setting phoenix_ref names the commit; a branch or an edit on disk is not read) is
+      the 657 plan's own reading "for the owner to correct". Consistent with ADR 035 part 2 (git repository, review,
+      versions) and with ADR 036 part 3 (approval outside the work); contradicts neither. Amendment owed to ADR 035 part 2
+      and ADR 036 part 3. TIC657-6.
+  - question: "(c) 'Memory that is used is saved': a read of a Phoenix file pulls it into Garura memory"
+    verdict: >
+      DEPARTS FROM ADR 035 PART 2 ('finds'), BACKED IN THE BRANCH RECORD ONLY (owner: pulled when the memory is used).
+      ADR 035 part 2 says the tool pulls more when it finds something; v2 pulls on read and not on a search hit. The
+      departure is narrower than the record, so it is the safer reading. Amendment owed to ADR 035 part 2 (the plan
+      already names it). Separately the rule is under-specified as a contract rule: TIC657-2 (P2).
+  - question: "(d) apply still writes an approved update to Garura or Phoenix memory"
+    verdict: >
+      NOT A DEPARTURE FROM ADR 035/036 (ADR 036 part 3 and part 4 allow promotions and a person's own answer to reach
+      Garura or Phoenix memory through a memory update a person approves; v1 carried apply for that). IT LAGS THE OWNER'S
+      NEWER DECISION, which is backed in the branch record only and says this tool writes no update to Garura or Phoenix
+      memory. It also now sits beside v2's own new Phoenix rule and contradicts it. The plan defers the wording to #658.
+      TIC657-1 (P2).
+  - question: "(e) Version policy: v1 kept, every sample and the check now on v2 only"
+    verdict: >
+      CONFORMS. The README on main says the contract changes only by a new version; v1.json is unchanged on the branch and
+      v2.json is new. Observation only (TIC657-9, P4): no sample set or check run exercises v1 any more; nothing consumes v1.
+  - question: "(f) The glob rule refuses '..' anywhere in the text, not only as a path segment"
+    verdict: >
+      CONFORMS. The v2 glob pattern is character for character the v1 $defs.path pattern on main, and the committed paths
+      rule says a path "never contains '..'" (substring, not segment). 'notes..md' is refused as a path already today.
+      A glob that starts with a slash or holds '..' is what the filed story #657 and the 655 review asked to refuse.
+      Verified: the check refuses 'notes..md' and the existing cite-absolute-path sample. No finding.
+  - question: "ADR 034/035/036 as amended: lookup order, stop at first answer, tier_missing, no model or web fallback"
+    verdict: "CONFORMS. v2 changes none of these; the order, the stop rule, tier and every_tier, tier_missing and the research-to-short-term rule are as v1."
+  - question: "Samples (43 moved to version 2, two added, 23 broken still fail)"
+    verdict: >
+      CONFORMS. The contract check passes (22 samples valid, 23 of 23 broken refused, boundary clean). The broken sample
+      find-without-issue.json now fails for the new reason (looked_in holds short-term though no issue is named). Gap: no
+      sample for a no-issue lookup that finds nothing, the case TIC657-5 is about.
+
+findings:
+  - id: TIC657-1
+    severity: P2
+    backing: "not a departure from ADR 035/036; lags an owner decision that is backed in the branch record only; ADR amendment owed"
+    file: "core/tools/memory/contract/v2.json (commands.apply summary line 712; commands.propose summary line 523 and target_tier; answer_rules.apply_writes_only_approved; tiers.phoenix line 10; errors.changed); core/tools/memory/README.md (the apply row and 'When no tier answers')"
+    finding: >
+      v2 keeps apply as a command that "Write[s] an approved memory update to its tier: the issue's short-term memory,
+      Garura memory, or Phoenix memory as a commit", with applied_version the Phoenix commit. That matches ADR 036 parts 3
+      and 4 on main, so it is not a departure from the record. It disagrees with two newer things. (1) The owner's decision
+      of 2026-10-18, as recorded on this branch only: memory updates land in short-term memory only, a learn play moves
+      them to Garura memory, a promote play sends a version to Phoenix memory for an approval that sits outside Garura, so
+      this tool writes no update to Garura or Phoenix memory. (2) v2's own new sentence in tiers.phoenix: Phoenix memory
+      is read only at the commit phoenix_ref names, and "a change reaches it when a person approves it outside Garura; until
+      then ... the tool does not read it". An apply to Phoenix memory is approved inside Garura by a typed decide and
+      returns a commit the tool then will not read until that commit is on the approved ref. The contract says neither
+      where apply commits nor what approval makes that commit readable. So after this PR the contract holds two different
+      accounts of what approval means for Phoenix memory. The plan defers the wording to #658; the contract is the thing
+      #658 and #660 to #664 build against, and it is merged as the version of record.
+    failure_scenario: >
+      The #658 builder reads v2, builds apply for target_tier phoenix and writes a commit to the Phoenix repository on a
+      working branch. The commit is never readable (not on the approved ref), or someone moves the ref so it is, and the
+      outside approval the owner wanted is bypassed by a typed decide inside Garura.
+    principle_violated: ADR035-S2-PHOENIX-GIT-AND-PULL
+    committed_source: >
+      docs/adr/035 Decision part 2 (every update a commit with history, review and versions) and part 4 (one tool finds AND
+      updates; agents never write memory by a path); docs/adr/036 Decision parts 3 and 4 (promotion approved by a person
+      outside the work); docs/adr/036 Affects line (v1 'already follows ... no rule changes'). The newer owner decision
+      is in the branch record only (657 plan item 1a), not on main.
+    suggested_direction: >
+      Before #658 starts, either amend the contract by a sentence on apply, propose and updates that Garura and Phoenix
+      targets are reserved for the learn and promote plays and a drive's apply writes short-term memory only, or record the
+      owner's decision and the amendment first and let #658 change the contract. The amendment (ADR 036 parts 2 to 4 and
+      ADR 035 part 5, through /adr) must also say how the learn and promote plays write: ADR 035 part 4 says agents never
+      write memory by a path and the one tool updates it, so removing apply for Garura and Phoenix leaves those plays
+      with no stated way in. If apply to Phoenix stays, say where it commits and that its commit reaches the approved
+      ref only by the outside approval. Becomes P1 (breaking contract) only if #658 builds on the v2 wording as it stands.
+
+  - id: TIC657-2
+    severity: P2
+    backing: "n/a: a gap in how the rule is written, not a departure"
+    file: "core/tools/memory/contract/v2.json ('saving' line 1153; commands.read response and summary line 244; commands.pull); core/tools/memory/contract/check_contract.py (no code reads the saving rule)"
+    finding: >
+      The saving rule gives the read command a write into another tier, and the contract defines it in one prose sentence
+      at the end of the file, away from read. Three things are left open. (1) It is invisible in the answer: read's
+      response shape has no field that says the file was saved or where, and the check accepts a plain Phoenix read with
+      no sign of saving (observed with a hand-made sample); the only proof is a later call to pulled. A rule nobody can
+      observe in the answer cannot be checked by any caller or any engine. (2) No rule for a path Garura memory already
+      holds. Observed in a throwaway folder: a Garura file with different content at the same path was silently replaced
+      by a read of that path in Phoenix memory. ADR 035 part 1 says Garura memory also holds what the project makes itself,
+      and lookup order means a same-path Garura file normally answers first, so this fires only on an explicit tier phoenix
+      read, but the contract does not say replace, keep or refuse. (3) No rule for a failed save. The tool answers the read
+      with the pull's error even though the text was read (a read of Phoenix memory then needs Garura memory set up and
+      writable); the contract's text allows either, while ADR 035 part 3 says a lookup never blocks a play and ADR 009
+      Rule 4 says failure is loud.
+    failure_scenario: >
+      An agent reads a Phoenix rule on a project whose Garura memory is not set up yet (before install) and is told
+      tier_missing for a file it just read; or an explicit read of a Phoenix path overwrites the project's own same-path file.
+    principle_violated: ADR035-S3-LOOKUP-ORDER-NEVER-BLOCKS
+    committed_source: >
+      docs/adr/035 Decision part 3 (lines 55-59) and part 1 (lines 36-44, Garura memory holds project-made content);
+      docs/adr/009 Rule 4 (line 44); docs/philosophy/idd-principles.md Principle 3 (lines 75-96).
+    suggested_direction: >
+      Put the rule on read itself and make it visible: add an optional saved field to the read answer (tier garura, path,
+      version) and an answer rule that a read of Phoenix memory carries it or an error. Say what happens when Garura memory
+      already holds the path (refuse with changed, keep and say so, or replace and record the old fingerprint) and what a
+      failed save does (answer the text with saved absent, or fail). One good sample and one broken sample per rule. The
+      overwrite behaviour is also handed to the executable-code reviewer as data-safety evidence. Why P2 not P1: nothing in
+      this PR builds on it yet and the overwrite needs an explicit tier phoenix read of a path Garura memory holds.
+
+  - id: TIC657-3
+    severity: P2
+    backing: "n/a: contract and tool disagree; either side may be the one to change (cross-category with executable-code)"
+    file: "core/tools/memory/contract/v2.json (commands.pull request, line 418 on); core/tools/memory/contract/samples/pull.json; core/tools/memory/memory.py (the pull command and the request check that skips pull and pulled)"
+    finding: >
+      The contract's pull request is one field, path, and the committed sample is {"path": "knowledge/domains/ecommerce.md"}.
+      The v2 description says the plain-words rule from v1 still holds: on the command line a request's fields are the flags.
+      The tool refuses the contract's own request. Observed: memory.py pull --path <file> answers bad_request "unrecognized
+      arguments: --path"; the JSON request {"path": ...} answers bad_request "pull needs at least one path or glob"; only a
+      bare argument or a patterns list works. The tool skips the contract's request check for pull and pulled, which is why
+      the tests, which put every answer through the check, did not see it. The contract's pull and the tool's pull (a list
+      of paths or globs, from the earlier pull.py) were never reconciled.
+    failure_scenario: "An agent or install step written from the contract's pull sample gets bad_request from the only tool that implements it."
+    principle_violated: ADR035-S4-ONE-TOOL-FINDS-AND-UPDATES
+    committed_source: >
+      docs/adr/035 Decision part 4 (agents call the tool through its contract; a move to Griffin must change nothing for
+      Garura or the agents, lines 61-68); core/tools/memory/contract/v1.json description (one agreement; on the command
+      line a request's fields are the flags, main).
+    suggested_direction: >
+      Decide which side is right. If one piece per call is the contract, make the tool take --path and {"path": ...}. If
+      several paths and globs per call is wanted, change the contract by a new version (patterns, a list) and add the
+      sample. Then validate pull and pulled requests with the same check as the other commands.
+
+  - id: TIC657-4
+    severity: P3
+    backing: "backed by committed text on main: the filed done-when of story #657 (stories.yaml item 4); ADR amendment owed"
+    file: "core/tools/memory/contract/v2.json (request_rules.issue line 19; lookup_rule line 17; commands.find, search and read: issue no longer required)"
+    finding: >
+      Version 2 departs from ADR 036 part 1 ("Every lookup names its issue") and from its Affects line, which says the v1
+      contract needs no rule change. The departure is the filed done-when of story #657, committed on main: "A lookup that
+      asks only Garura or Phoenix memory works without an issue ... change it with its version." ADR 036 is therefore stale
+      in one sentence, in part 1, in the first bullet of part 8 and in its 'ICE impact' line ("every lookup names the issue"),
+      and no amendment is in this diff. Harm is low: agents that always pass the issue still work, and no-issue never widens
+      short-term memory. One reach beyond the filed text: the story says a lookup that "asks only" Garura or Phoenix memory;
+      v2 also lets a lookup with no tier and no issue run, with short-term quietly left out (looked_in shows it).
+    failure_scenario: "A builder of an agent moved onto the tool (#661, #663) reads ADR 036 part 1 and the ICE-impact line and builds 'always pass the issue' as a hard rule that the contract no longer holds."
+    principle_violated: ADR036-S1-ISSUE-ONLY-AND-RESEARCH-LAST
+    committed_source: "docs/adr/036 Decision part 1 (lines 36-43), Affects (line 9), part 8 (line 85); .garura/project/issues/654/specs/stories.yaml item 4 Done when (lines 57-63, main)"
+    suggested_direction: >
+      Amend ADR 036 part 1 through /adr: "Every lookup that includes short-term memory names its issue; a lookup of Garura
+      or Phoenix memory may name none, and then short-term memory is not looked in." Say whether a lookup with no tier and
+      no issue is meant to run (v2 allows it) or only an explicit tier garura or phoenix. The 657 plan already owes this.
+
+  - id: TIC657-5
+    severity: P3
+    backing: "n/a: inconsistencies inside v2 itself"
+    file: "core/tools/memory/contract/v2.json (tiers.short-term line 8; commands.search summary line 160; answer_rules.refusals line 42; request_rules.glob line 20; the samples folder)"
+    finding: >
+      Four places in the contract did not move with the no-issue rule. (1) tiers.short-term is unchanged and still says
+      "Every lookup names its issue", two lines above request_rules.issue, which says a lookup need not. (2) The search
+      summary is unchanged: an empty answer "means no tier holds it: that is the cue for a memory update". For a no-issue
+      lookup that is false, because short-term memory was not looked in; ADR 036 part 1 allows research only after all
+      three tiers have nothing, and the contract's own answer rule treats the shorter looked_in as a complete lookup. (3)
+      answer_rules.refusals still lists three bad_request cases and not the two v2 adds (tier short-term without an issue;
+      a glob that starts with a slash or holds '..'); the 655 review asked that the glob refusal be added to this list and
+      to the check. The check does refuse both; only the prose list is stale. (4) There is no sample of a no-issue lookup
+      that finds nothing, which is the case in (2); the check accepts it (observed).
+    failure_scenario: "An agent that forgot to name its issue gets an empty answer, takes it as 'no tier holds it', and raises a research draft for something that sits in the issue's short-term memory."
+    principle_violated: ADR036-S1-ISSUE-ONLY-AND-RESEARCH-LAST
+    committed_source: "docs/adr/036 Decision part 1 (line 41, 'Research is allowed only after all three have nothing'); docs/philosophy/idd-principles.md Principle 3 (a rule that reads two ways cannot be evaluated true or false, lines 75-96); core/tools/memory/contract/v1.json description (the one agreement) (main)"
+    suggested_direction: >
+      Change tiers.short-term to say a lookup with an issue reads that issue's folder only. Qualify the search summary:
+      an empty answer is the cue for a memory update only when short-term memory was looked in (looked_in starts with
+      short-term). Add the two refusals to answer_rules.refusals. Add one good sample: a no-issue search with looked_in
+      garura and phoenix and answered_by null.
+
+  - id: TIC657-6
+    severity: P3
+    backing: "principle backed in the branch record only (owner: the reader uses only approved Phoenix memory); mechanism unbacked (the plan's own reading); ADR amendment owed"
+    file: "core/tools/memory/contract/v2.json (tiers.phoenix line 10; settings line 45; commands.health, find, read, pull and pulled version fields)"
+    finding: >
+      "Phoenix memory is read only at its approved version" has no committed definition. ADR 035 part 2 says each update is
+      a commit with history, review and versions; ADR 036 part 3 says a promotion is approved by a person outside the work;
+      neither names a ref, a branch or a way to tell an approved commit. v2 writes in a mechanism: a setting called
+      phoenix_ref names the commit; a branch or an edit on disk is not read. That is the 657 plan's own reading, which it
+      marks "for the owner to correct". Gaps in how it is written: phoenix_ref appears only inside the tier's prose, not in
+      the settings clause (which lists only where each tier lives), and no default is stated (the tool defaults to
+      origin/main, which the contract does not say); a git term is written into a contract meant to be engine-neutral
+      (ADR 035 part 4: Griffin later); "a person approves it outside Garura" is a claim about a process the tool cannot
+      see (the contract can only expose which commit was read, and it does through version); and the version fields do
+      not say they are the approved ref's commit, so pulled's "moved on" and behind are ambiguous.
+    failure_scenario: "A project's settings point phoenix_ref at a working branch; the contract still says the tool reads only approved memory."
+    principle_violated: ADR035-S2-PHOENIX-GIT-AND-PULL
+    committed_source: "docs/adr/035 Decision part 2 (lines 46-53) and part 4 (lines 61-68); docs/adr/036 Decision part 3 (lines 54-58); docs/philosophy/idd-principles.md Principle 3. The owner's approved-only decision is in the branch record only (657 plan item 1a)."
+    suggested_direction: >
+      Have the owner confirm the mechanism (what ref is approved and who moves it) and record it by amending ADR 035 part 2
+      and ADR 036 part 3. In the contract, name phoenix_ref in the settings clause with its default, say in one sentence
+      that every Phoenix version the tool returns is the commit at that ref, and keep the approval process out of the
+      contract (it is the repository's rule, not the tool's).
+
+  - id: TIC657-7
+    severity: P3
+    backing: "backed in the branch record only (owner: a file is pulled when the memory is used); ADR amendment owed"
+    file: "core/tools/memory/contract/v2.json ('saving' line 1153; description line 6)"
+    finding: >
+      ADR 035 part 2 says a project pulls more "whenever the tool goes up to Phoenix memory and finds something". v2 pulls
+      when a read returns a file and pulls nothing for a find or search hit. The departure is backed by the owner's
+      decision as recorded on the branch (a file is saved once the memory is used), is narrower than the committed text
+      and is the safer reading, but no amendment to ADR 035 part 2 is in this diff, and the filed story #657 on main still
+      says "including going up a tier and pulling a piece". The plan already names the amendment as owed.
+    failure_scenario: "A builder of the install (#660) or the review view reads ADR 035 part 2 and expects every find to pull."
+    principle_violated: ADR035-S2-PHOENIX-GIT-AND-PULL
+    committed_source: "docs/adr/035 Decision part 2 (line 49); .garura/project/issues/654/specs/stories.yaml item 4 Done when (line 58, main). The owner's decision is in the branch record only."
+    suggested_direction: "Amend ADR 035 part 2 through /adr: a file is pulled into Garura memory when it is read (used), not when it is found. Fix the story text when the owner asks."
+
+  - id: TIC657-8
+    severity: P4
+    backing: "n/a: left open from the 655 review, owned by a later story"
+    file: "core/tools/memory/contract/v2.json (commands.cite requires issue, line 331; request_rules.issue; lookup_rule)"
+    finding: >
+      Two items the 655 review asked for alongside the no-issue lookup are still unwritten. (1) The contract is silent on
+      an issue whose folder does not exist yet. The tool treats it as empty short-term memory (observed), not tier_missing,
+      so the first lookup of every new issue works, but a second engine has only the tool to copy. (2) cite still requires
+      an issue, so the pre-issue lookups v2 now allows cannot be cited, while ADR 035 part 6 says every decision names its
+      memory and ADR 008 parks pre-issue short-term files in _pending/. The cite summary already hands the record's shape
+      to the citations story.
+    failure_scenario: "Work before the issue exists looks up a rule successfully and then has nowhere to record the decision it made from it."
+    principle_violated: ADR035-S6-DECISION-NAMES-MEMORY
+    committed_source: "docs/adr/035 Decision part 6 (lines 80-82); docs/adr/008 Decision part 4 (lines 88-106) (main)"
+    suggested_direction: "Add one sentence for (1) to lookup_rule. Leave (2) to the citations story (plan item 6) and say so in cite's summary."
+
+  - id: TIC657-9
+    severity: P4
+    backing: "n/a: observation; the version policy is met"
+    file: "core/tools/memory/contract/samples/ (all 43 moved to version 2 in place); core/tools/memory/contract/check_contract.py (default contract now v2.json)"
+    finding: >
+      The base README says the contract changes only by a new version, and that holds: v1.json is unchanged and v2.json is
+      new. The samples were edited in place to version 2 rather than copied, so version 1 has no sample set and the check
+      cannot be run against it (every sample's version would fail). Nothing consumes version 1, so this costs nothing today.
+    failure_scenario: "A reader who needs to confirm what version 1 promised has the contract text but no worked answers."
+    principle_violated: IDD-P3-OBSERVABLE-BINARY
+    committed_source: "core/tools/memory/README.md 'Rules for this folder' (line 163, main); docs/philosophy/idd-principles.md Principle 3"
+    suggested_direction: "None needed now. If a version 1 consumer appears, keep its samples under samples/v1/."
+
+verification:
+  grounding_unavailable: false
+  grounding_gaps_reported: "No committed definition of 'approved Phoenix memory' (TIC657-6); the owner's 2026-10-18 decisions are in the branch record only (TIC657-1, -6, -7)."
+  p1_findings: []
+  counts: {P1: 0, P2: 3, P3: 4, P4: 2}
+  mechanical_checks_run_read_only:
+    - "python3 contract/check_contract.py (bytecode writing off): exit 0, ok, contract_version 2, 22 samples valid, 23 of 23 broken refused, boundary clean."
+    - "Hand-made samples fed to check_sample in memory only: read of a short-term path with no issue answered ok -> refused; no-issue search found nothing with looked_in [garura, phoenix] -> accepted; glob 'notes..md' -> refused; plain Phoenix read with no sign of saving -> accepted."
+    - "A throwaway folder with a small git repository standing for Phoenix memory and two empty folders: pull with the contract's {path} request and with --path -> bad_request; a read of a Phoenix file replaced a different Garura file at the same path; a lookup for an issue with no folder -> empty short-term, answered normally; a read of a Phoenix file with Garura memory unset, or set to a folder that does not exist -> tier_missing for garura, although the Phoenix text was readable."
+  files_read_on_base: "docs/adr/034, 035, 036, 008, 009; core/tools/memory/contract/v1.json; core/tools/memory/README.md; .garura/project/issues/654/specs/stories.yaml; docs/philosophy/idd-principles.md; core/components/memory/standards/rules/pr.md; the 655 review's design findings (history only)."

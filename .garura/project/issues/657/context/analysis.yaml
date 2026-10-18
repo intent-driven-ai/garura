@@ -1,0 +1,46 @@
+---
+# analyze_changeset.py output (C8 fast path), grouping judgment filled by analyze-changes
+# issue: 657
+# branch: feature/657-memory-tool-search
+# needs_judgment stays true: the dispatch was a judgment dispatch (SE-7 counts one analyze spawn).
+needs_judgment: true
+
+change_groups:
+  - id: test-memory-share-pull-repo
+    issue: 657
+    commit_type: test
+    scope: memory-tool
+    subject: "share the pull tests' throwaway repository"
+    confidence: high
+    files:
+      - core/tools/memory/test_memory.py
+    risks:
+      sensitive_files: []
+      breaking_changes: []
+    notes: "Tests only. The memory tests now build on test_pull.Tiers instead of a second copy of the same Phoenix repository setup. No test changed what it checks. The removed lines held a demo e-mail address (t@example.com); nothing sensitive is added."
+  - id: chore-plan-agents-move-order
+    issue: 657
+    commit_type: chore
+    scope: plan
+    subject: "record when agents move onto the memory tool"
+    confidence: high
+    files:
+      - .garura/project/issues/653/specs/plan.md
+      - .garura/project/issues/657/specs/plan.md
+    risks:
+      sensitive_files: []
+      breaking_changes: []
+    notes: "Both plans record the owner's choice of 2026-10-18: the agents move onto the memory tool in #661, after #658 to #660; skills read short-term memory only. One decision, written into both plans. Plan text only, no code."
+
+exclusions:
+  []
+  # Run artifacts of this play (context/porcelain.txt, context/analysis.yaml) are not listed in
+  # any group or exclusion: the executor commits them as its own final chore(stm) group.
+
+risks:
+  sensitive_files:
+    []
+
+eval_gates:
+  SE-1: {status: PASS, evidence: "2 groups, one concern each: test restructuring in one file; plan text recording one decision in two plan files"}
+  SE-5: {status: PASS, evidence: "no sensitive filename or content patterns matched in the 3 changed files (diff scanned for password, api_key, secret, token, private_key, key headers)"}
