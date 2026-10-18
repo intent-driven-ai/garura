@@ -3,525 +3,357 @@ pr: 676
 issue: 659
 base: main
 base_commit: 440adb59   # main tip, read with git show main:<path>
-head_assessed: fa73b2b5   # 24 commits ahead of main; working copy equals this commit for every path in the diff
-round: 1
-task_id: null   # the dispatch carried no task_id, and this agent has no task tool in this run, so the follow-up task for the missing playbook is not created here; the play should create it
+head_assessed: 4553fe26   # 35 commits ahead of main; the working copy equals this commit for every path under core/ and docs/
+round: 2   # replaces round 1's file at this path (round 1 assessed fa73b2b5; its text stays in git history at that commit)
+round_1_head: fa73b2b5
+task_id: null   # the dispatch carried no task_id and this agent has no task tool in this run; the play should create the follow-up task for the missing playbook
 playbook: null
-playbook_missing: true   # no knowledge/review playbook covers a tool's interface contract (same gap named in the 655, 657, 658 reviews)
+playbook_missing: true   # no knowledge/review playbook covers a tool's interface contract (same gap named in the 655, 657, 658 reviews and in round 1)
 
-counts: {P1: 0, P2: 1, P3: 7, P4: 4, total: 12}   # new findings only; carried items are listed separately below and are not counted
+counts: {P1: 0, P2: 1, P3: 1, P4: 2, total: 4}   # new findings only (TIC659-13 to TIC659-16). Round 1's twelve are in round_1_status and are not counted again.
+round_1_tally: {fixed: 2, partly_fixed: 2, stands: 8, total: 12}   # fixed: TIC659-1, TIC659-2. partly fixed: TIC659-3, TIC659-5. stands: TIC659-4, 6, 7, 8, 9, 10, 11, 12.
 
 # How the grounding was done.
-# Every principle below was read with `git show main:<path>` (ADR 008, 017, 032, 033, 034, 035, 036, the glossary, the IDD principles,
-# the PR severity taxonomy, the base v3 contract, the base README, the base 653 plan, the filed story texts in the base 654 stories file,
-# and the base 658 review record) or, for pr.md, from Phoenix memory at origin/main in ~/.garura/phoenix-memory (md5 identical to main's copy).
-# Nothing is grounded in what this branch adds: v4.json's own description and answer rules, the new README text, the 659 plan, the PR body,
-# the self-review and the code comments were read only as claims under test.
-# Stated exceptions, so nothing is hidden. (1) The owner's decisions of 2026-10-18 and 19 that v4 builds (the trace of steps, three lines
-# around a source, "waiting drafts are hidden" as the #675 note) are quoted in this branch's 659 plan. The caller told this review to use
-# them as context. They are used to classify whether a departure is backed and nowhere else; they are never listed as a grounded principle,
-# and every finding that leans on them says "branch record only". Where the same decision is on main (the 658 decision comment, the 653
-# plan), the finding says so, and says it is a working note, not an ADR. (2) Observations about behaviour were made on scratch copies of the
-# committed tool folder (a copy of this branch's head and a copy of main) under the session's scratch directory, outside the repository:
-# the contract check was run, samples were edited and re-checked, and the tool was run over a throwaway Phoenix repository. No repository
-# file was changed and nothing was committed. The tool and the check are read only to learn what the contract is tested against, never as a
-# principle.
+# Every principle below was read from a committed source: main (git show main:<path>), main's docs/adr, main's standards rules, or Phoenix
+# memory at origin/main (~/.garura/phoenix-memory; standards/rules/pr.md has the same md5 as main's copy, f06e57a7). Nothing is grounded
+# in what this branch adds. ADR 037 is branch content the owner accepted through /adr: where the branch departs from main's ADR text this
+# file says whether ADR 037 covers the departure (departures_from_main_adrs), and ADR 037's own words are never the standard.
+# The branch's own prose (the contract's new sentences, the README, the plan, the PR body, resolution.md, the code comments) was read as
+# claims under test only.
+# Everything observed was observed on scratch copies of the committed tool folder (head, round 1's head fa73b2b5 and main), built with git
+# archive into the session's scratch directory outside the repository, on a macOS case-insensitive disk with Python 3.14, with a throwaway
+# project (a Phoenix git repository, a Garura folder with the short-term folder inside it). No repository file was changed, nothing was
+# committed or pushed, and GitHub was not touched.
 
 grounded_principles:
-  - id: ADR035-S6-DECISION-NAMES-MEMORY
-    statement: >
-      Every decision an agent makes names the memory it came from: the tier, the file and the lines it rests on. "The shape of an
-      answer and its source is settled in plan item 6."
-    source: "docs/adr/035-agents-work-only-from-memory.md, Decision part 6 (lines 80-82, main)"
-  - id: ADR034-S4-EVERY-ANSWER-NAMES-SOURCE
-    statement: >
-      Every answer a play takes from memory is recorded with where it came from. The drive's review shows the person what was assumed
-      and on what basis. "An answer with no source is not allowed."
-    source: "docs/adr/034-plays-answer-from-memory-inside-a-drive.md, Decision part 4 (lines 60-62, main)"
-  - id: PLAN653-I6-AND-STORY-659-FILED
-    statement: >
-      Plan item 6 and the filed story text (working notes and a work order, not ADRs): one shape for an answer and its source, built on the
-      trace format Garura already has (resolution.md, "Resolution Trace Output"); agents write it to the issue's short-term memory; a script
-      checks each named source exists and its fingerprint still matches; a drive's review record carries the sources. Done when: the shape
-      is written and a sample passes; the check fails a decision that names no source and one whose source changed; the drive review
-      writer carries the sources. Not in the story: showing the sources in the review tool.
-    source: ".garura/project/issues/653/specs/plan.md item 6 (lines 148-162, main); .garura/project/issues/654/specs/stories.yaml item 6 (lines 100-112, main)"
-  - id: ADR035-S9-RESOLUTION-TRACE-GIVES-WAY
-    statement: >
-      ADR 015 is superseded in part: R1-R4, the fallback to the model, ltm_context and "the resolution trace built on it" give way to
-      parts 3 to 6. So the older per-decision trace is the thing part 6 replaces.
-    source: "docs/adr/035, Decision part 9, 'ADR 015' bullet (main)"
   - id: ADR036-ALT-DRAFT-MUST-NOT-ANSWER-A-LOOKUP
     statement: >
-      A draft written where lookups read first would be found and used at once, with no person in between, "which ADR 035 section 5
-      forbids". This is why an unapproved draft must never answer a lookup.
-    source: "docs/adr/036-approved-answer-lands-in-short-term-memory.md, Alternatives Considered, 'The agent writes it to short-term memory alone' (line 128, main)"
-  - id: ADR035-S5-NOTHING-UNAPPROVED
+      A draft written where lookups read first would be found and used at once with no person in between, "which ADR 035 §5 forbids". So an
+      unapproved draft must never answer a lookup.
+    source: "docs/adr/036-approved-answer-lands-in-short-term-memory.md, Alternatives Considered, first bullet (line 128, main)"
+  - id: NOTE-675-DRAFT-HIDDEN-ON-MAIN
     statement: >
-      Nothing from the model or the web is used until a person approves a memory update; "this holds for every agent and skill".
-    source: "docs/adr/035, Decision part 5 (lines 70-78, main); amended by ADR 036 for where the approved update is written"
+      The owner approved #675 on a note that contract version 3 states a waiting draft is hidden from lookups, "the tool already does this,
+      and a test checks it". A working note, not an ADR.
+    source: ".garura/project/issues/658/review/decision-comment.md line 9 (main)"
   - id: ADR036-S1-SHORT-TERM-IS-THIS-ISSUE
     statement: >
       Every lookup names its issue. Short-term memory is that issue's folder, never another issue's; Garura and Phoenix memory are read in
-      full by every issue. Research is allowed only after all three tiers have nothing.
-    source: "docs/adr/036, Decision part 1 (lines 36-43, main)"
-  - id: ADR036-S6-WORKING-FILES-ARE-SHORT-TERM
+      full by every issue.
+    source: "docs/adr/036 Decision part 1 (lines 36-43, main); core/tools/memory/contract/v3.json lookup_rule (main)"
+  - id: ADR036-S6-WORKING-FILES-FOUND-AS-SHORT-TERM
     statement: >
       A play's own working files are read and written directly, and "the tool can still find those files later, as short-term memory".
-      So files in an issue's folder are short-term memory unless a record says otherwise.
-    source: "docs/adr/036, Decision part 6 (lines 68-72, main)"
-  - id: ADR035-S1-TIERS-AND-DECISIONS-IN-GARURA
+    source: "docs/adr/036 Decision part 6 (lines 68-70, main)"
+  - id: ADR035-S5-NOTHING-UNAPPROVED
+    statement: "Nothing from the model or the web is used until a person approves a memory update."
+    source: "docs/adr/035-agents-work-only-from-memory.md, Decision part 5 (lines 70-78, main)"
+  - id: ADR035-S6-DECISION-NAMES-MEMORY
     statement: >
-      Garura memory holds the subset of Phoenix memory the project pulled and what the project makes itself: "its product model, its
-      intents, its decisions and the person's answers". Short-term memory is per issue: the plans, specs and context of the work.
-    source: "docs/adr/035, Decision part 1 (lines 36-44, main)"
-  - id: ADR035-S4-ONE-TOOL-EVERY-ANSWER-CITED-THE-SAME-WAY
+      Every decision an agent makes names the memory it came from: "the tier, the file and the lines it rests on"; "the shape of an answer
+      and its source is settled in plan item 6".
+    source: "docs/adr/035 Decision part 6 (lines 80-82, main); .garura/project/issues/653/specs/plan.md item 6 (lines 148-162, main)"
+  - id: ADR035-S1-DECISIONS-IN-GARURA-MEMORY
+    statement: "Garura memory holds what the project makes itself: \"its product model, its intents, its decisions and the person's answers\"."
+    source: "docs/adr/035 Decision part 1 (lines 36-44, main); core/grounding/glossary.md lines 37, 61, 111, 113 (main): a 'decision record' is an ADR at any level"
+  - id: V3-RESPONSE-ALWAYS-JSON
     statement: >
-      Agents and skills never read or write memory by a path; they call one tool. The tool covers all three tiers "so every answer is
-      cited the same way". The plan on main says it returns, for every result, the tier, the file, the lines and a fingerprint of the text.
-    source: "docs/adr/035, Decision part 4 (lines 61-68, main); .garura/project/issues/653/specs/plan.md line 81 (main); base v3.json every_result"
-  - id: ADR033-S6-ONLY-REVIEW-STEP-WRITES-APPROVAL
+      "A response is always a JSON object with ok, contract_version and command." The tool's own command-line parser says a command line it
+      cannot read is "answered as bad_request, never a bare usage error".
+    source: "core/tools/memory/contract/v3.json, description (main); core/tools/memory/memory.py BadFlags docstring (line 409, main)"
+  - id: V3-README-IS-THE-PLAIN-WORDS-GUIDE
     statement: >
-      The review step writes approved or in progress, from the person's answers; plays write the model; the review tool writes nothing to
-      the model. An approved piece keeps who approved it, when, and in which review.
-    source: "docs/adr/033-approval-in-the-product-model.md, Decision parts 2 and 6 (lines 38-45 and 66-68, main)"
-  - id: ADR036-NOT-DECIDED-WHO-WRITES-APPROVAL
-    statement: "Open on main: who writes the approval when a person swipes right on a memory update."
-    source: "docs/adr/036, Negative / Risks, 'Not decided here', second bullet (line 121, main)"
-  - id: GLOSSARY-DECISION-RECORD-AND-TRACE
-    statement: >
-      A "decision record" is an ADR at any level, the ProductOS decision.yaml; accepted ones are kept, never edited, and they sit in the
-      product model (Product LTM). A "Resolution trace" is the per-decision trace agents write to evidence/{play}/ saying which artifacts
-      were read. "Evidence" documents "how decisions were reached", the audit trail of a play. The glossary is still two-tier and has no
-      entry for Garura memory, Phoenix memory, a memory update or an agent's decision record.
-    source: "core/grounding/glossary.md lines 37, 42, 43, 61, 111, 113 (main)"
-  - id: ADR017-STM-WHITELIST
-    statement: >
-      Issue short-term folders are specs/ (plans), evidence/{play}/ (test and eval evidence), context/ ("prepare / architecture context")
-      and review/ (review artifacts).
-    source: "docs/adr/017-folder-whitelist.md lines 51-55 and 104-108 (main)"
-  - id: ADR008-S4-PRE-ISSUE-WORK
-    statement: >
-      A play can need working space before the issue number exists; the two-phase _pending/ write "only applies to start-feature; other
-      plays have issue context upfront".
-    source: "docs/adr/008-issue-centric-stm-and-nwwi.md, Decision part 4 and Negative (lines 88-106 and 199, main)"
+      The contract names the README as its plain-words guide ("Plain-words guide: ../README.md"), and the README repeats the path rule
+      ("never start with a slash and never contain ..").
+    source: "core/tools/memory/contract/v3.json description (main); core/tools/memory/README.md 'What every answer carries' (lines 139-140, main)"
   - id: README-VERSION-POLICY
     statement: "The contract changes only by a new version; earlier versions are kept as they were."
     source: "core/tools/memory/README.md, 'Rules for this folder' (line 211, main)"
-  - id: V3-BASE-CONTRACT
-    statement: >
-      The base contract (v3): no answer rule says a waiting draft is hidden from lookups; settings text names phoenix_ref and the pull
-      folder only; errors.changed means the update's target changed after it was proposed; cite has a first-version shape "refined by the
-      citations story"; the lookup order and request rules are what v4 keeps.
-    source: "core/tools/memory/contract/v3.json on main (answer_rules, settings, errors, commands.cite); .garura/project/issues/658/review/decision-comment.md (the three notes the owner approved #675 on, main)"
   - id: IDD-P3-OBSERVABLE-BINARY
     statement: >
-      A condition that cannot be observed and evaluated true or false "creates false confidence that problems will be caught."
+      A condition that cannot be observed and evaluated true or false "creates false confidence that problems will be caught." A check that
+      refuses a sample for a reason other than the rule it is named for proves nothing about that rule.
     source: "docs/philosophy/idd-principles.md, Principle 3 (lines 75-98, main)"
+  - id: ADR033-S6-ONLY-REVIEW-STEP-WRITES-APPROVAL
+    statement: "An approval keeps who and when; only the review step writes it."
+    source: "docs/adr/033-approval-in-the-product-model.md, Decision parts 2 and 6 (lines 38-45 and 66-68, main)"
+  - id: ADR034-S4-EVERY-ANSWER-NAMES-SOURCE
+    statement: "Every answer a play takes from memory is recorded with where it came from; the drive's review shows what was assumed and on what basis."
+    source: "docs/adr/034-plays-answer-from-memory-inside-a-drive.md, Decision part 4 (lines 60-62, main)"
+  - id: ADR035-S4-ONE-TOOL-EVERY-ANSWER-CITED-THE-SAME-WAY
+    statement: "The one tool covers all three tiers \"so every answer is cited the same way\": for every result, the tier, the file, the lines and a fingerprint."
+    source: "docs/adr/035 Decision part 4 (lines 61-68, main); core/tools/memory/contract/v3.json every_result (main)"
+  - id: ADR008-S4-PRE-ISSUE-WORK
+    statement: "Only start-feature works before its issue number exists (the _pending/ write); other plays have issue context upfront."
+    source: "docs/adr/008-issue-centric-stm-and-nwwi.md, Decision part 4 and Negative (lines 88-106 and 199, main)"
+  - id: ADR017-FOLDERS-ARE-LOWERCASE
+    statement: "An issue's short-term folders are specs/, evidence/{play}/, context/ and review/."
+    source: "docs/adr/017-folder-whitelist.md lines 51-55 and 104-108 (main)"
   - id: PR-SEVERITY-TAXONOMY
     statement: >
       P1 blocker (security, secrets, auth, data-loss, breaking API contract); P2 major (missing tests for new code, error-handling
-      violations, structural violations); P3 minor (missing docs, naming); P4 nit. No Standard ID row maps to "a contract ahead of the ADR it
-      follows" or "a rule the check does not hold", so each finding is classed by the bucket definitions and by how the 655, 657 and 658
-      reviews classed the same kind of finding (a backed departure with the amendment owed was P3; a contract that disagrees with an ADR, or
-      a guarantee that is stated and not held, was P2).
+      violations, structural violations); P3 minor (missing docs, naming); P4 nit. No Standard ID row maps to "a guarantee a contract states
+      and the tool does not hold", so each finding is classed by the bucket definitions and by how the 655, 657, 658 reviews and round 1
+      classed the same kind (a stated guarantee not held was P2; a backed departure with the amendment owed, or a gap only a second engine
+      meets, was P3).
     source: "core/components/memory/standards/rules/pr.md, Severity buckets (lines 7-11, main; ~/.garura/phoenix-memory/standards/rules/pr.md is the same file, md5 checked)"
 
 grounding_not_available:
   - >
-    No committed record says that an agent's decision record is hidden from lookups, or that "an agent never decides from its own earlier
-    decision". The #675 note on main (658 decision comment) asked for the waiting-draft rule only; the 659 plan item 3 files the
-    decision-record hiding under the same note. The principle behind it exists on main by analogy (ADR 036 Alternatives, line 128) but no
-    record applies it to decision records. See TIC659-3.
-  - >
-    Nothing committed on main says how a consumer of the contract treats a later contract version, or how the contract's version relates
-    to the stamped scripts in plays. Only the base README's version rule exists. See TIC659-11.
+    No committed record says how a consumer of the contract treats a later contract version (TIC659-11 stands on this gap). Only the base
+    README's version rule exists.
   - >
     The glossary on main still describes two tiers and has no entry for Garura memory, Phoenix memory, a memory update, a citation or an
-    agent's decision record, so it cannot ground naming for those words; it does ground "decision record" and "resolution trace" for the
-    older meanings (TIC659-3).
+    agent's decision record, so it cannot ground naming for those words; it grounds only the older meanings of "decision record" and
+    "resolution trace" (TIC659-3).
   - >
-    The owner's words of 18 and 19 October (a decision rests on several steps, "these are called traces", three lines around each source,
-    waiting drafts hidden) are on main nowhere as a decision record; they sit in the 659 plan. Used for classification only.
-  - >
-    Nothing committed on main says how a person's approval of an agent decision is written (the design document in this diff adds a
-    "looks right"). ADR 033 part 6 and ADR 036's open bullet are the only text. v4 holds no approval field, so nothing is tested here.
+    Nothing committed on main says how a person's approval of an agent decision is written. ADR 033 part 6 and ADR 036's open bullet are the
+    only text. v4 holds no approval field, so nothing is tested here.
 
-verdicts:
-  - question: "(a) The wider shape: a trace of ordered steps (asked, found, source with exact text, version and up to 3 lines around), from_update, play, decided_by, decided_at"
-    verdict: >
-      CONFORMS IN SUBSTANCE, AMENDMENT OWED. Every step names a tier, a file, lines and a fingerprint, so ADR 035 part 6 and ADR 034 part
-      4 hold; the shape was left to plan item 6, whose text on main says "one shape ... built on the trace format Garura already has";
-      ADR 035 part 9 says the older resolution trace gives way to part 6, so the trace is its successor, not a second thing. The wider
-      parts (several steps, kept text, around lines) are a refinement the ADR delegated, backed in the branch record only. The filed
-      done-when is met for records that exist (see TIC659-5 for what it cannot reach). ADR 035 part 6 and ADR 034 part 4 still say "the
-      tier, the file and the lines" and the 032 and 036 section names still differ: TIC659-2.
-  - question: "(b) The hiding rule"
-    verdict: >
-      MIXED. For waiting drafts: CONFORMS IN TEXT and closes TIC658-3 (base v3.json has no such rule; the #675 note on main asked for
-      it; ADR 036 line 128 is its reason). It is NOT HELD by the tool or by the contract's own path grammar: TIC659-1 (P2). For decision
-      records: no committed backing, and the word clashes with the glossary and with the contract's own tiers text: TIC659-3. What the
-      contract and its check can and cannot pin about it: TIC659-8 and TIC659-9.
-  - question: "(c) decided_by and the approval line"
-    verdict: >
-      CONFORMS to ADR 033 part 6 (a decision record has no approval field, and nothing in v4 lets an agent write approval). The field name
-      decided_by with decided_at reads like an approval's who and when, and means something else here: TIC659-4. The older trust gap (decide
-      is on the agent-callable surface and decided_in is a label) is unchanged and carried: see carried_open.
-  - question: "(d) The check's reach"
-    verdict: >
-      PARTLY OVER-CLAIMED IN WORDS. The checking words are accurate ("each source still exists and still says the same thing"); two
-      neighbouring phrases claim more than anything holds ("every decision is recorded", "the exact lines the agent read when it decided",
-      "the steps the agent took"): TIC659-5. The contract check holds less than its answer rules say in six places that the answer alone
-      could settle: TIC659-8.
-  - question: "(e) Version policy"
-    verdict: >
-      CONFORMS. v1.json, v2.json and v3.json are byte-identical to main (empty diff against main); v4 is a new file; contract_version
-      moves to "4". v4 was edited in place after its first commits on this branch, which the README rule allows while it is unlanded.
-      Carried: every sample and the check run on v4 only, so nothing exercises v1 to v3 (TIC658-11 part 4). The exact pin of '4' in the
-      three drive-record writers: TIC659-11.
-  - question: "(f) Settings and paths"
-    verdict: "PARTLY. The settings text is unchanged from v3 and names neither updates_dir nor citations_file: TIC659-9 (P4)."
-  - question: "(g) Error naming"
-    verdict: >
-      GAPS. errors.changed still describes only an update's target; cite uses changed, not_found, not_approved and bad_request in ways
-      the error text and the cite summary do not say, and answers not_found where read answers out_of_range or bad_request for the same
-      bad lines: TIC659-7. 'tier' in an error versus target_tier is carried from v3.
-  - question: "Built on the trace Garura already has; no source from the model or the web"
-    verdict: >
-      CONFORMS. The tier enum has only the three memory tiers, so a source cannot name the model or the web, and cite refuses a source
-      that is gone or changed (rule cite_reads_its_sources). A decision that rests on an applied update must name the update's written file
-      (tool and summary; the rule itself is not in the answer rules: TIC659-7). The one way round it is the path form in TIC659-1.
-  - question: "Lookup order, stop at the first tier, tier_missing, nothing used before a person approves, short-term is this issue only, saving rule"
-    verdict: >
-      CONFORMS. The diff between v3.json and v4.json changes none of lookup_order, lookup_rule, request_rules, settings, paths,
-      fingerprint or saving; the lookup answer rules are unchanged apart from the cite wording and the new waiting_drafts_are_hidden rule.
-  - question: "Samples (48 moved to version 4, 2 reworked, 8 added) and the contract check"
-    verdict: >
-      CONFORMS to what the check holds. Observed on a scratch copy of the committed folder (bytecode off): ok true, contract_version 4,
-      26 samples valid, 0 failed, 0 commands without a sample, 32 of 32 broken samples refused, 0 boundary problems. What the samples and
-      the check do not pin is listed in TIC659-8.
+# ---------------------------------------------------------------------------------------------------------------------------------------
+# Round 2: the owner rejected round 1; the branch now fixes TIC659-1. What was run, and what it showed.
+verification_of_tic659_1:
+  claim_1_path_rule_refuses_dot_and_empty_segments:
+    verdict: HOLDS
+    observed:
+      - "The new $defs.path pattern, tried on 26 spellings with Python's re: refuses '.', './a', 'a/.', 'a/./b', 'a/b/./', 'a//b', 'a/b/', '/a', 'a/..b', 'a/b/..', 'a/b\\c'; accepts 'a/.b', '.a/b', 'a/b.', 'a b'."
+      - "check_contract.py on a scratch copy: ok true, contract_version 4, 26 samples valid, 0 failed, 0 commands without a sample, 34 of 34 broken samples refused (round 1 saw 32; the two new ones, read-path-with-dot-segment and read-path-with-empty-segment, are each refused for the path pattern itself), 0 boundary problems. test_check_contract.py 56 tests OK. test_pull.py 13 tests OK."
+      - "The tool answers bad_request, before it touches memory, for '7/review/./memory-updates/<id>.json', '7/./review/...', '7/review//memory-updates/...', '7/context/./citations.jsonl', '7/notes.md/', './7/notes.md', '.', '7/.', and for Garura './issues/8/notes.md' and Phoenix 'knowledge/./domains/...' and 'knowledge//domains/...'; cite refuses a step whose source path has a '.' or empty segment with bad_request."
+  claim_2_the_tool_decides_hiding_on_the_real_file_case_and_links_included:
+    verdict: HOLDS FOR read, cite AND citations --check; DOES NOT HOLD FOR find AND search (TIC659-13)
+    observed:
+      - "read: '7/Review/memory-updates/<id>.json', '7/review/MEMORY-UPDATES/<id>.json', an upper-cased file name, '7/CONTEXT/Citations.jsonl' and Garura 'Issues/7/notes.md' / 'ISSUES/7/notes.md' all answer not_found (round 1's tool returned the draft for the first); a directory link '7/drafts' to 'review' and a file link to a draft answer not_found; Garura 'issues/8/notes.md' and 'issues/7/review/memory-updates/<id>.json' answer not_found; a plain note '7/notes.md' and Garura 'knowledge/g.md' still read."
+      - "find and search with the plain layout never list a draft, a decision record or another issue's note. With a differently spelled folder or setting they do (TIC659-13)."
+      - "A hard link to a draft inside the issue folder: read returns the draft (TIC659-13, part c)."
+  claim_3_cite_cannot_rest_on_a_hidden_file:
+    verdict: HOLDS
+    observed:
+      - "cite with a step whose source is the waiting draft, the decision file, or either in other letter case: not_found, nothing recorded (dot and empty spellings: bad_request)."
+      - "citations --check over five hand-written records that rest on the draft or the decision file (plain, '.' segment and other-case spellings, as an older tool or a hand edit could have stored them): ok true, each flagged source_missing with its step; round 1's tool passed them."
+  tests:
+    - "test_memory.py on the head copy: 65 tests OK. The three new tests (class HiddenWhateverTheSpelling), run against round 1's committed tool with the new test file: 1 error and 2 failures; the commit message's claim that each spelling fails on the old tool holds. The tests exercise read and cite only; none exercises find or search, and none sends a path with a NUL (TIC659-13, TIC659-14)."
+  new_fault_found_while_verifying: TIC659-14
 
-findings:
+# ---------------------------------------------------------------------------------------------------------------------------------------
+# What the branch changed in this category since round 1: v4.json (paths, waiting_drafts_are_hidden, the cite summary now naming ADR 037),
+# two broken samples, memory.py (hidden), citations.py (whole, whole_source), tests. Unchanged since round 1: core/tools/memory/README.md,
+# check_contract.py, pull.py, updates.py, every other sample; v1.json, v2.json and v3.json are still byte-identical to main.
+
+departures_from_main_adrs:
+  - departure: "A decision keeps a trace of steps, not one source (v4 cite and $defs.decision_record) vs ADR 035 part 6 'the tier, the file and the lines'."
+    covered_by_adr_037: "YES. ADR 037 part 1 and part 5 amend ADR 035 part 6 to a trace of steps. Closes TIC659-2."
+  - departure: "Each step keeps the exact text, the memory version and up to 3 lines around; a check re-reads every step and flags a decision with no trace."
+    covered_by_adr_037: "YES. ADR 037 part 1 and part 2."
+  - departure: "Decision records are hidden from every lookup (v4 answer rule waiting_drafts_are_hidden, last sentence)."
+    covered_by_adr_037: >
+      IN PART. ADR 037 part 6 says "Decision records are kept in the issue's own short-term folder, and a lookup never finds them", but files it
+      under 'What this does not change'. Nothing on main decides it, and ADR 036 part 6 on main says the tool can still find a play's working
+      files as short-term memory; ADR 037 does not list ADR 036 part 6 among what it amends. TIC659-3 (partly fixed).
+  - departure: "A waiting draft is hidden from lookups."
+    covered_by_adr_037: "Not a departure. Backed on main by ADR 036 line 128 and the #675 note (658 decision comment line 9). ADR 037 is silent, which is fine."
+  - departure: "The path grammar also refuses a '.' segment, an empty segment and a trailing slash."
+    covered_by_adr_037: "Not covered, and none is needed: it narrows v3's grammar inside an unlanded version (README version rule allows editing v4 until it lands). The README's plain-words copy of the rule was not updated: TIC659-15."
+  - departure: "decided_by and decided_at name an agent and a recording time in decision_record, an approval's who and when in update."
+    covered_by_adr_037: "NO. TIC659-4 stands."
+  - departure: "The review tool's five sections (Agent decisions, Memory, ADRs, Ask memory)."
+    covered_by_adr_037: "YES (parts 3 and 4); the design is the tool-design-document category's, not this one's."
+
+# ---------------------------------------------------------------------------------------------------------------------------------------
+round_1_status:
   - id: TIC659-1
-    severity: P2
+    round_1_severity: P2
+    status: FIXED
+    why: >
+      Every spelling round 1 named is now refused or answered not_found, and cite and the check can no longer rest on a hidden file (see
+      verification_of_tic659_1, all three claims, run on scratch copies). Round 1 probed read and cite only; this round also probed find and
+      search, and the settings, and found the same guarantee still open on the listing side (TIC659-13, P3) and a crash the fix introduced
+      (TIC659-14, P2). Those are new findings, not a reopening of what round 1 described.
+  - id: TIC659-2
+    round_1_severity: P3
+    status: FIXED
+    why: >
+      The amendment owed is made: ADR 037 (accepted) part 1 and part 5 amend ADR 035 part 6 to a trace of steps with text, version and
+      lines around, and part 2 covers the re-reading check; the cite summary and resolution.md now name ADR 037 beside ADR 035 part 6 and ADR
+      034 part 4. The Status lines of ADR 032, 035 and 036 point to it, which closes the 'Memory' versus 'Memory and ADRs' naming gap.
+  - id: TIC659-3
+    round_1_severity: P3
+    status: PARTLY FIXED
+    why: >
+      The record now exists: ADR 037 part 6 says a lookup never finds decision records. Still open: (1) the contract sentence 'Decision
+      records are not memory either' is unchanged, and by main's ADR 035 part 1 and the glossary (a 'decision record' is an ADR, in the
+      product model) it still reads as false for the kind of record the glossary names, and ADR 037 leaves the glossary row 'not decided
+      here'; (2) ADR 037 files the rule under 'does not change' and does not name ADR 036 part 6, which it narrows. Severity stays P3.
+  - id: TIC659-4
+    round_1_severity: P3
+    status: STANDS
+    why: "decided_by and decided_at in decision_record are unchanged; ADR 037 does not cover the naming. Severity P3 unchanged."
+  - id: TIC659-5
+    round_1_severity: P3
+    status: PARTLY FIXED
+    why: >
+      The limit is now said where an agent reads it (resolution.md: 'The check sees only recorded decisions ... recording it is the agent's
+      duty') and in ADR 037's risks. The contract's own sentences are unchanged: the description line 'every decision is recorded with the
+      memory it rests on', the cite summary ('the steps the agent took, in order') and answer rule cited_text_is_its_fingerprint ('the exact
+      lines the agent read when it decided'). Severity P3 unchanged, because a second engine reads the contract and not resolution.md.
+  - id: TIC659-6
+    round_1_severity: P3
+    status: STANDS
+    why: "play is still an optional free string with no form and no citations filter rule; v4.json is unchanged there."
+  - id: TIC659-7
+    round_1_severity: P3
+    status: STANDS
+    why: "errors.changed and errors.not_found still do not describe cite's use; from_update rules still outside the answer rules; v4.json unchanged there."
+  - id: TIC659-8
+    round_1_severity: P3
+    status: STANDS
+    why: >
+      check_contract.py is unchanged. Re-run on a scratch copy: a citations answer with check true and a record with no trace and no
+      no_source problem still passes (ok true); a citations answer for play '/vision' holding records of '/understand' still passes. The two
+      new broken samples pin the path grammar, which is none of the eight gaps round 1 listed.
+  - id: TIC659-9
+    round_1_severity: P4
+    status: STANDS
+    why: "The settings text still names neither updates_dir nor citations_file, and the hiding rule still does not say where the hidden files are."
+  - id: TIC659-10
+    round_1_severity: P4
+    status: STANDS
+    why: "citation_problem now and now_around still carry no fingerprint or version; v4.json unchanged there."
+  - id: TIC659-11
+    round_1_severity: P4
+    status: STANDS
+    why: "The drive-record writers still pin contract_version '4' exactly (the commit that touched them changed only how a non-object record is refused)."
+  - id: TIC659-12
+    round_1_severity: P4
+    status: STANDS
+    why: "cite and citations still require an issue of at least 1; no word on a decision made before its issue exists."
+
+# ---------------------------------------------------------------------------------------------------------------------------------------
+findings:
+  - id: TIC659-13
+    severity: P3
+    origin: "the listing side and the settings side of the guarantee TIC659-1 was about; round 1 did not probe them"
     backing: >
-      not a departure backed by a decision: a stated "never" that is not held. The rule itself is backed on main (the #675 note in the 658
-      decision comment, and ADR 036 line 128). The bypass is the same on main's tool for waiting drafts and for another issue's notes read
-      through the Garura tier (checked with the same probe on a copy of main), so it is carried code behaviour; v4 is where the contract
-      states the rule as "never", extends it to decision records, and adds cite, which gives the bypass a new use.
-    cross_category: executable-code   # the flaw is in memory.py (FolderEngine.excluded and read); the contract's path grammar is the contract half
+      not a departure backed by a decision: a stated "never" that is not held on two of the three commands it names. The rule is backed on
+      main (ADR 036 line 128; the #675 note, 658 decision comment line 9, which says the tool already hides drafts). The settings case is
+      also the same on main's tool (carried code behaviour for another issue's notes read through the Garura tier).
+    cross_category: executable-code   # the flaw is in memory.py (FolderEngine.files, grep, excluded); the contract sentences below are the contract half
     file: >
-      core/tools/memory/contract/v4.json (answer_rules.waiting_drafts_are_hidden, answer_rules.cite_reads_its_sources, $defs.path,
-      commands.cite summary and response.stored); core/tools/memory/memory.py (FolderEngine.excluded, FolderEngine.read);
-      core/tools/memory/citations.py (CitationStore.source_problem)
+      core/tools/memory/contract/v4.json (answer_rules.waiting_drafts_are_hidden; paths; description 'a waiting draft is never found by a
+      lookup'); core/tools/memory/memory.py (FolderEngine.files, FolderEngine.grep, FolderEngine.excluded, FolderEngine.hidden)
     finding: >
-      The contract says a lookup "never returns a memory update that waits for a person" and that decision records are never returned. The
-      tool keeps that for the plain path only. Run over a throwaway project on a scratch copy: reading '7/review/./memory-updates/<id>.json'
-      or '7/review//memory-updates/<id>.json' returns the waiting draft; reading '7/context/./citations.jsonl' (or '7/./context/...',
-      '7/context//...') returns the decision records; on this machine's case-insensitive filesystem '7/Review/memory-updates/<id>.json'
-      returns the draft; reading './issues/8/notes.md' in the Garura tier returns another issue's short-term note (ADR 036 part 1). The
-      path grammar in the contract ($defs.path: no leading slash, no '..', no backslash or line break) accepts every one of these. The
-      cite answer itself hands the caller the hidden file's path ('stored.path', '7/context/citations.jsonl'). Worse, cite reads each
-      source through the same call: a trace step whose source is the waiting draft, or the agent's own earlier decision record, written in
-      one of these forms was recorded (ok true), and 'citations --check' then answered no problem. So a decision can be recorded as resting on
-      memory no person approved, and nothing in the record or the check shows it.
+      The branch's fix puts the hiding decision in a new method, hidden(), that works on the file a path reaches (real path, letter case
+      folded), and calls it from read, so from cite and citations --check too. find (files) and search (grep) still decide on the listed name
+      with a case-sensitive prefix test (excluded), and excluded('garura') is worked out from the settings as typed, not from the real
+      folders. So the same guarantee is kept by two rules. Observed on scratch copies on this machine's case-folding disk: (a) the issue
+      folder already holds '7/Review/' (a differently spelled folder; the tool's own propose then writes into it, because the disk folds
+      case): find lists '7/Review/memory-updates/<id>.json', and search returns the draft's text, while read of the very path find listed
+      answers not_found. (b) the short-term setting spelled '.../ISSUES' while the folder is 'issues': find and search in the Garura tier
+      list another issue's short-term notes ('issues/8/notes.md'), which ADR 036 part 1 says a lookup never reads; read refuses. With the two
+      roots given through different links ('/tmp/...' for Garura memory, '/private/tmp/...' for short-term memory) find lists them and read
+      of 'issues/8/notes.md' returns the other issue's note (main's tool does the same). (c) a hard link to a draft inside the issue folder:
+      read returns the draft; realpath compares names, not the file. On a case-sensitive disk the error goes the other way: read refuses
+      '7/Context/citations.jsonl' while find lists it. The contract's new sentences say more than the tool keeps: 'a lookup (find, search,
+      read) never returns' a waiting draft 'however its path is spelled', and 'One file has one spelling, so what a lookup hides cannot be
+      reached by spelling its path another way'. The grammar makes the second true only for '.', '//' and a trailing slash; for case and links
+      it is the tool's decision, and the tool makes it in read only. The three new tests exercise read and cite; none exercises find or search.
     failure_scenario: >
-      An agent that has the stored path from a cite answer (or a model that guesses the default folder) reads the waiting draft of a
-      memory update, decides from it, and cites the draft's lines as the source; the record passes the check and the drive's review shows an
-      ordinary memory step. This is the unapproved draft driving the work that ADR 036 line 128 and ADR 035 part 5 forbid.
+      On a Mac where a folder named 'Review' already sits in an issue's folder (or a settings file spells a folder in other case), an agent that
+      searches for words in a waiting memory update gets the model's unapproved draft back as a hit and decides from it, with no person in
+      between: what ADR 036 line 128 and ADR 035 part 5 forbid.
     principle_violated: ADR036-ALT-DRAFT-MUST-NOT-ANSWER-A-LOOKUP
     committed_source: >
-      docs/adr/036 Alternatives Considered (line 128, main); docs/adr/035 Decision part 5 (lines 70-78, main); docs/adr/036 Decision part 1
-      (lines 36-43, main); .garura/project/issues/658/review/decision-comment.md (the waiting-draft note, main).
+      docs/adr/036 Alternatives Considered (line 128, main); docs/adr/036 Decision part 1 (lines 36-43, main); core/tools/memory/contract/v3.json
+      lookup_rule (main); .garura/project/issues/658/review/decision-comment.md line 9 (main).
     suggested_direction: >
-      Close it in both halves. In the contract, make the path grammar refuse a '.' segment and an empty segment (the grammar already refuses
-      '..', for the same reason), with one broken sample for each; say in the rule that the hiding holds for any spelling of the path. In the
-      tool, decide the exclusion on the resolved real location (and on a case-folded comparison where the filesystem folds case) for read and
-      for cite, and add a test for each spelling above and for a cite resting on a hidden file. Why P2 and not P1: a local tool that nothing
-      calls yet, the odd path has to be typed (or the filesystem folds case), nothing is lost, and the fix is small. Why not lower: it is the
-      guarantee the whole feature rests on and the contract says "never". It becomes P1 if an agent or play (#661, #663) is wired to build
-      read or cite paths itself rather than use paths from find and search, or the same path handling ships behind a server in Griffin.
+      Decide hiding once, in one place: have files() and grep() ask hidden() for each name they would list (it already resolves the real
+      path), and work excluded('garura') out from the real paths of both roots. Add one test each for find and search with a differently
+      spelled folder and with a differently spelled setting. In the contract, keep 'the tool decides on the file a path reaches' and drop 'One
+      file has one spelling', which only the grammar half of the claim supports. Why P3 and not P2: round 1's P2 was a path any caller could
+      type and it is closed; what is left needs a machine whose folders or settings are spelled unlike the tool's lowercase defaults (ADR 017's
+      folders are lowercase and the tool writes 'review/'), nothing in this repository creates one, and read and cite, the commands a decision
+      walks, hold. It becomes P2 if a play or the review tool is found writing a differently spelled 'review/' folder, or if the project's own
+      settings spell the roots through links.
 
-  - id: TIC659-2
-    severity: P3
+  - id: TIC659-14
+    severity: P2
+    origin: "a fault the TIC659-1 fix introduced"
     backing: >
-      amendment owed. The wider trace is backed in the branch record only (659 plan item 2 and the log of 19 October); on main the 653 plan
-      item 6 says "built on the trace format Garura already has". The PR body lists it as carried to its own /adr change.
+      not a departure: a stated guarantee not held, and a regression. The base contract says "A response is always a JSON object"; main's
+      tool answers a path with a NUL character, and one with a lone surrogate, with not_found; round 1's head did too.
+    cross_category: executable-code   # memory.py hidden() and run(); the guarantee is the contract's, so it is reported here
     file: >
-      core/tools/memory/contract/v4.json (description 'Version 4', commands.cite summary, $defs.decision_record, traced_step,
-      cited_source, around); core/components/memory/standards/rules/resolution.md ('Decision Records (ADR 035 section 6)', in the memory
-      grounding, not here)
+      core/tools/memory/memory.py (FolderEngine.hidden, FolderEngine.read, run); core/tools/memory/citations.py (CitationStore.source_problem,
+      reached by cite and by citations --check); core/tools/memory/contract/v4.json ($defs.path pattern)
     finding: >
-      ADR 035 part 6 says a decision "names the tier, the file and the lines it rests on" and leaves the shape to plan item 6; ADR 034 part 4
-      says "every answer names its source". v4 records an ordered trace of steps, each with a question, a finding and a source that keeps its
-      exact text, the memory version and up to three lines around it, plus from_update, play, decided_by and decided_at. That is a
-      refinement the ADR delegated, not a break. But the committed words still describe one source, ADR 032 part 3 and ADR 035 part 7 still
-      name a "Memory" view where ADR 036 says "Memory and ADRs", and the contract's own cite summary cites 'ADR 035 section 6, ADR 034
-      section 4' for a shape neither states. A builder of #661 to #664 who starts from the ADRs (as the filed stories tell them to) finds a
-      contract wider than the record they read.
-    failure_scenario: "A builder of #661 writes the agents' decision record from ADR 035 part 6 (one source: tier, file, lines) and the contract refuses it for having no trace."
-    principle_violated: ADR035-S6-DECISION-NAMES-MEMORY
-    committed_source: >
-      docs/adr/035 Decision part 6 (lines 80-82, main); docs/adr/034 Decision part 4 (lines 60-62, main); .garura/project/issues/653/specs/plan.md
-      item 6 (lines 148-162, main); docs/adr/035 part 9 (ADR 015 bullet, main).
-    suggested_direction: >
-      Record the trace in the /adr change the PR body already names (ADR 035 part 6 and ADR 034 part 4: a decision keeps a trace of steps, each
-      with a tier, file, lines and fingerprint), and do it before #661 starts. Until it lands, let the contract's description point to the plan
-      item, not to a chat quote. Not P2: the shape was delegated to plan item 6, no consumer exists yet, and the owner's word is recorded.
-      The older, larger amendment (TIC658-1, scored P2 in the 658 review and carried with the owner's approval) is still owed and is not
-      re-scored here; the sum of the two is what the /adr change should settle.
-
-  - id: TIC659-3
-    severity: P3
-    backing: >
-      branch's own rule: no committed record and no owner word backs hiding decision records. The 659 plan item 3 files it under "the #675
-      note", which on main covers waiting drafts only. The reason for it is sound by analogy with ADR 036 line 128; what is missing is the
-      record, and the word.
-    file: >
-      core/tools/memory/contract/v4.json (answer_rules.waiting_drafts_are_hidden last sentence; tiers.garura; $defs.decision_record);
-      core/tools/memory/README.md ('citations_file' row)
-    finding: >
-      The rule says "Decision records are not memory either: a lookup never returns them, so an agent never decides from its own earlier
-      decision." Two problems. (1) The same contract says, in tiers.garura (unchanged), that Garura memory holds "decisions", as ADR 035 part
-      1 does; and the glossary on main says a "decision record" is an ADR at any level (decision.yaml), kept in the product model, which is
-      memory. So "decision records are not memory" is, by the committed word, false, and a second engine built from the sentence could hide
-      the product model's decisions (or, reading the other sense, not hide the agent's). One word, two things. (2) The carve-out narrows
-      ADR 036 part 1 and part 6 (the issue's folder is short-term memory, and the tool can find a play's files there); ADR 036 records one
-      such carve-out (waiting drafts) with its reason, and none for decision records. The filed story text on main says agents "write it to
-      the issue's short-term memory" and says nothing of hiding it. The rule is probably right (an agent's earlier decision would answer
-      its next lookup, as a draft would), but it is not recorded anywhere a reader of the ADRs would look.
+      hidden() calls os.path.realpath on the requested path with no guard. The contract's path pattern accepts a NUL character
+      ('7/notes\u0000.md' in a JSON request) and a lone surrogate ('7/\ud800.md'); run() catches only Refusal and OSError. Both now end the
+      process with a traceback and no JSON on stdout. Observed on scratch copies, same request on each: main (v3) and round 1's head answer
+      {"ok": false, ... "error": {"code": "not_found"}}; the head answers with 'ValueError: lstat: embedded null character in path' (read in
+      short-term memory, read in Garura memory, and cite with a step whose source path holds a NUL) and 'UnicodeEncodeError: ... surrogates not
+      allowed' (read in short-term memory). 'citations --check' over an issue whose decision file holds one hand-edited record with a NUL in a
+      source path now stops with the same traceback for the whole issue; round 1's head answered ok and flagged the record. Cause: the old code
+      used os.path.isfile, which turns these into False; the fix replaced it with an unguarded realpath. Carried and the same kind: on main a
+      NUL in a search pattern and in a Phoenix read path already crash (ValueError: embedded null byte), unchanged by this branch. No test
+      sends such a path.
     failure_scenario: >
-      Griffin's engine is built from the contract, reads "decision records are not memory", and filters the product model's decision.yaml
-      files out of lookups; or a builder reads the glossary, takes the record for an ADR, and finds the agent's records are findable.
-    principle_violated: ADR035-S1-TIERS-AND-DECISIONS-IN-GARURA
+      An agent builds a path from text that holds a stray NUL or a broken character and gets a stack trace instead of an answer; a decision
+      with such a path cannot be recorded or refused cleanly, and the audit command (citations --check) stops for the whole issue on one bad
+      line instead of naming it.
+    principle_violated: V3-RESPONSE-ALWAYS-JSON
     committed_source: >
-      docs/adr/035 Decision part 1 (lines 36-44, main); core/grounding/glossary.md lines 37, 61, 111, 113 (main); docs/adr/036 parts 1 and 6
-      and line 128 (main); .garura/project/issues/654/specs/stories.yaml item 6 (line 104, main).
+      core/tools/memory/contract/v3.json description, 'A response is always a JSON object with ok, contract_version and command.' (main);
+      core/tools/memory/memory.py BadFlags docstring, 'never a bare usage error' (line 409, main); core/components/memory/standards/rules/pr.md
+      P2 bucket, 'error-handling violations' (main).
     suggested_direction: >
-      Give the agent's record its own name in the contract and the glossary (for example "decision trace" or "agent decision"), keep
-      "decision record" for the ADR kind, and say in the rule which files are hidden: the agent's records and the waiting updates. Record
-      the rule and its reason in the ADR change (TIC659-2). Ask the owner to confirm that agent decisions are not found by lookups.
+      Treat ValueError (UnicodeEncodeError is one) like the old isfile did: catch it around the real-path step in hidden() and answer
+      not_found (or bad_request), and, if the grammar should refuse the character instead, add \x00 to the pattern's excluded set. Add one
+      test per class (a NUL, a lone surrogate) for read, cite and citations --check. Fix the carried search-pattern and Phoenix-read crashes
+      in the same pass. Why P2: an error-handling violation (pr.md P2 bucket) against a guarantee the contract states, newly introduced by
+      the fix, with no test. Why not P1: it fails before any file is read, so nothing leaks and nothing is lost, and the tool is local and
+      not yet called by an agent. It stays P2 rather than P3 because it makes the audit command stop.
 
-  - id: TIC659-4
-    severity: P3
-    backing: >
-      naming; carried from the 658 review, which said "rename cite.decided_by at the cite story (#659)" (TIC658-11 part 3). v4 is the cite
-      story and keeps the name, now in a stored record.
-    file: >
-      core/tools/memory/contract/v4.json (commands.cite request.decided_by; $defs.decision_record decided_by and decided_at; $defs.update
-      decided_by and decided_at; commands.decide request.by)
+  - id: TIC659-15
+    severity: P4
+    backing: "n/a: a plain-words guide that no longer matches the contract it explains"
+    file: "core/tools/memory/README.md ('What every answer carries', Paths bullet, lines 142-143); core/tools/memory/contract/v4.json (paths)"
     finding: >
-      In update, decided_by is the person who approved, and decided_at when (a person's word). In decision_record, decided_by is the agent
-      that made the decision ('product-os-keeper (/understand)' in the samples), and decided_at when it was recorded. The same two names
-      mean an approval in one shape and a decision by an agent in the other, and the new shape is shown to a person in a drive's review
-      next to approvals. ADR 033 part 2 gives an approval its own who and when, and part 6 says only the review step writes approval. The
-      record has no approval field, so nothing breaks today; but a reader, or the review tool's Agent decisions screen, can take decided_by
-      on a decision as someone's approval. The contract also cannot tell an agent from a person in either field (both are any non-empty
-      string).
-    failure_scenario: "The review tool shows a decision with 'decided by' and a time, and the person reads it as approved."
-    principle_violated: ADR033-S6-ONLY-REVIEW-STEP-WRITES-APPROVAL
-    committed_source: >
-      docs/adr/033 Decision parts 2 and 6 (lines 38-45 and 66-68, main); .garura/project/issues/658/review/design-findings-tool-interface-contract.yaml
-      TIC658-11 part 3 (main); docs/adr/036 'Not decided here' (line 121, main).
-    suggested_direction: >
-      Rename the record's fields (for example made_by and made_at) while v4 is unlanded, so the rename costs nothing; or add a one-line
-      description on each field saying it is not an approval. Keep decide's by and the update's decided_by as they are.
+      The contract's paths rule now says a path 'never starts or ends with a slash, and never contains .., a . segment or an empty segment'.
+      The README, which the contract names as its plain-words guide, still says 'never start with a slash and never contain ..'. The README was
+      not in the commit that changed the rule, and the README's 'Rules for this folder' and answer-rule list were not touched either. The
+      README sentence is incomplete, not wrong, and the contract and its check are the authority.
+    failure_scenario: "A builder of a second engine reads the README, accepts 'a//b' and 'a/./b', and the contract check refuses its answers."
+    principle_violated: V3-README-IS-THE-PLAIN-WORDS-GUIDE
+    committed_source: "core/tools/memory/contract/v3.json description (main); core/tools/memory/README.md lines 139-140 (main)"
+    suggested_direction: "Bring the Paths bullet to the contract's wording in the same change that edits the rule."
 
-  - id: TIC659-5
-    severity: P3
-    backing: >
-      wording that claims more than the contract or its check can hold; the PR body says plainly that the check "proves the named lines still
-      say what they said; it does not prove the answer follows from them", the contract does not. The owner knows (branch record).
+  - id: TIC659-16
+    severity: P4
+    backing: "n/a: carried from v3 (same pattern and same sample on main) and now in the path grammar this branch edits"
     file: >
-      core/tools/memory/contract/v4.json (description 'Version 4', commands.cite summary, commands.citations summary,
-      answer_rules.cited_text_is_its_fingerprint, answer_rules.citations_problems)
+      core/tools/memory/contract/v4.json ($defs.path pattern); core/tools/memory/contract/samples/broken/read-path-with-newline.json;
+      core/tools/memory/contract/check_contract.py (validate: re.search)
     finding: >
-      Three phrases say more than anything holds. (1) The description: "every decision is recorded with the memory it rests on". The
-      contract defines how one decision is recorded; nothing makes every decision be recorded, no agent calls cite yet, and a decision that was
-      never cited has no record the check could fail. The filed done-when ("the check fails a decision that names no source") is met only for
-      a record that exists: cite refuses an empty trace (minItems 1), so no_source can arise only from a hand-edited file, and the drive record
-      carries only cited decisions. (2) "the steps the agent took, in order" and "the exact lines the agent read when it decided": asked and
-      found are free text the agent writes, and the tool re-reads the lines when cite is called, not when the agent decided; no read log ties
-      a step to a read. (3) "so the person sees each step a decision rested on": the trace is the agent's claim of what it rested on; the
-      check proves the lines exist and match their fingerprint, not that the answer follows from them. Under IDD principle 3, a record
-      that reads as an audit trail and cannot be observed to be one gives false confidence.
-    failure_scenario: >
-      A play makes ten decisions and cites two; the drive's review shows two traces and an empty problem list, and the person takes it as the
-      whole record. Or an agent cites three real lines that do not support its answer; the check says no problem.
+      The pattern's last class, [^\\\n\r]+$, means 'no backslash and no line break', but '$' in Python's re also matches before one trailing
+      newline, so 'a/b\n' passes the pattern in this tool and in the contract check (tried with re.search); a JSON Schema validator in ECMA
+      rules would refuse it. The broken sample for the rule, read-path-with-newline, holds the path 'a\n../b', which is refused for the '..'
+      it also holds, so it does not prove the line-break rule. No hiding bypass follows (a name that ends in a newline is a different file),
+      and the owner's fix did not claim to touch it.
+    failure_scenario: "A second engine built on an ECMA validator refuses a path this tool accepts; the sample that should show the rule shows nothing."
     principle_violated: IDD-P3-OBSERVABLE-BINARY
-    committed_source: >
-      docs/philosophy/idd-principles.md Principle 3 (lines 75-98, main); docs/adr/035 Decision part 6 (lines 80-82, main); docs/adr/034
-      Decision part 4 (lines 60-62, main); .garura/project/issues/654/specs/stories.yaml item 6 'Done when' (lines 106-109, main).
-    suggested_direction: >
-      Reword so each sentence is true: "cite records what the agent says it rested on, and citations --check proves each named line still
-      exists and still has its fingerprint; it does not prove the answer follows, and it cannot see a decision that was never cited." When
-      #661 and #663 wire the agents, give each play's own record a list of its decisions with their citation ids so a missing record shows.
-      Not P2: it is an audit trail, nothing calls it yet, the owner and the PR body both say so. It becomes P2 if a drive's review treats an
-      empty problem list as proof that every decision is cited.
+    committed_source: "docs/philosophy/idd-principles.md Principle 3 (lines 75-98, main); core/tools/memory/contract/v3.json $defs.path and samples/broken/read-path-with-newline.json (main)"
+    suggested_direction: "Make the broken sample 'a\\nb' (no '..'), and have the validator read '$' as end of text."
 
-  - id: TIC659-6
-    severity: P3
-    backing: "n/a: a field the consumer depends on that the contract leaves open"
-    file: >
-      core/tools/memory/contract/v4.json (commands.cite request.play optional; commands.citations request.play; $defs.decision_record play
-      nullable string); core/components/plays/play-creator/references/write_drive_review.py (consumer, read only to learn what it expects)
-    finding: >
-      A drive's review is built from 'citations --play P'. The contract makes play optional on cite and a free non-empty string, with no rule
-      on its form. The tool filters by exact string equality, and the drive-record writer expects '/' plus the play's name ('/vision'), and
-      treats any record whose play differs as another play's and refuses the whole file. So a decision cited with no play, or as 'vision',
-      never reaches any drive's review, and a consumer passing '--play vision' gets an empty answer: a silent skip, which the contract's own
-      lookup rules call an error elsewhere. The play filter also has no answer rule, where updates has 'updates_filter'.
-    failure_scenario: "An agent cites a decision as 'vision'; the drive review for /vision lists none, and no one is told."
-    principle_violated: ADR034-S4-EVERY-ANSWER-NAMES-SOURCE
-    committed_source: >
-      docs/adr/034 Decision part 4 (the drive's review shows what was assumed and on what basis, lines 60-62, main); .garura/project/issues/654/specs/stories.yaml
-      item 6 'Done when' (the drive review writer carries the sources, main); base v3.json answer_rules.updates_filter (main).
-    suggested_direction: >
-      Say the form of play (for example the play's command with its leading slash) in the contract, require play on a decision made inside
-      a drive (or have citations answer a record with no play under every play's filter), and add a citations_filter answer rule and one
-      broken sample.
-
-  - id: TIC659-7
-    severity: P3
-    backing: "n/a: rules the tool keeps and the contract does not say (cross-category with executable-code)"
-    file: >
-      core/tools/memory/contract/v4.json (errors.changed, errors.not_approved, errors.not_found, errors.out_of_range; commands.cite summary;
-      $defs.decision_record from_update); core/tools/memory/citations.py (cite)
-    finding: >
-      (1) errors.changed still says "the target changed after the update was proposed; propose again from the current text". cite now
-      answers changed when a source's text no longer matches its fingerprint (the cite summary says so; the README row was updated, the
-      contract's error text was not), and "propose again" means nothing to a cite. (2) Lines that are not in a file: read answers
-      out_of_range, and end before start is bad_request (answer rule refusals); cite answers not_found for both (checked on a scratch copy),
-      and the contract check accepts a cite sample whose source has end before start answered ok. (3) from_update: the tool refuses an update
-      that is not applied (answering not_approved, which the contract defines as "apply on an update no person approved", and which also
-      covers an update that is approved but not applied) and refuses a decision whose steps do not include the update's written file
-      (bad_request). Neither rule is in the answer rules or the cite summary beyond "names it, and the update's written file is the source of
-      a step". A second engine has no instruction for either. (4) citation_id has no stated form or uniqueness; problems name a record by it.
-    failure_scenario: "A server engine accepts a decision whose from_update is a waiting update, and the contract check passes it."
-    principle_violated: ADR035-S5-NOTHING-UNAPPROVED
-    committed_source: >
-      docs/adr/035 Decision part 5 (lines 70-78, main); base v3.json errors and answer_rules.refusals (main); docs/adr/036 Alternatives
-      Considered (line 128, main).
-    suggested_direction: >
-      Add the cite case to errors.changed and errors.not_found (or give the source problems their own codes), say that a source whose lines
-      are outside the file or reversed is bad_request or out_of_range as for read, add one answer rule for from_update (the update is applied
-      and a step's source is its written file) with a broken sample, and state the form and uniqueness of citation_id. P3: the tool does
-      all of this today and tests it; the gap is the second engine.
-
-  - id: TIC659-8
-    severity: P3
-    backing: "n/a: rules observable from the answer alone that the contract check does not hold; the tool's own tests hold most of them"
-    file: >
-      core/tools/memory/contract/check_contract.py (check_citations, check_scope); core/tools/memory/contract/samples/ (no sample for the
-      cases below); core/tools/memory/README.md ('The answer rules')
-    finding: >
-      Probed on a scratch copy by editing samples and re-running the check. Each of these passes the check although the answer rule or
-      the contract text says otherwise: (1) a citations answer with check true, a record with no trace, and no no_source problem (rule
-      citations_problems: "each record with no trace is no_source"; this is the filed done-when's own case); (2) a citations answer for
-      play '/understand' holding a record of '/vision'; (3) a source_changed problem whose 'now' equals the cited text, which its own
-      fingerprint settles; (4) a now_around that does not hold 'now' (the same test is made for a source's around); (5) a Phoenix step with no
-      version, or a Garura step with an invented version (README: Phoenix's version is the repository's commit); (6) two records with one
-      citation_id, and a citation_id or decided_at that is any text; (7) a search hit whose path is the hidden decision file or a waiting
-      draft (the rule cannot be pinned by a sample, since the contract does not say where they live: TIC659-9); (8) a cite sample whose
-      source has end before start answered ok. No sample exists for the new error 'unreadable', for a cite refused as not_found or changed, or
-      for a from_update decision. The README's list "The check holds every sample to these" is v3's and lists none of the five answer rules v4
-      adds. Under IDD principle 3 a rule that can be observed and is not is false confidence; the PR body's "32 broken samples refused"
-      reads as the rules being held.
-    failure_scenario: "A second engine returns check true with no no_source for a record with no trace; every sample and the contract check pass."
-    principle_violated: IDD-P3-OBSERVABLE-BINARY
-    committed_source: >
-      docs/philosophy/idd-principles.md Principle 3 (lines 75-98, main); .garura/project/issues/654/specs/stories.yaml item 6 'Done when'
-      (the check fails a decision that names no source, main); base v3.json answer_rules (main).
-    suggested_direction: >
-      Add the six checks the answer settles (1 to 4, 6, 8) to check_citations and check_scope, each with one broken sample, and the samples
-      for unreadable, a refused cite and a from_update decision; bring the README's list up to v4. Not P2: the tool is right on every one
-      of these and its tests say so; the gap is in what a second engine would be held to.
-
-  - id: TIC659-9
-    severity: P4
-    backing: "n/a: settings text carried from v3 plus one new setting; the default location is a choice the contract does not name"
-    file: >
-      core/tools/memory/contract/v4.json (settings; answer_rules.waiting_drafts_are_hidden 'kept apart'); core/tools/memory/README.md
-      (settings table: updates_dir, citations_file)
-    finding: >
-      The contract's settings text names each tier's place, phoenix_ref and where pulled pieces land, and names neither updates_dir nor the
-      new citations_file; the README and memory.py do. The hiding rule says updates are "kept apart" without saying where, so a sample cannot
-      pin it. The default for decision records, 'context/citations.jsonl', sits under ADR 017's 'context' ("prepare / architecture
-      context"), while the glossary puts "how decisions were reached", the audit trail of a play, in evidence, where the resolution trace
-      lives today. That is not a break (ADR 017 lists folders, not file kinds) but it is a choice no record makes.
-    failure_scenario: "A second engine keeps decision records in a place its lookups read."
-    principle_violated: ADR035-S4-ONE-TOOL-EVERY-ANSWER-CITED-THE-SAME-WAY
-    committed_source: >
-      docs/adr/035 Decision part 4 (lines 61-68, main); docs/adr/017 lines 51-55 and 104-108 (main); core/grounding/glossary.md lines 42 and 43
-      (main); base v3.json settings (main).
-    suggested_direction: >
-      Name the two settings in the contract's settings text (or say the places are the engine's own), say that the hidden files are the
-      ones cite and propose report as stored, and note the location choice in the ADR change.
-
-  - id: TIC659-10
-    severity: P4
-    backing: "n/a: a gap against the contract's own every_result rule"
-    file: "core/tools/memory/contract/v4.json ($defs.citation_problem now, now_around; answer_rules.citations_problems; every_result)"
-    finding: >
-      every_result says every piece of text the tool returns carries its tier, file, lines and fingerprint. A source_changed problem returns
-      the text the lines hold now ('now') and the lines around it ('now_around') with no fingerprint of their own, and no memory version. For
-      a Phoenix source the text is at whatever approved version the tool read, and the problem does not say which. The old source's
-      fingerprint travels in 'source', not the new text's.
-    failure_scenario: "The review tool shows 'now' as what memory says, and the person cannot tell at which version of Phoenix memory."
-    principle_violated: ADR035-S4-ONE-TOOL-EVERY-ANSWER-CITED-THE-SAME-WAY
-    committed_source: "docs/adr/035 Decision part 4 (lines 61-68, main); .garura/project/issues/653/specs/plan.md line 81 (main); base v3.json every_result (main)"
-    suggested_direction: "Add now_fingerprint and now_version to citation_problem (null when the lines are gone), and check them with the sample."
-
-  - id: TIC659-11
-    severity: P4
-    backing: "n/a: grounding unavailable (see grounding_not_available); nothing committed on main says how a consumer follows a contract version"
-    file: >
-      core/components/plays/play-creator/references/write_drive_review.py and its stamped copies in /vision and /understand (contract_version
-      must be '4'); core/tools/memory/pull.py (CONTRACT_VERSION); core/tools/memory/contract/samples/
-    finding: >
-      The three drive-record writers refuse any citations answer whose contract_version is not exactly '4', and the plays that carry them are
-      deployed into projects by install-garura while the memory tool is installed separately. The base README's rule is that the contract
-      changes only by a new version, with earlier versions kept; it says nothing about a consumer that sees a later one. The next version
-      breaks the writers until all three copies and the canonical one change. Carried and related: every sample and the check run on v4
-      only, so nothing exercises v1 to v3 (TIC658-11 part 4).
-    failure_scenario: "A project upgrades the memory tool to version 5 and its /vision play refuses every decisions file until Garura is reinstalled."
-    principle_violated: README-VERSION-POLICY
-    committed_source: "core/tools/memory/README.md 'Rules for this folder' (line 211, main)"
-    suggested_direction: "State in the README or the contract how a consumer treats a version it did not build for (accept the versions it lists, or refuse with the versions named), and have the writers name the versions they accept in their refusal."
-
-  - id: TIC659-12
-    severity: P4
-    backing: "carried shape: TIC658-7 raised the same for propose (P3); here it is narrower because ADR 008 limits pre-issue work to start-feature"
-    file: "core/tools/memory/contract/v4.json (commands.cite request.required issue; $defs.issue integer >= 1; $defs.decision_record issue)"
-    finding: >
-      cite and citations require an issue, an integer of at least 1, and a short-term step must start with '<issue>/'. ADR 035 part 6 says
-      "every decision", and ADR 008 part 4 says start-feature works before its issue number exists (in _pending/) and no other play does. A
-      decision start-feature makes before it has an issue can be recorded nowhere. Small, because start-feature's early decisions are about
-      the issue itself and not from memory, and the contract does not say so.
-    failure_scenario: "start-feature decides a branch name from a rule in memory before the issue exists; it has no way to record it."
-    principle_violated: ADR008-S4-PRE-ISSUE-WORK
-    committed_source: "docs/adr/008 Decision part 4 and Negative (lines 88-106 and 199, main); docs/adr/035 Decision part 6 (lines 80-82, main)"
-    suggested_direction: "Say in the contract that a decision made before its issue exists is recorded once the issue does, or is outside part 6."
-
-carried_open:   # present in v4.json unchanged from base v3.json, scored in the 658 review, accepted by the owner for #675 ("Carried" in the 658 decision comment on main). Listed so the verdict can see them; not re-scored and not counted.
+# ---------------------------------------------------------------------------------------------------------------------------------------
+carried_open:   # in v4.json unchanged from base v3.json, scored in the 658 review, carried by the owner for #675. Not re-scored, not counted. ADR 037 amends none of them.
   - id: TIC658-1
-    status: "still open, P2 as scored in the 658 review"
-    note: >
-      The /adr amendment for the five v3 rules (every update lands in short-term memory, promotion leaves the tool, typed approval has no
-      record, blocking, the review tool writes approval) is still not made, and v4 adds TIC659-2 and TIC659-3 to what it must settle. The
-      658 review's own escalation trigger (P1 if a story builds on v3 while the ADRs still say otherwise and the two disagree on a guarantee)
-      was tested: v4 changes none of the v3 rules, so it is not met by this diff; it would be met if #661 or #663 build on v4 first.
+    status: "still open, P2 as scored in the 658 review: the /adr amendment for the five v3 rules is not made; ADR 037 settles the trace and the five sections only"
   - id: TIC658-2
-    status: "still open, P2 as scored in the 658 review; the owner carried it on main ('a caller can still run decide itself')"
-    note: >
-      answer_rules.decide_records_the_person still says "an agent never decides one", and nothing in the contract or its check can tell a
-      person from an agent. v4 adds a path on top of it: a decision that rests on an applied update inherits an approval no one can prove
-      (from_update). The suggested rewording of the rule (say what the contract can hold) was not made.
+    status: "still open, P2 as scored in the 658 review: decide_records_the_person still says an agent never decides one, and nothing can tell a person from an agent; from_update inherits an approval no one can prove"
   - id: TIC658-3
-    status: "FIXED in v4: waiting_drafts_are_hidden is stated (base v3.json has none). Its enforcement gap is TIC659-1."
+    status: "FIXED in v4 (round 1): waiting_drafts_are_hidden is stated; its enforcement is TIC659-1 (fixed for read and cite) and TIC659-13 (find, search)"
   - id: TIC658-4_to_8
-    status: "unchanged and still open at P3: a person's own answer lands in short-term memory; promotion has no way in; decided_in is review-tool only; propose needs an issue; blocking is a label"
+    status: "unchanged and still open at P3"
   - id: TIC658-9
-    status: "carried: the filed text of #659 now also differs from the delivery (a trace in place of 'the tier, the file, the lines and the fingerprint'; the review tool's design and mock are in the diff), and the PR body lists it. Whether and when the filed text changes is the owner's call."
+    status: "carried: the filed text of #659 differs from the delivery; ADR 037's Work This Creates names story #664 but not #659's own text"
   - id: TIC658-10_and_11
-    status: "unchanged at P4, except TIC658-11 part 3, which this story was named to fix and is now TIC659-4"
+    status: "unchanged at P4, except TIC658-11 part 3, which is TIC659-4 and stands"

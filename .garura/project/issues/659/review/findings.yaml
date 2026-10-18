@@ -1,10 +1,12 @@
 meta:
   pr: 676
   issue: 659
-  head: fa73b2b5
+  round: 2
+  head: 4553fe26
   categories: categories.yaml
   gate: on for this run (gates.plays.review-change), so the owner decides
   review_shelf: ~/.garura/phoenix-memory/knowledge/review/ (Garura memory has none; tier order)
+  round_1: rejected by the owner ("fix all the items first"); its records are in this folder's git history
   sources:
   - quality-findings.yaml
   - design-findings-memory.yaml
@@ -108,7 +110,7 @@ findings:
   category: executable-code
   layer: linter (quality-check-scoped)
   file: core/tools/memory/citations.py
-  line: 63
+  line: 77
   basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
   assessment: not_applicable
   finding: join
@@ -117,7 +119,7 @@ findings:
   category: executable-code
   layer: linter (quality-check-scoped)
   file: core/tools/memory/citations.py
-  line: 79
+  line: 141
   basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
   assessment: not_applicable
   finding: from
@@ -126,7 +128,7 @@ findings:
   category: executable-code
   layer: linter (quality-check-scoped)
   file: core/tools/memory/citations.py
-  line: 124
+  line: 144
   basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
   assessment: not_applicable
   finding: from
@@ -135,7 +137,7 @@ findings:
   category: executable-code
   layer: linter (quality-check-scoped)
   file: core/tools/memory/citations.py
-  line: 127
+  line: 145
   basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
   assessment: not_applicable
   finding: from
@@ -144,7 +146,7 @@ findings:
   category: executable-code
   layer: linter (quality-check-scoped)
   file: core/tools/memory/citations.py
-  line: 128
+  line: 147
   basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
   assessment: not_applicable
   finding: from
@@ -153,7 +155,7 @@ findings:
   category: executable-code
   layer: linter (quality-check-scoped)
   file: core/tools/memory/citations.py
-  line: 130
+  line: 153
   basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
   assessment: not_applicable
   finding: from
@@ -162,16 +164,7 @@ findings:
   category: executable-code
   layer: linter (quality-check-scoped)
   file: core/tools/memory/citations.py
-  line: 136
-  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
-  assessment: not_applicable
-  finding: from
-- id: BE-19
-  severity: P2
-  category: executable-code
-  layer: linter (quality-check-scoped)
-  file: core/tools/memory/citations.py
-  line: 142
+  line: 159
   basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
   assessment: not_applicable
   finding: from
@@ -337,6 +330,15 @@ findings:
   basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
   assessment: not_applicable
   finding: from
+- id: BE-19
+  severity: P2
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/memory.py
+  line: 169
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  finding: join
 - id: ARCH-02
   severity: P2
   category: executable-code
@@ -526,6 +528,33 @@ findings:
   basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
   assessment: not_applicable
   finding: join
+- id: BE-19
+  severity: P2
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 457
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  finding: join
+- id: BE-19
+  severity: P2
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 462
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  finding: join
+- id: BE-19
+  severity: P2
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 511
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  finding: join
 - id: ARCH-02
   severity: P2
   category: tests
@@ -668,7 +697,7 @@ findings:
   file: core/tools/memory/citations.py
   line: 1
   basis: rule CODE-09 in pr.md (path rule); check item in all-requirements.md
-  assessment: met
+  assessment: judgement
   finding: core/tools/memory/citations.py
 - id: CODE-10
   severity: P3
@@ -720,7 +749,7 @@ findings:
   category: executable-code
   layer: linter (quality-check-scoped)
   file: core/tools/memory/citations.py
-  line: 76
+  line: 90
   basis: rule CODE-25 in pr.md (keyword rule); check item in all-requirements.md
   assessment: met
   finding: 'except '
@@ -1264,6 +1293,51 @@ findings:
   basis: rule CODE-17 in pr.md (path rule); check item in all-requirements.md
   assessment: met
   finding: core/tools/memory/updates.py
+- id: DOC-04
+  severity: P3
+  category: decision-records
+  layer: linter (quality-check-scoped)
+  file: docs/adr/032-drive-review-of-outcomes.md
+  line: 1
+  basis: rule DOC-04 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: docs/adr/032-drive-review-of-outcomes.md
+- id: DOC-04
+  severity: P3
+  category: decision-records
+  layer: linter (quality-check-scoped)
+  file: docs/adr/035-agents-work-only-from-memory.md
+  line: 1
+  basis: rule DOC-04 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: docs/adr/035-agents-work-only-from-memory.md
+- id: DOC-04
+  severity: P3
+  category: decision-records
+  layer: linter (quality-check-scoped)
+  file: docs/adr/036-approved-answer-lands-in-short-term-memory.md
+  line: 1
+  basis: rule DOC-04 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: docs/adr/036-approved-answer-lands-in-short-term-memory.md
+- id: DOC-04
+  severity: P3
+  category: decision-records
+  layer: linter (quality-check-scoped)
+  file: docs/adr/037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md
+  line: 1
+  basis: rule DOC-04 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: docs/adr/037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md
+- id: DOC-04
+  severity: P3
+  category: decision-records
+  layer: linter (quality-check-scoped)
+  file: docs/adr/_index.md
+  line: 1
+  basis: rule DOC-04 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: docs/adr/_index.md
 - id: DOC-14
   severity: P4
   category: documentation
@@ -1444,368 +1518,300 @@ findings:
   basis: rule CODE-19 in pr.md (path rule); check item in all-requirements.md
   assessment: met
   finding: core/tools/memory/updates.py
-- id: OBS-1
-  severity: P3
-  category: executable-code
-  layer: runnable checks and code reading (quality-auditor)
-  file: core/tools/memory/citations.py
-  line: 75, 152, 156-157, 161
-  basis: 'nearest standard CODE-25 (P3); README error row "unreadable" (a line that is not a whole record, a cut-off write
-    or a hand edit) and the memory.py header (every answer is one JSON object per line); review/code rubric: error handling;
-    safe handling of destructive or irreversible operations (~/.garura/phoenix-memory/knowledge/review/code.md, Treatment)'
-  finding: 'citations (with check, or with a play filter) crashes on a decision-file line that is valid JSON but not a whole
-    record. records() keeps any line that parses; the code after it assumes a record. Reproduced against a scratch short-term
-    folder: a line "null" or "[1]" gives AttributeError (no attribute get); a line {"play": "/x"} gives KeyError citation_id;
-    a record whose trace step has no source gives KeyError source. Each exits 1 with a Python traceback and no JSON answer.'
-- id: OBS-2
-  severity: P3
-  category: executable-code
-  layer: runnable checks and code reading (quality-auditor)
-  file: core/components/plays/play-creator/references/write_drive_review.py (identical copies in understand/scripts and vision/scripts)
-  line: '88'
-  basis: 'nearest standard CODE-25 (P3); review/code rubric: error handling; safe handling of destructive or irreversible
-    operations (~/.garura/phoenix-memory/knowledge/review/code.md, Treatment)'
-  finding: 'a decisions file whose records list holds something that is not an object ends in a traceback instead of the refusal
-    the file promises. The check "not isinstance(r, dict)" selects the bad element and the same comprehension then calls r.get("citation_id")
-    on it. Reproduced with a records list ["oops"] and with [null]: AttributeError at line 88, exit 1; nothing is written
-    either way. The header promises exit 2 and "nothing written" for a bad input.'
-- id: OBS-3
+- id: ARCH-23
   severity: P4
+  category: decision-records
+  layer: linter (quality-check-scoped)
+  file: docs/adr/032-drive-review-of-outcomes.md
+  line: 1
+  basis: rule ARCH-23 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_applicable
+  finding: docs/adr/032-drive-review-of-outcomes.md
+- id: DOC-05
+  severity: P4
+  category: decision-records
+  layer: linter (quality-check-scoped)
+  file: docs/adr/032-drive-review-of-outcomes.md
+  line: 1
+  basis: rule DOC-05 in pr.md (path rule); check item in all-requirements.md
+  assessment: judgement
+  finding: docs/adr/032-drive-review-of-outcomes.md
+- id: ARCH-23
+  severity: P4
+  category: decision-records
+  layer: linter (quality-check-scoped)
+  file: docs/adr/035-agents-work-only-from-memory.md
+  line: 1
+  basis: rule ARCH-23 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_applicable
+  finding: docs/adr/035-agents-work-only-from-memory.md
+- id: DOC-05
+  severity: P4
+  category: decision-records
+  layer: linter (quality-check-scoped)
+  file: docs/adr/035-agents-work-only-from-memory.md
+  line: 1
+  basis: rule DOC-05 in pr.md (path rule); check item in all-requirements.md
+  assessment: judgement
+  finding: docs/adr/035-agents-work-only-from-memory.md
+- id: ARCH-23
+  severity: P4
+  category: decision-records
+  layer: linter (quality-check-scoped)
+  file: docs/adr/036-approved-answer-lands-in-short-term-memory.md
+  line: 1
+  basis: rule ARCH-23 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_applicable
+  finding: docs/adr/036-approved-answer-lands-in-short-term-memory.md
+- id: DOC-05
+  severity: P4
+  category: decision-records
+  layer: linter (quality-check-scoped)
+  file: docs/adr/036-approved-answer-lands-in-short-term-memory.md
+  line: 1
+  basis: rule DOC-05 in pr.md (path rule); check item in all-requirements.md
+  assessment: judgement
+  finding: docs/adr/036-approved-answer-lands-in-short-term-memory.md
+- id: ARCH-23
+  severity: P4
+  category: decision-records
+  layer: linter (quality-check-scoped)
+  file: docs/adr/037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md
+  line: 1
+  basis: rule ARCH-23 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_applicable
+  finding: docs/adr/037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md
+- id: DOC-05
+  severity: P4
+  category: decision-records
+  layer: linter (quality-check-scoped)
+  file: docs/adr/037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md
+  line: 1
+  basis: rule DOC-05 in pr.md (path rule); check item in all-requirements.md
+  assessment: judgement
+  finding: docs/adr/037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md
+- id: ARCH-23
+  severity: P4
+  category: decision-records
+  layer: linter (quality-check-scoped)
+  file: docs/adr/_index.md
+  line: 1
+  basis: rule ARCH-23 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_applicable
+  finding: docs/adr/_index.md
+- id: DOC-05
+  severity: P4
+  category: decision-records
+  layer: linter (quality-check-scoped)
+  file: docs/adr/_index.md
+  line: 1
+  basis: rule DOC-05 in pr.md (path rule); check item in all-requirements.md
+  assessment: judgement
+  finding: docs/adr/_index.md
+- id: R2-1
+  severity: P3
   category: executable-code
   layer: runnable checks and code reading (quality-auditor)
   file: core/tools/memory/memory.py
-  line: 424-426
-  basis: 'nearest standard CODE-25 (P3); review/code rubric: error handling; safe handling of destructive or irreversible
-    operations (~/.garura/phoenix-memory/knowledge/review/code.md, Treatment); the error table in the README (tier_missing
-    names the tier that cannot be reached)'
-  finding: 'a failed read of the decision file by citations is answered "Garura memory cannot be written", tier garura. The
-    new branch names cite, propose, decide and apply as the short-term writers; citations (a read of short-term memory) falls
-    to the garura default. Reproduced with an unreadable decision file: error tier_missing, tier garura, message "Garura memory
-    cannot be written: [Errno 13] Permission denied ...".'
-- id: OBS-4
-  severity: P3
+  line: 150-162 (excluded), 164-173 (hidden), 185-197 (files)
+  basis: 'nearest standard None; review/code rubric: error handling; safe handling of destructive or irreversible operations,
+    data-safety paths get extra weight (~/.garura/phoenix-memory/knowledge/review/code.md, Treatment); README settings rows
+    for updates_dir and citations_file (''a lookup never reads them'')'
+  finding: 'the rule that an issue''s short-term memory is never read through Garura memory is decided from the two settings
+    as written, not from the folders they reach. hidden() resolves the request''s path to the real file (links, ''.'', case)
+    but then compares it with excluded(''garura''), which is the short-term setting taken relative to the Garura setting without
+    resolving either. Reproduced in scratch: with the Garura folder set directly and the short-term folder set through a link
+    to a folder inside it, read --tier garura --path issues/9/n.md answers the short-term note and find --tier garura lists
+    it; with both settings spelled the same way it answers not_found. The round 1 tool behaves the same, so the fix did not
+    widen or narrow it. Separately, find and search apply the literal prefix while read applies the resolved, case-folded
+    one, so find lists a link to a hidden file by the link''s own name (reproduced: alias.md pointing at the decision file)
+    and read then refuses it.'
+  status: null
+- id: R2-2
+  severity: P4
   category: executable-code
   layer: runnable checks and code reading (quality-auditor)
-  file: .garura/project/issues/659/evidence/make_decisions.py
-  line: 29, 194
-  basis: 'nearest standard None; review/code rubric: error handling; safe handling of destructive or irreversible operations
-    (~/.garura/phoenix-memory/knowledge/review/code.md, Treatment)'
-  finding: deletes the first command-line argument with shutil.rmtree at the start (when it exists) and again at the end,
-    with no check that the folder is one the script made. One wrong argument (a project folder, a home folder) loses that
-    folder. The categories file named this as a data-safety path to read hard. It is an evidence script, run by hand on a
-    scratch folder, and its recorded output is committed.
-- id: OBS-5
-  severity: P3
-  category: executable-code
-  layer: runnable checks and code reading (quality-auditor)
-  file: core/components/plays/play-creator/references/write_drive_review.py (three identical copies), core/components/plays/play-creator/references/test_drive_contract.py
-  line: main 33-108; test_review_writer 102-186
-  basis: nearest standard CODE-09 and CODE-10 (P3 each); rows CODE-09 and CODE-10 in pr.md; check items in all-requirements.md
-  finding: 'main grew from 52 to 76 lines and from complexity 9 to 13 (check items: 10 and 50), in each of the three copies;
-    test_review_writer grew from 52 to 85 lines. The table classes these paths as prose (core/components/**), so CODE-09 and
-    CODE-10 did not run on them.'
-- id: OBS-6
+  file: core/components/plays/play-creator/references/write_drive_review.py (identical copies in understand/scripts and vision/scripts)
+  line: 75-78
+  basis: 'nearest standard CODE-25 (P3); review/code rubric: error handling (~/.garura/phoenix-memory/knowledge/review/code.md,
+    Treatment)'
+  finding: 'a --decisions file that exists but cannot be read (no permission) ends in a PermissionError traceback and exit
+    1; only ValueError is caught around the read, while the run.json read at line 45 catches OSError too. The header promises
+    exit 2 and ''nothing written'' for a bad input. Reproduced in scratch: traceback, exit 1, nothing written.'
+  status: null
+- id: R2-3
   severity: P4
   category: executable-code
   layer: runnable checks and code reading (quality-auditor)
   file: core/tools/memory/test_memory.py
-  line: 450-457
+  line: 461-468
   basis: 'nearest standard None; review/tests: run the suite and keep it dependable (~/.garura/phoenix-memory/knowledge/review/tests.md)'
-  finding: test_a_failed_write_names_short_term_memory makes the folder unwritable with chmod 0o500. A process running as
-    the superuser can still write there, so the test fails when the suite runs as root (some CI containers do). It has no
-    skip guard; main had no test of this kind.
-- id: OBS-7
+  finding: 'the fix for OBS-3 (a failed read of the decision or update files says ''cannot be read'' and names short-term
+    memory) has no test: test_a_failed_write_names_short_term_memory covers the write of cite only. The behaviour was checked
+    by hand in this round and is right.'
+  status: null
+- id: R2-4
   severity: P4
   category: executable-code
   layer: runnable checks and code reading (quality-auditor)
   file: core/tools/memory/contract/test_check_contract.py
-  line: 149-150
-  basis: nearest standard None; pycodestyle E303 (not enabled by ruff's default rules; no formatter is configured)
-  finding: a blank line was added so two blank lines sit between two methods of one class; every other gap inside the classes
-    is one line.
-- id: OBS-8
-  severity: P4
-  category: executable-code
-  layer: runnable checks and code reading (quality-auditor)
-  file: core/tools/memory/citations.py and core/tools/memory/contract/check_contract.py
-  line: citations.py 28, 32; check_contract.py 119, 122
-  basis: 'nearest standard None; review/code rubric: deterministic where it claims to be'
-  finding: the sha256 fingerprint helper now exists in five places (citations.py:32 is new; memory.py:79, updates.py:30, pull.py:58,
-    check_contract.py:122), and AROUND = 3 in two (citations.py:28 and check_contract.py:119). The check script keeps its
-    own copies on purpose (its folder must stand alone, README "Rules for this folder"), so only the samples would show the
-    two values drifting apart.
-- id: OBS-9
-  severity: P4
-  category: executable-code
-  layer: runnable checks and code reading (quality-auditor)
-  file: core/tools/memory/memory.py
-  line: 116, 158
-  basis: 'nearest standard None; review/code rubric: error handling; safe handling of destructive or irreversible operations
-    (~/.garura/phoenix-memory/knowledge/review/code.md, Treatment)'
-  finding: the new citations_file setting, like updates_dir on main, is not checked for ".." or an absolute path, so a bad
-    value puts the records outside the issue folder. The hiding rule matches the exact prefix "context/citations.jsonl", so
-    a sibling such as context/citations.jsonl.bak is hidden from lookups too.
-- id: OBS-10
-  severity: P4
-  category: executable-code
-  layer: runnable checks and code reading (quality-auditor)
-  file: core/tools/memory/citations.py
-  line: 82-92, 144-147
-  basis: 'nearest standard BE-23 (P4, wording is about caches); review/code rubric: error handling; safe handling of destructive
-    or irreversible operations (~/.garura/phoenix-memory/knowledge/review/code.md, Treatment)'
-  finding: 'next_id reads every issue''s file and the record is appended afterwards, so two callers citing at the same moment
-    on the same day can take the same id. Latent: the concurrency rule (core/components/memory/standards/rules/concurrent-fanout.md,
-    distinct output paths, no shared file) already keeps plays from writing one file at once.'
-- id: OBS-11
-  severity: P4
-  category: executable-code
-  layer: runnable checks and code reading (quality-auditor)
-  file: .garura/project/issues/659/evidence/make_decisions.py
-  line: 41-44, 175-178, 149-170
-  basis: 'nearest standard None; review/code rubric: deterministic where it claims to be'
-  finding: 'text files are opened without an encoding while the script writes and reads text with an em dash (the Phoenix
-    line it edits), so a machine whose default is not UTF-8 fails or writes different bytes. Line 177 replaces line 47 of
-    a Phoenix file by index, and the step() calls name fixed lines (payments 60 and 61, user-management 61 to 64): the script
-    breaks, or edits the wrong line, if those files move.'
-- id: OBS-12
-  severity: P4
-  category: executable-code
-  layer: runnable checks and code reading (quality-auditor)
-  file: core/tools/memory/README.md
-  line: 158-184
-  basis: 'nearest standard None; review/docs: completeness (~/.garura/phoenix-memory/knowledge/review/docs.md)'
-  finding: the "answer rules" list has 15 bullets against 24 rules in contract/v4.json; none of the five version-4 rules (waiting_drafts_are_hidden,
-    cite_reads_its_sources, citations_problems, cited_text_is_its_fingerprint, around_holds_the_text) is among them. Their
-    content shows in the cite and citations rows, the citations_file row, the error rows and the version note, so a reader
-    is not left without it.
-- id: OBS-13
-  severity: P4
-  category: executable-code
-  layer: runnable checks and code reading (quality-auditor)
-  file: .garura/project/issues/659/specs/plan.md
-  line: front matter; items 3, 4, 5; "Where we are now"
-  basis: nearest standard None; plan format check (valid, no problems) plus a read of the plan against the measured counts
-  finding: 'numbers are behind this head. Item 3: "2 broken added" (the diff adds 6) and "its 51 tests" (56). Item 4: "58
-    tool tests pass, 7 of them new" (test_memory and test_pull run 61 + 13 = 74; 10 are new in test_memory). Item 5: "Drive
-    tests: 28 pass, 2 of them new" (32 pass; 6 checks are new). The front matter says updated 2026-10-18 while the log runs
-    to 2026-10-19. "Where we are now" speaks of "the Memory and ADRs section" where item 1e now says five sections. The 606
-    and 653 plan edits agree with the 659 plan on the five sections.'
-- id: DR-1
-  severity: P3
-  category: memory
-  layer: design-grounding (change-reviewer)
-  file: core/components/memory/standards/rules/resolution.md
-  line: 99-116 (new section), against 1-4 and 118-135 of the same file
-  basis: 'G6, G1, G2 — committed source: G6: the base file binds the protocol on ltm_context, makes the two isolated agents
-    an exemption, and says no trace is produced without ltm_context; ADR 035 section 9 retires ltm_context but names no replacement
-    scope for the exemption or for Backward Compatibility. G1 and G2 set the widening (every decision), so the new section
-    is the right place to say how it relates to the old text; ADR 035''s own Negative / Risks says old and new sit side by
-    side until each agent moves, which makes the statement of which governs the section''s job. Classed P3 (documentation
-    that misleads, not a defect in anything that runs): no agent reads the section yet, and the ADR accepts the transition.
-
-    '
-  finding: 'The new section says every decision an agent makes keeps its trace, with no condition. The rest of the same file,
-    unchanged by this branch, says the opposite for the same agents. (1) The file opens as ''the standard that all participating
-    agents follow when ltm_context is present'', and Backward Compatibility (lines 129-135) says that with no ltm_context
-    the protocol is skipped and ''No trace is produced''. Only one play passes ltm_context today, so for nearly every agent
-    that clause is the one in force. (2) Context Isolation Exemptions (118-127) says the evals-engineer and the judge never
-    receive ltm_context, in terms of ltm_context; ''every decision'' now also covers a judge''s verdict, which rests on no
-    memory at all, and the section carves nothing out. (3) The section never says when it starts to bind. Its last sentence
-    defers only the old R1-R4 trace to the agents'' move (#663); ''Every decision an agent makes keeps its trace'' and ''A
-    drive''s review shows these records'' read as present fact, while the review step and its tools are not built (ADR 033
-    Negative / Risks) and no agent records a trace yet. An agent reads exact lines of a rule through the memory tool (ADR
-    035 section 4), not the whole file, so the clauses that limit the section are not in front of whoever reads the section.
-
-    '
-- id: DR-2
-  severity: P3
-  category: memory
-  layer: design-grounding (change-reviewer)
-  file: core/components/memory/standards/rules/resolution.md
-  line: 115-116
-  basis: 'G3, G5 — committed source: ADR 035 section 5 (no decision from the model or the web; a memory update instead) and
-    section 9 (R1-R4, its fallback to the model and the resolution trace give way); ADR 015 line 3 (superseded in part); glossary
-    line 43 (Resolution trace is its own term). The text on R4 is not changed by this diff, so the finding is on the new sentence
-    and on leaving the old rule unmarked beside it, not on R4 itself.
-
-    '
-  finding: 'The closing sentence says ''The trace above (R1-R4), and R4''s model fallback, become this trace when the agents
-    move onto the tool.'' Two inaccuracies against the accepted ADR. (1) R4''s fallback to the model does not become a trace
-    under ADR 035: it is forbidden (section 5), replaced by a memory update a person approves, and the resolution trace built
-    on it ''gives way'' (section 9). Read literally the sentence keeps the fallback and records it; it would be a flagged
-    model answer with a trace, which is what ADR 034 section 4 and ADR 035 section 5 rule out. (2) ''The trace above (R1-R4)''
-    mixes the two things on main: R1-R4 are four steps; the trace is the Resolution Trace Output block (lines 80-97). The
-    glossary keeps ''Resolution trace'' as a separate term. R4 itself (''the agent proceeds with general reasoning'', line
-    71-78) still reads as permitted in the same file, with no mark that ADR 035 supersedes it.
-
-    '
-- id: DR-3
-  severity: P3
-  category: memory
-  layer: design-grounding (change-reviewer)
-  file: core/components/memory/standards/rules/resolution.md
-  line: 99 (heading), 109 ('who decided'), 115 ('this trace')
-  basis: 'G5 — committed source: G5. ADR 035 section 1 names the care taken so a name is never confused (''Garura memory'',
-    not ''project memory'' or ''LTM''); the glossary on main gives ''decision record'' to ADRs; pr.md puts naming in P3. Classed
-    P3, not P4: the name sits in a rule that lands in the shared tier and is found by text search, so a collision misroutes,
-    it does not only read oddly.
-
-    '
-  finding: 'The section is titled ''Decision Records'' and calls the object a ''record'' of a ''decision'' that has ''who
-    decided''. On main ''decision record'' already means an ADR: the glossary defines ''a decision record = an ADR at any
-    level'', and four rules use the phrase for an ADR that a person accepts. ''Decided'' in the drive''s review record is
-    the person''s review answer (it reads ''decided: false'' until the drive''s review answers it), while here ''who decided''
-    is the agent. ''Trace'' now has two shapes in one file (the Resolution Trace Output above and ''this trace''). An agent
-    or a person who searches memory for a decision record lands here, or the other way round; Phoenix memory serves this file
-    to every project.
-
-    '
-- id: DR-4
-  severity: P3
-  category: memory
-  layer: design-grounding (change-reviewer)
-  file: core/components/memory/standards/rules/resolution.md
-  line: 101-113
-  basis: 'G2, G3, G4 — committed source: ADR 034 section 4 (''An answer with no source is not allowed''); ADR 035 section
-    5 (no model or web decision, a memory update instead) and section 6; plan item 6 on main (''agents write it to short-term
-    memory''; the check ''fails an answer that names no source''); ADR 036 section 1. G3 and G4 were read with the plan as
-    a working note, so the plan''s wording is a pointer, the ADR sentences are the basis.
-
-    '
-  finding: 'The section describes the record and the tool; it never tells an agent what to do. (1) Its one normative sentence
-    is the first (''Every decision an agent makes keeps its trace''). It does not say that the agent makes the record through
-    `cite` before it returns the decision, or that a decision with no source is not allowed (ADR 034 section 4). The only
-    thing it says about a missing source is that `citations --check` flags ''a decision with no trace''; a decision that was
-    never recorded is not a record, so nothing flags it. The sentence promises more than the mechanism it describes can check.
-    (2) It does not say what an agent does when no tier answers. ADR 035 section 5 is the other half of the same rule: raise
-    a memory update and wait for a person''s approval. The section covers only the happy path in which the answer came ''from
-    a memory update a person approved''. (3) It does not say where the record is kept; main''s plan item 6 and ADR 036 section
-    1 say the issue''s short-term memory, one issue per lookup.
-
-    '
-- id: DR-5
-  severity: P3
-  category: memory
-  layer: design-grounding (change-reviewer)
-  file: core/components/memory/standards/rules/resolution.md
-  line: 101-113
-  basis: 'G1, G4 — committed source: ADR 035 section 6 (the shape is settled in plan item 6); plan item 6 on main (one source
-    per decision; fingerprint check; review record carries them); ADR 035 section 2 and Phoenix''s README (every change to
-    Phoenix memory is a commit with review, and a person approves every promotion, so what lands there should be backed by
-    a committed record). Classed P3, not P2: the contract is where the shape is enforced and is graded there; this section
-    only points at it (''The shape is the memory tool''s contract'') and the wider shape is a refinement of ADR 035 section
-    6, not a reversal of it.
-
-    '
-  finding: 'The section states, as a rule for every agent, a shape that is wider than any committed record: a trace of ordered
-    steps, each with what the agent looked for, what it found and a source, with the exact text, the memory''s version and
-    the surrounding lines kept, and who decided. What is committed on main is narrower: ADR 035 section 6 says a decision
-    names ''the tier, the file and the lines it rests on'' and defers the shape to plan item 6, which on main says ''one shape
-    ... built on the trace format Garura already has'' (one source per decision) with a fingerprint check. The multi-step
-    trace and the kept text are grounded only in the branch''s own plan and the owner''s remarks quoted there, which are not
-    groundable. The branch says the ADR change is carried as its own /adr change; no docs/adr path is in the diff. The rule
-    would reach Phoenix memory at landing before the record that backs it. Whether the wider shape is a refinement the ADR
-    leaves open (''settled in plan item 6'') is judged with the contract in the tool-interface-contract category; this finding
-    is only about the rule''s landing order and its source line.
-
-    '
-- id: DR-6
+  line: '378'
+  basis: 'nearest standard None; review/tests: run the suite and keep it dependable (~/.garura/phoenix-memory/knowledge/review/tests.md)'
+  finding: 'one test makes a folder with tempfile.mkdtemp() and never removes it; each run of contract.test_check_contract
+    leaves 14 temp folders (about 64 KB). Measured with the temp folder redirected: test_memory, test_pull, the drive test
+    and check_contract.py leave none.'
+  status: null
+- id: R2-1
   severity: P4
   category: memory
   layer: design-grounding (change-reviewer)
   file: core/components/memory/standards/rules/resolution.md
-  line: 109-115
-  basis: 'G7 — committed source: The rules index says a rule is ''the single source of truth for the domain, not a copy of
-    skill prose'' and that what is ''resolvable from the code itself stays in the code''; ADR 035 section 4 says the tool
-    is replaceable behind its contract (Griffin later) without changing Garura or its agents, so a rule that names one tool
-    version couples agents to it; ADR 035 section 2 defines versions for Phoenix memory only.
+  line: 106-110 and 132-133, against 137-154 (Context Isolation Exemptions, Backward Compatibility)
+  basis: 'G6, G1 — committed source: G6: a rule file says to whom and when it binds and does not contradict itself; the base
+    file states INV3 and INV4 in terms of ltm_context. G1 and ADR 035 section 5 (''This holds for every agent and skill'')
+    carry no exemption for the two agents; ADR 035 section 9 retires ltm_context without naming what replaces the exemption.
+    Classed P4: the text says in so many words that the question is open, ADR 035''s Negative / Risks accepts the side-by-side
+    period, and no agent reads the section yet.
 
     '
-  finding: 'The second and third paragraphs restate what the memory tool does and what its contract holds: it reads every
-    source before it records, keeps the exact text, the memory''s version and the lines around it, re-reads on `citations
-    --check`. They also pin ''version 4'' of the contract in a rule. The contract is the one place that states this; the rule
-    now holds a second copy that will drift when the tool or the contract moves to a new version (the contract''s own policy
-    is that it changes by a new version; a rule that names ''version 4'' goes stale at version 5). ''The version of memory''
-    is a term the committed record defines only for Phoenix memory (what a project pulled, and from which version); the section
-    applies it to every tier without saying what it means for short-term or Garura memory.
+  finding: 'Two edges are left from round 1''s DR-1. (1) The Scope paragraph says the section ''binds every agent decision''
+    and in the same paragraph that whether the evals-engineer and the judge keep a decision trace ''is settled when the agents
+    move onto the memory tool''. For those two agents the rule says nothing an agent can act on, and the exemption (INV4)
+    is still worded only in terms of ltm_context, which ADR 035 section 9 retires. No committed record answers it: ADR 035
+    and ADR 036 on main do not mention the exemption, and ADR 037 does not either. (2) The Scope paragraph says Backward Compatibility
+    governs an agent that has not moved, but the closing sentence (lines 132-133) names only R1-R4 and the Resolution Trace
+    Output as giving way. Backward Compatibility (''No trace is produced'') and Staleness Handling are not named, so once
+    an agent has moved the file still says no trace is produced without ltm_context, a few lines from a section that says
+    every agent keeps one.
 
     '
-- id: DR-7
+- id: R2-2
+  severity: P4
+  category: memory
+  layer: design-grounding (change-reviewer)
+  file: core/components/memory/standards/rules/resolution.md
+  line: 104-135 (the term 'decision trace'), against the glossary row for 'Resolution trace'
+  basis: 'G5 — committed source: G5: one name carries one meaning and names are chosen so they are never confused (ADR 035
+    section 1; glossary line 43 on main; pr.md puts naming in P3). Classed P4, below round 1''s P3 for the same theme: the
+    collision with ''decision record'' is gone, the rule itself separates the two traces in words, and the glossary gap is
+    disclosed by the ADR.
+
+    '
+  finding: 'The section names its object a ''decision trace''. The glossary on main already defines ''Resolution trace'' as
+    ''A per-decision trace written by agents ... when following the R1-R4 protocol''. The two are told apart only inside this
+    file, by the sentence that says one gives way to the other. The glossary gets no row, and ADR 037 lists the glossary row
+    as not decided. A person or agent who looks up ''decision trace'' in the glossary finds the old trace''s definition. Phoenix
+    memory has no glossary, so in the shared tier the file is the only place the two are separated.
+
+    '
+- id: R2-3
   severity: P4
   category: memory
   layer: design-grounding (change-reviewer)
   file: core/components/memory/standards/rules/_index.md
-  line: 25 (row for resolution.md); also resolution.md lines 1-7
-  basis: 'G7 — committed source: The rules index is the discovery list (''Agents and skills query this category when they
-    need to know: What rules must this artifact or surface follow?''); each row states what the file holds and who consumes
-    it (main:rules/_index.md, header and Contents); drive-contract.md on main ends with a ''Related'' list.
+  line: 25 (row for resolution.md)
+  basis: 'G7, G6 — committed source: G7: the index row states what the file holds and who consumes it (main:_index.md header).
+    G6: a rule says when it binds. ADR 035 Negative / Risks on main: until each agent moves, old and new sit side by side.
+    Classed P4: one clause, and the detail is one click away in the section.
 
     '
-  finding: 'The file now holds two rules, and neither the file''s opening nor its index row says so. The opening still reads
-    ''Defines the four-step resolution order, authority semantics, trace output requirements, and exemptions'' and ''Referenced
-    by: tech-designer, feature-steward, repo-orchestrator''. The index row (not in this diff, and word for word the same in
-    Phoenix memory) reads ''R1-R4 LTM resolution protocol ... resolution trace schema'', with consumers ''every agent that
-    reads LTM''. The new section binds every agent that decides, by its own words, and carries no ''Related'' pointer, which
-    the file''s neighbours (drive-contract.md) end with. The index and the opening are how a person or an agent finds what
-    a rule covers.
+  finding: 'The row ends ''the decision trace every agent keeps (ADR 035 section 6, ADR 037)''. The section and the file''s
+    opening both carry a condition (''once it works through the memory tool''); the row, which is how an agent or person finds
+    the rule and is promoted to Phoenix memory with it, states it as a present fact. ADR 037''s own Negative / Risks says
+    no agent keeps a trace yet. Read through the index, every agent already does.
 
     '
-- id: DR-8
+- id: R2-4
   severity: P4
   category: memory
   layer: design-grounding (change-reviewer)
   file: core/components/memory/standards/rules/resolution.md
-  line: 99 and 116
-  basis: 'G8 — committed source: Phoenix memory is generic only (README at 5fcd88e). Precedent softens this: Phoenix''s seeded
-    rules already carry 32 ADR and 81 issue references, so this is not a contract break and is graded P4, not P3.
+  line: 112-118 (a step names a tier) and 122-124 (makes no decision that no tier supports)
+  basis: 'G9, G1 — committed source: G9: ADR 035 section 1 (line 42) and section 9 on main list the repository, the product
+    model and the intents beside the tiers. G1: every decision names its memory, the tier, the file and the lines. Classed
+    P4: the rule is no stricter than its source ADR, nothing runs against it yet, and the product model and the intents sit
+    inside Garura memory per ADR 035 section 1, so only the repository is open.
 
     '
-  finding: 'Read as a Phoenix memory rule, the section is clean of person, client and organisation names and of Garura-only
-    paths (see conformance_checks_passed). Two repo-local pointers remain: ''ADR 035 section 6'' in the heading and ''(#663)''
-    in the last sentence. Another project that reads this rule through the memory tool has no ADR 035 and its own issue 663
-    is something else; the ADR pointer is traceable by its number, but the issue number is only meaningful in the Garura repository
-    and the transitional sentence it sits in goes stale as soon as that work lands.
+  finding: 'The rule allows a decision only if a tier supports it and has each step name ''a tier''. ADR 035 section 1 says
+    agents also read the project''s git repository, and ADR 035 section 9 gives ADR 034 section 2 the same list (the three
+    tiers, with the git repository, the product model and the intents). A decision that rests on the repository (code in a
+    diff, a file in the working tree) has no tier to name, and under the second duty it would need a memory update before
+    the agent could make it. The rule follows ADR 035 section 6 word for word (''the tier, the file and the lines''), so the
+    gap is in the ADR; ADR 037 repeats ''a tier''. It will show when the build and review agents move onto the tool.
 
     '
-- id: TDD-1
-  severity: P2
-  category: tool-design-document
-  layer: design-grounding (change-reviewer)
-  file: .garura/project/issues/617/specs/review-tool.md; .garura/project/issues/617/specs/review-tool-mockup.html
-  line: review-tool.md 265-280 (the Agent decisions bullet) and 470-478 (story 9); review-tool-mockup.html 1134, 1149-1151,
-    1253-1260, 1265
-  basis: "The tool is extractable and talks to Garura only through its own contract (G1). Garura words arrive as data; the\
-    \ tool code never names them. The pack is outcome-shaped and the tool never sees a file path (G2).\n — committed source:\
-    \ main:.garura/project/issues/617/specs/review-tool.md section 1 items 2, 3 and 7, and section 3 ('The pack is outcome-shaped,\
-    \ not file-shaped. The tool never sees a file path.').\n"
-  finding: 'The Agent decisions bullet says "The page shows the memory tool''s own answers, in the contract''s shape: citations
-    --check and updates". The mock does exactly that: it embeds the memory tool''s raw answer and the page code reads the
-    memory tool''s own words (records, trace, around, now_around, from_update, citation_id, tier, path, start, end, fingerprint,
-    version, and the problem names source_changed, source_missing and no_source). So the review tool''s code would name Garura''s
-    memory vocabulary, speak a second contract (the memory tool''s version 4) next to its own, and receive file paths. That
-    is the coupling base section 1 rules out. Story 9''s own Garura half (line 475) says the pack is built from the memory
-    tool''s answers, which is the right shape, so the same document says two different things about whether the page reads
-    the raw answer or a pack.
-
-    '
-- id: TDD-2
+- id: TDD-14
   severity: P3
   category: tool-design-document
   layer: design-grounding (change-reviewer)
-  file: .garura/project/issues/617/specs/review-tool.md; .garura/project/issues/617/specs/review-tool-mockup.html
-  line: review-tool.md 178-182, 197, 246-283; review-tool-mockup.html 344-348 (the five switches)
-  basis: "The review tool's third section is one section, Memory and ADRs. Three accepted ADRs and the committed #653 plan\
-    \ say so (G4).\n — committed source: main:docs/adr/036-approved-answer-lands-in-short-term-memory.md section 7 and section\
-    \ 8; main:docs/adr/035-agents-work-only-from-memory.md section 7 (amended by 036); main:docs/adr/032-drive-review-of-outcomes.md\
-    \ header ('the third section is Memory and ADRs, not Memory'); main:.garura/project/issues/653/specs/plan.md 'When this\
-    \ plan is done'.\n"
-  finding: 'The design now has five sections (Intents, Product, ADRs, Memory, Agent decisions) and says the owner split the
-    third into three. No ADR amendment is in this diff (nothing under docs/adr changed), so ADR 032, 035 and 036 and the #653
-    plan still describe one section called Memory and ADRs, and ADR 036''s own Affects list names review-tool.md section 4
-    as a file that follows it. The section also keeps the superseded one-section text beside the new bullets ("Earlier text,
-    kept", lines 282-304) with a blanket line that it "now reads across these three", so a builder of #664 cannot tell which
-    sentences hold. The doc also states, in story 9''s Garura half, that Garura applies the /adr accept; ADR 036 lists who
-    writes the approval on an ADR card as not decided.
+  file: .garura/project/issues/617/specs/review-tool.md
+  line: 276-283 (the Agent decisions bullet), 289-293 ('stand-in only' and 'the local page reads them live')
+  basis: "The tool is extractable and talks to Garura only through its own contract; Garura words arrive as data and the tool\
+    \ code never names them (G1). The design must say one thing about where the coupling is. Round 1 found the document saying\
+    \ two things; the fix has left two things in one bullet.\n — committed source: main:.garura/project/issues/617/specs/review-tool.md\
+    \ section 1 items 1, 2, 3 and 7; section 3 ('Garura builds the pack'); section 7 last paragraph (the extraction line).\n"
+  finding: 'Lines 276-279 still say ''The page shows the memory tool''s own answers, in the contract''s shape: `citations
+    --check` and `updates`''. Lines 280-283 then say ''The page does not read those answers itself''. A builder of #664 who
+    reads the first sentence builds the coupling the second forbids. Lines 291-293 add ''the local page reads them live''
+    with no note that this is the local prototype of section 7''s ''what stands in until then'', outside the extraction line,
+    so the sentence reads as a statement about the real page. The inserted paragraph also splits one sentence, so ''Looks
+    right, or send back so the agent decides again from memory as it is now'' (290-291) now follows ''a stand-in only''.
+
+    '
+- id: TDD-15
+  severity: P3
+  category: tool-design-document
+  layer: design-grounding (change-reviewer)
+  file: .garura/project/issues/617/specs/review-tool.md
+  line: section 3 pack outline (150-172) against 283-289 (the pieces Garura builds) and 487-493 (story 9)
+  basis: "The pack outline is what the contract is written from (story 1), and Garura words arrive in it as data: kinds with\
+    \ a label, an icon and the verbs they allow (G1, G2). One term per meaning (G14): 'decision' is already a pack kind meaning\
+    \ a decision record at any level.\n — committed source: main:.garura/project/issues/617/specs/review-tool.md section 1\
+    \ items 2 and 3; section 3 (the pack outline: kinds, pieces[], sections[] with a label, a before, an after and editable\
+    \ yes or no; change added/changed/removed/same); section 7 story 1; main:core/grounding/glossary.md line 61.\n"
+  finding: 'Section 4 now says Garura sends ''a kind for an agent decision, and each step a labelled section that carries
+    the lines, the lines around them and a state (same, changed, gone, no source) as data''. The pack outline was not touched.
+    Its kinds line lists six kinds and no agent decision; its sections are before and after text, which cannot say which of
+    the numbered lines the agent used (the part the owner asked to see marked) or carry a state; and its ''change'' and ''status''
+    fields mean what a drive did to a piece, not whether a source still says the same. The word ''decision'' in the kinds
+    line already means a product decision record, so the new kind needs a distinct label and the doc names none. The route
+    is stated; the data shape it needs is not anywhere the contract can be written from.
+
+    '
+- id: TDD-16
+  severity: P4
+  category: tool-design-document
+  layer: design-grounding (change-reviewer)
+  file: .garura/project/issues/617/specs/review-tool.md
+  line: 322-324 ('Keeping the load low' exception and its quote); 283-290
+  basis: "A claim that the owner decided something is only as good as the words it quotes, and the committed ground for what\
+    \ the page must show is the ADR that says so. Showing a source's tier, file and lines is required by the committed ADR\
+    \ 035 (G9); the design should cite that.\n — committed source: main:docs/adr/035-agents-work-only-from-memory.md section\
+    \ 6 ('the tier, the file and the lines it rests on') and section 7 (the review view shows which memory each decision came\
+    \ from); main:docs/adr/034-plays-answer-from-memory-inside-a-drive.md section 4.\n"
+  finding: 'The exception is credited to the owner with the quote ''the source should show a few lines before and after''.
+    That quote asks for the lines around a source, not for the memory, file and lines to appear against the no-file-paths
+    rule. The owner''s request for the exception is recorded only as the round 1 review reply and in ADR 037''s Risks. A reader
+    checking the sentence against its quote finds a different decision. The design never points to main''s ADR 035 sections
+    6 and 7, which already require it.
+
+    '
+- id: TDD-2
+  severity: P4
+  category: tool-design-document
+  layer: design-grounding (change-reviewer)
+  file: .garura/project/issues/617/specs/review-tool.md
+  line: 294-301 ('The paragraphs below were written for the one combined section; they now read across these three' and 'Earlier
+    text, kept')
+  basis: "The third section on main is one section, Memory and ADRs, and the design must make clear which kept sentences still\
+    \ hold once it is five (G4, G5).\n — committed source: main:docs/adr/036-approved-answer-lands-in-short-term-memory.md\
+    \ sections 7 and 8; main:docs/adr/032-drive-review-of-outcomes.md status line (the third section is Memory and ADRs).\n"
+  finding: 'The ADR lag is closed: ADR 037 covers the five sections and amends ADR 032, 035 and 036. What remains is the design''s
+    own text. It still carries ''a third section next to Intents and Product ... Every memory review and ADR review happens
+    here'', and ''here'' now has three sections to point at. The blanket line that the paragraphs below ''now read across
+    these three'' still does not say which sentences survive. ADR 037 section 3 gives a builder the rule for what holds (reviews
+    on the Catch up cards where it is silent), which is why this is no higher than P4.
 
     '
 - id: TDD-3
@@ -1813,17 +1819,15 @@ findings:
   category: tool-design-document
   layer: design-grounding (change-reviewer)
   file: .garura/project/issues/617/specs/review-tool.md
-  line: 252-253 (the ADRs bullet); 246-251
+  line: 254-255 (the ADRs bullet)
   basis: "Nothing is answered twice (G6). A product decision record and an ADR are one kind of record at different levels,\
-    \ and whether a product decision waiting for a person is reviewed under Decisions in Product or in the ADR section is\
-    \ an open point in ADR 036.\n — committed source: main:.garura/project/issues/617/specs/review-tool.md section 4 layout\
-    \ item 1; main:core/grounding/glossary.md line 61; main:docs/adr/036-approved-answer-lands-in-short-term-memory.md Negative\
-    \ / Risks, Not decided here, first bullet.\n"
-  finding: 'The new ADRs section is "the decisions a person records with /adr: the ones waiting to be accepted, and the accepted
-    ones", answered there by Accept or Send back. The Product section on main still lists Decisions as a kind with its own
-    verbs (section 3 kinds, section 4 rail). By the glossary these are the same record at product level. The text does not
-    say which switch answers a decision record and which shows it read-only, so one record can sit in two switches. A third
-    meaning of "decision" (an agent''s, in Agent decisions) joins the page.
+    \ and where a waiting product decision is reviewed is open.\n — committed source: main:.garura/project/issues/617/specs/review-tool.md\
+    \ section 4 layout item 1; main:core/grounding/glossary.md line 61; main:docs/adr/036-approved-answer-lands-in-short-term-memory.md\
+    \ Negative / Risks, 'Not decided here', first bullet.\n"
+  finding: 'Unchanged. The ADRs section answers ''the decisions a person records with /adr'' by Accept or Send back, and the
+    Product section on main still lists Decisions as a kind with its own verbs. By the glossary these are the same record,
+    and the text does not say which switch answers it and which shows it read-only. ADR 037 lists the question as still open;
+    it does not decide it.
 
     '
 - id: TDD-4
@@ -1831,19 +1835,18 @@ findings:
   category: tool-design-document
   layer: design-grounding (change-reviewer)
   file: .garura/project/issues/617/specs/review-tool.md; .garura/project/issues/617/specs/review-tool-mockup.html
-  line: review-tool.md 277-278 ('Looks right, or send back so the agent decides again'); review-tool-mockup.html 1284-1287
-    (the Looks right and Send back buttons), 1338 (recorded as an event only)
+  line: review-tool.md 290-291; review-tool-mockup.html 1289-1290 (Looks right and Send back), 1342 (recorded as an event
+    only)
   basis: "Approval is part of the product model; the pieces that carry it are listed; only the review step writes approved\
     \ or in progress; the review tool writes nothing to the model. A send-back re-runs the play that writes that kind of piece,\
     \ for that one piece (G7).\n — committed source: main:docs/adr/033-approval-in-the-product-model.md sections 1, 3 and\
-    \ 6; main:docs/adr/032-drive-review-of-outcomes.md section 4 and its Negative / Risks (each play that writes a reviewed\
-    \ kind must be able to re-run for one piece).\n"
-  finding: 'A person can mark an agent decision "Looks right" or send it back so "the agent decides again". An agent decision
-    record is not among the pieces ADR 033 section 1 lists as carrying approval, and no committed text says what "Looks right"
-    writes, who writes it (the mock records only an event), whether it counts as approval (ADR 033 section 3: agents build
-    only from approved pieces), or whether a decision whose source changed and is then marked right keeps its stale source.
-    A send-back also has no unit: which play re-runs, for which question, and how a re-run decision replaces the old record,
-    none of which any play can do today.
+    \ 6; main:docs/adr/032-drive-review-of-outcomes.md section 4 and its Negative / Risks.\n"
+  finding: 'Unchanged. A person can mark an agent decision ''Looks right'' or send it back so ''the agent decides again''.
+    An agent decision is not among the pieces ADR 033 section 1 lists as carrying approval; nothing says what ''Looks right''
+    writes or who writes it, whether it counts as approval, or which play re-runs for which question. ADR 037 names this as
+    not decided and points at ADR 033 section 6, so it is a known open point, but the design and the mock present both buttons
+    as if it were settled. With the pack-piece route the verdict is an event on a piece, which makes the missing answer (what
+    Garura does with it) matter more.
 
     '
 - id: TDD-5
@@ -1851,19 +1854,15 @@ findings:
   category: tool-design-document
   layer: design-grounding (change-reviewer)
   file: .garura/project/issues/617/specs/review-tool.md; .garura/project/issues/617/specs/review-tool-mockup.html
-  line: review-tool.md 265-278 ('Grouped by play, problems first'); review-tool-mockup.html 1154-1155, 1242 (PLAYS, byPlay,
-    one block per play)
-  basis: "The person reviews the outcome, not the plays, and not the detail under the outcome. The plays' records are not\
-    \ shown play by play. One committed opening: the drive's review shows what was assumed and on what basis (G8).\n — committed\
-    \ source: main:docs/adr/032-drive-review-of-outcomes.md section 2 and Alternatives ('A viewer per play ... lost: reviewing\
-    \ a play does nothing'); main:docs/philosophy/idsd.md (a person has two interfaces; the work in between is agent work);\
-    \ main:.garura/project/issues/617/specs/review-tool.md section 3 ('the plays are never shown'); main:docs/adr/034-plays-answer-from-memory-inside-a-drive.md\
-    \ section 4.\n"
-  finding: 'The Agent decisions screen groups every decision under the play that made it (/intent, /vision, /understand) and
-    shows each step of the agent''s reasoning, with an action on each decision. ADR 032 section 2 says the review stays at
-    the outcome level and the plays'' records are not shown play by play; its Alternatives rejects a per-play viewer. ADR
-    034 section 4 backs showing the assumption and its basis, so showing a decision with its source conforms (see conformance).
-    It does not back grouping by play, or the step-by-step trace as something the person reviews.
+  line: review-tool.md 279 ('Grouped by play, problems first'); review-tool-mockup.html 1157-1158 (PLAYS, byPlay), 1191, 1245
+    (one block per play, 'by N plays')
+  basis: "The person reviews the outcome, not the plays. The plays' records are not shown play by play. The one committed\
+    \ opening: the drive's review shows what was assumed and on what basis (G8).\n — committed source: main:docs/adr/032-drive-review-of-outcomes.md\
+    \ section 2 and Alternatives (a viewer per play, lost); main:docs/philosophy/idsd.md; main:.garura/project/issues/617/specs/review-tool.md\
+    \ section 3 ('the plays are never shown'); main:docs/adr/034-plays-answer-from-memory-inside-a-drive.md section 4.\n"
+  finding: 'Unchanged. Agent decisions are grouped under the play that made them and counted ''by N plays''. Showing a decision
+    with its basis conforms (ADR 034 section 4); grouping the screen by play does not, and ADR 037 section 3 says ''every
+    decision an agent made, with its trace'' with no grouping.
 
     '
 - id: TDD-6
@@ -1871,18 +1870,16 @@ findings:
   category: tool-design-document
   layer: design-grounding (change-reviewer)
   file: .garura/project/issues/617/specs/review-tool.md; .garura/project/issues/617/specs/review-tool-mockup.html
-  line: review-tool.md 252-253, 277-278, 284-288 (the kept sentence 'Every memory review and ADR review happens here, with
-    the Catch up cards above'); review-tool-mockup.html 1172 (Catch up button hidden), 1281-1287 (side-panel buttons for ADRs
-    and decisions)
-  basis: "Every memory review and ADR review happens in that section on the same Catch up cards: one card per change, swipe\
-    \ right to accept, swipe left to leave for later; answers that take words are buttons. The /adr accept moves onto a card\
-    \ in that section (G5).\n — committed source: main:docs/adr/036-approved-answer-lands-in-short-term-memory.md section\
-    \ 7 and Affects; main:.garura/project/issues/617/specs/review-tool.md section 4 item 6.\n"
-  finding: 'The new bullets give an ADR "Accept, or send back with a comment" and an agent decision "Looks right, or send
-    back", and say nothing about cards. The mock hides the Catch up button in the ADRs and Agent decisions sections and answers
-    them from a side panel, so an ADR cannot be accepted on a card, which ADR 036 says the /adr accept does once the section
-    exists. Memory updates do get a Catch up. The kept sentence on lines 286-288 still says every review uses the cards, so
-    the document contradicts its own mock.
+  line: review-tool.md 254-255, 290-291, 299-300; review-tool-mockup.html 1175 (Catch up hidden outside Memory), 1285-1290
+    (side-panel buttons for ADRs and decisions)
+  basis: "Every memory review and ADR review happens in that section on the same Catch up cards: swipe right to accept, swipe\
+    \ left to leave for later; answers that take words are buttons. The /adr accept moves onto a card in that section (G5).\n\
+    \ — committed source: main:docs/adr/036-approved-answer-lands-in-short-term-memory.md section 7 and Affects; main:.garura/project/issues/617/specs/review-tool.md\
+    \ section 4 item 6.\n"
+  finding: 'Unchanged. The ADRs bullet gives an ADR ''Accept, or send back with a comment'' and the mock hides the Catch up
+    button for ADRs and Agent decisions, answering them from a side panel, while the kept sentence (299-300) still says every
+    ADR review uses the cards. ADR 037 section 3 keeps main''s cards rule ''where this ADR is silent'', so the departure is
+    not recorded anywhere.
 
     '
 - id: TDD-7
@@ -1890,21 +1887,17 @@ findings:
   category: tool-design-document
   layer: design-grounding (change-reviewer)
   file: .garura/project/issues/617/specs/review-tool.md; .garura/project/issues/617/specs/review-tool-mockup.html
-  line: review-tool.md 254-264 (the Memory bullet, Ask memory); review-tool-mockup.html 1122, 1202-1206, 1333 (one canned
-    answer for any question)
+  line: review-tool.md 256-266 (the Memory bullet, Ask memory); review-tool-mockup.html 1124, 1207 (one canned answer for
+    any question)
   basis: "An answer comes from memory, never from the model alone; when no tier answers, the route is a memory update a person\
-    \ approves. The memory tool finds, searches and reads exact lines and returns tier, file, lines and a fingerprint (G10).\
-    \ The review tool never calls Garura; calls go from Garura to the tool or by the listener (G3).\n — committed source:\
-    \ main:docs/adr/035-agents-work-only-from-memory.md sections 4 and 5; main:docs/adr/034-plays-answer-from-memory-inside-a-drive.md\
-    \ section 3; main:core/tools/memory/contract/v3.json (find, search, read; answer_rules nothing_found); main:.garura/project/issues/617/specs/review-tool.md\
-    \ section 2 and section 1.\n"
-  finding: 'Ask memory is described as a plain-words question box whose answer "comes with the memory it came from", with
-    "the same memory tool the agents use" underneath. The committed tool returns lines, not a written answer, so something
-    must read the lines and compose the plain-words answer; the design does not say what (a model? where does it run?). It
-    does not say what the box shows when no tier answers (the committed rule is a memory update, never an answer from the
-    model), and the mock shows only the success case: any question typed returns the same sample answer. It also does not
-    say how a question reaches the memory tool and back while a person waits, when the review tool never calls Garura and
-    its requests all go from Garura or the listener. ADR 035 section 7 names no question box at all.
+    \ approves. The memory tool returns lines, tier, file and a fingerprint (G10). The review tool never calls Garura (G3).\n\
+    \ — committed source: main:docs/adr/035-agents-work-only-from-memory.md sections 4 and 5; main:docs/adr/034-plays-answer-from-memory-inside-a-drive.md\
+    \ section 3; main:core/tools/memory/contract/v3.json; main:.garura/project/issues/617/specs/review-tool.md sections 1\
+    \ and 2.\n"
+  finding: 'Unchanged. ADR 037 section 4 now covers the box and ''mocked only''. Still not said: who reads the lines and composes
+    the plain-words answer (the owner says the interface is ''nlp''), and on which side of the line; what the box shows when
+    no tier answers (the committed route is a memory update, never an answer from the model); and how a question reaches the
+    memory tool and back while a person waits, when the tool never calls Garura. The mock shows only the success case.
 
     '
 - id: TDD-8
@@ -1912,34 +1905,14 @@ findings:
   category: tool-design-document
   layer: design-grounding (change-reviewer)
   file: .garura/project/issues/617/specs/review-tool.md
-  line: 470-482 (story 9 and the sentence after it)
-  basis: "Stories that touch only the tool and stories that touch only Garura are the extraction line. Garura builds the pack;\
-    \ the tool renders it (G13).\n — committed source: main:.garura/project/issues/617/specs/review-tool.md section 7 (last\
-    \ paragraph) and section 3 ('Garura builds the pack').\n"
-  finding: 'Story 9''s tool half lists "what each memory tier holds" and "which memory each decision came from" as the tool''s
-    work. Both are Garura data. The Garura half names only the memory tool''s updates and the decision records for the pack,
-    plus the decide and apply calls and the /adr accept. Four pieces the section needs have no owner: building the tier summaries
-    (what each tier holds, counts, versions) into the pack; running the citations check and turning its result into the pack;
-    Ask memory''s answer path; and re-running a decision on a send-back. So "touch only Garura" cannot be tested for the Garura
-    half as written.
-
-    '
-- id: TDD-9
-  severity: P3
-  category: tool-design-document
-  layer: design-grounding (change-reviewer)
-  file: .garura/project/issues/617/specs/review-tool-mockup.html
-  line: 1256 (file path), 1258 (fingerprint and Phoenix version hash), 1263 (record id), 1265 (update id)
-  basis: "The page speaks plain words: no file paths, no field names. A source is the exception the person must be able to\
-    \ check, and ADR 035 section 6 says a decision names the tier, the file and the lines it rests on (G11, G9).\n — committed\
-    \ source: main:.garura/project/issues/617/specs/review-tool.md section 4 'Keeping the load low' ('No file paths, no field\
-    \ names, no YAML. Labels in plain words.'); main:docs/adr/035-agents-work-only-from-memory.md section 6; main:core/components/memory/standards/rules/user-facing-voice.md\
-    \ (the voice rule's scope is replies to the person, so the base design's rule is the one measured here).\n"
-  finding: 'Each trace step shows the tier, the file path and the lines (backed by ADR 035 section 6), and also a short fingerprint
-    ("fingerprint 6b5ec069..."), a 12-character Phoenix memory version hash, and record ids (a citation id and a memory-update
-    id) in the lead lines. None of those three helps the person judge a decision; they exist for the check. The design text
-    never says that showing a path is an exception to section 4''s rule, so the two committed principles (no paths; name the
-    file and lines) are left in conflict.
+  line: 486-497 (story 9 and the sentence after it)
+  basis: "Stories that touch only the tool and stories that touch only Garura are the extraction line; Garura builds the pack\
+    \ and the tool renders it (G13).\n — committed source: main:.garura/project/issues/617/specs/review-tool.md section 7\
+    \ (last paragraph) and section 3 ('Garura builds the pack').\n"
+  finding: 'Narrowed. The Garura half now owns the citations check turned into pack pieces (490-493). Still without an owner
+    in either half: building the tier summaries (what each tier holds, counts, versions) into the pack; Ask memory''s answer
+    path; re-running a decision on a send-back. The /adr accept is listed as Garura''s, while who writes the approval on an
+    ADR card is open in ADR 036 and ADR 037. So ''touch only Garura'' cannot be tested for these.
 
     '
 - id: TDD-10
@@ -1947,15 +1920,14 @@ findings:
   category: tool-design-document
   layer: design-grounding (change-reviewer)
   file: .garura/project/issues/617/specs/review-tool-mockup.html
-  line: 1124-1126 (the three waiting updates carry no sources), 1272-1276 (the update card), 1313-1316 (the Catch up card)
-  basis: "Nothing from the web or the model is used until a person approves it, so the card must show what the draft came\
-    \ from: where it came from, marked, and its sources (G12).\n — committed source: main:docs/adr/035-agents-work-only-from-memory.md\
-    \ section 5; main:core/tools/memory/contract/v3.json (propose: sources is required, with draft_source); main:.garura/project/issues/617/specs/review-tool.md\
-    \ section 4 item 7 (the card lists the sources).\n"
-  finding: 'The memory-update card and its Catch up card show a "Drafted from the web" or "Drafted by the model" chip, the
-    draft and the reason, but no sources. A person asked to approve a web or model draft sees no link or lines behind it.
-    The committed design lists the sources on the card, and the contract requires them on every update. The mock added in
-    this diff leaves out the one thing ADR 035 section 5''s safeguard depends on.
+  line: 1125-1128 (the three waiting updates carry no sources), 1278 (the update card), 1318 (the Catch up card)
+  basis: "Nothing from the web or the model is used until a person approves it, so the card must show where the draft came\
+    \ from (marked) and its sources (G12).\n — committed source: main:docs/adr/035-agents-work-only-from-memory.md section\
+    \ 5; main:core/tools/memory/contract/v3.json (propose: sources is required, with draft_source); main:.garura/project/issues/617/specs/review-tool.md\
+    \ section 4 item 7.\n"
+  finding: 'Unchanged. The update card and its Catch up card show a ''Drafted from the web'' or ''Drafted by the model'' chip,
+    the draft and the reason, but no sources. A person asked to approve a web or model draft sees nothing behind it, which
+    is what ADR 035 section 5''s safeguard depends on.
 
     '
 - id: TDD-11
@@ -1963,19 +1935,17 @@ findings:
   category: tool-design-document
   layer: design-grounding (change-reviewer)
   file: .garura/project/issues/617/specs/review-tool.md; .garura/project/issues/617/specs/review-tool-mockup.html
-  line: review-tool.md 255-263 ('no index (vectorless, ADR 035 section 4)', the owner's quote about 'the tool'), 265-270 ('trace');
-    review-tool-mockup.html 1103, 1105
-  basis: "One term per meaning (G14). Naming clarity: an ambiguous or overloaded name is bad design leaking.\n — committed\
-    \ source: main:core/components/memory/knowledge/domains/.pageindex/pageindex.py (docstring: 'Vectorless RAG', a hierarchical\
-    \ tree the model navigates, i.e. an index); main:docs/adr/035-agents-work-only-from-memory.md section 4 and Alternatives\
-    \ (a search index, 'semantic, or numbered nodes', set aside; the tool searches like Claude Code does); main:core/grounding/glossary.md\
-    \ line 43 ('Resolution trace') and main:docs/adr/035-agents-work-only-from-memory.md section 9.\n"
-  finding: '(a) "vectorless" is not in ADR 035. On main it labels the PageIndex tree index, which ADR 035 section 4 and Alternatives
-    set aside; the design says "no index (vectorless, ADR 035 section 4)", so the citation does not carry the word and the
-    word already names an indexed method. (b) "the tool" appears in the owner''s quote for three things (the review tool,
-    the memory tool and the one for Griffin) and the doc keeps the quote unglossed beside "the same memory tool under both".
-    (c) "trace" now means the memory tool''s ordered steps; the glossary on main still defines "Resolution trace" as the R1
-    to R4 file, which ADR 035 section 9 retires in part, and has no entry for the new meaning.
+  line: review-tool.md 256-262 ('no index (vectorless, ADR 035 section 4)' and the owner's quote about 'the tool'), 267-268
+    ('trace'); review-tool-mockup.html 1105
+  basis: "One term per meaning (G14). Naming clarity.\n — committed source: main:core/components/memory/knowledge/domains/.pageindex/pageindex.py\
+    \ (docstring 'Vectorless RAG', a tree the model navigates, i.e. an index); main:docs/adr/035-agents-work-only-from-memory.md\
+    \ section 4 and Alternatives (an index set aside; the word 'vectorless' is not in it); main:core/grounding/glossary.md\
+    \ line 43 and main:docs/adr/035-agents-work-only-from-memory.md section 9.\n"
+  finding: 'Unchanged. (a) ''vectorless'' is cited to ADR 035 section 4, which does not carry the word, and on main the word
+    names an indexed method. (b) ''the tool'' in the owner''s quote stands for three tools beside ''the same memory tool under
+    both''. (c) ''trace'' now means the memory tool''s ordered steps; the glossary''s ''Resolution trace'' is the R1 to R4
+    file and there is no entry for the new meaning. ADR 037 section 4 uses ''vectorless'' as well and lists the glossary row
+    as not decided, so (c) is a known open point.
 
     '
 - id: TDD-12
@@ -1983,12 +1953,14 @@ findings:
   category: tool-design-document
   layer: design-grounding (change-reviewer)
   file: .garura/project/issues/617/specs/review-tool.md; .garura/project/issues/617/specs/review-tool-mockup.html
-  line: review-tool.md 254-255 (the Memory bullet); review-tool-mockup.html 1113-1117 (the three tier cards)
+  line: review-tool.md 256-257 (the Memory bullet) against 297-299 (the kept paragraph); review-tool-mockup.html 1115-1119
+    (the three tier cards; the Phoenix card carries 'approved version 4f1c2e9a7b3d')
   basis: "The memory section shows short-term, Garura and Phoenix memory (G4).\n — committed source: main:docs/adr/036-approved-answer-lands-in-short-term-memory.md\
     \ section 7; main:docs/adr/035-agents-work-only-from-memory.md section 7.\n"
-  finding: 'The Memory bullet lists Garura memory and, once an issue is picked, its short-term memory. It leaves out Phoenix
-    memory. The mock still shows the Phoenix tier (its file count and approved version) and Ask memory looks there. Text and
-    mock disagree, and the text departs from ADR 036.
+  finding: 'Unchanged, and now inside one file as well. The Memory bullet names Garura memory and an issue''s short-term memory;
+    the kept paragraph says the section shows short-term, Garura and Phoenix memory; the mock shows the Phoenix tier with
+    a version code in view. ADR 037 lists ''whether the Memory section lists Phoenix memory'' as not decided, so the departure
+    is open, not covered.
 
     '
 - id: TDD-13
@@ -1996,286 +1968,110 @@ findings:
   category: tool-design-document
   layer: design-grounding (change-reviewer)
   file: .garura/project/issues/617/specs/review-tool.md; .garura/project/issues/617/specs/review-tool-mockup.html
-  line: review-tool.md 265-266 ('every decision an agent made'); review-tool-mockup.html 1233 (the headline), the Memory section's
-    issue picker
-  basis: "Short-term memory is the current issue only, and a decision record is kept in its issue's short-term memory. A drive's\
+  line: 'review-tool.md 267 (''every decision an agent made''); review-tool-mockup.html 1231-1247 (the screen and its headline
+    ''for issue #613''); the issue picker exists only in the Memory overview'
+  basis: "Short-term memory is the current issue only and a decision record is kept in its issue's short-term memory. A drive's\
     \ review is the whole-model view narrowed to what the drive changed.\n — committed source: main:docs/adr/036-approved-answer-lands-in-short-term-memory.md\
-    \ section 1; main:core/tools/memory/contract/v3.json (answer_rules short_term_is_this_issue); main:docs/adr/033-approval-in-the-product-model.md\
+    \ section 1; main:core/tools/memory/contract/v3.json (short_term_is_this_issue); main:docs/adr/033-approval-in-the-product-model.md\
     \ section 7.\n"
-  finding: 'The doc says the section shows "every decision an agent made" and does not say whose: one picked issue''s, one
-    drive''s, or every issue''s. The Memory section has an issue picker; the Agent decisions screen has none and its headline
-    reads "for issue #613". A reader cannot tell what the list is scoped to or how a drive''s end review narrows it.
+  finding: 'Unchanged. The doc says every decision an agent made without saying whose: one picked issue''s, one drive''s,
+    or every issue''s. The Agent decisions screen has no picker and its headline names one issue.
 
     '
-- id: TIC659-1
-  severity: P2
+- id: TIC659-13
+  severity: P3
   category: tool-interface-contract
   layer: design-grounding (change-reviewer)
-  file: 'core/tools/memory/contract/v4.json (answer_rules.waiting_drafts_are_hidden, answer_rules.cite_reads_its_sources,
-    $defs.path, commands.cite summary and response.stored); core/tools/memory/memory.py (FolderEngine.excluded, FolderEngine.read);
-    core/tools/memory/citations.py (CitationStore.source_problem)
+  file: 'core/tools/memory/contract/v4.json (answer_rules.waiting_drafts_are_hidden; paths; description ''a waiting draft
+    is never found by a lookup''); core/tools/memory/memory.py (FolderEngine.files, FolderEngine.grep, FolderEngine.excluded,
+    FolderEngine.hidden)
 
     '
   line: null
   basis: 'ADR036-ALT-DRAFT-MUST-NOT-ANSWER-A-LOOKUP — committed source: docs/adr/036 Alternatives Considered (line 128, main);
-    docs/adr/035 Decision part 5 (lines 70-78, main); docs/adr/036 Decision part 1 (lines 36-43, main); .garura/project/issues/658/review/decision-comment.md
-    (the waiting-draft note, main).
+    docs/adr/036 Decision part 1 (lines 36-43, main); core/tools/memory/contract/v3.json lookup_rule (main); .garura/project/issues/658/review/decision-comment.md
+    line 9 (main).
 
     '
-  finding: 'The contract says a lookup "never returns a memory update that waits for a person" and that decision records are
-    never returned. The tool keeps that for the plain path only. Run over a throwaway project on a scratch copy: reading ''7/review/./memory-updates/<id>.json''
-    or ''7/review//memory-updates/<id>.json'' returns the waiting draft; reading ''7/context/./citations.jsonl'' (or ''7/./context/...'',
-    ''7/context//...'') returns the decision records; on this machine''s case-insensitive filesystem ''7/Review/memory-updates/<id>.json''
-    returns the draft; reading ''./issues/8/notes.md'' in the Garura tier returns another issue''s short-term note (ADR 036
-    part 1). The path grammar in the contract ($defs.path: no leading slash, no ''..'', no backslash or line break) accepts
-    every one of these. The cite answer itself hands the caller the hidden file''s path (''stored.path'', ''7/context/citations.jsonl'').
-    Worse, cite reads each source through the same call: a trace step whose source is the waiting draft, or the agent''s own
-    earlier decision record, written in one of these forms was recorded (ok true), and ''citations --check'' then answered
-    no problem. So a decision can be recorded as resting on memory no person approved, and nothing in the record or the check
-    shows it.
+  finding: 'The branch''s fix puts the hiding decision in a new method, hidden(), that works on the file a path reaches (real
+    path, letter case folded), and calls it from read, so from cite and citations --check too. find (files) and search (grep)
+    still decide on the listed name with a case-sensitive prefix test (excluded), and excluded(''garura'') is worked out from
+    the settings as typed, not from the real folders. So the same guarantee is kept by two rules. Observed on scratch copies
+    on this machine''s case-folding disk: (a) the issue folder already holds ''7/Review/'' (a differently spelled folder;
+    the tool''s own propose then writes into it, because the disk folds case): find lists ''7/Review/memory-updates/<id>.json'',
+    and search returns the draft''s text, while read of the very path find listed answers not_found. (b) the short-term setting
+    spelled ''.../ISSUES'' while the folder is ''issues'': find and search in the Garura tier list another issue''s short-term
+    notes (''issues/8/notes.md''), which ADR 036 part 1 says a lookup never reads; read refuses. With the two roots given
+    through different links (''/tmp/...'' for Garura memory, ''/private/tmp/...'' for short-term memory) find lists them and
+    read of ''issues/8/notes.md'' returns the other issue''s note (main''s tool does the same). (c) a hard link to a draft
+    inside the issue folder: read returns the draft; realpath compares names, not the file. On a case-sensitive disk the error
+    goes the other way: read refuses ''7/Context/citations.jsonl'' while find lists it. The contract''s new sentences say
+    more than the tool keeps: ''a lookup (find, search, read) never returns'' a waiting draft ''however its path is spelled'',
+    and ''One file has one spelling, so what a lookup hides cannot be reached by spelling its path another way''. The grammar
+    makes the second true only for ''.'', ''//'' and a trailing slash; for case and links it is the tool''s decision, and
+    the tool makes it in read only. The three new tests exercise read and cite; none exercises find or search.
 
     '
-- id: TIC659-2
-  severity: P3
+- id: TIC659-14
+  severity: P2
   category: tool-interface-contract
   layer: design-grounding (change-reviewer)
-  file: 'core/tools/memory/contract/v4.json (description ''Version 4'', commands.cite summary, $defs.decision_record, traced_step,
-    cited_source, around); core/components/memory/standards/rules/resolution.md (''Decision Records (ADR 035 section 6)'',
-    in the memory grounding, not here)
+  file: 'core/tools/memory/memory.py (FolderEngine.hidden, FolderEngine.read, run); core/tools/memory/citations.py (CitationStore.source_problem,
+    reached by cite and by citations --check); core/tools/memory/contract/v4.json ($defs.path pattern)
 
     '
   line: null
-  basis: 'ADR035-S6-DECISION-NAMES-MEMORY — committed source: docs/adr/035 Decision part 6 (lines 80-82, main); docs/adr/034
-    Decision part 4 (lines 60-62, main); .garura/project/issues/653/specs/plan.md item 6 (lines 148-162, main); docs/adr/035
-    part 9 (ADR 015 bullet, main).
-
-    '
-  finding: 'ADR 035 part 6 says a decision "names the tier, the file and the lines it rests on" and leaves the shape to plan
-    item 6; ADR 034 part 4 says "every answer names its source". v4 records an ordered trace of steps, each with a question,
-    a finding and a source that keeps its exact text, the memory version and up to three lines around it, plus from_update,
-    play, decided_by and decided_at. That is a refinement the ADR delegated, not a break. But the committed words still describe
-    one source, ADR 032 part 3 and ADR 035 part 7 still name a "Memory" view where ADR 036 says "Memory and ADRs", and the
-    contract''s own cite summary cites ''ADR 035 section 6, ADR 034 section 4'' for a shape neither states. A builder of #661
-    to #664 who starts from the ADRs (as the filed stories tell them to) finds a contract wider than the record they read.
-
-    '
-- id: TIC659-3
-  severity: P3
-  category: tool-interface-contract
-  layer: design-grounding (change-reviewer)
-  file: 'core/tools/memory/contract/v4.json (answer_rules.waiting_drafts_are_hidden last sentence; tiers.garura; $defs.decision_record);
-    core/tools/memory/README.md (''citations_file'' row)
-
-    '
-  line: null
-  basis: 'ADR035-S1-TIERS-AND-DECISIONS-IN-GARURA — committed source: docs/adr/035 Decision part 1 (lines 36-44, main); core/grounding/glossary.md
-    lines 37, 61, 111, 113 (main); docs/adr/036 parts 1 and 6 and line 128 (main); .garura/project/issues/654/specs/stories.yaml
-    item 6 (line 104, main).
-
-    '
-  finding: 'The rule says "Decision records are not memory either: a lookup never returns them, so an agent never decides
-    from its own earlier decision." Two problems. (1) The same contract says, in tiers.garura (unchanged), that Garura memory
-    holds "decisions", as ADR 035 part 1 does; and the glossary on main says a "decision record" is an ADR at any level (decision.yaml),
-    kept in the product model, which is memory. So "decision records are not memory" is, by the committed word, false, and
-    a second engine built from the sentence could hide the product model''s decisions (or, reading the other sense, not hide
-    the agent''s). One word, two things. (2) The carve-out narrows ADR 036 part 1 and part 6 (the issue''s folder is short-term
-    memory, and the tool can find a play''s files there); ADR 036 records one such carve-out (waiting drafts) with its reason,
-    and none for decision records. The filed story text on main says agents "write it to the issue''s short-term memory" and
-    says nothing of hiding it. The rule is probably right (an agent''s earlier decision would answer its next lookup, as a
-    draft would), but it is not recorded anywhere a reader of the ADRs would look.
-
-    '
-- id: TIC659-4
-  severity: P3
-  category: tool-interface-contract
-  layer: design-grounding (change-reviewer)
-  file: 'core/tools/memory/contract/v4.json (commands.cite request.decided_by; $defs.decision_record decided_by and decided_at;
-    $defs.update decided_by and decided_at; commands.decide request.by)
-
-    '
-  line: null
-  basis: 'ADR033-S6-ONLY-REVIEW-STEP-WRITES-APPROVAL — committed source: docs/adr/033 Decision parts 2 and 6 (lines 38-45
-    and 66-68, main); .garura/project/issues/658/review/design-findings-tool-interface-contract.yaml TIC658-11 part 3 (main);
-    docs/adr/036 ''Not decided here'' (line 121, main).
-
-    '
-  finding: 'In update, decided_by is the person who approved, and decided_at when (a person''s word). In decision_record,
-    decided_by is the agent that made the decision (''product-os-keeper (/understand)'' in the samples), and decided_at when
-    it was recorded. The same two names mean an approval in one shape and a decision by an agent in the other, and the new
-    shape is shown to a person in a drive''s review next to approvals. ADR 033 part 2 gives an approval its own who and when,
-    and part 6 says only the review step writes approval. The record has no approval field, so nothing breaks today; but a
-    reader, or the review tool''s Agent decisions screen, can take decided_by on a decision as someone''s approval. The contract
-    also cannot tell an agent from a person in either field (both are any non-empty string).
-
-    '
-- id: TIC659-5
-  severity: P3
-  category: tool-interface-contract
-  layer: design-grounding (change-reviewer)
-  file: 'core/tools/memory/contract/v4.json (description ''Version 4'', commands.cite summary, commands.citations summary,
-    answer_rules.cited_text_is_its_fingerprint, answer_rules.citations_problems)
-
-    '
-  line: null
-  basis: 'IDD-P3-OBSERVABLE-BINARY — committed source: docs/philosophy/idd-principles.md Principle 3 (lines 75-98, main);
-    docs/adr/035 Decision part 6 (lines 80-82, main); docs/adr/034 Decision part 4 (lines 60-62, main); .garura/project/issues/654/specs/stories.yaml
-    item 6 ''Done when'' (lines 106-109, main).
-
-    '
-  finding: 'Three phrases say more than anything holds. (1) The description: "every decision is recorded with the memory it
-    rests on". The contract defines how one decision is recorded; nothing makes every decision be recorded, no agent calls
-    cite yet, and a decision that was never cited has no record the check could fail. The filed done-when ("the check fails
-    a decision that names no source") is met only for a record that exists: cite refuses an empty trace (minItems 1), so no_source
-    can arise only from a hand-edited file, and the drive record carries only cited decisions. (2) "the steps the agent took,
-    in order" and "the exact lines the agent read when it decided": asked and found are free text the agent writes, and the
-    tool re-reads the lines when cite is called, not when the agent decided; no read log ties a step to a read. (3) "so the
-    person sees each step a decision rested on": the trace is the agent''s claim of what it rested on; the check proves the
-    lines exist and match their fingerprint, not that the answer follows from them. Under IDD principle 3, a record that reads
-    as an audit trail and cannot be observed to be one gives false confidence.
-
-    '
-- id: TIC659-6
-  severity: P3
-  category: tool-interface-contract
-  layer: design-grounding (change-reviewer)
-  file: 'core/tools/memory/contract/v4.json (commands.cite request.play optional; commands.citations request.play; $defs.decision_record
-    play nullable string); core/components/plays/play-creator/references/write_drive_review.py (consumer, read only to learn
-    what it expects)
-
-    '
-  line: null
-  basis: 'ADR034-S4-EVERY-ANSWER-NAMES-SOURCE — committed source: docs/adr/034 Decision part 4 (the drive''s review shows
-    what was assumed and on what basis, lines 60-62, main); .garura/project/issues/654/specs/stories.yaml item 6 ''Done when''
-    (the drive review writer carries the sources, main); base v3.json answer_rules.updates_filter (main).
-
-    '
-  finding: 'A drive''s review is built from ''citations --play P''. The contract makes play optional on cite and a free non-empty
-    string, with no rule on its form. The tool filters by exact string equality, and the drive-record writer expects ''/''
-    plus the play''s name (''/vision''), and treats any record whose play differs as another play''s and refuses the whole
-    file. So a decision cited with no play, or as ''vision'', never reaches any drive''s review, and a consumer passing ''--play
-    vision'' gets an empty answer: a silent skip, which the contract''s own lookup rules call an error elsewhere. The play
-    filter also has no answer rule, where updates has ''updates_filter''.
-
-    '
-- id: TIC659-7
-  severity: P3
-  category: tool-interface-contract
-  layer: design-grounding (change-reviewer)
-  file: 'core/tools/memory/contract/v4.json (errors.changed, errors.not_approved, errors.not_found, errors.out_of_range; commands.cite
-    summary; $defs.decision_record from_update); core/tools/memory/citations.py (cite)
-
-    '
-  line: null
-  basis: 'ADR035-S5-NOTHING-UNAPPROVED — committed source: docs/adr/035 Decision part 5 (lines 70-78, main); base v3.json
-    errors and answer_rules.refusals (main); docs/adr/036 Alternatives Considered (line 128, main).
-
-    '
-  finding: '(1) errors.changed still says "the target changed after the update was proposed; propose again from the current
-    text". cite now answers changed when a source''s text no longer matches its fingerprint (the cite summary says so; the
-    README row was updated, the contract''s error text was not), and "propose again" means nothing to a cite. (2) Lines that
-    are not in a file: read answers out_of_range, and end before start is bad_request (answer rule refusals); cite answers
-    not_found for both (checked on a scratch copy), and the contract check accepts a cite sample whose source has end before
-    start answered ok. (3) from_update: the tool refuses an update that is not applied (answering not_approved, which the
-    contract defines as "apply on an update no person approved", and which also covers an update that is approved but not
-    applied) and refuses a decision whose steps do not include the update''s written file (bad_request). Neither rule is in
-    the answer rules or the cite summary beyond "names it, and the update''s written file is the source of a step". A second
-    engine has no instruction for either. (4) citation_id has no stated form or uniqueness; problems name a record by it.
-
-    '
-- id: TIC659-8
-  severity: P3
-  category: tool-interface-contract
-  layer: design-grounding (change-reviewer)
-  file: 'core/tools/memory/contract/check_contract.py (check_citations, check_scope); core/tools/memory/contract/samples/
-    (no sample for the cases below); core/tools/memory/README.md (''The answer rules'')
-
-    '
-  line: null
-  basis: 'IDD-P3-OBSERVABLE-BINARY — committed source: docs/philosophy/idd-principles.md Principle 3 (lines 75-98, main);
-    .garura/project/issues/654/specs/stories.yaml item 6 ''Done when'' (the check fails a decision that names no source, main);
-    base v3.json answer_rules (main).
-
-    '
-  finding: 'Probed on a scratch copy by editing samples and re-running the check. Each of these passes the check although
-    the answer rule or the contract text says otherwise: (1) a citations answer with check true, a record with no trace, and
-    no no_source problem (rule citations_problems: "each record with no trace is no_source"; this is the filed done-when''s
-    own case); (2) a citations answer for play ''/understand'' holding a record of ''/vision''; (3) a source_changed problem
-    whose ''now'' equals the cited text, which its own fingerprint settles; (4) a now_around that does not hold ''now'' (the
-    same test is made for a source''s around); (5) a Phoenix step with no version, or a Garura step with an invented version
-    (README: Phoenix''s version is the repository''s commit); (6) two records with one citation_id, and a citation_id or decided_at
-    that is any text; (7) a search hit whose path is the hidden decision file or a waiting draft (the rule cannot be pinned
-    by a sample, since the contract does not say where they live: TIC659-9); (8) a cite sample whose source has end before
-    start answered ok. No sample exists for the new error ''unreadable'', for a cite refused as not_found or changed, or for
-    a from_update decision. The README''s list "The check holds every sample to these" is v3''s and lists none of the five
-    answer rules v4 adds. Under IDD principle 3 a rule that can be observed and is not is false confidence; the PR body''s
-    "32 broken samples refused" reads as the rules being held.
-
-    '
-- id: TIC659-9
-  severity: P4
-  category: tool-interface-contract
-  layer: design-grounding (change-reviewer)
-  file: 'core/tools/memory/contract/v4.json (settings; answer_rules.waiting_drafts_are_hidden ''kept apart''); core/tools/memory/README.md
-    (settings table: updates_dir, citations_file)
-
-    '
-  line: null
-  basis: 'ADR035-S4-ONE-TOOL-EVERY-ANSWER-CITED-THE-SAME-WAY — committed source: docs/adr/035 Decision part 4 (lines 61-68,
-    main); docs/adr/017 lines 51-55 and 104-108 (main); core/grounding/glossary.md lines 42 and 43 (main); base v3.json settings
+  basis: 'V3-RESPONSE-ALWAYS-JSON — committed source: core/tools/memory/contract/v3.json description, ''A response is always
+    a JSON object with ok, contract_version and command.'' (main); core/tools/memory/memory.py BadFlags docstring, ''never
+    a bare usage error'' (line 409, main); core/components/memory/standards/rules/pr.md P2 bucket, ''error-handling violations''
     (main).
 
     '
-  finding: 'The contract''s settings text names each tier''s place, phoenix_ref and where pulled pieces land, and names neither
-    updates_dir nor the new citations_file; the README and memory.py do. The hiding rule says updates are "kept apart" without
-    saying where, so a sample cannot pin it. The default for decision records, ''context/citations.jsonl'', sits under ADR
-    017''s ''context'' ("prepare / architecture context"), while the glossary puts "how decisions were reached", the audit
-    trail of a play, in evidence, where the resolution trace lives today. That is not a break (ADR 017 lists folders, not
-    file kinds) but it is a choice no record makes.
+  finding: 'hidden() calls os.path.realpath on the requested path with no guard. The contract''s path pattern accepts a NUL
+    character (''7/notes\u0000.md'' in a JSON request) and a lone surrogate (''7/\ud800.md''); run() catches only Refusal
+    and OSError. Both now end the process with a traceback and no JSON on stdout. Observed on scratch copies, same request
+    on each: main (v3) and round 1''s head answer {"ok": false, ... "error": {"code": "not_found"}}; the head answers with
+    ''ValueError: lstat: embedded null character in path'' (read in short-term memory, read in Garura memory, and cite with
+    a step whose source path holds a NUL) and ''UnicodeEncodeError: ... surrogates not allowed'' (read in short-term memory).
+    ''citations --check'' over an issue whose decision file holds one hand-edited record with a NUL in a source path now stops
+    with the same traceback for the whole issue; round 1''s head answered ok and flagged the record. Cause: the old code used
+    os.path.isfile, which turns these into False; the fix replaced it with an unguarded realpath. Carried and the same kind:
+    on main a NUL in a search pattern and in a Phoenix read path already crash (ValueError: embedded null byte), unchanged
+    by this branch. No test sends such a path.
 
     '
-- id: TIC659-10
+- id: TIC659-15
   severity: P4
   category: tool-interface-contract
   layer: design-grounding (change-reviewer)
-  file: core/tools/memory/contract/v4.json ($defs.citation_problem now, now_around; answer_rules.citations_problems; every_result)
+  file: core/tools/memory/README.md ('What every answer carries', Paths bullet, lines 142-143); core/tools/memory/contract/v4.json
+    (paths)
   line: null
-  basis: 'ADR035-S4-ONE-TOOL-EVERY-ANSWER-CITED-THE-SAME-WAY — committed source: docs/adr/035 Decision part 4 (lines 61-68,
-    main); .garura/project/issues/653/specs/plan.md line 81 (main); base v3.json every_result (main)'
-  finding: 'every_result says every piece of text the tool returns carries its tier, file, lines and fingerprint. A source_changed
-    problem returns the text the lines hold now (''now'') and the lines around it (''now_around'') with no fingerprint of
-    their own, and no memory version. For a Phoenix source the text is at whatever approved version the tool read, and the
-    problem does not say which. The old source''s fingerprint travels in ''source'', not the new text''s.
+  basis: 'V3-README-IS-THE-PLAIN-WORDS-GUIDE — committed source: core/tools/memory/contract/v3.json description (main); core/tools/memory/README.md
+    lines 139-140 (main)'
+  finding: 'The contract''s paths rule now says a path ''never starts or ends with a slash, and never contains .., a . segment
+    or an empty segment''. The README, which the contract names as its plain-words guide, still says ''never start with a
+    slash and never contain ..''. The README was not in the commit that changed the rule, and the README''s ''Rules for this
+    folder'' and answer-rule list were not touched either. The README sentence is incomplete, not wrong, and the contract
+    and its check are the authority.
 
     '
-- id: TIC659-11
+- id: TIC659-16
   severity: P4
   category: tool-interface-contract
   layer: design-grounding (change-reviewer)
-  file: 'core/components/plays/play-creator/references/write_drive_review.py and its stamped copies in /vision and /understand
-    (contract_version must be ''4''); core/tools/memory/pull.py (CONTRACT_VERSION); core/tools/memory/contract/samples/
+  file: 'core/tools/memory/contract/v4.json ($defs.path pattern); core/tools/memory/contract/samples/broken/read-path-with-newline.json;
+    core/tools/memory/contract/check_contract.py (validate: re.search)
 
     '
   line: null
-  basis: 'README-VERSION-POLICY — committed source: core/tools/memory/README.md ''Rules for this folder'' (line 211, main)'
-  finding: 'The three drive-record writers refuse any citations answer whose contract_version is not exactly ''4'', and the
-    plays that carry them are deployed into projects by install-garura while the memory tool is installed separately. The
-    base README''s rule is that the contract changes only by a new version, with earlier versions kept; it says nothing about
-    a consumer that sees a later one. The next version breaks the writers until all three copies and the canonical one change.
-    Carried and related: every sample and the check run on v4 only, so nothing exercises v1 to v3 (TIC658-11 part 4).
-
-    '
-- id: TIC659-12
-  severity: P4
-  category: tool-interface-contract
-  layer: design-grounding (change-reviewer)
-  file: core/tools/memory/contract/v4.json (commands.cite request.required issue; $defs.issue integer >= 1; $defs.decision_record
-    issue)
-  line: null
-  basis: 'ADR008-S4-PRE-ISSUE-WORK — committed source: docs/adr/008 Decision part 4 and Negative (lines 88-106 and 199, main);
-    docs/adr/035 Decision part 6 (lines 80-82, main)'
-  finding: 'cite and citations require an issue, an integer of at least 1, and a short-term step must start with ''<issue>/''.
-    ADR 035 part 6 says "every decision", and ADR 008 part 4 says start-feature works before its issue number exists (in _pending/)
-    and no other play does. A decision start-feature makes before it has an issue can be recorded nowhere. Small, because
-    start-feature''s early decisions are about the issue itself and not from memory, and the contract does not say so.
+  basis: 'IDD-P3-OBSERVABLE-BINARY — committed source: docs/philosophy/idd-principles.md Principle 3 (lines 75-98, main);
+    core/tools/memory/contract/v3.json $defs.path and samples/broken/read-path-with-newline.json (main)'
+  finding: 'The pattern''s last class, [^\\\n\r]+$, means ''no backslash and no line break'', but ''$'' in Python''s re also
+    matches before one trailing newline, so ''a/b\n'' passes the pattern in this tool and in the contract check (tried with
+    re.search); a JSON Schema validator in ECMA rules would refuse it. The broken sample for the rule, read-path-with-newline,
+    holds the path ''a\n../b'', which is refused for the ''..'' it also holds, so it does not prove the line-break rule. No
+    hiding bypass follows (a name that ends in a newline is a different file), and the owner''s fix did not claim to touch
+    it.
 
     '

@@ -1,500 +1,617 @@
 category: tool-design-document
-grounded_by: change-reviewer (Layer 2, PR #676 / issue 659)
+round: 2
+grounded_by: change-reviewer (Layer 2, PR #676 / issue 659, round 2)
 base_ref: main
+head: 4553fe26
+replaces: "round 1 file at this path (commit 192fd932, findings TDD-1 to TDD-13)"
 files_under_review:
   - .garura/project/issues/617/specs/review-tool.md
   - .garura/project/issues/617/specs/review-tool-mockup.html
 method: >
-  Principles were reconstructed only from sources committed on main (git show main:<path>) and from
-  Phoenix memory at origin/main (~/.garura/phoenix-memory): the base version of this same design
-  document, its base mockup, ADR 029, 031, 032, 033, 034, 035 and 036, the committed memory-tool
-  contract (version 3), the committed #653 plan, the philosophy page on the human interface, the
-  glossary, the user-facing voice rule and the PR severity taxonomy. Nothing the branch adds or
-  rewrites was used as grounding. The owner's decisions of 18 and 19 October (five sections; Ask
-  memory mocked only; "these are called traces") are quoted in the branch's added text and logged in
-  the branch's #659 plan. They are used here only to answer "is this departure backed by an owner
-  decision", never to say what the committed design is. Where the branch moves past a committed
-  ADR, the finding is written as ADR lag (the record has not caught up), not as a fault in the
-  owner's decision. The Phoenix memory copies of pr.md, user-facing-voice.md and resolution.md were
-  compared with main and are the same text.
+  Round 2. Principles were reconstructed again, only from sources committed on main (git show
+  main:<path>) and from Phoenix memory at origin/main (~/.garura/phoenix-memory, at 5fcd88e): the base
+  version of this design document and its base mockup, ADR 029, 031 to 036 as they stand on main,
+  the committed #653 plan, the philosophy page on the human interface, the glossary, the user-facing
+  voice rule and the PR severity taxonomy (the Phoenix copies of pr.md and user-facing-voice.md were
+  compared with main and are the same text). The change since round 1 was read as the diff
+  192fd932..4553fe26 on the two files, and the files were then read whole at head. ADR 037 is branch
+  content the owner accepted through /adr. It is used for one question only, "does an accepted
+  record now cover this departure from main's ADRs", and never as the standard: where a departure
+  is covered by ADR 037 the ADR-lag part of a finding is closed; where ADR 037 names the point as
+  not decided, or is silent, the finding stands. Nothing the branch adds or rewrites in the two
+  files was used as grounding. Owner quotes in the design are used only to answer "is this backed
+  by the owner", never to say what the committed design is.
 status: completed
 grounding_unavailable: none
 grounding_gaps:
   - >
-    No committed source names a five-section review tool, an Ask memory box, a verdict on an agent
-    decision, or the word "trace" in the sense this change uses. These are the points the findings
-    below test; each is reported as ADR lag or a missing definition, never as grounded by the branch.
+    No committed source on main names a five-section review tool, an Ask memory box, a verdict on an
+    agent decision, a pack kind for an agent decision, or "trace" in the sense this change uses. Those
+    points are tested against the closest committed principles (extraction line, one term per
+    meaning, outcome level, cards) and, for coverage only, ADR 037.
   - >
     No review playbook exists for this category (playbook null in categories.yaml). The base design
     document and the ADRs stand in for it.
 
 sources_consulted:
-  - "main:.garura/project/issues/617/specs/review-tool.md   # opening quotes (extractable, movable out of Garura); section 1 items 1, 2, 3, 7; section 2 (events, listener, why the listener connects out); section 3 (the pack is outcome-shaped; the tool never sees a file path; kinds carry the verbs they allow); section 4 (one page, three sections; layout item 1 'nothing is answered twice'; item 6 Catch up; item 7 Memory and ADRs; 'Keeping the load low'); section 5 (approval is part of the product model; who writes it); section 7 (build order and the extraction line, last paragraph)"
-  - "main:.garura/project/issues/617/specs/review-tool-mockup.html   # switch has Intents and Product only; Catch up card answers are Drop, Send back, Later, Accept, with swipe right to accept and swipe left to leave for later"
-  - "main:docs/adr/032-drive-review-of-outcomes.md   # sections 2 (the person reviews the outcome, not the plays; the review stays at the outcome level; plays' records are not shown play by play), 3 (two review tools; header: third section Memory and ADRs), 4 (accept, drop, send back re-runs the play that writes that kind of piece for that one piece)"
-  - "main:docs/adr/033-approval-in-the-product-model.md   # sections 1 (which pieces carry approval), 2 (approved, changed, in progress), 3 (agents work only on approved pieces), 6 (only the review step writes approval; the review tool writes nothing to the model), 7 (a drive's review is the whole-model view narrowed to what the drive changed)"
-  - "main:docs/adr/034-plays-answer-from-memory-inside-a-drive.md   # sections 3 (never from the model alone), 4 (every answer names its source; the drive's review shows what was assumed and on what basis; an answer with no source is not allowed)"
-  - "main:docs/adr/035-agents-work-only-from-memory.md   # sections 3 (lookup order), 4 (one tool; searches the way Claude Code does: find files, search their text, read exact lines), 5 (nothing from the model or the web until a person approves), 6 (every decision names its memory: tier, file, lines), 7 (the review tool's view shows which memory each decision came from), Alternatives (a search index, semantic or numbered nodes, lost)"
-  - "main:docs/adr/036-approved-answer-lands-in-short-term-memory.md   # sections 1 (short-term memory is the current issue only), 7 (the third section is Memory and ADRs; it shows short-term, Garura and Phoenix memory, the waiting updates, the waiting ADRs and which memory each decision came from; every memory and ADR review happens there on the same Catch up cards), 8, 9; Affects (review-tool.md section 4 and the /adr accept move onto a card); Negative / Risks, Not decided here (whether a product decision is reviewed in Memory and ADRs or under Decisions in Product; who writes the approval on a memory or ADR card; whether a drive goes on while an update waits)"
-  - "main:docs/adr/029-drives.md   # a new question stops the drive and never picks an answer for itself; the review follows the drive"
-  - "main:docs/philosophy/idsd.md   # 'The Plan Is the Human's Interface; the Product Model Is the Agent's': a person has two interfaces, the intent they give and the output they see; the work in between is agent work; the model is reviewed at the outcome level"
-  - "main:core/tools/memory/contract/v3.json   # find, search, read return tier, file, lines and a fingerprint; propose requires sources and draft_source; nothing_found is allowed only after every tier was looked in; decide needs the person's words"
-  - "main:.garura/project/issues/653/specs/plan.md   # 'When this plan is done' (the Memory and ADRs section shows the tiers, the waiting updates and ADRs, and each decision's source; a person answers them on the Catch up cards); item 5 (memory updates, unapproved Phoenix memory is not read); item 6 (the three notes from the #675 review); item 11 (the memory review built with the whole review tool)"
+  - "main:.garura/project/issues/617/specs/review-tool.md   # section 1 items 1, 2, 3, 7 (one folder, no ties; Garura words are data; talk only through the contract; boundary check); section 2 (listener connects out); section 3 first paragraph ('The pack is outcome-shaped, not file-shaped. The tool never sees a file path.') and the pack outline; section 4 layout item 1 (nothing is answered twice), item 6 (Catch up: answers that take a comment are buttons, never swipes), 'Keeping the load low' ('No file paths, no field names, no YAML. Labels in plain words.'); section 5 (who writes approval); section 7 (story 1 writes the contract from the pack; the extraction line)"
+  - "main:.garura/project/issues/617/specs/review-tool-mockup.html   # two-switch Intents and Product only; Catch up cards; no ADR number on any page"
+  - "main:docs/adr/032-drive-review-of-outcomes.md   # section 2 (outcome level; plays' records not shown play by play), section 3, section 4 (accept, drop, send back re-runs the play for that one piece)"
+  - "main:docs/adr/033-approval-in-the-product-model.md   # sections 1, 3, 6 (the review tool writes nothing to the model), 7"
+  - "main:docs/adr/034-plays-answer-from-memory-inside-a-drive.md   # sections 3 and 4 (the drive's review shows what was assumed and on what basis; an answer with no source is not allowed)"
+  - "main:docs/adr/035-agents-work-only-from-memory.md   # sections 3, 4, 5, 6 (the tier, the file and the lines it rests on), 7 (the review view shows which memory each decision came from), Alternatives (an index, semantic or numbered nodes, set aside); the word 'vectorless' does not appear"
+  - "main:docs/adr/036-approved-answer-lands-in-short-term-memory.md   # section 1, section 7 (Memory and ADRs shows short-term, Garura and Phoenix memory; reviews on the Catch up cards), section 8, Negative / Risks 'Not decided here' (a product decision in ADRs or in Product; who writes the approval on a card)"
+  - "main:docs/adr/029-drives.md   # a new question stops the drive; the review follows the drive"
+  - "main:docs/philosophy/idsd.md   # 'The Plan Is the Human's Interface; the Product Model Is the Agent's'"
+  - "main:core/tools/memory/contract/v3.json   # find, search, read return tier, file, lines and a fingerprint; propose requires sources and draft_source; nothing_found only after every tier"
+  - "main:.garura/project/issues/653/specs/plan.md   # 'When this plan is done' (the Memory and ADRs section); item 5; item 6; item 11"
   - "main:core/grounding/glossary.md   # Evidence (line 42), Resolution trace (line 43), Decision / ADR (ProductOS) (line 61), ADR (line 113)"
-  - "main:core/components/memory/knowledge/domains/.pageindex/pageindex.py and main:core/components/memory/knowledge/_DESIGN.md   # where 'vectorless' is already used on main"
-  - "main:core/components/memory/standards/rules/user-facing-voice.md (same text in Phoenix memory origin/main standards/rules/user-facing-voice.md)   # lead in the language the person operates in; paths and field names in an appendix; scope is replies to the person, not artifact templates"
-  - "main:core/components/memory/standards/rules/pr.md (same text in Phoenix memory origin/main standards/rules/pr.md)   # P1 to P4 buckets"
+  - "main:core/components/memory/knowledge/domains/.pageindex/pageindex.py   # docstring: 'Vectorless RAG', a tree the model navigates (where the word is used on main)"
+  - "main:core/components/memory/standards/rules/user-facing-voice.md (same text in Phoenix memory origin/main)   # scope is replies to the person, not artifact templates"
+  - "main:core/components/memory/standards/rules/pr.md (same text in Phoenix memory origin/main)   # P1 to P4 buckets"
+  - "branch, coverage check only: docs/adr/037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md and the one-line status pointers it added to ADR 032, 035 and 036"
 
 principles_grounded:
   - id: G1
     principle: >
-      The review tool is extractable. It lives in its own folder, imports no Garura code, reads no
-      Garura path, and talks to Garura only through its own contract. Garura words reach it as data
-      (kinds with a label, an icon and the verbs they allow), never as code. The tool code never
-      names them.
-    committed_source: "main:.garura/project/issues/617/specs/review-tool.md opening quote and section 1 items 1, 2, 3, 7; section 3 (kinds)"
+      The review tool is extractable: its own folder, no Garura code, no Garura path, and it talks to
+      Garura only through its own contract. Garura words reach it as data (kinds with a label, an icon
+      and the verbs they allow), never as code. The tool code never names them.
+    committed_source: "main:.garura/project/issues/617/specs/review-tool.md section 1 items 1, 2, 3, 7; section 3 (kinds)"
   - id: G2
     principle: >
-      The pack is outcome-shaped, not file-shaped. The tool never sees a file path.
-    committed_source: "main:.garura/project/issues/617/specs/review-tool.md section 3, the paragraph after the pack outline"
+      The pack is outcome-shaped, not file-shaped. The tool never sees a file path. The pack outline is
+      the source the contract (story 1) is written from.
+    committed_source: "main:.garura/project/issues/617/specs/review-tool.md section 3 (first paragraph and the pack outline); section 7 story 1"
   - id: G3
     principle: >
-      The tool records each action as a numbered event and writes nothing to the model or to
-      Garura. Garura's listener connects out to the tool; the tool never calls Garura (so a hosted
-      tool can serve a laptop). Only the review step writes approval.
-    committed_source: "main:.garura/project/issues/617/specs/review-tool.md section 2 ('Why the listener connects to the tool, not the other way round') and section 5 ('Who writes it'); main:docs/adr/033-approval-in-the-product-model.md section 6"
+      The tool records each action as a numbered event and writes nothing to the model. Garura's
+      listener connects out to the tool; the tool never calls Garura. Only the review step writes
+      approval.
+    committed_source: "main:.garura/project/issues/617/specs/review-tool.md sections 2 and 5; main:docs/adr/033-approval-in-the-product-model.md section 6"
   - id: G4
     principle: >
-      The review tool's third section is one section, Memory and ADRs, next to Intents and Product.
-      It shows short-term, Garura and Phoenix memory, the memory updates waiting, the ADRs waiting,
-      and which memory each decision came from. One app, one server, one link.
-    committed_source: "main:docs/adr/036-approved-answer-lands-in-short-term-memory.md section 7 and section 8 (the line on ADR 032 section 3); main:docs/adr/035-agents-work-only-from-memory.md section 7; main:.garura/project/issues/653/specs/plan.md 'When this plan is done'"
+      The review tool's third section on main is one section, Memory and ADRs. It shows short-term,
+      Garura and Phoenix memory, the updates waiting, the ADRs waiting, and which memory each decision
+      came from.
+    committed_source: "main:docs/adr/036-approved-answer-lands-in-short-term-memory.md sections 7 and 8; main:docs/adr/035-agents-work-only-from-memory.md section 7; main:.garura/project/issues/653/specs/plan.md 'When this plan is done'"
   - id: G5
     principle: >
       Every memory review and ADR review happens in that section on the same Catch up cards as
-      Intents and Product: one card per change, swipe right to accept, swipe left to leave for
-      later. An answer that takes the person's words is a button, never a swipe. The /adr accept
-      moves onto a card in that section once it exists.
-    committed_source: "main:docs/adr/036-approved-answer-lands-in-short-term-memory.md section 7 and Affects; main:.garura/project/issues/617/specs/review-tool.md section 4 item 6; main:.garura/project/issues/617/specs/review-tool-mockup.html (Catch up card)"
+      Intents and Product: one card per change, swipe right to accept, swipe left to leave for later.
+      An answer that takes the person's words is a button, never a swipe. The /adr accept moves onto a
+      card once the section exists.
+    committed_source: "main:docs/adr/036-approved-answer-lands-in-short-term-memory.md section 7 and Affects; main:.garura/project/issues/617/specs/review-tool.md section 4 item 6"
   - id: G6
     principle: >
-      Nothing is answered twice: a piece shown in two places is answered in one and read-only,
-      with a link, in the other. A product decision record and an ADR are the same kind of record
-      at different levels, and whether one waiting for a person is reviewed under Decisions in
-      Product or in the ADR section is not decided.
-    committed_source: "main:.garura/project/issues/617/specs/review-tool.md section 4 layout item 1; main:core/grounding/glossary.md line 61 ('a decision record = an ADR at any level'); main:docs/adr/036-approved-answer-lands-in-short-term-memory.md Negative / Risks, Not decided here, first bullet"
+      Nothing is answered twice: a piece shown in two places is answered in one and read-only, with a
+      link, in the other. A product decision record and an ADR are the same kind of record at
+      different levels, and where a waiting product decision is reviewed is not decided.
+    committed_source: "main:.garura/project/issues/617/specs/review-tool.md section 4 layout item 1; main:core/grounding/glossary.md line 61; main:docs/adr/036-approved-answer-lands-in-short-term-memory.md Negative / Risks, 'Not decided here', first bullet"
   - id: G7
     principle: >
-      Approval is part of the product model. The pieces that carry it are the business intents, the
-      agent intents, the domains, capabilities and functionalities, the product limits and the
-      decisions. Only the review step writes approved or in progress, from the person's answers;
-      the review tool writes nothing to the model. A send-back re-runs the play that writes that
-      kind of piece, for that one piece.
+      Approval is part of the product model. The pieces that carry it are listed (business intents,
+      agent intents, domains, capabilities, functionalities, limits, decisions). Only the review step
+      writes approved or in progress, from the person's answers. A send-back re-runs the play that
+      writes that kind of piece, for that one piece.
     committed_source: "main:docs/adr/033-approval-in-the-product-model.md sections 1, 2, 3, 6; main:docs/adr/032-drive-review-of-outcomes.md section 4"
   - id: G8
     principle: >
-      The person reviews the outcome, not the plays, and not the detail under the outcome. The
-      plays' records tell the review step what changed and why; they are not shown play by play.
-      A person has two interfaces, the intent they give and the output they see; the work in
-      between is agent work. The one committed opening for the work in between: the drive's review
-      shows what was assumed and on what basis.
-    committed_source: "main:docs/adr/032-drive-review-of-outcomes.md section 2 and its Alternatives (a viewer per play, lost); main:docs/philosophy/idsd.md 'The Plan Is the Human's Interface'; main:.garura/project/issues/617/specs/review-tool.md section 3 last sentence ('the plays are never shown'); main:docs/adr/034-plays-answer-from-memory-inside-a-drive.md section 4"
+      The person reviews the outcome, not the plays and not the detail under the outcome. The plays'
+      records are not shown play by play. The one committed opening into the work in between: the
+      drive's review shows what was assumed and on what basis.
+    committed_source: "main:docs/adr/032-drive-review-of-outcomes.md section 2 and Alternatives; main:docs/philosophy/idsd.md 'The Plan Is the Human's Interface'; main:.garura/project/issues/617/specs/review-tool.md section 3 last sentence; main:docs/adr/034-plays-answer-from-memory-inside-a-drive.md section 4"
   - id: G9
     principle: >
       Every decision an agent makes names the memory it came from: the tier, the file and the lines.
-      An answer with no source is not allowed. The review tool's memory view shows which memory each
-      decision came from.
+      An answer with no source is not allowed. The review view shows which memory each decision came
+      from. This is the committed ground for showing a source's tier, file and lines on the page.
     committed_source: "main:docs/adr/035-agents-work-only-from-memory.md sections 6 and 7; main:docs/adr/034-plays-answer-from-memory-inside-a-drive.md section 4"
   - id: G10
     principle: >
-      An answer comes from memory, read in order: this issue's short-term memory, then Garura
-      memory, then Phoenix memory. Never from the model alone. When no tier answers, the route is a
-      memory update a person approves, not an answer. The memory tool searches the way Claude Code
-      does (find files, search their text, read exact lines) and returns tier, file, lines and a
-      fingerprint; a search index, semantic or numbered nodes, was considered and set aside.
-    committed_source: "main:docs/adr/035-agents-work-only-from-memory.md sections 3, 4, 5 and Alternatives; main:docs/adr/036-approved-answer-lands-in-short-term-memory.md section 1; main:docs/adr/034-plays-answer-from-memory-inside-a-drive.md section 3; main:core/tools/memory/contract/v3.json (answer_rules nothing_found, short_term_is_this_issue)"
+      An answer comes from memory read in order (this issue's short-term memory, Garura, Phoenix),
+      never from the model alone. When no tier answers, the route is a memory update a person
+      approves. The memory tool finds, searches and reads exact lines and returns tier, file, lines
+      and a fingerprint; a search index was set aside.
+    committed_source: "main:docs/adr/035-agents-work-only-from-memory.md sections 3, 4, 5 and Alternatives; main:docs/adr/036-approved-answer-lands-in-short-term-memory.md section 1; main:docs/adr/034-plays-answer-from-memory-inside-a-drive.md section 3; main:core/tools/memory/contract/v3.json"
   - id: G11
     principle: >
-      The page speaks in plain words: no file paths, no field names, no YAML. When the person is
-      addressed, the lead is in product and outcome language and paths and field names sit in an
-      appendix. (The voice rule's own scope is replies to the person; the base design's rule is
-      the one that governs the page.)
-    committed_source: "main:.garura/project/issues/617/specs/review-tool.md section 4 'Keeping the load low'; main:core/components/memory/standards/rules/user-facing-voice.md (Scope, The rule); Phoenix memory origin/main standards/rules/user-facing-voice.md"
+      The page speaks in plain words: no file paths, no field names, no YAML. The voice rule's own
+      scope is replies to the person, so the base design's rule is the one that governs the page.
+    committed_source: "main:.garura/project/issues/617/specs/review-tool.md section 4 'Keeping the load low'; main:core/components/memory/standards/rules/user-facing-voice.md (Scope, The rule)"
   - id: G12
     principle: >
-      A draft from the web or the model is not used until a person approves it. So the person must
-      see what the draft came from: where it came from (marked) and its sources. Approve and Reject
-      each carry the person's words.
-    committed_source: "main:docs/adr/035-agents-work-only-from-memory.md section 5; main:core/tools/memory/contract/v3.json (propose requires draft_source and sources; decide needs the person's words); main:.garura/project/issues/617/specs/review-tool.md section 4 item 7 (the card lists the issue, what was missing, the draft, where it came from, the sources and whether it blocks)"
+      A draft from the web or the model is not used until a person approves it, so the card shows
+      where it came from (marked) and its sources. Approve and Reject each carry the person's words.
+    committed_source: "main:docs/adr/035-agents-work-only-from-memory.md section 5; main:core/tools/memory/contract/v3.json (propose requires draft_source and sources); main:.garura/project/issues/617/specs/review-tool.md section 4 item 7 on main"
   - id: G13
     principle: >
-      The build order is the extraction line: stories that touch only the tool and stories that
-      touch only Garura, tested every day they are built. Garura builds the pack; the tool renders it.
+      The build order is the extraction line: stories that touch only the tool and stories that touch
+      only Garura, tested every day they are built. Garura builds the pack; the tool renders it.
     committed_source: "main:.garura/project/issues/617/specs/review-tool.md section 7 (last paragraph) and section 3 ('Garura builds the pack')"
   - id: G14
     principle: >
-      One term per meaning. "Evidence" already names each play's run records. A "decision" or ADR
-      is a decision record at any level. "Resolution trace" is the R1 to R4 per-decision file
-      (retired in part by ADR 035). "Vectorless" is already used on main for the knowledge base's
-      PageIndex, a tree index that the model navigates.
-    committed_source: "main:core/grounding/glossary.md lines 42, 43, 61; main:docs/adr/035-agents-work-only-from-memory.md section 9; main:core/components/memory/knowledge/domains/.pageindex/pageindex.py (module docstring)"
+      One term per meaning. Evidence is each play's run records. A decision or ADR is a decision
+      record at any level. Resolution trace is the R1 to R4 per-decision file. Vectorless already
+      labels the knowledge base's PageIndex, a tree index the model navigates.
+    committed_source: "main:core/grounding/glossary.md lines 42, 43, 61; main:docs/adr/035-agents-work-only-from-memory.md section 9; main:core/components/memory/knowledge/domains/.pageindex/pageindex.py (docstring)"
+
+adr_037_coverage:
+  # For each departure from main's ADRs that this category carries: does the accepted ADR 037 cover it?
+  # (Coverage only. ADR 037's words are not the standard.)
+  - departure: "five sections (Intents, Product, ADRs, Memory, Agent decisions) in place of Memory and ADRs"
+    covered: yes
+    where: "ADR 037 section 3 and section 5; one-line pointers now on the status lines of ADR 032, 035 and 036"
+    effect: "The ADR-lag part of round 1 TDD-2 is closed."
+  - departure: "a decision keeps a trace of steps, each with a source, and the review tool shows it"
+    covered: yes
+    where: "ADR 037 sections 1, 2 and 3 (amends ADR 035 section 6 and section 7)"
+    effect: "Showing a trace conforms to ADR 035 section 6 and 7 as amended."
+  - departure: "a source is shown as its memory, file and lines, an exception to the no-file-paths rule"
+    covered: yes
+    where: "ADR 037 Negative / Risks ('A source is shown as its memory, file and lines ... an exception ... which [the owner] asked for')"
+    effect: "Recorded as a known exception. The committed ground for the content is main's ADR 035 sections 6 and 7 (G9). See TDD-16 for how the design attributes it."
+  - departure: "Ask memory, a plain-words search over all three tiers on the same memory tool, mocked only"
+    covered: partly
+    where: "ADR 037 section 4 covers the box, 'only the interface is plain words', and mocked only"
+    effect: "Who composes the plain-words answer, what the box shows when no tier answers, and how a question reaches the memory tool are not covered (TDD-7)."
+  - departure: "'Looks right' and 'send back so the agent decides again' on an agent decision"
+    covered: no
+    where: "ADR 037 Negative / Risks lists it under 'Not decided here', pointing at ADR 033 section 6"
+    effect: "Still open (TDD-4)."
+  - departure: "whether the Memory section lists Phoenix memory"
+    covered: no
+    where: "ADR 037 'Not decided here', second bullet"
+    effect: "Still open (TDD-12)."
+  - departure: "where a waiting product decision (decision.yaml) is reviewed, and who writes the approval on a card"
+    covered: no
+    where: "ADR 037 'Not decided here', third bullet (still open from ADR 036)"
+    effect: "Still open (TDD-3; the /adr accept owner is part of TDD-8)."
+  - departure: "whether the glossary gains a row for 'trace'"
+    covered: no
+    where: "ADR 037 'Not decided here', fourth bullet"
+    effect: "Still open (TDD-11 c)."
+  - departure: "ADR and agent-decision answers on a side panel with the Catch up button hidden"
+    covered: no
+    where: "ADR 037 section 3: 'Where this ADR is silent, ADR 036 section 7 stands: the reviews happen ... on the Catch up cards'"
+    effect: "ADR 037 keeps main's cards rule where it is silent, so the departure is unrecorded (TDD-6)."
+  - departure: "agent decisions grouped by the play that made them"
+    covered: no
+    where: "ADR 037 section 3 says 'every decision an agent made, with its trace' and nothing about grouping"
+    effect: "Stands against ADR 032 section 2 (TDD-5)."
+  - departure: "the pack-piece route (Garura builds pieces; the tool never reads the memory tool's answers)"
+    covered: not an ADR matter
+    where: "It is the design applying main's section 1 and section 3, not departing from an ADR"
+    effect: "Judged under G1, G2, G13 (round 1 TDD-1; TDD-14 and TDD-15)."
+
+round1_disposition:
+  - id: TDD-1
+    round1_severity: P2
+    status: partly fixed
+    now: >
+      The route round 1 asked for is in the design: the page does not read the memory tool's answers
+      (review-tool.md 280-283); Garura's half turns each citations and updates answer into pack
+      pieces, a kind for an agent decision and each step a labelled section carrying the lines, the
+      lines around them and a state as data, with the source written in plain words by Garura
+      (283-289); story 9's Garura half says the same and ends 'so the tool never reads the memory
+      tool's answers' (490-493); the mock's embedded raw answers are called a stand-in only (289,
+      mock 1135-1137). That removes the P2: the design no longer commits the tool to the memory
+      tool's vocabulary.
+    residual: >
+      The bullet still carries the old sentence 'The page shows the memory tool's own answers, in the
+      contract's shape' (276-279) ahead of the new rule, so one bullet says both things (TDD-14).
+      The pack outline in section 3 was not updated, so the data the route promises has no shape the
+      contract can be written from (TDD-15).
+  - id: TDD-2
+    round1_severity: P3
+    status: partly fixed
+    now: >
+      ADR lag closed: ADR 037 records the five sections and amends ADR 032, 035 and 036 (see
+      adr_037_coverage). The extra clause about /adr accept is the open point ADR 037 lists as not
+      decided.
+    residual: "The 'Earlier text, kept' paragraph and its blanket line are unchanged (294-301). Carried as TDD-2 at P4."
+  - id: TDD-3
+    round1_severity: P3
+    status: stands
+    now: "Unchanged text (254-255). ADR 037 lists the question as still open from ADR 036; it does not decide it."
+  - id: TDD-4
+    round1_severity: P3
+    status: stands
+    now: "Unchanged text (290-291) and mock (1289-1290, 1342). ADR 037 lists 'what a person does on an agent decision' as not decided."
+  - id: TDD-5
+    round1_severity: P3
+    status: stands
+    now: "Unchanged: 'Grouped by play, problems first' (279); mock 1163, 1191, 1245. ADR 037 is silent on grouping."
+  - id: TDD-6
+    round1_severity: P3
+    status: stands
+    now: "Unchanged: mock 1175 hides Catch up outside Memory; ADR and decision answers on the side panel 1285-1290. ADR 037 keeps the cards rule where silent."
+  - id: TDD-7
+    round1_severity: P3
+    status: stands
+    now: "Unchanged text (256-266) and mock (1124, 1207). ADR 037 section 4 covers the box and 'mocked only' but not who composes the answer, the no-answer path or the route."
+  - id: TDD-8
+    round1_severity: P3
+    status: partly fixed
+    now: >
+      The Garura half now names the citations check, turned into pack pieces (490-493). That was the
+      main unowned piece.
+    residual: >
+      Still unowned in the Garura half: building the tier summaries, Ask memory's answer path, and
+      re-running a decision on a send-back. Carried as TDD-8 at P3, narrowed.
+  - id: TDD-9
+    round1_severity: P3
+    status: fixed
+    now: >
+      The design now states the exception in two places (section 3, 150-152; 'Keeping the load low',
+      322-324) and in the Agent decisions bullet (284-290). The mock folds the fingerprint, the memory
+      version, the record id and the memory-update id into a Details fold (mock 1262, 1267) and keeps
+      tier, file and numbered lines in view. ADR 037 records the exception. The two committed
+      principles (no paths; name the file and lines) are no longer left in conflict.
+    residual: >
+      One approved-version code stays in view on the Phoenix tier card (mock 1118). It is not a
+      decision's source, so it is outside the stated exception; it is left to TDD-12 (what the Memory
+      section says about Phoenix memory), not filed separately. How the exception is attributed is
+      TDD-16.
+  - id: TDD-10
+    round1_severity: P3
+    status: stands
+    now: "Unchanged: the update cards show no sources (mock 1125-1128, 1278, 1318)."
+  - id: TDD-11
+    round1_severity: P4
+    status: stands
+    now: "Unchanged. ADR 037 uses 'vectorless' too (section 4) but ADR 035 on main does not carry the word; ADR 037 lists the glossary row as not decided."
+  - id: TDD-12
+    round1_severity: P4
+    status: stands
+    now: "Unchanged. ADR 037 lists it as not decided. The design now also disagrees with itself: the Memory bullet names two tiers (256-257), the kept paragraph names three (297-299)."
+  - id: TDD-13
+    round1_severity: P4
+    status: stands
+    now: "Unchanged: 'every decision an agent made' (267); the mock screen has no issue picker."
+
+round1_tally: {fixed: 1, partly_fixed: 3, stands: 9}
 
 conformance:
-  # Changes that conform to the committed design (no finding).
-  - change: "Story 9 is split into a tool half and a Garura half, and the extraction-line sentence follows (lines 470 to 482)"
+  # Changes since round 1 that conform to the committed design (no finding).
+  - change: "Agent decisions reach the page as pack pieces Garura builds; the page never reads the memory tool's answers (review-tool.md 280-289; story 9 Garura half 490-493)"
     verdict: conforms
-    basis: "G13. The same split as stories 1 to 4 and 5 to 8 on main, and it closes the note from the #675 review that main's #653 plan item 6 lists as note (c). The halves are not yet complete (TDD-8)."
-  - change: "The fifth section is named Agent decisions, not Evidence (lines 246 to 251)"
+    basis: "G1 and G13: Garura words arrive as data; Garura builds the pack and the tool renders it (main section 1 items 2 and 3; section 3 'Garura builds the pack'). The leftover contradiction is TDD-14; the missing pack shape is TDD-15."
+  - change: "Section 3 now reads 'The tool never sees a file path as something to open. The one place a path appears is an agent decision's source, carried as text'"
     verdict: conforms
-    basis: "G14. The glossary on main (line 42) says Evidence is each play's run records; the branch's text says so and chooses another word."
-  - change: "An Agent decisions screen shows each decision with the memory it rested on, and a decision with no source is flagged 'not allowed'"
+    basis: "G1 item 1 ('reads no Garura path') and G2 are about the tool opening or depending on a path. A path carried as display text is not that, and the content is what main's ADR 035 section 6 requires on the page (G9). ADR 037 records the exception."
+  - change: "The exception to the plain-words rule is stated in the design (section 4 bullet, and 'Keeping the load low')"
     verdict: conforms
-    basis: "G9. ADR 034 section 4 (the drive's review shows what was assumed and on what basis; an answer with no source is not allowed) and ADR 035 sections 6 and 7 (the view shows which memory each decision came from). The verdict buttons and the grouping are TDD-4 and TDD-5."
-  - change: "Ask memory looks in short-term memory (the picked issue), then Garura memory, then Phoenix memory"
+    basis: "G11 and G9 are no longer in conflict; main's ADR 035 sections 6 and 7 back the content. The attribution is TDD-16."
+  - change: "The mock folds the fingerprint, the memory version and the ids into a Details fold and keeps tier, file and numbered lines in view"
     verdict: conforms
-    basis: "G10. ADR 035 section 3 and ADR 036 section 1. What the box does when no tier answers is TDD-7."
-  - change: "The memory-update card shows the issue, what was missing, the draft, a marked source, whether it blocks, and needs the person's words to approve or reject; nothing is used before approval"
+    basis: "G11: the check data is out of the lead; G9: tier, file and lines stay."
+  - change: "The mock's sample ADR is 'Sample ADR' with id adr-sample-1, not a real ADR number"
     verdict: conforms
-    basis: "G12. ADR 035 section 5 and contract v3 decide. The missing sources line is TDD-10."
-  - change: "The mock's memory Catch up gives Approve and Reject as buttons (they take words) and Later on the left arrow"
+    basis: "The page says its data is made up (mock note); main numbers ADRs in docs/adr and the mock must not claim a number that is now taken."
+  - change: "The five-section switch and the ADRs, Memory and Agent decisions sections"
     verdict: conforms
-    basis: "G5. Base section 4 item 6: answers that take a comment are buttons, never swipes; swipe left leaves a card for later. The gap is for ADRs and agent decisions (TDD-6)."
-  - change: "The Phoenix tier is shown with its approved version"
+    basis: "Covered by ADR 037 sections 3 and 5 (see adr_037_coverage). Departure from main's ADR 036 section 7 is now recorded."
+  - change: "A step's source is read again and shown as same, changed (with what the lines say now), gone or no source; a decision with no source is flagged"
     verdict: conforms
-    basis: "main:.garura/project/issues/653/specs/plan.md log, 2026-10-18: unapproved Phoenix memory is not read. Whether the Memory section is said to show Phoenix memory in the text is TDD-12."
-  - change: "Ask memory is called mocked only; the mock says its data is made up; the Agent decisions records are the memory tool's real answers over real lines"
+    basis: "G9: ADR 034 section 4 and ADR 035 sections 6 and 7."
+  - change: "Round 1 conformance items (Agent decisions named, not Evidence; Ask memory looks short-term, Garura, Phoenix; update card marks where the draft came from and needs the person's words; Approve and Reject as buttons, Later on the left arrow; honest mock labelling; ADR accept and send-back by a person's click)"
     verdict: conforms
-    basis: "No committed principle is breached by an honest mock. The branch does not present Ask memory as built. What the design leaves unsaid about it is TDD-7."
-  - change: "Sending an ADR back with a comment, and accepting one by a person's click"
-    verdict: conforms
-    basis: "G7. ADR 032 section 4 lists send back for pieces of the outcome, and decisions are part of the outcome (section 2); ADR 036 section 9 says only a person accepts an ADR."
+    basis: "Unchanged since round 1; G14, G10, G12, G5, G7 as then."
 
 carried_not_new:
   - >
     The memory-updates paragraph and the approval-by-typing and short-term-only statements that main
     already carries (from the #658 change) are kept as 'Earlier text' in this diff. Their wording is
     not changed here, so they are not judged again. They were judged in the #675 review, and the
-    committed #653 plan (item 5 and its log) already says ADR 035 section 5 and ADR 036 sections 2
-    to 4 need amending for them.
+    committed #653 plan (item 5 and its log) already says ADR 035 section 5 and ADR 036 sections 2 to
+    4 need amending for them.
 
 findings:
-  - id: TDD-1
-    file: ".garura/project/issues/617/specs/review-tool.md; .garura/project/issues/617/specs/review-tool-mockup.html"
-    lines: "review-tool.md 265-280 (the Agent decisions bullet) and 470-478 (story 9); review-tool-mockup.html 1134, 1149-1151, 1253-1260, 1265"
-    severity: P2
+  - id: TDD-14
+    new_in_round: 2
+    file: ".garura/project/issues/617/specs/review-tool.md"
+    lines: "276-283 (the Agent decisions bullet), 289-293 ('stand-in only' and 'the local page reads them live')"
+    severity: P3
     principle: >
-      The tool is extractable and talks to Garura only through its own contract (G1). Garura
-      words arrive as data; the tool code never names them. The pack is outcome-shaped and the
-      tool never sees a file path (G2).
+      The tool is extractable and talks to Garura only through its own contract; Garura words arrive
+      as data and the tool code never names them (G1). The design must say one thing about where the
+      coupling is. Round 1 found the document saying two things; the fix has left two things in one
+      bullet.
     committed_source: >
-      main:.garura/project/issues/617/specs/review-tool.md section 1 items 2, 3 and 7, and section 3
-      ('The pack is outcome-shaped, not file-shaped. The tool never sees a file path.').
+      main:.garura/project/issues/617/specs/review-tool.md section 1 items 1, 2, 3 and 7; section 3
+      ('Garura builds the pack'); section 7 last paragraph (the extraction line).
     violation: >
-      The Agent decisions bullet says "The page shows the memory tool's own answers, in the
-      contract's shape: citations --check and updates". The mock does exactly that: it embeds the
-      memory tool's raw answer and the page code reads the memory tool's own words (records, trace,
-      around, now_around, from_update, citation_id, tier, path, start, end, fingerprint, version,
-      and the problem names source_changed, source_missing and no_source). So the review tool's
-      code would name Garura's memory vocabulary, speak a second contract (the memory tool's
-      version 4) next to its own, and receive file paths. That is the coupling base section 1 rules
-      out. Story 9's own Garura half (line 475) says the pack is built from the memory tool's
-      answers, which is the right shape, so the same document says two different things about
-      whether the page reads the raw answer or a pack.
+      Lines 276-279 still say 'The page shows the memory tool's own answers, in the contract's shape:
+      `citations --check` and `updates`'. Lines 280-283 then say 'The page does not read those
+      answers itself'. A builder of #664 who reads the first sentence builds the coupling the second
+      forbids. Lines 291-293 add 'the local page reads them live' with no note that this is the local
+      prototype of section 7's 'what stands in until then', outside the extraction line, so the
+      sentence reads as a statement about the real page. The inserted paragraph also splits one
+      sentence, so 'Looks right, or send back so the agent decides again from memory as it is now'
+      (290-291) now follows 'a stand-in only'.
     backed_by_owner_decision: >
-      Partly. The owner asked for the trace to be shown with its sources and the lines around
-      them. Nothing quoted says the page should read the memory tool's answer directly or that the
-      review tool should learn its words.
+      Partly. The owner asked for the route (the pack pieces) in the round 1 review; nothing asks for
+      the old sentence to stay.
     recommendation: >
-      Say that Garura's half turns each citations answer into pieces in the pack: a kind for an
-      agent decision, each step as a labelled section carrying the lines, the lines around and a
-      state (same, changed, gone, no source) as data, with the source already written as plain
-      words by Garura. Mark the mock's embedded raw answer as stand-in only, outside the extraction
-      line.
+      Reword the first sentence to 'The mockup shows the memory tool's own answers' (or delete it),
+      say 'the local prototype reads them live, outside the extraction line' in the last sentence,
+      and move 'Looks right, or send back ...' to follow the Grouped-by-play sentence.
+
+  - id: TDD-15
+    new_in_round: 2
+    file: ".garura/project/issues/617/specs/review-tool.md"
+    lines: "section 3 pack outline (150-172) against 283-289 (the pieces Garura builds) and 487-493 (story 9)"
+    severity: P3
+    principle: >
+      The pack outline is what the contract is written from (story 1), and Garura words arrive in it
+      as data: kinds with a label, an icon and the verbs they allow (G1, G2). One term per meaning
+      (G14): 'decision' is already a pack kind meaning a decision record at any level.
+    committed_source: >
+      main:.garura/project/issues/617/specs/review-tool.md section 1 items 2 and 3; section 3 (the
+      pack outline: kinds, pieces[], sections[] with a label, a before, an after and editable yes or
+      no; change added/changed/removed/same); section 7 story 1; main:core/grounding/glossary.md line
+      61.
+    violation: >
+      Section 4 now says Garura sends 'a kind for an agent decision, and each step a labelled section
+      that carries the lines, the lines around them and a state (same, changed, gone, no source) as
+      data'. The pack outline was not touched. Its kinds line lists six kinds and no agent decision;
+      its sections are before and after text, which cannot say which of the numbered lines the agent
+      used (the part the owner asked to see marked) or carry a state; and its 'change' and 'status'
+      fields mean what a drive did to a piece, not whether a source still says the same. The word
+      'decision' in the kinds line already means a product decision record, so the new kind needs a
+      distinct label and the doc names none. The route is stated; the data shape it needs is not
+      anywhere the contract can be written from.
+    backed_by_owner_decision: >
+      No. The owner decided the content to show (lines in their place, the used lines marked), not
+      the pack shape.
+    recommendation: >
+      Add the agent decision kind to the pack outline with its own label (not 'decision'), and give
+      a step a shape that carries numbered lines, which of them are marked, the lines now (for a
+      changed source) and the state. Note that the check data (fingerprint, version, ids) travels in
+      a details part the tool shows folded without understanding it.
+
+  - id: TDD-16
+    new_in_round: 2
+    file: ".garura/project/issues/617/specs/review-tool.md"
+    lines: "322-324 ('Keeping the load low' exception and its quote); 283-290"
+    severity: P4
+    principle: >
+      A claim that the owner decided something is only as good as the words it quotes, and the
+      committed ground for what the page must show is the ADR that says so. Showing a source's tier,
+      file and lines is required by the committed ADR 035 (G9); the design should cite that.
+    committed_source: >
+      main:docs/adr/035-agents-work-only-from-memory.md section 6 ('the tier, the file and the lines
+      it rests on') and section 7 (the review view shows which memory each decision came from);
+      main:docs/adr/034-plays-answer-from-memory-inside-a-drive.md section 4.
+    violation: >
+      The exception is credited to the owner with the quote 'the source should show a few lines
+      before and after'. That quote asks for the lines around a source, not for the memory, file
+      and lines to appear against the no-file-paths rule. The owner's request for the exception is
+      recorded only as the round 1 review reply and in ADR 037's Risks. A reader checking the
+      sentence against its quote finds a different decision. The design never points to main's ADR 035
+      sections 6 and 7, which already require it.
+    backed_by_owner_decision: >
+      Yes for the exception itself (the owner's round 1 reply, ADR 037 Risks). Not by the quoted words.
+    recommendation: >
+      Cite ADR 035 sections 6 and 7 and ADR 037 for the exception, and keep the 19 October quote
+      where it belongs, on the lines around each source.
 
   - id: TDD-2
-    file: ".garura/project/issues/617/specs/review-tool.md; .garura/project/issues/617/specs/review-tool-mockup.html"
-    lines: "review-tool.md 178-182, 197, 246-283; review-tool-mockup.html 344-348 (the five switches)"
-    severity: P3
+    carried_from_round_1: true
+    file: ".garura/project/issues/617/specs/review-tool.md"
+    lines: "294-301 ('The paragraphs below were written for the one combined section; they now read across these three' and 'Earlier text, kept')"
+    severity: P4
     principle: >
-      The review tool's third section is one section, Memory and ADRs. Three accepted ADRs and the
-      committed #653 plan say so (G4).
+      The third section on main is one section, Memory and ADRs, and the design must make clear which
+      kept sentences still hold once it is five (G4, G5).
     committed_source: >
-      main:docs/adr/036-approved-answer-lands-in-short-term-memory.md section 7 and section 8;
-      main:docs/adr/035-agents-work-only-from-memory.md section 7 (amended by 036);
-      main:docs/adr/032-drive-review-of-outcomes.md header ('the third section is Memory and ADRs,
-      not Memory'); main:.garura/project/issues/653/specs/plan.md 'When this plan is done'.
+      main:docs/adr/036-approved-answer-lands-in-short-term-memory.md sections 7 and 8;
+      main:docs/adr/032-drive-review-of-outcomes.md status line (the third section is Memory and ADRs).
     violation: >
-      The design now has five sections (Intents, Product, ADRs, Memory, Agent decisions) and says
-      the owner split the third into three. No ADR amendment is in this diff (nothing under
-      docs/adr changed), so ADR 032, 035 and 036 and the #653 plan still describe one section
-      called Memory and ADRs, and ADR 036's own Affects list names review-tool.md section 4 as a file
-      that follows it. The section also keeps the superseded one-section text beside the new
-      bullets ("Earlier text, kept", lines 282-304) with a blanket line that it "now reads across
-      these three", so a builder of #664 cannot tell which sentences hold. The doc also states, in
-      story 9's Garura half, that Garura applies the /adr accept; ADR 036 lists who writes the
-      approval on an ADR card as not decided.
+      The ADR lag is closed: ADR 037 covers the five sections and amends ADR 032, 035 and 036. What
+      remains is the design's own text. It still carries 'a third section next to Intents and Product
+      ... Every memory review and ADR review happens here', and 'here' now has three sections to
+      point at. The blanket line that the paragraphs below 'now read across these three' still does
+      not say which sentences survive. ADR 037 section 3 gives a builder the rule for what holds
+      (reviews on the Catch up cards where it is silent), which is why this is no higher than P4.
     backed_by_owner_decision: >
-      Yes for the split (the owner's 18 October decision, quoted in the added text and in the #659
-      plan log). So this is ADR lag, not a fault in the decision: the record has not caught up.
+      Yes for the split (ADR 037). Nothing asks for the old paragraph to stay as it is.
     recommendation: >
-      Record the split through /adr (an amendment to ADR 036 section 7 and the lines on ADR 032
-      section 3 and ADR 035 section 7) and have this document cite it. Until then add one line to
-      item 7 saying ADR 032, 035 and 036 still say one section, and say which kept sentences are
-      superseded by the new bullets.
+      Drop the first sentence of the kept paragraph and keep what still holds (Catch up cards,
+      Built in #664), citing ADR 037 for the sections.
 
   - id: TDD-3
+    carried_from_round_1: true
     file: ".garura/project/issues/617/specs/review-tool.md"
-    lines: "252-253 (the ADRs bullet); 246-251"
+    lines: "254-255 (the ADRs bullet)"
     severity: P3
     principle: >
-      Nothing is answered twice (G6). A product decision record and an ADR are one kind of record
-      at different levels, and whether a product decision waiting for a person is reviewed under
-      Decisions in Product or in the ADR section is an open point in ADR 036.
+      Nothing is answered twice (G6). A product decision record and an ADR are one kind of record at
+      different levels, and where a waiting product decision is reviewed is open.
     committed_source: >
       main:.garura/project/issues/617/specs/review-tool.md section 4 layout item 1;
       main:core/grounding/glossary.md line 61; main:docs/adr/036-approved-answer-lands-in-short-term-memory.md
-      Negative / Risks, Not decided here, first bullet.
+      Negative / Risks, 'Not decided here', first bullet.
     violation: >
-      The new ADRs section is "the decisions a person records with /adr: the ones waiting to be
-      accepted, and the accepted ones", answered there by Accept or Send back. The Product section
-      on main still lists Decisions as a kind with its own verbs (section 3 kinds, section 4 rail).
-      By the glossary these are the same record at product level. The text does not say which
-      switch answers a decision record and which shows it read-only, so one record can sit in two
-      switches. A third meaning of "decision" (an agent's, in Agent decisions) joins the page.
-    backed_by_owner_decision: >
-      No. The quoted decision names the three sections; it does not say where a product decision
-      record is answered.
+      Unchanged. The ADRs section answers 'the decisions a person records with /adr' by Accept or Send
+      back, and the Product section on main still lists Decisions as a kind with its own verbs. By the
+      glossary these are the same record, and the text does not say which switch answers it and
+      which shows it read-only. ADR 037 lists the question as still open; it does not decide it.
+    backed_by_owner_decision: "No."
     recommendation: >
-      One sentence: a product decision record is answered in the ADRs section (or in Product) and
-      shown read-only, with a link, in the other, the rule already used for an ICE. Say it in item 7
-      and close ADR 036's open point in the same /adr record as TDD-2.
+      One sentence in item 7: a product decision record is answered in one switch and shown
+      read-only, with a link, in the other; record the choice with the next /adr that touches this.
 
   - id: TDD-4
+    carried_from_round_1: true
     file: ".garura/project/issues/617/specs/review-tool.md; .garura/project/issues/617/specs/review-tool-mockup.html"
-    lines: "review-tool.md 277-278 ('Looks right, or send back so the agent decides again'); review-tool-mockup.html 1284-1287 (the Looks right and Send back buttons), 1338 (recorded as an event only)"
+    lines: "review-tool.md 290-291; review-tool-mockup.html 1289-1290 (Looks right and Send back), 1342 (recorded as an event only)"
     severity: P3
     principle: >
-      Approval is part of the product model; the pieces that carry it are listed; only the review
-      step writes approved or in progress; the review tool writes nothing to the model. A send-back
-      re-runs the play that writes that kind of piece, for that one piece (G7).
+      Approval is part of the product model; the pieces that carry it are listed; only the review step
+      writes approved or in progress; the review tool writes nothing to the model. A send-back re-runs
+      the play that writes that kind of piece, for that one piece (G7).
     committed_source: >
       main:docs/adr/033-approval-in-the-product-model.md sections 1, 3 and 6;
-      main:docs/adr/032-drive-review-of-outcomes.md section 4 and its Negative / Risks (each play
-      that writes a reviewed kind must be able to re-run for one piece).
+      main:docs/adr/032-drive-review-of-outcomes.md section 4 and its Negative / Risks.
     violation: >
-      A person can mark an agent decision "Looks right" or send it back so "the agent decides
-      again". An agent decision record is not among the pieces ADR 033 section 1 lists as carrying
-      approval, and no committed text says what "Looks right" writes, who writes it (the mock
-      records only an event), whether it counts as approval (ADR 033 section 3: agents build only
-      from approved pieces), or whether a decision whose source changed and is then marked right
-      keeps its stale source. A send-back also has no unit: which play re-runs, for which question,
-      and how a re-run decision replaces the old record, none of which any play can do today.
+      Unchanged. A person can mark an agent decision 'Looks right' or send it back so 'the agent
+      decides again'. An agent decision is not among the pieces ADR 033 section 1 lists as carrying
+      approval; nothing says what 'Looks right' writes or who writes it, whether it counts as
+      approval, or which play re-runs for which question. ADR 037 names this as not decided and
+      points at ADR 033 section 6, so it is a known open point, but the design and the mock present
+      both buttons as if it were settled. With the pack-piece route the verdict is an event on a
+      piece, which makes the missing answer (what Garura does with it) matter more.
     backed_by_owner_decision: >
-      Partly. The owner wants agent decisions seen (and ADR 034 section 4 backs showing what was
-      assumed and on what basis at the drive's review). No quoted decision or ADR backs a verdict on
-      one or a per-decision re-run.
+      Partly. The owner wants decisions seen; no quoted decision backs a verdict or a per-decision re-run.
     recommendation: >
-      Say what each answer records and who writes it (an event, applied by Garura's review step,
-      like the other answers), whether it is an approval or only a read mark, and what a send-back
-      re-runs. If it is only a read mark, call it "Seen" and drop the send-back until a play can
-      re-decide one question.
+      Say what each answer records and who applies it, and whether it is approval or a read mark. If
+      only a read mark, call it 'Seen' and drop the send-back until a play can re-decide one question.
 
   - id: TDD-5
+    carried_from_round_1: true
     file: ".garura/project/issues/617/specs/review-tool.md; .garura/project/issues/617/specs/review-tool-mockup.html"
-    lines: "review-tool.md 265-278 ('Grouped by play, problems first'); review-tool-mockup.html 1154-1155, 1242 (PLAYS, byPlay, one block per play)"
+    lines: "review-tool.md 279 ('Grouped by play, problems first'); review-tool-mockup.html 1157-1158 (PLAYS, byPlay), 1191, 1245 (one block per play, 'by N plays')"
     severity: P3
     principle: >
-      The person reviews the outcome, not the plays, and not the detail under the outcome. The
-      plays' records are not shown play by play. One committed opening: the drive's review shows what
-      was assumed and on what basis (G8).
+      The person reviews the outcome, not the plays. The plays' records are not shown play by play.
+      The one committed opening: the drive's review shows what was assumed and on what basis (G8).
     committed_source: >
-      main:docs/adr/032-drive-review-of-outcomes.md section 2 and Alternatives ('A viewer per play ...
-      lost: reviewing a play does nothing'); main:docs/philosophy/idsd.md (a person has two
-      interfaces; the work in between is agent work); main:.garura/project/issues/617/specs/review-tool.md
+      main:docs/adr/032-drive-review-of-outcomes.md section 2 and Alternatives (a viewer per play,
+      lost); main:docs/philosophy/idsd.md; main:.garura/project/issues/617/specs/review-tool.md
       section 3 ('the plays are never shown'); main:docs/adr/034-plays-answer-from-memory-inside-a-drive.md section 4.
     violation: >
-      The Agent decisions screen groups every decision under the play that made it (/intent,
-      /vision, /understand) and shows each step of the agent's reasoning, with an action on each
-      decision. ADR 032 section 2 says the review stays at the outcome level and the plays'
-      records are not shown play by play; its Alternatives rejects a per-play viewer. ADR 034
-      section 4 backs showing the assumption and its basis, so showing a decision with its source
-      conforms (see conformance). It does not back grouping by play, or the step-by-step trace as
-      something the person reviews.
+      Unchanged. Agent decisions are grouped under the play that made them and counted 'by N plays'.
+      Showing a decision with its basis conforms (ADR 034 section 4); grouping the screen by play does
+      not, and ADR 037 section 3 says 'every decision an agent made, with its trace' with no grouping.
     backed_by_owner_decision: >
-      Partly. The owner asked for agent decisions and for their traces to be shown (19 October);
-      nothing quoted asks for grouping by play.
+      Partly. The owner asked for agent decisions and their traces; nothing quoted asks for grouping by play.
     recommendation: >
-      Group by what the decision belongs to (the issue, the capability it served), which is
-      outcome-shaped, or record the exception to ADR 032 section 2 through /adr alongside TDD-2, and
-      say in the doc that the trace is shown so the person can check the basis, not to review the play.
+      Group by what the decision belongs to (the issue, the capability it served), or record the
+      exception to ADR 032 section 2 through /adr and say the trace is shown to check the basis, not
+      to review the play.
 
   - id: TDD-6
+    carried_from_round_1: true
     file: ".garura/project/issues/617/specs/review-tool.md; .garura/project/issues/617/specs/review-tool-mockup.html"
-    lines: "review-tool.md 252-253, 277-278, 284-288 (the kept sentence 'Every memory review and ADR review happens here, with the Catch up cards above'); review-tool-mockup.html 1172 (Catch up button hidden), 1281-1287 (side-panel buttons for ADRs and decisions)"
+    lines: "review-tool.md 254-255, 290-291, 299-300; review-tool-mockup.html 1175 (Catch up hidden outside Memory), 1285-1290 (side-panel buttons for ADRs and decisions)"
     severity: P3
     principle: >
-      Every memory review and ADR review happens in that section on the same Catch up cards: one
-      card per change, swipe right to accept, swipe left to leave for later; answers that take words
-      are buttons. The /adr accept moves onto a card in that section (G5).
+      Every memory review and ADR review happens in that section on the same Catch up cards: swipe
+      right to accept, swipe left to leave for later; answers that take words are buttons. The /adr
+      accept moves onto a card in that section (G5).
     committed_source: >
       main:docs/adr/036-approved-answer-lands-in-short-term-memory.md section 7 and Affects;
       main:.garura/project/issues/617/specs/review-tool.md section 4 item 6.
     violation: >
-      The new bullets give an ADR "Accept, or send back with a comment" and an agent decision
-      "Looks right, or send back", and say nothing about cards. The mock hides the Catch up button in
-      the ADRs and Agent decisions sections and answers them from a side panel, so an ADR cannot be
-      accepted on a card, which ADR 036 says the /adr accept does once the section exists. Memory
-      updates do get a Catch up. The kept sentence on lines 286-288 still says every review uses the
-      cards, so the document contradicts its own mock.
-    backed_by_owner_decision: >
-      No.
+      Unchanged. The ADRs bullet gives an ADR 'Accept, or send back with a comment' and the mock hides
+      the Catch up button for ADRs and Agent decisions, answering them from a side panel, while the
+      kept sentence (299-300) still says every ADR review uses the cards. ADR 037 section 3 keeps
+      main's cards rule 'where this ADR is silent', so the departure is not recorded anywhere.
+    backed_by_owner_decision: "No."
     recommendation: >
-      Say whether ADR and agent-decision cards exist in Catch up (an ADR: swipe right accepts, swipe
-      left leaves it, Send back a button with a comment) and show one in the mock, or state the
-      departure from ADR 036 section 7 and record it with TDD-2.
+      Say whether ADR cards exist in Catch up (swipe right accepts, swipe left leaves it, Send back a
+      button with a comment) and show one in the mock, or record the departure through /adr.
 
   - id: TDD-7
+    carried_from_round_1: true
     file: ".garura/project/issues/617/specs/review-tool.md; .garura/project/issues/617/specs/review-tool-mockup.html"
-    lines: "review-tool.md 254-264 (the Memory bullet, Ask memory); review-tool-mockup.html 1122, 1202-1206, 1333 (one canned answer for any question)"
+    lines: "review-tool.md 256-266 (the Memory bullet, Ask memory); review-tool-mockup.html 1124, 1207 (one canned answer for any question)"
     severity: P3
     principle: >
       An answer comes from memory, never from the model alone; when no tier answers, the route is a
-      memory update a person approves. The memory tool finds, searches and reads exact lines and
-      returns tier, file, lines and a fingerprint (G10). The review tool never calls Garura; calls
-      go from Garura to the tool or by the listener (G3).
+      memory update a person approves. The memory tool returns lines, tier, file and a fingerprint
+      (G10). The review tool never calls Garura (G3).
     committed_source: >
       main:docs/adr/035-agents-work-only-from-memory.md sections 4 and 5;
       main:docs/adr/034-plays-answer-from-memory-inside-a-drive.md section 3;
-      main:core/tools/memory/contract/v3.json (find, search, read; answer_rules nothing_found);
-      main:.garura/project/issues/617/specs/review-tool.md section 2 and section 1.
+      main:core/tools/memory/contract/v3.json; main:.garura/project/issues/617/specs/review-tool.md sections 1 and 2.
     violation: >
-      Ask memory is described as a plain-words question box whose answer "comes with the memory it
-      came from", with "the same memory tool the agents use" underneath. The committed tool returns
-      lines, not a written answer, so something must read the lines and compose the plain-words
-      answer; the design does not say what (a model? where does it run?). It does not say what the box
-      shows when no tier answers (the committed rule is a memory update, never an answer from the
-      model), and the mock shows only the success case: any question typed returns the same sample
-      answer. It also does not say how a question reaches the memory tool and back while a person
-      waits, when the review tool never calls Garura and its requests all go from Garura or the
-      listener. ADR 035 section 7 names no question box at all.
+      Unchanged. ADR 037 section 4 now covers the box and 'mocked only'. Still not said: who reads the
+      lines and composes the plain-words answer (the owner says the interface is 'nlp'), and on which
+      side of the line; what the box shows when no tier answers (the committed route is a memory
+      update, never an answer from the model); and how a question reaches the memory tool and back
+      while a person waits, when the tool never calls Garura. The mock shows only the success case.
     backed_by_owner_decision: >
-      Yes for the box and for mocking it only ("no need to build this whole thing now"). Not stated:
-      who composes the answer, the no-answer path, or how the question crosses the line.
+      Yes for the box and for mocking it only. Not stated: the composer, the no-answer path, the route.
     recommendation: >
-      Add three sentences: who writes the answer from the lines and on which side of the line; that
-      a question no tier answers shows "memory does not hold this" and offers to raise a memory
-      update, never an answer; and how the question travels (an event the listener answers by a
-      reply, like a comment). Record the box itself through /adr with TDD-2.
+      Three sentences: who writes the answer from the lines; that a question no tier answers shows
+      'memory does not hold this' and offers a memory update; how the question travels (an event the
+      listener answers by a reply).
 
   - id: TDD-8
+    carried_from_round_1: true
     file: ".garura/project/issues/617/specs/review-tool.md"
-    lines: "470-482 (story 9 and the sentence after it)"
+    lines: "486-497 (story 9 and the sentence after it)"
     severity: P3
     principle: >
-      Stories that touch only the tool and stories that touch only Garura are the extraction line.
-      Garura builds the pack; the tool renders it (G13).
+      Stories that touch only the tool and stories that touch only Garura are the extraction line;
+      Garura builds the pack and the tool renders it (G13).
     committed_source: >
       main:.garura/project/issues/617/specs/review-tool.md section 7 (last paragraph) and section 3
       ('Garura builds the pack').
     violation: >
-      Story 9's tool half lists "what each memory tier holds" and "which memory each decision came
-      from" as the tool's work. Both are Garura data. The Garura half names only the memory tool's
-      updates and the decision records for the pack, plus the decide and apply calls and the /adr
-      accept. Four pieces the section needs have no owner: building the tier summaries (what each
-      tier holds, counts, versions) into the pack; running the citations check and turning its result
-      into the pack; Ask memory's answer path; and re-running a decision on a send-back. So "touch
-      only Garura" cannot be tested for the Garura half as written.
-    backed_by_owner_decision: >
-      No.
+      Narrowed. The Garura half now owns the citations check turned into pack pieces (490-493). Still
+      without an owner in either half: building the tier summaries (what each tier holds, counts,
+      versions) into the pack; Ask memory's answer path; re-running a decision on a send-back. The
+      /adr accept is listed as Garura's, while who writes the approval on an ADR card is open in ADR
+      036 and ADR 037. So 'touch only Garura' cannot be tested for these.
+    backed_by_owner_decision: "No."
     recommendation: >
-      List the four in the Garura half, and say the tool half renders pieces and records events
-      for them without knowing what a tier or a citation is.
-
-  - id: TDD-9
-    file: ".garura/project/issues/617/specs/review-tool-mockup.html"
-    lines: "1256 (file path), 1258 (fingerprint and Phoenix version hash), 1263 (record id), 1265 (update id)"
-    severity: P3
-    principle: >
-      The page speaks plain words: no file paths, no field names. A source is the exception the
-      person must be able to check, and ADR 035 section 6 says a decision names the tier, the file
-      and the lines it rests on (G11, G9).
-    committed_source: >
-      main:.garura/project/issues/617/specs/review-tool.md section 4 'Keeping the load low' ('No file
-      paths, no field names, no YAML. Labels in plain words.');
-      main:docs/adr/035-agents-work-only-from-memory.md section 6;
-      main:core/components/memory/standards/rules/user-facing-voice.md (the voice rule's scope is
-      replies to the person, so the base design's rule is the one measured here).
-    violation: >
-      Each trace step shows the tier, the file path and the lines (backed by ADR 035 section 6), and
-      also a short fingerprint ("fingerprint 6b5ec069..."), a 12-character Phoenix memory version
-      hash, and record ids (a citation id and a memory-update id) in the lead lines. None of those
-      three helps the person judge a decision; they exist for the check. The design text never says
-      that showing a path is an exception to section 4's rule, so the two committed principles
-      (no paths; name the file and lines) are left in conflict.
-    backed_by_owner_decision: >
-      Partly. The owner asked for the source's lines in their place; nothing asks for fingerprints,
-      version hashes or ids to be shown.
-    recommendation: >
-      Keep tier, file and lines with the numbered lines; move the fingerprint, version and ids into a
-      "details" fold. Add one line to the section: a source is shown as file and lines by exception
-      to the plain-words rule, because the person must check it.
+      List the three in the Garura half and say the tool half renders pieces and records events for
+      them without knowing what a tier or a citation is.
 
   - id: TDD-10
+    carried_from_round_1: true
     file: ".garura/project/issues/617/specs/review-tool-mockup.html"
-    lines: "1124-1126 (the three waiting updates carry no sources), 1272-1276 (the update card), 1313-1316 (the Catch up card)"
+    lines: "1125-1128 (the three waiting updates carry no sources), 1278 (the update card), 1318 (the Catch up card)"
     severity: P3
     principle: >
-      Nothing from the web or the model is used until a person approves it, so the card must show
-      what the draft came from: where it came from, marked, and its sources (G12).
+      Nothing from the web or the model is used until a person approves it, so the card must show where
+      the draft came from (marked) and its sources (G12).
     committed_source: >
       main:docs/adr/035-agents-work-only-from-memory.md section 5;
       main:core/tools/memory/contract/v3.json (propose: sources is required, with draft_source);
-      main:.garura/project/issues/617/specs/review-tool.md section 4 item 7 (the card lists the
-      sources).
+      main:.garura/project/issues/617/specs/review-tool.md section 4 item 7.
     violation: >
-      The memory-update card and its Catch up card show a "Drafted from the web" or "Drafted by the
-      model" chip, the draft and the reason, but no sources. A person asked to approve a web or model
-      draft sees no link or lines behind it. The committed design lists the sources on the card, and
-      the contract requires them on every update. The mock added in this diff leaves out the one thing
-      ADR 035 section 5's safeguard depends on.
-    backed_by_owner_decision: >
-      No.
+      Unchanged. The update card and its Catch up card show a 'Drafted from the web' or 'Drafted by the
+      model' chip, the draft and the reason, but no sources. A person asked to approve a web or model
+      draft sees nothing behind it, which is what ADR 035 section 5's safeguard depends on.
+    backed_by_owner_decision: "No."
     recommendation: >
-      Add a Sources line to both cards (links for a web draft; memory lines for a memory draft;
-      "none given" shown plainly for a person or model draft), and give each sample update some.
+      Add a Sources line to both cards and give each sample update some ('none given' shown plainly
+      for a person or model draft).
 
   - id: TDD-11
+    carried_from_round_1: true
     file: ".garura/project/issues/617/specs/review-tool.md; .garura/project/issues/617/specs/review-tool-mockup.html"
-    lines: "review-tool.md 255-263 ('no index (vectorless, ADR 035 section 4)', the owner's quote about 'the tool'), 265-270 ('trace'); review-tool-mockup.html 1103, 1105"
+    lines: "review-tool.md 256-262 ('no index (vectorless, ADR 035 section 4)' and the owner's quote about 'the tool'), 267-268 ('trace'); review-tool-mockup.html 1105"
     severity: P4
     principle: >
-      One term per meaning (G14). Naming clarity: an ambiguous or overloaded name is bad design
-      leaking.
+      One term per meaning (G14). Naming clarity.
     committed_source: >
-      main:core/components/memory/knowledge/domains/.pageindex/pageindex.py (docstring: 'Vectorless
-      RAG', a hierarchical tree the model navigates, i.e. an index);
-      main:docs/adr/035-agents-work-only-from-memory.md section 4 and Alternatives (a search index,
-      'semantic, or numbered nodes', set aside; the tool searches like Claude Code does);
-      main:core/grounding/glossary.md line 43 ('Resolution trace') and main:docs/adr/035-agents-work-only-from-memory.md section 9.
+      main:core/components/memory/knowledge/domains/.pageindex/pageindex.py (docstring 'Vectorless RAG',
+      a tree the model navigates, i.e. an index); main:docs/adr/035-agents-work-only-from-memory.md
+      section 4 and Alternatives (an index set aside; the word 'vectorless' is not in it);
+      main:core/grounding/glossary.md line 43 and main:docs/adr/035-agents-work-only-from-memory.md section 9.
     violation: >
-      (a) "vectorless" is not in ADR 035. On main it labels the PageIndex tree index, which ADR 035
-      section 4 and Alternatives set aside; the design says "no index (vectorless, ADR 035 section
-      4)", so the citation does not carry the word and the word already names an indexed method.
-      (b) "the tool" appears in the owner's quote for three things (the review tool, the memory tool
-      and the one for Griffin) and the doc keeps the quote unglossed beside "the same memory tool
-      under both". (c) "trace" now means the memory tool's ordered steps; the glossary on main
-      still defines "Resolution trace" as the R1 to R4 file, which ADR 035 section 9 retires in part,
-      and has no entry for the new meaning.
+      Unchanged. (a) 'vectorless' is cited to ADR 035 section 4, which does not carry the word, and on
+      main the word names an indexed method. (b) 'the tool' in the owner's quote stands for three tools
+      beside 'the same memory tool under both'. (c) 'trace' now means the memory tool's ordered steps;
+      the glossary's 'Resolution trace' is the R1 to R4 file and there is no entry for the new meaning.
+      ADR 037 section 4 uses 'vectorless' as well and lists the glossary row as not decided, so (c) is
+      a known open point.
     backed_by_owner_decision: >
-      Partly. The owner chose the word "traces" (19 October) and spoke of "vectorless". What is
-      missing is only a pointer or a definition.
+      Partly. The owner chose the words; only a pointer or a definition is missing.
     recommendation: >
-      Say "no index" (or define vectorless in a clause); name the tool in each sentence; add a
-      glossary line for "trace" when the resolution rule is rewritten (#663).
+      Say 'no index' (or define vectorless in a clause); name the tool in each sentence; add the
+      glossary line when the resolution rule is rewritten (#663).
 
   - id: TDD-12
+    carried_from_round_1: true
     file: ".garura/project/issues/617/specs/review-tool.md; .garura/project/issues/617/specs/review-tool-mockup.html"
-    lines: "review-tool.md 254-255 (the Memory bullet); review-tool-mockup.html 1113-1117 (the three tier cards)"
+    lines: "review-tool.md 256-257 (the Memory bullet) against 297-299 (the kept paragraph); review-tool-mockup.html 1115-1119 (the three tier cards; the Phoenix card carries 'approved version 4f1c2e9a7b3d')"
     severity: P4
     principle: >
       The memory section shows short-term, Garura and Phoenix memory (G4).
@@ -502,45 +619,49 @@ findings:
       main:docs/adr/036-approved-answer-lands-in-short-term-memory.md section 7;
       main:docs/adr/035-agents-work-only-from-memory.md section 7.
     violation: >
-      The Memory bullet lists Garura memory and, once an issue is picked, its short-term memory. It
-      leaves out Phoenix memory. The mock still shows the Phoenix tier (its file count and approved
-      version) and Ask memory looks there. Text and mock disagree, and the text departs from ADR 036.
+      Unchanged, and now inside one file as well. The Memory bullet names Garura memory and an issue's
+      short-term memory; the kept paragraph says the section shows short-term, Garura and Phoenix
+      memory; the mock shows the Phoenix tier with a version code in view. ADR 037 lists 'whether the
+      Memory section lists Phoenix memory' as not decided, so the departure is open, not covered.
     backed_by_owner_decision: >
-      The owner's quoted words list only Garura memory and short-term memory, so the omission has
-      backing in words; the mock has none.
+      The owner's quoted words list only Garura memory and short-term memory; the mock has no backing.
     recommendation: >
-      Say whether Phoenix memory is shown (a count and its approved version) and make the text and
-      the mock agree; include it in the /adr record from TDD-2.
+      Say whether Phoenix memory is shown (a count and its approved version, or only through Ask
+      memory) and make the bullet, the kept paragraph and the mock agree.
 
   - id: TDD-13
+    carried_from_round_1: true
     file: ".garura/project/issues/617/specs/review-tool.md; .garura/project/issues/617/specs/review-tool-mockup.html"
-    lines: "review-tool.md 265-266 ('every decision an agent made'); review-tool-mockup.html 1233 (the headline), the Memory section's issue picker"
+    lines: "review-tool.md 267 ('every decision an agent made'); review-tool-mockup.html 1231-1247 (the screen and its headline 'for issue #613'); the issue picker exists only in the Memory overview"
     severity: P4
     principle: >
-      Short-term memory is the current issue only, and a decision record is kept in its issue's
+      Short-term memory is the current issue only and a decision record is kept in its issue's
       short-term memory. A drive's review is the whole-model view narrowed to what the drive changed.
     committed_source: >
       main:docs/adr/036-approved-answer-lands-in-short-term-memory.md section 1;
-      main:core/tools/memory/contract/v3.json (answer_rules short_term_is_this_issue);
+      main:core/tools/memory/contract/v3.json (short_term_is_this_issue);
       main:docs/adr/033-approval-in-the-product-model.md section 7.
     violation: >
-      The doc says the section shows "every decision an agent made" and does not say whose: one
-      picked issue's, one drive's, or every issue's. The Memory section has an issue picker; the
-      Agent decisions screen has none and its headline reads "for issue #613". A reader cannot tell
-      what the list is scoped to or how a drive's end review narrows it.
-    backed_by_owner_decision: >
-      No.
+      Unchanged. The doc says every decision an agent made without saying whose: one picked issue's,
+      one drive's, or every issue's. The Agent decisions screen has no picker and its headline names
+      one issue.
+    backed_by_owner_decision: "No."
     recommendation: >
-      Say that the list is the picked issue's (or the drive's) decisions, and add the same issue
-      picker to the screen.
+      Say the list is the picked issue's (or the drive's) decisions and add the picker to the screen.
 
 summary:
   principles_grounded: 14
-  conforming_changes: 9
-  findings_total: 13
-  by_severity: {P1: 0, P2: 1, P3: 9, P4: 3}
+  conforming_changes: 8
+  findings_total: 14
+  by_severity: {P1: 0, P2: 0, P3: 9, P4: 5}
   p1_present: false
-  p2: [TDD-1]
-  adr_lag_backed_by_owner_decision_but_no_record: [TDD-2, TDD-5, TDD-7, TDD-12]
-  departures_not_backed_by_a_quoted_owner_decision: [TDD-1, TDD-3, TDD-6, TDD-8, TDD-10, TDD-13]
-  departures_partly_backed: [TDD-4, TDD-5, TDD-7, TDD-9, TDD-11, TDD-12]
+  p2_present: false
+  p2: []
+  round1_by_severity: {P1: 0, P2: 1, P3: 9, P4: 3}
+  round1_fixed: [TDD-9]
+  round1_partly_fixed: [TDD-1, TDD-2, TDD-8]
+  round1_stands: [TDD-3, TDD-4, TDD-5, TDD-6, TDD-7, TDD-10, TDD-11, TDD-12, TDD-13]
+  carried: [TDD-2, TDD-3, TDD-4, TDD-5, TDD-6, TDD-7, TDD-8, TDD-10, TDD-11, TDD-12, TDD-13]
+  new: [TDD-14, TDD-15, TDD-16]
+  adr_lag_now_covered_by_adr_037: ["TDD-2 (five sections)", "the trace", "the path exception"]
+  still_not_covered_by_adr_037: [TDD-3, TDD-4, TDD-5, TDD-6, TDD-7, TDD-11, TDD-12]
