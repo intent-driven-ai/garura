@@ -130,7 +130,8 @@ class Scope(unittest.TestCase):
     def test_read_of_another_issue_is_caught(self):
         s = sample("search-short-term.json")
         hit = s["response"]["hits"][0]
-        read = {"command": "read", "request": {"issue": 655, "tier": "short-term", "path": hit["path"]},
+        read = {"command": "read", "request": {"issue": 655, "tier": "short-term", "path": hit["path"],
+                                               "start": hit["line"], "end": hit["line"]},
                 "response": {"ok": True, "contract_version": "1", "command": "read", "tier": "short-term",
                              "path": hit["path"], "start": hit["line"], "end": hit["line"], "text": hit["text"],
                              "fingerprint": hit["fingerprint"], "version": None}}
@@ -163,7 +164,7 @@ class Lifecycle(unittest.TestCase):
         s["response"]["update"]["status"] = "approved"
         self.assertTrue(cc.check_meaning(s, CONTRACT))
         s = sample("propose.json")
-        s["response"]["update"]["target_tier"] = "garura"
+        s["response"]["update"]["draft"] = "Launch with every provider."
         self.assertTrue(cc.check_meaning(s, CONTRACT))
 
     def test_decide_records_the_person(self):
@@ -204,6 +205,114 @@ class Lifecycle(unittest.TestCase):
         s = sample("updates.json")
         s["request"]["status"] = "approved"
         self.assertTrue(cc.check_meaning(s, CONTRACT))
+
+    def listed(self, **fields):
+        """updates.json, its one update changed, asked for with that update's status."""
+        s = sample("updates.json")
+        s["response"]["updates"][0].update(fields)
+        s["request"]["status"] = s["response"]["updates"][0]["status"]
+        return s
+
+    def test_waiting_has_no_decision(self):
+        self.assertTrue(cc.check_meaning(self.listed(decided_by="Kapil Viren Ahuja"), CONTRACT))
+
+    def test_decided_has_a_person(self):
+        self.assertTrue(cc.check_meaning(self.listed(status="approved"), CONTRACT))
+
+    def test_decided_is_not_yet_applied(self):
+        decided = dict(status="approved", decided_by="Kapil Viren Ahuja", reply="approve", decided_at="2026-10-18T09:20:00Z")
+        self.assertEqual(cc.check_meaning(self.listed(**decided), CONTRACT), [])
+        self.assertTrue(cc.check_meaning(self.listed(applied_version="4f1c2e9a7b3d", **decided), CONTRACT))
+
+    def test_propose_keeps_its_issue(self):
+        s = sample("propose.json")
+        for part in (s["request"], s["response"]["update"]):
+            part.update({"target_tier": "garura", "target_path": "product-os/decisions/payment-providers.md",
+                         "draft_source": "person"})
+        self.assertEqual(cc.check_meaning(s, CONTRACT), [])
+        s["response"]["update"]["issue"] = 614
+        self.assertTrue(cc.check_meaning(s, CONTRACT))
+
+    def test_apply_records_the_version_it_wrote(self):
+        s = sample("apply.json")
+        s["response"]["update"]["applied_version"] = "4f1c2e9a7b3d"
+        self.assertTrue(cc.check_meaning(s, CONTRACT))
+
+    def test_research_goes_to_short_term_first(self):
+        for source in ("web", "model"):
+            s = sample("apply-promotion.json")
+            s["response"]["update"]["draft_source"] = source
+            self.assertTrue(cc.check_meaning(s, CONTRACT), source)
+
+
+class Lookup(unittest.TestCase):
+    def test_looked_in_keeps_the_order(self):
+        s = sample("search.json")
+        s["response"]["looked_in"] = ["phoenix", "garura"]
+        s["response"]["answered_by"] = "garura"
+        s["response"]["hits"][0]["tier"] = "garura"
+        self.assertTrue(cc.check_meaning(s, CONTRACT))
+
+    def test_result_from_a_tier_not_looked_in(self):
+        s = sample("search-every-tier.json")
+        del s["request"]["every_tier"]
+        s["response"]["looked_in"] = ["short-term", "garura"]
+        self.assertTrue(cc.check_meaning(s, CONTRACT))
+
+    def test_answered_by_needs_a_result(self):
+        s = sample("search-nothing.json")
+        s["response"]["answered_by"] = "phoenix"
+        self.assertTrue(cc.check_meaning(s, CONTRACT))
+        s = sample("search.json")
+        s["response"]["answered_by"] = None
+        self.assertTrue(cc.check_meaning(s, CONTRACT))
+
+    def test_every_tier_answers_with_the_first_tier(self):
+        self.assertEqual(cc.check_meaning(sample("search-every-tier.json"), CONTRACT), [])
+        s = sample("search-every-tier.json")
+        s["response"]["answered_by"] = "phoenix"
+        self.assertTrue(cc.check_meaning(s, CONTRACT))
+        s = sample("search-every-tier.json")
+        s["response"]["looked_in"] = ["short-term", "garura"]
+        s["response"]["hits"] = s["response"]["hits"][:1]
+        self.assertTrue(cc.check_meaning(s, CONTRACT))
+
+
+class Refusals(unittest.TestCase):
+    def test_refused_read_passes_only_as_bad_request(self):
+        s = sample("read-other-issue-refused.json")
+        self.assertEqual(cc.check_sample(s, CONTRACT), [])
+        s["response"]["error"]["code"] = "not_found"
+        self.assertTrue(cc.check_meaning(s, CONTRACT))
+
+    def test_end_before_start_is_refused(self):
+        s = sample("read.json")
+        s["request"].update({"start": 42, "end": 41})
+        self.assertTrue(cc.check_meaning(s, CONTRACT))
+
+    def test_read_answers_what_was_asked(self):
+        for key, value in (("tier", "garura"), ("path", "knowledge/x.md"), ("start", 40), ("end", 43)):
+            s = sample("read.json")
+            s["response"][key] = value
+            self.assertTrue(cc.check_meaning(s, CONTRACT), key)
+        s = sample("read.json")
+        del s["request"]["start"]
+        self.assertTrue(cc.check_meaning(s, CONTRACT))     # start defaults to 1, the answer says 41
+
+    def test_answer_cannot_end_before_it_starts(self):
+        s = sample("read.json")
+        del s["request"]["end"]
+        s["response"]["end"] = 40
+        self.assertTrue(cc.check_meaning(s, CONTRACT))
+
+    def test_wrong_state_is_an_error_code(self):
+        self.assertEqual(cc.check_sample(sample("decide-not-waiting.json"), CONTRACT), [])
+
+    def test_answer_names_its_own_command(self):
+        s = {"command": "find", "request": {"issue": 613, "glob": "x"},
+             "response": {"ok": False, "contract_version": "1", "command": "health",
+                          "error": {"code": "tier_missing", "message": "m", "tier": None}}}
+        self.assertTrue(cc.check_sample(s, CONTRACT))
 
 
 class Boundary(unittest.TestCase):

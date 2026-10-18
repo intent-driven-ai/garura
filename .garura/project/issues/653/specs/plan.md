@@ -91,7 +91,7 @@ answer came from in a way anyone checks.
 
 ## Where we are now
 
-Decided, nothing built: ADR 035 is accepted. The review (`.garura/project/issues/613/specs/memory-review.md`)
+Decided, and the first piece built: ADR 035 is accepted. The review (`.garura/project/issues/613/specs/memory-review.md`)
 and the map of how agents read memory are done. Kapil set the model above and
 chose B. The feature (#653), its decision spike (#654) and its stories
 (#655–#664) are filed. The contract (item 2, #655) is built and lands with its

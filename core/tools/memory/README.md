@@ -27,13 +27,14 @@ because the project has not pulled something yet: the tool goes a level up and f
 
 Every lookup names the issue the work is on. Short-term memory is read only in that issue's
 folder (`<issue>/`), never in another issue's. Otherwise another issue's old notes would answer
-first, and Garura and Phoenix memory would never be reached. For example, an agent on #655 that
-searches for "commit message" must not stop at #274's old fix notes; it must go on to the commit
-rule in Garura memory. Kapil: "It reads only in the current issue that it is working on."
+first, and Garura and Phoenix memory would never be reached. For example, an agent that searches
+for "commit message" must not stop at another issue's old fix notes; it goes on to the commit rule
+in Garura memory. A read of another issue's short-term path is refused (`bad_request`).
 
 - `tier` asks one tier only.
-- `every_tier` looks in all three and does not stop at the first answer. Asking for `tier` and
-  `every_tier` together is an error (`bad_request`).
+- `every_tier` looks in all three and does not stop at the first answer. `answered_by` is then
+  the first tier in the lookup order that has a result. Asking for `tier` and `every_tier`
+  together is an error (`bad_request`).
 
 A lookup never skips a tier. If it reaches a tier with no setting, or one it cannot reach, it
 fails with `tier_missing`. "Never stops a piece of work" means a piece the project has not
@@ -74,17 +75,14 @@ A memory update moves through `waiting` → `approved` or `rejected` → `applie
 ## When no tier answers
 
 1. The agent finds the answer by research — the web or the model may draft it — and raises it
-   with `propose`.
+   with `propose`, aimed at the issue's short-term memory. A draft from the web or the model
+   never goes straight to Garura or Phoenix memory.
 2. A person reviews the draft and approves or rejects it (`decide`). Nothing in it is used before
    that.
 3. The approved answer is written to the issue's own short-term memory (`apply`). The work then
    decides from memory, and cites it.
 4. Moving it up to Garura or Phoenix memory is a **promotion**. It happens outside the work, as
-   its own memory update a person approves.
-
-Kapil: "That is then reviewed by the human, and it needs to be approved. That information goes
-into STM, the local memory." And: "The promotion from STM to [Garura] memory and long-term memory
-happens outside".
+   its own memory update a person approves, drafted from memory (or by a person).
 
 ## What every answer carries
 
@@ -111,17 +109,24 @@ happens outside".
 
 The check holds every sample to these, beyond its shape:
 
+- A request the contract refuses is answered with `bad_request`, never with an answer: `tier`
+  with `every_tier`, a `read` with `end` before `start`, and a `read` of a short-term path
+  outside the issue.
 - `looked_in` lists the tiers looked in, in the lookup order.
+- `answered_by` names a tier only when that tier has a result, and is empty only when nothing was
+  found. With `every_tier`, `looked_in` is all three tiers.
 - "Nothing found" (`answered_by: null`) only after every tier was looked in — or just the one
   asked for. A shorter `looked_in` with nothing found is a silent skip, and fails.
 - Without `every_tier`, the lookup stops at the first tier that answers, and every result comes
   from that tier.
 - Every short-term path in an answer starts with `<issue>/`, the issue the request named.
+- `read` answers the tier, file and lines asked (from line 1 to the last line when not given).
 - A fingerprint is the sha256 of the exact text it travels with.
 - A memory update agrees with its status. `waiting` has no decision yet. `approved`, `rejected`
   and `applied` carry the person, their reply and the time. An update applied to Phoenix memory
   carries its commit.
 - An update to short-term memory names its issue, and its path is in that issue's folder.
+- An update drafted from the web or the model goes to short-term memory.
 - `propose` answers `waiting`, with what was asked exactly as given.
 - `decide` answers `approve` as `approved` and `reject` as `rejected`, with the person and their
   reply exactly as given.
@@ -134,10 +139,11 @@ The check holds every sample to these, beyond its shape:
 |---|---|
 | `settings_missing` | The tool has no settings at all. |
 | `tier_missing` | A tier has no setting or cannot be reached. |
-| `bad_request` | The request does not match the contract, or reads another issue's short-term memory. |
+| `bad_request` | The request does not match the contract, or reads a short-term path outside its issue. |
 | `not_found` | The file or update named does not exist. |
 | `out_of_range` | The lines asked for are outside the file. |
-| `not_approved` | `apply` on an update no person approved. |
+| `not_approved` | `apply` on an update no person approved: it is waiting or was rejected. |
+| `wrong_state` | `decide` on an update that is not waiting, or `apply` on one already applied. |
 | `changed` | The target changed after the update was proposed. |
 
 ## What is not memory

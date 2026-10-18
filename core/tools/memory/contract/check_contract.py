@@ -155,6 +155,8 @@ def check_update(u):
         problems.append(f"update {uid} was applied to Phoenix memory with no commit")
     if u.get("target_tier") == "short-term" and not in_issue(u.get("target_path"), u.get("issue")):
         problems.append(f"update {uid} goes to short-term memory but its path is not in its issue {u.get('issue')}")
+    if u.get("draft_source") in ("web", "model") and u.get("target_tier") != "short-term":
+        problems.append(f"update {uid} was drafted by research but targets {u.get('target_tier')!r}: it goes to short-term memory first")
     return problems
 
 
@@ -199,10 +201,45 @@ def check_lifecycle(request, response):
     return problems
 
 
+def refusal(command, request):
+    """Why the contract refuses this request with bad_request, or None (answer rule refusals)."""
+    if request.get("tier") and request.get("every_tier"):
+        return "tier with every_tier"
+    if command == "read":
+        start, end = request.get("start"), request.get("end")
+        if start is not None and end is not None and end < start:
+            return "a read with end before start"
+        if request.get("tier") == "short-term" and not in_issue(request.get("path"), request.get("issue")):
+            return f"a read of short-term path {request.get('path')!r} outside issue {request.get('issue')}"
+    return None
+
+
+def check_read(request, response):
+    """read answers what was asked (answer rule read_answers_what_was_asked)."""
+    problems = []
+    if response.get("tier") != request.get("tier") or response.get("path") != request.get("path"):
+        problems.append("read answered another tier or file than the one asked")
+    if response.get("start") != request.get("start", 1):
+        problems.append("read answered another start line than the one asked")
+    if "end" in request and response.get("end") != request["end"]:
+        problems.append("read answered another end line than the one asked")
+    if isinstance(response.get("start"), int) and isinstance(response.get("end"), int) and response["end"] < response["start"]:
+        problems.append("read answered an end before its start")
+    if "text" in response and "fingerprint" in response and response["fingerprint"] != fingerprint(response["text"]):
+        problems.append("read fingerprint is not the sha256 of its text")
+    return problems
+
+
 def check_meaning(sample, contract):
     """The contract's answer_rules, which a shape alone cannot express."""
     request, response = sample.get("request", {}), sample.get("response", {})
-    if not isinstance(response, dict) or response.get("ok") is not True:
+    if not isinstance(response, dict):
+        return []
+    reason = refusal(sample.get("command"), request)
+    if reason:
+        code = (response.get("error") or {}).get("code") if response.get("ok") is False else None
+        return [] if code == "bad_request" else [f"{reason} must be answered bad_request, not {code or 'ok'}"]
+    if response.get("ok") is not True:
         return []
     problems = check_scope(request, response) + check_lifecycle(request, response)
     order = contract["lookup_order"]
@@ -214,22 +251,22 @@ def check_meaning(sample, contract):
             problems.append("looked_in is not in lookup order")
         if answered is None and looked != expected_all:
             problems.append(f"nothing found after looking in {looked}, not {expected_all}: a tier was skipped")
+        if every and looked != order:
+            problems.append(f"every_tier looked in {looked}, not every tier")
         if answered is not None and not every and looked and looked[-1] != answered:
             problems.append(f"the lookup went on past {answered!r}, the first tier that answered")
         results = response.get("hits", response.get("matches", []))
         for r in results:
             if r.get("tier") not in looked:
                 problems.append(f"a result comes from {r.get('tier')!r}, which is not in looked_in")
-            elif not every and r.get("tier") != answered:
-                problems.append(f"a result comes from {r.get('tier')!r}, not the tier that answered")
+        first = next((t for t in order if any(r.get("tier") == t for r in results)), None)
+        if answered != first:
+            problems.append(f"answered_by is {answered!r}, but the first tier with a result is {first!r}")
         for h in response.get("hits", []):
             if "text" in h and "fingerprint" in h and h["fingerprint"] != fingerprint(h["text"]):
                 problems.append(f"hit {h.get('path')}:{h.get('line')} fingerprint is not the sha256 of its text")
-    if response.get("command") == "read" and "text" in response and "fingerprint" in response:
-        if response["fingerprint"] != fingerprint(response["text"]):
-            problems.append("read fingerprint is not the sha256 of its text")
-    if request.get("tier") and request.get("every_tier") and response.get("ok") is True:
-        problems.append("tier with every_tier must be bad_request, not an answer")
+    if response.get("command") == "read":
+        problems += check_read(request, response)
     return problems
 
 
