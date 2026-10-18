@@ -2,9 +2,9 @@
 plan_for: 657
 kind: story
 serves: "#657 — the memory tool finds memory across short-term, Garura and Phoenix memory the way Claude Code searches"
-status: active
+status: done
 updated: 2026-10-18
-now: 6
+now: -
 serves_plan: 653
 serves_item: 4
 ---
@@ -50,9 +50,9 @@ contract (#655, `core/tools/memory/contract/v1.json`) and `pull` / `pulled`
 
 ## Where we are now
 
-The change is open on `feature/657-memory-tool-search`. Its first commit closed
-out five finished plans. Items 2 and 3 are built: the tool finds, searches, reads and pulls. Items 4 and 5 are done: contract version 2, and
-Kapil's test passed on a fresh project. Next: item 6, land the change.
+Done. The memory tool finds, searches, reads and pulls across the three tiers;
+contract version 2; Kapil's test passed; PR #674 approved by Kapil and merged.
+This plan is done. Next in the #653 plan: item 5, memory updates (#658).
 
 ## The plan, in order
 
@@ -104,15 +104,11 @@ Kapil's test passed on a fresh project. Next: item 6, land the change.
   pulled. Project memory removed: the lookup went up to Phoenix memory again; a lookup no
   tier can answer gave the empty answer, the cue for a memory update (#658). Record:
   `evidence/kapil-test.md`; runner: `evidence/kapil_test.py`.
-
-### 6. Land the change — now
-
-**Issue:** #657.
-**What:** in the last commit before the merge, mark this plan done and item 4 of
-the #653 plan done; then commit, raise, review and merge. Story texts these
-answers change (#657, #658) are fixed only when Kapil asks.
-**Done when:** merged to main.
-**Needs:** item 5.
+- **6. Shipped: the memory tool** — #657, PR #674. Reviewed with the gate on for that
+  run; the machine recommended reject on 17 P1s, all the word "password" in demo test
+  data; Kapil approved on 18 October. Two real faults from that review are the first
+  fixes of #658. This plan and item 4 of the #653 plan are closed in the last commit
+  before the merge.
 
 ## After this story (found by the self-review, owned elsewhere)
 
@@ -140,3 +136,4 @@ answers change (#657, #658) are fixed only when Kapil asks.
 - 2026-10-18 — Item 5 shown: Kapil's test passed on a fresh project.
 - 2026-10-18 — Kapil asked who calls the tool: no agent yet. He kept the plan order (agents move in #661 after #658–#660) and said land it.
 - 2026-10-18 — Self-review (0 blocking, 12 notes): fixed the command line so every failure answers in JSON, old version-1 wording, tests that left temp folders, and the test record; the rest is placed above.
+- 2026-10-18 — Item 6 done: PR #674 approved by Kapil; plan closed before the merge.

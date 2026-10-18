@@ -4,7 +4,7 @@ kind: feature
 serves: "#653 — agents work only from memory, so drives can make their own decisions"
 status: active
 updated: 2026-10-18
-now: 4
+now: 5
 serves_plan: 606
 serves_item: 8
 ---
@@ -91,10 +91,9 @@ answer came from in a way anyone checks.
 
 ## Where we are now
 
-Decided, and three pieces shipped: ADR 035 and ADR 036 (#654, #667), the memory tool's
-contract (#655) and Phoenix memory with `pull` and `pulled` (#656, merged 18 October).
-Memory is now in Phoenix memory. Next: item 4, the memory tool's search and edit (#657),
-with Kapil's login and change-password test as its finish test.
+Decided, and four pieces shipped: ADR 035 and ADR 036 (#654, #667), the contract (#655),
+Phoenix memory with `pull` and `pulled` (#656), and the memory tool (#657, PR #674).
+Next: item 5, memory updates (#658), starting with the two fixes from the #674 review.
 
 ## The plan, in order
 
@@ -127,33 +126,20 @@ with Kapil's login and change-password test as its finish test.
   pull request.
 
 - **3. Shipped: Phoenix memory and pull** — #656, PR #671, merged 18 October. `intent-driven-ai/phoenix-memory` (private) holds all of `core/components/memory/`; `pull` and `pulled` (`core/tools/memory/pull.py`) bring a piece into Garura memory and show what is behind; dead memory settings removed; the PR review rules are read from Garura memory. Changed on Kapil's word: the installer pulls nothing (three set-up plays will fill a project's first memory), `core/components/memory/` is removed after the memory tool (item 10), and the `.garura/` clean-up is #670. ADR 035 §2 still needs its amendment (its own `/adr` change).
+- **4. Shipped: the memory tool** — #657, PR #674, approved by Kapil on 18 October.
+  `core/tools/memory/memory.py` finds, searches and reads across short-term, Garura and
+  Phoenix memory in that order, reads Phoenix memory only at its approved version, and
+  pulls a Phoenix file into Garura memory when it is read. Contract version 2: a lookup of
+  Garura or Phoenix memory works without an issue. Kapil's login and change-password test
+  passed on a fresh project. No agent calls it yet (item 8). ADR 035 §2 and ADR 036 §1
+  need amending for these decisions.
 
-### 4. Build the memory tool — now
-
-**Issue:** #657. Its plan: `.garura/project/issues/657/specs/plan.md`.
-**What:** the command-line tool from the contract, with a folder engine that
-finds, searches and reads exact lines across the three tiers, going up to
-Phoenix memory when the project has no answer, and that pulls a Phoenix file into
-the project when it is used (read). It writes no memory updates: those land in
-short-term memory (item 5), and `learn` and `promote` plays move memory up
-(Kapil, 2026-10-18). Every result carries its tier, file, lines
-and fingerprint. It works the same from Claude Code and Codex.
-**Why here:** items 5 to 8 call it.
-**Done when:** its tests pass on sample memory, nothing in its folder names
-Garura, and Kapil's test passes (2026-10-18, set in the #656 plan, item 1d): in
-an empty project, a simulated login story finds nothing in short-term or
-Garura memory, finds it in Phoenix memory and pulls it into the project; a
-re-run reads it all from Garura memory; a second story, change password, gets
-part from Garura memory and the rest from Phoenix memory. And when project
-memory is removed, the tool goes to Phoenix memory or raises a memory update
-that needs a person's approval (Kapil, 2026-10-18).
-**Needs:** items 2 and 3.
-Also, after this tool: `core/components/memory/` is removed from Garura once
-nothing names it (Kapil, 2026-10-18; see the #656 plan, "After this story").
-
-### 5. Memory updates instead of guesses
+### 5. Memory updates instead of guesses — now
 
 **Issue:** #658.
+**First:** two faults from the PR #674 review, fixed before any agent uses the tool: the
+contract's `pull` request (`{path}`) is refused by the tool; and a read from Phoenix
+memory can overwrite a different file at the same path in Garura memory.
 **What:** when no memory answers, the agent raises a memory update: what is
 missing, which tier it belongs in, a drafted entry, and where the draft came
 from (the person, the web, the model — marked). Nothing is used until a person
@@ -325,3 +311,4 @@ writes the approval when a person swipes right (ADR 033 §6).
 - 2026-10-18 — Item 3 done: #656 merged (PR #671). Now item 4 (#657).
 - 2026-10-18 — Kapil: memory updates land in short-term memory only; `learn` and `promote` plays move memory up; unapproved Phoenix memory is not read (item 5 note).
 - 2026-10-18 — Kapil kept the order: the agents move onto the tool in #661 after #658–#660, not right after #657. No agent calls the tool yet.
+- 2026-10-18 — Item 4 done: #657 approved by Kapil (PR #674). Now item 5 (#658).

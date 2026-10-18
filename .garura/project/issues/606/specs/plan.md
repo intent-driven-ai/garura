@@ -61,8 +61,8 @@ Three decisions are made (#592, #607, #619) and six things are shipped: plan mod
 ADR 034 decided — inside a drive a play answers from memory and asks only when
 memory holds nothing — and a review that found memory not ready. Kapil chose to
 fix the whole memory system first, as its own feature; Kickoff's runner waits for
-it. Memory (#653): items 1 to 3 are shipped (#654, #655, #656); now item 4, the memory
-tool (#657).
+it. Memory (#653): items 1 to 4 are shipped (#654, #655, #656, #657); now item 5,
+memory updates (#658).
 
 ## The plan, in order
 
@@ -176,3 +176,4 @@ Not part of this plan; recorded so the gaps in time make sense.
   item 8. Big update: an added piece of work, logged here.
 - 2026-10-18 — The memory system is filed: Feature #653 under #606, with spike #654 for its decision. Step 0 of item 8 now names them.
 - 2026-10-18 — Memory items 1 to 3 shipped; five finished child plans closed out (#617, #632, #654, #655, #656). Merge-play plan check chosen (plan mode, #621).
+- 2026-10-18 — Memory item 4 shipped: the memory tool (#657).
