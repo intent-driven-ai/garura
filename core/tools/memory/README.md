@@ -4,7 +4,7 @@ The one way agents find memory and update it. Today it works on folders. Later i
 server in Griffin. Agents that call it do not change when that happens, because they only ever
 talk to this tool, through the contract in `contract/v2.json`.
 
-This folder holds the contract (version 1), sample answers, the check that keeps them in
+This folder holds the contract (version 2), sample answers, the check that keeps them in
 step, and the tool: `memory.py`. Today the tool answers `health`, `find`, `search`, `read`,
 `pull` and `pulled`. The memory-update commands (`propose`, `updates`, `decide`, `apply`) and
 `cite` come in later steps.
@@ -64,7 +64,7 @@ at the first tier that has an answer. So the lowest tier answers whenever it can
 memory is reached only when the lower tiers have nothing. A lookup never stops a piece of work
 because the project has not pulled something yet: the tool goes a level up and finds it.
 
-Every lookup names the issue the work is on. Short-term memory is read only in that issue's
+A lookup names the issue the work is on, when there is one. Short-term memory is read only in that issue's
 folder (`<issue>/`), never in another issue's. Otherwise another issue's old notes would answer
 first, and Garura and Phoenix memory would never be reached. For example, an agent that searches
 for "commit message" must not stop at another issue's old fix notes; it goes on to the commit rule

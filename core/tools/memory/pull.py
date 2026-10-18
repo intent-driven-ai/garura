@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-pull.py — the memory tool's pull and pulled commands, on folders (contract version 1).
+pull.py — the memory tool's pull and pulled commands, on folders (contract version 2).
 
     python3 pull.py pull <path-or-glob>... [--phoenix DIR] [--garura DIR] [--ref REF]
     python3 pull.py pulled [--behind] [--phoenix DIR] [--garura DIR] [--ref REF]

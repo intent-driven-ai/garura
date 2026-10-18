@@ -323,6 +323,8 @@ def cmd_read(engine, request):
 
 
 def cmd_pull(engine, request):
+    if not request.get("patterns"):
+        raise Refusal("bad_request", "pull needs at least one path or glob.")
     return engine.pull(request["patterns"])
 
 
@@ -352,13 +354,25 @@ def run(command, request, env=None):
         answers = COMMANDS[command](engine, request)
     except Refusal as r:
         answers = error(command, r)
+    except OSError as exc:
+        # Garura memory could not be written (a pull, or saving a used Phoenix file)
+        answers = error(command, Refusal("tier_missing", f"Garura memory cannot be written: {exc}.", "garura"))
     return answers if isinstance(answers, list) else [answers]
 
 
 # --- the command line ----------------------------------------------------------------
 
+class BadFlags(Exception):
+    """A command line the tool cannot read; answered as bad_request, never a bare usage error."""
+
+
+class Parser(argparse.ArgumentParser):
+    def error(self, message):
+        raise BadFlags(message)
+
+
 def parse(argv):
-    ap = argparse.ArgumentParser(description=__doc__.splitlines()[1])
+    ap = Parser(description=__doc__.splitlines()[1])
     sub = ap.add_subparsers(dest="command", required=True)
     for name in COMMANDS:
         p = sub.add_parser(name)
@@ -367,7 +381,7 @@ def parse(argv):
             p.add_argument("--issue", type=int)
         if name in ("find", "search"):
             p.add_argument("--glob")
-            p.add_argument("--tier", choices=ORDER)
+            p.add_argument("--tier")
             p.add_argument("--every-tier", dest="every_tier", action="store_true", default=None)
         if name == "search":
             p.add_argument("--pattern")
@@ -375,7 +389,7 @@ def parse(argv):
             p.add_argument("--ignore-case", dest="ignore_case", action="store_true", default=None)
             p.add_argument("--max", type=int)
         if name == "read":
-            p.add_argument("--tier", choices=ORDER)
+            p.add_argument("--tier")
             p.add_argument("--path")
             p.add_argument("--start", type=int)
             p.add_argument("--end", type=int)
@@ -383,19 +397,32 @@ def parse(argv):
             p.add_argument("patterns", nargs="*")
         if name == "pulled":
             p.add_argument("--behind", action="store_true", default=None)
+    for name, p in sub.choices.items():
+        p.__class__ = Parser
     ns = ap.parse_args(argv)
     if ns.request:
         try:
             request = json.loads(ns.request)
         except ValueError as exc:
-            request = {"__unreadable__": str(exc)}
+            raise BadFlags(f"--request is not one JSON object: {exc}") from exc
+        if not isinstance(request, dict):
+            raise BadFlags("--request is not one JSON object.")
     else:
         request = {k: v for k, v in vars(ns).items() if k not in ("command", "request") and v not in (None, [])}
     return ns.command, request
 
 
 def main(argv=None):
-    command, request = parse(argv)
+    argv = sys.argv[1:] if argv is None else argv
+    try:
+        command, request = parse(argv)
+    except BadFlags as exc:
+        command = argv[0] if argv and argv[0] in COMMANDS else None
+        if command is None:
+            print(f"memory.py: {exc}. Commands: {', '.join(COMMANDS)}.", file=sys.stderr)
+            return 2
+        print(json.dumps(error(command, Refusal("bad_request", str(exc)))))
+        return 1
     answers = run(command, request)
     for a in answers:
         print(json.dumps(a))

@@ -5,9 +5,11 @@ Every answer the tool gives is also put through the contract check (shape and an
 rules), so the tool cannot drift from contract/v2.json.
 """
 
+import contextlib
+import io
+import json
 import os
 import sys
-import tempfile
 import unittest
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -16,7 +18,7 @@ sys.path.insert(0, os.path.join(HERE, "contract"))
 import check_contract as cc  # noqa: E402
 import memory  # noqa: E402
 import test_pull  # noqa: E402
-from test_pull import git, write  # noqa: E402
+from test_pull import git, scratch, write  # noqa: E402
 
 
 class Tiers(test_pull.Tiers):
@@ -29,7 +31,7 @@ class Tiers(test_pull.Tiers):
               "# User management\n## Sign-in\n- Lock the account after five failed sign-ins.\n"
               "## Passwords\n- A reset link expires after one hour.\n")
         self.commit("user management")
-        self.project = tempfile.mkdtemp()
+        self.project = scratch(self)
         self.garura = os.path.join(self.project, "g")
         self.short = os.path.join(self.garura, "issues")
         os.makedirs(self.short)
@@ -235,6 +237,42 @@ class Settings(Tiers):
         self.assertEqual(self.ask("search", {"issue": 7})["error"]["code"], "bad_request")
         self.assertEqual(memory.run("find", {"issue": 7, "glob": "*", "extra": 1}, self.env)[0]["error"]["code"],
                          "bad_request")
+
+
+class CommandLine(Tiers):
+    """Every command line gets a JSON answer, even one the tool cannot read."""
+
+    def main(self, argv):
+        old = dict(os.environ)
+        os.environ.update(self.env)
+        try:
+            with contextlib.redirect_stdout(io.StringIO()) as out:
+                code = memory.main(argv)
+        finally:
+            os.environ.clear()
+            os.environ.update(old)
+        return code, [json.loads(line) for line in out.getvalue().splitlines()]
+
+    def test_flags_and_a_whole_request_give_the_same_answer(self):
+        _, by_flags = self.main(["search", "--issue", "7", "--pattern", "reset link"])
+        _, by_request = self.main(["search", "--request", '{"issue": 7, "pattern": "reset link"}'])
+        self.assertEqual(by_flags, by_request)
+        self.assertEqual(by_flags[0]["answered_by"], "phoenix")
+
+    def test_what_the_tool_cannot_read_is_bad_request(self):
+        for argv in (["pull"], ["search", "--issue", "7", "--pattern", "x", "--tier", "project"],
+                     ["find", "--request", "{bad"], ["find", "--request", "[1]"], ["read", "--issue", "abc"]):
+            code, answers = self.main(argv)
+            self.assertEqual((code, answers[0]["error"]["code"]), (1, "bad_request"), argv)
+
+    def test_garura_memory_that_cannot_be_written(self):
+        blocked = os.path.join(self.garura, "pulled-memory")
+        os.makedirs(self.garura, exist_ok=True)
+        with open(blocked, "w") as fh:
+            fh.write("a file where the pull folder should be")
+        code, answers = self.main(["read", "--tier", "phoenix", "--path", "standards/rules/commits.md"])
+        self.assertEqual((code, answers[0]["error"]["code"], answers[0]["error"]["tier"]),
+                         (1, "tier_missing", "garura"))
 
 
 class Boundary(unittest.TestCase):
