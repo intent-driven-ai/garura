@@ -3,7 +3,7 @@
 The standard that all participating agents follow when `ltm_context` is
 present in their input contract. Defines the four-step resolution order,
 authority semantics, trace output requirements, and exemptions — and the decision trace every
-agent keeps once it works through the memory tool (ADR 035 §6).
+agent keeps once it works through the memory tool (ADR 035 §6, ADR 037).
 
 Referenced by: tech-designer, feature-steward, repo-orchestrator
 
@@ -101,7 +101,7 @@ resolution_trace:
 Return the path to this file as `resolution_trace_path` in the output
 contract's `stm.output` block (per DD10 in tech.yaml).
 
-## Every Decision Names Its Memory (ADR 035 §6)
+## Every Decision Names Its Memory (ADR 035 §6, ADR 037)
 
 **Scope.** This section binds every agent decision once the agent works through the memory
 tool. It does not depend on `ltm_context`. Until an agent has moved onto the tool, R1–R4, the
@@ -131,7 +131,7 @@ and for how a trace is checked.
 When the agents move onto the memory tool, R1–R4 and the Resolution Trace Output give way to
 this section. R4's fallback to the model does not carry over (ADR 035 §5 and §9).
 
-Related: ADR 034 §4; ADR 035 §5, §6 and §9; the memory tool's contract.
+Related: ADR 034 §4; ADR 035 §5, §6 and §9; ADR 037; the memory tool's contract.
 
 ## Context Isolation Exemptions
 

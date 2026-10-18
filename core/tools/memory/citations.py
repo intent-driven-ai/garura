@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 citations.py — decision records: every decision names the memory it came from (contract
-version 4, ADR 035 §6).
+version 4, ADR 035 §6, ADR 037).
 
 cite records a decision in the issue's short-term memory — the question, the answer, who
 decided, the play, and its trace: the steps the agent took, in order, each with what it looked
