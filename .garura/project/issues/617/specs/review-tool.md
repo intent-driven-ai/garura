@@ -300,8 +300,8 @@ gives the full model or the clean final text.
    apply the update to the issue's short-term memory. Moving memory up is not
    done here: `/learn-memory` (short-term to Garura memory) and
    `/promote-memory` (Garura to Phoenix memory, approved outside Garura) are
-   their own plays — planned, not filed yet. The mockup shows this section
-   (the "Memory and ADRs" switch).
+   their own plays — planned, not filed yet. The mockup shows these sections
+   (the ADRs, Memory and Agent decisions switches).
 
 **Keeping the load low** — the rules the page follows:
 
@@ -490,8 +490,8 @@ committed) gains a memory-updates page that lists the updates waiting in
 short-term memory and records each person's Approve or Reject through the
 memory tool. #658 builds that page. It is not a design of its own (Kapil, 18 Oct: "ensure
 that its part of same design. and not build solo"): it uses this tool's mockup — the same rail,
-top bar, look and Catch up cards — opened on the Memory and ADRs section, with Intents and
-Product shown but not yet built.
+top bar, look and Catch up cards — opened on the Memory section, with Agent decisions live
+too, and Intents, Product and ADRs shown but not yet built.
 
 ## 8. Risks
 

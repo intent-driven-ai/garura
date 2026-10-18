@@ -104,8 +104,8 @@ with `ok`, `contract_version` and `command`.
 | `find` | Finds files by name pattern, in the lookup order. |
 | `search` | Searches the text of files, in the lookup order, and returns each hit with its tier, file and line. |
 | `read` | Reads exact lines of one file and returns them with a fingerprint of the text. |
-| `cite` | Records a decision and the memory it rests on — the question, the answer, who decided, the play, and each source's tier, file, lines and fingerprint — in the issue's short-term memory. It reads every source first: one that is gone is `not_found`, one whose text changed is `changed`. |
-| `citations` | Lists an issue's decision records (optionally one play's). With `--check`, reads every source again: a record with no source, a source that is gone, and a source whose text changed are each a problem. |
+| `cite` | Records a decision and its trace in the issue's short-term memory: the question, the answer, who decided, the play, and the steps the agent took, in order — each with what it looked for, what it found, and its source (tier, file, lines, fingerprint). It reads every source first: one that is gone is `not_found`, one whose text changed is `changed`. The record keeps each source's exact text, the memory version, and up to 3 lines around it. A decision from an approved memory update names it (`from_update`), and the update's written file is the source of a step. |
+| `citations` | Lists an issue's decision records (optionally one play's). With `--check`, reads every step's source again: a record with no trace (`no_source`), a source that is gone (`source_missing`), and a source whose text changed (`source_changed`, with the lines now and the lines around them) are each a problem, named by its step. |
 
 **Updating memory**
 
@@ -136,7 +136,7 @@ A memory update moves through `waiting` → `approved` or `rejected` → `applie
 
 ## What every answer carries
 
-- **Every piece of text** the tool returns — from `read`, a `search` hit, a `cite` source —
+- **Every piece of text** the tool returns — from `read`, a `search` hit, a trace step's source —
   carries its tier, file, lines and fingerprint. A file list from `find` carries tier, file and
   version. `pull` names the tier it wrote to.
 - **Paths** are relative to the tier's root, use forward slashes, never start with a slash and
@@ -194,8 +194,9 @@ The check holds every sample to these, beyond its shape:
 | `out_of_range` | The lines asked for are outside the file. |
 | `not_approved` | `apply` on an update no person approved: it is waiting or was rejected. |
 | `wrong_state` | `decide` on an update that is not waiting, or `apply` on one already applied. |
-| `changed` | The target changed after the update was proposed. |
+| `changed` | The target changed after the update was proposed, or a source `cite` was given no longer says what its fingerprint says. |
 | `would_overwrite` | Garura memory already holds a different file at that path; nothing was overwritten. |
+| `unreadable` | An issue's decision records hold a line that is not a whole record (a cut-off write or a hand edit). The answer names the file and line; other issues are not stopped. |
 
 ## What is not memory
 
@@ -212,8 +213,9 @@ The check holds every sample to these, beyond its shape:
   folder can move to Griffin as it is.
 - Python standard library only, Python 3.10 or newer. No installs.
 - The contract changes only by a new version. Version 4 is `contract/v4.json` (#659: `cite`
-  records a decision with its sources after reading each one; `citations` lists an issue's
-  decision records and checks every source again; decision records and waiting drafts are never
+  records a decision with its trace — steps in order, each source read first and kept with its
+  text, version and the lines around it; `citations` lists an issue's decision records and checks
+  every step's source again, naming the step; decision records and waiting drafts are never
   found by a lookup). Version 3 (#658: every
   memory update lands in short-term memory, an update says whether it blocks, a person decides
   each one in the review tool, and a used file is never saved over a different Garura file).
