@@ -114,6 +114,21 @@ answers change (#657, #658) are fixed only when Kapil asks.
 **Done when:** merged to main.
 **Needs:** item 5.
 
+## After this story (found by the self-review, owned elsewhere)
+
+- ADR 035 and ADR 036 still say every lookup names its issue and that a piece is
+  pulled when it is found; they do not record that Phoenix memory is read only
+  at its approved version, or that updates land in short-term memory and
+  `learn` / `promote` plays move memory up. They need an amendment through
+  `/adr`, with the ADR 035 §2 one already owed.
+- The contract and the README still describe `apply` writing to Garura and
+  Phoenix memory. That text changes with the update flow (#658).
+- Nothing moves the approved version forward: the tool never fetches Phoenix
+  memory, and no project settings file is written yet. Both belong to the
+  install (#660).
+- Kapil's no-client-names rule, read by the pre-merge reviews from project
+  memory: #672. The merge play's plan check: #673.
+
 ## Log
 
 - 2026-10-18 — Created at the start of #657 from the issue, the contract
@@ -124,3 +139,4 @@ answers change (#657, #658) are fixed only when Kapil asks.
 - 2026-10-18 — Item 4 built: contract version 2.
 - 2026-10-18 — Item 5 shown: Kapil's test passed on a fresh project.
 - 2026-10-18 — Kapil asked who calls the tool: no agent yet. He kept the plan order (agents move in #661 after #658–#660) and said land it.
+- 2026-10-18 — Self-review (0 blocking, 12 notes): fixed the command line so every failure answers in JSON, old version-1 wording, tests that left temp folders, and the test record; the rest is placed above.

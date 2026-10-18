@@ -133,8 +133,10 @@ with Kapil's login and change-password test as its finish test.
 **Issue:** #657. Its plan: `.garura/project/issues/657/specs/plan.md`.
 **What:** the command-line tool from the contract, with a folder engine that
 finds, searches and reads exact lines across the three tiers, going up to
-Phoenix memory when the project has no answer, and that writes approved updates
-and pulls pieces into the project. Every result carries its tier, file, lines
+Phoenix memory when the project has no answer, and that pulls a Phoenix file into
+the project when it is used (read). It writes no memory updates: those land in
+short-term memory (item 5), and `learn` and `promote` plays move memory up
+(Kapil, 2026-10-18). Every result carries its tier, file, lines
 and fingerprint. It works the same from Claude Code and Codex.
 **Why here:** items 5 to 8 call it.
 **Done when:** its tests pass on sample memory, nothing in its folder names
