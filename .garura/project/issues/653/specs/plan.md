@@ -243,12 +243,19 @@ describe the three tiers and the tool, and the locked knowledge-base design note
 ### 11. The memory review
 
 **Issue:** #664.
-**What:** a Memory view in the review tool, next to Intents and Product: what
-each tier holds, the memory updates waiting for a person (approve, change,
-reject), and which memory each decision came from.
-**Done when:** a person approves a memory update and sees a decision's source in
-the tool.
+**What:** a third section in the review tool, **Memory and ADRs**, next to
+Intents and Product. It shows short-term, Garura and Phoenix memory: what each
+tier holds, the memory updates waiting for a person (approve, change, reject),
+and which memory each decision came from. It also shows the ADRs waiting for a
+person. Every memory review and ADR review happens there, with the same card
+method as intents and product: Catch up (#644), one card per change, swipe
+right to accept, swipe left to leave for later.
+**Done when:** a person approves a memory update and accepts an ADR on a card
+in the tool, and sees a decision's source there.
 **Needs:** items 5 and 6, and the review tool (#641–#644).
+**Also:** ADR 035 §7 names a Memory view only. Adding ADRs to it, and moving
+the `/adr` accept step (typed today, pinned) into the tool, need an ADR
+amendment and an `/adr` intent change (its ICE, then `/play-editor`) first.
 
 ## Log
 
@@ -282,3 +289,13 @@ the tool.
   knowledge-base design note to item 10 (#663). The three stories were edited to
   match.
 - 2026-10-18 — Item 2 built on #655: the contract, samples and check. Now on item 3 (#656).
+- 2026-10-18 — Kapil, on where reviews happen: "There needs to be a third
+  section of memory and ADRs in it, where it should be showing the STM, LTM,
+  and Phoenix memory allowed. Any reviews that happen happen there, and the
+  same card sweeping next method should be used." Item 11 now reads Memory and
+  ADRs, with the Catch up cards (#644).
+- 2026-10-18 — Kapil, on #655: when no tier answers, a person approves the
+  researched answer and it goes into the issue's short-term memory; promotion
+  to Garura or Phoenix memory happens outside the work. Short-term lookups read
+  only the current issue. This touches item 5 (#658): an approved update lands
+  in short-term memory first. ADR 035 §5 needs an amendment for it.
