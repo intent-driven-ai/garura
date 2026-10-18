@@ -1,0 +1,35 @@
+{
+  "command": "propose",
+  "request": {
+    "issue": 613,
+    "missing": "Which payment providers the shop must support at launch.",
+    "target_tier": "short-term",
+    "target_path": "655/context/answers/payment-providers.md",
+    "draft": "Launch with card payments only; add wallets after the first month.",
+    "draft_source": "web",
+    "sources": [],
+    "requested_by": "product-os-keeper (/vision)"
+  },
+  "response": {
+    "ok": true,
+    "contract_version": "1",
+    "command": "propose",
+    "update": {
+      "id": "mu-20261018-001",
+      "status": "waiting",
+      "issue": 613,
+      "missing": "Which payment providers the shop must support at launch.",
+      "target_tier": "short-term",
+      "target_path": "655/context/answers/payment-providers.md",
+      "draft": "Launch with card payments only; add wallets after the first month.",
+      "draft_source": "web",
+      "sources": [],
+      "requested_by": "product-os-keeper (/vision)",
+      "requested_at": "2026-10-18T09:12:00Z",
+      "decided_by": null,
+      "reply": null,
+      "decided_at": null,
+      "applied_version": null
+    }
+  }
+}

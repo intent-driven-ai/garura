@@ -113,6 +113,99 @@ class Meaning(unittest.TestCase):
         self.assertTrue(cc.check_meaning(s, CONTRACT))
 
 
+class Scope(unittest.TestCase):
+    def test_short_term_answer_from_this_issue(self):
+        self.assertEqual(cc.check_meaning(sample("search-short-term.json"), CONTRACT), [])
+
+    def test_hit_from_another_issue_is_caught(self):
+        s = sample("search-short-term.json")
+        s["request"]["issue"] = 655
+        self.assertTrue(cc.check_meaning(s, CONTRACT))
+
+    def test_issue_folder_must_match_exactly(self):
+        s = sample("search-short-term.json")
+        s["request"]["issue"] = 61          # "613/..." does not start with "61/"
+        self.assertTrue(cc.check_meaning(s, CONTRACT))
+
+    def test_read_of_another_issue_is_caught(self):
+        s = sample("search-short-term.json")
+        hit = s["response"]["hits"][0]
+        read = {"command": "read", "request": {"issue": 655, "tier": "short-term", "path": hit["path"]},
+                "response": {"ok": True, "contract_version": "1", "command": "read", "tier": "short-term",
+                             "path": hit["path"], "start": hit["line"], "end": hit["line"], "text": hit["text"],
+                             "fingerprint": hit["fingerprint"], "version": None}}
+        self.assertTrue(cc.check_meaning(read, CONTRACT))
+        read["request"]["issue"] = 613
+        self.assertEqual(cc.check_sample(read, CONTRACT), [])
+
+    def test_cite_of_another_issue_is_caught(self):
+        s = sample("cite.json")
+        s["request"]["sources"][0].update({"tier": "short-term", "path": "655/specs/plan.md"})
+        self.assertTrue(cc.check_meaning(s, CONTRACT))
+        s["response"]["stored"]["path"] = "655/context/citations.jsonl"
+        s["request"]["sources"][0]["path"] = "613/specs/plan.md"
+        self.assertTrue(cc.check_meaning(s, CONTRACT))
+
+    def test_every_lookup_names_its_issue(self):
+        for name in ("find.json", "search.json", "read.json"):
+            s = sample(name)
+            s["request"].pop("issue")
+            self.assertTrue(cc.check_sample(s, CONTRACT), name)
+
+
+class Lifecycle(unittest.TestCase):
+    def test_the_chain_passes(self):
+        for name in ("propose.json", "updates.json", "decide.json", "apply.json", "apply-promotion.json"):
+            self.assertEqual(cc.check_sample(sample(name), CONTRACT), [], name)
+
+    def test_propose_waits_and_keeps_what_was_asked(self):
+        s = sample("propose.json")
+        s["response"]["update"]["status"] = "approved"
+        self.assertTrue(cc.check_meaning(s, CONTRACT))
+        s = sample("propose.json")
+        s["response"]["update"]["target_tier"] = "garura"
+        self.assertTrue(cc.check_meaning(s, CONTRACT))
+
+    def test_decide_records_the_person(self):
+        s = sample("decide.json")
+        s["request"]["verdict"] = "reject"
+        self.assertTrue(cc.check_meaning(s, CONTRACT))
+        s = sample("decide.json")
+        s["response"]["update"]["decided_by"] = "product-os-keeper (/vision)"
+        self.assertTrue(cc.check_meaning(s, CONTRACT))
+        s = sample("decide.json")
+        s["response"]["update"]["id"] = "mu-other"
+        self.assertTrue(cc.check_meaning(s, CONTRACT))
+
+    def test_apply_needs_a_decision_and_its_own_target(self):
+        for status in ("waiting", "approved", "rejected"):
+            s = sample("apply.json")
+            s["response"]["update"]["status"] = status
+            self.assertTrue(cc.check_meaning(s, CONTRACT), status)
+        s = sample("apply.json")
+        s["response"]["written"]["path"] = "613/context/answers/other.md"
+        self.assertTrue(cc.check_meaning(s, CONTRACT))
+
+    def test_phoenix_apply_is_a_commit(self):
+        s = sample("apply-promotion.json")
+        s["response"]["update"]["target_tier"] = "phoenix"
+        s["response"]["written"]["tier"] = "phoenix"
+        self.assertTrue(cc.check_meaning(s, CONTRACT))
+        s["response"]["update"]["applied_version"] = s["response"]["written"]["version"] = "4f1c2e9a7b3d"
+        self.assertEqual(cc.check_meaning(s, CONTRACT), [])
+
+    def test_short_term_update_names_its_issue(self):
+        s = sample("propose.json")
+        s["request"].pop("issue")
+        s["response"]["update"]["issue"] = None
+        self.assertTrue(cc.check_meaning(s, CONTRACT))
+
+    def test_updates_filter_holds(self):
+        s = sample("updates.json")
+        s["request"]["status"] = "approved"
+        self.assertTrue(cc.check_meaning(s, CONTRACT))
+
+
 class Boundary(unittest.TestCase):
     def folder(self, files):
         root = tempfile.mkdtemp()

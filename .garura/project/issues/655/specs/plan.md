@@ -57,12 +57,15 @@ check are built. Next: item 4, landing the change.
   (version 1) and its plain guide `core/tools/memory/README.md`: eleven
   commands — health, find, search, read, cite, pull, pulled, propose, updates,
   decide, apply — the three tiers, the lookup order, the errors, and every
-  result carrying tier, file, lines and fingerprint. Not merged yet.
-- **3. Built: sample answers and the check** — #655. 14 samples (every
-  command, a `tier_missing` and a `not_approved` error, and an empty answer that
-  cues a memory update) pass; 6 broken samples fail; the folder names no project
-  path. `python3 contract/check_contract.py` from the tool's folder. Not merged
-  yet.
+  result carrying tier, file, lines and fingerprint. Every lookup names its
+  issue, and short-term memory is that issue only. A memory update a person
+  approves goes to the issue's short-term memory; promotion to Garura or
+  Phoenix memory happens outside the work. Not merged yet.
+- **3. Built: sample answers and the check** — #655. 17 samples (every
+  command, a `tier_missing` and a `not_approved` error, an empty answer that
+  cues a memory update, a short-term answer and a promotion) pass; 19 broken
+  samples fail; 33 tests cover the check; the folder names no project path.
+  `python3 contract/check_contract.py` from the tool's folder. Not merged yet.
 
 ### 4. Land the change — now
 
@@ -85,3 +88,16 @@ plan done.
   tier; the check had no tests and missed a newline in a path and `1` as
   `true`; the boundary scan was narrow. Now 15 samples, 12 broken samples, and
   20 tests for the check.
+- 2026-10-18 — The review of PR #666 found three design gaps. Kapil's answers:
+  (1) when no tier answers, the agent researches the answer, a person reviews
+  and approves it, and it goes into the issue's short-term memory — "That is
+  then reviewed by the human, and it needs to be approved. That information
+  goes into STM, the local memory"; promotion to Garura memory "happens
+  outside". (2) Short-term lookups read only the current issue — "It reads only
+  in the current issue that it is working on." Fixed on this branch: every
+  lookup names its issue; an update may target short-term memory; the check
+  now holds the approval steps (propose waits, decide records the person, apply
+  writes only an approved update to its own target). Still open for #658: how
+  `decide` proves a person, not an agent, gave the word. ADR 035 §5 still says
+  an approved update is written to Garura or Phoenix memory; it needs an
+  amendment for the short-term step.

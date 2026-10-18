@@ -1,6 +1,7 @@
 {
   "command": "read",
   "request": {
+    "issue": 613,
     "tier": "phoenix",
     "path": "knowledge/domains/ecommerce.md",
     "start": 41,

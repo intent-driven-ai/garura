@@ -9,7 +9,9 @@ Four checks, all from this folder alone (standard library only, Python 3.10 or n
      command's request shape, its response against the command's response shape;
   2. every sample also keeps the contract's answer rules (answer_rules): no tier
      is skipped silently, the first answer stops the lookup, results come from
-     tiers looked in, and a fingerprint is the sha256 of the text it travels with;
+     tiers looked in, short-term memory is the request's issue only, a memory
+     update moves waiting -> approved or rejected -> applied with a person's word,
+     and a fingerprint is the sha256 of the text it travels with;
   3. every sample in samples/broken/ fails at least one of those;
   4. the boundary: no file in the tool's folder names a path inside a project, the
      framework's source tree or a home folder, and no Python file imports from
@@ -118,12 +120,91 @@ def fingerprint(text):
     return "sha256:" + hashlib.sha256(text.encode("utf-8")).hexdigest()
 
 
+def in_issue(path, issue):
+    """A short-term path belongs to the issue when it starts with '<issue>/'."""
+    return isinstance(path, str) and issue is not None and path.startswith(f"{issue}/")
+
+
+def check_scope(request, response):
+    """Short-term memory is only the request's issue (answer rule short_term_is_this_issue)."""
+    problems = []
+    issue, command = request.get("issue"), response.get("command")
+    found = response.get("hits", response.get("matches", [])) if command in ("find", "search") else []
+    if command == "read":
+        found = [response]
+    if command == "cite":
+        found = list(request.get("sources", [])) + [response.get("stored", {})]
+    for r in found:
+        if r.get("tier") == "short-term" and not in_issue(r.get("path"), issue):
+            problems.append(f"short-term path {r.get('path')!r} is outside issue {issue}: short-term memory is that issue only")
+    return problems
+
+
+def check_update(u):
+    """One update record agrees with its status (answer rules update_matches_its_status, short_term_update_names_its_issue)."""
+    problems = []
+    status, uid = u.get("status"), u.get("id")
+    decision = [u.get(k) for k in ("decided_by", "reply", "decided_at")]
+    if status == "waiting" and (any(v is not None for v in decision) or u.get("applied_version") is not None):
+        problems.append(f"update {uid} is waiting but carries a decision")
+    if status in ("approved", "rejected", "applied") and any(v is None for v in decision):
+        problems.append(f"update {uid} is {status} but no person's decision is recorded")
+    if status in ("approved", "rejected") and u.get("applied_version") is not None:
+        problems.append(f"update {uid} is {status} but has an applied_version")
+    if status == "applied" and u.get("target_tier") == "phoenix" and u.get("applied_version") is None:
+        problems.append(f"update {uid} was applied to Phoenix memory with no commit")
+    if u.get("target_tier") == "short-term" and not in_issue(u.get("target_path"), u.get("issue")):
+        problems.append(f"update {uid} goes to short-term memory but its path is not in its issue {u.get('issue')}")
+    return problems
+
+
+def check_lifecycle(request, response):
+    """The steps of a memory update: propose waits, decide records the person, apply writes only approved."""
+    command = response.get("command")
+    updates = response.get("updates", []) if command == "updates" else [response.get("update", {})]
+    if command not in ("propose", "decide", "apply", "updates"):
+        return []
+    problems = []
+    for u in updates:
+        problems += check_update(u)
+    u = updates[0] if updates else {}
+    if command == "propose":
+        if u.get("status") != "waiting":
+            problems.append(f"propose answered {u.get('status')!r}: a new update waits for a person")
+        for key in ("missing", "target_tier", "target_path", "draft", "draft_source", "sources", "requested_by"):
+            if u.get(key) != request.get(key):
+                problems.append(f"propose changed {key}: the update must carry it as given")
+        if u.get("issue") != request.get("issue"):
+            problems.append("propose changed issue: the update must carry it as given")
+    if command in ("decide", "apply") and u.get("id") != request.get("id"):
+        problems.append(f"{command} answered update {u.get('id')!r}, not {request.get('id')!r}")
+    if command == "decide":
+        expected = {"approve": "approved", "reject": "rejected"}.get(request.get("verdict"))
+        if u.get("status") != expected:
+            problems.append(f"decide {request.get('verdict')!r} answered {u.get('status')!r}, not {expected!r}")
+        if u.get("decided_by") != request.get("by") or u.get("reply") != request.get("reply"):
+            problems.append("decide must record the person and their reply exactly as given")
+    if command == "apply":
+        written = response.get("written", {})
+        if u.get("status") != "applied":
+            problems.append(f"apply answered ok for an update that is {u.get('status')!r}: only an approved update is applied")
+        if written.get("tier") != u.get("target_tier") or written.get("path") != u.get("target_path"):
+            problems.append("apply wrote somewhere other than the update's target_tier and target_path")
+        if u.get("applied_version") != written.get("version"):
+            problems.append("apply's applied_version is not the version it wrote")
+    if command == "updates" and request.get("status"):
+        for x in updates:
+            if x.get("status") != request["status"]:
+                problems.append(f"updates asked for {request['status']!r} but lists {x.get('id')} as {x.get('status')!r}")
+    return problems
+
+
 def check_meaning(sample, contract):
     """The contract's answer_rules, which a shape alone cannot express."""
     request, response = sample.get("request", {}), sample.get("response", {})
     if not isinstance(response, dict) or response.get("ok") is not True:
         return []
-    problems = []
+    problems = check_scope(request, response) + check_lifecycle(request, response)
     order = contract["lookup_order"]
     if response.get("command") in ("find", "search"):
         looked, answered = response.get("looked_in", []), response.get("answered_by")
