@@ -1,0 +1,72 @@
+[
+ {
+  "item": 2,
+  "number": 655,
+  "type": "Story",
+  "parent": 653,
+  "title": "The memory tool has a written contract for finding and updating memory"
+ },
+ {
+  "item": 3,
+  "number": 656,
+  "type": "Story",
+  "parent": 653,
+  "title": "Phoenix memory has its own repository, and each project pulls only the subset it needs into Garura memory"
+ },
+ {
+  "item": 4,
+  "number": 657,
+  "type": "Story",
+  "parent": 653,
+  "title": "The memory tool finds memory across short-term, Garura and Phoenix memory the way Claude Code searches"
+ },
+ {
+  "item": 5,
+  "number": 658,
+  "type": "Story",
+  "parent": 653,
+  "title": "When no memory answers, an agent raises a memory update a person approves, and then decides from memory"
+ },
+ {
+  "item": 6,
+  "number": 659,
+  "type": "Story",
+  "parent": 653,
+  "title": "Every decision an agent makes names the memory it came from, and a script checks it"
+ },
+ {
+  "item": 7,
+  "number": 660,
+  "type": "Story",
+  "parent": 653,
+  "title": "Every Garura install carries the memory tool, a memory guide, and a check that the tool works"
+ },
+ {
+  "item": 8,
+  "number": 661,
+  "type": "Story",
+  "parent": 653,
+  "title": "/intent, /vision, /understand and every play's close read memory only through the memory tool"
+ },
+ {
+  "item": 9,
+  "number": 662,
+  "type": "Story",
+  "parent": 653,
+  "title": "/intent, /vision and /understand run on a test project from memory alone"
+ },
+ {
+  "item": 10,
+  "number": 663,
+  "type": "Story",
+  "parent": 653,
+  "title": "Every agent and skill reads memory only through the memory tool, and lint fails any that names a memory path"
+ },
+ {
+  "item": 11,
+  "number": 664,
+  "type": "Story",
+  "parent": 653,
+  "title": "The review tool has a Memory view: what each tier holds, the updates waiting, and each decision's source"
+ }
+]

@@ -93,7 +93,7 @@ answer came from in a way anyone checks.
 
 Decided, nothing built: ADR 035 is accepted. The review (`.garura/project/issues/613/specs/memory-review.md`)
 and the map of how agents read memory are done. Kapil set the model above and
-chose B. The feature (#653) and its decision spike (#654) are filed. Next:
+chose B. The feature (#653), its decision spike (#654) and its stories (#655–#664) are filed. Next:
 item 1, the decision record, on #654's branch. The stories for items 2 to 11 are
 filed once that decision is accepted (`.garura/user-provided/managing-work.md`).
 
@@ -115,7 +115,7 @@ filed once that decision is accepted (`.garura/user-provided/managing-work.md`).
 
 ### 2. Write the memory tool's contract — now
 
-**Issue:** not filed yet — filed after item 1's decision.
+**Issue:** #655.
 **What:** the written agreement between agents and the tool: its commands to
 find memory (find, search, read, go up to Phoenix memory, cite) and to update it
 (pull a piece into the project, propose an update, list updates, apply an
@@ -130,7 +130,7 @@ to Griffin cost nothing.
 
 ### 3. Set up Phoenix memory, and the subset each project pulls
 
-**Issue:** not filed yet — filed after item 1's decision.
+**Issue:** #656.
 **What:** Phoenix memory gets its one home outside Garura's code, seeded from
 everything in `core/components/memory/` (the shelves deleted in #434 left
 out). Installing Garura no longer copies all of memory: it pulls the subset the
@@ -147,7 +147,7 @@ behind Phoenix memory.
 
 ### 4. Build the memory tool
 
-**Issue:** not filed yet — filed after item 1's decision.
+**Issue:** #657.
 **What:** the command-line tool from the contract, with a folder engine that
 finds, searches and reads exact lines across the three tiers, going up to
 Phoenix memory when the project has no answer, and that writes approved updates
@@ -160,7 +160,7 @@ Garura.
 
 ### 5. Memory updates instead of guesses
 
-**Issue:** not filed yet — filed after item 1's decision.
+**Issue:** #658.
 **What:** when no memory answers, the agent raises a memory update: what is
 missing, which tier it belongs in, a drafted entry, and where the draft came
 from (the person, the web, the model — marked). Nothing is used until a person
@@ -178,7 +178,7 @@ run end to end on a sample.
 
 ### 6. Every decision names its memory
 
-**Issue:** not filed yet — filed after item 1's decision.
+**Issue:** #659.
 **What:** one shape for an answer and its source, built on the trace format
 Garura already has. Agents write it to short-term memory; a script checks each
 named source exists and its fingerprint still matches; a drive's review record
@@ -190,7 +190,7 @@ changed.
 
 ### 7. Every Garura install carries the memory system
 
-**Issue:** not filed yet — filed after item 1's decision.
+**Issue:** #660.
 **What:** installing Garura into a project installs the memory tool and a short
 memory guide every agent reads: the three tiers (Phoenix memory, the project's
 memory, short-term memory), what the tool does, how to find memory, go up to
@@ -207,7 +207,7 @@ its check passes, and an agent there finds a piece of memory through the tool.
 
 ### 8. Move Kickoff's agents and skills onto the tool
 
-**Issue:** not filed yet — filed after item 1's decision.
+**Issue:** #661.
 **What:** the agents and skills `/intent`, `/vision` and `/understand` use, and
 the close of every play, read memory only through the tool, raise memory
 updates, and name their sources. Play changes go through each play's ICE source
@@ -218,7 +218,7 @@ and `/play-editor`.
 
 ### 9. Prove it on Kickoff's three plays
 
-**Issue:** not filed yet — filed after item 1's decision.
+**Issue:** #662.
 **What:** run `/intent`, `/vision` and `/understand` by hand on a test project:
 every answer names its memory, a gap raises an update, nothing comes from the
 model alone.
@@ -233,7 +233,7 @@ the Kickoff build.
 
 ### 10. Move every other agent and skill onto the tool
 
-**Issue:** not filed yet — filed after item 1's decision.
+**Issue:** #663.
 **What:** the remaining active agents and skills, including the two that still
 fall back to the web or the model (`tech-designer`, `research-domain-context`);
 the R1–R4 rule rewritten; a lint rule that fails any component naming a memory
@@ -243,7 +243,7 @@ path. The seven retired agents are not installed and are left as they are.
 
 ### 11. The memory review
 
-**Issue:** not filed yet — it extends the review tool's stories (#641–#644).
+**Issue:** #664.
 **What:** a Memory view in the review tool, next to Intents and Product: what
 each tier holds, the memory updates waiting for a person (approve, change,
 reject), and which memory each decision came from.
@@ -275,3 +275,4 @@ the tool.
   **Garura memory** ("ltm = project memory = garura memory"), so it is not
   confused with the memory Claude Code and Codex keep. Now on item 2; its story
   is filed once Kapil says so (#654 plan item 2).
+- 2026-10-18 — Kapil: "file the stories". Items 2 to 11 filed as Stories #655 to #664 under #653 (texts: `.garura/project/issues/654/specs/stories.yaml`).
