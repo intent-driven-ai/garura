@@ -215,6 +215,10 @@ updates, and name their sources. Play changes go through each play's ICE source
 and `/play-editor`.
 Also: rule 4 of the drive contract, its row in the rules index and the
 glossary's Drive entry say what ADR 034 and ADR 035 decided.
+Kapil, 2026-10-18 ("1"): agents move after items 5 to 7, so each agent changes once,
+with lookup, memory updates and named sources together. Only agents call the tool and
+build context; skills read short-term memory only (Kapil, 2026-10-18), so the story
+texts of #661 and #663 ("agents and skills") need that fix when Kapil asks.
 **Why here:** Kickoff waits on these three plays, so they move first.
 **Done when:** the three plays and every play's close name no memory path.
 **Needs:** items 5, 6 and 7.
@@ -318,3 +322,4 @@ writes the approval when a person swipes right (ADR 033 §6).
   written to Garura or Phoenix memory; item 5 here holds the current rule.
 - 2026-10-18 — Item 3 done: #656 merged (PR #671). Now item 4 (#657).
 - 2026-10-18 — Kapil: memory updates land in short-term memory only; `learn` and `promote` plays move memory up; unapproved Phoenix memory is not read (item 5 note).
+- 2026-10-18 — Kapil kept the order: the agents move onto the tool in #661 after #658–#660, not right after #657. No agent calls the tool yet.

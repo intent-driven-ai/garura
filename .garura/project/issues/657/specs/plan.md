@@ -123,3 +123,4 @@ answers change (#657, #658) are fixed only when Kapil asks.
 - 2026-10-18 — Items 2 and 3 built: `memory.py`, 29 tests; `pull` reads Phoenix memory at its approved version.
 - 2026-10-18 — Item 4 built: contract version 2.
 - 2026-10-18 — Item 5 shown: Kapil's test passed on a fresh project.
+- 2026-10-18 — Kapil asked who calls the tool: no agent yet. He kept the plan order (agents move in #661 after #658–#660) and said land it.
