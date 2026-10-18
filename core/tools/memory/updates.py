@@ -89,6 +89,9 @@ class UpdateStore:
         if not target.startswith(f"{issue}/"):
             raise Refusal("bad_request", f"An update to short-term memory goes in its own issue: {target} "
                           f"is outside issue {issue}.", "short-term")
+        if target.startswith(f"{issue}/{self.dir}/") or target == f"{issue}/{self.dir}":
+            raise Refusal("bad_request", f"{target} is where memory updates are kept, not where an answer "
+                          "is written.", "short-term")
         update = {
             "id": self.next_id(), "status": "waiting", "issue": issue, "missing": request["missing"],
             "target_tier": "short-term", "target_path": target, "draft": request["draft"],

@@ -324,6 +324,12 @@ class Updates(Tiers):
                                  "sources": [], "requested_by": "test agent"})
         self.assertEqual(a["error"]["code"], "bad_request")
 
+    def test_an_update_never_writes_into_the_updates_folder(self):
+        a = self.ask("propose", {"issue": 7, "missing": "x", "target_tier": "short-term",
+                                 "target_path": "7/review/memory-updates/mu-20261018-001.json", "draft": "x",
+                                 "draft_source": "person", "sources": [], "requested_by": "test agent"})
+        self.assertEqual(a["error"]["code"], "bad_request")
+
     def test_an_update_never_targets_garura_or_phoenix(self):
         for tier in ("garura", "phoenix"):
             a = self.ask("propose", {"issue": 7, "missing": "x", "target_tier": tier, "target_path": "7/x.md",

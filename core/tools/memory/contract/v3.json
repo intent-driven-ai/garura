@@ -542,7 +542,7 @@
       }
     },
     "propose": {
-      "summary": "Raise a memory update when no tier answers (ADR 035 §5): what is missing, where it belongs, a drafted entry and where the draft came from. Research may draft it (the web, the model). Nothing in it is used until a person approves it. Inside a piece of work the update goes to the issue's own short-term memory. Moving it up to Garura or Phoenix memory is a promotion, done outside the work, through the same propose, decide and apply.",
+      "summary": "Raise a memory update when no tier answers (ADR 035 §5): what is missing, the issue it belongs to, a drafted entry, where the draft came from, and whether it blocks the work. Research may draft it (the web, the model). Nothing in it is used until a person approves it. Every update lands in the issue's own short-term memory; moving memory up is the /learn-memory and /promote-memory plays, not this command.",
       "request": {
         "type": "object",
         "properties": {
@@ -671,7 +671,7 @@
       }
     },
     "decide": {
-      "summary": "Record a person's word on a waiting memory update: approve or reject, who, and their exact reply. Only a person decides; until the memory review exists, the person types it. An update that is not waiting is the error wrong_state.",
+      "summary": "Record a person's word on one waiting memory update: approve or reject, who, their exact reply, and where they decided (the review tool; a local prototype page until it is built). Only a person decides, one update at a time. An update that is not waiting is the error wrong_state.",
       "request": {
         "type": "object",
         "properties": {
@@ -741,7 +741,7 @@
       }
     },
     "apply": {
-      "summary": "Write an approved memory update to its tier: the issue's short-term memory, Garura memory, or Phoenix memory as a commit. An update a person has not approved is the error not_approved; one already applied is wrong_state.",
+      "summary": "Write an approved memory update to the issue's short-term memory. An update a person has not approved is the error not_approved; one already applied is wrong_state; a target that changed since the update was raised is changed.",
       "request": {
         "type": "object",
         "properties": {
