@@ -115,7 +115,7 @@ land this change (item 5), then the tool (#657) on its own branch.
 - **4b. Review fixes (PR #671): built (not merged)** — #656. The first review
   of PR #671 (harness verdict: reject) found one P1 and 9 memory wording
   defects. The 9 are fixed in `core/components/memory/` and in Phoenix memory
-  (local commit `5fcd88e`): person fields in the ADR template and the ontology
+  (commit `5fcd88e`, pushed): person fields in the ADR template and the ontology
   example name a made-up person ("Alex Example"); "the owner" is gone; the
   2026-09-08 rule is stated without a quote; the ux files say "accepted"; the
   ontology Log has a dated line; the knowledge template says provenance names
