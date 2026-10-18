@@ -151,15 +151,17 @@ def test_review_writer():
             json.dump({"ok": True, "contract_version": "4", "command": "citations", "records": [
                 {"citation_id": "cite-20261019-001", "issue": 613, "play": "/vision", "question": "Guest checkout?",
                  "answer": "Yes.", "decided_by": "product-os-keeper (/vision)", "decided_at": "2026-10-19T09:00:00Z",
-                 "sources": [{"tier": "garura", "path": "product-os/checkout/checkout/capability.md", "start": 12,
-                              "end": 12, "fingerprint": "sha256:" + "0" * 64}], "from_update": None}],
+                 "trace": [{"asked": "What has the product model decided?", "found": "Guest checkout at launch.",
+                            "source": {"tier": "garura", "path": "product-os/checkout/checkout/capability.md",
+                                       "start": 12, "end": 12, "fingerprint": "sha256:" + "0" * 64}}],
+                 "from_update": None}],
                 "problems": []}, fh)
         rc = wdr.main(["--run", runp, "--summary", summary, "--decisions", citations, "--ts", "t7"])
         with open(os.path.join(r["review_dir"], "vision-t7.json")) as fh:
             rec7 = json.load(fh)
-        check("the review record carries each decision and the memory it rested on",
+        check("the review record carries each decision and its trace",
               rc == 0 and [d["question"] for d in rec7["decisions"]] == ["Guest checkout?"]
-              and rec7["decisions"][0]["sources"][0]["tier"] == "garura" and rec7["decision_problems"] == [])
+              and rec7["decisions"][0]["trace"][0]["source"]["tier"] == "garura" and rec7["decision_problems"] == [])
         not_citations = os.path.join(tmp, "not-citations.json")
         with open(not_citations, "w") as fh:
             fh.write('{"ok": true, "command": "search"}')

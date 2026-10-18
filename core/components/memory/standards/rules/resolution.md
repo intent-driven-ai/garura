@@ -98,15 +98,22 @@ contract's `stm.output` block (per DD10 in tech.yaml).
 
 ## Decision Records (ADR 035 §6)
 
-Every decision an agent makes names the memory it came from. The record is made through the
-memory tool's `cite`: the question, the answer, who decided, the play, and one or more sources —
-each a tier (short-term, Garura or Phoenix memory), a file, the lines, and the fingerprint of
-that text — or the approved memory update the answer came from. The tool reads every source
-before it records anything, and `citations --check` reads them again later: a decision with no
-source, or whose source is gone or changed, is flagged. A drive's review shows these records.
+Every decision an agent makes keeps its trace: the steps the agent took, in order. Each step
+says what the agent looked for, what it found, and the memory lines that said so — a tier
+(short-term, Garura or Phoenix memory), a file, the lines, and the fingerprint of that text. A
+sign-in decision, for example, reads the product's profile (who the users are, the surfaces),
+then the domain that covers sign-in, then the profile's security level and compliance regimes,
+then the knowledge lines those values select. When the answer came from a memory update a
+person approved, the update's written file is the source of a step.
 
-The shape is the memory tool's contract (`cite`, `citations`, version 4). The trace above, and
-R4's model fallback, are rewritten when the agents move onto the tool (#663).
+The record is made through the memory tool's `cite`: the question, the answer, who decided, the
+play, and the trace. The tool reads every source before it records anything, and keeps the
+exact text, the version of memory, and the lines around it, so a person sees each step in its
+place. `citations --check` reads every step's source again: a decision with no trace, or a step
+whose source is gone or changed, is flagged by its step. A drive's review shows these records.
+
+The shape is the memory tool's contract (`cite`, `citations`, version 4). The trace above (R1–R4),
+and R4's model fallback, become this trace when the agents move onto the tool (#663).
 
 ## Context Isolation Exemptions
 

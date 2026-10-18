@@ -14,9 +14,9 @@ each play that can run inside a drive. Layer rule: file reads/writes only; no gi
         [--attach name=<path> ...] [--decisions <citations.json>] --ts <run ts>
 
 --decisions takes the memory tool's answer to `citations --issue N --play P --check` (ADR 035
-§6): the record then carries every decision the play made, each with the memory it rested on,
-and any source that changed or is missing — so the drive's review shows what each decision
-rested on.
+§6): the record then carries every decision the play made, each with its trace — the steps the
+agent took, each with the memory lines it read and the lines around them — and any step whose
+source changed or is missing, so the drive's review shows what each decision rested on.
 
 Writes `<review_dir>/<play>-<ts>.md` (the summary, as shown) and `<review_dir>/<play>-<ts>.json`
 (the record) and prints the record. Exit 0 written · 2 usage error, the run is not in a drive
