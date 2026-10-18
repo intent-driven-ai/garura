@@ -4,7 +4,7 @@ kind: story
 serves: "#658 — when no memory answers, an agent raises a memory update a person approves, and then decides from memory"
 status: active
 updated: 2026-10-18
-now: 4
+now: 5
 serves_plan: 653
 serves_item: 5
 ---
@@ -56,8 +56,8 @@ and its text still lets an update target Garura or Phoenix memory.
 ## Where we are now
 
 The change is open on `feature/658-memory-updates`. Kapil's questions are answered;
-the two review faults are fixed; contract version 3 is built. Next: item 4, the update
-commands.
+the two review faults are fixed; contract version 3 and the update commands are built.
+Next: item 5, the local prototype's memory-updates page.
 
 ## The plan, in order
 
@@ -95,19 +95,15 @@ commands.
   no-issue sample, the approved-version setting). 45 samples moved, 4 added, 2 broken
   added, the promotion sample now broken. 51 contract tests, 40 tool tests, 13 pull tests
   pass; the contract check passes.
+- **4. Built: the update commands** — #658. `propose`, `updates`, `decide` and `apply`
+  (`core/tools/memory/updates.py`). Each update is a file in its issue's short-term memory
+  (`review/memory-updates/` by default, a setting). `apply` writes the approved draft to
+  the issue's short-term memory; it refuses an update no person approved, one already
+  applied, and a target that changed since the update was raised. A lookup never reads a
+  waiting draft (a test caught that it did, and it is fixed). 50 tool tests, 13 pull, 51
+  contract tests pass.
 
-### 4. Build the update commands — now
-
-**Issue:** #658.
-**What:** `propose`, `updates`, `decide` and `apply` in the memory tool. An
-update is stored in its issue's short-term memory; `apply` writes the approved
-text to its target in that issue's folder; an update no person approved is
-refused (`not_approved`).
-**Why here:** the end-to-end run needs them.
-**Done when:** every answer passes the contract check in the tests.
-**Needs:** item 3.
-
-### 5. The local prototype's memory-updates page
+### 5. The local prototype's memory-updates page — now
 
 **Issue:** #658 (the page itself is local and never committed).
 **What:** a page in `core/tools/play-reviewer/` that lists the memory updates
@@ -157,3 +153,4 @@ answers change (#658, #661, #663) are fixed only when Kapil asks.
 - 2026-10-18 — Kapil: the drive keeps going unless an update really blocks; updates always land in short-term memory (`/learn-memory`, `/promote-memory` move memory up); approval in the product and intent review tool, which is designed but not built.
 - 2026-10-18 — Item 1 decided: approval in the review tool, a local prototype page until it is built; the tool's design updated. Item 5 added (the local page).
 - 2026-10-18 — Items 2 and 3 done: the two #674 faults fixed; contract version 3.
+- 2026-10-18 — Item 4 built: propose, updates, decide, apply; waiting drafts hidden from lookups.
