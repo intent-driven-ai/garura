@@ -169,18 +169,21 @@ stories:
       ## Needs
       {item:9}.
   - item: 11
-    title: "The review tool has a Memory view: what each tier holds, the updates waiting, and each decision's source"
+    title: "The review tool has a Memory and ADRs section: the three tiers, the updates and ADRs waiting, and each decision's source"
     body: |
       ## What this delivers
-      ADR 035 §7. A **Memory** view in the review tool, next to Intents and Product (ADR 032, amended by ADR 035): what each tier holds, the memory updates waiting for a person (approve, change, reject), and which memory each decision came from. Approving an update here replaces approval by typing.
+      ADR 036 §7. A third section in the review tool, **Memory and ADRs**, next to Intents and Product (ADR 032, amended by ADR 035 and ADR 036). It shows short-term, Garura and Phoenix memory: what each tier holds, the memory updates waiting for a person, the ADRs waiting for a person, and which memory each decision came from. Every memory review and ADR review happens here, with the same Catch up cards as intents and product (#644): one card per change, swipe right to accept, swipe left to leave for later, Send back and Drop as buttons. This replaces approval by typing, for memory updates and for the `/adr` play's accept.
 
       ## Done when
-      - A person approves a memory update in the tool, and it is written to its tier.
+      - A person approves a memory update on a card, and it is written to its tier: the issue's short-term memory for a researched answer, Garura or Phoenix memory for a promotion.
+      - A person accepts a proposed ADR on a card.
       - A person sees, for a decision, the tier, file and lines it rested on.
-      - The review tool's contract covers the memory kinds and the approve, change and reject actions.
+      - The review tool's contract covers the memory and ADR kinds and their actions.
+      - The `/adr` play's pinned accept moves onto the card, through its ICE source and `/play-editor`.
 
       ## Not in this story
-      - The review tool's server, pages and contract themselves (#641–#644); this story adds the Memory view to them.
+      - The review tool's server, pages and contract themselves (#641–#644); this story adds the Memory and ADRs section to them.
+      - Open in ADR 036, settled with Kapil before building: whether a product decision (`decision.yaml`) waiting for a person is reviewed here or under Decisions in the Product view; who writes the approval when a person swipes right (ADR 033 §6).
 
       ## Needs
       {item:5}, {item:6}, and the review tool (#641–#644).
@@ -189,3 +192,6 @@ stories:
 # story covered: config memory keys (#656); drive-contract rule 4, its index row and
 # the glossary Drive entry (#661); CLAUDE.md, docs/components/memory.md, the
 # glossary install rows and knowledge/_DESIGN.md (#663). GitHub holds the current text.
+# 2026-10-18 — after ADR 036 (#667), on Kapil's word ("update items and story 664"),
+# item 11 (#664) was rewritten: the Memory and ADRs section, ADR reviews, the Catch up
+# cards, and the /adr accept moving onto a card. GitHub holds the current text.

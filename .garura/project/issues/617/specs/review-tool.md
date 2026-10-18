@@ -3,7 +3,7 @@ plan_for: 617
 kind: tool-plan
 serves: "#617 — the intent review tool and the product review tool (ADR 032, Q7)"
 status: draft
-updated: 2026-10-17
+updated: 2026-10-18
 ---
 
 # Tool plan — the outcome review tool
@@ -239,6 +239,12 @@ gives the full model or the clean final text.
    chat (Microsoft message MC1260707, rolled out April–June 2026).
    Every action in Catch up is the same event as in the full page, so Garura
    cannot tell them apart and nothing changes on its side.
+
+7. **Memory and ADRs** — a third section next to Intents and Product (ADR 036
+   §7, Kapil 18 Oct). It shows short-term, Garura and Phoenix memory: what each
+   tier holds, the memory updates waiting for a person, the ADRs waiting for a
+   person, and which memory each decision came from. Every memory review and
+   ADR review happens here, with the Catch up cards above. Built in #664.
 
 **Keeping the load low** — the rules the page follows:
 
