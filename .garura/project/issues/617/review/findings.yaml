@@ -1,0 +1,131 @@
+meta:
+  pr: 651
+  issue: 617
+  categories: categories.yaml
+  layers_run:
+    decision-records: "Layer 1 \u2014 adr.py lint on 032 and 033 (valid, no problems); index rebuilt from docs/adr\
+      \ matches _index.md; quality-check-scoped path rules (playbook review/adrs)"
+    documentation: "Layer 1 \u2014 quality-check-scoped (playbook review/docs); no findings on docs/philosophy/idsd.md"
+    stm-working-notes-plans-and-design: "Layer 1 \u2014 every backticked repo path in the ADRs and #617 notes checked\
+      \ for existence (19 checked); playbook missing"
+    stm-run-records: "Layer 1 \u2014 skimmed for consistency with the ADRs (decision.yaml records accept by Kapil\
+      \ for 032 and 033); playbook missing"
+  layer2: "none \u2014 no design-bearing category in categories.yaml"
+  runnable_checks: adr-lint.txt
+findings:
+- id: DOC-04
+  severity: P3
+  category: decision-records
+  file: docs/adr/026-direct-to-model-writes.md
+  basis: 'pr.md taxonomy rule DOC-04 (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: DOC-04
+  severity: P3
+  category: decision-records
+  file: docs/adr/029-drives.md
+  basis: 'pr.md taxonomy rule DOC-04 (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: DOC-04
+  severity: P3
+  category: decision-records
+  file: docs/adr/030-plan-mode.md
+  basis: 'pr.md taxonomy rule DOC-04 (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: DOC-04
+  severity: P3
+  category: decision-records
+  file: docs/adr/031-business-intent-and-ice.md
+  basis: 'pr.md taxonomy rule DOC-04 (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: DOC-04
+  severity: P3
+  category: decision-records
+  file: docs/adr/032-drive-review-of-outcomes.md
+  basis: 'pr.md taxonomy rule DOC-04 (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: DOC-04
+  severity: P3
+  category: decision-records
+  file: docs/adr/033-approval-in-the-product-model.md
+  basis: 'pr.md taxonomy rule DOC-04 (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: DOC-04
+  severity: P3
+  category: decision-records
+  file: docs/adr/_index.md
+  basis: 'pr.md taxonomy rule DOC-04 (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: ARCH-23
+  severity: P4
+  category: decision-records
+  file: docs/adr/026-direct-to-model-writes.md
+  basis: 'pr.md taxonomy rule ARCH-23 (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: DOC-05
+  severity: P4
+  category: decision-records
+  file: docs/adr/026-direct-to-model-writes.md
+  basis: 'pr.md taxonomy rule DOC-05 (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: ARCH-23
+  severity: P4
+  category: decision-records
+  file: docs/adr/029-drives.md
+  basis: 'pr.md taxonomy rule ARCH-23 (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: DOC-05
+  severity: P4
+  category: decision-records
+  file: docs/adr/029-drives.md
+  basis: 'pr.md taxonomy rule DOC-05 (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: ARCH-23
+  severity: P4
+  category: decision-records
+  file: docs/adr/030-plan-mode.md
+  basis: 'pr.md taxonomy rule ARCH-23 (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: DOC-05
+  severity: P4
+  category: decision-records
+  file: docs/adr/030-plan-mode.md
+  basis: 'pr.md taxonomy rule DOC-05 (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: ARCH-23
+  severity: P4
+  category: decision-records
+  file: docs/adr/031-business-intent-and-ice.md
+  basis: 'pr.md taxonomy rule ARCH-23 (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: DOC-05
+  severity: P4
+  category: decision-records
+  file: docs/adr/031-business-intent-and-ice.md
+  basis: 'pr.md taxonomy rule DOC-05 (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: ARCH-23
+  severity: P4
+  category: decision-records
+  file: docs/adr/032-drive-review-of-outcomes.md
+  basis: 'pr.md taxonomy rule ARCH-23 (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: DOC-05
+  severity: P4
+  category: decision-records
+  file: docs/adr/032-drive-review-of-outcomes.md
+  basis: 'pr.md taxonomy rule DOC-05 (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: ARCH-23
+  severity: P4
+  category: decision-records
+  file: docs/adr/033-approval-in-the-product-model.md
+  basis: 'pr.md taxonomy rule ARCH-23 (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: DOC-05
+  severity: P4
+  category: decision-records
+  file: docs/adr/033-approval-in-the-product-model.md
+  basis: 'pr.md taxonomy rule DOC-05 (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: ARCH-23
+  severity: P4
+  category: decision-records
+  file: docs/adr/_index.md
+  basis: 'pr.md taxonomy rule ARCH-23 (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: DOC-05
+  severity: P4
+  category: decision-records
+  file: docs/adr/_index.md
+  basis: 'pr.md taxonomy rule DOC-05 (path rule: an ADR file was touched; marks where ADR checks apply, not a defect)'
+- id: STM-PLANNED-PATH
+  severity: P4
+  category: stm-working-notes-plans-and-design
+  file: .garura/project/issues/617/specs/review-tool.md
+  basis: "path-existence check (adr-lint.txt): core/tools/outcome-review/ is named but does not exist yet \u2014\
+    \ it is the planned home of the tool (#641\u2013#644), so expected"
+- id: REVIEW-PLAYBOOK-MISSING
+  severity: P4
+  category: stm-working-notes-plans-and-design, stm-run-records
+  file: (knowledge/review shelf)
+  basis: 'categories.yaml: no knowledge/review playbook covers STM working notes or STM run records'
