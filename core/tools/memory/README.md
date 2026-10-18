@@ -2,12 +2,13 @@
 
 The one way agents find memory and update it. Today it works on folders. Later it calls a
 server in Griffin. Agents that call it do not change when that happens, because they only ever
-talk to this tool, through the contract in `contract/v3.json`.
+talk to this tool, through the contract in `contract/v4.json`.
 
-This folder holds the contract (version 3), sample answers, the check that keeps them in
-step, and the tool: `memory.py` (with `pull.py` for Phoenix memory and `updates.py` for memory
-updates). Today the tool answers `health`, `find`, `search`, `read`, `pull`, `pulled`, `propose`,
-`updates`, `decide` and `apply`. `cite` comes in a later step (#659).
+This folder holds the contract (version 4), sample answers, the check that keeps them in
+step, and the tool: `memory.py` (with `pull.py` for Phoenix memory, `updates.py` for memory
+updates and `citations.py` for decision records). It answers every command in the contract:
+`health`, `find`, `search`, `read`, `pull`, `pulled`, `propose`, `updates`, `decide`, `apply`,
+`cite` and `citations`.
 
 ## Running the tool
 
@@ -33,6 +34,7 @@ The tool learns where each tier lives from one source: the JSON file `MEMORY_SET
 | `phoenix_ref` | `MEMORY_PHOENIX_REF` | Phoenix memory's approved version (default `origin/main`) |
 | `garura_pull_dir` | `MEMORY_GARURA_PULL_DIR` | Where pulled pieces land inside Garura memory (default: its root) |
 | `updates_dir` | `MEMORY_UPDATES_DIR` | Where an issue's memory updates are kept, inside its short-term folder (default `review/memory-updates`). A lookup never reads them: a draft is used only once a person approved it and it was applied |
+| `citations_file` | `MEMORY_CITATIONS_FILE` | Where an issue's decision records are kept, inside its short-term folder (default `context/citations.jsonl`). A lookup never reads them: an agent never decides from its own earlier decision |
 | `engine` | `MEMORY_ENGINE` | `folder`, the only engine built. A server engine is one setting away |
 
 Two rules the folder engine keeps:
@@ -102,7 +104,8 @@ with `ok`, `contract_version` and `command`.
 | `find` | Finds files by name pattern, in the lookup order. |
 | `search` | Searches the text of files, in the lookup order, and returns each hit with its tier, file and line. |
 | `read` | Reads exact lines of one file and returns them with a fingerprint of the text. |
-| `cite` | Records a decision and the memory it rests on — tier, file, lines, fingerprint — in the issue's short-term memory. |
+| `cite` | Records a decision and the memory it rests on — the question, the answer, who decided, the play, and each source's tier, file, lines and fingerprint — in the issue's short-term memory. It reads every source first: one that is gone is `not_found`, one whose text changed is `changed`. |
+| `citations` | Lists an issue's decision records (optionally one play's). With `--check`, reads every source again: a record with no source, a source that is gone, and a source whose text changed are each a problem. |
 
 **Updating memory**
 
@@ -208,7 +211,10 @@ The check holds every sample to these, beyond its shape:
 - Nothing here names a path inside a project or imports code from outside the folder, so the
   folder can move to Griffin as it is.
 - Python standard library only, Python 3.10 or newer. No installs.
-- The contract changes only by a new version. Version 3 is `contract/v3.json` (#658: every
+- The contract changes only by a new version. Version 4 is `contract/v4.json` (#659: `cite`
+  records a decision with its sources after reading each one; `citations` lists an issue's
+  decision records and checks every source again; decision records and waiting drafts are never
+  found by a lookup). Version 3 (#658: every
   memory update lands in short-term memory, an update says whether it blocks, a person decides
   each one in the review tool, and a used file is never saved over a different Garura file).
   Version 2 (#657: lookups without an issue, globs that never step outside their tier, Phoenix

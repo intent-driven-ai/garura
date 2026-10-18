@@ -1,0 +1,33 @@
+{
+  "command": "citations",
+  "request": {
+    "issue": 613
+  },
+  "response": {
+    "ok": true,
+    "contract_version": "4",
+    "command": "citations",
+    "records": [
+      {
+        "citation_id": "cite-20261018-001",
+        "issue": 614,
+        "play": "/vision",
+        "question": "Should first-time buyers be able to check out without an account?",
+        "answer": "Yes: guest checkout is a capability of the checkout domain.",
+        "decided_by": "product-os-keeper (/vision)",
+        "decided_at": "2026-10-18T09:30:00Z",
+        "sources": [
+          {
+            "tier": "phoenix",
+            "path": "knowledge/domains/ecommerce.md",
+            "start": 41,
+            "end": 42,
+            "fingerprint": "sha256:439488cbd9d31c20d53491c785753dc71b74fc5354297825119037d5a597de0f"
+          }
+        ],
+        "from_update": null
+      }
+    ],
+    "problems": []
+  }
+}

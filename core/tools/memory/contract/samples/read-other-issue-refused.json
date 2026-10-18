@@ -9,7 +9,7 @@
   },
   "response": {
     "ok": false,
-    "contract_version": "3",
+    "contract_version": "4",
     "command": "read",
     "error": {
       "code": "bad_request",

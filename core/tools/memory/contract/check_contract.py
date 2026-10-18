@@ -2,7 +2,7 @@
 """
 check_contract.py — keep the memory tool's contract, its samples and its folder in step.
 
-    python3 contract/check_contract.py [--contract contract/v3.json]
+    python3 contract/check_contract.py [--contract contract/v4.json]
 
 Four checks, all from this folder alone (standard library only, Python 3.10 or newer):
   1. every sample in samples/ matches the contract: its request against the
@@ -134,6 +134,11 @@ def check_scope(request, response):
         found = [response]
     if command == "cite":
         found = list(request.get("sources", [])) + [response.get("stored", {})]
+    if command == "citations":
+        found = [s for r in response.get("records", []) for s in r.get("sources", [])]
+        for r in response.get("records", []):
+            if r.get("issue") != issue:
+                problems.append(f"citations answered a record of issue {r.get('issue')}, not {issue}")
     for r in found:
         if r.get("tier") == "short-term" and not in_issue(r.get("path"), issue):
             problems.append(f"short-term path {r.get('path')!r} is outside issue {issue}: short-term memory is that issue only")
@@ -285,6 +290,13 @@ def check_meaning(sample, contract):
                 problems.append(f"hit {h.get('path')}:{h.get('line')} fingerprint is not the sha256 of its text")
     if response.get("command") == "read":
         problems += check_read(request, response)
+    if response.get("command") == "citations":
+        if not request.get("check") and response.get("problems"):
+            problems.append("citations listed problems without check (answer rule citations_problems)")
+        ids = {r.get("citation_id") for r in response.get("records", [])}
+        for pr in response.get("problems", []):
+            if pr.get("citation_id") not in ids:
+                problems.append(f"a problem names {pr.get('citation_id')!r}, which is not among the records")
     return problems
 
 
@@ -370,7 +382,7 @@ def check_boundary(root=TOOL):
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[1])
-    ap.add_argument("--contract", default=os.path.join(HERE, "v3.json"))
+    ap.add_argument("--contract", default=os.path.join(HERE, "v4.json"))
     ns = ap.parse_args(argv)
     try:
         contract = load(ns.contract)
