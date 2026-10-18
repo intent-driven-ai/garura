@@ -35,7 +35,12 @@
     "propose_waits": "propose answers status waiting, with the request's issue, missing, target_tier, target_path, draft, draft_source, sources and requested_by as given.",
     "decide_records_the_person": "decide answers approve as approved and reject as rejected, for the update named, with decided_by and reply exactly as given.",
     "apply_writes_only_approved": "apply answers ok only with status applied, for the update named. written.tier and written.path are the update's target_tier and target_path, and applied_version is written.version. Any update a person has not approved is not_approved.",
-    "updates_filter": "With status, updates lists only updates with that status."
+    "updates_filter": "With status, updates lists only updates with that status.",
+    "answered_by_has_a_result": "answered_by names a tier only when that tier has at least one result, and it is null only when there are no results.",
+    "every_tier_looks_everywhere": "With every_tier, looked_in is the whole lookup_order, and answered_by is the first tier in lookup_order that has a result.",
+    "read_answers_what_was_asked": "read answers the tier and path asked, the start and end asked (start 1 and the last line when not given), and end is never before start.",
+    "refusals": "A request the contract refuses is answered with that error, never with ok: tier with every_tier, a read with end before start, and a read of a short-term path outside the issue are bad_request.",
+    "researched_goes_to_short_term": "An update drafted by research (draft_source web or model) targets short-term memory. Garura and Phoenix memory get it only by a promotion, drafted from memory or by a person."
   },
   "settings": "The tool reads where each tier lives from its settings (environment variables or a settings file), never from a fixed path. A tier with no setting, or one that cannot be reached, is the error tier_missing.",
   "paths": "Every path in a request or response is relative to its tier's root, uses forward slashes, never starts with a slash, and never contains '..'.",
@@ -645,7 +650,7 @@
       }
     },
     "decide": {
-      "summary": "Record a person's word on a waiting memory update: approve or reject, who, and their exact reply. Only a person decides; until the memory review exists, the person types it.",
+      "summary": "Record a person's word on a waiting memory update: approve or reject, who, and their exact reply. Only a person decides; until the memory review exists, the person types it. An update that is not waiting is the error wrong_state.",
       "request": {
         "type": "object",
         "properties": {
@@ -709,7 +714,7 @@
       }
     },
     "apply": {
-      "summary": "Write an approved memory update to its tier: the issue's short-term memory, Garura memory, or Phoenix memory as a commit. An update a person has not approved is the error not_approved.",
+      "summary": "Write an approved memory update to its tier: the issue's short-term memory, Garura memory, or Phoenix memory as a commit. An update a person has not approved is the error not_approved; one already applied is wrong_state.",
       "request": {
         "type": "object",
         "properties": {
@@ -784,11 +789,12 @@
   "errors": {
     "settings_missing": "The tool has no settings at all.",
     "tier_missing": "A tier has no setting, or cannot be reached. Never reported as 'nothing found'.",
-    "bad_request": "The request does not match this contract.",
+    "bad_request": "The request does not match this contract, or reads a short-term path outside its issue.",
     "not_found": "The file or update named does not exist in the tier asked.",
     "out_of_range": "The lines asked for are outside the file.",
-    "not_approved": "apply was called on an update no person approved.",
-    "changed": "The target changed after the update was proposed; propose again from the current text."
+    "not_approved": "apply on an update no person approved: it is waiting or was rejected.",
+    "changed": "The target changed after the update was proposed; propose again from the current text.",
+    "wrong_state": "decide on an update that is not waiting, or apply on an update already applied."
   },
   "$defs": {
     "tier": {
@@ -1115,7 +1121,8 @@
                 "not_found",
                 "out_of_range",
                 "not_approved",
-                "changed"
+                "changed",
+                "wrong_state"
               ]
             },
             "message": {

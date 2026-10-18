@@ -61,10 +61,12 @@ check are built. Next: item 4, landing the change.
   issue, and short-term memory is that issue only. A memory update a person
   approves goes to the issue's short-term memory; promotion to Garura or
   Phoenix memory happens outside the work. Not merged yet.
-- **3. Built: sample answers and the check** — #655. 17 samples (every
-  command, a `tier_missing` and a `not_approved` error, an empty answer that
-  cues a memory update, a short-term answer and a promotion) pass; 19 broken
-  samples fail; 33 tests cover the check; the folder names no project path.
+- **3. Built: sample answers and the check** — #655. 20 samples (every
+  command, the `tier_missing`, `not_approved`, `bad_request` and `wrong_state`
+  errors, an empty answer that cues a memory update, a short-term answer, a
+  search of every tier and a promotion) pass; 23 broken samples fail; 49 tests
+  cover the check, and removing any one of its 44 rule lines fails a test; the
+  folder names no project path.
   `python3 contract/check_contract.py` from the tool's folder. Not merged yet.
 
 ### 4. Land the change — now
@@ -101,3 +103,10 @@ plan done.
   `decide` proves a person, not an agent, gave the word. ADR 035 §5 still says
   an approved update is written to Garura or Phoenix memory; it needs an
   amendment for the short-term step.
+- 2026-10-18 — The re-raise self-review found four gaps, fixed before raising:
+  a web or model draft could target Garura or Phoenix memory directly (now it
+  must target short-term memory); 9 rule lines had no test (now every line
+  has one); `every_tier` had no sample and two unchecked rules; refusals were
+  never checked (now `bad_request` is required for them, and `read` must
+  answer what was asked). Added the `wrong_state` error for `decide` or
+  `apply` on an update in the wrong state.

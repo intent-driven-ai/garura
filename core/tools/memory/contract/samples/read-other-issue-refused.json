@@ -1,0 +1,20 @@
+{
+  "command": "read",
+  "request": {
+    "issue": 655,
+    "tier": "short-term",
+    "path": "613/specs/plan.md",
+    "start": 45,
+    "end": 45
+  },
+  "response": {
+    "ok": false,
+    "contract_version": "1",
+    "command": "read",
+    "error": {
+      "code": "bad_request",
+      "message": "Short-term path 613/specs/plan.md is outside issue 655; short-term memory is that issue only.",
+      "tier": "short-term"
+    }
+  }
+}
