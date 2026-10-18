@@ -2,9 +2,8 @@
   "valid": true,
   "done": false,
   "status": "active",
-  "now": "2",
+  "now": "3",
   "open_items": [
-    2,
     3,
     4,
     5,

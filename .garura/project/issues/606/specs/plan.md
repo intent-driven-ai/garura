@@ -57,7 +57,11 @@ Items 13 (the handover drive) and the Alignment drive have no issue yet.
 
 ## Where we are now
 
-Three decisions are made (#592, #607, #619) and six things are shipped: plan mode's first pieces (#619), the Kickoff plays standing alone (#616), `/intent` (#612), the one product model that `/intent` and `/vision` both write (#637), `/vision` running inside a drive (#614), and `/understand` running inside a drive, detailing every pending capability in one run (#615). Item 7 is decided: a drive ends with a review of its outcome (ADR 032), and approval lives in the product model, so agents build only from approved pieces (ADR 033); its stories are filed. Now: item 8, Kickoff, built through those stories.
+Three decisions are made (#592, #607, #619) and six things are shipped: plan mode's first pieces (#619), the Kickoff plays standing alone (#616), `/intent` (#612), the one product model that `/intent` and `/vision` both write (#637), `/vision` running inside a drive (#614), and `/understand` running inside a drive, detailing every pending capability in one run (#615). Item 7 is decided: a drive ends with a review of its outcome (ADR 032), and approval lives in the product model, so agents build only from approved pieces (ADR 033); its stories are filed. Now: item 8, Kickoff. Its plan (`.garura/project/issues/613/specs/plan.md`) has
+ADR 034 decided — inside a drive a play answers from memory and asks only when
+memory holds nothing — and a review that found memory not ready. Kapil chose to
+fix the whole memory system first, as its own feature; Kickoff's runner waits for
+it.
 
 ## The plan, in order
 
@@ -80,7 +84,8 @@ Three decisions are made (#592, #607, #619) and six things are shipped: plan mod
 **What:** the drive itself. It asks all its questions first, runs `/intent` → `/vision` → `/understand` (once, for all the capabilities), stops only for a new question, has a different model or agent check the result, and writes its evidence. At its end review the person confirms or drops each intent `/intent` proposed (ADR 031, D10).
 **Why here:** it needs all of items 3 to 7.
 **Done when:** a working prototype goes in; the person approves the plan; out come a plan and issues the person can read, and a detailed product model for the agents — checked and reviewed.
-**Order inside this item** (Kapil, 2026-10-18, "A" — the runner first, then the review):
+**Order inside this item** (Kapil, 2026-10-18, "A" — the runner first, then the review; and "B" — the whole memory system before the runner):
+0. **The memory system — its own feature, not filed yet.** Phoenix memory is the superset; each project pulls the subset it needs; one tool finds and updates memory, searching like Claude Code; nothing comes from the model or the web without a memory update a person approved. Draft plan: `.garura/project/issues/613/specs/memory-system-plan.md`. The runner starts at its milestone (its items 1 to 8).
 1. **The runner — #613.** Questions first, then `/intent` → `/vision` → `/understand`, the checker, the evidence. Until the review exists, the drive ends with the plays' review records and a pull request.
 2. **The review — #641–#644** (the tool), **#645–#646** (approval in the product model), **#648–#649** (open, listen, send back). #641 takes its example pack from a real Kickoff run, which only the runner can make.
 3. **The review joins the drive — #650.** The review step becomes the drive's last step and writes approval.
@@ -164,3 +169,7 @@ Not part of this plan; recorded so the gaps in time make sense.
 - 2026-10-17 — Added "How the issues sit": most items are children of #594 (itself under #606), and plan mode (#619, #621) sits under #539. The plan had left #594 out (Kapil asked).
 - 2026-10-18 — Item 7 done: #617 merged (PR #651) with ADR 032 and ADR 033; review stories #641–#650 filed. Now on item 8, Kickoff.
 - 2026-10-18 — Kapil chose A: build the Kickoff runner (#613) first, then the review stories; #650 puts the review at the drive's end.
+- 2026-10-18 — Inside item 8: ADR 034 accepted (a play answers from memory inside
+  a drive). Kapil had memory reviewed before the runner is built, then chose to
+  fix the whole memory system first, as its own feature — added as step 0 of
+  item 8. Big update: an added piece of work, logged here.
