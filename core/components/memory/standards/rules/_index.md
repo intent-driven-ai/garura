@@ -22,7 +22,7 @@ Agents and skills query this category when they need to know: **"What rules must
 | Path | Description | Consumers |
 |------|-------------|-----------|
 | `kb-extension.md` | KB domain-taxonomy file shape — the 9-section feature contract (4 prose: When It Matters, Depth Spectrum, Signals, Tradeoffs; 5 structured: Inclusion, Success Criteria, Failure Scenarios, Cross-Tree Refs, Experiential). Governs both LTM catalog and STM research files. | `validate-kb-extension`, `configure-capabilities`, `enrich-capabilities`, `knowledge-extractor` |
-| `resolution.md` | R1-R4 LTM resolution protocol — LTM hierarchy enforcement, authority semantics (LOCKED / DRAFT), resolution trace schema, context isolation exemptions | `tech-designer`, `feature-steward`, `repo-orchestrator`, every agent that reads LTM |
+| `resolution.md` | R1-R4 LTM resolution protocol — LTM hierarchy enforcement, authority semantics (LOCKED / DRAFT), resolution trace schema, context isolation exemptions; the decision trace every agent keeps (ADR 035 §6) | `tech-designer`, `feature-steward`, `repo-orchestrator`, every agent that reads LTM |
 
 ### Operational rules (git and commits)
 

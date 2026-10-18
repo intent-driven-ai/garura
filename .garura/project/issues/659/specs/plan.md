@@ -75,7 +75,7 @@ item 6, land the change.
   fingerprint, kept with the text and the lines around it) — or the approved memory update it
   came from (Kapil, 19 Oct: "these are called traces"). No source from the model or
   the web. The shape lives in the memory tool's contract; `standards/rules/resolution.md`
-  gains a "Decision Records" section pointing to it. Rewriting its trace and R4's model
+  gains an "Every Decision Names Its Memory" section pointing to it. Rewriting its trace and R4's model
   fallback stays with the agents' move (#663), where the #653 plan put it (item 10).
 - **3. Built: contract version 4** — #659. `cite` in its full shape; a new `citations`
   command (list an issue's records; with `check`, read every source again: `no_source`,
