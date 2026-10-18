@@ -139,6 +139,9 @@ Phoenix memory each piece came from. The two stale copies are retired
 (`~/.garura/core/memory/` and `.garura/core/memory/`). The installer writes
 correct settings into projects it installs into. Garura memory's own folders
 are settled (product model, the person's own files, the person's answers).
+Also: the memory keys in `.garura/core/config.yaml` (`components.memory`, the
+`ltm.*` keys, `review-pr.standards_order`) point at the new homes, here and in
+installed projects.
 **Why here:** the tool needs a known place for each tier.
 **Done when:** an install into a test project pulls only what it needs, a piece
 pulled later arrives on request, and a check shows which pulled pieces are
@@ -212,6 +215,8 @@ its check passes, and an agent there finds a piece of memory through the tool.
 the close of every play, read memory only through the tool, raise memory
 updates, and name their sources. Play changes go through each play's ICE source
 and `/play-editor`.
+Also: rule 4 of the drive contract, its row in the rules index and the
+glossary's Drive entry say what ADR 034 and ADR 035 decided.
 **Why here:** Kickoff waits on these three plays, so they move first.
 **Done when:** the three plays and every play's close name no memory path.
 **Needs:** items 5, 6 and 7.
@@ -238,6 +243,9 @@ the Kickoff build.
 fall back to the web or the model (`tech-designer`, `research-domain-context`);
 the R1–R4 rule rewritten; a lint rule that fails any component naming a memory
 path. The seven retired agents are not installed and are left as they are.
+Also: `CLAUDE.md`, `docs/components/memory.md` and the glossary's install rows
+describe the three tiers and the tool, and the locked knowledge-base design note
+(`knowledge/_DESIGN.md`) is rewritten under ADR 035.
 **Done when:** the lint passes across every component.
 **Needs:** item 9.
 
@@ -276,3 +284,9 @@ the tool.
   confused with the memory Claude Code and Codex keep. Now on item 2; its story
   is filed once Kapil says so (#654 plan item 2).
 - 2026-10-18 — Kapil: "file the stories". Items 2 to 11 filed as Stories #655 to #664 under #653 (texts: `.garura/project/issues/654/specs/stories.yaml`).
+- 2026-10-18 — Kapil: "update the stories … merge this as part of our current
+  plan". The files ADR 035 names under Affects that no story covered were added
+  to existing items, not new ones: config keys to item 3 (#656), the drive
+  contract's rule 4 to item 8 (#661), the docs, glossary rows and the locked
+  knowledge-base design note to item 10 (#663). The three stories were edited to
+  match.

@@ -184,3 +184,8 @@ stories:
 
       ## Needs
       {item:5}, {item:6}, and the review tool (#641–#644).
+# 2026-10-18 — after filing, on Kapil's word ("update the stories"), the Done-when
+# lists of #656, #661 and #663 gained the files ADR 035 names under Affects that no
+# story covered: config memory keys (#656); drive-contract rule 4, its index row and
+# the glossary Drive entry (#661); CLAUDE.md, docs/components/memory.md, the
+# glossary install rows and knowledge/_DESIGN.md (#663). GitHub holds the current text.
