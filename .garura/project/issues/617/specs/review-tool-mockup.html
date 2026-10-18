@@ -1,0 +1,1069 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Phoenix Outcome Review</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Nunito:wght@400;600;700&display=swap">
+<style>
+/* Light only, by choice (Kapil, 18 Oct). Layout: quiet rail on the left, one reading column, a decision column on the right. White and airy like the 15 Oct screenshot; Phoenix colours for action. */
+:root {
+  --bg: #FFFFFF;
+  --rail: #F6F7FA;
+  --raised: #F1F3F7;
+  --line: #E4E7EE;
+  --fg: #0A0E1A;
+  --fg2: #5B6478;
+  --fg3: #8A92A6;
+  --accent: #0891B2;
+  --accent-soft: rgba(8,145,178,.10);
+  --key: #DB2777;
+  --tag: #7C3AED;
+  --add: #15803D; --add-soft: rgba(21,128,61,.10);
+  --chg: #B45309; --chg-soft: rgba(180,83,9,.10);
+  --del: #B91C1C; --del-soft: rgba(185,28,28,.08);
+  --mark: rgba(236,72,153,.16);
+  --sig: linear-gradient(90deg, #06B6D4 0%, #EC4899 100%);
+  --shadow: 0 8px 28px rgba(10,14,26,.10);
+  --f-head: "Space Grotesk", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --f-body: "Nunito", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --f-mono: "SF Mono", Monaco, Menlo, monospace;
+  color-scheme: light;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body { background: var(--bg); color: var(--fg); font: 15px/1.6 var(--f-body); }
+button { font: inherit; color: inherit; cursor: pointer; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+h1, h2, h3 { font-family: var(--f-head); letter-spacing: -.01em; text-wrap: balance; margin: 0; }
+.label { font: 600 11px/1.2 var(--f-body); text-transform: uppercase; letter-spacing: .09em; color: var(--fg3); }
+
+.app { display: grid; grid-template-columns: var(--rail-w, 340px) minmax(0,1fr); min-height: 100%; }
+
+/* Rail */
+.rail { background: var(--rail); border-right: 1px solid var(--line); padding: 24px 16px; display: flex; flex-direction: column; gap: 20px; position: sticky; top: 0; height: 100vh; overflow: auto; }
+.brand { display: flex; align-items: center; gap: 10px; padding: 0 8px; }
+.brand b { font: 700 19px/1 var(--f-head); }
+.brand small { display: block; font: 500 12px/1.2 var(--f-body); color: var(--fg2); margin-top: 3px; }
+.seg { display: flex; background: var(--raised); border-radius: 10px; padding: 3px; gap: 2px; }
+.seg button { flex: 1; border: 0; background: transparent; border-radius: 8px; padding: 7px 12px; font-weight: 600; font-size: 13px; color: var(--fg2); white-space: nowrap; }
+.seg button[aria-pressed="true"] { background: var(--bg); color: var(--fg); box-shadow: 0 1px 3px rgba(10,14,26,.12); }
+.nav { display: flex; flex-direction: column; gap: 2px; }
+.nav .label { padding: 14px 8px 6px; }
+.item { display: flex; align-items: center; gap: 9px; width: 100%; text-align: left; border: 0; background: transparent; border-radius: 8px; padding: 7px 8px; font-size: 14px; color: var(--fg); }
+.item:hover { background: var(--raised); }
+.item[aria-current="true"] { background: var(--accent-soft); color: var(--fg); }
+.item { align-items: flex-start; line-height: 1.35; }
+.item .dot { margin-top: 6px; }
+.item .t { flex: 1; min-width: 0; white-space: normal; overflow-wrap: anywhere; }
+.grip { position: absolute; top: 0; right: -3px; width: 7px; height: 100%; cursor: col-resize; z-index: 6; }
+.grip::after { content: ""; position: absolute; top: 0; bottom: 0; left: 3px; width: 1px; background: transparent; transition: background .15s; }
+.grip:hover::after, .grip.on::after { background: var(--accent); width: 2px; }
+.resizing, .resizing * { cursor: col-resize !important; user-select: none; }
+.bint-tag { display: inline-block; font: 700 9.5px/1 var(--f-body); letter-spacing: .06em; color: var(--key); background: var(--mark); border: 1px solid currentColor; border-radius: 4px; padding: 2px 4px; margin-right: 7px; vertical-align: 2px; }
+.big.bint-tag, .big.ice-tag { font-size: 13px; padding: 4px 7px; vertical-align: 8px; margin-right: 12px; }
+.ice-tag { display: inline-block; font: 700 9.5px/1 var(--f-body); letter-spacing: .06em; color: var(--tag); border: 1px solid currentColor; border-radius: 4px; padding: 2px 4px; margin-right: 7px; vertical-align: 2px; }
+.item.l1 { padding-left: 22px; } .item.l2 { padding-left: 36px; }
+.dot { width: 7px; height: 7px; border-radius: 50%; flex: none; background: transparent; border: 1px solid var(--line); }
+.dot.added { background: var(--add); border-color: var(--add); }
+.dot.changed { background: var(--chg); border-color: var(--chg); }
+.dot.removed { background: var(--del); border-color: var(--del); }
+.tick { width: 16px; text-align: center; font-size: 12px; color: var(--fg3); flex: none; }
+.tick.accept { color: var(--add); } .tick.drop { color: var(--del); } .tick.send { color: var(--accent); }
+.rail-foot { margin-top: auto; display: flex; flex-direction: column; gap: 10px; padding: 0 8px; font-size: 12px; color: var(--fg2); }
+.linkish { border: 0; background: none; padding: 0; color: var(--fg2); text-decoration: underline; text-underline-offset: 3px; font-size: 12px; text-align: left; }
+
+/* Top bar */
+.main { min-width: 0; display: flex; flex-direction: column; }
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); padding: 14px 32px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.top .title { flex: 1; min-width: 200px; }
+.top .title b { font: 600 15px/1.3 var(--f-head); display: block; }
+.top .title span { font-size: 12px; color: var(--fg2); }
+.pill { display: inline-flex; align-items: center; gap: 7px; border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; font-size: 12px; color: var(--fg2); background: var(--bg); }
+.pulse { width: 7px; height: 7px; border-radius: 50%; background: var(--add); box-shadow: 0 0 0 0 var(--add-soft); animation: pulse 2s infinite; }
+@keyframes pulse { 0% { box-shadow: 0 0 0 0 var(--add-soft); } 70% { box-shadow: 0 0 0 8px transparent; } 100% { box-shadow: 0 0 0 0 transparent; } }
+@media (prefers-reduced-motion: reduce) { .pulse { animation: none; } }
+.btn { border: 1px solid var(--line); background: var(--bg); border-radius: 10px; padding: 8px 14px; font-weight: 600; font-size: 13px; }
+.btn:hover { border-color: var(--fg3); }
+.btn.primary { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+.btn.primary[disabled] { opacity: .35; cursor: not-allowed; }
+.btn.tool[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+
+.body { display: grid; grid-template-columns: minmax(0,1fr) 320px; gap: 0; flex: 1; }
+.body.wide { grid-template-columns: minmax(0,1fr); }
+.content { padding: 36px 32px 80px; min-width: 0; }
+.content-in { max-width: 760px; }
+.side { border-left: 1px solid var(--line); padding: 28px 24px 60px; display: flex; flex-direction: column; gap: 22px; min-width: 0; }
+
+.note { border: 1px solid var(--line); background: var(--raised); border-radius: 10px; padding: 10px 14px; font-size: 13px; color: var(--fg2); display: flex; gap: 10px; align-items: baseline; }
+.note b { color: var(--fg); font-weight: 700; }
+
+/* Overview */
+.ov h1 { font-size: clamp(30px, 4vw, 44px); line-height: 1.1; margin-top: 22px; max-width: 18ch; }
+.ov h1 em { font-style: normal; color: var(--key); }
+.ov .sub { color: var(--fg2); margin: 10px 0 0; }
+.sig { height: 3px; width: 72px; background: var(--sig); border-radius: 2px; margin-top: 18px; }
+.stats { display: grid; grid-template-columns: repeat(5, minmax(0,1fr)); margin-top: 34px; border-top: 1px solid var(--line); }
+.stat { padding: 18px 18px 0 0; border-right: 1px solid var(--line); margin-right: 18px; }
+.stat:last-child { border-right: 0; margin-right: 0; }
+.stat .n { font: 600 38px/1.1 var(--f-head); font-variant-numeric: tabular-nums; margin-top: 8px; }
+.stat .n.key { color: var(--key); }
+.stat .h { font-size: 12px; color: var(--fg2); margin-top: 4px; }
+.bar { height: 6px; background: var(--raised); border-radius: 3px; margin-top: 26px; overflow: hidden; }
+.bar i { display: block; height: 100%; background: var(--sig); border-radius: 3px; transition: width .4s; }
+.barcap { display: flex; justify-content: space-between; font-size: 12px; color: var(--fg2); margin-top: 8px; }
+.sect { margin-top: 44px; }
+.sect-h { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; border-bottom: 1px solid var(--line); padding-bottom: 10px; }
+.sect-h h2 { font-size: 21px; }
+.sect-h span { font-size: 12px; color: var(--fg2); }
+.row { display: grid; grid-template-columns: 110px minmax(0,1fr) auto; gap: 16px; align-items: center; padding: 16px 4px; border-bottom: 1px solid var(--line); width: 100%; text-align: left; background: none; border-left: 0; border-right: 0; border-top: 0; }
+.row:hover { background: var(--rail); }
+.row .rt { font: 600 15px/1.35 var(--f-head); }
+.row .rw { font-size: 13px; color: var(--fg2); margin-top: 2px; }
+.row .go { color: var(--fg3); }
+
+.chip { display: inline-flex; align-items: center; gap: 5px; font: 600 11px/1 var(--f-body); padding: 5px 8px; border-radius: 6px; background: var(--raised); color: var(--fg2); white-space: nowrap; }
+.chip.added { background: var(--add-soft); color: var(--add); }
+.chip.changed { background: var(--chg-soft); color: var(--chg); }
+.chip.removed { background: var(--del-soft); color: var(--del); }
+.chip.ap { background: transparent; border: 1px solid currentColor; }
+.chip.ap-approved, .ms.ap-approved b { color: var(--add); }
+.chip.ap-changed, .ms.ap-changed b { color: var(--chg); }
+.chip.ap-progress, .ms.ap-progress b { color: var(--accent); }
+.chip.ap-accepted { color: var(--add); border-style: dashed; }
+.chip.ap-dropped { color: var(--del); border-style: dashed; }
+.mstate { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 0; margin-top: 18px; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.mstate .ms-h { grid-column: 1 / -1; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 12px 16px; border-bottom: 1px solid var(--line); background: var(--rail); font-size: 12px; color: var(--fg2); }
+.mstate .ms { padding: 14px 16px; display: flex; flex-direction: column; gap: 2px; }
+.mstate .ms + .ms { border-left: 1px solid var(--line); }
+.mstate .ms b { font: 600 30px/1.1 var(--f-head); font-variant-numeric: tabular-nums; }
+.mstate .ms span { font-weight: 700; font-size: 13px; }
+.mstate .ms small { font-size: 12px; color: var(--fg3); }
+.chip.kind { background: transparent; border: 1px solid var(--line); }
+.chip.link { background: transparent; border: 1px solid var(--line); color: var(--accent); font-size: 12px; padding: 6px 10px; cursor: pointer; }
+.chip.link:hover { border-color: var(--accent); }
+
+/* Piece */
+.crumb { font-size: 12px; color: var(--fg2); display: flex; gap: 6px; flex-wrap: wrap; }
+.piece h1 { font-size: clamp(26px, 3.4vw, 36px); line-height: 1.15; margin: 10px 0 12px; }
+.chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.why { margin: 16px 0 0; color: var(--fg2); font-size: 14px; }
+.why b { color: var(--fg); }
+.doc { position: relative; margin-top: 30px; }
+.sec { padding: 16px 0 16px 18px; border-left: 2px solid transparent; position: relative; }
+.sec + .sec { border-top: 1px solid var(--line); }
+.sec.added { border-left-color: var(--add); }
+.sec.removed { border-left-color: var(--del); }
+.sec.removed .tx { text-decoration: line-through; text-decoration-color: var(--del); color: var(--fg2); }
+.sec .tx { margin-top: 6px; font-size: 16px; max-width: 66ch; }
+.tx p { margin: 0 0 8px; } .tx p:last-child { margin-bottom: 0; }
+.tx ul { margin: 2px 0 0; padding-left: 18px; display: flex; flex-direction: column; gap: 6px; }
+.tx li::marker { color: var(--fg3); }
+.tx li.li-add { color: var(--add); background: var(--add-soft); border-radius: 4px; padding: 1px 6px; margin-left: -6px; }
+.tx li.li-add::marker { content: "+  "; color: var(--add); font-weight: 700; }
+.tx li.li-del { color: var(--del); text-decoration: line-through; background: var(--del-soft); border-radius: 4px; padding: 1px 6px; margin-left: -6px; }
+.tx li.li-del::marker { content: "–  "; color: var(--del); font-weight: 700; }
+.facts { display: flex; flex-wrap: wrap; gap: 10px 28px; margin: 18px 0 0; padding: 14px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.facts div { min-width: 0; } .facts dt { font: 600 11px/1.2 var(--f-body); text-transform: uppercase; letter-spacing: .08em; color: var(--fg3); }
+.facts dd { margin: 4px 0 0; font-size: 13px; color: var(--fg); }
+.sec .ed { position: absolute; top: 12px; right: 0; display: flex; gap: 4px; opacity: 0; transition: opacity .15s; }
+.sec:hover .ed, .sec:focus-within .ed { opacity: 1; }
+.ed button { border: 1px solid var(--line); background: var(--bg); border-radius: 7px; font-size: 12px; padding: 3px 8px; color: var(--fg2); }
+del { color: var(--del); text-decoration-thickness: 1.5px; background: var(--del-soft); border-radius: 3px; padding: 0 2px; }
+ins { color: var(--add); text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 3px; background: var(--add-soft); border-radius: 3px; padding: 0 2px; }
+mark.cmt { background: var(--mark); color: inherit; border-bottom: 2px solid var(--key); border-radius: 2px; }
+.p-del { text-decoration: line-through; text-decoration-color: var(--accent); text-decoration-thickness: 2px; color: var(--fg2); }
+.p-ins { color: var(--accent); font-weight: 600; }
+.mode-final .p-del { display: none; }
+.links { margin-top: 26px; display: flex; flex-direction: column; gap: 10px; }
+.links .chips { gap: 8px; }
+.area { position: absolute; border: 2px solid var(--key); background: var(--mark); border-radius: 6px; pointer-events: none; }
+.area span { position: absolute; top: -10px; right: -10px; width: 20px; height: 20px; border-radius: 50%; background: var(--key); color: #fff; font: 700 11px/20px var(--f-body); text-align: center; }
+.pointing .doc { cursor: crosshair; user-select: none; }
+.pointing .doc::after { content: "Drag a box over the part you want to talk about"; position: absolute; top: -26px; left: 18px; font-size: 12px; color: var(--accent); }
+
+/* Side */
+.decide { display: flex; flex-direction: column; gap: 8px; }
+.decide .q { font: 600 15px/1.35 var(--f-head); margin-bottom: 4px; }
+.dbtn { display: flex; align-items: center; gap: 10px; border: 1px solid var(--line); background: var(--bg); border-radius: 10px; padding: 10px 12px; text-align: left; }
+.dbtn small { display: block; color: var(--fg2); font-size: 12px; }
+.dbtn .k { margin-left: auto; font: 11px var(--f-mono); color: var(--fg3); border: 1px solid var(--line); border-radius: 5px; padding: 1px 6px; }
+.dbtn:hover { border-color: var(--fg3); }
+.dbtn[aria-pressed="true"].accept { border-color: var(--add); background: var(--add-soft); }
+.dbtn[aria-pressed="true"].send { border-color: var(--accent); background: var(--accent-soft); }
+.dbtn[aria-pressed="true"].drop { border-color: var(--del); background: var(--del-soft); }
+.ico { width: 26px; height: 26px; border-radius: 8px; display: grid; place-items: center; font-weight: 700; flex: none; }
+.accept .ico { color: var(--add); background: var(--add-soft); } .send .ico { color: var(--accent); background: var(--accent-soft); } .drop .ico { color: var(--del); background: var(--del-soft); }
+.thread { display: flex; flex-direction: column; gap: 12px; }
+.cm { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; font-size: 13px; }
+.cm q { display: block; quotes: none; color: var(--fg2); border-left: 2px solid var(--key); padding-left: 8px; margin-bottom: 6px; font-size: 12px; }
+.cm .meta { display: flex; justify-content: space-between; gap: 8px; color: var(--fg3); font-size: 11px; margin-top: 6px; }
+.cm.garura { background: var(--raised); border-color: transparent; }
+.cm.garura .who { color: var(--accent); font-weight: 700; }
+.state { font-weight: 700; }
+.state.open { color: var(--key); } .state.answered { color: var(--accent); } .state.resolved { color: var(--add); }
+.composer { border: 1px solid var(--accent); border-radius: 10px; padding: 10px; display: flex; flex-direction: column; gap: 8px; background: var(--bg); }
+.composer textarea { width: 100%; min-height: 70px; border: 0; resize: vertical; background: transparent; color: var(--fg); font: 14px/1.5 var(--f-body); outline: none; }
+.composer .row2 { display: flex; justify-content: flex-end; gap: 6px; }
+.feed { font-size: 12px; color: var(--fg2); display: flex; flex-direction: column; gap: 4px; }
+.feed div { display: flex; gap: 8px; } .feed code { font-family: var(--f-mono); color: var(--fg3); }
+.empty { font-size: 13px; color: var(--fg3); }
+
+/* Popover */
+.pop { position: absolute; z-index: 20; display: flex; gap: 2px; background: var(--fg); border-radius: 10px; padding: 4px; box-shadow: var(--shadow); }
+.pop button { border: 0; background: transparent; color: var(--bg); font-size: 13px; font-weight: 600; padding: 6px 10px; border-radius: 7px; }
+.pop button:hover { background: color-mix(in srgb, var(--bg) 18%, transparent); }
+
+.scrim { position: fixed; inset: 0; background: rgba(10,14,26,.45); display: grid; place-items: center; z-index: 30; padding: 16px; }
+.modal { background: var(--bg); border-radius: 16px; padding: 28px; max-width: 460px; width: 100%; box-shadow: var(--shadow); }
+.modal h2 { font-size: 24px; margin-bottom: 8px; }
+.modal p { color: var(--fg2); margin: 6px 0; }
+.modal .sig { margin: 14px 0 18px; }
+
+@media (max-width: 1080px) { .body { grid-template-columns: minmax(0,1fr); } .side { border-left: 0; border-top: 1px solid var(--line); } }
+@media (max-width: 820px) {
+  .app { grid-template-columns: minmax(0,1fr); }
+  .rail { position: static; height: auto; max-height: none; border-right: 0; border-bottom: 1px solid var(--line); }
+  .nav { max-height: 260px; overflow: auto; }
+  .grip { display: none; }
+  .top, .content { padding-left: 16px; padding-right: 16px; }
+  .side { padding-left: 16px; padding-right: 16px; }
+  .stats { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .stat { border-right: 0; margin-right: 0; }
+  .row { grid-template-columns: minmax(0,1fr) auto; } .row .chips { display: none; }
+}
+
+/* Catch up: one change per card, like Teams mobile Catch up */
+.btn.cu-open { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn.cu-open:hover { filter: brightness(1.08); }
+.cu-invite { margin-top: 30px; display: flex; flex-wrap: wrap; align-items: center; gap: 16px 24px; padding: 22px 24px; border-radius: 14px; background: var(--accent-soft); }
+.cu-invite div { flex: 1; min-width: 220px; }
+.cu-invite b { font: 600 19px/1.3 var(--f-head); display: block; }
+.cu-invite span { font-size: 13px; color: var(--fg2); }
+.cu { position: fixed; inset: 0; z-index: 40; background: var(--rail); display: flex; flex-direction: column; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+.cu-top { display: flex; align-items: center; gap: 14px; padding: 14px 24px; flex-wrap: wrap; }
+.cu-top .ttl { flex: 1; min-width: 160px; }
+.cu-top .ttl b { font: 600 16px/1.2 var(--f-head); display: block; }
+.cu-top .ttl span { font-size: 12px; color: var(--fg2); }
+.cu-count { font: 600 14px var(--f-head); font-variant-numeric: tabular-nums; }
+.cu-segs { display: flex; gap: 3px; padding: 0 24px; }
+.cu-segs i { flex: 1; height: 4px; border-radius: 2px; background: var(--line); }
+.cu-segs i.accept { background: var(--add); } .cu-segs i.send { background: var(--accent); } .cu-segs i.drop { background: var(--del); } .cu-segs i.later { background: var(--fg3); }
+.cu-segs i.now { background: var(--fg); }
+.cu-stage { flex: 1; position: relative; display: grid; place-items: center; padding: 18px 16px 12px; min-height: 0; }
+.cu-deck { position: relative; width: min(720px, 100%); height: 100%; max-height: 780px; }
+.cu-card { position: absolute; inset: 0; background: var(--bg); border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow); display: flex; flex-direction: column; overflow: hidden; touch-action: pan-y; transition: transform .28s cubic-bezier(.2,.7,.2,1), opacity .28s; }
+.cu-card.peek1 { transform: translateY(12px) scale(.97); opacity: .7; z-index: 1; pointer-events: none; }
+.cu-card.peek2 { transform: translateY(24px) scale(.94); opacity: .4; z-index: 0; pointer-events: none; }
+.cu-card.cu-now { z-index: 2; }
+.cu-card.dragging { transition: none; cursor: grabbing; }
+.cu-hint { position: absolute; top: 22px; z-index: 3; font: 700 13px/1 var(--f-head); letter-spacing: .08em; text-transform: uppercase; padding: 8px 12px; border-radius: 8px; border: 2px solid; opacity: 0; pointer-events: none; }
+.cu-hint.r { right: 22px; color: var(--add); background: var(--add-soft); }
+.cu-hint.l { left: 22px; color: var(--fg2); background: var(--raised); }
+.cu-head { padding: 22px 26px 14px; border-bottom: 1px solid var(--line); }
+.cu-head .ctx { font-size: 12px; color: var(--fg2); margin-bottom: 8px; }
+.cu-head h2 { font-size: clamp(21px, 3vw, 27px); line-height: 1.2; }
+.cu-head .chips { margin-top: 10px; }
+.cu-head .why { margin-top: 10px; }
+.cu-body { flex: 1; overflow: auto; padding: 6px 26px 18px; min-height: 0; }
+.cu-body .sec { padding-left: 14px; }
+.cu-body .more { font-size: 12px; color: var(--fg3); padding: 12px 0 0 14px; }
+.cu-say { padding: 12px 26px; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 8px; }
+.cu-say textarea { width: 100%; min-height: 64px; border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; font: 14px/1.5 var(--f-body); color: var(--fg); background: var(--bg); resize: vertical; }
+.cu-say textarea:focus { outline: none; border-color: var(--accent); }
+.cu-say .row2 { display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap; }
+.cu-say .lbl { font-size: 13px; font-weight: 600; }
+.cu-acts { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 8px; padding: 14px 18px 18px; border-top: 1px solid var(--line); }
+.cu-act { display: flex; flex-direction: column; align-items: center; gap: 4px; border: 1px solid var(--line); background: var(--bg); border-radius: 12px; padding: 10px 6px; font-size: 13px; font-weight: 700; }
+.cu-act small { font-weight: 400; font-size: 11px; color: var(--fg3); }
+.cu-act:hover { border-color: var(--fg3); }
+.cu-act.accept { background: var(--add-soft); border-color: transparent; color: var(--add); }
+.cu-act.send { color: var(--accent); } .cu-act.drop { color: var(--del); } .cu-act.later { color: var(--fg2); }
+.cu-act[aria-pressed="true"] { outline: 2px solid currentColor; outline-offset: -2px; }
+.cu-end { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; padding: 24px; }
+.cu-end h2 { font-size: clamp(28px, 4vw, 40px); }
+.cu-end p { color: var(--fg2); margin: 10px auto 0; max-width: 42ch; }
+.cu-end .sig { margin: 18px auto; }
+.cu-end .row2 { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 22px; }
+.cu-sum { display: flex; gap: 22px; justify-content: center; flex-wrap: wrap; margin-top: 18px; }
+.cu-sum div { font-size: 12px; color: var(--fg2); } .cu-sum b { display: block; font: 600 30px/1.1 var(--f-head); color: var(--fg); }
+.cu-foot { text-align: center; font-size: 12px; color: var(--fg3); padding: 0 16px 14px; }
+.toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); z-index: 50; background: var(--fg); color: var(--bg); border-radius: 12px; padding: 10px 12px 10px 16px; display: flex; gap: 14px; align-items: center; font-size: 14px; box-shadow: var(--shadow); }
+.toast button { border: 0; background: color-mix(in srgb, var(--bg) 18%, transparent); color: var(--bg); border-radius: 8px; padding: 6px 10px; font-weight: 700; }
+@media (max-width: 640px) {
+  .cu-top { padding: 10px 16px; } .cu-segs { padding: 0 16px; }
+  .cu-head, .cu-body, .cu-say { padding-left: 16px; padding-right: 16px; }
+  .cu-acts { grid-template-columns: repeat(2, minmax(0,1fr)); padding: 12px; }
+  .cu-act small { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .cu-card { transition: none; } }
+</style>
+</head>
+<body>
+<div class="app" id="app">
+  <aside class="rail">
+    <div class="grip" id="grip" title="Drag to make this wider or narrower. Double-click to reset." role="separator" aria-orientation="vertical"></div>
+    <div class="brand">
+      <svg width="34" height="34" viewBox="0 0 40 40" aria-hidden="true">
+        <defs><linearGradient id="pg" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#06B6D4"/><stop offset="1" stop-color="#EC4899"/></linearGradient></defs>
+        <path d="M20 37c-7 0-12-5-12-11.5 0-5 3-8.5 6-11 .5 3 2 5 4 6-1-6 1-12 6-17-1 5 0 9 3 12 3 3 5 6 5 10C32 32 27 37 20 37z" fill="url(#pg)"/>
+        <path d="M20 33c-3.5 0-6-2.5-6-5.5 0-2.5 1.5-4.5 3.5-6 0 2 1 3.5 2.5 4 0-3 1-5.5 3-7.5 0 3 1 5 2.5 6.5 1 1 1.5 2 1.5 3.5C27 30.5 24 33 20 33z" fill="var(--bg)" opacity=".9"/>
+      </svg>
+      <div><b>Phoenix</b><small>Outcome review</small></div>
+    </div>
+    <div class="seg" role="group" aria-label="Which tool">
+      <button id="t-intents" aria-pressed="true">Intents</button>
+      <button id="t-product" aria-pressed="false">Product</button>
+    </div>
+    <nav class="nav" id="nav" aria-label="Pieces"></nav>
+    <div class="rail-foot">
+      <span>Keys: j / k move · a accept · s send back · c comment · p point · f final / changes</span>
+      <span>Mockup · sample data · 17 Oct 2026</span>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="top">
+      <div class="title"><b>Kickoff — Shop checkout</b><span>Drive finished 17 Oct, 14:20 · second check found no gaps</span></div>
+      <div class="seg" role="group" aria-label="How to read"><button id="v-final" aria-pressed="false">Final</button><button id="v-changes" aria-pressed="true">Changes</button></div>
+      <div class="seg" role="group" aria-label="How much to show"><button id="s-changed" aria-pressed="true">Only changed</button><button id="s-all" aria-pressed="false">Everything</button></div>
+      <button class="btn tool" id="point" aria-pressed="false" title="Comment on an area (p)">Point</button>
+      <span class="pill" title="Every action goes to Garura as it happens"><span class="pulse"></span><span id="listen">Garura is listening</span></span>
+      <button class="btn cu-open" id="cu-btn" data-cu-start>Catch up</button>
+      <button class="btn primary" id="finish" disabled>Finish review</button>
+    </header>
+    <div class="body" id="body">
+      <section class="content" id="content"></section>
+      <aside class="side" id="side"></aside>
+    </div>
+  </div>
+</div>
+<div class="pop" id="pop" hidden>
+  <button data-act="comment">Comment</button><button data-act="edit">Edit</button><button data-act="remove">Remove</button>
+</div>
+
+<script>
+// Sample data shaped like real pages (product-os templates: ontology.md, grounding/*.md,
+// decision.yaml, product-profile.yaml). Markers: [-old-] removed words, {+new+} added words,
+// "- " a list line, "+- " a list line the drive added, "x- " a list line the drive removed.
+const PIECES = [
+  // ───────── Intents ─────────
+  { id:'i1', tool:'intents', kind:'Business intent (BInt)', group:'New', change:'added', status:'Proposed',
+    title:'Shoppers can check out without making an account',
+    why:'Drawn from the checkout prototype, which has a “Continue as guest” button on the sign-in step.',
+    facts:[['Stage','Proposed — saved inside a drive, 17 Oct 2026'],['Source','Checkout prototype (project folder), read 17 Oct 2026'],['Tracked as','Business Intent issue — filed after you confirm']],
+    sections:[
+      ['Outcome','A shopper with no account can buy, start to finish, and gets a receipt by email.'],
+      ['Why','4 in 10 shoppers leave at the sign-up step. Most of them never come back to the basket.'],
+      ['Asked by','Priya, Head of Growth'],
+      ['Proof it is met','Fewer than 2 in 10 shoppers leave at checkout, for a full month after launch.'],
+      ['Must not','- Change how returns work.\n- Let a guest order skip the fraud check.'],
+      ['What was done','Nothing yet.'],
+    ],
+    links:[['Touches','Orders','p1','changes'],['Touches','Checkout','p2','changes'],['Touches','Guest checkout','p3','adds'],['Touches','Saved cards','p6','removes']] },
+
+  { id:'i3', tool:'intents', kind:'Business intent (BInt)', group:'New', change:'added', status:'Proposed',
+    title:'Shop staff can refund an order without calling support',
+    why:'Drawn from the staff screens in the prototype, which show a “Refund” button on each paid order.',
+    facts:[['Stage','Proposed — saved inside a drive, 17 Oct 2026'],['Source','Checkout prototype (project folder), read 17 Oct 2026'],['Tracked as','Business Intent issue — filed after you confirm']],
+    sections:[
+      ['Outcome','A member of shop staff refunds a paid order, in full or in part, in under a minute.'],
+      ['Why','Refunds wait two working days today, because only the support team can make them. Late refunds are the top reason for one-star reviews.'],
+      ['Asked by','Marco, Store Operations Lead'],
+      ['Proof it is met','9 in 10 refunds are made by shop staff on the same day, for a full month.'],
+      ['Must not','- Send money to any card other than the one that paid.\n- Let one person refund more than £500 without a second person agreeing.'],
+      ['What was done','Nothing yet.'],
+    ],
+    links:[['Touches','Orders','p1','changes'],['Touches','Refunds','p5','adds'],['Touches','Refund to the paying card','p11','adds']] },
+
+  { id:'i2', tool:'intents', kind:'Business intent (BInt)', group:'Changed', change:'changed', status:'Confirmed',
+    title:'Returning shoppers find their past orders in one place',
+    why:'The prototype puts order history on the home page, so the drive changed how the proof is measured.',
+    facts:[['Stage','Confirmed — by Priya, 2 Oct 2026'],['Source','Support call log, Sept 2026 (document), read 2 Oct 2026'],['Tracked as','Business Intent issue #212']],
+    sections:[
+      ['Outcome','A returning shopper sees every past order, with its current status, in one list.'],
+      ['Why','“Where is my order?” is the most common support call: about 1,400 calls a month.'],
+      ['Asked by','Priya, Head of Growth'],
+      ['Proof it is met','A shopper reaches the list [-within two clicks of signing in-]{+in one click from the home page+}, and “where is my order” calls drop by a quarter.'],
+      ['What was done','Nothing yet.'],
+    ],
+    links:[['Touches','Order history','p4','changes']] },
+
+  { id:'i4', tool:'intents', kind:'Business intent (BInt)', group:'Unchanged', change:'same', status:'Confirmed',
+    title:'Shoppers pay in their own currency',
+    why:'Not touched by this drive.',
+    facts:[['Stage','Confirmed — by Priya, 12 Sept 2026'],['Tracked as','Business Intent issue #187']],
+    sections:[
+      ['Outcome','A shopper sees and pays prices in the currency of their own country.'],
+      ['Why','Shoppers outside the UK leave twice as often when prices show in pounds.'],
+      ['Asked by','Priya, Head of Growth'],
+      ['Proof it is met','No order is charged in a currency the shopper did not choose.'],
+    ],
+    links:[['Touches','Checkout','p2','changes']] },
+
+  // ───────── Product: Orders domain ─────────
+  { id:'p1', tool:'product', kind:'Domain', group:'Orders', level:0, change:'changed', status:'Active',
+    title:'Orders',
+    why:'Grew to hold guest orders and refunds, from the two new intents.',
+    facts:[['Status','Active'],['Page','Full'],['Built for','3 business intents'],['Decisions','1 proposed']],
+    sections:[
+      ['Intent','Orders takes a shopper from a full basket to a paid order{+ and, when needed, back to a refund+}, and keeps every order traceable from first click to final status. It exists so that no order is ever lost, charged twice, or left without a clear status. It stops at the order: stock and delivery belong to other domains.'],
+      ['Business goal','A shop lead can answer “what happened to this order, and where is the money?” for any order, [-from the support tool-]{+from one screen, without asking support+}.'],
+      ['Guiding rules','- Every order passes the fraud check before any money moves, because one missed fraud case costs more than a month of lost sales.\n- An order always has exactly one current status, because two statuses means nobody trusts either.\n+- Money only ever goes back to where it came from, because a refund to the wrong card is both a loss and a fraud route.'],
+      ['Capabilities','- Checkout — takes a basket to a paid order. Distinct because it is the only place money comes in.\n- Order history — shows a shopper their past orders. Distinct because it only reads orders, never changes them.\n+- Refunds — returns money for a paid order. Distinct because it is the only place money goes out.'],
+      ['Scope (In / Out)','- In: signed-in{+ and guest+} orders, payment by card, order status.\n+- In: full and part refunds made by shop staff.\n- Out: stock levels and delivery tracking — the Fulfilment domain owns them.\n- Out: gift cards — later; they need their own fraud rules.'],
+    ],
+    links:[['Built for','Shoppers can check out without making an account','i1',''],['Built for','Shop staff can refund an order without calling support','i3',''],['Built for','Returning shoppers find their past orders in one place','i2','']] },
+
+  { id:'p2', tool:'product', kind:'Capability', group:'Orders', level:1, change:'changed', status:'Active',
+    title:'Checkout',
+    why:'The guest intent needs checkout to work with no account, and saved cards no longer fit.',
+    facts:[['Status','Active'],['Page','Full'],['Built for','2 business intents'],['Needs','Security high · Performance high · PCI-DSS'],['Serves','Shoppers, Guests'],['Depends on','Catalogue']],
+    sections:[
+      ['Benefit hypothesis','As a shopper, we believe that paying in three steps or fewer[-, with a saved card,-]{+ — signed in or as a guest —+} will raise finished checkouts. We will know it is true when the share of baskets that reach a paid order goes up by a tenth within a month.'],
+      ['Boundary (In / Out / Never)','- In: the basket review, the address, the payment, and the order confirmation.\n+- In: the guest path — an email address instead of an account.\n- Out: showing past orders — Order history owns that.\n+- Out: refunds — the Refunds capability owns money going back.\n- Never: place an order that has not passed the fraud check.\nx- Never: ask a shopper to type a card they have already saved.'],
+      ['Guiding rules','- The fraud check runs on every order, signed in or not, because guests are where most fraud tries first.\n+- A guest gives an email address and nothing else, because every extra field loses shoppers.'],
+      ['Functionalities','+- Guest checkout — pay with only an email address; the receipt goes there.\n- Card payment — take the card, run the fraud check, and confirm the order.\nx- Saved cards — keep a signed-in shopper’s card for next time.'],
+      ['Agent intent (ICE)','- Goal: A shopper{+, signed in or not,+} pays for a basket in three steps or fewer.\n- Limit: No order is placed without passing the fraud check.\n- Fails if: an order is charged twice, or charged without a confirmation email.\n- Context: serves shoppers and guests; touches the payment provider and the fraud service.\n- Checked by: an end-to-end test that buys as a signed-in shopper and as a guest.\n- Quality need: PCI-DSS for card data; a checkout step answers in under 1 second.'],
+    ],
+    links:[['Built for','Shoppers can check out without making an account','i1',''],['Inside','Orders','p1','']] },
+
+  { id:'p3', tool:'product', kind:'Functionality', group:'Orders', level:2, change:'added', status:'Proposed',
+    title:'Guest checkout',
+    why:'New. The prototype shows the guest path from the sign-in step.',
+    facts:[['Status','Proposed'],['Built for','1 business intent'],['Inside','Checkout']],
+    sections:[
+      ['What it does','Lets a shopper pay with only an email address, and sends the receipt and order updates to that address. It sits on the sign-in step as “Continue as guest” and joins the normal payment path after the address.'],
+      ['Inputs / Outputs','- In: a basket, an email address, a delivery address, and a card.\n- Out: a paid order marked “guest”, and a receipt sent to the email address.'],
+      ['Rules & behavior','- A guest order runs the same fraud check as any other order.\n- The email address is checked for shape only; it is not used to make an account.\n- If the email address already has an account, the shopper is offered sign-in, but may still go on as a guest.'],
+      ['Acceptance criteria','- Given a basket and no account, when the shopper picks “Continue as guest” and pays, then the order is placed and a receipt reaches the email address within one minute.\n- Given a guest order that fails the fraud check, when the shopper pays, then no money is taken and the shopper sees why.'],
+      ['Out of scope','- Turning a guest into an account after the order — later, if the numbers ask for it.'],
+      ['Agent intent (ICE)','- Goal: A guest pays and gets a receipt by email within one minute.\n- Limit: A guest gives an email address and nothing else.\n- Fails if: a guest order skips the fraud check.\n- Checked by: an end-to-end test that buys as a guest and reads the email.'],
+    ],
+    links:[['Built for','Shoppers can check out without making an account','i1',''],['Inside','Checkout','p2','']] },
+
+  { id:'p6', tool:'product', kind:'Functionality', group:'Orders', level:2, change:'removed', status:'Removed',
+    title:'Saved cards',
+    why:'The prototype has no saved cards, and a guest has no account to save a card to.',
+    facts:[['Status','Removed in this drive'],['Inside','Checkout']],
+    sections:[
+      ['What it does','Keeps a signed-in shopper’s card, through the payment provider, so they do not type it again next time.'],
+      ['Rules & behavior','- The card itself is held by the payment provider, never by the shop.\n- A shopper can remove a saved card at any time.'],
+      ['Agent intent (ICE)','- Goal: A returning shopper pays without typing their card again.'],
+    ],
+    links:[['Inside','Checkout','p2',''],['Removed by','Shoppers can check out without making an account','i1','']] },
+
+  { id:'p10', tool:'product', kind:'Functionality', group:'Orders', level:2, change:'same', status:'Active',
+    title:'Card payment',
+    why:'Not touched by this drive.',
+    facts:[['Status','Active'],['Inside','Checkout']],
+    sections:[
+      ['What it does','Takes the shopper’s card, runs the fraud check, charges the card, and confirms the order.'],
+      ['Agent intent (ICE)','- Goal: A card is charged once, and only after the fraud check passes.'],
+    ],
+    links:[['Inside','Checkout','p2','']] },
+
+  { id:'p4', tool:'product', kind:'Capability', group:'Orders', level:1, change:'changed', status:'Active',
+    title:'Order history',
+    why:'Moved to the home page, from the changed proof on its intent.',
+    facts:[['Status','Active'],['Page','Full'],['Built for','1 business intent'],['Needs','Performance medium · Privacy high'],['Serves','Signed-in shoppers']],
+    sections:[
+      ['Benefit hypothesis','As a returning shopper, we believe that seeing every order and its status [-under the account menu-]{+on the home page+} will cut “where is my order” calls. We will know it is true when those calls drop by a quarter.'],
+      ['Boundary (In / Out / Never)','- In: the list of past orders, each with its status and items.\n- Out: changing an order — Checkout and Refunds own that.\n- Never: show one shopper another shopper’s orders.'],
+      ['Agent intent (ICE)','- Goal: Every past order shows its current status within 5 seconds of a change.\n+- Goal: A signed-in shopper reaches the list in one click from the home page.\n- Limit: A shopper only ever sees their own orders.'],
+    ],
+    links:[['Built for','Returning shoppers find their past orders in one place','i2',''],['Inside','Orders','p1','']] },
+
+  { id:'p5', tool:'product', kind:'Capability', group:'Orders', level:1, change:'added', status:'Proposed',
+    title:'Refunds',
+    why:'New, for the staff refund intent. It needs more security than the product allowed, so the security limit went up.',
+    facts:[['Status','Proposed'],['Page','Full'],['Built for','1 business intent'],['Needs','Security very high · PCI-DSS'],['Serves','Shop staff'],['Depends on','Checkout']],
+    sections:[
+      ['Benefit hypothesis','As shop staff, we believe that refunding a paid order from the order screen, without support, will get money back to shoppers on the same day. We will know it is true when 9 in 10 refunds are made by staff on the day they are asked for.'],
+      ['Boundary (In / Out / Never)','- In: full and part refunds on a paid order, made by shop staff.\n- Out: taking payment — Checkout owns money coming in.\n- Never: send money to a card that did not pay for the order.\n- Never: let one person refund more than £500 alone.'],
+      ['Guiding rules','- Every refund is logged with who made it and why, because refunds are where staff fraud would show first.\n- A refund over £500 needs a second person, because one mistake there is a real loss.'],
+      ['Functionalities','- Refund to the paying card — send the money back to the card that paid, in full or in part.'],
+      ['Agent intent (ICE)','- Goal: Staff make a refund in under a minute, with no call to support.\n- Limit: Money goes back only to the card that paid.\n- Fails if: a refund over £500 goes through with only one person.\n- Context: serves shop staff; touches the payment provider and the staff audit log.\n- Checked by: a test that refunds in full, in part, and over £500.\n- Quality need: security very high — refunds move money out of the business.'],
+    ],
+    links:[['Built for','Shop staff can refund an order without calling support','i3',''],['Inside','Orders','p1',''],['Decided by','Raise the security limit to very high, for refunds','p8','']] },
+
+  { id:'p11', tool:'product', kind:'Functionality', group:'Orders', level:2, change:'added', status:'Proposed',
+    title:'Refund to the paying card',
+    why:'New. The prototype’s refund button sits on each paid order.',
+    facts:[['Status','Proposed'],['Built for','1 business intent'],['Inside','Refunds']],
+    sections:[
+      ['What it does','Sends money back for a paid order, in full or in part, to the card that paid. Staff start it from the order screen.'],
+      ['Inputs / Outputs','- In: a paid order, the amount, and a reason.\n- Out: a refund through the payment provider, a new order status, and a line in the staff audit log.'],
+      ['Rules & behavior','- The amount can never be more than what is left to refund on the order.\n- Over £500, a second member of staff must agree before the money moves.'],
+      ['Acceptance criteria','- Given a paid order of £80, when staff refund £30, then £30 goes back to the paying card and £50 is left to refund.\n- Given a refund of £600, when one person asks for it, then nothing moves until a second person agrees.'],
+      ['Out of scope','- Refunds to a gift card or store credit — not in this product yet.'],
+      ['Agent intent (ICE)','- Goal: The money reaches the paying card, and the order shows it, within one minute.\n- Fails if: a refund reaches a card that did not pay.'],
+    ],
+    links:[['Built for','Shop staff can refund an order without calling support','i3',''],['Inside','Refunds','p5','']] },
+
+  // ───────── Product: Catalogue domain (light page, untouched) ─────────
+  { id:'p9', tool:'product', kind:'Domain', group:'Catalogue', level:0, change:'same', status:'Active',
+    title:'Catalogue',
+    why:'Not touched by this drive.',
+    facts:[['Status','Active'],['Page','Light']],
+    sections:[
+      ['Intent','Catalogue shows what is for sale — each product with its price and whether it is in stock — so a shopper can find it and put it in the basket. It stops at the basket.'],
+    ],
+    links:[] },
+
+  // ───────── Product limits (the box) ─────────
+  { id:'p7', tool:'product', kind:'Product limits', group:'Limits', level:0, change:'changed', status:'Set',
+    title:'Product limits',
+    why:'Refunds need very high security. The product allowed only high, so the drive raised the limit and wrote a decision.',
+    facts:[['State','Set — firmed by /understand'],['Moves','1 in this drive']],
+    sections:[
+      ['Shape','- Stage: public\n- Users: the public\n- Money: none — the shop sells goods, the product itself is free\n- Used on: web, mobile'],
+      ['Quality limits','- Security: [-high-]{+very high+} — OWASP ASVS L2; no P1/P2 findings{+; a second person or check on every change that moves money+}\n- Performance: high — 99 in 100 checkout steps answer in under 1 second\n- Reliability: high — 99.9% uptime\n- Privacy: high — personal data encrypted when stored and when sent\n- Accessibility: high — WCAG 2.1 AA\n- Scalability: medium — handles 10 times today’s orders\n- Observability: medium — tracing and error rates on every order\n- Maintainability: medium — no module over 500 lines; lint clean'],
+      ['Compliance','- PCI-DSS — card payment rules\n- GDPR — EU privacy law'],
+      ['Quality vision','Shoppers trust us with their card and get their money back fast. Every order is traceable, and no change that moves money ships without a second check.'],
+    ],
+    links:[['Raised for','Refunds','p5',''],['Decided by','Raise the security limit to very high, for refunds','p8','']] },
+
+  // ───────── Decisions ─────────
+  { id:'p8', tool:'product', kind:'Decision', group:'Decisions', level:0, change:'added', status:'Proposed',
+    title:'Raise the security limit to very high, for refunds',
+    why:'Written by /understand when Refunds needed more than the product allowed. If you drop it, the limit goes back to high and Refunds is reworked to fit.',
+    facts:[['Status','Proposed'],['Level','Product'],['Recorded by','/understand, in this drive'],['Date','17 Oct 2026']],
+    sections:[
+      ['Decision','The product’s security limit goes from high to very high.'],
+      ['Reason','Refunds send money out of the business. A mistake or an abuse there is a direct loss, and the Refunds capability cannot meet its own limits at “high”.'],
+      ['Alternatives','- Keep security at high and leave refunds with support — this keeps the two-day wait the intent asks to remove.\n- Raise security only for Refunds — the product limit covers the whole product, so a raise anywhere is a raise for all.'],
+      ['Consequences','- Good: refunds can move to shop staff safely.\n- Cost: every change that moves money now needs a second person or check before it ships, and that slows Checkout work a little too.'],
+      ['Affects','- Product limits: security\n- Refunds\n- Checkout — the new check applies to it as well'],
+      ['Change to agent intents','Refunds gets the quality need “security very high”. Checkout’s agent intent does not change.'],
+    ],
+    links:[['For','Refunds','p5',''],['Moves','Product limits','p7','']] },
+];
+// Each capability / functionality page carries its ICE as its last section. The Intents tool
+// lists every ICE under the business intent it is built from, as its own piece to answer.
+const ICE_RE = /^(\+|x)?- (Goal|Limit|Fails if|Context|Checked by|Quality need): (.*)$/;
+const ICE_ORDER = ['Goal', 'Limit', 'Fails if', 'Context', 'Checked by', 'Quality need'];
+for (const p of PIECES.filter(p => p.tool === 'product')) {
+  const sec = p.sections.find(s => s[0] === 'Agent intent (ICE)'); if (!sec) continue;
+  const groups = {}; let touched = false;
+  for (const line of sec[1].split('\n')) {
+    const m = ICE_RE.exec(line); if (!m) continue;
+    (groups[m[2]] ||= []).push(`${m[1] || ''}- ${m[3]}`);
+    if (m[1] || /\[-|\{\+/.test(line)) touched = true;
+  }
+  const change = p.change === 'changed' ? (touched ? 'changed' : 'same') : p.change;
+  const from = PIECES.filter(i => i.tool === 'intents' && i.links.some(l => l[2] === p.id));
+  const ice = { id:'ice-' + p.id, tool:'intents', ice:true, of:p.id, from:from.map(i => i.id), kind:'Agent intent (ICE)', group:'', change, status:p.status, title:p.title,
+    why: change === 'same' ? 'Not changed in this drive.' : `What the agents will build ${p.title} from. ${p.why}`,
+    facts:[['For', `${p.title} — ${p.kind.toLowerCase()}`], ['Built from', from.map(i => i.title).join(' · ') || 'no intent yet'], ['Read by', 'Agents']],
+    sections: ICE_ORDER.filter(k => groups[k]).map(k => [k, groups[k].join('\n')]),
+    links:[['Part of', p.title, p.id, ''], ...from.map(i => ['Built from', i.title, i.id, ''])] };
+  PIECES.push(ice);
+  p.iceId = ice.id;
+  for (const i of from) i.links.push(['Agent intent', p.title, ice.id, '']);
+}
+const byId = Object.fromEntries(PIECES.map(p => [p.id, p]));
+const S = { tool:'intents', view:'changes', scope:'changed', cur:null, pointing:false, answers:{}, marks:{}, comments:{}, events:[], seq:41 };
+// one sample thread so the side panel shows what a Garura reply looks like
+S.comments.p2 = [{ who:'you', quote:'three steps or fewer', text:'Is this three steps for guests too? Guests also type an email.', state:'answered' },
+                 { who:'garura', text:'Yes. The email field sits on the payment step, so a guest still has three steps. Changed in revision 2.', state:'' }];
+
+const $ = s => document.querySelector(s);
+const esc = s => s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const changed = p => p.change !== 'same';
+const visible = p => S.scope === 'all' || changed(p);
+const toReview = () => PIECES.filter(changed);
+const answered = () => toReview().filter(p => S.answers[p.id]);
+const CHG = { added:'Added', changed:'Changed', removed:'Removed', same:'Unchanged' };
+const TICK = { accept:'✓', drop:'✕', send:'↩' };
+
+const plainMode = p => S.view === 'final' || p.change !== 'changed';
+const strip = s => s.replace(/\[-(.*?)-\]/g, '').replace(/\{\+(.*?)\+\}/g, '$1');
+function inline(s, p) {
+  if (plainMode(p)) return esc(strip(s));
+  return esc(s).replace(/\[-(.*?)-\]/g, '<del>$1</del>').replace(/\{\+(.*?)\+\}/g, '<ins>$1</ins>');
+}
+function text(s, p) {
+  let out = '', list = false;
+  for (const line of s.split('\n')) {
+    const m = /^(\+|x)?- (.*)$/.exec(line);
+    if (m) {
+      if (m[1] === 'x' && S.view === 'final') continue;
+      if (!list) { out += '<ul>'; list = true; }
+      const cls = plainMode(p) ? '' : m[1] === '+' ? ' class="li-add"' : m[1] === 'x' ? ' class="li-del"' : '';
+      out += `<li${cls}>${inline(m[2], p)}</li>`;
+    } else {
+      if (list) { out += '</ul>'; list = false; }
+      if (line.trim()) out += `<p>${inline(line, p)}</p>`;
+    }
+  }
+  return out + (list ? '</ul>' : '');
+}
+const plainText = s => strip(s).split('\n').filter(l => !/^x- /.test(l)).map(l => l.replace(/^\+?- /, '- ')).join('\n');
+function event(type, p, detail) {
+  S.seq++; S.events.unshift({ n:S.seq, type, title:p ? p.title : '', detail:detail||'' });
+  $('#listen').textContent = 'Garura got event #' + S.seq;
+}
+
+const tag = p => p.ice ? '<span class="ice-tag" title="Agent intent">ICE</span>' : p.tool === 'intents' ? '<span class="bint-tag" title="Business intent">BInt</span>' : '';
+// Approval lives in the product model: every piece is approved, changed, or in progress.
+// Agents work only on approved pieces.
+function apState(p) {
+  const a = S.answers[p.id];
+  if (a === 'send') return ['progress', 'In progress — sent back'];
+  if (a === 'drop') return ['dropped', 'Dropped at finish'];
+  if (a === 'accept') return ['accepted', 'Accepted — approved at finish'];
+  if (p.change === 'same') return ['approved', 'Approved · 2 Oct 2026 by Kapil'];
+  return ['changed', p.change === 'added' ? 'Changed — new, not approved' : p.change === 'removed' ? 'Changed — removal not approved' : 'Changed since approved'];
+}
+const apChip = p => { const [k, l] = apState(p); return `<span class="chip ap ap-${k}">${esc(l)}</span>`; };
+const iceKids = i => PIECES.filter(p => p.ice && p.from.includes(i.id));
+function navList() {
+  if (S.tool === 'product') return PIECES.filter(p => p.tool === 'product' && visible(p)).map(p => ({ p, lvl:p.level || 0 }));
+  const out = [];
+  for (const i of PIECES.filter(p => p.tool === 'intents' && !p.ice && visible(p))) {
+    out.push({ p:i, lvl:0 });
+    for (const c of iceKids(i)) if (visible(c)) out.push({ p:c, lvl:1 });
+  }
+  return out;
+}
+function renderNav() {
+  let html = '', last = null;
+  for (const { p, lvl } of navList()) {
+    if (lvl === 0 && p.group !== last) { html += `<div class="label">${esc(p.group)}</div>`; last = p.group; }
+    const a = S.answers[p.id];
+    html += `<button class="item${lvl ? ' l' + lvl : ''}" data-go="${p.id}" aria-current="${S.cur === p.id}"><span class="dot ${p.change}"></span><span class="t">${tag(p)}${esc(p.title)}</span><span class="tick ${a||''}">${a ? TICK[a] : ''}</span></button>`;
+  }
+  $('#nav').innerHTML = `<button class="item" data-go="" aria-current="${S.cur === null}"><span class="dot"></span><span class="t"><b>Overview</b></span></button>` + html;
+}
+
+function renderOverview() {
+  const r = toReview(), ans = answered().length;
+  const ni = r.filter(p => p.tool === 'intents' && !p.ice).length, nice = r.filter(p => p.ice).length, np = r.filter(p => p.tool === 'product').length;
+  const count = c => r.filter(p => p.change === c).length;
+  const order = p => (p.tool === 'intents' && !p.ice ? 0 : p.ice ? 1 : p.kind === 'Decision' || p.kind === 'Product limits' ? 2 : 3);
+  const waiting = r.filter(p => !S.answers[p.id]).sort((a, b) => order(a) - order(b));
+  const list = S.scope === 'all' ? PIECES.filter(p => p.tool === S.tool) : waiting;
+  $('#content').innerHTML = `<div class="content-in ov">
+    <div class="note"><b>Sample review</b><span>This is a mockup with made-up shop data. Nothing here is real.</span></div>
+    <div class="mstate" aria-label="The whole product model">
+      ${(() => { const all = PIECES.filter(p => !(p.ice && !p.from.length)); const n = k => all.filter(p => { const s = apState(p)[0]; return k === 'approved' ? s === 'approved' : k === 'progress' ? s === 'progress' : s === 'changed' || s === 'accepted' || s === 'dropped'; }).length;
+        return `<div class="ms-h"><span class="label">The whole product model</span><span>Agents work only on approved pieces.</span></div>
+        <div class="ms ap-approved"><b>${n('approved')}</b><span>Approved</span><small>agents can build from these</small></div>
+        <div class="ms ap-changed"><b>${n('changed')}</b><span>Changed</span><small>waiting for a person</small></div>
+        <div class="ms ap-progress"><b>${n('progress')}</b><span>In progress</span><small>sent back, being reworked</small></div>`; })()}
+    </div>
+    <h1>Kickoff changed <em>${ni}</em> intents, <em>${nice}</em> agent intents and <em>${np}</em> parts of the product.</h1>
+    <p class="sub">Read what changed, then accept it, send it back, or drop it. Garura applies your answers when you finish.</p>
+    <div class="sig"></div>
+    <div class="stats">
+      <div class="stat"><div class="label">Added</div><div class="n">${count('added')}</div><div class="h">new in this drive</div></div>
+      <div class="stat"><div class="label">Changed</div><div class="n">${count('changed')}</div><div class="h">words or levels moved</div></div>
+      <div class="stat"><div class="label">Removed</div><div class="n">${count('removed')}</div><div class="h">taken out</div></div>
+      <div class="stat"><div class="label">Answered</div><div class="n">${ans}</div><div class="h">of ${r.length}</div></div>
+      <div class="stat"><div class="label">Waiting for you</div><div class="n key">${r.length - ans}</div><div class="h">to finish</div></div>
+    </div>
+    <div class="bar"><i style="width:${Math.round(ans / r.length * 100)}%"></i></div>
+    <div class="barcap"><span>${ans} answered</span><span>${r.length - ans} left</span></div>
+    ${r.length - ans ? `<div class="cu-invite"><div><b>Catch up on ${r.length - ans} changes, one at a time</b><span>Each change opens as a card. Accept it, send it back, drop it, or leave it for later. Works on your phone too.</span></div><button class="btn cu-open" data-cu-start>Start catch up</button></div>` : ''}
+    <div class="sect">
+      <div class="sect-h"><h2>${S.scope === 'all' ? (S.tool === 'intents' ? 'Every intent' : 'The whole product') : 'Needs you'}</h2><span>${S.scope === 'all' ? 'Unchanged pieces included' : 'Intents first, then agent intents, then limits and decisions'}</span></div>
+      ${list.length ? list.map(p => `<button class="row" data-go="${p.id}"><span class="chips"><span class="chip ${p.change}">${CHG[p.change]}</span></span><span><div class="rt">${tag(p)}${esc(p.title)}</div><div class="rw">${esc(p.ice ? 'Agent intent (ICE) for ' + byId[p.of].kind.toLowerCase() : p.kind)} · ${esc(p.why)}</div></span><span class="go">→</span></button>`).join('')
+        : '<p class="empty" style="padding:18px 4px">Everything has an answer. Press Finish review.</p>'}
+    </div></div>`;
+}
+
+function renderPiece(p) {
+  const path = p.ice ? ['Intents', p.from[0] ? byId[p.from[0]].title : 'No intent yet', 'Agent intent'] : p.tool === 'intents' ? ['Intents', p.group] : ['Product', p.group];
+  $('#content').innerHTML = `<div class="content-in piece mode-${S.view}">
+    <div class="crumb">${path.map(esc).join(' <span>›</span> ')}</div>
+    <h1>${tag(p).replace('class="', 'class="big ')}${esc(p.title)}</h1>
+    <div class="chips"><span class="chip kind">${esc(p.kind)}</span><span class="chip ${p.change}">${CHG[p.change]}</span><span class="chip">${esc(p.status)}</span>${apChip(p)}</div>
+    ${p.facts && p.facts.length ? `<dl class="facts">${p.facts.map(f => `<div><dt>${esc(f[0])}</dt><dd>${esc(f[1])}</dd></div>`).join('')}</dl>` : ''}
+    <p class="why"><b>${changed(p) ? 'Why it changed' : 'Note'}:</b> ${esc(p.why)}</p>
+    <div class="doc" id="doc">${p.sections.map((s, i) => `<div class="sec ${S.view === 'changes' ? p.change : ''}" data-sec="${i}">
+      <div class="label">${esc(s[0])}${p.iceId && s[0] === 'Agent intent (ICE)' ? ` · <button class="linkish" data-go="${p.iceId}">answer it in Intents</button>` : ''}</div><div class="tx">${text(s[1], p)}</div>
+      <div class="ed"${p.iceId && s[0] === 'Agent intent (ICE)' ? ' hidden' : ''}><button data-sedit="${i}" title="Edit this part">Edit</button><button data-sdel="${i}" title="Remove this part">Remove</button></div></div>`).join('')}</div>
+    ${p.links.length ? `<div class="links"><div class="label">Linked</div><div class="chips">${p.links.map(l => `<button class="chip link" data-go="${l[2]}">${esc(l[0])}: ${esc(l[1])}${l[3] ? ' · ' + esc(l[3]) : ''}</button>`).join('')}</div></div>` : ''}
+  </div>`;
+  applyMarks(p);
+}
+
+function wrapFirst(root, quote, make) {
+  const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  let n; while ((n = w.nextNode())) {
+    const i = n.data.indexOf(quote); if (i < 0) continue;
+    const r = document.createRange(); r.setStart(n, i); r.setEnd(n, i + quote.length);
+    const el = make(); r.surroundContents(el); return el;
+  }
+  return null;
+}
+function applyMarks(p) {
+  for (const m of (S.marks[p.id] || [])) {
+    const sec = document.querySelector(`.sec[data-sec="${m.sec}"] .tx`);
+    if (m.type === 'area') {
+      const d = document.createElement('div'); d.className = 'area';
+      Object.assign(d.style, { left: m.x + 'px', top: m.y + 'px', width: m.w + 'px', height: m.h + 'px' });
+      d.innerHTML = `<span>${m.n}</span>`; $('#doc').appendChild(d); continue;
+    }
+    if (!sec) continue;
+    if (m.whole) { sec.innerHTML = m.type === 'remove' ? `<span class="p-del">${sec.innerHTML}</span>` : `<span class="p-del">${sec.innerHTML}</span> <span class="p-ins">${esc(m.to)}</span>`; continue; }
+    const el = wrapFirst(sec, m.quote, () => { const e = document.createElement(m.type === 'comment' ? 'mark' : 'span'); e.className = m.type === 'comment' ? 'cmt' : 'p-del'; return e; });
+    if (el && m.type === 'edit') { const ins = document.createElement('span'); ins.className = 'p-ins'; ins.textContent = ' ' + m.to; el.after(ins); }
+  }
+}
+
+function renderSide(p, composer) {
+  const side = $('#side');
+  if (!p) { side.innerHTML = `<div class="decide"><div class="q">How this works</div>
+      <p class="empty">Open any piece on the left. Read it, then pick Accept, Send back or Drop. Select any words to comment, edit or remove them. Use Point to comment on an area.</p></div>${feed()}`; return; }
+  const a = S.answers[p.id];
+  const cms = S.comments[p.id] || [];
+  side.innerHTML = `<div class="decide">
+      <div class="q">${changed(p) ? 'What do you want to do with this?' : 'Not changed in this drive.'}</div>
+      ${changed(p) ? `
+      <button class="dbtn accept" data-ans="accept" aria-pressed="${a === 'accept'}"><span class="ico">✓</span><span>Accept<small>It becomes real when you finish.</small></span><span class="k">a</span></button>
+      <button class="dbtn send" data-ans="send" aria-pressed="${a === 'send'}"><span class="ico">↩</span><span>Send back<small>Garura reworks it from your comment.</small></span><span class="k">s</span></button>
+      <button class="dbtn drop" data-ans="drop" aria-pressed="${a === 'drop'}"><span class="ico">✕</span><span>Drop<small>${p.kind === 'Decision' ? 'The limit goes back down.' : 'It is taken out.'}</small></span><span class="k">d</span></button>` : ''}
+    </div>
+    <div class="thread"><div class="label">Comments</div>
+      ${composer || ''}
+      ${cms.length ? cms.map((c, i) => `<div class="cm ${c.who}">${c.quote ? `<q>${esc(c.quote)}</q>` : ''}${c.who === 'garura' ? '<span class="who">Garura · </span>' : ''}${esc(c.text)}
+        <div class="meta"><span>${c.who === 'garura' ? 'reply' : 'you'}</span>${c.state ? `<span class="state ${c.state}">${c.state}</span>${c.state !== 'resolved' && c.who === 'you' ? ` <button class="linkish" data-resolve="${i}">Mark resolved</button>` : ''}` : ''}</div></div>`).join('')
+        : (composer ? '' : '<p class="empty">No comments yet. Select words in the text, or press c.</p>')}
+      ${composer ? '' : `<button class="btn" data-newc>Add a comment</button>`}
+    </div>${feed()}`;
+}
+function feed() {
+  return `<div class="feed"><div class="label" style="margin-bottom:4px">Sent to Garura, live</div>${S.events.slice(0, 6).map(e => `<div><code>#${e.n}</code><span>${esc(e.type)}${e.title ? ' · ' + esc(e.title) : ''}</span></div>`).join('') || '<span class="empty">Nothing yet. Each action you take shows here as it reaches Garura.</span>'}</div>`;
+}
+function composer(title, quote, hint) {
+  return `<div class="composer"><div class="label">${esc(title)}</div>${quote ? `<q style="display:block;color:var(--fg2);font-size:12px;border-left:2px solid var(--key);padding-left:8px">${esc(quote)}</q>` : ''}
+    <textarea id="ctext" placeholder="${esc(hint)}"></textarea><div class="row2"><button class="btn" data-cancel>Cancel</button><button class="btn primary" data-save>Save</button></div></div>`;
+}
+
+function render() {
+  $('#t-intents').setAttribute('aria-pressed', S.tool === 'intents'); $('#t-product').setAttribute('aria-pressed', S.tool === 'product');
+  $('#v-final').setAttribute('aria-pressed', S.view === 'final'); $('#v-changes').setAttribute('aria-pressed', S.view === 'changes');
+  $('#s-changed').setAttribute('aria-pressed', S.scope === 'changed'); $('#s-all').setAttribute('aria-pressed', S.scope === 'all');
+  const p = S.cur ? byId[S.cur] : null;
+  renderNav();
+  p ? renderPiece(p) : renderOverview();
+  renderSide(p);
+  const left = toReview().length - answered().length;
+  $('#cu-btn').textContent = left ? `Catch up (${left})` : 'Catch up';
+  $('#finish').disabled = left > 0; $('#finish').textContent = left ? `Finish review (${left} left)` : 'Finish review';
+}
+
+// composing state: what the open composer will save
+let pending = null;
+function openComposer(kind, quote, sec) {
+  const p = byId[S.cur]; if (!p) return;
+  pending = { kind, quote, sec };
+  const titles = { comment:['Comment', 'What should change, or what is unclear?'], edit:['Your new words', 'Type the words that should replace the selection'], send:['Send back — tell Garura what to change', 'What should Garura rework?'], area:['Comment on this area', 'What about this part?'], sedit:['Rewrite this part', ''] };
+  const [t, h] = titles[kind];
+  renderSide(p, composer(t, quote, h));
+  const ta = $('#ctext'); if (kind === 'sedit') ta.value = quote; ta.focus();
+}
+function saveComposer() {
+  const p = byId[S.cur]; const v = $('#ctext').value.trim(); if (!v || !pending) return;
+  const m = (S.marks[p.id] ||= []); const cm = (S.comments[p.id] ||= []);
+  const { kind, quote, sec } = pending;
+  if (kind === 'comment') { m.push({ type:'comment', sec, quote }); cm.push({ who:'you', quote, text:v, state:'open' }); event('comment', p); }
+  if (kind === 'edit') { m.push({ type:'edit', sec, quote, to:v }); cm.push({ who:'you', quote, text:'Edited to: “' + v + '”', state:'open' }); event('edit', p); }
+  if (kind === 'sedit') { m.push({ type:'edit', sec, whole:true, to:v }); cm.push({ who:'you', quote:p.sections[sec][0], text:'Rewrote this part.', state:'open' }); event('edit', p); }
+  if (kind === 'area') { pending.mark.n = cm.length + 1; m.push(pending.mark); cm.push({ who:'you', quote:'Area on “' + p.sections[sec][0] + '”', text:v, state:'open' }); event('comment on area', p); }
+  if (kind === 'send') { S.answers[p.id] = 'send'; cm.push({ who:'you', text:v, state:'open' }); event('send back', p); }
+  pending = null; render();
+}
+
+function answer(kind) {
+  const p = byId[S.cur]; if (!p || !changed(p)) return;
+  if (kind === 'send') return openComposer('send', '', 0);
+  S.answers[p.id] = S.answers[p.id] === kind ? undefined : kind;
+  if (!S.answers[p.id]) delete S.answers[p.id];
+  event(kind === 'accept' ? 'accept' : 'drop', p); render();
+}
+function go(id) { S.cur = id || null; if (id) S.tool = byId[id].tool; render(); window.scrollTo(0, 0); }
+function step(d) {
+  const list = [...new Map(navList().map(e => [e.p.id, e.p])).values()];
+  const i = list.findIndex(p => p.id === S.cur);
+  const n = list[Math.max(0, Math.min(list.length - 1, i + d))]; if (n) go(n.id);
+}
+
+// clicks
+document.addEventListener('click', e => {
+  const t = e.target.closest('button'); if (!t) return;
+  if (t.dataset.cu) return cuAct(t.dataset.cu);
+  if (t.hasAttribute('data-cu-save')) return cuAct(CU.say, $('#cu-text').value.trim());
+  if (t.hasAttribute('data-cu-cancel')) { CU.say = null; return cuRender(); }
+  if (t.hasAttribute('data-cu-exit')) return cuClose();
+  if (t.hasAttribute('data-cu-again')) { Object.assign(CU, { queue:CU.later.slice(), later:[], i:0, hist:[] }); CU.round++; return cuRender(); }
+  if (t.hasAttribute('data-cu-finish')) { cuClose(); return $('#finish').click(); }
+  if (t.hasAttribute('data-cu-full')) { const id = CU.queue[CU.i]; cuClose(); return go(id); }
+  if (t.hasAttribute('data-cu-start')) return cuStart();
+  if (t.dataset.go !== undefined) return go(t.dataset.go);
+  if (t.dataset.ans) return answer(t.dataset.ans);
+  if (t.hasAttribute('data-save')) return saveComposer();
+  if (t.hasAttribute('data-cancel')) { pending = null; return render(); }
+  if (t.hasAttribute('data-newc')) return openComposer('comment', '', 0);
+  if (t.dataset.resolve !== undefined) { const c = S.comments[S.cur][+t.dataset.resolve]; c.state = 'resolved'; event('resolved', byId[S.cur]); return render(); }
+  if (t.dataset.sedit !== undefined) { const p = byId[S.cur]; const s = plainText(p.sections[+t.dataset.sedit][1]); return openComposer('sedit', s, +t.dataset.sedit); }
+  if (t.dataset.sdel !== undefined) { const p = byId[S.cur]; (S.marks[p.id] ||= []).push({ type:'remove', sec:+t.dataset.sdel, whole:true }); (S.comments[p.id] ||= []).push({ who:'you', quote:p.sections[+t.dataset.sdel][0], text:'Remove this part.', state:'open' }); event('remove', p); return render(); }
+});
+$('#t-intents').onclick = () => { S.tool = 'intents'; S.cur = null; render(); };
+$('#t-product').onclick = () => { S.tool = 'product'; S.cur = null; render(); };
+$('#v-final').onclick = () => { S.view = 'final'; render(); };
+$('#v-changes').onclick = () => { S.view = 'changes'; render(); };
+$('#s-changed').onclick = () => { S.scope = 'changed'; render(); };
+$('#s-all').onclick = () => { S.scope = 'all'; render(); };
+$('#finish').onclick = () => {
+  const r = toReview(), c = k => r.filter(p => S.answers[p.id] === k).length;
+  const s = document.createElement('div'); s.className = 'scrim';
+  s.innerHTML = `<div class="modal" role="dialog" aria-modal="true"><h2>Sent to Garura</h2><div class="sig"></div>
+    <p>${c('accept')} accepted · ${c('send')} sent back · ${c('drop')} dropped.</p>
+    <p>Garura now applies your answers on the drive's branch and reworks what you sent back. Anything it reworks comes back here for you.</p>
+    <p style="margin-top:18px"><button class="btn primary" id="close">Close</button></p></div>`;
+  document.body.appendChild(s); event('finished', null); s.querySelector('#close').onclick = () => { s.remove(); render(); };
+};
+
+// select words → Comment / Edit / Remove
+const pop = $('#pop'); let sel = null;
+document.addEventListener('mouseup', e => {
+  if (S.pointing || CU.open || e.target.closest('#pop')) return;
+  setTimeout(() => {
+    const s = getSelection(); const q = s && s.toString().trim();
+    const secEl = s && s.anchorNode && s.anchorNode.parentElement && s.anchorNode.parentElement.closest('.sec');
+    if (!q || !secEl) { pop.hidden = true; return; }
+    const r = s.getRangeAt(0).getBoundingClientRect();
+    sel = { quote:q, sec:+secEl.dataset.sec };
+    pop.hidden = false;
+    pop.style.left = Math.max(8, r.left + scrollX + r.width / 2 - pop.offsetWidth / 2) + 'px';
+    pop.style.top = (r.top + scrollY - pop.offsetHeight - 8) + 'px';
+  });
+});
+pop.addEventListener('click', e => {
+  const act = e.target.dataset.act; if (!act || !sel) return; pop.hidden = true;
+  const p = byId[S.cur];
+  if (act === 'remove') { (S.marks[p.id] ||= []).push({ type:'remove', sec:sel.sec, quote:sel.quote }); (S.comments[p.id] ||= []).push({ who:'you', quote:sel.quote, text:'Remove these words.', state:'open' }); event('remove', p); render(); }
+  else openComposer(act, sel.quote, sel.sec);
+  getSelection().removeAllRanges();
+});
+
+// Point: drag a box over part of the page
+function setPoint(on) { S.pointing = on; $('#point').setAttribute('aria-pressed', on); $('#content').classList.toggle('pointing', on); }
+$('#point').onclick = () => { if (!S.cur) { go(toReview()[0].id); } setPoint(!S.pointing); };
+let drag = null;
+document.addEventListener('mousedown', e => {
+  if (!S.pointing) return; const doc = e.target.closest('#doc'); if (!doc) return;
+  e.preventDefault(); const b = doc.getBoundingClientRect();
+  const box = document.createElement('div'); box.className = 'area'; doc.appendChild(box);
+  drag = { doc, b, x0:e.clientX - b.left, y0:e.clientY - b.top, box };
+});
+document.addEventListener('mousemove', e => {
+  if (!drag) return; const x = e.clientX - drag.b.left, y = e.clientY - drag.b.top;
+  Object.assign(drag.box.style, { left:Math.min(x, drag.x0) + 'px', top:Math.min(y, drag.y0) + 'px', width:Math.abs(x - drag.x0) + 'px', height:Math.abs(y - drag.y0) + 'px' });
+});
+document.addEventListener('mouseup', e => {
+  if (!drag) return; const st = drag.box.style, m = { type:'area', x:parseFloat(st.left)||0, y:parseFloat(st.top)||0, w:parseFloat(st.width)||0, h:parseFloat(st.height)||0 };
+  const under = document.elementsFromPoint(drag.b.left + m.x + 4, drag.b.top + m.y + 4).find(el => el.classList && el.classList.contains('sec'));
+  drag = null; setPoint(false);
+  if (m.w < 12 || m.h < 12) return render();
+  pending = null; openComposer('area', '', under ? +under.dataset.sec : 0); pending.mark = m;
+});
+
+// keys
+document.addEventListener('keydown', e => {
+  if (CU.open) {
+    if (e.target.closest('textarea')) {
+      if (e.key === 'Escape') { CU.say = null; cuRender(); }
+      else if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) $('[data-cu-save]').click();
+      return;
+    }
+    const m = { ArrowRight:'accept', a:'accept', ArrowLeft:'later', s:'send', d:'drop', c:'comment' }[e.key];
+    if (m && CU.queue[CU.i]) { e.preventDefault(); return cuAct(m); }
+    if (e.key === 'z') return cuUndo();
+    if (e.key === 'Escape') return cuClose();
+    return;
+  }
+  if (e.target.closest('textarea, input') || e.metaKey || e.ctrlKey) { if (e.key === 'Escape') { pending = null; render(); } return; }
+  const k = e.key;
+  if (k === 'j') step(1); else if (k === 'k') step(-1);
+  else if (k === 'a') answer('accept'); else if (k === 's') answer('send'); else if (k === 'd') answer('drop');
+  else if (k === 'c' && S.cur) { e.preventDefault(); openComposer('comment', '', 0); }
+  else if (k === 'p') $('#point').click();
+  else if (k === 'f') { S.view = S.view === 'final' ? 'changes' : 'final'; render(); }
+  else if (k === 'Escape') { setPoint(false); pop.hidden = true; }
+});
+
+// drag the rail edge to resize it
+(function () {
+  const app = $('#app'), grip = $('#grip'), MIN = 240, MAX = 560, DEF = 340;
+  const set = w => app.style.setProperty('--rail-w', Math.max(MIN, Math.min(MAX, w)) + 'px');
+  try { const w = +localStorage.getItem('rail-w'); if (w) set(w); } catch (e) {}
+  let on = false;
+  grip.addEventListener('mousedown', e => { e.preventDefault(); on = true; grip.classList.add('on'); document.body.classList.add('resizing'); });
+  document.addEventListener('mousemove', e => { if (on) set(e.clientX); });
+  document.addEventListener('mouseup', () => {
+    if (!on) return; on = false; grip.classList.remove('on'); document.body.classList.remove('resizing');
+    try { localStorage.setItem('rail-w', parseInt(app.style.getPropertyValue('--rail-w'))); } catch (e) {}
+  });
+  grip.addEventListener('dblclick', () => { set(DEF); try { localStorage.removeItem('rail-w'); } catch (e) {} });
+})();
+
+
+// ───────── Catch up: one change per card (after Teams mobile Catch up) ─────────
+// Swipe right = accept, swipe left = leave for later (stays unread). Send back and drop
+// take a comment, so they are buttons, never swipes.
+const CU = { open:false, queue:[], i:0, later:[], round:1, hist:[], say:null };
+function cuOrder() {
+  // each business intent, then its agent intents, then the product parts it touches; then limits and decisions
+  const r = toReview(), out = [];
+  const add = p => { if (p && r.includes(p) && !out.includes(p)) out.push(p); };
+  for (const i of PIECES.filter(p => p.tool === 'intents' && !p.ice)) {
+    add(i); iceKids(i).forEach(add);
+    i.links.forEach(l => { const t = byId[l[2]]; if (t && t.tool === 'product') add(t); });
+  }
+  PIECES.filter(p => p.kind === 'Product limits' || p.kind === 'Decision').forEach(add);
+  r.forEach(add);
+  return out;
+}
+function cuStart() {
+  CU.queue = cuOrder().filter(p => !S.answers[p.id]).map(p => p.id);
+  Object.assign(CU, { i:0, later:[], round:1, hist:[], say:null, open:true });
+  pop.hidden = true; setPoint(false); cuRender();
+}
+function cuClose() { CU.open = false; CU.say = null; const el = $('#cu'); if (el) el.remove(); render(); }
+const hasMarks = s => /\[-|\{\+|^\+- |^x- /m.test(s);
+function sayHTML() {
+  const t = { comment:['Comment', 'Save comment'], send:['What should Garura change?', 'Send back'], drop:['Why drop it? (you can leave this empty)', 'Drop'] }[CU.say];
+  return `<div class="cu-say"><span class="lbl">${t[0]}</span><textarea id="cu-text" placeholder="Type here. Cmd+Enter saves."></textarea>
+    <div class="row2"><button class="btn" data-cu-cancel>Cancel</button><button class="btn primary" data-cu-save>${t[1]}</button></div></div>`;
+}
+function cuCardHTML(p, cls) {
+  const v = S.view; S.view = 'changes';
+  const secs = p.change === 'changed' ? p.sections.filter(s => hasMarks(s[1])) : p.sections;
+  const hidden = p.sections.length - secs.length;
+  const inside = p.links.find(l => l[0] === 'Inside');
+  const ctx = p.ice ? `Agent intent for the ${byId[p.of].title} ${byId[p.of].kind.toLowerCase()} · built from “${p.from[0] ? byId[p.from[0]].title : 'no intent yet'}”`
+    : p.tool === 'intents' ? 'Business intent · what a person asked for'
+    : `${p.kind}${inside ? ' · inside ' + inside[1] : ''}`;
+  const html = `<div class="cu-card ${cls}" data-id="${p.id}">
+    <div class="cu-hint r">Accept</div><div class="cu-hint l">Later</div>
+    <div class="cu-head"><div class="ctx">${esc(ctx)}</div>
+      <h2>${tag(p)}${esc(p.title)}</h2>
+      <div class="chips"><span class="chip ${p.change}">${CHG[p.change]}</span>${apChip(p)}${(S.comments[p.id] || []).length ? `<span class="chip">${S.comments[p.id].length} comment${S.comments[p.id].length > 1 ? 's' : ''}</span>` : ''}<button class="linkish" data-cu="comment" style="margin-left:6px">Comment (c)</button></div>
+      <p class="why"><b>Why:</b> ${esc(p.why)}</p></div>
+    <div class="cu-body">${secs.map(s => `<div class="sec ${p.change === 'changed' ? '' : p.change}"><div class="label">${esc(s[0])}</div><div class="tx">${text(s[1], p)}</div></div>`).join('')}
+      <div class="more">${hidden ? `${hidden} more part${hidden > 1 ? 's' : ''} did not change · ` : ''}<button class="linkish" data-cu-full>See the full page</button></div></div>
+    ${cls === 'cu-now' && CU.say ? sayHTML() : ''}
+    <div class="cu-acts">
+      <button class="cu-act drop" data-cu="drop">✕ Drop<small>with a comment · d</small></button>
+      <button class="cu-act send" data-cu="send">↩ Send back<small>with a comment · s</small></button>
+      <button class="cu-act later" data-cu="later">Later<small>keep unread · ←</small></button>
+      <button class="cu-act accept" data-cu="accept">✓ Accept<small>swipe right · →</small></button>
+    </div></div>`;
+  S.view = v; return html;
+}
+function cuEnd() {
+  const r = toReview(), c = k => r.filter(p => S.answers[p.id] === k).length, left = r.filter(p => !S.answers[p.id]).length;
+  const sum = `<div class="cu-sum"><div><b>${c('accept')}</b>accepted</div><div><b>${c('send')}</b>sent back</div><div><b>${c('drop')}</b>dropped</div><div><b>${left}</b>still open</div></div>`;
+  if (CU.later.length) return `<div class="cu-end"><div><h2>${CU.later.length} left for later</h2><div class="sig"></div><p>You kept these unread. Go through them now, or come back any time. Nothing is lost.</p>${sum}
+     <div class="row2"><button class="btn primary" data-cu-again>Go through them now</button><button class="btn" data-cu-exit>Stop here</button></div></div></div>`;
+  return `<div class="cu-end"><div><h2>${left ? 'Round done' : 'All caught up'}</h2><div class="sig"></div>
+     <p>${left ? 'Some changes still need an answer. They are on the overview.' : 'Every change has an answer. Finish the review to hand it all to Garura.'}</p>${sum}
+     <div class="row2">${left ? '' : '<button class="btn primary" data-cu-finish>Finish review</button>'}<button class="btn" data-cu-exit>Back to overview</button></div></div></div>`;
+}
+function cuRender() {
+  let el = $('#cu');
+  if (!el) { el = document.createElement('div'); el.id = 'cu'; el.className = 'cu'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-label', 'Catch up'); document.body.appendChild(el); }
+  const all = CU.queue.length;
+  const cur = CU.queue.slice(CU.i, CU.i + 3).map(id => byId[id]);
+  const segs = CU.queue.map((id, k) => `<i class="${k === CU.i ? 'now' : S.answers[id] || (CU.later.includes(id) ? 'later' : '')}"></i>`).join('');
+  el.innerHTML = `<div class="cu-top"><div class="ttl"><b>Catch up${CU.round > 1 ? ' · the ones you left for later' : ''}</b><span>Kickoff — Shop checkout · one change at a time</span></div>
+      <span class="cu-count">${all ? Math.min(CU.i + 1, all) + ' of ' + all : ''}</span><button class="btn" data-cu-exit>Exit</button></div>
+    <div class="cu-segs">${segs}</div>
+    <div class="cu-stage"><div class="cu-deck">${cur.length ? cur.map((p, k) => cuCardHTML(p, ['cu-now', 'peek1', 'peek2'][k])).reverse().join('') : cuEnd()}</div></div>
+    <div class="cu-foot">Swipe right or press → to accept · swipe left or press ← to leave it for later · z to undo · Esc to exit</div>`;
+  const top = el.querySelector('.cu-card.cu-now'); if (top) cuDrag(top);
+  const ta = $('#cu-text'); if (ta) ta.focus();
+}
+function cuAct(kind, note) {
+  const id = CU.queue[CU.i]; if (!id) return; const p = byId[id];
+  if (kind !== 'accept' && kind !== 'later' && note === undefined) { CU.say = kind; return cuRender(); }
+  if (kind === 'comment') {
+    if (!note) return;
+    (S.comments[id] ||= []).push({ who:'you', text:note, state:'open' }); event('comment', p);
+    CU.say = null; cuRender(); return toast('Comment sent to Garura');
+  }
+  if (kind === 'send' && !note) { const ta = $('#cu-text'); ta.placeholder = 'Garura needs a comment to know what to change.'; return ta.focus(); }
+  CU.hist.push({ i:CU.i, id, prev:S.answers[id], later:[...CU.later], n:(S.comments[id] || []).length });
+  if (kind === 'later') { if (!CU.later.includes(id)) CU.later.push(id); }
+  else {
+    S.answers[id] = kind;
+    if (note) (S.comments[id] ||= []).push({ who:'you', text:note, state:'open' });
+    event(kind === 'accept' ? 'accept' : kind === 'send' ? 'send back' : 'drop', p);
+  }
+  CU.say = null;
+  cuFly(kind, () => { CU.i++; cuRender(); toast({ accept:'Accepted', send:'Sent back to Garura', drop:'Dropped', later:'Left for later' }[kind], cuUndo); });
+}
+function cuUndo() {
+  const h = CU.hist.pop(); if (!h) return;
+  if (h.prev) S.answers[h.id] = h.prev; else delete S.answers[h.id];
+  if (S.comments[h.id]) S.comments[h.id] = S.comments[h.id].slice(0, h.n);
+  CU.later = h.later; CU.i = h.i; CU.say = null;
+  event('undo', byId[h.id]); cuRender();
+}
+function cuFly(kind, done) {
+  const top = document.querySelector('.cu-card.cu-now');
+  if (!top || matchMedia('(prefers-reduced-motion: reduce)').matches) return done();
+  const dir = kind === 'accept' ? 1 : kind === 'later' ? -1 : 0;
+  top.classList.remove('dragging');
+  top.style.transform = dir ? `translateX(${dir * 120}%) rotate(${dir * 10}deg)` : 'translateY(-40px) scale(.95)';
+  top.style.opacity = '0';
+  setTimeout(done, 240);
+}
+function cuDrag(card) {
+  let x0 = null, dx = 0, pid = null;
+  const hr = card.querySelector('.cu-hint.r'), hl = card.querySelector('.cu-hint.l');
+  card.addEventListener('pointerdown', e => {
+    if (CU.say || e.target.closest('button, textarea')) return;
+    if (e.pointerType === 'mouse' && (e.button !== 0 || e.target.closest('.cu-body'))) return; // mouse: let text be selected in the body
+    x0 = e.clientX; dx = 0; pid = e.pointerId;
+  });
+  card.addEventListener('pointermove', e => {
+    if (x0 === null || e.pointerId !== pid) return;
+    dx = e.clientX - x0;
+    if (!card.classList.contains('dragging')) {
+      if (Math.abs(dx) < 8) return;
+      card.classList.add('dragging'); card.setPointerCapture(pid);
+    }
+    card.style.transform = `translateX(${dx}px) rotate(${dx / 26}deg)`;
+    hr.style.opacity = Math.max(0, Math.min(1, dx / 110)); hl.style.opacity = Math.max(0, Math.min(1, -dx / 110));
+  });
+  const end = () => {
+    if (x0 === null) return; x0 = null;
+    if (!card.classList.contains('dragging')) return;
+    if (dx > 110) return cuAct('accept');
+    if (dx < -110) return cuAct('later');
+    card.classList.remove('dragging'); card.style.transform = ''; hr.style.opacity = hl.style.opacity = 0;
+  };
+  card.addEventListener('pointerup', end); card.addEventListener('pointercancel', end);
+}
+let toastT = null;
+function toast(msg, undo) {
+  let t = $('#toast'); if (t) t.remove(); clearTimeout(toastT);
+  t = document.createElement('div'); t.id = 'toast'; t.className = 'toast'; t.setAttribute('role', 'status');
+  t.innerHTML = `<span>${esc(msg)}</span>${undo ? '<button>Undo</button>' : ''}`;
+  if (undo) t.querySelector('button').onclick = () => { t.remove(); undo(); };
+  document.body.appendChild(t); toastT = setTimeout(() => t.remove(), 4000);
+}
+
+{ const h = location.hash.slice(1); if (byId[h]) { S.cur = h; S.tool = byId[h].tool; } }
+render();
+if (location.hash === '#catchup') cuStart();
+</script>
+</body>
+</html>

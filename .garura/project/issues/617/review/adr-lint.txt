@@ -1,0 +1,24 @@
+== docs/adr/032-drive-review-of-outcomes.md
+{
+  "adr": "docs/adr/032-drive-review-of-outcomes.md",
+  "valid": true,
+  "problems": []
+}
+exit 0
+== docs/adr/033-approval-in-the-product-model.md
+{
+  "adr": "docs/adr/033-approval-in-the-product-model.md",
+  "valid": true,
+  "problems": []
+}
+exit 0
+== index rebuild check
+usage: adr.py index [-h] --dir DIR [--out OUT]
+
+options:
+  -h, --help  show this help message and exit
+  --dir DIR
+INDEX_MATCHES
+== path refs in ADR 033 Affects and the tool plan
+checked 19 paths
+MISSING core/tools/outcome-review/ in .garura/project/issues/617/specs/review-tool.md

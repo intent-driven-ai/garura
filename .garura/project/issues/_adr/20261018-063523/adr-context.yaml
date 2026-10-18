@@ -1,0 +1,141 @@
+# Context for the ADR drafted from brief.md — gathered by adr-keeper, 2026-10-18
+shape: markdown
+template: core/components/memory/standards/templates/adr.md
+brief: .garura/project/issues/_adr/20261018-063523/brief.md
+number: "033"            # adr.py number --dir docs/adr -> {"next": "033", "taken": 32}
+suggested_file: docs/adr/033-approval-in-the-product-model.md
+title: "Approval Is Part of the Product Model, and Agents Work Only on Approved Pieces"
+status: Proposed
+date: 2026-10-18
+level: framework
+decided_by: Kapil Viren Ahuja   # the brief's "Decided by"; status stays Proposed until he accepts it through /adr
+decided_in: "#617 (spike: decide how a finished drive is reviewed), on branch feature/617-decide-how-a-finished-drive-is-reviewed; working notes in .garura/project/issues/617/specs/review-tool.md, section 'Approval is part of the product model'"
+run: {in_drive: false, issue: 617}   # run.json — run by hand; the person accepts before it is written accepted
+style_reference: docs/adr/032-drive-review-of-outcomes.md   # short sentences, plain words, numbered decision parts
+
+# --- Overlaps: adr.py overlaps --adr brief.md --dir docs/adr -> 031 (score 9.28), 032 (7.78).
+# Also read by hand: 026, 029 (named by the caller). Each judged by reading it.
+overlaps:
+  - adr: "032"
+    file: docs/adr/032-drive-review-of-outcomes.md
+    verdict: amended
+    part: >-
+      §5 "The answers are applied as one commit" — "statuses are set" becomes a lasting approval
+      written on each piece (approved, with the fingerprint of its words, who, when and in which
+      review; or in progress after a send-back), and it lasts after the drive. §2/§3 — what the
+      tools show: the whole model's approval state every time they open, not only at a drive's
+      end; a drive's end review is that same view narrowed to what the drive changed. §4's send
+      back now leaves the piece "in progress" until the new version is answered.
+    not_changed: "§1 (review is the drive's last step), §4 accept/drop/send back, §6 failed drive, §7 box-move drop, §8 (the product model is reviewed) all stand."
+  - adr: "031"
+    file: docs/adr/031-business-intent-and-ice.md
+    verdict: amended
+    part: >-
+      §4 "ICE is worked on only when its intent is confirmed" — widened: an ICE is workable only
+      when the ICE itself is approved and its business intent is approved (confirmed), and the
+      node it sits on (capability, functionality) is approved; approval follows links. Still
+      worked out from the model (state + fingerprint + links), not a stored "workable" flag, so
+      §4's reason and the rejected "stored workable status" alternative still hold.
+    relied_on: >-
+      §2 "No play owns a kind" — any play writes any kind; a rule stops work, never a write. This
+      ADR keeps that and builds on it (a write is never blocked; it moves the piece to changed).
+      §1 "only a person confirms or drops a business intent" — kept. §5 run-by-hand /intent
+      pinned confirm — not decided by the brief (see open_points).
+  - adr: "026"
+    file: docs/adr/026-direct-to-model-writes.md
+    verdict: not affected (relied on)
+    why: >-
+      Write-then-review stands: plays still write the model directly and are reviewed after.
+      This ADR adds what the review leaves behind in the model (a lasting approval state) and
+      that a write moves a piece to changed. 026's review-through-the-PR part was already
+      amended by ADR 032; nothing new in 026's text changes.
+  - adr: "029"
+    file: docs/adr/029-drives.md
+    verdict: not affected (relied on)
+    why: >-
+      §2 (plays' reviews after the drive) and §5 (every drive ends in a review) were already
+      answered by ADR 032. This ADR changes what that review records, through 032, not 029.
+  - adr: "030"
+    file: docs/adr/030-plan-mode.md
+    verdict: not affected
+    why: "The plan is not part of the product model; its big-update approval is untouched."
+supersedes: []
+amends:
+  - {adr: "032", part: "§5 statuses set at the review become a lasting approval on each piece; §2/§3 the tools show the whole model's approval state every time they open; a send-back leaves the piece in progress"}
+  - {adr: "031", part: "§4 workable widened: the ICE, its node and its business intent must all be approved; approval follows links"}
+
+# --- Affects: every path below verified to exist (ls / grep), 2026-10-18.
+affects:
+  - path: core/components/memory/standards/schemas/product-os/ontology.md
+    what: >-
+      Business Intent, Rules: "Work starts only from an ICE built from a confirmed business
+      intent" widens to every piece; ICE rule (workable only when built from a confirmed intent)
+      widens; "Who writes, and what the rules mean" keeps "a rule stops work, never a write";
+      one approval lifecycle named for every kind, with each kind's own states mapped onto it.
+      The change itself is built under #597.
+  - path: core/components/memory/standards/schemas/product-os/spine.yaml
+    what: "status fields on domains, capabilities, functionalities (proposed | active | deprecated) — 'active' maps to approved; approval fields (fingerprint, by, when, review) to be carried; fill_rules note /shape 'confirms/prunes capabilities (status active)'."
+  - path: core/components/memory/standards/schemas/product-os/decision.yaml
+    what: "status proposed | accepted | superseded | rejected — 'accepted' maps to approved; fill_rules (accepted only on the person's word)."
+  - path: core/components/memory/standards/schemas/product-os/product-profile.yaml
+    what: "the product limits ('the box') carry an approval state; the box already moves only by an approved decision."
+  - path: core/components/memory/standards/schemas/product-os/grounding/
+    what: "domain.md, capability.md, functionality.md page shapes — where a piece shows its approval state."
+  - path: core/components/plays/intent/scripts/check_ice_workable.py
+    what: "the workable check — and its canonical copy core/components/plays/play-creator/references/check_ice_workable.py — must check approval of the ICE, its node and its business intent, not only that the intent is confirmed."
+  - path: core/components/memory/standards/rules/direct-model-write.md
+    what: "the declared exceptions for /intent and /adr run by hand (typed confirmation / acceptance) must fit 'only the review step writes approval'."
+  - path: core/components/memory/standards/rules/drive-contract.md
+    what: "the drive's end review writes the lasting approval state."
+  - path: docs/philosophy/idsd.md
+    what: "'The Plan Is the Human's Interface; the Product Model Is the Agent's' — the person sees the model's approval state whenever the tool opens, not only at the end of a drive; agents work only on approved pieces."
+  - path: .garura/project/issues/617/specs/review-tool.md
+    what: "the review tool plan: overview counts (approved, changed, in progress); story 5a (approval in the product model); 'Only changed' means everything not approved; the tool writes nothing to the model."
+  - plays: "/intent, /vision, /understand, /shape (each writes pieces that now land as changed; /shape today sets capabilities active), /adr (accepts decisions), the Kickoff drive (#613, not built yet), and the review step and the two review tools (not built yet)"
+
+# --- ICE impact (from the ontology: ICE kind, rule at ontology.md line 168; ADR 031 §4)
+ice_impact: >-
+  Every agent intent's workability changes. Today an ICE is workable when its node names at least
+  one confirmed business intent. After this ADR an agent may take an ICE only when the ICE itself
+  is approved, the capability or functionality it sits on is approved, and the business intent it
+  is built from is approved (confirmed). A play that rewrites an approved ICE or node moves it to
+  changed, and no agent builds from it until a person approves it again. The plays that check
+  workability (/intent's check_ice_workable.py and every play that works on ICE) read the approval
+  state. The ICE kind keeps its shape (goal, constraints, failure conditions); it gains the
+  approval state every piece carries.
+
+# --- Business-intent check
+business_intent_check: kind
+business_intent_check_reason: >-
+  It changes the Business Intent KIND's rules in the ontology (framework doctrine): its stage
+  'confirmed' is mapped to approved, it gains the fingerprint/approved-by/when/which-review fields,
+  and its rule "work starts only from an ICE built from a confirmed business intent" is widened.
+  No person's business intent changes; only a person still confirms or drops one. Nothing under
+  product-os/intents/ is written (the intents folder does not exist in this repo).
+
+# --- Open points the brief does not settle (named, not decided — do not invent an answer)
+open_points:
+  - >-
+    The brief says only the review step writes approval. Three places let a person approve
+    outside it today: /intent run by hand confirms an intent at its pinned gate (ADR 031 §5,
+    direct-model-write.md); /adr run by hand accepts a decision on the person's typed word
+    (direct-model-write.md); /shape sets capabilities active (spine.yaml fill_rules). How these
+    record approval (fingerprint, who, when) is not in the brief. Draft names it as a risk and
+    as work, to be settled when the lifecycle is built (#597); it does not decide it.
+  - "Who drops a piece is unchanged: a dropped piece leaves the model; git and the review keep the record."
+
+related: "ADR 032, ADR 031, ADR 026, ADR 029, #597 (product ontology), #613 (Kickoff), #617, #637"
+
+# --- What the brief gives for each required section (no outside reasons)
+from_brief:
+  context: "Why now — ADR 032 settled one drive's review; the model keeps changing after it (ADR 031: any play writes any kind); nothing lasting tells an agent what a person agreed to; Kapil's 2026-10-18 words; Kickoff (#613) is built next."
+  decision_parts:
+    - "Approval lives in the product model, on every piece (business intent, ICE, domain, capability, functionality, product limits, decision)."
+    - "Three states the person sees: approved (fingerprint, who, when, which review), changed (new or words differ from fingerprint), in progress (sent back; comments stay open). A dropped piece leaves the model; git and the review keep the record."
+    - "Agents work only on approved pieces. Commands may write any piece; the write moves it to changed by fingerprint; a rule stops work, never a write."
+    - "Approval follows links."
+    - "One lifecycle, mapped onto existing states: business intent confirmed, decision accepted, capability/functionality active."
+    - "Only the review step writes approval (approved / in progress). Plays write the model; the review tool writes nothing to the model."
+    - "The review tool shows the approval state every time it opens; 'Only changed' = everything not approved; a drive's end review is the same view narrowed."
+    - "Widens the ontology rule; amends ADR 032; the ontology change itself is built under #597."
+  alternatives: "four, each with why it lost — from the brief's Options considered"

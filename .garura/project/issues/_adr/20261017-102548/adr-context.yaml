@@ -1,0 +1,156 @@
+# adr-context — gathered by adr-keeper for the /adr play, Step 2 (draft-adr)
+task_id: draft-adr
+brief: .garura/project/issues/_adr/20261017-102548/brief.md
+shape: markdown
+template_path: core/components/memory/standards/templates/adr.md
+number: "032"            # scripts/adr.py number --dir docs/adr -> {"next": "032", "taken": 31}
+suggested_file: docs/adr/032-drive-review-of-the-outcome.md   # the play names the final file; the draft lives at the draft path
+level: framework
+node_ref: null
+decided_in: "#617 (spike: how a finished drive is reviewed), under #594 and business intent #606; working notes .garura/project/issues/617/specs/decisions.md (Q1-Q7)"
+decided_by_at_acceptance: "Kapil (the brief: 2026-10-17) - left empty in the draft; written when the person accepts"
+date: 2026-10-17
+
+overlap_candidates:   # scripts/adr.py overlaps --adr <brief> --dir docs/adr
+  - {adr: "029", score: 15.93, named_in_brief: true}
+  - {adr: "028", score: 10.12, named_in_brief: false}
+  - {adr: "031", score: 10.07, named_in_brief: false}
+  - {adr: "026", score: 8.9,  named_in_brief: true}
+  - {adr: "027", score: 3.25, named_in_brief: false}
+  # ADR 030 was not returned by the script; read by hand because the brief changes its end-review rule.
+
+supersedes: []        # none - every older ADR stays in force apart from the parts below
+
+amends:
+  - adr: "029"
+    file: docs/adr/029-drives.md
+    part: >-
+      §5 "Every drive ends in a review" and Open Question 1 - the review is the drive's last step,
+      not a drive of its own; it looks at the outcome (intents and product model), never the plays.
+      This also settles how §2's "the plays' reviews happen after the drive ends" is done: the
+      person answers the plays' review records through the outcome, not play by play.
+    why: >-
+      §5 says "How a finished drive is reviewed is still open; the review will likely be a drive of
+      its own." The brief decides it, and rejects the drive-of-its-own option. Open Question 1
+      (#617) is answered.
+  - adr: "030"
+    file: docs/adr/030-plan-mode.md
+    part: >-
+      §5, the bullet "Inside a drive, big updates are ... approved together at the drive's end
+      review" - the plan is not shown in the review; the drive's big plan updates are marked
+      approved when the person's answers are applied, in the same commit.
+    why: >-
+      The brief says "The plan is not reviewed there" and lists "big plan updates marked approved"
+      among what the review step applies. ADR 030 §5 expected the person to approve them at the end
+      review. §0 (the plan is the human's interface; the product model is written for the agents)
+      is NOT changed - the plan stays the person's way to follow the work.
+    note_for_person: >-
+      The brief does not say whether the person sees the big plan updates at all before they are
+      marked approved. The draft records only what the brief says; the person may want to confirm
+      this at acceptance.
+  - adr: "031"
+    file: docs/adr/031-business-intent-and-ice.md
+    part: >-
+      §5 "No approval stop inside a drive" - the person confirms or drops the proposed intents in
+      the intent review tool at the drive's last step, not "the review and the pull request at its
+      end"; they may also send an intent back with a comment.
+    why: >-
+      ADR 031 §5 names the pull request as part of the place the intents are confirmed. The brief
+      says the person reviews in two review tools, not on the pull request, which only lands the
+      change. The rule that only a person confirms or drops a business intent is unchanged.
+  - adr: "026"
+    file: docs/adr/026-direct-to-model-writes.md
+    part: >-
+      Decision, "Review happens through the feature-branch git diff and the end-sequence PR" -
+      inside a drive the person reviews the model writes in the two review tools, by meaning; the
+      pull request only lands them. Write-then-review itself is kept.
+    why: >-
+      The brief: "The person reviews in two proper review tools, not on the pull request" and "a
+      pull request shows changed lines, not what the product now says". The brief keeps ADR 026's
+      write-then-review order on purpose (it rejects "never raise a limit before the review"
+      because it would break it), so only where the review happens changes. Run by hand, a play's
+      review is unchanged.
+
+not_affected:
+  - adr: "028"
+    why: >-
+      The five loops; its only review mention is the change chain (start/commit/propose/review/
+      merge-change), which still lands the change. ADR 029 already amended its loop recipe.
+  - adr: "027"
+    why: >-
+      ICE/PCAM design and the IDSD row; the brief changes the idsd.md section on the plan and the
+      product model, which ADR 027 does not decide.
+
+affects:
+  - path: docs/philosophy/idsd.md
+    what: >-
+      "The Plan Is the Human's Interface; the Product Model Is the Agent's" - the table row "not a
+      human interface; only its ontology is" no longer holds: the product model is written for the
+      agents and reviewed by the person at the end of each drive, at the outcome level; the
+      ontology is the fixed structure, made once. The "two interfaces" paragraph (the output side)
+      changes with it. Not an ADR.
+  - path: core/components/memory/standards/rules/drive-contract.md
+    what: >-
+      §5 - the drive's review appends the person's real answer for each deferred learned checkpoint
+      when the answers are applied (it says today: "how the drive's review does that belongs to the
+      drive-review design (#617)"); §3 - the review records are read by the review step as
+      background, not shown play by play.
+  - path: core/components/memory/standards/rules/work-plan.md
+    what: rule 15 - inside a drive, big updates are marked approved when the review's answers are applied.
+  - path: core/components/memory/standards/rules/direct-model-write.md
+    what: >-
+      the /intent and /adr declared exceptions say "the drive's end review confirms/accepts" - that
+      review is now the last step, in the review tools.
+  - path: core/components/plays/understand/
+    what: >-
+      C8/C13 (reference/ice.md, SKILL.md) - the drive's review accepts or drops a box-move; a drop
+      now lowers the limit back to the highest level the accepted needs still ask for, rejects the
+      decision, and sends the capability back to /understand to fit or be cut. A send-back re-runs
+      /understand for that one capability on the drive's branch. Its own steps stay as merged in
+      #615 (decisions.md Q6).
+  - path: core/components/plays/intent/
+    what: >-
+      Step 4 and C4 (SKILL.md, reference/ice.md) - "confirms or drops each at the drive's final
+      review - the review and the pull request" becomes the intent review tool at the drive's last
+      step; a send-back re-runs /intent for that one intent.
+  - path: core/components/plays/vision/
+    what: >-
+      Step 6 - its review record is read by the review step; "a cancel at the drive's review"
+      becomes a drop or a send-back of the pieces it wrote.
+  - path: core/components/plays/play-creator/references/write_drive_review.py
+    what: the review records it writes (decided false) are marked decided by the review step's one commit.
+  - path: "the Kickoff drive (#613) - not built yet"
+    what: runs the review as its last step. No file exists to name.
+  - path: "the intent review tool and the product review tool - not built yet"
+    what: new; local, on the person's machine (decisions.md Q7, drafts). #569's per-play viewer does not carry over; its comment-fix-approve loop does.
+
+ice_impact: >-
+  Changes the agent intents of the plays that run inside a drive: /intent (C4 and Step 4 - its
+  proposed intents are confirmed or dropped in the intent review tool, and can be sent back so
+  /intent re-runs for one intent); /understand (C8/C13 - a dropped box-move is undone by lowering
+  the limit and sending the capability back; a send-back re-runs it for one capability); /vision
+  (Step 6 / C11 - its deferred review record is answered through the outcome). The Kickoff drive's
+  intent (#613, not built) gains the review as its last step. ICE as a kind (ontology v4,
+  standards/schemas/product-os/ontology.md) does not change: an ICE is still workable only once its
+  business intent is confirmed.
+
+business_intent_check: none
+business_intent_check_why: >-
+  No person's business intent changes. The Business Intent kind (ontology v4) keeps its stages
+  (proposed, confirmed, met, dropped) and its rule that only a person confirms or drops it; the
+  decision changes only where the person does that (the intent review tool, not the pull request).
+  "Send back" re-runs a play; it adds no stage. The idsd.md change is about the product model, not
+  the Business Intent kind.
+intents_dir_note: >-
+  The intents dir named in the contract (.garura/product/product-os/intents) does not exist in
+  this repo, so the guard can only check the Affects line for a product-os/intents/ path, not
+  intent titles.
+
+related:
+  - ADR 029 (drives), ADR 030 (plan mode), ADR 031 (business intent and ICE), ADR 026 (direct model writes)
+  - "#613 (Kickoff drive), #612 / #614 / #615 (/intent, /vision, /understand inside a drive), #569 (review viewer), #637 (ontology v4: intents linked both ways to the product)"
+
+style_notes:
+  - Plain, short sentences, as ADRs 029-031 are written.
+  - Reasons and alternatives only from the brief; Kapil's words quoted from the brief.
+  - Work This Creates may list the draft stories from decisions.md ("Stories this would file"), marked as not filed.

@@ -1,0 +1,67 @@
+# categories.yaml — derived from the PR #651 diff content (base main). Not matched from a fixed list.
+# Review shelf used: /Users/kapilahuja/.garura/core/memory/knowledge/review/ (context.yaml path does not exist in this checkout)
+pr: 651
+issue: 617
+base: main
+categories:
+  - name: decision-records
+    playbook: review/adrs
+    design_bearing: false   # playbook: the decision IS the design; Layer 1 only, human judges merit
+    evidence:
+      - docs/adr/032-drive-review-of-outcomes.md          # new ADR (Accepted, 2026-10-17)
+      - docs/adr/033-approval-in-the-product-model.md     # new ADR (Accepted, 2026-10-18)
+      - docs/adr/_index.md                                # two index rows added (032, 033)
+      - docs/adr/026-direct-to-model-writes.md            # status line amended to point at ADR 032
+      - docs/adr/029-drives.md                            # status line amended
+      - docs/adr/030-plan-mode.md                         # status line amended
+      - docs/adr/031-business-intent-and-ice.md           # status line amended
+    notes: >
+      Layer 1 structural checklist applies (sections, status value, numbering, index link).
+      No in-repo ADR linter exists (playbook gap). Four existing ADRs are edited only on the
+      Status line (amendment cross-references); 026 records a partial amendment by 032.
+  - name: documentation
+    playbook: review/docs
+    design_bearing: false   # per playbook; see note
+    evidence:
+      - docs/philosophy/idsd.md   # human-facing prose; 4 lines reworded to cite ADR 032 and the end-of-drive outcome review
+    notes: >
+      Prose, not an ADR, harness or memory file, so the docs playbook governs (Layer 1: links,
+      terminology, headings). Judgement flag for the human: this is a philosophy doc, which the
+      harness/memory playbooks name as a grounding source, and the edits change the
+      "a person has exactly two interfaces" statement. The playbook does not call for Layer 2,
+      so no fan-out is requested, but the human should read this change as a design statement,
+      not just as prose.
+  - name: stm-working-notes-plans-and-design
+    playbook: null
+    playbook_missing: true
+    design_bearing: false   # working notes that precede the ADRs; nothing committed on base to conform to
+    evidence:
+      - .garura/project/issues/617/specs/decisions.md          # spike working notes, draft answers ("nothing decided until in an ADR")
+      - .garura/project/issues/617/specs/plan.md               # issue plan
+      - .garura/project/issues/617/specs/review-tool.md        # tool plan
+      - .garura/project/issues/617/specs/review-tool-mockup.html  # clickable design mockup (HTML prototype, not shipped product code)
+      - .garura/project/issues/606/specs/plan.md               # plan status/ordering updates (now: 6 -> 7, issue-tree section added)
+      - .garura/project/issues/615/specs/plan.md               # plan status active -> done
+    notes: >
+      New category: Garura's own STM working notes (plans, decision drafts, a design mockup).
+      No playbook covers it. Suggested Layer 1 only: link/reference resolution, plan front-matter
+      sanity, and consistency with the ADRs that landed in the same PR. The mockup is HTML but
+      is a design artifact, so the executable-code playbook does not fit it.
+  - name: stm-run-records
+    playbook: null
+    playbook_missing: true
+    design_bearing: false   # machine-written run artifacts; no design content
+    evidence:
+      - .garura/project/issues/617/context/{branch,filed-stories,issue,plan-check,pr,resolved-rules}.json
+      - .garura/project/issues/617/context/{pr-body.md,self-review.md,work-description.txt}
+      - .garura/project/issues/_adr/20261017-102548/*     # propose-change/ADR run (11 files: check, context, draft, manifest, brief, decision, guard-report, hashes, porcelain, run)
+      - .garura/project/issues/_adr/20261018-063523/*     # second ADR run (11 files)
+    notes: >
+      New category: play run records (receipts, guard reports, hashes, porcelain snapshots, JSON
+      context). No playbook covers it. Suggested treatment: skim only for consistency with the
+      committed ADRs they produced (e.g. adr-draft vs the final ADR); no design-grounding.
+design_bearing_categories: []   # none: harness and memory are absent (no core/components/** change)
+absent_seeded_categories: [harness, memory, executable-code, config-maps, tests]
+missing_playbooks:
+  - stm-working-notes-plans-and-design
+  - stm-run-records

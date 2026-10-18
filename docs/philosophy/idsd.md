@@ -101,18 +101,18 @@ A business intent is what a person wants. It is broken down into agent intents �
 
 | | The plan | The product model |
 |---|---|---|
-| **Written for** | The person who holds the business intent | The agents that do the work — not a human interface; only its ontology is |
+| **Written for** | The person who holds the business intent | The agents that do the work, inside the ontology — its fixed structure, made once. The person reviews it at the end of each drive, at the outcome level ([ADR 032](../adr/032-drive-review-of-outcomes.md)) |
 | **Shows** | What the intent is being broken into, in what order and why; what is decided, built, or shipped; what waits on the person | What the product is, in the structure agents work from — and everything built from it onward |
 | **Test** | A business user reads it and understands what their intent is becoming | An agent reads one slice of it and can act |
 
-Each can read the other, but each is written for its own reader. The plan is where the business intent is surfaced and followed; the product model is not.
+Each can read the other, but each is written for its own reader. The plan is where the business intent is surfaced and followed. The product model is the agents' outcome: the person does not follow the work through it, but reviews what it says at the end of each drive — without that review, nobody knows what is being built.
 
-**A person has exactly two interfaces: the intent they give, and the output they see.** The intent side is the intent itself, its plan and issues, and the product ontology. The output side is what they finally use — for example, user testing at launch. Everything in between — the product model, the lenses, realize, shape, grill — is agent work.
+**A person has exactly two interfaces: the intent they give, and the output they see.** The intent side is the intent itself, its plan and issues, and the product ontology. The output side is what the agents produce: at the end of each drive, its outcome — the business intents and the product model, reviewed in an intent review tool and a product review tool ([ADR 032](../adr/032-drive-review-of-outcomes.md)); and in the end, what they finally use — for example, user testing at launch. The work in between — writing the product model, the lenses, realize, shape, grill — is agent work.
 
 **The loop has two handoffs.**
 
 1. **The person starts** — they give the intent.
-2. **Handoff in.** A first drive (Kickoff) pulls the intent out and turns it into a plan the person can read and a product model the agents can work from. The person approves the plan.
+2. **Handoff in.** A first drive (Kickoff) pulls the intent out and turns it into a plan the person can read and a product model the agents can work from. The person approves the plan and reviews the drive's outcome — the intents and the product model.
 3. **Agents work.** Everything becomes agent intents, then code and the rest.
 4. **It all runs.**
 5. **The person's interface keeps updating.** The plan shows what is decided, built, and shipped as the work moves.

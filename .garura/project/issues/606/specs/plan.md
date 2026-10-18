@@ -4,7 +4,7 @@ kind: business-intent
 serves: "#606 — Garura's agentic lifecycle runs as five loops (drives), starting from a working prototype"
 status: active
 updated: 2026-10-17
-now: 6
+now: 7
 ---
 
 # Plan — #606: the lifecycle runs as drives
@@ -25,41 +25,59 @@ There are five drives, one for each step from product to running software. We bu
 - The other four drives are each decided and built, in order.
 - #606 is a business intent, so it is not closed just because its child issues close. It is met when Garura really runs this way.
 
+## How the issues sit
+
+The plan's order is the order of work. The tracker groups the same issues one level deeper: most items are children of #594, and #594 is a child of #606. Plan mode is not under #606 at all; it sits under #539, and this plan lists it because the drives need it. As the tracker holds it on 17 October:
+
+```
+#606  The lifecycle runs as drives
+├─ #592  Settle the five-loop lifecycle — done
+├─ #597  Rebuild the product model as an ontology — alongside
+└─ #594  Loop recipes run each loop's plays until its intent is met
+   ├─ #607  Decide the first drive's recipe — done
+   ├─ #616  item 2:  /intent, /vision, /understand each run alone — done
+   ├─ #612  item 3:  /intent reads a prototype — done
+   ├─ #637  item 4:  /intent and /vision write one product model — done
+   ├─ #614  item 5:  /vision runs inside a drive — done
+   ├─ #615  item 6:  /understand runs inside a drive — done
+   ├─ #617  item 7:  decide how a finished drive is reviewed — now
+   ├─ #613  item 8:  the Kickoff drive
+   ├─ #608  item 9:  decide the second drive (intent → design)
+   ├─ #609  item 10: decide the Execute drive
+   ├─ #595  item 11: /grill cuts any slice
+   ├─ #610  item 12: decide the Change drive
+   └─ #611  item 14: decide the Learn drive
+
+#539  Garura becomes true product engineering   (not under #606)
+├─ #619  item 1: decide plan mode — done
+└─ #621  plan mode in every play and drive
+```
+
+Items 13 (the handover drive) and the Alignment drive have no issue yet.
+
 ## Where we are now
 
-Three decisions are made (#592, #607, #619) and five things are shipped: plan mode's first pieces (#619), the Kickoff plays standing alone (#616), `/intent` (#612), the one product model that `/intent` and `/vision` both write (#637), and `/vision` running inside a drive (#614). Now: items 6 and 7, which can run side by side, and then Kickoff (item 8).
+Three decisions are made (#592, #607, #619) and six things are shipped: plan mode's first pieces (#619), the Kickoff plays standing alone (#616), `/intent` (#612), the one product model that `/intent` and `/vision` both write (#637), `/vision` running inside a drive (#614), and `/understand` running inside a drive, detailing every pending capability in one run (#615). Now: item 7, how a finished drive is reviewed. Then Kickoff (item 8).
 
 ## The plan, in order
 
 ### Done
 
 - **Decided: the lifecycle is five loops** — #592. ADR 028. A design decision only; no loop is built yet.
-- **1. Decided and shipped in part: plan mode** — #619. Decided in ADR 030: every change works from a plan on disk, kept current, done only when the plan is done. Shipped (merged in PR #629): the template and rules, the plan skill and its check, and issue reads that see type, parent and children. Not yet done: wiring it into the plays (Feature #621).
+- **1. Decided and shipped in part: plan mode** — #619 (a child of #539, not of #606). Decided in ADR 030: every change works from a plan on disk, kept current, done only when the plan is done. Shipped (merged in PR #629): the template and rules, the plan skill and its check, and issue reads that see type, parent and children. Not yet done: wiring it into the plays (Feature #621).
 - **2. Shipped: `/vision` and `/understand` each stand alone** — #616, PR #630. Each opens and lands its own change; `/understand` seeds a missing capability from the person's answers. Not yet done: skipping the opening inside a drive (#614, #615); `/shape` and `/roadmap` still expect the old shared branch (follow-up written up in #616's notes, not filed).
 - **Decided: a loop is a drive; the first drive is Kickoff** — #607. ADR 029, a design decision only; nothing is built yet. It settled what a drive is, how it runs, that it owns one issue, one branch and one pull request, and that Kickoff runs `/intent` → `/vision` → `/understand`.
 - **3. Shipped: `/intent`, the play that reads a prototype** — #612, PR #631, merged 9 October; #612 closed with its handoff on 16 October. It writes two levels: business intents for the person, and under each the ICE for the agents, as proposed capabilities with no domain yet. ADR 031 (D6–D10) records the decisions made on the way: no play owns a kind of thing in the product model; any play writes what it finds and an Alignment drive fixes drift; only a person confirms an intent; no approval stop inside a drive. Not yet done: `/vision` cannot take its output (item 4). Its own plan: `.garura/project/issues/612/specs/plan.md`.
 - **4. Shipped: `/intent` and `/vision` write one product model** — #637, PR #638, merged 17 October. `/vision` starts from business intents, a goal or both, places capabilities waiting for a domain and never waits for another play; `/intent` places a capability under its domain when something shows it; every capability and functionality page carries its agent intent in a named section; every business intent is linked both ways to the parts it touches (ontology v4). Not yet done: 12 small review findings open on PR #638, among them an ADR for `/intent` placing capabilities (ADR 031 part 3 gave that to `/vision`).
 - **5. Shipped: `/vision` runs inside a drive** — #614, PR #639, merged 17 October. Handed a drive's contract it opens nothing, never waits at its checkpoint (it keeps a review record for the drive's review instead), and commits on the drive's branch; a question the drive did not answer still stops it. Added a shared drive contract (`standards/rules/drive-contract.md`, one checker, one review-record writer), and the checkpoint's learning record now takes a "decided at the drive's review" answer. Not yet done: `/intent` still uses its own contract check; the drive's review writing the real answer back is #617 / #613.
+- **6. Shipped: `/understand` runs inside a drive** — #615, PR #640, merged 17 October. Handed a drive's contract it opens nothing, never waits at its checkpoint (one review record per capability instead), and commits on the drive's branch; seed answers for a capability not yet in the model come from the contract, or it stops and asks. A box-move inside a drive is saved as a `proposed` decision and waits for the drive's review (Kapil's choice A). On Kapil's ask, one run now details every pending capability at the same time, measured against the product's limits as they stood at the start of the run; the parallel-work rule gained a "scoped-write" form for this (`standards/rules/concurrent-fanout.md`). Not yet done: when the drive's review drops a `proposed` box-move, nothing lowers the limit again (goes to item 7, #617); small review findings stay open on PR #640. Its own plan: `.garura/project/issues/615/specs/plan.md`.
 
-### 6. `/understand` runs inside a drive — now
-
-**Issue:** #615. Started 17 October on `feature/615-understand-runs-inside-a-drive`;
-its plan: `.garura/project/issues/615/specs/plan.md`. Kapil chose that a
-box-move inside a drive is saved as `proposed` and waits for the drive's
-review. Raised as PR #640. Kapil also asked that one run details every
-pending capability, at the same time (a new "scoped-write" form in the
-parallel-work rule).
-**What:** the same change as item 5, for `/understand`.
-**Why here:** Kickoff's third play.
-**Done when:** the same as item 5, for `/understand`.
-**Needs:** item 2.
-
-### 7. Decide how a finished drive is reviewed
+### 7. Decide how a finished drive is reviewed — now
 
 **Issue:** #617 (spike).
 **What:** a drive ends in a score or a fail, and a review follows either way. Decide what the review looks at, who does it, and whether review is a drive of its own.
 **Why here:** the drive moves each play's review to the end, so the end review must exist before Kickoff can be called finished.
-**Done when:** the answers are in an ADR, and the stories to build it are filed.
+**Done when:** the answers are in an ADR, and the stories to build it are filed. The ADR also says what happens to a product limit raised by a `proposed` box-move when the review drops that decision (left open by #615).
 **Needs:** nothing — item 1 is done.
 
 ### 8. Build the Kickoff drive
@@ -144,3 +162,5 @@ Not part of this plan; recorded so the gaps in time make sense.
 - 2026-10-17 — Item 6 raised as PR #640. Kapil added to it: one `/understand`
   run details every pending capability, all at the same time. Item 8 now runs
   `/understand` once for all capabilities, not once for each.
+- 2026-10-17 — Item 6 done: #615 merged as PR #640 (`/understand` runs inside a drive and details every pending capability in one run; the scoped-write form of the parallel-work rule). Now on item 7 (#617). It also takes the open question of lowering a limit when the review drops a `proposed` box-move.
+- 2026-10-17 — Added "How the issues sit": most items are children of #594 (itself under #606), and plan mode (#619, #621) sits under #539. The plan had left #594 out (Kapil asked).
