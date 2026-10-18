@@ -6,7 +6,6 @@ rules), so the tool cannot drift from contract/v2.json.
 """
 
 import os
-import subprocess
 import sys
 import tempfile
 import unittest
@@ -16,45 +15,27 @@ sys.path.insert(0, HERE)
 sys.path.insert(0, os.path.join(HERE, "contract"))
 import check_contract as cc  # noqa: E402
 import memory  # noqa: E402
+import test_pull  # noqa: E402
+from test_pull import git, write  # noqa: E402
 
 
-def git(repo, *args):
-    subprocess.run(["git", "-C", repo, *args], check=True, capture_output=True)
-
-
-def write(root, rel, text):
-    path = os.path.join(root, rel)
-    os.makedirs(os.path.dirname(path), exist_ok=True)
-    with open(path, "w", encoding="utf-8") as fh:
-        fh.write(text)
-
-
-class Tiers(unittest.TestCase):
-    """A project whose short-term folder sits inside Garura memory, and a Phoenix repository."""
+class Tiers(test_pull.Tiers):
+    """The pull tests' throwaway Phoenix repository, plus a project whose short-term folder
+    sits inside Garura memory."""
 
     def setUp(self):
-        self.project = tempfile.mkdtemp()
-        self.garura = os.path.join(self.project, "g")
-        self.short = os.path.join(self.garura, "issues")
-        self.phoenix = tempfile.mkdtemp()
-        os.makedirs(self.short)
-        git(self.phoenix, "init", "-q", "-b", "main")
-        # Demo address: sample data for this throwaway repository, not personal data.
-        # Approved exception to PR rule DATA-18 (review of PR #671, 2026-10-18).
-        git(self.phoenix, "config", "user.email", "t@example.com")
-        git(self.phoenix, "config", "user.name", "test")
+        super().setUp()
         write(self.phoenix, "knowledge/domains/user-management.md",
               "# User management\n## Sign-in\n- Lock the account after five failed sign-ins.\n"
               "## Passwords\n- A reset link expires after one hour.\n")
-        write(self.phoenix, "standards/rules/commits.md", "# Commits\nSubject under 72.\n")
-        self.commit("seed")
+        self.commit("user management")
+        self.project = tempfile.mkdtemp()
+        self.garura = os.path.join(self.project, "g")
+        self.short = os.path.join(self.garura, "issues")
+        os.makedirs(self.short)
         self.env = {"MEMORY_SHORT_TERM_ROOT": self.short, "MEMORY_GARURA_ROOT": self.garura,
                     "MEMORY_PHOENIX_ROOT": self.phoenix, "MEMORY_PHOENIX_REF": "main",
                     "MEMORY_GARURA_PULL_DIR": "pulled-memory"}
-
-    def commit(self, message):
-        git(self.phoenix, "add", "-A")
-        git(self.phoenix, "commit", "-q", "-m", message)
 
     def ask(self, command, request, env=None):
         """One answer, checked against the contract before the test sees it."""
