@@ -419,8 +419,11 @@ def run(command, request, env=None):
     except Refusal as r:
         answers = error(command, r)
     except OSError as exc:
-        # Garura memory could not be written (a pull, or saving a used Phoenix file)
-        answers = error(command, Refusal("tier_missing", f"Garura memory cannot be written: {exc}.", "garura"))
+        # a write failed: decisions and memory updates are kept in short-term memory; a pull, or
+        # saving a used Phoenix file, writes to Garura memory
+        tier = "short-term" if command in ("cite", "propose", "decide", "apply") else "garura"
+        name = "Short-term memory" if tier == "short-term" else "Garura memory"
+        answers = error(command, Refusal("tier_missing", f"{name} cannot be written: {exc}.", tier))
     return answers if isinstance(answers, list) else [answers]
 
 

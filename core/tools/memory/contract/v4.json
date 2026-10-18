@@ -898,7 +898,8 @@
     "not_approved": "apply on an update no person approved: it is waiting or was rejected.",
     "changed": "The target changed after the update was proposed; propose again from the current text.",
     "wrong_state": "decide on an update that is not waiting, or apply on an update already applied.",
-    "would_overwrite": "Garura memory already holds a different file at that path — one the tool did not pull, or one changed since it was pulled. Nothing was overwritten."
+    "would_overwrite": "Garura memory already holds a different file at that path — one the tool did not pull, or one changed since it was pulled. Nothing was overwritten.",
+    "unreadable": "A record file in the issue's short-term memory holds a line that is not a whole record (a write cut off, or a hand edit). The answer names the file and the line; nothing is read past it or written. Other issues are not stopped."
   },
   "$defs": {
     "tier": {
@@ -1243,7 +1244,8 @@
                 "not_approved",
                 "changed",
                 "wrong_state",
-                "would_overwrite"
+                "would_overwrite",
+                "unreadable"
               ]
             },
             "message": {

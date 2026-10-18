@@ -24,6 +24,7 @@ import re
 from pull import Refusal
 
 ID = re.compile(r"^cite-(\d{8})-(\d{3,})$")
+TAKEN = re.compile(r'"citation_id":\s*"cite-(\d{8})-(\d{3,})"')
 AROUND = 3  # lines kept before and after each source, so a person sees it in its place
 TIER_NAMES = {"short-term": "Short-term memory", "garura": "Garura memory", "phoenix": "Phoenix memory"}
 
@@ -65,16 +66,29 @@ class CitationStore:
         path = self.path(issue)
         if not os.path.isfile(path):
             return []
+        found = []
         with open(path, encoding="utf-8") as fh:
-            return [json.loads(line) for line in fh if line.strip()]
+            for n, line in enumerate(fh, 1):
+                if not line.strip():
+                    continue
+                try:
+                    found.append(json.loads(line))
+                except ValueError:
+                    raise Refusal("unreadable", f"Short-term memory {issue}/{self.file} line {n} is not a whole "
+                                  "decision record (a write cut off, or a hand edit). Fix or remove that line.",
+                                  "short-term") from None
+        return found
 
     def next_id(self):
+        """The next id of the day, across every issue. It reads only the ids, so one issue's
+        unreadable line never stops a decision in another."""
         day = datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%d")
         taken = []
         for issue in os.listdir(self.root):
-            if issue.isdigit():
-                taken += [int(m.group(2)) for r in self.records(issue)
-                          if (m := ID.match(str(r.get("citation_id", "")))) and m.group(1) == day]
+            path = self.path(issue)
+            if issue.isdigit() and os.path.isfile(path):
+                with open(path, encoding="utf-8") as fh:
+                    taken += [int(n) for d, n in TAKEN.findall(fh.read()) if d == day]
         return f"cite-{day}-{max(taken, default=0) + 1:03d}"
 
     def source_problem(self, engine, source):
@@ -96,6 +110,7 @@ class CitationStore:
 
     def cite(self, request, engine, updates):
         issue = request["issue"]
+        self.records(issue)  # never append after an unreadable line
         trace = []
         for step in request["trace"]:
             source = step["source"]

@@ -435,6 +435,27 @@ class Citations(Tiers):
                         self.step("short-term", "7/context/answers/reset.md", 1, 1)], from_update=u["id"])
         self.assertTrue(ok["ok"])
 
+    def test_an_unreadable_line_stops_only_its_own_issue(self):
+        os.makedirs(os.path.join(self.short, "8", "context"))
+        with open(os.path.join(self.short, "8", "context", "citations.jsonl"), "w") as fh:
+            fh.write('{"citation_id": "cite-2026')
+        self.assertTrue(self.cite([self.step("phoenix", "standards/rules/commits.md", 1, 1)])["ok"])
+        broken = self.ask("citations", {"issue": 8, "check": True})["error"]
+        self.assertEqual((broken["code"], broken["tier"]), ("unreadable", "short-term"))
+        self.assertIn("8/context/citations.jsonl line 1", broken["message"])
+        again = self.ask("cite", {"issue": 8, "question": "q", "answer": "a", "decided_by": "test agent",
+                                  "trace": [self.step("phoenix", "standards/rules/commits.md", 1, 1)]})
+        self.assertEqual(again["error"]["code"], "unreadable")
+
+    def test_a_failed_write_names_short_term_memory(self):
+        folder = os.path.join(self.short, "7")
+        os.makedirs(folder)
+        os.chmod(folder, 0o500)
+        self.addCleanup(os.chmod, folder, 0o700)
+        a = self.cite([self.step("phoenix", "standards/rules/commits.md", 1, 1)])
+        self.assertEqual((a["error"]["code"], a["error"]["tier"]), ("tier_missing", "short-term"))
+        self.assertTrue(a["error"]["message"].startswith("Short-term memory cannot be written"))
+
     def test_a_decision_is_not_memory(self):
         self.cite([self.step("phoenix", "knowledge/domains/user-management.md", 5, 5)],
                   answer="A remembered answer, only in the decision record.")

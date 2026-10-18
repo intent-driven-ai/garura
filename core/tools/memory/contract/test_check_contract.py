@@ -148,6 +148,26 @@ class Scope(unittest.TestCase):
         self.assertTrue(cc.check_meaning(s, CONTRACT))
 
 
+    def test_without_an_issue_there_is_no_short_term_memory(self):
+        # find.json and search.json looked in short-term memory: without an issue, that is wrong
+        for name in ("find.json", "search.json"):
+            s = sample(name)
+            s["request"].pop("issue")
+            self.assertTrue(cc.check_sample(s, CONTRACT), name)
+        # a read of Phoenix memory needs no issue (version 2)
+        s = sample("read.json")
+        s["request"].pop("issue")
+        self.assertEqual(cc.check_sample(s, CONTRACT), [])
+        # a read of short-term memory, or a lookup asking for it, without an issue is refused
+        s = sample("read.json")
+        s["request"].pop("issue")
+        s["request"].update({"tier": "short-term", "path": "613/specs/plan.md"})
+        s["response"].update({"tier": "short-term", "path": "613/specs/plan.md"})
+        self.assertTrue(cc.check_meaning(s, CONTRACT))
+        self.assertEqual(cc.refusal("search", {"pattern": "x", "tier": "short-term"}),
+                         "tier short-term without an issue")
+
+
 class Traces(unittest.TestCase):
     """A decision record is a trace of steps; each source keeps the lines around it, and a
     problem names its step."""
@@ -179,25 +199,6 @@ class Traces(unittest.TestCase):
         s = sample("citations-check.json")
         s["response"]["problems"][1]["citation_id"] = "cite-20261018-001"
         self.assertTrue(any("no_source is only" in p for p in cc.check_sample(s, CONTRACT)))
-
-    def test_without_an_issue_there_is_no_short_term_memory(self):
-        # find.json and search.json looked in short-term memory: without an issue, that is wrong
-        for name in ("find.json", "search.json"):
-            s = sample(name)
-            s["request"].pop("issue")
-            self.assertTrue(cc.check_sample(s, CONTRACT), name)
-        # a read of Phoenix memory needs no issue (version 2)
-        s = sample("read.json")
-        s["request"].pop("issue")
-        self.assertEqual(cc.check_sample(s, CONTRACT), [])
-        # a read of short-term memory, or a lookup asking for it, without an issue is refused
-        s = sample("read.json")
-        s["request"].pop("issue")
-        s["request"].update({"tier": "short-term", "path": "613/specs/plan.md"})
-        s["response"].update({"tier": "short-term", "path": "613/specs/plan.md"})
-        self.assertTrue(cc.check_meaning(s, CONTRACT))
-        self.assertEqual(cc.refusal("search", {"pattern": "x", "tier": "short-term"}),
-                         "tier short-term without an issue")
 
 
 class Lifecycle(unittest.TestCase):
