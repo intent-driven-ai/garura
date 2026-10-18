@@ -147,7 +147,9 @@ already proved this.
 
 ## 3. The review pack — what Garura sends
 
-The pack is outcome-shaped, not file-shaped. The tool never sees a file path.
+The pack is outcome-shaped, not file-shaped. The tool never sees a file path as something to
+open. The one place a path appears is an agent decision's source, carried as text for the
+person to check (section 4, Agent decisions).
 
 ```
 review pack
@@ -274,7 +276,18 @@ gives the full model or the clean final text.
      their place), gone, or no source. The page shows the memory tool's own
      answers, in the contract's shape: `citations --check` and `updates` (for
      a decision that came from a memory update: what was missing, who approved
-     it, and their words). Grouped by play, problems first. Looks right, or send back so the agent decides again
+     it, and their words). Grouped by play, problems first.
+     The page does not read those answers itself: that would put the memory
+     tool's words and contract inside the review tool, across the extraction
+     line (section 1). Garura's half turns each answer into pieces in the pack:
+     a kind for an agent decision, and each step a labelled section that
+     carries the lines, the lines around them and a state (same, changed, gone,
+     no source) as data, with the source written in plain words by Garura. A
+     source is shown as its memory, file and lines, an exception to the
+     plain-words rule (section 4) that Kapil asked for, because the person must
+     check it. The fingerprint, the memory version and the ids sit in a
+     Details fold: they are for the check, not for the person's judgement. The
+     mockup embeds the memory tool's raw answers as a stand-in only. Looks right, or send back so the agent decides again
      from memory as it is now. The mockup's records are real tool output over
      real Phoenix memory lines, made by `.garura/project/issues/659/evidence/
      make_decisions.py`; the local page reads them live.
@@ -306,7 +319,9 @@ gives the full model or the clean final text.
 **Keeping the load low** — the rules the page follows:
 
 - One question per piece: "What do you want to do with this?"
-- No file paths, no field names, no YAML. Labels in plain words.
+- No file paths, no field names, no YAML. Labels in plain words. One exception: an agent
+  decision's source is shown as its memory, file and lines, because the person must check it
+  (Kapil, 19 Oct: "the source should show a few lines before and after").
 - Pieces that did not change are hidden unless the person asks for Everything.
 - Long sections are folded after a few lines, with "Show all".
 - Counts and progress are always in view, so the person knows how much is left.
@@ -473,7 +488,8 @@ Each line is one story. Each is a slice that works on its own.
    the memory updates waiting in short-term memory with an explicit Approve or
    Reject on each, the ADRs waiting, and which memory each decision came from.
    The Garura half: the pack of what is waiting (from the memory tool's
-   `updates` and the decision records), and applying each answer — Garura calls
+   `updates` and `citations --check` answers, turned into pack pieces as section
+   4 says, so the tool never reads the memory tool's answers), and applying each answer — Garura calls
    the memory tool's `decide` with the person's words and then `apply`, and the
    `/adr` accept for an ADR.
 
