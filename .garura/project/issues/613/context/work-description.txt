@@ -1,0 +1,19 @@
+Issue #613 — The Kickoff drive runs /intent, /vision and /understand from a prototype to a detailed product model (parent #594; ADR 029; plan 606 item 8).
+
+Build Kickoff, the first drive. It takes a working prototype and runs /intent → /vision →
+/understand (one /understand run for all capabilities) to a detailed product model.
+
+This change is step 1 of item 8 (Kapil, 2026-10-18, choice "A" — the runner first, then
+the review): the runner. It asks every question its plays would ask before it starts,
+does not stop for the plays' checkpoints, stops and asks only for a new mid-run question,
+works on one issue and one branch (no play inside opens another), ends with a check by a
+checker chosen by configuration, and writes an evidence record. Until the review exists,
+the drive ends with the plays' review records and a pull request.
+
+Out of scope: changing the three plays; the review tool and step (#641–#650). The issue's
+last acceptance item (the review as the drive's last step) lands with #650.
+
+Done when: given a working prototype, Kickoff ends with a confirmed intent, a domain with
+its capabilities, every capability detailed, each play's saved record present, the checker
+passed, and evidence written; it halts on a missing or broken prototype, a play that misses
+its own done check, or a checker rejection.

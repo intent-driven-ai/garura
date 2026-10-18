@@ -1,0 +1,14 @@
+commits:
+  - sha: 96e13d7b
+    message: "chore(stm): plan the memory system as part of every install (#613)"
+    files:
+      - .garura/project/issues/613/specs/memory-system-plan.md
+      - .garura/project/issues/613/specs/plan.md
+      - .garura/project/issues/606/specs/plan.md
+    branch: feature/613-the-kickoff-drive
+excluded_files:
+  []
+leftover_count: 0
+tree_clean: true
+pushed: false
+run_state_committed: true
