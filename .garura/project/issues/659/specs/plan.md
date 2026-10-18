@@ -2,9 +2,9 @@
 plan_for: 659
 kind: story
 serves: "#659 — every decision an agent makes names the memory it came from, and a script checks it"
-status: active
-updated: 2026-10-18
-now: 6
+status: done
+updated: 2026-10-19
+now: -
 serves_plan: 653
 serves_item: 6
 ---
@@ -43,10 +43,11 @@ or from a memory update a person approved (#658).
 
 ## Where we are now
 
-The change is open on `feature/659-decisions-name-their-memory`. The mockup has the
-Memory and ADRs section; the decision record, contract version 4, and `cite` and
-`citations` are built, and the drive review record carries the decisions. Next:
-item 6, land the change.
+Done. Every agent decision keeps a trace of the memory it rested on (contract version 4,
+`cite` and `citations` in the memory tool, ADR 037); the drive review record carries the
+decisions; the memory rule's "Every Decision Names Its Memory" section is in Garura and
+Phoenix memory; the review tool's design and mockup have five sections, with Agent decisions
+shown step by step. Landed through PR #676 after two review rounds.
 
 ## The plan, in order
 
@@ -94,15 +95,15 @@ item 6, land the change.
   The option is optional, so the plays run as before until their agents move onto the
   tool (#661). Drive tests: 28 pass, 2 of them new; every copy is identical; no new
   component-lint finding (116 before and after).
-
-### 6. Land the change — now
-
-**Issue:** #659.
-**What:** in the last commit before the merge, mark this plan done and item 6
-of the #653 plan done; the memory rule change also goes to Phoenix memory;
-commit, raise, review, merge.
-**Done when:** merged to main.
-**Needs:** item 5.
+- **6. Landed** — #659, PR #676. Round 1: Kapil rejected ("fix all the items first"); five
+  items were fixed — the hiding hole (an odd path spelling read a waiting draft or a
+  decision record), the memory rule's wording before it goes to Phoenix memory, three code
+  faults, the design's stated exception for showing a source's file and lines, and ADR 037
+  (accepted by Kapil through `/adr`, amending ADR 032, 035 and 036). Round 2: Kapil
+  approved, with four small fixes made before the merge (control characters in a path,
+  `find` and `search` hiding on the real file, the design's pack outline, the README).
+  Final checks: 137 tool, pull and contract tests; the contract check (26 samples, 35
+  broken refused); 33 drive checks. The rule section went to Phoenix memory at landing.
 
 ## Not in this plan
 
@@ -121,3 +122,5 @@ commit, raise, review, merge.
 - 2026-10-19 — Item 5 built: the drive review record carries the decisions and their sources.
 - 2026-10-19 — Kapil: the Agent decisions screen looked thin. The mockup now shows the memory tool's real `citations --check` and `updates` answers (12 records over real Phoenix lines, 3 problems; both pass contract v4), made by `evidence/make_decisions.py`. The tool's problem text reads right for one line.
 - 2026-10-19 — Kapil: one or two lines leave no context; a decision rests on several steps (profile, domain, security level, knowledge file), and these are traces. Contract v4 (not yet landed) now records a trace: each step's question, finding and source, with up to three lines around it; a problem names its step. Tool, samples, drive record, rule and screen follow; 12 real traces of 1 to 4 steps.
+- 2026-10-19 — Review round 1 (PR #676): Kapil rejected — "fix all the items first". Five items fixed; ADR 037 accepted by Kapil.
+- 2026-10-19 — Review round 2: Kapil approved, with four small fixes before the merge. Item 6 done; this plan is done.

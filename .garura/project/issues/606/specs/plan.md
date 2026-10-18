@@ -3,7 +3,7 @@ plan_for: 606
 kind: business-intent
 serves: "#606 — Garura's agentic lifecycle runs as five loops (drives), starting from a working prototype"
 status: active
-updated: 2026-10-18
+updated: 2026-10-19
 now: 8
 ---
 
@@ -61,8 +61,8 @@ Three decisions are made (#592, #607, #619) and six things are shipped: plan mod
 ADR 034 decided — inside a drive a play answers from memory and asks only when
 memory holds nothing — and a review that found memory not ready. Kapil chose to
 fix the whole memory system first, as its own feature; Kickoff's runner waits for
-it. Memory (#653): items 1 to 5 are shipped (#654–#658); now item 6, every decision
-names its memory (#659).
+it. Memory (#653): items 1 to 6 are shipped (#654–#659; every agent decision keeps a
+trace, ADR 037); now item 7, every Garura install carries the memory system (#660).
 
 ## The plan, in order
 
@@ -88,7 +88,7 @@ names its memory (#659).
 **Order inside this item** (Kapil, 2026-10-18, "A" — the runner first, then the review; and "B" — the whole memory system before the runner):
 0. **The memory system — Feature #653** (decision: spike #654). Phoenix memory is the superset; each project pulls the subset it needs; one tool finds and updates memory, searching like Claude Code; nothing comes from the model or the web without a memory update a person approved. Its plan: `.garura/project/issues/653/specs/plan.md`. The runner starts at its milestone (its items 1 to 9).
 1. **The runner — #613.** Questions first, then `/intent` → `/vision` → `/understand`, the checker, the evidence. Until the review exists, the drive ends with the plays' review records and a pull request.
-2. **The review — #641–#644** (the tool), **#664** (its ADRs, Memory and Agent decisions sections: memory updates approved one by one, Ask memory in plain words, each agent decision with its sources), **#645–#646** (approval in the product model), **#648–#649** (open, listen, send back). The tool is built inside Garura with all its sections; until then the local prototype stands in for memory approvals (Kapil, 2026-10-18 (#658): "we will build the tool with all the sections inside garura - as part of 606 plan. it remains a local prototype for now."). #641 takes its example pack from a real Kickoff run, which only the runner can make.
+2. **The review — #641–#644** (the tool), **#664** (its ADRs, Memory and Agent decisions sections, ADR 037: memory updates approved one by one, Ask memory in plain words, each agent decision with its trace), **#645–#646** (approval in the product model), **#648–#649** (open, listen, send back). The tool is built inside Garura with all its sections; until then the local prototype stands in for memory approvals (Kapil, 2026-10-18 (#658): "we will build the tool with all the sections inside garura - as part of 606 plan. it remains a local prototype for now."). #641 takes its example pack from a real Kickoff run, which only the runner can make.
 3. **The review joins the drive — #650.** The review step becomes the drive's last step and writes approval.
 **Needs:** items 3 to 7.
 
@@ -180,3 +180,4 @@ Not part of this plan; recorded so the gaps in time make sense.
 - 2026-10-18 — The review tool's Memory and ADRs section (#664) joins the review work here; the local prototype stands in until the tool is built.
 - 2026-10-18 — Memory item 5 shipped: memory updates (#658).
 - 2026-10-19 — The review tool's sections are five: Intents, Product, ADRs, Memory, Agent decisions (Kapil); Ask memory mocked.
+- 2026-10-19 — Memory item 6 shipped: every agent decision keeps a trace (#659, PR #676); ADR 037 accepted (traces; the review tool's five sections).
