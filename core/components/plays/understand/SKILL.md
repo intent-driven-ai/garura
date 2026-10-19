@@ -715,8 +715,9 @@ merged); and the
 ### Phase: Evidence & Close
 
 **Step 9 — Close** · Owner: play · Depends on: Step 8
-Run the Standard Play Close. /understand is a **product-scoped** play (no issue) — use
-the product-scoped evidence base and slug. Evidence recording is play-only and
+Run the Standard Play Close. /understand's evidence lives in the issue being worked on
+(the drive's issue inside a drive, `start-change`'s by hand) — use that evidence base and
+the product's slug. Evidence recording is play-only and
 config-gated per the D1 evidence rule (`standards/rules/evidence-recording.md`).
 
 ```bash
@@ -725,8 +726,7 @@ config-gated per the D1 evidence rule (`standards/rules/evidence-recording.md`).
 # template-manager and sets ts and evidence_dest; then run this play's own lines below;
 # then Steps C0-C2.
 #   evidence_base, slug:
-#     project-scoped play : evidence_base="${stm_base}${issue}/evidence/understand/"   ; slug="#${issue}"
-#     product-scoped play : evidence_base="${product_base}_evidence/understand/"         ; slug="${product_slug}"
+#     evidence_base="${stm_base}${issue}/evidence/understand/"   ; slug="${product_slug}"
 
 # Session identity stamp (#463) — close phase; start phase ran at pre-flight
 session_stamp=$(python3 scripts/session_stamp.py --phase close \
@@ -742,7 +742,8 @@ sc_exit=$?   # 0 held · 1 unmet · 2 error
 python3 scripts/distill_gate_policy.py --ledger "<gates.conditional.ledger>" --policy "<gates.conditional.policy>" --streak <gates.conditional.streak> --project "<project name from config>" || true
 ```
 
-`/understand` is product-scoped: `evidence_base="${product_base}_evidence/understand/"`
+`/understand`'s evidence lives in the issue being worked on:
+`evidence_base="${stm_base}${issue}/evidence/understand/"`
 and `slug="${product_slug}"` (the product's slug).
 
 **Step C0 — bind the verdict.** `sc_exit == 0` (held) permits `status: COMPLETED`.

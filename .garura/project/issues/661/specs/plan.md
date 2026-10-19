@@ -234,5 +234,7 @@ Then run the change chain.
   the tool and short-term copies.
 - 2026-10-19 — Item 7 done: `/intent`, `/vision` and `/understand` read no memory.
 - 2026-10-19 — Item 8 done: the Kickoff plays' runs live in the issue being worked on (Kapil's
-  rule); open with Kapil: the run evidence and source snapshots still go to
-  `{product_base}_evidence/<play>/`.
+  rule).
+- 2026-10-19 — Kapil: "1" — the three Kickoff plays' evidence and `/intent`'s source snapshots
+  move into `{stm_base}<issue>/evidence/<play>/` (a direct edit; no ICE names the folder). Kapil:
+  the issue ID governs — every piece of work writes its memory, evidence and files under it.

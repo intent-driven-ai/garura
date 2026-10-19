@@ -108,8 +108,8 @@ python3 scripts/session_stamp.py --phase start \
 Run by hand, `preflight.py` reads the issue from the branch `start-change` cut. `in_drive` is
 true exactly when a valid `--contract` was passed; record it in `<working>/run.json` with the
 contract's `drive_run_id`, `branch` and `issue`. Each
-Source's snapshot goes to the evidence folder `{product_base}_evidence/intent/<run-ts>/source-<name>/`
-— product-scoped, so it outlives the run.
+Source's snapshot goes to the issue's evidence folder `{stm_base}<issue>/evidence/intent/<run-ts>/source-<name>/`
+— committed with the run, so it outlives the link or the file.
 
 ## Task DAG
 
@@ -161,7 +161,7 @@ The given-by is the git user running the play (`git config user.name` and `user.
 python3 scripts/capture_source.py \
     ( --source <file path or link> [--also <more pages>] [--click <tab label> ...] \
       | --statement <working>/statement.txt ) \
-    --out-dir {product_base}_evidence/intent/<run-ts>/source-<name> \
+    --out-dir {stm_base}<issue>/evidence/intent/<run-ts>/source-<name> \
     --given-by "<git user.name> <<git user.email>>" \
     --manifest <working>/source-manifest-<name>.json
 ```
@@ -342,7 +342,7 @@ a drive):
 
 ```
 git add -- <product_base>product-os/intents <product_base>product-os/capabilities \
-    <product_base>product-os/_spine.yaml <product_base>_evidence/intent/<run-ts>
+    <product_base>product-os/_spine.yaml <stm_base><issue>/evidence/intent/<run-ts>
 git commit -m "feat(model): business intents — <n> from <what the source is> (#<issue>)"
 ```
 
@@ -414,8 +414,8 @@ end member ran, and the branch the commit landed on equals the contract's branch
 ### Phase: Evidence & Close
 
 **Step 9 — Close** · Owner: play · Depends on: Step 8
-Run the Standard Play Close. `/intent` writes product-scoped evidence beside the Sources'
-snapshots, so the record of the run and what it read stay together.
+Run the Standard Play Close. `/intent` writes its evidence in the issue being worked on,
+beside the Sources' snapshots, so the record of the run and what it read stay together.
 **SE-11 (F11/C11):** the close is stop-condition gated — `check_stop_condition.py` over the
 baked `stop-condition.yaml` (D1 intents saved; D2 decided — by hand, at least one confirmed and
 every one decided; in a drive, every one saved as proposed for the drive's final review;
@@ -428,8 +428,7 @@ close.
 # template-manager and sets ts and evidence_dest; then run this play's own lines below;
 # then Steps C0-C2.
 #   evidence_base, slug:
-#     project-scoped play : evidence_base="${stm_base}${issue}/evidence/intent/"     ; slug="#${issue}"
-#     product-scoped play : evidence_base="${product_base}_evidence/intent/"          ; slug="${run_ts}"
+#     evidence_base="${stm_base}${issue}/evidence/intent/"   ; slug="${run_ts}"
 # Session identity stamp (#463) — close phase; start phase ran at pre-flight
 session_stamp=$(python3 scripts/session_stamp.py --phase close \
     --marker "${stm_base}${issue}/status/session-stamp-intent.json")
@@ -442,8 +441,8 @@ python3 scripts/check_stop_condition.py \
 sc_exit=$?   # 0 held · 1 unmet · 2 error
 ```
 
-`/intent` is product-scoped: `evidence_base="${product_base}_evidence/intent/"` and
-`slug="${run_ts}"` (one run can save several intents).
+`/intent`'s evidence lives in the issue being worked on: `evidence_base="${stm_base}${issue}/evidence/intent/"`
+and `slug="${run_ts}"` (one run can save several intents).
 
 **Step C0 — bind the verdict.** `sc_exit == 0` (held) permits `status: COMPLETED`. Anything
 else closes `HALTED` with `exit_reason: stop_condition_unmet` and the evidence's Stop

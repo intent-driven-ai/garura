@@ -57,6 +57,9 @@ They are short-term memory, so the tool can find them later.
 - **Every memory write goes to short-term memory** (ADR 039 §1). A question asked of a
   person, and the answer, are kept in the issue's short-term memory. So is an approved
   memory update (ADR 036).
+- **The issue ID governs.** Everything a piece of work writes — its memory, its evidence, its
+  working files — goes under its issue ID, whether one drive or many plays ran in it. The issue
+  ties the work to the tracker and to the business intent it serves.
 - **Short-term memory is created in the issue being worked on.** Inside a drive, that is the
   drive's issue; its plays open none. A play run on its own gets its issue from
   `start-change`. A play's working folder lives in that issue, under `context/<play>/`, and its
