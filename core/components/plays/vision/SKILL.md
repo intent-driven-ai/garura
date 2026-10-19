@@ -242,8 +242,8 @@ python3 scripts/read_intents.py --product-base <product_base> \
 
 The goal is then drawn from the intent pages (title, outcome, why) — joined with a typed goal
 when both are given. The agent does two things, in order: (1) route the goal to its **domain** with
-`search-kb`, then (2) read that domain's full shelf through the KB router
-(`python3 $KB shelf <domain>`) to **enumerate the candidate capability set** the
+`search-kb`, then (2) read that domain's full shelf, which it finds through the memory tool and
+copies into short-term memory, to **enumerate the candidate capability set** the
 domain offers — breadth, not a single placement. For any capability or whole domain the
 KB does not cover, it raises a `propose-kb-node` proposal. It writes the grounding
 (domain + the candidate-capability set, each with its KB shelf reference) and any
@@ -251,7 +251,8 @@ proposals to disk:
 
     {
       "task":    "route the goal to its domain, then enumerate the candidate capability set from that domain's shelf; propose KB nodes for gaps",
-      "inputs":  { "goal": "<the business goal, or drawn from the intents>",
+      "inputs":  { "issue": "<issue, or null>",
+                   "goal": "<the business goal, or drawn from the intents>",
                    "intents": "<working>/intents.json (when starting from intents)" },
       "outputs": { "grounding": "<working>/grounding.yaml",
                    "proposals_dir": "<working>/proposals/" }
@@ -281,7 +282,8 @@ file (`_spine.yaml`, the profile, an intent page) and moves no page — the keye
 
     {
       "task":    "author the directional vision seed from the goal + grounding — write or grow the detailed domain doc + directional capability docs in place on the live model (keeping what is there), emit the spine-delta (new entries, named updates, directional profile), same_as and warnings into the manifest",
-      "inputs":  { "goal": "<the business goal>",
+      "inputs":  { "issue": "<issue, or null>",
+                   "goal": "<the business goal>",
                    "grounding": "<working>/grounding.yaml",
                    "proposals_dir": "<working>/proposals/",
                    "intents_path": "<working>/intents.json (when starting from intents)",
@@ -314,8 +316,10 @@ Then run the **content-quality eval** over the grounding docs this run wrote or 
 detailed `domain.md` and every directional `capability.md` it wrote or added to, at their live
 paths — a page it only moves, unchanged, is not re-judged) as a **concurrent
 read-only fan-out** (`standards/rules/concurrent-fanout.md`): dispatch one isolated,
-clean-context judge sub-agent PER doc, ALL IN ONE CONCURRENT BATCH — each handed the judge
-prompt (`standards/rules/grounding-eval.md`), its doc, and the kind's per-section guidance
+clean-context judge sub-agent PER doc, ALL IN ONE CONCURRENT BATCH — each running the
+`judge-grounding` skill, handed only its doc (and parent doc), and the kind's per-section
+guidance: the play first asks `template-manager` for each judged kind's template
+(`standards/schemas/product-os/grounding/<kind>.md`) and hands the judge that short-term copy
 (it sees neither the brief nor the author's reasoning), on the model from
 `grounding-eval.judge.model` (default the session model). The three safety conditions hold:
 each judge only READS its own doc, writes only its own verdict JSON, and no judge depends on
@@ -488,7 +492,8 @@ domain (its intent, the bet, its guiding rules, the directional capabilities; ra
 light page when it was one), each capability's directional intent and agent intent, the
 capabilities placed from the holding folder, the intent links written (each intent's Touches
 list), the persist's `warnings`, and the directional profile (shape + rough NFR levels) —
-render the approval prompt (`standards/templates/approval-prompt.md`) and wait for the
+render the approval prompt — the template `standards/templates/approval-prompt.md`, which
+the play asks `template-manager` for (it never reads it from memory) — and wait for the
 typed response. Approve → continue to Step 7 (commit). **Cancel → revert the working tree
 (ADR 026 step 6):** the full delta is already on disk, so run the guard with `--restore` and
 an EMPTY allow set to `git restore` the modified model paths and `git clean`/remove the new

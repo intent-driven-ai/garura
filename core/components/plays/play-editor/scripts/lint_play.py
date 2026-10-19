@@ -336,7 +336,8 @@ def check_next_command(ctx):
         return [(True, "next-command (pipeline-next)",
                  f"{play_name} is meta_exempt — no Next required")]
     in_map = play_name in mapped
-    renders = "pipeline-next.md" in ctx["text"]
+    # the shared close (ADR 039 §9) reads the map through template-manager, as "the Next-line map"
+    renders = "pipeline-next.md" in ctx["text"] or "Next-line map" in ctx["text"]
     ok = in_map and renders
     detail = ("resolves in pipeline-next.md and the close renders Next" if ok
               else f"{play_name} has no entry in pipeline-next.md (add one, or meta_exempt it)"

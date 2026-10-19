@@ -4,7 +4,7 @@ kind: story
 serves: "#661 — /intent, /vision, /understand and the Kickoff drive read no memory; their agents read it through the memory tool"
 status: active
 updated: 2026-10-19
-now: 7
+now: 8
 serves_plan: 653
 serves_item: 8
 ---
@@ -107,7 +107,7 @@ What is true today (read on 2026-10-19):
 
 ## Where we are now
 
-ADR 039 and ADR 040 are accepted; the docs, the tool, the install, `template-manager`, the judging skill and the config follow them. The shared close lives in one file. The two Kickoff agents read memory through the tool. Now: item 7, the three plays read no memory.
+ADR 039 and ADR 040 are accepted; the docs, the tool, the install, `template-manager`, the judging skill and the config follow them. The shared close lives in one file. The two Kickoff agents read memory through the tool. The three plays read no memory. Now: item 8, questions and answers go to short-term memory.
 
 ## The plan, in order
 
@@ -145,16 +145,15 @@ ADR 039 and ADR 040 are accepted; the docs, the tool, the install, `template-man
   route and proposal validators moved beside their skills. The router itself
   (`knowledge/domains/.pageindex/`) is removed (Kapil: "1").
   Lint: the same findings as main.
+- **7. The three plays read no memory** — direct edits (no guarantee changed; the ICE sources
+  name no memory path): `/intent` hands its agent `issue` and the config's `product.ontology`;
+  `/vision` and `/understand` hand `issue` to `product-os-keeper`, read no shelf through a
+  router, run each judge on `judge-grounding` with the kind's template from `template-manager`,
+  and get the approval prompt from `template-manager`. Both `lint_play.py` copies accept the
+  shared close's "Next-line map" wording. Play tests 103, 32, 87 pass; `lint_play` and
+  `lint-components` give the same findings as main.
 
-### 7. The three plays read no memory — now
-
-**What:** `/intent` hands its agent the ontology's path from the config file. `/vision` and
-`/understand` judge through the judging skill and get the approval prompt from
-`template-manager`. Each play is changed the way the pipeline rules say (its ICE through
-`/play-editor` if a guarantee changes; a direct edit if not).
-**Done when:** none of the three plays names a memory path.
-
-### 8. Questions and answers go to short-term memory
+### 8. Questions and answers go to short-term memory — now
 
 **What:** `product.md` Rule 12 and the plays that follow it write every question and the
 person's answer to the issue's short-term memory, not
@@ -232,3 +231,4 @@ Then run the change chain.
   every play points to it. Its Phoenix memory copy (`standards/rules/play-close.md`) goes at landing.
 - 2026-10-19 — Item 6 done: both Kickoff agents and their six skills read memory only through
   the tool and short-term copies.
+- 2026-10-19 — Item 7 done: `/intent`, `/vision` and `/understand` read no memory.

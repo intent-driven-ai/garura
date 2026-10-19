@@ -283,7 +283,8 @@ per-dimension levels the roll-up consumes. Per ADR 026 the skill writes the per-
 
     {
       "task":    "re-route this capability to its KB shelf, then detail it (directional->detailed) writing capability.md + functionality.md docs in place on the live model, set its nfr_needs; emit implied NFR levels + the spine-delta into the manifest",
-      "inputs":  { "capability": "<id + slug + path to its directional capability.md, or <working>/caps/<capability>/seed.yaml when it was absent>",
+      "inputs":  { "issue": "<issue, or null>",
+                   "capability": "<id + slug + path to its directional capability.md, or <working>/caps/<capability>/seed.yaml when it was absent>",
                    "write_scope": "<targets.json scope, e.g. product-os/commerce/checkout/>",
                    "product_base": "<product_base>",
                    "manifest_path": "<working>/caps/<capability>/enrich-manifest.yaml" },
@@ -292,7 +293,8 @@ per-dimension levels the roll-up consumes. Per ADR 026 the skill writes the per-
     }
 
 The agent passes the shelf `search-kb` returned to `enrich-capability-ice` as its
-`kb_domain`, so the grounding is the shelf the router actually resolved. It returns the
+`kb_domain`, with that shelf's short-term copy, so the grounding is the shelf `search-kb`
+actually resolved. It returns the
 contract with the output paths on disk — never inline content. The skill writes the
 capability's detailed `capability.md` (over the live directional one) and the new
 `functionality.md` docs IN PLACE under `<product_base>product-os/`, and writes its
@@ -335,9 +337,11 @@ Then run the **content-quality eval** over the grounding docs this run wrote or 
 (every target's detailed `capability.md` and every new `functionality.md`, at their live
 paths — all targets in one batch) as a
 **concurrent read-only fan-out** (`standards/rules/concurrent-fanout.md`): dispatch one
-isolated, clean-context judge sub-agent PER doc, ALL IN ONE CONCURRENT BATCH — each handed
-the judge prompt (`standards/rules/grounding-eval.md`), its doc, and the kind's per-section
-guidance (it sees neither the brief nor the author's reasoning), on the model from
+isolated, clean-context judge sub-agent PER doc, ALL IN ONE CONCURRENT BATCH — each running
+the `judge-grounding` skill, handed only its doc (and parent doc), and the kind's per-section
+guidance: the play first asks `template-manager` for each judged kind's template
+(`standards/schemas/product-os/grounding/<kind>.md`) and hands the judge that short-term copy
+(it sees neither the brief nor the author's reasoning), on the model from
 `grounding-eval.judge.model`. The three safety conditions hold: each judge only READS its
 own doc, writes only its own verdict JSON, and no judge depends on another. **Join** —
 wait for every verdict to return before gating any. Then gate every returned verdict
@@ -543,8 +547,9 @@ functionalities, the per-capability NFR needs, and the profile changes **inline 
 model git diff**, one section per target — for each box-move in `rollup.json`, render its
 **own explicit line item** (the capability, the dimension, the from→to levels, and the
 product-level decision (ADR) it will create),
-distinct from the grounding approval — render the approval prompt
-(`standards/templates/approval-prompt.md`) and wait for the typed response. Approve →
+distinct from the grounding approval — render the approval prompt — the template
+`standards/templates/approval-prompt.md`, which the play asks `template-manager` for (it never
+reads it from memory) — and wait for the typed response. Approve →
 continue to Step 7 (commit). **Cancel → revert the working tree (ADR 026 step 6):** the full
 delta is already on disk, so run the guard with `--restore` and an EMPTY allow set to
 `git restore` the modified model paths and `git clean`/remove the new ones (byte-clean back
