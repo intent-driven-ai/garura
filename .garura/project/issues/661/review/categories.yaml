@@ -1,0 +1,267 @@
+# categories.yaml - work categories present in PR #678 (branch feature/661-kickoff-reads-memory-through-tool vs main)
+# Derived from the diff content, not from a preset list. 195 changed files, each placed in exactly one category.
+shelf_read_from: ~/.phoenix/core/memory/knowledge/review/
+total_changed_files: 195
+categories:
+  - name: decision-records
+    playbook: review/adrs
+    design_bearing: false
+    file_count: 9
+    why: "Two new signed decision records (ADR 039 memory writes go to short-term memory and plays read no memory; ADR 040 config source is core/config.yaml), the index rows for them, and Status-line amendments to six existing ADRs (009, 017, 034, 035, 036, 038); ADR 036 is partly superseded by 039. All have the Status/Context/Decision/Consequences decision-record shape."
+    review_note: "Playbook says no design-grounding (the decision is the design; human judges merit; Layer 1 structural check only). Note for the human: this PR edits already-accepted ADRs (status lines only, per the diff) - worth a line-by-line read that no decision text changed."
+    evidence_paths:
+      - docs/adr/009-skill-ltm-organizational-knowledge.md
+      - docs/adr/017-folder-whitelist.md
+      - docs/adr/034-plays-answer-from-memory-inside-a-drive.md
+      - docs/adr/035-agents-work-only-from-memory.md
+      - docs/adr/036-approved-answer-lands-in-short-term-memory.md
+      - docs/adr/038-install-brings-no-memory.md
+      - docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md
+      - docs/adr/040-config-source-is-core-config-yaml.md
+      - docs/adr/_index.md
+  - name: documentation
+    playbook: review/docs
+    design_bearing: false
+    file_count: 3
+    why: "Human-facing prose: root README.md, docs/components/memory.md (rewritten, 108 added / 300 removed) and the memory tool's README.md. None is a decision record, play, skill, agent or memory-shelf file."
+    review_note: "Layer 1 prose checks only."
+    evidence_paths:
+      - README.md
+      - core/tools/memory/README.md
+      - docs/components/memory.md
+  - name: harness
+    playbook: review/harness
+    design_bearing: true
+    file_count: 51
+    why: "The system's behaviour written as Markdown: 31 play SKILL.md files with the shared Standard Play Close moved out to core/components/plays/_shared/play-close.md; three plays' ICE sources (intent, understand, vision reference/ice.md) and their baked stop-condition.yaml files; agents (business-intent-keeper, product-os-keeper, new template-manager); skills (new judge-grounding, propose-kb-node, search-kb, kb-search, enrich-capability-ice, author-*); grounding (glossary.md, rules/evidence.md); and core/tools/memory/GUIDE.md, the memory guide every agent reads (installed as .claude/rules/garura-memory.md per installer/install.sh)."
+    review_note: "Layer 2 applies. Ground in docs/adr (ADR 034-038 and older, on the base ref - NOT 039/040, which this branch adds), docs/philosophy, standards under memory/standards/rules on the base ref (user-facing-voice, play-close as it was on main, drive-contract), glossary on main. Intent changes (ice.md edits for intent/understand/vision) must trace to the ICE source - Layer 1 check. GUIDE.md placed here by judgement (agent-read instructions), not by path."
+    evidence_paths:
+      - core/components/agents/business-intent-keeper.md
+      - core/components/agents/product-os-keeper.md
+      - core/components/agents/template-manager.md
+      - core/components/plays/_shared/play-close.md
+      - core/components/plays/adr/SKILL.md
+      - core/components/plays/agentic/SKILL.md
+      - core/components/plays/arch/SKILL.md
+      - core/components/plays/commit-change/SKILL.md
+      - core/components/plays/deploy/SKILL.md
+      - core/components/plays/fix-bug/SKILL.md
+      - core/components/plays/focus/SKILL.md
+      - core/components/plays/grill/SKILL.md
+      - core/components/plays/implement/SKILL.md
+      - core/components/plays/install-garura/SKILL.md
+      - core/components/plays/intent/SKILL.md
+      - core/components/plays/intent/reference/ice.md
+      - core/components/plays/intent/stop-condition.yaml
+      - core/components/plays/launch/SKILL.md
+      - core/components/plays/learn/SKILL.md
+      - core/components/plays/marketing/SKILL.md
+      - core/components/plays/measure/SKILL.md
+      - core/components/plays/merge-change/SKILL.md
+      - core/components/plays/next/SKILL.md
+      - core/components/plays/play-creator/SKILL.md
+      - core/components/plays/propose-change/SKILL.md
+      - core/components/plays/quality/SKILL.md
+      - core/components/plays/refactor/SKILL.md
+      - core/components/plays/review-change/SKILL.md
+      - core/components/plays/roadmap/SKILL.md
+      - core/components/plays/run/SKILL.md
+      - core/components/plays/shape/SKILL.md
+      - core/components/plays/start-change/SKILL.md
+      - core/components/plays/understand/SKILL.md
+      - core/components/plays/understand/reference/ice.md
+      - core/components/plays/understand/stop-condition.yaml
+      - core/components/plays/uninstall-garura/SKILL.md
+      - core/components/plays/ux/SKILL.md
+      - core/components/plays/validate/SKILL.md
+      - core/components/plays/vision/SKILL.md
+      - core/components/plays/vision/reference/ice.md
+      - core/components/plays/vision/stop-condition.yaml
+      - core/components/skills/author-business-intent/SKILL.md
+      - core/components/skills/author-vision-seed/SKILL.md
+      - core/components/skills/enrich-capability-ice/SKILL.md
+      - core/components/skills/judge-grounding/SKILL.md
+      - core/components/skills/kb-search/SKILL.md
+      - core/components/skills/propose-kb-node/SKILL.md
+      - core/components/skills/search-kb/SKILL.md
+      - core/grounding/glossary.md
+      - core/grounding/rules/evidence.md
+      - core/tools/memory/GUIDE.md
+  - name: memory
+    playbook: review/memory
+    design_bearing: true
+    file_count: 7
+    why: "Standards rules under core/components/memory/standards/rules/: drive-contract.md, gate-config.md, grounding-eval.md (rubric/judge prompt moved to the judge-grounding skill), product.md, user-facing-voice.md, _index.md, and play-close.md DELETED (moved to plays/_shared)."
+    review_note: "Layer 2 applies. Ground in the base-ref versions of these rules, knowledge/_DESIGN.md, _index.md, _TEMPLATE.md and signed ADRs - not the branch's rewritten prose. Because the deleted play-close.md standard and the new _shared/play-close.md are one move split across memory and harness, the grounding fan-out should read both categories' findings together for that move."
+    evidence_paths:
+      - core/components/memory/standards/rules/_index.md
+      - core/components/memory/standards/rules/drive-contract.md
+      - core/components/memory/standards/rules/gate-config.md
+      - core/components/memory/standards/rules/grounding-eval.md
+      - core/components/memory/standards/rules/play-close.md
+      - core/components/memory/standards/rules/product.md
+      - core/components/memory/standards/rules/user-facing-voice.md
+  - name: executable-code
+    playbook: review/code
+    design_bearing: false
+    file_count: 20
+    why: "Runtime source: memory tool (memory.py, pull.py cut from 160 to ~10 lines, contract/check_contract.py), install-garura scripts (install.py, memory_system.py, adapters/*.py), uninstall.py, lint_play.py (two copies), skill scripts (validate_proposal.py and validate_route.py renamed into their skills), lint-components structural.js, installer/install.sh; and the retirement of the pageindex search tooling (kb.py, pageindex.py, eval_routing.py deleted, with its EVAL.md and .gitignore)."
+    review_note: "Layer 1 only (language linter + quality-check-scoped). Review data-safety hard: install.sh, install.py, uninstall.py and pull.py touch the filesystem and Phoenix memory. The deleted pageindex files are removals from the memory tree; content is tooling, so they sit here rather than under memory."
+    evidence_paths:
+      - core/components/memory/knowledge/domains/.pageindex/.gitignore
+      - core/components/memory/knowledge/domains/.pageindex/EVAL.md
+      - core/components/memory/knowledge/domains/.pageindex/eval_routing.py
+      - core/components/memory/knowledge/domains/.pageindex/kb.py
+      - core/components/memory/knowledge/domains/.pageindex/pageindex.py
+      - core/components/plays/install-garura/scripts/adapters/claude.py
+      - core/components/plays/install-garura/scripts/adapters/codex.py
+      - core/components/plays/install-garura/scripts/adapters/common.py
+      - core/components/plays/install-garura/scripts/install.py
+      - core/components/plays/install-garura/scripts/memory_system.py
+      - core/components/plays/play-creator/scripts/lint_play.py
+      - core/components/plays/play-editor/scripts/lint_play.py
+      - core/components/plays/uninstall-garura/scripts/uninstall.py
+      - core/components/skills/propose-kb-node/scripts/validate_proposal.py
+      - core/components/skills/search-kb/scripts/validate_route.py
+      - core/tools/lint-components/lib/rules/structural.js
+      - core/tools/memory/contract/check_contract.py
+      - core/tools/memory/memory.py
+      - core/tools/memory/pull.py
+      - installer/install.sh
+  - name: tests
+    playbook: review/tests
+    design_bearing: false
+    file_count: 66
+    why: "Test code and fixtures: test_memory.py, test_pull.py, test_install.py, test_check_contract.py, deleted test_kb.py, and the memory tool contract samples (core/tools/memory/contract/samples/** - good and deliberately-broken request/response JSON the contract checker is tested against; four removed with pull, one renamed)."
+    review_note: "Run the suites, do not just read: test_memory.py, test_pull.py, test_check_contract.py, test_install.py. The samples are fixtures for the contract checker, so a green run of check_contract tests is the evidence; report 'not run' explicitly if not run."
+    evidence_paths:
+      - core/components/memory/knowledge/domains/.pageindex/test_kb.py
+      - core/components/plays/install-garura/scripts/test_install.py
+      - core/tools/memory/contract/samples/apply-not-approved.json
+      - core/tools/memory/contract/samples/apply.json
+      - core/tools/memory/contract/samples/broken/apply-promotion-not-in-this-tool.json
+      - core/tools/memory/contract/samples/broken/apply-waiting-update.json
+      - core/tools/memory/contract/samples/broken/apply-written-to-another-tier.json
+      - core/tools/memory/contract/samples/broken/citations-around-misplaces-the-text.json
+      - core/tools/memory/contract/samples/broken/citations-around-too-wide.json
+      - core/tools/memory/contract/samples/broken/citations-changed-without-a-step.json
+      - core/tools/memory/contract/samples/broken/citations-other-issue.json
+      - core/tools/memory/contract/samples/broken/citations-problem-names-the-wrong-step.json
+      - core/tools/memory/contract/samples/broken/citations-problems-without-check.json
+      - core/tools/memory/contract/samples/broken/cite-absolute-path.json
+      - core/tools/memory/contract/samples/broken/decide-reject-answered-approved.json
+      - core/tools/memory/contract/samples/broken/decide-without-review-tool.json
+      - core/tools/memory/contract/samples/broken/find-silent-missing-tier.json
+      - core/tools/memory/contract/samples/broken/find-without-issue.json
+      - core/tools/memory/contract/samples/broken/health-ok-as-number.json
+      - core/tools/memory/contract/samples/broken/propose-answered-approved.json
+      - core/tools/memory/contract/samples/broken/propose-short-term-other-issue.json
+      - core/tools/memory/contract/samples/broken/propose-unknown-draft-source.json
+      - core/tools/memory/contract/samples/broken/propose-web-draft-to-phoenix.json
+      - core/tools/memory/contract/samples/broken/read-end-before-start.json
+      - core/tools/memory/contract/samples/broken/read-other-file.json
+      - core/tools/memory/contract/samples/broken/read-other-issue.json
+      - core/tools/memory/contract/samples/broken/read-path-with-control-character.json
+      - core/tools/memory/contract/samples/broken/read-path-with-dot-segment.json
+      - core/tools/memory/contract/samples/broken/read-path-with-empty-segment.json
+      - core/tools/memory/contract/samples/broken/read-path-with-newline.json
+      - core/tools/memory/contract/samples/broken/read-says-it-copied.json
+      - core/tools/memory/contract/samples/broken/read-without-fingerprint.json
+      - core/tools/memory/contract/samples/broken/read-wrong-fingerprint.json
+      - core/tools/memory/contract/samples/broken/search-every-tier-stopped.json
+      - core/tools/memory/contract/samples/broken/search-other-issue.json
+      - core/tools/memory/contract/samples/broken/search-skipped-a-tier.json
+      - core/tools/memory/contract/samples/broken/search-tier-with-every-tier.json
+      - core/tools/memory/contract/samples/broken/search-unknown-tier.json
+      - core/tools/memory/contract/samples/broken/search-went-past-first-answer.json
+      - core/tools/memory/contract/samples/citations-check.json
+      - core/tools/memory/contract/samples/citations.json
+      - core/tools/memory/contract/samples/cite.json
+      - core/tools/memory/contract/samples/decide-not-waiting.json
+      - core/tools/memory/contract/samples/decide.json
+      - core/tools/memory/contract/samples/find-without-issue-starts-at-garura.json
+      - core/tools/memory/contract/samples/find.json
+      - core/tools/memory/contract/samples/health.json
+      - core/tools/memory/contract/samples/propose.json
+      - core/tools/memory/contract/samples/pull-would-overwrite.json
+      - core/tools/memory/contract/samples/pull.json
+      - core/tools/memory/contract/samples/pulled.json
+      - core/tools/memory/contract/samples/read-other-issue-refused.json
+      - core/tools/memory/contract/samples/read-phoenix-not-saved.json
+      - core/tools/memory/contract/samples/read.json
+      - core/tools/memory/contract/samples/search-every-tier.json
+      - core/tools/memory/contract/samples/search-nothing.json
+      - core/tools/memory/contract/samples/search-one-tier-nothing.json
+      - core/tools/memory/contract/samples/search-short-term-without-issue-refused.json
+      - core/tools/memory/contract/samples/search-short-term.json
+      - core/tools/memory/contract/samples/search-tier-missing.json
+      - core/tools/memory/contract/samples/search-without-issue-nothing.json
+      - core/tools/memory/contract/samples/search.json
+      - core/tools/memory/contract/samples/updates.json
+      - core/tools/memory/contract/test_check_contract.py
+      - core/tools/memory/test_memory.py
+      - core/tools/memory/test_pull.py
+  - name: config-maps
+    playbook: review/config-maps
+    design_bearing: false
+    file_count: 4
+    why: "Files that point at other files by path: root CLAUDE.md, new .garura/CLAUDE.md, core/config.yaml (new in this location; 181 lines of path keys, the config source per ADR 040) and .gitignore (adds .garura/core/tools/)."
+    review_note: "Path-existence check of every referenced path; human reads named changes. config.yaml is large and newly added here, so every key needs resolving."
+    evidence_paths:
+      - .garura/CLAUDE.md
+      - .gitignore
+      - CLAUDE.md
+      - core/config.yaml
+  - name: memory-tool-contract
+    playbook: null
+    design_bearing: true
+    file_count: 1
+    why: "core/tools/memory/contract/v5.json: the 1358-line machine-readable agreement between agents and the memory tool (commands, request rules, tiers, lookup order, failure modes), bumped to version 5 for ADR 039. Neither code nor prose nor a test: an interface contract that agents and the tool both depend on, with its own versioned history."
+    review_note: "PLAYBOOK MISSING. Suggested: a contract/schema category, design-bearing, grounded in the base-ref contracts core/tools/memory/contract/v1.json to v4.json (v5.json is new on this branch, so v4.json on main is the committed prior contract), ADR 035/036/037/038, and the tool's README on main. Design-bearing because it encodes decisions agents act on."
+    playbook_missing: true
+    evidence_paths:
+      - core/tools/memory/contract/v5.json
+  - name: run-records
+    playbook: null
+    design_bearing: false
+    file_count: 34
+    why: "Short-term-memory records of how this PR was made: .garura/project/issues/661/** (context, plan.md, pr-body.md, self-review.md, evidence script and check output) and .garura/project/issues/_adr/<run>/** (two /adr runs: briefs, drafts, manifests, guard reports, porcelain snapshots, run.json). Process records, not product."
+    review_note: "PLAYBOOK MISSING. Suggested: a light 'run records' playbook - not design-bearing, skim only. Warning for grounding: adr-draft.md in these folders duplicates the text of ADR 039 and 040 and plan.md/pr-body.md/self-review.md argue for the change; none may be used as grounding (circular). The evidence script check_memory_paths.py is a one-off check, not shipped code."
+    playbook_missing: true
+    evidence_paths:
+      - .garura/project/issues/661/context/branch.json
+      - .garura/project/issues/661/context/issue.json
+      - .garura/project/issues/661/context/pr-body.md
+      - .garura/project/issues/661/context/pr.json
+      - .garura/project/issues/661/context/resolved-rules.json
+      - .garura/project/issues/661/context/self-review.md
+      - .garura/project/issues/661/context/work-description.txt
+      - .garura/project/issues/661/evidence/check_memory_paths.py
+      - .garura/project/issues/661/evidence/item-10-checks.txt
+      - .garura/project/issues/661/specs/plan.md
+      - .garura/project/issues/_adr/20261019-122431/adr-check.json
+      - .garura/project/issues/_adr/20261019-122431/adr-context.yaml
+      - .garura/project/issues/_adr/20261019-122431/adr-draft.md
+      - .garura/project/issues/_adr/20261019-122431/adr-manifest.json
+      - .garura/project/issues/_adr/20261019-122431/brief.md
+      - .garura/project/issues/_adr/20261019-122431/decision.yaml
+      - .garura/project/issues/_adr/20261019-122431/guard-report.json
+      - .garura/project/issues/_adr/20261019-122431/hashes-before.json
+      - .garura/project/issues/_adr/20261019-122431/porcelain-after.txt
+      - .garura/project/issues/_adr/20261019-122431/porcelain-before.txt
+      - .garura/project/issues/_adr/20261019-122431/run.json
+      - .garura/project/issues/_adr/20261019-122431/start-change.json
+      - .garura/project/issues/_adr/20261019-172846/adr-check.json
+      - .garura/project/issues/_adr/20261019-172846/adr-context.yaml
+      - .garura/project/issues/_adr/20261019-172846/adr-draft.md
+      - .garura/project/issues/_adr/20261019-172846/adr-manifest.json
+      - .garura/project/issues/_adr/20261019-172846/brief.md
+      - .garura/project/issues/_adr/20261019-172846/decision.yaml
+      - .garura/project/issues/_adr/20261019-172846/guard-report.json
+      - .garura/project/issues/_adr/20261019-172846/hashes-before.json
+      - .garura/project/issues/_adr/20261019-172846/porcelain-after.txt
+      - .garura/project/issues/_adr/20261019-172846/porcelain-before.txt
+      - .garura/project/issues/_adr/20261019-172846/run.json
+      - .garura/project/issues/_adr/20261019-172846/start-change.json
+design_bearing_categories: [harness, memory, memory-tool-contract]
+categories_without_playbook: [memory-tool-contract, run-records]

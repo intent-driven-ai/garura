@@ -1,0 +1,166 @@
+# design-findings-memory.yaml - Layer 2 design-grounding for category: memory (PR #678, branch vs main)
+# Grounded only in committed sources on main (git show main:<path>) and the review shelf
+# ~/.phoenix/core/memory/knowledge/review/memory.md. ADR 039 / 040 are diff-added (owner-accepted on this
+# branch): read to learn what was decided, never the only basis; where only ADR 039 supports a point, the
+# finding says so. No run record under .garura/project/issues/** was used as grounding.
+# Severity: standards/rules/pr.md on main has no row for memory-design conformance (its table is mechanical
+# code/doc rules, and its prose-artifact guard makes grep rules ineligible on prose). So severity follows the
+# bucket definitions in pr.md: P2 Major (structural violation, highlights without blocking), P3 Minor (missing or
+# wrong docs, naming), P4 Nit (style, informational). Each finding states why it falls in its bucket.
+category: memory
+scope_files:
+  - core/components/memory/standards/rules/_index.md
+  - core/components/memory/standards/rules/drive-contract.md
+  - core/components/memory/standards/rules/gate-config.md
+  - core/components/memory/standards/rules/grounding-eval.md
+  - core/components/memory/standards/rules/play-close.md   # deleted; harness side judges the new _shared/play-close.md
+  - core/components/memory/standards/rules/product.md
+  - core/components/memory/standards/rules/user-facing-voice.md
+grounding_status: available   # knowledge/_DESIGN.md, standards/_index.md, ADR 034-036 and the old rule files all exist on main
+
+principles:
+  - id: PR-1
+    principle: "Plays are workflows; their agents read memory, only through the memory tool. (Main states it as: workflows call sub-agents, and context gathering by sub-agents is where memory comes from; agents and skills never read memory by a path.)"
+    source: "main:docs/adr/035-agents-work-only-from-memory.md (Context quote; Decision §4)"
+    note: "ADR 039 §2 sharpens it to 'a play reads no memory'; the main-side wording already supports the drive-contract line."
+  - id: PR-2
+    principle: "Short-term memory is the current issue's folder; an approved answer lands there; moving it up is a promotion done outside the work."
+    source: "main:docs/adr/036-approved-answer-lands-in-short-term-memory.md (Decision §1, §2, §3)"
+  - id: PR-3
+    principle: "On main, a person's own answer to a question goes into Garura memory, so no one is asked twice."
+    source: "main:docs/adr/036-approved-answer-lands-in-short-term-memory.md (Decision §4); main:docs/adr/035 §1 ('the person's answers' are Garura memory)"
+    note: "This is the principle the branch reverses. Only ADR 039 §1 supports the reversal."
+  - id: PR-4
+    principle: "A rule file is the single source for what it owns; consumers point to it rather than restate it. When the owner moves, every consumer's pointer moves with it."
+    source: "main:core/components/memory/standards/rules/grounding-eval.md ('single source for the rubric, the judge prompt, the verdict shape, and the gate. Plays reference it; they do not restate it'); main:CLAUDE.md (Play Pipeline Rules, durability rule: one source of truth, converge-and-lint)"
+  - id: PR-5
+    principle: "A memory shelf entry must resolve its cross-references to real files, must not contradict existing knowledge, and rules are listed in the rules index so agents can find them."
+    source: "~/.phoenix/core/memory/knowledge/review/memory.md (Treatment: cross-references resolve; rubric: avoid duplicating or contradicting existing knowledge); main:core/components/memory/standards/_index.md ('A file belongs under standards/ if it defines rules that agents must follow'); main:core/components/memory/standards/rules/_index.md (per-file table)"
+  - id: PR-6
+    principle: "Where no tier answers, an agent does not decide from the model or web; it raises a memory update a person approves, and the approved answer is written to short-term memory."
+    source: "main:docs/adr/035 §5 and §9 (amending ADR 034 §3); main:docs/adr/036 §2"
+  - id: PR-7
+    principle: "ADR 034 required the drive contract's rule 4 ('a question the drive did not answer still stops the play') to be rewritten so a question stops the play only when memory holds nothing."
+    source: "main:docs/adr/034-plays-answer-from-memory-inside-a-drive.md (Decision §5; Work item 1)"
+  - id: PR-8
+    principle: "The rulebook (rules, templates, schemas) lives in Phoenix memory; everything under core/components/memory seeds it. Main ADR 035 listed play-close.md under 'Affects' to change how it reads templates, not to take it out of the rulebook."
+    source: "main:docs/adr/035 §1 and the Affects line"
+
+findings:
+  - id: MEM-1
+    severity: P2
+    file: core/components/memory/standards/rules/grounding-eval.md
+    title: "The judge prompt and rubric left the rule file while nine plays still hand their judge 'the judge prompt (standards/rules/grounding-eval.md)'"
+    principle_violated: PR-4
+    basis: >
+      Main's grounding-eval.md is the single source for the rubric, judge prompt and verdict shape, and plays point
+      to it. This branch moves all three into the judge-grounding skill (content moved intact: five criteria,
+      prompt, verdict shape and the 'no gold example' note are all in the skill) and leaves the rule saying a
+      play 'does not read them here'. But agentic, arch, learn, marketing, measure, quality, run and ux SKILL.md
+      files still say the judge is 'handed the judge prompt (`standards/rules/grounding-eval.md`)', and each play's
+      scripts/grounding_gate.py docstring (agentic, arch, grill, learn, marketing, measure, quality, run, understand,
+      ux, vision) still says 'See standards/rules/grounding-eval.md for the rubric, prompt, and verdict shape'. Those
+      pointers now lead to a file with no prompt. core/config.yaml:108 has the same stale comment.
+    why_this_severity: "Structural: a single-source rule and its consumers disagree, and eight grounding gates (grill has only the script docstring) cannot find the prompt they name. Does not block this PR if the move of those plays is the next planned step, so highlighted, not blocking (pr.md P2)."
+    supported_by_adr_039_only: "ADR 039 Consequences names this as an accepted risk ('Nine more plays read the judge prompt ... They move later'). That accepts the gap; it does not remove it."
+    suggested_fix: "Land the pointer change in the same merge, or keep a one-line 'the prompt is in the judge-grounding skill' note where those plays look, or record in the PR a dated follow-up that moves them."
+  - id: MEM-2
+    severity: P2
+    file: core/components/memory/standards/rules/product.md
+    title: "Rule 12 now says questions live in the issue's short-term memory, but the skills and schema it names as enforcers still read and write .garura/product/user-provided/grounding-questions.md"
+    principle_violated: PR-5
+    basis: >
+      The rewritten Rule 12 enforcement paragraph names configure-capabilities, enrich-capabilities and
+      generate-intent-epics as writing to 'the issue's file', and `validate-intent-epics` as cross-checking it. At HEAD
+      configure-capabilities/SKILL.md (lines 40, 145, 168-172, 355) still takes `grounding_questions_path`
+      'typically .garura/product/user-provided/grounding-questions.md' and creates it there; derive-design-patterns,
+      derive-logical-architecture, derive-physical-architecture, derive-systems-inventory, derive-tech-stack and
+      recommend-mvp still take `{product_base}user-provided/grounding-questions.md`; the schema comments in
+      standards/schemas/mvp-recommendation.yaml (lines 67, 92, 179) say the same. The rule and its enforcers
+      now name two different homes for the same file, so a skill following its own text writes where the rule
+      says it must not, and recommend-mvp would read a file the rule says is no longer written.
+    why_this_severity: "Structural contradiction between a shared standard and the skills it governs; no data is lost, and the change is not yet running in a drive, so P2 not P1."
+    supported_by_adr_039_only: "ADR 039 §1 changes Rule 12. Its Affects line lists product.md but not these skills or the schema, and its Consequences only notes that already-written questions stay outside STM."
+    suggested_fix: "Either update the named enforcing skills and the schema comments in this PR (harness category), or have Rule 12 say plainly that the skills move later and what they do until then."
+  - id: MEM-3
+    severity: P3
+    file: core/components/memory/standards/rules/evidence-recording.md
+    also_files:
+      - core/components/memory/standards/rules/no-unbacked-recommendation.md (lines 101, 108, 115)
+      - core/components/memory/standards/rules/pipeline-next.md (line 5)
+      - core/components/memory/standards/rules/pipeline-position.md (lines 64, 115)
+      - core/components/memory/standards/rules/direct-model-write.md (line 228)
+      - core/components/memory/standards/rules/_index.md
+    title: "play-close.md moved out of rules/, but five untouched rule files still point to `play-close.md` beside them, and the rules index drops the row with no pointer to the new home"
+    principle_violated: PR-5
+    basis: >
+      On main these files reference `play-close.md` as a sibling in rules/ (evidence-recording.md lines 10, 19, 71, 76,
+      79, 82, 99; no-unbacked-recommendation.md 101/108/115; pipeline-next.md 5; pipeline-position.md 64/115;
+      direct-model-write.md 228). The branch deletes the file from rules/ and edits only gate-config.md and
+      user-facing-voice.md to the new path. The other references, unchanged at HEAD, now resolve to nothing
+      (the shelf's own Layer 1 rule: cross-references must resolve to real files). In rules/_index.md the
+      play-close.md row is deleted and nothing says where the Standard Play Close lives now.
+    why_this_severity: "Broken cross-references in standards agents read: wrong/missing docs, P3 (pr.md DOC-bucket meaning). No behaviour change."
+    suggested_fix: "Point those references to core/components/plays/_shared/play-close.md (or `_shared/play-close.md`), and keep a one-line row in rules/_index.md saying the close now lives beside the plays."
+  - id: MEM-4
+    severity: P3
+    file: core/components/memory/standards/rules/drive-contract.md
+    title: "Rule 5 keeps the pre-ADR-035 route for an unanswered question ('asks the person'); main says a memory update a person approves"
+    principle_violated: PR-6
+    basis: >
+      Rule 5 reads: a question no tier answers and `answers` do not hold 'stops the play: it asks the person ...
+      The person's answer is kept in the drive issue's short-term memory'. Main ADR 035 §9 amends ADR 034 §3 so that,
+      when no tier answers, the play raises a memory update a person approves, written to memory first, and ADR 036 §2
+      puts the approved answer in the issue's short-term memory. The rule cites ADR 034 and ADR 035 but states ADR 034
+      §3's earlier wording. The 'answer kept in STM' half agrees with ADR 036 §2 and ADR 039 §1; the 'asks the person
+      rather than raises a memory update' half is the part main does not support.
+    why_this_severity: "Wording drift in a rule, not a broken guarantee: an asked person who answers is a memory update by another name. P3 (wrong docs)."
+    suggested_fix: "Say 'raises a memory update the person approves (ADR 035 §5); the approved answer is kept in the issue's short-term memory (ADR 036 §2)'."
+  - id: MEM-5
+    severity: P4
+    file: core/components/memory/standards/rules/product.md
+    title: "Rule 12 reverses a main-side decision (person's answer to Garura memory); the reversal rests on ADR 039 §1 alone"
+    principle_violated: PR-3
+    basis: >
+      Main ADR 036 §4 and ADR 035 §1 put a person's own answer in Garura memory so no one is asked twice. The old
+      Rule 12 (product model's user-provided folder) matched that. The new Rule 12 puts every question and answer in
+      the issue's short-term memory and accepts that another issue asks again until a person promotes it. The owner
+      accepted this on the branch (ADR 039 §1, §10, Negative/Risks), so it is a recorded decision, not a defect. It is
+      listed so the reviewer sees that no main-side source supports it. Note also that the retained 'Why this rule
+      exists' paragraph still argues the main-side point ('the next run re-asks it from scratch, and nothing learns')
+      beside the new rule that allows re-asking across issues.
+    why_this_severity: "Informational, owner-decided; the leftover rationale text is a nit (pr.md P4)."
+    supported_by_adr_039_only: true
+    suggested_fix: "Trim or reword the 'pipeline runs are ephemeral ... nothing learns' paragraph so it does not contradict the cross-issue behaviour the rule now accepts."
+  - id: MEM-6
+    severity: P4
+    file: core/components/memory/standards/rules/play-close.md
+    title: "The Standard Play Close leaves the rulebook for plays/_shared/; the move rests on ADR 039 §9 alone, and rules that remain cite it by a repo-root source path"
+    principle_violated: PR-8
+    basis: >
+      Main ADR 035 §1 says the rulebook lives in Phoenix memory and §Affects lists play-close.md only to change how
+      it reads templates. Main standards/_index.md files 'rules agents must follow' under standards/rules/. The branch moves
+      the file out of memory/ (ADR 039 §9: 'a block every play shares lives in one common file the plays point to';
+      its folder 'decided when it is built'). Memory side judged: the content moved (checked by diff: steps C0-C2,
+      the evidence.record gate, stop-condition and session-stamp text, and the parent_run_id sub-play test are all kept)
+      and the templates it fills are still memory, now fetched through template-manager, which matches ADR 035/039.
+      Remaining point: gate-config.md and user-facing-voice.md now cite `core/components/plays/_shared/play-close.md`,
+      a source-repo path. Everything under core/components/memory seeds Phoenix memory (ADR 035 §Affects), where that
+      path does not exist; their other cross-references are relative to the standards tree or ADR numbers.
+    why_this_severity: "Naming/path-style nit; the decision itself is the owner's (ADR 039 §9). The harness category judges the new file and its pointers."
+    supported_by_adr_039_only: true
+    suggested_fix: "Cite it as `_shared/play-close.md` (the installed name) or by ADR 039 §9, so the reference reads the same from the Phoenix copy."
+
+conformance_passes:
+  - file: core/components/memory/standards/rules/drive-contract.md
+    note: "'A drive reads no memory' and 'write under the drive's issue' conform to main ADR 035 (workflows call sub-agents; sub-agents read memory through the tool) and main ADR 036 §1-2 (short-term memory is the issue's folder). Rule 5 also fulfils ADR 034 Decision §5 / Work item 1, which asked for rule 4 to be rewritten and was not applied on main (main rule 4 still said 'still stops the play'). Working-folder, status and evidence paths match the paths main's play-close.md already uses ({stm_base}{issue}/evidence/<play>/, status/)."
+  - file: core/components/memory/standards/rules/grounding-eval.md
+    note: "The gate rule (all-pass, fail closed), the isolated clean-context judge, and the calibration section are unchanged in substance; the moved rubric text is all present in core/components/skills/judge-grounding/SKILL.md."
+  - file: core/components/memory/standards/rules/gate-config.md
+    note: "Only the Related line changed; see MEM-6 for the path style."
+  - file: core/components/memory/standards/rules/user-facing-voice.md
+    note: "Only the Related line changed; see MEM-6."
+
+not_assessed:
+  - "The harness side of the play-close move (the _shared/play-close.md file, lint anchors, play-creator pointer) belongs to the harness findings; only its memory side is judged here."
+  - "Whether the unmodified rules/resolution.md (R1-R4, superseded in part by main ADR 035) should be touched is outside this diff."

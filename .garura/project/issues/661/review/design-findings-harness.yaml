@@ -1,0 +1,215 @@
+# design-findings-harness.yaml — PR #678 (branch feature/661-kickoff-reads-memory-through-tool vs main)
+# Category: harness (51 files: plays, agents, skills, grounding, tools/memory/GUIDE.md)
+# Grounding rule: every principle below is cited to a source on the base ref (main) or the
+# review shelf. ADR 039 and ADR 040 are diff-added; they were read only to learn what the owner
+# decided, and a finding never rests on them alone. Where only ADR 039/040 supports a point,
+# that is stated in the finding. No file under .garura/project/issues/** was used as grounding.
+# Severity: pr.md (main) has no row for garura-prose design conformance (its Severity Table is
+# code/doc keyed). Findings are classed by the bucket definitions in pr.md "Severity buckets":
+# P2 Major = structural violation / breakage that highlights without blocking; P3 Minor =
+# drift, missing/inconsistent docs, naming; P4 Nit = style-only.
+category: harness
+base_ref: main
+grounding_unavailable: []
+
+principles:
+  - id: PR1
+    principle: "Plays orchestrate agents, agents craft context onto files, skills do the work; delegate domain work to agents."
+    source: "CLAUDE.md on main (Execution Model, Agent-First, Behavioral Rule 4); docs/adr/001-three-layer-hierarchy.md on main"
+  - id: PR2
+    principle: "An intent change (the intent statement, constraints, failure conditions, scenarios, the agent/skill flow, evals) goes through the play's ICE source and /play-editor; a non-intent change is a direct edit. A hand edit to a compiled SKILL.md for an intent change is wrong."
+    source: "CLAUDE.md on main (Play Pipeline Rules); review shelf harness.md (Treatment, Rubric: 'does an intent change trace to its ICE source')"
+  - id: PR3
+    principle: "No orphan references: a rule, skill or script a play or skill points to must still hold what it is pointed to for. A shared rule is the single source and plays reference it."
+    source: "review shelf ~/.phoenix/core/memory/knowledge/review/harness.md (Linter: 'no orphan references'; Rubric: 'keep the play->agent->skill->script wiring intact'); core/components/memory/standards/rules/grounding-eval.md on main ('single source for the rubric, the judge prompt ... Plays reference it; they do not restate it')"
+  - id: PR4
+    principle: "The grounding judge is given three things only: the doc, its parent doc, and the kind's per-section guidance block. It is NOT given the template's gold example, because handing it the answer turns judgment into pattern-matching."
+    source: "core/components/memory/standards/rules/grounding-eval.md on main ('What the judge is given')"
+  - id: PR5
+    principle: "Agents and skills do not read or write memory by a path; they call one memory tool. Agents hold context crafting; the tool's location is the one thing a move to Griffin changes."
+    source: "docs/adr/035-agents-work-only-from-memory.md on main (section 4); docs/adr/009-skill-ltm-organizational-knowledge.md on main as amended by ADR 035"
+  - id: PR6
+    principle: "ADR 015's R1-R4 resolution protocol, its three layers and its fallback to the model's own reasoning are superseded: no agent decides from the model or the web without a person-approved memory update."
+    source: "docs/adr/035-agents-work-only-from-memory.md on main (Supersedes ADR 015 in part; section 5)"
+  - id: PR7
+    principle: "Play evidence of a product-scoped play lives at {product_base}_evidence/<play>/; issue STM is the per-issue folder, and archived issue folders move to _archive/<YYYY-MM>/."
+    source: "docs/adr/017-folder-whitelist.md on main (section 1, play-lifecycle folders); docs/adr/010-stm-archival.md on main"
+  - id: PR8
+    principle: "A play creates all its tasks right after pre-flight and before any domain work; pre-flight checks come before the play opens anything."
+    source: "core/components/plays/intent/SKILL.md on main (Pre-flight, then Task DAG, then Step 0)"
+  - id: PR9
+    principle: "The agent JSON contract: every play->agent hop is a JSON contract of file paths over disk; a memory place travels in it as a path."
+    source: "docs/adr/016-agent-json-contract.md on main; docs/adr/035 on main (section 4). ADR 039 section 11 / ADR 040 section 3 say the ontology's place travels in the contract (ADR 039/040 only)."
+  - id: PR10
+    principle: "Where a play runs by hand it keeps its opening, its checkpoint and its end sequence unchanged; a drive reads the contract and does not alter what a play guarantees."
+    source: "core/components/memory/standards/rules/drive-contract.md on main ('Run by hand, a play is unchanged'); docs/adr/029-drives.md on main"
+
+conforming_observations:
+  - "The Standard Play Close moved to core/components/plays/_shared/play-close.md and each play keeps the exact anchor pair; CLAUDE.md, lint_play.py and play-creator were updated together, so direct edit and rebuild still converge (CLAUDE.md on main, Durability rule: 'one common file ... emitted by the compiler and linted' follows the converge-and-lint pattern). The install lays _shared beside the plays (adapters/common.py lay_shared, with tests)."
+  - "The three Kickoff plays' ICE edits carry a matching fingerprint: sha256 of reference/ice.md equals the SKILL.md fingerprint for intent, vision and understand (checked). understand adds C15/F17/REC17 and SE-18; vision extends F12/REC12/SE-13."
+  - "Plays no longer read memory for templates or the ontology path; they dispatch template-manager or hand the agent the config's product.ontology, as the philosophy in CLAUDE.md Behavioral Rule 4 and ADR 035 section 4 (agents hold context crafting) asks. template-manager is a context-crafting agent that writes copies to short-term memory and fills nothing in."
+  - "propose-kb-node and the keeper agents raise a person-approved memory update when no tier answers (ADR 035 section 5 on main; ADR 036 on main puts the approved researched draft in the issue's short-term memory)."
+
+findings:
+  - id: H1
+    severity: P2
+    severity_basis: "pr.md buckets: structural breakage (an instruction that points to content that no longer exists) - Major. No table row covers garura-prose."
+    files:
+      - core/components/plays/arch/SKILL.md
+      - core/components/plays/agentic/SKILL.md
+      - core/components/plays/measure/SKILL.md
+      - core/components/plays/marketing/SKILL.md
+      - core/components/plays/learn/SKILL.md
+      - core/components/plays/ux/SKILL.md
+      - core/components/plays/run/SKILL.md
+      - core/components/plays/quality/SKILL.md
+      - core/components/memory/standards/rules/grounding-eval.md
+    principle_violated: PR3
+    basis_source: "core/components/memory/standards/rules/grounding-eval.md on main (single source of the judge prompt; plays reference it); review shelf harness.md ('no orphan references')"
+    finding: "The branch cuts the judge prompt, rubric and verdict shape out of standards/rules/grounding-eval.md and moves them into the new judge-grounding skill. Eight plays that were not changed still tell their orchestrator to hand each judge 'the judge prompt (standards/rules/grounding-eval.md)'. That file no longer holds a prompt, so those eight plays' content-quality gates now point at an empty reference. (Example: plays/quality/SKILL.md line 191.)"
+    adr_039_note: "ADR 039 'Negative / Risks' says nine more plays read the judge prompt and 'move later'. It does not say the prompt is removed from the shared rule in the meantime. The moved prompt is ADR 039 section 7; the orphan comes from removing the source before the readers moved."
+    recommendation: "Either keep the prompt in grounding-eval.md until those plays move, or change those eight plays in this PR to dispatch the judge through the judge-grounding skill."
+
+  - id: H2
+    severity: P2
+    severity_basis: "pr.md buckets: a working skill left pointing at a deleted tool - Major."
+    files:
+      - core/components/skills/author-shape-bundle/SKILL.md
+      - core/components/memory/knowledge/domains/.pageindex/kb.py (deleted by the branch)
+      - core/components/memory/knowledge/domains/.pageindex/pageindex.py (deleted by the branch)
+    principle_violated: PR3
+    basis_source: "review shelf harness.md ('no orphan references'); docs/adr/035 on main (the KB router is replaced by the memory tool's search, but 'every other play and agent' is a later item, not removed)"
+    finding: "The branch deletes the knowledge router (.pageindex/kb.py, pageindex.py, test_kb.py, eval_routing.py). author-shape-bundle/SKILL.md line 80 still says 'Read the KB shelf via the router (python3 $KB shelf <kb_shelf>)', and /shape calls this skill. The router it names is gone and no skill input (like search-kb's domains_dir) replaces it for this skill. grep finds this as the only remaining $KB use in core/."
+    recommendation: "Give author-shape-bundle a shelf copy input the way search-kb, propose-kb-node and enrich-capability-ice got one, or keep the router until /shape moves."
+
+  - id: H3
+    severity: P3
+    severity_basis: "pr.md buckets: drift between a skill's input contract and how its caller feeds it; may weaken a calibrated eval - Minor."
+    files:
+      - core/components/plays/vision/SKILL.md
+      - core/components/plays/understand/SKILL.md
+      - core/components/skills/judge-grounding/SKILL.md
+    principle_violated: PR4
+    basis_source: "core/components/memory/standards/rules/grounding-eval.md on main ('What the judge is given': three things only; NOT the gold example)"
+    finding: "judge-grounding takes 'guidance': the '## Per-section guidance' block of the kind's template. The two plays say the play asks template-manager for the kind's template (standards/schemas/product-os/grounding/<kind>.md) 'and hands the judge that short-term copy'. Those templates carry both '## Per-section guidance' and '## Gold example' sections (capability.md lines 66 and 80-133). Read literally, the judge gets the whole template, gold example included, which is what the rule on main forbids. Nothing in the plays or the skill extracts only the guidance block."
+    recommendation: "Say in the plays (or have template-manager/a script) hand over only the '## Per-section guidance' block, or state in judge-grounding that it must ignore everything but that block."
+
+  - id: H4
+    severity: P3
+    severity_basis: "pr.md buckets: a duplicated constant that will drift - Minor."
+    files:
+      - core/components/agents/product-os-keeper.md
+      - core/components/agents/template-manager.md
+    principle_violated: PR5
+    basis_source: "docs/adr/035 on main section 4 (agents call the tool; the tool's place is the one thing that changes); the guide on main (core/tools/memory/GUIDE.md) uses a {tool} placeholder that install's memory_system.py substitutes from one constant (TOOL_CALL)"
+    finding: "Both agents hard-code 'python3 .garura/core/tools/memory/memory.py ...' in their text. business-intent-keeper and the guide instead defer to the guide's {tool}. The tool's place then lives in the install constant and in two agent files. On main the tool's place is .garura/tools/memory/ (ADR 038); the new place .garura/core/tools/memory/ is supported only by ADR 039 section 5, so a further move needs three edits."
+    recommendation: "Use the guide's {tool} (or 'the memory tool, as the memory guide says') in both agents, as business-intent-keeper does."
+
+  - id: H5
+    severity: P3
+    severity_basis: "pr.md buckets: ordering inconsistency inside one play and against its two sibling plays - Minor."
+    files:
+      - core/components/plays/intent/SKILL.md
+    principle_violated: PR8
+    basis_source: "core/components/plays/intent/SKILL.md on main (pre-flight resolver, then the Task DAG 'immediately after pre-flight, before any domain work', then Step 0)"
+    finding: "Run by hand, /intent now says 'resolve the facts with the bundled resolver ... right after Step 0'. So the pre-flight hard halts (config and product_base resolve) run after start-change has already opened an issue and a branch, and the Task DAG ('create ALL tasks immediately after pre-flight') is created after T0 (start-change) has already run. /vision keeps preflight.py before Step 0 and writes after it; /understand runs the pre-flight against a scratch folder before Step 0 so a halt leaves no issue or branch. /intent is the odd one."
+    recommendation: "Run preflight.py before Step 0 and hold only the file writes (run.json, session stamp) until the issue is known, as /vision does."
+
+  - id: H6
+    severity: P3
+    severity_basis: "pr.md buckets: a behavioural guarantee with no eval or recovery behind it - Minor."
+    files:
+      - core/components/plays/intent/reference/ice.md
+      - core/components/plays/intent/SKILL.md
+    principle_violated: PR2
+    basis_source: "review shelf harness.md (Linter: coverage of every constraint/failure/scenario by an eval; Rubric: intent change traces to ICE); CLAUDE.md on main (Play Pipeline Rules: a guarantee goes through the ICE source)"
+    finding: "For /vision (F12/REC12/SE-13) and /understand (C15/F17/REC17/SE-18) the rule 'short-term memory lives in the issue; nothing is written before start-change gives the issue' became a failure condition, a recovery and a step eval. For /intent the same rule is one paragraph in the ICE '## Context' section only. No constraint, failure condition, eval or stop-condition clause checks it, so a run that writes outside its issue cannot be caught by the play's own gates. The SKILL.md also now carries the behaviour (working folder under the issue, evidence under the issue)."
+    recommendation: "Add the matching constraint/failure/recovery/eval to /intent's ICE and recompile, as was done for /understand."
+
+  - id: H7
+    severity: P3
+    severity_basis: "pr.md buckets: metadata drift; the intent-versus-direct-edit call needs the owner - Minor."
+    files:
+      - core/components/plays/vision/SKILL.md
+      - core/components/plays/understand/SKILL.md
+      - core/components/plays/intent/SKILL.md
+      - core/components/plays/vision/reference/ice.md
+      - core/components/plays/understand/reference/ice.md
+    principle_violated: PR2
+    basis_source: "CLAUDE.md on main (Play Pipeline Rules lists 'the agent/skill flow' as an intent change)"
+    finding: "The compiled plays now dispatch template-manager (a new agent) for the approval prompt and the grounding templates, run the judge through the judge-grounding skill, and pass the keeper agents a changed contract (/intent: 'ontology' replaces 'ontology_path'; /vision and /understand add 'issue'). None of that appears in the ICE sources. The Intent Fingerprint tables still read skills_used 'search-kb, propose-kb-node, author-vision-seed' (vision), 'search-kb, enrich-capability-ice' (understand) and utility_agents 0, so neither judge-grounding nor template-manager is counted."
+    adr_039_note: "ADR 039 'ICE impact' says whether each play's ICE changes is decided per play and 'a direct edit if not'. That decision is the owner's; CLAUDE.md on main names the agent/skill flow as intent. Flagged for the owner, not asserted as wrong."
+    recommendation: "Either record the flow change in each play's ICE and recompile, or confirm the direct-edit call and bring the fingerprint tables' skills_used/utility_agents in line."
+
+  - id: H8
+    severity: P3
+    severity_basis: "pr.md buckets: a layout move no committed decision covers, with a durability risk - Minor (owner decision)."
+    files:
+      - core/components/plays/intent/SKILL.md
+      - core/components/plays/vision/SKILL.md
+      - core/components/plays/understand/SKILL.md
+    principle_violated: PR7
+    basis_source: "docs/adr/017-folder-whitelist.md on main (product-scoped play evidence at {product_base}_evidence/<play>/); docs/adr/010-stm-archival.md on main (issue folders move to _archive/<YYYY-MM>/); intent ICE C6 on main ('saved through Garura's evidence method so it outlives the link or the file')"
+    finding: "The three plays' evidence moved from the product-scoped _evidence folder into the issue's STM, including /intent's Source snapshots, which the intent pages and ICE link to (C7). ADR 039 section 1 records only questions and answers going to STM; no ADR text records the move of play evidence. Issue folders can be archived under ADR 010, so a snapshot path an intent page names can go stale. Only the glossary's Drive row and an owner quote in the ICE prose support the move."
+    recommendation: "Record the evidence move in an ADR (or amend ADR 017), and say what keeps a Source snapshot reachable after its issue is archived."
+
+  - id: H9
+    severity: P3
+    severity_basis: "pr.md buckets: documentation that contradicts a signed decision - Minor."
+    files:
+      - core/grounding/glossary.md
+    principle_violated: PR6
+    basis_source: "docs/adr/035-agents-work-only-from-memory.md on main (Supersedes ADR 015 in part: R1-R4, the fallback to the model's own reasoning, ltm_context, the resolution trace)"
+    finding: "The branch rewrites the glossary's memory rows (new tier rows, older words kept as pointers), but leaves the superseded protocol as live definitions: the Agent row ('loads relevant LTM via Context Crafting'), Resolution trace, Context - Crafting ('Follows the R1-R4 resolution protocol'), LTM Resolution Protocol (R1-R4), LOCKED artifact, LLM fallback (R4), Context - ltm_context, and the DRAFT/VALIDATE/LOCKED row (lines 19, 49, 90-92, 126-134, 152). The 'LLM fallback' row still describes the model deciding when no memory answers, which ADR 035 section 5 forbids."
+    recommendation: "Mark these rows as superseded pointers, as was done for LTM, Core LTM and Product LTM."
+
+  - id: H10
+    severity: P3
+    severity_basis: "pr.md buckets: an owner-decision gap between accepted ADR text and the ICE - Minor."
+    files:
+      - core/components/plays/intent/reference/ice.md
+      - core/components/plays/vision/reference/ice.md
+      - core/components/plays/understand/reference/ice.md
+    principle_violated: PR2
+    basis_source: "docs/adr/034-plays-answer-from-memory-inside-a-drive.md and docs/adr/035 'ICE impact' on main (the lines ADR 034 changed - /intent C4, C5, Step 3; /vision C11; /understand C13 - are to read memory as the three tiers and 'ask the person' as a memory update the person approves)"
+    finding: "ADR 035 on main lists that ICE change as owed 'first' (plan item 8). The branch's ICE edits for these three plays do not carry it: /intent C5 still reads 'the play asks the person and never fills the gap itself', and C11/C13 do not mention memory. ADR 039 (diff-added) re-routes the work (plays read no memory; agents do) and says each play's ICE change is decided per play, so this may be an intended deferral."
+    recommendation: "Owner to confirm the ICE for these three plays is meant to stay silent on memory, or to add the agent-decides-from-memory guarantee."
+
+  - id: H11
+    severity: P4
+    severity_basis: "pr.md buckets: style / small-scope lint drift - Nit."
+    files:
+      - core/components/plays/play-creator/scripts/lint_play.py
+      - core/components/plays/play-editor/scripts/lint_play.py
+    principle_violated: PR3
+    basis_source: "review shelf harness.md (Linter: structural conformance via lint_play.py); lint_play.py on main (check_next_command required the play's text to name pipeline-next.md)"
+    finding: "check_next_command now passes when the play's text contains the string 'Next-line map' as well as 'pipeline-next.md'. The check is a plain string match, and 'Next-line map' appears in every pointed play's C2 line, so it no longer proves the play resolves the Next line in the map. Weaker than before."
+    recommendation: "Check for the template-manager's next-map handoff by its exact token ($next_map) or keep requiring pipeline-next.md in the shared close."
+
+  - id: H12
+    severity: P4
+    severity_basis: "pr.md buckets: naming / stale prose - Nit."
+    files:
+      - core/components/plays/*/SKILL.md (25 plays whose C2 line says 'per `play-close.md`')
+    principle_violated: PR3
+    basis_source: "review shelf harness.md ('no orphan references'); the branch deletes core/components/memory/standards/rules/play-close.md"
+    finding: "After the move the C2 line in 25 plays still says 'per `play-close.md`', a file name that no longer exists at that name (it is now _shared/play-close.md). The anchor line above it points to the right file, so the run still works, but the reference is stale."
+    recommendation: "Say '../_shared/play-close.md' in the C2 line, or drop the clause."
+
+  - id: H13
+    severity: P4
+    severity_basis: "pr.md buckets: style / consistency - Nit."
+    files:
+      - core/components/skills/judge-grounding/SKILL.md
+      - core/components/agents/product-os-keeper.md
+      - core/components/agents/business-intent-keeper.md
+      - core/components/agents/template-manager.md
+    principle_violated: PR9
+    basis_source: "docs/adr/016-agent-json-contract.md on main (one contract shape, 'no exceptions'); ADR 039 section 11 / ADR 040 section 3 for the ontology-path rule (ADR 039/040 only)"
+    finding: "(a) judge-grounding says 'Three things, and only these' above an input table that lists five fields. (b) product-os-keeper says 'never take memory paths from a contract', while business-intent-keeper is handed the ontology's place in memory by its contract; ADR 039/040 allow the second, so the first rule is too broad. (c) The three agents copy memory files into short-term memory at three different places (<working>/memory/, <run>/context/memory/, context/templates/). (d) template-manager's contract uses inputs/outputs without ADR 016's stm block, as business-intent-keeper already does; an existing convention, noted only."
+    recommendation: "Fix the 'Three things' line; narrow product-os-keeper's rule to 'never read a memory file by its path'; pick one copy folder."
+
+summary:
+  total: 13
+  by_severity: { P1: 0, P2: 2, P3: 8, P4: 3 }
+  headline: "The close-pointer move, the fingerprints and the install wiring conform. The two real problems are orphans left by deletions: eight plays still point to a judge prompt that was moved out of grounding-eval.md, and /shape's author-shape-bundle still calls a deleted knowledge router."

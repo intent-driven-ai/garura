@@ -1,0 +1,5 @@
+intent VERDICT: PASS (0 gap(s))
+vision VERDICT: PASS (0 gap(s))
+understand VERDICT: PASS (0 gap(s))
+start-change VERDICT: PASS (0 gap(s))
+adr VERDICT: PASS (0 gap(s))

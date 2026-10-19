@@ -1,0 +1,32 @@
+# runnable checks — PR #678 at bec70a67
+memory tool: OK / pull: OK / contract tests: OK
+check_contract exit 0
+install: OK
+core/components/plays/adr/scripts/test_apply_adr.py: 37 passed, 0 failed
+core/components/plays/grill/scripts/test_validate_epics.py: VERDICT: PASS (6/6 passed)
+core/components/plays/intent/scripts/test_intent_scripts.py: 103 passed, 0 failed, 0 skipped
+core/components/plays/next/scripts/test_derive_candidates.py: 15/15 passed
+core/components/plays/play-creator/references/test_chain_checks.py: ALL PASS
+core/components/plays/play-creator/references/test_check_ice_workable.py: 11 passed, 0 failed
+core/components/plays/play-creator/references/test_concurrent_fanout.py: 17 passed, 0 failed
+core/components/plays/play-creator/references/test_drive_contract.py: 33 passed, 0 failed
+core/components/plays/play-creator/references/test_gate_learning.py: ALL PASS
+core/components/plays/play-creator/references/test_intent_touches.py: 18 passed, 0 failed
+core/components/plays/play-creator/references/test_merge_scripts.py: 15 passed, 0 failed
+core/components/plays/play-creator/references/test_platform_adapter.py: 37 passed, 0 failed
+core/components/plays/play-creator/references/test_post_verdict.py: 31 passed, 0 failed
+core/components/plays/play-creator/references/test_scoped_write_guard.py: 11 passed, 0 failed
+core/components/plays/understand/scripts/test_persist_understand.py: 87 passed, 0 failed
+core/components/plays/understand/scripts/test_pick_targets.py: 20 passed, 0 failed
+core/components/plays/understand/scripts/test_rollup_box.py: 18 passed, 0 failed
+core/components/plays/vision/scripts/test_lint_grounding.py: 30 passed, 0 failed
+core/components/plays/vision/scripts/test_vision_scripts.py: 32 passed, 0 failed
+core/components/skills/author-adr/scripts/test_adr.py: 43 passed, 0 failed
+core/components/skills/build-product-ontology/scripts/test_check_ontology.py: 27 passed, 0 failed
+core/components/skills/manage-plan/scripts/test_check_plan.py: 27 passed, 0 failed
+adr lint docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md: adr.py lint: error: the following arguments are required: --adr
+adr lint docs/adr/040-config-source-is-core-config-yaml.md: adr.py lint: error: the following arguments are required: --adr
+checked 17 files and 28 play closes; memory paths found: 0
+adr lint docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md: valid True []
+adr lint docs/adr/040-config-source-is-core-config-yaml.md: valid True []
+index rows missing: []

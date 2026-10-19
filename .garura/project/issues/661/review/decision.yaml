@@ -1,0 +1,7 @@
+decision: reject
+decided_by: harness
+round: 1
+gate: gate skipped by config (gates.plays.review-change)
+recommendation: recommended_verdict.yaml
+blocking: [F1]
+counts: {P1: 1, P2: 57, P3: 206, P4: 29}

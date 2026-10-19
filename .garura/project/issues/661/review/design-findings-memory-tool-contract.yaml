@@ -1,0 +1,172 @@
+# design-findings-memory-tool-contract.yaml
+# Layer-2 design grounding for ONE category: memory-tool-contract (core/tools/memory/contract/v5.json)
+# PR #678, branch feature/661-kickoff-reads-memory-through-tool vs main.
+category: memory-tool-contract
+playbook: null          # PLAYBOOK MISSING (suggested: a contract/schema playbook, design-bearing)
+severity_basis: >
+  core/components/memory/standards/rules/pr.md on main. Its table is grep/path based and has no row
+  for an interface contract, so each finding is classed by the bucket definitions in that file
+  (P1 includes "breaking API contract"; P3 includes "missing docs ... naming"; P4 is style-only).
+  This is a judgement against the bucket text, not a table row.
+grounding_rule_kept: >
+  Nothing below rests on .garura/project/issues/**, on adr-draft.md, plan.md, pr-body.md or
+  self-review.md. ADR 039 and 040 are read only to learn what was decided; where a conclusion
+  has no support except ADR 039 it is marked adr_039_only.
+
+grounded_principles:
+  - id: G1
+    principle: "The contract changes only by a new version; earlier versions are kept as history."
+    source: "main:core/tools/memory/README.md (Constraints: 'The contract changes only by a new version ... kept as they were'); main:core/tools/memory/contract/v1.json to v4.json"
+  - id: G2
+    principle: "Every piece of text the tool returns carries tier, file, lines and fingerprint; a path is relative to its tier's root; the tool decides what a lookup hides on the file a path reaches."
+    source: "main:core/tools/memory/contract/v4.json (every_result, paths, answer_rules)"
+  - id: G3
+    principle: "Rules about where a path may point are checked by machine, not only written down (precedent: short_term_is_this_issue, short_term_update_names_its_issue, update_tier enum)."
+    source: "main:core/tools/memory/contract/v4.json (answer_rules) and main:core/tools/memory/contract/check_contract.py (check_meaning)"
+  - id: G4
+    principle: "Every decision names the memory it came from; citations re-reads each source and reports any that no longer exists or no longer says the same. The decision records are what the review tool's 'Agent decisions' section and the drive review show."
+    source: "main:docs/adr/035-agents-work-only-from-memory.md section 6; main:docs/adr/037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md; main:core/tools/memory/contract/v4.json (cite, citations)"
+  - id: G5
+    principle: "Lookup order is short-term, Garura, Phoenix, stops at the first tier that answers, never skips a tier, never blocks a play. Short-term is the current issue only."
+    source: "main:docs/adr/035 section 3; main:docs/adr/036-approved-answer-lands-in-short-term-memory.md section 1; v4.json lookup_rule"
+  - id: G6
+    principle: "An approved researched answer goes to the issue's short-term memory; moving it up is a promotion a person approves outside the work."
+    source: "main:docs/adr/036 sections 2 and 3; v3/v4 update_tier enum ['short-term']"
+  - id: G7
+    principle: "The install brings no memory; Phoenix memory is downloaded on first use; a planned play 'initialize' builds the project's own memory."
+    source: "main:docs/adr/038-install-brings-no-memory.md section 3"
+  - id: G8
+    principle: "No copy on read; pull and pulled removed; Garura memory read in core/memory then product; a person's answers kept in short-term memory."
+    source: "docs/adr/039 (accepted by the owner on this branch; diff-added)"
+    adr_039_only: true
+    note: "Treated as what was decided, not as a standard a finding rests on alone. It reverses ADR 035 section 2 and ADR 036 section 4 on main; the branch edits those ADRs' Status lines to say so (decision-records category, not judged here)."
+
+conformance_checks:       # what was tested and found in order
+  - check: "What v5 removed vs v4 (schema diff, keys sorted)"
+    result: >
+      Removed: commands pull and pulled; $defs.pulled_piece; error code would_overwrite; the 'pull' and 'pulled'
+      values of the command enum; read's saved_to and not_saved fields; answer_rule read_saves_what_it_uses;
+      the settings line about where pulled pieces land. Nothing else removed. Added: prose only (v5 history
+      line, tiers.garura, settings.garura_folders).
+    support: "G8 (adr_039_only) for the decision; G1 for doing it as a new version"
+  - check: "Does anything still refer to what was removed?"
+    result: >
+      Inside v5.json: no reference to pull, pulled, saved_to, not_saved, would_overwrite or pulled.json
+      (only the version-5 history sentence names them as gone). Inside the tool: memory.py, pull.py, tests,
+      README and GUIDE carry no pull command; test_memory asserts pull and pulled are not commands;
+      broken sample read-says-it-copied.json is refused. Four pull samples and read-phoenix-not-saved removed.
+      Outside the tool: core/tools/play-reviewer/memory_updates.py:83 still sets MEMORY_GARURA_PULL_DIR, but
+      that folder is not tracked by git (prototype, out of the PR) so it is not a finding.
+      The consumers of the version number are the problem: see F1.
+    support: "G1, G8"
+  - check: "Version handling"
+    result: >
+      v1 to v4.json are byte-unchanged in the PR (diff stat empty). v5.json: version 5.0.0, contract_version "5",
+      and "5" is the const in every response shape. memory.py loads v5.json and pull.py's CONTRACT_VERSION is "5";
+      check_contract.py default is v5.json; test_check_contract.py and the 22 samples use "5". Live tool answer
+      (citations) returned contract_version "5". Conforms, except for the consumers in F1.
+    support: "G1"
+  - check: "Do memory.py and check_contract.py match v5?"
+    result: >
+      Yes for commands, error codes, request shapes, read answers (no saved_to/not_saved) and the write rule: every
+      write goes to short-term (update_tier enum is ['short-term'], unchanged from v3; cite and updates write only
+      under the issue). Garura-tier lookups are limited to garura_folders (hidden() rejects anything outside; find,
+      grep and read all use it) in the order core/memory then product, as v5 says. check_contract.py dropped the
+      two read-saving checks and nothing else. Gap: the folder restriction and the path prefix it causes are not
+      in any contract rule or sample check, see F2.
+    support: "G2, G3, G5, G6"
+  - check: "Garura memory narrowed to two folders"
+    result: >
+      Consistent with ADR 039 section 3. Main's ADR 035 section 1 listed intents, decisions and answers as Garura
+      memory; the narrowing rests only on ADR 039.
+    adr_039_only: true
+  - check: "v5 names the play 'initialize' as the way Garura memory is built"
+    result: "No such play exists yet, but ADR 038 section 3 on main plans it by that name. No finding."
+    support: "G7"
+
+test_runs:                # run in this session, read-only
+  check_contract.py: "exit 0; 22 samples ok, 35 broken samples each refused, 0 boundary problems, 0 commands without a sample"
+  test_check_contract.py: "56 tests OK"
+  test_pull.py: "5 tests OK"
+  test_memory.py: >
+    79 tests, 1 error: test_a_download_with_no_answer_stops_at_its_time_limit_with_its_helpers
+    (FileNotFoundError on a helper.pid file in a temp folder). The same test exists on main. Not determined
+    whether it is the sandbox or the code; not attributed to v5.
+
+findings:
+  - id: F1
+    severity: P1
+    severity_basis: "pr.md bucket P1 'breaking API contract': a version bump left a consumer of the contract pinned to the old version, so it refuses every answer the tool now gives."
+    title: "write_drive_review.py accepts only contract_version '4'; the v5 tool answers '5'"
+    files:
+      - core/components/plays/understand/scripts/write_drive_review.py   # line 83 area: answer.get("contract_version") == "4"
+      - core/components/plays/vision/scripts/write_drive_review.py
+      - core/components/plays/play-creator/references/write_drive_review.py
+      - core/components/plays/play-creator/references/test_drive_contract.py   # feeds a hand-made answer with "4", so it passes
+    principle: "G1 and G4. A contract version change must reach everything that depends on the version, and the decision trace (citations answer) is what the drive review records."
+    committed_source: "main:core/tools/memory/README.md (contract changes only by a new version); main:docs/adr/037 (the trace and the review of agent decisions); main:core/tools/memory/contract/v4.json (cite, citations)"
+    evidence: >
+      These three scripts are unchanged by the PR and require ok, command 'citations' and contract_version == "4".
+      A real run of 'memory.py citations' on this branch returns {"ok": true, "contract_version": "5", ...}.
+      So any drive that attaches its decisions (/vision, /understand) would stop with 'is not the memory tool's
+      citations answer (contract version 4) - nothing written' (exit 2). Established by reading the check and
+      running the tool; the script itself was not run end to end.
+    suggestion: "Accept the tool's current version (or any version at or above 4) in all three copies and have the test feed a live-shaped answer. A shared constant would stop this recurring."
+  - id: F2
+    severity: P3
+    severity_basis: "pr.md P2/P3 buckets (missing checks for new behaviour; docs). Tool-level tests do cover the folder rule, so the gap is in the contract and its samples only."
+    title: "Garura-tier paths now start with a Garura folder, but the contract does not say so and nothing checks it; two samples show paths the v5 tool cannot return"
+    files:
+      - core/tools/memory/contract/v5.json   # tiers.garura / settings prose only; no answer rule
+      - core/tools/memory/contract/check_contract.py
+      - core/tools/memory/contract/samples/find.json
+      - core/tools/memory/contract/samples/find-without-issue-starts-at-garura.json
+    principle: "G2 and G3. A path is relative to its tier's root and the contract's scope rules for a tier are machine-checked."
+    committed_source: "main:core/tools/memory/contract/v4.json (paths; answer_rules short_term_is_this_issue); main:core/tools/memory/contract/check_contract.py"
+    evidence: >
+      With root = the project's Garura folder and garura_folders = [core/memory, product], every Garura path is
+      'core/memory/...' or 'product/...' (cite.json and citations.json already use 'product/product-os/profile.yaml').
+      find.json and find-without-issue-starts-at-garura.json still carry the Garura path
+      'product-os/checkout/checkout/capability.md', which is outside both folders. check_contract.py passes all 22
+      samples because no rule compares a Garura path with garura_folders (short-term has such a rule).
+    suggestion: "Add an answer rule 'garura_is_its_folders' with a check in check_meaning, and fix the two samples to product/product-os/..."
+  - id: F3
+    severity: P3
+    severity_basis: "pr.md P3 bucket (missing docs); behaviour reasoned from code, not run on real stored records."
+    title: "v5 changes what a Garura path is and what is readable, with no migration line; older decision records may now read as missing"
+    files:
+      - core/tools/memory/contract/v5.json   # description's 'Version 5' sentence
+      - core/tools/memory/citations.py       # source_problem() re-reads every step through engine.read
+    principle: "G4. Decision records are durable evidence; citations must keep telling a person whether each source still stands. A version that changes path scope should say what happens to records made under the previous one."
+    committed_source: "main:docs/adr/037 (citations check each step's source again); main:core/tools/memory/contract/v4.json (citations)"
+    evidence: >
+      Under v4 a Garura path was relative to the whole Garura folder (including pulled pieces at its root). Under v5
+      engine.read of a Garura path outside core/memory or product is refused by hidden(). A v4-era record whose source
+      is such a path would come back from 'citations' as a problem. The v5 description lists what changed but not the
+      path prefix, the unreadable older paths, or any step for existing projects. Install brings no memory (ADR 038),
+      so few real records may be affected; that was not measured.
+    suggestion: "One sentence in the v5 history line and the README: Garura paths carry their folder; records and pulled files made before v5 outside those folders will not resolve."
+  - id: F4
+    severity: P3
+    severity_basis: "pr.md P3 bucket 'naming': the contract names things agents will look for."
+    title: "v5 still sends agents to '/learn-memory' and '/promote-memory' plays that do not exist, and contradicts its own 'saving' text"
+    files:
+      - core/tools/memory/contract/v5.json   # commands.propose.summary; answer_rules.researched_goes_to_short_term
+    principle: "G6. Moving memory up is a promotion a person approves outside the work; ADR 036 names no play for it."
+    committed_source: "main:docs/adr/036 section 3; main:core/components/plays/ (only 'learn' exists, no learn-memory, no promote-memory); v5's own 'saving' and tiers text say a person promotes outside the tool (ADR 039, adr_039_only for that wording)"
+    evidence: "The two names come from v3/v4 (main v4.json contains them 3 times). v5 rewrote the surrounding text for ADR 039 but kept them in two places while 'saving' now says 'a promotion a person makes, outside this tool'."
+    suggestion: "Replace both with 'a promotion a person makes, outside this tool'."
+  - id: F5
+    severity: P4
+    severity_basis: "pr.md P4 bucket (style-only)."
+    title: "updates.py docstring still says 'contract version 4'"
+    files:
+      - core/tools/memory/updates.py   # line 3
+    principle: "G1. The tool's files name the contract they follow."
+    committed_source: "main:core/tools/memory/README.md; the PR updates the same line in memory.py and pull.py"
+    evidence: "memory.py, pull.py, check_contract.py now say version 5; updates.py line 3 does not. citations.py says 'version 4' as the version that introduced cite, which reads as current."
+    suggestion: "Change updates.py to 5; word citations.py as 'since version 4'."
+
+not_findings_for_the_human:
+  - "pull.py keeps its name though it no longer pulls. ADR 039 (Affects) says the file stays for the download and Phoenix reads, and README explains it, so it is not flagged."
+  - "Removal of pull, pulled, saved_to and would_overwrite is complete inside v5.json, the tool, tests and samples."

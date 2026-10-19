@@ -1,0 +1,2080 @@
+meta:
+  pr: 678
+  issue: 661
+  round: 1
+  head: bec70a67
+  gate: off by config (gates.plays.review-change); the computed recommendation is the decision, marked as a harness verdict
+  review_shelf: ~/.phoenix/core/memory/knowledge/review/ (the installed copy has none; see context-notes.md)
+  sources:
+  - quality-findings.yaml (quality-check-scoped)
+  - design-findings-harness.yaml
+  - design-findings-memory.yaml
+  - design-findings-memory-tool-contract.yaml
+  - runnable-checks.txt
+  - lint-components.json
+  - lint-play.txt
+  runnable: all suites pass (runnable-checks.txt); lint-components 113 errors / 2 warnings, the same findings as main; lint_play
+    PASS on the changed plays
+  counts:
+    P1: 1
+    P2: 57
+    P3: 206
+    P4: 29
+findings:
+- id: Q1
+  severity: P2
+  category: standards
+  file: core/config.yaml
+  line: 10
+  basis: rule ARCH-07 in pr.md
+  finding: https://github.
+- id: Q2
+  severity: P2
+  category: standards
+  file: core/config.yaml
+  line: 11
+  basis: rule BE-19 in pr.md
+  finding: from
+- id: Q3
+  severity: P2
+  category: standards
+  file: core/config.yaml
+  line: 54
+  basis: rule BE-19 in pr.md
+  finding: from
+- id: Q4
+  severity: P2
+  category: standards
+  file: core/config.yaml
+  line: 94
+  basis: rule BE-19 in pr.md
+  finding: select
+- id: Q5
+  severity: P2
+  category: standards
+  file: core/config.yaml
+  line: 127
+  basis: rule BE-19 in pr.md
+  finding: select
+- id: Q6
+  severity: P2
+  category: standards
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  basis: rule ARCH-02 in pr.md
+  finding: core/tools/lint-components/lib/rules/structural.js
+- id: Q7
+  severity: P2
+  category: standards
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  basis: rule CODE-03 in pr.md
+  finding: core/tools/lint-components/lib/rules/structural.js
+- id: Q8
+  severity: P2
+  category: standards
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  basis: rule CODE-04 in pr.md
+  finding: core/tools/lint-components/lib/rules/structural.js
+- id: Q9
+  severity: P2
+  category: standards
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  basis: rule CODE-14 in pr.md
+  finding: core/tools/lint-components/lib/rules/structural.js
+- id: Q10
+  severity: P2
+  category: standards
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 375
+  basis: rule BE-19 in pr.md
+  finding: join
+- id: Q11
+  severity: P2
+  category: standards
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule ARCH-02 in pr.md
+  finding: core/tools/memory/contract/check_contract.py
+- id: Q12
+  severity: P2
+  category: standards
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule CODE-03 in pr.md
+  finding: core/tools/memory/contract/check_contract.py
+- id: Q13
+  severity: P2
+  category: standards
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule CODE-04 in pr.md
+  finding: core/tools/memory/contract/check_contract.py
+- id: Q14
+  severity: P2
+  category: standards
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule CODE-14 in pr.md
+  finding: core/tools/memory/contract/check_contract.py
+- id: Q15
+  severity: P2
+  category: standards
+  file: core/tools/memory/contract/check_contract.py
+  line: 420
+  basis: rule BE-19 in pr.md
+  finding: join
+- id: Q16
+  severity: P2
+  category: standards
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  basis: rule ARCH-02 in pr.md
+  finding: core/tools/memory/contract/test_check_contract.py
+- id: Q17
+  severity: P2
+  category: standards
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  basis: rule CODE-03 in pr.md
+  finding: core/tools/memory/contract/test_check_contract.py
+- id: Q18
+  severity: P2
+  category: standards
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  basis: rule CODE-04 in pr.md
+  finding: core/tools/memory/contract/test_check_contract.py
+- id: Q19
+  severity: P2
+  category: standards
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  basis: rule CODE-14 in pr.md
+  finding: core/tools/memory/contract/test_check_contract.py
+- id: Q20
+  severity: P2
+  category: standards
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 13
+  basis: rule BE-19 in pr.md
+  finding: join
+- id: Q21
+  severity: P2
+  category: standards
+  file: core/tools/memory/memory.py
+  line: 1
+  basis: rule ARCH-02 in pr.md
+  finding: core/tools/memory/memory.py
+- id: Q22
+  severity: P2
+  category: standards
+  file: core/tools/memory/memory.py
+  line: 1
+  basis: rule CODE-03 in pr.md
+  finding: core/tools/memory/memory.py
+- id: Q23
+  severity: P2
+  category: standards
+  file: core/tools/memory/memory.py
+  line: 1
+  basis: rule CODE-04 in pr.md
+  finding: core/tools/memory/memory.py
+- id: Q24
+  severity: P2
+  category: standards
+  file: core/tools/memory/memory.py
+  line: 1
+  basis: rule CODE-14 in pr.md
+  finding: core/tools/memory/memory.py
+- id: Q25
+  severity: P2
+  category: standards
+  file: core/tools/memory/memory.py
+  line: 81
+  basis: rule BE-19 in pr.md
+  finding: join
+- id: Q26
+  severity: P2
+  category: standards
+  file: core/tools/memory/memory.py
+  line: 229
+  basis: rule BE-19 in pr.md
+  finding: join
+- id: Q27
+  severity: P2
+  category: standards
+  file: core/tools/memory/memory.py
+  line: 235
+  basis: rule BE-19 in pr.md
+  finding: join
+- id: Q28
+  severity: P2
+  category: standards
+  file: core/tools/memory/memory.py
+  line: 254
+  basis: rule BE-19 in pr.md
+  finding: join
+- id: Q29
+  severity: P2
+  category: standards
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule ARCH-02 in pr.md
+  finding: core/tools/memory/pull.py
+- id: Q30
+  severity: P2
+  category: standards
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule CODE-03 in pr.md
+  finding: core/tools/memory/pull.py
+- id: Q31
+  severity: P2
+  category: standards
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule CODE-04 in pr.md
+  finding: core/tools/memory/pull.py
+- id: Q32
+  severity: P2
+  category: standards
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule CODE-14 in pr.md
+  finding: core/tools/memory/pull.py
+- id: Q33
+  severity: P2
+  category: standards
+  file: core/tools/memory/pull.py
+  line: 10
+  basis: rule BE-19 in pr.md
+  finding: from
+- id: Q34
+  severity: P2
+  category: standards
+  file: core/tools/memory/pull.py
+  line: 11
+  basis: rule BE-19 in pr.md
+  finding: from
+- id: Q35
+  severity: P2
+  category: standards
+  file: core/tools/memory/pull.py
+  line: 12
+  basis: rule BE-19 in pr.md
+  finding: from
+- id: Q36
+  severity: P2
+  category: standards
+  file: core/tools/memory/pull.py
+  line: 14
+  basis: rule BE-19 in pr.md
+  finding: from
+- id: Q37
+  severity: P2
+  category: standards
+  file: core/tools/memory/pull.py
+  line: 15
+  basis: rule BE-19 in pr.md
+  finding: from
+- id: Q38
+  severity: P2
+  category: standards
+  file: core/tools/memory/test_memory.py
+  line: 1
+  basis: rule ARCH-02 in pr.md
+  finding: core/tools/memory/test_memory.py
+- id: Q39
+  severity: P2
+  category: standards
+  file: core/tools/memory/test_memory.py
+  line: 1
+  basis: rule CODE-03 in pr.md
+  finding: core/tools/memory/test_memory.py
+- id: Q40
+  severity: P2
+  category: standards
+  file: core/tools/memory/test_memory.py
+  line: 1
+  basis: rule CODE-04 in pr.md
+  finding: core/tools/memory/test_memory.py
+- id: Q41
+  severity: P2
+  category: standards
+  file: core/tools/memory/test_memory.py
+  line: 1
+  basis: rule CODE-14 in pr.md
+  finding: core/tools/memory/test_memory.py
+- id: Q42
+  severity: P2
+  category: standards
+  file: core/tools/memory/test_memory.py
+  line: 5
+  basis: rule BE-19 in pr.md
+  finding: from
+- id: Q43
+  severity: P2
+  category: standards
+  file: core/tools/memory/test_memory.py
+  line: 177
+  basis: rule BE-19 in pr.md
+  finding: join
+- id: Q44
+  severity: P2
+  category: standards
+  file: core/tools/memory/test_memory.py
+  line: 181
+  basis: rule BE-19 in pr.md
+  finding: from
+- id: Q45
+  severity: P2
+  category: standards
+  file: core/tools/memory/test_memory.py
+  line: 191
+  basis: rule BE-19 in pr.md
+  finding: from
+- id: Q46
+  severity: P2
+  category: standards
+  file: core/tools/memory/test_memory.py
+  line: 239
+  basis: rule BE-19 in pr.md
+  finding: join
+- id: Q47
+  severity: P2
+  category: standards
+  file: core/tools/memory/test_memory.py
+  line: 249
+  basis: rule BE-19 in pr.md
+  finding: join
+- id: Q48
+  severity: P2
+  category: standards
+  file: core/tools/memory/test_memory.py
+  line: 384
+  basis: rule BE-19 in pr.md
+  finding: join
+- id: Q49
+  severity: P2
+  category: standards
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule ARCH-02 in pr.md
+  finding: core/tools/memory/test_pull.py
+- id: Q50
+  severity: P2
+  category: standards
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule CODE-03 in pr.md
+  finding: core/tools/memory/test_pull.py
+- id: Q51
+  severity: P2
+  category: standards
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule CODE-04 in pr.md
+  finding: core/tools/memory/test_pull.py
+- id: Q52
+  severity: P2
+  category: standards
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule CODE-14 in pr.md
+  finding: core/tools/memory/test_pull.py
+- id: Q53
+  severity: P2
+  category: standards
+  file: core/tools/memory/test_pull.py
+  line: 2
+  basis: rule BE-19 in pr.md
+  finding: from
+- id: Q54
+  severity: P3
+  category: standards
+  file: README.md
+  line: 1
+  basis: rule DOC-01 in pr.md
+  finding: README.md
+- id: Q55
+  severity: P3
+  category: standards
+  file: README.md
+  line: 1
+  basis: rule DOC-09 in pr.md
+  finding: README.md
+- id: Q56
+  severity: P3
+  category: standards
+  file: README.md
+  line: 1
+  basis: rule DOC-10 in pr.md
+  finding: README.md
+- id: Q57
+  severity: P3
+  category: standards
+  file: README.md
+  line: 1
+  basis: rule DOC-11 in pr.md
+  finding: README.md
+- id: Q58
+  severity: P3
+  category: standards
+  file: core/config.yaml
+  line: 88
+  basis: rule CODE-27 in pr.md
+  finding: fallback
+- id: Q59
+  severity: P3
+  category: standards
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  basis: rule ARCH-03 in pr.md
+  finding: core/tools/lint-components/lib/rules/structural.js
+- id: Q60
+  severity: P3
+  category: standards
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  basis: rule ARCH-08 in pr.md
+  finding: core/tools/lint-components/lib/rules/structural.js
+- id: Q61
+  severity: P3
+  category: standards
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  basis: rule CODE-09 in pr.md
+  finding: core/tools/lint-components/lib/rules/structural.js
+- id: Q62
+  severity: P3
+  category: standards
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  basis: rule CODE-10 in pr.md
+  finding: core/tools/lint-components/lib/rules/structural.js
+- id: Q63
+  severity: P3
+  category: standards
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  basis: rule CODE-11 in pr.md
+  finding: core/tools/lint-components/lib/rules/structural.js
+- id: Q64
+  severity: P3
+  category: standards
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  basis: rule CODE-12 in pr.md
+  finding: core/tools/lint-components/lib/rules/structural.js
+- id: Q65
+  severity: P3
+  category: standards
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  basis: rule CODE-15 in pr.md
+  finding: core/tools/lint-components/lib/rules/structural.js
+- id: Q66
+  severity: P3
+  category: standards
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  basis: rule CODE-17 in pr.md
+  finding: core/tools/lint-components/lib/rules/structural.js
+- id: Q67
+  severity: P3
+  category: standards
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  basis: rule CODE-18 in pr.md
+  finding: core/tools/lint-components/lib/rules/structural.js
+- id: Q68
+  severity: P3
+  category: standards
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  basis: rule FE-08 in pr.md
+  finding: core/tools/lint-components/lib/rules/structural.js
+- id: Q69
+  severity: P3
+  category: standards
+  file: core/tools/memory/README.md
+  line: 1
+  basis: rule DOC-01 in pr.md
+  finding: core/tools/memory/README.md
+- id: Q70
+  severity: P3
+  category: standards
+  file: core/tools/memory/README.md
+  line: 1
+  basis: rule DOC-09 in pr.md
+  finding: core/tools/memory/README.md
+- id: Q71
+  severity: P3
+  category: standards
+  file: core/tools/memory/README.md
+  line: 1
+  basis: rule DOC-10 in pr.md
+  finding: core/tools/memory/README.md
+- id: Q72
+  severity: P3
+  category: standards
+  file: core/tools/memory/README.md
+  line: 1
+  basis: rule DOC-11 in pr.md
+  finding: core/tools/memory/README.md
+- id: Q73
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule ARCH-03 in pr.md
+  finding: core/tools/memory/contract/check_contract.py
+- id: Q74
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule ARCH-08 in pr.md
+  finding: core/tools/memory/contract/check_contract.py
+- id: Q75
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule CODE-09 in pr.md
+  finding: core/tools/memory/contract/check_contract.py
+- id: Q76
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule CODE-10 in pr.md
+  finding: core/tools/memory/contract/check_contract.py
+- id: Q77
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule CODE-11 in pr.md
+  finding: core/tools/memory/contract/check_contract.py
+- id: Q78
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule CODE-12 in pr.md
+  finding: core/tools/memory/contract/check_contract.py
+- id: Q79
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule CODE-15 in pr.md
+  finding: core/tools/memory/contract/check_contract.py
+- id: Q80
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule CODE-17 in pr.md
+  finding: core/tools/memory/contract/check_contract.py
+- id: Q81
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/check_contract.py
+- id: Q82
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/check_contract.py
+- id: Q83
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/apply-not-approved.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/apply-not-approved.json
+- id: Q84
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/apply-not-approved.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/apply-not-approved.json
+- id: Q85
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/apply.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/apply.json
+- id: Q86
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/apply.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/apply.json
+- id: Q87
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/apply-promotion-not-in-this-tool.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/broken/apply-promotion-not-in-this-tool.json
+- id: Q88
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/apply-promotion-not-in-this-tool.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/broken/apply-promotion-not-in-this-tool.json
+- id: Q89
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/apply-waiting-update.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/broken/apply-waiting-update.json
+- id: Q90
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/apply-waiting-update.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/broken/apply-waiting-update.json
+- id: Q91
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/apply-written-to-another-tier.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/broken/apply-written-to-another-tier.json
+- id: Q92
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/apply-written-to-another-tier.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/broken/apply-written-to-another-tier.json
+- id: Q93
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/citations-around-misplaces-the-text.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/broken/citations-around-misplaces-the-text.json
+- id: Q94
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/citations-around-misplaces-the-text.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/broken/citations-around-misplaces-the-text.json
+- id: Q95
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/citations-around-too-wide.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/broken/citations-around-too-wide.json
+- id: Q96
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/citations-around-too-wide.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/broken/citations-around-too-wide.json
+- id: Q97
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/citations-changed-without-a-step.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/broken/citations-changed-without-a-step.json
+- id: Q98
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/citations-changed-without-a-step.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/broken/citations-changed-without-a-step.json
+- id: Q99
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/citations-other-issue.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/broken/citations-other-issue.json
+- id: Q100
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/citations-other-issue.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/broken/citations-other-issue.json
+- id: Q101
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/citations-problem-names-the-wrong-step.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/broken/citations-problem-names-the-wrong-step.json
+- id: Q102
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/citations-problem-names-the-wrong-step.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/broken/citations-problem-names-the-wrong-step.json
+- id: Q103
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/citations-problems-without-check.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/broken/citations-problems-without-check.json
+- id: Q104
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/citations-problems-without-check.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/broken/citations-problems-without-check.json
+- id: Q105
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/cite-absolute-path.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/broken/cite-absolute-path.json
+- id: Q106
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/cite-absolute-path.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/broken/cite-absolute-path.json
+- id: Q107
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/decide-reject-answered-approved.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/broken/decide-reject-answered-approved.json
+- id: Q108
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/decide-reject-answered-approved.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/broken/decide-reject-answered-approved.json
+- id: Q109
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/decide-without-review-tool.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/broken/decide-without-review-tool.json
+- id: Q110
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/decide-without-review-tool.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/broken/decide-without-review-tool.json
+- id: Q111
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/find-silent-missing-tier.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/broken/find-silent-missing-tier.json
+- id: Q112
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/find-silent-missing-tier.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/broken/find-silent-missing-tier.json
+- id: Q113
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/find-without-issue.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/broken/find-without-issue.json
+- id: Q114
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/find-without-issue.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/broken/find-without-issue.json
+- id: Q115
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/health-ok-as-number.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/broken/health-ok-as-number.json
+- id: Q116
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/health-ok-as-number.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/broken/health-ok-as-number.json
+- id: Q117
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/propose-answered-approved.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/broken/propose-answered-approved.json
+- id: Q118
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/propose-answered-approved.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/broken/propose-answered-approved.json
+- id: Q119
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/propose-short-term-other-issue.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/broken/propose-short-term-other-issue.json
+- id: Q120
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/propose-short-term-other-issue.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/broken/propose-short-term-other-issue.json
+- id: Q121
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/propose-unknown-draft-source.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/broken/propose-unknown-draft-source.json
+- id: Q122
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/propose-unknown-draft-source.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/broken/propose-unknown-draft-source.json
+- id: Q123
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/propose-web-draft-to-phoenix.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/broken/propose-web-draft-to-phoenix.json
+- id: Q124
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/propose-web-draft-to-phoenix.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/broken/propose-web-draft-to-phoenix.json
+- id: Q125
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/read-end-before-start.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/broken/read-end-before-start.json
+- id: Q126
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/read-end-before-start.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/broken/read-end-before-start.json
+- id: Q127
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/read-other-file.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/broken/read-other-file.json
+- id: Q128
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/read-other-file.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/broken/read-other-file.json
+- id: Q129
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/read-other-issue.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/broken/read-other-issue.json
+- id: Q130
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/read-other-issue.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/broken/read-other-issue.json
+- id: Q131
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/read-path-with-control-character.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/broken/read-path-with-control-character.json
+- id: Q132
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/read-path-with-control-character.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/broken/read-path-with-control-character.json
+- id: Q133
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/read-path-with-dot-segment.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/broken/read-path-with-dot-segment.json
+- id: Q134
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/read-path-with-dot-segment.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/broken/read-path-with-dot-segment.json
+- id: Q135
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/read-path-with-empty-segment.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/broken/read-path-with-empty-segment.json
+- id: Q136
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/read-path-with-empty-segment.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/broken/read-path-with-empty-segment.json
+- id: Q137
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/read-path-with-newline.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/broken/read-path-with-newline.json
+- id: Q138
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/read-path-with-newline.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/broken/read-path-with-newline.json
+- id: Q139
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/read-says-it-copied.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/broken/read-says-it-copied.json
+- id: Q140
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/read-says-it-copied.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/broken/read-says-it-copied.json
+- id: Q141
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/read-without-fingerprint.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/broken/read-without-fingerprint.json
+- id: Q142
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/read-without-fingerprint.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/broken/read-without-fingerprint.json
+- id: Q143
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/read-wrong-fingerprint.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/broken/read-wrong-fingerprint.json
+- id: Q144
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/read-wrong-fingerprint.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/broken/read-wrong-fingerprint.json
+- id: Q145
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/search-every-tier-stopped.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/broken/search-every-tier-stopped.json
+- id: Q146
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/search-every-tier-stopped.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/broken/search-every-tier-stopped.json
+- id: Q147
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/search-other-issue.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/broken/search-other-issue.json
+- id: Q148
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/search-other-issue.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/broken/search-other-issue.json
+- id: Q149
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/search-skipped-a-tier.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/broken/search-skipped-a-tier.json
+- id: Q150
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/search-skipped-a-tier.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/broken/search-skipped-a-tier.json
+- id: Q151
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/search-tier-with-every-tier.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/broken/search-tier-with-every-tier.json
+- id: Q152
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/search-tier-with-every-tier.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/broken/search-tier-with-every-tier.json
+- id: Q153
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/search-unknown-tier.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/broken/search-unknown-tier.json
+- id: Q154
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/search-unknown-tier.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/broken/search-unknown-tier.json
+- id: Q155
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/search-went-past-first-answer.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/broken/search-went-past-first-answer.json
+- id: Q156
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/broken/search-went-past-first-answer.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/broken/search-went-past-first-answer.json
+- id: Q157
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/citations-check.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/citations-check.json
+- id: Q158
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/citations-check.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/citations-check.json
+- id: Q159
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/citations.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/citations.json
+- id: Q160
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/citations.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/citations.json
+- id: Q161
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/cite.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/cite.json
+- id: Q162
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/cite.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/cite.json
+- id: Q163
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/decide-not-waiting.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/decide-not-waiting.json
+- id: Q164
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/decide-not-waiting.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/decide-not-waiting.json
+- id: Q165
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/decide.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/decide.json
+- id: Q166
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/decide.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/decide.json
+- id: Q167
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/find-without-issue-starts-at-garura.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/find-without-issue-starts-at-garura.json
+- id: Q168
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/find-without-issue-starts-at-garura.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/find-without-issue-starts-at-garura.json
+- id: Q169
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/find.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/find.json
+- id: Q170
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/find.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/find.json
+- id: Q171
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/health.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/health.json
+- id: Q172
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/health.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/health.json
+- id: Q173
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/propose.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/propose.json
+- id: Q174
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/propose.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/propose.json
+- id: Q175
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/pull-would-overwrite.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/pull-would-overwrite.json
+- id: Q176
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/pull-would-overwrite.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/pull-would-overwrite.json
+- id: Q177
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/pull.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/pull.json
+- id: Q178
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/pull.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/pull.json
+- id: Q179
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/pulled.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/pulled.json
+- id: Q180
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/pulled.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/pulled.json
+- id: Q181
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/read-other-issue-refused.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/read-other-issue-refused.json
+- id: Q182
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/read-other-issue-refused.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/read-other-issue-refused.json
+- id: Q183
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/read-phoenix-not-saved.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/read-phoenix-not-saved.json
+- id: Q184
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/read-phoenix-not-saved.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/read-phoenix-not-saved.json
+- id: Q185
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/read.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/read.json
+- id: Q186
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/read.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/read.json
+- id: Q187
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/search-every-tier.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/search-every-tier.json
+- id: Q188
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/search-every-tier.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/search-every-tier.json
+- id: Q189
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/search-nothing.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/search-nothing.json
+- id: Q190
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/search-nothing.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/search-nothing.json
+- id: Q191
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/search-one-tier-nothing.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/search-one-tier-nothing.json
+- id: Q192
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/search-one-tier-nothing.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/search-one-tier-nothing.json
+- id: Q193
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/search-short-term-without-issue-refused.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/search-short-term-without-issue-refused.json
+- id: Q194
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/search-short-term-without-issue-refused.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/search-short-term-without-issue-refused.json
+- id: Q195
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/search-short-term.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/search-short-term.json
+- id: Q196
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/search-short-term.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/search-short-term.json
+- id: Q197
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/search-tier-missing.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/search-tier-missing.json
+- id: Q198
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/search-tier-missing.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/search-tier-missing.json
+- id: Q199
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/search-without-issue-nothing.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/search-without-issue-nothing.json
+- id: Q200
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/search-without-issue-nothing.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/search-without-issue-nothing.json
+- id: Q201
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/search.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/search.json
+- id: Q202
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/search.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/search.json
+- id: Q203
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/updates.json
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/samples/updates.json
+- id: Q204
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/samples/updates.json
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/samples/updates.json
+- id: Q205
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  basis: rule ARCH-03 in pr.md
+  finding: core/tools/memory/contract/test_check_contract.py
+- id: Q206
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  basis: rule ARCH-08 in pr.md
+  finding: core/tools/memory/contract/test_check_contract.py
+- id: Q207
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  basis: rule CODE-09 in pr.md
+  finding: core/tools/memory/contract/test_check_contract.py
+- id: Q208
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  basis: rule CODE-10 in pr.md
+  finding: core/tools/memory/contract/test_check_contract.py
+- id: Q209
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  basis: rule CODE-11 in pr.md
+  finding: core/tools/memory/contract/test_check_contract.py
+- id: Q210
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  basis: rule CODE-12 in pr.md
+  finding: core/tools/memory/contract/test_check_contract.py
+- id: Q211
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  basis: rule CODE-15 in pr.md
+  finding: core/tools/memory/contract/test_check_contract.py
+- id: Q212
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  basis: rule CODE-17 in pr.md
+  finding: core/tools/memory/contract/test_check_contract.py
+- id: Q213
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  basis: rule TEST-14 in pr.md
+  finding: core/tools/memory/contract/test_check_contract.py
+- id: Q214
+  severity: P3
+  category: standards
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  basis: rule TEST-18 in pr.md
+  finding: core/tools/memory/contract/test_check_contract.py
+- id: Q215
+  severity: P3
+  category: standards
+  file: core/tools/memory/memory.py
+  line: 1
+  basis: rule ARCH-03 in pr.md
+  finding: core/tools/memory/memory.py
+- id: Q216
+  severity: P3
+  category: standards
+  file: core/tools/memory/memory.py
+  line: 1
+  basis: rule ARCH-08 in pr.md
+  finding: core/tools/memory/memory.py
+- id: Q217
+  severity: P3
+  category: standards
+  file: core/tools/memory/memory.py
+  line: 1
+  basis: rule CODE-09 in pr.md
+  finding: core/tools/memory/memory.py
+- id: Q218
+  severity: P3
+  category: standards
+  file: core/tools/memory/memory.py
+  line: 1
+  basis: rule CODE-10 in pr.md
+  finding: core/tools/memory/memory.py
+- id: Q219
+  severity: P3
+  category: standards
+  file: core/tools/memory/memory.py
+  line: 1
+  basis: rule CODE-11 in pr.md
+  finding: core/tools/memory/memory.py
+- id: Q220
+  severity: P3
+  category: standards
+  file: core/tools/memory/memory.py
+  line: 1
+  basis: rule CODE-12 in pr.md
+  finding: core/tools/memory/memory.py
+- id: Q221
+  severity: P3
+  category: standards
+  file: core/tools/memory/memory.py
+  line: 1
+  basis: rule CODE-15 in pr.md
+  finding: core/tools/memory/memory.py
+- id: Q222
+  severity: P3
+  category: standards
+  file: core/tools/memory/memory.py
+  line: 1
+  basis: rule CODE-17 in pr.md
+  finding: core/tools/memory/memory.py
+- id: Q223
+  severity: P3
+  category: standards
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule ARCH-03 in pr.md
+  finding: core/tools/memory/pull.py
+- id: Q224
+  severity: P3
+  category: standards
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule ARCH-08 in pr.md
+  finding: core/tools/memory/pull.py
+- id: Q225
+  severity: P3
+  category: standards
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule CODE-09 in pr.md
+  finding: core/tools/memory/pull.py
+- id: Q226
+  severity: P3
+  category: standards
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule CODE-10 in pr.md
+  finding: core/tools/memory/pull.py
+- id: Q227
+  severity: P3
+  category: standards
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule CODE-11 in pr.md
+  finding: core/tools/memory/pull.py
+- id: Q228
+  severity: P3
+  category: standards
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule CODE-12 in pr.md
+  finding: core/tools/memory/pull.py
+- id: Q229
+  severity: P3
+  category: standards
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule CODE-15 in pr.md
+  finding: core/tools/memory/pull.py
+- id: Q230
+  severity: P3
+  category: standards
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule CODE-17 in pr.md
+  finding: core/tools/memory/pull.py
+- id: Q231
+  severity: P3
+  category: standards
+  file: core/tools/memory/test_memory.py
+  line: 1
+  basis: rule ARCH-03 in pr.md
+  finding: core/tools/memory/test_memory.py
+- id: Q232
+  severity: P3
+  category: standards
+  file: core/tools/memory/test_memory.py
+  line: 1
+  basis: rule ARCH-08 in pr.md
+  finding: core/tools/memory/test_memory.py
+- id: Q233
+  severity: P3
+  category: standards
+  file: core/tools/memory/test_memory.py
+  line: 1
+  basis: rule CODE-09 in pr.md
+  finding: core/tools/memory/test_memory.py
+- id: Q234
+  severity: P3
+  category: standards
+  file: core/tools/memory/test_memory.py
+  line: 1
+  basis: rule CODE-10 in pr.md
+  finding: core/tools/memory/test_memory.py
+- id: Q235
+  severity: P3
+  category: standards
+  file: core/tools/memory/test_memory.py
+  line: 1
+  basis: rule CODE-11 in pr.md
+  finding: core/tools/memory/test_memory.py
+- id: Q236
+  severity: P3
+  category: standards
+  file: core/tools/memory/test_memory.py
+  line: 1
+  basis: rule CODE-12 in pr.md
+  finding: core/tools/memory/test_memory.py
+- id: Q237
+  severity: P3
+  category: standards
+  file: core/tools/memory/test_memory.py
+  line: 1
+  basis: rule CODE-15 in pr.md
+  finding: core/tools/memory/test_memory.py
+- id: Q238
+  severity: P3
+  category: standards
+  file: core/tools/memory/test_memory.py
+  line: 1
+  basis: rule CODE-17 in pr.md
+  finding: core/tools/memory/test_memory.py
+- id: Q239
+  severity: P3
+  category: standards
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule ARCH-03 in pr.md
+  finding: core/tools/memory/test_pull.py
+- id: Q240
+  severity: P3
+  category: standards
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule ARCH-08 in pr.md
+  finding: core/tools/memory/test_pull.py
+- id: Q241
+  severity: P3
+  category: standards
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule CODE-09 in pr.md
+  finding: core/tools/memory/test_pull.py
+- id: Q242
+  severity: P3
+  category: standards
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule CODE-10 in pr.md
+  finding: core/tools/memory/test_pull.py
+- id: Q243
+  severity: P3
+  category: standards
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule CODE-11 in pr.md
+  finding: core/tools/memory/test_pull.py
+- id: Q244
+  severity: P3
+  category: standards
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule CODE-12 in pr.md
+  finding: core/tools/memory/test_pull.py
+- id: Q245
+  severity: P3
+  category: standards
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule CODE-15 in pr.md
+  finding: core/tools/memory/test_pull.py
+- id: Q246
+  severity: P3
+  category: standards
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule CODE-17 in pr.md
+  finding: core/tools/memory/test_pull.py
+- id: Q247
+  severity: P4
+  category: standards
+  file: README.md
+  line: 1
+  basis: rule DOC-14 in pr.md
+  finding: README.md
+- id: Q248
+  severity: P4
+  category: standards
+  file: README.md
+  line: 1
+  basis: rule DOC-15 in pr.md
+  finding: README.md
+- id: Q249
+  severity: P4
+  category: standards
+  file: README.md
+  line: 1
+  basis: rule DOC-16 in pr.md
+  finding: README.md
+- id: Q250
+  severity: P4
+  category: standards
+  file: core/config.yaml
+  line: 112
+  basis: rule DEBT-01 in pr.md
+  finding: hack
+- id: Q251
+  severity: P4
+  category: standards
+  file: core/config.yaml
+  line: 153
+  basis: rule BE-23 in pr.md
+  finding: lock
+- id: Q252
+  severity: P4
+  category: standards
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  basis: rule CODE-13 in pr.md
+  finding: core/tools/lint-components/lib/rules/structural.js
+- id: Q253
+  severity: P4
+  category: standards
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  basis: rule CODE-19 in pr.md
+  finding: core/tools/lint-components/lib/rules/structural.js
+- id: Q254
+  severity: P4
+  category: standards
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 375
+  basis: rule CODE-22 in pr.md
+  finding: const shared =
+- id: Q255
+  severity: P4
+  category: standards
+  file: core/tools/memory/README.md
+  line: 1
+  basis: rule DOC-14 in pr.md
+  finding: core/tools/memory/README.md
+- id: Q256
+  severity: P4
+  category: standards
+  file: core/tools/memory/README.md
+  line: 1
+  basis: rule DOC-15 in pr.md
+  finding: core/tools/memory/README.md
+- id: Q257
+  severity: P4
+  category: standards
+  file: core/tools/memory/README.md
+  line: 1
+  basis: rule DOC-16 in pr.md
+  finding: core/tools/memory/README.md
+- id: Q258
+  severity: P4
+  category: standards
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule CODE-13 in pr.md
+  finding: core/tools/memory/contract/check_contract.py
+- id: Q259
+  severity: P4
+  category: standards
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule CODE-19 in pr.md
+  finding: core/tools/memory/contract/check_contract.py
+- id: Q260
+  severity: P4
+  category: standards
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  basis: rule CODE-13 in pr.md
+  finding: core/tools/memory/contract/test_check_contract.py
+- id: Q261
+  severity: P4
+  category: standards
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  basis: rule CODE-19 in pr.md
+  finding: core/tools/memory/contract/test_check_contract.py
+- id: Q262
+  severity: P4
+  category: standards
+  file: core/tools/memory/memory.py
+  line: 1
+  basis: rule CODE-13 in pr.md
+  finding: core/tools/memory/memory.py
+- id: Q263
+  severity: P4
+  category: standards
+  file: core/tools/memory/memory.py
+  line: 1
+  basis: rule CODE-19 in pr.md
+  finding: core/tools/memory/memory.py
+- id: Q264
+  severity: P4
+  category: standards
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule CODE-13 in pr.md
+  finding: core/tools/memory/pull.py
+- id: Q265
+  severity: P4
+  category: standards
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule CODE-19 in pr.md
+  finding: core/tools/memory/pull.py
+- id: Q266
+  severity: P4
+  category: standards
+  file: core/tools/memory/test_memory.py
+  line: 1
+  basis: rule CODE-13 in pr.md
+  finding: core/tools/memory/test_memory.py
+- id: Q267
+  severity: P4
+  category: standards
+  file: core/tools/memory/test_memory.py
+  line: 1
+  basis: rule CODE-19 in pr.md
+  finding: core/tools/memory/test_memory.py
+- id: Q268
+  severity: P4
+  category: standards
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule CODE-13 in pr.md
+  finding: core/tools/memory/test_pull.py
+- id: Q269
+  severity: P4
+  category: standards
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule CODE-19 in pr.md
+  finding: core/tools/memory/test_pull.py
+- id: H1
+  severity: P2
+  category: harness
+  file: core/components/plays/arch/SKILL.md
+  basis: 'pr.md buckets: structural breakage (an instruction that points to content that no longer exists) - Major. No table
+    row covers garura-prose.'
+  finding: The branch cuts the judge prompt, rubric and verdict shape out of standards/rules/grounding-eval.md and moves them
+    into the new judge-grounding skill. Eight plays that were not changed still tell thei
+- id: H2
+  severity: P2
+  category: harness
+  file: core/components/skills/author-shape-bundle/SKILL.md
+  basis: 'pr.md buckets: a working skill left pointing at a deleted tool - Major.'
+  finding: The branch deletes the knowledge router (.pageindex/kb.py, pageindex.py, test_kb.py, eval_routing.py). author-shape-bundle/SKILL.md
+    line 80 still says 'Read the KB shelf via the router (python3 $KB sh
+- id: H3
+  severity: P3
+  category: harness
+  file: core/components/plays/vision/SKILL.md
+  basis: 'pr.md buckets: drift between a skill''s input contract and how its caller feeds it; may weaken a calibrated eval
+    - Minor.'
+  finding: 'judge-grounding takes ''guidance'': the ''## Per-section guidance'' block of the kind''s template. The two plays
+    say the play asks template-manager for the kind''s template (standards/schemas/product-os/gro'
+- id: H4
+  severity: P3
+  category: harness
+  file: core/components/agents/product-os-keeper.md
+  basis: 'pr.md buckets: a duplicated constant that will drift - Minor.'
+  finding: Both agents hard-code 'python3 .garura/core/tools/memory/memory.py ...' in their text. business-intent-keeper and
+    the guide instead defer to the guide's {tool}. The tool's place then lives in the inst
+- id: H5
+  severity: P3
+  category: harness
+  file: core/components/plays/intent/SKILL.md
+  basis: 'pr.md buckets: ordering inconsistency inside one play and against its two sibling plays - Minor.'
+  finding: Run by hand, /intent now says 'resolve the facts with the bundled resolver ... right after Step 0'. So the pre-flight
+    hard halts (config and product_base resolve) run after start-change has already op
+- id: H6
+  severity: P3
+  category: harness
+  file: core/components/plays/intent/reference/ice.md
+  basis: 'pr.md buckets: a behavioural guarantee with no eval or recovery behind it - Minor.'
+  finding: 'For /vision (F12/REC12/SE-13) and /understand (C15/F17/REC17/SE-18) the rule ''short-term memory lives in the
+    issue; nothing is written before start-change gives the issue'' became a failure condition, '
+- id: H7
+  severity: P3
+  category: harness
+  file: core/components/plays/vision/SKILL.md
+  basis: 'pr.md buckets: metadata drift; the intent-versus-direct-edit call needs the owner - Minor.'
+  finding: The compiled plays now dispatch template-manager (a new agent) for the approval prompt and the grounding templates,
+    run the judge through the judge-grounding skill, and pass the keeper agents a change
+- id: H8
+  severity: P3
+  category: harness
+  file: core/components/plays/intent/SKILL.md
+  basis: 'pr.md buckets: a layout move no committed decision covers, with a durability risk - Minor (owner decision).'
+  finding: The three plays' evidence moved from the product-scoped _evidence folder into the issue's STM, including /intent's
+    Source snapshots, which the intent pages and ICE link to (C7). ADR 039 section 1 reco
+- id: H9
+  severity: P3
+  category: harness
+  file: core/grounding/glossary.md
+  basis: 'pr.md buckets: documentation that contradicts a signed decision - Minor.'
+  finding: 'The branch rewrites the glossary''s memory rows (new tier rows, older words kept as pointers), but leaves the
+    superseded protocol as live definitions: the Agent row (''loads relevant LTM via Context Cra'
+- id: H10
+  severity: P3
+  category: harness
+  file: core/components/plays/intent/reference/ice.md
+  basis: 'pr.md buckets: an owner-decision gap between accepted ADR text and the ICE - Minor.'
+  finding: 'ADR 035 on main lists that ICE change as owed ''first'' (plan item 8). The branch''s ICE edits for these three
+    plays do not carry it: /intent C5 still reads ''the play asks the person and never fills the '
+- id: H11
+  severity: P4
+  category: harness
+  file: core/components/plays/play-creator/scripts/lint_play.py
+  basis: 'pr.md buckets: style / small-scope lint drift - Nit.'
+  finding: check_next_command now passes when the play's text contains the string 'Next-line map' as well as 'pipeline-next.md'.
+    The check is a plain string match, and 'Next-line map' appears in every pointed pl
+- id: H12
+  severity: P4
+  category: harness
+  file: core/components/plays/*/SKILL.md (25 plays whose C2 line says 'per `play-close.md`')
+  basis: 'pr.md buckets: naming / stale prose - Nit.'
+  finding: 'After the move the C2 line in 25 plays still says ''per `play-close.md`'', a file name that no longer exists at
+    that name (it is now _shared/play-close.md). The anchor line above it points to the right '
+- id: H13
+  severity: P4
+  category: harness
+  file: core/components/skills/judge-grounding/SKILL.md
+  basis: 'pr.md buckets: style / consistency - Nit.'
+  finding: '(a) judge-grounding says ''Three things, and only these'' above an input table that lists five fields. (b) product-os-keeper
+    says ''never take memory paths from a contract'', while business-intent-keeper '
+- id: MEM-1
+  severity: P2
+  category: memory
+  file: core/components/memory/standards/rules/grounding-eval.md
+  basis: 'Main''s grounding-eval.md is the single source for the rubric, judge prompt and verdict shape, and plays point to
+    it. This branch moves all three into the judge-grounding skill (content moved intact: f'
+  finding: The judge prompt and rubric left the rule file while nine plays still hand their judge 'the judge prompt (standards/rules/grounding-eval.md)'
+- id: MEM-2
+  severity: P2
+  category: memory
+  file: core/components/memory/standards/rules/product.md
+  basis: 'The rewritten Rule 12 enforcement paragraph names configure-capabilities, enrich-capabilities and generate-intent-epics
+    as writing to ''the issue''s file'', and `validate-intent-epics` as cross-checking '
+  finding: Rule 12 now says questions live in the issue's short-term memory, but the skills and schema it names as enforcers
+    still read and write .garura/product/user-provided/grounding-questions.md
+- id: MEM-3
+  severity: P3
+  category: memory
+  file: core/components/memory/standards/rules/evidence-recording.md
+  basis: On main these files reference `play-close.md` as a sibling in rules/ (evidence-recording.md lines 10, 19, 71, 76,
+    79, 82, 99; no-unbacked-recommendation.md 101/108/115; pipeline-next.md 5; pipeline-po
+  finding: play-close.md moved out of rules/, but five untouched rule files still point to `play-close.md` beside them, and
+    the rules index drops the row with no pointer to the new home
+- id: MEM-4
+  severity: P3
+  category: memory
+  file: core/components/memory/standards/rules/drive-contract.md
+  basis: 'Rule 5 reads: a question no tier answers and `answers` do not hold ''stops the play: it asks the person ... The
+    person''s answer is kept in the drive issue''s short-term memory''. Main ADR 035 §9 amends A'
+  finding: Rule 5 keeps the pre-ADR-035 route for an unanswered question ('asks the person'); main says a memory update a
+    person approves
+- id: MEM-5
+  severity: P4
+  category: memory
+  file: core/components/memory/standards/rules/product.md
+  basis: Main ADR 036 §4 and ADR 035 §1 put a person's own answer in Garura memory so no one is asked twice. The old Rule
+    12 (product model's user-provided folder) matched that. The new Rule 12 puts every ques
+  finding: Rule 12 reverses a main-side decision (person's answer to Garura memory); the reversal rests on ADR 039 §1 alone
+- id: MEM-6
+  severity: P4
+  category: memory
+  file: core/components/memory/standards/rules/play-close.md
+  basis: Main ADR 035 §1 says the rulebook lives in Phoenix memory and §Affects lists play-close.md only to change how it
+    reads templates. Main standards/_index.md files 'rules agents must follow' under standa
+  finding: The Standard Play Close leaves the rulebook for plays/_shared/; the move rests on ADR 039 §9 alone, and rules that
+    remain cite it by a repo-root source path
+- id: F1
+  severity: P1
+  category: memory-tool-contract
+  file: core/components/plays/understand/scripts/write_drive_review.py
+  basis: 'pr.md bucket P1 ''breaking API contract'': a version bump left a consumer of the contract pinned to the old version,
+    so it refuses every answer the tool now gives.'
+  finding: write_drive_review.py accepts only contract_version '4'; the v5 tool answers '5'
+- id: F2
+  severity: P3
+  category: memory-tool-contract
+  file: core/tools/memory/contract/v5.json
+  basis: pr.md P2/P3 buckets (missing checks for new behaviour; docs). Tool-level tests do cover the folder rule, so the gap
+    is in the contract and its samples only.
+  finding: Garura-tier paths now start with a Garura folder, but the contract does not say so and nothing checks it; two samples
+    show paths the v5 tool cannot return
+- id: F3
+  severity: P3
+  category: memory-tool-contract
+  file: core/tools/memory/contract/v5.json
+  basis: pr.md P3 bucket (missing docs); behaviour reasoned from code, not run on real stored records.
+  finding: v5 changes what a Garura path is and what is readable, with no migration line; older decision records may now read
+    as missing
+- id: F4
+  severity: P3
+  category: memory-tool-contract
+  file: core/tools/memory/contract/v5.json
+  basis: 'pr.md P3 bucket ''naming'': the contract names things agents will look for.'
+  finding: v5 still sends agents to '/learn-memory' and '/promote-memory' plays that do not exist, and contradicts its own
+    'saving' text
+- id: F5
+  severity: P4
+  category: memory-tool-contract
+  file: core/tools/memory/updates.py
+  basis: pr.md P4 bucket (style-only).
+  finding: updates.py docstring still says 'contract version 4'
