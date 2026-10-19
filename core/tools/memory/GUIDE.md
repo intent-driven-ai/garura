@@ -1,8 +1,10 @@
 # Memory: how every agent finds it and uses it
 
 Read this before you decide anything. Memory is what you decide from. You find it only
-through the memory tool. Never read a memory file by its path. Never answer from what you
-already know, and never from the web, without a memory update a person approved.
+through the memory tool, run from the project's root folder. Never read a memory file by its
+path. The working files your own play hands you for this run are not a memory lookup: read
+them directly. Never answer from what you already know, and never from the web, without a
+memory update a person approved.
 
 ## The three tiers
 
@@ -13,8 +15,9 @@ already know, and never from the web, without a memory update a person approved.
 - **Phoenix memory** — the global memory. It holds everything. There is one copy on each
   machine, and the tool downloads it the first time a command needs it.
 
-A new project starts with no memory of its own. A play run after the install,
-`initialize`, sets it up from Phoenix memory. Until then, lookups go up to Phoenix memory.
+A new project starts with no memory of its own. A play run after the install, `initialize`,
+will set it up from Phoenix memory; it is not built yet. Until then, lookups go up to Phoenix
+memory.
 
 ## Find memory
 

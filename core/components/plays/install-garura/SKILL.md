@@ -50,7 +50,8 @@ in the orchestrator, stop — that belongs in the adapter.
   has no separate agent type), carrying only `name` + `description` frontmatter, with the
   recommended tier noted in the body (Codex can't pin a model per skill).
 - `AGENTS.md` — garura's instruction surface, retitled for the target (Codex's equivalent of
-  CLAUDE.md). Written as `AGENTS.md.new` if one already exists.
+  CLAUDE.md). Written as `AGENTS.md.new` if one already exists. The memory guide is the one
+  exception: it is added to an existing `AGENTS.md` as a marked block (below).
 - `~/.codex/config.toml` + `~/.codex/{deep,standard,fast}.config.toml` — base defaults and the
   three tier profiles (model + reasoning effort + sandbox + approval), so the model and the
   "forking"/sandbox settings the tier implies are actually selectable via `codex --profile`.
@@ -77,13 +78,14 @@ Both tools also get:
   - The memory guide every agent reads (`core/tools/memory/GUIDE.md`): for Claude Code,
     `.claude/rules/garura-memory.md`, which loads for every session and every sub-agent; for
     Codex, one marked block in `AGENTS.md`, added to the project's own file when it has one.
-  - **The install brings no memory.** The tool downloads Phoenix memory to its place the
-    first time a command needs it. A play run after the install, `initialize` (not built
-    yet), sets up the project's own memory.
+  - **The install brings no memory into the project.** The tool downloads Phoenix memory to
+    its place the first time a command needs it. A play run after the install, `initialize`
+    (not built yet), will set up the project's own memory. The old machine-wide copy of all
+    memory (below, `--memory-dest`) is still laid until it is retired.
   - **The check.** The install runs the tool's `health` command the way an agent does. It
     fails (exit 1, after writing the manifest) when the tool cannot run or short-term or
     Garura memory cannot be reached. Phoenix memory not downloaded yet is reported, not
-    failed.
+    failed; the check asks its source whether it answers, and notes it when it does not.
 
 **Direct-edit deviation note (#441/ADR 021):** the `.garura/.gitignore` scaffold artifact and
 its manifest record were added directly to `scripts/install.py` (and its reversal to
@@ -176,7 +178,9 @@ Keep it short. The detail lives in the manifest; your job is the human summary.
 - **Never hand-edit an installed copy** under a target's `.claude/` or `.agents/`. It is
   generated — edit the garura source and re-install.
 - **Don't delete the user's own files.** Install only writes the Garura artifacts named above
-  (and never clobbers an existing CLAUDE.md / AGENTS.md / ~/.codex config). Removing install
+  (and never clobbers an existing CLAUDE.md / AGENTS.md / ~/.codex config; into an existing
+  `AGENTS.md` it adds only the memory guide's marked block, which the manifest records and
+  uninstall removes, keeping the rest). Removing install
   artifacts is `uninstall-garura`'s job, and even that reverses only what the manifest records.
 - **Protect the shared memory and the Codex home.** `~/.garura/core/memory` and any existing
   `~/.codex/*` are machine-global and merged into, never wiped, on install. When testing,
