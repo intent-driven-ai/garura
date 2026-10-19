@@ -4,7 +4,7 @@ kind: story
 serves: "#661 — /intent, /vision, /understand and the Kickoff drive read no memory; their agents read it through the memory tool"
 status: active
 updated: 2026-10-19
-now: 6
+now: 7
 serves_plan: 653
 serves_item: 8
 ---
@@ -107,7 +107,7 @@ What is true today (read on 2026-10-19):
 
 ## Where we are now
 
-ADR 039 and ADR 040 are accepted; the docs, the tool, the install, `template-manager`, the judging skill and the config follow them. The shared close lives in one file. Now: item 6, the two Kickoff agents read through the tool.
+ADR 039 and ADR 040 are accepted; the docs, the tool, the install, `template-manager`, the judging skill and the config follow them. The shared close lives in one file. The two Kickoff agents read memory through the tool. Now: item 7, the three plays read no memory.
 
 ## The plan, in order
 
@@ -136,18 +136,17 @@ ADR 039 and ADR 040 are accepted; the docs, the tool, the install, `template-man
   and both `lint_play.py` check the new anchor and the shared file; the install lays `_shared/`
   beside the plays (Claude Code and Codex) and harness installs carry `template-manager`. Tests:
   install 33, every play and skill test file passes; lint 114, as on main.
+- **6. The two Kickoff agents read through the tool** — `product-os-keeper` has a Memory
+  Reading Protocol (find and read through the tool, copy what a skill needs into short-term
+  memory, hand the skill the copy, raise a memory update when no tier answers, `cite` each
+  decision); the router `kb.py` and `ltm_context` are gone from it. `business-intent-keeper`
+  reads the ontology through the tool. `search-kb`, `propose-kb-node`, `author-vision-seed`,
+  `enrich-capability-ice`, `kb-search` and `author-business-intent` read only the copies; the
+  route and proposal validators moved beside their skills. The router itself
+  (`knowledge/domains/.pageindex/`) is left in memory, unused — removing it is Kapil's call.
+  Lint: the same findings as main.
 
-### 6. The two Kickoff agents read through the tool — now
-
-**What:** `business-intent-keeper` and `product-os-keeper` find and read memory only with the
-tool (the knowledge router `kb.py` and `ltm_context` go), write what a skill needs into the
-issue's short-term memory, and `cite` each decision. Their skills (`author-business-intent`,
-`author-vision-seed`, `enrich-capability-ice`, `search-kb`, `kb-search`, `propose-kb-node`) read
-only what the agent hands them. `product-os-keeper` serves other plays too; it changes once,
-here (Kapil, 2026-10-18).
-**Done when:** none of these agents and skills names a memory path, and each one's checks pass.
-
-### 7. The three plays read no memory
+### 7. The three plays read no memory — now
 
 **What:** `/intent` hands its agent the ontology's path from the config file. `/vision` and
 `/understand` judge through the judging skill and get the approval prompt from
@@ -231,3 +230,5 @@ Then run the change chain.
   context file nested its amends list); undone before commit, fixed, applied again.
 - 2026-10-19 — Item 5 done: the close lives once, in `core/components/plays/_shared/play-close.md`;
   every play points to it. Its Phoenix memory copy (`standards/rules/play-close.md`) goes at landing.
+- 2026-10-19 — Item 6 done: both Kickoff agents and their six skills read memory only through
+  the tool and short-term copies.

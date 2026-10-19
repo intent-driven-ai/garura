@@ -49,8 +49,8 @@ spine/profile is preserved by the keyed script.
 
 ## What it produces (against the locked contracts)
 
-Everything conforms to its template under `standards/schemas/product-os/grounding/` and
-must clear the content-quality eval (the play runs the linter + the judge over the docs):
+Everything conforms to its template (`standards/schemas/product-os/grounding/`, read from
+`schemas_dir`) and must clear the content-quality eval (the play runs the linter + the judge over the docs):
 
 - the **detailed** `capability.md` — the capability template's DETAILED stage: Benefit
   hypothesis, Boundary (In / Out / Never), Guiding rules, Functionalities (each a one-line
@@ -70,7 +70,9 @@ must clear the content-quality eval (the play runs the linter + the judge over t
 | Field | Required | Description |
 |-------|----------|-------------|
 | `capability` | yes | The target capability: its id, slug, and the path to its directional `capability.md` in the live model — **or**, for a capability /understand is seeding, the path to `<working>/seed.yaml` with the person's recorded answers (`one_line`, `why`, `domain`, `doc`, `answered_by: human`). |
-| `kb_domain` | yes | The domain shelf to ground against. Read via the KB router. |
+| `kb_domain` | yes | The domain the capability belongs to. |
+| `shelf_path` | yes | That domain's shelf (`knowledge/domains/<kb_domain>.md`), copied into short-term memory by the agent through the memory tool. Read this copy — never memory itself (ADR 039). |
+| `schemas_dir` | yes | The grounding templates, the content standard and the spine schema, copied into short-term memory the same way. |
 | `product_base` | yes | From config. The live model root: read the existing spine + the capability's current directional doc, and WRITE the detailed `capability.md` and the new `functionality.md` docs in place under `{product_base}product-os/`. Only the target node's docs — never a shared file, never a sibling node's doc. |
 | `manifest_path` | yes | Where to write `enrich-manifest.yaml` (STM, non-model) — carries the spine-delta as structured data for the keyed persist script. |
 | `stm_base` | yes | From config. |
@@ -83,8 +85,7 @@ conformance and the content bar are non-negotiable.
 
 1. **Read the directional capability + the shelf.** Read the anchor: the live directional
    `capability.md` (its directional intent), or — when `capability` is a `seed.yaml` — the
-   person's recorded answers, verbatim. Then read the capability's KB shelf via the router
-   (`python3 $KB shelf <kb_domain>`) and pull its personas, systems, NFR hints, scope, and
+   person's recorded answers, verbatim. Then read the capability's KB shelf at `shelf_path` and pull its personas, systems, NFR hints, scope, and
    functionality baseline. Ground the detail in that material; for a seed, add nothing to
    the person's answers that the shelf does not support.
 

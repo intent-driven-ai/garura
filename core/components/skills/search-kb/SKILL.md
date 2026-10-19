@@ -1,6 +1,6 @@
 ---
 name: search-kb
-description: Search the product knowledge base for where a piece of work belongs — its domain, capability, and functionality — by reasoning over the KB router interface. Runs the inference sandwich (list domains, reason to the domain, read that shelf, reason to the capability/functionality) and emits a lightweight routing-result with the decision and why. Placement only — it does not evaluate product-profile conditions (that is selection, /shape's job). Use whenever a play or agent needs to know which part of the product model a request maps to.
+description: Search the product knowledge base for where a piece of work belongs — its domain, capability, and functionality — by reasoning over the domain shelves its agent puts in short-term memory. Runs the inference sandwich (list the domains, reason to the domain, read that shelf, reason to the capability/functionality) and emits a lightweight routing-result with the decision and why. Placement only — it does not evaluate product-profile conditions (that is selection, /shape's job). Use whenever a play or agent needs to know which part of the product model a request maps to.
 version: 0.1.0
 user-invocable: false
 model: sonnet
@@ -12,31 +12,27 @@ allowed-tools: Bash, Read
 Routes a **piece of work** to its place in the KB tree: **domain → capability →
 functionality**, with the decision and the reasoning recorded. This is C2 (#434).
 
-## The interface
+## Input
 
-You call the KB router interface — never the KB files directly:
+| Field | Required | Description |
+|-------|----------|-------------|
+| `work` | yes | The piece of work to place. |
+| `domains_dir` | yes | The domain shelves (`knowledge/domains/*.md`), copied into short-term memory by the agent through the memory tool. The skill reads only these copies — never memory itself (ADR 039). |
+| `out_route` | yes | Where to write the routing result. |
 
-```
-KB = core/components/memory/knowledge/domains/.pageindex/kb.py
-python3 $KB domains            # all domains + triggers (the routing entry)
-python3 $KB shelf <domain>     # full shelf markdown (to reason to capability/functionality)
-python3 $KB search "<keywords>"# secondary keyword hint only
-python3 $KB rebuild            # regenerate the index (if stale/missing)
-```
-
-The interface is the stable seam — today a local CLI, later a server; this skill
-does not change when that moves.
+Each shelf opens with front matter: `id`, `title`, and `conditions.trigger` (when the domain
+applies). That is the routing entry.
 
 ## Procedure — the inference sandwich
 
-Reasoning is yours (the skill); the interface only retrieves.
+Reasoning is yours (the skill); the agent only retrieves.
 
-1. **List + reason to the domain (placement).** Run `python3 $KB domains`. Read the
-   ~10 triggers and reason which domain the work belongs to. Pick one; pick more
+1. **List + reason to the domain (placement).** Read the front matter of every shelf in
+   `domains_dir`: its `title` and `conditions.trigger`. Read the ~10 triggers and reason which domain the work belongs to. Pick one; pick more
    only if the work genuinely spans domains. This is **semantic placement** — do NOT
    consider product-profile conditions here.
-2. **Read the shelf + reason to capability/functionality.** Run
-   `python3 $KB shelf <chosen-domain>`. Reason over its `## Capabilities` to pick the
+2. **Read the shelf + reason to capability/functionality.** Read the chosen shelf in
+   `domains_dir`. Reason over its `## Capabilities` to pick the
    capability and the functionality(ies) the work maps to. Note their profile
    conditions as metadata — do not evaluate them (that is selection, not placement).
 3. **Emit the routing result** (schema below) with `why` for each placement.
@@ -61,15 +57,15 @@ routing_result:
   unmatched: false
 ```
 
-Emit it as JSON (the machine form). It must validate against
-`.pageindex/validate_route.py`.
+Emit it as JSON (the machine form) at `out_route`. It must validate:
+`python3 scripts/validate_route.py <out_route>`.
 
 ## Rules
 
 - **Placement, not selection.** Never reject a placement because a profile condition
   fails — the asker already decided to build it. Return conditions as metadata only.
-- **Reason over the small set.** With ~10 domains, do not lean on keyword `search`;
-  read the whole `domains` list and reason. `search` is a hint, never the decision.
+- **Reason over the small set.** With ~10 domains, read every trigger and reason; a
+  keyword match is a hint, never the decision.
 - **Record why.** Every placement carries a one-line rationale.
 - **Honest confidence.** `low` when the work is vague or could sit in several places;
   flag `spans_multiple_domains` when it truly does.

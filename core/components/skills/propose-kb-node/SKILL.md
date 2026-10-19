@@ -1,6 +1,6 @@
 ---
 name: propose-kb-node
-description: The nothing-fits path for the KB router. When search-kb returns unmatched (a piece of work has no home in the knowledge base), research the gap, draft a properly-shaped node at the right level (new domain, capability, or functionality) following the shelf template and functionality baseline, and emit a proposal for human review. NEVER writes to the KB — it always stops at a review checkpoint; only an approved proposal is written and re-indexed. Use when search-kb reports unmatched, or when a play hits work the model does not yet cover.
+description: The nothing-fits path for search-kb. When search-kb returns unmatched (a piece of work has no home in the knowledge base), research the gap, draft a properly-shaped node at the right level (new domain, capability, or functionality) following the shelf template and functionality baseline, and emit a proposal for human review. NEVER writes to memory — its agent raises the proposal as a memory update a person approves (ADR 036, ADR 039). Use when search-kb reports unmatched, or when a play hits work the model does not yet cover.
 version: 0.1.0
 user-invocable: false
 model: sonnet
@@ -16,16 +16,19 @@ work has no home in the KB. It proposes a new node for the user to review. It do
 ## Inputs
 
 - `work` — the piece of work that did not route.
+- `domains_dir` — the domain shelves, copied into short-term memory by the agent through the
+  memory tool. Read only these copies — never memory itself (ADR 039).
+- `out_proposal` — where to write the proposal.
 - (optional) the weak hints `search-kb` returned (nearest domains/capabilities).
 
 ## Procedure
 
-1. **Confirm the gap.** Run `python3 {KB}/kb.py domains` and reason: does the work
+1. **Confirm the gap.** Read the domain shelves in `domains_dir` (their front matter and
+   `## Capabilities`) and reason: does the work
    truly fit nowhere, or is it a missing **functionality** under an existing
    capability, a missing **capability** under an existing domain, or a missing whole
    **domain**? Pick the *smallest* level that closes the gap — prefer adding a
    functionality/capability to an existing shelf over inventing a domain.
-   - `KB = core/components/memory/knowledge/domains/.pageindex`
 
 2. **Research.** Use WebSearch/WebFetch to ground the draft in real practice — the
    genuine capabilities/functionalities and vocabulary of that area. Capture 2–4
@@ -39,9 +42,10 @@ work has no home in the KB. It proposes a new node for the user to review. It do
      `## Capabilities` with functionalities — matching the existing shelves and the
      functionality baseline.
 
-4. **Emit a proposal** (shape below) and **STOP at review.** Present it to the user.
-   Only after explicit approval does a separate write step add it to the KB and run
-   `kb.py rebuild`. Until then nothing is written.
+4. **Emit a proposal** (shape below) at `out_proposal` and **STOP.** Your agent raises it
+   as a memory update (`propose`, `draft_source: web`) in the issue's short-term memory. It
+   is used only after a person approves it; moving it up into memory is a promotion a person
+   makes (ADR 036, ADR 039). Until then nothing is written to memory.
 
 ## Output — kb_proposal
 
@@ -63,12 +67,12 @@ kb_proposal:
   status: "PROPOSED — awaiting user review; NOT written to the KB"
 ```
 
-Emit it as JSON. It must validate against `.pageindex/validate_proposal.py`.
+Emit it as JSON. It must validate: `python3 scripts/validate_proposal.py <out_proposal>`.
 
 ## Rules
 
-- **Never write to the KB or rebuild without explicit approval.** Always stop at the
-  review checkpoint.
+- **Never write to memory.** The proposal goes to your agent, which raises it as a memory
+  update a person approves.
 - **Smallest level that fits.** Don't invent a domain when a capability or
   functionality on an existing shelf closes the gap.
 - **Ground in research.** Cite sources; follow the shelf template + functionality
