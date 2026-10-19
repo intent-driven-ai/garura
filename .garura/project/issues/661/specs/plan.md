@@ -4,7 +4,7 @@ kind: story
 serves: "#661 — /intent, /vision, /understand and the Kickoff drive read no memory; their agents read it through the memory tool"
 status: active
 updated: 2026-10-19
-now: 9
+now: 10
 serves_plan: 653
 serves_item: 8
 ---
@@ -107,7 +107,7 @@ What is true today (read on 2026-10-19):
 
 ## Where we are now
 
-ADR 039 and ADR 040 are accepted; the docs, the tool, the install, `template-manager`, the judging skill and the config follow them. The shared close lives in one file. The two Kickoff agents read memory through the tool. The three plays read no memory. Questions, answers and the whole Kickoff run live in the issue. Now: item 9, the Kickoff drive's rule.
+ADR 039 and ADR 040 are accepted; the docs, the tool, the install, `template-manager`, the judging skill and the config follow them. The shared close lives in one file. The two Kickoff agents read memory through the tool. The three plays read no memory. Questions, answers and the whole Kickoff run live in the issue. The drive's rule is written. Now: item 10, prove it.
 
 ## The plan, in order
 
@@ -160,14 +160,13 @@ ADR 039 and ADR 040 are accepted; the docs, the tool, the install, `template-man
   results under `context/<play>/start|end/`; by hand nothing is written in `.garura/` before
   `start-change` (`/understand` holds its pre-flight files in a scratch folder outside `.garura/`
   and moves them in). `lint_play` passes for all three; tests 103, 32 + 30, 87 + 20 + 18 pass.
+- **9. The Kickoff drive's rule** — `drive-contract.md` says the issue ID governs (everything
+  the drive and its plays write goes under the drive's issue), a drive and its plays read no
+  memory, a new step 2 names the paths under the issue, and a question stops the play only
+  when neither memory nor the contract answers it (the answer kept in the issue's short-term
+  memory). Its rules-index row and the glossary's Drive entry say the same.
 
-### 9. The Kickoff drive's rule — now
-
-**What:** the drive contract and the glossary's Drive entry say a drive reads no memory and
-gets it from its plays' agents, so #613 builds the drive that way.
-**Done when:** both texts say so.
-
-### 10. Prove it
+### 10. Prove it — now
 
 **What:** a check that lists every memory path left in the scope and finds none. Run each
 changed play's checks and `lint-components`. Run `/intent` once on a test project, to see its
@@ -238,3 +237,5 @@ Then run the change chain.
 - 2026-10-19 — Kapil: "1" — the three Kickoff plays' evidence and `/intent`'s source snapshots
   move into `{stm_base}<issue>/evidence/<play>/` (a direct edit; no ICE names the folder). Kapil:
   the issue ID governs — every piece of work writes its memory, evidence and files under it.
+- 2026-10-19 — Item 9 done: the drive contract, its index row and the glossary say the issue ID
+  governs and a drive reads no memory.
