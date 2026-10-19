@@ -45,7 +45,13 @@ Kapil's rules, 2026-10-19 (they replace this plan's first reading):
   memory) and `tools/` (the memory tool moves here from `.garura/tools/`). `product/` (the
   product model), `project/issues/` (short-term memory), `install-manifest.json`,
   `defect-report/` (defects reported to Garura and Phoenix) and `user-provided/` (the evidence
-  layer) stay. `project/specs/` goes.
+  layer) stay. `project/specs/` goes. `core/engine-state.json` stays in `core/` (Kapil: "ok").
+  `.garura/core/memory/` is kept in git, not ignored (Kapil: "dont ignore this").
+- **Questions and answers in every play go to the issue's short-term memory** (Kapil: "the
+  answers go to STM ... when we are running vision or understand or whatnot, and the user is
+  answering, the groundings are running into that specific issue as well"). `product.md`
+  Rule 12, which writes them to `.garura/product/user-provided/grounding-questions.md`, changes.
+- **Asked again in another issue is expected** until a person promotes the answer (Kapil).
 - **What the three plays needed from memory, and where it comes from now** (Kapil, 2026-10-19):
   - The ontology's path is folder structure, not memory. Paths go in the config file.
   - The judge prompt is part of judging, so it belongs in a judging skill. "This is core
@@ -126,7 +132,8 @@ tool's folder), ADR 017's whitelist, and the rule that the close is copied into 
 
 **What:** `read` copies nothing; `pull` and `pulled` go; the install lays the tool at
 `.garura/core/tools/memory/` and names Phoenix memory at `~/.phoenix/core/memory`;
-uninstall follows; `.garura/project/specs/` goes. Tests for each. How a project's memory is
+uninstall follows; `.garura/project/specs/` goes; `.garura/core/memory/` comes off
+`.gitignore` (first clear the old full copy this repo holds there, or it is committed). Tests for each. How a project's memory is
 built from the part it needs is `initialize`'s work, not this plan's.
 **Done when:** the tool's tests and the install's tests pass.
 
@@ -165,20 +172,27 @@ here (Kapil, 2026-10-18).
 `/play-editor` if a guarantee changes; a direct edit if not).
 **Done when:** none of the three plays names a memory path.
 
-### 8. The Kickoff drive's rule
+### 8. Questions and answers go to short-term memory
+
+**What:** `product.md` Rule 12 and the plays that follow it write every question and the
+person's answer to the issue's short-term memory, not
+`.garura/product/user-provided/grounding-questions.md`.
+**Done when:** no play writes a question or an answer outside short-term memory.
+
+### 9. The Kickoff drive's rule
 
 **What:** the drive contract and the glossary's Drive entry say a drive reads no memory and
 gets it from its plays' agents, so #613 builds the drive that way.
 **Done when:** both texts say so.
 
-### 9. Prove it
+### 10. Prove it
 
 **What:** a check that lists every memory path left in the scope and finds none. Run each
 changed play's checks and `lint-components`. Run `/intent` once on a test project, to see its
 agent find memory through the tool and keep a trace. The full run of the three plays is #662.
 **Done when:** the check finds no memory path, and every check passes.
 
-### 10. Land
+### 11. Land
 
 **What:** close this plan and item 8 of the #653 plan in the last commit before the merge.
 Then run the change chain.
@@ -217,3 +231,6 @@ Then run the change chain.
 - 2026-10-19 — Kapil decided the rest: the `.garura/` layout; the ontology's path in config;
   the judge prompt in a judging skill; a `template-manager` agent for templates; the shared
   close fixed now, in one common file the plays point to. Items 3 to 10 rebuilt.
+- 2026-10-19 — ADR 039 drafted. Kapil: Rule 12's questions and answers go to the issue's
+  short-term memory (item 8 added); `.garura/core/memory/` kept in git; `engine-state.json`
+  stays; asked-again is expected until promotion; "accept".
