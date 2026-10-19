@@ -4,7 +4,7 @@ kind: story
 serves: "#660 — every Garura install carries the memory tool, a memory guide, and a check that the tool works"
 status: active
 updated: 2026-10-19
-now: 1
+now: 2
 serves_plan: 653
 serves_item: 7
 ---
@@ -25,13 +25,22 @@ ADR 035 §8. When Garura is installed into a project, that project gets three th
   036 set: short-term memory is the current issue only. A researched answer is used only
   after a person approves it, and it lands in the issue's short-term memory. Promotion to
   Garura or Phoenix memory happens outside the work.
-- **A check.** The install runs the tool and makes sure it reaches each tier. If a tier
-  cannot be reached, the install fails and names that tier.
+- **A check** that the tool runs and reaches the project's own tiers.
 
 This works for Claude Code and for Codex.
 
 Kapil, 2026-10-18: "Anytime Garura gets installed, every project would need to know what
 that tool is, what it does, and how the memory works. Otherwise, the subagents will fail."
+
+**The install brings no memory** (Kapil, 2026-10-19: "install finishes without any
+memory"). Phoenix memory reaches a machine the first time the tool needs it: "when the tool
+runs for the first time after installation, it downloads the memory and puts it into a
+global source ... something that the tool knows about. It's a local configuration.
+Eventually, this tool is going to point to a URL." The project's own memory is then set up
+by a new play, run after the install, that asks the person questions built from Phoenix
+memory (domains, functionalities, technology standards, tools, frameworks), each with
+choices to pick from. Kapil: "After install, let's call this whole thing `initialize`." That
+play is not in this plan (see the #653 plan).
 
 What is true today (`core/components/plays/install-garura/scripts/install.py`):
 
@@ -42,78 +51,67 @@ What is true today (`core/components/plays/install-garura/scripts/install.py`):
   names, or from environment variables. A project has neither.
 - `memory.py health` already reports each tier as reachable or not. Run on this repo with a
   settings file, all three tiers answer (Phoenix memory at `ad3afb5`).
-- The installer pulls no memory (Kapil, #656). That does not change here.
+- Phoenix memory sits at `~/.garura/phoenix-memory` on this machine, put there by hand
+  (#656). Nothing downloads it.
 
 ## When this plan is done
 
 - A fresh install into a test project, for Claude Code and for Codex, has the tool, its
-  settings and the guide. The install's check passes.
-- An agent in that test project finds a piece of memory through the tool.
-- An install where the tool cannot reach a tier fails, and it names that tier.
+  settings and the guide. The install finishes with no memory, and its check passes.
+- The first lookup that needs Phoenix memory downloads it to the machine's place for it,
+  and an agent in that project then finds a piece of memory through the tool.
+- An install where the tool cannot run, or cannot reach the project's short-term or Garura
+  memory, fails and names what is wrong.
 - Uninstall removes the tool, its settings and the guide.
 - The installer's tests and the tool's tests pass.
 
 ## Where we are now
 
-The change is open. Next is item 1: three points only Kapil can decide.
+Kapil decided the three points (item 1). Next is item 2: the tool finds its own settings
+and downloads Phoenix memory when it first needs it.
 
 ## The plan, in order
 
 ### Done
 
 - **0. Opened** — #660. Branch `feature/660-install-carries-memory` off main (`f42a2135`).
+- **1. Decided by Kapil, 2026-10-19:**
+  - (a) The tool lives inside the project, at `.garura/tools/memory/`, with its settings
+    beside it. The tool's own files are hidden from Garura memory lookups. ("a.1")
+  - (b) Claude Code: the guide goes in `.claude/rules/garura-memory.md`. Every session and
+    every custom sub-agent loads it; the docs say so (code.claude.com/docs/en/memory: a
+    rules file with no `paths` field "is loaded at launch with the same priority as
+    `.claude/CLAUDE.md`"; code.claude.com/docs/en/sub-agents: a sub-agent loads "every level
+    of the CLAUDE.md hierarchy the main conversation loads, including ... project rules").
+    No Garura agent sets `omitClaudeMd`. Codex: the guide goes into AGENTS.md. When the
+    project already has an AGENTS.md, the guide is added as one marked block, which a
+    re-install replaces and uninstall removes. ("b.1")
+  - (c) The install finishes without any memory. The tool downloads Phoenix memory the
+    first time it needs it, to a place on the machine its settings name. (Kapil's words are
+    quoted above.)
 
-### 1. Kapil decides three points — now
+### 2. The tool finds its settings and downloads Phoenix memory — now
 
 **What:**
-- (a) Where the tool lives in a project.
-  - Option 1 (recommended): inside the project, at `.garura/tools/memory/`, with its
-    settings beside it. Each project keeps the tool version it was installed with, and
-    uninstall removes it. The tool's own files are hidden from Garura memory lookups, so a
-    search never answers from the tool's code.
-  - Option 2: one copy per machine, at `~/.garura/tools/memory/`, like shared memory. Each
-    project keeps only its settings. A re-install from a newer Garura changes the tool for
-    every project.
-- (b) How every agent comes to read the guide.
-  - Claude Code, settled by the docs: the guide goes in `.claude/rules/garura-memory.md`.
-    A rules file with no `paths` field "is loaded at launch with the same priority as
-    `.claude/CLAUDE.md`" (code.claude.com/docs/en/memory). A custom sub-agent loads "every
-    level of the CLAUDE.md hierarchy the main conversation loads, including ... project
-    rules" (code.claude.com/docs/en/sub-agents). No Garura agent sets `omitClaudeMd`. The
-    project's own CLAUDE.md is not touched.
-  - Codex reads AGENTS.md at the start of every session. When the project has no AGENTS.md,
-    the one Garura writes carries the guide. When the project already has one, the
-    installer today writes `AGENTS.md.new`, and the guide would not reach the agents.
-    Option 1 (recommended): add the guide to the project's AGENTS.md as one marked block.
-    A re-install replaces the block, and uninstall removes it. Option 2: leave the
-    project's AGENTS.md alone, and accept that Codex agents there do not get the guide.
-- (c) What the install does when Phoenix memory is not on the machine.
-  - Option 1 (recommended): the install fails, names Phoenix memory, and prints the one
-    command that clones it to `~/.garura/phoenix-memory`. The person runs it and installs
-    again.
-  - Option 2: the install clones Phoenix memory itself, then checks. This needs GitHub
-    access to the private repository during the install, and it puts Phoenix memory's
-    address into the installer.
+- When nothing is set, the tool reads the settings file beside itself (`settings.json`).
+  `MEMORY_SETTINGS` and the environment still come first.
+- A new setting names Phoenix memory's address. When Phoenix memory's place is empty and a
+  command needs it, the tool downloads it there first. `health` only reports; it never
+  downloads. If the download fails, the tool says so and names Phoenix memory.
+- The tool's own folder is never answered as Garura memory.
+- The README says all three. The contract does not change: settings and downloading belong
+  to the folder engine, not to the answers.
 
-**Why first:** each answer changes what the installer lays down and what the guide says.
+**Why here:** the guide and the install check both call the tool the plain way.
 
-**Done when:** each point has Kapil's answer, logged here.
-
-### 2. The tool finds its own settings
-
-**What:** today an agent must set `MEMORY_SETTINGS` on every call. After this change, when
-nothing is set, the tool reads the settings file the install wrote, at a fixed place. The
-README and the tests say so, and the contract does not change.
-
-**Why here:** the guide and the check both call the tool the plain way.
-
-**Done when:** the tool's tests pass, including new tests for the file it finds itself.
+**Done when:** the tool's tests pass, with new tests for each of the three.
 
 ### 3. The memory guide
 
 **What:** one short guide, in plain words, kept beside the tool (`core/tools/memory/`), so
 the tool and its guide ship as one folder. Its content is listed in "What we are trying to
-reach". Every command it shows is run once, to prove it works as written.
+reach". It says that a new project starts with no memory and that `initialize` will set it
+up. Every command it shows is run once, to prove it works as written.
 
 **Why here:** the installer (item 4) lays it down.
 
@@ -122,16 +120,17 @@ reach". Every command it shows is run once, to prove it works as written.
 ### 4. The installer lays the tool, its settings and the guide
 
 **What:**
-- `install.py` copies the tool and the guide into the project and writes the settings. The
-  settings name short-term memory (`.garura/project/issues/`), Garura memory (`.garura/`)
-  and Phoenix memory (`~/.garura/phoenix-memory`).
+- `install.py` copies the tool and the guide to `.garura/tools/memory/` and writes the
+  settings. The settings name short-term memory (`.garura/project/issues/`), Garura memory
+  (`.garura/`), Phoenix memory's place (`~/.garura/phoenix-memory`) and its address.
 - The install makes the short-term folder (`.garura/project/issues/`). Today it makes
   only `.garura/project/specs/`, so the check would fail on short-term memory.
-- The Claude Code and Codex adapters put the guide where agents read it, as decided in
-  item 1.
-- The install manifest records each new file, so `uninstall-garura` removes it.
-- In Garura's own repository (installed with `--scope harness`), the installed copy is
-  ignored by git, as `.claude/` is today.
+- The Claude Code adapter writes the guide as `.claude/rules/garura-memory.md`. The Codex
+  adapter puts it into AGENTS.md, as a marked block when the project has its own file.
+- The install manifest records each new file, so `uninstall-garura` removes it, and the
+  marked block.
+- In Garura's own repository (installed with `--scope harness`), the installed copies are
+  ignored by git, as `.claude/skills/` is today.
 
 **Why here:** it needs the tool's settings (item 2) and the guide (item 3).
 
@@ -141,21 +140,25 @@ them.
 ### 5. The install checks the tool
 
 **What:** after laying the files, the install runs the tool's `health` command with the
-written settings. If a tier cannot be reached, the install fails, names the tier and says
-what to do. It also fails when Python is older than 3.10, which the tool needs.
+written settings. If the tool cannot run, or short-term or Garura memory cannot be reached,
+the install fails and names what is wrong. Phoenix memory not yet downloaded is not a
+failure: the install says the tool gets it on first use. It also fails when Python is older
+than 3.10, which the tool needs.
 
 **Why here:** it checks what item 4 laid down.
 
-**Done when:** tests cover three cases. An install with all three tiers passes. An install
-with no Phoenix memory fails and names Phoenix memory. An install with no short-term folder
-fails and names short-term memory.
+**Done when:** tests cover three cases. An install with no memory passes. An install where
+the tool cannot run fails. An install with no short-term folder fails and names short-term
+memory.
 
 ### 6. Prove it on a fresh project
 
-**What:** install into a fresh test project, for Claude Code and then for Codex. In the
-Claude Code project, ask an agent to find a piece of memory, and confirm it uses the tool
-and names its source. Then install where Phoenix memory cannot be reached, and confirm the
-install fails and names it. This is recorded as Kapil's test, as in #657.
+**What:** install into a fresh test project, for Claude Code and then for Codex, with
+Phoenix memory's place empty (a test place, so the real one is never touched). The install
+finishes with no memory. Then ask an agent in the Claude Code project to find a piece of
+memory. Confirm the tool downloads Phoenix memory, the agent uses the tool, and it names
+its source. Then uninstall and confirm the project is clean. This is recorded as Kapil's
+test, as in #657.
 
 **Why here:** only a real install and a real agent show that the system works.
 
@@ -170,12 +173,23 @@ item 7 of the #653 plan in the last commit before the merge. Then run the change
 
 ## Not in this plan
 
+- `initialize`, the play that sets up a project's first memory after the install. It is
+  new work, recorded in the #653 plan.
+- Pointing the tool at a server address instead of a git repository (Griffin, later).
 - Moving the agents onto the tool (#661, #663). This plan only installs the tool and the
-  guide, and points the agents at the guide.
-- Filling a project's first memory: three set-up plays, not filed (Kapil, #656).
+  guide.
 - Removing `core/components/memory/` and its copy to `~/.garura/core/memory` (#653 item 10).
+
+## Where the issue text no longer matches
+
+The #660 issue says "An install whose tool cannot reach a tier fails with that tier
+named." Kapil changed this on 2026-10-19: the install finishes without memory, and Phoenix
+memory is downloaded on first use. The GitHub text is not changed yet.
 
 ## Log
 
 - 2026-10-19 — Created at the start of #660, from the issue, ADR 035 §8, ADR 036, ADR 037,
   the #653 plan, the installer and the memory tool.
+- 2026-10-19 — Item 1 done: Kapil chose a1 and b1, and for c, an install with no memory;
+  the tool downloads Phoenix memory on first use, and a new play, `initialize`, sets up a
+  project's memory after the install. Items 2, 3, 5 and 6 changed to match.
