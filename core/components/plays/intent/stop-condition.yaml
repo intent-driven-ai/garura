@@ -1,6 +1,6 @@
 # intent stop condition — baked from reference/ice.md "### Done means" (#464, #612).
 # Evaluated by scripts/check_stop_condition.py at Step C0 of the Standard Play Close.
-# Paths are relative to the run's working folder ({stm_base}_kickoff/intent/<run-ts>/).
+# Paths are relative to the run's working folder ({stm_base}<issue>/context/intent/<run-ts>/).
 schema: { name: stop-condition }
 content:
   done:

@@ -85,7 +85,15 @@ sub-plays. Everything else is a script.
 | Drive contract: when `--contract <file>` is passed, it is valid JSON naming `drive_run_id` and `branch`, and the current branch equals that branch | C9 | Hard halt (REC9) |
 | **Clean model tree** — after Step 0 (or at once, inside a drive), `git status --porcelain -- <product_base>product-os` is empty | C8 | Hard halt (REC8) |
 
-Resolve the facts with the bundled resolver — not by inference:
+**The issue comes first.** Short-term memory is created in the issue being worked on. Inside a
+drive that is the contract's `issue`, known now. Run by hand it is the issue Step 0
+(`start-change`) opens or resolves, so pre-flight only checks; it writes nothing until Step 0
+has given the issue. The run's working folder `<working>` is
+`{stm_base}<issue>/context/intent/<run-ts>/`, and its status markers sit in
+`{stm_base}<issue>/status/`; the stop condition reads `<working>` there.
+
+Resolve the facts with the bundled resolver — not by inference — once the issue is known (at
+once inside a drive; right after Step 0 run by hand):
 
 ```
 git branch --show-current
@@ -93,13 +101,13 @@ git status --porcelain > <working>/porcelain.txt
 python3 scripts/preflight.py --play intent --config .garura/core/config.yaml \
     --branch "<current branch>" --porcelain-file <working>/porcelain.txt
 python3 scripts/session_stamp.py --phase start \
-    --marker "{stm_base}_kickoff/intent/status/session-stamp-intent.json" \
+    --marker "{stm_base}<issue>/status/session-stamp-intent.json" \
     --cwd "$(pwd)" --branch "$(git branch --show-current)"
 ```
 
-`in_drive` is true exactly when a valid `--contract` was passed; record it in
-`<working>/run.json` with the contract's `drive_run_id` and `branch`. The run's working folder
-`<working>` is `{stm_base}_kickoff/intent/<run-ts>/`; the stop condition reads it there. Each
+Run by hand, `preflight.py` reads the issue from the branch `start-change` cut. `in_drive` is
+true exactly when a valid `--contract` was passed; record it in `<working>/run.json` with the
+contract's `drive_run_id`, `branch` and `issue`. Each
 Source's snapshot goes to the evidence folder `{product_base}_evidence/intent/<run-ts>/source-<name>/`
 — product-scoped, so it outlives the run.
 
@@ -135,11 +143,12 @@ runtime reordering. On resume, skip completed and reset in-progress to pending.
 **Step 0 — start-change** · Owner: `start-change` (sub-play) · Depends on: pre-flight
 *Skipped when `in_drive`.* Run the start-of-pipeline member as a sub-play with
 `parent_run_id`: it resolves or creates the issue, cuts the branch off fresh main, and inits
-STM. Then run the clean-tree assertion.
+STM. `{issue}` in its result path is the issue it gave. Then create `<working>` in that issue,
+run the pre-flight writes (above), and run the clean-tree assertion.
 
     { "play": "start-change", "parent_run_id": "<this run id>",
       "inputs": { "title": "intent: <a few words of what the person wants>" },
-      "outputs": { "result": "{stm_base}_kickoff/intent/start/start-change.json" } }
+      "outputs": { "result": "{stm_base}{issue}/context/intent/start/start-change.json" } }
 
 ### Phase: Capture
 
@@ -344,19 +353,19 @@ injects the close sequence, each a sub-play with `parent_run_id`:
 
 **Step E1 — commit-change** · blockedBy: Step 7
 
-    { "play": "commit-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "{stm_base}_kickoff/intent/end/commit-change.json" } }
+    { "play": "commit-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "{stm_base}{issue}/context/intent/end/commit-change.json" } }
 
 **Step E2 — propose-change** · blockedBy: E1
 
-    { "play": "propose-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "{stm_base}_kickoff/intent/end/propose-change.json" } }
+    { "play": "propose-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "{stm_base}{issue}/context/intent/end/propose-change.json" } }
 
 **Step E3 — review-change** · blockedBy: E2
 
-    { "play": "review-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "{stm_base}_kickoff/intent/end/review-change.json" } }
+    { "play": "review-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "{stm_base}{issue}/context/intent/end/review-change.json" } }
 
 **Step E4 — merge-change** · blockedBy: E3
 
-    { "play": "merge-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "{stm_base}_kickoff/intent/end/merge-change.json" } }
+    { "play": "merge-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "{stm_base}{issue}/context/intent/end/merge-change.json" } }
 
 Each end member owns its own evals; a review reject stops the chain before merge; the land on
 main keeps its pinned human approval.
@@ -423,13 +432,13 @@ close.
 #     product-scoped play : evidence_base="${product_base}_evidence/intent/"          ; slug="${run_ts}"
 # Session identity stamp (#463) — close phase; start phase ran at pre-flight
 session_stamp=$(python3 scripts/session_stamp.py --phase close \
-    --marker "${stm_base}_kickoff/intent/status/session-stamp-intent.json")
+    --marker "${stm_base}${issue}/status/session-stamp-intent.json")
 # Stop-condition gate (#464) — Step C0: this play carries a baked manifest, so the
 # gate is LIVE. Evaluate the Done means here as the close's authoritative input.
 python3 scripts/check_stop_condition.py \
     --manifest "<play-dir>/stop-condition.yaml" \
     --base "<working>/" \
-    --out "${stm_base}_kickoff/intent/status/stop-condition-intent.yaml"
+    --out "${stm_base}${issue}/status/stop-condition-intent.yaml"
 sc_exit=$?   # 0 held · 1 unmet · 2 error
 ```
 
@@ -500,8 +509,8 @@ and its ICE in the model), and a pointer to
 
 ## Pause and Resume
 
-Steps run top to bottom. On entry, resolve config and the in-progress run from the status
-marker, skip completed steps, reset any in-progress step to pending, and continue. A resume
+Steps run top to bottom. On entry, resolve config, the issue (from the drive contract, or from
+the branch), and the in-progress run from its status marker in `{stm_base}<issue>/status/`, skip completed steps, reset any in-progress step to pending, and continue. A resume
 after Step 1 reuses the captured snapshot; a resume after Step 3 reuses `answers.yaml` rather
 than asking again; a resume never re-asks a decision already recorded, and never re-asks any
 once `confirmation.yaml` exists.
@@ -511,7 +520,7 @@ Inside a drive, a resume keeps `in_drive` from `run.json`.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:9b6fddb24d582ac2bb85386482209ab1aaa2cc0fe7a6208d9e11f09434fbe5a3 (of `reference/ice.md`) |
+| fingerprint | sha256:a86ec3d998d32b358ac8aaee93ac88dbe0f10e7393d3c38d4fe401857ed29435 (of `reference/ice.md`) |
 | compiled_by | play-editor (#637 one product model with /vision); play-creator (#612) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close; both skipped inside a drive) |
 | position_exception | model-writing both play — writes the intent on its started branch (or the drive's) and commits its own model delta (Step 7) BEFORE the injected end sequence lands it |

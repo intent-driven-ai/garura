@@ -165,6 +165,14 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
   its model delta on the drive's branch (C9). A question neither the contract nor the model
   answers — no intents and no goal — stops the run and asks the person; the play never
   picks an answer itself. Run by hand (no contract), every step runs as before.
+  Either way, the run's short-term memory is the issue it works on (ADR 036 §1, ADR 039 §1):
+  inside a drive the contract's `issue`, run by hand the issue `start-change` opens or
+  resolves. The run's working folder is `{stm_base}<issue>/context/vision/<product_slug>/`,
+  its status, resume and session-stamp markers sit in `{stm_base}<issue>/status/`, and its
+  sub-play results in `{stm_base}<issue>/context/vision/start/` and `…/end/` — so every
+  question and the person's answers live where the memory tool finds them. Run by hand,
+  nothing is written to disk before `start-change` has given the issue; inside a drive the
+  issue is known at pre-flight from the contract.
 
 ### Failure conditions
 
@@ -209,7 +217,9 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
   intent was left with no domain and no warning saying why.
 - F12 — Inside a drive, the play opened an issue or a branch, ran the end sequence, waited at
   its checkpoint, or worked on a branch other than the drive's; or, run by hand, it skipped
-  its opening, its checkpoint or its end sequence.
+  its opening, its checkpoint or its end sequence; or, either way, a run file (the working
+  folder, a status marker, a sub-play result) lies outside the issue the run works on, or a
+  file was written before `start-change` gave the issue.
 - F13 — Inside a drive, the checkpoint left no review record in the drive's `review_dir`,
   the record differs from what the checkpoint would have shown, the gate ledger has no line
   for the crossing, or a line records an approval no person gave; or the play picked an
@@ -278,13 +288,15 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
   branch equals the contract's branch; a `<review_dir>/vision-<ts>.json` record exists with
   `decided: false` and its summary file; the gate ledger's line for the run reads
   `deferred_to_drive_review` (or `auto_pass` on a policy-listed shape); the model delta is
-  committed on the drive's branch; the stop-condition verdict reads held. Run by hand, the
-  same play's `run.json` reads `in_drive: false` and every step ran as before.
+  committed on the drive's branch; the stop-condition verdict reads held; `run.json` sits in
+  `{stm_base}<contract issue>/context/vision/<product_slug>/`. Run by hand, the same play's
+  `run.json` reads `in_drive: false`, every step ran as before, and it sits in the folder of
+  the issue `start-change` gave.
 
 ### Done means
 
-Paths are relative to the run's working folder (`<working>`, under
-`{stm_base}_shaping/vision/<product_slug>/`). `persist-manifest.json` is the record the
+Paths are relative to the run's working folder (`<working>`,
+`{stm_base}<issue>/context/vision/<product_slug>/` — the issue the run works on). `persist-manifest.json` is the record the
 keyed persist script writes after the approved checkpoint (its contract: `applied`,
 `written`, `skipped`, `changed`) — the seed's grounding docs written in place on the live
 model and the spine/profile merged additively; `guard-report.json` is the captured
@@ -357,8 +369,10 @@ not per-node docs.
   be placed. handoff: autonomous.
 - REC12 (F12) — trigger: inside a drive the play opened an issue or branch, ran the end
   sequence, waited at its checkpoint, or worked off the drive's branch; or by hand it skipped
-  a step. direction: inside a drive, close the stray issue and branch, switch to the drive's
-  branch, and write the review record in place of the wait; by hand, run the skipped step.
+  a step; or a run file lies outside the issue the run works on. direction: inside a drive,
+  close the stray issue and branch, switch to the drive's branch, and write the review record
+  in place of the wait; by hand, run the skipped step; move any run file into the issue's
+  folder (`context/vision/<product_slug>/`, `status/`).
   handoff: human.
 - REC13 (F13) — trigger: no review record, a record that differs from the checkpoint, no
   ledger line, an approval no person gave, or an answer the play picked itself. direction:

@@ -57,6 +57,10 @@ They are short-term memory, so the tool can find them later.
 - **Every memory write goes to short-term memory** (ADR 039 §1). A question asked of a
   person, and the answer, are kept in the issue's short-term memory. So is an approved
   memory update (ADR 036).
+- **Short-term memory is created in the issue being worked on.** Inside a drive, that is the
+  drive's issue; its plays open none. A play run on its own gets its issue from
+  `start-change`. A play's working folder lives in that issue, under `context/<play>/`, and its
+  status markers under `status/` — never in a folder beside the issues.
 - **A grounding run is no exception.** `/vision`, `/understand` or any other play runs inside
   an issue. Its questions and the person's answers go to that issue's short-term memory.
 - **Moving memory up is a promotion.** A person makes it on purpose, outside the work, to
@@ -109,8 +113,8 @@ old way:
 - `template-manager`, the judging skill and the common close file do not exist yet;
 - plays still read their close templates, and `/vision` and `/understand` their judge and
   approval prompts, by a path;
-- `product.md` Rule 12 still writes questions and answers to
-  `.garura/product/user-provided/grounding-questions.md`.
+- the Kickoff plays' working folders are moving into their issue (#661, item 8); other plays
+  still keep theirs beside the issues (for example `{stm_base}_adr/<run-ts>/`).
 
 ## Related
 

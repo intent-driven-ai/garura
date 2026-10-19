@@ -43,7 +43,7 @@ conditional learned gate, see `standards/rules/gate-config.md`; #498 — migrate
 direct-model-write per ADR 026 and `standards/rules/direct-model-write.md`; #616 — stands
 alone: seeds an absent capability from the person's answers, and position none → both;
 #615 — runs inside a drive, and one run details every pending capability). Intent defines
-constraints (C1–C14) and failure conditions (F1–F16); the expectation defines success
+constraints (C1–C15) and failure conditions (F1–F17); the expectation defines success
 scenarios (S1–S8), a Done means (D1–D3, baked to `stop-condition.yaml`), and one
 recovery entry per failure condition. To modify this play, update `reference/ice.md`
 and recompile with play-editor.
@@ -70,8 +70,9 @@ is /shape); persisting the shared files (spine/profile/decisions) by any route o
 `scripts/persist_understand.py`; committing before the checkpoint resolves; writing a
 box-move decision `accepted` inside a drive (C8/C13); filling in a seed answer the person or
 the drive did not give (C1/C13); running against
-a dirty product-os tree (C12/F13); closing COMPLETED without the stop-condition verdict
-reading held (C11/F11).
+a dirty product-os tree (C12/F13); writing short-term memory outside the issue the run works
+on, or before `start-change` gave it (C15/F17); closing COMPLETED without the stop-condition
+verdict reading held (C11/F11).
 
 **Agent boundaries:**
 
@@ -94,6 +95,7 @@ on a configured different model) — never the orchestrator's own context.
 | Drive contract: when `--contract <file>` is passed, `check_drive_contract.py` accepts it (valid, complete, current branch = the drive's branch) and writes `run.json` | C13/F14 | Hard halt (REC14) |
 | Targets: `pick_targets.py` picks the named capabilities, else every pending (`detail: directional`) one (inside a drive, plus every one the contract seeds); a named `detailed` target → halt; nothing pending → end at once; **absent** targets → ask the person for all of them first (Step 0a), before any change opens | C1/C13/F16 | Ask step, end at once, or hard halt (REC1) |
 | **Clean model tree** — right after `start-change` (Step 0), or at once inside a drive, `git status --porcelain -- <product_base>product-os` is empty | C12/F13 | Hard halt (REC13) |
+| **The run's issue** — inside a drive the contract's `issue`; run by hand the issue `start-change` gives at Step 0. Until then, run by hand, the run works in a scratch folder outside `.garura/` | C15/F17 | Hold in the scratch folder (REC17) |
 
 **Clean-tree assertion (C12/F13, ADR 026).** Right after Step 0 (`start-change`) cuts the
 fresh branch (inside a drive, at once — the earlier plays in the drive committed their model
@@ -150,8 +152,14 @@ are picked as by hand, plus every capability the contract seeds; a seed's answer
 started — `pick_targets.py` writes them verbatim to that capability's `seed.yaml`. A non-zero exit (an invalid contract, or
 the current branch is not the drive's) is a hard halt (REC14).
 
-The run's working root (`<working>` below) is `{stm_base}_shaping/understand/<run ts>/`,
-where `<run ts>` is the run's own UTC timestamp. Each target has its own folder
+The run's working root (`<working>` below) is `{stm_base}<issue>/context/understand/<run ts>/`
+(C15), where `<issue>` is the issue the run works on — the drive contract's `issue` inside a
+drive, the issue `start-change` gives at Step 0 run by hand — and `<run ts>` is the run's own
+UTC timestamp. **Run by hand, before Step 0** the issue is not known yet, so `<working>` is a
+scratch folder outside `.garura/` (`mktemp -d`): the pre-flight and Step 0a write there, and
+nothing is written to short-term memory. Right after Step 0 the play moves the scratch's files
+into `{stm_base}<issue>/context/understand/<run ts>/` and deletes the scratch; a halt before
+Step 0 deletes the scratch, so it leaves nothing behind. Each target has its own folder
 `<working>/caps/<capability>/` holding its routing (`routing.yaml`), its enrich manifest
 (`enrich-manifest.yaml`) and, when it was absent, its `seed.yaml`. The run-wide files — the
 target pick (`targets.json`), the proposed profile, the roll-up report, the change-shape, the
@@ -159,19 +167,19 @@ persist record (`persist-manifest.json`), and the captured scoped-guard report
 (`guard-report.json`) — live at the root. These are STM,
 non-model artifacts (ADR 008/017) — the model itself is written IN PLACE under
 `<product_base>product-os/`, never into `<working>`. The stop condition evaluates against
-`<working>`. Status markers live at `{stm_base}_shaping/understand/status/`.
+`<working>`. Status markers live at `{stm_base}<issue>/status/`.
 
-Right after the resolver, record the session identity stamp's start marker (#463 —
-soft-fail, never a halt):
+Once the issue is known — at pre-flight inside a drive, right after Step 0 run by hand —
+record the session identity stamp's start marker (#463 — soft-fail, never a halt):
 
 ```
 python3 scripts/session_stamp.py --phase start \
-    --marker "{stm_base}_shaping/understand/status/session-stamp-understand.json" \
+    --marker "{stm_base}<issue>/status/session-stamp-understand.json" \
     --cwd "$(pwd)" --branch "$(git branch --show-current)"
 ```
 
-**Resume check:** if `{stm_base}_shaping/understand/status/<run ts>.json` exists for an
-unfinished run, resume it — skip completed steps, reset any in-progress step to pending,
+**Resume check:** resolve the issue from the branch (`preflight.py`); if
+`{stm_base}<issue>/status/understand-<run ts>.json` exists for an unfinished run, resume it — skip completed steps, reset any in-progress step to pending,
 continue from the first incomplete.
 
 ## Task DAG
@@ -255,11 +263,19 @@ sequence (Steps E1–E4), not by a later play.
       "play":          "start-change",
       "parent_run_id": "<this run id>",
       "inputs":  { "title": "<e.g. 'understand: checkout, refunds'>" },
-      "outputs": { "result": "{stm_base}_understand/start/start-change.json" }
+      "outputs": { "result": "{stm_base}{issue}/context/understand/start/start-change.json" }
     }
 
-start-change owns its own evals; they are not re-checked here. Immediately after it
-returns, run the clean-tree assertion (pre-flight, C12/F13).
+`{issue}` is the issue start-change opens or resolves. start-change owns its own evals; they
+are not re-checked here. Immediately after it returns, resolve the issue from the branch
+(`python3 scripts/preflight.py --play understand --config .garura/core/config.yaml --branch
+"$(git branch --show-current)"`), move the scratch's files into
+`{stm_base}<issue>/context/understand/<run ts>/`, delete the scratch, record the session
+stamp's start marker, and run the clean-tree assertion (pre-flight, C12/F13).
+**SE-18 (F17/C15):** after Step 0 (at once inside a drive) every file this run wrote to
+short-term memory — `run.json`, `targets.json`, each `seed.yaml`, the sub-play results and
+the status markers — sits under `{stm_base}<issue>/`; run by hand, nothing was written under
+the short-term root before Step 0, and the scratch folder is gone.
 
 ### Phase: Enrich
 
@@ -629,19 +645,19 @@ raise the PR, take the verdict, and merge the detailed capability to main (C11).
 
 **Step E1 — commit-change** · blockedBy: Step 7
 
-    { "play": "commit-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "{stm_base}_understand/end/commit-change.json" } }
+    { "play": "commit-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "{stm_base}{issue}/context/understand/end/commit-change.json" } }
 
 **Step E2 — propose-change** · blockedBy: E1
 
-    { "play": "propose-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "{stm_base}_understand/end/propose-change.json" } }
+    { "play": "propose-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "{stm_base}{issue}/context/understand/end/propose-change.json" } }
 
 **Step E3 — review-change** · blockedBy: E2
 
-    { "play": "review-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "{stm_base}_understand/end/review-change.json" } }
+    { "play": "review-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "{stm_base}{issue}/context/understand/end/review-change.json" } }
 
 **Step E4 — merge-change** · blockedBy: E3
 
-    { "play": "merge-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "{stm_base}_understand/end/merge-change.json" } }
+    { "play": "merge-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "{stm_base}{issue}/context/understand/end/merge-change.json" } }
 
 Each end member owns its own evals (commit grouped by concern, PR opened, verdict posted, branch
 merged + cleaned); they are not re-checked here. A review-change reject stops the chain before
@@ -654,7 +670,8 @@ merge; the land on main keeps its pinned human approval (merge-change C7).
   (its `capability.md` promoted, its entry `detail: detailed`, with `nfr_needs`) and its
   functionalities are created (each a spine entry + a `functionality.md`), all clean on
   `lint_grounding.py` and passing the content-eval gate; the change is landed on main by the
-  end sequence (`{stm_base}_understand/end/merge-change.json` reports the PR merged); and the
+  end sequence (`{stm_base}<issue>/context/understand/end/merge-change.json` reports the PR
+merged); and the
   stop-condition verdict reads held.
 - **SCE-2 (S2 — product strategist, first firm-up):** on a `directional` box, the roll-up
   established and firmed it to `set` with no decision written this run.
@@ -676,7 +693,8 @@ merge; the land on main keeps its pinned human approval (merge-change C7).
 - **SCE-6 (S6 — product manager, nothing run first):** for a target that was absent,
   `<working>/caps/<capability>/seed.yaml` holds the person's answers (`answered_by: human`), the
   persist record lists it in `seeded`, the spine entry sits under the named domain with `detail: detailed`,
-  `{stm_base}_understand/end/merge-change.json` reports the PR merged, and the stop-condition
+  `{stm_base}<issue>/context/understand/end/merge-change.json` reports the PR merged, and the
+  stop-condition
   verdict reads held.
 - **SCE-7 (S7 — Kickoff drive):** handed a valid contract, `run.json` reads `in_drive: true`
   with the contract's `drive_run_id` and branch; every pending capability was a target of the
@@ -712,13 +730,13 @@ config-gated per the D1 evidence rule (`standards/rules/evidence-recording.md`).
 
 # Session identity stamp (#463) — close phase; start phase ran at pre-flight
 session_stamp=$(python3 scripts/session_stamp.py --phase close \
-    --marker "${stm_base}_shaping/understand/status/session-stamp-understand.json")
+    --marker "${stm_base}${issue}/status/session-stamp-understand.json")
 # Stop-condition gate (#464) — Step C0: this play carries a baked manifest, so the
 # gate is LIVE. Evaluate the Done means as the close's authoritative input.
 python3 scripts/check_stop_condition.py \
     --manifest "<play-dir>/stop-condition.yaml" \
-    --base "${stm_base}_shaping/understand/<run ts>/" \
-    --out "${stm_base}_shaping/understand/status/stop-condition-understand.yaml"
+    --base "${stm_base}${issue}/context/understand/<run ts>/" \
+    --out "${stm_base}${issue}/status/stop-condition-understand.yaml"
 sc_exit=$?   # 0 held · 1 unmet · 2 error
 # Conditional-gate policy refresh (#467) — soft: a distill failure never blocks the close
 python3 scripts/distill_gate_policy.py --ledger "<gates.conditional.ledger>" --policy "<gates.conditional.policy>" --streak <gates.conditional.streak> --project "<project name from config>" || true
@@ -742,7 +760,7 @@ target pick (`targets.json`), each detailed `capability.md`, the new `functional
 firmed profile, any decision records, the persist manifest (`persist-manifest.json`), the
 captured `guard-report.json`, the model-delta commit sha, the stop-condition verdict; the
 content-eval verdicts; step and scenario eval results
-SE-1…SE-17 / SCE-1…SCE-8; `run.json` (`in_drive`) and, inside a drive, each review record's
+SE-1…SE-18 / SCE-1…SCE-8; `run.json` (`in_drive`) and, inside a drive, each review record's
 path; checkpoint decision from Step 6 including each approved box-move
 (or the `gate skipped by config` / `gate auto-passed by learned policy` row when the gate
 resolved without a wait) plus the gate ledger line(s) appended this run; the session identity
@@ -795,11 +813,14 @@ the detailed functionalities into end-to-end verticals and epics), and a pointer
 | F14 | inside a drive the play opened an issue or branch, ran the end sequence, waited at its checkpoint, or worked off the drive's branch; or by hand it skipped a step | inside a drive, close the stray issue and branch, switch to the drive's branch, and write the review record in place of the wait; by hand, run the skipped step | human |
 | F15 | no review record, a record that differs from the checkpoint (a box-move missing as its own line), no ledger line, an approval no person gave, or an answer the play picked itself | re-render the checkpoint and re-write the review record with `write_drive_review.py`; append the missing `deferred_to_drive_review` line, or a correction refuting a made-up approval; drop the picked answer and ask the person | autonomous |
 | F16 | a pending capability left out, an unnamed one taken, a target measured against a box raised in the same run, or a part of the run committed while another target failed | re-pick the targets with `pick_targets.py`, re-run the roll-up with every target's manifest against the starting box, and re-render the checkpoint; when a target failed, revert the uncommitted delta and halt the whole run | autonomous |
+| F17 | a working file, an answer, a marker or a sub-play result sits outside `{stm_base}<issue>/`, or something was written to short-term memory before Step 0 gave the issue | move it into the issue's working root (or status folder), delete the stray copy, continue; before the issue is known, hold it in the scratch folder until Step 0 | autonomous |
 
 ## Pause and Resume
 
-Steps run top to bottom. On entry, resolve config, resolve the targets from the in-progress
-run's `targets.json` (or pick them fresh), check the status marker, skip completed
+Steps run top to bottom. On entry, resolve config and the run's issue from the branch (C15),
+resolve the targets from the in-progress run's `targets.json` under
+`{stm_base}<issue>/context/understand/<run ts>/` (or pick them fresh), check the status marker
+at `{stm_base}<issue>/status/`, skip completed
 steps, reset any in-progress step to pending, and continue. A fresh start with no marker
 runs everything and creates the marker at Step 1. Resuming a run that already wrote model
 docs enters a dirty tree; the clean-tree assertion (F13) is scoped to a FRESH start right
@@ -812,7 +833,7 @@ reuses each `<working>/caps/<capability>/seed.yaml` rather than asking again.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:395c8bd05e88b1b4ac2c8490511a9c5c4e783d9c5cf2541c9968403ed0821099 (of `reference/ice.md`) |
+| fingerprint | sha256:fcf7e57f0061489e716cbf99ec479a23f584f34f7fd190e4c24a3b89e41f0c41 (of `reference/ice.md`) |
 | compiled_by | play-editor (#615 runs inside a drive; one run details every pending capability); play-editor (#616 stands alone); play-editor (#498 direct-model-write, ADR 026); prior: play-editor (#467 Batch B, #466 Batch C) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close — #616) |
 | position_exception | model-writing both play — writes the model on its own started branch and commits its own model delta (C12) BEFORE the injected end sequence lands it (same shape as /measure and /vision) |
@@ -822,9 +843,9 @@ reuses each `<working>/caps/<capability>/seed.yaml` rather than asking again.
 | utility_agents | 0 |
 | skills_used | search-kb, enrich-capability-ice |
 | scripts | 14 (preflight.py, check_drive_contract.py, pick_targets.py, write_drive_review.py, lint_grounding.py, grounding_gate.py, rollup_box.py, persist_understand.py, scoped_write_guard.py, classify_change.py, gate_eval.py, distill_gate_policy.py, check_stop_condition.py, session_stamp.py) |
-| step_evals | 17 (SE-1…SE-17) |
+| step_evals | 18 (SE-1…SE-18) |
 | scenario_evals | 8 (SCE-1…SCE-8) |
-| recovery_entries | 16 (one per failure condition; 12 autonomous / 4 human) |
+| recovery_entries | 17 (one per failure condition; 13 autonomous / 4 human) |
 | concurrency | Step 1 scoped-write fan-out (one agent per target); Step 2 read-only fan-out (one judge per doc) |
 
 **Recompiled note (#498, direct-model-write / ADR 026):** migrated from draft-then-apply to

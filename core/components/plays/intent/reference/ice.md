@@ -152,6 +152,13 @@ The first trial on a real prototype shaped this: a prototype shows what the pers
 and decide; the business intents sit one "why?" above, and the person supplied them,
 including one no source showed. Example answers helped the person answer why and proof.
 
+Short-term memory is created in the issue being worked on, whether the play runs by hand or
+inside a drive (Kapil, 2026-10-19; ADR 039 §1). Inside a drive that is the drive contract's
+`issue`; run by hand it is the issue `start-change` opens or resolves. So the run's working
+folder, its status markers and its sub-play results all sit inside that issue, and the
+person's answers are in the issue's short-term memory, where the memory tool finds them. Run
+by hand, nothing is written before `start-change` has given the issue.
+
 ## Expectation
 
 ### Success scenarios
@@ -207,7 +214,7 @@ including one no source showed. Example answers helped the person answer why and
 ### Done means
 
 Paths are relative to the run's working folder (`<working>`, under
-`{stm_base}_kickoff/intent/<run-ts>/`). `intent-manifest.json` is written when the confirmed
+`{stm_base}<issue>/context/intent/<run-ts>/`, inside the issue being worked on). `intent-manifest.json` is written when the confirmed
 Business Intents are saved, and rolls up every Source of the run; `guard-report.json` is the
 captured scoped-write guard output.
 

@@ -4,7 +4,7 @@ kind: story
 serves: "#661 — /intent, /vision, /understand and the Kickoff drive read no memory; their agents read it through the memory tool"
 status: active
 updated: 2026-10-19
-now: 8
+now: 9
 serves_plan: 653
 serves_item: 8
 ---
@@ -107,7 +107,7 @@ What is true today (read on 2026-10-19):
 
 ## Where we are now
 
-ADR 039 and ADR 040 are accepted; the docs, the tool, the install, `template-manager`, the judging skill and the config follow them. The shared close lives in one file. The two Kickoff agents read memory through the tool. The three plays read no memory. Now: item 8, questions and answers go to short-term memory.
+ADR 039 and ADR 040 are accepted; the docs, the tool, the install, `template-manager`, the judging skill and the config follow them. The shared close lives in one file. The two Kickoff agents read memory through the tool. The three plays read no memory. Questions, answers and the whole Kickoff run live in the issue. Now: item 9, the Kickoff drive's rule.
 
 ## The plan, in order
 
@@ -152,27 +152,16 @@ ADR 039 and ADR 040 are accepted; the docs, the tool, the install, `template-man
   and get the approval prompt from `template-manager`. Both `lint_play.py` copies accept the
   shared close's "Next-line map" wording. Play tests 103, 32, 87 pass; `lint_play` and
   `lint-components` give the same findings as main.
+- **8. Questions and answers go to short-term memory** — Rule 12 keeps them in the issue's
+  `context/grounding-questions.md`. `/intent`, `/vision` and `/understand` (ICE changed, then
+  recompiled the `/play-editor` way) keep their whole run in the issue being worked on — the
+  drive's issue inside a drive, `start-change`'s issue by hand: working folder
+  `{stm_base}<issue>/context/<play>/<run key>/`, markers `{stm_base}<issue>/status/`, sub-play
+  results under `context/<play>/start|end/`; by hand nothing is written in `.garura/` before
+  `start-change` (`/understand` holds its pre-flight files in a scratch folder outside `.garura/`
+  and moves them in). `lint_play` passes for all three; tests 103, 32 + 30, 87 + 20 + 18 pass.
 
-### 8. Questions and answers go to short-term memory — now
-
-**What:** `product.md` Rule 12 and the plays that follow it write every question and the
-person's answer to the issue's short-term memory, not
-`.garura/product/user-provided/grounding-questions.md`.
-**Done when:** no play writes a question or an answer outside short-term memory.
-**Progress (2026-10-19):** Rule 12 now keeps questions and answers in the issue's
-`context/grounding-questions.md`. Every skill that wrote the old file is deprecated (not
-installed). Open: the three Kickoff plays keep the person's answers in working folders under
-the short-term root but outside the issue's folder (`{stm_base}_kickoff/intent/<ts>/answers.yaml`,
-`{stm_base}_shaping/understand/<ts>/caps/<cap>/seed.yaml`), where the memory tool does not look.
-**Kapil, 2026-10-19 (option 2):** short-term memory is created in the issue being worked on —
-inside a drive the drive's issue (the contract's `issue`), run by hand the issue `start-change`
-opens. Each Kickoff play's whole working folder moves into that issue:
-`{stm_base}<issue>/context/<play>/<run key>/` (ADR 017's five issue keys kept), its status
-markers to `{stm_base}<issue>/status/`, its sub-play results under
-`{stm_base}<issue>/context/<play>/start|end/`. Run by hand, nothing is written before
-`start-change` gives the issue. An intent change: each play's ICE, then `/play-editor`.
-
-### 9. The Kickoff drive's rule
+### 9. The Kickoff drive's rule — now
 
 **What:** the drive contract and the glossary's Drive entry say a drive reads no memory and
 gets it from its plays' agents, so #613 builds the drive that way.
@@ -244,3 +233,6 @@ Then run the change chain.
 - 2026-10-19 — Item 6 done: both Kickoff agents and their six skills read memory only through
   the tool and short-term copies.
 - 2026-10-19 — Item 7 done: `/intent`, `/vision` and `/understand` read no memory.
+- 2026-10-19 — Item 8 done: the Kickoff plays' runs live in the issue being worked on (Kapil's
+  rule); open with Kapil: the run evidence and source snapshots still go to
+  `{product_base}_evidence/<play>/`.
