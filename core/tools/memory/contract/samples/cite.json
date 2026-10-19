@@ -44,7 +44,7 @@
   },
   "response": {
     "ok": true,
-    "contract_version": "4",
+    "contract_version": "5",
     "command": "cite",
     "citation_id": "cite-20261018-001",
     "stored": {

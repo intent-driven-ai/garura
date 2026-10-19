@@ -70,14 +70,14 @@ class Installed(unittest.TestCase):
 class LaysTheMemorySystem(Installed):
     def test_the_install_lays_the_tool_its_settings_and_the_guide_and_brings_no_memory(self):
         record = self.install()["memory_system"]
-        self.assertTrue(os.path.isfile(self.path(".garura", "tools", "memory", "memory.py")))
-        self.assertTrue(os.path.isfile(self.path(".garura", "tools", "memory", "contract", "v4.json")))
-        self.assertFalse(os.path.exists(self.path(".garura", "tools", "memory", "test_memory.py")))
-        self.assertFalse(os.path.exists(self.path(".garura", "tools", "memory", "contract", "samples")))
+        self.assertTrue(os.path.isfile(self.path(".garura", "core", "tools", "memory", "memory.py")))
+        self.assertTrue(os.path.isfile(self.path(".garura", "core", "tools", "memory", "contract", "v5.json")))
+        self.assertFalse(os.path.exists(self.path(".garura", "core", "tools", "memory", "test_memory.py")))
+        self.assertFalse(os.path.exists(self.path(".garura", "core", "tools", "memory", "contract", "samples")))
         self.assertTrue(os.path.isdir(self.path(".garura", "project", "issues")))
         with open(self.path(".claude", "rules", "garura-memory.md")) as fh:
             guide = fh.read()
-        self.assertIn("python3 .garura/tools/memory/memory.py search", guide)
+        self.assertIn("python3 .garura/core/tools/memory/memory.py search", guide)
         self.assertNotIn("{tool}", guide)
         self.assertEqual((record["guide"], record["agents_md_block"]), (".claude/rules/garura-memory.md", None))
         self.assertTrue(record["check"]["ok"], record["check"])
@@ -107,12 +107,12 @@ class LaysTheMemorySystem(Installed):
             text = fh.read()
         self.assertTrue(text.startswith("# Our own rules\nKeep it simple.\n"))
         self.assertEqual(text.count(memory_system.BLOCK_START), 1)
-        self.assertIn("python3 .garura/tools/memory/memory.py search", text)
+        self.assertIn("python3 .garura/core/tools/memory/memory.py search", text)
         self.assertFalse(os.path.exists(self.path(".claude", "rules")))
 
     def test_a_reinstall_keeps_settings_a_person_edited(self):
         self.install()
-        settings = self.path(".garura", "tools", "memory", "settings.json")
+        settings = self.path(".garura", "core", "tools", "memory", "settings.json")
         with open(settings) as fh:
             edited = json.load(fh)
         edited["phoenix_ref"] = "main"
@@ -124,16 +124,29 @@ class LaysTheMemorySystem(Installed):
 
     def test_a_reinstall_that_stops_part_way_keeps_the_tool_and_its_settings(self):
         self.install()
-        settings = self.path(".garura", "tools", "memory", "settings.json")
+        settings = self.path(".garura", "core", "tools", "memory", "settings.json")
         with open(settings, "w") as fh:
             fh.write('{"edited": true}\n')
         with mock.patch.object(memory_system.shutil, "copytree", side_effect=OSError("disk full")):
             with self.assertRaises(OSError):
                 memory_system.lay(ROOT, self.target, "claude", self.place, self.source, info=lambda m: None)
-        self.assertTrue(os.path.isfile(self.path(".garura", "tools", "memory", "memory.py")))
+        self.assertTrue(os.path.isfile(self.path(".garura", "core", "tools", "memory", "memory.py")))
         with open(settings) as fh:
             self.assertEqual(json.load(fh), {"edited": True})
-        self.assertFalse(os.path.exists(self.path(".garura", "tools", "memory.new")))  # no half copy left
+        self.assertFalse(os.path.exists(self.path(".garura", "core", "tools", "memory.new")))  # no half copy left
+
+    def test_a_tool_an_older_install_laid_is_removed_and_its_settings_written_new(self):
+        old = self.path(".garura", "tools", "memory")
+        os.makedirs(old)
+        with open(os.path.join(old, "settings.json"), "w") as fh:
+            fh.write('{"garura": "../..", "garura_pull_dir": "core/memory"}\n')
+        self.install()
+        self.assertFalse(os.path.exists(self.path(".garura", "tools")))
+        with open(self.path(".garura", "core", "tools", "memory", "settings.json")) as fh:
+            settings = json.load(fh)
+        self.assertEqual(settings["garura"], "../../..")
+        self.assertNotIn("garura_pull_dir", settings)
+        self.assertEqual(settings["phoenix"], self.place)
 
     def test_bad_input_exits_2_not_like_a_failed_check(self):
         os.makedirs(self.target)
@@ -157,7 +170,7 @@ class TheCheck(Installed):
 
     def test_a_tool_that_cannot_run_fails(self):
         self.install()
-        with open(self.path(".garura", "tools", "memory", "memory.py"), "w") as fh:
+        with open(self.path(".garura", "core", "tools", "memory", "memory.py"), "w") as fh:
             fh.write("this is not python\n")
         report = memory_system.check(self.target, info=lambda m: None)
         self.assertFalse(report["ok"])
@@ -172,7 +185,7 @@ class TheCheck(Installed):
 
     def test_a_tool_that_answers_not_ok_in_another_shape_fails_with_a_message(self):
         self.install()
-        with open(self.path(".garura", "tools", "memory", "memory.py"), "w") as fh:
+        with open(self.path(".garura", "core", "tools", "memory", "memory.py"), "w") as fh:
             fh.write('print(\'{"ok": false}\')\n')
         report = memory_system.check(self.target, info=lambda m: None)
         self.assertFalse(report["ok"])
@@ -181,7 +194,7 @@ class TheCheck(Installed):
     def test_an_answer_the_check_cannot_read_fails_with_a_message(self):
         self.install()
         for answer in ('[1]', '{"ok": true, "tiers": [1]}'):
-            with open(self.path(".garura", "tools", "memory", "memory.py"), "w") as fh:
+            with open(self.path(".garura", "core", "tools", "memory", "memory.py"), "w") as fh:
                 fh.write(f"print('{answer}')\n")
             report = memory_system.check(self.target, info=lambda m: None)
             self.assertFalse(report["ok"])
@@ -220,7 +233,7 @@ class Uninstall(Installed):
 
     def test_uninstall_removes_the_tool_and_the_guide(self):
         self.run_main("claude")
-        for gone in ((".garura", "tools"), (".claude", "rules"), (".garura", "project", "issues")):
+        for gone in ((".garura", "core", "tools"), (".claude", "rules"), (".garura", "project", "issues")):
             self.assertFalse(os.path.exists(self.path(*gone)), gone)
 
     def test_uninstall_takes_out_only_the_block_from_the_projects_agents_md(self):
@@ -248,7 +261,7 @@ class Uninstall(Installed):
                           "--memory-dest", os.path.join(self.work, "shared-memory"),
                           "--phoenix-place", self.place, "--phoenix-source", self.source])
             uninstall.uninstall(self.target, purge=False, quiet=True, dry=True)
-        self.assertTrue(os.path.isfile(self.path(".garura", "tools", "memory", "memory.py")))
+        self.assertTrue(os.path.isfile(self.path(".garura", "core", "tools", "memory", "memory.py")))
         self.assertTrue(os.path.isfile(self.path(".claude", "rules", "garura-memory.md")))
 
     def test_uninstall_removes_a_half_copy_a_stopped_reinstall_left(self):
@@ -256,9 +269,9 @@ class Uninstall(Installed):
             install.main(["--target", self.target, "--scope", "harness", "--quiet",
                           "--memory-dest", os.path.join(self.work, "shared-memory"),
                           "--phoenix-place", self.place, "--phoenix-source", self.source])
-        os.makedirs(self.path(".garura", "tools", "memory.new"))
+        os.makedirs(self.path(".garura", "core", "tools", "memory.new"))
         uninstall.uninstall(self.target, purge=False, quiet=True, dry=False)
-        self.assertFalse(os.path.exists(self.path(".garura", "tools")))
+        self.assertFalse(os.path.exists(self.path(".garura", "core", "tools")))
 
     def test_an_agents_md_that_holds_only_the_block_is_removed(self):
         os.makedirs(self.target)
@@ -337,11 +350,11 @@ class PublicInstaller(unittest.TestCase):
     def test_it_lays_the_memory_system_and_records_the_version(self):
         run = self.run_installer(self.archive())
         self.assertEqual(run.returncode, 0, run.stderr)
-        self.assertTrue(os.path.isfile(self.path(".garura", "tools", "memory", "memory.py")))
-        self.assertTrue(os.path.isfile(self.path(".garura", "tools", "memory", "settings.json")))
+        self.assertTrue(os.path.isfile(self.path(".garura", "core", "tools", "memory", "memory.py")))
+        self.assertTrue(os.path.isfile(self.path(".garura", "core", "tools", "memory", "settings.json")))
         self.assertTrue(os.path.isfile(self.path(".claude", "rules", "garura-memory.md")))
         self.assertIn("Short-term memory: reached.", run.stdout)
-        self.assertFalse(os.path.exists(os.path.join(self.work, "home", ".garura", "phoenix-memory")))
+        self.assertFalse(os.path.exists(os.path.join(self.work, "home", ".phoenix", "core", "memory")))
         with open(self.path(".garura", "core", "garura-version")) as fh:
             self.assertEqual(fh.read().strip(), "main@01234567")
 
@@ -357,7 +370,7 @@ class PublicInstaller(unittest.TestCase):
     def test_an_upgrade_keeps_settings_a_person_edited(self):
         archive = self.archive()
         self.assertEqual(self.run_installer(archive).returncode, 0)
-        settings = self.path(".garura", "tools", "memory", "settings.json")
+        settings = self.path(".garura", "core", "tools", "memory", "settings.json")
         with open(settings) as fh:
             edited = dict(json.load(fh), phoenix_ref="main")
         with open(settings, "w") as fh:
@@ -374,7 +387,7 @@ class PublicInstaller(unittest.TestCase):
         run = self.run_installer(self.archive(older))
         self.assertEqual(run.returncode, 0, run.stderr)
         self.assertIn("no memory system; skipped", run.stdout)
-        self.assertFalse(os.path.exists(self.path(".garura", "tools")))
+        self.assertFalse(os.path.exists(self.path(".garura", "core", "tools")))
 
 
 if __name__ == "__main__":

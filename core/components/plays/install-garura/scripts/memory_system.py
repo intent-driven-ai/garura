@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """
-memory_system.py — lay Garura's memory system into a project, and check it (ADR 035 §8).
+memory_system.py — lay Garura's memory system into a project, and check it (ADR 035 §8,
+ADR 038, ADR 039).
 
 Both install paths call this: the install-garura play (install.py) and the public installer
 (installer/install.sh). It lays:
 
-  .garura/tools/memory/     the memory tool, copied from core/tools/memory without its tests
-                            and samples, with settings.json beside it
+  .garura/core/tools/memory/  the memory tool, copied from core/tools/memory without its
+                              tests and samples, with settings.json beside it
   .garura/project/issues/   short-term memory: one folder per issue
   the memory guide, where the host tool loads it for every agent:
     claude  .claude/rules/garura-memory.md — a rules file with no paths field loads at
@@ -16,7 +17,8 @@ Both install paths call this: the install-garura play (install.py) and the publi
 
 The install brings no memory. Phoenix memory has one place per machine; the tool downloads
 it there from its source the first time a command needs it. A re-install replaces the tool
-and the guide, and keeps settings a person edited.
+and the guide, and keeps settings a person edited. A tool laid by an older install at
+.garura/tools/memory/ is removed, and its settings are written new: they point at the old places.
 
 The check runs the tool's health command the way an agent runs it: with no MEMORY_* settings,
 so the tool reads the settings beside it. It fails when the tool cannot run, or when short-term
@@ -37,15 +39,16 @@ import signal
 import subprocess
 import sys
 
-TOOL_DEST = os.path.join(".garura", "tools", "memory")
-TOOL_CALL = ".garura/tools/memory/memory.py"  # how the guide tells an agent to run the tool
+TOOL_DEST = os.path.join(".garura", "core", "tools", "memory")
+OLD_TOOL_DEST = os.path.join(".garura", "tools", "memory")  # where installs before ADR 039 laid it
+TOOL_CALL = ".garura/core/tools/memory/memory.py"  # how the guide tells an agent to run the tool
 SHORT_TERM = os.path.join(".garura", "project", "issues")
 GUIDE_CLAUDE = os.path.join(".claude", "rules", "garura-memory.md")
 AGENTS_MD = "AGENTS.md"
 BLOCK_START = ("<!-- garura-memory:start — written by the Garura install; "
                "a re-install replaces this block, uninstall removes it -->")
 BLOCK_END = "<!-- garura-memory:end -->"
-PHOENIX_PLACE = "~/.garura/phoenix-memory"
+PHOENIX_PLACE = "~/.phoenix/core/memory"
 PHOENIX_SOURCE = "https://github.com/intent-driven-ai/phoenix-memory.git"
 NEEDS_PYTHON = (3, 10)
 REACH_SECONDS = 30  # how long the check waits to learn whether Phoenix memory's source answers
@@ -67,9 +70,11 @@ def _skip(folder, names):
 
 
 def settings_for(phoenix_place, phoenix_source):
-    """The tool's settings, relative to the settings file in .garura/tools/memory/."""
-    return {"short-term": "../../project/issues", "garura": "../..", "phoenix": phoenix_place,
-            "phoenix_source": phoenix_source, "garura_pull_dir": "core/memory"}
+    """The tool's settings, relative to the settings file in .garura/core/tools/memory/. Garura
+    memory is read inside .garura/ — .garura/core/memory/, then the product model — by the
+    tool's own default (ADR 039)."""
+    return {"short-term": "../../../project/issues", "garura": "../../..", "phoenix": phoenix_place,
+            "phoenix_source": phoenix_source}
 
 
 def put_block(path, text):
@@ -112,16 +117,26 @@ def lay(source, target, tool, phoenix_place=PHOENIX_PLACE, phoenix_source=PHOENI
     # way leaves the old tool and its settings where they were
     new = dest + ".new"
     shutil.rmtree(new, ignore_errors=True)
+    os.makedirs(os.path.dirname(dest), exist_ok=True)
     try:
         shutil.copytree(src, new, ignore=_skip)
         with open(os.path.join(new, "settings.json"), "w", encoding="utf-8") as fh:
             fh.write(kept if kept is not None else json.dumps(settings_for(phoenix_place, phoenix_source), indent=2) + "\n")
     except BaseException:
-        shutil.rmtree(new, ignore_errors=True)  # a half copy left in .garura/ would read as memory
+        shutil.rmtree(new, ignore_errors=True)  # never leave a half copy behind
         raise
     if os.path.isdir(dest):
         shutil.rmtree(dest)
     os.rename(new, dest)
+    # only once the new tool is in place: a tool an older install laid where it used to go
+    old = os.path.join(target, OLD_TOOL_DEST)
+    for leftover in (old, old + ".new"):
+        if os.path.isdir(leftover):
+            shutil.rmtree(leftover)
+            info(f"  removed the memory tool an older install laid at {os.path.relpath(leftover, target)}")
+    old_parent = os.path.dirname(old)
+    if os.path.isdir(old_parent) and not os.listdir(old_parent):
+        os.rmdir(old_parent)
     info(f"  memory tool: {TOOL_DEST} (settings {'kept' if kept is not None else 'written'})")
     os.makedirs(os.path.join(target, SHORT_TERM), exist_ok=True)
 

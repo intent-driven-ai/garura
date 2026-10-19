@@ -152,6 +152,7 @@ test-project/
 .garura/core/memory/
 .garura/_pending/
 # the memory tool as installed into this repo; its source is core/tools/memory/
+.garura/core/tools/
 .garura/tools/
 
 # GitHub Actions artifacts (for future contributor automation)

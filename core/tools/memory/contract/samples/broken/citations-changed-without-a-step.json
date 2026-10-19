@@ -6,7 +6,7 @@
   },
   "response": {
     "ok": true,
-    "contract_version": "4",
+    "contract_version": "5",
     "command": "citations",
     "records": [
       {

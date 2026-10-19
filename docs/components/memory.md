@@ -104,8 +104,8 @@ The product model's own folders are listed in ADR 017 §1.
 ADR 039 was accepted on 19 October 2026. Until #661 lands, some of the code still works the
 old way:
 
-- the memory tool still copies a Phoenix file into Garura memory when it reads one, and sits
-  at `.garura/tools/memory/`, with Phoenix memory at `~/.garura/phoenix-memory`;
+- a project installed before ADR 039 still has the memory tool at `.garura/tools/memory/` and
+  Phoenix memory at `~/.garura/phoenix-memory`, until it is installed again;
 - `template-manager`, the judging skill and the common close file do not exist yet;
 - plays still read their close templates, and `/vision` and `/understand` their judge and
   approval prompts, by a path;

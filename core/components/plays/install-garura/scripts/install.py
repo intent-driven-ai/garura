@@ -40,7 +40,7 @@ The orchestrator owns the tool-agnostic work: shared memory, garura's own
 `.garura/core/config.yaml`, the STM scaffold, and the install manifest.
 
 The orchestrator also lays the memory system (`memory_system.py`, shared with the public
-installer): the memory tool in `.garura/tools/memory/` with its settings, short-term
+installer): the memory tool in `.garura/core/tools/memory/` with its settings, short-term
 memory's folder, and the memory guide where the host tool loads it for every agent. It then
 checks the tool runs and reaches the project's tiers. The install brings no memory.
 
@@ -359,7 +359,7 @@ def main(argv=None):
     ap.add_argument("--force-config", action="store_true",
                     help="overwrite an existing target .garura/core/config.yaml")
     ap.add_argument("--phoenix-place", default=memory_system.PHOENIX_PLACE,
-                    help="where Phoenix memory lives on this machine (default ~/.garura/phoenix-memory); "
+                    help="where Phoenix memory lives on this machine (default ~/.phoenix/core/memory); "
                          "the memory tool downloads it there the first time it is needed")
     ap.add_argument("--phoenix-source", default=memory_system.PHOENIX_SOURCE,
                     help="where the memory tool downloads Phoenix memory from")

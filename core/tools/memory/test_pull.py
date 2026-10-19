@@ -1,9 +1,6 @@
 #!/usr/bin/env python3
-"""Tests for pull.py. Run from the tool's folder: python3 test_pull.py"""
+"""Tests for pull.py, the Phoenix side. Run from the tool's folder: python3 test_pull.py"""
 
-import contextlib
-import io
-import json
 import os
 import shutil
 import subprocess
@@ -13,11 +10,7 @@ import unittest
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
-sys.path.insert(0, os.path.join(HERE, "contract"))
-import check_contract as cc  # noqa: E402
 import pull  # noqa: E402
-
-CONTRACT = cc.load(os.path.join(HERE, "contract", "v4.json"))
 
 
 def git(repo, *args):
@@ -36,12 +29,6 @@ def write(root, rel, text):
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w", encoding="utf-8") as fh:
         fh.write(text)
-
-
-def answers_of(command, request, answers):
-    """Each answer must match the contract's response shape for its command."""
-    spec = CONTRACT["commands"][command]["response"]
-    return [cc.validate(a, spec, CONTRACT) for a in answers]
 
 
 class Tiers(unittest.TestCase):
@@ -64,104 +51,31 @@ class Tiers(unittest.TestCase):
         return pull.version(self.phoenix)
 
 
-class Pull(Tiers):
-    def test_one_piece(self):
-        answers = pull.pull(self.phoenix, self.garura, ["standards/rules/commits.md"])
-        self.assertEqual(answers_of("pull", {}, answers), [[]])
-        a = answers[0]
-        self.assertEqual((a["tier"], a["path"], a["version"]), ("garura", "standards/rules/commits.md",
-                                                                 pull.version(self.phoenix)))
-        with open(os.path.join(self.garura, "standards/rules/commits.md"), encoding="utf-8") as fh:
-            self.assertEqual(fh.read(), "# Commits\nSubject under 72.\n")
-        self.assertEqual(a["fingerprint"], cc.fingerprint("# Commits\nSubject under 72.\n"))
+class PhoenixSide(Tiers):
+    """Phoenix memory is read at its approved version only, and nothing here writes."""
 
-    def test_nothing_leaves_phoenix(self):
-        pull.pull(self.phoenix, self.garura, ["standards/**"])
-        self.assertTrue(os.path.isfile(os.path.join(self.phoenix, "standards/rules/commits.md")))
+    def test_version_is_the_approved_commit(self):
+        run = subprocess.run(["git", "-C", self.phoenix, "rev-parse", "--short=12", "HEAD"],
+                             capture_output=True, text=True, check=True)
+        self.assertEqual(pull.version(self.phoenix), run.stdout.strip())
 
-    def test_glob_pulls_only_what_it_names(self):
-        answers = pull.pull(self.phoenix, self.garura, ["standards/**"])
-        self.assertEqual(sorted(a["path"] for a in answers),
-                         ["standards/rules/commits.md", "standards/templates/adr.md"])
-        self.assertFalse(os.path.exists(os.path.join(self.garura, "knowledge")))
+    def test_files_lists_the_approved_tree_without_git_internals(self):
+        write(self.phoenix, "knowledge/domains/unapproved.md", "# Not committed\n")
+        self.assertEqual(pull.files(self.phoenix), ["knowledge/domains/payments.md",
+                                                    "standards/rules/commits.md", "standards/templates/adr.md"])
 
-    def test_the_list_records_each_piece_once(self):
-        pull.pull(self.phoenix, self.garura, ["standards/**"])
-        write(self.phoenix, "standards/rules/commits.md", "# Commits\nSubject under 60.\n")
-        later = self.commit("change")
-        pull.pull(self.phoenix, self.garura, ["standards/rules/commits.md"])
-        entries = pull.read_list(self.garura)
-        self.assertEqual(sorted(entries), ["standards/rules/commits.md", "standards/templates/adr.md"])
-        self.assertEqual(entries["standards/rules/commits.md"]["version"], later)
+    def test_show_reads_the_approved_text_only(self):
+        write(self.phoenix, "standards/rules/commits.md", "# Commits\nAn edit nobody approved.\n")
+        self.assertEqual(pull.show(self.phoenix, "standards/rules/commits.md"), b"# Commits\nSubject under 72.\n")
+        self.assertIsNone(pull.show(self.phoenix, "standards/missing.md"))
 
-    def test_refusals(self):
-        for pattern, code in (("../outside.md", "bad_request"), ("/abs.md", "bad_request"),
-                              ("standards/missing.md", "not_found"), ("nothing/**", "not_found")):
-            a = pull.pull(self.phoenix, self.garura, [pattern])[0]
-            self.assertEqual(a["error"]["code"], code, pattern)
-            self.assertEqual(answers_of("pull", {}, [a]), [[]])
+    def test_a_folder_that_is_not_a_repository(self):
+        with self.assertRaises(pull.Refusal) as caught:
+            pull.version(scratch(self))
+        self.assertEqual((caught.exception.code, caught.exception.tier), ("tier_missing", "phoenix"))
 
-    def test_never_writes_over_a_different_file(self):
-        write(self.garura, "standards/rules/commits.md", "# Commits\nOur own rule.\n")
-        a = pull.pull(self.phoenix, self.garura, ["standards/rules/commits.md"])[0]
-        self.assertEqual(a["error"]["code"], "would_overwrite")
-        with open(os.path.join(self.garura, "standards/rules/commits.md")) as fh:
-            self.assertEqual(fh.read(), "# Commits\nOur own rule.\n")
-
-    def test_never_pulls_git_internals(self):
-        answers = pull.pull(self.phoenix, self.garura, ["**"])
-        self.assertTrue(all(".git/" not in a["path"] and not a["path"].startswith(".git") for a in answers))
-        self.assertEqual(len(answers), 3)
-
-
-class Pulled(Tiers):
-    def test_nothing_behind_after_a_pull(self):
-        pull.pull(self.phoenix, self.garura, ["standards/**"])
-        answer = pull.pulled(self.phoenix, self.garura)
-        self.assertEqual(answers_of("pulled", {}, [answer]), [[]])
-        self.assertEqual([p["behind"] for p in answer["pieces"]], [False, False])
-
-    def test_a_change_in_phoenix_is_behind(self):
-        pull.pull(self.phoenix, self.garura, ["standards/**"])
-        write(self.phoenix, "standards/templates/adr.md", "# ADR template, version 2\n")
-        later = self.commit("change")
-        answer = pull.pulled(self.phoenix, self.garura, behind_only=True)
-        self.assertEqual([(p["path"], p["behind"], p["current_version"]) for p in answer["pieces"]],
-                         [("standards/templates/adr.md", True, later)])
-
-    def test_a_piece_removed_from_phoenix_is_behind(self):
-        pull.pull(self.phoenix, self.garura, ["knowledge/domains/payments.md"])
-        git(self.phoenix, "rm", "-q", "knowledge/domains/payments.md")
-        self.commit("remove")
-        self.assertTrue(pull.pulled(self.phoenix, self.garura)["pieces"][0]["behind"])
-
-
-class Settings(unittest.TestCase):
-    def run_main(self, argv, env):
-        old = dict(os.environ)
-        os.environ.pop("MEMORY_PHOENIX_ROOT", None)
-        os.environ.pop("MEMORY_GARURA_ROOT", None)
-        os.environ.update(env)
-        try:
-            with contextlib.redirect_stdout(io.StringIO()) as out:
-                code = pull.main(argv)
-        finally:
-            os.environ.clear()
-            os.environ.update(old)
-        return code, [json.loads(line) for line in out.getvalue().splitlines()]
-
-    def test_no_settings(self):
-        code, answers = self.run_main(["pulled"], {})
-        self.assertEqual((code, answers[0]["error"]["code"]), (1, "settings_missing"))
-
-    def test_a_tier_that_cannot_be_reached(self):
-        code, answers = self.run_main(["pulled", "--phoenix", scratch(self), "--garura", "/no/such/folder"], {})
-        self.assertEqual((answers[0]["error"]["code"], answers[0]["error"]["tier"]), ("tier_missing", "garura"))
-
-    def test_phoenix_must_be_a_repository(self):
-        code, answers = self.run_main(["pulled"], {"MEMORY_PHOENIX_ROOT": scratch(self),
-                                                   "MEMORY_GARURA_ROOT": scratch(self)})
-        self.assertEqual((answers[0]["error"]["code"], answers[0]["error"]["tier"]), ("tier_missing", "phoenix"))
+    def test_there_is_no_copy_command(self):
+        self.assertFalse(hasattr(pull, "pull") or hasattr(pull, "pulled"))
 
 
 if __name__ == "__main__":

@@ -313,7 +313,7 @@ if [ "$MODE" = "init" ]; then
   ok "  .claude/agents/      — Agent definitions"
   ok "  .claude/skills/      — Skills and plays"
   ok "  .claude/rules/garura-memory.md — The memory guide every agent reads"
-  ok "  .garura/tools/memory/ — The memory tool"
+  ok "  .garura/core/tools/memory/ — The memory tool"
   ok "  .garura/core/    — Memory and config"
   ok "  .garura/project/ — Project artifacts"
   ok "  src/                 — Source code"

@@ -2,7 +2,7 @@
 """Tests for memory.py. Run from the tool's folder: python3 test_memory.py
 
 Every answer the tool gives is also put through the contract check (shape and answer
-rules), so the tool cannot drift from contract/v4.json.
+rules), so the tool cannot drift from contract/v5.json.
 """
 
 import contextlib
@@ -24,8 +24,8 @@ from test_pull import git, scratch, write  # noqa: E402
 
 
 class Tiers(test_pull.Tiers):
-    """The pull tests' throwaway Phoenix repository, plus a project whose short-term folder
-    sits inside Garura memory."""
+    """The Phoenix side's throwaway repository, plus a project whose short-term folder sits
+    inside Garura memory's root (as the project's own Garura folder holds both)."""
 
     def setUp(self):
         super().setUp()
@@ -38,8 +38,7 @@ class Tiers(test_pull.Tiers):
         self.short = os.path.join(self.garura, "issues")
         os.makedirs(self.short)
         self.env = {"MEMORY_SHORT_TERM_ROOT": self.short, "MEMORY_GARURA_ROOT": self.garura,
-                    "MEMORY_PHOENIX_ROOT": self.phoenix, "MEMORY_PHOENIX_REF": "main",
-                    "MEMORY_GARURA_PULL_DIR": "pulled-memory"}
+                    "MEMORY_PHOENIX_ROOT": self.phoenix, "MEMORY_PHOENIX_REF": "main"}
 
     def ask(self, command, request, env=None):
         """One answer, checked against the contract before the test sees it."""
@@ -69,14 +68,14 @@ class LookupOrder(Tiers):
         self.assertEqual(a["hits"][0]["line"], 5)
 
     def test_the_lowest_tier_answers_first(self):
-        write(self.garura, "decisions/auth.md", "Reset link expires after 30 minutes here.\n")
+        write(self.garura, "core/memory/decisions/auth.md", "Reset link expires after 30 minutes here.\n")
         write(self.short, "7/notes.md", "reset link: ask the person\n")
         a = self.ask("search", {"issue": 7, "pattern": "reset link", "ignore_case": True})
         self.assertEqual((a["looked_in"], a["answered_by"]), (["short-term"], "short-term"))
         self.assertEqual(a["hits"][0]["path"], "7/notes.md")
 
     def test_every_tier_does_not_stop(self):
-        write(self.garura, "decisions/auth.md", "Reset link expires after 30 minutes here.\n")
+        write(self.garura, "core/memory/decisions/auth.md", "Reset link expires after 30 minutes here.\n")
         a = self.ask("search", {"issue": 7, "pattern": "reset link", "ignore_case": True, "every_tier": True})
         self.assertEqual(a["answered_by"], "garura")
         self.assertEqual([h["tier"] for h in a["hits"]], ["garura", "phoenix"])
@@ -173,42 +172,82 @@ class Read(Tiers):
             self.assertEqual(self.ask("read", req)["error"]["code"], code, request)
 
 
-class UsedMemoryIsSaved(Tiers):
-    def test_a_phoenix_read_is_pulled_and_then_answered_by_garura(self):
-        first = self.ask("search", {"issue": 7, "pattern": "reset link"})
-        self.assertEqual(first["answered_by"], "phoenix")
-        self.ask("read", {"issue": 7, "tier": "phoenix", "path": first["hits"][0]["path"]})
-        again = self.ask("search", {"issue": 7, "pattern": "reset link"})
-        self.assertEqual(again["answered_by"], "garura")
-        self.assertEqual(again["hits"][0]["path"], "pulled-memory/knowledge/domains/user-management.md")
-        listed = memory.run("pulled", {}, self.env)[0]["pieces"]
-        self.assertEqual([p["path"] for p in listed], ["knowledge/domains/user-management.md"])
+def tree(root):
+    """Every file under a folder, as paths relative to it."""
+    return sorted(os.path.relpath(os.path.join(d, n), root) for d, _, names in os.walk(root) for n in names)
 
-    def test_the_read_says_where_it_saved(self):
-        a = self.ask("read", {"issue": 7, "tier": "phoenix", "path": "standards/rules/commits.md"})
-        self.assertEqual(a["saved_to"], {"tier": "garura", "path": "pulled-memory/standards/rules/commits.md"})
 
-    def test_never_saved_over_a_different_garura_file(self):
-        mine = os.path.join(self.garura, "pulled-memory", "standards/rules/commits.md")
-        os.makedirs(os.path.dirname(mine))
-        with open(mine, "w") as fh:
-            fh.write("# Commits\nOur own rule: subject under 50.\n")
-        a = self.ask("read", {"issue": 7, "tier": "phoenix", "path": "standards/rules/commits.md"})
-        self.assertIn("not_saved", a)
-        with open(mine) as fh:
-            self.assertEqual(fh.read(), "# Commits\nOur own rule: subject under 50.\n")
-        self.assertEqual(self.ask("pull", {"path": "standards/rules/commits.md"})["error"]["code"], "would_overwrite")
+class NothingIsCopied(Tiers):
+    """The tool reads Phoenix memory and never copies a file from it (ADR 039)."""
 
-    def test_a_pulled_piece_is_refreshed_when_phoenix_moves_on(self):
-        self.ask("read", {"issue": 7, "tier": "phoenix", "path": "standards/rules/commits.md"})
-        write(self.phoenix, "standards/rules/commits.md", "# Commits\nSubject under 60.\n")
-        self.commit("change")
-        a = self.ask("read", {"issue": 7, "tier": "phoenix", "path": "standards/rules/commits.md"})
-        self.assertIn("saved_to", a)
+    def test_a_phoenix_read_writes_nothing_into_garura_memory(self):
+        before = tree(self.garura)
+        a = self.ask("read", {"issue": 7, "tier": "phoenix", "path": "knowledge/domains/user-management.md"})
+        self.assertTrue(a["ok"])
+        self.assertNotIn("saved_to", a)
+        self.assertNotIn("not_saved", a)
+        self.assertEqual(tree(self.garura), before)
 
-    def test_a_search_hit_alone_pulls_nothing(self):
-        self.ask("search", {"issue": 7, "pattern": "reset link"})
-        self.assertFalse(os.path.exists(os.path.join(self.garura, "pulled-memory")))
+    def test_the_next_lookup_still_answers_from_phoenix(self):
+        self.ask("read", {"issue": 7, "tier": "phoenix", "path": "knowledge/domains/user-management.md"})
+        self.assertEqual(self.ask("search", {"issue": 7, "pattern": "reset link"})["answered_by"], "phoenix")
+
+    def test_there_is_no_pull_command(self):
+        self.assertNotIn("pull", memory.COMMANDS)
+        self.assertNotIn("pulled", memory.COMMANDS)
+
+
+class GaruraFolders(Tiers):
+    """Garura memory is its folders, in order: core/memory, then the product model (product).
+    Nothing else in its root is Garura memory."""
+
+    def setUp(self):
+        super().setUp()
+        write(self.garura, "core/memory/decisions/auth.md", "Reset link: 30 minutes, the project's rule.\n")
+        write(self.garura, "product/product-os/intents/reset.md", "Reset link: the intent says one hour.\n")
+        write(self.garura, "user-provided/notes.md", "Reset link: what a person typed in as evidence.\n")
+        write(self.garura, "defect-report/body.md", "Reset link: a defect report.\n")
+        write(self.garura, "core/config.yaml", "reset link: a setting, not memory\n")
+
+    def test_core_memory_answers_before_the_product_model(self):
+        a = self.ask("search", {"issue": 7, "pattern": "reset link", "ignore_case": True, "tier": "garura"})
+        self.assertEqual([h["path"] for h in a["hits"]],
+                         ["core/memory/decisions/auth.md", "product/product-os/intents/reset.md"])
+        found = self.ask("find", {"glob": "**/*.md", "tier": "garura"})["matches"]
+        self.assertEqual([m["path"] for m in found],
+                         ["core/memory/decisions/auth.md", "product/product-os/intents/reset.md"])
+
+    def test_nothing_else_in_the_root_is_garura_memory(self):
+        a = self.ask("search", {"issue": 7, "pattern": "reset link", "ignore_case": True, "tier": "garura"})
+        self.assertFalse(any(h["path"].startswith(("user-provided/", "defect-report/", "core/config"))
+                             for h in a["hits"]))
+        for path in ("user-provided/notes.md", "defect-report/body.md", "core/config.yaml"):
+            self.assertEqual(self.ask("read", {"tier": "garura", "path": path})["error"]["code"], "not_found", path)
+        self.assertEqual(self.ask("read", {"tier": "garura", "path": "product/product-os/intents/reset.md"})["text"],
+                         "Reset link: the intent says one hour.")
+
+    def test_the_folders_are_a_setting(self):
+        env = dict(self.env, MEMORY_GARURA_FOLDERS="product, user-provided")
+        a = self.ask("search", {"issue": 7, "pattern": "reset link", "ignore_case": True, "tier": "garura"}, env)
+        self.assertEqual([h["path"] for h in a["hits"]],
+                         ["product/product-os/intents/reset.md", "user-provided/notes.md"])
+
+    def test_the_folders_in_a_settings_file(self):
+        write(self.project, "memory-settings.json",
+              '{"short-term": "g/issues", "garura": "g", "garura_folders": ["product"], "phoenix": "%s", '
+              '"phoenix_ref": "main"}' % self.phoenix)
+        env = {"MEMORY_SETTINGS": os.path.join(self.project, "memory-settings.json")}
+        a = self.ask("find", {"glob": "**/*.md", "tier": "garura"}, env)
+        self.assertEqual([m["path"] for m in a["matches"]], ["product/product-os/intents/reset.md"])
+
+    def test_a_folder_outside_the_root_is_refused(self):
+        for folders in ("../elsewhere", "core/./memory", "/abs"):
+            env = dict(self.env, MEMORY_GARURA_FOLDERS=folders)
+            self.assertEqual(self.ask("health", {}, env)["error"]["code"], "settings_missing", folders)
+
+    def test_a_link_out_of_a_folder_reaches_nothing(self):
+        os.symlink(os.path.join(self.garura, "user-provided"), os.path.join(self.garura, "product", "evidence"))
+        self.assertFalse(self.ask("read", {"tier": "garura", "path": "product/evidence/notes.md"}).get("ok"))
 
 
 class ApprovedPhoenixOnly(Tiers):
@@ -342,16 +381,17 @@ class AfterAnInstall(Tiers):
         self.assertEqual(os.listdir(os.path.dirname(self.place)), [])
 
     def test_the_tools_own_folder_is_not_garura_memory(self):
-        tool = os.path.join(self.garura, "tools", "memory")
+        tool = os.path.join(self.garura, "core", "tools", "memory")
         write(tool, "README.md", "Reset link: the tool's own words, not memory.\n")
         old = memory.TOOL_FOLDER
         memory.TOOL_FOLDER = tool
         self.addCleanup(setattr, memory, "TOOL_FOLDER", old)
-        a = self.ask("search", {"issue": 7, "pattern": "reset link", "ignore_case": True, "tier": "garura"})
-        self.assertEqual(a["hits"], [])
-        self.assertEqual(self.ask("find", {"glob": "**", "tier": "garura"})["matches"], [])
-        self.assertEqual(self.ask("read", {"tier": "garura", "path": "tools/memory/README.md"})["error"]["code"],
-                         "not_found")
+        for env in (self.env, dict(self.env, MEMORY_GARURA_FOLDERS="core")):  # even inside a folder setting
+            a = self.ask("search", {"issue": 7, "pattern": "reset link", "ignore_case": True, "tier": "garura"}, env)
+            self.assertEqual(a["hits"], [])
+            self.assertEqual(self.ask("find", {"glob": "**", "tier": "garura"}, env)["matches"], [])
+            self.assertEqual(self.ask("read", {"tier": "garura", "path": "core/tools/memory/README.md"}, env)
+                             ["error"]["code"], "not_found")
 
 
 class Updates(Tiers):
@@ -652,12 +692,11 @@ class CommandLine(Tiers):
             os.environ.update(old)
         return code, [json.loads(line) for line in out.getvalue().splitlines()]
 
-    def test_pull_takes_the_contract_request(self):
-        for argv in (["pull", "--path", "standards/rules/commits.md"],
-                     ["pull", "--request", '{"path": "standards/rules/commits.md"}'],
-                     ["pull", "standards/rules/commits.md"]):
-            code, answers = self.main(argv)
-            self.assertEqual((code, answers[0]["path"]), (0, "standards/rules/commits.md"), argv)
+    def test_pull_is_not_a_command(self):
+        with contextlib.redirect_stderr(io.StringIO()) as err:
+            code, answers = self.main(["pull", "standards/rules/commits.md"])
+        self.assertEqual((code, answers), (2, []))
+        self.assertIn("Commands:", err.getvalue())
 
     def test_flags_and_a_whole_request_give_the_same_answer(self):
         _, by_flags = self.main(["search", "--issue", "7", "--pattern", "reset link"])
@@ -666,19 +705,10 @@ class CommandLine(Tiers):
         self.assertEqual(by_flags[0]["answered_by"], "phoenix")
 
     def test_what_the_tool_cannot_read_is_bad_request(self):
-        for argv in (["pull"], ["search", "--issue", "7", "--pattern", "x", "--tier", "project"],
+        for argv in (["search", "--issue", "7", "--max", "many"], ["search", "--issue", "7", "--pattern", "x", "--tier", "project"],
                      ["find", "--request", "{bad"], ["find", "--request", "[1]"], ["read", "--issue", "abc"]):
             code, answers = self.main(argv)
             self.assertEqual((code, answers[0]["error"]["code"]), (1, "bad_request"), argv)
-
-    def test_garura_memory_that_cannot_be_written(self):
-        blocked = os.path.join(self.garura, "pulled-memory")
-        os.makedirs(self.garura, exist_ok=True)
-        with open(blocked, "w") as fh:
-            fh.write("a file where the pull folder should be")
-        code, answers = self.main(["read", "--tier", "phoenix", "--path", "standards/rules/commits.md"])
-        self.assertEqual((code, answers[0]["error"]["code"], answers[0]["error"]["tier"]),
-                         (1, "tier_missing", "garura"))
 
 
 class Boundary(unittest.TestCase):

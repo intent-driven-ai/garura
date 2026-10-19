@@ -6,7 +6,7 @@
   },
   "response": {
     "ok": false,
-    "contract_version": "4",
+    "contract_version": "5",
     "command": "search",
     "error": {
       "code": "tier_missing",

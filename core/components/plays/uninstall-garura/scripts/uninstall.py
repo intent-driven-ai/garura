@@ -190,8 +190,9 @@ def uninstall(target, *, purge, quiet, dry):
         claude,
         os.path.join(agents_dir, "skills"),
         agents_dir,
+        os.path.join(target, ".garura", "core", "tools"),
         os.path.join(target, ".garura", "core"),
-        os.path.join(target, ".garura", "tools"),
+        os.path.join(target, ".garura", "tools"),  # where installs before ADR 039 laid the tool
         os.path.join(target, ".garura", "project", "issues"),
         os.path.join(target, ".garura", "project", "specs"),
         os.path.join(target, ".garura", "project"),

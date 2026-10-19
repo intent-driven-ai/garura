@@ -10,7 +10,7 @@ import unittest
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import check_contract as cc  # noqa: E402
 
-CONTRACT = cc.load(os.path.join(cc.HERE, "v4.json"))
+CONTRACT = cc.load(os.path.join(cc.HERE, "v5.json"))
 
 
 def v(value, schema):
@@ -132,7 +132,7 @@ class Scope(unittest.TestCase):
         hit = s["response"]["hits"][0]
         read = {"command": "read", "request": {"issue": 655, "tier": "short-term", "path": hit["path"],
                                                "start": hit["line"], "end": hit["line"]},
-                "response": {"ok": True, "contract_version": "4", "command": "read", "tier": "short-term",
+                "response": {"ok": True, "contract_version": "5", "command": "read", "tier": "short-term",
                              "path": hit["path"], "start": hit["line"], "end": hit["line"], "text": hit["text"],
                              "fingerprint": hit["fingerprint"], "version": None}}
         self.assertTrue(cc.check_meaning(read, CONTRACT))
@@ -368,7 +368,7 @@ class Refusals(unittest.TestCase):
 
     def test_answer_names_its_own_command(self):
         s = {"command": "find", "request": {"issue": 613, "glob": "x"},
-             "response": {"ok": False, "contract_version": "4", "command": "health",
+             "response": {"ok": False, "contract_version": "5", "command": "health",
                           "error": {"code": "tier_missing", "message": "m", "tier": None}}}
         self.assertTrue(cc.check_sample(s, CONTRACT))
 

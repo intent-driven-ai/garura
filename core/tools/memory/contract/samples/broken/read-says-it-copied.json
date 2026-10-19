@@ -9,7 +9,7 @@
   },
   "response": {
     "ok": true,
-    "contract_version": "4",
+    "contract_version": "5",
     "command": "read",
     "tier": "phoenix",
     "path": "knowledge/domains/ecommerce.md",
@@ -18,6 +18,9 @@
     "text": "## Checkout\n- Guest checkout lowers drop-off for first-time buyers.",
     "fingerprint": "sha256:439488cbd9d31c20d53491c785753dc71b74fc5354297825119037d5a597de0f",
     "version": "4f1c2e9a7b3d",
-    "not_saved": "Garura memory already holds a different file at knowledge/domains/ecommerce.md, changed since it was pulled; it was not overwritten."
+    "saved_to": {
+      "tier": "garura",
+      "path": "core/memory/knowledge/domains/ecommerce.md"
+    }
   }
 }

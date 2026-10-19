@@ -70,11 +70,13 @@ Both tools also get:
   any machine-global files), so `uninstall-garura` can reverse precisely this set.
 - **The memory system** (ADR 035 §8), laid by `scripts/memory_system.py`, which the public
   installer (`installer/install.sh`) runs too:
-  - `.garura/tools/memory/` — the memory tool (from `core/tools/memory/`, without its tests
-    and samples) with `settings.json` beside it. The settings name short-term memory
-    (`.garura/project/issues/`, made by the install), Garura memory (`.garura/`), Phoenix
-    memory's place on the machine (`~/.garura/phoenix-memory`) and where it is downloaded
-    from. A re-install replaces the tool and keeps settings a person edited.
+  - `.garura/core/tools/memory/` — the memory tool (from `core/tools/memory/`, without its
+    tests and samples) with `settings.json` beside it. The settings name short-term memory
+    (`.garura/project/issues/`, made by the install), Garura memory (read inside `.garura/`:
+    `core/memory/`, then the product model `product/`), Phoenix memory's place on the machine
+    (`~/.phoenix/core/memory`) and where it is downloaded from (ADR 039). A re-install
+    replaces the tool and keeps settings a person edited; a tool an older install laid at
+    `.garura/tools/memory/` is removed, and its settings are written new.
   - The memory guide every agent reads (`core/tools/memory/GUIDE.md`): for Claude Code,
     `.claude/rules/garura-memory.md`, which loads for every session and every sub-agent; for
     Codex, one marked block in `AGENTS.md`, added to the project's own file when it has one.
@@ -142,7 +144,7 @@ Options:
 - `--force-config` — overwrite an existing target `.garura/core/config.yaml` instead of keeping
   it.
 - `--phoenix-place <path>` / `--phoenix-source <address>` — where Phoenix memory lives on this
-  machine (default `~/.garura/phoenix-memory`) and where the memory tool downloads it from.
+  machine (default `~/.phoenix/core/memory`) and where the memory tool downloads it from.
   Point the place at a temp dir for a dry test.
 - `--quiet` — less output.
 

@@ -4,7 +4,7 @@ kind: story
 serves: "#661 — /intent, /vision, /understand and the Kickoff drive read no memory; their agents read it through the memory tool"
 status: active
 updated: 2026-10-19
-now: 3
+now: 4
 serves_plan: 653
 serves_item: 8
 ---
@@ -107,7 +107,7 @@ What is true today (read on 2026-10-19):
 
 ## Where we are now
 
-ADR 039 is accepted and the docs say it. Now: item 3, the tool and the folder.
+ADR 039 is accepted; the docs, the tool and the install follow it. Now: item 4, `template-manager`, the judging skill and the ontology path.
 
 ## The plan, in order
 
@@ -118,17 +118,14 @@ ADR 039 is accepted and the docs say it. Now: item 3, the tool and the folder.
 - **1. Decisions** — Kapil answered every open point on 2026-10-19; the answers are in "What
   we are trying to reach".
 - **2. Fix the docs** — ADR 039 accepted by Kapil (`docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md`), with pointers on ADR 036, 035, 034, 038, 017 and 009. `docs/components/memory.md` rewritten and the glossary's memory rows fixed to it. The tool's `GUIDE.md` and `README.md` move to item 3: they describe what the tool does, so they change with it.
+- **3. The tool and the install follow the docs** — the memory tool reads Phoenix memory and
+  copies nothing (`pull` and `pulled` gone; contract v5); Garura memory is read in
+  `.garura/core/memory/`, then `.garura/product/` (`garura_folders`); the install lays the tool at
+  `.garura/core/tools/memory/` with Phoenix memory at `~/.phoenix/core/memory`, and removes a
+  tool an older install laid; uninstall follows. Tests: tool 79, Phoenix side 5, contract 56,
+  install 28 — all pass; `lint-components` 116, as on main. This repo's `.garura/` not touched.
 
-### 3. The tool and the folder follow the docs — now
-
-**What:** `read` copies nothing; `pull` and `pulled` go; the install lays the tool at
-`.garura/core/tools/memory/` and names Phoenix memory at `~/.phoenix/core/memory`;
-uninstall follows. Only the source changes (`core/`, `installer/`). This repo's `.garura/`
-is the installed working copy: it is not touched until Kapil asks for an install. Its `GUIDE.md` and `README.md` say the same. Tests for each. How a project's memory is
-built from the part it needs is `initialize`'s work, not this plan's.
-**Done when:** the tool's tests and the install's tests pass.
-
-### 4. `template-manager`, the judging skill and the ontology path
+### 4. `template-manager`, the judging skill and the ontology path — now
 
 **What:** a new `template-manager` agent: it loads the templates a play asks for through the
 memory tool and puts them in the issue's short-term memory. A judging skill holds the judge
@@ -231,3 +228,5 @@ Then run the change chain.
   install was asked for. My clearing of `.garura/core/memory/`, removal of
   `.garura/project/specs/` and un-ignore of `.garura/core/memory/` are undone (the copy rebuilt
   from `3e0f98ab`, the one commit whose file list matches it).
+- 2026-10-19 — Item 3 done: the tool copies nothing and reads only `core/memory/` then `product/`;
+  the install lays it at `.garura/core/tools/memory/`. All tests pass.

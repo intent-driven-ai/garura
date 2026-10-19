@@ -2,13 +2,16 @@
 
 The one way agents find memory and update it. Today it works on folders. Later it calls a
 server in Griffin. Agents that call it do not change when that happens, because they only ever
-talk to this tool, through the contract in `contract/v4.json`.
+talk to this tool, through the contract in `contract/v5.json`.
 
-This folder holds the contract (version 4), sample answers, the check that keeps them in
-step, and the tool: `memory.py` (with `pull.py` for Phoenix memory, `updates.py` for memory
+This folder holds the contract (version 5), sample answers, the check that keeps them in
+step, and the tool: `memory.py` (with `pull.py` for the Phoenix side, `updates.py` for memory
 updates and `citations.py` for decision records). It answers every command in the contract:
-`health`, `find`, `search`, `read`, `pull`, `pulled`, `propose`, `updates`, `decide`, `apply`,
-`cite` and `citations`.
+`health`, `find`, `search`, `read`, `propose`, `updates`, `decide`, `apply`, `cite` and
+`citations`.
+
+An install puts the tool in the project's Garura folder, at `core/tools/memory/`, with its
+settings beside it. Agents run it from the project's root folder.
 
 `GUIDE.md` is the short memory guide every agent reads: the three tiers, how to find memory,
 raise a memory update and keep a decision's trace. An install puts it where the host tool
@@ -35,11 +38,11 @@ a settings file are relative to that file.
 | Setting | Environment | What |
 |---|---|---|
 | `short-term` | `MEMORY_SHORT_TERM_ROOT` | The folder that holds one folder per issue |
-| `garura` | `MEMORY_GARURA_ROOT` | Garura memory's folder. If the short-term folder sits inside it, that part is short-term memory, not Garura memory. If the tool itself sits inside it, the tool's folder is not memory at all |
-| `phoenix` | `MEMORY_PHOENIX_ROOT` | Phoenix memory's git repository: one place on the machine, shared by every project |
+| `garura` | `MEMORY_GARURA_ROOT` | Garura memory's root: the project's Garura folder. Only its `garura_folders` are Garura memory. If the short-term folder or the tool itself sits inside one of them, that part is still not Garura memory |
+| `garura_folders` | `MEMORY_GARURA_FOLDERS` | The folders inside that root that are Garura memory, in lookup order: a list in a settings file, a comma list in the environment (default `core/memory`, then `product` — the product model). Nothing else in the root is Garura memory |
+| `phoenix` | `MEMORY_PHOENIX_ROOT` | Phoenix memory's git repository: one place on the machine, shared by every project (an install names `~/.phoenix/core/memory`) |
 | `phoenix_source` | `MEMORY_PHOENIX_SOURCE` | Where Phoenix memory is downloaded from. When its place is empty, the first command that needs Phoenix memory downloads it there |
 | `phoenix_ref` | `MEMORY_PHOENIX_REF` | Phoenix memory's approved version (default `origin/main`) |
-| `garura_pull_dir` | `MEMORY_GARURA_PULL_DIR` | Where pulled pieces land inside Garura memory (default: its root) |
 | `updates_dir` | `MEMORY_UPDATES_DIR` | Where an issue's memory updates are kept, inside its short-term folder (default `review/memory-updates`). A lookup never reads them: a draft is used only once a person approved it and it was applied |
 | `citations_file` | `MEMORY_CITATIONS_FILE` | Where an issue's decision records are kept, inside its short-term folder (default `context/citations.jsonl`). A lookup never reads them: an agent never decides from its own earlier decision |
 | `engine` | `MEMORY_ENGINE` | `folder`, the only engine built. A server engine is one setting away |
@@ -54,19 +57,23 @@ Three rules the folder engine keeps:
 - **Phoenix memory is read only at its approved version**, the commit `phoenix_ref` names. A
   change reaches Phoenix memory when a person approves it outside Garura; until then — on a
   branch, or edited on disk — the tool does not read it.
-- **Memory that is used is saved.** When an agent reads a file from Phoenix memory, the tool
-  pulls it into Garura memory, so the next lookup answers from the project. A search hit alone
-  pulls nothing.
+- **Nothing is copied.** The tool reads Phoenix memory and never copies a file from it into
+  the project (ADR 039). A project needs only the part that matters to it — checkout, not all
+  of commerce — so its Garura memory is built separately, by `initialize` and by promotion.
+  The next lookup for the same thing goes up to Phoenix memory again, until then.
+- **Every write goes to short-term memory.** The only files the tool writes are an issue's
+  memory updates and decision records, in that issue's short-term memory. No command writes
+  Garura or Phoenix memory.
 
-`pull.py` holds the Phoenix side (the approved files, `pull`, `pulled`); its own command line
-stays for direct use.
+`pull.py` holds the Phoenix side: the download on first use, the approved version, its files
+and their text. It has no command line of its own.
 
 ## The three tiers
 
 | Tier | What it holds |
 |---|---|
-| `short-term` | One issue's own memory: its plans, specs and context. A lookup reads only the issue the work is on. |
-| `garura` | **Garura memory** — the project's long-term memory. It holds the part of Phoenix memory this project pulled, and what the project makes itself: its product model, intents, decisions and the person's answers. |
+| `short-term` | One issue's own memory: its plans, specs and context, the questions asked of a person and the answers, memory updates and decision records. A lookup reads only the issue the work is on. Every write lands here. |
+| `garura` | **Garura memory** — the project's own memory, in two folders read in this order: `core/memory`, then the product model (`product`), which is part of Garura memory, not all of it. It holds what was built for this project from the part of Phoenix memory it needs, and what people promoted. |
 | `phoenix` | **Phoenix memory** — the global memory, holding everything. Its own git repository until Griffin serves it. |
 
 The tool learns where each tier lives from its settings, never from a fixed path. A tier with
@@ -76,8 +83,9 @@ no setting, or one it cannot reach, is an error (`tier_missing`) — never "noth
 
 `find` and `search` look in **short-term**, then **Garura**, then **Phoenix** memory, and stop
 at the first tier that has an answer. So the lowest tier answers whenever it can, and Phoenix
-memory is reached only when the lower tiers have nothing. A lookup never stops a piece of work
-because the project has not pulled something yet: the tool goes a level up and finds it.
+memory is reached only when the lower tiers have nothing. Inside Garura memory, `core/memory`
+answers before the product model. A lookup never stops a piece of work because Garura memory
+does not hold something: the tool goes a level up and finds it.
 
 A lookup names the issue the work is on, when there is one. Short-term memory is read only in that issue's
 folder (`<issue>/`), never in another issue's. Otherwise another issue's old notes would answer
@@ -96,8 +104,8 @@ refused (`bad_request`).
   together is an error (`bad_request`).
 
 A lookup never skips a tier. If it reaches a tier with no setting, or one it cannot reach, it
-fails with `tier_missing`. "Never stops a piece of work" means a piece the project has not
-pulled is found a level up — not that a tier may be passed over.
+fails with `tier_missing`. "Never stops a piece of work" means a piece Garura memory does not
+hold is found a level up — not that a tier may be passed over.
 
 An empty answer — `answered_by: null`, no hits — means no tier it looked in holds it (with no
 issue, short-term memory is not looked in). That is the cue to raise a memory update. Agents never fill the gap from the model or the web on their own.
@@ -123,8 +131,6 @@ with `ok`, `contract_version` and `command`.
 
 | Command | What it does |
 |---|---|
-| `pull` | Copies one piece of Phoenix memory into Garura memory and records the version it came from. It never writes over a different Garura file (`would_overwrite`). |
-| `pulled` | Lists what Garura memory pulled, and whether Phoenix memory has moved on since. |
 | `propose` | Raises a memory update in the issue's short-term memory: what is missing, a drafted entry, where the draft came from (`person`, `web`, `model` or `memory`), and whether it blocks the work. Nothing in it is used until a person approves it. |
 | `updates` | Lists memory updates, optionally only those with one status. |
 | `decide` | Records a person's word on a waiting update: approve or reject, who, their exact reply, and where they decided (the review tool). Only a person decides, one update at a time. |
@@ -142,15 +148,15 @@ A memory update moves through `waiting` → `approved` or `rejected` → `applie
    that tool is built, a local prototype page stands in. Nothing in it is used before that.
 3. The approved answer is written to the issue's own short-term memory (`apply`). The work then
    decides from memory, and cites it.
-4. Moving memory up is not this tool's job: `/learn-memory` learns from short-term memory into
-   Garura memory, and `/promote-memory` sends Garura memory to Phoenix memory for an approval
-   outside Garura.
+4. Moving memory up is not this tool's job. It is a promotion a person makes on purpose,
+   outside the work: from short-term memory to Garura memory, or to Phoenix memory. Until an
+   answer is promoted, another issue does not find it, and may ask again. That is expected.
 
 ## What every answer carries
 
 - **Every piece of text** the tool returns — from `read`, a `search` hit, a trace step's source —
   carries its tier, file, lines and fingerprint. A file list from `find` carries tier, file and
-  version. `pull` names the tier it wrote to.
+  version.
 - **Paths** are relative to the tier's root and use forward slashes. A path never starts or ends
   with a slash, and never holds `..`, a `.` segment, an empty segment or a control character, so
   one file has one spelling. What a lookup hides (waiting drafts, decision records, and an
@@ -210,14 +216,14 @@ The check holds every sample to these, beyond its shape:
 | `not_approved` | `apply` on an update no person approved: it is waiting or was rejected. |
 | `wrong_state` | `decide` on an update that is not waiting, or `apply` on one already applied. |
 | `changed` | The target changed after the update was proposed, or a source `cite` was given no longer says what its fingerprint says. |
-| `would_overwrite` | Garura memory already holds a different file at that path; nothing was overwritten. |
 | `unreadable` | An issue's decision records hold a line that is not a whole record (a cut-off write or a hand edit). The answer names the file and line; other issues are not stopped. |
 
 ## What is not memory
 
 - **Learned checkpoint answers.** The record of past checkpoint approvals is a checkpoint
   tool, not memory. It holds "approved or not" for a kind of change and cannot answer a
-  question. A person's answers to questions are kept in Garura memory instead.
+  question. A person's answers to questions are kept in the issue's short-term memory, and
+  move up only by promotion (ADR 039).
 - **A play's own working files.** The files a play hands from one of its steps to the next,
   inside one run, are read and written directly. Only memory lookups go through the tool. The
   tool can still find those files later, as short-term memory.
@@ -227,7 +233,10 @@ The check holds every sample to these, beyond its shape:
 - Nothing here names a path inside a project or imports code from outside the folder, so the
   folder can move to Griffin as it is.
 - Python standard library only, Python 3.10 or newer. No installs.
-- The contract changes only by a new version. Version 4 is `contract/v4.json` (#659: `cite`
+- The contract changes only by a new version. Version 5 is `contract/v5.json` (#661, ADR 039:
+  the tool never copies a Phoenix file — `read` writes nothing, and `pull` and `pulled` are
+  gone; Garura memory is its folders, `core/memory` then the product model; every write goes to
+  short-term memory). Version 4 (#659: `cite`
   records a decision with its trace — steps in order, each source read first and kept with its
   text, version and the lines around it; `citations` lists an issue's decision records and checks
   every step's source again, naming the step; decision records and waiting drafts are never
@@ -236,7 +245,7 @@ The check holds every sample to these, beyond its shape:
   each one in the review tool, and a used file is never saved over a different Garura file).
   Version 2 (#657: lookups without an issue, globs that never step outside their tier, Phoenix
   memory read only at its approved version, memory that is used is saved) and version 1 are
-  kept as they were.
+  kept as they were, as history.
 
 ## Checking the contract
 
@@ -255,4 +264,5 @@ folder's boundary: no path into a project, the framework's source or a home fold
 import from outside the standard library or the folder. It prints a JSON report and exits 0
 when all hold. The second tests the check itself. `test_memory.py` tests the tool, and puts
 every answer it gives through the same contract check. `test_pull.py` tests the Phoenix side.
+None of them needs the network.
 All need Python 3.10 or newer.

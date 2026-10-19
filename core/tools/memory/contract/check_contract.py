@@ -2,7 +2,7 @@
 """
 check_contract.py — keep the memory tool's contract, its samples and its folder in step.
 
-    python3 contract/check_contract.py [--contract contract/v4.json]
+    python3 contract/check_contract.py [--contract contract/v5.json]
 
 Four checks, all from this folder alone (standard library only, Python 3.10 or newer):
   1. every sample in samples/ matches the contract: its request against the
@@ -241,14 +241,6 @@ def check_read(request, response):
         problems.append("read answered an end before its start")
     if "text" in response and "fingerprint" in response and response["fingerprint"] != fingerprint(response["text"]):
         problems.append("read fingerprint is not the sha256 of its text")
-    said = [k for k in ("saved_to", "not_saved") if k in response]
-    if response.get("tier") == "phoenix" and len(said) != 1:
-        problems.append("a read of Phoenix memory must say saved_to or not_saved, exactly one (answer rule read_saves_what_it_uses)")
-    if response.get("tier") != "phoenix" and said:
-        problems.append("only a read of Phoenix memory is saved: saved_to or not_saved on another tier")
-    saved = response.get("saved_to") or {}
-    if saved and not str(saved.get("path", "")).endswith(str(response.get("path"))):
-        problems.append("a used Phoenix file is saved at its own path, under Garura memory's pull folder")
     return problems
 
 
@@ -425,7 +417,7 @@ def check_boundary(root=TOOL):
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[1])
-    ap.add_argument("--contract", default=os.path.join(HERE, "v4.json"))
+    ap.add_argument("--contract", default=os.path.join(HERE, "v5.json"))
     ns = ap.parse_args(argv)
     try:
         contract = load(ns.contract)
