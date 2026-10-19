@@ -37,6 +37,7 @@ import json
 import os
 import re
 import shutil
+import signal
 import subprocess
 import sys
 import tempfile
@@ -106,6 +107,24 @@ def roots(phoenix, garura):
     return os.path.expanduser(phoenix), os.path.expanduser(garura)
 
 
+def run_limited(cmd, seconds, env):
+    """Run a command for at most `seconds`. At the limit it is stopped with every process it
+    started (git's network and password helpers too), so none is left waiting. Returns
+    (exit code, stderr), or (None, b"") when it hit the limit."""
+    proc = subprocess.Popen(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, env=env,
+                            start_new_session=True)
+    try:
+        _, err = proc.communicate(timeout=seconds)
+        return proc.returncode, err
+    except subprocess.TimeoutExpired:
+        try:
+            os.killpg(proc.pid, signal.SIGKILL)
+        except OSError:
+            pass
+        proc.communicate()
+        return None, b""
+
+
 def download(source, phoenix):
     """Download Phoenix memory to its place on this machine, the first time it is needed.
     It is cloned beside the place and moved in whole, so a cut-off download never looks like
@@ -118,12 +137,12 @@ def download(source, phoenix):
         raise Refusal("tier_missing", f"Phoenix memory is not on this machine, and there is no room "
                       f"to download it: {exc}.", "phoenix") from exc
     # never wait for a password nobody is there to type, nor on a stalled network: fail and say so
-    try:
-        run = subprocess.run(["git", "clone", "--quiet", "--", source, part], capture_output=True,
-                             env=dict(os.environ, GIT_TERMINAL_PROMPT="0"), timeout=DOWNLOAD_SECONDS)
-        why = run.stderr.decode(errors="replace").strip().splitlines() if run.returncode else None
-    except subprocess.TimeoutExpired:
+    code, err = run_limited(["git", "clone", "--quiet", "--", source, part], DOWNLOAD_SECONDS,
+                            dict(os.environ, GIT_TERMINAL_PROMPT="0"))
+    if code is None:
         why = [f"no answer from {source} within {DOWNLOAD_SECONDS} seconds"]
+    else:
+        why = err.decode(errors="replace").strip().splitlines() if code else None
     if why is not None:
         shutil.rmtree(part, ignore_errors=True)
         raise Refusal("tier_missing", "Phoenix memory is not on this machine, and downloading it "

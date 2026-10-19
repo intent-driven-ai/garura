@@ -9,6 +9,7 @@ import contextlib
 import io
 import json
 import os
+import shutil
 import sys
 import unittest
 from unittest import mock
@@ -300,28 +301,32 @@ class AfterAnInstall(Tiers):
         self.assertIn("downloading it failed", a["error"]["message"])
         self.assertEqual(os.listdir(os.path.dirname(self.place)), [])
 
-    def test_a_download_with_no_answer_stops_at_its_time_limit(self):
-        env = self.first_use_env(self.phoenix)
-        real = memory.phoenix_git.subprocess.run
-
-        def stalled(cmd, *a, **kw):
-            if cmd[:2] == ["git", "clone"]:
-                raise memory.phoenix_git.subprocess.TimeoutExpired(cmd, kw.get("timeout"))
-            return real(cmd, *a, **kw)
-        with mock.patch.object(memory.phoenix_git.subprocess, "run", stalled):
+    def test_a_download_with_no_answer_stops_at_its_time_limit_with_its_helpers(self):
+        env, bin_dir = self.first_use_env(self.phoenix), scratch(self)
+        helper = os.path.join(bin_dir, "helper.pid")
+        with open(os.path.join(bin_dir, "git"), "w") as fh:  # a clone that hangs, as a password helper does
+            fh.write(f'#!/bin/sh\nif [ "$1" = clone ]; then sleep 60 & echo $! > {helper}; sleep 60; fi\n'
+                     f'exec {shutil.which("git")} "$@"\n')
+        os.chmod(os.path.join(bin_dir, "git"), 0o755)
+        path = bin_dir + os.pathsep + os.environ["PATH"]
+        with mock.patch.dict(os.environ, {"PATH": path}), mock.patch.object(memory.phoenix_git, "DOWNLOAD_SECONDS", 1):
             a = self.ask("search", {"issue": 7, "pattern": "reset link"}, env)
         self.assertEqual((a["error"]["code"], a["error"]["tier"]), ("tier_missing", "phoenix"))
         self.assertIn("no answer from", a["error"]["message"])
         self.assertEqual(os.listdir(os.path.dirname(self.place)), [])
+        with open(helper) as fh:
+            pid = int(fh.read())
+        with self.assertRaises(ProcessLookupError):  # the helper was stopped too
+            os.kill(pid, 0)
 
     def test_a_source_that_looks_like_an_option_is_not_read_as_one(self):
         env, seen = self.first_use_env("--upload-pack=touch here"), []
-        real = memory.phoenix_git.subprocess.run
+        real = memory.phoenix_git.subprocess.Popen
 
         def record(cmd, *a, **kw):
             seen.append(cmd)
             return real(cmd, *a, **kw)
-        with mock.patch.object(memory.phoenix_git.subprocess, "run", record):
+        with mock.patch.object(memory.phoenix_git.subprocess, "Popen", record):
             a = self.ask("search", {"issue": 7, "pattern": "reset link"}, env)
         self.assertEqual((a["error"]["code"], a["error"]["tier"]), ("tier_missing", "phoenix"))
         clone = next(c for c in seen if c[:2] == ["git", "clone"])

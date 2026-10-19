@@ -33,6 +33,7 @@ import argparse
 import json
 import os
 import shutil
+import signal
 import subprocess
 import sys
 
@@ -220,15 +221,35 @@ def _phoenix_lines(target, phoenix, env):
         return lines + ["NOTE: the tool's settings name no source for Phoenix memory (phoenix_source), "
                         "so it cannot download it."]
     try:
-        run = subprocess.run(["git", "ls-remote", "--exit-code", "--", source, "HEAD"], capture_output=True,
-                             text=True, env=dict(env, GIT_TERMINAL_PROMPT="0"), timeout=REACH_SECONDS)
-        why = (run.stderr.strip().splitlines() or ["no answer"])[-1] if run.returncode else None
-    except (OSError, subprocess.TimeoutExpired) as exc:
+        code, err = _run_limited(["git", "ls-remote", "--exit-code", "--", source, "HEAD"], REACH_SECONDS,
+                                 dict(env, GIT_TERMINAL_PROMPT="0"))
+        if code is None:
+            why = f"no answer within {REACH_SECONDS} seconds"
+        else:
+            why = (err.decode(errors="replace").strip().splitlines() or ["no answer"])[-1] if code else None
+    except OSError as exc:
         why = str(exc)
     if why:
         lines.append(f"NOTE: Phoenix memory's source, {source}, does not answer from here now ({why}). "
                      "The first memory command that needs Phoenix memory fails until it does.")
     return lines
+
+
+def _run_limited(cmd, seconds, env):
+    """Run a command for at most `seconds`, then stop it with every process it started (git's
+    password helpers too), so none is left waiting. Returns (exit code, stderr), or (None, b"")."""
+    proc = subprocess.Popen(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, env=env,
+                            start_new_session=True)
+    try:
+        _, err = proc.communicate(timeout=seconds)
+        return proc.returncode, err
+    except subprocess.TimeoutExpired:
+        try:
+            os.killpg(proc.pid, signal.SIGKILL)
+        except OSError:
+            pass
+        proc.communicate()
+        return None, b""
 
 
 def _say(report, info):
