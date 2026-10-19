@@ -8,7 +8,9 @@ and every play's close block. A memory path is a place in a memory tier named by
 (for example "never use the old router (`kb.py`)") is not a read.
 Exit 0 when none is found, 1 otherwise.
 """
-import os, re, sys
+import os
+import re
+import sys
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 while not os.path.isdir(os.path.join(ROOT, "core", "components")):

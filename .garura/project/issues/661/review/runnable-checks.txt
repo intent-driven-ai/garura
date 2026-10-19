@@ -30,3 +30,9 @@ checked 17 files and 28 play closes; memory paths found: 0
 adr lint docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md: valid True []
 adr lint docs/adr/040-config-source-is-core-config-yaml.md: valid True []
 index rows missing: []
+
+## after the round 1 fixes (9668cb47)
+- ruff check, every changed .py file: All checks passed (26 files; one E401 in the evidence script fixed)
+- ruff format: not adopted in this repo (58 of the first 60 tracked core/**/*.py files would be reformatted, on main too) — CODE-04 not in force
+- import cycles among the changed .py files: none (ast check)
+- test_drive_contract 34 pass (a v5 citations answer is written); test_guidance_block 9 pass (copies identical); vision 36, understand 87/20/18, intent 103; memory tool, contract, install OK; lint-components 113/2 as main; memory-path check 0
