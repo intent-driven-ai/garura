@@ -106,18 +106,17 @@ question again. That is expected.
 
 The product model's own folders are listed in ADR 017 §1.
 
-## Being built
+## Not yet everywhere
 
-ADR 039 was accepted on 19 October 2026. Until #661 lands, some of the code still works the
-old way:
+ADR 039 and ADR 040 were accepted on 19 October 2026. #661 moved the Kickoff plays
+(`/intent`, `/vision`, `/understand`), their agents, every play's close and the install. Still to
+move:
 
-- a project installed before ADR 039 still has the memory tool at `.garura/tools/memory/` and
-  Phoenix memory at `~/.garura/phoenix-memory`, until it is installed again;
-- `template-manager`, the judging skill and the common close file do not exist yet;
-- plays still read their close templates, and `/vision` and `/understand` their judge and
-  approval prompts, by a path;
-- the Kickoff plays' working folders are moving into their issue (#661, item 8); other plays
-  still keep theirs beside the issues (for example `{stm_base}_adr/<run-ts>/`).
+- the other plays and agents read memory by a path, and keep their working folders beside
+  the issues (for example `{stm_base}_adr/<run-ts>/`) — #663;
+- a project installed before ADR 039 keeps the memory tool at `.garura/tools/memory/` and
+  Phoenix memory at `~/.garura/phoenix-memory` until it is installed again;
+- `initialize`, which builds a project's Garura memory, and promotion are not built.
 
 ## Related
 
