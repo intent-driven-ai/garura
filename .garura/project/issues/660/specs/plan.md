@@ -4,7 +4,7 @@ kind: story
 serves: "#660 — every Garura install carries the memory tool, a memory guide, and a check that the tool works"
 status: active
 updated: 2026-10-19
-now: 4
+now: 6
 serves_plan: 653
 serves_item: 7
 ---
@@ -69,7 +69,8 @@ What is true today (`core/components/plays/install-garura/scripts/install.py`):
 
 Kapil decided the three points (item 1). The tool finds its own settings and downloads
 Phoenix memory on first use (item 2). The guide is written and every command in it runs
-(item 3). Now: the installer (item 4).
+(item 3). The installer lays the memory system and checks it, on both install paths (items 4
+and 5). Now: the proof on a fresh project (item 6).
 
 ## The plan, in order
 
@@ -106,41 +107,27 @@ Phoenix memory on first use (item 2). The guide is written and every command in 
   memory place started empty: all answered ok, and Phoenix memory was downloaded on first
   use (`evidence/run_guide.py`, `evidence/guide-run.md`).
 
-### 4. The installer lays the tool, its settings and the guide — now
+- **4. Built: the installer lays the tool, its settings and the guide** — #660. One script,
+  `install-garura/scripts/memory_system.py`, lays the memory system, and both install paths
+  call it: the play's `install.py` and the public installer, `installer/install.sh` (found
+  while building: it is the install the README gives, so it must carry the memory system
+  too; a release without the script installs as before). It copies the tool to
+  `.garura/tools/memory/` without tests and samples, writes `settings.json` (kept on a
+  re-install), makes `.garura/project/issues/`, and writes the guide: Claude Code
+  `.claude/rules/garura-memory.md`; Codex one marked block in `AGENTS.md`. The manifest
+  records it, and `uninstall.py` removes the tool, the guide file or only the block, and
+  short-term memory's folder only when empty. In this repo the installed copies are ignored
+  by git. The install and uninstall guides (`SKILL.md`) say so.
+- **5. Built: the install checks the tool** — #660. `memory_system.check` runs `health` the
+  way an agent does. It fails when python3 is older than 3.10, the tool cannot run, or
+  short-term or Garura memory cannot be reached; `install.py` then exits 1 after writing the
+  manifest. Phoenix memory not downloaded yet is reported, not failed. 12 installer tests
+  pass (`install-garura/scripts/test_install.py`), among them: an agent's search through the
+  installed tool downloads Phoenix memory on first use; the tool's own files are not memory;
+  uninstall keeps a project's own `AGENTS.md` text and its short-term work. Component lint:
+  116 findings, as on main.
 
-**What:**
-- `install.py` copies the tool and the guide to `.garura/tools/memory/` and writes the
-  settings. The settings name short-term memory (`.garura/project/issues/`), Garura memory
-  (`.garura/`), Phoenix memory's place (`~/.garura/phoenix-memory`) and its address.
-- The install makes the short-term folder (`.garura/project/issues/`). Today it makes
-  only `.garura/project/specs/`, so the check would fail on short-term memory.
-- The Claude Code adapter writes the guide as `.claude/rules/garura-memory.md`. The Codex
-  adapter puts it into AGENTS.md, as a marked block when the project has its own file.
-- The install manifest records each new file, so `uninstall-garura` removes it, and the
-  marked block.
-- In Garura's own repository (installed with `--scope harness`), the installed copies are
-  ignored by git, as `.claude/skills/` is today.
-
-**Why here:** it needs the tool's settings (item 2) and the guide (item 3).
-
-**Done when:** an install into a temporary folder has the files, and an uninstall removes
-them.
-
-### 5. The install checks the tool
-
-**What:** after laying the files, the install runs the tool's `health` command with the
-written settings. If the tool cannot run, or short-term or Garura memory cannot be reached,
-the install fails and names what is wrong. Phoenix memory not yet downloaded is not a
-failure: the install says the tool gets it on first use. It also fails when Python is older
-than 3.10, which the tool needs.
-
-**Why here:** it checks what item 4 laid down.
-
-**Done when:** tests cover three cases. An install with no memory passes. An install where
-the tool cannot run fails. An install with no short-term folder fails and names short-term
-memory.
-
-### 6. Prove it on a fresh project
+### 6. Prove it on a fresh project — now
 
 **What:** install into a fresh test project, for Claude Code and then for Codex, with
 Phoenix memory's place empty (a test place, so the real one is never touched). The install
@@ -184,3 +171,4 @@ memory is downloaded on first use. The GitHub text is not changed yet.
   project's memory after the install. Items 2, 3, 5 and 6 changed to match.
 - 2026-10-19 — Item 2 built: settings beside the tool, Phoenix memory downloaded on first use, the tool's folder hidden.
 - 2026-10-19 — Item 3 written: the memory guide; every command in it runs as written.
+- 2026-10-19 — Items 4 and 5 built: one memory-system script for both install paths (`install.py` and `installer/install.sh`), the check, uninstall, 12 tests.

@@ -202,6 +202,25 @@ with open('$tmpfile', 'w') as f:
   rm -f "$tmpfile" "$tmpfile.bak"
 }
 
+# --- The memory system (ADR 035 §8) ---
+# The memory tool, its settings, short-term memory's folder and the memory guide every agent
+# reads, laid by the same script the install-garura play uses; then a check that the tool runs
+# and reaches the project's tiers. The install brings no memory: the tool downloads Phoenix
+# memory the first time it needs it. A release without the script installs as before.
+
+install_memory_system() {
+  local script="$COMPONENTS_DIR/plays/install-garura/scripts/memory_system.py"
+  if [ ! -f "$script" ]; then
+    warn "  This release has no memory system; skipped."
+    return 0
+  fi
+  info "  Installing the memory system..."
+  if ! python3 "$script" --target "$TARGET_DIR" --tool claude --source "$SRC_DIR"; then
+    err "The memory check failed (see above). The project's agents cannot use memory until it is fixed."
+    exit 1
+  fi
+}
+
 # --- Deploy skills (honoring EXCLUDED_SKILLS) ---
 
 deploy_skills() {
@@ -273,7 +292,10 @@ if [ "$MODE" = "init" ]; then
     transform_claude_md "$claude_content" "$PROJECT_NAME" > "$TARGET_DIR/CLAUDE.md"
   fi
 
-  # 8. Record the installed version
+  # 8. The memory system
+  install_memory_system
+
+  # 9. Record the installed version
   mkdir -p "$(dirname "$VERSION_FILE")"
   echo "$INSTALLED_VERSION" > "$VERSION_FILE"
 
@@ -283,6 +305,8 @@ if [ "$MODE" = "init" ]; then
   ok "Project structure created:"
   ok "  .claude/agents/      — Agent definitions"
   ok "  .claude/skills/      — Skills and plays"
+  ok "  .claude/rules/garura-memory.md — The memory guide every agent reads"
+  ok "  .garura/tools/memory/ — The memory tool"
   ok "  .garura/core/    — Memory and config"
   ok "  .garura/project/ — Project artifacts"
   ok "  src/                 — Source code"
@@ -349,7 +373,10 @@ else
     transform_claude_md "$claude_content" "$PROJECT_NAME" > "$TARGET_DIR/CLAUDE.md.new"
   fi
 
-  # 7. Record the installed version
+  # 7. The memory system (the tool is replaced; its settings are kept)
+  install_memory_system
+
+  # 8. Record the installed version
   echo "$INSTALLED_VERSION" > "$VERSION_FILE"
 
   ok ""

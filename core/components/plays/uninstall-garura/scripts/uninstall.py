@@ -74,6 +74,34 @@ def prune_empty(path, dry):
     return False
 
 
+# The memory guide's block in AGENTS.md; the same markers as install-garura's memory_system.py.
+BLOCK_START = ("<!-- garura-memory:start — written by the Garura install; "
+               "a re-install replaces this block, uninstall removes it -->")
+BLOCK_END = "<!-- garura-memory:end -->"
+
+
+def rm_block(path, removed, dry):
+    """Take the memory guide's block out of a file the person owns, keeping the rest. A file
+    left with nothing in it is removed."""
+    if not os.path.isfile(path):
+        return False
+    with open(path, encoding="utf-8") as fh:
+        text = fh.read()
+    start, end = text.find(BLOCK_START), text.find(BLOCK_END)
+    if start < 0 or end < start:
+        return False
+    before, after = text[:start].rstrip("\n"), text[end + len(BLOCK_END):].strip("\n")
+    kept = "\n\n".join(p for p in (before, after) if p)
+    if not dry:
+        if kept:
+            with open(path, "w", encoding="utf-8") as fh:
+                fh.write(kept + "\n")
+        else:
+            os.remove(path)
+    removed.append(f"{path} (memory guide block)")
+    return True
+
+
 def uninstall(target, *, purge, quiet, dry):
     man_path = os.path.join(target, ".garura", "install-manifest.json")
     if not os.path.isfile(man_path):
@@ -128,6 +156,15 @@ def uninstall(target, *, purge, quiet, dry):
     # status-marker ignore rule the installer wrote (ADR 021)
     if rec.get("status_gitignore"):
         rm_file(os.path.join(target, rec["status_gitignore"]), removed, dry)
+    # the memory system (ADR 035 §8): the tool with its settings, and the guide. Short-term
+    # memory's folder is the person's work: it is only pruned below when empty.
+    ms = rec.get("memory_system") or {}
+    if ms.get("tool"):
+        rm_dir(os.path.join(target, ms["tool"]), removed, dry)
+    if ms.get("guide"):
+        rm_file(os.path.join(target, ms["guide"]), removed, dry)
+    if ms.get("agents_md_block"):
+        rm_block(os.path.join(target, ms["agents_md_block"]), removed, dry)
     # shared memory: only on explicit purge, and only the exact recorded path
     if rec.get("memory"):
         if purge:
@@ -143,10 +180,13 @@ def uninstall(target, *, purge, quiet, dry):
     for d in (
         os.path.join(claude, "skills"),
         os.path.join(claude, "agents"),
+        os.path.join(claude, "rules"),
         claude,
         os.path.join(agents_dir, "skills"),
         agents_dir,
         os.path.join(target, ".garura", "core"),
+        os.path.join(target, ".garura", "tools"),
+        os.path.join(target, ".garura", "project", "issues"),
         os.path.join(target, ".garura", "project", "specs"),
         os.path.join(target, ".garura", "project"),
         os.path.join(target, ".garura"),

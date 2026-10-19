@@ -44,8 +44,15 @@ Each only if the manifest recorded it:
 - every `.claude/agents/<id>.md` the manifest lists,
 - the target's `.garura/core/config.yaml`,
 - `CLAUDE.md.new` (only the installer-written variant — never the user's own `CLAUDE.md`),
+- the memory tool (`.garura/tools/memory/`, with its settings) and the memory guide: the
+  file `.claude/rules/garura-memory.md`, or the marked block in `AGENTS.md` — only the
+  block; the rest of the user's `AGENTS.md` stays,
 - `.garura/install-manifest.json`,
-- then any directories left empty by the above.
+- then any directories left empty by the above. Short-term memory's folder
+  (`.garura/project/issues/`) goes only when it is empty.
+
+Phoenix memory's place on the machine (`~/.garura/phoenix-memory`) is never removed: the
+install did not put it there, and other projects use it.
 
 The **shared memory** (machine-global, recorded in the manifest) is kept by default — other
 projects on the machine share it. It is removed only on an explicit, confirmed `--purge`,
