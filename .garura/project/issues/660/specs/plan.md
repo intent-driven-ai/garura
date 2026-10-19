@@ -2,9 +2,9 @@
 plan_for: 660
 kind: story
 serves: "#660 — every Garura install carries the memory tool, a memory guide, and a check that the tool works"
-status: active
+status: done
 updated: 2026-10-19
-now: 7
+now: -
 serves_plan: 653
 serves_item: 7
 ---
@@ -67,11 +67,10 @@ What is true today (`core/components/plays/install-garura/scripts/install.py`):
 
 ## Where we are now
 
-Kapil decided the three points (item 1). The tool finds its own settings and downloads
-Phoenix memory on first use (item 2). The guide is written and every command in it runs
-(item 3). The installer lays the memory system and checks it, on both install paths (items 4
-and 5). A fresh-project test passed: a real sub-agent found memory through the tool (item 6).
-Now: land it (item 7), on Kapil's word.
+Done. Every Garura install, by the play or the public installer, lays the memory tool, its
+settings and the memory guide, brings no memory, and checks the tool. Phoenix memory arrives
+on first use. ADR 038 (accepted by Kapil) records the decision. Landed through PR #677 after
+two review rounds.
 
 ## The plan, in order
 
@@ -138,13 +137,20 @@ Now: land it (item 7), on Kapil's word.
   with `cite`. A Codex install kept the project's own `AGENTS.md` and added one block.
   Uninstall removed the tool and the guide and kept the project's memory and work. Not run:
   the public installer's new step (it downloads a published release), and a Codex agent.
-
-### 7. Land — now
-
-**What:** update the installer's guide (`install-garura/SKILL.md`). Close this plan and
-item 7 of the #653 plan in the last commit before the merge. Then run the change chain.
-
-**Done when:** the PR is merged.
+- **7. Landed** — #660, PR #677. Round 1 (harness approve, 0 blocking; 3 major, 12 minor,
+  5 small): Kapil chose to fix them all and record the decision before the merge ("2").
+  ADR 038, accepted by Kapil through `/adr`: the install brings no memory, Phoenix memory
+  arrives on first use, `initialize` sets up a project's memory, the tool lives at
+  `.garura/tools/memory/`; it amends ADR 035 §2, §3, §4, §8 and its Alternatives, and ADR
+  017 §1. Code fixes: the download stops after 600 seconds with every helper it started,
+  puts `--` before its source, and says why a copy cannot be put in place; a re-install
+  swaps in a whole copy and leaves no half copy; `install.sh` records its version before it
+  stops on a failed check; the check exits 2 on bad input, reads any answer shape, and notes
+  a source that does not answer. The guides say what the code does. Round 2
+  (`review/round-2.yaml`): 16 fixed, 3 new, all fixed with tests; `installer/install.sh`
+  is now run whole by 4 tests. 145 tool tests and 27 installer tests pass. Carried (small):
+  `install()` is 53 lines; sizes over the limits on main; a download folder stays if the
+  tool is killed.
 
 ## Not in this plan
 
@@ -159,7 +165,7 @@ item 7 of the #653 plan in the last commit before the merge. Then run the change
 
 The #660 issue says "An install whose tool cannot reach a tier fails with that tier
 named." Kapil changed this on 2026-10-19: the install finishes without memory, and Phoenix
-memory is downloaded on first use. The GitHub text is not changed yet.
+memory is downloaded on first use. ADR 038 records it. The GitHub text is not changed.
 
 ## Log
 
@@ -172,3 +178,5 @@ memory is downloaded on first use. The GitHub text is not changed yet.
 - 2026-10-19 — Item 3 written: the memory guide; every command in it runs as written.
 - 2026-10-19 — Items 4 and 5 built: one memory-system script for both install paths (`install.py` and `installer/install.sh`), the check, uninstall, 12 tests.
 - 2026-10-19 — Item 6 done: the fresh-project test passed (Claude Code install, a real sub-agent, Codex install, uninstall).
+- 2026-10-19 — Review round 1: Kapil chose to fix every finding and record the decision first ("2"). ADR 038 accepted ("accept"). Round 2: 3 new findings, fixed with tests; the public installer is now tested whole; a time limit now stops git's helpers too.
+- 2026-10-19 — Item 7 done: landing through PR #677. Plan closed.

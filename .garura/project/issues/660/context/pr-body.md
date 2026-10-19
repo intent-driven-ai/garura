@@ -32,6 +32,7 @@ Closes #660
 - A re-install that stops halfway left `.garura/tools/memory.new`, which a lookup read as Garura memory. The half copy is now removed, and uninstall removes one left behind.
 - An answer the check cannot read now fails with a message.
 - `installer/install.sh` is now run whole by 4 tests. They use a local Garura and a local Phoenix source in place of the network.
+- Found while posting round 2: a git call that hit its time limit was stopped, but the password helper it started kept waiting on the macOS keychain, and the stuck helpers blocked the next push. The download and the install check now stop git and every helper it started at the limit. A test proves both are gone.
 
 Carried (small): `install()` is 53 lines, against 50 on main. `uninstall()` and two files were over the limits on main already. A download folder stays beside Phoenix memory's place if the agent's shell kills the tool. No lookup reads that folder.
 
