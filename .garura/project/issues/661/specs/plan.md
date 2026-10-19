@@ -4,7 +4,7 @@ kind: story
 serves: "#661 — /intent, /vision, /understand and the Kickoff drive read no memory; their agents read it through the memory tool"
 status: active
 updated: 2026-10-19
-now: 2
+now: 3
 serves_plan: 653
 serves_item: 8
 ---
@@ -107,7 +107,7 @@ What is true today (read on 2026-10-19):
 
 ## Where we are now
 
-Kapil decided every open point. Now: item 2, the ADR that fixes the docs.
+ADR 039 is accepted and the docs say it. Now: item 3, the tool and the folder.
 
 ## The plan, in order
 
@@ -117,23 +117,14 @@ Kapil decided every open point. Now: item 2, the ADR that fixes the docs.
   (`09822507`).
 - **1. Decisions** — Kapil answered every open point on 2026-10-19; the answers are in "What
   we are trying to reach".
+- **2. Fix the docs** — ADR 039 accepted by Kapil (`docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md`), with pointers on ADR 036, 035, 034, 038, 017 and 009. `docs/components/memory.md` rewritten and the glossary's memory rows fixed to it. The tool's `GUIDE.md` and `README.md` move to item 3: they describe what the tool does, so they change with it.
 
-### 2. Fix the docs — now
-
-**What:** one ADR through `/adr`, to Kapil's rules. It amends ADR 036 §4 (and its lines on
-ADR 034 §2 and ADR 035 §5), ADR 035 §2 (no pulled copies), ADR 038 (the Phoenix place, the
-tool's folder), ADR 017's whitelist, and the rule that the close is copied into each play
-(`play-close.md`, `/play-creator` G12). Then the tool's `GUIDE.md` and `README.md`,
-`docs/components/memory.md` and the glossary's memory rows.
-**Why first:** the docs misled this plan once. The work after this reads them.
-**Done when:** Kapil accepted the ADR, and each doc says the same rules.
-
-### 3. The tool and the folder follow the docs
+### 3. The tool and the folder follow the docs — now
 
 **What:** `read` copies nothing; `pull` and `pulled` go; the install lays the tool at
 `.garura/core/tools/memory/` and names Phoenix memory at `~/.phoenix/core/memory`;
 uninstall follows; `.garura/project/specs/` goes; `.garura/core/memory/` comes off
-`.gitignore` (first clear the old full copy this repo holds there, or it is committed). Tests for each. How a project's memory is
+`.gitignore` (first clear the old full copy this repo holds there, or it is committed). Its `GUIDE.md` and `README.md` say the same. Tests for each. How a project's memory is
 built from the part it needs is `initialize`'s work, not this plan's.
 **Done when:** the tool's tests and the install's tests pass.
 
@@ -234,3 +225,5 @@ Then run the change chain.
 - 2026-10-19 — ADR 039 drafted. Kapil: Rule 12's questions and answers go to the issue's
   short-term memory (item 8 added); `.garura/core/memory/` kept in git; `engine-state.json`
   stays; asked-again is expected until promotion; "accept".
+- 2026-10-19 — Item 2 done: ADR 039 accepted and applied; `docs/components/memory.md` and the
+  glossary follow it. The tool's guide and README move to item 3.
