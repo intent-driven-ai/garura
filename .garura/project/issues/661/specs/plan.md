@@ -16,52 +16,57 @@ that order. How each item is built is decided in its own step.
 
 ## What we are trying to reach
 
-ADR 035, as amended by ADR 036, 037 and 038. The three plays the Kickoff drive runs —
-`/intent`, `/vision` and `/understand` — and the close every play ends with, read memory
-only through the memory tool. Their agents raise a memory update when no tier answers,
-instead of asking or guessing, and keep a trace of each decision (`cite`). Only agents call
-the tool and build context; skills read short-term memory only (Kapil, 2026-10-18).
+The three plays the Kickoff drive runs — `/intent`, `/vision` and `/understand` — get their
+memory only through their agents, and those agents read memory only through the memory tool.
 
-Inside a drive, a play answers from memory, and raises a memory update when no tier answers
-(ADR 034, ADR 035). The drive contract's rule 4, its row in the rules index and the
-glossary's Drive entry say so.
+Kapil's rules, 2026-10-19 (they replace this plan's first reading):
+
+- **A play does not change for memory.** A play calls its agents. The agents read every
+  memory and build the context. Skills read only what the agent puts in short-term memory.
+- **The tiers and where they are.** Short-term memory is the issue's folder
+  (`.garura/project/issues/<issue>/`). Garura memory is `.garura/core/memory/`. The product
+  model, `.garura/product/`, is part of Garura memory, not all of it. A lookup goes short-term
+  memory, then `.garura/core/memory/`, then the product model, then Phoenix memory.
+- **Every memory write goes to short-term memory.** A question asked of a person, and the
+  answer, are kept in the issue's short-term memory. Moving anything up is a promotion that a
+  person makes on purpose. A new memory made outside short-term memory breaks the guardrail.
+- **Only a play built to write the product model writes it** (`/vision`, `/understand`). That
+  is the play's work, not a memory write.
 
 What is true today (read on 2026-10-19):
 
-- **The close of 28 plays** reads its templates from `${ltm_project_target}standards/templates/`
-  (`evidence-file.md`, `delivery-report.md`). `ltm.project-target` is `./.garura/core/memory/`,
-  which nothing writes any more (ADR 035, Context). The block's one source is
-  `core/components/memory/standards/rules/play-close.md`; `/play-creator` emits it (gate
-  G12) and `lint-components` checks its anchors.
-- **`/intent`** dispatches `business-intent-keeper`, which invokes `author-business-intent`.
-  The agent's contract and the skill name `<memory>/standards/schemas/product-os/ontology.md`;
-  the skill's default is `~/.garura/core/memory/standards/schemas/product-os/ontology.md`.
-  Its intent says: "where the source cannot say (who asked, why, how we will know), the play
-  asks the person and never fills the gap itself" (C5).
-- **`/vision` and `/understand`** dispatch `product-os-keeper`, which invokes
-  `author-vision-seed` and `enrich-capability-ice`. The agent reads the knowledge base through
-  a router at `core/components/memory/knowledge/domains/.pageindex/kb.py`, and its skills
-  `search-kb`, `kb-search` and `propose-kb-node` read the knowledge shelves. The same agent
-  serves other plays (`/shape`, `/roadmap`, `/grill`, `/next` and more).
-- **Inside a drive** (`/vision` C11, `/understand` C13; the drive contract's rule 4), a
-  question the drive did not answer stops the play, and the play asks the person.
-- `check_intent.py` and `persist_understand.py` take answers from the person (or the drive's
-  contract) only.
+- The docs disagree with these rules. ADR 036 §4 says "When a person answers a question, the
+  answer goes into Garura memory", and ADR 036 amends ADR 034 §2 and ADR 035 §5 to say the
+  same. That text led this plan's first reading astray.
+- The memory tool writes memory updates and decision records only to short-term memory. But a
+  `read` of a Phoenix file copies it into `.garura/core/memory/` at once (`memory.py`, `cmd_read`),
+  and `pull` does the same on request. The guide and the README say so.
+- The tool's Phoenix place is `~/.garura/phoenix-memory` (ADR 038; the install's
+  `PHOENIX_PLACE`). Kapil, 2026-10-19: it should be `~/.phoenix/core/memory` (his sentence ended
+  "i think we can even drop" — not finished).
+- The tool's Garura tier is all of `.garura/` less short-term memory and the tool's folder. So
+  it also reads `.garura/user-provided/` and `.garura/defect-report/`.
+- **The agents.** `/intent` uses `business-intent-keeper`; `/vision` and `/understand` use
+  `product-os-keeper`. The change chain every play runs adds `project-orchestrator`,
+  `repo-orchestrator`, `change-reviewer` and `quality-auditor`. Of the 20 agents, 16 name a
+  memory path, and none calls the tool.
+- **The plays read memory themselves**, not through an agent: every play's close reads two
+  templates from `${ltm_project_target}` (`.garura/core/memory/`, which an install does not
+  fill); `/vision` and `/understand` read `gate-config.md`, `approval-prompt.md` and
+  `grounding-eval.md`; `/intent` hands its agent a path, `<memory>/…/ontology.md`.
 
 ## When this plan is done
 
-- The three plays, their agents and skills, and every play's close name no memory path.
-- `/intent` (C4, C5, Step 3), `/vision` (C11) and `/understand` (C13) read memory as the
-  three tiers, and "ask the person" becomes a memory update whose approved answer lands in the
-  issue's short-term memory (ADR 036 §2).
-- `check_intent.py` and `persist_understand.py` accept an answer from memory with its source.
-- Each play's own checks pass, and `lint-components` finds no more than on main.
-- The drive contract's rule 4, its rules-index row and the glossary's Drive entry say what
-  ADR 034 and ADR 035 decided.
+- The docs say Kapil's rules, and say them the same way: the ADRs, the tool's guide and README,
+  `docs/components/memory.md` and the glossary.
+- The agents the three plays use read memory only through the tool, and their skills read only
+  short-term memory.
+- No play's intent changed for memory.
+- Each changed agent's and play's checks pass, and `lint-components` finds no more than on main.
 
 ## Where we are now
 
-Opened. The plan is written. Now: item 1, two decisions for Kapil.
+Opened. Kapil set the rules above. Now: item 1, three open points.
 
 ## The plan, in order
 
@@ -70,78 +75,55 @@ Opened. The plan is written. Now: item 1, two decisions for Kapil.
 - **0. Opened** — #661. Branch `feature/661-kickoff-reads-memory-through-tool` off main
   (`09822507`).
 
-### 1. Decide two points with Kapil — now
+### 1. Three open points with Kapil — now
 
 **What:**
-- (a) What "names no memory path" means. My reading: no path to a tier's files (`~/.garura/…`,
-  `core/components/memory/…`, `${ltm_project_target}`, `<memory>/…`). A rule or template
-  named by its place in memory (`standards/rules/gate-config.md`) and read through the tool is
-  fine. The other reading strips those names too.
-- (b) Where a person's own answer goes. ADR 036 §4: "When a person answers a question, the
-  answer goes into Garura memory." The tool cannot write to Garura memory; it writes memory
-  updates to short-term memory only. My reading: the play keeps writing the answer where it
-  writes it today — into the product model, which is Garura memory — with who and when, and
-  the tool finds it there next time. The other reading adds a tool command that writes a
-  person's answer into Garura memory.
+- (a) The plays' own reads (the close's templates, `gate-config.md`, `approval-prompt.md`,
+  `grounding-eval.md`, `/intent`'s ontology path). Either the play gets them through the tool
+  with one script call (its text changes, its intent does not), or an agent reads them for it.
+- (b) The Phoenix place: `~/.phoenix/core/memory`, or a shorter one.
+- (c) The copy on read: a `read` of a Phoenix file writes it into Garura memory with no person.
+  Keep it (a copy of approved memory, not a new memory), or make it a promotion.
 
-**Done when:** Kapil has answered both, and the answers are in this plan.
+**Done when:** Kapil has answered all three, and the answers are in this plan.
 
-### 2. The close reads its templates through the tool
+### 2. Fix the docs
 
-**What:** `play-close.md` reads `evidence-file.md` and `delivery-report.md` with
-`memory.py read`, not from `${ltm_project_target}`. `/play-creator` emits the same lines
-(G12), and `lint-components` checks the new anchors. One script rewrites the close in all 28
-plays (a direct edit: the close changes no guarantee). The memory rule goes to Phoenix memory
-at landing, as #659's did.
-**Why first:** every play ends with it, and it is the same text in 28 places, so it is the
-cheapest to prove.
-**Done when:** no play's close names `ltm_project_target`; a play's close run on a project
-renders its report from templates found through the tool.
+**What:** one ADR through `/adr` that amends ADR 036 §4 (and its lines on ADR 034 §2 and
+ADR 035 §5) to Kapil's rules, and records (b) and (c). Then the tool's `GUIDE.md` and
+`README.md`, `docs/components/memory.md` (its paths are old) and the glossary's memory rows.
+**Why first:** the docs misled this plan once. The work after this reads them.
+**Done when:** Kapil accepted the ADR, and each doc says the same rules.
 
-### 3. The agents look up memory through the tool
+### 3. The tool follows the docs
+
+**What:** only what items 1 and 2 change in the tool: the Phoenix place in the install's
+settings, and the copy on read. Tests for each.
+**Done when:** the tool's tests and the install's tests pass.
+
+### 4. The two Kickoff agents read through the tool
 
 **What:** `business-intent-keeper` and `product-os-keeper` find and read memory only with the
-tool (the knowledge router `kb.py` goes), write what a skill needs into the issue's
-short-term memory, raise a memory update when no tier answers, and `cite` each decision. The
-skills they call (`author-business-intent`, `author-vision-seed`, `enrich-capability-ice`,
-`search-kb`, `kb-search`, `propose-kb-node`) read only what the agent hands them; their
-default memory paths go. `product-os-keeper` serves other plays too; it changes once, here,
-so those plays get the change as well (Kapil, 2026-10-18: each agent changes once).
-**Done when:** none of these agents and skills names a memory path, and each one's checks
-pass.
+tool (the knowledge router `kb.py` and `ltm_context` go), write what a skill needs into the
+issue's short-term memory, and `cite` each decision. Their skills (`author-business-intent`,
+`author-vision-seed`, `enrich-capability-ice`, `search-kb`, `kb-search`, `propose-kb-node`) read
+only what the agent hands them. `product-os-keeper` serves other plays too; it changes once,
+here (Kapil, 2026-10-18).
+**Done when:** none of these agents and skills names a memory path, and each one's checks pass.
 
-### 4. The three plays' intents
+### 5. The plays' own reads
 
-**What:** through each play's ICE source and `/play-editor`: `/intent` C4, C5 and Step 3,
-`/vision` C11 and `/understand` C13 read memory as the three tiers. "Ask the person" becomes
-a memory update, whose approved answer lands in the issue's short-term memory. Inside a drive,
-a play answers from memory with a source, and stops only on a memory update that blocks.
-**Done when:** the three plays are recompiled and their own checks pass.
+**What:** as item 1 (a) decides.
+**Done when:** no play names a memory path.
 
-### 5. The checks accept answers from memory
+### 6. Prove it
 
-**What:** `check_intent.py` and `persist_understand.py` accept an answer whose source is
-memory (a tier, a file, lines and a fingerprint, as `cite` records them), not only the
-person. Tests for both.
-**Done when:** the tests pass, and an answer with no source is still refused.
-
-### 6. The drive contract, the rules index and the glossary
-
-**What:** rule 4 of `drive-contract.md`, its row in `standards/rules/_index.md`, and the
-glossary's Drive entry (`core/grounding/glossary.md`) say: inside a drive a play answers from
-memory, and raises a memory update when no tier answers. The two rules go to Phoenix memory
-at landing.
-**Done when:** the three texts match ADR 034 and ADR 035.
-
-### 7. Prove it
-
-**What:** a check that lists every memory path left in the scope (the three plays, their
-agents and skills, every play's close) and finds none. Run each play's own checks and
-`lint-components`. Run `/intent` once on a test project, to see its agent find memory through
-the tool and keep a trace. The full run of the three plays is #662.
+**What:** a check that lists every memory path left in the scope and finds none. Run each
+changed play's checks and `lint-components`. Run `/intent` once on a test project, to see its
+agent find memory through the tool and keep a trace. The full run of the three plays is #662.
 **Done when:** the check finds no memory path, and every check passes.
 
-### 8. Land
+### 7. Land
 
 **What:** close this plan and item 8 of the #653 plan in the last commit before the merge.
 Then run the change chain.
@@ -149,18 +131,27 @@ Then run the change chain.
 
 ## Not in this plan
 
-- Every other agent and skill (#653 item 10, #663).
+- The change chain's agents (`repo-orchestrator`, `change-reviewer`, `quality-auditor`) and the
+  other 11 agents that name a memory path (#653 item 10, #663).
 - The Kickoff runner (#613).
 - The full run of the three plays (#662).
 - `initialize` (#653, not yet placed).
+- Promotion (`/promote-memory`).
 
 ## Where the issue text no longer matches
 
 - The #661 text says "the agents and skills ... find and update memory only through the
   tool". Kapil, 2026-10-18: only agents call the tool; skills read short-term memory only.
-  The #653 plan records that #661's text needs this fix when Kapil asks.
+- The #661 text asks for the three plays' intents to change. Kapil, 2026-10-19: a play does
+  not change for memory.
+- These are fixed on GitHub when Kapil asks.
 
 ## Log
 
 - 2026-10-19 — Created at the start of #661, from the issue, ADR 034 to ADR 038, the #653
   plan, the three plays, their agents and skills, and `play-close.md`.
+- 2026-10-19 — Rewritten to Kapil's rules: a play does not change for memory; agents read it
+  through the tool; every memory write, a person's answer too, goes to short-term memory;
+  the tier places. The old items "the plays' intents", "the checks accept answers from memory"
+  and "the drive contract" are dropped. The first plan said `.garura/core/memory/` does not
+  exist; it exists in this repo (ignored by git), but an install does not fill it.
