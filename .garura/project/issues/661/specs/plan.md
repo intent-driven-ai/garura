@@ -4,7 +4,7 @@ kind: story
 serves: "#661 — /intent, /vision, /understand and the Kickoff drive read no memory; their agents read it through the memory tool"
 status: active
 updated: 2026-10-19
-now: 4
+now: 5
 serves_plan: 653
 serves_item: 8
 ---
@@ -107,7 +107,7 @@ What is true today (read on 2026-10-19):
 
 ## Where we are now
 
-ADR 039 is accepted; the docs, the tool and the install follow it. Now: item 4, `template-manager`, the judging skill and the ontology path.
+ADR 039 and ADR 040 are accepted; the docs, the tool, the install, `template-manager`, the judging skill and the config follow them. Now: item 5, the shared close in one common file.
 
 ## The plan, in order
 
@@ -124,22 +124,13 @@ ADR 039 is accepted; the docs, the tool and the install follow it. Now: item 4, 
   `.garura/core/tools/memory/` with Phoenix memory at `~/.phoenix/core/memory`, and removes a
   tool an older install laid; uninstall follows. Tests: tool 79, Phoenix side 5, contract 56,
   install 28 — all pass; `lint-components` 116, as on main. This repo's `.garura/` not touched.
+- **4. `template-manager`, the judging skill and the ontology path** — `template-manager`
+  (`core/components/agents/template-manager.md`) and `judge-grounding`
+  (`core/components/skills/judge-grounding/SKILL.md`) built; `grounding-eval.md` keeps the gate
+  rule and points to the skill. The config's source moved to `core/config.yaml`, with
+  `product.ontology` (ADR 040, accepted by Kapil). Install tests 31 pass; lint 116, as on main.
 
-### 4. `template-manager`, the judging skill and the ontology path — now
-
-**What:** a new `template-manager` agent: it loads the templates a play asks for through the
-memory tool and puts them in the issue's short-term memory. A judging skill holds the judge
-prompt and rubric now in `standards/rules/grounding-eval.md`. The config file names the
-ontology's path.
-**Done when:** each exists and its checks pass.
-**Progress (2026-10-19):** `template-manager` (`core/components/agents/template-manager.md`)
-and `judge-grounding` (`core/components/skills/judge-grounding/SKILL.md`) are built and pass
-the lint; `standards/rules/grounding-eval.md` now keeps only the gate rule and points to the
-skill (its Phoenix memory copy follows at landing). Kapil chose "2": the config's source moves to `core/config.yaml`
-(with `product.ontology`); the install and the installer copy it from there; this repo's
-`.garura/` is not edited. ADR 040 records it (drafted, waiting for Kapil's accept).
-
-### 5. The shared close in one common file
+### 5. The shared close in one common file — now
 
 **What:** the close moves out of the plays into one common file the plays point to. It gets
 its templates from `template-manager`. `/play-creator` emits the pointer, not the block, and
@@ -238,3 +229,5 @@ Then run the change chain.
   the install lays it at `.garura/core/tools/memory/`. All tests pass.
 - 2026-10-19 — Kapil: the config is built in `core/`, `.garura/` files are not modified ("2 is the
   right way"). `core/config.yaml` added; install and installer read it; ADR 040 drafted.
+- 2026-10-19 — Item 4 done; ADR 040 accepted. Its first apply wrote no forward pointers (the
+  context file nested its amends list); undone before commit, fixed, applied again.
