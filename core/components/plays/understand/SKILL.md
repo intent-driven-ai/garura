@@ -356,14 +356,18 @@ paths — all targets in one batch) as a
 isolated, clean-context judge sub-agent PER doc, ALL IN ONE CONCURRENT BATCH — each running
 the `judge-grounding` skill, handed only its doc (and parent doc), and the kind's per-section
 guidance: the play first asks `template-manager` for each judged kind's template
-(`standards/schemas/product-os/grounding/<kind>.md`) and hands the judge that short-term copy
-(it sees neither the brief nor the author's reasoning), on the model from
+(`standards/schemas/product-os/grounding/<kind>.md`), cuts its `## Per-section guidance` block
+out of that short-term copy, and hands the judge only that block — never the template's gold
+example (it sees neither the brief nor the author's reasoning), on the model from
 `grounding-eval.judge.model`. The three safety conditions hold: each judge only READS its
 own doc, writes only its own verdict JSON, and no judge depends on another. **Join** —
 wait for every verdict to return before gating any. Then gate every returned verdict
-(order-stable, so the outcome is identical to a serial run):
+(order-stable, so the outcome is identical to a serial run). The guidance cut, once per judged
+kind, before the batch:
 
 ```
+python3 scripts/guidance_block.py --template {stm_base}<issue>/context/templates/standards/schemas/product-os/grounding/<kind>.md \
+    --out <working>/judge/guidance-<kind>.md
 python3 scripts/grounding_gate.py --verdict <verdict.json>
 ```
 
@@ -834,16 +838,16 @@ reuses each `<working>/caps/<capability>/seed.yaml` rather than asking again.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:fcf7e57f0061489e716cbf99ec479a23f584f34f7fd190e4c24a3b89e41f0c41 (of `reference/ice.md`) |
+| fingerprint | sha256:7a8aa966571a2d3b41ed222e2008832ad66a4d730d035d087abc08c8a70a4bc8 (of `reference/ice.md`) |
 | compiled_by | play-editor (#615 runs inside a drive; one run details every pending capability); play-editor (#616 stands alone); play-editor (#498 direct-model-write, ADR 026); prior: play-editor (#467 Batch B, #466 Batch C) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close — #616) |
 | position_exception | model-writing both play — writes the model on its own started branch and commits its own model delta (C12) BEFORE the injected end sequence lands it (same shape as /measure and /vision) |
 | workflow_structure | A (single checkpoint carrying box-move approvals — class: standard, conditional gate per gate-config.md #467; direct-model-write WRITE-THEN-REVIEW per ADR 026 — persist + guard + classify before the gate, commit after; stop-condition gated close) |
 | stop_condition | stop-condition.yaml (D1–D3), gate live at Step C0 |
 | domain_agents | 1 (product-os-keeper) |
-| utility_agents | 0 |
-| skills_used | search-kb, enrich-capability-ice |
-| scripts | 14 (preflight.py, check_drive_contract.py, pick_targets.py, write_drive_review.py, lint_grounding.py, grounding_gate.py, rollup_box.py, persist_understand.py, scoped_write_guard.py, classify_change.py, gate_eval.py, distill_gate_policy.py, check_stop_condition.py, session_stamp.py) |
+| utility_agents | 1 (template-manager — the approval prompt, the kinds' templates, the shared close's templates) |
+| skills_used | search-kb, enrich-capability-ice, judge-grounding (run by each isolated judge) |
+| scripts | 15 (preflight.py, check_drive_contract.py, pick_targets.py, write_drive_review.py, lint_grounding.py, grounding_gate.py, rollup_box.py, persist_understand.py, scoped_write_guard.py, classify_change.py, gate_eval.py, distill_gate_policy.py, check_stop_condition.py, session_stamp.py, guidance_block.py) |
 | step_evals | 18 (SE-1…SE-18) |
 | scenario_evals | 8 (SCE-1…SCE-8) |
 | recovery_entries | 17 (one per failure condition; 13 autonomous / 4 human) |

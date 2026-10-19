@@ -30,6 +30,8 @@ Pipeline position: **both**. /understand stands on its own (ADR 029 §4; #616 D2
 
 Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM enrichment skill writes ONLY the per-node docs (`capability.md`, `functionality.md`) straight to the live model; every shared-file mutation (the spine `_spine.yaml`, `profile.yaml`, the box-move decisions) is done by the deterministic keyed persist script, in place, keyed to the run's target capabilities so it cannot touch any other node inside a shared file. The model tree is asserted clean at entry and the play commits its own model delta at close, so the working-tree diff vs HEAD is exactly this run's delta.
 
+Agents and skills (ADR 039 §2, §7, §8): the play reads no memory. `product-os-keeper` (domain agent) re-routes each target with `search-kb` and details it with `enrich-capability-ice`, reading memory only through the memory tool. `template-manager` (utility agent) hands the play the approval prompt, each judged kind's grounding template and the shared close's templates, copied into the issue's short-term memory. Each content-quality judge is an isolated sub-agent running the `judge-grounding` skill, handed only its doc (and parent doc) and the kind's `## Per-section guidance` block, which the bundled `guidance_block.py` cuts from the template copy — the judge never sees the template's gold example (`standards/rules/grounding-eval.md`).
+
 ### Constraints
 
 - C1 — One run details every target (#615). The targets are the capabilities the person

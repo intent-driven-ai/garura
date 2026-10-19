@@ -87,11 +87,13 @@ stop-condition verdict reading held (C8/F7).
 | Agent | Domain | Skill it invokes | Phases |
 |-------|--------|------------------|--------|
 | `product-os-keeper` | Ground the goal in the KB; author the directional seed — the detailed domain doc + directional capability docs written in place on the live model, and the spine-delta (spine entries + directional profile) emitted into the manifest | `search-kb`, `propose-kb-node`, `author-vision-seed` | Grounding, Author |
+| `template-manager` | Hand out the templates the play needs — the approval prompt, each judged kind's grounding template, the close's templates — as short-term copies (the play reads no memory, ADR 039) | — | Content eval, Checkpoint, Close |
 
 `product-os-keeper` is the single **domain agent** this play uses (1 of the ≤5
-budget). The utility work — cutting the branch and resolving the issue — is `start-change`
-(injected head), not a domain agent. The content-quality judge always runs as an isolated,
-clean-context sub-agent (optionally on a configured different model) — never the
+budget). `template-manager` is a utility agent. The utility work — cutting the branch and
+resolving the issue — is `start-change` (injected head), not a domain agent. The
+content-quality judge always runs as an isolated, clean-context sub-agent running the
+`judge-grounding` skill (optionally on a configured different model) — never the
 orchestrator's own context.
 
 ## Pre-flight
@@ -331,8 +333,10 @@ read-only fan-out** (`standards/rules/concurrent-fanout.md`): dispatch one isola
 clean-context judge sub-agent PER doc, ALL IN ONE CONCURRENT BATCH — each running the
 `judge-grounding` skill, handed only its doc (and parent doc), and the kind's per-section
 guidance: the play first asks `template-manager` for each judged kind's template
-(`standards/schemas/product-os/grounding/<kind>.md`) and hands the judge that short-term copy
-(it sees neither the brief nor the author's reasoning), on the model from
+(`standards/schemas/product-os/grounding/<kind>.md`), cuts that copy's per-section guidance
+block out with `python3 scripts/guidance_block.py --template <copy> --out
+<working>/judge/guidance-<kind>.md`, and hands the judge only that block — never the
+template's gold example (it sees neither the brief nor the author's reasoning), on the model from
 `grounding-eval.judge.model` (default the session model). The three safety conditions hold:
 each judge only READS its own doc, writes only its own verdict JSON, and no judge depends on
 another. **Join** — wait for every verdict to return before gating any. Then gate every
@@ -761,16 +765,16 @@ continues at the first end-sequence member that has not finished.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:66dcd3ab8b80f88ce74189454fc5ea5c1752a1bf60a9b175a75b068f11e50fdd (of `reference/ice.md`) |
+| fingerprint | sha256:65a10ca5a29a172da798b87b804f512a7aa33a779a1940de60576426c3205714 (of `reference/ice.md`) |
 | compiled_by | play-editor (#614 runs inside a drive); play-editor (#637 one product model with /intent); play-editor (#616 position both); play-editor (#500 direct-model-write, ADR 026); prior: play-editor (#467 Batch B, #466 Batch C); play-creator (edited via play-editor, #437; spine+grounding+eval model) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close — #616) |
 | position_exception | model-writing both play — writes the model on the started branch and commits its own model delta (C9) BEFORE the injected end sequence lands it (same shape as /measure) |
 | workflow_structure | A (single checkpoint — class: standard, conditional gate per gate-config.md #467; direct-model-write WRITE-THEN-REVIEW per ADR 026 — persist + guard + classify before the gate, commit after; stop-condition gated close) |
 | stop_condition | stop-condition.yaml (D1–D4), gate live at Step C0 |
 | domain_agents | 1 (product-os-keeper) |
-| utility_agents | 0 (start-change is the injected head, not a domain agent) |
-| skills_used | search-kb, propose-kb-node, author-vision-seed |
-| scripts | 16 (preflight.py, check_drive_contract.py, write_drive_review.py, read_intents.py, lint_grounding.py, grounding_check.py, grounding_gate.py, persist_seed.py, intent_touches.py, check_kept.py, scoped_write_guard.py, classify_change.py, gate_eval.py, distill_gate_policy.py, check_stop_condition.py, session_stamp.py) |
+| utility_agents | 1 (template-manager — templates as short-term copies; start-change is the injected head, not an agent) |
+| skills_used | search-kb, propose-kb-node, author-vision-seed, judge-grounding (each content-quality judge) |
+| scripts | 17 (preflight.py, check_drive_contract.py, write_drive_review.py, read_intents.py, lint_grounding.py, grounding_check.py, guidance_block.py, grounding_gate.py, persist_seed.py, intent_touches.py, check_kept.py, scoped_write_guard.py, classify_change.py, gate_eval.py, distill_gate_policy.py, check_stop_condition.py, session_stamp.py) |
 | step_evals | 14 (SE-1…SE-14) |
 | scenario_evals | 7 (SCE-1…SCE-7) |
 | recovery_entries | 13 (one per failure condition; 10 autonomous / 3 human) |
