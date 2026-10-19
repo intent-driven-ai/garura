@@ -1,0 +1,35 @@
+{
+  "decided": true,
+  "lint_ok": true,
+  "linked": true,
+  "target": "docs/adr/038-install-brings-no-memory.md",
+  "shape": "markdown",
+  "guard": {
+    "adr": ".garura/project/issues/_adr/20261019-071944/adr-draft.md",
+    "declared": "none",
+    "touches_an_intent": [],
+    "verdict": "no person's business intent changes"
+  },
+  "olders": [
+    {
+      "adr": "035",
+      "file": "docs/adr/035-agents-work-only-from-memory.md",
+      "kind": "amended",
+      "part": "\u00a72 \"Phoenix memory has one home; a project pulls the subset it needs\": its line \"At install, a project pulls a starting set: Garura's rulebook and the memory guide (part 8)\" \u2014 the install pulls nothing; Phoenix memory reaches a machine the first time the memory tool needs it, downloaded whole from the source its settings name (today a git repository, later a server address) to one place on the machine (default ~/.garura/phoenix-memory), never waiting on a password and stopping after a time limit, and a failed download refuses the lookup with Phoenix memory named; a project's own Garura memory is set up after the install by a new play, `initialize`. The rest of \u00a72 stands (its own git repository, pulling more on need, the list of what was pulled). \u00a73: the line in Kapil's quote \"installation is key so that it has some part of LTM build\" \u2014 Garura memory is built by `initialize`, not the install; until it runs, lookups go up to Phoenix memory; the lookup order and \"never blocks a play\" stand. \u00a74: \"The tool sits outside Garura\" \u2014 the tool is installed in each project at .garura/tools/memory/ with its settings beside it; agents still call the tool, never a path, so a move to Griffin still changes the tool only. \u00a78 \"Every install carries the memory system\": the install lays the tool, its settings and the memory guide, brings no memory, and checks that the tool runs and reaches short-term and Garura memory; it does not fail when Phoenix memory is not on the machine yet \u2014 it reports it, and notes when the source does not answer. Alternatives Considered: the line \"A project pulls nothing at install; every piece on first need\" (lost to \"a starting set at install\") is now the choice for the install."
+    },
+    {
+      "adr": "017",
+      "file": "docs/adr/017-folder-whitelist.md",
+      "kind": "amended",
+      "part": "\u00a71 \"Strict .garura/ folder whitelist\": the whitelist gains `.garura/tools/`, holding `memory/` \u2014 the memory tool as installed, with its settings.json beside it. The tool's own folder is never answered as Garura memory. The rest of \u00a71 stands."
+    }
+  ],
+  "status": "accepted",
+  "accepted_by": "Kapil Viren Ahuja",
+  "pointers_written": [
+    "035-agents-work-only-from-memory.md",
+    "017-folder-whitelist.md"
+  ],
+  "pointers_missing": [],
+  "index_ok": true
+}

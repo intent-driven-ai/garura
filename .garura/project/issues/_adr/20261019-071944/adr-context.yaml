@@ -1,0 +1,160 @@
+# adr-context.yaml — gathered by adr-keeper for the /adr play, Step 2 (task draft-adr), 2026-10-19
+# Brief: .garura/project/issues/_adr/20261019-071944/brief.md (complete: decision in four parts, why now,
+# four options each with why it lost, decided by, decided in)
+shape: markdown
+number: "038"                       # adr.py number --dir docs/adr -> {"next": "038", "taken": 37}
+suggested_file: docs/adr/038-install-brings-no-memory.md
+suggested_title: "The Install Brings No Memory: the Memory Tool Lives in the Project and Fetches Phoenix Memory on First Use"
+template: ~/.garura/phoenix-memory/standards/templates/adr.md   # Garura memory has no copy
+status: proposed
+date: 2026-10-19
+level: framework
+decided_by: ""                      # empty while proposed; the brief names Kapil Viren Ahuja (owner), 2026-10-19 — filled on acceptance
+decided_in: >-
+  #660 (every install carries the memory system), under Feature #653, with PR #677 and its review
+  (round 1); the #660 plan, item 1 (answers a.1, b.1, c) — .garura/project/issues/660/specs/plan.md;
+  earlier on #656 (the installer pulls nothing), recorded in .garura/project/issues/653/specs/plan.md item 3
+
+style_notes_from_caller:
+  - "Plain, short English. Quote Kapil's words from the brief. Keep the ADR short: it records the decision, not the build."
+  - "No absolute home paths: use ~ or repo-relative paths."
+
+overlap_candidates_from_script:      # adr.py overlaps --adr brief.md --dir docs/adr --top 20
+  - {adr: "035", score: 9.95, named_in_new: true, shared: ".garura/project/issues/653/specs/plan.md"}
+  - {adr: "017", score: 6.95, named_in_new: true}
+  - {adr: "036", score: 4.35, shared: ".garura/project/issues/653/specs/plan.md"}
+  - {adr: "037", score: 4.28, shared: ".garura/project/issues/653/specs/plan.md"}
+  # also read, because they name the install or the memory's home: 009, 015, 021, 034
+
+supersedes: []
+
+amends:
+  - adr: "035"
+    file: docs/adr/035-agents-work-only-from-memory.md
+    part: >-
+      §2 "Phoenix memory has one home; a project pulls the subset it needs": its line "At install, a
+      project pulls a starting set: Garura's rulebook and the memory guide (part 8)" — the install
+      pulls nothing; Phoenix memory reaches a machine the first time the memory tool needs it,
+      downloaded whole from the source its settings name (today a git repository, later a server
+      address) to one place on the machine (default ~/.garura/phoenix-memory), never waiting on a
+      password and stopping after a time limit, and a failed download refuses the lookup with
+      Phoenix memory named; a project's own Garura memory is set up after the install by a new play,
+      `initialize`. The rest of §2 stands (its own git repository, pulling more on need, the list of
+      what was pulled). §3: the line in Kapil's quote "installation is key so that it has some part
+      of LTM build" — Garura memory is built by `initialize`, not the install; until it runs, lookups
+      go up to Phoenix memory; the lookup order and "never blocks a play" stand. §4: "The tool sits
+      outside Garura" — the tool is installed in each project at .garura/tools/memory/ with its
+      settings beside it; agents still call the tool, never a path, so a move to Griffin still
+      changes the tool only. §8 "Every install carries the memory system": the install lays the tool,
+      its settings and the memory guide, brings no memory, and checks that the tool runs and reaches
+      short-term and Garura memory; it does not fail when Phoenix memory is not on the machine yet —
+      it reports it, and notes when the source does not answer. Alternatives Considered: the line "A
+      project pulls nothing at install; every piece on first need" (lost to "a starting set at
+      install") is now the choice for the install.
+    why: >-
+      Brief "Why now": the review of PR #677 found the code contradicts §2's starting set and the
+      rejected alternative. §3's quote and §8 describe what the install does, and change with it. §4
+      is a judgment call: its words "The tool sits outside Garura" read against the tool now living
+      inside each project's .garura/; the purpose §4 gives (agents call the tool, so a move to Griffin
+      changes nothing for them) stands, and the brief's rejected option "the memory tool outside the
+      project" names the same choice. Everything else in ADR 035 stands: §1, §5, §6 (as amended by
+      ADR 037), §7, §9, §10, and "Not decided here: where in .garura/ Garura memory lives".
+  - adr: "017"
+    file: docs/adr/017-folder-whitelist.md
+    part: >-
+      §1 "Strict .garura/ folder whitelist": the whitelist gains `.garura/tools/`, holding `memory/` —
+      the memory tool as installed, with its settings.json beside it. The tool's own folder is never
+      answered as Garura memory. The rest of §1 stands.
+    why: >-
+      Brief: "This adds tools/ to the .garura/ folder whitelist." §1 allows "ONLY these folders. No
+      other top-level or second-level folders are permitted anywhere under .garura/" — `tools/` and
+      `tools/memory/` are both new. ADR 017's existing pointer (from ADR 035) covers §1's core/ entry
+      only.
+
+not_affected:
+  - adr: "036"
+    why: "No line on the install or the tool's home. Its open question 'where in .garura/ Garura memory lives (#656)' stays open; this decision places the tool, not Garura memory."
+  - adr: "037"
+    why: "On traces and the review tool's sections; nothing on the install."
+  - adr: "009"
+    why: >-
+      Judgment call. Rule 4's reason ('acceptable because LTM is deployed via install-garura') and the
+      Mitigations line 'install-garura deploys LTM content to well-known paths' concern path reads
+      that ADR 035 already retired (its amendment of Rule 3). The install still lays the old
+      machine-wide copy until it is retired (install-garura/SKILL.md), and failure stays loud: a lookup
+      that cannot reach Phoenix memory is refused, naming it. No pointer.
+  - adr: "015"
+    why: "Its Layer 2 (~/.garura/core/memory/) is already superseded in part by ADR 035."
+  - adr: "021"
+    why: "The install still lays .garura/.gitignore for status files, and uninstall reverses it; unchanged."
+  - adr: "034"
+    why: "On where a play's answers come from inside a drive; reached through ADR 035, unchanged."
+
+affects:                             # every path checked to exist on this branch
+  - {path: core/components/plays/install-garura/scripts/memory_system.py, what: "new: lays the tool, its settings, short-term memory's folder and the guide; the check; Phoenix memory's default place and source"}
+  - {path: core/components/plays/install-garura/scripts/install.py, what: "calls memory_system; exit 1 when the check fails; --phoenix-place and --phoenix-source; still copies the old machine-wide memory (--memory-dest) until it is retired"}
+  - {path: core/components/plays/install-garura/scripts/test_install.py, what: "tests of the memory system's install and check"}
+  - {path: core/components/plays/install-garura/SKILL.md, what: "the install's guide: the memory system, no memory brought, the check (a direct edit: this play has no ICE source)"}
+  - {path: core/components/plays/uninstall-garura/scripts/uninstall.py, what: "removes the tool with its settings and the guide (and its AGENTS.md block)"}
+  - {path: core/components/plays/uninstall-garura/SKILL.md, what: "says so"}
+  - {path: installer/install.sh, what: "the public installer runs the same memory_system.py and stops on a failed check"}
+  - {path: core/tools/memory/memory.py, what: "reads settings.json beside itself; downloads Phoenix memory on first need (health never downloads); hides its own folder from Garura memory"}
+  - {path: core/tools/memory/pull.py, what: "download: git clone with no password prompt and a 600-second limit, moved in whole"}
+  - {path: core/tools/memory/test_memory.py, what: "tests for settings beside the tool, first-use download and the hidden tool folder"}
+  - {path: core/tools/memory/GUIDE.md, what: "new: the memory guide every agent reads; installed as .claude/rules/garura-memory.md (Claude Code) or a marked block in AGENTS.md (Codex)"}
+  - {path: core/tools/memory/README.md, what: "the tool's settings and first-use download"}
+  - {path: .gitignore, what: "ignores .garura/tools/ (this repo's installed copy; the source is core/tools/memory/) and .claude/rules/garura-memory.md"}
+  - {path: docs/components/memory.md, what: "lists ADR 017's whitelist; does not show .garura/tools/ yet"}
+  - {path: core/grounding/glossary.md, what: "Global mode, Project mode and /install-garura rows say shared memory goes to ~/.garura/core/memory/; not changed by this branch"}
+  - {path: .garura/project/issues/653/specs/plan.md, what: "item 3 (ADR 035 §2 still needs its amendment), item 7 (#660), and 'Not yet placed: initialize'"}
+  - {path: .garura/project/issues/660/specs/plan.md, what: "item 1, Kapil's answers"}
+  - {path: "initialize (play)", what: "not designed or built yet"}
+
+ice_impact: >-
+  No agent intent changes now. The install-garura and uninstall-garura plays have no ICE source (they
+  are garura-native meta plays, edited directly); their guides changed on this branch. The agents'
+  intents are unchanged: they already find memory only through the memory tool (ADR 035), and the
+  guide they read tells them how; until #661 and #663 no agent calls the tool. The new `initialize`
+  play gets its ICE when it is designed. The ICE kind does not change.
+
+business_intent_check: none
+business_intent_check_reason: >-
+  A framework decision about what Garura's install lays into a project and where the memory tool
+  lives. No person's business intent changes, and the Business Intent kind and its rules stand
+  (ADR 031). No intents folder was given (intents_dir null), and Affects names no business intent.
+
+related: "ADR 036, ADR 037, ADR 021 (the install's ignore file), ADR 031, #660, PR #677, #656, #653, #661, #663, Griffin (later)"
+
+consequences_sources:
+  positive:
+    - "brief: install finishes without any memory; the person picks what the project needs in initialize, from choices built from Phoenix memory, not pulled blind"
+    - "brief: one copy of Phoenix memory per machine (one place), fetched by the tool from a source in its settings, so a later server address changes a setting"
+    - "brief option 3: each project carries the tool version it was installed with"
+    - "brief: a download never blocks on a password and stops after a time limit; the lookup is refused with Phoenix memory named"
+    - "brief why-now: the record and the code land together"
+  negative:
+    - "brief: initialize is not designed or built; until it runs, every lookup goes up to Phoenix memory, so a new project's first lookup needs the network and the download"
+    - "memory_system.py / install-garura SKILL.md: the old machine-wide copy (~/.garura/core/memory) is still laid until retired (#653 item 10), so the install still copies memory to the machine for now"
+    - "pull.py: the first download can take up to the time limit (600 seconds) during an agent's lookup"
+    - "brief option 3: each project carries its own tool version; a fix reaches a project only when it is installed again"
+    - ".garura/project/issues/660/specs/plan.md 'Where the issue text no longer matches': the #660 issue text still says an install that cannot reach a tier fails"
+
+work_this_creates: >-
+  None filed; filed only when Kapil asks. (1) Design and build `initialize` (the #653 plan, 'Not yet
+  placed'). (2) The #660 issue text: an install no longer fails when Phoenix memory is absent (the plan
+  notes it). (3) docs/components/memory.md: the whitelist gains .garura/tools/. (4) Retire the old
+  machine-wide copy of memory (#653 item 10), and with it the glossary rows that name it.
+
+open_points_for_the_person:
+  - "Judgment call: ADR 035 §4's 'The tool sits outside Garura' is amended (the tool now lives in each project's .garura/); its purpose stands. Say if you read 'outside Garura' differently and want no pointer."
+  - "Judgment call: ADR 009 Rule 4 and its Mitigations line ('install-garura deploys LTM content') get no pointer — reached through ADR 035's amendment of Rule 3, and the old machine copy is still laid for now."
+  - "Not decided by the brief: whether .garura/tools/ is kept out of git in a project Garura is installed into (this repo ignores it)."
+
+sources:
+  - .garura/project/issues/_adr/20261019-071944/brief.md
+  - .garura/project/issues/_adr/20261018-200059/ (ADR 037's run: the expected shape)
+  - docs/adr/035, 017, 036, 037, 009, 015, 021, 034
+  - .garura/project/issues/660/specs/plan.md; .garura/project/issues/653/specs/plan.md
+  - the branch diff main...HEAD (install.py, memory_system.py, uninstall.py, install.sh, memory.py, pull.py, .gitignore, install-garura/SKILL.md)
+  - core/tools/memory/GUIDE.md
+  - docs/components/memory.md; core/grounding/glossary.md
