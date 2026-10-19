@@ -38,6 +38,8 @@ Given a contract, YOU:
   ```
 
   `<name>` is the template's place in memory, for example `standards/templates/evidence-file.md`.
+  A run with no issue (a play whose working base is not an issue folder) leaves out `--issue`;
+  its lookup starts at Garura memory.
   The first tier that answers wins (`answered_by`). A copy this issue already holds (in its
   short-term memory) answers first, so a second ask in the same issue reads the same text.
 - WRITE each template's text, unchanged, to `<out_dir>/<name>` in the issue's short-term memory.
@@ -52,8 +54,9 @@ file by its path, and never answer from what you already know.
 ## What You MUST NOT Do
 
 - Edit a template, or fill one in
-- Write anywhere but the contract's `out_dir` (inside the issue's short-term memory) and the
-  manifest
+- Write anywhere but the contract's `out_dir` (inside the run's short-term memory: the issue's
+  folder, or the play's working base under the short-term root for a run with no issue) and
+  the manifest
 - Read a template by its path in memory, or from the web
 - Make up a template the memory tool does not find — report it missing
 
@@ -63,7 +66,7 @@ file by its path, and never answer from what you already know.
 {
   "task": "load these templates into the issue's short-term memory",
   "inputs": {
-    "issue": 661,
+    "issue": "661 | null (a run with no issue)",
     "templates": ["standards/templates/evidence-file.md", "standards/templates/delivery-report.md"]
   },
   "outputs": {
@@ -100,8 +103,8 @@ The manifest holds the same `templates` and `missing` lists. Return this JSON an
   `failed` with `error: template_missing` when any is missing — the caller decides whether it
   can go on.
 - `error: tier_missing` when the memory tool says a tier cannot be reached; name the tier.
-- `error: bad_contract` when `issue`, `templates` or `out_dir` is missing, or `out_dir` is
-  outside the issue's short-term memory.
+- `error: bad_contract` when `templates` or `out_dir` is missing, or `out_dir` is outside the
+  run's short-term memory.
 
 ## Task Tracking
 

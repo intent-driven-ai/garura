@@ -111,6 +111,17 @@ class LaysTheMemorySystem(Installed):
         self.assertIn("python3 .garura/core/tools/memory/memory.py search", text)
         self.assertFalse(os.path.exists(self.path(".claude", "rules")))
 
+    def test_the_shared_play_close_is_laid_beside_the_plays(self):
+        self.install()
+        self.assertTrue(os.path.isfile(self.path(".claude", "skills", "_shared", "play-close.md")))
+        self.assertTrue(os.path.isfile(self.path(".claude", "agents", "template-manager.md")))
+        with open(self.path(".claude", "skills", "start-change", "SKILL.md")) as fh:
+            self.assertIn("../_shared/play-close.md", fh.read())
+
+    def test_codex_gets_the_shared_play_close_too(self):
+        self.install("codex")
+        self.assertTrue(os.path.isfile(self.path(".agents", "skills", "_shared", "play-close.md")))
+
     def test_the_config_comes_from_core_config_yaml(self):
         self.install()
         with open(self.path(".garura", "core", "config.yaml")) as fh:

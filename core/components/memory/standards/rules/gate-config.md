@@ -112,6 +112,6 @@ the other pipeline/execute mechanical gates are **off** with replacement checks.
 ## Related
 
 - `templates/approval-prompt.md` — the checkpoint rendering this switch gates
-- `rules/play-close.md` — Checkpoint Decisions rows record skips
+- `core/components/plays/_shared/play-close.md` — Checkpoint Decisions rows record skips
 - ADR 025 — the determinism rule; gates are skeleton, their firing is config
 - `rules/drive-contract.md` — how a gate resolves inside a drive; the `deferred_to_drive_review` answer

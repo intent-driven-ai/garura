@@ -597,7 +597,7 @@ the deliverable included the documentation the change requires.
 ### Phase: Evidence & Close
 
 Closes with the **Standard Play Close** — the canonical three-table delivery report (Run
-Summary / Pipeline Steps / Artifacts), not prose. See `standards/rules/play-close.md`.
+Summary / Pipeline Steps / Artifacts), not prose. See `core/components/plays/_shared/play-close.md`.
 The close is stop-condition gated (C20/F16): the gate step below evaluates the baked
 `stop-condition.yaml` and binds the verdict.
 
@@ -608,16 +608,12 @@ pass); any other verdict closed `HALTED` with the unmet clauses named (REC16). C
 never stands without the Done means held.
 
 ```bash
-# --- Standard Play Close (canonical; see standards/rules/play-close.md) ---
-# Path tokens resolved at pre-flight (resolve here if not already):
-#   ltm_project_target  = yq '.ltm.project-target' .garura/core/config.yaml
+# --- Standard Play Close (shared; see ../_shared/play-close.md) ---
+# Run the close in ../_shared/play-close.md. Its Step L loads the templates through
+# template-manager and sets ts and evidence_dest; then run this play's own lines below;
+# then Steps C0-C2.
 #   implement is project-scoped:
 #     evidence_base="${stm_base}${issue}/evidence/implement/"   ; slug="#${issue}"
-evidence_template=$(cat "${ltm_project_target}standards/templates/evidence-file.md")
-delivery_template=$(cat "${ltm_project_target}standards/templates/delivery-report.md")
-ts=$(date -u +%Y%m%d-%H%M%S)
-evidence_dest="${evidence_base}${ts}.md"
-mkdir -p "$(dirname "$evidence_dest")"
 # Session identity stamp (#463) — close phase; start phase ran at pre-flight
 session_stamp=$(python3 scripts/session_stamp.py --phase close \
     --marker "${stm_base}/${issue}/status/session-stamp-implement.json")
@@ -650,7 +646,7 @@ to self-commit only the listed evidence files with message
 `chore(stm): record implement evidence for #{issue}` (non-blocking — a commit failure
 logs a warning, never halts; the WORK stays uncommitted, C4).
 
-**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in `standards/rules/pipeline-next.md` and emit `**Next:** /<command> — <why>. Or run /next to see all recommended actions.` (only /next pointer, or omit, when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots and output it:
+**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>. Or run /next to see all recommended actions.` (only /next pointer, or omit, when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots and output it:
 `## implement Built — #{issue}` (built, not delivered — full done is /validate's), the
 Run Summary table, the Pipeline Steps table from the task DAG (T1–T13, including the
 injected start member), the Artifacts Produced table, Next Steps (run /validate on this

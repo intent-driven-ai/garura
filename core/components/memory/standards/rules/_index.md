@@ -37,7 +37,6 @@ Agents and skills query this category when they need to know: **"What rules must
 
 | Path | Description | Consumers |
 |------|-------------|-----------|
-| `play-close.md` | The canonical Standard Play Close block — the C1 evidence file + C2 delivery report every play emits as its final step, with lint anchors. | `play-creator`, `lint-components`, every play |
 | `evidence-recording.md` | D1 evidence rule (#434) — evidence recording is play-only (never agents, never skills); fires on `evidence.record`, tunable per play via `evidence.plays.<name>`. | `play-creator`, `lint-components`, every play |
 | `pipeline-position.md` | D2 pipeline rule (#434) — a play declares `position: start\|end\|both\|none`; play-creator injects start-change (start) and the commit → propose → review → merge end sequence (end). Members: start-change + the four end plays. | `play-creator`, `lint-components`, every play |
 | `drive-contract.md` | Drive contract (ADR 029, #614) — what a drive hands a play (`drive_run_id`, `drive`, `branch`, `issue`, `review_dir`, per-play `inputs`/`answers`) and how a play runs inside a drive: open nothing, keep its own commit, never wait at a conditional checkpoint (a review record + `deferred_to_drive_review` instead), never defer a pinned one by contract, stop on a new question. Shared checker `check_drive_contract.py`, writer `write_drive_review.py`. | `/vision` (wired), `/intent` (own check), `/understand` (#615), the drives |

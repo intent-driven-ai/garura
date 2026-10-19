@@ -108,12 +108,13 @@ changes to it are direct edits to its `SKILL.md` by definition.
 
 **Durability rule for non-intent edits:** a hand edit to a generated file is
 clobbered by the next intent-driven rebuild unless the compiler reproduces it.
-The canonical example is the **Standard Play Close** block — every play's
-Evidence & Close section. Its single source of truth is
-`core/components/memory/standards/rules/play-close.md`; `/play-creator` emits it
-(gate G12) so direct-edit and rebuild converge; `lint-components` fails any
-play missing its exact anchor pair. Any new shared scaffolding must follow the
-same converge-and-lint pattern, not just a one-off hand edit.
+The canonical example is the **Standard Play Close** — every play's Evidence &
+Close section. It lives once, in `core/components/plays/_shared/play-close.md`,
+laid beside the installed plays (ADR 039 §9). A play carries only its anchor pair,
+its own values and its own close steps, and points there; `/play-creator` emits
+that pointer so direct-edit and rebuild converge; `lint-components` fails any
+play missing its exact anchor pair. Any new shared scaffolding follows the same
+pattern: one common file the plays point to, emitted by the compiler and linted.
 
 
 ## Work Tracking

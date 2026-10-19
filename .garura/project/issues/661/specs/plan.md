@@ -4,7 +4,7 @@ kind: story
 serves: "#661 — /intent, /vision, /understand and the Kickoff drive read no memory; their agents read it through the memory tool"
 status: active
 updated: 2026-10-19
-now: 5
+now: 6
 serves_plan: 653
 serves_item: 8
 ---
@@ -107,7 +107,7 @@ What is true today (read on 2026-10-19):
 
 ## Where we are now
 
-ADR 039 and ADR 040 are accepted; the docs, the tool, the install, `template-manager`, the judging skill and the config follow them. Now: item 5, the shared close in one common file.
+ADR 039 and ADR 040 are accepted; the docs, the tool, the install, `template-manager`, the judging skill and the config follow them. The shared close lives in one file. Now: item 6, the two Kickoff agents read through the tool.
 
 ## The plan, in order
 
@@ -129,17 +129,15 @@ ADR 039 and ADR 040 are accepted; the docs, the tool, the install, `template-man
   (`core/components/skills/judge-grounding/SKILL.md`) built; `grounding-eval.md` keeps the gate
   rule and points to the skill. The config's source moved to `core/config.yaml`, with
   `product.ontology` (ADR 040, accepted by Kapil). Install tests 31 pass; lint 116, as on main.
+- **5. The shared close in one common file** — `core/components/plays/_shared/play-close.md`
+  (moved out of memory) holds the close; it gets its templates and the Next-line map from
+  `template-manager`. All 28 plays' closes now hold only the anchors, their own values and
+  their own steps (a script; a direct edit). `/play-creator` emits the pointer; `lint-components`
+  and both `lint_play.py` check the new anchor and the shared file; the install lays `_shared/`
+  beside the plays (Claude Code and Codex) and harness installs carry `template-manager`. Tests:
+  install 33, every play and skill test file passes; lint 114, as on main.
 
-### 5. The shared close in one common file — now
-
-**What:** the close moves out of the plays into one common file the plays point to. It gets
-its templates from `template-manager`. `/play-creator` emits the pointer, not the block, and
-`lint-components` checks the pointer. One script changes every play's close (a direct edit:
-the close changes no guarantee).
-**Done when:** no play carries the close's text, and every play's close points to the one
-file.
-
-### 6. The two Kickoff agents read through the tool
+### 6. The two Kickoff agents read through the tool — now
 
 **What:** `business-intent-keeper` and `product-os-keeper` find and read memory only with the
 tool (the knowledge router `kb.py` and `ltm_context` go), write what a skill needs into the
@@ -231,3 +229,5 @@ Then run the change chain.
   right way"). `core/config.yaml` added; install and installer read it; ADR 040 drafted.
 - 2026-10-19 — Item 4 done; ADR 040 accepted. Its first apply wrote no forward pointers (the
   context file nested its amends list); undone before commit, fixed, applied again.
+- 2026-10-19 — Item 5 done: the close lives once, in `core/components/plays/_shared/play-close.md`;
+  every play points to it. Its Phoenix memory copy (`standards/rules/play-close.md`) goes at landing.

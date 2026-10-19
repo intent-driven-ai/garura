@@ -245,7 +245,7 @@ def check_model_writes(ctx):
 # --- D1: Standard Play Close anchors ---------------------------------------------
 def check_close_anchors(ctx):
     text = ctx["text"]
-    opener = "# --- Standard Play Close (canonical; see standards/rules/play-close.md) ---"
+    opener = "# --- Standard Play Close (shared; see ../_shared/play-close.md) ---"
     closer = "# --- end Standard Play Close ---"
     close_ok = (opener in text and closer in text
                 and text.index(opener) < text.index(closer))

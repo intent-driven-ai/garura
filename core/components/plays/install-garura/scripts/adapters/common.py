@@ -49,6 +49,20 @@ def tier_of(model_value):
     return MODEL_TIER.get(str(model_value).strip().lower(), DEFAULT_TIER)
 
 
+SHARED = "_shared"  # blocks every play shares (ADR 039 §9), laid beside the plays
+
+
+def lay_shared(components, skills_root, rel_root, paths, info):
+    """Lay plays/_shared/ as <skills_root>/_shared/: every installed play points to it
+    (../_shared/play-close.md). A folder starting with `_` is otherwise never deployed."""
+    src = os.path.join(components, "plays", SHARED)
+    if not os.path.isdir(src):
+        return
+    copy_tree_fresh(src, os.path.join(skills_root, SHARED))
+    paths.append(os.path.join(rel_root, SHARED))
+    info(f"  shared play blocks: {os.path.join(rel_root, SHARED)}")
+
+
 def skippable(name):
     """Source artifacts starting with `_`/`.` (templates, dotfiles) never deploy."""
     return name.startswith(".") or name.startswith("_") or name.endswith(".bak")

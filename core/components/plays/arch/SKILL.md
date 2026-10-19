@@ -417,17 +417,13 @@ Run the Standard Play Close. /arch is a slice-realize play — record evidence p
 over an unmet or unevaluable verdict reads HALTED, never COMPLETED (REC11).
 
 ```bash
-# --- Standard Play Close (canonical; see standards/rules/play-close.md) ---
-# Path tokens resolved at pre-flight (resolve here if not already):
-#   ltm_project_target  = yq '.ltm.project-target' .garura/core/config.yaml
+# --- Standard Play Close (shared; see ../_shared/play-close.md) ---
+# Run the close in ../_shared/play-close.md. Its Step L loads the templates through
+# template-manager and sets ts and evidence_dest; then run this play's own lines below;
+# then Steps C0-C2.
 #   evidence_base, slug:
 #     project-scoped play : evidence_base="${stm_base}${issue}/evidence/arch/"   ; slug="#${issue}"
 #     product-scoped play : evidence_base="${product_base}_evidence/arch/"        ; slug="${slice_slug}"
-evidence_template=$(cat "${ltm_project_target}standards/templates/evidence-file.md")
-delivery_template=$(cat "${ltm_project_target}standards/templates/delivery-report.md")
-ts=$(date -u +%Y%m%d-%H%M%S)
-evidence_dest="${evidence_base}${ts}.md"
-mkdir -p "$(dirname "$evidence_dest")"
 # Session identity stamp (#463) — close phase; start phase ran at pre-flight
 session_stamp=$(python3 scripts/session_stamp.py --phase close \
     --marker "${stm_base}_realize/arch/status/session-stamp-arch.json")
@@ -468,7 +464,7 @@ $session_stamp (#463): session_id, ledger_file, ledger_start_offset, ledger_end_
 unresolved — never blocks the close); and stop_condition per C0 with the Stop Condition section
 filled) and write to `$evidence_dest`. Do NOT hand-author the body.
 
-**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in `standards/rules/pipeline-next.md` and emit `**Next:** /<command> — <why>. Or run /next to see all recommended actions.` (only /next pointer, or omit, when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots: `## arch Delivered —
+**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>. Or run /next to see all recommended actions.` (only /next pointer, or omit, when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots: `## arch Delivered —
 ${slug}`, the Run Summary table, the Pipeline Steps table, the Artifacts Produced table (the
 architecture lens + any decision), Next Steps (run /quality on this slice), and a pointer to
 `$evidence_dest`. Always emitted.

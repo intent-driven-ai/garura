@@ -383,21 +383,17 @@ verdict) — merge the PR, switch to main and pull, delete the feature branch (l
 ### Phase: Evidence & Close
 
 Closes with the **Standard Play Close** — the canonical three-table delivery report (Run
-Summary / Pipeline Steps / Artifacts), not prose. See `standards/rules/play-close.md`.
+Summary / Pipeline Steps / Artifacts), not prose. See `core/components/plays/_shared/play-close.md`.
 **SE-13 (F12/C14):** the stop-condition verdict is held before the run closes COMPLETED;
 a close over an unmet or unevaluable verdict reads HALTED, never COMPLETED.
 
 ```bash
-# --- Standard Play Close (canonical; see standards/rules/play-close.md) ---
-# Path tokens resolved at pre-flight (resolve here if not already):
-#   ltm_project_target  = yq '.ltm.project-target' .garura/core/config.yaml
+# --- Standard Play Close (shared; see ../_shared/play-close.md) ---
+# Run the close in ../_shared/play-close.md. Its Step L loads the templates through
+# template-manager and sets ts and evidence_dest; then run this play's own lines below;
+# then Steps C0-C2.
 #   fix-bug is project-scoped:
 #     evidence_base="${stm_base}${issue}/evidence/fix-bug/"   ; slug="#${issue}"
-evidence_template=$(cat "${ltm_project_target}standards/templates/evidence-file.md")
-delivery_template=$(cat "${ltm_project_target}standards/templates/delivery-report.md")
-ts=$(date -u +%Y%m%d-%H%M%S)
-evidence_dest="${evidence_base}${ts}.md"
-mkdir -p "$(dirname "$evidence_dest")"
 # Session identity stamp (#463) — close phase; start phase ran at pre-flight
 session_stamp=$(python3 scripts/session_stamp.py --phase close \
     --marker "${stm_base}${issue}/status/session-stamp-fix-bug.json")
@@ -428,7 +424,7 @@ section filled) and write to `$evidence_dest`. Do NOT hand-author the body. Then
 message `chore(stm): record fix-bug evidence for #{issue}` (non-blocking — a commit failure
 logs a warning, never halts).
 
-**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in `standards/rules/pipeline-next.md` and emit `**Next:** /<command> — <why>. Or run /next to see all recommended actions.` (only /next pointer, or omit, when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots and output it:
+**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>. Or run /next to see all recommended actions.` (only /next pointer, or omit, when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots and output it:
 `## fix-bug Delivered — #{issue}`, the Run Summary table, the Pipeline Steps table from the
 task DAG (T1–T13, including the injected start/end members), the Artifacts Produced table,
 Next Steps (only real follow-ons), and a pointer to `$evidence_dest`. Always emitted; never

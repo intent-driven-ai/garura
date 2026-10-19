@@ -205,6 +205,8 @@ SCOPES = {
         "agents": {
             "change-reviewer", "project-orchestrator",
             "quality-auditor", "repo-orchestrator", "adr-keeper",
+            # every play's close asks template-manager for its templates (ADR 039 §8–9)
+            "template-manager",
         },
     },
 }

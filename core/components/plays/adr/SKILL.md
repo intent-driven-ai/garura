@@ -313,16 +313,12 @@ a drive; D3 lint clean; D4 linked or pointers deferred; D5 scope ok) reads **hel
 COMPLETED close.
 
 ```bash
-# --- Standard Play Close (canonical; see standards/rules/play-close.md) ---
-# Path tokens resolved at pre-flight (resolve here if not already):
-#   ltm_project_target  = yq '.ltm.project-target' .garura/core/config.yaml
+# --- Standard Play Close (shared; see ../_shared/play-close.md) ---
+# Run the close in ../_shared/play-close.md. Its Step L loads the templates through
+# template-manager and sets ts and evidence_dest; then run this play's own lines below;
+# then Steps C0-C2.
 #   evidence_base, slug (project-scoped play):
 #     evidence_base="${stm_base}${issue}/evidence/adr/"   ; slug="#${issue}"
-evidence_template=$(cat "${ltm_project_target}standards/templates/evidence-file.md")
-delivery_template=$(cat "${ltm_project_target}standards/templates/delivery-report.md")
-ts=$(date -u +%Y%m%d-%H%M%S)
-evidence_dest="${evidence_base}${ts}.md"
-mkdir -p "$(dirname "$evidence_dest")"
 # Session identity stamp (#463) — close phase; start phase ran at pre-flight
 session_stamp=$(python3 scripts/session_stamp.py --phase close \
     --marker "<working>/status/session-stamp-adr.json")
@@ -354,7 +350,7 @@ ledger_start_offset, ledger_end_offset (null when unresolved — never blocks th
 stop_condition per C0) and write to `$evidence_dest`. Do NOT hand-author the body.
 
 **Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in
-`standards/rules/pipeline-next.md` and emit `**Next:** /<command> — <why>. Or run /next to see
+the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>. Or run /next to see
 all recommended actions.` (only /next pointer, or omit, when the mapped command is null), per
 `play-close.md`. Fill the `delivery-report.md` slots and output the report:
 `## adr Delivered — ADR <NNN or id>`, the Run Summary table, the Pipeline Steps table from the
