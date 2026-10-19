@@ -143,7 +143,7 @@ ADR 039 and ADR 040 are accepted; the docs, the tool, the install, `template-man
   reads the ontology through the tool. `search-kb`, `propose-kb-node`, `author-vision-seed`,
   `enrich-capability-ice`, `kb-search` and `author-business-intent` read only the copies; the
   route and proposal validators moved beside their skills. The router itself
-  (`knowledge/domains/.pageindex/`) is left in memory, unused — removing it is Kapil's call.
+  (`knowledge/domains/.pageindex/`) is removed (Kapil: "1").
   Lint: the same findings as main.
 
 ### 7. The three plays read no memory — now
