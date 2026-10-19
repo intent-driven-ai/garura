@@ -1,0 +1,186 @@
+# design-findings-harness.yaml -- Layer 2 design-grounding, category: harness, PR #677 (issue 660), base main.
+# Every principle below is read from a file committed on main (git show main:<path>). Nothing here is
+# grounded in text this branch adds or rewrites (GUIDE.md, the new SKILL.md paragraphs, README.md, the 660 plan).
+pr: 677
+issue: 660
+base: main
+category: harness
+reviewed_artifacts:
+  - core/components/plays/install-garura/SKILL.md
+  - core/components/plays/uninstall-garura/SKILL.md
+  - core/tools/memory/GUIDE.md
+  - core/components/plays/install-garura/scripts/memory_system.py   # how the harness text is realised
+  - core/components/plays/install-garura/scripts/install.py
+  - core/components/plays/uninstall-garura/scripts/uninstall.py
+playbook: "review/harness (Phoenix memory knowledge/review/harness.md): Layer 1 and Layer 2; ground in docs/philosophy, docs/adr, memory standards, glossary; never from the branch's own prose"
+
+grounded_principles:
+  - id: G1
+    principle: "At install a project pulls a starting set (Garura's rulebook and the memory guide). More comes whenever the tool goes up to Phoenix memory."
+    source: "docs/adr/035-agents-work-only-from-memory.md section 2, lines 46-53 (read at main)"
+  - id: G2
+    principle: "Alternative rejected: 'A project pulls nothing at install; every piece on first need. Lost: Kapil chose a starting set at install, never blocking a play.'"
+    source: "docs/adr/035-agents-work-only-from-memory.md Alternatives Considered, line 142 (read at main)"
+  - id: G3
+    principle: "The lookup never blocks a play; 'installation is key so that it has some part of LTM build, but this is not blocking'."
+    source: "docs/adr/035-agents-work-only-from-memory.md section 3, lines 55-59 (read at main)"
+  - id: G4
+    principle: "Every install carries the memory system: the tool and a short memory guide covering 'the three tiers, what the tool does, and how memory works'; the install checks the tool works."
+    source: "docs/adr/035-agents-work-only-from-memory.md section 8, lines 90-94 (read at main). The branch conforms to this part; see conformance_notes."
+  - id: G5
+    principle: "The .garura/ tree allows ONLY the listed folders; no other top-level or second-level folder is permitted anywhere under .garura/. ADR 035 amends only the core/ entry; where in .garura/ Garura memory lives is listed as 'Not decided here' (the whitelist)."
+    source: "docs/adr/017-folder-whitelist.md section 1, lines 22-56; docs/adr/035-agents-work-only-from-memory.md line 135 (read at main)"
+  - id: G6
+    principle: "The two copies installed today (machine copy, project copy) give way to Phoenix memory and the project's pulled subset."
+    source: "docs/adr/035-agents-work-only-from-memory.md section 2, line 51 and section 9 on ADR 017, line 102 (read at main)"
+  - id: G7
+    principle: "Install writes only what the manifest records, and uninstall reverses precisely that set; install never clobbers a person's own CLAUDE.md or AGENTS.md (an existing AGENTS.md is written as AGENTS.md.new)."
+    source: "core/components/plays/install-garura/SKILL.md at main, lines 52-53 and 177-180; core/components/plays/uninstall-garura/SKILL.md at main, lines 26-31; docs/adr/021-status-resume-vs-evidence.md lines 66-71 (all read at main)"
+  - id: G8
+    principle: "The review's changes to a decision record go through its own decision record. An accepted ADR changes by a new ADR that amends it, and ADR 035 itself is the record for the older records it changed."
+    source: "docs/adr/035-agents-work-only-from-memory.md Status and Amends lines 3-9 and Context line 32; docs/adr/036 and 037 Status lines (amendments of 035 are each their own ADR); .garura/project/issues/653/specs/plan.md at main, line 130 ('ADR 035 §2 still needs its amendment (its own /adr change)')"
+  - id: G9
+    principle: "Agents never read or write memory by a path; they call the memory tool. But the files a play hands from one step to the next inside one run stay direct; only memory lookups go through the tool."
+    source: "docs/adr/035-agents-work-only-from-memory.md section 4, line 63; docs/adr/036-approved-answer-lands-in-short-term-memory.md section 6 (read at main)"
+  - id: G10
+    principle: "Play pipeline: a play with no ICE source (bootstrap meta-play) is changed by direct edit to SKILL.md; the history goes in the commit and issue, not in the SKILL.md."
+    source: "CLAUDE.md Play Pipeline Rules; install-garura and uninstall-garura SKILL.md at main ('bootstrap meta-play ... exempt from the goal-loop recompile')"
+
+findings:
+  - id: H-1
+    severity: P2
+    title: "The branch builds the alternative ADR 035 lists as rejected, and the decision record still says the opposite"
+    files:
+      - {file: core/components/plays/install-garura/SKILL.md, line: 80, text: "The install brings no memory. The tool downloads Phoenix memory ... the first time a command needs it"}
+      - {file: core/tools/memory/GUIDE.md, line: 16, text: "A new project starts with no memory of its own"}
+      - {file: core/components/plays/install-garura/scripts/memory_system.py, line: 17, text: "The install brings no memory."}
+    basis:
+      principle: "G1, G2, G3 and G8"
+      sources:
+        - "docs/adr/035-agents-work-only-from-memory.md section 2, lines 46-53 (a project pulls a starting set at install)"
+        - "docs/adr/035-agents-work-only-from-memory.md line 142 (the rejected alternative: 'A project pulls nothing at install; every piece on first need')"
+        - "docs/adr/035-agents-work-only-from-memory.md section 3, lines 55-59 ('installation is key so that it has some part of LTM build')"
+    open_amendment_record:
+      source: ".garura/project/issues/653/specs/plan.md at main, line 130: 'Changed on Kapil's word: the installer pulls nothing ... ADR 035 §2 still needs its amendment (its own /adr change).'"
+      does_it_close_the_finding: "No. It is a plan line, not a decision record. It confirms the owner changed the rule and says the amendment is still owed. Until that /adr change is accepted, ADR 035 (Accepted, line 3) is the standard and the branch contradicts it. It also shows the contradiction is known, not accidental, which is why this is P2 and not P1."
+    classification_reason: "P2 (major, highlights without blocking): a harness behaviour contradicts an accepted decision record; nothing is lost or broken at runtime, and the owner's intent is on record, so the fix is paperwork plus a decision, not a code revert. The branch itself adds no decision record (no docs/adr file in the diff)."
+    plain_words: "The accepted design says a project gets a starting set of rules at install. This change installs none and downloads everything the first time it is needed. The owner agreed to this in words, but the design record has not been updated, so the record and the product now disagree."
+    fix_suggestion: "Land the /adr change that amends ADR 035 section 2 (and the line 142 alternative, and section 3's 'some part of LTM build') before or with this PR. If the PR merges first, name the open amendment in the PR body as a condition."
+
+  - id: H-2
+    severity: P2
+    title: "A new top-level folder under .garura/ that the folder whitelist does not allow"
+    files:
+      - {file: core/components/plays/install-garura/scripts/memory_system.py, line: 38, text: 'TOOL_DEST = os.path.join(".garura", "tools", "memory")'}
+      - {file: core/components/plays/install-garura/SKILL.md, line: 72, text: ".garura/tools/memory/ - the memory tool"}
+      - {file: core/components/plays/uninstall-garura/SKILL.md, line: 47, text: "the memory tool (.garura/tools/memory/, with its settings)"}
+    basis:
+      principle: "G5: the .garura/ tree allows only the whitelisted folders (core, product, project); ADR 035 amends only the core/ entry and leaves where Garura memory lives undecided."
+      sources:
+        - "docs/adr/017-folder-whitelist.md section 1, lines 22-24 ('No other top-level or second-level folders are permitted anywhere under .garura/')"
+        - "docs/adr/035-agents-work-only-from-memory.md line 135 (where in .garura/ Garura memory lives is 'Not decided here'; ADR 017's whitelist named)"
+        - "docs/adr/035-agents-work-only-from-memory.md section 4, line 65 ('The tool sits outside Garura')"
+    note: "git grep on main finds no '.garura/tools' in docs/, core/components/ or .garura/core, so the folder is new in this branch. ADR 035 section 8 does say the install 'installs the memory tool', so installing the tool is grounded; its home under .garura/tools/ is not."
+    classification_reason: "P2: a structural rule from an accepted ADR is broken without an amendment; no data is at risk."
+    plain_words: "The rulebook for the project's hidden folder lists the only folders allowed there. This change adds a new one for the memory tool, and no decision record permits it."
+    fix_suggestion: "Record the tool's home in the same /adr change as H-1 (add it to ADR 017's whitelist, or choose a listed folder)."
+
+  - id: H-3
+    severity: P3
+    title: "'The install brings no memory' is false in the same file: the install still copies all of memory to the machine"
+    files:
+      - {file: core/components/plays/install-garura/SKILL.md, line: 80, text: "The install brings no memory."}
+      - {file: core/components/plays/install-garura/SKILL.md, line: 94, text: "Shared memory goes to --memory-dest (default ~/.garura/core/memory), machine-global"}
+      - {file: core/components/plays/install-garura/SKILL.md, line: 3, text: "copies shared memory to the machine-global ~/.garura (frontmatter description)"}
+      - {file: core/components/plays/install-garura/scripts/install.py, line: 256, text: "# 3. shared memory - machine-global: common.copy_tree_merge(core/components/memory, memory_dest)"}
+    basis:
+      principle: "G6: the machine copy and project copy 'give way' to Phoenix memory and the pulled subset; and the harness must say what it does (the play 'decides and reports', its SKILL.md is its behaviour)."
+      sources:
+        - "docs/adr/035-agents-work-only-from-memory.md section 2, line 51, and section 9 line 102"
+        - "core/components/plays/install-garura/SKILL.md at main, lines 21-31 ('Don't re-implement that work in prose; call the script and reason about its result')"
+    classification_reason: "P3: misleading prose in an instruction file, not a runtime failure. The legacy copy is expected to go when core/components/memory is removed (main plan, 653 item 10, line 130), so the code may be right for now; the sentence is wrong now."
+    plain_words: "The install guide says the install brings no memory, but the install script still copies the whole old rulebook to the machine. An agent running the install will report the wrong thing."
+    fix_suggestion: "Say 'brings no memory into the project; the old machine-wide copy is still laid until it is retired', or retire the copy in this change."
+
+  - id: H-4
+    severity: P3
+    title: "The memory guide every agent loads names a play that does not exist"
+    files:
+      - {file: core/tools/memory/GUIDE.md, line: 16, text: "A play run after the install, `initialize`, sets it up from Phoenix memory."}
+      - {file: core/components/plays/install-garura/SKILL.md, line: 81, text: "`initialize` (not built yet)"}
+    basis:
+      principle: "ADR 035 section 8 scopes the guide: the three tiers, what the tool does, and how memory works. An instruction every agent reads should tell it only what it can do now."
+      sources:
+        - "docs/adr/035-agents-work-only-from-memory.md section 8, lines 90-94"
+        - "git grep on main: no play named initialize exists in core/components/plays/"
+    classification_reason: "P3: the guide is loaded into every agent and sub-agent; a sentence about a play that cannot be run invites an agent to try or to wait for it. No harm is shown, and the sentence says 'until then, lookups go up to Phoenix memory', which matches ADR 035 section 3."
+    plain_words: "The guide tells every agent that a set-up play will fill the project's memory. That play is not built, so the sentence promises something that cannot happen yet."
+    fix_suggestion: "Drop the play's name from the guide until it exists; keep 'a new project starts with no memory of its own, and lookups go up to Phoenix memory'."
+
+  - id: H-5
+    severity: P3
+    title: "The install check passes when Phoenix memory has never been downloaded, so a project can pass the check and still have no rulebook"
+    files:
+      - {file: core/components/plays/install-garura/scripts/memory_system.py, line: 23, text: "Phoenix memory not downloaded yet is reported, not failed."}
+      - {file: core/components/plays/install-garura/SKILL.md, line: 85, text: "Phoenix memory not downloaded yet is reported, not failed."}
+    basis:
+      principle: "G4 and G3. The check exists because 'otherwise, the subagents will fail' (section 8). With no starting set (H-1), the whole rulebook depends on a first-use download from a private repository (the default source in memory_system.py is a GitHub address), so the check no longer covers the thing the agents fail on."
+      sources:
+        - "docs/adr/035-agents-work-only-from-memory.md section 8, lines 90-94"
+        - "docs/adr/035-agents-work-only-from-memory.md section 3, lines 55-59 (a lookup does not block; installation builds part of LTM)"
+        - ".garura/project/issues/653/specs/plan.md at main, lines 158-165 (the item 7 text: the install check 'reaches each tier, and fails if it does not') - context, not the standard"
+    classification_reason: "P3: a design gap that follows from H-1, not a break of a written rule on its own. Non-blocking for Phoenix memory is consistent with section 3."
+    plain_words: "The install says all is well even if this machine cannot reach the place the rulebook is downloaded from. The first agent that needs a rule is the first to find out."
+    fix_suggestion: "Decide this in the amendment for H-1: either an install-time reachability test for the source (a warning at least), or a starting set pulled at install as ADR 035 says."
+
+  - id: H-6
+    severity: P3
+    title: "The install now edits a person's own AGENTS.md, and the play's own boundary still says it never clobbers one"
+    files:
+      - {file: core/components/plays/install-garura/scripts/memory_system.py, line: 120, text: "put_block(os.path.join(target, AGENTS_MD), guide)"}
+      - {file: core/components/plays/install-garura/SKILL.md, line: 79, text: "one marked block in AGENTS.md, added to the project's own file when it has one"}
+      - {file: core/components/plays/install-garura/SKILL.md, line: 179, text: "never clobbers an existing CLAUDE.md / AGENTS.md / ~/.codex config (Boundaries, unchanged)"}
+      - {file: core/components/plays/install-garura/SKILL.md, line: 52, text: "AGENTS.md ... Written as AGENTS.md.new if one already exists (unchanged)"}
+    basis:
+      principle: "G7: install protects a person's own AGENTS.md (a new file is written beside it as AGENTS.md.new) and records only what it placed so uninstall reverses precisely it."
+      sources:
+        - "core/components/plays/install-garura/SKILL.md at main, lines 52-53 and 177-180"
+        - "core/components/plays/uninstall-garura/SKILL.md at main, lines 26-31 (manifest-driven, removes only what it can prove)"
+        - "docs/adr/021-status-resume-vs-evidence.md lines 66-71 (manifest reverses it)"
+    conformance_notes: "In its favour: only a marked block is added, the rest of the file is kept, the block is recorded in the manifest (agents_md_block) and uninstall removes only the block. That meets the intent of G7. The gap is the unchanged text: two lines of the same SKILL.md now disagree about whether an existing AGENTS.md is written to."
+    classification_reason: "P3: prose in the play contradicts what its script does; the script's behaviour itself is careful."
+    plain_words: "The play's safety rule says it never touches a person's AGENTS.md, but it now adds a block to it. The block is clearly marked and removed on uninstall, but the rule should say so."
+    fix_suggestion: "Add the one exception to the Boundaries and 'What installed means' lines (marked block only, recorded in the manifest)."
+
+  - id: H-7
+    severity: P4
+    title: "The guide's blanket 'never read a memory file by its path' sits beside short-term memory described as the plan, specs and context an agent also works from directly"
+    files:
+      - {file: core/tools/memory/GUIDE.md, line: 4, text: "Never read a memory file by its path."}
+      - {file: core/tools/memory/GUIDE.md, line: 9, text: "Short-term memory - the current issue's own folder: its plan, specs and context."}
+    basis:
+      principle: "G9: memory lookups go through the tool, but a play's own step-to-step working files stay direct."
+      sources:
+        - "docs/adr/035-agents-work-only-from-memory.md section 4, line 63"
+        - "docs/adr/036-approved-answer-lands-in-short-term-memory.md section 6 (read at main)"
+    classification_reason: "P4: wording. The guide's rule is the right one for lookups (it matches ADR 035 section 4); it only leaves unsaid that a play's own working files are not 'memory lookups'."
+    plain_words: "The guide could be read as forbidding an agent to open the files its own play hands it. The design only forbids reaching memory by path."
+    fix_suggestion: "Add half a sentence: a play's own working files are read directly (ADR 036 section 6)."
+
+conformance_notes:
+  - "Conforms: ADR 035 section 8 (the install lays the tool and a guide every agent reads, and checks the tool runs). SKILL.md install.py 7 and memory_system.py lay both; the check runs the tool's health command."
+  - "Conforms: ADR 035 section 5 and ADR 036 sections 1 to 3 in the guide: nothing from the model or the web without an approved memory update; an update lands in the issue's short-term memory; moving memory up happens outside the work; a lookup names its issue (a lookup with no issue starting at Garura memory matches the contract text on main, core/tools/memory/README.md line 77)."
+  - "Conforms: ADR 037 section 1 in the guide's trace example (steps with what was asked, what was found, and a tier, path, lines and fingerprint source; a check reads each source again)."
+  - "Conforms: ADR 021 manifest discipline in uninstall: it removes the tool, the guide file or only the marked block, and the short-term folder only when empty; it never removes Phoenix memory's place, which the install did not place. That follows 'reverse precisely this set'."
+  - "Conforms: play pipeline rule. install-garura and uninstall-garura are bootstrap meta-plays with no ICE source on main (git ls-tree main shows SKILL.md and scripts only), so direct edits are the sanctioned path; the branch adds no deviation note to either SKILL.md."
+  - "Not tested here (other categories): code behaviour of memory.py, pull.py and uninstall.py, and the 12 install tests."
+
+grounding_gaps:
+  - "No ICE source exists for either play, so lint_play.py has nothing to check and the 'intent change must trace to ICE' test cannot be run. The new install guarantee (exit 1 when the memory check fails) is therefore reviewed as a direct edit with no ICE record to trace to. This is a gap in the playbook, not a finding against the branch."
+  - "ADR 035 does not say where the memory tool lives in a project (section 4 says 'outside Garura', section 8 says the install installs it). H-2 rests on the ADR 017 whitelist, not on a statement that the tool must live elsewhere."
+
+counts:
+  P1: 0
+  P2: 2
+  P3: 4
+  P4: 1

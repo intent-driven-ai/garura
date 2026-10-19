@@ -1,0 +1,210 @@
+meta:
+  pr: 677
+  issue: 660
+  round: 1
+  head: 6af538a7
+  categories: categories.yaml
+  gate: off by config (gates.plays.review-change); the computed recommendation is the decision, marked as a harness verdict
+  review_shelf: ~/.garura/phoenix-memory/knowledge/review/ (Garura memory has none; tier order)
+  sources:
+  - quality-findings.yaml
+  - design-findings-harness.yaml
+  - lint-components.json (116 findings, same as main; the 6 in changed files are the two bootstrap plays missing compiled-play sections, as on main)
+  runnable:
+    memory_tool_tests: pass (142)
+    installer_tests: pass (12)
+    ruff_check: pass
+    bash_n: pass
+findings:
+- id: Q1
+  severity: P2
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 121
+  basis: rule BE-12 in ~/.garura/phoenix-memory/standards/rules/pr.md
+  finding: download() runs `git clone` of the Phoenix source with no timeout. GIT_TERMINAL_PROMPT=0 stops a password wait, but a stalled network or a slow server
+    still holds the call open. The call sits inside root(), so any memory command an agent runs for the first time (search, find, read) can hang, and nothing stops
+    it.
+- id: Q2
+  severity: P3
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 121
+  basis: rule SEC-04 in ~/.garura/phoenix-memory/standards/rules/pr.md
+  finding: the clone command is `git clone --quiet <source> <part>` with the source straight from settings. A source that begins with a dash would be read by git
+    as an option. Putting `--` before the source closes it.
+- id: Q3
+  severity: P3
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 129
+  basis: rule CODE-25 in ~/.garura/phoenix-memory/standards/rules/pr.md
+  finding: '`except OSError:` around os.rename(part, phoenix) treats every failure as "another first run got there first" and moves on silently. A permission error
+    or a full disk looks the same; the caller then sees only "cannot be reached at its setting" with no reason. Only the case where Phoenix memory''s place now exists
+    should be treated as a lost race; any other error should be raised with its message.'
+- id: Q4
+  severity: P3
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/components/plays/install-garura/scripts/memory_system.py
+  line: 101
+  basis: rule CODE-27 in ~/.garura/phoenix-memory/standards/rules/pr.md
+  finding: data-safety path. A re-install reads the person's edited settings.json into memory (line 99), deletes the whole tool folder (shutil.rmtree, line 102) and
+    then copies the new one (line 103). If the copy fails part way (disk full, a permission error), the folder and the edited settings are gone and the only copy
+    is a local variable that dies with the error. Copy to a new folder beside it and swap, or write the kept settings back in a finally block.
+- id: Q5
+  severity: P3
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: installer/install.sh
+  line: 220
+  basis: rule CODE-27 in ~/.garura/phoenix-memory/standards/rules/pr.md
+  finding: 'data-safety path. A failed memory check makes the shell installer exit 1 at once (init mode: before the version file is written at line 300; update mode:
+    before line 380). install.py does it the other way: it writes the manifest first and then exits 1 (install.py lines 296-300 and 383-387). The two install paths
+    therefore end in different states after the same failure: the shell path leaves the skills installed but no recorded version, so the next run cannot tell what
+    is on disk. Use one order for both.'
+- id: Q8
+  severity: P3
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/components/plays/install-garura/scripts/memory_system.py
+  line: 128
+  basis: rule CODE-10 in ~/.garura/phoenix-memory/standards/rules/pr.md
+  finding: check() is 51 code lines (new). Also install() in install.py (line 225) was 50 on main and is 53 at this head, so this PR takes it over.
+- id: Q9
+  severity: P3
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/components/plays/install-garura/scripts/memory_system.py
+  line: 128
+  basis: rule CODE-09 in ~/.garura/phoenix-memory/standards/rules/pr.md
+  finding: check() measures 11 (ruff C901, limit 10). New code, one over; the python-version and tool-run branches could be a helper.
+- id: Q10
+  severity: P4
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/components/plays/uninstall-garura/scripts/uninstall.py
+  line: 105
+  basis: rule CODE-09 in ~/.garura/phoenix-memory/standards/rules/pr.md
+  finding: uninstall() grows from 17 to 20 in complexity and from 61 to 71 code lines (CODE-10, limit 50, also over on main). The new memory-system steps (lines 159-166)
+    are a ready-made helper.
+- id: Q11
+  severity: P4
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/memory.py
+  line: 1
+  basis: rule CODE-12 in ~/.garura/phoenix-memory/standards/rules/pr.md
+  finding: memory.py is 556 lines at this head (534 on main); install.py is 393 (368 on main). test_memory.py is 648 (595 on main), a test file.
+- id: Q12
+  severity: P4
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/components/plays/install-garura/scripts/memory_system.py
+  line: 94
+  basis: rule CODE-23 in ~/.garura/phoenix-memory/standards/rules/pr.md
+  finding: lay() ends the run with `raise SystemExit("<message>")` (lines 94 and 124). A string makes the exit code 1, which is the code install.py (lines 42-43 of
+    its docstring) and this file's own docstring (line 28) give to "the memory check failed"; bad input is documented as 2. Called from install.py, a missing memory
+    tool therefore exits like a failed check.
+- id: Q13
+  severity: P4
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/components/plays/install-garura/scripts/memory_system.py
+  line: 159
+  basis: rule CODE-30 in ~/.garura/phoenix-memory/standards/rules/pr.md
+  finding: '`answer[''error''][''code'']` and `answer[''error''][''message'']` are read without a guard. A tool that answers ok false in a different shape raises
+    KeyError with a traceback instead of the FAIL line the check is meant to give.'
+- id: H-1
+  severity: P2
+  category: harness
+  layer: design-grounding (change-reviewer)
+  file: core/components/plays/install-garura/SKILL.md
+  line: 80
+  basis: 'docs/adr/035-agents-work-only-from-memory.md section 2, lines 46-53 (a project pulls a starting set at install); docs/adr/035-agents-work-only-from-memory.md
+    line 142 (the rejected alternative: ''A project pulls nothing at install; every piece on first need''); docs/adr/035-agents-work-only-from-memory.md section 3,
+    lines 55-59 (''installation is key so that it has some part of LTM build'')'
+  finding: The accepted design says a project gets a starting set of rules at install. This change installs none and downloads everything the first time it is needed.
+    The owner agreed to this in words, but the design record has not been updated, so the record and the product now disagree.
+- id: H-2
+  severity: P2
+  category: harness
+  layer: design-grounding (change-reviewer)
+  file: core/components/plays/install-garura/scripts/memory_system.py
+  line: 38
+  basis: docs/adr/017-folder-whitelist.md section 1, lines 22-24 ('No other top-level or second-level folders are permitted anywhere under .garura/'); docs/adr/035-agents-work-only-from-memory.md
+    line 135 (where in .garura/ Garura memory lives is 'Not decided here'; ADR 017's whitelist named); docs/adr/035-agents-work-only-from-memory.md section 4, line
+    65 ('The tool sits outside Garura')
+  finding: The rulebook for the project's hidden folder lists the only folders allowed there. This change adds a new one for the memory tool, and no decision record
+    permits it.
+- id: H-3
+  severity: P3
+  category: harness
+  layer: design-grounding (change-reviewer)
+  file: core/components/plays/install-garura/SKILL.md
+  line: 80
+  basis: docs/adr/035-agents-work-only-from-memory.md section 2, line 51, and section 9 line 102; core/components/plays/install-garura/SKILL.md at main, lines 21-31
+    ('Don't re-implement that work in prose; call the script and reason about its result')
+  finding: The install guide says the install brings no memory, but the install script still copies the whole old rulebook to the machine. An agent running the install
+    will report the wrong thing.
+- id: H-4
+  severity: P3
+  category: harness
+  layer: design-grounding (change-reviewer)
+  file: core/tools/memory/GUIDE.md
+  line: 16
+  basis: 'docs/adr/035-agents-work-only-from-memory.md section 8, lines 90-94; git grep on main: no play named initialize exists in core/components/plays/'
+  finding: The guide tells every agent that a set-up play will fill the project's memory. That play is not built, so the sentence promises something that cannot happen
+    yet.
+- id: H-5
+  severity: P3
+  category: harness
+  layer: design-grounding (change-reviewer)
+  file: core/components/plays/install-garura/scripts/memory_system.py
+  line: 23
+  basis: 'docs/adr/035-agents-work-only-from-memory.md section 8, lines 90-94; docs/adr/035-agents-work-only-from-memory.md section 3, lines 55-59 (a lookup does
+    not block; installation builds part of LTM); .garura/project/issues/653/specs/plan.md at main, lines 158-165 (the item 7 text: the install check ''reaches each
+    tier, and fails if it does not'') - context, not the standard'
+  finding: The install says all is well even if this machine cannot reach the place the rulebook is downloaded from. The first agent that needs a rule is the first
+    to find out.
+- id: H-6
+  severity: P3
+  category: harness
+  layer: design-grounding (change-reviewer)
+  file: core/components/plays/install-garura/scripts/memory_system.py
+  line: 120
+  basis: core/components/plays/install-garura/SKILL.md at main, lines 52-53 and 177-180; core/components/plays/uninstall-garura/SKILL.md at main, lines 26-31 (manifest-driven,
+    removes only what it can prove); docs/adr/021-status-resume-vs-evidence.md lines 66-71 (manifest reverses it)
+  finding: The play's safety rule says it never touches a person's AGENTS.md, but it now adds a block to it. The block is clearly marked and removed on uninstall,
+    but the rule should say so.
+- id: H-7
+  severity: P4
+  category: harness
+  layer: design-grounding (change-reviewer)
+  file: core/tools/memory/GUIDE.md
+  line: 4
+  basis: docs/adr/035-agents-work-only-from-memory.md section 4, line 63; docs/adr/036-approved-answer-lands-in-short-term-memory.md section 6 (read at main)
+  finding: The guide could be read as forbidding an agent to open the files its own play hands it. The design only forbids reaching memory by path.
+- id: Q6
+  severity: P3
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: installer/install.sh
+  line: 211
+  basis: rule TEST-01 in ~/.garura/phoenix-memory/standards/rules/pr.md
+  finding: no automated test runs the public installer. The behaviour that is only in the shell (skip when the release has no script, exit 1 when the check fails,
+    the update path keeping settings) is not exercised by anything; the tests call the Python scripts directly.
+- id: Q7
+  severity: P3
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/components/plays/install-garura/scripts/test_install.py
+  line: 124
+  basis: rule CODE-30 in ~/.garura/phoenix-memory/standards/rules/pr.md
+  finding: these error paths in the new code have no test - lay() refusing an unknown tool or a source with no memory tool (memory_system.py lines 94 and 124), check()
+    refusing a Python older than 3.10 (lines 148-151), a failed download during the check, uninstall --dry-run leaving the memory system in place (uninstall.py lines
+    160-166), and rm_block deleting an AGENTS.md that holds nothing but the block (uninstall.py line 102). The ones that are tested (no short-term folder, tool that
+    cannot run, exit 1 after the manifest) are fine.

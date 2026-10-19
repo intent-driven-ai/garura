@@ -1,0 +1,168 @@
+# categories.yaml -- derived from the PR #677 diff content (base main), not matched from a fixed list.
+pr: 677
+issue: 660
+base: main
+head_assessed: 6af538a7   # git rev-parse --short HEAD at assessment
+changed_path_count: 25    # equals the 25 changed_paths in context.yaml and git diff main...HEAD --stat (checked, same set; the list is not cut)
+review_shelf_used: "~/.garura/phoenix-memory/knowledge/review/ (Phoenix memory, the third tier, in tier order). context.yaml's review_shelf (./.garura/core/memory/knowledge/review/) does not exist in this repo. Read: _index, harness, code, tests, docs, config-maps (the playbooks that govern a category present, plus the index). adrs and memory were read through the index only, to confirm they do not apply: no docs/adr file and nothing under core/components/memory/ is in the diff."
+scope_warning: >
+  (1) core/tools/play-reviewer/ is not in the diff and was not read. (2) No decision record is in the diff, but the
+  branch reverses a part of ADR 035 as it stands on main. Main's ADR 035 section 2 says 'At install, a project pulls a
+  starting set: Garura's rulebook and the memory guide', and its Alternatives Considered lists 'A project pulls nothing
+  at install; every piece on first need' as lost ('Kapil chose a starting set at install, never blocking a play').
+  The branch builds the lost alternative: 'The install brings no memory' (install SKILL.md, GUIDE.md, README.md, the 660
+  plan, the 653 plan). The only record of the change is plan prose and quoted words of the owner (2026-10-19), which are branch
+  content, not grounding. This is the first thing the harness grounding dispatch must test, against main's ADR 035
+  (sections 2, 3 and 8) and not against the plans. (3) No ICE source exists for install-garura or uninstall-garura
+  (git ls-files shows SKILL.md and scripts only; no reference/ice.md). The Play Pipeline Rule sends an intent change through
+  the ICE source; here there is none to trace to, so whether the SKILL.md edits are intent changes (they add a
+  guarantee: the install fails with exit 1 when the memory check fails) or non-intent direct edits has to be judged from
+  the content. (4) The edited code files (memory.py, pull.py) change what the memory tool does (it downloads Phoenix
+  memory on first use; it reads settings.json beside itself; it treats its own folder as not memory). contract/v4.json
+  and its samples are NOT in the diff, so no contract category is present; whether the contract's text still describes
+  the tool is a question for the code review and the harness grounding, not a separate category.
+categories:
+  - name: harness
+    playbook: review/harness
+    design_bearing: true   # playbook: 'Design-grounding (Layer 2): yes.' One grounding dispatch for the whole category.
+    layers: [linters, design-grounding]
+    evidence:
+      - core/components/plays/install-garura/SKILL.md   # a play: adds the memory system to what an install lays, a new failure (exit 1 when the check fails), two new options, and a new line in what the play reports
+      - core/components/plays/uninstall-garura/SKILL.md   # a play: adds what an uninstall removes (tool, guide file or marked AGENTS.md block, empty short-term folder) and what it never removes (Phoenix memory's place)
+      - core/tools/memory/GUIDE.md   # new. Judged on content: instructions every agent loads into its context (the installed copy is .claude/rules/garura-memory.md, or a block in AGENTS.md). It tells every agent how to look up memory, when to raise a memory update and what never to do. That is the harness's behaviour written as markdown, not documentation for a person. It sits under core/tools/, which is not a harness signal; the content decides.
+    runnable_checks:
+      - command: "node core/tools/lint-components/index.js"   # the play runs the component linter, not this assessment; arguments are the play's to choose
+        note: "not run here. Layer 1 for a play is lint_play.py and lint-components (playbook). Neither play has an ICE source, so lint_play.py may have nothing to check; the play should say so rather than treat it as a pass."
+    notes: >
+      Grounding sources that exist on main and can be used: docs/adr/035-agents-work-only-from-memory.md (sections 1 to 6 and 8,
+      the Alternatives Considered), docs/adr/036 (short-term memory is the current issue only; a researched answer is used after
+      approval), docs/adr/037 (accepted in PR #676 and merged, so it is on main now: the trace), docs/adr/021 (the install
+      scaffold and the manifest, named by the play itself), docs/adr/008 and 011 as the earlier memory decisions, the standards under
+      core/components/memory/standards/rules/ (user-facing-voice, play-close, resolution), core/grounding/glossary.md (Memory
+      Architecture), docs/philosophy/**, and the base text of both SKILL.md files (git show main:<path>). NOT groundable (added by
+      this diff): GUIDE.md itself, the new SKILL.md paragraphs, README.md, the 660 and 653 plan text, the PR body and self-review,
+      and the owner's quotations inside them.
+      Pointers from reading the diff, not findings: (a) the install-brings-no-memory reversal of ADR 035 section 2 (scope_warning 2);
+      (b) GUIDE.md and the install SKILL.md both name a play 'initialize' that does not exist ('not built yet'); the guide tells
+      every agent a thing it cannot yet do, and ADR 035 section 8 says the guide covers 'what the tool does, and how memory works';
+      (c) GUIDE.md says an agent 'never' reads a memory file by path and 'never' writes to Garura or Phoenix memory: test against
+      ADR 035 sections 4 and 5 and ADR 036; (d) the guide's cite example and its 'decided_by' text against ADR 037;
+      (e) install SKILL.md says the memory tool is 'copied from core/tools/memory/' while ADR 035 section 2 says Phoenix
+      memory is 'cloned onto the machine' and a project 'pulls a starting set'; (f) the guide names a tool path as {tool} and
+      the install replaces it; check the Codex path (AGENTS.md block) against ADR 021 and the install manifest; (g) the
+      uninstall plays's SKILL.md says Phoenix memory's place is 'never removed'; check against the manifest rule 'reverse precisely
+      this set'; (h) user-facing voice (the standard) for the install report lines the SKILL.md adds.
+  - name: executable-code
+    playbook: review/code
+    design_bearing: false   # playbook: 'Design-grounding: no, the standard is industry best practice.' Layer 1 only; data-safety paths get extra weight.
+    layers: [linters, runnable-checks]
+    evidence:
+      - core/components/plays/install-garura/scripts/memory_system.py   # new, 212 lines: copies the tool, writes settings, writes or edits .claude/rules/garura-memory.md or the AGENTS.md block, makes the short-term folder, runs the health check
+      - core/components/plays/install-garura/scripts/install.py
+      - core/components/plays/uninstall-garura/scripts/uninstall.py   # deletes what the manifest lists; removes only the marked block of a person's AGENTS.md
+      - core/tools/memory/memory.py   # settings beside the tool; the tool's own folder is not memory; Phoenix memory downloaded on first use; health never downloads
+      - core/tools/memory/pull.py   # new download(): git clone into a temporary folder beside the place, then an atomic move; runs git against a caller-given source
+      - installer/install.sh   # the public installer; calls memory_system.py and exits 1 when the check fails
+      - .garura/project/issues/660/evidence/run_guide.py   # an evidence script (it sits under the run's evidence folder), but it is executable code: it clones from a network source and deletes a temporary folder it made (shutil.rmtree on its own mkdtemp). Not run here, it needs the network.
+    notes: >
+      Data-safety paths to weigh hardest (playbook): (1) memory_system.py and uninstall.py editing a person's AGENTS.md (the
+      marked block, the rest must stay) and deleting .claude/rules/garura-memory.md; (2) a re-install replacing the tool while
+      keeping a settings file a person edited; (3) pull.py download(): a git clone of a caller-given source into a temporary
+      folder, a rename into place, the cleanup on failure, and two first runs at once; the environment is set so git never
+      waits for a password; (4) uninstall removing .garura/project/issues/ only when empty; (5) install.sh exits 1 and stops
+      the install on a failed check, while install.py writes the manifest first and then exits 1, so the two paths end in
+      different states; (6) the settings path rule when the tool sits inside Garura memory (excluded() now also hides the tool's own
+      folder). Standard checks: quality-check-scoped on the diff with the pr.md taxonomy, and the language linter the repo commits.
+    runnable_checks:
+      - command: "cd core/tools/memory && python3 -m unittest test_memory test_pull contract.test_check_contract"
+        note: "shared with the tests category. Observed (bytecode writing off): Ran 142 tests, OK."
+      - command: "cd core/components/plays/install-garura/scripts && HOME=<scratch> python3 test_install.py"
+        note: "shared with the tests category. Observed with HOME in a scratch folder: Ran 12 tests, OK. The tests install into throwaway folders and take the machine paths as options, so the real HOME is not touched; a scratch HOME is still the safer way to run it."
+  - name: tests
+    playbook: review/tests
+    design_bearing: false   # playbook: 'Design-grounding: no.' Run the suite; a red suite is a blocker.
+    layers: [linters, runnable-checks]
+    evidence:
+      - core/components/plays/install-garura/scripts/test_install.py   # new, 191 lines: 12 tests of the install, the guide for Claude Code and Codex, a project's own AGENTS.md, the check, a re-install, and the uninstall
+      - core/tools/memory/test_memory.py   # 53 lines added: settings beside the tool, the tool's folder not memory, first-use download, health not downloading
+    runnable_checks:
+      - command: "cd core/tools/memory && python3 -m unittest test_memory test_pull contract.test_check_contract"
+        note: "Observed: Ran 142 tests, OK."
+      - command: "cd core/components/plays/install-garura/scripts && HOME=<scratch> python3 test_install.py"
+        note: "Observed: Ran 12 tests, OK. No runnable suite covers installer/install.sh (the shell installer): the tests call memory_system.py and install.py, not the shell script. Say so; do not read 'not run' as passed."
+    notes: >
+      Check for tests that assert nothing, skipped tests, and whether the download test uses a real network source or a local
+      git folder. The test run leaves the working tree clean (git status checked after both runs).
+  - name: documentation
+    playbook: review/docs
+    design_bearing: false   # playbook: Layer 1 only, no design-grounding
+    layers: [linters]   # the playbook names no committed prose linter (a known gap), so the tool performs the checks and cites each
+    evidence:
+      - core/tools/memory/README.md   # the tool's guide for people: the new GUIDE.md paragraph, settings.json beside the tool, the phoenix_source setting, a third rule (Phoenix memory arrives on first use)
+    notes: >
+      Prose checks only: the README's claims against the code (the settings table against KEYS in memory.py; 'health only
+      reports; it never downloads' against cmd_health), headings, links. It states a rule of the tool, so it is checked for
+      agreement with the code, not used as grounding for it.
+  - name: config-maps
+    playbook: review/config-maps
+    design_bearing: false   # playbook: 'Design-grounding: no.' Layer 1 path check; the human reads the named change.
+    layers: [linters]
+    evidence:
+      - .gitignore   # two entries: .claude/rules/garura-memory.md and .garura/tools/
+    notes: >
+      A loose fit, said plainly: a .gitignore is not a host config map (CLAUDE.md, AGENTS.md, config.yaml) and points at nothing the
+      system reads. It is filed here because it is repo config that names paths and the risk is the same kind (a path that
+      misses). Check that each entry matches what memory_system.py lays (the same two paths), and that .garura/tools/ does not hide
+      anything the repo itself tracks (git ls-files .garura/tools).
+  - name: stm-working-notes-plans
+    playbook: null
+    playbook_missing: true   # not on the shelf; named in earlier reviews (659)
+    design_bearing: false   # plans are Garura's own working notes: what and in what order, never how. The decisions they record are tested in harness.
+    layers: [linters]   # the plan format check, plus agreement of the two plans with each other and with the diff as a consistency read only
+    evidence:
+      - .garura/project/issues/660/specs/plan.md   # new, 174 lines
+      - .garura/project/issues/653/specs/plan.md   # the parent plan: item 7 reworded (the install brings no memory), 'initialize' added as not yet placed, a log line
+    notes: >
+      Never ground from these. They carry the owner's 2026-10-19 words that reverse part of ADR 035 section 2; that is a pointer for the
+      harness grounding, and the plans are not its evidence.
+  - name: stm-run-records
+    playbook: null
+    playbook_missing: true   # not on the shelf; named in earlier reviews (659)
+    design_bearing: false   # receipts, a PR body, a self-review and evidence from the build run; no design content of their own
+    layers: []   # parse only; nothing to lint or ground
+    evidence:
+      - .garura/project/issues/660/context/branch.json
+      - .garura/project/issues/660/context/issue.json
+      - .garura/project/issues/660/context/pr-body.md
+      - .garura/project/issues/660/context/pr.json
+      - .garura/project/issues/660/context/resolved-rules.json
+      - .garura/project/issues/660/context/self-review.md
+      - .garura/project/issues/660/context/work-description.txt
+      - .garura/project/issues/660/evidence/fresh-project-test.md
+      - .garura/project/issues/660/evidence/guide-run.md
+    runnable_checks:
+      - command: "json.load each .json file in this category"
+        note: "parse only."
+    notes: >
+      Skim for consistency with the diff (PR body and self-review against what changed); never review as work and never ground from them.
+design_bearing_categories: [harness]   # one Layer 2 dispatch, read-only. Every other category is Layer 1 only by its playbook.
+standards_driven_categories: [executable-code, tests, documentation, config-maps]   # judged by industry practice and the pr.md taxonomy, no design to ground
+absent_seeded_categories: [decision-records, memory]   # no docs/adr file and nothing under core/components/memory/ is in the diff. A decision record is missing for the install-brings-no-memory change (scope_warning 2); that is a finding for the harness dispatch and the play, not a category here.
+path_accounting:   # 3 + 7 + 2 + 1 + 1 + 2 + 9 = 25
+  harness: 3
+  executable-code: 7
+  tests: 2
+  documentation: 1
+  config-maps: 1
+  stm-working-notes-plans: 2
+  stm-run-records: 9
+missing_playbooks:
+  - stm-working-notes-plans   # Garura's own plans under .garura/project/issues/**
+  - stm-run-records   # run receipts, a PR body, a self-review and evidence under .garura/project/issues/**
+playbook_sharpening:
+  - id: review/harness
+    note: "it does not say how to file an agent-instruction file that sits outside core/components (here core/tools/memory/GUIDE.md, installed as a rules file every agent loads). Filed under harness on content. It also does not say what to do when a play has no ICE source."
+  - id: review/config-maps
+    note: "does not say whether a .gitignore belongs; filed here as a loose fit."
+  - id: review/code
+    note: "does not say how to file an evidence script that clones from the network (run_guide.py); filed under code."
