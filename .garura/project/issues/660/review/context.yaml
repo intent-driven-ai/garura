@@ -1,0 +1,37 @@
+{
+  "pr_number": "677",
+  "base": "main",
+  "changed_paths": [
+    ".garura/project/issues/653/specs/plan.md",
+    ".garura/project/issues/660/context/branch.json",
+    ".garura/project/issues/660/context/issue.json",
+    ".garura/project/issues/660/context/pr-body.md",
+    ".garura/project/issues/660/context/pr.json",
+    ".garura/project/issues/660/context/resolved-rules.json",
+    ".garura/project/issues/660/context/self-review.md",
+    ".garura/project/issues/660/context/work-description.txt",
+    ".garura/project/issues/660/evidence/fresh-project-test.md",
+    ".garura/project/issues/660/evidence/guide-run.md",
+    ".garura/project/issues/660/evidence/run_guide.py",
+    ".garura/project/issues/660/specs/plan.md",
+    ".gitignore",
+    "core/components/plays/install-garura/SKILL.md",
+    "core/components/plays/install-garura/scripts/install.py",
+    "core/components/plays/install-garura/scripts/memory_system.py",
+    "core/components/plays/install-garura/scripts/test_install.py",
+    "core/components/plays/uninstall-garura/SKILL.md",
+    "core/components/plays/uninstall-garura/scripts/uninstall.py",
+    "core/tools/memory/GUIDE.md",
+    "core/tools/memory/README.md",
+    "core/tools/memory/memory.py",
+    "core/tools/memory/pull.py",
+    "core/tools/memory/test_memory.py",
+    "installer/install.sh"
+  ],
+  "standards_order": [
+    "kb",
+    "ltm",
+    "stm"
+  ],
+  "review_shelf": "./.garura/core/memory/knowledge/review/"
+}

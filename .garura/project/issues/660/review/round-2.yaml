@@ -1,0 +1,141 @@
+meta:
+  pr: 677
+  issue: 660
+  round: 2
+  head_assessed: 3e6de56a
+  head_note: >
+    The branch history was rewritten by a filter-branch after the fixes were committed (reflog), so the three fix
+    commits are now 3e9f0a0c, 4cfa33f9 and 3e6de56a (they were 0cb6468e, fcf4be62, 78bc25ef). The trees are identical
+    (git diff --stat 78bc25ef 3e6de56a is empty). Round 1 base: 5cb01f35, diffed with 5cb01f35..HEAD.
+  adr_038_accepted_by_a_person: >
+    .garura/project/issues/_adr/20261019-071944/decision.yaml: verdict accept, by person, Kapil Viren Ahuja.
+    Branch content, but a record a person accepted through /adr, so it is used here as a recorded decision, not as
+    grounding invented by the branch.
+verdict_words: fixed | partly fixed | not fixed | carried
+
+per_finding:
+  Q1:
+    verdict: fixed
+    reason: "pull.py download() now runs git clone with timeout=DOWNLOAD_SECONDS (600) and refuses with Phoenix memory named; test added (a download with no answer stops at its time limit)."
+  Q2:
+    verdict: fixed
+    reason: "the clone is now `git clone --quiet -- <source> <part>`; test proves the source follows `--`."
+  Q3:
+    verdict: fixed
+    reason: "only a Phoenix place that now exists counts as a lost race; any other rename error is refused with its message; test added."
+  Q4:
+    verdict: fixed
+    reason: "lay() copies the new tool whole to `memory.new`, writes the kept settings into it, then swaps; test shows a failed copy keeps the old tool and edited settings. A leftover `memory.new` after a failed copy is a new finding (N-1)."
+  Q5:
+    verdict: fixed
+    reason: "install.sh now records the version first and stops after (stop_if_memory_check_failed, both modes), the same order as install.py. Not covered by any test (see Q6)."
+  Q6:
+    verdict: not fixed
+    reason: "still no automated test runs installer/install.sh; the order change made for Q5, the skip-when-no-script path and the update path are exercised by nothing (only bash -n)."
+  Q7:
+    verdict: fixed
+    reason: "tests added for bad input exiting 2 (unknown tool, source with no tool), old Python, the not-ok shape, a source that does not answer, dry-run keeping the memory system, and AGENTS.md holding only the block."
+  Q8:
+    verdict: partly fixed
+    reason: "check() is now 25 code lines (was 51). install() in install.py is untouched and still 53 code lines against 50 on main, so the part about the PR taking it over stands."
+  Q9:
+    verdict: fixed
+    reason: "check() split into _python_ok, _phoenix_lines and _fail; ruff C901 at limit 10 no longer reports it."
+  Q10:
+    verdict: partly fixed
+    reason: "the memory-system steps moved into rm_memory_system(); uninstall() is back to complexity 17 (main: 17) and 65 code lines (was 71, main 61), still over the limit as it was on main."
+  Q11:
+    verdict: carried
+    reason: "memory.py (556) and install.py (393) are unchanged; a file-size note with no behaviour risk, not meant to be fixed here."
+  Q12:
+    verdict: fixed
+    reason: "lay() now exits 2 for bad input through _bad(), never the check's exit 1; test added."
+  Q13:
+    verdict: fixed
+    reason: "the not-ok answer is read with .get and a fallback, so a differently shaped answer gives a FAIL line; test added. Other unguarded reads remain, see N-3."
+  H-1:
+    verdict: fixed
+    reason: "ADR 038 (accepted by a person) amends ADR 035 §2 \"starting set at install\", §3, §8 and the Alternatives line, and ADR 035's header points to it; the code departs from main's ADR 035 text, covered by ADR 038, accepted by a person."
+    closed_by_record: true
+  H-2:
+    verdict: fixed
+    reason: "ADR 038 §4 and §5 add `.garura/tools/` (memory/) to ADR 017 §1's whitelist and ADR 017's header points to it; the code departs from main's ADR 017 text, covered by ADR 038, accepted by a person. docs/components/memory.md still lists the old whitelist, which ADR 038 names as follow-up work item 3."
+    closed_by_record: true
+  H-3:
+    verdict: fixed
+    reason: "install-garura SKILL.md now says the install brings no memory into the project and that the old machine-wide copy is still laid until retired (matches install.py and install.sh, which still copy it; ADR 038 lists it as a risk)."
+  H-4:
+    verdict: fixed
+    reason: "GUIDE.md now says `initialize` will set the project up and is not built yet."
+  H-5:
+    verdict: fixed
+    reason: "the check now runs `git ls-remote` against the source (30 seconds) when Phoenix memory is absent and notes it, never fails; test added both ways; ADR 038 §2 says the same."
+  H-6:
+    verdict: fixed
+    reason: "install-garura SKILL.md (AGENTS.md line and the \"Don't delete the user's own files\" boundary) now names the marked block; uninstall-garura SKILL.md lists the tool, guide and block."
+  H-7:
+    verdict: fixed
+    reason: "GUIDE.md now says the tool is run from the project root and a play's own working files are read directly."
+
+adr_038_matches_the_code:
+  checked_and_matches:
+    - "600-second download limit: ADR 038 Negative/Risks says 600 seconds in pull.py; pull.py DOWNLOAD_SECONDS = 600."
+    - "Never waits for a password, refusal names Phoenix memory: pull.py GIT_TERMINAL_PROMPT=0 and Refusal tier phoenix."
+    - "Place: ~/.garura/phoenix-memory is PHOENIX_PLACE."
+    - "Folder: .garura/tools/memory/ with settings.json beside it is TOOL_DEST and the written settings."
+    - "Install does not fail when Phoenix memory is absent, reports it and notes when the source does not answer: _phoenix_lines, never a failure. ADR gives no number for the 30-second reach wait; not a conflict."
+    - "Old machine-wide copy still laid: install.py and install.sh still copy memory to ~/.garura/core/memory, as the ADR says."
+    - "Tool's own folder never answered as Garura memory: memory.py hides the tool's folder (but see N-1)."
+  small_wording_gap: "ADR 038 header and §4 say the whitelist gains `.garura/tools/`; §5 and the ADR 017 pointer say `.garura/tools/memory/`. Same intent, one level apart. No finding."
+  follow_ups_the_adr_names_itself: ["docs/components/memory.md whitelist", "glossary install rows", "#660 issue text", "initialize play"]
+
+new_findings:
+  - id: N-1
+    severity: P3
+    file: core/components/plays/install-garura/scripts/memory_system.py
+    line: 112
+    basis: "ADR 038 section 4 (\"A lookup never answers from the tool's own folder as Garura memory\") and rule CODE-27 (data-safety path), rule in ~/.garura/phoenix-memory/standards/rules/pr.md"
+    finding: >
+      The Q4 fix copies to `.garura/tools/memory.new` and swaps. If the copy or the rename fails, `memory.new` stays. memory.py hides only the
+      exact tool folder (`tools/memory/`), and Garura memory is the whole `.garura` folder, so the leftover is answered as Garura memory:
+      reproduced in a scratch project, `search --tier garura` returned a hit from `tools/memory.new/README.md`. Uninstall does not remove it
+      either (it is not in the manifest and keeps `.garura/tools/` from pruning). The next install clears it. Remove the new folder on failure
+      (try/finally) or give it a name memory.py hides.
+  - id: N-2
+    severity: P4
+    file: core/tools/memory/pull.py
+    line: 116
+    basis: "rule CODE-27 in ~/.garura/phoenix-memory/standards/rules/pr.md; DOWNLOAD_SECONDS at line 47"
+    finding: >
+      The download folder (`.phoenix-memory-download-*` beside Phoenix memory's place) is only removed when the tool itself ends the download.
+      An agent's shell commonly stops a command sooner than 600 seconds (Claude Code's default is 120), which kills the tool mid-clone and leaves
+      the folder, and nothing sweeps old ones. The cost is disk space only; a later run is not affected.
+  - id: N-3
+    severity: P4
+    file: core/components/plays/install-garura/scripts/memory_system.py
+    line: 158
+    basis: "rule CODE-30 in ~/.garura/phoenix-memory/standards/rules/pr.md (same basis as Q13)"
+    finding: >
+      The Q13 fix guards the error shape, but `t["tier"]` and `t["reachable"]` (lines 158 and 164) and `answer.get` on an answer that is not an
+      object (for example a bare list) still raise a traceback instead of a FAIL line.
+
+tests:
+  result: pass
+  memory_tool: "python3 -m unittest test_memory test_pull contract.test_check_contract: 145 tests, OK (142 at round 1)"
+  installer: "HOME=<scratch folder> python3 test_install.py: 21 tests, OK (12 at round 1)"
+  ruff_check: "pass (All checks passed) on core/components/plays/install-garura/scripts, core/components/plays/uninstall-garura/scripts, core/tools/memory"
+  ruff_c901_limit_10: "memory_system.py clean; uninstall() 17 (same as main); lay_components in the two adapters are not changed by this branch"
+  bash_n_installer: pass
+
+counts:
+  round_1_findings: 20
+  fixed: 16
+  partly_fixed: 2
+  not_fixed: 1
+  carried: 1
+  closed_by_adr_038: 2
+  fixed_ids: [Q1, Q2, Q3, Q4, Q5, Q7, Q9, Q12, Q13, H-1, H-2, H-3, H-4, H-5, H-6, H-7]
+  partly_fixed_ids: [Q8, Q10]
+  not_fixed_ids: [Q6]
+  carried_ids: [Q11]
+  new: {P1: 0, P2: 0, P3: 1, P4: 2}

@@ -1,0 +1,1753 @@
+diff --git a/.garura/project/issues/653/specs/plan.md b/.garura/project/issues/653/specs/plan.md
+index cf461b6ac..738100fc0 100644
+--- a/.garura/project/issues/653/specs/plan.md
++++ b/.garura/project/issues/653/specs/plan.md
+@@ -162,7 +162,12 @@ Garura install carries the memory system (#660).
+ memory guide every agent reads: the three tiers (Phoenix memory, Garura memory,
+ short-term memory), what the tool does, how to find memory, go up to
+ Phoenix memory, update it, name a source, and raise a memory update. The
+-install checks the tool runs and reaches each tier, and fails if it does not.
++install checks the tool runs and reaches the project's tiers. The install brings
++no memory: the tool downloads Phoenix memory to the machine the first time it
++needs it (Kapil, 2026-10-19: "install finishes without any memory"; "when the
++tool runs for the first time after installation, it downloads the memory and
++puts it into a global source"). Its own plan:
++`.garura/project/issues/660/specs/plan.md`.
+ Kapil, 2026-10-18: the three tiers "should be part of the Garura installation.
+ Anytime Garura gets installed, every project would need to know what that tool
+ is, what it does, and how the memory works. Otherwise, the subagents will fail."
+@@ -217,6 +222,18 @@ describe the three tiers and the tool, and the locked knowledge-base design note
+ **Done when:** the lint passes across every component.
+ **Needs:** item 9.
+ 
++### Not yet placed: `initialize`, the play that sets up a project's memory
++
++**Issue:** none yet.
++**What:** a new play, run after the install. It reads Phoenix memory and asks the person
++questions built from it — which domains, which functionalities, what technology
++standards, tools and frameworks — each with choices to pick from, never something
++random. The answers set up the project's Garura memory. Kapil, 2026-10-19: "After the
++installation is finished, we then run a play. This play is not designed yet, and that
++play is going to ask questions. That will read the Phoenix memory and will start setting
++up the project's memory." And: "After install, let's call this whole thing
++`initialize`." It is not designed yet; where it sits in this order is not decided.
++
+ ## Log
+ 
+ - 2026-10-18 — Drafted in #613 from Kapil's memory model (three tiers; one tool;
+@@ -273,3 +290,4 @@ describe the three tiers and the tool, and the locked knowledge-base design note
+ - 2026-10-18 — Item 11 moved: the memory review (#664) is built with the review tool in the #606 plan.
+ - 2026-10-18 — Item 5 done: #658 approved by Kapil (PR #675). Now item 6 (#659).
+ - 2026-10-19 — Item 6 done: #659 approved by Kapil (PR #676, round 2); ADR 037 accepted. Now item 7 (#660).
++- 2026-10-19 — Item 7 (#660) started. Kapil: the install brings no memory; the tool downloads Phoenix memory on first use; a new play, `initialize`, sets up a project's memory after the install (added as not yet placed).
+diff --git a/.garura/project/issues/660/context/branch.json b/.garura/project/issues/660/context/branch.json
+new file mode 100644
+index 000000000..8ce24e8fa
+--- /dev/null
++++ b/.garura/project/issues/660/context/branch.json
+@@ -0,0 +1,6 @@
++{
++  "branch_name": "feature/660-install-carries-memory",
++  "base_sha": "f42a213517b5d736da5a848acf9f781805e918b8",
++  "on_default_branch": false,
++  "worktree_path": null
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/660/context/issue.json b/.garura/project/issues/660/context/issue.json
+new file mode 100644
+index 000000000..2d52c2424
+--- /dev/null
++++ b/.garura/project/issues/660/context/issue.json
+@@ -0,0 +1 @@
++{"resolved": true, "issue_number": 660, "title": "Every Garura install carries the memory tool, a memory guide, and a check that the tool works", "created": false}
+diff --git a/.garura/project/issues/660/context/pr-body.md b/.garura/project/issues/660/context/pr-body.md
+new file mode 100644
+index 000000000..15f2bafa8
+--- /dev/null
++++ b/.garura/project/issues/660/context/pr-body.md
+@@ -0,0 +1,49 @@
++## What this delivers
++
++**Every Garura install now carries the memory system.** A project gets the memory tool, a short guide that every agent reads, and a check that the tool works. Kapil, 2026-10-18: "Anytime Garura gets installed, every project would need to know what that tool is, what it does, and how the memory works. Otherwise, the subagents will fail."
++
++**The install brings no memory.** Phoenix memory reaches a machine the first time the tool needs it (Kapil, 2026-10-19: "install finishes without any memory"). A new play, `initialize`, will set up a project's own memory after the install. It is not designed or filed yet; the #653 plan records it.
++
++- **The memory tool finds its own settings** (`core/tools/memory/memory.py`). With nothing set, it reads `settings.json` beside itself. A new setting, `phoenix_source`, names where Phoenix memory comes from. The first command that needs Phoenix memory and finds its place empty downloads it there (`pull.py`): whole or not at all, and never waiting for a password. `health` only reports. The tool's own folder is never answered as Garura memory. The contract did not change (still version 4).
++- **The memory guide** (`core/tools/memory/GUIDE.md`): the three tiers, the one rule (memory only through the tool), finding memory and going up a tier, raising a memory update, keeping a decision's trace, and what an agent never does. Every command in it was run as written (`.garura/project/issues/660/evidence/guide-run.md`).
++- **The install lays it** (`install-garura/scripts/memory_system.py`, called by `install.py` and by the public installer `installer/install.sh`). The tool goes to `.garura/tools/memory/` without its tests and samples, with `settings.json` beside it (kept on a re-install). The guide goes to `.claude/rules/garura-memory.md` for Claude Code, which every session and every custom sub-agent loads. For Codex it is one marked block in `AGENTS.md`, added to the project's own file.
++- **The install checks it.** It runs the tool's `health` the way an agent does. It fails (exit 1, after writing the manifest) when python3 is older than 3.10, the tool cannot run, or short-term or Garura memory cannot be reached. Phoenix memory not downloaded yet is reported, not failed.
++- **Uninstall reverses it.** It removes the tool, the guide file or only the `AGENTS.md` block, and short-term memory's folder only when it is empty. Phoenix memory's place on the machine is never removed.
++
++What this does not do yet: no agent is moved onto the tool (#661, #663). `initialize` is not built. The tool points at a git repository, not a server address (Griffin, later).
++
++Closes #660
++
++## Where the issue text no longer matches
++
++| Issue says | What happened |
++|---|---|
++| "An install whose tool cannot reach a tier fails with that tier named." | The install fails only when short-term or Garura memory cannot be reached. Phoenix memory is downloaded on first use, so an install without it passes and says so (Kapil, 2026-10-19: "install finishes without any memory") |
++| The installer (the play) | The public installer `installer/install.sh`, which the README gives, carries the memory system too, through the same script. Found while building |
++
++The GitHub text is not changed.
++
++## How it was checked
++
++- Memory tool: 142 tests pass (73 tool, 13 pull, 56 contract). 5 new tests fail on the old tool. The contract check passes with no boundary problems.
++- Installer: 12 new tests pass (`install-garura/scripts/test_install.py`). Among them: an agent's search through the installed tool downloads Phoenix memory on first use; the tool's own files are not memory; uninstall keeps a project's own `AGENTS.md` text and its short-term work.
++- **A fresh project** (`.garura/project/issues/660/evidence/fresh-project-test.md`): a Claude Code install finished with no memory, and its check passed. A real sub-agent there, asked only "which way back in must a password sign-in offer? Decide it from memory", used the tool on its own from the guide. Its first search downloaded Phoenix memory from GitHub. It answered "password reset", named `knowledge/domains/user-management.md` lines 61–62, and kept the trace with `cite`. A Codex install kept the project's own `AGENTS.md` and added one block. Uninstall removed the tool and the guide and kept the project's work.
++- `lint-components`: 116 findings, the same as on main. `bash -n installer/install.sh` passes.
++- Merges cleanly with main. No client, personal or secret text.
++
++Not run: the public installer end to end (it downloads a published release, so its new step runs only after a release carries the script), and a Codex agent. Not checked: whether Codex's sandbox lets the tool download Phoenix memory.
++
++## Self-review
++
++The self-review is in `.garura/project/issues/660/context/self-review.md`: 0 blocking, 7 notes. The blocking check passes. The notes:
++
++- The issue text is behind (in the table above). The plans close in the last commit before the merge.
++- The public installer's new step is syntax-checked only. When its check fails, it stops before it writes the version file. The next run lays the memory system again, so a re-run recovers.
++- The guide gives the tool's path from the project's root. An agent working in a subfolder would need the full path.
++- A re-install deletes the old tool before it copies the new one. A copy that stops halfway leaves no tool, and the check then says so.
++- Phoenix memory's address is a fixed default, written into each project's settings. A machine that cannot reach it gets `tier_missing` with git's reason. `--phoenix-source` or the settings file changes it.
++- One note was wrong: it said a commit subject is 73 characters. It is 72.
++
++Where to read: `memory_system.py`, the changes to `install.py`, `uninstall.py`, `memory.py`, `pull.py` and `install.sh`, `GUIDE.md`, and the two test files (about 700 lines). The rest is the README, the two `SKILL.md` files, plans and evidence.
++
++🤖 Generated with [Claude Code](https://claude.com/claude-code)
+diff --git a/.garura/project/issues/660/context/pr.json b/.garura/project/issues/660/context/pr.json
+new file mode 100644
+index 000000000..524d05e22
+--- /dev/null
++++ b/.garura/project/issues/660/context/pr.json
+@@ -0,0 +1,6 @@
++{
++  "number": 677,
++  "url": "https://github.com/intent-driven-ai/garura/pull/677",
++  "state": "OPEN",
++  "base": "main"
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/660/context/resolved-rules.json b/.garura/project/issues/660/context/resolved-rules.json
+new file mode 100644
+index 000000000..3fa246932
+--- /dev/null
++++ b/.garura/project/issues/660/context/resolved-rules.json
+@@ -0,0 +1,6 @@
++{
++  "resolved": true,
++  "path": "~/.garura/phoenix-memory/standards/rules/self-review.md",
++  "source": "~/.garura/phoenix-memory/standards/rules",
++  "is_override": false
++}
+diff --git a/.garura/project/issues/660/context/self-review.md b/.garura/project/issues/660/context/self-review.md
+new file mode 100644
+index 000000000..3616c4396
+--- /dev/null
++++ b/.garura/project/issues/660/context/self-review.md
+@@ -0,0 +1,124 @@
++# Self-review for #660 — every Garura install carries the memory system: the tool, its settings, a guide every agent reads, and a check that the tool works
++
++## In plain words
++
++Installing Garura into a project now also puts in the memory tool, a settings file beside it, short-term memory's folder, and a short guide that every agent reads. For Claude Code the guide is a rules file the host loads for every session and every sub-agent. For Codex it is one marked block in `AGENTS.md`, added to the project's own file without touching its text. The install then runs the tool's own health command the way an agent would. It fails (exit 1, after writing the manifest) when the tool cannot run, or when short-term or Garura memory cannot be reached.
++
++The install brings no memory. The tool downloads Phoenix memory to one place on the machine the first time a command needs it. Uninstall reverses all of it and keeps the project's own `AGENTS.md` text and its short-term work. The public installer (`installer/install.sh`) runs the same script, so both ways of installing behave the same.
++
++I read the whole diff (`git diff main...HEAD`), the issue (read only), the plan, and ran every test suite the change touches. Nothing was changed on GitHub and nothing was pushed.
++
++## Branch and size
++
++- Branch `feature/660-install-carries-memory`, 7 commits ahead of main, 0 behind. A trial merge into main is clean.
++- 21 files, +1,127 / -25. The part to read is 746 added and 24 removed lines under `core/`, `installer/` and `.gitignore`: the new script 212, the two test files 244 (191 + 53), the guide 79, uninstall 40, tool changes 64 (`memory.py` 34, `pull.py` 30), install.py 28, the installer 29, README 17 and the two play guides 30. The rest is the #660 plan, the #653 plan edit and the fresh-project test records.
++- All 7 commits are conventional and end `(#660)`; each carries the co-author line. The five with a body explain the change; the two plan commits and the two record commits have none.
++- The remote branch is still at main's starting point (`f42a2135`), so none of the 7 commits is pushed.
++
++## How it was checked
++
++- Tool tests: 73 pass (5 new, in `AfterAnInstall`). Pull tests: 13 pass. Contract tests: 56 pass.
++- Installer tests: 12 pass (`test_install.py`, new). They install into throwaway folders with Phoenix memory's place and the Codex home also in throwaway folders.
++- `ruff check` on the changed scripts and the installer folder: clean. `bash -n installer/install.sh`: syntax fine. `git diff --check main...HEAD`: clean.
++- Added-line scans: no TODO, FIXME or XXX, no debug print, no key, token, password or secret pattern, no home-folder path. The test's sample address is at an example domain.
++- Not run by me: the public installer end to end (it downloads a published release), a Codex agent, and `lint-components`. The plan records the first two as not run and reports 116 lint findings, the same as main.
++
++## Findings (all non-blocking)
++
++1. The issue's text is behind the delivery. The #660 issue says "An install whose tool cannot reach a tier fails with that tier named" and "its check passes" on a fresh install. Kapil changed this on 2026-10-19: the install brings no memory, short-term and Garura memory must be reachable, and Phoenix memory arrives on first use (a failed download names Phoenix memory when it is first needed). The plan already says the GitHub text is not changed. The PR description should state this; the issue text itself is changed only on Kapil's word. (Rule: matches the issue)
++2. The plans are not closed yet, on purpose. The #660 plan still reads `status: active`, `now: 7`, and item 7 says to close this plan and item 7 of the #653 plan in the last commit before the merge. Not done at raise time. (Rule: docs in step, as context)
++3. The public installer's new step has no test and no run. `install_memory_system` in `installer/install.sh` was syntax-checked only. Read through, it looks right: it runs the same script with `--tool claude` and `--source "$SRC_DIR"`, skips with a warning when a release lacks the script, and exits 1 with a message when the check fails. One thing to know: on a failed check it exits before the version file is written, so the project has the components but no recorded version. The next run starts in upgrade mode (the config is already there) and lays the memory system again, so a re-run recovers it. A Codex agent finding memory was not run either; the Codex install was. (Rule: tests present)
++4. One commit subject is one character over the limit. `0093842d` ("feat(memory-tool): own settings file; Phoenix memory on first use (#660)") is 73 characters; the commits rule says 72 at most. The others are 34 to 72. The commits are not pushed, so a reword would be local; I did not touch the history. (Rule: commits are clean)
++5. Phoenix memory's download address is a fixed default in code. `PHOENIX_SOURCE` in `memory_system.py` names a GitHub address, written into each project's settings. A machine with no access to that address cannot get Phoenix memory; the tool then answers `tier_missing` for Phoenix memory with git's reason, and never waits for a password (tested with a missing repository). It can be overridden with `--phoenix-source` or by editing the settings. This agrees with the plan's "eventually points to a server address" note; I list it so the owner knows the install assumes network access to that address on first use. (Rule: nothing obviously broken, as context)
++6. Small robustness notes, none of them a fault today:
++   - The guide tells agents to run `python3 .garura/tools/memory/memory.py ...`, a path from the project's root. An agent working from a subfolder gets "no such file". The tool finds its own settings by its own location, so an absolute path would work from anywhere. The fresh-project test ran from the root.
++   - `lay` deletes the old tool folder before copying the new one. A copy that stops halfway leaves no tool; the check would then say the tool did not run, which names the problem.
++   - The guide's block markers are written in both `memory_system.py` and `uninstall.py`. A test (`test_both_scripts_use_the_same_block_markers`) keeps them equal, so a drift is caught.
++   (Rule: nothing obviously broken)
++7. `install-garura` and `uninstall-garura` have no ICE source (`reference/ice.md` does not exist for either), so the guide edits to their `SKILL.md` and the script edits are direct edits, as the play pipeline rules allow for a play without a source. The install now guarantees a memory check (exit 1); that guarantee lives in the script, its tests and the guide. The "Direct-edit deviation note" already in the install guide predates this change and is not in this diff. (Rule: matches the issue, as context)
++
++## Checklist from the rules file
++
++Scope checks
++
++| Item | Status | Evidence |
++|------|--------|----------|
++| Matches the issue | REVIEW | Every code change maps to the issue: tool settings and first-use download, the guide, the install, the check, uninstall. The text differs from the delivery on one point the owner decided (finding 1). |
++| No scope creep | PASS | `installer/install.sh` is not named in the issue, but the plan records why: it is the install the README gives, so it must carry the memory system too. `.gitignore` adds only the two paths the installed copies sit in, in this repo. The #653 plan edit records the decision and the new `initialize` idea. Nothing else rides along. |
++| Reasonable size | PASS | 746 added lines of source, tests and guides in 14 files, plus plan and test records (above). One concern per commit. |
++| No stray artifacts | PASS | No TODO, debug print or commented-out block in added lines; no bytecode or editor files tracked. The three files under `issues/660/evidence/` are the recorded proof of the guide and the fresh-project test, committed on purpose. Two untracked files in `context/` (`pr-body.md`, `resolved-rules.json`) belong to this raise and are not in the diff. |
++
++Quality checks
++
++| Item | Status | Evidence |
++|------|--------|----------|
++| Tests present | REVIEW | 5 new tool tests (settings beside the tool, environment before the file, first-use download, failed download leaves nothing, the tool's folder is not memory) and 12 new installer tests (lay, first-use search through the installed tool, Codex block kept and replaced, settings kept, three check failures, uninstall for both tools, short-term work kept, markers equal). Gap: the public installer step and a Codex agent (finding 3). |
++| Commits are clean | REVIEW | 7 conventional commits, each ends `(#660)`, each with the co-author line; one subject is 73 characters (finding 4). |
++| No secrets | PASS | Scan of added lines and commit messages found no key, token, password or private-key pattern and no home-folder path; only a sample address at an example domain. |
++| Docs in step | PASS | The tool README (settings table, first-use rule, the guide), the install and uninstall guides, the memory guide itself and the #653 plan are updated with the code. Only the issue text is behind (finding 1) and the plans close at landing (finding 2). |
++| Nothing obviously broken | PASS | All suites pass, lint is clean, the diff has no whitespace errors, and the merge is clean. The open notes are small (findings 3, 5, 6). |
++
++## Checklist from the analyze-pr quality rules
++
++Must-have
++
++| Rule | Trigger | Status | Evidence |
++|------|---------|--------|----------|
++| no-conflicts | always | PASS | `git merge-tree --write-tree main HEAD` exit 0; 0 behind main |
++| no-secrets | always | PASS | pattern scan clean (above) |
++| config-valid | no settings YAML changed; one JSON settings shape is written by the install | PASS | `settings_for` writes JSON that the tool and the installer tests read back; the fresh-project test shows the same |
++| deploy-components | `core/components/**` changed (two play guides, three scripts, one new test file) | PASS | the files reach a project through `install-garura` after the merge; the new script is picked up by `install.py` and by the public installer |
++| docs-consistent | `README.md` changed (the tool's README) | PASS | the README agrees with the code on the settings order (variable, then file beside the tool), the new `phoenix_source` setting, first-use download and "health only reports" |
++| feat-documented | `feat:` commits (2) | PASS | the tool README and both play guides changed in the same change |
++
++Nice-to-have
++
++| Rule | Trigger | Status | Evidence |
++|------|---------|--------|----------|
++| feat-adr | `feat:` commits | PASS | ADR 035 section 8 and ADR 036 and 037 are the references; no new decision record is needed, and the owner's three answers are recorded in the plan |
++| docs-only | `docs:` commits (1) | PASS | `f34188be` adds only the guide and README lines |
++| refactor-no-break | not triggered | n/a | no `refactor:` commit |
++| agent, skill and play rules | `SKILL.md` of two plays changed | REVIEW | direct edits, as the play has no ICE source (finding 7); the edits add text only and change no step the guides did not already describe |
++
++Branch: `feature/*`, standard priorities, no branch modifiers.
++
++## What the PR description needs to say
++
++- It closes #660. Say plainly that the issue's third done-when ("fails with that tier named") changed on 2026-10-19: the install brings no memory and Phoenix memory arrives on first use (finding 1).
++- What it does, in plain words: every install, by the play or the public installer, lays the memory tool, its settings, the guide where every agent reads it, and short-term memory's folder; it runs a check and fails with a clear message when the tool cannot run or short-term or Garura memory cannot be reached; uninstall reverses it and keeps the project's own text and work.
++- What it proved: 73 tool tests, 13 pull tests, 56 contract tests and 12 installer tests pass; a real sub-agent in a fresh project found memory through the tool using only the guide, and its first search downloaded Phoenix memory (`evidence/fresh-project-test.md`).
++- What it does not do: `initialize` (the play that sets up a project's own memory) is not built; the agents do not yet use the tool (#661, #663); the public installer's step and a Codex agent were not run (finding 3).
++- Where to look: the new script and the two test files; the plan and records are the rest.
++
++## Readiness
++
++- Ready to raise: yes
++- Blocking: 0
++- Non-blocking: 7
++- Review required: 4 checklist items marked REVIEW (from the rules file: matches the issue, tests present, commits are clean; from the quality rules: agent, skill and play rules)
++- Recommendation: Raise it. Finding 1 goes in the description; finding 2 goes in the landing commit; finding 3 is worth a run of the public installer before or soon after the review; finding 4 is a one-character reword the owner can ask for; findings 5 to 7 are carried.
++
++---
++
++## Appendix (machine-readable)
++
++```yaml
++self_review:
++  issue: 660
++  title: "Every Garura install carries the memory tool, a memory guide, and a check that the tool works"
++  branch: feature/660-install-carries-memory
++  base: main
++  head: c24eef54
++  position: {behind: 0, ahead: 7}
++  remote_branch_at: f42a2135
++  rules: "~/.garura/phoenix-memory/standards/rules/self-review.md"
++  resolved_rules: ".garura/project/issues/660/context/resolved-rules.json"
++  plan: ".garura/project/issues/660/specs/plan.md"
++  blocking: 0
++  non_blocking: 7
++  tests:
++    memory_tool: 73
++    pull: 13
++    contract: 56
++    installer: 12
++```
+diff --git a/.garura/project/issues/660/context/work-description.txt b/.garura/project/issues/660/context/work-description.txt
+new file mode 100644
+index 000000000..0a5f36f37
+--- /dev/null
++++ b/.garura/project/issues/660/context/work-description.txt
+@@ -0,0 +1 @@
++Story #660 under Feature #653 (feature plan item 7): every Garura install carries the memory system. Installing Garura into a project installs the memory tool and a short memory guide every agent reads — the three tiers (Phoenix memory, Garura memory, short-term memory), what the tool does, and how to find memory, go up a tier, update it, name a source (a decision's trace, ADR 037) and raise a memory update. The guide says what ADR 036 set: short-term memory is the current issue only; a researched answer is used only after a person approves it and lands in the issue's short-term memory; promotion to Garura or Phoenix memory happens outside the work. The install checks the tool runs and reaches each tier, and fails with the tier named if it does not. Works for Claude Code and Codex (install-garura adapters). Decided in ADR 035 §8; amended by ADR 036 and ADR 037.
+diff --git a/.garura/project/issues/660/evidence/fresh-project-test.md b/.garura/project/issues/660/evidence/fresh-project-test.md
+new file mode 100644
+index 000000000..c076cb1cd
+--- /dev/null
++++ b/.garura/project/issues/660/evidence/fresh-project-test.md
+@@ -0,0 +1,89 @@
++# #660 — the memory system on a fresh project
++
++Run on 2026-10-19 from branch `feature/660-install-carries-memory` (after `d2e84523`).
++`<work>` is a throwaway folder; nothing on the machine's own memory was touched. Phoenix
++memory's place for each test was an empty folder under `<work>`; its source was the real
++default, `https://github.com/intent-driven-ai/phoenix-memory.git`.
++
++## 1. Claude Code: a fresh project, installed with no memory
++
++```
++python3 core/components/plays/install-garura/scripts/install.py --target <work>/shop --tool claude \
++  --memory-dest <work>/shared-memory --phoenix-place <work>/machine/phoenix-memory
++```
++
++The install's own words (the end of its output):
++
++```
++  memory tool: .garura/tools/memory (settings written)
++  memory guide: .claude/rules/garura-memory.md
++  Short-term memory: reached.
++  Garura memory: reached.
++  Phoenix memory: not on this machine yet. The tool downloads it to <work>/machine/phoenix-memory the first time it is needed.
++done — installed 13 agent(s) and 77 skill/play(s) into <work>/shop for claude
++```
++
++Exit 0. Phoenix memory's place after the install: **not there** — the install brought no memory.
++
++## 2. A real sub-agent in that project finds a piece of memory
++
++In `<work>/shop`, a headless Claude Code session (`claude -p`, version 2.1.303) was asked to
++dispatch one general-purpose sub-agent with this task, and nothing else: "In this project,
++which way back in must a password sign-in offer? Decide it from memory, and name the memory
++lines your answer rests on." The prompt did not name the tool, the guide or any path. The
++session was allowed only the Agent tool, Read, and `python3 .garura/tools/memory/memory.py`.
++
++What the sub-agent did, in order (from the session's stream):
++
++1. `python3 .garura/tools/memory/memory.py search --pattern "password" --ignore-case --every-tier`
++   — looked in Garura, then Phoenix memory; answered by Phoenix memory. This first command
++   downloaded Phoenix memory from GitHub to its place.
++2. `read --tier phoenix --path knowledge/domains/user-management.md --start 58 --end 75`
++3. `read --tier phoenix --path knowledge/domains/user-management.md --start 61 --end 62` —
++   "Account Recovery — include with any credential-based auth. / Password reset — the floor;
++   any credential login." Version `ad3afb587…`.
++4. `cite` — recorded the decision with its trace: `cite-20261019-001`, stored in short-term
++   memory.
++
++Its answer: "A password sign-in must offer password reset as its way back in. Memory calls it
++'the floor' ... The answer rests on one file, lines 61 and 62 of the global (Phoenix) memory
++file `knowledge/domains/user-management.md` ... Memory in this project (Garura memory) had
++nothing of its own on this. The answer came from Phoenix memory, and reading it saved a copy
++into the project's memory."
++
++Phoenix memory's place after the run: **downloaded** (a git repository at version `ad3afb5`).
++
++So the sub-agent learned the tool and the rules from the guide alone
++(`.claude/rules/garura-memory.md`), used only the tool, named its source lines, and kept the
++trace.
++
++## 3. Codex: a fresh project that already has its own AGENTS.md
++
++The project's `AGENTS.md` held two lines: `# Our shop` and `Keep answers short.`
++
++```
++CODEX_HOME=<work>/codex-home python3 core/components/plays/install-garura/scripts/install.py \
++  --target <work>/shop-codex --tool codex --memory-dest <work>/shared-memory \
++  --phoenix-place <work>/machine2/phoenix-memory
++```
++
++Exit 0, the same check lines as in step 1. `AGENTS.md` kept its two lines and gained one
++marked block holding the guide. No Codex agent was run.
++
++## 4. Uninstall
++
++`uninstall.py --target` on both projects:
++
++- Claude Code project: the tool, its settings and `.claude/rules/` are gone. Left: the
++  project's own memory and work — the piece the sub-agent's read saved into Garura memory
++  (`.garura/core/memory/…/user-management.md`, `pulled.json`), its decision record in
++  short-term memory, and `CLAUDE.md` (an install never removes it).
++- Codex project: `AGENTS.md` is back to its own two lines; `AGENTS.md.new` is gone.
++
++## Not run here
++
++- The public installer (`installer/install.sh`) downloads a published release, so its new
++  step can only run after a release carries it. Checked instead: its syntax (`bash -n`), and
++  the script it calls, run the same way (`memory_system.py --target … --tool claude`).
++- A Codex agent. Not checked: whether Codex's sandbox lets the tool download Phoenix memory
++  on first use.
+diff --git a/.garura/project/issues/660/evidence/guide-run.md b/.garura/project/issues/660/evidence/guide-run.md
+new file mode 100644
+index 000000000..907c006f0
+--- /dev/null
++++ b/.garura/project/issues/660/evidence/guide-run.md
+@@ -0,0 +1,18 @@
++# The memory guide, run as written
++
++Phoenix memory source: `phoenix-memory`; its place started empty.
++
++## Block 1
++- `search`: ok — answered_by garura, 1 hits
++- `find`: ok — answered_by garura, 1 matches
++- `read`: ok — lines 60–64, saved_to {'tier': 'garura', 'path': 'core/memory/knowledge/domains/user-management.md'}
++
++## Block 2
++- `propose`: ok — update mu-20261019-001 waiting
++
++## Block 3
++- `cite`: ok — recorded cite-20261019-001
++- `citations`: ok — 1 record(s), 0 problem(s)
++
++Phoenix memory downloaded to its place: True
++Result: every command answered ok
+diff --git a/.garura/project/issues/660/evidence/run_guide.py b/.garura/project/issues/660/evidence/run_guide.py
+new file mode 100644
+index 000000000..3bf0a4a52
+--- /dev/null
++++ b/.garura/project/issues/660/evidence/run_guide.py
+@@ -0,0 +1,73 @@
++#!/usr/bin/env python3
++"""Run every command in the memory guide, as written, on a throwaway project (#660 item 3).
++
++Usage: python3 run_guide.py <memory tool folder> <Phoenix memory source>
++
++The project's Phoenix memory place starts empty, so the first command that needs it also
++proves the download. Placeholders a reader fills in are filled the same way here: the tool's
++path, an agent name, a play, and the fingerprint taken from a read. Prints a Markdown record;
++exits 1 when any command answers an error.
++"""
++
++import json
++import os
++import re
++import shutil
++import subprocess
++import sys
++import tempfile
++
++TOOL_DIR, SOURCE = os.path.abspath(sys.argv[1]), os.path.expanduser(sys.argv[2])
++tool = os.path.join(TOOL_DIR, "memory.py")
++work = tempfile.mkdtemp(prefix="guide-run-")
++project = os.path.join(work, "project")
++garura = os.path.join(project, "g")
++os.makedirs(os.path.join(garura, "issues", "12"))
++settings = os.path.join(project, "memory-settings.json")
++with open(settings, "w") as fh:
++    json.dump({"short-term": "g/issues", "garura": "g", "phoenix": "../machine/phoenix-memory",
++               "phoenix_source": SOURCE, "garura_pull_dir": "core/memory"}, fh)
++env = {k: v for k, v in os.environ.items() if not k.startswith("MEMORY_")}
++env["MEMORY_SETTINGS"] = settings
++
++
++def run(script):
++    out = subprocess.run(["bash", "-c", script], capture_output=True, text=True, env=env, cwd=project)
++    return [json.loads(line) for line in out.stdout.splitlines() if line.strip()], out.stderr
++
++
++# the fingerprint a reader takes from a read of the line the trace names
++answers, _ = run(f"python3 {tool} read --issue 12 --tier phoenix "
++                 "--path knowledge/domains/user-management.md --start 62 --end 62")
++fingerprint = answers[0]["fingerprint"]
++
++with open(os.path.join(TOOL_DIR, "GUIDE.md"), encoding="utf-8") as fh:
++    blocks = re.findall(r"```\n(.*?)```", fh.read(), re.S)
++
++lines, failed = ["# The memory guide, run as written", "",
++                 f"Phoenix memory source: `{os.path.basename(SOURCE.rstrip('/'))}`; its place started empty.", ""], 0
++for n, block in enumerate(blocks, 1):
++    script = (block.replace("{tool}", tool).replace("<your agent name>", "guide-runner")
++              .replace("<your play>", "/guide").replace("<from the read answer>", fingerprint))
++    answers, err = run(script)
++    lines.append(f"## Block {n}")
++    for a in answers:
++        state = "ok" if a.get("ok") else f"ERROR {a['error']['code']}: {a['error']['message']}"
++        extra = {"search": lambda a: f"answered_by {a.get('answered_by')}, {len(a.get('hits', []))} hits",
++                 "find": lambda a: f"answered_by {a.get('answered_by')}, {len(a.get('matches', []))} matches",
++                 "read": lambda a: f"lines {a.get('start')}–{a.get('end')}, saved_to {a.get('saved_to')}",
++                 "propose": lambda a: f"update {a['update']['id']} {a['update']['status']}",
++                 "cite": lambda a: f"recorded {a.get('citation_id')}",
++                 "citations": lambda a: f"{len(a.get('records', []))} record(s), {len(a.get('problems', []))} problem(s)"}
++        detail = extra.get(a["command"], lambda a: "")(a) if a.get("ok") else ""
++        lines.append(f"- `{a['command']}`: {state}{' — ' + detail if detail else ''}")
++        failed += 0 if a.get("ok") else 1
++    if not answers:
++        lines.append(f"- no answer: {err.strip()}")
++        failed += 1
++    lines.append("")
++lines.append(f"Phoenix memory downloaded to its place: {os.path.isdir(os.path.join(work, 'machine', 'phoenix-memory', '.git'))}")
++lines.append(f"Result: {'every command answered ok' if not failed else f'{failed} error(s)'}")
++print("\n".join(lines))
++shutil.rmtree(work, ignore_errors=True)
++sys.exit(1 if failed else 0)
+diff --git a/.garura/project/issues/660/specs/plan.md b/.garura/project/issues/660/specs/plan.md
+new file mode 100644
+index 000000000..e6043ca63
+--- /dev/null
++++ b/.garura/project/issues/660/specs/plan.md
+@@ -0,0 +1,174 @@
++---
++plan_for: 660
++kind: story
++serves: "#660 — every Garura install carries the memory tool, a memory guide, and a check that the tool works"
++status: active
++updated: 2026-10-19
++now: 7
++serves_plan: 653
++serves_item: 7
++---
++
++# Plan — #660: every install carries the memory system
++
++This is a plan, not a design. It says what gets done, in what order, and why
++that order. How each item is built is decided in its own step.
++
++## What we are trying to reach
++
++ADR 035 §8. When Garura is installed into a project, that project gets three things:
++
++- **The memory tool** (`core/tools/memory/`), so its agents can find memory and update it.
++- **A short memory guide** that every agent reads. It covers the three tiers (short-term,
++  Garura and Phoenix memory) and what the tool does. It also says how to find memory, go up
++  a tier, raise a memory update, and name a source as a trace (ADR 037). It says what ADR
++  036 set: short-term memory is the current issue only. A researched answer is used only
++  after a person approves it, and it lands in the issue's short-term memory. Promotion to
++  Garura or Phoenix memory happens outside the work.
++- **A check** that the tool runs and reaches the project's own tiers.
++
++This works for Claude Code and for Codex.
++
++Kapil, 2026-10-18: "Anytime Garura gets installed, every project would need to know what
++that tool is, what it does, and how the memory works. Otherwise, the subagents will fail."
++
++**The install brings no memory** (Kapil, 2026-10-19: "install finishes without any
++memory"). Phoenix memory reaches a machine the first time the tool needs it: "when the tool
++runs for the first time after installation, it downloads the memory and puts it into a
++global source ... something that the tool knows about. It's a local configuration.
++Eventually, this tool is going to point to a URL." The project's own memory is then set up
++by a new play, run after the install, that asks the person questions built from Phoenix
++memory (domains, functionalities, technology standards, tools, frameworks), each with
++choices to pick from. Kapil: "After install, let's call this whole thing `initialize`." That
++play is not in this plan (see the #653 plan).
++
++What is true today (`core/components/plays/install-garura/scripts/install.py`):
++
++- The installer lays the components and copies `core/components/memory/` to
++  `~/.garura/core/memory`. It writes the project's config, the short-term scaffold, the
++  status ignore file and CLAUDE.md or AGENTS.md. It does not install the memory tool.
++- The tool learns where each tier lives only from a settings file that `MEMORY_SETTINGS`
++  names, or from environment variables. A project has neither.
++- `memory.py health` already reports each tier as reachable or not. Run on this repo with a
++  settings file, all three tiers answer (Phoenix memory at `ad3afb5`).
++- Phoenix memory sits at `~/.garura/phoenix-memory` on this machine, put there by hand
++  (#656). Nothing downloads it.
++
++## When this plan is done
++
++- A fresh install into a test project, for Claude Code and for Codex, has the tool, its
++  settings and the guide. The install finishes with no memory, and its check passes.
++- The first lookup that needs Phoenix memory downloads it to the machine's place for it,
++  and an agent in that project then finds a piece of memory through the tool.
++- An install where the tool cannot run, or cannot reach the project's short-term or Garura
++  memory, fails and names what is wrong.
++- Uninstall removes the tool, its settings and the guide.
++- The installer's tests and the tool's tests pass.
++
++## Where we are now
++
++Kapil decided the three points (item 1). The tool finds its own settings and downloads
++Phoenix memory on first use (item 2). The guide is written and every command in it runs
++(item 3). The installer lays the memory system and checks it, on both install paths (items 4
++and 5). A fresh-project test passed: a real sub-agent found memory through the tool (item 6).
++Now: land it (item 7), on Kapil's word.
++
++## The plan, in order
++
++### Done
++
++- **0. Opened** — #660. Branch `feature/660-install-carries-memory` off main (`f42a2135`).
++- **1. Decided by Kapil, 2026-10-19:**
++  - (a) The tool lives inside the project, at `.garura/tools/memory/`, with its settings
++    beside it. The tool's own files are hidden from Garura memory lookups. ("a.1")
++  - (b) Claude Code: the guide goes in `.claude/rules/garura-memory.md`. Every session and
++    every custom sub-agent loads it; the docs say so (code.claude.com/docs/en/memory: a
++    rules file with no `paths` field "is loaded at launch with the same priority as
++    `.claude/CLAUDE.md`"; code.claude.com/docs/en/sub-agents: a sub-agent loads "every level
++    of the CLAUDE.md hierarchy the main conversation loads, including ... project rules").
++    No Garura agent sets `omitClaudeMd`. Codex: the guide goes into AGENTS.md. When the
++    project already has an AGENTS.md, the guide is added as one marked block, which a
++    re-install replaces and uninstall removes. ("b.1")
++  - (c) The install finishes without any memory. The tool downloads Phoenix memory the
++    first time it needs it, to a place on the machine its settings name. (Kapil's words are
++    quoted above.)
++- **2. Built: the tool finds its settings and downloads Phoenix memory** — #660. With
++  nothing set, `memory.py` reads `settings.json` beside itself. A new setting,
++  `phoenix_source`, names where Phoenix memory comes from; the first command that needs
++  Phoenix memory and finds its place empty downloads it there, whole or not at all, and never
++  waits for a password. `health` only reports. The tool's own folder is never answered as
++  Garura memory. README updated; the contract did not change. 5 new tests fail on the old
++  tool and pass now; 73 tool, 13 pull and 56 contract tests pass; no boundary problem.
++
++- **3. Written: the memory guide** — #660. `core/tools/memory/GUIDE.md`: the three tiers,
++  the one rule (memory only through the tool), finding memory and going up a tier, raising
++  a memory update, keeping a decision's trace, and what an agent never does. It says a new
++  project starts with no memory and `initialize` sets it up. Its examples use real Phoenix
++  memory lines. Every command in it was run as written on a throwaway project whose Phoenix
++  memory place started empty: all answered ok, and Phoenix memory was downloaded on first
++  use (`evidence/run_guide.py`, `evidence/guide-run.md`).
++
++- **4. Built: the installer lays the tool, its settings and the guide** — #660. One script,
++  `install-garura/scripts/memory_system.py`, lays the memory system, and both install paths
++  call it: the play's `install.py` and the public installer, `installer/install.sh` (found
++  while building: it is the install the README gives, so it must carry the memory system
++  too; a release without the script installs as before). It copies the tool to
++  `.garura/tools/memory/` without tests and samples, writes `settings.json` (kept on a
++  re-install), makes `.garura/project/issues/`, and writes the guide: Claude Code
++  `.claude/rules/garura-memory.md`; Codex one marked block in `AGENTS.md`. The manifest
++  records it, and `uninstall.py` removes the tool, the guide file or only the block, and
++  short-term memory's folder only when empty. In this repo the installed copies are ignored
++  by git. The install and uninstall guides (`SKILL.md`) say so.
++- **5. Built: the install checks the tool** — #660. `memory_system.check` runs `health` the
++  way an agent does. It fails when python3 is older than 3.10, the tool cannot run, or
++  short-term or Garura memory cannot be reached; `install.py` then exits 1 after writing the
++  manifest. Phoenix memory not downloaded yet is reported, not failed. 12 installer tests
++  pass (`install-garura/scripts/test_install.py`), among them: an agent's search through the
++  installed tool downloads Phoenix memory on first use; the tool's own files are not memory;
++  uninstall keeps a project's own `AGENTS.md` text and its short-term work. Component lint:
++  116 findings, as on main.
++
++- **6. Proved on a fresh project** — #660 (`evidence/fresh-project-test.md`). A Claude Code
++  install into a fresh project finished with no memory; its check passed and said Phoenix
++  memory would arrive on first use. A real general-purpose sub-agent there, asked only
++  "which way back in must a password sign-in offer? Decide it from memory", used the tool
++  on its own (from the guide in `.claude/rules/`), and its first search downloaded Phoenix
++  memory from GitHub. It answered "password reset", named
++  `knowledge/domains/user-management.md` lines 61–62 in Phoenix memory, and kept the trace
++  with `cite`. A Codex install kept the project's own `AGENTS.md` and added one block.
++  Uninstall removed the tool and the guide and kept the project's memory and work. Not run:
++  the public installer's new step (it downloads a published release), and a Codex agent.
++
++### 7. Land — now
++
++**What:** update the installer's guide (`install-garura/SKILL.md`). Close this plan and
++item 7 of the #653 plan in the last commit before the merge. Then run the change chain.
++
++**Done when:** the PR is merged.
++
++## Not in this plan
++
++- `initialize`, the play that sets up a project's first memory after the install. It is
++  new work, recorded in the #653 plan.
++- Pointing the tool at a server address instead of a git repository (Griffin, later).
++- Moving the agents onto the tool (#661, #663). This plan only installs the tool and the
++  guide.
++- Removing `core/components/memory/` and its copy to `~/.garura/core/memory` (#653 item 10).
++
++## Where the issue text no longer matches
++
++The #660 issue says "An install whose tool cannot reach a tier fails with that tier
++named." Kapil changed this on 2026-10-19: the install finishes without memory, and Phoenix
++memory is downloaded on first use. The GitHub text is not changed yet.
++
++## Log
++
++- 2026-10-19 — Created at the start of #660, from the issue, ADR 035 §8, ADR 036, ADR 037,
++  the #653 plan, the installer and the memory tool.
++- 2026-10-19 — Item 1 done: Kapil chose a1 and b1, and for c, an install with no memory;
++  the tool downloads Phoenix memory on first use, and a new play, `initialize`, sets up a
++  project's memory after the install. Items 2, 3, 5 and 6 changed to match.
++- 2026-10-19 — Item 2 built: settings beside the tool, Phoenix memory downloaded on first use, the tool's folder hidden.
++- 2026-10-19 — Item 3 written: the memory guide; every command in it runs as written.
++- 2026-10-19 — Items 4 and 5 built: one memory-system script for both install paths (`install.py` and `installer/install.sh`), the check, uninstall, 12 tests.
++- 2026-10-19 — Item 6 done: the fresh-project test passed (Claude Code install, a real sub-agent, Codex install, uninstall).
+diff --git a/.gitignore b/.gitignore
+index 28e9f1bb5..3a28de65b 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -15,6 +15,7 @@ Thumbs.db
+ .claude/agents/
+ .claude/scheduled_tasks.lock
+ .claude/assets/
++.claude/rules/garura-memory.md
+ 
+ # Factory Droids
+ .factory/
+@@ -150,6 +151,8 @@ temp/*.md
+ test-project/
+ .garura/core/memory/
+ .garura/_pending/
++# the memory tool as installed into this repo; its source is core/tools/memory/
++.garura/tools/
+ 
+ # GitHub Actions artifacts (for future contributor automation)
+ .github/actions/artifacts/
+diff --git a/core/components/plays/install-garura/SKILL.md b/core/components/plays/install-garura/SKILL.md
+index 9e2903464..bd0a55364 100644
+--- a/core/components/plays/install-garura/SKILL.md
++++ b/core/components/plays/install-garura/SKILL.md
+@@ -67,6 +67,23 @@ Both tools also get:
+   and out of git; they sit on disk for resume and are never committed (ADR 021).
+ - `.garura/install-manifest.json` — the exact list of what was placed (including the tool and
+   any machine-global files), so `uninstall-garura` can reverse precisely this set.
++- **The memory system** (ADR 035 §8), laid by `scripts/memory_system.py`, which the public
++  installer (`installer/install.sh`) runs too:
++  - `.garura/tools/memory/` — the memory tool (from `core/tools/memory/`, without its tests
++    and samples) with `settings.json` beside it. The settings name short-term memory
++    (`.garura/project/issues/`, made by the install), Garura memory (`.garura/`), Phoenix
++    memory's place on the machine (`~/.garura/phoenix-memory`) and where it is downloaded
++    from. A re-install replaces the tool and keeps settings a person edited.
++  - The memory guide every agent reads (`core/tools/memory/GUIDE.md`): for Claude Code,
++    `.claude/rules/garura-memory.md`, which loads for every session and every sub-agent; for
++    Codex, one marked block in `AGENTS.md`, added to the project's own file when it has one.
++  - **The install brings no memory.** The tool downloads Phoenix memory to its place the
++    first time a command needs it. A play run after the install, `initialize` (not built
++    yet), sets up the project's own memory.
++  - **The check.** The install runs the tool's `health` command the way an agent does. It
++    fails (exit 1, after writing the manifest) when the tool cannot run or short-term or
++    Garura memory cannot be reached. Phoenix memory not downloaded yet is reported, not
++    failed.
+ 
+ **Direct-edit deviation note (#441/ADR 021):** the `.garura/.gitignore` scaffold artifact and
+ its manifest record were added directly to `scripts/install.py` (and its reversal to
+@@ -122,6 +139,9 @@ Options:
+   also set `CODEX_HOME=<tempdir>` in the environment so the profile writes are isolated.
+ - `--force-config` — overwrite an existing target `.garura/core/config.yaml` instead of keeping
+   it.
++- `--phoenix-place <path>` / `--phoenix-source <address>` — where Phoenix memory lives on this
++  machine (default `~/.garura/phoenix-memory`) and where the memory tool downloads it from.
++  Point the place at a temp dir for a dry test.
+ - `--quiet` — less output.
+ 
+ The script is **idempotent**: re-running re-lays the components in place and refreshes shared
+@@ -144,6 +164,8 @@ After the script returns, read the printed summary and the written
+   is `codex --profile deep|standard|fast`,
+ - whether a config was written fresh or an existing one was kept,
+ - where the shared memory went,
++- what the memory check said: each tier reached or not, and that Phoenix memory arrives on
++  first use when it is not on the machine yet; on exit 1, what failed and what to fix,
+ - the one next step: open the target in the host tool and the garura skills/agents are now
+   discoverable.
+ 
+diff --git a/core/components/plays/install-garura/scripts/install.py b/core/components/plays/install-garura/scripts/install.py
+index dd009b4d4..b9b26d785 100644
+--- a/core/components/plays/install-garura/scripts/install.py
++++ b/core/components/plays/install-garura/scripts/install.py
+@@ -39,7 +39,13 @@
+ The orchestrator owns the tool-agnostic work: shared memory, garura's own
+ `.garura/core/config.yaml`, the STM scaffold, and the install manifest.
+ 
+-Exit: 0 = installed, 2 = bad input / prerequisite missing.
++The orchestrator also lays the memory system (`memory_system.py`, shared with the public
++installer): the memory tool in `.garura/tools/memory/` with its settings, short-term
++memory's folder, and the memory guide where the host tool loads it for every agent. It then
++checks the tool runs and reaches the project's tiers. The install brings no memory.
++
++Exit: 0 = installed, 1 = installed but the memory check failed, 2 = bad input /
++prerequisite missing.
+ Idempotent: re-running re-lays garura in place; it never duplicates.
+ """
+ 
+@@ -51,6 +57,7 @@
+ import sys
+ 
+ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
++import memory_system  # noqa: E402
+ from adapters import common, get_adapter, known  # noqa: E402
+ 
+ 
+@@ -215,7 +222,8 @@ def resolve_scope(scope, components):
+ 
+ # --- the install --------------------------------------------------------------
+ 
+-def install(source, target, tool, force, quiet, memory_dest, scope="full"):
++def install(source, target, tool, force, quiet, memory_dest, scope="full",
++            phoenix_place=memory_system.PHOENIX_PLACE, phoenix_source=memory_system.PHOENIX_SOURCE):
+     adapter = get_adapter(tool)
+     components = os.path.join(source, "core", "components")
+     if not os.path.isdir(components):
+@@ -283,6 +291,13 @@ def _info(msg):
+         record["instruction_surface"] = adapter.write_instruction_surface(
+             common.read_text(src_md), project_name, target, _info)
+ 
++    # 7. the memory system (ADR 035 §8): the tool, its settings, short-term memory's folder
++    #    and the guide every agent reads — then a check that the tool runs and reaches the
++    #    project's tiers. The install brings no memory: the tool downloads Phoenix memory
++    #    the first time it needs it.
++    record["memory_system"] = memory_system.lay(source, target, tool, phoenix_place, phoenix_source, _info)
++    record["memory_system"]["check"] = memory_system.check(target, _info)
++
+     return record
+ 
+ 
+@@ -343,6 +358,11 @@ def main(argv=None):
+                     help="where shared memory goes (default ~/.garura/core/memory)")
+     ap.add_argument("--force-config", action="store_true",
+                     help="overwrite an existing target .garura/core/config.yaml")
++    ap.add_argument("--phoenix-place", default=memory_system.PHOENIX_PLACE,
++                    help="where Phoenix memory lives on this machine (default ~/.garura/phoenix-memory); "
++                         "the memory tool downloads it there the first time it is needed")
++    ap.add_argument("--phoenix-source", default=memory_system.PHOENIX_SOURCE,
++                    help="where the memory tool downloads Phoenix memory from")
+     ap.add_argument("--quiet", action="store_true")
+     args = ap.parse_args(argv)
+ 
+@@ -353,13 +373,18 @@ def main(argv=None):
+     scoped = "" if args.scope == "full" else f" (scope: {args.scope})"
+     info(args.quiet, f"installing garura ({source}) into {target} for {args.tool}{scoped}")
+     record = install(source, target, args.tool, args.force_config, args.quiet,
+-                     args.memory_dest, scope=args.scope)
++                     args.memory_dest, scope=args.scope,
++                     phoenix_place=args.phoenix_place, phoenix_source=args.phoenix_source)
+     record["retired"] = retire_stale(target, record["components"], args.quiet)
+     write_manifest(target, record, args.quiet)
+ 
+     c = record["counts"]
+     n = c.get("skills", 0) + c.get("plays", 0)
+     retired = f", retired {len(record['retired'])} stale" if record["retired"] else ""
++    if not record["memory_system"]["check"]["ok"]:
++        sys.stderr.write("install.py: installed, but the memory check failed (see above) — "
++                         "the project's agents cannot use memory until it is fixed\n")
++        sys.exit(1)
+     info(args.quiet, f"\ndone — installed {c.get('agents', 0)} agent(s) and "
+                      f"{n} skill/play(s){retired} into {target} for {args.tool}")
+ 
+diff --git a/core/components/plays/install-garura/scripts/memory_system.py b/core/components/plays/install-garura/scripts/memory_system.py
+new file mode 100644
+index 000000000..d851be9e2
+--- /dev/null
++++ b/core/components/plays/install-garura/scripts/memory_system.py
+@@ -0,0 +1,212 @@
++#!/usr/bin/env python3
++"""
++memory_system.py — lay Garura's memory system into a project, and check it (ADR 035 §8).
++
++Both install paths call this: the install-garura play (install.py) and the public installer
++(installer/install.sh). It lays:
++
++  .garura/tools/memory/     the memory tool, copied from core/tools/memory without its tests
++                            and samples, with settings.json beside it
++  .garura/project/issues/   short-term memory: one folder per issue
++  the memory guide, where the host tool loads it for every agent:
++    claude  .claude/rules/garura-memory.md — a rules file with no paths field loads at
++            launch, for every session and every custom sub-agent
++    codex   one marked block in AGENTS.md — Codex reads AGENTS.md at the start of every
++            session; a project's own AGENTS.md keeps its text, and gains only the block
++
++The install brings no memory. Phoenix memory has one place per machine; the tool downloads
++it there from its source the first time a command needs it. A re-install replaces the tool
++and the guide, and keeps settings a person edited.
++
++The check runs the tool's health command the way an agent runs it: with no MEMORY_* settings,
++so the tool reads the settings beside it. It fails when the tool cannot run, or when short-term
++or Garura memory cannot be reached. Phoenix memory not downloaded yet is reported, not failed.
++
++    python3 memory_system.py --target <project> --tool claude|codex [--source <garura checkout>]
++                             [--phoenix-place PATH] [--phoenix-source URL] [--check-only]
++
++Exit: 0 = laid and checked, 1 = the check failed, 2 = bad input. Standard library only.
++"""
++
++import argparse
++import json
++import os
++import shutil
++import subprocess
++import sys
++
++TOOL_DEST = os.path.join(".garura", "tools", "memory")
++TOOL_CALL = ".garura/tools/memory/memory.py"  # how the guide tells an agent to run the tool
++SHORT_TERM = os.path.join(".garura", "project", "issues")
++GUIDE_CLAUDE = os.path.join(".claude", "rules", "garura-memory.md")
++AGENTS_MD = "AGENTS.md"
++BLOCK_START = ("<!-- garura-memory:start — written by the Garura install; "
++               "a re-install replaces this block, uninstall removes it -->")
++BLOCK_END = "<!-- garura-memory:end -->"
++PHOENIX_PLACE = "~/.garura/phoenix-memory"
++PHOENIX_SOURCE = "https://github.com/intent-driven-ai/phoenix-memory.git"
++NEEDS_PYTHON = (3, 10)
++
++
++def _skip(folder, names):
++    """What the installed tool leaves out: its tests, the contract's samples, caches, and any
++    settings file in the source (an install writes its own)."""
++    skip = {n for n in names if n.startswith("test_") or n == "__pycache__" or n == "settings.json"}
++    if os.path.basename(folder) == "contract":
++        skip |= {n for n in names if n in ("samples", "broken")}
++    return skip
++
++
++def settings_for(phoenix_place, phoenix_source):
++    """The tool's settings, relative to the settings file in .garura/tools/memory/."""
++    return {"short-term": "../../project/issues", "garura": "../..", "phoenix": phoenix_place,
++            "phoenix_source": phoenix_source, "garura_pull_dir": "core/memory"}
++
++
++def put_block(path, text):
++    """Write the guide as one marked block in a file, replacing an earlier block and keeping
++    everything else."""
++    old = ""
++    if os.path.isfile(path):
++        with open(path, encoding="utf-8") as fh:
++            old = fh.read()
++    rest = strip_block(old).rstrip("\n")
++    block = f"{BLOCK_START}\n{text.rstrip()}\n{BLOCK_END}\n"
++    with open(path, "w", encoding="utf-8") as fh:
++        fh.write((rest + "\n\n" if rest else "") + block)
++
++
++def strip_block(text):
++    """The text without the guide's block."""
++    start, end = text.find(BLOCK_START), text.find(BLOCK_END)
++    if start < 0 or end < start:
++        return text
++    before, after = text[:start].rstrip("\n"), text[end + len(BLOCK_END):].lstrip("\n")
++    kept = "\n\n".join(p for p in (before, after.rstrip("\n")) if p)
++    return kept + "\n" if kept else ""
++
++
++def lay(source, target, tool, phoenix_place=PHOENIX_PLACE, phoenix_source=PHOENIX_SOURCE, info=print):
++    """Lay the tool, its settings, the short-term folder and the guide. Returns the record the
++    install manifest keeps, so uninstall can reverse it."""
++    src = os.path.join(source, "core", "tools", "memory")
++    if not os.path.isfile(os.path.join(src, "memory.py")):
++        raise SystemExit(f"memory_system.py: {source} has no memory tool (core/tools/memory/memory.py)")
++    dest = os.path.join(target, TOOL_DEST)
++    settings_path = os.path.join(dest, "settings.json")
++    kept = None
++    if os.path.isfile(settings_path):
++        with open(settings_path, encoding="utf-8") as fh:
++            kept = fh.read()
++    if os.path.isdir(dest):
++        shutil.rmtree(dest)
++    shutil.copytree(src, dest, ignore=_skip)
++    with open(settings_path, "w", encoding="utf-8") as fh:
++        fh.write(kept if kept is not None else json.dumps(settings_for(phoenix_place, phoenix_source), indent=2) + "\n")
++    info(f"  memory tool: {TOOL_DEST} (settings {'kept' if kept is not None else 'written'})")
++    os.makedirs(os.path.join(target, SHORT_TERM), exist_ok=True)
++
++    with open(os.path.join(src, "GUIDE.md"), encoding="utf-8") as fh:
++        guide = fh.read().replace("{tool}", TOOL_CALL)
++    record = {"tool": TOOL_DEST, "short_term": SHORT_TERM, "guide": None, "agents_md_block": None}
++    if tool == "claude":
++        path = os.path.join(target, GUIDE_CLAUDE)
++        os.makedirs(os.path.dirname(path), exist_ok=True)
++        with open(path, "w", encoding="utf-8") as fh:
++            fh.write(guide)
++        record["guide"] = GUIDE_CLAUDE
++        info(f"  memory guide: {GUIDE_CLAUDE}")
++    elif tool == "codex":
++        put_block(os.path.join(target, AGENTS_MD), guide)
++        record["agents_md_block"] = AGENTS_MD
++        info(f"  memory guide: a marked block in {AGENTS_MD}")
++    else:
++        raise SystemExit(f"memory_system.py: unknown tool {tool!r}")
++    return record
++
++
++def check(target, info=print):
++    """Run the installed tool the way an agent does and say what it reaches."""
++    report = {"ok": True, "python": None, "tiers": {}, "messages": []}
++
++    def fail(msg):
++        report["ok"] = False
++        report["messages"].append("FAIL: " + msg)
++
++    env = {k: v for k, v in os.environ.items() if not k.startswith("MEMORY_")}
++    try:
++        ver = subprocess.run(["python3", "-c", "import sys; print('%d.%d' % sys.version_info[:2])"],
++                             capture_output=True, text=True, env=env)
++        report["python"] = ver.stdout.strip()
++    except OSError as exc:
++        fail(f"the memory tool needs python3, and it cannot be run here: {exc}.")
++        return _say(report, info)
++    try:
++        found = tuple(int(p) for p in report["python"].split("."))
++    except ValueError:
++        found = (0, 0)
++    if found < NEEDS_PYTHON:
++        fail(f"the memory tool needs Python {'.'.join(map(str, NEEDS_PYTHON))} or newer; "
++             f"python3 here is {report['python']}.")
++        return _say(report, info)
++    run = subprocess.run(["python3", TOOL_CALL, "health"], capture_output=True, text=True, env=env, cwd=target)
++    try:
++        answer = json.loads(run.stdout.splitlines()[0])
++    except (IndexError, ValueError):
++        fail(f"the memory tool did not run: {(run.stderr.strip().splitlines() or ['no answer'])[-1]}")
++        return _say(report, info)
++    if not answer.get("ok"):
++        fail(f"the memory tool answered {answer['error']['code']}: {answer['error']['message']}")
++        return _say(report, info)
++    report["tiers"] = {t["tier"]: t["reachable"] for t in answer["tiers"]}
++    names = {"short-term": "Short-term memory", "garura": "Garura memory"}
++    for tier, name in names.items():
++        if report["tiers"].get(tier):
++            report["messages"].append(f"{name}: reached.")
++        else:
++            fail(f"{name} cannot be reached at the place the tool's settings name.")
++    with open(os.path.join(target, TOOL_DEST, "settings.json"), encoding="utf-8") as fh:
++        settings = json.load(fh)
++    place = settings.get("phoenix") or "(no setting)"
++    phoenix = next((t for t in answer["tiers"] if t["tier"] == "phoenix"), {})
++    if phoenix.get("reachable"):
++        report["messages"].append(f"Phoenix memory: on this machine, at version {phoenix['version']}.")
++    elif not os.path.exists(os.path.join(target, TOOL_DEST, os.path.expanduser(place))):
++        report["messages"].append(f"Phoenix memory: not on this machine yet. The tool downloads it to "
++                                  f"{place} the first time it is needed.")
++    else:
++        report["messages"].append(f"NOTE: Phoenix memory's place, {place}, holds something the tool cannot "
++                                  "read. Move it away, and the tool downloads Phoenix memory again.")
++    return _say(report, info)
++
++
++def _say(report, info):
++    for m in report["messages"]:
++        info(f"  {m}")
++    return report
++
++
++def main(argv=None):
++    ap = argparse.ArgumentParser(description="Lay Garura's memory system into a project, and check it.")
++    ap.add_argument("--target", required=True)
++    ap.add_argument("--tool", default="claude", choices=["claude", "codex"])
++    ap.add_argument("--source", default=os.path.abspath(os.path.join(os.path.dirname(__file__),
++                                                                     "..", "..", "..", "..", "..")))
++    ap.add_argument("--phoenix-place", default=PHOENIX_PLACE)
++    ap.add_argument("--phoenix-source", default=PHOENIX_SOURCE)
++    ap.add_argument("--check-only", action="store_true")
++    args = ap.parse_args(argv)
++    target = os.path.abspath(args.target)
++    if not os.path.isdir(target):
++        print(f"memory_system.py: target is not a folder: {target}", file=sys.stderr)
++        return 2
++    if not args.check_only:
++        lay(os.path.abspath(args.source), target, args.tool, args.phoenix_place, args.phoenix_source)
++    report = check(target)
++    if not report["ok"]:
++        print("memory_system.py: the memory check failed (see above).", file=sys.stderr)
++    return 0 if report["ok"] else 1
++
++
++if __name__ == "__main__":
++    sys.exit(main())
+diff --git a/core/components/plays/install-garura/scripts/test_install.py b/core/components/plays/install-garura/scripts/test_install.py
+new file mode 100644
+index 000000000..e08df3f41
+--- /dev/null
++++ b/core/components/plays/install-garura/scripts/test_install.py
+@@ -0,0 +1,191 @@
++#!/usr/bin/env python3
++"""Tests for the memory system an install lays (#660, ADR 035 §8), and its reversal.
++
++Run: python3 test_install.py. Each test installs into a throwaway folder, with shared memory,
++the Codex home and Phoenix memory's place all in throwaway folders too, so nothing on the
++machine is touched.
++"""
++
++import contextlib
++import io
++import json
++import os
++import shutil
++import subprocess
++import sys
++import tempfile
++import unittest
++
++HERE = os.path.dirname(os.path.abspath(__file__))
++ROOT = os.path.abspath(os.path.join(HERE, "..", "..", "..", "..", ".."))
++sys.path.insert(0, HERE)
++sys.path.insert(0, os.path.join(ROOT, "core", "components", "plays", "uninstall-garura", "scripts"))
++import install  # noqa: E402
++import memory_system  # noqa: E402
++import uninstall  # noqa: E402
++from adapters import codex  # noqa: E402
++
++
++def git(repo, *args):
++    subprocess.run(["git", "-C", repo, *args], check=True, capture_output=True)
++
++
++class Installed(unittest.TestCase):
++    def setUp(self):
++        self.work = tempfile.mkdtemp()
++        self.addCleanup(shutil.rmtree, self.work, ignore_errors=True)
++        self.target = os.path.join(self.work, "shop")
++        self.place = os.path.join(self.work, "machine", "phoenix-memory")
++        self.source = os.path.join(self.work, "phoenix-source")
++        os.makedirs(os.path.join(self.source, "knowledge", "domains"))
++        with open(os.path.join(self.source, "knowledge", "domains", "user-management.md"), "w") as fh:
++            fh.write("# User management\n- Password reset — the floor; any credential login.\n")
++        git(self.source, "init", "-q", "-b", "main")
++        # Demo address: sample data for this throwaway repository, not personal data.
++        git(self.source, "config", "user.email", "t@example.com")
++        git(self.source, "config", "user.name", "test")
++        git(self.source, "add", "-A")
++        git(self.source, "commit", "-q", "-m", "seed")
++        old_home = codex.CODEX_HOME
++        codex.CODEX_HOME = os.path.join(self.work, "codex-home")
++        self.addCleanup(setattr, codex, "CODEX_HOME", old_home)
++
++    def install(self, tool="claude"):
++        with contextlib.redirect_stdout(io.StringIO()):
++            return install.install(ROOT, self.target, tool, False, True, os.path.join(self.work, "shared-memory"),
++                                   scope="harness", phoenix_place=self.place, phoenix_source=self.source)
++
++    def tool(self, *args):
++        env = {k: v for k, v in os.environ.items() if not k.startswith("MEMORY_")}
++        run = subprocess.run(["python3", memory_system.TOOL_CALL, *args], capture_output=True, text=True,
++                             env=env, cwd=self.target)
++        return json.loads(run.stdout.splitlines()[0])
++
++    def path(self, *parts):
++        return os.path.join(self.target, *parts)
++
++
++class LaysTheMemorySystem(Installed):
++    def test_the_install_lays_the_tool_its_settings_and_the_guide_and_brings_no_memory(self):
++        record = self.install()["memory_system"]
++        self.assertTrue(os.path.isfile(self.path(".garura", "tools", "memory", "memory.py")))
++        self.assertTrue(os.path.isfile(self.path(".garura", "tools", "memory", "contract", "v4.json")))
++        self.assertFalse(os.path.exists(self.path(".garura", "tools", "memory", "test_memory.py")))
++        self.assertFalse(os.path.exists(self.path(".garura", "tools", "memory", "contract", "samples")))
++        self.assertTrue(os.path.isdir(self.path(".garura", "project", "issues")))
++        with open(self.path(".claude", "rules", "garura-memory.md")) as fh:
++            guide = fh.read()
++        self.assertIn("python3 .garura/tools/memory/memory.py search", guide)
++        self.assertNotIn("{tool}", guide)
++        self.assertEqual((record["guide"], record["agents_md_block"]), (".claude/rules/garura-memory.md", None))
++        self.assertTrue(record["check"]["ok"], record["check"])
++        self.assertEqual(record["check"]["tiers"], {"short-term": True, "garura": True, "phoenix": False})
++        self.assertIn("not on this machine yet", " ".join(record["check"]["messages"]))
++        self.assertFalse(os.path.exists(self.place))  # the install brings no memory
++
++    def test_an_agent_finds_memory_through_the_installed_tool_and_phoenix_arrives_on_first_use(self):
++        self.install()
++        a = self.tool("search", "--issue", "1", "--pattern", "password reset", "--ignore-case")
++        self.assertEqual((a["ok"], a["answered_by"]), (True, "phoenix"))
++        self.assertTrue(os.path.isdir(os.path.join(self.place, ".git")))
++        self.assertTrue(self.tool("health")["tiers"][2]["reachable"])
++
++    def test_the_tools_own_files_are_not_memory(self):
++        self.install()
++        a = self.tool("search", "--pattern", "Garura memory", "--tier", "garura")
++        self.assertEqual(a["hits"], [])
++
++    def test_codex_keeps_the_projects_own_agents_md_and_adds_one_block(self):
++        os.makedirs(self.target)
++        with open(self.path("AGENTS.md"), "w") as fh:
++            fh.write("# Our own rules\nKeep it simple.\n")
++        self.install("codex")
++        self.install("codex")  # a re-install replaces the block, never adds a second
++        with open(self.path("AGENTS.md")) as fh:
++            text = fh.read()
++        self.assertTrue(text.startswith("# Our own rules\nKeep it simple.\n"))
++        self.assertEqual(text.count(memory_system.BLOCK_START), 1)
++        self.assertIn("python3 .garura/tools/memory/memory.py search", text)
++        self.assertFalse(os.path.exists(self.path(".claude", "rules")))
++
++    def test_a_reinstall_keeps_settings_a_person_edited(self):
++        self.install()
++        settings = self.path(".garura", "tools", "memory", "settings.json")
++        with open(settings) as fh:
++            edited = json.load(fh)
++        edited["phoenix_ref"] = "main"
++        with open(settings, "w") as fh:
++            json.dump(edited, fh)
++        self.install()
++        with open(settings) as fh:
++            self.assertEqual(json.load(fh)["phoenix_ref"], "main")
++
++
++class TheCheck(Installed):
++    def test_no_short_term_folder_fails_and_names_short_term_memory(self):
++        self.install()
++        os.rmdir(self.path(".garura", "project", "issues"))
++        report = memory_system.check(self.target, info=lambda m: None)
++        self.assertFalse(report["ok"])
++        self.assertIn("Short-term memory cannot be reached", " ".join(report["messages"]))
++
++    def test_a_tool_that_cannot_run_fails(self):
++        self.install()
++        with open(self.path(".garura", "tools", "memory", "memory.py"), "w") as fh:
++            fh.write("this is not python\n")
++        report = memory_system.check(self.target, info=lambda m: None)
++        self.assertFalse(report["ok"])
++        self.assertIn("did not run", " ".join(report["messages"]))
++
++    def test_a_failed_check_makes_the_install_exit_1_after_writing_the_manifest(self):
++        old = memory_system.check
++        memory_system.check = lambda target, info=print: {"ok": False, "messages": ["FAIL: test"], "tiers": {}}
++        self.addCleanup(setattr, memory_system, "check", old)
++        with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
++            with self.assertRaises(SystemExit) as stop:
++                install.main(["--target", self.target, "--scope", "harness", "--quiet",
++                              "--memory-dest", os.path.join(self.work, "shared-memory"),
++                              "--phoenix-place", self.place, "--phoenix-source", self.source])
++        self.assertEqual(stop.exception.code, 1)
++        self.assertTrue(os.path.isfile(self.path(".garura", "install-manifest.json")))
++
++
++class Uninstall(Installed):
++    def run_main(self, tool):
++        with contextlib.redirect_stdout(io.StringIO()):
++            install.main(["--target", self.target, "--tool", tool, "--scope", "harness", "--quiet",
++                          "--memory-dest", os.path.join(self.work, "shared-memory"),
++                          "--phoenix-place", self.place, "--phoenix-source", self.source])
++            uninstall.uninstall(self.target, purge=False, quiet=True, dry=False)
++
++    def test_uninstall_removes_the_tool_and_the_guide(self):
++        self.run_main("claude")
++        for gone in ((".garura", "tools"), (".claude", "rules"), (".garura", "project", "issues")):
++            self.assertFalse(os.path.exists(self.path(*gone)), gone)
++
++    def test_uninstall_takes_out_only_the_block_from_the_projects_agents_md(self):
++        os.makedirs(self.target)
++        with open(self.path("AGENTS.md"), "w") as fh:
++            fh.write("# Our own rules\nKeep it simple.\n")
++        self.run_main("codex")
++        with open(self.path("AGENTS.md")) as fh:
++            self.assertEqual(fh.read(), "# Our own rules\nKeep it simple.\n")
++
++    def test_short_term_memory_with_work_in_it_is_kept(self):
++        with contextlib.redirect_stdout(io.StringIO()):
++            install.main(["--target", self.target, "--scope", "harness", "--quiet",
++                          "--memory-dest", os.path.join(self.work, "shared-memory"),
++                          "--phoenix-place", self.place, "--phoenix-source", self.source])
++        os.makedirs(self.path(".garura", "project", "issues", "1", "specs"))
++        with open(self.path(".garura", "project", "issues", "1", "specs", "plan.md"), "w") as fh:
++            fh.write("the person's work\n")
++        uninstall.uninstall(self.target, purge=False, quiet=True, dry=False)
++        self.assertTrue(os.path.isfile(self.path(".garura", "project", "issues", "1", "specs", "plan.md")))
++
++    def test_both_scripts_use_the_same_block_markers(self):
++        self.assertEqual((uninstall.BLOCK_START, uninstall.BLOCK_END),
++                         (memory_system.BLOCK_START, memory_system.BLOCK_END))
++
++
++if __name__ == "__main__":
++    unittest.main(verbosity=1)
+diff --git a/core/components/plays/uninstall-garura/SKILL.md b/core/components/plays/uninstall-garura/SKILL.md
+index cc2bd5301..875f243ca 100644
+--- a/core/components/plays/uninstall-garura/SKILL.md
++++ b/core/components/plays/uninstall-garura/SKILL.md
+@@ -44,8 +44,15 @@ Each only if the manifest recorded it:
+ - every `.claude/agents/<id>.md` the manifest lists,
+ - the target's `.garura/core/config.yaml`,
+ - `CLAUDE.md.new` (only the installer-written variant — never the user's own `CLAUDE.md`),
++- the memory tool (`.garura/tools/memory/`, with its settings) and the memory guide: the
++  file `.claude/rules/garura-memory.md`, or the marked block in `AGENTS.md` — only the
++  block; the rest of the user's `AGENTS.md` stays,
+ - `.garura/install-manifest.json`,
+-- then any directories left empty by the above.
++- then any directories left empty by the above. Short-term memory's folder
++  (`.garura/project/issues/`) goes only when it is empty.
++
++Phoenix memory's place on the machine (`~/.garura/phoenix-memory`) is never removed: the
++install did not put it there, and other projects use it.
+ 
+ The **shared memory** (machine-global, recorded in the manifest) is kept by default — other
+ projects on the machine share it. It is removed only on an explicit, confirmed `--purge`,
+diff --git a/core/components/plays/uninstall-garura/scripts/uninstall.py b/core/components/plays/uninstall-garura/scripts/uninstall.py
+index 5e2e4bf51..64c33ca92 100644
+--- a/core/components/plays/uninstall-garura/scripts/uninstall.py
++++ b/core/components/plays/uninstall-garura/scripts/uninstall.py
+@@ -74,6 +74,34 @@ def prune_empty(path, dry):
+     return False
+ 
+ 
++# The memory guide's block in AGENTS.md; the same markers as install-garura's memory_system.py.
++BLOCK_START = ("<!-- garura-memory:start — written by the Garura install; "
++               "a re-install replaces this block, uninstall removes it -->")
++BLOCK_END = "<!-- garura-memory:end -->"
++
++
++def rm_block(path, removed, dry):
++    """Take the memory guide's block out of a file the person owns, keeping the rest. A file
++    left with nothing in it is removed."""
++    if not os.path.isfile(path):
++        return False
++    with open(path, encoding="utf-8") as fh:
++        text = fh.read()
++    start, end = text.find(BLOCK_START), text.find(BLOCK_END)
++    if start < 0 or end < start:
++        return False
++    before, after = text[:start].rstrip("\n"), text[end + len(BLOCK_END):].strip("\n")
++    kept = "\n\n".join(p for p in (before, after) if p)
++    if not dry:
++        if kept:
++            with open(path, "w", encoding="utf-8") as fh:
++                fh.write(kept + "\n")
++        else:
++            os.remove(path)
++    removed.append(f"{path} (memory guide block)")
++    return True
++
++
+ def uninstall(target, *, purge, quiet, dry):
+     man_path = os.path.join(target, ".garura", "install-manifest.json")
+     if not os.path.isfile(man_path):
+@@ -128,6 +156,15 @@ def uninstall(target, *, purge, quiet, dry):
+     # status-marker ignore rule the installer wrote (ADR 021)
+     if rec.get("status_gitignore"):
+         rm_file(os.path.join(target, rec["status_gitignore"]), removed, dry)
++    # the memory system (ADR 035 §8): the tool with its settings, and the guide. Short-term
++    # memory's folder is the person's work: it is only pruned below when empty.
++    ms = rec.get("memory_system") or {}
++    if ms.get("tool"):
++        rm_dir(os.path.join(target, ms["tool"]), removed, dry)
++    if ms.get("guide"):
++        rm_file(os.path.join(target, ms["guide"]), removed, dry)
++    if ms.get("agents_md_block"):
++        rm_block(os.path.join(target, ms["agents_md_block"]), removed, dry)
+     # shared memory: only on explicit purge, and only the exact recorded path
+     if rec.get("memory"):
+         if purge:
+@@ -143,10 +180,13 @@ def uninstall(target, *, purge, quiet, dry):
+     for d in (
+         os.path.join(claude, "skills"),
+         os.path.join(claude, "agents"),
++        os.path.join(claude, "rules"),
+         claude,
+         os.path.join(agents_dir, "skills"),
+         agents_dir,
+         os.path.join(target, ".garura", "core"),
++        os.path.join(target, ".garura", "tools"),
++        os.path.join(target, ".garura", "project", "issues"),
+         os.path.join(target, ".garura", "project", "specs"),
+         os.path.join(target, ".garura", "project"),
+         os.path.join(target, ".garura"),
+diff --git a/core/tools/memory/GUIDE.md b/core/tools/memory/GUIDE.md
+new file mode 100644
+index 000000000..6c5b48e7a
+--- /dev/null
++++ b/core/tools/memory/GUIDE.md
+@@ -0,0 +1,79 @@
++# Memory: how every agent finds it and uses it
++
++Read this before you decide anything. Memory is what you decide from. You find it only
++through the memory tool. Never read a memory file by its path. Never answer from what you
++already know, and never from the web, without a memory update a person approved.
++
++## The three tiers
++
++- **Short-term memory** — the current issue's own folder: its plan, specs and context. A
++  lookup reads only the issue you work on, never another issue.
++- **Garura memory** — this project's long-term memory: what it pulled from Phoenix memory,
++  and what it made itself (its product model, intents, decisions and a person's answers).
++- **Phoenix memory** — the global memory. It holds everything. There is one copy on each
++  machine, and the tool downloads it the first time a command needs it.
++
++A new project starts with no memory of its own. A play run after the install,
++`initialize`, sets it up from Phoenix memory. Until then, lookups go up to Phoenix memory.
++
++## Find memory
++
++```
++python3 {tool} search --issue 12 --pattern "password reset" --ignore-case
++python3 {tool} find   --issue 12 --glob "**/user-management.md"
++python3 {tool} read   --issue 12 --tier phoenix --path knowledge/domains/user-management.md --start 60 --end 64
++```
++
++- Give the issue you work on (`--issue`). With no issue, the lookup starts at Garura memory.
++- A lookup goes short-term, then Garura, then Phoenix memory, and stops at the first tier
++  that answers. `answered_by` names that tier.
++- To go up a tier, ask that tier: `--tier garura` or `--tier phoenix`. To see every tier,
++  add `--every-tier`.
++- A file you read from Phoenix memory is saved into Garura memory, so the next lookup
++  finds it in the project.
++- Each answer is one line of JSON. `"ok": false` is an error: read its message. The error
++  `tier_missing` means a tier cannot be reached. Say so. It never means "nothing found".
++
++## When no tier answers: raise a memory update
++
++Do not guess. Draft the answer as a memory update, and a person approves or rejects it:
++
++```
++python3 {tool} propose --request '{"issue": 12, "missing": "How long a reset link lasts",
++  "target_tier": "short-term", "target_path": "12/context/answers/reset-link.md",
++  "draft": "A reset link expires after one hour.", "draft_source": "web",
++  "sources": [], "requested_by": "<your agent name> (<your play>)"}'
++```
++
++- `draft_source` says where the draft came from: `person`, `web`, `model` or `memory`.
++- An update always goes to the issue's short-term memory, and it is used only after a person
++  approves it and it is applied. Until then no lookup finds it.
++- Your work goes on while the update waits, unless you cannot go on without it. Then add
++  `"blocking": true` and stop.
++
++## Name what you decided from: the trace
++
++Every decision keeps its trace: the question, the answer, and each step you took — what you
++looked for, what you found, and the memory lines that said so. Take the tier, path, lines
++and fingerprint from the `read` answer.
++
++```
++python3 {tool} cite --request '{"issue": 12, "play": "<your play>",
++  "question": "Which way back in must a password sign-in offer?", "answer": "Password reset.",
++  "decided_by": "<your agent name>",
++  "trace": [{"asked": "account recovery for a password sign-in", "found": "password reset is the floor",
++             "source": {"tier": "phoenix", "path": "knowledge/domains/user-management.md",
++                        "start": 62, "end": 62, "fingerprint": "<from the read answer>"}}]}'
++python3 {tool} citations --issue 12 --check
++```
++
++`cite` refuses a source that is gone or changed. `citations --check` names every decision
++whose source no longer says what it said.
++
++## What you never do
++
++- Never write to Garura memory or Phoenix memory yourself. Moving short-term memory up to
++  Garura memory, and Garura memory up to Phoenix memory, happens outside your work, in its
++  own plays, with a person's approval.
++- Never decide from another issue's short-term memory, from a waiting memory update, or
++  from an earlier decision record.
+diff --git a/core/tools/memory/README.md b/core/tools/memory/README.md
+index d6f20704b..5e0bbdeed 100644
+--- a/core/tools/memory/README.md
++++ b/core/tools/memory/README.md
+@@ -10,6 +10,10 @@ updates and `citations.py` for decision records). It answers every command in th
+ `health`, `find`, `search`, `read`, `pull`, `pulled`, `propose`, `updates`, `decide`, `apply`,
+ `cite` and `citations`.
+ 
++`GUIDE.md` is the short memory guide every agent reads: the three tiers, how to find memory,
++raise a memory update and keep a decision's trace. An install puts it where the host tool
++loads it for every agent, with `{tool}` replaced by the tool's path.
++
+ ## Running the tool
+ 
+ ```
+@@ -23,22 +27,30 @@ Each request field is a flag, or the whole request is one JSON object (`--reques
+ answer is one JSON object per line. A request the contract does not allow is refused with
+ `bad_request` before any memory is read.
+ 
+-The tool learns where each tier lives from one source: the JSON file `MEMORY_SETTINGS` names
+-(places in it are relative to the file), else these environment variables:
++The tool learns where each tier lives from one source: the JSON file `MEMORY_SETTINGS` names,
++else these environment variables, else `settings.json` beside `memory.py` (an install writes
++it, so an agent in an installed project runs the tool with no settings of its own). Places in
++a settings file are relative to that file.
+ 
+ | Setting | Environment | What |
+ |---|---|---|
+ | `short-term` | `MEMORY_SHORT_TERM_ROOT` | The folder that holds one folder per issue |
+-| `garura` | `MEMORY_GARURA_ROOT` | Garura memory's folder. If the short-term folder sits inside it, that part is short-term memory, not Garura memory |
+-| `phoenix` | `MEMORY_PHOENIX_ROOT` | Phoenix memory's git repository |
++| `garura` | `MEMORY_GARURA_ROOT` | Garura memory's folder. If the short-term folder sits inside it, that part is short-term memory, not Garura memory. If the tool itself sits inside it, the tool's folder is not memory at all |
++| `phoenix` | `MEMORY_PHOENIX_ROOT` | Phoenix memory's git repository: one place on the machine, shared by every project |
++| `phoenix_source` | `MEMORY_PHOENIX_SOURCE` | Where Phoenix memory is downloaded from. When its place is empty, the first command that needs Phoenix memory downloads it there |
+ | `phoenix_ref` | `MEMORY_PHOENIX_REF` | Phoenix memory's approved version (default `origin/main`) |
+ | `garura_pull_dir` | `MEMORY_GARURA_PULL_DIR` | Where pulled pieces land inside Garura memory (default: its root) |
+ | `updates_dir` | `MEMORY_UPDATES_DIR` | Where an issue's memory updates are kept, inside its short-term folder (default `review/memory-updates`). A lookup never reads them: a draft is used only once a person approved it and it was applied |
+ | `citations_file` | `MEMORY_CITATIONS_FILE` | Where an issue's decision records are kept, inside its short-term folder (default `context/citations.jsonl`). A lookup never reads them: an agent never decides from its own earlier decision |
+ | `engine` | `MEMORY_ENGINE` | `folder`, the only engine built. A server engine is one setting away |
+ 
+-Two rules the folder engine keeps:
++Three rules the folder engine keeps:
+ 
++- **Phoenix memory arrives on first use.** An install brings no memory. The first command
++  that needs Phoenix memory and finds its place empty downloads it from `phoenix_source`,
++  whole or not at all, and never waits for a password. If the download fails, the answer is
++  `tier_missing` for Phoenix memory, with the reason. `health` only reports; it never
++  downloads.
+ - **Phoenix memory is read only at its approved version**, the commit `phoenix_ref` names. A
+   change reaches Phoenix memory when a person approves it outside Garura; until then — on a
+   branch, or edited on disk — the tool does not read it.
+diff --git a/core/tools/memory/memory.py b/core/tools/memory/memory.py
+index b88f385fb..f2003d334 100644
+--- a/core/tools/memory/memory.py
++++ b/core/tools/memory/memory.py
+@@ -29,14 +29,20 @@
+ a different Garura file; the read answer says saved_to, or not_saved and why.
+ 
+ Settings — where each tier lives — come from one source: the JSON file MEMORY_SETTINGS
+-names, else the environment. Relative places in the file are relative to the file.
++names, else the environment, else settings.json beside this file (an install writes it).
++Relative places in a file are relative to the file.
+ 
+     key              environment               what
+     engine           MEMORY_ENGINE             "folder" (the only engine built; a server
+                                                engine is one setting away)
+     short-term       MEMORY_SHORT_TERM_ROOT    folder holding one folder per issue
+     garura           MEMORY_GARURA_ROOT        Garura memory's folder
+-    phoenix          MEMORY_PHOENIX_ROOT       Phoenix memory's git repository
++    phoenix          MEMORY_PHOENIX_ROOT       Phoenix memory's git repository: a place on
++                                               this machine, shared by every project
++    phoenix_source   MEMORY_PHOENIX_SOURCE     where Phoenix memory is downloaded from. When
++                                               its place is empty, the first command that
++                                               needs Phoenix memory downloads it there;
++                                               health only reports
+     phoenix_ref      MEMORY_PHOENIX_REF        Phoenix memory's approved version
+                                                (default origin/main)
+     garura_pull_dir  MEMORY_GARURA_PULL_DIR    where pulled pieces land, inside Garura
+@@ -72,8 +78,11 @@
+ ORDER = CONTRACT["lookup_order"]
+ KEYS = {"engine": "MEMORY_ENGINE", "short-term": "MEMORY_SHORT_TERM_ROOT",
+         "garura": "MEMORY_GARURA_ROOT", "phoenix": "MEMORY_PHOENIX_ROOT",
++        "phoenix_source": "MEMORY_PHOENIX_SOURCE",
+         "phoenix_ref": "MEMORY_PHOENIX_REF", "garura_pull_dir": "MEMORY_GARURA_PULL_DIR",
+         "updates_dir": "MEMORY_UPDATES_DIR", "citations_file": "MEMORY_CITATIONS_FILE"}
++SETTINGS_BESIDE = os.path.join(HERE, "settings.json")  # what an install writes
++TOOL_FOLDER = HERE  # the tool's own files are never memory, wherever it is installed
+ 
+ 
+ def fingerprint(text):
+@@ -87,9 +96,12 @@ def ok(command, **fields):
+ # --- settings ------------------------------------------------------------------------
+ 
+ def load_settings(env=None):
+-    """The tool's settings from one source: the MEMORY_SETTINGS file, else the environment."""
++    """The tool's settings from one source: the MEMORY_SETTINGS file, else the environment,
++    else the settings file beside the tool."""
+     env = os.environ if env is None else env
+     path = env.get("MEMORY_SETTINGS")
++    if not path and not any(env.get(KEYS[t]) for t in ORDER) and os.path.isfile(SETTINGS_BESIDE):
++        path = SETTINGS_BESIDE
+     if path:
+         try:
+             with open(os.path.expanduser(path), encoding="utf-8") as fh:
+@@ -130,37 +142,46 @@ def __init__(self, settings):
+         self.s = settings
+ 
+     # where things are
+-    def root(self, tier):
++    def root(self, tier, download=True):
++        """A tier's folder. Phoenix memory not yet on this machine is downloaded from its
++        source the first time a command needs it — never when download is False (health)."""
+         path = self.s.get(tier)
+         if not path:
+             raise Refusal("tier_missing", f"{tier} memory has no setting: no folder or server "
+                           "is configured for it.", tier)
++        if tier == "phoenix" and download and not os.path.exists(path) and self.s.get("phoenix_source"):
++            phoenix_git.download(self.s["phoenix_source"], path)
+         if not os.path.isdir(path):
+             raise Refusal("tier_missing", f"{tier} memory cannot be reached at its setting.", tier)
+         if tier == "phoenix":
+             phoenix_git.version(path, self.s["phoenix_ref"])
+         return path
+ 
+-    def version(self, tier):
++    def version(self, tier, download=True):
+         if tier == "phoenix":
+-            return phoenix_git.version(self.root(tier), self.s["phoenix_ref"])
++            return phoenix_git.version(self.root(tier, download), self.s["phoenix_ref"])
+         self.root(tier)
+         return None
+ 
+     def excluded(self, tier):
+         """What a lookup in this tier never reads, as prefixes of the folder it scans.
+ 
+-        Inside Garura memory, the short-term folder is short-term memory, not Garura memory.
++        Inside Garura memory, the short-term folder is short-term memory, not Garura memory,
++        and the tool's own folder (an install puts it there) is not memory at all.
+         Inside an issue's short-term memory, the memory updates are drafts waiting for a
+         person (nothing in them is used until one is approved and applied), and the decision
+         records are not memory (an agent never decides from its own earlier decision)."""
+         if tier == "short-term":
+             return (self.s["updates_dir"].strip("/") + "/", self.s["citations_file"].strip("/"))
+-        if tier != "garura" or not self.s.get("short-term"):
++        if tier != "garura" or not self.s.get("garura"):
+             return ()
+         # on the folders the settings reach, so a link or another spelling of a root changes nothing
+-        rel = os.path.relpath(os.path.realpath(self.s["short-term"]), os.path.realpath(self.s["garura"]))
+-        return () if rel == "." or rel.startswith("..") else (rel.replace(os.sep, "/").rstrip("/") + "/",)
++        garura, inside = os.path.realpath(self.s["garura"]), []
++        for folder in (self.s.get("short-term"), TOOL_FOLDER):
++            rel = os.path.relpath(os.path.realpath(folder), garura) if folder else ".."
++            if rel != "." and not rel.startswith(".."):
++                inside.append(rel.replace(os.sep, "/").rstrip("/") + "/")
++        return tuple(inside)
+ 
+     def hidden(self, tier, path):
+         """True when a path is one a lookup never reads, decided on the file it reaches — not on
+@@ -311,8 +332,9 @@ def lookup(engine, request, results_of):
+ def cmd_health(engine, request):
+     tiers = []
+     for tier in ORDER:
+-        try:
+-            tiers.append({"tier": tier, "reachable": True, "kind": "folder", "version": engine.version(tier)})
++        try:  # health only reports: it never downloads Phoenix memory
++            tiers.append({"tier": tier, "reachable": True, "kind": "folder",
++                          "version": engine.version(tier, download=False)})
+         except Refusal:
+             tiers.append({"tier": tier, "reachable": False, "kind": "folder", "version": None})
+     return ok("health", tiers=tiers)
+diff --git a/core/tools/memory/pull.py b/core/tools/memory/pull.py
+index ebc535a93..00faa14a8 100644
+--- a/core/tools/memory/pull.py
++++ b/core/tools/memory/pull.py
+@@ -12,7 +12,9 @@
+ REF names (default origin/main — a change reaches it when a person merges it, outside this
+ tool). Working-tree edits and unmerged commits are never read. Garura memory is a folder in
+ the project. Their places come from the flags, else from MEMORY_PHOENIX_ROOT,
+-MEMORY_GARURA_ROOT and MEMORY_PHOENIX_REF — never from a fixed path.
++MEMORY_GARURA_ROOT and MEMORY_PHOENIX_REF — never from a fixed path. When Phoenix memory's
++place is empty, memory.py downloads it there from its source (download) the first time a
++command needs it.
+ 
+ pull copies pieces from Phoenix memory into Garura memory, at the same path. Nothing
+ leaves Phoenix memory. A piece is never written over a different file: if Garura memory
+@@ -34,8 +36,10 @@
+ import json
+ import os
+ import re
++import shutil
+ import subprocess
+ import sys
++import tempfile
+ 
+ CONTRACT_VERSION = "4"
+ LIST = "pulled.json"
+@@ -101,6 +105,31 @@ def roots(phoenix, garura):
+     return os.path.expanduser(phoenix), os.path.expanduser(garura)
+ 
+ 
++def download(source, phoenix):
++    """Download Phoenix memory to its place on this machine, the first time it is needed.
++    It is cloned beside the place and moved in whole, so a cut-off download never looks like
++    Phoenix memory, and two first runs at once keep one copy."""
++    parent = os.path.dirname(os.path.abspath(phoenix))
++    try:
++        os.makedirs(parent, exist_ok=True)
++        part = tempfile.mkdtemp(prefix=".phoenix-memory-download-", dir=parent)
++    except OSError as exc:
++        raise Refusal("tier_missing", f"Phoenix memory is not on this machine, and there is no room "
++                      f"to download it: {exc}.", "phoenix") from exc
++    # never wait for a password nobody is there to type: fail and say so
++    run = subprocess.run(["git", "clone", "--quiet", source, part], capture_output=True,
++                         env=dict(os.environ, GIT_TERMINAL_PROMPT="0"))
++    if run.returncode != 0:
++        shutil.rmtree(part, ignore_errors=True)
++        why = run.stderr.decode(errors="replace").strip().splitlines()
++        raise Refusal("tier_missing", "Phoenix memory is not on this machine, and downloading it "
++                      f"failed: {why[-1] if why else 'git clone failed'}.", "phoenix")
++    try:
++        os.rename(part, phoenix)
++    except OSError:  # another first run put it there first: use that copy
++        shutil.rmtree(part, ignore_errors=True)
++
++
+ def version(phoenix, ref="HEAD"):
+     """Phoenix memory's version: the commit its approved ref is at."""
+     run = git(phoenix, "rev-parse", "--short=12", "--verify", "--quiet", ref + "^{commit}")
+diff --git a/core/tools/memory/test_memory.py b/core/tools/memory/test_memory.py
+index 3a6c64a5c..311a16931 100644
+--- a/core/tools/memory/test_memory.py
++++ b/core/tools/memory/test_memory.py
+@@ -259,6 +259,59 @@ def test_a_request_the_contract_refuses(self):
+                          "bad_request")
+ 
+ 
++class AfterAnInstall(Tiers):
++    """An install writes the settings beside the tool and brings no memory: Phoenix memory is
++    downloaded the first time a command needs it, and the tool's own folder is not memory."""
++
++    def beside(self, text):
++        write(self.project, "tool/settings.json", text)
++        path, old = os.path.join(self.project, "tool", "settings.json"), memory.SETTINGS_BESIDE
++        memory.SETTINGS_BESIDE = path
++        self.addCleanup(setattr, memory, "SETTINGS_BESIDE", old)
++
++    def first_use_env(self, source):
++        self.place = os.path.join(scratch(self), "machine", "phoenix-memory")
++        return dict(self.env, MEMORY_PHOENIX_ROOT=self.place, MEMORY_PHOENIX_SOURCE=source,
++                    MEMORY_PHOENIX_REF="origin/main")
++
++    def test_the_settings_file_beside_the_tool(self):
++        self.beside('{"short-term": "../g/issues", "garura": "../g", "phoenix": "%s", "phoenix_ref": "main"}'
++                    % self.phoenix)
++        self.assertEqual(self.ask("search", {"issue": 7, "pattern": "reset link"}, env={})["answered_by"], "phoenix")
++
++    def test_the_environment_comes_before_the_file_beside_the_tool(self):
++        self.beside('{"garura": "nowhere"}')
++        tiers = {t["tier"]: t["reachable"] for t in self.ask("health", {})["tiers"]}
++        self.assertEqual(tiers, {"short-term": True, "garura": True, "phoenix": True})
++
++    def test_phoenix_memory_is_downloaded_the_first_time_it_is_needed(self):
++        env = self.first_use_env(self.phoenix)
++        tiers = {t["tier"]: t["reachable"] for t in self.ask("health", {}, env)["tiers"]}
++        self.assertEqual((tiers["phoenix"], os.path.exists(self.place)), (False, False))  # health only reports
++        self.assertEqual(self.ask("search", {"issue": 7, "pattern": "reset link"}, env)["answered_by"], "phoenix")
++        self.assertTrue(os.path.isdir(os.path.join(self.place, ".git")))
++        self.assertTrue(self.ask("health", {}, env)["tiers"][2]["reachable"])
++
++    def test_a_failed_download_names_phoenix_memory_and_leaves_nothing(self):
++        env = self.first_use_env(os.path.join(self.project, "no-such-repository"))
++        a = self.ask("search", {"issue": 7, "pattern": "reset link"}, env)
++        self.assertEqual((a["error"]["code"], a["error"]["tier"]), ("tier_missing", "phoenix"))
++        self.assertIn("downloading it failed", a["error"]["message"])
++        self.assertEqual(os.listdir(os.path.dirname(self.place)), [])
++
++    def test_the_tools_own_folder_is_not_garura_memory(self):
++        tool = os.path.join(self.garura, "tools", "memory")
++        write(tool, "README.md", "Reset link: the tool's own words, not memory.\n")
++        old = memory.TOOL_FOLDER
++        memory.TOOL_FOLDER = tool
++        self.addCleanup(setattr, memory, "TOOL_FOLDER", old)
++        a = self.ask("search", {"issue": 7, "pattern": "reset link", "ignore_case": True, "tier": "garura"})
++        self.assertEqual(a["hits"], [])
++        self.assertEqual(self.ask("find", {"glob": "**", "tier": "garura"})["matches"], [])
++        self.assertEqual(self.ask("read", {"tier": "garura", "path": "tools/memory/README.md"})["error"]["code"],
++                         "not_found")
++
++
+ class Updates(Tiers):
+     """A gap, a memory update, a person's word, the write — all in the issue's short-term memory."""
+ 
+diff --git a/installer/install.sh b/installer/install.sh
+index 7ba11e09c..dee753f2d 100755
+--- a/installer/install.sh
++++ b/installer/install.sh
+@@ -202,6 +202,25 @@ with open('$tmpfile', 'w') as f:
+   rm -f "$tmpfile" "$tmpfile.bak"
+ }
+ 
++# --- The memory system (ADR 035 §8) ---
++# The memory tool, its settings, short-term memory's folder and the memory guide every agent
++# reads, laid by the same script the install-garura play uses; then a check that the tool runs
++# and reaches the project's tiers. The install brings no memory: the tool downloads Phoenix
++# memory the first time it needs it. A release without the script installs as before.
++
++install_memory_system() {
++  local script="$COMPONENTS_DIR/plays/install-garura/scripts/memory_system.py"
++  if [ ! -f "$script" ]; then
++    warn "  This release has no memory system; skipped."
++    return 0
++  fi
++  info "  Installing the memory system..."
++  if ! python3 "$script" --target "$TARGET_DIR" --tool claude --source "$SRC_DIR"; then
++    err "The memory check failed (see above). The project's agents cannot use memory until it is fixed."
++    exit 1
++  fi
++}
++
+ # --- Deploy skills (honoring EXCLUDED_SKILLS) ---
+ 
+ deploy_skills() {
+@@ -273,7 +292,10 @@ if [ "$MODE" = "init" ]; then
+     transform_claude_md "$claude_content" "$PROJECT_NAME" > "$TARGET_DIR/CLAUDE.md"
+   fi
+ 
+-  # 8. Record the installed version
++  # 8. The memory system
++  install_memory_system
++
++  # 9. Record the installed version
+   mkdir -p "$(dirname "$VERSION_FILE")"
+   echo "$INSTALLED_VERSION" > "$VERSION_FILE"
+ 
+@@ -283,6 +305,8 @@ if [ "$MODE" = "init" ]; then
+   ok "Project structure created:"
+   ok "  .claude/agents/      — Agent definitions"
+   ok "  .claude/skills/      — Skills and plays"
++  ok "  .claude/rules/garura-memory.md — The memory guide every agent reads"
++  ok "  .garura/tools/memory/ — The memory tool"
+   ok "  .garura/core/    — Memory and config"
+   ok "  .garura/project/ — Project artifacts"
+   ok "  src/                 — Source code"
+@@ -349,7 +373,10 @@ else
+     transform_claude_md "$claude_content" "$PROJECT_NAME" > "$TARGET_DIR/CLAUDE.md.new"
+   fi
+ 
+-  # 7. Record the installed version
++  # 7. The memory system (the tool is replaced; its settings are kept)
++  install_memory_system
++
++  # 8. Record the installed version
+   echo "$INSTALLED_VERSION" > "$VERSION_FILE"
+ 
+   ok ""

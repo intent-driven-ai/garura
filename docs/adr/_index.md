@@ -43,3 +43,4 @@ may have no Status line.
 | [035](035-agents-work-only-from-memory.md) | Agents Work Only From Memory: Three Tiers, One Memory Tool, and a Memory Update Before Anything From Outside | Accepted | 2026-10-18 |
 | [036](036-approved-answer-lands-in-short-term-memory.md) | An Approved Researched Answer Lands in the Current Issue's Short-Term Memory, and Memory and ADRs Are Reviewed in the Review Tool | Accepted | 2026-10-18 |
 | [037](037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md) | Every Agent Decision Keeps a Trace of the Memory It Rested On, and the Review Tool Has Five Sections | Accepted | 2026-10-19 |
+| [038](038-install-brings-no-memory.md) | The Install Brings No Memory: the Memory Tool Lives in the Project and Fetches Phoenix Memory on First Use | Accepted | 2026-10-19 |

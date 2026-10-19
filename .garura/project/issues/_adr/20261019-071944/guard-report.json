@@ -1,0 +1,27 @@
+{
+  "ok": true,
+  "changed": [
+    ".garura/project/issues/_adr/20261019-071944/adr-check.json",
+    ".garura/project/issues/_adr/20261019-071944/adr-context.yaml",
+    ".garura/project/issues/_adr/20261019-071944/adr-draft.md",
+    ".garura/project/issues/_adr/20261019-071944/adr-manifest.json",
+    ".garura/project/issues/_adr/20261019-071944/brief.md",
+    ".garura/project/issues/_adr/20261019-071944/decision.yaml",
+    ".garura/project/issues/_adr/20261019-071944/hashes-before.json",
+    ".garura/project/issues/_adr/20261019-071944/porcelain-after.txt",
+    ".garura/project/issues/_adr/20261019-071944/run.json",
+    ".garura/project/issues/_adr/20261019-071944/start-change.json",
+    "docs/adr/017-folder-whitelist.md",
+    "docs/adr/035-agents-work-only-from-memory.md",
+    "docs/adr/038-install-brings-no-memory.md",
+    "docs/adr/_index.md"
+  ],
+  "violations": [],
+  "allowed": [
+    "docs/adr/038-install-brings-no-memory.md",
+    "docs/adr/035-agents-work-only-from-memory.md",
+    "docs/adr/017-folder-whitelist.md",
+    "docs/adr/_index.md",
+    ".garura/project/issues/*"
+  ]
+}

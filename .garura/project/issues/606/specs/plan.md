@@ -61,8 +61,8 @@ Three decisions are made (#592, #607, #619) and six things are shipped: plan mod
 ADR 034 decided — inside a drive a play answers from memory and asks only when
 memory holds nothing — and a review that found memory not ready. Kapil chose to
 fix the whole memory system first, as its own feature; Kickoff's runner waits for
-it. Memory (#653): items 1 to 6 are shipped (#654–#659; every agent decision keeps a
-trace, ADR 037); now item 7, every Garura install carries the memory system (#660).
+it. Memory (#653): items 1 to 7 are shipped (#654–#660; every install carries the memory
+system and brings no memory, ADR 038); now item 8, Kickoff's agents move onto the tool (#661).
 
 ## The plan, in order
 
@@ -181,3 +181,4 @@ Not part of this plan; recorded so the gaps in time make sense.
 - 2026-10-18 — Memory item 5 shipped: memory updates (#658).
 - 2026-10-19 — The review tool's sections are five: Intents, Product, ADRs, Memory, Agent decisions (Kapil); Ask memory mocked.
 - 2026-10-19 — Memory item 6 shipped: every agent decision keeps a trace (#659, PR #676); ADR 037 accepted (traces; the review tool's five sections).
+- 2026-10-19 — Memory item 7 shipped: every install carries the memory system (#660, PR #677); ADR 038 accepted (the install brings no memory; Phoenix memory on first use; `initialize` to come).

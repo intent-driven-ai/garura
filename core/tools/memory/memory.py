@@ -29,14 +29,20 @@ pulled into Garura memory: the next lookup answers from the project. It is never
 a different Garura file; the read answer says saved_to, or not_saved and why.
 
 Settings — where each tier lives — come from one source: the JSON file MEMORY_SETTINGS
-names, else the environment. Relative places in the file are relative to the file.
+names, else the environment, else settings.json beside this file (an install writes it).
+Relative places in a file are relative to the file.
 
     key              environment               what
     engine           MEMORY_ENGINE             "folder" (the only engine built; a server
                                                engine is one setting away)
     short-term       MEMORY_SHORT_TERM_ROOT    folder holding one folder per issue
     garura           MEMORY_GARURA_ROOT        Garura memory's folder
-    phoenix          MEMORY_PHOENIX_ROOT       Phoenix memory's git repository
+    phoenix          MEMORY_PHOENIX_ROOT       Phoenix memory's git repository: a place on
+                                               this machine, shared by every project
+    phoenix_source   MEMORY_PHOENIX_SOURCE     where Phoenix memory is downloaded from. When
+                                               its place is empty, the first command that
+                                               needs Phoenix memory downloads it there;
+                                               health only reports
     phoenix_ref      MEMORY_PHOENIX_REF        Phoenix memory's approved version
                                                (default origin/main)
     garura_pull_dir  MEMORY_GARURA_PULL_DIR    where pulled pieces land, inside Garura
@@ -72,8 +78,11 @@ CONTRACT = check_contract.load(os.path.join(HERE, "contract", "v4.json"))
 ORDER = CONTRACT["lookup_order"]
 KEYS = {"engine": "MEMORY_ENGINE", "short-term": "MEMORY_SHORT_TERM_ROOT",
         "garura": "MEMORY_GARURA_ROOT", "phoenix": "MEMORY_PHOENIX_ROOT",
+        "phoenix_source": "MEMORY_PHOENIX_SOURCE",
         "phoenix_ref": "MEMORY_PHOENIX_REF", "garura_pull_dir": "MEMORY_GARURA_PULL_DIR",
         "updates_dir": "MEMORY_UPDATES_DIR", "citations_file": "MEMORY_CITATIONS_FILE"}
+SETTINGS_BESIDE = os.path.join(HERE, "settings.json")  # what an install writes
+TOOL_FOLDER = HERE  # the tool's own files are never memory, wherever it is installed
 
 
 def fingerprint(text):
@@ -87,9 +96,12 @@ def ok(command, **fields):
 # --- settings ------------------------------------------------------------------------
 
 def load_settings(env=None):
-    """The tool's settings from one source: the MEMORY_SETTINGS file, else the environment."""
+    """The tool's settings from one source: the MEMORY_SETTINGS file, else the environment,
+    else the settings file beside the tool."""
     env = os.environ if env is None else env
     path = env.get("MEMORY_SETTINGS")
+    if not path and not any(env.get(KEYS[t]) for t in ORDER) and os.path.isfile(SETTINGS_BESIDE):
+        path = SETTINGS_BESIDE
     if path:
         try:
             with open(os.path.expanduser(path), encoding="utf-8") as fh:
@@ -130,37 +142,46 @@ class FolderEngine:
         self.s = settings
 
     # where things are
-    def root(self, tier):
+    def root(self, tier, download=True):
+        """A tier's folder. Phoenix memory not yet on this machine is downloaded from its
+        source the first time a command needs it — never when download is False (health)."""
         path = self.s.get(tier)
         if not path:
             raise Refusal("tier_missing", f"{tier} memory has no setting: no folder or server "
                           "is configured for it.", tier)
+        if tier == "phoenix" and download and not os.path.exists(path) and self.s.get("phoenix_source"):
+            phoenix_git.download(self.s["phoenix_source"], path)
         if not os.path.isdir(path):
             raise Refusal("tier_missing", f"{tier} memory cannot be reached at its setting.", tier)
         if tier == "phoenix":
             phoenix_git.version(path, self.s["phoenix_ref"])
         return path
 
-    def version(self, tier):
+    def version(self, tier, download=True):
         if tier == "phoenix":
-            return phoenix_git.version(self.root(tier), self.s["phoenix_ref"])
+            return phoenix_git.version(self.root(tier, download), self.s["phoenix_ref"])
         self.root(tier)
         return None
 
     def excluded(self, tier):
         """What a lookup in this tier never reads, as prefixes of the folder it scans.
 
-        Inside Garura memory, the short-term folder is short-term memory, not Garura memory.
+        Inside Garura memory, the short-term folder is short-term memory, not Garura memory,
+        and the tool's own folder (an install puts it there) is not memory at all.
         Inside an issue's short-term memory, the memory updates are drafts waiting for a
         person (nothing in them is used until one is approved and applied), and the decision
         records are not memory (an agent never decides from its own earlier decision)."""
         if tier == "short-term":
             return (self.s["updates_dir"].strip("/") + "/", self.s["citations_file"].strip("/"))
-        if tier != "garura" or not self.s.get("short-term"):
+        if tier != "garura" or not self.s.get("garura"):
             return ()
         # on the folders the settings reach, so a link or another spelling of a root changes nothing
-        rel = os.path.relpath(os.path.realpath(self.s["short-term"]), os.path.realpath(self.s["garura"]))
-        return () if rel == "." or rel.startswith("..") else (rel.replace(os.sep, "/").rstrip("/") + "/",)
+        garura, inside = os.path.realpath(self.s["garura"]), []
+        for folder in (self.s.get("short-term"), TOOL_FOLDER):
+            rel = os.path.relpath(os.path.realpath(folder), garura) if folder else ".."
+            if rel != "." and not rel.startswith(".."):
+                inside.append(rel.replace(os.sep, "/").rstrip("/") + "/")
+        return tuple(inside)
 
     def hidden(self, tier, path):
         """True when a path is one a lookup never reads, decided on the file it reaches — not on
@@ -311,8 +332,9 @@ def lookup(engine, request, results_of):
 def cmd_health(engine, request):
     tiers = []
     for tier in ORDER:
-        try:
-            tiers.append({"tier": tier, "reachable": True, "kind": "folder", "version": engine.version(tier)})
+        try:  # health only reports: it never downloads Phoenix memory
+            tiers.append({"tier": tier, "reachable": True, "kind": "folder",
+                          "version": engine.version(tier, download=False)})
         except Refusal:
             tiers.append({"tier": tier, "reachable": False, "kind": "folder", "version": None})
     return ok("health", tiers=tiers)

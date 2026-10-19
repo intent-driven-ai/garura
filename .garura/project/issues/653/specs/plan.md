@@ -4,7 +4,7 @@ kind: feature
 serves: "#653 — agents work only from memory, so drives can make their own decisions"
 status: active
 updated: 2026-10-19
-now: 7
+now: 8
 serves_plan: 606
 serves_item: 8
 ---
@@ -92,10 +92,11 @@ answer came from in a way anyone checks.
 
 ## Where we are now
 
-Decided, and six pieces shipped: ADR 035, ADR 036 and ADR 037 (#654, #667, #659), the
+Decided, and seven pieces shipped: ADR 035 to ADR 038 (#654, #667, #659, #660), the
 contract (#655), Phoenix memory with `pull` and `pulled` (#656), the memory tool (#657),
-memory updates (#658, PR #675) and decision traces (#659, PR #676). Next: item 7, every
-Garura install carries the memory system (#660).
+memory updates (#658, PR #675), decision traces (#659, PR #676) and every install carrying
+the memory system (#660, PR #677). Next: item 8, Kickoff's agents and skills move onto the
+tool (#661).
 
 ## The plan, in order
 
@@ -155,24 +156,18 @@ Garura install carries the memory system (#660).
   035 §6/§7, ADR 036 §7 and ADR 032 §3, and the review tool has five sections. No agent
   calls `cite` yet (#661, #663).
 
-### 7. Every Garura install carries the memory system — now
+- **7. Shipped: every install carries the memory system** — #660, PR #677, approved by Kapil
+  on 19 October after two review rounds. Every install, by the play or the public installer
+  (`installer/install.sh`), lays the memory tool at `.garura/tools/memory/` with its settings,
+  short-term memory's folder, and the memory guide every agent reads
+  (`.claude/rules/garura-memory.md`, or a marked block in `AGENTS.md` for Codex), and checks
+  the tool reaches short-term and Garura memory. The install brings no memory: the tool
+  downloads Phoenix memory on first use, with a time limit. ADR 038 (Kapil accepted it)
+  records this and amends ADR 035 §2, §3, §4, §8 and ADR 017 §1, closing the amendment item 3
+  left owed. A real sub-agent in a fresh project found memory through the tool from the guide
+  alone. Not run: a Codex agent. `initialize` is not built.
 
-**Issue:** #660.
-**What:** installing Garura into a project installs the memory tool and a short
-memory guide every agent reads: the three tiers (Phoenix memory, Garura memory,
-short-term memory), what the tool does, how to find memory, go up to
-Phoenix memory, update it, name a source, and raise a memory update. The
-install checks the tool runs and reaches each tier, and fails if it does not.
-Kapil, 2026-10-18: the three tiers "should be part of the Garura installation.
-Anytime Garura gets installed, every project would need to know what that tool
-is, what it does, and how the memory works. Otherwise, the subagents will fail."
-**Why here:** the agents moved in items 8 and 10 rely on it in every project,
-not only in Garura's own repo.
-**Done when:** a fresh install into a test project has the tool and the guide,
-its check passes, and an agent there finds a piece of memory through the tool.
-**Needs:** items 3 to 6.
-
-### 8. Move Kickoff's agents and skills onto the tool
+### 8. Move Kickoff's agents and skills onto the tool — now
 
 **Issue:** #661.
 **What:** the agents and skills `/intent`, `/vision` and `/understand` use, and
@@ -216,6 +211,18 @@ describe the three tiers and the tool, and the locked knowledge-base design note
 (`knowledge/_DESIGN.md`) is rewritten under ADR 035.
 **Done when:** the lint passes across every component.
 **Needs:** item 9.
+
+### Not yet placed: `initialize`, the play that sets up a project's memory
+
+**Issue:** none yet.
+**What:** a new play, run after the install. It reads Phoenix memory and asks the person
+questions built from it — which domains, which functionalities, what technology
+standards, tools and frameworks — each with choices to pick from, never something
+random. The answers set up the project's Garura memory. Kapil, 2026-10-19: "After the
+installation is finished, we then run a play. This play is not designed yet, and that
+play is going to ask questions. That will read the Phoenix memory and will start setting
+up the project's memory." And: "After install, let's call this whole thing
+`initialize`." It is not designed yet; where it sits in this order is not decided.
 
 ## Log
 
@@ -273,3 +280,5 @@ describe the three tiers and the tool, and the locked knowledge-base design note
 - 2026-10-18 — Item 11 moved: the memory review (#664) is built with the review tool in the #606 plan.
 - 2026-10-18 — Item 5 done: #658 approved by Kapil (PR #675). Now item 6 (#659).
 - 2026-10-19 — Item 6 done: #659 approved by Kapil (PR #676, round 2); ADR 037 accepted. Now item 7 (#660).
+- 2026-10-19 — Item 7 (#660) started. Kapil: the install brings no memory; the tool downloads Phoenix memory on first use; a new play, `initialize`, sets up a project's memory after the install (added as not yet placed).
+- 2026-10-19 — Item 7 done: #660 approved by Kapil (PR #677, round 2); ADR 038 accepted (the install brings no memory; the tool in the project). Now item 8 (#661).

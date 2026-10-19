@@ -1,0 +1,247 @@
+# quality-findings.yaml -- review-change Step 3, Layer 1 (standards linter) for PR #677 (issue #660).
+# Written by quality-check-scoped (scan_taxonomy.py) plus the runnable checks and a read of the changed code.
+# Scope: the standards-driven categories only: executable-code, tests, documentation, config-maps.
+meta:
+  skill: quality-check-scoped
+  pr: 677
+  issue: 660
+  base: main
+  head_assessed: 6af538a7
+  generated_at: '2026-10-19T07:20:00Z'
+  diff_note: >-
+    scan input was a fresh `git diff main...HEAD` at 6af538a7 (104,549 bytes) held in scratch; the stored review/pr.diff (104,233 bytes) is the same
+    change from slightly earlier. Line numbers below are lines in the file at this head.
+  standards:
+    resolved_in_order: [kb, ltm, stm]
+    used: ~/.garura/phoenix-memory/standards/rules/pr.md
+    why: >-
+      Garura memory has no copy of the standards for this repo (told by the caller); Phoenix memory's copy was used. It is byte-identical (md5 f06e57a7fc2ef05e547aefd8e524c938)
+      to the committed core/components/memory/standards/rules/pr.md. Meaning of each check item comes from core/components/skills/quality-check/reference/all-requirements.md.
+    playbooks_read: [review/code, review/tests, review/docs, review/config-maps]  # ~/.garura/phoenix-memory/knowledge/review/
+  scope:
+    paths_scanned: 11
+    paths:
+      executable-code:
+        - core/components/plays/install-garura/scripts/memory_system.py
+        - core/components/plays/install-garura/scripts/install.py
+        - core/components/plays/uninstall-garura/scripts/uninstall.py
+        - core/tools/memory/memory.py
+        - core/tools/memory/pull.py
+        - installer/install.sh
+        - .garura/project/issues/660/evidence/run_guide.py
+      tests:
+        - core/components/plays/install-garura/scripts/test_install.py
+        - core/tools/memory/test_memory.py
+      documentation:
+        - core/tools/memory/README.md
+      config-maps:
+        - .gitignore
+    scan_coverage: 1.0
+    scanner_exit: 0
+    scanner_errors: 0
+    scanner_totals_raw: {P1: 1, P2: 25, P3: 30, P4: 9, catchall_CODE-20: 11}
+    scanner_note: >
+      Only three paths were classed as runtime code or tests by the taxonomy's Artifact-Type table (memory.py, pull.py, test_memory.py) and the README as
+      docs-planning. The two play script folders, installer/install.sh, the evidence script and .gitignore fall under the table's prose or config globs, so the keyword
+      rules did not run on them; they are covered by the runnable checks and the read below. The raw 65 scanner rows were triaged one by one (scanner_triage); the
+      rows that are a keyword matching ordinary words are listed as not findings, not dropped silently.
+  not_read: core/tools/play-reviewer/ (never read)
+runnable:
+  memory_tool_tests:
+    command: cd core/tools/memory && python3 -m unittest test_memory test_pull contract.test_check_contract
+    result: pass
+    evidence: Ran 142 tests in 27.6s, OK (bytecode writing off).
+  installer_tests:
+    command: cd core/components/plays/install-garura/scripts && HOME=<scratch folder> python3 test_install.py
+    result: pass
+    evidence: Ran 12 tests in 14.7s, OK, with HOME set to an empty scratch folder; the scratch HOME was still empty afterwards.
+  ruff_check:
+    command: ruff check (ruff 0.15.20, default rules, no cache) on the 8 changed Python files incl. the two test files and the evidence script
+    result: pass
+    evidence: All checks passed. No ruff, pyproject or ruff config is committed, so these are ruff's defaults.
+  ruff_format:
+    command: ruff format --check on the same 8 files
+    result: not_a_gate
+    evidence: Would reformat all 8. The same check on the main-branch copies of memory.py, pull.py and install.py also says "would reformat", and the repo commits no formatter
+      setting, so this is not a change this PR made (CODE-02 is not met repo-wide; not charged to the PR).
+  shell_syntax:
+    command: bash -n installer/install.sh
+    result: pass
+    evidence: no syntax errors. shellcheck is not installed here, so no shell lint ran.
+  installer_install_sh_suite:
+    result: none_exists
+    evidence: No automated suite runs installer/install.sh. test_install.py calls install.py and memory_system.py only. This is "not run", not "passed".
+  working_tree_after_runs:
+    result: clean
+    evidence: git status showed only the untracked review folder after both suites.
+counts: {P1: 0, P2: 1, P3: 8, P4: 4}
+findings:
+  - id: Q1
+    class: P2
+    category: executable-code
+    basis: {rule: BE-12, standards_file: ~/.garura/phoenix-memory/standards/rules/pr.md, check_item: "External service calls have explicit timeout configuration — no infinite waits"}
+    file: core/tools/memory/pull.py
+    line: 121
+    what: >-
+      download() runs `git clone` of the Phoenix source with no timeout. GIT_TERMINAL_PROMPT=0 stops a password wait, but a stalled network or a slow server still
+      holds the call open. The call sits inside root(), so any memory command an agent runs for the first time (search, find, read) can hang, and nothing stops it.
+    fix_hint: >-
+      pass a timeout to subprocess.run and turn TimeoutExpired into the same tier_missing refusal the failed-download branch already raises.
+  - id: Q2
+    class: P3
+    category: executable-code
+    basis: {rule: SEC-04, standards_file: ~/.garura/phoenix-memory/standards/rules/pr.md, check_item: "All user inputs validated and sanitized before use"}
+    taxonomy_severity: P2
+    adjusted_because: >-
+      the value comes from the person's own settings file or environment, not from a user of a service, so the exposure is small.
+    file: core/tools/memory/pull.py
+    line: 121
+    what: >-
+      the clone command is `git clone --quiet <source> <part>` with the source straight from settings. A source that begins with a dash would be read by git as an option.
+      Putting `--` before the source closes it.
+  - id: Q3
+    class: P3
+    category: executable-code
+    basis: {rule: CODE-25, standards_file: ~/.garura/phoenix-memory/standards/rules/pr.md, check_item: "Errors are logged with context (stack trace + relevant identifiers)"}
+    file: core/tools/memory/pull.py
+    line: 129
+    what: >-
+      `except OSError:` around os.rename(part, phoenix) treats every failure as "another first run got there first" and moves on silently. A permission error or a full disk
+      looks the same; the caller then sees only "cannot be reached at its setting" with no reason. Only the case where Phoenix memory's place now exists should be
+      treated as a lost race; any other error should be raised with its message.
+  - id: Q4
+    class: P3
+    category: executable-code
+    basis: {rule: CODE-27, standards_file: ~/.garura/phoenix-memory/standards/rules/pr.md, check_item: "Error recovery is explicit: retry with backoff, fallback, or circuit breaker"}
+    file: core/components/plays/install-garura/scripts/memory_system.py
+    line: 101
+    what: >-
+      data-safety path. A re-install reads the person's edited settings.json into memory (line 99), deletes the whole tool folder (shutil.rmtree, line 102) and then
+      copies the new one (line 103). If the copy fails part way (disk full, a permission error), the folder and the edited settings are gone and the only copy is a
+      local variable that dies with the error. Copy to a new folder beside it and swap, or write the kept settings back in a finally block.
+  - id: Q5
+    class: P3
+    category: executable-code
+    basis: {rule: CODE-27, standards_file: ~/.garura/phoenix-memory/standards/rules/pr.md, check_item: "Error recovery is explicit: retry with backoff, fallback, or circuit breaker"}
+    file: installer/install.sh
+    line: 220
+    what: >-
+      data-safety path. A failed memory check makes the shell installer exit 1 at once (init mode: before the version file is written at line 300; update mode: before line
+      380). install.py does it the other way: it writes the manifest first and then exits 1 (install.py lines 296-300 and 383-387). The two install paths therefore end in different states
+      after the same failure: the shell path leaves the skills installed but no recorded version, so the next run cannot tell what is on disk. Use one order for both.
+  - id: Q6
+    class: P3
+    category: tests
+    basis: {rule: TEST-01, standards_file: ~/.garura/phoenix-memory/standards/rules/pr.md, check_item: "Tests exist for all business logic functions"}
+    taxonomy_severity: P2
+    adjusted_because: >-
+      install_memory_system() is a thin wrapper around memory_system.py, which is tested.
+    file: installer/install.sh
+    line: 211
+    what: >-
+      no automated test runs the public installer. The behaviour that is only in the shell (skip when the release has no script, exit 1 when the check fails, the update path keeping settings)
+      is not exercised by anything; the tests call the Python scripts directly.
+  - id: Q7
+    class: P3
+    category: tests
+    basis: {rule: CODE-30, standards_file: ~/.garura/phoenix-memory/standards/rules/pr.md, check_item: "Error handling coverage enforced: error paths have explicit tests"}
+    file: core/components/plays/install-garura/scripts/test_install.py
+    line: 124
+    what: >-
+      these error paths in the new code have no test - lay() refusing an unknown tool or a source with no memory tool (memory_system.py lines 94 and 124), check() refusing a
+      Python older than 3.10 (lines 148-151), a failed download during the check, uninstall --dry-run leaving the memory system in place (uninstall.py lines 160-166), and
+      rm_block deleting an AGENTS.md that holds nothing but the block (uninstall.py line 102). The ones that are tested (no short-term folder, tool that cannot run, exit 1 after the manifest) are fine.
+  - id: Q8
+    class: P3
+    category: executable-code
+    basis: {rule: CODE-10, standards_file: ~/.garura/phoenix-memory/standards/rules/pr.md, check_item: "Function length <= 50 lines (excluding blank lines and comments)"}
+    taxonomy_severity: P2
+    adjusted_because: >-
+      one to three lines over, borderline.
+    file: core/components/plays/install-garura/scripts/memory_system.py
+    line: 128
+    what: >-
+      check() is 51 code lines (new). Also install() in install.py (line 225) was 50 on main and is 53 at this head, so this PR takes it over.
+  - id: Q9
+    class: P3
+    category: executable-code
+    basis: {rule: CODE-09, standards_file: ~/.garura/phoenix-memory/standards/rules/pr.md, check_item: "Cyclomatic complexity per function <= 10"}
+    file: core/components/plays/install-garura/scripts/memory_system.py
+    line: 128
+    what: >-
+      check() measures 11 (ruff C901, limit 10). New code, one over; the python-version and tool-run branches could be a helper.
+  - id: Q10
+    class: P4
+    category: executable-code
+    basis: {rule: CODE-09, standards_file: ~/.garura/phoenix-memory/standards/rules/pr.md, check_item: "Cyclomatic complexity per function <= 10"}
+    taxonomy_severity: P3
+    adjusted_because: >-
+      over the limit on main already (17); this PR adds three branches (now 20).
+    file: core/components/plays/uninstall-garura/scripts/uninstall.py
+    line: 105
+    what: >-
+      uninstall() grows from 17 to 20 in complexity and from 61 to 71 code lines (CODE-10, limit 50, also over on main). The new memory-system steps (lines 159-166) are a ready-made helper.
+  - id: Q11
+    class: P4
+    category: executable-code
+    basis: {rule: CODE-12, standards_file: ~/.garura/phoenix-memory/standards/rules/pr.md, check_item: "Class/module size <= 300 lines"}
+    taxonomy_severity: P3
+    adjusted_because: >-
+      both modules were over the limit on main; this PR adds 22 and 25 lines.
+    file: core/tools/memory/memory.py
+    line: 1
+    what: >-
+      memory.py is 556 lines at this head (534 on main); install.py is 393 (368 on main). test_memory.py is 648 (595 on main), a test file.
+  - id: Q12
+    class: P4
+    category: executable-code
+    basis: {rule: CODE-23, standards_file: ~/.garura/phoenix-memory/standards/rules/pr.md, check_item: "Custom error types defined for domain errors (not raw Error or Exception)"}
+    file: core/components/plays/install-garura/scripts/memory_system.py
+    line: 94
+    what: >-
+      lay() ends the run with `raise SystemExit("<message>")` (lines 94 and 124). A string makes the exit code 1, which is the code install.py (lines 42-43 of its docstring)
+      and this file's own docstring (line 28) give to "the memory check failed"; bad input is documented as 2. Called from install.py, a missing memory tool therefore exits like a failed check.
+  - id: Q13
+    class: P4
+    category: executable-code
+    basis: {rule: CODE-30, standards_file: ~/.garura/phoenix-memory/standards/rules/pr.md, check_item: "Error handling coverage enforced: error paths have explicit tests"}
+    file: core/components/plays/install-garura/scripts/memory_system.py
+    line: 159
+    what: >-
+      `answer['error']['code']` and `answer['error']['message']` are read without a guard. A tool that answers ok false in a different shape raises KeyError with a traceback instead of
+      the FAIL line the check is meant to give.
+scanner_triage:
+  not_findings:
+    - {rule: DATA-18, file: core/tools/memory/pull.py, line: 119, reason: "the word \"password\" is in a comment (\"never wait for a password nobody is there to type\"); no personal data is stored or handled."}
+    - {rule: SEC-23, file: core/tools/memory/pull.py, line: 121, reason: "os.environ is copied to set GIT_TERMINAL_PROMPT=0 for git; it reads and stores no secret."}
+    - {rule: BE-19, files: [core/tools/memory/memory.py, core/tools/memory/pull.py, core/tools/memory/test_memory.py], lines: "15 rows", reason: "the keyword matched the words \"from\" and \"join\" (Python imports and os.path.join); there is no query."}
+    - {rule: CODE-25, file: core/tools/memory/pull.py, line: 116, reason: "the except turns an OSError into a Refusal that carries the system message; context is kept."}
+    - {rule: "ARCH-02, CODE-14", reason: "no import cycle; memory_system.py imports nothing from Garura, install.py imports memory_system, memory.py imports pull and the contract checker; none import back."}
+    - {rule: "CODE-03", reason: "ruff check is clean at default rules."}
+    - {rule: "CODE-04", reason: "not charged; see runnable.ruff_format (the same on main, no formatter committed)."}
+    - {rule: "CODE-11, CODE-15", reason: "nesting is at most 3 in the new code; cognitive complexity not measured separately (CODE-09 above is the measured complexity)."}
+    - {rule: "CODE-13, CODE-17, CODE-19, ARCH-03, ARCH-08", reason: "path-only rows that fire on every Python file; read for the new code: one purpose per module, snake_case names, constants in upper case."}
+    - {rule: "DOC-01, DOC-09, DOC-10, DOC-11, DOC-14, DOC-15, DOC-16", reason: "see documentation below; README rows are path-only and the README is a tool guide, not a repo root README."}
+    - {rule: "CODE-20 catch-all", reason: "counted 11 files, not findings."}
+documentation:
+  result: no findings
+  checked:
+    - the settings table against KEYS in memory.py (lines 80-84): all nine keys listed, phoenix_source and MEMORY_PHOENIX_SOURCE match; DOC-11 met.
+    - "'health only reports; it never downloads' against cmd_health (memory.py line 335) and root(download=False): agrees."
+    - "'whole or not at all, never waits for a password, tier_missing with the reason' against pull.py download() (lines 108-131): agrees, apart from Q1 and Q3 above, which are about the clone's timeout and the rename's silent catch."
+    - "'Three rules' heading against the list: three bullets (lines 49, 54, 57)."
+    - the new GUIDE.md paragraph states the path substitution {tool} that memory_system.lay does (line 110).
+    - no new links or headings added.
+config_maps:
+  result: no findings
+  checked:
+    - ".claude/rules/garura-memory.md and .garura/tools/ are the two paths memory_system.py lays for a Claude Code install (GUIDE_CLAUDE line 41, TOOL_DEST line 38); both entries match."
+    - "git ls-files .garura/tools returns nothing, so the new ignore hides nothing the repo tracks."
+    - ".garura/project/issues is not ignored, correct: short-term memory is tracked in this repo."
+    - "a .gitignore is a loose fit for this category (the playbook names host config maps); the check is path agreement only."
+observations_not_findings:
+  - memory.py suite takes 27.6s against the 30s line in TEST-07, so it is close; the 53 added lines include two tests that run git.
+  - strip_block (memory_system.py line 81) and rm_block (uninstall.py line 90) look for the end marker from the start of the file rather than after the start marker; a stray end marker earlier in a person's AGENTS.md makes both leave the block in place. Safe failure (nothing is deleted), but the block would then stay after an uninstall.
+  - the two block markers are written twice (memory_system.py lines 43-45, uninstall.py lines 77-80); a test (test_both_scripts_use_the_same_block_markers) holds them equal, so this is guarded.
+  - the evidence script .garura/project/issues/660/evidence/run_guide.py is not run (it needs the network); ruff check is clean on it; it deletes only the folder it created with mkdtemp.
+  - no skipped or empty tests found in test_install.py or the added test_memory.py tests; the download test uses a local git folder, not the network.

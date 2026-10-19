@@ -1,0 +1,20 @@
+meta:
+  pr: 677
+  issue: 660
+  round: 2
+  head: 786446ae
+  gate: off by config (gates.plays.review-change); the computed recommendation is the decision, marked as a harness verdict
+  review_shelf: ~/.garura/phoenix-memory/knowledge/review/ (Garura memory has none; tier order)
+  round_1: approve by the harness with 3 P2, 12 P3, 5 P4; the owner chose to fix them and record ADR 038 before the merge. Round 1's findings are in this file's git history.
+  sources:
+  - round-2.yaml (change-reviewer: each round-1 finding judged against the fixes; 3 new findings)
+  - the fixes to round 2's own findings (N-1, N-3, Q6), in the last fix commit
+  runnable: {memory_tool_tests: pass (145), installer_tests: pass (27, of which 4 run installer/install.sh whole), ruff_check: pass, bash_n: pass, lint_components: 116 (same as main)}
+findings:
+- {id: Q8, severity: P3, category: executable-code, assessment: partly fixed, file: core/components/plays/install-garura/scripts/install.py, line: 225, basis: rule CODE-10 in pr.md, finding: "install() is 53 code lines against a limit of 50 (50 on main); check() is now split and under it."}
+- {id: Q10, severity: P4, category: executable-code, assessment: partly fixed, file: core/components/plays/uninstall-garura/scripts/uninstall.py, line: 116, basis: rule CODE-09 in pr.md, finding: "uninstall() is back to main's complexity (17), still over 10; over on main already."}
+- {id: Q11, severity: P4, category: executable-code, assessment: carried, file: core/tools/memory/memory.py, line: 1, basis: rule CODE-12 in pr.md, finding: "memory.py and install.py were over 300 lines on main; this change adds a few lines."}
+- {id: N-2, severity: P4, category: executable-code, assessment: carried, file: core/tools/memory/pull.py, line: 120, basis: rule CODE-27 in pr.md, finding: "a .phoenix-memory-download-* folder beside Phoenix memory's place stays when the agent's shell kills the tool before the time limit; it is outside every tier, so no lookup reads it."}
+- {id: Q6, severity: P3, category: tests, assessment: fixed after round 2, file: core/components/plays/install-garura/scripts/test_install.py, line: 1, basis: rule TEST-01 in pr.md, finding: "installer/install.sh is now run whole by 4 tests."}
+- {id: N-1, severity: P3, category: executable-code, assessment: fixed after round 2, file: core/components/plays/install-garura/scripts/memory_system.py, line: 118, basis: rule CODE-27 in pr.md, finding: "a half copy (.garura/tools/memory.new) is removed on failure and by uninstall; a test covers each."}
+- {id: N-3, severity: P4, category: executable-code, assessment: fixed after round 2, file: core/components/plays/install-garura/scripts/memory_system.py, line: 160, basis: rule CODE-30 in pr.md, finding: "an answer the check cannot read fails with a message; a test covers it."}

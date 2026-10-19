@@ -9,8 +9,10 @@ import contextlib
 import io
 import json
 import os
+import shutil
 import sys
 import unittest
+from unittest import mock
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
@@ -257,6 +259,99 @@ class Settings(Tiers):
         self.assertEqual(self.ask("search", {"issue": 7})["error"]["code"], "bad_request")
         self.assertEqual(memory.run("find", {"issue": 7, "glob": "*", "extra": 1}, self.env)[0]["error"]["code"],
                          "bad_request")
+
+
+class AfterAnInstall(Tiers):
+    """An install writes the settings beside the tool and brings no memory: Phoenix memory is
+    downloaded the first time a command needs it, and the tool's own folder is not memory."""
+
+    def beside(self, text):
+        write(self.project, "tool/settings.json", text)
+        path, old = os.path.join(self.project, "tool", "settings.json"), memory.SETTINGS_BESIDE
+        memory.SETTINGS_BESIDE = path
+        self.addCleanup(setattr, memory, "SETTINGS_BESIDE", old)
+
+    def first_use_env(self, source):
+        self.place = os.path.join(scratch(self), "machine", "phoenix-memory")
+        return dict(self.env, MEMORY_PHOENIX_ROOT=self.place, MEMORY_PHOENIX_SOURCE=source,
+                    MEMORY_PHOENIX_REF="origin/main")
+
+    def test_the_settings_file_beside_the_tool(self):
+        self.beside('{"short-term": "../g/issues", "garura": "../g", "phoenix": "%s", "phoenix_ref": "main"}'
+                    % self.phoenix)
+        self.assertEqual(self.ask("search", {"issue": 7, "pattern": "reset link"}, env={})["answered_by"], "phoenix")
+
+    def test_the_environment_comes_before_the_file_beside_the_tool(self):
+        self.beside('{"garura": "nowhere"}')
+        tiers = {t["tier"]: t["reachable"] for t in self.ask("health", {})["tiers"]}
+        self.assertEqual(tiers, {"short-term": True, "garura": True, "phoenix": True})
+
+    def test_phoenix_memory_is_downloaded_the_first_time_it_is_needed(self):
+        env = self.first_use_env(self.phoenix)
+        tiers = {t["tier"]: t["reachable"] for t in self.ask("health", {}, env)["tiers"]}
+        self.assertEqual((tiers["phoenix"], os.path.exists(self.place)), (False, False))  # health only reports
+        self.assertEqual(self.ask("search", {"issue": 7, "pattern": "reset link"}, env)["answered_by"], "phoenix")
+        self.assertTrue(os.path.isdir(os.path.join(self.place, ".git")))
+        self.assertTrue(self.ask("health", {}, env)["tiers"][2]["reachable"])
+
+    def test_a_failed_download_names_phoenix_memory_and_leaves_nothing(self):
+        env = self.first_use_env(os.path.join(self.project, "no-such-repository"))
+        a = self.ask("search", {"issue": 7, "pattern": "reset link"}, env)
+        self.assertEqual((a["error"]["code"], a["error"]["tier"]), ("tier_missing", "phoenix"))
+        self.assertIn("downloading it failed", a["error"]["message"])
+        self.assertEqual(os.listdir(os.path.dirname(self.place)), [])
+
+    def test_a_download_with_no_answer_stops_at_its_time_limit_with_its_helpers(self):
+        env, bin_dir = self.first_use_env(self.phoenix), scratch(self)
+        helper = os.path.join(bin_dir, "helper.pid")
+        with open(os.path.join(bin_dir, "git"), "w") as fh:  # a clone that hangs, as a password helper does
+            fh.write(f'#!/bin/sh\nif [ "$1" = clone ]; then sleep 60 & echo $! > {helper}; sleep 60; fi\n'
+                     f'exec {shutil.which("git")} "$@"\n')
+        os.chmod(os.path.join(bin_dir, "git"), 0o755)
+        path = bin_dir + os.pathsep + os.environ["PATH"]
+        with mock.patch.dict(os.environ, {"PATH": path}), mock.patch.object(memory.phoenix_git, "DOWNLOAD_SECONDS", 1):
+            a = self.ask("search", {"issue": 7, "pattern": "reset link"}, env)
+        self.assertEqual((a["error"]["code"], a["error"]["tier"]), ("tier_missing", "phoenix"))
+        self.assertIn("no answer from", a["error"]["message"])
+        self.assertEqual(os.listdir(os.path.dirname(self.place)), [])
+        with open(helper) as fh:
+            pid = int(fh.read())
+        with self.assertRaises(ProcessLookupError):  # the helper was stopped too
+            os.kill(pid, 0)
+
+    def test_a_source_that_looks_like_an_option_is_not_read_as_one(self):
+        env, seen = self.first_use_env("--upload-pack=touch here"), []
+        real = memory.phoenix_git.subprocess.Popen
+
+        def record(cmd, *a, **kw):
+            seen.append(cmd)
+            return real(cmd, *a, **kw)
+        with mock.patch.object(memory.phoenix_git.subprocess, "Popen", record):
+            a = self.ask("search", {"issue": 7, "pattern": "reset link"}, env)
+        self.assertEqual((a["error"]["code"], a["error"]["tier"]), ("tier_missing", "phoenix"))
+        clone = next(c for c in seen if c[:2] == ["git", "clone"])
+        self.assertEqual(clone[clone.index("--upload-pack=touch here") - 1], "--")
+        self.assertFalse(os.path.exists(self.place))
+
+    def test_a_download_that_cannot_be_put_in_its_place_says_why(self):
+        env = self.first_use_env(self.phoenix)
+        with mock.patch.object(memory.phoenix_git.os, "rename", side_effect=PermissionError("not allowed")):
+            a = self.ask("search", {"issue": 7, "pattern": "reset link"}, env)
+        self.assertEqual(a["error"]["code"], "tier_missing")
+        self.assertIn("could not be put in its place", a["error"]["message"])
+        self.assertEqual(os.listdir(os.path.dirname(self.place)), [])
+
+    def test_the_tools_own_folder_is_not_garura_memory(self):
+        tool = os.path.join(self.garura, "tools", "memory")
+        write(tool, "README.md", "Reset link: the tool's own words, not memory.\n")
+        old = memory.TOOL_FOLDER
+        memory.TOOL_FOLDER = tool
+        self.addCleanup(setattr, memory, "TOOL_FOLDER", old)
+        a = self.ask("search", {"issue": 7, "pattern": "reset link", "ignore_case": True, "tier": "garura"})
+        self.assertEqual(a["hits"], [])
+        self.assertEqual(self.ask("find", {"glob": "**", "tier": "garura"})["matches"], [])
+        self.assertEqual(self.ask("read", {"tier": "garura", "path": "tools/memory/README.md"})["error"]["code"],
+                         "not_found")
 
 
 class Updates(Tiers):

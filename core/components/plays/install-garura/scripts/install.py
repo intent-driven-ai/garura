@@ -39,7 +39,13 @@ orchestrator selects one by `--tool` and delegates the host surface to it:
 The orchestrator owns the tool-agnostic work: shared memory, garura's own
 `.garura/core/config.yaml`, the STM scaffold, and the install manifest.
 
-Exit: 0 = installed, 2 = bad input / prerequisite missing.
+The orchestrator also lays the memory system (`memory_system.py`, shared with the public
+installer): the memory tool in `.garura/tools/memory/` with its settings, short-term
+memory's folder, and the memory guide where the host tool loads it for every agent. It then
+checks the tool runs and reaches the project's tiers. The install brings no memory.
+
+Exit: 0 = installed, 1 = installed but the memory check failed, 2 = bad input /
+prerequisite missing.
 Idempotent: re-running re-lays garura in place; it never duplicates.
 """
 
@@ -51,6 +57,7 @@ import shutil
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import memory_system  # noqa: E402
 from adapters import common, get_adapter, known  # noqa: E402
 
 
@@ -215,7 +222,8 @@ def resolve_scope(scope, components):
 
 # --- the install --------------------------------------------------------------
 
-def install(source, target, tool, force, quiet, memory_dest, scope="full"):
+def install(source, target, tool, force, quiet, memory_dest, scope="full",
+            phoenix_place=memory_system.PHOENIX_PLACE, phoenix_source=memory_system.PHOENIX_SOURCE):
     adapter = get_adapter(tool)
     components = os.path.join(source, "core", "components")
     if not os.path.isdir(components):
@@ -283,6 +291,13 @@ def install(source, target, tool, force, quiet, memory_dest, scope="full"):
         record["instruction_surface"] = adapter.write_instruction_surface(
             common.read_text(src_md), project_name, target, _info)
 
+    # 7. the memory system (ADR 035 §8): the tool, its settings, short-term memory's folder
+    #    and the guide every agent reads — then a check that the tool runs and reaches the
+    #    project's tiers. The install brings no memory: the tool downloads Phoenix memory
+    #    the first time it needs it.
+    record["memory_system"] = memory_system.lay(source, target, tool, phoenix_place, phoenix_source, _info)
+    record["memory_system"]["check"] = memory_system.check(target, _info)
+
     return record
 
 
@@ -343,6 +358,11 @@ def main(argv=None):
                     help="where shared memory goes (default ~/.garura/core/memory)")
     ap.add_argument("--force-config", action="store_true",
                     help="overwrite an existing target .garura/core/config.yaml")
+    ap.add_argument("--phoenix-place", default=memory_system.PHOENIX_PLACE,
+                    help="where Phoenix memory lives on this machine (default ~/.garura/phoenix-memory); "
+                         "the memory tool downloads it there the first time it is needed")
+    ap.add_argument("--phoenix-source", default=memory_system.PHOENIX_SOURCE,
+                    help="where the memory tool downloads Phoenix memory from")
     ap.add_argument("--quiet", action="store_true")
     args = ap.parse_args(argv)
 
@@ -353,13 +373,18 @@ def main(argv=None):
     scoped = "" if args.scope == "full" else f" (scope: {args.scope})"
     info(args.quiet, f"installing garura ({source}) into {target} for {args.tool}{scoped}")
     record = install(source, target, args.tool, args.force_config, args.quiet,
-                     args.memory_dest, scope=args.scope)
+                     args.memory_dest, scope=args.scope,
+                     phoenix_place=args.phoenix_place, phoenix_source=args.phoenix_source)
     record["retired"] = retire_stale(target, record["components"], args.quiet)
     write_manifest(target, record, args.quiet)
 
     c = record["counts"]
     n = c.get("skills", 0) + c.get("plays", 0)
     retired = f", retired {len(record['retired'])} stale" if record["retired"] else ""
+    if not record["memory_system"]["check"]["ok"]:
+        sys.stderr.write("install.py: installed, but the memory check failed (see above) — "
+                         "the project's agents cannot use memory until it is fixed\n")
+        sys.exit(1)
     info(args.quiet, f"\ndone — installed {c.get('agents', 0)} agent(s) and "
                      f"{n} skill/play(s){retired} into {target} for {args.tool}")
 
