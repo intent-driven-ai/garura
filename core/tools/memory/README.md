@@ -10,6 +10,10 @@ updates and `citations.py` for decision records). It answers every command in th
 `health`, `find`, `search`, `read`, `pull`, `pulled`, `propose`, `updates`, `decide`, `apply`,
 `cite` and `citations`.
 
+`GUIDE.md` is the short memory guide every agent reads: the three tiers, how to find memory,
+raise a memory update and keep a decision's trace. An install puts it where the host tool
+loads it for every agent, with `{tool}` replaced by the tool's path.
+
 ## Running the tool
 
 ```

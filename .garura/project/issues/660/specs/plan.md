@@ -4,7 +4,7 @@ kind: story
 serves: "#660 — every Garura install carries the memory tool, a memory guide, and a check that the tool works"
 status: active
 updated: 2026-10-19
-now: 3
+now: 4
 serves_plan: 653
 serves_item: 7
 ---
@@ -68,7 +68,8 @@ What is true today (`core/components/plays/install-garura/scripts/install.py`):
 ## Where we are now
 
 Kapil decided the three points (item 1). The tool finds its own settings and downloads
-Phoenix memory on first use (item 2). Now: the memory guide (item 3).
+Phoenix memory on first use (item 2). The guide is written and every command in it runs
+(item 3). Now: the installer (item 4).
 
 ## The plan, in order
 
@@ -97,18 +98,15 @@ Phoenix memory on first use (item 2). Now: the memory guide (item 3).
   Garura memory. README updated; the contract did not change. 5 new tests fail on the old
   tool and pass now; 73 tool, 13 pull and 56 contract tests pass; no boundary problem.
 
-### 3. The memory guide — now
+- **3. Written: the memory guide** — #660. `core/tools/memory/GUIDE.md`: the three tiers,
+  the one rule (memory only through the tool), finding memory and going up a tier, raising
+  a memory update, keeping a decision's trace, and what an agent never does. It says a new
+  project starts with no memory and `initialize` sets it up. Its examples use real Phoenix
+  memory lines. Every command in it was run as written on a throwaway project whose Phoenix
+  memory place started empty: all answered ok, and Phoenix memory was downloaded on first
+  use (`evidence/run_guide.py`, `evidence/guide-run.md`).
 
-**What:** one short guide, in plain words, kept beside the tool (`core/tools/memory/`), so
-the tool and its guide ship as one folder. Its content is listed in "What we are trying to
-reach". It says that a new project starts with no memory and that `initialize` will set it
-up. Every command it shows is run once, to prove it works as written.
-
-**Why here:** the installer (item 4) lays it down.
-
-**Done when:** the guide is written, and every command in it runs.
-
-### 4. The installer lays the tool, its settings and the guide
+### 4. The installer lays the tool, its settings and the guide — now
 
 **What:**
 - `install.py` copies the tool and the guide to `.garura/tools/memory/` and writes the
@@ -185,3 +183,4 @@ memory is downloaded on first use. The GitHub text is not changed yet.
   the tool downloads Phoenix memory on first use, and a new play, `initialize`, sets up a
   project's memory after the install. Items 2, 3, 5 and 6 changed to match.
 - 2026-10-19 — Item 2 built: settings beside the tool, Phoenix memory downloaded on first use, the tool's folder hidden.
+- 2026-10-19 — Item 3 written: the memory guide; every command in it runs as written.
