@@ -108,6 +108,8 @@ def rm_memory_system(target, ms, removed, dry):
     memory's folder is the person's work: it is only pruned when empty."""
     if ms.get("tool"):
         rm_dir(os.path.join(target, ms["tool"]), removed, dry)
+        if os.path.isdir(os.path.join(target, ms["tool"] + ".new")):  # a re-install that stopped part way
+            rm_dir(os.path.join(target, ms["tool"] + ".new"), removed, dry)
     if ms.get("guide"):
         rm_file(os.path.join(target, ms["guide"]), removed, dry)
     if ms.get("agents_md_block"):

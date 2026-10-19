@@ -13,6 +13,7 @@ import os
 import shutil
 import subprocess
 import sys
+import tarfile
 import tempfile
 import unittest
 from unittest import mock
@@ -132,6 +133,7 @@ class LaysTheMemorySystem(Installed):
         self.assertTrue(os.path.isfile(self.path(".garura", "tools", "memory", "memory.py")))
         with open(settings) as fh:
             self.assertEqual(json.load(fh), {"edited": True})
+        self.assertFalse(os.path.exists(self.path(".garura", "tools", "memory.new")))  # no half copy left
 
     def test_bad_input_exits_2_not_like_a_failed_check(self):
         os.makedirs(self.target)
@@ -175,6 +177,15 @@ class TheCheck(Installed):
         report = memory_system.check(self.target, info=lambda m: None)
         self.assertFalse(report["ok"])
         self.assertIn("the memory tool answered not ok", " ".join(report["messages"]))
+
+    def test_an_answer_the_check_cannot_read_fails_with_a_message(self):
+        self.install()
+        for answer in ('[1]', '{"ok": true, "tiers": [1]}'):
+            with open(self.path(".garura", "tools", "memory", "memory.py"), "w") as fh:
+                fh.write(f"print('{answer}')\n")
+            report = memory_system.check(self.target, info=lambda m: None)
+            self.assertFalse(report["ok"])
+            self.assertIn("cannot read", " ".join(report["messages"]))
 
     def test_a_source_that_does_not_answer_is_noted_and_does_not_fail(self):
         self.source = os.path.join(self.work, "no-such-repository")
@@ -240,6 +251,15 @@ class Uninstall(Installed):
         self.assertTrue(os.path.isfile(self.path(".garura", "tools", "memory", "memory.py")))
         self.assertTrue(os.path.isfile(self.path(".claude", "rules", "garura-memory.md")))
 
+    def test_uninstall_removes_a_half_copy_a_stopped_reinstall_left(self):
+        with contextlib.redirect_stdout(io.StringIO()):
+            install.main(["--target", self.target, "--scope", "harness", "--quiet",
+                          "--memory-dest", os.path.join(self.work, "shared-memory"),
+                          "--phoenix-place", self.place, "--phoenix-source", self.source])
+        os.makedirs(self.path(".garura", "tools", "memory.new"))
+        uninstall.uninstall(self.target, purge=False, quiet=True, dry=False)
+        self.assertFalse(os.path.exists(self.path(".garura", "tools")))
+
     def test_an_agents_md_that_holds_only_the_block_is_removed(self):
         os.makedirs(self.target)
         memory_system.put_block(self.path("AGENTS.md"), "the guide")
@@ -250,6 +270,111 @@ class Uninstall(Installed):
     def test_both_scripts_use_the_same_block_markers(self):
         self.assertEqual((uninstall.BLOCK_START, uninstall.BLOCK_END),
                          (memory_system.BLOCK_START, memory_system.BLOCK_END))
+
+
+FAKE_CURL = """#!/bin/sh
+# Serves the installer a local Garura in place of GitHub: the archive, and a commit id.
+out=""; url=""
+while [ $# -gt 0 ]; do
+  case "$1" in -o) out="$2"; shift 2 ;; -*) shift ;; *) url="$1"; shift ;; esac
+done
+case "$url" in
+  *archive*) cp "$GARURA_TEST_ARCHIVE" "$out" ;;
+  *commits/main*) echo '{"sha": "0123456789abcdef"}' ;;
+  *) exit 22 ;;
+esac
+"""
+
+
+class PublicInstaller(unittest.TestCase):
+    """installer/install.sh, run whole, with a local Garura served in place of the download."""
+
+    def setUp(self):
+        self.work = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, self.work, ignore_errors=True)
+        self.target = os.path.join(self.work, "shop")
+        os.makedirs(self.target)
+        self.bin = os.path.join(self.work, "bin")
+        os.makedirs(self.bin)
+        with open(os.path.join(self.bin, "curl"), "w") as fh:
+            fh.write(FAKE_CURL)
+        os.chmod(os.path.join(self.bin, "curl"), 0o755)
+
+    def archive(self, change=None):
+        """A copy of this Garura as a release archive; `change` edits the copy first."""
+        copy = os.path.join(self.work, "garura-main")
+        shutil.rmtree(copy, ignore_errors=True)
+        shutil.copytree(os.path.join(ROOT, "core"), os.path.join(copy, "core"),
+                        ignore=shutil.ignore_patterns("play-reviewer", "node_modules", "__pycache__"))
+        os.makedirs(os.path.join(copy, ".garura", "core"))
+        shutil.copy(os.path.join(ROOT, ".garura", "core", "config.yaml"), os.path.join(copy, ".garura", "core"))
+        shutil.copy(os.path.join(ROOT, "CLAUDE.md"), copy)
+        if change:
+            change(copy)
+        path = os.path.join(self.work, "garura.tar.gz")
+        with tarfile.open(path, "w:gz") as tar:
+            tar.add(copy, arcname="garura-main")
+        return path
+
+    def run_installer(self, archive):
+        # Phoenix memory's default source is answered by a local repository: no network, no keychain
+        home = os.path.join(self.work, "home")
+        source = os.path.join(self.work, "phoenix-source")
+        if not os.path.isdir(source):
+            os.makedirs(home)
+            git(self.work, "init", "-q", "--bare", source)
+            with open(os.path.join(home, ".gitconfig"), "w") as fh:
+                fh.write(f'[url "{source}"]\n\tinsteadOf = {memory_system.PHOENIX_SOURCE}\n')
+        env = dict(os.environ, PATH=self.bin + os.pathsep + os.environ["PATH"], GARURA_TEST_ARCHIVE=archive,
+                   HOME=home, GIT_CONFIG_NOSYSTEM="1")
+        env = {k: v for k, v in env.items() if not k.startswith("MEMORY_")}
+        return subprocess.run(["bash", os.path.join(ROOT, "installer", "install.sh"), "--version", "main"],
+                              cwd=self.target, env=env, capture_output=True, text=True)
+
+    def path(self, *parts):
+        return os.path.join(self.target, *parts)
+
+    def test_it_lays_the_memory_system_and_records_the_version(self):
+        run = self.run_installer(self.archive())
+        self.assertEqual(run.returncode, 0, run.stderr)
+        self.assertTrue(os.path.isfile(self.path(".garura", "tools", "memory", "memory.py")))
+        self.assertTrue(os.path.isfile(self.path(".garura", "tools", "memory", "settings.json")))
+        self.assertTrue(os.path.isfile(self.path(".claude", "rules", "garura-memory.md")))
+        self.assertIn("Short-term memory: reached.", run.stdout)
+        self.assertFalse(os.path.exists(os.path.join(self.work, "home", ".garura", "phoenix-memory")))
+        with open(self.path(".garura", "core", "garura-version")) as fh:
+            self.assertEqual(fh.read().strip(), "main@01234567")
+
+    def test_a_failed_check_exits_1_after_the_version_is_recorded(self):
+        def broken(copy):
+            with open(os.path.join(copy, "core", "tools", "memory", "memory.py"), "w") as fh:
+                fh.write("this is not python\n")
+        run = self.run_installer(self.archive(broken))
+        self.assertEqual(run.returncode, 1)
+        self.assertIn("the memory check failed", run.stderr)
+        self.assertTrue(os.path.isfile(self.path(".garura", "core", "garura-version")))
+
+    def test_an_upgrade_keeps_settings_a_person_edited(self):
+        archive = self.archive()
+        self.assertEqual(self.run_installer(archive).returncode, 0)
+        settings = self.path(".garura", "tools", "memory", "settings.json")
+        with open(settings) as fh:
+            edited = dict(json.load(fh), phoenix_ref="main")
+        with open(settings, "w") as fh:
+            json.dump(edited, fh)
+        run = self.run_installer(archive)
+        self.assertEqual(run.returncode, 0, run.stderr)
+        self.assertIn("upgraded", run.stdout)
+        with open(settings) as fh:
+            self.assertEqual(json.load(fh)["phoenix_ref"], "main")
+
+    def test_a_release_without_the_memory_system_installs_as_before(self):
+        def older(copy):
+            os.remove(os.path.join(copy, "core", "components", "plays", "install-garura", "scripts", "memory_system.py"))
+        run = self.run_installer(self.archive(older))
+        self.assertEqual(run.returncode, 0, run.stderr)
+        self.assertIn("no memory system; skipped", run.stdout)
+        self.assertFalse(os.path.exists(self.path(".garura", "tools")))
 
 
 if __name__ == "__main__":

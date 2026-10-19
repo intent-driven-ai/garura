@@ -111,9 +111,13 @@ def lay(source, target, tool, phoenix_place=PHOENIX_PLACE, phoenix_source=PHOENI
     # way leaves the old tool and its settings where they were
     new = dest + ".new"
     shutil.rmtree(new, ignore_errors=True)
-    shutil.copytree(src, new, ignore=_skip)
-    with open(os.path.join(new, "settings.json"), "w", encoding="utf-8") as fh:
-        fh.write(kept if kept is not None else json.dumps(settings_for(phoenix_place, phoenix_source), indent=2) + "\n")
+    try:
+        shutil.copytree(src, new, ignore=_skip)
+        with open(os.path.join(new, "settings.json"), "w", encoding="utf-8") as fh:
+            fh.write(kept if kept is not None else json.dumps(settings_for(phoenix_place, phoenix_source), indent=2) + "\n")
+    except BaseException:
+        shutil.rmtree(new, ignore_errors=True)  # a half copy left in .garura/ would read as memory
+        raise
     if os.path.isdir(dest):
         shutil.rmtree(dest)
     os.rename(new, dest)
@@ -151,17 +155,23 @@ def check(target, info=print):
     except (IndexError, ValueError):
         _fail(report, f"the memory tool did not run: {(run.stderr.strip().splitlines() or ['no answer'])[-1]}")
         return _say(report, info)
-    if not answer.get("ok"):
-        err = answer.get("error") or {}
-        _fail(report, f"the memory tool answered {err.get('code', 'not ok')}: {err.get('message', run.stdout.strip())}")
+    try:
+        if not answer.get("ok"):
+            err = answer.get("error") or {}
+            _fail(report, f"the memory tool answered {err.get('code', 'not ok')}: "
+                          f"{err.get('message', run.stdout.strip())}")
+            return _say(report, info)
+        tiers = answer.get("tiers", [])
+        report["tiers"] = {t["tier"]: t["reachable"] for t in tiers}
+    except (AttributeError, KeyError, TypeError):
+        _fail(report, f"the memory tool gave an answer the check cannot read: {run.stdout.strip()[:200]}")
         return _say(report, info)
-    report["tiers"] = {t["tier"]: t["reachable"] for t in answer.get("tiers", [])}
     for tier, name in (("short-term", "Short-term memory"), ("garura", "Garura memory")):
         if report["tiers"].get(tier):
             report["messages"].append(f"{name}: reached.")
         else:
             _fail(report, f"{name} cannot be reached at the place the tool's settings name.")
-    phoenix = next((t for t in answer.get("tiers", []) if t["tier"] == "phoenix"), {})
+    phoenix = next((t for t in tiers if t["tier"] == "phoenix"), {})
     report["messages"] += _phoenix_lines(target, phoenix, env)
     return _say(report, info)
 
