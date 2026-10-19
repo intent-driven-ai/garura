@@ -1,0 +1,63 @@
+{
+  "decided": true,
+  "lint_ok": true,
+  "linked": true,
+  "target": "docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md",
+  "shape": "markdown",
+  "guard": {
+    "adr": ".garura/project/issues/_adr/20261019-122431/adr-draft.md",
+    "declared": "none",
+    "touches_an_intent": [],
+    "verdict": "no person's business intent changes"
+  },
+  "olders": [
+    {
+      "adr": "036",
+      "file": "docs/adr/036-approved-answer-lands-in-short-term-memory.md",
+      "kind": "superseded",
+      "part": "in part \u2014 \u00a74 \"A person's own answer goes into Garura memory\", and the lines that carry it: \u00a78's line on ADR 035 \u00a75 (\"A person's own answer goes to Garura memory\") and its header's line on ADR 034 \u00a72 (\"a person's answers to questions are kept in Garura memory\"). A question asked of a person, and the answer, are kept in the issue's short-term memory."
+    },
+    {
+      "adr": "035",
+      "file": "docs/adr/035-agents-work-only-from-memory.md",
+      "kind": "amended",
+      "part": "full"
+    },
+    {
+      "adr": "034",
+      "file": "docs/adr/034-plays-answer-from-memory-inside-a-drive.md",
+      "kind": "amended",
+      "part": "full"
+    },
+    {
+      "adr": "038",
+      "file": "docs/adr/038-install-brings-no-memory.md",
+      "kind": "amended",
+      "part": "full"
+    },
+    {
+      "adr": "017",
+      "file": "docs/adr/017-folder-whitelist.md",
+      "kind": "amended",
+      "part": "full"
+    },
+    {
+      "adr": "009",
+      "file": "docs/adr/009-skill-ltm-organizational-knowledge.md",
+      "kind": "amended",
+      "part": "full"
+    }
+  ],
+  "status": "accepted",
+  "accepted_by": "Kapil Viren Ahuja",
+  "pointers_written": [
+    "036-approved-answer-lands-in-short-term-memory.md",
+    "035-agents-work-only-from-memory.md",
+    "034-plays-answer-from-memory-inside-a-drive.md",
+    "038-install-brings-no-memory.md",
+    "017-folder-whitelist.md",
+    "009-skill-ltm-organizational-knowledge.md"
+  ],
+  "pointers_missing": [],
+  "index_ok": true
+}

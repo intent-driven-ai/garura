@@ -1,6 +1,6 @@
 # ADR 038 — The Install Brings No Memory: the Memory Tool Lives in the Project and Fetches Phoenix Memory on First Use
 
-**Status:** Accepted
+**Status:** Accepted — amended in part by [ADR 039](039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md)
 **Date:** 2026-10-19
 **Level:** framework
 **Decided by:** Kapil Viren Ahuja

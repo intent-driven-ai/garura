@@ -1,0 +1,6 @@
+decision:
+  verdict: accept
+  by: person
+  accepted_by: Kapil Viren Ahuja
+  reply: "1. fix this. the answers go to STM. So even when we are running vision or understand or whatnot, and the user is answering, the groundings are running into that specific issue as well. \n2 okay\n3 ok\n4. dont ignore this\n5 This will only happen if we haven't promoted the short-term memory to project memory, which is how it is expected.\naccept"
+  note: "Kapil's five points were re-drafted into the record (the change path) before this accept was applied."

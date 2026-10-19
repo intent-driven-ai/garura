@@ -1,0 +1,20 @@
+ M .garura/project/issues/661/specs/plan.md
+ M docs/adr/009-skill-ltm-organizational-knowledge.md
+ M docs/adr/017-folder-whitelist.md
+ M docs/adr/034-plays-answer-from-memory-inside-a-drive.md
+ M docs/adr/035-agents-work-only-from-memory.md
+ M docs/adr/036-approved-answer-lands-in-short-term-memory.md
+ M docs/adr/038-install-brings-no-memory.md
+ M docs/adr/_index.md
+?? .garura/project/issues/_adr/20261019-122431/adr-check.json
+?? .garura/project/issues/_adr/20261019-122431/adr-context.yaml
+?? .garura/project/issues/_adr/20261019-122431/adr-draft.md
+?? .garura/project/issues/_adr/20261019-122431/adr-manifest.json
+?? .garura/project/issues/_adr/20261019-122431/brief.md
+?? .garura/project/issues/_adr/20261019-122431/decision.yaml
+?? .garura/project/issues/_adr/20261019-122431/hashes-before.json
+?? .garura/project/issues/_adr/20261019-122431/porcelain-after.txt
+?? .garura/project/issues/_adr/20261019-122431/porcelain-before.txt
+?? .garura/project/issues/_adr/20261019-122431/run.json
+?? .garura/project/issues/_adr/20261019-122431/start-change.json
+?? docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md
