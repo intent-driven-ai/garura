@@ -164,6 +164,11 @@ def test_review_writer():
               and rec7["decisions"][0]["trace"][0]["source"]["tier"] == "garura" and rec7["decision_problems"] == [])
         with open(citations) as fh:
             good = json.load(fh)
+        v5 = os.path.join(tmp, "citations-v5.json")
+        with open(v5, "w") as fh:
+            json.dump(dict(good, contract_version="5"), fh)
+        check("a citations answer from contract v5 (the current tool) is written too",
+              wdr.main(["--run", runp, "--summary", summary, "--decisions", v5, "--ts", "t10"]) == 0)
         for name, bad in (("another play", dict(good, records=[dict(good["records"][0], play="/understand")])),
                           ("another issue", dict(good, records=[dict(good["records"][0], issue=999)])),
                           ("records that are not a list", dict(good, records="oops")),

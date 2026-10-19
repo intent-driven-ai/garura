@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-updates.py — memory updates, kept in the issue's short-term memory (contract version 4).
+updates.py — memory updates, kept in the issue's short-term memory (contract version 5).
 
 A memory update is raised when no tier answers. It waits for a person. A person approves or
 rejects it, one at a time, in the review tool. An approved update is written to the issue's
