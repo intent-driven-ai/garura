@@ -4,7 +4,7 @@ kind: story
 serves: "#660 — every Garura install carries the memory tool, a memory guide, and a check that the tool works"
 status: active
 updated: 2026-10-19
-now: 6
+now: 7
 serves_plan: 653
 serves_item: 7
 ---
@@ -70,7 +70,8 @@ What is true today (`core/components/plays/install-garura/scripts/install.py`):
 Kapil decided the three points (item 1). The tool finds its own settings and downloads
 Phoenix memory on first use (item 2). The guide is written and every command in it runs
 (item 3). The installer lays the memory system and checks it, on both install paths (items 4
-and 5). Now: the proof on a fresh project (item 6).
+and 5). A fresh-project test passed: a real sub-agent found memory through the tool (item 6).
+Now: land it (item 7), on Kapil's word.
 
 ## The plan, in order
 
@@ -127,20 +128,18 @@ and 5). Now: the proof on a fresh project (item 6).
   uninstall keeps a project's own `AGENTS.md` text and its short-term work. Component lint:
   116 findings, as on main.
 
-### 6. Prove it on a fresh project — now
+- **6. Proved on a fresh project** — #660 (`evidence/fresh-project-test.md`). A Claude Code
+  install into a fresh project finished with no memory; its check passed and said Phoenix
+  memory would arrive on first use. A real general-purpose sub-agent there, asked only
+  "which way back in must a password sign-in offer? Decide it from memory", used the tool
+  on its own (from the guide in `.claude/rules/`), and its first search downloaded Phoenix
+  memory from GitHub. It answered "password reset", named
+  `knowledge/domains/user-management.md` lines 61–62 in Phoenix memory, and kept the trace
+  with `cite`. A Codex install kept the project's own `AGENTS.md` and added one block.
+  Uninstall removed the tool and the guide and kept the project's memory and work. Not run:
+  the public installer's new step (it downloads a published release), and a Codex agent.
 
-**What:** install into a fresh test project, for Claude Code and then for Codex, with
-Phoenix memory's place empty (a test place, so the real one is never touched). The install
-finishes with no memory. Then ask an agent in the Claude Code project to find a piece of
-memory. Confirm the tool downloads Phoenix memory, the agent uses the tool, and it names
-its source. Then uninstall and confirm the project is clean. This is recorded as Kapil's
-test, as in #657.
-
-**Why here:** only a real install and a real agent show that the system works.
-
-**Done when:** the run is recorded in `evidence/`.
-
-### 7. Land
+### 7. Land — now
 
 **What:** update the installer's guide (`install-garura/SKILL.md`). Close this plan and
 item 7 of the #653 plan in the last commit before the merge. Then run the change chain.
@@ -172,3 +171,4 @@ memory is downloaded on first use. The GitHub text is not changed yet.
 - 2026-10-19 — Item 2 built: settings beside the tool, Phoenix memory downloaded on first use, the tool's folder hidden.
 - 2026-10-19 — Item 3 written: the memory guide; every command in it runs as written.
 - 2026-10-19 — Items 4 and 5 built: one memory-system script for both install paths (`install.py` and `installer/install.sh`), the check, uninstall, 12 tests.
+- 2026-10-19 — Item 6 done: the fresh-project test passed (Claude Code install, a real sub-agent, Codex install, uninstall).
