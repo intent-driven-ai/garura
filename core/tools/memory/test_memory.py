@@ -259,6 +259,59 @@ class Settings(Tiers):
                          "bad_request")
 
 
+class AfterAnInstall(Tiers):
+    """An install writes the settings beside the tool and brings no memory: Phoenix memory is
+    downloaded the first time a command needs it, and the tool's own folder is not memory."""
+
+    def beside(self, text):
+        write(self.project, "tool/settings.json", text)
+        path, old = os.path.join(self.project, "tool", "settings.json"), memory.SETTINGS_BESIDE
+        memory.SETTINGS_BESIDE = path
+        self.addCleanup(setattr, memory, "SETTINGS_BESIDE", old)
+
+    def first_use_env(self, source):
+        self.place = os.path.join(scratch(self), "machine", "phoenix-memory")
+        return dict(self.env, MEMORY_PHOENIX_ROOT=self.place, MEMORY_PHOENIX_SOURCE=source,
+                    MEMORY_PHOENIX_REF="origin/main")
+
+    def test_the_settings_file_beside_the_tool(self):
+        self.beside('{"short-term": "../g/issues", "garura": "../g", "phoenix": "%s", "phoenix_ref": "main"}'
+                    % self.phoenix)
+        self.assertEqual(self.ask("search", {"issue": 7, "pattern": "reset link"}, env={})["answered_by"], "phoenix")
+
+    def test_the_environment_comes_before_the_file_beside_the_tool(self):
+        self.beside('{"garura": "nowhere"}')
+        tiers = {t["tier"]: t["reachable"] for t in self.ask("health", {})["tiers"]}
+        self.assertEqual(tiers, {"short-term": True, "garura": True, "phoenix": True})
+
+    def test_phoenix_memory_is_downloaded_the_first_time_it_is_needed(self):
+        env = self.first_use_env(self.phoenix)
+        tiers = {t["tier"]: t["reachable"] for t in self.ask("health", {}, env)["tiers"]}
+        self.assertEqual((tiers["phoenix"], os.path.exists(self.place)), (False, False))  # health only reports
+        self.assertEqual(self.ask("search", {"issue": 7, "pattern": "reset link"}, env)["answered_by"], "phoenix")
+        self.assertTrue(os.path.isdir(os.path.join(self.place, ".git")))
+        self.assertTrue(self.ask("health", {}, env)["tiers"][2]["reachable"])
+
+    def test_a_failed_download_names_phoenix_memory_and_leaves_nothing(self):
+        env = self.first_use_env(os.path.join(self.project, "no-such-repository"))
+        a = self.ask("search", {"issue": 7, "pattern": "reset link"}, env)
+        self.assertEqual((a["error"]["code"], a["error"]["tier"]), ("tier_missing", "phoenix"))
+        self.assertIn("downloading it failed", a["error"]["message"])
+        self.assertEqual(os.listdir(os.path.dirname(self.place)), [])
+
+    def test_the_tools_own_folder_is_not_garura_memory(self):
+        tool = os.path.join(self.garura, "tools", "memory")
+        write(tool, "README.md", "Reset link: the tool's own words, not memory.\n")
+        old = memory.TOOL_FOLDER
+        memory.TOOL_FOLDER = tool
+        self.addCleanup(setattr, memory, "TOOL_FOLDER", old)
+        a = self.ask("search", {"issue": 7, "pattern": "reset link", "ignore_case": True, "tier": "garura"})
+        self.assertEqual(a["hits"], [])
+        self.assertEqual(self.ask("find", {"glob": "**", "tier": "garura"})["matches"], [])
+        self.assertEqual(self.ask("read", {"tier": "garura", "path": "tools/memory/README.md"})["error"]["code"],
+                         "not_found")
+
+
 class Updates(Tiers):
     """A gap, a memory update, a person's word, the write — all in the issue's short-term memory."""
 

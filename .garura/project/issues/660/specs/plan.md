@@ -4,7 +4,7 @@ kind: story
 serves: "#660 — every Garura install carries the memory tool, a memory guide, and a check that the tool works"
 status: active
 updated: 2026-10-19
-now: 2
+now: 3
 serves_plan: 653
 serves_item: 7
 ---
@@ -67,8 +67,8 @@ What is true today (`core/components/plays/install-garura/scripts/install.py`):
 
 ## Where we are now
 
-Kapil decided the three points (item 1). Next is item 2: the tool finds its own settings
-and downloads Phoenix memory when it first needs it.
+Kapil decided the three points (item 1). The tool finds its own settings and downloads
+Phoenix memory on first use (item 2). Now: the memory guide (item 3).
 
 ## The plan, in order
 
@@ -89,24 +89,15 @@ and downloads Phoenix memory when it first needs it.
   - (c) The install finishes without any memory. The tool downloads Phoenix memory the
     first time it needs it, to a place on the machine its settings name. (Kapil's words are
     quoted above.)
+- **2. Built: the tool finds its settings and downloads Phoenix memory** — #660. With
+  nothing set, `memory.py` reads `settings.json` beside itself. A new setting,
+  `phoenix_source`, names where Phoenix memory comes from; the first command that needs
+  Phoenix memory and finds its place empty downloads it there, whole or not at all, and never
+  waits for a password. `health` only reports. The tool's own folder is never answered as
+  Garura memory. README updated; the contract did not change. 5 new tests fail on the old
+  tool and pass now; 73 tool, 13 pull and 56 contract tests pass; no boundary problem.
 
-### 2. The tool finds its settings and downloads Phoenix memory — now
-
-**What:**
-- When nothing is set, the tool reads the settings file beside itself (`settings.json`).
-  `MEMORY_SETTINGS` and the environment still come first.
-- A new setting names Phoenix memory's address. When Phoenix memory's place is empty and a
-  command needs it, the tool downloads it there first. `health` only reports; it never
-  downloads. If the download fails, the tool says so and names Phoenix memory.
-- The tool's own folder is never answered as Garura memory.
-- The README says all three. The contract does not change: settings and downloading belong
-  to the folder engine, not to the answers.
-
-**Why here:** the guide and the install check both call the tool the plain way.
-
-**Done when:** the tool's tests pass, with new tests for each of the three.
-
-### 3. The memory guide
+### 3. The memory guide — now
 
 **What:** one short guide, in plain words, kept beside the tool (`core/tools/memory/`), so
 the tool and its guide ship as one folder. Its content is listed in "What we are trying to
@@ -193,3 +184,4 @@ memory is downloaded on first use. The GitHub text is not changed yet.
 - 2026-10-19 — Item 1 done: Kapil chose a1 and b1, and for c, an install with no memory;
   the tool downloads Phoenix memory on first use, and a new play, `initialize`, sets up a
   project's memory after the install. Items 2, 3, 5 and 6 changed to match.
+- 2026-10-19 — Item 2 built: settings beside the tool, Phoenix memory downloaded on first use, the tool's folder hidden.

@@ -12,7 +12,9 @@ Phoenix memory is a git repository on disk, read only at its approved version: t
 REF names (default origin/main — a change reaches it when a person merges it, outside this
 tool). Working-tree edits and unmerged commits are never read. Garura memory is a folder in
 the project. Their places come from the flags, else from MEMORY_PHOENIX_ROOT,
-MEMORY_GARURA_ROOT and MEMORY_PHOENIX_REF — never from a fixed path.
+MEMORY_GARURA_ROOT and MEMORY_PHOENIX_REF — never from a fixed path. When Phoenix memory's
+place is empty, memory.py downloads it there from its source (download) the first time a
+command needs it.
 
 pull copies pieces from Phoenix memory into Garura memory, at the same path. Nothing
 leaves Phoenix memory. A piece is never written over a different file: if Garura memory
@@ -34,8 +36,10 @@ import hashlib
 import json
 import os
 import re
+import shutil
 import subprocess
 import sys
+import tempfile
 
 CONTRACT_VERSION = "4"
 LIST = "pulled.json"
@@ -99,6 +103,31 @@ def roots(phoenix, garura):
         if not os.path.isdir(os.path.expanduser(path)):
             raise Refusal("tier_missing", f"{tier} memory cannot be reached at its setting.", tier)
     return os.path.expanduser(phoenix), os.path.expanduser(garura)
+
+
+def download(source, phoenix):
+    """Download Phoenix memory to its place on this machine, the first time it is needed.
+    It is cloned beside the place and moved in whole, so a cut-off download never looks like
+    Phoenix memory, and two first runs at once keep one copy."""
+    parent = os.path.dirname(os.path.abspath(phoenix))
+    try:
+        os.makedirs(parent, exist_ok=True)
+        part = tempfile.mkdtemp(prefix=".phoenix-memory-download-", dir=parent)
+    except OSError as exc:
+        raise Refusal("tier_missing", f"Phoenix memory is not on this machine, and there is no room "
+                      f"to download it: {exc}.", "phoenix") from exc
+    # never wait for a password nobody is there to type: fail and say so
+    run = subprocess.run(["git", "clone", "--quiet", source, part], capture_output=True,
+                         env=dict(os.environ, GIT_TERMINAL_PROMPT="0"))
+    if run.returncode != 0:
+        shutil.rmtree(part, ignore_errors=True)
+        why = run.stderr.decode(errors="replace").strip().splitlines()
+        raise Refusal("tier_missing", "Phoenix memory is not on this machine, and downloading it "
+                      f"failed: {why[-1] if why else 'git clone failed'}.", "phoenix")
+    try:
+        os.rename(part, phoenix)
+    except OSError:  # another first run put it there first: use that copy
+        shutil.rmtree(part, ignore_errors=True)
 
 
 def version(phoenix, ref="HEAD"):

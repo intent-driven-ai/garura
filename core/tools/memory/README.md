@@ -23,22 +23,30 @@ Each request field is a flag, or the whole request is one JSON object (`--reques
 answer is one JSON object per line. A request the contract does not allow is refused with
 `bad_request` before any memory is read.
 
-The tool learns where each tier lives from one source: the JSON file `MEMORY_SETTINGS` names
-(places in it are relative to the file), else these environment variables:
+The tool learns where each tier lives from one source: the JSON file `MEMORY_SETTINGS` names,
+else these environment variables, else `settings.json` beside `memory.py` (an install writes
+it, so an agent in an installed project runs the tool with no settings of its own). Places in
+a settings file are relative to that file.
 
 | Setting | Environment | What |
 |---|---|---|
 | `short-term` | `MEMORY_SHORT_TERM_ROOT` | The folder that holds one folder per issue |
-| `garura` | `MEMORY_GARURA_ROOT` | Garura memory's folder. If the short-term folder sits inside it, that part is short-term memory, not Garura memory |
-| `phoenix` | `MEMORY_PHOENIX_ROOT` | Phoenix memory's git repository |
+| `garura` | `MEMORY_GARURA_ROOT` | Garura memory's folder. If the short-term folder sits inside it, that part is short-term memory, not Garura memory. If the tool itself sits inside it, the tool's folder is not memory at all |
+| `phoenix` | `MEMORY_PHOENIX_ROOT` | Phoenix memory's git repository: one place on the machine, shared by every project |
+| `phoenix_source` | `MEMORY_PHOENIX_SOURCE` | Where Phoenix memory is downloaded from. When its place is empty, the first command that needs Phoenix memory downloads it there |
 | `phoenix_ref` | `MEMORY_PHOENIX_REF` | Phoenix memory's approved version (default `origin/main`) |
 | `garura_pull_dir` | `MEMORY_GARURA_PULL_DIR` | Where pulled pieces land inside Garura memory (default: its root) |
 | `updates_dir` | `MEMORY_UPDATES_DIR` | Where an issue's memory updates are kept, inside its short-term folder (default `review/memory-updates`). A lookup never reads them: a draft is used only once a person approved it and it was applied |
 | `citations_file` | `MEMORY_CITATIONS_FILE` | Where an issue's decision records are kept, inside its short-term folder (default `context/citations.jsonl`). A lookup never reads them: an agent never decides from its own earlier decision |
 | `engine` | `MEMORY_ENGINE` | `folder`, the only engine built. A server engine is one setting away |
 
-Two rules the folder engine keeps:
+Three rules the folder engine keeps:
 
+- **Phoenix memory arrives on first use.** An install brings no memory. The first command
+  that needs Phoenix memory and finds its place empty downloads it from `phoenix_source`,
+  whole or not at all, and never waits for a password. If the download fails, the answer is
+  `tier_missing` for Phoenix memory, with the reason. `health` only reports; it never
+  downloads.
 - **Phoenix memory is read only at its approved version**, the commit `phoenix_ref` names. A
   change reaches Phoenix memory when a person approves it outside Garura; until then — on a
   branch, or edited on disk — the tool does not read it.
