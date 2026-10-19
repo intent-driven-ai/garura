@@ -59,7 +59,7 @@ in the orchestrator, stop — that belongs in the adapter.
 
 Both tools also get:
 
-- `.garura/core/config.yaml` — garura's config transformed for the target (name, type
+- `.garura/core/config.yaml` — garura's config (source: `core/config.yaml`) transformed for the target (name, type
   `Project`, component paths pointed at the tool's install location, memory at
   `~/.garura/core/memory/`, the `platform`/`github` lines dropped). Kept on re-run unless
   `--force-config`.
@@ -108,7 +108,8 @@ Before running, confirm:
 2. **The tool is known.** Default is `claude`. Install for Codex with `--tool codex`. If the
    user said "for codex" (or "for claude"), pass it through.
 3. **You're in (or can point at) the garura checkout.** The script auto-derives the source by
-   walking up until it finds `core/components/` and `.garura/core/config.yaml`. When run
+   walking up until it finds `core/components/` and `core/config.yaml` (the config's source,
+   ADR 040; an older checkout keeps it at `.garura/core/config.yaml`). When run
    detached from source, pass `--source <garura-checkout>`.
 4. **Python 3 is available.** The script is Python 3, no third-party packages.
 

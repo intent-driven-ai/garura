@@ -132,7 +132,8 @@ one-session / one-branch rule, the scope boundary, and the tracker traps.
 ## Reference
 
 - `core/grounding/glossary.md` — Canonical definitions of every Garura concept
-- `.garura/core/config.yaml` — Paths and settings
+- `core/config.yaml` — Paths and settings (the source; the install copies it into a project as
+  `.garura/core/config.yaml`, which that project's plays read)
 - `docs/adr/` — Architecture Decision Records (23 ADRs, plus one superseded)
 - `docs/philosophy/` — Core architecture philosophy
 - `docs/components/` — Agent, skill, play, memory documentation

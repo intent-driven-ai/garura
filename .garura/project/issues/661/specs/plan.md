@@ -135,8 +135,9 @@ ontology's path.
 **Progress (2026-10-19):** `template-manager` (`core/components/agents/template-manager.md`)
 and `judge-grounding` (`core/components/skills/judge-grounding/SKILL.md`) are built and pass
 the lint; `standards/rules/grounding-eval.md` now keeps only the gate rule and points to the
-skill (its Phoenix memory copy follows at landing). The ontology's path waits on Kapil: the
-config the install copies is `.garura/core/config.yaml`, inside the installed copy's folder.
+skill (its Phoenix memory copy follows at landing). Kapil chose "2": the config's source moves to `core/config.yaml`
+(with `product.ontology`); the install and the installer copy it from there; this repo's
+`.garura/` is not edited. ADR 040 records it (drafted, waiting for Kapil's accept).
 
 ### 5. The shared close in one common file
 
@@ -235,3 +236,5 @@ Then run the change chain.
   from `3e0f98ab`, the one commit whose file list matches it).
 - 2026-10-19 — Item 3 done: the tool copies nothing and reads only `core/memory/` then `product/`;
   the install lays it at `.garura/core/tools/memory/`. All tests pass.
+- 2026-10-19 — Kapil: the config is built in `core/`, `.garura/` files are not modified ("2 is the
+  right way"). `core/config.yaml` added; install and installer read it; ADR 040 drafted.

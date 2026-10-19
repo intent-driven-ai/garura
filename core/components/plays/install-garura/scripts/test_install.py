@@ -75,6 +75,7 @@ class LaysTheMemorySystem(Installed):
         self.assertFalse(os.path.exists(self.path(".garura", "core", "tools", "memory", "test_memory.py")))
         self.assertFalse(os.path.exists(self.path(".garura", "core", "tools", "memory", "contract", "samples")))
         self.assertTrue(os.path.isdir(self.path(".garura", "project", "issues")))
+        self.assertFalse(os.path.exists(self.path(".garura", "project", "specs")))
         with open(self.path(".claude", "rules", "garura-memory.md")) as fh:
             guide = fh.read()
         self.assertIn("python3 .garura/core/tools/memory/memory.py search", guide)
@@ -109,6 +110,12 @@ class LaysTheMemorySystem(Installed):
         self.assertEqual(text.count(memory_system.BLOCK_START), 1)
         self.assertIn("python3 .garura/core/tools/memory/memory.py search", text)
         self.assertFalse(os.path.exists(self.path(".claude", "rules")))
+
+    def test_the_config_comes_from_core_config_yaml(self):
+        self.install()
+        with open(self.path(".garura", "core", "config.yaml")) as fh:
+            config = fh.read()
+        self.assertIn("ontology: standards/schemas/product-os/ontology.md", config)
 
     def test_a_reinstall_keeps_settings_a_person_edited(self):
         self.install()
@@ -319,8 +326,6 @@ class PublicInstaller(unittest.TestCase):
         shutil.rmtree(copy, ignore_errors=True)
         shutil.copytree(os.path.join(ROOT, "core"), os.path.join(copy, "core"),
                         ignore=shutil.ignore_patterns("play-reviewer", "node_modules", "__pycache__"))
-        os.makedirs(os.path.join(copy, ".garura", "core"))
-        shutil.copy(os.path.join(ROOT, ".garura", "core", "config.yaml"), os.path.join(copy, ".garura", "core"))
         shutil.copy(os.path.join(ROOT, "CLAUDE.md"), copy)
         if change:
             change(copy)
@@ -380,6 +385,21 @@ class PublicInstaller(unittest.TestCase):
         self.assertIn("upgraded", run.stdout)
         with open(settings) as fh:
             self.assertEqual(json.load(fh)["phoenix_ref"], "main")
+
+    def test_the_installer_writes_the_config_from_core_config_yaml(self):
+        run = self.run_installer(self.archive())
+        self.assertEqual(run.returncode, 0, run.stderr)
+        with open(self.path(".garura", "core", "config.yaml")) as fh:
+            self.assertIn("ontology: standards/schemas/product-os/ontology.md", fh.read())
+        self.assertFalse(os.path.exists(self.path(".garura", "project", "specs")))
+
+    def test_a_release_with_the_config_in_its_old_place_still_installs(self):
+        def older(copy):
+            os.makedirs(os.path.join(copy, ".garura", "core"))
+            os.rename(os.path.join(copy, "core", "config.yaml"), os.path.join(copy, ".garura", "core", "config.yaml"))
+        run = self.run_installer(self.archive(older))
+        self.assertEqual(run.returncode, 0, run.stderr)
+        self.assertTrue(os.path.isfile(self.path(".garura", "core", "config.yaml")))
 
     def test_a_release_without_the_memory_system_installs_as_before(self):
         def older(copy):

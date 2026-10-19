@@ -44,7 +44,7 @@ What a play used to read from memory now comes from elsewhere (ADR 039):
 
 | What | Where it comes from |
 |------|---------------------|
-| A path, such as the ontology's | `.garura/core/config.yaml` |
+| A path, such as the ontology's | The config: `.garura/core/config.yaml` in a project, installed from the source `core/config.yaml` (ADR 040) |
 | The judge prompt and rubric | A judging skill |
 | Templates (the approval prompt, the evidence file, the delivery report, the Next-line map) | The `template-manager` agent, which loads them through the tool into short-term memory |
 | A block every play shares (the Standard Play Close) | One common file the plays point to |
