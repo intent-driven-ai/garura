@@ -11,6 +11,7 @@ import json
 import os
 import sys
 import unittest
+from unittest import mock
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
@@ -297,6 +298,42 @@ class AfterAnInstall(Tiers):
         a = self.ask("search", {"issue": 7, "pattern": "reset link"}, env)
         self.assertEqual((a["error"]["code"], a["error"]["tier"]), ("tier_missing", "phoenix"))
         self.assertIn("downloading it failed", a["error"]["message"])
+        self.assertEqual(os.listdir(os.path.dirname(self.place)), [])
+
+    def test_a_download_with_no_answer_stops_at_its_time_limit(self):
+        env = self.first_use_env(self.phoenix)
+        real = memory.phoenix_git.subprocess.run
+
+        def stalled(cmd, *a, **kw):
+            if cmd[:2] == ["git", "clone"]:
+                raise memory.phoenix_git.subprocess.TimeoutExpired(cmd, kw.get("timeout"))
+            return real(cmd, *a, **kw)
+        with mock.patch.object(memory.phoenix_git.subprocess, "run", stalled):
+            a = self.ask("search", {"issue": 7, "pattern": "reset link"}, env)
+        self.assertEqual((a["error"]["code"], a["error"]["tier"]), ("tier_missing", "phoenix"))
+        self.assertIn("no answer from", a["error"]["message"])
+        self.assertEqual(os.listdir(os.path.dirname(self.place)), [])
+
+    def test_a_source_that_looks_like_an_option_is_not_read_as_one(self):
+        env, seen = self.first_use_env("--upload-pack=touch here"), []
+        real = memory.phoenix_git.subprocess.run
+
+        def record(cmd, *a, **kw):
+            seen.append(cmd)
+            return real(cmd, *a, **kw)
+        with mock.patch.object(memory.phoenix_git.subprocess, "run", record):
+            a = self.ask("search", {"issue": 7, "pattern": "reset link"}, env)
+        self.assertEqual((a["error"]["code"], a["error"]["tier"]), ("tier_missing", "phoenix"))
+        clone = next(c for c in seen if c[:2] == ["git", "clone"])
+        self.assertEqual(clone[clone.index("--upload-pack=touch here") - 1], "--")
+        self.assertFalse(os.path.exists(self.place))
+
+    def test_a_download_that_cannot_be_put_in_its_place_says_why(self):
+        env = self.first_use_env(self.phoenix)
+        with mock.patch.object(memory.phoenix_git.os, "rename", side_effect=PermissionError("not allowed")):
+            a = self.ask("search", {"issue": 7, "pattern": "reset link"}, env)
+        self.assertEqual(a["error"]["code"], "tier_missing")
+        self.assertIn("could not be put in its place", a["error"]["message"])
         self.assertEqual(os.listdir(os.path.dirname(self.place)), [])
 
     def test_the_tools_own_folder_is_not_garura_memory(self):

@@ -87,8 +87,9 @@ def rm_block(path, removed, dry):
         return False
     with open(path, encoding="utf-8") as fh:
         text = fh.read()
-    start, end = text.find(BLOCK_START), text.find(BLOCK_END)
-    if start < 0 or end < start:
+    start = text.find(BLOCK_START)
+    end = text.find(BLOCK_END, start) if start >= 0 else -1
+    if end < 0:
         return False
     before, after = text[:start].rstrip("\n"), text[end + len(BLOCK_END):].strip("\n")
     kept = "\n\n".join(p for p in (before, after) if p)
@@ -100,6 +101,17 @@ def rm_block(path, removed, dry):
             os.remove(path)
     removed.append(f"{path} (memory guide block)")
     return True
+
+
+def rm_memory_system(target, ms, removed, dry):
+    """The memory system (ADR 035 §8): the tool with its settings, and the guide. Short-term
+    memory's folder is the person's work: it is only pruned when empty."""
+    if ms.get("tool"):
+        rm_dir(os.path.join(target, ms["tool"]), removed, dry)
+    if ms.get("guide"):
+        rm_file(os.path.join(target, ms["guide"]), removed, dry)
+    if ms.get("agents_md_block"):
+        rm_block(os.path.join(target, ms["agents_md_block"]), removed, dry)
 
 
 def uninstall(target, *, purge, quiet, dry):
@@ -156,15 +168,7 @@ def uninstall(target, *, purge, quiet, dry):
     # status-marker ignore rule the installer wrote (ADR 021)
     if rec.get("status_gitignore"):
         rm_file(os.path.join(target, rec["status_gitignore"]), removed, dry)
-    # the memory system (ADR 035 §8): the tool with its settings, and the guide. Short-term
-    # memory's folder is the person's work: it is only pruned below when empty.
-    ms = rec.get("memory_system") or {}
-    if ms.get("tool"):
-        rm_dir(os.path.join(target, ms["tool"]), removed, dry)
-    if ms.get("guide"):
-        rm_file(os.path.join(target, ms["guide"]), removed, dry)
-    if ms.get("agents_md_block"):
-        rm_block(os.path.join(target, ms["agents_md_block"]), removed, dry)
+    rm_memory_system(target, rec.get("memory_system") or {}, removed, dry)
     # shared memory: only on explicit purge, and only the exact recorded path
     if rec.get("memory"):
         if purge:

@@ -215,8 +215,14 @@ install_memory_system() {
     return 0
   fi
   info "  Installing the memory system..."
-  if ! python3 "$script" --target "$TARGET_DIR" --tool claude --source "$SRC_DIR"; then
-    err "The memory check failed (see above). The project's agents cannot use memory until it is fixed."
+  python3 "$script" --target "$TARGET_DIR" --tool claude --source "$SRC_DIR" || MEMORY_CHECK_FAILED=1
+}
+
+# Called after the version is recorded, as install.py writes its manifest first: a failed
+# check leaves an install the next run can see and lay again.
+stop_if_memory_check_failed() {
+  if [ -n "${MEMORY_CHECK_FAILED:-}" ]; then
+    err "Installed, but the memory check failed (see above). The project's agents cannot use memory until it is fixed."
     exit 1
   fi
 }
@@ -298,6 +304,7 @@ if [ "$MODE" = "init" ]; then
   # 9. Record the installed version
   mkdir -p "$(dirname "$VERSION_FILE")"
   echo "$INSTALLED_VERSION" > "$VERSION_FILE"
+  stop_if_memory_check_failed
 
   ok ""
   ok "Garura $INSTALLED_VERSION initialized successfully!"
@@ -378,6 +385,7 @@ else
 
   # 8. Record the installed version
   echo "$INSTALLED_VERSION" > "$VERSION_FILE"
+  stop_if_memory_check_failed
 
   ok ""
   ok "Garura upgraded successfully: $PREVIOUS_VERSION -> $INSTALLED_VERSION"

@@ -44,6 +44,7 @@ import tempfile
 CONTRACT_VERSION = "4"
 LIST = "pulled.json"
 SAFE_PATH = re.compile(r"^(?!/)(?!.*\.\.)[^\\\n\r]+\Z")
+DOWNLOAD_SECONDS = 600  # the longest a first-use download may take
 
 
 class Refusal(Exception):
@@ -116,18 +117,24 @@ def download(source, phoenix):
     except OSError as exc:
         raise Refusal("tier_missing", f"Phoenix memory is not on this machine, and there is no room "
                       f"to download it: {exc}.", "phoenix") from exc
-    # never wait for a password nobody is there to type: fail and say so
-    run = subprocess.run(["git", "clone", "--quiet", source, part], capture_output=True,
-                         env=dict(os.environ, GIT_TERMINAL_PROMPT="0"))
-    if run.returncode != 0:
+    # never wait for a password nobody is there to type, nor on a stalled network: fail and say so
+    try:
+        run = subprocess.run(["git", "clone", "--quiet", "--", source, part], capture_output=True,
+                             env=dict(os.environ, GIT_TERMINAL_PROMPT="0"), timeout=DOWNLOAD_SECONDS)
+        why = run.stderr.decode(errors="replace").strip().splitlines() if run.returncode else None
+    except subprocess.TimeoutExpired:
+        why = [f"no answer from {source} within {DOWNLOAD_SECONDS} seconds"]
+    if why is not None:
         shutil.rmtree(part, ignore_errors=True)
-        why = run.stderr.decode(errors="replace").strip().splitlines()
         raise Refusal("tier_missing", "Phoenix memory is not on this machine, and downloading it "
                       f"failed: {why[-1] if why else 'git clone failed'}.", "phoenix")
     try:
         os.rename(part, phoenix)
-    except OSError:  # another first run put it there first: use that copy
+    except OSError as exc:
         shutil.rmtree(part, ignore_errors=True)
+        if not os.path.isdir(phoenix):  # not another first run that got there first: say why
+            raise Refusal("tier_missing", "Phoenix memory was downloaded but could not be put in "
+                          f"its place, {phoenix}: {exc}.", "phoenix") from exc
 
 
 def version(phoenix, ref="HEAD"):

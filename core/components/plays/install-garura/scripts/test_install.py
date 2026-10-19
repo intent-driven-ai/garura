@@ -15,6 +15,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest import mock
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", "..", "..", "..", ".."))
@@ -120,6 +121,29 @@ class LaysTheMemorySystem(Installed):
         with open(settings) as fh:
             self.assertEqual(json.load(fh)["phoenix_ref"], "main")
 
+    def test_a_reinstall_that_stops_part_way_keeps_the_tool_and_its_settings(self):
+        self.install()
+        settings = self.path(".garura", "tools", "memory", "settings.json")
+        with open(settings, "w") as fh:
+            fh.write('{"edited": true}\n')
+        with mock.patch.object(memory_system.shutil, "copytree", side_effect=OSError("disk full")):
+            with self.assertRaises(OSError):
+                memory_system.lay(ROOT, self.target, "claude", self.place, self.source, info=lambda m: None)
+        self.assertTrue(os.path.isfile(self.path(".garura", "tools", "memory", "memory.py")))
+        with open(settings) as fh:
+            self.assertEqual(json.load(fh), {"edited": True})
+
+    def test_bad_input_exits_2_not_like_a_failed_check(self):
+        os.makedirs(self.target)
+        for source, tool in ((self.work, "claude"), (ROOT, "vim")):
+            with contextlib.redirect_stderr(io.StringIO()), self.assertRaises(SystemExit) as stop:
+                memory_system.lay(source, self.target, tool, info=lambda m: None)
+            self.assertEqual(stop.exception.code, 2)
+
+    def test_a_stray_end_marker_before_the_block_does_not_stop_the_block_being_replaced(self):
+        text = f"# Ours\n{memory_system.BLOCK_END}\n\n{memory_system.BLOCK_START}\nold\n{memory_system.BLOCK_END}\n"
+        self.assertEqual(memory_system.strip_block(text), f"# Ours\n{memory_system.BLOCK_END}\n")
+
 
 class TheCheck(Installed):
     def test_no_short_term_folder_fails_and_names_short_term_memory(self):
@@ -136,6 +160,31 @@ class TheCheck(Installed):
         report = memory_system.check(self.target, info=lambda m: None)
         self.assertFalse(report["ok"])
         self.assertIn("did not run", " ".join(report["messages"]))
+
+    def test_an_old_python_fails_and_names_the_version_needed(self):
+        self.install()
+        with mock.patch.object(memory_system, "NEEDS_PYTHON", (99, 0)):
+            report = memory_system.check(self.target, info=lambda m: None)
+        self.assertFalse(report["ok"])
+        self.assertIn("needs Python 99.0 or newer", " ".join(report["messages"]))
+
+    def test_a_tool_that_answers_not_ok_in_another_shape_fails_with_a_message(self):
+        self.install()
+        with open(self.path(".garura", "tools", "memory", "memory.py"), "w") as fh:
+            fh.write('print(\'{"ok": false}\')\n')
+        report = memory_system.check(self.target, info=lambda m: None)
+        self.assertFalse(report["ok"])
+        self.assertIn("the memory tool answered not ok", " ".join(report["messages"]))
+
+    def test_a_source_that_does_not_answer_is_noted_and_does_not_fail(self):
+        self.source = os.path.join(self.work, "no-such-repository")
+        record = self.install()["memory_system"]["check"]
+        self.assertTrue(record["ok"])
+        self.assertIn("does not answer from here now", " ".join(record["messages"]))
+
+    def test_a_source_that_answers_is_not_noted(self):
+        record = self.install()["memory_system"]["check"]
+        self.assertNotIn("NOTE", " ".join(record["messages"]))
 
     def test_a_failed_check_makes_the_install_exit_1_after_writing_the_manifest(self):
         old = memory_system.check
@@ -181,6 +230,22 @@ class Uninstall(Installed):
             fh.write("the person's work\n")
         uninstall.uninstall(self.target, purge=False, quiet=True, dry=False)
         self.assertTrue(os.path.isfile(self.path(".garura", "project", "issues", "1", "specs", "plan.md")))
+
+    def test_a_dry_run_leaves_the_memory_system_in_place(self):
+        with contextlib.redirect_stdout(io.StringIO()):
+            install.main(["--target", self.target, "--scope", "harness", "--quiet",
+                          "--memory-dest", os.path.join(self.work, "shared-memory"),
+                          "--phoenix-place", self.place, "--phoenix-source", self.source])
+            uninstall.uninstall(self.target, purge=False, quiet=True, dry=True)
+        self.assertTrue(os.path.isfile(self.path(".garura", "tools", "memory", "memory.py")))
+        self.assertTrue(os.path.isfile(self.path(".claude", "rules", "garura-memory.md")))
+
+    def test_an_agents_md_that_holds_only_the_block_is_removed(self):
+        os.makedirs(self.target)
+        memory_system.put_block(self.path("AGENTS.md"), "the guide")
+        removed = []
+        self.assertTrue(uninstall.rm_block(self.path("AGENTS.md"), removed, dry=False))
+        self.assertFalse(os.path.exists(self.path("AGENTS.md")))
 
     def test_both_scripts_use_the_same_block_markers(self):
         self.assertEqual((uninstall.BLOCK_START, uninstall.BLOCK_END),
