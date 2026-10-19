@@ -45,3 +45,4 @@ may have no Status line.
 | [037](037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md) | Every Agent Decision Keeps a Trace of the Memory It Rested On, and the Review Tool Has Five Sections | Accepted | 2026-10-19 |
 | [038](038-install-brings-no-memory.md) | The Install Brings No Memory: the Memory Tool Lives in the Project and Fetches Phoenix Memory on First Use | Accepted | 2026-10-19 |
 | [039](039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md) | Every Memory Write Goes to Short-Term Memory, a Play Reads No Memory, and the Memory Tool Reads Phoenix Memory Without Copying It | Accepted | 2026-10-19 |
+| [040](040-config-source-is-core-config-yaml.md) | The Config's Source Is core/config.yaml; a Project's .garura/core/config.yaml Is the Installed Copy | Accepted | 2026-10-19 |
