@@ -159,6 +159,11 @@ ADR 039 and ADR 040 are accepted; the docs, the tool, the install, `template-man
 person's answer to the issue's short-term memory, not
 `.garura/product/user-provided/grounding-questions.md`.
 **Done when:** no play writes a question or an answer outside short-term memory.
+**Progress (2026-10-19):** Rule 12 now keeps questions and answers in the issue's
+`context/grounding-questions.md`. Every skill that wrote the old file is deprecated (not
+installed). Open: the three Kickoff plays keep the person's answers in working folders under
+the short-term root but outside the issue's folder (`{stm_base}_kickoff/intent/<ts>/answers.yaml`,
+`{stm_base}_shaping/understand/<ts>/caps/<cap>/seed.yaml`), where the memory tool does not look.
 
 ### 9. The Kickoff drive's rule
 
