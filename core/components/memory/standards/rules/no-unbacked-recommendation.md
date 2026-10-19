@@ -98,19 +98,19 @@ A play may declare several failure conditions; the check passes when **any one**
 candidates is fully wired, since only one of them is the rule's.
 
 What it cannot check is whether a given *run* honoured the rule. That is the play's own
-eval's job, and the split is deliberate — the same one `play-close.md` uses: the lint proves
+eval's job, and the split is deliberate — the same one `_shared/play-close.md` (beside the plays) uses: the lint proves
 the guard exists, the guard proves the run.
 
 `play-creator` emits that wiring for a recommending play (step 4c + a hard rule);
 `play-editor` preserves it (hard rule).
 
 The linter checks the play is *wired*; only the play's own eval can check a given run.
-That split is deliberate and matches `play-close.md`: the lint proves the guard exists,
+That split is deliberate and matches `_shared/play-close.md` (beside the plays): the lint proves the guard exists,
 the guard proves the run.
 
 ## Related
 
 - `pipeline-next.md` — the successor map. The Next line is backed *by that map*; a play
   with a `null` command renders no play name, which is this rule at the close.
-- `play-close.md` — same convergence-and-lint pattern.
+- `_shared/play-close.md` (beside the plays) — same convergence-and-lint pattern.
 - `user-facing-voice.md` — how the gap is worded to the user.

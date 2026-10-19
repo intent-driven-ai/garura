@@ -76,9 +76,10 @@ A JSON file, passed to the play as `--contract <path>`:
    ADR 031 D10).
 5. **A question memory and the drive did not answer still stops the play.** The play's
    agents look in memory first, through the memory tool (ADR 034, ADR 035). A question no
-   tier answers, and the contract's `answers` do not hold, stops the play: it asks the
-   person and never picks an answer for itself (ADR 029: a new question stops the drive).
-   The person's answer is kept in the drive issue's short-term memory (ADR 039 §1).
+   tier answers, and the contract's `answers` do not hold, stops the play: its agent raises
+   it as a memory update a person approves (ADR 035 §5, ADR 036 §2), and the play never
+   picks an answer for itself (ADR 029: a new question stops the drive). The person's
+   answer is kept in the drive issue's short-term memory (ADR 039 §1).
 6. **A learned checkpoint still learns.** A play whose checkpoint learns from people's
    answers (`gate_eval.py`) records a deferred crossing as `deferred_to_drive_review` (a
    skip or an auto-pass is recorded as by hand). The learner skips that line — it neither

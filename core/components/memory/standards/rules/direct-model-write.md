@@ -225,4 +225,4 @@ Removing the draft alters the write path, the containment guarantee, and the
 checkpoint's cancel semantics — all things a play *decides or guarantees*. Per the play
 pipeline boundary rule this is an intent change: edit each play's `reference/ice.md` and
 recompile with `/play-editor`. The shared close/guard scaffolding (this rule, the guard
-script) is the converge-and-lint layer beneath that, mirroring `play-close.md`.
+script) is the converge-and-lint layer beneath that, mirroring `_shared/play-close.md` (beside the plays).

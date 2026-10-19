@@ -2,7 +2,7 @@
 
 Every user-invocable compiled play, when it finishes, must tell the user what to run
 next. This file is the one place that mapping lives. The **Standard Play Close**
-(`play-close.md`, step C2) renders each play's **Next** line by resolving the play here;
+(`_shared/play-close.md` (beside the plays), step C2) renders each play's **Next** line by resolving the play here;
 `lint_play.py` fails any user-invocable compiled play that is neither listed here nor in
 `meta_exempt`.
 

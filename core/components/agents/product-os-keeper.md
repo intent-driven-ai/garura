@@ -132,6 +132,7 @@ What each skill needs from memory:
 | `propose-kb-node` | every domain shelf — `domains_dir` |
 | `author-vision-seed` | the grounding templates and the spine schema (`**/standards/schemas/product-os/grounding/*`, `**/standards/schemas/product-os/spine.yaml`) — `schemas_dir` |
 | `enrich-capability-ice` | the capability's domain shelf — `shelf_path`; and the same schemas — `schemas_dir` |
+| `author-shape-bundle` | the domain's shelf — `shelf_path` |
 | `kb-search` | the architecture and technology shelves (`**/knowledge/architecture/*.md`, `**/knowledge/technology/*.md`) — the copy's root as `kb_root` |
 | any other skill | the memory files its inputs name, the same way |
 

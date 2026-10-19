@@ -19,7 +19,8 @@ and the sub-agent runs this skill.
 
 ## Input
 
-Three things, and only these:
+The doc, its parent when there is one, and the kind's per-section guidance — and only these
+(plus where to write the verdict):
 
 | Field | Required | Description |
 |-------|----------|-------------|
