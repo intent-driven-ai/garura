@@ -123,8 +123,8 @@ ADR 039 is accepted and the docs say it. Now: item 3, the tool and the folder.
 
 **What:** `read` copies nothing; `pull` and `pulled` go; the install lays the tool at
 `.garura/core/tools/memory/` and names Phoenix memory at `~/.phoenix/core/memory`;
-uninstall follows; `.garura/project/specs/` goes; `.garura/core/memory/` comes off
-`.gitignore` (first clear the old full copy this repo holds there, or it is committed). Its `GUIDE.md` and `README.md` say the same. Tests for each. How a project's memory is
+uninstall follows. Only the source changes (`core/`, `installer/`). This repo's `.garura/`
+is the installed working copy: it is not touched until Kapil asks for an install. Its `GUIDE.md` and `README.md` say the same. Tests for each. How a project's memory is
 built from the part it needs is `initialize`'s work, not this plan's.
 **Done when:** the tool's tests and the install's tests pass.
 
@@ -227,3 +227,7 @@ Then run the change chain.
   stays; asked-again is expected until promotion; "accept".
 - 2026-10-19 — Item 2 done: ADR 039 accepted and applied; `docs/components/memory.md` and the
   glossary follow it. The tool's guide and README move to item 3.
+- 2026-10-19 — Kapil: `.garura/` here is the installed working copy; source goes in `core/`; no
+  install was asked for. My clearing of `.garura/core/memory/`, removal of
+  `.garura/project/specs/` and un-ignore of `.garura/core/memory/` are undone (the copy rebuilt
+  from `3e0f98ab`, the one commit whose file list matches it).
