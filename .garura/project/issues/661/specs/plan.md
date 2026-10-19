@@ -164,6 +164,13 @@ person's answer to the issue's short-term memory, not
 installed). Open: the three Kickoff plays keep the person's answers in working folders under
 the short-term root but outside the issue's folder (`{stm_base}_kickoff/intent/<ts>/answers.yaml`,
 `{stm_base}_shaping/understand/<ts>/caps/<cap>/seed.yaml`), where the memory tool does not look.
+**Kapil, 2026-10-19 (option 2):** short-term memory is created in the issue being worked on —
+inside a drive the drive's issue (the contract's `issue`), run by hand the issue `start-change`
+opens. Each Kickoff play's whole working folder moves into that issue:
+`{stm_base}<issue>/context/<play>/<run key>/` (ADR 017's five issue keys kept), its status
+markers to `{stm_base}<issue>/status/`, its sub-play results under
+`{stm_base}<issue>/context/<play>/start|end/`. Run by hand, nothing is written before
+`start-change` gives the issue. An intent change: each play's ICE, then `/play-editor`.
 
 ### 9. The Kickoff drive's rule
 
