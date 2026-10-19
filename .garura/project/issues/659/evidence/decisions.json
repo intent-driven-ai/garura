@@ -1,0 +1,677 @@
+{
+  "ok": true,
+  "contract_version": "4",
+  "command": "citations",
+  "records": [
+    {
+      "citation_id": "cite-20261018-001",
+      "issue": 613,
+      "play": "/intent",
+      "question": "What path does a shopper take from the storefront to paying?",
+      "answer": "Home, category pages, product listing, product detail, cart, then checkout.",
+      "decided_by": "intent-resolver (/intent)",
+      "decided_at": "2026-10-18T19:01:23Z",
+      "trace": [
+        {
+          "asked": "Which domain is this product in?",
+          "found": "Ecommerce: the shop sells goods — catalog, cart, orders, storefront.",
+          "source": {
+            "tier": "phoenix",
+            "path": "knowledge/domains/ecommerce.md",
+            "start": 5,
+            "end": 5,
+            "fingerprint": "sha256:6b5ec069a363310f568b9f09f8c68e1dd5b35b45df74d5879cd69dcfbcd0301d",
+            "text": "  trigger: \"the product sells physical or digital goods — catalog, cart, orders, storefront\"",
+            "version": "5fcd88e05cf6",
+            "around": {
+              "start": 2,
+              "end": 8,
+              "text": "id: domains/ecommerce\ntitle: \"Ecommerce: how we build it — content-first MACH, selected on the commerce↔content spectrum\"\nconditions:\n  trigger: \"the product sells physical or digital goods — catalog, cart, orders, storefront\"\n  selection_keys: [commerce-vs-content-weight, sku-count, traffic-volume, merchandising-depth, nfr.performance]\nprovenance: interview (#434) + an eCommerce selection-criterion reference\n---"
+            }
+          }
+        },
+        {
+          "asked": "What journey must an ecommerce product always have?",
+          "found": "The core journey: home, category pages, product listing, product detail, cart, checkout handoff.",
+          "source": {
+            "tier": "phoenix",
+            "path": "knowledge/domains/ecommerce.md",
+            "start": 87,
+            "end": 88,
+            "fingerprint": "sha256:7fe917d2d71c88a49db9745f6170abe113db7fe23863f36e7f921ad19163a6b5",
+            "text": "**home → category pages → PLP (product listing) → PDP (product detail) → cart →\ncheckout handoff.**",
+            "version": "5fcd88e05cf6",
+            "around": {
+              "start": 84,
+              "end": 91,
+              "text": "Start with the basics and make sure the core is always present. Without it the\njourney breaks, no matter the quadrant:\n\n**home → category pages → PLP (product listing) → PDP (product detail) → cart →\ncheckout handoff.**\n\nBuild this spine first, end to end, before any enrichment. Everything else hangs\noff it."
+            }
+          }
+        }
+      ],
+      "from_update": null
+    },
+    {
+      "citation_id": "cite-20261018-002",
+      "issue": 613,
+      "play": "/vision",
+      "question": "How does the shop take card payments?",
+      "answer": "Through a payment provider with hosted fields, so card data never touches our servers.",
+      "decided_by": "product-os-keeper (/vision)",
+      "decided_at": "2026-10-18T19:01:24Z",
+      "trace": [
+        {
+          "asked": "Does the shop take money?",
+          "found": "Yes: monetization is paywall.",
+          "source": {
+            "tier": "garura",
+            "path": "product/product-os/profile.yaml",
+            "start": 7,
+            "end": 7,
+            "fingerprint": "sha256:8071569efe1aadc32e2d666855ee1fe766445fb6fb3f30ba3d592a8a19df0377",
+            "text": "    monetization: paywall",
+            "version": null,
+            "around": {
+              "start": 4,
+              "end": 10,
+              "text": "  shape:\n    stage: public\n    users: public\n    monetization: paywall\n    surfaces: [web, mobile]\n  nfr:\n    performance:   { level: high, gate: \"p95 page load under 2 s\" }"
+            }
+          }
+        },
+        {
+          "asked": "Which domain covers taking money?",
+          "found": "Payments, not ecommerce.",
+          "source": {
+            "tier": "phoenix",
+            "path": "knowledge/domains/ecommerce.md",
+            "start": 22,
+            "end": 22,
+            "fingerprint": "sha256:29199abd32c9e7c4524dd6347d3986b03b2822cc548b5e62a2382e7da43db14b",
+            "text": "Taking money is a separate concern — see `payments`. What to charge and on what",
+            "version": "5fcd88e05cf6",
+            "around": {
+              "start": 19,
+              "end": 25,
+              "text": "the domain is organised around the intents people bring to it, and capabilities are\nhow we satisfy them. Agentic features route and act on these intents directly.\n\nTaking money is a separate concern — see `payments`. What to charge and on what\nplan — see `billing`. The CMS/DAM that backs \"content leads the glass\" — see\n`content-management`. Search and recommendations — see `experience`.\n"
+            }
+          }
+        },
+        {
+          "asked": "What is the payments stance?",
+          "found": "Never hold card data you don't have to: charge through a PSP with hosted fields and tokenisation.",
+          "source": {
+            "tier": "phoenix",
+            "path": "knowledge/domains/payments.md",
+            "start": 19,
+            "end": 21,
+            "fingerprint": "sha256:a7616b3002d1670c52f7fb9d8bcc8a80d4b9d5a354daddbcf7c433e3bad6ab39",
+            "text": "The one organising rule: **never hold card data you don't have to.** Charge through\na **PSP** (Stripe/Adyen/etc.) with **hosted fields / tokenisation**, so you stay\nout of the worst of PCI scope. Payments is **trust infrastructure** — almost every",
+            "version": "5fcd88e05cf6",
+            "around": {
+              "start": 16,
+              "end": 24,
+              "text": "> as the commerce-heavy quadrants in `ecommerce`.\n\n## Stance (proposed)\nThe one organising rule: **never hold card data you don't have to.** Charge through\na **PSP** (Stripe/Adyen/etc.) with **hosted fields / tokenisation**, so you stay\nout of the worst of PCI scope. Payments is **trust infrastructure** — almost every\nchoice here is pulled by `nfr.security` or a `compliance` regime (PCI-DSS is\nusually one).\n"
+            }
+          }
+        },
+        {
+          "asked": "What is the floor for card payments?",
+          "found": "Card via PSP with hosted fields.",
+          "source": {
+            "tier": "phoenix",
+            "path": "knowledge/domains/payments.md",
+            "start": 44,
+            "end": 44,
+            "fingerprint": "sha256:fd7868764e0280c165b2ef7106df640b30e3686d1bae635bfb9f2ed6fd113892",
+            "text": "  - Card via PSP / hosted fields — charge through Stripe/Adyen with hosted fields so card data never touches your servers. The floor.",
+            "version": "5fcd88e05cf6",
+            "around": {
+              "start": 41,
+              "end": 47,
+              "text": "## Capabilities (selected by risk, scale, regime)\n- **Payment Processing** — the floor: card via PSP; bank transfer/ACH/wallets when\n  the region or user base expects non-card rails. Tokenise; never store raw PANs.\n  - Card via PSP / hosted fields — charge through Stripe/Adyen with hosted fields so card data never touches your servers. The floor.\n  - Tokenised vaulting — store a PSP token in place of the PAN for later charges. The floor whenever you reuse a method; mandatory when `compliance` includes PCI-DSS.\n  - Bank transfer / ACH — direct-debit / bank rails for lower-fee or non-card payers. Add when `shape.users: public` and a broad consumer base expects them.\n  - Wallets — Apple Pay / Google Pay one-tap. Add when `shape.surfaces` includes mobile."
+            }
+          }
+        }
+      ],
+      "from_update": null
+    },
+    {
+      "citation_id": "cite-20261018-003",
+      "issue": 613,
+      "play": "/vision",
+      "question": "Can a returning shopper pay with a saved card?",
+      "answer": "Yes, as a provider token only — never the card number.",
+      "decided_by": "product-os-keeper (/vision)",
+      "decided_at": "2026-10-18T19:01:24Z",
+      "trace": [
+        {
+          "asked": "What security level and compliance does the profile set?",
+          "found": "Security is high; PCI-DSS and GDPR are in force.",
+          "source": {
+            "tier": "garura",
+            "path": "product/product-os/profile.yaml",
+            "start": 11,
+            "end": 14,
+            "fingerprint": "sha256:792104d6b9ddcfb5eb567bd3e3e3173bce8d6c5a3d5296a223484131bb3c935a",
+            "text": "    security:      { level: high, gate: \"OWASP ASVS L2; no P1/P2\" }\n    accessibility: { level: high, gate: \"WCAG 2.1 AA\" }\n    privacy:       { level: high, gate: \"PII encrypted at rest and in transit\" }\n  compliance: [PCI-DSS, GDPR]",
+            "version": null,
+            "around": {
+              "start": 8,
+              "end": 14,
+              "text": "    surfaces: [web, mobile]\n  nfr:\n    performance:   { level: high, gate: \"p95 page load under 2 s\" }\n    security:      { level: high, gate: \"OWASP ASVS L2; no P1/P2\" }\n    accessibility: { level: high, gate: \"WCAG 2.1 AA\" }\n    privacy:       { level: high, gate: \"PII encrypted at rest and in transit\" }\n  compliance: [PCI-DSS, GDPR]"
+            }
+          }
+        },
+        {
+          "asked": "What does a saved card need under PCI-DSS?",
+          "found": "Tokenised vaulting is the floor and mandatory under PCI-DSS: store the PSP token, never the card.",
+          "source": {
+            "tier": "phoenix",
+            "path": "knowledge/domains/payments.md",
+            "start": 63,
+            "end": 65,
+            "fingerprint": "sha256:85ad97c8e33a8641f2dee207bc6f564dddb4fad2d0a1394feb5feb96b3aa165e",
+            "text": "- **Saved Methods / One-Click** — when repeat purchase or conversion speed matters;\n  tokenised vaulting only (mandatory under PCI-DSS).\n  - Tokenised vaulting — store the PSP token, never the card, for one-click reuse. The floor of this capability; mandatory when `compliance` includes PCI-DSS.",
+            "version": "5fcd88e05cf6",
+            "around": {
+              "start": 60,
+              "end": 68,
+              "text": "  - Level 1 — full / partial refunds: reverse a charge in whole or part via the PSP. The floor.\n  - Level 2 — chargeback handling: receive and process issuer-initiated reversals. Add when `shape.monetization: monetized`.\n  - Level 3 — dispute-evidence workflow: assemble and submit evidence with an audit trail. Add when `nfr.observability >= high`, or `compliance` includes PCI-DSS.\n- **Saved Methods / One-Click** — when repeat purchase or conversion speed matters;\n  tokenised vaulting only (mandatory under PCI-DSS).\n  - Tokenised vaulting — store the PSP token, never the card, for one-click reuse. The floor of this capability; mandatory when `compliance` includes PCI-DSS.\n  - One-click checkout — charge a saved token without re-entry. Add when `shape.monetization: monetized` and repeat purchase matters.\n\n## Where it goes wrong (proposed)"
+            }
+          }
+        }
+      ],
+      "from_update": null
+    },
+    {
+      "citation_id": "cite-20261018-004",
+      "issue": 613,
+      "play": "/vision",
+      "question": "Are Apple Pay and Google Pay part of launch?",
+      "answer": "Yes. The shop has a mobile app, so wallets are in.",
+      "decided_by": "product-os-keeper (/vision)",
+      "decided_at": "2026-10-18T19:01:24Z",
+      "trace": [
+        {
+          "asked": "Who are the shop's users, and where do they use it?",
+          "found": "The public, on web and mobile.",
+          "source": {
+            "tier": "garura",
+            "path": "product/product-os/profile.yaml",
+            "start": 6,
+            "end": 8,
+            "fingerprint": "sha256:ea4be5fa81c618857bc9e02deec8eb38b782ca54725daf5ca6c452edfeaf77fd",
+            "text": "    users: public\n    monetization: paywall\n    surfaces: [web, mobile]",
+            "version": null,
+            "around": {
+              "start": 3,
+              "end": 11,
+              "text": "  state: set\n  shape:\n    stage: public\n    users: public\n    monetization: paywall\n    surfaces: [web, mobile]\n  nfr:\n    performance:   { level: high, gate: \"p95 page load under 2 s\" }\n    security:      { level: high, gate: \"OWASP ASVS L2; no P1/P2\" }"
+            }
+          }
+        },
+        {
+          "asked": "When are wallets included?",
+          "found": "Add wallets when the surfaces include mobile.",
+          "source": {
+            "tier": "phoenix",
+            "path": "knowledge/domains/payments.md",
+            "start": 47,
+            "end": 47,
+            "fingerprint": "sha256:bc8ec15bae47abe96db5d0e267587d42041ad8fc38915131f6c38acfc63f172e",
+            "text": "  - Wallets — Apple Pay / Google Pay one-tap. Add when `shape.surfaces` includes mobile.",
+            "version": "5fcd88e05cf6",
+            "around": {
+              "start": 44,
+              "end": 50,
+              "text": "  - Card via PSP / hosted fields — charge through Stripe/Adyen with hosted fields so card data never touches your servers. The floor.\n  - Tokenised vaulting — store a PSP token in place of the PAN for later charges. The floor whenever you reuse a method; mandatory when `compliance` includes PCI-DSS.\n  - Bank transfer / ACH — direct-debit / bank rails for lower-fee or non-card payers. Add when `shape.users: public` and a broad consumer base expects them.\n  - Wallets — Apple Pay / Google Pay one-tap. Add when `shape.surfaces` includes mobile.\n- **Checkout / Payment UX** — accessible payment screens (`nfr.accessibility`);\n  localised currency and methods across regions. (Pairs with `ecommerce`.)\n  - Hosted / redirect checkout — PSP-hosted page or drop-in widget that keeps you out of PCI scope. The floor."
+            }
+          }
+        }
+      ],
+      "from_update": null
+    },
+    {
+      "citation_id": "cite-20261018-005",
+      "issue": 613,
+      "play": "/vision",
+      "question": "Is guest checkout allowed at launch?",
+      "answer": "Yes. An account is offered after payment.",
+      "decided_by": "product-os-keeper (/vision)",
+      "decided_at": "2026-10-18T19:01:25Z",
+      "trace": [
+        {
+          "asked": "Who are the shop's users, and where do they use it?",
+          "found": "The public, on web and mobile.",
+          "source": {
+            "tier": "garura",
+            "path": "product/product-os/profile.yaml",
+            "start": 6,
+            "end": 8,
+            "fingerprint": "sha256:ea4be5fa81c618857bc9e02deec8eb38b782ca54725daf5ca6c452edfeaf77fd",
+            "text": "    users: public\n    monetization: paywall\n    surfaces: [web, mobile]",
+            "version": null,
+            "around": {
+              "start": 3,
+              "end": 11,
+              "text": "  state: set\n  shape:\n    stage: public\n    users: public\n    monetization: paywall\n    surfaces: [web, mobile]\n  nfr:\n    performance:   { level: high, gate: \"p95 page load under 2 s\" }\n    security:      { level: high, gate: \"OWASP ASVS L2; no P1/P2\" }"
+            }
+          }
+        },
+        {
+          "asked": "What has the product model decided for checkout?",
+          "found": "Guest checkout is allowed at launch; an account is offered after payment.",
+          "source": {
+            "tier": "garura",
+            "path": "product/product-os/checkout/checkout/capability.md",
+            "start": 12,
+            "end": 12,
+            "fingerprint": "sha256:686f4b787324c50327ccf227d33ee8bf6cdeec1a133a32088c6e24fcd802823d",
+            "text": "Guest checkout: allowed at launch; an account is offered after payment.",
+            "version": null,
+            "around": {
+              "start": 9,
+              "end": 12,
+              "text": "## Decisions\n- Payment through a PSP; card data never touches our servers.\n\nGuest checkout: allowed at launch; an account is offered after payment."
+            }
+          }
+        }
+      ],
+      "from_update": null
+    },
+    {
+      "citation_id": "cite-20261018-006",
+      "issue": 613,
+      "play": "/vision",
+      "question": "How long is a guest's cart kept?",
+      "answer": "Seven days, then it is cleared and the guest is told.",
+      "decided_by": "product-os-keeper (/vision)",
+      "decided_at": "2026-10-18T19:01:25Z",
+      "trace": [
+        {
+          "asked": "Do guests have carts?",
+          "found": "Yes: guest checkout is allowed at launch.",
+          "source": {
+            "tier": "garura",
+            "path": "product/product-os/checkout/checkout/capability.md",
+            "start": 12,
+            "end": 12,
+            "fingerprint": "sha256:686f4b787324c50327ccf227d33ee8bf6cdeec1a133a32088c6e24fcd802823d",
+            "text": "Guest checkout: allowed at launch; an account is offered after payment.",
+            "version": null,
+            "around": {
+              "start": 9,
+              "end": 12,
+              "text": "## Decisions\n- Payment through a PSP; card data never touches our servers.\n\nGuest checkout: allowed at launch; an account is offered after payment."
+            }
+          }
+        },
+        {
+          "asked": "How long is a guest cart kept?",
+          "found": "Seven days, then cleared; the guest is told.",
+          "source": {
+            "tier": "short-term",
+            "path": "613/context/answers/guest-cart.md",
+            "start": 1,
+            "end": 1,
+            "fingerprint": "sha256:fe87c37c6249a10ffb228c9df087a92b68b600834299a996b4b5639ffb8fe7b6",
+            "text": "A guest cart is kept for 7 days, then cleared. The guest is told when they come back.",
+            "version": null,
+            "around": {
+              "start": 1,
+              "end": 1,
+              "text": "A guest cart is kept for 7 days, then cleared. The guest is told when they come back."
+            }
+          }
+        }
+      ],
+      "from_update": "mu-20261018-001"
+    },
+    {
+      "citation_id": "cite-20261018-007",
+      "issue": 613,
+      "play": "/vision",
+      "question": "Is there a cap on items in a cart?",
+      "answer": "No cap at launch.",
+      "decided_by": "product-os-keeper (/vision)",
+      "decided_at": "2026-10-18T19:01:25Z",
+      "trace": [
+        {
+          "asked": "What limits has the product model set for checkout?",
+          "found": "Cart size: no cap at launch.",
+          "source": {
+            "tier": "garura",
+            "path": "product/product-os/checkout/limits.md",
+            "start": 3,
+            "end": 3,
+            "fingerprint": "sha256:9bfc2372738dcb11a0470d665c799a22b3878f880bc19724d68175574daa2862",
+            "text": "Cart size: no cap at launch.",
+            "version": null,
+            "around": {
+              "start": 1,
+              "end": 3,
+              "text": "# Checkout limits\n\nCart size: no cap at launch."
+            }
+          }
+        }
+      ],
+      "from_update": null
+    },
+    {
+      "citation_id": "cite-20261018-008",
+      "issue": 613,
+      "play": "/understand",
+      "question": "How do shoppers sign in?",
+      "answer": "Email and password, social login, and MFA.",
+      "decided_by": "product-os-keeper (/understand)",
+      "decided_at": "2026-10-18T19:01:25Z",
+      "trace": [
+        {
+          "asked": "Who are the shop's users, and where do they use it?",
+          "found": "The public, on web and mobile.",
+          "source": {
+            "tier": "garura",
+            "path": "product/product-os/profile.yaml",
+            "start": 6,
+            "end": 8,
+            "fingerprint": "sha256:ea4be5fa81c618857bc9e02deec8eb38b782ca54725daf5ca6c452edfeaf77fd",
+            "text": "    users: public\n    monetization: paywall\n    surfaces: [web, mobile]",
+            "version": null,
+            "around": {
+              "start": 3,
+              "end": 11,
+              "text": "  state: set\n  shape:\n    stage: public\n    users: public\n    monetization: paywall\n    surfaces: [web, mobile]\n  nfr:\n    performance:   { level: high, gate: \"p95 page load under 2 s\" }\n    security:      { level: high, gate: \"OWASP ASVS L2; no P1/P2\" }"
+            }
+          }
+        },
+        {
+          "asked": "Which domain covers sign-in, and what decides its parts?",
+          "found": "User management. Its parts are picked by the profile: the users, the surfaces, security, accessibility and compliance.",
+          "source": {
+            "tier": "phoenix",
+            "path": "knowledge/domains/user-management.md",
+            "start": 4,
+            "end": 6,
+            "fingerprint": "sha256:e295931e169cff7ce46dfc8847509d1797cde5adcfe9ec5770941dfd04f3273e",
+            "text": "conditions:\n  trigger: \"the product needs accounts, login, profiles, roles, or access control\"\n  selection_keys: [shape.users, shape.surfaces, nfr.security, nfr.accessibility, compliance]",
+            "version": "5fcd88e05cf6",
+            "around": {
+              "start": 1,
+              "end": 9,
+              "text": "---\nid: domains/user-management\ntitle: \"User Management: capabilities and when to include each (profile-driven)\"\nconditions:\n  trigger: \"the product needs accounts, login, profiles, roles, or access control\"\n  selection_keys: [shape.users, shape.surfaces, nfr.security, nfr.accessibility, compliance]\nprovenance: seeded\n---\n"
+            }
+          }
+        },
+        {
+          "asked": "What security level and compliance does the profile set?",
+          "found": "Security is high; PCI-DSS and GDPR are in force.",
+          "source": {
+            "tier": "garura",
+            "path": "product/product-os/profile.yaml",
+            "start": 11,
+            "end": 14,
+            "fingerprint": "sha256:792104d6b9ddcfb5eb567bd3e3e3173bce8d6c5a3d5296a223484131bb3c935a",
+            "text": "    security:      { level: high, gate: \"OWASP ASVS L2; no P1/P2\" }\n    accessibility: { level: high, gate: \"WCAG 2.1 AA\" }\n    privacy:       { level: high, gate: \"PII encrypted at rest and in transit\" }\n  compliance: [PCI-DSS, GDPR]",
+            "version": null,
+            "around": {
+              "start": 8,
+              "end": 14,
+              "text": "    surfaces: [web, mobile]\n  nfr:\n    performance:   { level: high, gate: \"p95 page load under 2 s\" }\n    security:      { level: high, gate: \"OWASP ASVS L2; no P1/P2\" }\n    accessibility: { level: high, gate: \"WCAG 2.1 AA\" }\n    privacy:       { level: high, gate: \"PII encrypted at rest and in transit\" }\n  compliance: [PCI-DSS, GDPR]"
+            }
+          }
+        },
+        {
+          "asked": "Which sign-in methods do those values select?",
+          "found": "Email and password is the floor; social login because the users are public; MFA because security is high and PCI-DSS is in force.",
+          "source": {
+            "tier": "phoenix",
+            "path": "knowledge/domains/user-management.md",
+            "start": 44,
+            "end": 47,
+            "fingerprint": "sha256:001365eca3509fec072c26b605372ed8719be8d71efd80c08e780fb6aee613b9",
+            "text": "- **Authentication** — include when users sign in.\n  - Email & password — the default credential login (the floor).\n  - Social login — when `shape.users: public` and signup friction matters.\n  - MFA — when `nfr.security >= high`, or `compliance` includes SOC2 / HIPAA / PCI-DSS.",
+            "version": "5fcd88e05cf6",
+            "around": {
+              "start": 41,
+              "end": 50,
+              "text": "Read each line as \"include X when {profile condition}\". Start at the floor; add\nonly when a profile dimension calls for it.\n\n- **Authentication** — include when users sign in.\n  - Email & password — the default credential login (the floor).\n  - Social login — when `shape.users: public` and signup friction matters.\n  - MFA — when `nfr.security >= high`, or `compliance` includes SOC2 / HIPAA / PCI-DSS.\n  - Passwordless — when `nfr.security >= high` and you want to remove password risk entirely.\n  - Enterprise SSO — when the user base is organizations (B2B), or `compliance` requires federated identity.\n- **Registration** — include when users create accounts."
+            }
+          }
+        }
+      ],
+      "from_update": null
+    },
+    {
+      "citation_id": "cite-20261018-009",
+      "issue": 613,
+      "play": "/understand",
+      "question": "Does the shop need MFA at launch?",
+      "answer": "Yes. Security is high and PCI-DSS is in force; either one brings MFA.",
+      "decided_by": "product-os-keeper (/understand)",
+      "decided_at": "2026-10-18T19:01:25Z",
+      "trace": [
+        {
+          "asked": "What security level and compliance does the profile set?",
+          "found": "Security is high; PCI-DSS and GDPR are in force.",
+          "source": {
+            "tier": "garura",
+            "path": "product/product-os/profile.yaml",
+            "start": 11,
+            "end": 14,
+            "fingerprint": "sha256:792104d6b9ddcfb5eb567bd3e3e3173bce8d6c5a3d5296a223484131bb3c935a",
+            "text": "    security:      { level: high, gate: \"OWASP ASVS L2; no P1/P2\" }\n    accessibility: { level: high, gate: \"WCAG 2.1 AA\" }\n    privacy:       { level: high, gate: \"PII encrypted at rest and in transit\" }\n  compliance: [PCI-DSS, GDPR]",
+            "version": null,
+            "around": {
+              "start": 8,
+              "end": 14,
+              "text": "    surfaces: [web, mobile]\n  nfr:\n    performance:   { level: high, gate: \"p95 page load under 2 s\" }\n    security:      { level: high, gate: \"OWASP ASVS L2; no P1/P2\" }\n    accessibility: { level: high, gate: \"WCAG 2.1 AA\" }\n    privacy:       { level: high, gate: \"PII encrypted at rest and in transit\" }\n  compliance: [PCI-DSS, GDPR]"
+            }
+          }
+        },
+        {
+          "asked": "When is MFA included?",
+          "found": "When security is high or more, or compliance includes PCI-DSS.",
+          "source": {
+            "tier": "phoenix",
+            "path": "knowledge/domains/user-management.md",
+            "start": 47,
+            "end": 47,
+            "fingerprint": "sha256:c89448a174063a7fd38563ddc89c1a0248c42701647a0f1bd7b13b280b2c293e",
+            "text": "  - MFA — when `nfr.security >= high`, or `compliance` includes SOC2 / HIPAA / PCI-DSS.",
+            "version": "5fcd88e05cf6",
+            "around": {
+              "start": 44,
+              "end": 50,
+              "text": "- **Authentication** — include when users sign in.\n  - Email & password — the default credential login (the floor).\n  - Social login — when `shape.users: public` and signup friction matters.\n  - MFA — when `nfr.security >= high`, or `compliance` includes SOC2 / HIPAA / PCI-DSS.\n  - Passwordless — when `nfr.security >= high` and you want to remove password risk entirely.\n  - Enterprise SSO — when the user base is organizations (B2B), or `compliance` requires federated identity.\n- **Registration** — include when users create accounts."
+            }
+          }
+        }
+      ],
+      "from_update": null
+    },
+    {
+      "citation_id": "cite-20261018-010",
+      "issue": 613,
+      "play": "/understand",
+      "question": "Which refunds are in launch?",
+      "answer": "Full and partial refunds through the payment provider. Chargeback handling waits.",
+      "decided_by": "product-os-keeper (/understand)",
+      "decided_at": "2026-10-18T19:01:26Z",
+      "trace": [
+        {
+          "asked": "What is the refunds floor?",
+          "found": "Full and partial refunds through the PSP.",
+          "source": {
+            "tier": "phoenix",
+            "path": "knowledge/domains/payments.md",
+            "start": 60,
+            "end": 60,
+            "fingerprint": "sha256:9917ad82b9768f99546cca1c1836396623548c3997c552b6165b23149a133e2d",
+            "text": "  - Level 1 — full / partial refunds: reverse a charge in whole or part via the PSP. The floor.",
+            "version": "5fcd88e05cf6",
+            "around": {
+              "start": 57,
+              "end": 63,
+              "text": "  - Level 3 — manual review queue: flagged transactions held for human decision. Add when `nfr.security >= xhigh`, or `compliance` includes PCI-DSS.\n- **Refunds & Disputes** — full/partial refunds; chargeback handling; dispute\n  evidence workflow when a regime or volume requires the audit trail.\n  - Level 1 — full / partial refunds: reverse a charge in whole or part via the PSP. The floor.\n  - Level 2 — chargeback handling: receive and process issuer-initiated reversals. Add when `shape.monetization: monetized`.\n  - Level 3 — dispute-evidence workflow: assemble and submit evidence with an audit trail. Add when `nfr.observability >= high`, or `compliance` includes PCI-DSS.\n- **Saved Methods / One-Click** — when repeat purchase or conversion speed matters;"
+            }
+          }
+        },
+        {
+          "asked": "Does the shop's monetization call for more?",
+          "found": "Monetization is paywall.",
+          "source": {
+            "tier": "garura",
+            "path": "product/product-os/profile.yaml",
+            "start": 7,
+            "end": 7,
+            "fingerprint": "sha256:8071569efe1aadc32e2d666855ee1fe766445fb6fb3f30ba3d592a8a19df0377",
+            "text": "    monetization: paywall",
+            "version": null,
+            "around": {
+              "start": 4,
+              "end": 10,
+              "text": "  shape:\n    stage: public\n    users: public\n    monetization: paywall\n    surfaces: [web, mobile]\n  nfr:\n    performance:   { level: high, gate: \"p95 page load under 2 s\" }"
+            }
+          }
+        },
+        {
+          "asked": "When is chargeback handling added?",
+          "found": "When monetization is monetized — not this shop, yet.",
+          "source": {
+            "tier": "phoenix",
+            "path": "knowledge/domains/payments.md",
+            "start": 61,
+            "end": 61,
+            "fingerprint": "sha256:8f5db4d57d3989c01297b8c12704c197fca7ac990ba30111bde82d6068c8f436",
+            "text": "  - Level 2 — chargeback handling: receive and process issuer-initiated reversals. Add when `shape.monetization: monetized`.",
+            "version": "5fcd88e05cf6",
+            "around": {
+              "start": 58,
+              "end": 64,
+              "text": "- **Refunds & Disputes** — full/partial refunds; chargeback handling; dispute\n  evidence workflow when a regime or volume requires the audit trail.\n  - Level 1 — full / partial refunds: reverse a charge in whole or part via the PSP. The floor.\n  - Level 2 — chargeback handling: receive and process issuer-initiated reversals. Add when `shape.monetization: monetized`.\n  - Level 3 — dispute-evidence workflow: assemble and submit evidence with an audit trail. Add when `nfr.observability >= high`, or `compliance` includes PCI-DSS.\n- **Saved Methods / One-Click** — when repeat purchase or conversion speed matters;\n  tokenised vaulting only (mandatory under PCI-DSS)."
+            }
+          }
+        }
+      ],
+      "from_update": null
+    },
+    {
+      "citation_id": "cite-20261018-011",
+      "issue": 613,
+      "play": "/understand",
+      "question": "How does a shopper get back into a locked account?",
+      "answer": "Password reset, unlock, and timed self-service auto-unlock.",
+      "decided_by": "product-os-keeper (/understand)",
+      "decided_at": "2026-10-18T19:01:26Z",
+      "trace": [
+        {
+          "asked": "What security level and compliance does the profile set?",
+          "found": "Security is high; PCI-DSS and GDPR are in force.",
+          "source": {
+            "tier": "garura",
+            "path": "product/product-os/profile.yaml",
+            "start": 11,
+            "end": 14,
+            "fingerprint": "sha256:792104d6b9ddcfb5eb567bd3e3e3173bce8d6c5a3d5296a223484131bb3c935a",
+            "text": "    security:      { level: high, gate: \"OWASP ASVS L2; no P1/P2\" }\n    accessibility: { level: high, gate: \"WCAG 2.1 AA\" }\n    privacy:       { level: high, gate: \"PII encrypted at rest and in transit\" }\n  compliance: [PCI-DSS, GDPR]",
+            "version": null,
+            "around": {
+              "start": 8,
+              "end": 14,
+              "text": "    surfaces: [web, mobile]\n  nfr:\n    performance:   { level: high, gate: \"p95 page load under 2 s\" }\n    security:      { level: high, gate: \"OWASP ASVS L2; no P1/P2\" }\n    accessibility: { level: high, gate: \"WCAG 2.1 AA\" }\n    privacy:       { level: high, gate: \"PII encrypted at rest and in transit\" }\n  compliance: [PCI-DSS, GDPR]"
+            }
+          }
+        },
+        {
+          "asked": "Which recovery do those values select?",
+          "found": "Password reset is the floor; unlock at medium security; auto-unlock at high.",
+          "source": {
+            "tier": "phoenix",
+            "path": "knowledge/domains/user-management.md",
+            "start": 61,
+            "end": 64,
+            "fingerprint": "sha256:e582aa71956c58ea8a2d333fd8cd584a842840100f16dce5c5b88fde382f4c95",
+            "text": "- **Account Recovery** — include with any credential-based auth.\n  - Password reset — the floor; any credential login.\n  - Unlock — when a lockout policy is in force (`nfr.security >= medium`).\n  - Auto-unlock — when `nfr.security >= high`, or to cut support load (timed / self-service).",
+            "version": "5fcd88e05cf6",
+            "around": {
+              "start": 58,
+              "end": 67,
+              "text": "- **Authorization & Roles** — include when different users get different access.\n  - RBAC — the default once roles exist.\n  - Fine-grained permissions — when `nfr.security >= high`, or access rules outgrow roles.\n- **Account Recovery** — include with any credential-based auth.\n  - Password reset — the floor; any credential login.\n  - Unlock — when a lockout policy is in force (`nfr.security >= medium`).\n  - Auto-unlock — when `nfr.security >= high`, or to cut support load (timed / self-service).\n  - Multi-channel support — when `shape.surfaces` spans more than one, or `shape.users: public`.\n- **Session Management** — include when users stay signed in across requests.\n  - Logout everywhere — when `nfr.security >= high` (revoke all sessions on a security event)."
+            }
+          }
+        }
+      ],
+      "from_update": null
+    },
+    {
+      "citation_id": "cite-20261009-001",
+      "issue": 613,
+      "play": "/understand",
+      "question": "Does checkout need an address book?",
+      "answer": "Not at launch.",
+      "decided_by": "product-os-keeper (/understand)",
+      "decided_at": "2026-10-09T11:20:00Z",
+      "trace": [],
+      "from_update": null
+    }
+  ],
+  "problems": [
+    {
+      "citation_id": "cite-20261018-004",
+      "problem": "source_changed",
+      "step": 2,
+      "source": {
+        "tier": "phoenix",
+        "path": "knowledge/domains/payments.md",
+        "start": 47,
+        "end": 47,
+        "fingerprint": "sha256:bc8ec15bae47abe96db5d0e267587d42041ad8fc38915131f6c38acfc63f172e",
+        "text": "  - Wallets — Apple Pay / Google Pay one-tap. Add when `shape.surfaces` includes mobile.",
+        "version": "5fcd88e05cf6",
+        "around": {
+          "start": 44,
+          "end": 50,
+          "text": "  - Card via PSP / hosted fields — charge through Stripe/Adyen with hosted fields so card data never touches your servers. The floor.\n  - Tokenised vaulting — store a PSP token in place of the PAN for later charges. The floor whenever you reuse a method; mandatory when `compliance` includes PCI-DSS.\n  - Bank transfer / ACH — direct-debit / bank rails for lower-fee or non-card payers. Add when `shape.users: public` and a broad consumer base expects them.\n  - Wallets — Apple Pay / Google Pay one-tap. Add when `shape.surfaces` includes mobile.\n- **Checkout / Payment UX** — accessible payment screens (`nfr.accessibility`);\n  localised currency and methods across regions. (Pairs with `ecommerce`.)\n  - Hosted / redirect checkout — PSP-hosted page or drop-in widget that keeps you out of PCI scope. The floor."
+        }
+      },
+      "detail": "Phoenix memory knowledge/domains/payments.md line 47 no longer says what the decision rested on.",
+      "now": "  - Wallets — Apple Pay / Google Pay one-tap. Add when `shape.surfaces` includes mobile and the PSP supports wallets in every launch region.",
+      "now_around": {
+        "start": 44,
+        "end": 50,
+        "text": "  - Card via PSP / hosted fields — charge through Stripe/Adyen with hosted fields so card data never touches your servers. The floor.\n  - Tokenised vaulting — store a PSP token in place of the PAN for later charges. The floor whenever you reuse a method; mandatory when `compliance` includes PCI-DSS.\n  - Bank transfer / ACH — direct-debit / bank rails for lower-fee or non-card payers. Add when `shape.users: public` and a broad consumer base expects them.\n  - Wallets — Apple Pay / Google Pay one-tap. Add when `shape.surfaces` includes mobile and the PSP supports wallets in every launch region.\n- **Checkout / Payment UX** — accessible payment screens (`nfr.accessibility`);\n  localised currency and methods across regions. (Pairs with `ecommerce`.)\n  - Hosted / redirect checkout — PSP-hosted page or drop-in widget that keeps you out of PCI scope. The floor."
+      }
+    },
+    {
+      "citation_id": "cite-20261018-007",
+      "problem": "source_missing",
+      "step": 1,
+      "source": {
+        "tier": "garura",
+        "path": "product/product-os/checkout/limits.md",
+        "start": 3,
+        "end": 3,
+        "fingerprint": "sha256:9bfc2372738dcb11a0470d665c799a22b3878f880bc19724d68175574daa2862",
+        "text": "Cart size: no cap at launch.",
+        "version": null,
+        "around": {
+          "start": 1,
+          "end": 3,
+          "text": "# Checkout limits\n\nCart size: no cap at launch."
+        }
+      },
+      "detail": "Garura memory product/product-os/checkout/limits.md line 3: the file is not there.",
+      "now": null,
+      "now_around": null
+    },
+    {
+      "citation_id": "cite-20261009-001",
+      "problem": "no_source",
+      "step": null,
+      "source": null,
+      "detail": "The decision names no memory.",
+      "now": null,
+      "now_around": null
+    }
+  ]
+}

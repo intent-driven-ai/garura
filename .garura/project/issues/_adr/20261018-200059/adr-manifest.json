@@ -1,0 +1,42 @@
+{
+  "decided": true,
+  "lint_ok": true,
+  "linked": true,
+  "target": "docs/adr/037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md",
+  "shape": "markdown",
+  "guard": {
+    "adr": ".garura/project/issues/_adr/20261018-200059/adr-draft.md",
+    "declared": "none",
+    "touches_an_intent": [],
+    "verdict": "no person's business intent changes"
+  },
+  "olders": [
+    {
+      "adr": "035",
+      "file": "docs/adr/035-agents-work-only-from-memory.md",
+      "kind": "amended",
+      "part": "\u00a76 \"Every decision names its memory\": a decision keeps a trace \u2014 the steps the agent took, in order, each with what it looked for, what it found, and the memory lines that said so (a tier, a file, the lines and a fingerprint of that text), kept with the exact text, the version of memory it was read from and up to three lines before and after \u2014 not one source (\"the tier, the file and the lines it rests on\"); a check reads every step's source again, names the step whose source changed or is gone, and flags a decision with no trace; \u00a77 \"A memory review\" (a Memory view, made Memory and ADRs by ADR 036): the review tool's sections are Intents, Product, ADRs, Memory and Agent decisions, and which memory each decision came from is shown in Agent decisions, as its trace (and with it \u00a79's line on ADR 032 \u00a73)"
+    },
+    {
+      "adr": "036",
+      "file": "docs/adr/036-approved-answer-lands-in-short-term-memory.md",
+      "kind": "amended",
+      "part": "\u00a77 \"Memory and ADRs are reviewed in the review tool\": the one Memory and ADRs section is replaced by three \u2014 ADRs (the ADRs a person records with /adr, waiting for a person); Memory (the memory that exists: mostly Garura memory, and an issue's short-term memory once one is picked; the memory updates waiting for a person; and Ask memory, a plain-words search over all three tiers on the same vectorless memory tool, mocked only for now); and Agent decisions (every decision an agent made, with its trace); and with it \u00a78's lines on ADR 035 \u00a77 and ADR 032 \u00a73. Where the brief is silent, \u00a77 stands: the reviews happen in the review tool, on the Catch up cards, and a person approves by typing until the sections exist"
+    },
+    {
+      "adr": "032",
+      "file": "docs/adr/032-drive-review-of-outcomes.md",
+      "kind": "amended",
+      "part": "\u00a73 \"Two review tools\", as amended by ADR 033, ADR 035 and ADR 036: the review tool has five sections \u2014 Intents, Product, ADRs, Memory and Agent decisions \u2014 in place of a third section called Memory and ADRs; the Intents and Product views, and ADR 033's part of \u00a73 (they show the whole model's approval state when they open), stand"
+    }
+  ],
+  "status": "accepted",
+  "accepted_by": "Kapil Viren Ahuja",
+  "pointers_written": [
+    "035-agents-work-only-from-memory.md",
+    "036-approved-answer-lands-in-short-term-memory.md",
+    "032-drive-review-of-outcomes.md"
+  ],
+  "pointers_missing": [],
+  "index_ok": true
+}

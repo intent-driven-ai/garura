@@ -1,0 +1,3475 @@
+# quality-findings.yaml -- ROUND 2 of the review-change play for PR #676 (issue #659), Layer 1 (standards linter).
+# Replaces round 1's file (head fa73b2b5). Assessed at head 4553fe26. Written by quality-check-scoped's scan plus the runnable checks.
+meta:
+  skill: quality-check-scoped
+  round: 2
+  round_note: ROUND 2. This file replaces round 1's quality-findings.yaml (assessed at head fa73b2b5, committed on the branch); round 1's findings are not carried as results,
+    every row below was measured again at head 4553fe26, and round_1_follow_up says for each round 1 finding and observation whether it is fixed or stands.
+  pr: 676
+  issue: 659
+  base: main
+  head_assessed: 4553fe26
+  round_1_head: fa73b2b5
+  generated_at: '2026-10-18T20:58:44Z'
+  diff_path: .garura/project/issues/659/review/pr.diff
+  diff_note: the scan input was a fresh git diff main...HEAD at 4553fe26 (1,325,705 bytes, 121 file headers) held in scratch, not the stored review/pr.diff (an uncommitted
+    edit in the working copy, 1,325,274 bytes when checked, also 121 file headers). Line numbers are lines in the file at this head. The uncommitted gates line in the working
+    copy of .garura/core/config.yaml is not in the diff.
+  taxonomy_path: ~/.garura/core/memory/standards/rules/pr.md
+  changed_paths_count: 22
+  changed_paths_in_diff: 121
+  scan_coverage: 1.0
+  standards_relevant: 30
+  catchall:
+    CODE-20: 22
+  taxonomy_used:
+    file: ~/.garura/core/memory/standards/rules/pr.md
+    how_chosen: 'Standards resolved in the order the review context gives (kb, ltm, stm). kb is the machine-global Garura memory copy: it exists (380 lines) and is byte-identical
+      (md5 f06e57a7fc2ef05e547aefd8e524c938) to the committed core/components/memory/standards/rules/pr.md and to Phoenix memory''s copy at ~/.garura/phoenix-memory/standards/rules/pr.md
+      (md5 of all three compared this round). The ltm copy that .garura/core/config.yaml (standards.pr-severity-taxonomy) points at, ./.garura/core/memory/standards/rules/pr.md,
+      is older (303 lines, gitignored, last written 30 May) and was not used for the findings; it was scanned once for comparison (see cross_checks). The meaning of each check
+      item comes from core/components/skills/quality-check/reference/all-requirements.md.'
+    effect_on_this_scan: This copy has the Artifact-Type Scoping table, so every path is classified before a rule runs. The memory tool's Python files were classed runtime-code,
+      the README docs-planning and the ADRs docs-planning. The three drive-record writers and the drive test (core/components/**, garura-prose), the evidence script and the
+      three plans (.garura/project/**, stm-evidence) are prose classes by the table's globs, so the keyword rules and the code path rules did not run on them (CODE-20 aside).
+      Those files are covered by the runnable checks and by the read in observations_not_findings. artifact_type on each finding is the scanner's own value; category is the
+      review categories split from categories.yaml.
+  scope:
+    scanned_paths: 22
+    scanned_by_category:
+      executable-code: 9
+      tests: 4
+      documentation: 1
+      stm-working-notes-plans: 3
+      decision-records: 5
+    scanner_findings_by_artifact_type:
+      runtime-code: 155
+      docs-planning: 22
+    not_scanned_here: tool-interface-contract (61 paths; its Layer 1 is the contract check, run below), tool-design-document (2), memory (2; lint-components is the play's own
+      step and was not run here), stm-run-records (34; no linter layer). A scan of all 121 paths is in cross_checks for the secret and personal-data rules only.
+    bound: 'the 22 scoped paths were written to a file and passed with --paths, so the scan is bounded to them; the diff holds 121 paths. context.yaml now lists all 121 (compared
+      with git diff --name-only main...HEAD: the same set), so the round 1 gap (a list cut at 100) is closed.'
+    decision_records_layer: decision-records' linter layer is adr.py lint, run on the four ADRs the diff touches (see runnable_checks); the five ADR paths were also passed
+      through the taxonomy scan, which gave DOC-04, DOC-05 and ARCH-23 rows only.
+  scanner_exit: 0
+  taxonomy_rows_failed_to_compile: 0
+  findings_dropped: 0
+category_summary:
+- category: executable-code
+  paths_in_scope: 9
+  scanned_with_rules: 5
+  scanner_findings: 91
+  note: the five memory-tool files carry the findings; the three drive-record writers and the evidence script are prose classes by the table, so only the runnable checks and
+    the read cover them (round_1_follow_up, OBS-2, OBS-4, OBS-5, OBS-11, R2-2)
+- category: tests
+  paths_in_scope: 4
+  scanned_with_rules: 3
+  scanner_findings: 64
+  note: unit tests 134 OK and drive test 33 passed; the drive test file is a prose class by the table (OBS-5, OBS-6, R2-3, R2-4)
+- category: documentation
+  paths_in_scope: 1
+  scanned_with_rules: 1
+  scanner_findings: 7
+  note: README prose checks and the four documented commands pass (OBS-12)
+- category: stm-working-notes-plans
+  paths_in_scope: 3
+  scanned_with_rules: 0
+  scanner_findings: 0
+  note: 'all three plans are a prose class (stm-evidence): the scanner emitted nothing. Plan format check valid for all three; consistency read in OBS-13'
+- category: decision-records
+  paths_in_scope: 5
+  scanned_with_rules: 5
+  scanner_findings: 15
+  note: adr.py lint valid on all four ADRs; the regenerated index is byte-identical; the scanner raised only the three ADR path rows (DOC-04 met, DOC-05 judgement, ARCH-23
+    not applicable)
+standards_basis:
+  DATA-18:
+    severity: P1
+    match_rule: grep:(email|ssn|password|credit_card|cvv)
+    kind: keyword
+    check_item: PII columns encrypted at rest or stored as hash where lookup is not required (L4)
+    severity_from: ~/.garura/core/memory/standards/rules/pr.md
+    check_item_from: core/components/skills/quality-check/reference/all-requirements.md
+  ARCH-02:
+    severity: P2
+    match_rule: path:**/*.{js,ts,py,go,java}
+    kind: path
+    check_item: No circular dependencies between modules
+    severity_from: ~/.garura/core/memory/standards/rules/pr.md
+    check_item_from: core/components/skills/quality-check/reference/all-requirements.md
+  BE-19:
+    severity: P2
+    match_rule: grep:(SELECT|FROM|JOIN)
+    kind: keyword
+    check_item: Slow queries identified via EXPLAIN ANALYZE; queries on large tables have supporting indexes (L4)
+    severity_from: ~/.garura/core/memory/standards/rules/pr.md
+    check_item_from: core/components/skills/quality-check/reference/all-requirements.md
+  CODE-03:
+    severity: P2
+    match_rule: path:**/*.{js,ts,jsx,tsx,py,go,rb}
+    kind: path
+    check_item: Linter runs without warnings on the main branch (L3)
+    severity_from: ~/.garura/core/memory/standards/rules/pr.md
+    check_item_from: core/components/skills/quality-check/reference/all-requirements.md
+  CODE-04:
+    severity: P2
+    match_rule: path:**/*.{js,ts,jsx,tsx,py,go,rb}
+    kind: path
+    check_item: Formatter produces zero diff on committed code (L3)
+    severity_from: ~/.garura/core/memory/standards/rules/pr.md
+    check_item_from: core/components/skills/quality-check/reference/all-requirements.md
+  CODE-14:
+    severity: P2
+    match_rule: path:**/*.{js,ts,jsx,tsx,py,go}
+    kind: path
+    check_item: No circular dependencies between modules (L4)
+    severity_from: ~/.garura/core/memory/standards/rules/pr.md
+    check_item_from: core/components/skills/quality-check/reference/all-requirements.md
+  ARCH-03:
+    severity: P3
+    match_rule: path:**/*.{js,ts,py,go,java,rb}
+    kind: path
+    check_item: No file exceeds 500 lines with mixed concerns
+    severity_from: ~/.garura/core/memory/standards/rules/pr.md
+    check_item_from: core/components/skills/quality-check/reference/all-requirements.md
+  ARCH-08:
+    severity: P3
+    match_rule: path:**/*.{js,ts,py,go}
+    kind: path
+    check_item: Package/module boundaries match functional boundaries
+    severity_from: ~/.garura/core/memory/standards/rules/pr.md
+    check_item_from: core/components/skills/quality-check/reference/all-requirements.md
+  CODE-09:
+    severity: P3
+    match_rule: path:**/*.{js,ts,jsx,tsx,py,go,rb,java}
+    kind: path
+    check_item: Cyclomatic complexity per function <= 10 (L2)
+    severity_from: ~/.garura/core/memory/standards/rules/pr.md
+    check_item_from: core/components/skills/quality-check/reference/all-requirements.md
+  CODE-10:
+    severity: P3
+    match_rule: path:**/*.{js,ts,jsx,tsx,py,go,rb,java}
+    kind: path
+    check_item: Function length <= 50 lines, blank lines and comments excluded (L2)
+    severity_from: ~/.garura/core/memory/standards/rules/pr.md
+    check_item_from: core/components/skills/quality-check/reference/all-requirements.md
+  CODE-11:
+    severity: P3
+    match_rule: path:**/*.{js,ts,jsx,tsx,py,go,rb,java}
+    kind: path
+    check_item: Nesting depth <= 4 levels in any function (L3)
+    severity_from: ~/.garura/core/memory/standards/rules/pr.md
+    check_item_from: core/components/skills/quality-check/reference/all-requirements.md
+  CODE-12:
+    severity: P3
+    match_rule: path:**/*.{js,ts,jsx,tsx,py,go,rb,java}
+    kind: path
+    check_item: Class/module size <= 300 lines (L3)
+    severity_from: ~/.garura/core/memory/standards/rules/pr.md
+    check_item_from: core/components/skills/quality-check/reference/all-requirements.md
+  CODE-15:
+    severity: P3
+    match_rule: path:**/*.{js,ts,jsx,tsx,py,go,rb,java}
+    kind: path
+    check_item: Cognitive complexity per function <= 15, the SonarQube metric (L4)
+    severity_from: ~/.garura/core/memory/standards/rules/pr.md
+    check_item_from: core/components/skills/quality-check/reference/all-requirements.md
+  CODE-17:
+    severity: P3
+    match_rule: path:**/*.{js,ts,jsx,tsx,py,go,rb,java}
+    kind: path
+    check_item: Variables and functions follow the language-idiomatic case convention (L2)
+    severity_from: ~/.garura/core/memory/standards/rules/pr.md
+    check_item_from: core/components/skills/quality-check/reference/all-requirements.md
+  CODE-25:
+    severity: P3
+    match_rule: grep:(catch\s*\(|except\s)
+    kind: keyword
+    check_item: 'Errors are logged with context: stack trace and relevant identifiers (L3)'
+    severity_from: ~/.garura/core/memory/standards/rules/pr.md
+    check_item_from: core/components/skills/quality-check/reference/all-requirements.md
+  DOC-01:
+    severity: P3
+    match_rule: path:README.md,README.rst,README.txt
+    kind: path
+    check_item: README exists at repo root (L2)
+    severity_from: ~/.garura/core/memory/standards/rules/pr.md
+    check_item_from: core/components/skills/quality-check/reference/all-requirements.md
+  DOC-04:
+    severity: P3
+    match_rule: path:docs/adr/**,docs/decisions/**
+    kind: path
+    check_item: At least one Architecture Decision Record (ADR) exists (L3)
+    severity_from: ~/.garura/core/memory/standards/rules/pr.md
+    check_item_from: core/components/skills/quality-check/reference/all-requirements.md
+  DOC-09:
+    severity: P3
+    match_rule: path:README.md
+    kind: path
+    check_item: README includes project description, tech stack and purpose (L2)
+    severity_from: ~/.garura/core/memory/standards/rules/pr.md
+    check_item_from: core/components/skills/quality-check/reference/all-requirements.md
+  DOC-10:
+    severity: P3
+    match_rule: path:README.md
+    kind: path
+    check_item: 'README includes local setup instructions: install, configure, run (L2)'
+    severity_from: ~/.garura/core/memory/standards/rules/pr.md
+    check_item_from: core/components/skills/quality-check/reference/all-requirements.md
+  DOC-11:
+    severity: P3
+    match_rule: path:.env.example,README.md,docs/setup/**
+    kind: path
+    check_item: All required environment variables are documented (L3)
+    severity_from: ~/.garura/core/memory/standards/rules/pr.md
+    check_item_from: core/components/skills/quality-check/reference/all-requirements.md
+  TEST-14:
+    severity: P3
+    match_rule: path:**/{contract,pact}/**
+    kind: path
+    check_item: Contract tests defined for all inter-service API dependencies (L4)
+    severity_from: ~/.garura/core/memory/standards/rules/pr.md
+    check_item_from: core/components/skills/quality-check/reference/all-requirements.md
+  TEST-18:
+    severity: P3
+    match_rule: path:**/{contract,pact}/**
+    kind: path
+    check_item: API contract breaking changes detected automatically (L5)
+    severity_from: ~/.garura/core/memory/standards/rules/pr.md
+    check_item_from: core/components/skills/quality-check/reference/all-requirements.md
+  ARCH-23:
+    severity: P4
+    match_rule: path:docs/architecture/**,docs/adr/**
+    kind: path
+    check_item: Scaling considerations are documented (stateless design, horizontal scalability, session handling)
+    severity_from: ~/.garura/core/memory/standards/rules/pr.md
+    check_item_from: core/components/skills/quality-check/reference/all-requirements.md
+  BE-23:
+    severity: P4
+    match_rule: grep:(stampede|mutex|lock)
+    kind: keyword
+    check_item: Cache stampede prevention in place for high-traffic keys (L4)
+    severity_from: ~/.garura/core/memory/standards/rules/pr.md
+    check_item_from: core/components/skills/quality-check/reference/all-requirements.md
+  CODE-13:
+    severity: P4
+    match_rule: path:**/*.{js,ts,jsx,tsx,py,go,rb,java}
+    kind: path
+    check_item: 'Single Responsibility: each class/module has one clear purpose (L3)'
+    severity_from: ~/.garura/core/memory/standards/rules/pr.md
+    check_item_from: core/components/skills/quality-check/reference/all-requirements.md
+  CODE-19:
+    severity: P4
+    match_rule: path:**/*.{js,ts,jsx,tsx,py,go,rb,java}
+    kind: path
+    check_item: Constants and enum values use SCREAMING_SNAKE_CASE (L3)
+    severity_from: ~/.garura/core/memory/standards/rules/pr.md
+    check_item_from: core/components/skills/quality-check/reference/all-requirements.md
+  DOC-05:
+    severity: P4
+    match_rule: path:docs/adr/**
+    kind: path
+    check_item: ADRs cover major technology choices (framework, DB, auth strategy) (L4)
+    severity_from: ~/.garura/core/memory/standards/rules/pr.md
+    check_item_from: core/components/skills/quality-check/reference/all-requirements.md
+  DOC-14:
+    severity: P4
+    match_rule: path:README.md,docs/setup/**
+    kind: path
+    check_item: Local development setup can be completed following the docs without external help (L4)
+    severity_from: ~/.garura/core/memory/standards/rules/pr.md
+    check_item_from: core/components/skills/quality-check/reference/all-requirements.md
+  DOC-15:
+    severity: P4
+    match_rule: path:README.md,docs/troubleshooting/**
+    kind: path
+    check_item: Troubleshooting section covers at least 3 common setup failures (L4)
+    severity_from: ~/.garura/core/memory/standards/rules/pr.md
+    check_item_from: core/components/skills/quality-check/reference/all-requirements.md
+  DOC-16:
+    severity: P4
+    match_rule: path:README.md,docs/architecture/**
+    kind: path
+    check_item: Architecture overview in README or docs/ explains major components in under 5 minutes of reading (L5)
+    severity_from: ~/.garura/core/memory/standards/rules/pr.md
+    check_item_from: core/components/skills/quality-check/reference/all-requirements.md
+findings:
+- standard_id: DATA-18
+  severity: P1
+  file: core/tools/memory/test_memory.py
+  line: 410
+  evidence: Password
+  artifact_type: runtime-code
+  taxonomy_rule_id: DATA-18
+  category: tests
+  basis: rule DATA-18 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: accepted_exception
+  assessment_evidence: 'sample text, not a credential: a test string about sign-in (''## Passwords'' heading in a sample memory file, ''A reset link expires after one hour'').
+    No real credential, address or personal data on the line. Accepted as demo wording, as in round 1 and the #658 review.'
+  demo_test_data: true
+  demo_test_data_line: 410
+  round_1_assessment: accepted_exception
+  status_vs_round_1: stands
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/memory/citations.py
+  line: 1
+  evidence: core/tools/memory/citations.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-02
+  category: executable-code
+  basis: rule ARCH-02 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 'import graph computed from the files with an AST walk: pull.py and check_contract.py import only the standard library; updates.py and citations.py import
+    pull; memory.py imports check_contract, citations, pull and updates; test_pull.py imports check_contract and pull; test_memory.py imports check_contract, memory and test_pull
+    (shared test fixtures, already so on main); test_check_contract.py imports check_contract. No cycle. (Round 1 said no test file is imported by another module; test_memory.py
+    importing test_pull.py is the one exception, on main already.)'
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/memory/citations.py
+  line: 1
+  evidence: core/tools/memory/citations.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-03
+  category: executable-code
+  basis: rule CODE-03 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 'ruff 0.15.20 check --no-cache on the 13 changed Python files: All checks passed (default rule set; the repo commits no linter configuration). An extra
+    W and N pass found only N818 on Refusal (pull.py:45) and BadFlags (memory.py:446), both already on main.'
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/memory/citations.py
+  line: 1
+  evidence: core/tools/memory/citations.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-04
+  category: executable-code
+  basis: rule CODE-04 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_met
+  assessment_evidence: no formatter is configured in the repo (no ruff.toml, pyproject.toml, setup.cfg). ruff format --check says all 13 changed Python files would be reformatted;
+    the 11 that exist on main say the same on main (11 of 11), so this is the repo's state, not introduced here (the 2 new files, citations.py and make_decisions.py, would
+    be reformatted too). Same as round 1.
+  change_in_this_diff: 'none: the same files are unformatted on main'
+  round_1_assessment: not_met
+  status_vs_round_1: stands
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/memory/citations.py
+  line: 1
+  evidence: core/tools/memory/citations.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-14
+  category: executable-code
+  basis: rule CODE-14 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 'import graph computed from the files with an AST walk: pull.py and check_contract.py import only the standard library; updates.py and citations.py import
+    pull; memory.py imports check_contract, citations, pull and updates; test_pull.py imports check_contract and pull; test_memory.py imports check_contract, memory and test_pull
+    (shared test fixtures, already so on main); test_check_contract.py imports check_contract. No cycle. (Round 1 said no test file is imported by another module; test_memory.py
+    importing test_pull.py is the one exception, on main already.)'
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/citations.py
+  line: 3
+  evidence: from
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: executable-code
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  assessment_evidence: 'the match is the word ''from'' in Python code or a string, not a query. The 17 scoped files hold no SQL and no database library (searched for sqlite,
+    psycopg, mysql, pymysql, sqlalchemy, cursor, .execute(, SELECT..FROM, INSERT INTO, UPDATE..SET, DELETE FROM, JOIN..ON: no hit).'
+  round_1_assessment: not_applicable
+  status_vs_round_1: same
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/citations.py
+  line: 15
+  evidence: from
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: executable-code
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  assessment_evidence: 'the match is the word ''from'' in Python code or a string, not a query. The 17 scoped files hold no SQL and no database library (searched for sqlite,
+    psycopg, mysql, pymysql, sqlalchemy, cursor, .execute(, SELECT..FROM, INSERT INTO, UPDATE..SET, DELETE FROM, JOIN..ON: no hit).'
+  round_1_assessment: not_applicable
+  status_vs_round_1: same
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/citations.py
+  line: 24
+  evidence: from
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: executable-code
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  assessment_evidence: 'the match is the word ''from'' in Python code or a string, not a query. The 17 scoped files hold no SQL and no database library (searched for sqlite,
+    psycopg, mysql, pymysql, sqlalchemy, cursor, .execute(, SELECT..FROM, INSERT INTO, UPDATE..SET, DELETE FROM, JOIN..ON: no hit).'
+  round_1_assessment: not_applicable
+  status_vs_round_1: same
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/citations.py
+  line: 48
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: executable-code
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  assessment_evidence: 'the match is the word ''join'' in Python code or a string, not a query. The 17 scoped files hold no SQL and no database library (searched for sqlite,
+    psycopg, mysql, pymysql, sqlalchemy, cursor, .execute(, SELECT..FROM, INSERT INTO, UPDATE..SET, DELETE FROM, JOIN..ON: no hit).'
+  round_1_assessment: not_applicable
+  status_vs_round_1: same
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/citations.py
+  line: 55
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: executable-code
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  assessment_evidence: 'the match is the word ''join'' in Python code or a string, not a query. The 17 scoped files hold no SQL and no database library (searched for sqlite,
+    psycopg, mysql, pymysql, sqlalchemy, cursor, .execute(, SELECT..FROM, INSERT INTO, UPDATE..SET, DELETE FROM, JOIN..ON: no hit).'
+  round_1_assessment: not_applicable
+  status_vs_round_1: same
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/citations.py
+  line: 77
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: executable-code
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  assessment_evidence: 'the match is the word ''join'' in Python code or a string, not a query. The 17 scoped files hold no SQL and no database library (searched for sqlite,
+    psycopg, mysql, pymysql, sqlalchemy, cursor, .execute(, SELECT..FROM, INSERT INTO, UPDATE..SET, DELETE FROM, JOIN..ON: no hit).'
+  round_1_assessment: not_applicable
+  status_vs_round_1: same
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/citations.py
+  line: 141
+  evidence: from
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: executable-code
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  assessment_evidence: 'the match is the word ''from'' in Python code or a string, not a query. The 17 scoped files hold no SQL and no database library (searched for sqlite,
+    psycopg, mysql, pymysql, sqlalchemy, cursor, .execute(, SELECT..FROM, INSERT INTO, UPDATE..SET, DELETE FROM, JOIN..ON: no hit).'
+  round_1_assessment: not_applicable
+  status_vs_round_1: same
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/citations.py
+  line: 144
+  evidence: from
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: executable-code
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  assessment_evidence: 'the match is the word ''from'' in Python code or a string, not a query. The 17 scoped files hold no SQL and no database library (searched for sqlite,
+    psycopg, mysql, pymysql, sqlalchemy, cursor, .execute(, SELECT..FROM, INSERT INTO, UPDATE..SET, DELETE FROM, JOIN..ON: no hit).'
+  round_1_assessment: not_applicable
+  status_vs_round_1: same
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/citations.py
+  line: 145
+  evidence: from
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: executable-code
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  assessment_evidence: 'the match is the word ''from'' in Python code or a string, not a query. The 17 scoped files hold no SQL and no database library (searched for sqlite,
+    psycopg, mysql, pymysql, sqlalchemy, cursor, .execute(, SELECT..FROM, INSERT INTO, UPDATE..SET, DELETE FROM, JOIN..ON: no hit).'
+  round_1_assessment: not_applicable
+  status_vs_round_1: same
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/citations.py
+  line: 147
+  evidence: from
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: executable-code
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  assessment_evidence: 'the match is the word ''from'' in Python code or a string, not a query. The 17 scoped files hold no SQL and no database library (searched for sqlite,
+    psycopg, mysql, pymysql, sqlalchemy, cursor, .execute(, SELECT..FROM, INSERT INTO, UPDATE..SET, DELETE FROM, JOIN..ON: no hit).'
+  round_1_assessment: not_applicable
+  status_vs_round_1: same
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/citations.py
+  line: 153
+  evidence: from
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: executable-code
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  assessment_evidence: 'the match is the word ''from'' in Python code or a string, not a query. The 17 scoped files hold no SQL and no database library (searched for sqlite,
+    psycopg, mysql, pymysql, sqlalchemy, cursor, .execute(, SELECT..FROM, INSERT INTO, UPDATE..SET, DELETE FROM, JOIN..ON: no hit).'
+  round_1_assessment: not_applicable
+  status_vs_round_1: same
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/citations.py
+  line: 159
+  evidence: from
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: executable-code
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  assessment_evidence: 'the match is the word ''from'' in Python code or a string, not a query. The 17 scoped files hold no SQL and no database library (searched for sqlite,
+    psycopg, mysql, pymysql, sqlalchemy, cursor, .execute(, SELECT..FROM, INSERT INTO, UPDATE..SET, DELETE FROM, JOIN..ON: no hit).'
+  round_1_assessment: not_applicable
+  status_vs_round_1: same
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-02
+  category: executable-code
+  basis: rule ARCH-02 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 'import graph computed from the files with an AST walk: pull.py and check_contract.py import only the standard library; updates.py and citations.py import
+    pull; memory.py imports check_contract, citations, pull and updates; test_pull.py imports check_contract and pull; test_memory.py imports check_contract, memory and test_pull
+    (shared test fixtures, already so on main); test_check_contract.py imports check_contract. No cycle. (Round 1 said no test file is imported by another module; test_memory.py
+    importing test_pull.py is the one exception, on main already.)'
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-03
+  category: executable-code
+  basis: rule CODE-03 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 'ruff 0.15.20 check --no-cache on the 13 changed Python files: All checks passed (default rule set; the repo commits no linter configuration). An extra
+    W and N pass found only N818 on Refusal (pull.py:45) and BadFlags (memory.py:446), both already on main.'
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-04
+  category: executable-code
+  basis: rule CODE-04 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_met
+  assessment_evidence: no formatter is configured in the repo (no ruff.toml, pyproject.toml, setup.cfg). ruff format --check says all 13 changed Python files would be reformatted;
+    the 11 that exist on main say the same on main (11 of 11), so this is the repo's state, not introduced here (the 2 new files, citations.py and make_decisions.py, would
+    be reformatted too). Same as round 1.
+  change_in_this_diff: 'none: the same files are unformatted on main'
+  round_1_assessment: not_met
+  status_vs_round_1: stands
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-14
+  category: executable-code
+  basis: rule CODE-14 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 'import graph computed from the files with an AST walk: pull.py and check_contract.py import only the standard library; updates.py and citations.py import
+    pull; memory.py imports check_contract, citations, pull and updates; test_pull.py imports check_contract and pull; test_memory.py imports check_contract, memory and test_pull
+    (shared test fixtures, already so on main); test_check_contract.py imports check_contract. No cycle. (Round 1 said no test file is imported by another module; test_memory.py
+    importing test_pull.py is the one exception, on main already.)'
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/contract/check_contract.py
+  line: 311
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: executable-code
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  assessment_evidence: 'the match is the word ''join'' in Python code or a string, not a query. The 17 scoped files hold no SQL and no database library (searched for sqlite,
+    psycopg, mysql, pymysql, sqlalchemy, cursor, .execute(, SELECT..FROM, INSERT INTO, UPDATE..SET, DELETE FROM, JOIN..ON: no hit).'
+  round_1_assessment: not_applicable
+  status_vs_round_1: same
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/contract/check_contract.py
+  line: 428
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: executable-code
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  assessment_evidence: 'the match is the word ''join'' in Python code or a string, not a query. The 17 scoped files hold no SQL and no database library (searched for sqlite,
+    psycopg, mysql, pymysql, sqlalchemy, cursor, .execute(, SELECT..FROM, INSERT INTO, UPDATE..SET, DELETE FROM, JOIN..ON: no hit).'
+  round_1_assessment: not_applicable
+  status_vs_round_1: same
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/test_check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-02
+  category: tests
+  basis: rule ARCH-02 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 'import graph computed from the files with an AST walk: pull.py and check_contract.py import only the standard library; updates.py and citations.py import
+    pull; memory.py imports check_contract, citations, pull and updates; test_pull.py imports check_contract and pull; test_memory.py imports check_contract, memory and test_pull
+    (shared test fixtures, already so on main); test_check_contract.py imports check_contract. No cycle. (Round 1 said no test file is imported by another module; test_memory.py
+    importing test_pull.py is the one exception, on main already.)'
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/test_check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-03
+  category: tests
+  basis: rule CODE-03 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 'ruff 0.15.20 check --no-cache on the 13 changed Python files: All checks passed (default rule set; the repo commits no linter configuration). An extra
+    W and N pass found only N818 on Refusal (pull.py:45) and BadFlags (memory.py:446), both already on main.'
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/test_check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-04
+  category: tests
+  basis: rule CODE-04 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_met
+  assessment_evidence: no formatter is configured in the repo (no ruff.toml, pyproject.toml, setup.cfg). ruff format --check says all 13 changed Python files would be reformatted;
+    the 11 that exist on main say the same on main (11 of 11), so this is the repo's state, not introduced here (the 2 new files, citations.py and make_decisions.py, would
+    be reformatted too). Same as round 1.
+  change_in_this_diff: 'none: the same files are unformatted on main'
+  round_1_assessment: not_met
+  status_vs_round_1: stands
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/test_check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-14
+  category: tests
+  basis: rule CODE-14 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 'import graph computed from the files with an AST walk: pull.py and check_contract.py import only the standard library; updates.py and citations.py import
+    pull; memory.py imports check_contract, citations, pull and updates; test_pull.py imports check_contract and pull; test_memory.py imports check_contract, memory and test_pull
+    (shared test fixtures, already so on main); test_check_contract.py imports check_contract. No cycle. (Round 1 said no test file is imported by another module; test_memory.py
+    importing test_pull.py is the one exception, on main already.)'
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 13
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: tests
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  assessment_evidence: 'the match is the word ''join'' in Python code or a string, not a query. The 17 scoped files hold no SQL and no database library (searched for sqlite,
+    psycopg, mysql, pymysql, sqlalchemy, cursor, .execute(, SELECT..FROM, INSERT INTO, UPDATE..SET, DELETE FROM, JOIN..ON: no hit).'
+  round_1_assessment: not_applicable
+  status_vs_round_1: same
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/memory/memory.py
+  line: 1
+  evidence: core/tools/memory/memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-02
+  category: executable-code
+  basis: rule ARCH-02 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 'import graph computed from the files with an AST walk: pull.py and check_contract.py import only the standard library; updates.py and citations.py import
+    pull; memory.py imports check_contract, citations, pull and updates; test_pull.py imports check_contract and pull; test_memory.py imports check_contract, memory and test_pull
+    (shared test fixtures, already so on main); test_check_contract.py imports check_contract. No cycle. (Round 1 said no test file is imported by another module; test_memory.py
+    importing test_pull.py is the one exception, on main already.)'
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/memory/memory.py
+  line: 1
+  evidence: core/tools/memory/memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-03
+  category: executable-code
+  basis: rule CODE-03 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 'ruff 0.15.20 check --no-cache on the 13 changed Python files: All checks passed (default rule set; the repo commits no linter configuration). An extra
+    W and N pass found only N818 on Refusal (pull.py:45) and BadFlags (memory.py:446), both already on main.'
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/memory/memory.py
+  line: 1
+  evidence: core/tools/memory/memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-04
+  category: executable-code
+  basis: rule CODE-04 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_met
+  assessment_evidence: no formatter is configured in the repo (no ruff.toml, pyproject.toml, setup.cfg). ruff format --check says all 13 changed Python files would be reformatted;
+    the 11 that exist on main say the same on main (11 of 11), so this is the repo's state, not introduced here (the 2 new files, citations.py and make_decisions.py, would
+    be reformatted too). Same as round 1.
+  change_in_this_diff: 'none: the same files are unformatted on main'
+  round_1_assessment: not_met
+  status_vs_round_1: stands
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/memory/memory.py
+  line: 1
+  evidence: core/tools/memory/memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-14
+  category: executable-code
+  basis: rule CODE-14 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 'import graph computed from the files with an AST walk: pull.py and check_contract.py import only the standard library; updates.py and citations.py import
+    pull; memory.py imports check_contract, citations, pull and updates; test_pull.py imports check_contract and pull; test_memory.py imports check_contract, memory and test_pull
+    (shared test fixtures, already so on main); test_check_contract.py imports check_contract. No cycle. (Round 1 said no test file is imported by another module; test_memory.py
+    importing test_pull.py is the one exception, on main already.)'
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/memory.py
+  line: 68
+  evidence: from
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: executable-code
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  assessment_evidence: 'the match is the word ''from'' in Python code or a string, not a query. The 17 scoped files hold no SQL and no database library (searched for sqlite,
+    psycopg, mysql, pymysql, sqlalchemy, cursor, .execute(, SELECT..FROM, INSERT INTO, UPDATE..SET, DELETE FROM, JOIN..ON: no hit).'
+  round_1_assessment: not_applicable
+  status_vs_round_1: same
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/memory.py
+  line: 71
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: executable-code
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  assessment_evidence: 'the match is the word ''join'' in Python code or a string, not a query. The 17 scoped files hold no SQL and no database library (searched for sqlite,
+    psycopg, mysql, pymysql, sqlalchemy, cursor, .execute(, SELECT..FROM, INSERT INTO, UPDATE..SET, DELETE FROM, JOIN..ON: no hit).'
+  round_1_assessment: not_applicable
+  status_vs_round_1: same
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/memory.py
+  line: 156
+  evidence: from
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: executable-code
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  assessment_evidence: 'the match is the word ''from'' in Python code or a string, not a query. The 17 scoped files hold no SQL and no database library (searched for sqlite,
+    psycopg, mysql, pymysql, sqlalchemy, cursor, .execute(, SELECT..FROM, INSERT INTO, UPDATE..SET, DELETE FROM, JOIN..ON: no hit).'
+  round_1_assessment: not_applicable
+  status_vs_round_1: same
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/memory.py
+  line: 169
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: executable-code
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  assessment_evidence: 'the match is the word ''join'' in Python code or a string, not a query. The 17 scoped files hold no SQL and no database library (searched for sqlite,
+    psycopg, mysql, pymysql, sqlalchemy, cursor, .execute(, SELECT..FROM, INSERT INTO, UPDATE..SET, DELETE FROM, JOIN..ON: no hit).'
+  round_1_assessment: not_applicable
+  status_vs_round_1: same
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/memory/pull.py
+  line: 1
+  evidence: core/tools/memory/pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-02
+  category: executable-code
+  basis: rule ARCH-02 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 'import graph computed from the files with an AST walk: pull.py and check_contract.py import only the standard library; updates.py and citations.py import
+    pull; memory.py imports check_contract, citations, pull and updates; test_pull.py imports check_contract and pull; test_memory.py imports check_contract, memory and test_pull
+    (shared test fixtures, already so on main); test_check_contract.py imports check_contract. No cycle. (Round 1 said no test file is imported by another module; test_memory.py
+    importing test_pull.py is the one exception, on main already.)'
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/memory/pull.py
+  line: 1
+  evidence: core/tools/memory/pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-03
+  category: executable-code
+  basis: rule CODE-03 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 'ruff 0.15.20 check --no-cache on the 13 changed Python files: All checks passed (default rule set; the repo commits no linter configuration). An extra
+    W and N pass found only N818 on Refusal (pull.py:45) and BadFlags (memory.py:446), both already on main.'
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/memory/pull.py
+  line: 1
+  evidence: core/tools/memory/pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-04
+  category: executable-code
+  basis: rule CODE-04 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_met
+  assessment_evidence: no formatter is configured in the repo (no ruff.toml, pyproject.toml, setup.cfg). ruff format --check says all 13 changed Python files would be reformatted;
+    the 11 that exist on main say the same on main (11 of 11), so this is the repo's state, not introduced here (the 2 new files, citations.py and make_decisions.py, would
+    be reformatted too). Same as round 1.
+  change_in_this_diff: 'none: the same files are unformatted on main'
+  round_1_assessment: not_met
+  status_vs_round_1: stands
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/memory/pull.py
+  line: 1
+  evidence: core/tools/memory/pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-14
+  category: executable-code
+  basis: rule CODE-14 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 'import graph computed from the files with an AST walk: pull.py and check_contract.py import only the standard library; updates.py and citations.py import
+    pull; memory.py imports check_contract, citations, pull and updates; test_pull.py imports check_contract and pull; test_memory.py imports check_contract, memory and test_pull
+    (shared test fixtures, already so on main); test_check_contract.py imports check_contract. No cycle. (Round 1 said no test file is imported by another module; test_memory.py
+    importing test_pull.py is the one exception, on main already.)'
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/memory/test_memory.py
+  line: 1
+  evidence: core/tools/memory/test_memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-02
+  category: tests
+  basis: rule ARCH-02 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 'import graph computed from the files with an AST walk: pull.py and check_contract.py import only the standard library; updates.py and citations.py import
+    pull; memory.py imports check_contract, citations, pull and updates; test_pull.py imports check_contract and pull; test_memory.py imports check_contract, memory and test_pull
+    (shared test fixtures, already so on main); test_check_contract.py imports check_contract. No cycle. (Round 1 said no test file is imported by another module; test_memory.py
+    importing test_pull.py is the one exception, on main already.)'
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/memory/test_memory.py
+  line: 1
+  evidence: core/tools/memory/test_memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-03
+  category: tests
+  basis: rule CODE-03 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 'ruff 0.15.20 check --no-cache on the 13 changed Python files: All checks passed (default rule set; the repo commits no linter configuration). An extra
+    W and N pass found only N818 on Refusal (pull.py:45) and BadFlags (memory.py:446), both already on main.'
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/memory/test_memory.py
+  line: 1
+  evidence: core/tools/memory/test_memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-04
+  category: tests
+  basis: rule CODE-04 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_met
+  assessment_evidence: no formatter is configured in the repo (no ruff.toml, pyproject.toml, setup.cfg). ruff format --check says all 13 changed Python files would be reformatted;
+    the 11 that exist on main say the same on main (11 of 11), so this is the repo's state, not introduced here (the 2 new files, citations.py and make_decisions.py, would
+    be reformatted too). Same as round 1.
+  change_in_this_diff: 'none: the same files are unformatted on main'
+  round_1_assessment: not_met
+  status_vs_round_1: stands
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/memory/test_memory.py
+  line: 1
+  evidence: core/tools/memory/test_memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-14
+  category: tests
+  basis: rule CODE-14 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 'import graph computed from the files with an AST walk: pull.py and check_contract.py import only the standard library; updates.py and citations.py import
+    pull; memory.py imports check_contract, citations, pull and updates; test_pull.py imports check_contract and pull; test_memory.py imports check_contract, memory and test_pull
+    (shared test fixtures, already so on main); test_check_contract.py imports check_contract. No cycle. (Round 1 said no test file is imported by another module; test_memory.py
+    importing test_pull.py is the one exception, on main already.)'
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/test_memory.py
+  line: 5
+  evidence: from
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: tests
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  assessment_evidence: 'the match is the word ''from'' in Python code or a string, not a query. The 17 scoped files hold no SQL and no database library (searched for sqlite,
+    psycopg, mysql, pymysql, sqlalchemy, cursor, .execute(, SELECT..FROM, INSERT INTO, UPDATE..SET, DELETE FROM, JOIN..ON: no hit).'
+  round_1_assessment: not_applicable
+  status_vs_round_1: same
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/test_memory.py
+  line: 354
+  evidence: from
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: tests
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  assessment_evidence: 'the match is the word ''from'' in Python code or a string, not a query. The 17 scoped files hold no SQL and no database library (searched for sqlite,
+    psycopg, mysql, pymysql, sqlalchemy, cursor, .execute(, SELECT..FROM, INSERT INTO, UPDATE..SET, DELETE FROM, JOIN..ON: no hit).'
+  round_1_assessment: not_applicable
+  status_vs_round_1: same
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/test_memory.py
+  line: 373
+  evidence: from
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: tests
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  assessment_evidence: 'the match is the word ''from'' in Python code or a string, not a query. The 17 scoped files hold no SQL and no database library (searched for sqlite,
+    psycopg, mysql, pymysql, sqlalchemy, cursor, .execute(, SELECT..FROM, INSERT INTO, UPDATE..SET, DELETE FROM, JOIN..ON: no hit).'
+  round_1_assessment: not_applicable
+  status_vs_round_1: same
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/test_memory.py
+  line: 415
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: tests
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  assessment_evidence: 'the match is the word ''join'' in Python code or a string, not a query. The 17 scoped files hold no SQL and no database library (searched for sqlite,
+    psycopg, mysql, pymysql, sqlalchemy, cursor, .execute(, SELECT..FROM, INSERT INTO, UPDATE..SET, DELETE FROM, JOIN..ON: no hit).'
+  round_1_assessment: not_applicable
+  status_vs_round_1: same
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/test_memory.py
+  line: 416
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: tests
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  assessment_evidence: 'the match is the word ''join'' in Python code or a string, not a query. The 17 scoped files hold no SQL and no database library (searched for sqlite,
+    psycopg, mysql, pymysql, sqlalchemy, cursor, .execute(, SELECT..FROM, INSERT INTO, UPDATE..SET, DELETE FROM, JOIN..ON: no hit).'
+  round_1_assessment: not_applicable
+  status_vs_round_1: same
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/test_memory.py
+  line: 419
+  evidence: from
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: tests
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  assessment_evidence: 'the match is the word ''from'' in Python code or a string, not a query. The 17 scoped files hold no SQL and no database library (searched for sqlite,
+    psycopg, mysql, pymysql, sqlalchemy, cursor, .execute(, SELECT..FROM, INSERT INTO, UPDATE..SET, DELETE FROM, JOIN..ON: no hit).'
+  round_1_assessment: not_applicable
+  status_vs_round_1: same
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/test_memory.py
+  line: 423
+  evidence: from
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: tests
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  assessment_evidence: 'the match is the word ''from'' in Python code or a string, not a query. The 17 scoped files hold no SQL and no database library (searched for sqlite,
+    psycopg, mysql, pymysql, sqlalchemy, cursor, .execute(, SELECT..FROM, INSERT INTO, UPDATE..SET, DELETE FROM, JOIN..ON: no hit).'
+  round_1_assessment: not_applicable
+  status_vs_round_1: same
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/test_memory.py
+  line: 428
+  evidence: from
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: tests
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  assessment_evidence: 'the match is the word ''from'' in Python code or a string, not a query. The 17 scoped files hold no SQL and no database library (searched for sqlite,
+    psycopg, mysql, pymysql, sqlalchemy, cursor, .execute(, SELECT..FROM, INSERT INTO, UPDATE..SET, DELETE FROM, JOIN..ON: no hit).'
+  round_1_assessment: not_applicable
+  status_vs_round_1: same
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/test_memory.py
+  line: 433
+  evidence: from
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: tests
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  assessment_evidence: 'the match is the word ''from'' in Python code or a string, not a query. The 17 scoped files hold no SQL and no database library (searched for sqlite,
+    psycopg, mysql, pymysql, sqlalchemy, cursor, .execute(, SELECT..FROM, INSERT INTO, UPDATE..SET, DELETE FROM, JOIN..ON: no hit).'
+  round_1_assessment: not_applicable
+  status_vs_round_1: same
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/test_memory.py
+  line: 435
+  evidence: from
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: tests
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  assessment_evidence: 'the match is the word ''from'' in Python code or a string, not a query. The 17 scoped files hold no SQL and no database library (searched for sqlite,
+    psycopg, mysql, pymysql, sqlalchemy, cursor, .execute(, SELECT..FROM, INSERT INTO, UPDATE..SET, DELETE FROM, JOIN..ON: no hit).'
+  round_1_assessment: not_applicable
+  status_vs_round_1: same
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/test_memory.py
+  line: 439
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: tests
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  assessment_evidence: 'the match is the word ''join'' in Python code or a string, not a query. The 17 scoped files hold no SQL and no database library (searched for sqlite,
+    psycopg, mysql, pymysql, sqlalchemy, cursor, .execute(, SELECT..FROM, INSERT INTO, UPDATE..SET, DELETE FROM, JOIN..ON: no hit).'
+  round_1_assessment: not_applicable
+  status_vs_round_1: same
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/test_memory.py
+  line: 440
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: tests
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  assessment_evidence: 'the match is the word ''join'' in Python code or a string, not a query. The 17 scoped files hold no SQL and no database library (searched for sqlite,
+    psycopg, mysql, pymysql, sqlalchemy, cursor, .execute(, SELECT..FROM, INSERT INTO, UPDATE..SET, DELETE FROM, JOIN..ON: no hit).'
+  round_1_assessment: not_applicable
+  status_vs_round_1: same
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/test_memory.py
+  line: 451
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: tests
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  assessment_evidence: 'the match is the word ''join'' in Python code or a string, not a query. The 17 scoped files hold no SQL and no database library (searched for sqlite,
+    psycopg, mysql, pymysql, sqlalchemy, cursor, .execute(, SELECT..FROM, INSERT INTO, UPDATE..SET, DELETE FROM, JOIN..ON: no hit).'
+  round_1_assessment: not_applicable
+  status_vs_round_1: same
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/test_memory.py
+  line: 457
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: tests
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  assessment_evidence: 'the match is the word ''join'' in Python code or a string, not a query. The 17 scoped files hold no SQL and no database library (searched for sqlite,
+    psycopg, mysql, pymysql, sqlalchemy, cursor, .execute(, SELECT..FROM, INSERT INTO, UPDATE..SET, DELETE FROM, JOIN..ON: no hit).'
+  round_1_assessment: not_applicable
+  status_vs_round_1: same
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/test_memory.py
+  line: 462
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: tests
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  assessment_evidence: 'the match is the word ''join'' in Python code or a string, not a query. The 17 scoped files hold no SQL and no database library (searched for sqlite,
+    psycopg, mysql, pymysql, sqlalchemy, cursor, .execute(, SELECT..FROM, INSERT INTO, UPDATE..SET, DELETE FROM, JOIN..ON: no hit).'
+  round_1_assessment: not_applicable
+  status_vs_round_1: same
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/test_memory.py
+  line: 511
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: tests
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  assessment_evidence: 'the match is the word ''join'' in Python code or a string, not a query. The 17 scoped files hold no SQL and no database library (searched for sqlite,
+    psycopg, mysql, pymysql, sqlalchemy, cursor, .execute(, SELECT..FROM, INSERT INTO, UPDATE..SET, DELETE FROM, JOIN..ON: no hit).'
+  round_1_assessment: not_applicable
+  status_vs_round_1: same
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/memory/test_pull.py
+  line: 1
+  evidence: core/tools/memory/test_pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-02
+  category: tests
+  basis: rule ARCH-02 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 'import graph computed from the files with an AST walk: pull.py and check_contract.py import only the standard library; updates.py and citations.py import
+    pull; memory.py imports check_contract, citations, pull and updates; test_pull.py imports check_contract and pull; test_memory.py imports check_contract, memory and test_pull
+    (shared test fixtures, already so on main); test_check_contract.py imports check_contract. No cycle. (Round 1 said no test file is imported by another module; test_memory.py
+    importing test_pull.py is the one exception, on main already.)'
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/memory/test_pull.py
+  line: 1
+  evidence: core/tools/memory/test_pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-03
+  category: tests
+  basis: rule CODE-03 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 'ruff 0.15.20 check --no-cache on the 13 changed Python files: All checks passed (default rule set; the repo commits no linter configuration). An extra
+    W and N pass found only N818 on Refusal (pull.py:45) and BadFlags (memory.py:446), both already on main.'
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/memory/test_pull.py
+  line: 1
+  evidence: core/tools/memory/test_pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-04
+  category: tests
+  basis: rule CODE-04 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_met
+  assessment_evidence: no formatter is configured in the repo (no ruff.toml, pyproject.toml, setup.cfg). ruff format --check says all 13 changed Python files would be reformatted;
+    the 11 that exist on main say the same on main (11 of 11), so this is the repo's state, not introduced here (the 2 new files, citations.py and make_decisions.py, would
+    be reformatted too). Same as round 1.
+  change_in_this_diff: 'none: the same files are unformatted on main'
+  round_1_assessment: not_met
+  status_vs_round_1: stands
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/memory/test_pull.py
+  line: 1
+  evidence: core/tools/memory/test_pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-14
+  category: tests
+  basis: rule CODE-14 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 'import graph computed from the files with an AST walk: pull.py and check_contract.py import only the standard library; updates.py and citations.py import
+    pull; memory.py imports check_contract, citations, pull and updates; test_pull.py imports check_contract and pull; test_memory.py imports check_contract, memory and test_pull
+    (shared test fixtures, already so on main); test_check_contract.py imports check_contract. No cycle. (Round 1 said no test file is imported by another module; test_memory.py
+    importing test_pull.py is the one exception, on main already.)'
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/memory/test_pull.py
+  line: 20
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  category: tests
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  assessment_evidence: 'the match is the word ''join'' in Python code or a string, not a query. The 17 scoped files hold no SQL and no database library (searched for sqlite,
+    psycopg, mysql, pymysql, sqlalchemy, cursor, .execute(, SELECT..FROM, INSERT INTO, UPDATE..SET, DELETE FROM, JOIN..ON: no hit).'
+  round_1_assessment: not_applicable
+  status_vs_round_1: same
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/memory/updates.py
+  line: 1
+  evidence: core/tools/memory/updates.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-02
+  category: executable-code
+  basis: rule ARCH-02 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 'import graph computed from the files with an AST walk: pull.py and check_contract.py import only the standard library; updates.py and citations.py import
+    pull; memory.py imports check_contract, citations, pull and updates; test_pull.py imports check_contract and pull; test_memory.py imports check_contract, memory and test_pull
+    (shared test fixtures, already so on main); test_check_contract.py imports check_contract. No cycle. (Round 1 said no test file is imported by another module; test_memory.py
+    importing test_pull.py is the one exception, on main already.)'
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/memory/updates.py
+  line: 1
+  evidence: core/tools/memory/updates.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-03
+  category: executable-code
+  basis: rule CODE-03 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 'ruff 0.15.20 check --no-cache on the 13 changed Python files: All checks passed (default rule set; the repo commits no linter configuration). An extra
+    W and N pass found only N818 on Refusal (pull.py:45) and BadFlags (memory.py:446), both already on main.'
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/memory/updates.py
+  line: 1
+  evidence: core/tools/memory/updates.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-04
+  category: executable-code
+  basis: rule CODE-04 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_met
+  assessment_evidence: no formatter is configured in the repo (no ruff.toml, pyproject.toml, setup.cfg). ruff format --check says all 13 changed Python files would be reformatted;
+    the 11 that exist on main say the same on main (11 of 11), so this is the repo's state, not introduced here (the 2 new files, citations.py and make_decisions.py, would
+    be reformatted too). Same as round 1.
+  change_in_this_diff: 'none: the same files are unformatted on main'
+  round_1_assessment: not_met
+  status_vs_round_1: stands
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/memory/updates.py
+  line: 1
+  evidence: core/tools/memory/updates.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-14
+  category: executable-code
+  basis: rule CODE-14 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 'import graph computed from the files with an AST walk: pull.py and check_contract.py import only the standard library; updates.py and citations.py import
+    pull; memory.py imports check_contract, citations, pull and updates; test_pull.py imports check_contract and pull; test_memory.py imports check_contract, memory and test_pull
+    (shared test fixtures, already so on main); test_check_contract.py imports check_contract. No cycle. (Round 1 said no test file is imported by another module; test_memory.py
+    importing test_pull.py is the one exception, on main already.)'
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: DOC-01
+  severity: P3
+  file: core/tools/memory/README.md
+  line: 1
+  evidence: core/tools/memory/README.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-01
+  category: documentation
+  basis: rule DOC-01 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: README.md exists in the tool folder (243 lines; unchanged since round 1). It is the tool's README, not a repo-root file.
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: DOC-09
+  severity: P3
+  file: core/tools/memory/README.md
+  line: 1
+  evidence: core/tools/memory/README.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-09
+  category: documentation
+  basis: rule DOC-09 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: the opening says what the tool is for; 'Rules for this folder' gives the stack (Python standard library only, 3.10 or newer).
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: DOC-10
+  severity: P3
+  file: core/tools/memory/README.md
+  line: 1
+  evidence: core/tools/memory/README.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-10
+  category: documentation
+  basis: rule DOC-10 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: '''Running the tool'' gives the commands and the settings; ''Checking the contract'' gives the four check commands. All four were run from the tool folder
+    in this round and exited 0 (check ok true; 56, 65 and 13 tests OK).'
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: DOC-11
+  severity: P3
+  file: core/tools/memory/README.md
+  line: 1
+  evidence: core/tools/memory/README.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-11
+  category: documentation
+  basis: rule DOC-11 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: all 9 MEMORY_* variables that memory.py reads are in the README, including MEMORY_CITATIONS_FILE (grep of both files).
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/memory/citations.py
+  line: 1
+  evidence: core/tools/memory/citations.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-03
+  category: executable-code
+  basis: rule ARCH-03 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 182 lines, within 500.
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/memory/citations.py
+  line: 1
+  evidence: core/tools/memory/citations.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-08
+  category: executable-code
+  basis: rule ARCH-08 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: the decision-record work sits in its own module (citations.py) beside updates.py and pull.py; the new hidden() sits in the engine next to excluded()
+    in memory.py, and the check in check_contract.py, each in its existing home.
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/memory/citations.py
+  line: 1
+  evidence: core/tools/memory/citations.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-09
+  category: executable-code
+  basis: rule CODE-09 in pr.md (path rule); check item in all-requirements.md
+  assessment: judgement
+  assessment_evidence: by ruff C901 (mccabe, the round 1 measure) the highest is cite at 8, within 10. By radon and lizard, which also count each and/or and comprehension condition,
+    cite is 14 (a new function in this diff, over 10). Tool-dependent, and the check item names no counter, so this is a judgement; round 1 said met on the first counter alone.
+  round_1_assessment: met
+  status_vs_round_1: 'changed: met to judgement'
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/memory/citations.py
+  line: 1
+  evidence: core/tools/memory/citations.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-10
+  category: executable-code
+  basis: rule CODE-10 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: longest function is cite, 38 lines counted as the raw span, blank lines and comments included, so the figure is an upper bound.
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/memory/citations.py
+  line: 1
+  evidence: core/tools/memory/citations.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-11
+  category: executable-code
+  basis: rule CODE-11 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: deepest nesting is 4 levels in citations (if, for, while, try and with blocks; an elif chain counts as one level), measured by an AST walk.
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/memory/citations.py
+  line: 1
+  evidence: core/tools/memory/citations.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-12
+  category: executable-code
+  basis: rule CODE-12 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 182 lines (new file).
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/memory/citations.py
+  line: 1
+  evidence: core/tools/memory/citations.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-15
+  category: executable-code
+  basis: rule CODE-15 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_measured
+  assessment_evidence: 'no cognitive-complexity tool is installed: SonarQube is not there; ruff has none; radon (6.0.1) and lizard (1.23.0) are installed but measure cyclomatic
+    complexity, not cognitive. The counts under CODE-09 are the nearest measure.'
+  round_1_assessment: not_measured
+  status_vs_round_1: stands
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/memory/citations.py
+  line: 1
+  evidence: core/tools/memory/citations.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-17
+  category: executable-code
+  basis: rule CODE-17 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 'ruff N (pep8-naming) rules: no case-convention finding in the changed files (only the N818 exception-name suffix notes named under CODE-03, both on
+    main).'
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-25
+  severity: P3
+  file: core/tools/memory/citations.py
+  line: 90
+  evidence: 'except '
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-25
+  category: executable-code
+  basis: rule CODE-25 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 'citations.py:90 turns a line that does not parse into the ''unreadable'' refusal, and since round 1 so does a line that parses but is not a whole record
+    (whole() at citations.py:58): the answer names the file, the line and the tier. Reproduced in scratch with seven bad shapes (''null'', ''[1]'', a record without id, a step
+    without source, a text where a line number goes, a number for an id, a null trace): each answered unreadable, exit 1, no traceback. Round 1''s observation OBS-1 is fixed.'
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-03
+  category: executable-code
+  basis: rule ARCH-03 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 466 lines, within 500.
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-08
+  category: executable-code
+  basis: rule ARCH-08 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: the decision-record work sits in its own module (citations.py) beside updates.py and pull.py; the new hidden() sits in the engine next to excluded()
+    in memory.py, and the check in check_contract.py, each in its existing home.
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-09
+  category: executable-code
+  basis: rule CODE-09 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_met
+  assessment_evidence: 'functions over 10 by ruff C901 (mccabe): validate 24 and check_lifecycle 21 (neither touched by this diff), check_meaning 17 (16 on main, touched),
+    check_citations 12 (new in this diff); the file is unchanged since round 1. By radon and lizard, which also count each and/or and comprehension condition, 11 functions
+    pass 10 (9 on main): check_citations 20 is new, check_scope went from 7 to 13 (touched), check_meaning 38 (37 on main). The check item names no counter.'
+  change_in_this_diff: 'worsened: check_meaning 16 to 17, check_citations new at 12 (ruff); check_scope 7 to 13 and check_citations new at 20 (radon)'
+  round_1_assessment: not_met
+  status_vs_round_1: stands
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-10
+  category: executable-code
+  basis: rule CODE-10 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: longest function is validate, 45 lines counted as the raw span, blank lines and comments included, so the figure is an upper bound.
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-11
+  category: executable-code
+  basis: rule CODE-11 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: deepest nesting is 4 levels in validate (if, for, while, try and with blocks; an elif chain counts as one level), measured by an AST walk.
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-12
+  category: executable-code
+  basis: rule CODE-12 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_met
+  assessment_evidence: '466 lines, over 300 (main: 411, +55; round 1: 466). The file was over 300 before this diff.'
+  change_in_this_diff: 'grew: main 411 lines, round 1 466, now 466 (already over 300 on main)'
+  round_1_assessment: not_met
+  status_vs_round_1: stands
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-15
+  category: executable-code
+  basis: rule CODE-15 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_measured
+  assessment_evidence: 'no cognitive-complexity tool is installed: SonarQube is not there; ruff has none; radon (6.0.1) and lizard (1.23.0) are installed but measure cyclomatic
+    complexity, not cognitive. The counts under CODE-09 are the nearest measure.'
+  round_1_assessment: not_measured
+  status_vs_round_1: stands
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-17
+  category: executable-code
+  basis: rule CODE-17 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 'ruff N (pep8-naming) rules: no case-convention finding in the changed files (only the N818 exception-name suffix notes named under CODE-03, both on
+    main).'
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: TEST-14
+  severity: P3
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-14
+  category: executable-code
+  basis: rule TEST-14 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: contract/test_check_contract.py (56 tests, OK) and check_contract.py over 26 samples and 34 broken samples (34 of 34 refused, each for its own reason,
+    0 boundary problems); test_memory.py puts every answer through the same check.
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: TEST-18
+  severity: P3
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-18
+  category: executable-code
+  basis: rule TEST-18 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_met
+  assessment_evidence: 'check_contract.py checks every sample against contract/v4.json only; nothing compares version 4 with versions 1 to 3 to catch a breaking change, and
+    no sample or check runs against v1 to v3. The README rule ''the contract changes only by a new version'' is kept by hand. Version 3 on main was checked the same way. Since
+    round 1 v4.json also changed in place (the path rule: no ''.'' segment, no empty segment, no trailing slash) and nothing in the check could have flagged that.'
+  change_in_this_diff: 'none: version 3 on main was checked the same way'
+  round_1_assessment: not_met
+  status_vs_round_1: stands
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/test_check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-03
+  category: tests
+  basis: rule ARCH-03 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 411 lines, within 500.
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/test_check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-08
+  category: tests
+  basis: rule ARCH-08 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: the decision-record work sits in its own module (citations.py) beside updates.py and pull.py; the new hidden() sits in the engine next to excluded()
+    in memory.py, and the check in check_contract.py, each in its existing home.
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/test_check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-09
+  category: tests
+  basis: rule CODE-09 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: highest function complexity is test_every_good_sample_passes at 3 (ruff C901); radon lists no function in this file above 10.
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/test_check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-10
+  category: tests
+  basis: rule CODE-10 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: longest function is test_without_an_issue_there_is_no_short_term_memory, 18 lines counted as the raw span, blank lines and comments included, so the
+    figure is an upper bound.
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/test_check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-11
+  category: tests
+  basis: rule CODE-11 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: deepest nesting is 2 levels in test_every_good_sample_passes (if, for, while, try and with blocks; an elif chain counts as one level), measured by an
+    AST walk.
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/test_check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-12
+  category: tests
+  basis: rule CODE-12 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_met
+  assessment_evidence: '411 lines, over 300 (main: 377, +34; round 1: 411). The file was over 300 before this diff.'
+  change_in_this_diff: 'grew: main 377 lines, round 1 411, now 411 (already over 300 on main)'
+  round_1_assessment: not_met
+  status_vs_round_1: stands
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/test_check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-15
+  category: tests
+  basis: rule CODE-15 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_measured
+  assessment_evidence: 'no cognitive-complexity tool is installed: SonarQube is not there; ruff has none; radon (6.0.1) and lizard (1.23.0) are installed but measure cyclomatic
+    complexity, not cognitive. The counts under CODE-09 are the nearest measure.'
+  round_1_assessment: not_measured
+  status_vs_round_1: stands
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/test_check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-17
+  category: tests
+  basis: rule CODE-17 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 'ruff N (pep8-naming) rules: no case-convention finding in the changed files (only the N818 exception-name suffix notes named under CODE-03, both on
+    main).'
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: TEST-14
+  severity: P3
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/test_check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-14
+  category: tests
+  basis: rule TEST-14 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: contract/test_check_contract.py (56 tests, OK) and check_contract.py over 26 samples and 34 broken samples (34 of 34 refused, each for its own reason,
+    0 boundary problems); test_memory.py puts every answer through the same check.
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: TEST-18
+  severity: P3
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/test_check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: TEST-18
+  category: tests
+  basis: rule TEST-18 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_met
+  assessment_evidence: 'check_contract.py checks every sample against contract/v4.json only; nothing compares version 4 with versions 1 to 3 to catch a breaking change, and
+    no sample or check runs against v1 to v3. The README rule ''the contract changes only by a new version'' is kept by hand. Version 3 on main was checked the same way. Since
+    round 1 v4.json also changed in place (the path rule: no ''.'' segment, no empty segment, no trailing slash) and nothing in the check could have flagged that.'
+  change_in_this_diff: 'none: version 3 on main was checked the same way'
+  round_1_assessment: not_met
+  status_vs_round_1: stands
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/memory/memory.py
+  line: 1
+  evidence: core/tools/memory/memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-03
+  category: executable-code
+  basis: rule ARCH-03 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_met
+  assessment_evidence: '530 lines (main: 488; round 1: 516); this diff took it over 500, and hidden() added 14 since round 1. It mixes settings, the folder engine, command
+    handlers and the command line (a reading of ''mixed concerns'').'
+  change_in_this_diff: 'worsened: crossed 500 lines in this diff (main 488, round 1 516, now 530)'
+  round_1_assessment: not_met
+  status_vs_round_1: stands
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/memory/memory.py
+  line: 1
+  evidence: core/tools/memory/memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-08
+  category: executable-code
+  basis: rule ARCH-08 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: the decision-record work sits in its own module (citations.py) beside updates.py and pull.py; the new hidden() sits in the engine next to excluded()
+    in memory.py, and the check in check_contract.py, each in its existing home.
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/memory/memory.py
+  line: 1
+  evidence: core/tools/memory/memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-09
+  category: executable-code
+  basis: rule CODE-09 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_met
+  assessment_evidence: 'by ruff C901: parse 15 (14 on main, touched by this diff; not touched since round 1); every other function is 9 or below (hidden 3, excluded 3, run
+    3). By radon and lizard, 5 functions pass 10 (5 on main): main 18, load_settings 18 (17 on main), parse 18 (17), cmd_read 15, grep 14 (15). The check item names no counter.'
+  change_in_this_diff: 'worsened: parse 14 to 15 (ruff); load_settings and parse each +1 (radon)'
+  round_1_assessment: not_met
+  status_vs_round_1: stands
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/memory/memory.py
+  line: 1
+  evidence: core/tools/memory/memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-10
+  category: executable-code
+  basis: rule CODE-10 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: longest function is parse, 48 lines counted as the raw span, blank lines and comments included, so the figure is an upper bound.
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/memory/memory.py
+  line: 1
+  evidence: core/tools/memory/memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-11
+  category: executable-code
+  basis: rule CODE-11 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: deepest nesting is 3 levels in load_settings (if, for, while, try and with blocks; an elif chain counts as one level), measured by an AST walk.
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/memory/memory.py
+  line: 1
+  evidence: core/tools/memory/memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-12
+  category: executable-code
+  basis: rule CODE-12 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_met
+  assessment_evidence: '530 lines, over 300 (main: 488, +42; round 1: 516). The file was over 300 before this diff.'
+  change_in_this_diff: 'grew: main 488 lines, round 1 516, now 530 (already over 300 on main)'
+  round_1_assessment: not_met
+  status_vs_round_1: stands
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/memory/memory.py
+  line: 1
+  evidence: core/tools/memory/memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-15
+  category: executable-code
+  basis: rule CODE-15 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_measured
+  assessment_evidence: 'no cognitive-complexity tool is installed: SonarQube is not there; ruff has none; radon (6.0.1) and lizard (1.23.0) are installed but measure cyclomatic
+    complexity, not cognitive. The counts under CODE-09 are the nearest measure.'
+  round_1_assessment: not_measured
+  status_vs_round_1: stands
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/memory/memory.py
+  line: 1
+  evidence: core/tools/memory/memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-17
+  category: executable-code
+  basis: rule CODE-17 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 'ruff N (pep8-naming) rules: no case-convention finding in the changed files (only the N818 exception-name suffix notes named under CODE-03, both on
+    main).'
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/memory/pull.py
+  line: 1
+  evidence: core/tools/memory/pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-03
+  category: executable-code
+  basis: rule ARCH-03 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 226 lines, within 500.
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/memory/pull.py
+  line: 1
+  evidence: core/tools/memory/pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-08
+  category: executable-code
+  basis: rule ARCH-08 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: the decision-record work sits in its own module (citations.py) beside updates.py and pull.py; the new hidden() sits in the engine next to excluded()
+    in memory.py, and the check in check_contract.py, each in its existing home.
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/memory/pull.py
+  line: 1
+  evidence: core/tools/memory/pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-09
+  category: executable-code
+  basis: rule CODE-09 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: highest function complexity is pull at 7 (ruff C901); radon lists no function in this file above 10.
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/memory/pull.py
+  line: 1
+  evidence: core/tools/memory/pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-10
+  category: executable-code
+  basis: rule CODE-10 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: longest function is pull, 31 lines counted as the raw span, blank lines and comments included, so the figure is an upper bound.
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/memory/pull.py
+  line: 1
+  evidence: core/tools/memory/pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-11
+  category: executable-code
+  basis: rule CODE-11 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: deepest nesting is 4 levels in pull (if, for, while, try and with blocks; an elif chain counts as one level), measured by an AST walk.
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/memory/pull.py
+  line: 1
+  evidence: core/tools/memory/pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-12
+  category: executable-code
+  basis: rule CODE-12 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: '226 lines (main: 226).'
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/memory/pull.py
+  line: 1
+  evidence: core/tools/memory/pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-15
+  category: executable-code
+  basis: rule CODE-15 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_measured
+  assessment_evidence: 'no cognitive-complexity tool is installed: SonarQube is not there; ruff has none; radon (6.0.1) and lizard (1.23.0) are installed but measure cyclomatic
+    complexity, not cognitive. The counts under CODE-09 are the nearest measure.'
+  round_1_assessment: not_measured
+  status_vs_round_1: stands
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/memory/pull.py
+  line: 1
+  evidence: core/tools/memory/pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-17
+  category: executable-code
+  basis: rule CODE-17 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 'ruff N (pep8-naming) rules: no case-convention finding in the changed files (only the N818 exception-name suffix notes named under CODE-03, both on
+    main).'
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/memory/test_memory.py
+  line: 1
+  evidence: core/tools/memory/test_memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-03
+  category: tests
+  basis: rule ARCH-03 in pr.md (path rule); check item in all-requirements.md
+  assessment: judgement
+  assessment_evidence: '575 lines (main: 402; round 1: 520); over 500 since this diff. One concern (tests of memory.py), grouped in classes by command; the new class HiddenWhateverTheSpelling
+    follows that grouping.'
+  round_1_assessment: judgement
+  status_vs_round_1: stands
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/memory/test_memory.py
+  line: 1
+  evidence: core/tools/memory/test_memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-08
+  category: tests
+  basis: rule ARCH-08 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: the decision-record work sits in its own module (citations.py) beside updates.py and pull.py; the new hidden() sits in the engine next to excluded()
+    in memory.py, and the check in check_contract.py, each in its existing home.
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/memory/test_memory.py
+  line: 1
+  evidence: core/tools/memory/test_memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-09
+  category: tests
+  basis: rule CODE-09 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: highest function complexity is ask at 3 (ruff C901); radon lists no function in this file above 10.
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/memory/test_memory.py
+  line: 1
+  evidence: core/tools/memory/test_memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-10
+  category: tests
+  basis: rule CODE-10 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: longest function is test_the_check_names_the_step_whose_source_changed_or_went, 16 lines counted as the raw span, blank lines and comments included,
+    so the figure is an upper bound.
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/memory/test_memory.py
+  line: 1
+  evidence: core/tools/memory/test_memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-11
+  category: tests
+  basis: rule CODE-11 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: deepest nesting is 2 levels in ask (if, for, while, try and with blocks; an elif chain counts as one level), measured by an AST walk.
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/memory/test_memory.py
+  line: 1
+  evidence: core/tools/memory/test_memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-12
+  category: tests
+  basis: rule CODE-12 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_met
+  assessment_evidence: '575 lines, over 300 (main: 402, +173; round 1: 520). The file was over 300 before this diff.'
+  change_in_this_diff: 'grew: main 402 lines, round 1 520, now 575 (already over 300 on main)'
+  round_1_assessment: not_met
+  status_vs_round_1: stands
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/memory/test_memory.py
+  line: 1
+  evidence: core/tools/memory/test_memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-15
+  category: tests
+  basis: rule CODE-15 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_measured
+  assessment_evidence: 'no cognitive-complexity tool is installed: SonarQube is not there; ruff has none; radon (6.0.1) and lizard (1.23.0) are installed but measure cyclomatic
+    complexity, not cognitive. The counts under CODE-09 are the nearest measure.'
+  round_1_assessment: not_measured
+  status_vs_round_1: stands
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/memory/test_memory.py
+  line: 1
+  evidence: core/tools/memory/test_memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-17
+  category: tests
+  basis: rule CODE-17 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 'ruff N (pep8-naming) rules: no case-convention finding in the changed files (only the N818 exception-name suffix notes named under CODE-03, both on
+    main).'
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/memory/test_pull.py
+  line: 1
+  evidence: core/tools/memory/test_pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-03
+  category: tests
+  basis: rule ARCH-03 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 168 lines, within 500.
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/memory/test_pull.py
+  line: 1
+  evidence: core/tools/memory/test_pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-08
+  category: tests
+  basis: rule ARCH-08 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: the decision-record work sits in its own module (citations.py) beside updates.py and pull.py; the new hidden() sits in the engine next to excluded()
+    in memory.py, and the check in check_contract.py, each in its existing home.
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/memory/test_pull.py
+  line: 1
+  evidence: core/tools/memory/test_pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-09
+  category: tests
+  basis: rule CODE-09 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: highest function complexity is test_refusals at 2 (ruff C901); radon lists no function in this file above 10.
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/memory/test_pull.py
+  line: 1
+  evidence: core/tools/memory/test_pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-10
+  category: tests
+  basis: rule CODE-10 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: longest function is setUp, 12 lines counted as the raw span, blank lines and comments included, so the figure is an upper bound.
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/memory/test_pull.py
+  line: 1
+  evidence: core/tools/memory/test_pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-11
+  category: tests
+  basis: rule CODE-11 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: deepest nesting is 2 levels in run_main (if, for, while, try and with blocks; an elif chain counts as one level), measured by an AST walk.
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/memory/test_pull.py
+  line: 1
+  evidence: core/tools/memory/test_pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-12
+  category: tests
+  basis: rule CODE-12 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: '168 lines (main: 168).'
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/memory/test_pull.py
+  line: 1
+  evidence: core/tools/memory/test_pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-15
+  category: tests
+  basis: rule CODE-15 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_measured
+  assessment_evidence: 'no cognitive-complexity tool is installed: SonarQube is not there; ruff has none; radon (6.0.1) and lizard (1.23.0) are installed but measure cyclomatic
+    complexity, not cognitive. The counts under CODE-09 are the nearest measure.'
+  round_1_assessment: not_measured
+  status_vs_round_1: stands
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/memory/test_pull.py
+  line: 1
+  evidence: core/tools/memory/test_pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-17
+  category: tests
+  basis: rule CODE-17 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 'ruff N (pep8-naming) rules: no case-convention finding in the changed files (only the N818 exception-name suffix notes named under CODE-03, both on
+    main).'
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/memory/updates.py
+  line: 1
+  evidence: core/tools/memory/updates.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-03
+  category: executable-code
+  basis: rule ARCH-03 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 142 lines, within 500.
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/memory/updates.py
+  line: 1
+  evidence: core/tools/memory/updates.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-08
+  category: executable-code
+  basis: rule ARCH-08 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: the decision-record work sits in its own module (citations.py) beside updates.py and pull.py; the new hidden() sits in the engine next to excluded()
+    in memory.py, and the check in check_contract.py, each in its existing home.
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/memory/updates.py
+  line: 1
+  evidence: core/tools/memory/updates.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-09
+  category: executable-code
+  basis: rule CODE-09 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: highest function complexity is records at 5 (ruff C901); radon lists no function in this file above 10.
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/memory/updates.py
+  line: 1
+  evidence: core/tools/memory/updates.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-10
+  category: executable-code
+  basis: rule CODE-10 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: longest function is apply, 21 lines counted as the raw span, blank lines and comments included, so the figure is an upper bound.
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/memory/updates.py
+  line: 1
+  evidence: core/tools/memory/updates.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-11
+  category: executable-code
+  basis: rule CODE-11 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: deepest nesting is 4 levels in records (if, for, while, try and with blocks; an elif chain counts as one level), measured by an AST walk.
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/memory/updates.py
+  line: 1
+  evidence: core/tools/memory/updates.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-12
+  category: executable-code
+  basis: rule CODE-12 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: '142 lines (main: 142).'
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/memory/updates.py
+  line: 1
+  evidence: core/tools/memory/updates.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-15
+  category: executable-code
+  basis: rule CODE-15 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_measured
+  assessment_evidence: 'no cognitive-complexity tool is installed: SonarQube is not there; ruff has none; radon (6.0.1) and lizard (1.23.0) are installed but measure cyclomatic
+    complexity, not cognitive. The counts under CODE-09 are the nearest measure.'
+  round_1_assessment: not_measured
+  status_vs_round_1: stands
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/memory/updates.py
+  line: 1
+  evidence: core/tools/memory/updates.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-17
+  category: executable-code
+  basis: rule CODE-17 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 'ruff N (pep8-naming) rules: no case-convention finding in the changed files (only the N818 exception-name suffix notes named under CODE-03, both on
+    main).'
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: DOC-04
+  severity: P3
+  file: docs/adr/032-drive-review-of-outcomes.md
+  line: 1
+  evidence: docs/adr/032-drive-review-of-outcomes.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-04
+  category: decision-records
+  basis: rule DOC-04 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 'docs/adr holds 37 ADRs after this diff (adr.py index counted 37); the diff adds ADR 037 and touches three Status lines. adr.py lint: valid true, no
+    problems, for 037, 032, 035 and 036; the index regenerated from docs/adr is byte-identical to docs/adr/_index.md. This file is touched on its Status line only.'
+  round_1_assessment: null
+  status_vs_round_1: 'new: decision records were not in round 1''s diff'
+- standard_id: DOC-04
+  severity: P3
+  file: docs/adr/035-agents-work-only-from-memory.md
+  line: 1
+  evidence: docs/adr/035-agents-work-only-from-memory.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-04
+  category: decision-records
+  basis: rule DOC-04 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 'docs/adr holds 37 ADRs after this diff (adr.py index counted 37); the diff adds ADR 037 and touches three Status lines. adr.py lint: valid true, no
+    problems, for 037, 032, 035 and 036; the index regenerated from docs/adr is byte-identical to docs/adr/_index.md. This file is touched on its Status line only.'
+  round_1_assessment: null
+  status_vs_round_1: 'new: decision records were not in round 1''s diff'
+- standard_id: DOC-04
+  severity: P3
+  file: docs/adr/036-approved-answer-lands-in-short-term-memory.md
+  line: 1
+  evidence: docs/adr/036-approved-answer-lands-in-short-term-memory.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-04
+  category: decision-records
+  basis: rule DOC-04 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 'docs/adr holds 37 ADRs after this diff (adr.py index counted 37); the diff adds ADR 037 and touches three Status lines. adr.py lint: valid true, no
+    problems, for 037, 032, 035 and 036; the index regenerated from docs/adr is byte-identical to docs/adr/_index.md. This file is touched on its Status line only.'
+  round_1_assessment: null
+  status_vs_round_1: 'new: decision records were not in round 1''s diff'
+- standard_id: DOC-04
+  severity: P3
+  file: docs/adr/037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md
+  line: 1
+  evidence: docs/adr/037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-04
+  category: decision-records
+  basis: rule DOC-04 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 'docs/adr holds 37 ADRs after this diff (adr.py index counted 37); the diff adds ADR 037 and touches three Status lines. adr.py lint: valid true, no
+    problems, for 037, 032, 035 and 036; the index regenerated from docs/adr is byte-identical to docs/adr/_index.md.'
+  round_1_assessment: null
+  status_vs_round_1: 'new: decision records were not in round 1''s diff'
+- standard_id: DOC-04
+  severity: P3
+  file: docs/adr/_index.md
+  line: 1
+  evidence: docs/adr/_index.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-04
+  category: decision-records
+  basis: rule DOC-04 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 'docs/adr holds 37 ADRs after this diff (adr.py index counted 37); the diff adds ADR 037 and touches three Status lines. adr.py lint: valid true, no
+    problems, for 037, 032, 035 and 036; the index regenerated from docs/adr is byte-identical to docs/adr/_index.md. This file is the generated index.'
+  round_1_assessment: null
+  status_vs_round_1: 'new: decision records were not in round 1''s diff'
+- standard_id: DOC-14
+  severity: P4
+  file: core/tools/memory/README.md
+  line: 1
+  evidence: core/tools/memory/README.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-14
+  category: documentation
+  basis: rule DOC-14 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 'the four documented commands ran as written (check_contract.py, test_check_contract.py, test_memory.py, test_pull.py: exit 0). A person following the
+    page cold was not tried.'
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: DOC-15
+  severity: P4
+  file: core/tools/memory/README.md
+  line: 1
+  evidence: core/tools/memory/README.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-15
+  category: documentation
+  basis: rule DOC-15 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_met
+  assessment_evidence: no troubleshooting section; the Errors table is the nearest thing. The README is unchanged since round 1.
+  change_in_this_diff: 'none: the page had no troubleshooting section on main'
+  round_1_assessment: not_met
+  status_vs_round_1: stands
+- standard_id: DOC-16
+  severity: P4
+  file: core/tools/memory/README.md
+  line: 1
+  evidence: core/tools/memory/README.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-16
+  category: documentation
+  basis: rule DOC-16 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: '''The three tiers'', ''The lookup order'' and ''What is not memory'' explain the parts.'
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/memory/citations.py
+  line: 1
+  evidence: core/tools/memory/citations.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-13
+  category: executable-code
+  basis: rule CODE-13 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 'one purpose: decision records (cite, citations).'
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/memory/citations.py
+  line: 1
+  evidence: core/tools/memory/citations.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-19
+  category: executable-code
+  basis: rule CODE-19 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 'module constants added or changed here are upper case: ID, TAKEN, AROUND, TIER_NAMES (citations.py:26-29), AROUND (check_contract.py:119), KEYS (memory.py).'
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-13
+  category: executable-code
+  basis: rule CODE-13 in pr.md (path rule); check item in all-requirements.md
+  assessment: judgement
+  assessment_evidence: one script that runs five checks (shapes, lifecycle, meaning, citations, boundary); its header says so. Stated design, not new in this diff.
+  round_1_assessment: judgement
+  status_vs_round_1: stands
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-19
+  category: executable-code
+  basis: rule CODE-19 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 'module constants added or changed here are upper case: ID, TAKEN, AROUND, TIER_NAMES (citations.py:26-29), AROUND (check_contract.py:119), KEYS (memory.py).'
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/test_check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-13
+  category: tests
+  basis: rule CODE-13 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 'one purpose: tests of check_contract.py.'
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  evidence: core/tools/memory/contract/test_check_contract.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-19
+  category: tests
+  basis: rule CODE-19 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 'module constants added or changed here are upper case: ID, TAKEN, AROUND, TIER_NAMES (citations.py:26-29), AROUND (check_contract.py:119), KEYS (memory.py).'
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/memory/memory.py
+  line: 1
+  evidence: core/tools/memory/memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-13
+  category: executable-code
+  basis: rule CODE-13 in pr.md (path rule); check item in all-requirements.md
+  assessment: judgement
+  assessment_evidence: settings, the folder engine, the command handlers and the command line live in one file (530 lines). The decision-record logic is in citations.py, not
+    here; hidden() joined the engine.
+  round_1_assessment: judgement
+  status_vs_round_1: stands
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/memory/memory.py
+  line: 1
+  evidence: core/tools/memory/memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-19
+  category: executable-code
+  basis: rule CODE-19 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 'module constants added or changed here are upper case: ID, TAKEN, AROUND, TIER_NAMES (citations.py:26-29), AROUND (check_contract.py:119), KEYS (memory.py).'
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/memory/pull.py
+  line: 1
+  evidence: core/tools/memory/pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-13
+  category: executable-code
+  basis: rule CODE-13 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 'one purpose: the Phoenix pull and the shared answer helpers.'
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/memory/pull.py
+  line: 1
+  evidence: core/tools/memory/pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-19
+  category: executable-code
+  basis: rule CODE-19 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 'module constants added or changed here are upper case: ID, TAKEN, AROUND, TIER_NAMES (citations.py:26-29), AROUND (check_contract.py:119), KEYS (memory.py).'
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/memory/test_memory.py
+  line: 1
+  evidence: core/tools/memory/test_memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-13
+  category: tests
+  basis: rule CODE-13 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 'one purpose: tests of memory.py.'
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/memory/test_memory.py
+  line: 1
+  evidence: core/tools/memory/test_memory.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-19
+  category: tests
+  basis: rule CODE-19 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 'module constants added or changed here are upper case: ID, TAKEN, AROUND, TIER_NAMES (citations.py:26-29), AROUND (check_contract.py:119), KEYS (memory.py).'
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: BE-23
+  severity: P4
+  file: core/tools/memory/test_memory.py
+  line: 409
+  evidence: Lock
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-23
+  category: tests
+  basis: rule BE-23 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  assessment_evidence: the match is the word 'Lock' in sample sign-in text ('Lock the account after five failed sign-ins'), not a cache or a mutex.
+  round_1_assessment: not_applicable
+  status_vs_round_1: same
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/memory/test_pull.py
+  line: 1
+  evidence: core/tools/memory/test_pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-13
+  category: tests
+  basis: rule CODE-13 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 'one purpose: tests of pull.py.'
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/memory/test_pull.py
+  line: 1
+  evidence: core/tools/memory/test_pull.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-19
+  category: tests
+  basis: rule CODE-19 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 'module constants added or changed here are upper case: ID, TAKEN, AROUND, TIER_NAMES (citations.py:26-29), AROUND (check_contract.py:119), KEYS (memory.py).'
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/memory/updates.py
+  line: 1
+  evidence: core/tools/memory/updates.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-13
+  category: executable-code
+  basis: rule CODE-13 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 'one purpose: memory updates.'
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/memory/updates.py
+  line: 1
+  evidence: core/tools/memory/updates.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-19
+  category: executable-code
+  basis: rule CODE-19 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  assessment_evidence: 'module constants added or changed here are upper case: ID, TAKEN, AROUND, TIER_NAMES (citations.py:26-29), AROUND (check_contract.py:119), KEYS (memory.py).'
+  round_1_assessment: met
+  status_vs_round_1: same
+- standard_id: ARCH-23
+  severity: P4
+  file: docs/adr/032-drive-review-of-outcomes.md
+  line: 1
+  evidence: docs/adr/032-drive-review-of-outcomes.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: ARCH-23
+  category: decision-records
+  basis: rule ARCH-23 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_applicable
+  assessment_evidence: the item is about scaling a service (stateless design, horizontal scalability, session handling). The records here are framework decisions on agent memory
+    and the review tool; no running service is described.
+  round_1_assessment: null
+  status_vs_round_1: 'new: decision records were not in round 1''s diff'
+- standard_id: DOC-05
+  severity: P4
+  file: docs/adr/032-drive-review-of-outcomes.md
+  line: 1
+  evidence: docs/adr/032-drive-review-of-outcomes.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-05
+  category: decision-records
+  basis: rule DOC-05 in pr.md (path rule); check item in all-requirements.md
+  assessment: judgement
+  assessment_evidence: a whole-repo coverage item (do the ADRs cover the major technology choices); a diff cannot settle it. This diff adds one record (037) on how an agent
+    keeps a trace of its decision and how the review tool is laid out, and only Status pointers on 032, 035 and 036. Nothing here lowers the set's coverage. Whether the amendment
+    is faithful to the older ADRs is the owner's line-by-line reading, not a quality-gate result.
+  round_1_assessment: null
+  status_vs_round_1: 'new: decision records were not in round 1''s diff'
+- standard_id: ARCH-23
+  severity: P4
+  file: docs/adr/035-agents-work-only-from-memory.md
+  line: 1
+  evidence: docs/adr/035-agents-work-only-from-memory.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: ARCH-23
+  category: decision-records
+  basis: rule ARCH-23 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_applicable
+  assessment_evidence: the item is about scaling a service (stateless design, horizontal scalability, session handling). The records here are framework decisions on agent memory
+    and the review tool; no running service is described.
+  round_1_assessment: null
+  status_vs_round_1: 'new: decision records were not in round 1''s diff'
+- standard_id: DOC-05
+  severity: P4
+  file: docs/adr/035-agents-work-only-from-memory.md
+  line: 1
+  evidence: docs/adr/035-agents-work-only-from-memory.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-05
+  category: decision-records
+  basis: rule DOC-05 in pr.md (path rule); check item in all-requirements.md
+  assessment: judgement
+  assessment_evidence: a whole-repo coverage item (do the ADRs cover the major technology choices); a diff cannot settle it. This diff adds one record (037) on how an agent
+    keeps a trace of its decision and how the review tool is laid out, and only Status pointers on 032, 035 and 036. Nothing here lowers the set's coverage. Whether the amendment
+    is faithful to the older ADRs is the owner's line-by-line reading, not a quality-gate result.
+  round_1_assessment: null
+  status_vs_round_1: 'new: decision records were not in round 1''s diff'
+- standard_id: ARCH-23
+  severity: P4
+  file: docs/adr/036-approved-answer-lands-in-short-term-memory.md
+  line: 1
+  evidence: docs/adr/036-approved-answer-lands-in-short-term-memory.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: ARCH-23
+  category: decision-records
+  basis: rule ARCH-23 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_applicable
+  assessment_evidence: the item is about scaling a service (stateless design, horizontal scalability, session handling). The records here are framework decisions on agent memory
+    and the review tool; no running service is described.
+  round_1_assessment: null
+  status_vs_round_1: 'new: decision records were not in round 1''s diff'
+- standard_id: DOC-05
+  severity: P4
+  file: docs/adr/036-approved-answer-lands-in-short-term-memory.md
+  line: 1
+  evidence: docs/adr/036-approved-answer-lands-in-short-term-memory.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-05
+  category: decision-records
+  basis: rule DOC-05 in pr.md (path rule); check item in all-requirements.md
+  assessment: judgement
+  assessment_evidence: a whole-repo coverage item (do the ADRs cover the major technology choices); a diff cannot settle it. This diff adds one record (037) on how an agent
+    keeps a trace of its decision and how the review tool is laid out, and only Status pointers on 032, 035 and 036. Nothing here lowers the set's coverage. Whether the amendment
+    is faithful to the older ADRs is the owner's line-by-line reading, not a quality-gate result.
+  round_1_assessment: null
+  status_vs_round_1: 'new: decision records were not in round 1''s diff'
+- standard_id: ARCH-23
+  severity: P4
+  file: docs/adr/037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md
+  line: 1
+  evidence: docs/adr/037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: ARCH-23
+  category: decision-records
+  basis: rule ARCH-23 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_applicable
+  assessment_evidence: the item is about scaling a service (stateless design, horizontal scalability, session handling). The records here are framework decisions on agent memory
+    and the review tool; no running service is described.
+  round_1_assessment: null
+  status_vs_round_1: 'new: decision records were not in round 1''s diff'
+- standard_id: DOC-05
+  severity: P4
+  file: docs/adr/037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md
+  line: 1
+  evidence: docs/adr/037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-05
+  category: decision-records
+  basis: rule DOC-05 in pr.md (path rule); check item in all-requirements.md
+  assessment: judgement
+  assessment_evidence: a whole-repo coverage item (do the ADRs cover the major technology choices); a diff cannot settle it. This diff adds one record (037) on how an agent
+    keeps a trace of its decision and how the review tool is laid out, and only Status pointers on 032, 035 and 036. Nothing here lowers the set's coverage. Whether the amendment
+    is faithful to the older ADRs is the owner's line-by-line reading, not a quality-gate result.
+  round_1_assessment: null
+  status_vs_round_1: 'new: decision records were not in round 1''s diff'
+- standard_id: ARCH-23
+  severity: P4
+  file: docs/adr/_index.md
+  line: 1
+  evidence: docs/adr/_index.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: ARCH-23
+  category: decision-records
+  basis: rule ARCH-23 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_applicable
+  assessment_evidence: the item is about scaling a service (stateless design, horizontal scalability, session handling). The records here are framework decisions on agent memory
+    and the review tool; no running service is described.
+  round_1_assessment: null
+  status_vs_round_1: 'new: decision records were not in round 1''s diff'
+- standard_id: DOC-05
+  severity: P4
+  file: docs/adr/_index.md
+  line: 1
+  evidence: docs/adr/_index.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-05
+  category: decision-records
+  basis: rule DOC-05 in pr.md (path rule); check item in all-requirements.md
+  assessment: judgement
+  assessment_evidence: a whole-repo coverage item (do the ADRs cover the major technology choices); a diff cannot settle it. This diff adds one record (037) on how an agent
+    keeps a trace of its decision and how the review tool is laid out, and only Status pointers on 032, 035 and 036. Nothing here lowers the set's coverage. Whether the amendment
+    is faithful to the older ADRs is the owner's line-by-line reading, not a quality-gate result.
+  round_1_assessment: null
+  status_vs_round_1: 'new: decision records were not in round 1''s diff'
+counts:
+  P1: 1
+  P2: 68
+  P3: 78
+  P4: 30
+counts_by_category:
+- severity: P1
+  category: tests
+  count: 1
+- severity: P2
+  category: executable-code
+  count: 38
+- severity: P2
+  category: tests
+  count: 30
+- severity: P3
+  category: decision-records
+  count: 5
+- severity: P3
+  category: documentation
+  count: 4
+- severity: P3
+  category: executable-code
+  count: 43
+- severity: P3
+  category: tests
+  count: 26
+- severity: P4
+  category: decision-records
+  count: 10
+- severity: P4
+  category: documentation
+  count: 3
+- severity: P4
+  category: executable-code
+  count: 10
+- severity: P4
+  category: tests
+  count: 7
+counts_by_standard:
+- standard_id: DATA-18
+  severity: P1
+  findings: 1
+  files: 1
+- standard_id: ARCH-02
+  severity: P2
+  findings: 8
+  files: 8
+- standard_id: BE-19
+  severity: P2
+  findings: 36
+  files: 6
+- standard_id: CODE-03
+  severity: P2
+  findings: 8
+  files: 8
+- standard_id: CODE-04
+  severity: P2
+  findings: 8
+  files: 8
+- standard_id: CODE-14
+  severity: P2
+  findings: 8
+  files: 8
+- standard_id: ARCH-03
+  severity: P3
+  findings: 8
+  files: 8
+- standard_id: ARCH-08
+  severity: P3
+  findings: 8
+  files: 8
+- standard_id: CODE-09
+  severity: P3
+  findings: 8
+  files: 8
+- standard_id: CODE-10
+  severity: P3
+  findings: 8
+  files: 8
+- standard_id: CODE-11
+  severity: P3
+  findings: 8
+  files: 8
+- standard_id: CODE-12
+  severity: P3
+  findings: 8
+  files: 8
+- standard_id: CODE-15
+  severity: P3
+  findings: 8
+  files: 8
+- standard_id: CODE-17
+  severity: P3
+  findings: 8
+  files: 8
+- standard_id: CODE-25
+  severity: P3
+  findings: 1
+  files: 1
+- standard_id: DOC-01
+  severity: P3
+  findings: 1
+  files: 1
+- standard_id: DOC-04
+  severity: P3
+  findings: 5
+  files: 5
+- standard_id: DOC-09
+  severity: P3
+  findings: 1
+  files: 1
+- standard_id: DOC-10
+  severity: P3
+  findings: 1
+  files: 1
+- standard_id: DOC-11
+  severity: P3
+  findings: 1
+  files: 1
+- standard_id: TEST-14
+  severity: P3
+  findings: 2
+  files: 2
+- standard_id: TEST-18
+  severity: P3
+  findings: 2
+  files: 2
+- standard_id: ARCH-23
+  severity: P4
+  findings: 5
+  files: 5
+- standard_id: BE-23
+  severity: P4
+  findings: 1
+  files: 1
+- standard_id: CODE-13
+  severity: P4
+  findings: 8
+  files: 8
+- standard_id: CODE-19
+  severity: P4
+  findings: 8
+  files: 8
+- standard_id: DOC-05
+  severity: P4
+  findings: 5
+  files: 5
+- standard_id: DOC-14
+  severity: P4
+  findings: 1
+  files: 1
+- standard_id: DOC-15
+  severity: P4
+  findings: 1
+  files: 1
+- standard_id: DOC-16
+  severity: P4
+  findings: 1
+  files: 1
+counts_by_assessment:
+  P1:
+    accepted_exception: 1
+  P2:
+    met: 24
+    not_applicable: 36
+    not_met: 8
+  P3:
+    judgement: 2
+    met: 59
+    not_measured: 8
+    not_met: 9
+  P4:
+    judgement: 7
+    met: 16
+    not_applicable: 6
+    not_met: 1
+needs_action:
+- severity: P2
+  standard_id: CODE-04
+  check_item: Formatter produces zero diff on committed code (L3)
+  items:
+  - file: core/tools/memory/citations.py
+    assessment: not_met
+    status_vs_round_1: stands
+    change_in_this_diff: 'none: the same files are unformatted on main'
+    detail: no formatter is configured in the repo (no ruff.toml, pyproject.toml, setup.cfg). ruff format --check says all 13 changed Python files would be reformatted; the
+      11 that exist on main say the same on main (11 of 11), so this is the repo's state, not introduced here (the 2 new files, citations.py and make_decisions.py, would be
+      reformatted too). Same as round 1.
+  - file: core/tools/memory/contract/check_contract.py
+    assessment: not_met
+    status_vs_round_1: stands
+    change_in_this_diff: 'none: the same files are unformatted on main'
+    detail: no formatter is configured in the repo (no ruff.toml, pyproject.toml, setup.cfg). ruff format --check says all 13 changed Python files would be reformatted; the
+      11 that exist on main say the same on main (11 of 11), so this is the repo's state, not introduced here (the 2 new files, citations.py and make_decisions.py, would be
+      reformatted too). Same as round 1.
+  - file: core/tools/memory/contract/test_check_contract.py
+    assessment: not_met
+    status_vs_round_1: stands
+    change_in_this_diff: 'none: the same files are unformatted on main'
+    detail: no formatter is configured in the repo (no ruff.toml, pyproject.toml, setup.cfg). ruff format --check says all 13 changed Python files would be reformatted; the
+      11 that exist on main say the same on main (11 of 11), so this is the repo's state, not introduced here (the 2 new files, citations.py and make_decisions.py, would be
+      reformatted too). Same as round 1.
+  - file: core/tools/memory/memory.py
+    assessment: not_met
+    status_vs_round_1: stands
+    change_in_this_diff: 'none: the same files are unformatted on main'
+    detail: no formatter is configured in the repo (no ruff.toml, pyproject.toml, setup.cfg). ruff format --check says all 13 changed Python files would be reformatted; the
+      11 that exist on main say the same on main (11 of 11), so this is the repo's state, not introduced here (the 2 new files, citations.py and make_decisions.py, would be
+      reformatted too). Same as round 1.
+  - file: core/tools/memory/pull.py
+    assessment: not_met
+    status_vs_round_1: stands
+    change_in_this_diff: 'none: the same files are unformatted on main'
+    detail: no formatter is configured in the repo (no ruff.toml, pyproject.toml, setup.cfg). ruff format --check says all 13 changed Python files would be reformatted; the
+      11 that exist on main say the same on main (11 of 11), so this is the repo's state, not introduced here (the 2 new files, citations.py and make_decisions.py, would be
+      reformatted too). Same as round 1.
+  - file: core/tools/memory/test_memory.py
+    assessment: not_met
+    status_vs_round_1: stands
+    change_in_this_diff: 'none: the same files are unformatted on main'
+    detail: no formatter is configured in the repo (no ruff.toml, pyproject.toml, setup.cfg). ruff format --check says all 13 changed Python files would be reformatted; the
+      11 that exist on main say the same on main (11 of 11), so this is the repo's state, not introduced here (the 2 new files, citations.py and make_decisions.py, would be
+      reformatted too). Same as round 1.
+  - file: core/tools/memory/test_pull.py
+    assessment: not_met
+    status_vs_round_1: stands
+    change_in_this_diff: 'none: the same files are unformatted on main'
+    detail: no formatter is configured in the repo (no ruff.toml, pyproject.toml, setup.cfg). ruff format --check says all 13 changed Python files would be reformatted; the
+      11 that exist on main say the same on main (11 of 11), so this is the repo's state, not introduced here (the 2 new files, citations.py and make_decisions.py, would be
+      reformatted too). Same as round 1.
+  - file: core/tools/memory/updates.py
+    assessment: not_met
+    status_vs_round_1: stands
+    change_in_this_diff: 'none: the same files are unformatted on main'
+    detail: no formatter is configured in the repo (no ruff.toml, pyproject.toml, setup.cfg). ruff format --check says all 13 changed Python files would be reformatted; the
+      11 that exist on main say the same on main (11 of 11), so this is the repo's state, not introduced here (the 2 new files, citations.py and make_decisions.py, would be
+      reformatted too). Same as round 1.
+- severity: P3
+  standard_id: ARCH-03
+  check_item: No file exceeds 500 lines with mixed concerns
+  items:
+  - file: core/tools/memory/memory.py
+    assessment: not_met
+    status_vs_round_1: stands
+    change_in_this_diff: 'worsened: crossed 500 lines in this diff (main 488, round 1 516, now 530)'
+    detail: '530 lines (main: 488; round 1: 516); this diff took it over 500, and hidden() added 14 since round 1. It mixes settings, the folder engine, command handlers and
+      the command line (a reading of ''mixed concerns'').'
+- severity: P3
+  standard_id: CODE-09
+  check_item: Cyclomatic complexity per function <= 10 (L2)
+  items:
+  - file: core/tools/memory/citations.py
+    assessment: judgement
+    status_vs_round_1: 'changed: met to judgement'
+    change_in_this_diff: 'judgement: see the finding'
+    detail: by ruff C901 (mccabe, the round 1 measure) the highest is cite at 8, within 10. By radon and lizard, which also count each and/or and comprehension condition, cite
+      is 14 (a new function in this diff, over 10). Tool-dependent, and the check item names no counter, so this is a judgement; round 1 said met on the first counter alone.
+  - file: core/tools/memory/contract/check_contract.py
+    assessment: not_met
+    status_vs_round_1: stands
+    change_in_this_diff: 'worsened: check_meaning 16 to 17, check_citations new at 12 (ruff); check_scope 7 to 13 and check_citations new at 20 (radon)'
+    detail: 'functions over 10 by ruff C901 (mccabe): validate 24 and check_lifecycle 21 (neither touched by this diff), check_meaning 17 (16 on main, touched), check_citations
+      12 (new in this diff); the file is unchanged since round 1. By radon and lizard, which also count each and/or and comprehension condition, 11 functions pass 10 (9 on
+      main): check_citations 20 is new, check_scope went from 7 to 13 (touched), check_meaning 38 (37 on main). The check item names no counter.'
+  - file: core/tools/memory/memory.py
+    assessment: not_met
+    status_vs_round_1: stands
+    change_in_this_diff: 'worsened: parse 14 to 15 (ruff); load_settings and parse each +1 (radon)'
+    detail: 'by ruff C901: parse 15 (14 on main, touched by this diff; not touched since round 1); every other function is 9 or below (hidden 3, excluded 3, run 3). By radon
+      and lizard, 5 functions pass 10 (5 on main): main 18, load_settings 18 (17 on main), parse 18 (17), cmd_read 15, grep 14 (15). The check item names no counter.'
+- severity: P3
+  standard_id: CODE-12
+  check_item: Class/module size <= 300 lines (L3)
+  items:
+  - file: core/tools/memory/contract/check_contract.py
+    assessment: not_met
+    status_vs_round_1: stands
+    change_in_this_diff: 'grew: main 411 lines, round 1 466, now 466 (already over 300 on main)'
+    detail: '466 lines, over 300 (main: 411, +55; round 1: 466). The file was over 300 before this diff.'
+  - file: core/tools/memory/contract/test_check_contract.py
+    assessment: not_met
+    status_vs_round_1: stands
+    change_in_this_diff: 'grew: main 377 lines, round 1 411, now 411 (already over 300 on main)'
+    detail: '411 lines, over 300 (main: 377, +34; round 1: 411). The file was over 300 before this diff.'
+  - file: core/tools/memory/memory.py
+    assessment: not_met
+    status_vs_round_1: stands
+    change_in_this_diff: 'grew: main 488 lines, round 1 516, now 530 (already over 300 on main)'
+    detail: '530 lines, over 300 (main: 488, +42; round 1: 516). The file was over 300 before this diff.'
+  - file: core/tools/memory/test_memory.py
+    assessment: not_met
+    status_vs_round_1: stands
+    change_in_this_diff: 'grew: main 402 lines, round 1 520, now 575 (already over 300 on main)'
+    detail: '575 lines, over 300 (main: 402, +173; round 1: 520). The file was over 300 before this diff.'
+- severity: P3
+  standard_id: TEST-18
+  check_item: API contract breaking changes detected automatically (L5)
+  items:
+  - file: core/tools/memory/contract/check_contract.py
+    assessment: not_met
+    status_vs_round_1: stands
+    change_in_this_diff: 'none: version 3 on main was checked the same way'
+    detail: 'check_contract.py checks every sample against contract/v4.json only; nothing compares version 4 with versions 1 to 3 to catch a breaking change, and no sample
+      or check runs against v1 to v3. The README rule ''the contract changes only by a new version'' is kept by hand. Version 3 on main was checked the same way. Since round
+      1 v4.json also changed in place (the path rule: no ''.'' segment, no empty segment, no trailing slash) and nothing in the check could have flagged that.'
+  - file: core/tools/memory/contract/test_check_contract.py
+    assessment: not_met
+    status_vs_round_1: stands
+    change_in_this_diff: 'none: version 3 on main was checked the same way'
+    detail: 'check_contract.py checks every sample against contract/v4.json only; nothing compares version 4 with versions 1 to 3 to catch a breaking change, and no sample
+      or check runs against v1 to v3. The README rule ''the contract changes only by a new version'' is kept by hand. Version 3 on main was checked the same way. Since round
+      1 v4.json also changed in place (the path rule: no ''.'' segment, no empty segment, no trailing slash) and nothing in the check could have flagged that.'
+- severity: P4
+  standard_id: DOC-15
+  check_item: Troubleshooting section covers at least 3 common setup failures (L4)
+  items:
+  - file: core/tools/memory/README.md
+    assessment: not_met
+    status_vs_round_1: stands
+    change_in_this_diff: 'none: the page had no troubleshooting section on main'
+    detail: no troubleshooting section; the Errors table is the nearest thing. The README is unchanged since round 1.
+p1_summary:
+  total: 1
+  assessment: accepted_exception
+  basis: 'DATA-18 (P1), match rule: added line holds email, ssn, password, credit_card or cvv (case-insensitive); check item ''PII columns encrypted at rest or stored as hash
+    where lookup is not required'' in all-requirements.md'
+  all_on_demo_test_data: true
+  lines:
+  - file: core/tools/memory/test_memory.py
+    line: 410
+    matched: Password
+    demo_test_data: true
+    why: the '## Passwords' heading inside a sample memory file used by a test; sign-in demo wording, no credential
+  outside_scope_note: the full-diff scan (cross_checks) raises 68 more P1 on 10 contract sample answers (DATA-18 on 'Email', SEC-15 on 'encrypt'); the same kind of demo text,
+    in the tool-interface-contract category, not counted above.
+round_1_follow_up:
+  summary: 'Round 1 had 18 not_met findings (CODE-04 x8, ARCH-03 x1, CODE-09 x2, CODE-12 x4, TEST-18 x2, DOC-15 x1), 3 judgements, 8 not_measured rows (CODE-15), one accepted
+    exception and 13 observations. Observations OBS-1 to OBS-4 are fixed: each was reproduced in scratch and no longer fails; OBS-1 and OBS-2 have a test that fails on the
+    old code, while the read branch of OBS-3 and the evidence script of OBS-4 have no test. Every not_met finding stands, because none of the faults they name was in the fix
+    commits; three rows grew since round 1 (ARCH-03 and CODE-12 on memory.py, CODE-12 on test_memory.py). OBS-5 to OBS-13 stand. One row changed: CODE-09 on citations.py, met
+    to judgement, because a second complexity counter is available now. Four new observations are R2-1 to R2-4.'
+  not_met_findings:
+  - standard_id: CODE-04
+    severity: P2
+    files: 8
+    status: stands
+    now: '13 of 13 changed Python files would be reformatted (main: 11 of 11); no formatter is configured. Not introduced by this diff.'
+  - standard_id: ARCH-03
+    severity: P3
+    file: core/tools/memory/memory.py
+    status: stands, worse
+    now: '530 lines (round 1: 516, main: 488); hidden() added 14 since round 1.'
+  - standard_id: CODE-09
+    severity: P3
+    file: core/tools/memory/contract/check_contract.py
+    status: stands
+    now: 'unchanged since round 1 (ruff: validate 24, check_lifecycle 21, check_meaning 17, check_citations 12). A second counter (radon, lizard) adds check_scope 13 and check_citations
+      20 as new over-10 functions.'
+  - standard_id: CODE-09
+    severity: P3
+    file: core/tools/memory/memory.py
+    status: stands
+    now: parse 15 by ruff (14 on main), not touched since round 1.
+  - standard_id: CODE-12
+    severity: P3
+    files:
+    - core/tools/memory/contract/check_contract.py
+    - core/tools/memory/contract/test_check_contract.py
+    - core/tools/memory/memory.py
+    - core/tools/memory/test_memory.py
+    status: stands, two grew
+    now: '466 (unchanged), 411 (unchanged), 530 (round 1: 516), 575 (round 1: 520); all four over 300 before this diff.'
+  - standard_id: TEST-18
+    severity: P3
+    files:
+    - core/tools/memory/contract/check_contract.py
+    - core/tools/memory/contract/test_check_contract.py
+    status: stands
+    now: still no check of version 4 against versions 1 to 3; v4.json also changed in place since round 1 (the path rule).
+  - standard_id: DOC-15
+    severity: P4
+    file: core/tools/memory/README.md
+    status: stands
+    now: README unchanged since round 1; no troubleshooting section.
+  judgements_and_other_rows:
+  - standard_id: ARCH-03
+    file: core/tools/memory/test_memory.py
+    status: stands
+    now: 'judgement; 575 lines (round 1: 520).'
+  - standard_id: CODE-13
+    files:
+    - core/tools/memory/contract/check_contract.py
+    - core/tools/memory/memory.py
+    status: stands
+    now: judgement, unchanged in kind.
+  - standard_id: CODE-15
+    files: 8
+    status: stands
+    now: not_measured. radon and lizard are installed but count cyclomatic, not cognitive, complexity.
+  - standard_id: DATA-18
+    file: core/tools/memory/test_memory.py
+    status: stands
+    now: accepted_exception (sign-in demo wording).
+  - standard_id: CODE-09
+    file: core/tools/memory/citations.py
+    status: 'changed: met to judgement'
+    now: ruff says cite is 8 (as in round 1); radon and lizard say 14. Round 1 used one counter.
+  observations:
+  - id: OBS-1
+    status: fixed
+    where: core/tools/memory/citations.py
+    evidence: 'whole() and whole_source() (citations.py:58-69) refuse any line that is not a whole record. Reproduced in scratch with seven bad shapes (''null'', ''[1]'', a
+      record without an id, a step without a source, a line number given as text, a number for an id, a null trace): each answered ''unreadable'', exit 1, a JSON answer, no
+      traceback, for both `citations --check` and `citations --play`. test_a_line_that_is_json_but_not_a_record_is_unreadable pins five of them; run against the round 1 tool
+      (git archive of fa73b2b5 with this test file) it ERRORS.'
+  - id: OBS-2
+    status: fixed
+    where: core/components/plays/play-creator/references/write_drive_review.py (and the two stamped copies)
+    evidence: 'line 88 now names a record that is not an object in its refusal. Reproduced with records ["oops"] and [null]: exit 2, ''holds decisions of another play or issue
+      (oops)'' or ''(None)'', nothing written; a good record writes the two files. The three copies are byte-identical (md5 1290adb93686a1bb1166701867284797 for all three).
+      test_drive_contract.py gained ''a record that is not an object'' (33 passed). A neighbouring gap remains (R2-2).'
+  - id: OBS-3
+    status: fixed in code; the read branch has no test
+    where: core/tools/memory/memory.py run()
+    evidence: 'the tier and the verb are now chosen by command (memory.py:434-441). Reproduced with an unreadable decision file: error tier_missing, tier short-term, ''Short-term
+      memory cannot be read: [Errno 13] Permission denied ...''. The write branch is tested (test_a_failed_write_names_short_term_memory); nothing tests ''cannot be read''
+      (R2-3).'
+  - id: OBS-4
+    status: fixed
+    where: .garura/project/issues/659/evidence/make_decisions.py
+    evidence: 'lines 28-34: an existing folder is refused unless it holds the script''s own mark file, and the script makes the folder itself. Reproduced: a folder holding
+      another file was refused with ''exists and was not made by this script; give a new folder.'' and its file was left in place. A full run into a fresh folder wrote decisions.json
+      and updates.json with the same shape as the committed ones (12 records, 3 problems, 0 updates waiting) and removed only the folder it made; the end-of-run delete at line
+      199 is of that same marked folder.'
+  - id: OBS-5
+    status: stands, one line longer
+    where: write_drive_review.py (three copies), test_drive_contract.py
+    evidence: 'main() is 77 lines raw span (main: 52; round 1: 76) and complexity 13 by ruff (main: 9), 36 by radon and lizard (main: 20); test_review_writer is 86 lines (main:
+      52).'
+  - id: OBS-6
+    status: stands
+    where: core/tools/memory/test_memory.py:461-468
+    evidence: the chmod 0o500 test still has no guard for a superuser run.
+  - id: OBS-7
+    status: stands
+    where: core/tools/memory/contract/test_check_contract.py:149-150
+    evidence: the two blank lines between methods are still there; the file is unchanged since round 1.
+  - id: OBS-8
+    status: stands
+    where: memory.py:79, updates.py:30, pull.py:58, citations.py:32, check_contract.py:122; AROUND at citations.py:28 and check_contract.py:119
+    evidence: the same five sha256 helpers and the same two AROUND constants; nothing moved.
+  - id: OBS-9
+    status: stands
+    where: core/tools/memory/memory.py:116, 158
+    evidence: 'reproduced: MEMORY_CITATIONS_FILE=../../outside.jsonl made cite write outside the short-term folder and answer stored.path ''613/../../outside.jsonl'', a path
+      the contract''s own path rule forbids (the tool''s answers are not checked against the contract when it runs). A sibling such as context/citations.jsonl.bak is read as
+      hidden (reproduced; the safe side).'
+  - id: OBS-10
+    status: stands
+    where: core/tools/memory/citations.py:99-109, 161-164
+    evidence: next_id still reads every issue's file and the record is appended afterwards.
+  - id: OBS-11
+    status: stands
+    where: .garura/project/issues/659/evidence/make_decisions.py
+    evidence: text files at lines 41, 49, 180, 183 and 188 are still opened without an encoding while the script writes an em dash at line 182; line 47 of a Phoenix file is
+      replaced by index and the step() calls name fixed lines.
+  - id: OBS-12
+    status: stands
+    where: core/tools/memory/README.md:158-184
+    evidence: 'README unchanged since round 1: 15 bullets against the contract''s 24 answer rules; the path-spelling rule added to v4.json since round 1 (''paths'') is in neither
+      the list nor the request notes.'
+  - id: OBS-13
+    status: stands, further behind
+    where: .garura/project/issues/659/specs/plan.md items 3, 4, 5 and the front matter
+    evidence: 'the plan still says ''2 broken added'' and ''its 51 tests'' (now 8 broken samples added and 56 tests in the check), ''58 tool tests pass, 7 of them new'' (now
+      65 + 13 = 78 in test_memory and test_pull; test_memory has 14 new) and ''Drive tests: 28 pass, 2 of them new'' (now 33 pass); front matter still says updated 2026-10-18
+      while the log runs to 2026-10-19. The plan check itself passes.'
+runnable_checks:
+- name: memory tool unit tests
+  command: cd core/tools/memory && python3 -B -m unittest test_memory test_pull contract.test_check_contract
+  exit_code: 0
+  status: PASS
+  evidence: 'Ran 134 tests in about 22 s, OK (test_memory 65, test_pull 13, contract.test_check_contract 56; round 1: 130). No skipped, disabled or expected-failure test among
+    the added lines (searched skip, xfail, expectedFailure, assert True).'
+- name: new tests catch the faults they were written for
+  command: git archive of core/tools/memory at fa73b2b5 (the round 1 tool) plus this head's test_memory.py, then python3 -B -m unittest test_memory
+  exit_code: 1
+  status: PASS
+  evidence: '65 tests ran: 2 failures and 2 errors, all four in the tests added since round 1 (test_a_line_that_is_json_but_not_a_record_is_unreadable, test_odd_spellings_are_refused,
+    test_a_decision_never_rests_on_a_draft_or_a_decision, test_other_letter_case_and_links_reach_nothing_hidden); the other 61 pass on the old tool. So the new tests are not
+    vacuous. The red result is the expected one and is not a gate failure.'
+- name: contract check
+  command: python3 -B core/tools/memory/contract/check_contract.py
+  exit_code: 0
+  status: PASS
+  evidence: 'ok true; contract version 4; 26 samples valid, 0 failed; 0 commands without a sample; 34 of 34 broken samples refused, each with its own reason (round 1: 32; the
+    two new are read-path-with-dot-segment and read-path-with-empty-segment); 0 boundary problems.'
+- name: drive record test
+  command: python3 -B core/components/plays/play-creator/references/test_drive_contract.py
+  exit_code: 0
+  status: PASS
+  evidence: '33 passed, 0 failed (round 1: 32), including "every play''s write_drive_review.py is identical to the canonical one (2 copies)".'
+- name: drive writer copies
+  command: md5 and cmp of play-creator/references/write_drive_review.py with the copies in understand/scripts and vision/scripts
+  exit_code: 0
+  status: PASS
+  evidence: one checksum for all three (1290adb93686a1bb1166701867284797); both copies byte-identical to the canonical one.
+- name: ruff check
+  command: ruff check --no-cache <the 13 changed Python files>
+  exit_code: 0
+  status: PASS
+  evidence: 'All checks passed (ruff 0.15.20, default rule set; the repo commits no ruff, flake8 or pyproject configuration). Extra W and N pass, for measurement only: W clean;
+    N only N818 on Refusal (pull.py:45) and BadFlags (memory.py:446), both on main already.'
+- name: ruff format --check
+  command: ruff format --no-cache --check <the 13 changed Python files>; the same on the 11 that exist on main, read from main
+  exit_code: 1
+  status: WARN
+  evidence: 13 of 13 would be reformatted; on main 11 of 11 would be. No formatter is configured in the repo. Reported under CODE-04; not introduced by this diff.
+- name: complexity, length, nesting (measured)
+  command: ruff check --select C901 (max-complexity 10, and 0 for the full list); an AST walk for raw function span and nesting; wc -l
+  exit_code: 1
+  status: MEASURED
+  evidence: 'Over 10 by ruff: check_contract.py validate 24, check_lifecycle 21, check_meaning 17 (main 16), check_citations 12 (new); memory.py parse 15 (main 14); write_drive_review.py
+    main 13 (main 9, three copies). Longest function in the 8 scanned files 48 lines (memory.py parse); deepest nesting 4. Module sizes: check_contract.py 466 (main 411), memory.py
+    530 (488; round 1 516), test_memory.py 575 (402; round 1 520), test_check_contract.py 411 (377), citations.py 182 (new; round 1 165). Reported under CODE-09, CODE-10, CODE-11,
+    CODE-12 and ARCH-03.'
+- name: cyclomatic cross-check, second counter
+  command: radon cc -s -n C and lizard -C 10 on the 8 scanned files and write_drive_review.py; the same radon run on the main copies
+  exit_code: 0
+  status: MEASURED
+  evidence: 'radon and lizard count each and/or and comprehension condition, so their numbers run higher than ruff''s: citations.py cite 14 (new); check_contract.py 11 functions
+    over 10 (main 9: check_citations 20 new, check_scope 7 to 13); memory.py 5 over 10 (main 5: parse 18, load_settings 18, main 18, cmd_read 15, grep 14); write_drive_review.py
+    main 36 (main 20). No test file, pull.py or updates.py function is over 10. Neither tool measures cognitive complexity (CODE-15 stays not_measured). Reported under CODE-09.'
+- name: git diff --check
+  command: git diff --check main...HEAD
+  exit_code: 2
+  status: PASS
+  evidence: '88 trailing-whitespace hits, every one inside the committed stored diff .garura/project/issues/659/review/pr.diff (the diff of a diff; expected, as the caller
+    said). With that one file excluded (git diff --check main...HEAD -- . '':(exclude).garura/project/issues/659/review/pr.diff): exit 0, no whitespace error in the other 120
+    paths.'
+- name: decision records lint
+  command: python3 -B .claude/skills/adr/scripts/adr.py lint --adr <037, 032, 035, 036>
+  exit_code: 0
+  status: PASS
+  evidence: valid true, problems [], for all four (037 is new; 032, 035 and 036 change on their Status line only).
+- name: decision records index
+  command: python3 -B .claude/skills/adr/scripts/adr.py index --dir docs/adr --out <scratch>/index.md, then cmp with docs/adr/_index.md
+  exit_code: 0
+  status: PASS
+  evidence: 37 ADRs; byte-identical to the committed index (a generated file).
+- name: README commands as documented
+  command: 'from core/tools/memory: python3 -B contract/check_contract.py, contract/test_check_contract.py, test_memory.py, test_pull.py'
+  exit_code: 0
+  status: PASS
+  evidence: all four exit 0 (check ok true; 56, 65 and 13 tests OK).
+- name: README prose checks
+  command: grep and read of core/tools/memory/README.md
+  exit_code: 0
+  status: PASS
+  evidence: no link, no TODO/FIXME/TBD, heading levels 1 then 2 only (1 and 12), no trailing spaces, 9 of 9 MEMORY_* variables documented, neither retired term ('project memory',
+    'LTM'). The README is unchanged since round 1 (git diff fa73b2b5..HEAD is empty for it).
+- name: plan format check (three plans)
+  command: python3 -B core/components/skills/manage-plan/scripts/check_plan.py --plan <606, 653, 659 plan.md> --out <scratch>
+  exit_code: 1
+  status: PASS
+  evidence: 'valid true and no problems for all three; 606: active, now 8; 653: active, now 6; 659: active, now 6. Exit 1 only because the plans are not finished (the script:
+    0 valid and done, 1 valid not done).'
+- name: taxonomy scan
+  command: python3 -B core/components/skills/quality-check-scoped/scripts/scan_taxonomy.py --taxonomy ~/.garura/core/memory/standards/rules/pr.md --diff <git diff main...HEAD>
+    --paths <22 scoped paths> --out <scratch>
+  exit_code: 0
+  status: PASS
+  evidence: 'scan complete: P1=1 P2=68 P3=78 P4=30 (CODE-20 catch-all=22) errors=0. The 17 code, test, README and plan paths alone give P1=1 P2=68 P3=73 P4=20 (round 1: P2=65
+    P3=73 P4=20, the three extra P2 are BE-19 keyword hits on new lines); the 5 ADR paths give P3=5 P4=10.'
+- name: behaviour re-checks in scratch
+  command: memory.py cite, citations, read, find, search against scratch folders; write_drive_review.py against scratch run records; make_decisions.py against a scratch folder
+  exit_code: 0
+  status: PASS
+  evidence: 'OBS-1 to OBS-4 reproduced as fixed (see round_1_follow_up). Hiding rule: read of a waiting draft or the decision file answers not_found for the plain path, a ''.''
+    segment or double slash (refused as bad_request by the contract), other letter case, and a link to it; find lists the link by its own name (R2-1). A decision made through
+    the tool is returned by citations --check with its text, version and lines around it, and a lookup (search) of its own words finds nothing.'
+- name: coverage
+  status: NOT_RUN
+  evidence: no coverage tool is installed (python3 -c "import coverage" fails), and the taxonomy sets no coverage threshold. Not run is not passed.
+- name: lint-components
+  status: NOT_RUN
+  evidence: the play runs it on core/components (the memory category); it is not part of this layer.
+- name: test setup
+  status: NOTE
+  evidence: run with bytecode writing off (python3 -B, PYTHONDONTWRITEBYTECODE) and the temp folder redirected to a scratch area outside the repo. The unit tests and the drive
+    test left nothing behind except contract.test_check_contract, which leaves 14 temp folders per run (R2-4; the same on main). The repository holds the same number of __pycache__
+    folders and .pyc files after the runs as before (54 folders, 264 files, all pre-existing and gitignored).
+cross_checks:
+- name: older taxonomy copy, same 17 paths
+  what: scan_taxonomy.py with the ltm copy that config points at (./.garura/core/memory/standards/rules/pr.md, 303 lines, no Artifact-Type Scoping table)
+  result: 'P1=7 P2=141 P3=119 P4=39 against P1=1 P2=68 P3=73 P4=20 with the copy used. It has the same rows; it classes the three drive writers, the drive test, the evidence
+    script and the plans as runtime-code, so the keyword rules run on them. The six extra P1 are sample words in the evidence script: DATA-18 on ''Email'', ''email'' and ''Password''
+    in the sample sign-in questions and answers (five hits) and SEC-15 on ''encrypt'' in the sample profile text (one hit). Not counted in the findings above.'
+  note: the pointer in .garura/core/config.yaml (standards.pr-severity-taxonomy) still names the older copy; the findings use the committed copy.
+- name: scripts the table classes as prose, read as code
+  what: the same older-copy scan on make_decisions.py, test_drive_contract.py and the three write_drive_review.py copies
+  result:
+    make_decisions.py: P1 6 (DATA-18 5, SEC-15 1), P2 BE-19 23, DATA-17 4, SEC-23 1 (plus the code path rules), P3 DATA-22 2 (on 'GDPR' in the sample profile), P4 BE-23 5;
+      every keyword hit is sample text or an ordinary word; SEC-23 copies the process environment to pass it to the memory tool it starts and reads no secret
+    test_drive_contract.py: P2 BE-19 6 ('join' and 'from' in Python code)
+    write_drive_review.py (each of three copies): P2 BE-19 1 ('join'), P3 CODE-25 1 (the except ValueError at line 77, which now ends in a refusal that names the file; see
+      OBS-2 and R2-2)
+  note: listed so no keyword hit on executable code is hidden by the classification; none is counted above. The path rules that would run on these files under the older copy
+    (size, complexity) are covered by the measured numbers under OBS-5.
+- name: all 121 changed paths, keyword rules for secrets and personal data
+  what: scan_taxonomy.py with the copy used, bounded to the whole diff; plus a pattern sweep of every added line (the stored review/pr.diff left out, because it holds the earlier
+    diff)
+  result: 'full scan P1=69 P2=170 P3=227 P4=39. Outside the 22 scoped paths: P1 68, all on 10 contract sample answers under core/tools/memory/contract/samples/ (DATA-18 on
+    ''Email'' 52, SEC-15 on ''encrypt'' 16, from the sample answers ''Email and password, social login, and MFA'' and ''PII encrypted at rest and in transit''); P2 102 (DATA-17
+    68, BE-19 33, SEC-18 1 on the word ''role'' in a sample); P3 149 (TEST-14 and TEST-18 on all 61 contract paths, the same finding as under check_contract.py; DATA-22 27
+    on ''GDPR'' and ''consent'' in the sample answers); P4 9 (BE-23). Demo text of the same kind as the accepted sign-in words. Pattern sweep of 13,355 added lines for access
+    tokens (ghp_, github_pat_, sk-, AKIA, xox, JWT) and private key blocks: no real match (the one textual hit is round 1''s own record listing the patterns). No absolute home-folder
+    path and no company name in an added line. One address, sample@example.com, a placeholder git address in the evidence script. The owner is named by first name in quotations
+    in 58 added lines (ADR 037 and the /adr run''s records, the plans, the design document, the mock, the PR body and two lines of v4.json), as in lines already on main (ADRs
+    015 to 036 and v3.json).'
+observations_not_findings:
+- id: R2-1
+  where: core/tools/memory/memory.py
+  lines: 150-162 (excluded), 164-173 (hidden), 185-197 (files)
+  proposed_severity: P3
+  nearest_standard: null
+  since_round_1: new in this round; the weak point (excluded) is older, the fix (hidden) is new
+  text: 'the rule that an issue''s short-term memory is never read through Garura memory is decided from the two settings as written, not from the folders they reach. hidden()
+    resolves the request''s path to the real file (links, ''.'', case) but then compares it with excluded(''garura''), which is the short-term setting taken relative to the
+    Garura setting without resolving either. Reproduced in scratch: with the Garura folder set directly and the short-term folder set through a link to a folder inside it,
+    read --tier garura --path issues/9/n.md answers the short-term note and find --tier garura lists it; with both settings spelled the same way it answers not_found. The round
+    1 tool behaves the same, so the fix did not widen or narrow it. Separately, find and search apply the literal prefix while read applies the resolved, case-folded one, so
+    find lists a link to a hidden file by the link''s own name (reproduced: alias.md pointing at the decision file) and read then refuses it.'
+  basis: 'review/code rubric: error handling; safe handling of destructive or irreversible operations, data-safety paths get extra weight (~/.garura/phoenix-memory/knowledge/review/code.md,
+    Treatment); README settings rows for updates_dir and citations_file (''a lookup never reads them'')'
+  test_gap: test_other_letter_case_and_links_reach_nothing_hidden covers links inside the tier and other letter case; no test spells a setting through a link.
+  why_not_a_finding: no pr.md row describes it; it needs two settings that spell one folder two ways, which the operator controls. The fix commit says the rule is 'however
+    spelled', which is true of a request's path, not of the settings.
+- id: R2-2
+  where: core/components/plays/play-creator/references/write_drive_review.py (identical copies in understand/scripts and vision/scripts)
+  lines: 75-78
+  proposed_severity: P4
+  nearest_standard: CODE-25 (P3)
+  since_round_1: new; the --decisions file read is part of this diff
+  text: 'a --decisions file that exists but cannot be read (no permission) ends in a PermissionError traceback and exit 1; only ValueError is caught around the read, while
+    the run.json read at line 45 catches OSError too. The header promises exit 2 and ''nothing written'' for a bad input. Reproduced in scratch: traceback, exit 1, nothing
+    written.'
+  basis: 'review/code rubric: error handling (~/.garura/phoenix-memory/knowledge/review/code.md, Treatment)'
+  test_gap: test_drive_contract.py covers a missing file, not an unreadable one.
+  why_not_a_finding: no pr.md row describes it; nothing is written either way. One edit to the canonical copy and a re-stamp of the two copies.
+- id: R2-3
+  where: core/tools/memory/test_memory.py
+  lines: 461-468
+  proposed_severity: P4
+  nearest_standard: null
+  since_round_1: new
+  text: 'the fix for OBS-3 (a failed read of the decision or update files says ''cannot be read'' and names short-term memory) has no test: test_a_failed_write_names_short_term_memory
+    covers the write of cite only. The behaviour was checked by hand in this round and is right.'
+  basis: 'review/tests: run the suite and keep it dependable (~/.garura/phoenix-memory/knowledge/review/tests.md)'
+  why_not_a_finding: no pr.md row; the suite is green and the code is right.
+- id: R2-4
+  where: core/tools/memory/contract/test_check_contract.py
+  lines: '378'
+  proposed_severity: P4
+  nearest_standard: null
+  since_round_1: new in this report; the leak is older (the same test makes the same 14 folders on main)
+  text: 'one test makes a folder with tempfile.mkdtemp() and never removes it; each run of contract.test_check_contract leaves 14 temp folders (about 64 KB). Measured with
+    the temp folder redirected: test_memory, test_pull, the drive test and check_contract.py leave none.'
+  basis: 'review/tests: run the suite and keep it dependable (~/.garura/phoenix-memory/knowledge/review/tests.md)'
+  why_not_a_finding: no pr.md row; not introduced by this diff (mkdtemp at line 344 on main).
+process_notes:
+- context.yaml now lists all 121 changed paths and equals git diff --name-only main...HEAD (the round 1 gap, a list cut at 100 with no marker, is closed); the host's fetch
+  script still has the 100-path limit, a fix is owed (context.yaml says so).
+- The pointer in .garura/core/config.yaml for the severity taxonomy still names the older 303-line copy; the committed copy and the machine-global copy (380 lines, byte-identical)
+  have the Artifact-Type Scoping table. This scan used the newer one, as in round 1.
+- Round 1's ARCH-02 and CODE-14 text said no test file is imported by another module; test_memory.py imports test_pull.py for shared fixtures (on main already). The graph is
+  still acyclic.
+- radon (6.0.1) and lizard (1.23.0) are installed on this machine; round 1 only had ruff's mccabe counter. Neither measures cognitive complexity, so CODE-15 stays not_measured;
+  the second counter is why citations.py CODE-09 moved from met to judgement.
+- 'This run''s first scratch folder disappeared midway (the cause was not established; other review steps share the session''s scratch area); the inputs were rebuilt in a new,
+  uniquely named folder and every command was run again, so the numbers above come from the second pass (the scan counts matched the first pass). By the end of this run git
+  status also showed design-findings-*.yaml and review/pr.diff as modified: those are other steps'' writes, not this one''s. This run wrote only this file in the repository.'
+- Each round's pr.diff is committed and then appears inside the next round's pr.diff (about a quarter of the diff text is the earlier diff); the whitespace check, the added-line
+  sweep and the scan input leave the stored review/pr.diff out for that reason.

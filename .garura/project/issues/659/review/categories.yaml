@@ -1,0 +1,435 @@
+# Note from the play (after this assessment): the head moved from 700f4355 to 4553fe26 for two text fixes the
+# assessment pointed at — the mock's sample ADR is no longer numbered 037, and the PR body names the rule's section
+# 'Every Decision Names Its Memory'. No path was added or removed; the categories stand. context.yaml now lists all
+# 121 changed paths from git (the host's list stopped at 100).
+# categories.yaml (round 2) -- derived from the PR #676 diff content (base main). Not matched from a fixed list.
+# This file replaces round 1's. Round 1 was assessed at head fa73b2b5 and its records are committed on the branch
+# under .garura/project/issues/659/review/ (they are in this diff as run records, see stm-run-records).
+pr: 676
+issue: 659
+base: main
+round: 2
+head_assessed: 700f4355   # git rev-parse HEAD at assessment; 33 commits ahead of main
+round_1_head: fa73b2b5
+changed_path_count: 121   # 49 added + 72 modified (git diff main...HEAD --name-status); no renames; equals the 121 file headers in pr.diff (checked, same set)
+review_shelf_used: "~/.garura/phoenix-memory/knowledge/review/ (Phoenix memory, the third tier, in tier order). Garura memory has no knowledge/review folder (context.yaml's ./.garura/core/memory/knowledge/review/ does not exist) and the issue's short-term memory has none. Files read: _index, adrs, code, config-maps, docs, harness, memory, tests (eight, the whole shelf). All eight are byte-identical to the committed copies under core/components/memory/knowledge/review/ (cmp, no output; git status clean for that folder). The playbooks that govern a category present are adrs, code, tests, docs, memory; harness and config-maps were read to confirm they do not apply."
+scope_warning: >
+  (1) CONTEXT LIST IS CUT AT 100 PATHS. context.yaml lists exactly 100 changed_paths; the diff has 121.
+  The 21 missing paths are the alphabetically last 21: nine core/tools/memory/contract/samples/search-*.json
+  and updates.json samples, core/tools/memory/contract/test_check_contract.py and v4.json,
+  core/tools/memory/memory.py, pull.py, test_memory.py, test_pull.py and updates.py, the three
+  docs/adr files edited (032, 035, 036), docs/adr/037-*.md and docs/adr/_index.md. context.yaml has no
+  marker that the list was cut. Anything that walks changed_paths (the language linter, quality-check-scoped,
+  the test and ADR checks, the Layer 1 list) would skip the memory tool's main source file, three of its test files,
+  the contract itself and every ADR. This file uses the 121 from git and pr.diff, and says so per category;
+  the play should fix the list before Layer 1 runs. (2) The working copy of .garura/core/config.yaml differs from
+  the committed one by one line (gates.plays.review-change set on, uncommitted, for this run only). It is not in the
+  diff, so no config-map category is listed. (3) core/tools/play-reviewer/ is a git-excluded local prototype; no path
+  under it is in the diff, so it is not judged. The review tool's design and mock in this diff describe screens that
+  page does not implement, and say so ('mock only'). (4) The decision records are now in the diff (ADR 037, new, and
+  one Status line each on ADR 032, 035 and 036), so the round-1 gap (the design disagreeing with three accepted
+  ADRs) now has a record in the branch. That record is BRANCH CONTENT. Layer 2 groundings must take principles from
+  the base ref (git show main:docs/adr/NNN-*.md), never from ADR 037's prose, and must report where the branch departs from
+  main's ADR text as 'covered by ADR 037, which a person accepted through /adr (the accept is recorded in
+  .garura/project/issues/_adr/20261018-200059/decision.yaml); whether that closes it is the human's line-by-line
+  review of the ADR', not as 'no finding'. (5) Boundary, carried from round 1: the three write_drive_review.py copies sit
+  under core/components/plays/**, a path the harness playbook lists as a signal, but the content is a mechanical python
+  script; no SKILL.md, ICE, agent or skill file is in the diff (the /adr play's ICE and compiled file are named by ADR 037 as
+  later work and are NOT changed here). They are filed under executable-code, not harness. (6) The diff nests its own
+  predecessor: the round-1 pr.diff (383,576 bytes, committed) is a file in this round's pr.diff (1,325,008 bytes), so about
+  29 percent of the diff text is the earlier diff. Skip .garura/project/issues/659/review/pr.diff when reading.
+changes_since_round_1:
+  - "memory tool: hidden memory stays hidden however a path is spelled (memory.py hidden(), contract path rule, 2 new broken samples, tests); three code faults (citations.py whole(), write_drive_review.py x3, make_decisions.py folder mark)"
+  - "memory rule (resolution.md): the new section reworded and renamed 'Every Decision Names Its Memory'; a note on R4; its row in rules/_index.md"
+  - "review tool design and mock: the exception text for file paths, Agent decisions reach the page as pack pieces, mock Details fold"
+  - "new decision record ADR 037 (accepted), one Status pointer each on ADR 032, 035, 036, the ADR index row"
+  - "run records: the /adr run (12 files) and the round-1 review records (13 files), plus refreshed PR body and self-review"
+categories:
+  - name: tool-interface-contract
+    playbook: null
+    playbook_missing: true   # not on the shelf; named in the 655, 657, 658 and round 1 reviews; still missing
+    design_bearing: true   # the contract IS the written design of the memory tool's interface; whether version 4 conforms to the decisions committed on main cannot be settled by a linter. One grounding dispatch.
+    layers: [linters, runnable-checks, design-grounding]   # Layer 1 = the contract check; Layer 2 = grounding against main's ADRs
+    evidence:
+      - core/tools/memory/contract/v4.json   # new, 1514 lines; changed since round 1: the 'paths' rule (no '.' segment, no empty segment, no trailing slash), the path pattern, the waiting_drafts_are_hidden text, the cite summary naming ADR 037
+      # 60 sample answers: 10 added, 50 modified
+      # 48 samples moved from contract_version 3 to 4 (one version line each)
+      - core/tools/memory/contract/samples/apply-not-approved.json
+      - core/tools/memory/contract/samples/apply.json
+      - core/tools/memory/contract/samples/broken/apply-promotion-not-in-this-tool.json
+      - core/tools/memory/contract/samples/broken/apply-waiting-update.json
+      - core/tools/memory/contract/samples/broken/apply-written-to-another-tier.json
+      - core/tools/memory/contract/samples/broken/decide-reject-answered-approved.json
+      - core/tools/memory/contract/samples/broken/decide-without-review-tool.json
+      - core/tools/memory/contract/samples/broken/find-silent-missing-tier.json
+      - core/tools/memory/contract/samples/broken/find-without-issue.json
+      - core/tools/memory/contract/samples/broken/health-ok-as-number.json
+      - core/tools/memory/contract/samples/broken/propose-answered-approved.json
+      - core/tools/memory/contract/samples/broken/propose-short-term-other-issue.json
+      - core/tools/memory/contract/samples/broken/propose-unknown-draft-source.json
+      - core/tools/memory/contract/samples/broken/propose-web-draft-to-phoenix.json
+      - core/tools/memory/contract/samples/broken/read-end-before-start.json
+      - core/tools/memory/contract/samples/broken/read-other-file.json
+      - core/tools/memory/contract/samples/broken/read-other-issue.json
+      - core/tools/memory/contract/samples/broken/read-path-with-newline.json
+      - core/tools/memory/contract/samples/broken/read-phoenix-silent-about-saving.json
+      - core/tools/memory/contract/samples/broken/read-without-fingerprint.json
+      - core/tools/memory/contract/samples/broken/read-wrong-fingerprint.json
+      - core/tools/memory/contract/samples/broken/search-every-tier-stopped.json
+      - core/tools/memory/contract/samples/broken/search-other-issue.json
+      - core/tools/memory/contract/samples/broken/search-skipped-a-tier.json
+      - core/tools/memory/contract/samples/broken/search-tier-with-every-tier.json
+      - core/tools/memory/contract/samples/broken/search-unknown-tier.json
+      - core/tools/memory/contract/samples/broken/search-went-past-first-answer.json
+      - core/tools/memory/contract/samples/decide-not-waiting.json
+      - core/tools/memory/contract/samples/decide.json
+      - core/tools/memory/contract/samples/find-without-issue-starts-at-garura.json
+      - core/tools/memory/contract/samples/find.json
+      - core/tools/memory/contract/samples/health.json
+      - core/tools/memory/contract/samples/propose.json
+      - core/tools/memory/contract/samples/pull-would-overwrite.json
+      - core/tools/memory/contract/samples/pull.json
+      - core/tools/memory/contract/samples/pulled.json
+      - core/tools/memory/contract/samples/read-other-issue-refused.json
+      - core/tools/memory/contract/samples/read-phoenix-not-saved.json
+      - core/tools/memory/contract/samples/read.json
+      - core/tools/memory/contract/samples/search-every-tier.json
+      - core/tools/memory/contract/samples/search-nothing.json
+      - core/tools/memory/contract/samples/search-one-tier-nothing.json
+      - core/tools/memory/contract/samples/search-short-term-without-issue-refused.json
+      - core/tools/memory/contract/samples/search-short-term.json
+      - core/tools/memory/contract/samples/search-tier-missing.json
+      - core/tools/memory/contract/samples/search-without-issue-nothing.json
+      - core/tools/memory/contract/samples/search.json
+      - core/tools/memory/contract/samples/updates.json
+      # 2 samples reworked beyond the version line (cite now carries a trace)
+      - core/tools/memory/contract/samples/broken/cite-absolute-path.json
+      - core/tools/memory/contract/samples/cite.json
+      # 10 new samples: 8 pinning the trace and check rules, 2 (read-path-with-*) pinning the new path rule since round 1
+      - core/tools/memory/contract/samples/broken/citations-around-misplaces-the-text.json
+      - core/tools/memory/contract/samples/broken/citations-around-too-wide.json
+      - core/tools/memory/contract/samples/broken/citations-changed-without-a-step.json
+      - core/tools/memory/contract/samples/broken/citations-other-issue.json
+      - core/tools/memory/contract/samples/broken/citations-problem-names-the-wrong-step.json
+      - core/tools/memory/contract/samples/broken/citations-problems-without-check.json
+      - core/tools/memory/contract/samples/broken/read-path-with-dot-segment.json
+      - core/tools/memory/contract/samples/broken/read-path-with-empty-segment.json
+      - core/tools/memory/contract/samples/citations-check.json
+      - core/tools/memory/contract/samples/citations.json
+    runnable_checks:
+      - command: "cd core/tools/memory && python3 contract/check_contract.py"
+        note: "Observed (bytecode writing off): ok true, contract_version 4, 26 samples valid, 0 failed, 0 commands without a sample, 34 of 34 broken samples refused (each for its own reason), 0 boundary problems. Round 1 saw 32 broken; the two new are the path-rule samples. What it does NOT check: that a trace's answer follows from the lines it names, who 'decided_by' is (a non-empty string any caller writes), the settings text (names neither updates_dir nor citations_file), or the lookup-hiding rule's meaning (test_memory.py exercises that)."
+      - command: "cd core/tools/memory && python3 -m unittest test_memory test_pull contract.test_check_contract"
+        note: "shared with the tests category: Ran 134 tests, OK (observed, temp folders in scratch)."
+    notes: >
+      Same kind of work as the contract in the 655, 657 and 658 reviews: a machine-readable interface contract for a
+      tool, with its worked examples and a check. Not a config map, not harness, not memory (nothing under
+      core/components/memory/), not executable code (data the check script reads). Design-bearing because other
+      stories build against it (#661 to #664). The base-ref contract is the 'before': git show main:core/tools/memory/contract/v3.json
+      (v1, v2 and v3 are not in this diff) and git show main:core/tools/memory/README.md. Layer 2 grounds ONLY from what is
+      committed on main: docs/adr/035 (section 6 'Every decision names its memory', sections 1, 3, 4, 5, 9, 10), docs/adr/036
+      (sections 2 to 4, 7), docs/adr/034 section 4, docs/adr/033 section 6, docs/adr/032, docs/adr/016, docs/adr/008 and 011,
+      core/grounding/glossary.md (Memory Architecture), docs/philosophy/**, base v3.json and README. NOT groundable (added or
+      rewritten by this diff): v4.json's own description, answer_rules and summaries; the README; ADR 037; the 659 plan; the PR
+      body and self-review; the owner's quotations inside them; the tool's code comments.
+      Round 2 pointers for the grounding, taken from reading the diff, not findings:
+      (a) path rule: v4 now refuses a '.' segment, an empty segment and a trailing slash, which v3 on main accepts, and
+      says 'one file has one spelling'. The README on main says the contract changes only by a new version; v4 changed in
+      place before landing (the plan says it is unlanded). Test: is a narrower path rule inside an unlanded version a
+      version-policy break, given no agent calls the tool yet.
+      (b) hiding rule: waiting_drafts_are_hidden now also says 'however its path is spelled (the tool decides on the file a path
+      reaches...)', which is how the tool works inside a contract's text. And it still says decision records are not memory so a
+      lookup never returns them. ADR 035 section 1 on main lists 'its decisions' among what Garura memory holds; ADR 035 section 5 and
+      ADR 036 section 2 cover waiting drafts. Only ADR 037 section 6, which is in this diff, says a lookup never finds decision records.
+      Test: does any committed record on main state the hiding of decision records, and does 'decision' mean one thing (an agent's
+      decision record versus a product decision.yaml).
+      (c) trace versus ADR 035 section 6 on main ('the tier, the file and the lines it rests on'; 'the shape ... is settled in plan
+      item 6', a plan, not a decision record). ADR 037, in this diff and accepted by a person, now amends section 6 to a trace of steps.
+      The question is no longer 'contract ahead of the ADR' alone: it is whether v4 does what main's section 6 says and whether
+      the widening is a refinement section 6 left open. ADR 037 is the record under human review, not the grounding.
+      (d) decided_by and approval: ADR 037's 'Not decided here' leaves open what a person does on an agent decision and names ADR 033
+      section 6 (only the review step writes approval). The contract still takes decided_by as a non-empty string a caller writes.
+      (e) the check's reach and the new 'unreadable' error: the error text says 'a line that is not a whole record'; the tool now also
+      answers it for a record whose source has a wrong-typed value. Test the error's words against what the tool does with it.
+      (f) settings: the contract's settings text (unchanged from v3) names neither updates_dir nor citations_file.
+      (g) version 4 pinned inside the three drive-record writers (exact '4'), so a later version breaks them until changed.
+
+  - name: tool-design-document
+    playbook: null
+    playbook_missing: true   # a design document for a tool (what the person sees and does, how it talks to Garura, build order) and its mock; not an ADR, not a work plan, not reader documentation; named in the 658 review
+    design_bearing: true   # judged on content: the added lines are design statements (five sections where ADR 036 on main names one, what an Agent decisions card shows and offers, the Ask memory box, who builds what and where, a stated exception to the no-file-paths rule). One grounding dispatch.
+    layers: [design-grounding]   # no mechanical check fits: the plan format check fails on this file on main and on the branch alike
+    evidence:
+      - .garura/project/issues/617/specs/review-tool.md   # modified (+77 / -14): section 4 five sections; item 7 for ADRs, Memory (Ask memory) and Agent decisions; since round 1: the stated exception (an agent decision's source shows file and lines), Agent decisions reach the page as pack pieces Garura builds, fingerprint, version and ids in a Details fold, the pack section's path line; story 9 split into a tool half and a Garura half; 'Earlier text, kept' paragraph
+      - .garura/project/issues/617/specs/review-tool-mockup.html   # modified (+295 / -2): the mock gains the three switches, Memory with Ask memory (sample answer), waiting memory updates with Approve and Reject, and the Agent decisions screen; since round 1: a Details fold and a comment saying its embedded answers stand in for pack pieces; it embeds its own copy of the two evidence answers; its data is made up and it says so
+    runnable_checks:
+      - command: "python3 core/components/skills/manage-plan/scripts/check_plan.py --plan <review-tool.md> --out <scratch>"
+        note: "not a regression and not a finding: the file is a tool plan, not a work plan in the canonical format. Observed: exit 2, valid false, 8 problems on the branch version and 8 on the main version."
+    notes: >
+      A design document, not a plan: it says what the person sees and does and how the tool talks to Garura; the 658 review split it
+      from the plans for that reason. Layer 2 grounds ONLY from committed sources: the base version of this file (git show
+      main:.garura/project/issues/617/specs/review-tool.md: section 1 'Extractable', section 2 events, section 4 layout and Catch up,
+      section 5 approval in the product model, section 7 build order), docs/adr/036 section 7 and 8, docs/adr/035 sections 4 and 7,
+      docs/adr/033 section 6, docs/adr/032 section 3, docs/adr/031, and core/grounding/glossary.md, all as on main. NOT groundable:
+      the lines this diff adds to the file and the mock, ADR 037, the 659 plan, the PR body, the self-review, the owner's quotations
+      inside them.
+      Round 2 pointers for the grounding, taken from reading the diff, not findings:
+      (a) sections: ADR 032 section 3, ADR 035 section 7 and ADR 036 section 7 on main name a third section, 'Memory and ADRs'; the
+      design makes five. The amendment now exists as ADR 037 in this diff (a person accepted it). Report the departure from main's
+      text as covered by ADR 037 and leave the ADR's merit to the human; do not treat ADR 037's sentences as the principle.
+      (b) 'Looks right, or send back so the agent decides again' on an agent decision: ADR 033 section 6 on main says only the review
+      step writes approval; ADR 037's own 'Not decided here' says what a person does on an agent decision is still open. So the
+      design still states something no ADR settles. Compare base section 5 (approval in the product model).
+      (c) the exception: the design now states, in the pack section and in the 'Keeping the load low' rules, that an agent decision's
+      source is shown as its memory, file and lines, an exception to the no-file-paths rule 'because the person must check it'. Test the
+      exception against what main says (base: 'The tool never sees a file path', 'No file paths, no field names, no YAML'), and the new
+      pack piece kind it needs (a kind for an agent decision, each step a labelled section carrying lines, lines around them and a state)
+      against the pack's shape on main (base section 3 and the events in section 2), which has no such piece.
+      (d) the extraction line: base section 1 says the tool knows nothing about Garura, reads no Garura path and talks only through its
+      contract; base section 7 says stories 1 to 4 touch only the tool and 5 to 8 only Garura. The design now says Garura's half turns the
+      memory tool's answers into pack pieces so the tool never reads them. Test that this keeps the line; and the sentence that 'the local
+      page reads them live' (the prototype page, which is not in the diff).
+      (e) 'vectorless, ADR 035 section 4': the word appears in no ADR on main (git grep on main finds none); section 4 says the tool
+      searches the way Claude Code does. Test whether section 4 grounds each claim made in its name, including 'the same memory tool the
+      agents use underneath Ask memory'.
+      (f) the document keeps its own superseded text ('Earlier text, kept') and names planned plays (/learn-memory, /promote-memory,
+      'planned, not filed yet') that exist on main nowhere: which paragraph is the design.
+      (g) the mock invents an ADR numbered 037 ('A guest cart is kept for 7 days', status waiting) while the real ADR 037 lands in
+      the same diff with another title; the mock's ADR 036 title is a shortened form of the real one. A made-up record sharing a real
+      record's number is a naming-clarity point for the owner.
+
+  - name: memory
+    playbook: review/memory
+    design_bearing: true   # playbook: 'Design-grounding (Layer 2): yes.' One grounding dispatch.
+    layers: [linters, design-grounding]   # the memory-integrity linter is a known gap on the shelf; lint-components covers some shape and is run by the play, not here
+    evidence:
+      - core/components/memory/standards/rules/resolution.md   # modified (+39 / -1): a header sentence, a note on R4 ('Superseded in part by ADR 035 section 5 ... never falls back to the model'), and a new section 'Every Decision Names Its Memory (ADR 035 section 6, ADR 037)' with scope, the steps of a decision trace, three duties of an agent working through the memory tool, and when R1 to R4 give way
+      - core/components/memory/standards/rules/_index.md   # modified (+1 / -1): the resolution.md row now names the decision trace and ADR 037
+    runnable_checks:
+      - command: "lint-components on core/components (the play's step; not run in this assessment)"
+        note: "the PR body says 116 findings, the same as main, none in a changed file; a claim to test, not evidence. No other memory linter is committed (a gap named on the shelf)."
+      - command: "grep the Phoenix memory copy (~/.garura/phoenix-memory/standards/rules/resolution.md) for the new section title"
+        note: "Observed: 0 matches. The section is not in Phoenix memory today; ADR 037 and the PR body say it goes there when #659 lands."
+    notes: >
+      A standards rule under core/components/memory/standards/rules/, so the memory playbook governs; the only paths in the diff under
+      core/components/memory/. Layer 2 grounds ONLY from committed sources: the base version of this file (git show
+      main:core/components/memory/standards/rules/resolution.md: R1 to R4, R4 'Flag LLM Fallback', 'Resolution Trace Output',
+      'Context Isolation Exemptions', 'Backward Compatibility'), docs/adr/035 (sections 5, 6 and 9, which on main already says ADR 015's
+      R1 to R4 and the model fallback 'give way'), docs/adr/034 section 4, docs/adr/036 section 3, the other standards under
+      core/components/memory/standards/rules/, the glossary, and core/components/memory/knowledge/_DESIGN.md, _TEMPLATE.md and _index.md for
+      purpose. NOT groundable: the added section's own sentences, ADR 037, the contract's prose, the PR body, the plan.
+      Round 2 pointers for the grounding, taken from reading the diff, not findings:
+      (a) round 1's rule items (when it binds, replace the model fallback, what the agent must do) were reworded: the section now
+      opens with a Scope paragraph and three duties. Test the new wording against main: does it bind an agent that works through a
+      tool no agent calls yet, and is 'R4 give way' consistent with main's ADR 035 section 9.
+      (b) the R4 note ('Superseded in part by ADR 035 section 5') edits an existing rule's meaning inside R4 while R1 to R4 stay in
+      force for agents not on the tool: two statements of the fallback in one file. Test that an agent can still tell which governs it.
+      (c) the Scope paragraph says the evals-engineer and the judge 'stay isolated as Context Isolation Exemptions says'. Check that claim
+      against the base 'Context Isolation Exemptions' section.
+      (d) the decision duties ('records each decision with the tool's cite before it returns the decision', 'keeps the trace in the issue's
+      short-term memory') are written in the present tense for behaviour no agent has yet; the PR body says no agent calls cite. Compare the
+      tense with how the other rules in the folder are worded.
+      (e) 'The memory tool's contract is the source for the exact shape': a pointer, which is right if it names no version. Check it names none.
+      (f) promotion: ADR 036 section 3 on main says moving memory up is a promotion, its own memory update a person approves outside the work;
+      ADR 037 (in the diff) and the PR body say this section is promoted to Phoenix memory at landing. Phoenix memory's copy lacks it today
+      (checked). Test how a change to a standards rule reaches Phoenix memory under ADR 035 section 2 and ADR 036 section 3.
+
+  - name: decision-records
+    playbook: review/adrs
+    design_bearing: false   # playbook review/adrs: 'Design-grounding: no. The decision is the design; the human owns the judgement.' Followed as written. See grounding_note for what the play may still choose.
+    layers: [linters]   # Layer 1 only: structural check, then the owner reads it line by line. Run here, see runnable_checks.
+    evidence:
+      - docs/adr/037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md   # new, 131 lines, Status Accepted, dated 2026-10-19; amends ADR 035 sections 6 and 7, ADR 036 section 7 and ADR 032 section 3
+      - docs/adr/032-drive-review-of-outcomes.md   # modified (+1 / -1): the Status line gains an ADR 037 pointer; no body line changed
+      - docs/adr/035-agents-work-only-from-memory.md   # modified (+1 / -1): the Status line gains an ADR 037 pointer; no body line changed
+      - docs/adr/036-approved-answer-lands-in-short-term-memory.md   # modified (+1 / -1): the Status line, 'Accepted', becomes 'Accepted - amended in part by ADR 037 ...'; no body line changed
+      - docs/adr/_index.md   # modified (+1): the row for ADR 037 (generated file)
+    runnable_checks:
+      - command: "python3 core/components/plays/adr/scripts/adr.py lint --adr <each of 037, 032, 035, 036>"
+        note: "Observed: valid true, no problems, for all four. This is the structural linter the playbook still lists as a gap; it exists in-repo now (see playbook_sharpening)."
+      - command: "python3 core/components/plays/adr/scripts/adr.py index --dir docs/adr --out <scratch>/index.md, then diff against docs/adr/_index.md"
+        note: "Observed: 37 ADRs; byte-identical to the committed index (the index is generated, 'do not edit by hand')."
+      - command: "read the sections ADR 037 names in ADR 032, 033, 034, 035 and 036 on main (git show main:docs/adr/...)"
+        note: "Done by hand. Every section ADR 037 names exists on main under the title it gives (035 sections 6 and 7 and the line on ADR 032 in section 9; 036 sections 7 and 8; 032 section 3; 033 section 6; 034 section 4), and the phrase it quotes from 035 section 6 ('the tier, the file and the lines it rests on') is there word for word. Whether a body line of an older ADR now contradicts the amendment (035 section 7 and 036 section 7 still say what they said; only the Status lines point to 037) is the owner's reading."
+    notes: >
+      A decision record by shape and content (Status, Context, Decision, Consequences, Alternatives, Work, References; an 'Amends' field
+      with section-level changes), so the adrs playbook governs. ADRs 032, 035 and 036 are touched only on their Status line (a one-line
+      pointer, the same way ADR 036 pointed to ADR 035 and 032 earlier). The owner's accept is recorded in the /adr run's decision.yaml
+      (verdict accept, by person). Points for the human reading line by line, not findings: (1) ADR 037 'Not decided here' lists four open
+      bullets (what a person does on an agent decision; whether Memory lists Phoenix memory; two questions still open from ADR 036; whether the
+      glossary gains a row), so the design document states things (a 'looks right' action) the ADR itself leaves open. (2) 'Affects' names
+      paths this diff does not change: story #664's file, the /adr play's ICE source and compiled SKILL.md, the glossary, and the Phoenix
+      memory copy of the rule; each is named as later work or 'not changed'. (3) The older ADRs' bodies still say three sections; only a
+      reader who follows the Status pointer sees five. (4) The ADR contains quoted words of the owner, as earlier ADRs do. ADR 037 is the record
+      the other design-bearing categories now refer to; it is branch content for them (scope_warning, point 4).
+    grounding_note: >
+      The playbook says no grounding, and this file follows it. The one place a Layer 2 read could still add something is an amendment's
+      fidelity to the records it amends; the mechanical part of that is done above. If the play wants a read of whether the older ADRs'
+      untouched body lines conflict with ADR 037, it is a read against main's ADR text only, and its output is a note for the human, never
+      a design finding against the owner's accepted decision.
+
+  - name: executable-code
+    playbook: review/code
+    design_bearing: false   # playbook: 'Design-grounding: no, the standard is industry best practice.' Layer 1 only. Data-safety paths get extra weight.
+    layers: [linters, runnable-checks]
+    evidence:
+      - core/tools/memory/citations.py   # new, 182 lines; since round 1: whole() and whole_source() so a line that is JSON but not a whole record answers 'unreadable'
+      - core/tools/memory/memory.py   # modified (+59 / -17); since round 1: hidden() decides what a lookup never reads on the file a path reaches (realpath, case-folded, outside-the-tier counts as hidden), used by read
+      - core/tools/memory/pull.py   # modified (+3 / -3): contract version 4
+      - core/tools/memory/updates.py   # modified (+1 / -1): a comment says version 4
+      - core/tools/memory/contract/check_contract.py   # modified (+58 / -3): trace steps, citations answers, lines around a source, a problem naming its step; default contract v4
+      - core/components/plays/play-creator/references/write_drive_review.py   # modified (+33 / -3): --decisions; since round 1: a record that is not an object is named, not a crash
+      - core/components/plays/understand/scripts/write_drive_review.py   # stamped copy, byte-identical to the canonical one
+      - core/components/plays/vision/scripts/write_drive_review.py   # stamped copy, byte-identical to the canonical one
+      - .garura/project/issues/659/evidence/make_decisions.py   # new, 199 lines; since round 1: it deletes a folder only if it holds its own mark file, and makes the folder itself
+    runnable_checks:
+      - command: "ruff check --no-cache <the 13 python files in the diff>"
+        note: "Observed: all checks passed."
+      - command: "md5 of the three write_drive_review.py copies"
+        note: "Observed: one checksum for all three (1290adb9...)."
+      - command: "quality-check-scoped against the diff with the pr.md taxonomy"
+        note: "the play's or quality-auditor's step; not run in this assessment. Its input must be the 121 paths, not context.yaml's 100 (scope_warning, point 1): memory.py, pull.py and updates.py are among the 21 left out."
+    notes: >
+      Real source the runtime executes, so the code playbook governs. The three write_drive_review.py copies sit under core/components/plays/**;
+      the content decides, not the path (scope_warning, point 5). make_decisions.py lives in an issue's evidence folder but is executable and
+      gets the code treatment. Points to read hard (data-safety paths), not findings: (1) memory.py hidden(): a path-containment and
+      symlink check that decides what a lookup may read; lowercase prefix comparison on a case-sensitive disk hides more than it
+      must (the safe side), and it is the fix for the round-1 hiding hole, so read it with the tests that pin it. (2) citations.py appends to a
+      decision file other callers read and makes a record id by reading every issue's file; a malformed line now stops only its own
+      issue. (3) memory.py's catch-all for a failed write picks the tier by command. (4) write_drive_review.py pins contract_version '4'
+      exactly and reads a caller-named file; it writes only into the run's review folder. (5) make_decisions.py: the new mark-file guard
+      is the fix for round 1's unguarded rmtree; confirm it also holds for the end-of-run delete.
+
+  - name: tests
+    playbook: review/tests
+    design_bearing: false   # playbook: 'Design-grounding: no.' Run the suite. A red suite is a blocker.
+    layers: [linters, runnable-checks]
+    evidence:
+      - core/tools/memory/test_memory.py   # modified (+174 / -1): cite, citations, the hiding rule in its odd spellings (the PR body says each fails on the old tool; not re-run here), the unreadable line, the failed-write tier
+      - core/tools/memory/contract/test_check_contract.py   # modified (+39 / -5): the new answer rules, trace steps and problems
+      - core/tools/memory/test_pull.py   # modified (+1 / -1): loads contract v4
+      - core/components/plays/play-creator/references/test_drive_contract.py   # modified (+34): the drive-record test gains checks for --decisions
+    runnable_checks:
+      - command: "cd core/tools/memory && python3 -m unittest test_memory test_pull contract.test_check_contract"
+        note: "Observed (bytecode writing off, temp folders in scratch): Ran 134 tests, OK."
+      - command: "python3 core/components/plays/play-creator/references/test_drive_contract.py"
+        note: "Observed: 33 passed, 0 failed, including 'every play's write_drive_review.py is identical to the canonical one (2 copies)'."
+    notes: >
+      Four test files and their runs. Two of the four (test_memory.py, contract/test_check_contract.py) and test_pull.py are among the
+      21 paths missing from context.yaml's list (scope_warning, point 1), so a linter driven by that list would not read them. Not covered
+      by a committed test (the self-review says so for the command-line flags of citations; not re-verified here): --issue, --play and --check.
+
+  - name: documentation
+    playbook: review/docs
+    design_bearing: false   # playbook: Layer 1 only, no design-grounding
+    layers: [linters]   # the playbook names no committed prose linter (a known gap), so the tool performs the checks and cites each
+    evidence:
+      - core/tools/memory/README.md   # modified (+17 / -9): version 4; every command answered, cite and citations; the citations_file setting; the unreadable error; the version-4 paragraph (hidden memory is named there)
+    runnable_checks:
+      - command: "grep README.md for links, TODO/FIXME and the retired terms 'project memory' and 'LTM'"
+        note: "the playbook's prose checks, by hand (no prose linter is committed). Observed: no links, no TODO or FIXME, neither retired term."
+    notes: >
+      Human-facing prose that is not an ADR, harness or memory file, so the docs playbook governs. Judgement flag, as in earlier reviews: the
+      README's commands, settings and error tables restate normative behaviour; those claims are routed to the tool-interface-contract grounding
+      as claims to test against the contract, not handled here.
+
+  - name: stm-working-notes-plans
+    playbook: null
+    playbook_missing: true
+    design_bearing: false   # plans: Garura's own working notes. They say what and in what order, never how. The decisions they record are tested in the design-bearing categories above.
+    layers: [linters]   # plan format check, plus agreement of the plans with each other and with the diff as a consistency read only
+    evidence:
+      - .garura/project/issues/659/specs/plan.md   # new, 123 lines; since round 1: one line renames the memory rule's section
+      - .garura/project/issues/653/specs/plan.md   # modified (+3 / -2): item 11 five sections; item 6 points to the 659 plan
+      - .garura/project/issues/606/specs/plan.md   # modified (+2 / -1): the review item names the ADRs, Memory and Agent decisions sections
+    runnable_checks:
+      - command: "python3 core/components/skills/manage-plan/scripts/check_plan.py --plan <each of the three plans> --out <scratch>"
+        note: "Observed for all three: valid true, no problems; 606 active now 8; 653 active now 6; 659 active now 6. The script exits non-zero only because each is not finished."
+    notes: >
+      Same kind of work as the plans in earlier reviews; no playbook covers them and the memory playbook does not apply (none is under
+      core/components/memory/). Consistency points, not findings: the 659 plan has no line for the review round and the round-1 reject
+      (its log runs to 19 October); the plans quote the owner's words, and a quotation inside a branch is branch content, never grounding.
+
+  - name: stm-run-records
+    playbook: null
+    playbook_missing: true
+    design_bearing: false   # machine-written run artifacts, a PR body, a self-review, tool output and earlier review output; no design content of their own
+    layers: []   # parse only; nothing to lint or ground
+    evidence:
+      # (1) the build run's receipts, the PR body, the self-review (round 2) and the tool's own sample answers: 9 files
+        - .garura/project/issues/659/context/branch.json
+        - .garura/project/issues/659/context/issue.json
+        - .garura/project/issues/659/context/pr-body.md
+        - .garura/project/issues/659/context/pr.json
+        - .garura/project/issues/659/context/resolved-rules.json
+        - .garura/project/issues/659/context/self-review.md
+        - .garura/project/issues/659/context/work-description.txt
+        - .garura/project/issues/659/evidence/decisions.json
+        - .garura/project/issues/659/evidence/updates.json
+      # (2) the review-change play's own records from round 1, committed with the branch: 13 files
+        - .garura/project/issues/659/review/categories.yaml
+        - .garura/project/issues/659/review/context.yaml
+        - .garura/project/issues/659/review/decision-comment.md
+        - .garura/project/issues/659/review/decision.yaml
+        - .garura/project/issues/659/review/design-findings-memory.yaml
+        - .garura/project/issues/659/review/design-findings-tool-design-document.yaml
+        - .garura/project/issues/659/review/design-findings-tool-interface-contract.yaml
+        - .garura/project/issues/659/review/findings.yaml
+        - .garura/project/issues/659/review/lint-components.json
+        - .garura/project/issues/659/review/posted.json
+        - .garura/project/issues/659/review/pr.diff
+        - .garura/project/issues/659/review/quality-findings.yaml
+        - .garura/project/issues/659/review/recommended_verdict.yaml
+      # (3) the /adr run that wrote ADR 037: 12 files
+        - .garura/project/issues/_adr/20261018-200059/adr-check.json
+        - .garura/project/issues/_adr/20261018-200059/adr-context.yaml
+        - .garura/project/issues/_adr/20261018-200059/adr-draft.md
+        - .garura/project/issues/_adr/20261018-200059/adr-manifest.json
+        - .garura/project/issues/_adr/20261018-200059/brief.md
+        - .garura/project/issues/_adr/20261018-200059/decision.yaml
+        - .garura/project/issues/_adr/20261018-200059/guard-report.json
+        - .garura/project/issues/_adr/20261018-200059/hashes-before.json
+        - .garura/project/issues/_adr/20261018-200059/porcelain-after.txt
+        - .garura/project/issues/_adr/20261018-200059/porcelain-before.txt
+        - .garura/project/issues/_adr/20261018-200059/run.json
+        - .garura/project/issues/_adr/20261018-200059/start-change.json
+    runnable_checks:
+      - command: "json.load each .json file in this category; adr.py lint on adr-draft.md"
+        note: "parse only. decisions.json and updates.json also pass the contract check (they are the tool's own answers over a sample shop). The /adr run's adr-check.json records lint valid, guard 'no person's business intent changes' and the three older ADRs it amends; it agrees with what I read in the ADRs."
+    notes: >
+      Three kinds of run record, one treatment: skim for consistency, never review as work, never ground from it. (1) Receipts and the
+      tool's output, as in earlier reviews. The PR body's first bullets still call the rule's new section 'Decision Records' where the
+      rule, the plan and ADR 037 call it 'Every Decision Names Its Memory' (a stale line in a record, not in the work). (2) Round 1's
+      records (categories, design findings, findings, quality findings, the decision, the posted comment, pr.diff, lint-components) are
+      this review's own earlier output. They are history of what the owner rejected and why; round 2 must not read a round-1 finding as
+      a round-2 result or as grounding: every conclusion is made again against the head assessed here. posted.json is a record of a
+      comment already posted on the pull request. (3) The /adr run's brief.md, adr-draft.md and run files: adr-draft.md is ADR 037's
+      draft (branch content, the ADR itself is in decision-records); decision.yaml records the owner's accept; the porcelain and hash files
+      are the run's guard evidence.
+design_bearing_categories: [tool-interface-contract, tool-design-document, memory]   # three Layer 2 dispatches, one each, concurrent and read-only. decision-records is NOT design-bearing by its playbook (see its grounding_note). executable-code, tests, documentation and the two STM categories are Layer 1 only or nothing.
+absent_seeded_categories: [harness, config-maps]   # no play SKILL.md, ICE, agent, skill or grounding file changed (the stamped scripts are filed under executable-code); the one config file with a change (.garura/core/config.yaml) is an uncommitted working-copy edit, not in the diff. decision-records, absent in round 1, is present now.
+path_accounting:   # 61 + 2 + 2 + 5 + 9 + 4 + 1 + 3 + 34 = 121
+  tool-interface-contract: 61   # v4.json + 60 samples (48 version-only, 2 reworked, 10 new)
+  tool-design-document: 2
+  memory: 2
+  decision-records: 5   # ADR 037 + three Status lines + the index
+  executable-code: 9
+  tests: 4
+  documentation: 1
+  stm-working-notes-plans: 3
+  stm-run-records: 34   # 9 build receipts and evidence answers + 13 round-1 review records + 12 /adr run records
+missing_playbooks:
+  - tool-interface-contract   # a machine-readable interface contract for a tool, with worked examples and a check; design-bearing, so its missing playbook matters most; named in the 655, 657, 658 and 659 reviews
+  - tool-design-document   # the design document of a tool and its mock; design-bearing; named in the 658 review
+  - stm-working-notes-plans   # Garura's own plans under .garura/project/issues/**
+  - stm-run-records   # run receipts, tool output, and a play's own earlier output under .garura/project/issues/**; now also covers a committed review round and an /adr run
+playbook_sharpening:
+  - id: review/adrs
+    note: "its Linter line says 'Gap: no ADR linter exists in-repo yet'. adr.py (lint, index, overlaps, pointer, guard, accept) now exists in core/components/plays/adr/scripts/ (a copy sits in the author-adr skill) and passes on all four ADRs here; the playbook should name it. The playbook also says 'there is no prior principle to conform to', which does not hold for an ADR that amends older ones: its fidelity to them is checkable against the base ref. Suggest a sentence saying that check is by reading the older ADRs on main and its result is a note for the human."
+  - id: review/code
+    note: "it does not say how to file a script stamped as an identical copy into several plays (filed here under code, with a checksum match), nor evidence scripts that delete a caller-given folder."
+  - id: review/memory
+    note: "its Layer 2 grounding names the knowledge-shelf design files as the source of 'what a shelf is for'; a change to a standards rule under standards/rules/ has no equivalent named source, so the grounding falls back on the other standards, the glossary and the ADRs."
+process_notes:
+  - "context.yaml changed_paths is cut at 100 of 121 with no marker (scope_warning, point 1). The list builder needs the cap lifted or a truncated flag; Layer 1 inputs must come from git or pr.diff until then."
+  - "Each round's pr.diff is committed and then appears inside the next round's pr.diff (scope_warning, point 6)."

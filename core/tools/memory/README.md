@@ -2,12 +2,13 @@
 
 The one way agents find memory and update it. Today it works on folders. Later it calls a
 server in Griffin. Agents that call it do not change when that happens, because they only ever
-talk to this tool, through the contract in `contract/v3.json`.
+talk to this tool, through the contract in `contract/v4.json`.
 
-This folder holds the contract (version 3), sample answers, the check that keeps them in
-step, and the tool: `memory.py` (with `pull.py` for Phoenix memory and `updates.py` for memory
-updates). Today the tool answers `health`, `find`, `search`, `read`, `pull`, `pulled`, `propose`,
-`updates`, `decide` and `apply`. `cite` comes in a later step (#659).
+This folder holds the contract (version 4), sample answers, the check that keeps them in
+step, and the tool: `memory.py` (with `pull.py` for Phoenix memory, `updates.py` for memory
+updates and `citations.py` for decision records). It answers every command in the contract:
+`health`, `find`, `search`, `read`, `pull`, `pulled`, `propose`, `updates`, `decide`, `apply`,
+`cite` and `citations`.
 
 ## Running the tool
 
@@ -33,6 +34,7 @@ The tool learns where each tier lives from one source: the JSON file `MEMORY_SET
 | `phoenix_ref` | `MEMORY_PHOENIX_REF` | Phoenix memory's approved version (default `origin/main`) |
 | `garura_pull_dir` | `MEMORY_GARURA_PULL_DIR` | Where pulled pieces land inside Garura memory (default: its root) |
 | `updates_dir` | `MEMORY_UPDATES_DIR` | Where an issue's memory updates are kept, inside its short-term folder (default `review/memory-updates`). A lookup never reads them: a draft is used only once a person approved it and it was applied |
+| `citations_file` | `MEMORY_CITATIONS_FILE` | Where an issue's decision records are kept, inside its short-term folder (default `context/citations.jsonl`). A lookup never reads them: an agent never decides from its own earlier decision |
 | `engine` | `MEMORY_ENGINE` | `folder`, the only engine built. A server engine is one setting away |
 
 Two rules the folder engine keeps:
@@ -102,7 +104,8 @@ with `ok`, `contract_version` and `command`.
 | `find` | Finds files by name pattern, in the lookup order. |
 | `search` | Searches the text of files, in the lookup order, and returns each hit with its tier, file and line. |
 | `read` | Reads exact lines of one file and returns them with a fingerprint of the text. |
-| `cite` | Records a decision and the memory it rests on — tier, file, lines, fingerprint — in the issue's short-term memory. |
+| `cite` | Records a decision and its trace in the issue's short-term memory: the question, the answer, who decided, the play, and the steps the agent took, in order — each with what it looked for, what it found, and its source (tier, file, lines, fingerprint). It reads every source first: one that is gone is `not_found`, one whose text changed is `changed`. The record keeps each source's exact text, the memory version, and up to 3 lines around it. A decision from an approved memory update names it (`from_update`), and the update's written file is the source of a step. |
+| `citations` | Lists an issue's decision records (optionally one play's). With `--check`, reads every step's source again: a record with no trace (`no_source`), a source that is gone (`source_missing`), and a source whose text changed (`source_changed`, with the lines now and the lines around them) are each a problem, named by its step. |
 
 **Updating memory**
 
@@ -133,11 +136,14 @@ A memory update moves through `waiting` → `approved` or `rejected` → `applie
 
 ## What every answer carries
 
-- **Every piece of text** the tool returns — from `read`, a `search` hit, a `cite` source —
+- **Every piece of text** the tool returns — from `read`, a `search` hit, a trace step's source —
   carries its tier, file, lines and fingerprint. A file list from `find` carries tier, file and
   version. `pull` names the tier it wrote to.
-- **Paths** are relative to the tier's root, use forward slashes, never start with a slash and
-  never contain `..`.
+- **Paths** are relative to the tier's root and use forward slashes. A path never starts or ends
+  with a slash, and never holds `..`, a `.` segment, an empty segment or a control character, so
+  one file has one spelling. What a lookup hides (waiting drafts, decision records, and an
+  issue's short-term memory inside Garura memory) is decided on the file a path reaches, so
+  another letter case or a link reaches nothing hidden.
 - **Fingerprint** — `sha256:` and 64 hex characters, taken over the exact text returned or
   cited. When a file changes, an old citation's fingerprint no longer matches, so a stale
   answer can be seen.
@@ -191,8 +197,9 @@ The check holds every sample to these, beyond its shape:
 | `out_of_range` | The lines asked for are outside the file. |
 | `not_approved` | `apply` on an update no person approved: it is waiting or was rejected. |
 | `wrong_state` | `decide` on an update that is not waiting, or `apply` on one already applied. |
-| `changed` | The target changed after the update was proposed. |
+| `changed` | The target changed after the update was proposed, or a source `cite` was given no longer says what its fingerprint says. |
 | `would_overwrite` | Garura memory already holds a different file at that path; nothing was overwritten. |
+| `unreadable` | An issue's decision records hold a line that is not a whole record (a cut-off write or a hand edit). The answer names the file and line; other issues are not stopped. |
 
 ## What is not memory
 
@@ -208,7 +215,11 @@ The check holds every sample to these, beyond its shape:
 - Nothing here names a path inside a project or imports code from outside the folder, so the
   folder can move to Griffin as it is.
 - Python standard library only, Python 3.10 or newer. No installs.
-- The contract changes only by a new version. Version 3 is `contract/v3.json` (#658: every
+- The contract changes only by a new version. Version 4 is `contract/v4.json` (#659: `cite`
+  records a decision with its trace — steps in order, each source read first and kept with its
+  text, version and the lines around it; `citations` lists an issue's decision records and checks
+  every step's source again, naming the step; decision records and waiting drafts are never
+  found by a lookup). Version 3 (#658: every
   memory update lands in short-term memory, an update says whether it blocks, a person decides
   each one in the review tool, and a used file is never saved over a different Garura file).
   Version 2 (#657: lookups without an issue, globs that never step outside their tier, Phoenix

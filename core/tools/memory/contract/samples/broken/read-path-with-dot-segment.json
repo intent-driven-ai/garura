@@ -1,0 +1,26 @@
+{
+  "command": "read",
+  "request": {
+    "issue": 613,
+    "tier": "phoenix",
+    "path": "knowledge/./domains/ecommerce.md",
+    "start": 41,
+    "end": 42
+  },
+  "response": {
+    "ok": true,
+    "contract_version": "4",
+    "command": "read",
+    "tier": "phoenix",
+    "path": "knowledge/./domains/ecommerce.md",
+    "start": 41,
+    "end": 42,
+    "text": "## Checkout\n- Guest checkout lowers drop-off for first-time buyers.",
+    "fingerprint": "sha256:439488cbd9d31c20d53491c785753dc71b74fc5354297825119037d5a597de0f",
+    "version": "4f1c2e9a7b3d",
+    "saved_to": {
+      "tier": "garura",
+      "path": "knowledge/domains/ecommerce.md"
+    }
+  }
+}

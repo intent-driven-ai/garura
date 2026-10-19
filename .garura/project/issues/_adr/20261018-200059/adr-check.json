@@ -1,0 +1,49 @@
+{
+  "task_id": "draft-adr",
+  "draft": ".garura/project/issues/_adr/20261018-200059/adr-draft.md",
+  "number": "037",
+  "suggested_file": "docs/adr/037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md",
+  "title": "Every Agent Decision Keeps a Trace of the Memory It Rested On, and the Review Tool Has Five Sections",
+  "lint": {"command": "adr.py lint --adr adr-draft.md", "exit": 0, "valid": true, "problems": []},
+  "guard": {"command": "adr.py guard --adr adr-draft.md (no --intents-dir: .garura/product/product-os/intents does not exist)", "exit": 0, "declared": "none", "touches_an_intent": [], "verdict": "no person's business intent changes", "agrees_with_context": true},
+  "overlaps_on_brief": ["036", "032", "035", "033", "034"],
+  "overlaps_on_draft": ["036", "034", "035", "032", "033", "031", "029", "028", "030", "008", "015", "012", "026"],
+  "overlap_judgment": {
+    "supersedes": [],
+    "amends": [
+      {"adr": "035", "part": "§6 a decision keeps a trace of steps, each with its source, text, version and up to three lines around, and a check reads every step's source again; §7 the review tool's sections are Intents, Product, ADRs, Memory and Agent decisions (with §9's line on ADR 032 §3)"},
+      {"adr": "036", "part": "§7 the one Memory and ADRs section becomes ADRs, Memory (with Ask memory, mocked) and Agent decisions (with §8's lines on ADR 035 §7 and ADR 032 §3); the rest of §7 stands"},
+      {"adr": "032", "part": "§3 as amended by ADR 033, 035 and 036: five sections in place of Memory and ADRs (judgment call)"}
+    ],
+    "not_affected": ["034 (§4 stands; reached through ADR 035 §6 — judgment call)", "035 §4", "035 §5", "035 §9 other lines", "033", "031", "029", "028", "030", "026", "015", "016", "012", "011", "008"]
+  },
+  "affects_paths_checked": [
+    "core/tools/memory/contract/v4.json",
+    "core/tools/memory/citations.py",
+    "core/tools/memory/memory.py",
+    "core/tools/memory/README.md",
+    "core/tools/memory/contract/check_contract.py",
+    "core/tools/memory/contract/samples/cite.json",
+    "core/tools/memory/contract/samples/citations.json",
+    "core/tools/memory/contract/samples/citations-check.json",
+    "core/components/memory/standards/rules/resolution.md",
+    "core/components/memory/standards/rules/_index.md",
+    "~/.garura/phoenix-memory/standards/rules/resolution.md",
+    "core/components/plays/play-creator/references/write_drive_review.py",
+    "core/components/plays/vision/scripts/write_drive_review.py",
+    "core/components/plays/understand/scripts/write_drive_review.py",
+    ".garura/project/issues/617/specs/review-tool.md",
+    ".garura/project/issues/617/specs/review-tool-mockup.html",
+    ".garura/project/issues/653/specs/plan.md",
+    ".garura/project/issues/606/specs/plan.md",
+    ".garura/project/issues/654/specs/stories.yaml",
+    "core/components/plays/adr/reference/ice.md",
+    "core/components/plays/adr/SKILL.md",
+    "core/grounding/glossary.md"
+  ],
+  "affects_paths_all_exist": true,
+  "write_drive_review_copies_identical": true,
+  "home_paths_or_company_names_in_draft": false,
+  "retries": 0,
+  "status": "clean"
+}

@@ -2,22 +2,49 @@
   "command": "cite",
   "request": {
     "issue": 613,
-    "question": "Should first-time buyers be able to check out without an account?",
-    "answer": "Yes: guest checkout is a capability of the checkout domain.",
-    "decided_by": "product-os-keeper (/vision)",
-    "sources": [
+    "question": "How do shoppers sign in?",
+    "answer": "Email and password, social login, and MFA.",
+    "decided_by": "product-os-keeper (/understand)",
+    "trace": [
       {
-        "tier": "phoenix",
-        "path": "knowledge/domains/ecommerce.md",
-        "start": 41,
-        "end": 42,
-        "fingerprint": "sha256:439488cbd9d31c20d53491c785753dc71b74fc5354297825119037d5a597de0f"
+        "asked": "Who are the shop's users, and where do they use it?",
+        "found": "The public, on web and mobile.",
+        "source": {
+          "tier": "garura",
+          "path": "product/product-os/profile.yaml",
+          "start": 6,
+          "end": 8,
+          "fingerprint": "sha256:ea4be5fa81c618857bc9e02deec8eb38b782ca54725daf5ca6c452edfeaf77fd"
+        }
+      },
+      {
+        "asked": "What security level and compliance does the profile set?",
+        "found": "Security high; PCI-DSS and GDPR are in force.",
+        "source": {
+          "tier": "garura",
+          "path": "product/product-os/profile.yaml",
+          "start": 11,
+          "end": 14,
+          "fingerprint": "sha256:792104d6b9ddcfb5eb567bd3e3e3173bce8d6c5a3d5296a223484131bb3c935a"
+        }
+      },
+      {
+        "asked": "Which sign-in methods do those values select?",
+        "found": "Email and password is the floor; social login for public users; MFA for high security or PCI-DSS.",
+        "source": {
+          "tier": "phoenix",
+          "path": "knowledge/domains/user-management.md",
+          "start": 45,
+          "end": 47,
+          "fingerprint": "sha256:8dc83f2c493039e4c884647f88af16bfda59f5d2e539020aa8cd6240e0374391"
+        }
       }
-    ]
+    ],
+    "play": "/understand"
   },
   "response": {
     "ok": true,
-    "contract_version": "3",
+    "contract_version": "4",
     "command": "cite",
     "citation_id": "cite-20261018-001",
     "stored": {

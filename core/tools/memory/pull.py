@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-pull.py — the memory tool's pull and pulled commands, on folders (contract version 3).
+pull.py — the memory tool's pull and pulled commands, on folders (contract version 4).
 
     python3 pull.py pull <path-or-glob>... [--phoenix DIR] [--garura DIR] [--ref REF]
     python3 pull.py pulled [--behind] [--phoenix DIR] [--garura DIR] [--ref REF]
@@ -24,7 +24,7 @@ of its text. Pulling a piece again refreshes its entry.
 pulled lists those pieces with the current Phoenix version, and says which are behind:
 the text in Phoenix memory no longer matches the fingerprint that was pulled.
 
-Answers are JSON in the contract's shapes (contract/v3.json). pull prints one answer per
+Answers are JSON in the contract's shapes (contract/v4.json). pull prints one answer per
 piece, one per line. Exit 0 when every answer is ok, 1 when any is an error.
 Standard library only, Python 3.10 or newer.
 """
@@ -37,7 +37,7 @@ import re
 import subprocess
 import sys
 
-CONTRACT_VERSION = "3"
+CONTRACT_VERSION = "4"
 LIST = "pulled.json"
 SAFE_PATH = re.compile(r"^(?!/)(?!.*\.\.)[^\\\n\r]+\Z")
 

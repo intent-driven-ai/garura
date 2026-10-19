@@ -1,0 +1,9 @@
+decision: approve
+decided_by: human
+reviewer_input: "approve"
+round: 2
+gate: "on for this run (gates.plays.review-change set on for this run; set back off after)"
+recommended: reject
+recommended_reason: "1 P1 (blocker) finding(s)"
+note: "Round 2, after the owner's round-1 reject. The P1 is rule DATA-18 on the demo word 'Passwords' in a sign-in sample test line, not a credential. All five round-1 items were verified fixed. The reviewer approved on the condition presented with it: four small round-2 findings are fixed in one commit before the merge, with all tests re-run and the commit shown at the merge step — (a) a NUL or other control character in a path answers bad_request, not a crash (TIC659-14); (b) find and search decide hiding on the real file, as read does (TIC659-13); (c) the design's Agent decisions paragraph no longer contradicts itself and the pack outline gains the agent decision piece (TDD-14, TDD-15); (d) the README's path rule matches the contract (TIC659-15). Carried: a short-term folder reached through a link can be read through Garura memory (R2-1, already on main); the open questions ADR 037 lists."
+citing_findings: []

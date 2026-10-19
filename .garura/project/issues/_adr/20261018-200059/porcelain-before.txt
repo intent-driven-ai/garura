@@ -1,0 +1,3 @@
+?? .garura/project/issues/_adr/20261018-200059/porcelain-before.txt
+?? .garura/project/issues/_adr/20261018-200059/run.json
+?? .garura/project/issues/_adr/20261018-200059/start-change.json

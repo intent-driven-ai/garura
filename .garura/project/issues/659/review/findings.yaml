@@ -1,0 +1,2077 @@
+meta:
+  pr: 676
+  issue: 659
+  round: 2
+  head: 4553fe26
+  categories: categories.yaml
+  gate: on for this run (gates.plays.review-change), so the owner decides
+  review_shelf: ~/.garura/phoenix-memory/knowledge/review/ (Garura memory has none; tier order)
+  round_1: rejected by the owner ("fix all the items first"); its records are in this folder's git history
+  sources:
+  - quality-findings.yaml
+  - design-findings-memory.yaml
+  - design-findings-tool-design-document.yaml
+  - design-findings-tool-interface-contract.yaml
+  - lint-components.json (116 findings, same as main; none in a changed file)
+findings:
+- id: DATA-18
+  severity: P1
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 410
+  basis: rule DATA-18 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: accepted_exception
+  finding: Password
+  demo_test_data: true
+- id: ARCH-02
+  severity: P2
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/citations.py
+  line: 1
+  basis: rule ARCH-02 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/citations.py
+- id: CODE-03
+  severity: P2
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/citations.py
+  line: 1
+  basis: rule CODE-03 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/citations.py
+- id: CODE-04
+  severity: P2
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/citations.py
+  line: 1
+  basis: rule CODE-04 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_met
+  finding: core/tools/memory/citations.py
+- id: CODE-14
+  severity: P2
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/citations.py
+  line: 1
+  basis: rule CODE-14 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/citations.py
+- id: BE-19
+  severity: P2
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/citations.py
+  line: 3
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  finding: from
+- id: BE-19
+  severity: P2
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/citations.py
+  line: 15
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  finding: from
+- id: BE-19
+  severity: P2
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/citations.py
+  line: 24
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  finding: from
+- id: BE-19
+  severity: P2
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/citations.py
+  line: 48
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  finding: join
+- id: BE-19
+  severity: P2
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/citations.py
+  line: 55
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  finding: join
+- id: BE-19
+  severity: P2
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/citations.py
+  line: 77
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  finding: join
+- id: BE-19
+  severity: P2
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/citations.py
+  line: 141
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  finding: from
+- id: BE-19
+  severity: P2
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/citations.py
+  line: 144
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  finding: from
+- id: BE-19
+  severity: P2
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/citations.py
+  line: 145
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  finding: from
+- id: BE-19
+  severity: P2
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/citations.py
+  line: 147
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  finding: from
+- id: BE-19
+  severity: P2
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/citations.py
+  line: 153
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  finding: from
+- id: BE-19
+  severity: P2
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/citations.py
+  line: 159
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  finding: from
+- id: ARCH-02
+  severity: P2
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule ARCH-02 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/contract/check_contract.py
+- id: CODE-03
+  severity: P2
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule CODE-03 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/contract/check_contract.py
+- id: CODE-04
+  severity: P2
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule CODE-04 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_met
+  finding: core/tools/memory/contract/check_contract.py
+- id: CODE-14
+  severity: P2
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule CODE-14 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/contract/check_contract.py
+- id: BE-19
+  severity: P2
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/check_contract.py
+  line: 311
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  finding: join
+- id: BE-19
+  severity: P2
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/check_contract.py
+  line: 428
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  finding: join
+- id: ARCH-02
+  severity: P2
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  basis: rule ARCH-02 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/contract/test_check_contract.py
+- id: CODE-03
+  severity: P2
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  basis: rule CODE-03 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/contract/test_check_contract.py
+- id: CODE-04
+  severity: P2
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  basis: rule CODE-04 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_met
+  finding: core/tools/memory/contract/test_check_contract.py
+- id: CODE-14
+  severity: P2
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  basis: rule CODE-14 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/contract/test_check_contract.py
+- id: BE-19
+  severity: P2
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 13
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  finding: join
+- id: ARCH-02
+  severity: P2
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/memory.py
+  line: 1
+  basis: rule ARCH-02 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/memory.py
+- id: CODE-03
+  severity: P2
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/memory.py
+  line: 1
+  basis: rule CODE-03 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/memory.py
+- id: CODE-04
+  severity: P2
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/memory.py
+  line: 1
+  basis: rule CODE-04 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_met
+  finding: core/tools/memory/memory.py
+- id: CODE-14
+  severity: P2
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/memory.py
+  line: 1
+  basis: rule CODE-14 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/memory.py
+- id: BE-19
+  severity: P2
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/memory.py
+  line: 68
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  finding: from
+- id: BE-19
+  severity: P2
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/memory.py
+  line: 71
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  finding: join
+- id: BE-19
+  severity: P2
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/memory.py
+  line: 156
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  finding: from
+- id: BE-19
+  severity: P2
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/memory.py
+  line: 169
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  finding: join
+- id: ARCH-02
+  severity: P2
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule ARCH-02 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/pull.py
+- id: CODE-03
+  severity: P2
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule CODE-03 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/pull.py
+- id: CODE-04
+  severity: P2
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule CODE-04 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_met
+  finding: core/tools/memory/pull.py
+- id: CODE-14
+  severity: P2
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule CODE-14 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/pull.py
+- id: ARCH-02
+  severity: P2
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 1
+  basis: rule ARCH-02 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/test_memory.py
+- id: CODE-03
+  severity: P2
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 1
+  basis: rule CODE-03 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/test_memory.py
+- id: CODE-04
+  severity: P2
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 1
+  basis: rule CODE-04 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_met
+  finding: core/tools/memory/test_memory.py
+- id: CODE-14
+  severity: P2
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 1
+  basis: rule CODE-14 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/test_memory.py
+- id: BE-19
+  severity: P2
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 5
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  finding: from
+- id: BE-19
+  severity: P2
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 354
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  finding: from
+- id: BE-19
+  severity: P2
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 373
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  finding: from
+- id: BE-19
+  severity: P2
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 415
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  finding: join
+- id: BE-19
+  severity: P2
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 416
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  finding: join
+- id: BE-19
+  severity: P2
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 419
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  finding: from
+- id: BE-19
+  severity: P2
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 423
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  finding: from
+- id: BE-19
+  severity: P2
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 428
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  finding: from
+- id: BE-19
+  severity: P2
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 433
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  finding: from
+- id: BE-19
+  severity: P2
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 435
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  finding: from
+- id: BE-19
+  severity: P2
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 439
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  finding: join
+- id: BE-19
+  severity: P2
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 440
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  finding: join
+- id: BE-19
+  severity: P2
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 451
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  finding: join
+- id: BE-19
+  severity: P2
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 457
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  finding: join
+- id: BE-19
+  severity: P2
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 462
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  finding: join
+- id: BE-19
+  severity: P2
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 511
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  finding: join
+- id: ARCH-02
+  severity: P2
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule ARCH-02 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/test_pull.py
+- id: CODE-03
+  severity: P2
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule CODE-03 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/test_pull.py
+- id: CODE-04
+  severity: P2
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule CODE-04 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_met
+  finding: core/tools/memory/test_pull.py
+- id: CODE-14
+  severity: P2
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule CODE-14 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/test_pull.py
+- id: BE-19
+  severity: P2
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 20
+  basis: rule BE-19 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  finding: join
+- id: ARCH-02
+  severity: P2
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/updates.py
+  line: 1
+  basis: rule ARCH-02 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/updates.py
+- id: CODE-03
+  severity: P2
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/updates.py
+  line: 1
+  basis: rule CODE-03 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/updates.py
+- id: CODE-04
+  severity: P2
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/updates.py
+  line: 1
+  basis: rule CODE-04 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_met
+  finding: core/tools/memory/updates.py
+- id: CODE-14
+  severity: P2
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/updates.py
+  line: 1
+  basis: rule CODE-14 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/updates.py
+- id: DOC-01
+  severity: P3
+  category: documentation
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/README.md
+  line: 1
+  basis: rule DOC-01 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/README.md
+- id: DOC-09
+  severity: P3
+  category: documentation
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/README.md
+  line: 1
+  basis: rule DOC-09 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/README.md
+- id: DOC-10
+  severity: P3
+  category: documentation
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/README.md
+  line: 1
+  basis: rule DOC-10 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/README.md
+- id: DOC-11
+  severity: P3
+  category: documentation
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/README.md
+  line: 1
+  basis: rule DOC-11 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/README.md
+- id: ARCH-03
+  severity: P3
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/citations.py
+  line: 1
+  basis: rule ARCH-03 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/citations.py
+- id: ARCH-08
+  severity: P3
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/citations.py
+  line: 1
+  basis: rule ARCH-08 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/citations.py
+- id: CODE-09
+  severity: P3
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/citations.py
+  line: 1
+  basis: rule CODE-09 in pr.md (path rule); check item in all-requirements.md
+  assessment: judgement
+  finding: core/tools/memory/citations.py
+- id: CODE-10
+  severity: P3
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/citations.py
+  line: 1
+  basis: rule CODE-10 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/citations.py
+- id: CODE-11
+  severity: P3
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/citations.py
+  line: 1
+  basis: rule CODE-11 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/citations.py
+- id: CODE-12
+  severity: P3
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/citations.py
+  line: 1
+  basis: rule CODE-12 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/citations.py
+- id: CODE-15
+  severity: P3
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/citations.py
+  line: 1
+  basis: rule CODE-15 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_measured
+  finding: core/tools/memory/citations.py
+- id: CODE-17
+  severity: P3
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/citations.py
+  line: 1
+  basis: rule CODE-17 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/citations.py
+- id: CODE-25
+  severity: P3
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/citations.py
+  line: 90
+  basis: rule CODE-25 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: met
+  finding: 'except '
+- id: ARCH-03
+  severity: P3
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule ARCH-03 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/contract/check_contract.py
+- id: ARCH-08
+  severity: P3
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule ARCH-08 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/contract/check_contract.py
+- id: CODE-09
+  severity: P3
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule CODE-09 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_met
+  finding: core/tools/memory/contract/check_contract.py
+- id: CODE-10
+  severity: P3
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule CODE-10 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/contract/check_contract.py
+- id: CODE-11
+  severity: P3
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule CODE-11 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/contract/check_contract.py
+- id: CODE-12
+  severity: P3
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule CODE-12 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_met
+  finding: core/tools/memory/contract/check_contract.py
+- id: CODE-15
+  severity: P3
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule CODE-15 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_measured
+  finding: core/tools/memory/contract/check_contract.py
+- id: CODE-17
+  severity: P3
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule CODE-17 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/contract/check_contract.py
+- id: TEST-14
+  severity: P3
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule TEST-14 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/contract/check_contract.py
+- id: TEST-18
+  severity: P3
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule TEST-18 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_met
+  finding: core/tools/memory/contract/check_contract.py
+- id: ARCH-03
+  severity: P3
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  basis: rule ARCH-03 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/contract/test_check_contract.py
+- id: ARCH-08
+  severity: P3
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  basis: rule ARCH-08 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/contract/test_check_contract.py
+- id: CODE-09
+  severity: P3
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  basis: rule CODE-09 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/contract/test_check_contract.py
+- id: CODE-10
+  severity: P3
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  basis: rule CODE-10 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/contract/test_check_contract.py
+- id: CODE-11
+  severity: P3
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  basis: rule CODE-11 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/contract/test_check_contract.py
+- id: CODE-12
+  severity: P3
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  basis: rule CODE-12 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_met
+  finding: core/tools/memory/contract/test_check_contract.py
+- id: CODE-15
+  severity: P3
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  basis: rule CODE-15 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_measured
+  finding: core/tools/memory/contract/test_check_contract.py
+- id: CODE-17
+  severity: P3
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  basis: rule CODE-17 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/contract/test_check_contract.py
+- id: TEST-14
+  severity: P3
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  basis: rule TEST-14 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/contract/test_check_contract.py
+- id: TEST-18
+  severity: P3
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  basis: rule TEST-18 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_met
+  finding: core/tools/memory/contract/test_check_contract.py
+- id: ARCH-03
+  severity: P3
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/memory.py
+  line: 1
+  basis: rule ARCH-03 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_met
+  finding: core/tools/memory/memory.py
+- id: ARCH-08
+  severity: P3
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/memory.py
+  line: 1
+  basis: rule ARCH-08 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/memory.py
+- id: CODE-09
+  severity: P3
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/memory.py
+  line: 1
+  basis: rule CODE-09 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_met
+  finding: core/tools/memory/memory.py
+- id: CODE-10
+  severity: P3
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/memory.py
+  line: 1
+  basis: rule CODE-10 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/memory.py
+- id: CODE-11
+  severity: P3
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/memory.py
+  line: 1
+  basis: rule CODE-11 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/memory.py
+- id: CODE-12
+  severity: P3
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/memory.py
+  line: 1
+  basis: rule CODE-12 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_met
+  finding: core/tools/memory/memory.py
+- id: CODE-15
+  severity: P3
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/memory.py
+  line: 1
+  basis: rule CODE-15 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_measured
+  finding: core/tools/memory/memory.py
+- id: CODE-17
+  severity: P3
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/memory.py
+  line: 1
+  basis: rule CODE-17 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/memory.py
+- id: ARCH-03
+  severity: P3
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule ARCH-03 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/pull.py
+- id: ARCH-08
+  severity: P3
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule ARCH-08 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/pull.py
+- id: CODE-09
+  severity: P3
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule CODE-09 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/pull.py
+- id: CODE-10
+  severity: P3
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule CODE-10 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/pull.py
+- id: CODE-11
+  severity: P3
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule CODE-11 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/pull.py
+- id: CODE-12
+  severity: P3
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule CODE-12 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/pull.py
+- id: CODE-15
+  severity: P3
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule CODE-15 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_measured
+  finding: core/tools/memory/pull.py
+- id: CODE-17
+  severity: P3
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule CODE-17 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/pull.py
+- id: ARCH-03
+  severity: P3
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 1
+  basis: rule ARCH-03 in pr.md (path rule); check item in all-requirements.md
+  assessment: judgement
+  finding: core/tools/memory/test_memory.py
+- id: ARCH-08
+  severity: P3
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 1
+  basis: rule ARCH-08 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/test_memory.py
+- id: CODE-09
+  severity: P3
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 1
+  basis: rule CODE-09 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/test_memory.py
+- id: CODE-10
+  severity: P3
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 1
+  basis: rule CODE-10 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/test_memory.py
+- id: CODE-11
+  severity: P3
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 1
+  basis: rule CODE-11 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/test_memory.py
+- id: CODE-12
+  severity: P3
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 1
+  basis: rule CODE-12 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_met
+  finding: core/tools/memory/test_memory.py
+- id: CODE-15
+  severity: P3
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 1
+  basis: rule CODE-15 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_measured
+  finding: core/tools/memory/test_memory.py
+- id: CODE-17
+  severity: P3
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 1
+  basis: rule CODE-17 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/test_memory.py
+- id: ARCH-03
+  severity: P3
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule ARCH-03 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/test_pull.py
+- id: ARCH-08
+  severity: P3
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule ARCH-08 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/test_pull.py
+- id: CODE-09
+  severity: P3
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule CODE-09 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/test_pull.py
+- id: CODE-10
+  severity: P3
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule CODE-10 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/test_pull.py
+- id: CODE-11
+  severity: P3
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule CODE-11 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/test_pull.py
+- id: CODE-12
+  severity: P3
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule CODE-12 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/test_pull.py
+- id: CODE-15
+  severity: P3
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule CODE-15 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_measured
+  finding: core/tools/memory/test_pull.py
+- id: CODE-17
+  severity: P3
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule CODE-17 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/test_pull.py
+- id: ARCH-03
+  severity: P3
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/updates.py
+  line: 1
+  basis: rule ARCH-03 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/updates.py
+- id: ARCH-08
+  severity: P3
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/updates.py
+  line: 1
+  basis: rule ARCH-08 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/updates.py
+- id: CODE-09
+  severity: P3
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/updates.py
+  line: 1
+  basis: rule CODE-09 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/updates.py
+- id: CODE-10
+  severity: P3
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/updates.py
+  line: 1
+  basis: rule CODE-10 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/updates.py
+- id: CODE-11
+  severity: P3
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/updates.py
+  line: 1
+  basis: rule CODE-11 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/updates.py
+- id: CODE-12
+  severity: P3
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/updates.py
+  line: 1
+  basis: rule CODE-12 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/updates.py
+- id: CODE-15
+  severity: P3
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/updates.py
+  line: 1
+  basis: rule CODE-15 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_measured
+  finding: core/tools/memory/updates.py
+- id: CODE-17
+  severity: P3
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/updates.py
+  line: 1
+  basis: rule CODE-17 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/updates.py
+- id: DOC-04
+  severity: P3
+  category: decision-records
+  layer: linter (quality-check-scoped)
+  file: docs/adr/032-drive-review-of-outcomes.md
+  line: 1
+  basis: rule DOC-04 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: docs/adr/032-drive-review-of-outcomes.md
+- id: DOC-04
+  severity: P3
+  category: decision-records
+  layer: linter (quality-check-scoped)
+  file: docs/adr/035-agents-work-only-from-memory.md
+  line: 1
+  basis: rule DOC-04 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: docs/adr/035-agents-work-only-from-memory.md
+- id: DOC-04
+  severity: P3
+  category: decision-records
+  layer: linter (quality-check-scoped)
+  file: docs/adr/036-approved-answer-lands-in-short-term-memory.md
+  line: 1
+  basis: rule DOC-04 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: docs/adr/036-approved-answer-lands-in-short-term-memory.md
+- id: DOC-04
+  severity: P3
+  category: decision-records
+  layer: linter (quality-check-scoped)
+  file: docs/adr/037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md
+  line: 1
+  basis: rule DOC-04 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: docs/adr/037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md
+- id: DOC-04
+  severity: P3
+  category: decision-records
+  layer: linter (quality-check-scoped)
+  file: docs/adr/_index.md
+  line: 1
+  basis: rule DOC-04 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: docs/adr/_index.md
+- id: DOC-14
+  severity: P4
+  category: documentation
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/README.md
+  line: 1
+  basis: rule DOC-14 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/README.md
+- id: DOC-15
+  severity: P4
+  category: documentation
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/README.md
+  line: 1
+  basis: rule DOC-15 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_met
+  finding: core/tools/memory/README.md
+- id: DOC-16
+  severity: P4
+  category: documentation
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/README.md
+  line: 1
+  basis: rule DOC-16 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/README.md
+- id: CODE-13
+  severity: P4
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/citations.py
+  line: 1
+  basis: rule CODE-13 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/citations.py
+- id: CODE-19
+  severity: P4
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/citations.py
+  line: 1
+  basis: rule CODE-19 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/citations.py
+- id: CODE-13
+  severity: P4
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule CODE-13 in pr.md (path rule); check item in all-requirements.md
+  assessment: judgement
+  finding: core/tools/memory/contract/check_contract.py
+- id: CODE-19
+  severity: P4
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/check_contract.py
+  line: 1
+  basis: rule CODE-19 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/contract/check_contract.py
+- id: CODE-13
+  severity: P4
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  basis: rule CODE-13 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/contract/test_check_contract.py
+- id: CODE-19
+  severity: P4
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/contract/test_check_contract.py
+  line: 1
+  basis: rule CODE-19 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/contract/test_check_contract.py
+- id: CODE-13
+  severity: P4
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/memory.py
+  line: 1
+  basis: rule CODE-13 in pr.md (path rule); check item in all-requirements.md
+  assessment: judgement
+  finding: core/tools/memory/memory.py
+- id: CODE-19
+  severity: P4
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/memory.py
+  line: 1
+  basis: rule CODE-19 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/memory.py
+- id: CODE-13
+  severity: P4
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule CODE-13 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/pull.py
+- id: CODE-19
+  severity: P4
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/pull.py
+  line: 1
+  basis: rule CODE-19 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/pull.py
+- id: CODE-13
+  severity: P4
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 1
+  basis: rule CODE-13 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/test_memory.py
+- id: CODE-19
+  severity: P4
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 1
+  basis: rule CODE-19 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/test_memory.py
+- id: BE-23
+  severity: P4
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_memory.py
+  line: 409
+  basis: rule BE-23 in pr.md (keyword rule); check item in all-requirements.md
+  assessment: not_applicable
+  finding: Lock
+- id: CODE-13
+  severity: P4
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule CODE-13 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/test_pull.py
+- id: CODE-19
+  severity: P4
+  category: tests
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/test_pull.py
+  line: 1
+  basis: rule CODE-19 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/test_pull.py
+- id: CODE-13
+  severity: P4
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/updates.py
+  line: 1
+  basis: rule CODE-13 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/updates.py
+- id: CODE-19
+  severity: P4
+  category: executable-code
+  layer: linter (quality-check-scoped)
+  file: core/tools/memory/updates.py
+  line: 1
+  basis: rule CODE-19 in pr.md (path rule); check item in all-requirements.md
+  assessment: met
+  finding: core/tools/memory/updates.py
+- id: ARCH-23
+  severity: P4
+  category: decision-records
+  layer: linter (quality-check-scoped)
+  file: docs/adr/032-drive-review-of-outcomes.md
+  line: 1
+  basis: rule ARCH-23 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_applicable
+  finding: docs/adr/032-drive-review-of-outcomes.md
+- id: DOC-05
+  severity: P4
+  category: decision-records
+  layer: linter (quality-check-scoped)
+  file: docs/adr/032-drive-review-of-outcomes.md
+  line: 1
+  basis: rule DOC-05 in pr.md (path rule); check item in all-requirements.md
+  assessment: judgement
+  finding: docs/adr/032-drive-review-of-outcomes.md
+- id: ARCH-23
+  severity: P4
+  category: decision-records
+  layer: linter (quality-check-scoped)
+  file: docs/adr/035-agents-work-only-from-memory.md
+  line: 1
+  basis: rule ARCH-23 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_applicable
+  finding: docs/adr/035-agents-work-only-from-memory.md
+- id: DOC-05
+  severity: P4
+  category: decision-records
+  layer: linter (quality-check-scoped)
+  file: docs/adr/035-agents-work-only-from-memory.md
+  line: 1
+  basis: rule DOC-05 in pr.md (path rule); check item in all-requirements.md
+  assessment: judgement
+  finding: docs/adr/035-agents-work-only-from-memory.md
+- id: ARCH-23
+  severity: P4
+  category: decision-records
+  layer: linter (quality-check-scoped)
+  file: docs/adr/036-approved-answer-lands-in-short-term-memory.md
+  line: 1
+  basis: rule ARCH-23 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_applicable
+  finding: docs/adr/036-approved-answer-lands-in-short-term-memory.md
+- id: DOC-05
+  severity: P4
+  category: decision-records
+  layer: linter (quality-check-scoped)
+  file: docs/adr/036-approved-answer-lands-in-short-term-memory.md
+  line: 1
+  basis: rule DOC-05 in pr.md (path rule); check item in all-requirements.md
+  assessment: judgement
+  finding: docs/adr/036-approved-answer-lands-in-short-term-memory.md
+- id: ARCH-23
+  severity: P4
+  category: decision-records
+  layer: linter (quality-check-scoped)
+  file: docs/adr/037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md
+  line: 1
+  basis: rule ARCH-23 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_applicable
+  finding: docs/adr/037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md
+- id: DOC-05
+  severity: P4
+  category: decision-records
+  layer: linter (quality-check-scoped)
+  file: docs/adr/037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md
+  line: 1
+  basis: rule DOC-05 in pr.md (path rule); check item in all-requirements.md
+  assessment: judgement
+  finding: docs/adr/037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md
+- id: ARCH-23
+  severity: P4
+  category: decision-records
+  layer: linter (quality-check-scoped)
+  file: docs/adr/_index.md
+  line: 1
+  basis: rule ARCH-23 in pr.md (path rule); check item in all-requirements.md
+  assessment: not_applicable
+  finding: docs/adr/_index.md
+- id: DOC-05
+  severity: P4
+  category: decision-records
+  layer: linter (quality-check-scoped)
+  file: docs/adr/_index.md
+  line: 1
+  basis: rule DOC-05 in pr.md (path rule); check item in all-requirements.md
+  assessment: judgement
+  finding: docs/adr/_index.md
+- id: R2-1
+  severity: P3
+  category: executable-code
+  layer: runnable checks and code reading (quality-auditor)
+  file: core/tools/memory/memory.py
+  line: 150-162 (excluded), 164-173 (hidden), 185-197 (files)
+  basis: 'nearest standard None; review/code rubric: error handling; safe handling of destructive or irreversible operations,
+    data-safety paths get extra weight (~/.garura/phoenix-memory/knowledge/review/code.md, Treatment); README settings rows
+    for updates_dir and citations_file (''a lookup never reads them'')'
+  finding: 'the rule that an issue''s short-term memory is never read through Garura memory is decided from the two settings
+    as written, not from the folders they reach. hidden() resolves the request''s path to the real file (links, ''.'', case)
+    but then compares it with excluded(''garura''), which is the short-term setting taken relative to the Garura setting without
+    resolving either. Reproduced in scratch: with the Garura folder set directly and the short-term folder set through a link
+    to a folder inside it, read --tier garura --path issues/9/n.md answers the short-term note and find --tier garura lists
+    it; with both settings spelled the same way it answers not_found. The round 1 tool behaves the same, so the fix did not
+    widen or narrow it. Separately, find and search apply the literal prefix while read applies the resolved, case-folded
+    one, so find lists a link to a hidden file by the link''s own name (reproduced: alias.md pointing at the decision file)
+    and read then refuses it.'
+  status: null
+- id: R2-2
+  severity: P4
+  category: executable-code
+  layer: runnable checks and code reading (quality-auditor)
+  file: core/components/plays/play-creator/references/write_drive_review.py (identical copies in understand/scripts and vision/scripts)
+  line: 75-78
+  basis: 'nearest standard CODE-25 (P3); review/code rubric: error handling (~/.garura/phoenix-memory/knowledge/review/code.md,
+    Treatment)'
+  finding: 'a --decisions file that exists but cannot be read (no permission) ends in a PermissionError traceback and exit
+    1; only ValueError is caught around the read, while the run.json read at line 45 catches OSError too. The header promises
+    exit 2 and ''nothing written'' for a bad input. Reproduced in scratch: traceback, exit 1, nothing written.'
+  status: null
+- id: R2-3
+  severity: P4
+  category: executable-code
+  layer: runnable checks and code reading (quality-auditor)
+  file: core/tools/memory/test_memory.py
+  line: 461-468
+  basis: 'nearest standard None; review/tests: run the suite and keep it dependable (~/.garura/phoenix-memory/knowledge/review/tests.md)'
+  finding: 'the fix for OBS-3 (a failed read of the decision or update files says ''cannot be read'' and names short-term
+    memory) has no test: test_a_failed_write_names_short_term_memory covers the write of cite only. The behaviour was checked
+    by hand in this round and is right.'
+  status: null
+- id: R2-4
+  severity: P4
+  category: executable-code
+  layer: runnable checks and code reading (quality-auditor)
+  file: core/tools/memory/contract/test_check_contract.py
+  line: '378'
+  basis: 'nearest standard None; review/tests: run the suite and keep it dependable (~/.garura/phoenix-memory/knowledge/review/tests.md)'
+  finding: 'one test makes a folder with tempfile.mkdtemp() and never removes it; each run of contract.test_check_contract
+    leaves 14 temp folders (about 64 KB). Measured with the temp folder redirected: test_memory, test_pull, the drive test
+    and check_contract.py leave none.'
+  status: null
+- id: R2-1
+  severity: P4
+  category: memory
+  layer: design-grounding (change-reviewer)
+  file: core/components/memory/standards/rules/resolution.md
+  line: 106-110 and 132-133, against 137-154 (Context Isolation Exemptions, Backward Compatibility)
+  basis: 'G6, G1 — committed source: G6: a rule file says to whom and when it binds and does not contradict itself; the base
+    file states INV3 and INV4 in terms of ltm_context. G1 and ADR 035 section 5 (''This holds for every agent and skill'')
+    carry no exemption for the two agents; ADR 035 section 9 retires ltm_context without naming what replaces the exemption.
+    Classed P4: the text says in so many words that the question is open, ADR 035''s Negative / Risks accepts the side-by-side
+    period, and no agent reads the section yet.
+
+    '
+  finding: 'Two edges are left from round 1''s DR-1. (1) The Scope paragraph says the section ''binds every agent decision''
+    and in the same paragraph that whether the evals-engineer and the judge keep a decision trace ''is settled when the agents
+    move onto the memory tool''. For those two agents the rule says nothing an agent can act on, and the exemption (INV4)
+    is still worded only in terms of ltm_context, which ADR 035 section 9 retires. No committed record answers it: ADR 035
+    and ADR 036 on main do not mention the exemption, and ADR 037 does not either. (2) The Scope paragraph says Backward Compatibility
+    governs an agent that has not moved, but the closing sentence (lines 132-133) names only R1-R4 and the Resolution Trace
+    Output as giving way. Backward Compatibility (''No trace is produced'') and Staleness Handling are not named, so once
+    an agent has moved the file still says no trace is produced without ltm_context, a few lines from a section that says
+    every agent keeps one.
+
+    '
+- id: R2-2
+  severity: P4
+  category: memory
+  layer: design-grounding (change-reviewer)
+  file: core/components/memory/standards/rules/resolution.md
+  line: 104-135 (the term 'decision trace'), against the glossary row for 'Resolution trace'
+  basis: 'G5 — committed source: G5: one name carries one meaning and names are chosen so they are never confused (ADR 035
+    section 1; glossary line 43 on main; pr.md puts naming in P3). Classed P4, below round 1''s P3 for the same theme: the
+    collision with ''decision record'' is gone, the rule itself separates the two traces in words, and the glossary gap is
+    disclosed by the ADR.
+
+    '
+  finding: 'The section names its object a ''decision trace''. The glossary on main already defines ''Resolution trace'' as
+    ''A per-decision trace written by agents ... when following the R1-R4 protocol''. The two are told apart only inside this
+    file, by the sentence that says one gives way to the other. The glossary gets no row, and ADR 037 lists the glossary row
+    as not decided. A person or agent who looks up ''decision trace'' in the glossary finds the old trace''s definition. Phoenix
+    memory has no glossary, so in the shared tier the file is the only place the two are separated.
+
+    '
+- id: R2-3
+  severity: P4
+  category: memory
+  layer: design-grounding (change-reviewer)
+  file: core/components/memory/standards/rules/_index.md
+  line: 25 (row for resolution.md)
+  basis: 'G7, G6 — committed source: G7: the index row states what the file holds and who consumes it (main:_index.md header).
+    G6: a rule says when it binds. ADR 035 Negative / Risks on main: until each agent moves, old and new sit side by side.
+    Classed P4: one clause, and the detail is one click away in the section.
+
+    '
+  finding: 'The row ends ''the decision trace every agent keeps (ADR 035 section 6, ADR 037)''. The section and the file''s
+    opening both carry a condition (''once it works through the memory tool''); the row, which is how an agent or person finds
+    the rule and is promoted to Phoenix memory with it, states it as a present fact. ADR 037''s own Negative / Risks says
+    no agent keeps a trace yet. Read through the index, every agent already does.
+
+    '
+- id: R2-4
+  severity: P4
+  category: memory
+  layer: design-grounding (change-reviewer)
+  file: core/components/memory/standards/rules/resolution.md
+  line: 112-118 (a step names a tier) and 122-124 (makes no decision that no tier supports)
+  basis: 'G9, G1 — committed source: G9: ADR 035 section 1 (line 42) and section 9 on main list the repository, the product
+    model and the intents beside the tiers. G1: every decision names its memory, the tier, the file and the lines. Classed
+    P4: the rule is no stricter than its source ADR, nothing runs against it yet, and the product model and the intents sit
+    inside Garura memory per ADR 035 section 1, so only the repository is open.
+
+    '
+  finding: 'The rule allows a decision only if a tier supports it and has each step name ''a tier''. ADR 035 section 1 says
+    agents also read the project''s git repository, and ADR 035 section 9 gives ADR 034 section 2 the same list (the three
+    tiers, with the git repository, the product model and the intents). A decision that rests on the repository (code in a
+    diff, a file in the working tree) has no tier to name, and under the second duty it would need a memory update before
+    the agent could make it. The rule follows ADR 035 section 6 word for word (''the tier, the file and the lines''), so the
+    gap is in the ADR; ADR 037 repeats ''a tier''. It will show when the build and review agents move onto the tool.
+
+    '
+- id: TDD-14
+  severity: P3
+  category: tool-design-document
+  layer: design-grounding (change-reviewer)
+  file: .garura/project/issues/617/specs/review-tool.md
+  line: 276-283 (the Agent decisions bullet), 289-293 ('stand-in only' and 'the local page reads them live')
+  basis: "The tool is extractable and talks to Garura only through its own contract; Garura words arrive as data and the tool\
+    \ code never names them (G1). The design must say one thing about where the coupling is. Round 1 found the document saying\
+    \ two things; the fix has left two things in one bullet.\n — committed source: main:.garura/project/issues/617/specs/review-tool.md\
+    \ section 1 items 1, 2, 3 and 7; section 3 ('Garura builds the pack'); section 7 last paragraph (the extraction line).\n"
+  finding: 'Lines 276-279 still say ''The page shows the memory tool''s own answers, in the contract''s shape: `citations
+    --check` and `updates`''. Lines 280-283 then say ''The page does not read those answers itself''. A builder of #664 who
+    reads the first sentence builds the coupling the second forbids. Lines 291-293 add ''the local page reads them live''
+    with no note that this is the local prototype of section 7''s ''what stands in until then'', outside the extraction line,
+    so the sentence reads as a statement about the real page. The inserted paragraph also splits one sentence, so ''Looks
+    right, or send back so the agent decides again from memory as it is now'' (290-291) now follows ''a stand-in only''.
+
+    '
+- id: TDD-15
+  severity: P3
+  category: tool-design-document
+  layer: design-grounding (change-reviewer)
+  file: .garura/project/issues/617/specs/review-tool.md
+  line: section 3 pack outline (150-172) against 283-289 (the pieces Garura builds) and 487-493 (story 9)
+  basis: "The pack outline is what the contract is written from (story 1), and Garura words arrive in it as data: kinds with\
+    \ a label, an icon and the verbs they allow (G1, G2). One term per meaning (G14): 'decision' is already a pack kind meaning\
+    \ a decision record at any level.\n — committed source: main:.garura/project/issues/617/specs/review-tool.md section 1\
+    \ items 2 and 3; section 3 (the pack outline: kinds, pieces[], sections[] with a label, a before, an after and editable\
+    \ yes or no; change added/changed/removed/same); section 7 story 1; main:core/grounding/glossary.md line 61.\n"
+  finding: 'Section 4 now says Garura sends ''a kind for an agent decision, and each step a labelled section that carries
+    the lines, the lines around them and a state (same, changed, gone, no source) as data''. The pack outline was not touched.
+    Its kinds line lists six kinds and no agent decision; its sections are before and after text, which cannot say which of
+    the numbered lines the agent used (the part the owner asked to see marked) or carry a state; and its ''change'' and ''status''
+    fields mean what a drive did to a piece, not whether a source still says the same. The word ''decision'' in the kinds
+    line already means a product decision record, so the new kind needs a distinct label and the doc names none. The route
+    is stated; the data shape it needs is not anywhere the contract can be written from.
+
+    '
+- id: TDD-16
+  severity: P4
+  category: tool-design-document
+  layer: design-grounding (change-reviewer)
+  file: .garura/project/issues/617/specs/review-tool.md
+  line: 322-324 ('Keeping the load low' exception and its quote); 283-290
+  basis: "A claim that the owner decided something is only as good as the words it quotes, and the committed ground for what\
+    \ the page must show is the ADR that says so. Showing a source's tier, file and lines is required by the committed ADR\
+    \ 035 (G9); the design should cite that.\n — committed source: main:docs/adr/035-agents-work-only-from-memory.md section\
+    \ 6 ('the tier, the file and the lines it rests on') and section 7 (the review view shows which memory each decision came\
+    \ from); main:docs/adr/034-plays-answer-from-memory-inside-a-drive.md section 4.\n"
+  finding: 'The exception is credited to the owner with the quote ''the source should show a few lines before and after''.
+    That quote asks for the lines around a source, not for the memory, file and lines to appear against the no-file-paths
+    rule. The owner''s request for the exception is recorded only as the round 1 review reply and in ADR 037''s Risks. A reader
+    checking the sentence against its quote finds a different decision. The design never points to main''s ADR 035 sections
+    6 and 7, which already require it.
+
+    '
+- id: TDD-2
+  severity: P4
+  category: tool-design-document
+  layer: design-grounding (change-reviewer)
+  file: .garura/project/issues/617/specs/review-tool.md
+  line: 294-301 ('The paragraphs below were written for the one combined section; they now read across these three' and 'Earlier
+    text, kept')
+  basis: "The third section on main is one section, Memory and ADRs, and the design must make clear which kept sentences still\
+    \ hold once it is five (G4, G5).\n — committed source: main:docs/adr/036-approved-answer-lands-in-short-term-memory.md\
+    \ sections 7 and 8; main:docs/adr/032-drive-review-of-outcomes.md status line (the third section is Memory and ADRs).\n"
+  finding: 'The ADR lag is closed: ADR 037 covers the five sections and amends ADR 032, 035 and 036. What remains is the design''s
+    own text. It still carries ''a third section next to Intents and Product ... Every memory review and ADR review happens
+    here'', and ''here'' now has three sections to point at. The blanket line that the paragraphs below ''now read across
+    these three'' still does not say which sentences survive. ADR 037 section 3 gives a builder the rule for what holds (reviews
+    on the Catch up cards where it is silent), which is why this is no higher than P4.
+
+    '
+- id: TDD-3
+  severity: P3
+  category: tool-design-document
+  layer: design-grounding (change-reviewer)
+  file: .garura/project/issues/617/specs/review-tool.md
+  line: 254-255 (the ADRs bullet)
+  basis: "Nothing is answered twice (G6). A product decision record and an ADR are one kind of record at different levels,\
+    \ and where a waiting product decision is reviewed is open.\n — committed source: main:.garura/project/issues/617/specs/review-tool.md\
+    \ section 4 layout item 1; main:core/grounding/glossary.md line 61; main:docs/adr/036-approved-answer-lands-in-short-term-memory.md\
+    \ Negative / Risks, 'Not decided here', first bullet.\n"
+  finding: 'Unchanged. The ADRs section answers ''the decisions a person records with /adr'' by Accept or Send back, and the
+    Product section on main still lists Decisions as a kind with its own verbs. By the glossary these are the same record,
+    and the text does not say which switch answers it and which shows it read-only. ADR 037 lists the question as still open;
+    it does not decide it.
+
+    '
+- id: TDD-4
+  severity: P3
+  category: tool-design-document
+  layer: design-grounding (change-reviewer)
+  file: .garura/project/issues/617/specs/review-tool.md; .garura/project/issues/617/specs/review-tool-mockup.html
+  line: review-tool.md 290-291; review-tool-mockup.html 1289-1290 (Looks right and Send back), 1342 (recorded as an event
+    only)
+  basis: "Approval is part of the product model; the pieces that carry it are listed; only the review step writes approved\
+    \ or in progress; the review tool writes nothing to the model. A send-back re-runs the play that writes that kind of piece,\
+    \ for that one piece (G7).\n — committed source: main:docs/adr/033-approval-in-the-product-model.md sections 1, 3 and\
+    \ 6; main:docs/adr/032-drive-review-of-outcomes.md section 4 and its Negative / Risks.\n"
+  finding: 'Unchanged. A person can mark an agent decision ''Looks right'' or send it back so ''the agent decides again''.
+    An agent decision is not among the pieces ADR 033 section 1 lists as carrying approval; nothing says what ''Looks right''
+    writes or who writes it, whether it counts as approval, or which play re-runs for which question. ADR 037 names this as
+    not decided and points at ADR 033 section 6, so it is a known open point, but the design and the mock present both buttons
+    as if it were settled. With the pack-piece route the verdict is an event on a piece, which makes the missing answer (what
+    Garura does with it) matter more.
+
+    '
+- id: TDD-5
+  severity: P3
+  category: tool-design-document
+  layer: design-grounding (change-reviewer)
+  file: .garura/project/issues/617/specs/review-tool.md; .garura/project/issues/617/specs/review-tool-mockup.html
+  line: review-tool.md 279 ('Grouped by play, problems first'); review-tool-mockup.html 1157-1158 (PLAYS, byPlay), 1191, 1245
+    (one block per play, 'by N plays')
+  basis: "The person reviews the outcome, not the plays. The plays' records are not shown play by play. The one committed\
+    \ opening: the drive's review shows what was assumed and on what basis (G8).\n — committed source: main:docs/adr/032-drive-review-of-outcomes.md\
+    \ section 2 and Alternatives (a viewer per play, lost); main:docs/philosophy/idsd.md; main:.garura/project/issues/617/specs/review-tool.md\
+    \ section 3 ('the plays are never shown'); main:docs/adr/034-plays-answer-from-memory-inside-a-drive.md section 4.\n"
+  finding: 'Unchanged. Agent decisions are grouped under the play that made them and counted ''by N plays''. Showing a decision
+    with its basis conforms (ADR 034 section 4); grouping the screen by play does not, and ADR 037 section 3 says ''every
+    decision an agent made, with its trace'' with no grouping.
+
+    '
+- id: TDD-6
+  severity: P3
+  category: tool-design-document
+  layer: design-grounding (change-reviewer)
+  file: .garura/project/issues/617/specs/review-tool.md; .garura/project/issues/617/specs/review-tool-mockup.html
+  line: review-tool.md 254-255, 290-291, 299-300; review-tool-mockup.html 1175 (Catch up hidden outside Memory), 1285-1290
+    (side-panel buttons for ADRs and decisions)
+  basis: "Every memory review and ADR review happens in that section on the same Catch up cards: swipe right to accept, swipe\
+    \ left to leave for later; answers that take words are buttons. The /adr accept moves onto a card in that section (G5).\n\
+    \ — committed source: main:docs/adr/036-approved-answer-lands-in-short-term-memory.md section 7 and Affects; main:.garura/project/issues/617/specs/review-tool.md\
+    \ section 4 item 6.\n"
+  finding: 'Unchanged. The ADRs bullet gives an ADR ''Accept, or send back with a comment'' and the mock hides the Catch up
+    button for ADRs and Agent decisions, answering them from a side panel, while the kept sentence (299-300) still says every
+    ADR review uses the cards. ADR 037 section 3 keeps main''s cards rule ''where this ADR is silent'', so the departure is
+    not recorded anywhere.
+
+    '
+- id: TDD-7
+  severity: P3
+  category: tool-design-document
+  layer: design-grounding (change-reviewer)
+  file: .garura/project/issues/617/specs/review-tool.md; .garura/project/issues/617/specs/review-tool-mockup.html
+  line: review-tool.md 256-266 (the Memory bullet, Ask memory); review-tool-mockup.html 1124, 1207 (one canned answer for
+    any question)
+  basis: "An answer comes from memory, never from the model alone; when no tier answers, the route is a memory update a person\
+    \ approves. The memory tool returns lines, tier, file and a fingerprint (G10). The review tool never calls Garura (G3).\n\
+    \ — committed source: main:docs/adr/035-agents-work-only-from-memory.md sections 4 and 5; main:docs/adr/034-plays-answer-from-memory-inside-a-drive.md\
+    \ section 3; main:core/tools/memory/contract/v3.json; main:.garura/project/issues/617/specs/review-tool.md sections 1\
+    \ and 2.\n"
+  finding: 'Unchanged. ADR 037 section 4 now covers the box and ''mocked only''. Still not said: who reads the lines and composes
+    the plain-words answer (the owner says the interface is ''nlp''), and on which side of the line; what the box shows when
+    no tier answers (the committed route is a memory update, never an answer from the model); and how a question reaches the
+    memory tool and back while a person waits, when the tool never calls Garura. The mock shows only the success case.
+
+    '
+- id: TDD-8
+  severity: P3
+  category: tool-design-document
+  layer: design-grounding (change-reviewer)
+  file: .garura/project/issues/617/specs/review-tool.md
+  line: 486-497 (story 9 and the sentence after it)
+  basis: "Stories that touch only the tool and stories that touch only Garura are the extraction line; Garura builds the pack\
+    \ and the tool renders it (G13).\n — committed source: main:.garura/project/issues/617/specs/review-tool.md section 7\
+    \ (last paragraph) and section 3 ('Garura builds the pack').\n"
+  finding: 'Narrowed. The Garura half now owns the citations check turned into pack pieces (490-493). Still without an owner
+    in either half: building the tier summaries (what each tier holds, counts, versions) into the pack; Ask memory''s answer
+    path; re-running a decision on a send-back. The /adr accept is listed as Garura''s, while who writes the approval on an
+    ADR card is open in ADR 036 and ADR 037. So ''touch only Garura'' cannot be tested for these.
+
+    '
+- id: TDD-10
+  severity: P3
+  category: tool-design-document
+  layer: design-grounding (change-reviewer)
+  file: .garura/project/issues/617/specs/review-tool-mockup.html
+  line: 1125-1128 (the three waiting updates carry no sources), 1278 (the update card), 1318 (the Catch up card)
+  basis: "Nothing from the web or the model is used until a person approves it, so the card must show where the draft came\
+    \ from (marked) and its sources (G12).\n — committed source: main:docs/adr/035-agents-work-only-from-memory.md section\
+    \ 5; main:core/tools/memory/contract/v3.json (propose: sources is required, with draft_source); main:.garura/project/issues/617/specs/review-tool.md\
+    \ section 4 item 7.\n"
+  finding: 'Unchanged. The update card and its Catch up card show a ''Drafted from the web'' or ''Drafted by the model'' chip,
+    the draft and the reason, but no sources. A person asked to approve a web or model draft sees nothing behind it, which
+    is what ADR 035 section 5''s safeguard depends on.
+
+    '
+- id: TDD-11
+  severity: P4
+  category: tool-design-document
+  layer: design-grounding (change-reviewer)
+  file: .garura/project/issues/617/specs/review-tool.md; .garura/project/issues/617/specs/review-tool-mockup.html
+  line: review-tool.md 256-262 ('no index (vectorless, ADR 035 section 4)' and the owner's quote about 'the tool'), 267-268
+    ('trace'); review-tool-mockup.html 1105
+  basis: "One term per meaning (G14). Naming clarity.\n — committed source: main:core/components/memory/knowledge/domains/.pageindex/pageindex.py\
+    \ (docstring 'Vectorless RAG', a tree the model navigates, i.e. an index); main:docs/adr/035-agents-work-only-from-memory.md\
+    \ section 4 and Alternatives (an index set aside; the word 'vectorless' is not in it); main:core/grounding/glossary.md\
+    \ line 43 and main:docs/adr/035-agents-work-only-from-memory.md section 9.\n"
+  finding: 'Unchanged. (a) ''vectorless'' is cited to ADR 035 section 4, which does not carry the word, and on main the word
+    names an indexed method. (b) ''the tool'' in the owner''s quote stands for three tools beside ''the same memory tool under
+    both''. (c) ''trace'' now means the memory tool''s ordered steps; the glossary''s ''Resolution trace'' is the R1 to R4
+    file and there is no entry for the new meaning. ADR 037 section 4 uses ''vectorless'' as well and lists the glossary row
+    as not decided, so (c) is a known open point.
+
+    '
+- id: TDD-12
+  severity: P4
+  category: tool-design-document
+  layer: design-grounding (change-reviewer)
+  file: .garura/project/issues/617/specs/review-tool.md; .garura/project/issues/617/specs/review-tool-mockup.html
+  line: review-tool.md 256-257 (the Memory bullet) against 297-299 (the kept paragraph); review-tool-mockup.html 1115-1119
+    (the three tier cards; the Phoenix card carries 'approved version 4f1c2e9a7b3d')
+  basis: "The memory section shows short-term, Garura and Phoenix memory (G4).\n — committed source: main:docs/adr/036-approved-answer-lands-in-short-term-memory.md\
+    \ section 7; main:docs/adr/035-agents-work-only-from-memory.md section 7.\n"
+  finding: 'Unchanged, and now inside one file as well. The Memory bullet names Garura memory and an issue''s short-term memory;
+    the kept paragraph says the section shows short-term, Garura and Phoenix memory; the mock shows the Phoenix tier with
+    a version code in view. ADR 037 lists ''whether the Memory section lists Phoenix memory'' as not decided, so the departure
+    is open, not covered.
+
+    '
+- id: TDD-13
+  severity: P4
+  category: tool-design-document
+  layer: design-grounding (change-reviewer)
+  file: .garura/project/issues/617/specs/review-tool.md; .garura/project/issues/617/specs/review-tool-mockup.html
+  line: 'review-tool.md 267 (''every decision an agent made''); review-tool-mockup.html 1231-1247 (the screen and its headline
+    ''for issue #613''); the issue picker exists only in the Memory overview'
+  basis: "Short-term memory is the current issue only and a decision record is kept in its issue's short-term memory. A drive's\
+    \ review is the whole-model view narrowed to what the drive changed.\n — committed source: main:docs/adr/036-approved-answer-lands-in-short-term-memory.md\
+    \ section 1; main:core/tools/memory/contract/v3.json (short_term_is_this_issue); main:docs/adr/033-approval-in-the-product-model.md\
+    \ section 7.\n"
+  finding: 'Unchanged. The doc says every decision an agent made without saying whose: one picked issue''s, one drive''s,
+    or every issue''s. The Agent decisions screen has no picker and its headline names one issue.
+
+    '
+- id: TIC659-13
+  severity: P3
+  category: tool-interface-contract
+  layer: design-grounding (change-reviewer)
+  file: 'core/tools/memory/contract/v4.json (answer_rules.waiting_drafts_are_hidden; paths; description ''a waiting draft
+    is never found by a lookup''); core/tools/memory/memory.py (FolderEngine.files, FolderEngine.grep, FolderEngine.excluded,
+    FolderEngine.hidden)
+
+    '
+  line: null
+  basis: 'ADR036-ALT-DRAFT-MUST-NOT-ANSWER-A-LOOKUP — committed source: docs/adr/036 Alternatives Considered (line 128, main);
+    docs/adr/036 Decision part 1 (lines 36-43, main); core/tools/memory/contract/v3.json lookup_rule (main); .garura/project/issues/658/review/decision-comment.md
+    line 9 (main).
+
+    '
+  finding: 'The branch''s fix puts the hiding decision in a new method, hidden(), that works on the file a path reaches (real
+    path, letter case folded), and calls it from read, so from cite and citations --check too. find (files) and search (grep)
+    still decide on the listed name with a case-sensitive prefix test (excluded), and excluded(''garura'') is worked out from
+    the settings as typed, not from the real folders. So the same guarantee is kept by two rules. Observed on scratch copies
+    on this machine''s case-folding disk: (a) the issue folder already holds ''7/Review/'' (a differently spelled folder;
+    the tool''s own propose then writes into it, because the disk folds case): find lists ''7/Review/memory-updates/<id>.json'',
+    and search returns the draft''s text, while read of the very path find listed answers not_found. (b) the short-term setting
+    spelled ''.../ISSUES'' while the folder is ''issues'': find and search in the Garura tier list another issue''s short-term
+    notes (''issues/8/notes.md''), which ADR 036 part 1 says a lookup never reads; read refuses. With the two roots given
+    through different links (''/tmp/...'' for Garura memory, ''/private/tmp/...'' for short-term memory) find lists them and
+    read of ''issues/8/notes.md'' returns the other issue''s note (main''s tool does the same). (c) a hard link to a draft
+    inside the issue folder: read returns the draft; realpath compares names, not the file. On a case-sensitive disk the error
+    goes the other way: read refuses ''7/Context/citations.jsonl'' while find lists it. The contract''s new sentences say
+    more than the tool keeps: ''a lookup (find, search, read) never returns'' a waiting draft ''however its path is spelled'',
+    and ''One file has one spelling, so what a lookup hides cannot be reached by spelling its path another way''. The grammar
+    makes the second true only for ''.'', ''//'' and a trailing slash; for case and links it is the tool''s decision, and
+    the tool makes it in read only. The three new tests exercise read and cite; none exercises find or search.
+
+    '
+- id: TIC659-14
+  severity: P2
+  category: tool-interface-contract
+  layer: design-grounding (change-reviewer)
+  file: 'core/tools/memory/memory.py (FolderEngine.hidden, FolderEngine.read, run); core/tools/memory/citations.py (CitationStore.source_problem,
+    reached by cite and by citations --check); core/tools/memory/contract/v4.json ($defs.path pattern)
+
+    '
+  line: null
+  basis: 'V3-RESPONSE-ALWAYS-JSON — committed source: core/tools/memory/contract/v3.json description, ''A response is always
+    a JSON object with ok, contract_version and command.'' (main); core/tools/memory/memory.py BadFlags docstring, ''never
+    a bare usage error'' (line 409, main); core/components/memory/standards/rules/pr.md P2 bucket, ''error-handling violations''
+    (main).
+
+    '
+  finding: 'hidden() calls os.path.realpath on the requested path with no guard. The contract''s path pattern accepts a NUL
+    character (''7/notes\u0000.md'' in a JSON request) and a lone surrogate (''7/\ud800.md''); run() catches only Refusal
+    and OSError. Both now end the process with a traceback and no JSON on stdout. Observed on scratch copies, same request
+    on each: main (v3) and round 1''s head answer {"ok": false, ... "error": {"code": "not_found"}}; the head answers with
+    ''ValueError: lstat: embedded null character in path'' (read in short-term memory, read in Garura memory, and cite with
+    a step whose source path holds a NUL) and ''UnicodeEncodeError: ... surrogates not allowed'' (read in short-term memory).
+    ''citations --check'' over an issue whose decision file holds one hand-edited record with a NUL in a source path now stops
+    with the same traceback for the whole issue; round 1''s head answered ok and flagged the record. Cause: the old code used
+    os.path.isfile, which turns these into False; the fix replaced it with an unguarded realpath. Carried and the same kind:
+    on main a NUL in a search pattern and in a Phoenix read path already crash (ValueError: embedded null byte), unchanged
+    by this branch. No test sends such a path.
+
+    '
+- id: TIC659-15
+  severity: P4
+  category: tool-interface-contract
+  layer: design-grounding (change-reviewer)
+  file: core/tools/memory/README.md ('What every answer carries', Paths bullet, lines 142-143); core/tools/memory/contract/v4.json
+    (paths)
+  line: null
+  basis: 'V3-README-IS-THE-PLAIN-WORDS-GUIDE — committed source: core/tools/memory/contract/v3.json description (main); core/tools/memory/README.md
+    lines 139-140 (main)'
+  finding: 'The contract''s paths rule now says a path ''never starts or ends with a slash, and never contains .., a . segment
+    or an empty segment''. The README, which the contract names as its plain-words guide, still says ''never start with a
+    slash and never contain ..''. The README was not in the commit that changed the rule, and the README''s ''Rules for this
+    folder'' and answer-rule list were not touched either. The README sentence is incomplete, not wrong, and the contract
+    and its check are the authority.
+
+    '
+- id: TIC659-16
+  severity: P4
+  category: tool-interface-contract
+  layer: design-grounding (change-reviewer)
+  file: 'core/tools/memory/contract/v4.json ($defs.path pattern); core/tools/memory/contract/samples/broken/read-path-with-newline.json;
+    core/tools/memory/contract/check_contract.py (validate: re.search)
+
+    '
+  line: null
+  basis: 'IDD-P3-OBSERVABLE-BINARY — committed source: docs/philosophy/idd-principles.md Principle 3 (lines 75-98, main);
+    core/tools/memory/contract/v3.json $defs.path and samples/broken/read-path-with-newline.json (main)'
+  finding: 'The pattern''s last class, [^\\\n\r]+$, means ''no backslash and no line break'', but ''$'' in Python''s re also
+    matches before one trailing newline, so ''a/b\n'' passes the pattern in this tool and in the contract check (tried with
+    re.search); a JSON Schema validator in ECMA rules would refuse it. The broken sample for the rule, read-path-with-newline,
+    holds the path ''a\n../b'', which is refused for the ''..'' it also holds, so it does not prove the line-break rule. No
+    hiding bypass follows (a name that ends in a newline is a different file), and the owner''s fix did not claim to touch
+    it.
+
+    '

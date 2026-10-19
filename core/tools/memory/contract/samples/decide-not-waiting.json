@@ -9,7 +9,7 @@
   },
   "response": {
     "ok": false,
-    "contract_version": "3",
+    "contract_version": "4",
     "command": "decide",
     "error": {
       "code": "wrong_state",

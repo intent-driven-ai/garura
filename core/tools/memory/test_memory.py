@@ -2,7 +2,7 @@
 """Tests for memory.py. Run from the tool's folder: python3 test_memory.py
 
 Every answer the tool gives is also put through the contract check (shape and answer
-rules), so the tool cannot drift from contract/v3.json.
+rules), so the tool cannot drift from contract/v4.json.
 """
 
 import contextlib
@@ -348,6 +348,199 @@ class Updates(Tiers):
 
     def test_an_unknown_update(self):
         self.assertEqual(self.ask("apply", {"id": "mu-20000101-001"})["error"]["code"], "not_found")
+
+
+class Citations(Tiers):
+    """Every decision names the memory it came from, as a trace of steps, and a check reads each
+    step's source again."""
+
+    def step(self, tier, path, start, end, asked="What does memory say?", found="It says so."):
+        text = self.ask("read", {"issue": 7, "tier": tier, "path": path, "start": start, "end": end})["text"]
+        return {"asked": asked, "found": found,
+                "source": {"tier": tier, "path": path, "start": start, "end": end, "fingerprint": cc.fingerprint(text)}}
+
+    def cite(self, trace, **extra):
+        return self.ask("cite", {"issue": 7, "question": "How long does a reset link last?",
+                                 "answer": "One hour.", "decided_by": "test agent", "play": "/vision",
+                                 "trace": trace} | extra)
+
+    def test_a_decision_is_recorded_and_checked(self):
+        a = self.cite([self.step("phoenix", "knowledge/domains/user-management.md", 5, 5)])
+        self.assertEqual(a["stored"], {"tier": "short-term", "path": "7/context/citations.jsonl"})
+        listed = self.ask("citations", {"issue": 7, "check": True})
+        self.assertEqual(([r["citation_id"] for r in listed["records"]], listed["problems"]), ([a["citation_id"]], []))
+
+    def test_nothing_is_recorded_from_a_wrong_or_missing_source(self):
+        bad = self.step("phoenix", "knowledge/domains/user-management.md", 5, 5)
+        bad["source"]["fingerprint"] = cc.fingerprint("x")
+        self.assertEqual(self.cite([bad])["error"]["code"], "changed")
+        gone = {"asked": "q", "found": "f", "source": {"tier": "phoenix", "path": "knowledge/none.md", "start": 1,
+                                                       "end": 1, "fingerprint": cc.fingerprint("x")}}
+        self.assertEqual(self.cite([self.step("phoenix", "standards/rules/commits.md", 1, 1), gone])["error"]["code"],
+                         "not_found")
+        self.assertEqual(self.ask("citations", {"issue": 7})["records"], [])
+
+    def test_the_check_names_the_step_whose_source_changed_or_went(self):
+        self.cite([self.step("phoenix", "standards/rules/commits.md", 1, 1),
+                   self.step("phoenix", "knowledge/domains/user-management.md", 5, 5)])
+        self.cite([self.step("phoenix", "standards/rules/commits.md", 2, 2)])
+        write(self.phoenix, "knowledge/domains/user-management.md", "# User management\n\n\n\n- Links last 30 minutes.\n")
+        git(self.phoenix, "rm", "-q", "standards/rules/commits.md")
+        self.commit("memory moved on")
+        problems = self.ask("citations", {"issue": 7, "check": True})["problems"]
+        self.assertEqual(sorted((p["problem"], p["step"]) for p in problems),
+                         [("source_changed", 2), ("source_missing", 1), ("source_missing", 1)])
+        changed = next(p for p in problems if p["problem"] == "source_changed")
+        self.assertEqual((changed["source"]["text"], changed["now"]),
+                         ("- A reset link expires after one hour.", "- Links last 30 minutes."))
+        self.assertEqual(changed["now_around"], {"start": 2, "end": 5, "text": "\n\n\n- Links last 30 minutes."})
+        missing = next(p for p in problems if p["problem"] == "source_missing")
+        self.assertEqual((missing["now"], missing["now_around"]), (None, None))
+
+    def test_the_record_keeps_each_step_with_what_the_agent_read_in_its_place(self):
+        self.cite([self.step("phoenix", "standards/rules/commits.md", 2, 2, asked="What is the subject limit?",
+                             found="72 characters."),
+                   self.step("phoenix", "knowledge/domains/user-management.md", 5, 5)])
+        trace = self.ask("citations", {"issue": 7})["records"][0]["trace"]
+        self.assertEqual([(st["asked"], st["found"]) for st in trace],
+                         [("What is the subject limit?", "72 characters."), ("What does memory say?", "It says so.")])
+        src = trace[1]["source"]
+        self.assertEqual(src["text"], "- A reset link expires after one hour.")
+        self.assertEqual(src["around"], {"start": 2, "end": 5, "text": "## Sign-in\n- Lock the account after five "
+                                         "failed sign-ins.\n## Passwords\n- A reset link expires after one hour."})
+        self.assertEqual(trace[0]["source"]["around"], {"start": 1, "end": 2, "text": "# Commits\nSubject under 72."})
+        self.assertEqual(src["version"], self.ask("health", {})["tiers"][2]["version"])
+
+    def test_a_decision_with_no_trace_is_a_problem(self):
+        os.makedirs(os.path.join(self.short, "7", "context"))
+        with open(os.path.join(self.short, "7", "context", "citations.jsonl"), "w") as fh:
+            fh.write(json.dumps({"citation_id": "cite-20261018-001", "issue": 7, "play": None, "question": "q",
+                                 "answer": "a", "decided_by": "someone", "decided_at": "2026-10-18T00:00:00Z",
+                                 "trace": [], "from_update": None}) + "\n")
+        problems = self.ask("citations", {"issue": 7, "check": True})["problems"]
+        self.assertEqual([(p["problem"], p["step"], p["source"]) for p in problems], [("no_source", None, None)])
+
+    def test_a_decision_from_an_approved_update(self):
+        u = self.ask("propose", {"issue": 7, "missing": "Reset link length here.", "target_tier": "short-term",
+                                 "target_path": "7/context/answers/reset.md", "draft": "Thirty minutes here.",
+                                 "draft_source": "person", "sources": [], "requested_by": "test agent"})["update"]
+        self.assertEqual(self.cite([self.step("phoenix", "standards/rules/commits.md", 1, 1)],
+                                   from_update=u["id"])["error"]["code"], "not_approved")
+        self.ask("decide", {"id": u["id"], "verdict": "approve", "by": "a person", "reply": "yes",
+                            "decided_in": "review-tool"})
+        self.ask("apply", {"id": u["id"]})
+        self.assertEqual(self.cite([self.step("phoenix", "standards/rules/commits.md", 1, 1)],
+                                   from_update=u["id"])["error"]["code"], "bad_request")
+        ok = self.cite([self.step("phoenix", "standards/rules/commits.md", 1, 1),
+                        self.step("short-term", "7/context/answers/reset.md", 1, 1)], from_update=u["id"])
+        self.assertTrue(ok["ok"])
+
+    def test_an_unreadable_line_stops_only_its_own_issue(self):
+        os.makedirs(os.path.join(self.short, "8", "context"))
+        with open(os.path.join(self.short, "8", "context", "citations.jsonl"), "w") as fh:
+            fh.write('{"citation_id": "cite-2026')
+        self.assertTrue(self.cite([self.step("phoenix", "standards/rules/commits.md", 1, 1)])["ok"])
+        broken = self.ask("citations", {"issue": 8, "check": True})["error"]
+        self.assertEqual((broken["code"], broken["tier"]), ("unreadable", "short-term"))
+        self.assertIn("8/context/citations.jsonl line 1", broken["message"])
+        again = self.ask("cite", {"issue": 8, "question": "q", "answer": "a", "decided_by": "test agent",
+                                  "trace": [self.step("phoenix", "standards/rules/commits.md", 1, 1)]})
+        self.assertEqual(again["error"]["code"], "unreadable")
+
+    def test_a_line_that_is_json_but_not_a_record_is_unreadable(self):
+        folder = os.path.join(self.short, "8", "context")
+        os.makedirs(folder)
+        step_without_source = {"citation_id": "cite-20261019-001", "trace": [{"asked": "q", "found": "f"}]}
+        line_as_text = {"citation_id": "cite-20261019-002", "trace": [{"asked": "q", "found": "f", "source": {
+            "tier": "phoenix", "path": "a.md", "start": "1", "end": 1, "fingerprint": cc.fingerprint("x")}}]}
+        for line in ("null", "[1]", '{"play": "/x"}', json.dumps(step_without_source), json.dumps(line_as_text)):
+            with open(os.path.join(folder, "citations.jsonl"), "w") as fh:
+                fh.write(line + "\n")
+            self.assertEqual(self.ask("citations", {"issue": 8, "check": True})["error"]["code"], "unreadable", line)
+
+    def test_a_failed_write_names_short_term_memory(self):
+        folder = os.path.join(self.short, "7")
+        os.makedirs(folder)
+        os.chmod(folder, 0o500)
+        self.addCleanup(os.chmod, folder, 0o700)
+        a = self.cite([self.step("phoenix", "standards/rules/commits.md", 1, 1)])
+        self.assertEqual((a["error"]["code"], a["error"]["tier"]), ("tier_missing", "short-term"))
+        self.assertTrue(a["error"]["message"].startswith("Short-term memory cannot be written"))
+
+    def test_a_decision_is_not_memory(self):
+        self.cite([self.step("phoenix", "knowledge/domains/user-management.md", 5, 5)],
+                  answer="A remembered answer, only in the decision record.")
+        self.assertEqual(self.ask("search", {"issue": 7, "pattern": "remembered answer"})["answered_by"], None)
+
+    def test_listing_one_play(self):
+        self.cite([self.step("phoenix", "standards/rules/commits.md", 1, 1)], play="/vision")
+        self.cite([self.step("phoenix", "standards/rules/commits.md", 1, 1)], play="/understand")
+        self.assertEqual([r["play"] for r in self.ask("citations", {"issue": 7, "play": "/understand"})["records"]],
+                         ["/understand"])
+
+
+class HiddenWhateverTheSpelling(Tiers):
+    """A waiting draft and a decision record are never read, and an issue's short-term memory is
+    never read through Garura memory, however the path is spelled (the #676 review)."""
+
+    def setUp(self):
+        super().setUp()
+        self.draft = self.ask("propose", {"issue": 7, "missing": "Reset link length.", "target_tier": "short-term",
+                                          "target_path": "7/context/answers/reset.md", "draft": "Thirty minutes.",
+                                          "draft_source": "model", "sources": [],
+                                          "requested_by": "test agent"})["update"]
+        write(self.short, "7/notes.md", "a short-term note\n")
+        step = {"asked": "q", "found": "f", "source": {"tier": "phoenix", "path": "standards/rules/commits.md",
+                                                     "start": 1, "end": 1, "fingerprint": cc.fingerprint("# Commits")}}
+        self.ask("cite", {"issue": 7, "question": "q", "answer": "a", "decided_by": "test agent", "trace": [step]})
+
+    def read(self, tier, path, issue=7):
+        return self.ask("read", {"issue": issue, "tier": tier, "path": path})
+
+    def test_odd_spellings_are_refused(self):
+        name = self.draft["id"] + ".json"
+        for path in (f"7/review/./memory-updates/{name}", f"7/review//memory-updates/{name}",
+                     "7/context/./citations.jsonl", "7/notes.md/"):
+            self.assertEqual(self.read("short-term", path)["error"]["code"], "bad_request", path)
+        self.assertEqual(self.read("garura", "./issues/7/notes.md")["error"]["code"], "bad_request")
+
+    def test_other_letter_case_and_links_reach_nothing_hidden(self):
+        name = self.draft["id"] + ".json"
+        for path in (f"7/Review/memory-updates/{name}", f"7/review/Memory-Updates/{name}", "7/Context/citations.jsonl"):
+            self.assertFalse(self.read("short-term", path).get("ok"), path)
+        os.symlink(os.path.join(self.short, "7", "review"), os.path.join(self.short, "7", "drafts"))
+        self.assertFalse(self.read("short-term", f"7/drafts/memory-updates/{name}").get("ok"))
+        self.assertFalse(self.read("garura", "issues/7/notes.md").get("ok"))
+        self.assertFalse(self.read("garura", "Issues/7/notes.md").get("ok"))
+        self.assertEqual(self.read("short-term", "7/notes.md")["text"], "a short-term note")
+
+    def test_a_path_with_a_control_character_is_refused(self):
+        for path in ("7/notes\x00.md", "7/notes.md\n", "7/no\ntes.md"):
+            self.assertEqual(self.read("short-term", path)["error"]["code"], "bad_request", repr(path))
+
+    def test_find_and_search_never_list_a_draft_in_another_letter_case(self):
+        os.makedirs(os.path.join(self.short, "9", "Review", "memory-updates"))
+        self.ask("propose", {"issue": 9, "missing": "Gift cards.", "target_tier": "short-term",
+                             "target_path": "9/context/answers/gift.md", "draft": "A secret draft line.",
+                             "draft_source": "model", "sources": [], "requested_by": "test agent"})
+        hits = self.ask("search", {"issue": 9, "pattern": "secret draft", "tier": "short-term"})["hits"]
+        files = self.ask("find", {"issue": 9, "glob": "**", "tier": "short-term"})["matches"]
+        self.assertEqual(([h["path"] for h in hits], [m["path"] for m in files if "emory-updates" in m["path"]]), ([], []))
+
+    def test_short_term_memory_given_through_a_link_is_still_not_garura_memory(self):
+        link = os.path.join(self.project, "short-term-link")
+        os.symlink(self.short, link)
+        env = dict(self.env, MEMORY_SHORT_TERM_ROOT=link)
+        self.assertFalse(self.ask("read", {"issue": 7, "tier": "garura", "path": "issues/7/notes.md"}, env=env).get("ok"))
+        self.assertEqual(self.ask("find", {"issue": 7, "glob": "issues/**", "tier": "garura"}, env=env)["matches"], [])
+
+    def test_a_decision_never_rests_on_a_draft_or_a_decision(self):
+        for path in (f"7/review/memory-updates/{self.draft['id']}.json", "7/context/citations.jsonl",
+                     f"7/Review/memory-updates/{self.draft['id']}.json"):
+            step = {"asked": "q", "found": "f", "source": {"tier": "short-term", "path": path, "start": 1, "end": 1,
+                                                         "fingerprint": cc.fingerprint("x")}}
+            a = self.ask("cite", {"issue": 7, "question": "q", "answer": "a", "decided_by": "test agent", "trace": [step]})
+            self.assertEqual(a["error"]["code"], "not_found", path)
 
 
 class CommandLine(Tiers):

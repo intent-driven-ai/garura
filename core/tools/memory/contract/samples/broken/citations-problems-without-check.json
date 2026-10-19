@@ -1,0 +1,107 @@
+{
+  "command": "citations",
+  "request": {
+    "issue": 613
+  },
+  "response": {
+    "ok": true,
+    "contract_version": "4",
+    "command": "citations",
+    "records": [
+      {
+        "citation_id": "cite-20261018-001",
+        "issue": 613,
+        "play": "/understand",
+        "question": "How do shoppers sign in?",
+        "answer": "Email and password, social login, and MFA.",
+        "decided_by": "product-os-keeper (/understand)",
+        "decided_at": "2026-10-18T09:30:00Z",
+        "trace": [
+          {
+            "asked": "Who are the shop's users, and where do they use it?",
+            "found": "The public, on web and mobile.",
+            "source": {
+              "tier": "garura",
+              "path": "product/product-os/profile.yaml",
+              "start": 6,
+              "end": 8,
+              "fingerprint": "sha256:ea4be5fa81c618857bc9e02deec8eb38b782ca54725daf5ca6c452edfeaf77fd",
+              "text": "    users: public\n    monetization: paywall\n    surfaces: [web, mobile]",
+              "version": null,
+              "around": {
+                "start": 3,
+                "end": 11,
+                "text": "  state: set\n  shape:\n    stage: public\n    users: public\n    monetization: paywall\n    surfaces: [web, mobile]\n  nfr:\n    performance:   { level: high, gate: \"p95 page load under 2 s\" }\n    security:      { level: high, gate: \"OWASP ASVS L2; no P1/P2\" }"
+              }
+            }
+          },
+          {
+            "asked": "What security level and compliance does the profile set?",
+            "found": "Security high; PCI-DSS and GDPR are in force.",
+            "source": {
+              "tier": "garura",
+              "path": "product/product-os/profile.yaml",
+              "start": 11,
+              "end": 14,
+              "fingerprint": "sha256:792104d6b9ddcfb5eb567bd3e3e3173bce8d6c5a3d5296a223484131bb3c935a",
+              "text": "    security:      { level: high, gate: \"OWASP ASVS L2; no P1/P2\" }\n    accessibility: { level: high, gate: \"WCAG 2.1 AA\" }\n    privacy:       { level: high, gate: \"PII encrypted at rest and in transit\" }\n  compliance: [PCI-DSS, GDPR]",
+              "version": null,
+              "around": {
+                "start": 8,
+                "end": 14,
+                "text": "    surfaces: [web, mobile]\n  nfr:\n    performance:   { level: high, gate: \"p95 page load under 2 s\" }\n    security:      { level: high, gate: \"OWASP ASVS L2; no P1/P2\" }\n    accessibility: { level: high, gate: \"WCAG 2.1 AA\" }\n    privacy:       { level: high, gate: \"PII encrypted at rest and in transit\" }\n  compliance: [PCI-DSS, GDPR]"
+              }
+            }
+          },
+          {
+            "asked": "Which sign-in methods do those values select?",
+            "found": "Email and password is the floor; social login for public users; MFA for high security or PCI-DSS.",
+            "source": {
+              "tier": "phoenix",
+              "path": "knowledge/domains/user-management.md",
+              "start": 45,
+              "end": 47,
+              "fingerprint": "sha256:8dc83f2c493039e4c884647f88af16bfda59f5d2e539020aa8cd6240e0374391",
+              "text": "  - Email & password — the default credential login (the floor).\n  - Social login — when `shape.users: public` and signup friction matters.\n  - MFA — when `nfr.security >= high`, or `compliance` includes SOC2 / HIPAA / PCI-DSS.",
+              "version": "5fcd88e05cf6",
+              "around": {
+                "start": 42,
+                "end": 50,
+                "text": "only when a profile dimension calls for it.\n\n- **Authentication** — include when users sign in.\n  - Email & password — the default credential login (the floor).\n  - Social login — when `shape.users: public` and signup friction matters.\n  - MFA — when `nfr.security >= high`, or `compliance` includes SOC2 / HIPAA / PCI-DSS.\n  - Passwordless — when `nfr.security >= high` and you want to remove password risk entirely.\n  - Enterprise SSO — when the user base is organizations (B2B), or `compliance` requires federated identity.\n- **Registration** — include when users create accounts."
+              }
+            }
+          }
+        ],
+        "from_update": null
+      }
+    ],
+    "problems": [
+      {
+        "citation_id": "cite-20261018-001",
+        "problem": "source_changed",
+        "step": 3,
+        "source": {
+          "tier": "phoenix",
+          "path": "knowledge/domains/user-management.md",
+          "start": 45,
+          "end": 47,
+          "fingerprint": "sha256:8dc83f2c493039e4c884647f88af16bfda59f5d2e539020aa8cd6240e0374391",
+          "text": "  - Email & password — the default credential login (the floor).\n  - Social login — when `shape.users: public` and signup friction matters.\n  - MFA — when `nfr.security >= high`, or `compliance` includes SOC2 / HIPAA / PCI-DSS.",
+          "version": "5fcd88e05cf6",
+          "around": {
+            "start": 42,
+            "end": 50,
+            "text": "only when a profile dimension calls for it.\n\n- **Authentication** — include when users sign in.\n  - Email & password — the default credential login (the floor).\n  - Social login — when `shape.users: public` and signup friction matters.\n  - MFA — when `nfr.security >= high`, or `compliance` includes SOC2 / HIPAA / PCI-DSS.\n  - Passwordless — when `nfr.security >= high` and you want to remove password risk entirely.\n  - Enterprise SSO — when the user base is organizations (B2B), or `compliance` requires federated identity.\n- **Registration** — include when users create accounts."
+          }
+        },
+        "detail": "Phoenix memory knowledge/domains/user-management.md lines 45–47 no longer say what the decision rested on.",
+        "now": "  - Email & password — the default credential login (the floor).\n  - Social login — when `shape.users: public` and signup friction matters.\n  - MFA — when `nfr.security >= high`, or `compliance` includes SOC2 / HIPAA / PCI-DSS; passkeys count.",
+        "now_around": {
+          "start": 42,
+          "end": 50,
+          "text": "only when a profile dimension calls for it.\n\n- **Authentication** — include when users sign in.\n  - Email & password — the default credential login (the floor).\n  - Social login — when `shape.users: public` and signup friction matters.\n  - MFA — when `nfr.security >= high`, or `compliance` includes SOC2 / HIPAA / PCI-DSS; passkeys count.\n  - Passwordless — when `nfr.security >= high` and you want to remove password risk entirely.\n  - Enterprise SSO — when the user base is organizations (B2B), or `compliance` requires federated identity.\n- **Registration** — include when users create accounts."
+        }
+      }
+    ]
+  }
+}

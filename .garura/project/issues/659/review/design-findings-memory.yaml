@@ -1,0 +1,350 @@
+# design-findings-memory.yaml -- Layer 2 design-grounding of the 'memory' category, PR #676 (issue #659), base main. ROUND 2.
+# This file replaces round 1's (committed on the branch; round 1 was graded at head fa73b2b5). Round 1's findings DR-1..DR-8
+# are carried below with a status each; round 2's new findings are numbered R2-n.
+# Playbook: review/memory, read from ~/.garura/phoenix-memory/knowledge/review/memory.md (Garura memory has no copy).
+# Every principle below is read from the base ref (git show main:<path>, main tip 440adb59), a decision record accepted on it
+# (ADR 015, 034, 035, 036), or Phoenix memory's committed history (~/.garura/phoenix-memory, HEAD = origin/main = 5fcd88e).
+# NOT used as grounding: anything this branch adds or rewrites. That is the rewritten rule section itself, ADR 037 (new on the
+# branch; accepted by the owner through /adr, see the accept record in .garura/project/issues/_adr/20261018-200059/decision.yaml),
+# the 659 plan log, the PR body, the self-review, contract version 4, the code of the memory tool and the review tool's design.
+# They were read only as the claims under test. Where ADR 037 covers a departure from main's ADR text, that is said under
+# departures_covered_by_adr_037 and is not closed by this review: whether the ADR is right is the owner's line-by-line review.
+# Reviewed head: 4553fe26. The memory-side files are identical at 700f4355 (the head the categories were assessed at) and
+# 4553fe26 (git diff 700f4355 4553fe26 -- core/components/memory is empty). The memory-side diff was read with
+# git diff main...HEAD and its +/- lines equal the supplied pr.diff for the same two files.
+category: memory
+pr: 676
+issue: 659
+base: main
+round: 2
+round_1_head: fa73b2b5
+head_reviewed: 4553fe26
+scope: >
+  Two changed paths in this category. (1) core/components/memory/standards/rules/resolution.md: +39 lines, -1 line against main.
+  The opening paragraph (lines 3-6) gains a clause; a note is added under R4 (lines 77-79); a new section "Every Decision Names
+  Its Memory (ADR 035 section 6, ADR 037)" is added at lines 104-135 (scope statement, what a decision trace is, three duties,
+  what the check cannot see, when the old protocol gives way, a Related line). R1 to R3, the Resolution Trace Output block,
+  Context Isolation Exemptions, Backward Compatibility and Staleness Handling are word for word as on main. (2)
+  core/components/memory/standards/rules/_index.md: one row (line 25, resolution.md) gains one clause. The memory tool, its
+  contract and the drive-review writers are judged in the tool-interface-contract and executable-code categories, not here.
+severity_basis: >
+  Buckets from core/components/memory/standards/rules/pr.md on main (lines 8-11: P1 blocker; P2 major; P3 minor: missing docs,
+  naming; P4 nit: style). Phoenix memory's copy of pr.md is the same blob as main's (c0c27f5f). The table rows there are
+  mechanical code rules and none targets memory prose, so each class is chosen from the bucket definitions. Prose is never a
+  code or data defect (pr.md, "Prose is never a code/data defect (#454)"). Calibration as in round 1: P3 for documentation that
+  misleads or a name that collides in a rule other agents read; P4 for a gap the committed text itself names or that nothing
+  runs against yet. A rule that no agent reads yet, whose open edges ADR 035 names as a transition, does not reach P2.
+
+principles_grounded:
+  - id: G1
+    principle: >
+      Every decision an agent makes names the memory it came from: the tier, the file and the lines it rests on. The three tiers
+      are short-term memory, Garura memory and Phoenix memory. This widens ADR 034 section 4 from a play's answers inside a
+      drive to every decision. The shape of an answer and its source is left to plan item 6.
+    sources:
+      - "main:docs/adr/035-agents-work-only-from-memory.md section 1 (three tiers) and section 6 ('Every decision names its memory'; 'The shape of an answer and its source is settled in plan item 6')"
+      - "main:docs/adr/036-approved-answer-lands-in-short-term-memory.md section 1 (short-term memory is the current issue only; every lookup names its issue)"
+  - id: G2
+    principle: >
+      Every answer a play takes from memory is recorded with where it came from, and the drive's review shows the person what was
+      assumed and on what basis. 'An answer with no source is not allowed.'
+    sources:
+      - "main:docs/adr/034-plays-answer-from-memory-inside-a-drive.md section 4 ('Every answer names its source')"
+  - id: G3
+    principle: >
+      When no tier answers, an agent does not decide from the model's own knowledge or from the web. It raises a memory update;
+      the model or the web may help draft it; nothing in it is used until a person approves it; the approved answer is written to
+      the issue's short-term memory and the work then decides from memory. ADR 015's R1-R4 and its fallback to the model give way
+      to this; until each agent moves, the old and the new ways in sit side by side.
+    sources:
+      - "main:docs/adr/035-agents-work-only-from-memory.md section 5, section 9 ('ADR 015 -- superseded in part. R1-R4, its fallback to the model, ltm_context, the resolution trace built on it, and the learning play's promotion of the model's guesses give way to parts 3 to 6') and Negative / Risks ('Until each moves, the old and new ways in sit side by side')"
+      - "main:docs/adr/036-approved-answer-lands-in-short-term-memory.md section 2 (an approved researched answer lands in the issue's short-term memory)"
+      - "main:docs/adr/015-ltm-resolution-protocol.md line 3 (Status: superseded by ADR 035 in part: the resolution protocol and the resolution trace built on it)"
+  - id: G4
+    principle: >
+      The committed home of the answer-and-source shape is plan item 6 of the memory feature: one shape built on the trace format
+      Garura already has; agents write it to short-term memory; a script checks that each named source exists and its fingerprint
+      still matches. It is a working note, not a decision record; ADR 035 section 6 points at it and ADR 035's Work This Creates
+      item 6 says 'a script checks each source'.
+    sources:
+      - "main:.garura/project/issues/653/specs/plan.md, item 6 (lines 148-162)"
+      - "main:docs/adr/035-agents-work-only-from-memory.md, Work This Creates, item 6"
+  - id: G5
+    principle: >
+      One name carries one meaning, and names are chosen so they are never confused. On main 'decision record' means an ADR (at
+      any level), 'Resolution trace' means 'a per-decision trace' written under R1-R4, and in the drive's review record 'decided'
+      is what a person's review answers.
+    sources:
+      - "main:core/grounding/glossary.md line 61 ('A decision record = an ADR at any level'), line 113 (ADR row), line 43 ('Resolution trace': 'A per-decision trace written by agents ... when following the R1-R4 protocol')"
+      - "main:core/components/memory/standards/rules/direct-model-write.md:123, gate-config.md:90, work-plan.md:29, pipeline-next.md:36 (each uses 'decision record' for an ADR)"
+      - "main:core/components/plays/play-creator/references/write_drive_review.py lines 8 and 75 ('decided: false' until the drive's review answers it)"
+      - "main:docs/adr/035-agents-work-only-from-memory.md section 1 (the project tier is called Garura memory so it is never confused with the memory Claude Code keeps)"
+      - "main:core/components/memory/standards/rules/pr.md:10 (the P3 bucket names 'naming')"
+  - id: G6
+    principle: >
+      A rule file says to whom and when it binds, and its parts do not contradict one another. The resolution rule on main binds
+      'when ltm_context is present'; its Context Isolation Exemptions section says two agents never receive ltm_context (INV4);
+      its Backward Compatibility section says that with no ltm_context the whole protocol is skipped and 'No trace is produced'
+      (INV3). ADR 016's ltm_context input and the resolution trace path are what ADR 035 retires.
+    sources:
+      - "main:core/components/memory/standards/rules/resolution.md lines 1-4, 99-108 (Context Isolation Exemptions) and 110-116 (Backward Compatibility)"
+      - "main:docs/adr/035-agents-work-only-from-memory.md section 9 (ADR 016: ltm_context, resolution_trace_path and the Resolution Protocol Hook go)"
+      - "main:core/grounding/glossary.md line 23 (play-scoped sub-role: context isolation)"
+  - id: G7
+    principle: >
+      A file belongs in rules/ when it is the single source of truth for its domain, 'not a copy of skill prose', and anything
+      'resolvable from the code itself' stays in the code. The rules index row is how a rule is found: it states what the file
+      holds and who consumes it. Neighbouring rules end in a Related list.
+    sources:
+      - "main:core/components/memory/standards/rules/_index.md ('Agents and skills query this category when they need to know ...', the 'resolution.md' row, and 'When to Add Here')"
+      - "main:core/components/memory/standards/rules/drive-contract.md, ## Related (and 12 other rules with a Related or Related Rules heading)"
+      - "main:docs/adr/035-agents-work-only-from-memory.md section 4 (the tool sits outside Garura; Garura and its agents do not change when Griffin exposes it)"
+  - id: G8
+    principle: >
+      Phoenix memory is generic only: 'No client, organisation or personal references.' It is read through the memory tool, never
+      by path; every change is a commit a person approves. Repo-local pointers (an ADR number, an issue number) are already part
+      of Phoenix's rules as seeded.
+    sources:
+      - "~/.garura/phoenix-memory@5fcd88e:README.md ('Generic only. No client, organisation or personal references'; 'Read through the memory tool')"
+      - "main:docs/adr/035-agents-work-only-from-memory.md sections 2 and 4"
+      - "~/.garura/phoenix-memory@5fcd88e:standards/rules/ (git grep -n: 31 lines carry an 'ADR NNN' and 67 lines a '#NNN'; this branch does not touch Phoenix memory)"
+  - id: G9
+    principle: >
+      Memory is the three tiers, and agents also read the project's git repository, its product model and its intents. ADR 034's
+      list of what counts as memory was rewritten the same way: 'the three tiers, read through the tool, with the git repository,
+      the product model and the intents'.
+    sources:
+      - "main:docs/adr/035-agents-work-only-from-memory.md section 1 (line 42: 'Agents also read the project's git repository, its product model and its intents') and section 9 (ADR 034 section 2)"
+      - "main:docs/adr/034-plays-answer-from-memory-inside-a-drive.md section 2 ('memory and what the system gives')"
+
+departures_covered_by_adr_037:
+  # Each is a place where the branch's rule text goes past main's ADR text. ADR 037 is branch content the owner accepted through
+  # /adr. It is named here as the record that covers the departure; it is not used as the standard. Whether it is right is the
+  # owner's line-by-line review of the ADR.
+  - departure: "A decision names a trace of ordered steps, each with what was looked for, what was found, a tier, a file, lines and a fingerprint, instead of one tier, file and lines (ADR 035 section 6 as on main; plan item 6 on main: one shape built on the existing trace format)."
+    covered_by: "ADR 037 sections 1, 2 and 5 (amends ADR 035 section 6)"
+    status: "covered; the rule no longer restates the kept text, the memory version or the lines around it (round 1 DR-5, DR-6)"
+  - departure: "The rule binds 'once the agent works through the memory tool' and leaves R1-R4 and Backward Compatibility in force until then."
+    covered_by: "ADR 035 Negative / Risks on main ('old and new ways in sit side by side'); ADR 037 Negative / Risks says the same for the two traces in this file"
+    status: "covered"
+  - departure: "The two isolated agents (evals-engineer, judge) and whether they keep a decision trace."
+    covered_by: "none. Neither ADR 035/036 on main nor ADR 037 on the branch mentions the isolation exemption (INV4); the rule defers it."
+    status: "not covered; see R2-1"
+  - departure: "Decisions that rest on the git repository, not on a tier."
+    covered_by: "none. ADR 035 section 6, as written on main, names only tier, file and lines; ADR 037 repeats 'a tier'."
+    status: "not covered; see R2-4"
+
+round_1_status:
+  - id: DR-1
+    was: "P3. The new section said every decision keeps its trace with no condition, against a file that binds on ltm_context, exempts two agents and says no trace is produced without it."
+    status: partly_fixed
+    now: >
+      Mostly fixed: a Scope paragraph (lines 106-110) says the section binds every agent decision once the agent works
+      through the memory tool, does not depend on ltm_context, and that until an agent has moved R1-R4, the Resolution Trace
+      Output and Backward Compatibility still govern it. The opening paragraph (lines 5-6) carries the same condition. Left:
+      the two isolated agents are deferred to the agents' move with no record behind the deferral, and the closing sentence
+      that says what gives way does not name Backward Compatibility. Residual carried as R2-1 (P4).
+  - id: DR-2
+    was: "P3. The closing sentence said R4's model fallback becomes a trace; 'the trace above (R1-R4)' mixed the steps with the trace block; R4 read as permitted with no mark."
+    status: fixed
+    now: >
+      Lines 132-133 now say 'R1-R4 and the Resolution Trace Output give way to this section. R4's fallback to the model does not
+      carry over (ADR 035 section 5 and section 9)'. A note under R4 (lines 77-79) says it is superseded in part by ADR 035
+      section 5 and an agent that works through the memory tool raises a memory update for a person instead. Both match ADR 035
+      sections 5 and 9 on main (G3), and the steps and the trace block are named apart.
+  - id: DR-3
+    was: "P3. 'Decision Records' collided with the glossary's 'decision record = an ADR'; 'who decided' collided with the review record's 'decided'; 'this trace' was a second trace in one file."
+    status: fixed
+    now: >
+      The heading is 'Every Decision Names Its Memory', which is ADR 035 section 6's own title, so the rule is found by the
+      phrase that names the decision and no committed record is called by it. The body says 'decision trace' and no longer
+      says 'decision record' or 'who decided'. What remains is that the glossary on main defines 'Resolution trace' as 'a
+      per-decision trace' and gains no row for the new term (R2-2, P4). The same collision survives outside this category:
+      ADR 037 section 6 and the header of core/tools/memory/citations.py still call the records 'decision records' (a pointer
+      for the adrs and executable-code categories, not a finding here).
+  - id: DR-4
+    was: "P3. The section described the record and the tool but told an agent nothing to do: no duty to cite, nothing for no source, nothing on where the record is kept."
+    status: fixed
+    now: >
+      Lines 120-130 give three duties (record each decision with the tool's `cite` before returning it; make no decision that no
+      tier supports and raise a memory update instead, never falling back to the model; keep the trace in the issue's
+      short-term memory) and say what the check cannot see ('A decision that was never recorded is not flagged, so recording
+      it is the agent's duty'). They match ADR 034 section 4, ADR 035 sections 5 and 6, and ADR 036 section 1 (G1-G3). One
+      edge of the second duty is R2-4.
+  - id: DR-5
+    was: "P3. The multi-step trace and the kept text had no committed record on main; the rule would reach Phoenix memory before the record that backs it."
+    status: fixed
+    now: >
+      The departure now has a record in the same landing: ADR 037 sections 1, 2 and 5 amend ADR 035 section 6, and the owner
+      accepted it through /adr (decision.yaml: verdict accept, by person). The rule heading, its opening clause, its Related
+      line and the index row name ADR 037 beside ADR 035 section 6, and the rule no longer restates the kept text, the memory
+      version or the lines around it. Covered by ADR 037; whether that closes it is the owner's line-by-line review of the
+      ADR, which this review does not stand in for.
+  - id: DR-6
+    was: "P4. The rule held a second copy of the tool's behaviour and pinned 'version 4'."
+    status: fixed
+    now: >
+      'Version 4' and the description of what the tool keeps are gone. Lines 128-130 end 'The memory tool's contract is the
+      source for the exact shape and for how a trace is checked' (G7). One clause on what the check flags is kept, which ties
+      the agent's duty to the check.
+  - id: DR-7
+    was: "P4. The file now held two rules, but neither its opening nor its index row said so, and it had no Related pointer."
+    status: fixed
+    now: >
+      The opening paragraph (lines 5-6), the index row (line 25, 'the decision trace every agent keeps (ADR 035 section 6, ADR
+      037)') and a Related line (line 135) now name the new section. The 'Referenced by' line and the consumers cell still
+      list the three R1-R4 agents and 'every agent that reads LTM'; that reads as covered until the agents' move rewrites
+      them. The index row has its own gap, R2-3.
+  - id: DR-8
+    was: "P4. '#663' in a rule that Phoenix memory serves to every project."
+    status: fixed
+    now: >
+      No issue number is left in the section. The ADR pointers (035, 037) stay, which Phoenix's rules already do (G8).
+
+round_1_tally: {fixed: 7, partly_fixed: 1, stands: 0}
+
+findings:
+  - id: R2-1
+    severity: P4
+    file: core/components/memory/standards/rules/resolution.md
+    line: "106-110 and 132-133, against 137-154 (Context Isolation Exemptions, Backward Compatibility)"
+    what: >
+      Two edges are left from round 1's DR-1. (1) The Scope paragraph says the section 'binds every agent decision' and in the
+      same paragraph that whether the evals-engineer and the judge keep a decision trace 'is settled when the agents move onto
+      the memory tool'. For those two agents the rule says nothing an agent can act on, and the exemption (INV4) is still worded
+      only in terms of ltm_context, which ADR 035 section 9 retires. No committed record answers it: ADR 035 and ADR 036 on
+      main do not mention the exemption, and ADR 037 does not either. (2) The Scope paragraph says Backward Compatibility
+      governs an agent that has not moved, but the closing sentence (lines 132-133) names only R1-R4 and the Resolution Trace
+      Output as giving way. Backward Compatibility ('No trace is produced') and Staleness Handling are not named, so once an
+      agent has moved the file still says no trace is produced without ltm_context, a few lines from a section that says every
+      agent keeps one.
+    principle: G6, G1
+    basis: >
+      G6: a rule file says to whom and when it binds and does not contradict itself; the base file states INV3 and INV4 in
+      terms of ltm_context. G1 and ADR 035 section 5 ('This holds for every agent and skill') carry no exemption for the two
+      agents; ADR 035 section 9 retires ltm_context without naming what replaces the exemption. Classed P4: the text says in
+      so many words that the question is open, ADR 035's Negative / Risks accepts the side-by-side period, and no agent
+      reads the section yet.
+    fix: >
+      Add Backward Compatibility (and say whether Staleness Handling stays) to the sentence that says what gives way. For the
+      isolated agents, either decide now (a decision that rests on no memory has an empty trace by design; or the exemption
+      stands in terms that do not need ltm_context) or name the question in one line with an owner, as ADR 035's 'Not decided
+      here' list does, so it is carried to the agents' move.
+
+  - id: R2-2
+    severity: P4
+    file: core/components/memory/standards/rules/resolution.md
+    line: "104-135 (the term 'decision trace'), against the glossary row for 'Resolution trace'"
+    what: >
+      The section names its object a 'decision trace'. The glossary on main already defines 'Resolution trace' as 'A per-decision
+      trace written by agents ... when following the R1-R4 protocol'. The two are told apart only inside this file, by the
+      sentence that says one gives way to the other. The glossary gets no row, and ADR 037 lists the glossary row as not
+      decided. A person or agent who looks up 'decision trace' in the glossary finds the old trace's definition. Phoenix memory
+      has no glossary, so in the shared tier the file is the only place the two are separated.
+    principle: G5
+    basis: >
+      G5: one name carries one meaning and names are chosen so they are never confused (ADR 035 section 1; glossary line 43 on
+      main; pr.md puts naming in P3). Classed P4, below round 1's P3 for the same theme: the collision with 'decision
+      record' is gone, the rule itself separates the two traces in words, and the glossary gap is disclosed by the ADR.
+    fix: >
+      When the glossary is next edited for the agents' move, add one row for 'decision trace' next to 'Resolution trace' with
+      'gives way to' in both. Until then, one clause in the section's first paragraph naming the old trace ('not the Resolution
+      Trace Output above') is enough.
+
+  - id: R2-3
+    severity: P4
+    file: core/components/memory/standards/rules/_index.md
+    line: "25 (row for resolution.md)"
+    what: >
+      The row ends 'the decision trace every agent keeps (ADR 035 section 6, ADR 037)'. The section and the file's opening both
+      carry a condition ('once it works through the memory tool'); the row, which is how an agent or person finds the rule and
+      is promoted to Phoenix memory with it, states it as a present fact. ADR 037's own Negative / Risks says no agent keeps a
+      trace yet. Read through the index, every agent already does.
+    principle: G7, G6
+    basis: >
+      G7: the index row states what the file holds and who consumes it (main:_index.md header). G6: a rule says when it binds.
+      ADR 035 Negative / Risks on main: until each agent moves, old and new sit side by side. Classed P4: one clause, and the
+      detail is one click away in the section.
+    fix: >
+      End the row with 'the decision trace every agent keeps once it works through the memory tool (ADR 035 section 6, ADR
+      037)'. The same row is edited in Phoenix memory's copy at landing, which equals main's (blob 8c4c6da3).
+
+  - id: R2-4
+    severity: P4
+    file: core/components/memory/standards/rules/resolution.md
+    line: "112-118 (a step names a tier) and 122-124 (makes no decision that no tier supports)"
+    what: >
+      The rule allows a decision only if a tier supports it and has each step name 'a tier'. ADR 035 section 1 says agents also
+      read the project's git repository, and ADR 035 section 9 gives ADR 034 section 2 the same list (the three tiers, with the
+      git repository, the product model and the intents). A decision that rests on the repository (code in a diff, a file
+      in the working tree) has no tier to name, and under the second duty it would need a memory update before the agent could
+      make it. The rule follows ADR 035 section 6 word for word ('the tier, the file and the lines'), so the gap is in the
+      ADR; ADR 037 repeats 'a tier'. It will show when the build and review agents move onto the tool.
+    principle: G9, G1
+    basis: >
+      G9: ADR 035 section 1 (line 42) and section 9 on main list the repository, the product model and the intents beside the
+      tiers. G1: every decision names its memory, the tier, the file and the lines. Classed P4: the rule is no stricter than
+      its source ADR, nothing runs against it yet, and the product model and the intents sit inside Garura memory per ADR 035
+      section 1, so only the repository is open.
+    fix: >
+      Raise it with the ADR's owner as one more question for the agents' move, and carry it in the section as the isolated
+      agents are in R2-1: say what a step names when its source is the repository, or that a decision resting only on the
+      repository needs no trace.
+
+conformance_checks_passed:
+  - check: "The section names the three tiers as ADR 035 section 1 does"
+    principle: G1
+    result: "'short-term, Garura or Phoenix memory' (line 113); no 'project memory' or 'LTM' inside the new section. The index row and the older text keep 'LTM' as they did on main."
+  - check: "A memory update a person approved is a source of a step, by its written file"
+    principle: G3
+    result: "Lines 117-118 match ADR 035 section 5 and ADR 036 section 2 (the approved answer is written to the issue's short-term memory; the work decides from it)."
+  - check: "No decision from the model or the web; a memory update instead"
+    principle: G3
+    result: "Lines 123-124 and the note under R4 (lines 77-79) match ADR 035 section 5 and section 9. The model may still help draft the update, which the rule does not forbid."
+  - check: "Where the record is kept"
+    principle: G1
+    result: "'the issue's short-term memory' (line 125) matches ADR 036 section 1 (short-term memory is the current issue only)."
+  - check: "A decision with no source is not allowed, and the check's limit is stated"
+    principle: G2
+    result: "Lines 122 and 128-130 carry ADR 034 section 4 into a duty and say what the check cannot see."
+  - check: "The rule points at the contract for the shape instead of copying it"
+    principle: G7
+    result: "Line 129-130 and the Related line; no contract version is named."
+  - check: "Cross-references resolve"
+    principle: G7
+    result: "'Every Decision Names Its Memory' (R4 note) is the new heading; 'Context Isolation Exemptions', 'Backward Compatibility' and 'Resolution Trace Output' are headings in the same file; ADR 034 section 4, ADR 035 sections 5, 6 and 9, ADR 037 exist (037 is on the branch)."
+  - check: "The existing rule text was left alone"
+    principle: G6
+    result: "resolution.md: +39 -1 in three hunks (opening clause, R4 note, new section). R1-R3, the trace block, the exemptions, Backward Compatibility and Staleness Handling are as on main. _index.md: one row, +1 -1."
+  - check: "Phoenix reading: no person, client, organisation or home-folder reference, and no Garura-only path"
+    principle: G8
+    result: "Scanned the 40 added lines for issue numbers, '~/', '.garura', 'core/', 'docs/', '/Users', e-mail, URLs, file extensions, personal and company names and vault names. One hit: 'resolution.md' as the row key of the index row, which is unchanged from main. The only repo-local pointers are 'ADR 034 section 4', 'ADR 035 section 5/6/9' and 'ADR 037'. Round 1's '#663' is gone. The section names the tool's commands, never a memory path (ADR 035 section 4)."
+  - check: "Promotion to Phoenix memory applies cleanly"
+    principle: G8
+    result: "Phoenix origin/main (5fcd88e) holds resolution.md at blob cabb15f0 and _index.md at blob 8c4c6da3, the same blobs as main, and the branch diff is generated against those blobs (index cabb15f0..31853a67 and 8c4c6da3..4882411c). The three hunks and the index row apply with no conflict, and Phoenix's pr.md equals main's."
+  - check: "Sign-in example"
+    principle: G1
+    result: "main:standards/schemas/product-os/product-profile.yaml has shape.users, shape.surfaces, security.level and compliance, the values the example reads; the example is plain and generic."
+
+grounding_limits:
+  - "ADR 037 is branch content. It is named under departures_covered_by_adr_037 as the record the owner accepted, and nowhere used as the standard. The standard for each finding is main's ADR text, the glossary, the index and Phoenix's README."
+  - "The only committed home of the shape's detail on main is plan item 6, a working note (one source per decision). The multi-step trace is grounded only in ADR 037 (branch); this review reports where it departs and does not rule on the ADR."
+  - "Phoenix memory has no memory guide yet (ADR 035 section 8 is not built) and no glossary, so a project that reads the Phoenix copy of the rule finds `cite`, `citations` and 'the memory tool's contract' only through the tool that ships with its install. That is what ADR 035 sections 4 and 8 intend, and it is not a finding while the guide is unbuilt."
+  - "No standards template for a rule file exists on main, so conformance to a rule-file shape was tested against neighbouring rules (a Related list, a consumers row in the index), not a template."
+  - "The review/memory playbook is written for knowledge shelves; the rubric parts that apply to a rules file (fit, cross-references, duplicating or contradicting) were used, the shelf-template parts were not."
+
+summary:
+  principles_grounded: 9
+  findings: {P1: 0, P2: 0, P3: 0, P4: 4}
+  p1: none
+  p2: none
+  round_1_tally: {fixed: 7, partly_fixed: 1, stands: 0}
+  verdict_note: >
+    Nothing here blocks the change. Four of round 1's five P3 findings and all three of its P4 findings are fixed; the fifth P3
+    (DR-1, when the section binds) is partly fixed and its residue is a P4. The section now says when it binds, what an agent must
+    do, what happens when no memory answers and what the check cannot see; it no longer collides with 'decision record', no
+    longer promises that the model's fallback is recorded, and reads cleanly as a Phoenix memory rule (no Garura-only path, no
+    issue number, no person or client). The four P4 findings are open edges: the two isolated agents and Backward Compatibility
+    (R2-1), the glossary's older 'Resolution trace' (R2-2), the index row stating as present fact what is conditional (R2-3),
+    and decisions resting on the git repository (R2-4). The one departure from main's ADR text, the multi-step trace, is
+    covered by ADR 037, which the owner accepted; whether the ADR closes it is the owner's line-by-line review.

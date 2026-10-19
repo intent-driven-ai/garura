@@ -10,7 +10,7 @@ import unittest
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import check_contract as cc  # noqa: E402
 
-CONTRACT = cc.load(os.path.join(cc.HERE, "v3.json"))
+CONTRACT = cc.load(os.path.join(cc.HERE, "v4.json"))
 
 
 def v(value, schema):
@@ -132,7 +132,7 @@ class Scope(unittest.TestCase):
         hit = s["response"]["hits"][0]
         read = {"command": "read", "request": {"issue": 655, "tier": "short-term", "path": hit["path"],
                                                "start": hit["line"], "end": hit["line"]},
-                "response": {"ok": True, "contract_version": "3", "command": "read", "tier": "short-term",
+                "response": {"ok": True, "contract_version": "4", "command": "read", "tier": "short-term",
                              "path": hit["path"], "start": hit["line"], "end": hit["line"], "text": hit["text"],
                              "fingerprint": hit["fingerprint"], "version": None}}
         self.assertTrue(cc.check_meaning(read, CONTRACT))
@@ -141,11 +141,12 @@ class Scope(unittest.TestCase):
 
     def test_cite_of_another_issue_is_caught(self):
         s = sample("cite.json")
-        s["request"]["sources"][0].update({"tier": "short-term", "path": "655/specs/plan.md"})
+        s["request"]["trace"][0]["source"].update({"tier": "short-term", "path": "655/specs/plan.md"})
         self.assertTrue(cc.check_meaning(s, CONTRACT))
         s["response"]["stored"]["path"] = "655/context/citations.jsonl"
-        s["request"]["sources"][0]["path"] = "613/specs/plan.md"
+        s["request"]["trace"][0]["source"]["path"] = "613/specs/plan.md"
         self.assertTrue(cc.check_meaning(s, CONTRACT))
+
 
     def test_without_an_issue_there_is_no_short_term_memory(self):
         # find.json and search.json looked in short-term memory: without an issue, that is wrong
@@ -165,6 +166,39 @@ class Scope(unittest.TestCase):
         self.assertTrue(cc.check_meaning(s, CONTRACT))
         self.assertEqual(cc.refusal("search", {"pattern": "x", "tier": "short-term"}),
                          "tier short-term without an issue")
+
+
+class Traces(unittest.TestCase):
+    """A decision record is a trace of steps; each source keeps the lines around it, and a
+    problem names its step."""
+
+    def test_the_sample_trace_passes(self):
+        s = sample("citations-check.json")
+        self.assertEqual(cc.check_sample(s, CONTRACT), [])
+        self.assertEqual([len(r["trace"]) for r in s["response"]["records"]], [3, 0])
+
+    def test_lines_around_must_hold_the_text_in_its_place(self):
+        s = sample("citations.json")
+        src = s["response"]["records"][0]["trace"][2]["source"]
+        src["around"]["text"] = src["around"]["text"].replace(src["text"].split("\n")[0], "something else")
+        self.assertTrue(any("in its place" in p for p in cc.check_sample(s, CONTRACT)))
+
+    def test_lines_around_may_stop_at_the_top_of_the_file(self):
+        src = {"start": 1, "end": 1, "text": "# Commits", "around": {"start": 1, "end": 3, "text": "# Commits\nA\nB"}}
+        self.assertIsNone(cc.check_around(src))
+
+    def test_a_missing_source_has_no_text_now(self):
+        s = sample("citations-check.json")
+        changed = s["response"]["problems"][0]
+        changed["problem"] = "source_missing"
+        self.assertTrue(any("now and now_around" in p for p in cc.check_sample(s, CONTRACT)))
+        changed.update({"now": None, "now_around": None})
+        self.assertEqual(cc.check_sample(s, CONTRACT), [])
+
+    def test_no_source_is_only_for_a_record_with_no_trace(self):
+        s = sample("citations-check.json")
+        s["response"]["problems"][1]["citation_id"] = "cite-20261018-001"
+        self.assertTrue(any("no_source is only" in p for p in cc.check_sample(s, CONTRACT)))
 
 
 class Lifecycle(unittest.TestCase):
@@ -334,7 +368,7 @@ class Refusals(unittest.TestCase):
 
     def test_answer_names_its_own_command(self):
         s = {"command": "find", "request": {"issue": 613, "glob": "x"},
-             "response": {"ok": False, "contract_version": "3", "command": "health",
+             "response": {"ok": False, "contract_version": "4", "command": "health",
                           "error": {"code": "tier_missing", "message": "m", "tier": None}}}
         self.assertTrue(cc.check_sample(s, CONTRACT))
 

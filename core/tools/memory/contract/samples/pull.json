@@ -5,7 +5,7 @@
   },
   "response": {
     "ok": true,
-    "contract_version": "3",
+    "contract_version": "4",
     "command": "pull",
     "tier": "garura",
     "path": "knowledge/domains/ecommerce.md",

@@ -3,8 +3,8 @@ plan_for: 653
 kind: feature
 serves: "#653 — agents work only from memory, so drives can make their own decisions"
 status: active
-updated: 2026-10-18
-now: 6
+updated: 2026-10-19
+now: 7
 serves_plan: 606
 serves_item: 8
 ---
@@ -85,16 +85,17 @@ answer came from in a way anyone checks.
   update first, and the decision was then made from memory.
 - Every decision an agent makes names the memory it came from, and a script
   checks the source exists and has not changed.
-- The Memory and ADRs section shows the tiers, the waiting updates and ADRs, and
-  each decision's source; a person answers them on the Catch up cards.
+- The review tool's ADRs, Memory and Agent decisions sections (ADR 037) show the tiers,
+  the waiting updates and ADRs, and each decision's trace; a person answers them on the
+  Catch up cards.
 - Moving the tool to Griffin means changing one setting.
 
 ## Where we are now
 
-Decided, and five pieces shipped: ADR 035 and ADR 036 (#654, #667), the contract (#655),
-Phoenix memory with `pull` and `pulled` (#656), the memory tool (#657) and memory updates
-(#658, PR #675). Next: item 6, every decision names its memory (#659), starting with the
-three notes from the #675 review.
+Decided, and six pieces shipped: ADR 035, ADR 036 and ADR 037 (#654, #667, #659), the
+contract (#655), Phoenix memory with `pull` and `pulled` (#656), the memory tool (#657),
+memory updates (#658, PR #675) and decision traces (#659, PR #676). Next: item 7, every
+Garura install carries the memory system (#660).
 
 ## The plan, in order
 
@@ -135,7 +136,8 @@ three notes from the #675 review.
   passed on a fresh project. No agent calls it yet (item 8). ADR 035 §2 and ADR 036 §1
   need amending for these decisions.
 - **11. Moved: the memory review** — #664 is built with the whole review tool, all
-  sections inside Garura, in the #606 plan (item 8, the review). Kapil, 2026-10-18 (#658): "we will build the tool with all the sections inside garura - as part of 606 plan. it remains a local prototype for now."
+  sections inside Garura (since 2026-10-19: ADRs, Memory with Ask memory, and Agent
+  decisions, in place of one "Memory and ADRs" section), in the #606 plan (item 8, the review). Kapil, 2026-10-18 (#658): "we will build the tool with all the sections inside garura - as part of 606 plan. it remains a local prototype for now."
   Until then, a local prototype page approves memory updates (#658 plan, item 5).
 - **5. Shipped: memory updates** — #658, PR #675, approved by Kapil on 18 October. When
   no tier answers, an agent raises an update in the issue's short-term memory ("STM -
@@ -144,24 +146,16 @@ three notes from the #675 review.
   short-term memory. A drive keeps going unless an update blocks. Contract version 3.
   Moving memory up is `/learn-memory` and `/promote-memory` (not filed). ADR 035 §5 and
   ADR 036 §2–§4 need amending.
+- **6. Shipped: every decision keeps a trace** — #659, PR #676, approved by Kapil on 19
+  October after a rejected first round. Each agent decision keeps a trace: the steps the
+  agent took, each with its memory lines, the exact text, the memory version and the lines
+  around (Kapil: "these are called traces"). `cite` and `citations` in the memory tool
+  (contract version 4); the drive review record carries the decisions; the rule's "Every
+  Decision Names Its Memory" section is in Garura and Phoenix memory; ADR 037 amends ADR
+  035 §6/§7, ADR 036 §7 and ADR 032 §3, and the review tool has five sections. No agent
+  calls `cite` yet (#661, #663).
 
-### 6. Every decision names its memory — now
-
-**Issue:** #659.
-**First:** three notes from the PR #675 review: the review tool's mockup gains the Memory
-and ADRs section, so the memory page is part of the committed design (Kapil: "not build
-solo"); contract version 3 says a waiting draft is hidden from lookups; the design says
-the Memory and ADRs section (#664) needs Garura-side work too.
-**What:** one shape for an answer and its source, built on the trace format
-Garura already has. Agents write it to short-term memory; a script checks each
-named source exists and its fingerprint still matches; a drive's review record
-carries them.
-**Why here:** the memory review and the drive's review both show these.
-**Done when:** the check fails an answer that names no source, or a source that
-changed.
-**Needs:** item 4.
-
-### 7. Every Garura install carries the memory system
+### 7. Every Garura install carries the memory system — now
 
 **Issue:** #660.
 **What:** installing Garura into a project installs the memory tool and a short
@@ -278,3 +272,4 @@ describe the three tiers and the tool, and the locked knowledge-base design note
 - 2026-10-18 — Item 4 done: #657 approved by Kapil (PR #674). Now item 5 (#658).
 - 2026-10-18 — Item 11 moved: the memory review (#664) is built with the review tool in the #606 plan.
 - 2026-10-18 — Item 5 done: #658 approved by Kapil (PR #675). Now item 6 (#659).
+- 2026-10-19 — Item 6 done: #659 approved by Kapil (PR #676, round 2); ADR 037 accepted. Now item 7 (#660).

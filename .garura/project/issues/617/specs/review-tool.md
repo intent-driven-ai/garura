@@ -147,21 +147,30 @@ already proved this.
 
 ## 3. The review pack — what Garura sends
 
-The pack is outcome-shaped, not file-shaped. The tool never sees a file path.
+The pack is outcome-shaped, not file-shaped. The tool never sees a file path as something to
+open. The one place a path appears is an agent decision's source, carried as text for the
+person to check (section 4, Agent decisions).
 
 ```
 review pack
 ├── review: id, title ("Kickoff — Shop checkout"), drive, branch, base,
 │           started, revision, checker note, stopped-because (failed drive only)
-├── kinds: intent, domain, capability, functionality, limit, decision
-│          (label, plural, icon, which tool shows it, which verbs it allows)
-├── pieces[] — one per intent, domain, capability, functionality, limit, decision
+├── kinds: intent, domain, capability, functionality, limit, decision,
+│          agent decision (label, plural, icon, which tool shows it, which
+│          verbs it allows; "decision" is a product decision record, "agent
+│          decision" is an agent's decision with its trace)
+├── pieces[] — one per intent, domain, capability, functionality, limit,
+│              decision, agent decision
 │   ├── id, kind, title, one line
 │   ├── change: added | changed | removed | same
 │   ├── status: e.g. proposed / confirmed (shown, never edited by the tool)
 │   ├── sections[] — labelled parts in reading order
 │   │     label ("Outcome", "Why", "Proof it is met", "Goal", "Limit" …),
-│   │     before (text or empty), after (text or empty), editable yes/no
+│   │     before (text or empty), after (text or empty), editable yes/no;
+│   │     for an agent decision, one section per trace step: what was looked
+│   │     for, what was found, the source in plain words (memory, file,
+│   │     lines), the lines around it with the used lines marked, its state
+│   │     (same, changed, gone, no source) and, when changed, the lines now
 │   ├── links[] — to other pieces (an intent's Touches; a capability's intents)
 │   ├── parent — where it sits (capability → domain)
 │   └── why changed — one plain sentence from the play record behind it
@@ -175,10 +184,11 @@ changed" line; the plays are never shown.
 
 ## 4. What the person sees
 
-**One page, three sections in it.** A switch at the top left: **Intents** |
-**Product** | **Memory and ADRs**. Intents and Product are the two tools ADR 032
-names, as two views of one app; Memory and ADRs is the third section ADR 036
-adds (item 7 below). One server, one link, one review. (Occam: two servers would mean two listeners and two links for
+**One page, five sections in it.** A switch at the top left: **Intents** |
+**Product** | **ADRs** | **Memory** | **Agent decisions**. Intents and Product
+are the two tools ADR 032 names, as two views of one app; ADR 036 added a third
+section, "Memory and ADRs", which Kapil split into three on 18 Oct (item 7
+below). One server, one link, one review. (Occam: two servers would mean two listeners and two links for
 one decision.)
 
 **Two switches, each with two settings.** These answer Kapil's four things to see:
@@ -193,7 +203,7 @@ gives the full model or the clean final text.
 
 **Layout** (like the screenshot):
 
-1. **Left rail.** Phoenix mark and name. The Intents | Product | Memory and ADRs
+1. **Left rail.** Phoenix mark and name. The Intents | Product | ADRs | Memory | Agent decisions
    switch. The list of
    pieces: intents grouped by stage, each with its agent intents (ICE) listed
    under it as their own pieces, one per capability or functionality it is built
@@ -242,7 +252,59 @@ gives the full model or the clean final text.
    Every action in Catch up is the same event as in the full page, so Garura
    cannot tell them apart and nothing changes on its side.
 
-7. **Memory and ADRs** — a third section next to Intents and Product (ADR 036
+7. **ADRs, Memory and Agent decisions** (Kapil, 18 Oct: "intents · product ·
+   adr(s) -> these are the adrs that a human puts, using /adr · memory -> this is
+   list of memories that exist.. omstly garura memory inside the projecdt, and
+   once an issue is selected then its STM ... then the agent adrs - we call this
+   evidence, aka agent-decisions"; named **Agent decisions**, because "evidence"
+   already names each play's run records). The three sections:
+   - **ADRs** — the decisions a person records with `/adr`: the ones waiting to
+     be accepted, and the accepted ones. Accept, or send back with a comment.
+   - **Memory** — what memory holds: Garura memory for the project, and an
+     issue's short-term memory once an issue is picked. **Ask memory**: a
+     plain-words question box; the answer comes with the memory it came from.
+     Underneath is the same memory tool the agents use — find, search and read,
+     the way Claude Code works — with no index (vectorless, ADR 035 §4). Kapil:
+     "the tool withing garua is how claude code works. the tool we are building
+     which will got into griffin will use nlp, but it will use vectorless search.
+     the same tool under both, just that the interface for tool should be nlp."
+     Mocked only for now ("design the interface and create some mocks for now.
+     no need to build this whole this now"). The memory updates waiting for a
+     person live here too, below.
+   - **Agent decisions** — every decision an agent made, with its trace
+     (#659): the steps the agent took, in order. Kapil, 19 Oct: one or two
+     lines "leave no context"; a decision rests on several things — "a project
+     profile, domain, its security level and then the file where knowledge is
+     put... this sort of thinking is critical to show.. these are called
+     traces". So each step shows what the agent looked for, what it found, and
+     its source — the tier, file and lines, in their place: the lines around
+     them, numbered, with the lines the agent used marked. Each step's source
+     is checked again: unchanged, changed (with what the lines say now, in
+     their place), gone, or no source. What is shown comes from the memory
+     tool's own answers: `citations --check`, and `updates` (for a decision
+     that came from a memory update: what was missing, who approved it, and
+     their words). Grouped by play, problems first.
+     The page does not read those answers itself: that would put the memory
+     tool's words and contract inside the review tool, across the extraction
+     line (section 1). Garura's half turns each answer into pieces in the pack:
+     a kind for an agent decision, and each step a labelled section that
+     carries the lines, the lines around them and a state (same, changed, gone,
+     no source) as data, with the source written in plain words by Garura. A
+     source is shown as its memory, file and lines, an exception to the
+     plain-words rule (section 4) that Kapil asked for, because the person must
+     check it. The fingerprint, the memory version and the ids sit in a
+     Details fold: they are for the check, not for the person's judgement. The
+     mockup embeds the memory tool's raw answers as a stand-in only. Looks
+     right, or send back so the agent decides again from memory as it is now.
+     The mockup's records are real tool output over real Phoenix memory lines,
+     made by `.garura/project/issues/659/evidence/make_decisions.py`. The local
+     prototype page (`core/tools/play-reviewer/`, outside git and outside the
+     extraction line) reads them live from the memory tool; the review tool
+     itself never will.
+   The paragraphs below were written for the one combined section; they now
+   read across these three.
+
+   Earlier text, kept: a third section next to Intents and Product (ADR 036
    §7, Kapil 18 Oct). It shows short-term, Garura and Phoenix memory: what each
    tier holds, the memory updates waiting for a person, the ADRs waiting for a
    person, and which memory each decision came from. Every memory review and
@@ -261,12 +323,15 @@ gives the full model or the clean final text.
    apply the update to the issue's short-term memory. Moving memory up is not
    done here: `/learn-memory` (short-term to Garura memory) and
    `/promote-memory` (Garura to Phoenix memory, approved outside Garura) are
-   their own plays.
+   their own plays — planned, not filed yet. The mockup shows these sections
+   (the ADRs, Memory and Agent decisions switches).
 
 **Keeping the load low** — the rules the page follows:
 
 - One question per piece: "What do you want to do with this?"
-- No file paths, no field names, no YAML. Labels in plain words.
+- No file paths, no field names, no YAML. Labels in plain words. One exception: an agent
+  decision's source is shown as its memory, file and lines, because the person must check it
+  (Kapil, 19 Oct: "the source should show a few lines before and after").
 - Pieces that did not change are hidden unless the person asks for Everything.
 - Long sections are folded after a few lines, with "Show all".
 - Counts and progress are always in view, so the person knows how much is left.
@@ -427,12 +492,20 @@ Each line is one story. Each is a slice that works on its own.
    one commit that matches what the person chose.
 8. **Kickoff uses it.** #613 runs the review as its last step.
 
-9. **Memory and ADRs.** The third section (#664): what each memory tier holds,
+9. **ADRs, Memory and Agent decisions.** The three sections (#664), in two halves
+   like the rest; Ask memory's plain-words interface is mocked only.
+   The tool half: the section's page and cards — what each memory tier holds,
    the memory updates waiting in short-term memory with an explicit Approve or
    Reject on each, the ADRs waiting, and which memory each decision came from.
+   The Garura half: the pack of what is waiting (from the memory tool's
+   `updates` and `citations --check` answers, turned into pack pieces as section
+   4 says, so the tool never reads the memory tool's answers), and applying each answer — Garura calls
+   the memory tool's `decide` with the person's words and then `apply`, and the
+   `/adr` accept for an ADR.
 
-Stories 1–4 and 9 touch only the tool. Stories 5–8 touch only Garura. That split
-is the extraction line, tested every day it is built.
+Stories 1–4 and the tool half of 9 touch only the tool. Stories 5–8 and the
+Garura half of 9 touch only Garura. That split is the extraction line, tested
+every day it is built.
 
 **Where it is built, and what stands in until then** (Kapil, 18 Oct, #658: "we
 will build the tool with all the sections inside garura - as part of 606 plan.
@@ -443,8 +516,8 @@ committed) gains a memory-updates page that lists the updates waiting in
 short-term memory and records each person's Approve or Reject through the
 memory tool. #658 builds that page. It is not a design of its own (Kapil, 18 Oct: "ensure
 that its part of same design. and not build solo"): it uses this tool's mockup — the same rail,
-top bar, look and Catch up cards — opened on the Memory and ADRs section, with Intents and
-Product shown but not yet built.
+top bar, look and Catch up cards — opened on the Memory section, with Agent decisions live
+too, and Intents, Product and ADRs shown but not yet built.
 
 ## 8. Risks
 
