@@ -132,6 +132,11 @@ memory tool and puts them in the issue's short-term memory. A judging skill hold
 prompt and rubric now in `standards/rules/grounding-eval.md`. The config file names the
 ontology's path.
 **Done when:** each exists and its checks pass.
+**Progress (2026-10-19):** `template-manager` (`core/components/agents/template-manager.md`)
+and `judge-grounding` (`core/components/skills/judge-grounding/SKILL.md`) are built and pass
+the lint; `standards/rules/grounding-eval.md` now keeps only the gate rule and points to the
+skill (its Phoenix memory copy follows at landing). The ontology's path waits on Kapil: the
+config the install copies is `.garura/core/config.yaml`, inside the installed copy's folder.
 
 ### 5. The shared close in one common file
 
