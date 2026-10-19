@@ -4,7 +4,7 @@ kind: story
 serves: "#661 — /intent, /vision, /understand and the Kickoff drive read no memory; their agents read it through the memory tool"
 status: active
 updated: 2026-10-19
-now: 10
+now: 11
 serves_plan: 653
 serves_item: 8
 ---
@@ -107,7 +107,7 @@ What is true today (read on 2026-10-19):
 
 ## Where we are now
 
-ADR 039 and ADR 040 are accepted; the docs, the tool, the install, `template-manager`, the judging skill and the config follow them. The shared close lives in one file. The two Kickoff agents read memory through the tool. The three plays read no memory. Questions, answers and the whole Kickoff run live in the issue. The drive's rule is written. Now: item 10, prove it.
+ADR 039 and ADR 040 are accepted; the docs, the tool, the install, `template-manager`, the judging skill and the config follow them. The shared close lives in one file. The two Kickoff agents read memory through the tool. The three plays read no memory. Questions, answers and the whole Kickoff run live in the issue. Proven on a test project. Now: item 11, land.
 
 ## The plan, in order
 
@@ -165,15 +165,15 @@ ADR 039 and ADR 040 are accepted; the docs, the tool, the install, `template-man
   memory, a new step 2 names the paths under the issue, and a question stops the play only
   when neither memory nor the contract answers it (the answer kept in the issue's short-term
   memory). Its rules-index row and the glossary's Drive entry say the same.
+- **10. Prove it** — `evidence/check_memory_paths.py` finds no memory path in 17 files and 28
+  play closes (and catches planted ones); every check passes (tool 79/5/56, install 33, every
+  play and skill test file; `lint_play` and `lint-components` as on main); `/intent`'s draft
+  step on a test project, inside a drive contract, found the ontology in Phoenix memory through
+  the tool (downloaded on first use to `~/.phoenix/core/memory`), copied it to short-term
+  memory, kept a trace (`citations --check` ok), and wrote only under its issue. Results:
+  `evidence/item-10-checks.txt`.
 
-### 10. Prove it — now
-
-**What:** a check that lists every memory path left in the scope and finds none. Run each
-changed play's checks and `lint-components`. Run `/intent` once on a test project, to see its
-agent find memory through the tool and keep a trace. The full run of the three plays is #662.
-**Done when:** the check finds no memory path, and every check passes.
-
-### 11. Land
+### 11. Land — now
 
 **What:** close this plan and item 8 of the #653 plan in the last commit before the merge.
 Then run the change chain.
@@ -239,3 +239,5 @@ Then run the change chain.
   the issue ID governs — every piece of work writes its memory, evidence and files under it.
 - 2026-10-19 — Item 9 done: the drive contract, its index row and the glossary say the issue ID
   governs and a drive reads no memory.
+- 2026-10-19 — Item 10 done: no memory path left; every check passes; `/intent` on a test project
+  reads memory only through the tool and writes only under its issue.

@@ -1,0 +1,96 @@
+# #661 item 10 — checks run on 4311559d, 2026-10-19T18:14Z
+
+## memory-path check
+checked 17 files and 28 play closes; memory paths found: 0
+
+## memory tool
+Ran 79 tests in 24.291s
+Ran 5 tests in 0.872s
+Ran 56 tests in 0.100s
+contract check ran: 1
+
+## install
+Ran 33 tests in 67.498s
+
+## play and skill tests
+core/components/plays/adr/scripts/test_apply_adr.py ::  37 passed, 0 failed 
+core/components/plays/grill/scripts/test_validate_epics.py ::   [PASS] --out writes the write-gate verdict YAML matching stdout (#466 Batch C) VERDICT: PASS (6/6 passed) 
+core/components/plays/intent/scripts/test_intent_scripts.py ::  103 passed, 0 failed, 0 skipped 
+core/components/plays/next/scripts/test_derive_candidates.py :: PASS case_cap_and_cut 15/15 passed 
+core/components/plays/play-creator/references/test_chain_checks.py :: check_self_review: 5/5 pass ALL PASS 
+core/components/plays/play-creator/references/test_check_ice_workable.py ::  11 passed, 0 failed 
+core/components/plays/play-creator/references/test_concurrent_fanout.py ::  17 passed, 0 failed 
+core/components/plays/play-creator/references/test_drive_contract.py ::  33 passed, 0 failed 
+core/components/plays/play-creator/references/test_gate_learning.py :: copies: identical ALL PASS 
+core/components/plays/play-creator/references/test_intent_touches.py ::  18 passed, 0 failed 
+core/components/plays/play-creator/references/test_merge_scripts.py ::  15 passed, 0 failed 
+core/components/plays/play-creator/references/test_platform_adapter.py ::  37 passed, 0 failed 
+core/components/plays/play-creator/references/test_post_verdict.py ::  31 passed, 0 failed 
+core/components/plays/play-creator/references/test_scoped_write_guard.py ::  11 passed, 0 failed 
+core/components/plays/understand/scripts/test_persist_understand.py ::  87 passed, 0 failed 
+core/components/plays/understand/scripts/test_pick_targets.py ::  20 passed, 0 failed 
+core/components/plays/understand/scripts/test_rollup_box.py ::  18 passed, 0 failed 
+core/components/plays/vision/scripts/test_lint_grounding.py ::  30 passed, 0 failed 
+core/components/plays/vision/scripts/test_vision_scripts.py ::  32 passed, 0 failed 
+core/components/skills/author-adr/scripts/test_adr.py ::  43 passed, 0 failed 
+core/components/skills/build-product-ontology/scripts/test_check_ontology.py ::  27 passed, 0 failed 
+core/components/skills/manage-plan/scripts/test_check_plan.py ::  27 passed, 0 failed 
+
+## lint_play (all plays)
+adr VERDICT: PASS (0 gap(s))
+agentic VERDICT: PASS (0 gap(s))
+arch VERDICT: PASS (0 gap(s))
+commit-change VERDICT: PASS (0 gap(s))
+deploy VERDICT: PASS (0 gap(s))
+fix-bug VERDICT: PASS (0 gap(s))
+focus VERDICT: PASS (0 gap(s))
+grill VERDICT: PASS (0 gap(s))
+implement VERDICT: PASS (0 gap(s))
+install-garura VERDICT: FAIL (5 gap(s))
+intent VERDICT: PASS (0 gap(s))
+launch VERDICT: PASS (0 gap(s))
+learn VERDICT: PASS (0 gap(s))
+marketing VERDICT: PASS (0 gap(s))
+measure VERDICT: PASS (0 gap(s))
+merge-change VERDICT: PASS (0 gap(s))
+next VERDICT: FAIL (1 gap(s))
+play-creator VERDICT: FAIL (6 gap(s))
+play-editor VERDICT: FAIL (5 gap(s))
+propose-change VERDICT: PASS (0 gap(s))
+quality VERDICT: PASS (0 gap(s))
+refactor VERDICT: PASS (0 gap(s))
+review-change VERDICT: FAIL (1 gap(s))
+roadmap VERDICT: PASS (0 gap(s))
+run VERDICT: PASS (0 gap(s))
+shape VERDICT: PASS (0 gap(s))
+start-change VERDICT: PASS (0 gap(s))
+understand VERDICT: PASS (0 gap(s))
+uninstall-garura VERDICT: FAIL (5 gap(s))
+ux VERDICT: PASS (0 gap(s))
+validate VERDICT: PASS (0 gap(s))
+vision VERDICT: PASS (0 gap(s))
+
+## lint-components
+    "errors": 113,
+    "warnings": 2,
+
+## /intent on a test project (draft step, inside a drive contract — no GitHub writes)
+- Test project: an empty git repo in the session scratch folder, branch feature/9001-test, drive
+  contract issue 9001. Installed from this branch with install.py (full scope; the old machine
+  memory copy pointed at the scratch folder).
+- Install: tool at .garura/core/tools/memory/ (contract v5), settings phoenix ~/.phoenix/core/memory;
+  config has product.ontology; no .garura/core/memory/ (the install brings no memory).
+- health: short-term and Garura reachable; Phoenix not yet on the machine.
+- First lookup `find --issue 9001 --glob "**/standards/schemas/product-os/ontology.md"` downloaded
+  Phoenix memory to ~/.phoenix/core/memory and answered from phoenix (version ad3afb58770d).
+- Pre-flight and capture wrote only under .garura/project/issues/9001/: context/intent/<ts>/
+  (run.json, porcelain, statement, manifest), status/ (session stamp), evidence/intent/<ts>/source-statement/.
+- business-intent-keeper (its installed agent file, run by a general-purpose agent; its skill's
+  file followed inline) ran: memory.py find, read (phoenix, standards/schemas/product-os/ontology.md),
+  read lines 38-187, cite. It copied the ontology to context/intent/<ts>/memory/standards/schemas/
+  product-os/ontology.md and handed the skill that copy.
+- `citations --issue 9001 --check`: ok, 1 record, no problems; trace source phoenix
+  standards/schemas/product-os/ontology.md lines 38-187.
+- Draft: 1 business intent, 2 ICE; status blocked/needs_person (asked_by and proof missing,
+  2 open questions) — the play's correct stop: the person answers next (the full run is #662).
+- Nothing was written outside issue 9001 in .garura/; no file was copied into Garura memory.
