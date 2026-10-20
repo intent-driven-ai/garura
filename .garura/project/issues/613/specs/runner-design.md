@@ -9,8 +9,8 @@ one drive contract. Kapil decided the three open points on 2026-10-20 (section 5
 ## 1. What Kickoff is
 
 - **A play of the drive kind**, `core/components/plays/kickoff/`, with an ICE source
-  (`reference/ice.md`) written from #613's acceptance criteria and compiled by `/play-creator`
-  like every play (CLAUDE.md). The compiler learns the drive kind in item 5: a drive's steps run
+  (`reference/ice.md`) written from #613's acceptance criteria and built by `/drive-creator`
+  (item 5; Kapil, 2026-10-20 — drives get their own builder and editor). A drive's steps run
   other plays in a fixed order and carry no rules of their own (ADR 029 §2).
 - **Pipeline position: both.** Kickoff opens the change (`start-change`: one issue, one branch)
   and lands it (the end sequence). The plays inside open nothing (drive contract, step 3).

@@ -80,7 +80,7 @@ the wrong move."* When memory and the system hold nothing to go on, they ask.
 The memory milestone is passed (#653 items 1 to 9; the last, #662, merged on 20 October): the
 three plays read memory only through their agents, every run lives under its issue, and they
 ran from memory alone on a test project. A fresh branch `feature/613-the-kickoff-drive` is cut
-from main (`504379ce`). Items 3 and 4 are done. Now: item 5, the play compiler's drive kind.
+from main (`504379ce`). Items 3 and 4 are done. Now: item 5, `/drive-creator` and `/drive-editor`.
 
 ## The plan, in order
 
@@ -123,16 +123,17 @@ system in every Garura install, and
 project. That work is its own feature, outside this issue
 (Feature #653, `.garura/project/issues/653/specs/plan.md`).
 
-### 5. Teach the play compiler what a drive is — now
+### 5. Build drives with `/drive-creator` and `/drive-editor` — now
 
 **Issue:** #613.
-**What:** `/play-creator` builds plays that run their own steps. A drive runs
-other plays in a fixed order. The compiler must be able to build one and its
-lint must check one.
-**Why here:** every play is built through the compiler (CLAUDE.md), so Kickoff
-is too; and every later drive (#608–#611) will need the same.
-**Done when:** the compiler can build a drive, and its lint passes and fails a
-drive as it does a play.
+**What:** a drive gets its own builder and editor, as a play has `/play-creator` and
+`/play-editor` (Kapil, 2026-10-20). `/drive-creator` builds a drive from its ICE; `/drive-editor`
+changes one through its ICE. One shared drive run (`_shared/drive-run.md`) holds the steps every
+drive runs, and `lint_drive.py` checks a built drive. Design: `specs/drive-compiler-design.md`.
+**Why here:** every play is built through a compiler (CLAUDE.md), so Kickoff is too; and every
+later drive (#608–#611) will use the same builder and the same shared run.
+**Done when:** `/drive-creator` builds a sample drive that passes the linter, the linter fails a
+broken one, and `/drive-editor` changes the sample through its ICE and it passes again.
 **Needs:** item 3.
 
 ### 6. Build the checker
@@ -211,3 +212,4 @@ mark step 1 of item 8 done in the #606 plan.
 - 2026-10-20 — Kapil: no separate `REVIEW.md`; the review plays adopt its practices (recorded under what this plan leaves out).
 - 2026-10-20 — Items 3 and 4 done. I-2 fixed in the shared close and the drive contract; V-4 and the drive's evidence moved to item 7.
 - 2026-10-20 — Kapil: one review, after the pull request; the self-review goes (recorded under what this plan leaves out).
+- 2026-10-20 — Item 5 changed (Kapil): drives get their own builder and editor, `/drive-creator` and `/drive-editor`, not a drive kind inside `/play-creator`. Design note written; one question open (where drives live).
