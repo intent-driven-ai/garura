@@ -67,3 +67,57 @@ its plays as sub-agents (the default runner).
   last turn (subagent 'Run /intent play in drive'); stopping them"). The walk had taken about 35
   steps (106 files). Fixed in the shared drive run: R5 dispatches each play's sub-agent in the
   foreground and waits. Headless runs also set `CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS=0`.
+
+## Run 4 (2026-10-20) — with journeys; stopped at /intent's 20 questions
+
+Result: 37.1 min, $8.41 (Opus 5.5 $6.84, Sonnet 5.5 $1.56, the run's own `modelUsage`).
+6 journeys, 107 steps; the journey check reads ok — 35 of 35 views on a journey. 6 business
+intents, each from a journey: sign off a drive · understand a change before answering · intents
+say what was asked · the agents' questions get answered · agent decisions still stand · recorded
+decisions get answered. 10 ICE under them. 20 questions (2 general, 3 per intent), not answered.
+
+### Effectiveness (T242)
+
+| | Run 1 | Run 2 | Run 4 |
+|---|---|---|---|
+| What `/intent` saw | 1 screen | 36 views | 36 views + 6 journeys, 107 steps |
+| Business intents | 2, rules about agents | 3, rules about agents | 6, what a reviewer gets |
+| ICE | 12 | 12 | 10 |
+
+- K-4 is fixed: each business intent is what a person gets, and names its journey.
+- K-7 — a gap: **reading the product model as a whole** is no longer its own ICE. Run 2 had
+  "Read the product, part by part" and "Guard the product-wide limits"; run 4 folds the Product
+  view and the limits page into "Reading a change in full". ADR 032 names two review tools —
+  intents and product — so the product reading is one of Argus's two halves.
+- K-8 — every journey has the same person ("the person who reviews what a drive changed"). True
+  for Argus today; a prototype with several kinds of user should show several.
+- K-9 — 20 questions is a lot to put to a person at once; most are who-asks and proof per
+  intent, which the prototype cannot show.
+
+### Where the time and the money went (T243)
+
+| Phase | Time | Who | Cost (share) |
+|---|---|---|---|
+| Drive set-up: pre-flight, issue, branch, questions, contract | 2 min | drive (Sonnet 5.5) | in the Sonnet $1.56 |
+| Capture every view (script) | 3 min | `capture_source.py` | none |
+| Walk 6 journeys, 107 steps | 25 min | `business-intent-keeper` (Opus 5.5) | about $3.9 |
+| Write and check the journeys | 3 min | same agent | (in the line above) |
+| Draft 6 intents and 10 ICE, check them | 7 min | `business-intent-keeper` (Opus 5.5) | about $2.9 |
+| Orchestration across the run (drive, `/intent`, issue agent) | throughout | Sonnet 5.5 | about $1.6 |
+
+(The Opus split between walk and draft is estimated from each agent's share of tokens in the
+session logs; the totals are measured.)
+
+- K-10 — the walk replays every earlier step in a fresh browser: one step takes 5.8 s with 1
+  step replayed, 11.1 s with 28. About 12 of the walk's 25 minutes were browser time. One open
+  browser per journey removes most of it, with no change to what is walked.
+- K-11 — the walk's tokens grow with every step: the agent reads each step's full page text
+  (the Argus page is several thousand words), and its context is re-read on every call — 14.4
+  million cache-read tokens on Opus. Handing the agent only what changed since the last step,
+  and the controls now on screen, should cut most of it.
+- K-12 — models: the drive and `/intent`'s orchestration ran on Sonnet 5.5 (the headless
+  session's model); only `business-intent-keeper` ran on Opus 5.5, because its file pins
+  `model: opus`. The walk (look, pick the next click, write what showed) is high-volume and
+  low-judgment — a fit for Sonnet 5.5 at medium effort; the draft (framing business intents) is
+  where every earlier run went wrong — keep Opus 5.5 at high effort. Not yet measured: a run
+  with these settings, compared with run 4 on cost, time and the intents' quality.
