@@ -2,9 +2,9 @@
 plan_for: 661
 kind: story
 serves: "#661 — /intent, /vision, /understand and the Kickoff drive read no memory; their agents read it through the memory tool"
-status: active
-updated: 2026-10-19
-now: 11
+status: done
+updated: 2026-10-20
+now: done
 serves_plan: 653
 serves_item: 8
 ---
@@ -107,7 +107,11 @@ What is true today (read on 2026-10-19):
 
 ## Where we are now
 
-ADR 039 and ADR 040 are accepted; the docs, the tool, the install, `template-manager`, the judging skill and the config follow them. The shared close lives in one file. The two Kickoff agents read memory through the tool. The three plays read no memory. Questions, answers and the whole Kickoff run live in the issue. Proven on a test project. Now: item 11, land.
+Done. PR #678 merged on Kapil's approval (20 October). `/intent`, `/vision` and `/understand`
+read no memory; their agents read it only through the memory tool; every memory write and
+every run lives under the issue being worked on. Open, not blocking, in the review record:
+P3/P4 items, and H10 (ADR 034/035's wording for /intent C4/C5, /vision C11, /understand C13)
+for Kapil to confirm.
 
 ## The plan, in order
 
@@ -172,12 +176,9 @@ ADR 039 and ADR 040 are accepted; the docs, the tool, the install, `template-man
   the tool (downloaded on first use to `~/.phoenix/core/memory`), copied it to short-term
   memory, kept a trace (`citations --check` ok), and wrote only under its issue. Results:
   `evidence/item-10-checks.txt`.
-
-### 11. Land — now
-
-**What:** close this plan and item 8 of the #653 plan in the last commit before the merge.
-Then run the change chain.
-**Done when:** the PR is merged.
+- **11. Landed** — PR #678; review round 1 a harness reject (one P1: the drive review record
+  took only contract v4), fixed; round 2 a harness approve; Phoenix memory updated to match
+  (`9dfe400`, `db6441a`); Kapil approved the merge on 20 October.
 
 ## Not in this plan
 
@@ -241,3 +242,4 @@ Then run the change chain.
   governs and a drive reads no memory.
 - 2026-10-19 — Item 10 done: no memory path left; every check passes; `/intent` on a test project
   reads memory only through the tool and writes only under its issue.
+- 2026-10-20 — Landed: PR #678 merged on Kapil's "approve". The plan is done.
