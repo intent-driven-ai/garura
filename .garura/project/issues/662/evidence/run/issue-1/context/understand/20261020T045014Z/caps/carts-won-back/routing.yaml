@@ -1,0 +1,49 @@
+{
+  "routing_result": {
+    "work": "Capability 'Tracking carts won back' (carts-won-back, ecommerce): count the abandoned carts that were reminded and then ended in an order, add up the sales those orders brought back, month by month, and compare against the month before reminders started. Stops short of finding abandoned carts or sending reminders.",
+    "placements": [
+      {
+        "domain": "analytics",
+        "capability": "Goals",
+        "functionality": ["Goal definition"],
+        "confidence": "high",
+        "why": "The capability exists to prove one named outcome (more sales won back each month than the pre-reminder month); the analytics shelf makes naming the success outcome and its event the floor, and its 'tie behaviour to outcome — did the change move the metric?' intent is exactly the before/after comparison.",
+        "conditions": ["Goal definition — the floor; without it you measure motion, not value"]
+      },
+      {
+        "domain": "analytics",
+        "capability": "Funnels",
+        "functionality": ["Product-conversion funnel"],
+        "confidence": "high",
+        "why": "abandoned -> reminded -> ordered is an in-product conversion path to a goal with drop-off at each step — the funnel the shelf calls alive and essential, not a discovery funnel.",
+        "conditions": ["Product-conversion funnel — the floor for this shelf"]
+      },
+      {
+        "domain": "analytics",
+        "capability": "Dashboards & exploration",
+        "functionality": ["Fixed dashboards"],
+        "confidence": "high",
+        "why": "Owners and the business must see the win-back count and value month by month — the shelf's standing view that makes goals legible and decidable.",
+        "conditions": ["Fixed dashboards — the floor", "Self-serve exploration — when shape.users: small-team or more and decision cadence grows"]
+      },
+      {
+        "domain": "analytics",
+        "capability": "Event tracking",
+        "functionality": ["Level 2 — meaningful product events"],
+        "confidence": "medium",
+        "why": "Counting needs the few events that mean something (cart abandoned, reminder sent, order placed from a reminded cart); medium because those events are emitted by the two sibling capabilities, this one only consumes them.",
+        "conditions": ["Level 2 — add when the product has a goal to measure against"]
+      },
+      {
+        "domain": "ecommerce",
+        "capability": "Inventory & order management",
+        "functionality": ["Level 1 — basic stock & orders"],
+        "confidence": "low",
+        "why": "The order record and its value are the source of 'sales won back'; this is the data underneath, not what the capability owns — consistent with the /vision routing and the ecommerce shelf's operator 'Understand' intent, which points to analytics.",
+        "conditions": ["Level 1 — the floor, every store that sells"]
+      }
+    ],
+    "spans_multiple_domains": true,
+    "unmatched": false
+  }
+}

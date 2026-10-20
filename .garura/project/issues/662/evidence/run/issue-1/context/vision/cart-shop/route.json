@@ -1,0 +1,41 @@
+{
+  "routing_result": {
+    "work": "Shop owners lose fewer sales to abandoned carts — more of the carts customers leave behind end up as finished orders (seeing which carts are abandoned today, and reminding customers to come back and finish)",
+    "placements": [
+      {
+        "domain": "ecommerce",
+        "capability": "Intelligence features — Acquire (cart abandonment)",
+        "functionality": ["cart-abandonment prediction with nudges"],
+        "confidence": "medium",
+        "why": "The goal is about the shopper's Acquire intent (cart -> checkout) breaking off; the ecommerce shelf is the only one whose trigger names cart and orders, and its Acquire intelligence line is the only shelf line about cart abandonment. Medium, not high: the shelf names it as an intelligence feature, not as a capability with functionalities, so abandoned-cart recovery has no capability of its own on the shelf.",
+        "conditions": ["core intelligence tier — 'should be on the table early, not bolted on' (no profile key named)"]
+      },
+      {
+        "domain": "ecommerce",
+        "capability": "Inventory & order management",
+        "functionality": ["Level 1 — basic stock & orders"],
+        "confidence": "low",
+        "why": "Telling a cart that ended without an order apart from one that became an order rests on the cart and order records this capability keeps; it is the record underneath the goal, not the goal itself.",
+        "conditions": ["Level 1 — the floor, every store that sells"]
+      },
+      {
+        "domain": "notifications",
+        "capability": "Channel delivery",
+        "functionality": ["Email"],
+        "confidence": "medium",
+        "why": "A reminder to a customer who has left the shop is an away-from-app, lifecycle message — the notifications trigger; the domain owns how it reaches the customer, while the reason to send it stays in ecommerce.",
+        "conditions": ["Email — when shape.surfaces includes web/api and you need durable, away-from-app reach"]
+      },
+      {
+        "domain": "notifications",
+        "capability": "Preferences & frequency",
+        "functionality": ["Opt-in / opt-out", "Fatigue / frequency control"],
+        "confidence": "medium",
+        "why": "A one-click reminder to a shopper is only sendable with consent and must not turn into spam; the shelf makes consent and frequency discipline non-negotiable for any send.",
+        "conditions": ["Opt-in / opt-out — nfr.privacy >= medium, or compliance includes GDPR", "Fatigue / frequency control — when volume rises, or shape.stage is public/monetized"]
+      }
+    ],
+    "spans_multiple_domains": true,
+    "unmatched": false
+  }
+}

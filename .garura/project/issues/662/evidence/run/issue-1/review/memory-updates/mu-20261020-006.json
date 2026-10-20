@@ -1,0 +1,37 @@
+{
+  "update": {
+    "id": "mu-20261020-006",
+    "status": "waiting",
+    "issue": 1,
+    "missing": "How often the same customer may be reminded across different abandoned carts. Memory says cap low-value sends and never spam, but gives no number.",
+    "target_tier": "short-term",
+    "target_path": "1/context/answers/abandoned-cart-reminders-frequency-window.md",
+    "draft": "A customer receives at most one abandoned-cart reminder per cart, ever, and at most one reminder from the same shop in any 7-day window, even across different carts. Timed follow-up sequences are not used at this stage (MVP).",
+    "draft_source": "model",
+    "sources": [
+      {
+        "tier": "phoenix",
+        "path": "knowledge/domains/notifications.md",
+        "start": 86,
+        "end": 86,
+        "fingerprint": "sha256:a4474b468e9c9ecc8f91c6965b7b726a14be2246873b8c11beaf166c1a8819e5"
+      },
+      {
+        "tier": "short-term",
+        "path": "1/context/answers/kb/ecommerce-abandoned-cart-recovery.md",
+        "start": 13,
+        "end": 13,
+        "fingerprint": "sha256:777f24114d7b22fc1cd768fec879bebfe7b5e82d9a70816e563967e48e4a8257"
+      }
+    ],
+    "requested_by": "product-os-keeper (understand)",
+    "requested_at": "2026-10-20T04:56:39Z",
+    "decided_by": null,
+    "reply": null,
+    "decided_at": null,
+    "applied_version": null,
+    "blocking": false,
+    "decided_in": null
+  },
+  "target_fingerprint_at_propose": null
+}

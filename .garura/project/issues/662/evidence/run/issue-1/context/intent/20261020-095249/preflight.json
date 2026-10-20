@@ -1,0 +1,16 @@
+{
+  "play": "intent",
+  "stm_base": ".garura/project/issues/",
+  "stm_pending": ".garura/project/issues/_pending/",
+  "stm_archive": ".garura/project/issues/_archive/",
+  "ltm_project_target": "./.garura/core/memory/",
+  "product_base": ".garura/product/",
+  "has_product_ltm": false,
+  "evidence_record": false,
+  "platform": null,
+  "worktree": false,
+  "branch": "feature/1-cart-shop-kickoff",
+  "issue": "1",
+  "on_default_branch": false,
+  "changes_present": true
+}

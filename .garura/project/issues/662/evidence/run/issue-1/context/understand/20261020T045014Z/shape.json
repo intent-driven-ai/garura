@@ -1,0 +1,13 @@
+{
+  "play": "understand",
+  "shape_key": "understand:nodes_added+prose_edits+sections_rewritten",
+  "axes": {
+    "nodes_added": 10,
+    "nodes_removed": 0,
+    "status_changes": 0,
+    "profile_bars_changed": 0,
+    "decisions_added": 0,
+    "sections_rewritten": 61,
+    "prose_edits": 719
+  }
+}

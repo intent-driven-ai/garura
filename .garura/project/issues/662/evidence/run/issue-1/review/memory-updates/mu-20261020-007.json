@@ -1,0 +1,44 @@
+{
+  "update": {
+    "id": "mu-20261020-007",
+    "status": "waiting",
+    "issue": 1,
+    "missing": "How long the abandoned-cart Reminder record keeps its entries (retention length)",
+    "target_tier": "short-term",
+    "target_path": "1/context/answers/reminder-record-retention.md",
+    "draft": "No retention length is set in any memory tier, and none is proposed here. The product owner sets it. Constraint from the model: it must cover every month the win-back views show and recompute (from each shop baseline month onward), so no Reminder record entry is deleted until the length is decided.",
+    "draft_source": "model",
+    "sources": [
+      {
+        "tier": "garura",
+        "path": "product/product-os/ecommerce/carts-won-back/owner-monthly-win-back/functionality.md",
+        "start": 15,
+        "end": 15,
+        "fingerprint": "sha256:d06361757c65b9bd183c47e0c439a5b32526ae76807f982042ba768e9d3a68a7"
+      },
+      {
+        "tier": "garura",
+        "path": "product/product-os/ecommerce/carts-won-back/won-back-order-matching/functionality.md",
+        "start": 22,
+        "end": 23,
+        "fingerprint": "sha256:fa1cab854fc0fb70d399b85d9cc6e20f8a39e8c038b21f1d01b094a4b1d67e6a"
+      },
+      {
+        "tier": "short-term",
+        "path": "1/context/memory/knowledge/domains/analytics.md",
+        "start": 83,
+        "end": 83,
+        "fingerprint": "sha256:982dc9dfcb841d2de4c1c15dec1a28520d317cfc5ccbc2f0f7b0f549e5aae3ee"
+      }
+    ],
+    "requested_by": "product-os-keeper (understand)",
+    "requested_at": "2026-10-20T05:03:23Z",
+    "decided_by": null,
+    "reply": null,
+    "decided_at": null,
+    "applied_version": null,
+    "blocking": false,
+    "decided_in": null
+  },
+  "target_fingerprint_at_propose": null
+}

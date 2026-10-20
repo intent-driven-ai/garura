@@ -1,0 +1,11 @@
+{
+  "doc": ".garura/product/product-os/ecommerce/abandoned-carts-today/abandoned-carts-today-list/functionality.md",
+  "kind": "functionality",
+  "criteria": [
+    {"id": "completeness", "verdict": "pass", "evidence": "All five sections are filled with concrete content: 'Each row holds the customer's name (or \"guest\"), the items with quantity, the cart's value in the shop's currency, and the abandoned-at time in the shop's time zone'; nine Given/When/Then criteria; five named out-of-scope neighbours.", "fix": ""},
+    {"id": "self_explanation", "verdict": "pass", "evidence": "'The list never re-prices a cart, because the value is meant to show what the shopper was about to pay.' and 'Rows are sorted newest abandoned first, because the most recent carts are the ones a customer is likeliest to still come back to.'", "fix": ""},
+    {"id": "discreteness_form", "verdict": "pass", "evidence": "Rules are discrete bullets, each one behavior. Acceptance: 'Given a cart with two items priced 20.00 and 15.00, when it is shown, then its value reads 35.00 in the shop's currency.' The doc describes the function's behavior, not a user story.", "fix": ""},
+    {"id": "depth_gradient", "verdict": "pass", "evidence": "Parent: 'one row per cart with customer, items, value and time, newest first, with the day's count and total value and the time the list was last updated.' Child adds the sort rationale, the empty state ('No abandoned carts today'), the stale state, the midnight rollover, the read-only rule and the cart id per row.", "fix": ""},
+    {"id": "stranger_test", "verdict": "pass", "evidence": "A cold reader can state what it does ('Shows a signed-in shop owner the carts their own shop's customers abandoned today'), why ('seeing the day's lost sales takes one look'), and its edges ('acting on a row is the reminder capability's job'). Minor gap: the rule says 'could not confirm its answer recently' while only the acceptance criterion defines recently as over 5 minutes.", "fix": ""}
+  ]
+}

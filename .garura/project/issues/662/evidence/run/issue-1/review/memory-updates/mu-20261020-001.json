@@ -1,0 +1,79 @@
+{
+  "update": {
+    "id": "mu-20261020-001",
+    "status": "applied",
+    "issue": 1,
+    "missing": "The ecommerce shelf has no capability for abandoned-cart recovery (seeing abandoned carts, reminding the shopper, tracking carts won back) — only a one-line intelligence feature. Proposed: a new capability 'Abandoned-cart recovery' under ecommerce. No web research was possible in this run; drafted from the shelves and the owner's statement.",
+    "target_tier": "short-term",
+    "target_path": "1/context/answers/kb/ecommerce-abandoned-cart-recovery.md",
+    "draft": "- **Abandoned-cart recovery** — win back the sales a shopper started and left.\n  A cart that holds items but ends with no order is a lost sale the operator can\n  still recover; the capability makes those carts visible to the operator and\n  brings the shopper back to finish. It serves the shopper's *Acquire* intent\n  (\"let me buy it\") when it broke off, and the operator's *Understand* intent.\n  Sending the message is `notifications` (channel delivery, consent, frequency);\n  measuring the win-back is `analytics` (conversion funnel); this capability owns\n  the decision of WHICH cart, WHEN, and the way back into the same cart.\n  - Abandoned-cart detection — mark a cart abandoned when it holds items and no order follows within a set window. The floor — every store that sells.\n  - Operator view of abandoned carts — list the carts abandoned in a period (e.g. today) with shopper, items and value, so the operator knows which sales could still be won back. The floor wherever an operator runs the store.\n  - Cart reminder — operator-triggered (one click) or automatic message to the shopper that their cart is waiting, with a link that restores the same cart. Add when the shopper can be reached away from the store (`notifications` → Channel delivery); requires opt-in where `nfr.privacy >= medium` or `compliance` includes GDPR.\n  - Recovery tracking — count reminded carts that end in an order and the sales won back, over time. Add when the business sets a win-back goal (`analytics` → Goals, Funnels).\n  - Reminder sequences & incentives — timed follow-ups and an optional offer (next-best-offer / personalised promotion). Add when `shape.stage` is public/monetized and fatigue control is in place.\n  - Abandonment prediction & in-session nudge — spot a cart likely to be abandoned and nudge while the shopper is still present (`experience` governed nudges). Add when real-time presence signals are reliable (the shelf's core *Acquire* intelligence line).\n",
+    "draft_source": "model",
+    "sources": [
+      {
+        "tier": "phoenix",
+        "path": "knowledge/domains/ecommerce.md",
+        "start": 5,
+        "end": 5,
+        "fingerprint": "sha256:6b5ec069a363310f568b9f09f8c68e1dd5b35b45df74d5879cd69dcfbcd0301d"
+      },
+      {
+        "tier": "phoenix",
+        "path": "knowledge/domains/ecommerce.md",
+        "start": 34,
+        "end": 34,
+        "fingerprint": "sha256:6a005cc38f5849c37f52a233f2c3f3f81e3eb757123db7c4a5a4128d702c1b3b"
+      },
+      {
+        "tier": "phoenix",
+        "path": "knowledge/domains/ecommerce.md",
+        "start": 125,
+        "end": 127,
+        "fingerprint": "sha256:e02d1822f9e9902bc4aec262f260122b9f486c6368d06c611477a8fde7d0dc61"
+      },
+      {
+        "tier": "phoenix",
+        "path": "knowledge/domains/ecommerce.md",
+        "start": 150,
+        "end": 151,
+        "fingerprint": "sha256:71a0569b22ebf3fffc2ce33c9eb2f5a2e480e4fcaf09b881089d808fe9c4ce76"
+      },
+      {
+        "tier": "phoenix",
+        "path": "knowledge/domains/notifications.md",
+        "start": 70,
+        "end": 74,
+        "fingerprint": "sha256:f01076e9c9917deaba623bb647ac0d2a242fd3d53ab10e92682fa074dc39fa77"
+      },
+      {
+        "tier": "phoenix",
+        "path": "knowledge/domains/notifications.md",
+        "start": 83,
+        "end": 86,
+        "fingerprint": "sha256:a5922243ecc1a8df3a44b3e4ae04245bd64f9d0db59ac8b88abdebea7c789c42"
+      },
+      {
+        "tier": "phoenix",
+        "path": "knowledge/domains/analytics.md",
+        "start": 63,
+        "end": 64,
+        "fingerprint": "sha256:797d140ca9c74c10b805d9f92339bca1415a6dd1eca16599ed89b3de3709211c"
+      },
+      {
+        "tier": "short-term",
+        "path": "1/context/intent/20261020-095249/statement.txt",
+        "start": 1,
+        "end": 1,
+        "fingerprint": "sha256:4ccfe40b650f40dbaa7b75283b6dcaf64a603a9c3177e8d13b23f741832eaf07"
+      }
+    ],
+    "requested_by": "product-os-keeper (vision)",
+    "requested_at": "2026-10-20T04:32:16Z",
+    "decided_by": "Kapil Viren Ahuja",
+    "reply": "approve",
+    "decided_at": "2026-10-20T04:49:37Z",
+    "applied_version": null,
+    "blocking": false,
+    "decided_in": "review-tool"
+  },
+  "target_fingerprint_at_propose": null
+}

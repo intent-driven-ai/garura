@@ -1,0 +1,67 @@
+enrich:
+  capability_ref: abandoned-carts-today
+  grounded_in: "ecommerce -> Abandoned-cart recovery (approved addition mu-20261020-001: Abandoned-cart detection, Operator view of abandoned carts) + Inventory & order management Level 1 (the cart and order records)"
+  routing: .garura/project/issues/1/context/understand/20261020T045014Z/caps/abandoned-carts-today/routing.yaml
+  capability:
+    detail: detailed
+    doc: ecommerce/abandoned-carts-today/capability.md
+    nfr_needs:
+      accuracy:
+        level: high
+        target: "0 carts wrongly shown as abandoned and 0 abandoned carts missing, against the shop's cart and order records"
+        gate: "fixture-shop comparison in CI plus a daily reconciliation of the list against the shop's records"
+      performance:
+        level: medium
+        target: "list opens within 2 s at p95 for a shop with 1,000 abandoned carts in a day; a new order or abandoned cart shows within 5 minutes"
+        gate: "load test at 1,000 carts/day plus a freshness check on the updated-at time"
+      security:
+        level: medium
+        target: "an owner can read only their own shop's carts; 0 cross-shop rows returned"
+        gate: "shop-isolation test: owner of shop A requests shop B's list and is refused"
+      privacy:
+        level: medium
+        target: "customer names and cart contents are shown only to the signed-in owner of that shop; no export or sharing path exists"
+        gate: "access review of the list's data paths plus the shop-isolation test"
+    compliance_needs: []
+  functionalities:
+    - id: abandoned-cart-detection
+      slug: abandoned-cart-detection
+      capability: abandoned-carts-today
+      intents: [fewer-sales-lost-to-abandoned-carts]
+      status: proposed
+      one_line: "Decides from the shop's own cart and order records which carts are abandoned and when, and keeps that answer right as shoppers return or buy."
+      doc: ecommerce/abandoned-carts-today/abandoned-cart-detection/functionality.md
+      depends_on: []
+      decisions: []
+      metadata: {created_by: /understand, updated_by: /understand, version: 1}
+    - id: abandoned-carts-today-list
+      slug: abandoned-carts-today-list
+      capability: abandoned-carts-today
+      intents: [fewer-sales-lost-to-abandoned-carts]
+      status: proposed
+      one_line: "Shows a shop owner, in one look, every cart their customers abandoned today with customer, items, value and time."
+      doc: ecommerce/abandoned-carts-today/abandoned-carts-today-list/functionality.md
+      depends_on: [abandoned-cart-detection]
+      decisions: []
+      metadata: {created_by: /understand, updated_by: /understand, version: 1}
+  implied_levels:
+    accuracy: {level: high, gate: "fixture-shop comparison in CI plus a daily reconciliation of the list against the shop's records"}
+    performance: {level: medium, gate: "load test at 1,000 carts/day plus a freshness check on the updated-at time"}
+    security: {level: medium, gate: "shop-isolation test: owner of shop A requests shop B's list and is refused"}
+    privacy: {level: medium, gate: "access review of the list's data paths plus the shop-isolation test"}
+  compliance: []
+  compliance_note: "No regime is triggered: the model records no region or regime for the shops yet, so none is claimed."
+  open_questions:
+    - memory_update: mu-20261020-002
+      question: "How long a cart must sit untouched before it counts as abandoned (the abandonment window)."
+      status: waiting
+      blocking: false
+  kb_material:
+    - {tier: short-term, path: 1/context/answers/kb/ecommerce-abandoned-cart-recovery.md, lines: [1, 10], used_for: "capability scope, the two functionalities, the neighbours that own reminders and win-back counting"}
+    - {tier: phoenix, path: knowledge/domains/ecommerce.md, lines: [5, 5], used_for: "domain trigger: cart and orders"}
+    - {tier: phoenix, path: knowledge/domains/ecommerce.md, lines: [38, 41], used_for: "operator Understand intent the view serves"}
+    - {tier: phoenix, path: knowledge/domains/ecommerce.md, lines: [125, 127], used_for: "the basic order records detection reads"}
+  docs_written:
+    - .garura/product/product-os/ecommerce/abandoned-carts-today/capability.md
+    - .garura/product/product-os/ecommerce/abandoned-carts-today/abandoned-cart-detection/functionality.md
+    - .garura/product/product-os/ecommerce/abandoned-carts-today/abandoned-carts-today-list/functionality.md

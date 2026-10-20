@@ -1,0 +1,11 @@
+{
+  "doc": ".garura/product/product-os/ecommerce/carts-won-back/capability.md",
+  "kind": "capability",
+  "criteria": [
+    {"id": "completeness", "verdict": "pass", "evidence": "Directional intent is a substantive paragraph covering what, scope direction and why; Agent intent (ICE) holds two Goal lines and one Fails-if line.", "fix": ""},
+    {"id": "self_explanation", "verdict": "pass", "evidence": "\"It matters because the business goal is proved only by this number ... without counting reminded carts that turn into orders, nobody can tell whether fewer sales are being lost or whether reminders are just noise.\"", "fix": ""},
+    {"id": "discreteness_form", "verdict": "pass", "evidence": "Guidance asks for a substantive paragraph in Directional intent; ICE section is discrete lines: \"- Goal: ...\", \"- Fails if: there is no count from before reminders started...\"", "fix": ""},
+    {"id": "depth_gradient", "verdict": "pass", "evidence": "Domain gives one line: \"counts the reminded carts that end in an order and the sales they win back, month by month.\" The capability adds the before-reminders comparison, its boundary against the two sibling capabilities, and a failure condition.", "fix": ""},
+    {"id": "stranger_test", "verdict": "pass", "evidence": "\"It counts the abandoned carts that were reminded and then ended in an order, and adds up the sales those orders brought back ... it stops short of finding abandoned carts or sending reminders, which the two capabilities beside it own.\"", "fix": ""}
+  ]
+}

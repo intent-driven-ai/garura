@@ -1,0 +1,11 @@
+{
+  "in_drive": true,
+  "play": "vision",
+  "drive_run_id": "kickoff-test-20261020",
+  "drive": "kickoff",
+  "branch": "feature/1-cart-shop-kickoff",
+  "issue": 1,
+  "review_dir": ".garura/project/issues/1/review/drive/",
+  "inputs": {},
+  "answers": {}
+}

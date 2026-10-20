@@ -1,0 +1,37 @@
+{
+  "update": {
+    "id": "mu-20261020-005",
+    "status": "waiting",
+    "issue": 1,
+    "missing": "Which consent regimes apply to the abandoned-cart reminder email. It depends on where the shops' customers live; no memory tier says which regions this product serves. The marketing shelf names GDPR / CAN-SPAM as the regimes that govern consent for reach.",
+    "target_tier": "short-term",
+    "target_path": "1/context/answers/abandoned-cart-reminders-consent-regime.md",
+    "draft": "The abandoned-cart reminder is an email to a customer who has left the shop, so it is treated as reach that needs consent. Regimes to list in compliance_needs depend on where customers live: GDPR (and the matching e-privacy rules) if any customers are in the EU or UK; CAN-SPAM if any are in the US. Until a person confirms the regions, no regime is listed, and the capability still enforces opt-in before sending and a one-click opt-out in every reminder, because the product privacy level is medium or higher.",
+    "draft_source": "model",
+    "sources": [
+      {
+        "tier": "phoenix",
+        "path": "knowledge/domains/marketing.md",
+        "start": 73,
+        "end": 75,
+        "fingerprint": "sha256:14acbcf9a1a92d93ae21122a4e23f966c51c3b05b6fbba883da5af4c6bc184b3"
+      },
+      {
+        "tier": "phoenix",
+        "path": "knowledge/domains/notifications.md",
+        "start": 84,
+        "end": 84,
+        "fingerprint": "sha256:07560b04e24486f012e86bc138ac9a9df32976ea39a539d49fad329d2d42d0f9"
+      }
+    ],
+    "requested_by": "product-os-keeper (understand)",
+    "requested_at": "2026-10-20T04:56:39Z",
+    "decided_by": null,
+    "reply": null,
+    "decided_at": null,
+    "applied_version": null,
+    "blocking": false,
+    "decided_in": null
+  },
+  "target_fingerprint_at_propose": null
+}

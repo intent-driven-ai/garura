@@ -1,0 +1,14 @@
+{
+  "snapshot_saved": true,
+  "kind": "statement",
+  "read_on": "2026-10-20",
+  "given_by": "Kapil Viren Ahuja",
+  "snapshot_dir": ".garura/project/issues/1/evidence/intent/20261020-095249/source-statement",
+  "files": [
+    "statement.txt"
+  ],
+  "problem": null,
+  "sha256": {
+    "statement.txt": "4ccfe40b650f40dbaa7b75283b6dcaf64a603a9c3177e8d13b23f741832eaf07"
+  }
+}

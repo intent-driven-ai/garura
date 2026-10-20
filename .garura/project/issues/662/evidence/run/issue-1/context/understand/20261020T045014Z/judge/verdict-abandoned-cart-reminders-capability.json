@@ -1,0 +1,11 @@
+{
+  "doc": ".garura/product/product-os/ecommerce/abandoned-cart-reminders/capability.md",
+  "kind": "capability",
+  "criteria": [
+    {"id": "completeness", "verdict": "pass", "evidence": "Benefit hypothesis (who it serves, what we believe, how we will know), Boundary with In/Out/Never lines, seven Guiding rules, four Functionalities, and an Agent intent (ICE) block are all present and substantive.", "fix": ""},
+    {"id": "self_explanation", "verdict": "pass", "evidence": "\"Never: send a reminder to a customer whose consent is missing, withdrawn or unknown. Unknown counts as no, because a wrong guess is exactly the failure this capability exists to prevent.\"; \"Out: finding abandoned carts ... Seeing today's abandoned carts (abandoned-carts-today) owns that\"", "fix": ""},
+    {"id": "discreteness_form", "verdict": "pass", "evidence": "Every section is a list of discrete bullets, one point each (\"- One reminder per cart, ever. A second click ... shows 'already reminded' with the date\"); the ICE block uses Goal / Limit / Fails if pairs.", "fix": ""},
+    {"id": "depth_gradient", "verdict": "pass", "evidence": "Domain: \"Reminding customers about an abandoned cart (abandoned-cart-reminders) — lets an owner remind the customer ... in one click.\" Capability adds the 7-day per-customer limit, one-per-cart rule, link-restores-same-cart, reason shown on block, the record of every attempt, and four named functionalities.", "fix": ""},
+    {"id": "stranger_test", "verdict": "pass", "evidence": "\"if an owner can remind that customer with a single click — and the reminder brings the customer back into the same cart — then some of those carts end as finished orders\" plus Boundary naming the neighbouring capabilities and the notifications side as owners of what is out.", "fix": ""}
+  ]
+}

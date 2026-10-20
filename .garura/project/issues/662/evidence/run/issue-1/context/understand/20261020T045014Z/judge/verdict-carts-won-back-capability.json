@@ -1,0 +1,11 @@
+{
+  "doc": ".garura/product/product-os/ecommerce/carts-won-back/capability.md",
+  "kind": "capability",
+  "criteria": [
+    {"id": "completeness", "verdict": "pass", "evidence": "Benefit hypothesis, Boundary (In/Out/Never), Guiding rules, Functionalities (4) and Agent intent (ICE) are all present and substantive, e.g. \"In: fixing each shop's baseline — the last full calendar month before that shop sent its first reminder\".", "fix": ""},
+    {"id": "self_explanation", "verdict": "pass", "evidence": "\"Never: invent or estimate a baseline ... because a made-up baseline would make the goal look met or missed when nobody actually knows.\" and \"Every figure is grouped by the month the cart was abandoned ... This keeps each month's counts about the same set of carts\".", "fix": ""},
+    {"id": "discreteness_form", "verdict": "pass", "evidence": "Boundary, rules, functionalities and ICE are discrete one-point bullets; the benefit hypothesis is one 'we believe ... we will know' statement as the guidance describes.", "fix": ""},
+    {"id": "depth_gradient", "verdict": "pass", "evidence": "Domain says only \"counts the reminded carts that end in an order and the sales they win back, month by month\"; the capability adds baseline definition, like-for-like comparison, still-open months, net-of-refund money, dated corrections and traceability.", "fix": ""},
+    {"id": "stranger_test", "verdict": "pass", "evidence": "A cold reader can state what (monthly won-back counts and value vs. baseline), why (\"nobody can tell whether owners are losing fewer sales\") and edges (abandonment, reminders, order records, analytics owned elsewhere, each named).", "fix": ""}
+  ]
+}

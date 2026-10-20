@@ -1,0 +1,37 @@
+{
+  "update": {
+    "id": "mu-20261020-003",
+    "status": "waiting",
+    "issue": 1,
+    "missing": "How many days after a cart is abandoned an order from that cart still counts as the cart won back (the win-back window used to count carts won back and to close each month). No memory tier holds a value; the abandoned-cart recovery answer only says a set window exists.",
+    "target_tier": "short-term",
+    "target_path": "1/context/answers/win-back-window.md",
+    "draft": "The win-back window is one platform-wide setting, in days after a cart is marked abandoned. Proposed starting value: 7 days, to be confirmed or replaced by the head of the shop-owner side. The same window applies to every month and to each shop's baseline month, and a change to it recomputes baselines with the change dated.",
+    "draft_source": "model",
+    "sources": [
+      {
+        "tier": "short-term",
+        "path": "1/context/answers/kb/ecommerce-abandoned-cart-recovery.md",
+        "start": 9,
+        "end": 9,
+        "fingerprint": "sha256:03dd04430213715ba73034e24b03b316f0a19c8828734695c55160a98a78a811"
+      },
+      {
+        "tier": "short-term",
+        "path": "1/context/answers/kb/ecommerce-abandoned-cart-recovery.md",
+        "start": 12,
+        "end": 12,
+        "fingerprint": "sha256:98ba42ee5ee8d52dbbf922edb02206c2acfa24ce193dfddc862b858522b9d0ce"
+      }
+    ],
+    "requested_by": "product-os-keeper (understand)",
+    "requested_at": "2026-10-20T04:56:31Z",
+    "decided_by": null,
+    "reply": null,
+    "decided_at": null,
+    "applied_version": null,
+    "blocking": false,
+    "decided_in": null
+  },
+  "target_fingerprint_at_propose": null
+}

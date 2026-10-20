@@ -1,0 +1,33 @@
+{
+  "written": [
+    "spine:_spine.yaml"
+  ],
+  "capability_refs": [
+    "abandoned-carts-today",
+    "abandoned-cart-reminders",
+    "carts-won-back"
+  ],
+  "seeded": [],
+  "changed": {
+    "capabilities": [
+      "abandoned-carts-today",
+      "abandoned-cart-reminders",
+      "carts-won-back"
+    ],
+    "functionalities_added": [
+      "abandoned-cart-detection",
+      "abandoned-carts-today-list",
+      "cart-reminder-send",
+      "cart-reminder-eligibility",
+      "cart-reminder-message",
+      "cart-reminder-log",
+      "won-back-order-matching",
+      "pre-reminder-baseline",
+      "owner-monthly-win-back",
+      "business-win-back-summary"
+    ],
+    "profile": true,
+    "decisions": []
+  },
+  "box_moves": []
+}

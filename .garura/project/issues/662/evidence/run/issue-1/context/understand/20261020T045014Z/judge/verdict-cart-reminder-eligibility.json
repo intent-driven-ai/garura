@@ -1,0 +1,11 @@
+{
+  "doc": ".garura/product/product-os/ecommerce/abandoned-cart-reminders/cart-reminder-eligibility/functionality.md",
+  "kind": "functionality",
+  "criteria": [
+    {"id": "completeness", "verdict": "pass", "evidence": "All five guided sections are present and substantive: 'Decides, at the moment the owner clicks Remind, whether the customer behind one abandoned cart may be reminded about it now...' plus 8 Given/When/Then criteria and 4 named out-of-scope neighbours.", "fix": ""},
+    {"id": "self_explanation", "verdict": "pass", "evidence": "'Consent fails closed: ... a failure to read the consent records also blocks, because guessing yes is the one failure this capability must never have.' and 'Consent is per shop: ... because the customer agreed to hear from that shop, not from the platform.'", "fix": ""},
+    {"id": "discreteness_form", "verdict": "pass", "evidence": "Rules are discrete bullets; acceptance is Given/When/Then: 'Given the customer opted in and later withdrew, when the check runs, then it returns blocked with consent-withdrawn.' The function is stated as behavior, not as a user story.", "fix": ""},
+    {"id": "depth_gradient", "verdict": "pass", "evidence": "Parent says only 'decides, at the moment of sending, whether this customer may be reminded about this cart, and returns yes or the exact reason for no.' The child adds the seven reason codes, the fixed check order, the live-read inputs and the read-failure behavior.", "fix": ""},
+    {"id": "stranger_test", "verdict": "pass", "evidence": "'It is the single place the capability's limit is enforced: no other part of the product may decide to send a reminder.' plus 'The check never sends, writes or changes anything; it only reads and answers.' A cold reader can state what, why and edges.", "fix": ""}
+  ]
+}

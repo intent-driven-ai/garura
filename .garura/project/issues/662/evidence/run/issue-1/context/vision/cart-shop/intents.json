@@ -1,0 +1,38 @@
+{
+  "intents": [
+    {
+      "id": "fewer-sales-lost-to-abandoned-carts",
+      "path": "intents/fewer-sales-lost-to-abandoned-carts.md",
+      "exists": true,
+      "title": "Shop owners lose fewer sales to abandoned carts",
+      "outcome": "More of the carts that customers leave behind end up as finished orders, so shop owners keep sales they lose today.",
+      "why": "Today a shop owner loses the sale every time a customer leaves a cart without buying.",
+      "stage": "proposed",
+      "accepted": true
+    }
+  ],
+  "capabilities": [
+    {
+      "id": "abandoned-carts-today",
+      "domain": "",
+      "doc": "capabilities/abandoned-carts-today/capability.md",
+      "detail": "directional",
+      "intents": [
+        "fewer-sales-lost-to-abandoned-carts"
+      ],
+      "in_holding_folder": true
+    },
+    {
+      "id": "abandoned-cart-reminders",
+      "domain": "",
+      "doc": "capabilities/abandoned-cart-reminders/capability.md",
+      "detail": "directional",
+      "intents": [
+        "fewer-sales-lost-to-abandoned-carts"
+      ],
+      "in_holding_folder": true
+    }
+  ],
+  "domains": [],
+  "warnings": []
+}

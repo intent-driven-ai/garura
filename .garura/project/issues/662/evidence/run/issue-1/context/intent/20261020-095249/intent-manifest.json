@@ -1,0 +1,31 @@
+{
+  "intents": [
+    {
+      "id": "fewer-sales-lost-to-abandoned-carts",
+      "path": ".garura/product/product-os/intents/fewer-sales-lost-to-abandoned-carts.md",
+      "capabilities": [
+        ".garura/product/product-os/capabilities/abandoned-carts-today/capability.md",
+        ".garura/product/product-os/capabilities/abandoned-cart-reminders/capability.md"
+      ]
+    }
+  ],
+  "spine": ".garura/product/product-os/_spine.yaml",
+  "domains_added": [],
+  "domains_linked": [],
+  "in_holding_folder": [
+    "abandoned-cart-reminders",
+    "abandoned-carts-today"
+  ],
+  "warnings": [],
+  "dropped": [],
+  "ice_dropped": [],
+  "ice_skipped": [],
+  "stage": "proposed",
+  "confirmed_by": null,
+  "sources": [
+    ".garura/project/issues/1/evidence/intent/20261020-095249/source-statement/source.md"
+  ],
+  "decided": true,
+  "sources_saved": true,
+  "linked": true
+}

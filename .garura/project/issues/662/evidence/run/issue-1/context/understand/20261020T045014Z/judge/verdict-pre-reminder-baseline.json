@@ -1,0 +1,11 @@
+{
+  "doc": ".garura/product/product-os/ecommerce/carts-won-back/pre-reminder-baseline/functionality.md",
+  "kind": "functionality",
+  "criteria": [
+    {"id": "completeness", "verdict": "pass", "evidence": "All five sections are filled: 'Fixes, for each shop, the month its win-back results are compared against...', three In and one Out in Inputs / Outputs, seven rules, five Given/When/Then criteria, three Out of scope items each naming its neighbour.", "fix": ""},
+    {"id": "self_explanation", "verdict": "pass", "evidence": "\"A partial month is never used, because a half month would make every later full month look better than it is.\" and \"Changing the rule for the baseline alone would let the goal be met or missed by definition rather than by result.\"", "fix": ""},
+    {"id": "discreteness_form", "verdict": "pass", "evidence": "Rules are discrete bullets; acceptance criteria are all 'Given ..., when ..., then ...'; the doc states the function's behavior, not 'as a user I want'.", "fix": ""},
+    {"id": "depth_gradient", "verdict": "pass", "evidence": "The capability gives one line: 'fixes each shop's baseline month (the last full month before its first reminder) and its won-back figures, or marks the shop \"no baseline\"'. The functionality adds the pending/fixed/no-baseline states, the partial-month rule, the dated correction, recomputation on a window change and the 'not started' state.", "fix": ""},
+    {"id": "stranger_test", "verdict": "pass", "evidence": "\"It runs once when a shop sends its first reminder ... then freezes the baseline. When a shop has no full month of records before its first reminder, it records the shop as \\\"no baseline\\\" instead of guessing\" plus the Out of scope list naming Won-back order matching and the two views.", "fix": ""}
+  ]
+}

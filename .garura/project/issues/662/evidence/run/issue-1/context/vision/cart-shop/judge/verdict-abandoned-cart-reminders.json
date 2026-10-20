@@ -1,0 +1,11 @@
+{
+  "doc": ".garura/product/product-os/capabilities/abandoned-cart-reminders/capability.md",
+  "kind": "capability",
+  "criteria": [
+    {"id": "completeness", "verdict": "pass", "evidence": "Both expected directional sections are present and substantive: 'Directional intent' (two paragraphs) and 'Agent intent (ICE)' with Goal, Limit and Fails-if lines.", "fix": ""},
+    {"id": "self_explanation", "verdict": "pass", "evidence": "\"It matters because each customer who comes back and buys is a sale the owner keeps instead of losing.\" and \"respecting their consent here is what keeps a won-back sale from costing the shop that customer's trust.\"", "fix": ""},
+    {"id": "discreteness_form", "verdict": "pass", "evidence": "Directional intent is a prose paragraph, as the directional guidance asks; the ICE section is discrete lines: \"- Goal: ...\", \"- Limit: ...\", \"- Fails if: ...\". No user-story phrasing.", "fix": ""},
+    {"id": "depth_gradient", "verdict": "pass", "evidence": "Domain gives one line: \"lets an owner remind the customer behind an abandoned cart to come back and finish the order, in one click.\" The capability adds what it owns: \"deciding which customer is reminded, when, and with what message\", the boundary with notifications, and its own ICE.", "fix": ""},
+    {"id": "stranger_test", "verdict": "pass", "evidence": "\"letting a shop owner act on an abandoned cart straight away, by reminding the customer who left it\" (what); \"a sale the owner keeps instead of losing\" (why); \"The delivery channel itself... and the shared rules about who may be contacted and how often come from the notifications side\" (edges).", "fix": ""}
+  ]
+}

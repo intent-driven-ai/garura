@@ -1,0 +1,39 @@
+profile:
+  state: set
+  shape:
+    stage: mvp
+    users:
+    - shop-owners
+    - shoppers
+    monetization: unknown
+    surfaces:
+    - web
+  nfr:
+    privacy:
+      level: high
+      gate: eligibility tests over every consent state + audit of sent reminders against
+        consent records (zero violations)
+    security:
+      level: medium
+      gate: 'shop-isolation test: owner of shop A requests shop B''s list and is refused'
+    reliability:
+      level: medium
+      gate: idempotency tests + click-to-record reconciliation
+    performance:
+      level: medium
+      gate: load test at 1,000 carts/day plus a freshness check on the updated-at
+        time
+    scalability:
+      level: medium
+    accessibility:
+      level: medium
+    observability:
+      level: medium
+      gate: record-completeness check, every attempt recorded
+    maintainability:
+      level: medium
+    accuracy:
+      level: high
+      gate: fixture-shop comparison in CI plus a daily reconciliation of the list
+        against the shop's records
+  compliance: []

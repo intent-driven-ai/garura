@@ -1,0 +1,50 @@
+intents:
+  - id: fewer-sales-lost-to-abandoned-carts
+    title: Shop owners lose fewer sales to abandoned carts
+    outcome: More of the carts that customers leave behind end up as finished orders, so shop owners keep sales they lose today.
+    why: Today a shop owner loses the sale every time a customer leaves a cart without buying.
+    asked_by: The head of the shop-owner side of the business
+    proof: Each month, owners win back more sales from abandoned carts than in the month before reminders started
+    provenance:
+      title: source
+      outcome: source
+      why: source
+      asked_by: person
+      proof: person
+ice:
+  - id: abandoned-carts-today
+    title: Seeing today's abandoned carts
+    one_line: Shows each shop owner which carts their customers left behind today without buying.
+    directional_intent: >-
+      This is about giving every shop owner a clear view of the sales that slipped away today:
+      the carts customers filled and then left without placing an order. It will broadly own
+      how an owner finds out which carts were abandoned and when. It matters because an owner
+      cannot win back a sale they do not know they lost, and winning those sales back is how
+      owners lose fewer sales to abandoned carts.
+    built_from: fewer-sales-lost-to-abandoned-carts
+    goals:
+      - Each shop owner can see which carts their customers abandoned today, and so know which customers left an order unfinished and could still be won back.
+  - id: abandoned-cart-reminders
+    title: Reminding customers about an abandoned cart
+    one_line: Lets a shop owner remind the customer behind an abandoned cart to come back and finish the order, in a single click.
+    directional_intent: >-
+      This is about letting a shop owner act on an abandoned cart straight away, by reminding
+      the customer who left it that their order is still waiting. It will broadly own how a
+      reminder reaches that customer and how little effort it takes the owner to send one.
+      It matters because each customer who comes back and buys is a sale the owner keeps
+      instead of losing.
+    built_from: fewer-sales-lost-to-abandoned-carts
+    goals:
+      - A shop owner can remind the customer of an abandoned cart to come back and finish their order, with a single click and no other effort.
+sources:
+  - snapshot_dir: .garura/project/issues/1/evidence/intent/20261020-095249/source-statement
+    shows: >-
+      A short written statement from the person. It says shop owners lose sales when customers
+      leave carts without buying. It asks that each owner can see the carts left behind today
+      and remind those customers in one click, so that more carts become orders.
+coverage:
+  - part: Each shop owner sees which carts customers abandoned today.
+    ice: abandoned-carts-today
+  - part: The shop owner sends the customer of an abandoned cart a reminder with one click.
+    ice: abandoned-cart-reminders
+questions: []

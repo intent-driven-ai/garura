@@ -1,0 +1,48 @@
+{
+  "routing_result": {
+    "work": "abandoned-cart-reminders \u2014 a shop owner reminds the customer who left an abandoned cart to come back and finish the order, with one click, only to customers who agreed to hear from the shop, and never often enough to feel like spam",
+    "placements": [
+      {
+        "domain": "ecommerce",
+        "capability": "Abandoned-cart recovery (approved KB node, memory update mu-20261020-001, short-term 1/context/answers/kb/ecommerce-abandoned-cart-recovery.md)",
+        "functionality": [
+          "Cart reminder"
+        ],
+        "confidence": "high",
+        "why": "the capability is exactly the approved node's 'Cart reminder' line \u2014 an operator-triggered, one-click message to the shopper that their cart is waiting, with a link that restores the same cart \u2014 and serves the ecommerce shelf's shopper Acquire intent (cart) and its cart-abandonment nudge intelligence line",
+        "conditions": [
+          "Cart reminder \u2014 add when the shopper can be reached away from the store (notifications -> Channel delivery); requires opt-in where nfr.privacy >= medium or compliance includes GDPR",
+          "Reminder sequences & incentives \u2014 add when shape.stage is public/monetized and fatigue control is in place (adjacent, not this capability's scope today)"
+        ]
+      },
+      {
+        "domain": "notifications",
+        "capability": "Preferences & frequency",
+        "functionality": [
+          "Opt-in / opt-out",
+          "Fatigue / frequency control"
+        ],
+        "confidence": "high",
+        "why": "the capability's limit and failure conditions (only consenting customers, never spam) are exactly this shelf's consent and fatigue functionalities, which the capability uses rather than re-creates",
+        "conditions": [
+          "Opt-in / opt-out \u2014 the floor; nfr.privacy >= medium, or compliance includes GDPR",
+          "Fatigue / frequency control \u2014 when message volume rises, or shape.stage is public/monetized"
+        ]
+      },
+      {
+        "domain": "notifications",
+        "capability": "Channel delivery",
+        "functionality": [
+          "Email"
+        ],
+        "confidence": "high",
+        "why": "the reminder reaches a customer who has left the shop (away, not in-session), which is the channel-message case; email is the shelf's durable away-from-app channel",
+        "conditions": [
+          "Email \u2014 when shape.surfaces includes web/api and you need durable, away-from-app reach"
+        ]
+      }
+    ],
+    "spans_multiple_domains": true,
+    "unmatched": false
+  }
+}

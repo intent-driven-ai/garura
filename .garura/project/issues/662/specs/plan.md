@@ -4,7 +4,7 @@ kind: story
 serves: "#662 — /intent, /vision and /understand run on a test project from memory alone"
 status: active
 updated: 2026-10-20
-now: 3
+now: 7
 serves_plan: 653
 serves_item: 9
 ---
@@ -39,7 +39,7 @@ The run is recorded in this issue's folder. Passing it passes the Kickoff milest
 
 ## Where we are now
 
-The test project is ready. Now: item 3, run `/intent`.
+The run passed its checks. Now: item 7, the findings.
 
 ## The plan, in order
 
@@ -56,33 +56,16 @@ The test project is ready. Now: item 3, run `/intent`.
   machine updated to `db6441a`. Kapil chose (2026-10-20, "1") to run the plays as a drive runs
   them: one drive contract, issue 1, branch `feature/1-cart-shop-kickoff`, so nothing is written
   to GitHub; each checkpoint becomes a review record Kapil approves here.
+- **3–5. Ran `/intent`, `/vision`, `/understand`** — under the drive contract, each with
+  `claude -p` in the test project; drive branch commits `852e996`, `bd1e485`, `240634f`.
+  Kapil answered `/intent`'s two questions (picked examples) and approved memory update
+  `mu-20261020-001`, which `/understand` then used in 14 decisions.
+- **6. Checked** — 30 decision records, all with traces, `citations --check` clean; one memory
+  update raised, approved, applied and used; no answer from the model alone; every run file
+  under issue 1 except the gate learning files. Records and findings:
+  `.garura/project/issues/662/evidence/run/`.
 
-### 3. Run `/intent` — now
-
-**What:** from a source about the test product; answer its questions; see its agent read the
-ontology through the tool and keep a trace; raise, approve and use at least one memory update
-where no tier answers.
-**Done when:** the intents are confirmed and every decision has a trace.
-
-### 4. Run `/vision`
-
-**What:** seed the domain and its capabilities from the confirmed intents, grounded in the
-knowledge shelves read through the tool.
-**Done when:** the seed is approved and every decision has a trace.
-
-### 5. Run `/understand`
-
-**What:** detail the seeded capabilities.
-**Done when:** the detail is approved and every decision has a trace.
-
-### 6. Check the run
-
-**What:** `citations --check`; every answer has a source; no file outside the issue; no
-answer from the model alone; the memory update's whole path (raised → approved → applied →
-used). Copy the run's record into this issue's folder.
-**Done when:** every check passes, or each failure is written down.
-
-### 7. Findings
+### 7. Findings — now
 
 **What:** small fixes made on this branch; each larger finding written down for its own issue.
 **Done when:** each finding is fixed here or written down.
@@ -105,3 +88,4 @@ used). Copy the run's record into this issue's folder.
   (`.garura/project/issues/613/specs/memory-review.md`).
 - 2026-10-20 — Kapil: a2 (I run the plays with `claude -p` in the test project), b1 (the abandoned-cart shop).
 - 2026-10-20 — Kapil: "1" — the plays run under a drive contract (issue 1), nothing written to GitHub.
+- 2026-10-20 — Items 3 to 6 done: the three plays ran from memory; one memory update raised, approved by Kapil and used. Findings in `evidence/run/findings.md`.

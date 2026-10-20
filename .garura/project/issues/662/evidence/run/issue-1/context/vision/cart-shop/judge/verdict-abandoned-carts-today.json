@@ -1,0 +1,11 @@
+{
+  "doc": ".garura/product/product-os/capabilities/abandoned-carts-today/capability.md",
+  "kind": "capability",
+  "criteria": [
+    {"id": "completeness", "verdict": "pass", "evidence": "Both expected directional sections are present and substantive: '## Directional intent' (two paragraphs covering what, scope direction and why) and '## Agent intent (ICE)' (a Goal line and a Fails-if line).", "fix": ""},
+    {"id": "self_explanation", "verdict": "pass", "evidence": "\"It matters because an owner cannot win back a sale they do not know they lost\"; \"so the view is only as true as those records: a cart that became an order must never be shown as lost\"; \"reminding the customer and counting what comes back belong to the two capabilities beside it, so this view stays a plain, trustworthy list.\"", "fix": ""},
+    {"id": "discreteness_form", "verdict": "pass", "evidence": "ICE is two discrete lines: \"Goal: Each shop owner can see which carts their customers abandoned today...\" and \"Fails if: a cart that ended in an order is shown as abandoned, or a cart left without an order today is missing from the view.\" No Agile story form is required at the directional stage.", "fix": ""},
+    {"id": "depth_gradient", "verdict": "pass", "evidence": "Domain gives one line: \"gives each shop owner a clear view of the carts customers filled and left today without ordering... it only shows, it does not contact anyone.\" The capability adds what the domain does not state: reliance on cart and order records, the trust risk in both directions, and testable failure conditions.", "fix": ""},
+    {"id": "stranger_test", "verdict": "pass", "evidence": "\"giving every shop owner a clear view of the sales that slipped away today: the carts customers filled and then left without placing an order\" (what); \"winning those sales back is how owners lose fewer sales\" (why); \"It shows the owner where sales slipped away and stops there\" (edges).", "fix": ""}
+  ]
+}

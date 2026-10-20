@@ -1,0 +1,24 @@
+{
+  "nodes": [
+    {
+      "id": "abandoned-carts-today",
+      "kind": "capability",
+      "intents": {
+        "fewer-sales-lost-to-abandoned-carts": "proposed"
+      },
+      "workable": false,
+      "reason": "no confirmed business intent (fewer-sales-lost-to-abandoned-carts: proposed) \u2014 kept, not worked on"
+    },
+    {
+      "id": "abandoned-cart-reminders",
+      "kind": "capability",
+      "intents": {
+        "fewer-sales-lost-to-abandoned-carts": "proposed"
+      },
+      "workable": false,
+      "reason": "no confirmed business intent (fewer-sales-lost-to-abandoned-carts: proposed) \u2014 kept, not worked on"
+    }
+  ],
+  "workable": 0,
+  "not_workable": 2
+}
