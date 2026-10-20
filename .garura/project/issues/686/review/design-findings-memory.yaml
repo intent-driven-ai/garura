@@ -1,0 +1,127 @@
+# design-findings-memory.yaml - review-change Step 3, Layer 2 (memory category) - PR #687 / issue #686
+# Grounded only in committed sources on origin/main. ADR 042 (added by this branch, Proposed) is a claim
+# under review, not grounding.
+pr: 687
+issue: 686
+category: memory
+grounding:
+  - id: G-guide
+    source: "origin/main:core/tools/memory/GUIDE.md"
+    principle: >
+      Memory is reached only through the memory tool (search, find, read, cite, propose, updates), never by a
+      file's path. Only agents call the tool: a play asks its agents; a skill reads only what its agent puts in
+      short-term memory. Never answer from what you know or the web without a memory update a person approved;
+      when no tier answers, raise a memory update (propose, with draft_source person/web/model/memory). Agents
+      never write Garura or Phoenix memory; every write goes to short-term memory; promotion is a person's act.
+  - id: G-adr039
+    source: "origin/main:docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md (section 2)"
+    principle: "A play is a pure workflow and reads no memory; its sub-agents read memory, only through the memory tool. A drive follows the same rule."
+  - id: G-adr041
+    source: "origin/main:docs/adr/041-a-drive-runs-in-rounds-and-owns-its-questions.md (sections 2, 8, 'What this does not change')"
+    principle: >
+      The drive never picks an answer for itself; nothing from the model or web is used before a person approves
+      it (ADR 035 s5). The one exception to 'only agents call the tool' is the drive calling `decide` to record a
+      person's typed decision, and it must stay limited to recording a person's typed word.
+  - id: G-drive-contract
+    source: "origin/main:core/components/memory/standards/rules/drive-contract.md (How a play runs inside a drive, rule 5)"
+    principle: >
+      A question a play cannot answer goes to the drive in open-<play>.json; the play never picks an answer for
+      itself; research answers become memory updates a person approves; the drive asks the person what no play
+      can answer, all at once.
+  - id: G-rules-index
+    source: "origin/main:core/components/memory/standards/rules/_index.md"
+    principle: "The index lists each rule file with its description and consumers; the drive-contract row names who consumes the rule."
+conformance_ok:
+  - "No new play, agent or skill reads a memory file by path. The old build-memory group_questions.py read review/memory-updates/*.json by path; the new group_questions.py asks the tool's `updates` instead (an improvement)."
+  - "No play or agent decides, applies or promotes a memory update. knowledge-builder, build-knowledge, search-knowledge and review-knowledge each say so, and check_knowledge_build.py and the review SE-4 check it. record_review.py only lists decisions; the drive calls `decide` (R5b), as ADR 041 s8 allows."
+  - "pipeline-next.md, drive-run.md (R5c, R5b), kickoff/SKILL.md (steps 6c-6f) and the glossary Drive row agree on the order: search-knowledge, build-knowledge, review-knowledge; all run only inside a drive."
+  - "The three check_drive_contract.py copies in the new plays are byte-identical to play-creator/references/check_drive_contract.py, the canonical checker the rule names."
+  - "The branch removes no rule file and no row from _index.md; build-memory and memory-builder are gone from core/ and docs/ (the only mentions left are two history lines in the new plays' ice.md)."
+findings:
+  - id: M-1
+    severity: P2
+    file: core/components/memory/standards/rules/drive-contract.md
+    basis: "G-drive-contract; G-adr041. The rule says it is the single source and plays do not restate it."
+    finding: >
+      The rule file was only given one new Related line. Rule 5 still describes the old flow: a question is written
+      to open-<play>.json with for_person and examples, "the play never picks an answer for itself", and the drive
+      asks the person its open questions "all at once". The branch's plays and the shared drive run now do
+      something different: the person gets a brief of at most seven gaps, each with our proposed answer (never
+      example answers), and a gap the context settles is closed without asking. Nothing in the rule says when a
+      play may close a gap with a proposed answer or as settled, or what the brief is. The rule and the plays now
+      disagree, and a later play author reading the rule would build the old flow.
+  - id: M-2
+    severity: P2
+    file: core/components/skills/propose-answers/SKILL.md
+    basis: "G-guide (never answer from what you know without an approved memory update); G-adr041 (the drive never picks an answer for itself; nothing from the model is used before a person approves); G-drive-contract rule 5."
+    finding: >
+      A gap the context "already settles" is closed as `settled` by the model's own reasoning. The brief skill
+      then drops it ("Drop anything the context settles"), so the person never sees it and no memory update records
+      it. That is the model deciding that a question needs no answer, with no person's approval and no trace in
+      memory. The same skill also says that when it cannot draft an answer it should "propose the safest default",
+      which is a guess dressed as a proposal. ADR 042 names `settled` as a decision, but ADR 042 is a Proposed
+      claim, and the committed rules above forbid it. At least the settled gaps should be listed in the brief (as a
+      line the person can overrule) or raised as a memory update; the human should decide.
+  - id: M-3
+    severity: P3
+    file: core/components/skills/propose-answers/SKILL.md
+    basis: "G-guide ('When no tier answers: raise a memory update', with draft_source model); G-adr041 s8 (the person's typed word is what `decide` records)."
+    finding: >
+      Our proposed answers (model-drafted) never go through the memory tool's `propose`. They live in
+      proposals.json and brief.json. When the person says "yes", record_review.py writes each one as the person's
+      answer (`from: person`, with `accepted_proposal: true`). The next round then reads them as approved. The
+      person did type the word, so this may be acceptable, but it skips the tool's own route for a drafted answer
+      and its draft_source label, so the memory side never learns the answer began as a model draft.
+  - id: M-4
+    severity: P2
+    file: core/components/plays/search-knowledge/SKILL.md
+    basis: "G-adr039 s2 (a play reads no memory); G-guide (only agents call the tool); G-adr041 s8 (the one exception is `decide`, kept narrow)."
+    finding: >
+      Step 1 is "Owner: play (script)" and runs group_questions.py with --memory-tool, which calls the tool's
+      `updates` itself. build-knowledge Step 2 does the same through check_knowledge_build.py (also run by the
+      play, with --memory-tool). So the play, not an agent, calls the memory tool. The calls are read-only lists
+      of the issue's own waiting updates, and they are better than main's read-by-path, but the committed rule is
+      that the play asks an agent for it. Either have knowledge-builder fetch the list and hand it over as a
+      working file, or record the exception in ADR 042 (it widens ADR 041 s8's narrow one).
+  - id: M-5
+    severity: P3
+    file: core/components/plays/review-knowledge/scripts/record_review.py
+    basis: "G-adr041 s8 ('must stay limited to recording a person's typed word'); G-guide (promotion and approval are a person's act)."
+    finding: >
+      A bare "yes" is turned into an `approve` or `reject` for every knowledge page by copying our own
+      recommendation, and the drive then calls `decide` for each. The person typed "yes", but the decision per
+      page is our recommendation, not their word. The brief does list each page with its recommendation, so this
+      may be intended. The human should confirm it fits the narrow `decide` exception.
+  - id: M-6
+    severity: P4
+    file: core/components/memory/standards/rules/_index.md
+    basis: "G-rules-index (the drive-contract row names consumers and what the rule covers)."
+    finding: >
+      The index was not touched. The drive-contract row still lists only /vision, /intent, /understand and the
+      drives as consumers, although search-, build- and review-knowledge now use the shared checker, and its
+      description still says the drive asks the person what none answers, with no mention of the brief. Separately,
+      pipeline-next.md (edited by this branch) has never been in the index, and neither have eight other rule
+      files (builder-isolation, direct-model-write, expectation-generation, feature-catalog, gate-config,
+      grounding-eval, user-facing-voice); that gap is older than this branch.
+  - id: M-7
+    severity: P4
+    file: core/components/memory/standards/rules/drive-contract.md
+    basis: "ADR 042 is Proposed and added by this branch; it is not grounding."
+    finding: >
+      drive-contract.md (Related), the glossary Drive row and pipeline-next.md now rest on ADR 042, which is still
+      Proposed until Kapil accepts it at the merge. If he changes the decision, these three change with it. Not a
+      defect; keep them in the same merge as the ADR.
+  - id: M-8
+    severity: P4
+    file: core/components/drives/_shared/drive-run.md
+    basis: "origin/main drive-run.md R5b (the removed text told the person an approved page marked for_project_memory is promoted later by a person, /promote-memory); G-guide (promotion is a person's act, outside the work)."
+    finding: >
+      The old R5b told the person that an approved page marked for_project_memory is promoted later by a person.
+      The new R5b and the brief never mention promotion, although build-knowledge's record still carries
+      for_project_memory. A person approving a page is not told that approval is not promotion. Add one line to
+      the brief or R5b.
+counts:
+  P1: 0
+  P2: 3
+  P3: 2
+  P4: 3
