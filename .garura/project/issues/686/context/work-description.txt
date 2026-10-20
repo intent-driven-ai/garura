@@ -1,0 +1,25 @@
+Title: feat: a drive finds, builds and reviews the knowledge it lacks — /search-knowledge, /build-knowledge, /review-knowledge
+
+Kind: Story — a slice of the drives feature (#594), after #613 (the Kickoff drive).
+
+What: today one member play, /build-memory, does every job a drive has before it asks the
+person. Split it into three member plays that run in order inside every drive's rounds:
+- /search-knowledge — for each open point, search the drive's sources (a prototype's views,
+  journeys and page) and memory; answer with a quote or a trace.
+- /build-knowledge — what search could not answer: draft researched knowledge pages as memory
+  updates a person approves, draft our proposed answer for each remaining gap, and turn missing
+  screens into notes for the prototype.
+- /review-knowledge — present it to the person as a brief with context: what we understood, what
+  we built, the few gaps each with our proposed answer; drop what the context already settles;
+  record what the person approves or corrects.
+The names use "knowledge", not "memory", so they do not clash with Claude Code's /memory.
+
+Why: Kickoff run 6 (Argus mockup, 20 October) ended in an 11-question questionnaire. Kapil:
+"this sort of questionnaire is not helping me as a user … present it to me like you would
+present to a person who can help you close this piece … what you understood, what you created,
+where the gaps are." Run 6 also cost $50.89; the change cuts the cost of a run.
+
+Done when: ADR 042 records the split; the three plays are built, linted and tested; the shared
+drive run and Kickoff run them; /build-memory is gone; the change is merged.
+
+Out of scope: Argus showing the brief (#680, #664); promoting memory.
