@@ -86,6 +86,10 @@ A JSON file, passed to the play as `--contract <path>`:
    counts as an approval nor breaks a run of them. The drive's review later appends the
    person's real answer as a new line for the same shape (the ledger is append-only); how
    the drive's review does that belongs to the drive-review design (#617).
+7. **Close as a sub-play.** The play runs the Standard Play Close (`_shared/play-close.md`,
+   beside the plays): its evidence file as `evidence.record` says, no delivery report of its
+   own, and a compact result for the drive. The drive writes the one delivery report for the
+   run, and its own evidence.
 
 Run by hand, a play is unchanged: its opening, its checkpoint and its end sequence run as
 its gate settings say.

@@ -4,7 +4,7 @@ kind: story
 serves: "#613 — the Kickoff drive runs /intent, /vision and /understand from a working prototype to a detailed product model"
 status: active
 updated: 2026-10-20
-now: 3
+now: 5
 serves_plan: 606
 serves_item: 8
 ---
@@ -55,10 +55,13 @@ the wrong move."* When memory and the system hold nothing to go on, they ask.
 
 - **Review as plays, run as a drive** (Kapil, 2026-10-20, thinking aloud): review split into
   plays — code quality (linters, tests), security, design (UX and technical) — run together as a
-  review drive, adopting Claude Code's review method (parallel reviewers, a verification step that
-  filters false positives, severity ranking, a `REVIEW.md` of the repo's own review rules). ADR 029
-  §5 already expects the review to be a drive of its own. A business intent of its own; filed when
-  Kapil asks. Kickoff's checker (item 6) can later name that drive in its config.
+  review drive. Kapil (2026-10-20): no separate `REVIEW.md` — our design is plays; the review
+  plays adopt the guidelines and best practices of Claude Code's review (parallel reviewers, a
+  verification step that filters false positives, dedupe, severity meanings, a cap on nits,
+  excluded paths, evidence for each finding). Open with it: whether the self-review before the
+  pull request and the review after it stay two steps. ADR 029 §5 already expects the review to be
+  a drive of its own. A business intent of its own; filed when Kapil asks. Kickoff's checker
+  (item 6) can later name that drive in its config.
 
 - **Confirmed intents and the review as the drive's last step.** Inside a drive,
   `/intent` saves intents as proposed; the person confirms them in the review.
@@ -75,7 +78,7 @@ the wrong move."* When memory and the system hold nothing to go on, they ask.
 The memory milestone is passed (#653 items 1 to 9; the last, #662, merged on 20 October): the
 three plays read memory only through their agents, every run lives under its issue, and they
 ran from memory alone on a test project. A fresh branch `feature/613-the-kickoff-drive` is cut
-from main (`504379ce`). Now: item 3, the runner's design note — Kapil decided its three points (2026-10-20).
+from main (`504379ce`). Items 3 and 4 are done. Now: item 5, the play compiler's drive kind.
 
 ## The plan, in order
 
@@ -95,6 +98,18 @@ from main (`504379ce`). Now: item 3, the runner's design note — Kapil decided 
   feature with its own issues and branches, and set its model (Phoenix memory as
   the superset; each project pulls the subset it needs; one tool that finds and
   updates memory, searching like Claude Code). Nothing is fixed yet.
+- **3. Decided the runner's shape** (20 October) — `specs/runner-design.md`, agreed by Kapil:
+  each play runs as a sub-agent (a headless session is a config option); the drive ends at the
+  pull request with typed confirmation until the review tool exists, recorded in Kickoff's ICE
+  (item 7); the checker is config, both kinds built.
+- **4. Made the three plays run back to back without a person** (20 October) — re-checked after
+  #661 and #662: the old stops (uncommitted pages after `/intent`, questions one by one,
+  `/vision`'s review stop, `/vision`'s input names, `/intent`'s own contract check) no longer stop
+  the plays; the #662 run went through all three under one contract. Fixed here: I-2 — the shared
+  close's template step is no longer optional, its manifest is named for the play, and a play
+  inside a drive closes as a sub-play (the drive writes the one report — drive contract, step 7).
+  Moved to item 7: V-4 (the drive commits the issue's run files after each play) and the drive's
+  evidence (the config turns evidence off by default, so Kickoff's config must record it).
 
 ### Milestone: Kickoff's plays work from memory — passed (20 October)
 
@@ -106,39 +121,7 @@ system in every Garura install, and
 project. That work is its own feature, outside this issue
 (Feature #653, `.garura/project/issues/653/specs/plan.md`).
 
-### 3. Decide the runner's shape — now
-
-**Issue:** #613.
-**What:** settle what the drive is as a component and how it runs end to end:
-how it is built and compiled, where its run and records live, how it asks its
-questions first under ADR 034, how the config picks the checker, what evidence
-it writes, and how it ends until the review exists.
-**Why here:** items 5 to 7 build what this item decides.
-**Done when:** a short design note in this issue's `specs/` folder that Kapil
-agrees with; anything that changes an earlier decision is an ADR.
-**Needs:** items 1 and 2, and the milestone above.
-
-### 4. Make the three plays run back to back without a person
-
-**Settled since (#661, #662):** `/intent` checks the drive contract with the shared checker
-(I-1); every run, its answers and evidence live under the drive's issue (ADR 039); the plays
-read memory only through their agents. Still open from the #662 run: the plays leave the
-issue's run files uncommitted inside a drive (V-4 — the drive commits them), and the close does
-not ask `template-manager` for its templates (I-2). Re-check the rest of this list in item 3.
-
-**Issue:** #613 — the fixes ride on this branch (Kapil's choice A, 2026-10-18).
-**What:** fix what stops the plays running one after another. Found so far:
-`/intent`'s commit leaves new domain pages and capability docs uncommitted, so
-`/vision` stops on an unclean model; `/intent` asks its questions one by one
-instead of answering from memory first; `/vision`'s proposal for a new domain
-can stop for a review; the names `/vision` reads its input under are not fixed;
-`/intent` checks the drive contract its own way. Each change to a play goes
-through its ICE source and `/play-editor`.
-**Why here:** the runner cannot be proven end to end while any of these stop it.
-**Done when:** each fix is on this branch and each play's own checks pass.
-**Needs:** items 1 and 2; item 3 for the input names.
-
-### 5. Teach the play compiler what a drive is
+### 5. Teach the play compiler what a drive is — now
 
 **Issue:** #613.
 **What:** `/play-creator` builds plays that run their own steps. A drive runs
@@ -223,3 +206,5 @@ mark step 1 of item 8 done in the #606 plan.
 - 2026-10-18 — The memory system is filed as Feature #653 (spike #654 for its decision); its plan moved to `.garura/project/issues/653/specs/plan.md`.
 - 2026-10-20 — The memory milestone is passed (#662 merged). Fresh branch `feature/613-the-kickoff-drive` off main (`504379ce`); the old one landed as PR #652. Now item 3.
 - 2026-10-20 — Item 3: Kapil decided (a) each play runs as a sub-agent (docs allow three layers; a headless session stays a config option), (b) 1 — the drive ends at the PR with typed confirmation, a stand-in recorded in Kickoff's ICE until the review tool, (c) the checker is config, both kinds built. Review-as-a-drive recorded for later.
+- 2026-10-20 — Kapil: no separate `REVIEW.md`; the review plays adopt its practices (recorded under what this plan leaves out).
+- 2026-10-20 — Items 3 and 4 done. I-2 fixed in the shared close and the drive contract; V-4 and the drive's evidence moved to item 7.
