@@ -80,7 +80,7 @@ the wrong move."* When memory and the system hold nothing to go on, they ask.
 The memory milestone is passed (#653 items 1 to 9; the last, #662, merged on 20 October): the
 three plays read memory only through their agents, every run lives under its issue, and they
 ran from memory alone on a test project. A fresh branch `feature/613-the-kickoff-drive` is cut
-from main (`504379ce`). Items 3 to 7 are done. Now: item 8, a real run — Kapil picks the prototype.
+from main (`504379ce`). Items 3 to 7 are done. The real runs (Argus mockup, Kapil's pick) found that Kickoff ran as a pipeline, not a drive. Now: item 8, make it loop and make `/intent` fast and right; then item 9, the proof.
 
 ## The plan, in order
 
@@ -142,7 +142,26 @@ system in every Garura install, and
 project. That work is its own feature, outside this issue
 (Feature #653, `.garura/project/issues/653/specs/plan.md`).
 
-### 8. Prove Kickoff on a real prototype — now
+### 8. Make Kickoff a real drive, and `/intent` fast and right — now
+
+**Issue:** #613.
+**What:** found by the runs on the Argus mockup (`evidence/kickoff-run/findings.md`). Kapil,
+2026-10-20: ADR 029 and ADR 035 stand; the drive's scope was read wrong — a question one play
+cannot answer belongs to the whole drive. (1) The drive loops: intent → vision → understand →
+back again with what it learned, until its done check holds or a round adds nothing new; only
+then does it ask the person what is still open, all at once, with the draft. (2) `/intent`
+inside a drive saves proposed intents with open questions named instead of stopping, and fills
+them on the next round. (3) Context from memory, then research as a memory update (ADR 035).
+(4) "Who asks" from the journeys' roles. (5) Questions that make sense to whoever gave the
+prototype. (6) The walk fast and cheap: one browser per journey, only what changed per step,
+its own agent on Sonnet 5.5; the draft on Opus 5.5. (7) Every main section of a prototype is
+some journey's goal (the product model half of Argus was lost).
+**Why here:** the proof (item 9) must be a correct run.
+**Done when:** each fix is on this branch with its tests and linters, and a rerun shows the
+loop.
+**Needs:** item 7.
+
+### 9. Prove Kickoff on a real prototype
 
 **Issue:** #613.
 **What:** run Kickoff end to end on a real working prototype, in a test project
@@ -154,13 +173,13 @@ example pack from this run (#641).
 and the run's output is kept as #641's example pack.
 **Needs:** item 7. Kapil picks the prototype.
 
-### 9. Land the runner
+### 10. Land the runner
 
 **Issue:** #613.
 **What:** commit, raise, review and merge the change; post the handoff on #613;
 mark step 1 of item 8 done in the #606 plan.
 **Done when:** merged to main.
-**Needs:** item 8.
+**Needs:** item 9.
 
 ## Log
 
@@ -202,3 +221,4 @@ mark step 1 of item 8 done in the #606 plan.
 - 2026-10-20 — Item 6 done: the checker, both kinds, proved with a pass and a reject each (`evidence/checker/README.md`).
 - 2026-10-20 — Item 7: Kapil chose 2 — at Kickoff's end the person's typed confirm or drop is recorded in the issue's short-term memory; intents stay proposed until the review tool writes approval. Kapil: the review tool's Catch up swipe handles ICE differently from business intents (open; recorded in #617's tool plan).
 - 2026-10-20 — Item 7 done: Kickoff built and linted (`core/components/drives/kickoff/`).
+- 2026-10-20 — Kapil: stop the run; the drive must loop over its three plays and stop only when none can answer; fix `/intent`'s speed and questions; then run again. New item 8; the proof is item 9, landing item 10.

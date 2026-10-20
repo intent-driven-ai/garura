@@ -254,7 +254,10 @@ def test_journeys():
         except ImportError:
             skip(["a journey step is taken and kept", "a later step replays the earlier ones",
                   "a step that cannot be taken is recorded, not hidden",
-                  "a data-changing step is allowed on a file prototype"], "Playwright is not installed")
+                  "a data-changing step is allowed on a file prototype",
+                  "a session keeps the journey's browser and takes the next step",
+                  "a step tells only what changed", "a changed journey loads fresh in the same session"],
+                 "Playwright is not installed")
         else:
             rc = walk("buy-01", [{"do": "type", "target": "Search", "text": "lamp"}])
             check("a journey step is taken and kept", rc == 0 and os.path.isfile(os.path.join(out, "buy-01.png")))
@@ -267,6 +270,22 @@ def test_journeys():
                   rc == 1 and "nothing on this screen" in read_json(os.path.join(out, "buy-03.json"))["why"])
             rc = walk("buy-04", [{"do": "click", "target": "Pay now"}])
             check("a data-changing step is allowed on a file prototype", rc == 0)
+            # one browser kept open for the journey (--session): same result, only the change told
+            sess = f"test-{os.getpid()}"
+            try:
+                rc1 = walk("fast-01", [{"do": "type", "target": "Search", "text": "lamp"}], "--session", sess)
+                rc2 = walk("fast-02", [{"do": "type", "target": "Search", "text": "lamp"},
+                                       {"do": "click", "target": "Add to cart"}], "--session", sess)
+                rec = read_json(os.path.join(out, "fast-02.json"))
+                check("a session keeps the journey's browser and takes the next step",
+                      rc1 == 0 and rc2 == 0 and rec["changed"] and "cart has lamp" in rec["added"])
+                check("a step tells only what changed", "Search" not in " ".join(rec["added"]))
+                rc3 = walk("fast-03", [{"do": "click", "target": "Pay now"}], "--session", sess)
+                with open(os.path.join(out, "fast-03.txt")) as fh:
+                    check("a changed journey loads fresh in the same session",
+                          rc3 == 0 and "order placed" in fh.read())
+            finally:
+                wp.main(["--session", sess, "--stop"])
 
         evidence = os.path.join(tmp, "ev")
         os.makedirs(evidence)

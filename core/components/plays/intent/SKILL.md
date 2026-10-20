@@ -72,9 +72,11 @@ held (C11).
 | Agent | Domain | Skill it invokes | Phases |
 |-------|--------|------------------|--------|
 | `business-intent-keeper` | Read every Source's snapshot and the person's answers, and the ontology through the memory tool (by its name, the config's `product.ontology`); draft the business intents and, under each, one ICE per separate thing the sources show — with provenance, a coverage map, and questions with example answers — and check the draft (coverage, merges and restated intents by judgment, the rest by script) before handing it back | `author-business-intent` | Draft |
+| `prototype-walker` | Walk a prototype Source in journeys — who it serves, what each sets out to do, every step and what it showed — through one kept-open browser per journey, and check that every captured view is on a journey (Sonnet, medium effort) | `walk-prototype` | Walk |
 | `template-manager` | Load the close's templates (the evidence file, the delivery report, the Next-line map) through the memory tool into the run's short-term memory | — | Close |
 
-`business-intent-keeper` is the single **domain agent**. It drafts both levels because one
+`business-intent-keeper` and `prototype-walker` are the **domain agents**: the walker uses the
+prototype, the keeper drafts from what the walk found. It drafts both levels because one
 reading of the source shows both; it never writes the model. `template-manager` is a utility
 agent of the shared close: the play reads no memory itself (ADR 039 §2).
 The start and end sequence are injected
@@ -214,12 +216,15 @@ why — and when any is unreached, the person was told which.
 **SE-6 (F6/C6):** each `source-manifest-<name>.json` lists the snapshot files with their
 hashes, `read_on`, and `given_by` (the git user); each snapshot sits under the evidence folder.
 
-**Step 1b — Walk the prototype in journeys** · Owner: `business-intent-keeper` · Depends on: Step 1
+**Step 1b — Walk the prototype in journeys** · Owner: `prototype-walker` · Depends on: Step 1
 *Only for a prototype Source (a file, a project's running app, or a deployed site); a document
 or a statement skips it.* A screen shows what a prototype has; a journey shows what it is for
-(C15). The agent invokes `walk-prototype`: it works out who the prototype serves and what each
-sets out to do, walks each journey a step at a time through `scripts/walk_prototype.py`
-(click, type, press, back — every step's picture and text kept), and writes `journeys.yaml`
+(C15). The walk is high-volume, low-judgment work, so it has its own agent, `prototype-walker`
+(Sonnet, medium effort); the drafting stays with `business-intent-keeper` (Opus, high effort).
+The walker invokes `walk-prototype`: it works out who the prototype serves and what each sets
+out to do — every main section is some journey's goal — walks each journey a step at a time
+through `scripts/walk_prototype.py` (click, type, press, back; one kept-open browser per
+journey; each step tells only what changed — every step's picture and text kept), and writes `journeys.yaml`
 with every captured view on a journey or named as not walked, with why. On a deployed site a
 step that changes data is taken only when the person said the site is safe for it: run by hand
 ask them once, before the walk; inside a drive read `answers.may_change_data` from `run.json`

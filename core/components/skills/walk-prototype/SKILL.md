@@ -2,7 +2,8 @@
 name: walk-prototype
 description: Understand a working prototype by using it, the way the people it serves would. Works out who it serves and what each sets out to do, then walks each journey a step at a time through the walk_prototype.py browser script — click, type, press a key, go back — and records every step and what it showed, until the person gets what they came for or the prototype stops them. Writes journeys.yaml (who, sets out to do, steps, ends with) with every captured view placed on a journey or named as not walked, with why; the step pictures and text are kept as evidence. Never changes data on a deployed site the person has not cleared. Used by /intent before it drafts intents from a prototype (C15).
 user-invocable: false
-model: opus
+model: sonnet
+effort: medium
 allowed-tools: Read, Write, Bash, Glob
 ---
 
@@ -28,7 +29,11 @@ business intent says what a person gets, not what the screens hold or what rules
 
 1. **Read the captured views** — every `view-…` text (and picture) the manifest lists, and the
    first screen. List the views by name.
-2. **Work out who the prototype serves and what each sets out to do.** From what the screens
+2. **Work out who the prototype serves and what each sets out to do.** Start from its main
+   sections — the tabs, the top-level menu, the parts of its first screen. **Every main section
+   is some journey's goal** (a person comes to it for a reason), so a section is never only a
+   step on the way to another goal; a review tool's product view is a journey of its own, not
+   part of reading one change. From what the screens
    say to their users — headings, help text, empty states, the names of actions — name each
    kind of person and each thing they come to do. Write the goal as what they want to have at
    the end, in their words ("get through everything the drive changed and approve it"), not as
@@ -38,13 +43,16 @@ business intent says what a person gets, not what the screens hold or what rules
 
    ```bash
    python3 <walk_script> --source <source> --steps <evidence_dir>/<journey>.steps.json \
-       --out-dir <evidence_dir> --name <journey>-NN [--allow-changes]
+       --out-dir <evidence_dir> --name <journey>-NN --session <journey> [--allow-changes]
    ```
 
    The steps file holds every step so far plus the next one (`click`, `type`, `press`, `back`;
-   a target by its words or `#n`). Read the result — `<journey>-NN.txt`, its picture, and the
-   `controls` and `fields` it lists — and choose the next step from what a person with this
-   goal would do now. Go on until the person has what they came for, or the prototype stops
+   a target by its words or `#n`). `--session` keeps the journey's browser open, so a step
+   costs well under a second. The answer tells you **only what changed** (`added` lines, `gone`
+   count) and the `controls` and `fields` now on screen: read that, not the whole page — open
+   `<journey>-NN.txt` only when the change is not enough to decide. Choose the next step from
+   what a person with this goal would do now. When the journey ends, run
+   `python3 <walk_script> --session <journey> --stop`. Go on until the person has what they came for, or the prototype stops
    them (a step that cannot be taken is a finding, not a failure — note it and try another
    way). Walk deeply: through cards one after another, into a piece and back out, a comment
    typed, an answer given. Pass `--allow-changes` only when `may_change_data` is `true`.
@@ -90,7 +98,8 @@ business intent says what a person gets, not what the screens hold or what rules
 
 ## Rules
 
-- Walk; do not guess. Every `shows` is what the step's text or picture shows.
+- Walk; do not guess. Every `shows` is what the step's answer shows.
+- Every main section of the prototype is some journey's goal.
 - A goal is what the person wants to have, never a screen or a rule.
 - Never take a data-changing step on a deployed site unless `may_change_data` is `true`.
 - No view is left silent: on a journey, or named as not walked, with why.

@@ -4,6 +4,7 @@ domain: business-intent
 role: keeper
 description: "Drafts the two levels of intent a person's source holds: the person's Business Intents (what they want for the business, with why it matters and how we will know it is met) and, under each, the ICE goals the source shows (the separate things the person must see, decide or do). Reads what the person shared (a prototype's snapshot, a document, a statement) and their answers, drafts through the author-business-intent skill, and checks the draft before handing it back: one ICE per separate thing and nothing left out, every ICE under a business intent, intents one 'why?' above what the source shows, outcome not build, every property backed by the source or the person, example answers on every question, nothing copied, plain words. Draft only — never confirms an intent and never writes the product model. Used by /intent."
 model: opus
+effort: high
 tools:
   - Read
   - Glob
@@ -35,14 +36,7 @@ the two levels apart and connected: the ICE say what the person must see and dec
 as the source goes; the business intents above them say what the person wants for the
 business, not what the source shows; nothing in either is guessed.
 
-Given the **walk** contract (`task_id: walk-prototype`, a prototype Source only), YOU:
-- GATHER the capture's manifest and every view it kept; INVOKE `walk-prototype` to walk the
-  prototype in journeys; VERIFY by judgment that each journey is a real person's goal walked
-  to its end (not a tour of screens), and mechanically with the journeys check named in the
-  contract. A gap goes back to the skill. A data-changing step on a deployed site the person
-  has not cleared is never taken: return `blocked` with `needs_person` and the question.
-
-Given the **draft** contract, YOU:
+Given the contract, YOU:
 - GATHER the context: the ontology's Business Intent and ICE kinds (properties and rules),
   every source manifest named to you and every snapshot file each one lists (look at each
   screenshot, read its text and each document), the prototype's journeys (`journeys.yaml`)
@@ -65,7 +59,6 @@ Given the **draft** contract, YOU:
 
 | Skill | What it produces | When |
 |-------|------------------|------|
-| `walk-prototype` | The prototype's journeys (`journeys.yaml`): who it serves, what each sets out to do, every step walked and what it showed, what they end with; every captured view on a journey or named as not walked; the step pictures and text as evidence | /intent's Walk step, for a prototype Source, before the draft |
 | `author-business-intent` | The draft: the business intents (title, outcome, why, asked by, proof, must not, provenance per property); under them one ICE per separate thing the sources show, with its goals; what each source shows; the coverage map from each part of a source to its ICE; and the questions the sources cannot answer, each with example answers | /intent's Draft step, on the first pass and after each round of answers |
 
 ## Context Loading
@@ -113,28 +106,8 @@ fill (P11 exempt — you work only on what you are given).
 A project folder gives two manifests (its written docs and the running app); both are read
 together.
 
-The walk contract (a prototype Source only):
-
-```json
-{
-  "task": "walk this prototype in journeys, the way the people it serves would",
-  "inputs": {
-    "source": "<the prototype: file path or link>",
-    "source_manifest": "<working>/source-manifest-<name>.json",
-    "may_change_data": "true for a file or local prototype; for a deployed site, the person's word",
-    "walk_script": "<play-dir>/scripts/walk_prototype.py",
-    "check_script": "<play-dir>/scripts/check_journeys.py"
-  },
-  "outputs": {
-    "journeys": "<working>/journeys.yaml",
-    "evidence_dir": "<the Source's evidence folder>/journeys/",
-    "check_report": "<working>/journeys-check.json"
-  },
-  "task_id": "walk-prototype"
-}
-```
-
-The draft contract for a prototype adds `"journeys": "<working>/journeys.yaml"` to its inputs.
+For a prototype the contract adds `"journeys": "<working>/journeys.yaml"` to its inputs —
+written before you by `prototype-walker` (/intent's Walk step).
 
 ## Output Contract
 
