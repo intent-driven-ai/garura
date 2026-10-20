@@ -52,9 +52,12 @@ without the checker's pass.
 [T1] Open the change (start-change)        blockedBy: []
 [T2] Questions first                        blockedBy: [T1]
 [T3] Write the drive contract               blockedBy: [T2]
-[T4] Run /intent                            blockedBy: [T3]
-[T5] Run /vision                            blockedBy: [T4]
-[T6] The checker                            blockedBy: [T5]
+[T4] Round n: run /intent                   blockedBy: [T3]
+[T5] Round n: run /vision                   blockedBy: [T4]
+[T5b] After the round: done, again or ask    blockedBy: [T5]   (again: back to T4, round n+1)
+[T5c] Build the missing memory (build-memory) blockedBy: [T5b] (only on ask)
+[T5d] Ask the person what is left           blockedBy: [T5c] (then back to T4)
+[T6] The checker                            blockedBy: [T5b]
 [E1] commit-change                          blockedBy: [T6]
 [E2] propose-change                         blockedBy: [E1]
 [E3] review-change                          blockedBy: [E2]
@@ -75,6 +78,7 @@ questions=who_asks -> answers.intent.who_asks; proof -> answers.intent.proof
 runner_key=drives.sample-drive.runner
 checker_key=drives.sample-drive.checker
 end=commit-change, propose-change, review-change, merge-change (merge pinned)
+max_rounds_key=drives.sample-drive.max_rounds
 # --- end Shared Drive Run ---
 ```
 
@@ -88,27 +92,45 @@ is under `{stm_base}<issue>/`.
 ### Phase: Questions
 
 **Step 2 — Questions first** · Owner: drive · Depends on: Step 1
-Run R3: ask "Who asks for this product?" and "How will we know it worked?", memory first.
+Run R3: ask "Who asks for this product?" and "How will we know it worked?". The drive reads
+no memory itself; write the answers to `answers.json` and their source (`from: person`) to
+`answers-sources.json`.
 **SE-2 (F2/C2):** `answers.json` exists before `contract.json`, and every answer names its
-source (memory, or the person's typed words).
+source.
 
 **Step 3 — Write the drive contract** · Owner: drive (script) · Depends on: Step 2
 Run R4 with the statement as `inputs.intent.statement`.
 
-### Phase: Plays
+### Phase: Plays, in rounds
 
-**Step 4 — Run /intent** · Owner: `intent` · Depends on: Step 3
-Run R5 for `intent`.
+The plays run in rounds until the drive's job is done (R5, C3). A question one play cannot
+answer goes to the drive, not to the person: the play records it in `open-<play>.json` and
+finishes what it can (C2).
 
-**Step 5 — Run /vision** · Owner: `vision` · Depends on: Step 4
+**Step 4 — Round n: run /intent** · Owner: `intent` · Depends on: Step 3 (or Step 5b, 5d)
+Run R5 for `intent`. A later round: it reads what `/vision` wrote and fills what it left open.
+
+**Step 5 — Round n: run /vision** · Owner: `vision` · Depends on: Step 4
 Run R5 for `vision`. Before it starts, R5's hand-on step adds `inputs.vision.intents` — the
 intents `/intent` saved — to the contract.
+
+**Step 5b — After the round: done, again or ask** · Owner: drive (script) · Depends on: Step 5
+Run R5 step 7 (`round_state.py`, `--max-rounds` from `drives.sample-drive.max_rounds`). `done`
+→ Step 6. `again` → Step 4, round n+1. `ask` → Step 5c.
+
+**Step 5c — Build the missing memory** · Owner: `build-memory` · Depends on: Step 5b
+Run R5c: `/build-memory` merges the questions asked again, answers what the sources show and
+what memory holds, and drafts knowledge pages as memory updates waiting for the person.
+
+**Step 5d — Ask the person what is left** · Owner: drive · Depends on: Step 5c
+Run R5b: show the draft first, then the knowledge pages and the questions only the person can
+answer, each once. Record the replies (`from: person`), then Step 4, round n+1.
 **SE-3 (F3/C3):** `intent-done.json` and `vision-done.json` read `done: true`, each written
 before the next play started; `intent-commit.json` and `vision-commit.json` show no leftover.
 
 ### Phase: Check
 
-**Step 6 — The checker** · Owner: checker · Depends on: Step 5
+**Step 6 — The checker** · Owner: checker · Depends on: Step 5b (`done`)
 Run R6.
 **SE-4 (F4/C4):** `check.yaml` reads `verdict: pass` from a checker that is not the drive's own
 model; a reject halted the drive.
@@ -125,8 +147,9 @@ model; a reject halted the drive.
 **Step 7 — Scenario evals** · Owner: drive · Depends on: Step E4
 - **SCE-1 (S1 — product owner):** `contract.json`, `intent-done.json`, `vision-done.json` and
   `check.yaml` (`verdict: pass`) exist under the issue; one pull request carries the change.
-- **SCE-2 (S2 — product owner):** the person's answer to `/vision`'s question is in the issue's
-  short-term memory, and `vision-done.json` reads `done: true`.
+- **SCE-2 (S2 — product owner):** `/vision`'s question was in `open-vision.json`, `/build-memory`
+  ran for that round, the person's answer is in the issue's short-term memory with
+  `from: person`, and `vision-done.json` reads `done: true`.
 
 ### Phase: Evidence & Close
 
@@ -150,34 +173,35 @@ sc_exit=$?   # 0 held · 1 unmet · 2 error
 | Scenario | Persona | Eval |
 |----------|---------|------|
 | S1 — statement to seeded domain | product owner | SCE-1 |
-| S2 — a question mid-drive | product owner | SCE-2 |
+| S2 — a question no play answers | product owner | SCE-2 |
 
 ## Recovery
 
 | For | Trigger | Direction | Handoff |
 |-----|---------|-----------|---------|
 | F1 | a write outside the issue, or a second issue or branch | move the record under the drive's issue and run on the contract's branch | autonomous |
-| F2 | a play ran before the questions, or answered from nothing | stop, ask the person, record the answer, re-run the play | human |
+| F2 | a play ran before the questions, answered from nothing, or the person was asked what a play or memory answers | ask the drive's own questions first; send an unanswered question to the drive (`open-<play>.json`), run `/build-memory`, ask only what is left, then run the next round | human |
 | F3 | a play started before the last one proved done, or on an unclean tree | halt; finish or fix the earlier play, commit its run files, resume | human |
 | F4 | the drive would end done with no checker pass | run the checker; a reject halts the drive | autonomous |
 
 ## Pause and Resume
 
 The drive's run lives under its issue (`{stm_base}<issue>/context/sample-drive/<run-ts>/`). On
-entry, find the last run folder: skip every play whose `<play>-done.json` reads `done: true`
-and whose run files are committed, and continue from the first play not done.
+entry, find the last run folder and its last `round-<n>.json`: in the current round, skip every
+play whose `<play>-done.json` reads `done: true` and whose run files are committed, and continue
+from the first play not done.
 
 ## Compilation Metadata
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:c7e8adc6ee6f6c9846ed158ac516476d90176237a7ea89e85478d57d232722d3 (of `reference/ice.md`) |
+| fingerprint | sha256:ded3c6f5f1bdf4c2bd02b497a0e8dc7307f6643332f28364849e632946fe146e (of `reference/ice.md`) |
 | compiled_by | drive-creator |
 | kind | drive |
 | pipeline_position | both |
 | plays | intent, vision |
 | stop_condition | stop-condition.yaml (D1–D4) |
-| scripts | 11 (drive_preflight.py, write_drive_contract.py, check_drive_contract.py, run_play_headless.py, check_play_done.py, commit_run_files.py, prepare_check.py, run_checker_codex.py, record_check.py, session_stamp.py, check_stop_condition.py) |
+| scripts | 13 (drive_preflight.py, write_drive_contract.py, check_drive_contract.py, run_play_headless.py, check_play_done.py, commit_run_files.py, round_state.py, drive_status.py, prepare_check.py, run_checker_codex.py, record_check.py, session_stamp.py, check_stop_condition.py) |
 | step_evals | 4 (SE-1…SE-4) |
 | scenario_evals | 2 (SCE-1…SCE-2) |
 | recovery_entries | 4 (one per failure condition; 2 autonomous / 2 human) |

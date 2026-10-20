@@ -91,8 +91,9 @@ Every checkpoint in a compiled play declares its risk class inline (e.g.
 mandates it declares `(class: <class>, pinned)`. A pinned gate NEVER resolves off — no
 config value can disable it (two exceptions, by intent not config: `/intent`'s confirm and
 `/adr`'s accept are skipped when the play runs inside a drive's contract — ADR 031, #632; any
-other pinned gate inside a drive is asked up front or stops the play, never deferred —
-`drive-contract.md`); the switch machinery records `pinned — config bypass
+other pinned gate inside a drive is asked up front or becomes the drive's question — the
+play stops short of it and the person answers on a later round — never deferred to the drive's
+review: `drive-contract.md` rule 4, ADR 041); the switch machinery records `pinned — config bypass
 refused` if an off value would otherwise match. Unpinning is an intent change to that
 play (play-editor), never a config edit. Per the #467 ruling the pinned set is: **grill**
 (a wrong epic cut poisons everything downstream), **launch** (the one HITL gate of the

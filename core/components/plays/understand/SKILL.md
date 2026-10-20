@@ -237,7 +237,7 @@ seed:
   doc: <domain folder, from the domain's own doc in the spine>/<capability-slug>/capability.md
 ```
 
-With no answer, or a domain not in the spine, halt and say plainly what is needed (REC1) —
+Run by hand, with no answer or a domain not in the spine, halt and say plainly what is needed (REC1) —
 never fill the gap yourself; nothing has been opened yet, so there is nothing to clean up.
 `answered_by` is `human` only when the person typed the answers; the keyed persist refuses
 any other value. **Inside a drive (C13)** do not ask for a capability the contract answered:
@@ -802,7 +802,7 @@ the detailed functionalities into end-to-end verticals and epics), and a pointer
 
 | For | Trigger | Direction | Handoff |
 |-----|---------|-----------|---------|
-| F1 | an absent capability has no recorded answers, its domain is not in the spine, or the target is already `detailed` | ask the person what the capability is, why it matters, and which existing domain it belongs to, and record the answers before seeding; with no answer or no such domain, halt and say plainly what is needed; an already-detailed capability is not re-detailed | human |
+| F1 | an absent capability has no recorded answers, its domain is not in the spine, or the target is already `detailed` | ask the person what the capability is, why it matters, and which existing domain it belongs to, and record the answers before seeding; with no answer or no such domain, halt and say plainly what is needed — inside a drive, write it to `open-understand.json` as the drive's question and detail the other targets (C13); an already-detailed capability is not re-detailed | human |
 | F2 | a grounding doc fails its template/shape, or a spine entry fails the schema or spine↔doc consistency | re-emit the failing doc or spine entry to conform and restore consistency before the checkpoint | autonomous |
 | F3 | a grounding doc fails the content-quality eval | rewrite the failing doc to the judge's cited fixes — raise each flagged section to a self-explaining, product-manager-altitude statement — and re-judge until the gate passes | autonomous |
 | F4 | the capability stayed directional, or a functionality lacks its entry or its doc | complete the promotion (flip the entry to `detail: detailed`) and emit the missing functionality entry or doc before the checkpoint | autonomous |
@@ -838,7 +838,7 @@ reuses each `<working>/caps/<capability>/seed.yaml` rather than asking again.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:a4e30bd928ef9ff58e0c60af7d975a621815b08d0ae85f51b84b8bdb24674ecc (of `reference/ice.md`) |
+| fingerprint | sha256:7f6e95a249dfeff9bb7eb235c0e6dcb541a42274133cec405d6d7634862bd011 (of `reference/ice.md`) |
 | compiled_by | play-editor (#661 reads no memory; the run lives in its issue); play-editor (#615 runs inside a drive; one run details every pending capability); play-editor (#616 stands alone); play-editor (#498 direct-model-write, ADR 026); prior: play-editor (#467 Batch B, #466 Batch C) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close — #616) |
 | position_exception | model-writing both play — writes the model on its own started branch and commits its own model delta (C12) BEFORE the injected end sequence lands it (same shape as /measure and /vision) |

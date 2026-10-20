@@ -46,8 +46,9 @@ Agents and skills (ADR 039 §2, §7, §8): the play reads no memory. `product-os
   spine entry at `status: proposed`, `detail: directional`, under that domain, whose first
   `capability.md` this run writes straight at the detailed stage. The seed carries only the
   person's answers, nothing invented; the keyed persist refuses a seed not marked
-  `answered_by: human`. With no answer, or a domain that is not in the spine, it halts —
-  before any issue or branch exists — and says plainly what it needs. A named target that
+  `answered_by: human`. Run by hand, with no answer or a domain that is not in the spine, it
+  halts — before any issue or branch exists — and says plainly what it needs; inside a drive
+  that capability is the drive's question instead, and the play details the others (C13). A named target that
   is already `detailed` halts the run; it is not re-detailed. Inside a drive (C13) the
   answers come from the contract (the drive asked them before it started); the seed records
   them with `answered_by: human` only because a person gave them up front. With no answers
@@ -332,8 +333,9 @@ record.
 - REC1 (F1) — trigger: an absent capability has no recorded answers, its domain is not in the
   spine, or the target is already `detailed`. direction: ask the person what the capability
   is, why it matters, and which existing domain it belongs to, and record the answers before
-  seeding; with no answer or no such domain, halt and say plainly what is needed; for an
-  already-detailed capability, halt — it is not re-detailed. handoff: human.
+  seeding; with no answer or no such domain, halt and say plainly what is needed — inside a
+  drive, write it to `open-understand.json` as the drive's question and detail the other
+  targets (C13); for an already-detailed capability, halt — it is not re-detailed. handoff: human.
 - REC2 (F2) — trigger: a grounding doc fails shape, or a spine entry fails the schema or
   spine↔doc consistency. direction: re-emit the failing doc or spine entry to conform and
   restore consistency before the checkpoint. handoff: autonomous.

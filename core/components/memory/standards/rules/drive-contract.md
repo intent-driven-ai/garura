@@ -32,7 +32,7 @@ A JSON file, passed to the play as `--contract <path>`:
   "round": 1,
   "plays":   ["intent", "vision", "understand"],
   "inputs":  { "<play>": { "<input name>": "<path or value>" } },
-  "answers": { "<play>": { "<question id>": "<the person's answer, asked before the drive started>" } }
+  "answers": { "<play>": { "<question id>": "<the person's answer — asked before the drive started, or after a round's draft>" } }
 }
 ```
 
@@ -46,7 +46,7 @@ A JSON file, passed to the play as `--contract <path>`:
 | `round` | no | The drive's round, from 1 (absent means 1). A play on a round above 1 fills what it left open. |
 | `plays` | no | The drive's plays, in order (written by `write_drive_contract.py`). |
 | `inputs` | no | Per play, the inputs the drive hands it (paths, or values such as intent ids). |
-| `answers` | no | Per play, the answers to the questions the play would ask, gathered before the drive started (ADR 029: questions first). |
+| `answers` | no | Per play, the answers to the questions the play would ask, gathered before the drive started (ADR 029: questions first); on a later round, also the person's answers to the drive's questions (ADR 041). |
 
 ## How a play runs inside a drive
 
@@ -74,8 +74,10 @@ A JSON file, passed to the play as `--contract <path>`:
    <drive_run_id>)` as a Checkpoint Decisions row. The drive's end review reads the record.
    **A pinned checkpoint is never deferred by a contract.** `gate-config.md` says a pinned
    gate never resolves off. Inside a drive it is either asked up front — its answer is in
-   the contract's `answers`, gathered before the drive started — or it becomes the drive's
-   question, like any other the play cannot answer (rule 5; ADR 041). A play may defer a pinned checkpoint to the drive's review
+   the contract's `answers` — or it becomes the drive's question, like any other the play
+   cannot answer (rule 5; ADR 041): the play stops short of the crossing, saves what it made
+   as proposed, and finishes; the person answers on a later round, and the play crosses the
+   gate then. That is not a deferral to the drive's review. A play may defer a pinned checkpoint to the drive's review
    only where its own intent names that exception (as `/intent`'s confirmation does,
    ADR 031 D10).
 5. **A question the play cannot answer goes to the drive — it does not stop the play.** The
@@ -110,7 +112,8 @@ its gate settings say.
 A drive writes one contract and hands the same file to every play it runs; each play reads
 its own `inputs.<play>` and `answers.<play>`. When a later play's input is what an earlier play made,
 the drive adds it to that play's `inputs` and writes the file again before the later play
-starts (same `drive_run_id`); a play reads the contract when it starts. A play with an older, narrower check of its
+starts (same `drive_run_id`). At the start of each round it writes the file again with the new
+`round` and any answers the person gave; a play reads the contract when it starts. A play with an older, narrower check of its
 own (`/intent` checks only `drive_run_id` and `branch`) accepts the full contract, because
 the full contract holds those fields too; such plays move to the shared checker over time.
 

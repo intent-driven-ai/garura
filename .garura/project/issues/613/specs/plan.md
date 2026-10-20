@@ -4,7 +4,7 @@ kind: story
 serves: "#613 — the Kickoff drive runs /intent, /vision and /understand from a working prototype to a detailed product model"
 status: active
 updated: 2026-10-20
-now: 9
+now: 10
 serves_plan: 606
 serves_item: 8
 ---
@@ -87,7 +87,7 @@ the wrong move."* When memory and the system hold nothing to go on, they ask.
 The memory milestone is passed (#653 items 1 to 9; the last, #662, merged on 20 October): the
 three plays read memory only through their agents, every run lives under its issue, and they
 ran from memory alone on a test project. A fresh branch `feature/613-the-kickoff-drive` is cut
-from main (`504379ce`). Items 3 to 8 are done: Kickoff loops over its plays and builds the memory it lacks before it asks. Now: item 9, land it; then item 10, run it again from main.
+from main (`504379ce`). Items 3 to 9 are done: Kickoff loops over its plays and builds the memory it lacks before it asks; ADR 041 records how a drive runs; PR #682 lands it after two review rounds. Now: item 10, run it again from main.
 
 ## The plan, in order
 
@@ -158,7 +158,7 @@ system in every Garura install, and
 project. That work is its own feature, outside this issue
 (Feature #653, `.garura/project/issues/653/specs/plan.md`).
 
-### 9. Land the runner — now
+### 9. Land the runner — done (PR #682)
 
 **Issue:** #613.
 **What:** commit, raise, review and merge the change (Kapil, 2026-10-20: "fix the drive or
@@ -169,7 +169,7 @@ belong in Phoenix memory — pushed when Kapil asks.
 **Done when:** merged to main.
 **Needs:** item 8.
 
-### 10. Prove Kickoff on a real prototype, from main
+### 10. Prove Kickoff on a real prototype, from main — now
 
 **Issue:** #613.
 **What:** in a fresh test project installed from main, run Kickoff end to end on the Argus
@@ -224,3 +224,4 @@ when Kapil asks.
 - 2026-10-20 — Kapil: stop the run; the drive must loop over its three plays and stop only when none can answer; fix `/intent`'s speed and questions; then run again. New item 8; the proof is item 9, landing item 10.
 - 2026-10-20 — Kapil: a drive presents its status in a file, and a separate Claude Code plugin shows it ("these two have to be decoupled"); the drive's side is built in item 8, the plugin is later work.
 - 2026-10-20 — Item 8 done. Kapil: fix in Garura, merge, then run again — never on the test run. Landing is item 9, the proof from main item 10.
+- 2026-10-20 — Item 9 done. Kapil chose to fix before the merge: ADR 041 (accepted) records how a drive runs; the first review's text gaps and the second review's four that change the next run (`/understand`'s drive case, the worked drive example, the pinned-gate and answers rules, the glossary) are fixed; PR #682 merges on Kapil's approve. Now item 10.
