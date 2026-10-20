@@ -300,8 +300,15 @@ def test_ledgers_under_each_issue():
         ledger_line(one, "ux", S2, "approved_clean", ts)
     ledger_line(two, "ux", S2, "rejected", "2026-10-24T04:00:00Z", refutes=4)  # issue 2 has no line 4
     assert S2 not in distill(one, policy)["auto_shapes"]  # the reject itself still resets
+    # the config's path, as it is: append fills {issue}, the learner reads every issue (#662)
+    slot = os.path.join(base, "{issue}", "review", "gate-evals.jsonl")
+    run("gate_eval.py", "append", "--ledger", slot, "--play", "run", "--issue", "3", "--shape", "run:x",
+        "--predicted", "gate", "--human", "approved_clean", "--ts", "2026-10-25T01:00:00Z")
+    assert os.path.isfile(os.path.join(base, "3", "review", "gate-evals.jsonl"))
+    assert not os.path.exists(os.path.join(base, "{issue}")), "a literal {issue} folder was made"
+    assert distill(slot, policy)["ledger_lines"] == 9, "the learner did not read every issue's ledger"
     shutil.rmtree(t)
-    print("per-issue ledgers: 3/3 pass")
+    print("per-issue ledgers: 5/5 pass")
 
 
 def test_copies_identical():

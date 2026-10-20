@@ -4,7 +4,8 @@ distill_gate_policy.py — the deterministic learner over the gate ledger (#467)
 
 Reads the live-eval ledger (gate-evals.jsonl) and writes the per-project gate policy
 (gate-policy.yaml). Each issue keeps its own ledger under its folder
-(`<stm_base><issue>/review/gate-evals.jsonl` — the issue ID governs, ADR 039); given one of
+(`<stm_base><issue>/review/gate-evals.jsonl` — the issue ID governs, rules/drive-contract.md;
+ADR 039); given one of
 those, the learner reads every issue's ledger beside it, in time order, because the policy is
 learned from all of them. A ledger anywhere else is read alone, as before. Pure rule, no inference, replay-deterministic (every output value
 derives from ledger content — no wall clock):
@@ -69,6 +70,8 @@ def read_ledgers(path):
     """One issue's ledger path -> every issue's records, in time order; any other path -> its
     own records. Each record carries `_src` (its issue, or None) so a correction's `refutes`
     (a line number in its own ledger) stays inside that ledger."""
+    for slot in ("{issue}", "<issue>"):  # the config's per-issue path, as it is
+        path = path.replace(slot, "*")
     m = PER_ISSUE.match(path.replace(os.sep, "/"))
     if not m:
         return [dict(r, _src=None) for r in read_ledger(path)]
