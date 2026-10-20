@@ -58,8 +58,10 @@ the wrong move."* When memory and the system hold nothing to go on, they ask.
   review drive. Kapil (2026-10-20): no separate `REVIEW.md` — our design is plays; the review
   plays adopt the guidelines and best practices of Claude Code's review (parallel reviewers, a
   verification step that filters false positives, dedupe, severity meanings, a cap on nits,
-  excluded paths, evidence for each finding). Open with it: whether the self-review before the
-  pull request and the review after it stay two steps. ADR 029 §5 already expects the review to be
+  excluded paths, evidence for each finding). Kapil (2026-10-20): **one review, after the pull
+  request** — the self-review before it goes; its checks move into the review plays, and its
+  hard checks (no secrets, a clean tree, the issue named) become machine checks before the pull
+  request opens. ADR 029 §5 already expects the review to be
   a drive of its own. A business intent of its own; filed when Kapil asks. Kickoff's checker
   (item 6) can later name that drive in its config.
 
@@ -208,3 +210,4 @@ mark step 1 of item 8 done in the #606 plan.
 - 2026-10-20 — Item 3: Kapil decided (a) each play runs as a sub-agent (docs allow three layers; a headless session stays a config option), (b) 1 — the drive ends at the PR with typed confirmation, a stand-in recorded in Kickoff's ICE until the review tool, (c) the checker is config, both kinds built. Review-as-a-drive recorded for later.
 - 2026-10-20 — Kapil: no separate `REVIEW.md`; the review plays adopt its practices (recorded under what this plan leaves out).
 - 2026-10-20 — Items 3 and 4 done. I-2 fixed in the shared close and the drive contract; V-4 and the drive's evidence moved to item 7.
+- 2026-10-20 — Kapil: one review, after the pull request; the self-review goes (recorded under what this plan leaves out).
