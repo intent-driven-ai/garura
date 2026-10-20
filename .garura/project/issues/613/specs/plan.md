@@ -4,7 +4,7 @@ kind: story
 serves: "#613 — the Kickoff drive runs /intent, /vision and /understand from a working prototype to a detailed product model"
 status: active
 updated: 2026-10-20
-now: 8
+now: 9
 serves_plan: 606
 serves_item: 8
 ---
@@ -87,7 +87,7 @@ the wrong move."* When memory and the system hold nothing to go on, they ask.
 The memory milestone is passed (#653 items 1 to 9; the last, #662, merged on 20 October): the
 three plays read memory only through their agents, every run lives under its issue, and they
 ran from memory alone on a test project. A fresh branch `feature/613-the-kickoff-drive` is cut
-from main (`504379ce`). Items 3 to 7 are done. The real runs (Argus mockup, Kapil's pick) found that Kickoff ran as a pipeline, not a drive. Now: item 8, make it loop and make `/intent` fast and right; then item 9, the proof.
+from main (`504379ce`). Items 3 to 8 are done: Kickoff loops over its plays and builds the memory it lacks before it asks. Now: item 9, land it; then item 10, run it again from main.
 
 ## The plan, in order
 
@@ -138,6 +138,15 @@ from main (`504379ce`). Items 3 to 7 are done. The real runs (Argus mockup, Kapi
   Sonnet), evidence always on, and the stand-in end — the person types confirm or drop per
   intent, recorded in the issue's short-term memory, the model left `proposed` until Argus writes
   the approval (Kapil chose "2"). `lint_drive.py` passes; the full install lays it.
+- **8. Made Kickoff a real drive, and `/intent` fast and right** (20 October) — from runs 1–5 on
+  the Argus mockup (`evidence/kickoff-run/findings.md`, K-0 to K-18): `/intent` captures every
+  view and walks the prototype in journeys (own agent on Sonnet 5.5; one browser per journey,
+  28 steps in 23 s); business intents from the journeys' goals; the drive loops in rounds and a
+  play's question is the drive's (Kapil: ADR 029 and 035 stand, the scope was read wrong);
+  `/intent` hands its gaps to the drive and fills them next round, from memory first; the
+  drive presents its status in a file (a Claude Code plugin shows it, later); the member play
+  `/build-memory` builds the memory a round lacks before anyone is asked (design: #680
+  `memory-builder.md`); two install faults fixed.
 
 ### Milestone: Kickoff's plays work from memory — passed (20 October)
 
@@ -149,43 +158,27 @@ system in every Garura install, and
 project. That work is its own feature, outside this issue
 (Feature #653, `.garura/project/issues/653/specs/plan.md`).
 
-### 8. Make Kickoff a real drive, and `/intent` fast and right — now
+### 9. Land the runner — now
 
 **Issue:** #613.
-**What:** found by the runs on the Argus mockup (`evidence/kickoff-run/findings.md`). Kapil,
-2026-10-20: ADR 029 and ADR 035 stand; the drive's scope was read wrong — a question one play
-cannot answer belongs to the whole drive. (1) The drive loops: intent → vision → understand →
-back again with what it learned, until its done check holds or a round adds nothing new; only
-then does it ask the person what is still open, all at once, with the draft. (2) `/intent`
-inside a drive saves proposed intents with open questions named instead of stopping, and fills
-them on the next round. (3) Context from memory, then research as a memory update (ADR 035).
-(4) "Who asks" from the journeys' roles. (5) Questions that make sense to whoever gave the
-prototype. (6) The walk fast and cheap: one browser per journey, only what changed per step,
-its own agent on Sonnet 5.5; the draft on Opus 5.5. (7) Every main section of a prototype is
-some journey's goal (the product model half of Argus was lost).
-**Why here:** the proof (item 9) must be a correct run.
-**Done when:** each fix is on this branch with its tests and linters, and a rerun shows the
-loop.
-**Needs:** item 7.
-
-### 9. Prove Kickoff on a real prototype
-
-**Issue:** #613.
-**What:** run Kickoff end to end on a real working prototype, in a test project
-(not Garura's own product model). Then show the three halts: no prototype, a
-prototype that does not run, a checker rejection.
-**Why here:** only a real run shows it works; and the review tool takes its
-example pack from this run (#641).
-**Done when:** the run and the three halts are recorded in this issue's folder,
-and the run's output is kept as #641's example pack.
-**Needs:** item 7. Kapil picks the prototype.
-
-### 10. Land the runner
-
-**Issue:** #613.
-**What:** commit, raise, review and merge the change; post the handoff on #613;
-mark step 1 of item 8 done in the #606 plan.
+**What:** commit, raise, review and merge the change (Kapil, 2026-10-20: "fix the drive or
+intent first, and then merge … then run it again"). The memory files this branch changed
+(`standards/rules/drive-contract.md`, `pipeline-next.md`, `run-status.md`, `_index.md`) also
+belong in Phoenix memory — pushed when Kapil asks.
+**Why here:** the next run must test what is on main, installed the way a project gets it.
 **Done when:** merged to main.
+**Needs:** item 8.
+
+### 10. Prove Kickoff on a real prototype, from main
+
+**Issue:** #613.
+**What:** in a fresh test project installed from main, run Kickoff end to end on the Argus
+mockup (Kapil's pick); then show the three halts — no prototype, a prototype that does not run,
+a checker rejection. Record the run and its findings in this issue's folder; fixes they need
+are made in Garura, merged, and run again — never patched in the test run. Keep the run's
+output as Argus's example pack (#641). Post the handoff on #613 and mark the #606 plan's step
+when Kapil asks.
+**Done when:** a run reaches the end and the three halts are recorded.
 **Needs:** item 9.
 
 ## Log
@@ -230,3 +223,4 @@ mark step 1 of item 8 done in the #606 plan.
 - 2026-10-20 — Item 7 done: Kickoff built and linted (`core/components/drives/kickoff/`).
 - 2026-10-20 — Kapil: stop the run; the drive must loop over its three plays and stop only when none can answer; fix `/intent`'s speed and questions; then run again. New item 8; the proof is item 9, landing item 10.
 - 2026-10-20 — Kapil: a drive presents its status in a file, and a separate Claude Code plugin shows it ("these two have to be decoupled"); the drive's side is built in item 8, the plugin is later work.
+- 2026-10-20 — Item 8 done. Kapil: fix in Garura, merge, then run again — never on the test run. Landing is item 9, the proof from main item 10.
