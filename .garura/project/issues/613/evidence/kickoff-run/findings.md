@@ -121,3 +121,18 @@ session logs; the totals are measured.)
   low-judgment — a fit for Sonnet 5.5 at medium effort; the draft (framing business intents) is
   where every earlier run went wrong — keep Opus 5.5 at high effort. Not yet measured: a run
   with these settings, compared with run 4 on cost, time and the intents' quality.
+- K-13 — the 20 questions were shown without the draft (Q2 asked about "six goals" never shown),
+  and who asks / why / proof were asked once per intent, 18 times. Kapil: "these questions, to
+  me, don't make sense."
+- K-14 — **the drive was a pipeline, not a drive.** It stopped at `/intent`'s first questions
+  instead of going on to `/vision` and `/understand` and looping back. Kapil: ADR 029 and 035
+  stand; "you are just stopping there, not leveraging the capability that the drive has between
+  those three things together." A question stops the drive only when no play of it can answer.
+
+## The fixes before run 5 (2026-10-20)
+
+| Finding | Fix | Commit |
+|---|---|---|
+| K-10, K-11, K-12, K-7 | one browser per journey (28 steps: about 4 min → 23 s); each step tells only what changed; the walk on its own agent `prototype-walker` (Sonnet 5.5, medium effort), the draft on `business-intent-keeper` (Opus 5.5, high effort); every main section is some journey's goal | `89b74658` |
+| K-14 | the drive loops in rounds; a play's question goes to the drive (`open-<play>.json`); `round_state.py` decides done / again / ask; Kickoff C4, C5, F5, S3, D7 | `3a31667d` |
+| K-13, K-14 | `/intent` inside a drive hands its questions to the drive and fills them next round; memory first, research as a memory update; who asks from the journeys' roles; questions asked once, after the draft, in the prototype giver's words (C16) | `4a75304f` |
