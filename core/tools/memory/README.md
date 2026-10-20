@@ -145,7 +145,8 @@ A memory update moves through `waiting` → `approved` or `rejected` → `applie
    STM"), whatever drafted it. It says whether it blocks the work: the rest of the work goes
    on unless it does.
 2. A person approves or rejects it, one update at a time, in the review tool (`decide`). Until
-   that tool is built, a local prototype page stands in. Nothing in it is used before that.
+   that tool is built, the person types the decision in a Claude Code session that records
+   their exact reply (`decided_in: session`). Nothing in it is used before that.
 3. The approved answer is written to the issue's own short-term memory (`apply`). The work then
    decides from memory, and cites it.
 4. Moving memory up is not this tool's job. It is a promotion a person makes on purpose,
@@ -233,7 +234,10 @@ The check holds every sample to these, beyond its shape:
 - Nothing here names a path inside a project or imports code from outside the folder, so the
   folder can move to Griffin as it is.
 - Python standard library only, Python 3.10 or newer. No installs.
-- The contract changes only by a new version. Version 5 is `contract/v5.json` (#661, ADR 039:
+- The contract changes only by a new version. A minor version (5.1) only adds — a new allowed
+  value or an optional field — keeps `contract_version` and every 5.0 request and answer valid;
+  anything else is a new `vN.json`. Version 5.1 (#662) adds `decided_in: session` and lets `cite`
+  name the applied update a decision rests on. Version 5 is `contract/v5.json` (#661, ADR 039:
   the tool never copies a Phoenix file — `read` writes nothing, and `pull` and `pulled` are
   gone; Garura memory is its folders, `core/memory` then the product model; every write goes to
   short-term memory). Version 4 (#659: `cite`

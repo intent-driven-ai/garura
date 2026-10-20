@@ -1,0 +1,34 @@
+{
+  "command": "decide",
+  "request": {
+    "id": "mu-20261018-001",
+    "verdict": "approve",
+    "by": "Kapil Viren Ahuja",
+    "reply": "approve",
+    "decided_in": "chat"
+  },
+  "response": {
+    "ok": true,
+    "contract_version": "5",
+    "command": "decide",
+    "update": {
+      "id": "mu-20261018-001",
+      "status": "approved",
+      "issue": 613,
+      "missing": "Which payment providers the shop must support at launch.",
+      "target_tier": "short-term",
+      "target_path": "613/context/answers/payment-providers.md",
+      "draft": "Launch with card payments only; add wallets after the first month.",
+      "draft_source": "web",
+      "sources": [],
+      "requested_by": "product-os-keeper (/vision)",
+      "requested_at": "2026-10-18T09:12:00Z",
+      "decided_by": "Kapil Viren Ahuja",
+      "reply": "approve",
+      "decided_at": "2026-10-18T09:20:00Z",
+      "applied_version": null,
+      "blocking": false,
+      "decided_in": "chat"
+    }
+  }
+}

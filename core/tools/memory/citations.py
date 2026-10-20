@@ -131,8 +131,18 @@ class CitationStore:
         and the agent did not name it: the record names it anyway, so the link from a decision to
         the person's approval is never lost (#662)."""
         sources = {st["source"]["path"] for st in request["trace"] if st["source"]["tier"] == "short-term"}
-        applied = [u for u in updates.list() if u["status"] == "applied" and u["target_path"] in sources]
-        return applied[0]["id"] if applied else None
+        if not sources:
+            return None
+        folder = updates.folder(str(request["issue"]))  # only this issue's updates
+        for name in sorted(os.listdir(folder)) if os.path.isdir(folder) else []:
+            try:
+                with open(os.path.join(folder, name), encoding="utf-8") as fh:
+                    update = json.load(fh)["update"]
+            except (OSError, ValueError, KeyError, TypeError):
+                continue  # an unreadable update never stops a decision being recorded
+            if update.get("status") == "applied" and update.get("target_path") in sources:
+                return update["id"]  # the first, by id; from_update names one update
+        return None
 
     def cite(self, request, engine, updates):
         issue = request["issue"]
