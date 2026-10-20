@@ -75,7 +75,8 @@ into the drive's working folder `{stm_base}<issue>/context/kickoff/<run-ts>/` (`
 [T5] Round n: run /vision                         blockedBy: [T4]
 [T6] Round n: run /understand                     blockedBy: [T5]
 [T6b] After the round: done, again or ask         blockedBy: [T6]   (again: back to T4, round n+1)
-[T6c] Ask the person what the drive could not answer blockedBy: [T6b] (only on ask; then back to T4)
+[T6c] Build the missing memory (build-memory)     blockedBy: [T6b] (only on ask)
+[T6d] Ask the person what is left                 blockedBy: [T6c] (then back to T4)
 [T7] The checker                                  blockedBy: [T6b]
 [E1] commit-change                                blockedBy: [T7]
 [E2] propose-change                               blockedBy: [E1]
@@ -150,18 +151,24 @@ Run R5 for `understand`. It details every capability not yet detailed, in one ru
 Run R5 step 7 (`round_state.py`, `--max-rounds` from `drives.kickoff.max_rounds`). `done` →
 Step 7. `again` → Step 4, round n+1. `ask` → Step 6c.
 
-**Step 6c — Ask the person what the drive could not answer** · Owner: drive · Depends on: Step 6b
+**Step 6c — Build the missing memory** · Owner: `build-memory` · Depends on: Step 6b
+Run R5c: `/build-memory` merges the questions asked again, answers what the prototype shows
+(quoted) and what memory holds (traced), drafts knowledge pages as memory updates waiting for
+the person, and turns screen states the prototype lacks into feedback.
+
+**Step 6d — Ask the person what is left** · Owner: drive · Depends on: Step 6c
 Run R5b: show the draft first — each proposed business intent with its ICE, the domain and its
-capabilities — then the open questions for a person, each asked once for everything it covers,
-in words that make sense to whoever shared the prototype, and the pending memory updates to
-approve or reject. Record the replies (`from: person`), then Step 4, round n+1.
+capabilities — then the knowledge pages to approve or reject, the questions only the person can
+answer (each once, in words that make sense to whoever shared the prototype), and the prototype
+feedback. Record the replies (`from: person`), then Step 4, round n+1.
 **SE-4 (F4/C4):** `intent-done.json`, `vision-done.json` and `understand-done.json` read
 `done: true`, each written after the one before it; each `<play>-commit.json` shows no
 leftover; and `_spine.yaml` has no capability `/vision` seeded still at `detail: directional`.
 **SE-5 (F5/C5):** the memory tool's `citations --issue <issue> --check` lists no problems, and
 every memory update the plays applied was approved by a person; the person was asked only in a
-round whose `round-<n>.json` reads `ask`, never after a round that read `again`; every question
-asked was shown after the draft and is in that round's `open` list; each answer is in the
+round whose `round-<n>.json` reads `ask`, never after a round that read `again`, and only after
+`/build-memory` ran for that round (its `memory-build-check.json` reads `ok: true`); every
+question asked was shown after the draft and is one `memory-build.json` closed by `person`; each answer is in the
 issue's short-term memory with `from: person`.
 
 ### Phase: Check
@@ -264,7 +271,7 @@ a question resumes the same play with the person's answer (shared run, R5 step 3
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:b2301925b7141d7556fc9a21ca0d4f26cee1ac18b7421157e4a10427ce7a0496 (of `reference/ice.md`) |
+| fingerprint | sha256:3b26688b93eff3ec9461585d79798c79c8a598a70f2b010f4700eb1d8874c2c0 (of `reference/ice.md`) |
 | compiled_by | drive-creator (#613) |
 | kind | drive |
 | pipeline_position | both |

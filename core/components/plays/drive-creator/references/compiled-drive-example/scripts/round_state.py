@@ -16,7 +16,7 @@ each round, mechanically:
 Open questions are read from two places in the issue's short-term memory:
 - `<review_dir>/open-<play>.json` — what a play could not answer
   (`{"play", "round", "questions": [{"id", "ask", "blocks", "for_person", "examples"}]}`);
-- `<issue_dir>/review/memory-updates/*.json` still `pending` — answers memory lacked, drafted
+- `<issue_dir>/review/memory-updates/*.json` still `waiting` — answers memory lacked, drafted
   for a person to approve (ADR 035 §5); they wait for that approval, never used before it.
 
     python3 round_state.py --round <n> --max-rounds <m> --working <working> \
@@ -35,6 +35,8 @@ import os
 import subprocess
 import sys
 
+WAITING = ("waiting", "pending")  # a memory update not yet approved or rejected
+
 
 def open_questions(review_dir, issue_dir):
     found = []
@@ -48,9 +50,11 @@ def open_questions(review_dir, issue_dir):
     for path in sorted(glob.glob(os.path.join(issue_dir, "review", "memory-updates", "*.json"))):
         with open(path, encoding="utf-8") as fh:
             mu = json.load(fh)
-        if str(mu.get("status", "pending")).lower() == "pending":
+        mu = mu.get("update", mu) if isinstance(mu, dict) else {}  # the memory tool nests it
+        if str(mu.get("status", "waiting")).lower() in WAITING:
             found.append({"from": "memory-update", "id": str(mu.get("id") or os.path.basename(path)[:-5]),
-                          "ask": str(mu.get("question") or mu.get("title") or ""), "for_person": True})
+                          "ask": str(mu.get("missing") or mu.get("question") or mu.get("title") or ""),
+                          "for_person": True})
     return found
 
 

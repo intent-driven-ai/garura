@@ -13,7 +13,8 @@ Facts: `stm_base`; `runner` (`drives.<drive>.runner`, default `subagent`); `chec
 (`drives.<drive>.checker`, kind default `subagent`; a sub-agent checker must name its model); `evidence_record`
 (`evidence.plays.<drive>`, else `evidence.record`, else true); `on_default_branch`; and
 `plays_ok` with `missing` (no SKILL.md under the skills root) and `no_contract` (a play that
-does not check a drive contract, so it cannot run inside a drive).
+does not check a drive contract, so it cannot run inside a drive) — the drive's plays and the
+member plays every drive runs (`build-memory`).
 
 Exit 0 — facts written and every play is present and accepts a contract. Exit 2 — the config
 cannot be read, a play is missing or cannot run inside a drive, or the runner is unknown: the
@@ -28,6 +29,7 @@ RUNNERS = ("subagent", "headless")
 CHECKERS = ("subagent", "coding-agent")
 DEFAULT_BRANCHES = {"main", "master"}
 CONTRACT_MARK = "check_drive_contract"
+MEMBERS = ("build-memory",)  # member plays every drive runs (Shared Drive Run, R5c)
 
 
 def parse_config(text):
@@ -87,7 +89,7 @@ def resolve(cfg, drive, skills_root, plays, branch):
     evidence = ev_drive if ev_drive is not None else (ev_global if ev_global is not None else True)
     checker = get(cfg, "drives", drive, "checker", default={})
     checker = checker if isinstance(checker, dict) else {"kind": checker}
-    missing, no_contract = check_plays(skills_root, plays)
+    missing, no_contract = check_plays(skills_root, list(plays) + [m for m in MEMBERS if m not in plays])
     return {
         "drive": drive,
         "stm_base": get(cfg, "stm", "base-path"),

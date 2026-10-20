@@ -105,7 +105,8 @@ approve or revise.
 A drive's steps are fixed: open (`start-change`) → questions first (drive) → write the contract
 (drive, script) → **in rounds**: one step per play (owned by that play), then "after the round:
 done, again or ask" (drive, script — `round_state.py`) and "ask the person what the drive could
-not answer" (drive, only on ask) → the checker → the end sequence → scenario validation →
+not answer" (drive, only on ask — after the member play `build-memory` builds the missing
+memory, R5c) → the checker → the end sequence → scenario validation →
 close. A drive loops over its plays until its job is done; a play's open question is the
 drive's, asked only when no play answers it (Shared Drive Run, R5 and R5b). Add only what the End section names. Then generate the evals as
 `/play-creator` step 5 says: a step eval (SE-n) per failure condition and per

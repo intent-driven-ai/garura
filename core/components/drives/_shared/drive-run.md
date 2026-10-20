@@ -153,7 +153,22 @@ For each play in `plays`:
    - `again` — the product model or the open questions moved: run round n+1 (R4 with
      `--round n+1`, then every play again).
    - `ask` — a whole round answered nothing new, or the round limit is reached: the open
-     questions are the drive's. Go to R5b.
+     questions are the drive's. Go to R5c, then R5b.
+
+### Step R5c — Build the memory the round found missing
+
+Before asking anyone, run the member play `/build-memory` (as each play runs: the configured
+runner, in the foreground, with the contract):
+
+```bash
+/build-memory --contract <working>/contract.json
+```
+
+It merges the questions asked again, answers what the drive's sources show (quoted) and what
+memory holds (traced), drafts researched knowledge pages as memory updates waiting for a person
+(ADR 035), turns screen states the prototype lacks into feedback, and leaves only the questions
+only the person can answer — `{stm_base}<issue>/context/build-memory/round-<n>/memory-build.json`.
+Its done check must hold, as any play's; then commit its run files (R5 step 5).
 
 ### Step R5b — Ask the person what the drive could not answer
 
@@ -163,10 +178,14 @@ the drive its input (for Kickoff, the person who shared the prototype):
 1. **Show the draft first** — what the drive made so far, as that person reads it (for Kickoff:
    each proposed business intent with the ICE under it, the domain and its capabilities). A
    question about something the person has not been shown is never asked.
-2. **Then the open questions** from `round-<n>.json`, those for a person only, merged: the same
-   question across several items is asked once, for all of them. Each comes with what it is
-   about, why the drive could not answer it, and up to three example answers. Pending memory
-   updates are shown with their draft answer, to approve or reject (ADR 035).
+2. **Then what `/build-memory` left for the person** (`memory-build.json`), in this order:
+   - the **knowledge pages** it drafted, each with the questions it answers and its sources — to
+     approve or reject (ADR 035; an approved page marked `for_project_memory` is promoted later
+     by a person, `/promote-memory`);
+   - the **questions only they can answer**, each once, with what it is about and up to three
+     example answers;
+   - the **prototype feedback** — what the prototype should show; no answer needed now.
+   What the sources or memory answered is never asked.
 3. Wait for the typed replies (never `AskUserQuestion`). Record them in the issue's short-term
    memory and in `answers.json` / `answers-sources.json` (`from: person`), mark the memory
    updates approved or rejected through the memory tool, and run round n+1. The person may type

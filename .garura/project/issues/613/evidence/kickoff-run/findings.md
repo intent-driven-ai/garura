@@ -136,3 +136,33 @@ session logs; the totals are measured.)
 | K-10, K-11, K-12, K-7 | one browser per journey (28 steps: about 4 min → 23 s); each step tells only what changed; the walk on its own agent `prototype-walker` (Sonnet 5.5, medium effort), the draft on `business-intent-keeper` (Opus 5.5, high effort); every main section is some journey's goal | `89b74658` |
 | K-14 | the drive loops in rounds; a play's question goes to the drive (`open-<play>.json`); `round_state.py` decides done / again / ask; Kickoff C4, C5, F5, S3, D7 | `3a31667d` |
 | K-13, K-14 | `/intent` inside a drive hands its questions to the drive and fills them next round; memory first, research as a memory update; who asks from the journeys' roles; questions asked once, after the draft, in the prototype giver's words (C16) | `4a75304f` |
+
+## Run 5 (2026-10-20) — the loop; stopped by Kapil after round 2
+
+- The loop worked. Round 1: `/intent` saved 6 intents and handed 7 questions to the drive (no
+  stop); `/vision` seeded the `collaboration` domain (1 question); `/understand` detailed 12
+  capabilities (74 questions). `round-1.json` read `again`. Round 2: `/intent` filled gaps from
+  the model ("model answered area and context questions"), then `/vision` and `/understand` ran
+  again. The walk took 5 minutes (run 4: 21), 7 journeys, 87 steps, a journey of its own for the
+  product model (K-7 fixed).
+- K-15 — **82 questions left after round 2** — mostly a few knowledge gaps asked again for each
+  of 12 capabilities: who may approve and how they are known; speed targets; rules that apply to
+  the review record (SOC 2, GDPR); two people in one review; undoing a finished review. Kapil:
+  asking 80 questions is not realistic — the drive must build the missing memory, and that needs
+  its own tool: **a memory builder, part of Argus**. Also: "are they not getting answered from
+  the prototype? I think it should" — an audit of every question against the prototype is
+  running. Kapil stopped run 5 ("there is no point running that").
+- Audit of the 82 questions against the prototype (`question-audit.md`, a quote and line for
+  each): **14 answered, 25 partly answered, 5 real gaps in the prototype, 38 no screen could
+  ever show** (business proof, speed targets, compliance, where it sits in the knowledge base).
+- K-16 — **`/vision` and `/understand` never read the prototype**: they work from the model
+  only, so 39 questions the prototype answers fully or partly were left open.
+- K-17 — **the same question is asked many times**: the business proof 15 times (each of six
+  intents, once per play), speed targets 11 times, who may answer 8 times, compliance 5 times.
+- K-18 — the drive's questions can be wrong about the prototype: one claims it "does not show" a
+  removed piece that it does show (Saved cards); a domain rule the drive wrote contradicts the
+  prototype (answers on the ADRs and Agent decisions tabs act at once, with no Finish).
+- For Kapil's prototype (not Garura): 5 screen states it should show (a second person opening
+  the same review; editing or deleting a comment; an answer that did not reach Garura; the full
+  event trail; a failed second check), and one contradiction — a decision with no source is
+  labelled "not allowed" yet still offers "Looks right".

@@ -44,6 +44,7 @@ OPENER = "# --- Shared Drive Run (shared; see ../_shared/drive-run.md) ---"
 CLOSER = "# --- end Shared Drive Run ---"
 VALUES = ("drive", "plays", "questions", "runner_key", "checker_key", "end")
 CHANGE_PLAYS = {"start-change", "commit-change", "propose-change", "review-change", "merge-change"}
+MEMBER_PLAYS = {"build-memory"}  # plays the Shared Drive Run runs inside every drive (R5c)
 DRIVE_OWNERS = {"drive", "drive (script)", "checker"}
 STAMPED = ("drive_preflight.py", "write_drive_contract.py", "check_drive_contract.py",
            "check_play_done.py", "commit_run_files.py", "run_play_headless.py",
@@ -144,7 +145,7 @@ def check_plays(ctx):
 
 
 def check_owners(ctx):
-    allowed = DRIVE_OWNERS | CHANGE_PLAYS | set(plays_of(drive_values(ctx["text"])))
+    allowed = DRIVE_OWNERS | CHANGE_PLAYS | MEMBER_PLAYS | set(plays_of(drive_values(ctx["text"])))
     owners = [o.strip().strip("`").strip() for o in
               re.findall(r"Owner:\s*([^·\n]+?)\s*(?:·|$)", ctx["workflow"], re.M)]
     if not owners:

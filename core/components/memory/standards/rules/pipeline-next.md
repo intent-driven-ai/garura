@@ -71,6 +71,9 @@ next:
   next:           { command: null,           why: "next is the recommender — it has no successor" }
   focus:          { command: null,           why: "focus is the issue-side navigator — it recommends, it has no successor" }
 
+  # Drive members (run by a drive inside its rounds, never on their own)
+  build-memory:   { command: null,           why: "runs inside a drive; the drive goes on with its next round" }
+
   # Change loop (git members)
   start-change:   { command: null,           why: "injected at a play's head; the opened play continues" }
   commit-change:  { command: propose-change, why: "raise the committed change" }

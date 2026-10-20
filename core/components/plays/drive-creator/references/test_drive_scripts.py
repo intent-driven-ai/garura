@@ -73,6 +73,7 @@ class DrivePreflight(Work):
         self.write("skills/intent/SKILL.md", "runs check_drive_contract.py first\n")
         self.write("skills/vision/SKILL.md", "runs check_drive_contract.py first\n")
         self.write("skills/shape/SKILL.md", "no contract here\n")
+        self.write("skills/build-memory/SKILL.md", "runs check_drive_contract.py first\n")
 
     def run_it(self, plays, config=None):
         return quiet(drive_preflight.main, ["--config", config or self.config, "--drive", "kickoff",
@@ -87,6 +88,11 @@ class DrivePreflight(Work):
         self.assertEqual(facts["checker"], {"kind": "coding-agent", "model": "codex"})
         self.assertTrue(facts["evidence_record"])  # the drive's own switch beats the global off
         self.assertFalse(facts["on_default_branch"])
+
+    def test_a_missing_member_play_halts(self):
+        os.remove(self.p("skills", "build-memory", "SKILL.md"))
+        self.assertEqual(self.run_it("intent,vision"), 2)
+        self.assertEqual(self.read_json("pre.json")["missing"], ["build-memory"])
 
     def test_a_missing_play_halts(self):
         self.assertEqual(self.run_it("intent,understand"), 2)
@@ -335,9 +341,9 @@ class RoundState(GitWork):
         self.assertEqual(self.decide(2, max_rounds=2)["decision"], "ask")
 
     def test_a_pending_memory_update_is_an_open_question(self):
-        self.write("issue/review/memory-updates/mu-1.json", json.dumps({"id": "mu-1", "status": "pending",
-                                                                           "question": "how long is a cart kept?"}))
-        self.write("issue/review/memory-updates/mu-2.json", json.dumps({"id": "mu-2", "status": "approved"}))
+        self.write("issue/review/memory-updates/mu-1.json", json.dumps({"update": {
+            "id": "mu-1", "status": "waiting", "missing": "how long is a cart kept?"}}))
+        self.write("issue/review/memory-updates/mu-2.json", json.dumps({"update": {"id": "mu-2", "status": "applied"}}))
         rec = self.decide(1)
         self.assertEqual([q["id"] for q in rec["open"]], ["mu-1"])
         self.assertEqual(self.read_json("work/rounds.json")["open_left"], 1)

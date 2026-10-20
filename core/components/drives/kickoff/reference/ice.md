@@ -29,8 +29,12 @@ only for a question nothing in memory answers, and checked by a checker the conf
   not a stop: the play records it and finishes what it can, and the other plays — and the next
   round — may answer it. The drive stops and asks the person only what no play of the drive,
   no memory and no approved research can answer: after a round that answered nothing new, or at
-  the round limit — all its open questions at once, after showing the draft, each asked once
-  and in words that make sense to the person who shared the prototype. The answers are kept in
+  the round limit. **First it builds the missing memory** (`/build-memory`, Kapil, 2026-10-20:
+  "asking 80 questions … doesn't seem realistic"): what the prototype shows is answered from it,
+  what memory holds from memory, what research can answer is drafted as knowledge pages for the
+  person to approve. Only then does it ask — after showing the draft, each question once, in
+  words that make sense to the person who shared the prototype — and it shows the prototype
+  feedback (what the prototype should show). The answers are kept in
   the issue's short-term memory.
 - C6 — A checker the config picks, which is not the drive's own model, judges the result against
   this intent from the drive's outputs only. A reject halts the drive.
