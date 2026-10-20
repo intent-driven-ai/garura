@@ -98,7 +98,8 @@ Inside a drive that is the contract's `issue`, known now. Run by hand it is the 
 Run the pre-flight checks and the bundled resolver — not inference — before Step 0, so a hard
 halt leaves no issue and no branch. Run by hand, its files go to a scratch folder outside
 `.garura/` (`<pre>`, made with `mktemp -d`), because no issue exists yet; inside a drive they go
-straight to `<working>`:
+straight to `<working>`. A halt before Step 0 deletes the scratch folder, so it leaves nothing
+behind:
 
 ```
 pre=$(mktemp -d)        # run by hand; inside a drive, write to <working> instead
@@ -110,7 +111,8 @@ python3 scripts/preflight.py --play intent --config .garura/core/config.yaml \
 
 `in_drive` is true exactly when a valid `--contract` was passed. Once the issue is known (at
 once inside a drive; right after Step 0 run by hand), create `<working>`, move the scratch
-files into it, delete the scratch folder, record `<working>/run.json` (`in_drive`, the
+files into it, delete the scratch folder, run `preflight.py` again on the new branch so
+`<working>/preflight.json` names the branch and the issue (run by hand), record `<working>/run.json` (`in_drive`, the
 contract's `drive_run_id`, `branch` and `issue`, or the issue Step 0 gave), and start the
 session stamp:
 
@@ -541,7 +543,7 @@ Inside a drive, a resume keeps `in_drive` from `run.json`.
 | Field | Value |
 |-------|-------|
 | fingerprint | sha256:59fc9fe551bd4e2a9d32f6bf22637e01a4090207656968becc85f66b0304666c (of `reference/ice.md`) |
-| compiled_by | play-editor (#637 one product model with /vision); play-creator (#612) |
+| compiled_by | play-editor (#661 reads no memory; the run lives in its issue); play-editor (#637 one product model with /vision); play-creator (#612) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close; both skipped inside a drive) |
 | position_exception | model-writing both play — writes the intent on its started branch (or the drive's) and commits its own model delta (Step 7) BEFORE the injected end sequence lands it |
 | workflow_structure | B with one human checkpoint — pinned when run by hand (the person confirms or drops each intent), none inside a drive (intents saved as proposed for the drive's final review); ask-and-check loop ≤3 rounds; stop-condition gated close |

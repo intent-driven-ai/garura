@@ -839,7 +839,7 @@ reuses each `<working>/caps/<capability>/seed.yaml` rather than asking again.
 | Field | Value |
 |-------|-------|
 | fingerprint | sha256:7a8aa966571a2d3b41ed222e2008832ad66a4d730d035d087abc08c8a70a4bc8 (of `reference/ice.md`) |
-| compiled_by | play-editor (#615 runs inside a drive; one run details every pending capability); play-editor (#616 stands alone); play-editor (#498 direct-model-write, ADR 026); prior: play-editor (#467 Batch B, #466 Batch C) |
+| compiled_by | play-editor (#661 reads no memory; the run lives in its issue); play-editor (#615 runs inside a drive; one run details every pending capability); play-editor (#616 stands alone); play-editor (#498 direct-model-write, ADR 026); prior: play-editor (#467 Batch B, #466 Batch C) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close — #616) |
 | position_exception | model-writing both play — writes the model on its own started branch and commits its own model delta (C12) BEFORE the injected end sequence lands it (same shape as /measure and /vision) |
 | workflow_structure | A (single checkpoint carrying box-move approvals — class: standard, conditional gate per gate-config.md #467; direct-model-write WRITE-THEN-REVIEW per ADR 026 — persist + guard + classify before the gate, commit after; stop-condition gated close) |
