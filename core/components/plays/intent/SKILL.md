@@ -86,7 +86,7 @@ sub-plays. Everything else is a script.
 |-------|-----------|-------------------|
 | Resolve config + `product_base` (`.garura/core/config.yaml`) | — | Hard halt |
 | A source was given: a file path, a project folder, an http(s) link, or the text of a statement | C1 | Ask the person for it (gather, not a halt) |
-| Drive contract: when `--contract <file>` is passed, it is valid JSON naming `drive_run_id` and `branch`, and the current branch equals that branch | C9 | Hard halt (REC9) |
+| Drive contract: when `--contract <file>` is passed, the shared checker `check_drive_contract.py` accepts it — valid JSON naming `drive_run_id` and `branch` (and the rest of the drive contract), and the current branch equals that branch | C9 | Hard halt (REC9) |
 | **Clean model tree** — after Step 0 (or at once, inside a drive), `git status --porcelain -- <product_base>product-os` is empty | C8 | Hard halt (REC8) |
 
 **The issue comes first (C14).** Short-term memory is created in the issue being worked on.
@@ -107,13 +107,18 @@ git branch --show-current
 git status --porcelain > "$pre/porcelain.txt"
 python3 scripts/preflight.py --play intent --config .garura/core/config.yaml \
     --branch "<current branch>" --porcelain-file "$pre/porcelain.txt" > "$pre/preflight.json"
+python3 scripts/check_drive_contract.py --play intent \
+    --branch "$(git branch --show-current)" [--contract <contract.json>] --out "$pre/run.json"
 ```
 
-`in_drive` is true exactly when a valid `--contract` was passed. Once the issue is known (at
+`preflight.py` takes no contract; the shared checker does (`standards/rules/drive-contract.md`).
+A refused contract is a hard halt (REC9).
+
+`in_drive` is true exactly when the checker accepted a `--contract` (it writes `run.json`). Once the issue is known (at
 once inside a drive; right after Step 0 run by hand), create `<working>`, move the scratch
 files into it, delete the scratch folder, run `preflight.py` again on the new branch so
-`<working>/preflight.json` names the branch and the issue (run by hand), record `<working>/run.json` (`in_drive`, the
-contract's `drive_run_id`, `branch` and `issue`, or the issue Step 0 gave), and start the
+`<working>/preflight.json` names the branch and the issue (run by hand), add the issue Step 0 gave to `<working>/run.json` (run by hand; inside a drive the checker
+already wrote the contract's `drive_run_id`, `branch` and `issue`), and start the
 session stamp:
 
 ```
@@ -551,7 +556,7 @@ Inside a drive, a resume keeps `in_drive` from `run.json`.
 | domain_agents | 1 (business-intent-keeper) |
 | utility_agents | 1 (template-manager — the shared close's templates) |
 | skills_used | author-business-intent |
-| scripts | 10 (preflight.py, session_stamp.py, check_stop_condition.py, scoped_write_guard.py, capture_source.py, check_intent.py, persist_intent.py, intent_touches.py — copied from play-creator references, lint_grounding.py — copied from /vision, check_ice_workable.py — copied from play-creator references) + test_intent_scripts.py |
+| scripts | 11 (preflight.py, check_drive_contract.py (the shared drive-contract checker), session_stamp.py, check_stop_condition.py, scoped_write_guard.py, capture_source.py, check_intent.py, persist_intent.py, intent_touches.py — copied from play-creator references, lint_grounding.py — copied from /vision, check_ice_workable.py — copied from play-creator references) + test_intent_scripts.py |
 | step_evals | 14 (SE-1…SE-14) |
 | scenario_evals | 8 (SCE-1…SCE-8) |
 | recovery_entries | 14 (one per failure condition; 9 autonomous / 5 human) |
