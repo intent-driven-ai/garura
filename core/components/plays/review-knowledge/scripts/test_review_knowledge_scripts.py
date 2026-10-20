@@ -30,7 +30,9 @@ BRIEF = {"understood": "Argus is the review tool for the agents' work.",
          "built": "6 business intents, one domain, 12 capabilities.",
          "gaps": [{"id": "G1", "theme": "Who decides", "context": "The prototype shows one reviewer.",
                    "proposal": "The person who asked decides on their run.", "from": ["b2", "b3"]}],
-         "pages": [{"update": "mu-9", "what": "Speed bar for Ask memory", "recommend": "approve"}],
+         "settled": [{"from": ["b5"], "what": "How Argus earns money", "why": "It is an internal tool."}],
+         "pages": [{"update": "mu-9", "what": "Speed bar for Ask memory", "sources": ["nngroup response times"],
+                    "recommend": "approve"}],
          "prototype_notes": {"count": 1, "where": "build.json"}}
 MD = "## What we understood\n...\n## What we built\n...\n## Where the gaps are\n- G1 Who decides\n"
 
@@ -65,6 +67,18 @@ class CheckBrief(unittest.TestCase):
         self.assertTrue(any("mu-9" in p for p in problems))
         self.assertTrue(any("prototype notes" in p for p in problems))
 
+    def test_settled_points_and_page_sources_are_shown(self):
+        bad = json.loads(json.dumps(BRIEF))
+        bad["settled"] = []
+        bad["pages"][0]["sources"] = []
+        problems = cb.check(bad, MD, BUILD, 7)[0]
+        self.assertTrue(any("b5 is shown 0 times" in p for p in problems))
+        self.assertTrue(any("sources" in p for p in problems))
+
+    def test_a_waiting_update_the_build_did_not_name_is_still_listed(self):
+        problems = cb.check(BRIEF, MD, BUILD, 7, waiting={"mu-9", "mu-12"})[0]
+        self.assertTrue(any("mu-12" in p for p in problems))
+
     def test_the_markdown_carries_the_headings_and_gaps(self):
         problems = cb.check(BRIEF, "nothing here", BUILD, 7)[0]
         self.assertTrue(any("What we understood" in p for p in problems))
@@ -80,10 +94,18 @@ class RecordReview(unittest.TestCase):
         return os.path.join(self.dir, *parts)
 
     def run_record(self, reply):
-        for name, data in (("brief.json", BRIEF), ("review.json", reply)):
+        search = {"groups": [{"id": "s1", "members": ["intent-q7"]}, {"id": "s2", "members": ["understand-q2"]}]}
+        build = {"groups": [{"id": "b2", "from": ["s1"]}, {"id": "b3", "from": ["s2"]}]}
+        os.makedirs(self.p("drive"), exist_ok=True)
+        for name, data in (("brief.json", BRIEF), ("review.json", reply), ("build.json", build),
+                           ("search.json", search),
+                           ("drive/open-intent.json", {"play": "intent", "questions": [{"id": "intent-q7"}]}),
+                           ("drive/open-understand.json", {"play": "understand", "questions": [{"id": "understand-q2"}]})):
             with open(self.p(name), "w") as fh:
                 json.dump(data, fh)
         rc = quiet(rr.main, ["--brief", self.p("brief.json"), "--reply", self.p("review.json"),
+                             "--build", self.p("build.json"), "--search", self.p("search.json"),
+                             "--review-dir", self.p("drive"),
                              "--issue-dir", self.p("issue"), "--round", "3", "--out", self.p("rec.json")])
         with open(self.p("rec.json")) as fh:
             return rc, json.load(fh)
@@ -92,17 +114,26 @@ class RecordReview(unittest.TestCase):
         rc, rec = self.run_record({"words": "yes", "gaps": {"G1": "accept"}, "pages": {"mu-9": "approve"}})
         self.assertEqual(rc, 0)
         with open(rec["written"]) as fh:
-            answers = json.load(fh)
-        self.assertEqual(answers[0]["answer"], BRIEF["gaps"][0]["proposal"])
-        self.assertEqual(answers[0]["from"], "person")
+            written = json.load(fh)
+        self.assertEqual(written["gaps"][0]["answer"], BRIEF["gaps"][0]["proposal"])
+        self.assertEqual(written["gaps"][0]["from"], "person")
+        self.assertEqual(written["gaps"][0]["proposed_by"], "knowledge-builder")
         self.assertEqual(rec["page_decisions"][0]["decision"], "approve")
+
+    def test_the_answer_reaches_each_play_by_its_question_id(self):
+        rc, rec = self.run_record({"words": "yes", "gaps": {"G1": "accept"}, "pages": {"mu-9": "approve"}})
+        with open(rec["written"]) as fh:
+            mapped = json.load(fh)["answers"]
+        self.assertEqual(mapped["intent"]["intent-q7"], BRIEF["gaps"][0]["proposal"])
+        self.assertEqual(mapped["understand"]["understand-q2"], BRIEF["gaps"][0]["proposal"])
+        self.assertEqual(rec["questions_answered"], 2)
 
     def test_a_correction_is_the_persons_own_answer(self):
         rc, rec = self.run_record({"words": "G1: the owner decides", "gaps": {"G1": {"answer": "The owner decides."}},
                                    "pages": {"mu-9": "reject"}})
         self.assertEqual(rc, 0)
         with open(rec["written"]) as fh:
-            self.assertFalse(json.load(fh)[0]["accepted_proposal"])
+            self.assertFalse(json.load(fh)["gaps"][0]["accepted_proposal"])
 
     def test_an_undecided_gap_or_page_records_nothing(self):
         rc, rec = self.run_record({"words": "yes", "gaps": {}, "pages": {}})

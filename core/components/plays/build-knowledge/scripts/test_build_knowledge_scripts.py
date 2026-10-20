@@ -40,7 +40,8 @@ class CheckBuild(unittest.TestCase):
             {"id": "b3", "from": ["s4"], "ask": "What if memory finds nothing?",
              "closed_by": "prototype-feedback", "feedback": "Show an empty answer state in Ask memory"},
             {"id": "b4", "from": ["s5"], "ask": "Does Argus earn money?", "closed_by": "settled",
-             "why": "Argus is an internal tool; the prototype has no pricing or customers."}]}
+             "why": "Argus is an internal tool; the prototype has no pricing or customers.",
+             "basis": "argus.html: no pricing, plan or customer screen in any of the 36 views"}]}
 
     def p(self, *parts):
         return os.path.join(self.dir, *parts)
@@ -74,10 +75,13 @@ class CheckBuild(unittest.TestCase):
         self.assertTrue(any("already answered" in g for g in gaps))
         self.assertTrue(any("s5 is in 0 build groups" in g for g in gaps))
 
-    def test_settled_says_why(self):
+    def test_settled_says_why_and_what_it_rests_on(self):
         bad = json.loads(json.dumps(self.good))
         bad["groups"][3]["why"] = ""
-        self.assertTrue(any("settles" in g for g in ckb.check(self.search, bad, self.waiting)[0]))
+        bad["groups"][3]["basis"] = ""
+        gaps = ckb.check(self.search, bad, self.waiting)[0]
+        self.assertTrue(any("settles" in g for g in gaps))
+        self.assertTrue(any("basis" in g for g in gaps))
 
     def test_main_asks_the_memory_tool(self):
         for name, data in (("search.json", self.search), ("build.json", self.good)):

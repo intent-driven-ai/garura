@@ -132,10 +132,10 @@ review tool's review step replaces the typed step and writes the approval into t
   HALTED with `exit_reason: preflight`.
 - S3 — business owner. Given a prototype where `/intent` cannot answer some questions on its
   own; then the drive goes on to `/vision` and `/understand`, runs `/intent` again on the next
-  round with what they found, and asks the owner only what is still open — once, after showing
-  the draft; measure: `round-1.json` reads `again` (not `ask`), every question asked appears in
-  a `round-<n>.json` that reads `ask`, and each answer is in the issue's short-term memory with
-  `from: person`.
+  round with what they found, and briefs the owner only on what is still open — our proposed
+  answers with their context; measure: `round-1.json` reads `again` (not `ask`), the brief
+  comes after a `round-<n>.json` that reads `ask` and its `brief-check.json` reads `ok: true`,
+  and each answer is in the issue's short-term memory with `from: person`.
 - S4 — business owner. Given a run the checker rejects; then the drive halts with the
   checker's reasons and opens no pull request; measure: `check.yaml` reads `verdict: reject`
   with a reason for each failed criterion, and no pull request exists for the branch.
@@ -148,7 +148,7 @@ review tool's review step replaces the typed step and writes the approval into t
 | F2 | no prototype, or one that does not run | halt before opening; ask the person for a working prototype | human |
 | F3 | a play ran before the questions, or an answer has no source | stop; ask the drive's questions, record each answer's source, re-run the play | autonomous |
 | F4 | a play started early or on an unclean tree, or a capability left directional | halt; finish the earlier play or commit its run files; re-run `/understand` | autonomous |
-| F5 | an answer from the model alone, or a stop for a question the drive could still answer | strip the answer, or go on round the loop; ask the person only what no play answers, after showing the draft; re-run the play | human |
+| F5 | an answer from the model alone, a stop for a question the drive could still answer, or a bare question put to the person | strip the answer, or go on round the loop; brief the person only on what no play answers (`/review-knowledge`: our proposed answer with its context); re-run the play | human |
 | F6 | done without the checker's pass | run the checker; a reject halts the drive | autonomous |
 | F7 | the drive changed an intent's state, or recorded a decision without the person's word | undo the change to the intent page; ask the person and record their own words | human |
 | F8 | no evidence record | write the evidence before closing; the close stays HALTED until it exists | autonomous |

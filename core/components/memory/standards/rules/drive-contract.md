@@ -90,9 +90,12 @@ A JSON file, passed to the play as `--contract <path>`:
    closes. On a later round (the contract's `round` is above 1) the play reads what the other
    plays wrote and fills what it can — only from its sources, approved memory (an applied
    memory update included) and the product model the drive's plays wrote; never from a
-   memory update still waiting for a person (ADR 035). A question stops the **drive** only when no play of the
-   drive can answer it: the drive asks it then, with its other open questions, all at once
-   (ADR 029 §2 as ADR 041 reads it: the question belongs to the whole drive). The person's answer is kept in the drive issue's short-term memory (ADR 039 §1).
+   memory update still waiting for a person (ADR 035). A question no play of the drive can
+   answer goes to the drive's knowledge plays: they search the sources and memory, draft
+   knowledge pages and our proposed answers, and the drive briefs the person on what is left —
+   never a questionnaire (ADR 041, ADR 042). The person's answers are kept in the drive issue's
+   short-term memory (ADR 039 §1) and reach the play on the next round as
+   `answers.<play>.<question id>`.
 6. **A learned checkpoint still learns.** A play whose checkpoint learns from people's
    answers (`gate_eval.py`) records a deferred crossing as `deferred_to_drive_review` (a
    skip or an auto-pass is recorded as by hand). The learner skips that line — it neither

@@ -17,14 +17,16 @@ build.json:
                "update": "<memory update id>", "for_project_memory": bool,   # update
                "proposal": {"answer", "basis", "context"},                  # proposal
                "feedback": "<what the prototype should show>",               # prototype-feedback
-               "why": "<what in the context settles it>"}]}                  # settled
+               "why": "<what in the context settles it>",                   # settled
+               "basis": "<the quote, screen or trace it rests on>"}]}         # settled
 
 Checks: every search group found `partly` or `open` is in exactly one build group, and no
 answered search group is built again; each build group is closed one known way, with what that
 way needs — an update names a memory update the memory tool lists for the issue as waiting
 (`updates` — never read from its file); a proposal has
 its answer, its basis (the source, memory or reasoning it rests on) and the context a person
-needs to judge it; feedback says what the prototype should show; settled says why. A search
+needs to judge it; feedback says what the prototype should show; settled says why and what it rests on (it is
+shown to the person in the brief, never dropped silently). A search
 group the source should show (`should-show`) is closed by prototype feedback.
 
 Exit 0 clean; 1 gaps; 2 cannot read an input. Standard library only.
@@ -81,6 +83,8 @@ def check(search, build, waiting):
         elif way == "settled":
             if not str(g.get("why") or "").strip():
                 gaps.append(f"{bid}: say what in the context settles it")
+            if not str(g.get("basis") or "").strip():
+                gaps.append(f"{bid}: a settled gap needs its basis — the quote, screen or trace it rests on")
     for s in left:
         if seen.get(s, 0) != 1:
             gaps.append(f"search group {s} is in {seen.get(s, 0)} build groups (it must be in exactly 1)")

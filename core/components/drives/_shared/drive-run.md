@@ -180,24 +180,29 @@ questionnaire:
    `{stm_base}<issue>/context/review-knowledge/round-<n>/brief.md`: what we understood, what we
    built (the draft first — for Kickoff, each proposed business intent, the domain and its
    capabilities), and where the gaps are — a few themed gaps, each with its context and our
-   proposed answer — then the knowledge pages waiting for approval, each with our
-   recommendation, and a pointer to the notes for the prototype. Its done check must hold;
+   proposed answer — then the points settled from the context, each with why, the knowledge
+   pages waiting for approval, each with its sources and our recommendation, and a pointer to
+   the notes for the prototype. Its done check must hold;
    commit its run files.
 2. Show `brief.md` as it is, and wait for the typed reply (never `AskUserQuestion`). "yes" takes
-   every proposal and recommendation; the person may correct a gap or a page by its id.
+   every proposal and every recommendation shown; the person may correct a gap, a settled point
+   or a page by its id.
 3. Write the reply as `review.json` (`words` verbatim; each gap `accept` or the person's own
    answer; each page `approve` or `reject`) and record it:
 
    ```bash
    python3 <review-knowledge play dir>/scripts/record_review.py \
-       --brief <brief.json> --reply <working>/review.json --issue-dir "{stm_base}<issue>/" \
+       --brief <brief.json> --reply <working>/review.json --build <build.json> \
+       --search <search.json> --review-dir <review_dir> --issue-dir "{stm_base}<issue>/" \
        --round <n> --out <working>/review-record.json
    ```
 
-   It writes the answers to the issue's short-term memory (`from: person`). Record each page
-   decision through the memory tool's `decide` (decided in the session — the stand-in for
-   Argus's memory view, ADR 041 §8), add the answers to `answers.json` /
-   `answers-sources.json` (`from: person`), and run round n+1. The person may type **stop**:
+   It writes the answers to the issue's short-term memory (`from: person`, with what each
+   accepted proposal rested on) and maps each one back to the questions it closes, per play.
+   Record each page decision through the memory tool's `decide` (decided in the session — the
+   stand-in for Argus's memory view, ADR 041 §8); an approved page is not yet promoted — a
+   person promotes it later. Add the mapped answers to `answers.json` / `answers-sources.json`
+   (`from: person`), and run round n+1. The person may type **stop**:
    close HALTED with `exit_reason: stopped_at_question`.
 
 ### Step R6 — The checker (ADR 029 §2)

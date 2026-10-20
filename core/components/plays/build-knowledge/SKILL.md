@@ -54,6 +54,8 @@ memory tool's `propose`. Everything else is a script.
 | `/search-knowledge` closed clean this round (`search-check.json` reads `ok: true`) | C1 | Hard halt |
 
 ```bash
+python3 scripts/check_stop_condition.py --manifest <search-knowledge play dir>/stop-condition.yaml \
+    --base <search>/ --out <working>/search-held.yaml   # exit 0, else hard halt
 python3 scripts/preflight.py --play build-knowledge --config .garura/core/config.yaml \
     --branch "$(git branch --show-current)" > <working>/preflight.json
 python3 scripts/check_drive_contract.py --play build-knowledge \
@@ -101,7 +103,7 @@ waiting for the issue; no update was decided, applied or promoted in this run.
 **SE-3 (F3/C3):** every group closed by `proposal` has its answer, basis and context; none is a
 question.
 **SE-4 (F4/C4):** every `should-show` search group is closed by `prototype-feedback`.
-**SE-5 (F5/C5):** every group closed by `settled` says what settles it.
+**SE-5 (F5/C5):** every group closed by `settled` says what settles it and what it rests on.
 
 ### Phase: Check
 
@@ -125,7 +127,7 @@ Exit 0 — clean. Otherwise send the report back to Step 1 (at most twice), then
 - **SCE-2 (S2 — Kickoff drive, a gap only the person can confirm):** a group reads
   `closed_by: proposal` with answer, basis and context.
 - **SCE-3 (S3 — Kickoff drive, a gap the context settles):** a group reads `closed_by: settled`
-  with `why`.
+  with `why` and `basis`.
 
 ### Phase: Evidence & Close
 
@@ -164,7 +166,7 @@ sc_exit=$?   # 0 held · 1 unmet · 2 error
 | F2 | a researched answer used before approval, a page raised outside the memory tool, or an update decided, applied or promoted | undo the use; raise the page through `propose`; leave it waiting for a person | human |
 | F3 | a bare question, or a proposal without basis or context | draft the proposed answer from the source, memory and the run, with its basis and context | autonomous |
 | F4 | a missing screen state asked as a question | make it a note for the prototype | autonomous |
-| F5 | a gap the context settles kept open | close it as settled with what settles it | autonomous |
+| F5 | a gap the context settles kept open, or settled without its basis | close it as settled with what settles it and what that rests on | autonomous |
 | F6 | no drive contract, a write outside the issue, or a model write | halt; move the record under the drive's issue; undo the model write | human |
 
 ## Pause and Resume
@@ -176,7 +178,7 @@ step whose output exists and checks clean; a round already built is not built ag
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:132fced28aadaa8903585339373296e7eb799817a04fdb3823a8578ad3ffcadb (of `reference/ice.md`) |
+| fingerprint | sha256:acd25dc2a8bebb85546472d707f0f7dfe53d3891ece22982294342441dd224d7 (of `reference/ice.md`) |
 | compiled_by | play-creator (#686) |
 | pipeline_position | none (a drive's member play) |
 | stop_condition | stop-condition.yaml (D1–D2) |

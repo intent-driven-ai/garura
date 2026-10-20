@@ -24,8 +24,9 @@ inside its rounds (Shared Drive Run, R5c). It opens and lands nothing.
   or reasoning it rests on) and the context a person needs to judge it — never a bare question.
 - C4 — What the prototype should show but does not (a screen state it lacks) becomes a note for
   the prototype, never a question.
-- C5 — A gap the context already settles is closed as settled, with what settles it — never
-  asked (Kapil, 2026-10-20: an internal tool is not asked how it earns money).
+- C5 — A gap the context already settles is closed as settled, with what settles it and the
+  quote, screen or trace it rests on — never asked, and never dropped: the brief shows it
+  (Kapil, 2026-10-20: an internal tool is not asked how it earns money).
 - C6 — It runs only inside a drive (a valid drive contract), writes only under the drive's issue,
   and never writes the product model.
 
@@ -36,7 +37,7 @@ inside its rounds (Shared Drive Run, R5c). It opens and lands nothing.
   other than through the memory tool, or the play decided, applied or promoted a memory update.
 - F3 — A gap reached the person as a bare question, or a proposal lacks its basis or context.
 - F4 — A screen state the prototype lacks was turned into a question instead of a note.
-- F5 — A gap the context settles was kept open or asked.
+- F5 — A gap the context settles was kept open or asked, or settled without its basis.
 - F6 — The play ran without a drive contract, wrote outside the drive's issue, or wrote the
   product model.
 
@@ -59,7 +60,8 @@ shows it is `/review-knowledge`'s job (ADR 042).
   when the play runs, then it carries our proposed answer with its basis and context. Measure:
   the group's `closed_by` is `proposal` with `answer`, `basis` and `context` set.
 - S3 — (Kickoff drive, a gap the context settles) Given a gap the product's context answers,
-  when the play runs, then it is closed as settled. Measure: `closed_by` is `settled` with `why`.
+  when the play runs, then it is closed as settled. Measure: `closed_by` is `settled` with `why`
+  and `basis`.
 
 ### Done means
 
@@ -80,7 +82,8 @@ shows it is `/review-knowledge`'s job (ADR 042).
   handoff: autonomous.
 - REC4 (F4) — trigger: a missing screen state asked as a question. direction: make it a note for
   the prototype. handoff: autonomous.
-- REC5 (F5) — trigger: a gap the context settles kept open. direction: close it as settled with
-  what settles it. handoff: autonomous.
+- REC5 (F5) — trigger: a gap the context settles kept open, or settled without its basis.
+  direction: close it as settled with what settles it and what that rests on. handoff:
+  autonomous.
 - REC6 (F6) — trigger: no drive contract, a write outside the issue, or a model write.
   direction: halt; move the record under the drive's issue; undo the model write. handoff: human.

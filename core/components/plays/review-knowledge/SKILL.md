@@ -54,6 +54,8 @@ the memory tool's `updates`. Everything else is a script.
 | `/build-knowledge` closed clean this round (`build-check.json` reads `ok: true`) | C2 | Hard halt |
 
 ```bash
+python3 scripts/check_stop_condition.py --manifest <build-knowledge play dir>/stop-condition.yaml \
+    --base <build>/ --out <working>/build-held.yaml   # exit 0, else hard halt
 python3 scripts/preflight.py --play review-knowledge --config .garura/core/config.yaml \
     --branch "$(git branch --show-current)" > <working>/preflight.json
 python3 scripts/check_drive_contract.py --play review-knowledge \
@@ -94,13 +96,15 @@ folders.
 The agent reads the product model and the run for what we understood and what we built, lists
 the waiting knowledge pages through the memory tool, and has `write-knowledge-brief` write the
 brief: a few sentences each for understood and built; at most seven gaps, related proposals
-sharing a theme, each with its context and our proposed answer; each page with a one-line
-summary and our recommendation; the prototype notes counted and pointed to.
+sharing a theme, each with its context and our proposed answer; every settled point with why;
+each page with what it says, its sources and our recommendation; the prototype notes counted
+and pointed to.
 **SE-1 (F1/C1):** `brief.json` has `understood` and `built`.
 **SE-2 (F2/C2):** every `proposal` group of `build.json` is in exactly one gap; at most seven
 gaps; each has context and a proposed answer, none a question.
-**SE-3 (F3/C3):** every update the memory tool lists as waiting for the issue is a page with a
-recommendation; `prototype_notes.count` equals the build's notes.
+**SE-3 (F3/C3):** every update the memory tool lists as waiting for the issue is a page with its
+sources and a recommendation; every `settled` build group is shown once with why;
+`prototype_notes.count` equals the build's notes.
 
 ### Phase: Check
 
@@ -108,7 +112,8 @@ recommendation; `prototype_notes.count` equals the build's notes.
 
 ```bash
 python3 scripts/check_brief.py --brief <working>/brief.json --brief-md <working>/brief.md \
-    --build <build>/build.json --out <working>/brief-check.json
+    --build <build>/build.json --issue <issue> \
+    --memory-tool .garura/core/tools/memory/memory.py --out <working>/brief-check.json
 ```
 
 Exit 0 — clean. Otherwise send the report back to Step 1 (at most twice), then close HALTED.
@@ -163,7 +168,7 @@ sc_exit=$?   # 0 held · 1 unmet · 2 error
 |-----|---------|-----------|---------|
 | F1 | no understood or built | write them from the run and the model | autonomous |
 | F2 | a proposal missing or doubled, too many gaps, or a gap without context or proposal | regroup the proposals by theme; give each gap its context and our answer | autonomous |
-| F3 | a page missing or without a recommendation, or prototype notes asked | list every waiting page with a recommendation; point to the notes | autonomous |
+| F3 | a page missing or without sources or a recommendation, a settled point not shown, or prototype notes asked | list every waiting page with its sources and a recommendation; show every settled point with why; point to the notes | autonomous |
 | F4 | the play asked, waited or decided | stop; leave asking to the drive and deciding to the person | human |
 | F5 | no drive contract, a write outside the issue, or a model write | halt; move the record under the drive's issue; undo the model write | human |
 
@@ -176,7 +181,7 @@ step whose output exists and checks clean; a brief already written is not writte
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:ef4c466edc017b1123a912413f519fe8bf436813f36ddc2e608b95cd92bad345 (of `reference/ice.md`) |
+| fingerprint | sha256:95036b95a0445e5a61825bc455d398fc0d459f724739b45922ed7aeb62883ae3 (of `reference/ice.md`) |
 | compiled_by | play-creator (#686) |
 | pipeline_position | none (a drive's member play) |
 | stop_condition | stop-condition.yaml (D1–D2) |

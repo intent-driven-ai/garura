@@ -223,9 +223,9 @@ reads `Stage: proposed`.
 - **SCE-2 (S2 — business owner, no working prototype):** `prototype.json` reads `runs: false`,
   no new branch exists, and the drive closed HALTED with `exit_reason: preflight`.
 - **SCE-3 (S3 — business owner, a question mid-run):** `round-1.json` reads `again` (the drive
-  went on to `/vision` and `/understand` instead of stopping), every question the person was
-  asked is in a `round-<n>.json` that reads `ask`, each answer is in the issue's short-term
-  memory with `from: person`, and `rounds.json` ends with `open_left: 0`.
+  went on to `/vision` and `/understand` instead of stopping), the person was briefed only after a
+  `round-<n>.json` that reads `ask` (`brief-check.json` reads `ok: true`), each answer is in the
+  issue's short-term memory with `from: person`, and `rounds.json` ends with `open_left: 0`.
 - **SCE-4 (S4 — business owner, a checker reject):** `check.yaml` reads `verdict: reject` with
   a reason per failed criterion, and no pull request exists for the branch.
 
@@ -266,7 +266,7 @@ sc_exit=$?   # 0 held · 1 unmet · 2 error
 | F2 | no prototype, or one that does not run | halt before opening; ask the person for a working prototype | human |
 | F3 | a play ran before the questions, or an answer has no source | stop; ask the drive's questions, record each answer's source, re-run the play | autonomous |
 | F4 | a play started early or on an unclean tree, or a capability left directional | halt; finish the earlier play or commit its run files; re-run `/understand` | autonomous |
-| F5 | an answer from the model alone, or a stop for a question the drive could still answer | strip the answer, or go on round the loop; ask the person only what no play answers, after showing the draft; re-run the play | human |
+| F5 | an answer from the model alone, a stop for a question the drive could still answer, or a bare question put to the person | strip the answer, or go on round the loop; brief the person only on what no play answers (`/review-knowledge`: our proposed answer with its context); re-run the play | human |
 | F6 | done without the checker's pass | run the checker; a reject halts the drive | autonomous |
 | F7 | the drive changed an intent's state, or recorded a decision without the person's word | undo the change to the intent page; ask the person and record their own words | human |
 | F8 | no evidence record | write the evidence before closing; the close stays HALTED until it exists | autonomous |
@@ -282,7 +282,7 @@ a question resumes the same play with the person's answer (shared run, R5 step 3
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:042cb7356881834531284a15189806124e64428b4345d1e4433737b78fb91d65 (of `reference/ice.md`) |
+| fingerprint | sha256:767d3ba6a7ea4ba347589f92dfd00f503cbc58a86ca450f8080e4be532c26dad (of `reference/ice.md`) |
 | compiled_by | drive-creator (#613) |
 | kind | drive |
 | pipeline_position | both |

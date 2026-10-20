@@ -22,8 +22,9 @@ Pipeline position: **none**. The last of the three knowledge member plays every 
   seven), related proposals sharing a theme; each gap carries its context and our proposed
   answer — never a bare question.
 - C3 — Every knowledge page waiting for the person (listed by the memory tool's `updates`) is in
-  the brief with a one-line summary and our recommendation; the notes for the prototype are
-  counted and pointed to, never asked.
+  the brief with what it says, its sources and our recommendation, so approving it is informed
+  (ADR 035 §5); every point `/build-knowledge` settled is shown with why; the notes for the
+  prototype are counted and pointed to, never asked.
 - C4 — The play writes the brief and asks nothing itself: the drive shows it and waits for the
   person's typed reply, records that reply against the brief (`record_review.py`) and records
   each page decision through the memory tool's `decide` (ADR 041 §8). The play never decides.
@@ -35,8 +36,8 @@ Pipeline position: **none**. The last of the three knowledge member plays every 
 - F1 — The brief lacks what we understood or what we built.
 - F2 — A proposal is missing from the brief or in two gaps; more than seven gaps; a gap without
   its context or proposed answer, or a gap that is a question.
-- F3 — A waiting knowledge page is missing or has no recommendation, or the prototype notes are
-  asked as questions.
+- F3 — A waiting knowledge page is missing or has no sources or recommendation, a settled point
+  is not shown, or the prototype notes are asked as questions.
 - F4 — The play asked the person, waited, or decided a memory update itself.
 - F5 — The play ran without a drive contract, wrote outside the drive's issue, or wrote the
   product model.
@@ -71,8 +72,9 @@ brief (#680, #664).
 - REC2 (F2) — trigger: a proposal missing or doubled, too many gaps, or a gap without context
   or proposal. direction: regroup the proposals by theme; give each gap its context and our
   answer. handoff: autonomous.
-- REC3 (F3) — trigger: a page missing or without a recommendation, or prototype notes asked.
-  direction: list every waiting page with a recommendation; point to the notes. handoff:
+- REC3 (F3) — trigger: a page missing or without sources or a recommendation, a settled point
+  not shown, or prototype notes asked. direction: list every waiting page with its sources and
+  a recommendation; show every settled point with why; point to the notes. handoff:
   autonomous.
 - REC4 (F4) — trigger: the play asked, waited or decided. direction: stop; leave asking to the
   drive and deciding to the person. handoff: human.

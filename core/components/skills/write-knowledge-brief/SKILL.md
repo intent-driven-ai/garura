@@ -8,10 +8,9 @@ allowed-tools: Read, Write, Glob, Grep
 
 # write-knowledge-brief
 
-Kapil, after a drive ran for an hour and then asked him eleven questions: "Present it to me
-like you would present to a person who can help you close this piece … what you understood,
-what you created, where the gaps are … You have the context. You haven't shared that context
-with me." This skill writes that brief.
+When a drive must reach the person, it briefs them as you would brief someone who can help
+close the piece: what we understood, what we built, where the gaps are — with the context
+behind each. This skill writes that brief.
 
 ## Input
 
@@ -35,25 +34,27 @@ with me." This skill writes that brief.
    and who sees; size and speed; …). At most seven gaps. For each: an id (`G1`…), a plain theme,
    the **context** (what we saw that bears on it) and **our proposed answer** (what we would put,
    concrete). Never a question; never example answers to pick from.
-4. **Knowledge pages** — each waiting page in one line, with our recommendation (approve or
-   reject) and why.
-5. **Prototype notes** — the count and where the full list is; no answer needed now.
-6. Close with one line on how to reply: "yes" takes every proposal and recommendation; or
-   correct a gap by its id.
-7. Drop anything the context settles; leave out what the search answered except as a count and
-   one example.
+4. **Settled** — each point the build closed as settled, in one line with what settles it, so
+   the person can see it and correct it.
+5. **Knowledge pages** — each waiting page: what it says in a line or two, its sources, and our
+   recommendation (approve or reject) with why, so a "yes" is an informed approval.
+6. **Prototype notes** — the count and where the full list is; no answer needed now.
+7. Close with one line on how to reply: "yes" takes every proposal and every recommendation
+   shown; or correct a gap, a settled point or a page by its id.
+8. Leave out what the search answered except as a count and one example.
 
 ## Output
 
 `brief.json` — `{"understood", "built", "gaps": [{"id", "theme", "context", "proposal", "from":
-[build group ids]}], "pages": [{"update", "what", "recommend"}], "prototype_notes": {"count",
-"where"}}` — and `brief.md`, the same in plain prose under the headings **What we understood**,
+[build group ids]}], "settled": [{"from", "what", "why"}], "pages": [{"update", "what",
+"sources", "recommend"}], "prototype_notes": {"count", "where"}}` — and `brief.md`, the same in plain prose under the headings **What we understood**,
 **What we built**, **Where the gaps are**, then the pages and notes. Short paragraphs; no
 tables; no wall of text.
 
 ## Rules
 
-- Every proposal in `build.json` is in exactly one gap; every waiting page is listed.
+- Every proposal in `build.json` is in exactly one gap; every settled point is shown; every
+  waiting page is listed with its sources.
 - A gap carries its context and our answer — a reader must be able to say yes without opening
   the prototype.
 - Plain words. The reader is a person who knows the product, not Garura.

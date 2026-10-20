@@ -8,9 +8,9 @@ allowed-tools: Read, Write, Glob, Grep
 
 # propose-answers
 
-A person who gave a drive a prototype knows what it is for. Asking them eleven questions with
-example answers makes them do the drive's work. This skill does that work: it drafts the answer
-we would put, from what we already saw, and shows why — so the person only says yes or corrects.
+A person who gave a drive a prototype knows what it is for. A list of questions makes them do
+the drive's work. This skill does that work: it drafts the answer we would put, from what we
+already saw, and shows why — so the person only says yes or corrects.
 
 ## Input
 
@@ -25,7 +25,9 @@ we would put, from what we already saw, and shows why — so the person only say
 
 1. For each gap, ask first: **does the context already settle it?** A product the prototype shows
    as an internal tool has no revenue question; a tool the prototype shows one person using is
-   not asked about teams of thousands. If so, close it `settled` and say what settles it.
+   not asked about teams of thousands. If so, close it `settled`, say what settles it, and name
+   what that rests on (`basis`: the quote, screen or trace). A settled point is shown to the
+   person in the brief; it is never dropped silently.
 2. Otherwise draft **our proposed answer** — the answer we would put if no one corrected us:
    - start from what the source shows (one reviewer on every screen → "the person who asked
      decides"), what memory holds, and what the run made (a counter of what waits → "settled
@@ -35,13 +37,15 @@ we would put, from what we already saw, and shows why — so the person only say
 3. Write its **basis** — the quote, screen, memory trace or reasoning it rests on — and its
    **context** — the one or two facts the person needs to judge it without opening the
    prototype.
-4. Never write a question as a proposal. If you cannot draft an answer, say why in `basis` and
-   propose the safest default.
+4. Never write a question as a proposal, and never answer from the model alone. If nothing in
+   the source, memory or the run supports an answer, the gap stays open for research
+   (`draft-knowledge-page`) — not a guess.
 
 ## Output
 
 `proposals.json`: `{"proposals": [{"group", "closed_by": "proposal | settled", "answer",
-"basis", "context", "why"}]}` — `answer`, `basis` and `context` for a proposal; `why` for settled.
+"basis", "context", "why"}]}` — `answer`, `basis` and `context` for a proposal; `why` and
+`basis` for settled.
 
 ## Rules
 
