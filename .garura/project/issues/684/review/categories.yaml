@@ -1,0 +1,53 @@
+# review-change Step 2 - work categories present in PR #685 (issue #684)
+# Derived from the diff content, not from a fixed list.
+pr: 685
+issue: 684
+categories:
+  - name: run-records
+    description: >
+      Short-term-memory records that plays leave behind under .garura/project/issues/.
+      Two kinds of change here: (a) small edits to old review-change records of other
+      issues that replace a local temp-folder path (or machine user number) with a neutral
+      placeholder, meaning unchanged; (b) new context records written by this issue's own
+      propose-change / commit-change runs (analysis, branch, commits, issue, porcelain,
+      PR body and PR metadata, resolved rules, self-review, work description).
+    evidence:
+      scrub_of_old_records:
+        - .garura/project/issues/498/review/quality-findings.yaml
+        - .garura/project/issues/500/review/context.yaml
+        - .garura/project/issues/614/review/quality-findings.yaml
+        - .garura/project/issues/632/review/pr.diff
+        - .garura/project/issues/632/specs/trial-adr-031/adr-check.json
+        - .garura/project/issues/632/specs/trial-adr-031/adr-manifest-accepted.json
+      new_records_for_this_issue:
+        - .garura/project/issues/684/context/analysis.yaml
+        - .garura/project/issues/684/context/branch.json
+        - .garura/project/issues/684/context/commits.yaml
+        - .garura/project/issues/684/context/issue.json
+        - .garura/project/issues/684/context/porcelain.txt
+        - .garura/project/issues/684/context/pr-body.md
+        - .garura/project/issues/684/context/pr.json
+        - .garura/project/issues/684/context/resolved-rules.json
+        - .garura/project/issues/684/context/self-review.md
+        - .garura/project/issues/684/context/work-description.txt
+    playbook: null
+    playbook_note: >
+      Playbook missing. The shelf has no category for play-run records (STM artifacts).
+      review/memory covers the long-term knowledge base (knowledge shelves, standards,
+      schemas, templates) and does not fit run records; harness, docs, code, config-maps,
+      tests and adrs do not fit either. A run-records playbook is needed. Its review focus
+      would be: no personal or machine-local references in a public repo, and that
+      scrubbed records keep their meaning.
+    design_bearing: false
+    layers:
+      layer_1: "mechanical scan for temp-folder, home-folder and machine-user patterns in the changed records"
+      layer_2: "not applicable - records carry no design"
+design_bearing_categories: []
+absent_seeded_categories:
+  - adrs
+  - docs
+  - harness
+  - memory
+  - code
+  - config-maps
+  - tests

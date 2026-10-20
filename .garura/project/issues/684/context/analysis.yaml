@@ -1,0 +1,31 @@
+---
+# analyze-changes output (judgment done)
+# issue: 684
+needs_judgment: false
+
+change_groups:
+  - id: scratchpad-marker-cleanup
+    issue: 684
+    commit_type: chore
+    scope: stm
+    subject: "replace local temp-folder paths in old review records"
+    files:
+      - .garura/project/issues/498/review/quality-findings.yaml
+      - .garura/project/issues/500/review/context.yaml
+      - .garura/project/issues/614/review/quality-findings.yaml
+      - .garura/project/issues/632/review/pr.diff
+      - .garura/project/issues/632/specs/trial-adr-031/adr-check.json
+      - .garura/project/issues/632/specs/trial-adr-031/adr-manifest-accepted.json
+
+exclusions:
+  - path: ".garura/project/issues/684/context/commit-change/"
+    reason: "this play's own run files; left to the executor's run-state step"
+    blocking: false
+
+risks:
+  sensitive_files:
+    []
+
+eval_gates:
+  SE-1: {status: PASS, evidence: "6 changed files in one group; the 7th porcelain entry is the play's own run directory (excluded)"}
+  SE-5: {status: PASS, evidence: "no sensitive patterns; all 8 added lines contain the scratchpad marker"}

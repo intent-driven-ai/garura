@@ -1,0 +1,6 @@
+decision: approve
+decided_by: harness
+gate: skipped by config (gates.plays.review-change)
+recommendation: recommended_verdict.yaml
+blocking: []
+counts: {P4: 1}

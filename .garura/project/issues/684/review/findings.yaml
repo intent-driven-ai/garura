@@ -1,0 +1,14 @@
+meta:
+  pr: 685
+  issue: 684
+  gate: off by config (gates.plays.review-change); the computed recommendation is the decision, marked as a harness verdict
+  sources: [categories.yaml, runnable-checks.txt]
+  categories: [run-records]
+  layers: "Layer 1 only: the run-records category has no shelf playbook and no linter; the play ran the objective checks (files parse, no local path left). No design-bearing category, so no Layer 2."
+findings:
+- id: R-1
+  severity: P4
+  category: run-records
+  file: .garura/project/issues/684/
+  basis: categories.yaml (playbook missing for run-records)
+  finding: The review shelf has no playbook for run records, so this category is checked only by the play's objective checks. Already known from PR #682 (a review playbook for work records is later work).

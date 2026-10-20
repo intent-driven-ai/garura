@@ -1,0 +1,323 @@
+diff --git a/.garura/project/issues/498/review/quality-findings.yaml b/.garura/project/issues/498/review/quality-findings.yaml
+index 3c5d8606e..af4e8c54f 100644
+--- a/.garura/project/issues/498/review/quality-findings.yaml
++++ b/.garura/project/issues/498/review/quality-findings.yaml
+@@ -1,6 +1,6 @@
+ meta:
+   generated_at: '2026-07-20T15:58:32Z'
+-  diff_path: '<old-temp-path>/review-change/pr.diff'
++  diff_path: '<scratchpad>/review-change/pr.diff'
+   taxonomy_path: 'core/components/memory/standards/rules/pr.md'
+   changed_paths_count: 21
+   scan_coverage: 1.0000
+diff --git a/.garura/project/issues/500/review/context.yaml b/.garura/project/issues/500/review/context.yaml
+index 84437d1a7..d7c01fe34 100644
+--- a/.garura/project/issues/500/review/context.yaml
++++ b/.garura/project/issues/500/review/context.yaml
+@@ -4,4 +4,4 @@ base: e7c24f973d58fbc375cc52646a23c17286214647
+ standards_order: [kb, ltm, stm]
+ review_shelf: ~/.garura/core/memory/knowledge/review/
+ note: base (main) NOW INCLUDES #499 — direct-model-write.md contract, ADR 026, and the merged /understand reference are COMMITTED grounding, not diff-added.
+-changed_paths_file: <old-temp-path>/review-502/names.txt
++changed_paths_file: <scratchpad>/review-502/names.txt
+diff --git a/.garura/project/issues/614/review/quality-findings.yaml b/.garura/project/issues/614/review/quality-findings.yaml
+index 59178c497..29f577a9c 100644
+--- a/.garura/project/issues/614/review/quality-findings.yaml
++++ b/.garura/project/issues/614/review/quality-findings.yaml
+@@ -33,7 +33,7 @@ meta:
+       copies one checksum c63bb57d...; check_drive_contract.py 2 copies identical; write_drive_review.py 2 copies identical.
+       No stale tracked copy elsewhere (git ls-files shows 24 gate-script files). The deployed .claude/skills/play-creator copies
+       differ, but that folder is gitignored and is rebuilt by install-garura.
+-  - command: small fixtures in <old-temp-path>/q614 against the canonical scripts (check_drive_contract.py 24 contract
++  - command: small fixtures in <scratchpad>/q614 against the canonical scripts (check_drive_contract.py 24 contract
+       shapes; write_drive_review.py 18 argument and run-file shapes; distill_gate_policy.py 4 ledgers)
+     result: bool issue refused; missing keys refused; non-dict contract, inputs, answers and per-play values refused; branch
+       mismatch refused with exit 2; by-hand run refused by the writer with exit 2 and nothing written; a missing summary or
+@@ -52,7 +52,7 @@ findings:
+   title: A deferred line that a later line refutes still resets the streak, so the learner treats it as a reset
+   evidence: 'In _trailing_streak the refuted check (line 98) runs before the new deferred skip (line 100). The ledger convention
+     in gate-config.md line 55 is that a later answer is a NEW line with refutes pointing at the old one, so the drive review
+-    answering a deferred line will naturally carry refutes=<deferred line>. Reproduced in <old-temp-path>/q614 with
++    answering a deferred line will naturally carry refutes=<deferred line>. Reproduced in <scratchpad>/q614 with
+     --streak 3: (a) lines approved_clean, approved_clean, deferred, approved_clean, approved_clean(refutes 3) gives auto_shapes [];
+     the same ledger without the refutes field gives ["S"]. (b) three approved_clean, deferred, then approved_clean(refutes 4)
+     gives auto_shapes [] although the shape had already earned auto from the first three. Same code in all 12 copies.'
+diff --git a/.garura/project/issues/632/review/pr.diff b/.garura/project/issues/632/review/pr.diff
+index 59d7a6f0e..72276ec06 100644
+--- a/.garura/project/issues/632/review/pr.diff
++++ b/.garura/project/issues/632/review/pr.diff
+@@ -521,7 +521,7 @@ index 00000000..14c3915f
+ @@ -0,0 +1,27 @@
+ +{
+ +  "task_id": "draft-adr",
+-+  "draft": "<old-temp-path>/adr-trial/work/adr-draft.md",
+++  "draft": "<scratchpad>/adr-trial/work/adr-draft.md",
+ +  "number": "031",
+ +  "status": "proposed",
+ +  "lint": { "exit": 0, "valid": true, "problems": [] },
+@@ -781,7 +781,7 @@ index 00000000..4dc6ab14
+ +  "decided": true,
+ +  "lint_ok": true,
+ +  "linked": true,
+-+  "path": "<old-temp-path>/adr-trial/docs/adr/031-business-intent-above-ice.md",
+++  "path": "<scratchpad>/adr-trial/docs/adr/031-business-intent-above-ice.md",
+ +  "status": "accepted",
+ +  "accepted_by": "SIMULATED \u2014 trial, not Kapil",
+ +  "pointers_written": [
+diff --git a/.garura/project/issues/632/specs/trial-adr-031/adr-check.json b/.garura/project/issues/632/specs/trial-adr-031/adr-check.json
+index 14c3915f9..92fcee6e0 100644
+--- a/.garura/project/issues/632/specs/trial-adr-031/adr-check.json
++++ b/.garura/project/issues/632/specs/trial-adr-031/adr-check.json
+@@ -1,6 +1,6 @@
+ {
+   "task_id": "draft-adr",
+-  "draft": "<old-temp-path>/adr-trial/work/adr-draft.md",
++  "draft": "<scratchpad>/adr-trial/work/adr-draft.md",
+   "number": "031",
+   "status": "proposed",
+   "lint": { "exit": 0, "valid": true, "problems": [] },
+diff --git a/.garura/project/issues/632/specs/trial-adr-031/adr-manifest-accepted.json b/.garura/project/issues/632/specs/trial-adr-031/adr-manifest-accepted.json
+index 4dc6ab146..64678ae6c 100644
+--- a/.garura/project/issues/632/specs/trial-adr-031/adr-manifest-accepted.json
++++ b/.garura/project/issues/632/specs/trial-adr-031/adr-manifest-accepted.json
+@@ -2,7 +2,7 @@
+   "decided": true,
+   "lint_ok": true,
+   "linked": true,
+-  "path": "<old-temp-path>/adr-trial/docs/adr/031-business-intent-above-ice.md",
++  "path": "<scratchpad>/adr-trial/docs/adr/031-business-intent-above-ice.md",
+   "status": "accepted",
+   "accepted_by": "SIMULATED \u2014 trial, not Kapil",
+   "pointers_written": [
+diff --git a/.garura/project/issues/684/context/analysis.yaml b/.garura/project/issues/684/context/analysis.yaml
+new file mode 100644
+index 000000000..344ea07d0
+--- /dev/null
++++ b/.garura/project/issues/684/context/analysis.yaml
+@@ -0,0 +1,31 @@
++---
++# analyze-changes output (judgment done)
++# issue: 684
++needs_judgment: false
++
++change_groups:
++  - id: scratchpad-marker-cleanup
++    issue: 684
++    commit_type: chore
++    scope: stm
++    subject: "replace local temp-folder paths in old review records"
++    files:
++      - .garura/project/issues/498/review/quality-findings.yaml
++      - .garura/project/issues/500/review/context.yaml
++      - .garura/project/issues/614/review/quality-findings.yaml
++      - .garura/project/issues/632/review/pr.diff
++      - .garura/project/issues/632/specs/trial-adr-031/adr-check.json
++      - .garura/project/issues/632/specs/trial-adr-031/adr-manifest-accepted.json
++
++exclusions:
++  - path: ".garura/project/issues/684/context/commit-change/"
++    reason: "this play's own run files; left to the executor's run-state step"
++    blocking: false
++
++risks:
++  sensitive_files:
++    []
++
++eval_gates:
++  SE-1: {status: PASS, evidence: "6 changed files in one group; the 7th porcelain entry is the play's own run directory (excluded)"}
++  SE-5: {status: PASS, evidence: "no sensitive patterns; all 8 added lines contain the scratchpad marker"}
+diff --git a/.garura/project/issues/684/context/branch.json b/.garura/project/issues/684/context/branch.json
+new file mode 100644
+index 000000000..25708be6c
+--- /dev/null
++++ b/.garura/project/issues/684/context/branch.json
+@@ -0,0 +1,6 @@
++{
++  "branch_name": "feature/684-remove-local-temp-paths",
++  "base_sha": "85c4fc2c4f39c6059e4dba28c852a59c9ee3f094",
++  "on_default_branch": false,
++  "worktree_path": null
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/684/context/commits.yaml b/.garura/project/issues/684/context/commits.yaml
+new file mode 100644
+index 000000000..442c29a64
+--- /dev/null
++++ b/.garura/project/issues/684/context/commits.yaml
+@@ -0,0 +1,18 @@
++commits:
++  - sha: d797878a
++    message: "chore(stm): replace local temp-folder paths in old review records (#684)"
++    files:
++      - .garura/project/issues/498/review/quality-findings.yaml
++      - .garura/project/issues/500/review/context.yaml
++      - .garura/project/issues/614/review/quality-findings.yaml
++      - .garura/project/issues/632/review/pr.diff
++      - .garura/project/issues/632/specs/trial-adr-031/adr-check.json
++      - .garura/project/issues/632/specs/trial-adr-031/adr-manifest-accepted.json
++    branch: feature/684-remove-local-temp-paths
++excluded_files:
++  - path: ".garura/project/issues/684/context/commit-change/"
++    reason: "this play's own run files; left to the executor's run-state step"
++leftover_count: 0
++tree_clean: true
++pushed: false
++run_state_committed: true
+diff --git a/.garura/project/issues/684/context/issue.json b/.garura/project/issues/684/context/issue.json
+new file mode 100644
+index 000000000..d1958a36b
+--- /dev/null
++++ b/.garura/project/issues/684/context/issue.json
+@@ -0,0 +1 @@
++{"resolved": false, "issue_number": 684, "title": "[TASK] chore: remove local temp-folder paths from old review records", "created": true}
+diff --git a/.garura/project/issues/684/context/porcelain.txt b/.garura/project/issues/684/context/porcelain.txt
+new file mode 100644
+index 000000000..e5ad8b001
+--- /dev/null
++++ b/.garura/project/issues/684/context/porcelain.txt
+@@ -0,0 +1,7 @@
++ M .garura/project/issues/498/review/quality-findings.yaml
++ M .garura/project/issues/500/review/context.yaml
++ M .garura/project/issues/614/review/quality-findings.yaml
++ M .garura/project/issues/632/review/pr.diff
++ M .garura/project/issues/632/specs/trial-adr-031/adr-check.json
++ M .garura/project/issues/632/specs/trial-adr-031/adr-manifest-accepted.json
++?? .garura/project/issues/684/context/commit-change/
+diff --git a/.garura/project/issues/684/context/pr-body.md b/.garura/project/issues/684/context/pr-body.md
+new file mode 100644
+index 000000000..7915488ea
+--- /dev/null
++++ b/.garura/project/issues/684/context/pr-body.md
+@@ -0,0 +1,42 @@
++Closes #684.
++
++Old review records on main held local temp-folder paths: some carried the author's home-folder name, two carried the machine user number. Each of the 8 lines now reads `<scratchpad>`; nothing else in those records changed. The repository is public, so files keep no personal or local-machine references.
++
++- 1 line in #498, 1 in #500, 2 in #614, 4 in #632 (records and the saved diff).
++- A search of the branch for the temp-folder pattern and the home-folder name finds nothing.
++- Git history keeps the old lines; rewriting history is out of scope.
++
++## Self-review
++
++## Blocking findings
++
++None. Nothing here should stop this change from being raised.
++
++## What the change does
++
++Eight lines in six old review records held a local temp-folder path. Some of those paths carried the author's home-folder name; two carried the machine user number. Each one is now the neutral marker `<scratchpad>`, and the rest of each line is unchanged.
++
++The other six files in the change are this run's own record files under the issue 684 folder (what was analysed, which branch, which commits, the issue text).
++
++## Scope checks
++
++- Matches the issue: pass. The issue asked for eight lines in the records of #498, #500, #614 and #632 to be replaced with a placeholder. That is exactly what changed: 1 line in #498, 1 in #500, 2 in #614, and 4 in #632 (2 in the saved diff file, 1 in each of the two trial decision files). That is 1 + 1 + 2 + 4 = 8 lines.
++- No scope creep: pass. No other old record was touched, and no wording in any record changed beyond the path.
++- Reasonable size: pass. 8 one-line swaps plus 6 small run records. Easy to read in one sitting.
++- No stray files: pass. No commented-out text, debug output or leftovers. One run file (the resolved-rules file) sits untracked on disk and is not part of the diff; it belongs to this run and is the commit step's concern, not a problem with the change.
++
++## Quality checks
++
++- Tests: not needed. These are records, not behaviour. The issue's own check ("a search of main for the temp-path pattern finds nothing in the review records") was run against the branch: the search for the temp-folder pattern and for the home-folder name found nothing anywhere in the committed files.
++- Commits: pass. All four use the chore(stm) form and each names issue 684. Each is one concern: workspace record, the path replacement, the run artifacts, and moving the commit record.
++- Secrets: pass. No keys, tokens or personal details were added. The new text contains no home-folder path and no personal email.
++- Docs in step: pass. Nothing user-facing changed.
++- Nothing broken: pass. The replacement is plain text in records; the only mild effect is that the saved diff file (#632) now differs slightly from the real diff it recorded on those two lines. That is expected for this clean-up and is the point of the issue.
++
++## Notes (not blocking)
++
++- Two earlier-looking mentions of generic temp folders in the #659 records remain. They describe temp folders in general terms and carry no home-folder name or user number, so they are outside this issue.
++- Old commits in the history still hold the original paths. The issue lists rewriting history as out of scope.
++- The review-change play that saves full paths in its records is a separate fix, also out of scope per the issue.
++
++🤖 Generated with [Claude Code](https://claude.com/claude-code)
+diff --git a/.garura/project/issues/684/context/pr.json b/.garura/project/issues/684/context/pr.json
+new file mode 100644
+index 000000000..f661d03dd
+--- /dev/null
++++ b/.garura/project/issues/684/context/pr.json
+@@ -0,0 +1,6 @@
++{
++  "number": 685,
++  "url": "https://github.com/intent-driven-ai/garura/pull/685",
++  "state": "OPEN",
++  "base": "main"
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/684/context/resolved-rules.json b/.garura/project/issues/684/context/resolved-rules.json
+new file mode 100644
+index 000000000..7e1dab07c
+--- /dev/null
++++ b/.garura/project/issues/684/context/resolved-rules.json
+@@ -0,0 +1,6 @@
++{
++  "resolved": true,
++  "path": "~/.phoenix/core/memory/standards/rules/self-review.md",
++  "source": "~/.phoenix/core/memory/standards/rules",
++  "is_override": false
++}
+diff --git a/.garura/project/issues/684/context/self-review.md b/.garura/project/issues/684/context/self-review.md
+new file mode 100644
+index 000000000..81d8b5aba
+--- /dev/null
++++ b/.garura/project/issues/684/context/self-review.md
+@@ -0,0 +1,35 @@
++# Self-review for issue 684
++
++Rules used: the standard self-review rules, resolved with no project override (the base copy was used).
++Compared: everything on this branch against the main branch (4 commits, 12 files, 89 lines added, 8 removed).
++
++## Blocking findings
++
++None. Nothing here should stop this change from being raised.
++
++## What the change does
++
++Eight lines in six old review records held a local temp-folder path. Some of those paths carried the author's home-folder name; two carried the machine user number. Each one is now the neutral marker `<scratchpad>`, and the rest of each line is unchanged.
++
++The other six files in the change are this run's own record files under the issue 684 folder (what was analysed, which branch, which commits, the issue text).
++
++## Scope checks
++
++- Matches the issue: pass. The issue asked for eight lines in the records of #498, #500, #614 and #632 to be replaced with a placeholder. That is exactly what changed: 1 line in #498, 1 in #500, 2 in #614, and 4 in #632 (2 in the saved diff file, 1 in each of the two trial decision files). That is 1 + 1 + 2 + 4 = 8 lines.
++- No scope creep: pass. No other old record was touched, and no wording in any record changed beyond the path.
++- Reasonable size: pass. 8 one-line swaps plus 6 small run records. Easy to read in one sitting.
++- No stray files: pass. No commented-out text, debug output or leftovers. One run file (the resolved-rules file) sits untracked on disk and is not part of the diff; it belongs to this run and is the commit step's concern, not a problem with the change.
++
++## Quality checks
++
++- Tests: not needed. These are records, not behaviour. The issue's own check ("a search of main for the temp-path pattern finds nothing in the review records") was run against the branch: the search for the temp-folder pattern and for the home-folder name found nothing anywhere in the committed files.
++- Commits: pass. All four use the chore(stm) form and each names issue 684. Each is one concern: workspace record, the path replacement, the run artifacts, and moving the commit record.
++- Secrets: pass. No keys, tokens or personal details were added. The new text contains no home-folder path and no personal email.
++- Docs in step: pass. Nothing user-facing changed.
++- Nothing broken: pass. The replacement is plain text in records; the only mild effect is that the saved diff file (#632) now differs slightly from the real diff it recorded on those two lines. That is expected for this clean-up and is the point of the issue.
++
++## Notes (not blocking)
++
++- Two earlier-looking mentions of generic temp folders in the #659 records remain. They describe temp folders in general terms and carry no home-folder name or user number, so they are outside this issue.
++- Old commits in the history still hold the original paths. The issue lists rewriting history as out of scope.
++- The review-change play that saves full paths in its records is a separate fix, also out of scope per the issue.
+diff --git a/.garura/project/issues/684/context/work-description.txt b/.garura/project/issues/684/context/work-description.txt
+new file mode 100644
+index 000000000..6f0f87fdc
+--- /dev/null
++++ b/.garura/project/issues/684/context/work-description.txt
+@@ -0,0 +1,18 @@
++Title: [TASK] chore: remove local temp-folder paths from old review records
++
++Kind: Chore — tidying; nothing a user sees changes.
++
++What: old review-change records on main hold local temp-folder paths. Six lines,
++in the review records of #498, #500 and #632, hold a temp path whose folder name
++carries the author's home-folder name; two lines in #614 hold the machine user
++number. Replace each with a neutral placeholder (for example `<scratchpad>/...`),
++keeping the record's meaning.
++
++Why: the repository is public. Garura's history clean-up rule says files hold no
++personal or local-machine references. A repo-wide scan on 2026-10-20 found these.
++
++Done when: `git grep` on main for the local temp-path pattern finds nothing in the
++review records; no other content changes.
++
++Out of scope: rewriting git history (the old commits keep the paths); the
++review-change play saving full paths in its records (a separate fix).

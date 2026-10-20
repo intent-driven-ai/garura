@@ -33,7 +33,7 @@ meta:
       copies one checksum c63bb57d...; check_drive_contract.py 2 copies identical; write_drive_review.py 2 copies identical.
       No stale tracked copy elsewhere (git ls-files shows 24 gate-script files). The deployed .claude/skills/play-creator copies
       differ, but that folder is gitignored and is rebuilt by install-garura.
-  - command: small fixtures in /private/tmp/claude-503/q614 against the canonical scripts (check_drive_contract.py 24 contract
+  - command: small fixtures in <scratchpad>/q614 against the canonical scripts (check_drive_contract.py 24 contract
       shapes; write_drive_review.py 18 argument and run-file shapes; distill_gate_policy.py 4 ledgers)
     result: bool issue refused; missing keys refused; non-dict contract, inputs, answers and per-play values refused; branch
       mismatch refused with exit 2; by-hand run refused by the writer with exit 2 and nothing written; a missing summary or
@@ -52,7 +52,7 @@ findings:
   title: A deferred line that a later line refutes still resets the streak, so the learner treats it as a reset
   evidence: 'In _trailing_streak the refuted check (line 98) runs before the new deferred skip (line 100). The ledger convention
     in gate-config.md line 55 is that a later answer is a NEW line with refutes pointing at the old one, so the drive review
-    answering a deferred line will naturally carry refutes=<deferred line>. Reproduced in /private/tmp/claude-503/q614 with
+    answering a deferred line will naturally carry refutes=<deferred line>. Reproduced in <scratchpad>/q614 with
     --streak 3: (a) lines approved_clean, approved_clean, deferred, approved_clean, approved_clean(refutes 3) gives auto_shapes [];
     the same ledger without the refutes field gives ["S"]. (b) three approved_clean, deferred, then approved_clean(refutes 4)
     gives auto_shapes [] although the shape had already earned auto from the first three. Same code in all 12 copies.'

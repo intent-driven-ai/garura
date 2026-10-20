@@ -1,0 +1,18 @@
+commits:
+  - sha: d797878a
+    message: "chore(stm): replace local temp-folder paths in old review records (#684)"
+    files:
+      - .garura/project/issues/498/review/quality-findings.yaml
+      - .garura/project/issues/500/review/context.yaml
+      - .garura/project/issues/614/review/quality-findings.yaml
+      - .garura/project/issues/632/review/pr.diff
+      - .garura/project/issues/632/specs/trial-adr-031/adr-check.json
+      - .garura/project/issues/632/specs/trial-adr-031/adr-manifest-accepted.json
+    branch: feature/684-remove-local-temp-paths
+excluded_files:
+  - path: ".garura/project/issues/684/context/commit-change/"
+    reason: "this play's own run files; left to the executor's run-state step"
+leftover_count: 0
+tree_clean: true
+pushed: false
+run_state_committed: true
