@@ -76,6 +76,22 @@ with tempfile.TemporaryDirectory() as tmp:
               rc == 0 and t3.startswith("## Per-section guidance") and "## Gold example" not in t3)
 
 
+def test_each_stage_gets_its_own_guidance():
+    """/vision judges a directional capability, /understand a detailed one (#662)."""
+    real = os.path.normpath(os.path.join(HERE, "..", "..", "..", "memory", "standards", "schemas",
+                                         "product-os", "grounding", "capability.md"))
+    if not os.path.isfile(real):
+        return
+    directional, detailed = gb.cut(open(real).read(), "directional"), gb.cut(open(real).read(), "detailed")
+    check("the directional judge gets the directional guidance and the agent intent",
+          "Directional intent** —" in directional and "at every stage" in directional)
+    check("the directional judge never gets the detailed stage's guidance",
+          "Benefit hypothesis** —" not in directional and "(detailed stage)" not in directional)
+    check("the detailed judge gets the detailed guidance, not the directional",
+          "Benefit hypothesis** —" in detailed and "Directional intent** —" not in detailed)
+    check("no stage ever gets a gold example", "Gold example" not in directional + detailed)
+
+
 def test_every_copy_is_this_one():
     plays = os.path.normpath(os.path.join(HERE, "..", ".."))
     canonical = open(os.path.join(HERE, "guidance_block.py")).read()
@@ -85,6 +101,7 @@ def test_every_copy_is_this_one():
           len(copies) >= 2 and all(open(c).read() == canonical for c in copies))
 
 
+test_each_stage_gets_its_own_guidance()
 test_every_copy_is_this_one()
 print(f"\n{PASSED} passed, {FAILED} failed")
 sys.exit(1 if FAILED else 0)
