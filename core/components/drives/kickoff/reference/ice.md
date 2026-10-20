@@ -19,12 +19,19 @@ only for a question nothing in memory answers, and checked by a checker the conf
   halts before it opens anything.
 - C3 — The drive asks its own questions before any play runs, looking in memory first, and
   records where every answer came from.
-- C4 — The plays run in the fixed order `/intent` → `/vision` → `/understand`. Each proves its
-  own done check, and its run files are committed, before the next one starts. `/understand`
-  details every capability `/vision` seeded, in one run.
-- C5 — Nothing comes from the model alone. A question that memory, the system and the gathered
-  answers do not cover stops the drive and goes to the person; the answer is kept in the issue's
-  short-term memory.
+- C4 — The plays run in the fixed order `/intent` → `/vision` → `/understand`, **in rounds,
+  until the drive's job is done**: each round runs all three, and the next round gives each
+  play what the others found (Kapil, 2026-10-20: "the idea of a drive is to have it loop between
+  those three things until the job is getting done"). Each play proves its own done check, and
+  its run files are committed, before the next one starts. `/understand` details every
+  capability `/vision` seeded, in one run per round.
+- C5 — Nothing comes from the model alone. A question one play cannot answer is the drive's,
+  not a stop: the play records it and finishes what it can, and the other plays — and the next
+  round — may answer it. The drive stops and asks the person only what no play of the drive,
+  no memory and no approved research can answer: after a round that answered nothing new, or at
+  the round limit — all its open questions at once, after showing the draft, each asked once
+  and in words that make sense to the person who shared the prototype. The answers are kept in
+  the issue's short-term memory.
 - C6 — A checker the config picks, which is not the drive's own model, judges the result against
   this intent from the drive's outputs only. A reject halts the drive.
 - C7 — The drive never confirms or drops an intent, and never changes an intent's state in the
@@ -43,7 +50,8 @@ only for a question nothing in memory answers, and checked by a checker the conf
 - F4 — A play started before the one before it proved its done check, or on an unclean tree; or
   a capability `/vision` seeded was left directional.
 - F5 — An answer came from the model alone: a question nothing supported was answered instead of
-  asked.
+  asked; or the drive stopped to ask a question another of its plays, or a later round, could
+  have answered; or it asked the person about something it had not shown them.
 - F6 — The drive ended as done without the checker's pass.
 - F7 — The drive changed an intent's state in the model, or recorded a decision on an intent
   without the person's own typed word.
@@ -88,7 +96,8 @@ judges this goal and these constraints against the drive's outputs only (`judge-
 
 ## Runner
 
-`drives.kickoff.runner` — `subagent` (default) or `headless`.
+`drives.kickoff.runner` — `subagent` (default) or `headless`. `drives.kickoff.max_rounds` —
+the most rounds before the drive asks (default 3).
 
 ## End
 
@@ -112,10 +121,12 @@ review tool's review step replaces the typed step and writes the approval into t
 - S2 — business owner. Given no prototype, or a link that does not answer; then the drive halts
   before it opens an issue or a branch; measure: no new branch exists and the drive closed
   HALTED with `exit_reason: preflight`.
-- S3 — business owner. Given a prototype where `/intent` stops on a question no memory answers;
-  then the drive brings the question to the owner, keeps the answer in the issue's short-term
-  memory, and resumes the same play; measure: the answer is in the issue's short-term memory
-  with `from: person`, and `intent-done.json` reads `done: true`.
+- S3 — business owner. Given a prototype where `/intent` cannot answer some questions on its
+  own; then the drive goes on to `/vision` and `/understand`, runs `/intent` again on the next
+  round with what they found, and asks the owner only what is still open — once, after showing
+  the draft; measure: `round-1.json` reads `again` (not `ask`), every question asked appears in
+  a `round-<n>.json` that reads `ask`, and each answer is in the issue's short-term memory with
+  `from: person`.
 - S4 — business owner. Given a run the checker rejects; then the drive halts with the
   checker's reasons and opens no pull request; measure: `check.yaml` reads `verdict: reject`
   with a reason for each failed criterion, and no pull request exists for the branch.
@@ -128,7 +139,7 @@ review tool's review step replaces the typed step and writes the approval into t
 | F2 | no prototype, or one that does not run | halt before opening; ask the person for a working prototype | human |
 | F3 | a play ran before the questions, or an answer has no source | stop; ask the drive's questions, record each answer's source, re-run the play | autonomous |
 | F4 | a play started early or on an unclean tree, or a capability left directional | halt; finish the earlier play or commit its run files; re-run `/understand` | autonomous |
-| F5 | an answer from the model alone | strip the answer; ask the person; record it in the issue's short-term memory; re-run the play | human |
+| F5 | an answer from the model alone, or a stop for a question the drive could still answer | strip the answer, or go on round the loop; ask the person only what no play answers, after showing the draft; re-run the play | human |
 | F6 | done without the checker's pass | run the checker; a reject halts the drive | autonomous |
 | F7 | the drive changed an intent's state, or recorded a decision without the person's word | undo the change to the intent page; ask the person and record their own words | human |
 | F8 | no evidence record | write the evidence before closing; the close stays HALTED until it exists | autonomous |
@@ -142,3 +153,5 @@ review tool's review step replaces the typed step and writes the approval into t
 - D5 — the checker passed. Check: `field_equals` `check.yaml` `verdict` = `pass`.
 - D6 — the person decided every proposed intent, in their own words. Check: `field_equals`
   `confirmation.yaml` `by` = `person`.
+- D7 — no question is left open when the drive ends. Check: `field_equals` `rounds.json`
+  `open_left` = `0`.

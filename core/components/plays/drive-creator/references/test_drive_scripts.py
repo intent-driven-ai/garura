@@ -18,6 +18,7 @@ import check_play_done  # noqa: E402
 import commit_run_files  # noqa: E402
 import prepare_check  # noqa: E402
 import record_check  # noqa: E402
+import round_state  # noqa: E402
 import run_checker_codex  # noqa: E402
 import drive_preflight  # noqa: E402
 import run_play_headless  # noqa: E402
@@ -121,6 +122,10 @@ class WriteContract(Work):
         self.assertEqual(c["plays"], ["intent", "vision"])
         self.assertEqual(c["answers"]["intent"], {"who": "owner"})
         self.assertEqual(c["issue"], 7)
+
+    def test_the_round_is_carried(self):
+        self.assertEqual(self.run_it("--round", "2"), 0)
+        self.assertEqual(self.read_json("c.json")["round"], 2)
 
     def test_answers_for_a_play_the_drive_does_not_run_are_refused(self):
         answers = self.write("a.json", json.dumps({"intnet": {"who": "owner"}}))
@@ -255,6 +260,61 @@ class Headless(Work):
     def test_resume_without_an_answer_is_refused(self):
         self.assertEqual(quiet(run_play_headless.main, ["--play", "vision", "--resume", "s1",
                                                         "--out", self.p("run.json")]), 2)
+
+
+class RoundState(GitWork):
+    """After a round: done, again, or ask (the drive loops; a question is the drive's)."""
+
+    def setUp(self):
+        super().setUp()
+        self.write("product/model.md", "v1\n")
+        subprocess.run(["git", "add", "-A"], check=True, capture_output=True)
+        subprocess.run(["git", "commit", "-q", "-m", "model"], check=True, capture_output=True)
+        os.makedirs(self.p("rev"), exist_ok=True)
+        os.makedirs(self.p("issue", "review", "memory-updates"), exist_ok=True)
+
+    def open_q(self, *ids):
+        self.write("rev/open-intent.json", json.dumps({"play": "intent", "questions": [
+            {"id": i, "ask": f"question {i}", "for_person": True} for i in ids]}))
+
+    def decide(self, rnd, max_rounds=3):
+        quiet(round_state.main, ["--round", str(rnd), "--max-rounds", str(max_rounds), "--working", "work",
+                                 "--review-dir", "rev", "--issue-dir", "issue", "--model-path", "product",
+                                 "--out", f"work/round-{rnd}.json"])
+        return self.read_json(f"work/round-{rnd}.json")
+
+    def commit_model(self, text):
+        self.write("product/model.md", text)
+        subprocess.run(["git", "commit", "-qam", "model moved"], check=True, capture_output=True)
+
+    def test_no_open_question_is_done(self):
+        self.assertEqual(self.decide(1)["decision"], "done")
+
+    def test_a_round_that_moved_goes_again(self):
+        self.open_q("who", "proof")
+        self.assertEqual(self.decide(1)["decision"], "again")
+        self.commit_model("v2\n")
+        self.open_q("proof")
+        self.assertEqual(self.decide(2)["decision"], "again")
+
+    def test_a_round_that_moved_nothing_asks_the_person(self):
+        self.open_q("who")
+        self.decide(1)
+        self.assertEqual(self.decide(2)["decision"], "ask")
+
+    def test_the_round_limit_asks(self):
+        self.open_q("who")
+        self.decide(1)
+        self.commit_model("v2\n")
+        self.assertEqual(self.decide(2, max_rounds=2)["decision"], "ask")
+
+    def test_a_pending_memory_update_is_an_open_question(self):
+        self.write("issue/review/memory-updates/mu-1.json", json.dumps({"id": "mu-1", "status": "pending",
+                                                                           "question": "how long is a cart kept?"}))
+        self.write("issue/review/memory-updates/mu-2.json", json.dumps({"id": "mu-2", "status": "approved"}))
+        rec = self.decide(1)
+        self.assertEqual([q["id"] for q in rec["open"]], ["mu-1"])
+        self.assertEqual(self.read_json("work/rounds.json")["open_left"], 1)
 
 
 ICE = """# ICE — t

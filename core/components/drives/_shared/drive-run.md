@@ -20,6 +20,7 @@ The drive's Workflow section sets these between the anchors:
 | `runner_key` | `drives.<drive>.runner` — how each play runs: `subagent` (default) or `headless`. |
 | `checker_key` | `drives.<drive>.checker` — who checks the result: `kind` (`subagent` or `coding-agent`) and `model`. |
 | `end` | How the drive ends (its End section), in one line. |
+| `max_rounds` | `drives.<drive>.max_rounds` — the most rounds before the drive asks (default 3). |
 
 ## The run
 
@@ -72,7 +73,15 @@ python3 scripts/write_drive_contract.py --drive <drive> --drive-run-id <drive>-<
 
 One contract for every play (`standards/rules/drive-contract.md`). Exit 2 halts the drive.
 
-### Step R5 — Run each play, in order
+### Step R5 — Run the plays, in rounds, until the drive's job is done
+
+A drive runs its plays "in order and repeatedly, until its intent is met" (glossary, Drive;
+ADR 029). A **round** runs every play in `plays`, in order. A question one play cannot answer
+is the **drive's** question, not a stop: the play records it, does all the work it does not
+block, and the drive goes on — the other plays may answer it, and the play fills it on the next
+round. The drive stops and asks the person only what no play of the drive can answer (Kapil,
+2026-10-20). Round 1 starts with the contract's `round: 1`; each later round writes the
+contract again (R4) with the next number and any new answers.
 
 For each play in `plays`:
 
@@ -89,10 +98,10 @@ For each play in `plays`:
      stopped on. The play dispatches its own agents and judges (layer 2).
    - `headless`: `python3 scripts/run_play_headless.py --play <play> --contract
      <working>/contract.json [--argument "<argument>"] --out <working>/<play>-run.json`.
-3. **A question stops the drive.** When the play stops on a question nothing in memory or the
-   contract answers, bring it to the person in plain words and wait for the typed answer. The
-   answer goes to the issue's short-term memory. Then resume the same play with the answer (the
-   same sub-agent, or `run_play_headless.py --resume <session>`), so it keeps its context.
+3. **A question the play cannot answer goes to the drive.** The play writes it to
+   `<review_dir>/open-<play>.json` (drive contract, step 5) and finishes what it can — it does
+   not stop to ask. A question that research can answer is drafted as a memory update for a
+   person to approve (ADR 035); nothing rests on it until then.
 4. **Check its done check.**
 
    ```bash
@@ -117,6 +126,37 @@ For each play in `plays`:
    that play and run R4 again, with the same `drive_run_id`. The contract stays one file; it is
    written again before the next play starts, and each play reads it when it starts. Nothing a
    play has already read changes.
+
+7. **After the round, decide.**
+
+   ```bash
+   python3 scripts/round_state.py --round <n> --max-rounds <drives.<drive>.max_rounds, default 3> \
+       --working <working> --review-dir "<review_dir>" --issue-dir "{stm_base}<issue>/" \
+       --model-path "<product_base>" --out <working>/round-<n>.json
+   ```
+
+   - `done` — no question is open: go to R6.
+   - `again` — the product model or the open questions moved: run round n+1 (R4 with
+     `--round n+1`, then every play again).
+   - `ask` — a whole round answered nothing new, or the round limit is reached: the open
+     questions are the drive's. Go to R5b.
+
+### Step R5b — Ask the person what the drive could not answer
+
+Only now, and only once per stop, the drive asks — in words that make sense to whoever gave
+the drive its input (for Kickoff, the person who shared the prototype):
+
+1. **Show the draft first** — what the drive made so far, as that person reads it (for Kickoff:
+   each proposed business intent with the ICE under it, the domain and its capabilities). A
+   question about something the person has not been shown is never asked.
+2. **Then the open questions** from `round-<n>.json`, those for a person only, merged: the same
+   question across several items is asked once, for all of them. Each comes with what it is
+   about, why the drive could not answer it, and up to three example answers. Pending memory
+   updates are shown with their draft answer, to approve or reject (ADR 035).
+3. Wait for the typed replies (never `AskUserQuestion`). Record them in the issue's short-term
+   memory and in `answers.json` / `answers-sources.json` (`from: person`), mark the memory
+   updates approved or rejected through the memory tool, and run round n+1. The person may type
+   **stop**: close HALTED with `exit_reason: stopped_at_question`.
 
 ### Step R6 — The checker (ADR 029 §2)
 
@@ -185,7 +225,7 @@ answers and the checker's verdict. The drive writes the one delivery report for 
 | Files outside the issue's folder stay changed after a play | `unclean_tree` |
 | The checker rejects | `checker_reject` |
 | The checker gives no verdict, or a malformed one | `checker_invalid` |
-| The person stops at a question | `stopped_at_question` |
+| The person stops at the drive's questions | `stopped_at_question` |
 
 A halted drive closes HALTED with its exit reason. Its run stays under the issue, so a re-run
 resumes from the first play not done.

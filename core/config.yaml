@@ -114,6 +114,7 @@ craft-ice:
 drives:
   kickoff:
     runner: subagent
+    max_rounds: 3           # the most rounds of intent -> vision -> understand before it asks
     checker:
       kind: subagent
       model: sonnet

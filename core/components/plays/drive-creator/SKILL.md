@@ -103,8 +103,11 @@ approve or revise.
 
 ### 3 — Steps and evals
 A drive's steps are fixed: open (`start-change`) → questions first (drive) → write the contract
-(drive, script) → one step per play (owned by that play) → the checker → the end sequence →
-scenario validation → close. Add only what the End section names. Then generate the evals as
+(drive, script) → **in rounds**: one step per play (owned by that play), then "after the round:
+done, again or ask" (drive, script — `round_state.py`) and "ask the person what the drive could
+not answer" (drive, only on ask) → the checker → the end sequence → scenario validation →
+close. A drive loops over its plays until its job is done; a play's open question is the
+drive's, asked only when no play answers it (Shared Drive Run, R5 and R5b). Add only what the End section names. Then generate the evals as
 `/play-creator` step 5 says: a step eval (SE-n) per failure condition and per
 artifact-verifiable constraint, placed after the step it checks; a scenario eval (SCE-n) per
 scenario. Every eval reads a file the shared run writes (`answers.json`,
@@ -133,7 +136,8 @@ Write the folder:
 2. `stop-condition.yaml` from the Done means (`{name: stop-condition}`, `content.done`).
 3. `scripts/`: copy unchanged — from `references/`: `drive_preflight.py`,
    `write_drive_contract.py`, `check_play_done.py`, `commit_run_files.py`,
-   `run_play_headless.py`, `prepare_check.py`, `run_checker_codex.py`, `record_check.py`; from `../play-creator/references/`: `check_drive_contract.py`,
+   `run_play_headless.py`, `round_state.py`, `prepare_check.py`, `run_checker_codex.py`,
+   `record_check.py`; from `../play-creator/references/`: `check_drive_contract.py`,
    `session_stamp.py`, `check_stop_condition.py`. A rebuild copies them again, so a drive never
    drifts from the shared run.
 4. The fingerprint: run `shasum -a 256 reference/ice.md` and paste the digest. Never invent one.

@@ -38,6 +38,9 @@ def check(contract, play, branch):
     issue = contract["issue"]
     if not isinstance(issue, int) or isinstance(issue, bool) or issue < 1:
         raise Invalid("the contract's `issue` must be a positive issue number")
+    rnd = contract.get("round", 1)
+    if not isinstance(rnd, int) or isinstance(rnd, bool) or rnd < 1:
+        raise Invalid("the contract's `round` must be a positive number")
     for key in ("drive_run_id", "drive", "branch", "review_dir"):
         if not isinstance(contract[key], str) or not contract[key].strip():
             raise Invalid(f"the contract's `{key}` must be a non-empty text")
@@ -52,7 +55,7 @@ def check(contract, play, branch):
                       f"`{contract['branch']}` — switch to it first")
     return {"in_drive": True, "play": play,
             "drive_run_id": str(contract["drive_run_id"]), "drive": str(contract["drive"]),
-            "branch": branch, "issue": issue,
+            "branch": branch, "issue": issue, "round": rnd,
             "review_dir": str(contract["review_dir"]),
             "inputs": (contract.get("inputs") or {}).get(play) or {},
             "answers": (contract.get("answers") or {}).get(play) or {}}

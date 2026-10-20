@@ -41,6 +41,7 @@ A JSON file, passed to the play as `--contract <path>`:
 | `branch` | yes | The drive's branch. The play must already be on it. |
 | `issue` | yes | The drive's main issue. |
 | `review_dir` | yes | Where each play writes its review record for the drive's end review. |
+| `round` | no | The drive's round, from 1 (absent means 1). A play on a round above 1 fills what it left open. |
 | `plays` | no | The drive's plays, in order (written by `write_drive_contract.py`). |
 | `inputs` | no | Per play, the inputs the drive hands it (paths, or values such as intent ids). |
 | `answers` | no | Per play, the answers to the questions the play would ask, gathered before the drive started (ADR 029: questions first). |
@@ -75,12 +76,18 @@ A JSON file, passed to the play as `--contract <path>`:
    asks, like any new question. A play may defer a pinned checkpoint to the drive's review
    only where its own intent names that exception (as `/intent`'s confirmation does,
    ADR 031 D10).
-5. **A question memory and the drive did not answer still stops the play.** The play's
-   agents look in memory first, through the memory tool (ADR 034, ADR 035). A question no
-   tier answers, and the contract's `answers` do not hold, stops the play: its agent raises
-   it as a memory update a person approves (ADR 035 §5, ADR 036 §2), and the play never
-   picks an answer for itself (ADR 029: a new question stops the drive). The person's
-   answer is kept in the drive issue's short-term memory (ADR 039 §1).
+5. **A question the play cannot answer goes to the drive — it does not stop the play.** The
+   play's agents look in memory first, through the memory tool (ADR 034, ADR 035); what no
+   tier answers and research can, is drafted as a memory update a person approves (ADR 035 §5,
+   ADR 036 §2) — nothing rests on it before that. A question still open is written to
+   `<review_dir>/open-<play>.json` (`{"play", "round", "questions": [{"id", "ask", "about",
+   "blocks", "for_person", "examples"}]}`); the play does all the work it does not block,
+   saves what it made as proposed with the gap named, never picks an answer for itself, and
+   closes. On a later round (the contract's `round` is above 1) the play reads what the other
+   plays wrote and fills what it can. A question stops the **drive** only when no play of the
+   drive can answer it: the drive asks it then, with its other open questions, all at once
+   (ADR 029: a new question stops the drive; Kapil, 2026-10-20: the question belongs to the
+   whole drive). The person's answer is kept in the drive issue's short-term memory (ADR 039 §1).
 6. **A learned checkpoint still learns.** A play whose checkpoint learns from people's
    answers (`gate_eval.py`) records a deferred crossing as `deferred_to_drive_review` (a
    skip or an auto-pass is recorded as by hand). The learner skips that line — it neither

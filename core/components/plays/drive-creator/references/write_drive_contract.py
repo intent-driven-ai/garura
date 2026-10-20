@@ -9,7 +9,7 @@ stamped into each drive's scripts/ beside check_drive_contract.py.
 
     python3 write_drive_contract.py --drive kickoff --drive-run-id kickoff-<ts> \
         --branch <branch> --issue <n> --review-dir <dir> --plays intent,vision,understand \
-        [--inputs <inputs.json>] [--answers <answers.json>] --out <contract.json>
+        [--round <n>] [--inputs <inputs.json>] [--answers <answers.json>] --out <contract.json>
 
 `--inputs` and `--answers` hold JSON objects keyed by play; a key that names no play of the
 drive is an error (a typo would silently drop answers). Exit 0 written; 2 invalid — nothing
@@ -42,7 +42,7 @@ def build(args, plays, inputs, answers):
         if stray:
             raise Invalid(f"`{name}` names plays the drive does not run: {', '.join(stray)}")
     contract = {"drive_run_id": args.drive_run_id, "drive": args.drive, "branch": args.branch,
-                "issue": args.issue, "review_dir": args.review_dir, "plays": plays,
+                "issue": args.issue, "review_dir": args.review_dir, "round": args.round, "plays": plays,
                 "inputs": inputs, "answers": answers}
     for play in plays:  # the same check every play runs on the contract
         check(contract, play, args.branch)
@@ -54,6 +54,7 @@ def main(argv=None):
     for flag in ("--drive", "--drive-run-id", "--branch", "--review-dir", "--plays", "--out"):
         ap.add_argument(flag, required=True)
     ap.add_argument("--issue", required=True, type=int)
+    ap.add_argument("--round", type=int, default=1, help="the drive's round: 1, then one more each loop")
     ap.add_argument("--inputs")
     ap.add_argument("--answers")
     args = ap.parse_args(argv)
