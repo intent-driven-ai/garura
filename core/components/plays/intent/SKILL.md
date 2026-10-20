@@ -193,16 +193,23 @@ python3 scripts/capture_source.py \
     --manifest <working>/source-manifest-<name>.json
 ```
 
-A deployed site is run through in a headless browser and captured page by page — when the
-app switches views with tabs or buttons on one page, name each with `--click` so every view is
-captured, not only the first. Every view keeps its picture and its visible text. An HTML file
+A deployed site is run through in a headless browser and captured **view by view**: the
+script finds every view the page offers by itself — each tab, button or link that changes what
+is shown, two clicks deep — and keeps each new one (`view-NN-….png` and `.txt`). It never clicks
+a control that answers or changes data (accept, drop, delete, finish …) and never follows a link
+out of the prototype. `--click` still captures a named control as well. Every view keeps its
+picture and its visible text, and the manifest's `views` records what was found, what was kept
+and every view that could not be reached, with why. The agents draft from every view, not from
+the first screen. An HTML file
 is copied and rendered; a document is copied; a statement is kept byte for byte. A **project
 folder** is two Sources: capture the folder (its written docs — README, SPEC — are kept), then
 start the project the way its README says, capture the running app as a `site` Source, and
 stop it. Both Sources link to every intent the run confirms.
 **SE-1 (F1/C1):** every capture exited 0 and each `source-manifest-<name>.json` reads
 `snapshot_saved: true` with a `kind`; a source that could not be read (or run through) halted
-the run (REC1).
+the run (REC1); for a prototype, `views.explored` is true, `views.kept` is at least 1, and every
+view found and not kept is either a repeat of a kept view or listed in `views.unreached` with
+why — and when any is unreached, the person was told which.
 **SE-6 (F6/C6):** each `source-manifest-<name>.json` lists the snapshot files with their
 hashes, `read_on`, and `given_by` (the git user); each snapshot sits under the evidence folder.
 
@@ -519,7 +526,7 @@ and its ICE in the model), and a pointer to
 
 | For | Trigger | Direction | Handoff |
 |-----|---------|-----------|---------|
-| F1 | the source could not be read, or a runnable source could not be run through | halt and tell the person exactly what could not be opened; ask for a readable copy or a working link | human |
+| F1 | the source could not be read, or a runnable source could not be run through, or a prototype was kept from fewer views than it offers | halt and tell the person exactly what could not be opened, and ask for a readable copy or a working link; for missing views, capture again with every view found, and name to the person each view that still cannot be reached | human |
 | F2 | an intent misses a required property, or a section does not read for a business reader | ask the person for the missing property; rewrite the unclear section in plain words; re-check before confirmation | autonomous |
 | F3 | an intent describes the source instead of the outcome | strip the description and restate the outcome the person wants; re-check | autonomous |
 | F4 | an intent was marked confirmed without the person's typed yes, or by an agent | reset to proposed, present it to the person, and record only their own confirmation | human |
@@ -547,7 +554,7 @@ Inside a drive, a resume keeps `in_drive` from `run.json`.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:93691e419bec8ed9b1e7d18df1ddff772f684c1e9802d6874958ebe6f2761f43 (of `reference/ice.md`) |
+| fingerprint | sha256:b0d3029136c7381ef28e27d366d29ae48f2a84409124fea300ae9acae3cc4849 (of `reference/ice.md`) |
 | compiled_by | play-editor (#661 reads no memory; the run lives in its issue); play-editor (#637 one product model with /vision); play-creator (#612) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close; both skipped inside a drive) |
 | position_exception | model-writing both play — writes the intent on its started branch (or the drive's) and commits its own model delta (Step 7) BEFORE the injected end sequence lands it |

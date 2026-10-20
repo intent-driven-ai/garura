@@ -39,6 +39,11 @@ play pulls out what the person wants; it never copies how the source does it.
 - C1 — Source accepted: the source is anything that explains the intent — a prototype (a file,
   a project folder, or a deployed solution), a document, or a plain statement. It must be readable at the time of
   the run; a runnable source is also run through, so what it does is seen, not only what it says.
+  A prototype is run through **view by view**: the play itself finds every view it offers — each
+  tab, button or link that changes what is shown, up to two clicks deep — and keeps each one; a
+  view it could not reach is recorded with why. Reading only the first screen of a prototype
+  that offers more is not reading it (#613: the Argus mockup's first run saw one screen of six
+  sections and drafted intents that missed what Argus does).
 - C2 — Each Business Intent carries every required property of its ontology kind — title,
   outcome, why, asked by, proof it is met, stage — and may carry "must not". It is written for
   a business reader, in plain words, readable with no other document open.
@@ -118,7 +123,8 @@ play pulls out what the person wants; it never copies how the source does it.
 ### Failure conditions
 
 - F1 — The source could not be read — or, for a runnable source, could not be run through —
-  and the play went on anyway.
+  and the play went on anyway; or a prototype was kept from fewer views than it offers: a view
+  the play could reach was not kept, or a view it could not reach is not recorded.
 - F2 — A Business Intent is missing a required property, or is not readable by a business
   reader (labels, jargon, or a section that does not explain itself).
 - F3 — A Business Intent describes the source — screens, fields, copied text, how it
@@ -187,7 +193,9 @@ in memory.
   want, when `/intent` runs and the person confirms, then each confirmed Business Intent and
   the Source exist, linked both ways, and the change is landed. Measure: the intent manifest
   reads `decided: true` and `stage: confirmed`, each saved intent has `confirmed_by` set
-  and every required property present; the Source manifest lists at least one screenshot under
+  and every required property present; the Source manifest lists a screenshot and the text of
+  every view the prototype offers (`views.kept` equals `views.found`, or each one missed is in
+  `views.unreached` with why) under
   the evidence folder; the intent manifest reads `linked: true`; the scoped guard reads ok;
   merge-change reports the PR merged.
 - S2 — (founder, from a plain statement) Given only a written statement of what they want,
@@ -252,9 +260,11 @@ captured scoped-write guard output.
 
 ### Recovery (one per failure condition)
 
-- REC1 (F1) — trigger: the source could not be read or run through. direction: halt and tell
-  the person exactly what could not be opened; ask for a readable copy or a working link.
-  handoff: human.
+- REC1 (F1) — trigger: the source could not be read or run through, or a prototype was kept
+  from fewer views than it offers. direction: halt and tell the person exactly what could not be
+  opened, and ask for a readable copy or a working link; for missing views, capture again with
+  every view found, and name to the person each view that still cannot be reached. handoff:
+  human.
 - REC2 (F2) — trigger: a required property is missing, or a section does not read for a
   business reader. direction: ask the person for the missing property; rewrite the unclear
   section in plain words; re-check before confirmation. handoff: autonomous.

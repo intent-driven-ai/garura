@@ -4,7 +4,8 @@ test_intent_scripts.py — fixture tests for /intent's three scripts (#612).
 
 capture_source.py  — a statement is kept byte for byte; a document is copied; an HTML file is
                      copied and rendered to a screenshot; a missing source fails (F1).
-                     A clicked tab keeps its picture and its text.
+                     A clicked tab keeps its picture and its text. Every view of a prototype
+                     is found and kept without naming it, two clicks deep (#613, C1).
 check_intent.py    — per intent: required properties, provenance, copying the source,
                      code-like text, bare labels, ICE under it; per ICE: goals, built from an
                      intent; for the draft: ids, sources summarised, the coverage map, one
@@ -139,6 +140,9 @@ def test_capture():
             check("an HTML prototype without Playwright fails plainly (F1)", rc == 2)
             skip(["an HTML prototype is copied and rendered", "the screenshot is a real image",
                   "a named tab is clicked and captured", "the clicked view's text is kept beside its picture",
+                  "every view is found and kept without naming it", "a view two clicks deep is kept",
+                  "an answer button is never clicked while exploring", "a link out of the prototype is not followed",
+                  "the manifest records the views found and kept",
                   "a tab that does not exist fails, not skipped", "a file path with # or ? is captured"],
                  "Playwright is not installed")
         else:
@@ -150,11 +154,46 @@ def test_capture():
                 fh.write("<html><body><button onclick=\"document.getElementById('v').textContent='second view'\">"
                          "Details</button><p id='v'>first view</p></body></html>")
             out, man = os.path.join(tmp, "src7"), os.path.join(tmp, "m7.json")
-            check("a named tab is clicked and captured",
-                  cs.main(["--source", tabs, "--out-dir", out, "--given-by", "Kapil", "--manifest", man,
-                           "--click", "Details"]) == 0 and "screen-02-details.png" in read_json(man)["files"])
-            with open(os.path.join(out, "screen-02-details.txt")) as fh:
+            rc = cs.main(["--source", tabs, "--out-dir", out, "--given-by", "Kapil", "--manifest", man,
+                          "--click", "Details"])
+            named = [f for f in read_json(man)["files"] if f.startswith("screen-") and f.endswith("-details.png")]
+            check("a named tab is clicked and captured", rc == 0 and len(named) == 1)
+            with open(os.path.join(out, named[0].replace(".png", ".txt") if named else "none")) as fh:
                 check("the clicked view's text is kept beside its picture", "second view" in fh.read())
+
+            # every view is found without naming it, two clicks deep (#613, C1)
+            app = os.path.join(tmp, "app.html")
+            with open(app, "w") as fh:
+                fh.write("""<html><body>
+<nav><button onclick="show('home')">Home</button><button onclick="show('cart')">Cart</button>
+<a href="https://elsewhere.example.com/">Help</a><button onclick="show('gone')">Accept</button></nav>
+<main id="m">home view</main>
+<script>
+function show(v){
+  const m=document.getElementById('m');
+  if(v==='cart'){m.innerHTML='cart view <button onclick="show(\\'pay\\')">Checkout</button>';}
+  else if(v==='pay'){m.textContent='checkout view';}
+  else if(v==='gone'){m.textContent='an answer was given';}
+  else {m.textContent='home view';}
+}
+</script></body></html>""")
+            out, man = os.path.join(tmp, "src10"), os.path.join(tmp, "m10.json")
+            rc = cs.main(["--source", app, "--out-dir", out, "--given-by", "Kapil", "--manifest", man])
+            m = read_json(man)
+            texts = ""
+            for f in m["files"]:
+                if f.endswith(".txt"):
+                    with open(os.path.join(out, f)) as fh:
+                        texts += fh.read()
+            check("every view is found and kept without naming it",
+                  rc == 0 and "cart view" in texts and "checkout view" in texts)
+            check("a view two clicks deep is kept", any(f.startswith("view-") and "checkout" in f
+                                                        for f in m["files"]))
+            check("an answer button is never clicked while exploring", "an answer was given" not in texts)
+            check("a link out of the prototype is not followed", "elsewhere" not in json.dumps(m["views"]))
+            check("the manifest records the views found and kept",
+                  m["views"]["explored"] is True and m["views"]["kept"] >= 3
+                  and m["views"]["kept"] <= m["views"]["found"] and m["views"]["unreached"] == [])
             out, man = os.path.join(tmp, "src8"), os.path.join(tmp, "m8.json")
             check("a tab that does not exist fails, not skipped",
                   cs.main(["--source", tabs, "--out-dir", out, "--given-by", "Kapil", "--manifest", man,
