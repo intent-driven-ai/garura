@@ -4,7 +4,7 @@ What the drive is as a component and how it runs end to end. It rests on ADR 029
 ADR 031 (business intent and ICE), ADR 034 (a play answers from memory inside a drive),
 ADR 035–039 (memory; the issue ID governs), the drive contract
 (`standards/rules/drive-contract.md`) and the #662 run, which already ran the three plays under
-one drive contract. Three points need Kapil's decision; they are marked **Decide**.
+one drive contract. Kapil decided the three open points on 2026-10-20 (section 5).
 
 ## 1. What Kickoff is
 
@@ -58,7 +58,14 @@ change, as today.
    answer from the model alone. It writes pass or reject, with reasons, to
    `context/kickoff/<run-ts>/check.yaml`. A reject halts the drive.
 7. **Evidence** — the shared close (`_shared/play-close.md`), with the drive's own record.
-8. **End** — see **Decide (b)**.
+8. **End** (Kapil, 2026-10-20, "b 1") — the drive opens the pull request and stops. The person
+   reads the plays' review records and confirms or drops each proposed intent by typing; then the
+   review and the merge run, the merge waiting for the person's approve. **This is a stand-in
+   until the review tool exists** (#641–#650; #650 makes the review the drive's last step).
+   Kapil: the tool must be built later and this addressed then — so Kickoff's ICE records it: a
+   constraint that the drive ends at the pull request with typed confirmation *until* the review
+   tool exists, and a failure condition if Kickoff ever confirms an intent itself; the review
+   tool's work stays in the #606 plan (item 7).
 
 ## 4. The checker, by config
 
@@ -70,33 +77,41 @@ drives:
       model: <a different model from the session's>
 ```
 
-Default: a fresh sub-agent on a different model, handed only the drive's outputs (the model
-diff, the plays' review records, the trace check), never the drive's reasoning — the same
-isolation the grounding judge has. **Decide (c).**
+Kapil, 2026-10-20 ("c"): build it as config, and build support for both kinds — a sub-agent on a
+different model, and a different coding agent (Codex, `codex exec`). Either one is handed only the
+drive's outputs (the model diff, the plays' review records, the trace check), never the drive's
+reasoning — the same isolation the grounding judge has.
 
-## 5. Decisions for Kapil
+## 5. Decisions (Kapil, 2026-10-20)
 
-**(a) How the drive runs its three plays.**
-1. Each play in its own fresh Claude Code session, started by a bundled script (`claude -p` in
-   the project, as the #662 run did), so it loads the project's own installed plays and agents
-   and starts with a clean context; the drive's session stays small and relays questions to the
-   person. The config names the command (Codex: `codex exec`).
-2. All three as sub-plays inside the drive's one session.
-Recommend 1: the #662 run proved it, and three heavy plays in one session fill its context
-(the run cost about $20 across the three).
+**(a) How the drive runs its three plays** — decided (Kapil, 2026-10-20: "can we use sub-agents
+to start each play?"). Yes. Claude Code lets a sub-agent start sub-agents of its own, "up to three
+layers below the main conversation" (https://code.claude.com/docs/en/sub-agents.md; the depth is
+set by `CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH`). So the drive starts each play as a **sub-agent**
+(layer 1); the play dispatches its agents and its judges (layer 2); nothing needs layer 3. Each
+play starts with a clean context, and the drive's session stays small. When a play stops on a
+question, its sub-agent returns the question; the drive brings it to the person, then resumes the
+same sub-agent with the answer, so the play keeps its context. The config can name a headless
+session instead (`claude -p`, or `codex exec`), for a run started outside Claude Code:
+
+```yaml
+drives:
+  kickoff:
+    runner: subagent        # subagent | headless
+```
 
 **(b) How the drive ends, before the review tool exists (#641–#650).**
 1. It opens the pull request and stops. The person reads the plays' review records, confirms or
    drops each proposed intent by typing (recorded like `/intent`'s own confirmation), and then
    the review and the merge run, the merge waiting for the person's approve.
 2. It runs the whole end sequence, and the person confirms the intents at the pinned merge gate.
-Recommend 1: confirming intents is the person's decision (ADR 031 §5); keeping it a separate
+Chosen: 1 (Kapil). Confirming intents is the person's decision (ADR 031 §5); keeping it a separate
 step before the merge makes it clear, and the review tool replaces that step later.
 
 **(c) The checker's default.**
 1. A sub-agent on a different model (for example Sonnet when the session runs Opus).
 2. A different coding agent (Codex).
-Recommend 1: it works with what every Garura install has; the config can name Codex.
+Chosen: both, as config (Kapil). The default is the sub-agent; the config can name Codex.
 
 ## 6. What this leaves to later items
 
@@ -106,3 +121,11 @@ Recommend 1: it works with what every Garura install has; the config can name Co
   on a real prototype Kapil picks, and the three halts.
 - Not in #613: the person's plan and issues (ADR 029 §6, waiting on Kapil); the review as the
   drive's last step (#650).
+
+## Log
+
+- 2026-10-20 — Kapil: (b) 1, with the stand-in end captured in Kickoff's ICE and the review
+  tool built later; (c) a config with both kinds supported. (a) asked: why `claude -p` and not
+  sub-agents — being checked against Claude Code's docs.
+- 2026-10-20 — (a): the drive starts each play as a sub-agent (the docs allow three layers);
+  a headless session stays a config option.

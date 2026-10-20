@@ -53,6 +53,13 @@ the wrong move."* When memory and the system hold nothing to go on, they ask.
 
 ## What this plan leaves out
 
+- **Review as plays, run as a drive** (Kapil, 2026-10-20, thinking aloud): review split into
+  plays — code quality (linters, tests), security, design (UX and technical) — run together as a
+  review drive, adopting Claude Code's review method (parallel reviewers, a verification step that
+  filters false positives, severity ranking, a `REVIEW.md` of the repo's own review rules). ADR 029
+  §5 already expects the review to be a drive of its own. A business intent of its own; filed when
+  Kapil asks. Kickoff's checker (item 6) can later name that drive in its config.
+
 - **Confirmed intents and the review as the drive's last step.** Inside a drive,
   `/intent` saves intents as proposed; the person confirms them in the review.
   That comes with the review stories (#641–#650), and #650 makes it the drive's
@@ -68,7 +75,7 @@ the wrong move."* When memory and the system hold nothing to go on, they ask.
 The memory milestone is passed (#653 items 1 to 9; the last, #662, merged on 20 October): the
 three plays read memory only through their agents, every run lives under its issue, and they
 ran from memory alone on a test project. A fresh branch `feature/613-the-kickoff-drive` is cut
-from main (`504379ce`). Now: item 3, the runner's design note.
+from main (`504379ce`). Now: item 3, the runner's design note — Kapil decided its three points (2026-10-20).
 
 ## The plan, in order
 
@@ -215,3 +222,4 @@ mark step 1 of item 8 done in the #606 plan.
   install (memory plan item 7).
 - 2026-10-18 — The memory system is filed as Feature #653 (spike #654 for its decision); its plan moved to `.garura/project/issues/653/specs/plan.md`.
 - 2026-10-20 — The memory milestone is passed (#662 merged). Fresh branch `feature/613-the-kickoff-drive` off main (`504379ce`); the old one landed as PR #652. Now item 3.
+- 2026-10-20 — Item 3: Kapil decided (a) each play runs as a sub-agent (docs allow three layers; a headless session stays a config option), (b) 1 — the drive ends at the PR with typed confirmation, a stand-in recorded in Kickoff's ICE until the review tool, (c) the checker is config, both kinds built. Review-as-a-drive recorded for later.
