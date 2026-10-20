@@ -4,7 +4,7 @@ kind: feature
 serves: "#653 — agents work only from memory, so drives can make their own decisions"
 status: active
 updated: 2026-10-20
-now: 9
+now: 10
 serves_plan: 606
 serves_item: 8
 ---
@@ -92,11 +92,12 @@ answer came from in a way anyone checks.
 
 ## Where we are now
 
-Decided, and eight pieces shipped: ADR 035 to ADR 040 (#654, #667, #659, #660, #661), the
+Decided, and nine pieces shipped: ADR 035 to ADR 040 (#654, #667, #659, #660, #661), the
 contract (#655), Phoenix memory (#656), the memory tool (#657), memory updates (#658, PR #675),
-decision traces (#659, PR #676), every install carrying the memory system (#660, PR #677) and
-Kickoff's plays getting memory only from their agents (#661, PR #678). Next: item 9, prove it
-on Kickoff's three plays (#662).
+decision traces (#659, PR #676), every install carrying the memory system (#660, PR #677),
+Kickoff's plays getting memory only from their agents (#661, PR #678) and the proof on a test
+project (#662, PR #679). The Kickoff milestone is passed: #613 picks up again. Next: item 10,
+every other agent and skill onto the tool (#663), alongside the Kickoff build.
 
 ## The plan, in order
 
@@ -176,23 +177,21 @@ on Kickoff's three plays (#662).
   play's close lives in `core/components/plays/_shared/play-close.md`; the Kickoff runs live
   under the issue being worked on (Kapil: the issue ID governs); the knowledge router is
   removed. Proven by `/intent`'s draft step on a test project. Phoenix memory updated to match.
+- **9. Shipped: Kickoff's three plays run from memory alone** — #662, PR #679, approved by Kapil
+  on 20 October after two review rounds. On a test project, under one drive contract: 30 decision
+  records, every one with a trace; a memory update raised by `/vision`, approved by Kapil and used
+  by 14 `/understand` decisions; no answer from the model alone. Fixed from the run: typed
+  approvals (`decided_in: session`, contract 5.1), decisions name their update, each issue keeps
+  its own gate history, the judge's guidance per stage, `/intent`'s shared contract check.
+  Written down for their own issues: the close not asking `template-manager`, a drive's
+  uncommitted run files (#613), model-only drafts in a headless run.
 
-### 9. Prove it on Kickoff's three plays — now
-
-**Issue:** #662.
-**What:** run `/intent`, `/vision` and `/understand` by hand on a test project:
-every answer names its memory, a gap raises an update, nothing comes from the
-model alone.
-**Why here:** only a real run shows the system works before a drive relies on it.
-**Done when:** the run is recorded.
-**Needs:** item 8.
-
-### Milestone: the Kickoff drive can be built
+### Milestone: the Kickoff drive can be built — passed (20 October, #662)
 
 #613 picks up again here, at the runner's design. Items 10 and 11 run alongside
 the Kickoff build.
 
-### 10. Move every other agent and skill onto the tool
+### 10. Move every other agent and skill onto the tool — now
 
 **Issue:** #663.
 **What:** the remaining active agents and skills, including the two that still
@@ -276,3 +275,4 @@ up the project's memory." And: "After install, let's call this whole thing
 - 2026-10-19 — Item 7 (#660) started. Kapil: the install brings no memory; the tool downloads Phoenix memory on first use; a new play, `initialize`, sets up a project's memory after the install (added as not yet placed).
 - 2026-10-19 — Item 7 done: #660 approved by Kapil (PR #677, round 2); ADR 038 accepted (the install brings no memory; the tool in the project). Now item 8 (#661).
 - 2026-10-20 — Item 8 done: #661 approved by Kapil (PR #678, round 2); ADR 039 and ADR 040 accepted. Now item 9 (#662).
+- 2026-10-20 — Item 9 done: #662 approved by Kapil (PR #679, round 2). The Kickoff milestone is passed; #613 picks up. Now item 10 (#663).

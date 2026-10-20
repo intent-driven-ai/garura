@@ -2,9 +2,9 @@
 plan_for: 662
 kind: story
 serves: "#662 — /intent, /vision and /understand run on a test project from memory alone"
-status: active
+status: done
 updated: 2026-10-20
-now: 8
+now: done
 serves_plan: 653
 serves_item: 9
 ---
@@ -39,7 +39,8 @@ The run is recorded in this issue's folder. Passing it passes the Kickoff milest
 
 ## Where we are now
 
-The run passed; its small findings are fixed. Now: item 8, land.
+Done. The three Kickoff plays ran from memory alone; PR #679 merged on Kapil's approval
+(20 October). The Kickoff milestone is passed, so #613 can pick up again.
 
 ## The plan, in order
 
@@ -67,12 +68,9 @@ The run passed; its small findings are fixed. Now: item 8, land.
 - **7. Findings** — five fixed on this branch (I-1, V-1, V-2, V-3, U-1; Kapil chose V-2 "1" and
   V-3 "1"); five written down for their own issues (I-2, V-4, U-2; I-3 and U-4 noted only).
   `evidence/run/findings.md`.
-
-### 8. Land — now
-
-**What:** mark the Kickoff milestone passed in the #653 plan; close this plan and item 9 of the
-#653 plan in the last commit before the merge; run the change chain.
-**Done when:** the PR is merged.
+- **8. Landed** — PR #679; review round 1 a harness approve with three P2s (fixed), round 2 a
+  harness approve; Kapil approved the merge on 20 October. The Kickoff milestone in the #653 plan
+  is passed.
 
 ## Not in this plan
 
@@ -88,3 +86,4 @@ The run passed; its small findings are fixed. Now: item 8, land.
 - 2026-10-20 — Kapil: "1" — the plays run under a drive contract (issue 1), nothing written to GitHub.
 - 2026-10-20 — Items 3 to 6 done: the three plays ran from memory; one memory update raised, approved by Kapil and used. Findings in `evidence/run/findings.md`.
 - 2026-10-20 — Item 7 done: five fixes (I-1, V-1, V-2, V-3, U-1); the rest written down for their own issues.
+- 2026-10-20 — Landed: PR #679 merged on Kapil's "approve". The plan is done.
