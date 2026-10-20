@@ -4,7 +4,7 @@ kind: story
 serves: "#662 — /intent, /vision and /understand run on a test project from memory alone"
 status: active
 updated: 2026-10-20
-now: 1
+now: 3
 serves_plan: 653
 serves_item: 9
 ---
@@ -39,7 +39,7 @@ The run is recorded in this issue's folder. Passing it passes the Kickoff milest
 
 ## Where we are now
 
-Opened. Now: item 1, two decisions for Kapil.
+The test project is ready. Now: item 3, run `/intent`.
 
 ## The plan, in order
 
@@ -47,19 +47,17 @@ Opened. Now: item 1, two decisions for Kapil.
 
 - **0. Opened** — #662. Branch `feature/662-kickoff-runs-from-memory-alone` off main
   (`4fa2564d`, after #661 merged).
+- **1. Decided** (Kapil, 2026-10-20): (a2) I run each play inside the test project with
+  `claude -p`, so it loads the project's own installed plays and agents; questions and memory
+  update approvals come to Kapil in this session. (b1) The test product: a small online shop
+  where each owner sees today's abandoned carts and sends a one-click reminder (`ecommerce`).
+- **2. Prepared** — an empty git project (`cart-shop`, in the session's scratch folder), Garura
+  installed from main (full scope); the memory tool reaches all three tiers; Phoenix memory on the
+  machine updated to `db6441a`. Kapil chose (2026-10-20, "1") to run the plays as a drive runs
+  them: one drive contract, issue 1, branch `feature/1-cart-shop-kickoff`, so nothing is written
+  to GitHub; each checkpoint becomes a review record Kapil approves here.
 
-### 1. Decide how the run happens — now
-
-**What:** (a) who runs the three plays; (b) what the test project is about.
-**Done when:** Kapil has answered, and the answers are in this plan.
-
-### 2. Prepare the test project
-
-**What:** an empty git project, Garura installed from main (full scope), a drive-free branch
-and issue of its own; the memory tool reaches Phoenix memory.
-**Done when:** the install's check passes and the plays are in the project.
-
-### 3. Run `/intent`
+### 3. Run `/intent` — now
 
 **What:** from a source about the test product; answer its questions; see its agent read the
 ontology through the tool and keep a trace; raise, approve and use at least one memory update
@@ -105,3 +103,5 @@ used). Copy the run's record into this issue's folder.
 
 - 2026-10-20 — Created at the start of #662, from the issue, the #653 plan and the memory review
   (`.garura/project/issues/613/specs/memory-review.md`).
+- 2026-10-20 — Kapil: a2 (I run the plays with `claude -p` in the test project), b1 (the abandoned-cart shop).
+- 2026-10-20 — Kapil: "1" — the plays run under a drive contract (issue 1), nothing written to GitHub.
