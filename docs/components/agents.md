@@ -69,9 +69,11 @@ Garura avoids both extremes:
 | `feature-steward` | feature-spec | steward | opus | Autonomous owner of feature specification (features.yaml), implementation-design cross-validation, and manual test scenario generation |
 | `intent-resolver` | intent | resolver | sonnet | Reads a play's intent, Expectation artifact, workflow template, and available agents to produce a JSON task DAG for play execution |
 | `market-analyst` | market-research | analyst | sonnet | Market intelligence — produces a quantified market brief with TAM/SAM/SOM, competitive landscape, and market gaps |
+| `memory-builder` | memory | builder | opus | Builds the memory a drive round found missing: closes each group of open questions from the drive's sources (quoted), memory (traced), a researched knowledge page as a memory update a person approves, one plain question, or prototype feedback — through `answer-from-source` and `draft-knowledge-page`; never decides or promotes an update — used by `/build-memory` |
 | `product-keeper` | product-capability | keeper | opus | KB-driven capability configuration, intent epic generation, and aggregated quality profile derivation |
 | `product-os-keeper` | product-os | keeper | opus | Autonomous owner of the ProductOS model (Domain → Capability → Functionality, ICE, profile, decisions) — used by the strategic plays, the lens plays, and `/grill` |
 | `project-orchestrator` | project | orchestrator | sonnet | Autonomous decision-maker for project management operations (issues, tracking, planning) |
+| `prototype-walker` | business-intent | walker | sonnet | Walks a prototype the way the people it serves would, in journeys (who, what they set out to do, each step and what it showed), through one kept-open browser per journey, via `walk-prototype`; medium effort — used by `/intent` |
 | `quality-auditor` | quality | auditor | sonnet | Independently verifies code quality standards (linting, unit tests, type checking, build, quality gates) — context-isolated from evals and builder output |
 | `repo-orchestrator` | repo | orchestrator | sonnet | Autonomous decision-maker for repository operations (commits, branches, PRs, git state) |
 | `scriber` | infra | evidence-writer | haiku | DEPRECATED (#434) — evidence/checkpoint/status writer, superseded by the command model; retained for reference, not installed |
