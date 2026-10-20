@@ -78,7 +78,10 @@ For each play in `plays`:
 
 1. **Note the start.** `date +%s` → `<since>`.
 2. **Run it with the configured runner.**
-   - `subagent` (default): dispatch one sub-agent per play (layer 1). It runs
+   - `subagent` (default): dispatch one sub-agent per play (layer 1), **in the foreground** —
+     the drive waits for it to return and never starts it in the background. (A headless
+     session ends its turn while a background sub-agent runs, and stops it 10 minutes later:
+     #613's third Kickoff run lost `/intent`'s walk that way.) It runs
      `/<play> --contract <working>/contract.json [<argument>]` — `<argument>` is
      `inputs.<play>.argument` when the contract sets it (for example the prototype `/intent`
      reads), handed on the play's command line as a person would type it — and returns only a compact result: its

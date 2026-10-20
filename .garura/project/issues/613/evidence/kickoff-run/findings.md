@@ -59,3 +59,11 @@ its plays as sub-agents (the default runner).
   and a business intent is never a rule the system enforces (K-4). Kickoff asks, for a link,
   whether the walk may change data (`answers.intent.may_change_data`). 118 script tests pass;
   `lint_play`, `lint_drive` and `lint-components` pass.
+
+## Run 3 (2026-10-20) — with journeys; cut off
+
+- K-6 — **the drive started `/intent`'s sub-agent in the background** and ended its turn; the
+  headless session stopped it 10 minutes later ("Background tasks still running 10m after the
+  last turn (subagent 'Run /intent play in drive'); stopping them"). The walk had taken about 35
+  steps (106 files). Fixed in the shared drive run: R5 dispatches each play's sub-agent in the
+  foreground and waits. Headless runs also set `CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS=0`.
