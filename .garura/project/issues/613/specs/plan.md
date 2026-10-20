@@ -3,7 +3,7 @@ plan_for: 613
 kind: story
 serves: "#613 — the Kickoff drive runs /intent, /vision and /understand from a working prototype to a detailed product model"
 status: active
-updated: 2026-10-18
+updated: 2026-10-20
 now: 3
 serves_plan: 606
 serves_item: 8
@@ -65,12 +65,10 @@ the wrong move."* When memory and the system hold nothing to go on, they ask.
 
 ## Where we are now
 
-The change is open: branch `feature/613-the-kickoff-drive`, cut from main on
-2026-10-18. Item 1 is decided: ADR 034 says how the plays decide inside a drive.
-Item 2 is done: the memory review found memory not ready, and Kapil chose to fix
-the whole memory system first, as its own feature (Feature #653,
-`.garura/project/issues/653/specs/plan.md`). Nothing is built. Item 3 is next, but it waits
-at the milestone below until the memory system reaches its own milestone.
+The memory milestone is passed (#653 items 1 to 9; the last, #662, merged on 20 October): the
+three plays read memory only through their agents, every run lives under its issue, and they
+ran from memory alone on a test project. A fresh branch `feature/613-the-kickoff-drive` is cut
+from main (`504379ce`). Now: item 3, the runner's design note.
 
 ## The plan, in order
 
@@ -91,7 +89,7 @@ at the milestone below until the memory system reaches its own milestone.
   the superset; each project pulls the subset it needs; one tool that finds and
   updates memory, searching like Claude Code). Nothing is fixed yet.
 
-### Milestone: Kickoff's plays work from memory
+### Milestone: Kickoff's plays work from memory — passed (20 October)
 
 Nothing below starts until the memory system's own milestone is passed: its
 items 1 to 9 — the decision, the memory tool, Phoenix memory and the subset a
@@ -114,6 +112,12 @@ agrees with; anything that changes an earlier decision is an ADR.
 **Needs:** items 1 and 2, and the milestone above.
 
 ### 4. Make the three plays run back to back without a person
+
+**Settled since (#661, #662):** `/intent` checks the drive contract with the shared checker
+(I-1); every run, its answers and evidence live under the drive's issue (ADR 039); the plays
+read memory only through their agents. Still open from the #662 run: the plays leave the
+issue's run files uncommitted inside a drive (V-4 — the drive commits them), and the close does
+not ask `template-manager` for its templates (I-2). Re-check the rest of this list in item 3.
 
 **Issue:** #613 — the fixes ride on this branch (Kapil's choice A, 2026-10-18).
 **What:** fix what stops the plays running one after another. Found so far:
@@ -210,3 +214,4 @@ mark step 1 of item 8 done in the #606 plan.
   milestone is passed. Kapil also made the memory system part of every Garura
   install (memory plan item 7).
 - 2026-10-18 — The memory system is filed as Feature #653 (spike #654 for its decision); its plan moved to `.garura/project/issues/653/specs/plan.md`.
+- 2026-10-20 — The memory milestone is passed (#662 merged). Fresh branch `feature/613-the-kickoff-drive` off main (`504379ce`); the old one landed as PR #652. Now item 3.
