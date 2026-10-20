@@ -1,78 +1,421 @@
 meta:
-  generated_at: '2026-10-18T08:02:13Z'
+  generated_at: '2026-10-20T10:57:42Z'
   diff_path: '.garura/project/issues/613/review/pr.diff'
   taxonomy_path: 'core/components/memory/standards/rules/pr.md'
-  changed_paths_count: 29
+  changed_paths_count: 130
   scan_coverage: 1.0000
-  standards_relevant: 3
+  standards_relevant: 26
   catchall:
-    CODE-20: 29
+    CODE-20: 130
 findings:
-  - standard_id: 'DOC-04'
+  - standard_id: 'ARCH-02'
+    severity: P2
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/discover.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-02'
+  - standard_id: 'CODE-03'
+    severity: P2
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/discover.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-03'
+  - standard_id: 'CODE-04'
+    severity: P2
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/discover.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-04'
+  - standard_id: 'CODE-14'
+    severity: P2
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/discover.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-14'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 110
+    evidence: 'join'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 114
+    evidence: 'join'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'ARCH-02'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/structural.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-02'
+  - standard_id: 'CODE-03'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/structural.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-03'
+  - standard_id: 'CODE-04'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/structural.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-04'
+  - standard_id: 'CODE-14'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/structural.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-14'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 375
+    evidence: 'join'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 376
+    evidence: 'join'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 402
+    evidence: 'join'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 431
+    evidence: 'join'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'DOC-01'
     severity: P3
-    file: 'docs/adr/029-drives.md'
+    file: '.garura/project/issues/613/evidence/checker/README.md'
     line: 1
-    evidence: 'docs/adr/029-drives.md'
-    artifact_type: 'docs-planning'
-    taxonomy_rule_id: 'DOC-04'
-  - standard_id: 'DOC-04'
+    evidence: '.garura/project/issues/613/evidence/checker/README.md'
+    artifact_type: 'stm-evidence'
+    taxonomy_rule_id: 'DOC-01'
+  - standard_id: 'DOC-09'
     severity: P3
-    file: 'docs/adr/034-plays-answer-from-memory-inside-a-drive.md'
+    file: '.garura/project/issues/613/evidence/checker/README.md'
     line: 1
-    evidence: 'docs/adr/034-plays-answer-from-memory-inside-a-drive.md'
-    artifact_type: 'docs-planning'
-    taxonomy_rule_id: 'DOC-04'
-  - standard_id: 'DOC-04'
+    evidence: '.garura/project/issues/613/evidence/checker/README.md'
+    artifact_type: 'stm-evidence'
+    taxonomy_rule_id: 'DOC-09'
+  - standard_id: 'DOC-10'
     severity: P3
-    file: 'docs/adr/_index.md'
+    file: '.garura/project/issues/613/evidence/checker/README.md'
     line: 1
-    evidence: 'docs/adr/_index.md'
-    artifact_type: 'docs-planning'
-    taxonomy_rule_id: 'DOC-04'
-  - standard_id: 'ARCH-23'
+    evidence: '.garura/project/issues/613/evidence/checker/README.md'
+    artifact_type: 'stm-evidence'
+    taxonomy_rule_id: 'DOC-10'
+  - standard_id: 'DOC-11'
+    severity: P3
+    file: '.garura/project/issues/613/evidence/checker/README.md'
+    line: 1
+    evidence: '.garura/project/issues/613/evidence/checker/README.md'
+    artifact_type: 'stm-evidence'
+    taxonomy_rule_id: 'DOC-11'
+  - standard_id: 'ARCH-03'
+    severity: P3
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/discover.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-03'
+  - standard_id: 'ARCH-08'
+    severity: P3
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/discover.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-08'
+  - standard_id: 'CODE-09'
+    severity: P3
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/discover.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-09'
+  - standard_id: 'CODE-10'
+    severity: P3
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/discover.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-10'
+  - standard_id: 'CODE-11'
+    severity: P3
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/discover.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-11'
+  - standard_id: 'CODE-12'
+    severity: P3
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/discover.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-12'
+  - standard_id: 'CODE-15'
+    severity: P3
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/discover.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-15'
+  - standard_id: 'CODE-17'
+    severity: P3
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/discover.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-17'
+  - standard_id: 'CODE-18'
+    severity: P3
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/discover.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-18'
+  - standard_id: 'FE-08'
+    severity: P3
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/discover.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'FE-08'
+  - standard_id: 'ARCH-03'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/structural.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-03'
+  - standard_id: 'ARCH-08'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/structural.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-08'
+  - standard_id: 'CODE-09'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/structural.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-09'
+  - standard_id: 'CODE-10'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/structural.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-10'
+  - standard_id: 'CODE-11'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/structural.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-11'
+  - standard_id: 'CODE-12'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/structural.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-12'
+  - standard_id: 'CODE-15'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/structural.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-15'
+  - standard_id: 'CODE-17'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/structural.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-17'
+  - standard_id: 'CODE-18'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/structural.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-18'
+  - standard_id: 'FE-08'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/structural.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'FE-08'
+  - standard_id: 'DOC-14'
     severity: P4
-    file: 'docs/adr/029-drives.md'
+    file: '.garura/project/issues/613/evidence/checker/README.md'
     line: 1
-    evidence: 'docs/adr/029-drives.md'
-    artifact_type: 'docs-planning'
-    taxonomy_rule_id: 'ARCH-23'
-  - standard_id: 'DOC-05'
+    evidence: '.garura/project/issues/613/evidence/checker/README.md'
+    artifact_type: 'stm-evidence'
+    taxonomy_rule_id: 'DOC-14'
+  - standard_id: 'DOC-15'
     severity: P4
-    file: 'docs/adr/029-drives.md'
+    file: '.garura/project/issues/613/evidence/checker/README.md'
     line: 1
-    evidence: 'docs/adr/029-drives.md'
-    artifact_type: 'docs-planning'
-    taxonomy_rule_id: 'DOC-05'
-  - standard_id: 'ARCH-23'
+    evidence: '.garura/project/issues/613/evidence/checker/README.md'
+    artifact_type: 'stm-evidence'
+    taxonomy_rule_id: 'DOC-15'
+  - standard_id: 'DOC-16'
     severity: P4
-    file: 'docs/adr/034-plays-answer-from-memory-inside-a-drive.md'
+    file: '.garura/project/issues/613/evidence/checker/README.md'
     line: 1
-    evidence: 'docs/adr/034-plays-answer-from-memory-inside-a-drive.md'
-    artifact_type: 'docs-planning'
-    taxonomy_rule_id: 'ARCH-23'
-  - standard_id: 'DOC-05'
+    evidence: '.garura/project/issues/613/evidence/checker/README.md'
+    artifact_type: 'stm-evidence'
+    taxonomy_rule_id: 'DOC-16'
+  - standard_id: 'BE-23'
     severity: P4
-    file: 'docs/adr/034-plays-answer-from-memory-inside-a-drive.md'
-    line: 1
-    evidence: 'docs/adr/034-plays-answer-from-memory-inside-a-drive.md'
-    artifact_type: 'docs-planning'
-    taxonomy_rule_id: 'DOC-05'
-  - standard_id: 'ARCH-23'
+    file: 'core/config.yaml'
+    line: 101
+    evidence: 'lock'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-23'
+  - standard_id: 'CODE-13'
     severity: P4
-    file: 'docs/adr/_index.md'
+    file: 'core/tools/lint-components/lib/discover.js'
     line: 1
-    evidence: 'docs/adr/_index.md'
-    artifact_type: 'docs-planning'
-    taxonomy_rule_id: 'ARCH-23'
-  - standard_id: 'DOC-05'
+    evidence: 'core/tools/lint-components/lib/discover.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-13'
+  - standard_id: 'CODE-19'
     severity: P4
-    file: 'docs/adr/_index.md'
+    file: 'core/tools/lint-components/lib/discover.js'
     line: 1
-    evidence: 'docs/adr/_index.md'
-    artifact_type: 'docs-planning'
-    taxonomy_rule_id: 'DOC-05'
+    evidence: 'core/tools/lint-components/lib/discover.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-19'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 109
+    evidence: 'const drives ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 110
+    evidence: 'const drivesDir ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 114
+    evidence: 'const driveFile ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-13'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/structural.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-13'
+  - standard_id: 'CODE-19'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/structural.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-19'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 375
+    evidence: 'const shared ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 402
+    evidence: 'const playsShared ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 404
+    evidence: 'const content ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 406
+    evidence: 'const fm ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 416
+    evidence: 'const opener ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 417
+    evidence: 'const closer ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 418
+    evidence: 'const nOpen ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 419
+    evidence: 'const nClose ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 431
+    evidence: 'const shared ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
 counts:
   P1: 0
-  P2: 0
-  P3: 3
-  P4: 6
+  P2: 14
+  P3: 24
+  P4: 20

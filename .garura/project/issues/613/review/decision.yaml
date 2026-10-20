@@ -1,5 +1,6 @@
 decision: approve
 decided_by: harness
-gate: "gate skipped by config (gates.plays.review-change)"
-reason: "no P1 findings; confidence acceptable"
-citing_findings: []
+gate: skipped by config (gates.plays.review-change)
+recommendation: recommended_verdict.yaml
+blocking: []
+counts: {P2: 17, P3: 31, P4: 26}
