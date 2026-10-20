@@ -155,6 +155,8 @@ def lay_components(components, target, info, allow=None):
             _emit_skill(md, name, sp, skills_root, paths)
             counts[kind] += 1
         info(f"  {kind}: {counts[kind]}")
+    if counts["plays"]:
+        common.lay_shared(components, skills_root, os.path.join(".agents", "skills"), paths, info)
 
     # agents — single .md files, each emitted as a Codex skill (no agent type)
     src = os.path.join(components, "agents")

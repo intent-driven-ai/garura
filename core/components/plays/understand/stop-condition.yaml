@@ -1,6 +1,6 @@
 # understand stop condition — baked from reference/ice.md "### Done means" (#464, #466 Batch C; #498 direct-model-write, ADR 026).
 # Evaluated by scripts/check_stop_condition.py at Step C0 of the Standard Play Close.
-# Paths are relative to the run's working root ({stm_base}_shaping/understand/<capability>/).
+# Paths are relative to the run's working root ({stm_base}<issue>/context/understand/<run ts>/, C15).
 # A run whose keyed persist or scoped-write guard did not land leaves a clause unmet —
 # the close reads HALTED, never COMPLETED.
 schema: { name: stop-condition }

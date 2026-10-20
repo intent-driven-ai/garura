@@ -65,6 +65,7 @@ dashboard" in one slice.
 |-------|----------|-------------|
 | `domain` | yes | The target domain: its id, slug, and the path to its folder under `{product_base}product-os/`. |
 | `kb_shelf` | yes | The KB shelf this domain maps to, resolved by the play via `search-kb` (the product domain name is NOT the shelf name). |
+| `shelf_path` | yes | That shelf (`knowledge/domains/<kb_shelf>.md`), copied into short-term memory by the agent through the memory tool. Read this copy — never memory itself (ADR 039). |
 | `product_base` | yes | From config. Read the live spine (capabilities + their functionalities, all detailed) and the profile; WRITE each record file (slices, personas, journeys, decisions, `_deferred`) in place under `{product_base}product-os/{domain}/…`. Never write `_spine.yaml` or the profile. |
 | `manifest_path` | yes | Output path under STM for `shape-manifest.yaml` — the provenance + the `spine_delta` the keyed persist consumes. |
 | `stm_base` | yes | From config. |
@@ -77,7 +78,8 @@ ids are non-negotiable.
 
 1. **Read the domain + the profile.** From the live `_spine.yaml`, load the domain's
    capabilities (all `detail: detailed`) and their functionalities, plus the profile box.
-   Read the KB shelf via the router (`python3 $KB shelf <kb_shelf>`) for selection grounding.
+   Read the KB shelf at `shelf_path` (the copy your agent put in short-term memory) for
+   selection grounding.
 
 2. **Confirm or prune each capability.** Against profile fit and the capability's grounding,
    decide `active` (keep) or `deprecated` (prune). Each prune becomes a decision. (Status

@@ -259,10 +259,9 @@ garura/
 │   │       ├── knowledge/     # Searchable reference material (KB)
 │   │       ├── standards/     # Rules, schemas, formats, templates
 │   │       └── tools/         # Shared tooling
-│   └── grounding/             # Canonical glossary and concepts
-├── .garura/
-│   └── core/
-│       └── config.yaml        # Configuration (tracked)
+│   ├── grounding/             # Canonical glossary and concepts
+│   └── config.yaml            # Configuration source (tracked; installed as .garura/core/config.yaml)
+├── .garura/                   # the installed copy (see .garura/CLAUDE.md); not source
 ├── .claude/                   # NO LONGER IN REPO (gitignored; deployed into targets via install-garura)
 ├── docs/
 │   ├── adr/                   # Architecture Decision Records

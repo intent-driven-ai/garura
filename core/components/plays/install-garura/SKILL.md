@@ -59,7 +59,7 @@ in the orchestrator, stop — that belongs in the adapter.
 
 Both tools also get:
 
-- `.garura/core/config.yaml` — garura's config transformed for the target (name, type
+- `.garura/core/config.yaml` — garura's config (source: `core/config.yaml`) transformed for the target (name, type
   `Project`, component paths pointed at the tool's install location, memory at
   `~/.garura/core/memory/`, the `platform`/`github` lines dropped). Kept on re-run unless
   `--force-config`.
@@ -70,11 +70,13 @@ Both tools also get:
   any machine-global files), so `uninstall-garura` can reverse precisely this set.
 - **The memory system** (ADR 035 §8), laid by `scripts/memory_system.py`, which the public
   installer (`installer/install.sh`) runs too:
-  - `.garura/tools/memory/` — the memory tool (from `core/tools/memory/`, without its tests
-    and samples) with `settings.json` beside it. The settings name short-term memory
-    (`.garura/project/issues/`, made by the install), Garura memory (`.garura/`), Phoenix
-    memory's place on the machine (`~/.garura/phoenix-memory`) and where it is downloaded
-    from. A re-install replaces the tool and keeps settings a person edited.
+  - `.garura/core/tools/memory/` — the memory tool (from `core/tools/memory/`, without its
+    tests and samples) with `settings.json` beside it. The settings name short-term memory
+    (`.garura/project/issues/`, made by the install), Garura memory (read inside `.garura/`:
+    `core/memory/`, then the product model `product/`), Phoenix memory's place on the machine
+    (`~/.phoenix/core/memory`) and where it is downloaded from (ADR 039). A re-install
+    replaces the tool and keeps settings a person edited; a tool an older install laid at
+    `.garura/tools/memory/` is removed, and its settings are written new.
   - The memory guide every agent reads (`core/tools/memory/GUIDE.md`): for Claude Code,
     `.claude/rules/garura-memory.md`, which loads for every session and every sub-agent; for
     Codex, one marked block in `AGENTS.md`, added to the project's own file when it has one.
@@ -106,7 +108,8 @@ Before running, confirm:
 2. **The tool is known.** Default is `claude`. Install for Codex with `--tool codex`. If the
    user said "for codex" (or "for claude"), pass it through.
 3. **You're in (or can point at) the garura checkout.** The script auto-derives the source by
-   walking up until it finds `core/components/` and `.garura/core/config.yaml`. When run
+   walking up until it finds `core/components/` and `core/config.yaml` (the config's source,
+   ADR 040; an older checkout keeps it at `.garura/core/config.yaml`). When run
    detached from source, pass `--source <garura-checkout>`.
 4. **Python 3 is available.** The script is Python 3, no third-party packages.
 
@@ -142,7 +145,7 @@ Options:
 - `--force-config` — overwrite an existing target `.garura/core/config.yaml` instead of keeping
   it.
 - `--phoenix-place <path>` / `--phoenix-source <address>` — where Phoenix memory lives on this
-  machine (default `~/.garura/phoenix-memory`) and where the memory tool downloads it from.
+  machine (default `~/.phoenix/core/memory`) and where the memory tool downloads it from.
   Point the place at a temp dir for a dry test.
 - `--quiet` — less output.
 

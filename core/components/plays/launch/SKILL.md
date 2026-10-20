@@ -374,17 +374,13 @@ matches the path taken — delivered+kept on release, present+fix_required on de
 Run the Standard Play Close. /launch is **project-scoped** (the epic's issue).
 
 ```bash
-# --- Standard Play Close (canonical; see standards/rules/play-close.md) ---
-# Path tokens resolved at pre-flight (resolve here if not already):
-#   ltm_project_target  = yq '.ltm.project-target' .garura/core/config.yaml
+# --- Standard Play Close (shared; see ../_shared/play-close.md) ---
+# Run the close in ../_shared/play-close.md. Its Step L loads the templates through
+# template-manager and sets ts and evidence_dest; then run this play's own lines below;
+# then Steps C0-C2.
 #   evidence_base, slug:
 #     project-scoped play : evidence_base="${stm_base}${issue}/evidence/launch/"  ; slug="#${issue}"
 #     product-scoped play : evidence_base="${product_base}_evidence/launch/"      ; slug="${product_slug}"
-evidence_template=$(cat "${ltm_project_target}standards/templates/evidence-file.md")
-delivery_template=$(cat "${ltm_project_target}standards/templates/delivery-report.md")
-ts=$(date -u +%Y%m%d-%H%M%S)
-evidence_dest="${evidence_base}${ts}.md"
-mkdir -p "$(dirname "$evidence_dest")"
 # Session identity stamp (#463) — close phase; start phase ran at pre-flight
 session_stamp=$(python3 scripts/session_stamp.py --phase close \
     --marker "${stm_base}${issue}/status/session-stamp-launch.json")
@@ -420,7 +416,7 @@ never blocks the close); and stop_condition per C0 with the Stop Condition secti
 filled) and write to `$evidence_dest`. Do NOT hand-author the body. Then dispatch
 `repo-orchestrator` for the evidence self-commit when evidence was recorded.
 
-**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in `standards/rules/pipeline-next.md` and emit `**Next:** /<command> — <why>. Or run /next to see all recommended actions.` (only /next pointer, or omit, when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots and output it:
+**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>. Or run /next to see all recommended actions.` (only /next pointer, or omit, when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots and output it:
 `## launch — #${issue}` (the outcome plainly: delivered → "the epic landed on your
 sign-off; production follows from main"; fix_required → "you rejected N scenarios — the
 defect report is on the issue; run /implement to fix exactly what it names"), the Run

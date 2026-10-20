@@ -1,323 +1,131 @@
 # Memory
 
-Garura uses a dual memory architecture: Long-Term Memory (LTM) and Short-Term Memory (STM).
+Memory is what agents work from. It has three tiers. Agents read it through one memory
+tool, and every new memory is written to short-term memory first.
 
-## Philosophy
+The decisions behind this page: ADR 035 (agents work only from memory), ADR 036 (an
+approved answer lands in short-term memory), ADR 037 (every decision keeps a trace),
+ADR 038 (the install brings no memory) and ADR 039 (every memory write goes to short-term
+memory; a play reads no memory).
 
-Memory is **project contextual information** that enables consistent, knowledge-driven behavior.
+## The three tiers
 
-### Core Principles
+| Tier | What it holds | Where it is |
+|------|---------------|-------------|
+| **Short-term memory** | The current issue's work: plans, context, evidence, review records, the questions asked of a person and the answers, memory updates waiting for approval, and decision traces | `.garura/project/issues/<issue>/` — that issue only |
+| **Garura memory** | The project's own memory: what this project needs, built from the part of Phoenix memory it uses and from what people promote. The product model is part of it, not all of it | `.garura/core/memory/`, and the product model at `.garura/product/` |
+| **Phoenix memory** | Memory any project can use: standards, rules, templates, schemas, knowledge | One place on the machine, `~/.phoenix/core/memory`, shared by every project. Its own git repository |
 
-| Principle | Description |
-|-----------|-------------|
-| **Dual architecture** | LTM persists, STM is ephemeral |
-| **Separation of concerns** | Standards vs artifacts |
-| **Knowledge-driven** | Agents read memory to apply standards |
-| **Artifact-tracked** | Work is documented in STM |
+`core/components/memory/` in this repository is the seed of Phoenix memory (ADR 035).
 
-## Memory Types
+## The lookup order
 
-| Type | Lifecycle | Purpose | Authoring Location | Runtime Location |
-|------|-----------|---------|---------------------|------------------|
-| **LTM** | Project setup → persists | Practices, standards, templates | `core/components/memory/` | `~/.garura/core/memory/` (global), `.garura/core/memory/` (project) |
-| **STM** | Play start → play end | Artifacts created during play | N/A | `.garura/project/issues/{N}/` — ADR 017 whitelist |
+A lookup goes:
 
-### Folder whitelist (ADR 017)
+1. short-term memory (the issue named in the lookup),
+2. `.garura/core/memory/`,
+3. the product model, `.garura/product/`,
+4. Phoenix memory.
 
-Per ADR 017 (2026-04-14), `.garura/` is a strict folder whitelist:
+It stops at the first tier that answers. A lookup never blocks a play.
+
+When no tier answers, the agent raises a **memory update**: a draft answer a person
+approves. It is never used before that (ADR 035 §5).
+
+## Who reads memory
+
+- **A play reads no memory.** A play is a pure workflow. It calls its sub-agents to get
+  what it needs (ADR 039 §2). A drive follows the same rule.
+- **An agent reads memory only through the memory tool.** It never reads a tier by a path.
+  It builds the context and keeps a trace of each decision (ADR 037).
+- **A skill reads only short-term memory.** Its agent puts what the skill needs there.
+
+What a play used to read from memory now comes from elsewhere (ADR 039):
+
+| What | Where it comes from |
+|------|---------------------|
+| A path, such as the ontology's | The config: `.garura/core/config.yaml` in a project, installed from the source `core/config.yaml` (ADR 040) |
+| The judge prompt and rubric | A judging skill |
+| Templates (the approval prompt, the evidence file, the delivery report, the Next-line map) | The `template-manager` agent, which loads them through the tool into short-term memory |
+| A block every play shares (the Standard Play Close) | One common file the plays point to |
+
+A play's own step-to-step files, inside one run, are read and written directly (ADR 011).
+They are short-term memory, so the tool can find them later.
+
+## Who writes memory
+
+- **Every memory write goes to short-term memory** (ADR 039 §1). A question asked of a
+  person, and the answer, are kept in the issue's short-term memory. So is an approved
+  memory update (ADR 036).
+- **The issue ID governs.** Everything a piece of work writes — its memory, its evidence, its
+  working files — goes under its issue ID, whether one drive or many plays ran in it. The issue
+  ties the work to the tracker and to the business intent it serves.
+- **Short-term memory is created in the issue being worked on.** Inside a drive, that is the
+  drive's issue; its plays open none. A play run on its own gets its issue from
+  `start-change`. A play's working folder lives in that issue, under `context/<play>/`, and its
+  status markers under `status/` — never in a folder beside the issues.
+- **A grounding run is no exception.** `/vision`, `/understand` or any other play runs inside
+  an issue. Its questions and the person's answers go to that issue's short-term memory.
+- **Moving memory up is a promotion.** A person makes it on purpose, outside the work, to
+  Garura memory or to Phoenix memory (ADR 036 §3).
+- **A new memory made outside short-term memory breaks the guardrail.**
+- **The memory tool never copies a Phoenix file.** It reads Phoenix memory. A project's
+  Garura memory is built from only the part the project needs — checkout, not all of
+  commerce — by `initialize` and by promotion (ADR 039 §4).
+- **Writing the product model is not a memory write.** A play built for it (`/vision`,
+  `/understand`) writes the model as its work (ADR 026).
+
+Until a person promotes an answer, another issue does not find it, and may ask the same
+question again. That is expected.
+
+## The `.garura/` folder (ADR 017, as amended by ADR 039)
 
 ```
 .garura/
 ├── core/
-│   ├── config.yaml                  # moved from repo root core/config.yaml
-│   └── memory/                      # gitignored; synced from core/components/memory/
-├── product/
-│   ├── product/                     # specify outputs (epics, scope, quality profile)
-│   ├── ux/                          # design outputs (personas, screens, flows, wireframes)
-│   └── arch/                        # arch outputs (architecture.yaml, quality-standards.yaml)
-└── project/
-    └── issues/
-        ├── _pending/
-        ├── _archive/
-        └── {issue_no}/
-            ├── specs/               # plans
-            ├── evidence/            # test and eval evidence
-            ├── checkpoint/          # play approval gates
-            ├── context/             # prepare / arch context
-            └── review/              # review artifacts
+│   ├── config.yaml          # settings and paths
+│   ├── engine-state.json
+│   ├── memory/              # Garura memory — kept in git
+│   └── tools/
+│       └── memory/          # the memory tool and its settings
+├── product/                 # the product model — part of Garura memory
+├── project/
+│   └── issues/              # short-term memory
+│       ├── _pending/
+│       ├── _archive/
+│       └── {issue_no}/
+│           ├── specs/       # plans
+│           ├── evidence/    # test and eval evidence
+│           ├── checkpoint/  # play approval gates
+│           ├── context/     # context, questions and answers, decision traces
+│           └── review/      # review records, memory updates waiting for a person
+├── install-manifest.json    # what the install laid
+├── defect-report/           # defects reported to Garura and Phoenix
+└── user-provided/           # the evidence layer
 ```
 
-Operational artifacts for product-scoped plays (checkpoints, status, resume state) live INSIDE the three `product/` buckets using underscore-prefixed subfolders (e.g., `.garura/product/_checkpoints/vision/20260414.md`). No siblings are permitted.
+The product model's own folders are listed in ADR 017 §1.
 
-The `write-evidence` skill (historically dispatched via the now-deprecated `scriber` agent) is the single chokepoint that enforces whitelist compliance at the write boundary.
+## Not yet everywhere
 
-### KB Capability Catalog (domain-taxonomy + cross-tree constraints)
+ADR 039 and ADR 040 were accepted on 19 October 2026. #661 moved the Kickoff plays
+(`/intent`, `/vision`, `/understand`), their agents, every play's close and the install. Still to
+move:
 
-> **Transitional (#434).** The `knowledge/domain-taxonomy/` KB described in this section has been **deleted** as part of the ProductOS realignment. It is replaced by the ProductOS v1 schemas at `core/components/memory/standards/schemas/product-os/` (product-os, ice, decision, epic, capability-intent). The legacy plays that consumed it (`specify`/`design`) have since been retired under #434; this section is retained for historical reference.
+- the other plays and agents read memory by a path, and keep their working folders beside
+  the issues (for example `{stm_base}_adr/<run-ts>/`) — #663;
+- a project installed before ADR 039 keeps the memory tool at `.garura/tools/memory/` and
+  Phoenix memory at `~/.garura/phoenix-memory` until it is installed again;
+- `initialize`, which builds a project's Garura memory, and promotion are not built.
 
-Per ADR 017 and 214.4, the `knowledge/domain-taxonomy/*.md` files are Garura's **capability catalog** — a human-readable feature catalog that the product-planning pipeline (`specify` / `design` / `arch`) reads programmatically.
+## Related
 
-Each feature in a domain file carries NINE sections:
-
-- **4 prose sections** (human and agent context): `When It Matters`, `Depth Spectrum`, `Signals`, `Tradeoffs`
-- **5 structured sections** (programmatic consumption): `Inclusion`, `Success Criteria`, `Failure Scenarios`, `Cross-Tree Refs`, `Experiential`
-
-The contract is defined in `core/components/memory/standards/rules/kb-extension.md` and enforced by the `validate-kb-extension` skill. Every feature must carry all nine sections; missing or empty structured sections fail validation and block the pipeline.
-
-`domain-taxonomy/_cross-tree-constraints.yaml` is the single file holding profile-driven inclusion/exclusion rules (e.g. `HighSecurity ⇒ MFA`, `HIPAA ⇒ AuditLogging`). The Product Keeper agent walks each constraint during capability configuration. See the file header for the schema and 10 bootstrap constraints (CTC-001 through CTC-010).
-
-**The three-layer planning hierarchy** — Domain → Capability → Intent Epic — maps onto this tree:
-- **Domain** = one file in `domain-taxonomy/` (user-management, commerce, payments, personalization, search)
-- **Capability** = one feature inside a domain file (identified by `{PREFIX}-F001` style IDs like UM-F001, CM-F003)
-- **Intent Epic** = generated by `specify` per selected capability, conforming to `core/components/memory/standards/schemas/intent-epic.yaml`
-
-Intent epic generation reads the capability's 5 structured sections and fills the intent-epic template. Success Criteria become the epic's `success_scenarios`; Failure Scenarios become the epic's `failure_scenarios`; Inclusion + Cross-Tree Refs drive whether the capability gets picked for the product at all; Experiential grows over time via `/capture-learning`.
-
-## Long-Term Memory (LTM)
-
-LTM contains **project contextual information** that persists across all plays and sessions.
-
-### LTM Purpose
-
-LTM stores:
-- **Standards** — Rules, conventions, quality criteria ("What are the rules?")
-- **Formats** — Templates and output shapes ("What does the output look like?")
-- **Knowledge** — Searchable reference material for design decisions ("What should I consider?")
-
-### LTM Usage
-
-Agents read from LTM to:
-1. Follow established practices
-2. Discover template paths to pass to skills
-3. Apply tool-specific patterns
-4. Maintain team conventions
-
-Skills read from LTM only when agents explicitly pass them LTM paths — skills do not search LTM themselves.
-
-```
-Agent invoked
-    │
-    └── Context Crafting — reads LTM from ~/.garura/core/memory/:
-          ├── standards/{rules|schemas|templates}/  # Cross-cutting rules, schemas, templates
-          ├── knowledge/{shelf}/                    # Design decisions and patterns
-          └── tools/{platform}/                     # Platform-specific patterns
-    │
-    └── (Skill/play-specific templates are bundled with the owning component, NOT in LTM)
-    │
-    └── Passes LTM template paths to skill
-    │
-    └── Skill reads template, writes STM artifact
-```
-
-### LTM Organization
-
-**Authoring (source of truth):**
-```
-core/components/memory/
-├── standards/           # Rules, conventions, quality criteria (cross-cutting only)
-│   ├── _index.md
-│   ├── rules/      # Per-domain canonical rule files (epics, features, product,
-│   │               #   design, architecture, scenarios, commits, git, pr,
-│   │               #   kb-extension, resolution)
-│   ├── schemas/    # YAML schemas for artifact shape (intent, intent-epic,
-│   │               #   screen-inventory)
-│   └── templates/  # Output-shape templates (github-issue, approval-prompt,
-│                   #   checkpoint, commit-message, delivery-report,
-│                   #   evidence-file, knowledge-file, pr-body,
-│                   #   pr-review-comment, issue-comment-rca-approved)
-├── knowledge/           # Searchable reference material
-│   ├── _index.md
-│   ├── architecture/
-│   ├── domains/
-│   ├── review/
-│   ├── technology/
-│   └── work-intelligence/
-└── tools/               # Platform-specific patterns (github, gitlab)
-
-# Skill/play-specific schemas and references live with the owning component:
-#   core/components/skills/{skill-name}/reference/{schema-or-spec}.md
-#   core/components/plays/{play-name}/scripts/ (bundled mechanical scripts)
-# Foundational architecture rules live in docs/adr/, not standards/.
-```
-
-**Deployment:**
-- Source: `core/components/memory/`
-- Global mode (default): `~/.garura/core/memory/` (shared across all projects, deployed via the `install-garura` play)
-- Project mode (ephemeral): `.garura/core/memory/` (project-specific, deployed via `install-garura` in project mode, gitignored)
-
-**Runtime (where agents read from):**
-```
-~/.garura/core/memory/    # Global mode (default)
-.garura/core/memory/      # Project mode
-```
-
-### LTM Access Pattern (ADR 009)
-
-Agents do NOT search LTM directly on behalf of skills. Instead, agents perform **Context Crafting**: they discover which LTM paths are relevant, then pass those paths to skills as explicit inputs.
-
-```
-Agent invoked (via JSON contract)
-    │
-    └── Context Crafting:
-          ├── Reads intent.yaml at intent_path from contract
-          ├── Reads STM artifacts at non-null stm.input and stm.output paths
-          └── Assembles LTM paths (e.g., taxonomy and rule paths from standards/)
-                    │
-                    ▼
-          Skill invocation:
-          └── Receives LTM template paths + STM artifact paths
-                    │
-                    ▼
-          Skill reads template from LTM
-          Skill fills template with content
-          Skill writes artifact to STM
-```
-
-Skills receive template paths from agents — skills do NOT search LTM themselves. This boundary keeps skills narrow and testable: each skill knows how to use a template once given the path; it does not need to discover which template to use.
-
-See [ADR 009: JSON Contract Pattern and Four Crafts Architecture](../adr/009-json-contract-four-crafts.md) for details on runtime LTM reads.
-
-## Short-Term Memory (STM)
-
-STM contains **artifacts created during play execution** for a specific issue.
-
-### STM Purpose
-
-STM stores:
-- **Documents** — Specs, designs, analysis
-- **Evidence** — Validation, tests, changes
-
-### STM Lifecycle
-
-```
-Play starts
-    │
-    └── STM folder created: .garura/project/issues/{issue}/
-              │
-              ├── step 1 → Creates artifact
-              │
-              ├── step 2 → Creates artifact
-              │
-              └── step N → Creates artifact
-    │
-Play ends
-    │
-    └── STM persists for reference
-```
-
-### STM Organization
-
-```
-.garura/project/issues/{issue}/
-├── specs/          # Plans and specifications
-├── evidence/       # Per-play evidence
-│   └── {play-name}/
-│       └── {YYYYMMDD-HHMMSS}.md
-├── checkpoint/     # Per-play checkpoints
-│   └── {play-name}/
-│       └── {YYYYMMDD-HHMMSS}.md
-├── context/        # prepare / arch context artifacts
-└── review/         # Review artifacts
-```
-
-## Memory Flow
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    LTM (Long-Term Memory)                   │
-│  Created: At project setup                                  │
-│  Contains: Practices, standards, templates                  │
-│  Location: core/components/memory/                          │
-└─────────────────────────────────────────────────────────────┘
-                              ▲
-                              │
-                    learn play
-                    (promotes learnings to LTM)
-                              │
-┌─────────────────────────────────────────────────────────────┐
-│                    STM (Short-Term Memory)                  │
-│  Created: When play starts                                │
-│  Contains: Artifacts for this issue                         │
-│  Location: .garura/project/issues/{issue}/                  │
-└─────────────────────────────────────────────────────────────┘
-```
-
-## STM → LTM Persistence
-
-When a play completes, critical STM content can be persisted to LTM:
-
-**Candidates for persistence:**
-- Successful patterns discovered
-- New learnings about codebase
-- Reusable solutions
-- Updated best practices
-
-**Persistence flow:**
-```
-Play completes
-    │
-    └── Play: learn
-          │
-          ├── Read what actually happened (lenses, verdicts, decisions)
-          ├── Extract patterns, learnings
-          └── Promote durable learnings to the KB
-```
-
-## Memory in Play Execution
-
-### Play Memory Pattern
-
-```
-Play
-    │
-    ├── Agent reads LTM:
-    │     ├── standards/
-    │     ├── knowledge/
-    │     └── tools/
-    │
-    ├── Agent does work
-    │
-    └── Agent writes STM:
-          └── artifact in .garura/project/issues/{issue}/
-```
-
-### Play Memory Flow
-
-Plays chain other plays, with each reading from previous STM:
-
-```
-Chaining Play
-    │
-    ├── step 1 → STM: artifact A
-    │
-    ├── step 2
-    │       ├── Reads STM: artifact A
-    │       └── STM: artifact B
-    │
-    └── step 3
-            ├── Reads STM: artifact B
-            └── STM: artifact C
-```
-
-## Memory Location
-
-**Authoring:** Memory is authored in:
-```
-core/components/memory/
-├── standards/       # Rules, schemas, and templates
-├── knowledge/       # Searchable reference material
-└── tools/           # Platform-specific patterns (github, gitlab)
-```
-
-**Runtime:** Agents read memory from:
-- `~/.garura/core/memory/` (global mode, default — shared across all projects)
-- `.garura/core/memory/` (project mode — project-specific)
-
-See: [docs/usage/memory/](../usage/memory/) for concrete implementations.
-
-## Related Documentation
-
-- [ADR 006: Naming Conventions](../adr/006-naming-conventions.md)
-- [ADR 009: JSON Contract Pattern and Four Crafts Architecture](../adr/009-json-contract-four-crafts.md)
-- [Architecture Philosophy](../philosophy/architecture.md)
+- `core/tools/memory/README.md` — the memory tool, its commands and its contract
+- `core/tools/memory/GUIDE.md` — how an agent uses the tool
+- [ADR 035](../adr/035-agents-work-only-from-memory.md),
+  [ADR 036](../adr/036-approved-answer-lands-in-short-term-memory.md),
+  [ADR 037](../adr/037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md),
+  [ADR 038](../adr/038-install-brings-no-memory.md),
+  [ADR 039](../adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md),
+  [ADR 017](../adr/017-folder-whitelist.md)
 - [Plays Component Guide](./plays.md)

@@ -84,7 +84,7 @@ when traceability matters. Two registers, in that order.
 
 ## Related
 
-- `standards/rules/play-close.md` — Standard Play Close uses the same
+- `core/components/plays/_shared/play-close.md` — Standard Play Close uses the same
   paste-the-block + lint-anchor pattern, still active (the part of the
   pattern that earned its keep).
 - `feedback_human_speech_self_correction` — the user feedback this rule

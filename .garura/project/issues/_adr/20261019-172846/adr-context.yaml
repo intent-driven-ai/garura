@@ -1,0 +1,103 @@
+# adr-keeper context for the #661 item 4 decision: the config's source moves to core/config.yaml
+task_id: draft-adr
+shape: markdown
+number: "040"
+draft_path: .garura/project/issues/_adr/20261019-172846/adr-draft.md
+level: framework
+node_ref: null
+decided_in: >-
+  #661 (Kickoff's plays get memory only from their agents), item 4 of its plan
+  (.garura/project/issues/661/specs/plan.md), two replies of Kapil's on 2026-10-19 (answer "2")
+decided_by_on_accept: Kapil Viren Ahuja   # left empty in the draft; filled only at acceptance
+
+overlaps:
+  ran: "adr.py overlaps --adr brief.md --dir docs/adr --top 8"
+  judged:
+    - adr: "017"
+      verdict: amended
+      part: >-
+        §2 "Config relocation", the source half: "`core/config.yaml` is MOVED to
+        `.garura/core/config.yaml`". The config's source goes back to `core/config.yaml`.
+        Every project still holds its own installed copy at `.garura/core/config.yaml`, so the
+        rest of §2 stands, including its rationale that each project has its own config. The
+        "Keep `core/config.yaml` at repo root" row of its Alternatives was lost there and is
+        the choice now.
+      why_not_superseded: §2's project half (a project holds `.garura/core/config.yaml`) and its other lines stand; only where the source lives changes.
+    - adr: "039"
+      verdict: amended
+      part: >-
+        §6 "Paths go in the config file": "`.garura/core/config.yaml` names it" — the ontology's
+        path is written in the source `core/config.yaml` (`product.ontology`), and reaches each
+        project's `.garura/core/config.yaml` through the install; a play reads it from the
+        installed copy and hands it to its agent. Its Affects line on `.garura/core/config.yaml`
+        ("names the ontology's path; no key for it today") moves to `core/config.yaml`. §5's
+        layout, which lists `.garura/core/config.yaml` in a project, stands.
+    - adr: "038"
+      verdict: not affected
+      why: it changes what the install lays down for memory (the tool, its settings, the guide); it names install.py but says nothing about where the config's source lives.
+    - adr: "035"
+      verdict: not affected
+      why: names `.garura/core/config.yaml` keys (`components.memory`, `ltm.*`) as things a project reads; a project still reads them from its installed copy.
+    - adr: "016"
+      verdict: not affected
+      why: '`stm_base` is resolved from the project''s `.garura/core/config.yaml`; that is the installed copy and stays.'
+    - adr: "021"
+      verdict: not affected
+      why: shares only the path install.py; about status and evidence files.
+    - adr: "007"
+      verdict: not affected
+      why: already superseded; its mention of `core/config.yaml` is the pre-017 location, not a live rule.
+  supersedes: []
+  amends:
+    - { adr: "017", part: "§2 Config relocation — the source half" }
+    - { adr: "039", part: "§6 Paths go in the config file — which file names the ontology's path" }
+
+affects:   # updated 2026-10-19 to the working tree (uncommitted on this branch)
+  - path: core/config.yaml
+    what: added on this branch; the config's source; has product.ontology and one product block (the old file had two product keys, lines 70 and 141 of .garura/core/config.yaml; the second replaced the first)
+  - path: core/components/plays/install-garura/scripts/install.py
+    what: config_source() reads core/config.yaml, falls back to .garura/core/config.yaml for an older checkout
+  - path: installer/install.sh
+    what: SRC_CONFIG reads core/config.yaml with the same fallback for an older release; also makes .garura/project/issues/ not .garura/project/specs/ (ADR 039 §5)
+  - path: core/components/plays/install-garura/SKILL.md
+    what: pre-flight 3 and the output list name core/config.yaml as the source
+  - path: core/components/plays/install-garura/scripts/test_install.py
+    what: archive built without .garura/core/config.yaml; tests for core/config.yaml and an older release; 31 tests pass (verified by unittest run)
+  - path: CLAUDE.md
+    what: Reference row names the source and the installed copy
+  - path: README.md
+    what: repository tree lists core/config.yaml as the source
+  - path: docs/components/memory.md
+    what: paths row names the installed copy and its source
+affects_no_change:
+    - docs/components/agents.md — an agent reads a project's .garura/core/config.yaml; still right
+    - .garura/CLAUDE.md — already says .garura/ is the installed copy
+    - this repository's .garura/core/config.yaml — the installed copy; left as it is
+    - every play in a project keeps reading .garura/core/config.yaml — no play changes
+
+ice_impact: >-
+  none — no play's ICE changes. Plays in a project keep reading `.garura/core/config.yaml`, the
+  installed copy; only where the install takes the config from moves. The install and uninstall
+  plays have no ICE source (ADR 038). The ICE kind does not change.
+
+business_intent_check: none
+business_intent_reason: >-
+  a framework decision on where the config's source lives in the Garura repository; no person's
+  business intent changes, and the Business Intent kind's rules stand (ADR 031).
+
+related: [ADR 017, ADR 039, ADR 038, ADR 016, "#661", "#653", "#606"]
+
+style: >-
+  Plain short sentences, like ADR 039. Keep Kapil's quotes verbatim, typos included.
+
+brief_gaps: none — the brief has a decision, a reason, and the option not taken with why it lost
+
+# Top-level lists apply_adr.py reads (the nested ones under overlap_candidates above say the same)
+supersedes: []
+amends:
+  - adr: "017"
+    file: 017-folder-whitelist.md
+    part: '§2 "Config relocation" — the source half: the source goes back to core/config.yaml; each project still holds .garura/core/config.yaml'
+  - adr: "039"
+    file: 039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md
+    part: '§6 "Paths go in the config file" — the ontology''s path goes in the source config, core/config.yaml, and the install carries it into each project'

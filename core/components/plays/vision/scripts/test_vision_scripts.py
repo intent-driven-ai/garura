@@ -19,6 +19,7 @@ sys.path.insert(0, HERE)
 import check_kept as ck  # noqa: E402
 import grounding_check as gc  # noqa: E402
 import intent_touches as it  # noqa: E402
+import guidance_block as jg  # noqa: E402
 import lint_grounding as lg  # noqa: E402
 import persist_seed as ps  # noqa: E402
 import read_intents as ri  # noqa: E402
@@ -355,9 +356,47 @@ def test_grounding_covers_every_capability():
         check("recording it with its shelf passes", gc.main(["--manifest", path]) == 0)
 
 
+TEMPLATE = """# Capability template
+
+## Heading contract
+```
+## Directional intent
+```
+
+## Per-section guidance (detailed stage)
+
+- **Boundary** — what it owns and why.
+```
+## Not a heading: inside a fence
+```
+
+## Gold example — DIRECTIONAL stage (/vision)
+
+## Directional intent
+The answer the judge must never see.
+"""
+
+
+def test_judge_gets_only_the_guidance():
+    with tempfile.TemporaryDirectory() as tmp:
+        tpl, out = os.path.join(tmp, "capability.md"), os.path.join(tmp, "judge", "guidance.md")
+        write(tpl, TEMPLATE)
+        rc = jg.main(["--template", tpl, "--out", out])
+        text = open(out).read() if os.path.exists(out) else ""
+        check("the judge's guidance is the per-section guidance block",
+              rc == 0 and text.startswith("## Per-section guidance") and "what it owns and why" in text)
+        check("a heading inside a fence stays in the block", "## Not a heading: inside a fence" in text)
+        check("the judge is never handed the gold example",
+              "Gold example" not in text and "must never see" not in text)
+        write(tpl, "# Template\n\n## Gold example\nthe answer\n")
+        out2 = os.path.join(tmp, "none.md")
+        check("a template with no guidance block writes nothing",
+              jg.main(["--template", tpl, "--out", out2]) == 2 and not os.path.exists(out2))
+
+
 def main():
     for test in (test_read_intents, test_the_hand_over, test_named_updates_only, test_bad_inputs, test_never_blocks,
-                 test_keep_check, test_grounding_covers_every_capability):
+                 test_keep_check, test_grounding_covers_every_capability, test_judge_gets_only_the_guidance):
         print(test.__name__)
         test()
     print(f"\n{PASSED} passed, {FAILED} failed")

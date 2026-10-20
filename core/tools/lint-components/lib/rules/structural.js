@@ -341,10 +341,11 @@ function checkPlay(component) {
     }
   }
 
-  // Standard Play Close block — canonical close, see standards/rules/play-close.md.
-  // Anchors must match byte-for-byte, appear exactly once each, opener before closer.
+  // Standard Play Close — the shared close, see core/components/plays/_shared/play-close.md
+  // (ADR 039 §9). Anchors must match byte-for-byte, appear exactly once each, opener before
+  // closer; the play carries only its own values between them.
   const closeOpener =
-    '# --- Standard Play Close (canonical; see standards/rules/play-close.md) ---';
+    '# --- Standard Play Close (shared; see ../_shared/play-close.md) ---';
   const closeCloser = '# --- end Standard Play Close ---';
   const openerCount = body.split(closeOpener).length - 1;
   const closerCount = body.split(closeCloser).length - 1;
@@ -356,7 +357,7 @@ function checkPlay(component) {
       message:
         `Standard Play Close anchors must appear exactly once each ` +
         `(found opener ${openerCount}, closer ${closerCount}). ` +
-        `See standards/rules/play-close.md.`,
+        `See core/components/plays/_shared/play-close.md.`,
       line: 1,
     });
   } else if (body.indexOf(closeOpener) >= body.indexOf(closeCloser)) {
@@ -366,9 +367,21 @@ function checkPlay(component) {
       severity: 'error',
       message:
         'Standard Play Close opener anchor must appear before the closer anchor. ' +
-        'See standards/rules/play-close.md.',
+        'See core/components/plays/_shared/play-close.md.',
       line: 1,
     });
+  }
+  if (openerCount === 1) {
+    const shared = path.join(path.dirname(component.file), '..', '_shared', 'play-close.md');
+    if (!fs.existsSync(shared)) {
+      violations.push({
+        file: component.file,
+        rule: 'structural/missing-shared-play-close',
+        severity: 'error',
+        message: 'The play points to ../_shared/play-close.md, but that file does not exist.',
+        line: 1,
+      });
+    }
   }
 
   violations.push(...checkDmwAnchors(component, body));

@@ -100,6 +100,19 @@ play pulls out what the person wants; it never copies how the source does it.
   three example answers drawn from the source and the person's words so far; the person's
   reply is recorded exactly, and a reply that picks an example is recorded as picked, so it
   stays clear who wrote it.
+- C14 — The run's short-term memory lives in the issue it works on (ADR 036 §1, ADR 039 §1;
+  Kapil, 2026-10-19: "the issue that we are working on is where the short-term memory is going
+  to get created. Doesn't matter whether it is drive play or whatnot"). Inside a drive that is
+  the contract's `issue`; run by hand it is the issue `start-change` opens or resolves (Step 0).
+  The run's working folder is `{stm_base}<issue>/context/intent/<run-ts>/` (inside the issue's
+  `context/` key, ADR 017), so the person's answers (`answers.yaml`) are in the issue's
+  short-term memory, where the memory tool finds them. Its status and session-stamp markers
+  sit at `{stm_base}<issue>/status/`, its sub-play results under
+  `{stm_base}<issue>/context/intent/start/` and `…/end/`, and its evidence — the Sources'
+  snapshots included — under `{stm_base}<issue>/evidence/intent/`. Run by hand, nothing is
+  written to short-term memory before `start-change` gives the issue: what the pre-flight
+  records is held in a scratch folder outside `.garura/` and moved into the issue right after
+  Step 0, so a pre-flight halt leaves no issue, no branch and no file behind.
 
 ### Failure conditions
 
@@ -133,6 +146,9 @@ play pulls out what the person wants; it never copies how the source does it.
   business.
 - F13 — A question for why or proof was asked with no example answers, or a picked example was
   recorded as the person's own words.
+- F14 — The run wrote short-term memory outside its issue's folder: a working file, a person's
+  answer, a status marker, a sub-play result or a Source's snapshot under any other folder, or,
+  run by hand, anything written to short-term memory before `start-change` gave the issue.
 
 ## Context
 
@@ -151,6 +167,16 @@ docs and the running app), and the draft reads both.
 The first trial on a real prototype shaped this: a prototype shows what the person must see
 and decide; the business intents sit one "why?" above, and the person supplied them,
 including one no source showed. Example answers helped the person answer why and proof.
+
+Short-term memory is created in the issue being worked on, whether the play runs by hand or
+inside a drive (C14).
+
+The play reads no memory itself (ADR 039 §2). It hands `business-intent-keeper` the issue and
+the ontology by its name in memory — the config's `product.ontology` — and the agent reads the
+ontology through the memory tool, copies it into the run's short-term memory for
+`author-business-intent`, and records what it read with `cite`. The close gets its templates
+from the `template-manager` agent (the shared close, `_shared/play-close.md`), never by a path
+in memory.
 
 ## Expectation
 
@@ -207,7 +233,7 @@ including one no source showed. Example answers helped the person answer why and
 ### Done means
 
 Paths are relative to the run's working folder (`<working>`, under
-`{stm_base}_kickoff/intent/<run-ts>/`). `intent-manifest.json` is written when the confirmed
+`{stm_base}<issue>/context/intent/<run-ts>/`, inside the issue being worked on). `intent-manifest.json` is written when the confirmed
 Business Intents are saved, and rolls up every Source of the run; `guard-report.json` is the
 captured scoped-write guard output.
 
@@ -266,3 +292,8 @@ captured scoped-write guard output.
 - REC13 (F13) — trigger: a question went out with no examples, or a picked example was recorded
   as the person's words. direction: ask again with examples; mark the picked reply as picked.
   handoff: autonomous.
+- REC14 (F14) — trigger: a working file, an answer, a marker, a sub-play result or a snapshot
+  sits outside `{stm_base}<issue>/`, or something was written to short-term memory before Step 0
+  gave the issue. direction: move it into the issue's working folder (or status or evidence
+  folder), delete the stray copy, and continue; when the issue is not known yet, hold it in the
+  scratch folder until Step 0. handoff: autonomous.

@@ -229,7 +229,7 @@ in prose can drift. In each compiled play:
    - `changes_present` — whether there are changes to work on.
 4. Copy [`references/session_stamp.py`](references/session_stamp.py) unchanged to
    `scripts/session_stamp.py`. Run it with `--phase start` right after `preflight.py`. It
-   leaves a marker that the close step (`play-close.md`) reads later. If it fails, carry
+   leaves a marker that the close step (`_shared/play-close.md`) reads later. If it fails, carry
    on — it never stops the play.
 5. The play's Pre-flight table holds only its own rules: for each fact, stop, exit quietly,
    or block. These differ per play. For example, "no changes" means *nothing to do, exit
@@ -274,7 +274,7 @@ Read the play's declared `position` (frontmatter: `start | end | both | none`, d
 - **none** → inject nothing (strategic/model-building and standalone plays).
 
 Inject as **explicit, named sub-play steps** wired as JSON contracts over files on disk
-and dispatched with `parent_run_id` (sub-play evidence convention, `play-close.md`), woven
+and dispatched with `parent_run_id` (sub-play evidence convention, `_shared/play-close.md`), woven
 into the Task DAG — `start-change` at the head, the four end plays as the closing chain
 (each `blockedBy` the previous) right before the Evidence & Close step. Never collapse the
 end sequence into one opaque step. The six **member** plays (`start-change`;
@@ -338,9 +338,18 @@ by this check.
 the clause list, unchanged) and copy
 [`references/check_stop_condition.py`](references/check_stop_condition.py) unchanged to
 `scripts/check_stop_condition.py`, the same way as `preflight.py` and `session_stamp.py`.
-The Standard Play Close's Step C0 (play-close.md) checks the manifest at close: held allows
-COMPLETED, unmet forces HALTED. A play whose ICE has no Done means gets no manifest
-and closes as legacy (`stop_condition: not_defined`). Write each mechanical step's
+The Standard Play Close's Step C0 (`_shared/play-close.md`) checks the manifest at close: held
+allows COMPLETED, unmet forces HALTED. A play whose ICE has no Done means gets no manifest
+and closes as legacy (`stop_condition: not_defined`).
+**Emit the close as a pointer, not a copy.** The Standard Play Close lives once, in
+`core/components/plays/_shared/play-close.md` (ADR 039 §9). The play's final step holds only:
+the opener anchor (its exact text is under "Enforced" in `_shared/play-close.md`), a line
+saying to run the close there, the play's own values (its `evidence_base` and slug, its
+session-stamp marker, its stop-condition manifest, base and out) and close lines of its own,
+the play's C0/C1/C2 specifics (its artifact list, its report title, its Next Steps), and the
+closer anchor. Never copy the shared steps into the play, and never
+have the play read a template from memory: the close gets its templates from
+`template-manager`. `lint-components` checks both anchors. Write each mechanical step's
 script into `scripts/` and have that step run it by relative path; keep the script's logic
 out of the step's prose. Copy the pre-flight script as step 4 says. Wire every step that dispatches to a subagent or skill as a
 **JSON contract**: it names the input file paths and the output file path, the piece writes

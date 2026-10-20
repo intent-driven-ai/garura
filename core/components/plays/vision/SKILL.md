@@ -87,11 +87,13 @@ stop-condition verdict reading held (C8/F7).
 | Agent | Domain | Skill it invokes | Phases |
 |-------|--------|------------------|--------|
 | `product-os-keeper` | Ground the goal in the KB; author the directional seed — the detailed domain doc + directional capability docs written in place on the live model, and the spine-delta (spine entries + directional profile) emitted into the manifest | `search-kb`, `propose-kb-node`, `author-vision-seed` | Grounding, Author |
+| `template-manager` | Hand out the templates the play needs — the approval prompt, each judged kind's grounding template, the close's templates — as short-term copies (the play reads no memory, ADR 039) | — | Content eval, Checkpoint, Close |
 
 `product-os-keeper` is the single **domain agent** this play uses (1 of the ≤5
-budget). The utility work — cutting the branch and resolving the issue — is `start-change`
-(injected head), not a domain agent. The content-quality judge always runs as an isolated,
-clean-context sub-agent (optionally on a configured different model) — never the
+budget). `template-manager` is a utility agent. The utility work — cutting the branch and
+resolving the issue — is `start-change` (injected head), not a domain agent. The
+content-quality judge always runs as an isolated, clean-context sub-agent running the
+`judge-grounding` skill (optionally on a configured different model) — never the
 orchestrator's own context.
 
 ## Pre-flight
@@ -101,14 +103,15 @@ orchestrator's own context.
 | Resolve config + `product_base` (`.garura/core/config.yaml`) | — | Hard halt |
 | Resolve `grounding-eval.judge` (optional model override) | C2 | Default: sub-agent on the session model |
 | Business intents (ids, or /intent's save record) and/or a business goal present (play argument; with neither, interview the user for a goal) | C10 | Gather (interview), not a halt |
-| Drive contract: when `--contract <file>` is passed, `check_drive_contract.py` accepts it (valid, complete, current branch = the drive's branch) and writes `run.json` | C11/F12 | Hard halt (REC12) |
+| Drive contract: when `--contract <file>` is passed, `check_drive_contract.py` accepts it (valid, complete, current branch = the drive's branch) and writes `run.json` in the contract issue's folder; run by hand, `run.json` is written after Step 0, in the issue start-change gave | C11/F12 | Hard halt (REC12) |
 | **Clean model tree** — after start-change (Step 0), or at once inside a drive, `git status --porcelain -- <product_base>product-os` is empty | C9/F9 | Hard halt (REC9) |
 
 Resolve the pre-flight facts mechanically with the bundled resolver — do not derive
 them by inference:
 
 ```
-python3 scripts/preflight.py --play vision --config .garura/core/config.yaml
+python3 scripts/preflight.py --play vision --config .garura/core/config.yaml \
+    --branch "$(git branch --show-current)"
 ```
 
 It returns one JSON object of facts. /vision reads `product_base` (the live model — the
@@ -120,8 +123,16 @@ them from the play argument (intent ids, or the path of /intent's `intent-manife
 a goal as text — any of them, or both); with neither, interview the user for a goal before
 Step 1.
 
-**Run by hand or inside a drive (C11).** Check the drive contract first — always, so the run
-records which path it takes:
+**The run lives in its issue (C11).** The run's short-term memory is the issue it works on:
+inside a drive the contract's `issue`, run by hand the issue `start-change` opens or resolves
+(Step 0). Run by hand, nothing is written to disk before Step 0 has given the issue — the
+pre-flight checks above stay checks, and the file writes below (`run.json`, the session stamp's
+start marker) run right after Step 0, once `scripts/preflight.py --branch "$(git branch
+--show-current)"` resolves the issue from the new branch. Inside a drive the issue is known
+at pre-flight from the contract, so they run at once.
+
+**Run by hand or inside a drive (C11).** Check the drive contract — inside a drive at
+pre-flight, run by hand right after Step 0 — so the run records which path it takes:
 
 ```
 python3 scripts/check_drive_contract.py --play vision \
@@ -137,7 +148,8 @@ the model give neither, the run stops and asks the person (ADR 029: a new questi
 drive) — it never picks a goal itself. A non-zero exit (an invalid contract, or the current
 branch is not the drive's) is a hard halt (REC12).
 
-`<working>` — the run's working folder — is `{stm_base}_shaping/vision/<product_slug>/`;
+`<working>` — the run's working folder — is `{stm_base}<issue>/context/vision/<product_slug>/`,
+inside the issue the run works on (ADR 017's `context/` key);
 the grounding, the seed manifest, the change-shape, the persist record
 (`persist-manifest.json`), and the captured scoped-guard report (`guard-report.json`) all
 live under it. These are STM, non-model artifacts (ADR 008/017) — the model itself is
@@ -157,17 +169,17 @@ test -z "$(git status --porcelain -- <product_base>product-os)" || { echo "HALT:
 If dirty, halt and ask for a clean model tree (commit or revert the pending model edits)
 before /vision writes the seed.
 
-Right after the resolver, record the session identity stamp's start marker (#463 —
-soft-fail, never a halt):
+Once the issue is known (inside a drive at once, run by hand right after Step 0), record the
+session identity stamp's start marker (#463 — soft-fail, never a halt):
 
 ```
 python3 scripts/session_stamp.py --phase start \
-    --marker "{stm_base}_shaping/vision/status/session-stamp-vision.json" \
+    --marker "{stm_base}<issue>/status/session-stamp-vision.json" \
     --cwd "$(pwd)" --branch "$(git branch --show-current)"
 ```
 
-**Resume check:** if `{stm_base}_shaping/vision/status/<product_slug>.json` exists,
-resume — skip completed steps, reset any in-progress step to pending, continue from
+**Resume check:** resolve the issue from the branch; if
+`{stm_base}<issue>/status/vision-<product_slug>.json` exists, resume — skip completed steps, reset any in-progress step to pending, continue from
 the first incomplete.
 
 ## Task DAG
@@ -216,12 +228,14 @@ play's own end sequence (Steps E1–E4), not by a later play.
       "play":          "start-change",
       "parent_run_id": "<this run id>",
       "inputs":  { "title": "<the business goal, e.g. 'vision: <goal>'>" },
-      "outputs": { "result": "{stm_base}_vision/start/start-change.json" }
+      "outputs": { "result": "{stm_base}{issue}/context/vision/start/start-change.json" }
     }
 
-start-change owns its own evals (issue anchored, branch off latest main, worktree per
-config, STM initialized); they are not re-checked here. Immediately after it returns,
-run the clean-tree assertion (pre-flight, C9/F9) so `HEAD` is a correct base for the
+`{issue}` is the issue start-change opens or resolves. start-change owns its own evals (issue
+anchored, branch off latest main, worktree per config, STM initialized); they are not
+re-checked here. Immediately after it returns, resolve the issue from the branch, write
+`run.json` and the session stamp's start marker in that issue (C11), and run the clean-tree
+assertion (pre-flight, C9/F9) so `HEAD` is a correct base for the
 guard and the change-shape.
 **SE-10 (F9/C9):** the product-os tree was clean once start-change had cut the branch —
 the assertion (`git status --porcelain -- <product_base>product-os` empty) passed before
@@ -242,8 +256,8 @@ python3 scripts/read_intents.py --product-base <product_base> \
 
 The goal is then drawn from the intent pages (title, outcome, why) — joined with a typed goal
 when both are given. The agent does two things, in order: (1) route the goal to its **domain** with
-`search-kb`, then (2) read that domain's full shelf through the KB router
-(`python3 $KB shelf <domain>`) to **enumerate the candidate capability set** the
+`search-kb`, then (2) read that domain's full shelf, which it finds through the memory tool and
+copies into short-term memory, to **enumerate the candidate capability set** the
 domain offers — breadth, not a single placement. For any capability or whole domain the
 KB does not cover, it raises a `propose-kb-node` proposal. It writes the grounding
 (domain + the candidate-capability set, each with its KB shelf reference) and any
@@ -251,7 +265,8 @@ proposals to disk:
 
     {
       "task":    "route the goal to its domain, then enumerate the candidate capability set from that domain's shelf; propose KB nodes for gaps",
-      "inputs":  { "goal": "<the business goal, or drawn from the intents>",
+      "inputs":  { "issue": "<issue, or null>",
+                   "goal": "<the business goal, or drawn from the intents>",
                    "intents": "<working>/intents.json (when starting from intents)" },
       "outputs": { "grounding": "<working>/grounding.yaml",
                    "proposals_dir": "<working>/proposals/" }
@@ -281,7 +296,8 @@ file (`_spine.yaml`, the profile, an intent page) and moves no page — the keye
 
     {
       "task":    "author the directional vision seed from the goal + grounding — write or grow the detailed domain doc + directional capability docs in place on the live model (keeping what is there), emit the spine-delta (new entries, named updates, directional profile), same_as and warnings into the manifest",
-      "inputs":  { "goal": "<the business goal>",
+      "inputs":  { "issue": "<issue, or null>",
+                   "goal": "<the business goal>",
                    "grounding": "<working>/grounding.yaml",
                    "proposals_dir": "<working>/proposals/",
                    "intents_path": "<working>/intents.json (when starting from intents)",
@@ -314,9 +330,13 @@ Then run the **content-quality eval** over the grounding docs this run wrote or 
 detailed `domain.md` and every directional `capability.md` it wrote or added to, at their live
 paths — a page it only moves, unchanged, is not re-judged) as a **concurrent
 read-only fan-out** (`standards/rules/concurrent-fanout.md`): dispatch one isolated,
-clean-context judge sub-agent PER doc, ALL IN ONE CONCURRENT BATCH — each handed the judge
-prompt (`standards/rules/grounding-eval.md`), its doc, and the kind's per-section guidance
-(it sees neither the brief nor the author's reasoning), on the model from
+clean-context judge sub-agent PER doc, ALL IN ONE CONCURRENT BATCH — each running the
+`judge-grounding` skill, handed only its doc (and parent doc), and the kind's per-section
+guidance: the play first asks `template-manager` for each judged kind's template
+(`standards/schemas/product-os/grounding/<kind>.md`), cuts that copy's per-section guidance
+block out with `python3 scripts/guidance_block.py --template <copy> --out
+<working>/judge/guidance-<kind>.md`, and hands the judge only that block — never the
+template's gold example (it sees neither the brief nor the author's reasoning), on the model from
 `grounding-eval.judge.model` (default the session model). The three safety conditions hold:
 each judge only READS its own doc, writes only its own verdict JSON, and no judge depends on
 another. **Join** — wait for every verdict to return before gating any. Then gate every
@@ -488,7 +508,8 @@ domain (its intent, the bet, its guiding rules, the directional capabilities; ra
 light page when it was one), each capability's directional intent and agent intent, the
 capabilities placed from the holding folder, the intent links written (each intent's Touches
 list), the persist's `warnings`, and the directional profile (shape + rough NFR levels) —
-render the approval prompt (`standards/templates/approval-prompt.md`) and wait for the
+render the approval prompt — the template `standards/templates/approval-prompt.md`, which
+the play asks `template-manager` for (it never reads it from memory) — and wait for the
 typed response. Approve → continue to Step 7 (commit). **Cancel → revert the working tree
 (ADR 026 step 6):** the full delta is already on disk, so run the guard with `--restore` and
 an EMPTY allow set to `git restore` the modified model paths and `git clean`/remove the new
@@ -527,7 +548,10 @@ with no blocking finding standing.
 **SE-13 (F12/C11):** `run.json` records the path taken. Inside a drive (`in_drive: true`): no
 `start-change` (Step 0) or end-sequence step (E1–E4) ran, the run did not wait at Step 6, and
 every commit is on the contract's branch. By hand (`in_drive: false`): Step 0, Step 6 and
-E1–E4 ran as written.
+E1–E4 ran as written. Either way, `run.json`, the status markers and the sub-play results sit
+in the issue the run works on (`{stm_base}<issue>/context/vision/`, `{stm_base}<issue>/status/`
+— the contract's issue inside a drive, start-change's by hand), and by hand none was written
+before Step 0.
 **SE-14 (F13/C11):** inside a drive, when the gate did not auto-pass, a
 `<review_dir>/vision-<ts>.json` record exists with `decided: false`, its summary file equals
 `<working>/checkpoint.md`, and its attachments exist; the gate ledger holds exactly one line for
@@ -565,19 +589,19 @@ raise the PR, take the verdict, and merge the seed to main (C8).
 
 **Step E1 — commit-change** · blockedBy: Step 7
 
-    { "play": "commit-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "{stm_base}_vision/end/commit-change.json" } }
+    { "play": "commit-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "{stm_base}<issue>/context/vision/end/commit-change.json" } }
 
 **Step E2 — propose-change** · blockedBy: E1
 
-    { "play": "propose-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "{stm_base}_vision/end/propose-change.json" } }
+    { "play": "propose-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "{stm_base}<issue>/context/vision/end/propose-change.json" } }
 
 **Step E3 — review-change** · blockedBy: E2
 
-    { "play": "review-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "{stm_base}_vision/end/review-change.json" } }
+    { "play": "review-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "{stm_base}<issue>/context/vision/end/review-change.json" } }
 
 **Step E4 — merge-change** · blockedBy: E3
 
-    { "play": "merge-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "{stm_base}_vision/end/merge-change.json" } }
+    { "play": "merge-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "{stm_base}<issue>/context/vision/end/merge-change.json" } }
 
 Each end member owns its own evals (commit grouped by concern, PR opened, verdict posted, branch
 merged + cleaned); they are not re-checked here. A review-change reject stops the chain before
@@ -591,7 +615,7 @@ merge; the land on main keeps its pinned human approval (merge-change C7).
   directional `capability.md`, and a `directional` profile — clears both guards
   (`lint_grounding.py` clean; `grounding_gate.py` passes for every grounding doc) and is
   present in the live spine; the run's change is landed on main by the end sequence
-  (`{stm_base}_vision/end/merge-change.json` reports the PR merged), with no later play
+  (`{stm_base}<issue>/context/vision/end/merge-change.json` reports the PR merged), with no later play
   needed to finish it; the stop-condition verdict reads held.
 - **SCE-2 (S2 — architect):** every persisted capability traces to a KB shelf or a
   recorded proposal in the seed manifest (`grounding_check.py` is clean).
@@ -619,14 +643,16 @@ merge; the land on main keeps its pinned human approval (merge-change C7).
   current branch equals the contract's; a `vision-<ts>.json` review record with
   `decided: false` and its summary exist in the contract's `review_dir`; the ledger line reads
   `deferred_to_drive_review` (or `auto_pass`); the model delta is committed on the drive's
-  branch; the stop-condition verdict reads held. The same play run by hand reads
-  `in_drive: false` and ran every step.
+  branch; the stop-condition verdict reads held; `run.json` sits in the contract issue's
+  `context/vision/<product_slug>/`. The same play run by hand reads `in_drive: false`, ran
+  every step, and keeps its files in the issue start-change gave.
 
 ### Phase: Evidence & Close
 
 **Step 9 — Close** · Owner: play · Depends on: Step 8
-Run the Standard Play Close. /vision is a **product-scoped** play (no issue of its own) —
-use the product-scoped evidence base and slug. Evidence recording is play-only and
+Run the Standard Play Close. /vision's evidence lives in the issue being worked on (the
+drive's issue inside a drive, `start-change`'s by hand) — use that evidence base and the
+product's slug. Evidence recording is play-only and
 config-gated per the D1 evidence rule (`standards/rules/evidence-recording.md`).
 **SE-8 (F7/C8):** the close is stop-condition gated — `check_stop_condition.py` over
 the baked `stop-condition.yaml` (D1 the persist record exists; D2 it stamps
@@ -635,32 +661,28 @@ report reads `ok: true`) reads **held** before the run closes COMPLETED, and the
 is committed (C9); anything else closes HALTED with the unmet clauses named.
 
 ```bash
-# --- Standard Play Close (canonical; see standards/rules/play-close.md) ---
-# Path tokens resolved at pre-flight (resolve here if not already):
-#   ltm_project_target  = yq '.ltm.project-target' .garura/core/config.yaml
+# --- Standard Play Close (shared; see ../_shared/play-close.md) ---
+# Run the close in ../_shared/play-close.md. Its Step L loads the templates through
+# template-manager and sets ts and evidence_dest; then run this play's own lines below;
+# then Steps C0-C2.
 #   evidence_base, slug:
-#     project-scoped play : evidence_base="${stm_base}${issue}/evidence/vision/"   ; slug="#${issue}"
-#     product-scoped play : evidence_base="${product_base}_evidence/vision/"        ; slug="${product_slug}"
-evidence_template=$(cat "${ltm_project_target}standards/templates/evidence-file.md")
-delivery_template=$(cat "${ltm_project_target}standards/templates/delivery-report.md")
-ts=$(date -u +%Y%m%d-%H%M%S)
-evidence_dest="${evidence_base}${ts}.md"
-mkdir -p "$(dirname "$evidence_dest")"
-# Session identity stamp (#463) — close phase; start phase ran at pre-flight
+#     evidence_base="${stm_base}${issue}/evidence/vision/"   ; slug="${product_slug}"
+# Session identity stamp (#463) — close phase; start phase ran once the issue was known
 session_stamp=$(python3 scripts/session_stamp.py --phase close \
-    --marker "${stm_base}_shaping/vision/status/session-stamp-vision.json")
+    --marker "${stm_base}${issue}/status/session-stamp-vision.json")
 # Stop-condition gate (#464) — Step C0: this play carries a baked manifest, so the
 # gate is LIVE. Evaluate the Done means here as the close's authoritative input.
 python3 scripts/check_stop_condition.py \
     --manifest "<play-dir>/stop-condition.yaml" \
     --base "<working>/" \
-    --out "${stm_base}_shaping/vision/status/stop-condition-vision.yaml"
+    --out "${stm_base}${issue}/status/stop-condition-vision.yaml"
 sc_exit=$?   # 0 held · 1 unmet · 2 error
 # Conditional-gate policy refresh (#467) — soft: a distill failure never blocks the close
 python3 scripts/distill_gate_policy.py --ledger "<gates.conditional.ledger>" --policy "<gates.conditional.policy>" --streak <gates.conditional.streak> --project "<project name from config>" || true
 ```
 
-`/vision` is product-scoped: `evidence_base="${product_base}_evidence/vision/"` and
+`/vision`'s evidence lives in the issue being worked on:
+`evidence_base="${stm_base}${issue}/evidence/vision/"` and
 `slug="${product_slug}"` (the seeded domain's slug, e.g. `order-management`).
 
 **Step C0 — bind the verdict.** `sc_exit == 0` (held) permits `status: COMPLETED`.
@@ -688,7 +710,7 @@ ledger_start_offset, ledger_end_offset (null when unresolved — never blocks th
 and stop_condition per C0 with the Stop Condition section filled) and write to
 `$evidence_dest`. Do NOT hand-author the body.
 
-**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in `standards/rules/pipeline-next.md` and emit `**Next:** /<command> — <why>. Or run /next to see all recommended actions.` (only /next pointer, or omit, when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots and output the
+**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>. Or run /next to see all recommended actions.` (only /next pointer, or omit, when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots and output the
 report: `## vision Delivered — ${product_slug}`, the Run Summary table, the Pipeline
 Steps table from the task DAG, the Artifacts Produced table (the seeded domain doc,
 directional capability docs, spine entries, and profile), Next Steps (run /understand to
@@ -726,7 +748,7 @@ pointer to `$evidence_dest`. Always emitted; never gated.
 | F9 | the product-os tree is dirty once start-change has cut the branch (uncommitted model edits present) | halt and ask for a clean model tree — commit or revert the pending model edits — before /vision writes the seed | human |
 | F10 | the run refused, stopped, waited or closed HALTED over another play's work, or ran the workable check | drop the check or the wait; record what was missing or light as a warning in the persist record and carry on with what is there | autonomous |
 | F11 | a capability added twice, a one-sided intent link, or an unplaced capability with no warning | drop the duplicate and record `same_as`; re-run the keyed persist so it writes the missing side of each link; place the capability or record why it could not be placed | autonomous |
-| F12 | inside a drive the play opened an issue or branch, ran the end sequence, waited at its checkpoint, or worked off the drive's branch; or by hand it skipped a step | inside a drive, close the stray issue and branch, switch to the drive's branch, and write the review record in place of the wait; by hand, run the skipped step | human |
+| F12 | inside a drive the play opened an issue or branch, ran the end sequence, waited at its checkpoint, or worked off the drive's branch; or by hand it skipped a step; or a run file lies outside the issue the run works on | inside a drive, close the stray issue and branch, switch to the drive's branch, and write the review record in place of the wait; by hand, run the skipped step; move any run file into the issue's folder (`context/vision/<product_slug>/`, `status/`) | human |
 | F13 | no review record, a record that differs from the checkpoint, no ledger line, an approval no person gave, or an answer the play picked itself | re-render the checkpoint and re-write the review record with `write_drive_review.py`; append the missing `deferred_to_drive_review` line, or a correction refuting a made-up approval; drop the picked answer and ask the person | autonomous |
 
 ## Pause and Resume
@@ -743,16 +765,16 @@ continues at the first end-sequence member that has not finished.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:4047823fe3747ca22b955bf1e269271d17fd066b9b552427825676e6bdf7b118 (of `reference/ice.md`) |
-| compiled_by | play-editor (#614 runs inside a drive); play-editor (#637 one product model with /intent); play-editor (#616 position both); play-editor (#500 direct-model-write, ADR 026); prior: play-editor (#467 Batch B, #466 Batch C); play-creator (edited via play-editor, #437; spine+grounding+eval model) |
+| fingerprint | sha256:65a10ca5a29a172da798b87b804f512a7aa33a779a1940de60576426c3205714 (of `reference/ice.md`) |
+| compiled_by | play-editor (#661 reads no memory; the run lives in its issue); play-editor (#614 runs inside a drive); play-editor (#637 one product model with /intent); play-editor (#616 position both); play-editor (#500 direct-model-write, ADR 026); prior: play-editor (#467 Batch B, #466 Batch C); play-creator (edited via play-editor, #437; spine+grounding+eval model) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close — #616) |
 | position_exception | model-writing both play — writes the model on the started branch and commits its own model delta (C9) BEFORE the injected end sequence lands it (same shape as /measure) |
 | workflow_structure | A (single checkpoint — class: standard, conditional gate per gate-config.md #467; direct-model-write WRITE-THEN-REVIEW per ADR 026 — persist + guard + classify before the gate, commit after; stop-condition gated close) |
 | stop_condition | stop-condition.yaml (D1–D4), gate live at Step C0 |
 | domain_agents | 1 (product-os-keeper) |
-| utility_agents | 0 (start-change is the injected head, not a domain agent) |
-| skills_used | search-kb, propose-kb-node, author-vision-seed |
-| scripts | 16 (preflight.py, check_drive_contract.py, write_drive_review.py, read_intents.py, lint_grounding.py, grounding_check.py, grounding_gate.py, persist_seed.py, intent_touches.py, check_kept.py, scoped_write_guard.py, classify_change.py, gate_eval.py, distill_gate_policy.py, check_stop_condition.py, session_stamp.py) |
+| utility_agents | 1 (template-manager — templates as short-term copies; start-change is the injected head, not an agent) |
+| skills_used | search-kb, propose-kb-node, author-vision-seed, judge-grounding (each content-quality judge) |
+| scripts | 17 (preflight.py, check_drive_contract.py, write_drive_review.py, read_intents.py, lint_grounding.py, grounding_check.py, guidance_block.py, grounding_gate.py, persist_seed.py, intent_touches.py, check_kept.py, scoped_write_guard.py, classify_change.py, gate_eval.py, distill_gate_policy.py, check_stop_condition.py, session_stamp.py) |
 | step_evals | 14 (SE-1…SE-14) |
 | scenario_evals | 7 (SCE-1…SCE-7) |
 | recovery_entries | 13 (one per failure condition; 10 autonomous / 3 human) |

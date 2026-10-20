@@ -1,0 +1,248 @@
+meta:
+  pr: 678
+  issue: 661
+  round: 2
+  head: (after 4740c9ff, with the N-2/N-3 fixes)
+  gate: off by config (gates.plays.review-change); the computed recommendation is the decision, marked as a harness verdict
+  round_1: 'reject by the harness: 1 P1 (F1), 57 P2, 206 P3, 29 P4; fixed on the branch in 8ccf68ce, 7f796ee9, 9668cb47, 4740c9ff.
+    Round 1 findings are in this file''s git history.'
+  sources:
+  - 'round-2.yaml (change-reviewer: each round-1 design finding judged against the fixes; the standards groups judged with
+    runnable-checks.txt; 4 new findings)'
+  standards_groups:
+    BE-19: dismissed
+    ARCH-02_CODE-14: dismissed
+    CODE-03: dismissed
+    CODE-04: dismissed
+    ARCH-07: dismissed
+  counts_open:
+    P2: 3
+    P3: 9
+    P4: 7
+findings:
+- id: F2
+  severity: P3
+  category: memory-tool-contract
+  assessment: partly fixed
+  file: core/tools/memory/contract/v5.json
+  basis: pr.md P2/P3 buckets (missing checks for new behaviour; docs). Tool-level tests do cover the folder rule, so the gap
+    is in the contract and its samples only.
+  finding: Garura-tier paths now start with a Garura folder, but the contract does not say so and nothing checks it; two samples
+    show paths the v5 tool cannot return
+  round_2: 'The two samples (find.json, find-without-issue-starts-at-garura.json) now carry product/product-os/... paths in
+    the request glob and the match, and check_contract.py exits 0. The other half is not done: check_contract.py and v5.json
+    still have no answer rule that a Garura path starts with one of gar'
+- id: F3
+  severity: P3
+  category: memory-tool-contract
+  assessment: not fixed
+  file: core/tools/memory/contract/v5.json
+  basis: pr.md P3 bucket (missing docs); behaviour reasoned from code, not run on real stored records.
+  finding: v5 changes what a Garura path is and what is readable, with no migration line; older decision records may now read
+    as missing
+  round_2: v5.json's description and README.md say nothing about records or paths made before v5 that sit outside core/memory
+    and product (grep for migration/older/made before finds nothing). Neither file was touched in the fix commits. No owner
+    decision defers it.
+- id: F4
+  severity: P3
+  category: memory-tool-contract
+  assessment: not fixed
+  file: core/tools/memory/contract/v5.json
+  basis: 'pr.md P3 bucket ''naming'': the contract names things agents will look for.'
+  finding: v5 still sends agents to '/learn-memory' and '/promote-memory' plays that do not exist, and contradicts its own
+    'saving' text
+  round_2: v5.json still sends agents to the /learn-memory and /promote-memory plays at answer_rules.researched_goes_to_short_term
+    (line 43) and commands.propose.summary (line 432), and updates.py line 8 says the same, while v5's own text says a promotion
+    is a person's act outside the tool. No such plays exist
+- id: F5
+  severity: P4
+  category: memory-tool-contract
+  assessment: partly fixed
+  file: core/tools/memory/updates.py
+  basis: pr.md P4 bucket (style-only).
+  finding: updates.py docstring still says 'contract version 4'
+  round_2: updates.py line 3 now says contract version 5. citations.py line 4 still reads "contract version 4" as if it were
+    the current version; the suggested "since version 4" wording was not applied.
+- id: H1
+  severity: P2
+  category: harness
+  assessment: carried
+  file: core/components/plays/arch/SKILL.md
+  basis: 'pr.md buckets: structural breakage (an instruction that points to content that no longer exists) - Major. No table
+    row covers garura-prose.'
+  finding: The branch cuts the judge prompt, rubric and verdict shape out of standards/rules/grounding-eval.md and moves them
+    into the new judge-grounding skill. Eight plays that were not changed still tell thei
+  round_2: grounding-eval.md now says the rubric, prompt and verdict shape live in the judge-grounding skill (ADR 039 section
+    7) and names the skill, so the eight plays that still say "the judge prompt (standards/rules/grounding-eval.md)" reach
+    a pointer, not an empty file. Moving those plays is the owner's "2
+- id: H4
+  severity: P3
+  category: harness
+  assessment: not fixed
+  file: core/components/agents/product-os-keeper.md
+  basis: 'pr.md buckets: a duplicated constant that will drift - Minor.'
+  finding: Both agents hard-code 'python3 .garura/core/tools/memory/memory.py ...' in their text. business-intent-keeper and
+    the guide instead defer to the guide's {tool}. The tool's place then lives in the inst
+  round_2: product-os-keeper.md (lines 110-111) and template-manager.md (lines 36-37) still hard-code "python3 .garura/core/tools/memory/memory.py";
+    business-intent-keeper defers to the guide. No owner decision covers it.
+- id: H8
+  severity: P3
+  category: harness
+  assessment: carried
+  file: core/components/plays/intent/SKILL.md
+  basis: 'pr.md buckets: a layout move no committed decision covers, with a durability risk - Minor (owner decision).'
+  finding: The three plays' evidence moved from the product-scoped _evidence folder into the issue's STM, including /intent's
+    Source snapshots, which the intent pages and ICE link to (C7). ADR 039 section 1 reco
+  round_2: 'Owner decision "1" (the three plays'' evidence, /intent''s source snapshots included, moves into {stm_base}<issue>/evidence/<play>/)
+    is recorded in the plan and in /intent ICE C14. Still true: no ADR or ADR 017 text records the move, and nothing says
+    what keeps a Source snapshot reachable once an issu'
+- id: H9
+  severity: P3
+  category: harness
+  assessment: partly fixed
+  file: core/grounding/glossary.md
+  basis: 'pr.md buckets: documentation that contradicts a signed decision - Minor.'
+  finding: 'The branch rewrites the glossary''s memory rows (new tier rows, older words kept as pointers), but leaves the
+    superseded protocol as live definitions: the Agent row (''loads relevant LTM via Context Cra'
+  round_2: 'Resolution trace, R1-R4, LOCKED artifact, LLM fallback and ltm_context are now marked superseded by ADR 035, and
+    the Context-Crafting row says memory comes through the tool. Still live and unmarked: the Agent row (line 19, "loads relevant
+    LTM via Context Crafting"), the DRAFT artifact row (132), the'
+- id: H10
+  severity: P3
+  category: harness
+  assessment: carried
+  file: core/components/plays/intent/reference/ice.md
+  basis: 'pr.md buckets: an owner-decision gap between accepted ADR text and the ICE - Minor.'
+  finding: 'ADR 035 on main lists that ICE change as owed ''first'' (plan item 8). The branch''s ICE edits for these three
+    plays do not carry it: /intent C5 still reads ''the play asks the person and never fills the '
+  round_2: 'Not done in the ICE (intent C5 still reads "the play asks the person and never fills the gap itself"; vision C11
+    and understand C13 do not mention memory). Carried for the owner to confirm, as the caller said: ADR 039 re-routes the
+    work to the agents and leaves each play''s ICE change to a per-play d'
+- id: H11
+  severity: P4
+  category: harness
+  assessment: not fixed
+  file: core/components/plays/play-creator/scripts/lint_play.py
+  basis: 'pr.md buckets: style / small-scope lint drift - Nit.'
+  finding: check_next_command now passes when the play's text contains the string 'Next-line map' as well as 'pipeline-next.md'.
+    The check is a plain string match, and 'Next-line map' appears in every pointed pl
+  round_2: lint_play.py (play-creator copy line 340) still passes on the bare string "Next-line map" as well as "pipeline-next.md";
+    the play-editor copy is the same. Nit; no owner decision.
+- id: H12
+  severity: P4
+  category: harness
+  assessment: not fixed
+  file: core/components/plays/*/SKILL.md (25 plays whose C2 line says 'per `play-close.md`')
+  basis: 'pr.md buckets: naming / stale prose - Nit.'
+  finding: 'After the move the C2 line in 25 plays still says ''per `play-close.md`'', a file name that no longer exists at
+    that name (it is now _shared/play-close.md). The anchor line above it points to the right '
+  round_2: 25 plays still say per `play-close.md` in their C2 line; the file name now exists only as _shared/play-close.md.
+    The anchor line above it points to the right file, so runs still work.
+- id: H13
+  severity: P4
+  category: harness
+  assessment: partly fixed
+  file: core/components/skills/judge-grounding/SKILL.md
+  basis: 'pr.md buckets: style / consistency - Nit.'
+  finding: '(a) judge-grounding says ''Three things, and only these'' above an input table that lists five fields. (b) product-os-keeper
+    says ''never take memory paths from a contract'', while business-intent-keeper '
+  round_2: '(a) is fixed: judge-grounding''s input intro no longer says "three things". (b) product-os-keeper still says "never
+    take memory paths from a contract" (line 104), and (c) the three agents still copy into three different folders (<run>/context/memory/,
+    <working>/memory/, context/templates/). (d) was n'
+- id: MEM-1
+  severity: P2
+  category: memory
+  assessment: carried
+  file: core/components/memory/standards/rules/grounding-eval.md
+  basis: 'Main''s grounding-eval.md is the single source for the rubric, judge prompt and verdict shape, and plays point to
+    it. This branch moves all three into the judge-grounding skill (content moved intact: f'
+  finding: The judge prompt and rubric left the rule file while nine plays still hand their judge 'the judge prompt (standards/rules/grounding-eval.md)'
+  round_2: Same as H1. The rule file points to the judge-grounding skill; moving the eight plays is the owner's "2 okay" (#663,
+    open).
+- id: MEM-2
+  severity: P2
+  category: memory
+  assessment: carried
+  file: core/components/memory/standards/rules/product.md
+  basis: 'The rewritten Rule 12 enforcement paragraph names configure-capabilities, enrich-capabilities and generate-intent-epics
+    as writing to ''the issue''s file'', and `validate-intent-epics` as cross-checking '
+  finding: Rule 12 now says questions live in the issue's short-term memory, but the skills and schema it names as enforcers
+    still read and write .garura/product/user-provided/grounding-questions.md
+  round_2: 'I checked the skills that read or write the old file: configure-capabilities, enrich-capabilities, derive-design-patterns,
+    derive-logical-architecture, derive-physical-architecture, derive-systems-inventory, derive-tech-stack, recommend-mvp
+    and validate-architecture-spec all carry deprecated: true a'
+- id: MEM-3
+  severity: P3
+  category: memory
+  assessment: partly fixed
+  file: core/components/memory/standards/rules/evidence-recording.md
+  basis: On main these files reference `play-close.md` as a sibling in rules/ (evidence-recording.md lines 10, 19, 71, 76,
+    79, 82, 99; no-unbacked-recommendation.md 101/108/115; pipeline-next.md 5; pipeline-po
+  finding: play-close.md moved out of rules/, but five untouched rule files still point to `play-close.md` beside them, and
+    the rules index drops the row with no pointer to the new home
+  round_2: All five rule files (evidence-recording, no-unbacked-recommendation, pipeline-next, pipeline-position, direct-model-write)
+    now point to _shared/play-close.md. rules/_index.md still dropped the play-close row with no pointer to where the close
+    lives now.
+- id: MEM-5
+  severity: P4
+  category: memory
+  assessment: carried
+  file: core/components/memory/standards/rules/product.md
+  basis: Main ADR 036 §4 and ADR 035 §1 put a person's own answer in Garura memory so no one is asked twice. The old Rule
+    12 (product model's user-provided folder) matched that. The new Rule 12 puts every ques
+  finding: Rule 12 reverses a main-side decision (person's answer to Garura memory); the reversal rests on ADR 039 §1 alone
+  round_2: The reversal (a person's answers go to the issue's short-term memory) is the owner's decision in ADR 039 section
+    1. The old "why this rule exists" paragraph in product.md (line 165, "the next run re-asks it from scratch, and nothing
+    learns") is unchanged; a wording nit the owner can leave.
+- id: MEM-6
+  severity: P4
+  category: memory
+  assessment: not fixed
+  file: core/components/memory/standards/rules/play-close.md
+  basis: Main ADR 035 §1 says the rulebook lives in Phoenix memory and §Affects lists play-close.md only to change how it
+    reads templates. Main standards/_index.md files 'rules agents must follow' under standa
+  finding: The Standard Play Close leaves the rulebook for plays/_shared/; the move rests on ADR 039 §9 alone, and rules that
+    remain cite it by a repo-root source path
+  round_2: gate-config.md (line 115) and user-facing-voice.md (line 87) still cite the source-repo path core/components/plays/_shared/play-close.md,
+    which does not exist in the Phoenix copy. The five rule files fixed under MEM-3 use the installed name, so the rule folder
+    is now inconsistent.
+- id: N-1
+  severity: P3
+  category: new in round 2
+  assessment: open
+  file: core/components/plays/vision/scripts/write_drive_review.py
+  basis: pr.md on main bucket P3 (drift) with the P1 definition "breaking API contract" as the reason it matters; main:core/tools/memory/README.md
+    line 230 (the contract changes only by a new version, so every consumer must follow each new version).
+  finding: The F1 fix pins the writer to an exact list ("4", "5"). The next contract version (6) makes every drive that records
+    its decisions write nothing again, which is the round-1 P1 failure on a delay. The round-1 advice was to accept the tool's
+    current version, or any at or above 4, and to test with a li
+- id: N-2
+  severity: P4
+  category: new in round 2
+  assessment: fixed after round 2
+  file: core/components/plays/intent/SKILL.md
+  basis: pr.md on main bucket P4 (small drift); sibling behaviour in core/components/plays/understand/SKILL.md lines 159-162
+    ("a halt before Step 0 deletes the scratch").
+  finding: The new pre-flight scratch flow has two loose ends. (1) /intent never says a hard halt before Step 0 deletes the
+    scratch folder (made with mktemp -d), so a halt leaves a stray folder in the system temp area; /understand states the
+    deletion, and /intent's F14 recovery only says "hold it in the scratc
+- id: N-3
+  severity: P4
+  category: new in round 2
+  assessment: fixed after round 2
+  file: core/components/plays/intent/SKILL.md
+  basis: main:CLAUDE.md "Play Pipeline Rules" (an intent change goes through the ICE source and /play-editor; never hand-edit
+    a compiled SKILL.md for an intent change); pr.md on main bucket P4.
+  finding: Commit 9668cb47 adds C14/F14/REC14 and SE-14 to /intent and rewrites fingerprints in all three plays, but the compiled_by
+    rows were not given an entry for this change, and the commit does not say it was compiled with /play-editor. The fingerprints
+    do equal the ICE hashes and lint_play passes, so the
+- id: N-4
+  severity: P4
+  category: new in round 2
+  assessment: open
+  file: core/components/plays/play-creator/references/guidance_block.py
+  basis: 'main:core/components/memory/standards/rules/grounding-eval.md ("What the judge is given": the judge never gets the
+    gold example); pr.md on main bucket P4.'
+  finding: 'cut() ends a guidance block at the next line that starts with "## ". It is right for all four grounding templates
+    today (checked), but a template that ever put its gold example under a "###" heading inside the guidance block, or inside
+    a fence-less block, would leak it to the judge with no warning. '

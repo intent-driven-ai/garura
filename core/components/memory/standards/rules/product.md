@@ -160,11 +160,11 @@ INFERRED CONSTRAINTS (no source in brief or profile — confirm, replace, or dro
 
 ## Rule 12: User Questions Are First-Class Artifacts
 
-**Every question the pipeline asks the user is captured in `.garura/product/user-provided/grounding-questions.md` with a unique ID, a slot for the user's answer, and durable retention across pipeline runs.**
+**Every question a play asks the person is captured in the issue's short-term memory, `{stm_base}<issue>/context/grounding-questions.md`, with a unique ID, a slot for the person's answer, and retention across the runs of that issue.** A grounding run (`/vision`, `/understand` or any other play) runs inside an issue, so its questions and answers go to that issue too (ADR 039 §1). They are memory written to short-term memory; another issue finds them only after a person promotes them.
 
 The pipeline runs are interactive but ephemeral. Questions that the pipeline surfaces at a checkpoint — "what's the real concurrent-session target?", "is OAuth linking in scope?", "what cost budget defaults apply?" — currently live only in the prompt text and disappear when the user responds. If the user answers "unknown" or if the checkpoint session ends before answering, the question is lost. The next run re-asks it from scratch, and nothing learns.
 
-**The rule:** every time the pipeline produces an inference (Rule 11), it also appends an entry to `.garura/product/user-provided/grounding-questions.md`. The entry carries:
+**The rule:** every time the pipeline produces an inference (Rule 11), it also appends an entry to the issue's `context/grounding-questions.md`. The entry carries:
 
 ```yaml
 - id: Q-<topic>-<sequence>              # unique, stable across runs
@@ -182,9 +182,9 @@ The pipeline runs are interactive but ephemeral. Questions that the pipeline sur
   resolved_by_run: null | <play run id>
 ```
 
-**Durable across runs:** the file is cumulative — new runs APPEND new questions, do NOT overwrite old ones. Questions answered in prior runs carry `user_decision` and `user_answer` from that prior run and are NOT re-asked; the pipeline reads their answers as facts. Questions marked `deferred` or left `null` are re-surfaced at the next checkpoint until the user resolves them.
+**Durable across the issue's runs:** the file is cumulative — new runs in the same issue APPEND new questions, do NOT overwrite old ones. Questions answered in prior runs of the issue carry `user_decision` and `user_answer` from that run and are NOT re-asked; the pipeline reads their answers as facts. Another issue does not see them until a person promotes them to Garura memory — until then it may ask again, which is expected. Questions marked `deferred` or left `null` are re-surfaced at the next checkpoint until the user resolves them.
 
-**User-provided is write-twice:** the user directly edits this file to answer questions (the `user_decision` and `user_answer` fields). The pipeline reads those answers on the next run. This is the only artifact where user and pipeline share write access — the pipeline appends questions, the user fills in answers. All other `.garura/product/` files are pipeline-produced.
+**Write-twice:** the person directly edits this file to answer questions (the `user_decision` and `user_answer` fields). The pipeline reads those answers on the next run. The pipeline appends questions, the person fills in answers.
 
 **Checkpoint integration:** at the capability-configuration checkpoint (and at any future stage-end checkpoint that encounters inferences), the prompt must list every unresolved question from `grounding-questions.md` with the question text and the user's decision options. The user either:
 - Tethers with answers (fills in user_answer inline or edits the file) → pipeline proceeds with the answers as facts
@@ -203,9 +203,9 @@ The pipeline runs are interactive but ephemeral. Questions that the pipeline sur
 - Pipeline-internal state (status, evidence, commit hashes — those live in `_status/`, `_evidence/`)
 - Artifacts the pipeline owns fully (market-brief, scope, epics — those live in their stage folders)
 
-**Why this rule exists:** the user directly requested it after the 50-question grounding surface I showed them became too large to manage inline. The insight: questions are knowledge, and knowledge needs a home. Dropping them into prompt text loses them; writing them to the user-provided folder turns them into a first-class artifact the user can edit, search, and track.
+**Why this rule exists:** the user directly requested it after the 50-question grounding surface I showed them became too large to manage inline. The insight: questions are knowledge, and knowledge needs a home. Dropping them into prompt text loses them; writing them to the issue's short-term memory turns them into a first-class artifact the person can edit, search and track, and that a person can promote (ADR 039 §1: every memory write goes to short-term memory first).
 
-**Enforcement:** `configure-capabilities`, `enrich-capabilities`, `generate-intent-epics`, and any future skill that produces an inference must write its inference-question to this file before surfacing it at a checkpoint. The skill cannot surface an un-captured inference. `validate-intent-epics` cross-checks: every inference referenced in an epic's `assumptions_requiring_validation` must have a corresponding question in grounding-questions.md with a matching ID. Missing question = violation `uncaptured_inference`.
+**Enforcement:** `configure-capabilities`, `enrich-capabilities`, `generate-intent-epics`, and any future skill that produces an inference must write its inference-question to the issue's file before surfacing it at a checkpoint. The skill cannot surface an un-captured inference. `validate-intent-epics` cross-checks: every inference referenced in an epic's `assumptions_requiring_validation` must have a corresponding question in grounding-questions.md with a matching ID. Missing question = violation `uncaptured_inference`.
 
 ## Rule 13: MVP Focus (Primary Use Cases, Deferred Use Cases)
 

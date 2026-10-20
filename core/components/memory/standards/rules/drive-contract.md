@@ -5,6 +5,14 @@ one (ADR 029; #614). A drive is a run of plays that keeps going until its goal i
 then gets reviewed. The drive owns one issue, one branch and one pull request; the plays
 inside it open none of their own. The contract is how a drive hands a play what it needs.
 
+**The issue ID governs** (ADR 039; Kapil, 2026-10-19). Everything the drive and its plays write
+— memory, evidence, working files, answers — goes under the drive's issue,
+`{stm_base}<issue>/`. The issue ties the work to the tracker and to the business intent it
+serves.
+
+**A drive reads no memory**, and neither do its plays (ADR 039 §2): a drive and its plays are
+workflows; their agents read memory, only through the memory tool.
+
 Canonical checker: `play-creator/references/check_drive_contract.py`, stamped into each
 play that can run inside a drive. Canonical review-record writer:
 `play-creator/references/write_drive_review.py`. Plays read this rule; they do not
@@ -43,12 +51,17 @@ A JSON file, passed to the play as `--contract <path>`:
    `inputs` and `answers`). An invalid contract, or a current branch that is not the
    contract's branch, is a hard halt. With no `--contract`, it writes `in_drive: false`
    and the play runs by hand, unchanged.
-2. **Open nothing.** Skip the injected `start-change` and the injected end sequence
+2. **Write under the drive's issue.** The play's working folder goes to
+   `{stm_base}<issue>/context/<play>/<run key>/`, its status markers to
+   `{stm_base}<issue>/status/`, its evidence to `{stm_base}<issue>/evidence/<play>/`, and every
+   question and answer to that issue's short-term memory — `<issue>` is the contract's
+   `issue`. Run by hand, the same paths hold with the issue `start-change` gives.
+3. **Open nothing.** Skip the injected `start-change` and the injected end sequence
    (commit-change → propose-change → review-change → merge-change). The drive opens and
    lands the change. The play's OWN commit step — the one in its workflow, such as a model
    play's "commit the model delta" — still runs, on the drive's branch, so the next play in
    the drive starts from a clean tree.
-3. **Resolve the play's checkpoint as by hand; never wait at a conditional one.** Resolve
+4. **Resolve the play's checkpoint as by hand; never wait at a conditional one.** Resolve
    the gate exactly as `gate-config.md` says. A config skip is recorded as a skip and a
    policy auto-pass as an auto-pass, as by hand. Only where the gate would WAIT does the
    play not wait: it writes what the checkpoint would have shown — its summary and the
@@ -61,10 +74,13 @@ A JSON file, passed to the play as `--contract <path>`:
    asks, like any new question. A play may defer a pinned checkpoint to the drive's review
    only where its own intent names that exception (as `/intent`'s confirmation does,
    ADR 031 D10).
-4. **A question the drive did not answer still stops the play.** The play asks the
-   person and never picks an answer for itself (ADR 029: a new question stops the
-   drive).
-5. **A learned checkpoint still learns.** A play whose checkpoint learns from people's
+5. **A question memory and the drive did not answer still stops the play.** The play's
+   agents look in memory first, through the memory tool (ADR 034, ADR 035). A question no
+   tier answers, and the contract's `answers` do not hold, stops the play: its agent raises
+   it as a memory update a person approves (ADR 035 §5, ADR 036 §2), and the play never
+   picks an answer for itself (ADR 029: a new question stops the drive). The person's
+   answer is kept in the drive issue's short-term memory (ADR 039 §1).
+6. **A learned checkpoint still learns.** A play whose checkpoint learns from people's
    answers (`gate_eval.py`) records a deferred crossing as `deferred_to_drive_review` (a
    skip or an auto-pass is recorded as by hand). The learner skips that line — it neither
    counts as an approval nor breaks a run of them. The drive's review later appends the

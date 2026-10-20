@@ -73,8 +73,8 @@ spine is preserved by the keyed script.
 
 ## The grounding contracts (non-negotiable)
 
-Every grounding doc you write conforms to its locked template under
-`standards/schemas/product-os/grounding/` and clears the content standard
+Every grounding doc you write conforms to its locked template (`standards/schemas/product-os/grounding/`,
+read from `schemas_dir`, the copy your agent put in short-term memory) and clears the content standard
 (`_content-standard.md`) — because the play runs the linter (shape) and the
 content-quality eval (a judge) over your docs, and a thin doc is rejected:
 
@@ -100,6 +100,7 @@ Telegraphic labels ("Local fixtures only") fail the eval.
 | `proposals_dir` | no | Folder of any `propose-kb-node` proposals for parts the KB did not cover. |
 | `product_base` | yes | From config (`product.base-path`). The live model root: read the existing spine + docs (to write only what is ABSENT), and WRITE the `domain.md` + `capability.md` docs in place under `{product_base}product-os/`. Only per-node docs — never a shared file. |
 | `manifest_path` | yes | Where to write `seed-manifest.yaml` (STM, non-model) — carries the spine-delta as structured data for the keyed persist script. |
+| `schemas_dir` | yes | The grounding templates, the content standard and the spine schema (`standards/schemas/product-os/grounding/*`, `standards/schemas/product-os/spine.yaml`), copied into short-term memory by the agent through the memory tool. Read these copies — never memory itself (ADR 039). |
 | `stm_base` | yes | From config. |
 | `issue` | no | Issue/run id for provenance (often null for /vision). |
 

@@ -61,7 +61,7 @@ Injection is explicit, not a hidden macro. The injected pieces appear as named s
 steps in the compiled play, wired as JSON-contract handoffs over files on disk (the same
 discipline as any other step) and run as sub-plays — each is dispatched with
 `parent_run_id` so it emits only its C1 evidence and the parent's close absorbs it (per
-`play-close.md`).
+`_shared/play-close.md` (beside the plays)).
 
 - **start** → prepend a first step that runs `start-change`, before the play's own first
   work step. The play's Task DAG gains that step at the head; everything else `blockedBy`
@@ -112,7 +112,7 @@ by play-creator at compile, not re-verified by the linter.
 
 ## Related
 
-- `play-close.md` — the Standard Play Close the end sequence is appended before; sub-play
+- `_shared/play-close.md` (beside the plays) — the Standard Play Close the end sequence is appended before; sub-play
   (`parent_run_id`) evidence convention
 - `evidence-recording.md` — D1; the injected sub-plays record evidence the play-only way
 - `start-change`, `commit-change`, `propose-change`, `review-change`, `merge-change` — the

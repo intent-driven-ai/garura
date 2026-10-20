@@ -21,7 +21,7 @@ it; this grounding note only records what changed since the original prototype.
   evidence write (the `C1` slot of the Standard Play Close) on it.
 - The user-facing delivery report (`C2` of the Standard Play Close) is a UX
   surface and is **never** gated by the flag — see
-  `standards/rules/play-close.md`.
+  `core/components/plays/_shared/play-close.md`.
 
 ## What changed from the original prototype
 

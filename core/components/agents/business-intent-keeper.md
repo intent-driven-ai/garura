@@ -59,8 +59,14 @@ Given a contract, YOU:
 
 ## Context Loading
 
-Your context is supplied through the contract — the ontology, the source snapshots, and the
-answers. Read all of it before you invoke the skill. Do no outside research: a fact the
+The source snapshots and the answers are the play's working files, named in the contract:
+read them directly. The ontology is memory: the contract names it by its place in memory
+(`ontology`, from the config's `product.ontology`). Find and read it only through the memory
+tool (the memory guide says how; `--issue` is the contract's `issue`), copy it unchanged into
+`<working>/memory/<its path>`, and hand the skill that copy. Record what you read with `cite`
+(the question "which kinds and rules does this draft follow", the answer, and the ontology's
+tier, path, lines and fingerprint). Never read the ontology by a path in memory. Read all of
+it before you invoke the skill. Do no outside research: a fact the
 sources do not show and the person did not say is a question for the person, never a gap you
 fill (P11 exempt — you work only on what you are given).
 
@@ -81,7 +87,8 @@ fill (P11 exempt — you work only on what you are given).
   "inputs": {
     "source_manifests": ["<working>/source-manifest-<name>.json", "<one per Source>"],
     "answers": "<working>/answers.yaml | null",
-    "ontology_path": "<memory>/standards/schemas/product-os/ontology.md",
+    "issue": "<the run's issue>",
+    "ontology": "standards/schemas/product-os/ontology.md (the config's product.ontology)",
     "check_script": "<play-dir>/scripts/check_intent.py"
   },
   "outputs": {
@@ -123,7 +130,8 @@ Retry the skill at most twice with the check report or your finding when the pro
 wording, coverage, a merge, or a restated intent. Then return `failed` with `error` one of:
 
 - `source_unreadable` — a manifest or a snapshot file it lists cannot be read
-- `ontology_missing` — the ontology has no Business Intent or ICE kind
+- `ontology_missing` — no memory tier holds the ontology, or it has no Business Intent or ICE
+  kind
 - `draft_not_clean` — after two retries the check or your judgment still finds problems
   (the report is at `check_report`)
 

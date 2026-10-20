@@ -7,7 +7,7 @@ once instead of being re-decided per play.
 
 It governs the machine-readable evidence file (the `C1` slot of the Standard
 Play Close). It does not change the user-facing delivery report (`C2`), which is
-a UX surface and is never gated — see `play-close.md`.
+a UX surface and is never gated — see `_shared/play-close.md` (beside the plays).
 
 ## The rule
 
@@ -16,7 +16,7 @@ component that may write a run-evidence file. Agents and skills never write
 evidence — not their own, not the play's.
 
 - **Plays** record evidence, as the final step of the run, via the Standard
-  Play Close (`play-close.md`). Nothing else in the run does.
+  Play Close (`_shared/play-close.md` (beside the plays)). Nothing else in the run does.
 - **Agents** craft context and write their working artifacts to STM (analysis,
   manifests, audits). Those are inputs the play's evidence file *points at* —
   they are not evidence files and are not gated by this rule.
@@ -68,18 +68,18 @@ Resolution precedence the play applies at pre-flight (first match wins):
    evidence.
 
 The resolved value is what the Standard Play Close C1 gate reads. Sub-plays
-follow `play-close.md`: a sub-play (carries `parent_run_id`) emits only C1 under
+follow `_shared/play-close.md` (beside the plays): a sub-play (carries `parent_run_id`) emits only C1 under
 this same resolved flag and skips C2; the parent's close absorbs the result.
 
 ## Relationship to the Standard Play Close
 
-This rule sets the *policy* (who records, and the on/off switch). `play-close.md`
+This rule sets the *policy* (who records, and the on/off switch). `_shared/play-close.md` (beside the plays)
 is the *mechanism* (the exact C1/C2 block a play emits). They converge:
 
-- `play-close.md` C1 already honors `evidence.record`; this rule generalizes
+- `_shared/play-close.md` (beside the plays) C1 already honors `evidence.record`; this rule generalizes
   that single flag into the global-plus-per-play resolution above.
 - The lint anchors and the always-on C2 report are unchanged — owned by
-  `play-close.md`, not restated here.
+  `_shared/play-close.md` (beside the plays), not restated here.
 
 ## Enforced
 
@@ -96,7 +96,7 @@ is the *mechanism* (the exact C1/C2 block a play emits). They converge:
 
 ## Related
 
-- `play-close.md` — the C1/C2 close block this rule switches on/off
+- `_shared/play-close.md` (beside the plays) — the C1/C2 close block this rule switches on/off
 - `templates/evidence-file.md` — the C1 machine-readable shape
 - `templates/delivery-report.md` — the C2 user-facing shape (never gated)
 - `feedback_recipe_changes_via_rebake` — intent vs non-intent boundary

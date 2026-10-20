@@ -1,0 +1,364 @@
+# Context for the ADR drafted from brief.md (#661). Gathered by adr-keeper, 2026-10-19.
+shape: markdown
+number: "039"
+draft_path: .garura/project/issues/_adr/20261019-122431/adr-draft.md
+level: framework
+decided_in: "#661 (Kickoff's plays get memory only from their agents), under Feature #653 and business intent #606; the #661 plan, item 1 and its Log (`.garura/project/issues/661/specs/plan.md`), across three replies of Kapil's on 2026-10-19"
+decided_by_when_accepted: Kapil Viren Ahuja   # leave **Decided by:** empty in the draft
+title_suggestion: "Every Memory Write Goes to Short-Term Memory, a Play Reads No Memory, and the Tool Reads Phoenix Memory Without Copying It"
+voice: >
+  Plain short sentences (ASD-STE100 style), like ADR 036 to 038. One idea per sentence.
+  Keep Kapil's quotes from the brief word for word, typos included. Each decision part ends
+  with the quote that backs it.
+
+# ------------------------------------------------------------------
+supersedes:
+  - adr: "036"
+    file: 036-approved-answer-lands-in-short-term-memory.md
+    part: >
+      in part — §4 "A person's own answer goes into Garura memory", and the lines that carry it:
+      §8's line on ADR 035 §5 ("A person's own answer goes to Garura memory") and its header's
+      line on ADR 034 §2 ("a person's answers to questions are kept in Garura memory").
+      A question asked of a person, and the answer, are kept in the issue's short-term memory.
+    why: >
+      Brief part 1 replaces §4 word for word ("This replaces ADR 036 §4"). The rest of ADR 036
+      stands and agrees with this ADR: §1 (short-term memory is the current issue only), §2
+      (an approved researched answer lands in short-term memory), §3 (promotion happens outside
+      the work), §5, §6, §7 as amended by ADR 037. Its ICE-impact line "a person's own answer
+      goes to Garura memory" falls with §4.
+
+amends:
+  - adr: "035"
+    file: 035-agents-work-only-from-memory.md
+    parts:
+      - part: '§1 "Memory has three tiers"'
+        what: >
+          Garura memory is `.garura/core/memory/`, and the product model (`.garura/product/`) is
+          part of it, not all of it. The person's answers come off the list of what Garura
+          memory holds; they are kept in the issue's short-term memory until a person promotes
+          them. Short-term memory is `.garura/project/issues/<issue>/`.
+      - part: '§2 "Phoenix memory has one home; a project pulls the subset it needs" (as amended by ADR 038)'
+        what: >
+          The tool never copies a Phoenix file into Garura memory. "It pulls more whenever the
+          tool goes up to Phoenix memory and finds something" and "A short list in the project
+          records what it pulled" go. A project's Garura memory is built separately, from only
+          the part it needs, by `initialize` and by promotion. Phoenix memory's own git
+          repository stands.
+      - part: '§3 "Memory is read in order"'
+        what: >
+          The order is named in full: short-term memory, then `.garura/core/memory/`, then the
+          product model, then Phoenix memory. Stopping at the first that answers, and "never
+          blocks a play", stand.
+      - part: '§4 "One tool finds and updates memory"'
+        what: >
+          "Agents and skills ... call one memory tool" becomes: only agents call the tool. A play
+          reads no memory; it calls its sub-agents, and they read memory through the tool and
+          build the context. A skill reads only what its agent puts in short-term memory. A drive
+          follows the same rule. The rest of §4 stands (Claude Code-style search; a move to
+          Griffin changes only the tool).
+      - part: '§5 "Nothing from the model or the web without an approved memory update" (as amended by ADR 036)'
+        what: >
+          The line ADR 036 added, "A person's own answer goes to Garura memory", is replaced
+          (see the supersede of ADR 036 §4). The rest of §5 stands.
+      - part: 'Negative / Risks, "Not decided here": "where in `.garura/` Garura memory lives (#656)"'
+        what: Settled — `.garura/core/memory/`, with the product model at `.garura/product/`.
+  - adr: "034"
+    file: 034-plays-answer-from-memory-inside-a-drive.md
+    parts:
+      - part: '§1 "Inside a drive, a play answers from memory"'
+        what: >
+          The play does not read memory itself. Its sub-agents read memory through the tool and
+          build the answer. The rule that a question is answered from memory stands.
+        judgment_call: >
+          Yes. §1's words "it answers it from memory" are not wrong about where the answer comes
+          from; they are wrong about who reads. A reader of ADR 034 alone would think the play
+          reads memory, so a pointer is worth it.
+      - part: '§2 "What counts as memory" (as amended by ADR 036)'
+        what: >
+          ADR 036's line "a person's answers to questions are kept in Garura memory" becomes:
+          a person's answers are kept in the issue's short-term memory. The rest of §2, as ADR
+          035 and 036 left it, stands.
+  - adr: "038"
+    file: 038-install-brings-no-memory.md
+    parts:
+      - part: '§2 "Phoenix memory arrives the first time the tool needs it"'
+        what: >
+          Phoenix memory's place on the machine is `~/.phoenix/core/memory` (was the default
+          `~/.garura/phoenix-memory`). The download on first need, with no password wait and a
+          time limit, stands. The tool reads Phoenix memory there; it never copies a file from it
+          into the project.
+      - part: '§4 "The memory tool lives in the project"'
+        what: >
+          The tool sits at `.garura/core/tools/memory/` (was `.garura/tools/memory/`), with its
+          settings beside it. The rest of §4 stands.
+      - part: '§5, its line on ADR 017 §1'
+        what: The whitelist gains `.garura/core/tools/`, not `.garura/tools/`.
+      - part: 'Negative / Risks, "Not decided here"'
+        what: >
+          The question of keeping `.garura/tools/` out of git now concerns
+          `.garura/core/tools/`. It stays open.
+  - adr: "017"
+    file: 017-folder-whitelist.md
+    parts:
+      - part: '§1 "Strict `.garura/` folder whitelist" (as amended by ADR 035 and ADR 038)'
+        what: >
+          `core/` holds `config.yaml`, `memory/` (Garura memory) and `tools/` (the memory tool).
+          The whitelist also allows `install-manifest.json`, `defect-report/` (defects reported
+          to Garura and Phoenix) and `user-provided/` (the evidence layer) at the top of
+          `.garura/`. `product/` and `project/issues/` stay. `project/specs/` is not allowed and
+          goes. ADR 038's `.garura/tools/` moves under `core/`. The rest of §1 stands.
+        note: >
+          §1's tree never listed `project/specs/`; the folder exists on disk
+          (`.garura/project/specs/`, empty). The amendment makes the whitelist name what stays
+          and says plainly that `project/specs/` goes.
+  - adr: "009"
+    file: 009-skill-ltm-organizational-knowledge.md
+    parts:
+      - part: 'Rule 3 "LTM paths are stable conventions" (as amended by ADR 035)'
+        what: >
+          ADR 035 said skills find standards through the memory tool. Now a skill never calls
+          the tool. Its agent finds the standards through the tool and puts what the skill needs
+          in short-term memory. Rules 1, 2, 4 and 5 stand.
+        judgment_call: >
+          Yes. ADR 035's pointer on ADR 009 now says something this ADR changes, so ADR 009 gets
+          a direct pointer — the same reason ADR 036 gave for its pointer on ADR 032.
+
+not_affected:
+  - adr: "011"
+    why: >
+      Skills write to short-term memory and the next step reads from it. This ADR keeps that and
+      adds that a skill reads nothing else. No rule of ADR 011 changes.
+  - adr: "015"
+    why: >
+      Already superseded in part by ADR 035. Its Knowledge File Standard stands; nothing here
+      touches it.
+  - adr: "016"
+    why: >
+      The contract already carries paths from a play to its agent. The ontology's path, named in
+      the config file and handed on by the play, fits that contract. `ltm_context` already went
+      with ADR 035. The contract's shape does not change, so ADR 016's "Any change requires a
+      new ADR" is not triggered.
+  - adr: "037"
+    why: >
+      The trace of each decision, its check, and the review tool's five sections stand. Its
+      Affects line names the old Phoenix place (`~/.garura/phoenix-memory/...`), but that is a
+      record of what it touched then; it needs no pointer.
+  - adr: "029"
+    why: >
+      Drives run plays in order. Nothing in ADR 029 says a drive reads memory. The rule that a
+      drive reads no memory goes in the drive contract (a rule file), not in ADR 029.
+  - adr: "026"
+    why: >
+      Model-writing plays still write the product model directly. Brief part 1 says writing the
+      product model is the work of the play built for it, not a memory write — this agrees.
+  - adr: "033"
+    why: >
+      The review step still writes approval into the product model from the person's answers.
+      Judgment call: that is a product-model write by the step built for it (brief part 1), not
+      a memory write, so it is not affected.
+  - adr: "030"
+    why: >
+      Names `play-close.md` only for the Pipeline Steps table, and the "converge-and-lint
+      pattern of the Standard Play Close" as a model. It does not decide that the close is
+      copied into each play. Not affected.
+  - adr: "025"
+    why: Lists "Standard Play Close" as part of the evidence contract. Where its text lives is not decided there. Not affected.
+  - adrs: ["028", "031", "032"]
+    why: Overlap candidates by shared words only (/intent, /vision, /understand). Nothing in them is about where memory is read or written.
+no_adr_for_the_close: >
+  No ADR records that the Standard Play Close is copied into every play. That rule lives in
+  `CLAUDE.md` ("Play Pipeline Rules", the durability rule: "/play-creator emits it (gate G12)"),
+  in `core/components/memory/standards/rules/play-close.md`, and in the lint check. Part 9
+  changes those files; there is no older ADR to amend for it.
+
+# ------------------------------------------------------------------
+affects:
+  memory_tool:
+    - path: core/tools/memory/memory.py
+      what: "`read` copies nothing from Phoenix memory; the `pull` and `pulled` commands go; the lookup reaches the product model after `.garura/core/memory/`"
+    - path: core/tools/memory/pull.py
+      what: "holds `pull` and `pulled` and the old default place `~/.garura/phoenix-memory`; the copy goes, the first-need download stays, pointed at `~/.phoenix/core/memory`"
+    - path: core/tools/memory/test_memory.py and core/tools/memory/test_pull.py
+      what: tests for the pull and the old place
+    - path: core/tools/memory/contract/v4.json
+      what: "lists `pull` and `pulled`, and says Garura memory 'holds the subset of Phoenix memory the project pulled'; the contract drops both commands (which contract version is not decided here)"
+    - path: core/tools/memory/GUIDE.md
+      what: "line 13 says Garura memory holds 'what it pulled from Phoenix memory'; line 35 says a file read from Phoenix memory is saved into Garura memory"
+    - path: core/tools/memory/README.md
+      what: "describes `pull`, `pulled`, `garura_pull_dir` and the copy on read"
+  install:
+    - path: core/components/plays/install-garura/scripts/memory_system.py
+      what: lays the tool at `.garura/core/tools/memory/` and names Phoenix memory at `~/.phoenix/core/memory`
+    - path: core/components/plays/install-garura/scripts/install.py, core/components/plays/install-garura/scripts/test_install.py, core/components/plays/install-garura/SKILL.md
+      what: name `.garura/tools/` and `~/.garura/phoenix-memory` today; the install also lays the common close file beside the plays
+    - path: core/components/plays/uninstall-garura/scripts/uninstall.py and core/components/plays/uninstall-garura/SKILL.md
+      what: removes the tool from its new folder, and the common close file
+    - path: installer/install.sh
+      what: names `.garura/tools/` today
+    - path: .gitignore
+      what: "ignores `.garura/tools/` (line 155) and `.garura/core/memory/` (line 152); the tool's folder moves"
+  layout_and_config:
+    - path: .garura/core/config.yaml
+      what: "names the ontology's path (no key for it today); its `ltm.project-target` is already `./.garura/core/memory/`"
+    - path: .garura/project/specs/
+      what: goes (empty today)
+  close_and_templates:
+    - path: core/components/memory/standards/rules/play-close.md
+      what: "the close reads its templates from `ltm.project-target` by path (lines 105–110) and `pipeline-next.md`; it moves into one common file the plays point to, and gets its templates from `template-manager`"
+    - path: core/components/memory/standards/templates/evidence-file.md, core/components/memory/standards/templates/delivery-report.md, core/components/memory/standards/rules/pipeline-next.md
+      what: the close's templates and Next-line map, handed out by `template-manager`
+    - path: core/components/memory/standards/templates/approval-prompt.md
+      what: "read today by `/vision` and `/understand`; handed out by `template-manager`"
+    - path: core/components/plays/play-creator/SKILL.md
+      what: "emits the close block into every play; it emits the pointer instead (the 'gate G12' that CLAUDE.md names — SKILL.md does not call it G12)"
+    - path: core/tools/lint-components/lib/rules/structural.js
+      what: "checks the close's anchor pair in every play (`structural/missing-standard-play-close`, `structural/standard-play-close-order`); it checks the pointer instead"
+    - path: every compiled play's SKILL.md under core/components/plays/
+      what: 28 plays carry the close block today; each gets the pointer (a direct edit — no guarantee changes)
+    - path: CLAUDE.md
+      what: "'Play Pipeline Rules', the durability rule: 'the Standard Play Close ... /play-creator emits it (gate G12) ... lint-components fails any play missing its exact anchor pair'"
+  judging:
+    - path: core/components/memory/standards/rules/grounding-eval.md
+      what: "the judge prompt and rubric move into a judging skill"
+    - path: the grounding gates that read it today
+      what: >
+        `core/components/plays/vision/SKILL.md` and `core/components/plays/understand/SKILL.md`
+        hand it to their judges. Also named by the SKILL.md or `scripts/grounding_gate.py` of
+        grill, learn, quality, agentic, ux, arch, measure, marketing and run, and by
+        `standards/rules/gate-config.md` and `standards/templates/approval-prompt.md`. The brief
+        names /vision and /understand; the rule covers every play that judges. #661 moves only
+        the two Kickoff plays (its plan, "Not in this plan").
+  plays_and_agents:
+    - path: core/components/plays/intent/SKILL.md and core/components/plays/intent/reference/ice.md
+      what: "hands its agent `ontology_path: <memory>/standards/schemas/product-os/ontology.md` (SKILL.md line 180); it takes the path from the config file"
+    - path: core/components/plays/vision/SKILL.md and core/components/plays/vision/reference/ice.md
+      what: judges through the judging skill; gets the approval prompt from `template-manager`
+    - path: core/components/plays/understand/SKILL.md and core/components/plays/understand/reference/ice.md
+      what: same as /vision
+    - path: core/components/agents/business-intent-keeper.md
+      what: "its contract takes `ontology_path` under `<memory>/`; it reads memory through the tool and puts what its skill needs in short-term memory"
+    - path: core/components/agents/product-os-keeper.md
+      what: "names the knowledge router `core/components/memory/knowledge/domains/.pageindex/kb.py`; it reads memory through the tool instead"
+  rules_and_docs:
+    - path: core/components/memory/standards/rules/drive-contract.md
+      what: a drive reads no memory; it gets memory through its plays' agents
+    - path: core/components/memory/standards/rules/product.md
+      what: >
+        Rule 12 "User Questions Are First-Class Artifacts" writes every question and the
+        person's answer to `.garura/product/user-provided/grounding-questions.md` — outside
+        short-term memory. Under part 1 that is a breach; the rule must change. Not in #661's
+        plan. Name it as a conflict this ADR creates.
+    - path: core/grounding/glossary.md
+      what: "the Memory Architecture rows (LTM, Core LTM, KB, Standards, Formats name `~/.garura/core/memory/`), the Whitelist row, the Drive row, and the Global mode, Project mode and /install-garura rows"
+    - path: docs/components/memory.md
+      what: "its whitelist (line 25 on) and its LTM rows; it has no `core/tools/`, `defect-report/`, `user-provided/` or `install-manifest.json`"
+  not_built_yet:
+    - "the `template-manager` agent (no file in core/components/agents/)"
+    - "the judging skill (no such skill in core/components/skills/; `judge-validation-results` is a different skill)"
+    - "the common close file and its folder"
+    - "the config key for the ontology's path"
+    - "`initialize` (ADR 038) and promotion (`/promote-memory`)"
+  prototype_note: >
+    `core/tools/play-reviewer/memory_updates.py` also names `~/.garura/phoenix-memory`. It is a
+    prototype that is never committed; mention it only as "a local prototype", or leave it out.
+
+# ------------------------------------------------------------------
+ice_impact: >
+  `/intent`, `/vision` and `/understand` stop reading memory: `/intent` hands its agent the
+  ontology's path from the config file; `/vision` and `/understand` judge through the judging
+  skill and get the approval prompt from `template-manager`. Whether each play's ICE changes is
+  decided per play (#661 plan item 7): through its ICE source and `/play-editor` if a guarantee
+  changes, a direct edit if not. ADR 036's planned ICE change — "a person's own answer goes to
+  Garura memory" for these three plays — does not happen; `/intent` already keeps the person's
+  answers in its working answers record, in short-term memory. The close's move into one common
+  file is a non-intent edit across every play: it changes no guarantee (ADR 035 already calls
+  the close "shared scaffolding, not intent"). The new agent and skill change no play's ICE.
+  The ICE kind does not change.
+business_intent_check: none
+business_intent_reason: >
+  A framework decision on where memory is read and written, where the memory tool and Phoenix
+  memory live, and how plays get templates, the judge prompt and the shared close. No person's
+  business intent changes, and the Business Intent kind's rules stand: only a person confirms
+  or drops one (ADR 031).
+related: "ADR 036, ADR 035, ADR 038, ADR 034, ADR 017, ADR 009, ADR 037, ADR 011 (STM as inter-skill transport), ADR 016 (agent contract), ADR 031, #661, #653, #606, #613 (Kickoff), #662, #663"
+
+# ------------------------------------------------------------------
+consequences_hints:
+  positive:
+    - Garura memory and Phoenix memory change only when a person promotes something on purpose.
+    - One place to look for what a person said in a piece of work: the issue's short-term memory.
+    - A play is a plain workflow; every memory read is in an agent, through the tool, with a trace.
+    - A project's Garura memory holds only the part it needs (checkout, not all of commerce).
+    - One close for every play; a fix lands once.
+  negative:
+    - "A person can be asked the same question again in another issue, until the answer is promoted. ADR 036 §4 was there to stop that ('So no one is asked the same thing twice')."
+    - "Without the copy on read, every lookup that reaches Phoenix memory reads it again until `initialize` or a promotion builds Garura memory; the first one needs the network (ADR 038's risk stands)."
+    - The tool's contract loses two commands; any caller of `pull` or `pulled` breaks.
+    - "`.garura/core/memory/` is gitignored today (.gitignore line 152); now it is Garura memory itself. Whether it stays out of git is not decided here."
+    - "Two things are new and not built: `template-manager` and the judging skill. Until they exist, `/vision` and `/understand` still read the approval prompt and the judge prompt."
+    - "product.md Rule 12 writes questions and answers outside short-term memory; it now conflicts with part 1 and must change. Not in #661's plan."
+    - "The judge prompt is read by nine more plays' grounding gates; they move later (Kapil: 'fixed in the next few days')."
+    - "A play now depends on a file outside itself for its close; if the install does not lay it, every close fails."
+  not_decided_here:
+    - "the common close file's folder (brief part 9)"
+    - "whether `.garura/core/memory/` and `.garura/core/tools/` stay out of git"
+    - "`.garura/core/engine-state.json`: it sits in `core/` today and the brief names only config.yaml, memory/ and tools/"
+    - "how `initialize` builds a project's Garura memory from the part it needs"
+    - "which version number the tool's contract takes without `pull` and `pulled`"
+
+work_this_creates_hints:
+  note: "None is filed; filed only when Kapil asks. Items 3 to 9 of the #661 plan."
+  items:
+    - "Fix the docs to say these rules: the tool's GUIDE.md and README.md, docs/components/memory.md, the glossary's memory rows (#661 item 2)."
+    - "The tool and the folder: `read` copies nothing; `pull` and `pulled` go; tool at `.garura/core/tools/memory/`; Phoenix memory at `~/.phoenix/core/memory`; uninstall follows; `.garura/project/specs/` goes (#661 item 3)."
+    - "Build `template-manager`, the judging skill, and the config key for the ontology's path (#661 item 4)."
+    - "Move the close into one common file; `/play-creator` emits the pointer; `lint-components` checks it; update CLAUDE.md's durability rule (#661 item 5)."
+    - "The two Kickoff agents read through the tool (#661 item 6); the three plays read no memory (item 7); the drive contract's rule (item 8)."
+    - "Change product.md Rule 12 so questions and answers go to the issue's short-term memory (not in any plan yet)."
+    - "Move every other play's judge onto the judging skill, and its own memory reads off the play."
+
+references:
+  - ".garura/project/issues/661/specs/plan.md — 'What we are trying to reach', items 2 to 10, and the Log"
+  - ".garura/project/issues/_adr/20261019-122431/brief.md — the decision brief"
+  - "core/tools/memory/contract/v4.json, core/tools/memory/README.md, core/tools/memory/GUIDE.md"
+  - "core/components/memory/standards/rules/play-close.md; core/components/memory/standards/rules/grounding-eval.md"
+  - "ADR 036, ADR 035, ADR 038, ADR 034, ADR 017, ADR 009"
+
+# ------------------------------------------------------------------
+# Revision 2 — Kapil's reply to the five notes, 2026-10-19 (the /adr "change" path).
+# Where this section and the sections above disagree, this section wins.
+revision_2:
+  kapil_reply_verbatim: |
+    1. fix this. the answers go to STM. So even when we are running vision or understand or whatnot, and the user is answering, the groundings are running into that specific issue as well.
+    2 okay
+    3 ok
+    4. dont ignore this
+    5 This will only happen if we haven't promoted the short-term memory to project memory, which is how it is expected.
+    accept
+  changes:
+    - point: 1
+      decision: >
+        product.md Rule 12 changes as part of decision part 1: every question a play asks, and the
+        person's answer, go to the issue's short-term memory. A grounding run (/vision,
+        /understand or any other play) runs inside an issue, so its questions and answers go
+        there too. Named in Amends as a rule file (not an ADR) and in Affects; taken off
+        Negative / Risks; Work This Creates item 6 is now #661 work.
+    - point: 2
+      decision: kept as written (nine more plays' grounding gates move later).
+    - point: 3
+      decision: "`.garura/core/engine-state.json` stays in `core/`; off Not decided here; named in the ADR 017 §1 amendment."
+    - point: 4
+      decision: >
+        `.garura/core/memory/` is Garura memory and is kept in git. Amends ADR 017 §2 ("remains
+        gitignored", as amended by ADR 035). New risk: in this repo the folder holds the old full
+        copy (`standards/`, `tools/github`, `tools/gitlab`; checked: untracked, ignored by
+        .gitignore line 152); it is cleared before the ignore line goes. `.garura/core/tools/`
+        stays as ADR 038 left it (open).
+    - point: 5
+      decision: >
+        The "asked again" risk is reworded as expected: until a person promotes the answer,
+        another issue does not find it; once promoted, it is found. Kapil quoted.
+  added_risk: >
+    `.garura/product/user-provided/grounding-questions.md` already holds questions written
+    under the old Rule 12; what happens to them is listed as not decided.
+  amends_count: "5 ADRs (035, 034, 038, 017 — now §1 and §2, 009) plus one rule file (product.md Rule 12)"

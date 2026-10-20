@@ -1,49 +1,30 @@
 #!/usr/bin/env python3
 """
-pull.py — the memory tool's pull and pulled commands, on folders (contract version 4).
+pull.py — the memory tool's Phoenix side, on a git repository (contract version 5).
 
-    python3 pull.py pull <path-or-glob>... [--phoenix DIR] [--garura DIR] [--ref REF]
-    python3 pull.py pulled [--behind] [--phoenix DIR] [--garura DIR] [--ref REF]
-
-The memory tool's one entry is memory.py, which calls these functions with its settings;
-this command line stays for direct use.
+The memory tool's one entry is memory.py. It calls these functions with its settings; this
+file has no command line of its own.
 
 Phoenix memory is a git repository on disk, read only at its approved version: the commit
-REF names (default origin/main — a change reaches it when a person merges it, outside this
-tool). Working-tree edits and unmerged commits are never read. Garura memory is a folder in
-the project. Their places come from the flags, else from MEMORY_PHOENIX_ROOT,
-MEMORY_GARURA_ROOT and MEMORY_PHOENIX_REF — never from a fixed path. When Phoenix memory's
-place is empty, memory.py downloads it there from its source (download) the first time a
-command needs it.
+its ref names (default origin/main — a change reaches it when a person merges it, outside
+this tool). Working-tree edits and unmerged commits are never read. Its place comes from
+the tool's settings — never from a fixed path. When the place is empty, the first command
+that needs Phoenix memory downloads it there from its source (download).
 
-pull copies pieces from Phoenix memory into Garura memory, at the same path. Nothing
-leaves Phoenix memory. A piece is never written over a different file: if Garura memory
-already holds a file at that path that pull did not write, or that changed since, the
-answer is would_overwrite and nothing is written. Each piece is recorded in Garura memory's pulled list, pulled.json:
-its path, the Phoenix version it came from (the repository's commit) and the fingerprint
-of its text. Pulling a piece again refreshes its entry.
+The tool reads Phoenix memory and never copies a file from it (ADR 039). A project's Garura
+memory is built from only the part it needs, by initialize and by promotion — not here.
 
-pulled lists those pieces with the current Phoenix version, and says which are behind:
-the text in Phoenix memory no longer matches the fingerprint that was pulled.
-
-Answers are JSON in the contract's shapes (contract/v4.json). pull prints one answer per
-piece, one per line. Exit 0 when every answer is ok, 1 when any is an error.
 Standard library only, Python 3.10 or newer.
 """
 
-import argparse
-import hashlib
-import json
 import os
 import re
 import shutil
 import signal
 import subprocess
-import sys
 import tempfile
 
-CONTRACT_VERSION = "4"
-LIST = "pulled.json"
+CONTRACT_VERSION = "5"
 SAFE_PATH = re.compile(r"^(?!/)(?!.*\.\.)[^\\\n\r]+\Z")
 DOWNLOAD_SECONDS = 600  # the longest a first-use download may take
 
@@ -59,10 +40,6 @@ class Refusal(Exception):
 def error(command, refusal):
     return {"ok": False, "contract_version": CONTRACT_VERSION, "command": command,
             "error": {"code": refusal.code, "message": refusal.message, "tier": refusal.tier}}
-
-
-def fingerprint_bytes(data):
-    return "sha256:" + hashlib.sha256(data).hexdigest()
 
 
 def glob_regex(pattern):
@@ -90,21 +67,6 @@ def glob_regex(pattern):
 
 def git(phoenix, *args):
     return subprocess.run(["git", "-C", phoenix, *args], capture_output=True)
-
-
-def roots(phoenix, garura):
-    """The two tiers' folders, from the flags or the environment."""
-    phoenix = phoenix or os.environ.get("MEMORY_PHOENIX_ROOT")
-    garura = garura or os.environ.get("MEMORY_GARURA_ROOT")
-    if not phoenix and not garura:
-        raise Refusal("settings_missing", "No setting for Phoenix memory or Garura memory "
-                      "(--phoenix/--garura or MEMORY_PHOENIX_ROOT/MEMORY_GARURA_ROOT).")
-    for tier, path in (("phoenix", phoenix), ("garura", garura)):
-        if not path:
-            raise Refusal("tier_missing", f"{tier} memory has no setting.", tier)
-        if not os.path.isdir(os.path.expanduser(path)):
-            raise Refusal("tier_missing", f"{tier} memory cannot be reached at its setting.", tier)
-    return os.path.expanduser(phoenix), os.path.expanduser(garura)
 
 
 def run_limited(cmd, seconds, env):
@@ -177,105 +139,3 @@ def show(phoenix, rel, ref="HEAD"):
     """The bytes of one file in Phoenix memory at the approved ref, or None."""
     run = git(phoenix, "cat-file", "blob", f"{ref}:{rel}")
     return run.stdout if run.returncode == 0 else None
-
-
-def expand(phoenix, pattern, ref="HEAD"):
-    """The pieces of Phoenix memory a path or glob names, as paths relative to its root."""
-    if not SAFE_PATH.match(pattern):
-        raise Refusal("bad_request", f"{pattern!r} is not a path inside a tier.")
-    if any(c in pattern for c in "*?"):
-        rx = glob_regex(pattern)
-        rels = [r for r in files(phoenix, ref) if rx.match(r)]
-    else:
-        rels = [pattern] if pattern in set(files(phoenix, ref)) else []
-    if not rels:
-        raise Refusal("not_found", f"Phoenix memory holds nothing at {pattern!r}.", "phoenix")
-    return rels
-
-
-def read_list(garura):
-    path = os.path.join(garura, LIST)
-    if not os.path.isfile(path):
-        return {}
-    with open(path, encoding="utf-8") as fh:
-        return {p["path"]: p for p in json.load(fh)["pieces"]}
-
-
-def write_list(garura, entries):
-    data = {"pieces": [entries[k] for k in sorted(entries)]}
-    with open(os.path.join(garura, LIST), "w", encoding="utf-8") as fh:
-        json.dump(data, fh, indent=2)
-        fh.write("\n")
-
-
-def pull(phoenix, garura, patterns, ref="HEAD"):
-    """Copy each named piece into Garura memory and record it. Returns the answers."""
-    at = version(phoenix, ref)
-    entries, answers = read_list(garura), []
-    for pattern in patterns:
-        try:
-            rels = expand(phoenix, pattern, ref)
-        except Refusal as r:
-            answers.append(error("pull", r))
-            continue
-        for rel in rels:
-            data, dest = show(phoenix, rel, ref), os.path.join(garura, rel)
-            if os.path.exists(dest):
-                with open(dest, "rb") as fh:
-                    here = fingerprint_bytes(fh.read())
-                ours = rel in entries and entries[rel]["fingerprint"] == here
-                if not ours and here != fingerprint_bytes(data):
-                    answers.append(error("pull", Refusal(
-                        "would_overwrite", f"Garura memory already holds a different file at {rel}, one pull did "
-                        "not write or one changed since; nothing was overwritten.", "garura")))
-                    continue
-            os.makedirs(os.path.dirname(dest), exist_ok=True)
-            with open(dest, "wb") as fh:
-                fh.write(data)
-            fp = fingerprint_bytes(data)
-            entries[rel] = {"path": rel, "version": at, "fingerprint": fp}
-            answers.append({"ok": True, "contract_version": CONTRACT_VERSION, "command": "pull",
-                            "tier": "garura", "path": rel, "version": at, "fingerprint": fp})
-    if entries:
-        write_list(garura, entries)
-    return answers
-
-
-def pulled(phoenix, garura, behind_only=False, ref="HEAD"):
-    """What Garura memory pulled, and which pieces are behind Phoenix memory."""
-    now, pieces = version(phoenix, ref), []
-    for rel, entry in sorted(read_list(garura).items()):
-        data = show(phoenix, rel, ref)
-        behind = data is None or fingerprint_bytes(data) != entry["fingerprint"]
-        if behind or not behind_only:
-            pieces.append({"path": rel, "version": entry["version"], "current_version": now,
-                           "behind": behind})
-    return {"ok": True, "contract_version": CONTRACT_VERSION, "command": "pulled", "pieces": pieces}
-
-
-def main(argv=None):
-    ap = argparse.ArgumentParser(description=__doc__.splitlines()[1])
-    sub = ap.add_subparsers(dest="command", required=True)
-    p_pull = sub.add_parser("pull")
-    p_pull.add_argument("patterns", nargs="+")
-    p_pulled = sub.add_parser("pulled")
-    p_pulled.add_argument("--behind", action="store_true")
-    for p in (p_pull, p_pulled):
-        p.add_argument("--phoenix")
-        p.add_argument("--garura")
-        p.add_argument("--ref")
-    ns = ap.parse_args(argv)
-    ref = ns.ref or os.environ.get("MEMORY_PHOENIX_REF") or "origin/main"
-    try:
-        phoenix, garura = roots(ns.phoenix, ns.garura)
-        answers = pull(phoenix, garura, ns.patterns, ref) if ns.command == "pull" else [
-            pulled(phoenix, garura, ns.behind, ref)]
-    except Refusal as r:
-        answers = [error(ns.command, r)]
-    for a in answers:
-        print(json.dumps(a))
-    return 0 if all(a["ok"] for a in answers) else 1
-
-
-if __name__ == "__main__":
-    sys.exit(main())

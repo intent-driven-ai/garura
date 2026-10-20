@@ -3,8 +3,8 @@ plan_for: 653
 kind: feature
 serves: "#653 — agents work only from memory, so drives can make their own decisions"
 status: active
-updated: 2026-10-19
-now: 8
+updated: 2026-10-20
+now: 9
 serves_plan: 606
 serves_item: 8
 ---
@@ -92,11 +92,11 @@ answer came from in a way anyone checks.
 
 ## Where we are now
 
-Decided, and seven pieces shipped: ADR 035 to ADR 038 (#654, #667, #659, #660), the
-contract (#655), Phoenix memory with `pull` and `pulled` (#656), the memory tool (#657),
-memory updates (#658, PR #675), decision traces (#659, PR #676) and every install carrying
-the memory system (#660, PR #677). Next: item 8, Kickoff's agents and skills move onto the
-tool (#661).
+Decided, and eight pieces shipped: ADR 035 to ADR 040 (#654, #667, #659, #660, #661), the
+contract (#655), Phoenix memory (#656), the memory tool (#657), memory updates (#658, PR #675),
+decision traces (#659, PR #676), every install carrying the memory system (#660, PR #677) and
+Kickoff's plays getting memory only from their agents (#661, PR #678). Next: item 9, prove it
+on Kickoff's three plays (#662).
 
 ## The plan, in order
 
@@ -166,25 +166,18 @@ tool (#661).
   records this and amends ADR 035 §2, §3, §4, §8 and ADR 017 §1, closing the amendment item 3
   left owed. A real sub-agent in a fresh project found memory through the tool from the guide
   alone. Not run: a Codex agent. `initialize` is not built.
+- **8. Shipped: Kickoff's plays get memory only from their agents** — #661, PR #678, approved by
+  Kapil on 20 October after two review rounds. ADR 039 (every memory write goes to short-term
+  memory; a play reads no memory; the tool copies nothing; Phoenix memory at
+  `~/.phoenix/core/memory`; the `.garura/` layout; `template-manager`; the judge prompt in
+  `judge-grounding`; shared play blocks in one file) and ADR 040 (the config's source is
+  `core/config.yaml`), both accepted by Kapil. `/intent`, `/vision` and `/understand` read no
+  memory; `product-os-keeper` and `business-intent-keeper` read it only through the tool; every
+  play's close lives in `core/components/plays/_shared/play-close.md`; the Kickoff runs live
+  under the issue being worked on (Kapil: the issue ID governs); the knowledge router is
+  removed. Proven by `/intent`'s draft step on a test project. Phoenix memory updated to match.
 
-### 8. Move Kickoff's agents and skills onto the tool — now
-
-**Issue:** #661.
-**What:** the agents and skills `/intent`, `/vision` and `/understand` use, and
-the close of every play, read memory only through the tool, raise memory
-updates, and name their sources. Play changes go through each play's ICE source
-and `/play-editor`.
-Also: rule 4 of the drive contract, its row in the rules index and the
-glossary's Drive entry say what ADR 034 and ADR 035 decided.
-Kapil, 2026-10-18 ("1"): agents move after items 5 to 7, so each agent changes once,
-with lookup, memory updates and named sources together. Only agents call the tool and
-build context; skills read short-term memory only (Kapil, 2026-10-18), so the story
-texts of #661 and #663 ("agents and skills") need that fix when Kapil asks.
-**Why here:** Kickoff waits on these three plays, so they move first.
-**Done when:** the three plays and every play's close name no memory path.
-**Needs:** items 5, 6 and 7.
-
-### 9. Prove it on Kickoff's three plays
+### 9. Prove it on Kickoff's three plays — now
 
 **Issue:** #662.
 **What:** run `/intent`, `/vision` and `/understand` by hand on a test project:
@@ -282,3 +275,4 @@ up the project's memory." And: "After install, let's call this whole thing
 - 2026-10-19 — Item 6 done: #659 approved by Kapil (PR #676, round 2); ADR 037 accepted. Now item 7 (#660).
 - 2026-10-19 — Item 7 (#660) started. Kapil: the install brings no memory; the tool downloads Phoenix memory on first use; a new play, `initialize`, sets up a project's memory after the install (added as not yet placed).
 - 2026-10-19 — Item 7 done: #660 approved by Kapil (PR #677, round 2); ADR 038 accepted (the install brings no memory; the tool in the project). Now item 8 (#661).
+- 2026-10-20 — Item 8 done: #661 approved by Kapil (PR #678, round 2); ADR 039 and ADR 040 accepted. Now item 9 (#662).

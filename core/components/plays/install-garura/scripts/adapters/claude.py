@@ -116,6 +116,8 @@ def lay_components(components, target, info, allow=None):
             paths.append(os.path.join(".claude", "skills", name))
             counts[kind] += 1
         info(f"  {kind}: {counts[kind]}")
+    if counts["plays"]:
+        common.lay_shared(components, skills_dest, os.path.join(".claude", "skills"), paths, info)
 
     if deprecated:
         info(f"  (skipped {deprecated} deprecated component(s))")

@@ -417,17 +417,13 @@ D1–D4 all held; a run whose checks ran but whose verdict never stamped closes 
 gate binds the RUN's completeness, not the epic's quality.
 
 ```bash
-# --- Standard Play Close (canonical; see standards/rules/play-close.md) ---
-# Path tokens resolved at pre-flight (resolve here if not already):
-#   ltm_project_target  = yq '.ltm.project-target' .garura/core/config.yaml
+# --- Standard Play Close (shared; see ../_shared/play-close.md) ---
+# Run the close in ../_shared/play-close.md. Its Step L loads the templates through
+# template-manager and sets ts and evidence_dest; then run this play's own lines below;
+# then Steps C0-C2.
 #   evidence_base, slug:
 #     project-scoped play : evidence_base="${stm_base}${issue}/evidence/validate/"  ; slug="#${issue}"
 #     product-scoped play : evidence_base="${product_base}_evidence/validate/"      ; slug="${product_slug}"
-evidence_template=$(cat "${ltm_project_target}standards/templates/evidence-file.md")
-delivery_template=$(cat "${ltm_project_target}standards/templates/delivery-report.md")
-ts=$(date -u +%Y%m%d-%H%M%S)
-evidence_dest="${evidence_base}${ts}.md"
-mkdir -p "$(dirname "$evidence_dest")"
 # Session identity stamp (#463) — close phase; start phase ran at pre-flight
 session_stamp=$(python3 scripts/session_stamp.py --phase close \
     --marker "${stm_base}${issue}/status/session-stamp-validate.json")
@@ -462,7 +458,7 @@ hand-author the body. Then dispatch `repo-orchestrator` for the
 evidence self-commit when evidence was recorded (the WORK is never committed by this
 play — the branch is /launch's to close).
 
-**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in `standards/rules/pipeline-next.md` and emit `**Next:** /<command> — <why>. Or run /next to see all recommended actions.` (only /next pointer, or omit, when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots and output the
+**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>. Or run /next to see all recommended actions.` (only /next pointer, or omit, when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots and output the
 report: `## validate Round <round> — #${issue}` (the verdict, plainly: validated → "/launch
 is next"; fix_required → "the fix report is on the issue — run /implement to fix exactly
 what it names"; escalation → the three-round history), the Run Summary table, the Pipeline
@@ -526,7 +522,7 @@ at Step 1. Each round is its own progress marker; a resumed round never re-count
 | domain_agents | 1 (quality-auditor) |
 | utility_agents | 2 (project-orchestrator, repo-orchestrator) |
 | skills_used | plan-validation-checks, judge-validation-results, kb-search, manage-issue |
-| standards_consumed | standards/rules/gate-config.md (Step 4 switch); standards/rules/play-close.md; standards/rules/pipeline-next.md |
+| standards_consumed | standards/rules/gate-config.md (Step 4 switch); core/components/plays/_shared/play-close.md; standards/rules/pipeline-next.md |
 | scripts | 13 + 8 runners (preflight.py, check_ready_validate.py, resolve_blast_scope.py, run_checks.py, check_gates.py, check_kb_grounding.py, compute_verdict.py, stamp_epic.py, render_fix_report.py, check_validate.py, session_stamp.py — session identity stamp, check_stop_condition.py — Done-means gate, runners/_runner_common.py + 7 runner_*.py) |
 | step_evals | 16 (SE-1…SE-16; every failure condition covered; SE-14 covers the surface contract F13/C13 at the plan and verdict halves; SE-15 covers the gated close F14/C14; SE-16 covers the gate-off manifest-grounding precondition F15/C15) |
 | scenario_evals | 5 (SCE-1…SCE-5) |

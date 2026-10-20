@@ -29,6 +29,10 @@ import os
 import shutil
 import sys
 
+# the memory tool's citations answer has the same shape in contract v4 and v5 (ADR 039 removed
+# only pull and pulled)
+CITATIONS_VERSIONS = ("4", "5")
+
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description="Write a play's review record for the drive.")
@@ -77,10 +81,10 @@ def main(argv=None):
         except ValueError:
             answer = None
         if not (isinstance(answer, dict) and answer.get("ok") is True and answer.get("command") == "citations"
-                and answer.get("contract_version") == "4" and isinstance(answer.get("records"), list)
+                and answer.get("contract_version") in CITATIONS_VERSIONS and isinstance(answer.get("records"), list)
                 and isinstance(answer.get("problems"), list)):
             sys.stderr.write(f"write_drive_review.py: {args.decisions} is not the memory tool's citations "
-                             "answer (contract version 4) — nothing written\n")
+                             "answer (contract version 4 or 5) — nothing written\n")
             return 2
         decisions, problems = answer["records"], answer["problems"]
         # only this play's decisions, for this run's issue: another play's would read as this one's

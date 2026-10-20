@@ -113,6 +113,10 @@ tar xzf "$TMPDIR_WORK/garura.tar.gz" -C "$TMPDIR_WORK"
 
 # The archive holds one top-level folder (garura-main, garura-3.0.0, ...)
 SRC_DIR="$(find "$TMPDIR_WORK" -mindepth 1 -maxdepth 1 -type d | head -1)"
+# The config's source is core/config.yaml (ADR 040); a release made before it keeps it at
+# .garura/core/config.yaml.
+SRC_CONFIG="$SRC_DIR/core/config.yaml"
+[ -f "$SRC_CONFIG" ] || SRC_CONFIG="$SRC_DIR/.garura/core/config.yaml"
 
 if [ -z "$SRC_DIR" ] || [ ! -d "$SRC_DIR/core" ]; then
   err "Downloaded archive does not contain core/ directory. Something went wrong."
@@ -279,16 +283,16 @@ if [ "$MODE" = "init" ]; then
   fi
 
   # 5. Transform and write config.yaml
-  if [ -f "$SRC_DIR/.garura/core/config.yaml" ]; then
+  if [ -f "$SRC_CONFIG" ]; then
     info "  Writing config..."
     mkdir -p "$TARGET_DIR/.garura/core"
-    config_content="$(cat "$SRC_DIR/.garura/core/config.yaml")"
+    config_content="$(cat "$SRC_CONFIG")"
     transform_config "$config_content" "$PROJECT_NAME" > "$TARGET_DIR/.garura/core/config.yaml"
   fi
 
   # 6. Create project directories
   info "  Creating project structure..."
-  mkdir -p "$TARGET_DIR/.garura/project/specs"
+  mkdir -p "$TARGET_DIR/.garura/project/issues"
   mkdir -p "$TARGET_DIR/src"
 
   # 7. Transform and write CLAUDE.md
@@ -313,7 +317,7 @@ if [ "$MODE" = "init" ]; then
   ok "  .claude/agents/      — Agent definitions"
   ok "  .claude/skills/      — Skills and plays"
   ok "  .claude/rules/garura-memory.md — The memory guide every agent reads"
-  ok "  .garura/tools/memory/ — The memory tool"
+  ok "  .garura/core/tools/memory/ — The memory tool"
   ok "  .garura/core/    — Memory and config"
   ok "  .garura/project/ — Project artifacts"
   ok "  src/                 — Source code"
@@ -367,9 +371,9 @@ else
   fi
 
   # 5. Write config.yaml.new for user to diff/merge
-  if [ -f "$SRC_DIR/.garura/core/config.yaml" ]; then
+  if [ -f "$SRC_CONFIG" ]; then
     info "  Writing config.yaml.new (review and merge manually)..."
-    config_content="$(cat "$SRC_DIR/.garura/core/config.yaml")"
+    config_content="$(cat "$SRC_CONFIG")"
     transform_config "$config_content" "$PROJECT_NAME" > "$TARGET_DIR/.garura/core/config.yaml.new"
   fi
 

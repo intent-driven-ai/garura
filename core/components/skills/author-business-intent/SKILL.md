@@ -29,7 +29,7 @@ wants, and leave how the source does it behind (IDD Principle 1).
 | `source_manifests` | yes | One or more Source manifests — each with its kind, `snapshot_dir` and snapshot files (screenshots with their text, page HTML, the copied file, or the statement text). A project folder gives two: its written docs and the running app. All are read together |
 | `answers` | no | The person's answers so far (`<working>/answers.yaml`): replies to earlier questions (with the examples offered and whether one was picked), intents they stated, items they named as missing or merged, and any correction |
 | `draft_path` | yes | Where to write the draft (`<working>/intent-draft.yaml`) |
-| `ontology_path` | no | Default: `~/.garura/core/memory/standards/schemas/product-os/ontology.md` |
+| `ontology_path` | yes | The ontology, copied into short-term memory by the agent through the memory tool. Read this copy — never memory itself (ADR 039). |
 | `spine_path` | no | The product model's `_spine.yaml`, when one exists — read only, to see which domains the model already has |
 
 ## Process

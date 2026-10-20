@@ -61,8 +61,10 @@ Three decisions are made (#592, #607, #619) and six things are shipped: plan mod
 ADR 034 decided — inside a drive a play answers from memory and asks only when
 memory holds nothing — and a review that found memory not ready. Kapil chose to
 fix the whole memory system first, as its own feature; Kickoff's runner waits for
-it. Memory (#653): items 1 to 7 are shipped (#654–#660; every install carries the memory
-system and brings no memory, ADR 038); now item 8, Kickoff's agents move onto the tool (#661).
+it. Memory (#653): items 1 to 8 are shipped (#654–#661; every install carries the memory
+system and brings no memory, ADR 038; Kickoff's plays get memory only from their agents and
+every run lives under its issue, ADR 039 and ADR 040); now item 9, prove it on Kickoff's three
+plays (#662).
 
 ## The plan, in order
 

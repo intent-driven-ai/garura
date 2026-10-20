@@ -9,7 +9,7 @@ Model
 -----
 This installs THIS garura checkout into a **target** project — a directory the
 user names. It reads garura's `core/components/` (agents, skills, plays, memory)
-and the source `.garura/core/config.yaml` + `CLAUDE.md`, and lays them down so a
+and the source `core/config.yaml` + `CLAUDE.md`, and lays them down so a
 host coding tool can discover them in the target.
 
     python3 install.py --target <path> [--tool claude|codex] [--scope full|harness]
@@ -40,7 +40,7 @@ The orchestrator owns the tool-agnostic work: shared memory, garura's own
 `.garura/core/config.yaml`, the STM scaffold, and the install manifest.
 
 The orchestrator also lays the memory system (`memory_system.py`, shared with the public
-installer): the memory tool in `.garura/tools/memory/` with its settings, short-term
+installer): the memory tool in `.garura/core/tools/memory/` with its settings, short-term
 memory's folder, and the memory guide where the host tool loads it for every agent. It then
 checks the tool runs and reaches the project's tiers. The install brings no memory.
 
@@ -73,21 +73,28 @@ def info(quiet, msg):
 
 # --- locate the garura checkout (source root) ---------------------------------
 
+def config_source(root):
+    """The config's source: core/config.yaml (ADR 040); a checkout made before it keeps it at
+    .garura/core/config.yaml."""
+    path = os.path.join(root, "core", "config.yaml")
+    return path if os.path.isfile(path) else os.path.join(root, ".garura", "core", "config.yaml")
+
+
 def derive_source_root(explicit):
-    """Find the garura checkout — holds core/components/ and .garura/core/config.yaml.
+    """Find the garura checkout — holds core/components/ and core/config.yaml.
 
     With --source, trust it. Otherwise walk up from this script until a parent
     looks like a garura checkout.
     """
     def looks_like_garura(root):
         return (os.path.isdir(os.path.join(root, "core", "components"))
-                and os.path.isfile(os.path.join(root, ".garura", "core", "config.yaml")))
+                and os.path.isfile(config_source(root)))
 
     if explicit:
         root = os.path.abspath(explicit)
         if not looks_like_garura(root):
             fail(f"{root} is not a garura checkout (need core/components/ and "
-                 f".garura/core/config.yaml)")
+                 f"core/config.yaml)")
         return root
     here = os.path.dirname(os.path.abspath(__file__))
     cur = here
@@ -198,6 +205,8 @@ SCOPES = {
         "agents": {
             "change-reviewer", "project-orchestrator",
             "quality-auditor", "repo-orchestrator", "adr-keeper",
+            # every play's close asks template-manager for its templates (ADR 039 §8–9)
+            "template-manager",
         },
     },
 }
@@ -261,12 +270,13 @@ def install(source, target, tool, force, quiet, memory_dest, scope="full",
         record["memory"] = mem_dest
         _info(f"  memory: {mem_dest}")
 
-    # 4. target-local garura config.yaml (transformed); keep existing unless forced
+    # 4. target-local garura config.yaml (transformed from the source core/config.yaml, ADR 040);
+    #    keep existing unless forced
     proj_core = os.path.join(target, ".garura", "core")
     os.makedirs(proj_core, exist_ok=True)
     cfg_dest = os.path.join(proj_core, "config.yaml")
     project_name = os.path.basename(os.path.abspath(target))
-    src_cfg = os.path.join(source, ".garura", "core", "config.yaml")
+    src_cfg = config_source(source)
     if os.path.isfile(src_cfg):
         if os.path.isfile(cfg_dest) and not force:
             _info("  config: kept existing")
@@ -276,8 +286,8 @@ def install(source, target, tool, force, quiet, memory_dest, scope="full",
             _info("  config: wrote .garura/core/config.yaml")
         record["config"] = ".garura/core/config.yaml"
 
-    # 5. target STM scaffold
-    os.makedirs(os.path.join(target, ".garura", "project", "specs"), exist_ok=True)
+    # 5. target STM scaffold: the memory system lays short-term memory, .garura/project/issues/
+    #    (memory_system.py); .garura/project/specs/ is not part of the layout (ADR 039 §5)
 
     # 5b. status-marker ignore rule — keeps machine-local resume files out of git
     #     (ADR 021). Idempotent; overwritten on re-run to stay current with source.
@@ -359,7 +369,7 @@ def main(argv=None):
     ap.add_argument("--force-config", action="store_true",
                     help="overwrite an existing target .garura/core/config.yaml")
     ap.add_argument("--phoenix-place", default=memory_system.PHOENIX_PLACE,
-                    help="where Phoenix memory lives on this machine (default ~/.garura/phoenix-memory); "
+                    help="where Phoenix memory lives on this machine (default ~/.phoenix/core/memory); "
                          "the memory tool downloads it there the first time it is needed")
     ap.add_argument("--phoenix-source", default=memory_system.PHOENIX_SOURCE,
                     help="where the memory tool downloads Phoenix memory from")

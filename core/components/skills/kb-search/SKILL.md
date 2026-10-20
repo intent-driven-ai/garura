@@ -9,8 +9,8 @@ user-invocable: false
 
 The KB is a bank of **empirical learnings** — for a product in a given
 situation, what capabilities and what architecture worked best, and when to
-evolve. This skill finds the learning that fits. See
-`core/components/memory/knowledge/_DESIGN.md` for the full design.
+evolve. This skill finds the learning that fits. The full design is `knowledge/_DESIGN.md` in
+memory.
 
 **V1 note:** the script only serves structure. **You** do the matching — read
 the Conditions and judge fit. The script does not rank for you; that is
@@ -29,14 +29,16 @@ its ProductOS — as many of these as you know:
 
 ## How to use
 
-The script lives at `scripts/kb_search.py` (Python 3, no dependencies). Pass
-`--kb-root` if the KB is not at the default deploy path.
+The script lives at `scripts/kb_search.py` (Python 3, no dependencies). Always pass
+`--kb-root <kb_root>`: the copy of the architecture and technology shelves your agent put in
+short-term memory through the memory tool. Never let it fall back to a path in memory
+(ADR 039).
 
 1. **Get the map.** Run `index` — it returns every learning's id, title,
    conditions facets, evolve_when links, and provenance as JSON.
 
    ```bash
-   python3 scripts/kb_search.py index
+   python3 scripts/kb_search.py --kb-root <kb_root> index
    ```
 
 2. **Match by reasoning.** Read the conditions of each entry and pick the one(s)
@@ -49,7 +51,7 @@ The script lives at `scripts/kb_search.py` (Python 3, no dependencies). Pass
    full Recommendation and Rationale.
 
    ```bash
-   python3 scripts/kb_search.py get architecture/single-user-throwaway
+   python3 scripts/kb_search.py --kb-root <kb_root> get architecture/single-user-throwaway
    ```
 
 4. **Follow evolution.** Use the learning's `evolve_when` to see what to climb

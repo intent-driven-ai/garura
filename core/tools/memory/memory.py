@@ -1,14 +1,12 @@
 #!/usr/bin/env python3
 """
-memory.py — the memory tool: the one way agents find memory (contract version 4).
+memory.py — the memory tool: the one way agents find memory (contract version 5).
 
     python3 memory.py health
     python3 memory.py find   --issue N --glob GLOB [--tier T | --every-tier]
     python3 memory.py search --issue N --pattern P [--fixed] [--ignore-case] [--glob GLOB]
                              [--tier T | --every-tier] [--max M]
     python3 memory.py read   --issue N --tier T --path PATH [--start S] [--end E]
-    python3 memory.py pull   PATH-OR-GLOB... | --path PATH
-    python3 memory.py pulled [--behind]
     python3 memory.py propose --request '{"issue": 658, "missing": ..., "target_path": "658/...", ...}'
     python3 memory.py updates [--status waiting]
     python3 memory.py decide  --request '{"id": "mu-...", "verdict": "approve", "by": ..., "reply": ..., "decided_in": "review-tool"}'
@@ -18,15 +16,18 @@ memory.py — the memory tool: the one way agents find memory (contract version 
     python3 memory.py <command> --request '{"issue": 657, ...}'
 
 Each request field is a flag, or the whole request is one JSON object (--request). Every
-answer is one JSON object per line, in the contract's shapes (contract/v4.json). A request
+answer is one JSON object per line, in the contract's shapes (contract/v5.json). A request
 that does not match the contract is refused with bad_request.
 
 Lookups go short-term -> garura -> phoenix and stop at the first tier that answers.
 Short-term memory is read only in the request's issue folder; a request with no issue has
-no short-term memory and starts at Garura memory. Phoenix memory is read only
-at its approved version (phoenix_ref). A file read from Phoenix memory is used, so it is
-pulled into Garura memory: the next lookup answers from the project. It is never saved over
-a different Garura file; the read answer says saved_to, or not_saved and why.
+no short-term memory and starts at Garura memory. Garura memory is read only in its folders,
+in order: core/memory, then the product model (product) — nothing else in Garura memory's
+root is Garura memory. Phoenix memory is read only at its approved version (phoenix_ref).
+
+The tool never copies a Phoenix file into the project (ADR 039). Every write it makes goes to
+the issue's short-term memory: memory updates and decision records. Moving memory up to
+Garura or Phoenix memory is a promotion a person makes, outside this tool.
 
 Settings — where each tier lives — come from one source: the JSON file MEMORY_SETTINGS
 names, else the environment, else settings.json beside this file (an install writes it).
@@ -36,7 +37,12 @@ Relative places in a file are relative to the file.
     engine           MEMORY_ENGINE             "folder" (the only engine built; a server
                                                engine is one setting away)
     short-term       MEMORY_SHORT_TERM_ROOT    folder holding one folder per issue
-    garura           MEMORY_GARURA_ROOT        Garura memory's folder
+    garura           MEMORY_GARURA_ROOT        Garura memory's root: the project's Garura
+                                               folder
+    garura_folders   MEMORY_GARURA_FOLDERS     the folders inside that root that are Garura
+                                               memory, in lookup order (a comma list in the
+                                               environment, a list in a file; default
+                                               core/memory, product)
     phoenix          MEMORY_PHOENIX_ROOT       Phoenix memory's git repository: a place on
                                                this machine, shared by every project
     phoenix_source   MEMORY_PHOENIX_SOURCE     where Phoenix memory is downloaded from. When
@@ -45,8 +51,6 @@ Relative places in a file are relative to the file.
                                                health only reports
     phoenix_ref      MEMORY_PHOENIX_REF        Phoenix memory's approved version
                                                (default origin/main)
-    garura_pull_dir  MEMORY_GARURA_PULL_DIR    where pulled pieces land, inside Garura
-                                               memory (default: Garura memory's root)
     updates_dir      MEMORY_UPDATES_DIR        where an issue's memory updates are kept,
                                                inside its short-term folder
                                                (default: review/memory-updates)
@@ -74,15 +78,16 @@ from pull import CONTRACT_VERSION, SAFE_PATH, Refusal, error, glob_regex  # noqa
 from citations import CitationStore  # noqa: E402
 from updates import UpdateStore  # noqa: E402
 
-CONTRACT = check_contract.load(os.path.join(HERE, "contract", "v4.json"))
+CONTRACT = check_contract.load(os.path.join(HERE, "contract", "v5.json"))
 ORDER = CONTRACT["lookup_order"]
 KEYS = {"engine": "MEMORY_ENGINE", "short-term": "MEMORY_SHORT_TERM_ROOT",
         "garura": "MEMORY_GARURA_ROOT", "phoenix": "MEMORY_PHOENIX_ROOT",
         "phoenix_source": "MEMORY_PHOENIX_SOURCE",
-        "phoenix_ref": "MEMORY_PHOENIX_REF", "garura_pull_dir": "MEMORY_GARURA_PULL_DIR",
+        "phoenix_ref": "MEMORY_PHOENIX_REF", "garura_folders": "MEMORY_GARURA_FOLDERS",
         "updates_dir": "MEMORY_UPDATES_DIR", "citations_file": "MEMORY_CITATIONS_FILE"}
 SETTINGS_BESIDE = os.path.join(HERE, "settings.json")  # what an install writes
 TOOL_FOLDER = HERE  # the tool's own files are never memory, wherever it is installed
+GARURA_FOLDERS = ["core/memory", "product"]  # Garura memory inside its root, in lookup order
 
 
 def fingerprint(text):
@@ -123,13 +128,30 @@ def load_settings(env=None):
                       "or MEMORY_SHORT_TERM_ROOT, MEMORY_GARURA_ROOT and MEMORY_PHOENIX_ROOT.")
     settings["engine"] = settings["engine"] or "folder"
     settings["phoenix_ref"] = settings["phoenix_ref"] or "origin/main"
-    settings["garura_pull_dir"] = settings["garura_pull_dir"] or ""
+    settings["garura_folders"] = garura_folders(settings["garura_folders"])
     settings["updates_dir"] = settings["updates_dir"] or "review/memory-updates"
     settings["citations_file"] = settings["citations_file"] or "context/citations.jsonl"
     if settings["engine"] != "folder":
         raise Refusal("settings_missing", f"Engine {settings['engine']!r} is not built; "
                       "the only engine is 'folder'.")
     return settings
+
+
+def garura_folders(value):
+    """The folders inside Garura memory's root that are Garura memory, in lookup order."""
+    if value is None or value == "" or value == []:
+        return list(GARURA_FOLDERS)
+    folders = value.split(",") if isinstance(value, str) else value
+    if not isinstance(folders, list) or not all(isinstance(f, str) for f in folders):
+        raise Refusal("settings_missing", "garura_folders is not a list of folders.")
+    out = []
+    for folder in folders:
+        folder = folder.strip().rstrip("/")
+        if not folder or not SAFE_PATH.match(folder) or any(p in ("", ".") for p in folder.split("/")):
+            raise Refusal("settings_missing", f"garura_folders names {folder!r}, which is not a folder "
+                          "inside Garura memory's root.")
+        out.append(folder)
+    return out
 
 
 # --- the folder engine ---------------------------------------------------------------
@@ -194,10 +216,24 @@ class FolderEngine:
             return True
         if real != root and not real.startswith(root + os.sep):
             return True
+        if tier == "garura" and not any(real == f or real.startswith(f + os.sep) for f in self.garura_reals()):
+            return True  # only Garura memory's folders are Garura memory
         rel = os.path.relpath(real, root).replace(os.sep, "/")
         if tier == "short-term":
             rel = rel.split("/", 1)[1] if "/" in rel else ""
         return rel.lower().startswith(tuple(p.lower() for p in self.excluded(tier)))
+
+    def garura_reals(self):
+        """Garura memory's folders, as the folders they reach, in lookup order."""
+        root = os.path.realpath(self.root("garura"))
+        return [os.path.realpath(os.path.join(root, f)) for f in self.s["garura_folders"]]
+
+    def folders(self, tier, issue):
+        """The folders a lookup reads in this tier, in order, each with the prefix its paths carry."""
+        if tier == "garura":
+            root = self.root(tier)
+            return [(os.path.join(root, f), f + "/") for f in self.s["garura_folders"]]
+        return [self.scope(tier, issue)]
 
     def scope(self, tier, issue):
         """The folder a lookup reads in this tier, and the prefix its paths carry."""
@@ -210,15 +246,15 @@ class FolderEngine:
     def files(self, tier, issue):
         if tier == "phoenix":
             return phoenix_git.files(self.root(tier), self.s["phoenix_ref"])
-        folder, prefix = self.scope(tier, issue)
         found = []
-        for dirpath, dirnames, names in os.walk(folder):
-            dirnames[:] = sorted(d for d in dirnames if d != ".git")
-            for name in sorted(names):
-                rel = os.path.relpath(os.path.join(dirpath, name), folder).replace(os.sep, "/")
-                if self.hidden(tier, prefix + rel):
-                    continue
-                found.append(prefix + rel)
+        for folder, prefix in self.folders(tier, issue):
+            for dirpath, dirnames, names in os.walk(folder):
+                dirnames[:] = sorted(d for d in dirnames if d != ".git")
+                for name in sorted(names):
+                    rel = os.path.relpath(os.path.join(dirpath, name), folder).replace(os.sep, "/")
+                    if self.hidden(tier, prefix + rel) or prefix + rel in found:
+                        continue
+                    found.append(prefix + rel)
         return found
 
     def grep(self, tier, issue, pattern, fixed, ignore_case):
@@ -226,30 +262,30 @@ class FolderEngine:
         flags = ["-n", "-z", "-I", "-F" if fixed else "-E"] + (["-i"] if ignore_case else [])
         if tier == "phoenix":
             ref = self.s["phoenix_ref"]
-            run = phoenix_git.git(self.root(tier), "grep", *flags, "-e", pattern, ref, "--")
-            strip, prefix = ref + ":", ""
+            runs = [(phoenix_git.git(self.root(tier), "grep", *flags, "-e", pattern, ref, "--"), ref + ":", "")]
         else:
-            folder, prefix = self.scope(tier, issue)
-            if not os.path.isdir(folder):
-                return []
-            run = subprocess.run(["git", "-C", folder, "grep", "--no-index", *flags, "-e", pattern, "--"],
-                                 capture_output=True)
-            strip = ""
-        if run.returncode == 1:
-            return []
-        if run.returncode != 0:
-            raise Refusal("bad_request", f"The pattern {pattern!r} cannot be searched: "
-                          f"{run.stderr.decode(errors='replace').strip()}")
-        hits = []
-        for record in run.stdout.decode("utf-8", errors="replace").split("\n"):
-            parts = record.split("\0")
-            if len(parts) != 3:
+            runs = [(subprocess.run(["git", "-C", folder, "grep", "--no-index", *flags, "-e", pattern, "--"],
+                                    capture_output=True), "", prefix)
+                    for folder, prefix in self.folders(tier, issue) if os.path.isdir(folder)]
+        hits, seen = [], set()
+        for run, strip, prefix in runs:
+            if run.returncode == 1:
                 continue
-            path, line, text = parts
-            path = path[len(strip):] if strip and path.startswith(strip) else path
-            if path.startswith(".git/") or "/.git/" in path or (tier != "phoenix" and self.hidden(tier, prefix + path)):
-                continue
-            hits.append((prefix + path, int(line), text))
+            if run.returncode != 0:
+                raise Refusal("bad_request", f"The pattern {pattern!r} cannot be searched: "
+                              f"{run.stderr.decode(errors='replace').strip()}")
+            for record in run.stdout.decode("utf-8", errors="replace").split("\n"):
+                parts = record.split("\0")
+                if len(parts) != 3:
+                    continue
+                path, line, text = parts
+                path = path[len(strip):] if strip and path.startswith(strip) else path
+                if path.startswith(".git/") or "/.git/" in path or (tier != "phoenix" and self.hidden(tier, prefix + path)):
+                    continue
+                if (prefix + path, int(line)) in seen:  # one folder nested in another: one hit
+                    continue
+                seen.add((prefix + path, int(line)))
+                hits.append((prefix + path, int(line), text))
         return hits
 
     def read(self, tier, path):
@@ -266,24 +302,11 @@ class FolderEngine:
                 data = fh.read()
         return None if data is None else data.decode("utf-8", errors="replace")
 
-    def pull(self, patterns):
-        garura = os.path.join(self.root("garura"), self.s["garura_pull_dir"])
-        os.makedirs(garura, exist_ok=True)
-        return phoenix_git.pull(self.root("phoenix"), garura, patterns, self.s["phoenix_ref"])
-
     def updates(self):
         return UpdateStore(self.root("short-term"), self.s["updates_dir"])
 
     def citations(self):
         return CitationStore(self.root("short-term"), self.s["citations_file"])
-
-    def garura_path(self, rel):
-        """Where a piece pulled from Phoenix memory sits, as a path in Garura memory."""
-        return "/".join(p for p in (self.s["garura_pull_dir"].strip("/"), rel) if p)
-
-    def pulled(self, behind_only):
-        garura = os.path.join(self.root("garura"), self.s["garura_pull_dir"])
-        return phoenix_git.pulled(self.root("phoenix"), garura, behind_only, self.s["phoenix_ref"])
 
 
 # --- the commands --------------------------------------------------------------------
@@ -387,26 +410,9 @@ def cmd_read(engine, request):
     if start > len(lines) or end > len(lines):
         raise Refusal("out_of_range", f"{path} has {len(lines)} lines; asked {start} to {end}.", tier)
     chunk = "\n".join(lines[start - 1:end])
-    answer = ok("read", tier=tier, path=path, start=start, end=end, text=chunk,
-                fingerprint=fingerprint(chunk), version=engine.version(tier))
-    if tier == "phoenix":
-        # used, so saved: the next lookup answers from Garura memory
-        saved = engine.pull([path])[0]
-        if saved["ok"]:
-            answer["saved_to"] = {"tier": "garura", "path": engine.garura_path(path)}
-        elif saved["error"]["code"] == "would_overwrite":
-            answer["not_saved"] = saved["error"]["message"]
-        else:
-            return saved | {"command": "read"}
-    return answer
-
-
-def cmd_pull(engine, request):
-    return engine.pull([request["path"]])
-
-
-def cmd_pulled(engine, request):
-    return engine.pulled(request.get("behind", False))
+    # a read of Phoenix memory writes nothing: the tool never copies a Phoenix file (ADR 039)
+    return ok("read", tier=tier, path=path, start=start, end=end, text=chunk,
+              fingerprint=fingerprint(chunk), version=engine.version(tier))
 
 
 def cmd_propose(engine, request):
@@ -437,7 +443,7 @@ def cmd_citations(engine, request):
 
 
 COMMANDS = {"health": cmd_health, "find": cmd_find, "search": cmd_search, "read": cmd_read,
-            "pull": cmd_pull, "pulled": cmd_pulled, "propose": cmd_propose, "updates": cmd_updates,
+            "propose": cmd_propose, "updates": cmd_updates,
             "decide": cmd_decide, "apply": cmd_apply, "cite": cmd_cite, "citations": cmd_citations}
 
 
@@ -450,7 +456,7 @@ def check_request(command, request):
 
 
 def run(command, request, env=None):
-    """Answer one request. Returns the list of answers (pull may give several)."""
+    """Answer one request. Returns the list of its answers (one)."""
     try:
         check_request(command, request)
         engine = FolderEngine(load_settings(env))
@@ -458,12 +464,13 @@ def run(command, request, env=None):
     except Refusal as r:
         answers = error(command, r)
     except OSError as exc:
-        # a write failed: decisions and memory updates are kept in short-term memory; a pull, or
-        # saving a used Phoenix file, writes to Garura memory
-        tier = "short-term" if command in ("cite", "citations", "propose", "updates", "decide", "apply") else "garura"
-        name = "Short-term memory" if tier == "short-term" else "Garura memory"
-        verb = "read" if command in ("citations", "updates") else "written"
-        answers = error(command, Refusal("tier_missing", f"{name} cannot be {verb}: {exc}.", tier))
+        # every write the tool makes is to short-term memory: decisions and memory updates
+        if command in ("cite", "citations", "propose", "updates", "decide", "apply"):
+            verb = "read" if command in ("citations", "updates") else "written"
+            refusal = Refusal("tier_missing", f"Short-term memory cannot be {verb}: {exc}.", "short-term")
+        else:
+            refusal = Refusal("tier_missing", f"Memory cannot be read: {exc}.", request.get("tier"))
+        answers = error(command, refusal)
     return answers if isinstance(answers, list) else [answers]
 
 
@@ -500,11 +507,6 @@ def parse(argv):
             p.add_argument("--path")
             p.add_argument("--start", type=int)
             p.add_argument("--end", type=int)
-        if name == "pull":
-            p.add_argument("patterns", nargs="*")
-            p.add_argument("--path")
-        if name == "pulled":
-            p.add_argument("--behind", action="store_true", default=None)
         if name == "updates":
             p.add_argument("--status")
         if name == "apply":
@@ -532,13 +534,6 @@ def main(argv=None):
     argv = sys.argv[1:] if argv is None else argv
     try:
         command, request = parse(argv)
-        if command == "pull" and "patterns" in request:
-            # the command line's list is one contract request ({path}) per path
-            requests = [{"path": p} for p in request.pop("patterns")] + ([request] if request else [])
-            answers = [a for r in requests for a in run("pull", r)]
-            for a in answers:
-                print(json.dumps(a))
-            return 0 if all(a["ok"] for a in answers) else 1
     except BadFlags as exc:
         command = argv[0] if argv and argv[0] in COMMANDS else None
         if command is None:

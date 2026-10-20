@@ -30,6 +30,8 @@ Pipeline position: **both**. /understand stands on its own (ADR 029 §4; #616 D2
 
 Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM enrichment skill writes ONLY the per-node docs (`capability.md`, `functionality.md`) straight to the live model; every shared-file mutation (the spine `_spine.yaml`, `profile.yaml`, the box-move decisions) is done by the deterministic keyed persist script, in place, keyed to the run's target capabilities so it cannot touch any other node inside a shared file. The model tree is asserted clean at entry and the play commits its own model delta at close, so the working-tree diff vs HEAD is exactly this run's delta.
 
+Agents and skills (ADR 039 §2, §7, §8): the play reads no memory. `product-os-keeper` (domain agent) re-routes each target with `search-kb` and details it with `enrich-capability-ice`, reading memory only through the memory tool. `template-manager` (utility agent) hands the play the approval prompt, each judged kind's grounding template and the shared close's templates, copied into the issue's short-term memory. Each content-quality judge is an isolated sub-agent running the `judge-grounding` skill, handed only its doc (and parent doc) and the kind's `## Per-section guidance` block, which the bundled `guidance_block.py` cuts from the template copy — the judge never sees the template's gold example (`standards/rules/grounding-eval.md`).
+
 ### Constraints
 
 - C1 — One run details every target (#615). The targets are the capabilities the person
@@ -170,6 +172,20 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM enr
   the model. The content-quality judges, which only read, run as one concurrent read-only
   batch over every doc of every target. If any target cannot pass its checks after its
   recovery, the whole run halts and nothing is committed — no target lands alone.
+- C15 — The run's short-term memory lives in the issue it works on (ADR 036 §1, ADR 039 §1;
+  Kapil, 2026-10-19: "the issue that we are working on is where the short-term memory is going
+  to get created. Doesn't matter whether it is drive play or whatnot"). Inside a drive that is
+  the contract's `issue`; run by hand it is the issue `start-change` opens or resolves (Step 0).
+  The run's working root is `{stm_base}<issue>/context/understand/<run ts>/` (inside the
+  issue's `context/` key, ADR 017), so the person's answers (`caps/<capability>/seed.yaml`)
+  are in the issue's short-term memory, where the memory tool finds them. Its status, resume
+  and session-stamp markers sit at `{stm_base}<issue>/status/`; its sub-play results under
+  `{stm_base}<issue>/context/understand/start/` and `…/end/`. Run by hand, nothing is written
+  to short-term memory before `start-change` gives the issue: what the pre-flight and the
+  questions (Step 0a) record is held in a scratch folder outside `.garura/`, moved into the
+  working root right after Step 0, and deleted on a halt before it — so a stop before Step 0
+  still leaves no issue, no branch and no stray files. Resume finds the run through the
+  branch's issue.
 
 ### Failure conditions
 
@@ -216,6 +232,9 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM enr
   measured a target against a box another target in the same run had raised (a box-move
   hidden); or it committed some targets while another failed its checks; or an enrichment
   dispatch wrote outside its target's write scope or wrote a shared file.
+- F17 — The run wrote short-term memory outside its issue's folder: a working file, a person's
+  answer, a status marker or a sub-play result under any other folder of the short-term root,
+  or, run by hand, anything written to short-term memory before `start-change` gave the issue.
 
 ## Expectation
 
@@ -287,7 +306,7 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM enr
 
 ### Done means
 
-Paths are relative to the run's working root (`{stm_base}_shaping/understand/<run ts>/`).
+Paths are relative to the run's working root (`{stm_base}<issue>/context/understand/<run ts>/`, C15).
 `persist-manifest.json` is the record the keyed persist script writes before the checkpoint
 (its contract: `written`, `capability_refs`, `seeded`, `changed.{capabilities,
 functionalities_added, profile, decisions}`, `box_moves`) — every target's detailed
@@ -373,3 +392,8 @@ record.
   target's manifest against the starting box, and re-render the checkpoint; when a target
   failed or a dispatch strayed, revert the uncommitted delta and halt the whole run.
   handoff: autonomous.
+- REC17 (F17) — trigger: a working file, an answer, a marker or a sub-play result sits outside
+  `{stm_base}<issue>/`, or something was written to short-term memory before Step 0 gave the
+  issue. direction: move it into the issue's working root (or status folder), delete the stray
+  copy, and continue; when the issue is not known yet, hold it in the scratch folder until
+  Step 0. handoff: autonomous.

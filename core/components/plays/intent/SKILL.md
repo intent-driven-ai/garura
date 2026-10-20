@@ -41,7 +41,7 @@ opens no issue or branch of its own, skips the end sequence, and writes on the d
 ## Compiled From
 
 This play was compiled from the intent ICE (`reference/ice.md`) by play-creator (#612).
-Intent defines constraints (C1–C13) and failure conditions (F1–F13); the expectation defines
+Intent defines constraints (C1–C14) and failure conditions (F1–F14); the expectation defines
 success scenarios (S1–S8), a Done means (D1–D5, baked to `stop-condition.yaml`), and one
 recovery entry per failure condition. To modify this play, update `reference/ice.md` and
 recompile with play-editor.
@@ -63,16 +63,20 @@ inside an intent or an ICE goal (C3); merging separate things into one ICE, leav
 unmapped, or saving an ICE with no business intent (C12); asking why or proof with no example
 answers (C13); writing any model file other than the new intents, their proposed capabilities
 (spine entries appended, docs added) and sources (C8); opening an issue or a branch while
-running inside a drive (C9); closing COMPLETED without the stop condition held (C11).
+running inside a drive (C9); writing short-term memory outside the issue being worked on, or
+before `start-change` gives it the issue (C14); closing COMPLETED without the stop condition
+held (C11).
 
 **Agent boundaries:**
 
 | Agent | Domain | Skill it invokes | Phases |
 |-------|--------|------------------|--------|
-| `business-intent-keeper` | Read every Source's snapshot and the person's answers; draft the business intents and, under each, one ICE per separate thing the sources show — with provenance, a coverage map, and questions with example answers — and check the draft (coverage, merges and restated intents by judgment, the rest by script) before handing it back | `author-business-intent` | Draft |
+| `business-intent-keeper` | Read every Source's snapshot and the person's answers, and the ontology through the memory tool (by its name, the config's `product.ontology`); draft the business intents and, under each, one ICE per separate thing the sources show — with provenance, a coverage map, and questions with example answers — and check the draft (coverage, merges and restated intents by judgment, the rest by script) before handing it back | `author-business-intent` | Draft |
+| `template-manager` | Load the close's templates (the evidence file, the delivery report, the Next-line map) through the memory tool into the run's short-term memory | — | Close |
 
 `business-intent-keeper` is the single **domain agent**. It drafts both levels because one
-reading of the source shows both; it never writes the model.
+reading of the source shows both; it never writes the model. `template-manager` is a utility
+agent of the shared close: the play reads no memory itself (ADR 039 §2).
 The start and end sequence are injected
 sub-plays. Everything else is a script.
 
@@ -85,27 +89,46 @@ sub-plays. Everything else is a script.
 | Drive contract: when `--contract <file>` is passed, it is valid JSON naming `drive_run_id` and `branch`, and the current branch equals that branch | C9 | Hard halt (REC9) |
 | **Clean model tree** — after Step 0 (or at once, inside a drive), `git status --porcelain -- <product_base>product-os` is empty | C8 | Hard halt (REC8) |
 
-Resolve the facts with the bundled resolver — not by inference:
+**The issue comes first (C14).** Short-term memory is created in the issue being worked on.
+Inside a drive that is the contract's `issue`, known now. Run by hand it is the issue Step 0
+(`start-change`) opens or resolves. The run's working folder `<working>` is
+`{stm_base}<issue>/context/intent/<run-ts>/`, and its status markers sit in
+`{stm_base}<issue>/status/`; the stop condition reads `<working>` there.
+
+Run the pre-flight checks and the bundled resolver — not inference — before Step 0, so a hard
+halt leaves no issue and no branch. Run by hand, its files go to a scratch folder outside
+`.garura/` (`<pre>`, made with `mktemp -d`), because no issue exists yet; inside a drive they go
+straight to `<working>`. A halt before Step 0 deletes the scratch folder, so it leaves nothing
+behind:
 
 ```
+pre=$(mktemp -d)        # run by hand; inside a drive, write to <working> instead
 git branch --show-current
-git status --porcelain > <working>/porcelain.txt
+git status --porcelain > "$pre/porcelain.txt"
 python3 scripts/preflight.py --play intent --config .garura/core/config.yaml \
-    --branch "<current branch>" --porcelain-file <working>/porcelain.txt
+    --branch "<current branch>" --porcelain-file "$pre/porcelain.txt" > "$pre/preflight.json"
+```
+
+`in_drive` is true exactly when a valid `--contract` was passed. Once the issue is known (at
+once inside a drive; right after Step 0 run by hand), create `<working>`, move the scratch
+files into it, delete the scratch folder, run `preflight.py` again on the new branch so
+`<working>/preflight.json` names the branch and the issue (run by hand), record `<working>/run.json` (`in_drive`, the
+contract's `drive_run_id`, `branch` and `issue`, or the issue Step 0 gave), and start the
+session stamp:
+
+```
 python3 scripts/session_stamp.py --phase start \
-    --marker "{stm_base}_kickoff/intent/status/session-stamp-intent.json" \
+    --marker "{stm_base}<issue>/status/session-stamp-intent.json" \
     --cwd "$(pwd)" --branch "$(git branch --show-current)"
 ```
 
-`in_drive` is true exactly when a valid `--contract` was passed; record it in
-`<working>/run.json` with the contract's `drive_run_id` and `branch`. The run's working folder
-`<working>` is `{stm_base}_kickoff/intent/<run-ts>/`; the stop condition reads it there. Each
-Source's snapshot goes to the evidence folder `{product_base}_evidence/intent/<run-ts>/source-<name>/`
-— product-scoped, so it outlives the run.
+Each Source's snapshot goes to the issue's evidence folder
+`{stm_base}<issue>/evidence/intent/<run-ts>/source-<name>/` — committed with the run, so it
+outlives the link or the file.
 
 ## Task DAG
 
-Create ALL tasks immediately after pre-flight, before any domain work. Inside a drive, T0 and
+Create ALL tasks immediately after pre-flight (before Step 0), before any domain work. Inside a drive, T0 and
 E1–E4 are created and marked skipped (`in_drive`), never run.
 
 ```
@@ -135,11 +158,19 @@ runtime reordering. On resume, skip completed and reset in-progress to pending.
 **Step 0 — start-change** · Owner: `start-change` (sub-play) · Depends on: pre-flight
 *Skipped when `in_drive`.* Run the start-of-pipeline member as a sub-play with
 `parent_run_id`: it resolves or creates the issue, cuts the branch off fresh main, and inits
-STM. Then run the clean-tree assertion.
+STM. `{issue}` in its result path is the issue it gave. Then create `<working>` in that issue,
+move the pre-flight's scratch files into it and delete the scratch folder, write `run.json`,
+start the session stamp (above), and run the clean-tree assertion.
 
     { "play": "start-change", "parent_run_id": "<this run id>",
       "inputs": { "title": "intent: <a few words of what the person wants>" },
-      "outputs": { "result": "{stm_base}_kickoff/intent/start/start-change.json" } }
+      "outputs": { "result": "{stm_base}{issue}/context/intent/start/start-change.json" } }
+
+**SE-14 (F14/C14):** after Step 0 (at once inside a drive) every file this run wrote to
+short-term memory — `run.json`, the pre-flight files, the status markers, the sub-play results —
+sits under `{stm_base}<issue>/`; run by hand, nothing was written under the short-term root
+before Step 0, and the scratch folder is gone. Each Source's snapshot (Step 1) and
+`answers.yaml` (Step 3) are written under the same issue.
 
 ### Phase: Capture
 
@@ -152,7 +183,7 @@ The given-by is the git user running the play (`git config user.name` and `user.
 python3 scripts/capture_source.py \
     ( --source <file path or link> [--also <more pages>] [--click <tab label> ...] \
       | --statement <working>/statement.txt ) \
-    --out-dir {product_base}_evidence/intent/<run-ts>/source-<name> \
+    --out-dir {stm_base}<issue>/evidence/intent/<run-ts>/source-<name> \
     --given-by "<git user.name> <<git user.email>>" \
     --manifest <working>/source-manifest-<name>.json
 ```
@@ -177,7 +208,8 @@ hashes, `read_on`, and `given_by` (the git user); each snapshot sits under the e
     { "task":    "draft the person's Business Intents and their ICE from these sources and their answers",
       "inputs":  { "source_manifests": ["<working>/source-manifest-<name>.json", "<one per Source>"],
                    "answers": "<working>/answers.yaml (absent on the first pass)",
-                   "ontology_path": "<memory>/standards/schemas/product-os/ontology.md",
+                   "issue": "<issue>",
+                   "ontology": "<product.ontology from .garura/core/config.yaml — the ontology's place in memory>",
                    "spine_path": "<product_base>product-os/_spine.yaml (when it exists — read only)",
                    "check_script": "<play-dir>/scripts/check_intent.py" },
       "outputs": { "draft": "<working>/intent-draft.yaml",
@@ -332,7 +364,7 @@ a drive):
 
 ```
 git add -- <product_base>product-os/intents <product_base>product-os/capabilities \
-    <product_base>product-os/_spine.yaml <product_base>_evidence/intent/<run-ts>
+    <product_base>product-os/_spine.yaml <stm_base><issue>/evidence/intent/<run-ts>
 git commit -m "feat(model): business intents — <n> from <what the source is> (#<issue>)"
 ```
 
@@ -343,19 +375,19 @@ injects the close sequence, each a sub-play with `parent_run_id`:
 
 **Step E1 — commit-change** · blockedBy: Step 7
 
-    { "play": "commit-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "{stm_base}_kickoff/intent/end/commit-change.json" } }
+    { "play": "commit-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "{stm_base}{issue}/context/intent/end/commit-change.json" } }
 
 **Step E2 — propose-change** · blockedBy: E1
 
-    { "play": "propose-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "{stm_base}_kickoff/intent/end/propose-change.json" } }
+    { "play": "propose-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "{stm_base}{issue}/context/intent/end/propose-change.json" } }
 
 **Step E3 — review-change** · blockedBy: E2
 
-    { "play": "review-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "{stm_base}_kickoff/intent/end/review-change.json" } }
+    { "play": "review-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "{stm_base}{issue}/context/intent/end/review-change.json" } }
 
 **Step E4 — merge-change** · blockedBy: E3
 
-    { "play": "merge-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "{stm_base}_kickoff/intent/end/merge-change.json" } }
+    { "play": "merge-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "{stm_base}{issue}/context/intent/end/merge-change.json" } }
 
 Each end member owns its own evals; a review reject stops the chain before merge; the land on
 main keeps its pinned human approval.
@@ -404,8 +436,8 @@ end member ran, and the branch the commit landed on equals the contract's branch
 ### Phase: Evidence & Close
 
 **Step 9 — Close** · Owner: play · Depends on: Step 8
-Run the Standard Play Close. `/intent` writes product-scoped evidence beside the Sources'
-snapshots, so the record of the run and what it read stay together.
+Run the Standard Play Close. `/intent` writes its evidence in the issue being worked on,
+beside the Sources' snapshots, so the record of the run and what it read stay together.
 **SE-11 (F11/C11):** the close is stop-condition gated — `check_stop_condition.py` over the
 baked `stop-condition.yaml` (D1 intents saved; D2 decided — by hand, at least one confirmed and
 every one decided; in a drive, every one saved as proposed for the drive's final review;
@@ -413,31 +445,26 @@ D3 every Source snapshot saved; D4 intents, ICE and Sources linked; D5 guard ok)
 close.
 
 ```bash
-# --- Standard Play Close (canonical; see standards/rules/play-close.md) ---
-# Path tokens resolved at pre-flight (resolve here if not already):
-#   ltm_project_target  = yq '.ltm.project-target' .garura/core/config.yaml
+# --- Standard Play Close (shared; see ../_shared/play-close.md) ---
+# Run the close in ../_shared/play-close.md. Its Step L loads the templates through
+# template-manager and sets ts and evidence_dest; then run this play's own lines below;
+# then Steps C0-C2.
 #   evidence_base, slug:
-#     project-scoped play : evidence_base="${stm_base}${issue}/evidence/intent/"     ; slug="#${issue}"
-#     product-scoped play : evidence_base="${product_base}_evidence/intent/"          ; slug="${run_ts}"
-evidence_template=$(cat "${ltm_project_target}standards/templates/evidence-file.md")
-delivery_template=$(cat "${ltm_project_target}standards/templates/delivery-report.md")
-ts=$(date -u +%Y%m%d-%H%M%S)
-evidence_dest="${evidence_base}${ts}.md"
-mkdir -p "$(dirname "$evidence_dest")"
+#     evidence_base="${stm_base}${issue}/evidence/intent/"   ; slug="${run_ts}"
 # Session identity stamp (#463) — close phase; start phase ran at pre-flight
 session_stamp=$(python3 scripts/session_stamp.py --phase close \
-    --marker "${stm_base}_kickoff/intent/status/session-stamp-intent.json")
+    --marker "${stm_base}${issue}/status/session-stamp-intent.json")
 # Stop-condition gate (#464) — Step C0: this play carries a baked manifest, so the
 # gate is LIVE. Evaluate the Done means here as the close's authoritative input.
 python3 scripts/check_stop_condition.py \
     --manifest "<play-dir>/stop-condition.yaml" \
     --base "<working>/" \
-    --out "${stm_base}_kickoff/intent/status/stop-condition-intent.yaml"
+    --out "${stm_base}${issue}/status/stop-condition-intent.yaml"
 sc_exit=$?   # 0 held · 1 unmet · 2 error
 ```
 
-`/intent` is product-scoped: `evidence_base="${product_base}_evidence/intent/"` and
-`slug="${run_ts}"` (one run can save several intents).
+`/intent`'s evidence lives in the issue being worked on: `evidence_base="${stm_base}${issue}/evidence/intent/"`
+and `slug="${run_ts}"` (one run can save several intents).
 
 **Step C0 — bind the verdict.** `sc_exit == 0` (held) permits `status: COMPLETED`. Anything
 else closes `HALTED` with `exit_reason: stop_condition_unmet` and the evidence's Stop
@@ -453,13 +480,13 @@ produced: the intent pages, the spine entries and capability docs (the ICE),
 `grounding-lint.json`, `workable.json`, each Source's snapshot and `source.md`, every
 `source-manifest-<name>.json`, `intent-draft.yaml`, `intent-check.json`, `answers.yaml`,
 `confirmation.yaml`, `intent-manifest.json`, `guard-report.json`, the model-delta commit sha;
-`in_drive`; step and scenario eval results SE-1…SE-13 / SCE-1…SCE-8; the checkpoint decisions from Step 4
+`in_drive`; step and scenario eval results SE-1…SE-14 / SCE-1…SCE-8; the checkpoint decisions from Step 4
 with the person's exact replies;
 the session identity stamp fields from $session_stamp (#463): session_id, ledger_file,
 ledger_start_offset, ledger_end_offset (null when unresolved — never blocks the close); and
 stop_condition per C0) and write to `$evidence_dest`. Do NOT hand-author the body.
 
-**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in `standards/rules/pipeline-next.md` and emit `**Next:** /<command> — <why>. Or run /next to see all recommended actions.` (only /next pointer, or omit, when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots and output the
+**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>. Or run /next to see all recommended actions.` (only /next pointer, or omit, when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots and output the
 report: `## intent Delivered — <n> business intents, <m> ICE`, the Run Summary table, the
 Pipeline Steps table from the task DAG, the Artifacts Produced table (the intent pages, the ICE
 files and the Sources), Next Steps (run `/vision` for a confirmed intent; it finds the intent
@@ -500,11 +527,12 @@ and its ICE in the model), and a pointer to
 | F11 | the close would read COMPLETED with the Done means unmet | close HALTED with the unmet clauses named; fix the state and re-evaluate | autonomous |
 | F12 | two separate things share one ICE, a part maps to no ICE, an ICE has no business intent, or a business intent restates the source | re-draft with the problem named — one ICE per separate thing, each built from an intent; ask "why?" again for an intent that restates the source; at confirmation the person can name a missing or merged item | autonomous |
 | F13 | a question went out with no examples, or a picked example was recorded as the person's words | ask again with examples; mark the picked reply as picked | autonomous |
+| F14 | a working file, an answer, a marker, a sub-play result or a snapshot sits outside `{stm_base}<issue>/`, or something was written to short-term memory before Step 0 gave the issue | move it into the issue's working folder (or status or evidence folder), delete the stray copy, and continue; when the issue is not known yet, hold it in the scratch folder until Step 0 | autonomous |
 
 ## Pause and Resume
 
-Steps run top to bottom. On entry, resolve config and the in-progress run from the status
-marker, skip completed steps, reset any in-progress step to pending, and continue. A resume
+Steps run top to bottom. On entry, resolve config, the issue (from the drive contract, or from
+the branch), and the in-progress run from its status marker in `{stm_base}<issue>/status/`, skip completed steps, reset any in-progress step to pending, and continue. A resume
 after Step 1 reuses the captured snapshot; a resume after Step 3 reuses `answers.yaml` rather
 than asking again; a resume never re-asks a decision already recorded, and never re-asks any
 once `confirmation.yaml` exists.
@@ -514,16 +542,16 @@ Inside a drive, a resume keeps `in_drive` from `run.json`.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:9b6fddb24d582ac2bb85386482209ab1aaa2cc0fe7a6208d9e11f09434fbe5a3 (of `reference/ice.md`) |
-| compiled_by | play-editor (#637 one product model with /vision); play-creator (#612) |
+| fingerprint | sha256:59fc9fe551bd4e2a9d32f6bf22637e01a4090207656968becc85f66b0304666c (of `reference/ice.md`) |
+| compiled_by | play-editor (#661 reads no memory; the run lives in its issue); play-editor (#637 one product model with /vision); play-creator (#612) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close; both skipped inside a drive) |
 | position_exception | model-writing both play — writes the intent on its started branch (or the drive's) and commits its own model delta (Step 7) BEFORE the injected end sequence lands it |
 | workflow_structure | B with one human checkpoint — pinned when run by hand (the person confirms or drops each intent), none inside a drive (intents saved as proposed for the drive's final review); ask-and-check loop ≤3 rounds; stop-condition gated close |
 | stop_condition | stop-condition.yaml (D1–D5), gate live at Step C0 |
 | domain_agents | 1 (business-intent-keeper) |
-| utility_agents | 0 |
+| utility_agents | 1 (template-manager — the shared close's templates) |
 | skills_used | author-business-intent |
 | scripts | 10 (preflight.py, session_stamp.py, check_stop_condition.py, scoped_write_guard.py, capture_source.py, check_intent.py, persist_intent.py, intent_touches.py — copied from play-creator references, lint_grounding.py — copied from /vision, check_ice_workable.py — copied from play-creator references) + test_intent_scripts.py |
-| step_evals | 13 (SE-1…SE-13) |
+| step_evals | 14 (SE-1…SE-14) |
 | scenario_evals | 8 (SCE-1…SCE-8) |
-| recovery_entries | 13 (one per failure condition; 8 autonomous / 5 human) |
+| recovery_entries | 14 (one per failure condition; 9 autonomous / 5 human) |

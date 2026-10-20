@@ -214,17 +214,13 @@ Run the Standard Play Close. `/deploy` is a standalone product-scoped play — r
 rule.
 
 ```bash
-# --- Standard Play Close (canonical; see standards/rules/play-close.md) ---
-# Path tokens resolved at pre-flight (resolve here if not already):
-#   ltm_project_target  = yq '.ltm.project-target' .garura/core/config.yaml
+# --- Standard Play Close (shared; see ../_shared/play-close.md) ---
+# Run the close in ../_shared/play-close.md. Its Step L loads the templates through
+# template-manager and sets ts and evidence_dest; then run this play's own lines below;
+# then Steps C0-C2.
 #   evidence_base, slug:
 #     project-scoped play : evidence_base="${stm_base}${issue}/evidence/deploy/" ; slug="#${issue}"
 #     product-scoped play : evidence_base="${product_base}_evidence/deploy/"      ; slug="${slice_slug}-${env}"
-evidence_template=$(cat "${ltm_project_target}standards/templates/evidence-file.md")
-delivery_template=$(cat "${ltm_project_target}standards/templates/delivery-report.md")
-ts=$(date -u +%Y%m%d-%H%M%S)
-evidence_dest="${evidence_base}${ts}.md"
-mkdir -p "$(dirname "$evidence_dest")"
 
 # Session identity stamp (#463) — close phase; start phase ran at pre-flight
 session_stamp=$(python3 scripts/session_stamp.py --phase close \
@@ -259,7 +255,7 @@ unresolved — never blocks the close); and stop_condition per C0 with the Stop 
 filled) and write to `$evidence_dest`. Do NOT hand-author the body. This persists the deploy evidence
 record (C7, verified by SE-9) to the evidence file, or explicitly skips on `record=false`.
 
-**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in `standards/rules/pipeline-next.md` and emit `**Next:** /<command> — <why>. Or run /next to see all recommended actions.` (only /next pointer, or omit, when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots: `## deploy Delivered —
+**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>. Or run /next to see all recommended actions.` (only /next pointer, or omit, when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots: `## deploy Delivered —
 ${slug}`, the Run Summary table (target env, address, health), the Pipeline Steps table, the Artifacts
 Produced table (the deploy record + logs), Next Steps (promote to a higher cloud tier by re-running
 `/deploy --env <tier>`; production follows from main via CD), and a pointer to `$evidence_dest`. Always

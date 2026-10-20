@@ -1,11 +1,11 @@
 {
   "command": "find",
   "request": {
-    "glob": "product-os/**/capability.md"
+    "glob": "product/product-os/**/capability.md"
   },
   "response": {
     "ok": true,
-    "contract_version": "4",
+    "contract_version": "5",
     "command": "find",
     "looked_in": [
       "garura"
@@ -14,7 +14,7 @@
     "matches": [
       {
         "tier": "garura",
-        "path": "product-os/checkout/checkout/capability.md",
+        "path": "product/product-os/checkout/checkout/capability.md",
         "version": null
       }
     ]

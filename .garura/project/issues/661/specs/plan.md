@@ -1,0 +1,245 @@
+---
+plan_for: 661
+kind: story
+serves: "#661 — /intent, /vision, /understand and the Kickoff drive read no memory; their agents read it through the memory tool"
+status: done
+updated: 2026-10-20
+now: done
+serves_plan: 653
+serves_item: 8
+---
+
+# Plan — #661: Kickoff's plays get memory only from their agents
+
+This is a plan, not a design. It says what gets done, in what order, and why
+that order. How each item is built is decided in its own step.
+
+## What we are trying to reach
+
+The three plays the Kickoff drive runs — `/intent`, `/vision` and `/understand` — and the
+Kickoff drive itself read no memory. They call their agents. The agents read memory, only
+through the memory tool, and build the context.
+
+Kapil's rules, 2026-10-19 (they replace this plan's first reading):
+
+- **A play is a pure workflow.** It reads no memory. It calls a sub-agent to get what it
+  needs. "This is the holy grail of our architecture and design." Skills read only what the
+  agent puts in short-term memory.
+- **Scope.** Only `/intent`, `/vision`, `/understand` and the Kickoff drive are fixed here.
+  Every other play is fixed in the next few days, in its own work.
+- **The tiers and where they are.** Short-term memory is the issue's folder
+  (`.garura/project/issues/<issue>/`). Garura memory is `.garura/core/memory/`. The product
+  model, `.garura/product/`, is part of Garura memory, not all of it. A lookup goes short-term
+  memory, then `.garura/core/memory/`, then the product model, then Phoenix memory.
+- **Phoenix memory's place is `~/.phoenix/core/memory`** (Kapil, b1).
+- **Every memory write goes to short-term memory.** A question asked of a person, and the
+  answer, are kept in the issue's short-term memory. Moving anything up is a promotion that a
+  person makes on purpose. A new memory made outside short-term memory breaks the guardrail.
+- **Only a play built to write the product model writes it** (`/vision`, `/understand`). That
+  is the play's work, not a memory write.
+- **The tool never copies a Phoenix file** (Kapil, c). It reads Phoenix memory. A project's
+  memory is built separately, from only the part the project needs: Phoenix memory knows the
+  commerce domain; a project that needs only checkout gets the checkout context, not the whole
+  file.
+- **The `.garura/` folder** (Kapil, 2026-10-19): `core/` holds `config.yaml`, `memory/` (Garura
+  memory) and `tools/` (the memory tool moves here from `.garura/tools/`). `product/` (the
+  product model), `project/issues/` (short-term memory), `install-manifest.json`,
+  `defect-report/` (defects reported to Garura and Phoenix) and `user-provided/` (the evidence
+  layer) stay. `project/specs/` goes. `core/engine-state.json` stays in `core/` (Kapil: "ok").
+  `.garura/core/memory/` is kept in git, not ignored (Kapil: "dont ignore this").
+- **Questions and answers in every play go to the issue's short-term memory** (Kapil: "the
+  answers go to STM ... when we are running vision or understand or whatnot, and the user is
+  answering, the groundings are running into that specific issue as well"). `product.md`
+  Rule 12, which writes them to `.garura/product/user-provided/grounding-questions.md`, changes.
+- **Asked again in another issue is expected** until a person promotes the answer (Kapil).
+- **What the three plays needed from memory, and where it comes from now** (Kapil, 2026-10-19):
+  - The ontology's path is folder structure, not memory. Paths go in the config file.
+  - The judge prompt is part of judging, so it belongs in a judging skill. "This is core
+    design, not a play or workflow."
+  - Templates come from a new `template-manager` agent. It loads the templates; anyone then
+    asks it for them. The close's templates come the same way.
+- **The shared close is fixed now, for every play** (Kapil, b2). A block every play shares
+  lives in one common file that the plays point to, not copied into each play.
+
+What is true today (read on 2026-10-19):
+
+- **The docs disagree with these rules.** ADR 036 §4 says "When a person answers a question,
+  the answer goes into Garura memory", and ADR 036 amends ADR 034 §2 and ADR 035 §5 to say the
+  same. ADR 035 §2 has a project pull whole pieces of Phoenix memory. ADR 038 puts Phoenix memory
+  at `~/.garura/phoenix-memory` and the tool at `.garura/tools/memory/`.
+- **The tool copies.** A `read` of a Phoenix file copies it into `.garura/core/memory/` at once
+  (`memory.py`, `cmd_read`), and `pull` copies on request. The guide and the README say so.
+- **The tool's Garura tier is all of `.garura/`** less short-term memory and the tool's folder,
+  so it also reads `.garura/user-provided/` and `.garura/defect-report/`.
+- **What `.garura/` holds in this repo:** `core/config.yaml`, `core/engine-state.json`,
+  `core/memory/` (ignored by git; the old full copy: `standards/`, `tools/github`,
+  `tools/gitlab`), `product/`, `project/issues/`, `project/specs/` (empty), `user-provided/`
+  (`managing-work.md`), `defect-report/`, and `install-manifest.json`. An install also lays
+  `tools/memory/` (ADR 038). ADR 017's whitelist allows only `core/`, `product/` and
+  `project/issues/`.
+- **The agents.** `/intent` uses `business-intent-keeper`; `/vision` and `/understand` use
+  `product-os-keeper`. Both type memory paths; neither calls the tool.
+- **What the three plays read from memory themselves:**
+  - `/intent` hands its agent a path to the ontology (`<memory>/standards/schemas/product-os/ontology.md`).
+  - `/vision` and `/understand` hand their judge sub-agents the judge prompt
+    (`standards/rules/grounding-eval.md`).
+  - `/vision` and `/understand` render their checkpoint from `standards/templates/approval-prompt.md`.
+  - All three end with the shared close, which reads `evidence-file.md` and
+    `delivery-report.md` from `${ltm_project_target}`, and `pipeline-next.md` for the Next line.
+  - The other rules the plays name (`gate-config.md`, `concurrent-fanout.md`,
+    `direct-model-write.md`, `drive-contract.md`, `evidence-recording.md`) are cited for the
+    reader; the gate's values come from `.garura/core/config.yaml`, not memory.
+
+## When this plan is done
+
+- The docs say Kapil's rules, the same way: the ADRs, the tool's guide and README,
+  `docs/components/memory.md` and the glossary.
+- The tool copies nothing, finds Phoenix memory at `~/.phoenix/core/memory`, and is installed
+  at `.garura/core/tools/`. `.garura/project/specs/` is gone.
+- A `template-manager` agent hands out templates; a judging skill holds the judge prompt; the
+  config file holds the ontology's path.
+- Every play's close lives in one common file the plays point to, and reads no memory.
+- `/intent`, `/vision` and `/understand` read no memory.
+- The two Kickoff agents read memory only through the tool, and their skills read only
+  short-term memory.
+- The rule the Kickoff drive must follow (it reads no memory) is written where #613 reads it.
+- Each changed agent's and play's checks pass, and `lint-components` finds no more than on main.
+
+## Where we are now
+
+Done. PR #678 merged on Kapil's approval (20 October). `/intent`, `/vision` and `/understand`
+read no memory; their agents read it only through the memory tool; every memory write and
+every run lives under the issue being worked on. Open, not blocking, in the review record:
+P3/P4 items, and H10 (ADR 034/035's wording for /intent C4/C5, /vision C11, /understand C13)
+for Kapil to confirm.
+
+## The plan, in order
+
+### Done
+
+- **0. Opened** — #661. Branch `feature/661-kickoff-reads-memory-through-tool` off main
+  (`09822507`).
+- **1. Decisions** — Kapil answered every open point on 2026-10-19; the answers are in "What
+  we are trying to reach".
+- **2. Fix the docs** — ADR 039 accepted by Kapil (`docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md`), with pointers on ADR 036, 035, 034, 038, 017 and 009. `docs/components/memory.md` rewritten and the glossary's memory rows fixed to it. The tool's `GUIDE.md` and `README.md` move to item 3: they describe what the tool does, so they change with it.
+- **3. The tool and the install follow the docs** — the memory tool reads Phoenix memory and
+  copies nothing (`pull` and `pulled` gone; contract v5); Garura memory is read in
+  `.garura/core/memory/`, then `.garura/product/` (`garura_folders`); the install lays the tool at
+  `.garura/core/tools/memory/` with Phoenix memory at `~/.phoenix/core/memory`, and removes a
+  tool an older install laid; uninstall follows. Tests: tool 79, Phoenix side 5, contract 56,
+  install 28 — all pass; `lint-components` 116, as on main. This repo's `.garura/` not touched.
+- **4. `template-manager`, the judging skill and the ontology path** — `template-manager`
+  (`core/components/agents/template-manager.md`) and `judge-grounding`
+  (`core/components/skills/judge-grounding/SKILL.md`) built; `grounding-eval.md` keeps the gate
+  rule and points to the skill. The config's source moved to `core/config.yaml`, with
+  `product.ontology` (ADR 040, accepted by Kapil). Install tests 31 pass; lint 116, as on main.
+- **5. The shared close in one common file** — `core/components/plays/_shared/play-close.md`
+  (moved out of memory) holds the close; it gets its templates and the Next-line map from
+  `template-manager`. All 28 plays' closes now hold only the anchors, their own values and
+  their own steps (a script; a direct edit). `/play-creator` emits the pointer; `lint-components`
+  and both `lint_play.py` check the new anchor and the shared file; the install lays `_shared/`
+  beside the plays (Claude Code and Codex) and harness installs carry `template-manager`. Tests:
+  install 33, every play and skill test file passes; lint 114, as on main.
+- **6. The two Kickoff agents read through the tool** — `product-os-keeper` has a Memory
+  Reading Protocol (find and read through the tool, copy what a skill needs into short-term
+  memory, hand the skill the copy, raise a memory update when no tier answers, `cite` each
+  decision); the router `kb.py` and `ltm_context` are gone from it. `business-intent-keeper`
+  reads the ontology through the tool. `search-kb`, `propose-kb-node`, `author-vision-seed`,
+  `enrich-capability-ice`, `kb-search` and `author-business-intent` read only the copies; the
+  route and proposal validators moved beside their skills. The router itself
+  (`knowledge/domains/.pageindex/`) is removed (Kapil: "1").
+  Lint: the same findings as main.
+- **7. The three plays read no memory** — direct edits (no guarantee changed; the ICE sources
+  name no memory path): `/intent` hands its agent `issue` and the config's `product.ontology`;
+  `/vision` and `/understand` hand `issue` to `product-os-keeper`, read no shelf through a
+  router, run each judge on `judge-grounding` with the kind's template from `template-manager`,
+  and get the approval prompt from `template-manager`. Both `lint_play.py` copies accept the
+  shared close's "Next-line map" wording. Play tests 103, 32, 87 pass; `lint_play` and
+  `lint-components` give the same findings as main.
+- **8. Questions and answers go to short-term memory** — Rule 12 keeps them in the issue's
+  `context/grounding-questions.md`. `/intent`, `/vision` and `/understand` (ICE changed, then
+  recompiled the `/play-editor` way) keep their whole run in the issue being worked on — the
+  drive's issue inside a drive, `start-change`'s issue by hand: working folder
+  `{stm_base}<issue>/context/<play>/<run key>/`, markers `{stm_base}<issue>/status/`, sub-play
+  results under `context/<play>/start|end/`; by hand nothing is written in `.garura/` before
+  `start-change` (`/understand` holds its pre-flight files in a scratch folder outside `.garura/`
+  and moves them in). `lint_play` passes for all three; tests 103, 32 + 30, 87 + 20 + 18 pass.
+- **9. The Kickoff drive's rule** — `drive-contract.md` says the issue ID governs (everything
+  the drive and its plays write goes under the drive's issue), a drive and its plays read no
+  memory, a new step 2 names the paths under the issue, and a question stops the play only
+  when neither memory nor the contract answers it (the answer kept in the issue's short-term
+  memory). Its rules-index row and the glossary's Drive entry say the same.
+- **10. Prove it** — `evidence/check_memory_paths.py` finds no memory path in 17 files and 28
+  play closes (and catches planted ones); every check passes (tool 79/5/56, install 33, every
+  play and skill test file; `lint_play` and `lint-components` as on main); `/intent`'s draft
+  step on a test project, inside a drive contract, found the ontology in Phoenix memory through
+  the tool (downloaded on first use to `~/.phoenix/core/memory`), copied it to short-term
+  memory, kept a trace (`citations --check` ok), and wrote only under its issue. Results:
+  `evidence/item-10-checks.txt`.
+- **11. Landed** — PR #678; review round 1 a harness reject (one P1: the drive review record
+  took only contract v4), fixed; round 2 a harness approve; Phoenix memory updated to match
+  (`9dfe400`, `db6441a`); Kapil approved the merge on 20 October.
+
+## Not in this plan
+
+- Every other play's own memory reads (Kapil: fixed in the next few days). Their close is
+  fixed here, because it is one shared block.
+- The change chain's agents (`repo-orchestrator`, `change-reviewer`, `quality-auditor`) and the
+  other 11 agents that name a memory path (#653 item 10, #663).
+- Building the Kickoff drive (#613).
+- The full run of the three plays (#662).
+- `initialize`, which builds a project's memory (#653, not yet placed).
+- Promotion (`/promote-memory`).
+
+## Where the issue text no longer matches
+
+- The #661 text says "the agents and skills ... find and update memory only through the
+  tool". Kapil, 2026-10-18: only agents call the tool; skills read short-term memory only.
+- The #661 text asks for the three plays' intents to change and names every play's close.
+  Kapil, 2026-10-19: the plays read no memory; other plays are fixed later.
+- These are fixed on GitHub when Kapil asks.
+
+## Log
+
+- 2026-10-19 — Created at the start of #661, from the issue, ADR 034 to ADR 038, the #653
+  plan, the three plays, their agents and skills, and `play-close.md`.
+- 2026-10-19 — Rewritten to Kapil's rules: agents read memory through the tool; every memory
+  write, a person's answer too, goes to short-term memory; the tier places. The first plan
+  said `.garura/core/memory/` does not exist; it exists in this repo (ignored by git), but an
+  install does not fill it.
+- 2026-10-19 — Kapil: plays are pure workflows and read no memory; scope is the three plays
+  and the Kickoff drive; Phoenix at `~/.phoenix/core/memory`; the tool never copies. Items
+  rebuilt; open: the `.garura/` folder and the shared close.
+- 2026-10-19 — Kapil decided the rest: the `.garura/` layout; the ontology's path in config;
+  the judge prompt in a judging skill; a `template-manager` agent for templates; the shared
+  close fixed now, in one common file the plays point to. Items 3 to 10 rebuilt.
+- 2026-10-19 — ADR 039 drafted. Kapil: Rule 12's questions and answers go to the issue's
+  short-term memory (item 8 added); `.garura/core/memory/` kept in git; `engine-state.json`
+  stays; asked-again is expected until promotion; "accept".
+- 2026-10-19 — Item 2 done: ADR 039 accepted and applied; `docs/components/memory.md` and the
+  glossary follow it. The tool's guide and README move to item 3.
+- 2026-10-19 — Kapil: `.garura/` here is the installed working copy; source goes in `core/`; no
+  install was asked for. My clearing of `.garura/core/memory/`, removal of
+  `.garura/project/specs/` and un-ignore of `.garura/core/memory/` are undone (the copy rebuilt
+  from `3e0f98ab`, the one commit whose file list matches it).
+- 2026-10-19 — Item 3 done: the tool copies nothing and reads only `core/memory/` then `product/`;
+  the install lays it at `.garura/core/tools/memory/`. All tests pass.
+- 2026-10-19 — Kapil: the config is built in `core/`, `.garura/` files are not modified ("2 is the
+  right way"). `core/config.yaml` added; install and installer read it; ADR 040 drafted.
+- 2026-10-19 — Item 4 done; ADR 040 accepted. Its first apply wrote no forward pointers (the
+  context file nested its amends list); undone before commit, fixed, applied again.
+- 2026-10-19 — Item 5 done: the close lives once, in `core/components/plays/_shared/play-close.md`;
+  every play points to it. Its Phoenix memory copy (`standards/rules/play-close.md`) goes at landing.
+- 2026-10-19 — Item 6 done: both Kickoff agents and their six skills read memory only through
+  the tool and short-term copies.
+- 2026-10-19 — Item 7 done: `/intent`, `/vision` and `/understand` read no memory.
+- 2026-10-19 — Item 8 done: the Kickoff plays' runs live in the issue being worked on (Kapil's
+  rule).
+- 2026-10-19 — Kapil: "1" — the three Kickoff plays' evidence and `/intent`'s source snapshots
+  move into `{stm_base}<issue>/evidence/<play>/` (a direct edit; no ICE names the folder). Kapil:
+  the issue ID governs — every piece of work writes its memory, evidence and files under it.
+- 2026-10-19 — Item 9 done: the drive contract, its index row and the glossary say the issue ID
+  governs and a drive reads no memory.
+- 2026-10-19 — Item 10 done: no memory path left; every check passes; `/intent` on a test project
+  reads memory only through the tool and writes only under its issue.
+- 2026-10-20 — Landed: PR #678 merged on Kapil's "approve". The plan is done.

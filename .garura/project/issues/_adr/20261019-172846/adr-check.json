@@ -1,0 +1,18 @@
+{
+  "task_id": "draft-adr",
+  "draft": ".garura/project/issues/_adr/20261019-172846/adr-draft.md",
+  "number": "040",
+  "revision": 2,
+  "revised_because": "coordinator asked to match the working tree: core/config.yaml added, install.py and install.sh fall back for older checkouts and releases, docs and tests updated",
+  "lint": { "command": "adr.py lint --adr adr-draft.md", "exit": 0, "valid": true, "problems": [] },
+  "guard": { "command": "adr.py guard --adr adr-draft.md", "exit": 0, "declared": "none", "touches_an_intent": [], "verdict": "no person's business intent changes", "agrees_with_context": true },
+  "install_tests": { "command": "python3 -m unittest core/components/plays/install-garura/scripts/test_install.py", "ran": 31, "result": "OK" },
+  "retries": 0,
+  "supersedes": [],
+  "amends": ["017 §2 (source half)", "039 §6"],
+  "notes": [
+    "Dropped the risk that an older checkout passed with --source is not found: config_source() and SRC_CONFIG fall back to .garura/core/config.yaml.",
+    "Added the risk that, while the fallback stays, the install has two places it can read a config from.",
+    "This repository's .garura/core/config.yaml is unchanged (git diff empty)."
+  ]
+}
