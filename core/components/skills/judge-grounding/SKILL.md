@@ -26,7 +26,7 @@ The doc, its parent when there is one, and the kind's per-section guidance — a
 |-------|----------|-------------|
 | `doc` | yes | The grounding doc under test (the file the play wrote this run). |
 | `parent_doc` | no | Its parent: a capability's domain, a functionality's capability. Only for `depth_gradient`. |
-| `guidance` | yes | The kind's per-section guidance: the `## Per-section guidance` block of the kind's template, as `template-manager` put it in the issue's short-term memory. |
+| `guidance` | yes | The kind's guidance for the doc's own stage — its per-section guidance, the stage's heading contract and the every-stage agent intent, cut from the kind's template by the play's `guidance_block.py --stage` (never the gold example), as `template-manager` put it in the issue's short-term memory. |
 | `kind` | yes | `domain`, `capability`, `functionality` or `epic`. |
 | `out_verdict` | yes | Where to write the verdict JSON. |
 

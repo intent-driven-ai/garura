@@ -28,7 +28,9 @@ is not trusted).
 ## How the judge runs — an isolated sub-agent
 
 The judge ALWAYS runs as an in-harness sub-agent spawned with a CLEAN context: it
-runs the `judge-grounding` skill with only the kind's per-section guidance + the doc (+ parent),
+runs the `judge-grounding` skill with only the kind's guidance for the doc's own stage (its per-section
+guidance, the stage's heading contract and the every-stage agent intent, cut by `guidance_block.py
+--stage`; never the gold example) + the doc (+ parent),
 never the play's context, the brief, or the author's reasoning. The orchestrator spawns
 it; it returns the verdict JSON, which the gate scores. Clean context is what stops
 context bleed and reward hacking.

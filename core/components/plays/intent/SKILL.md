@@ -547,7 +547,7 @@ Inside a drive, a resume keeps `in_drive` from `run.json`.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:59fc9fe551bd4e2a9d32f6bf22637e01a4090207656968becc85f66b0304666c (of `reference/ice.md`) |
+| fingerprint | sha256:93691e419bec8ed9b1e7d18df1ddff772f684c1e9802d6874958ebe6f2761f43 (of `reference/ice.md`) |
 | compiled_by | play-editor (#661 reads no memory; the run lives in its issue); play-editor (#637 one product model with /vision); play-creator (#612) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close; both skipped inside a drive) |
 | position_exception | model-writing both play — writes the intent on its started branch (or the drive's) and commits its own model delta (Step 7) BEFORE the injected end sequence lands it |
