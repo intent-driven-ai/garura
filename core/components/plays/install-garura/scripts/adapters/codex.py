@@ -155,6 +155,7 @@ def lay_components(components, target, info, allow=None):
             _emit_skill(md, name, sp, skills_root, paths)
             counts[kind] += 1
         info(f"  {kind}: {counts[kind]}")
+    common.lay_skills_gitignore(skills_root, os.path.join(".agents", "skills"), paths)
     if counts["plays"] or counts["drives"]:
         common.lay_shared(components, skills_root, os.path.join(".agents", "skills"), paths, info)
 

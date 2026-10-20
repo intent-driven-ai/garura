@@ -173,8 +173,8 @@ def uninstall(target, *, purge, quiet, dry):
     rm_memory_system(target, rec.get("memory_system") or {}, removed, dry)
     # shared memory: only on explicit purge, and only the exact recorded path
     if rec.get("memory"):
-        if purge:
-            rm_dir(rec["memory"], removed, dry)
+        if purge:  # the record keeps `~/…` (install's portable path); expand it here
+            rm_dir(os.path.expanduser(rec["memory"]), removed, dry)
             info(quiet, f"  purged shared memory {rec['memory']}")
         else:
             info(quiet, f"  kept shared memory {rec['memory']} (use --purge to remove)")

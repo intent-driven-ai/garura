@@ -159,7 +159,18 @@ STATUS_GITIGNORE = (
     "# The durable record is the evidence system (_evidence/), never these.\n"
     "**/status/\n"
     "**/_status/\n"
+    "# Python's caches beside the installed tools' scripts — never part of a change (#613).\n"
+    "**/__pycache__/\n"
 )
+
+
+def portable(path):
+    """A path fit to commit: under the home folder it is written `~/…`, so a project's install
+    record never carries a person's home folder (#613 finding K-0). Uninstall expands it."""
+    home = os.path.expanduser("~")
+    if path == home or path.startswith(home + os.sep):
+        return "~" + path[len(home):]
+    return path
 
 
 # --- install scopes -----------------------------------------------------------
@@ -274,7 +285,7 @@ def install(source, target, tool, force, quiet, memory_dest, scope="full",
     if os.path.isdir(src):
         mem_dest = os.path.abspath(os.path.expanduser(memory_dest))
         common.copy_tree_merge(src, mem_dest)
-        record["memory"] = mem_dest
+        record["memory"] = portable(mem_dest)
         _info(f"  memory: {mem_dest}")
 
     # 4. target-local garura config.yaml (transformed from the source core/config.yaml, ADR 040);

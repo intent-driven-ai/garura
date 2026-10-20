@@ -166,3 +166,9 @@ session logs; the totals are measured.)
   the same review; editing or deleting a comment; an answer that did not reach Garura; the full
   event trail; a failed second check), and one contradiction — a decision with no source is
   labelled "not allowed" yet still offers "Looks right".
+- K-0 and K-2 fixed in the install: the record writes a home path as `~/…` (uninstall expands
+  it); an installed project's `.claude/skills/.gitignore` (and `.agents/skills/`) and
+  `.garura/.gitignore` ignore Python caches.
+- Kapil, 2026-10-20: "fix the drive or intent first, and then merge … Don't do it on the test
+  run. The test run is giving you where drive and intent are broken." The memory builder was
+  built in Garura, not tried on run 5's record; the next run is after the merge.

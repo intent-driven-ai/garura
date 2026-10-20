@@ -374,6 +374,31 @@ class LaysDrives(unittest.TestCase):
         self.assertIn("drives:\n  kickoff:", text)
 
 
+class InstallFindings(unittest.TestCase):
+    """What Kickoff's test runs found in the install (#613): K-0 and K-2."""
+
+    def test_the_record_writes_a_home_path_as_tilde(self):
+        home = os.path.expanduser("~")
+        self.assertEqual(install.portable(os.path.join(home, ".garura", "core", "memory")),
+                         os.path.join("~", ".garura", "core", "memory"))
+        self.assertEqual(install.portable("/opt/shared/memory"), "/opt/shared/memory")
+
+    def test_the_installed_skills_ignore_python_caches(self):
+        work = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, work, ignore_errors=True)
+        src = os.path.join(work, "components", "plays", "p")
+        os.makedirs(src)
+        with open(os.path.join(src, "SKILL.md"), "w") as fh:
+            fh.write("---\nname: p\n---\n")
+        with contextlib.redirect_stdout(io.StringIO()):
+            paths, _, _ = claude.lay_components(os.path.join(work, "components"), os.path.join(work, "t"),
+                                                lambda _m: None, None)
+        with open(os.path.join(work, "t", ".claude", "skills", ".gitignore")) as fh:
+            self.assertIn("__pycache__/", fh.read())
+        self.assertIn(os.path.join(".claude", "skills", ".gitignore"), paths)
+        self.assertIn("**/__pycache__/", install.STATUS_GITIGNORE)
+
+
 class PublicInstaller(unittest.TestCase):
     """installer/install.sh, run whole, with a local Garura served in place of the download."""
 

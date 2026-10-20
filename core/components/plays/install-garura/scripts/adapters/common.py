@@ -70,6 +70,19 @@ def lay_shared(components, skills_root, rel_root, paths, info):
     info(f"  shared blocks: {os.path.join(rel_root, SHARED)}")
 
 
+SKILLS_GITIGNORE = (
+    "# Python's caches beside the installed plays' and skills' scripts are never part of a\n"
+    "# change: a drive checks the tree is clean after each play (#613 finding K-2).\n"
+    "__pycache__/\n"
+)
+
+
+def lay_skills_gitignore(skills_root, rel_root, paths):
+    """Write <skills_root>/.gitignore so scripts' caches never make the tree unclean."""
+    write_text(os.path.join(skills_root, ".gitignore"), SKILLS_GITIGNORE)
+    paths.append(os.path.join(rel_root, ".gitignore"))
+
+
 def skippable(name):
     """Source artifacts starting with `_`/`.` (templates, dotfiles) never deploy."""
     return name.startswith(".") or name.startswith("_") or name.endswith(".bak")

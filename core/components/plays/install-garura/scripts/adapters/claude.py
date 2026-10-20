@@ -116,6 +116,7 @@ def lay_components(components, target, info, allow=None):
             paths.append(os.path.join(".claude", "skills", name))
             counts[kind] += 1
         info(f"  {kind}: {counts[kind]}")
+    common.lay_skills_gitignore(skills_dest, os.path.join(".claude", "skills"), paths)
     if counts["plays"] or counts["drives"]:
         common.lay_shared(components, skills_dest, os.path.join(".claude", "skills"), paths, info)
 
