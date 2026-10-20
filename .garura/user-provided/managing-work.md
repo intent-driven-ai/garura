@@ -75,6 +75,15 @@ parent Feature, that usually means the Feature was never filed — file it.
 - **Title states the outcome**, in the language a reader operates in — what
   changes and for whom — not the files being touched.
 
+## Phoenix tools and the Phoenix project
+
+Tools built beside Garura — Argus (the review tool), and later Griffin, Sphinx and others —
+are Phoenix tools (Kapil, 2026-10-20). Their issues live in this repository with the same
+types and parent links, and are tracked in one org project, **Phoenix**
+(`intent-driven-ai`, project 1), never a project per tool. Each tool's issues carry the
+project's **Garura tools** field set to the tool's name (a project field, not a label — the
+no-labels rule above stands). The project is also where Phoenix releases are followed.
+
 ## Is it ready to work?
 
 Before a Story or Bug is handed to a session, it has to stand on its own. The

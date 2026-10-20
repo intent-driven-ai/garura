@@ -137,7 +137,7 @@ every other agent and skill onto the tool (#663), alongside the Kickoff build.
   Garura or Phoenix memory works without an issue. Kapil's login and change-password test
   passed on a fresh project. No agent calls it yet (item 8). ADR 035 §2 and ADR 036 §1
   need amending for these decisions.
-- **11. Moved: the memory review** — #664 is built with the whole review tool, all
+- **11. Moved: the memory review** — #664 is built with the whole review tool, all (2026-10-20: the review tool is now Argus, a Phoenix tool; #664 sits under its Feature #681.)
   sections inside Garura (since 2026-10-19: ADRs, Memory with Ask memory, and Agent
   decisions, in place of one "Memory and ADRs" section), in the #606 plan (item 8, the review). Kapil, 2026-10-18 (#658): "we will build the tool with all the sections inside garura - as part of 606 plan. it remains a local prototype for now."
   Until then, a local prototype page approves memory updates (#658 plan, item 5).

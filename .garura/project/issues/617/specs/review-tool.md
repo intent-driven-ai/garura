@@ -251,6 +251,10 @@ gives the full model or the clean final text.
    chat (Microsoft message MC1260707, rolled out April–June 2026).
    Every action in Catch up is the same event as in the full page, so Garura
    cannot tell them apart and nothing changes on its side.
+   - **Decided (Kapil, 2026-10-20):** "a swipe right would mean approve. A swipe left would
+     mean leave it as is, as unread. Any changes have to be entered." The same for business
+     intents and ICE: a swipe never changes a piece; a comment, an edit, a send-back or a drop
+     is always typed.
 
 7. **ADRs, Memory and Agent decisions** (Kapil, 18 Oct: "intents · product ·
    adr(s) -> these are the adrs that a human puts, using /adr · memory -> this is
@@ -566,3 +570,7 @@ From `core/tools/play-reviewer/` and `~/projects/prototypes/tools/pr-reviewer/`:
 - dropped: loading content once at start, whole-record overwrites, deleting a
   comment to resolve it, hard-coded ports and browser, CDN libraries, the
   file-by-file view.
+
+---
+
+**2026-10-20 — the tool is Argus, a Phoenix tool** (Kapil: "the review tool needs to be built separately"). Business intent #680, Feature #681 (stories #641–#644, #664), tracked in the Phoenix project under Garura tools. This plan is its design until Argus has its own home.
