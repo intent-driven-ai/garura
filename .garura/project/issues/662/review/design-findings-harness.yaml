@@ -1,0 +1,171 @@
+# design-findings-harness.yaml - PR #679 (feature/662-kickoff-runs-from-memory-alone vs main)
+# Category: harness (11 compiled plays: agentic arch intent marketing measure roadmap run shape understand ux vision)
+# Grounded ONLY in committed sources on main (git show main:<path>) and the review shelf
+# (~/.phoenix/core/memory/knowledge/review/harness.md). Nothing grounded in .garura/project/issues/** run records.
+# Severity: pr.md (main) has no harness/ICE rows (its IDs are ARCH BE CODE DATA DEBT DOC FE OPS PERF SEC TEST);
+# so severities follow the bucket definitions in pr.md "Severity buckets" (P2 = structural violations; P3 = minor;
+# P4 = nit). Each finding says so. The Layer 1 lint (lint-components.json) has no violation on any of the 11 changed plays.
+
+grounding:
+  - id: G1
+    principle: "A play change is intent or non-intent. Intent (what the play decides or guarantees: intent, C-, F-, S-, agent/skill flow, evals) goes through reference/ice.md then /play-editor; never hand-edit a compiled SKILL.md for it. Non-intent is a direct edit."
+    source: "main:CLAUDE.md, section 'Play Pipeline Rules'"
+  - id: G2
+    principle: "Durability rule: a hand edit to a generated file is clobbered by the next intent-driven rebuild unless the compiler reproduces it; new shared scaffolding must converge (compiler emits it, lint checks it)."
+    source: "main:CLAUDE.md, 'Durability rule for non-intent edits'"
+  - id: G3
+    principle: "The issue ID governs: everything a drive and its plays write goes under the issue, {stm_base}<issue>/. Every memory write goes to short-term memory (the issue), and moving anything up is a person's deliberate promotion."
+    source: "main:docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md, Decision 1; main:core/components/memory/standards/rules/drive-contract.md ('The issue ID governs')"
+  - id: G4
+    principle: "One shared drive-contract checker, canonical at play-creator/references/check_drive_contract.py and stamped into each play that can run in a drive; plays 'move to the shared checker over time'; a play reads the rule, it does not restate it."
+    source: "main:core/components/memory/standards/rules/drive-contract.md ('Canonical checker', 'One contract for the whole drive')"
+  - id: G5
+    principle: "Gate machinery stays deterministic at run time (ADR 025); the conditional ledger and policy are append-only, committed files whose config block is the switch."
+    source: "main:core/components/memory/standards/rules/gate-config.md ('The live-eval loop', 'Related: ADR 025')"
+  - id: G6
+    principle: "The grounding judge is handed only its doc, its parent, and the kind's per-section guidance; never the gold example, brief or author's reasoning."
+    source: "main:core/components/memory/standards/rules/grounding-eval.md ('How the judge runs'); main:core/components/skills/judge-grounding/SKILL.md (input 'guidance' = the '## Per-section guidance' block)"
+  - id: G7
+    principle: "/vision writes domain.md at the Theme template's detailed stage and capability.md at the directional stage; /understand writes capability.md at the detailed stage."
+    source: "main:core/components/plays/vision/reference/ice.md (lines 63-66); main:core/components/plays/understand/reference/ice.md (lines 15-17)"
+  - id: G8
+    principle: "The config's source is core/config.yaml; a project's .garura/core/config.yaml is the installed copy, which plays read."
+    source: "main:docs/adr/040-config-source-is-core-config-yaml.md"
+  - id: G9
+    principle: "Short-term memory lives at stm.base-path (config), reached as {stm_base}; paths are not hard-coded."
+    source: "main:CLAUDE.md ('Data Flow: {stm_base}/{issue}/ resolved from stm.base-path'); main:docs/adr/039 Decision 3"
+
+conformance_ok:
+  - "Ledger moves under each issue (10 plays + gate-config.md default): matches G3 (issue ID governs; writes stay in the issue's folder, under the whitelisted review/ key of ADR 017). The 10 plays' ICE sources name only 'config gates.conditional: streak/ledger/policy paths', never the default path, so the SKILL-only edit is a true non-intent surface edit and survives a rebuild (G1, G2)."
+  - "core/config.yaml (source) carries the new default, as ADR 040 requires (G8). The installed copy at .garura/core/config.yaml is untouched by design; an existing project keeps its old single-ledger path until reinstall, and the learner reads a non-per-issue path alone as before, so nothing breaks."
+  - "check_drive_contract.py in /intent is byte-identical to the canonical copy in play-creator/references (checked with cmp), as G4 requires. All 11 distill_gate_policy.py copies and both guidance_block.py copies are byte-identical to their play-creator/references canonicals."
+  - "/vision and /understand --stage choices match their ICE (G7): domain.md judged at detailed, capability.md at directional (/vision); capability and functionality at detailed (/understand). I ran guidance_block.py on main's three grounding templates for both stages: no 'Gold example' block is ever kept (G6 held)."
+
+findings:
+  - id: H-1
+    severity: P2
+    severity_basis: "pr.md bucket P2 'structural' violations; no table row; the shelf rubric 'does an intent change trace to its ICE source' is the check."
+    files:
+      - core/components/plays/intent/SKILL.md
+    title: "/intent's pre-flight flow and its hard-halt set changed by hand; its ICE source does not carry the change"
+    detail: >
+      The edit adds a step to Step 0 (check_drive_contract.py), changes the pre-flight table row for C9,
+      changes who writes run.json, and moves the compiled script count 10 to 11. It also tightens what
+      halts: a contract that held only drive_run_id and branch (accepted on main) is now refused unless it
+      also holds drive, issue (positive integer) and review_dir. Under G1 that is the play's agent/skill
+      flow and a decision about what it refuses - intent-touching territory - yet no
+      core/components/plays/intent/reference/ice.md is in the diff. On main that ICE has no mention of
+      check_drive_contract.py (grep of ice.md C9/F9/REC9/scripts finds none; its REC9 trigger covers only
+      'run by hand without opening or landing its change, or opened its own issue or branch inside a drive',
+      not an invalid contract). By contrast /vision's and /understand's ICE do name the checker
+      (vision/reference/ice.md line 156; understand/reference/ice.md line 144). So the next /play-editor
+      recompile of /intent from its ICE will not reproduce this Step 0 or the script table (G2) and will
+      revert it. Mitigating, and why this is not P1: committed drive-contract.md already says plays with the
+      narrower check 'move to the shared checker over time', so the direction was decided outside this
+      branch, C9's wording ('handed a drive's JSON contract') is not contradicted, and the commit message
+      (610863d9) records the why. Counter-reading the reviewer should settle: if the ruling is 'non-intent,
+      the SKILL had drifted from ICE + drive-contract.md', the fix is still the same - make the ICE carry
+      the checker so rebuild and direct edit converge.
+    suggested_fix: "Add the shared checker (and the contract fields it requires, REC9 trigger for an invalid contract) to intent/reference/ice.md and recompile through /play-editor; or state in the issue that this is a non-intent edit and have the ICE name the checker so the compiler reproduces it."
+
+  - id: H-2
+    severity: P3
+    severity_basis: "pr.md bucket P3 minor; a determinism gap rather than a wrong result."
+    files:
+      - core/components/plays/agentic/SKILL.md
+      - core/components/plays/arch/SKILL.md
+      - core/components/plays/marketing/SKILL.md
+      - core/components/plays/measure/SKILL.md
+      - core/components/plays/roadmap/SKILL.md
+      - core/components/plays/run/SKILL.md
+      - core/components/plays/shape/SKILL.md
+      - core/components/plays/understand/SKILL.md
+      - core/components/plays/ux/SKILL.md
+      - core/components/plays/vision/SKILL.md
+    title: "No step says how the config's {issue} placeholder becomes the run's issue"
+    detail: >
+      Config (core/config.yaml, gate-config.md) now holds ledger: .garura/project/issues/{issue}/review/gate-evals.jsonl.
+      Each SKILL says '<gates.conditional.ledger> resolves from config' and passes it straight to
+      'gate_eval.py append --ledger' and 'distill_gate_policy.py --ledger'. None of the 10 SKILLs says to
+      replace {issue}, and neither gate_eval.py nor the learner substitutes it (grep: no {issue} handling in
+      the scripts). So a run that reads the configured value literally appends to a folder named '{issue}'.
+      The learner globs base/*/review/gate-evals.jsonl, so it would still read that folder as if it were an
+      issue. G5 says run time stays deterministic; leaving a path substitution to the orchestrator's
+      inference is the gap. The SKILLs' own parenthetical default uses '<issue>' (angle brackets), config
+      uses '{issue}' (braces) - two spellings for one substitution.
+    suggested_fix: "State once, in gate-config.md, that {issue} is replaced with the run's issue before use, and say the same in each SKILL (or resolve it in gate_eval.py / a small helper) so the path is built by a script, not read by inference."
+
+  - id: H-3
+    severity: P3
+    severity_basis: "pr.md bucket P3 minor (standard and skill text now lag the behaviour)."
+    files:
+      - core/components/plays/vision/SKILL.md
+      - core/components/plays/understand/SKILL.md
+      - core/components/plays/vision/scripts/guidance_block.py
+      - core/components/plays/understand/scripts/guidance_block.py
+    title: "The judge now receives more than 'the per-section guidance block'; the committed judge contract was not updated"
+    detail: >
+      G6: grounding-eval.md and the judge-grounding skill (both on main) define the judge's guidance input
+      as the kind's '## Per-section guidance' block. With --stage, guidance_block.py also keeps the
+      '## Heading contract - <STAGE> stage' block and any '... at every stage' section (the ICE section
+      explainer). It is right for the ICE (G7: a directional capability must not be judged against detailed
+      headings), and it never keeps a gold example (verified). But main's capability.md template has NO
+      per-section guidance for the directional stage (only 'Per-section guidance (detailed stage)'), so
+      /vision's directional capability judges are handed only the heading contract plus the ICE-section
+      note - no per-section guidance at all. Neither grounding-eval.md nor judge-grounding/SKILL.md is in
+      the diff, so the committed contract still says something narrower than what the plays now do.
+    suggested_fix: "Update grounding-eval.md and judge-grounding's input row to say the guidance is the stage's heading contract plus per-section guidance, and note the directional capability template has no per-section block (add one or accept the heading contract as its guidance)."
+
+  - id: H-4
+    severity: P3
+    severity_basis: "pr.md bucket P3; design question to confirm, not a proven breach."
+    files:
+      - "core/components/plays/*/scripts/distill_gate_policy.py (run by the 10 plays' closes)"
+    title: "The learner reads every issue's short-term memory ledger and writes one project policy without a person's promotion"
+    detail: >
+      G3 (ADR 039 Decision 1): short-term memory is the scope of one issue; anything moved up is a
+      promotion a person makes on purpose, outside the work. The per-issue ledger itself conforms. But the
+      play's own close now reads all sibling issues' ledgers and rewrites .garura/core/gate-policy.yaml
+      automatically. gate-policy.yaml is not under .garura/core/memory/ (Garura memory), and ADR 039 does not
+      name it, so this may be intended - it is the learned-gate mechanism of gate-config.md - but no
+      committed record says a cross-issue read for learning is allowed. Grounding for this is partial.
+    suggested_fix: "Say so in gate-config.md (the learned policy is project configuration derived from every issue's ledger, not Garura memory), or record it in the issue."
+
+  - id: H-5
+    severity: P4
+    severity_basis: "pr.md bucket P4 nit (naming clarity)."
+    files:
+      - core/components/plays/roadmap/SKILL.md
+      - core/components/plays/shape/SKILL.md
+      - core/components/plays/vision/SKILL.md
+      - core/components/plays/understand/SKILL.md
+    title: "The same paragraph defines '<strategy issue>' and then writes the default path with '<issue>'; the default is a nested parenthesis"
+    detail: "In these four plays the append command uses --issue <strategy issue>, but the new default path uses <issue>. A reader must guess they are the same. All ten edits also nest '(the run's issue)' inside '(defaults ... / ...)', which is hard to read."
+    suggested_fix: "Use the play's own issue token in the path, and move the 'the run's issue' note out of the parenthesis."
+
+  - id: H-6
+    severity: P4
+    severity_basis: "pr.md bucket P4 nit."
+    files:
+      - core/components/plays/intent/SKILL.md
+    title: "Inside a drive the checker's output folder depends on the issue the checker itself reads"
+    detail: "The Step 0 block says 'inside a drive, write to <working> instead' of $pre, but <working> is {stm_base}<issue>/context/intent/<run-ts>/, and the issue is in the contract the checker has not yet read. The block always writes run.json to $pre. /vision's matching step avoids this by running the check at pre-flight with its own ordering. Read in order, the instruction cannot be followed as written for the checker call."
+    suggested_fix: "Either run the checker into $pre in both cases and move it into <working> with the other scratch files (the text after the block already does this), or read the contract's issue first."
+
+  - id: H-7
+    severity: P4
+    severity_basis: "pr.md bucket P4 nit; G9."
+    files:
+      - core/config.yaml
+      - core/components/memory/standards/rules/gate-config.md
+      - "the 10 plays' SKILL.md default text"
+    title: "The ledger default hard-codes '.garura/project/issues/' instead of {stm_base}"
+    detail: "G9: the short-term memory base comes from config (stm.base-path). The learner's docstring says '<stm_base><issue>/review/gate-evals.jsonl' while config and the SKILLs hard-code the folder. The two agree only while stm.base-path keeps its default, and the learner's per-issue match only works if the configured path follows the same shape."
+    suggested_fix: "Build the ledger path from {stm_base} and {issue}, or note in gate-config.md that the path must keep the <base>/<issue>/review/gate-evals.jsonl shape."
+
+summary:
+  p1: 0
+  p2: 1
+  p3: 3
+  p4: 3
+  note: "Layer 2 grounding for harness was fully available from committed sources (CLAUDE.md, ADR 039/040, drive-contract.md, gate-config.md, grounding-eval.md, judge-grounding skill, vision/understand/intent ICE on main). No 'grounding unavailable' gap, except H-4, where no committed record names the cross-issue learner read."

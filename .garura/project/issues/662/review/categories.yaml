@@ -1,0 +1,179 @@
+# categories.yaml - PR #679 (feature/662-kickoff-runs-from-memory-alone vs main)
+# Derived from the diff content, not from a preset list. 172 changed paths; every path is in exactly one category.
+# Shelf read from ~/.phoenix/core/memory/knowledge/review/ (committed Phoenix copy, external to the branch).
+pr: 679
+issue: 662
+base: main
+total_changed_paths: 172
+categories:
+  - name: harness
+    playbook: review/harness
+    design_bearing: true
+    count: 11
+    why: >
+      The compiled play definitions (SKILL.md) of 11 plays changed. Edits: (1) the gate-evals ledger
+      default path now lives under each issue (agentic, arch, marketing, measure, roadmap, run, shape,
+      ux, understand, vision); (2) /intent step 0 now calls a shared drive-contract checker
+      (check_drive_contract.py) and its script count goes 10 to 11 - this changes what the play checks
+      for constraint C9 / halt REC9, so it is an intent-touching edit; (3) /vision and /understand now pass
+      --stage to guidance_block.py. Layer 2 should ground against ADR 039 (issue ID governs), the
+      drive-contract standard, play-close / ICE-source rules, and check whether the /intent change
+      traces to its ICE source (no reference/ice.md is in the diff).
+    paths:
+      - core/components/plays/agentic/SKILL.md
+      - core/components/plays/arch/SKILL.md
+      - core/components/plays/intent/SKILL.md
+      - core/components/plays/marketing/SKILL.md
+      - core/components/plays/measure/SKILL.md
+      - core/components/plays/roadmap/SKILL.md
+      - core/components/plays/run/SKILL.md
+      - core/components/plays/shape/SKILL.md
+      - core/components/plays/understand/SKILL.md
+      - core/components/plays/ux/SKILL.md
+      - core/components/plays/vision/SKILL.md
+  - name: memory
+    playbook: review/memory
+    design_bearing: true
+    count: 1
+    why: >
+      A standards rule under core/components/memory/standards/rules/ (gate-config.md) changed - the
+      conditional-gate ledger default moves from a single project file to a per-issue file. Standards
+      rules shape what every agent reads. Layer 2 should ground against the base-ref copy, ADR 039,
+      and the config it must stay in step with.
+    paths:
+      - core/components/memory/standards/rules/gate-config.md
+  - name: tool-contract
+    playbook: null
+    playbook_missing: true
+    design_bearing: true
+    count: 2
+    why: >
+      The memory tool's machine contract (v5.json, bumped 5.0.0 to 5.1.0) and a new contract sample
+      (decide-in-session.json). This is the agreed interface between agents and the memory tool - a
+      JSON schema plus invariants - not harness MD, not memory knowledge, not executable source, and
+      not a path-pointer config map. No seeded playbook fits; forcing it into code or config-maps
+      would lose the design check. The change widens decided_in to allow "session" (V-3), loosening a
+      rule that said only the review tool records a decision. Layer 2 should ground against ADR 035
+      (memory system), ADR 036/037 (updates and decision trace), ADR 039 and the base-ref v5.json.
+      A playbook for contract/schema files is missing.
+    paths:
+      - core/tools/memory/contract/samples/decide-in-session.json
+      - core/tools/memory/contract/v5.json
+  - name: executable-code
+    playbook: review/code
+    design_bearing: false
+    count: 18
+    why: >
+      Python the runtime executes: the new shared drive-contract checker (check_drive_contract.py), the
+      distill_gate_policy.py learner (canonical copy in play-creator/references plus 11 per-play copies),
+      guidance_block.py (canonical plus /vision and /understand copies), and the memory tool
+      (citations.py, memory.py). Review against industry best practice and the pr.md taxonomy. Data-safety
+      weight: the ledger path now varies by issue and the learner reads every issue's ledger. Copies
+      should match their canonical source.
+    paths:
+      - core/components/plays/agentic/scripts/distill_gate_policy.py
+      - core/components/plays/arch/scripts/distill_gate_policy.py
+      - core/components/plays/intent/scripts/check_drive_contract.py
+      - core/components/plays/marketing/scripts/distill_gate_policy.py
+      - core/components/plays/measure/scripts/distill_gate_policy.py
+      - core/components/plays/play-creator/references/distill_gate_policy.py
+      - core/components/plays/play-creator/references/guidance_block.py
+      - core/components/plays/quality/scripts/distill_gate_policy.py
+      - core/components/plays/roadmap/scripts/distill_gate_policy.py
+      - core/components/plays/run/scripts/distill_gate_policy.py
+      - core/components/plays/shape/scripts/distill_gate_policy.py
+      - core/components/plays/understand/scripts/distill_gate_policy.py
+      - core/components/plays/understand/scripts/guidance_block.py
+      - core/components/plays/ux/scripts/distill_gate_policy.py
+      - core/components/plays/vision/scripts/distill_gate_policy.py
+      - core/components/plays/vision/scripts/guidance_block.py
+      - core/tools/memory/citations.py
+      - core/tools/memory/memory.py
+  - name: tests
+    playbook: review/tests
+    design_bearing: false
+    count: 3
+    why: >
+      Test files added to cover the fixes (gate learning, guidance block, memory tool). The playbook
+      says run the suite, not just read it.
+    paths:
+      - core/components/plays/play-creator/references/test_gate_learning.py
+      - core/components/plays/play-creator/references/test_guidance_block.py
+      - core/tools/memory/test_memory.py
+  - name: config-maps
+    playbook: review/config-maps
+    design_bearing: false
+    count: 1
+    why: >
+      core/config.yaml's gates.conditional.ledger key is a path pointer; it now uses an {issue}
+      placeholder under .garura/project/issues/. Human reads the named change; path-existence check
+      applies (the placeholder must be resolved by every consumer).
+    paths:
+      - core/config.yaml
+  - name: documentation
+    playbook: review/docs
+    design_bearing: false
+    count: 2
+    why: >
+      Plain-words tool docs for the memory tool (GUIDE.md, README.md) updated to describe the
+      "session" decision route and the from_update citation. Prose for people, not harness or memory.
+    paths:
+      - core/tools/memory/GUIDE.md
+      - core/tools/memory/README.md
+  - name: run-evidence
+    playbook: null
+    playbook_missing: true
+    design_bearing: false
+    count: 126
+    why: >
+      The recorded proof run (the deliverable of issue 662): a copy of the test project's short-term
+      memory and product model - run logs, judge verdicts, citation records, memory updates, drive
+      reports, copied memory/standards snapshots, and findings.md. These are machine-generated records
+      of what happened, not authored harness, memory or docs, and per context-notes.md they are run
+      records, not grounding. Not design-bearing (nothing here is a design to conform to). No playbook
+      covers it; suggested review stance is to check the record supports the claims in findings.md,
+      has no secrets/personal data (self-review flags a personal email in the copy), and contains no
+      stray artifacts. Playbook missing.
+    path_groups:
+      - ".garura/project/issues/662/evidence/run/citations-check.json  (1 file)"
+      - ".garura/project/issues/662/evidence/run/drive-branch-log.txt  (1 file)"
+      - ".garura/project/issues/662/evidence/run/findings.md  (1 file)"
+      - ".garura/project/issues/662/evidence/run/issue-1/context/answers/**  (1 files)"
+      - ".garura/project/issues/662/evidence/run/issue-1/context/citations.jsonl  (1 file)"
+      - ".garura/project/issues/662/evidence/run/issue-1/context/intent/**  (13 files)"
+      - ".garura/project/issues/662/evidence/run/issue-1/context/memory/**  (17 files)"
+      - ".garura/project/issues/662/evidence/run/issue-1/context/templates/**  (5 files)"
+      - ".garura/project/issues/662/evidence/run/issue-1/context/understand/**  (31 files)"
+      - ".garura/project/issues/662/evidence/run/issue-1/context/vision/**  (21 files)"
+      - ".garura/project/issues/662/evidence/run/issue-1/evidence/**  (2 files)"
+      - ".garura/project/issues/662/evidence/run/issue-1/review/drive/**  (8 files)"
+      - ".garura/project/issues/662/evidence/run/issue-1/review/memory-updates/**  (7 files)"
+      - ".garura/project/issues/662/evidence/run/memory-updates.json  (1 file)"
+      - ".garura/project/issues/662/evidence/run/model/**  (16 files)"
+    paths_note: "126 paths; full list is in context.yaml changed_paths."
+  - name: issue-work-record
+    playbook: null
+    playbook_missing: true
+    design_bearing: false
+    count: 8
+    why: >
+      The issue's own working notes under .garura/project/issues/662/: branch/issue/PR context JSON,
+      the PR body draft, self-review.md, work-description, resolved-rules, and specs/plan.md. A plan
+      states what to do and in what order ("a plan, not a design"), so it is not design-bearing. No
+      seeded playbook covers plan/work-record files. Playbook missing.
+    paths:
+      - .garura/project/issues/662/context/branch.json
+      - .garura/project/issues/662/context/issue.json
+      - .garura/project/issues/662/context/pr-body.md
+      - .garura/project/issues/662/context/pr.json
+      - .garura/project/issues/662/context/resolved-rules.json
+      - .garura/project/issues/662/context/self-review.md
+      - .garura/project/issues/662/context/work-description.txt
+      - .garura/project/issues/662/specs/plan.md
+follow_ups:
+  - "Playbook missing: tool-contract (JSON contract/schema files) - design-bearing, needs a playbook."
+  - "Playbook missing: run-evidence (recorded proof-run artifacts)."
+  - "Playbook missing: issue-work-record (issue context, self-review, plan)."
+notes:
+  - "No category is absent-but-listed: adrs (no docs/adr changes) is omitted."
+  - "Layer 2 fan-out targets: harness, memory, tool-contract."

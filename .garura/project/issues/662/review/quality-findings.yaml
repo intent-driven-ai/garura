@@ -1,0 +1,217 @@
+# quality-findings.yaml - PR #679 (issue 662), standards linter (quality-check-scoped) over the diff
+# Categories covered: executable-code, tests, config-maps, documentation (24 changed paths).
+# Not covered by this file: harness, memory, tool-contract, run-evidence, issue-work-record.
+meta:
+  pr: 679
+  issue: 662
+  base: main
+  head: cfbd6684
+  scoped_paths_count: 24
+  scan:
+    tool: core/components/skills/quality-check-scoped/scripts/scan_taxonomy.py
+    taxonomy: core/components/memory/standards/rules/pr.md
+    input_diff: "git diff main...HEAD limited to the 24 category paths (1744 lines)"
+    exit: 0
+    taxonomy_errors: 0
+    raw_counts: {P1: 0, P2: 16, P3: 28, P4: 9}
+    catchall_CODE-20: 24
+    note: >
+      The raw scan counts are NOT the findings. 49 of its 53 hits are path-relevance rows (the rule
+      names a check; the path matched; nothing was shown to be wrong) and 4 are false matches.
+      Each was triaged below (see scanner_hits_dismissed). Findings below are the triaged result.
+  measured_with: [lizard, radon cc, yaml.safe_load, cmp, awk line length, git show main:<path>]
+  scan_blind_spots:
+    - >
+      The scanner classifies everything under core/components/** as garura-prose, so none of the
+      18 python/test files there got a rule hit at all, and TEST-* rows never ran on any test file
+      (test_memory.py sits outside a tests/ directory, so it is typed runtime-code). Those files
+      were read and measured by hand instead; the findings that come from that are marked
+      source: manual.
+  given_by_caller:
+    - "ruff check passes on every changed .py file"
+    - "every listed test suite passes"
+    - "no import cycles (from #661 review)"
+    - "the repo has no adopted formatter"
+counts: {P1: 0, P2: 0, P3: 6, P4: 6}
+verdict_hint: "no blocker or must-fix; 6 P3 (should fix) and 6 P4 (polish)"
+
+findings:
+  - id: QF-1
+    severity: P3
+    standard_id: CODE-09
+    basis: "CODE-09 - cyclomatic complexity per function <= 10 (quality/code/complexity-structure)"
+    category: executable-code
+    source: manual
+    file: core/components/plays/intent/scripts/check_drive_contract.py
+    line: 32
+    evidence: "check() measures CCN 22 (lizard) / D 22 (radon); limit 10. One function holds every contract validation (type, required fields, issue number, string fields, inputs/answers shape, branch match)."
+    introduced_by_diff: true
+    note: "The file is a new copy of play-creator/references/check_drive_contract.py (byte-identical, verified). Fix belongs in the canonical copy, then re-stamp, or every copy keeps the same debt."
+    suggested_fix: "Split into small validators (required fields, scalar types, per-play shape, branch) that each raise Invalid."
+
+  - id: QF-2
+    severity: P3
+    standard_id: CODE-09
+    basis: "CODE-09 - cyclomatic complexity per function <= 10"
+    category: executable-code
+    source: manual
+    file: core/tools/memory/citations.py
+    line: 137
+    evidence: "CitationStore.cite measures CCN 15 (radon C 15, lizard 15) after this diff; it was 14 on main. The diff adds one more branch (from_update default) to an already over-limit function."
+    introduced_by_diff: partly
+    note: "Pre-existing breach, made one step worse. Low urgency, but the new attribution step is a natural piece to lift out."
+    suggested_fix: "Move the from_update validation block (lines ~154-165) into its own method."
+
+  - id: QF-3
+    severity: P3
+    standard_id: null
+    basis: "review/code rubric - data safety / deterministic where it claims to be (no taxonomy row)"
+    category: executable-code
+    source: manual
+    file: core/tools/memory/citations.py
+    line: 129
+    evidence: "update_behind() returns applied[0]['id'] - the first applied update whose target_path matches any step source. If two applied updates wrote the same file, the decision is silently tied to whichever the list returns first; the docstring promises 'the link ... to the person's approval is never lost'."
+    introduced_by_diff: true
+    note: "Test covers one applied update only (test_memory.py:581-584). Wrong attribution of a decision to an approval is a trace-integrity risk, not a crash."
+    suggested_fix: "When more than one matches, take the latest applied (by applied time) or leave from_update empty; add a two-updates test."
+
+  - id: QF-4
+    severity: P3
+    standard_id: null
+    basis: "review/tests rubric - no test that asserts nothing / assertions must be able to fail for the stated reason (no taxonomy row; nearest TEST-03)"
+    category: tests
+    source: manual
+    file: core/components/plays/play-creator/references/test_gate_learning.py
+    line: 301
+    evidence: "The refutes-scoping check ends with `assert S2 not in distill(one, policy)['auto_shapes']`, and the next line's own comment says 'the reject itself still resets'. Issue 2's rejected line is the newest ux record, so the shape is reset whether or not refutes is scoped per issue; the assertion would pass even if the scoping were removed."
+    introduced_by_diff: true
+    suggested_fix: "Make the refuting line the only thing that can change the result (e.g. refute a real line in issue 1's own ledger and assert the streak breaks; refute a line number that exists only in issue 1 from issue 2 and assert it does not)."
+
+  - id: QF-5
+    severity: P3
+    standard_id: TEST-03
+    basis: "TEST-03 - each test asserts exactly one behavior (flag 5+ assertions per test)"
+    category: tests
+    source: manual
+    file: core/tools/memory/test_memory.py
+    line: 568
+    evidence: "test_a_decision_from_an_approved_update now holds 5 assertions across 4 behaviours (not_approved, bad_request, named update accepted, update named automatically). The diff appended the new behaviour to this test instead of adding its own."
+    introduced_by_diff: true
+    suggested_fix: "Move lines 581-585 into test_a_decision_names_its_update_when_the_agent_does_not."
+
+  - id: QF-6
+    severity: P3
+    standard_id: null
+    basis: "review/config-maps - every pointer must resolve; a placeholder every consumer must substitute"
+    category: config-maps
+    source: manual
+    file: core/config.yaml
+    line: 182
+    evidence: "gates.conditional.ledger is now `.garura/project/issues/{issue}/review/gate-evals.jsonl`. The key parses (yaml.safe_load ok), but the file's variables legend (line 53) lists only {stm_base}, {stm_pending}, {stm_archive}; {issue} is explained only in a comment above the key."
+    introduced_by_diff: true
+    not_verified: "Whether every reader/writer of this key substitutes {issue} (and whether any old ledger at .garura/core/gate-evals.jsonl needs moving) is outside the diff and was not checked, per the diff-scope rule. The named human reviewer owns that check."
+    suggested_fix: "Add {issue} to the legend at line 53."
+
+  - id: QF-7
+    severity: P4
+    standard_id: null
+    basis: "review/code rubric - readability (no taxonomy row; repo has no adopted formatter so CODE-04 does not apply)"
+    category: executable-code
+    source: manual
+    file: core/components/plays/play-creator/references/distill_gate_policy.py
+    line: 9
+    evidence: "The edited module docstring joins the old sentence onto the new one: line 9 is 140 characters ('... A ledger anywhere else is read alone, as before. Pure rule, no inference, replay-deterministic (every output value')."
+    introduced_by_diff: true
+    also_in: "the 11 byte-identical per-play copies (agentic, arch, marketing, measure, quality, roadmap, run, shape, understand, ux, vision under core/components/plays/*/scripts/)"
+    suggested_fix: "Re-wrap the docstring in the canonical file and re-stamp the copies."
+
+  - id: QF-8
+    severity: P4
+    standard_id: null
+    basis: "review/code rubric - data safety on ordering the learner depends on"
+    category: executable-code
+    source: manual
+    file: core/components/plays/play-creator/references/distill_gate_policy.py
+    line: 62
+    evidence: "_ts_key strips non-digits and compares as text. The two spellings in use give 14 digits and sort correctly; a timestamp with fractional seconds or a UTC offset gives a different digit count and would sort wrongly, and the streak is order-dependent."
+    introduced_by_diff: true
+    suggested_fix: "Parse to a datetime, or pad/truncate to 14 digits, and say what the ledger writer guarantees."
+
+  - id: QF-9
+    severity: P4
+    standard_id: null
+    basis: "review/code rubric - brittle coupling"
+    category: executable-code
+    source: manual
+    file: core/components/plays/play-creator/references/guidance_block.py
+    line: 43
+    evidence: "wanted() keeps the agent-intent block by finding the free text 'at every stage' in a heading. Rewording that heading in capability.md silently drops the block from both judges' guidance. The test checks it only for the directional stage and only while the real template exists."
+    introduced_by_diff: true
+    also_in: "understand/scripts/guidance_block.py, vision/scripts/guidance_block.py (byte-identical copies)"
+    suggested_fix: "Give the block a fixed marker the template and script both name, or assert it in both stage tests."
+
+  - id: QF-10
+    severity: P4
+    standard_id: null
+    basis: "review/tests rubric - a test that can pass without asserting"
+    category: tests
+    source: manual
+    file: core/components/plays/play-creator/references/test_guidance_block.py
+    line: 83
+    evidence: "test_each_stage_gets_its_own_guidance returns silently when capability.md is missing, so the run reports a pass with nothing checked. (The existing guard at line 71 does the same.)"
+    introduced_by_diff: true
+    suggested_fix: "Fail, or print an explicit SKIPPED line, when the real template is not found."
+
+  - id: QF-11
+    severity: P4
+    standard_id: null
+    basis: "review/docs rubric - prose that will go stale (no taxonomy row; DOC-* rows are README-wide)"
+    category: documentation
+    source: manual
+    file: core/tools/memory/README.md
+    line: 136
+    evidence: "The decide row says session decisions are allowed 'until the review tool is built'. Time-bound wording in a reference table goes stale with no one told."
+    introduced_by_diff: true
+    suggested_fix: "State the rule (two routes: review-tool, session) and put the 'until' note in the ADR."
+
+  - id: QF-12
+    severity: P4
+    standard_id: null
+    basis: "review/docs rubric - structure (one idea per paragraph)"
+    category: documentation
+    source: manual
+    file: core/tools/memory/GUIDE.md
+    line: 76
+    evidence: "The new two-line paragraph about from_update sits directly against the existing 'cite refuses a source that is gone or changed' lines with no blank line, so two separate ideas read as one paragraph."
+    introduced_by_diff: true
+    suggested_fix: "Add a blank line after line 77."
+
+scanner_hits_dismissed:
+  - rules: [ARCH-02, CODE-14]
+    paths: "core/tools/memory/{citations,memory,test_memory}.py"
+    reason: "Circular-dependency checks. Caller reports no import cycles found (#661 review). Not re-run."
+  - rules: [CODE-03]
+    paths: "core/tools/memory/{citations,memory,test_memory}.py"
+    reason: "Lint clean. The caller's runnable-checks show ruff check passing on every changed .py file (the KB row names pylint; the repo uses ruff)."
+  - rules: [CODE-04]
+    paths: "same"
+    reason: "Formatter-clean check. The repo has no adopted formatter, so the rule does not apply."
+  - rules: [BE-19]
+    paths: "citations.py lines 131, 153, 169; test_memory.py line 585"
+    reason: "False match: the grep (SELECT|FROM|JOIN) hit the word 'from' in comments and the name from_update. No SQL in the diff."
+  - rules: [CODE-10, CODE-11, CODE-15, CODE-17, CODE-19, CODE-13, ARCH-08]
+    paths: "same three files"
+    reason: "Path-relevance rows. Checked on the diff: longest changed function is 39 lines (limit 50); nesting read by eye, nothing deep; names are snake_case with SCREAMING constants; each module keeps one purpose. Cognitive complexity (CODE-15) not measured separately beyond CCN; see QF-1/QF-2."
+  - rules: [CODE-12, ARCH-03]
+    paths: "core/tools/memory/test_memory.py (734 lines, +14 in this diff), memory.py (551, unchanged line count)"
+    reason: "Size rows (300 / 500 lines). Pre-existing: both files were over the limit on main. Logged as context, not as a finding of this PR."
+  - rules: [DOC-01, DOC-09, DOC-10, DOC-11, DOC-14, DOC-15, DOC-16]
+    paths: "core/tools/memory/README.md"
+    reason: "README-wide completeness rows fired because README.md changed. The diff edits one table row (see QF-11) and does not touch description, setup, env-vars, troubleshooting or architecture content."
+
+checked_and_clean:
+  - "The 11 per-play distill_gate_policy.py copies are byte-identical to the canonical copy (cmp)."
+  - "guidance_block.py copies in understand/ and vision/ are byte-identical to the canonical copy (cmp)."
+  - "intent/scripts/check_drive_contract.py is byte-identical to play-creator/references/check_drive_contract.py (cmp)."
+  - "core/config.yaml parses; gates.conditional keys read back as expected."
+  - "No secrets, debug prints, or destructive operations in the changed lines."
