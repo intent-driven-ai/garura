@@ -53,6 +53,13 @@ the wrong move."* When memory and the system hold nothing to go on, they ask.
 
 ## What this plan leaves out
 
+- **A status plugin for Claude Code** (Kapil, 2026-10-20, "1"): a long drive shows what it is
+  doing about once a minute — "Kickoff · round 1 · /understand · 35 min". Decoupled: the drive
+  only writes its status file (`standards/rules/run-status.md`, built in #613); a separate
+  plugin, installed only when the install chooses Claude Code, reads it and shows the line
+  (Claude Code's status line with `refreshInterval`; whether the timer fires while a long play
+  runs is still to be proved). Its own business intent; filed when Kapil asks.
+
 - **Review as plays, run as a drive** (Kapil, 2026-10-20, thinking aloud): review split into
   plays — code quality (linters, tests), security, design (UX and technical) — run together as a
   review drive. Kapil (2026-10-20): no separate `REVIEW.md` — our design is plays; the review
@@ -222,3 +229,4 @@ mark step 1 of item 8 done in the #606 plan.
 - 2026-10-20 — Item 7: Kapil chose 2 — at Kickoff's end the person's typed confirm or drop is recorded in the issue's short-term memory; intents stay proposed until the review tool writes approval. Kapil: the review tool's Catch up swipe handles ICE differently from business intents (open; recorded in #617's tool plan).
 - 2026-10-20 — Item 7 done: Kickoff built and linted (`core/components/drives/kickoff/`).
 - 2026-10-20 — Kapil: stop the run; the drive must loop over its three plays and stop only when none can answer; fix `/intent`'s speed and questions; then run again. New item 8; the proof is item 9, landing item 10.
+- 2026-10-20 — Kapil: a drive presents its status in a file, and a separate Claude Code plugin shows it ("these two have to be decoupled"); the drive's side is built in item 8, the plugin is later work.

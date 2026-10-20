@@ -47,7 +47,7 @@ CHANGE_PLAYS = {"start-change", "commit-change", "propose-change", "review-chang
 DRIVE_OWNERS = {"drive", "drive (script)", "checker"}
 STAMPED = ("drive_preflight.py", "write_drive_contract.py", "check_drive_contract.py",
            "check_play_done.py", "commit_run_files.py", "run_play_headless.py",
-           "round_state.py", "prepare_check.py", "run_checker_codex.py", "record_check.py",
+           "round_state.py", "drive_status.py", "prepare_check.py", "run_checker_codex.py", "record_check.py",
            "session_stamp.py", "check_stop_condition.py")
 CONTRACT_MARK = "check_drive_contract"
 

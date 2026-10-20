@@ -24,6 +24,20 @@ The drive's Workflow section sets these between the anchors:
 
 ## The run
 
+**The drive presents its status as it goes** (`standards/rules/run-status.md`). At each step
+below, and when each play starts and ends, it updates `{stm_base}<issue>/status/run-<drive>.json`
+— its state, round, play and step in plain words:
+
+```bash
+python3 scripts/drive_status.py --file "{stm_base}<issue>/status/run-<drive>.json" \
+    [--name <drive> --issue <issue> --run-id <drive_run_id>] \
+    --state running --round <n> --play <play> --step "<what it is doing, in plain words>"
+```
+
+The drive never shows the status itself and does not know who reads it; a display (for Claude
+Code, a separate plugin) reads the file. Before R2 opens the issue, the status waits in the
+scratch folder and moves with the rest.
+
 ### Step R1 — Pre-flight
 
 ```bash

@@ -21,6 +21,7 @@ import record_check  # noqa: E402
 import round_state  # noqa: E402
 import run_checker_codex  # noqa: E402
 import drive_preflight  # noqa: E402
+import drive_status  # noqa: E402
 import run_play_headless  # noqa: E402
 import write_drive_contract  # noqa: E402
 
@@ -106,6 +107,31 @@ class DrivePreflight(Work):
     def test_an_unknown_runner_halts(self):
         cfg = self.write("odd.yaml", CONFIG.replace("runner: subagent", "runner: telepathy"))
         self.assertEqual(self.run_it("intent", cfg), 2)
+
+
+class DriveStatus(Work):
+    """The drive presents its status in one file; a display reads it (run-status.md)."""
+
+    def test_the_first_call_names_the_run_and_later_calls_update_it(self):
+        f = self.p("status", "run-kickoff.json")
+        self.assertEqual(quiet(drive_status.main, ["--file", f, "--name", "kickoff", "--issue", "7",
+                                                   "--run-id", "kickoff-1", "--round", "1",
+                                                   "--play", "intent", "--step", "walking the prototype"]), 0)
+        first = self.read_json("status/run-kickoff.json")
+        self.assertEqual((first["state"], first["play"], first["round"]), ("running", "intent", 1))
+        self.assertEqual(quiet(drive_status.main, ["--file", f, "--play", "vision", "--step", "seeding"]), 0)
+        later = self.read_json("status/run-kickoff.json")
+        self.assertEqual((later["name"], later["play"], later["round"]), ("kickoff", "vision", 1))
+        self.assertEqual(later["started_at"], first["started_at"])
+        self.assertEqual([n for n in os.listdir(self.p("status")) if n.startswith(".")], [])
+
+    def test_a_first_call_without_the_run_is_refused(self):
+        self.assertEqual(quiet(drive_status.main, ["--file", self.p("s.json"), "--step", "x"]), 2)
+
+    def test_an_unknown_state_is_refused(self):
+        with self.assertRaises(SystemExit):
+            quiet(drive_status.main, ["--file", self.p("s.json"), "--name", "k", "--run-id", "k-1",
+                                      "--state", "sleeping"])
 
 
 class WriteContract(Work):

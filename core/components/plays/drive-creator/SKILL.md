@@ -136,7 +136,7 @@ Write the folder:
 2. `stop-condition.yaml` from the Done means (`{name: stop-condition}`, `content.done`).
 3. `scripts/`: copy unchanged — from `references/`: `drive_preflight.py`,
    `write_drive_contract.py`, `check_play_done.py`, `commit_run_files.py`,
-   `run_play_headless.py`, `round_state.py`, `prepare_check.py`, `run_checker_codex.py`,
+   `run_play_headless.py`, `round_state.py`, `drive_status.py`, `prepare_check.py`, `run_checker_codex.py`,
    `record_check.py`; from `../play-creator/references/`: `check_drive_contract.py`,
    `session_stamp.py`, `check_stop_condition.py`. A rebuild copies them again, so a drive never
    drifts from the shared run.

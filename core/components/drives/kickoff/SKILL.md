@@ -270,7 +270,7 @@ a question resumes the same play with the person's answer (shared run, R5 step 3
 | pipeline_position | both |
 | plays | intent, vision, understand |
 | stop_condition | stop-condition.yaml (D1–D7) |
-| scripts | 14 (12 shared: drive_preflight.py, write_drive_contract.py, check_drive_contract.py, run_play_headless.py, check_play_done.py, commit_run_files.py, round_state.py, prepare_check.py, run_checker_codex.py, record_check.py, session_stamp.py, check_stop_condition.py; 2 own: check_prototype.py, record_confirmation.py) |
+| scripts | 15 (13 shared: drive_preflight.py, write_drive_contract.py, check_drive_contract.py, run_play_headless.py, check_play_done.py, commit_run_files.py, round_state.py, drive_status.py, prepare_check.py, run_checker_codex.py, record_check.py, session_stamp.py, check_stop_condition.py; 2 own: check_prototype.py, record_confirmation.py) |
 | step_evals | 8 (SE-1…SE-8) |
 | scenario_evals | 4 (SCE-1…SCE-4) |
 | recovery_entries | 8 (one per failure condition; 5 autonomous / 3 human) |
