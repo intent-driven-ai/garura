@@ -1,0 +1,29 @@
+verdict: reject
+checker:
+  kind: subagent
+  model: "sonnet"
+criteria:
+  - id: "G"
+    result: fail
+    evidence: "change.diff: _spine.yaml has an ecommerce domain and three proposed capabilities, but all three are detail: directional and functionalities is empty, so 'every capability detailed' is not met."
+  - id: "C1"
+    result: pass
+    evidence: "change.diff: intents/fewer-sales-lost-to-abandoned-carts.md reads 'Stage: proposed' and lists Sources with the statement read 2026-10-20."
+  - id: "C2"
+    result: pass
+    evidence: "change.diff: _spine.yaml has domain ecommerce, and abandoned-carts-today, abandoned-cart-reminders and carts-won-back each have domain: ecommerce."
+  - id: "C3"
+    result: fail
+    evidence: "change.diff: _spine.yaml shows detail: directional for all three capabilities and 'functionalities: []'; no functionality files are added in the diff."
+  - id: "C4"
+    result: fail
+    evidence: "traces.json: ok is true but problems lists source_missing for cite-20261020-028, -029 and -030 (cited functionality.md files are not there), so the trace check is not clean. answers-sources.json shows both answers from person (this part holds)."
+  - id: "D1"
+    result: fail
+    evidence: "done/ holds intent-done.json and vision-done.json (both done: true) but no understand-done.json, so /understand has no proved done check."
+failed: ["C3", "C4", "D1", "G"]
+reasons:
+  - "G: the three capabilities are still directional and have no functionalities, so the goal of every capability detailed is not reached (change.diff, _spine.yaml)."
+  - "C3: no capability is at the detailed stage and the functionalities list is empty (change.diff, _spine.yaml)."
+  - "C4: the decision-trace check reports source_missing problems for cite-20261020-028, -029 and -030 in traces.json, so it is not clean."
+  - "D1: there is no done check for /understand in done/, so only two of the three plays proved done."

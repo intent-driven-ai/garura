@@ -1,0 +1,17 @@
+ M docs/adr/029-drives.md
+ M docs/adr/032-drive-review-of-outcomes.md
+ M docs/adr/034-plays-answer-from-memory-inside-a-drive.md
+ M docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md
+ M docs/adr/_index.md
+?? .garura/project/issues/_adr/20261020-110424/adr-check.json
+?? .garura/project/issues/_adr/20261020-110424/adr-context.yaml
+?? .garura/project/issues/_adr/20261020-110424/adr-draft.md
+?? .garura/project/issues/_adr/20261020-110424/adr-manifest.json
+?? .garura/project/issues/_adr/20261020-110424/brief.md
+?? .garura/project/issues/_adr/20261020-110424/decision.yaml
+?? .garura/project/issues/_adr/20261020-110424/hashes-before.json
+?? .garura/project/issues/_adr/20261020-110424/porcelain-after.txt
+?? .garura/project/issues/_adr/20261020-110424/porcelain-before.txt
+?? .garura/project/issues/_adr/20261020-110424/preflight.json
+?? .garura/project/issues/_adr/20261020-110424/run.json
+?? docs/adr/041-a-drive-runs-in-rounds-and-owns-its-questions.md

@@ -49,18 +49,38 @@ def tier_of(model_value):
     return MODEL_TIER.get(str(model_value).strip().lower(), DEFAULT_TIER)
 
 
-SHARED = "_shared"  # blocks every play shares (ADR 039 §9), laid beside the plays
+SHARED = "_shared"  # blocks every play and drive shares (ADR 039 §9), laid beside them
+# the folders whose components install as skills; drives are higher-order plays (ADR 029)
+SKILL_KINDS = ("skills", "plays", "drives")
 
 
 def lay_shared(components, skills_root, rel_root, paths, info):
-    """Lay plays/_shared/ as <skills_root>/_shared/: every installed play points to it
-    (../_shared/play-close.md). A folder starting with `_` is otherwise never deployed."""
-    src = os.path.join(components, "plays", SHARED)
-    if not os.path.isdir(src):
+    """Lay plays/_shared/ and drives/_shared/ as one <skills_root>/_shared/: every installed
+    play points to ../_shared/play-close.md, every installed drive also to
+    ../_shared/drive-run.md. A folder starting with `_` is otherwise never deployed."""
+    sources = [os.path.join(components, kind, SHARED) for kind in ("plays", "drives")]
+    sources = [s for s in sources if os.path.isdir(s)]
+    if not sources:
         return
-    copy_tree_fresh(src, os.path.join(skills_root, SHARED))
+    dest = os.path.join(skills_root, SHARED)
+    copy_tree_fresh(sources[0], dest)
+    for src in sources[1:]:
+        copy_tree_merge(src, dest)
     paths.append(os.path.join(rel_root, SHARED))
-    info(f"  shared play blocks: {os.path.join(rel_root, SHARED)}")
+    info(f"  shared blocks: {os.path.join(rel_root, SHARED)}")
+
+
+SKILLS_GITIGNORE = (
+    "# Python's caches beside the installed plays' and skills' scripts are never part of a\n"
+    "# change: a drive checks the tree is clean after each play (#613 finding K-2).\n"
+    "__pycache__/\n"
+)
+
+
+def lay_skills_gitignore(skills_root, rel_root, paths):
+    """Write <skills_root>/.gitignore so scripts' caches never make the tree unclean."""
+    write_text(os.path.join(skills_root, ".gitignore"), SKILLS_GITIGNORE)
+    paths.append(os.path.join(rel_root, ".gitignore"))
 
 
 def skippable(name):

@@ -5,7 +5,7 @@ one (ADR 029; #614). A drive is a run of plays that keeps going until its goal i
 then gets reviewed. The drive owns one issue, one branch and one pull request; the plays
 inside it open none of their own. The contract is how a drive hands a play what it needs.
 
-**The issue ID governs** (ADR 039; Kapil, 2026-10-19). Everything the drive and its plays write
+**The issue ID governs** (ADR 039). Everything the drive and its plays write
 — memory, evidence, working files, answers — goes under the drive's issue,
 `{stm_base}<issue>/`. The issue ties the work to the tracker and to the business intent it
 serves.
@@ -29,8 +29,10 @@ A JSON file, passed to the play as `--contract <path>`:
   "branch": "feature/613-kickoff",
   "issue": 613,
   "review_dir": ".garura/project/issues/613/review/drive/",
+  "round": 1,
+  "plays":   ["intent", "vision", "understand"],
   "inputs":  { "<play>": { "<input name>": "<path or value>" } },
-  "answers": { "<play>": { "<question id>": "<the person's answer, asked before the drive started>" } }
+  "answers": { "<play>": { "<question id>": "<the person's answer — asked before the drive started, or after a round's draft>" } }
 }
 ```
 
@@ -41,13 +43,15 @@ A JSON file, passed to the play as `--contract <path>`:
 | `branch` | yes | The drive's branch. The play must already be on it. |
 | `issue` | yes | The drive's main issue. |
 | `review_dir` | yes | Where each play writes its review record for the drive's end review. |
+| `round` | no | The drive's round, from 1 (absent means 1). A play on a round above 1 fills what it left open. |
+| `plays` | no | The drive's plays, in order (written by `write_drive_contract.py`). |
 | `inputs` | no | Per play, the inputs the drive hands it (paths, or values such as intent ids). |
-| `answers` | no | Per play, the answers to the questions the play would ask, gathered before the drive started (ADR 029: questions first). |
+| `answers` | no | Per play, the answers to the questions the play would ask, gathered before the drive started (ADR 029: questions first); on a later round, also the person's answers to the drive's questions (ADR 041). |
 
 ## How a play runs inside a drive
 
 1. **Check the contract first.** Run `check_drive_contract.py`. It writes `run.json`
-   (`in_drive`, `drive_run_id`, `branch`, `issue`, `review_dir`, the play's own
+   (`in_drive`, `drive_run_id`, `branch`, `issue`, `review_dir`, `round`, the play's own
    `inputs` and `answers`). An invalid contract, or a current branch that is not the
    contract's branch, is a hard halt. With no `--contract`, it writes `in_drive: false`
    and the play runs by hand, unchanged.
@@ -70,22 +74,35 @@ A JSON file, passed to the play as `--contract <path>`:
    <drive_run_id>)` as a Checkpoint Decisions row. The drive's end review reads the record.
    **A pinned checkpoint is never deferred by a contract.** `gate-config.md` says a pinned
    gate never resolves off. Inside a drive it is either asked up front — its answer is in
-   the contract's `answers`, gathered before the drive started — or it stops the play and
-   asks, like any new question. A play may defer a pinned checkpoint to the drive's review
+   the contract's `answers` — or it becomes the drive's question, like any other the play
+   cannot answer (rule 5; ADR 041): the play stops short of the crossing, saves what it made
+   as proposed, and finishes; the person answers on a later round, and the play crosses the
+   gate then. That is not a deferral to the drive's review. A play may defer a pinned checkpoint to the drive's review
    only where its own intent names that exception (as `/intent`'s confirmation does,
    ADR 031 D10).
-5. **A question memory and the drive did not answer still stops the play.** The play's
-   agents look in memory first, through the memory tool (ADR 034, ADR 035). A question no
-   tier answers, and the contract's `answers` do not hold, stops the play: its agent raises
-   it as a memory update a person approves (ADR 035 §5, ADR 036 §2), and the play never
-   picks an answer for itself (ADR 029: a new question stops the drive). The person's
-   answer is kept in the drive issue's short-term memory (ADR 039 §1).
+5. **A question the play cannot answer goes to the drive — it does not stop the play.** The
+   play's agents look in memory first, through the memory tool (ADR 034, ADR 035); what no
+   tier answers and research can, is drafted as a memory update a person approves (ADR 035 §5,
+   ADR 036 §2) — nothing rests on it before that. A question still open is written to
+   `<review_dir>/open-<play>.json` (`{"play", "round", "questions": [{"id", "ask", "about",
+   "blocks", "for_person", "examples"}]}`); the play does all the work it does not block,
+   saves what it made as proposed with the gap named, never picks an answer for itself, and
+   closes. On a later round (the contract's `round` is above 1) the play reads what the other
+   plays wrote and fills what it can — only from its sources, approved memory (an applied
+   memory update included) and the product model the drive's plays wrote; never from a
+   memory update still waiting for a person (ADR 035). A question stops the **drive** only when no play of the
+   drive can answer it: the drive asks it then, with its other open questions, all at once
+   (ADR 029 §2 as ADR 041 reads it: the question belongs to the whole drive). The person's answer is kept in the drive issue's short-term memory (ADR 039 §1).
 6. **A learned checkpoint still learns.** A play whose checkpoint learns from people's
    answers (`gate_eval.py`) records a deferred crossing as `deferred_to_drive_review` (a
    skip or an auto-pass is recorded as by hand). The learner skips that line — it neither
    counts as an approval nor breaks a run of them. The drive's review later appends the
    person's real answer as a new line for the same shape (the ledger is append-only); how
    the drive's review does that belongs to the drive-review design (#617).
+7. **Close as a sub-play.** The play runs the Standard Play Close (`_shared/play-close.md`,
+   beside the plays): its evidence file as `evidence.record` says, no delivery report of its
+   own, and a compact result for the drive. The drive writes the one delivery report for the
+   run, and its own evidence.
 
 Run by hand, a play is unchanged: its opening, its checkpoint and its end sequence run as
 its gate settings say.
@@ -93,7 +110,10 @@ its gate settings say.
 ## One contract for the whole drive
 
 A drive writes one contract and hands the same file to every play it runs; each play reads
-its own `inputs.<play>` and `answers.<play>`. A play with an older, narrower check of its
+its own `inputs.<play>` and `answers.<play>`. When a later play's input is what an earlier play made,
+the drive adds it to that play's `inputs` and writes the file again before the later play
+starts (same `drive_run_id`). At the start of each round it writes the file again with the new
+`round` and any answers the person gave; a play reads the contract when it starts. A play with an older, narrower check of its
 own (`/intent` checks only `drive_run_id` and `branch`) accepts the full contract, because
 the full contract holds those fields too; such plays move to the shared checker over time.
 
@@ -101,5 +121,7 @@ the full contract holds those fields too; such plays move to the shared checker 
 
 - ADR 029 — Drives (questions first; no stops for the plays' checkpoints; a new question
   stops the drive; the drive owns one issue, one branch, one pull request).
+- ADR 041 — a drive runs in rounds and owns the questions no play can answer; `/build-memory`
+  builds the memory it lacks before it asks.
 - `standards/rules/gate-config.md` — gate kinds; the `deferred_to_drive_review` answer.
 - `standards/rules/pipeline-position.md` — the injected opening and end sequence a drive skips.

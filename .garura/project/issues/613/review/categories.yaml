@@ -1,67 +1,155 @@
-# categories.yaml — derived from the PR #652 diff content (base main). Not matched from a fixed list.
-# Review shelf used: ~/.garura/core/memory/knowledge/review/ (context.yaml's ./.garura/core/memory/knowledge/review/ does not exist in this checkout; the machine-global shelf is byte-identical to core/components/memory/knowledge/review/ on main)
-pr: 652
-issue: 613
-base: main
-changed_path_count: 29
+# categories.yaml — work categories present in PR #682 (#613 kickoff drive), base: main — ROUND 2
+# Derived from the diff (168 changed files: 108 added, 60 modified), not matched from a fixed list.
+# Shelf read from ~/.phoenix/core/memory/knowledge/review/ (committed, external to the branch).
+# Round 1 had no docs/adr/** change; round 2 does (ADR 041 added, four older ADRs and the index edited),
+# so the decision-records category is now PRESENT. Round 1's harness list also missed drive-checker.md,
+# skills/author-business-intent and memory rule evidence-recording.md; they are included below.
 categories:
+
+  - name: harness
+    playbook: review/harness
+    design_bearing: true          # Layer 2 applies
+    what: >
+      The MD-defined behaviour of the system: new and changed plays, skills, agents, ICE sources,
+      the new "drive" component (a higher-order play that runs plays), the shared play-close, and the glossary.
+    note: >
+      core/components/drives/** is a new kind of harness component (SKILL.md + reference/ice.md +
+      stop-condition.yaml + _shared/drive-run.md). The harness playbook's signals do not list drives/**;
+      it governs them by content (they are compiled-play-shaped). Suggest adding the signal.
+      Round 2 text fixes touched drives/_shared/drive-run.md, drives/kickoff/{SKILL.md,reference/ice.md},
+      agents/{drive-checker,prototype-walker}.md, plays/_shared/play-close.md,
+      plays/{understand,vision}/{SKILL.md,reference/ice.md}, skills/answer-from-source/SKILL.md, glossary.
+    evidence:
+      - core/components/drives/_shared/drive-run.md
+      - core/components/drives/kickoff/SKILL.md
+      - core/components/drives/kickoff/reference/ice.md
+      - core/components/drives/kickoff/stop-condition.yaml
+      - core/components/plays/_shared/play-close.md
+      - core/components/plays/build-memory/{SKILL.md,reference/ice.md,stop-condition.yaml}
+      - core/components/plays/drive-creator/SKILL.md
+      - core/components/plays/drive-creator/references/compiled-drive-example/{SKILL.md,reference/ice.md,stop-condition.yaml}
+      - core/components/plays/drive-editor/SKILL.md
+      - core/components/plays/intent/{SKILL.md,reference/ice.md}
+      - core/components/plays/understand/{SKILL.md,reference/ice.md}
+      - core/components/plays/vision/{SKILL.md,reference/ice.md}
+      - core/components/agents/{business-intent-keeper,drive-checker,memory-builder,prototype-walker}.md
+      - core/components/skills/{answer-from-source,author-business-intent,draft-knowledge-page,judge-drive-result,walk-prototype}/SKILL.md
+      - core/components/skills/judge-drive-result/verdict.schema.json
+      - core/grounding/glossary.md
+
+  - name: memory
+    playbook: review/memory
+    design_bearing: true          # Layer 2 applies
+    what: Standards rules the agents read; one new rule (run-status.md) and four changed.
+    note: Round 2 edited drive-contract.md, evidence-recording.md, pipeline-next.md, run-status.md and _index.md.
+    evidence:
+      - core/components/memory/standards/rules/_index.md
+      - core/components/memory/standards/rules/drive-contract.md
+      - core/components/memory/standards/rules/evidence-recording.md
+      - core/components/memory/standards/rules/pipeline-next.md
+      - core/components/memory/standards/rules/run-status.md
+
   - name: decision-records
     playbook: review/adrs
-    design_bearing: false   # playbook: the decision IS the design; Layer 1 only, human judges merit
+    design_bearing: false         # playbook: the decision is the design; human reviews merit, Layer 1 structural only
+    what: >
+      ADR 041 "A drive runs in rounds and owns its questions" (new, 139 lines), its index entry, and
+      one-line Status edits on ADRs 029, 032, 034 and 039 that mark each "amended in part by ADR 041".
+    note: >
+      The playbook says no design-grounding. Still worth the human's attention: ADR 041 amends four
+      earlier ADRs, so its claims about what it amends can be checked against those base-ref ADRs
+      (a consistency check, not Layer 2). No ADR linter exists on the shelf yet (playbook gap), so the
+      structural check (sections, status value, numbering, index link) is manual.
     evidence:
-      - docs/adr/034-plays-answer-from-memory-inside-a-drive.md   # new ADR (Accepted, 2026-10-18); amends ADR 029 section 2
-      - docs/adr/_index.md                                        # one index row added (034)
-      - docs/adr/029-drives.md                                    # Status line amended to point at ADR 034
-    notes: >
-      Layer 1 structural checklist applies (sections, status value, numbering, index link). No
-      in-repo ADR linter exists (playbook gap). ADR 029 is edited only on its Status line
-      (amendment cross-reference). ADR 034 lists many files under "Affects" (drive-contract.md,
-      the glossary, the intent / vision / understand / adr plays and their scripts) but the diff
-      changes none of them, so those are named consequences, not changed artifacts, and neither
-      harness nor memory is present. Judgement flag for the human: ADR 034 changes how plays
-      behave inside a drive (a play answers from memory and asks only when memory holds nothing,
-      instead of stopping on every new question as ADR 029 section 2 said). The playbook calls
-      for no Layer 2, so no fan-out is requested, but the human should read it as a design
-      decision, not just as a document. The self-review (613/context/self-review.md) already
-      notes that ADR 034 points at plan item numbers that have since moved.
-  - name: stm-working-notes-plans-and-design
+      - docs/adr/041-a-drive-runs-in-rounds-and-owns-its-questions.md
+      - docs/adr/_index.md
+      - docs/adr/029-drives.md
+      - docs/adr/032-drive-review-of-outcomes.md
+      - docs/adr/034-plays-answer-from-memory-inside-a-drive.md
+      - docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md
+
+  - name: executable-code
+    playbook: review/code
+    design_bearing: false         # Layer 1 only; review data-safety and idempotency paths hard
+    what: >
+      Python, JS and shell the runtime executes. Most added lines are the shared drive scripts stamped
+      into each drive and the worked example (lint_drive.py checks every stamped copy against its source).
+      Several scripts touch git, the filesystem and headless subprocesses (commit_run_files,
+      run_play_headless, run_checker_codex, install/uninstall).
+    evidence:
+      - core/components/drives/kickoff/scripts/*.py (non-test; 15 scripts)
+      - core/components/plays/build-memory/scripts/*.py (non-test)
+      - core/components/plays/drive-creator/scripts/lint_drive.py
+      - core/components/plays/drive-creator/references/*.py and references/compiled-drive-example/scripts/*.py (non-test)
+      - core/components/plays/drive-editor/scripts/lint_drive.py
+      - core/components/plays/intent/scripts/*.py (non-test)
+      - core/components/plays/{play-creator/references,understand/scripts,vision/scripts}/check_drive_contract.py
+      - core/components/plays/install-garura/scripts/{install.py,adapters/claude.py,adapters/codex.py,adapters/common.py}
+      - core/components/plays/uninstall-garura/scripts/uninstall.py
+      - core/tools/lint-components/lib/discover.js
+      - core/tools/lint-components/lib/rules/structural.js
+      - installer/install.sh
+
+  - name: tests
+    playbook: review/tests
+    design_bearing: false
+    what: New and extended automated tests for the drive scripts, build-memory, intent, install and the drive linter.
+    evidence:
+      - core/components/drives/kickoff/scripts/test_kickoff_scripts.py
+      - core/components/plays/build-memory/scripts/test_build_memory_scripts.py
+      - core/components/plays/drive-creator/references/test_drive_scripts.py
+      - core/components/plays/drive-creator/references/test_lint_drive.py
+      - core/components/plays/intent/scripts/test_intent_scripts.py
+      - core/components/plays/install-garura/scripts/test_install.py
+
+  - name: config-maps
+    playbook: review/config-maps
+    design_bearing: false         # human reads the named changes; narrow path-existence check
+    what: Files that point at other files by path. New `drives` component path and per-drive config block.
+    evidence:
+      - core/config.yaml            # components.drives path; drives.kickoff block
+      - CLAUDE.md                   # adds drives/ to the architecture tree
+
+  - name: documentation
+    playbook: review/docs
+    design_bearing: false
+    what: Human-facing prose describing components, plus the repo's work-tracking convention.
+    note: >
+      .garura/user-provided/managing-work.md is a convention document loaded into every session;
+      judged documentation (prose for people and agents), not a play/skill/agent/memory file.
+    evidence:
+      - docs/components/agents.md
+      - docs/components/plays.md
+      - docs/components/skills.md
+      - .garura/user-provided/managing-work.md
+
+  - name: work-records
     playbook: null
     playbook_missing: true
-    design_bearing: false   # plans and review notes that precede or follow the ADR; nothing committed on base to conform to
+    design_bearing: false         # see note
+    what: >
+      Planning and design records and run evidence committed under .garura/project/issues/**:
+      the #606 / #613 / #653 plans, design specs (drive-compiler-design, runner-design, review-tool,
+      memory-builder), the kickoff run findings and question audit, checker pass/reject evidence,
+      PR/branch/self-review context files, the review's own run files (round 1 and round 2 records),
+      and (new in round 2) the ADR-play run record under _adr/20261020-110424/.
+    note: >
+      Not covered by any playbook. These record work and the branch's own design intent; they are not
+      committed grounding and must never be used as the standard for Layer 2. Mechanical review only:
+      valid JSON/YAML, no secrets or absolute home paths (round 2 fixed one such leak in the lint record),
+      plan statuses consistent. Suggest a work-records playbook (and path signal) for the shelf.
     evidence:
-      - .garura/project/issues/613/specs/plan.md                 # new: plan for the Kickoff drive (#613), status active
-      - .garura/project/issues/613/specs/memory-system-plan.md   # new: draft plan for a separate memory-system feature (status draft)
-      - .garura/project/issues/613/specs/memory-review.md        # new: review note on whether memory is ready for ADR 034
-      - .garura/project/issues/606/specs/plan.md                 # plan updates: now 7 -> 8, item 7 marked decided, item 8 gains its inside-order
-    notes: >
-      Same category as in the #617 review: Garura's own STM working notes (plans, a review
-      note). No playbook covers it. Suggested Layer 1 only: plan front-matter sanity, link and
-      reference resolution, and consistency with the ADR that landed in the same PR (ADR 034)
-      and with the issue numbers named. These are STM files under .garura/project/issues/**,
-      not the knowledge base under core/components/memory/**, so the memory playbook does not
-      apply even though memory-system-plan.md and memory-review.md are about memory.
-  - name: stm-run-records
-    playbook: null
-    playbook_missing: true
-    design_bearing: false   # machine-written run artifacts; no design content
-    evidence:
-      - .garura/project/issues/613/context/{analysis.yaml,commits.yaml}                       # analyze-changes / commit-change output
-      - .garura/project/issues/613/context/{branch,issue,plan-check,pr,resolved-rules}.json   # context receipts
-      - .garura/project/issues/613/context/{porcelain.txt,work-description.txt}               # git status snapshot, work description
-      - .garura/project/issues/613/context/{pr-body.md,self-review.md}                        # propose-change outputs (PR body, informational self-review)
-      - .garura/project/issues/_adr/20261018-071440/*   # propose-change/ADR run for ADR 034 (11 files: adr-check, adr-context, adr-draft, adr-manifest, brief, decision, guard-report, hashes-before, porcelain-after, porcelain-before, run)
-    notes: >
-      Same category as in the #617 review: play run records (receipts, guard reports, hashes,
-      porcelain snapshots, JSON context). No playbook covers it. Suggested treatment: skim only
-      for consistency with the committed ADR they produced (adr-draft.md vs docs/adr/034, and
-      brief.md / decision.yaml for who approved it); no design-grounding. 22 paths: 11 under
-      613/context and 11 under _adr/20261018-071440.
-design_bearing_categories: []   # none: harness and memory are absent (no core/components/** change); decision-records is Layer 1 only
-absent_seeded_categories: [documentation, harness, memory, executable-code, config-maps, tests]
-path_accounting:   # 3 + 4 + 22 = 29
-  decision-records: 3
-  stm-working-notes-plans-and-design: 4
-  stm-run-records: 22
-missing_playbooks:
-  - stm-working-notes-plans-and-design
-  - stm-run-records
+      - .garura/project/issues/606/specs/plan.md
+      - .garura/project/issues/613/specs/{plan,drive-compiler-design,runner-design}.md
+      - .garura/project/issues/617/specs/review-tool.md
+      - .garura/project/issues/653/specs/plan.md
+      - .garura/project/issues/680/specs/memory-builder.md
+      - .garura/project/issues/613/evidence/checker/**
+      - .garura/project/issues/613/evidence/kickoff-run/{findings,question-audit}.md
+      - .garura/project/issues/613/context/*
+      - .garura/project/issues/613/review/* (this review's own run files)
+      - .garura/project/issues/_adr/20261020-110424/* (12 files: ADR-play run record for ADR 041)
+
+design_grounding_dispatch:
+  - harness
+  - memory

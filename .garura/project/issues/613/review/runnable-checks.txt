@@ -1,0 +1,20 @@
+# Runnable checks — PR #682 round 2 (fbdcdfd0)
+lint_play intent: VERDICT: PASS (0 gap(s))
+lint_play build-memory: VERDICT: PASS (0 gap(s))
+lint_play vision: VERDICT: PASS (0 gap(s))
+lint_play understand: VERDICT: PASS (0 gap(s))
+lint_play drive-creator: VERDICT: FAIL (5 gap(s))
+lint_play drive-editor: VERDICT: FAIL (5 gap(s))
+lint_drive kickoff: VERDICT: PASS (0 gap(s))
+lint_drive compiled-drive-example: VERDICT: FAIL (2 gap(s))
+intent scripts: 129 passed, 0 failed, 0 skipped
+vision + understand scripts (pytest): 39 passed in 2.82s
+build-memory scripts: OK
+kickoff scripts: OK
+drive builder scripts + drive linter: OK
+drive contract: 34 passed, 0 failed
+install: OK
+ruff (uvx ruff, --isolated): 145 items, 0 errors that stop a run; on the branch EXE001 64, RUF100 26, PLW1510 20, SIM115 8; main's unchanged vision and merge-change show the same kinds (EXE001 25, SIM115 18, RUF100 12, PLW1510 11) — the repo has no ruff config, so no project standard is broken
+lint_drive compiled-drive-example: expected — the example lives under drive-creator/references/, so ../_shared/drive-run.md and the member plays do not resolve there; it is a reference, not an installed drive
+lint_play drive-creator / drive-editor: same 5 gaps as round 1 — the play linter does not know the builder plays' shape; play-creator / play-editor on main show the same
+lint-components: 121 errors vs 113 on main; the 8 new are drive-creator / drive-editor with the same 4 errors play-creator / play-editor carry on main

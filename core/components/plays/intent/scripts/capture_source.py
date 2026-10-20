@@ -5,8 +5,9 @@ A Source is anything that explains a business intent (ontology v2): a prototype 
 a deployed site), a document, or a plain statement. This script takes its snapshot into the
 run's evidence folder, so it outlives the link or the file, and writes the source manifest:
 
-  site       (http/https)    full-page screenshot(s) + the page HTML, via a headless browser
-  file       (.html/.htm)    a copy of the file + a rendered screenshot
+  site       (http/https)    full-page screenshot(s) + the page HTML, via a headless browser,
+                             and every view the page offers, found by exploring it (C1)
+  file       (.html/.htm)    a copy of the file + a rendered screenshot of every view
   document   (any other file) a copy of the file
   project    (a folder)      a copy of its top-level written docs (README, SPEC, *.md, *.txt);
                              the play runs the project and captures the running app as a
@@ -50,12 +51,105 @@ def keep_view(page, out_dir, name):
     return [f"{name}.png", f"{name}.txt"]
 
 
-def screenshot(urls, out_dir, html_out=None, clicks=()):
-    """Full-page screenshots of each url, then of the first url after clicking each named
-    control in turn (tabs or buttons the app switches views with). Each view also keeps its
-    visible text beside its picture (`screen-NN….txt`), so every view can be read, not only
-    seen. Returns file names. Raises on failure — a named control that cannot be found is a
-    failure, not a skip."""
+# What can switch a view: buttons, tabs, menu items, links and pressed-state toggles.
+CONTROLS = ("button, [role=tab], [role=menuitem], [role=link], a[href], [aria-pressed], "
+            "[data-go], [data-view], summary")
+# Controls that answer or change data rather than show a view: never clicked while exploring.
+ANSWERS = ("accept", "approve", "reject", "drop", "send back", "delete", "remove", "edit",
+           "comment", "finish", "submit", "undo", "save", "reset", "log out", "sign out",
+           "point", "upload", "pay", "buy")
+MAX_VIEWS = 40
+MAX_CLICKS = 160
+
+
+def _label(handle):
+    """A control's words, for the record: its text, else its aria-label, title or id."""
+    text = " ".join((handle.inner_text() or "").split())[:60]
+    return text or handle.get_attribute("aria-label") or handle.get_attribute("title") \
+        or handle.get_attribute("id") or "(no label)"
+
+
+def _controls(page, origin):
+    """The visible, enabled controls on the page now, as (index, label) — the index is the
+    control's place in page.locator(CONTROLS), stable on a fresh load of the same state."""
+    found = []
+    loc = page.locator(CONTROLS)
+    for i in range(loc.count()):
+        h = loc.nth(i)
+        try:
+            if not (h.is_visible() and h.is_enabled()):
+                continue
+            label = _label(h)
+            href = h.get_attribute("href") or ""
+        except Exception:  # noqa: BLE001 — a control that vanished while reading is skipped
+            continue
+        if any(word in label.lower() for word in ANSWERS):
+            continue
+        if href.startswith(("mailto:", "tel:", "javascript:")) or (
+                href.startswith(("http://", "https://")) and not href.startswith(origin)):
+            continue  # leaves the prototype
+        found.append((i, label))
+    return found
+
+
+def _text(page):
+    return page.inner_text("body")
+
+
+def explore(page, url, out_dir, start_no):
+    """Find every view the page offers, two clicks deep, and keep each new one (#613).
+
+    For each control on the first screen — then for each new control on each view that
+    opened — load the page fresh, replay the clicks, and keep the view when its visible text
+    differs from every view kept so far. Returns (files, views): `views` records what was
+    found, kept and could not be reached, for the source manifest."""
+    origin = url.split("#")[0].rsplit("/", 1)[0]
+    files, seen, unreached, found = [], set(), [], []
+    page.goto(url, wait_until="networkidle", timeout=30000)
+    seen.add(hashlib.sha256(_text(page).encode()).hexdigest())
+    root = _controls(page, origin)
+    root_labels = {label for _, label in root}
+    queue = [((i,), (label,)) for i, label in root]
+    clicks = 0
+    while queue and clicks < MAX_CLICKS and len(files) // 2 < MAX_VIEWS:
+        path, labels = queue.pop(0)
+        found.append(" > ".join(labels))
+        clicks += 1
+        try:
+            page.goto(url, wait_until="networkidle", timeout=30000)
+            for idx in path:
+                page.locator(CONTROLS).nth(idx).click(timeout=5000)
+                page.wait_for_timeout(250)
+            text = _text(page)
+        except Exception as exc:  # noqa: BLE001 — record it, keep exploring
+            unreached.append({"view": " > ".join(labels), "why": str(exc).splitlines()[0][:160]})
+            continue
+        digest = hashlib.sha256(text.encode()).hexdigest()
+        if digest in seen:
+            continue  # same as a view already kept (or the first screen)
+        seen.add(digest)
+        n = start_no + len(files) // 2
+        slug = "".join(c if c.isalnum() else "-" for c in labels[-1].lower())[:40].strip("-")
+        files += keep_view(page, out_dir, f"view-{n:02d}-{slug or 'control'}")
+        if len(path) == 1:  # one level deeper: the controls this view added
+            for i, label in _controls(page, origin):
+                if label not in root_labels:
+                    queue.append((path + (i,), labels + (label,)))
+    if queue:
+        unreached += [{"view": " > ".join(lb), "why": "the exploration limit was reached"}
+                      for _, lb in queue]
+    views = {"explored": True, "found": len(found) + 1, "kept": len(files) // 2 + 1,
+             "unreached": unreached, "limit_reached": bool(queue),
+             "note": "a control whose view repeats one already kept is found but not kept again"}
+    return files, views
+
+
+def screenshot(urls, out_dir, html_out=None, clicks=(), views=None):
+    """Full-page screenshots of each url; with `views` (a dict), every view of the first url,
+    found by exploring it (`view-NN-….png/.txt`); then the first url after clicking each named
+    control in turn. Each view keeps its visible text beside its picture, so every view can be
+    read, not only seen. Returns file names. Raises on failure — a named control that cannot
+    be found is a failure, not a skip."""
     from playwright.sync_api import sync_playwright  # imported here: only sites need it
     shots = []
     with sync_playwright() as p:
@@ -68,6 +162,10 @@ def screenshot(urls, out_dir, html_out=None, clicks=()):
             if i == 1 and html_out:
                 with open(os.path.join(out_dir, html_out), "w", encoding="utf-8") as fh:
                     fh.write(page.content())
+        if views is not None:  # find and keep every view of the first page (C1)
+            more, record = explore(page, urls[0], out_dir, len(shots) // 2 + 1)
+            shots += more
+            views.update(record)
         if clicks:
             page.goto(urls[0], wait_until="networkidle", timeout=30000)
             for label in clicks:
@@ -116,8 +214,9 @@ def main(argv=None):
             manifest["files"].append("statement.txt")
         elif args.source.startswith(("http://", "https://")):
             manifest["kind"] = "prototype — deployed site"
+            manifest["views"] = {}
             manifest["files"] += screenshot([args.source] + args.also, args.out_dir, html_out="page.html",
-                                            clicks=args.click)
+                                            clicks=args.click, views=manifest["views"])
             manifest["files"].append("page.html")
         elif os.path.isdir(args.source):
             manifest["kind"] = "prototype — project"
@@ -138,7 +237,9 @@ def main(argv=None):
             if os.path.splitext(name)[1].lower() in HTML_EXT:
                 manifest["kind"] = "prototype — file"
                 url = pathlib.Path(os.path.abspath(args.source)).as_uri()   # escapes # and ?
-                manifest["files"] += screenshot([url] + args.also, args.out_dir, clicks=args.click)
+                manifest["views"] = {}
+                manifest["files"] += screenshot([url] + args.also, args.out_dir, clicks=args.click,
+                                                views=manifest["views"])
             else:
                 manifest["kind"] = "document"
     except ImportError:

@@ -4,7 +4,10 @@ test_intent_scripts.py — fixture tests for /intent's three scripts (#612).
 
 capture_source.py  — a statement is kept byte for byte; a document is copied; an HTML file is
                      copied and rendered to a screenshot; a missing source fails (F1).
-                     A clicked tab keeps its picture and its text.
+                     A clicked tab keeps its picture and its text. Every view of a prototype
+                     is found and kept without naming it, two clicks deep (#613, C1).
+walk_prototype.py / check_journeys.py — a journey step is taken, replayed and kept; the
+                     record is complete and covers every view (#613, C15).
 check_intent.py    — per intent: required properties, provenance, copying the source,
                      code-like text, bare labels, ICE under it; per ICE: goals, built from an
                      intent; for the draft: ids, sources summarised, the coverage map, one
@@ -32,6 +35,8 @@ import persist_intent as pi  # noqa: E402
 import lint_grounding as lg  # noqa: E402
 
 import check_ice_workable as cw  # noqa: E402
+import check_journeys as cj  # noqa: E402
+import walk_prototype as wp  # noqa: E402
 
 PASSED = 0
 FAILED = 0
@@ -139,6 +144,9 @@ def test_capture():
             check("an HTML prototype without Playwright fails plainly (F1)", rc == 2)
             skip(["an HTML prototype is copied and rendered", "the screenshot is a real image",
                   "a named tab is clicked and captured", "the clicked view's text is kept beside its picture",
+                  "every view is found and kept without naming it", "a view two clicks deep is kept",
+                  "an answer button is never clicked while exploring", "a link out of the prototype is not followed",
+                  "the manifest records the views found and kept",
                   "a tab that does not exist fails, not skipped", "a file path with # or ? is captured"],
                  "Playwright is not installed")
         else:
@@ -150,11 +158,46 @@ def test_capture():
                 fh.write("<html><body><button onclick=\"document.getElementById('v').textContent='second view'\">"
                          "Details</button><p id='v'>first view</p></body></html>")
             out, man = os.path.join(tmp, "src7"), os.path.join(tmp, "m7.json")
-            check("a named tab is clicked and captured",
-                  cs.main(["--source", tabs, "--out-dir", out, "--given-by", "Kapil", "--manifest", man,
-                           "--click", "Details"]) == 0 and "screen-02-details.png" in read_json(man)["files"])
-            with open(os.path.join(out, "screen-02-details.txt")) as fh:
+            rc = cs.main(["--source", tabs, "--out-dir", out, "--given-by", "Kapil", "--manifest", man,
+                          "--click", "Details"])
+            named = [f for f in read_json(man)["files"] if f.startswith("screen-") and f.endswith("-details.png")]
+            check("a named tab is clicked and captured", rc == 0 and len(named) == 1)
+            with open(os.path.join(out, named[0].replace(".png", ".txt") if named else "none")) as fh:
                 check("the clicked view's text is kept beside its picture", "second view" in fh.read())
+
+            # every view is found without naming it, two clicks deep (#613, C1)
+            app = os.path.join(tmp, "app.html")
+            with open(app, "w") as fh:
+                fh.write("""<html><body>
+<nav><button onclick="show('home')">Home</button><button onclick="show('cart')">Cart</button>
+<a href="https://elsewhere.example.com/">Help</a><button onclick="show('gone')">Accept</button></nav>
+<main id="m">home view</main>
+<script>
+function show(v){
+  const m=document.getElementById('m');
+  if(v==='cart'){m.innerHTML='cart view <button onclick="show(\\'pay\\')">Checkout</button>';}
+  else if(v==='pay'){m.textContent='checkout view';}
+  else if(v==='gone'){m.textContent='an answer was given';}
+  else {m.textContent='home view';}
+}
+</script></body></html>""")
+            out, man = os.path.join(tmp, "src10"), os.path.join(tmp, "m10.json")
+            rc = cs.main(["--source", app, "--out-dir", out, "--given-by", "Kapil", "--manifest", man])
+            m = read_json(man)
+            texts = ""
+            for f in m["files"]:
+                if f.endswith(".txt"):
+                    with open(os.path.join(out, f)) as fh:
+                        texts += fh.read()
+            check("every view is found and kept without naming it",
+                  rc == 0 and "cart view" in texts and "checkout view" in texts)
+            check("a view two clicks deep is kept", any(f.startswith("view-") and "checkout" in f
+                                                        for f in m["files"]))
+            check("an answer button is never clicked while exploring", "an answer was given" not in texts)
+            check("a link out of the prototype is not followed", "elsewhere" not in json.dumps(m["views"]))
+            check("the manifest records the views found and kept",
+                  m["views"]["explored"] is True and m["views"]["kept"] >= 3
+                  and m["views"]["kept"] <= m["views"]["found"] and m["views"]["unreached"] == [])
             out, man = os.path.join(tmp, "src8"), os.path.join(tmp, "m8.json")
             check("a tab that does not exist fails, not skipped",
                   cs.main(["--source", tabs, "--out-dir", out, "--given-by", "Kapil", "--manifest", man,
@@ -187,6 +230,94 @@ def test_capture():
         out, man = os.path.join(tmp, "src5"), os.path.join(tmp, "m5.json")
         check("an empty given-by is refused", cs.main(["--statement", st, "--out-dir", out,
                                                         "--given-by", " ", "--manifest", man]) == 2)
+
+
+def test_journeys():
+    """walk_prototype.py takes one journey step at a time; check_journeys.py checks the record (C15)."""
+    with tempfile.TemporaryDirectory() as tmp:
+        app = os.path.join(tmp, "shop.html")
+        with open(app, "w") as fh:
+            fh.write("""<html><body><input placeholder="Search" id="q">
+<button onclick="document.getElementById('o').textContent='cart has '+document.getElementById('q').value">Add to cart</button>
+<button onclick="document.getElementById('o').textContent='order placed'">Pay now</button>
+<p id="o">empty</p></body></html>""")
+        out = os.path.join(tmp, "journeys")
+
+        def walk(name, steps, *extra):
+            path = os.path.join(tmp, name + ".steps.json")
+            with open(path, "w") as fh:
+                json.dump(steps, fh)
+            return wp.main(["--source", app, "--steps", path, "--out-dir", out, "--name", name, *extra])
+
+        try:
+            import playwright  # noqa: F401
+        except ImportError:
+            skip(["a journey step is taken and kept", "a later step replays the earlier ones",
+                  "a step that cannot be taken is recorded, not hidden",
+                  "a data-changing step is allowed on a file prototype",
+                  "a session keeps the journey's browser and takes the next step",
+                  "a step tells only what changed", "a changed journey loads fresh in the same session"],
+                 "Playwright is not installed")
+        else:
+            rc = walk("buy-01", [{"do": "type", "target": "Search", "text": "lamp"}])
+            check("a journey step is taken and kept", rc == 0 and os.path.isfile(os.path.join(out, "buy-01.png")))
+            rc = walk("buy-02", [{"do": "type", "target": "Search", "text": "lamp"},
+                                 {"do": "click", "target": "Add to cart"}])
+            with open(os.path.join(out, "buy-02.txt")) as fh:
+                check("a later step replays the earlier ones", rc == 0 and "cart has lamp" in fh.read())
+            rc = walk("buy-03", [{"do": "click", "target": "Checkout"}])
+            check("a step that cannot be taken is recorded, not hidden",
+                  rc == 1 and "nothing on this screen" in read_json(os.path.join(out, "buy-03.json"))["why"])
+            rc = walk("buy-04", [{"do": "click", "target": "Pay now"}])
+            check("a data-changing step is allowed on a file prototype", rc == 0)
+            # one browser kept open for the journey (--session): same result, only the change told
+            sess = f"test-{os.getpid()}"
+            try:
+                rc1 = walk("fast-01", [{"do": "type", "target": "Search", "text": "lamp"}], "--session", sess)
+                rc2 = walk("fast-02", [{"do": "type", "target": "Search", "text": "lamp"},
+                                       {"do": "click", "target": "Add to cart"}], "--session", sess)
+                rec = read_json(os.path.join(out, "fast-02.json"))
+                check("a session keeps the journey's browser and takes the next step",
+                      rc1 == 0 and rc2 == 0 and rec["changed"] and "cart has lamp" in rec["added"])
+                check("a step tells only what changed", "Search" not in " ".join(rec["added"]))
+                rc3 = walk("fast-03", [{"do": "click", "target": "Pay now"}], "--session", sess)
+                with open(os.path.join(out, "fast-03.txt")) as fh:
+                    check("a changed journey loads fresh in the same session",
+                          rc3 == 0 and "order placed" in fh.read())
+            finally:
+                wp.main(["--session", sess, "--stop"])
+
+        evidence = os.path.join(tmp, "ev")
+        os.makedirs(evidence)
+        for f in ("buy-01.png", "buy-02.png"):
+            open(os.path.join(evidence, f), "w").close()
+        manifest = {"files": ["screen-01.png", "view-02-cart.png", "view-02-cart.txt", "view-03-help.png"]}
+        good = {"journeys": [{"id": "buy", "who": "a shopper", "sets_out_to": "buy a lamp",
+                              "ends_with": "the lamp is in the cart",
+                              "steps": [{"do": "type lamp in Search", "shows": "the field holds lamp",
+                                         "view": ["buy-01.png"]},
+                                        {"do": "click Add to cart", "shows": "cart has lamp",
+                                         "view": ["buy-02.png"], "covers": ["view-02-cart"]}]}],
+                "not_walked": [{"view": "view-03-help", "why": "help text only; no task starts there"}]}
+        gaps, counts = cj.check(good, manifest, evidence)
+        check("complete journeys that cover every view are clean", gaps == [] and counts["covered"] == 1)
+        bad = fresh_journeys(good)
+        bad["journeys"][0]["steps"] = bad["journeys"][0]["steps"][:1]
+        bad["not_walked"] = []
+        gaps, _ = cj.check(bad, manifest, evidence)
+        check("a one-step journey is a gap", any("fewer than two steps" in g for g in gaps))
+        check("a view on no journey and not named is a gap",
+              any("view-03-help" in g for g in gaps) and any("view-02-cart" in g for g in gaps))
+        gaps, _ = cj.check(good, manifest, evidence, {"intents": [{"id": "lamps", "from_journey": "buy"}]})
+        check("a business intent from a journey is clean", gaps == [])
+        gaps, _ = cj.check(good, manifest, evidence, {"intents": [{"id": "rule"}]})
+        check("a business intent that names no journey is a gap", any("names no journey" in g for g in gaps))
+        gaps, _ = cj.check({"journeys": []}, manifest, evidence)
+        check("no journeys at all is a gap", any("no journeys" in g for g in gaps))
+
+
+def fresh_journeys(doc):
+    return json.loads(json.dumps(doc))
 
 
 def test_check():
@@ -416,6 +547,47 @@ def test_persist():
         model = os.path.join(tmp, "product", "product-os")
         check("its ICE is not workable until the person confirms the intent",
               not any(n["workable"] for n in cw.check(spine_of(tmp), os.path.join(model, "intents"))))
+    # inside a drive (C16): a gap is saved open when the draft names its question; the questions
+    # go to the drive; a later round updates only the intents this drive saved
+    with tempfile.TemporaryDirectory() as tmp:
+        argv, working, dirs = persist_setup(tmp, both())
+        draft_path = argv[argv.index("--draft") + 1]
+        with open(draft_path) as fh:
+            draft = yaml.safe_load(fh)
+        draft["intents"][0]["asked_by"] = ""
+        draft["questions"] = [{"intent": "grow-online-sales", "ask": "Who asks for more online sales?",
+                               "examples": ["The head of sales", "The founder"]}]
+        with open(draft_path, "w") as fh:
+            yaml.safe_dump(draft, fh)
+        i = argv.index("--confirmation")
+        open_out = os.path.join(tmp, "review", "open-intent.json")
+        drive = argv[:i] + argv[i + 2:] + ["--proposed", "--at", "2026-10-20", "--drive-run-id", "kickoff-1",
+                                           "--open-out", open_out]
+        check("inside a drive a gap with its question is saved as open", pi.main(drive) == 0)
+        with open(intent_file(tmp, "grow-online-sales")) as fh:
+            body = fh.read()
+        check("the page names the gap as open and the drive that saved it",
+              "**Asked by:** open" in body and "(drive kickoff-1)" in body)
+        q = read_json(open_out)["questions"]
+        check("the open question goes to the drive with what it is about and its examples",
+              len(q) == 1 and q[0]["about"] and q[0]["blocks"] == ["grow-online-sales:asked_by"]
+              and q[0]["examples"] and q[0]["for_person"])
+        draft["intents"][0]["asked_by"] = "the head of sales"
+        draft["intents"][0].setdefault("provenance", {})["asked_by"] = "model"
+        draft["questions"] = []
+        with open(draft_path, "w") as fh:
+            yaml.safe_dump(draft, fh)
+        check("a second save without --update-proposed is refused", pi.main(drive) == 2)
+        check("a later round updates the intent this drive saved", pi.main(drive + ["--update-proposed"]) == 0)
+        with open(intent_file(tmp, "grow-online-sales")) as fh:
+            check("the gap is filled on the later round", "**Asked by:** the head of sales" in fh.read())
+        other = [a if a != "kickoff-1" else "kickoff-2" for a in drive] + ["--update-proposed"]
+        check("another drive cannot update this drive's intents", pi.main(other) == 2)
+        draft["intents"][0]["asked_by"] = ""
+        with open(draft_path, "w") as fh:
+            yaml.safe_dump(draft, fh)
+        check("a gap with no question named is refused, even in a drive",
+              pi.main(drive + ["--update-proposed"]) == 2)
     with tempfile.TemporaryDirectory() as tmp:
         argv, working, _ = persist_setup(tmp, both())
         i = argv.index("--confirmation")
@@ -615,7 +787,7 @@ def test_domains():
 
 
 def main():
-    for test in (test_capture, test_check, test_persist, test_domains):
+    for test in (test_capture, test_journeys, test_check, test_persist, test_domains):
         print(test.__name__)
         test()
     print(f"\n{PASSED} passed, {FAILED} failed, {len(SKIPPED)} skipped")

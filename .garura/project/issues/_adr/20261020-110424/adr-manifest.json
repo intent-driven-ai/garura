@@ -1,0 +1,49 @@
+{
+  "decided": true,
+  "lint_ok": true,
+  "linked": true,
+  "target": "docs/adr/041-a-drive-runs-in-rounds-and-owns-its-questions.md",
+  "shape": "markdown",
+  "guard": {
+    "adr": ".garura/project/issues/_adr/20261020-110424/adr-draft.md",
+    "declared": "none",
+    "touches_an_intent": [],
+    "verdict": "no person's business intent changes"
+  },
+  "olders": [
+    {
+      "adr": "029",
+      "file": "docs/adr/029-drives.md",
+      "kind": "amended",
+      "part": "full"
+    },
+    {
+      "adr": "034",
+      "file": "docs/adr/034-plays-answer-from-memory-inside-a-drive.md",
+      "kind": "amended",
+      "part": "full"
+    },
+    {
+      "adr": "032",
+      "file": "docs/adr/032-drive-review-of-outcomes.md",
+      "kind": "amended",
+      "part": "full"
+    },
+    {
+      "adr": "039",
+      "file": "docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md",
+      "kind": "amended",
+      "part": "full"
+    }
+  ],
+  "status": "accepted",
+  "accepted_by": "Kapil Viren Ahuja",
+  "pointers_written": [
+    "029-drives.md",
+    "034-plays-answer-from-memory-inside-a-drive.md",
+    "032-drive-review-of-outcomes.md",
+    "039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md"
+  ],
+  "pointers_missing": [],
+  "index_ok": true
+}

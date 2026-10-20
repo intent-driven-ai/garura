@@ -144,8 +144,9 @@ python3 scripts/check_drive_contract.py --play vision \
 a valid contract it reads `in_drive: true` with the drive's `drive_run_id`, `branch`, `issue`,
 `review_dir`, and /vision's own `inputs` (intent ids or `/intent`'s save record, and/or a goal)
 and `answers`. Inside a drive the intents and goal come from those inputs; if the contract and
-the model give neither, the run stops and asks the person (ADR 029: a new question stops the
-drive) — it never picks a goal itself. A non-zero exit (an invalid contract, or the current
+the model give neither, the question is the drive's (ADR 041): write it to
+`<review_dir>/open-vision.json` (drive contract, step 5) and finish what can be done — never
+pick a goal yourself. A non-zero exit (an invalid contract, or the current
 branch is not the drive's) is a hard halt (REC12).
 
 `<working>` — the run's working folder — is `{stm_base}<issue>/context/vision/<product_slug>/`,
@@ -750,7 +751,7 @@ pointer to `$evidence_dest`. Always emitted; never gated.
 | F10 | the run refused, stopped, waited or closed HALTED over another play's work, or ran the workable check | drop the check or the wait; record what was missing or light as a warning in the persist record and carry on with what is there | autonomous |
 | F11 | a capability added twice, a one-sided intent link, or an unplaced capability with no warning | drop the duplicate and record `same_as`; re-run the keyed persist so it writes the missing side of each link; place the capability or record why it could not be placed | autonomous |
 | F12 | inside a drive the play opened an issue or branch, ran the end sequence, waited at its checkpoint, or worked off the drive's branch; or by hand it skipped a step; or a run file lies outside the issue the run works on | inside a drive, close the stray issue and branch, switch to the drive's branch, and write the review record in place of the wait; by hand, run the skipped step; move any run file into the issue's folder (`context/vision/<product_slug>/`, `status/`) | human |
-| F13 | no review record, a record that differs from the checkpoint, no ledger line, an approval no person gave, or an answer the play picked itself | re-render the checkpoint and re-write the review record with `write_drive_review.py`; append the missing `deferred_to_drive_review` line, or a correction refuting a made-up approval; drop the picked answer and ask the person | autonomous |
+| F13 | no review record, a record that differs from the checkpoint, no ledger line, an approval no person gave, or an answer the play picked itself | re-render the checkpoint and re-write the review record with `write_drive_review.py`; append the missing `deferred_to_drive_review` line, or a correction refuting a made-up approval; drop the picked answer and hand the question to the drive (`open-vision.json`; run by hand, ask the person) | autonomous |
 
 ## Pause and Resume
 
@@ -766,7 +767,7 @@ continues at the first end-sequence member that has not finished.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:65a10ca5a29a172da798b87b804f512a7aa33a779a1940de60576426c3205714 (of `reference/ice.md`) |
+| fingerprint | sha256:bc00efa6df41120c9b4fdab281a070b9d793cb9e19c5d7ad12c6ed845806a3a3 (of `reference/ice.md`) |
 | compiled_by | play-editor (#661 reads no memory; the run lives in its issue); play-editor (#614 runs inside a drive); play-editor (#637 one product model with /intent); play-editor (#616 position both); play-editor (#500 direct-model-write, ADR 026); prior: play-editor (#467 Batch B, #466 Batch C); play-creator (edited via play-editor, #437; spine+grounding+eval model) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close — #616) |
 | position_exception | model-writing both play — writes the model on the started branch and commits its own model delta (C9) BEFORE the injected end sequence lands it (same shape as /measure) |

@@ -237,15 +237,15 @@ seed:
   doc: <domain folder, from the domain's own doc in the spine>/<capability-slug>/capability.md
 ```
 
-With no answer, or a domain not in the spine, halt and say plainly what is needed (REC1) —
+Run by hand, with no answer or a domain not in the spine, halt and say plainly what is needed (REC1) —
 never fill the gap yourself; nothing has been opened yet, so there is nothing to clean up.
 `answered_by` is `human` only when the person typed the answers; the keyed persist refuses
 any other value. **Inside a drive (C13)** do not ask for a capability the contract answered:
 `pick_targets.py` already wrote its three answers from `run.json` `answers.seeds.<capability>`
 — a person gave them before the drive started — verbatim with `answered_by: human`. A
-capability still in `ask` (no answers in the contract, or a domain not in the spine) stops the
-drive: ask the person as above (ADR 029: a new question stops the drive); never fill a gap
-yourself. Each seed reaches the model only at Step 4, by the keyed persist (`--seed`),
+capability still in `ask` (no answers in the contract, or a domain not in the spine) is the
+drive's question (ADR 041): write it to `<review_dir>/open-understand.json` (drive contract,
+step 5), detail the other targets, and finish — never fill a gap yourself. Each seed reaches the model only at Step 4, by the keyed persist (`--seed`),
 inside this run's reviewed, guarded delta; Step 1 writes the capability's first
 `capability.md` straight at the detailed stage from the seed's answers and its KB shelf.
 
@@ -802,7 +802,7 @@ the detailed functionalities into end-to-end verticals and epics), and a pointer
 
 | For | Trigger | Direction | Handoff |
 |-----|---------|-----------|---------|
-| F1 | an absent capability has no recorded answers, its domain is not in the spine, or the target is already `detailed` | ask the person what the capability is, why it matters, and which existing domain it belongs to, and record the answers before seeding; with no answer or no such domain, halt and say plainly what is needed; an already-detailed capability is not re-detailed | human |
+| F1 | an absent capability has no recorded answers, its domain is not in the spine, or the target is already `detailed` | ask the person what the capability is, why it matters, and which existing domain it belongs to, and record the answers before seeding; with no answer or no such domain, halt and say plainly what is needed — inside a drive, write it to `open-understand.json` as the drive's question and detail the other targets (C13); an already-detailed capability is not re-detailed | human |
 | F2 | a grounding doc fails its template/shape, or a spine entry fails the schema or spine↔doc consistency | re-emit the failing doc or spine entry to conform and restore consistency before the checkpoint | autonomous |
 | F3 | a grounding doc fails the content-quality eval | rewrite the failing doc to the judge's cited fixes — raise each flagged section to a self-explaining, product-manager-altitude statement — and re-judge until the gate passes | autonomous |
 | F4 | the capability stayed directional, or a functionality lacks its entry or its doc | complete the promotion (flip the entry to `detail: detailed`) and emit the missing functionality entry or doc before the checkpoint | autonomous |
@@ -816,7 +816,7 @@ the detailed functionalities into end-to-end verticals and epics), and a pointer
 | F12 | a conditional-gate crossing left no live-eval ledger line, or an auto-pass fired for a shape the policy does not list as auto (or that carried a blocking finding) | re-append the missing ledger line for the recorded crossing; when the auto-pass was unearned, re-run the gate as a live wait — render the approval prompt and wait for the typed response — before proceeding | autonomous |
 | F13 | the product-os tree is dirty right after start-change (uncommitted model edits present) | halt and ask for a clean model tree — commit or revert the pending model edits — before /understand proceeds | human |
 | F14 | inside a drive the play opened an issue or branch, ran the end sequence, waited at its checkpoint, or worked off the drive's branch; or by hand it skipped a step | inside a drive, close the stray issue and branch, switch to the drive's branch, and write the review record in place of the wait; by hand, run the skipped step | human |
-| F15 | no review record, a record that differs from the checkpoint (a box-move missing as its own line), no ledger line, an approval no person gave, or an answer the play picked itself | re-render the checkpoint and re-write the review record with `write_drive_review.py`; append the missing `deferred_to_drive_review` line, or a correction refuting a made-up approval; drop the picked answer and ask the person | autonomous |
+| F15 | no review record, a record that differs from the checkpoint (a box-move missing as its own line), no ledger line, an approval no person gave, or an answer the play picked itself | re-render the checkpoint and re-write the review record with `write_drive_review.py`; append the missing `deferred_to_drive_review` line, or a correction refuting a made-up approval; drop the picked answer and hand the question to the drive (`open-understand.json`; run by hand, ask the person) | autonomous |
 | F16 | a pending capability left out, an unnamed one taken, a target measured against a box raised in the same run, or a part of the run committed while another target failed | re-pick the targets with `pick_targets.py`, re-run the roll-up with every target's manifest against the starting box, and re-render the checkpoint; when a target failed, revert the uncommitted delta and halt the whole run | autonomous |
 | F17 | a working file, an answer, a marker or a sub-play result sits outside `{stm_base}<issue>/`, or something was written to short-term memory before Step 0 gave the issue | move it into the issue's working root (or status folder), delete the stray copy, continue; before the issue is known, hold it in the scratch folder until Step 0 | autonomous |
 
@@ -838,7 +838,7 @@ reuses each `<working>/caps/<capability>/seed.yaml` rather than asking again.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:7a8aa966571a2d3b41ed222e2008832ad66a4d730d035d087abc08c8a70a4bc8 (of `reference/ice.md`) |
+| fingerprint | sha256:7f6e95a249dfeff9bb7eb235c0e6dcb541a42274133cec405d6d7634862bd011 (of `reference/ice.md`) |
 | compiled_by | play-editor (#661 reads no memory; the run lives in its issue); play-editor (#615 runs inside a drive; one run details every pending capability); play-editor (#616 stands alone); play-editor (#498 direct-model-write, ADR 026); prior: play-editor (#467 Batch B, #466 Batch C) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close — #616) |
 | position_exception | model-writing both play — writes the model on its own started branch and commits its own model delta (C12) BEFORE the injected end sequence lands it (same shape as /measure and /vision) |

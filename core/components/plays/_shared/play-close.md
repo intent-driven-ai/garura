@@ -28,7 +28,13 @@ Run these in order, with the values the play's close section sets.
 
 ### Step L — Load the templates
 
-Dispatch `template-manager`:
+Step L is not optional. Run it whenever C1 or C2 runs. Skip it only when both are skipped:
+evidence recording is off **and** the play runs as a sub-play or inside a drive (see
+"Sub-plays and drives"). A report written in the play's own words, because the templates were
+not loaded, is a failed close.
+
+Dispatch `template-manager`, asking only for what this close uses (`evidence-file.md` when C1
+runs; `delivery-report.md` and `pipeline-next.md` when C2 runs):
 
     { "task":    "load these templates into the issue's short-term memory",
       "inputs":  { "issue": <issue, or null for a run with no issue>,
@@ -36,8 +42,11 @@ Dispatch `template-manager`:
                                  "standards/templates/delivery-report.md",
                                  "standards/rules/pipeline-next.md"] },
       "outputs": { "out_dir": "<the run's short-term folder>/context/templates/",
-                   "manifest": "<the run's short-term folder>/context/templates/manifest.json" },
+                   "manifest": "<the run's short-term folder>/context/templates/manifest-close-<play>.json" },
       "task_id": "load-templates" }
+
+The manifest is named for the play, so it does not overwrite the manifest of the play's own
+template load, or of another play's close in the same issue.
 
 The run's short-term folder is `${stm_base}${issue}/` for a run with an issue, else the
 play's own working base under `${stm_base}` (for example `${stm_base}_realize/<play>/`). A
@@ -147,11 +156,16 @@ its own pre-flight; (2) else the earliest checkpoint or evidence timestamp of th
 (3) else the first task's move to `in_progress`. If none is known, write
 `started_at: unknown`.
 
-## Sub-plays
+## Sub-plays and drives
 
 A parent's JSON contract to a sub-play always carries `parent_run_id`. **Present ⇒ running as
 a sub-play ⇒ skip C2** (emit C1 and a compact result for the parent). **Absent ⇒ run by the
 user ⇒ do both C1 and C2.**
+
+A play inside a drive (`run.json` reads `in_drive: true`, from the drive contract) closes the
+same way as a sub-play: C1 as `evidence.record` says, no C2, and a compact result for the
+drive — its status, its stop-condition verdict, its evidence path (or the skip) and its review
+record. The drive renders the one delivery report for the whole run (drive contract, step 7).
 
 ## Non-blocking
 

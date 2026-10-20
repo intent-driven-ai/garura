@@ -1,0 +1,9 @@
+schema: {name: stop-condition}
+content:
+  done:
+    - id: D1
+      says: "the round's questions were grouped"
+      check: {type: artifact_exists, path: "question-groups.json"}
+    - id: D2
+      says: "every group is closed one honest way"
+      check: {type: field_equals, file: "memory-build-check.json", field: ok, equals: true}

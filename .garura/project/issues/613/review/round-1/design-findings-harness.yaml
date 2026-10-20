@@ -1,0 +1,191 @@
+# design-findings-harness.yaml — Layer 2 (design-grounding) for the harness category, PR #682 (#613 kickoff drive)
+# Base ref: main. Every principle below is read from a source that exists on main (git show main:<path>).
+# Nothing here is grounded in text the branch adds or rewrites. The branch's own prose (the Kickoff ICE,
+# drive-run.md, the plan, the run records) was read only as the thing under test.
+category: harness
+base: main
+playbook: review/harness
+grounding_sources_read:
+  - {path: docs/adr/029-drives.md, ref: main}
+  - {path: docs/adr/031-business-intent-and-ice.md, ref: main}
+  - {path: docs/adr/032-drive-review-of-outcomes.md, ref: main}
+  - {path: docs/adr/034-plays-answer-from-memory-inside-a-drive.md, ref: main}
+  - {path: docs/adr/035-agents-work-only-from-memory.md, ref: main}
+  - {path: docs/adr/036-approved-answer-lands-in-short-term-memory.md, ref: main}
+  - {path: docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md, ref: main}
+  - {path: docs/adr/004-agent-naming.md, ref: main}
+  - {path: core/grounding/glossary.md, ref: main}   # Drive, Skill, Agent, Agent-first pattern entries
+  - {path: core/components/memory/standards/rules/drive-contract.md, ref: main}
+  - {path: core/components/memory/standards/rules/pipeline-next.md, ref: main}
+  - {path: CLAUDE.md, ref: main}   # play pipeline rules; "no deviation notes or change logs in skill files"
+  - {path: .garura/project/issues/613/specs/plan.md, ref: main}   # the pre-branch plan (items 3 and 4, "leaves out")
+  - {path: ~/.phoenix/core/memory/knowledge/review/harness.md, ref: machine copy of Phoenix memory}
+grounding_unavailable: []
+
+principles:
+  - id: P1
+    says: "A drive, like any play, reads no memory. Its plays' agents read memory, only through the memory tool; a skill reads only what its agent puts in short-term memory."
+    sources: "docs/adr/039 §2 (main), core/grounding/glossary.md \"Drive\" (main), core/components/memory/standards/rules/drive-contract.md preamble \"A drive reads no memory, and neither do its plays\" (main)"
+  - id: P2
+    says: "A drive runs a trinity of work plays, in order, and has no rules of its own. A new question stops the drive (or, per ADR 034, stops it only when memory and the system hold nothing); the drive never picks an answer itself."
+    sources: "docs/adr/029 §1 and §2 (main), docs/adr/034 §1 and §3 (main), glossary \"Drive\" (main), drive-contract.md rule 5 as it stood on main"
+  - id: P3
+    says: "Every play a drive runs can also be run by hand and depends on no other play having run first."
+    sources: "docs/adr/029 §4 (main)"
+  - id: P4
+    says: "The person confirms or drops proposed intents at the drive's final review, in the intent review tool, not on the pull request. Until the tools exist a drive cannot close this way (ADR 032 consequence). Only a person confirms or drops an intent."
+    sources: "docs/adr/031 §5 (main), docs/adr/032 §2-§4 and Consequences (main)"
+  - id: P5
+    says: "A change to an earlier decision is an ADR. A design note alone does not amend ADR 029, 031, 032 or 034."
+    sources: ".garura/project/issues/613/specs/plan.md item 3 on main (\"anything that changes an earlier decision is an ADR\"), docs/adr/029 \"Amended in part by\" header pattern (main), docs/adr/024-amendment-record.md (main)"
+  - id: P6
+    says: "Agent-first: domain work is delegated to named agents (a {domain}-{role} agent that invokes skills). Skills are invoked only by agents, never by plays. A high-order play does not invoke domain agents directly."
+    sources: "core/grounding/glossary.md \"Skill\", \"Agent\", \"Agent-first pattern\", \"High-Order Play\" (main), docs/adr/001 (main), docs/adr/004 (main), CLAUDE.md Behavioral Rules 2 and 4 (main)"
+  - id: P7
+    says: "Kickoff ends with two outputs: the agents' product model, and for the person a plan and its issues. Done when the person has approved the plan and the plan and issues pass the plan check."
+    sources: "docs/adr/029 §6 (main)"
+  - id: P8
+    says: "Edit history belongs in the commit and the issue, never in skill files; no deviation notes or change logs."
+    sources: "CLAUDE.md \"Play Pipeline Rules\" (main)"
+  - id: P9
+    says: "An intent change to a play goes through its ICE source and is recompiled; the SKILL.md fingerprint must match reference/ice.md."
+    sources: "CLAUDE.md \"Play Pipeline Rules\" (main), glossary \"Compiled play\" / \"ICE source\" (main)"
+
+conformance_checked_and_held:
+  - "P9: the fingerprints of drives/kickoff, plays/build-memory, plays/intent and the compiled drive example each equal sha256 of their reference/ice.md (checked with shasum). The /intent change (C15, C16) edits ice.md and SKILL.md together; no hand-only intent edit."
+  - "P1 for the plays: /build-memory hands memory reads to the memory-builder agent through the memory tool; /intent's agents read memory through the tool; prototype-walker states 'You read no memory'; skills read only files their agent hands them."
+  - "ADR 036 §2 and ADR 035: draft-knowledge-page raises researched pages as memory updates in short-term memory, waiting for a person; memory-builder's fixed order is sources, then memory, then research, then the person; research is never used before approval."
+  - "ADR 031 §5: inside a drive /intent saves every intent as proposed; the drive forbids itself from confirming or changing an intent's state."
+  - "ADR 034 §3-§4: every answer carries a source (answers-sources.json; provenance values source, journey, memory, model, person); nothing is answered from the model alone."
+  - "ADR 029 §3 and ADR 039 §1: one issue, one branch, plays open nothing, everything written under {stm_base}<issue>/."
+  - "CLAUDE.md rule 4: memory-builder and prototype-walker gather context and hand the work to skills."
+  - "Pipeline-next rule on main: kickoff, build-memory, drive-creator and drive-editor are all listed or in meta_exempt."
+
+findings:
+  - id: DG-H1
+    severity: P2
+    file: core/components/drives/_shared/drive-run.md
+    also_in: "core/components/drives/kickoff/reference/ice.md (C3), core/components/drives/kickoff/SKILL.md (Step 2, SE-5), core/components/plays/drive-creator/SKILL.md"
+    principle: P1
+    basis: "ADR 039 §2 ('A drive follows the same rule'); glossary Drive ('Like any play, it reads no memory'); drive-contract.md preamble on main ('A drive reads no memory')."
+    finding: >
+      Step R3 tells the drive to 'look in memory first, through the memory tool' and to record answers
+      whose source is `memory` with tier, path and trace. Kickoff C3 and Step 2 repeat it. Step R5b also has
+      the drive mark memory updates approved or rejected through the memory tool. That makes the drive itself a
+      memory reader and a memory writer. The committed design says the drive reads no memory; only its plays'
+      agents do, through the tool. The same branch's drive-contract.md preamble (unchanged from main) and
+      Kickoff's own ICE Context cite ADR 039 for the opposite.
+    suggested_direction: >
+      Have the drive hand the question-lookup to a named agent (or to /build-memory's agent) and read back its
+      result, or record in an ADR that the drive may look up memory for its own opening questions.
+
+  - id: DG-H2
+    severity: P2
+    file: core/components/drives/_shared/drive-run.md
+    also_in: "core/components/drives/kickoff/reference/ice.md (C4, C5, S3), core/components/plays/intent/SKILL.md and reference/ice.md (C16, F16), core/components/memory/standards/rules/drive-contract.md rule 5, core/components/plays/drive-creator/SKILL.md"
+    principle: P2, P5
+    basis: "ADR 029 §2 ('A new question stops it ... the drive stops and asks'); ADR 034 §3 and §5 (the question stops the drive only when nothing supports an answer); glossary Drive ('stops only to ask a question that comes up mid-run', 'No rules of its own'); drive-contract.md rule 5 on main ('still stops the play'); base plan item 3 ('anything that changes an earlier decision is an ADR')."
+    finding: >
+      The branch changes how a drive handles a question nothing supports. Instead of stopping, the play keeps
+      going, saves its work with the gap marked open, and the drive loops all three plays again (rounds, a
+      round limit, 'again / ask'), asking the person only after a round that answered nothing new. /intent's
+      F16 now makes 'stopped to ask' a failure inside a drive, which reverses the base rule. The only recorded
+      basis is dated quotes (Kapil, 2026-10-20) written into the branch's own prose. No ADR on the branch (or on
+      main) amends ADR 029 §2 or ADR 034; the base plan said such a change is an ADR. The drive also now carries
+      a run loop and a round limit as rules of its own, against 'no rules of its own'.
+      ADR 034 itself names the risk this raises: later plays build on an assumption the person has not seen.
+    suggested_direction: >
+      Write the ADR (an amendment to 029 §2 and 034, naming the rounds loop and where questions are recorded)
+      and cite it from the ICE, drive-run.md and drive-contract.md, as ADR 034 was cited.
+
+  - id: DG-H3
+    severity: P3
+    file: core/components/plays/build-memory/SKILL.md
+    also_in: "core/components/memory/standards/rules/pipeline-next.md (\"never on their own\"), core/components/drives/_shared/drive-run.md (R5c), core/components/drives/kickoff/SKILL.md (Step 6c)"
+    principle: P3, P2, P5
+    basis: "ADR 029 §4 ('Every play a drive runs can also be run by hand ... depends on no other play having run first'); ADR 029 §1 ('aim ... three plays', a trinity); glossary Drive ('Runs Atomic Plays, ideally three')."
+    finding: >
+      /build-memory is user-invocable but hard-halts without a drive contract ('this play runs only inside a
+      drive'), and the Next map says drive members are run 'never on their own'. It is a fourth play inside the
+      Kickoff run (R5c, Step 6c), and drive-creator now builds this step into the fixed shape of every drive.
+      That departs from the trinity aim and from 'plays stand on their own' with no ADR.
+    suggested_direction: >
+      Record the exception (a member play that exists only for a drive) in the same ADR as DG-H2, or make the
+      play runnable by hand against a round's open questions.
+
+  - id: DG-H4
+    severity: P3
+    file: core/components/drives/kickoff/SKILL.md
+    also_in: "core/components/drives/kickoff/reference/ice.md (C7, F7, D6, End), core/components/drives/kickoff/scripts/record_confirmation.py, core/components/drives/kickoff/stop-condition.yaml"
+    principle: P4, P2, P5
+    basis: "ADR 032 §3 ('The pull request is not where the person reviews') and its Negative consequence ('Until [the two tools] are built, Kickoff cannot close'); ADR 031 §5 (confirm or drop at the drive's final review); ADR 029 §2 (no rules of its own); base plan on main, 'What this plan leaves out' (confirmed intents wait for #641-#650; until then the drive ends with the plays' review records and a pull request)."
+    finding: >
+      Kickoff adds Step 8: after the pull request is raised, the drive asks the person to type confirm or drop for
+      each intent and records the words in confirmation.yaml, and Done means D6 requires it. The intents stay
+      proposed, so a recorded 'drop' changes nothing and the merge still lands the dropped intent. ADR 032
+      says Kickoff cannot close until the review tools exist, and the base plan deliberately left this out.
+      ADR 035 §7 allows typed approval as a stand-in for memory and ADR approvals only, not for intents. The
+      drive's own Role says 'every rule about intents lives in the plays', yet the drive owns this intent step.
+      The stand-in is labelled and the drive never changes an intent's state, so it does not breach ADR 031's
+      'only a person confirms'; the gap is the missing decision record, and what a recorded 'drop' does.
+    suggested_direction: >
+      Name the stand-in and what a drop does (blocks the merge? is carried to #650?) in an ADR amendment to 032,
+      or in the ICE as an explicit open item.
+
+  - id: DG-H5
+    severity: P3
+    file: core/components/drives/_shared/drive-run.md
+    also_in: "core/components/skills/judge-drive-result/SKILL.md, core/components/drives/kickoff/SKILL.md (Step 7)"
+    principle: P6
+    basis: "glossary Skill ('Invoked only by agents, never directly by humans or plays'), Agent ('Named {domain}-{role}'), Agent-first pattern ('unconditional'), High-Order Play ('NOT: a play that invokes domain agents directly'); CLAUDE.md Behavioral Rule 2."
+    finding: >
+      The checker (R6) is an unnamed sub-agent on a chosen model told to 'judge this drive's result with the
+      judge-drive-result skill', or Codex reading SKILL.md. There is no agent definition that owns the check, so
+      a skill is invoked without an agent in the middle, and the drive hands domain judgement to an anonymous
+      sub-agent. ADR 029 §2 allows 'a different model, sub-agent, or coding agent', so the checker is grounded;
+      the missing piece is the agent that owns the skill, its contract and its failure protocol.
+    suggested_direction: >
+      Add a small checker agent ({domain}-{role}, e.g. a drive reviewer) that invokes judge-drive-result, or
+      record why the checker is exempt from agent-first in the same ADR.
+
+  - id: DG-H6
+    severity: P3
+    file: core/components/drives/kickoff/reference/ice.md
+    also_in: "core/components/drives/kickoff/SKILL.md"
+    principle: P7
+    basis: "ADR 029 §6 (Kickoff's goal has two outputs, a plan and its issues for the person; 'Done when: the person has approved the plan ... the plan and its issues exist and pass the plan check'); base plan on main, 'What this plan leaves out' (waiting on Kapil)."
+    finding: >
+      The Kickoff goal and Done means (D1-D7) say nothing about the person's plan and issues or about
+      approve-change. The base plan records that omission as an open item, but the ICE and the SKILL describe
+      Kickoff as complete without naming it, so a reader of the ICE would think ADR 029 §6 is met.
+    suggested_direction: "Name the omission in the ICE (as an out-of-scope line pointing at the plan item) until Kapil decides."
+
+  - id: DG-H7
+    severity: P4
+    file: core/components/drives/_shared/drive-run.md
+    also_in: "core/components/plays/_shared/play-close.md, core/components/skills/answer-from-source/SKILL.md, core/components/memory/standards/rules/drive-contract.md"
+    principle: P8
+    basis: "CLAUDE.md 'Play Pipeline Rules' on main: 'Claude reads the whole file on every run, and nothing reads edit history there. Add no deviation notes or change logs to skill files.'"
+    finding: >
+      Run history and dated quotes sit inside files read on every run: drive-run.md ('#613's third Kickoff run
+      lost /intent's walk that way'; 'Kapil, 2026-10-20'), play-close.md ('the #662 run closed all three Kickoff
+      plays that way'), answer-from-source ('#613's audit found 39 of 82 ...'; 'a question claimed ...'), and
+      drive-contract.md rule 5. They explain why a rule exists, not what to do, and are the kind of history the
+      rule keeps out. (The ICE source and ADRs may carry such provenance; these are not ICE sources.)
+    suggested_direction: "Move the incident references to the commit message or issue; keep the rule itself."
+
+  - id: DG-H8
+    severity: P4
+    file: core/components/agents/prototype-walker.md
+    principle: P6
+    basis: "ADR 004 ('{domain}-{role}' naming; one agent = one domain); the agent's own frontmatter (domain: business-intent, role: walker)."
+    finding: >
+      The file's own frontmatter gives domain `business-intent` and role `walker`, but the name is
+      `prototype-walker`, not `business-intent-walker`. business-intent-keeper and memory-builder follow
+      the pattern. Several existing agents do not (change-reviewer, scriber), so this is a nit.
+    suggested_direction: "Align the name with the domain-role pattern, or change the frontmatter domain."
+
+notes_for_the_orchestrator:
+  - "The harness playbook's `signals` list core/components/plays/**, skills/**, agents/**, grounding/** but not core/components/drives/**. This diff opens a new harness component kind (drives). Suggest adding the path signal. Drives were governed by content (compiled-play-shaped)."
+  - "Findings DG-H2, DG-H3 and DG-H4 share one root cause, a missing ADR for decisions dated 2026-10-20 that exist only as quotes in the branch. One ADR would clear all three, and parts of DG-H1 and DG-H5."
+  - "Memory-category files (drive-contract.md, run-status.md, pipeline-next.md, _index.md) are the other design-bearing dispatch; this file only cites them where the harness files depend on them."

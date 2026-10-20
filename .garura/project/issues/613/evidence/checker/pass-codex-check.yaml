@@ -1,0 +1,25 @@
+verdict: pass
+checker:
+  kind: coding-agent
+  model: "gpt-5.6-terra"
+criteria:
+  - id: "G"
+    result: pass
+    evidence: "change.diff adds the proposed, sourced business intent, the detailed ecommerce domain, and three detailed capabilities with their functionality pages; answers-sources.json and traces.json provide non-model sources."
+  - id: "C1"
+    result: pass
+    evidence: "change.diff adds intents/fewer-sales-lost-to-abandoned-carts.md with Stage: proposed and a statement source link."
+  - id: "C2"
+    result: pass
+    evidence: "change.diff adds the ecommerce domain in _spine.yaml and assigns abandoned-carts-today, abandoned-cart-reminders, and carts-won-back to it."
+  - id: "C3"
+    result: pass
+    evidence: "change.diff marks all three capabilities detail: detailed in _spine.yaml and adds their functionality documents; review/understand-20261020T045014Z-*.md confirms each is now detailed."
+  - id: "C4"
+    result: pass
+    evidence: "traces.json has ok: true, no problems, and 30 records each with a trace; answers-sources.json identifies both gathered answers as from person."
+  - id: "D1"
+    result: pass
+    evidence: "done/intent-done.json, done/vision-done.json, and done/understand-done.json each read done: true."
+failed: []
+reasons: []

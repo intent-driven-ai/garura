@@ -25,7 +25,7 @@ sys.path.insert(0, os.path.join(ROOT, "core", "components", "plays", "uninstall-
 import install  # noqa: E402
 import memory_system  # noqa: E402
 import uninstall  # noqa: E402
-from adapters import codex  # noqa: E402
+from adapters import claude, codex  # noqa: E402
 
 
 def git(repo, *args):
@@ -315,6 +315,88 @@ case "$url" in
   *) exit 22 ;;
 esac
 """
+
+
+class LaysDrives(unittest.TestCase):
+    """Drives live in core/components/drives/ (#613) and install as skills beside the plays."""
+
+    def setUp(self):
+        self.work = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, self.work, ignore_errors=True)
+        self.src = os.path.join(self.work, "components")
+        for rel, text in (("plays/start-change/SKILL.md", "---\nname: start-change\n---\n"),
+                          ("plays/_shared/play-close.md", "# close\n"),
+                          ("drives/kickoff/SKILL.md", "---\nname: kickoff\nkind: drive\n---\n"),
+                          ("drives/_shared/drive-run.md", "# run\n")):
+            path = os.path.join(self.src, rel)
+            os.makedirs(os.path.dirname(path), exist_ok=True)
+            with open(path, "w") as fh:
+                fh.write(text)
+        self.target = os.path.join(self.work, "shop")
+
+    def lay(self, adapter, allow=None):
+        with contextlib.redirect_stdout(io.StringIO()):
+            return adapter.lay_components(self.src, self.target, lambda _m: None, allow)
+
+    def test_claude_lays_a_drive_and_both_shared_files(self):
+        paths, counts, _ = self.lay(claude)
+        skills = os.path.join(self.target, ".claude", "skills")
+        self.assertEqual((counts["plays"], counts["drives"]), (1, 1))
+        self.assertTrue(os.path.isfile(os.path.join(skills, "kickoff", "SKILL.md")))
+        self.assertTrue(os.path.isfile(os.path.join(skills, "_shared", "play-close.md")))
+        self.assertTrue(os.path.isfile(os.path.join(skills, "_shared", "drive-run.md")))
+        self.assertIn(os.path.join(".claude", "skills", "kickoff"), paths)
+
+    def test_codex_lays_a_drive_too(self):
+        _, counts, _ = self.lay(codex)
+        skills = os.path.join(self.target, ".agents", "skills")
+        self.assertEqual(counts["drives"], 1)
+        self.assertTrue(os.path.isfile(os.path.join(skills, "_shared", "drive-run.md")))
+
+    def test_the_harness_scope_installs_no_drive(self):
+        allow = install.SCOPES["harness"]
+        _, counts, _ = self.lay(claude, {**allow, "plays": allow["plays"] | {"start-change"}})
+        self.assertEqual(counts["drives"], 0)
+        self.assertFalse(os.path.exists(os.path.join(self.target, ".claude", "skills", "kickoff")))
+
+    def test_the_full_scope_installs_every_drive_but_not_the_drive_builders(self):
+        scope = install.resolve_scope("full", os.path.join(ROOT, "core", "components"))
+        self.assertIsNone(scope["drives"])
+        self.assertNotIn("drive-creator", scope["plays"])
+        self.assertNotIn("drive-editor", scope["plays"])
+        self.assertIn("drive-creator", install.SCOPES["harness"]["plays"])
+
+    def test_the_config_points_drives_at_the_install_place(self):
+        text = install.transform_config("components:\n  drives: ./core/components/drives/\n"
+                                        "drives:\n  kickoff:\n    runner: subagent\n",
+                                        "shop", "claude")
+        self.assertIn("  drives: ./.claude/skills/", text)
+        self.assertIn("drives:\n  kickoff:", text)
+
+
+class InstallFindings(unittest.TestCase):
+    """What Kickoff's test runs found in the install (#613): K-0 and K-2."""
+
+    def test_the_record_writes_a_home_path_as_tilde(self):
+        home = os.path.expanduser("~")
+        self.assertEqual(install.portable(os.path.join(home, ".garura", "core", "memory")),
+                         os.path.join("~", ".garura", "core", "memory"))
+        self.assertEqual(install.portable("/opt/shared/memory"), "/opt/shared/memory")
+
+    def test_the_installed_skills_ignore_python_caches(self):
+        work = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, work, ignore_errors=True)
+        src = os.path.join(work, "components", "plays", "p")
+        os.makedirs(src)
+        with open(os.path.join(src, "SKILL.md"), "w") as fh:
+            fh.write("---\nname: p\n---\n")
+        with contextlib.redirect_stdout(io.StringIO()):
+            paths, _, _ = claude.lay_components(os.path.join(work, "components"), os.path.join(work, "t"),
+                                                lambda _m: None, None)
+        with open(os.path.join(work, "t", ".claude", "skills", ".gitignore")) as fh:
+            self.assertIn("__pycache__/", fh.read())
+        self.assertIn(os.path.join(".claude", "skills", ".gitignore"), paths)
+        self.assertIn("**/__pycache__/", install.STATUS_GITIGNORE)
 
 
 class PublicInstaller(unittest.TestCase):

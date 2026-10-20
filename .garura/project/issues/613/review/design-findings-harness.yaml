@@ -1,0 +1,294 @@
+# design-findings-harness.yaml — Layer 2 (design-grounding) for the harness category, PR #682 (#613 kickoff drive) — ROUND 2
+# Base ref: origin/main (504379ce). Every principle is read from a source that exists on origin/main
+# (git show origin/main:<path>). Nothing is grounded in text the branch adds or rewrites.
+# ADR 041 is added by this branch, so it is NOT grounding: it is a claim under review (see adr_041_claim_check).
+# Round-1 ids DG-H1..DG-H8 keep their number here as DG2-H1..DG2-H8. New round-2 problems are DG2-H9 onward.
+category: harness
+base: origin/main
+round: 2
+playbook: review/harness
+grounding_sources_read:
+  - {path: docs/adr/029-drives.md, ref: origin/main}
+  - {path: docs/adr/031-business-intent-and-ice.md, ref: origin/main}
+  - {path: docs/adr/032-drive-review-of-outcomes.md, ref: origin/main}
+  - {path: docs/adr/034-plays-answer-from-memory-inside-a-drive.md, ref: origin/main}
+  - {path: docs/adr/035-agents-work-only-from-memory.md, ref: origin/main}
+  - {path: docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md, ref: origin/main}
+  - {path: docs/adr/004-agent-naming.md, ref: origin/main}
+  - {path: core/grounding/glossary.md, ref: origin/main}
+  - {path: core/components/memory/standards/rules/pipeline-next.md, ref: origin/main}
+  - {path: core/components/memory/standards/rules/pr.md, ref: origin/main}
+  - {path: core/tools/memory/contract/v5.json, ref: origin/main}   # version 5.1.0 already allows decided_in: session
+  - {path: core/components/plays/*/SKILL.md (start-change, commit-change, propose-change, review-change, merge-change), ref: origin/main}
+  - {path: CLAUDE.md, ref: origin/main}
+  - {path: .garura/project/issues/613/specs/plan.md, ref: origin/main}   # "What this plan leaves out"
+  - {path: knowledge/review/harness.md, ref: Phoenix memory (review shelf, the harness playbook)}
+grounding_unavailable: []
+
+principles:
+  - {id: P1, says: "A drive reads no memory; its plays' agents read it, only through the memory tool. Only agents call the tool.", sources: "ADR 039 §2 and §10 (line on ADR 035 §4); glossary Drive"}
+  - {id: P2, says: "A drive runs a few plays in order and repeatedly until its intent is met; it never picks an answer itself; a new question stops the drive; it has no rules of its own beyond running its plays.", sources: "ADR 029 §1, §2; ADR 034 §3, §5; glossary Drive (in order and repeatedly)"}
+  - {id: P3, says: "Every play a drive runs can be run by hand and needs no other play to have run first.", sources: "ADR 029 §4"}
+  - {id: P4, says: "The review is the drive's last step, in the review tools; until they exist Kickoff cannot close; only a person confirms or drops an intent.", sources: "ADR 031 §5; ADR 032 §1, §3, §5 and Negative consequences"}
+  - {id: P5, says: "A change to an earlier decision is an ADR.", sources: "base plan item 3; ADR 029 'amended in part' header pattern"}
+  - {id: P6, says: "Agent-first: a skill is invoked by a named {domain}-{role} agent, not by a play.", sources: "glossary Skill, Agent, Agent-first; ADR 004; CLAUDE.md Behavioral Rules 2 and 4"}
+  - {id: P7, says: "Kickoff ends with a product model and, for the person, a plan and its issues.", sources: "ADR 029 §6; base plan 'What this plan leaves out'"}
+  - {id: P8, says: "Edit history belongs in the commit and the issue, never in skill files.", sources: "CLAUDE.md Play Pipeline Rules"}
+  - {id: P9, says: "An intent change goes through the ICE source and is recompiled; the SKILL fingerprint must equal sha256 of reference/ice.md.", sources: "CLAUDE.md Play Pipeline Rules; glossary Compiled play"}
+  - {id: P10, says: "A play that is user-invocable and listed in the Next map runs by hand on its own.", sources: "pipeline-next.md (commit-change, propose-change ... have their own commands); the five change plays carry user-invocable: true on origin/main"}
+
+adr_041_claim_check:
+  note: >
+    ADR 041 is a claim, not grounding. Each older ADR part it says it amends was read on origin/main.
+    Kapil accepted ADR 041, so a departure that ADR 041 names is recorded as resolved by ADR 041, not open.
+  parts_exist_on_base:
+    - "ADR 029 §2 'A new question stops it' and 'Questions first': exists on origin/main, quoted correctly."
+    - "ADR 029 §4 'Plays stand on their own': exists, quoted correctly."
+    - "ADR 034 §3 'Never from the model alone' (play asks the person; that question stops the drive) and §5's line on ADR 029 §2: exist, quoted correctly."
+    - "ADR 032 §1 'The review is the drive's last step' and §5 'The answers are applied as one commit' (dropped pieces removed): exist, quoted correctly."
+    - "ADR 039 §2 'A drive follows the same rule' and §10's line 'ADR 035 §4 - only agents call the tool': exist, quoted correctly."
+    - "Memory tool contract v5.1 (decided_in: session, until #664) exists on origin/main, so ADR 041 §8's reliance on it is true."
+  intent_kept:
+    - "ADR 029 §2 / ADR 034 §3: the drive still never picks an answer, nothing comes from the model alone, and a person is asked what nothing answers. The when changes (after rounds and /build-memory), the guarantee does not. Kept."
+    - "ADR 029 §4: its purpose is to break the hard chain between /vision and /understand. A member play (/build-memory) that runs only inside a drive does not restore any chain between the three. Kept for work plays."
+    - "ADR 032 §1/§5: NOT kept in full. A recorded drop no longer removes the intent from this merge until Argus exists. ADR 041 says so (part 7 and its Negative consequences) and bounds it ('Once Argus exists, ADR 032 §1 and §5 hold as written'). That is a named, accepted departure."
+    - "ADR 039 §2/§10: a non-agent (the drive) now calls the memory tool's decide. ADR 041 part 8 names it and limits it to recording a person's typed word. A named, accepted departure."
+  not_named_by_adr_041:
+    - "ADR 029 §2 'No rules of its own' (see DG2-H14), and ADR 032's Negative line 'Until then, Kickoff cannot close' (a risk line, not a decision; part 7 answers it in effect). Neither is a blocker."
+
+# ---------------------------------------------------------------------------------------------
+# Round-1 findings: did the round-2 change resolve them?
+# ---------------------------------------------------------------------------------------------
+findings:
+
+  - id: DG2-H1
+    round1: DG-H1
+    status: resolved
+    severity: P2
+    file: core/components/drives/_shared/drive-run.md
+    basis: "ADR 039 §2 and §10 (origin/main); glossary Drive; drive-contract.md preamble on origin/main."
+    finding: >
+      Fixed. Step R3 no longer has the drive look in memory: it asks only what the drive needs to start and says
+      'The drive reads no memory itself (ADR 039, ADR 041 §8)'. Kickoff C3 now reads 'The drive reads no memory itself
+      (ADR 039); its plays' agents do', and Kickoff Step 2 records only `from: person`. Step R5b still has the drive
+      call the memory tool's `decide` for a person's typed decision. That is a departure from ADR 039 §10 'only agents
+      call the tool', but ADR 041 part 8 names it, limits it to a person's typed word, and the tool's contract v5.1 on
+      origin/main already provides `decided_in: session`. Resolved by ADR 041. A leftover of the old reading is in the
+      drive-creator worked example (see DG2-H9).
+
+  - id: DG2-H2
+    round1: DG-H2
+    status: resolved
+    severity: P2
+    file: core/components/drives/_shared/drive-run.md
+    basis: "ADR 029 §2 and ADR 034 §3, §5 (origin/main); base plan item 3 'anything that changes an earlier decision is an ADR'."
+    finding: >
+      Fixed. ADR 041 now records the rounds loop, 'a question one play cannot answer is the drive's', and the
+      amendments to ADR 029 §2 and ADR 034 §3; the dated quotes in drive-run.md, drive-contract.md and run-status.md
+      are replaced by ADR 041 references. The amended parts exist on origin/main and the intent (never pick an answer,
+      nothing from the model alone, a person is asked what nothing answers) is kept; the one thing ADR 041 does not
+      name is ADR 029 §2 'No rules of its own' (DG2-H14, P4). /intent F16 and the vision/understand ICE now match.
+      Resolved.
+
+  - id: DG2-H3
+    round1: DG-H3
+    status: resolved
+    severity: P3
+    file: core/components/plays/build-memory/SKILL.md
+    basis: "ADR 029 §1 (aim at three plays) and §4 (plays stand on their own), origin/main."
+    finding: >
+      Fixed. ADR 041 parts 3 and 4 name /build-memory as a member play that runs only inside a drive and say ADR 029
+      §4 holds for a drive's work plays. ADR 029 §1 says 'aim' for three plays, so a fourth member play is not a
+      breach. The play's own text ('runs only inside a drive') matches. Resolved by ADR 041. The ADR's reason for it
+      contains a factual slip about the change plays (DG2-H11).
+
+  - id: DG2-H4
+    round1: DG-H4
+    status: resolved
+    severity: P3
+    file: core/components/drives/kickoff/SKILL.md
+    basis: "ADR 032 §1, §3, §5 and Negative consequences; ADR 031 §5; base plan 'What this plan leaves out' (origin/main)."
+    finding: >
+      Fixed. ADR 041 part 7 amends ADR 032 §1 and §5 for the time before Argus: the drive ends at the pull request, the
+      person's typed confirm or drop is recorded, intents stay `proposed`, a recorded drop is carried to the review and
+      does not remove the intent from this merge, and 'Once Argus exists, ADR 032 §1 and §5 hold as written'. The
+      missing decision record and the effect of a drop are now written down. Kickoff C7 and its End section match.
+      Resolved by ADR 041. The drive still never changes an intent's state, so ADR 031 'only a person confirms' holds.
+      Wording nit left over: DG2-H15.
+
+  - id: DG2-H5
+    round1: DG-H5
+    status: resolved
+    severity: P3
+    file: core/components/agents/drive-checker.md
+    basis: "glossary Skill ('invoked only by agents'), Agent-first pattern; ADR 004; CLAUDE.md Behavioral Rule 4 (origin/main)."
+    finding: >
+      Fixed for the sub-agent route. A named agent, `drive-checker`, now owns the check; it reads only the bundle,
+      invokes `judge-drive-result`, writes only the verdict, and has an input contract, an output contract and a
+      failure protocol that match drive-run.md R6. R6 now dispatches `drive-checker` on `checker.model`. The Codex
+      route reads the skill without an agent, which ADR 029 §2 allows ('a different model, sub-agent, or coding agent').
+      Resolved. Naming nit: DG2-H13.
+
+  - id: DG2-H6
+    round1: DG-H6
+    status: resolved
+    severity: P3
+    file: core/components/drives/kickoff/reference/ice.md
+    basis: "ADR 029 §6; base plan on origin/main, 'What this plan leaves out ... Waiting on Kapil'."
+    finding: >
+      Fixed in the ICE, which is the source of the drive's intent. A new 'Not built yet' note in Context says ADR 029
+      §6's second output (a plan and its issues, with approve-change in the done check) is not made by this drive and
+      is an open item on the #613 plan, waiting on Kapil. That matches the base plan. The compiled SKILL does not repeat
+      the note, which is acceptable for a compiled artifact.
+
+  - id: DG2-H7
+    round1: DG-H7
+    status: resolved
+    severity: P4
+    file: core/components/drives/_shared/drive-run.md
+    basis: "CLAUDE.md 'Play Pipeline Rules' on origin/main: no deviation notes or change logs in skill files."
+    finding: >
+      Fixed. Every run-history reference the round-1 review named is gone from the files read on every run:
+      drive-run.md (third Kickoff run, Kapil date), play-close.md (#662 run), answer-from-source (#613 audit and the
+      removed-piece case), drive-contract.md and run-status.md (dated quotes, now ADR references). Checked by reading
+      every line the branch adds to the drive, play, agent, skill, standards and glossary files: no dated quote or
+      incident reference remains outside ICE sources, ADRs and script docstrings. Resolved.
+
+  - id: DG2-H8
+    round1: DG-H8
+    status: resolved
+    severity: P4
+    file: core/components/agents/prototype-walker.md
+    basis: "ADR 004 ({domain}-{role}), origin/main."
+    finding: >
+      Fixed. The frontmatter domain is now `prototype` with role `walker`, so the name `prototype-walker` composes from
+      domain and role. docs/components/agents.md matches. Resolved. (The same pattern slip appears in the new
+      drive-checker: DG2-H13.)
+
+# ---------------------------------------------------------------------------------------------
+# New round-2 findings
+# ---------------------------------------------------------------------------------------------
+
+  - id: DG2-H9
+    round1: null
+    status: open
+    severity: P3
+    file: core/components/plays/drive-creator/references/compiled-drive-example/SKILL.md
+    also_in: "core/components/plays/drive-creator/references/compiled-drive-example/reference/ice.md (goal, C2, F2 recovery)"
+    principle: P1, P2
+    basis: "ADR 039 §2 and glossary Drive (origin/main): a drive reads no memory. ADR 029 §2 (drive loops its plays). The branch's own drive-run.md R3/R5 are the target shape, but the claim rests on the base ADRs."
+    finding: >
+      The worked example that `/drive-creator` copies the shape of for every new drive still teaches the old reading.
+      Its Step 2 says 'Run R3: ask ... memory first' and its eval says an answer's source is 'memory, or the person's typed
+      words'; its ICE goal says 'no stop except a question memory cannot answer' and C2 says 'a question memory and the
+      answers do not cover stops the drive and goes to the person'; its F2 recovery says 'stop, ask the person'. Shared
+      drive-run.md R3 now says the drive reads no memory, and R5 loops in rounds. The example also lists 11 scripts and
+      no round step, while its scripts/ folder holds 13 (round_state.py and drive_status.py included) and drive-creator
+      SKILL step 3 says steps run 'in rounds'. A new drive built from this example would carry the first-build
+      reading ADR 041 replaces, and its SKILL would drift from the shared run. `lint_drive.py` does not catch it.
+    suggested_direction: >
+      Bring the example's ICE and SKILL to the shared run: R3 asks only the drive's own questions and reads no memory;
+      a play's open question is the drive's; add the round step and fix the script list.
+
+  - id: DG2-H10
+    round1: null
+    status: open
+    severity: P3
+    file: core/components/plays/understand/reference/ice.md
+    also_in: "core/components/plays/understand/SKILL.md (F1 recovery, Step 0a first lines); ICE F1 / REC1 recovery"
+    principle: P2, P9
+    basis: "ADR 029 §2 / ADR 034 §3 (origin/main) as the branch now reads them through ADR 041 (the play records the question for the drive and finishes); CLAUDE.md Play Pipeline Rules: an intent must agree with itself and with its compiled SKILL."
+    finding: >
+      Round 2 changed /understand C13 and the SKILL Step 0a drive case so a capability with no answers becomes the
+      drive's question (`open-understand.json`) and the play finishes the other targets. Three other lines in the same
+      ICE and SKILL still say the opposite: C1 ('With no answers in the contract, the play stops and asks the person
+      before any model write'), the F1 failure's recovery ('ask the person what the capability is ... record the answers
+      before seeding', in the SKILL table and as REC1 in the ICE), and the SKILL's Step 0a rule 'With no answer ... halt'.
+      Read together, a drive run is told both to hand the question to the drive and to stop and ask. The fingerprint
+      matches the ICE, so the compiled SKILL has not drifted; the ICE disagrees with itself.
+    suggested_direction: >
+      Edit C1 and F1/REC1 through /play-editor to say 'by hand: ask; inside a drive: the drive's question (C13)', and
+      recompile.
+
+  - id: DG2-H11
+    round1: null
+    status: open
+    severity: P3
+    file: core/grounding/glossary.md
+    also_in: "docs/adr/041-a-drive-runs-in-rounds-and-owns-its-questions.md (part 4: 'as the change plays a drive injects do')"
+    principle: P10, P3
+    basis: "pipeline-next.md on origin/main (commit-change -> propose-change -> review-change -> merge-change each have their own command; /start-change listed); the five change plays carry user-invocable: true on origin/main. ADR 029 §4."
+    finding: >
+      The glossary Drive entry now says 'Its member plays (the change plays and /build-memory) run only inside it', and
+      ADR 041 part 4 justifies /build-memory 'as the change plays a drive injects do'. On origin/main the change plays are
+      user-invocable and are run by hand as their own commands, so they do not run only inside a drive. Only
+      /build-memory does. The glossary is the project's grounding vocabulary, so the slip would mislead later
+      reviews and play-creator.
+    suggested_direction: "Say 'its member play /build-memory runs only inside it'; the change plays are injected by a drive and also run by hand."
+
+  - id: DG2-H12
+    round1: null
+    status: open
+    severity: P3
+    file: docs/adr/041-a-drive-runs-in-rounds-and-owns-its-questions.md
+    also_in: "docs/adr/029-drives.md, 032-..., 034-..., 039-... (Status lines)"
+    principle: P5
+    basis: "ADR 029 'amended in part by' header pattern on origin/main: each pointer names the section and what changes."
+    finding: >
+      The ADR does not match the branch it lands with. Its 'Affects' list, its ICE impact, its Negative consequences
+      and its Work This Creates items 1 to 3 say the glossary Drive entry, /vision C11, /understand C13 and the note in
+      Kickoff's ICE 'still say the old reading'. Round 2 already changed all four, so those items are done, not open. The
+      same list leaves out what does still say the old reading: /understand C1 and its F1 recovery (DG2-H10) and the
+      drive-creator example (DG2-H9). Separately, the four Status lines added to ADRs 029, 032, 034 and 039 say only
+      'amended in part by ADR 041', where every neighbouring pointer on those lines names the section and the change
+      (ADR 034's bare pointer to ADR 039 is the one precedent for the short form).
+    suggested_direction: >
+      Reconcile the ADR's Affects, Negative and Work lists with what the branch did; name the amended parts in the four
+      Status lines.
+
+  - id: DG2-H13
+    round1: null
+    status: open
+    severity: P4
+    file: core/components/agents/drive-checker.md
+    principle: P6
+    basis: "ADR 004 ({domain}-{role}); the round-1 DG-H8 fix to prototype-walker set the same standard (origin/main: business-intent-keeper = business-intent + keeper)."
+    finding: >
+      The agent's frontmatter gives domain `drive-check` and role `checker`, which compose to `drive-check-checker`,
+      not `drive-checker`. Domain `drive` with role `checker` would match the name.
+    suggested_direction: "Set domain: drive (and **Domain:** line to match), or accept the nit."
+
+  - id: DG2-H14
+    round1: null
+    status: open
+    severity: P4
+    file: core/components/drives/_shared/drive-run.md
+    principle: P2
+    basis: "ADR 029 §2: 'No rules of its own. The drive's one rule is to run its plays.' ADR 041 does not list this line among the parts it amends."
+    finding: >
+      The opening paragraph still says a drive 'carries no rules of its own (ADR 029)', while the same file now holds a
+      round loop, a round limit, an ask rule and a fixed member-play step (R5, R5c, R5b). The glossary supports
+      'in order and repeatedly', so the loop is grounded; the round limit and the ask rule are the drive's own logic and
+      ADR 041 does not say how they sit beside 'no rules of its own'. Also, R5 step 2 still describes the play's
+      compact result as including 'any question it stopped on', although step 3 says a play does not stop.
+    suggested_direction: "Add 'No rules of its own' to ADR 041's amended parts (or say the loop and limit are running its plays), and change 'stopped on' to 'left open'."
+
+  - id: DG2-H15
+    round1: null
+    status: open
+    severity: P4
+    file: core/components/drives/kickoff/reference/ice.md
+    also_in: "core/components/drives/kickoff/SKILL.md (intro line and description)"
+    principle: P4
+    basis: "ADR 031 §5 and ADR 032 (origin/main): only a person confirms or drops an intent, at the review; ADR 041 part 7: intents stay proposed until Argus."
+    finding: >
+      The Goal says the drive ends 'with business intents the person has decided', and D6 says 'the person decided every
+      proposed intent'. C7 and ADR 041 part 7 say the intents stay `proposed` and a typed drop changes nothing in the
+      model. A reader of the Goal would think the intents were confirmed. The compiled SKILL repeats the Goal wording.
+    suggested_direction: "Say 'business intents the person has been asked about, their answers recorded' in the Goal and D6, through the ICE and a recompile."
+
+notes_for_the_orchestrator:
+  - "Fingerprints: kickoff, vision, understand, intent, build-memory and the compiled drive example each equal sha256 of their reference/ice.md (checked with shasum). The Kickoff, vision and understand fingerprints were updated with their ICE edits in round 2. lint_drive.py passes on drives/kickoff/SKILL.md."
+  - "DG2-H10 and DG2-H12 share a cause with round 1's DG-H2: the old reading was fixed in the lines the author searched for, not in every line. A search of each edited ICE for 'stops', 'asks the person' and 'memory first' found these."
+  - "The harness playbook's path signals still omit core/components/drives/**; this diff is a drives change. Suggest adding it."
+  - "Open counts: P1 0, P2 0, P3 4 (DG2-H9, H10, H11, H12), P4 3 (DG2-H13, H14, H15). Resolved: DG2-H1 to DG2-H8."

@@ -4,6 +4,7 @@ domain: business-intent
 role: keeper
 description: "Drafts the two levels of intent a person's source holds: the person's Business Intents (what they want for the business, with why it matters and how we will know it is met) and, under each, the ICE goals the source shows (the separate things the person must see, decide or do). Reads what the person shared (a prototype's snapshot, a document, a statement) and their answers, drafts through the author-business-intent skill, and checks the draft before handing it back: one ICE per separate thing and nothing left out, every ICE under a business intent, intents one 'why?' above what the source shows, outcome not build, every property backed by the source or the person, example answers on every question, nothing copied, plain words. Draft only — never confirms an intent and never writes the product model. Used by /intent."
 model: opus
+effort: high
 tools:
   - Read
   - Glob
@@ -35,16 +36,19 @@ the two levels apart and connected: the ICE say what the person must see and dec
 as the source goes; the business intents above them say what the person wants for the
 business, not what the source shows; nothing in either is guessed.
 
-Given a contract, YOU:
+Given the contract, YOU:
 - GATHER the context: the ontology's Business Intent and ICE kinds (properties and rules),
   every source manifest named to you and every snapshot file each one lists (look at each
-  screenshot, read its text and each document), and the person's answers when they exist.
-- INVOKE `author-business-intent` to write the draft.
+  screenshot, read its text and each document), the prototype's journeys (`journeys.yaml`)
+  when the source is a prototype, and the person's answers when they exist.
+- INVOKE `author-business-intent` to write the draft — from the journeys, for a prototype.
 - VERIFY by judgment — the script cannot do this: walk every screenshot and document again and
   confirm each page, tab and section has a part in the coverage map; that no single ICE
   carries separate things a person gets for different reasons; and that each business intent
-  answers "why?" for its ICE instead of restating what the source shows. A gap, a merge or a
-  restated intent goes back to the skill, naming it.
+  answers "why?" for its ICE instead of restating what the source shows. For a prototype,
+  each business intent names the journey it came from and says what that journey's person
+  gets — never a rule the system enforces (C15). A gap, a merge, a restated intent or a rule
+  goes back to the skill, naming it.
 - VERIFY the rest mechanically: run the check script named in the contract against the draft,
   every source manifest, the sources' readable text (one `--source-text` per readable
   snapshot file), and the answers record (`--answers`) when there is one. A problem it finds other than a question for the person goes back to the
@@ -66,7 +70,19 @@ tool (the memory guide says how; `--issue` is the contract's `issue`), copy it u
 `<working>/memory/<its path>`, and hand the skill that copy. Record what you read with `cite`
 (the question "which kinds and rules does this draft follow", the answer, and the ontology's
 tier, path, lines and fingerprint). Never read the ontology by a path in memory. Read all of
-it before you invoke the skill. Do no outside research: a fact the
+it before you invoke the skill.
+
+**What the product is, from memory first (C5, C16).** A prototype shows screens, not where the
+product sits or who it is for. Before the skill drafts, look in memory — through the memory
+tool, in its lookup order — for what the product is, the domain it belongs to and the people
+who use it (for example, that a review tool inside Garura is used by the different people of
+a software team). Copy what you find into `<working>/memory/`, hand it to the skill as context,
+and `cite` it; a property drawn from it has provenance `memory`. When no tier holds what the
+draft needs and research can answer it, raise a memory update (`propose`, `draft_source: web`)
+— it waits for a person, and nothing rests on it until approved (ADR 035); the gap stays open
+with its question. On a later round of a drive (the contract's `round` above 1), also read what
+`/vision` and `/understand` wrote in the model (`model`, read only) — the domain, its
+capabilities, their docs — and fill what it answers (provenance `model`). Do no outside research: a fact the
 sources do not show and the person did not say is a question for the person, never a gap you
 fill (P11 exempt — you work only on what you are given).
 
@@ -88,6 +104,8 @@ fill (P11 exempt — you work only on what you are given).
     "source_manifests": ["<working>/source-manifest-<name>.json", "<one per Source>"],
     "answers": "<working>/answers.yaml | null",
     "issue": "<the run's issue>",
+    "round": "<the drive's round — absent run by hand>",
+    "model": "<product_base>product-os/ (read only, on a later round)",
     "ontology": "standards/schemas/product-os/ontology.md (the config's product.ontology)",
     "check_script": "<play-dir>/scripts/check_intent.py"
   },
@@ -101,6 +119,9 @@ fill (P11 exempt — you work only on what you are given).
 
 A project folder gives two manifests (its written docs and the running app); both are read
 together.
+
+For a prototype the contract adds `"journeys": "<working>/journeys.yaml"` to its inputs —
+written before you by `prototype-walker` (/intent's Walk step).
 
 ## Output Contract
 

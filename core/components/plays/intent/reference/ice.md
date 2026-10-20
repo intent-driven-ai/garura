@@ -39,6 +39,11 @@ play pulls out what the person wants; it never copies how the source does it.
 - C1 — Source accepted: the source is anything that explains the intent — a prototype (a file,
   a project folder, or a deployed solution), a document, or a plain statement. It must be readable at the time of
   the run; a runnable source is also run through, so what it does is seen, not only what it says.
+  A prototype is run through **view by view**: the play itself finds every view it offers — each
+  tab, button or link that changes what is shown, up to two clicks deep — and keeps each one; a
+  view it could not reach is recorded with why. Reading only the first screen of a prototype
+  that offers more is not reading it (#613: the Argus mockup's first run saw one screen of six
+  sections and drafted intents that missed what Argus does).
 - C2 — Each Business Intent carries every required property of its ontology kind — title,
   outcome, why, asked by, proof it is met, stage — and may carry "must not". It is written for
   a business reader, in plain words, readable with no other document open.
@@ -53,9 +58,12 @@ play pulls out what the person wants; it never copies how the source does it.
   questions, but the intents are saved as `proposed`, and the person confirms or drops them at
   the drive's final review (the review and the pull request at its end). Until then their ICE
   is not workable.
-- C5 — Nothing invented: every outcome, reason, proof and limit traces either to what the
-  source shows or to the person's own answers; where the source cannot say (who asked, why,
-  how we will know), the play asks the person and never fills the gap itself.
+- C5 — Nothing invented: every outcome, reason, proof and limit traces to what the source shows,
+  to the journeys walked through it (who uses it — the roles a journey's person plays), to
+  memory (found through the memory tool, with its trace), to what the drive's other plays wrote
+  in the product model, or to the person's own answers. Where none of these can say, the play
+  never fills the gap itself: run by hand it asks the person; inside a drive the gap is the
+  drive's question (C16).
 - C6 — The Source is kept as it was when read: a snapshot (screenshots and images for a
   deployed solution; a copy of the file for a file or a document; the exact text for a
   statement), with when it was read, what it shows in
@@ -114,11 +122,31 @@ play pulls out what the person wants; it never copies how the source does it.
   written to short-term memory before `start-change` gives the issue: what the pre-flight
   records is held in a scratch folder outside `.garura/` and moved into the issue right after
   Step 0, so a pre-flight halt leaves no issue, no branch and no file behind.
+- C15 — A prototype is understood by using it (Kapil, 2026-10-20: "it should try to run, create
+  journey steps, and understand it, even deeply"). Before drafting, the play walks the prototype
+  as the people it serves would: journeys of **who**, what they **set out to do**, each **step**
+  and what it showed, and what they **end with** — kept with the Source as evidence. The intents
+  are drafted from the journeys: each business intent from what a journey's person sets out to
+  get for the business, each ICE from the steps that get it. A business intent says what a
+  person or the business gets, never a rule the system enforces. Every view the capture kept is
+  on a journey, or named as not walked with why. On a deployed site, a step that changes data
+  (pay, delete, submit, accept …) is taken only when the person said the site is safe for it;
+  on a file or a local prototype nothing real changes, so any step may be taken.
+- C16 — Inside a drive, a question `/intent` cannot answer is the **drive's**, not a stop (Kapil,
+  2026-10-20: "the question belongs to the whole drive"). First it looks in memory for what
+  the product is and who uses it — and drafts a memory update when research can answer
+  (ADR 035: used only once a person approves it). What is still open, it saves as a proposed
+  intent with each gap named as open, writes its open questions for the drive (each with what
+  it is about, whether a person must answer it, and example answers), and finishes. On a later
+  round of the drive it reads what `/vision` and `/understand` wrote in the product model,
+  fills what it can, and updates its own proposed intents — only those this drive saved. It
+  never stops the drive to ask; the drive asks the person what no play could answer.
 
 ### Failure conditions
 
 - F1 — The source could not be read — or, for a runnable source, could not be run through —
-  and the play went on anyway.
+  and the play went on anyway; or a prototype was kept from fewer views than it offers: a view
+  the play could reach was not kept, or a view it could not reach is not recorded.
 - F2 — A Business Intent is missing a required property, or is not readable by a business
   reader (labels, jargon, or a section that does not explain itself).
 - F3 — A Business Intent describes the source — screens, fields, copied text, how it
@@ -150,6 +178,15 @@ play pulls out what the person wants; it never copies how the source does it.
 - F14 — The run wrote short-term memory outside its issue's folder: a working file, a person's
   answer, a status marker, a sub-play result or a Source's snapshot under any other folder, or,
   run by hand, anything written to short-term memory before `start-change` gave the issue.
+- F15 — A prototype's intents were drafted without walking it in journeys; a journey lacks who,
+  what they set out to do, its steps or what they end with; a captured view is neither on a
+  journey nor named as not walked; a business intent is a rule the system enforces rather than
+  what a person gets; or a step that changes data ran on a deployed site the person had not
+  cleared.
+- F16 — Inside a drive, `/intent` stopped to ask the person instead of handing its open
+  questions to the drive; saved an intent with a gap not named as open; wrote an open question
+  without what it is about or example answers; on a later round left open a gap that the
+  product model or memory now answers; or changed an intent this drive did not save.
 
 ## Context
 
@@ -187,7 +224,9 @@ in memory.
   want, when `/intent` runs and the person confirms, then each confirmed Business Intent and
   the Source exist, linked both ways, and the change is landed. Measure: the intent manifest
   reads `decided: true` and `stage: confirmed`, each saved intent has `confirmed_by` set
-  and every required property present; the Source manifest lists at least one screenshot under
+  and every required property present; the Source manifest lists a screenshot and the text of
+  every view the prototype offers (`views.kept` equals `views.found`, or each one missed is in
+  `views.unreached` with why) under
   the evidence folder; the intent manifest reads `linked: true`; the scoped guard reads ok;
   merge-change reports the PR merged.
 - S2 — (founder, from a plain statement) Given only a written statement of what they want,
@@ -230,6 +269,18 @@ in memory.
   them, then each comes with example answers, and the record shows which replies picked an
   example. Measure: every answer in the answers record lists the examples offered, and every
   reply that matches an offered example is marked picked.
+- S9 — (product owner, a prototype with many views) Given a working prototype that offers many
+  views and flows, when `/intent` runs, then it walks the prototype in journeys before drafting,
+  every view the capture kept is on a journey or named as not walked, and each business intent
+  traces to what a journey's person sets out to get. Measure: `journeys-check.json` reads
+  `ok: true`; every business intent in the draft names the journey it came from.
+- S10 — (Kickoff drive, a gap only the drive can fill) Given a prototype that shows who uses it but
+  not the product's domain or why it matters, when `/intent` runs inside a drive, then it saves
+  its intents as proposed with the gaps named, writes its open questions for the drive, and
+  does not stop; on the next round it fills what `/vision` and `/understand` made known.
+  Measure: round 1's `open-intent.json` lists every gap; no question was put to a person by
+  `/intent`; round 2's intent pages fill at least one gap round 1 left open, and every filled
+  property's provenance is `source`, `journey`, `memory`, `model` or `person`.
 
 ### Done means
 
@@ -252,9 +303,11 @@ captured scoped-write guard output.
 
 ### Recovery (one per failure condition)
 
-- REC1 (F1) — trigger: the source could not be read or run through. direction: halt and tell
-  the person exactly what could not be opened; ask for a readable copy or a working link.
-  handoff: human.
+- REC1 (F1) — trigger: the source could not be read or run through, or a prototype was kept
+  from fewer views than it offers. direction: halt and tell the person exactly what could not be
+  opened, and ask for a readable copy or a working link; for missing views, capture again with
+  every view found, and name to the person each view that still cannot be reached. handoff:
+  human.
 - REC2 (F2) — trigger: a required property is missing, or a section does not read for a
   business reader. direction: ask the person for the missing property; rewrite the unclear
   section in plain words; re-check before confirmation. handoff: autonomous.
@@ -298,3 +351,16 @@ captured scoped-write guard output.
   gave the issue. direction: move it into the issue's working folder (or status or evidence
   folder), delete the stray copy, and continue; when the issue is not known yet, hold it in the
   scratch folder until Step 0. handoff: autonomous.
+
+- REC15 (F15) — trigger: the intents were drafted without journeys, a journey is incomplete, a
+  view is on no journey and not named, a business intent is a rule rather than what a person
+  gets, or a data-changing step ran on a deployed site not cleared. direction: walk the missing
+  journeys (or name each view not walked, with why), redraft the business intents from the
+  journeys' goals; for a deployed site, ask the person whether a data-changing step is safe
+  before taking it. handoff: autonomous.
+
+- REC16 (F16) — trigger: inside a drive `/intent` stopped to ask, saved an unnamed gap, wrote an
+  open question without its context, left a gap the model or memory now answers, or changed an
+  intent this drive did not save. direction: hand the questions to the drive instead; name
+  every gap as open with its question; on the next round re-read the model and memory and fill
+  what they answer; restore any intent this drive did not save. handoff: autonomous.

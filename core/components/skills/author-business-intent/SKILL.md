@@ -27,6 +27,9 @@ wants, and leave how the source does it behind (IDD Principle 1).
 | Field | Required | Meaning |
 |-------|----------|---------|
 | `source_manifests` | yes | One or more Source manifests — each with its kind, `snapshot_dir` and snapshot files (screenshots with their text, page HTML, the copied file, or the statement text). A project folder gives two: its written docs and the running app. All are read together |
+| `journeys` | for a prototype | The prototype's journeys (`journeys.yaml`, from `walk-prototype`): who it serves, what each sets out to do, the steps walked and what they showed, what they end with. A prototype's intents are drafted from these (C15) |
+| `memory_context` | no | What the agent found in memory about the product — what it is, its domain, who uses it — as short-term copies |
+| `model` | no | On a later round of a drive: the product model the drive's other plays wrote (read only) |
 | `answers` | no | The person's answers so far (`<working>/answers.yaml`): replies to earlier questions (with the examples offered and whether one was picked), intents they stated, items they named as missing or merged, and any correction |
 | `draft_path` | yes | Where to write the draft (`<working>/intent-draft.yaml`) |
 | `ontology_path` | yes | The ontology, copied into short-term memory by the agent through the memory tool. Read this copy — never memory itself (ADR 039). |
@@ -34,6 +37,20 @@ wants, and leave how the source does it behind (IDD Principle 1).
 
 ## Process
 
+0. **For a prototype, start from its journeys.** Each journey's person and what they set out
+   to do is where a business intent comes from: ask "why does this person want that?" until
+   the answer is what the person or the business gets — then that is the business intent, and
+   it names the journey (`from_journey`). A business intent is never a rule the system enforces
+   ("agents work only from approved knowledge" is a rule; "a product owner signs off
+   everything a drive made in one sitting" is what a person gets). The steps of a journey are
+   where its ICE come from. Sample data inside a prototype is sample data, not the product.
+   **Who asks comes from the journeys.** The people a journey walks as (`who`) are the roles
+   that want what it gets: write `asked_by` from them (provenance `journey`), sharpened by
+   memory when it says more (provenance `memory`). Ask the person only when neither shows it.
+   **Use what memory and the model hold.** Context the agent copied from memory (what the
+   product is, its domain, who uses it) and, on a later round of a drive, what the model holds
+   (the domain and capabilities `/vision` and `/understand` wrote) may fill `why`, `proof` and
+   `asked_by` — provenance `memory` or `model`, never a guess.
 1. **Read the ontology's Business Intent and ICE kinds** — their properties and rules. Then
    read every snapshot file every manifest lists: look at every screenshot (one per page or
    tab) and read its text, the documents, or the statement.
@@ -132,3 +149,16 @@ questions:
 - **Outcome, not build.** Nothing that describes the source belongs in an intent or an ICE goal.
 - **Nothing invented.** A property with no source and no answer stays empty, with a question and examples. A domain is named only when something shows it.
 - **Plain words.** The draft is read by a business person.
+
+## Questions that make sense to the person
+
+A question is for whoever shared the source — for Kickoff, the person who gave the prototype.
+Write each one so that person can answer it without knowing Garura's words:
+
+- Ask about something they have seen: name the intent or part in their words, never an id.
+- One question, once: when the same question applies to several intents (who asks, why it
+  matters), ask it once with `intent: all` — never once per intent.
+- Say what it is for in one plain clause ("so the agents know who to build it for").
+- Give up to three example answers, drawn from the journeys and memory, not made up.
+- Record `intent`, the `property` it fills (`why`, `asked_by`, `proof`, or another), `ask`,
+  `examples`, and `for_person: false` when a later play or memory may still answer it.

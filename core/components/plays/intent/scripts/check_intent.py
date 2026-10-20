@@ -58,6 +58,8 @@ import sys
 
 import yaml
 
+# where a property may come from (C5): never the model alone
+PROVENANCE = {"source", "journey", "memory", "model", "person"}
 REQUIRED = ["title", "outcome", "why", "asked_by", "proof"]
 PROSE = ["title", "outcome", "why", "proof", "must_not"]
 COPY_RUN = 8
@@ -138,9 +140,10 @@ def check_intents(intents, open_q, src_words, person, other):
         for prop in REQUIRED + ["must_not"]:
             if str(intent.get(prop) or "").strip():
                 where = str(prov.get(prop) or "").strip().lower()
-                if where not in {"source", "person"}:
+                if where not in PROVENANCE:
                     other.append(f"[{iid}] `{prop}` has provenance `{where or 'none'}` — it must come "
-                                 f"from the source or the person, never be invented")
+                                 f"from the source, its journeys, memory, the product model or the "
+                                 f"person, never be invented")
         for prop in ("title", "outcome", "proof"):
             plain_text(f"[{iid}] `{prop}`", str(intent.get(prop) or ""), src_words, other)
         for prop in PROSE:

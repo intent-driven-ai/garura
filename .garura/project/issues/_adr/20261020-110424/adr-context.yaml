@@ -1,0 +1,148 @@
+# Context for the decision record — gathered by adr-keeper, 2026-10-20 (issue #613)
+shape: markdown
+number: "041"
+draft_path: .garura/project/issues/_adr/20261020-110424/adr-draft.md
+target_file: docs/adr/041-a-drive-runs-in-rounds-and-owns-its-questions.md
+suggested_title: "A Drive Runs Its Plays in Rounds, Owns the Questions No Play Can Answer, and Builds the Missing Memory Before It Asks"
+template_path: ~/.phoenix/core/memory/standards/templates/adr.md   # read through the memory tool (tier phoenix, version 7d4d49d88654); same text as core/components/memory/standards/templates/adr.md
+brief: .garura/project/issues/_adr/20261020-110424/brief.md
+status: proposed
+date: 2026-10-20
+level: framework
+decided_by_from_brief: Kapil Viren Ahuja   # the brief names him; the skill leaves "Decided by" for acceptance unless the template's lint requires it
+decided_in: "#613 (the Kickoff drive), PR #682 — the session of 20 October 2026, after Kickoff runs 1-5 on the Argus mockup (.garura/project/issues/613/evidence/kickoff-run/findings.md)"
+
+keeper_note_on_the_brief: >
+  The brief says the decision clarifies ADR 029 §2 and §4 and ADR 034 §3 and changes none of their
+  intent. The keeper agrees the intent of those parts stands (a drive never picks an answer for
+  itself; nothing comes from the model alone). But the words of those parts, read alone, tell a
+  reader the opposite of what now happens (a play stops and asks; every play a drive runs can be
+  run by hand). The template has no "clarifies" field: a reader of the older ADR finds the new one
+  only through an "amended in part" pointer. So each is recorded as an amendment in part that keeps
+  the older part's intent. The keeper also found two parts the brief does not name, which the
+  decision changes in part: ADR 032 §1 and §5 (point 7, until Argus exists) and ADR 039 §2 with its
+  line on ADR 035 §4 (point 8). Say this plainly in the Context so the person sees it at acceptance.
+
+supersedes: []
+
+amends:
+  - adr: "029"
+    file: docs/adr/029-drives.md
+    parts:
+      - section: '§2 "A new question stops it" (as amended by ADR 034)'
+        what: >
+          The stop is the drive's, never a play's. A question one play cannot answer is recorded
+          in the drive issue's short-term memory; the play does the work the question does not
+          block, saves what it made as proposed with the gap named, and finishes. The drive stops
+          and asks the person only what none of its plays, no memory and no approved research can
+          answer — after a round that answered nothing new, or at its round limit — and only after
+          /build-memory has run. The drive still never picks an answer for itself.
+      - section: '§2 "Questions first" — how questions raised mid-run are asked'
+        what: >
+          The drive still asks its own questions before any play runs. The questions its plays
+          raise mid-run are asked after the person is shown the draft, each once, in words that
+          make sense to whoever gave the drive its input (decision point 5).
+      - section: '§4 "Plays stand on their own"'
+        what: >
+          Holds for a drive's work plays. A member play (/build-memory) runs only inside a drive,
+          as the change plays a drive injects do.
+    not_affected: '§1 (rounds make "runs other plays until its intent is met" concrete; the three work plays stay the trinity, a member play is not one of them), §3, §5 as amended by ADR 032, §6'
+  - adr: "034"
+    file: docs/adr/034-plays-answer-from-memory-inside-a-drive.md
+    parts:
+      - section: '§3 "Never from the model alone" (as amended by ADR 035)'
+        what: >
+          "When nothing in memory or the system supports an answer, the play asks the person. That
+          question stops the drive" becomes: the play records the question for the drive and
+          finishes; the drive asks, after its rounds and /build-memory, only what nothing answered.
+          "Never from the model alone" and ADR 035's memory update stand.
+      - section: '§5, its line on ADR 029 §2'
+        what: 'Read with this ADR: the stop is the drive''s, after its rounds, not the play''s.'
+    not_affected: '§1, §2 (as amended by ADR 035, 036 and 039), §4, §6'
+  - adr: "032"
+    file: docs/adr/032-drive-review-of-outcomes.md
+    parts:
+      - section: '§1 "The review is the drive''s last step" and §5 "The answers are applied as one commit" — until Argus (the review tool) exists'
+        what: >
+          A drive ends at the pull request. The person's typed confirm or drop for each proposed
+          intent is recorded in the issue's short-term memory; the drive never changes an intent's
+          state; the intents stay proposed until Argus's review step writes approval (ADR 033 §6).
+          A recorded drop is carried to that review and does not remove the intent from this merge.
+          Once Argus exists, §1 and §5 hold as written.
+    not_affected: '§2, §3 (the person still confirms in the review tool; the typed record is carried there), §4, §6, §7, §8; ADR 033 §6 (only the review step writes approval) holds and is relied on'
+  - adr: "039"
+    file: docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md
+    parts:
+      - section: '§2 "A play is a pure workflow and reads no memory" ("A drive follows the same rule") and §10''s line on ADR 035 §4 ("only agents call the tool")'
+        what: >
+          A drive still reads no memory. Recording a person's typed decision on a memory update
+          through the memory tool's decide (decided_in: session) is not reading memory; the drive
+          may make that one call, as the stand-in for Argus's memory view (#664), as memory tool
+          contract v5.1 provides (core/tools/memory/contract/v5.json). An agent never decides an
+          update; only the person's typed word is recorded.
+    not_affected: '§1, §3-§9, §11'
+
+candidates_judged_not_affected:
+  - { adr: "035", why: "§5 (memory update a person approves) is what /build-memory follows; §4's 'only agents call the tool' now lives as ADR 039's amendment, which is where the pointer goes; §7 memory review is what Argus will show" }
+  - { adr: "033", why: "§6 only the review step writes approval — point 7 relies on it unchanged" }
+  - { adr: "031", why: "only a person confirms or drops a business intent — unchanged; the drive records the typed word and changes no state" }
+  - { adr: "036", why: "§2 an approved researched answer lands in the issue's short-term memory — /build-memory follows it; §7 review tool — unchanged" }
+  - { adr: "037", why: "the review tool's sections and the decision trace — unchanged; Argus only shows the result" }
+  - { adr: "028", why: "the five loops — not touched" }
+  - { adr: "021", why: "status markers are machine-local — point 6 follows it (status/ folder)" }
+
+affects:
+  already_follow_this_decision_on_the_branch:
+    - core/components/drives/_shared/drive-run.md (R5 rounds and round_state; R5c /build-memory; R5b asking the person after the draft; R7 End; the status file at every step)
+    - core/components/drives/kickoff/SKILL.md and core/components/drives/kickoff/reference/ice.md (C4 rounds, C5 the drive's questions and /build-memory first, C7 and the End stand-in until Argus) and its scripts round_state.py, drive_status.py, record_confirmation.py
+    - core/components/plays/build-memory/ (SKILL.md, reference/ice.md C6 "runs only inside a drive", its scripts) and core/components/agents/memory-builder.md, with the skills core/components/skills/answer-from-source/ and core/components/skills/draft-knowledge-page/
+    - core/components/plays/drive-creator/SKILL.md, its references (round_state.py, drive_status.py, the compiled-drive-example) and scripts/lint_drive.py; core/components/plays/drive-editor/
+    - core/components/memory/standards/rules/drive-contract.md (rule 5, "A question the play cannot answer goes to the drive"; the contract's round field)
+    - core/components/memory/standards/rules/run-status.md and its row in core/components/memory/standards/rules/_index.md
+    - core/components/plays/intent/reference/ice.md and SKILL.md (C16, a question /intent cannot answer is the drive's)
+    - core/tools/memory/contract/v5.json (version 5.1, decide with decided_in session)
+  still_say_the_old_reading:
+    - core/grounding/glossary.md, the Drive entry ("asks every question up front ... stops only to ask a question that comes up mid-run")
+    - core/components/plays/vision/reference/ice.md C11 and core/components/plays/understand/reference/ice.md C13 ("a question neither the contract nor the model answers ... stops the run and asks the person") — intent changes, through each play's ICE source and /play-editor
+    - core/components/drives/kickoff/reference/ice.md, the note before "## Plays" ("The plays ask them mid-run, and each stops the drive (C5)"), which contradicts its own C5
+  not_built_yet:
+    - the status display for Claude Code — a separate plugin, installed only when the install chooses Claude Code (core/components/plays/install-garura/ has no plugin today)
+    - Argus, the review tool — its review step that writes approval (#650) and its memory section (#664)
+
+ice_impact: >
+  Agent intents change for every drive and the plays inside one. The Kickoff drive (C4, C5, C7)
+  runs its plays in rounds, owns their open questions, runs /build-memory before it asks, asks
+  after showing the draft, and ends at the pull request with the person's typed confirm or drop
+  recorded, until Argus. /intent (C16) records an unanswerable question for the drive and
+  finishes instead of stopping. /vision (C11) and /understand (C13) change the same way — their
+  ICE still says such a question "stops the run" and must change through /play-editor. /build-memory
+  is a new member play whose intent is to run only inside a drive (C6). /drive-creator compiles
+  every new drive with rounds and the member play. /adr (C5) is unchanged: a decision that would
+  change a person's business intent is a question only the person can answer, so it still reaches
+  them. No ontology kind changes (the ICE and Business Intent kinds stand).
+
+business_intent_check: none
+business_intent_check_reason: >
+  A framework decision on how a drive runs. No person's business intent changes, and the Business
+  Intent kind's rules stand: only a person confirms or drops one (ADR 031); inside a drive every
+  intent is saved as proposed; the drive records the person's typed confirm or drop and changes no
+  intent's state; only the review step writes approval (ADR 033 §6).
+
+related:
+  adrs: ["029", "032", "033", "034", "035", "036", "037", "039", "031", "021"]
+  issues: ["#613", "#682 (PR)", "#650", "#664", "#606"]
+
+work_this_creates_found_by_keeper:   # none filed; filed only when Kapil asks
+  - Update the glossary's Drive entry to rounds and the drive's questions.
+  - Change /vision C11 and /understand C13 through their ICE and /play-editor — an unanswerable question becomes the drive's.
+  - Fix the stale note in Kickoff's reference/ice.md that says each mid-run question stops the drive.
+  - Build the status display for Claude Code as a separate plugin, installed only for Claude Code.
+  - When Argus exists (#650, #664), carry the recorded confirm/drop and the session decisions into its review and memory views.
+
+references:
+  - .garura/project/issues/613/evidence/kickoff-run/findings.md
+  - .garura/project/issues/613/evidence/kickoff-run/question-audit.md
+  - core/components/drives/_shared/drive-run.md
+  - core/components/memory/standards/rules/drive-contract.md
+  - core/components/memory/standards/rules/run-status.md
+  - core/tools/memory/contract/v5.json

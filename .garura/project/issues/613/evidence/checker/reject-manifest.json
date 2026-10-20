@@ -1,0 +1,25 @@
+{
+  "criteria_ids": [
+    "G",
+    "C1",
+    "C2",
+    "C3",
+    "C4",
+    "D1"
+  ],
+  "issue": 1,
+  "base": "792234c",
+  "files": [
+    "answers-sources.json",
+    "answers.json",
+    "change.diff",
+    "criteria.md",
+    "done/intent-done.json",
+    "done/vision-done.json",
+    "review/vision-2026-10-20T04:42:16Z.json",
+    "review/vision-2026-10-20T04:42:16Z.md",
+    "traces.json",
+    "manifest.json"
+  ],
+  "missing": []
+}
