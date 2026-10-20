@@ -1,0 +1,14 @@
+{
+  "decided": true,
+  "lint_ok": true,
+  "linked": true,
+  "path": "docs/adr/042-a-drive-finds-builds-and-reviews-the-knowledge-it-lacks.md",
+  "status": "accepted",
+  "accepted_by": "Kapil Viren Ahuja",
+  "pointers_written": [
+    "041-a-drive-runs-in-rounds-and-owns-its-questions.md",
+    "039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md"
+  ],
+  "pointers_missing": [],
+  "index_ok": true
+}

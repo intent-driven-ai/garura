@@ -1,9 +1,9 @@
 # ADR 042 — A Drive Finds, Builds and Reviews the Knowledge It Lacks, and Briefs the Person Instead of Asking
 
-**Status:** Proposed
+**Status:** Accepted
 **Date:** 2026-10-20
 **Level:** framework
-**Decided by:** Kapil Viren Ahuja
+**Decided by:** Kapil Viren Ahuja 
 **Decided in:** #686 — the session of 20 October 2026, after Kickoff run 6 on the Argus mockup (#613)
 **Amends:** ADR 041 — §3 "Before it asks, the drive builds the memory it lacks": the one member play `/build-memory` becomes three, `/search-knowledge`, `/build-knowledge` and `/review-knowledge`; §4 "Member plays": the knowledge plays are the member plays that run only inside a drive; §5 "The person's questions, when they come": the person gets a brief with our proposed answers, not questions · ADR 039 — §2 and §10's line on ADR 035 §4 ("only agents call the tool"): a knowledge play's own check script may ask the memory tool's read-only `updates` for the issue's waiting memory updates, instead of reading their files
 **Affects:** `core/components/plays/search-knowledge/`, `core/components/plays/build-knowledge/` (was `build-memory`), `core/components/plays/review-knowledge/`, `core/components/agents/knowledge-builder.md` (was `memory-builder`), `core/components/skills/propose-answers/`, `core/components/skills/write-knowledge-brief/`, `core/components/skills/answer-from-source/`, `core/components/skills/draft-knowledge-page/`, `core/components/drives/_shared/drive-run.md` (R5c, R5b), `core/components/drives/kickoff/` (C5, steps 6c–6f), `core/components/plays/drive-creator/` (its references, `scripts/lint_drive.py`), `core/components/plays/drive-editor/scripts/lint_drive.py`, `core/components/memory/standards/rules/pipeline-next.md`, `core/components/memory/standards/rules/drive-contract.md`, `core/grounding/glossary.md`, `docs/components/`

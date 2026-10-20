@@ -1,6 +1,6 @@
 # ADR 041 — A Drive Runs Its Plays in Rounds, Owns the Questions No Play Can Answer, and Builds the Missing Memory Before It Asks
 
-**Status:** Accepted
+**Status:** Accepted — amended in part by [ADR 042](042-a-drive-finds-builds-and-reviews-the-knowledge-it-lacks.md): §3 "Before it asks, the drive builds the memory it lacks": the one member play `/build-memory` becomes three, `/search-knowledge`, `/build-knowledge` and `/review-knowledge`; §4 "Member plays": the knowledge plays are the member plays that run only inside a drive; §5 "The person's questions, when they come": the person gets a brief with our proposed answers, not questions
 **Date:** 2026-10-20
 **Level:** framework
 **Decided by:** Kapil Viren Ahuja
