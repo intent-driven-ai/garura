@@ -1,0 +1,18 @@
+Title: [TASK] chore: remove local temp-folder paths from old review records
+
+Kind: Chore — tidying; nothing a user sees changes.
+
+What: old review-change records on main hold local temp-folder paths. Six lines,
+in the review records of #498, #500 and #632, hold a temp path whose folder name
+carries the author's home-folder name; two lines in #614 hold the machine user
+number. Replace each with a neutral placeholder (for example `<scratchpad>/...`),
+keeping the record's meaning.
+
+Why: the repository is public. Garura's history clean-up rule says files hold no
+personal or local-machine references. A repo-wide scan on 2026-10-20 found these.
+
+Done when: `git grep` on main for the local temp-path pattern finds nothing in the
+review records; no other content changes.
+
+Out of scope: rewriting git history (the old commits keep the paths); the
+review-change play saving full paths in its records (a separate fix).
