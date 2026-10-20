@@ -1,0 +1,16 @@
+Kind: Story — a slice of the drives feature (#594), after #613 (the Kickoff drive) and #686 (the knowledge plays).
+
+What: make the Kickoff drive's output good enough to build from, and prove it.
+1. The rebuild eval (core/tools/rebuild-eval): check a drive's intents and product model against the prototype, then have another model (Codex) rebuild the product from them alone, with no sight of the prototype and no Garura context, and measure how much of the prototype comes back (kept, drift, by screen, and whose fault each miss is).
+2. Fix /intent: business intents name the needs the product offers its user (one per thing it offers, in the product's own words), "asked by" is a persona, "why" is the business reason, and the proof is a measurable result the play drafts itself — never left open.
+3. Fix /vision: the domain is a recognised one, found by research, with its sources; it is never made up.
+4. Fix /understand: every capability and functionality says where on the prototype it is seen, with the words on the screen; nothing is invented and no single panel becomes a functionality.
+Each play is fixed and checked on its own, then a full Kickoff run.
+
+Why: Kickoff run 7 (Argus mockup, 20 October) wrote intents about the drive's own process instead of the product ("I can give the answers only I can give, so waiting work can go on"), made up a domain ("Drive review"), and a functionality with no source on the prototype ("Build-from vs waiting split"). Every play's checks passed, because they check shape, not truth. Kapil: "if your intents do not reproduce the prototype back, what are you doing creating intents?"
+
+Done when:
+- the rebuild eval is built and tested (agents as stand-ins), and its static check fails run 7's output on the faults above;
+- /intent, /vision and /understand are fixed through their ICE and recompiled, each checked with the eval;
+- a Kickoff run on the Argus mockup passes the static check and the review, and the rebuild keeps most of the prototype, with every miss explained;
+- the findings are written into #613's record.

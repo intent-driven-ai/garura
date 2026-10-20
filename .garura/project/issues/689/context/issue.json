@@ -1,0 +1,19 @@
+{
+  "resolved": true,
+  "issue_number": 689,
+  "title": "feat: Kickoff output must rebuild the prototype — rebuild eval, then fix /intent, /vision, /understand",
+  "created": true,
+  "candidates": [
+    613,
+    594,
+    606,
+    626,
+    680,
+    627
+  ],
+  "gate": "gate skipped by config (gates.plays.start-change)",
+  "url": "https://github.com/intent-driven-ai/garura/issues/689",
+  "type": "Story",
+  "parent": 594,
+  "labels": []
+}
