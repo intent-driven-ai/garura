@@ -1,0 +1,410 @@
+meta:
+  pr: 687
+  issue: 686
+  gate: off by config (gates.plays.review-change); the computed recommendation is the decision, marked
+    as a harness verdict
+  counts_open:
+    P3: 2
+    P4: 8
+  resolved_in_review: 17
+findings:
+- id: Q-1
+  severity: P3
+  category: standards
+  file: docs/adr/042-a-drive-finds-builds-and-reviews-the-knowledge-it-lacks.md
+  basis: core/components/memory/standards/rules/pr.md row DOC-04 (docs/adr/**)
+  finding: 'The scanner flags every ADR file for a human read. It says nothing about the ADR''s content.
+    The ADR linter passed (runnable-checks.txt, valid: true). The decision itself is for the person to
+    judge at the merge; status is Proposed.
+
+    '
+  status: open
+- id: Q-6
+  severity: P3
+  category: standards
+  file: .garura/project/issues/686/context/self-review.md
+  basis: core/components/memory/standards/rules/pr.md run-artifacts (no playbook; reviewing for stale
+    or contradictory facts versus the final diff)
+  finding: 'The self-review says "ADR 042 is added and the ADR index lists it". It does not. docs/adr/_index.md
+    stops at ADR 041 and is not in the diff. This matches how earlier ADRs were done (ADR 041''s commit
+    wrote the index when the person accepted it), so the omission looks right but the sentence is wrong
+    and could mislead a reader.
+
+    '
+  status: open
+- id: H-10
+  severity: P4
+  category: harness
+  file: core/components/agents/knowledge-builder.md
+  basis: 'G6 (CLAUDE.md Behavioral Rule 4: agents gather context, skills do the work; architecture.md
+    ''Context Crafting'').'
+  finding: 'Carried over from memory-builder: the agent itself confirms and splits the groups, gives each
+    one its plain question, and sorts every gap into note / settled / research / proposal with no skill,
+    while propose-answers also decides "settled". Two places decide settled, and the sort is judgment
+    work done by the agent. Small, and unchanged in kind from main; consider moving the sort into one
+    skill when the plays are next edited.
+
+    '
+  status: open
+- id: Q-2
+  severity: P4
+  category: standards
+  file: docs/adr/042-a-drive-finds-builds-and-reviews-the-knowledge-it-lacks.md
+  basis: core/components/memory/standards/rules/pr.md row ARCH-23
+  finding: 'Same as Q-1: a path prompt that asks for a look at a new architecture record. No defect found.
+
+    '
+  status: open
+- id: Q-3
+  severity: P4
+  category: standards
+  file: docs/adr/042-a-drive-finds-builds-and-reviews-the-knowledge-it-lacks.md
+  basis: core/components/memory/standards/rules/pr.md row DOC-05
+  finding: 'Same as Q-1: a path prompt. No defect found. The record has the header fields, a Proposed
+    status and a date.
+
+    '
+  status: open
+- id: Q-4
+  severity: P4
+  category: standards
+  file: core/components/plays/review-knowledge/scripts/ (check_drive_contract.py, check_stop_condition.py,
+    preflight.py, session_stamp.py); core/components/plays/search-knowledge/scripts/ (same four)
+  basis: the contract's "new Python scripts have tests"
+  finding: 'Eight new script files have no test of their own. They are byte-for-byte copies of the same
+    four helper scripts that build-knowledge carries (same checksums), and every play in the repo carries
+    its own copy. The play-specific scripts (check_brief, record_review, check_search, group_questions,
+    check_knowledge_build) all have tests, and the lint and script checks in runnable-checks.txt pass.
+    Noted, not a defect on its own. If the helpers are ever meant to be tested, one shared test is cheaper
+    than eight.
+
+    '
+  status: open
+- id: Q-5
+  severity: P4
+  category: standards
+  file: core/components/plays/review-knowledge/scripts/check_stop_condition.py (also search-knowledge/scripts/check_stop_condition.py,
+    build-knowledge/scripts/check_stop_condition.py)
+  basis: the contract's "standard-library only"
+  finding: 'This helper needs PyYAML, which is not part of Python itself. It stops with a clear message
+    if PyYAML is missing. Other plays (adr, agentic) do the same, so this follows the repo''s existing
+    habit. Noted because the contract says standard library only.
+
+    '
+  status: open
+- id: Q-7
+  severity: P4
+  category: standards
+  file: .garura/project/issues/686/context/commits.yaml
+  basis: run-artifacts - stale facts versus the final diff
+  finding: 'The record lists commit ids 8dfc4bdb, 49967915 and b63ad222 with long subjects (the first
+    is about 96 characters). The branch now holds 83281a09, c5ddca0d and c0ed43bd with subjects of 66,
+    60 and 58 characters. The record no longer matches the history, so it should not be used to check
+    subject length. The same goes for self-review.md and pr-body.md, which say "5 commits, 63 files" (the
+    branch is now 7 commits, 67 changed paths, the extra ones being run records).
+
+    '
+  status: open
+- id: Q-8
+  severity: P4
+  category: standards
+  file: core/components/plays/review-knowledge/scripts/check_brief.py
+  basis: core/components/memory/standards/rules/pr.md code-quality (small correctness edge)
+  finding: '"A gap is named in brief.md" is tested with a plain substring check (`gid not in md`). With
+    ten or more gaps, G1 would look present because G10 is. The brief is capped at seven gaps by default,
+    so this cannot happen with the default settings. Minor.
+
+    '
+  status: open
+- id: Q-9
+  severity: P4
+  category: standards
+  file: .garura/project/issues/686/context/ (porcelain.txt, analysis.yaml)
+  basis: run-artifacts - skim for stale facts
+  finding: 'porcelain.txt is a snapshot from before the commits (all files shown as modified or untracked).
+    It is a record of that moment, not of the final tree. Fine as a record; it should not be read as the
+    state of the branch.
+
+    '
+  status: open
+resolved:
+- id: H-1
+  severity: P2
+  category: harness
+  file: core/components/plays/review-knowledge/scripts/record_review.py
+  basis: 'G5 (drive-contract.md ''What a contract holds'': answers are keyed by play and question id;
+    Shared Drive Run R4 writes answers.json keyed by play) and G1/G2 (a question one play cannot answer
+    is closed by an answer the play can read on the next round).'
+  finding: 'The person''s reply is recorded one answer per gap (gap G1, theme, answer), but the plays
+    that asked the questions can only read answers by their own play and question id. R5b step 3 says
+    "add the answers to answers.json" and nothing, in text or in a script, says how a gap answer becomes
+    the answers of the plays'' questions. The way back exists only as a chain of three records (gap ->
+    build group -> search group -> question ids) that no script walks. So on round n+1 the plays may not
+    find the answers, reopen the same questions, and the drive may brief the person again on the same
+    gaps. Add a mapping step (best a script in review-knowledge that writes the per-play answers) and
+    test it.
+
+    '
+  status: resolved
+  resolution: fixed in fea9baf7
+- id: H-2
+  severity: P2
+  category: harness
+  file: core/components/plays/search-knowledge/scripts/group_questions.py
+  basis: 'G4 (ADR 039 section 2: a play is a pure workflow and reads no memory; the memory tool''s guide:
+    only agents call the tool, a play asks its agents). G2 allows only the drive''s decide call.'
+  finding: 'Both plays call the memory tool themselves, from a script the play runs: group_questions.py
+    (search Step 1, "Owner: play (script)") and check_knowledge_build.py (build Step 2) run `memory.py
+    updates`. This is better than the old direct read of the update files, but it is still the play, not
+    an agent, asking memory. Either let the knowledge-builder agent write the waiting-updates list into
+    the play''s working folder and have the scripts read that file, or record the exception in a decision
+    record. As written, the play''s own text ("you never raise, decide or promote an update") and docs/components/plays.md
+    ("reach memory only through the memory tool") do not tell the reader that the play itself makes these
+    calls.
+
+    '
+  status: resolved
+  resolution: fixed in fea9baf7
+- id: H-3
+  severity: P2
+  category: harness
+  file: core/components/skills/write-knowledge-brief/SKILL.md
+  basis: 'G3 (ADR 035 section 5: researched content is used only after a person approves it, which presumes
+    the person can judge it) and G8 (a checkpoint that is always answered ''yes'' is a rubber stamp);
+    also G2 (ADR 041 section 8: an agent never decides a memory update).'
+  finding: 'One typed "yes" now approves every researched knowledge page, and the page is shown only as
+    one line plus our recommendation (C3, skill step 4). The old R5b showed each page with the questions
+    it answers and its sources. The brief neither carries the page''s sources nor points to its text,
+    so the person cannot judge web-researched content that is about to become approved memory. Also, the
+    drive (a model) expands "yes" into per-page decisions and per-gap accepts; record_review.py checks
+    only that every item has a decision, not that the person''s words support it. Show each page''s sources
+    and a pointer to its text in the brief, and do not let a bare "yes" approve research the person was
+    not shown.
+
+    '
+  status: resolved
+  resolution: fixed in fea9baf7
+- id: H-4
+  severity: P2
+  category: harness
+  file: core/components/skills/propose-answers/SKILL.md
+  basis: 'G3 (ADR 035 sections 5 and 6: nothing from the model alone; every decision names the memory
+    it came from). The agent''s own MUST NOT list says ''no basis - no answer''.'
+  finding: 'Skill step 4 says "if you cannot draft an answer, say why in basis and propose the safest
+    default", and the ICE (C3) lets a basis be "reasoning". That is an answer from the model alone with
+    no source, memory trace or research behind it, offered to the person as our proposal. It contradicts
+    the agent definition ("Answer from the model alone: no quote, no trace, no research source, no basis
+    - no answer") and the skill''s own rule "No basis, no proposal". Where nothing supports a proposal,
+    the gap should be raised the ADR 035 way (a memory update with the model named as the draft source)
+    or stay an honest open gap with what is missing, not a default.
+
+    '
+  status: resolved
+  resolution: fixed in fea9baf7
+- id: H-5
+  severity: P3
+  category: harness
+  file: core/components/plays/review-knowledge/scripts/record_review.py
+  basis: 'G3 (ADR 035 section 6: every decision names its memory and where it came from) and G4 (ADR 039
+    section 1: the person''s answer is kept in short-term memory).'
+  finding: 'An accepted proposal is written as the person''s own answer (`from: person`) and then copied
+    into answers.json / answers-sources.json as `from: person`. The text of that answer came from the
+    model; the person only said yes. The record keeps `accepted_proposal: true`, but the source label
+    the plays and the checker read says the person wrote it. Label an accepted proposal as ours, confirmed
+    by the person (for example `from: person (accepted proposal)`), so later rounds and the checker can
+    tell the two apart.
+
+    '
+  status: resolved
+  resolution: fixed in fea9baf7
+- id: H-6
+  severity: P3
+  category: harness
+  file: core/components/drives/kickoff/reference/ice.md
+  basis: G7 (an intent change goes through the ICE and a recompile, so the ICE must agree with itself)
+    and G1 (what the drive does with the person is a drive guarantee).
+  finding: 'C5 now says the person gets a brief and never a questionnaire, but the rest of the Kickoff
+    ICE still describes the old behaviour: S3 says the owner is asked what is still open "once, after
+    showing the draft" and the recovery for F5 says "ask the person only what no play answers"; the compiled
+    SKILL repeats both (SCE-3, F5 row). The new guarantee ("never a questionnaire", "never a bare question")
+    also has no failure condition and no recovery; it is only mentioned inside SE-5. Update S3, F5 and
+    its recovery, add the failure condition, and recompile with /drive-editor so the fingerprint follows.
+    (The compiled-drive-example was updated for S2 and F2 and does not have this gap.)
+
+    '
+  status: resolved
+  resolution: fixed in fea9baf7
+- id: H-7
+  severity: P3
+  category: harness
+  file: core/components/plays/review-knowledge/SKILL.md
+  basis: G6 (a play's mechanical steps are its own scripts; the play keeps policy) and the harness playbook's
+    rubric (does the play -> agent -> skill -> script wiring stay intact).
+  finding: 'Three checks the compiled plays promise have no script behind them. (a) review-knowledge SE-3
+    and C3 say every update the memory tool lists as waiting is in the brief, but check_brief.py only
+    compares against the updates in build.json; a waiting page from an earlier round or from another play
+    can be left out and brief-check.json still reads ok. (b) The pre-flight rows "search-check.json reads
+    ok: true" (build) and "build-check.json reads ok: true" (review) are marked "Hard halt", but the command
+    block runs only the generic preflight.py, which does not read those files. (c) ICE S2 / SCE-2 for
+    review-knowledge ("one answer per gap with from: person") can only be true after the drive records
+    the reply, which is after the play closes, so the play''s own Scenario Validation step cannot run
+    it. Add the checks to the scripts (or the stop condition) or move SCE-2 to the drive.
+
+    '
+  status: resolved
+  resolution: fixed in fea9baf7
+- id: H-8
+  severity: P3
+  category: harness
+  file: docs/adr/042-a-drive-finds-builds-and-reviews-the-knowledge-it-lacks.md
+  basis: 'G9 (ADR 041 Context: a reader finds a newer ADR only through an ''amended in part'' pointer;
+    docs/adr/_index.md is generated from each ADR''s Status line).'
+  finding: 'The drive''s shared run, the Kickoff ICE and the glossary already behave as ADR 042 says while
+    ADR 042 is still Proposed, and the accepted ADR 041 still tells a reader that one member play, /build-memory,
+    builds the memory and that the person is asked questions. ADR 041 has no "amended in part by ADR 042"
+    pointer and docs/adr/_index.md has no row for 042. Not a blocker (Kapil accepts at the merge): at
+    that point flip the status, add the pointer to ADR 041''s header and regenerate the index with adr.py,
+    so no reader is sent to a play that no longer exists.
+
+    '
+  status: resolved
+  resolution: ADR 042 is accepted at the merge; apply_adr.py writes the pointer on ADR 041 and the index
+    row then
+- id: H-9
+  severity: P4
+  category: harness
+  file: core/components/skills/write-knowledge-brief/SKILL.md
+  basis: 'G7 (CLAUDE.md: Claude reads the whole skill on every run; keep run history out of skill files).'
+  finding: 'Both skills open with a story of one Kickoff run ("after a drive ran for an hour and then
+    asked him eleven questions", a quote from Kapil). It explains why, but every run reads it and none
+    acts on it. The decision record (ADR 042) and the issue already hold that history; keep the skills
+    to what the skill does.
+
+    '
+  status: resolved
+  resolution: fixed in fea9baf7
+- id: M-1
+  severity: P2
+  category: memory
+  file: core/components/memory/standards/rules/drive-contract.md
+  basis: G-drive-contract; G-adr041. The rule says it is the single source and plays do not restate it.
+  finding: 'The rule file was only given one new Related line. Rule 5 still describes the old flow: a
+    question is written to open-<play>.json with for_person and examples, "the play never picks an answer
+    for itself", and the drive asks the person its open questions "all at once". The branch''s plays and
+    the shared drive run now do something different: the person gets a brief of at most seven gaps, each
+    with our proposed answer (never example answers), and a gap the context settles is closed without
+    asking. Nothing in the rule says when a play may close a gap with a proposed answer or as settled,
+    or what the brief is. The rule and the plays now disagree, and a later play author reading the rule
+    would build the old flow.
+
+    '
+  status: resolved
+  resolution: fixed in fea9baf7
+- id: M-2
+  severity: P2
+  category: memory
+  file: core/components/skills/propose-answers/SKILL.md
+  basis: G-guide (never answer from what you know without an approved memory update); G-adr041 (the drive
+    never picks an answer for itself; nothing from the model is used before a person approves); G-drive-contract
+    rule 5.
+  finding: 'A gap the context "already settles" is closed as `settled` by the model''s own reasoning.
+    The brief skill then drops it ("Drop anything the context settles"), so the person never sees it and
+    no memory update records it. That is the model deciding that a question needs no answer, with no person''s
+    approval and no trace in memory. The same skill also says that when it cannot draft an answer it should
+    "propose the safest default", which is a guess dressed as a proposal. ADR 042 names `settled` as a
+    decision, but ADR 042 is a Proposed claim, and the committed rules above forbid it. At least the settled
+    gaps should be listed in the brief (as a line the person can overrule) or raised as a memory update;
+    the human should decide.
+
+    '
+  status: resolved
+  resolution: fixed in fea9baf7
+- id: M-3
+  severity: P3
+  category: memory
+  file: core/components/skills/propose-answers/SKILL.md
+  basis: 'G-guide (''When no tier answers: raise a memory update'', with draft_source model); G-adr041
+    s8 (the person''s typed word is what `decide` records).'
+  finding: 'Our proposed answers (model-drafted) never go through the memory tool''s `propose`. They live
+    in proposals.json and brief.json. When the person says "yes", record_review.py writes each one as
+    the person''s answer (`from: person`, with `accepted_proposal: true`). The next round then reads them
+    as approved. The person did type the word, so this may be acceptable, but it skips the tool''s own
+    route for a drafted answer and its draft_source label, so the memory side never learns the answer
+    began as a model draft.
+
+    '
+  status: resolved
+  resolution: fixed in fea9baf7
+- id: M-4
+  severity: P2
+  category: memory
+  file: core/components/plays/search-knowledge/SKILL.md
+  basis: G-adr039 s2 (a play reads no memory); G-guide (only agents call the tool); G-adr041 s8 (the one
+    exception is `decide`, kept narrow).
+  finding: 'Step 1 is "Owner: play (script)" and runs group_questions.py with --memory-tool, which calls
+    the tool''s `updates` itself. build-knowledge Step 2 does the same through check_knowledge_build.py
+    (also run by the play, with --memory-tool). So the play, not an agent, calls the memory tool. The
+    calls are read-only lists of the issue''s own waiting updates, and they are better than main''s read-by-path,
+    but the committed rule is that the play asks an agent for it. Either have knowledge-builder fetch
+    the list and hand it over as a working file, or record the exception in ADR 042 (it widens ADR 041
+    s8''s narrow one).
+
+    '
+  status: resolved
+  resolution: fixed in fea9baf7
+- id: M-5
+  severity: P3
+  category: memory
+  file: core/components/plays/review-knowledge/scripts/record_review.py
+  basis: G-adr041 s8 ('must stay limited to recording a person's typed word'); G-guide (promotion and
+    approval are a person's act).
+  finding: 'A bare "yes" is turned into an `approve` or `reject` for every knowledge page by copying our
+    own recommendation, and the drive then calls `decide` for each. The person typed "yes", but the decision
+    per page is our recommendation, not their word. The brief does list each page with its recommendation,
+    so this may be intended. The human should confirm it fits the narrow `decide` exception.
+
+    '
+  status: resolved
+  resolution: fixed in fea9baf7
+- id: M-6
+  severity: P4
+  category: memory
+  file: core/components/memory/standards/rules/_index.md
+  basis: G-rules-index (the drive-contract row names consumers and what the rule covers).
+  finding: 'The index was not touched. The drive-contract row still lists only /vision, /intent, /understand
+    and the drives as consumers, although search-, build- and review-knowledge now use the shared checker,
+    and its description still says the drive asks the person what none answers, with no mention of the
+    brief. Separately, pipeline-next.md (edited by this branch) has never been in the index, and neither
+    have eight other rule files (builder-isolation, direct-model-write, expectation-generation, feature-catalog,
+    gate-config, grounding-eval, user-facing-voice); that gap is older than this branch.
+
+    '
+  status: resolved
+  resolution: fixed in fea9baf7
+- id: M-7
+  severity: P4
+  category: memory
+  file: core/components/memory/standards/rules/drive-contract.md
+  basis: ADR 042 is Proposed and added by this branch; it is not grounding.
+  finding: 'drive-contract.md (Related), the glossary Drive row and pipeline-next.md now rest on ADR 042,
+    which is still Proposed until Kapil accepts it at the merge. If he changes the decision, these three
+    change with it. Not a defect; keep them in the same merge as the ADR.
+
+    '
+  status: resolved
+  resolution: ADR 042 merges with this PR and is accepted at the merge
+- id: M-8
+  severity: P4
+  category: memory
+  file: core/components/drives/_shared/drive-run.md
+  basis: origin/main drive-run.md R5b (the removed text told the person an approved page marked for_project_memory
+    is promoted later by a person, /promote-memory); G-guide (promotion is a person's act, outside the
+    work).
+  finding: 'The old R5b told the person that an approved page marked for_project_memory is promoted later
+    by a person. The new R5b and the brief never mention promotion, although build-knowledge''s record
+    still carries for_project_memory. A person approving a page is not told that approval is not promotion.
+    Add one line to the brief or R5b.
+
+    '
+  status: resolved
+  resolution: fixed in fea9baf7

@@ -37,6 +37,12 @@ in `core/components/drives/<drive>/`, are built by `/drive-creator` and changed 
 checker, the end), as every play points to the shared close. The install lays drives as skills
 beside the plays.
 
+Every drive also runs three **knowledge member plays** inside its rounds (ADR 042):
+`/search-knowledge` answers open questions from the drive's sources and memory,
+`/build-knowledge` drafts knowledge pages and proposed answers for the rest, and
+`/review-knowledge` writes the brief the person reads — never a questionnaire. They reach memory
+only through the memory tool and run only inside a drive.
+
 ## Two Play Patterns
 
 Two patterns coexist in the codebase. The pattern used depends on the play's execution model.

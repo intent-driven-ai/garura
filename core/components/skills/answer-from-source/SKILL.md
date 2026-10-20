@@ -1,6 +1,6 @@
 ---
 name: answer-from-source
-description: For each group of a drive's open questions, look in the drive's own sources again — for a prototype, every captured view, every journey step and the page itself (its text, labels, sample data and script) — and answer with a quote and the place it was found. Marks each group answered, partly answered (naming the part still missing) or not shown, and for not shown says whether the source should show it (a gap in the prototype) or no screen could (knowledge or the person). Used by the memory-builder agent in /build-memory.
+description: For each group of a drive's open questions, look in the drive's own sources again — for a prototype, every captured view, every journey step and the page itself (its text, labels, sample data and script) — and answer with a quote and the place it was found. Marks each group answered, partly answered (naming the part still missing) or not shown, and for not shown says whether the source should show it (a gap in the prototype) or no screen could (knowledge or the person). Used by the knowledge-builder agent in /search-knowledge.
 user-invocable: false
 model: opus
 allowed-tools: Read, Write, Glob, Grep

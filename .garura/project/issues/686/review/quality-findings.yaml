@@ -1,0 +1,104 @@
+# quality-findings.yaml - review-change Step 3, Layer 1 (standards linter) - PR #687 / issue #686
+# Diff: git diff origin/main...HEAD (67 changed paths). Paths are repository-relative.
+# Scan: quality-check-scoped / scan_taxonomy.py against core/components/memory/standards/rules/pr.md
+#   (67 paths, 0 rule-compile errors, P1=0 P2=0 P3=1 P4=2, CODE-20 catch-all rolled into 67 files).
+# Runnable checks (runnable-checks.txt) folded in, not re-run as whole suites. Unit suites re-run once
+#   as a spot check: search 9, build 7, review 8, drive-creator references 42 - all OK.
+pr: 687
+issue: 686
+summary:
+  scanner_rows: 3
+  scanner_rows_that_are_path_prompts_only: 3
+  custom_checks:
+    local_absolute_paths_or_personal_email_in_added_lines: none found (grep of every added line for local folder paths and personal emails)
+    new_python_scripts_standard_library_only: yes, except check_stop_condition.py (PyYAML, guarded import; same file as 31 other plays)
+    new_python_scripts_have_tests: partly (see Q-4)
+    commit_subjects_72_or_fewer: yes - all 7 real commits are 66 characters or fewer
+findings:
+  - id: Q-1
+    severity: P3
+    file: docs/adr/042-a-drive-finds-builds-and-reviews-the-knowledge-it-lacks.md
+    scanner_row: DOC-04
+    scanner_row_kind: path prompt only (fires on any file under docs/adr/**, no content test)
+    basis: core/components/memory/standards/rules/pr.md row DOC-04 (docs/adr/**)
+    finding: >
+      The scanner flags every ADR file for a human read. It says nothing about the ADR's content.
+      The ADR linter passed (runnable-checks.txt, valid: true). The decision itself is for the
+      person to judge at the merge; status is Proposed.
+  - id: Q-2
+    severity: P4
+    file: docs/adr/042-a-drive-finds-builds-and-reviews-the-knowledge-it-lacks.md
+    scanner_row: ARCH-23
+    scanner_row_kind: path prompt only (fires on docs/architecture/** and docs/adr/**)
+    basis: core/components/memory/standards/rules/pr.md row ARCH-23
+    finding: >
+      Same as Q-1: a path prompt that asks for a look at a new architecture record. No defect found.
+  - id: Q-3
+    severity: P4
+    file: docs/adr/042-a-drive-finds-builds-and-reviews-the-knowledge-it-lacks.md
+    scanner_row: DOC-05
+    scanner_row_kind: path prompt only (fires on docs/adr/**)
+    basis: core/components/memory/standards/rules/pr.md row DOC-05
+    finding: >
+      Same as Q-1: a path prompt. No defect found. The record has the header fields, a Proposed
+      status and a date.
+  - id: Q-4
+    severity: P4
+    file: core/components/plays/review-knowledge/scripts/ (check_drive_contract.py, check_stop_condition.py, preflight.py, session_stamp.py); core/components/plays/search-knowledge/scripts/ (same four)
+    basis: the contract's "new Python scripts have tests"
+    finding: >
+      Eight new script files have no test of their own. They are byte-for-byte copies of the same
+      four helper scripts that build-knowledge carries (same checksums), and every play in the repo
+      carries its own copy. The play-specific scripts (check_brief, record_review, check_search,
+      group_questions, check_knowledge_build) all have tests, and the lint and script checks in
+      runnable-checks.txt pass. Noted, not a defect on its own. If the helpers are ever meant to
+      be tested, one shared test is cheaper than eight.
+  - id: Q-5
+    severity: P4
+    file: core/components/plays/review-knowledge/scripts/check_stop_condition.py (also search-knowledge/scripts/check_stop_condition.py, build-knowledge/scripts/check_stop_condition.py)
+    basis: the contract's "standard-library only"
+    finding: >
+      This helper needs PyYAML, which is not part of Python itself. It stops with a clear message
+      if PyYAML is missing. Other plays (adr, agentic) do the same, so this follows the repo's
+      existing habit. Noted because the contract says standard library only.
+  - id: Q-6
+    severity: P3
+    file: .garura/project/issues/686/context/self-review.md
+    basis: core/components/memory/standards/rules/pr.md run-artifacts (no playbook; reviewing for stale or contradictory facts versus the final diff)
+    finding: >
+      The self-review says "ADR 042 is added and the ADR index lists it". It does not.
+      docs/adr/_index.md stops at ADR 041 and is not in the diff. This matches how earlier ADRs
+      were done (ADR 041's commit wrote the index when the person accepted it), so the omission
+      looks right but the sentence is wrong and could mislead a reader.
+  - id: Q-7
+    severity: P4
+    file: .garura/project/issues/686/context/commits.yaml
+    basis: run-artifacts - stale facts versus the final diff
+    finding: >
+      The record lists commit ids 8dfc4bdb, 49967915 and b63ad222 with long subjects (the first is
+      about 96 characters). The branch now holds 83281a09, c5ddca0d and c0ed43bd with subjects of
+      66, 60 and 58 characters. The record no longer matches the history, so it should not be
+      used to check subject length. The same goes for self-review.md and pr-body.md, which say
+      "5 commits, 63 files" (the branch is now 7 commits, 67 changed paths, the extra ones being
+      run records).
+  - id: Q-8
+    severity: P4
+    file: core/components/plays/review-knowledge/scripts/check_brief.py
+    basis: core/components/memory/standards/rules/pr.md code-quality (small correctness edge)
+    finding: >
+      "A gap is named in brief.md" is tested with a plain substring check (`gid not in md`). With
+      ten or more gaps, G1 would look present because G10 is. The brief is capped at seven gaps by
+      default, so this cannot happen with the default settings. Minor.
+  - id: Q-9
+    severity: P4
+    file: .garura/project/issues/686/context/ (porcelain.txt, analysis.yaml)
+    basis: run-artifacts - skim for stale facts
+    finding: >
+      porcelain.txt is a snapshot from before the commits (all files shown as modified or
+      untracked). It is a record of that moment, not of the final tree. Fine as a record; it
+      should not be read as the state of the branch.
+counts:
+  P1: 0
+  P2: 0
+  P3: 2
+  P4: 7

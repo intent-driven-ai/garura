@@ -15,8 +15,9 @@ only what none of its plays, memory or approved research answers.
   that issue.
 - C2 — The drive asks its own questions before any play runs and reads no memory itself. A
   question one play cannot answer is the drive's, not a stop: the play records it and finishes
-  what it can, and the other play, the next round or `/build-memory` may answer it. The drive
-  asks the person only what none of them can, after the draft, each question once (ADR 041).
+  what it can, and the other play, the next round or the knowledge plays may answer it. The drive
+  briefs the person only on what none of them can — a few gaps, each with its context and our
+  proposed answer (ADR 041, ADR 042).
 - C3 — The plays run in the fixed order `/intent` → `/vision`, in rounds until the drive's job
   is done; each must prove its own done check before the next one starts.
 - C4 — A checker that is not the drive's own model checks the result, and a reject halts the
@@ -70,8 +71,8 @@ The injected end sequence: `commit-change` → `propose-change` → `review-chan
   run, the checker passes, and one pull request carries the change; measure: the contract,
   both plays' done verdicts reading held, and the checker's `pass` exist under the issue.
 - S2 — product owner. Given a statement where `/vision` leaves a question no play or memory
-  answers; then `/vision` records it and finishes, `/build-memory` runs, the drive shows the
-  draft and asks the person once, and the next round fills it; measure: the answer is in the
+  answers; then `/vision` records it and finishes, the knowledge plays run, the drive shows the
+  brief and the person confirms or corrects our proposed answer, and the next round fills it; measure: the answer is in the
   issue's short-term memory with `from: person`, and `/vision`'s done verdict reads held.
 
 ### Recovery
@@ -79,7 +80,7 @@ The injected end sequence: `commit-change` → `propose-change` → `review-chan
 | For | Trigger | Direction | Handoff |
 |-----|---------|-----------|---------|
 | F1 | a write outside the issue, or a second issue or branch | move the record under the drive's issue and run on the contract's branch | autonomous |
-| F2 | a play ran before the questions, answered from nothing, or the person was asked what a play or memory answers | ask the drive's own questions first; send an unanswered question to the drive (`open-<play>.json`), run `/build-memory`, ask only what is left, then run the next round | human |
+| F2 | a play ran before the questions, answered from nothing, or the person was asked what a play or memory answers | ask the drive's own questions first; send an unanswered question to the drive (`open-<play>.json`), run the knowledge plays, brief the person on what is left, then run the next round | human |
 | F3 | a play started before the last one proved done, or on an unclean tree | halt; finish or fix the earlier play, commit its run files, resume | human |
 | F4 | the drive would end done with no checker pass | run the checker; a reject halts the drive | autonomous |
 

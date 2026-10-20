@@ -17,7 +17,7 @@ the Next line where that reads better — e.g. `/next` itself).
 
 The lifecycle runs as five loops (ADR 028; the names are working names). The plays below are the steps inside each loop. Until the loop recipes exist (#594), a person runs each play, and this map tells them which comes next.
 
-- **Kickoff loop (ADR 029):** `/intent → /vision → /understand`. `/intent` is optional: `/vision` can still start from a goal typed as text. The Kickoff drive (`/kickoff`) runs the three in rounds (ADR 041) and is listed here by its own name; its member play `/build-memory` runs only inside it.
+- **Kickoff loop (ADR 029):** `/intent → /vision → /understand`. `/intent` is optional: `/vision` can still start from a goal typed as text. The Kickoff drive (`/kickoff`) runs the three in rounds (ADR 041) and is listed here by its own name; its knowledge member plays (`/search-knowledge`, `/build-knowledge`, `/review-knowledge`) run only inside it.
 - **Shape loop:** `/shape → /roadmap`, then the design plays, which still run per slice today:
   - Functional: `/ux → /agentic → /marketing`
   - Non-functional: `/arch → /quality → /run`
@@ -72,7 +72,9 @@ next:
   focus:          { command: null,           why: "focus is the issue-side navigator — it recommends, it has no successor" }
 
   # Drive members (run by a drive inside its rounds, never on their own)
-  build-memory:   { command: null,           why: "runs inside a drive; the drive goes on with its next round" }
+  search-knowledge: { command: null,         why: "runs inside a drive; /build-knowledge follows" }
+  build-knowledge:  { command: null,         why: "runs inside a drive; /review-knowledge follows" }
+  review-knowledge: { command: null,         why: "runs inside a drive; the drive shows the brief and waits for the person" }
 
   # Change loop (git members)
   start-change:   { command: null,           why: "injected at a play's head; the opened play continues" }

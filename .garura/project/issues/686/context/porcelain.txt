@@ -1,0 +1,45 @@
+RM core/components/agents/memory-builder.md -> core/components/agents/knowledge-builder.md
+ M core/components/drives/_shared/drive-run.md
+ M core/components/drives/kickoff/SKILL.md
+ M core/components/drives/kickoff/reference/ice.md
+ M core/components/drives/kickoff/scripts/drive_preflight.py
+ M core/components/memory/standards/rules/drive-contract.md
+ M core/components/memory/standards/rules/pipeline-next.md
+RM core/components/plays/build-memory/SKILL.md -> core/components/plays/build-knowledge/SKILL.md
+RM core/components/plays/build-memory/reference/ice.md -> core/components/plays/build-knowledge/reference/ice.md
+R  core/components/plays/build-memory/scripts/check_drive_contract.py -> core/components/plays/build-knowledge/scripts/check_drive_contract.py
+RM core/components/plays/build-memory/scripts/check_memory_build.py -> core/components/plays/build-knowledge/scripts/check_knowledge_build.py
+R  core/components/plays/build-memory/scripts/check_stop_condition.py -> core/components/plays/build-knowledge/scripts/check_stop_condition.py
+R  core/components/plays/build-memory/scripts/preflight.py -> core/components/plays/build-knowledge/scripts/preflight.py
+R  core/components/plays/build-memory/scripts/session_stamp.py -> core/components/plays/build-knowledge/scripts/session_stamp.py
+RM core/components/plays/build-memory/scripts/test_build_memory_scripts.py -> core/components/plays/build-knowledge/scripts/test_build_knowledge_scripts.py
+RM core/components/plays/build-memory/stop-condition.yaml -> core/components/plays/build-knowledge/stop-condition.yaml
+ M core/components/plays/drive-creator/SKILL.md
+ M core/components/plays/drive-creator/references/compiled-drive-example/SKILL.md
+ M core/components/plays/drive-creator/references/compiled-drive-example/reference/ice.md
+ M core/components/plays/drive-creator/references/compiled-drive-example/scripts/drive_preflight.py
+ M core/components/plays/drive-creator/references/drive_preflight.py
+ M core/components/plays/drive-creator/references/test_drive_scripts.py
+ M core/components/plays/drive-creator/scripts/lint_drive.py
+ M core/components/plays/drive-editor/scripts/lint_drive.py
+RM core/components/plays/build-memory/scripts/group_questions.py -> core/components/plays/search-knowledge/scripts/group_questions.py
+ M core/components/skills/answer-from-source/SKILL.md
+ M core/components/skills/draft-knowledge-page/SKILL.md
+ M core/grounding/glossary.md
+ M docs/components/agents.md
+ M docs/components/plays.md
+ M docs/components/skills.md
+?? .garura/project/issues/686/context/porcelain.txt
+?? core/components/plays/review-knowledge/
+?? core/components/plays/search-knowledge/SKILL.md
+?? core/components/plays/search-knowledge/reference/
+?? core/components/plays/search-knowledge/scripts/check_drive_contract.py
+?? core/components/plays/search-knowledge/scripts/check_search.py
+?? core/components/plays/search-knowledge/scripts/check_stop_condition.py
+?? core/components/plays/search-knowledge/scripts/preflight.py
+?? core/components/plays/search-knowledge/scripts/session_stamp.py
+?? core/components/plays/search-knowledge/scripts/test_search_knowledge_scripts.py
+?? core/components/plays/search-knowledge/stop-condition.yaml
+?? core/components/skills/propose-answers/
+?? core/components/skills/write-knowledge-brief/
+?? docs/adr/042-a-drive-finds-builds-and-reviews-the-knowledge-it-lacks.md

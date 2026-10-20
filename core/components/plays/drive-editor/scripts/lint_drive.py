@@ -44,7 +44,7 @@ OPENER = "# --- Shared Drive Run (shared; see ../_shared/drive-run.md) ---"
 CLOSER = "# --- end Shared Drive Run ---"
 VALUES = ("drive", "plays", "questions", "runner_key", "checker_key", "end")
 CHANGE_PLAYS = {"start-change", "commit-change", "propose-change", "review-change", "merge-change"}
-MEMBER_PLAYS = {"build-memory"}  # plays the Shared Drive Run runs inside every drive (R5c)
+MEMBER_PLAYS = {"search-knowledge", "build-knowledge", "review-knowledge"}  # plays the Shared Drive Run runs inside every drive (R5c, R5b)
 DRIVE_OWNERS = {"drive", "drive (script)", "checker"}
 STAMPED = ("drive_preflight.py", "write_drive_contract.py", "check_drive_contract.py",
            "check_play_done.py", "commit_run_files.py", "run_play_headless.py",

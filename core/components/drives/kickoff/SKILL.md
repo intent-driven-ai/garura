@@ -75,8 +75,10 @@ into the drive's working folder `{stm_base}<issue>/context/kickoff/<run-ts>/` (`
 [T5] Round n: run /vision                         blockedBy: [T4]
 [T6] Round n: run /understand                     blockedBy: [T5]
 [T6b] After the round: done, again or ask         blockedBy: [T6]   (again: back to T4, round n+1)
-[T6c] Build the missing memory (build-memory)     blockedBy: [T6b] (only on ask)
-[T6d] Ask the person what is left                 blockedBy: [T6c] (then back to T4)
+[T6c] Search the knowledge (search-knowledge)    blockedBy: [T6b] (only on ask)
+[T6d] Build the knowledge (build-knowledge)      blockedBy: [T6c]
+[T6e] Write the brief (review-knowledge)         blockedBy: [T6d]
+[T6f] Brief the person; record the reply         blockedBy: [T6e] (then back to T4)
 [T7] The checker                                  blockedBy: [T6b]
 [E1] commit-change                                blockedBy: [T7]
 [E2] propose-change                               blockedBy: [E1]
@@ -135,7 +137,7 @@ The plays run in rounds until the drive's job is done (R5, C4). A question one p
 answer goes to the drive, not to the person: the play records it in `open-<play>.json` and
 finishes what it can; the other plays, and the next round, may answer it (C5).
 
-**Step 4 — Round n: run /intent** · Owner: `intent` · Depends on: Step 3 (or Step 6b, 6c)
+**Step 4 — Round n: run /intent** · Owner: `intent` · Depends on: Step 3 (or Step 6b, 6f)
 Run R5 for `intent`, handing it the prototype as its argument. Round 1: it walks the prototype
 and saves the intents as `proposed` with their ICE as proposed capabilities, naming each gap as
 an open question. A later round: it reads what `/vision` and `/understand` wrote, and fills
@@ -151,25 +153,34 @@ Run R5 for `understand`. It details every capability not yet detailed, in one ru
 Run R5 step 7 (`round_state.py`, `--max-rounds` from `drives.kickoff.max_rounds`). `done` →
 Step 7. `again` → Step 4, round n+1. `ask` → Step 6c.
 
-**Step 6c — Build the missing memory** · Owner: `build-memory` · Depends on: Step 6b
-Run R5c: `/build-memory` merges the questions asked again, answers what the prototype shows
-(quoted) and what memory holds (traced), drafts knowledge pages as memory updates waiting for
-the person, and turns screen states the prototype lacks into feedback.
+**Step 6c — Search the knowledge** · Owner: `search-knowledge` · Depends on: Step 6b
+Run R5c's first play: `/search-knowledge` merges the questions asked again and answers what the
+prototype shows (quoted) and what memory holds (through the memory tool, traced).
 
-**Step 6d — Ask the person what is left** · Owner: drive · Depends on: Step 6c
-Run R5b: show the draft first — each proposed business intent with its ICE, the domain and its
-capabilities — then the knowledge pages to approve or reject, the questions only the person can
-answer (each once, in words that make sense to whoever shared the prototype), and the prototype
-feedback. Record the replies (`from: person`), then Step 4, round n+1.
+**Step 6d — Build the knowledge** · Owner: `build-knowledge` · Depends on: Step 6c
+Run R5c's second play: `/build-knowledge` closes the rest — knowledge pages as memory updates
+waiting for the person, our proposed answer with its basis and context, notes for the
+prototype, settled for what the context answers.
+
+**Step 6e — Write the brief** · Owner: `review-knowledge` · Depends on: Step 6d
+Run R5b step 1: `/review-knowledge` writes the brief — what we understood, what we built (each
+proposed business intent with its ICE, the domain and its capabilities), a few gaps each with
+its context and our proposed answer, the knowledge pages with our recommendation, a pointer to
+the prototype notes.
+
+**Step 6f — Brief the person; record the reply** · Owner: drive · Depends on: Step 6e
+Run R5b steps 2–3: show the brief, wait for the reply, record it with `record_review.py`
+(`from: person`), then Step 4, round n+1.
 **SE-4 (F4/C4):** `intent-done.json`, `vision-done.json` and `understand-done.json` read
 `done: true`, each written after the one before it; each `<play>-commit.json` shows no
 leftover; and `_spine.yaml` has no capability `/vision` seeded still at `detail: directional`.
 **SE-5 (F5/C5):** the memory tool's `citations --issue <issue> --check` lists no problems, and
 every memory update the plays applied was approved by a person; the person was asked only in a
 round whose `round-<n>.json` reads `ask`, never after a round that read `again`, and only after
-`/build-memory` ran for that round (its `memory-build-check.json` reads `ok: true`); every
-question asked was shown after the draft and is one `memory-build.json` closed by `person`; each answer is in the
-issue's short-term memory with `from: person`.
+`/search-knowledge`, `/build-knowledge` and `/review-knowledge` ran for that round (their
+`search-check.json`, `build-check.json` and `brief-check.json` read `ok: true`); the person saw
+the brief, never a bare question; each answer is in the issue's short-term memory with
+`from: person` (`person-answers-round-<n>.json`).
 
 ### Phase: Check
 
@@ -212,9 +223,9 @@ reads `Stage: proposed`.
 - **SCE-2 (S2 — business owner, no working prototype):** `prototype.json` reads `runs: false`,
   no new branch exists, and the drive closed HALTED with `exit_reason: preflight`.
 - **SCE-3 (S3 — business owner, a question mid-run):** `round-1.json` reads `again` (the drive
-  went on to `/vision` and `/understand` instead of stopping), every question the person was
-  asked is in a `round-<n>.json` that reads `ask`, each answer is in the issue's short-term
-  memory with `from: person`, and `rounds.json` ends with `open_left: 0`.
+  went on to `/vision` and `/understand` instead of stopping), the person was briefed only after a
+  `round-<n>.json` that reads `ask` (`brief-check.json` reads `ok: true`), each answer is in the
+  issue's short-term memory with `from: person`, and `rounds.json` ends with `open_left: 0`.
 - **SCE-4 (S4 — business owner, a checker reject):** `check.yaml` reads `verdict: reject` with
   a reason per failed criterion, and no pull request exists for the branch.
 
@@ -255,7 +266,7 @@ sc_exit=$?   # 0 held · 1 unmet · 2 error
 | F2 | no prototype, or one that does not run | halt before opening; ask the person for a working prototype | human |
 | F3 | a play ran before the questions, or an answer has no source | stop; ask the drive's questions, record each answer's source, re-run the play | autonomous |
 | F4 | a play started early or on an unclean tree, or a capability left directional | halt; finish the earlier play or commit its run files; re-run `/understand` | autonomous |
-| F5 | an answer from the model alone, or a stop for a question the drive could still answer | strip the answer, or go on round the loop; ask the person only what no play answers, after showing the draft; re-run the play | human |
+| F5 | an answer from the model alone, a stop for a question the drive could still answer, or a bare question put to the person | strip the answer, or go on round the loop; brief the person only on what no play answers (`/review-knowledge`: our proposed answer with its context); re-run the play | human |
 | F6 | done without the checker's pass | run the checker; a reject halts the drive | autonomous |
 | F7 | the drive changed an intent's state, or recorded a decision without the person's word | undo the change to the intent page; ask the person and record their own words | human |
 | F8 | no evidence record | write the evidence before closing; the close stays HALTED until it exists | autonomous |
@@ -271,7 +282,7 @@ a question resumes the same play with the person's answer (shared run, R5 step 3
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:bb30b9731b340fd2d83c0ec66f98de2a93b107e35cb6da4876d1490e77c6bcce (of `reference/ice.md`) |
+| fingerprint | sha256:767d3ba6a7ea4ba347589f92dfd00f503cbc58a86ca450f8080e4be532c26dad (of `reference/ice.md`) |
 | compiled_by | drive-creator (#613) |
 | kind | drive |
 | pipeline_position | both |

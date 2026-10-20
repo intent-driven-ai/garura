@@ -1,0 +1,15 @@
+# Runnable checks — PR #687 (95b6414d)
+lint_play search-knowledge: VERDICT: PASS (0 gap(s))
+lint_play build-knowledge: VERDICT: PASS (0 gap(s))
+lint_play review-knowledge: VERDICT: PASS (0 gap(s))
+lint_play intent: VERDICT: PASS (0 gap(s))
+lint_play vision: VERDICT: PASS (0 gap(s))
+lint_play understand: VERDICT: PASS (0 gap(s))
+lint_drive kickoff: VERDICT: PASS (0 gap(s))
+search-knowledge scripts: OK
+build-knowledge scripts: OK
+review-knowledge scripts: OK
+drive builder scripts + drive linter: OK
+kickoff scripts: OK
+adr 042 lint: "valid": true
+lint-components: 121 errors, the same as main (no new errors)
