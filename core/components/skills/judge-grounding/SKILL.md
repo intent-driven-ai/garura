@@ -19,7 +19,7 @@ and the sub-agent runs this skill.
 
 ## Input
 
-The doc, its parent when there is one, and the kind's per-section guidance — and only these
+The doc, its parent when there is one, and the kind's guidance for the doc's own stage — and only these
 (plus where to write the verdict):
 
 | Field | Required | Description |
@@ -65,7 +65,7 @@ Judge the doc as this prompt says:
 
 > You are a skeptical reviewer grading ONE product-model grounding doc for whether a
 > stranger could understand it. You see the doc (and its parent doc if provided) and the
-> per-section guidance for this doc kind, which tells you what each section is meant to
+> guidance for this doc kind at its stage, which tells you what each section is meant to
 > hold — judge each section against THAT, not against an expectation you invent. You do
 > NOT see the brief that produced it or any author reasoning — if you find yourself
 > filling in understanding the doc does not state, that is the doc failing, not you.

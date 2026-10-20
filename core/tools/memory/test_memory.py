@@ -583,6 +583,15 @@ class Citations(Tiers):
         self.assertTrue(self.cite([self.step("short-term", "7/context/answers/reset.md", 1, 1)])["ok"])
         records = self.ask("citations", {"issue": 7})["records"]
         self.assertEqual(records[-1]["from_update"], u["id"])
+        # it reads only this issue's updates, and an unreadable update file never stops a cite
+        folder = os.path.join(self.short, "7", "review", "memory-updates")
+        for name, text in (("mu-20260101-901.json", '{"update": "not an object"}'), ("mu-20260101-902.json", "{cut")):
+            with open(os.path.join(folder, name), "w") as fh:
+                fh.write(text)
+        self.assertTrue(self.cite([self.step("short-term", "7/context/answers/reset.md", 1, 1)])["ok"])
+        other = self.cite([self.step("phoenix", "standards/rules/commits.md", 1, 1)], issue=8)
+        self.assertTrue(other["ok"])
+        self.assertIsNone(self.ask("citations", {"issue": 8})["records"][-1]["from_update"])
 
     def test_an_unreadable_line_stops_only_its_own_issue(self):
         os.makedirs(os.path.join(self.short, "8", "context"))

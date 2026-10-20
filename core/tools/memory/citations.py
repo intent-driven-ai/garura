@@ -140,6 +140,8 @@ class CitationStore:
                     update = json.load(fh)["update"]
             except (OSError, ValueError, KeyError, TypeError):
                 continue  # an unreadable update never stops a decision being recorded
+            if not isinstance(update, dict):
+                continue
             if update.get("status") == "applied" and update.get("target_path") in sources:
                 return update["id"]  # the first, by id; from_update names one update
         return None
