@@ -75,3 +75,20 @@ Findings:
 Records: `issue-1/` (the issue's short-term memory, status markers left out), `model/` (the
 product model the three plays wrote), `drive-branch-log.txt`, `citations-check.json`,
 `memory-updates.json`.
+
+## Dispositions (item 7, 2026-10-20)
+
+Fixed on this branch (Kapil: "go ahead with the five fixes"):
+- I-1 — `/intent` checks a drive contract with the shared `check_drive_contract.py` (`cf57a928`).
+- V-1 — `guidance_block.py --stage`: the judge gets its doc's own stage's guidance (`9a0538fb`).
+- V-2 — each issue keeps its own gate history (`review/gate-evals.jsonl`); the learner reads
+  every issue's ledger for the one project policy (Kapil chose 1) (`b78e0cda`).
+- V-3 — `decide` accepts `decided_in: session` (Kapil chose 1) (`2bc2da48`).
+- U-1 — `cite` names the applied update a decision rests on (`2bc2da48`).
+
+For their own issues (filed when Kapil asks):
+- I-2 — the play close did not ask `template-manager` for its templates.
+- V-4 — in a drive, the run files under the issue are left uncommitted (the drive's commit, #613).
+- U-2 — a headless run cannot research the web; every memory update draft was the model's.
+- I-3 — the session stamp finds no session id in a headless run (soft; noted only).
+- U-4 — cost of one run: about $2.5 (/intent), $5.2 (/vision), $11.8 (/understand) (noted only).

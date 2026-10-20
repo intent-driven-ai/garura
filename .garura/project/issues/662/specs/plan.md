@@ -4,7 +4,7 @@ kind: story
 serves: "#662 — /intent, /vision and /understand run on a test project from memory alone"
 status: active
 updated: 2026-10-20
-now: 7
+now: 8
 serves_plan: 653
 serves_item: 9
 ---
@@ -39,7 +39,7 @@ The run is recorded in this issue's folder. Passing it passes the Kickoff milest
 
 ## Where we are now
 
-The run passed its checks. Now: item 7, the findings.
+The run passed; its small findings are fixed. Now: item 8, land.
 
 ## The plan, in order
 
@@ -64,13 +64,11 @@ The run passed its checks. Now: item 7, the findings.
   update raised, approved, applied and used; no answer from the model alone; every run file
   under issue 1 except the gate learning files. Records and findings:
   `.garura/project/issues/662/evidence/run/`.
+- **7. Findings** — five fixed on this branch (I-1, V-1, V-2, V-3, U-1; Kapil chose V-2 "1" and
+  V-3 "1"); five written down for their own issues (I-2, V-4, U-2; I-3 and U-4 noted only).
+  `evidence/run/findings.md`.
 
-### 7. Findings — now
-
-**What:** small fixes made on this branch; each larger finding written down for its own issue.
-**Done when:** each finding is fixed here or written down.
-
-### 8. Land
+### 8. Land — now
 
 **What:** mark the Kickoff milestone passed in the #653 plan; close this plan and item 9 of the
 #653 plan in the last commit before the merge; run the change chain.
@@ -89,3 +87,4 @@ The run passed its checks. Now: item 7, the findings.
 - 2026-10-20 — Kapil: a2 (I run the plays with `claude -p` in the test project), b1 (the abandoned-cart shop).
 - 2026-10-20 — Kapil: "1" — the plays run under a drive contract (issue 1), nothing written to GitHub.
 - 2026-10-20 — Items 3 to 6 done: the three plays ran from memory; one memory update raised, approved by Kapil and used. Findings in `evidence/run/findings.md`.
+- 2026-10-20 — Item 7 done: five fixes (I-1, V-1, V-2, V-3, U-1); the rest written down for their own issues.
