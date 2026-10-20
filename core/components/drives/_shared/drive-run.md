@@ -18,7 +18,7 @@ The drive's Workflow section sets these between the anchors:
 | `plays` | The plays, in order. Each one runs inside a drive (it checks a drive contract). |
 | `questions` | The questions asked first, and which play's `answers` each one fills; or `none`. |
 | `runner_key` | `drives.<drive>.runner` — how each play runs: `subagent` (default) or `headless`. |
-| `checker_key` | `drives.<drive>.checker` — who checks the result (item 6 of #613). |
+| `checker_key` | `drives.<drive>.checker` — who checks the result: `kind` (`subagent` or `coding-agent`) and `model`. |
 | `end` | How the drive ends (its End section), in one line. |
 
 ## The run
@@ -115,11 +115,46 @@ For each play in `plays`:
 
 ### Step R6 — The checker (ADR 029 §2)
 
-A different model or coding agent, picked by `checker_key`, checks the result against the
-drive's Done means. It gets only the drive's outputs — the product change, the plays' review
-records, the trace check — never the drive's reasoning. It writes `pass` or `reject`, with
-reasons, to `<working>/check.yaml`. A reject halts the drive. (The checker's script comes with
-item 6 of #613.)
+A model or agent that did not run the drive checks the result against the drive's own
+criteria — its goal, its constraints and its Done means. It sees the drive's outputs, never
+its reasoning. Its rules, prompt and verdict shape are the `judge-drive-result` skill.
+
+1. **Build the bundle** — the only thing the checker reads:
+
+   ```bash
+   python3 scripts/prepare_check.py --ice <drive-dir>/reference/ice.md --issue <issue> \
+       --issue-dir "{stm_base}<issue>/" --working <working> \
+       --base <start-change's base_sha> --out-dir <working>/check/
+   ```
+
+2. **Run the checker** the config names (`checker_key`, resolved in R1):
+   - `subagent` — dispatch one sub-agent on `checker.model` (required: a model that is not the
+     session's), with this contract and nothing else:
+
+         { "task":    "judge this drive's result with the judge-drive-result skill",
+           "inputs":  { "bundle": "<working>/check/" },
+           "outputs": { "verdict": "<working>/check/verdict.json" },
+           "task_id": "drive-check" }
+
+   - `coding-agent` — Codex, in a read-only sandbox on the bundle:
+
+     ```bash
+     python3 scripts/run_checker_codex.py --bundle <working>/check/ \
+         --skill ../judge-drive-result/SKILL.md [--model <checker.model>] \
+         --out <working>/check/verdict.json
+     ```
+
+3. **Record the verdict:**
+
+   ```bash
+   python3 scripts/record_check.py --verdict <working>/check/verdict.json \
+       --manifest <working>/check/manifest.json --kind <checker.kind> [--model <checker.model>] \
+       --out <working>/check.yaml
+   ```
+
+   Exit 0 — pass, go on. Exit 1 — reject: halt (`checker_reject`); `check.yaml` names each
+   failed criterion and why. Exit 2 — no verdict, or one that does not match the shape: halt;
+   it is never a pass.
 
 ### Step R7 — End
 
@@ -144,6 +179,7 @@ answers and the checker's verdict. The drive writes the one delivery report for 
 | A play misses its done check | `play_not_done` |
 | Files outside the issue's folder stay changed after a play | `unclean_tree` |
 | The checker rejects | `checker_reject` |
+| The checker gives no verdict, or a malformed one | `checker_invalid` |
 | The person stops at a question | `stopped_at_question` |
 
 A halted drive closes HALTED with its exit reason. Its run stays under the issue, so a re-run

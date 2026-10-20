@@ -16,6 +16,9 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import check_play_done  # noqa: E402
 import commit_run_files  # noqa: E402
+import prepare_check  # noqa: E402
+import record_check  # noqa: E402
+import run_checker_codex  # noqa: E402
 import drive_preflight  # noqa: E402
 import run_play_headless  # noqa: E402
 import write_drive_contract  # noqa: E402
@@ -91,12 +94,13 @@ class DrivePreflight(Work):
         self.assertEqual(self.run_it("intent,shape"), 2)
         self.assertEqual(self.read_json("pre.json")["no_contract"], ["shape"])
 
-    def test_defaults_when_the_config_names_no_drive(self):
+    def test_defaults_when_the_config_names_no_drive_but_the_checker_model_is_asked_for(self):
         cfg = self.write("bare.yaml", "stm:\n  base-path: x/\n")
-        self.assertEqual(self.run_it("intent", cfg), 0)
+        self.assertEqual(self.run_it("intent", cfg), 2)
         facts = self.read_json("pre.json")
         self.assertEqual((facts["runner"], facts["checker"]["kind"]), ("subagent", "subagent"))
         self.assertTrue(facts["evidence_record"])
+        self.assertTrue(any("checker.model" in p for p in facts["problems"]))
 
     def test_an_unknown_runner_halts(self):
         cfg = self.write("odd.yaml", CONFIG.replace("runner: subagent", "runner: telepathy"))
@@ -154,7 +158,7 @@ class PlayDone(Work):
         self.assertEqual(self.run_it(0), 2)
 
 
-class CommitRunFiles(Work):
+class GitWork(Work):
     def setUp(self):
         super().setUp()
         self.old = os.getcwd()
@@ -168,6 +172,8 @@ class CommitRunFiles(Work):
         subprocess.run(["git", "add", "-A"], check=True, capture_output=True)
         subprocess.run(["git", "commit", "-q", "-m", "seed"], check=True, capture_output=True)
 
+
+class CommitRunFiles(GitWork):
     def run_it(self, branch="feature/7-x"):
         return quiet(commit_run_files.main, ["--issue-dir", ".garura/project/issues/7/", "--issue", "7",
                                              "--branch", branch, "--play", "vision",
@@ -243,6 +249,148 @@ class Headless(Work):
     def test_resume_without_an_answer_is_refused(self):
         self.assertEqual(quiet(run_play_headless.main, ["--play", "vision", "--resume", "s1",
                                                         "--out", self.p("run.json")]), 2)
+
+
+ICE = """# ICE — t
+
+## Intent
+
+**Goal:** turn a statement into a seeded domain.
+
+### Constraints
+
+- C1 — One issue and one branch.
+- C2 — Questions first.
+
+### Failure conditions
+
+- F1 — Wrote outside the issue.
+
+## Expectation
+
+### Done means
+
+- D1 — the contract exists.
+"""
+
+
+class PrepareCheck(GitWork):
+    def setUp(self):
+        super().setUp()
+        self.base = subprocess.run(["git", "rev-parse", "HEAD"], capture_output=True, text=True).stdout.strip()
+        self.write("product/domain.md", "# Shop\n")
+        self.write(".garura/project/issues/7/review/drive/vision-1.md", "review record")
+        self.write(".garura/project/issues/7/context/run.json", "{}")
+        self.write("work/answers.json", "{}")
+        self.write("work/intent-done.json", '{"done": true}')
+        subprocess.run(["git", "add", "-A"], check=True, capture_output=True)
+        subprocess.run(["git", "commit", "-q", "-m", "drive"], check=True, capture_output=True)
+        self.ice = self.write("ice.md", ICE)
+
+    def test_the_bundle_holds_the_criteria_and_the_outputs_only(self):
+        code = quiet(prepare_check.main, ["--ice", self.ice, "--issue", "7", "--issue-dir",
+                                          ".garura/project/issues/7/", "--working", "work",
+                                          "--base", self.base, "--memory-tool", "none.py",
+                                          "--out-dir", "work/check"])
+        self.assertEqual(code, 0)
+        m = self.read_json("work/check/manifest.json")
+        self.assertEqual(m["criteria_ids"], ["G", "C1", "C2", "D1"])
+        with open(self.p("work/check/change.diff")) as fh:
+            diff = fh.read()
+        self.assertIn("product/domain.md", diff)
+        self.assertNotIn("issues/7/", diff)  # the drive's own run records are not the change
+        self.assertTrue(os.path.isfile(self.p("work/check/review/vision-1.md")))
+        self.assertTrue(os.path.isfile(self.p("work/check/done/intent-done.json")))
+        self.assertIn("decision-trace check", m["missing"])
+        self.assertIn("answers-sources.json", m["missing"])
+
+    def test_an_ice_with_no_goal_is_nothing_to_judge(self):
+        ice = self.write("bad.md", "# ICE\n\n## Intent\n\nno goal\n")
+        self.assertEqual(quiet(prepare_check.main, ["--ice", ice, "--issue", "7", "--issue-dir", "x/",
+                                                    "--working", "work", "--base", self.base,
+                                                    "--out-dir", "work/check"]), 2)
+
+
+class RecordCheck(Work):
+    def setUp(self):
+        super().setUp()
+        self.manifest = self.write("manifest.json", json.dumps({"criteria_ids": ["G", "C1"]}))
+
+    def run_it(self, verdict):
+        path = self.write("verdict.json", json.dumps(verdict))
+        return quiet(record_check.main, ["--verdict", path, "--manifest", self.manifest, "--kind",
+                                         "subagent", "--model", "sonnet", "--out", self.p("check.yaml")])
+
+    def crit(self, g="pass", c1="pass"):
+        return [{"id": "G", "result": g, "evidence": "change.diff: adds the domain"},
+                {"id": "C1", "result": c1, "evidence": "change.diff: all under issues/7/"}]
+
+    def test_a_pass_is_recorded(self):
+        self.assertEqual(self.run_it({"verdict": "pass", "criteria": self.crit(), "reasons": []}), 0)
+        with open(self.p("check.yaml")) as fh:
+            text = fh.read()
+        self.assertIn("verdict: pass", text)
+        self.assertIn("model: \"sonnet\"", text)
+
+    def test_a_reject_is_recorded_and_halts(self):
+        v = {"verdict": "reject", "criteria": self.crit(c1="fail"), "reasons": ["C1: writes outside"]}
+        self.assertEqual(self.run_it(v), 1)
+        with open(self.p("check.yaml")) as fh:
+            self.assertIn('failed: ["C1"]', fh.read())
+
+    def test_a_pass_with_a_failed_criterion_is_never_a_pass(self):
+        self.assertEqual(self.run_it({"verdict": "pass", "criteria": self.crit(c1="fail"), "reasons": []}), 2)
+        self.assertFalse(os.path.exists(self.p("check.yaml")))
+
+    def test_a_criterion_not_judged_is_never_a_pass(self):
+        self.assertEqual(self.run_it({"verdict": "pass", "criteria": self.crit()[:1], "reasons": []}), 2)
+
+    def test_a_reject_without_reasons_is_refused(self):
+        self.assertEqual(self.run_it({"verdict": "reject", "criteria": self.crit(g="fail"), "reasons": []}), 2)
+
+    def test_no_evidence_is_refused(self):
+        crit = self.crit()
+        crit[0]["evidence"] = " "
+        self.assertEqual(self.run_it({"verdict": "pass", "criteria": crit, "reasons": []}), 2)
+
+
+class CodexChecker(Work):
+    def setUp(self):
+        super().setUp()
+        skill_dir = os.path.join(HERE, "..", "..", "..", "skills", "judge-drive-result")
+        self.skill = os.path.join(skill_dir, "SKILL.md")
+        # a stand-in Codex: records its arguments and stdin, writes the verdict to -o's path
+        stand_in = self.write("fake-codex", "#!/bin/sh\n"
+                              "echo \"$@\" > \"$(dirname \"$0\")/args.txt\"\n"
+                              "cat > \"$(dirname \"$0\")/prompt.txt\"\n"
+                              "while [ $# -gt 0 ]; do [ \"$1\" = --output-last-message ] && out=$2; shift; done\n"
+                              "printf '{\"verdict\": \"pass\"}' > \"$out\"\n")
+        os.chmod(stand_in, os.stat(stand_in).st_mode | stat.S_IEXEC)
+        self.old = run_checker_codex.CLI
+        run_checker_codex.CLI = stand_in
+        self.addCleanup(setattr, run_checker_codex, "CLI", self.old)
+        os.makedirs(self.p("check"))
+
+    def test_codex_runs_read_only_on_the_bundle_with_the_schema(self):
+        code = quiet(run_checker_codex.main, ["--bundle", self.p("check"), "--skill", self.skill,
+                                              "--model", "gpt-5", "--out", self.p("check", "verdict.json")])
+        self.assertEqual(code, 0)
+        with open(self.p("args.txt")) as fh:
+            args = fh.read()
+        for part in ("exec", "--sandbox read-only", f"--cd {self.p('check')}", "verdict.schema.json",
+                     "--model gpt-5"):
+            self.assertIn(part, args)
+        with open(self.p("prompt.txt")) as fh:
+            prompt = fh.read()
+        self.assertIn("No evidence, no pass.", prompt)
+        self.assertNotIn("user-invocable", prompt)  # the skill's frontmatter is not the prompt
+
+    def test_no_answer_is_an_error(self):
+        broken = self.write("silent-codex", "#!/bin/sh\nexit 1\n")
+        os.chmod(broken, os.stat(broken).st_mode | stat.S_IEXEC)
+        run_checker_codex.CLI = broken
+        self.assertEqual(quiet(run_checker_codex.main, ["--bundle", self.p("check"), "--skill", self.skill,
+                                                        "--out", self.p("check", "verdict.json")]), 2)
 
 
 if __name__ == "__main__":

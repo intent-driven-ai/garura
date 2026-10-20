@@ -1,0 +1,12 @@
+{
+  "verdict": "pass",
+  "criteria": [
+    {"id": "G", "result": "pass", "evidence": "change.diff: adds intents/fewer-sales-lost-to-abandoned-carts.md (proposed, with a source), the ecommerce domain with three capabilities, and 10 functionalities across them; answers-sources.json shows both answers from person; traces.json ok:true."},
+    {"id": "C1", "result": "pass", "evidence": "change.diff: the intent file reads 'Stage: proposed ... the person confirms or drops it' and lists Sources: statement, read 2026-10-20 (evidence/intent/.../source-statement/source.md)."},
+    {"id": "C2", "result": "pass", "evidence": "change.diff: _spine.yaml adds domain ecommerce; capabilities abandoned-carts-today, abandoned-cart-reminders and carts-won-back each carry 'domain: ecommerce'; ecommerce/domain.md lists all three under Capabilities."},
+    {"id": "C3", "result": "pass", "evidence": "change.diff: _spine.yaml gives each of the three capabilities 'detail: detailed' and adds functionalities (2 for abandoned-carts-today, 4 for abandoned-cart-reminders, 4 for carts-won-back); review/understand-*.md each say 'Now detailed' and list their functionalities."},
+    {"id": "C4", "result": "pass", "evidence": "traces.json: ok:true, problems empty, 30 records each with a non-empty trace; answers-sources.json: both answers (who_asks, proof) have from 'person'."},
+    {"id": "D1", "result": "pass", "evidence": "done/intent-done.json, done/vision-done.json and done/understand-done.json each read done:true, why 'held'."}
+  ],
+  "reasons": []
+}

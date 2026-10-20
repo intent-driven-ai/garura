@@ -177,7 +177,7 @@ and whose run files are committed, and continue from the first play not done.
 | pipeline_position | both |
 | plays | intent, vision |
 | stop_condition | stop-condition.yaml (D1–D4) |
-| scripts | 8 (drive_preflight.py, write_drive_contract.py, check_drive_contract.py, run_play_headless.py, check_play_done.py, commit_run_files.py, session_stamp.py, check_stop_condition.py) |
+| scripts | 11 (drive_preflight.py, write_drive_contract.py, check_drive_contract.py, run_play_headless.py, check_play_done.py, commit_run_files.py, prepare_check.py, run_checker_codex.py, record_check.py, session_stamp.py, check_stop_condition.py) |
 | step_evals | 4 (SE-1…SE-4) |
 | scenario_evals | 2 (SCE-1…SCE-2) |
 | recovery_entries | 4 (one per failure condition; 2 autonomous / 2 human) |

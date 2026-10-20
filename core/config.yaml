@@ -100,14 +100,16 @@ craft-ice:
 
 # Drives (ADR 029, #613) — one block per drive, written by /drive-creator. `runner` is how
 # each play runs (subagent | headless); `checker` is who checks the result (kind: subagent |
-# coding-agent; model: one other than the session's). A drive always records its evidence:
+# coding-agent). A subagent checker must name its model, one other than the session's (e.g.
+# sonnet when the session runs opus); a coding-agent checker is Codex — name a model your
+# Codex account allows (its own default may not be). A drive always records its evidence:
 # /drive-creator also sets evidence.plays.<drive>: true below.
 #drives:
 #  <drive>:
 #    runner: subagent
 #    checker:
-#      kind: subagent
-#      model: <a model other than the session's>
+#      kind: subagent         # or coding-agent
+#      model: sonnet          # coding-agent: a Codex model, e.g. gpt-5.6-terra
 
 # Evidence recording — when false, STM evidence writes are skipped across ship and all sub-plays
 evidence:

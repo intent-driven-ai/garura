@@ -10,7 +10,7 @@ drive-creator/references/drive_preflight.py and is stamped into each drive's scr
         --out <working>/preflight.json
 
 Facts: `stm_base`; `runner` (`drives.<drive>.runner`, default `subagent`); `checker`
-(`drives.<drive>.checker`, kind default `subagent`); `evidence_record`
+(`drives.<drive>.checker`, kind default `subagent`; a sub-agent checker must name its model); `evidence_record`
 (`evidence.plays.<drive>`, else `evidence.record`, else true); `on_default_branch`; and
 `plays_ok` with `missing` (no SKILL.md under the skills root) and `no_contract` (a play that
 does not check a drive contract, so it cannot run inside a drive).
@@ -116,6 +116,9 @@ def problems(facts):
     if facts["checker"]["kind"] not in CHECKERS:
         out.append(f"drives.{facts['drive']}.checker.kind is `{facts['checker']['kind']}`; "
                    f"it must be one of {', '.join(CHECKERS)}")
+    if facts["checker"]["kind"] == "subagent" and not facts["checker"]["model"]:
+        out.append(f"drives.{facts['drive']}.checker.model is not set — a sub-agent checker runs on "
+                   f"a model that is not the session's, so name it (e.g. sonnet)")
     if not facts["stm_base"]:
         out.append("the config has no stm.base-path")
     return out

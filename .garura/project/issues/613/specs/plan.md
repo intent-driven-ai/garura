@@ -4,7 +4,7 @@ kind: story
 serves: "#613 — the Kickoff drive runs /intent, /vision and /understand from a working prototype to a detailed product model"
 status: active
 updated: 2026-10-20
-now: 6
+now: 7
 serves_plan: 606
 serves_item: 8
 ---
@@ -80,7 +80,7 @@ the wrong move."* When memory and the system hold nothing to go on, they ask.
 The memory milestone is passed (#653 items 1 to 9; the last, #662, merged on 20 October): the
 three plays read memory only through their agents, every run lives under its issue, and they
 ran from memory alone on a test project. A fresh branch `feature/613-the-kickoff-drive` is cut
-from main (`504379ce`). Items 3 to 5 are done. Now: item 6, the checker.
+from main (`504379ce`). Items 3 to 6 are done. Now: item 7, building Kickoff.
 
 ## The plan, in order
 
@@ -118,6 +118,13 @@ from main (`504379ce`). Items 3 to 5 are done. Now: item 6, the checker.
   lays drives beside the plays; `lint-components` checks them. Proved by two fresh-agent trials
   in a scratch copy; their findings fixed (`specs/drive-compiler-design.md`, section 5). Left for
   item 7: `/understand` reads no capability list from its contract.
+- **6. Built the checker** (20 October) — the `judge-drive-result` skill holds its rules and
+  verdict shape; `prepare_check.py` hands it the drive's outputs only (the change, review
+  records, answers and their sources, the trace check, the done checks) and the drive's own
+  criteria; a sub-agent on a named other model or Codex (read-only) judges; `record_check.py`
+  writes `check.yaml` (pass goes on, reject halts, a malformed verdict is never a pass). Proved on
+  the #662 run: Sonnet and Codex each passed the full run and rejected it cut short after
+  `/vision` (`evidence/checker/`).
 
 ### Milestone: Kickoff's plays work from memory — passed (20 October)
 
@@ -129,18 +136,7 @@ system in every Garura install, and
 project. That work is its own feature, outside this issue
 (Feature #653, `.garura/project/issues/653/specs/plan.md`).
 
-### 6. Build the checker — now
-
-**Issue:** #613.
-**What:** at the end of a drive, a different model, sub-agent or coding agent
-checks the result, and the config picks which (ADR 029). It passes or rejects,
-with reasons written to a file. A rejection halts the drive.
-**Why here:** Kickoff's done check needs it, and no checker exists today.
-**Done when:** the config names the checker, and a pass and a rejection both
-work on a sample result.
-**Needs:** item 3.
-
-### 7. Build the Kickoff drive
+### 7. Build the Kickoff drive — now
 
 **Issue:** #613.
 **What:** write Kickoff's intent source (ICE) from #613's acceptance criteria and
@@ -207,3 +203,4 @@ mark step 1 of item 8 done in the #606 plan.
 - 2026-10-20 — Kapil: one review, after the pull request; the self-review goes (recorded under what this plan leaves out).
 - 2026-10-20 — Item 5 changed (Kapil): drives get their own builder and editor, `/drive-creator` and `/drive-editor`, not a drive kind inside `/play-creator`. Design note written; one question open (where drives live).
 - 2026-10-20 — Item 5 done: `/drive-creator`, `/drive-editor`, the shared drive run and `lint_drive.py`; drives live in `core/components/drives/` (Kapil: "1").
+- 2026-10-20 — Item 6 done: the checker, both kinds, proved with a pass and a reject each (`evidence/checker/README.md`).

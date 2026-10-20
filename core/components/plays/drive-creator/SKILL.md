@@ -84,8 +84,9 @@ Write `reference/ice.md` like the example's:
 - **Questions first** — each question the drive asks before any play runs, and the
   `answers.<play>.<key>` it fills; or `none`. A question a play would otherwise ask mid-run
   belongs here when the drive can know it up front (ADR 029 §2).
-- **Checker** — `drives.<drive>.checker` and what it checks: the Done means, against the
-  drive's outputs only.
+- **Checker** — `drives.<drive>.checker`: `kind` (`subagent` on a named model that is not the
+  session's, or `coding-agent` — Codex) and `model`. It judges the drive's goal, constraints and
+  Done means against the drive's outputs only, with the `judge-drive-result` skill.
 - **Runner** — `drives.<drive>.runner`: `subagent` (default) or `headless`.
 - **End** — the injected end sequence, plus any step the drive adds before the review (for
   example Kickoff's typed confirmation of intents, until the review tool exists).
@@ -132,7 +133,7 @@ Write the folder:
 2. `stop-condition.yaml` from the Done means (`{name: stop-condition}`, `content.done`).
 3. `scripts/`: copy unchanged — from `references/`: `drive_preflight.py`,
    `write_drive_contract.py`, `check_play_done.py`, `commit_run_files.py`,
-   `run_play_headless.py`; from `../play-creator/references/`: `check_drive_contract.py`,
+   `run_play_headless.py`, `prepare_check.py`, `run_checker_codex.py`, `record_check.py`; from `../play-creator/references/`: `check_drive_contract.py`,
    `session_stamp.py`, `check_stop_condition.py`. A rebuild copies them again, so a drive never
    drifts from the shared run.
 4. The fingerprint: run `shasum -a 256 reference/ice.md` and paste the digest. Never invent one.
@@ -146,7 +147,7 @@ Write the folder:
        runner: subagent            # subagent | headless
        checker:
          kind: subagent            # subagent | coding-agent
-         model: <a model other than the session's>
+         model: sonnet             # required for subagent: not the session's model
    ```
 
    and under `evidence:` → `plays:`, `<drive>: true` — a drive always records its evidence

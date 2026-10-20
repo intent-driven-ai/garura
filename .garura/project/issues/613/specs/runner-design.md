@@ -73,8 +73,8 @@ change, as today.
 drives:
   kickoff:
     checker:
-      kind: subagent        # subagent | model | coding-agent
-      model: <a different model from the session's>
+      kind: subagent        # subagent | coding-agent
+      model: sonnet         # required for subagent; for Codex, a model its account allows
 ```
 
 Kapil, 2026-10-20 ("c"): build it as config, and build support for both kinds — a sub-agent on a
@@ -129,3 +129,4 @@ Chosen: both, as config (Kapil). The default is the sub-agent; the config can na
   sub-agents — being checked against Claude Code's docs.
 - 2026-10-20 — (a): the drive starts each play as a sub-agent (the docs allow three layers);
   a headless session stays a config option.
+- 2026-10-20 — Item 6 built the checker as section 4 says: `judge-drive-result`, `prepare_check.py`, `run_checker_codex.py`, `record_check.py` (Shared Drive Run, R6).
