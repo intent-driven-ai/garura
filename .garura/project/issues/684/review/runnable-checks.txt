@@ -1,0 +1,13 @@
+# Runnable checks — PR #685 (73fe6b90)
+json parses: .garura/project/issues/632/specs/trial-adr-031/adr-check.json
+json parses: .garura/project/issues/632/specs/trial-adr-031/adr-manifest-accepted.json
+json parses: .garura/project/issues/684/context/branch.json
+json parses: .garura/project/issues/684/context/issue.json
+json parses: .garura/project/issues/684/context/pr.json
+json parses: .garura/project/issues/684/context/resolved-rules.json
+yaml parses: .garura/project/issues/498/review/quality-findings.yaml
+yaml parses: .garura/project/issues/500/review/context.yaml
+yaml parses: .garura/project/issues/614/review/quality-findings.yaml
+yaml parses: .garura/project/issues/684/context/analysis.yaml
+yaml parses: .garura/project/issues/684/context/commits.yaml
+files on the branch with a local temp or home path: 0

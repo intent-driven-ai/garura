@@ -1,0 +1,28 @@
+{
+  "pr_number": "685",
+  "base": "main",
+  "changed_paths": [
+    ".garura/project/issues/498/review/quality-findings.yaml",
+    ".garura/project/issues/500/review/context.yaml",
+    ".garura/project/issues/614/review/quality-findings.yaml",
+    ".garura/project/issues/632/review/pr.diff",
+    ".garura/project/issues/632/specs/trial-adr-031/adr-check.json",
+    ".garura/project/issues/632/specs/trial-adr-031/adr-manifest-accepted.json",
+    ".garura/project/issues/684/context/analysis.yaml",
+    ".garura/project/issues/684/context/branch.json",
+    ".garura/project/issues/684/context/commits.yaml",
+    ".garura/project/issues/684/context/issue.json",
+    ".garura/project/issues/684/context/porcelain.txt",
+    ".garura/project/issues/684/context/pr-body.md",
+    ".garura/project/issues/684/context/pr.json",
+    ".garura/project/issues/684/context/resolved-rules.json",
+    ".garura/project/issues/684/context/self-review.md",
+    ".garura/project/issues/684/context/work-description.txt"
+  ],
+  "standards_order": [
+    "kb",
+    "ltm",
+    "stm"
+  ],
+  "review_shelf": "~/.phoenix/core/memory/knowledge/review/"
+}
