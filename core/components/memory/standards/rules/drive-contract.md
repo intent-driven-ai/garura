@@ -41,6 +41,7 @@ A JSON file, passed to the play as `--contract <path>`:
 | `branch` | yes | The drive's branch. The play must already be on it. |
 | `issue` | yes | The drive's main issue. |
 | `review_dir` | yes | Where each play writes its review record for the drive's end review. |
+| `plays` | no | The drive's plays, in order (written by `write_drive_contract.py`). |
 | `inputs` | no | Per play, the inputs the drive hands it (paths, or values such as intent ids). |
 | `answers` | no | Per play, the answers to the questions the play would ask, gathered before the drive started (ADR 029: questions first). |
 
@@ -97,7 +98,9 @@ its gate settings say.
 ## One contract for the whole drive
 
 A drive writes one contract and hands the same file to every play it runs; each play reads
-its own `inputs.<play>` and `answers.<play>`. A play with an older, narrower check of its
+its own `inputs.<play>` and `answers.<play>`. When a later play's input is what an earlier play made,
+the drive adds it to that play's `inputs` and writes the file again before the later play
+starts (same `drive_run_id`); a play reads the contract when it starts. A play with an older, narrower check of its
 own (`/intent` checks only `drive_run_id` and `branch`) accepts the full contract, because
 the full contract holds those fields too; such plays move to the shared checker over time.
 

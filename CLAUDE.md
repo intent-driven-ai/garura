@@ -13,6 +13,7 @@ core/components/           # Source of truth (edit here)
 ├── agents/                # Agent definitions
 ├── skills/                # Skills (model-invocable only)
 ├── plays/                 # plays
+├── drives/                # drives: higher-order plays that run plays (ADR 029); built by /drive-creator
 └── memory/                # LTM: standards, formats, knowledge
 
 {target}/.claude/          # Deployment into a target project (via install-garura)

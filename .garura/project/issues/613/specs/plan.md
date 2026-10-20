@@ -4,7 +4,7 @@ kind: story
 serves: "#613 — the Kickoff drive runs /intent, /vision and /understand from a working prototype to a detailed product model"
 status: active
 updated: 2026-10-20
-now: 5
+now: 6
 serves_plan: 606
 serves_item: 8
 ---
@@ -80,7 +80,7 @@ the wrong move."* When memory and the system hold nothing to go on, they ask.
 The memory milestone is passed (#653 items 1 to 9; the last, #662, merged on 20 October): the
 three plays read memory only through their agents, every run lives under its issue, and they
 ran from memory alone on a test project. A fresh branch `feature/613-the-kickoff-drive` is cut
-from main (`504379ce`). Items 3 and 4 are done. Now: item 5, `/drive-creator` and `/drive-editor`.
+from main (`504379ce`). Items 3 to 5 are done. Now: item 6, the checker.
 
 ## The plan, in order
 
@@ -112,6 +112,12 @@ from main (`504379ce`). Items 3 and 4 are done. Now: item 5, `/drive-creator` an
   inside a drive closes as a sub-play (the drive writes the one report — drive contract, step 7).
   Moved to item 7: V-4 (the drive commits the issue's run files after each play) and the drive's
   evidence (the config turns evidence off by default, so Kickoff's config must record it).
+- **5. Built drives with `/drive-creator` and `/drive-editor`** (20 October; Kapil: their own
+  builder and editor, and their own folder, `core/components/drives/`) — one shared drive run
+  (`core/components/drives/_shared/drive-run.md`) with its scripts; `lint_drive.py`; the install
+  lays drives beside the plays; `lint-components` checks them. Proved by two fresh-agent trials
+  in a scratch copy; their findings fixed (`specs/drive-compiler-design.md`, section 5). Left for
+  item 7: `/understand` reads no capability list from its contract.
 
 ### Milestone: Kickoff's plays work from memory — passed (20 October)
 
@@ -123,20 +129,7 @@ system in every Garura install, and
 project. That work is its own feature, outside this issue
 (Feature #653, `.garura/project/issues/653/specs/plan.md`).
 
-### 5. Build drives with `/drive-creator` and `/drive-editor` — now
-
-**Issue:** #613.
-**What:** a drive gets its own builder and editor, as a play has `/play-creator` and
-`/play-editor` (Kapil, 2026-10-20). `/drive-creator` builds a drive from its ICE; `/drive-editor`
-changes one through its ICE. One shared drive run (`_shared/drive-run.md`) holds the steps every
-drive runs, and `lint_drive.py` checks a built drive. Design: `specs/drive-compiler-design.md`.
-**Why here:** every play is built through a compiler (CLAUDE.md), so Kickoff is too; and every
-later drive (#608–#611) will use the same builder and the same shared run.
-**Done when:** `/drive-creator` builds a sample drive that passes the linter, the linter fails a
-broken one, and `/drive-editor` changes the sample through its ICE and it passes again.
-**Needs:** item 3.
-
-### 6. Build the checker
+### 6. Build the checker — now
 
 **Issue:** #613.
 **What:** at the end of a drive, a different model, sub-agent or coding agent
@@ -213,3 +206,4 @@ mark step 1 of item 8 done in the #606 plan.
 - 2026-10-20 — Items 3 and 4 done. I-2 fixed in the shared close and the drive contract; V-4 and the drive's evidence moved to item 7.
 - 2026-10-20 — Kapil: one review, after the pull request; the self-review goes (recorded under what this plan leaves out).
 - 2026-10-20 — Item 5 changed (Kapil): drives get their own builder and editor, `/drive-creator` and `/drive-editor`, not a drive kind inside `/play-creator`. Design note written; one question open (where drives live).
+- 2026-10-20 — Item 5 done: `/drive-creator`, `/drive-editor`, the shared drive run and `lint_drive.py`; drives live in `core/components/drives/` (Kapil: "1").

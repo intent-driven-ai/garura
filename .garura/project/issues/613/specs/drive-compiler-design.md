@@ -72,21 +72,41 @@ required sections, a real fingerprint), plus:
 `lint-components` learns `kind: drive`, so it checks drives with the drive rules, not the play
 rules.
 
-## 5. Done when (item 5)
+## 5. Done when (item 5) — met (20 October)
 
-- `/drive-creator` builds a small sample drive (two existing plays) that passes `lint_drive.py`.
-- The linter fails a broken drive: a missing play, a missing anchor, a step that does work itself.
-- `/drive-editor` changes the sample drive's ICE, and the recompiled drive passes the linter.
-- Kickoff itself is built with `/drive-creator` in item 7.
+- A fresh agent ran `/drive-creator` on a short brief (statement → `/intent` → `/vision`) in a
+  scratch copy of the source; `lint_drive.py` passed the drive on the first run. Its seven
+  findings were fixed: the linter command runs from the repository root; a later play gets an
+  earlier play's output by the drive writing the contract again before it starts (shared run R5
+  step 6; drive contract); answer sources go to `answers-sources.json`; the config's `drives:`
+  shape is written down; the linter now checks `end=`, that the fingerprint matches the ICE,
+  that stamped scripts match their source, and the config entries.
+- A second fresh agent ran `/drive-editor` to add `/understand`; the linter passed. Its six
+  findings were fixed: the editor's no-person fallback, the Next line when the last play
+  changes, ids appended never renumbered, the linter now fails a half-done edit (one step and
+  one done clause per play) and an input the play never reads.
+- The linter fails each kind of broken drive (tests: missing play, play that cannot run in a
+  drive, missing anchor, a step that does work itself, no `kind`, wrong config key, missing
+  script, uncovered failure, no Done means, no `end=`, changed ICE, edited script, missing
+  config, half-done edit, unread input). 59 drive tests and 38 install tests pass.
+- For item 7: `/understand` does not read a list of capabilities from its contract — it picks
+  every capability not yet detailed. Kickoff hands it nothing, or the play is changed first.
 
-## 6. Open — for Kapil
+## 6. Where drives live — decided (Kapil, 2026-10-20: "1")
 
-Where drives live in the source:
-1. `core/components/drives/<drive>/` — a folder of their own. Clear to read; the install and
-   `lint-components` must learn a new folder.
-2. `core/components/plays/<drive>/` with `kind: drive` — ADR 029 calls a drive a higher-order
-   play; the install, the shared files and `lint-components` work as they are.
+`core/components/drives/<drive>/`, a folder of their own. What that takes:
+- **The shared drive run** lives in `core/components/drives/_shared/drive-run.md`. The install
+  lays it into the same installed `_shared/` folder as the plays' shared close, so an installed
+  drive reaches both as `../_shared/…`.
+- **The install** lays each drive as a skill, beside the plays (Claude Code: `.claude/skills/`;
+  Codex: `.agents/skills/`), counts drives on their own, records them in the install manifest,
+  and the uninstall removes them.
+- **`lint-components`** finds drives in `drives/` and checks them with the drive rules.
+- **The builders** `/drive-creator` and `/drive-editor` are plays (they build drives; they are
+  not drives), so they live in `core/components/plays/`.
 
 ## Log
 
 - 2026-10-20 — Written after Kapil's "go" on item 5, with `/drive-creator` and `/drive-editor`.
+- 2026-10-20 — Kapil chose 1: drives live in `core/components/drives/`.
+- 2026-10-20 — Built and proved: two fresh-agent trials (`/drive-creator`, `/drive-editor`), their findings fixed.

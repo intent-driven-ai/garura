@@ -23,6 +23,7 @@ github:
 components:
   skills: ./core/components/skills/
   plays: ./core/components/plays/
+  drives: ./core/components/drives/
   agents: ./core/components/agents/
 
 # Claude Code derived locations (populated by /sud:install)
@@ -96,6 +97,17 @@ review-pr:
 # Default true (fail safe toward human approval) when absent or unreadable.
 craft-ice:
   hitl: true
+
+# Drives (ADR 029, #613) — one block per drive, written by /drive-creator. `runner` is how
+# each play runs (subagent | headless); `checker` is who checks the result (kind: subagent |
+# coding-agent; model: one other than the session's). A drive always records its evidence:
+# /drive-creator also sets evidence.plays.<drive>: true below.
+#drives:
+#  <drive>:
+#    runner: subagent
+#    checker:
+#      kind: subagent
+#      model: <a model other than the session's>
 
 # Evidence recording — when false, STM evidence writes are skipped across ship and all sub-plays
 evidence:

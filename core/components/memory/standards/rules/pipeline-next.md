@@ -83,4 +83,6 @@ meta_exempt:
   - uninstall-garura
   - play-creator
   - play-editor
+  - drive-creator
+  - drive-editor
 ```

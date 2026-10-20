@@ -26,6 +26,17 @@ Plays still distinguish themselves along two axes:
 
 Neither of these requires a level label.
 
+## Drives
+
+A **drive** is a higher-order play: it runs other plays in a fixed order, on one issue and one
+branch, until its intent is met or it fails (ADR 029). It does no work of its own. Drives live
+in `core/components/drives/<drive>/`, are built by `/drive-creator` and changed by
+`/drive-editor` (the companions of `/play-creator` and `/play-editor`), and are checked by
+`lint_drive.py`. Every drive points to one shared run, `core/components/drives/_shared/drive-run.md`
+(questions first, one contract, each play run and checked and its run files committed, the
+checker, the end), as every play points to the shared close. The install lays drives as skills
+beside the plays.
+
 ## Two Play Patterns
 
 Two patterns coexist in the codebase. The pattern used depends on the play's execution model.

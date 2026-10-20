@@ -124,25 +124,25 @@ def _emit_skill(md_path, sid, src_dir, skills_root, paths):
 
 def lay_components(components, target, info, allow=None):
     """allow: per-kind name sets from the orchestrator's install scope
-    ({"plays": {...}, "skills": {...}, "agents": {...}}), or None for all.
+    ({"plays": {...}, "drives": {...}, "skills": {...}, "agents": {...}}), or None for all.
     A per-kind value may itself be None, meaning every component of that
     kind installs."""
     skills_root = os.path.join(target, ".agents", "skills")
     os.makedirs(skills_root, exist_ok=True)
 
     paths = []
-    counts = {"agents": 0, "skills": 0, "plays": 0}
+    counts = {"agents": 0, "skills": 0, "plays": 0, "drives": 0}
     deprecated = 0
 
-    # skills + plays — folders with a SKILL.md
-    for kind in ("skills", "plays"):
+    # skills, plays and drives — folders with a SKILL.md
+    for kind in common.SKILL_KINDS:
         src = os.path.join(components, kind)
         if not os.path.isdir(src):
             continue
         for name in sorted(os.listdir(src)):
             if common.skippable(name) or name in common.EXCLUDED_SKILLS:
                 continue
-            if allow is not None and allow[kind] is not None \
+            if allow is not None and allow.get(kind) is not None \
                     and name not in allow[kind]:
                 continue
             sp = os.path.join(src, name)
@@ -155,7 +155,7 @@ def lay_components(components, target, info, allow=None):
             _emit_skill(md, name, sp, skills_root, paths)
             counts[kind] += 1
         info(f"  {kind}: {counts[kind]}")
-    if counts["plays"]:
+    if counts["plays"] or counts["drives"]:
         common.lay_shared(components, skills_root, os.path.join(".agents", "skills"), paths, info)
 
     # agents — single .md files, each emitted as a Codex skill (no agent type)

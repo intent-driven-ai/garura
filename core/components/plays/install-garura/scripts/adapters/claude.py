@@ -59,7 +59,7 @@ def _rewrite_md(path, *, drop_model):
 
 def lay_components(components, target, info, allow=None):
     """allow: per-kind name sets from the orchestrator's install scope
-    ({"plays": {...}, "skills": {...}, "agents": {...}}), or None for all.
+    ({"plays": {...}, "drives": {...}, "skills": {...}, "agents": {...}}), or None for all.
     A per-kind value may itself be None, meaning every component of that
     kind installs."""
     claude = os.path.join(target, ".claude")
@@ -69,7 +69,7 @@ def lay_components(components, target, info, allow=None):
     os.makedirs(agents_dest, exist_ok=True)
 
     paths = []
-    counts = {"agents": 0, "skills": 0, "plays": 0}
+    counts = {"agents": 0, "skills": 0, "plays": 0, "drives": 0}
     deprecated = 0
 
     # agents — single .md files; resolve + keep model
@@ -91,15 +91,15 @@ def lay_components(components, target, info, allow=None):
             counts["agents"] += 1
         info(f"  agents: {counts['agents']}")
 
-    # skills + plays — folders under .claude/skills; drop model
-    for kind in ("skills", "plays"):
+    # skills, plays and drives — folders under .claude/skills; drop model
+    for kind in common.SKILL_KINDS:
         src = os.path.join(components, kind)
         if not os.path.isdir(src):
             continue
         for name in sorted(os.listdir(src)):
             if common.skippable(name) or name in common.EXCLUDED_SKILLS:
                 continue
-            if allow is not None and allow[kind] is not None \
+            if allow is not None and allow.get(kind) is not None \
                     and name not in allow[kind]:
                 continue
             sp = os.path.join(src, name)
@@ -116,7 +116,7 @@ def lay_components(components, target, info, allow=None):
             paths.append(os.path.join(".claude", "skills", name))
             counts[kind] += 1
         info(f"  {kind}: {counts[kind]}")
-    if counts["plays"]:
+    if counts["plays"] or counts["drives"]:
         common.lay_shared(components, skills_dest, os.path.join(".claude", "skills"), paths, info)
 
     if deprecated:
