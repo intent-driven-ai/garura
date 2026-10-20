@@ -1,0 +1,252 @@
+# round-2.yaml - PR #679 (issue #662), round 2 of the review-change run.
+# Judged against the branch at HEAD 64696192 by reading the files, not the commit messages.
+# Grounded only in committed sources on main (CLAUDE.md, pr.md, ADR 036/039/040, drive-contract.md, tool README/contract
+# as they stood on main, main commit e8c3d760). Nothing here rests on .garura/project/issues/**.
+# Severities follow pr.md on main (bucket definitions; the table has no harness/ICE rows).
+meta:
+  pr: 679
+  issue: 662
+  round: 2
+  head_assessed: 64696192
+  fixes_read: [37538cdd, 9f5b143c, 64696192]
+  checks_run:
+    - "test_gate_learning.py: ALL PASS (learner 11/11, per-issue ledgers 5/5, copies identical)"
+    - "cmp: gate_eval.py and distill_gate_policy.py identical to play-creator/references in all 11 plays (22 files); check_drive_contract.py identical in intent/vision/understand; guidance_block.py identical in vision/understand"
+    - "sha256 of intent/reference/ice.md equals the fingerprint in intent/SKILL.md line 550 (93691e41...)"
+    - "lint_play intent: VERDICT PASS (0 gaps); test_intent_scripts 103/103; test_guidance_block 13/13"
+    - "check_contract.py: 23 samples ok, 36 broken all still fail (decide-in-a-made-up-place.json refused); test_check_contract 56 OK; test_memory 80 OK"
+    - "ruff check on core/tools/memory and play-creator/references: clean"
+    - "scratch run of update_behind: other issue's corrupt file ignored; own corrupt file skipped; an update file whose 'update' is a string crashes (see N-4)"
+  tally:
+    fixed: 14
+    partly_fixed: 2
+    carried: 3
+    not_fixed: 0
+    new_findings: {P1: 0, P2: 0, P3: 2, P4: 4}
+
+per_finding:
+  # ---------------- harness ----------------
+  H-1:
+    verdict: fixed
+    reason: >
+      intent/reference/ice.md C9 now reads "handed a drive's JSON contract - checked by the shared drive-contract checker
+      (check_drive_contract.py, standards/rules/drive-contract.md)", and the compiled SKILL's Step 0 and C9 row already
+      say the same, so a /play-editor rebuild keeps the checker. The fingerprint in SKILL.md line 550 matches the sha256
+      of the new ice.md; lint_play passes; the checker copy is byte-identical to the canonical one. Left as it was: the
+      ICE does not list the contract's required fields (it points at drive-contract.md, which is the single source, as
+      G4 wants), and the refused-contract halt still names REC9 as it did on main. See N-6 for how the fingerprint was
+      produced.
+  H-2:
+    verdict: fixed
+    reason: >
+      The ten SKILLs still pass the config value raw, but gate_eval.py append now fills {issue} and <issue> with --issue
+      (fill_issue), tail does the same and fails loudly without --issue, and the learner treats the slot as a wildcard.
+      A path substitution is now made by a script, not by the orchestrator's inference. The new test shows no literal
+      {issue} folder is made and the learner reads every issue's ledger. Both spellings are accepted, so the
+      {issue}/<issue> mismatch cannot do harm.
+  H-3:
+    verdict: fixed
+    reason: >
+      grounding-eval.md ("How the judge runs") and judge-grounding's `guidance` input row now say the judge gets the
+      kind's guidance for the doc's own stage: per-section guidance, the stage's heading contract and the every-stage
+      agent intent, cut by guidance_block.py --stage, never the gold example. That matches what guidance_block.py
+      keeps (wanted()). Two leftovers, both small: judge-grounding still says "per-section guidance" at lines 22 and 68
+      (N-5), and nothing says the directional capability template has no per-section block of its own.
+  H-4:
+    verdict: fixed
+    reason: >
+      gate-config.md "Where the history and the policy live" now says the learner reads every issue's history and writes
+      one project policy, that the policy stays in .garura/core/ because it is learned from all issues, and that learned
+      checkpoint answers are not memory (ADR 036 section 5, on main). That is the committed record the round-1 finding
+      said was missing; ADR 039's every-write-to-the-issue rule is about memory, which the policy is not.
+  H-5:
+    verdict: carried
+    reason: >
+      Not touched in this round. The ten SKILLs still write <issue> in the path next to <strategy issue> in
+      roadmap/shape/vision/understand, and still nest "(the run's issue)" inside the defaults parenthesis. P4 nit,
+      unchanged; the scripts now accept either spelling, so it no longer misleads a run.
+  H-6:
+    verdict: carried
+    reason: >
+      Not touched. intent/SKILL.md Step 0 still says "inside a drive, write to <working> instead" (line 105 comment and
+      the sentence above it) while the block writes run.json to "$pre/run.json" in both cases, and <working> needs the
+      issue that the checker has not read yet. P4 nit, same text as on main for the comment; the instruction still
+      cannot be followed literally for the checker call.
+  H-7:
+    verdict: carried
+    reason: >
+      core/config.yaml and the ten SKILLs still hard-code ".garura/project/issues/" instead of {stm_base}, and no text
+      says the learner finds per-issue ledgers only when the path ends <base>/<issue>/review/gate-evals.jsonl. gate-config's
+      new section does write the ledger as {stm_base}<issue>/review/gate-evals.jsonl, which helps a reader, but the
+      configured value and the learner's regex are still tied together without a statement. A custom path such as
+      "ledgers/{issue}.jsonl" would be written by gate_eval.py and then read as an empty file by the learner. P4.
+
+  # ---------------- memory ----------------
+  M1:
+    verdict: fixed
+    reason: >
+      gate-config.md now says, in one place, that each issue keeps its own ledger, the learner reads every issue's in
+      time order, a streak can run across issues, a correction's refutes names a line in its own issue's ledger, and an
+      issue's ledger counts once it is on the branch the learner runs on. I checked these against distill_gate_policy.py
+      (read_ledgers, refuted keyed by (_src, line)): they match.
+  M2:
+    verdict: fixed
+    reason: >
+      The resolver is now written down (gate-config.md: "gate_eval.py fills it with the run's --issue, so a play may pass
+      the config value as it is") and implemented (gate_eval.py fill_issue; distill read_ledgers). /run and /quality's
+      "${gates_ledger}" now work as written. Covered by test_ledgers_under_each_issue.
+  M3:
+    verdict: fixed
+    reason: >
+      "The policy stays in .garura/core/, not under an issue: it is learned from all issues, and learned checkpoint answers
+      are not memory (ADR 036 section 5)". ADR 036 section 5 reads exactly that on main. The exemption sits beside the
+      config block where a reader looks.
+  M4:
+    verdict: fixed
+    reason: >
+      gate-config.md Related now cites drive-contract.md (where "the issue ID governs" actually lives) and ADR 039, plus
+      ADR 036 section 5. core/config.yaml's comment and distill_gate_policy.py's docstring were re-pointed the same way
+      ("rules/drive-contract.md; ADR 039"). Each citation lands on text that exists on main.
+  M5:
+    verdict: fixed
+    reason: >
+      The "Upgrading" bullet says an old ledger at .garura/core/gate-evals.jsonl is not read and that the policy then only
+      resets to gated (true: the learner writes auto only from ledger lines; never_auto is kept). One flaw in the advice
+      itself is N-3.
+
+  # ---------------- tool contract ----------------
+  TC-1:
+    verdict: fixed
+    reason: >
+      The rule is now written in both places a reader looks: README "Rules for this folder" (a minor version only adds a
+      new allowed value or an optional field, keeps contract_version, and every 5.0 request and answer stays valid;
+      anything else is a new vN.json) and v5.json's description (Version 5.1, additive, with what it adds). 5.1.0 is
+      recorded in both. That is the first of the two routes round 1 offered. The rule is the branch's own, written in
+      the same change that needs it, and its wording covers requests and answers but not a 5.0 reader of a response
+      that now holds decided_in "session" (N-2).
+  TC-2:
+    verdict: fixed
+    reason: >
+      v5.json decide.summary, answer_rules.decide_records_the_person, and README (table row for decide and step 2 of
+      "When no tier answers") all now name review-tool or session. The "local prototype page" wording is gone from both.
+  TC-3:
+    verdict: partly fixed
+    reason: >
+      The end date is now written (decide.summary and the README: until the review tool's memory section is built, #664),
+      and "a session that records their exact reply" is a definition of sorts. What is still missing is what makes the
+      reply the person's: nothing says it is taken from the person's own turn and never composed by the agent, and the tool
+      still stores whatever "reply" it is handed. The answer rule itself says only "a session that records it". ADR 036
+      section 7 (typed approval until the tool has the section) is honoured; the proof gap round 1 named remains.
+  TC-4:
+    verdict: fixed
+    reason: >
+      v5.json cite.summary now says that when the agent leaves from_update out but a step's source is an applied update's
+      written file, the tool names that update itself; README and GUIDE say it too; test_memory checks that the record
+      carries from_update.
+  TC-5:
+    verdict: partly fixed
+    reason: >
+      The code now says "the first, by id; from_update names one update" in a comment, but the contract and README do not
+      say a decision rests on one update at most, and update_behind's docstring still claims the link "is never lost".
+      Cosmetic for now, since from_update is a single string.
+  TC-6:
+    verdict: fixed
+    reason: >
+      update_behind reads only updates.folder(issue), returns early when no step has a short-term source, and skips a
+      file it cannot read or parse. My scratch run confirms a corrupt update in another issue is never touched and a
+      corrupt own one is skipped. Two gaps are logged: no test pins this (N-1) and one malformed-but-valid-JSON shape
+      still crashes (N-4).
+  TC-7:
+    verdict: fixed
+    reason: >
+      samples/broken/decide-in-a-made-up-place.json (decided_in "chat") exists and check_contract.py counts 36 broken
+      samples, all still refused, with this one listed in broken_reasons.
+
+new_findings:
+  - id: N-1
+    severity: P3
+    file: core/tools/memory/citations.py
+    line: 129-146
+    basis: >
+      pr.md (main) severity buckets: P2 lists "missing tests for new code"; this is partial cover (the happy path is
+      tested), so P3. Principle: main commit e8c3d760 and test_an_unreadable_line_stops_only_its_own_issue set the
+      practice that an unreadable-record rule gets its own test.
+    finding: >
+      The round-1 fix for TC-6 added two behaviours (read only this issue's updates; skip an unreadable update file) but
+      9f5b143c changed no test. test_memory.py only covers the case where the update is found. Nothing fails if update_behind
+      goes back to reading every issue, or stops skipping a bad file. Suggested: one test with a corrupt file in a second
+      issue and one in the same issue.
+
+  - id: N-2
+    severity: P3
+    file: core/tools/memory/README.md (and contract/v5.json description)
+    line: README 237-240; v5.json line 6 (last sentence)
+    basis: >
+      main:core/tools/memory/README.md "The contract changes only by a new version", with v1..v5 each a whole file at
+      N.0.0 (committed on main); pr.md bucket P3 (docs that say less than the behaviour); the severity is lowered from
+      round 1's ARCH-19 P2 because the rule now exists and no other consumer of decided_in exists under core/ or docs/.
+    finding: >
+      The minor-version rule says a minor "keeps every 5.0 request and answer valid". decided_in is also in the update
+      record every response carries (propose, decide, apply, updates), so a reader built on 5.0 that treats it as one
+      value would reject "session" in a 5.1 response; the rule does not mention readers, and contract_version stays "5",
+      so a client cannot tell. The rule also authorises, from inside the change that needs it, an in-place edit of a file
+      main treats as history, with no decision record. Suggested: add one sentence that a reader must accept new values
+      it does not know, or restrict "minor" to additions in requests and optional response fields.
+
+  - id: N-3
+    severity: P4
+    file: core/components/memory/standards/rules/gate-config.md
+    line: 59-60
+    basis: >
+      pr.md bucket P4 (nit). Principle in the same file's section: "a correction's refutes names a line in its own issue's
+      ledger" (the line number is the position in that file).
+    finding: >
+      The upgrade advice tells a project to "move its lines into the issue they belong to". A line's refutes is a line
+      number in the old single file; once lines are split by issue every refutes points at the wrong line (or none). No
+      ledger exists on main today (direct-model-write.md notes it absent), so no one is hurt now. Say "start fresh" or
+      "rewrite each refutes".
+
+  - id: N-4
+    severity: P4
+    file: core/tools/memory/citations.py
+    line: 141
+    basis: >
+      pr.md bucket P4 (nit; the same-issue-only stop satisfies main commit e8c3d760's principle, so it is not P3). The
+      stated aim is in the line's own comment: "an unreadable update never stops a decision being recorded".
+    finding: >
+      The except clause covers a file that cannot be read or parsed, but a file that is valid JSON whose "update" is not an
+      object (for example a string) raises AttributeError at update.get(...) and stops cite for that issue. Ran it:
+      "AttributeError 'str' object has no attribute 'get'". Also, a record without "id" raises KeyError at return. Add
+      AttributeError to the except tuple or check isinstance(update, dict).
+
+  - id: N-5
+    severity: P4
+    file: core/components/skills/judge-grounding/SKILL.md
+    line: 22, 68
+    basis: >
+      pr.md bucket P4 (nit). main:core/components/memory/standards/rules/grounding-eval.md "How the judge runs" and the
+      skill's own `guidance` row now describe the stage-cut guidance; the skill must not say a narrower thing in two
+      other places.
+    finding: >
+      Line 22 still says the judge sees "the doc, its parent ... and the kind's per-section guidance - and only these", and
+      the judge prompt at line 68 says "the per-section guidance for this doc kind". The input table (line 29) now says the
+      guidance also holds the stage's heading contract and the every-stage agent intent. A directional capability has no
+      per-section block, so for /vision's capability judges the prompt's wording does not describe what they get.
+
+  - id: N-6
+    severity: P4
+    file: core/components/plays/intent/SKILL.md
+    line: 550
+    basis: >
+      main:CLAUDE.md "Play Pipeline Rules": an intent change goes ICE source then /play-editor, and the compiled file is
+      not hand-edited for it; pr.md bucket P4 (low confidence, a process note).
+    finding: >
+      The fingerprint matches the new ice.md (checked), but 64696192's own message says "fingerprint recomputed", so the
+      ICE edit and the stamp were made by hand, not by a /play-editor recompile, and the SKILL's compiled_by row does not
+      record this step. The C9 sentence only names what the SKILL already did, so no guarantee changed and a rebuild
+      converges; this is a note, not a defect, unless the project wants every ICE change compiled.
+
+verdict_note: >
+  No P1 or P2 remains open. Round 1's single harness P2 (H-1) and single tool-contract P2 (TC-1) are fixed, as is the
+  memory P2 (M2). Open: H-5, H-6, H-7 (P4 nits carried), TC-3 and TC-5 (partly fixed, P3), and two P3 and four P4 new
+  findings. None blocks landing.

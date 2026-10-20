@@ -1,24 +1,148 @@
 meta:
   pr: 679
   issue: 662
-  round: 1
-  head: cfbd6684
+  round: 2
+  head: after 64696192, with the round-2 fixes
   gate: off by config (gates.plays.review-change); the computed recommendation is the decision, marked as a harness verdict
-  review_shelf: ~/.phoenix/core/memory/knowledge/review/ (see context-notes.md)
+  round_1: 'approve by the harness: 3 P2 (M2, TC-1, H-1), 17 P3, 11 P4; fixed in 37538cdd, 9f5b143c, 64696192'
   sources:
-  - quality-findings.yaml
-  - design-findings-harness.yaml
-  - design-findings-memory.yaml
-  - design-findings-tool-contract.yaml
-  - runnable-checks.txt
-  - lint-components.json
-  runnable: all suites pass (runnable-checks.txt); lint-components 113 errors, the same as main; lint_play PASS on the three
-    plays; ruff check passes
-  counts:
-    P2: 3
-    P3: 17
+  - round-2.yaml
+  counts_open:
+    P3: 9
     P4: 11
 findings:
+- id: H-5
+  severity: P4
+  category: harness
+  assessment: carried
+  file: core/components/plays/roadmap/SKILL.md
+  basis: pr.md bucket P4 nit (naming clarity).
+  finding: The same paragraph defines '<strategy issue>' and then writes the default path with '<issue>'; the default is a
+    nested parenthesis
+  round_2: 'Not touched in this round. The ten SKILLs still write <issue> in the path next to <strategy issue> in roadmap/shape/vision/understand,
+    and still nest "(the run''s issue)" inside the defaults parenthesis. P4 nit, unchanged; the scripts now accept either
+    spelling, so it no longer misleads a run.
+
+    '
+- id: H-6
+  severity: P4
+  category: harness
+  assessment: carried
+  file: core/components/plays/intent/SKILL.md
+  basis: pr.md bucket P4 nit.
+  finding: Inside a drive the checker's output folder depends on the issue the checker itself reads
+  round_2: Not touched. intent/SKILL.md Step 0 still says "inside a drive, write to <working> instead" (line 105 comment and
+    the sentence above it) while the block writes run.json to "$pre/run.json" in both cases, and <working> needs the issue
+    that the checker has not read yet. P4 nit, same text as on main for
+- id: H-7
+  severity: P4
+  category: harness
+  assessment: carried
+  file: core/config.yaml
+  basis: pr.md bucket P4 nit; G9.
+  finding: The ledger default hard-codes '.garura/project/issues/' instead of {stm_base}
+  round_2: core/config.yaml and the ten SKILLs still hard-code ".garura/project/issues/" instead of {stm_base}, and no text
+    says the learner finds per-issue ledgers only when the path ends <base>/<issue>/review/gate-evals.jsonl. gate-config's
+    new section does write the ledger as {stm_base}<issue>/review/gate-e
+- id: TC-3
+  severity: P3
+  category: tool-contract
+  assessment: partly fixed
+  file: core/tools/memory/contract/v5.json
+  basis: Severity bucket P3 (Minor) of pr.md. ADR 036 section 7 ties typed approval to 'until the tool has this section';
+    ADR 035 section 5 says approval by typing 'until the review exists'. The enum value has
+  finding: '''session'' is allowed with no end date and no definition of ''a session that records it'''
+  round_2: 'The end date is now written (decide.summary and the README: until the review tool''s memory section is built,
+    #664), and "a session that records their exact reply" is a definition of sorts. What is still missing is what makes the
+    reply the person''s: nothing says it is taken from the person''s own turn'
+- id: TC-5
+  severity: P3
+  category: tool-contract
+  assessment: partly fixed
+  file: core/tools/memory/citations.py
+  basis: Severity bucket P3 (Minor) of pr.md; ADR 037 (a decision keeps the memory it rested on). from_update is a single
+    string in the contract, so the shape cannot carry two. update_behind returns applied[0]
+  finding: update_behind keeps only the first applied update; a decision resting on two updates loses the link to the second
+  round_2: 'The code now says "the first, by id; from_update names one update" in a comment, but the contract and README do
+    not say a decision rests on one update at most, and update_behind''s docstring still claims the link "is never lost".
+    Cosmetic for now, since from_update is a single string.
+
+    '
+- id: N-1
+  severity: P3
+  category: new in round 2
+  assessment: fixed after round 2
+  file: core/tools/memory/citations.py
+  basis: 'pr.md (main) severity buckets: P2 lists "missing tests for new code"; this is partial cover (the happy path is tested),
+    so P3. Principle: main commit e8c3d760 and test_an_unreadable_line_stops_only_its_own_issue set the practice that an unreadable-record
+    rule gets its own test.
+
+    '
+  finding: The round-1 fix for TC-6 added two behaviours (read only this issue's updates; skip an unreadable update file)
+    but 9f5b143c changed no test. test_memory.py only covers the case where the update is found. Nothing fails if update_behind
+    goes back to reading every issue, or stops skipping a bad file. S
+- id: N-2
+  severity: P3
+  category: new in round 2
+  assessment: open
+  file: core/tools/memory/README.md (and contract/v5.json description)
+  basis: 'main:core/tools/memory/README.md "The contract changes only by a new version", with v1..v5 each a whole file at
+    N.0.0 (committed on main); pr.md bucket P3 (docs that say less than the behaviour); the severity is lowered from round
+    1''s ARCH-19 P2 because the rule now exists and no other consumer of decided_in exists under core/ or docs/.
+
+    '
+  finding: The minor-version rule says a minor "keeps every 5.0 request and answer valid". decided_in is also in the update
+    record every response carries (propose, decide, apply, updates), so a reader built on 5.0 that treats it as one value
+    would reject "session" in a 5.1 response; the rule does not mention r
+- id: N-3
+  severity: P4
+  category: new in round 2
+  assessment: open
+  file: core/components/memory/standards/rules/gate-config.md
+  basis: 'pr.md bucket P4 (nit). Principle in the same file''s section: "a correction''s refutes names a line in its own issue''s
+    ledger" (the line number is the position in that file).
+
+    '
+  finding: The upgrade advice tells a project to "move its lines into the issue they belong to". A line's refutes is a line
+    number in the old single file; once lines are split by issue every refutes points at the wrong line (or none). No ledger
+    exists on main today (direct-model-write.md notes it absent), so n
+- id: N-4
+  severity: P4
+  category: new in round 2
+  assessment: fixed after round 2
+  file: core/tools/memory/citations.py
+  basis: 'pr.md bucket P4 (nit; the same-issue-only stop satisfies main commit e8c3d760''s principle, so it is not P3). The
+    stated aim is in the line''s own comment: "an unreadable update never stops a decision being recorded".
+
+    '
+  finding: 'The except clause covers a file that cannot be read or parsed, but a file that is valid JSON whose "update" is
+    not an object (for example a string) raises AttributeError at update.get(...) and stops cite for that issue. Ran it: "AttributeError
+    ''str'' object has no attribute ''get''". Also, a record wit'
+- id: N-5
+  severity: P4
+  category: new in round 2
+  assessment: fixed after round 2
+  file: core/components/skills/judge-grounding/SKILL.md
+  basis: 'pr.md bucket P4 (nit). main:core/components/memory/standards/rules/grounding-eval.md "How the judge runs" and the
+    skill''s own `guidance` row now describe the stage-cut guidance; the skill must not say a narrower thing in two other
+    places.
+
+    '
+  finding: Line 22 still says the judge sees "the doc, its parent ... and the kind's per-section guidance - and only these",
+    and the judge prompt at line 68 says "the per-section guidance for this doc kind". The input table (line 29) now says
+    the guidance also holds the stage's heading contract and the every-s
+- id: N-6
+  severity: P4
+  category: new in round 2
+  assessment: open
+  file: core/components/plays/intent/SKILL.md
+  basis: 'main:CLAUDE.md "Play Pipeline Rules": an intent change goes ICE source then /play-editor, and the compiled file
+    is not hand-edited for it; pr.md bucket P4 (low confidence, a process note).
+
+    '
+  finding: The fingerprint matches the new ice.md (checked), but 64696192's own message says "fingerprint recomputed", so
+    the ICE edit and the stamp were made by hand, not by a /play-editor recompile, and the SKILL's compiled_by row does not
+    record this step. The C9 sentence only names what the SKILL already d
 - id: Q1
   severity: P3
   category: standards
@@ -27,6 +151,7 @@ findings:
   basis: rule CODE-09 in pr.md
   finding: check() measures CCN 22 (lizard) / D 22 (radon); limit 10. One function holds every contract validation (type,
     required fields, issue number, string fields, inp
+  assessment: open (standards scan; none P1/P2)
 - id: Q2
   severity: P3
   category: standards
@@ -35,6 +160,7 @@ findings:
   basis: rule CODE-09 in pr.md
   finding: CitationStore.cite measures CCN 15 (radon C 15, lizard 15) after this diff; it was 14 on main. The diff adds one
     more branch (from_update default) to an already
+  assessment: open (standards scan; none P1/P2)
 - id: Q3
   severity: P3
   category: standards
@@ -43,6 +169,7 @@ findings:
   basis: rule None in pr.md
   finding: update_behind() returns applied[0]['id'] - the first applied update whose target_path matches any step source.
     If two applied updates wrote the same file, the d
+  assessment: open (standards scan; none P1/P2)
 - id: Q4
   severity: P3
   category: standards
@@ -51,6 +178,7 @@ findings:
   basis: rule None in pr.md
   finding: The refutes-scoping check ends with `assert S2 not in distill(one, policy)['auto_shapes']`, and the next line's
     own comment says 'the reject itself still resets
+  assessment: open (standards scan; none P1/P2)
 - id: Q5
   severity: P3
   category: standards
@@ -59,6 +187,7 @@ findings:
   basis: rule TEST-03 in pr.md
   finding: test_a_decision_from_an_approved_update now holds 5 assertions across 4 behaviours (not_approved, bad_request,
     named update accepted, update named automatically
+  assessment: open (standards scan; none P1/P2)
 - id: Q6
   severity: P3
   category: standards
@@ -67,6 +196,7 @@ findings:
   basis: rule None in pr.md
   finding: gates.conditional.ledger is now `.garura/project/issues/{issue}/review/gate-evals.jsonl`. The key parses (yaml.safe_load
     ok), but the file's variables legend (l
+  assessment: open (standards scan; none P1/P2)
 - id: Q7
   severity: P4
   category: standards
@@ -75,6 +205,7 @@ findings:
   basis: rule None in pr.md
   finding: 'The edited module docstring joins the old sentence onto the new one: line 9 is 140 characters (''... A ledger
     anywhere else is read alone, as before. Pure rule, '
+  assessment: open (standards scan; none P1/P2)
 - id: Q8
   severity: P4
   category: standards
@@ -83,6 +214,7 @@ findings:
   basis: rule None in pr.md
   finding: '_ts_key strips non-digits and compares as text. The two spellings in use give 14 digits and sort correctly; a
     timestamp with fractional seconds or a UTC offset '
+  assessment: open (standards scan; none P1/P2)
 - id: Q9
   severity: P4
   category: standards
@@ -91,6 +223,7 @@ findings:
   basis: rule None in pr.md
   finding: wanted() keeps the agent-intent block by finding the free text 'at every stage' in a heading. Rewording that heading
     in capability.md silently drops the block f
+  assessment: open (standards scan; none P1/P2)
 - id: Q10
   severity: P4
   category: standards
@@ -99,6 +232,7 @@ findings:
   basis: rule None in pr.md
   finding: test_each_stage_gets_its_own_guidance returns silently when capability.md is missing, so the run reports a pass
     with nothing checked. (The existing guard at lin
+  assessment: open (standards scan; none P1/P2)
 - id: Q11
   severity: P4
   category: standards
@@ -107,6 +241,7 @@ findings:
   basis: rule None in pr.md
   finding: The decide row says session decisions are allowed 'until the review tool is built'. Time-bound wording in a reference
     table goes stale with no one told.
+  assessment: open (standards scan; none P1/P2)
 - id: Q12
   severity: P4
   category: standards
@@ -115,131 +250,4 @@ findings:
   basis: rule None in pr.md
   finding: The new two-line paragraph about from_update sits directly against the existing 'cite refuses a source that is
     gone or changed' lines with no blank line, so two
-- id: H-1
-  severity: P2
-  category: harness
-  file: core/components/plays/intent/SKILL.md
-  basis: pr.md bucket P2 'structural' violations; no table row; the shelf rubric 'does an intent change trace to its ICE source'
-    is the check.
-  finding: /intent's pre-flight flow and its hard-halt set changed by hand; its ICE source does not carry the change
-- id: H-2
-  severity: P3
-  category: harness
-  file: core/components/plays/agentic/SKILL.md
-  basis: pr.md bucket P3 minor; a determinism gap rather than a wrong result.
-  finding: No step says how the config's {issue} placeholder becomes the run's issue
-- id: H-3
-  severity: P3
-  category: harness
-  file: core/components/plays/vision/SKILL.md
-  basis: pr.md bucket P3 minor (standard and skill text now lag the behaviour).
-  finding: The judge now receives more than 'the per-section guidance block'; the committed judge contract was not updated
-- id: H-4
-  severity: P3
-  category: harness
-  file: core/components/plays/*/scripts/distill_gate_policy.py (run by the 10 plays' closes)
-  basis: pr.md bucket P3; design question to confirm, not a proven breach.
-  finding: The learner reads every issue's short-term memory ledger and writes one project policy without a person's promotion
-- id: H-5
-  severity: P4
-  category: harness
-  file: core/components/plays/roadmap/SKILL.md
-  basis: pr.md bucket P4 nit (naming clarity).
-  finding: The same paragraph defines '<strategy issue>' and then writes the default path with '<issue>'; the default is a
-    nested parenthesis
-- id: H-6
-  severity: P4
-  category: harness
-  file: core/components/plays/intent/SKILL.md
-  basis: pr.md bucket P4 nit.
-  finding: Inside a drive the checker's output folder depends on the issue the checker itself reads
-- id: H-7
-  severity: P4
-  category: harness
-  file: core/config.yaml
-  basis: pr.md bucket P4 nit; G9.
-  finding: The ledger default hard-codes '.garura/project/issues/' instead of {stm_base}
-- id: M1
-  severity: P3
-  category: memory
-  file: core/components/memory/standards/rules/gate-config.md
-  basis: 'The changed line says ''each issue''s own live-eval ledger'' and the policy line still says ''learned policy''.
-    The live-eval loop section is untouched: it still says the learner ''run at the play''s close'' '
-  finding: A reader of gate-config.md alone cannot tell that the learner reads every issue's ledger
-- id: M2
-  severity: P2
-  category: memory
-  file: core/components/memory/standards/rules/gate-config.md
-  basis: The rule and core/config.yaml write the placeholder as {issue}. The plays write <issue> in prose ('defaults .garura/project/issues/<issue>/review/gate-evals.jsonl
-    (the run's issue)') but their command
-  finding: The {issue} placeholder is never resolved by any committed source; the plays pass it on raw
-- id: M3
-  severity: P3
-  category: memory
-  file: core/components/memory/standards/rules/gate-config.md
-  basis: 'drive-contract.md on main says everything a drive and its plays write goes under the drive''s issue. ADR 039 section
-    1 says a memory written outside the issue''s short-term memory breaks the guardrail. '
-  finding: The rule moves the ledger under the issue but leaves the policy outside it without saying why
-- id: M4
-  severity: P3
-  category: memory
-  file: core/components/memory/standards/rules/gate-config.md
-  basis: core/config.yaml's new comment cites ADR 039 for the per-issue ledger. gate-config.md, the file that explains the
-    block, cites no ADR 039 or ADR 036 section 5 in Related. The cited phrase 'the issue I
-  finding: The rule's own references do not carry the decision that moved the ledger
-- id: M5
-  severity: P4
-  category: memory
-  file: core/components/memory/standards/rules/gate-config.md
-  basis: Under ADR 040 the installed .garura/core/config.yaml is correctly NOT edited by this branch (and on this checkout
-    it still says .garura/core/gate-evals.jsonl). The new learner matches only paths endin
-  finding: 'Upgrade path not recorded: an older installed config still names the single project ledger'
-- id: TC-1
-  severity: P2
-  category: tool-contract
-  file: core/tools/memory/contract/v5.json
-  basis: Severity bucket P2 (Major) of main:core/components/memory/standards/rules/pr.md ('breaking API contract' is P1; here
-    it is a risk of one, with no consumer yet, so P2); nearest taxonomy row ARCH-19 (P2
-  finding: Contract edited in place and given a minor version that main has no rule for, and 5.1.0 is recorded nowhere
-- id: TC-2
-  severity: P3
-  category: tool-contract
-  file: core/tools/memory/contract/v5.json
-  basis: 'Severity bucket P3 (Minor, ''missing docs'') of pr.md. Main check_contract.py docstring: keep the contract and its
-    folder in step. The rule text (line 36) now allows a typed ''session'' decision, the enum'
-  finding: The contract disagrees with itself about where a person may decide
-- id: TC-3
-  severity: P3
-  category: tool-contract
-  file: core/tools/memory/contract/v5.json
-  basis: Severity bucket P3 (Minor) of pr.md. ADR 036 section 7 ties typed approval to 'until the tool has this section';
-    ADR 035 section 5 says approval by typing 'until the review exists'. The enum value has
-  finding: '''session'' is allowed with no end date and no definition of ''a session that records it'''
-- id: TC-4
-  severity: P3
-  category: tool-contract
-  file: core/tools/memory/citations.py
-  basis: Severity bucket P3 (Minor, 'missing docs') of pr.md. Main v5.json commands.cite.summary says 'When the answer came
-    from an approved memory update, from_update names it' (the agent names it). The branc
-  finding: 'The cite behaviour changed but the contract''s cite rules were not: the tool now fills from_update on its own'
-- id: TC-5
-  severity: P3
-  category: tool-contract
-  file: core/tools/memory/citations.py
-  basis: Severity bucket P3 (Minor) of pr.md; ADR 037 (a decision keeps the memory it rested on). from_update is a single
-    string in the contract, so the shape cannot carry two. update_behind returns applied[0]
-  finding: update_behind keeps only the first applied update; a decision resting on two updates loses the link to the second
-- id: TC-6
-  severity: P3
-  category: tool-contract
-  file: core/tools/memory/citations.py
-  basis: Severity bucket P3 (Minor; error handling). On main, cite called updates.list() only when from_update was given.
-    Now it always does, through update_behind. updates.records() walks all issue folders an
-  finding: Every cite now reads every issue's update files, so one unreadable update file can stop unrelated cites
-- id: TC-7
-  severity: P4
-  category: tool-contract
-  file: core/tools/memory/contract/samples/decide-in-session.json (and samples/broken/)
-  basis: 'Severity bucket P4 (Nit). The test_memory.py test covers ''chat'' being refused, but the contract''s own broken-sample
-    check does not. The new sample itself is valid: it passes check_contract.py (23 samp'
-  finding: No broken sample refuses a decided_in outside the two values
+  assessment: open (standards scan; none P1/P2)
