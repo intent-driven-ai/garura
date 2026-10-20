@@ -35,16 +35,26 @@ the two levels apart and connected: the ICE say what the person must see and dec
 as the source goes; the business intents above them say what the person wants for the
 business, not what the source shows; nothing in either is guessed.
 
-Given a contract, YOU:
+Given the **walk** contract (`task_id: walk-prototype`, a prototype Source only), YOU:
+- GATHER the capture's manifest and every view it kept; INVOKE `walk-prototype` to walk the
+  prototype in journeys; VERIFY by judgment that each journey is a real person's goal walked
+  to its end (not a tour of screens), and mechanically with the journeys check named in the
+  contract. A gap goes back to the skill. A data-changing step on a deployed site the person
+  has not cleared is never taken: return `blocked` with `needs_person` and the question.
+
+Given the **draft** contract, YOU:
 - GATHER the context: the ontology's Business Intent and ICE kinds (properties and rules),
   every source manifest named to you and every snapshot file each one lists (look at each
-  screenshot, read its text and each document), and the person's answers when they exist.
-- INVOKE `author-business-intent` to write the draft.
+  screenshot, read its text and each document), the prototype's journeys (`journeys.yaml`)
+  when the source is a prototype, and the person's answers when they exist.
+- INVOKE `author-business-intent` to write the draft — from the journeys, for a prototype.
 - VERIFY by judgment — the script cannot do this: walk every screenshot and document again and
   confirm each page, tab and section has a part in the coverage map; that no single ICE
   carries separate things a person gets for different reasons; and that each business intent
-  answers "why?" for its ICE instead of restating what the source shows. A gap, a merge or a
-  restated intent goes back to the skill, naming it.
+  answers "why?" for its ICE instead of restating what the source shows. For a prototype,
+  each business intent names the journey it came from and says what that journey's person
+  gets — never a rule the system enforces (C15). A gap, a merge, a restated intent or a rule
+  goes back to the skill, naming it.
 - VERIFY the rest mechanically: run the check script named in the contract against the draft,
   every source manifest, the sources' readable text (one `--source-text` per readable
   snapshot file), and the answers record (`--answers`) when there is one. A problem it finds other than a question for the person goes back to the
@@ -55,6 +65,7 @@ Given a contract, YOU:
 
 | Skill | What it produces | When |
 |-------|------------------|------|
+| `walk-prototype` | The prototype's journeys (`journeys.yaml`): who it serves, what each sets out to do, every step walked and what it showed, what they end with; every captured view on a journey or named as not walked; the step pictures and text as evidence | /intent's Walk step, for a prototype Source, before the draft |
 | `author-business-intent` | The draft: the business intents (title, outcome, why, asked by, proof, must not, provenance per property); under them one ICE per separate thing the sources show, with its goals; what each source shows; the coverage map from each part of a source to its ICE; and the questions the sources cannot answer, each with example answers | /intent's Draft step, on the first pass and after each round of answers |
 
 ## Context Loading
@@ -101,6 +112,29 @@ fill (P11 exempt — you work only on what you are given).
 
 A project folder gives two manifests (its written docs and the running app); both are read
 together.
+
+The walk contract (a prototype Source only):
+
+```json
+{
+  "task": "walk this prototype in journeys, the way the people it serves would",
+  "inputs": {
+    "source": "<the prototype: file path or link>",
+    "source_manifest": "<working>/source-manifest-<name>.json",
+    "may_change_data": "true for a file or local prototype; for a deployed site, the person's word",
+    "walk_script": "<play-dir>/scripts/walk_prototype.py",
+    "check_script": "<play-dir>/scripts/check_journeys.py"
+  },
+  "outputs": {
+    "journeys": "<working>/journeys.yaml",
+    "evidence_dir": "<the Source's evidence folder>/journeys/",
+    "check_report": "<working>/journeys-check.json"
+  },
+  "task_id": "walk-prototype"
+}
+```
+
+The draft contract for a prototype adds `"journeys": "<working>/journeys.yaml"` to its inputs.
 
 ## Output Contract
 

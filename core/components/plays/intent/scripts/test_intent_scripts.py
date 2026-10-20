@@ -6,6 +6,8 @@ capture_source.py  — a statement is kept byte for byte; a document is copied; 
                      copied and rendered to a screenshot; a missing source fails (F1).
                      A clicked tab keeps its picture and its text. Every view of a prototype
                      is found and kept without naming it, two clicks deep (#613, C1).
+walk_prototype.py / check_journeys.py — a journey step is taken, replayed and kept; the
+                     record is complete and covers every view (#613, C15).
 check_intent.py    — per intent: required properties, provenance, copying the source,
                      code-like text, bare labels, ICE under it; per ICE: goals, built from an
                      intent; for the draft: ids, sources summarised, the coverage map, one
@@ -33,6 +35,8 @@ import persist_intent as pi  # noqa: E402
 import lint_grounding as lg  # noqa: E402
 
 import check_ice_workable as cw  # noqa: E402
+import check_journeys as cj  # noqa: E402
+import walk_prototype as wp  # noqa: E402
 
 PASSED = 0
 FAILED = 0
@@ -226,6 +230,75 @@ function show(v){
         out, man = os.path.join(tmp, "src5"), os.path.join(tmp, "m5.json")
         check("an empty given-by is refused", cs.main(["--statement", st, "--out-dir", out,
                                                         "--given-by", " ", "--manifest", man]) == 2)
+
+
+def test_journeys():
+    """walk_prototype.py takes one journey step at a time; check_journeys.py checks the record (C15)."""
+    with tempfile.TemporaryDirectory() as tmp:
+        app = os.path.join(tmp, "shop.html")
+        with open(app, "w") as fh:
+            fh.write("""<html><body><input placeholder="Search" id="q">
+<button onclick="document.getElementById('o').textContent='cart has '+document.getElementById('q').value">Add to cart</button>
+<button onclick="document.getElementById('o').textContent='order placed'">Pay now</button>
+<p id="o">empty</p></body></html>""")
+        out = os.path.join(tmp, "journeys")
+
+        def walk(name, steps, *extra):
+            path = os.path.join(tmp, name + ".steps.json")
+            with open(path, "w") as fh:
+                json.dump(steps, fh)
+            return wp.main(["--source", app, "--steps", path, "--out-dir", out, "--name", name, *extra])
+
+        try:
+            import playwright  # noqa: F401
+        except ImportError:
+            skip(["a journey step is taken and kept", "a later step replays the earlier ones",
+                  "a step that cannot be taken is recorded, not hidden",
+                  "a data-changing step is allowed on a file prototype"], "Playwright is not installed")
+        else:
+            rc = walk("buy-01", [{"do": "type", "target": "Search", "text": "lamp"}])
+            check("a journey step is taken and kept", rc == 0 and os.path.isfile(os.path.join(out, "buy-01.png")))
+            rc = walk("buy-02", [{"do": "type", "target": "Search", "text": "lamp"},
+                                 {"do": "click", "target": "Add to cart"}])
+            with open(os.path.join(out, "buy-02.txt")) as fh:
+                check("a later step replays the earlier ones", rc == 0 and "cart has lamp" in fh.read())
+            rc = walk("buy-03", [{"do": "click", "target": "Checkout"}])
+            check("a step that cannot be taken is recorded, not hidden",
+                  rc == 1 and "nothing on this screen" in read_json(os.path.join(out, "buy-03.json"))["why"])
+            rc = walk("buy-04", [{"do": "click", "target": "Pay now"}])
+            check("a data-changing step is allowed on a file prototype", rc == 0)
+
+        evidence = os.path.join(tmp, "ev")
+        os.makedirs(evidence)
+        for f in ("buy-01.png", "buy-02.png"):
+            open(os.path.join(evidence, f), "w").close()
+        manifest = {"files": ["screen-01.png", "view-02-cart.png", "view-02-cart.txt", "view-03-help.png"]}
+        good = {"journeys": [{"id": "buy", "who": "a shopper", "sets_out_to": "buy a lamp",
+                              "ends_with": "the lamp is in the cart",
+                              "steps": [{"do": "type lamp in Search", "shows": "the field holds lamp",
+                                         "view": ["buy-01.png"]},
+                                        {"do": "click Add to cart", "shows": "cart has lamp",
+                                         "view": ["buy-02.png"], "covers": ["view-02-cart"]}]}],
+                "not_walked": [{"view": "view-03-help", "why": "help text only; no task starts there"}]}
+        gaps, counts = cj.check(good, manifest, evidence)
+        check("complete journeys that cover every view are clean", gaps == [] and counts["covered"] == 1)
+        bad = fresh_journeys(good)
+        bad["journeys"][0]["steps"] = bad["journeys"][0]["steps"][:1]
+        bad["not_walked"] = []
+        gaps, _ = cj.check(bad, manifest, evidence)
+        check("a one-step journey is a gap", any("fewer than two steps" in g for g in gaps))
+        check("a view on no journey and not named is a gap",
+              any("view-03-help" in g for g in gaps) and any("view-02-cart" in g for g in gaps))
+        gaps, _ = cj.check(good, manifest, evidence, {"intents": [{"id": "lamps", "from_journey": "buy"}]})
+        check("a business intent from a journey is clean", gaps == [])
+        gaps, _ = cj.check(good, manifest, evidence, {"intents": [{"id": "rule"}]})
+        check("a business intent that names no journey is a gap", any("names no journey" in g for g in gaps))
+        gaps, _ = cj.check({"journeys": []}, manifest, evidence)
+        check("no journeys at all is a gap", any("no journeys" in g for g in gaps))
+
+
+def fresh_journeys(doc):
+    return json.loads(json.dumps(doc))
 
 
 def test_check():
@@ -654,7 +727,7 @@ def test_domains():
 
 
 def main():
-    for test in (test_capture, test_check, test_persist, test_domains):
+    for test in (test_capture, test_journeys, test_check, test_persist, test_domains):
         print(test.__name__)
         test()
     print(f"\n{PASSED} passed, {FAILED} failed, {len(SKIPPED)} skipped")

@@ -95,7 +95,7 @@ Run the Shared Drive Run with this drive's values:
 # --- Shared Drive Run (shared; see ../_shared/drive-run.md) ---
 drive=kickoff
 plays=intent,vision,understand
-questions=prototype -> inputs.intent.argument; how it starts -> prototype.json (asked at pre-flight, C2)
+questions=prototype -> inputs.intent.argument; how it starts -> prototype.json (asked at pre-flight, C2); for a link, may the walk change data -> answers.intent.may_change_data
 runner_key=drives.kickoff.runner
 checker_key=drives.kickoff.checker
 end=commit-change, propose-change, the person types confirm or drop per intent (recorded; the model untouched), review-change, merge-change (merge pinned)
@@ -114,8 +114,9 @@ its plays write is under `{stm_base}<issue>/`; no play's run record names anothe
 ### Phase: Questions
 
 **Step 2 — Questions first** · Owner: drive · Depends on: Step 1
-Run R3. The prototype and how it starts were asked at pre-flight: write them to
-`answers.json`, and their source (`person`, or `memory` with tier, path and trace) to
+Run R3. The prototype and how it starts were asked at pre-flight. For a link, also ask whether
+`/intent`'s walk may press buttons that change data on it (pay, delete, submit) — `true` only on
+the person's yes — as `answers.intent.may_change_data`. Write them to `answers.json`, and their source (`person`, or `memory` with tier, path and trace) to
 `answers-sources.json`. Nothing else is known before `/intent` reads the prototype; the plays'
 own questions come mid-run (ICE, Context).
 **SE-3 (F3/C3):** `answers.json` and `answers-sources.json` exist before `contract.json`, and
@@ -240,7 +241,7 @@ a question resumes the same play with the person's answer (shared run, R5 step 3
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:31bd01b5276b5b93620bd76c15f70b29c92354ed0c093a28cc9536ab1096009c (of `reference/ice.md`) |
+| fingerprint | sha256:0748a765dc2c824e64dc5a803227ae65d8bd99f0868004c4a3128f05a11fbc20 (of `reference/ice.md`) |
 | compiled_by | drive-creator (#613) |
 | kind | drive |
 | pipeline_position | both |

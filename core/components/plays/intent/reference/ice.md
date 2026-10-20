@@ -119,6 +119,16 @@ play pulls out what the person wants; it never copies how the source does it.
   written to short-term memory before `start-change` gives the issue: what the pre-flight
   records is held in a scratch folder outside `.garura/` and moved into the issue right after
   Step 0, so a pre-flight halt leaves no issue, no branch and no file behind.
+- C15 — A prototype is understood by using it (Kapil, 2026-10-20: "it should try to run, create
+  journey steps, and understand it, even deeply"). Before drafting, the play walks the prototype
+  as the people it serves would: journeys of **who**, what they **set out to do**, each **step**
+  and what it showed, and what they **end with** — kept with the Source as evidence. The intents
+  are drafted from the journeys: each business intent from what a journey's person sets out to
+  get for the business, each ICE from the steps that get it. A business intent says what a
+  person or the business gets, never a rule the system enforces. Every view the capture kept is
+  on a journey, or named as not walked with why. On a deployed site, a step that changes data
+  (pay, delete, submit, accept …) is taken only when the person said the site is safe for it;
+  on a file or a local prototype nothing real changes, so any step may be taken.
 
 ### Failure conditions
 
@@ -156,6 +166,11 @@ play pulls out what the person wants; it never copies how the source does it.
 - F14 — The run wrote short-term memory outside its issue's folder: a working file, a person's
   answer, a status marker, a sub-play result or a Source's snapshot under any other folder, or,
   run by hand, anything written to short-term memory before `start-change` gave the issue.
+- F15 — A prototype's intents were drafted without walking it in journeys; a journey lacks who,
+  what they set out to do, its steps or what they end with; a captured view is neither on a
+  journey nor named as not walked; a business intent is a rule the system enforces rather than
+  what a person gets; or a step that changes data ran on a deployed site the person had not
+  cleared.
 
 ## Context
 
@@ -238,6 +253,11 @@ in memory.
   them, then each comes with example answers, and the record shows which replies picked an
   example. Measure: every answer in the answers record lists the examples offered, and every
   reply that matches an offered example is marked picked.
+- S9 — (product owner, a prototype with many views) Given a working prototype that offers many
+  views and flows, when `/intent` runs, then it walks the prototype in journeys before drafting,
+  every view the capture kept is on a journey or named as not walked, and each business intent
+  traces to what a journey's person sets out to get. Measure: `journeys-check.json` reads
+  `ok: true`; every business intent in the draft names the journey it came from.
 
 ### Done means
 
@@ -308,3 +328,10 @@ captured scoped-write guard output.
   gave the issue. direction: move it into the issue's working folder (or status or evidence
   folder), delete the stray copy, and continue; when the issue is not known yet, hold it in the
   scratch folder until Step 0. handoff: autonomous.
+
+- REC15 (F15) — trigger: the intents were drafted without journeys, a journey is incomplete, a
+  view is on no journey and not named, a business intent is a rule rather than what a person
+  gets, or a data-changing step ran on a deployed site not cleared. direction: walk the missing
+  journeys (or name each view not walked, with why), redraft the business intents from the
+  journeys' goals; for a deployed site, ask the person whether a data-changing step is safe
+  before taking it. handoff: autonomous.

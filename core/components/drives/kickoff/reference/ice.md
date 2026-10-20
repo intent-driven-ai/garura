@@ -77,6 +77,9 @@ Asked at pre-flight, before the drive opens anything, because the prototype chec
 - Where is the working prototype — a file, a project folder or a link? → `inputs.intent.argument`
 - For a file or a folder: how does it start? → `prototype.json` (`start`), the pre-flight's
   proof it runs
+- For a link: may `/intent`'s walk press buttons that change data on it (pay, delete, submit)?
+  → `answers.intent.may_change_data` (`true` only on the person's yes; a file or local
+  prototype needs no answer — nothing real changes)
 
 ## Checker
 

@@ -34,3 +34,28 @@ its plays as sub-agents (the default runner).
 - K-4 — the business intents were drawn from rules written in the page, not the person's
   purpose, and the mockup's sample shop data confused it (its Q1). Held: the rerun shows whether
   this remains once `/intent` sees every view.
+
+## Run 2 (2026-10-20) — after the /intent fix
+
+- Set-up: run 1's record kept beside the run (scratch); the test project reset to `main`,
+  reinstalled from `d617f19a`. Stand-in for K-2: the test project's `.gitignore` gains
+  `__pycache__/`, so the drive is not stopped by Python caches — K-2 still needs its own fix
+  in Garura (an installed project gets no such ignore).
+- Run 2 result (baseline for the journeys, Kapil "1"): 36 views kept (161 controls found, 4
+  unreached — Catch up controls that timed out); $2.32; stopped at 10 questions, not answered.
+  Drafted 3 business intents — "people decide what AI agents build", "agents work only from
+  knowledge a person has approved", "anyone can check why an agent decided" — and 12 ICE that
+  now reach every section (change overview, piece review, answering, comments, the action feed,
+  the product model, limits, recorded decisions, Ask memory, memory contents, memory updates,
+  decision traces). **K-4 stands:** the business intents are still rules about agents, not why
+  a person uses Argus; seeing every view alone does not fix it.
+- K-5 — Kapil, 2026-10-20: "if it's a prototype … it should try to run, create journey steps,
+  and understand it, even deeply." Being built: `/intent` walks a prototype in journeys and
+  drafts from them (C15).
+- K-5 built: `/intent` C15, F15, S9, REC15 (ICE) → Step 1b "walk the prototype in journeys"
+  (`business-intent-keeper` → new skill `walk-prototype`; scripts `walk_prototype.py`, one
+  replayable step per call, and `check_journeys.py`, with `--draft` checking each business
+  intent names its journey); the drafting skill starts a prototype's intents from the journeys,
+  and a business intent is never a rule the system enforces (K-4). Kickoff asks, for a link,
+  whether the walk may change data (`answers.intent.may_change_data`). 118 script tests pass;
+  `lint_play`, `lint_drive` and `lint-components` pass.
