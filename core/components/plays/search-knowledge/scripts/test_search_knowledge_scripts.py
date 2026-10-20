@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Tests for /build-memory's scripts: grouping the open questions, checking the build record."""
+"""Tests for /search-knowledge's scripts: grouping the open questions, checking the search record."""
 import contextlib
 import io
 import json
@@ -11,7 +11,7 @@ import unittest
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
-import check_memory_build as cmb  # noqa: E402
+import check_search as cs  # noqa: E402
 import group_questions as gq  # noqa: E402
 
 
@@ -36,6 +36,13 @@ class Work(unittest.TestCase):
         return path
 
 
+def stub_tool(work, updates):
+    """A stand-in memory tool that answers `updates --status waiting` with these updates."""
+    return work.write("memory.py", "import json, sys\nU = " + json.dumps(updates) + "\n"
+                      "print(json.dumps({'ok': True, 'command': 'updates', 'updates': "
+                      "[u for u in U if u['status'] == sys.argv[sys.argv.index('--status') + 1]]}))\n")
+
+
 class GroupQuestions(Work):
     def setUp(self):
         super().setUp()
@@ -48,28 +55,30 @@ class GroupQuestions(Work):
             {"id": "u3", "ask": "How fast must a comment show?", "about": "comment"},
             {"id": "u4", "ask": "Does GDPR apply to the review record?", "about": "answer"},
             {"id": "u5", "ask": "Must commenting on an area work without a mouse pointer drag?", "about": "c"}]})
-        self.write("issue/review/memory-updates/mu-1.json", {"update": {"id": "mu-1", "status": "waiting",
-                                                                        "missing": "Speed bar for review pages"}})
-        self.write("issue/review/memory-updates/mu-2.json", {"update": {"id": "mu-2", "status": "applied"}})
+        self.tool = stub_tool(self, [
+            {"id": "mu-1", "issue": 7, "status": "waiting", "missing": "Speed bar for review pages"},
+            {"id": "mu-2", "issue": 7, "status": "applied", "missing": "Old"},
+            {"id": "mu-3", "issue": 8, "status": "waiting", "missing": "Another issue's speed"}])
 
     def groups(self):
-        quiet(gq.main, ["--review-dir", self.p("issue/review/drive"), "--issue-dir", self.p("issue"),
-                        "--out", self.p("g.json")])
+        rc = quiet(gq.main, ["--review-dir", self.p("issue/review/drive"), "--issue", "7",
+                             "--memory-tool", self.tool, "--out", self.p("g.json")])
+        self.assertEqual(rc, 0)
         with open(self.p("g.json")) as fh:
             return json.load(fh)
 
     def test_the_same_question_from_several_plays_is_one_group(self):
-        d = self.groups()
-        by_topic = {g["topic"]: g for g in d["groups"]}
+        by_topic = {g["topic"]: g for g in self.groups()["groups"]}
         self.assertEqual(sorted(by_topic["proof"]["members"]), ["i1", "u1"])
         self.assertEqual(by_topic["proof"]["from"], ["intent", "understand"])
         self.assertEqual(sorted(by_topic["speed"]["members"]), ["mu-1", "u2", "u3"])
         self.assertEqual(by_topic["compliance"]["members"], ["u4"])
 
-    def test_only_waiting_memory_updates_count(self):
+    def test_only_this_issues_waiting_updates_come_from_the_memory_tool(self):
         ids = [m for g in self.groups()["groups"] for m in g["members"]]
         self.assertIn("mu-1", ids)
         self.assertNotIn("mu-2", ids)
+        self.assertNotIn("mu-3", ids)
 
     def test_every_question_lands_in_exactly_one_group(self):
         d = self.groups()
@@ -77,55 +86,59 @@ class GroupQuestions(Work):
         self.assertEqual(len(ids), len(set(ids)))
         self.assertEqual(len(ids), d["questions"])
 
+    def test_a_memory_tool_error_stops_the_grouping(self):
+        bad = self.write("bad.py", "import json\nprint(json.dumps({'ok': False, 'message': 'tier_missing'}))\n")
+        rc = quiet(gq.main, ["--review-dir", self.p("issue/review/drive"), "--issue", "7",
+                             "--memory-tool", bad, "--out", self.p("g.json")])
+        self.assertEqual(rc, 2)
 
-class CheckBuild(Work):
+
+class CheckSearch(Work):
     def setUp(self):
         super().setUp()
         self.groups = {"groups": [{"id": "g1", "members": ["q1", "q2"]}, {"id": "g2", "members": ["q3"]},
-                                  {"id": "g3", "members": ["q4"]}, {"id": "g4", "members": ["q5"]}]}
-        self.write("issue/review/memory-updates/mu-9.json", {"update": {"id": "mu-9", "status": "waiting"}})
+                                  {"id": "g3", "members": ["q4"]}]}
         self.good = {"groups": [
-            {"id": "g1", "members": ["q1", "q2"], "ask": "Does Later reach Garura?", "closed_by": "source",
-             "answer": "No; Later keeps the card unread.",
+            {"id": "g1", "members": ["q1", "q2"], "ask": "Does Later reach Garura?", "found": "answered",
+             "closed_by": "source", "answer": "No; Later keeps the card unread.",
              "evidence": [{"file": "argus.html", "where": "line 997", "quote": "Later · keep unread"}]},
-            {"id": "g2", "members": ["q3"], "ask": "How fast must a card open?", "closed_by": "update",
-             "update": "mu-9", "for_project_memory": True},
-            {"id": "g3", "members": ["q4"], "ask": "How will you know reviews work for the business?",
-             "closed_by": "person", "examples": ["Every drive is reviewed within a day"]},
-            {"id": "g4", "members": ["q5"], "ask": "What if a second person opens the review?",
-             "closed_by": "prototype-feedback", "feedback": "Show who else is reviewing"}]}
+            {"id": "g2", "members": ["q3"], "ask": "Is a sent-back decision kept?", "found": "partly",
+             "closed_by": "memory", "answer": "Kept beside the new one.", "trace": "cite-12",
+             "missing": "for how long"},
+            {"id": "g3", "members": ["q4"], "ask": "How will you know reviews work?", "found": "open",
+             "missing": "the business measure", "not_shown": "no-screen"}]}
 
-    def run_check(self, build):
-        return cmb.check(build, self.groups, self.p("issue"))
-
-    def test_a_complete_build_is_clean_and_counts_the_persons_questions(self):
-        gaps, counts = self.run_check(self.good)
+    def test_a_complete_search_is_clean_and_counts_what_is_left(self):
+        gaps, counts = cs.check(self.good, self.groups)
         self.assertEqual(gaps, [])
-        self.assertEqual(counts["asked_of_person"], 1)
-        self.assertEqual(counts["questions"], 5)
+        self.assertEqual(counts["left_for_build"], 2)
+        self.assertEqual(counts["questions"], 4)
 
     def test_a_source_answer_without_a_quote_fails(self):
         bad = json.loads(json.dumps(self.good))
         bad["groups"][0]["evidence"] = [{"file": "argus.html", "quote": ""}]
-        self.assertTrue(any("quote" in g for g in self.run_check(bad)[0]))
+        self.assertTrue(any("quote" in g for g in cs.check(bad, self.groups)[0]))
 
-    def test_an_update_that_does_not_exist_fails(self):
+    def test_a_memory_answer_without_its_trace_fails(self):
         bad = json.loads(json.dumps(self.good))
-        bad["groups"][1]["update"] = "mu-404"
-        self.assertTrue(any("mu-404" in g for g in self.run_check(bad)[0]))
+        bad["groups"][1]["trace"] = ""
+        self.assertTrue(any("trace" in g for g in cs.check(bad, self.groups)[0]))
+
+    def test_an_open_group_says_what_is_missing_and_why(self):
+        bad = json.loads(json.dumps(self.good))
+        bad["groups"][2]["missing"] = ""
+        bad["groups"][2]["not_shown"] = None
+        gaps = cs.check(bad, self.groups)[0]
+        self.assertTrue(any("missing" in g for g in gaps))
+        self.assertTrue(any("should-show" in g for g in gaps))
 
     def test_a_question_left_out_or_in_two_groups_fails(self):
         bad = json.loads(json.dumps(self.good))
         bad["groups"][0]["members"] = ["q1"]
-        bad["groups"][3]["members"] = ["q5", "q4"]
-        gaps = self.run_check(bad)[0]
+        bad["groups"][2]["members"] = ["q4", "q3"]
+        gaps = cs.check(bad, self.groups)[0]
         self.assertTrue(any("q2 is in 0 groups" in g for g in gaps))
-        self.assertTrue(any("q4 is in 2 groups" in g for g in gaps))
-
-    def test_a_person_question_needs_examples(self):
-        bad = json.loads(json.dumps(self.good))
-        bad["groups"][2]["examples"] = []
-        self.assertTrue(any("example" in g for g in self.run_check(bad)[0]))
+        self.assertTrue(any("q3 is in 2 groups" in g for g in gaps))
 
 
 if __name__ == "__main__":

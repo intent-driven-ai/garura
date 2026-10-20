@@ -1,23 +1,24 @@
 #!/usr/bin/env python3
-"""group_questions.py — merge a drive's open questions into what is actually being asked (/build-memory).
+"""group_questions.py — merge a drive's open questions into what is actually being asked (/search-knowledge).
 
 A drive's round can leave dozens of open questions that are a few questions asked again: the
 same business proof once per intent and once per play, the same speed target once per
 capability (#613: 82 questions, the proof asked 15 times, speed 11, who may approve 8). This
 script gathers every open question of the round and makes a first, mechanical grouping; the
-memory-builder agent then confirms, splits or joins groups by judgment.
+knowledge-builder agent then confirms, splits or joins groups by judgment.
 
 Sources (the drive contract's places, ADR 039 — all in the issue's short-term memory):
   <review_dir>/open-<play>.json        {"play", "questions": [{"id", "ask", "about", ...}]}
-  <issue_dir>/review/memory-updates/   memory updates still `waiting` (the memory tool's records)
+  the issue's memory updates still `waiting` — asked of the memory tool (`updates`), never read
+  from their files
 
 Grouping: a question's **topic** is the first topic rule its words match (speed, proof,
 compliance, who may act, …); questions with the same topic form one group. A question no rule
 matches is grouped with others whose words overlap enough (Jaccard ≥ 0.5 on its content
 words), else it stands alone.
 
-    python3 group_questions.py --review-dir <review_dir> --issue-dir <stm_base><issue>/ \
-        --out <working>/question-groups.json
+    python3 group_questions.py --review-dir <review_dir> --issue <issue> \
+        --memory-tool .garura/core/tools/memory/memory.py --out <working>/question-groups.json
 
 Writes `{"questions": n, "groups": [{"id", "topic", "members": [ids], "asks": [...],
 "about": [...], "from": [plays]}]}`. Exit 0 written; 2 an input cannot be read. Standard
@@ -28,6 +29,7 @@ import glob
 import json
 import os
 import re
+import subprocess
 import sys
 
 WAITING = ("waiting", "pending")
@@ -61,7 +63,17 @@ def words(text):
     return {w for w in re.findall(r"[a-z][a-z'-]+", text.lower()) if w not in STOP and len(w) > 2}
 
 
-def gather(review_dir, issue_dir):
+def waiting_updates(tool, issue):
+    """The issue's memory updates still waiting, from the memory tool (`updates`)."""
+    out = subprocess.run([sys.executable, tool, "updates", "--status", "waiting"],
+                         capture_output=True, text=True, check=False)
+    answer = json.loads(out.stdout.strip().splitlines()[-1]) if out.stdout.strip() else {}
+    if not answer.get("ok"):
+        raise ValueError(f"memory tool: {answer.get('message') or out.stderr.strip() or 'no answer'}")
+    return [u for u in answer.get("updates") or [] if str(u.get("issue")) == str(issue)]
+
+
+def gather(review_dir, updates):
     qs = []
     for path in sorted(glob.glob(os.path.join(review_dir, "open-*.json"))):
         with open(path, encoding="utf-8") as fh:
@@ -70,14 +82,10 @@ def gather(review_dir, issue_dir):
         for q in doc.get("questions") or []:
             qs.append({"id": str(q.get("id")), "ask": str(q.get("ask") or ""),
                        "about": str(q.get("about") or ""), "from": play})
-    for path in sorted(glob.glob(os.path.join(issue_dir, "review", "memory-updates", "*.json"))):
-        with open(path, encoding="utf-8") as fh:
-            mu = json.load(fh)
-        mu = mu.get("update", mu) if isinstance(mu, dict) else {}
+    for mu in updates:
         if str(mu.get("status", "waiting")).lower() in WAITING:
-            qs.append({"id": str(mu.get("id") or os.path.basename(path)[:-5]),
-                       "ask": str(mu.get("missing") or ""), "about": "memory update",
-                       "from": "memory-update"})
+            qs.append({"id": str(mu.get("id")), "ask": str(mu.get("missing") or ""),
+                       "about": "memory update", "from": "memory-update"})
     return qs
 
 
@@ -120,11 +128,12 @@ def group(qs):
 def main(argv=None):
     ap = argparse.ArgumentParser(description="Group a drive's open questions.")
     ap.add_argument("--review-dir", required=True)
-    ap.add_argument("--issue-dir", required=True)
+    ap.add_argument("--issue", required=True)
+    ap.add_argument("--memory-tool", default=".garura/core/tools/memory/memory.py")
     ap.add_argument("--out", required=True)
     args = ap.parse_args(argv)
     try:
-        qs = gather(args.review_dir, args.issue_dir)
+        qs = gather(args.review_dir, waiting_updates(args.memory_tool, args.issue))
     except (OSError, ValueError) as exc:
         sys.stderr.write(f"group_questions.py: cannot read an input: {exc}\n")
         return 2

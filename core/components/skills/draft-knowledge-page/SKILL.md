@@ -1,6 +1,6 @@
 ---
 name: draft-knowledge-page
-description: Draft one knowledge page for a topic a drive found missing from memory — something no screen shows and research can answer (a speed bar for a kind of product, the rules that apply to a kind of record, the usual roles in a kind of team) — researched with its sources, and raise it through the memory tool as a memory update a person approves (ADR 035). One page answers every question of its topic. Marks the page for the project's memory when it is a fact about the product or its team, not about one drive. Used by the memory-builder agent in /build-memory.
+description: Draft one knowledge page for a topic a drive found missing from memory — something no screen shows and research can answer (a speed bar for a kind of product, the rules that apply to a kind of record, the usual roles in a kind of team) — researched with its sources, and raise it through the memory tool as a memory update a person approves (ADR 035). One page answers every question of its topic. Marks the page for the project's memory when it is a fact about the product or its team, not about one drive. Used by the knowledge-builder agent in /build-knowledge.
 user-invocable: false
 model: opus
 allowed-tools: Read, Write, Bash, WebSearch, WebFetch
@@ -36,7 +36,7 @@ skill drafts the knowledge once, with its sources, for the person to approve.
    python3 <memory_tool> propose --request '{"issue": <issue>,
      "missing": "<the topic, in one line>", "target_tier": "short-term",
      "target_path": "<issue>/context/answers/kb/<topic-slug>.md", "draft": "<the page>",
-     "draft_source": "web", "sources": [<each link>], "requested_by": "memory-builder (/build-memory)"}'
+     "draft_source": "web", "sources": [<each link>], "requested_by": "knowledge-builder (/build-knowledge)"}'
    ```
 
 5. Say whether the page belongs in the **project's memory** (`for_project_memory: true`): a
