@@ -1,0 +1,13 @@
+# Runnable checks — PR #682 (215ae0a2)
+lint_play intent: VERDICT: PASS (0 gap(s))
+lint_play build-memory: VERDICT: PASS (0 gap(s))
+lint_play drive-creator: VERDICT: FAIL (5 gap(s))
+lint_play drive-editor: VERDICT: FAIL (5 gap(s))
+lint_drive kickoff: VERDICT: PASS (0 gap(s))
+intent scripts: 129 passed, 0 failed, 0 skipped
+build-memory scripts: OK
+kickoff scripts: OK
+drive builder scripts + drive linter: OK
+drive contract: 34 passed, 0 failed
+install: OK
+ruff: All checks passed!

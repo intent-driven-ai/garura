@@ -1,0 +1,8 @@
+== docs/adr/034-plays-answer-from-memory-inside-a-drive.md
+{
+  "adr": "docs/adr/034-plays-answer-from-memory-inside-a-drive.md",
+  "valid": true,
+  "problems": []
+}
+exit=0
+index matches a fresh rebuild

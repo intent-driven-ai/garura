@@ -1,7 +1,7 @@
 meta:
   pr: 682
   issue: 613
-  round: 1
+  round: 2
   gate: off by config (gates.plays.review-change); the computed recommendation is the decision, marked
     as a harness verdict
   sources:
@@ -9,644 +9,407 @@ meta:
   - design-findings-harness.yaml
   - design-findings-memory.yaml
   - runnable-checks.txt
-  - lint-components.json
-  counts:
-    P2: 17
-    P3: 31
-    P4: 26
+  - adr-lint.txt
+  counts_open:
+    P3: 11
+    P4: 9
+  resolved_this_round: 9
+  round_1: round-1/findings.yaml; harness DG-H1..H8 all resolved, memory MEM-1..8 resolved but MEM-5 partly
+    (carried as MEM2-6); 58 round-1 scanner rows unchanged (path/word prompts on files round 2 did not
+    touch)
 findings:
-- id: ARCH-02
+- id: DG2-H10
+  severity: P3
+  category: harness
+  file: core/components/plays/understand/reference/ice.md
+  basis: 'ADR 029 §2 / ADR 034 §3 (origin/main) as the branch now reads them through ADR 041 (the play
+    records the question for the drive and finishes); CLAUDE.md Play Pipeline Rules: an intent must agree
+    with itself and with its compiled SKILL.'
+  finding: 'Round 2 changed /understand C13 and the SKILL Step 0a drive case so a capability with no answers
+    becomes the drive''s question (`open-understand.json`) and the play finishes the other targets. Three
+    other lines in the same ICE and SKILL still say the opposite: C1 (''With no answers in the contract,
+    the play stops and asks the person before any model write''), the F1 failure''s recovery (''ask the
+    person what the capability is ... record the answers before seeding'', in the SKILL table and as REC1
+    in the ICE), and the SKILL''s Step 0a rule ''With no answer ... halt''. Read together, a drive run
+    is told both to hand the question to the drive and to stop and ask. The fingerprint matches the ICE,
+    so the compiled SKILL has not drifted; the ICE disagrees with itself.
+
+    '
+  status: open
+- id: DG2-H11
+  severity: P3
+  category: harness
+  file: core/grounding/glossary.md
+  basis: 'pipeline-next.md on origin/main (commit-change -> propose-change -> review-change -> merge-change
+    each have their own command; /start-change listed); the five change plays carry user-invocable: true
+    on origin/main. ADR 029 §4.'
+  finding: 'The glossary Drive entry now says ''Its member plays (the change plays and /build-memory)
+    run only inside it'', and ADR 041 part 4 justifies /build-memory ''as the change plays a drive injects
+    do''. On origin/main the change plays are user-invocable and are run by hand as their own commands,
+    so they do not run only inside a drive. Only /build-memory does. The glossary is the project''s grounding
+    vocabulary, so the slip would mislead later reviews and play-creator.
+
+    '
+  status: open
+- id: DG2-H12
+  severity: P3
+  category: harness
+  file: docs/adr/041-a-drive-runs-in-rounds-and-owns-its-questions.md
+  basis: 'ADR 029 ''amended in part by'' header pattern on origin/main: each pointer names the section
+    and what changes.'
+  finding: 'The ADR does not match the branch it lands with. Its ''Affects'' list, its ICE impact, its
+    Negative consequences and its Work This Creates items 1 to 3 say the glossary Drive entry, /vision
+    C11, /understand C13 and the note in Kickoff''s ICE ''still say the old reading''. Round 2 already
+    changed all four, so those items are done, not open. The same list leaves out what does still say
+    the old reading: /understand C1 and its F1 recovery (DG2-H10) and the drive-creator example (DG2-H9).
+    Separately, the four Status lines added to ADRs 029, 032, 034 and 039 say only ''amended in part by
+    ADR 041'', where every neighbouring pointer on those lines names the section and the change (ADR 034''s
+    bare pointer to ADR 039 is the one precedent for the short form).
+
+    '
+  status: open
+- id: DG2-H9
+  severity: P3
+  category: harness
+  file: core/components/plays/drive-creator/references/compiled-drive-example/SKILL.md
+  basis: 'ADR 039 §2 and glossary Drive (origin/main): a drive reads no memory. ADR 029 §2 (drive loops
+    its plays). The branch''s own drive-run.md R3/R5 are the target shape, but the claim rests on the
+    base ADRs.'
+  finding: 'The worked example that `/drive-creator` copies the shape of for every new drive still teaches
+    the old reading. Its Step 2 says ''Run R3: ask ... memory first'' and its eval says an answer''s source
+    is ''memory, or the person''s typed words''; its ICE goal says ''no stop except a question memory
+    cannot answer'' and C2 says ''a question memory and the answers do not cover stops the drive and goes
+    to the person''; its F2 recovery says ''stop, ask the person''. Shared drive-run.md R3 now says the
+    drive reads no memory, and R5 loops in rounds. The example also lists 11 scripts and no round step,
+    while its scripts/ folder holds 13 (round_state.py and drive_status.py included) and drive-creator
+    SKILL step 3 says steps run ''in rounds''. A new drive built from this example would carry the first-build
+    reading ADR 041 replaces, and its SKILL would drift from the shared run. `lint_drive.py` does not
+    catch it.
+
+    '
+  status: open
+- id: MEM2-1
+  severity: P3
+  category: memory
+  file: core/components/memory/standards/rules/gate-config.md
+  basis: 'main:core/components/memory/standards/rules/gate-config.md ''Pinned gates'' (line 94): ''any
+    other pinned gate inside a drive is asked up front or stops the play, never deferred - drive-contract.md''.
+    Also main:docs/adr/029-drives.md ''Pinned gates'' (always stop for a human; how they fit a drive is
+    left to later spikes). Principle P-H, P-G.
+
+    '
+  finding: 'Two rule files now disagree about a pinned checkpoint inside a drive. gate-config.md (not
+    touched by this branch) still says it ''stops the play''. drive-contract.md rule 4 now says it ''becomes
+    the drive''s question'' (so the play closes and the drive asks later). gate-config.md points readers
+    to drive-contract.md for the answer, and the answer there has changed. ADR 041 amends ADR 029 s2 and
+    ADR 034 s3 but never names pinned gates or gate-config.md, and ADR 029 left pinned gates to later
+    spikes. Rule 4 also keeps the sentence ''A pinned checkpoint is never deferred by a contract'' next
+    to a play that closes without crossing it, which a reader can take as deferral.
+
+    '
+  status: open
+- id: MEM2-2
+  severity: P3
+  category: memory
+  file: core/components/memory/standards/rules/drive-contract.md
+  basis: 'Consistency with core/components/drives/_shared/drive-run.md R4/R5/R5b (branch file, checked
+    for agreement; not grounding). Principle P-G (one source of truth; rule files agree). main:docs/adr/029-drives.md
+    s2 ''Questions first''.
+
+    '
+  finding: 'The contract''s `answers` field is still described as answers ''gathered before the drive
+    started'' (field table, JSON example, and rule 4''s ''gathered before the drive started''). drive-run.md
+    R5/R5b now writes the contract again on each later round with ''any new answers'', including what
+    the person said after the draft. So the rule file describes the first round only. The ''One contract
+    for the whole drive'' section likewise says the file is rewritten only to add later plays'' inputs,
+    not for a new round or new answers. A play on round 2 cannot tell from the rule whether `answers`
+    can hold post-draft answers.
+
+    '
+  status: open
+- id: MEM2-3
+  severity: P3
+  category: memory
+  file: docs/adr/041-a-drive-runs-in-rounds-and-owns-its-questions.md
+  basis: 'ADR 041 is the claim under review (not grounding); this is the claim checked against the round-2
+    files (internal agreement of the decision record with the carriers it lists). Principle P-B (the record
+    lists its carriers accurately).
+
+    '
+  finding: 'ADR 041''s ''Affects'' still lists the glossary Drive entry, /vision C11, /understand C13
+    and the note in Kickoff''s ice.md under ''still saying the old reading'', its Negative/Risks says
+    ''Some files still say the old reading'', and ''Work This Creates'' items 1-3 say to do those fixes.
+    All four are fixed in the same round-2 change (glossary row, vision and understand ICE and SKILL,
+    Kickoff ice.md). A later reader of the accepted ADR would think the work is outstanding. The ADR''s
+    carrier list also omits pipeline-next.md and evidence-recording.md, which this round changed for the
+    same decision, and gate-config.md (see MEM2-1).
+
+    '
+  status: open
+- id: Q2-2
+  severity: P3
+  category: standards
+  file: docs/adr/041-a-drive-runs-in-rounds-and-owns-its-questions.md
+  basis: 'decision-records: a record must match the branch it describes (adr-lint checks structure only)'
+  finding: Lines 9, 10 and 112 say the glossary Drive entry, /vision C11, /understand C13 and the Kickoff
+    ICE note "still say the old reading" and that /vision and /understand ICE "changes through /play-editor".
+    Commit 113d098a already changed all of them, and no file in the branch still says a play stops the
+    run. The record now describes a state that no longer exists. Move them from "still saying" to "already
+    following" and drop the risk bullet.
+  status: open
+- id: Q2-3
+  severity: P3
+  category: standards
+  file: core/components/plays/vision/reference/ice.md
+  basis: 'CLAUDE.md Play Pipeline Rules: an intent change goes through the ICE source and a /play-editor
+    rebuild, never a hand edit of the compiled SKILL.md'
+  finding: 'Round 2 changed what /vision C11/F13, /understand C13/REC15 and the Kickoff goal/C3 promise
+    (a question is now the drive''s, not a stop). The ICE sources were edited, but the compiled SKILL.md
+    files were edited by hand with a recomputed fingerprint (commit 113d098a says "non-intent edits").
+    The fingerprints match the ICE files, so nothing is out of step now, but the path taken is the one
+    the rule forbids for intent changes. Same pattern in core/components/plays/understand/ and core/components/drives/kickoff/.
+    Needs a decision: accept as recorded, or rebuild through /play-editor and /drive-editor.'
+  status: open
+- id: Q2-4
+  severity: P3
+  category: standards
+  file: core/components/plays/drive-creator/SKILL.md
+  basis: 'runnable-checks.txt: lint_play drive-creator FAIL (5 gaps), lint_play drive-editor FAIL (5 gaps)'
+  finding: Both builder plays fail the play linter with 5 gaps each, the same as round 1. The play linter
+    does not know the builder plays' shape; play-creator and play-editor on main show the same. Not a
+    new break, but the check stays red. Same for core/components/plays/drive-editor/SKILL.md.
+  status: open
+- id: Q2-5
+  severity: P3
+  category: standards
+  file: core/components/plays/drive-creator/SKILL.md
+  basis: 'runnable-checks.txt: lint-components 121 errors vs 113 on main'
+  finding: The component linter reports 8 more errors than main. All 8 are drive-creator and drive-editor,
+    with the same 4 errors each that play-creator and play-editor already carry on main. No error comes
+    from the drive, build-memory, intent, vision or understand files.
+  status: open
+- id: DG2-H13
+  severity: P4
+  category: harness
+  file: core/components/agents/drive-checker.md
+  basis: 'ADR 004 ({domain}-{role}); the round-1 DG-H8 fix to prototype-walker set the same standard (origin/main:
+    business-intent-keeper = business-intent + keeper).'
+  finding: 'The agent''s frontmatter gives domain `drive-check` and role `checker`, which compose to `drive-check-checker`,
+    not `drive-checker`. Domain `drive` with role `checker` would match the name.
+
+    '
+  status: open
+- id: DG2-H14
+  severity: P4
+  category: harness
+  file: core/components/drives/_shared/drive-run.md
+  basis: 'ADR 029 §2: ''No rules of its own. The drive''s one rule is to run its plays.'' ADR 041 does
+    not list this line among the parts it amends.'
+  finding: 'The opening paragraph still says a drive ''carries no rules of its own (ADR 029)'', while
+    the same file now holds a round loop, a round limit, an ask rule and a fixed member-play step (R5,
+    R5c, R5b). The glossary supports ''in order and repeatedly'', so the loop is grounded; the round limit
+    and the ask rule are the drive''s own logic and ADR 041 does not say how they sit beside ''no rules
+    of its own''. Also, R5 step 2 still describes the play''s compact result as including ''any question
+    it stopped on'', although step 3 says a play does not stop.
+
+    '
+  status: open
+- id: DG2-H15
+  severity: P4
+  category: harness
+  file: core/components/drives/kickoff/reference/ice.md
+  basis: 'ADR 031 §5 and ADR 032 (origin/main): only a person confirms or drops an intent, at the review;
+    ADR 041 part 7: intents stay proposed until Argus.'
+  finding: 'The Goal says the drive ends ''with business intents the person has decided'', and D6 says
+    ''the person decided every proposed intent''. C7 and ADR 041 part 7 say the intents stay `proposed`
+    and a typed drop changes nothing in the model. A reader of the Goal would think the intents were confirmed.
+    The compiled SKILL repeats the Goal wording.
+
+    '
+  status: open
+- id: MEM2-4
+  severity: P4
+  category: memory
+  file: core/components/memory/standards/rules/drive-contract.md
+  basis: Consistency with drive-run.md R5 step 7 and R5c, and ADR 041 s2-s3 (branch files; not grounding).
+    Principle P-G.
+  finding: 'Rule 5 says a question stops the drive ''only when no play of the drive can answer it''. drive-run.md
+    and ADR 041 give the exact moment (a round answered nothing new, or the round limit) and put /build-memory,
+    a member play outside the contract''s `plays` list, between the last round and the ask. Rule 5 names
+    neither. Only the Related bullet mentions /build-memory. The rule a play reads is shorter than the
+    rule the drive follows.
+
+    '
+  status: open
+- id: MEM2-5
+  severity: P4
+  category: memory
+  file: core/grounding/glossary.md
+  basis: main:core/grounding/glossary.md (a term used in a row is expected to be defined, and the Atomic
+    Play row on main calls a play 'standalone'); ADR 041 s4 (member plays).
+  finding: 'The Drive row now relies on ''member play'' and on ''round'' without a glossary row of their
+    own, and it says the member plays (/build-memory included) ''run only inside'' the drive, while the
+    Atomic Play row (unchanged) defines an atomic play as ''a standalone play''. The Drive row text itself
+    matches ADR 041 s1-s5 (rounds, the drive''s question, ask after the draft, each once, reads no memory).
+
+    '
+  status: open
+- id: MEM2-6
+  severity: P4
+  category: memory
+  file: core/components/memory/standards/rules/run-status.md
+  basis: main:docs/adr/021-status-resume-vs-evidence.md s1 (status = resume marker, read only by the same
+    play).
+  finding: 'See round_1_status MEM-5: add one line that the run status is a progress display, not a resume
+    marker, and nothing resumes from it.'
+  status: open
+- id: Q2-6
+  severity: P4
+  category: standards
+  file: core/components/plays/drive-creator/references/compiled-drive-example/SKILL.md
+  basis: 'runnable-checks.txt: lint_drive compiled-drive-example FAIL (2 gaps)'
+  finding: 'The worked example fails the drive linter with 2 gaps because it sits under drive-creator/references/,
+    where ../_shared/drive-run.md and the member plays do not resolve. Expected: it is a reference, not
+    an installed drive. The real drive (kickoff) passes lint_drive with 0 gaps.'
+  status: open
+- id: Q2-7
+  severity: P4
+  category: standards
+  file: core/components/drives/kickoff/scripts/
+  basis: 'runnable-checks.txt: ruff (no project ruff config)'
+  finding: 'ruff finds no error that stops a run. On the branch: EXE001 64, RUF100 26, PLW1510 20, SIM115
+    8. Main''s unchanged scripts show the same kinds (EXE001 25, SIM115 18, RUF100 12, PLW1510 11). The
+    repo sets no ruff rules, so no project standard is broken. The round 2 changes touched no Python,
+    JS or shell file, so none of this moved.'
+  status: open
+- id: Q2-8
+  severity: P4
+  category: standards
+  file: core/components/drives/_shared/drive-run.md
+  basis: 'documentation: surrounding prose is wrapped near 95 columns'
+  finding: Round 2 edits left lines of 118 to 170 characters where the file wraps near 95 (drive-run.md
+    steps R3, R5 and R5 step 3; core/components/drives/kickoff/SKILL.md description and Step 2; core/components/drives/kickoff/reference/ice.md
+    goal; core/components/memory/standards/rules/drive-contract.md rule 4 and 5). Readable, but untidy
+    in a diff.
+  status: open
+resolved:
+- id: Q2-1
   severity: P2
   category: standards
-  file: core/tools/lint-components/lib/discover.js
-  basis: ARCH-02
-  finding: ''
-  assessment: ''
-- id: CODE-03
-  severity: P2
-  category: standards
-  file: core/tools/lint-components/lib/discover.js
-  basis: CODE-03
-  finding: ''
-  assessment: ''
-- id: CODE-04
-  severity: P2
-  category: standards
-  file: core/tools/lint-components/lib/discover.js
-  basis: CODE-04
-  finding: ''
-  assessment: ''
-- id: CODE-14
-  severity: P2
-  category: standards
-  file: core/tools/lint-components/lib/discover.js
-  basis: CODE-14
-  finding: ''
-  assessment: ''
-- id: BE-19
-  severity: P2
-  category: standards
-  file: core/tools/lint-components/lib/discover.js
-  basis: BE-19
-  finding: ''
-  assessment: ''
-- id: BE-19
-  severity: P2
-  category: standards
-  file: core/tools/lint-components/lib/discover.js
-  basis: BE-19
-  finding: ''
-  assessment: ''
-- id: ARCH-02
-  severity: P2
-  category: standards
-  file: core/tools/lint-components/lib/rules/structural.js
-  basis: ARCH-02
-  finding: ''
-  assessment: ''
-- id: CODE-03
-  severity: P2
-  category: standards
-  file: core/tools/lint-components/lib/rules/structural.js
-  basis: CODE-03
-  finding: ''
-  assessment: ''
-- id: CODE-04
-  severity: P2
-  category: standards
-  file: core/tools/lint-components/lib/rules/structural.js
-  basis: CODE-04
-  finding: ''
-  assessment: ''
-- id: CODE-14
-  severity: P2
-  category: standards
-  file: core/tools/lint-components/lib/rules/structural.js
-  basis: CODE-14
-  finding: ''
-  assessment: ''
-- id: BE-19
-  severity: P2
-  category: standards
-  file: core/tools/lint-components/lib/rules/structural.js
-  basis: BE-19
-  finding: ''
-  assessment: ''
-- id: BE-19
-  severity: P2
-  category: standards
-  file: core/tools/lint-components/lib/rules/structural.js
-  basis: BE-19
-  finding: ''
-  assessment: ''
-- id: BE-19
-  severity: P2
-  category: standards
-  file: core/tools/lint-components/lib/rules/structural.js
-  basis: BE-19
-  finding: ''
-  assessment: ''
-- id: BE-19
-  severity: P2
-  category: standards
-  file: core/tools/lint-components/lib/rules/structural.js
-  basis: BE-19
-  finding: ''
-  assessment: ''
-- id: DOC-01
-  severity: P3
-  category: standards
-  file: .garura/project/issues/613/evidence/checker/README.md
-  basis: DOC-01
-  finding: ''
-  assessment: ''
-- id: DOC-09
-  severity: P3
-  category: standards
-  file: .garura/project/issues/613/evidence/checker/README.md
-  basis: DOC-09
-  finding: ''
-  assessment: ''
-- id: DOC-10
-  severity: P3
-  category: standards
-  file: .garura/project/issues/613/evidence/checker/README.md
-  basis: DOC-10
-  finding: ''
-  assessment: ''
-- id: DOC-11
-  severity: P3
-  category: standards
-  file: .garura/project/issues/613/evidence/checker/README.md
-  basis: DOC-11
-  finding: ''
-  assessment: ''
-- id: ARCH-03
-  severity: P3
-  category: standards
-  file: core/tools/lint-components/lib/discover.js
-  basis: ARCH-03
-  finding: ''
-  assessment: ''
-- id: ARCH-08
-  severity: P3
-  category: standards
-  file: core/tools/lint-components/lib/discover.js
-  basis: ARCH-08
-  finding: ''
-  assessment: ''
-- id: CODE-09
-  severity: P3
-  category: standards
-  file: core/tools/lint-components/lib/discover.js
-  basis: CODE-09
-  finding: ''
-  assessment: ''
-- id: CODE-10
-  severity: P3
-  category: standards
-  file: core/tools/lint-components/lib/discover.js
-  basis: CODE-10
-  finding: ''
-  assessment: ''
-- id: CODE-11
-  severity: P3
-  category: standards
-  file: core/tools/lint-components/lib/discover.js
-  basis: CODE-11
-  finding: ''
-  assessment: ''
-- id: CODE-12
-  severity: P3
-  category: standards
-  file: core/tools/lint-components/lib/discover.js
-  basis: CODE-12
-  finding: ''
-  assessment: ''
-- id: CODE-15
-  severity: P3
-  category: standards
-  file: core/tools/lint-components/lib/discover.js
-  basis: CODE-15
-  finding: ''
-  assessment: ''
-- id: CODE-17
-  severity: P3
-  category: standards
-  file: core/tools/lint-components/lib/discover.js
-  basis: CODE-17
-  finding: ''
-  assessment: ''
-- id: CODE-18
-  severity: P3
-  category: standards
-  file: core/tools/lint-components/lib/discover.js
-  basis: CODE-18
-  finding: ''
-  assessment: ''
-- id: FE-08
-  severity: P3
-  category: standards
-  file: core/tools/lint-components/lib/discover.js
-  basis: FE-08
-  finding: ''
-  assessment: ''
-- id: ARCH-03
-  severity: P3
-  category: standards
-  file: core/tools/lint-components/lib/rules/structural.js
-  basis: ARCH-03
-  finding: ''
-  assessment: ''
-- id: ARCH-08
-  severity: P3
-  category: standards
-  file: core/tools/lint-components/lib/rules/structural.js
-  basis: ARCH-08
-  finding: ''
-  assessment: ''
-- id: CODE-09
-  severity: P3
-  category: standards
-  file: core/tools/lint-components/lib/rules/structural.js
-  basis: CODE-09
-  finding: ''
-  assessment: ''
-- id: CODE-10
-  severity: P3
-  category: standards
-  file: core/tools/lint-components/lib/rules/structural.js
-  basis: CODE-10
-  finding: ''
-  assessment: ''
-- id: CODE-11
-  severity: P3
-  category: standards
-  file: core/tools/lint-components/lib/rules/structural.js
-  basis: CODE-11
-  finding: ''
-  assessment: ''
-- id: CODE-12
-  severity: P3
-  category: standards
-  file: core/tools/lint-components/lib/rules/structural.js
-  basis: CODE-12
-  finding: ''
-  assessment: ''
-- id: CODE-15
-  severity: P3
-  category: standards
-  file: core/tools/lint-components/lib/rules/structural.js
-  basis: CODE-15
-  finding: ''
-  assessment: ''
-- id: CODE-17
-  severity: P3
-  category: standards
-  file: core/tools/lint-components/lib/rules/structural.js
-  basis: CODE-17
-  finding: ''
-  assessment: ''
-- id: CODE-18
-  severity: P3
-  category: standards
-  file: core/tools/lint-components/lib/rules/structural.js
-  basis: CODE-18
-  finding: ''
-  assessment: ''
-- id: FE-08
-  severity: P3
-  category: standards
-  file: core/tools/lint-components/lib/rules/structural.js
-  basis: FE-08
-  finding: ''
-  assessment: ''
-- id: DOC-14
-  severity: P4
-  category: standards
-  file: .garura/project/issues/613/evidence/checker/README.md
-  basis: DOC-14
-  finding: ''
-  assessment: ''
-- id: DOC-15
-  severity: P4
-  category: standards
-  file: .garura/project/issues/613/evidence/checker/README.md
-  basis: DOC-15
-  finding: ''
-  assessment: ''
-- id: DOC-16
-  severity: P4
-  category: standards
-  file: .garura/project/issues/613/evidence/checker/README.md
-  basis: DOC-16
-  finding: ''
-  assessment: ''
-- id: BE-23
-  severity: P4
-  category: standards
-  file: core/config.yaml
-  basis: BE-23
-  finding: ''
-  assessment: ''
-- id: CODE-13
-  severity: P4
-  category: standards
-  file: core/tools/lint-components/lib/discover.js
-  basis: CODE-13
-  finding: ''
-  assessment: ''
-- id: CODE-19
-  severity: P4
-  category: standards
-  file: core/tools/lint-components/lib/discover.js
-  basis: CODE-19
-  finding: ''
-  assessment: ''
-- id: CODE-22
-  severity: P4
-  category: standards
-  file: core/tools/lint-components/lib/discover.js
-  basis: CODE-22
-  finding: ''
-  assessment: ''
-- id: CODE-22
-  severity: P4
-  category: standards
-  file: core/tools/lint-components/lib/discover.js
-  basis: CODE-22
-  finding: ''
-  assessment: ''
-- id: CODE-22
-  severity: P4
-  category: standards
-  file: core/tools/lint-components/lib/discover.js
-  basis: CODE-22
-  finding: ''
-  assessment: ''
-- id: CODE-13
-  severity: P4
-  category: standards
-  file: core/tools/lint-components/lib/rules/structural.js
-  basis: CODE-13
-  finding: ''
-  assessment: ''
-- id: CODE-19
-  severity: P4
-  category: standards
-  file: core/tools/lint-components/lib/rules/structural.js
-  basis: CODE-19
-  finding: ''
-  assessment: ''
-- id: CODE-22
-  severity: P4
-  category: standards
-  file: core/tools/lint-components/lib/rules/structural.js
-  basis: CODE-22
-  finding: ''
-  assessment: ''
-- id: CODE-22
-  severity: P4
-  category: standards
-  file: core/tools/lint-components/lib/rules/structural.js
-  basis: CODE-22
-  finding: ''
-  assessment: ''
-- id: CODE-22
-  severity: P4
-  category: standards
-  file: core/tools/lint-components/lib/rules/structural.js
-  basis: CODE-22
-  finding: ''
-  assessment: ''
-- id: CODE-22
-  severity: P4
-  category: standards
-  file: core/tools/lint-components/lib/rules/structural.js
-  basis: CODE-22
-  finding: ''
-  assessment: ''
-- id: CODE-22
-  severity: P4
-  category: standards
-  file: core/tools/lint-components/lib/rules/structural.js
-  basis: CODE-22
-  finding: ''
-  assessment: ''
-- id: CODE-22
-  severity: P4
-  category: standards
-  file: core/tools/lint-components/lib/rules/structural.js
-  basis: CODE-22
-  finding: ''
-  assessment: ''
-- id: CODE-22
-  severity: P4
-  category: standards
-  file: core/tools/lint-components/lib/rules/structural.js
-  basis: CODE-22
-  finding: ''
-  assessment: ''
-- id: CODE-22
-  severity: P4
-  category: standards
-  file: core/tools/lint-components/lib/rules/structural.js
-  basis: CODE-22
-  finding: ''
-  assessment: ''
-- id: CODE-22
-  severity: P4
-  category: standards
-  file: core/tools/lint-components/lib/rules/structural.js
-  basis: CODE-22
-  finding: ''
-  assessment: ''
-- id: DG-H1
+  file: .garura/project/issues/613/review/round-2-delta.diff
+  basis: contract local-path check; categories.yaml work-records note (no absolute home paths)
+  finding: This review work file (not yet committed) holds 123 lines with absolute paths into the author's
+    home folder. They come from the old lint record that commit fbdcdfd0 cleaned. If this file is committed,
+    the leak comes back. Delete it or scrub it before the next commit. The other review files, and every
+    other file in the diff, are clean.
+  status: resolved
+- id: DG2-H1
   severity: P2
   category: harness
   file: core/components/drives/_shared/drive-run.md
-  basis: ADR 039 §2 ('A drive follows the same rule'); glossary Drive ('Like any play, it reads no memory');
-    drive-contract.md preamble on main ('A drive reads no memory').
-  finding: 'Step R3 tells the drive to ''look in memory first, through the memory tool'' and to record
-    answers whose source is `memory` with tier, path and trace. Kickoff C3 and Step 2 repeat it. Step
-    R5b also has the drive mark memory updates approved or rejected through the memory tool. That makes
-    the drive itself a memory reader and a memory writer. The committed design says the drive reads no
-    memory; only its plays'' agents do, through the tool. The same branch''s drive-contract.md preamble
-    (unchanged from main) and Kickoff''s own ICE Context cite ADR 039 for the opposite.
+  basis: ADR 039 §2 and §10 (origin/main); glossary Drive; drive-contract.md preamble on origin/main.
+  finding: 'Fixed. Step R3 no longer has the drive look in memory: it asks only what the drive needs to
+    start and says ''The drive reads no memory itself (ADR 039, ADR 041 §8)''. Kickoff C3 now reads ''The
+    drive reads no memory itself (ADR 039); its plays'' agents do'', and Kickoff Step 2 records only `from:
+    person`. Step R5b still has the drive call the memory tool''s `decide` for a person''s typed decision.
+    That is a departure from ADR 039 §10 ''only agents call the tool'', but ADR 041 part 8 names it, limits
+    it to a person''s typed word, and the tool''s contract v5.1 on origin/main already provides `decided_in:
+    session`. Resolved by ADR 041. A leftover of the old reading is in the drive-creator worked example
+    (see DG2-H9).
 
     '
-- id: DG-H2
+  status: resolved
+- id: DG2-H2
   severity: P2
   category: harness
   file: core/components/drives/_shared/drive-run.md
-  basis: ADR 029 §2 ('A new question stops it ... the drive stops and asks'); ADR 034 §3 and §5 (the question
-    stops the drive only when nothing supports an answer); glossary Drive ('stops only to ask a question
-    that comes up mid-run', 'No rules of its own'); drive-contract.md rule 5 on main ('still stops the
-    play'); base plan item 3 ('anything that changes an earlier decision is an ADR').
-  finding: 'The branch changes how a drive handles a question nothing supports. Instead of stopping, the
-    play keeps going, saves its work with the gap marked open, and the drive loops all three plays again
-    (rounds, a round limit, ''again / ask''), asking the person only after a round that answered nothing
-    new. /intent''s F16 now makes ''stopped to ask'' a failure inside a drive, which reverses the base
-    rule. The only recorded basis is dated quotes (Kapil, 2026-10-20) written into the branch''s own prose.
-    No ADR on the branch (or on main) amends ADR 029 §2 or ADR 034; the base plan said such a change is
-    an ADR. The drive also now carries a run loop and a round limit as rules of its own, against ''no
-    rules of its own''. ADR 034 itself names the risk this raises: later plays build on an assumption
-    the person has not seen.
+  basis: ADR 029 §2 and ADR 034 §3, §5 (origin/main); base plan item 3 'anything that changes an earlier
+    decision is an ADR'.
+  finding: 'Fixed. ADR 041 now records the rounds loop, ''a question one play cannot answer is the drive''s'',
+    and the amendments to ADR 029 §2 and ADR 034 §3; the dated quotes in drive-run.md, drive-contract.md
+    and run-status.md are replaced by ADR 041 references. The amended parts exist on origin/main and the
+    intent (never pick an answer, nothing from the model alone, a person is asked what nothing answers)
+    is kept; the one thing ADR 041 does not name is ADR 029 §2 ''No rules of its own'' (DG2-H14, P4).
+    /intent F16 and the vision/understand ICE now match. Resolved.
 
     '
-- id: DG-H3
+  status: resolved
+- id: DG2-H3
   severity: P3
   category: harness
   file: core/components/plays/build-memory/SKILL.md
-  basis: ADR 029 §4 ('Every play a drive runs can also be run by hand ... depends on no other play having
-    run first'); ADR 029 §1 ('aim ... three plays', a trinity); glossary Drive ('Runs Atomic Plays, ideally
-    three').
-  finding: '/build-memory is user-invocable but hard-halts without a drive contract (''this play runs
-    only inside a drive''), and the Next map says drive members are run ''never on their own''. It is
-    a fourth play inside the Kickoff run (R5c, Step 6c), and drive-creator now builds this step into the
-    fixed shape of every drive. That departs from the trinity aim and from ''plays stand on their own''
-    with no ADR.
+  basis: ADR 029 §1 (aim at three plays) and §4 (plays stand on their own), origin/main.
+  finding: 'Fixed. ADR 041 parts 3 and 4 name /build-memory as a member play that runs only inside a drive
+    and say ADR 029 §4 holds for a drive''s work plays. ADR 029 §1 says ''aim'' for three plays, so a
+    fourth member play is not a breach. The play''s own text (''runs only inside a drive'') matches. Resolved
+    by ADR 041. The ADR''s reason for it contains a factual slip about the change plays (DG2-H11).
 
     '
-- id: DG-H4
+  status: resolved
+- id: DG2-H4
   severity: P3
   category: harness
   file: core/components/drives/kickoff/SKILL.md
-  basis: 'ADR 032 §3 (''The pull request is not where the person reviews'') and its Negative consequence
-    (''Until [the two tools] are built, Kickoff cannot close''); ADR 031 §5 (confirm or drop at the drive''s
-    final review); ADR 029 §2 (no rules of its own); base plan on main, ''What this plan leaves out''
-    (confirmed intents wait for #641-#650; until then the drive ends with the plays'' review records and
-    a pull request).'
-  finding: 'Kickoff adds Step 8: after the pull request is raised, the drive asks the person to type confirm
-    or drop for each intent and records the words in confirmation.yaml, and Done means D6 requires it.
-    The intents stay proposed, so a recorded ''drop'' changes nothing and the merge still lands the dropped
-    intent. ADR 032 says Kickoff cannot close until the review tools exist, and the base plan deliberately
-    left this out. ADR 035 §7 allows typed approval as a stand-in for memory and ADR approvals only, not
-    for intents. The drive''s own Role says ''every rule about intents lives in the plays'', yet the drive
-    owns this intent step. The stand-in is labelled and the drive never changes an intent''s state, so
-    it does not breach ADR 031''s ''only a person confirms''; the gap is the missing decision record,
-    and what a recorded ''drop'' does.
+  basis: ADR 032 §1, §3, §5 and Negative consequences; ADR 031 §5; base plan 'What this plan leaves out'
+    (origin/main).
+  finding: 'Fixed. ADR 041 part 7 amends ADR 032 §1 and §5 for the time before Argus: the drive ends at
+    the pull request, the person''s typed confirm or drop is recorded, intents stay `proposed`, a recorded
+    drop is carried to the review and does not remove the intent from this merge, and ''Once Argus exists,
+    ADR 032 §1 and §5 hold as written''. The missing decision record and the effect of a drop are now
+    written down. Kickoff C7 and its End section match. Resolved by ADR 041. The drive still never changes
+    an intent''s state, so ADR 031 ''only a person confirms'' holds. Wording nit left over: DG2-H15.
 
     '
-- id: DG-H5
+  status: resolved
+- id: DG2-H5
   severity: P3
   category: harness
-  file: core/components/drives/_shared/drive-run.md
-  basis: 'glossary Skill (''Invoked only by agents, never directly by humans or plays''), Agent (''Named
-    {domain}-{role}''), Agent-first pattern (''unconditional''), High-Order Play (''NOT: a play that invokes
-    domain agents directly''); CLAUDE.md Behavioral Rule 2.'
-  finding: 'The checker (R6) is an unnamed sub-agent on a chosen model told to ''judge this drive''s result
-    with the judge-drive-result skill'', or Codex reading SKILL.md. There is no agent definition that
-    owns the check, so a skill is invoked without an agent in the middle, and the drive hands domain judgement
-    to an anonymous sub-agent. ADR 029 §2 allows ''a different model, sub-agent, or coding agent'', so
-    the checker is grounded; the missing piece is the agent that owns the skill, its contract and its
-    failure protocol.
+  file: core/components/agents/drive-checker.md
+  basis: glossary Skill ('invoked only by agents'), Agent-first pattern; ADR 004; CLAUDE.md Behavioral
+    Rule 4 (origin/main).
+  finding: 'Fixed for the sub-agent route. A named agent, `drive-checker`, now owns the check; it reads
+    only the bundle, invokes `judge-drive-result`, writes only the verdict, and has an input contract,
+    an output contract and a failure protocol that match drive-run.md R6. R6 now dispatches `drive-checker`
+    on `checker.model`. The Codex route reads the skill without an agent, which ADR 029 §2 allows (''a
+    different model, sub-agent, or coding agent''). Resolved. Naming nit: DG2-H13.
 
     '
-- id: DG-H6
+  status: resolved
+- id: DG2-H6
   severity: P3
   category: harness
   file: core/components/drives/kickoff/reference/ice.md
-  basis: 'ADR 029 §6 (Kickoff''s goal has two outputs, a plan and its issues for the person; ''Done when:
-    the person has approved the plan ... the plan and its issues exist and pass the plan check''); base
-    plan on main, ''What this plan leaves out'' (waiting on Kapil).'
-  finding: 'The Kickoff goal and Done means (D1-D7) say nothing about the person''s plan and issues or
-    about approve-change. The base plan records that omission as an open item, but the ICE and the SKILL
-    describe Kickoff as complete without naming it, so a reader of the ICE would think ADR 029 §6 is met.
+  basis: ADR 029 §6; base plan on origin/main, 'What this plan leaves out ... Waiting on Kapil'.
+  finding: 'Fixed in the ICE, which is the source of the drive''s intent. A new ''Not built yet'' note
+    in Context says ADR 029 §6''s second output (a plan and its issues, with approve-change in the done
+    check) is not made by this drive and is an open item on the #613 plan, waiting on Kapil. That matches
+    the base plan. The compiled SKILL does not repeat the note, which is acceptable for a compiled artifact.
 
     '
-- id: DG-H7
+  status: resolved
+- id: DG2-H7
   severity: P4
   category: harness
   file: core/components/drives/_shared/drive-run.md
-  basis: 'CLAUDE.md ''Play Pipeline Rules'' on main: ''Claude reads the whole file on every run, and nothing
-    reads edit history there. Add no deviation notes or change logs to skill files.'''
-  finding: 'Run history and dated quotes sit inside files read on every run: drive-run.md (''#613''s third
-    Kickoff run lost /intent''s walk that way''; ''Kapil, 2026-10-20''), play-close.md (''the #662 run
-    closed all three Kickoff plays that way''), answer-from-source (''#613''s audit found 39 of 82 ...'';
-    ''a question claimed ...''), and drive-contract.md rule 5. They explain why a rule exists, not what
-    to do, and are the kind of history the rule keeps out. (The ICE source and ADRs may carry such provenance;
-    these are not ICE sources.)
+  basis: 'CLAUDE.md ''Play Pipeline Rules'' on origin/main: no deviation notes or change logs in skill
+    files.'
+  finding: 'Fixed. Every run-history reference the round-1 review named is gone from the files read on
+    every run: drive-run.md (third Kickoff run, Kapil date), play-close.md (#662 run), answer-from-source
+    (#613 audit and the removed-piece case), drive-contract.md and run-status.md (dated quotes, now ADR
+    references). Checked by reading every line the branch adds to the drive, play, agent, skill, standards
+    and glossary files: no dated quote or incident reference remains outside ICE sources, ADRs and script
+    docstrings. Resolved.
 
     '
-- id: DG-H8
+  status: resolved
+- id: DG2-H8
   severity: P4
   category: harness
   file: core/components/agents/prototype-walker.md
-  basis: 'ADR 004 (''{domain}-{role}'' naming; one agent = one domain); the agent''s own frontmatter (domain:
-    business-intent, role: walker).'
-  finding: 'The file''s own frontmatter gives domain `business-intent` and role `walker`, but the name
-    is `prototype-walker`, not `business-intent-walker`. business-intent-keeper and memory-builder follow
-    the pattern. Several existing agents do not (change-reviewer, scriber), so this is a nit.
+  basis: ADR 004 ({domain}-{role}), origin/main.
+  finding: 'Fixed. The frontmatter domain is now `prototype` with role `walker`, so the name `prototype-walker`
+    composes from domain and role. docs/components/agents.md matches. Resolved. (The same pattern slip
+    appears in the new drive-checker: DG2-H13.)
 
     '
-- id: MEM-1
-  severity: P2
-  category: memory
-  file: core/components/memory/standards/rules/drive-contract.md
-  basis: P-A / P-B
-  finding: 'Rule 5 changes a decision two accepted ADRs made. The base rule says a question nothing in
-    memory answers "stops the play ... (ADR 029: a new question stops the drive)". The branch says the
-    question does not stop the play: the play finishes what it can, writes open-<play>.json, closes; the
-    drive loops for further rounds and asks the person only at the end, all questions at once. That is
-    a new run shape (rounds, deferred batch asking, play closes with a gap) and it moves when the drive
-    stops from "mid-run, on the question" to "after every play has had a round". ADR 029 §2 and ADR 034
-    §3 still say the question stops the drive; the glossary Drive entry on main still says it "stops only
-    to ask a question that comes up mid-run". The only basis offered is a dated quote ("Kapil, 2026-10-20").
-    No ADR in this diff amends ADR 029 §2 / ADR 034 §3, although ADR 034 shows the repo''s convention:
-    change this rule through an ADR that names the sections it amends and lists the carriers (rule, index
-    row, glossary, plays'' ICE).
-
-    '
-- id: MEM-2
-  severity: P3
-  category: memory
-  file: core/components/memory/standards/rules/drive-contract.md
-  basis: P-A
-  finding: 'The rewrite leaves stale text that now contradicts it. Rule 4 still says a pinned checkpoint
-    with no answer "stops the play and asks, like any new question"; rule 5 now says a question does not
-    stop the play. A reader cannot tell whether a pinned checkpoint stops the play or goes to open-<play>.json.
-    The Related line still says "a new question stops the drive" (true only at the end of rounds now).
-    Rule 1 lists what run.json holds and omits `round`, which check_drive_contract.py now writes. The
-    JSON example block in ''What a contract holds'' also omits the two new fields (`round`, `plays`) that
-    the table adds. ADR 029 says pinned gates always stop for a human, so the pinned case needs one explicit
-    sentence.
-
-    '
-- id: MEM-3
-  severity: P3
-  category: memory
-  file: core/components/memory/standards/rules/drive-contract.md
-  basis: P-C
-  finding: 'Conforms in intent (nothing rests on a draft before a person approves; a play never picks
-    an answer), but the rule is silent on one thing ADR 035 §5 and ADR 036 §2 settle: the approved answer
-    lands in the issue''s short-term memory and "the waiting work then decides from memory". The new rule
-    has work proceed ''as proposed with the gap named'' and a later round ''fill what it can'', without
-    saying that a round-2 fill must read the approved answer from short-term memory rather than from another
-    play''s unapproved draft. Reading "what the other plays wrote" on round 2 could let one play''s proposed
-    (unapproved) output become another''s grounding.
-
-    '
-- id: MEM-4
-  severity: P3
-  category: memory
-  file: core/components/memory/standards/rules/run-status.md
-  basis: P-B / P-G
-  finding: 'Grounding is partly unavailable. No committed record on main decides that a drive writes a
-    live status file at every step, nor that a separate Claude-Code-only plugin displays it; the only
-    basis is "Kapil, 2026-10-20" inside the rule itself. ADR 029 §2 gives a drive no rules of its own,
-    so a per-step status duty on the drive is a drive-level rule that needs a record to stand on. The
-    rule''s second consumer ("a status plugin (later)") does not exist, so the rule is enforced today
-    only by the drive''s own script (drive_status.py) with no validator named.
-
-    '
-- id: MEM-5
-  severity: P4
-  category: memory
-  file: core/components/memory/standards/rules/run-status.md
-  basis: P-E / P-H
-  finding: 'Not a violation of ADR 021''s storage rules (the file sits in a gitignored status/ folder,
-    and the rule correctly cites ADR 021 for that). But ADR 021 defines status/ as the resume marker "read
-    only by the same play ... nothing else consumes it". run-status.md puts a different thing in that
-    folder, a progress display file read by an outside reader, and calls it ''status''. Two meanings of
-    ''status'' in one folder; a reader of ADR 021 will assume run-<name>.json is a resume marker. The
-    rule does not say it is not.
-
-    '
-- id: MEM-6
-  severity: P4
-  category: memory
-  file: core/components/memory/standards/rules/drive-contract.md
-  basis: P-F
-  finding: 'Consistent with the base policy in substance (C1 per evidence.record, no C2, compact result).
-    The trigger differs: on main a sub-play is identified by parent_run_id; a play inside a drive carries
-    drive_run_id and no parent_run_id. The branch''s play-close.md adds the in_drive trigger, but evidence-recording.md
-    (the policy rule, unchanged) still defines ''sub-play'' only by parent_run_id, so the two committed
-    rules describe the in-drive close differently.
-
-    '
-- id: MEM-7
-  severity: P4
-  category: memory
-  file: core/components/memory/standards/rules/_index.md
-  basis: P-G
-  finding: 'The index row is accurate and cross-references resolve (run-status.md exists; drive-contract.md
-    and drive_status.py paths are real on the branch). Placement: the row joins ''Play lifecycle rules
-    (auto-emitted by the play compiler)''. run-status is not emitted by the play compiler and is not about
-    a play''s lifecycle; drive-contract already sat there for the same reason, so this extends an existing
-    mismatch.
-
-    '
-- id: MEM-8
-  severity: P4
-  category: memory
-  file: core/components/memory/standards/rules/pipeline-next.md
-  basis: P-D / naming clarity
-  finding: 'Conforms. kickoff -> shape matches the existing understand -> shape step and the ''why'' says
-    the intent -> design drive replaces it (ADR 029 names that drive as the next hand-on). build-memory
-    with a null next fits ''runs inside a drive''. drive-creator / drive-editor under meta_exempt matches
-    play-creator / play-editor. Small doc drift: the file''s header still scopes the map to ''user-invocable
-    compiled play'' and its ''Kickoff loop'' prose still reads ''/intent -> /vision -> /understand'',
-    so a drive name now sits in a play-keyed map without the text saying so.
-
-    '
+  status: resolved

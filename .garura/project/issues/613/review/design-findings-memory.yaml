@@ -1,193 +1,202 @@
-# design-findings-memory.yaml — Layer 2 design-grounding, category "memory", PR #682 (#613), base: main
-# Every principle below is cited to a source committed on the base ref (git show main:<path>).
-# Nothing is grounded in the branch's own new text. Severity buckets from standards/rules/pr.md
-# (P1-P4); no taxonomy row maps to design conformance, so the bucket is the reviewer's, stated as such.
+# design-findings-memory.yaml — Layer 2 design-grounding, category "memory", PR #682 (#613), ROUND 2
+# Grounding: committed sources on the base ref only (origin/main == main, 504379ce): docs/adr/021, 029, 034, 035, 036, 039;
+# core/components/memory/standards/rules/{_index,gate-config,evidence-recording,drive-contract,pipeline-next}.md as on main.
+# ADR 041 is added by this branch: it is NOT grounding. It is treated as a claim under review. Kapil accepted it in the session,
+# so a finding that only says "departs from an older ADR as written" is recorded resolved once ADR 041 names that departure.
+# Where this file checks the rules against ADR 041 or drive-run.md it is a consistency check between branch files, not grounding, and says so.
+# pr.md has no taxonomy row for design conformance, so the P1-P4 bucket is the reviewer's, stated as such.
 category: memory
-playbook: review/memory   # ~/.phoenix/core/memory/knowledge/review/memory.md
-changed_artifacts:
+round: 2
+playbook: review/memory
+changed_artifacts_round_2:
   - core/components/memory/standards/rules/_index.md
   - core/components/memory/standards/rules/drive-contract.md
+  - core/components/memory/standards/rules/evidence-recording.md
   - core/components/memory/standards/rules/pipeline-next.md
-  - core/components/memory/standards/rules/run-status.md   # new
-no_knowledge_shelf_changed: true   # no knowledge/** page, schema or template in this diff; _DESIGN.md/_TEMPLATE.md tests do not apply
+  - core/components/memory/standards/rules/run-status.md
+  - core/grounding/glossary.md   # Drive row
+no_knowledge_shelf_changed: true
 
 principles:
   - id: P-A
-    text: "A drive stops and asks when a question comes up mid-run that was not answered at the start; it never picks an answer. Inside a drive a play answers from memory, and the question stops the drive only when nothing in memory supports an answer."
-    source: "main:docs/adr/029-drives.md §2 'A new question stops it'; main:docs/adr/034-plays-answer-from-memory-inside-a-drive.md §3 'Never from the model alone' ('That question stops the drive, as ADR 029 §2 says today')"
+    text: "A play never picks an answer for itself; a question nothing in memory answers is not guessed. ADR 029 s2 / ADR 034 s3 say that question stops the drive."
+    source: "main:docs/adr/029-drives.md s2; main:docs/adr/034-plays-answer-from-memory-inside-a-drive.md s3"
   - id: P-B
-    text: "An accepted decision changes only through a decision record that names what it amends; ADR 034 is exactly such a record for ADR 029 §2 and lists drive-contract.md, the _index.md row and the glossary Drive entry as the carriers to update."
-    source: "main:docs/adr/034-...md header ('Amends: ADR 029 §2', 'Affects: drive-contract.md rule 4 ... _index.md the drive contract's row ... glossary Drive entry'); main:docs/adr/035-agents-work-only-from-memory.md ('change only through a decision record'); main:docs/adr/029-drives.md header (amendment chain)"
+    text: "An accepted decision changes only through a decision record that names what it amends and lists the carriers (rule, index row, glossary)."
+    source: "main:docs/adr/034-...md header; main:docs/adr/035-agents-work-only-from-memory.md"
   - id: P-C
-    text: "No model or web answer is used until a person approves a memory update; the approved answer lands in the issue's short-term memory; the waiting work then decides from memory."
-    source: "main:docs/adr/035-agents-work-only-from-memory.md §5; main:docs/adr/036-approved-answer-lands-in-short-term-memory.md §2; main:docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md §1"
-  - id: P-D
-    text: "A drive has no rules of its own: its one rule is to run its plays; every other rule lives in the plays."
-    source: "main:docs/adr/029-drives.md §2 'No rules of its own'"
+    text: "No model or web answer is used before a person approves the memory update; the approved answer lands in the issue's short-term memory."
+    source: "main:docs/adr/035 s5; main:docs/adr/036 s2; main:docs/adr/039 s1"
   - id: P-E
-    text: "A status/resume marker is a machine-local, gitignored resume marker written and read by the same play; nothing else consumes it. Evidence is the separate, durable record."
-    source: "main:docs/adr/021-status-resume-vs-evidence.md Context and Decision §1"
+    text: "A status marker is a machine-local, gitignored resume marker read only by the same play; evidence is the separate durable record."
+    source: "main:docs/adr/021-status-resume-vs-evidence.md Context and Decision s1"
   - id: P-F
-    text: "A sub-play (carries parent_run_id) emits only C1 under the resolved evidence flag and skips C2; the parent's close absorbs the result."
-    source: "main:core/components/memory/standards/rules/evidence-recording.md ('Sub-plays follow _shared/play-close.md ...'); main:core/components/plays/_shared/play-close.md 'Sub-plays'"
+    text: "A sub-play emits only C1 and skips C2; the parent's close absorbs the result."
+    source: "main:core/components/memory/standards/rules/evidence-recording.md; main:core/components/plays/_shared/play-close.md 'Sub-plays'"
   - id: P-G
-    text: "A rule file earns its place by answering 'how must this artifact/surface be structured', being enforced by at least one skill/validator/orchestrator, and being the single source of truth; the index lists it under the section that matches its kind."
-    source: "main:core/components/memory/standards/rules/_index.md 'When to Add Here' and its section headings (section 'Play lifecycle rules (auto-emitted by the play compiler)')"
+    text: "A rule file is listed in the index under the section that matches its kind; one source of truth per rule, and rule files agree with each other."
+    source: "main:core/components/memory/standards/rules/_index.md 'When to Add Here' and its section headings"
   - id: P-H
-    text: "Naming clarity: one word, one meaning. 'status' in a play's status/ folder means the resume marker."
-    source: "main:docs/adr/021-status-resume-vs-evidence.md; Garura CLAUDE.md / global challenge principle 5 (naming clarity)"
+    text: "A pinned gate always stops for a human; inside a drive it is asked up front or stops the play, never deferred."
+    source: "main:docs/adr/029-drives.md 'Negative / Risks - Pinned gates' and Open Question 2; main:core/components/memory/standards/rules/gate-config.md 'Pinned gates' (line 94)"
+
+round_1_status:
+  - id: MEM-1
+    status: resolved
+    finding_ref: "rounds and batched asking changed ADR 029 s2 / ADR 034 s3 with only a dated quote as basis"
+    evidence: >
+      docs/adr/041 now exists and names the departure: Amends ADR 029 s2 ('A new question stops it' as amended by ADR 034 - the stop
+      is the drive's, after its rounds and /build-memory), ADR 034 s3 and s5, ADR 032, ADR 039. It lists drive-contract.md (rule 5 and the
+      round field), run-status.md and its index row as carriers. ADR 029, 034, 039 and 032 headers now carry the 'amended in part by
+      ADR 041' pointer (round-2 delta). The rule text now cites ADR 041, not 'Kapil, 2026-10-20'. The glossary Drive row is aligned.
+      Per the contract, a departure named by ADR 041 is resolved, not open.
+  - id: MEM-2
+    status: resolved
+    finding_ref: "stale text left beside the rewritten rule 5"
+    evidence: >
+      Rule 4's pinned clause now reads 'it becomes the drive's question, like any other the play cannot answer (rule 5; ADR 041)'.
+      Rule 1 lists `round` in run.json. The JSON example and the field table carry `round` and `plays`. The Related line's ADR 029
+      bullet ('a new question stops the drive') is still true under ADR 041's reading (the stop is the drive's) and is followed by an
+      ADR 041 bullet. Two follow-on gaps this exposed are raised as new findings MEM2-1 and MEM2-2, not left against MEM-2.
+  - id: MEM-3
+    status: resolved
+    finding_ref: "a later-round fill could rest on another play's unapproved output"
+    evidence: >
+      Rule 5 now says a later round fills 'only from its sources, approved memory (an applied memory update included) and the product
+      model the drive's plays wrote; never from a memory update still waiting for a person (ADR 035)'. That matches ADR 035 s5 and
+      ADR 036 s2. Building on another play's proposed product-model work is a recorded, accepted risk in ADR 041 ('Later rounds build on
+      proposed work'), and ADR 035 s5 is about memory updates, so it is not a conflict.
+  - id: MEM-4
+    status: resolved
+    finding_ref: "no committed decision for the run-status file and the decoupled display"
+    evidence: >
+      ADR 041 s6 records both decisions (the drive writes one status file at every step and never displays it; a separate plugin for
+      Claude Code shows it) and Affects lists run-status.md and its index row. run-status.md now cites ADR 041 s6 instead of a dated
+      quote. Its states (running, asking, checking, landing, done, halted) and fields agree with drive_status.py (STATES tuple). The
+      script is named as the writer, which is the enforcement; the display consumer is marked 'later'. Accepted.
+  - id: MEM-5
+    status: partly
+    finding_ref: "'status' means a resume marker in ADR 021; run-status.md puts a display file in that folder"
+    evidence: >
+      The new sentence says the folder also holds the plays' resume and session markers and that run-<name>.json is the one file a
+      display reads and only drive_status.py writes. That separates the files by name. It still does not say the run status is NOT a resume
+      marker and that nothing resumes from it. ADR 021 s1 defines status as read only by the same play, and the run file is read by an
+      outside display. ADR 041 'What this does not change' keeps the storage rule (machine-local, uncommitted) and so stays compatible.
+    severity: P4
+  - id: MEM-6
+    status: resolved
+    finding_ref: "evidence-recording.md defined 'sub-play' only by parent_run_id"
+    evidence: >
+      evidence-recording.md now adds: a play inside a drive (carries the contract's drive_run_id, not a parent_run_id) closes the same
+      way, C1 under the resolved flag, no C2, a compact result for the drive. This agrees with _shared/play-close.md 'Sub-plays and
+      drives' and with drive-contract rule 7.
+  - id: MEM-7
+    status: resolved
+    finding_ref: "drive-contract.md and run-status.md sat under 'Play lifecycle rules (auto-emitted by the play compiler)'"
+    evidence: "_index.md now has a 'Drive rules (ADR 029, ADR 041)' section holding both rows; the lifecycle section no longer carries them. Both files exist."
+  - id: MEM-8
+    status: resolved
+    finding_ref: "pipeline-next.md header and Kickoff-loop prose still scoped to plays"
+    evidence: >
+      The header now reads 'every user-invocable compiled play - and every drive, which closes like a play (ADR 029)'. The Kickoff-loop
+      bullet names /kickoff as a drive run in rounds (ADR 041) and says /build-memory runs only inside it. The map entries
+      (kickoff, build-memory with a null next, drive-creator and drive-editor under meta_exempt) were already found conformant in round 1.
 
 findings:
-  - id: MEM-1
-    severity: P2
-    file: core/components/memory/standards/rules/drive-contract.md
-    where: "'How a play runs inside a drive', rule 5 (rewritten), plus the new 'round' / 'open-<play>.json' mechanism"
-    principle: P-A / P-B
-    basis_sources:
-      - "main:docs/adr/029-drives.md §2"
-      - "main:docs/adr/034-plays-answer-from-memory-inside-a-drive.md §3 and header (Affects: drive-contract rule 4)"
-    finding: >
-      Rule 5 changes a decision two accepted ADRs made. The base rule says a question nothing in memory
-      answers "stops the play ... (ADR 029: a new question stops the drive)". The branch says the question
-      does not stop the play: the play finishes what it can, writes open-<play>.json, closes; the drive loops
-      for further rounds and asks the person only at the end, all questions at once. That is a new run
-      shape (rounds, deferred batch asking, play closes with a gap) and it moves when the drive stops from
-      "mid-run, on the question" to "after every play has had a round". ADR 029 §2 and ADR 034 §3 still say
-      the question stops the drive; the glossary Drive entry on main still says it "stops only to ask a
-      question that comes up mid-run". The only basis offered is a dated quote ("Kapil, 2026-10-20"). No ADR
-      in this diff amends ADR 029 §2 / ADR 034 §3, although ADR 034 shows the repo's convention: change this
-      rule through an ADR that names the sections it amends and lists the carriers (rule, index row,
-      glossary, plays' ICE).
-    suggested_fix: "Record the rounds-and-batched-asking decision as an ADR amending ADR 029 §2 / ADR 034 §3 (or confirm it is already recorded elsewhere on main and cite it), then align the glossary Drive row. Until then the rule's authority is a chat quote, not a committed decision."
-
-  - id: MEM-2
+  - id: MEM2-1
     severity: P3
-    file: core/components/memory/standards/rules/drive-contract.md
-    where: "rule 4 (unchanged text) vs rule 5 (changed); rule 1 (unchanged run.json field list); Related line (unchanged)"
-    principle: P-A
-    basis_sources:
-      - "main:docs/adr/029-drives.md §2 and 'Negative / Risks — Pinned gates'"
-      - "main:core/components/memory/standards/rules/drive-contract.md (rule 4 on base)"
+    status: new
+    file: core/components/memory/standards/rules/gate-config.md
+    related_artifact: core/components/memory/standards/rules/drive-contract.md
+    basis: >
+      main:core/components/memory/standards/rules/gate-config.md 'Pinned gates' (line 94): 'any other pinned gate inside a drive is asked
+      up front or stops the play, never deferred - drive-contract.md'. Also main:docs/adr/029-drives.md 'Pinned gates' (always stop for a
+      human; how they fit a drive is left to later spikes). Principle P-H, P-G.
     finding: >
-      The rewrite leaves stale text that now contradicts it. Rule 4 still says a pinned checkpoint with no
-      answer "stops the play and asks, like any new question"; rule 5 now says a question does not stop the
-      play. A reader cannot tell whether a pinned checkpoint stops the play or goes to open-<play>.json.
-      The Related line still says "a new question stops the drive" (true only at the end of rounds now).
-      Rule 1 lists what run.json holds and omits `round`, which check_drive_contract.py now writes. The
-      JSON example block in 'What a contract holds' also omits the two new fields (`round`, `plays`) that
-      the table adds. ADR 029 says pinned gates always stop for a human, so the pinned case needs one
-      explicit sentence.
-    suggested_fix: "Reword rule 4's pinned-checkpoint clause to say explicitly whether it stops the play or the drive; update the Related line, rule 1's field list and the JSON example."
+      Two rule files now disagree about a pinned checkpoint inside a drive. gate-config.md (not touched by this branch) still says it
+      'stops the play'. drive-contract.md rule 4 now says it 'becomes the drive's question' (so the play closes and the drive asks later).
+      gate-config.md points readers to drive-contract.md for the answer, and the answer there has changed. ADR 041 amends ADR 029 s2 and
+      ADR 034 s3 but never names pinned gates or gate-config.md, and ADR 029 left pinned gates to later spikes. Rule 4 also keeps the
+      sentence 'A pinned checkpoint is never deferred by a contract' next to a play that closes without crossing it, which a reader can
+      take as deferral.
+    suggested_fix: "Update gate-config.md's pinned-gate sentence to match rule 4 (and add gate-config.md to ADR 041's carriers), or have ADR 041 say a pinned gate stays a play-level stop. Say in rule 4 that the play closes with the gate uncrossed and the drive asks."
 
-  - id: MEM-3
+  - id: MEM2-2
     severity: P3
+    status: new
     file: core/components/memory/standards/rules/drive-contract.md
-    where: "rule 5 ('what no tier answers and research can, is drafted as a memory update ...') and the new open-<play>.json hand-off"
-    principle: P-C
-    basis_sources:
-      - "main:docs/adr/035-agents-work-only-from-memory.md §5"
-      - "main:docs/adr/036-approved-answer-lands-in-short-term-memory.md §2"
+    basis: >
+      Consistency with core/components/drives/_shared/drive-run.md R4/R5/R5b (branch file, checked for agreement; not grounding).
+      Principle P-G (one source of truth; rule files agree). main:docs/adr/029-drives.md s2 'Questions first'.
     finding: >
-      Conforms in intent (nothing rests on a draft before a person approves; a play never picks an answer),
-      but the rule is silent on one thing ADR 035 §5 and ADR 036 §2 settle: the approved answer lands in the
-      issue's short-term memory and "the waiting work then decides from memory". The new rule has work
-      proceed 'as proposed with the gap named' and a later round 'fill what it can', without saying that a
-      round-2 fill must read the approved answer from short-term memory rather than from another play's
-      unapproved draft. Reading "what the other plays wrote" on round 2 could let one play's proposed
-      (unapproved) output become another's grounding.
-    suggested_fix: "State that a later-round fill rests only on memory (including approved answers in STM), never on another play's still-proposed output."
+      The contract's `answers` field is still described as answers 'gathered before the drive started' (field table, JSON example, and
+      rule 4's 'gathered before the drive started'). drive-run.md R5/R5b now writes the contract again on each later round with 'any new
+      answers', including what the person said after the draft. So the rule file describes the first round only. The 'One contract for
+      the whole drive' section likewise says the file is rewritten only to add later plays' inputs, not for a new round or new answers.
+      A play on round 2 cannot tell from the rule whether `answers` can hold post-draft answers.
+    suggested_fix: "Say in the field table and 'One contract' that answers may grow on later rounds (asked before the start, or after the draft), and that the file is rewritten per round."
 
-  - id: MEM-4
+  - id: MEM2-3
     severity: P3
+    status: new
+    file: docs/adr/041-a-drive-runs-in-rounds-and-owns-its-questions.md
+    basis: >
+      ADR 041 is the claim under review (not grounding); this is the claim checked against the round-2 files (internal agreement of the
+      decision record with the carriers it lists). Principle P-B (the record lists its carriers accurately).
+    finding: >
+      ADR 041's 'Affects' still lists the glossary Drive entry, /vision C11, /understand C13 and the note in Kickoff's ice.md under 'still
+      saying the old reading', its Negative/Risks says 'Some files still say the old reading', and 'Work This Creates' items 1-3 say to do
+      those fixes. All four are fixed in the same round-2 change (glossary row, vision and understand ICE and SKILL, Kickoff ice.md). A
+      later reader of the accepted ADR would think the work is outstanding. The ADR's carrier list also omits pipeline-next.md and
+      evidence-recording.md, which this round changed for the same decision, and gate-config.md (see MEM2-1).
+    suggested_fix: "Move the four items from 'still saying the old reading' to 'already following', drop Work items 1-3 and the matching risk line, and add pipeline-next.md and evidence-recording.md to the carriers."
+
+  - id: MEM2-4
+    severity: P4
+    status: new
+    file: core/components/memory/standards/rules/drive-contract.md
+    basis: "Consistency with drive-run.md R5 step 7 and R5c, and ADR 041 s2-s3 (branch files; not grounding). Principle P-G."
+    finding: >
+      Rule 5 says a question stops the drive 'only when no play of the drive can answer it'. drive-run.md and ADR 041 give the exact
+      moment (a round answered nothing new, or the round limit) and put /build-memory, a member play outside the contract's `plays`
+      list, between the last round and the ask. Rule 5 names neither. Only the Related bullet mentions /build-memory. The rule a play
+      reads is shorter than the rule the drive follows.
+    suggested_fix: "Add one sentence to rule 5: the drive asks after a round that answered nothing new or at the round limit, and after /build-memory has run."
+
+  - id: MEM2-5
+    severity: P4
+    status: new
+    file: core/grounding/glossary.md
+    basis: "main:core/grounding/glossary.md (a term used in a row is expected to be defined, and the Atomic Play row on main calls a play 'standalone'); ADR 041 s4 (member plays)."
+    finding: >
+      The Drive row now relies on 'member play' and on 'round' without a glossary row of their own, and it says the member plays
+      (/build-memory included) 'run only inside' the drive, while the Atomic Play row (unchanged) defines an atomic play as 'a standalone
+      play'. The Drive row text itself matches ADR 041 s1-s5 (rounds, the drive's question, ask after the draft, each once, reads no memory).
+    suggested_fix: "Add a 'Member play' row (a play that runs only inside a drive), or add 'except a drive's member plays' to the Atomic Play row."
+
+  - id: MEM2-6
+    severity: P4
+    status: open (carried from MEM-5)
     file: core/components/memory/standards/rules/run-status.md
-    where: "whole new file ('The run presents a status ... A display ... a plugin installed only when the install chooses Claude Code')"
-    principle: P-B / P-G
-    basis_sources:
-      - "main:docs/adr/029-drives.md §2 'No rules of its own'"
-      - "main:core/components/memory/standards/rules/_index.md 'When to Add Here'"
-    finding: >
-      Grounding is partly unavailable. No committed record on main decides that a drive writes a live status
-      file at every step, nor that a separate Claude-Code-only plugin displays it; the only basis is
-      "Kapil, 2026-10-20" inside the rule itself. ADR 029 §2 gives a drive no rules of its own, so a
-      per-step status duty on the drive is a drive-level rule that needs a record to stand on. The rule's
-      second consumer ("a status plugin (later)") does not exist, so the rule is enforced today only by the
-      drive's own script (drive_status.py) with no validator named.
-    suggested_fix: "Cite or add the decision (ADR, or a plan item on main) for the run-status file and the decoupled display; name the check that enforces the schema (lint_drive or the stop-condition)."
+    basis: "main:docs/adr/021-status-resume-vs-evidence.md s1 (status = resume marker, read only by the same play)."
+    finding: "See round_1_status MEM-5: add one line that the run status is a progress display, not a resume marker, and nothing resumes from it."
+    suggested_fix: "Add that line to 'The file'."
 
-  - id: MEM-5
-    severity: P4
-    file: core/components/memory/standards/rules/run-status.md
-    where: "'The file' - path status/run-<name>.json"
-    principle: P-E / P-H
-    basis_sources:
-      - "main:docs/adr/021-status-resume-vs-evidence.md"
-      - "main:core/components/memory/standards/rules/drive-contract.md rule 2 (status markers go to {stm_base}<issue>/status/)"
-    finding: >
-      Not a violation of ADR 021's storage rules (the file sits in a gitignored status/ folder, and the rule
-      correctly cites ADR 021 for that). But ADR 021 defines status/ as the resume marker "read only by the
-      same play ... nothing else consumes it". run-status.md puts a different thing in that folder, a
-      progress display file read by an outside reader, and calls it 'status'. Two meanings of 'status' in one folder; a
-      reader of ADR 021 will assume run-<name>.json is a resume marker. The rule does not say it is not.
-    suggested_fix: "Add one line to run-status.md: this file is a progress display, not a resume marker (ADR 021), and nothing resumes from it."
-
-  - id: MEM-6
-    severity: P4
-    file: core/components/memory/standards/rules/drive-contract.md
-    where: "new rule 7 'Close as a sub-play'"
-    principle: P-F
-    basis_sources:
-      - "main:core/components/memory/standards/rules/evidence-recording.md (sub-play = carries parent_run_id; emits C1 only, skips C2)"
-      - "main:core/components/plays/_shared/play-close.md 'Sub-plays'"
-    finding: >
-      Consistent with the base policy in substance (C1 per evidence.record, no C2, compact result). The
-      trigger differs: on main a sub-play is identified by parent_run_id; a play inside a drive carries
-      drive_run_id and no parent_run_id. The branch's play-close.md adds the in_drive trigger, but
-      evidence-recording.md (the policy rule, unchanged) still defines 'sub-play' only by parent_run_id, so
-      the two committed rules describe the in-drive close differently.
-    suggested_fix: "Name the in-drive case in evidence-recording.md's sub-play sentence, or have the drive contract also carry parent_run_id."
-
-  - id: MEM-7
-    severity: P4
-    file: core/components/memory/standards/rules/_index.md
-    where: "new run-status.md row; unchanged section heading it sits under"
-    principle: P-G
-    basis_sources:
-      - "main:core/components/memory/standards/rules/_index.md (section headings, 'When to Add Here')"
-    finding: >
-      The index row is accurate and cross-references resolve (run-status.md exists; drive-contract.md and
-      drive_status.py paths are real on the branch). Placement: the row joins 'Play lifecycle rules
-      (auto-emitted by the play compiler)'. run-status is not emitted by the play compiler and is not about a
-      play's lifecycle; drive-contract already sat there for the same reason, so this extends an existing
-      mismatch.
-    suggested_fix: "Optional: add a 'Drive rules' section for drive-contract.md and run-status.md."
-
-  - id: MEM-8
-    severity: P4
-    file: core/components/memory/standards/rules/pipeline-next.md
-    where: "new keys kickoff, build-memory; meta_exempt gains drive-creator, drive-editor; header and 'The flow' prose unchanged"
-    principle: P-D / naming clarity
-    basis_sources:
-      - "main:core/components/memory/standards/rules/pipeline-next.md (header: 'Every user-invocable compiled play'; meta_exempt = creators/installers)"
-      - "main:docs/adr/029-drives.md §1 and §Kickoff 'Hands on' (next drive is intent -> design)"
-    finding: >
-      Conforms. kickoff -> shape matches the existing understand -> shape step and the 'why' says the
-      intent -> design drive replaces it (ADR 029 names that drive as the next hand-on). build-memory with a
-      null next fits 'runs inside a drive'. drive-creator / drive-editor under meta_exempt matches
-      play-creator / play-editor. Small doc drift: the file's header still scopes the map to
-      'user-invocable compiled play' and its 'Kickoff loop' prose still reads '/intent -> /vision ->
-      /understand', so a drive name now sits in a play-keyed map without the text saying so.
-    suggested_fix: "Mention drives in the header sentence and the Kickoff-loop bullet."
+conformant_checks_round_2:
+  - "evidence-recording.md: in-drive close (C1, no C2) matches play-close.md 'Sub-plays and drives' and drive-contract rule 7."
+  - "pipeline-next.md: header, Kickoff-loop bullet and map entries agree with each other and with ADR 029's next-drive note."
+  - "_index.md: 'Drive rules' section placement fits a rule about how a drive runs; both rule files and drive_status.py exist; row text agrees with the rule files."
+  - "run-status.md: states, fields and the whole-file write agree with drive_status.py; the ADR 021 machine-local storage rule is kept."
+  - "drive-contract.md rule 5 vs drive-run.md R5 step 3: the open-<play>.json path, the 'never pick an answer', 'drive reads no memory' (ADR 039) and 'memory update a person approves' (ADR 035 s5) agree."
+  - "Glossary Drive row vs ADR 041 s1-s5 and s8: no disagreement in what it says about rounds, who asks, and memory reads."
 
 summary:
   p1: 0
-  p2: 1
+  p2: 0
   p3: 3
-  p4: 4
-  conformant_checks:
-    - "ADR 021: run-status file sits under the gitignored status/ folder and cites ADR 021 (no storage violation)."
-    - "ADR 039 §1/§2: open-<play>.json and run files go under the drive's issue; the rule keeps 'a drive reads no memory' intact."
-    - "ADR 035 §5: rule 5 keeps 'never picks an answer for itself' and routes a gap to an approved memory update."
-    - "_index.md cross-references: run-status.md, drive_status.py (drive-creator/references/), check_drive_contract.py (play-creator/references/) all exist on the branch."
-    - "pipeline-next.md: the entries follow the file's own schema; the creators/editors exemption matches the base pattern."
+  p4: 3
+  round_1_resolved: [MEM-1, MEM-2, MEM-3, MEM-4, MEM-6, MEM-7, MEM-8]
+  round_1_partly: [MEM-5]
+  round_1_open: []
   grounding_gaps:
-    - "No ADR on main covers the rounds-and-batched-questions run shape (MEM-1) or the run-status file and display plugin (MEM-4); their only basis is a dated quote inside the rule. Branch work-records (plans, runner-design) were deliberately not used as grounding."
+    - "No base-ref text covers a pinned gate under rounds (MEM2-1): ADR 029 left it to later spikes; ADR 041 does not name it. The finding rests on the disagreement with gate-config.md on main, not on a branch-written principle."

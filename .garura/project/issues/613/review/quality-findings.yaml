@@ -1,421 +1,616 @@
 meta:
-  generated_at: '2026-10-20T10:57:42Z'
-  diff_path: '.garura/project/issues/613/review/pr.diff'
-  taxonomy_path: 'core/components/memory/standards/rules/pr.md'
-  changed_paths_count: 130
-  scan_coverage: 1.0000
-  standards_relevant: 26
-  catchall:
-    CODE-20: 130
-findings:
-  - standard_id: 'ARCH-02'
+  generated_at: '2026-10-20T11:40:00Z'
+  round: 2
+  diff: origin/main...HEAD (168 changed files, HEAD fbdcdfd0)
+  taxonomy_path: core/components/memory/standards/rules/pr.md
+  round_2_delta: .garura/project/issues/613/review/round-2-delta.diff
+  scan:
+    changed_paths_count: 168
+    scan_coverage: 1.0
+    errors: 0
+    scanner_counts:
+      P1: 0
+      P2: 14
+      P3: 30
+      P4: 32
+    note: The scanner (scan_taxonomy.py) found the same 58 rows as round 1 plus 18 new ones, all on the ADR files (DOC-04,
+      DOC-05, ARCH-23, path-only rules for any docs/adr change). Round 1 rows are listed below with a status. The scanner
+      rows are path/word prompts, not defects; real findings are Q2-n.
+  categories_checked:
+  - executable-code
+  - tests
+  - config-maps
+  - documentation
+  - decision-records
+  - work-records
+  checks:
+    local_absolute_paths: 'No file in the origin/main...HEAD diff holds a local absolute path (home folder, temp folder or ~/cto) (grep over all 167
+      existing changed files: clean). Exception: the uncommitted review work file in Q2-1. The round 1 leak in the lint record
+      is fixed.'
+    valid_json_yaml: every .json/.yaml/.yml file in the diff parses
+    secrets: no secret, key or password found in the changed code and config files
+    decision_records: 'ADR 041 has the standard sections (Context, Decision, Consequences, Alternatives, Work, References),
+      Status Accepted, number 041 follows 040, the index row links it, adr-lint.txt says valid with no problems, and each
+      of ADRs 029, 032, 034, 039 carries one forward pointer. The sections ADR 041 says it amends (029 section 2 and 4, 032
+      section 1 and 5, 034 section 3, 039 section 2 and 10) exist in those ADRs. One consistency gap: Q2-2.'
+    config_maps: 'core/config.yaml: components.drives points at core/components/drives/ (exists); the drives.kickoff block
+      and evidence.plays.kickoff are present. CLAUDE.md tree line for drives/ matches the folder. Round 2 did not change either
+      file.'
+    executable_code_and_tests: 'Round 2 changed no .py, .js or .sh file and no test file. All runnable suites pass: intent
+      129, vision + understand 39, drive contract 34, build-memory, kickoff, drive builder, install. No new risk.'
+    round_2_delta: Reviewed the 31 changed prose, rule and ADR files in the delta. The wording changes agree with ADR 041;
+      fingerprints for vision, understand and kickoff match their ICE files. Issues are Q2-2, Q2-3 and Q2-8.
+round_1_resolution:
+  summary: 0 resolved, 58 open (still fire), 0 need action. All 58 are scanner rows on core/tools/lint-components/lib/discover.js,
+    core/tools/lint-components/lib/rules/structural.js, core/config.yaml and the checker README; none of those files changed
+    in round 2, and none is a real defect.
+  findings:
+  - round_1_ref: Q1-1
+    standard_id: ARCH-02
     severity: P2
-    file: 'core/tools/lint-components/lib/discover.js'
+    file: core/tools/lint-components/lib/discover.js
     line: 1
-    evidence: 'core/tools/lint-components/lib/discover.js'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'ARCH-02'
-  - standard_id: 'CODE-03'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect found: path-only rule that fires on every file of this type; the runnable checks (lint-components,
+      ruff, script tests) are the real check and are reported below'
+  - round_1_ref: Q1-2
+    standard_id: CODE-03
     severity: P2
-    file: 'core/tools/lint-components/lib/discover.js'
+    file: core/tools/lint-components/lib/discover.js
     line: 1
-    evidence: 'core/tools/lint-components/lib/discover.js'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'CODE-03'
-  - standard_id: 'CODE-04'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect found: path-only rule that fires on every file of this type; the runnable checks (lint-components,
+      ruff, script tests) are the real check and are reported below'
+  - round_1_ref: Q1-3
+    standard_id: CODE-04
     severity: P2
-    file: 'core/tools/lint-components/lib/discover.js'
+    file: core/tools/lint-components/lib/discover.js
     line: 1
-    evidence: 'core/tools/lint-components/lib/discover.js'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'CODE-04'
-  - standard_id: 'CODE-14'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect found: path-only rule that fires on every file of this type; the runnable checks (lint-components,
+      ruff, script tests) are the real check and are reported below'
+  - round_1_ref: Q1-4
+    standard_id: CODE-14
     severity: P2
-    file: 'core/tools/lint-components/lib/discover.js'
+    file: core/tools/lint-components/lib/discover.js
     line: 1
-    evidence: 'core/tools/lint-components/lib/discover.js'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'CODE-14'
-  - standard_id: 'BE-19'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect found: path-only rule that fires on every file of this type; the runnable checks (lint-components,
+      ruff, script tests) are the real check and are reported below'
+  - round_1_ref: Q1-5
+    standard_id: BE-19
     severity: P2
-    file: 'core/tools/lint-components/lib/discover.js'
+    file: core/tools/lint-components/lib/discover.js
     line: 110
-    evidence: 'join'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'BE-19'
-  - standard_id: 'BE-19'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect: the scanner matched a word, not a database query / lock / badly named value'
+  - round_1_ref: Q1-6
+    standard_id: BE-19
     severity: P2
-    file: 'core/tools/lint-components/lib/discover.js'
+    file: core/tools/lint-components/lib/discover.js
     line: 114
-    evidence: 'join'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'BE-19'
-  - standard_id: 'ARCH-02'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect: the scanner matched a word, not a database query / lock / badly named value'
+  - round_1_ref: Q1-7
+    standard_id: ARCH-02
     severity: P2
-    file: 'core/tools/lint-components/lib/rules/structural.js'
+    file: core/tools/lint-components/lib/rules/structural.js
     line: 1
-    evidence: 'core/tools/lint-components/lib/rules/structural.js'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'ARCH-02'
-  - standard_id: 'CODE-03'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect found: path-only rule that fires on every file of this type; the runnable checks (lint-components,
+      ruff, script tests) are the real check and are reported below'
+  - round_1_ref: Q1-8
+    standard_id: CODE-03
     severity: P2
-    file: 'core/tools/lint-components/lib/rules/structural.js'
+    file: core/tools/lint-components/lib/rules/structural.js
     line: 1
-    evidence: 'core/tools/lint-components/lib/rules/structural.js'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'CODE-03'
-  - standard_id: 'CODE-04'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect found: path-only rule that fires on every file of this type; the runnable checks (lint-components,
+      ruff, script tests) are the real check and are reported below'
+  - round_1_ref: Q1-9
+    standard_id: CODE-04
     severity: P2
-    file: 'core/tools/lint-components/lib/rules/structural.js'
+    file: core/tools/lint-components/lib/rules/structural.js
     line: 1
-    evidence: 'core/tools/lint-components/lib/rules/structural.js'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'CODE-04'
-  - standard_id: 'CODE-14'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect found: path-only rule that fires on every file of this type; the runnable checks (lint-components,
+      ruff, script tests) are the real check and are reported below'
+  - round_1_ref: Q1-10
+    standard_id: CODE-14
     severity: P2
-    file: 'core/tools/lint-components/lib/rules/structural.js'
+    file: core/tools/lint-components/lib/rules/structural.js
     line: 1
-    evidence: 'core/tools/lint-components/lib/rules/structural.js'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'CODE-14'
-  - standard_id: 'BE-19'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect found: path-only rule that fires on every file of this type; the runnable checks (lint-components,
+      ruff, script tests) are the real check and are reported below'
+  - round_1_ref: Q1-11
+    standard_id: BE-19
     severity: P2
-    file: 'core/tools/lint-components/lib/rules/structural.js'
+    file: core/tools/lint-components/lib/rules/structural.js
     line: 375
-    evidence: 'join'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'BE-19'
-  - standard_id: 'BE-19'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect: the scanner matched a word, not a database query / lock / badly named value'
+  - round_1_ref: Q1-12
+    standard_id: BE-19
     severity: P2
-    file: 'core/tools/lint-components/lib/rules/structural.js'
+    file: core/tools/lint-components/lib/rules/structural.js
     line: 376
-    evidence: 'join'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'BE-19'
-  - standard_id: 'BE-19'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect: the scanner matched a word, not a database query / lock / badly named value'
+  - round_1_ref: Q1-13
+    standard_id: BE-19
     severity: P2
-    file: 'core/tools/lint-components/lib/rules/structural.js'
+    file: core/tools/lint-components/lib/rules/structural.js
     line: 402
-    evidence: 'join'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'BE-19'
-  - standard_id: 'BE-19'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect: the scanner matched a word, not a database query / lock / badly named value'
+  - round_1_ref: Q1-14
+    standard_id: BE-19
     severity: P2
-    file: 'core/tools/lint-components/lib/rules/structural.js'
+    file: core/tools/lint-components/lib/rules/structural.js
     line: 431
-    evidence: 'join'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'BE-19'
-  - standard_id: 'DOC-01'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect: the scanner matched a word, not a database query / lock / badly named value'
+  - round_1_ref: Q1-15
+    standard_id: DOC-01
     severity: P3
-    file: '.garura/project/issues/613/evidence/checker/README.md'
+    file: .garura/project/issues/613/evidence/checker/README.md
     line: 1
-    evidence: '.garura/project/issues/613/evidence/checker/README.md'
-    artifact_type: 'stm-evidence'
-    taxonomy_rule_id: 'DOC-01'
-  - standard_id: 'DOC-09'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect found: path-only rule that fires on every file of this type; the runnable checks (lint-components,
+      ruff, script tests) are the real check and are reported below'
+  - round_1_ref: Q1-16
+    standard_id: DOC-09
     severity: P3
-    file: '.garura/project/issues/613/evidence/checker/README.md'
+    file: .garura/project/issues/613/evidence/checker/README.md
     line: 1
-    evidence: '.garura/project/issues/613/evidence/checker/README.md'
-    artifact_type: 'stm-evidence'
-    taxonomy_rule_id: 'DOC-09'
-  - standard_id: 'DOC-10'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect found: path-only rule that fires on every file of this type; the runnable checks (lint-components,
+      ruff, script tests) are the real check and are reported below'
+  - round_1_ref: Q1-17
+    standard_id: DOC-10
     severity: P3
-    file: '.garura/project/issues/613/evidence/checker/README.md'
+    file: .garura/project/issues/613/evidence/checker/README.md
     line: 1
-    evidence: '.garura/project/issues/613/evidence/checker/README.md'
-    artifact_type: 'stm-evidence'
-    taxonomy_rule_id: 'DOC-10'
-  - standard_id: 'DOC-11'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect found: path-only rule that fires on every file of this type; the runnable checks (lint-components,
+      ruff, script tests) are the real check and are reported below'
+  - round_1_ref: Q1-18
+    standard_id: DOC-11
     severity: P3
-    file: '.garura/project/issues/613/evidence/checker/README.md'
+    file: .garura/project/issues/613/evidence/checker/README.md
     line: 1
-    evidence: '.garura/project/issues/613/evidence/checker/README.md'
-    artifact_type: 'stm-evidence'
-    taxonomy_rule_id: 'DOC-11'
-  - standard_id: 'ARCH-03'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect found: path-only rule that fires on every file of this type; the runnable checks (lint-components,
+      ruff, script tests) are the real check and are reported below'
+  - round_1_ref: Q1-19
+    standard_id: ARCH-03
     severity: P3
-    file: 'core/tools/lint-components/lib/discover.js'
+    file: core/tools/lint-components/lib/discover.js
     line: 1
-    evidence: 'core/tools/lint-components/lib/discover.js'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'ARCH-03'
-  - standard_id: 'ARCH-08'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect found: path-only rule that fires on every file of this type; the runnable checks (lint-components,
+      ruff, script tests) are the real check and are reported below'
+  - round_1_ref: Q1-20
+    standard_id: ARCH-08
     severity: P3
-    file: 'core/tools/lint-components/lib/discover.js'
+    file: core/tools/lint-components/lib/discover.js
     line: 1
-    evidence: 'core/tools/lint-components/lib/discover.js'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'ARCH-08'
-  - standard_id: 'CODE-09'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect found: path-only rule that fires on every file of this type; the runnable checks (lint-components,
+      ruff, script tests) are the real check and are reported below'
+  - round_1_ref: Q1-21
+    standard_id: CODE-09
     severity: P3
-    file: 'core/tools/lint-components/lib/discover.js'
+    file: core/tools/lint-components/lib/discover.js
     line: 1
-    evidence: 'core/tools/lint-components/lib/discover.js'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'CODE-09'
-  - standard_id: 'CODE-10'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect found: path-only rule that fires on every file of this type; the runnable checks (lint-components,
+      ruff, script tests) are the real check and are reported below'
+  - round_1_ref: Q1-22
+    standard_id: CODE-10
     severity: P3
-    file: 'core/tools/lint-components/lib/discover.js'
+    file: core/tools/lint-components/lib/discover.js
     line: 1
-    evidence: 'core/tools/lint-components/lib/discover.js'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'CODE-10'
-  - standard_id: 'CODE-11'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect found: path-only rule that fires on every file of this type; the runnable checks (lint-components,
+      ruff, script tests) are the real check and are reported below'
+  - round_1_ref: Q1-23
+    standard_id: CODE-11
     severity: P3
-    file: 'core/tools/lint-components/lib/discover.js'
+    file: core/tools/lint-components/lib/discover.js
     line: 1
-    evidence: 'core/tools/lint-components/lib/discover.js'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'CODE-11'
-  - standard_id: 'CODE-12'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect found: path-only rule that fires on every file of this type; the runnable checks (lint-components,
+      ruff, script tests) are the real check and are reported below'
+  - round_1_ref: Q1-24
+    standard_id: CODE-12
     severity: P3
-    file: 'core/tools/lint-components/lib/discover.js'
+    file: core/tools/lint-components/lib/discover.js
     line: 1
-    evidence: 'core/tools/lint-components/lib/discover.js'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'CODE-12'
-  - standard_id: 'CODE-15'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect found: path-only rule that fires on every file of this type; the runnable checks (lint-components,
+      ruff, script tests) are the real check and are reported below'
+  - round_1_ref: Q1-25
+    standard_id: CODE-15
     severity: P3
-    file: 'core/tools/lint-components/lib/discover.js'
+    file: core/tools/lint-components/lib/discover.js
     line: 1
-    evidence: 'core/tools/lint-components/lib/discover.js'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'CODE-15'
-  - standard_id: 'CODE-17'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect found: path-only rule that fires on every file of this type; the runnable checks (lint-components,
+      ruff, script tests) are the real check and are reported below'
+  - round_1_ref: Q1-26
+    standard_id: CODE-17
     severity: P3
-    file: 'core/tools/lint-components/lib/discover.js'
+    file: core/tools/lint-components/lib/discover.js
     line: 1
-    evidence: 'core/tools/lint-components/lib/discover.js'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'CODE-17'
-  - standard_id: 'CODE-18'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect found: path-only rule that fires on every file of this type; the runnable checks (lint-components,
+      ruff, script tests) are the real check and are reported below'
+  - round_1_ref: Q1-27
+    standard_id: CODE-18
     severity: P3
-    file: 'core/tools/lint-components/lib/discover.js'
+    file: core/tools/lint-components/lib/discover.js
     line: 1
-    evidence: 'core/tools/lint-components/lib/discover.js'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'CODE-18'
-  - standard_id: 'FE-08'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect found: path-only rule that fires on every file of this type; the runnable checks (lint-components,
+      ruff, script tests) are the real check and are reported below'
+  - round_1_ref: Q1-28
+    standard_id: FE-08
     severity: P3
-    file: 'core/tools/lint-components/lib/discover.js'
+    file: core/tools/lint-components/lib/discover.js
     line: 1
-    evidence: 'core/tools/lint-components/lib/discover.js'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'FE-08'
-  - standard_id: 'ARCH-03'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect found: path-only rule that fires on every file of this type; the runnable checks (lint-components,
+      ruff, script tests) are the real check and are reported below'
+  - round_1_ref: Q1-29
+    standard_id: ARCH-03
     severity: P3
-    file: 'core/tools/lint-components/lib/rules/structural.js'
+    file: core/tools/lint-components/lib/rules/structural.js
     line: 1
-    evidence: 'core/tools/lint-components/lib/rules/structural.js'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'ARCH-03'
-  - standard_id: 'ARCH-08'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect found: path-only rule that fires on every file of this type; the runnable checks (lint-components,
+      ruff, script tests) are the real check and are reported below'
+  - round_1_ref: Q1-30
+    standard_id: ARCH-08
     severity: P3
-    file: 'core/tools/lint-components/lib/rules/structural.js'
+    file: core/tools/lint-components/lib/rules/structural.js
     line: 1
-    evidence: 'core/tools/lint-components/lib/rules/structural.js'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'ARCH-08'
-  - standard_id: 'CODE-09'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect found: path-only rule that fires on every file of this type; the runnable checks (lint-components,
+      ruff, script tests) are the real check and are reported below'
+  - round_1_ref: Q1-31
+    standard_id: CODE-09
     severity: P3
-    file: 'core/tools/lint-components/lib/rules/structural.js'
+    file: core/tools/lint-components/lib/rules/structural.js
     line: 1
-    evidence: 'core/tools/lint-components/lib/rules/structural.js'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'CODE-09'
-  - standard_id: 'CODE-10'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect found: path-only rule that fires on every file of this type; the runnable checks (lint-components,
+      ruff, script tests) are the real check and are reported below'
+  - round_1_ref: Q1-32
+    standard_id: CODE-10
     severity: P3
-    file: 'core/tools/lint-components/lib/rules/structural.js'
+    file: core/tools/lint-components/lib/rules/structural.js
     line: 1
-    evidence: 'core/tools/lint-components/lib/rules/structural.js'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'CODE-10'
-  - standard_id: 'CODE-11'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect found: path-only rule that fires on every file of this type; the runnable checks (lint-components,
+      ruff, script tests) are the real check and are reported below'
+  - round_1_ref: Q1-33
+    standard_id: CODE-11
     severity: P3
-    file: 'core/tools/lint-components/lib/rules/structural.js'
+    file: core/tools/lint-components/lib/rules/structural.js
     line: 1
-    evidence: 'core/tools/lint-components/lib/rules/structural.js'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'CODE-11'
-  - standard_id: 'CODE-12'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect found: path-only rule that fires on every file of this type; the runnable checks (lint-components,
+      ruff, script tests) are the real check and are reported below'
+  - round_1_ref: Q1-34
+    standard_id: CODE-12
     severity: P3
-    file: 'core/tools/lint-components/lib/rules/structural.js'
+    file: core/tools/lint-components/lib/rules/structural.js
     line: 1
-    evidence: 'core/tools/lint-components/lib/rules/structural.js'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'CODE-12'
-  - standard_id: 'CODE-15'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect found: path-only rule that fires on every file of this type; the runnable checks (lint-components,
+      ruff, script tests) are the real check and are reported below'
+  - round_1_ref: Q1-35
+    standard_id: CODE-15
     severity: P3
-    file: 'core/tools/lint-components/lib/rules/structural.js'
+    file: core/tools/lint-components/lib/rules/structural.js
     line: 1
-    evidence: 'core/tools/lint-components/lib/rules/structural.js'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'CODE-15'
-  - standard_id: 'CODE-17'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect found: path-only rule that fires on every file of this type; the runnable checks (lint-components,
+      ruff, script tests) are the real check and are reported below'
+  - round_1_ref: Q1-36
+    standard_id: CODE-17
     severity: P3
-    file: 'core/tools/lint-components/lib/rules/structural.js'
+    file: core/tools/lint-components/lib/rules/structural.js
     line: 1
-    evidence: 'core/tools/lint-components/lib/rules/structural.js'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'CODE-17'
-  - standard_id: 'CODE-18'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect found: path-only rule that fires on every file of this type; the runnable checks (lint-components,
+      ruff, script tests) are the real check and are reported below'
+  - round_1_ref: Q1-37
+    standard_id: CODE-18
     severity: P3
-    file: 'core/tools/lint-components/lib/rules/structural.js'
+    file: core/tools/lint-components/lib/rules/structural.js
     line: 1
-    evidence: 'core/tools/lint-components/lib/rules/structural.js'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'CODE-18'
-  - standard_id: 'FE-08'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect found: path-only rule that fires on every file of this type; the runnable checks (lint-components,
+      ruff, script tests) are the real check and are reported below'
+  - round_1_ref: Q1-38
+    standard_id: FE-08
     severity: P3
-    file: 'core/tools/lint-components/lib/rules/structural.js'
+    file: core/tools/lint-components/lib/rules/structural.js
     line: 1
-    evidence: 'core/tools/lint-components/lib/rules/structural.js'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'FE-08'
-  - standard_id: 'DOC-14'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect found: path-only rule that fires on every file of this type; the runnable checks (lint-components,
+      ruff, script tests) are the real check and are reported below'
+  - round_1_ref: Q1-39
+    standard_id: DOC-14
     severity: P4
-    file: '.garura/project/issues/613/evidence/checker/README.md'
+    file: .garura/project/issues/613/evidence/checker/README.md
     line: 1
-    evidence: '.garura/project/issues/613/evidence/checker/README.md'
-    artifact_type: 'stm-evidence'
-    taxonomy_rule_id: 'DOC-14'
-  - standard_id: 'DOC-15'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect found: path-only rule that fires on every file of this type; the runnable checks (lint-components,
+      ruff, script tests) are the real check and are reported below'
+  - round_1_ref: Q1-40
+    standard_id: DOC-15
     severity: P4
-    file: '.garura/project/issues/613/evidence/checker/README.md'
+    file: .garura/project/issues/613/evidence/checker/README.md
     line: 1
-    evidence: '.garura/project/issues/613/evidence/checker/README.md'
-    artifact_type: 'stm-evidence'
-    taxonomy_rule_id: 'DOC-15'
-  - standard_id: 'DOC-16'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect found: path-only rule that fires on every file of this type; the runnable checks (lint-components,
+      ruff, script tests) are the real check and are reported below'
+  - round_1_ref: Q1-41
+    standard_id: DOC-16
     severity: P4
-    file: '.garura/project/issues/613/evidence/checker/README.md'
+    file: .garura/project/issues/613/evidence/checker/README.md
     line: 1
-    evidence: '.garura/project/issues/613/evidence/checker/README.md'
-    artifact_type: 'stm-evidence'
-    taxonomy_rule_id: 'DOC-16'
-  - standard_id: 'BE-23'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect found: path-only rule that fires on every file of this type; the runnable checks (lint-components,
+      ruff, script tests) are the real check and are reported below'
+  - round_1_ref: Q1-42
+    standard_id: BE-23
     severity: P4
-    file: 'core/config.yaml'
+    file: core/config.yaml
     line: 101
-    evidence: 'lock'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'BE-23'
-  - standard_id: 'CODE-13'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect: the scanner matched a word, not a database query / lock / badly named value'
+  - round_1_ref: Q1-43
+    standard_id: CODE-13
     severity: P4
-    file: 'core/tools/lint-components/lib/discover.js'
+    file: core/tools/lint-components/lib/discover.js
     line: 1
-    evidence: 'core/tools/lint-components/lib/discover.js'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'CODE-13'
-  - standard_id: 'CODE-19'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect found: path-only rule that fires on every file of this type; the runnable checks (lint-components,
+      ruff, script tests) are the real check and are reported below'
+  - round_1_ref: Q1-44
+    standard_id: CODE-19
     severity: P4
-    file: 'core/tools/lint-components/lib/discover.js'
+    file: core/tools/lint-components/lib/discover.js
     line: 1
-    evidence: 'core/tools/lint-components/lib/discover.js'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'CODE-19'
-  - standard_id: 'CODE-22'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect found: path-only rule that fires on every file of this type; the runnable checks (lint-components,
+      ruff, script tests) are the real check and are reported below'
+  - round_1_ref: Q1-45
+    standard_id: CODE-22
     severity: P4
-    file: 'core/tools/lint-components/lib/discover.js'
+    file: core/tools/lint-components/lib/discover.js
     line: 109
-    evidence: 'const drives ='
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'CODE-22'
-  - standard_id: 'CODE-22'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect: the scanner matched a word, not a database query / lock / badly named value'
+  - round_1_ref: Q1-46
+    standard_id: CODE-22
     severity: P4
-    file: 'core/tools/lint-components/lib/discover.js'
+    file: core/tools/lint-components/lib/discover.js
     line: 110
-    evidence: 'const drivesDir ='
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'CODE-22'
-  - standard_id: 'CODE-22'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect: the scanner matched a word, not a database query / lock / badly named value'
+  - round_1_ref: Q1-47
+    standard_id: CODE-22
     severity: P4
-    file: 'core/tools/lint-components/lib/discover.js'
+    file: core/tools/lint-components/lib/discover.js
     line: 114
-    evidence: 'const driveFile ='
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'CODE-22'
-  - standard_id: 'CODE-13'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect: the scanner matched a word, not a database query / lock / badly named value'
+  - round_1_ref: Q1-48
+    standard_id: CODE-13
     severity: P4
-    file: 'core/tools/lint-components/lib/rules/structural.js'
+    file: core/tools/lint-components/lib/rules/structural.js
     line: 1
-    evidence: 'core/tools/lint-components/lib/rules/structural.js'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'CODE-13'
-  - standard_id: 'CODE-19'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect found: path-only rule that fires on every file of this type; the runnable checks (lint-components,
+      ruff, script tests) are the real check and are reported below'
+  - round_1_ref: Q1-49
+    standard_id: CODE-19
     severity: P4
-    file: 'core/tools/lint-components/lib/rules/structural.js'
+    file: core/tools/lint-components/lib/rules/structural.js
     line: 1
-    evidence: 'core/tools/lint-components/lib/rules/structural.js'
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'CODE-19'
-  - standard_id: 'CODE-22'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect found: path-only rule that fires on every file of this type; the runnable checks (lint-components,
+      ruff, script tests) are the real check and are reported below'
+  - round_1_ref: Q1-50
+    standard_id: CODE-22
     severity: P4
-    file: 'core/tools/lint-components/lib/rules/structural.js'
+    file: core/tools/lint-components/lib/rules/structural.js
     line: 375
-    evidence: 'const shared ='
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'CODE-22'
-  - standard_id: 'CODE-22'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect: the scanner matched a word, not a database query / lock / badly named value'
+  - round_1_ref: Q1-51
+    standard_id: CODE-22
     severity: P4
-    file: 'core/tools/lint-components/lib/rules/structural.js'
+    file: core/tools/lint-components/lib/rules/structural.js
     line: 402
-    evidence: 'const playsShared ='
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'CODE-22'
-  - standard_id: 'CODE-22'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect: the scanner matched a word, not a database query / lock / badly named value'
+  - round_1_ref: Q1-52
+    standard_id: CODE-22
     severity: P4
-    file: 'core/tools/lint-components/lib/rules/structural.js'
+    file: core/tools/lint-components/lib/rules/structural.js
     line: 404
-    evidence: 'const content ='
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'CODE-22'
-  - standard_id: 'CODE-22'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect: the scanner matched a word, not a database query / lock / badly named value'
+  - round_1_ref: Q1-53
+    standard_id: CODE-22
     severity: P4
-    file: 'core/tools/lint-components/lib/rules/structural.js'
+    file: core/tools/lint-components/lib/rules/structural.js
     line: 406
-    evidence: 'const fm ='
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'CODE-22'
-  - standard_id: 'CODE-22'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect: the scanner matched a word, not a database query / lock / badly named value'
+  - round_1_ref: Q1-54
+    standard_id: CODE-22
     severity: P4
-    file: 'core/tools/lint-components/lib/rules/structural.js'
+    file: core/tools/lint-components/lib/rules/structural.js
     line: 416
-    evidence: 'const opener ='
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'CODE-22'
-  - standard_id: 'CODE-22'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect: the scanner matched a word, not a database query / lock / badly named value'
+  - round_1_ref: Q1-55
+    standard_id: CODE-22
     severity: P4
-    file: 'core/tools/lint-components/lib/rules/structural.js'
+    file: core/tools/lint-components/lib/rules/structural.js
     line: 417
-    evidence: 'const closer ='
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'CODE-22'
-  - standard_id: 'CODE-22'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect: the scanner matched a word, not a database query / lock / badly named value'
+  - round_1_ref: Q1-56
+    standard_id: CODE-22
     severity: P4
-    file: 'core/tools/lint-components/lib/rules/structural.js'
+    file: core/tools/lint-components/lib/rules/structural.js
     line: 418
-    evidence: 'const nOpen ='
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'CODE-22'
-  - standard_id: 'CODE-22'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect: the scanner matched a word, not a database query / lock / badly named value'
+  - round_1_ref: Q1-57
+    standard_id: CODE-22
     severity: P4
-    file: 'core/tools/lint-components/lib/rules/structural.js'
+    file: core/tools/lint-components/lib/rules/structural.js
     line: 419
-    evidence: 'const nClose ='
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'CODE-22'
-  - standard_id: 'CODE-22'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect: the scanner matched a word, not a database query / lock / badly named value'
+  - round_1_ref: Q1-58
+    standard_id: CODE-22
     severity: P4
-    file: 'core/tools/lint-components/lib/rules/structural.js'
+    file: core/tools/lint-components/lib/rules/structural.js
     line: 431
-    evidence: 'const shared ='
-    artifact_type: 'runtime-code'
-    taxonomy_rule_id: 'CODE-22'
+    status: open
+    why: file not touched by the round 2 changes, so the scanner still fires on it
+    assessment: 'no defect: the scanner matched a word, not a database query / lock / badly named value'
+findings:
+- id: Q2-1
+  severity: P2
+  file: .garura/project/issues/613/review/round-2-delta.diff
+  basis: contract local-path check; categories.yaml work-records note (no absolute home paths)
+  finding: This review work file (not yet committed) holds 123 lines with absolute paths into the author's home folder. They come from the
+    old lint record that commit fbdcdfd0 cleaned. If this file is committed, the leak comes back. Delete it or scrub it before
+    the next commit. The other review files, and every other file in the diff, are clean.
+- id: Q2-2
+  severity: P3
+  file: docs/adr/041-a-drive-runs-in-rounds-and-owns-its-questions.md
+  basis: 'decision-records: a record must match the branch it describes (adr-lint checks structure only)'
+  finding: Lines 9, 10 and 112 say the glossary Drive entry, /vision C11, /understand C13 and the Kickoff ICE note "still
+    say the old reading" and that /vision and /understand ICE "changes through /play-editor". Commit 113d098a already changed
+    all of them, and no file in the branch still says a play stops the run. The record now describes a state that no longer
+    exists. Move them from "still saying" to "already following" and drop the risk bullet.
+- id: Q2-3
+  severity: P3
+  file: core/components/plays/vision/reference/ice.md
+  basis: 'CLAUDE.md Play Pipeline Rules: an intent change goes through the ICE source and a /play-editor rebuild, never a
+    hand edit of the compiled SKILL.md'
+  finding: 'Round 2 changed what /vision C11/F13, /understand C13/REC15 and the Kickoff goal/C3 promise (a question is now
+    the drive''s, not a stop). The ICE sources were edited, but the compiled SKILL.md files were edited by hand with a recomputed
+    fingerprint (commit 113d098a says "non-intent edits"). The fingerprints match the ICE files, so nothing is out of step
+    now, but the path taken is the one the rule forbids for intent changes. Same pattern in core/components/plays/understand/
+    and core/components/drives/kickoff/. Needs a decision: accept as recorded, or rebuild through /play-editor and /drive-editor.'
+- id: Q2-4
+  severity: P3
+  file: core/components/plays/drive-creator/SKILL.md
+  basis: 'runnable-checks.txt: lint_play drive-creator FAIL (5 gaps), lint_play drive-editor FAIL (5 gaps)'
+  finding: Both builder plays fail the play linter with 5 gaps each, the same as round 1. The play linter does not know the
+    builder plays' shape; play-creator and play-editor on main show the same. Not a new break, but the check stays red. Same
+    for core/components/plays/drive-editor/SKILL.md.
+- id: Q2-5
+  severity: P3
+  file: core/components/plays/drive-creator/SKILL.md
+  basis: 'runnable-checks.txt: lint-components 121 errors vs 113 on main'
+  finding: The component linter reports 8 more errors than main. All 8 are drive-creator and drive-editor, with the same 4
+    errors each that play-creator and play-editor already carry on main. No error comes from the drive, build-memory, intent,
+    vision or understand files.
+- id: Q2-6
+  severity: P4
+  file: core/components/plays/drive-creator/references/compiled-drive-example/SKILL.md
+  basis: 'runnable-checks.txt: lint_drive compiled-drive-example FAIL (2 gaps)'
+  finding: 'The worked example fails the drive linter with 2 gaps because it sits under drive-creator/references/, where ../_shared/drive-run.md
+    and the member plays do not resolve. Expected: it is a reference, not an installed drive. The real drive (kickoff) passes
+    lint_drive with 0 gaps.'
+- id: Q2-7
+  severity: P4
+  file: core/components/drives/kickoff/scripts/
+  basis: 'runnable-checks.txt: ruff (no project ruff config)'
+  finding: 'ruff finds no error that stops a run. On the branch: EXE001 64, RUF100 26, PLW1510 20, SIM115 8. Main''s unchanged
+    scripts show the same kinds (EXE001 25, SIM115 18, RUF100 12, PLW1510 11). The repo sets no ruff rules, so no project
+    standard is broken. The round 2 changes touched no Python, JS or shell file, so none of this moved.'
+- id: Q2-8
+  severity: P4
+  file: core/components/drives/_shared/drive-run.md
+  basis: 'documentation: surrounding prose is wrapped near 95 columns'
+  finding: Round 2 edits left lines of 118 to 170 characters where the file wraps near 95 (drive-run.md steps R3, R5 and R5
+    step 3; core/components/drives/kickoff/SKILL.md description and Step 2; core/components/drives/kickoff/reference/ice.md
+    goal; core/components/memory/standards/rules/drive-contract.md rule 4 and 5). Readable, but untidy in a diff.
 counts:
   P1: 0
-  P2: 14
-  P3: 24
-  P4: 20
+  P2: 1
+  P3: 4
+  P4: 3
