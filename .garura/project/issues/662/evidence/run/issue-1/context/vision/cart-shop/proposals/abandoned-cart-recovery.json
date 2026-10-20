@@ -1,0 +1,27 @@
+{
+  "kb_proposal": {
+    "work": "Shop owners lose fewer sales to abandoned carts — more of the carts customers leave behind end up as finished orders (see which carts were abandoned today; remind the customer with one click).",
+    "gap": "The ecommerce shelf is the right domain (its trigger names cart and orders, and its Acquire intent is 'let me buy it -> cart, checkout handoff'), but its Capabilities list has no capability for recovering abandoned carts. The only line about it is an intelligence feature, 'Acquire — cart-abandonment prediction with nudges', with no functionalities and no profile conditions. Notifications covers how a message is delivered and consented to, and analytics covers conversion funnels, but neither owns which cart to act on or the way back into it. So the gap is a missing capability under an existing domain, not a missing domain.",
+    "level": "new-capability",
+    "parent": "ecommerce",
+    "proposed": {
+      "name": "abandoned-cart-recovery",
+      "title": "Abandoned-cart recovery",
+      "placement": "ecommerce.md -> ## Capabilities, after 'Inventory & order management' (it reads cart and order records)",
+      "draft": "- **Abandoned-cart recovery** — win back the sales a shopper started and left.\n  A cart that holds items but ends with no order is a lost sale the operator can\n  still recover; the capability makes those carts visible to the operator and\n  brings the shopper back to finish. It serves the shopper's *Acquire* intent\n  (\"let me buy it\") when it broke off, and the operator's *Understand* intent.\n  Sending the message is `notifications` (channel delivery, consent, frequency);\n  measuring the win-back is `analytics` (conversion funnel); this capability owns\n  the decision of WHICH cart, WHEN, and the way back into the same cart.\n  - Abandoned-cart detection — mark a cart abandoned when it holds items and no order follows within a set window. The floor — every store that sells.\n  - Operator view of abandoned carts — list the carts abandoned in a period (e.g. today) with shopper, items and value, so the operator knows which sales could still be won back. The floor wherever an operator runs the store.\n  - Cart reminder — operator-triggered (one click) or automatic message to the shopper that their cart is waiting, with a link that restores the same cart. Add when the shopper can be reached away from the store (`notifications` → Channel delivery); requires opt-in where `nfr.privacy >= medium` or `compliance` includes GDPR.\n  - Recovery tracking — count reminded carts that end in an order and the sales won back, over time. Add when the business sets a win-back goal (`analytics` → Goals, Funnels).\n  - Reminder sequences & incentives — timed follow-ups and an optional offer (next-best-offer / personalised promotion). Add when `shape.stage` is public/monetized and fatigue control is in place.\n  - Abandonment prediction & in-session nudge — spot a cart likely to be abandoned and nudge while the shopper is still present (`experience` governed nudges). Add when real-time presence signals are reliable (the shelf's core *Acquire* intelligence line).\n"
+    },
+    "sources": [
+      "memory: phoenix knowledge/domains/ecommerce.md lines 5 (trigger: cart, orders), 34 (Acquire intent -> cart, checkout handoff), 125-127 (Inventory & order management — order records), 150-151 (Acquire — cart-abandonment prediction with nudges; next-best-offer)",
+      "memory: phoenix knowledge/domains/notifications.md lines 70-74 (Channel delivery — Email for away-from-app reach), 83-86 (Preferences & frequency — opt-in, fatigue control)",
+      "memory: phoenix knowledge/domains/analytics.md lines 63-64 (Funnels — product-conversion funnel with drop-off)",
+      "person: the owner's statement for issue 1 — 'see which carts were abandoned today and send the customer a reminder with one click, so more carts turn into orders' (.garura/project/issues/1/context/intent/20261020-095249/statement.txt)",
+      "note: no web research was possible in this run (no web tool available to the agent); the draft is built from the shelves and the person's words, not from outside sources — a reviewer should check it against real practice before approving"
+    ],
+    "status": "PROPOSED — awaiting user review; NOT written to the KB",
+    "memory_update": {
+      "id": "mu-20261020-001",
+      "status": "waiting",
+      "blocking": false
+    }
+  }
+}

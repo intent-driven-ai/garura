@@ -462,7 +462,7 @@ python3 scripts/gate_eval.py append --ledger <gates.conditional.ledger> --play u
 
 `<issue>` is the slice-realize issue Step 0 resolved. `<gates.conditional.ledger>` /
 `<gates.conditional.policy>` resolve from config `gates.conditional` (defaults
-`.garura/core/gate-evals.jsonl` / `.garura/core/gate-policy.yaml`); `<policy version>` is the
+`.garura/project/issues/<issue>/review/gate-evals.jsonl` (the run's issue) / `.garura/core/gate-policy.yaml`); `<policy version>` is the
 policy file's `version:` field. `<run ts>` is the run's own UTC timestamp, derived the same way the
 close derives `ts` (`date -u`), passed by the orchestrator.
 **SE-10 (F11/C11):** the model delta was written to the live model by Steps 1 + 1b + 3 but is COMMITTED

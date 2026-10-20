@@ -1,0 +1,34 @@
+{
+  "routing_result": {
+    "work": "Seeing today's abandoned carts — each shop owner can see which carts their customers abandoned today (carts filled then left without an order), so they know which customers could still be won back. Fails if a cart that became an order is shown as abandoned, or a cart left today is missing.",
+    "capability_id": "abandoned-carts-today",
+    "placements": [
+      {
+        "domain": "ecommerce",
+        "capability": "Abandoned-cart recovery",
+        "functionality": ["Abandoned-cart detection", "Operator view of abandoned carts"],
+        "confidence": "high",
+        "why": "The ecommerce shelf is the only one whose trigger names cart and orders, and the approved addition to it (memory update mu-20261020-001, applied to issue 1 short-term memory) names exactly this work: mark a cart abandoned when it holds items and no order follows, and list the carts abandoned in a period such as today for the operator. Reminding and counting win-backs are the sibling functionalities, owned by the neighbouring capabilities.",
+        "conditions": [
+          "Abandoned-cart detection — the floor, every store that sells",
+          "Operator view of abandoned carts — the floor wherever an operator runs the store"
+        ],
+        "sources": [
+          "short-term 1/context/answers/kb/ecommerce-abandoned-cart-recovery.md lines 1-10",
+          "phoenix knowledge/domains/ecommerce.md line 5 (trigger) and lines 38-41 (operator Understand intent)"
+        ]
+      },
+      {
+        "domain": "ecommerce",
+        "capability": "Inventory & order management",
+        "functionality": ["Level 1 — basic stock & orders"],
+        "confidence": "medium",
+        "why": "The view is only as true as the cart and order records; telling a cart that became an order from one that did not rests on the basic order records this capability keeps. It is the record underneath the view, not the view itself.",
+        "conditions": ["Level 1 — the floor, every store that sells"],
+        "sources": ["phoenix knowledge/domains/ecommerce.md lines 125-127"]
+      }
+    ],
+    "spans_multiple_domains": false,
+    "unmatched": false
+  }
+}

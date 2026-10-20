@@ -1,0 +1,26 @@
+{
+  "in_drive": true,
+  "targets": [
+    {
+      "id": "abandoned-carts-today",
+      "state": "directional",
+      "seed": null,
+      "scope": "product-os/ecommerce/abandoned-carts-today/"
+    },
+    {
+      "id": "abandoned-cart-reminders",
+      "state": "directional",
+      "seed": null,
+      "scope": "product-os/ecommerce/abandoned-cart-reminders/"
+    },
+    {
+      "id": "carts-won-back",
+      "state": "directional",
+      "seed": null,
+      "scope": "product-os/ecommerce/carts-won-back/"
+    }
+  ],
+  "ask": [],
+  "refused": [],
+  "nothing_pending": false
+}

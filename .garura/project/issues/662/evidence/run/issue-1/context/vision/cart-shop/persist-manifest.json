@@ -1,0 +1,78 @@
+{
+  "applied": true,
+  "written": [
+    "spine:capability:carts-won-back",
+    "spine:domain:ecommerce",
+    "spine:profile"
+  ],
+  "skipped": [],
+  "updated": [
+    {
+      "kind": "capability",
+      "id": "abandoned-carts-today",
+      "fields": [
+        "domain"
+      ]
+    },
+    {
+      "kind": "capability",
+      "id": "abandoned-cart-reminders",
+      "fields": [
+        "domain"
+      ]
+    }
+  ],
+  "placed": [
+    {
+      "id": "abandoned-carts-today",
+      "from": "capabilities/abandoned-carts-today/capability.md",
+      "to": "ecommerce/abandoned-carts-today/capability.md",
+      "unchanged": true
+    },
+    {
+      "id": "abandoned-cart-reminders",
+      "from": "capabilities/abandoned-cart-reminders/capability.md",
+      "to": "ecommerce/abandoned-cart-reminders/capability.md",
+      "unchanged": true
+    }
+  ],
+  "links": [
+    {
+      "intent": "fewer-sales-lost-to-abandoned-carts",
+      "kind": "domain",
+      "id": "ecommerce",
+      "mark": "adds"
+    },
+    {
+      "intent": "fewer-sales-lost-to-abandoned-carts",
+      "kind": "capability",
+      "id": "abandoned-carts-today",
+      "mark": "changes"
+    },
+    {
+      "intent": "fewer-sales-lost-to-abandoned-carts",
+      "kind": "capability",
+      "id": "abandoned-cart-reminders",
+      "mark": "changes"
+    },
+    {
+      "intent": "fewer-sales-lost-to-abandoned-carts",
+      "kind": "capability",
+      "id": "carts-won-back",
+      "mark": "adds"
+    }
+  ],
+  "intent_pages": [
+    "intents/fewer-sales-lost-to-abandoned-carts.md"
+  ],
+  "warnings": [],
+  "changed": {
+    "domains": [
+      "ecommerce"
+    ],
+    "capabilities": [
+      "carts-won-back"
+    ],
+    "profile": true
+  }
+}

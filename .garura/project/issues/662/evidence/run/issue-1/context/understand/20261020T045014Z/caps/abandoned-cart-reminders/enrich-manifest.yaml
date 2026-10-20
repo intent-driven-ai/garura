@@ -1,0 +1,38 @@
+enrich:
+  capability_ref: abandoned-cart-reminders
+  grounded_in: "ecommerce -> Abandoned-cart recovery -> Cart reminder (approved node mu-20261020-001); notifications -> Preferences & frequency (Opt-in / opt-out, Fatigue / frequency control), Channel delivery (Email); experience -> governed nudges (dark patterns forbidden); marketing -> Consent & privacy for reach"
+  kb_sources:
+    - { tier: short-term, path: 1/context/answers/kb/ecommerce-abandoned-cart-recovery.md, start: 1, end: 14, used_for: "capability placement; Cart reminder line (one-click, restores same cart, opt-in where privacy >= medium); sequences and incentives deferred until public/monetized" }
+    - { tier: phoenix, path: knowledge/domains/ecommerce.md, start: 31, end: 34, used_for: "shopper Acquire intent (cart, checkout handoff)" }
+    - { tier: phoenix, path: knowledge/domains/ecommerce.md, start: 83, end: 91, used_for: "core journey stays whole; return link lands on the normal cart path" }
+    - { tier: phoenix, path: knowledge/domains/ecommerce.md, start: 150, end: 151, used_for: "Acquire intelligence: cart-abandonment nudges" }
+    - { tier: phoenix, path: knowledge/domains/notifications.md, start: 70, end: 75, used_for: "Channel delivery: email for away-from-app reach on web" }
+    - { tier: phoenix, path: knowledge/domains/notifications.md, start: 83, end: 86, used_for: "opt-in/opt-out floor; fatigue/frequency control" }
+    - { tier: phoenix, path: knowledge/domains/notifications.md, start: 88, end: 92, used_for: "where it goes wrong: fatigue, consent gaps" }
+    - { tier: phoenix, path: knowledge/domains/experience.md, start: 76, end: 81, used_for: "helpful reminders allowed; dark patterns forbidden" }
+    - { tier: phoenix, path: knowledge/domains/marketing.md, start: 73, end: 75, used_for: "consent, opt-out, suppression on any reach; GDPR / CAN-SPAM named as regimes" }
+  capability:
+    detail: detailed
+    doc: ecommerce/abandoned-cart-reminders/capability.md
+    nfr_needs:
+      privacy:       { level: high,   target: "0 reminders sent to a customer without a current, unwithdrawn opt-in to that shop; every reminder carries a working one-click opt-out; return links and the reminder record hold no email address or message text", gate: "table-driven eligibility tests over every consent state + read-failure case, and an audit of sent reminder entries against consent records showing zero violations" }
+      reliability:   { level: medium, target: "one owner click yields at most one reminder: 0 duplicate sent reminders per cart under double-click, concurrent tabs, reload or retry; 100% of sent reminders have a sent entry in the record", gate: "idempotency tests (double, concurrent, retried requests) + click-to-record reconciliation in end-to-end tests" }
+      performance:   { level: medium, target: "owner sees the outcome (sent, or blocked with reason) within 2 s of the click at p95", gate: "end-to-end timing test of the remind action at expected shop load" }
+      security:      { level: medium, target: "100% of remind requests for a cart outside the signed-in person's shop, or from a signed-out session, are refused; a shop reads only its own reminder entries", gate: "authorization and shop-isolation tests, plus a return-link tampering test" }
+      observability: { level: medium, target: "every remind attempt is recorded with shop, cart, customer reference, owner, time, outcome and reason before the owner sees the outcome", gate: "record-completeness check comparing clicks to entries in end-to-end tests" }
+    compliance_needs: []
+  functionalities:
+    - { id: cart-reminder-send, slug: cart-reminder-send, capability: abandoned-cart-reminders, intents: [fewer-sales-lost-to-abandoned-carts], status: proposed, one_line: "The owner's single click on an abandoned cart that sends at most one reminder and shows the outcome in plain words.", doc: ecommerce/abandoned-cart-reminders/cart-reminder-send/functionality.md, depends_on: [cart-reminder-eligibility, cart-reminder-message, cart-reminder-log], decisions: [], metadata: { created_by: /understand, updated_by: /understand, version: 1 } }
+    - { id: cart-reminder-eligibility, slug: cart-reminder-eligibility, capability: abandoned-cart-reminders, intents: [fewer-sales-lost-to-abandoned-carts], status: proposed, one_line: "Decides at click time whether this customer may be reminded about this cart — consent, cart state, one per cart, per-customer limit — and why not.", doc: ecommerce/abandoned-cart-reminders/cart-reminder-eligibility/functionality.md, depends_on: [cart-reminder-log], decisions: [], metadata: { created_by: /understand, updated_by: /understand, version: 1 } }
+    - { id: cart-reminder-message, slug: cart-reminder-message, capability: abandoned-cart-reminders, intents: [fewer-sales-lost-to-abandoned-carts], status: proposed, one_line: "Builds the reminder from the live cart, with one link that restores the same cart and a one-click opt-out.", doc: ecommerce/abandoned-cart-reminders/cart-reminder-message/functionality.md, depends_on: [], decisions: [], metadata: { created_by: /understand, updated_by: /understand, version: 1 } }
+    - { id: cart-reminder-log, slug: cart-reminder-log, capability: abandoned-cart-reminders, intents: [fewer-sales-lost-to-abandoned-carts], status: proposed, one_line: "Keeps one entry per reminder attempt — sent, blocked or failed — that the limits, the owner's view and the win-back count all read.", doc: ecommerce/abandoned-cart-reminders/cart-reminder-log/functionality.md, depends_on: [], decisions: [], metadata: { created_by: /understand, updated_by: /understand, version: 1 } }
+  implied_levels:
+    privacy:       { level: high,   gate: "eligibility tests over every consent state + audit of sent reminders against consent records (zero violations)" }
+    reliability:   { level: medium, gate: "idempotency tests + click-to-record reconciliation" }
+    performance:   { level: medium, gate: "end-to-end timing test, outcome within 2 s at p95" }
+    security:      { level: medium, gate: "authorization and shop-isolation tests" }
+    observability: { level: medium, gate: "record-completeness check, every attempt recorded" }
+  compliance: []
+  open_questions:
+    - "Which consent regimes apply to the reminder email depends on where the shops' customers live (the marketing shelf names GDPR / CAN-SPAM); no tier says. compliance_needs is left empty until answered; opt-in and one-click opt-out are enforced regardless because profile privacy >= medium. Raised as a memory update."
+    - "The per-customer limit window (proposed default: one reminder per customer per shop in any 7 days) has no grounding number in memory; raised as a memory update for the owner to confirm."

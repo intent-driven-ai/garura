@@ -1,0 +1,57 @@
+{
+  "ok": true,
+  "base_ref": "HEAD",
+  "tree": ".garura/product/product-os",
+  "allow": [
+    "product-os/_spine.yaml"
+  ],
+  "add_only": [
+    "product-os/*/domain.md",
+    "product-os/*/*/capability.md"
+  ],
+  "modify_only": [
+    "product-os/*/domain.md",
+    "product-os/*/*/capability.md",
+    "product-os/intents/*.md"
+  ],
+  "remove_only": [
+    "product-os/capabilities/*/capability.md"
+  ],
+  "restore": false,
+  "changed": [
+    {
+      "path": ".garura/product/product-os/_spine.yaml",
+      "status": "M"
+    },
+    {
+      "path": ".garura/product/product-os/capabilities/abandoned-cart-reminders/capability.md",
+      "status": "D"
+    },
+    {
+      "path": ".garura/product/product-os/capabilities/abandoned-carts-today/capability.md",
+      "status": "D"
+    },
+    {
+      "path": ".garura/product/product-os/ecommerce/abandoned-cart-reminders/capability.md",
+      "status": "A"
+    },
+    {
+      "path": ".garura/product/product-os/ecommerce/abandoned-carts-today/capability.md",
+      "status": "A"
+    },
+    {
+      "path": ".garura/product/product-os/ecommerce/carts-won-back/capability.md",
+      "status": "A"
+    },
+    {
+      "path": ".garura/product/product-os/ecommerce/domain.md",
+      "status": "A"
+    },
+    {
+      "path": ".garura/product/product-os/intents/fewer-sales-lost-to-abandoned-carts.md",
+      "status": "M"
+    }
+  ],
+  "violations": [],
+  "restored": []
+}

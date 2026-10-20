@@ -1,0 +1,94 @@
+# /vision Step 2 — seed manifest for issue 1 (product-os-keeper, author-vision-seed)
+# Spine-delta as structured data for persist_seed.py. This skill wrote NO _spine.yaml,
+# profile, or intent page, and moved no page.
+seed:
+  goal: "Shop owners lose fewer sales to abandoned carts — more of the carts customers leave behind end up as finished orders, so shop owners keep sales they lose today."
+  from_intents: [fewer-sales-lost-to-abandoned-carts]
+  domain: { id: ecommerce, name: "Ecommerce", doc: "product-os/ecommerce/domain.md" }
+  spine_delta:
+    domains:
+      - id: ecommerce
+        slug: ecommerce
+        status: proposed
+        detail: detailed
+        one_line: "Where customers buy from the shops on our platform and where shop owners keep those sales — starting by winning back the carts customers leave behind."
+        doc: ecommerce/domain.md
+        intents: [fewer-sales-lost-to-abandoned-carts]
+        decisions: []
+        metadata: { created_by: /vision, updated_by: /vision, version: 1 }
+    capabilities:
+      - id: carts-won-back
+        slug: carts-won-back
+        domain: ecommerce
+        intents: [fewer-sales-lost-to-abandoned-carts]
+        status: proposed
+        detail: directional
+        one_line: "Counts the reminded carts that end in an order and the sales they win back, month by month, so owners and the business can see whether fewer sales are being lost."
+        doc: ecommerce/carts-won-back/capability.md
+        depends_on: []
+        decisions: []
+        personas: []
+        journeys: []
+        metadata: { created_by: /vision, updated_by: /vision, version: 1 }
+    updates:                                   # placed from the holding folder; the persist moves the pages
+      - { kind: capability, id: abandoned-carts-today, domain: ecommerce }
+      - { kind: capability, id: abandoned-cart-reminders, domain: ecommerce }
+    profile:                                   # live spine has no profile block
+      state: directional
+      shape:
+        stage: mvp                             # directional guess — first version of the recovery loop
+        users: [shop-owners, shoppers]         # owners see and send; shoppers receive the reminder
+        monetization: unknown                  # no source says how the platform charges shop owners
+        surfaces: [web]                        # owners view abandoned carts on a screen; reminder channel is notifications' choice
+      nfr:                                     # coarse directional levels; gates are /understand's
+        privacy: { level: medium }             # shopper contact details + consent to be reminded (notifications.md:83-86)
+        security: { level: medium }            # each owner sees only their own shop's customers and carts
+        reliability: { level: medium }         # a missed or wrong abandoned cart is a sale not won back
+        performance: { level: medium }         # owner view and one-click send must feel instant; not a high-traffic shape yet
+        scalability: { level: medium }         # many shop owners on one platform
+        accessibility: { level: medium }       # owner-facing web screen
+        observability: { level: medium }       # the win-back count is the proof of the business intent
+        maintainability: { level: medium }
+  capabilities:                                # provenance / KB grounding for every capability this run adds or updates
+    - id: carts-won-back
+      name: "Tracking carts won back"
+      new: true
+      doc: "product-os/ecommerce/carts-won-back/capability.md"
+      detail: directional
+      grounding:
+        kb_shelf: "analytics → Funnels, Product-conversion funnel [knowledge/domains/analytics.md:63-64] (cross-domain); proof from the business intent page"
+        proposal: .garura/project/issues/1/context/vision/cart-shop/proposals/abandoned-cart-recovery.json   # functionality: Recovery tracking (waiting, mu-20261020-001)
+    - id: abandoned-carts-today
+      name: "Seeing today's abandoned carts"
+      new: false
+      placed_under: ecommerce
+      doc: "product-os/capabilities/abandoned-carts-today/capability.md"   # persist moves it to ecommerce/abandoned-carts-today/
+      detail: directional
+      grown: "added one Directional intent paragraph + one 'Fails if' ICE line; every existing line kept"
+      grounding:
+        kb_shelf: "ecommerce → Intelligence features, Acquire (cart abandonment) [knowledge/domains/ecommerce.md:150-151]; ecommerce → Inventory & order management, Level 1 basic stock & orders [knowledge/domains/ecommerce.md:125-127]"
+        proposal: .garura/project/issues/1/context/vision/cart-shop/proposals/abandoned-cart-recovery.json
+    - id: abandoned-cart-reminders
+      name: "Reminding customers about an abandoned cart"
+      new: false
+      placed_under: ecommerce
+      doc: "product-os/capabilities/abandoned-cart-reminders/capability.md"   # persist moves it to ecommerce/abandoned-cart-reminders/
+      detail: directional
+      grown: "added one Directional intent paragraph + one 'Limit' ICE line; every existing line kept"
+      grounding:
+        kb_shelf: "ecommerce → Intelligence features, Acquire: cart-abandonment with nudges [knowledge/domains/ecommerce.md:150-151]; notifications → Channel delivery (Email) [knowledge/domains/notifications.md:70-74]; notifications → Preferences & frequency [knowledge/domains/notifications.md:83-86]"
+        proposal: .garura/project/issues/1/context/vision/cart-shop/proposals/abandoned-cart-recovery.json
+  same_as:                                     # KB candidates already in the model — not added again
+    - { candidate: "Seeing today's abandoned carts", same_as: abandoned-carts-today }
+    - { candidate: "Reminding customers about an abandoned cart", same_as: abandoned-cart-reminders }
+  listed_not_seeded:                           # grounded candidates named in the domain page's Scope, not added as capabilities
+    - { candidate: "Abandonment prediction and in-session nudges", fit: later, where: "domain.md → Scope, Out (later)", kb_shelf: "ecommerce.md:150-151" }
+    - { candidate: "Win-back offers", fit: later, where: "domain.md → Scope, Out (later)", kb_shelf: "ecommerce.md:150-151" }
+    - { candidate: "Carts and orders", fit: enabling, where: "domain.md → Scope, Out", kb_shelf: "ecommerce.md:125-127, 83-88", why: "the run was asked to add only the core new capability; see warnings" }
+  warnings:
+    - "The model holds no capability for the cart and order records that abandoned-cart recovery reads (ecommerce shelf: 'the floor — every store that sells'). The domain page assumes the shops already keep them; if they do not, a 'Carts and orders' capability must be added before recovery can work."
+    - "The KB-node proposal abandoned-cart-recovery (memory update mu-20261020-001) is still waiting for a person's approval; until then the three capabilities lean on thin shelf lines (one intelligence line on ecommerce, plus notifications and analytics), and nothing in this run's text was decided from the waiting proposal alone."
+    - "Profile monetization is 'unknown' — no source says how the platform charges shop owners. Stage 'mvp', users and surfaces are directional guesses for /understand to firm."
+    - "The intent's proof compares each month against 'the month before reminders started'; that needs a count of lost and won-back sales from before reminders go live, which only exists if it is captured first (carried as a 'Fails if' on carts-won-back)."
+    - "The business intent fewer-sales-lost-to-abandoned-carts is still at stage proposed inside the drive; the person confirms or drops it at the drive's final review."
+  dropped: []

@@ -382,7 +382,7 @@ python3 scripts/gate_eval.py append --ledger <gates.conditional.ledger> --play r
 
 `<issue>` is the slice-realize issue the run's branch carries (opened by /arch's start-change).
 `<gates.conditional.ledger>` / `<gates.conditional.policy>` resolve from config `gates.conditional`
-(defaults `.garura/core/gate-evals.jsonl` / `.garura/core/gate-policy.yaml`); `<policy version>` is the
+(defaults `.garura/project/issues/<issue>/review/gate-evals.jsonl` (the run's issue) / `.garura/core/gate-policy.yaml`); `<policy version>` is the
 policy file's `version:` field. `<run ts>` is the run's own UTC timestamp, derived the same way the
 close derives `ts` (`date -u`), passed by the orchestrator — the script never reads the wall clock.
 **SE-14 (F12/C10):** the lens delta is COMMITTED only after this gate resolves — a typed approval, a

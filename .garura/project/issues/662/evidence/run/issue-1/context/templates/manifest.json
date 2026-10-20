@@ -1,0 +1,51 @@
+{
+  "status": "completed",
+  "outputs": {
+    "manifest": ".garura/project/issues/1/context/templates/manifest.json"
+  },
+  "templates": [
+    {
+      "name": "standards/schemas/product-os/grounding/domain.md",
+      "copy": ".garura/project/issues/1/context/templates/standards/schemas/product-os/grounding/domain.md",
+      "source": {
+        "tier": "short-term",
+        "path": "1/context/memory/standards/schemas/product-os/grounding/domain.md",
+        "version": null,
+        "fingerprint": "sha256:3c8c590af330ace14d5592982f041ffc2f0429c52141efdaaa7320341e55c7f8"
+      }
+    },
+    {
+      "name": "standards/schemas/product-os/grounding/capability.md",
+      "copy": ".garura/project/issues/1/context/templates/standards/schemas/product-os/grounding/capability.md",
+      "source": {
+        "tier": "short-term",
+        "path": "1/context/memory/standards/schemas/product-os/grounding/capability.md",
+        "version": null,
+        "fingerprint": "sha256:ac554de5f7324f74e4385d93418f1a99f430ecac12ec3a1d658101298ecfd754"
+      }
+    },
+    {
+      "name": "standards/schemas/product-os/grounding/functionality.md",
+      "copy": ".garura/project/issues/1/context/templates/standards/schemas/product-os/grounding/functionality.md",
+      "source": {
+        "tier": "short-term",
+        "path": "1/context/memory/standards/schemas/product-os/grounding/functionality.md",
+        "version": null,
+        "fingerprint": "sha256:eaad8d12941243997c629f1fe5b9b65939f6c8d459d8ace7d13f329fc4630c4f"
+      }
+    },
+    {
+      "name": "standards/templates/approval-prompt.md",
+      "copy": ".garura/project/issues/1/context/templates/standards/templates/approval-prompt.md",
+      "source": {
+        "tier": "phoenix",
+        "path": "standards/templates/approval-prompt.md",
+        "version": "db6441a93356",
+        "fingerprint": "sha256:4dae33d717ae24c3558d763badf374e91ba6a1adf411ad15edb5c7091c9d805d"
+      }
+    }
+  ],
+  "missing": [],
+  "task_id": "load-templates",
+  "error": null
+}

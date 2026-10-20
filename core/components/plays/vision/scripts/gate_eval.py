@@ -2,7 +2,9 @@
 """
 gate_eval.py — append/read the live-eval gate ledger (#467).
 
-One JSONL line per conditional-gate crossing. The human's real action IS the eval
+One JSONL line per conditional-gate crossing. Each issue keeps its own ledger: the config's
+path names the issue as `{issue}` (or `<issue>`), and append fills it with `--issue`, so a
+play may pass the config value as it is (#662). The human's real action IS the eval
 verdict; this file is the write/read path every conditional play shares. Append-only:
 lines are never edited — a later correction is a NEW line pointing at the one it refutes.
 
@@ -54,7 +56,18 @@ def read_ledger(path):
     return out
 
 
+ISSUE_SLOTS = ("{issue}", "<issue>")
+
+
+def fill_issue(path, issue):
+    """The config's ledger path with the run's issue in place of its `{issue}` slot."""
+    for slot in ISSUE_SLOTS:
+        path = path.replace(slot, str(issue))
+    return path
+
+
 def cmd_append(args):
+    args.ledger = fill_issue(args.ledger, args.issue)
     if args.human not in HUMAN:
         fail(f"human must be one of {sorted(HUMAN)}")
     if args.predicted not in PREDICTED:
@@ -86,6 +99,10 @@ def cmd_append(args):
 
 
 def cmd_tail(args):
+    if any(slot in args.ledger for slot in ISSUE_SLOTS):
+        if not args.issue:
+            fail("the ledger path names {issue}: pass --issue")
+        args.ledger = fill_issue(args.ledger, args.issue)
     recs = [
         r
         for r in read_ledger(args.ledger)
@@ -114,6 +131,7 @@ def main(argv=None):
     t = sub.add_parser("tail")
     t.add_argument("--ledger", required=True)
     t.add_argument("--shape")
+    t.add_argument("--issue", help="fills the ledger path's {issue} slot")
     t.add_argument("-n", type=int, default=10)
     t.set_defaults(fn=cmd_tail)
 

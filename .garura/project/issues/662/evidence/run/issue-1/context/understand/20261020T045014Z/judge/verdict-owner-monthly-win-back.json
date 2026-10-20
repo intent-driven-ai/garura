@@ -1,0 +1,11 @@
+{
+  "doc": ".garura/product/product-os/ecommerce/carts-won-back/owner-monthly-win-back/functionality.md",
+  "kind": "functionality",
+  "criteria": [
+    {"id": "completeness", "verdict": "pass", "evidence": "All five required sections are present and substantive: What it does, Inputs / Outputs, Rules & behavior (8 rules covering scoping, open months, no baseline, corrections, currency), six Given/When/Then criteria, and Out of scope naming neighbours.", "fix": ""},
+    {"id": "self_explanation", "verdict": "pass", "evidence": "\"Every month from the baseline month onward is shown, including months where nothing was won back, because a missing month reads as 'no data' and hides a bad month.\" and \"A request for another shop's figures is refused, not filtered to empty, so a mistake in scoping cannot quietly show the wrong shop's numbers.\"", "fix": ""},
+    {"id": "discreteness_form", "verdict": "pass", "evidence": "\"Given an owner who asks for another shop's figures, when the request is made, then it is refused and no figure from that shop is returned.\" Rules are discrete bullets and the doc states behavior of the function, not a user story.", "fix": ""},
+    {"id": "depth_gradient", "verdict": "pass", "evidence": "Parent says only \"the owner's month-by-month view of their own shop\"; the child specifies the columns, ordering, still-open label, no-baseline state, corrections marker, per-month order list and currency handling.", "fix": ""},
+    {"id": "stranger_test", "verdict": "pass", "evidence": "\"It answers the owner's question 'are reminders bringing my sales back?' with one look. It reads only the match, correction and baseline records, so it never computes its own version of a figure and always agrees with the business summary.\" Edges are named in Out of scope.", "fix": ""}
+  ]
+}

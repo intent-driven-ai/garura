@@ -370,7 +370,7 @@ python3 scripts/gate_eval.py append --ledger <gates.conditional.ledger> --play s
 
 `<strategy issue>` is the strategy-pipeline issue the run's branch carries (opened by
 /vision's start-change). `<gates.conditional.ledger>` / `<gates.conditional.policy>`
-resolve from config `gates.conditional` (defaults `.garura/core/gate-evals.jsonl` /
+resolve from config `gates.conditional` (defaults `.garura/project/issues/<issue>/review/gate-evals.jsonl` (the run's issue) /
 `.garura/core/gate-policy.yaml`); `<policy version>` is the policy file's `version:`
 field. `<run ts>` is the run's own UTC timestamp, derived the same way the close
 derives `ts` (`date -u`), passed by the orchestrator.

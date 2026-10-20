@@ -1,0 +1,30 @@
+{
+  "update": {
+    "id": "mu-20261020-002",
+    "status": "waiting",
+    "issue": 1,
+    "missing": "How long a cart must sit with items and no order (and no activity) before it counts as abandoned — the default abandonment window for Seeing today's abandoned carts. Memory says only \"within a set window\" (short-term 1/context/answers/kb/ecommerce-abandoned-cart-recovery.md line 9) and names no length.",
+    "target_tier": "short-term",
+    "target_path": "1/context/answers/understand/abandonment-window.md",
+    "draft": "A cart counts as abandoned when it holds at least one item, no order has been placed from it, and nobody has touched it for 60 minutes. The 60 minutes is one shop-wide default for the MVP; owners cannot change it yet.",
+    "draft_source": "model",
+    "sources": [
+      {
+        "tier": "short-term",
+        "path": "1/context/answers/kb/ecommerce-abandoned-cart-recovery.md",
+        "start": 9,
+        "end": 9,
+        "fingerprint": "sha256:03dd04430213715ba73034e24b03b316f0a19c8828734695c55160a98a78a811"
+      }
+    ],
+    "requested_by": "product-os-keeper (understand)",
+    "requested_at": "2026-10-20T04:53:28Z",
+    "decided_by": null,
+    "reply": null,
+    "decided_at": null,
+    "applied_version": null,
+    "blocking": false,
+    "decided_in": null
+  },
+  "target_fingerprint_at_propose": null
+}

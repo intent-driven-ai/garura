@@ -1,0 +1,5 @@
+240634f feat(model): detail abandoned-carts-today, abandoned-cart-reminders, carts-won-back — capabilities, functionalities, profile roll-up (#1)
+bd1e485 feat(model): seed ecommerce — domain, directional capabilities, profile (#1)
+852e996 feat(model): business intents — 1 from a written statement (#1)
+792234c install garura
+85bb06b init

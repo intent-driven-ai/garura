@@ -27,7 +27,7 @@ gates:
   plays: {}            # per-play override, e.g. "commit-change: off" — first precedence
   conditional:         # the learned-gate mechanism (#467)
     streak: 3          #   consecutive clean approvals a shape needs to earn auto
-    ledger: .garura/core/gate-evals.jsonl   # live-eval ledger (append-only, committed)
+    ledger: .garura/project/issues/{issue}/review/gate-evals.jsonl  # each issue's own live-eval ledger (append-only, committed)
     policy: .garura/core/gate-policy.yaml   # learned policy (distilled, committed)
 ```
 
@@ -42,6 +42,22 @@ gates:
 3. `gates.classes.<declared class>` — the class the checkpoint DECLARES in its play
 4. `gates.default`
 5. Absent config block entirely ⇒ `on`
+
+## Where the history and the policy live
+
+- **Each issue keeps its own history** (`ledger`): `{stm_base}<issue>/review/gate-evals.jsonl`.
+  Everything a piece of work writes goes under its issue ("the issue ID governs",
+  `rules/drive-contract.md`; ADR 039). The config names the issue as `{issue}`;
+  `gate_eval.py` fills it with the run's `--issue`, so a play may pass the config value as it is.
+- **The learner reads every issue's history**, in time order, and writes **one project
+  policy** (`policy`, `.garura/core/gate-policy.yaml`). A streak can run across issues: three
+  clean approvals of one shape in three issues earn auto. A correction's `refutes` names a line
+  in its own issue's ledger. An issue's ledger counts once it is on the branch the learner runs
+  on (in practice, once merged).
+- **The policy stays in `.garura/core/`**, not under an issue: it is learned from all issues,
+  and learned checkpoint answers are not memory (ADR 036 §5) — it is the project's gate setting.
+- **Upgrading:** a ledger written before this, at `.garura/core/gate-evals.jsonl`, is not read;
+  move its lines into the issue they belong to, or start fresh (the policy only resets to gated).
 
 ## The live-eval loop (conditional gates)
 
@@ -114,4 +130,7 @@ the other pipeline/execute mechanical gates are **off** with replacement checks.
 - `templates/approval-prompt.md` — the checkpoint rendering this switch gates
 - `core/components/plays/_shared/play-close.md` — Checkpoint Decisions rows record skips
 - ADR 025 — the determinism rule; gates are skeleton, their firing is config
-- `rules/drive-contract.md` — how a gate resolves inside a drive; the `deferred_to_drive_review` answer
+- `rules/drive-contract.md` — how a gate resolves inside a drive; the `deferred_to_drive_review` answer;
+  the issue ID governs what a run writes
+- ADR 039 — every write of a piece of work goes under its issue; ADR 036 §5 — learned checkpoint
+  answers are not memory (why the policy stays project-level)

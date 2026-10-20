@@ -1,0 +1,11 @@
+{
+  "doc": ".garura/product/product-os/ecommerce/abandoned-cart-reminders/cart-reminder-log/functionality.md",
+  "kind": "functionality",
+  "criteria": [
+    {"id": "completeness", "verdict": "pass", "evidence": "All five guided sections are present and substantive: What it does, Inputs / Outputs (two In, two Out), 15 Rules & behavior bullets, 9 Given/When/Then criteria, and Out of scope naming the owning neighbour for each of four exclusions.", "fix": ""},
+    {"id": "self_explanation", "verdict": "pass", "evidence": "\"Every attempt is written, including blocked ones, because a blocked attempt is the proof the limit worked and an owner may ask why nothing went out.\" and \"The record holds a customer reference, not the customer's email address or message text, so it can be kept and audited without becoming a second copy of personal data.\"", "fix": ""},
+    {"id": "discreteness_form", "verdict": "pass", "evidence": "Rules are discrete bullets; acceptance is Given/When/Then, e.g. \"Given a failed entry exists for a cart, when the owner clicks Remind again and the cart is eligible, then the record accepts a new 'handed to delivery' entry with the same send key...\"; the function's behavior is stated, not a user story.", "fix": ""},
+    {"id": "depth_gradient", "verdict": "pass", "evidence": "Parent says only \"The record of every reminder attempt, sent or blocked, with its reason.\" The child adds the four outcomes (handed to delivery, sent, blocked, failed), the allowed state moves, the uniqueness rule over handed-to-delivery and sent entries, the three queries, shop scoping, and open questions on settling interrupted entries and retention.", "fix": ""},
+    {"id": "stranger_test", "verdict": "pass", "evidence": "\"It is the capability's memory: the eligibility check reads it to keep 'one per cart' and the per-customer limit, the owner's view reads it to show 'Reminded on <date>', and Tracking carts won back reads it...\" plus an explicit Out of scope list and flagged open questions.", "fix": ""}
+  ]
+}

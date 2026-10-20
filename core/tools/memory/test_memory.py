@@ -408,6 +408,16 @@ class Updates(Tiers):
         return self.ask("decide", {"id": uid, "verdict": verdict, "by": "a person", "reply": verdict,
                                    "decided_in": "review-tool"})
 
+    def test_a_person_can_decide_in_a_session(self):
+        # until the review tool is built, a person types the decision in a session (ADR 036)
+        uid = self.raise_update()["id"]
+        answer = self.ask("decide", {"id": uid, "verdict": "approve", "by": "a person", "reply": "approve",
+                                     "decided_in": "session"})
+        self.assertEqual((answer["update"]["status"], answer["update"]["decided_in"]), ("approved", "session"))
+        refused = memory.run("decide", {"id": uid, "verdict": "approve", "by": "a person", "reply": "approve",
+                                        "decided_in": "chat"}, self.env)[0]
+        self.assertEqual(refused["error"]["code"], "bad_request")
+
     def test_the_whole_way_in_one_issue(self):
         gap = self.ask("search", {"issue": 7, "pattern": "30 minutes"})
         self.assertEqual(gap["answered_by"], None)
@@ -569,6 +579,19 @@ class Citations(Tiers):
         ok = self.cite([self.step("phoenix", "standards/rules/commits.md", 1, 1),
                         self.step("short-term", "7/context/answers/reset.md", 1, 1)], from_update=u["id"])
         self.assertTrue(ok["ok"])
+        # the agent did not name the update, but a step rests on its written file: the record names it
+        self.assertTrue(self.cite([self.step("short-term", "7/context/answers/reset.md", 1, 1)])["ok"])
+        records = self.ask("citations", {"issue": 7})["records"]
+        self.assertEqual(records[-1]["from_update"], u["id"])
+        # it reads only this issue's updates, and an unreadable update file never stops a cite
+        folder = os.path.join(self.short, "7", "review", "memory-updates")
+        for name, text in (("mu-20260101-901.json", '{"update": "not an object"}'), ("mu-20260101-902.json", "{cut")):
+            with open(os.path.join(folder, name), "w") as fh:
+                fh.write(text)
+        self.assertTrue(self.cite([self.step("short-term", "7/context/answers/reset.md", 1, 1)])["ok"])
+        other = self.cite([self.step("phoenix", "standards/rules/commits.md", 1, 1)], issue=8)
+        self.assertTrue(other["ok"])
+        self.assertIsNone(self.ask("citations", {"issue": 8})["records"][-1]["from_update"])
 
     def test_an_unreadable_line_stops_only_its_own_issue(self):
         os.makedirs(os.path.join(self.short, "8", "context"))

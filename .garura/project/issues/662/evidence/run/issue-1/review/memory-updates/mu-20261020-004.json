@@ -1,0 +1,30 @@
+{
+  "update": {
+    "id": "mu-20261020-004",
+    "status": "waiting",
+    "issue": 1,
+    "missing": "Which privacy or data-protection regimes (for example GDPR) apply to the shoppers whose carts and orders the platform counts. No memory tier and no source statement names the regions the shops sell in, so carts-won-back records no compliance need until a person answers.",
+    "target_tier": "short-term",
+    "target_path": "1/context/answers/privacy-regimes.md",
+    "draft": "Unknown until a person answers: no source names the regions the shops sell to. Until then no regime is assumed; the carts-won-back capability already keeps shopper personal details out of every figure and matches on cart id only, which holds under GDPR as well.",
+    "draft_source": "model",
+    "sources": [
+      {
+        "tier": "phoenix",
+        "path": "knowledge/domains/analytics.md",
+        "start": 81,
+        "end": 81,
+        "fingerprint": "sha256:000ad0fd76c3e30fa88040e13c1ca96e4ced09c055e59de53ac67c2b40b1be64"
+      }
+    ],
+    "requested_by": "product-os-keeper (understand)",
+    "requested_at": "2026-10-20T04:56:31Z",
+    "decided_by": null,
+    "reply": null,
+    "decided_at": null,
+    "applied_version": null,
+    "blocking": false,
+    "decided_in": null
+  },
+  "target_fingerprint_at_propose": null
+}

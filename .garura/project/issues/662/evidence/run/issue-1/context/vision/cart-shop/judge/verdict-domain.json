@@ -1,0 +1,11 @@
+{
+  "doc": ".garura/product/product-os/ecommerce/domain.md",
+  "kind": "domain",
+  "criteria": [
+    {"id": "completeness", "verdict": "pass", "evidence": "All five sections (Intent, Business goal, Guiding rules, Capabilities, Scope (In / Out)) are present and substantive, e.g. 'Out: building the cart, checkout and order records themselves...'", "fix": ""},
+    {"id": "self_explanation", "verdict": "pass", "evidence": "'A sale won back means a real order. Success is counted by reminded carts that end in an order... because sending more messages is easy and says nothing about whether owners kept their sales.'", "fix": ""},
+    {"id": "discreteness_form", "verdict": "pass", "evidence": "Guiding rules, Capabilities and Scope are discrete bullets, each stating the point and its reason. Intent and Business goal are short paragraphs, as the guidance asks.", "fix": ""},
+    {"id": "depth_gradient", "verdict": "na", "evidence": "A domain has no parent doc.", "fix": ""},
+    {"id": "stranger_test", "verdict": "pass", "evidence": "'This domain exists to turn more of those abandoned carts into finished orders... a reminder reaches only someone the shop may contact, and never often enough to become spam.'", "fix": ""}
+  ]
+}

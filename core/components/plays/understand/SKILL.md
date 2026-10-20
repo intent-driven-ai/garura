@@ -367,7 +367,7 @@ kind, before the batch:
 
 ```
 python3 scripts/guidance_block.py --template {stm_base}<issue>/context/templates/standards/schemas/product-os/grounding/<kind>.md \
-    --out <working>/judge/guidance-<kind>.md
+    --stage detailed --out <working>/judge/guidance-<kind>.md   # /understand writes the detailed stage
 python3 scripts/grounding_gate.py --verdict <verdict.json>
 ```
 
@@ -590,7 +590,7 @@ python3 scripts/gate_eval.py append --ledger <gates.conditional.ledger> --play u
 
 `<strategy issue>` is the issue the run's branch carries (opened by this run's
 start-change; inside a drive, the drive's issue from `run.json`). `<gates.conditional.ledger>` / `<gates.conditional.policy>`
-resolve from config `gates.conditional` (defaults `.garura/core/gate-evals.jsonl` /
+resolve from config `gates.conditional` (defaults `.garura/project/issues/<issue>/review/gate-evals.jsonl` (the run's issue) /
 `.garura/core/gate-policy.yaml`); `<policy version>` is the policy file's `version:`
 field. `<run ts>` is the run's own UTC timestamp, derived the same way the close
 derives `ts` (`date -u`), passed by the orchestrator.

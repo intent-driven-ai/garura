@@ -1,0 +1,9 @@
+{
+  "ok": true,
+  "base_ref": "HEAD",
+  "checked": [
+    ".garura/product/product-os/capabilities/abandoned-cart-reminders/capability.md -> .garura/product/product-os/ecommerce/abandoned-cart-reminders/capability.md",
+    ".garura/product/product-os/capabilities/abandoned-carts-today/capability.md -> .garura/product/product-os/ecommerce/abandoned-carts-today/capability.md"
+  ],
+  "lost": []
+}

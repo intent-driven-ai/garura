@@ -1,0 +1,212 @@
+{
+  "entries": [
+    {
+      "path": "knowledge/domains/analytics.md",
+      "tier": "phoenix",
+      "version": "db6441a93356",
+      "fingerprint": "sha256:3cbc1cf97272446179c4a6ed9c382b60e8ab5b7c2073a3c110a40dec95ba619d",
+      "lines": [
+        1,
+        131
+      ],
+      "copied_to": ".garura/project/issues/1/context/memory/knowledge/domains/analytics.md",
+      "copied_by": "product-os-keeper (vision step 1)",
+      "copied_at": "2026-10-20T04:29:54.625194+00:00"
+    },
+    {
+      "path": "knowledge/domains/collaboration.md",
+      "tier": "phoenix",
+      "version": "db6441a93356",
+      "fingerprint": "sha256:ad1ce42fc86a7589a75579adac494248b5daf82df4cbe021b9939b85bfead487",
+      "lines": [
+        1,
+        109
+      ],
+      "copied_to": ".garura/project/issues/1/context/memory/knowledge/domains/collaboration.md",
+      "copied_by": "product-os-keeper (vision step 1)",
+      "copied_at": "2026-10-20T04:29:54.708755+00:00"
+    },
+    {
+      "path": "knowledge/domains/content-management.md",
+      "tier": "phoenix",
+      "version": "db6441a93356",
+      "fingerprint": "sha256:94e94658c590265c2a7dde59617f3dc522fe173eb35676d0bf3a25e7376fc24f",
+      "lines": [
+        1,
+        146
+      ],
+      "copied_to": ".garura/project/issues/1/context/memory/knowledge/domains/content-management.md",
+      "copied_by": "product-os-keeper (vision step 1)",
+      "copied_at": "2026-10-20T04:29:54.783886+00:00"
+    },
+    {
+      "path": "knowledge/domains/ecommerce.md",
+      "tier": "phoenix",
+      "version": "db6441a93356",
+      "fingerprint": "sha256:67f720ca9be8faa4ae642fc05b28940e97751c9659ee533d5eb20dbc330ea11d",
+      "lines": [
+        1,
+        202
+      ],
+      "copied_to": ".garura/project/issues/1/context/memory/knowledge/domains/ecommerce.md",
+      "copied_by": "product-os-keeper (vision step 1)",
+      "copied_at": "2026-10-20T04:29:54.857707+00:00"
+    },
+    {
+      "path": "knowledge/domains/experience.md",
+      "tier": "phoenix",
+      "version": "db6441a93356",
+      "fingerprint": "sha256:ef6dc636f1b2fedb8d487cad106587f43c008f4d53ab3d55e1a8171da6587144",
+      "lines": [
+        1,
+        237
+      ],
+      "copied_to": ".garura/project/issues/1/context/memory/knowledge/domains/experience.md",
+      "copied_by": "product-os-keeper (vision step 1)",
+      "copied_at": "2026-10-20T04:29:54.931822+00:00"
+    },
+    {
+      "path": "knowledge/domains/marketing.md",
+      "tier": "phoenix",
+      "version": "db6441a93356",
+      "fingerprint": "sha256:a3095fe97b907418df15952aa53507bc848638a3fb55a10a36623df83c8dc4d0",
+      "lines": [
+        1,
+        146
+      ],
+      "copied_to": ".garura/project/issues/1/context/memory/knowledge/domains/marketing.md",
+      "copied_by": "product-os-keeper (vision step 1)",
+      "copied_at": "2026-10-20T04:29:55.005690+00:00"
+    },
+    {
+      "path": "knowledge/domains/notifications.md",
+      "tier": "phoenix",
+      "version": "db6441a93356",
+      "fingerprint": "sha256:9d2b81ef7ec4dac3a1364b1d9c36d27acd329babdfa9810329b64e6e4c5d42e3",
+      "lines": [
+        1,
+        136
+      ],
+      "copied_to": ".garura/project/issues/1/context/memory/knowledge/domains/notifications.md",
+      "copied_by": "product-os-keeper (vision step 1)",
+      "copied_at": "2026-10-20T04:29:55.080555+00:00"
+    },
+    {
+      "path": "knowledge/domains/payments.md",
+      "tier": "phoenix",
+      "version": "db6441a93356",
+      "fingerprint": "sha256:ee08a26c2cd669564a789fd311c75c87dc809561dd77dc4b8376b8e3c0d26d3a",
+      "lines": [
+        1,
+        109
+      ],
+      "copied_to": ".garura/project/issues/1/context/memory/knowledge/domains/payments.md",
+      "copied_by": "product-os-keeper (vision step 1)",
+      "copied_at": "2026-10-20T04:29:55.154623+00:00"
+    },
+    {
+      "path": "knowledge/domains/personalization.md",
+      "tier": "phoenix",
+      "version": "db6441a93356",
+      "fingerprint": "sha256:ecea6b3c26d2869be8a85379543b0f4305008bd6983a0f3f42c570ea52707460",
+      "lines": [
+        1,
+        159
+      ],
+      "copied_to": ".garura/project/issues/1/context/memory/knowledge/domains/personalization.md",
+      "copied_by": "product-os-keeper (vision step 1)",
+      "copied_at": "2026-10-20T04:29:55.228749+00:00"
+    },
+    {
+      "path": "knowledge/domains/user-management.md",
+      "tier": "phoenix",
+      "version": "db6441a93356",
+      "fingerprint": "sha256:4e3295d8e54324c20ee2651d7f5b1e1435e52af14a7c440ba5a7610a5229bda8",
+      "lines": [
+        1,
+        86
+      ],
+      "copied_to": ".garura/project/issues/1/context/memory/knowledge/domains/user-management.md",
+      "copied_by": "product-os-keeper (vision step 1)",
+      "copied_at": "2026-10-20T04:29:55.302529+00:00"
+    },
+    {
+      "path": "standards/schemas/product-os/grounding/_content-standard.md",
+      "tier": "phoenix",
+      "version": "db6441a93356",
+      "fingerprint": "sha256:6925202766b90932cc7ecd426a606d0f03237fbc0e1a43584a90a6fa9f0304f5",
+      "lines": [
+        1,
+        54
+      ],
+      "copied_to": ".garura/project/issues/1/context/memory/standards/schemas/product-os/grounding/_content-standard.md",
+      "copied_by": "product-os-keeper (vision step 2)",
+      "copied_at": "2026-10-20T04:33:57.292810+00:00"
+    },
+    {
+      "path": "standards/schemas/product-os/grounding/capability.md",
+      "tier": "phoenix",
+      "version": "db6441a93356",
+      "fingerprint": "sha256:ac554de5f7324f74e4385d93418f1a99f430ecac12ec3a1d658101298ecfd754",
+      "lines": [
+        1,
+        140
+      ],
+      "copied_to": ".garura/project/issues/1/context/memory/standards/schemas/product-os/grounding/capability.md",
+      "copied_by": "product-os-keeper (vision step 2)",
+      "copied_at": "2026-10-20T04:33:57.369309+00:00"
+    },
+    {
+      "path": "standards/schemas/product-os/grounding/domain.md",
+      "tier": "phoenix",
+      "version": "db6441a93356",
+      "fingerprint": "sha256:3c8c590af330ace14d5592982f041ffc2f0429c52141efdaaa7320341e55c7f8",
+      "lines": [
+        1,
+        104
+      ],
+      "copied_to": ".garura/project/issues/1/context/memory/standards/schemas/product-os/grounding/domain.md",
+      "copied_by": "product-os-keeper (vision step 2)",
+      "copied_at": "2026-10-20T04:33:57.445655+00:00"
+    },
+    {
+      "path": "standards/schemas/product-os/grounding/epic.md",
+      "tier": "phoenix",
+      "version": "db6441a93356",
+      "fingerprint": "sha256:f092695adfe54b71c75a8740e7f1e8fc47fbd54dc43a534c877840244a7bcdd8",
+      "lines": [
+        1,
+        118
+      ],
+      "copied_to": ".garura/project/issues/1/context/memory/standards/schemas/product-os/grounding/epic.md",
+      "copied_by": "product-os-keeper (vision step 2)",
+      "copied_at": "2026-10-20T04:33:57.521016+00:00"
+    },
+    {
+      "path": "standards/schemas/product-os/grounding/functionality.md",
+      "tier": "phoenix",
+      "version": "db6441a93356",
+      "fingerprint": "sha256:eaad8d12941243997c629f1fe5b9b65939f6c8d459d8ace7d13f329fc4630c4f",
+      "lines": [
+        1,
+        99
+      ],
+      "copied_to": ".garura/project/issues/1/context/memory/standards/schemas/product-os/grounding/functionality.md",
+      "copied_by": "product-os-keeper (vision step 2)",
+      "copied_at": "2026-10-20T04:33:57.596470+00:00"
+    },
+    {
+      "path": "standards/schemas/product-os/spine.yaml",
+      "tier": "phoenix",
+      "version": "db6441a93356",
+      "fingerprint": "sha256:79e2822a72995ffb3cc3b6f034cdbe385032793936f95310a3b1640e15aa0255",
+      "lines": [
+        1,
+        253
+      ],
+      "copied_to": ".garura/project/issues/1/context/memory/standards/schemas/product-os/spine.yaml",
+      "copied_by": "product-os-keeper (vision step 2)",
+      "copied_at": "2026-10-20T04:33:57.672071+00:00"
+    }
+  ]
+}

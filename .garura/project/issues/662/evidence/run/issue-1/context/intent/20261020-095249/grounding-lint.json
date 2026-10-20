@@ -1,0 +1,11 @@
+{
+  "ok": true,
+  "errors": [],
+  "warnings": [
+    "spine capability 'abandoned-carts-today': no domain yet \u2014 /vision attaches it",
+    "spine capability 'abandoned-cart-reminders': no domain yet \u2014 /vision attaches it"
+  ],
+  "counts": {
+    "capability": 2
+  }
+}

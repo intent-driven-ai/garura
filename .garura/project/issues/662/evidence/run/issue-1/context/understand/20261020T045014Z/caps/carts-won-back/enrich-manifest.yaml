@@ -1,0 +1,100 @@
+enrich:
+  capability_ref: carts-won-back
+  grounded_in: "analytics -> Goals (Goal definition), Funnels (Product-conversion funnel), Dashboards & exploration (Fixed dashboards), Event tracking (Level 2); ecommerce -> Inventory & order management (Level 1, order records) + operator Understand intent; approved KB answer mu-20261020-001 -> Abandoned-cart recovery / Recovery tracking"
+  routing: .garura/project/issues/1/context/understand/20261020T045014Z/caps/carts-won-back/routing.yaml
+  capability:
+    detail: detailed
+    doc: ecommerce/carts-won-back/capability.md
+    nfr_needs:
+      reliability:
+        level: medium
+        target: "A closed month recomputed from the same cart, reminder and order records gives identical figures (0 differences); each month closes within 24 hours of its win-back window ending"
+        gate: "Recompute-and-diff check on every month close + reconciliation fixture run in CI"
+      observability:
+        level: medium
+        target: "100% of counted orders carry cart id, order id and (when reminded) reminder id; 0 orders matched to more than one cart; every change to a closed month has a dated correction record"
+        gate: "Automated completeness and double-count check at month close + reconciliation fixture"
+      security:
+        level: medium
+        target: "0 cross-shop reads: an owner can open only their own shop's win-back figures; the business summary opens only for business-wide roles"
+        gate: "Authorization test suite covering every win-back view with two shops and an owner-vs-business role pair"
+      privacy:
+        level: medium
+        target: "0 shopper personal fields (name, email, phone, address) in any win-back figure, order list or summary; matching uses cart id only"
+        gate: "Field-scan test over every win-back output against a fixture holding each personal field"
+      performance:
+        level: low
+        target: "Owner's month-by-month view loads in under 3 s at p95 for a shop with 24 months of history"
+        gate: "Load test with a seeded 24-month shop"
+    compliance_needs: []
+  functionalities:
+    - id: won-back-order-matching
+      slug: won-back-order-matching
+      capability: carts-won-back
+      intents: [fewer-sales-lost-to-abandoned-carts]
+      status: proposed
+      one_line: "Decides for each abandoned cart whether it ended in an order within the win-back window, whether a reminder came first, and the order's net value."
+      doc: ecommerce/carts-won-back/won-back-order-matching/functionality.md
+      depends_on: []
+      decisions: []
+      metadata: {created_by: /understand, updated_by: /understand, version: 1}
+    - id: pre-reminder-baseline
+      slug: pre-reminder-baseline
+      capability: carts-won-back
+      intents: [fewer-sales-lost-to-abandoned-carts]
+      status: proposed
+      one_line: "Fixes each shop's baseline month — the last full month before its first reminder — and its figures, or marks the shop as having no baseline."
+      doc: ecommerce/carts-won-back/pre-reminder-baseline/functionality.md
+      depends_on: [won-back-order-matching]
+      decisions: []
+      metadata: {created_by: /understand, updated_by: /understand, version: 1}
+    - id: owner-monthly-win-back
+      slug: owner-monthly-win-back
+      capability: carts-won-back
+      intents: [fewer-sales-lost-to-abandoned-carts]
+      status: proposed
+      one_line: "Shows a shop owner, month by month, their reminded carts that ended in an order, the sales won back, and the comparison with their baseline month."
+      doc: ecommerce/carts-won-back/owner-monthly-win-back/functionality.md
+      depends_on: [won-back-order-matching, pre-reminder-baseline]
+      decisions: []
+      metadata: {created_by: /understand, updated_by: /understand, version: 1}
+    - id: business-win-back-summary
+      slug: business-win-back-summary
+      capability: carts-won-back
+      intents: [fewer-sales-lost-to-abandoned-carts]
+      status: proposed
+      one_line: "Shows the business whether owners, together and one by one, win back more sales from abandoned carts than in their baseline month."
+      doc: ecommerce/carts-won-back/business-win-back-summary/functionality.md
+      depends_on: [won-back-order-matching, pre-reminder-baseline]
+      decisions: []
+      metadata: {created_by: /understand, updated_by: /understand, version: 1}
+  implied_levels:
+    reliability: {level: medium, gate: "Recompute-and-diff check on every month close + reconciliation fixture run in CI"}
+    observability: {level: medium, gate: "Automated completeness and double-count check at month close + reconciliation fixture"}
+    security: {level: medium, gate: "Authorization test suite covering every win-back view with two shops and an owner-vs-business role pair"}
+    privacy: {level: medium, gate: "Field-scan test over every win-back output against a fixture holding each personal field"}
+    performance: {level: low, gate: "Load test with a seeded 24-month shop"}
+  compliance: []
+  cross_capability_inputs:
+    - "abandoned-carts-today: abandoned-cart records (cart id, shop id, abandoned-at, cart value) — read, never re-decided"
+    - "abandoned-cart-reminders: reminder-sent records (cart id, sent-at) — read only"
+    - "shop order records (order id, cart id, placed-at, total, currency, cancellations/refunds) — the floor every selling shop keeps"
+  open_questions:
+    - "Win-back window length (days after abandonment an order still counts) — not in any memory tier; raised as a memory update for a person to answer; docs treat it as one platform-wide setting."
+    - "Which privacy regimes (e.g. GDPR) apply to the shops' shoppers — not in any memory tier; compliance_needs left empty until a person answers; raised as a memory update."
+  kb_sources:
+    - {tier: phoenix, path: knowledge/domains/analytics.md, start: 23, end: 24}
+    - {tier: phoenix, path: knowledge/domains/analytics.md, start: 47, end: 48}
+    - {tier: phoenix, path: knowledge/domains/analytics.md, start: 58, end: 58}
+    - {tier: phoenix, path: knowledge/domains/analytics.md, start: 61, end: 61}
+    - {tier: phoenix, path: knowledge/domains/analytics.md, start: 64, end: 64}
+    - {tier: phoenix, path: knowledge/domains/analytics.md, start: 78, end: 79}
+    - {tier: phoenix, path: knowledge/domains/analytics.md, start: 81, end: 81}
+    - {tier: phoenix, path: knowledge/domains/analytics.md, start: 88, end: 88}
+    - {tier: phoenix, path: knowledge/domains/analytics.md, start: 103, end: 105}
+    - {tier: phoenix, path: knowledge/domains/ecommerce.md, start: 41, end: 41}
+    - {tier: phoenix, path: knowledge/domains/ecommerce.md, start: 127, end: 127}
+    - {tier: short-term, path: 1/context/answers/kb/ecommerce-abandoned-cart-recovery.md, start: 7, end: 8}
+    - {tier: short-term, path: 1/context/answers/kb/ecommerce-abandoned-cart-recovery.md, start: 9, end: 9}
+    - {tier: short-term, path: 1/context/answers/kb/ecommerce-abandoned-cart-recovery.md, start: 11, end: 11}
+    - {tier: short-term, path: 1/context/answers/kb/ecommerce-abandoned-cart-recovery.md, start: 12, end: 12}

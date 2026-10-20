@@ -1,0 +1,11 @@
+{
+  "doc": ".garura/product/product-os/ecommerce/abandoned-carts-today/abandoned-cart-detection/functionality.md",
+  "kind": "functionality",
+  "criteria": [
+    {"id": "completeness", "verdict": "pass", "evidence": "All five sections (What it does, Inputs / Outputs, Rules & behavior, Acceptance criteria, Out of scope) are substantive; e.g. 'A cart with no items is never abandoned, even if it once held items...' and nine Given/When/Then criteria.", "fix": ""},
+    {"id": "self_explanation", "verdict": "pass", "evidence": "'A cart counts as ordered only through the order's own link to that cart... because matching carts by their contents would be a guess, and a wrong guess would hide a real lost cart from the owner.'", "fix": ""},
+    {"id": "discreteness_form", "verdict": "pass", "evidence": "Rules are discrete bullets describing behavior, not a user story; acceptance is 'Given a cart with two items and no order, when it has been untouched for the abandonment window, then it is marked abandoned...'", "fix": ""},
+    {"id": "depth_gradient", "verdict": "pass", "evidence": "Parent capability only says 'deciding which of a shop's carts count as abandoned'; the child adds the abandoned-at formula, failed-payment handling, cart A/cart B case, guest carts and stale-record behavior.", "fix": ""},
+    {"id": "stranger_test", "verdict": "pass", "evidence": "'Decides, for every cart in a shop, whether it is abandoned, and if so the moment it became abandoned.' The what, why (stop chasing buyers, avoid under-reporting) and edges (Out of scope names each neighbour) are all stated; the window length is explicitly flagged as pending an owner answer.", "fix": ""}
+  ]
+}

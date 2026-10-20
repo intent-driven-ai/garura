@@ -347,7 +347,7 @@ python3 scripts/gate_eval.py append --ledger <gates.conditional.ledger> --play m
 
 `<issue>` is the functional-pipe issue the run's branch carries (opened by /ux's start-change).
 `<gates.conditional.ledger>` / `<gates.conditional.policy>` resolve from config `gates.conditional`
-(defaults `.garura/core/gate-evals.jsonl` / `.garura/core/gate-policy.yaml`); `<policy version>` is
+(defaults `.garura/project/issues/<issue>/review/gate-evals.jsonl` (the run's issue) / `.garura/core/gate-policy.yaml`); `<policy version>` is
 the policy file's `version:` field. `<ts>` is the run's own UTC timestamp, derived the same way the
 close derives `ts` (`date -u +%Y%m%d-%H%M%S`), passed by the orchestrator.
 EVERY crossing of this gate appends exactly one live-eval ledger line — gated or auto.

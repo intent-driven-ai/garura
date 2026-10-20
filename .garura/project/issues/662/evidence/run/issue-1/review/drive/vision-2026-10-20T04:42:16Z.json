@@ -1,0 +1,18 @@
+{
+  "play": "vision",
+  "drive_run_id": "kickoff-test-20261020",
+  "drive": "kickoff",
+  "issue": 1,
+  "branch": "feature/1-cart-shop-kickoff",
+  "recorded_at": "2026-10-20T04:42:16Z",
+  "summary": "vision-2026-10-20T04:42:16Z.md",
+  "attachments": {
+    "shape": ".garura/project/issues/1/context/vision/cart-shop/shape.json",
+    "kept": ".garura/project/issues/1/context/vision/cart-shop/kept-report.json",
+    "guard": ".garura/project/issues/1/context/vision/cart-shop/guard-report.json",
+    "persist": ".garura/project/issues/1/context/vision/cart-shop/persist-manifest.json"
+  },
+  "decisions": [],
+  "decision_problems": [],
+  "decided": false
+}

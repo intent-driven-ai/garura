@@ -177,5 +177,8 @@ gates:
     refactor: off
   conditional:
     streak: 3                                # clean approvals a shape needs to earn auto
-    ledger: .garura/core/gate-evals.jsonl    # live-eval ledger (append-only, committed)
+    # each issue keeps its own gate history; {issue} is the run's issue, filled by gate_eval.py
+    # (the issue ID governs — rules/drive-contract.md; ADR 039). The learner reads every issue's
+    # ledger to write the one project policy (gate-config.md, "Where the history and the policy live").
+    ledger: .garura/project/issues/{issue}/review/gate-evals.jsonl  # live-eval ledger (append-only, committed)
     policy: .garura/core/gate-policy.yaml    # learned per-project policy (distilled)

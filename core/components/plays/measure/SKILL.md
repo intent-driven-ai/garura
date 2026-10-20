@@ -367,7 +367,7 @@ python3 scripts/gate_eval.py append --ledger <gates.conditional.ledger> --play m
 ```
 
 `<gates.conditional.ledger>` / `<gates.conditional.policy>` resolve from config `gates.conditional`
-(defaults `.garura/core/gate-evals.jsonl` / `.garura/core/gate-policy.yaml`); `<policy version>` is the
+(defaults `.garura/project/issues/<issue>/review/gate-evals.jsonl` (the run's issue) / `.garura/core/gate-policy.yaml`); `<policy version>` is the
 policy file's `version:` field. `<run ts>` is the run's own UTC timestamp, derived the same way the
 close derives `ts` (`date -u`), passed by the orchestrator — the script never reads the wall clock.
 EVERY crossing appends exactly one live-eval ledger line, gated or auto.

@@ -1,0 +1,11 @@
+{
+  "doc": ".garura/product/product-os/ecommerce/carts-won-back/business-win-back-summary/functionality.md",
+  "kind": "functionality",
+  "criteria": [
+    {"id": "completeness", "verdict": "pass", "evidence": "All five guided sections are substantive: What it does, Inputs / Outputs (4 in/out lines naming shape), Rules & behavior (7 rules covering open months, missing baselines, currencies, mismatch, privacy, access), 7 Given/When/Then criteria, and Out of scope naming neighbours (Owner's month-by-month win-back view, Won-back order matching).", "fix": ""},
+    {"id": "self_explanation", "verdict": "pass", "evidence": "\"Both are shown because a few large shops can carry the total while most owners fall behind.\" / \"Hiding them would make the share of owners being judged look larger than it is.\" / \"a converted total depends on an exchange rate nobody chose.\"", "fix": ""},
+    {"id": "discreteness_form", "verdict": "pass", "evidence": "Rules are discrete bullets; acceptance is \"Given three shops with fixed baselines ... when the summary is built for that month, then the goal shows as met ...\"; the doc states function behavior, not a user story.", "fix": ""},
+    {"id": "depth_gradient", "verdict": "pass", "evidence": "Parent gives one line: \"shows the head of the shop-owner side whether owners, together and one by one, are winning back more than in their baseline month.\" The child adds headline sums per currency, shop counts by beat / not beat / no baseline / not started, still-open handling, mismatch error and access refusal.", "fix": ""},
+    {"id": "stranger_test", "verdict": "pass", "evidence": "\"Shows the head of the shop-owner side of the business, each month, whether owners are winning back more sales from abandoned carts than in their baseline month ... it keeps the shops that cannot be judged visible instead of dropping them.\" Edges are named in Out of scope and the ICE Limit and Fails-if lines.", "fix": ""}
+  ]
+}

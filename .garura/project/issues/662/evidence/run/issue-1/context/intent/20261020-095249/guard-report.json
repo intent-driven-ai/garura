@@ -1,0 +1,36 @@
+{
+  "ok": true,
+  "base_ref": "HEAD",
+  "tree": ".garura/product/product-os",
+  "allow": [
+    "product-os/_spine.yaml"
+  ],
+  "add_only": [
+    "product-os/intents/*.md",
+    "product-os/*/*/capability.md",
+    "product-os/*/domain.md"
+  ],
+  "modify_only": [],
+  "remove_only": [],
+  "restore": false,
+  "changed": [
+    {
+      "path": ".garura/product/product-os/_spine.yaml",
+      "status": "A"
+    },
+    {
+      "path": ".garura/product/product-os/capabilities/abandoned-cart-reminders/capability.md",
+      "status": "A"
+    },
+    {
+      "path": ".garura/product/product-os/capabilities/abandoned-carts-today/capability.md",
+      "status": "A"
+    },
+    {
+      "path": ".garura/product/product-os/intents/fewer-sales-lost-to-abandoned-carts.md",
+      "status": "A"
+    }
+  ],
+  "violations": [],
+  "restored": []
+}

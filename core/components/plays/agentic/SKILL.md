@@ -329,7 +329,7 @@ python3 scripts/gate_eval.py append --ledger <gates.conditional.ledger> --play a
 
 `<issue>` is the slice-realize issue the run's branch carries (opened by /ux's start-change).
 `<gates.conditional.ledger>` / `<gates.conditional.policy>` resolve from config `gates.conditional`
-(defaults `.garura/core/gate-evals.jsonl` / `.garura/core/gate-policy.yaml`); `<policy version>` is
+(defaults `.garura/project/issues/<issue>/review/gate-evals.jsonl` (the run's issue) / `.garura/core/gate-policy.yaml`); `<policy version>` is
 the policy file's `version:` field. `<ts>` is the run's own UTC timestamp.
 **SE-11 (F11/C11):** the model delta is COMMITTED only after this gate resolves — a typed approval, a
 recorded config skip, or a recorded policy auto-pass; Step 6 is the sole committer and depends on

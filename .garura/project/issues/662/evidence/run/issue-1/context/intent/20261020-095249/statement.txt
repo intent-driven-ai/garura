@@ -1,0 +1,1 @@
+Our shop owners lose sales when a customer abandons a cart. I want each owner to see which carts were abandoned today and send the customer a reminder with one click, so more carts turn into orders.

@@ -1,0 +1,11 @@
+{
+  "doc": ".garura/product/product-os/ecommerce/abandoned-carts-today/capability.md",
+  "kind": "capability",
+  "criteria": [
+    {"id": "completeness", "verdict": "pass", "evidence": "Benefit hypothesis, Boundary (In/Out/Out later/Never), five Guiding rules, two Functionalities and an Agent intent block are all present and substantive, e.g. \"Never: show a cart as abandoned when an order was placed from it.\"", "fix": ""},
+    {"id": "self_explanation", "verdict": "pass", "evidence": "\"Out: reminding the customer behind a cart ... owns that, together with the consent and no-spam rules. This list only shows; keeping it free of any outreach is what lets it stay a plain, trustworthy view.\" Every boundary line and rule carries its reason.", "fix": ""},
+    {"id": "discreteness_form", "verdict": "pass", "evidence": "Boundary, rules and functionalities are discrete bullets; the benefit hypothesis follows the As a / we believe / we will know shape.", "fix": ""},
+    {"id": "depth_gradient", "verdict": "pass", "evidence": "Domain says only \"Seeing today's abandoned carts ... gives each shop owner a clear view\"; the capability adds the abandonment definition, per-day time-zone rule, 5-minute freshness, row contents and two functionalities.", "fix": ""},
+    {"id": "stranger_test", "verdict": "pass", "evidence": "\"A cart belongs to the day it became abandoned, counted in the shop's own time zone.\" and \"its length is waiting on the owner's answer (memory update mu-20261020-002), so the docs refer to it as 'the abandonment window'.\" A cold reader can state what, why and edges; the open window length is flagged openly rather than hidden.", "fix": ""}
+  ]
+}

@@ -1,9 +1,9 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Memory tool contract",
-  "version": "5.0.0",
+  "version": "5.1.0",
   "contract_version": "5",
-  "description": "The one agreement between agents and the memory tool: the commands to find memory and to update it, what each takes and gives back, and how each fails. A request is a JSON object; on the command line its fields are the flags, and on a server they are the request body. A response is always a JSON object with ok, contract_version and command. Plain-words guide: ../README.md. Version 2 (#657): a lookup of Garura or Phoenix memory works without an issue; a glob never steps outside its tier; Phoenix memory is read only at its approved version; a file read from Phoenix memory is saved into Garura memory. Version 3 (#658): every memory update lands in an issue's short-term memory — moving memory up is the /learn-memory and /promote-memory plays, not this tool; an update says whether it blocks the work; a person decides each update in the review tool; a used file is never saved over a different Garura file. Version 4 (#659): every decision is recorded with the memory it rests on — cite records the question, the answer, who decided, the play, and each source's tier, file, lines and fingerprint (or the approved memory update it came from); citations lists an issue's decision records and checks that each source still exists and still says the same thing; a waiting draft is never found by a lookup. Version 5 (#661, ADR 039): the tool never copies a Phoenix file — read writes nothing, and pull and pulled are gone; Garura memory is its folders in order, core/memory then the product model, product (part of Garura memory), and nothing else in its root; every write the tool makes goes to the issue's short-term memory, and moving memory up is a promotion a person makes.",
+  "description": "The one agreement between agents and the memory tool: the commands to find memory and to update it, what each takes and gives back, and how each fails. A request is a JSON object; on the command line its fields are the flags, and on a server they are the request body. A response is always a JSON object with ok, contract_version and command. Plain-words guide: ../README.md. Version 2 (#657): a lookup of Garura or Phoenix memory works without an issue; a glob never steps outside its tier; Phoenix memory is read only at its approved version; a file read from Phoenix memory is saved into Garura memory. Version 3 (#658): every memory update lands in an issue's short-term memory — moving memory up is the /learn-memory and /promote-memory plays, not this tool; an update says whether it blocks the work; a person decides each update in the review tool; a used file is never saved over a different Garura file. Version 4 (#659): every decision is recorded with the memory it rests on — cite records the question, the answer, who decided, the play, and each source's tier, file, lines and fingerprint (or the approved memory update it came from); citations lists an issue's decision records and checks that each source still exists and still says the same thing; a waiting draft is never found by a lookup. Version 5 (#661, ADR 039): the tool never copies a Phoenix file — read writes nothing, and pull and pulled are gone; Garura memory is its folders in order, core/memory then the product model, product (part of Garura memory), and nothing else in its root; every write the tool makes goes to the issue's short-term memory, and moving memory up is a promotion a person makes. Version 5.1 (#662, additive — no request or answer valid in 5.0 stops being valid): decided_in may be session, a person typing the decision in a Claude Code session that records their exact reply, until the review tool's memory section is built (#664); cite names the applied update a decision rests on itself when a step's source is that update's written file. A minor version adds to a contract and keeps its contract_version; anything else is a new vN.json.",
   "tiers": {
     "short-term": "One issue's own memory: the plans, specs and context of the work on that issue. Root: the folder that holds one folder per issue. A lookup that names an issue reads short-term memory only in that issue's folder ('<issue>/'), never in another issue's; otherwise another issue's notes would answer first, and Garura and Phoenix memory would never be reached. A lookup with no issue has no short-term memory. Every memory update lands here.",
     "garura": "Garura memory: the project's own memory. Its root is the project's Garura folder, and only its folders are read, in order: core/memory (garura_folders' first entry), then the product model, product — part of Garura memory, not all of it. Nothing else in that root is Garura memory. It is built from only the part of Phoenix memory the project needs (by initialize) and from what people promote; it never holds a copy the tool made (ADR 039).",
@@ -33,7 +33,7 @@
     "update_matches_its_status": "waiting: no decision yet (decided_by, reply, decided_at, decided_in and applied_version are null). approved or rejected: decided_by, reply, decided_at and decided_in are set; applied_version is null. applied: the decision is set and applied_version is the version written (null for a folder).",
     "short_term_update_names_its_issue": "An update to short-term memory names its issue, and its target_path starts with '<issue>/'.",
     "propose_waits": "propose answers status waiting, with the request's issue, missing, target_tier, target_path, draft, draft_source, sources and requested_by as given, and blocking as given (false when not given).",
-    "decide_records_the_person": "decide answers approve as approved and reject as rejected, for the update named, with decided_by, reply and decided_in exactly as given. A person decides each update on its own, in the review tool (decided_in review-tool); an agent never decides one.",
+    "decide_records_the_person": "decide answers approve as approved and reject as rejected, for the update named, with decided_by, reply and decided_in exactly as given. A person decides each update on its own: in the review tool (decided_in review-tool), or, until it is built, by typing the decision in a session that records it (decided_in session); an agent never decides one.",
     "apply_writes_only_approved": "apply answers ok only with status applied, for the update named. written.tier and written.path are the update's target_tier and target_path, and applied_version is written.version. Any update a person has not approved is not_approved.",
     "updates_filter": "With status, updates lists only updates with that status.",
     "answered_by_has_a_result": "answered_by names a tier only when that tier has at least one result, and it is null only when there are no results.",
@@ -334,7 +334,7 @@
       }
     },
     "cite": {
-      "summary": "Record a decision and the trace of memory it rests on, in the issue's short-term memory (ADR 035 §6, ADR 037, ADR 034 §4): the question, the answer, who decided, the play, and the trace — the steps the agent took, in order. Each step says what the agent looked for, what it found, and the memory lines that said so: a tier, file, lines and the fingerprint of that text. A sign-in decision, for example, reads the product's profile (who the users are, the security level, the compliance regimes), then the knowledge file whose rules those values select. When the answer came from an approved memory update, from_update names it, and the update's written file is the source of a step. Before it records anything, the tool reads each source: one that no longer exists is not_found, one whose text changed is changed. No source from the model or the web. The record keeps, for each step, the exact text the agent read, the version of memory it read it from, and the lines around it, so a person auditing the decision sees each step in its place.",
+      "summary": "Record a decision and the trace of memory it rests on, in the issue's short-term memory (ADR 035 §6, ADR 037, ADR 034 §4): the question, the answer, who decided, the play, and the trace — the steps the agent took, in order. Each step says what the agent looked for, what it found, and the memory lines that said so: a tier, file, lines and the fingerprint of that text. A sign-in decision, for example, reads the product's profile (who the users are, the security level, the compliance regimes), then the knowledge file whose rules those values select. When the answer came from an approved memory update, from_update names it, and the update's written file is the source of a step; when the agent leaves from_update out but a step's source is an applied update's written file, the tool names that update itself. Before it records anything, the tool reads each source: one that no longer exists is not_found, one whose text changed is changed. No source from the model or the web. The record keeps, for each step, the exact text the agent read, the version of memory it read it from, and the lines around it, so a person auditing the decision sees each step in its place.",
       "request": {
         "type": "object",
         "properties": {
@@ -558,7 +558,7 @@
       }
     },
     "decide": {
-      "summary": "Record a person's word on one waiting memory update: approve or reject, who, their exact reply, and where they decided (the review tool; a local prototype page until it is built). Only a person decides, one update at a time. An update that is not waiting is the error wrong_state.",
+      "summary": "Record a person's word on one waiting memory update: approve or reject, who, their exact reply, and where they decided: review-tool, or session — the person typed it in a Claude Code session that records their exact reply, until the review tool's memory section is built (#664). Only a person decides, one update at a time. An update that is not waiting is the error wrong_state.",
       "request": {
         "type": "object",
         "properties": {
@@ -582,7 +582,8 @@
           },
           "decided_in": {
             "enum": [
-              "review-tool"
+              "review-tool",
+              "session"
             ]
           }
         },
@@ -1023,7 +1024,8 @@
           "oneOf": [
             {
               "enum": [
-                "review-tool"
+                "review-tool",
+                "session"
               ]
             },
             {

@@ -1,0 +1,18 @@
+{
+  "play": "understand",
+  "drive_run_id": "kickoff-test-20261020",
+  "drive": "kickoff",
+  "issue": 1,
+  "branch": "feature/1-cart-shop-kickoff",
+  "recorded_at": "20261020T045014Z-abandoned-cart-reminders",
+  "summary": "understand-20261020T045014Z-abandoned-cart-reminders.md",
+  "attachments": {
+    "rollup": ".garura/project/issues/1/context/understand/20261020T045014Z/rollup.json",
+    "shape": ".garura/project/issues/1/context/understand/20261020T045014Z/shape.json",
+    "guard": ".garura/project/issues/1/context/understand/20261020T045014Z/guard-report.json",
+    "persist": ".garura/project/issues/1/context/understand/20261020T045014Z/persist-manifest.json"
+  },
+  "decisions": [],
+  "decision_problems": [],
+  "decided": false
+}

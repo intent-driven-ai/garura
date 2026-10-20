@@ -334,8 +334,9 @@ clean-context judge sub-agent PER doc, ALL IN ONE CONCURRENT BATCH — each runn
 `judge-grounding` skill, handed only its doc (and parent doc), and the kind's per-section
 guidance: the play first asks `template-manager` for each judged kind's template
 (`standards/schemas/product-os/grounding/<kind>.md`), cuts that copy's per-section guidance
-block out with `python3 scripts/guidance_block.py --template <copy> --out
-<working>/judge/guidance-<kind>.md`, and hands the judge only that block — never the
+guidance for the doc's own stage out with `python3 scripts/guidance_block.py --template <copy>
+--stage <stage> --out <working>/judge/guidance-<kind>.md` (the detailed `domain.md` is judged at
+`--stage detailed`, each directional `capability.md` at `--stage directional`), and hands the judge only that block — never the
 template's gold example (it sees neither the brief nor the author's reasoning), on the model from
 `grounding-eval.judge.model` (default the session model). The three safety conditions hold:
 each judge only READS its own doc, writes only its own verdict JSON, and no judge depends on
@@ -532,7 +533,7 @@ python3 scripts/gate_eval.py append --ledger <gates.conditional.ledger> --play v
 
 `<strategy issue>` is the issue Step 0 resolved for this run.
 `<gates.conditional.ledger>` / `<gates.conditional.policy>` resolve from config
-`gates.conditional` (defaults `.garura/core/gate-evals.jsonl` /
+`gates.conditional` (defaults `.garura/project/issues/<issue>/review/gate-evals.jsonl` (the run's issue) /
 `.garura/core/gate-policy.yaml`); `<policy version>` is the policy file's `version:`
 field. `<run ts>` is the run's own UTC timestamp, derived the same way the close
 derives `ts` (`date -u`), passed by the orchestrator.

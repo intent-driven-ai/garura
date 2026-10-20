@@ -73,7 +73,8 @@ play pulls out what the person wants; it never copies how the source does it.
   already in the model it only adds the intent to the domain's spine `intents`; no existing
   doc is changed, and no other part of the product model changes.
 - C9 — Stands alone, or runs inside a drive: run by hand it needs no other play first, and it
-  opens and lands its own change; handed a drive's JSON contract, it opens no issue or branch
+  opens and lands its own change; handed a drive's JSON contract — checked by the shared drive-contract checker
+  (`check_drive_contract.py`, `standards/rules/drive-contract.md`) — it opens no issue or branch
   of its own, works on the drive's branch, and does not stop for approval.
 - C10 — The model is the hand-off: each confirmed Business Intent and its ICE are saved in the
   product model in the ontology's shapes — the ICE in the `## Agent intent (ICE)` section of a

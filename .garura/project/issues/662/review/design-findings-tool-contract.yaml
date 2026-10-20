@@ -1,0 +1,165 @@
+# design-findings-tool-contract.yaml - PR #679 (feature/662-kickoff-runs-from-memory-alone vs main)
+# Category: tool-contract (no playbook; "playbook missing" already recorded in categories.yaml).
+# Scope: core/tools/memory/contract/v5.json, contract/samples/decide-in-session.json, and the cite change in
+# core/tools/memory/citations.py judged against the contract's cite rules.
+# Every basis below is read from the base ref (main) or an ADR on main. Nothing is grounded in .garura/project/issues/**
+# or in text this branch adds.
+category: tool-contract
+pr: 679
+base: main
+
+grounding:
+  - id: G1
+    principle: "Only a person decides a memory update; an agent never does. Nothing from the model or the web is used until a person approves it."
+    source: "main:core/tools/memory/contract/v5.json answer_rules.decide_records_the_person and waiting_drafts_are_hidden; main:docs/adr/035-agents-work-only-from-memory.md section 5; main:docs/adr/036-approved-answer-lands-in-short-term-memory.md section 9"
+  - id: G2
+    principle: "A person approves by typing until the review tool's Memory and ADRs section exists."
+    source: "main:docs/adr/036-approved-answer-lands-in-short-term-memory.md section 7 (last bullet) and Consequences / Negative 'Until the tool has this section, every approval is typed'"
+  - id: G3
+    principle: "The contract changes only by a new version; v1 to v4 are kept as history, each a whole file with its own contract_version and version N.0.0; every response carries contract_version."
+    source: "main:core/tools/memory/README.md 'Rules for this folder' (The contract changes only by a new version) and main:core/tools/memory/contract/v1.json to v5.json (version 1.0.0 ... 5.0.0, contract_version 1 ... 5)"
+  - id: G4
+    principle: "Every decision is recorded with the memory it rests on; from_update names the approved update, and that update's written file is the source of a step. The record never copies content nor invents a source."
+    source: "main:core/tools/memory/contract/v5.json commands.cite.summary; main:docs/adr/037-agent-decisions-keep-a-trace-and-the-review-tool-has-five-sections.md; main:core/tools/memory/README.md cite row"
+  - id: G5
+    principle: "One person's unreadable record stops only its own issue, never another issue's work."
+    source: "main commit e8c3d760 'fix(memory-tool): a broken decision line stops only its issue (#659)' and test_an_unreadable_line_stops_only_its_own_issue in main:core/tools/memory/test_memory.py"
+  - id: G6
+    principle: "The contract text, its summaries, its answer rules and the plain-words README say the same thing; check_contract.py keeps samples and rules in step."
+    source: "main:core/tools/memory/contract/check_contract.py module docstring (keep the contract, its samples and its folder in step)"
+
+verdict_on_the_questions_asked:
+  does_session_weaken_only_a_person_decides: >
+    Not in intent. ADR 036 section 7 and its Negative list say a person approves by typing until the review
+    tool has the section, so a typed decision is already the decided design (G2). The rule text keeps "an agent
+    never decides one" (G1) and the exact reply is still recorded. What is weaker is what can be shown: 'session'
+    names the same session the agent runs in, so decided_in alone cannot tell a person's typing from an agent
+    calling decide. That is a gap in the evidence, not in the rule (finding TC-3, P3). It is not a blocker.
+  is_the_version_handling_right: >
+    Half right. Widening a request value is backward compatible, and keeping contract_version "5" is defensible
+    for an additive change. But decided_in is also widened in the update record every response carries
+    (propose, decide, apply, updates), so a reader built on 5.0.0 that treats it as one value would reject
+    'session'. Main has no minor-version rule (every contract is N.0.0, each change a new vN.json, G3), and the
+    branch does not write one or record 5.1.0 anywhere a reader looks (finding TC-1, P2). No consumer outside
+    the tool exists yet (decided_in appears nowhere else under core/ or docs/), which is why this is P2 and
+    not P1.
+
+findings:
+  - id: TC-1
+    severity: P2
+    file: core/tools/memory/contract/v5.json
+    lines: "4 (version 5.0.0 to 5.1.0), 583-588, 1023-1030"
+    title: "Contract edited in place and given a minor version that main has no rule for, and 5.1.0 is recorded nowhere"
+    principle: "G3: the contract changes only by a new version; versions are whole files N.0.0 kept as history."
+    basis: >
+      Severity bucket P2 (Major) of main:core/components/memory/standards/rules/pr.md ('breaking API contract' is
+      P1; here it is a risk of one, with no consumer yet, so P2); nearest taxonomy row ARCH-19 (P2, version marker).
+      Main:README.md says 'The contract changes only by a new version' and lists v1 to v5 as such; v1 to v5 all
+      carry version N.0.0 with contract_version N. This branch edits v5.json in place and invents 5.1.0 while
+      every response still says contract_version "5".
+    detail: >
+      (1) The 'decided_in' enum is widened in the decide request (additive, safe) and in the shared update
+      record (a response shape, lines 1023-1030), which is not backward compatible for a strict 5.0.0 reader.
+      (2) The description's version history (Version 2 ... Version 5) and the README 'Rules for this folder'
+      paragraph were not given a 5.1.0 entry, so a reader cannot learn what changed or that minor versions are
+      allowed. (3) contract_version 'const "5"' in every response (and CONTRACT_VERSION = "5" in pull.py) gives a
+      client no way to see it is talking to 5.1.0.
+    fix: >
+      Either write the rule down (a minor version is additive only, keeps contract_version, and is recorded in the
+      description history and the README rules paragraph) and add the 5.1.0 entry, or cut contract/v6.json and keep
+      v5 as history, as every earlier change did. Do not leave an unwritten minor version.
+
+  - id: TC-2
+    severity: P3
+    file: core/tools/memory/contract/v5.json
+    lines: "561 (commands.decide.summary); also core/tools/memory/README.md line 147 (unchanged)"
+    title: "The contract disagrees with itself about where a person may decide"
+    principle: "G6: summaries, answer rules and the README say the same thing."
+    basis: >
+      Severity bucket P3 (Minor, 'missing docs') of pr.md. Main check_contract.py docstring: keep the contract and
+      its folder in step. The rule text (line 36) now allows a typed 'session' decision, the enum allows it, but
+      the decide summary still says 'the review tool; a local prototype page until it is built', and README
+      'When no tier answers' step 2 still says 'a local prototype page stands in'. 'A local prototype page' is not
+      'a session', so a reader gets two different stand-ins.
+    fix: "Change the decide summary and README step 2 to the one stand-in the branch means (a session), or name both."
+
+  - id: TC-3
+    severity: P3
+    file: core/tools/memory/contract/v5.json
+    lines: "36 (answer_rules.decide_records_the_person); samples/decide-in-session.json"
+    title: "'session' is allowed with no end date and no definition of 'a session that records it'"
+    principle: "G1 and G2: only a person decides; typing is allowed only until the review tool exists."
+    basis: >
+      Severity bucket P3 (Minor) of pr.md. ADR 036 section 7 ties typed approval to 'until the tool has this
+      section'; ADR 035 section 5 says approval by typing 'until the review exists'. The enum value has no sunset
+      and the rule does not say what 'records it' means or where the person's typed words are kept as evidence.
+      Because the agent itself runs the tool inside the session, decided_in 'session' cannot prove a person typed it
+      (decided_in 'review-tool' at least names a separate actor). The exact 'reply' is still recorded, which keeps
+      the trace of ADR 037 auditable.
+    fix: >
+      Say in the rule what makes a session decision a person's (the reply is the person's own message, taken from
+      their turn, never composed by the agent) and that 'session' is retired when the review tool's Memory and ADRs
+      section exists. No change to the intent is needed; the design is grounded.
+
+  - id: TC-4
+    severity: P3
+    file: core/tools/memory/citations.py
+    lines: "128-136 (update_behind), 153 (from_update = request.get(...) or update_behind(...))"
+    title: "The cite behaviour changed but the contract's cite rules were not: the tool now fills from_update on its own"
+    principle: "G4 and G6: from_update is named by the decision (cite summary); contract and tool agree."
+    basis: >
+      Severity bucket P3 (Minor, 'missing docs') of pr.md. Main v5.json commands.cite.summary says 'When the answer
+      came from an approved memory update, from_update names it' (the agent names it). The branch makes the tool
+      name it when a step's source is an applied update's target_path. That agrees with the purpose in ADR 037
+      (the decision keeps the memory it came from) and cannot break the explicit path (the explicit from_update is
+      still validated: not_found, not_approved, bad_request), but v5.json (summary, answer_rules, request
+      description) was not changed to say it; only README and GUIDE were. check_contract.py has no rule that could
+      catch a record whose from_update is filled or empty.
+    fix: "Add one sentence to commands.cite.summary and an answer rule: the record names the applied update whose written file is a step's source."
+
+  - id: TC-5
+    severity: P3
+    file: core/tools/memory/citations.py
+    lines: "128-136"
+    title: "update_behind keeps only the first applied update; a decision resting on two updates loses the link to the second"
+    principle: "G4: the link from a decision to the person's approval is never lost (the docstring's own claim)."
+    basis: >
+      Severity bucket P3 (Minor) of pr.md; ADR 037 (a decision keeps the memory it rested on). from_update is a single
+      string in the contract, so the shape cannot carry two. update_behind returns applied[0] silently, and the
+      explicit path also takes one. The docstring says the link 'is never lost', which is true only for one update.
+    fix: "Say so in the rule (one update per decision, the first by id), or refuse a trace that rests on two applied updates, or make from_update a list in the next version."
+
+  - id: TC-6
+    severity: P3
+    file: core/tools/memory/citations.py
+    lines: "153 (updates.list() now runs on every cite); main updates.py records() reads every issue's update files with no error handling"
+    title: "Every cite now reads every issue's update files, so one unreadable update file can stop unrelated cites"
+    principle: "G5: one unreadable record stops only its own issue."
+    basis: >
+      Severity bucket P3 (Minor; error handling). On main, cite called updates.list() only when from_update was
+      given. Now it always does, through update_behind. updates.records() walks all issue folders and does
+      json.load with no handling, so a corrupt update file in any issue would fail a cite in a different issue.
+      This is from reading the code; I did not run a corrupt file through it. Commit e8c3d760 and the test
+      test_an_unreadable_line_stops_only_its_own_issue on main set the principle for decision records.
+    fix: "Read only this issue's update folder in update_behind (a decision rests on its own issue's updates), and let an unreadable one skip, not stop."
+
+  - id: TC-7
+    severity: P4
+    file: core/tools/memory/contract/samples/decide-in-session.json (and samples/broken/)
+    title: "No broken sample refuses a decided_in outside the two values"
+    principle: "G6: check_contract.py keeps each rule honest with a broken sample (35 broken samples exist; decide-without-review-tool covers only a missing value)."
+    basis: >
+      Severity bucket P4 (Nit). The test_memory.py test covers 'chat' being refused, but the contract's own
+      broken-sample check does not. The new sample itself is valid: it passes check_contract.py (23 samples checked,
+      no failures; 56 and 80 tests pass).
+    fix: "Add samples/broken/decide-in-chat.json."
+
+conformant:
+  - "samples/decide-in-session.json matches the widened request and response shapes, records by/reply/decided_in exactly as given, and keeps the waiting to approved move (check_contract.py passes: 23 samples, 35 broken all still fail)."
+  - "'session' as a stand-in for the review tool is grounded in ADR 036 section 7 and ADR 035 section 5; the rule keeps 'an agent never decides one'."
+  - "The cite change keeps the fingerprint, scope and not_approved rules; explicit from_update checks are unchanged."
+
+checks_run:
+  - "python3 core/tools/memory/contract/check_contract.py: ok"
+  - "python3 core/tools/memory/contract/test_check_contract.py: 56 tests OK"
+  - "python3 core/tools/memory/test_memory.py: 80 tests OK"

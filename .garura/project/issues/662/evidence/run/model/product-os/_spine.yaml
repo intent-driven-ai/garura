@@ -1,0 +1,360 @@
+domains:
+- id: ecommerce
+  slug: ecommerce
+  status: proposed
+  detail: detailed
+  one_line: Where customers buy from the shops on our platform and where shop owners
+    keep those sales — starting by winning back the carts customers leave behind.
+  doc: ecommerce/domain.md
+  intents:
+  - fewer-sales-lost-to-abandoned-carts
+  decisions: []
+  metadata:
+    created_by: /vision
+    updated_by: /vision
+    version: 1
+capabilities:
+- id: abandoned-carts-today
+  slug: abandoned-carts-today
+  domain: ecommerce
+  intents:
+  - fewer-sales-lost-to-abandoned-carts
+  status: proposed
+  detail: detailed
+  one_line: Shows each shop owner which carts their customers left behind today without
+    buying.
+  doc: ecommerce/abandoned-carts-today/capability.md
+  depends_on: []
+  decisions: []
+  personas: []
+  journeys: []
+  metadata:
+    created_by: /intent
+    updated_by: /intent
+    version: 1
+  nfr_needs:
+    accuracy:
+      level: high
+      target: 0 carts wrongly shown as abandoned and 0 abandoned carts missing, against
+        the shop's cart and order records
+      gate: fixture-shop comparison in CI plus a daily reconciliation of the list
+        against the shop's records
+    performance:
+      level: medium
+      target: list opens within 2 s at p95 for a shop with 1,000 abandoned carts in
+        a day; a new order or abandoned cart shows within 5 minutes
+      gate: load test at 1,000 carts/day plus a freshness check on the updated-at
+        time
+    security:
+      level: medium
+      target: an owner can read only their own shop's carts; 0 cross-shop rows returned
+      gate: 'shop-isolation test: owner of shop A requests shop B''s list and is refused'
+    privacy:
+      level: medium
+      target: customer names and cart contents are shown only to the signed-in owner
+        of that shop; no export or sharing path exists
+      gate: access review of the list's data paths plus the shop-isolation test
+  compliance_needs: []
+- id: abandoned-cart-reminders
+  slug: abandoned-cart-reminders
+  domain: ecommerce
+  intents:
+  - fewer-sales-lost-to-abandoned-carts
+  status: proposed
+  detail: detailed
+  one_line: Lets a shop owner remind the customer behind an abandoned cart to come
+    back and finish the order, in a single click.
+  doc: ecommerce/abandoned-cart-reminders/capability.md
+  depends_on: []
+  decisions: []
+  personas: []
+  journeys: []
+  metadata:
+    created_by: /intent
+    updated_by: /intent
+    version: 1
+  nfr_needs:
+    privacy:
+      level: high
+      target: 0 reminders sent to a customer without a current, unwithdrawn opt-in
+        to that shop; every reminder carries a working one-click opt-out; return links
+        and the reminder record hold no email address or message text
+      gate: table-driven eligibility tests over every consent state + read-failure
+        case, and an audit of sent reminder entries against consent records showing
+        zero violations
+    reliability:
+      level: medium
+      target: 'one owner click yields at most one reminder: 0 duplicate sent reminders
+        per cart under double-click, concurrent tabs, reload or retry; 100% of sent
+        reminders have a sent entry in the record'
+      gate: idempotency tests (double, concurrent, retried requests) + click-to-record
+        reconciliation in end-to-end tests
+    performance:
+      level: medium
+      target: owner sees the outcome (sent, or blocked with reason) within 2 s of
+        the click at p95
+      gate: end-to-end timing test of the remind action at expected shop load
+    security:
+      level: medium
+      target: 100% of remind requests for a cart outside the signed-in person's shop,
+        or from a signed-out session, are refused; a shop reads only its own reminder
+        entries
+      gate: authorization and shop-isolation tests, plus a return-link tampering test
+    observability:
+      level: medium
+      target: every remind attempt is recorded with shop, cart, customer reference,
+        owner, time, outcome and reason before the owner sees the outcome
+      gate: record-completeness check comparing clicks to entries in end-to-end tests
+  compliance_needs: []
+- id: carts-won-back
+  slug: carts-won-back
+  domain: ecommerce
+  intents:
+  - fewer-sales-lost-to-abandoned-carts
+  status: proposed
+  detail: detailed
+  one_line: Counts the reminded carts that end in an order and the sales they win
+    back, month by month, so owners and the business can see whether fewer sales are
+    being lost.
+  doc: ecommerce/carts-won-back/capability.md
+  depends_on: []
+  decisions: []
+  personas: []
+  journeys: []
+  metadata:
+    created_by: /vision
+    updated_by: /vision
+    version: 1
+  nfr_needs:
+    reliability:
+      level: medium
+      target: A closed month recomputed from the same cart, reminder and order records
+        gives identical figures (0 differences); each month closes within 24 hours
+        of its win-back window ending
+      gate: Recompute-and-diff check on every month close + reconciliation fixture
+        run in CI
+    observability:
+      level: medium
+      target: 100% of counted orders carry cart id, order id and (when reminded) reminder
+        id; 0 orders matched to more than one cart; every change to a closed month
+        has a dated correction record
+      gate: Automated completeness and double-count check at month close + reconciliation
+        fixture
+    security:
+      level: medium
+      target: '0 cross-shop reads: an owner can open only their own shop''s win-back
+        figures; the business summary opens only for business-wide roles'
+      gate: Authorization test suite covering every win-back view with two shops and
+        an owner-vs-business role pair
+    privacy:
+      level: medium
+      target: 0 shopper personal fields (name, email, phone, address) in any win-back
+        figure, order list or summary; matching uses cart id only
+      gate: Field-scan test over every win-back output against a fixture holding each
+        personal field
+    performance:
+      level: low
+      target: Owner's month-by-month view loads in under 3 s at p95 for a shop with
+        24 months of history
+      gate: Load test with a seeded 24-month shop
+  compliance_needs: []
+functionalities:
+- id: abandoned-cart-detection
+  slug: abandoned-cart-detection
+  capability: abandoned-carts-today
+  intents:
+  - fewer-sales-lost-to-abandoned-carts
+  status: proposed
+  one_line: Decides from the shop's own cart and order records which carts are abandoned
+    and when, and keeps that answer right as shoppers return or buy.
+  doc: ecommerce/abandoned-carts-today/abandoned-cart-detection/functionality.md
+  depends_on: []
+  decisions: []
+  metadata:
+    created_by: /understand
+    updated_by: /understand
+    version: 1
+- id: abandoned-carts-today-list
+  slug: abandoned-carts-today-list
+  capability: abandoned-carts-today
+  intents:
+  - fewer-sales-lost-to-abandoned-carts
+  status: proposed
+  one_line: Shows a shop owner, in one look, every cart their customers abandoned
+    today with customer, items, value and time.
+  doc: ecommerce/abandoned-carts-today/abandoned-carts-today-list/functionality.md
+  depends_on:
+  - abandoned-cart-detection
+  decisions: []
+  metadata:
+    created_by: /understand
+    updated_by: /understand
+    version: 1
+- id: cart-reminder-send
+  slug: cart-reminder-send
+  capability: abandoned-cart-reminders
+  intents:
+  - fewer-sales-lost-to-abandoned-carts
+  status: proposed
+  one_line: The owner's single click on an abandoned cart that sends at most one reminder
+    and shows the outcome in plain words.
+  doc: ecommerce/abandoned-cart-reminders/cart-reminder-send/functionality.md
+  depends_on:
+  - cart-reminder-eligibility
+  - cart-reminder-message
+  - cart-reminder-log
+  decisions: []
+  metadata:
+    created_by: /understand
+    updated_by: /understand
+    version: 1
+- id: cart-reminder-eligibility
+  slug: cart-reminder-eligibility
+  capability: abandoned-cart-reminders
+  intents:
+  - fewer-sales-lost-to-abandoned-carts
+  status: proposed
+  one_line: Decides at click time whether this customer may be reminded about this
+    cart — consent, cart state, one per cart, per-customer limit — and why not.
+  doc: ecommerce/abandoned-cart-reminders/cart-reminder-eligibility/functionality.md
+  depends_on:
+  - cart-reminder-log
+  decisions: []
+  metadata:
+    created_by: /understand
+    updated_by: /understand
+    version: 1
+- id: cart-reminder-message
+  slug: cart-reminder-message
+  capability: abandoned-cart-reminders
+  intents:
+  - fewer-sales-lost-to-abandoned-carts
+  status: proposed
+  one_line: Builds the reminder from the live cart, with one link that restores the
+    same cart and a one-click opt-out.
+  doc: ecommerce/abandoned-cart-reminders/cart-reminder-message/functionality.md
+  depends_on: []
+  decisions: []
+  metadata:
+    created_by: /understand
+    updated_by: /understand
+    version: 1
+- id: cart-reminder-log
+  slug: cart-reminder-log
+  capability: abandoned-cart-reminders
+  intents:
+  - fewer-sales-lost-to-abandoned-carts
+  status: proposed
+  one_line: Keeps one entry per reminder attempt — sent, blocked or failed — that
+    the limits, the owner's view and the win-back count all read.
+  doc: ecommerce/abandoned-cart-reminders/cart-reminder-log/functionality.md
+  depends_on: []
+  decisions: []
+  metadata:
+    created_by: /understand
+    updated_by: /understand
+    version: 1
+- id: won-back-order-matching
+  slug: won-back-order-matching
+  capability: carts-won-back
+  intents:
+  - fewer-sales-lost-to-abandoned-carts
+  status: proposed
+  one_line: Decides for each abandoned cart whether it ended in an order within the
+    win-back window, whether a reminder came first, and the order's net value.
+  doc: ecommerce/carts-won-back/won-back-order-matching/functionality.md
+  depends_on: []
+  decisions: []
+  metadata:
+    created_by: /understand
+    updated_by: /understand
+    version: 1
+- id: pre-reminder-baseline
+  slug: pre-reminder-baseline
+  capability: carts-won-back
+  intents:
+  - fewer-sales-lost-to-abandoned-carts
+  status: proposed
+  one_line: Fixes each shop's baseline month — the last full month before its first
+    reminder — and its figures, or marks the shop as having no baseline.
+  doc: ecommerce/carts-won-back/pre-reminder-baseline/functionality.md
+  depends_on:
+  - won-back-order-matching
+  decisions: []
+  metadata:
+    created_by: /understand
+    updated_by: /understand
+    version: 1
+- id: owner-monthly-win-back
+  slug: owner-monthly-win-back
+  capability: carts-won-back
+  intents:
+  - fewer-sales-lost-to-abandoned-carts
+  status: proposed
+  one_line: Shows a shop owner, month by month, their reminded carts that ended in
+    an order, the sales won back, and the comparison with their baseline month.
+  doc: ecommerce/carts-won-back/owner-monthly-win-back/functionality.md
+  depends_on:
+  - won-back-order-matching
+  - pre-reminder-baseline
+  decisions: []
+  metadata:
+    created_by: /understand
+    updated_by: /understand
+    version: 1
+- id: business-win-back-summary
+  slug: business-win-back-summary
+  capability: carts-won-back
+  intents:
+  - fewer-sales-lost-to-abandoned-carts
+  status: proposed
+  one_line: Shows the business whether owners, together and one by one, win back more
+    sales from abandoned carts than in their baseline month.
+  doc: ecommerce/carts-won-back/business-win-back-summary/functionality.md
+  depends_on:
+  - won-back-order-matching
+  - pre-reminder-baseline
+  decisions: []
+  metadata:
+    created_by: /understand
+    updated_by: /understand
+    version: 1
+profile:
+  state: set
+  shape:
+    stage: mvp
+    users:
+    - shop-owners
+    - shoppers
+    monetization: unknown
+    surfaces:
+    - web
+  nfr:
+    privacy:
+      level: high
+      gate: eligibility tests over every consent state + audit of sent reminders against
+        consent records (zero violations)
+    security:
+      level: medium
+      gate: 'shop-isolation test: owner of shop A requests shop B''s list and is refused'
+    reliability:
+      level: medium
+      gate: idempotency tests + click-to-record reconciliation
+    performance:
+      level: medium
+      gate: load test at 1,000 carts/day plus a freshness check on the updated-at
+        time
+    scalability:
+      level: medium
+    accessibility:
+      level: medium
+    observability:
+      level: medium
+      gate: record-completeness check, every attempt recorded
+    maintainability:
+      level: medium
+    accuracy:
+      level: high
+      gate: fixture-shop comparison in CI plus a daily reconciliation of the list
+        against the shop's records
+  compliance: []

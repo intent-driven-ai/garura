@@ -19,14 +19,14 @@ and the sub-agent runs this skill.
 
 ## Input
 
-The doc, its parent when there is one, and the kind's per-section guidance — and only these
+The doc, its parent when there is one, and the kind's guidance for the doc's own stage — and only these
 (plus where to write the verdict):
 
 | Field | Required | Description |
 |-------|----------|-------------|
 | `doc` | yes | The grounding doc under test (the file the play wrote this run). |
 | `parent_doc` | no | Its parent: a capability's domain, a functionality's capability. Only for `depth_gradient`. |
-| `guidance` | yes | The kind's per-section guidance: the `## Per-section guidance` block of the kind's template, as `template-manager` put it in the issue's short-term memory. |
+| `guidance` | yes | The kind's guidance for the doc's own stage — its per-section guidance, the stage's heading contract and the every-stage agent intent, cut from the kind's template by the play's `guidance_block.py --stage` (never the gold example), as `template-manager` put it in the issue's short-term memory. |
 | `kind` | yes | `domain`, `capability`, `functionality` or `epic`. |
 | `out_verdict` | yes | Where to write the verdict JSON. |
 
@@ -65,7 +65,7 @@ Judge the doc as this prompt says:
 
 > You are a skeptical reviewer grading ONE product-model grounding doc for whether a
 > stranger could understand it. You see the doc (and its parent doc if provided) and the
-> per-section guidance for this doc kind, which tells you what each section is meant to
+> guidance for this doc kind at its stage, which tells you what each section is meant to
 > hold — judge each section against THAT, not against an expectation you invent. You do
 > NOT see the brief that produced it or any author reasoning — if you find yourself
 > filling in understanding the doc does not state, that is the doc failing, not you.

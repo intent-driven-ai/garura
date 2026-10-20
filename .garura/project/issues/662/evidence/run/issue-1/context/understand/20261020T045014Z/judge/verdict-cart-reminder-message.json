@@ -1,0 +1,11 @@
+{
+  "doc": ".garura/product/product-os/ecommerce/abandoned-cart-reminders/cart-reminder-message/functionality.md",
+  "kind": "functionality",
+  "criteria": [
+    {"id": "completeness", "verdict": "pass", "evidence": "All five sections present and substantive: 'Builds the content of one reminder after the eligibility check has allowed it: who it comes from, a greeting, what the customer left in the cart, a single link...' plus 13 rules, 11 Given/When/Then criteria and 6 named out-of-scope neighbours.", "fix": ""},
+    {"id": "self_explanation", "verdict": "pass", "evidence": "Rules carry their reason: 'If every item in the cart is unavailable, no message is built and nothing is handed to delivery, because a reminder with nothing to buy only brings the customer back to disappointment.'; 'It never opens a special checkout or a copy of the cart, because the buying path must stay one path.'", "fix": ""},
+    {"id": "discreteness_form", "verdict": "pass", "evidence": "Rules and Inputs/Outputs are discrete bullets; acceptance is Given/When/Then: 'Given the cart has since ended in an order, when the customer opens the return link, then they see the shop's normal order page, not an error.' States function behavior, not a user story.", "fix": ""},
+    {"id": "depth_gradient", "verdict": "pass", "evidence": "Parent lists it in one line: 'Reminder message and return link (cart-reminder-message) — builds the reminder's content from the cart, with a link that restores the same cart and a working way to stop hearing from the shop.' The child adds inputs, outputs, the greeting and unavailable-item branches, link behavior on reopen/ordered/emptied carts, and testable criteria.", "fix": ""},
+    {"id": "stranger_test", "verdict": "pass", "evidence": "What: 'Builds the content of one reminder after the eligibility check has allowed it'. Why: 'so the owner's effort stays at one click and every reminder keeps to the same honest tone.' Edges: the Out of scope section names the notifications side, cart-reminder-send, cart-reminder-log and carts-won-back, and the doc flags its one unresolved item as an open question owned by cart-reminder-send.", "fix": ""}
+  ]
+}

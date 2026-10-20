@@ -1,0 +1,80 @@
+# /vision Step 1 — grounding for issue 1 (product-os-keeper, search-kb + propose-kb-node)
+# Memory read only through the memory tool; shelves copied to short-term memory
+# (.garura/project/issues/1/context/memory/knowledge/domains/, see manifest.json there).
+grounding:
+  goal:
+    from_intents: [fewer-sales-lost-to-abandoned-carts]
+    text: "Shop owners lose fewer sales to abandoned carts — more of the carts customers leave behind end up as finished orders, so shop owners keep sales they lose today."
+  route: .garura/project/issues/1/context/vision/cart-shop/route.json
+  domain:
+    id: ecommerce
+    kb_shelf: "knowledge/domains/ecommerce.md"          # phoenix tier, version db6441a93356
+    confidence: medium
+    why: >-
+      The product sells goods through carts and orders, which is the ecommerce trigger
+      (ecommerce.md:5). An abandoned cart is the shopper's Acquire intent — "let me buy it
+      -> cart, checkout handoff" (ecommerce.md:34) — breaking off before the order, and the
+      shelf's only line about it sits under Acquire intelligence (ecommerce.md:150-151).
+      Medium, not high: the shelf names cart abandonment only as an intelligence feature,
+      with no capability of its own — see kb_gap.
+  related_domains:                                       # touched by the goal, not seeded here
+    - id: notifications
+      kb_shelf: "notifications.md → Channel delivery (Email); Preferences & frequency (Opt-in / opt-out, Fatigue / frequency control)"
+      lines: [5, "70-74", "83-86"]
+      why: "The reminder is an away-from-store lifecycle message: how it reaches the shopper, and the consent and no-spam rules around it, belong to notifications."
+    - id: analytics
+      kb_shelf: "analytics.md → Funnels (Product-conversion funnel)"
+      lines: ["63-64"]
+      why: "The intent's proof — owners win back more sales each month — is a cart-to-order conversion measure."
+  kb_gap:
+    level: new-capability
+    parent: ecommerce
+    proposed: abandoned-cart-recovery
+    proposal: .garura/project/issues/1/context/vision/cart-shop/proposals/abandoned-cart-recovery.json
+    memory_update: { id: mu-20261020-001, status: waiting, blocking: false }
+    note: "No web research was possible in this run; the draft rests on the shelves and the owner's statement."
+  candidates:
+    - name: "Seeing today's abandoned carts"
+      same_as: abandoned-carts-today                     # exists in the holding folder — do not re-add
+      fit: core
+      grounding:
+        kb_shelf: "ecommerce → Intelligence features, Acquire (cart abandonment) [ecommerce.md:150-151]; ecommerce → Inventory & order management, Level 1 basic stock & orders [ecommerce.md:125-127]"
+        proposal: .garura/project/issues/1/context/vision/cart-shop/proposals/abandoned-cart-recovery.json   # functionalities: Abandoned-cart detection, Operator view of abandoned carts
+      why: "An owner cannot win back a sale they do not know they lost; the view rests on the cart and order records the shelf keeps, and the capability itself is the proposed gap node."
+    - name: "Reminding customers about an abandoned cart"
+      same_as: abandoned-cart-reminders                  # exists in the holding folder — do not re-add
+      fit: core
+      grounding:
+        kb_shelf: "ecommerce → Intelligence features, Acquire: cart-abandonment ... with nudges [ecommerce.md:150-151]; delivery via notifications → Channel delivery (Email) [notifications.md:70-74]; consent via notifications → Preferences & frequency [notifications.md:83-86]"
+        proposal: .garura/project/issues/1/context/vision/cart-shop/proposals/abandoned-cart-recovery.json   # functionality: Cart reminder
+      why: "The reminder is the act that turns an abandoned cart back into an order; the shelf names the nudge, notifications supplies the channel and the consent rules."
+    - name: "Tracking carts won back"
+      same_as: null                                      # new candidate
+      fit: core
+      grounding:
+        kb_shelf: "analytics → Funnels, Product-conversion funnel [analytics.md:63-64] (cross-domain)"
+        proposal: .garura/project/issues/1/context/vision/cart-shop/proposals/abandoned-cart-recovery.json   # functionality: Recovery tracking
+      why: "The intent's proof is that owners win back more sales each month than before reminders started; without counting reminded carts that end in an order, nobody can tell whether the goal is met."
+    - name: "Carts and orders"
+      same_as: null                                      # new candidate (enabling)
+      fit: enabling
+      grounding:
+        kb_shelf: "ecommerce → Inventory & order management, Level 1 basic stock & orders [ecommerce.md:125-127]; the core journey ... cart -> checkout handoff [ecommerce.md:83-88]"
+      why: "Telling an abandoned cart from a finished one needs the cart and order records; the shelf calls this the floor for every store that sells. Keep only if the model does not already hold the cart and order record."
+    - name: "Abandonment prediction and in-session nudges"
+      same_as: null                                      # new candidate (later)
+      fit: later
+      grounding:
+        kb_shelf: "ecommerce → Intelligence features, Acquire: cart-abandonment prediction with nudges [ecommerce.md:150-151]"
+      why: "Catches the shopper before the cart is left, while they are still in the store; the shelf marks it core intelligence, but the owner asked for after-the-fact reminders first."
+    - name: "Win-back offers"
+      same_as: null                                      # new candidate (later)
+      fit: later
+      grounding:
+        kb_shelf: "ecommerce → Intelligence features, Acquire: next-best-offer and personalised promotions [ecommerce.md:150-151]"
+      why: "An offer in the reminder can lift how many carts come back; it is a lever on the same goal, not asked for yet."
+  summary:
+    candidates: 6
+    already_exist: 2          # abandoned-carts-today, abandoned-cart-reminders
+    new: 4                    # 2 core/enabling, 2 later
+    every_candidate_grounded: true   # each has a kb_shelf line, and the two existing + win-back also carry the proposal

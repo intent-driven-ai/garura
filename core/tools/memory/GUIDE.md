@@ -73,6 +73,8 @@ python3 {tool} cite --request '{"issue": 12, "play": "<your play>",
 python3 {tool} citations --issue 12 --check
 ```
 
+A decision that rests on an approved memory update names it (`"from_update": "mu-..."`); when
+a step's source is the update's written file, the tool names it for you.
 `cite` refuses a source that is gone or changed. `citations --check` names every decision
 whose source no longer says what it said.
 

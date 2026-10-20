@@ -1,0 +1,11 @@
+{
+  "doc": ".garura/product/product-os/ecommerce/abandoned-cart-reminders/cart-reminder-send/functionality.md",
+  "kind": "functionality",
+  "criteria": [
+    {"id": "completeness", "verdict": "pass", "evidence": "All five guided sections are present and substantive: \"Runs when a shop owner clicks \\\"Remind\\\" on one abandoned cart...\"; Inputs/Outputs name shape of each in/out; seven rules; five Given/When/Then criteria; five out-of-scope lines each naming an owner.", "fix": ""},
+    {"id": "self_explanation", "verdict": "pass", "evidence": "\"One click, one reminder, at most: the send key is built from the shop and cart... because a duplicate message is spam no matter how it was caused.\" and \"Eligibility is checked at click time... because consent and the cart's state can change between the cart being listed and the owner's click\"", "fix": ""},
+    {"id": "discreteness_form", "verdict": "pass", "evidence": "Bulleted rules and inputs/outputs; acceptance as \"Given an abandoned cart whose customer has a current opt-in... when the owner clicks Remind once, then exactly one reminder is handed to delivery\"; behavior is stated as a function, not a user story.", "fix": ""},
+    {"id": "depth_gradient", "verdict": "pass", "evidence": "Parent says only \"the owner's single click... runs the eligibility check, hands an eligible reminder to delivery, and shows the outcome back\"; child adds send key, click-time check, failure handling that leaves cart unmarked, cross-shop refusal, and a 2-second p95 target.", "fix": ""},
+    {"id": "stranger_test", "verdict": "pass", "evidence": "\"Out: a delivery hand-off to the notifications side — one request per allowed reminder, carrying a send key unique to this shop and cart\"; Out of scope names neighbours (abandoned-carts-today, cart-reminder-eligibility, cart-reminder-message, notifications side).", "fix": ""}
+  ]
+}

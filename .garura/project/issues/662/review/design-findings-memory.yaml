@@ -1,0 +1,161 @@
+# design-findings-memory.yaml - PR #679, category: memory
+# Category scope: core/components/memory/standards/rules/gate-config.md (one line changed: gates.conditional.ledger).
+# Grounded only in committed sources on main (git show main:<path>) and the Phoenix review shelf. Nothing here is
+# grounded in .garura/project/issues/** or in text the branch adds.
+category: memory
+changed_artifact: core/components/memory/standards/rules/gate-config.md
+base: main
+playbook: review/memory   # ~/.phoenix/core/memory/knowledge/review/memory.md (Layer 1 + Layer 2; does the change fit, resolve its references, avoid contradicting existing knowledge)
+
+grounded_principles:
+  - id: G1
+    principle: >
+      The issue ID governs. Everything a drive and its plays write - memory, evidence, working files, answers -
+      goes under the work's issue, {stm_base}<issue>/.
+    source: "main:core/components/memory/standards/rules/drive-contract.md (opening paragraph, 'The issue ID governs (ADR 039)')"
+  - id: G2
+    principle: >
+      Every memory write goes to the issue's short-term memory (.garura/project/issues/<issue>/); a new memory
+      made outside it breaks the guardrail; moving up is a deliberate promotion by a person.
+    source: "main:docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md section 1"
+  - id: G3
+    principle: >
+      Learned checkpoint answers are not memory. The record of past checkpoint approvals is a checkpoint tool; it
+      holds only 'approved or not' for a kind of change and cannot answer a question.
+    source: "main:docs/adr/036-approved-answer-lands-in-short-term-memory.md section 5 (kept by ADR 039, which supersedes only 036 section 4)"
+  - id: G4
+    principle: >
+      Paths go in the config file; the config's source is core/config.yaml and each project's
+      .garura/core/config.yaml is the installed copy that plays read.
+    source: "main:docs/adr/039-...md section 6 as amended by main:docs/adr/040-config-source-is-core-config-yaml.md"
+  - id: G5
+    principle: >
+      A standards rule is the single source plays read; plays read it, they do not restate it. A memory change
+      must resolve its references, fit its purpose, and not contradict existing knowledge. The ledger is
+      append-only; the learner is a pure replay-deterministic rule over it (a person's real answer is a new line).
+    source: "~/.phoenix/core/memory/knowledge/review/memory.md (Rubric); main:core/components/memory/standards/rules/drive-contract.md ('Plays read this rule; they do not restate it'); main:core/components/memory/standards/rules/gate-config.md (live-eval loop, as it stood)"
+  - id: G6
+    principle: >
+      Severity buckets: P3 = missing docs; P2 = structural violation / error-handling; P4 = nit.
+    source: "main:core/components/memory/standards/rules/pr.md (Severity buckets)"
+
+conformance_summary: >
+  The one-line change conforms to the direction of G1: the ledger moves under each issue's folder, as the issue ID
+  governs, and G3 means the ledger and policy are not memory, so ADR 039 section 1 does not forbid the policy
+  staying in .garura/core/. core/config.yaml and the eleven plays agree on the new ledger path and on the policy
+  path (.garura/core/gate-policy.yaml); the learner (distill_gate_policy.py, canonical + copies) implements the
+  read-every-issue rule. The problems are in what the rule file does NOT say, and in one placeholder that no source
+  resolves. gate-config.md is the file a reader opens first, and on its own it leaves the new behaviour out.
+
+findings:
+  - id: M1
+    severity: P3
+    file: core/components/memory/standards/rules/gate-config.md
+    line_hint: "'The live-eval loop' section (unchanged) and the config block comment at ledger: (changed)"
+    title: "A reader of gate-config.md alone cannot tell that the learner reads every issue's ledger"
+    principle_violated: G5 (single source; a rule must not leave the reader to find its mechanism in another file)
+    basis: >
+      The changed line says 'each issue's own live-eval ledger' and the policy line still says 'learned policy'.
+      The live-eval loop section is untouched: it still says the learner 'run at the play's close' applies the
+      rule 'a shape's last streak consecutive entries' - which reads as one ledger. The fact that the learner
+      reads EVERY issue's ledger and merges them in time order to write the one project policy is stated only in
+      core/config.yaml's new comment and in the script docstring, not in the rule. Missing, and a reader could
+      conclude the opposite: a policy per issue, or streaks counted inside one issue only. Also missing: that a
+      correction's `refutes` line number stays inside its own ledger; that a streak can span issues; that the
+      learner sees only ledgers present on the current checkout (an unmerged issue's ledger is invisible), which
+      matters because the file calls the policy 'learned from the ledger' and 'replay-deterministic'.
+    committed_source: "main:core/components/memory/standards/rules/gate-config.md (the live-eval loop as written); main:core/components/memory/standards/rules/drive-contract.md ('Plays read this rule; they do not restate it')"
+    suggested_fix: >
+      In the live-eval loop section add one short paragraph: each issue appends to its own ledger; the learner reads
+      every issue's ledger in time order and writes the one project policy; a streak may span issues; `refutes`
+      points inside the same ledger.
+
+  - id: M2
+    severity: P2
+    file: core/components/memory/standards/rules/gate-config.md
+    line_hint: "ledger: .garura/project/issues/{issue}/review/gate-evals.jsonl (changed line)"
+    title: "The {issue} placeholder is never resolved by any committed source; the plays pass it on raw"
+    principle_violated: G1 and G4 (the issue ID governs; the path is named in config and a play hands it on - so exactly one place must say how the issue gets in)
+    basis: >
+      The rule and core/config.yaml write the placeholder as {issue}. The plays write <issue> in prose ('defaults
+      .garura/project/issues/<issue>/review/gate-evals.jsonl (the run's issue)') but their command lines still pass
+      the config value unchanged: gate_eval.py append --ledger <gates.conditional.ledger>, and the closes in /run
+      and /quality do `gates_ledger = yq '.gates.conditional.ledger'` then distill_gate_policy.py --ledger
+      "${gates_ledger}". gate_eval.py has no substitution (no {issue} handling in
+      play-creator/references/gate_eval.py), and no rule in standards/rules says who substitutes. Two spellings, no
+      resolver. If an orchestrator does not substitute, appends go to a literal folder named `{issue}` under
+      .garura/project/issues/, and the learner only copes by accident (its regex treats `{issue}` as one more issue
+      folder). A distill can also silently read the wrong set. The rule file, as the single source of the config
+      block, is where the resolution has to be written down. This also means /quality, which was not edited and
+      says only 'resolve from config', never mentions the per-issue path at all.
+    committed_source: "main:core/components/memory/standards/rules/drive-contract.md (issue ID governs); main:docs/adr/039 section 1 and section 6; main:docs/adr/040 (plays read the installed config)"
+    suggested_fix: >
+      State in gate-config.md: {issue} is replaced by the run's issue number before the path is used, by whom
+      (the play's orchestrator), and use one spelling in the rule, the config and the plays. Then the plays that
+      pass `${gates_ledger}` raw must say they substitute first. Harness fan-out should confirm each play's call.
+
+  - id: M3
+    severity: P3
+    file: core/components/memory/standards/rules/gate-config.md
+    line_hint: "policy: .garura/core/gate-policy.yaml (unchanged line) next to the changed ledger line"
+    title: "The rule moves the ledger under the issue but leaves the policy outside it without saying why"
+    principle_violated: G1 and G2 weighed against G3 (an exception to 'everything under the issue' must be written where a reader looks)
+    basis: >
+      drive-contract.md on main says everything a drive and its plays write goes under the drive's issue. ADR 039
+      section 1 says a memory written outside the issue's short-term memory breaks the guardrail. The policy file is
+      written by a play at its close to .garura/core/gate-policy.yaml - a project-wide file outside every issue.
+      It is allowed: ADR 036 section 5 says learned checkpoint answers are not memory, so ADR 039 section 1 does
+      not reach the policy, and the policy is, by nature, learned across issues so it has no one issue. But no
+      committed rule says so for the policy. The ledger and the policy now sit on opposite sides of the line the
+      branch just drew, and a reviewer reading ADR 039 section 1 will find a write outside the issue with no
+      stated exemption. Not memory (ADR 036 section 5), project-level by design, and not a promotion: none of that
+      is in gate-config.md.
+    committed_source: "main:docs/adr/036 section 5; main:docs/adr/039 section 1; main:core/components/memory/standards/rules/drive-contract.md"
+    suggested_fix: >
+      One sentence in gate-config.md beside the config block: the ledger is per issue (the work's record); the
+      policy is one file for the project because it is learned from all issues; neither is memory (ADR 036 section
+      5), so ADR 039 section 1 does not move the policy under an issue. Add ADR 036 section 5 / ADR 039 to Related.
+
+  - id: M4
+    severity: P3
+    file: core/components/memory/standards/rules/gate-config.md
+    line_hint: "Related section (unchanged); 'The config block' heading names .garura/core/config.yaml"
+    title: "The rule's own references do not carry the decision that moved the ledger"
+    principle_violated: G5 (memory change must resolve its references and fit the existing record)
+    basis: >
+      core/config.yaml's new comment cites ADR 039 for the per-issue ledger. gate-config.md, the file that explains
+      the block, cites no ADR 039 or ADR 036 section 5 in Related. The cited phrase 'the issue ID governs, ADR 039'
+      is not in ADR 039 itself on main; it lives in drive-contract.md. A reader following the ADR citation from
+      config.yaml (or from distill_gate_policy.py's docstring) will not find that sentence there; the sentence is
+      in drive-contract.md, which ADR 039 amends in its Affects list. Cite drive-contract.md or ADR 039 section 1
+      precisely.
+    committed_source: "main:core/components/memory/standards/rules/drive-contract.md (opening paragraph); main:docs/adr/039 (no 'issue ID governs' phrase; section 1 is the nearest text)"
+    suggested_fix: "Add Related lines for ADR 039 section 1 and ADR 036 section 5; word the citations to point at the text that exists."
+
+  - id: M5
+    severity: P4
+    file: core/components/memory/standards/rules/gate-config.md
+    line_hint: "'The config block' heading: .garura/core/config.yaml"
+    title: "Upgrade path not recorded: an older installed config still names the single project ledger"
+    principle_violated: G4 (config source is core/config.yaml; the project reads the installed copy)
+    basis: >
+      Under ADR 040 the installed .garura/core/config.yaml is correctly NOT edited by this branch (and on this
+      checkout it still says .garura/core/gate-evals.jsonl). The new learner matches only paths ending in
+      /review/gate-evals.jsonl; any other path is 'read alone, as before'. So a project that has not re-installed
+      keeps a single ledger and a learner that ignores per-issue ledgers, and a project that re-installs after
+      appending to the old file strands those lines. gate-config.md says nothing about either case.
+      No ledger exists on main today (direct-model-write.md notes it absent), so the cost is low now.
+    committed_source: "main:docs/adr/040-config-source-is-core-config-yaml.md; main:core/components/memory/standards/rules/direct-model-write.md (ledger absent, 'one-time note')"
+    suggested_fix: "A one-line note in gate-config.md: re-install to get the per-issue ledger; an old single ledger is not read together with per-issue ones."
+
+cross_source_agreement:
+  config_yaml_vs_rule:
+    ledger_path: "agree (both .garura/project/issues/{issue}/review/gate-evals.jsonl)"
+    policy_path: "agree (both .garura/core/gate-policy.yaml)"
+    learner_reads_every_ledger: "stated in core/config.yaml comment only; NOT in gate-config.md (finding M1)"
+  plays_vs_rule:
+    ledger_path: "11 edited plays state the new default with <issue>; /quality (not edited) states no path; spelling {issue} vs <issue> differs (finding M2)"
+    policy_path: "agree (.garura/core/gate-policy.yaml where stated)"
+  installed_copy: "stale by design (.garura/core/config.yaml, ADR 040); not a defect of this PR (finding M5)"
+
+grounding_gaps: none   # every principle above is on main or the Phoenix shelf

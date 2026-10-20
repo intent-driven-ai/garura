@@ -1,0 +1,36 @@
+{
+  "doc": ".garura/product/product-os/capabilities/abandoned-carts-today/capability.md",
+  "kind": "capability",
+  "criteria": [
+    {
+      "id": "completeness",
+      "verdict": "fail",
+      "evidence": "The doc has only '## Directional intent' and '## Agent intent (ICE)'. There is no Benefit hypothesis, Boundary (In / Out / Never), Guiding rules or Functionalities section.",
+      "fix": "Add the four detailed-stage sections: a Benefit hypothesis (the owner it serves, what it delivers, how we will know it is true), a Boundary with In / Out / Never lines each explained, capability-specific Guiding rules each with a reason, and a Functionalities list with one explained line per linked functionality."
+    },
+    {
+      "id": "self_explanation",
+      "verdict": "pass",
+      "evidence": "\"It matters because an owner cannot win back a sale they do not know they lost\" and \"a cart that became an order must never be shown as lost, and a lost one must never be missing.\"",
+      "fix": ""
+    },
+    {
+      "id": "discreteness_form",
+      "verdict": "fail",
+      "evidence": "\"This is about giving every shop owner a clear view of the sales that slipped away today... It sits in the ecommerce domain and rests on the cart and order records every selling shop already keeps...\" The intent, dependencies and boundary are run together in two flowing paragraphs.",
+      "fix": "Split the paragraphs into discrete points under the required sections: one line each for benefit, In, Out (naming the reminders and carts-won-back capabilities), Never, and each guiding rule with its reason."
+    },
+    {
+      "id": "depth_gradient",
+      "verdict": "fail",
+      "evidence": "The parent domain already carries Guiding rules (e.g. \"Build on the records the shop already keeps\") and a Scope In/Out list. The capability repeats them in prose and adds no sections of its own.",
+      "fix": "Make the capability more detailed than its domain: add capability-specific rules (for example, what counts as abandoned today, and how a cart that became an order is excluded) and an explicit Boundary, so detail grows from parent to child."
+    },
+    {
+      "id": "stranger_test",
+      "verdict": "fail",
+      "evidence": "\"It will broadly own how an owner finds out which carts were abandoned and when.\" 'Abandoned' and 'today' are never defined, no proof that the benefit is real is given, and no functionalities are listed.",
+      "fix": "Define what 'abandoned' and 'today' mean, state how we will know owners benefit, and list the functionalities with one explained line each, so a cold reader can explain the what, the why and the edges from this doc alone."
+    }
+  ]
+}

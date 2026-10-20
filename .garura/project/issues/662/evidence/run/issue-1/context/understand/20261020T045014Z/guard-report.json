@@ -1,0 +1,80 @@
+{
+  "ok": true,
+  "base_ref": "HEAD",
+  "tree": ".garura/product/product-os",
+  "allow": [
+    "product-os/_spine.yaml",
+    "product-os/decisions/*",
+    "product-os/ecommerce/abandoned-carts-today/capability.md",
+    "product-os/ecommerce/abandoned-cart-reminders/capability.md",
+    "product-os/ecommerce/carts-won-back/capability.md"
+  ],
+  "add_only": [
+    "product-os/ecommerce/abandoned-carts-today/*/functionality.md",
+    "product-os/ecommerce/abandoned-cart-reminders/*/functionality.md",
+    "product-os/ecommerce/carts-won-back/*/functionality.md"
+  ],
+  "modify_only": [],
+  "remove_only": [],
+  "restore": false,
+  "changed": [
+    {
+      "path": ".garura/product/product-os/_spine.yaml",
+      "status": "M"
+    },
+    {
+      "path": ".garura/product/product-os/ecommerce/abandoned-cart-reminders/capability.md",
+      "status": "M"
+    },
+    {
+      "path": ".garura/product/product-os/ecommerce/abandoned-cart-reminders/cart-reminder-eligibility/functionality.md",
+      "status": "A"
+    },
+    {
+      "path": ".garura/product/product-os/ecommerce/abandoned-cart-reminders/cart-reminder-log/functionality.md",
+      "status": "A"
+    },
+    {
+      "path": ".garura/product/product-os/ecommerce/abandoned-cart-reminders/cart-reminder-message/functionality.md",
+      "status": "A"
+    },
+    {
+      "path": ".garura/product/product-os/ecommerce/abandoned-cart-reminders/cart-reminder-send/functionality.md",
+      "status": "A"
+    },
+    {
+      "path": ".garura/product/product-os/ecommerce/abandoned-carts-today/abandoned-cart-detection/functionality.md",
+      "status": "A"
+    },
+    {
+      "path": ".garura/product/product-os/ecommerce/abandoned-carts-today/abandoned-carts-today-list/functionality.md",
+      "status": "A"
+    },
+    {
+      "path": ".garura/product/product-os/ecommerce/abandoned-carts-today/capability.md",
+      "status": "M"
+    },
+    {
+      "path": ".garura/product/product-os/ecommerce/carts-won-back/business-win-back-summary/functionality.md",
+      "status": "A"
+    },
+    {
+      "path": ".garura/product/product-os/ecommerce/carts-won-back/capability.md",
+      "status": "M"
+    },
+    {
+      "path": ".garura/product/product-os/ecommerce/carts-won-back/owner-monthly-win-back/functionality.md",
+      "status": "A"
+    },
+    {
+      "path": ".garura/product/product-os/ecommerce/carts-won-back/pre-reminder-baseline/functionality.md",
+      "status": "A"
+    },
+    {
+      "path": ".garura/product/product-os/ecommerce/carts-won-back/won-back-order-matching/functionality.md",
+      "status": "A"
+    }
+  ],
+  "violations": [],
+  "restored": []
+}
