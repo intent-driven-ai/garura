@@ -154,42 +154,51 @@ For each play in `plays`:
    - `ask` — a whole round answered nothing new, or the round limit is reached: the open
      questions are the drive's. Go to R5c, then R5b.
 
-### Step R5c — Build the memory the round found missing
+### Step R5c — Find and build the knowledge the round found missing
 
-Before asking anyone, run the member play `/build-memory` (as each play runs: the configured
-runner, in the foreground, with the contract):
+Before asking anyone, run the knowledge member plays (ADR 042), each as a play runs (the
+configured runner, in the foreground, with the contract), in this order:
 
 ```bash
-/build-memory --contract <working>/contract.json
+/search-knowledge --contract <working>/contract.json
+/build-knowledge  --contract <working>/contract.json
 ```
 
-It merges the questions asked again, answers what the drive's sources show (quoted) and what
-memory holds (traced), drafts researched knowledge pages as memory updates waiting for a person
-(ADR 035), turns screen states the prototype lacks into feedback, and leaves only the questions
-only the person can answer — `{stm_base}<issue>/context/build-memory/round-<n>/memory-build.json`.
-Its done check must hold, as any play's; then commit its run files (R5 step 5).
+`/search-knowledge` merges the questions asked again and answers what the drive's sources show
+(quoted) and what memory holds (through the memory tool, traced). `/build-knowledge` closes what
+it left: a researched knowledge page raised through the memory tool as a memory update waiting
+for a person (ADR 035), our proposed answer with its basis and context for what only the person
+can confirm, a note for each screen state the prototype lacks, and settled for what the context
+already answers. Each play's done check must hold; then commit its run files (R5 step 5).
 
-### Step R5b — Ask the person what the drive could not answer
+### Step R5b — Brief the person on what the drive could not close
 
-Only now, and only once per stop, the drive asks — in words that make sense to whoever gave
-the drive its input (for Kickoff, the person who shared the prototype):
+Only now, and only once per stop, the drive reaches the person — with a brief, never a
+questionnaire:
 
-1. **Show the draft first** — what the drive made so far, as that person reads it (for Kickoff:
-   each proposed business intent with the ICE under it, the domain and its capabilities). A
-   question about something the person has not been shown is never asked.
-2. **Then what `/build-memory` left for the person** (`memory-build.json`), in this order:
-   - the **knowledge pages** it drafted, each with the questions it answers and its sources — to
-     approve or reject (ADR 035; an approved page marked `for_project_memory` is promoted later
-     by a person, `/promote-memory`);
-   - the **questions only they can answer**, each once, with what it is about and up to three
-     example answers;
-   - the **prototype feedback** — what the prototype should show; no answer needed now.
-   What the sources or memory answered is never asked.
-3. Wait for the typed replies (never `AskUserQuestion`). Record them in the issue's short-term
-   memory and in `answers.json` / `answers-sources.json` (`from: person`), record the person's decision on each memory
-   update through the memory tool's `decide` (decided in the session — the stand-in for Argus's
-   memory view, ADR 041 §8), and run round n+1. The person may type
-   **stop**: close HALTED with `exit_reason: stopped_at_question`.
+1. Run the member play `/review-knowledge --contract <working>/contract.json`. It writes
+   `{stm_base}<issue>/context/review-knowledge/round-<n>/brief.md`: what we understood, what we
+   built (the draft first — for Kickoff, each proposed business intent, the domain and its
+   capabilities), and where the gaps are — a few themed gaps, each with its context and our
+   proposed answer — then the knowledge pages waiting for approval, each with our
+   recommendation, and a pointer to the notes for the prototype. Its done check must hold;
+   commit its run files.
+2. Show `brief.md` as it is, and wait for the typed reply (never `AskUserQuestion`). "yes" takes
+   every proposal and recommendation; the person may correct a gap or a page by its id.
+3. Write the reply as `review.json` (`words` verbatim; each gap `accept` or the person's own
+   answer; each page `approve` or `reject`) and record it:
+
+   ```bash
+   python3 <review-knowledge play dir>/scripts/record_review.py \
+       --brief <brief.json> --reply <working>/review.json --issue-dir "{stm_base}<issue>/" \
+       --round <n> --out <working>/review-record.json
+   ```
+
+   It writes the answers to the issue's short-term memory (`from: person`). Record each page
+   decision through the memory tool's `decide` (decided in the session — the stand-in for
+   Argus's memory view, ADR 041 §8), add the answers to `answers.json` /
+   `answers-sources.json` (`from: person`), and run round n+1. The person may type **stop**:
+   close HALTED with `exit_reason: stopped_at_question`.
 
 ### Step R6 — The checker (ADR 029 §2)
 

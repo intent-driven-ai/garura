@@ -29,13 +29,13 @@ person only what none of its plays, memory or approved research answers, and che
   not a stop: the play records it and finishes what it can, and the other plays — and the next
   round — may answer it. The drive stops and asks the person only what no play of the drive,
   no memory and no approved research can answer: after a round that answered nothing new, or at
-  the round limit. **First it builds the missing memory** (`/build-memory`, Kapil, 2026-10-20:
-  "asking 80 questions … doesn't seem realistic"): what the prototype shows is answered from it,
-  what memory holds from memory, what research can answer is drafted as knowledge pages for the
-  person to approve. Only then does it ask — after showing the draft, each question once, in
-  words that make sense to the person who shared the prototype — and it shows the prototype
-  feedback (what the prototype should show). The answers are kept in
-  the issue's short-term memory.
+  the round limit. **First it finds and builds the missing knowledge** (`/search-knowledge`,
+  `/build-knowledge`, ADR 042): what the prototype shows is answered from it, what memory holds
+  from memory (through the memory tool), what research can answer is drafted as knowledge pages
+  for the person to approve, and for what only the person can confirm we draft our own answer.
+  Only then does it reach the person — with a brief (`/review-knowledge`): what we understood,
+  what we built, and a few gaps each with its context and our proposed answer, never a
+  questionnaire (Kapil, 2026-10-20). The answers are kept in the issue's short-term memory.
 - C6 — A checker the config picks, which is not the drive's own model, judges the result against
   this intent from the drive's outputs only. A reject halts the drive.
 - C7 — The drive never confirms or drops an intent, and never changes an intent's state in the
@@ -72,8 +72,8 @@ memory alone under one contract.
 The plays' own content questions — who asks for each intent, how we will know it is met, a
 capability's seed — depend on what the prototype shows, so the drive cannot ask them before
 `/intent` reads it. A play that cannot answer one makes it the drive's question (C5); the
-other plays, the next round and `/build-memory` may answer it, and the person is asked only what
-none of them can (ADR 041). The drive asks first only what it can know up front.
+other plays, the next round and the knowledge plays may answer it, and the person is briefed only
+on what none of them can (ADR 041, ADR 042). The drive asks first only what it can know up front.
 
 Not built yet: ADR 029 §6 gives Kickoff a second output, a plan and its issues for the person,
 with `approve-change` in its done check. This drive makes only the product model; the plan and

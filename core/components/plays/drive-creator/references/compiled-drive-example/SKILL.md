@@ -55,8 +55,10 @@ without the checker's pass.
 [T4] Round n: run /intent                   blockedBy: [T3]
 [T5] Round n: run /vision                   blockedBy: [T4]
 [T5b] After the round: done, again or ask    blockedBy: [T5]   (again: back to T4, round n+1)
-[T5c] Build the missing memory (build-memory) blockedBy: [T5b] (only on ask)
-[T5d] Ask the person what is left           blockedBy: [T5c] (then back to T4)
+[T5c] Search the knowledge                 blockedBy: [T5b] (only on ask)
+[T5d] Build the knowledge                  blockedBy: [T5c]
+[T5e] Write the brief                      blockedBy: [T5d]
+[T5f] Brief the person; record the reply   blockedBy: [T5e] (then back to T4)
 [T6] The checker                            blockedBy: [T5b]
 [E1] commit-change                          blockedBy: [T6]
 [E2] propose-change                         blockedBy: [E1]
@@ -107,7 +109,7 @@ The plays run in rounds until the drive's job is done (R5, C3). A question one p
 answer goes to the drive, not to the person: the play records it in `open-<play>.json` and
 finishes what it can (C2).
 
-**Step 4 — Round n: run /intent** · Owner: `intent` · Depends on: Step 3 (or Step 5b, 5d)
+**Step 4 — Round n: run /intent** · Owner: `intent` · Depends on: Step 3 (or Step 5b, 5f)
 Run R5 for `intent`. A later round: it reads what `/vision` wrote and fills what it left open.
 
 **Step 5 — Round n: run /vision** · Owner: `vision` · Depends on: Step 4
@@ -118,13 +120,20 @@ intents `/intent` saved — to the contract.
 Run R5 step 7 (`round_state.py`, `--max-rounds` from `drives.sample-drive.max_rounds`). `done`
 → Step 6. `again` → Step 4, round n+1. `ask` → Step 5c.
 
-**Step 5c — Build the missing memory** · Owner: `build-memory` · Depends on: Step 5b
-Run R5c: `/build-memory` merges the questions asked again, answers what the sources show and
-what memory holds, and drafts knowledge pages as memory updates waiting for the person.
+**Step 5c — Search the knowledge** · Owner: `search-knowledge` · Depends on: Step 5b
+Run R5c's first play: it answers what the sources show and what memory holds (through the
+memory tool).
 
-**Step 5d — Ask the person what is left** · Owner: drive · Depends on: Step 5c
-Run R5b: show the draft first, then the knowledge pages and the questions only the person can
-answer, each once. Record the replies (`from: person`), then Step 4, round n+1.
+**Step 5d — Build the knowledge** · Owner: `build-knowledge` · Depends on: Step 5c
+Run R5c's second play: knowledge pages as memory updates waiting for the person, and our
+proposed answer, with its basis and context, for what only the person can confirm.
+
+**Step 5e — Write the brief** · Owner: `review-knowledge` · Depends on: Step 5d
+Run R5b step 1: what we understood, what we built, a few gaps each with its context and our
+proposed answer.
+
+**Step 5f — Brief the person; record the reply** · Owner: drive · Depends on: Step 5e
+Run R5b steps 2–3: show the brief, record the reply (`from: person`), then Step 4, round n+1.
 **SE-3 (F3/C3):** `intent-done.json` and `vision-done.json` read `done: true`, each written
 before the next play started; `intent-commit.json` and `vision-commit.json` show no leftover.
 
@@ -147,8 +156,8 @@ model; a reject halted the drive.
 **Step 7 — Scenario evals** · Owner: drive · Depends on: Step E4
 - **SCE-1 (S1 — product owner):** `contract.json`, `intent-done.json`, `vision-done.json` and
   `check.yaml` (`verdict: pass`) exist under the issue; one pull request carries the change.
-- **SCE-2 (S2 — product owner):** `/vision`'s question was in `open-vision.json`, `/build-memory`
-  ran for that round, the person's answer is in the issue's short-term memory with
+- **SCE-2 (S2 — product owner):** `/vision`'s question was in `open-vision.json`, the knowledge
+  plays ran for that round, the person's answer is in the issue's short-term memory with
   `from: person`, and `vision-done.json` reads `done: true`.
 
 ### Phase: Evidence & Close
@@ -180,7 +189,7 @@ sc_exit=$?   # 0 held · 1 unmet · 2 error
 | For | Trigger | Direction | Handoff |
 |-----|---------|-----------|---------|
 | F1 | a write outside the issue, or a second issue or branch | move the record under the drive's issue and run on the contract's branch | autonomous |
-| F2 | a play ran before the questions, answered from nothing, or the person was asked what a play or memory answers | ask the drive's own questions first; send an unanswered question to the drive (`open-<play>.json`), run `/build-memory`, ask only what is left, then run the next round | human |
+| F2 | a play ran before the questions, answered from nothing, or the person was asked what a play or memory answers | ask the drive's own questions first; send an unanswered question to the drive (`open-<play>.json`), run the knowledge plays, brief the person on what is left, then run the next round | human |
 | F3 | a play started before the last one proved done, or on an unclean tree | halt; finish or fix the earlier play, commit its run files, resume | human |
 | F4 | the drive would end done with no checker pass | run the checker; a reject halts the drive | autonomous |
 
@@ -195,7 +204,7 @@ from the first play not done.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:ded3c6f5f1bdf4c2bd02b497a0e8dc7307f6643332f28364849e632946fe146e (of `reference/ice.md`) |
+| fingerprint | sha256:bb455fb9949fff1c8e5bd93624648a38c8c2c792bf2a96742f5a50646394e66b (of `reference/ice.md`) |
 | compiled_by | drive-creator |
 | kind | drive |
 | pipeline_position | both |

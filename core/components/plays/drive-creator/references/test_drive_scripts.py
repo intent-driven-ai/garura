@@ -73,7 +73,8 @@ class DrivePreflight(Work):
         self.write("skills/intent/SKILL.md", "runs check_drive_contract.py first\n")
         self.write("skills/vision/SKILL.md", "runs check_drive_contract.py first\n")
         self.write("skills/shape/SKILL.md", "no contract here\n")
-        self.write("skills/build-memory/SKILL.md", "runs check_drive_contract.py first\n")
+        for member in ("search-knowledge", "build-knowledge", "review-knowledge"):
+            self.write(f"skills/{member}/SKILL.md", "runs check_drive_contract.py first\n")
 
     def run_it(self, plays, config=None):
         return quiet(drive_preflight.main, ["--config", config or self.config, "--drive", "kickoff",
@@ -90,9 +91,9 @@ class DrivePreflight(Work):
         self.assertFalse(facts["on_default_branch"])
 
     def test_a_missing_member_play_halts(self):
-        os.remove(self.p("skills", "build-memory", "SKILL.md"))
+        os.remove(self.p("skills", "review-knowledge", "SKILL.md"))
         self.assertEqual(self.run_it("intent,vision"), 2)
-        self.assertEqual(self.read_json("pre.json")["missing"], ["build-memory"])
+        self.assertEqual(self.read_json("pre.json")["missing"], ["review-knowledge"])
 
     def test_a_missing_play_halts(self):
         self.assertEqual(self.run_it("intent,understand"), 2)
