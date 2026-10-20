@@ -133,7 +133,7 @@ with `ok`, `contract_version` and `command`.
 |---|---|
 | `propose` | Raises a memory update in the issue's short-term memory: what is missing, a drafted entry, where the draft came from (`person`, `web`, `model` or `memory`), and whether it blocks the work. Nothing in it is used until a person approves it. |
 | `updates` | Lists memory updates, optionally only those with one status. |
-| `decide` | Records a person's word on a waiting update: approve or reject, who, their exact reply, and where they decided (the review tool). Only a person decides, one update at a time. |
+| `decide` | Records a person's word on a waiting update: approve or reject, who, their exact reply, and where they decided (`review-tool`, or `session` — typed in a session that records it, until the review tool is built). Only a person decides, one update at a time. |
 | `apply` | Writes an approved update to the issue's short-term memory. An update no one approved is refused (`not_approved`). |
 
 A memory update moves through `waiting` → `approved` or `rejected` → `applied`.

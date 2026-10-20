@@ -9,7 +9,7 @@ memory.py — the memory tool: the one way agents find memory (contract version 
     python3 memory.py read   --issue N --tier T --path PATH [--start S] [--end E]
     python3 memory.py propose --request '{"issue": 658, "missing": ..., "target_path": "658/...", ...}'
     python3 memory.py updates [--status waiting]
-    python3 memory.py decide  --request '{"id": "mu-...", "verdict": "approve", "by": ..., "reply": ..., "decided_in": "review-tool"}'
+    python3 memory.py decide  --request '{"id": "mu-...", "verdict": "approve", "by": ..., "reply": ..., "decided_in": "review-tool" | "session"}'
     python3 memory.py apply   --id mu-...
     python3 memory.py cite    --request '{"issue": 659, "question": ..., "answer": ..., "trace": [{"asked", "found", "source"}...], ...}'
     python3 memory.py citations --issue 659 [--play /vision] [--check]

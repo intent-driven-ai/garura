@@ -125,6 +125,15 @@ class CitationStore:
             return "source_changed", f"{where} no longer {'says' if one else 'say'} what the decision rested on.", chunk, near
         return None, None, chunk, near
 
+    @staticmethod
+    def update_behind(request, updates):
+        """The applied memory update a decision rests on, when a step's source is its written file
+        and the agent did not name it: the record names it anyway, so the link from a decision to
+        the person's approval is never lost (#662)."""
+        sources = {st["source"]["path"] for st in request["trace"] if st["source"]["tier"] == "short-term"}
+        applied = [u for u in updates.list() if u["status"] == "applied" and u["target_path"] in sources]
+        return applied[0]["id"] if applied else None
+
     def cite(self, request, engine, updates):
         issue = request["issue"]
         self.records(issue)  # never append after an unreadable line
@@ -141,6 +150,7 @@ class CitationStore:
             # the exact text the agent read, from which version of memory, and the lines around it
             trace.append({"asked": step["asked"], "found": step["found"],
                           "source": source | {"text": text, "version": engine.version(source["tier"]), "around": near}})
+        from_update = request.get("from_update") or self.update_behind(request, updates)
         if request.get("from_update"):
             update = next((u for u in updates.list() if u["id"] == request["from_update"]), None)
             if update is None:
@@ -156,7 +166,7 @@ class CitationStore:
             "citation_id": self.next_id(), "issue": issue, "play": request.get("play"),
             "question": request["question"], "answer": request["answer"], "decided_by": request["decided_by"],
             "decided_at": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-            "trace": trace, "from_update": request.get("from_update"),
+            "trace": trace, "from_update": from_update,
         }
         path = self.path(issue)
         os.makedirs(os.path.dirname(path), exist_ok=True)

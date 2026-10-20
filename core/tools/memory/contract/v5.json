@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Memory tool contract",
-  "version": "5.0.0",
+  "version": "5.1.0",
   "contract_version": "5",
   "description": "The one agreement between agents and the memory tool: the commands to find memory and to update it, what each takes and gives back, and how each fails. A request is a JSON object; on the command line its fields are the flags, and on a server they are the request body. A response is always a JSON object with ok, contract_version and command. Plain-words guide: ../README.md. Version 2 (#657): a lookup of Garura or Phoenix memory works without an issue; a glob never steps outside its tier; Phoenix memory is read only at its approved version; a file read from Phoenix memory is saved into Garura memory. Version 3 (#658): every memory update lands in an issue's short-term memory — moving memory up is the /learn-memory and /promote-memory plays, not this tool; an update says whether it blocks the work; a person decides each update in the review tool; a used file is never saved over a different Garura file. Version 4 (#659): every decision is recorded with the memory it rests on — cite records the question, the answer, who decided, the play, and each source's tier, file, lines and fingerprint (or the approved memory update it came from); citations lists an issue's decision records and checks that each source still exists and still says the same thing; a waiting draft is never found by a lookup. Version 5 (#661, ADR 039): the tool never copies a Phoenix file — read writes nothing, and pull and pulled are gone; Garura memory is its folders in order, core/memory then the product model, product (part of Garura memory), and nothing else in its root; every write the tool makes goes to the issue's short-term memory, and moving memory up is a promotion a person makes.",
   "tiers": {
@@ -33,7 +33,7 @@
     "update_matches_its_status": "waiting: no decision yet (decided_by, reply, decided_at, decided_in and applied_version are null). approved or rejected: decided_by, reply, decided_at and decided_in are set; applied_version is null. applied: the decision is set and applied_version is the version written (null for a folder).",
     "short_term_update_names_its_issue": "An update to short-term memory names its issue, and its target_path starts with '<issue>/'.",
     "propose_waits": "propose answers status waiting, with the request's issue, missing, target_tier, target_path, draft, draft_source, sources and requested_by as given, and blocking as given (false when not given).",
-    "decide_records_the_person": "decide answers approve as approved and reject as rejected, for the update named, with decided_by, reply and decided_in exactly as given. A person decides each update on its own, in the review tool (decided_in review-tool); an agent never decides one.",
+    "decide_records_the_person": "decide answers approve as approved and reject as rejected, for the update named, with decided_by, reply and decided_in exactly as given. A person decides each update on its own: in the review tool (decided_in review-tool), or, until it is built, by typing the decision in a session that records it (decided_in session); an agent never decides one.",
     "apply_writes_only_approved": "apply answers ok only with status applied, for the update named. written.tier and written.path are the update's target_tier and target_path, and applied_version is written.version. Any update a person has not approved is not_approved.",
     "updates_filter": "With status, updates lists only updates with that status.",
     "answered_by_has_a_result": "answered_by names a tier only when that tier has at least one result, and it is null only when there are no results.",
@@ -582,7 +582,8 @@
           },
           "decided_in": {
             "enum": [
-              "review-tool"
+              "review-tool",
+              "session"
             ]
           }
         },
@@ -1023,7 +1024,8 @@
           "oneOf": [
             {
               "enum": [
-                "review-tool"
+                "review-tool",
+                "session"
               ]
             },
             {
