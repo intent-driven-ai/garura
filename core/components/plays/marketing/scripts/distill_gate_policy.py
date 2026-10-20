@@ -3,7 +3,10 @@
 distill_gate_policy.py — the deterministic learner over the gate ledger (#467).
 
 Reads the live-eval ledger (gate-evals.jsonl) and writes the per-project gate policy
-(gate-policy.yaml). Pure rule, no inference, replay-deterministic (every output value
+(gate-policy.yaml). Each issue keeps its own ledger under its folder
+(`<stm_base><issue>/review/gate-evals.jsonl` — the issue ID governs, ADR 039); given one of
+those, the learner reads every issue's ledger beside it, in time order, because the policy is
+learned from all of them. A ledger anywhere else is read alone, as before. Pure rule, no inference, replay-deterministic (every output value
 derives from ledger content — no wall clock):
 
   - a shape earns AUTO when its last `streak` consecutive entries are approved_clean
@@ -23,6 +26,7 @@ Writes the policy file and prints a JSON summary. Exit 0 on success, 2 on bad in
 """
 
 import argparse
+import glob
 import json
 import os
 import re
@@ -50,6 +54,35 @@ def read_ledger(path):
             except ValueError:
                 continue
     return out
+
+
+PER_ISSUE = re.compile(r"^(?P<base>.*)/(?P<issue>[^/]+)/review/gate-evals\.jsonl$")
+
+
+def _ts_key(rec):
+    """Order across ledgers by the run's own timestamp; both spellings in use
+    (2026-10-20T04:42:16Z and 20261020T045014Z) reduce to the same digits."""
+    return re.sub(r"\D", "", str(rec.get("ts", "")))
+
+
+def read_ledgers(path):
+    """One issue's ledger path -> every issue's records, in time order; any other path -> its
+    own records. Each record carries `_src` (its issue, or None) so a correction's `refutes`
+    (a line number in its own ledger) stays inside that ledger."""
+    m = PER_ISSUE.match(path.replace(os.sep, "/"))
+    if not m:
+        return [dict(r, _src=None) for r in read_ledger(path)]
+    out = []
+    pattern = os.path.join(m.group("base"), "*", "review", "gate-evals.jsonl")
+    for ledger in sorted(glob.glob(pattern)):
+        issue = os.path.basename(os.path.dirname(os.path.dirname(ledger)))
+        out += [dict(r, _src=issue) for r in read_ledger(ledger)]
+    return sorted(out, key=lambda r: (_ts_key(r), str(r["_src"]), r["_line"]))
+
+
+def _where(rec):
+    """How a policy names the line that earned it: its line number, or issue#line."""
+    return rec["_line"] if rec.get("_src") is None else f"{rec['_src']}#{rec['_line']}"
 
 
 def _parse_inline_never(value):
@@ -97,7 +130,7 @@ def _trailing_streak(recs, refuted):
         human = rec.get("human")
         if human == "deferred_to_drive_review":
             continue  # no answer yet — skipped, even when a later line answers it
-        if rec["_line"] in refuted:
+        if (rec.get("_src"), rec["_line"]) in refuted:
             run = []  # a refuted line breaks the streak it sat in
         elif human == "approved_clean":
             run.append(rec)
@@ -119,7 +152,7 @@ def _group_by_shape(records):
 
 def distill(records, streak, never_auto):
     """Return {shape: {earned_by: [...], since: ts}} for shapes that earn auto."""
-    refuted = {r["refutes"] for r in records if r.get("refutes")}
+    refuted = {(r.get("_src"), r["refutes"]) for r in records if r.get("refutes")}
     auto = {}
     for shape, recs in sorted(_group_by_shape(records).items()):
         if shape in never_auto:
@@ -129,7 +162,7 @@ def distill(records, streak, never_auto):
         if len(clean) >= streak:
             earners = clean[-streak:]
             auto[shape] = {
-                "earned_by": [r["_line"] for r in earners],
+                "earned_by": [_where(r) for r in earners],
                 "since": earners[-1].get("ts", ""),
             }
     return auto
@@ -176,7 +209,7 @@ def main(argv=None):
 
     if args.streak < 1:
         fail("--streak must be >= 1")
-    records = read_ledger(args.ledger)
+    records = read_ledgers(args.ledger)
     version, never_auto = read_existing_policy(args.policy)
     auto = distill(records, args.streak, never_auto)
     write_policy(args.policy, args.project, version + 1, auto, never_auto, args.streak)

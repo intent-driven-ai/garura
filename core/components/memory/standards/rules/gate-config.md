@@ -27,7 +27,7 @@ gates:
   plays: {}            # per-play override, e.g. "commit-change: off" — first precedence
   conditional:         # the learned-gate mechanism (#467)
     streak: 3          #   consecutive clean approvals a shape needs to earn auto
-    ledger: .garura/core/gate-evals.jsonl   # live-eval ledger (append-only, committed)
+    ledger: .garura/project/issues/{issue}/review/gate-evals.jsonl  # each issue's own live-eval ledger (append-only, committed)
     policy: .garura/core/gate-policy.yaml   # learned policy (distilled, committed)
 ```
 

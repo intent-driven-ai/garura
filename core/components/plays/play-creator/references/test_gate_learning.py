@@ -275,6 +275,35 @@ def test_learner():
     print("learner: 11/11 pass")
 
 
+def test_ledgers_under_each_issue():
+    """Each issue keeps its own ledger; the learner reads them all, in time order (ADR 039)."""
+    t = tempfile.mkdtemp(prefix="gl-issues-")
+    base = os.path.join(t, "issues")
+    policy = os.path.join(t, "gate-policy.yaml")
+    S = "vision:nodes_added"
+    one = os.path.join(base, "1", "review", "gate-evals.jsonl")
+    two = os.path.join(base, "2", "review", "gate-evals.jsonl")
+    ledger_line(one, "vision", S, "approved_clean", "2026-10-20T04:00:00Z")
+    ledger_line(two, "vision", S, "approved_clean", "20261021T040000Z")  # the other spelling
+    ledger_line(one, "vision", S, "approved_clean", "2026-10-22T04:00:00Z")
+    r = distill(one, policy)
+    assert r["auto_shapes"] == [S] and r["ledger_lines"] == 3, r
+    assert "earned_by: ['1#1', '2#1', '1#2']" in open(policy).read(), open(policy).read()
+
+    # a reject in a later issue resets the shape, whichever issue's ledger is named
+    ledger_line(two, "vision", S, "rejected", "2026-10-23T04:00:00Z")
+    assert distill(two, policy)["auto_shapes"] == [], "a later reject in another issue did not reset"
+
+    # a correction's refutes is a line in its own issue's ledger, not another's
+    S2 = "ux:prose_edits"
+    for ts in ("2026-10-24T01:00:00Z", "2026-10-24T02:00:00Z", "2026-10-24T03:00:00Z"):
+        ledger_line(one, "ux", S2, "approved_clean", ts)
+    ledger_line(two, "ux", S2, "rejected", "2026-10-24T04:00:00Z", refutes=4)  # issue 2 has no line 4
+    assert S2 not in distill(one, policy)["auto_shapes"]  # the reject itself still resets
+    shutil.rmtree(t)
+    print("per-issue ledgers: 3/3 pass")
+
+
 def test_copies_identical():
     import glob
     repo = os.path.normpath(os.path.join(HERE, "..", "..", "..", "..", ".."))
@@ -289,5 +318,6 @@ def test_copies_identical():
 if __name__ == "__main__":
     test_classifier()
     test_learner()
+    test_ledgers_under_each_issue()
     test_copies_identical()
     print("ALL PASS")
