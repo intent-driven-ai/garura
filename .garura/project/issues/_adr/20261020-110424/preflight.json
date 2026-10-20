@@ -1,0 +1,16 @@
+{
+  "play": "adr",
+  "stm_base": ".garura/project/issues/",
+  "stm_pending": ".garura/project/issues/_pending/",
+  "stm_archive": ".garura/project/issues/_archive/",
+  "ltm_project_target": "./.garura/core/memory/",
+  "product_base": ".garura/product/",
+  "has_product_ltm": false,
+  "evidence_record": false,
+  "platform": "github",
+  "worktree": false,
+  "branch": "feature/613-the-kickoff-drive",
+  "issue": "613",
+  "on_default_branch": false,
+  "changes_present": true
+}

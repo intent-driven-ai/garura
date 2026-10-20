@@ -46,3 +46,4 @@ may have no Status line.
 | [038](038-install-brings-no-memory.md) | The Install Brings No Memory: the Memory Tool Lives in the Project and Fetches Phoenix Memory on First Use | Accepted | 2026-10-19 |
 | [039](039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md) | Every Memory Write Goes to Short-Term Memory, a Play Reads No Memory, and the Memory Tool Reads Phoenix Memory Without Copying It | Accepted | 2026-10-19 |
 | [040](040-config-source-is-core-config-yaml.md) | The Config's Source Is core/config.yaml; a Project's .garura/core/config.yaml Is the Installed Copy | Accepted | 2026-10-19 |
+| [041](041-a-drive-runs-in-rounds-and-owns-its-questions.md) | A Drive Runs Its Plays in Rounds, Owns the Questions No Play Can Answer, and Builds the Missing Memory Before It Asks | Accepted | 2026-10-20 |

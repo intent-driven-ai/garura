@@ -1,6 +1,6 @@
 # ADR 039 — Every Memory Write Goes to Short-Term Memory, a Play Reads No Memory, and the Memory Tool Reads Phoenix Memory Without Copying It
 
-**Status:** Accepted — amended in part by [ADR 040](040-config-source-is-core-config-yaml.md): §6 "Paths go in the config file" — the ontology's path goes in the source config, core/config.yaml, and the install carries it into each project
+**Status:** Accepted — amended in part by [ADR 040](040-config-source-is-core-config-yaml.md): §6 "Paths go in the config file" — the ontology's path goes in the source config, core/config.yaml, and the install carries it into each project; and amended in part by [ADR 041](041-a-drive-runs-in-rounds-and-owns-its-questions.md)
 **Date:** 2026-10-19
 **Level:** framework
 **Decided by:** Kapil Viren Ahuja 
