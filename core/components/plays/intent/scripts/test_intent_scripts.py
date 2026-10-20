@@ -547,6 +547,47 @@ def test_persist():
         model = os.path.join(tmp, "product", "product-os")
         check("its ICE is not workable until the person confirms the intent",
               not any(n["workable"] for n in cw.check(spine_of(tmp), os.path.join(model, "intents"))))
+    # inside a drive (C16): a gap is saved open when the draft names its question; the questions
+    # go to the drive; a later round updates only the intents this drive saved
+    with tempfile.TemporaryDirectory() as tmp:
+        argv, working, dirs = persist_setup(tmp, both())
+        draft_path = argv[argv.index("--draft") + 1]
+        with open(draft_path) as fh:
+            draft = yaml.safe_load(fh)
+        draft["intents"][0]["asked_by"] = ""
+        draft["questions"] = [{"intent": "grow-online-sales", "ask": "Who asks for more online sales?",
+                               "examples": ["The head of sales", "The founder"]}]
+        with open(draft_path, "w") as fh:
+            yaml.safe_dump(draft, fh)
+        i = argv.index("--confirmation")
+        open_out = os.path.join(tmp, "review", "open-intent.json")
+        drive = argv[:i] + argv[i + 2:] + ["--proposed", "--at", "2026-10-20", "--drive-run-id", "kickoff-1",
+                                           "--open-out", open_out]
+        check("inside a drive a gap with its question is saved as open", pi.main(drive) == 0)
+        with open(intent_file(tmp, "grow-online-sales")) as fh:
+            body = fh.read()
+        check("the page names the gap as open and the drive that saved it",
+              "**Asked by:** open" in body and "(drive kickoff-1)" in body)
+        q = read_json(open_out)["questions"]
+        check("the open question goes to the drive with what it is about and its examples",
+              len(q) == 1 and q[0]["about"] and q[0]["blocks"] == ["grow-online-sales:asked_by"]
+              and q[0]["examples"] and q[0]["for_person"])
+        draft["intents"][0]["asked_by"] = "the head of sales"
+        draft["intents"][0].setdefault("provenance", {})["asked_by"] = "model"
+        draft["questions"] = []
+        with open(draft_path, "w") as fh:
+            yaml.safe_dump(draft, fh)
+        check("a second save without --update-proposed is refused", pi.main(drive) == 2)
+        check("a later round updates the intent this drive saved", pi.main(drive + ["--update-proposed"]) == 0)
+        with open(intent_file(tmp, "grow-online-sales")) as fh:
+            check("the gap is filled on the later round", "**Asked by:** the head of sales" in fh.read())
+        other = [a if a != "kickoff-1" else "kickoff-2" for a in drive] + ["--update-proposed"]
+        check("another drive cannot update this drive's intents", pi.main(other) == 2)
+        draft["intents"][0]["asked_by"] = ""
+        with open(draft_path, "w") as fh:
+            yaml.safe_dump(draft, fh)
+        check("a gap with no question named is refused, even in a drive",
+              pi.main(drive + ["--update-proposed"]) == 2)
     with tempfile.TemporaryDirectory() as tmp:
         argv, working, _ = persist_setup(tmp, both())
         i = argv.index("--confirmation")

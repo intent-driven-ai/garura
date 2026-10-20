@@ -70,7 +70,19 @@ tool (the memory guide says how; `--issue` is the contract's `issue`), copy it u
 `<working>/memory/<its path>`, and hand the skill that copy. Record what you read with `cite`
 (the question "which kinds and rules does this draft follow", the answer, and the ontology's
 tier, path, lines and fingerprint). Never read the ontology by a path in memory. Read all of
-it before you invoke the skill. Do no outside research: a fact the
+it before you invoke the skill.
+
+**What the product is, from memory first (C5, C16).** A prototype shows screens, not where the
+product sits or who it is for. Before the skill drafts, look in memory — through the memory
+tool, in its lookup order — for what the product is, the domain it belongs to and the people
+who use it (for example, that a review tool inside Garura is used by the different people of
+a software team). Copy what you find into `<working>/memory/`, hand it to the skill as context,
+and `cite` it; a property drawn from it has provenance `memory`. When no tier holds what the
+draft needs and research can answer it, raise a memory update (`propose`, `draft_source: web`)
+— it waits for a person, and nothing rests on it until approved (ADR 035); the gap stays open
+with its question. On a later round of a drive (the contract's `round` above 1), also read what
+`/vision` and `/understand` wrote in the model (`model`, read only) — the domain, its
+capabilities, their docs — and fill what it answers (provenance `model`). Do no outside research: a fact the
 sources do not show and the person did not say is a question for the person, never a gap you
 fill (P11 exempt — you work only on what you are given).
 
@@ -92,6 +104,8 @@ fill (P11 exempt — you work only on what you are given).
     "source_manifests": ["<working>/source-manifest-<name>.json", "<one per Source>"],
     "answers": "<working>/answers.yaml | null",
     "issue": "<the run's issue>",
+    "round": "<the drive's round — absent run by hand>",
+    "model": "<product_base>product-os/ (read only, on a later round)",
     "ontology": "standards/schemas/product-os/ontology.md (the config's product.ontology)",
     "check_script": "<play-dir>/scripts/check_intent.py"
   },

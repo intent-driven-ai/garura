@@ -42,10 +42,16 @@ one-line or directional paragraph; a Source has no snapshot or no "what it shows
 intent page already exists. Only a person confirms (C4) — by hand here, or at a drive's final
 review. No git, no network, no LLM.
 
+Inside a drive (C16): a required property the draft leaves empty is saved as **open** when the
+draft names a question for it (the drive asks it); `--drive-run-id` stamps the drive on each
+page; `--open-out` writes the open questions for the drive; and on a later round
+`--update-proposed` rewrites only pages still proposed that this same drive saved.
+
     python3 persist_intent.py --draft <working>/intent-draft.yaml \
         ( --confirmation <working>/confirmation.yaml | --proposed --at <date> ) \
         --source-manifest <working>/source-manifest.json [--source-manifest <another> ...] \
-        --product-base <product_base> --working <working>
+        --product-base <product_base> --working <working> \
+        [--drive-run-id <id> --open-out <review_dir>/open-intent.json [--update-proposed]]
 
 confirmation.yaml:
     confirmation:
@@ -188,10 +194,15 @@ def plan(args):
     confirmed = [i for i in intents if decisions[str(i["id"])]["decision"] in ("confirmed", "proposed")]
     if not confirmed:
         raise Refused("the person confirmed no intent — nothing is saved")
+    questions = [q for q in (draft.get("questions") or []) if isinstance(q, dict)]
     for i in confirmed:
         for prop in REQUIRED:
             if not str(i.get(prop) or "").strip():
-                raise Refused(f"the intent `{i['id']}` is missing `{prop}`")
+                asked = [q for q in questions if str(q.get("intent")) in (str(i["id"]), "all")]
+                if not (args.proposed and asked and prop != "title"):
+                    raise Refused(f"the intent `{i['id']}` is missing `{prop}`" +
+                                  (" — inside a drive a gap is saved only when the draft names its "
+                                   "question for the drive" if args.proposed else ""))
 
     shows = {str(s.get("snapshot_dir")): str(s.get("shows") or "").strip()
              for s in (draft.get("sources") or []) if isinstance(s, dict)}
@@ -253,10 +264,26 @@ def plan(args):
             used.setdefault(dom, set()).add(str(c["built_from"]))
     work["new_domains"] = {k: v for k, v in used.items() if k not in in_model}
     work["old_domains"] = {k: v for k, v in used.items() if k in in_model}
+    work["questions"] = questions
+    work["drive_run_id"] = args.drive_run_id or ""
+    work["updated"] = []
     existing = [p for p in work["paths"].values() if os.path.exists(p)]
-    if existing:
+    if existing and args.update_proposed and args.drive_run_id:
+        foreign = [p for p in existing if not saved_by_this_drive(p, args.drive_run_id)]
+        if foreign:
+            raise Refused(f"{', '.join(foreign)} were not saved by this drive "
+                          f"({args.drive_run_id}) — only an intent this drive saved is updated")
+        work["updated"] = existing
+    elif existing:
         raise Refused(f"{', '.join(existing)} already exist — a business intent is never overwritten")
     return work
+
+
+def saved_by_this_drive(path, drive_run_id):
+    """True when the page is still proposed and its stage line names this drive's run."""
+    with open(path, encoding="utf-8") as fh:
+        stage = next((ln for ln in fh if ln.startswith("**Stage:**")), "")
+    return "proposed" in stage and f"drive {drive_run_id}" in stage
 
 
 def place(c, drafted, in_model, model, work):
@@ -349,15 +376,19 @@ def write_intents(w):
         path = w["paths"][str(i["id"])]
         here = os.path.dirname(path)
         when = w["decisions"][str(i["id"])].get("at") or w["conf"].get("at", "")
+        def prop_text(prop):
+            text = str(i.get(prop) or "").strip()
+            return text or "open — the drive asks this; nothing is filled in until it is answered"
         lines = [f"# {i['title']}", "",
-                 f"**Outcome:** {i['outcome']}",
-                 f"**Why:** {i['why']}",
-                 f"**Asked by:** {i['asked_by']}",
-                 f"**Proof it is met:** {i['proof']}"]
+                 f"**Outcome:** {prop_text('outcome')}",
+                 f"**Why:** {prop_text('why')}",
+                 f"**Asked by:** {prop_text('asked_by')}",
+                 f"**Proof it is met:** {prop_text('proof')}"]
         if str(i.get("must_not") or "").strip():
             lines.append(f"**Must not:** {i['must_not']}")
         if w["decisions"][str(i["id"])]["decision"] == "proposed":
-            lines.append("**Stage:** proposed — saved inside a drive" + (f", {when}" if when else "")
+            drive = f" (drive {w['drive_run_id']})" if w.get("drive_run_id") else ""
+            lines.append("**Stage:** proposed — saved inside a drive" + drive + (f", {when}" if when else "")
                          + "; the person confirms or drops it at the drive's final review")
         else:
             lines.append(f"**Stage:** confirmed — by {w['conf']['confirmed_by']}, {when}".rstrip(", "))
@@ -434,6 +465,26 @@ def manifest_for(w):
     }
 
 
+def write_open(w, path):
+    """The questions /intent hands the drive (drive contract, step 5): what each is about, the
+    gaps it blocks, whether a person must answer, and its example answers."""
+    titles = {str(i["id"]): str(i.get("title") or i["id"]) for i in w["confirmed"]}
+    gaps = {str(i["id"]): [p for p in REQUIRED if not str(i.get(p) or "").strip()] for i in w["confirmed"]}
+    out = []
+    for n, q in enumerate(w["questions"], 1):
+        if str(q.get("answer") or "").strip():
+            continue
+        iid = str(q.get("intent") or "all")
+        out.append({"id": f"intent-q{n}", "ask": str(q.get("ask") or ""),
+                    "about": "the whole product" if iid == "all" else titles.get(iid, iid),
+                    "blocks": [f"{iid}:{g}" for g in gaps.get(iid, [])] if iid != "all" else [],
+                    "for_person": bool(q.get("for_person", True)),
+                    "examples": list(q.get("examples") or [])})
+    os.makedirs(os.path.dirname(os.path.abspath(path)), exist_ok=True)
+    with open(path, "w", encoding="utf-8") as fh:
+        json.dump({"play": "intent", "questions": out}, fh, indent=2)
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--draft", required=True)
@@ -444,6 +495,10 @@ def main(argv=None):
     ap.add_argument("--source-manifest", action="append", required=True)
     ap.add_argument("--product-base", required=True)
     ap.add_argument("--working", required=True)
+    ap.add_argument("--drive-run-id", help="inside a drive: stamped on each page it saves")
+    ap.add_argument("--update-proposed", action="store_true",
+                    help="a later round of the drive: update the intents this drive saved")
+    ap.add_argument("--open-out", help="inside a drive: where to write the open questions for the drive")
     args = ap.parse_args(argv)
     try:
         work = plan(args)
@@ -453,7 +508,10 @@ def main(argv=None):
     write_ice(work)
     write_intents(work)
     write_sources(work)
+    if args.open_out:
+        write_open(work, args.open_out)
     manifest = manifest_for(work)
+    manifest["updated"] = work["updated"]
     with open(os.path.join(args.working, "intent-manifest.json"), "w", encoding="utf-8") as fh:
         json.dump(manifest, fh, indent=2)
     print(json.dumps(manifest, indent=2))

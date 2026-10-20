@@ -58,9 +58,12 @@ play pulls out what the person wants; it never copies how the source does it.
   questions, but the intents are saved as `proposed`, and the person confirms or drops them at
   the drive's final review (the review and the pull request at its end). Until then their ICE
   is not workable.
-- C5 — Nothing invented: every outcome, reason, proof and limit traces either to what the
-  source shows or to the person's own answers; where the source cannot say (who asked, why,
-  how we will know), the play asks the person and never fills the gap itself.
+- C5 — Nothing invented: every outcome, reason, proof and limit traces to what the source shows,
+  to the journeys walked through it (who uses it — the roles a journey's person plays), to
+  memory (found through the memory tool, with its trace), to what the drive's other plays wrote
+  in the product model, or to the person's own answers. Where none of these can say, the play
+  never fills the gap itself: run by hand it asks the person; inside a drive the gap is the
+  drive's question (C16).
 - C6 — The Source is kept as it was when read: a snapshot (screenshots and images for a
   deployed solution; a copy of the file for a file or a document; the exact text for a
   statement), with when it was read, what it shows in
@@ -129,6 +132,15 @@ play pulls out what the person wants; it never copies how the source does it.
   on a journey, or named as not walked with why. On a deployed site, a step that changes data
   (pay, delete, submit, accept …) is taken only when the person said the site is safe for it;
   on a file or a local prototype nothing real changes, so any step may be taken.
+- C16 — Inside a drive, a question `/intent` cannot answer is the **drive's**, not a stop (Kapil,
+  2026-10-20: "the question belongs to the whole drive"). First it looks in memory for what
+  the product is and who uses it — and drafts a memory update when research can answer
+  (ADR 035: used only once a person approves it). What is still open, it saves as a proposed
+  intent with each gap named as open, writes its open questions for the drive (each with what
+  it is about, whether a person must answer it, and example answers), and finishes. On a later
+  round of the drive it reads what `/vision` and `/understand` wrote in the product model,
+  fills what it can, and updates its own proposed intents — only those this drive saved. It
+  never stops the drive to ask; the drive asks the person what no play could answer.
 
 ### Failure conditions
 
@@ -171,6 +183,10 @@ play pulls out what the person wants; it never copies how the source does it.
   journey nor named as not walked; a business intent is a rule the system enforces rather than
   what a person gets; or a step that changes data ran on a deployed site the person had not
   cleared.
+- F16 — Inside a drive, `/intent` stopped to ask the person instead of handing its open
+  questions to the drive; saved an intent with a gap not named as open; wrote an open question
+  without what it is about or example answers; on a later round left open a gap that the
+  product model or memory now answers; or changed an intent this drive did not save.
 
 ## Context
 
@@ -258,6 +274,13 @@ in memory.
   every view the capture kept is on a journey or named as not walked, and each business intent
   traces to what a journey's person sets out to get. Measure: `journeys-check.json` reads
   `ok: true`; every business intent in the draft names the journey it came from.
+- S10 — (Kickoff drive, a gap only the drive can fill) Given a prototype that shows who uses it but
+  not the product's domain or why it matters, when `/intent` runs inside a drive, then it saves
+  its intents as proposed with the gaps named, writes its open questions for the drive, and
+  does not stop; on the next round it fills what `/vision` and `/understand` made known.
+  Measure: round 1's `open-intent.json` lists every gap; no question was put to a person by
+  `/intent`; round 2's intent pages fill at least one gap round 1 left open, and every filled
+  property's provenance is `source`, `journey`, `memory`, `model` or `person`.
 
 ### Done means
 
@@ -335,3 +358,9 @@ captured scoped-write guard output.
   journeys (or name each view not walked, with why), redraft the business intents from the
   journeys' goals; for a deployed site, ask the person whether a data-changing step is safe
   before taking it. handoff: autonomous.
+
+- REC16 (F16) — trigger: inside a drive `/intent` stopped to ask, saved an unnamed gap, wrote an
+  open question without its context, left a gap the model or memory now answers, or changed an
+  intent this drive did not save. direction: hand the questions to the drive instead; name
+  every gap as open with its question; on the next round re-read the model and memory and fill
+  what they answer; restore any intent this drive did not save. handoff: autonomous.
