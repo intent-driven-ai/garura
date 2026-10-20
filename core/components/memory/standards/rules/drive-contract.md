@@ -121,7 +121,8 @@ the full contract holds those fields too; such plays move to the shared checker 
 
 - ADR 029 — Drives (questions first; no stops for the plays' checkpoints; a new question
   stops the drive; the drive owns one issue, one branch, one pull request).
-- ADR 041 — a drive runs in rounds and owns the questions no play can answer; `/build-memory`
-  builds the memory it lacks before it asks.
+- ADR 041 — a drive runs in rounds and owns the questions no play can answer.
+- ADR 042 — the knowledge member plays: `/search-knowledge` and `/build-knowledge` find and build
+  what the drive lacks; `/review-knowledge` briefs the person, never a questionnaire.
 - `standards/rules/gate-config.md` — gate kinds; the `deferred_to_drive_review` answer.
 - `standards/rules/pipeline-position.md` — the injected opening and end sequence a drive skips.
