@@ -60,19 +60,19 @@ governs). The working folder is `{stm_base}<issue>/context/<drive>/<run-ts>/`.
 
 ### Step R3 — Questions first (ADR 029 §2, ADR 034)
 
-Ask the drive's `questions` before any play runs. Ask them in plain words, one at a time, and
-wait for typed answers (never `AskUserQuestion`). Look in memory first, through the memory
-tool: a question memory already answers is not asked; record where the answer came from.
+Ask the drive's `questions` before any play runs — only what the drive itself needs from the
+person to start (for Kickoff, where the prototype is). Ask them in plain words, one at a time,
+and wait for typed answers (never `AskUserQuestion`). The drive reads no memory itself (ADR 039,
+ADR 041 §8): what memory can answer is for its plays' agents, through the memory tool.
 Write the answers to `<working>/answers.json`, keyed by play, as plain values (what the plays
 read). Write where each came from to `<working>/answers-sources.json`, with the same keys:
 
 ```json
-{"intent": {"who_asks": {"from": "person"},
-            "proof":    {"from": "memory", "tier": "phoenix", "path": "knowledge/…", "trace": "<citation id>"}}}
+{"intent": {"argument": {"from": "person"}, "may_change_data": {"from": "person"}}}
 ```
 
-`person` is a typed answer; `memory` names the tier, the path and the decision trace the memory
-tool recorded. A person's answer is kept in the issue's short-term memory (ADR 039 §1). With
+`person` is a typed answer; `memory` (written by a play's agent on a later round) names the
+tier, the path and the decision trace the memory tool recorded. A person's answer is kept in the issue's short-term memory (ADR 039 §1). With
 `questions: none`, write `{}` to both.
 
 ### Step R4 — Write the drive contract
@@ -93,8 +93,7 @@ A drive runs its plays "in order and repeatedly, until its intent is met" (gloss
 ADR 029). A **round** runs every play in `plays`, in order. A question one play cannot answer
 is the **drive's** question, not a stop: the play records it, does all the work it does not
 block, and the drive goes on — the other plays may answer it, and the play fills it on the next
-round. The drive stops and asks the person only what no play of the drive can answer (Kapil,
-2026-10-20). Round 1 starts with the contract's `round: 1`; each later round writes the
+round. The drive stops and asks the person only what no play of the drive can answer (ADR 041). Round 1 starts with the contract's `round: 1`; each later round writes the
 contract again (R4) with the next number and any new answers.
 
 For each play in `plays`:
@@ -103,8 +102,8 @@ For each play in `plays`:
 2. **Run it with the configured runner.**
    - `subagent` (default): dispatch one sub-agent per play (layer 1), **in the foreground** —
      the drive waits for it to return and never starts it in the background. (A headless
-     session ends its turn while a background sub-agent runs, and stops it 10 minutes later:
-     #613's third Kickoff run lost `/intent`'s walk that way.) It runs
+     session ends its turn while a background sub-agent runs, and stops it 10 minutes
+     later.) It runs
      `/<play> --contract <working>/contract.json [<argument>]` — `<argument>` is
      `inputs.<play>.argument` when the contract sets it (for example the prototype `/intent`
      reads), handed on the play's command line as a person would type it — and returns only a compact result: its
@@ -187,8 +186,9 @@ the drive its input (for Kickoff, the person who shared the prototype):
    - the **prototype feedback** — what the prototype should show; no answer needed now.
    What the sources or memory answered is never asked.
 3. Wait for the typed replies (never `AskUserQuestion`). Record them in the issue's short-term
-   memory and in `answers.json` / `answers-sources.json` (`from: person`), mark the memory
-   updates approved or rejected through the memory tool, and run round n+1. The person may type
+   memory and in `answers.json` / `answers-sources.json` (`from: person`), record the person's decision on each memory
+   update through the memory tool's `decide` (decided in the session — the stand-in for Argus's
+   memory view, ADR 041 §8), and run round n+1. The person may type
    **stop**: close HALTED with `exit_reason: stopped_at_question`.
 
 ### Step R6 — The checker (ADR 029 §2)
@@ -206,8 +206,8 @@ its reasoning. Its rules, prompt and verdict shape are the `judge-drive-result` 
    ```
 
 2. **Run the checker** the config names (`checker_key`, resolved in R1):
-   - `subagent` — dispatch one sub-agent on `checker.model` (required: a model that is not the
-     session's), with this contract and nothing else:
+   - `subagent` — dispatch the `drive-checker` agent on `checker.model` (required: a model that
+     is not the session's), with this contract and nothing else:
 
          { "task":    "judge this drive's result with the judge-drive-result skill",
            "inputs":  { "bundle": "<working>/check/" },

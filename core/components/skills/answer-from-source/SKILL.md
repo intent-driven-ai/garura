@@ -8,8 +8,8 @@ allowed-tools: Read, Write, Glob, Grep
 
 # answer-from-source
 
-A drive's plays often leave open what the source already shows — #613's audit found 39 of 82
-open questions fully or partly answered by the prototype the drive had read. This skill looks
+A drive's plays often leave open what the source already shows: many open questions turn out
+to be answered, fully or in part, by the prototype the drive had read. This skill looks
 again, properly, before anyone is asked.
 
 ## Input
@@ -37,8 +37,7 @@ again, properly, before anyone is asked.
      could** (a speed target, a legal rule, a business result over time, where the product sits
      in the knowledge base).
 4. Check every claim you make about the source against it — never write that it "does not
-   show" something before searching for it (#613: a question claimed the prototype did not show
-   a removed piece it did show).
+   show" something before searching for it.
 
 ## Output
 

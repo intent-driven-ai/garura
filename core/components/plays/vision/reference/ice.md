@@ -165,8 +165,10 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
   and appends the crossing to the gate ledger as `deferred_to_drive_review` (the learner
   skips it until the drive's review writes the person's real answer). It still commits
   its model delta on the drive's branch (C9). A question neither the contract nor the model
-  answers — no intents and no goal — stops the run and asks the person; the play never
-  picks an answer itself. Run by hand (no contract), every step runs as before.
+  answers — no intents and no goal — is the drive's (ADR 041): the play writes it to
+  `<review_dir>/open-vision.json` (drive contract, step 5), does what it does not block, and
+  finishes; the drive asks the person only what none of its plays can answer. The play
+  never picks an answer itself. Run by hand (no contract), every step runs as before.
   Either way, the run's short-term memory is the issue it works on (ADR 036 §1, ADR 039 §1):
   inside a drive the contract's `issue`, run by hand the issue `start-change` opens or
   resolves. The run's working folder is `{stm_base}<issue>/context/vision/<product_slug>/`,
@@ -380,4 +382,5 @@ not per-node docs.
   ledger line, an approval no person gave, or an answer the play picked itself. direction:
   re-render the checkpoint and re-write the review record with `write_drive_review.py`;
   append the missing `deferred_to_drive_review` line, or a correction refuting a made-up
-  approval; drop the picked answer and ask the person. handoff: autonomous.
+  approval; drop the picked answer and hand the question to the drive (`open-vision.json`;
+  run by hand, ask the person). handoff: autonomous.

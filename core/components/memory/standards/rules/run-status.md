@@ -1,7 +1,7 @@
 # Run status — what a long run is doing now
 
 A drive can run for an hour. The person needs to see what it is doing without asking. That is
-two separate jobs, kept apart (Kapil, 2026-10-20):
+two separate jobs, kept apart (ADR 041 §6):
 
 - **The run presents a status.** It writes one small file and keeps it current. It never shows
   anything itself and does not know who reads the file — it works the same in Claude Code, in
@@ -14,7 +14,8 @@ two separate jobs, kept apart (Kapil, 2026-10-20):
 
 `{stm_base}<issue>/status/run-<name>.json` — `<name>` is the drive's name (later, a play's).
 The `status/` folder is machine-local and never committed (ADR 021), which is right for a live
-status.
+status. It also holds the plays' resume and session markers (ADR 021); the run status is the one
+file named `run-<name>.json`, written only by `drive_status.py`, and a display reads only it.
 
 ```json
 {

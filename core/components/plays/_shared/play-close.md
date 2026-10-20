@@ -31,7 +31,7 @@ Run these in order, with the values the play's close section sets.
 Step L is not optional. Run it whenever C1 or C2 runs. Skip it only when both are skipped:
 evidence recording is off **and** the play runs as a sub-play or inside a drive (see
 "Sub-plays and drives"). A report written in the play's own words, because the templates were
-not loaded, is a failed close — the #662 run closed all three Kickoff plays that way.
+not loaded, is a failed close.
 
 Dispatch `template-manager`, asking only for what this close uses (`evidence-file.md` when C1
 runs; `delivery-report.md` and `pipeline-next.md` when C2 runs):

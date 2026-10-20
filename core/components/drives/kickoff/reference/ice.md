@@ -7,8 +7,8 @@ criteria and the runner design (`.garura/project/issues/613/specs/runner-design.
 ## Intent
 
 **Goal:** from a working prototype, end with business intents the person has decided, a domain
-with its capabilities, and every capability detailed — on one issue and one branch, stopping
-only for a question nothing in memory answers, and checked by a checker the config picks.
+with its capabilities, and every capability detailed — on one issue and one branch, asking the
+person only what none of its plays, memory or approved research answers, and checked by a checker the config picks.
 
 ### Constraints
 
@@ -17,8 +17,8 @@ only for a question nothing in memory answers, and checked by a checker the conf
 - C2 — A working prototype is given — a file, a project folder or a link — and it runs (a link
   answers; a folder or file is there and the person says how it starts). Without one the drive
   halts before it opens anything.
-- C3 — The drive asks its own questions before any play runs, looking in memory first, and
-  records where every answer came from.
+- C3 — The drive asks its own questions before any play runs, and records where every answer
+  came from. The drive reads no memory itself (ADR 039); its plays' agents do.
 - C4 — The plays run in the fixed order `/intent` → `/vision` → `/understand`, **in rounds,
   until the drive's job is done**: each round runs all three, and the next round gives each
   play what the others found (Kapil, 2026-10-20: "the idea of a drive is to have it loop between
@@ -71,8 +71,13 @@ memory alone under one contract.
 
 The plays' own content questions — who asks for each intent, how we will know it is met, a
 capability's seed — depend on what the prototype shows, so the drive cannot ask them before
-`/intent` reads it. The plays ask them mid-run, and each stops the drive (C5). The drive asks
-first only what it can know up front.
+`/intent` reads it. A play that cannot answer one makes it the drive's question (C5); the
+other plays, the next round and `/build-memory` may answer it, and the person is asked only what
+none of them can (ADR 041). The drive asks first only what it can know up front.
+
+Not built yet: ADR 029 §6 gives Kickoff a second output, a plan and its issues for the person,
+with `approve-change` in its done check. This drive makes only the product model; the plan and
+its issues are an open item on #613's plan, waiting on Kapil.
 
 ## Plays
 

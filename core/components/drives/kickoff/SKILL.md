@@ -4,8 +4,8 @@ description: >
   The Kickoff drive — product to intent (ADR 029 §6). Give it a working prototype (a file, a
   project folder or a link) and it runs /intent → /vision → /understand as one run, on one
   issue and one branch: business intents proposed with their sources, a domain with its
-  capabilities, and every capability detailed. It asks first what it can, stops only for a
-  question nothing in memory answers, has a checker the config picks judge the result, records
+  capabilities, and every capability detailed. It asks first what it can, asks the person
+  only what none of its plays, memory or approved research answers, after the draft, has a checker the config picks judge the result, records
   its evidence, and ends at the pull request where the person types confirm or drop for each
   intent. Use when someone shares a working prototype and wants the product model built from
   it — "kickoff", "start from this prototype", "run the Kickoff drive".
@@ -120,7 +120,7 @@ its plays write is under `{stm_base}<issue>/`; no play's run record names anothe
 **Step 2 — Questions first** · Owner: drive · Depends on: Step 1
 Run R3. The prototype and how it starts were asked at pre-flight. For a link, also ask whether
 `/intent`'s walk may press buttons that change data on it (pay, delete, submit) — `true` only on
-the person's yes — as `answers.intent.may_change_data`. Write them to `answers.json`, and their source (`person`, or `memory` with tier, path and trace) to
+the person's yes — as `answers.intent.may_change_data`. Write them to `answers.json`, and their source (`from: person`) to
 `answers-sources.json`. Nothing else is known before `/intent` reads the prototype; the plays'
 own questions come mid-run (ICE, Context).
 **SE-3 (F3/C3):** `answers.json` and `answers-sources.json` exist before `contract.json`, and
@@ -271,7 +271,7 @@ a question resumes the same play with the person's answer (shared run, R5 step 3
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:3b26688b93eff3ec9461585d79798c79c8a598a70f2b010f4700eb1d8874c2c0 (of `reference/ice.md`) |
+| fingerprint | sha256:bb30b9731b340fd2d83c0ec66f98de2a93b107e35cb6da4876d1490e77c6bcce (of `reference/ice.md`) |
 | compiled_by | drive-creator (#613) |
 | kind | drive |
 | pipeline_position | both |

@@ -1,7 +1,7 @@
 # Pipeline-next — the successor map (single source of truth)
 
-Every user-invocable compiled play, when it finishes, must tell the user what to run
-next. This file is the one place that mapping lives. The **Standard Play Close**
+Every user-invocable compiled play — and every drive, which closes like a play (ADR 029) —
+when it finishes, must tell the user what to run next. This file is the one place that mapping lives. The **Standard Play Close**
 (`_shared/play-close.md` (beside the plays), step C2) renders each play's **Next** line by resolving the play here;
 `lint_play.py` fails any user-invocable compiled play that is neither listed here nor in
 `meta_exempt`.
@@ -17,7 +17,7 @@ the Next line where that reads better — e.g. `/next` itself).
 
 The lifecycle runs as five loops (ADR 028; the names are working names). The plays below are the steps inside each loop. Until the loop recipes exist (#594), a person runs each play, and this map tells them which comes next.
 
-- **Kickoff loop (ADR 029):** `/intent → /vision → /understand`. `/intent` is optional: `/vision` can still start from a goal typed as text.
+- **Kickoff loop (ADR 029):** `/intent → /vision → /understand`. `/intent` is optional: `/vision` can still start from a goal typed as text. The Kickoff drive (`/kickoff`) runs the three in rounds (ADR 041) and is listed here by its own name; its member play `/build-memory` runs only inside it.
 - **Shape loop:** `/shape → /roadmap`, then the design plays, which still run per slice today:
   - Functional: `/ux → /agentic → /marketing`
   - Non-functional: `/arch → /quality → /run`

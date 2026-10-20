@@ -159,7 +159,9 @@ Agents and skills (ADR 039 §2, §7, §8): the play reads no memory. `product-os
   `proposed` (C8) — the keyed persist runs before the gate resolves, so it is told by
   `in_drive`, not by the gate's outcome. It still commits its model delta on the drive's branch (C12). A
   question neither the contract nor the model answers — an absent capability with no seed
-  answers — stops the run and asks the person; the play never picks an answer itself. Run
+  answers — is the drive's (ADR 041): the play writes it to `<review_dir>/open-understand.json`
+  (drive contract, step 5), details what it can, and finishes; the drive asks the person only
+  what none of its plays can answer. The play never picks an answer itself. Run
   by hand (no contract), every step runs as before.
 - C14 — One run, all or nothing, the targets at once (#615). The run opens one change,
   saves once, guards once, has one checkpoint and makes one model-delta commit for all its
@@ -383,7 +385,8 @@ record.
   box-move missing as its own line), no ledger line, an approval no person gave, or an
   answer the play picked itself. direction: re-render the checkpoint and re-write the review
   record with `write_drive_review.py`; append the missing `deferred_to_drive_review` line, or
-  a correction refuting a made-up approval; drop the picked answer and ask the person.
+  a correction refuting a made-up approval; drop the picked answer and hand the question to
+  the drive (`open-understand.json`; run by hand, ask the person).
   handoff: autonomous.
 - REC16 (F16) — trigger: a pending capability left out, an unnamed one taken, a target
   measured against a box raised in the same run, a part of the run committed while another
