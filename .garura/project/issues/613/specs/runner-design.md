@@ -58,14 +58,13 @@ change, as today.
    answer from the model alone. It writes pass or reject, with reasons, to
    `context/kickoff/<run-ts>/check.yaml`. A reject halts the drive.
 7. **Evidence** — the shared close (`_shared/play-close.md`), with the drive's own record.
-8. **End** (Kapil, 2026-10-20, "b 1") — the drive opens the pull request and stops. The person
-   reads the plays' review records and confirms or drops each proposed intent by typing; then the
-   review and the merge run, the merge waiting for the person's approve. **This is a stand-in
-   until the review tool exists** (#641–#650; #650 makes the review the drive's last step).
-   Kapil: the tool must be built later and this addressed then — so Kickoff's ICE records it: a
-   constraint that the drive ends at the pull request with typed confirmation *until* the review
-   tool exists, and a failure condition if Kickoff ever confirms an intent itself; the review
-   tool's work stays in the #606 plan (item 7).
+8. **End** (Kapil, 2026-10-20, "b 1", then "2") — the drive opens the pull request and stops.
+   The person types **confirm** or **drop** for each proposed intent; the drive records their
+   exact words in the issue's short-term memory (`confirmation.yaml`) and never changes an
+   intent in the model — the intents stay `proposed` until Argus, the review tool, writes the
+   approval (#650, ADR 033). Then the review and the merge run, the merge waiting for the
+   person's approve. **This is a stand-in until Argus exists** (#680, #681); Kickoff's ICE
+   records it (C7, F7).
 
 ## 4. The checker, by config
 
@@ -130,3 +129,4 @@ Chosen: both, as config (Kapil). The default is the sub-agent; the config can na
 - 2026-10-20 — (a): the drive starts each play as a sub-agent (the docs allow three layers);
   a headless session stays a config option.
 - 2026-10-20 — Item 6 built the checker as section 4 says: `judge-drive-result`, `prepare_check.py`, `run_checker_codex.py`, `record_check.py` (Shared Drive Run, R6).
+- 2026-10-20 — Item 7: Kapil chose "2" — the person's typed decisions are recorded, the model untouched; the review tool is Argus, a Phoenix tool.

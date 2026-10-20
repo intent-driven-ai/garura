@@ -138,6 +138,11 @@ class LintDriveHalfDone(LintDrive):
         self.assertTrue(any("no step owned by: shape" in g for g in gaps), gaps)
         self.assertTrue(any("shape-done.json" in g for g in gaps), gaps)
 
+    def test_an_argument_is_handed_on_the_command_line_not_read_from_the_contract(self):
+        self.edit("Run R4 with the statement as `inputs.intent.statement`.",
+                  "Run R4 with the statement as `inputs.intent.statement` and `inputs.intent.argument`.")
+        self.assertFalse(any("inputs.intent.argument" in g for g in self.gaps()))
+
     def test_an_input_the_play_never_reads_fails(self):
         self.edit("Run R4 with the statement as `inputs.intent.statement`.",
                   "Run R4 with the statement as `inputs.intent.statement` and `inputs.intent.mood`.")

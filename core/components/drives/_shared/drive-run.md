@@ -79,11 +79,13 @@ For each play in `plays`:
 1. **Note the start.** `date +%s` → `<since>`.
 2. **Run it with the configured runner.**
    - `subagent` (default): dispatch one sub-agent per play (layer 1). It runs
-     `/<play> --contract <working>/contract.json` and returns only a compact result: its
+     `/<play> --contract <working>/contract.json [<argument>]` — `<argument>` is
+     `inputs.<play>.argument` when the contract sets it (for example the prototype `/intent`
+     reads), handed on the play's command line as a person would type it — and returns only a compact result: its
      status, its stop-condition verdict path, its review record path, and any question it
      stopped on. The play dispatches its own agents and judges (layer 2).
    - `headless`: `python3 scripts/run_play_headless.py --play <play> --contract
-     <working>/contract.json --out <working>/<play>-run.json`.
+     <working>/contract.json [--argument "<argument>"] --out <working>/<play>-run.json`.
 3. **A question stops the drive.** When the play stops on a question nothing in memory or the
    contract answers, bring it to the person in plain words and wait for the typed answer. The
    answer goes to the issue's short-term memory. Then resume the same play with the answer (the

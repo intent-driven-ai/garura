@@ -35,6 +35,7 @@ next:
   # Standalone (no loop)
   adr:            { command: null,           why: "a decision record stands on its own; nothing follows it by default" }
   # Kickoff loop, then Shape loop
+  kickoff:        { command: shape,          why: "the detailed model is ready — cut a capability into slices (the intent → design drive replaces this later)" }
   intent:         { command: vision,         why: "seed the product model from a confirmed business intent (give /vision its title, outcome and why as the goal)" }
   vision:         { command: understand,     why: "expand this capability's intent (ICE)" }
   understand:     { command: shape,          why: "cut the capability into slices" }

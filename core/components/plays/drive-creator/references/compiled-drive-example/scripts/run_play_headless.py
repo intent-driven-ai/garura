@@ -10,7 +10,8 @@ To answer a question the play stopped on, run it again with `--resume <session i
 Canonical copy lives at drive-creator/references/run_play_headless.py and is stamped into each
 drive's scripts/.
 
-    python3 run_play_headless.py --play vision --contract <contract.json> --out <run.json>
+    python3 run_play_headless.py --play intent --contract <contract.json> \
+        [--argument "<inputs.intent.argument>"] --out <run.json>
     python3 run_play_headless.py --play vision --resume <session id> \
         --message-file <answer.txt> --out <run.json>
 
@@ -34,13 +35,17 @@ def command(args):
         if not prompt:
             raise ValueError("the message file is empty")
         return [CLI, "-p", prompt, "--resume", args.resume, "--output-format", "json"]
-    return [CLI, "-p", f"/{args.play} --contract {args.contract}", "--output-format", "json"]
+    prompt = f"/{args.play} --contract {args.contract}"
+    if args.argument:
+        prompt += f" {args.argument}"  # inputs.<play>.argument, as a person would type it
+    return [CLI, "-p", prompt, "--output-format", "json"]
 
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description="Run one play of a drive headless.")
     ap.add_argument("--play", required=True)
     ap.add_argument("--contract")
+    ap.add_argument("--argument", help="the play's own argument (inputs.<play>.argument)")
     ap.add_argument("--resume", help="the session id to continue")
     ap.add_argument("--message-file", help="the person's answer, with --resume")
     ap.add_argument("--out", required=True)

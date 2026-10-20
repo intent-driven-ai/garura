@@ -288,6 +288,8 @@ def check_inputs_read(ctx):
     text = ctx["text"] + (open(ice, encoding="utf-8").read() if os.path.isfile(ice) else "")
     unread = []
     for play, key in sorted(set(re.findall(r"inputs\.([a-z0-9-]+)\.([A-Za-z_][\w-]*)", text))):
+        if key == "argument":
+            continue  # handed on the play's command line, as a person types it (shared run R5)
         md = find_play(ctx["play_dir"], play) if play in plays else None
         if md is None:
             continue  # an unknown play is reported by the plays check

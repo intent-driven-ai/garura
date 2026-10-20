@@ -239,6 +239,12 @@ class Headless(Work):
         self.assertEqual(run["session_id"], "s1")
         self.assertIn("/vision --contract c.json", run["result"])
 
+    def test_it_hands_the_play_its_argument(self):
+        code = quiet(run_play_headless.main, ["--play", "intent", "--contract", "c.json", "--argument",
+                                              "https://shop.example.com", "--out", self.p("run.json")])
+        self.assertEqual(code, 0)
+        self.assertIn("/intent --contract c.json https://shop.example.com", self.read_json("run.json")["result"])
+
     def test_it_resumes_the_same_session_with_the_answer(self):
         answer = self.write("answer.txt", "Shops pay a monthly fee.")
         code = quiet(run_play_headless.main, ["--play", "vision", "--resume", "s1",

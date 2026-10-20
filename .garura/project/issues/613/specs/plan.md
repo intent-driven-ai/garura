@@ -4,7 +4,7 @@ kind: story
 serves: "#613 — the Kickoff drive runs /intent, /vision and /understand from a working prototype to a detailed product model"
 status: active
 updated: 2026-10-20
-now: 7
+now: 8
 serves_plan: 606
 serves_item: 8
 ---
@@ -80,7 +80,7 @@ the wrong move."* When memory and the system hold nothing to go on, they ask.
 The memory milestone is passed (#653 items 1 to 9; the last, #662, merged on 20 October): the
 three plays read memory only through their agents, every run lives under its issue, and they
 ran from memory alone on a test project. A fresh branch `feature/613-the-kickoff-drive` is cut
-from main (`504379ce`). Items 3 to 6 are done. Now: item 7, building Kickoff.
+from main (`504379ce`). Items 3 to 7 are done. Now: item 8, a real run — Kapil picks the prototype.
 
 ## The plan, in order
 
@@ -125,6 +125,12 @@ from main (`504379ce`). Items 3 to 6 are done. Now: item 7, building Kickoff.
   writes `check.yaml` (pass goes on, reject halts, a malformed verdict is never a pass). Proved on
   the #662 run: Sonnet and Codex each passed the full run and rejected it cut short after
   `/vision` (`evidence/checker/`).
+- **7. Built the Kickoff drive** (20 October) — `core/components/drives/kickoff/`, built with
+  `/drive-creator` from its ICE (Kapil: "the ice looks okay"): the prototype checked before
+  anything opens, `/intent` → `/vision` → `/understand`, the checker (default a sub-agent on
+  Sonnet), evidence always on, and the stand-in end — the person types confirm or drop per
+  intent, recorded in the issue's short-term memory, the model left `proposed` until Argus writes
+  the approval (Kapil chose "2"). `lint_drive.py` passes; the full install lays it.
 
 ### Milestone: Kickoff's plays work from memory — passed (20 October)
 
@@ -136,17 +142,7 @@ system in every Garura install, and
 project. That work is its own feature, outside this issue
 (Feature #653, `.garura/project/issues/653/specs/plan.md`).
 
-### 7. Build the Kickoff drive — now
-
-**Issue:** #613.
-**What:** write Kickoff's intent source (ICE) from #613's acceptance criteria and
-compile it: questions first, `/intent` → `/vision` → `/understand` (once, for
-all capabilities), the checker, the evidence.
-**Why here:** it puts items 4 to 6 together.
-**Done when:** Kickoff compiles, its lint passes, and its done check is baked in.
-**Needs:** items 4, 5 and 6.
-
-### 8. Prove Kickoff on a real prototype
+### 8. Prove Kickoff on a real prototype — now
 
 **Issue:** #613.
 **What:** run Kickoff end to end on a real working prototype, in a test project
@@ -205,3 +201,4 @@ mark step 1 of item 8 done in the #606 plan.
 - 2026-10-20 — Item 5 done: `/drive-creator`, `/drive-editor`, the shared drive run and `lint_drive.py`; drives live in `core/components/drives/` (Kapil: "1").
 - 2026-10-20 — Item 6 done: the checker, both kinds, proved with a pass and a reject each (`evidence/checker/README.md`).
 - 2026-10-20 — Item 7: Kapil chose 2 — at Kickoff's end the person's typed confirm or drop is recorded in the issue's short-term memory; intents stay proposed until the review tool writes approval. Kapil: the review tool's Catch up swipe handles ICE differently from business intents (open; recorded in #617's tool plan).
+- 2026-10-20 — Item 7 done: Kickoff built and linted (`core/components/drives/kickoff/`).

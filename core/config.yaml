@@ -111,9 +111,18 @@ craft-ice:
 #      kind: subagent         # or coding-agent
 #      model: sonnet          # coding-agent: a Codex model, e.g. gpt-5.6-terra
 
+drives:
+  kickoff:
+    runner: subagent
+    checker:
+      kind: subagent
+      model: sonnet
+
 # Evidence recording — when false, STM evidence writes are skipped across ship and all sub-plays
 evidence:
   record: false
+  plays:
+    kickoff: true           # a drive always records its evidence (ADR 029)
 
 # Grounding eval — the content-quality judge over product-model grounding docs
 # (domain/capability/functionality/epic). The linter (lint_grounding.py) checks shape;
