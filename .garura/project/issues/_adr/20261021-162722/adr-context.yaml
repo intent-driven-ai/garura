@@ -1,0 +1,95 @@
+# Context for the draft ADR, gathered by adr-keeper (task draft-adr, issue #698).
+shape: markdown
+number: "045"
+draft_path: .garura/project/issues/_adr/20261021-162722/adr-draft.md
+template_path: core/components/memory/standards/templates/adr.md
+status: proposed
+level: framework
+decided_by: Kapil Viren Ahuja     # the caller asks for this line filled in (the brief names him)
+decided_in: "#698 (rename drive to loop); the word chosen 2026-10-21 in #606"
+style: plain, short English (ASD-STE100 style). No absolute home paths.
+
+overlap_candidates_from_script: ["029", "028", "043", "044", "035", "041"]
+also_read: ["032", "025"]
+
+supersedes: []
+
+amends:
+  - adr: "028"
+    part: >-
+      "Each loop is an intent" — the names Understand, Shape, Execute, Change, Learn are no
+      longer working names: the loops are named Discovery (was Understand), Slice (was Shape),
+      Execute, Ship (was Change) and Learn; and §5 "Learn": its plays are /learn, /promote and
+      /drift (in place of /next, /focus, /learn). Also the word ADR 029 took from it ("loop
+      recipe" becomes drive) comes back: a loop is a loop.
+  - adr: "029"
+    part: >-
+      §1 "A drive is a run of plays" — the word: a drive is now a loop, and the
+      American-football origin of the name goes; §6 "The first drive: Kickoff" — Kickoff is
+      now the Discovery loop; and §1's rule "A drive never shares a name with a play" — the
+      Learn loop shares its name with the /learn play; the always-full-name rule ("the Learn
+      loop", never a bare "loop") now separates them. Everything else in ADR 029 stands,
+      under the new word.
+    keeper_note: >-
+      The brief does not say it overrides the no-shared-name rule. But it names the Learn
+      loop "Learn" and the /learn play exists (core/components/plays/learn/), so the rule no
+      longer holds as written. Say this in the draft's Context so the person who accepts can
+      check it.
+  - adr: "044"
+    part: >-
+      §1 "The Shared Drive Run owns the steps between plays" — the name only: the Shared Drive
+      Run is now the Shared Loop Run. What it owns does not change.
+
+not_affected:
+  - adr: "032"
+    why: Uses the word "drive" only; how a loop's outcome is reviewed does not change. It reads with drive as loop.
+  - adr: "041"
+    why: Uses the word only; rounds, question ownership and member plays do not change.
+  - adr: "043"
+    why: Uses the word and "Kickoff" only; how the plays read and the loop connects nodes does not change.
+  - adr: "035"
+    why: Script candidate through /learn only; agents working from memory does not change.
+  - adr: "025"
+    why: >-
+      Not affected. But its "goal-loop" inside each play (Level 3) is an inner loop, like the
+      agent loop the brief names. The always-full-name rule also keeps a loop apart from it.
+  - note: >-
+      ADRs 030, 031, 033, 034, 036, 037, 039, 042 also use the word "drive". They keep their
+      words (brief, Decision 5) and read with drive as loop. They get no pointer.
+
+affects:
+  - core/components/drives/ (becomes core/components/loops/) — _shared/drive-run.md (the Shared Drive Run), kickoff/ (SKILL.md, reference/ice.md, stop-condition.yaml, scripts/ such as drive_preflight.py, drive_status.py, check_drive_contract.py, write_drive_contract.py)
+  - core/components/plays/drive-creator/ (becomes loop-creator; references/, compiled-drive-example/, scripts/lint_drive.py)
+  - core/components/plays/drive-editor/ (becomes loop-editor; scripts/lint_drive.py)
+  - core/components/memory/standards/rules/drive-contract.md (becomes the loop contract) and its row in rules/_index.md; other rules that name a drive (run-status.md, direct-model-write.md, work-plan.md, gate-config.md, pipeline-position.md, evidence-recording.md)
+  - core/components/agents/drive-checker.md (becomes the loop checker); other agents that name a drive (product-os-keeper.md, prototype-reader.md, knowledge-builder.md, business-intent-keeper.md)
+  - core/components/skills/judge-drive-result/ (SKILL.md, verdict.schema.json), find-model-gaps, close-model-gaps, author-adr
+  - core/components/plays/play-creator/references/ (check_drive_contract.py, test_drive_contract.py, write_drive_review.py)
+  - core/config.yaml — the paths.drives key, the drives.* block (drives.kickoff runner, max_rounds, checker) and evidence.plays.kickoff
+  - core/components/plays/install-garura/scripts/install.py and test_install.py (the drives path, META_PLAYS drive-creator/drive-editor); uninstall-garura
+  - core/tools/lint-components/lib/discover.js and lib/rules/structural.js
+  - core/tools/rebuild-eval/ and core/tools/memory/contract/v5.json
+  - core/components/memory/standards/templates/adr.md ("Inside a drive")
+  - core/grounding/glossary.md (the Drive and /drive-creator entries; the "never shares a name with a play" line)
+  - docs/philosophy/ (idsd.md, garura-reference-implementation.md, architecture.md) and docs/components/ (plays.md, agents.md, skills.md, memory.md)
+  - the ice.md of the plays that run inside a drive and their fingerprints in SKILL.md
+
+ice_impact: >-
+  Wording only. The ICE of the plays that name a drive changes "inside a drive" to "inside a
+  loop": core/components/plays/{intent,vision,understand,adr,run,start-change,search-knowledge,
+  build-knowledge,review-knowledge}/reference/ice.md and core/components/drives/kickoff/reference/ice.md
+  (which becomes the Discovery loop's). Each changes through /play-editor (or the loop editor),
+  and its fingerprint in SKILL.md is stamped again. No guarantee, constraint, failure condition
+  or scenario changes in meaning.
+
+business_intent_check: none
+business_intent_why: >-
+  A framework rename. No person's business intent changes, and the Business Intent kind does
+  not change.
+
+related: ["ADR 025", "ADR 028", "ADR 029", "ADR 032", "ADR 041", "ADR 043", "ADR 044", "#606", "#608", "#609", "#610", "#611", "#698"]
+
+keeper_notes_for_draft:
+  - Past run records keep their words (brief, Decision 5).
+  - "/promote and /drift are not built yet (no play folder under core/components/plays/). /next and /focus leave the Learn loop's list; the brief does not say where they go."
+  - "Some files use 'drive' as a verb ('intent-driven', 'drives design'); the rename is for the noun only. Fact from the repo search, for Work This Creates; not a new reason."
