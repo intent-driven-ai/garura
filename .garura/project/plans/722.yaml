@@ -4,7 +4,7 @@ id: 722
 title: A product model can be managed, and grows as plans are built
 status: active
 started: '2026-10-21'
-branch: plan/722-product-model
+branch: plan/722/base
 identified_by:
 - 717
 needs_plans: []
