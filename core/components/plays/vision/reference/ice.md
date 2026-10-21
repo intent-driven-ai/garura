@@ -81,7 +81,9 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
   changes is recorded in the seed manifest with its shelf match or its proposal, and its page
   ends with `## Sources` (its shelf or its research links) (#689). 
   A domain is a field the industry identifies itself with — a product category or market that vendors, analysts and buyers name (for example application lifecycle management, customer relationship management, e-commerce). A principle, a practice, a regulation or a quality (human oversight, accessibility, compliance) is never a domain: it is a rule or a need inside one (Kapil, 2026-10-21: "a domain is something that industry identified
-  with").
+  with"). Nor is the field of one feature many products share (comments, notifications, search,
+  sign-in), even where a market of that name exists: a domain the product sits in holds at least
+  one of its main sections (C12).
 - C6 — Keep what is there, enforced by the containment split, the keep check and the
   post-write scoped guard: the LLM authoring skill writes only domain grounding docs and never
   a shared file; a doc that exists is updated in place, keeping every section it had, never
@@ -178,11 +180,20 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
   product offers its user from the screens — and, when the capture carries the person's
   write-up, from what it says the product is, its field and its job — : the domains it sits in. It asks, in order, which
   field the product serves — judged by what its screens are about — and which job it does in
-  that field; each may be a domain, so a product often sits in more than one (Kapil, same day,
-  on a review tool for AI-built software: SDLC or Developer Experience as the field, Human
-  Oversight and Product requirements management as the job), each with its own page and
-  `## Sources`. The sample data on the screens is an example of what the product handles,
-  never its domain.
+  that field; each may be a domain, so a product often sits in more than one, each with its own
+  page and `## Sources`. The sample data on the screens is an example of what the product
+  handles, never its domain.
+
+  Every main section of the screens (the capture's `main_sections`) sits in a domain, and that
+  domain's own shelf or research shows the field does this kind of work: the seed manifest's
+  `areas` names, for each main section, its domain, the line from the shelf or research that
+  covers it (`evidence`) and where that line is from (`source`). A main section no researched
+  field covers is a sign the product sits in a field not yet found: research for the field that
+  does that work, by the name the industry uses, and add it as a domain — never stretch a found
+  field over work its own research does not list. A domain that holds no main section is not a
+  domain the product sits in, and is not written. The bundled `grounding_check.py --journeys`
+  checks both (Kapil, 2026-10-21, after a run placed every section in one field and named a
+  second after a feature: "it has to be" the field the industry names).
 
 ### Failure conditions
 
@@ -197,7 +208,7 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
   `set`/`locked` was written, or an entry's `detail` was lowered (ADR 043).
 - F4 — A domain is neither grounded in a KB domain shelf nor recorded as a KB-node proposal, or
   it names a principle, a practice, a regulation or a quality rather than a field the industry
-  identifies itself with;
+  identifies itself with, or the field of one feature many products share;
   or it is a name made up for this product — no shelf matched and no research names it — or
   its page has no `## Sources`.
 - F5 — Allowlist breach: a model path outside the run's write scope changed (a domain doc
@@ -236,7 +247,9 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
   answer to a question the drive had not answered.
 
 - F14 — Handed a prototype's capture, the play named a domain after the sample data or the
-  screens' own words, or missed the field the screens are about.
+  screens' own words, or missed the field the screens are about; or a main section sits in no
+  domain, or in one whose shelf or research does not cover its work; or a domain holds no main
+  section.
 
 ## Expectation
 
@@ -305,9 +318,12 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
 - S8 — (product strategist, from a prototype alone) Given only a prototype's capture — no
   intents, no goal — when /vision runs, then it names every domain the world recognises the
   product sitting in — the field its screens are about and the job it does there — each found
-  by a shelf or by research. Measure: `grounding_check.py` run with `--product-base` exits 0 —
-  every domain page's `## Sources` names its shelf or a research link and no capability was
-  written; the rebuild eval's review reads `recognised: true` for the domain.
+  by a shelf or by research, and each main section of the screens in the domain whose research
+  covers its work. Measure: `grounding_check.py` run with `--product-base` and `--journeys` exits
+  0 — every domain page's `## Sources` names its shelf or a research link, every main section
+  sits in a listed domain with its evidence and source, every added domain holds a main section,
+  and no capability was written; the rebuild eval's review reads `recognised: true` for each
+  domain.
 
 ### Done means
 
@@ -398,6 +414,8 @@ not per-node docs.
   run by hand, ask the person). handoff: autonomous.
 
 - REC14 (F14) — trigger: a domain named after the sample or the screens' words, or the field the
-  screens are about missed. direction: route the product the screens offer again — the sample
-  set aside — through the shelves and, when none fits, research for the domains the world names:
-  the field first, then the job. handoff: autonomous.
+  screens are about missed, a main section in no covering domain, or a domain with no main
+  section. direction: route the product the screens offer again — the sample set aside — through
+  the shelves and, when none fits, research for the domains the world names: the field first,
+  then the job; for each main section left over, research the field that does its work; drop a
+  domain no main section sits in. handoff: autonomous.

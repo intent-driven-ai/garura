@@ -266,8 +266,14 @@ copies into short-term memory, for what the domain covers — as research notes 
 page, never as capability entries (ADR 043). For a domain no shelf holds, it raises a
 `propose-kb-node` proposal, which names the domain as the world already names it, from its
 research sources, never from the product's own screens (C5) — and only a field the industry identifies itself with (a product category or market),
-never a principle, practice, regulation or quality. It writes the grounding (each
-domain with its KB shelf reference or its proposal) and any proposals to disk:
+never a principle, practice, regulation or quality, nor the field of one feature many products
+share. With a capture, it places every main section of the screens (`main_sections` in the
+capture's journeys) in the domain whose shelf or research covers that kind of work, quoting the
+line that covers it; a main section no found field covers means the product sits in a field not
+yet found — research for it by the name the industry uses and add it, never stretch a found field
+over work its research does not list; a domain that holds no main section is dropped (C12). It
+writes the grounding (each domain with its KB shelf reference or its proposal, and each main
+section with its domain, evidence and source) and any proposals to disk:
 
     {
       "task":    "route the product to its domains — the field it serves, then the job it does there — each from a KB shelf or, when none fits, a researched propose-kb-node proposal",
@@ -295,7 +301,8 @@ its Capabilities section describing in plain words the kinds of capability the d
 It writes no capability page and names no capability entry (ADR 043). It emits the
 spine-delta (new domain entries with their `intents`, the named `updates` to existing domain
 entries, and the directional `profile` block), each domain with its grounding, and
-`warnings`, as structured data in `seed-manifest.yaml`. It writes NO shared model file
+`warnings` — and, with a capture, the `areas` (each main section with its domain, `evidence`
+and `source`, from the grounding) — as structured data in `seed-manifest.yaml`. It writes NO shared model file
 (`_spine.yaml`, the profile, an intent page) and moves no page — the keyed persist (Step 4)
 applies the manifest:
 
@@ -328,7 +335,8 @@ persist (Step 5) writes those entries.
 ```
 python3 scripts/lint_grounding.py --root <product_base>/product-os
 python3 scripts/grounding_check.py --manifest <working>/seed-manifest.yaml \
-        --proposals-dir <working>/proposals --product-base <product_base>
+        --proposals-dir <working>/proposals --product-base <product_base> \
+        [--journeys <the capture's journeys.yaml>]   # with a capture (C12)
 ```
 
 Then run the **content-quality eval** over the domain docs this run wrote or changed (each
@@ -368,7 +376,9 @@ listed in the manifest with a KB shelf match or an existing KB-node proposal; no
 ungrounded; every domain page ends with `## Sources` naming its shelf or a research link.
 **SE-15 (F14/C12):** handed a capture, the agent's contract records each domain from a shelf
 or from research — the field the screens are about first, then the job — never from the
-sample data or the screens' own words.
+sample data or the screens' own words; and `grounding_check.py --journeys` exits 0 — every
+main section sits in a listed domain with the evidence and source that its field covers that
+work, and every domain the run adds holds a main section.
 On any GAP, apply the matching recovery (REC1–REC4) and re-run before the checkpoint —
 for a content-eval fail (SE-2), REC2 rewrites the doc to the judge's cited fixes and
 re-judges until the gate passes.
@@ -642,7 +652,8 @@ merge; the land on main keeps its pinned human approval (merge-change C7).
 - **SCE-8 (S8 — product strategist, from a prototype alone):** with only a capture, the run
   names every recognised domain the product sits in — the field its screens are about and the
   job it does there — each with its `## Sources`, and writes no capability;
-  `grounding_check.py` with `--product-base` exits 0.
+  `grounding_check.py` with `--product-base` and `--journeys` exits 0: every main section sits
+  in a domain whose research covers it, and every added domain holds one.
 - **SCE-7 (S7 — Kickoff drive):** handed a valid contract, `run.json` reads `in_drive: true`
   with the contract's `drive_run_id` and branch; no `start-change` or end-sequence step ran; the
   current branch equals the contract's; a `vision-<ts>.json` review record with
@@ -746,7 +757,7 @@ pointer to `$evidence_dest`. Always emitted; never gated.
 | F1 | a grounding doc fails its template/shape, or a spine entry fails the schema or spine↔doc consistency | re-emit the failing doc or spine entry to conform and restore consistency before the checkpoint | autonomous |
 | F2 | a grounding doc fails the content-quality eval | rewrite the failing doc to the judge's cited fixes — raise each flagged section to a self-explaining, CXO-altitude statement — and re-judge until the gate passes | autonomous |
 | F3 | a capability page, entry, update or placement, acceptance criteria, a `set`/`locked` profile, or a lowered `detail` appears | strip the over-reach — drop every capability and functionality write (they are /understand's), remove the acceptance criteria, reset the profile to `directional`, restore a lowered `detail` — leaving only domains | autonomous |
-| F4 | a domain has neither a KB shelf match nor a KB-node proposal, is a made-up name, names a principle, practice, regulation or quality rather than a field the industry identifies itself with, or its page lacks `## Sources` | search the KB to ground it, or record a propose-kb-node proposal that names the domain from its research; write its sources; never leave it ungrounded | autonomous |
+| F4 | a domain has neither a KB shelf match nor a KB-node proposal, is a made-up name, names a principle, practice, regulation or quality rather than a field the industry identifies itself with, or the field of one feature many products share, or its page lacks `## Sources` | search the KB to ground it, or record a propose-kb-node proposal that names the domain from its research; write its sources; never leave it ungrounded | autonomous |
 | F5 | the scoped-write guard or the keep check report is not ok, or the persist refused an update outside the named ones | the guard's `--restore` already reverted the offending paths; restore any doc that lost a section from HEAD and re-apply only the additions; re-run the keyed persist with only the named updates, after a human confirms the restore | human |
 | F6 | the model delta was committed before the checkpoint resolved (no approval, config skip, auto-pass, or — inside a drive — recorded deferral), or a cancelled checkpoint left writes on the working tree | revert the premature commit and the working-tree writes (guard `--restore`, empty allow set) and re-present the checkpoint; commit only after the human approves (inside a drive, only after the deferral is recorded) | human |
 | F7 | the close would report COMPLETED without the Done means held | close HALTED (`stop_condition_unmet`) with the unmet clauses named; fix the state — re-run the keyed persist, re-capture the scoped-write guard report, or make the model-delta commit — and re-evaluate; the close stays HALTED until the verdict reads held | autonomous |
@@ -756,7 +767,7 @@ pointer to `$evidence_dest`. Always emitted; never gated.
 | F11 | a domain added twice, a one-sided intent link, or an input intent no domain serves with no warning | drop the duplicate; re-run the keyed persist so it writes the missing side of each link; record the unserved intent as a warning | autonomous |
 | F12 | inside a drive the play opened an issue or branch, ran the end sequence, waited at its checkpoint, or worked off the drive's branch; or by hand it skipped a step; or a run file lies outside the issue the run works on | inside a drive, close the stray issue and branch, switch to the drive's branch, and write the review record in place of the wait; by hand, run the skipped step; move any run file into the issue's folder (`context/vision/<product_slug>/`, `status/`) | human |
 | F13 | no review record, a record that differs from the checkpoint, no ledger line, an approval no person gave, or an answer the play picked itself | re-render the checkpoint and re-write the review record with `write_drive_review.py`; append the missing `deferred_to_drive_review` line, or a correction refuting a made-up approval; drop the picked answer and hand the question to the drive (`open-vision.json`; run by hand, ask the person) | autonomous |
-| F14 | a domain named after the sample or the screens' words, or the field the screens are about missed | route the product the screens offer again — the sample set aside — through the shelves and, when none fits, research for the domains the world names: the field first, then the job | autonomous |
+| F14 | a domain named after the sample or the screens' words, the field the screens are about missed, a main section in no covering domain, or a domain with no main section | route the product the screens offer again — the sample set aside — through the shelves and, when none fits, research for the domains the world names: the field first, then the job; for each main section left over, research the field that does its work; drop a domain no main section sits in | autonomous |
 
 ## Pause and Resume
 
@@ -772,8 +783,8 @@ continues at the first end-sequence member that has not finished.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:65c89056a4b7f788ff970ffee9fc4392544c38f1fa03a900faf042956cfa9c25 (of `reference/ice.md`) |
-| compiled_by | play-editor (#689 ADR 043 — domains only; a recognised domain by research, every page with its sources, reads a prototype capture: C12); play-editor (#661 reads no memory; the run lives in its issue); play-editor (#614 runs inside a drive); play-editor (#637 one product model with /intent); play-editor (#616 position both); play-editor (#500 direct-model-write, ADR 026); prior: play-editor (#467 Batch B, #466 Batch C); play-creator (edited via play-editor, #437; spine+grounding+eval model) |
+| fingerprint | sha256:265fe083c69d3492628ea59b7a74b870c7074cbdb3a711e2ae61ce89f1cd3bcb (of `reference/ice.md`) |
+| compiled_by | play-editor (#689 every main section in a domain whose research covers it; no domain from one shared feature: C5, C12); play-editor (#689 ADR 043 — domains only; a recognised domain by research, every page with its sources, reads a prototype capture: C12); play-editor (#661 reads no memory; the run lives in its issue); play-editor (#614 runs inside a drive); play-editor (#637 one product model with /intent); play-editor (#616 position both); play-editor (#500 direct-model-write, ADR 026); prior: play-editor (#467 Batch B, #466 Batch C); play-creator (edited via play-editor, #437; spine+grounding+eval model) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close — #616) |
 | position_exception | model-writing both play — writes the model on the started branch and commits its own model delta (C9) BEFORE the injected end sequence lands it (same shape as /measure) |
 | workflow_structure | A (single checkpoint — class: standard, conditional gate per gate-config.md #467; direct-model-write WRITE-THEN-REVIEW per ADR 026 — persist + guard + classify before the gate, commit after; stop-condition gated close) |

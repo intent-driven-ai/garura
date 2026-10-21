@@ -1,7 +1,7 @@
 ---
 name: author-vision-seed
 description: Author or grow the domains of the product model for /vision — a detailed domain grounding doc for each domain the product sits in (the field it serves and the job it does there), each ending with its sources — straight to the live model, starting from business intents, a typed goal, a prototype's capture, or any mix, and from whatever the model already holds; and emit the matching spine-delta (new domain entries, the named updates to existing ones, and the directional profile) as structured manifest data. Writes domains only (ADR 043) — never a capability or a functionality, which are /understand's. Writes per-node docs only; never a shared file. Generative artifact production for the /vision play.
-version: 0.5.0
+version: 0.6.0
 user-invocable: false
 model: opus
 allowed-tools: Read, Write, Bash, Glob
@@ -82,7 +82,7 @@ Telegraphic labels ("Local fixtures only") fail the eval.
 | `goal` | no | The business goal, free text (e.g. "order management for a D2C store"). With intents, draw it from their pages instead. |
 | `capture` | no | A prototype's shared capture (#689): its source manifest (the views kept, each with its text) and its journeys. With it, the domains are read from the screens themselves — the field they are about and the job the product does there — no intents needed. |
 | `intents_path` | no | `read_intents.py`'s record: the input intents (title, outcome, why, stage) and the domains and capabilities already linked to them. |
-| `grounding_path` | yes | The `search-kb` routing result: each domain the product sits in, with its KB shelf or its proposal, and `why`. |
+| `grounding_path` | yes | The `search-kb` routing result: each domain the product sits in, with its KB shelf or its proposal, and `why`; with a capture, each main section with its domain, `evidence` and `source`. |
 | `proposals_dir` | no | Folder of any `propose-kb-node` proposals for domains the KB did not cover. |
 | `product_base` | yes | From config (`product.base-path`). The live model root: read the existing spine + docs (to write only what is ABSENT), and WRITE the `domain.md` docs in place under `{product_base}product-os/`. Only domain docs — never a shared file. |
 | `manifest_path` | yes | Where to write `seed-manifest.yaml` (STM, non-model) — carries the spine-delta as structured data for the keyed persist script. |
@@ -98,7 +98,11 @@ levels — is yours. Template conformance and the content bar are non-negotiable
 1. **Read the grounding and the intents.** Take the routed domains. Each must trace to a KB
    shelf (cited in the routing result) or a proposal in `proposals_dir` that names it from
    research. A domain with neither is dropped, not invented — note the gap. With
-   `intents_path`, read the intents and what is already linked to them.
+   `intents_path`, read the intents and what is already linked to them. With a capture, check
+   that every main section (`main_sections` in its journeys) sits in a domain whose shelf or
+   research covers that kind of work; a main section left over means a field not yet found —
+   hand it back for research, never stretch a found field over it. A domain that holds no main
+   section is dropped.
 
 2. **Check what already exists.** Read `product_base`'s `_spine.yaml` (if present) and the
    live doc tree. A routed domain already in the model is grown, not added again. Never emit
@@ -128,7 +132,9 @@ levels — is yours. Template conformance and the content bar are non-negotiable
      live spine.
 
 5. **Write the manifest.** Write `seed-manifest.yaml` to `manifest_path` — the `spine_delta`,
-   `warnings`, plus the provenance + KB grounding for EVERY domain the run adds or updates, so
+   `warnings`, plus the provenance + KB grounding for EVERY domain the run adds or updates, and,
+   with a capture, the `areas` — each main section with its domain, the line from that domain's
+   shelf or research that covers its work (`evidence`) and where it is from (`source`) — so
    the play's grounding check and keyed persist are mechanical. Never write `_spine.yaml`,
    the profile, or an intent page yourself.
 
@@ -156,6 +162,9 @@ seed:
       name: "Work management"
       doc: "product-os/work-management/domain.md"
       grounding: { kb_shelf: "collaboration" }
+  areas:                                           # with a capture: every main section, in a domain whose research covers it
+    - { section: "Board", domain: work-management, evidence: "work management tools let teams plan and track tasks on boards", source: "kb_shelf: collaboration" }
+    - { section: "Releases", domain: software-delivery, evidence: "release management plans and ships software versions", source: "https://example.org/release-management" }
   spine_delta:                                     # persist merges this into the live _spine.yaml additively
     domains:
       - { id: software-delivery, slug: software-delivery, status: proposed, detail: detailed, one_line: "Build and ship software as a team", doc: software-delivery/domain.md, intents: [plan-the-week] }
@@ -180,7 +189,10 @@ path — paths, never inline content.
   (its shelf, or its research links).
 - **A recognised domain, never a made-up one.** A domain is named as the industry or a known
   product category names it — never from the product's own screens, its sample data or the
-  words of the work. A domain is a field the industry identifies itself with — a product category or market that vendors, analysts and buyers name (for example application lifecycle management, customer relationship management, e-commerce). A principle, a practice, a regulation or a quality (human oversight, accessibility, compliance) is never a domain: it is a rule or a need inside one.
+  words of the work. A domain is a field the industry identifies itself with — a product category or market that vendors, analysts and buyers name (for example application lifecycle management, customer relationship management, e-commerce). A principle, a practice, a regulation or a quality (human oversight, accessibility, compliance) is never a domain: it is a rule or a need inside one. Nor is the field of one feature many products share (comments, notifications, search, sign-in).
+- **Every main section in a field that covers it.** With a capture, each main section sits in
+  a domain whose own shelf or research lists that kind of work (`areas`); a domain that holds no
+  main section is not written.
 - **CXO altitude.** Strategic and directional. No acceptance criteria, no delivery sequencing.
 - **Directional profile.** The profile is `state: directional`. Never emit `active`, `set` or
   `locked`.

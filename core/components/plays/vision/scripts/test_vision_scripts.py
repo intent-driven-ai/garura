@@ -370,6 +370,31 @@ def test_grounding_covers_every_domain():
               "# Theme: Shop\n\n## Intent\nSell.\n\n## Sources\n- https://example.org/e-commerce\n")
         rc, _ = run(tmp, man, ["--product-base", base])
         check("researched domain pages pass", rc == 0)
+    # C12: every main section of the prototype sits in a domain, by that domain's own research
+    with tempfile.TemporaryDirectory() as tmp:
+        journeys = os.path.join(tmp, "journeys.yaml")
+        write(journeys, yaml.safe_dump({"main_sections": ["Catalogue", "Orders", "Tickets"]}))
+        doms = [{"id": "shop", "grounding": {"kb_shelf": "ecommerce"}},
+                {"id": "support", "grounding": {"kb_shelf": "support"}},
+                {"id": "chat", "grounding": {"kb_shelf": "messaging"}}]
+        delta = {"domains": [{"id": d["id"]} for d in doms]}
+        area = lambda s, d: {"section": s, "domain": d, "evidence": f"{d} covers {s.lower()}",
+                             "source": f"https://example.org/{d}"}
+        areas = [area("Catalogue", "shop"), area("Orders", "shop")]
+        rc, errs = run(tmp, {"spine_delta": delta, "domains": doms, "areas": areas}, ["--journeys", journeys])
+        check("a main section in no domain fails — find the field that does its work",
+              rc == 1 and any("'Tickets' sits in no domain" in e for e in errs))
+        check("a domain that holds no main section fails — one shared feature is not a field",
+              any("'chat' holds no main section" in e for e in errs))
+        rc, errs = run(tmp, {"spine_delta": delta, "domains": doms[:2],
+                             "areas": areas + [dict(area("Tickets", "support"), evidence="", source="the screens")]},
+                       ["--journeys", journeys])
+        check("an area with no evidence or no researched source fails",
+              any("no `evidence`" in e for e in errs) and any("no research link" in e for e in errs))
+        rc, errs = run(tmp, {"spine_delta": {"domains": delta["domains"][:2]}, "domains": doms[:2],
+                             "areas": areas + [area("Tickets", "support")]}, ["--journeys", journeys])
+        check("every main section in a researched domain, and every domain holding one, passes",
+              rc == 0)
 
 
 TEMPLATE = """# Capability template

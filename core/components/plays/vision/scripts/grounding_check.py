@@ -16,10 +16,17 @@ With `--product-base`, it also reads each domain page (#689): it must end with `
 naming the shelf it matched or the research links that show the world recognises it — a domain
 is never a name made up for one product.
 
+With `--journeys` (a prototype's capture, C12), it also checks the manifest's `areas`: every main
+section of the prototype (`main_sections` in the capture's journeys) sits in a domain the
+manifest lists, with the line from that domain's shelf or research (`evidence`) that shows the
+field does this kind of work, and where it is from (`source`: a link or the shelf). Every domain
+the run adds holds at least one main section: a field named after one feature many products
+share — and no main section's work — is not a domain the product sits in.
+
 Layer rule: reads files on disk only; no git/gh/network.
 
     python3 grounding_check.py --manifest <seed-manifest.yaml> [--proposals-dir <dir>] \
-        [--product-base <product_base>]
+        [--product-base <product_base>] [--journeys <capture>/journeys.yaml]
 
 Prints {ok, errors[], domains} JSON. Exit 0 when every domain is grounded and nothing else was
 written, 1 otherwise, 2 on usage/parse error.
@@ -92,6 +99,42 @@ def grounding_of(dom, proposals_dir, errors):
     return "ungrounded"
 
 
+def check_areas(seed, domains, added, journeys_path, errors):
+    """Every main section sits in a listed domain, by that domain's own research; every added
+    domain holds one."""
+    try:
+        with open(journeys_path, encoding="utf-8") as fh:
+            sections = [str(x).strip() for x in (yaml.safe_load(fh) or {}).get("main_sections") or []
+                        if str(x).strip()]
+    except (OSError, yaml.YAMLError) as exc:
+        raise ValueError(f"cannot read journeys: {exc}")
+    ids = {str(d.get("id")) for d in domains}
+    areas = [a for a in seed.get("areas") or [] if isinstance(a, dict)]
+    held = {}
+    for a in areas:
+        sec, dom = str(a.get("section") or "").strip(), str(a.get("domain") or "").strip()
+        if dom not in ids:
+            errors.append(f"area {sec!r}: its domain {dom!r} is not a domain the manifest lists (C12)")
+            continue
+        if not str(a.get("evidence") or "").strip():
+            errors.append(f"area {sec!r}: no `evidence` — quote the line from {dom}'s shelf or research "
+                          f"that shows the field does this kind of work (C12)")
+        source = str(a.get("source") or "")
+        if not (WEB.search(source) or "shelf" in source.lower()):
+            errors.append(f"area {sec!r}: its `source` is no research link and no shelf (C12)")
+        held.setdefault(sec, set()).add(dom)
+    for sec in sections:
+        if sec not in held:
+            errors.append(f"main section {sec!r} sits in no domain — find, by research, the field that "
+                          f"does this kind of work; the product may sit in more than one (C12)")
+    holding = {d for doms in held.values() for d in doms}
+    for did in added:
+        if did not in holding:
+            errors.append(f"domain {did!r} holds no main section of the prototype — a domain the product sits in holds at least one; a field named after "
+                          f"one feature many products share is not a domain the product sits in (C5)")
+    return {s: sorted(held.get(s, [])) for s in sections}
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="Check /vision's domains are grounded.")
     ap.add_argument("--manifest", required=True, help="seed-manifest.yaml path")
@@ -99,6 +142,8 @@ def main(argv=None):
                     help="folder where propose-kb-node proposals live (to confirm existence)")
     ap.add_argument("--product-base", default=None,
                     help="the live model's base (its product-os/ holds the pages): check their sources")
+    ap.add_argument("--journeys", default=None,
+                    help="a prototype capture's journeys.yaml: check every main section sits in a domain")
     args = ap.parse_args(argv)
 
     try:
@@ -138,7 +183,18 @@ def main(argv=None):
         if args.product_base:
             check_domain_page(dom, os.path.join(args.product_base, "product-os"), errors)
 
+    areas = None
+    if args.journeys:
+        added = [str(d.get("id")) for d in delta.get("domains") or [] if isinstance(d, dict)]
+        try:
+            areas = check_areas(seed, domains, added, args.journeys, errors)
+        except ValueError as exc:
+            sys.stderr.write(f"grounding_check.py: {exc}\n")
+            return 2
+
     result = {"ok": not errors, "errors": errors, "domains": report}
+    if areas is not None:
+        result["areas"] = areas
     print(json.dumps(result, indent=2))
     return 0 if not errors else 1
 
