@@ -1,0 +1,126 @@
+findings:
+- category: documentation
+  id: DOC-01
+  severity: P3
+  file: README.md
+  summary: Rule fires on any change to README.md (path match, not a line defect); the change adds the Loops link.
+  basis: pr.md taxonomy DOC-01
+  outcome: "no change needed \u2014 one link line added"
+- category: documentation
+  id: DOC-09
+  severity: P3
+  file: README.md
+  summary: Rule fires on any change to README.md (path match, not a line defect); the change adds the Loops link.
+  basis: pr.md taxonomy DOC-09
+  outcome: "no change needed \u2014 one link line added"
+- category: documentation
+  id: DOC-10
+  severity: P3
+  file: README.md
+  summary: Rule fires on any change to README.md (path match, not a line defect); the change adds the Loops link.
+  basis: pr.md taxonomy DOC-10
+  outcome: "no change needed \u2014 one link line added"
+- category: documentation
+  id: DOC-11
+  severity: P3
+  file: README.md
+  summary: Rule fires on any change to README.md (path match, not a line defect); the change adds the Loops link.
+  basis: pr.md taxonomy DOC-11
+  outcome: "no change needed \u2014 one link line added"
+- category: documentation
+  id: DOC-14
+  severity: P4
+  file: README.md
+  summary: Rule fires on any change to README.md (path match, not a line defect); the change adds the Loops link.
+  basis: pr.md taxonomy DOC-14
+  outcome: "no change needed \u2014 one link line added"
+- category: documentation
+  id: DOC-15
+  severity: P4
+  file: README.md
+  summary: Rule fires on any change to README.md (path match, not a line defect); the change adds the Loops link.
+  basis: pr.md taxonomy DOC-15
+  outcome: "no change needed \u2014 one link line added"
+- category: documentation
+  id: DOC-16
+  severity: P4
+  file: README.md
+  summary: Rule fires on any change to README.md (path match, not a line defect); the change adds the Loops link.
+  basis: pr.md taxonomy DOC-16
+  outcome: "no change needed \u2014 one link line added"
+- category: harness
+  id: H1
+  severity: P3
+  file: core/config.yaml
+  summary: The config keys were renamed (drives.kickoff to loops.discovery, evidence.plays.kickoff to evidence.plays.discovery),
+    but a project that already installed keeps its old config (install.py keeps an existing config unless --force-config)
+    and nothing carries the old block across. loop_preflight.py reads only loops.<loop> and evidence.plays.<loop>, so on an
+    upgraded project it halts with 'loops.discovery.checker.model is not set' (loud, not silent) and gives no hint that an
+    old 'drives:' block sits there. If the person just sets the model, evidence.plays.discovery is still unset, so evidence
+    falls back to evidence.record, which can be false, against ADR 029's 'a drive always records its evidence'. The upgrade
+    path is not written anywhere in the changed files.
+  basis: docs/adr/029 (main, always records evidence); install.py config step and retire_stale (main); loop_preflight.py lines
+    87-96, 120-123 (this branch, read as code, not as design)
+  outcome: "fixed in 3d34ea6a \u2014 loop_preflight names the rename when an old drives: block is found; a test covers it"
+- category: harness
+  id: H2
+  severity: P4
+  file: core/components/plays/intent/reference/ice.md
+  summary: The same Kickoff run 7 is named 'Discovery run 7' at line 206 of this file but 'Kickoff run 7' at line 138; understand/reference/ice.md
+    line 211 also still says 'Kickoff run 7'. The quotes inside are the person's own words and may keep 'drive', but the run
+    label is a name, not a quote, so a reader sees two names for one run.
+  basis: 'CLAUDE.md Play Pipeline Rules (main): ice.md is the intent source; naming must be one thing'
+  outcome: "fixed in 3d34ea6a \u2014 past runs keep the name Kickoff run N in the intent files"
+- category: harness
+  id: H3
+  severity: P4
+  file: core/components/plays/loop-creator/references/test_lint_loop.py
+  summary: Test classes still say LintDrive, LintDriveMore, LintDriveHalfDone; the same in test_loop_scripts.py lines 69 (DrivePreflight)
+    and 119 (DriveStatus), and test_install.py line 331 (LaysDrives). A failing test report would name a drive that no longer
+    exists.
+  basis: 'Rename must be complete across names a reader meets (glossary Drive row: ''never write it for new work'')'
+  outcome: "fixed in 3d34ea6a \u2014 test classes renamed"
+- category: memory
+  id: M1
+  severity: P2
+  file: core/components/memory/standards/rules/architecture.md
+  summary: 'A verb was swapped by the rename. ''Rule 5: Failure Scenarios Drive Reliability Architecture'' now reads ''Failure
+    Scenarios Loop Reliability Architecture'', which says nothing. This is a rule title in a standard every /arch skill loads,
+    not a reference to the drive concept.'
+  basis: 'architecture.md Rule 5 on main (body: every failure scenario maps to a mitigation; ''drive'' is a verb); ADR 045
+    renames the noun only (glossary ''Drive'' entry)'
+  outcome: "fixed in 506be8f3 \u2014 verb restored"
+- category: memory
+  id: M2
+  severity: P3
+  file: core/components/memory/knowledge/domains/marketing.md
+  summary: 'Same verb-for-noun slip in the shelf. ''Drive attribution via the web'' (an instruction: make the web credit campaigns)
+    became ''Loop attribution via the web''. It no longer matches its own pair on line 102, ''Unable to drive attribution
+    via the web'', and the point of view the shelf captures is changed.'
+  basis: marketing.md line 102 on main (same phrase, verb); domain shelves hold the person's POV (#434 Phase C1 template)
+  outcome: "fixed in 506be8f3 \u2014 verb restored"
+- category: memory
+  id: M3
+  severity: P4
+  file: core/components/memory/standards/schemas/product-os/ontology.md
+  summary: The dated 2026-10-09 v3 change-log entry was edited ('Alignment drive' to 'Alignment loop'). The entry records
+    what was said on that date, before ADR 045 existed, and the entry two lines below (2026-10-21) was changed to 'Discovery'
+    as well. History rewritten; the glossary says past records keep the old word. Harmless, but the log no longer shows what
+    was decided then.
+  basis: ontology.md change log on main (dated entries); glossary 'Drive' entry ('past run records still say drive')
+  outcome: "fixed in 6cb0d4ee \u2014 dated change-log entries keep their words"
+- category: memory
+  id: M4
+  severity: P4
+  file: core/components/memory/standards/rules/pipeline-next.md
+  summary: The renamed map key `discovery:` is padded with the old key's width, so the `{ command:` column is out of line
+    with the rows around it. The key itself is correct (it names the loop, as `kickoff` did).
+  basis: pipeline-next.md on main (aligned map rows)
+  outcome: "fixed in 6cb0d4ee \u2014 column aligned"
+linters:
+- cmd: every test_*.py under core/, each run from its own folder with python3 (38 files)
+  result: PASS (38 of 38 exit 0; none failed)
+- cmd: python3 core/components/plays/loop-creator/scripts/lint_loop.py core/components/loops/discovery/SKILL.md
+  result: PASS (VERDICT PASS, 0 gaps, exit 0)
+- cmd: bash -n installer/install.sh
+  result: PASS (exit 0)
