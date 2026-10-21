@@ -71,7 +71,8 @@ Agents and skills (ADR 039 §2, §7, §8): the play reads no memory. `product-os
   constrains carries a `level` (none<low<medium<high<xhigh), a measurable `target`, and a
   `gate` (how it is checked); `compliance_needs` are listed. No vague adjective.
 - C6 — Detail is grounded in the capability's KB shelf (personas, systems, NFR hints,
-  scope, functionality baseline) — it does not invent what the shelf already covers.
+  scope, functionality baseline) and, when a prototype's capture is given, in its screens
+  (C16) — it does not invent what the shelf already covers.
 - C7 — Profile roll-up is monotonic-up: each dimension's committed level becomes the
   greater of the current box and every target's required level; no dimension is ever
   lowered. Every target is measured against the box as it stood at the start of the run
@@ -190,6 +191,17 @@ Agents and skills (ADR 039 §2, §7, §8): the play reads no memory. `product-os
   still leaves no issue, no branch and no stray files. Resume finds the run through the
   branch's issue.
 
+- C16 — The screens decide the functionalities (Kapil, 2026-10-20, after Kickoff run 7:
+  "you engineered a functionality called 'Build-from vs waiting split' — where on the
+  prototype is this functionality?"). Handed a prototype's capture, each functionality is
+  something a person does or sees on its screens, named in its users' words; one panel, count
+  or label is a part of the functionality that shows it, never a functionality of its own;
+  nothing the screens do not show and no shelf holds is written. Every page the run writes
+  carries `## Sources`: each screen it is seen on with the exact words there. A behaviour the
+  screens do not show is written as our default, marked as ours — never left as an open
+  question; only a business rule an agent intent cannot be written without, and that nothing
+  shows or holds, is the drive's question (C13).
+
 ### Failure conditions
 
 - F1 — The run details a capability with no basis: an absent capability was seeded without
@@ -238,6 +250,11 @@ Agents and skills (ADR 039 §2, §7, §8): the play reads no memory. `product-os
 - F17 — The run wrote short-term memory outside its issue's folder: a working file, a person's
   answer, a status marker or a sub-play result under any other folder of the short-term root,
   or, run by hand, anything written to short-term memory before `start-change` gave the issue.
+
+- F18 — A functionality is one panel, count or label of a screen made into a function of its
+  own, or something no screen shows and no shelf holds; a page the run wrote has no
+  `## Sources`, or quotes words the prototype does not have; or a behaviour the screens do not
+  show was left as an open question instead of a marked default.
 
 ## Expectation
 
@@ -306,6 +323,12 @@ Agents and skills (ADR 039 §2, §7, §8): the play reads no memory. `product-os
   over the box, each from the starting level; `persist-manifest.json` `changed.capabilities`
   lists the three; one `feat(model)` commit holds the whole delta; the stop-condition verdict
   reads held.
+
+- S9 — (product manager, from a prototype) Given capabilities to detail and a prototype's
+  capture, when /understand runs, then each functionality is something a person does or sees
+  on the screens, every page says where it is seen, and nothing is left as an open question.
+  Measure: `check_sources.py` over every target's manifest, with `--source-text`, exits 0;
+  the rebuild eval's review reads no functionality `invented` or `panel`.
 
 ### Done means
 
@@ -402,3 +425,10 @@ record.
   issue. direction: move it into the issue's working root (or status folder), delete the stray
   copy, and continue; when the issue is not known yet, hold it in the scratch folder until
   Step 0. handoff: autonomous.
+
+
+- REC18 (F18) — trigger: a panel made a functionality, a functionality no screen shows, a page
+  with no sources or a quote not on the prototype, or a question left open. direction: fold
+  the panel into the functionality that shows it; drop what nothing shows; write each page's
+  sources with the screen's own words; replace the open question with our default, marked as
+  ours. handoff: autonomous.

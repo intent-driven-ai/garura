@@ -73,6 +73,7 @@ Everything conforms to its template (`standards/schemas/product-os/grounding/`, 
 | `kb_domain` | yes | The domain the capability belongs to. |
 | `shelf_path` | yes | That domain's shelf (`knowledge/domains/<kb_domain>.md`), copied into short-term memory by the agent through the memory tool. Read this copy — never memory itself (ADR 039). |
 | `schemas_dir` | yes | The grounding templates, the content standard and the spine schema, copied into short-term memory the same way. |
+| `capture` | no | A prototype's shared capture (#689): its source manifest (the views kept, each with its text and picture), its journeys, and the folder of view texts. With it, the functionalities come from what the screens let a person do and see, and every page names where it is seen. |
 | `product_base` | yes | From config. The live model root: read the existing spine + the capability's current directional doc, and WRITE the detailed `capability.md` and the new `functionality.md` docs in place under `{product_base}product-os/`. Only the target node's docs — never a shared file, never a sibling node's doc. |
 | `manifest_path` | yes | Where to write `enrich-manifest.yaml` (STM, non-model) — carries the spine-delta as structured data for the keyed persist script. |
 | `stm_base` | yes | From config. |
@@ -98,9 +99,16 @@ conformance and the content bar are non-negotiable.
    explained line per functionality, linked to the id you assign it in step 3.
 
 3. **Identify and author the functionalities, in place.** Break the capability into its
-   functionalities — the functions it must perform. For each, author a detailed
+   functionalities — the functions it must perform. **From a prototype capture, the screens
+   decide them:** a functionality is something a person does or sees there — an action, a view
+   with its states, a rule the screen enforces — named in the words its users would use. One
+   panel, count or label of a screen is a part of the functionality that shows it (its What it
+   does, Inputs / Outputs or Rules), never a functionality of its own. Nothing the screens do
+   not show and the shelf does not hold becomes a functionality. For each, author a detailed
    `functionality.md` (what it does, inputs/outputs, rules & behavior with edge cases,
-   acceptance criteria as Given/When/Then, out of scope) as a NEW file in the live model,
+   acceptance criteria as Given/When/Then, out of scope, then `## Sources`: each screen it is
+   seen on and the exact words a person reads there, in double quotes) as a NEW file in the
+   live model,
    and record a spine `functionalities` entry in the manifest (id, slug, `capability` = the
    target id, status proposed, one_line, doc pointer) — you write the entry to the MANIFEST,
    never to `_spine.yaml`. Detail increases here — a functionality reads richer than its
@@ -163,6 +171,15 @@ Return the enriched contract with the live doc paths written and the `enrich-man
 path — paths, never inline content.
 
 ## Rules
+
+- **Every page says where it is seen (#689).** The detailed `capability.md` and each
+  `functionality.md` carry `## Sources` before their agent intent: each screen with its words
+  in double quotes, and the shelf on its own line (`- Shelf: …`).
+- **Fill what the screen does not show; never leave it open.** A behaviour the prototype does
+  not show (what happens after an error, how long something is kept) is written as our
+  default and marked as ours ("our default — the prototype does not show this"). It is never
+  "recorded as an open question". Only a business rule an agent intent cannot be written
+  without, and that nothing shows or holds, goes back to the caller as a question.
 
 - **Product-manager altitude.** Detail the capability and its functionalities fully — no
   delivery sequencing, no slices, no epics (that is /shape).
