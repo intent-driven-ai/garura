@@ -1,0 +1,13 @@
+{
+  "draft": ".garura/project/issues/689/context/adr/20261021-015459/adr-draft.md",
+  "number": "043",
+  "lint": {"exit": 0, "valid": true, "problems": []},
+  "guard": {"exit": 0, "declared": "none", "touches_an_intent": [], "verdict": "no person's business intent changes", "agrees_with_declared": true},
+  "retries": 0,
+  "supersedes": [],
+  "amends": ["029", "031", "033", "041", "042", "026"],
+  "notes": [
+    "ADR 026 amendment found by the keeper, not named in the brief; the accepting person should check it.",
+    "Open points the brief does not settle are listed under Negative / Risks: which play writes ICE inside Kickoff; whether every drive gets a connect step; the scoped-diff guard with side-by-side plays."
+  ]
+}
