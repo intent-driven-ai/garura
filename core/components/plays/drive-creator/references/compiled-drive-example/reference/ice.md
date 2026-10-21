@@ -18,8 +18,11 @@ only what none of its plays, memory or approved research answers.
   what it can, and the other play, the next round or the knowledge plays may answer it. The drive
   briefs the person only on what none of them can — a few gaps, each with its context and our
   proposed answer (ADR 041, ADR 042).
-- C3 — The plays run in the fixed order `/intent` → `/vision`, in rounds until the drive's job
-  is done; each must prove its own done check before the next one starts.
+- C3 — The plays read the statement independently and each writes its own kind — `/intent`
+  business intents, `/vision` domains — in rounds until the drive's job is done; no play takes
+  another's output as its input; after each round the drive's gap skills link what they wrote
+  and give the work still missing to the play that does it (ADR 043). Each play proves its own
+  done check, and the round is committed once.
 - C4 — A checker that is not the drive's own model checks the result, and a reject halts the
   drive.
 
@@ -29,8 +32,8 @@ only what none of its plays, memory or approved research answers.
 - F2 — A play ran before the drive's questions were asked, a play picked an answer for a
   question nothing supported, or the person was asked something a play, memory or approved
   research answers.
-- F3 — A play started while the one before it had not proven its done check, or on an unclean
-  tree.
+- F3 — A play took another play's output as its input, or started on an unclean tree; or the
+  drive ended done with a node not linked.
 - F4 — The drive ended as done without a checker's pass.
 
 ## Context
@@ -43,7 +46,7 @@ governs), ADR 041 (rounds; a play's question is the drive's), `standards/rules/d
 | Order | Play | Inputs from the contract | Answers from the questions |
 |-------|------|--------------------------|----------------------------|
 | 1 | intent | `statement` — the written statement | `who_asks`, `proof` |
-| 2 | vision | `intents` — after `/intent`: the intents it saved (the drive adds them to the contract before `/vision` starts) | — |
+| 2 | vision | `goal` — the written statement (it reads no other play's output; ADR 043) | — |
 
 ## Questions first
 
@@ -81,7 +84,7 @@ The injected end sequence: `commit-change` → `propose-change` → `review-chan
 |-----|---------|-----------|---------|
 | F1 | a write outside the issue, or a second issue or branch | move the record under the drive's issue and run on the contract's branch | autonomous |
 | F2 | a play ran before the questions, answered from nothing, or the person was asked what a play or memory answers | ask the drive's own questions first; send an unanswered question to the drive (`open-<play>.json`), run the knowledge plays, brief the person on what is left, then run the next round | human |
-| F3 | a play started before the last one proved done, or on an unclean tree | halt; finish or fix the earlier play, commit its run files, resume | human |
+| F3 | a play took another's output, an unclean tree, or done with a node not linked | halt; re-run the play on the statement alone; commit the round; run the gap skills and the plays they give work to | human |
 | F4 | the drive would end done with no checker pass | run the checker; a reject halts the drive | autonomous |
 
 ### Done means

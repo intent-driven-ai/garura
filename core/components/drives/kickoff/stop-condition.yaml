@@ -22,3 +22,6 @@ content:
     - id: D7
       says: "no question is left open when the drive ends"
       check: {type: field_equals, file: "rounds.json", field: open_left, equals: 0}
+    - id: D8
+      says: "the model's gaps are closed: every node linked, no screen uncovered"
+      check: {type: field_equals, file: "rounds.json", field: gaps_left, equals: 0}

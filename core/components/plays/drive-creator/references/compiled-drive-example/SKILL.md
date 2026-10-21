@@ -113,12 +113,14 @@ finishes what it can (C2).
 Run R5 for `intent`. A later round: it reads what `/vision` wrote and fills what it left open.
 
 **Step 5 — Round n: run /vision** · Owner: `vision` · Depends on: Step 4
-Run R5 for `vision`. Before it starts, R5's hand-on step adds `inputs.vision.intents` — the
-intents `/intent` saved — to the contract.
+Run R5 for `vision` with the statement as `inputs.vision.goal` — never another play's output
+(ADR 043).
 
 **Step 5b — After the round: done, again or ask** · Owner: drive (script) · Depends on: Step 5
-Run R5 step 7 (`round_state.py`, `--max-rounds` from `drives.sample-drive.max_rounds`). `done`
-→ Step 6. `again` → Step 4, round n+1. `ask` → Step 5c.
+Run R5 steps 7–8: `product-os-keeper` runs `find-model-gaps` and `close-model-gaps`, the round
+is committed once, then `round_state.py` (with `--gaps` and `--close-report`, `--max-rounds`
+from `drives.sample-drive.max_rounds`). `done` → Step 6. `again` → Step 4, round n+1, only the
+plays named in `next`. `ask` → Step 5c.
 
 **Step 5c — Search the knowledge** · Owner: `search-knowledge` · Depends on: Step 5b
 Run R5c's first play: it answers what the sources show and what memory holds (through the
@@ -134,8 +136,9 @@ proposed answer.
 
 **Step 5f — Brief the person; record the reply** · Owner: drive · Depends on: Step 5e
 Run R5b steps 2–3: show the brief, record the reply (`from: person`), then Step 4, round n+1.
-**SE-3 (F3/C3):** `intent-done.json` and `vision-done.json` read `done: true`, each written
-before the next play started; `intent-commit.json` and `vision-commit.json` show no leftover.
+**SE-3 (F3/C3):** `intent-done.json` and `vision-done.json` read `done: true`; no play's
+contract input names another play's output; `round-<n>-commit.json` shows no leftover; the last
+`rounds.json` reads `gaps_left: 0`.
 
 ### Phase: Check
 
@@ -190,7 +193,7 @@ sc_exit=$?   # 0 held · 1 unmet · 2 error
 |-----|---------|-----------|---------|
 | F1 | a write outside the issue, or a second issue or branch | move the record under the drive's issue and run on the contract's branch | autonomous |
 | F2 | a play ran before the questions, answered from nothing, or the person was asked what a play or memory answers | ask the drive's own questions first; send an unanswered question to the drive (`open-<play>.json`), run the knowledge plays, brief the person on what is left, then run the next round | human |
-| F3 | a play started before the last one proved done, or on an unclean tree | halt; finish or fix the earlier play, commit its run files, resume | human |
+| F3 | a play took another's output, an unclean tree, or done with a node not linked | halt; re-run the play on the statement alone; commit the round; run the gap skills and the plays they give work to | human |
 | F4 | the drive would end done with no checker pass | run the checker; a reject halts the drive | autonomous |
 
 ## Pause and Resume
@@ -204,7 +207,7 @@ from the first play not done.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:bb455fb9949fff1c8e5bd93624648a38c8c2c792bf2a96742f5a50646394e66b (of `reference/ice.md`) |
+| fingerprint | sha256:f2c00f18c90f5d18bb0f90f78cdc8a0a1a147fb77f9a9517cff46f80aa66651e (of `reference/ice.md`) |
 | compiled_by | drive-creator |
 | kind | drive |
 | pipeline_position | both |

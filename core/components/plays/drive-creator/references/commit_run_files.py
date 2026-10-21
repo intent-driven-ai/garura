@@ -10,7 +10,9 @@ drive-creator/references/commit_run_files.py and is stamped into each drive's sc
         --branch <the contract's branch> --play <play> --out <working>/<play>-commit.json
 
 It commits only paths under the issue folder, on the drive's branch, and never sweeps in
-anything someone else staged. Exit 0 — committed, or nothing to commit, and the tree is clean.
+anything someone else staged. After a round (ADR 043) the drive commits the round once: the
+gap skills changed the product model too, so `--also <product_base>product-os` adds that folder
+to the same commit (`--play round-<n>`). Exit 0 — committed, or nothing to commit, and the tree is clean.
 Exit 1 — committed, but files outside the issue folder are still changed: the drive halts.
 Exit 2 — wrong branch, something else already staged, or git failed: nothing committed.
 Fixed git work, no judgment (#484). Standard library only.
@@ -55,14 +57,16 @@ def run(args):
     if staged:
         return 2, {"committed": False, "why": "something is already staged: " + ", ".join(staged[:5])}
     sha = None
-    if any(under(p, folder) for p in changed_paths()):
-        git("add", "--", folder)
-        git("commit", "-q", "-m", f"chore(stm): record {args.play} run files (#{args.issue})")
+    folders = [folder] + [os.path.relpath(a).replace(os.sep, "/") for a in (args.also or [])]
+    if any(under(p, f) for p in changed_paths() for f in folders):
+        git("add", "-A", "--", *[f for f in folders if os.path.exists(f)])
+        what = "run files" if not args.also else "round"
+        git("commit", "-q", "-m", f"chore(stm): record {args.play} {what} (#{args.issue})")
         sha = git("rev-parse", "HEAD").strip()
     leftover = changed_paths()
     result = {"committed": sha is not None, "sha": sha, "play": args.play, "leftover": leftover}
     if leftover:
-        result["why"] = "files outside the issue folder are still changed"
+        result["why"] = "files outside the folders committed are still changed"
         return 1, result
     return 0, result
 
@@ -73,6 +77,8 @@ def main(argv=None):
     ap.add_argument("--issue", required=True, type=int)
     ap.add_argument("--branch", required=True)
     ap.add_argument("--play", required=True)
+    ap.add_argument("--also", action="append",
+                    help="another folder to commit with the run files (after a round: the product model)")
     ap.add_argument("--out", required=True)
     args = ap.parse_args(argv)
     try:

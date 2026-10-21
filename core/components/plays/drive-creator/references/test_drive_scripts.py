@@ -246,6 +246,18 @@ class CommitRunFiles(GitWork):
         self.assertTrue(result["committed"])
         self.assertEqual(result["leftover"], ["product/page.md"])
 
+    def test_the_round_commits_the_model_with_the_run_files(self):
+        self.write(".garura/project/issues/7/context/kickoff/gaps.json", "{}")
+        self.write("product/product-os/_spine.yaml", "domains: []\n")
+        with open(self.p(".git", "info", "exclude"), "a") as fh:
+            fh.write("out/\n")
+        code = quiet(commit_run_files.main, ["--issue-dir", ".garura/project/issues/7/", "--issue", "7",
+                                             "--branch", "feature/7-x", "--play", "round-1",
+                                             "--also", "product/product-os", "--out", self.p("out", "commit.json")])
+        self.assertEqual(code, 0)
+        self.assertIn("chore(stm): record round-1 round (#7)", self.log())
+        self.assertEqual(self.read_json("out/commit.json")["leftover"], [])
+
     def test_the_wrong_branch_commits_nothing(self):
         self.write(".garura/project/issues/7/context/x.json", "{}")
         self.assertEqual(self.run_it("feature/8-other"), 2)
@@ -310,10 +322,17 @@ class RoundState(GitWork):
         self.write("rev/open-intent.json", json.dumps({"play": "intent", "questions": [
             {"id": i, "ask": f"question {i}", "for_person": True} for i in ids]}))
 
-    def decide(self, rnd, max_rounds=3):
+    def decide(self, rnd, max_rounds=3, report=None, gaps=None):
+        extra = []
+        if report is not None:
+            self.write(f"work/close-report-{rnd}.json", json.dumps(report))
+            extra += ["--close-report", f"work/close-report-{rnd}.json"]
+        if gaps is not None:
+            self.write(f"work/gaps-{rnd}.json", json.dumps(gaps))
+            extra += ["--gaps", f"work/gaps-{rnd}.json"]
         quiet(round_state.main, ["--round", str(rnd), "--max-rounds", str(max_rounds), "--working", "work",
                                  "--review-dir", "rev", "--issue-dir", "issue", "--model-path", "product",
-                                 "--out", f"work/round-{rnd}.json"])
+                                 *extra, "--out", f"work/round-{rnd}.json"])
         return self.read_json(f"work/round-{rnd}.json")
 
     def commit_model(self, text):
@@ -340,6 +359,25 @@ class RoundState(GitWork):
         self.decide(1)
         self.commit_model("v2\n")
         self.assertEqual(self.decide(2, max_rounds=2)["decision"], "ask")
+
+    def test_work_left_for_a_play_goes_again_on_exactly_that_work(self):
+        rec = self.decide(1, report={"work_for_plays": [{"play": "/understand", "target": "cap-board"}]})
+        self.assertEqual(rec["decision"], "again")
+        self.assertEqual(rec["next"], {"/understand": ["cap-board"]})
+        self.assertEqual(rec["gaps_left"], 1)
+
+    def test_an_uncovered_screen_is_not_done(self):
+        rec = self.decide(1, gaps={"uncovered": [{"what": "main section", "name": "Reports"}]}, report={})
+        self.assertNotEqual(rec["decision"], "done")
+
+    def test_closed_gaps_and_no_question_is_done(self):
+        rec = self.decide(1, gaps={"work": [], "uncovered": []}, report={"work_for_plays": []})
+        self.assertEqual(rec["decision"], "done")
+
+    def test_the_same_gaps_twice_asks_the_person(self):
+        report = {"work_for_plays": [{"play": "/vision", "target": "cap-x"}]}
+        self.decide(1, report=report)
+        self.assertEqual(self.decide(2, report=report)["decision"], "ask")
 
     def test_a_pending_memory_update_is_an_open_question(self):
         self.write("issue/review/memory-updates/mu-1.json", json.dumps({"update": {
