@@ -89,7 +89,7 @@ folders.
                    "run": "<the drive's working folder>", "issue": "<issue>",
                    "audience": "<who gave the drive its input — for Kickoff, who shared the prototype>",
                    "check_script": "<play-dir>/scripts/check_brief.py",
-                   "renderer": ".claude/skills/write-knowledge-brief/scripts/render_brief.py" },
+                   "renderer": "<skills>/write-knowledge-brief/scripts/render_brief.py" },
       "outputs": { "brief": "<working>/brief.json", "brief_md": "<working>/brief.md",
                    "check_report": "<working>/brief-check.json" },
       "task_id": "review-knowledge" }
@@ -100,7 +100,8 @@ brief: a few sentences each for understood and built; at most seven gaps, relate
 sharing a theme, each with its context and our proposed answer; every settled point with why;
 each page with what it says, its sources and our recommendation; the prototype notes counted
 and pointed to. The skill writes the content into `brief.json` and renders `brief.md` from it
-with `render_brief.py`; nobody writes `brief.md` by hand.
+with `render_brief.py`; nobody writes `brief.md` by hand. `<skills>` is the folder the
+installed skills sit in (`.claude/skills/` for Claude Code, `.agents/skills/` for Codex).
 **SE-1 (F1/C1):** `brief.json` has `understood` and `built`.
 **SE-2 (F2/C2):** every `proposal` group of `build.json` is in exactly one gap; at most seven
 gaps; each has context and a proposed answer, none a question.
@@ -116,7 +117,7 @@ sources and a recommendation; every `settled` build group is shown once with why
 python3 scripts/check_brief.py --brief <working>/brief.json --brief-md <working>/brief.md \
     --build <build>/build.json --issue <issue> \
     --memory-tool .garura/core/tools/memory/memory.py \
-    --renderer .claude/skills/write-knowledge-brief/scripts/render_brief.py \
+    --renderer <skills>/write-knowledge-brief/scripts/render_brief.py \
     --out <working>/brief-check.json
 ```
 
