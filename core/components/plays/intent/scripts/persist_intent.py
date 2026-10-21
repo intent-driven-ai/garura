@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 """persist_intent.py — save the Business Intents and link them to their Sources (/intent, #612;
-ADR 043). Run by hand it saves the intents the person confirmed; inside a drive (`--proposed`) it
+ADR 043). Run by hand it saves the intents the person confirmed; inside a loop (`--proposed`) it
 saves every drafted intent as proposed.
 
 /intent writes business intents only (ADR 043): no ICE, no capability, no domain. Run by hand,
-the person confirms or drops each business intent first. Inside a drive (`--proposed`) there is
+the person confirms or drops each business intent first. Inside a loop (`--proposed`) there is
 no approval stop: every drafted intent is saved as `proposed`, and the person confirms or drops
-it at the drive's final review. Then this writes — the product model is the hand-off; no
+it at the loop's final review. Then this writes — the product model is the hand-off; no
 separate hand-off file is written:
 
   - `<product_base>product-os/intents/<id>.md` — one page per confirmed intent (by hand) or per
-    drafted intent, stage proposed (in a drive), in plain words, in the shape of the ontology's
+    drafted intent, stage proposed (in a loop), in plain words, in the shape of the ontology's
     example (title, outcome, why, asked by, proof it is met, must not, stage, confirmed by and
     when, sources). Its Touches list is written later, by the plays that link a part to the
     intent; on a later round a Touches list already on the page is kept.
@@ -18,7 +18,7 @@ separate hand-off file is written:
     shows, given by) naming every intent it shows: the link written on BOTH sides.
   - `<working>/intent-manifest.json` — the rollup the stop condition reads.
 
-ADDITIVE: an intent page is never overwritten (except, on a later round of the same drive, a page
+ADDITIVE: an intent page is never overwritten (except, on a later round of the same loop, a page
 it saved and that is still proposed). A dropped intent is not saved. Every check runs before the
 first write, so a refusal writes nothing. It refuses (exit 2) when: an input is unreadable or of
 the wrong shape; both or neither of --confirmation and --proposed are given; (by hand) the
@@ -27,19 +27,19 @@ is confirmed; a saved intent misses a required property; an id is badly shaped (
 file names, so only lower-case letters, digits and dashes) or repeated; the draft carries ICE,
 domains, capabilities or functionalities (another play writes those kinds); a Source has no
 snapshot or no "what it shows"; or an intent page already exists. Only a person confirms (C4) —
-by hand here, or at a drive's final review. No git, no network, no LLM.
+by hand here, or at a loop's final review. No git, no network, no LLM.
 
-Inside a drive (C16): a required property the draft leaves empty is saved as **open** when the
-draft names a question for it (the drive asks it) — never why, asked by or proof, which the play
-drafts itself with their basis (C17); `--drive-run-id` stamps the drive on each
-page; `--open-out` writes the open questions for the drive; and on a later round
-`--update-proposed` rewrites only pages still proposed that this same drive saved.
+Inside a loop (C16): a required property the draft leaves empty is saved as **open** when the
+draft names a question for it (the loop asks it) — never why, asked by or proof, which the play
+drafts itself with their basis (C17); `--loop-run-id` stamps the loop on each
+page; `--open-out` writes the open questions for the loop; and on a later round
+`--update-proposed` rewrites only pages still proposed that this same loop saved.
 
     python3 persist_intent.py --draft <working>/intent-draft.yaml \
         ( --confirmation <working>/confirmation.yaml | --proposed --at <date> ) \
         --source-manifest <working>/source-manifest.json [--source-manifest <another> ...] \
         --product-base <product_base> --working <working> \
-        [--drive-run-id <id> --open-out <review_dir>/open-intent.json [--update-proposed]]
+        [--loop-run-id <id> --open-out <review_dir>/open-intent.json [--update-proposed]]
 
 confirmation.yaml:
     confirmation:
@@ -117,13 +117,13 @@ def plan(args):
     """Read and check every input; return what to write. Nothing is written here."""
     if bool(args.proposed) == bool(args.confirmation):
         raise Refused("pass exactly one of --confirmation (run by hand: the person's decisions) "
-                      "or --proposed (inside a drive)")
+                      "or --proposed (inside a loop)")
     for p in [args.draft] + ([] if args.proposed else [args.confirmation]) + args.source_manifest:
         if not os.path.isfile(p):
             raise Refused(f"missing input {p}")
     draft = load_mapping(args.draft, "draft")
     if args.proposed:
-        conf = {"by": "drive", "confirmed_by": "", "at": args.at or ""}
+        conf = {"by": "loop", "confirmed_by": "", "at": args.at or ""}
     else:
         conf = load_mapping(args.confirmation, "confirmation").get("confirmation")
         if not isinstance(conf, dict):
@@ -134,7 +134,7 @@ def plan(args):
         raise Refused("the draft has no intents")
     ids = [str(i.get("id") or "") for i in intents]
     check_ids("business intent", ids)
-    if args.proposed:   # inside a drive: no approval stop; the drive's final review confirms
+    if args.proposed:   # inside a loop: no approval stop; the loop's final review confirms
         decisions = {i: {"decision": "proposed"} for i in ids}
     else:
         decisions = read_decisions(conf, ids)
@@ -151,8 +151,8 @@ def plan(args):
                                   f"itself, with its basis; it is never left open")
                 if not (args.proposed and asked and prop != "title"):
                     raise Refused(f"the intent `{i['id']}` is missing `{prop}`" +
-                                  (" — inside a drive a gap is saved only when the draft names its "
-                                   "question for the drive" if args.proposed else ""))
+                                  (" — inside a loop a gap is saved only when the draft names its "
+                                   "question for the loop" if args.proposed else ""))
 
     shows = {str(s.get("snapshot_dir")): str(s.get("shows") or "").strip()
              for s in (draft.get("sources") or []) if isinstance(s, dict)}
@@ -176,25 +176,25 @@ def plan(args):
             "paths": {str(i["id"]): os.path.join(intents_dir, f"{i['id']}.md") for i in confirmed},
             "source_mds": [os.path.join(s["snapshot_dir"], "source.md") for s in sources]}
     work["questions"] = questions
-    work["drive_run_id"] = args.drive_run_id or ""
+    work["loop_run_id"] = args.loop_run_id or ""
     work["updated"] = []
     existing = [p for p in work["paths"].values() if os.path.exists(p)]
-    if existing and args.update_proposed and args.drive_run_id:
-        foreign = [p for p in existing if not saved_by_this_drive(p, args.drive_run_id)]
+    if existing and args.update_proposed and args.loop_run_id:
+        foreign = [p for p in existing if not saved_by_this_loop(p, args.loop_run_id)]
         if foreign:
-            raise Refused(f"{', '.join(foreign)} were not saved by this drive "
-                          f"({args.drive_run_id}) — only an intent this drive saved is updated")
+            raise Refused(f"{', '.join(foreign)} were not saved by this loop "
+                          f"({args.loop_run_id}) — only an intent this loop saved is updated")
         work["updated"] = existing
     elif existing:
         raise Refused(f"{', '.join(existing)} already exist — a business intent is never overwritten")
     return work
 
 
-def saved_by_this_drive(path, drive_run_id):
-    """True when the page is still proposed and its stage line names this drive's run."""
+def saved_by_this_loop(path, loop_run_id):
+    """True when the page is still proposed and its stage line names this loop's run."""
     with open(path, encoding="utf-8") as fh:
         stage = next((ln for ln in fh if ln.startswith("**Stage:**")), "")
-    return "proposed" in stage and f"drive {drive_run_id}" in stage
+    return "proposed" in stage and f"loop {loop_run_id}" in stage
 
 
 def write_intents(w):
@@ -205,7 +205,7 @@ def write_intents(w):
         when = w["decisions"][str(i["id"])].get("at") or w["conf"].get("at", "")
         def prop_text(prop):
             text = str(i.get(prop) or "").strip()
-            return text or "open — the drive asks this; nothing is filled in until it is answered"
+            return text or "open — the loop asks this; nothing is filled in until it is answered"
         lines = [f"# {i['title']}", "",
                  f"**Outcome:** {prop_text('outcome')}",
                  f"**Why:** {prop_text('why')}",
@@ -214,9 +214,9 @@ def write_intents(w):
         if str(i.get("must_not") or "").strip():
             lines.append(f"**Must not:** {i['must_not']}")
         if w["decisions"][str(i["id"])]["decision"] == "proposed":
-            drive = f" (drive {w['drive_run_id']})" if w.get("drive_run_id") else ""
-            lines.append("**Stage:** proposed — saved inside a drive" + drive + (f", {when}" if when else "")
-                         + "; the person confirms or drops it at the drive's final review")
+            loop = f" (loop {w['loop_run_id']})" if w.get("loop_run_id") else ""
+            lines.append("**Stage:** proposed — saved inside a loop" + loop + (f", {when}" if when else "")
+                         + "; the person confirms or drops it at the loop's final review")
         else:
             lines.append(f"**Stage:** confirmed — by {w['conf']['confirmed_by']}, {when}".rstrip(", "))
         lines.append("**Sources:**")
@@ -253,7 +253,7 @@ def manifest_for(w):
     return {
         "intents": [{"id": str(i["id"]), "path": w["paths"][str(i["id"])]} for i in w["confirmed"]],
         "dropped": w["dropped"],
-        "stage": "proposed" if w["conf"].get("by") == "drive" else "confirmed",
+        "stage": "proposed" if w["conf"].get("by") == "loop" else "confirmed",
         "confirmed_by": w["conf"]["confirmed_by"] or None,
         "sources": w["source_mds"],
         "decided": True,
@@ -280,7 +280,7 @@ def sources_name_every_intent(w):
 
 
 def write_open(w, path):
-    """The questions /intent hands the drive (drive contract, step 5): what each is about, the
+    """The questions /intent hands the loop (loop contract, step 5): what each is about, the
     gaps it blocks, whether a person must answer, and its example answers."""
     titles = {str(i["id"]): str(i.get("title") or i["id"]) for i in w["confirmed"]}
     gaps = {str(i["id"]): [p for p in REQUIRED if not str(i.get(p) or "").strip()] for i in w["confirmed"]}
@@ -304,15 +304,15 @@ def main(argv=None):
     ap.add_argument("--draft", required=True)
     ap.add_argument("--confirmation", help="the person's decisions (run by hand)")
     ap.add_argument("--proposed", action="store_true",
-                    help="inside a drive: save every drafted intent as proposed, no approval stop")
+                    help="inside a loop: save every drafted intent as proposed, no approval stop")
     ap.add_argument("--at", help="the date, for --proposed")
     ap.add_argument("--source-manifest", action="append", required=True)
     ap.add_argument("--product-base", required=True)
     ap.add_argument("--working", required=True)
-    ap.add_argument("--drive-run-id", help="inside a drive: stamped on each page it saves")
+    ap.add_argument("--loop-run-id", help="inside a loop: stamped on each page it saves")
     ap.add_argument("--update-proposed", action="store_true",
-                    help="a later round of the drive: update the intents this drive saved")
-    ap.add_argument("--open-out", help="inside a drive: where to write the open questions for the drive")
+                    help="a later round of the loop: update the intents this loop saved")
+    ap.add_argument("--open-out", help="inside a loop: where to write the open questions for the loop")
     args = ap.parse_args(argv)
     try:
         work = plan(args)

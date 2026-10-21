@@ -1,7 +1,7 @@
 ---
 name: adr
 position: both
-description: 'Record a decision as an ADR, written from the one ADR template (standards/templates/adr.md) — a Markdown ADR for Garura''s own decisions (docs/adr/) or a decision.yaml record for a product decision — with what it overrides and what it changes in plain view: every older ADR it supersedes or amends (with the part), the files, rules, schemas, plays and agents it affects, its effect on agent intent (ICE), and whether it would change a person''s business intent (it never does: such a decision is shown to the person and not applied). Accepted only on a person''s word: run by hand, a pinned approval before anything is written as accepted; inside a drive, saved as proposed and accepted at the drive''s final review. Older ADRs gain only a forward pointer, written after acceptance; the ADR index is rebuilt. Also completes a proposed ADR later (/adr accept <file>). Run by hand it opens and lands its own change; handed a drive''s JSON contract it opens nothing of its own.'
+description: 'Record a decision as an ADR, written from the one ADR template (standards/templates/adr.md) — a Markdown ADR for Garura''s own decisions (docs/adr/) or a decision.yaml record for a product decision — with what it overrides and what it changes in plain view: every older ADR it supersedes or amends (with the part), the files, rules, schemas, plays and agents it affects, its effect on agent intent (ICE), and whether it would change a person''s business intent (it never does: such a decision is shown to the person and not applied). Accepted only on a person''s word: run by hand, a pinned approval before anything is written as accepted; inside a loop, saved as proposed and accepted at the loop''s final review. Older ADRs gain only a forward pointer, written after acceptance; the ADR index is rebuilt. Also completes a proposed ADR later (/adr accept <file>). Run by hand it opens and lands its own change; handed a loop''s JSON contract it opens nothing of its own.'
 user-invocable: true
 ---
 
@@ -18,9 +18,9 @@ keeps every older ADR pointing forward, and never lets a decision change a perso
 intent. Only a person accepts an ADR.
 
 **Pipeline position: both.** Run by hand, the D2 rule prepends `start-change` and appends
-`commit-change → propose-change → review-change → merge-change`. **Inside a drive** the drive
+`commit-change → propose-change → review-change → merge-change`. **Inside a loop** the loop
 hands it a JSON contract (`--contract`): it opens no issue or branch, skips the end sequence,
-does not stop for approval, and saves the ADR as proposed for the drive's final review
+does not stop for approval, and saves the ADR as proposed for the loop's final review
 (ADR 031).
 
 **Two entry modes.** `/adr <brief>` records a new decision. `/adr accept <file>` completes a
@@ -49,9 +49,9 @@ through `apply_adr.py`'s forward pointer.
 leaving an overridden ADR unnamed or without its part (C3); recording affects or ICE impact that
 names nothing real (C4); applying a decision that would change a person's business intent (C5);
 marking an ADR accepted without a person, writing a rejected one, or stopping for approval
-inside a drive (C6); editing an older ADR beyond its pointer, or pointing before acceptance
+inside a loop (C6); editing an older ADR beyond its pointer, or pointing before acceptance
 (C7); leaving the index stale (C8); writing anything but the record, the pointers and the index
-(C9); opening an issue or branch inside a drive (C10); closing COMPLETED with the done checks
+(C9); opening an issue or branch inside a loop (C10); closing COMPLETED with the done checks
 unmet (C11).
 
 **Agent boundaries:**
@@ -69,7 +69,7 @@ Everything else is a script.
 |-------|-----------|-------------------|
 | Resolve config + `stm_base` (`.garura/core/config.yaml`) | — | Hard halt |
 | A decision brief was given: what is decided, why now, the options, who decides, where (or, for `accept`, a proposed ADR file) | C1 | Ask for what is missing (gather, not a halt) |
-| Drive contract: when `--contract <file>` is passed, it is valid JSON naming `drive_run_id` and `branch`, and the current branch equals that branch | C10 | Hard halt (REC10) |
+| Loop contract: when `--contract <file>` is passed, it is valid JSON naming `loop_run_id` and `branch`, and the current branch equals that branch | C10 | Hard halt (REC10) |
 | The ADR template exists (`standards/templates/adr.md`) | C2 | Hard halt |
 | **Clean record tree** — run by hand, checked at the end of Step 0 (the branch must exist first): `git status --porcelain -- docs/adr <product_base>product-os` is empty | C9 | Hard halt (REC9) |
 
@@ -85,12 +85,12 @@ python3 scripts/session_stamp.py --phase start \
     --cwd "$(pwd)" --branch "$(git branch --show-current)"
 ```
 
-`in_drive` is true exactly when a valid `--contract` was passed; record it in
-`<working>/run.json` with the contract's `drive_run_id` and `branch`. The working folder
+`in_loop` is true exactly when a valid `--contract` was passed; record it in
+`<working>/run.json` with the contract's `loop_run_id` and `branch`. The working folder
 `<working>` is `{stm_base}_adr/<run-ts>/` — fixed, not keyed on the issue, because run by hand
 pre-flight runs before start-change has created it (as `/intent` does).
 `porcelain-before.txt` is captured again after Step 0 when run by hand, so the scope check sees
-only this run's changes. Then snapshot the files already changed (inside a drive there will be
+only this run's changes. Then snapshot the files already changed (inside a loop there will be
 some), so a second change to one of them is caught:
 
 ```
@@ -100,22 +100,22 @@ python3 scripts/check_adr_scope.py --snapshot --before <working>/porcelain-befor
 
 ## Task DAG
 
-Create ALL tasks immediately after pre-flight, before any domain work. Inside a drive, T0 and
-E1–E4 are created and marked skipped (`in_drive`), and T3 is skipped (no approval stop). In
+Create ALL tasks immediately after pre-flight, before any domain work. Inside a loop, T0 and
+E1–E4 are created and marked skipped (`in_loop`), and T3 is skipped (no approval stop). In
 `accept` mode, T1 and T2 are skipped.
 
 ```
-[T0] start-change (injected — start; skipped in a drive)   blockedBy: []
+[T0] start-change (injected — start; skipped in a loop)   blockedBy: []
 [T1] Capture the brief                                    blockedBy: [T0]
 [T2] Draft the ADR (adr-keeper → author-adr)              blockedBy: [T1]
-[T3] Accept or reject (pinned by hand; none in a drive)   blockedBy: [T2]
+[T3] Accept or reject (pinned by hand; none in a loop)   blockedBy: [T2]
 [T4] Apply: write, accept, point forward, index           blockedBy: [T3]
 [T5] Scope check                                          blockedBy: [T4]
 [T6] Commit the record                                    blockedBy: [T5]
-[E1] commit-change (injected — end; skipped in a drive)   blockedBy: [T6]
-[E2] propose-change (injected — end; skipped in a drive)  blockedBy: [E1]
-[E3] review-change (injected — end; skipped in a drive)   blockedBy: [E2]
-[E4] merge-change (injected — end; skipped in a drive)    blockedBy: [E3]
+[E1] commit-change (injected — end; skipped in a loop)   blockedBy: [T6]
+[E2] propose-change (injected — end; skipped in a loop)  blockedBy: [E1]
+[E3] review-change (injected — end; skipped in a loop)   blockedBy: [E2]
+[E4] merge-change (injected — end; skipped in a loop)    blockedBy: [E3]
 [T7] Scenario Validation                                  blockedBy: [E4]
 [T8] Close                                                blockedBy: [T7]
 ```
@@ -128,7 +128,7 @@ runtime reordering. On resume, skip completed and reset in-progress to pending.
 ### Phase: Start (injected — D2 position: start)
 
 **Step 0 — start-change** · Owner: `start-change` (sub-play) · Depends on: pre-flight
-*Skipped when `in_drive`.* Run the start-of-pipeline member as a sub-play with `parent_run_id`:
+*Skipped when `in_loop`.* Run the start-of-pipeline member as a sub-play with `parent_run_id`:
 it resolves or creates the issue, cuts the branch off fresh main, and inits STM. Then check the
 record tree is clean and capture the starting state on the new branch:
 
@@ -173,8 +173,8 @@ ICE impact with real paths, sets the business-intent check (`none`, `kind` or `i
 `author-adr` draft the record as proposed, and checks it (lint and guard). It returns only its
 contract. `blocked` with `needs_person` means the decision would change a person's business
 intent, or the brief is incomplete — go to the person. **This stop applies in both modes:** run
-by hand, Step 3 shows the person; inside a drive, it is a new question, and a new question
-stops the drive (ADR 029 §2) — the ADR is never applied to the intent either way.
+by hand, Step 3 shows the person; inside a loop, it is a new question, and a new question
+stops the loop (ADR 029 §2) — the ADR is never applied to the intent either way.
 **SE-2 (F2/C2):** `adr-check.json` reports the lint clean for the draft.
 **SE-3 (F3/C3):** `adr-context.yaml` lists every older ADR it supersedes or amends, each with a
 part; every ADR named in the draft's Supersedes/Amends is in that list and vice versa.
@@ -184,12 +184,12 @@ exists in the repository.
 ### Phase: Accept (pinned human checkpoint, run by hand)
 
 **Step 3 — Accept or reject** · Owner: play · Depends on: Step 2 · Checkpoint (class:
-one-way-door, pinned) · **run by hand: never skipped by config or policy. Inside a drive:
+one-way-door, pinned) · **run by hand: never skipped by config or policy. Inside a loop:
 skipped — no approval stop.**
-*Inside a drive (`in_drive`), skip this step: the ADR is saved as proposed (Step 4 with
-`--proposed`), and the person accepts it at the drive's final review with `/adr accept <file>`.*
+*Inside a loop (`in_loop`), skip this step: the ADR is saved as proposed (Step 4 with
+`--proposed`), and the person accepts it at the loop's final review with `/adr accept <file>`.*
 If the business-intent check is `instance` (or the guard exits 4), stop here — run by hand or
-inside a drive: show the person
+inside a loop: show the person
 which business intent the decision would change and why, and close HALTED with
 `exit_reason: business_intent` — the person changes the brief or ends it (S2).
 Otherwise show the draft exactly as it will read, the older ADRs it supersedes or amends (with
@@ -203,7 +203,7 @@ type one of: **accept**, **reject**, or **change: <what>**.
 **SE-5 (F5/C5):** no record was applied while the business-intent check read `instance` or the
 guard exited 4.
 **SE-6 (F6/C6):** run by hand, `decision.yaml` reads `by: person` with the person's own
-non-empty reply, written only after the draft was shown; inside a drive, no `decision.yaml`
+non-empty reply, written only after the draft was shown; inside a loop, no `decision.yaml`
 exists and the play did not wait.
 
 ### Phase: Apply
@@ -228,7 +228,7 @@ Proposed, its number must match its file name and be unused, and (when accepting
 older ADR it names must exist. It lints, runs the business-intent guard (exit 4 stops before
 writing), writes nothing on a reject (exit 5), writes the record at the target (never over an existing file), and — only on
 accept — marks it accepted with the person's name, writes each forward pointer on the older
-ADRs (the only edit they get), and rebuilds the index. Inside a drive it saves the record as
+ADRs (the only edit they get), and rebuilds the index. Inside a loop it saves the record as
 proposed and leaves the pointers for acceptance. It writes `adr-manifest.json`.
 **SE-7 (F7/C7):** every older ADR changed in this run differs from its base only on its Status
 line (Markdown) or its `superseded_by` / `amended_by` / `status` fields (YAML); no pointer was
@@ -259,7 +259,7 @@ git commit -m "docs(adr): ADR <NNN or id> — <title> (#<issue>)"
 
 ### Phase: End sequence (injected — D2 position: end)
 
-*Skipped when `in_drive` — the drive lands its own change.* After the commit, the D2 rule
+*Skipped when `in_loop` — the loop lands its own change.* After the commit, the D2 rule
 injects the close sequence, each a sub-play with `parent_run_id`:
 
 **Step E1 — commit-change** · blockedBy: Step 6
@@ -281,12 +281,12 @@ injects the close sequence, each a sub-play with `parent_run_id`:
 Each end member owns its own evals; a review reject stops the chain before merge; the land on
 main keeps its pinned human approval.
 **SE-10 (F10/C10):** by hand, `start-change` ran at the head and `merge-change.json` reports the
-PR merged; inside a drive, `run.json` reads `in_drive: true`, neither `start-change` nor any end
+PR merged; inside a loop, `run.json` reads `in_loop: true`, neither `start-change` nor any end
 member ran, and the commit is on the contract's branch.
 
 ### Phase: Scenario Validation
 
-**Step 7 — Scenario evals** · Owner: play · Depends on: the end sequence (or Step 6 in a drive)
+**Step 7 — Scenario evals** · Owner: play · Depends on: the end sequence (or Step 6 in a loop)
 - **SCE-1 (S1 — framework author, amends older ADRs):** `adr-manifest.json` reads
   `decided: true`, `status: accepted`, `lint_ok: true`, `linked: true`; each older ADR named in
   the new one's Supersedes/Amends line carries a pointer to it on its Status line and is
@@ -295,7 +295,7 @@ member ran, and the commit is on the contract's branch.
   ADR file exists in the ADR folder; the run closed HALTED with `exit_reason: business_intent`.
 - **SCE-3 (S3 — product owner, product decision):** the record passes the lint, reads
   `status: accepted` with `metadata.accepted_by`, and names its node.
-- **SCE-4 (S4 — Kickoff drive):** `run.json` reads `in_drive: true`; `adr-manifest.json` reads
+- **SCE-4 (S4 — Discovery loop):** `run.json` reads `in_loop: true`; `adr-manifest.json` reads
   `status: proposed` and `pointers_deferred: true`; no older ADR changed; no `decision.yaml`.
 - **SCE-5 (S5 — framework author, rejects):** `adr-manifest.json` reads `rejected: true`; no new
   ADR file, no older ADR changed, the index unchanged; the run closed HALTED with
@@ -309,7 +309,7 @@ member ran, and the commit is on the contract's branch.
 Run the Standard Play Close.
 **SE-11 (F11/C11):** the close is stop-condition gated — `check_stop_condition.py` over the
 baked `stop-condition.yaml` (D1 record saved; D2 decided — accepted by a person, or proposed in
-a drive; D3 lint clean; D4 linked or pointers deferred; D5 scope ok) reads **held** before any
+a loop; D3 lint clean; D4 linked or pointers deferred; D5 scope ok) reads **held** before any
 COMPLETED close.
 
 ```bash
@@ -343,7 +343,7 @@ and record `evidence skipped (record=false)` in the report's pointer line. Other
 `evidence-file.md` slots (play `adr`, run_id `adr-${ts}`, issue, started_at/completed_at,
 status per C0, exit_reason; artifacts produced: the record, the older ADRs pointed,
 the index, `brief.md`, `adr-context.yaml`, `adr-check.json`, `decision.yaml`,
-`adr-manifest.json`, `guard-report.json`, the commit sha; `in_drive`; step and scenario eval
+`adr-manifest.json`, `guard-report.json`, the commit sha; `in_loop`; step and scenario eval
 results SE-1…SE-11 / SCE-1…SCE-6; the checkpoint decision from Step 3 with the person's exact
 reply; the session identity stamp fields from $session_stamp (#463): session_id, ledger_file,
 ledger_start_offset, ledger_end_offset (null when unresolved — never blocks the close); and
@@ -355,7 +355,7 @@ all recommended actions.` (only /next pointer, or omit, when the mapped command 
 `play-close.md`. Fill the `delivery-report.md` slots and output the report:
 `## adr Delivered — ADR <NNN or id>`, the Run Summary table, the Pipeline Steps table from the
 task DAG, the Artifacts Produced table (the record, the pointers, the index), Next Steps (for a
-proposed ADR: accept it at the drive's final review with `/adr accept <file>`), and a pointer
+proposed ADR: accept it at the loop's final review with `/adr accept <file>`), and a pointer
 to `$evidence_dest`. Always emitted; never gated.
 
 ```bash
@@ -369,7 +369,7 @@ to `$evidence_dest`. Always emitted; never gated.
 | S1 — a new Garura ADR amending older ones | framework author | SCE-1 |
 | S2 — would change a business intent | framework author | SCE-2 |
 | S3 — a product decision | product owner | SCE-3 |
-| S4 — inside a drive | Kickoff drive | SCE-4 |
+| S4 — inside a loop | Discovery loop | SCE-4 |
 | S5 — rejected | framework author | SCE-5 |
 | S6 — the index | framework author | SCE-6 |
 
@@ -382,11 +382,11 @@ to `$evidence_dest`. Always emitted; never gated.
 | F3 | an overridden ADR is unnamed or has no part | re-read the overlap candidates, name each with the part, re-draft | autonomous |
 | F4 | affects or ICE impact missing or naming things that do not exist | search the repository for the real names and re-draft | autonomous |
 | F5 | the decision would change a person's business intent | stop before writing; show the person which intent and why; the person changes the brief or ends the run | human |
-| F6 | accepted without a person, a rejected ADR written, or a drive waited | reset to proposed (or remove the rejected file); by hand, present and record only the person's word; in a drive, save as proposed and move on | human |
+| F6 | accepted without a person, a rejected ADR written, or a loop waited | reset to proposed (or remove the rejected file); by hand, present and record only the person's word; in a loop, save as proposed and move on | human |
 | F7 | an older ADR edited beyond its pointer, or a pointer written early | restore the older ADR from git and re-write only the pointer, after acceptance | autonomous |
 | F8 | the index is stale | rebuild it from the ADR folder (`adr.py index`) | autonomous |
 | F9 | a path outside the record, the pointers and the index changed | restore the offending paths from git, after a person confirms | human |
-| F10 | by hand without opening or landing the change, or an issue or branch opened inside a drive | by hand, run the missing opening or end step; in a drive, close the stray issue and branch and continue on the drive's branch | human |
+| F10 | by hand without opening or landing the change, or an issue or branch opened inside a loop | by hand, run the missing opening or end step; in a loop, close the stray issue and branch and continue on the loop's branch | human |
 | F11 | the close would read COMPLETED with the done checks unmet | close HALTED with the unmet checks named; fix and re-evaluate | autonomous |
 
 ## Pause and Resume
@@ -394,17 +394,17 @@ to `$evidence_dest`. Always emitted; never gated.
 Steps run top to bottom. On entry, resolve config and the in-progress run from the status
 marker, skip completed steps, reset any in-progress step to pending, and continue. A resume
 after Step 2 reuses the draft and its context; a resume never re-asks the person once
-`decision.yaml` exists. Inside a drive, a resume keeps `in_drive` from `run.json`.
+`decision.yaml` exists. Inside a loop, a resume keeps `in_loop` from `run.json`.
 
 ## Compilation Metadata
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:4b5264b713239fa643fb722b10ce0452ec6dd5aa8c96f0ffe12adcfcd7d526a6 (of `reference/ice.md`) |
+| fingerprint | sha256:19eb895a9236148929632d4116d745eab5e06ec376d2a1c8c8662921957f557e (of `reference/ice.md`) |
 | compiled_by | play-creator (#632) |
-| pipeline_position | both (start-change head; commit → propose → review → merge close; both skipped inside a drive) |
-| position_exception | record-writing both play — writes the ADR on its started branch (or the drive's) and commits it (Step 6) BEFORE the injected end sequence lands it |
-| workflow_structure | B with one human checkpoint — pinned when run by hand (the person accepts or rejects), none inside a drive (saved proposed for the drive's final review); stop-condition gated close |
+| pipeline_position | both (start-change head; commit → propose → review → merge close; both skipped inside a loop) |
+| position_exception | record-writing both play — writes the ADR on its started branch (or the loop's) and commits it (Step 6) BEFORE the injected end sequence lands it |
+| workflow_structure | B with one human checkpoint — pinned when run by hand (the person accepts or rejects), none inside a loop (saved proposed for the loop's final review); stop-condition gated close |
 | stop_condition | stop-condition.yaml (D1–D5), gate live at Step C0 |
 | domain_agents | 1 (adr-keeper) |
 | utility_agents | 0 |

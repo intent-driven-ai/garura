@@ -329,7 +329,7 @@ esac
 
 
 class LaysDrives(unittest.TestCase):
-    """Drives live in core/components/drives/ (#613) and install as skills beside the plays."""
+    """Loops live in core/components/loops/ (#613) and install as skills beside the plays."""
 
     def setUp(self):
         self.work = tempfile.mkdtemp()
@@ -337,8 +337,8 @@ class LaysDrives(unittest.TestCase):
         self.src = os.path.join(self.work, "components")
         for rel, text in (("plays/start-change/SKILL.md", "---\nname: start-change\n---\n"),
                           ("plays/_shared/play-close.md", "# close\n"),
-                          ("drives/kickoff/SKILL.md", "---\nname: kickoff\nkind: drive\n---\n"),
-                          ("drives/_shared/drive-run.md", "# run\n")):
+                          ("loops/discovery/SKILL.md", "---\nname: discovery\nkind: loop\n---\n"),
+                          ("loops/_shared/loop-run.md", "# run\n")):
             path = os.path.join(self.src, rel)
             os.makedirs(os.path.dirname(path), exist_ok=True)
             with open(path, "w") as fh:
@@ -349,44 +349,44 @@ class LaysDrives(unittest.TestCase):
         with contextlib.redirect_stdout(io.StringIO()):
             return adapter.lay_components(self.src, self.target, lambda _m: None, allow)
 
-    def test_claude_lays_a_drive_and_both_shared_files(self):
+    def test_claude_lays_a_loop_and_both_shared_files(self):
         paths, counts, _ = self.lay(claude)
         skills = os.path.join(self.target, ".claude", "skills")
-        self.assertEqual((counts["plays"], counts["drives"]), (1, 1))
-        self.assertTrue(os.path.isfile(os.path.join(skills, "kickoff", "SKILL.md")))
+        self.assertEqual((counts["plays"], counts["loops"]), (1, 1))
+        self.assertTrue(os.path.isfile(os.path.join(skills, "discovery", "SKILL.md")))
         self.assertTrue(os.path.isfile(os.path.join(skills, "_shared", "play-close.md")))
-        self.assertTrue(os.path.isfile(os.path.join(skills, "_shared", "drive-run.md")))
-        self.assertIn(os.path.join(".claude", "skills", "kickoff"), paths)
+        self.assertTrue(os.path.isfile(os.path.join(skills, "_shared", "loop-run.md")))
+        self.assertIn(os.path.join(".claude", "skills", "discovery"), paths)
 
-    def test_codex_lays_a_drive_too(self):
+    def test_codex_lays_a_loop_too(self):
         _, counts, _ = self.lay(codex)
         skills = os.path.join(self.target, ".agents", "skills")
-        self.assertEqual(counts["drives"], 1)
-        self.assertTrue(os.path.isfile(os.path.join(skills, "_shared", "drive-run.md")))
+        self.assertEqual(counts["loops"], 1)
+        self.assertTrue(os.path.isfile(os.path.join(skills, "_shared", "loop-run.md")))
 
-    def test_the_harness_scope_installs_no_drive(self):
+    def test_the_harness_scope_installs_no_loop(self):
         allow = install.SCOPES["harness"]
         _, counts, _ = self.lay(claude, {**allow, "plays": allow["plays"] | {"start-change"}})
-        self.assertEqual(counts["drives"], 0)
-        self.assertFalse(os.path.exists(os.path.join(self.target, ".claude", "skills", "kickoff")))
+        self.assertEqual(counts["loops"], 0)
+        self.assertFalse(os.path.exists(os.path.join(self.target, ".claude", "skills", "discovery")))
 
-    def test_the_full_scope_installs_every_drive_but_not_the_drive_builders(self):
+    def test_the_full_scope_installs_every_loop_but_not_the_loop_builders(self):
         scope = install.resolve_scope("full", os.path.join(ROOT, "core", "components"))
-        self.assertIsNone(scope["drives"])
-        self.assertNotIn("drive-creator", scope["plays"])
-        self.assertNotIn("drive-editor", scope["plays"])
-        self.assertIn("drive-creator", install.SCOPES["harness"]["plays"])
+        self.assertIsNone(scope["loops"])
+        self.assertNotIn("loop-creator", scope["plays"])
+        self.assertNotIn("loop-editor", scope["plays"])
+        self.assertIn("loop-creator", install.SCOPES["harness"]["plays"])
 
-    def test_the_config_points_drives_at_the_install_place(self):
-        text = install.transform_config("components:\n  drives: ./core/components/drives/\n"
-                                        "drives:\n  kickoff:\n    runner: subagent\n",
+    def test_the_config_points_loops_at_the_install_place(self):
+        text = install.transform_config("components:\n  loops: ./core/components/loops/\n"
+                                        "loops:\n  discovery:\n    runner: subagent\n",
                                         "shop", "claude")
-        self.assertIn("  drives: ./.claude/skills/", text)
-        self.assertIn("drives:\n  kickoff:", text)
+        self.assertIn("  loops: ./.claude/skills/", text)
+        self.assertIn("loops:\n  discovery:", text)
 
 
 class InstallFindings(unittest.TestCase):
-    """What Kickoff's test runs found in the install (#613): K-0 and K-2."""
+    """What Discovery's test runs found in the install (#613): K-0 and K-2."""
 
     def test_the_record_writes_a_home_path_as_tilde(self):
         home = os.path.expanduser("~")

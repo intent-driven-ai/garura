@@ -19,7 +19,7 @@ It never writes an intent's content, never writes a new capability or functional
 and deletes nothing but a merged duplicate. It writes only inside `<product_base>product-os/`:
 every path is checked before it is written, moved or removed, and a link that would reach
 outside is skipped, not applied. The report lists every file it changed (`changed`). What needs a play — the `work[]` list — is copied
-to the report for the drive.
+to the report for the loop.
 
     python3 apply_links.py --gaps <working>/gaps.json --product-base <product_base> \
         --out <working>/close-report.json

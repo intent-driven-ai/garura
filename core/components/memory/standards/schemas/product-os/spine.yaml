@@ -186,8 +186,8 @@ epics:
 
 # ---- Fill rules: which play writes which part of the spine -------------------
 fill_rules:
-  # Who writes what (ADR 043): every kind is written on its own, and inside the Kickoff drive
-  # each play writes one kind. The links between kinds are made by the drive's gap skills
+  # Who writes what (ADR 043): every kind is written on its own, and inside the Discovery loop
+  # each play writes one kind. The links between kinds are made by the loop's gap skills
   # (find-model-gaps, close-model-gaps) or, run by hand, by the next play the person runs.
   - play: "/intent"
     writes: "business intent pages only (and their Sources). No capability, ICE or domain."

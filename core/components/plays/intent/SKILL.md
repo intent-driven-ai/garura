@@ -1,7 +1,7 @@
 ---
 name: intent
 position: both
-description: 'Turn whatever a person shares to explain what they want — a prototype (a file, a project folder or a deployed site), a document, or a plain statement — into the person''s Business Intents: each need the product meets for its user, at the level of the product and in its users'' words, with why the business needs it, who asks for it as a persona, and a measurable proof — the play drafts these with their basis — each confirmed or dropped by them. Writes business intents only (ADR 043): no ICE, no capability, no domain — /vision writes domains and /understand writes capabilities and functionalities with their ICE; the links are made later. Keeps what they shared as Sources, exactly as they were when read, and links intents and Sources both ways. The product model is the hand-off to later plays. A play of the Kickoff drive, and the hand-in from a person to the product model. Run by hand it opens and lands its own change; handed a drive''s JSON contract it opens nothing of its own.'
+description: 'Turn whatever a person shares to explain what they want — a prototype (a file, a project folder or a deployed site), a document, or a plain statement — into the person''s Business Intents: each need the product meets for its user, at the level of the product and in its users'' words, with why the business needs it, who asks for it as a persona, and a measurable proof — the play drafts these with their basis — each confirmed or dropped by them. Writes business intents only (ADR 043): no ICE, no capability, no domain — /vision writes domains and /understand writes capabilities and functionalities with their ICE; the links are made later. Keeps what they shared as Sources, exactly as they were when read, and links intents and Sources both ways. The product model is the hand-off to later plays. A play of the Discovery loop, and the hand-in from a person to the product model. Run by hand it opens and lands its own change; handed a loop''s JSON contract it opens nothing of its own.'
 user-invocable: true
 ---
 
@@ -20,7 +20,7 @@ as its **Source**:
 This play writes business intents only (ADR 043). It writes no ICE, no capability and no
 domain: `/vision` writes the domains, and `/understand` writes the capabilities and
 functionalities with their ICE. Each kind is written on its own and linked later — by the play
-that links a part to an intent, or, inside a drive, by the drive's gap skills. Run on its own,
+that links a part to an intent, or, inside a loop, by the loop's gap skills. Run on its own,
 this play leaves the rest of the model to those plays.
 
 The Business Intent and the Source are kinds of the product ontology
@@ -32,8 +32,8 @@ Principle 1).
 
 **Pipeline position: both.** Run by hand, the D2 rule prepends `start-change` and appends
 `commit-change → propose-change → review-change → merge-change`, so `/intent` opens and lands
-its own change. **Inside a drive** the drive hands it a JSON contract (`--contract`); then it
-opens no issue or branch of its own, skips the end sequence, and writes on the drive's branch
+its own change. **Inside a loop** the loop hands it a JSON contract (`--contract`); then it
+opens no issue or branch of its own, skips the end sequence, and writes on the loop's branch
 (ADR 030 P4; #612 D3).
 
 ## Compiled From
@@ -64,7 +64,7 @@ inside an intent (C3); merging two needs into one intent, or leaving a part of t
 unmapped (C12); asking a question with no example answers (C13); writing another kind — an
 ICE, a capability, a domain or a spine entry — or any model file other than the new intents
 and their sources (C8); opening an issue or a branch while
-running inside a drive (C9); writing short-term memory outside the issue being worked on, or
+running inside a loop (C9); writing short-term memory outside the issue being worked on, or
 before `start-change` gives it the issue (C14); closing COMPLETED without the stop condition
 held (C11).
 
@@ -89,39 +89,39 @@ sub-plays. Everything else is a script.
 |-------|-----------|-------------------|
 | Resolve config + `product_base` (`.garura/core/config.yaml`) | — | Hard halt |
 | A source was given: a file path, a project folder, an http(s) link, or the text of a statement | C1 | Ask the person for it (gather, not a halt) |
-| Drive contract: when `--contract <file>` is passed, the shared checker `check_drive_contract.py` accepts it — valid JSON naming `drive_run_id` and `branch` (and the rest of the drive contract), and the current branch equals that branch | C9 | Hard halt (REC9) |
-| **Clean model tree** — after Step 0 (or at once, inside a drive), `git status --porcelain -- <product_base>product-os` is empty | C8 | Hard halt (REC8) |
+| Loop contract: when `--contract <file>` is passed, the shared checker `check_loop_contract.py` accepts it — valid JSON naming `loop_run_id` and `branch` (and the rest of the loop contract), and the current branch equals that branch | C9 | Hard halt (REC9) |
+| **Clean model tree** — after Step 0 (or at once, inside a loop), `git status --porcelain -- <product_base>product-os` is empty | C8 | Hard halt (REC8) |
 
 **The issue comes first (C14).** Short-term memory is created in the issue being worked on.
-Inside a drive that is the contract's `issue`, known now. Run by hand it is the issue Step 0
+Inside a loop that is the contract's `issue`, known now. Run by hand it is the issue Step 0
 (`start-change`) opens or resolves. The run's working folder `<working>` is
 `{stm_base}<issue>/context/intent/<run-ts>/`, and its status markers sit in
 `{stm_base}<issue>/status/`; the stop condition reads `<working>` there.
 
 Run the pre-flight checks and the bundled resolver — not inference — before Step 0, so a hard
 halt leaves no issue and no branch. Run by hand, its files go to a scratch folder outside
-`.garura/` (`<pre>`, made with `mktemp -d`), because no issue exists yet; inside a drive they go
+`.garura/` (`<pre>`, made with `mktemp -d`), because no issue exists yet; inside a loop they go
 straight to `<working>`. A halt before Step 0 deletes the scratch folder, so it leaves nothing
 behind:
 
 ```
-pre=$(mktemp -d)        # run by hand; inside a drive, write to <working> instead
+pre=$(mktemp -d)        # run by hand; inside a loop, write to <working> instead
 git branch --show-current
 git status --porcelain > "$pre/porcelain.txt"
 python3 scripts/preflight.py --play intent --config .garura/core/config.yaml \
     --branch "<current branch>" --porcelain-file "$pre/porcelain.txt" > "$pre/preflight.json"
-python3 scripts/check_drive_contract.py --play intent \
+python3 scripts/check_loop_contract.py --play intent \
     --branch "$(git branch --show-current)" [--contract <contract.json>] --out "$pre/run.json"
 ```
 
-`preflight.py` takes no contract; the shared checker does (`standards/rules/drive-contract.md`).
+`preflight.py` takes no contract; the shared checker does (`standards/rules/loop-contract.md`).
 A refused contract is a hard halt (REC9).
 
-`in_drive` is true exactly when the checker accepted a `--contract` (it writes `run.json`). Once the issue is known (at
-once inside a drive; right after Step 0 run by hand), create `<working>`, move the scratch
+`in_loop` is true exactly when the checker accepted a `--contract` (it writes `run.json`). Once the issue is known (at
+once inside a loop; right after Step 0 run by hand), create `<working>`, move the scratch
 files into it, delete the scratch folder, run `preflight.py` again on the new branch so
-`<working>/preflight.json` names the branch and the issue (run by hand), add the issue Step 0 gave to `<working>/run.json` (run by hand; inside a drive the checker
-already wrote the contract's `drive_run_id`, `branch` and `issue`), and start the
+`<working>/preflight.json` names the branch and the issue (run by hand), add the issue Step 0 gave to `<working>/run.json` (run by hand; inside a loop the checker
+already wrote the contract's `loop_run_id`, `branch` and `issue`), and start the
 session stamp:
 
 ```
@@ -136,23 +136,23 @@ outlives the link or the file.
 
 ## Task DAG
 
-Create ALL tasks immediately after pre-flight (before Step 0), before any domain work. Inside a drive, T0 and
-E1–E4 are created and marked skipped (`in_drive`), never run.
+Create ALL tasks immediately after pre-flight (before Step 0), before any domain work. Inside a loop, T0 and
+E1–E4 are created and marked skipped (`in_loop`), never run.
 
 ```
-[T0] start-change (injected — start; skipped in a drive)   blockedBy: []
+[T0] start-change (injected — start; skipped in a loop)   blockedBy: []
 [T1] Capture the sources                                  blockedBy: [T0]
 [T1b] Walk the prototype in journeys (prototype only)     blockedBy: [T1]
 [T2] Draft the business intents                          blockedBy: [T1]
 [T3] Ask and check (≤3 rounds)                            blockedBy: [T2]
-[T4] Confirm or drop each intent (by hand; none in a drive) blockedBy: [T3]
+[T4] Confirm or drop each intent (by hand; none in a loop) blockedBy: [T3]
 [T5] Save the intents, link the sources                   blockedBy: [T4]
 [T6] Guard the model                                      blockedBy: [T5]
 [T7] Commit the delta                                     blockedBy: [T6]
-[E1] commit-change (injected — end; skipped in a drive)   blockedBy: [T7]
-[E2] propose-change (injected — end; skipped in a drive)  blockedBy: [E1]
-[E3] review-change (injected — end; skipped in a drive)   blockedBy: [E2]
-[E4] merge-change (injected — end; skipped in a drive)    blockedBy: [E3]
+[E1] commit-change (injected — end; skipped in a loop)   blockedBy: [T7]
+[E2] propose-change (injected — end; skipped in a loop)  blockedBy: [E1]
+[E3] review-change (injected — end; skipped in a loop)   blockedBy: [E2]
+[E4] merge-change (injected — end; skipped in a loop)    blockedBy: [E3]
 [T8] Scenario Validation                                  blockedBy: [E4]
 [T9] Close                                                blockedBy: [T8]
 ```
@@ -165,7 +165,7 @@ runtime reordering. On resume, skip completed and reset in-progress to pending.
 ### Phase: Start (injected — D2 position: start)
 
 **Step 0 — start-change** · Owner: `start-change` (sub-play) · Depends on: pre-flight
-*Skipped when `in_drive`.* Run the start-of-pipeline member as a sub-play with
+*Skipped when `in_loop`.* Run the start-of-pipeline member as a sub-play with
 `parent_run_id`: it resolves or creates the issue, cuts the branch off fresh main, and inits
 STM. `{issue}` in its result path is the issue it gave. Then create `<working>` in that issue,
 move the pre-flight's scratch files into it and delete the scratch folder, write `run.json`,
@@ -175,7 +175,7 @@ start the session stamp (above), and run the clean-tree assertion.
       "inputs": { "title": "intent: <a few words of what the person wants>" },
       "outputs": { "result": "{stm_base}{issue}/context/intent/start/start-change.json" } }
 
-**SE-14 (F14/C14):** after Step 0 (at once inside a drive) every file this run wrote to
+**SE-14 (F14/C14):** after Step 0 (at once inside a loop) every file this run wrote to
 short-term memory — `run.json`, the pre-flight files, the status markers, the sub-play results —
 sits under `{stm_base}<issue>/`; run by hand, nothing was written under the short-term root
 before Step 0, and the scratch folder is gone. Each Source's snapshot (Step 1) and
@@ -184,7 +184,7 @@ before Step 0, and the scratch folder is gone. Each Source's snapshot (Step 1) a
 ### Phase: Capture
 
 **Step 1 — Capture the sources** · Owner: play (script) · Depends on: Step 0
-*Inside a drive that hands a capture (`inputs.intent.capture`, ADR 043), skip Steps 1 and 1b: the
+*Inside a loop that hands a capture (`inputs.intent.capture`, ADR 043), skip Steps 1 and 1b: the
 Sources are the capture's two source manifests (the prototype and the person's write-up), and
 the journeys are the capture's `journeys` — hand both to Step 2 and to the checks. On a later
 round, `inputs.intent.targets` names the screens whose need no intent names yet: draft for those.*
@@ -232,7 +232,7 @@ through `scripts/walk_prototype.py` (click, type, press, back; one kept-open bro
 journey; each step tells only what changed — every step's picture and text kept), and writes `journeys.yaml`
 with every captured view on a journey or named as not walked, with why. On a deployed site a
 step that changes data is taken only when the person said the site is safe for it: run by hand
-ask them once, before the walk; inside a drive read `answers.may_change_data` from `run.json`
+ask them once, before the walk; inside a loop read `answers.may_change_data` from `run.json`
 — when it is not there, the walk takes no such step and names what it could not walk.
 
     { "task":    "walk this prototype in journeys, the way the people it serves would",
@@ -262,7 +262,7 @@ data-changing step ran on a deployed site the person had not cleared.
       "inputs":  { "source_manifests": ["<working>/source-manifest-<name>.json", "<one per Source>"],
                    "answers": "<working>/answers.yaml (absent on the first pass)",
                    "journeys": "<working>/journeys.yaml (a prototype Source only)",
-                   "round": "<the drive's round, from run.json — absent run by hand>",
+                   "round": "<the loop's round, from run.json — absent run by hand>",
                    "model": "<product_base>product-os/ (read only — on a later round, what /vision and /understand wrote)",
                    "issue": "<issue>",
                    "ontology": "<product.ontology from .garura/core/config.yaml — the ontology's place in memory>",
@@ -303,14 +303,14 @@ python3 scripts/check_intent.py --draft <working>/intent-draft.yaml \
 Why, asked by and proof are never a question for the person (C17): the check fails one that is
 empty, `open` or asked, and Step 2 is re-dispatched with the report to draft it with its basis.
 
-**Inside a drive (C16) — no stop, the questions go to the drive.** When the check's only
+**Inside a loop (C16) — no stop, the questions go to the loop.** When the check's only
 problems left are questions for the person (missing properties, open questions), do not ask:
 go on to Step 5, which saves the intents as proposed with each gap named open and writes the
-questions to `<review_dir>/open-intent.json` for the drive. On a later round (`run.json`
+questions to `<review_dir>/open-intent.json` for the loop. On a later round (`run.json`
 `round` above 1) Step 2's agent first reads what `/vision` and `/understand` wrote in the
-model, and memory, and fills what they answer (provenance `model` or `memory`); the drive asks
+model, and memory, and fills what they answer (provenance `model` or `memory`); the loop asks
 the person only what no play could answer. Every other problem the check finds is fixed as
-below, in a drive too.
+below, in a loop too.
 
 **Run by hand:** for every open question and every missing property, ask the person — plainly, one at a time,
 naming the intent it belongs to, with the question's example answers (pick one, change one, or
@@ -344,11 +344,11 @@ equals an example marked `picked: true`.
 ### Phase: Confirm (human checkpoint — run by hand only)
 
 **Step 4 — Confirm or drop each intent** · Owner: play · Depends on: Step 3 · Checkpoint
-(class: standard, pinned) · **run by hand: never skipped by config or policy. Inside a drive: skipped — no approval stop**
-*Inside a drive (`in_drive`), skip this step: the drive may still ask its questions (Step 3),
+(class: standard, pinned) · **run by hand: never skipped by config or policy. Inside a loop: skipped — no approval stop**
+*Inside a loop (`in_loop`), skip this step: the loop may still ask its questions (Step 3),
 but nothing waits for approval. Step 5 saves every drafted intent as `proposed`, and the person
-confirms or drops each at the drive's final review — the review and the pull request at the
-drive's end. Until then no ICE built for it is workable (C4).*
+confirms or drops each at the loop's final review — the review and the pull request at the
+loop's end. Until then no ICE built for it is workable (C4).*
 First show what each source shows and the coverage map — every part of the sources and the
 business intent it serves — so the person sees nothing was left out or merged. The person may type **missing: <what>** or **merged: <item>** here; add it to
 `answers.yaml` and go back to Step 2. Then show each intent, one at a time, exactly as it will
@@ -363,7 +363,7 @@ When every intent is decided, write `<working>/confirmation.yaml`:
 `confirmation: { by: person, confirmed_by: <git user>, at: <date>, decisions: [ { intent: <id>, decision: confirmed | dropped, reply: <their exact words> } ] }`.
 **SE-5 (F4/C4):** run by hand, `confirmation.yaml` reads `by: person`, holds one decision for
 every drafted intent, each with the person's own non-empty reply, and was written only after
-each intent was shown to them; no agent wrote or edited it. Inside a drive, no
+each intent was shown to them; no agent wrote or edited it. Inside a loop, no
 `confirmation.yaml` exists, the play did not wait, and every saved intent reads `proposed`.
 
 ### Phase: Save
@@ -375,23 +375,23 @@ python3 scripts/persist_intent.py --draft <working>/intent-draft.yaml \
     ( --confirmation <working>/confirmation.yaml | --proposed --at <date> ) \
     --source-manifest <working>/source-manifest-<name>.json [--source-manifest <one per Source>] \
     --product-base <product_base> --working <working> \
-    [--drive-run-id <drive_run_id> --open-out <review_dir>/open-intent.json [--update-proposed]]
+    [--loop-run-id <loop_run_id> --open-out <review_dir>/open-intent.json [--update-proposed]]
 ```
 
-Inside a drive add `--drive-run-id` and `--open-out`; on a round above 1 also
-`--update-proposed` (it rewrites only intents this drive saved that are still proposed).
-**SE-16 (F16/C16):** inside a drive, no question went to the person from this play;
+Inside a loop add `--loop-run-id` and `--open-out`; on a round above 1 also
+`--update-proposed` (it rewrites only intents this loop saved that are still proposed).
+**SE-16 (F16/C16):** inside a loop, no question went to the person from this play;
 `open-intent.json` exists and lists every open gap with what it is about, the gaps it blocks
-and example answers; every saved gap reads "open" on its page with the drive named; on a round
-above 1, `intent-manifest.json` `updated` lists only pages this drive saved, and no gap the
+and example answers; every saved gap reads "open" on its page with the loop named; on a round
+above 1, `intent-manifest.json` `updated` lists only pages this loop saved, and no gap the
 model or memory answers is left open.
 
-Run by hand it passes `--confirmation`; inside a drive it passes `--proposed` and saves every
+Run by hand it passes `--confirmation`; inside a loop it passes `--proposed` and saves every
 drafted intent as `proposed`. It writes `<product_base>product-os/intents/<id>.md` for each
-confirmed (or, in a drive, proposed) intent, and each Source record `source.md` beside its
+confirmed (or, in a loop, proposed) intent, and each Source record `source.md` beside its
 snapshot, and links intents and Sources both ways. It writes no ICE, no capability, no domain
 and no spine entry, and refuses a draft that carries any of them (C8, ADR 043). An intent page
-has no Touches list from this play; on a later round of a drive it keeps a Touches list
+has no Touches list from this play; on a later round of a loop it keeps a Touches list
 another play wrote. It never overwrites a page (beyond `--update-proposed`); a dropped intent
 is not saved. It writes `intent-manifest.json`, and no hand-off file: later plays read the
 model. It refuses, and writes nothing, unless the person decided every intent and confirmed at
@@ -411,13 +411,13 @@ python3 scripts/scoped_write_guard.py --product-base <product_base> --base-ref H
 ```
 
 On a non-zero exit, re-run with `--restore` and apply REC8. (`--modify-only` covers only a
-later round's update of a page this drive saved.)
+later round's update of a page this loop saved.)
 **SE-8 (F8/C8):** `guard-report.json` reads `ok: true` — only intent pages were added (or, on a
-later round, a page this drive saved was updated) under the product model; no spine, capability
+later round, a page this loop saved was updated) under the product model; no spine, capability
 or domain file changed; no existing doc changed.
 
 **Step 7 — Commit the delta** · Owner: play · Depends on: Step 6
-Make the intents and their Sources durable on the branch (the drive's branch inside a drive):
+Make the intents and their Sources durable on the branch (the loop's branch inside a loop):
 
 ```
 git add -- <product_base>product-os/intents <stm_base><issue>/evidence/intent/<run-ts>
@@ -426,7 +426,7 @@ git commit -m "feat(model): business intents — <n> from <what the source is> (
 
 ### Phase: End sequence (injected — D2 position: end)
 
-*Skipped when `in_drive` — the drive lands its own change.* After the commit, the D2 rule
+*Skipped when `in_loop` — the loop lands its own change.* After the commit, the D2 rule
 injects the close sequence, each a sub-play with `parent_run_id`:
 
 **Step E1 — commit-change** · blockedBy: Step 7
@@ -448,12 +448,12 @@ injects the close sequence, each a sub-play with `parent_run_id`:
 Each end member owns its own evals; a review reject stops the chain before merge; the land on
 main keeps its pinned human approval.
 **SE-9 (F9/C9):** by hand, `start-change` ran at the head and `merge-change.json` reports the
-PR merged; inside a drive, `run.json` reads `in_drive: true`, neither `start-change` nor any
+PR merged; inside a loop, `run.json` reads `in_loop: true`, neither `start-change` nor any
 end member ran, and the branch the commit landed on equals the contract's branch.
 
 ### Phase: Scenario Validation
 
-**Step 8 — Scenario evals** · Owner: play · Depends on: the end sequence (or Step 7 in a drive)
+**Step 8 — Scenario evals** · Owner: play · Depends on: the end sequence (or Step 7 in a loop)
 - **SCE-1 (S1 — business owner, deployed prototype):** `intent-manifest.json` reads
   `decided: true`, `stage: confirmed` and `confirmed_by`; every required property is on
   each intent page; the site's `source-manifest-<name>.json` lists at least one screenshot;
@@ -469,7 +469,7 @@ end member ran, and the branch the commit landed on equals the contract's branch
 - **SCE-4 (S4 — business owner, does not confirm):** when the person typed **stop**, or
   dropped every intent, no intent page exists, `persist_intent.py` refused, the model paths are
   clean, and the run closed HALTED with the reason.
-- **SCE-5 (S5 — Kickoff drive):** `run.json` reads `in_drive: true`; no `start-change` or end
+- **SCE-5 (S5 — Discovery loop):** `run.json` reads `in_loop: true`; no `start-change` or end
   result file exists for this run; the commit is on the contract's branch; no
   `confirmation.yaml` exists; `intent-manifest.json` reads `stage: proposed`; the run wrote no
   spine, capability or domain file.
@@ -483,7 +483,7 @@ end member ran, and the branch the commit landed on equals the contract's branch
 - **SCE-8 (S8 — business owner, answering a question):** every answer in `answers.yaml`
   lists the examples it was offered, and every reply that equals an example is marked
   `picked: true`.
-- **SCE-10 (S10 — Kickoff drive, a gap only the drive can fill):** round 1's
+- **SCE-10 (S10 — Discovery loop, a gap only the loop can fill):** round 1's
   `open-intent.json` lists every gap and no question went to a person from `/intent`; round 2's
   `intent-manifest.json` `updated` names the intents it filled, and every filled property's
   provenance is `source`, `journey`, `memory`, `model`, `person` or `proposed`.
@@ -503,7 +503,7 @@ Run the Standard Play Close. `/intent` writes its evidence in the issue being wo
 beside the Sources' snapshots, so the record of the run and what it read stay together.
 **SE-11 (F11/C11):** the close is stop-condition gated — `check_stop_condition.py` over the
 baked `stop-condition.yaml` (D1 intents saved; D2 decided — by hand, at least one confirmed and
-every one decided; in a drive, every one saved as proposed for the drive's final review;
+every one decided; in a loop, every one saved as proposed for the loop's final review;
 D3 every Source snapshot saved; D4 intents and Sources linked both ways; D5 guard ok) reads **held** before any COMPLETED
 close.
 
@@ -543,7 +543,7 @@ produced: the intent pages,
 each Source's snapshot and `source.md`, every
 `source-manifest-<name>.json`, `intent-draft.yaml`, `intent-check.json`, `answers.yaml`,
 `confirmation.yaml`, `intent-manifest.json`, `guard-report.json`, the model-delta commit sha;
-`in_drive`; step and scenario eval results SE-1…SE-17 / SCE-1…SCE-11; `open-intent.json` (in a drive); `journeys.yaml` and `journeys-check.json` (a prototype); the checkpoint decisions from Step 4
+`in_loop`; step and scenario eval results SE-1…SE-17 / SCE-1…SCE-11; `open-intent.json` (in a loop); `journeys.yaml` and `journeys-check.json` (a prototype); the checkpoint decisions from Step 4
 with the person's exact replies;
 the session identity stamp fields from $session_stamp (#463): session_id, ledger_file,
 ledger_start_offset, ledger_end_offset (null when unresolved — never blocks the close); and
@@ -553,7 +553,7 @@ stop_condition per C0) and write to `$evidence_dest`. Do NOT hand-author the bod
 report: `## intent Delivered — <n> business intents`, the Run Summary table, the
 Pipeline Steps table from the task DAG, the Artifacts Produced table (the intent pages and the
 Sources), Next Steps (run `/vision` for the domains and `/understand` for the capabilities and
-functionalities, or the Kickoff drive for all of it — the links are made there), and a pointer to
+functionalities, or the Discovery loop for all of it — the links are made there), and a pointer to
 `$evidence_dest`. Always emitted; never gated.
 
 ```bash
@@ -568,12 +568,12 @@ functionalities, or the Kickoff drive for all of it — the links are made there
 | S2 — from a plain statement | founder | SCE-2 |
 | S3 — nothing without a basis | business owner | SCE-3 |
 | S4 — does not confirm | business owner | SCE-4 |
-| S5 — inside a drive | Kickoff drive | SCE-5 |
+| S5 — inside a loop | Discovery loop | SCE-5 |
 | S6 — hand-over to /vision | product strategist | SCE-6 |
 | S7 — a prototype that does several things | business owner | SCE-7 |
 | S8 — answering a question | business owner | SCE-8 |
 | S9 — a prototype with many views | product owner | SCE-9 |
-| S10 — a gap only the drive can fill | Kickoff drive | SCE-10 |
+| S10 — a gap only the loop can fill | Discovery loop | SCE-10 |
 | S11 — a prototype rebuilt from its intents | product owner | SCE-11 |
 
 ## Recovery
@@ -588,39 +588,39 @@ functionalities, or the Kickoff drive for all of it — the links are made there
 | F6 | a Source has no snapshot, is not saved through the evidence method, or lacks when it was read, what it shows, or who gave it | take the snapshot again and re-save it through the evidence method with every field before the close | autonomous |
 | F7 | an intent and a Source are not linked both ways, or a later round dropped a Touches list | write the missing link on whichever side lacks it, and restore the Touches list from the page as it was — through the save script | autonomous |
 | F8 | the run wrote another kind, a model path outside the run's scope changed, or an existing doc was changed | drop the other kind from the draft (the play that owns it writes it); the guard's restore reverts the offending paths; re-write only the run's own records, after a human confirms the restore | human |
-| F9 | run by hand without opening or landing its change, or opened its own issue or branch inside a drive | by hand, run the missing opening or end-sequence step; inside a drive, close the stray issue and branch and continue on the drive's branch | human |
+| F9 | run by hand without opening or landing its change, or opened its own issue or branch inside a loop | by hand, run the missing opening or end-sequence step; inside a loop, close the stray issue and branch and continue on the loop's branch | human |
 | F10 | an intent is missing from the model, or not in the ontology's shape | re-write the missing or misshapen page from the confirmed draft | autonomous |
 | F11 | the close would read COMPLETED with the Done means unmet | close HALTED with the unmet clauses named; fix the state and re-evaluate | autonomous |
 | F12 | two needs share one intent, a part maps to no intent, or an intent restates the source | re-draft with the problem named — one intent per need, every part mapped; ask "why?" once for an intent that restates the source; at confirmation the person can name a missing or merged intent | autonomous |
 | F13 | a question went out with no examples, or a picked example was recorded as the person's words | ask again with examples; mark the picked reply as picked | autonomous |
 | F14 | a working file, an answer, a marker, a sub-play result or a snapshot sits outside `{stm_base}<issue>/`, or something was written to short-term memory before Step 0 gave the issue | move it into the issue's working folder (or status or evidence folder), delete the stray copy, and continue; when the issue is not known yet, hold it in the scratch folder until Step 0 | autonomous |
 | F15 | the intents were drafted without journeys, a journey is incomplete, a view is on no journey and not named, a business intent is a rule rather than what a person gets, or a data-changing step ran on a deployed site not cleared | walk the missing journeys (or name each view not walked, with why), redraft the business intents from the journeys' goals; for a deployed site, ask the person whether a data-changing step is safe before taking it | autonomous |
-| F16 | inside a drive `/intent` stopped to ask, saved an unnamed gap, wrote an open question without its context, left a gap the model or memory now answers, or changed an intent this drive did not save | hand the questions to the drive instead; name every gap as open with its question; on the next round re-read the model and memory and fill what they answer; restore any intent this drive did not save | autonomous |
+| F16 | inside a loop `/intent` stopped to ask, saved an unnamed gap, wrote an open question without its context, left a gap the model or memory now answers, or changed an intent this loop did not save | hand the questions to the loop instead; name every gap as open with its question; on the next round re-read the model and memory and fill what they answer; restore any intent this loop did not save | autonomous |
 | F17 | an intent names the process or tools behind the screens, a main section has no intent of its own, sits above the product's level, or uses words its users would not; asked by is not a persona; or why, asked by or proof is open, asked or not measurable | redraft the intent from the product's main area and the journey it serves, in its users' words; draft asked by, why and proof with their basis; drop the question | autonomous |
 
 ## Pause and Resume
 
-Steps run top to bottom. On entry, resolve config, the issue (from the drive contract, or from
+Steps run top to bottom. On entry, resolve config, the issue (from the loop contract, or from
 the branch), and the in-progress run from its status marker in `{stm_base}<issue>/status/`, skip completed steps, reset any in-progress step to pending, and continue. A resume
 after Step 1 reuses the captured snapshot; a resume after Step 3 reuses `answers.yaml` rather
 than asking again; a resume never re-asks a decision already recorded, and never re-asks any
 once `confirmation.yaml` exists.
-Inside a drive, a resume keeps `in_drive` from `run.json`.
+Inside a loop, a resume keeps `in_loop` from `run.json`.
 
 ## Compilation Metadata
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:cbddd95dde6d4e62392946ff9cb472169079138a48bc82a1d82492f4a19ac629 (of `reference/ice.md`) |
+| fingerprint | sha256:a90441a8fe85f87ad97167ea3600cf90ceb7e57f360a4db9f3ceca7980be3feb (of `reference/ice.md`) |
 | compiled_by | play-editor (#689 ADR 043: business intents only — no ICE, capability or domain); play-editor (#689 the product at the product's level: C17); play-editor (#661 reads no memory; the run lives in its issue); play-editor (#637 one product model with /vision); play-creator (#612) |
-| pipeline_position | both (start-change head; commit → propose → review → merge close; both skipped inside a drive) |
-| position_exception | model-writing both play — writes the intent on its started branch (or the drive's) and commits its own model delta (Step 7) BEFORE the injected end sequence lands it |
-| workflow_structure | B with one human checkpoint — pinned when run by hand (the person confirms or drops each intent), none inside a drive (intents saved as proposed for the drive's final review); ask-and-check loop ≤3 rounds; stop-condition gated close |
+| pipeline_position | both (start-change head; commit → propose → review → merge close; both skipped inside a loop) |
+| position_exception | model-writing both play — writes the intent on its started branch (or the loop's) and commits its own model delta (Step 7) BEFORE the injected end sequence lands it |
+| workflow_structure | B with one human checkpoint — pinned when run by hand (the person confirms or drops each intent), none inside a loop (intents saved as proposed for the loop's final review); ask-and-check loop ≤3 rounds; stop-condition gated close |
 | stop_condition | stop-condition.yaml (D1–D5), gate live at Step C0 |
 | domain_agents | 1 (business-intent-keeper) |
 | utility_agents | 1 (template-manager — the shared close's templates) |
 | skills_used | walk-prototype, author-business-intent |
-| scripts | 13 (walk_prototype.py, check_journeys.py, preflight.py, check_drive_contract.py (the shared drive-contract checker), session_stamp.py, check_stop_condition.py, scoped_write_guard.py, capture_source.py, check_intent.py, persist_intent.py, intent_touches.py — copied from play-creator references, keeps a Touches list on a later round; lint_grounding.py — copied from /vision and check_ice_workable.py — copied from play-creator references, kept as copies, not called since ADR 043) + test_intent_scripts.py |
+| scripts | 13 (walk_prototype.py, check_journeys.py, preflight.py, check_loop_contract.py (the shared loop-contract checker), session_stamp.py, check_stop_condition.py, scoped_write_guard.py, capture_source.py, check_intent.py, persist_intent.py, intent_touches.py — copied from play-creator references, keeps a Touches list on a later round; lint_grounding.py — copied from /vision and check_ice_workable.py — copied from play-creator references, kept as copies, not called since ADR 043) + test_intent_scripts.py |
 | step_evals | 17 (SE-1…SE-17) |
 | scenario_evals | 11 (SCE-1…SCE-11) |
 | recovery_entries | 17 (one per failure condition; 12 autonomous / 5 human) |

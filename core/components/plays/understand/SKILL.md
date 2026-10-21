@@ -1,14 +1,14 @@
 ---
 name: understand
 position: both
-description: 'Write the product''s capabilities and functionalities, each with its ICE (ADR 043) — read off a prototype''s screens when a capture is given (a capability with no domain yet waits in the holding folder, not ready until attributed), else every pending capability in the model or the ones the person names (a capability not yet in the model is seeded thinly here from the person''s answers) — promote each grounding from directional to detailed, create and detail its functionalities, set each capability''s own NFR + compliance needs, and roll all those needs up together into the product profile, firming the box and recording a decision for each capability''s out-of-box move. The product-manager step, the last detailing step. Run by hand it needs no earlier play: it opens one change and lands it on main; handed a drive''s contract, it opens nothing, does not stop at its checkpoint, works on the drive''s branch and leaves one review record per capability — every box-move as its own line, its decision proposed — for the drive''s end review.'
+description: 'Write the product''s capabilities and functionalities, each with its ICE (ADR 043) — read off a prototype''s screens when a capture is given (a capability with no domain yet waits in the holding folder, not ready until attributed), else every pending capability in the model or the ones the person names (a capability not yet in the model is seeded thinly here from the person''s answers) — promote each grounding from directional to detailed, create and detail its functionalities, set each capability''s own NFR + compliance needs, and roll all those needs up together into the product profile, firming the box and recording a decision for each capability''s out-of-box move. The product-manager step, the last detailing step. Run by hand it needs no earlier play: it opens one change and lands it on main; handed a loop''s contract, it opens nothing, does not stop at its checkpoint, works on the loop''s branch and leaves one review record per capability — every box-move as its own line, its decision proposed — for the loop''s end review.'
 user-invocable: true
 ---
 
 # understand
 
 Write the product's **capabilities and functionalities**, each with its ICE (ADR 043: in
-Kickoff /intent writes the business intents, /vision the domains, /understand the
+Discovery /intent writes the business intents, /vision the domains, /understand the
 capabilities and functionalities). Given a prototype's capture, read the capabilities off the
 screens first — no other play's seed is needed; one with no domain known waits in the
 holding folder, not ready until it is attributed. Then take every target — those, every
@@ -28,7 +28,7 @@ already-`set` box, each capability's need that exceeds the committed ceiling hal
 human decision that moves the box and records why. One run, one save, one checkpoint, one
 commit — all or nothing (C14).
 
-**Pipeline position: both.** /understand stands on its own (ADR 029 §4; #616 D2): run by hand, it needs no other play to have run first. **Inside a drive** (ADR 029 §2–3; #615; `standards/rules/drive-contract.md`) the drive hands it a contract (`--contract`); then it runs no `start-change` and no end sequence, does not wait at its checkpoint (Step 6 writes one review record per capability for the drive's end review instead, every box-move as its own line and its decision `proposed`), and commits its model change on the drive's branch. Kickoff runs it once for all the capabilities; the run leaves one review record per capability (ADR 029). The D2 rule prepends `start-change` — resolve or create the issue, cut the branch off fresh main, optional worktree, init STM — and, after the model delta is committed, appends the close sequence `commit-change → propose-change → review-change → merge-change`, landing the detailed capability on main. It writes the persistent product model **directly, in place** on its own started branch — there is no draft copy and no apply/promote step; review is the branch git diff and the end PR. (#437, #498, ADR 026; position changed from none to both in #616.)
+**Pipeline position: both.** /understand stands on its own (ADR 029 §4; #616 D2): run by hand, it needs no other play to have run first. **Inside a loop** (ADR 029 §2–3; #615; `standards/rules/loop-contract.md`) the loop hands it a contract (`--contract`); then it runs no `start-change` and no end sequence, does not wait at its checkpoint (Step 6 writes one review record per capability for the loop's end review instead, every box-move as its own line and its decision `proposed`), and commits its model change on the loop's branch. Discovery runs it once for all the capabilities; the run leaves one review record per capability (ADR 029). The D2 rule prepends `start-change` — resolve or create the issue, cut the branch off fresh main, optional worktree, init STM — and, after the model delta is committed, appends the close sequence `commit-change → propose-change → review-change → merge-change`, landing the detailed capability on main. It writes the persistent product model **directly, in place** on its own started branch — there is no draft copy and no apply/promote step; review is the branch git diff and the end PR. (#437, #498, ADR 026; position changed from none to both in #616.)
 
 **Write discipline (ADR 026, `standards/rules/direct-model-write.md`).** The LLM enrichment
 skill writes ONLY the per-node docs (`capability.md`, `functionality.md`) straight to the
@@ -46,7 +46,7 @@ This play was compiled from the understand ICE (`reference/ice.md`) by play-edit
 conditional learned gate, see `standards/rules/gate-config.md`; #498 — migrated to
 direct-model-write per ADR 026 and `standards/rules/direct-model-write.md`; #616 — stands
 alone: seeds an absent capability from the person's answers, and position none → both;
-#615 — runs inside a drive, and one run details every pending capability). Intent defines
+#615 — runs inside a loop, and one run details every pending capability). Intent defines
 constraints (C1–C16) and failure conditions (F1–F18); the expectation defines success
 scenarios (S1–S9), a Done means (D1–D3, baked to `stop-condition.yaml`), and one
 recovery entry per failure condition. To modify this play, update `reference/ice.md`
@@ -62,8 +62,8 @@ linter, the content-quality eval, the monotonic-up roll-up, the keyed in-place p
 the post-write scoped guard) through bundled scripts and an isolated judge. You never write
 the grounding docs or the spine yourself, you never lower a box dimension, and you never
 commit the model delta before the single checkpoint (C9) resolves — a typed approval, a
-recorded config skip, a recorded policy auto-pass, or, inside a drive, a recorded deferral to
-the drive's review (C13) — which also carries approval of any out-of-box box-move (C8).
+recorded config skip, a recorded policy auto-pass, or, inside a loop, a recorded deferral to
+the loop's review (C13) — which also carries approval of any out-of-box box-move (C8).
 
 **Forbidden:** hand-writing grounding docs or spine entries; touching any capability,
 functionality, or domain other than the run's targets and their new functionalities (C10);
@@ -72,8 +72,8 @@ target in the same run raised (C7/C8);
 prioritizing — writing a slice or an epic, or flipping the capability to active (C2, that
 is /shape); persisting the shared files (spine/profile/decisions) by any route other than
 `scripts/persist_understand.py`; committing before the checkpoint resolves; writing a
-box-move decision `accepted` inside a drive (C8/C13); filling in a seed answer the person or
-the drive did not give (C1/C13); running against
+box-move decision `accepted` inside a loop (C8/C13); filling in a seed answer the person or
+the loop did not give (C1/C13); running against
 a dirty product-os tree (C12/F13); writing short-term memory outside the issue the run works
 on, or before `start-change` gave it (C15/F17); closing COMPLETED without the stop-condition
 verdict reading held (C11/F11).
@@ -96,13 +96,13 @@ on a configured different model) — never the orchestrator's own context.
 |-------|-----------|-------------------|
 | Resolve config + `product_base` (`.garura/core/config.yaml`) | — | Hard halt |
 | Resolve `grounding-eval.judge` (optional model override) | C4 | Default: sub-agent on the session model |
-| Drive contract: when `--contract <file>` is passed, `check_drive_contract.py` accepts it (valid, complete, current branch = the drive's branch) and writes `run.json` | C13/F14 | Hard halt (REC14) |
-| Targets: `pick_targets.py` picks the named capabilities, else every pending (`detail: directional`) one, plus every one the capture's screens show (`--found`, Step 0b) and, inside a drive, every one the contract seeds; a named `detailed` target → halt; nothing pending → end at once; **absent** targets → ask the person for all of them first (Step 0a), before any change opens | C1/C13/F16 | Ask step, end at once, or hard halt (REC1) |
-| **Clean model tree** — right after `start-change` (Step 0), or at once inside a drive, `git status --porcelain -- <product_base>product-os` is empty | C12/F13 | Hard halt (REC13) |
-| **The run's issue** — inside a drive the contract's `issue`; run by hand the issue `start-change` gives at Step 0. Until then, run by hand, the run works in a scratch folder outside `.garura/` | C15/F17 | Hold in the scratch folder (REC17) |
+| Loop contract: when `--contract <file>` is passed, `check_loop_contract.py` accepts it (valid, complete, current branch = the loop's branch) and writes `run.json` | C13/F14 | Hard halt (REC14) |
+| Targets: `pick_targets.py` picks the named capabilities, else every pending (`detail: directional`) one, plus every one the capture's screens show (`--found`, Step 0b) and, inside a loop, every one the contract seeds; a named `detailed` target → halt; nothing pending → end at once; **absent** targets → ask the person for all of them first (Step 0a), before any change opens | C1/C13/F16 | Ask step, end at once, or hard halt (REC1) |
+| **Clean model tree** — right after `start-change` (Step 0), or at once inside a loop, `git status --porcelain -- <product_base>product-os` is empty | C12/F13 | Hard halt (REC13) |
+| **The run's issue** — inside a loop the contract's `issue`; run by hand the issue `start-change` gives at Step 0. Until then, run by hand, the run works in a scratch folder outside `.garura/` | C15/F17 | Hold in the scratch folder (REC17) |
 
 **Clean-tree assertion (C12/F13, ADR 026).** Right after Step 0 (`start-change`) cuts the
-fresh branch (inside a drive, at once — the earlier plays in the drive committed their model
+fresh branch (inside a loop, at once — the earlier plays in the loop committed their model
 change), before any model write, assert the product-os tree carries no uncommitted edits — `HEAD` is only a correct base for the scoped guard and the
 change-shape if the tree is clean at entry:
 
@@ -124,7 +124,7 @@ python3 scripts/preflight.py --play understand --config .garura/core/config.yaml
 It returns one JSON object of facts. /understand reads `product_base` (the live model —
 the spine `_spine.yaml` and the grounding docs), `stm_base` (working artifacts + evidence), the
 resolved `grounding-eval.judge` config, and `evidence_record` (the D1 gate). The **targets**
-are picked mechanically, right after the drive-contract check below (C1, #615):
+are picked mechanically, right after the loop-contract check below (C1, #615):
 
 ```
 python3 scripts/pick_targets.py --spine <product_base>product-os/_spine.yaml \
@@ -156,26 +156,26 @@ Then apply the policy: `refused` non-empty (a named target is already `detailed`
 there is nothing to detail; `ask` non-empty → Step 0a asks the person for those, all at once,
 before any change opens. A directional target is detailed as is.
 
-**Run by hand or inside a drive (C13).** Check the drive contract first — always, so the run
+**Run by hand or inside a loop (C13).** Check the loop contract first — always, so the run
 records which path it takes:
 
 ```
-python3 scripts/check_drive_contract.py --play understand \
+python3 scripts/check_loop_contract.py --play understand \
     --branch "$(git branch --show-current)" [--contract <contract.json>] \
     --out <working>/run.json
 ```
 
-`run.json` reads `in_drive: false` with no contract — every step below runs as written. With
-a valid contract it reads `in_drive: true` with the drive's `drive_run_id`, `branch`, `issue`,
-`review_dir`, and /understand's own `inputs` and `answers`. Inside a drive the targets
+`run.json` reads `in_loop: false` with no contract — every step below runs as written. With
+a valid contract it reads `in_loop: true` with the loop's `loop_run_id`, `branch`, `issue`,
+`review_dir`, and /understand's own `inputs` and `answers`. Inside a loop the targets
 are picked as by hand, plus every capability the contract seeds; a seed's answers come from
-`answers.seeds.<capability>` (`one_line`, `why`, `domain`), gathered by the drive before it
+`answers.seeds.<capability>` (`one_line`, `why`, `domain`), gathered by the loop before it
 started — `pick_targets.py` writes them verbatim to that capability's `seed.yaml`. A non-zero exit (an invalid contract, or
-the current branch is not the drive's) is a hard halt (REC14).
+the current branch is not the loop's) is a hard halt (REC14).
 
 The run's working root (`<working>` below) is `{stm_base}<issue>/context/understand/<run ts>/`
-(C15), where `<issue>` is the issue the run works on — the drive contract's `issue` inside a
-drive, the issue `start-change` gives at Step 0 run by hand — and `<run ts>` is the run's own
+(C15), where `<issue>` is the issue the run works on — the loop contract's `issue` inside a
+loop, the issue `start-change` gives at Step 0 run by hand — and `<run ts>` is the run's own
 UTC timestamp. **Run by hand, before Step 0** the issue is not known yet, so `<working>` is a
 scratch folder outside `.garura/` (`mktemp -d`): the pre-flight and Step 0a write there, and
 nothing is written to short-term memory. Right after Step 0 the play moves the scratch's files
@@ -190,7 +190,7 @@ non-model artifacts (ADR 008/017) — the model itself is written IN PLACE under
 `<product_base>product-os/`, never into `<working>`. The stop condition evaluates against
 `<working>`. Status markers live at `{stm_base}<issue>/status/`.
 
-Once the issue is known — at pre-flight inside a drive, right after Step 0 run by hand —
+Once the issue is known — at pre-flight inside a loop, right after Step 0 run by hand —
 record the session identity stamp's start marker (#463 — soft-fail, never a halt):
 
 ```
@@ -216,7 +216,7 @@ resolves; cancel reverts the uncommitted writes.
 ```
 [T0p] Pick the targets                                  blockedBy: []
 [T0a] Ask for the seeds of absent targets (all at once)  blockedBy: [T0p]
-[T0] start-change (injected — start; skipped in a drive) blockedBy: [T0a]
+[T0] start-change (injected — start; skipped in a loop) blockedBy: [T0a]
 [T1] Enrich every target at once (scoped-write fan-out) blockedBy: [T0]
 [T2] Validate the live docs                              blockedBy: [T1]
 [T3] Roll up the box                                     blockedBy: [T1]
@@ -224,10 +224,10 @@ resolves; cancel reverts the uncommitted writes.
 [T5] Guard the full delta + classify the shape           blockedBy: [T4]
 [T6] Checkpoint (approval over the full git diff)        blockedBy: [T5]
 [T7] Commit the model delta                              blockedBy: [T6]
-[E1] commit-change (injected — end; skipped in a drive)  blockedBy: [T7]
-[E2] propose-change (injected — end; skipped in a drive) blockedBy: [E1]
-[E3] review-change (injected — end; skipped in a drive)  blockedBy: [E2]
-[E4] merge-change (injected — end; skipped in a drive)   blockedBy: [E3]
+[E1] commit-change (injected — end; skipped in a loop)  blockedBy: [T7]
+[E2] propose-change (injected — end; skipped in a loop) blockedBy: [E1]
+[E3] review-change (injected — end; skipped in a loop)  blockedBy: [E2]
+[E4] merge-change (injected — end; skipped in a loop)   blockedBy: [E3]
 [T8] Scenario Validation                                 blockedBy: [E4]
 [T9] Close                                               blockedBy: [T8]
 ```
@@ -261,11 +261,11 @@ seed:
 Run by hand, with no answer or a domain not in the spine, halt and say plainly what is needed (REC1) —
 never fill the gap yourself; nothing has been opened yet, so there is nothing to clean up.
 `answered_by` is `human` only when the person typed the answers; the keyed persist refuses
-any other value. **Inside a drive (C13)** do not ask for a capability the contract answered:
+any other value. **Inside a loop (C13)** do not ask for a capability the contract answered:
 `pick_targets.py` already wrote its three answers from `run.json` `answers.seeds.<capability>`
-— a person gave them before the drive started — verbatim with `answered_by: human`. A
+— a person gave them before the loop started — verbatim with `answered_by: human`. A
 capability still in `ask` (no answers in the contract, or a domain not in the spine) is the
-drive's question (ADR 041): write it to `<review_dir>/open-understand.json` (drive contract,
+loop's question (ADR 041): write it to `<review_dir>/open-understand.json` (loop contract,
 step 5), detail the other targets, and finish — never fill a gap yourself. Each seed reaches the model only at Step 4, by the keyed persist (`--seed`),
 inside this run's reviewed, guarded delta; Step 1 writes the capability's first
 `capability.md` straight at the detailed stage from the seed's answers and its KB shelf.
@@ -273,7 +273,7 @@ inside this run's reviewed, guarded delta; Step 1 writes the capability's first
 ### Phase: Start (injected — D2 position: start)
 
 **Step 0 — start-change** · Owner: `start-change` (sub-play) · Depends on: Step 0a
-*Skipped when `run.json` reads `in_drive: true` — the drive opened the change (C13).*
+*Skipped when `run.json` reads `in_loop: true` — the loop opened the change (C13).*
 Run the start-of-pipeline member as a sub-play, dispatched with `parent_run_id` so it
 emits only its own evidence and this play's close absorbs it. It resolves or creates the
 issue for this run, cuts the branch off fresh main, sets up a worktree iff config calls for
@@ -293,7 +293,7 @@ are not re-checked here. Immediately after it returns, resolve the issue from th
 "$(git branch --show-current)"`), move the scratch's files into
 `{stm_base}<issue>/context/understand/<run ts>/`, delete the scratch, record the session
 stamp's start marker, and run the clean-tree assertion (pre-flight, C12/F13).
-**SE-18 (F17/C15):** after Step 0 (at once inside a drive) every file this run wrote to
+**SE-18 (F17/C15):** after Step 0 (at once inside a loop) every file this run wrote to
 short-term memory — `run.json`, `targets.json`, each `seed.yaml`, the sub-play results and
 the status markers — sits under `{stm_base}<issue>/`; run by hand, nothing was written under
 the short-term root before Step 0, and the scratch folder is gone.
@@ -348,7 +348,7 @@ any issue or branch existed (REC1).
 shelf `search-kb` routed to in its `routing.yaml` — the detail is grounded in the recovered
 shelf.
 **SE-17 (F16/C1/C14):** `targets.json` lists the named capabilities in the order given, or,
-with none named, every `detail: directional` capability in spine order (inside a drive, plus
+with none named, every `detail: directional` capability in spine order (inside a loop, plus
 every contract-seeded one), each with a distinct, non-nested `scope`; every target has its own
 `caps/<capability>/enrich-manifest.yaml`; the agent was dispatched once per target in one
 concurrent batch, joined before Step 2; every new or changed doc lies inside its target's
@@ -470,13 +470,13 @@ python3 scripts/persist_understand.py \
         --decided-by /understand --date "$(date -u +%Y-%m-%d)" \
         --out-manifest <working>/persist-manifest.json \
         [--seed <working>/caps/<cap>/seed.yaml ...] \
-        $( [ "<run.json in_drive>" = "true" ] && echo --decision-status proposed )
+        $( [ "<run.json in_loop>" = "true" ] && echo --decision-status proposed )
 ```
 
 Pass one `--seed` for each target that was absent or `found` (its `caps/<capability>/seed.yaml`).
-Inside a drive (C8/C13) pass `--decision-status proposed`: every box-move decision is written
-`proposed`, never `accepted`, because no person says yes inside a drive; the drive's review
-accepts or drops it. The persist runs before the gate resolves, so `in_drive` — not the gate's
+Inside a loop (C8/C13) pass `--decision-status proposed`: every box-move decision is written
+`proposed`, never `accepted`, because no person says yes inside a loop; the loop's review
+accepts or drops it. The persist runs before the gate resolves, so `in_loop` — not the gate's
 outcome — decides the status.
 
 With its `--seed`, an absent target is first added as a thin seed from the person's answers
@@ -486,7 +486,7 @@ the holding folder with its domain empty) — then promoted like any seed; the p
 an already-detailed target is always refused.
 
 **SE-9 (F8):** there is one product-level decision per box-move, each carrying its
-capability (`node_ref`), its dimension, its from→to, and status `accepted` — `proposed` inside a drive (in
+capability (`node_ref`), its dimension, its from→to, and status `accepted` — `proposed` inside a loop (in
 `persist-manifest.json` `box_moves` + the written decision records).
 **SE-11 (F10):** no slice and no epic was written, and no target's `status` was flipped to
 `active` — prioritization is /shape's.
@@ -543,7 +543,7 @@ profile, and decisions; no other capability, functionality, or domain changed.
 ### Phase: Checkpoint (conditional gate, C9)
 
 **Step 6 — Human review (class: standard, conditional)** · Owner: play · Depends on: Step 5
-**Inside a drive (C13), this step never waits.** Resolve the gate exactly as below, first match
+**Inside a loop (C13), this step never waits.** Resolve the gate exactly as below, first match
 wins: an explicit config skip is recorded as a skip, and a policy auto-pass as an auto-pass,
 exactly as by hand. Only where the gate resolves ON — where a run by hand would wait — render
 each target's part of the checkpoint exactly as it would have been shown (the same content as
@@ -556,19 +556,19 @@ once as deferred:
 Once per target, in `targets.json` order, then once for the run:
 
 ```
-python3 scripts/write_drive_review.py --run <working>/run.json \
+python3 scripts/write_loop_review.py --run <working>/run.json \
         --summary <working>/caps/<capability>/checkpoint.md \
         --attach rollup=<working>/rollup.json --attach shape=<working>/shape.json \
         --attach guard=<working>/guard-report.json --attach persist=<working>/persist-manifest.json \
         --ts <run ts>-<capability>
 python3 scripts/gate_eval.py append --ledger <gates.conditional.ledger> --play understand \
-        --issue <the drive's issue> --shape <shape-key> --predicted gate \
-        --human deferred_to_drive_review --ts <run ts>
+        --issue <the loop's issue> --shape <shape-key> --predicted gate \
+        --human deferred_to_loop_review --ts <run ts>
 ```
 
-Record `checkpoint deferred to the drive's review (drive <drive_run_id>)` as a Checkpoint
-Decisions row and proceed to Step 7. Nothing is reverted: a cancel at the drive's review is the
-drive's to act on. Run by hand, the rest of this step applies as written.
+Record `checkpoint deferred to the loop's review (loop <loop_run_id>)` as a Checkpoint
+Decisions row and proceed to Step 7. Nothing is reverted: a cancel at the loop's review is the
+loop's to act on. Run by hand, the rest of this step applies as written.
 
 This checkpoint is a **conditional gate** (#467) per `standards/rules/gate-config.md` —
 /understand is one of the eleven conditional document plays. Resolve it first match
@@ -620,14 +620,14 @@ python3 scripts/gate_eval.py append --ledger <gates.conditional.ledger> --play u
 ```
 
 `<strategy issue>` is the issue the run's branch carries (opened by this run's
-start-change; inside a drive, the drive's issue from `run.json`). `<gates.conditional.ledger>` / `<gates.conditional.policy>`
+start-change; inside a loop, the loop's issue from `run.json`). `<gates.conditional.ledger>` / `<gates.conditional.policy>`
 resolve from config `gates.conditional` (defaults `.garura/project/issues/<issue>/review/gate-evals.jsonl` (the run's issue) /
 `.garura/core/gate-policy.yaml`); `<policy version>` is the policy file's `version:`
 field. `<run ts>` is the run's own UTC timestamp, derived the same way the close
 derives `ts` (`date -u`), passed by the orchestrator.
 **SE-8 (F7/C8/C9):** when the box is `set` and `out_of_box: true`, each move was written to
 the model by the Step 4 keyed persist but is COMMITTED (made durable) only here on approval
-(inside a drive, on the recorded deferral, with its decision `proposed`) —
+(inside a loop, on the recorded deferral, with its decision `proposed`) —
 every box-move appears as its own line item, so an out-of-box move is never COMMITTED without
 an explicit, un-rubber-stamped approval (or, when the gate resolves off by config or
 auto-passes by learned policy, without the recorded skip/auto-pass row standing in evidence
@@ -637,25 +637,25 @@ commit, so nothing out-of-box becomes durable.
 (shape, predicted `gate|auto`, the human's real action or `auto_pass`), and an
 auto-pass fired only for a shape the policy lists in `auto:` (and not in `never_auto:`)
 with no blocking finding standing.
-**SE-15 (F14/C13):** `run.json` records the path taken. Inside a drive (`in_drive: true`): no
+**SE-15 (F14/C13):** `run.json` records the path taken. Inside a loop (`in_loop: true`): no
 `start-change` (Step 0) or end-sequence step (E1–E4) ran, the run did not wait at Step 6 or
-Step 0a, and every commit is on the contract's branch. By hand (`in_drive: false`): Step 0,
+Step 0a, and every commit is on the contract's branch. By hand (`in_loop: false`): Step 0,
 Step 6 and E1–E4 ran as written.
-**SE-16 (F15/F7/C13/C8):** inside a drive, when the gate did not auto-pass, for each target a
+**SE-16 (F15/F7/C13/C8):** inside a loop, when the gate did not auto-pass, for each target a
 `<review_dir>/understand-<ts>-<capability>.json` record exists with `decided: false`, its summary
 file equals `<working>/caps/<capability>/checkpoint.md` and names every box-move in `rollup.json`
 for that capability as its own line, and its attachments exist; the gate ledger holds exactly
 one line for the crossing, reading
-`deferred_to_drive_review` (or `auto_pass` on a policy-listed shape) and never an approval;
+`deferred_to_loop_review` (or `auto_pass` on a policy-listed shape) and never an approval;
 every decision in `persist-manifest.json` `box_moves` was written `proposed`; and a seed's
 `one_line`, `why` and `domain` equal the contract's answers — none filled in by the play.
 
 ### Phase: Commit (make the delta durable, ADR 026 step 7)
 
 **Step 7 — Commit the model delta** · Owner: play · Depends on: Step 6
-The gate approved (or auto-passed / was skipped by config / was deferred to the drive's review
-inside a drive). Commit the full model delta — every target at once, one commit (C14) — on the
-branch — the drive's branch inside a drive
+The gate approved (or auto-passed / was skipped by config / was deferred to the loop's review
+inside a loop). Commit the full model delta — every target at once, one commit (C14) — on the
+branch — the loop's branch inside a loop
 (C12, ADR 026 step 7) — a lightweight persist step that makes the writes durable
 and advances HEAD so the end sequence lands exactly this run's delta; it is NOT the end
 sequence itself. A cancelled checkpoint never reaches this step (nor the end sequence) — its
@@ -673,7 +673,7 @@ persist or guard did not land closes HALTED, never COMPLETED (REC11).
 
 ### Phase: End sequence (injected — D2 position: end)
 
-*Skipped when `run.json` reads `in_drive: true` — the drive lands its own change (C13).*
+*Skipped when `run.json` reads `in_loop: true` — the loop lands its own change (C13).*
 After the model delta is committed, the D2 rule injects the close sequence — each a sub-play
 dispatched with `parent_run_id`, resolving its own context — to commit any remaining change,
 raise the PR, take the verdict, and merge the detailed capability to main (C11).
@@ -731,15 +731,15 @@ merged); and the
   `{stm_base}<issue>/context/understand/end/merge-change.json` reports the PR merged, and the
   stop-condition
   verdict reads held.
-- **SCE-7 (S7 — Kickoff drive):** handed a valid contract, `run.json` reads `in_drive: true`
-  with the contract's `drive_run_id` and branch; every pending capability was a target of the
+- **SCE-7 (S7 — Discovery loop):** handed a valid contract, `run.json` reads `in_loop: true`
+  with the contract's `loop_run_id` and branch; every pending capability was a target of the
   one run; no `start-change` or end-sequence step ran; the current branch equals the
   contract's; for each target an `understand-<ts>-<capability>.json` review record with
   `decided: false` and its summary exist in the contract's `review_dir`, the summary naming
   each of that capability's box-moves as its own line; the ledger line reads
-  `deferred_to_drive_review` (or `auto_pass`); every box-move decision reads `proposed`; the
-  model delta is committed on the drive's branch; the stop-condition verdict reads held. The
-  same play run by hand reads `in_drive: false` and ran every step.
+  `deferred_to_loop_review` (or `auto_pass`); every box-move decision reads `proposed`; the
+  model delta is committed on the loop's branch; the stop-condition verdict reads held. The
+  same play run by hand reads `in_loop: false` and ran every step.
 - **SCE-8 (S8 — product manager, many at once):** with none named and three pending
   capabilities, two over the set box on security, `targets.json` lists the three in spine
   order; every one reads `detail: detailed`; `rollup.json` holds one box-move per capability
@@ -756,7 +756,7 @@ merged); and the
 
 **Step 9 — Close** · Owner: play · Depends on: Step 8
 Run the Standard Play Close. /understand's evidence lives in the issue being worked on
-(the drive's issue inside a drive, `start-change`'s by hand) — use that evidence base and
+(the loop's issue inside a loop, `start-change`'s by hand) — use that evidence base and
 the product's slug. Evidence recording is play-only and
 config-gated per the D1 evidence rule (`standards/rules/evidence-recording.md`).
 
@@ -801,7 +801,7 @@ target pick (`targets.json`), each detailed `capability.md`, the new `functional
 firmed profile, any decision records, the persist manifest (`persist-manifest.json`), the
 captured `guard-report.json`, the model-delta commit sha, the stop-condition verdict; the
 content-eval verdicts; step and scenario eval results
-SE-1…SE-19 / SCE-1…SCE-9; `run.json` (`in_drive`) and, inside a drive, each review record's
+SE-1…SE-19 / SCE-1…SCE-9; `run.json` (`in_loop`) and, inside a loop, each review record's
 path; checkpoint decision from Step 6 including each approved box-move
 (or the `gate skipped by config` / `gate auto-passed by learned policy` row when the gate
 resolved without a wait) plus the gate ledger line(s) appended this run; the session identity
@@ -831,7 +831,7 @@ the detailed functionalities into end-to-end verticals and epics), and a pointer
 | S4 — non-destructive | product owner | SCE-4 |
 | S5 — the checkpoint | reviewer | SCE-5 |
 | S6 — nothing run first | product manager | SCE-6 |
-| S7 — Kickoff drive | product manager | SCE-7 |
+| S7 — Discovery loop | product manager | SCE-7 |
 | S8 — many at once | product manager | SCE-8 |
 | S9 — from a prototype | product manager | SCE-9 |
 
@@ -839,21 +839,21 @@ the detailed functionalities into end-to-end verticals and epics), and a pointer
 
 | For | Trigger | Direction | Handoff |
 |-----|---------|-----------|---------|
-| F1 | an absent capability has no recorded answers, its domain is not in the spine, or the target is already `detailed` | ask the person what the capability is, why it matters, and which existing domain it belongs to, and record the answers before seeding; with no answer or no such domain, halt and say plainly what is needed — inside a drive, write it to `open-understand.json` as the drive's question and detail the other targets (C13); an already-detailed capability is not re-detailed | human |
+| F1 | an absent capability has no recorded answers, its domain is not in the spine, or the target is already `detailed` | ask the person what the capability is, why it matters, and which existing domain it belongs to, and record the answers before seeding; with no answer or no such domain, halt and say plainly what is needed — inside a loop, write it to `open-understand.json` as the loop's question and detail the other targets (C13); an already-detailed capability is not re-detailed | human |
 | F2 | a grounding doc fails its template/shape, or a spine entry fails the schema or spine↔doc consistency | re-emit the failing doc or spine entry to conform and restore consistency before the checkpoint | autonomous |
 | F3 | a grounding doc fails the content-quality eval | rewrite the failing doc to the judge's cited fixes — raise each flagged section to a self-explaining, product-manager-altitude statement — and re-judge until the gate passes | autonomous |
 | F4 | the capability stayed directional, or a functionality lacks its entry or its doc | complete the promotion (flip the entry to `detail: detailed`) and emit the missing functionality entry or doc before the checkpoint | autonomous |
 | F5 | an NFR need has no level/target/gate, or needs were written off the capability | re-draft each need on the capability as a concrete level + target + gate | autonomous |
 | F6 | a profile dimension was lowered, or the box firmed to a state other than `set` | recompute the roll-up monotonic-up (max per dimension) and firm to `set` | autonomous |
-| F7 | an out-of-box need against a `set` box was persisted with no approved decision (inside a drive, no recorded deferral), or a box-move decision was written `accepted` inside a drive | revert the box change, surface the move at the checkpoint, persist only after a human approves it (inside a drive, re-write the decision as `proposed` and record the deferral) | human |
+| F7 | an out-of-box need against a `set` box was persisted with no approved decision (inside a loop, no recorded deferral), or a box-move decision was written `accepted` inside a loop | revert the box change, surface the move at the checkpoint, persist only after a human approves it (inside a loop, re-write the decision as `proposed` and record the deferral) | human |
 | F8 | a box-move lacks its decision record, or a decision omits its dimension or from→to | write or complete the product-level decision for each move with its dimension and from→to before persisting | autonomous |
 | F9 | a capability, functionality, or domain other than the targets was changed (scoped-guard violation) | the guard's `--restore` already reverted the offending paths; re-run writing only the target capabilities and their functionalities, after a human confirms the restore | human |
 | F10 | a slice, an epic, or a capability status flip was written | strip the prioritization over-reach — remove the slice/epic, reset the status — leaving only /understand's detailing scope | autonomous |
 | F11 | the run is about to close COMPLETED with the Done means unmet | close HALTED (`stop_condition_unmet`) with the unmet clauses named; fix the state — re-run the keyed persist, re-capture the scoped-guard report, or make the model-delta commit — and re-evaluate; the close stays HALTED until the verdict reads held | autonomous |
 | F12 | a conditional-gate crossing left no live-eval ledger line, or an auto-pass fired for a shape the policy does not list as auto (or that carried a blocking finding) | re-append the missing ledger line for the recorded crossing; when the auto-pass was unearned, re-run the gate as a live wait — render the approval prompt and wait for the typed response — before proceeding | autonomous |
 | F13 | the product-os tree is dirty right after start-change (uncommitted model edits present) | halt and ask for a clean model tree — commit or revert the pending model edits — before /understand proceeds | human |
-| F14 | inside a drive the play opened an issue or branch, ran the end sequence, waited at its checkpoint, or worked off the drive's branch; or by hand it skipped a step | inside a drive, close the stray issue and branch, switch to the drive's branch, and write the review record in place of the wait; by hand, run the skipped step | human |
-| F15 | no review record, a record that differs from the checkpoint (a box-move missing as its own line), no ledger line, an approval no person gave, or an answer the play picked itself | re-render the checkpoint and re-write the review record with `write_drive_review.py`; append the missing `deferred_to_drive_review` line, or a correction refuting a made-up approval; drop the picked answer and hand the question to the drive (`open-understand.json`; run by hand, ask the person) | autonomous |
+| F14 | inside a loop the play opened an issue or branch, ran the end sequence, waited at its checkpoint, or worked off the loop's branch; or by hand it skipped a step | inside a loop, close the stray issue and branch, switch to the loop's branch, and write the review record in place of the wait; by hand, run the skipped step | human |
+| F15 | no review record, a record that differs from the checkpoint (a box-move missing as its own line), no ledger line, an approval no person gave, or an answer the play picked itself | re-render the checkpoint and re-write the review record with `write_loop_review.py`; append the missing `deferred_to_loop_review` line, or a correction refuting a made-up approval; drop the picked answer and hand the question to the loop (`open-understand.json`; run by hand, ask the person) | autonomous |
 | F16 | a pending capability left out, an unnamed one taken, a target measured against a box raised in the same run, or a part of the run committed while another target failed | re-pick the targets with `pick_targets.py`, re-run the roll-up with every target's manifest against the starting box, and re-render the checkpoint; when a target failed, revert the uncommitted delta and halt the whole run | autonomous |
 | F17 | a working file, an answer, a marker or a sub-play result sits outside `{stm_base}<issue>/`, or something was written to short-term memory before Step 0 gave the issue | move it into the issue's working root (or status folder), delete the stray copy, continue; before the issue is known, hold it in the scratch folder until Step 0 | autonomous |
 | F18 | a panel made a functionality, a functionality no screen shows, a page with no sources or a quote not on the prototype, or a question left open | fold the panel into the functionality that shows it; drop what nothing shows; write each page's sources with the screen's own words; replace the open question with our default, marked as ours | autonomous |
@@ -867,7 +867,7 @@ at `{stm_base}<issue>/status/`, skip completed
 steps, reset any in-progress step to pending, and continue. A fresh start with no marker
 runs everything and creates the marker at Step 1. Resuming a run that already wrote model
 docs enters a dirty tree; the clean-tree assertion (F13) is scoped to a FRESH start right
-after start-change (or, inside a drive, to the start of the run) — a resume continues its own
+after start-change (or, inside a loop, to the start of the run) — a resume continues its own
 in-progress delta. A resume after Step 7
 continues at the first end-sequence member that has not finished; a resume after Step 0a
 reuses each `<working>/caps/<capability>/seed.yaml` rather than asking again.
@@ -876,8 +876,8 @@ reuses each `<working>/caps/<capability>/seed.yaml` rather than asking again.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:6e4d72323f69923a536cd69b0dedbc21cf5ac7cf059ede9c39cd2ac3494448d4 (of `reference/ice.md`) |
-| compiled_by | play-editor (#689 ADR 043: writes the capabilities and functionalities, read off the screens, holding folder when no domain: C1, C2, C16); play-editor (#689 the screens decide the functionalities, every page with its sources: C16); play-editor (#661 reads no memory; the run lives in its issue); play-editor (#615 runs inside a drive; one run details every pending capability); play-editor (#616 stands alone); play-editor (#498 direct-model-write, ADR 026); prior: play-editor (#467 Batch B, #466 Batch C) |
+| fingerprint | sha256:e49f882fb406888f1989eafe8637c0e3128a9cd51cf63b2ec0e4079f871add30 (of `reference/ice.md`) |
+| compiled_by | play-editor (#689 ADR 043: writes the capabilities and functionalities, read off the screens, holding folder when no domain: C1, C2, C16); play-editor (#689 the screens decide the functionalities, every page with its sources: C16); play-editor (#661 reads no memory; the run lives in its issue); play-editor (#615 runs inside a loop; one run details every pending capability); play-editor (#616 stands alone); play-editor (#498 direct-model-write, ADR 026); prior: play-editor (#467 Batch B, #466 Batch C) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close — #616) |
 | position_exception | model-writing both play — writes the model on its own started branch and commits its own model delta (C12) BEFORE the injected end sequence lands it (same shape as /measure and /vision) |
 | workflow_structure | A (single checkpoint carrying box-move approvals — class: standard, conditional gate per gate-config.md #467; direct-model-write WRITE-THEN-REVIEW per ADR 026 — persist + guard + classify before the gate, commit after; stop-condition gated close) |
@@ -885,7 +885,7 @@ reuses each `<working>/caps/<capability>/seed.yaml` rather than asking again.
 | domain_agents | 1 (product-os-keeper) |
 | utility_agents | 1 (template-manager — the approval prompt, the kinds' templates, the shared close's templates) |
 | skills_used | search-kb, enrich-capability-ice, judge-grounding (run by each isolated judge) |
-| scripts | 16 (check_sources.py — every page says where it is seen (C16), preflight.py, check_drive_contract.py, pick_targets.py, write_drive_review.py, lint_grounding.py, grounding_gate.py, rollup_box.py, persist_understand.py, scoped_write_guard.py, classify_change.py, gate_eval.py, distill_gate_policy.py, check_stop_condition.py, session_stamp.py, guidance_block.py) |
+| scripts | 16 (check_sources.py — every page says where it is seen (C16), preflight.py, check_loop_contract.py, pick_targets.py, write_loop_review.py, lint_grounding.py, grounding_gate.py, rollup_box.py, persist_understand.py, scoped_write_guard.py, classify_change.py, gate_eval.py, distill_gate_policy.py, check_stop_condition.py, session_stamp.py, guidance_block.py) |
 | step_evals | 19 (SE-1…SE-19) |
 | scenario_evals | 9 (SCE-1…SCE-9) |
 | recovery_entries | 18 (one per failure condition; 14 autonomous / 4 human) |

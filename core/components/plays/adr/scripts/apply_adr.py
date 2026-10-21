@@ -26,10 +26,10 @@ What it does, in order — every check runs before the first write, so a stop wr
   4. write the record at --target (never over an existing file)
   5. accept → mark it accepted with the person's name; THEN write each forward pointer on the
      older ADRs the context names (the only edit an older ADR gets); rebuild the index
-     proposed (inside a drive) → leave it proposed; pointers wait for acceptance
+     proposed (inside a loop) → leave it proposed; pointers wait for acceptance
   6. write adr-manifest.json — what the stop condition reads
 
-`--accept-existing` completes a proposed ADR later (a drive's final review, or by hand): accept,
+`--accept-existing` completes a proposed ADR later (a loop's final review, or by hand): accept,
 pointers from the ADR's own Supersedes/Amends lines, index. No git, no network, no LLM.
 """
 import argparse
@@ -203,7 +203,7 @@ def plan_new(args, manifest):
         if not getattr(args, need):
             raise Stop(2, f"--{need} is required")
     if bool(args.proposed) == bool(args.decision):
-        raise Stop(2, "pass exactly one of --decision (by hand) or --proposed (inside a drive)")
+        raise Stop(2, "pass exactly one of --decision (by hand) or --proposed (inside a loop)")
     if not adr.is_yaml(args.target) and not args.adr_dir:
         raise Stop(2, "--adr-dir is required for a Markdown ADR")
     try:
@@ -253,7 +253,7 @@ def run_new(args, manifest):
     manifest["olders"] = [{"adr": r, "file": p, "kind": k, "part": pt} for p, k, pt, r in olders]
     os.makedirs(os.path.dirname(args.target) or ".", exist_ok=True)       # 4. write
     shutil.copyfile(args.draft, args.target)
-    if verdict is None:                                                    # 5. drive: proposed
+    if verdict is None:                                                    # 5. loop: proposed
         manifest.update(status="proposed", pointers_deferred=True, decided=True, linked=True)
         return 0
     ok = accept_and_link(args.target, str(verdict["accepted_by"]).strip(), args.date, olders,

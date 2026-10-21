@@ -22,7 +22,7 @@ Model-invocable skill that produces the canonical feature catalog. Called by `pr
 
 Receive from `product-keeper`:
 - `enriched_capabilities_path` (path, required) — `.garura/product/scope/garura:enriched-capabilities.yaml` from Stage 4.
-- `project_profile_path` (path, required) — the frozen project profile YAML. Drives two decisions: (a) greenfield vs brownfield default-status logic, (b) reading any feature-status overrides the user declared.
+- `project_profile_path` (path, required) — the frozen project profile YAML. Loops two decisions: (a) greenfield vs brownfield default-status logic, (b) reading any feature-status overrides the user declared.
 - `stm_output_base` (path, required) — base path for writes. `features.yaml` is written to `{stm_output_base}/scope/features.yaml`; the decision manifest goes to `{stm_output_base}/scope/decision-manifest-manage-features.yaml`.
 - `ltm_rules_feature_catalog_path` (path, required) — path to `core/components/memory/standards/rules/feature-catalog.md` (LTM). The skill loads this file first and enforces every rule in it against its output. When `ltm_context` is present in the calling contract, resolve via `ltm_context.core_base`; never hardcode source-repo paths.
 

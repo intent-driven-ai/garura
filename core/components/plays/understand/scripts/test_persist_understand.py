@@ -7,7 +7,7 @@ sibling is never written) and the seed path (#616): an absent capability is seed
 from the person's recorded answers (answered_by: human), under an existing domain, at a
 '<domain>/<capability>/capability.md' doc path, then promoted; without a seed it is still
 refused; a malformed seed file is refused, not a crash; an already-detailed capability is
-never re-detailed. Inside a drive (#615) a box-move decision is written `proposed`; by hand
+never re-detailed. Inside a loop (#615) a box-move decision is written `proposed`; by hand
 it stays `accepted`. One run details many targets (#615): each manifest is keyed to its own
 target, a box-move is linked to the capability it names, and a refusal writes nothing. The
 box never goes down (a lowered, unfirmed or regime-dropping profile is refused), a
@@ -215,7 +215,7 @@ def test_box_move_status():
     move = {"dimension": "security", "from": "high", "to": "xhigh"}
     did = "dec-checkout-security-high-xhigh"
     for label, extra, want in (("by hand", (), "accepted"),
-                               ("inside a drive", ("--decision-status", "proposed"), "proposed")):
+                               ("inside a loop", ("--decision-status", "proposed"), "proposed")):
         with tempfile.TemporaryDirectory() as tmp:
             base, root, work = setup(tmp, caps)
             with open(os.path.join(work, "rollup.json"), "w") as fh:
@@ -397,7 +397,7 @@ def test_record_carries_decision_status():
     moves = [{"capability": "checkout", "dimension": "security", "from": "high", "to": "xhigh"},
              {"capability": "refunds", "dimension": "security", "from": "high", "to": "xhigh"}]
     for label, extra, want in (("by hand", (), "accepted"),
-                               ("inside a drive", ("--decision-status", "proposed"), "proposed")):
+                               ("inside a loop", ("--decision-status", "proposed"), "proposed")):
         with tempfile.TemporaryDirectory() as tmp:
             base, root, work, paths = setup_two(tmp, moves)
             run_many(base, work, paths, ["checkout", "refunds"], extra)

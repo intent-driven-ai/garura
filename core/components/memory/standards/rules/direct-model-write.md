@@ -5,8 +5,8 @@ single source of truth for all thirteen model-writing plays (vision, understand,
 grill, measure, roadmap, arch, ux, quality, agentic, run, marketing, learn) and for the
 `/play-editor` compiler, so a hand edit and a recompile converge on the same shape.
 
-Authority: ADR 026, amended by ADR 043 (inside a drive, the drive commits the round) and
-ADR 044 (inside a drive, the gap closer's script also writes shared files). This rule is the
+Authority: ADR 026, amended by ADR 043 (inside a loop, the loop commits the round) and
+ADR 044 (inside a loop, the gap closer's script also writes shared files). This rule is the
 mechanical expression of those decisions.
 
 ## The rule in one line
@@ -41,14 +41,14 @@ git diff and the end-sequence PR.
    doc files, and node-level containment inside the shared spine/profile is preserved by
    the keyed script — not by the guard.
 
-   **Inside a drive (ADR 044).** One more writer: `close-model-gaps`' script
+   **Inside a loop (ADR 044).** One more writer: `close-model-gaps`' script
    (`apply_links.py`) may write the spine and the Touches list on intent pages, and move
    holding-folder pages under their parent. Its key is the agreed `gaps.json`: it makes only
    the links and merges named there — connect, attribute, merge (ADR 043 §4); a merge removes
    the dropped node of an agreed duplicate after moving its intents and children to the kept
    one — and changes no other node. It writes only inside `<product_base>product-os/`, refuses any path outside,
-   and lists every file it changed; the drive commits that delta with the round, so the
-   review sees it. Outside a drive, the play's keyed script is still the only writer of
+   and lists every file it changed; the loop commits that delta with the round, so the
+   review sees it. Outside a loop, the play's keyed script is still the only writer of
    shared files.
 
    Migration consequence: this is not a path re-point. Any enrich/build skill that today
@@ -102,10 +102,10 @@ git diff and the end-sequence PR.
    what remains uncommitted (STM evidence, ADRs), not the model deltas the plays already
    committed.
 
-   **Inside a drive (ADR 043).** The drive, not each play, commits: its plays may run side
-   by side in a round, so a play does not make this persist commit, and the drive commits
+   **Inside a loop (ADR 043).** The loop, not each play, commits: its plays may run side
+   by side in a round, so a play does not make this persist commit, and the loop commits
    the round once, after its gap skills have run (`commit_run_files.py`). The entry check
-   applies to the drive: the model tree is clean when the drive starts each round.
+   applies to the loop: the model tree is clean when the loop starts each round.
 
 ## Order of operations (write-then-review)
 
@@ -134,13 +134,13 @@ and gating the COMMIT (not the disk write) keeps every guarantee: nothing out-of
 **Declared exception — `/intent` run by hand (ADR 031).** A business intent becomes confirmed
 only on the person's typed confirmation, which a written file cannot carry, so `/intent` run by
 hand confirms first and writes after; a cancel writes nothing, so there is nothing to revert.
-Inside a drive it writes the intents as `proposed` with no checkpoint, and the drive's end
+Inside a loop it writes the intents as `proposed` with no checkpoint, and the loop's end
 review confirms them. Its writes still run through the scoped-write guard.
 
 **Declared exception — `/adr` run by hand (#632).** A decision record becomes accepted only on
 the person's typed word, so `/adr` run by hand checks everything and asks first, then writes —
-a reject writes nothing, so there is nothing to revert. Inside a drive it writes the record as
-`proposed` with no checkpoint, and the drive's end review accepts it. Because it also writes
+a reject writes nothing, so there is nothing to revert. Inside a loop it writes the record as
+`proposed` with no checkpoint, and the loop's end review accepts it. Because it also writes
 outside the product model (`docs/adr/`), its containment check is its own `check_adr_scope.py`
 over the whole repository, not the shared scoped-write guard; run by hand it starts from a clean
 record tree (`docs/adr/` and `product-os/`).
@@ -229,11 +229,11 @@ pattern cannot survive a rebuild or a hand edit:
   checkpoint step does not run the guard before the gate and a restore on cancel.
 - L-DMW-4: the play does not assert a clean product-os tree at pre-flight, or has no
   model-delta commit at close. Not a finding: the play skips both only when it runs with a
-  drive contract — the drive checks the tree and commits the round (ADR 043).
+  loop contract — the loop checks the tree and commits the round (ADR 043).
 - L-DMW-5: the play's enrichment/build skill is described as writing a shared model file
   (`_spine.yaml`, `profile.yaml`, `decisions/`) — shared files are written only by the
   play's deterministic keyed script. Not a finding: `close-model-gaps`' script
-  `apply_links.py`, which writes them inside a drive only (ADR 044).
+  `apply_links.py`, which writes them inside a loop only (ADR 044).
 - L-DMW-6: the play's keyed persist step does not precede its checkpoint step (write-then-
   review order violated — persist must run before the gate so the shape and the human see
   the full delta).

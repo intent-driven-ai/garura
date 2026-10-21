@@ -1,6 +1,6 @@
 ---
 name: write-knowledge-brief
-description: Write the brief a drive shows the person when it must reach them — what we understood, what we built, and where the gaps are, each with its context and our proposed answer — the way you would brief someone who can help close the piece. A few themed gaps (at most seven), the knowledge pages waiting for approval with our recommendation, and a pointer to the prototype notes. Never a questionnaire. Used by the knowledge-builder agent in /review-knowledge.
+description: Write the brief a loop shows the person when it must reach them — what we understood, what we built, and where the gaps are, each with its context and our proposed answer — the way you would brief someone who can help close the piece. A few themed gaps (at most seven), the knowledge pages waiting for approval with our recommendation, and a pointer to the prototype notes. Never a questionnaire. Used by the knowledge-builder agent in /review-knowledge.
 user-invocable: false
 model: sonnet
 allowed-tools: Read, Write, Glob, Grep, Bash
@@ -8,7 +8,7 @@ allowed-tools: Read, Write, Glob, Grep, Bash
 
 # write-knowledge-brief
 
-When a drive must reach the person, it briefs them as you would brief someone who can help
+When a loop must reach the person, it briefs them as you would brief someone who can help
 close the piece: what we understood, what we built, where the gaps are — with the context
 behind each. This skill writes that brief.
 
@@ -16,11 +16,11 @@ behind each. This skill writes that brief.
 
 | Field | Required | Meaning |
 |-------|----------|---------|
-| `run` | yes | What the drive made: the proposed intents, the domain, its capabilities |
+| `run` | yes | What the loop made: the proposed intents, the domain, its capabilities |
 | `search` | yes | `search.json` — what the sources and memory answered |
 | `build` | yes | `build.json` — proposals, knowledge pages, prototype notes, settled gaps |
 | `pages` | yes | The waiting memory updates, as the memory tool's `updates` lists them |
-| `audience` | yes | Who reads it (for Kickoff: who shared the prototype) |
+| `audience` | yes | Who reads it (for Discovery: who shared the prototype) |
 | `out` | yes | `brief.json` and `brief.md` |
 
 ## Process

@@ -10,12 +10,12 @@ Each prototype behaviour counts 1 when met, ½ when partly met, 0 when missing:
 - **kept** — (met + ½ partial) ÷ behaviours: what the rebuild brought back. **drift** = 1 − kept.
 - **brief covers** — how much the brief describes, whatever the builder did: a met behaviour
   and one the compare found in the brief count 1; a partial one not in the brief counts ½.
-  This is the drive's own number: a low *kept* with a high *brief covers* is the builder's
-  fault, not the drive's.
-- **missing / partial**, each split: not in the brief (the drive's fault) or in the brief (the
+  This is the loop's own number: a low *kept* with a high *brief covers* is the builder's
+  fault, not the loop's.
+- **missing / partial**, each split: not in the brief (the loop's fault) or in the brief (the
   builder's).
 - **extras** — what the rebuild does that the prototype does not: said in the brief (the
-  drive invented it) or the builder's own.
+  loop invented it) or the builder's own.
 - The same numbers by screen; and the static check and the review beside them.
 
 Exit 0 written; 2 an input cannot be read or the compare does not answer every behaviour once.
@@ -146,7 +146,7 @@ def markdown(rep):
         "",
         f"- Kept: {o['kept_pct']}%. Drift: {o['drift_pct']}%.",
         f"- The brief describes {o['brief_covers_pct']}% of the prototype.",
-        f"- Missing and not in the brief (the drive's fault): {o['missing_not_in_brief']}; "
+        f"- Missing and not in the brief (the loop's fault): {o['missing_not_in_brief']}; "
         f"partly there and not in the brief: {o['partial_not_in_brief']}.",
         f"- Missing although the brief says it (the builder's fault): {o['missing_in_brief']}.",
         f"- Added by the rebuild: {rep['score']['extras']['total']} "

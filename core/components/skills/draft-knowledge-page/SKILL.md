@@ -1,6 +1,6 @@
 ---
 name: draft-knowledge-page
-description: Draft one knowledge page for a topic a drive found missing from memory — something no screen shows and research can answer (a speed bar for a kind of product, the rules that apply to a kind of record, the usual roles in a kind of team) — researched with its sources, and raise it through the memory tool as a memory update a person approves (ADR 035). One page answers every question of its topic. Marks the page for the project's memory when it is a fact about the product or its team, not about one drive. Used by the knowledge-builder agent in /build-knowledge.
+description: Draft one knowledge page for a topic a loop found missing from memory — something no screen shows and research can answer (a speed bar for a kind of product, the rules that apply to a kind of record, the usual roles in a kind of team) — researched with its sources, and raise it through the memory tool as a memory update a person approves (ADR 035). One page answers every question of its topic. Marks the page for the project's memory when it is a fact about the product or its team, not about one loop. Used by the knowledge-builder agent in /build-knowledge.
 user-invocable: false
 model: opus
 allowed-tools: Read, Write, Bash, WebSearch, WebFetch
@@ -18,8 +18,8 @@ skill drafts the knowledge once, with its sources, for the person to approve.
 | Field | Required | Meaning |
 |-------|----------|---------|
 | `topic` | yes | The topic (e.g. "speed bar for a review tool's pages") and the questions it must answer |
-| `context` | yes | What the drive knows of the product — its intents, its domain — from the build's working files |
-| `issue` | yes | The drive's issue; the memory update lands in its short-term memory |
+| `context` | yes | What the loop knows of the product — its intents, its domain — from the build's working files |
+| `issue` | yes | The loop's issue; the memory update lands in its short-term memory |
 | `memory_tool` | yes | `.garura/core/tools/memory/memory.py` |
 
 ## Process
@@ -27,7 +27,7 @@ skill drafts the knowledge once, with its sources, for the person to approve.
 1. List what the page must let an agent answer — every question in the topic.
 2. Research: standards, common practice, the law, well-known references. Keep each source's
    link and what it says. Prefer one clear source to many weak ones.
-3. Write the page in plain words, as knowledge an agent can use on any later drive for this
+3. Write the page in plain words, as knowledge an agent can use on any later loop for this
    product: the facts, the usual values, the choices and when each applies. Mark what is a
    choice the person must make (a target they set), not a fact.
 4. Raise it through the memory tool, never by writing memory yourself:
@@ -40,7 +40,7 @@ skill drafts the knowledge once, with its sources, for the person to approve.
    ```
 
 5. Say whether the page belongs in the **project's memory** (`for_project_memory: true`): a
-   fact about this product or its team that every later drive needs. Moving it there is a
+   fact about this product or its team that every later loop needs. Moving it there is a
    person's promotion, later (`/promote-memory`).
 
 ## Output

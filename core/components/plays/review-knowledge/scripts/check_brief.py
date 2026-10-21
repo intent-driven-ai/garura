@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """check_brief.py — is the brief one a person can act on? (/review-knowledge)
 
-When a drive must reach the person, it does not send a questionnaire. It sends a brief, as you
+When a loop must reach the person, it does not send a questionnaire. It sends a brief, as you
 would brief someone who can help close the piece: what we understood, what we built, and where
 the gaps are — each gap with its context and our proposed answer, so the person only confirms
 or corrects. This script checks the brief mechanically against what /build-knowledge left;

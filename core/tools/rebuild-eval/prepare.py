@@ -5,7 +5,7 @@
         --out <run>/brief [--prototype-name argus.html]
 
 Copies the business intents (`intents/*.md`), the domain, capability and functionality pages and
-the spine. On the way it takes out what would let a builder find the prototype or the drive's
+the spine. On the way it takes out what would let a builder find the prototype or the loop's
 records: local links (the text stays, the path goes), absolute paths and `.garura/` paths, and
 the prototype's file name. Web links stay — they are research sources. What it took out is
 listed in `<out>/../brief-manifest.json`, with the counts of what the brief holds and its level:

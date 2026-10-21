@@ -62,8 +62,8 @@ intent and execute.
 | `propose-kb-node` | The nothing-fits path: when `search-kb` returns unmatched, research the gap — a new domain is named as the world already names it, with its research sources, never made up from the product's screens — and draft a properly-shaped node (new domain/capability/functionality) as a proposal for human review. NEVER writes the KB. | /vision (cover gaps); later strategic plays |
 | `author-vision-seed` | Write a detailed domain page per domain (with its `## Sources`), the domain spine entries and a directional profile — domains only (ADR 043) | /vision |
 | `enrich-capability-ice` | Find the capabilities a prototype's screens show (find mode, `found.yaml`), and detail each capability — new from the screens or already in the model — into its detailed page, its functionalities and their pages (each with `## Sources`), its rich ICE and its concrete NFR + compliance needs, grounded in the screens and its KB shelf | /understand |
-| `find-model-gaps` | Find the gaps in the product model (ADR 043): nodes not yet linked, the same thing written twice, missing work (a capability with no functionalities, an intent no capability serves) and screens no node covers; propose each link with why and give each piece of missing work to the play that does it. Writes `gaps.json`; never the model. | the drives (after each round) |
-| `close-model-gaps` | Apply what the model itself can take from `gaps.json`: attribute loose nodes (moving a holding-folder page under its parent unchanged), link nodes to intents on both sides, merge agreed duplicates; hand the rest back as work for the drive. Writes only inside the product model; `close-report.json` lists every file it changed. | the drives (after `find-model-gaps`) |
+| `find-model-gaps` | Find the gaps in the product model (ADR 043): nodes not yet linked, the same thing written twice, missing work (a capability with no functionalities, an intent no capability serves) and screens no node covers; propose each link with why and give each piece of missing work to the play that does it. Writes `gaps.json`; never the model. | the loops (after each round) |
+| `close-model-gaps` | Apply what the model itself can take from `gaps.json`: attribute loose nodes (moving a holding-folder page under its parent unchanged), link nodes to intents on both sides, merge agreed duplicates; hand the rest back as work for the loop. Writes only inside the product model; `close-report.json` lists every file it changed. | the loops (after `find-model-gaps`) |
 | `author-shape-bundle` | Draft one domain's selection bundle — confirm/prune capabilities against the firmed profile + KB, select functionalities, author build-unit functionality ICE, persona + journey records, and the prune/selection decisions — with stable ids. Reads the profile (never writes it); draft only. | /shape |
 | `author-roadmap` | Draft the plan for /roadmap over /shape's vertical slices — for each slice estimate effort, resolve its dependency_notes (+ shared functionalities + their ICE depends_on) into concrete depends_on slice ids, and propose a value order. Writes `plan-draft.yaml` only — no final order numbers, no topological sort/cycle logic (those are the play's `compute_plan.py`), never the live model. | /roadmap |
 | `author-quality-lens` | Draft the quality lens for /quality — for one SLICE, turn the profile targets that apply + the slice's functionalities' ICE constraints/failures into a grounded, checkable list of pass/fail gates, plus a decision for any material choice. The first realize lens: reads only the slice's hub (its functionalities' ICE + profile), never another lens. Draft only. | /quality |
@@ -175,12 +175,12 @@ a path belongs.
 - Write a shared model file yourself (the spine, the profile, an intent page) — under
   direct-model-write (ADR 026) your skills write only per-node grounding docs, in place;
   the play's keyed persist script owns every shared file and every page move. One
-  exception: inside a drive, `close-model-gaps`'s script (`apply_links.py`) writes the spine
+  exception: inside a loop, `close-model-gaps`'s script (`apply_links.py`) writes the spine
   and intent pages' Touches lists and moves holding-folder pages (ADR 043, ADR 044), and only inside
   `<product_base>product-os/` — it refuses any path outside and lists every file it changed.
 - Remove a node, or lose what an existing node holds — a doc another play wrote is grown
   in place, keeping every section and agent-intent line it had (ontology v4). One
-  exception: inside a drive, `close-model-gaps` removes the dropped node of a duplicate
+  exception: inside a loop, `close-model-gaps` removes the dropped node of a duplicate
   `find-model-gaps` marked `agreed: true`, after moving its intents and children onto the
   kept node.
 - Hand-write model YAML yourself — always go through a skill.

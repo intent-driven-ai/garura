@@ -1,12 +1,12 @@
 ---
 name: build-knowledge
 description: >
-  Inside a drive, close what /search-knowledge could not: research what can be researched as a
+  Inside a loop, close what /search-knowledge could not: research what can be researched as a
   knowledge page raised through the memory tool for a person to approve, draft our own proposed
   answer — with its basis and context — for each gap only a person can confirm, turn screen
   states the prototype lacks into notes, and close what the context already settles. Never
-  hands the person a bare question. The second of the drive's three knowledge member plays
-  (Shared Drive Run, R5c); never writes the product model.
+  hands the person a bare question. The second of the loop's three knowledge member plays
+  (Shared Loop Run, R5c); never writes the product model.
 user-invocable: true
 position: none
 ---
@@ -16,7 +16,7 @@ position: none
 Close every gap the search left the cheapest honest way: a knowledge page a person approves,
 our proposed answer with its basis and context, a note for the prototype, or settled.
 
-**Pipeline position: none.** A member play the Shared Drive Run runs inside a drive's rounds
+**Pipeline position: none.** A member play the Shared Loop Run runs inside a loop's rounds
 (R5c), second of `/search-knowledge` → `/build-knowledge` → `/review-knowledge`; it opens and
 lands nothing.
 
@@ -40,7 +40,7 @@ write the product model.
 
 | Agent | Domain | Skills it invokes | Phases |
 |-------|--------|-------------------|--------|
-| `knowledge-builder` | The knowledge a drive's round found missing | `draft-knowledge-page`, `propose-answers` | Build |
+| `knowledge-builder` | The knowledge a loop's round found missing | `draft-knowledge-page`, `propose-answers` | Build |
 
 `knowledge-builder` is the single **domain agent**; it raises a knowledge page only through the
 memory tool's `propose`. Everything else is a script.
@@ -49,7 +49,7 @@ memory tool's `propose`. Everything else is a script.
 
 | Check | Constraint | Action on Failure |
 |-------|-----------|-------------------|
-| A drive contract is given and the shared checker accepts it (`check_drive_contract.py`) | C6 | Hard halt — this play runs only inside a drive |
+| A loop contract is given and the shared checker accepts it (`check_loop_contract.py`) | C6 | Hard halt — this play runs only inside a loop |
 | Config, `stm_base` (`preflight.py`) | — | Hard halt |
 | `/search-knowledge` closed clean this round (`search-check.json` reads `ok: true`) | C1 | Hard halt |
 
@@ -58,7 +58,7 @@ python3 scripts/check_stop_condition.py --manifest <search-knowledge play dir>/s
     --base <search>/ --out <working>/search-held.yaml   # exit 0, else hard halt
 python3 scripts/preflight.py --play build-knowledge --config .garura/core/config.yaml \
     --branch "$(git branch --show-current)" > <working>/preflight.json
-python3 scripts/check_drive_contract.py --play build-knowledge \
+python3 scripts/check_loop_contract.py --play build-knowledge \
     --branch "$(git branch --show-current)" --contract <contract.json> --out <working>/run.json
 python3 scripts/session_stamp.py --phase start \
     --marker "{stm_base}<issue>/status/session-stamp-build-knowledge.json" \
@@ -85,7 +85,7 @@ python3 scripts/session_stamp.py --phase start \
 
     { "task":    "build: close every gap the search left",
       "inputs":  { "search": "<search>/search.json",
-                   "sources": ["<the drive's Source evidence folders>"],
+                   "sources": ["<the loop's Source evidence folders>"],
                    "issue": "<issue>",
                    "check_script": "<play-dir>/scripts/check_knowledge_build.py" },
       "outputs": { "build": "<working>/build.json",
@@ -116,30 +116,30 @@ python3 scripts/check_knowledge_build.py --search <search>/search.json \
 ```
 
 Exit 0 — clean. Otherwise send the report back to Step 1 (at most twice), then close HALTED.
-**SE-6 (F6/C6):** `run.json` reads `in_drive: true`; every file this run wrote is under
+**SE-6 (F6/C6):** `run.json` reads `in_loop: true`; every file this run wrote is under
 `{stm_base}<issue>/`; `git status` shows no change under the product model.
 
 ### Phase: Scenario Validation
 
 **Step 3 — Scenario evals** · Owner: play · Depends on: Step 2
-- **SCE-1 (S1 — Kickoff drive, knowledge no screen shows):** a group about a standard or rule
+- **SCE-1 (S1 — Discovery loop, knowledge no screen shows):** a group about a standard or rule
   reads `closed_by: update`, and the memory tool lists that update as waiting.
-- **SCE-2 (S2 — Kickoff drive, a gap only the person can confirm):** a group reads
+- **SCE-2 (S2 — Discovery loop, a gap only the person can confirm):** a group reads
   `closed_by: proposal` with answer, basis and context.
-- **SCE-3 (S3 — Kickoff drive, a gap the context settles):** a group reads `closed_by: settled`
+- **SCE-3 (S3 — Discovery loop, a gap the context settles):** a group reads `closed_by: settled`
   with `why` and `basis`.
 
 ### Phase: Evidence & Close
 
 **Step 4 — Close** · Owner: play · Depends on: Step 3
-Inside a drive the play closes as a sub-play: its evidence as `evidence.record` says, no
-delivery report of its own, a compact result for the drive (drive contract, step 7).
+Inside a loop the play closes as a sub-play: its evidence as `evidence.record` says, no
+delivery report of its own, a compact result for the loop (loop contract, step 7).
 
 ```bash
 # --- Standard Play Close (shared; see ../_shared/play-close.md) ---
 # Run the close in ../_shared/play-close.md. Its Step L loads the templates through
 # template-manager and sets ts and evidence_dest; then run this play's own lines below;
-# then Steps C0-C2 (inside a drive: no C2, a compact result for the drive). The Next line
+# then Steps C0-C2 (inside a loop: no C2, a compact result for the loop). The Next line
 # comes from the Next-line map.
 #   evidence_base="${stm_base}${issue}/evidence/build-knowledge/"   ; slug="#${issue}"
 session_stamp=$(python3 scripts/session_stamp.py --phase close \
@@ -154,9 +154,9 @@ sc_exit=$?   # 0 held · 1 unmet · 2 error
 
 | Scenario | Persona | Eval |
 |----------|---------|------|
-| S1 — knowledge no screen shows | Kickoff drive | SCE-1 |
-| S2 — a gap only the person can confirm | Kickoff drive | SCE-2 |
-| S3 — a gap the context settles | Kickoff drive | SCE-3 |
+| S1 — knowledge no screen shows | Discovery loop | SCE-1 |
+| S2 — a gap only the person can confirm | Discovery loop | SCE-2 |
+| S3 — a gap the context settles | Discovery loop | SCE-3 |
 
 ## Recovery
 
@@ -167,7 +167,7 @@ sc_exit=$?   # 0 held · 1 unmet · 2 error
 | F3 | a bare question, or a proposal without basis or context | draft the proposed answer from the source, memory and the run, with its basis and context | autonomous |
 | F4 | a missing screen state asked as a question | make it a note for the prototype | autonomous |
 | F5 | a gap the context settles kept open, or settled without its basis | close it as settled with what settles it and what that rests on | autonomous |
-| F6 | no drive contract, a write outside the issue, or a model write | halt; move the record under the drive's issue; undo the model write | human |
+| F6 | no loop contract, a write outside the issue, or a model write | halt; move the record under the loop's issue; undo the model write | human |
 
 ## Pause and Resume
 
@@ -178,13 +178,13 @@ step whose output exists and checks clean; a round already built is not built ag
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:acd25dc2a8bebb85546472d707f0f7dfe53d3891ece22982294342441dd224d7 (of `reference/ice.md`) |
+| fingerprint | sha256:23133fe9f6e0c2244d0272d028058167659fcd958a2c831046708cdc9fece617 (of `reference/ice.md`) |
 | compiled_by | play-creator (#686) |
-| pipeline_position | none (a drive's member play) |
+| pipeline_position | none (a loop's member play) |
 | stop_condition | stop-condition.yaml (D1–D2) |
 | domain_agents | 1 (knowledge-builder) |
 | skills_used | draft-knowledge-page, propose-answers |
-| scripts | 5 (check_knowledge_build.py, preflight.py, session_stamp.py, check_stop_condition.py, check_drive_contract.py) + test_build_knowledge_scripts.py |
+| scripts | 5 (check_knowledge_build.py, preflight.py, session_stamp.py, check_stop_condition.py, check_loop_contract.py) + test_build_knowledge_scripts.py |
 | step_evals | 6 (SE-1…SE-6) |
 | scenario_evals | 3 (SCE-1…SCE-3) |
 | recovery_entries | 6 (one per failure condition; 4 autonomous / 2 human) |

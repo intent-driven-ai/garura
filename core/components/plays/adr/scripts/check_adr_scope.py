@@ -12,7 +12,7 @@ inside new folders, and quotepath off keeps non-English names as they are (other
 them and the check fails closed). Allow exact paths where you can: a `*` glob also matches
 nested folders.
 
-A file already changed before the run (normal inside a drive) is caught when it changes again:
+A file already changed before the run (normal inside a loop) is caught when it changes again:
 take a snapshot of those files' contents at the start, and pass it to the check.
 
     python3 check_adr_scope.py --snapshot --before <working>/porcelain-before.txt \

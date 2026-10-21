@@ -8,7 +8,7 @@ content:
       says: "the decision record was saved"
       check: { type: artifact_exists, path: "adr-manifest.json" }
     - id: D2
-      says: "it was decided — accepted by a person (by hand), or saved as proposed for the drive's final review"
+      says: "it was decided — accepted by a person (by hand), or saved as proposed for the loop's final review"
       check: { type: field_equals, file: "adr-manifest.json", field: "decided", equals: true }
     - id: D3
       says: "it follows the template"

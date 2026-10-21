@@ -13,7 +13,7 @@ A work plan is the **human's interface** to a business intent. It shows how the 
 1. **Every change works from a plan.** A change opens with `start-change` → `plan-change` → `approve-change`; no work starts before the plan is approved.
 2. **Only when needed.** Each of the three runs only if its result does not exist yet: an open change, a plan, an approved plan.
 3. **One plan per issue.** A plan is never written twice for the same issue.
-4. **Inside a drive, one plan.** The drive opens the change once; its plays skip the opening and add their items to the drive's plan.
+4. **Inside a loop, one plan.** The loop opens the change once; its plays skip the opening and add their items to the loop's plan.
 
 ## Where it lives
 
@@ -32,9 +32,9 @@ A work plan is the **human's interface** to a business intent. It shows how the 
 
 ## Who keeps it current
 
-13. **The play or drive doing the work** updates its plan, through the `manage-plan` skill. Mid-drive, the skill is called directly; no play runs.
+13. **The play or loop doing the work** updates its plan, through the `manage-plan` skill. Mid-loop, the skill is called directly; no play runs.
 14. **Small updates need no human:** marking an item done, moving "now".
-15. **Big updates go back through `approve-change`** *(planned, #622)*: adding, dropping or reordering items; a play finishing inside a drive; a linked or dependent issue completing. **Inside a drive**, big updates are logged as they happen and approved together at the drive's end review — the drive does not stop.
+15. **Big updates go back through `approve-change`** *(planned, #622)*: adding, dropping or reordering items; a play finishing inside a loop; a linked or dependent issue completing. **Inside a loop**, big updates are logged as they happen and approved together at the loop's end review — the loop does not stop.
 16. **Every change is logged** in the plan's Log with its date and reason.
 
 ## When it is done

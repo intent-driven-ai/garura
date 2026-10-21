@@ -49,16 +49,16 @@ def tier_of(model_value):
     return MODEL_TIER.get(str(model_value).strip().lower(), DEFAULT_TIER)
 
 
-SHARED = "_shared"  # blocks every play and drive shares (ADR 039 §9), laid beside them
-# the folders whose components install as skills; drives are higher-order plays (ADR 029)
-SKILL_KINDS = ("skills", "plays", "drives")
+SHARED = "_shared"  # blocks every play and loop shares (ADR 039 §9), laid beside them
+# the folders whose components install as skills; loops are higher-order plays (ADR 029)
+SKILL_KINDS = ("skills", "plays", "loops")
 
 
 def lay_shared(components, skills_root, rel_root, paths, info):
-    """Lay plays/_shared/ and drives/_shared/ as one <skills_root>/_shared/: every installed
-    play points to ../_shared/play-close.md, every installed drive also to
-    ../_shared/drive-run.md. A folder starting with `_` is otherwise never deployed."""
-    sources = [os.path.join(components, kind, SHARED) for kind in ("plays", "drives")]
+    """Lay plays/_shared/ and loops/_shared/ as one <skills_root>/_shared/: every installed
+    play points to ../_shared/play-close.md, every installed loop also to
+    ../_shared/loop-run.md. A folder starting with `_` is otherwise never deployed."""
+    sources = [os.path.join(components, kind, SHARED) for kind in ("plays", "loops")]
     sources = [s for s in sources if os.path.isdir(s)]
     if not sources:
         return
@@ -72,7 +72,7 @@ def lay_shared(components, skills_root, rel_root, paths, info):
 
 SKILLS_GITIGNORE = (
     "# Python's caches beside the installed plays' and skills' scripts are never part of a\n"
-    "# change: a drive checks the tree is clean after each play (#613 finding K-2).\n"
+    "# change: a loop checks the tree is clean after each play (#613 finding K-2).\n"
     "__pycache__/\n"
 )
 

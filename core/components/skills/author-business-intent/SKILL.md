@@ -29,7 +29,7 @@ wants, and leave how the source does it behind (IDD Principle 1).
 | `source_manifests` | yes | One or more Source manifests — each with its kind, `snapshot_dir` and snapshot files (screenshots with their text, page HTML, the copied file, or the statement text). A project folder gives two: its written docs and the running app. All are read together |
 | `journeys` | for a prototype | The prototype's journeys (`journeys.yaml`, from `walk-prototype`): who it serves, what each sets out to do, the steps walked and what they showed, what they end with. A prototype's intents are drafted from these (C15) |
 | `memory_context` | no | What the agent found in memory about the product — what it is, its domain, who uses it — as short-term copies |
-| `model` | no | On a later round of a drive: the product model the drive's other plays wrote (read only) |
+| `model` | no | On a later round of a loop: the product model the loop's other plays wrote (read only) |
 | `answers` | no | The person's answers so far (`<working>/answers.yaml`): replies to earlier questions (with the examples offered and whether one was picked), intents they stated, items they named as missing or merged, and any correction |
 | `draft_path` | yes | Where to write the draft (`<working>/intent-draft.yaml`) |
 | `ontology_path` | yes | The ontology, copied into short-term memory by the agent through the memory tool. Read this copy — never memory itself (ADR 039). |
@@ -66,7 +66,7 @@ wants, and leave how the source does it behind (IDD Principle 1).
    > the week from it without asking anyone for status.
 
    **Use what memory and the model hold.** Context the agent copied from memory (what the
-   product is, its domain, who uses it) and, on a later round of a drive, what the model holds
+   product is, its domain, who uses it) and, on a later round of a loop, what the model holds
    (the domain and capabilities `/vision` and `/understand` wrote) may sharpen `why`, `proof`
    and `asked_by` — provenance `memory` or `model`.
 1. **Read the ontology's Business Intent kind** — its properties and rules. Then
@@ -155,7 +155,7 @@ questions:
 
 ## Questions that make sense to the person
 
-A question is for whoever shared the source — for Kickoff, the person who gave the prototype.
+A question is for whoever shared the source — for Discovery, the person who gave the prototype.
 Write each one so that person can answer it without knowing Garura's words:
 
 - Ask about something they have seen: name the intent or part in their words, never an id.

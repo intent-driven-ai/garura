@@ -12,11 +12,11 @@ land their own change. As compiled today: `both` — /vision, /understand (#616)
 /grill, /learn, /fix-bug, /refactor, /intent (#612), /adr (#632); `start` — /arch, /ux, /implement; `end` — /roadmap,
 /marketing, /run, /launch; `none` — /shape, /agentic, /quality, /validate, /deploy, /next,
 /focus. (A `none` play runs on whatever branch is already started — /shape and /roadmap's
-reliance on /vision's old shared branch is a known follow-up from #616.) Inside a drive the
-opening and the end sequence are both skipped — the drive opens and lands the change — and a
-play knows it is inside a drive from the drive's contract (`standards/rules/drive-contract.md`;
+reliance on /vision's old shared branch is a known follow-up from #616.) Inside a loop the
+opening and the end sequence are both skipped — the loop opens and lands the change — and a
+play knows it is inside a loop from the loop's contract (`standards/rules/loop-contract.md`;
 ADR 029, ADR 030 P4). Wired so far: /intent (#612, its own contract check), and /vision (#614) and
-/understand (#615), both with the shared `check_drive_contract.py`.
+/understand (#615), both with the shared `check_loop_contract.py`.
 
 ## The declaration
 
@@ -117,4 +117,4 @@ by play-creator at compile, not re-verified by the linter.
 - `evidence-recording.md` — D1; the injected sub-plays record evidence the play-only way
 - `start-change`, `commit-change`, `propose-change`, `review-change`, `merge-change` — the
   member plays this rule composes
-- `drive-contract.md` — inside a drive the injected opening and end sequence are skipped
+- `loop-contract.md` — inside a loop the injected opening and end sequence are skipped

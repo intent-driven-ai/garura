@@ -70,8 +70,8 @@ Resolution precedence the play applies at pre-flight (first match wins):
 The resolved value is what the Standard Play Close C1 gate reads. Sub-plays
 follow `_shared/play-close.md` (beside the plays): a sub-play (carries `parent_run_id`) emits only C1 under
 this same resolved flag and skips C2; the parent's close absorbs the result. A play run inside a
-drive (it carries the drive contract's `drive_run_id`, not a `parent_run_id`) closes the same
-way: C1 under this flag, no C2, a compact result for the drive (`drive-contract.md`).
+loop (it carries the loop contract's `loop_run_id`, not a `parent_run_id`) closes the same
+way: C1 under this flag, no C2, a compact result for the loop (`loop-contract.md`).
 
 ## Relationship to the Standard Play Close
 

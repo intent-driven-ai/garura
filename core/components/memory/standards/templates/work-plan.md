@@ -15,7 +15,7 @@ See `standards/rules/work-plan.md` → "Where it lives". (Kept in one place so t
 ````markdown
 ---
 plan_for: {issue number}
-kind: {business-intent | feature | story | bug | spike | chore | drive | play}
+kind: {business-intent | feature | story | bug | spike | chore | loop | play}
 serves: "#{issue} — {the outcome this plan serves, in one line}"
 status: {active | done | dropped}
 updated: {YYYY-MM-DD}

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """test_apply_adr.py — fixture tests for /adr's apply step (#632), one group per scenario:
 accept by hand with pointers and index (S1, S6), the business-intent stop (S2), a product
-decision (S3), proposed inside a drive and accepted later (S4), reject (S5), and the refusals.
+decision (S3), proposed inside a loop and accepted later (S4), reject (S5), and the refusals.
 
     python3 test_apply_adr.py
 """
@@ -182,12 +182,12 @@ def test_product_decision():
               yaml.safe_load(open(older))["decision"].get("amended_by") == ["dec-2"])
 
 
-def test_drive_then_accept_later():
+def test_loop_then_accept_later():
     with tempfile.TemporaryDirectory() as tmp:
         p = setup(tmp)
         code = run(base(p, ["--proposed"]))
         m = manifest(p["work"])
-        check("S4: inside a drive it is saved as proposed, with no stop and no pointers",
+        check("S4: inside a loop it is saved as proposed, with no stop and no pointers",
               code == 0 and m["status"] == "proposed" and m["pointers_deferred"] and m["decided"]
               and "**Status:** Proposed" in open(p["target"]).read()
               and open(os.path.join(p["dir"], "001-cache-on-disk.md")).read() == OLD_1)
@@ -347,7 +347,7 @@ def test_copy_in_sync():
 
 def main():
     for test in (test_accept_by_hand, test_business_intent_stop, test_product_decision,
-                 test_drive_then_accept_later, test_reject_and_refusals, test_scope,
+                 test_loop_then_accept_later, test_reject_and_refusals, test_scope,
                  test_nothing_half_written, test_accept_later_safely, test_round_two, test_copy_in_sync):
         print(test.__name__)
         test()

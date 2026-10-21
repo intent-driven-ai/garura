@@ -53,7 +53,7 @@ For every characteristic in the refined QP with `relevance != not_applicable`, a
 
 **Enforcement:** `refine-quality-profile` writes the refined QP with delta_log. `derive-physical-architecture` writes `nfr_delivery[]` per component. `validate-architecture-spec` V8 fails when any QP characteristic with relevance != not_applicable has no matching nfr_delivery entry.
 
-## Rule 5: Failure Scenarios Drive Reliability Architecture
+## Rule 5: Failure Scenarios Loop Reliability Architecture
 
 **Every failure_scenario from every intent epic must be mapped to at least one architectural mitigation.**
 

@@ -80,7 +80,7 @@ who use it (for example, that a work-tracking tool is used by the team leads and
 a software team). Copy what you find into `<working>/memory/`, hand it to the skill as context,
 and `cite` it; a property drawn from it has provenance `memory`. When no tier holds what the
 draft needs and research can answer it, raise a memory update (`propose`, `draft_source: web`)
-— it waits for a person, and nothing rests on it until approved (ADR 035). On a later round of a drive (the contract's `round` above 1), also read what
+— it waits for a person, and nothing rests on it until approved (ADR 035). On a later round of a loop (the contract's `round` above 1), also read what
 `/vision` and `/understand` wrote in the model (`model`, read only) — the domain, its
 capabilities, their docs — and fill what it answers (provenance `model`). Do no outside research.
 Why, asked by and proof are never a question: the skill drafts them with their basis
@@ -108,7 +108,7 @@ work only on what you are given).
     "source_manifests": ["<working>/source-manifest-<name>.json", "<one per Source>"],
     "answers": "<working>/answers.yaml | null",
     "issue": "<the run's issue>",
-    "round": "<the drive's round — absent run by hand>",
+    "round": "<the loop's round — absent run by hand>",
     "model": "<product_base>product-os/ (read only, on a later round)",
     "ontology": "standards/schemas/product-os/ontology.md (the config's product.ontology)",
     "check_script": "<play-dir>/scripts/check_intent.py"

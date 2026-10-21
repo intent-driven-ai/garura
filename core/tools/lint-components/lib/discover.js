@@ -38,7 +38,7 @@ function walk(dir, predicate) {
  *   plays: Array<{file: string, name: string, type: string}>,
  *   agents: Array<{file: string, name: string, type: string}>,
  *   intents: Array<{file: string, name: string, type: string}>,
- *   drives: Array<{file: string, name: string, type: string}>
+ *   loops: Array<{file: string, name: string, type: string}>
  * }}
  */
 function discover(targetDir) {
@@ -105,21 +105,21 @@ function discover(targetDir) {
     }
   }
 
-  // drives: {target}/drives/*/SKILL.md — higher-order plays (ADR 029), own folder (#613)
-  const drives = [];
-  const drivesDir = path.join(targetDir, 'drives');
+  // loops: {target}/loops/*/SKILL.md — higher-order plays (ADR 029), own folder (#613)
+  const loops = [];
+  const drivesDir = path.join(targetDir, 'loops');
   if (fs.existsSync(drivesDir)) {
     for (const entry of fs.readdirSync(drivesDir, { withFileTypes: true })) {
       if (entry.isDirectory() && !entry.name.startsWith('_')) {
         const driveFile = path.join(drivesDir, entry.name, 'SKILL.md');
         if (fs.existsSync(driveFile)) {
-          drives.push({ file: driveFile, name: entry.name, type: 'drive' });
+          loops.push({ file: driveFile, name: entry.name, type: 'loop' });
         }
       }
     }
   }
 
-  return { skills, plays, agents, intents, drives };
+  return { skills, plays, agents, intents, loops };
 }
 
 module.exports = discover;

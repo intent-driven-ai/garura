@@ -4,7 +4,7 @@ distill_gate_policy.py — the deterministic learner over the gate ledger (#467)
 
 Reads the live-eval ledger (gate-evals.jsonl) and writes the per-project gate policy
 (gate-policy.yaml). Each issue keeps its own ledger under its folder
-(`<stm_base><issue>/review/gate-evals.jsonl` — the issue ID governs, rules/drive-contract.md;
+(`<stm_base><issue>/review/gate-evals.jsonl` — the issue ID governs, rules/loop-contract.md;
 ADR 039); given one of
 those, the learner reads every issue's ledger beside it, in time order, because the policy is
 learned from all of them. A ledger anywhere else is read alone, as before. Pure rule, no inference, replay-deterministic (every output value
@@ -14,8 +14,8 @@ derives from ledger content — no wall clock):
     (auto_pass lines EXTEND an earned streak but never start one) and no unrefuted
     correction stands against it;
   - any rejected / approved_edited / correction line RESETS that shape to gated;
-  - a deferred_to_drive_review line (a crossing inside a drive, #614) is SKIPPED: it is
-    not an approval and does not break a run of them, until the drive's review appends
+  - a deferred_to_loop_review line (a crossing inside a loop, #614) is SKIPPED: it is
+    not an approval and does not break a run of them, until the loop's review appends
     the person's real answer as its own line;
   - shapes in `never_auto` (human-pinned, preserved verbatim from the existing policy)
     are never emitted as auto regardless of the ledger.
@@ -131,7 +131,7 @@ def _trailing_streak(recs, refuted):
     run = []
     for rec in recs:
         human = rec.get("human")
-        if human == "deferred_to_drive_review":
+        if human == "deferred_to_loop_review":
             continue  # no answer yet — skipped, even when a later line answers it
         if (rec.get("_src"), rec["_line"]) in refuted:
             run = []  # a refuted line breaks the streak it sat in
@@ -234,7 +234,7 @@ def main(argv=None):
     version, never_auto = read_existing_policy(args.policy)
     auto = distill(records, args.streak, never_auto)
     # #690: a run that learned nothing leaves the policy file untouched — no version bump, and no
-    # empty file — so a play inside a drive changes nothing outside the drive's issue.
+    # empty file — so a play inside a loop changes nothing outside the loop's issue.
     written = not unchanged(args.policy, args.project, auto, never_auto, args.streak)
     if written:
         version += 1

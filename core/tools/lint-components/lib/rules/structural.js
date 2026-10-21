@@ -393,10 +393,10 @@ function checkPlay(component, sharedCloseDir) {
 }
 
 /**
- * Check a drive (core/components/drives/<drive>/SKILL.md, #613). A drive is a higher-order
+ * Check a loop (core/components/loops/<loop>/SKILL.md, #613). A loop is a higher-order
  * play (ADR 029): it passes every play check — its shared close lives with the plays, in
- * core/components/plays/_shared/ — plus `kind: drive` and the Shared Drive Run anchors
- * (core/components/drives/_shared/drive-run.md). lint_drive.py checks the rest.
+ * core/components/plays/_shared/ — plus `kind: loop` and the Shared Loop Run anchors
+ * (core/components/loops/_shared/loop-run.md). lint_loop.py checks the rest.
  */
 function checkDrive(component) {
   const playsShared = path.join(path.dirname(component.file), '..', '..', 'plays', '_shared');
@@ -404,37 +404,37 @@ function checkDrive(component) {
   const content = fs.readFileSync(component.file, 'utf8');
   const { frontmatter, body } = extractParts(content);
   const fm = frontmatter.parsed || {};
-  if (fm.kind !== 'drive') {
+  if (fm.kind !== 'loop') {
     violations.push({
       file: component.file,
-      rule: 'structural/drive-kind',
+      rule: 'structural/loop-kind',
       severity: 'error',
-      message: 'A drive must say `kind: drive` in its frontmatter.',
+      message: 'A loop must say `kind: loop` in its frontmatter.',
       line: 1,
     });
   }
-  const opener = '# --- Shared Drive Run (shared; see ../_shared/drive-run.md) ---';
-  const closer = '# --- end Shared Drive Run ---';
+  const opener = '# --- Shared Loop Run (shared; see ../_shared/loop-run.md) ---';
+  const closer = '# --- end Shared Loop Run ---';
   const nOpen = body.split(opener).length - 1;
   const nClose = body.split(closer).length - 1;
   if (nOpen !== 1 || nClose !== 1 || body.indexOf(opener) >= body.indexOf(closer)) {
     violations.push({
       file: component.file,
-      rule: 'structural/missing-shared-drive-run',
+      rule: 'structural/missing-shared-loop-run',
       severity: 'error',
       message:
-        `Shared Drive Run anchors must appear exactly once each, opener first ` +
-        `(found opener ${nOpen}, closer ${nClose}). See core/components/drives/_shared/drive-run.md.`,
+        `Shared Loop Run anchors must appear exactly once each, opener first ` +
+        `(found opener ${nOpen}, closer ${nClose}). See core/components/loops/_shared/loop-run.md.`,
       line: 1,
     });
   }
-  const shared = path.join(path.dirname(component.file), '..', '_shared', 'drive-run.md');
+  const shared = path.join(path.dirname(component.file), '..', '_shared', 'loop-run.md');
   if (nOpen >= 1 && !fs.existsSync(shared)) {
     violations.push({
       file: component.file,
-      rule: 'structural/missing-shared-drive-run-file',
+      rule: 'structural/missing-shared-loop-run-file',
       severity: 'error',
-      message: 'The drive points to ../_shared/drive-run.md, but that file does not exist.',
+      message: 'The loop points to ../_shared/loop-run.md, but that file does not exist.',
       line: 1,
     });
   }
@@ -613,8 +613,8 @@ function check(components) {
     violations = violations.concat(checkAgent(component));
   }
 
-  // Drives (#613)
-  for (const component of components.drives || []) {
+  // Loops (#613)
+  for (const component of components.loops || []) {
     violations = violations.concat(checkDrive(component));
   }
 

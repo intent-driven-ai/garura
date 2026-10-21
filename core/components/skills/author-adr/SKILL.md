@@ -15,7 +15,7 @@ Writes the **draft** of one decision record from the template at
 - **YAML** — a product decision, a `decision.yaml` record (with the #632 fields) in the product model.
 
 You draft; you never accept. Every record you write has status `proposed`. A person accepts it
-— by hand through the `/adr` play, or at the review of the play or drive that made the decision.
+— by hand through the `/adr` play, or at the review of the play or loop that made the decision.
 
 ## Input
 

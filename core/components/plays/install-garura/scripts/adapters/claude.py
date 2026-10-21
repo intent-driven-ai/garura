@@ -59,7 +59,7 @@ def _rewrite_md(path, *, drop_model):
 
 def lay_components(components, target, info, allow=None):
     """allow: per-kind name sets from the orchestrator's install scope
-    ({"plays": {...}, "drives": {...}, "skills": {...}, "agents": {...}}), or None for all.
+    ({"plays": {...}, "loops": {...}, "skills": {...}, "agents": {...}}), or None for all.
     A per-kind value may itself be None, meaning every component of that
     kind installs."""
     claude = os.path.join(target, ".claude")
@@ -69,7 +69,7 @@ def lay_components(components, target, info, allow=None):
     os.makedirs(agents_dest, exist_ok=True)
 
     paths = []
-    counts = {"agents": 0, "skills": 0, "plays": 0, "drives": 0}
+    counts = {"agents": 0, "skills": 0, "plays": 0, "loops": 0}
     deprecated = 0
 
     # agents — single .md files; resolve + keep model
@@ -91,7 +91,7 @@ def lay_components(components, target, info, allow=None):
             counts["agents"] += 1
         info(f"  agents: {counts['agents']}")
 
-    # skills, plays and drives — folders under .claude/skills; drop model
+    # skills, plays and loops — folders under .claude/skills; drop model
     for kind in common.SKILL_KINDS:
         src = os.path.join(components, kind)
         if not os.path.isdir(src):
@@ -117,7 +117,7 @@ def lay_components(components, target, info, allow=None):
             counts[kind] += 1
         info(f"  {kind}: {counts[kind]}")
     common.lay_skills_gitignore(skills_dest, os.path.join(".claude", "skills"), paths)
-    if counts["plays"] or counts["drives"]:
+    if counts["plays"] or counts["loops"]:
         common.lay_shared(components, skills_dest, os.path.join(".claude", "skills"), paths, info)
 
     if deprecated:

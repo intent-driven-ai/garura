@@ -1,6 +1,6 @@
 # Rebuild eval
 
-The test of what a Kickoff drive (or one of its plays) produced from a prototype. Two questions:
+The test of what a Discovery loop (or one of its plays) produced from a prototype. Two questions:
 
 1. **Is the output right?** Every business intent has its outcome, why, asked by, proof and
    sources. The domain is a real one, found by research, with its sources. Every capability
@@ -33,7 +33,7 @@ words the prototype does not have. The review judges what needs judgement: does 
 a need the product offers, is "asked by" a persona, is the domain one the world recognises, is
 any functionality invented or only one panel of a screen.
 
-The inventory is made from the prototype alone, never from the drive's output, so the test is
+The inventory is made from the prototype alone, never from the loop's output, so the test is
 not marked by the work it tests. It is made once per prototype and reused (`--inventory`).
 
 ## Isolation
@@ -44,11 +44,11 @@ not marked by the work it tests. It is made once per prototype and reused (`--in
   --disable-slash-commands` with file tools only, in a folder that holds only `brief/`: no
   settings files, no MCP servers, no skills, no shell, no files outside the folder. It gets no
   prototype, no Garura files, no instructions but `prompts/build.md`.
-- **The brief** carries no path or link to the prototype or to the drive's records;
+- **The brief** carries no path or link to the prototype or to the loop's records;
   `prepare.py` takes them out and lists what it took out (`brief-manifest.json`).
-- **The inventory agent** sees the prototype and nothing of the drive.
+- **The inventory agent** sees the prototype and nothing of the loop.
 - **The compare agent** sees the inventory, the rebuild and the brief. It reads the brief only
-  to say why a behaviour is missing: not in the brief (the drive's fault) or in the brief but
+  to say why a behaviour is missing: not in the brief (the loop's fault) or in the brief but
   not built (the builder's fault).
 - The inventory, review and compare agents run from the eval's run folder, so no project instructions load. The
   report records how each agent was run.
@@ -58,9 +58,9 @@ not marked by the work it tests. It is made once per prototype and reused (`--in
 Each prototype behaviour counts 1 when met, ½ when partly met, 0 when missing.
 
 - **Kept** = (met + ½ partial) ÷ behaviours. **Drift** = 1 − kept.
-- **Missing, not in the brief** — the intents and model never said it: the drive's fault.
+- **Missing, not in the brief** — the intents and model never said it: the loop's fault.
 - **Missing, in the brief** — the brief said it and the builder did not build it: the builder's
-  fault, not counted against the drive's output, but shown.
+  fault, not counted against the loop's output, but shown.
 - **Added** — what the rebuild does that the prototype does not, split the same way (said in
   the brief, or the builder's own).
 - The same numbers by screen of the prototype.
