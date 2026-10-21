@@ -12,7 +12,7 @@
 > carries the IA. Accessibility is not in this lens; it lives in the marketing lens. The linter
 > enforces the heading set, `validate_ux.py` mechanically cross-checks the flows against the
 > screens, and the content-quality eval scores the doc against `_content-standard.md`. Written by
-> `/ux`.
+> `/shape-ux-lens`.
 
 ## Heading contract (required, in order)
 

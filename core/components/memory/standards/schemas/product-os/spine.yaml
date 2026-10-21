@@ -43,8 +43,8 @@ domains:
   - id: string            # opaque, stable — never changes once assigned
     slug: string          # human slug (the path is derived from slugs)
     status: string        # proposed | active | deprecated
-    detail: string        # directional (a light page, e.g. from /intent) | detailed (the
-                          # full page, /vision) — drives which domain.md shape the linter
+    detail: string        # directional (a light page, e.g. from /discover-intent) | detailed (the
+                          # full page, /discover-domains) — drives which domain.md shape the linter
                           # requires; absent → read from the page's headings
     one_line: string      # the descriptor — what this domain is, readable WITHOUT opening
                           # the doc. One sentence. This is what makes the spine browsable.
@@ -65,18 +65,18 @@ capabilities:
     slug: string
     domain: string        # parent DOMAIN id — the named relation, not "parent". May be empty
                           # while proposed: a capability can be written before its domain
-                          # is known (e.g. by /intent, when it cannot tell one); /vision
+                          # is known (e.g. by /discover-intent, when it cannot tell one); /discover-domains
                           # attaches the domain later.
     intents: [string]     # the BUSINESS INTENT ids (product-os/intents/<id>.md) this
                           # capability's ICE is built from. Its ICE is workable only when at
                           # least one of them is confirmed; with none, the ICE is kept but no
                           # play works on it (ontology v3).
     status: string        # proposed | active | deprecated
-    detail: string        # directional (/intent or /vision) | detailed (/understand) — drives which
+    detail: string        # directional (/discover-intent or /discover-domains) | detailed (/discover-capabilities) — drives which
                           # capability.md shape the linter requires
     one_line: string
     doc: string           # pointer to its capability.md
-    nfr_needs:            # THIS capability's own NFR targets (set by /understand) —
+    nfr_needs:            # THIS capability's own NFR targets (set by /discover-capabilities) —
                           # per-capability, because one capability's need (e.g. uptime)
                           # can differ from another's. Each dimension carries a `level`
                           # (none<low<medium<high<xhigh — the roll-up input) plus a
@@ -126,11 +126,11 @@ functionalities:
 # the spine, not in a grounding doc. (A short rationale per level may live in the
 # domain grounding doc, but the box itself is here.) `profile.nfr` is the MONOTONIC-UP
 # roll-up of every capability's `nfr_needs` (each dimension = max level across
-# capabilities); `profile.compliance` is the union of their `compliance_needs`. /understand
+# capabilities); `profile.compliance` is the union of their `compliance_needs`. /discover-capabilities
 # writes the per-capability needs and rolls them up; an out-of-box move on an already-set
 # box halts for a human decision (recorded as an ADR).
 profile:
-  state: string                 # directional (/vision) | set (/understand) | locked (/shape)
+  state: string                 # directional (/discover-domains) | set (/discover-capabilities) | locked (/shape-scope)
   shape:
     stage: string               # prototype | mvp | internal | public | monetized
     users: [string]
@@ -160,10 +160,10 @@ slices:
   - id: string
     slug: string
     domain_ref: string
-    status: string        # proposed (/shape) | planned (/roadmap) | realized (/run) | deferred
-    order: integer        # /roadmap's global build position; null until planned
-    effort: string        # /roadmap's size estimate; null until planned
-    depends_on: [string]  # other slice ids that must build first (resolved by /roadmap,
+    status: string        # proposed (/shape-scope) | planned (/shape-roadmap) | realized (/shape-run-lens) | deferred
+    order: integer        # /shape-roadmap's global build position; null until planned
+    effort: string        # /shape-roadmap's size estimate; null until planned
+    depends_on: [string]  # other slice ids that must build first (resolved by /shape-roadmap,
                           # acyclic); [] until planned. The PLAN lives here on the spine
                           # index, NOT on the slice record (which stays composition-only).
     functionality_refs: [string]   # functionality node ids this slice bundles
@@ -188,13 +188,13 @@ epics:
 fill_rules:
   # Who writes what (ADR 043): every kind is written on its own, and inside the Discovery loop
   # each play writes one kind. The links between kinds are made by the loop's gap skills
-  # (find-model-gaps, close-model-gaps) or, run by hand, by the next play the person runs.
-  - play: "/intent"
+  # (find-model-gaps, link-model-gaps) or, run by hand, by the next play the person runs.
+  - play: "/discover-intent"
     writes: "business intent pages only (and their Sources). No capability, ICE or domain."
-  - play: "/vision"
+  - play: "/discover-domains"
     writes: "`domains` entries and their detailed domain pages (with `## Sources`), each
              domain's `intents`, and the directional profile. No capability."
-  - play: "/understand"
+  - play: "/discover-capabilities"
     writes: "capabilities and functionalities, each with its ICE, read off the screens (or
              named by the person): new capability entries — under their domain when the spine
              holds it, else in the holding folder with domain empty — and the detail of
@@ -202,30 +202,30 @@ fill_rules:
              with their `functionalities` entries and pages; then rolls the per-capability
              needs up into the profile, firming it to state: set (out-of-box moves on an
              already-set box halt for a human decision). The last detailing step."
-  - play: "/shape"
-    writes: "SELECTS and COMPOSES (it does not create functionalities — /understand did):
+  - play: "/shape-scope"
+    writes: "SELECTS and COMPOSES (it does not create functionalities — /discover-capabilities did):
              confirms/prunes capabilities (status active/deprecated, with a decision);
              places every functionality into a slice or the _deferred bucket; composes the
              slices index entries (+ slice records), each bundling functionalities across
              capabilities behind a user-facing surface (the UI scaffolded incrementally,
              slice by slice); writes personas + journeys. Leaves the profile untouched
-             (understand is the last to write the box). Does NOT cut epics (/grill) or
-             plan order (/roadmap)."
-  - play: "/roadmap"
+             (understand is the last to write the box). Does NOT cut epics (/shape-features) or
+             plan order (/shape-roadmap)."
+  - play: "/shape-roadmap"
     writes: "plans the slices index — order, depends_on resolution, status planned."
-  - play: "/grill"
+  - play: "/shape-features"
     writes: "adds the epics index entries (+ each epic.md grounding doc) cut from a
              realized slice."
-  - play: "/start … /launch"
+  - play: "/start … /release-feature"
     writes: "epic status chain (ready -> in_delivery -> validated -> delivered),
              surface_verified, issue_ref — surgical structural stamps."
-  - play: "/learn"
+  - play: "/learn-outcomes"
     writes: "status changes driven by real-world outcomes."
 
 # ---- On-disk layout ---------------------------------------------------------
 # product-os/
 #   _spine.yaml                                  # THIS file's instance — the map
-#   intents/{intent}.md                          # business intent pages (ontology v3, /intent)
+#   intents/{intent}.md                          # business intent pages (ontology v3, /discover-intent)
 #   capabilities/{capability}/capability.md      # holding folder: a capability whose domain is
 #                                                #   not known yet; once attributed, its doc
 #                                                #   moves under {domain}/

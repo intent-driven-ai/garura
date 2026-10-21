@@ -47,18 +47,18 @@ immutability: "accepted decisions are not edited — supersede or amend with a n
 
 # ---- Fill rules -------------------------------------------------------------
 fill_rules:
-  - play: "/adr"
+  - play: "/record-decision"
     writes: "any decision a person brings, from the one ADR template (#632); accepted only on the person's word"
-  - play: "/understand"
+  - play: "/discover-capabilities"
     writes: "decisions made while clarifying intent"
-  - play: "/shape"
+  - play: "/shape-scope"
     writes: "decisions about functionalities, personas, journeys"
   - play: "/realize"
     writes: "architecture, run, quality, and agentic decisions"
-  # /implement does NOT write decisions — it executes them, not decides them.
+  # /build-feature does NOT write decisions — it executes them, not decides them.
   # Boundary moves: when an ICE specific falls outside the profile box, the
   # approved boundary change is recorded HERE as a decision (level: product),
-  # proposed during /understand and accepted by a human.
+  # proposed during /discover-capabilities and accepted by a human.
 
 # ---- Enhance rules ----------------------------------------------------------
 enhance_rules:
@@ -68,9 +68,9 @@ enhance_rules:
 # Additive. #632 adds the core fields of standards/templates/adr.md — supersedes, amends,
 # amended_by, affects, ice_impact, business_intent_check, consequences, and
 # metadata.accepted_by / decided_in. Every earlier record stays valid as written; the new
-# fields are empty on it — until /adr accepts one: a record /adr writes or accepts must carry
+# fields are empty on it — until /record-decision accepts one: a record /record-decision writes or accepts must carry
 # the #632 fields its lint requires (consequences, metadata.date, metadata.decided_in), so an
-# older proposed record gains them when it is accepted through /adr. The version stays 1: additive changes keep the version here (the
+# older proposed record gains them when it is accepted through /record-decision. The version stays 1: additive changes keep the version here (the
 # #548 / #550 precedent; schema evolution is parked — schemas/product-os/_index.md). The only
 # field ever written on an accepted record later is a forward pointer (superseded_by /
 # amended_by), plus status superseded when replaced in full.

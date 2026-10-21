@@ -1,6 +1,6 @@
 ---
 name: author-roadmap
-description: Draft /roadmap's plan over the vertical slices /shape produced — for each slice estimate its effort, resolve its dependency_notes (plus shared functionalities and those functionalities' spine depends_on) into concrete depends_on slice ids, and propose a value order. Writes a draft only (plan-draft.yaml in STM), never the live model and never the final order numbers. Under direct-model-write (ADR 026) this draft IS the manifest data the play's keyed persist consumes — this skill writes no model file — the coherent order (compute_plan.py) and the in-place spine write (persist_roadmap.py) are the play's deterministic scripts, not this skill.
+description: Draft /shape-roadmap's plan over the vertical slices /shape-scope produced — for each slice estimate its effort, resolve its dependency_notes (plus shared functionalities and those functionalities' spine depends_on) into concrete depends_on slice ids, and propose a value order. Writes a draft only (plan-draft.yaml in STM), never the live model and never the final order numbers. Under direct-model-write (ADR 026) this draft IS the manifest data the play's keyed persist consumes — this skill writes no model file — the coherent order (compute_plan.py) and the in-place spine write (persist_roadmap.py) are the play's deterministic scripts, not this skill.
 version: 0.3.0
 user-invocable: false
 model: opus
@@ -9,7 +9,7 @@ allowed-tools: Read, Write, Bash, Glob
 
 # author-roadmap
 
-Reads the vertical slices /shape produced across all shaped domains and supplies the
+Reads the vertical slices /shape-scope produced across all shaped domains and supplies the
 three things a plan needs that a script cannot:
 
 - **effort** — a size estimate per slice (your judgment, read from what the slice
@@ -81,7 +81,7 @@ plan:
 - Assign the final `order` numbers, run the topological sort, or detect cycles — that is
   `compute_plan.py`'s deterministic job.
 - Edit a slice's composition (name, outcome, functionalities, acceptance_intent) or its
-  `dependency_notes` — those are /shape's. You only read them.
+  `dependency_notes` — those are /shape-scope's. You only read them.
 - Write the live model, or anything other than `plan-draft.yaml` at `out_path`.
 - Invent a dependency with no basis in the notes, shared functionalities, or ICE.
 

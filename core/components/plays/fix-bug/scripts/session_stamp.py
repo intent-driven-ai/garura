@@ -21,8 +21,8 @@ Phases (mirrors the status-marker lifecycle):
                      end_offset, emit the stamp JSON to stdout (the play close
                      copies the fields into the evidence frontmatter).
 
-Canonical copy: play-creator/references/session_stamp.py — stamped into each
-play's scripts/ by play-creator (Standard Play Close, G12), same discipline
+Canonical copy: create-play/references/session_stamp.py — stamped into each
+play's scripts/ by create-play (Standard Play Close, G12), same discipline
 as preflight.py. Failures are soft: a missing ledger yields a stamp with
 nulls and "ledger_resolved": false — the close never blocks on the stamp.
 """

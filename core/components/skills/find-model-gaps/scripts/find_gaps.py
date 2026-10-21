@@ -35,7 +35,7 @@ import sys
 import yaml
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import intent_touches  # noqa: E402  (stamped from play-creator/references)
+import intent_touches  # noqa: E402  (stamped from create-play/references)
 
 QUOTE = re.compile(r"[\"“]([^\"“”]{4,})[\"”]")
 MARKS = str.maketrans({"’": "'", "‘": "'", "“": '"', "”": '"', "–": "-", "—": "-", " ": " "})

@@ -2,7 +2,7 @@
 
 Canonical rules for commit categorization and commit-quality validation. Every skill that creates, analyzes, or validates commits loads this file.
 
-Consumers: `analyze-changes`, `analyze-pr`, `create-commit`, `commit-code`, `repo-orchestrator`.
+Consumers: `assess-changes`, `assess-pr`, `commit-files`, `commit-code`, `repo-orchestrator`.
 
 ## Part 1 — Commit Categorization
 

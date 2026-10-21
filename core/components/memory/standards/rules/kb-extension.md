@@ -1,7 +1,7 @@
 # KB Extension Conventions — `domain-taxonomy/*.md`
 
 **Status:** Active (214.4, 2026-04-14)
-**Consumers:** `specify` / `design` / `arch` plays during capability configuration + UX derivation + architecture derivation; `validate-kb-extension` skill.
+**Consumers:** `specify` / `design` / `shape-architecture-lens` plays during capability configuration + UX derivation + architecture derivation; `check-kb-extension` skill.
 
 ## Purpose
 
@@ -81,7 +81,7 @@ References to constraint rules in `_cross-tree-constraints.yaml` that involve th
 
 Rules:
 - Each entry references a `CTC-NNN` ID from `_cross-tree-constraints.yaml`.
-- The ID must exist in the constraints file — the `validate-kb-extension` linter catches dangling refs.
+- The ID must exist in the constraints file — the `check-kb-extension` linter catches dangling refs.
 - "Implied" means this feature gets auto-included when the constraint fires.
 - "Excluded" means this feature gets auto-excluded.
 - Empty list `(none)` is allowed if no cross-tree constraints involve this feature.
@@ -109,7 +109,7 @@ Rules:
 
 ## Parsing rules
 
-The `specify` pipeline's `configure-capabilities` skill parses these sections from Markdown. The parser rules:
+The `specify` pipeline's `derive-capability-selection` skill parses these sections from Markdown. The parser rules:
 
 - Each feature starts with `### <FEATURE-ID>: <name>` (e.g., `### UM-F001: Login / Authentication`).
 - The five new sections are H3 headings (`###`) nested under the feature.
@@ -119,7 +119,7 @@ The `specify` pipeline's `configure-capabilities` skill parses these sections fr
 
 ## Validator
 
-`validate-kb-extension` (skill, created in 214.4 T22) walks every feature in every domain-taxonomy file and asserts all five sections are present with non-empty content. Returns structured failure with per-feature error details if any violation is found. Invoked by the `specify` pipeline's pre-flight to ensure the KB is internally consistent before a run begins.
+`check-kb-extension` (skill, created in 214.4 T22) walks every feature in every domain-taxonomy file and asserts all five sections are present with non-empty content. Returns structured failure with per-feature error details if any violation is found. Invoked by the `specify` pipeline's pre-flight to ensure the KB is internally consistent before a run begins.
 
 ## Why inside the existing markdown files, not a parallel YAML tree
 

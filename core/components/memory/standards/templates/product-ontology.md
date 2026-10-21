@@ -2,7 +2,7 @@
 
 Canonical format for the **product ontology** — the agreed map of the kinds of things a product is made of, what each holds, how they connect, and what must always be true. It is written for a person to read first: a kind that people read (a Business Intent) must make sense to a business reader with no other document open.
 
-Built and extended by the `build-product-ontology` skill. Checked by its `check_ontology.py`. The ontology defines kinds; the real things (instances) live in each product's model at the path each kind names.
+Built and extended by the `author-product-ontology` skill. Checked by its `check_ontology.py`. The ontology defines kinds; the real things (instances) live in each product's model at the path each kind names.
 
 ## Format
 

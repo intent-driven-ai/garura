@@ -101,7 +101,7 @@ def cmds(cands, status=None):
 def case_cold_start():
     with tempfile.TemporaryDirectory() as tmp:
         _state, cands, _i, _a, _o = run_all(tmp)
-        assert cmds(cands) == ["/vision"], cmds(cands)
+        assert cmds(cands) == ["/discover-domains"], cmds(cands)
 
 
 def case_griffin_like_s7():
@@ -111,18 +111,18 @@ def case_griffin_like_s7():
               lens_docs={"s2": ["ux", "agentic", "marketing"]})
         state, cands, incons, agreement, _o = run_all(tmp)
         c = cmds(cands)
-        assert "/roadmap" not in c and "/understand" not in c, c
+        assert "/shape-roadmap" not in c and "/discover-capabilities" not in c, c
         assert not [x for x in cands if x["lane"] == "strategy"], c
-        assert f"/ux {SLUG}/s1" in c and f"/arch {SLUG}/s1" in c, c
+        assert f"/shape-ux-lens {SLUG}/s1" in c and f"/shape-architecture-lens {SLUG}/s1" in c, c
         s2 = [x for x in cands if x["target"] == f"{SLUG}/s2"]
-        assert [x["command"] for x in s2] == [f"/arch {SLUG}/s2"], s2
+        assert [x["command"] for x in s2] == [f"/shape-architecture-lens {SLUG}/s2"], s2
         assert s2[0]["parallel_lane"] and s2[0]["lane"] == "foundation", s2
         assert any("roadmap order 2" in g for g in s2[0]["gates"]), s2[0]["gates"]
         assert state["domains"][0]["slices"][0]["status"] == "planned"
         assert incons == [], incons
         assert agreement == 0
-        # finish-first order: slice 1's two track heads, then slice 2's /arch
-        assert c[:3] == [f"/ux {SLUG}/s1", f"/arch {SLUG}/s1", f"/arch {SLUG}/s2"], c
+        # finish-first order: slice 1's two track heads, then slice 2's /shape-architecture-lens
+        assert c[:3] == [f"/shape-ux-lens {SLUG}/s1", f"/shape-architecture-lens {SLUG}/s1", f"/shape-architecture-lens {SLUG}/s2"], c
         assert [x["rank"] for x in cands] == list(range(1, len(cands) + 1))
         assert all(len(x["why"]) >= 40 for x in cands), [x["why"] for x in cands]
 
@@ -148,8 +148,8 @@ def case_ready_epic_outranks_next_slice():
                       "status": "ready", "order": 1, "surface_type": "library"}])
         _s, cands, _i, _a, _o = run_all(tmp)
         c = cmds(cands)
-        assert c[0] == f"/implement --epic {SLUG}/s1/e1", c
-        assert c.index(f"/ux {SLUG}/s2") > 0, c
+        assert c[0] == f"/build-feature --epic {SLUG}/s1/e1", c
+        assert c.index(f"/shape-ux-lens {SLUG}/s2") > 0, c
 
 
 def case_cap_and_cut():
@@ -174,7 +174,7 @@ def case_realized_missing_lens_s1():
               epics=[{"id": "e1", "slug": "e1", "slice_ref": f"{SLUG}/s1",
                       "status": "ready", "order": 1, "surface_type": "cli"}])
         _s, cands, incons, agreement, _o = run_all(tmp)
-        assert cands[0]["lane"] == "repair" and cands[0]["command"] == f"/run {SLUG}/s1", cands[0]
+        assert cands[0]["lane"] == "repair" and cands[0]["command"] == f"/shape-run-lens {SLUG}/s1", cands[0]
         blocked = [x for x in cands if x["status"] == "blocked"]
         assert blocked and "run" in blocked[0]["blocker"], blocked
         assert any(i["kind"] == "realized-but-lens-missing" for i in incons), incons
@@ -186,7 +186,7 @@ def case_seven_present_planned_repair_measure():
         build(tmp, slices=[("s1", "planned", 1)], lens_docs={"s1": SEVEN})
         _s, cands, incons, _a, _o = run_all(tmp)
         rep = [x for x in cands if x["lane"] == "repair"]
-        assert [x["command"] for x in rep] == [f"/measure {SLUG}/s1"], cands
+        assert [x["command"] for x in rep] == [f"/shape-measure-lens {SLUG}/s1"], cands
         assert any(i["kind"] == "lenses-complete-but-unstamped" for i in incons), incons
 
 
@@ -195,7 +195,7 @@ def case_six_present_measure_next():
         build(tmp, slices=[("s1", "planned", 1)],
               lens_docs={"s1": [lt for lt in SEVEN if lt != "measure"]})
         _s, cands, incons, _a, _o = run_all(tmp)
-        assert cmds(cands) == [f"/measure {SLUG}/s1"], cmds(cands)
+        assert cmds(cands) == [f"/shape-measure-lens {SLUG}/s1"], cmds(cands)
         assert incons == [], incons
 
 
@@ -203,7 +203,7 @@ def case_profile_directional_understand():
     with tempfile.TemporaryDirectory() as tmp:
         build(tmp, profile="directional", detail="directional")
         _s, cands, _i, agreement, _o = run_all(tmp)
-        assert "/understand" in cmds(cands), cmds(cands)
+        assert "/discover-capabilities" in cmds(cands), cmds(cands)
         assert agreement == 0
 
 
@@ -211,7 +211,7 @@ def case_shape_uses_spine_domain_id():
     with tempfile.TemporaryDirectory() as tmp:
         build(tmp, profile="set", detail="detailed")
         _s, cands, _i, _a, _o = run_all(tmp)
-        assert cmds(cands) == [f"/shape {DOM}"], cmds(cands)
+        assert cmds(cands) == [f"/shape-scope {DOM}"], cmds(cands)
 
 
 def case_no_spine():
@@ -246,7 +246,7 @@ def case_execute_lane():
                       "surface_type": "cli"}])
         _s, cands, incons, agreement, _o = run_all(tmp)
         run = cmds(cands, "runnable")
-        assert run == [f"/implement --epic {SLUG}/s1/e2"], cmds(cands)
+        assert run == [f"/build-feature --epic {SLUG}/s1/e2"], cmds(cands)
         assert incons == [], incons
         assert agreement == 0
 
@@ -258,7 +258,7 @@ def case_all_delivered_learn_s5():
                       "status": "delivered", "order": 1, "surface_type": "library"}])
         _s, cands, _i, _a, _o = run_all(tmp)
         c = cmds(cands)
-        assert "/learn" in c, c
+        assert "/learn-outcomes" in c, c
 
 
 def case_agreement_catches_tamper():

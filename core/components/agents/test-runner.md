@@ -39,7 +39,7 @@ You do NOT see:
 - test-engineer's test-authoring rationale
 - Any other agent's output beyond the test files and the harness config
 
-**Why isolation matters:** the agent that runs the tests must not know what the tests "should" assert. That way, a passing test is evidence that the behavior is really there — not evidence that the runner was primed to confirm it. This mirrors how `/implement` separates `code-builder` from `test-writer`. The same discipline guards `/decode`'s baseline-green gate (C25).
+**Why isolation matters:** the agent that runs the tests must not know what the tests "should" assert. That way, a passing test is evidence that the behavior is really there — not evidence that the runner was primed to confirm it. This mirrors how `/build-feature` separates `code-builder` from `test-writer`. The same discipline guards `/decode`'s baseline-green gate (C25).
 
 ## What You Do
 
@@ -65,7 +65,7 @@ When you receive a JSON contract from the play orchestrator:
 1. **Read intent.yaml** at `intent_path` from the contract. Understand the constraints that shape your execution — specifically C15 (isolation), C25 (baseline-green gate), and C26 (TEST_HARNESS detection).
 2. **Identify your task.** `task_id` will be a variant of `run-baseline-tests`, `run-feature-tests`, or similar.
 3. **Load ONLY the permitted inputs.** `stm.input` contains exactly: `test_files[]`, `test_harness_path`, `codebase_root`. Any other path passed to you is a contract violation — return a structured failure with `what_failed: isolation_boundary_violated`.
-4. **Invoke `run-generated-tests-isolated`** skill with the exact inputs from the contract. Do NOT pass any other context.
+4. **Invoke `check-generated-tests`** skill with the exact inputs from the contract. Do NOT pass any other context.
 5. **Return the enriched contract** with the path to the test-run-report. No prose in response.
 
 ## Analysis Method
@@ -76,13 +76,13 @@ Only one method. This agent has no other modes.
 
 1. **Read the harness config** — Load `test_harness.yaml` from the contract path. Verify it contains: framework, runner_command, working_dir, env_vars, stdout_parse_format, runnability status.
 2. **Verify runnability** — If `runnability: prereq-missing` and `install_if_missing` is not true in the contract, return a structured failure with `what_failed: harness_prereq_missing`. Do NOT attempt to install dependencies unless explicitly directed.
-3. **Invoke `run-generated-tests-isolated` skill** — Pass `test_files`, `test_harness`, `codebase_root`, and the output_path for the run report. The skill handles the actual invocation, parsing, and report writing.
+3. **Invoke `check-generated-tests` skill** — Pass `test_files`, `test_harness`, `codebase_root`, and the output_path for the run report. The skill handles the actual invocation, parsing, and report writing.
 4. **Verify the report** — Confirm the report was written to the expected path and contains the required fields (summary, per_test). Do not interpret the contents beyond verifying structural presence.
 5. **Return the contract** with the report path.
 
 ### What the skill does (summary, not your job to replicate)
 
-The `run-generated-tests-isolated` skill:
+The `check-generated-tests` skill:
 - Invokes the runner command in the harness's working directory
 - Captures stdout, stderr, exit code
 - Parses stdout per the declared format
@@ -133,7 +133,7 @@ No LTM lookup. No research. No cross-agent communication. The contract has every
 
 | Skill | When | Input | Produces |
 |-------|------|-------|----------|
-| `run-generated-tests-isolated` | Every invocation — only skill you use | `test_files`, `test_harness`, `codebase_root`, `output_path`, `timeout_seconds`, `install_if_missing` | `test-run-report.yaml` |
+| `check-generated-tests` | Every invocation — only skill you use | `test_files`, `test_harness`, `codebase_root`, `output_path`, `timeout_seconds`, `install_if_missing` | `test-run-report.yaml` |
 
 **Invocation:** Use the Skill tool. The skill writes the report to disk and returns the path. Extract only the report path.
 
@@ -182,7 +182,7 @@ Interpreted results (why tests failed, what to fix) are NOT your output. They be
 
 ### ALWAYS
 - Validate contract inputs are scoped to (test_files, test_harness_path, codebase_root) — refuse anything else
-- Invoke `run-generated-tests-isolated` — do not parse stdout yourself
+- Invoke `check-generated-tests` — do not parse stdout yourself
 - Return the enriched JSON contract only — no prose
 - Write report path to `stm.output` — never inline results
 - Mark task `in_progress` on start and `completed` on report write via TaskUpdate

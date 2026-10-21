@@ -28,7 +28,7 @@ all hold. The conditions are a checklist the step declares, not a judgment call.
 
 ## The scoped-write fan-out (#615)
 
-Some steps write the live model once per node — for example, `/understand` details each of
+Some steps write the live model once per node — for example, `/discover-capabilities` details each of
 its target capabilities by writing that capability's own docs. Under direct-model-write
 (ADR 026) those writes go straight into the tree, so condition 1 fails. Such a step may
 still run its sub-tasks at once **only when all five hold**:
@@ -77,12 +77,12 @@ at its end, so the step is a single deterministic node from the outside.
 
 - **Sub-agent-dispatch form** — the play's orchestrator dispatches N independent
   read-only sub-agents in one concurrent batch (one message, N dispatches), waits for all,
-  then proceeds. Example: the content-quality judge loop in `/vision` and `/understand` —
+  then proceeds. Example: the content-quality judge loop in `/discover-domains` and `/discover-capabilities` —
   one isolated judge per grounding doc, each reading only its own doc and writing only its
   own verdict.
 - **Script-internal form** — one orchestrating script runs its independent subprocesses
   concurrently (a bounded worker pool), then collects results in input order. Example:
-  `/validate`'s `run_checks.py` — each check runs its own runner, writes its own result
+  `/validate-feature`'s `run_checks.py` — each check runs its own runner, writes its own result
   record, reads only the code.
 
 Both forms obey the same three conditions and the same bounded join.
@@ -103,7 +103,7 @@ always visible, never implicit.
 ## Related
 
 - ADR 025 — the determinism rule; a bounded, joined fan-out is a single deterministic step
-- `play-creator/references/workflow-structures.md` — step execution model
+- `create-play/references/workflow-structures.md` — step execution model
 - ADR 026 / `direct-model-write.md` — the write discipline the scoped-write fan-out keeps
   (per-node docs by the sub-tasks, shared files by one keyed persist, one guard)
 - #488 — parallel code-building (build pieces that may share files, worktree isolation)

@@ -74,7 +74,7 @@ class WritesTheProjectInstructions(Installed):
             text = fh.read()
         self.assertTrue(text.startswith("# CLAUDE.md — shop"))
         self.assertIn("Agent-first", text)
-        for dev_only in ("Garura is an agentic framework", "core/components/", "play-editor", "Work Tracking"):
+        for dev_only in ("Garura is an agentic framework", "core/components/", "edit-play", "Work Tracking"):
             self.assertNotIn(dev_only, text)
 
 
@@ -337,7 +337,7 @@ class LaysLoops(unittest.TestCase):
         self.src = os.path.join(self.work, "components")
         for rel, text in (("plays/start-change/SKILL.md", "---\nname: start-change\n---\n"),
                           ("plays/_shared/play-close.md", "# close\n"),
-                          ("loops/discovery/SKILL.md", "---\nname: discovery\nkind: loop\n---\n"),
+                          ("loops/complete-discovery/SKILL.md", "---\nname: complete-discovery\nkind: loop\n---\n"),
                           ("loops/_shared/loop-run.md", "# run\n")):
             path = os.path.join(self.src, rel)
             os.makedirs(os.path.dirname(path), exist_ok=True)
@@ -353,10 +353,10 @@ class LaysLoops(unittest.TestCase):
         paths, counts, _ = self.lay(claude)
         skills = os.path.join(self.target, ".claude", "skills")
         self.assertEqual((counts["plays"], counts["loops"]), (1, 1))
-        self.assertTrue(os.path.isfile(os.path.join(skills, "discovery", "SKILL.md")))
+        self.assertTrue(os.path.isfile(os.path.join(skills, "complete-discovery", "SKILL.md")))
         self.assertTrue(os.path.isfile(os.path.join(skills, "_shared", "play-close.md")))
         self.assertTrue(os.path.isfile(os.path.join(skills, "_shared", "loop-run.md")))
-        self.assertIn(os.path.join(".claude", "skills", "discovery"), paths)
+        self.assertIn(os.path.join(".claude", "skills", "complete-discovery"), paths)
 
     def test_codex_lays_a_loop_too(self):
         _, counts, _ = self.lay(codex)
@@ -368,21 +368,21 @@ class LaysLoops(unittest.TestCase):
         allow = install.SCOPES["harness"]
         _, counts, _ = self.lay(claude, {**allow, "plays": allow["plays"] | {"start-change"}})
         self.assertEqual(counts["loops"], 0)
-        self.assertFalse(os.path.exists(os.path.join(self.target, ".claude", "skills", "discovery")))
+        self.assertFalse(os.path.exists(os.path.join(self.target, ".claude", "skills", "complete-discovery")))
 
     def test_the_full_scope_installs_every_loop_but_not_the_loop_builders(self):
         scope = install.resolve_scope("full", os.path.join(ROOT, "core", "components"))
         self.assertIsNone(scope["loops"])
-        self.assertNotIn("loop-creator", scope["plays"])
-        self.assertNotIn("loop-editor", scope["plays"])
-        self.assertIn("loop-creator", install.SCOPES["harness"]["plays"])
+        self.assertNotIn("create-loop", scope["plays"])
+        self.assertNotIn("edit-loop", scope["plays"])
+        self.assertIn("create-loop", install.SCOPES["harness"]["plays"])
 
     def test_the_config_points_loops_at_the_install_place(self):
         text = install.transform_config("components:\n  loops: ./core/components/loops/\n"
-                                        "loops:\n  discovery:\n    runner: subagent\n",
+                                        "loops:\n  complete-discovery:\n    runner: subagent\n",
                                         "shop", "claude")
         self.assertIn("  loops: ./.claude/skills/", text)
-        self.assertIn("loops:\n  discovery:", text)
+        self.assertIn("loops:\n  complete-discovery:", text)
 
 
 class InstallFindings(unittest.TestCase):

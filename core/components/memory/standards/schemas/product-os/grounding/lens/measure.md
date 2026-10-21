@@ -4,7 +4,7 @@
 > what delivery the slice is proving and the metrics that prove it — each with a baseline, a
 > target, and how it's proven — plus what is explicitly not measured. This is the seam /capture
 > later harvests. The linter enforces the heading set; the content-quality eval scores it
-> against `_content-standard.md`. Written by `/measure`.
+> against `_content-standard.md`. Written by `/shape-measure-lens`.
 
 ## Heading contract (required, in order)
 

@@ -11,16 +11,16 @@ candidate derivation needs, read the way the model-writing plays write it
     depends_on), and epics (status / order / depends_on / issue_ref /
     surface_type / surface_verified);
   - lens presence is the slice's `lens/<type>.md` grounding docs — the seven
-    lenses /measure lines up (quality, ux, agentic, marketing, architecture,
+    lenses /shape-measure-lens lines up (quality, ux, agentic, marketing, architecture,
     run, measure);
   - a slice record is read only for what the spine does not carry (name,
     functionalities) — its own `status` is never read (it goes stale after
-    /roadmap writes the spine).
+    /shape-roadmap writes the spine).
 
 Also records a content hash of the whole product-os tree — the model basis the
 recommendation was derived from (carried into the evidence record).
 
-A missing model is NOT an error — it is the /vision branch of the decision
+A missing model is NOT an error — it is the /discover-domains branch of the decision
 tree: the snapshot says model_exists=false and exits 0. A product-os/ tree with
 files but no spine is recorded as spine_exists=false (never read from legacy
 per-node files) — the derivation reports it as an inconsistency.
@@ -47,7 +47,7 @@ except ImportError:
     sys.stderr.write("scan_model.py: PyYAML is required (pip install pyyaml).\n")
     sys.exit(2)
 
-# The seven lens docs /measure lines up (measure/scripts/lines_up.py).
+# The seven lens docs /shape-measure-lens lines up (measure/scripts/lines_up.py).
 LENS_TYPES = ["quality", "ux", "agentic", "marketing", "architecture", "run", "measure"]
 
 
@@ -116,7 +116,7 @@ def scan_slice(root, slug, entry, epics_by_slice, errors):
             # surface contract (ADR 022): declared at the cut on the spine epics
             # index, read here so the derivation can detect surface debt.
             "surface_type": norm(e.get("surface_type")),
-            # /validate stamps surface_verified: true on the spine entry when the
+            # /validate-feature stamps surface_verified: true on the spine entry when the
             # surface-parity check passed.
             "surface_verified": bool(e.get("surface_verified")),
         })

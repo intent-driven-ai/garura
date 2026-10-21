@@ -1,16 +1,16 @@
 # propose-change — ICE source
 
 The clean ICE triple this play is compiled from. Update this and recompile via
-play-creator; never hand-edit the compiled SKILL.md.
+create-play; never hand-edit the compiled SKILL.md.
 
 ## Intent
 
 Raise the current change for review: run a self-review on its scope and quality, push
 the branch, and open a pull request that carries that review, so the change is ready
-for review-change.
+for check-change.
 
 Pipeline position: **end** (second step of the end sequence: commit-change →
-propose-change → review-change → merge-change). The D2 pipeline-position rule injects this
+propose-change → check-change → merge-change). The D2 pipeline-position rule injects this
 sequence into any play declared `position: end`. The plays are independent and invokable;
 their order is enforced by each one's pre-flight, not by welding them into one play.
 
@@ -38,7 +38,7 @@ their order is enforced by each one's pre-flight, not by welding them into one p
   pre-flight machine wall), and the issue reference (C4 — eval machine wall).
 - C9 — The mechanical push + PR-open runs in the bundled `submit_pr.py` calling git/gh
   directly (via `platform_adapter.py`), not an agent dispatch (#484, tool-first + ADR 025).
-  The `repo-orchestrator` → `submit-pr` dispatch is removed. The self-review (Step 1) stays
+  The `repo-orchestrator` → `open-pr` dispatch is removed. The self-review (Step 1) stays
   agent-run — it is genuine judgment, not mechanical — so this play keeps one agent for that
   and none for the push/PR.
 

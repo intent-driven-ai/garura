@@ -233,7 +233,7 @@ Triggers: `**/components/**`, `*.tsx`, `*.vue`
 
 ## Built-in Rules Reference
 
-See `core/components/skills/analyze-pr/reference/rules.md` for the complete list of built-in rules including:
+See `core/components/skills/assess-pr/reference/rules.md` for the complete list of built-in rules including:
 
 - **Universal rules**: No merge conflicts, No secrets
 - **Code file rules**: Tests pass, Build succeeds
@@ -291,6 +291,6 @@ All failure handling is consolidated in a single `## Recovery` section in SKILL.
 
 - `/commit-code` — Commit changes (internal operation, may auto-approve)
 - `repo-orchestrator` — Agent that executes PR operations
-- `analyze-pr` — Skill that generates the checklist
-- `submit-pr` — Skill that creates the PR
+- `assess-pr` — Skill that generates the checklist
+- `open-pr` — Skill that creates the PR
 - `docs/components/plays.md` — Play component guide with golden standard structure

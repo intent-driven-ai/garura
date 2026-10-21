@@ -1,6 +1,6 @@
 # Review knowledge — how each category of change is reviewed
 
-This shelf is the durable knowledge `/review-change` consults. The play itself holds **no**
+This shelf is the durable knowledge `/check-change` consults. The play itself holds **no**
 category list and **no** review treatment — it assesses, every run, what kinds of work a PR
 contains, then reads the matching playbook here to learn how that kind of work is reviewed.
 
@@ -62,6 +62,6 @@ Each file follows the knowledge-shelf template, with review-specific facets:
 
 ## Provenance
 
-Seeded #443 (review-change redesign). Categories adapted from the PR Review Approach spec to
-garura's own structure. The shelf grows as we learn — `/review-change` and `/learn` write
+Seeded #443 (check-change redesign). Categories adapted from the PR Review Approach spec to
+garura's own structure. The shelf grows as we learn — `/check-change` and `/learn-outcomes` write
 new playbooks and sharpen existing ones.

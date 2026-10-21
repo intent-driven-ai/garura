@@ -2,7 +2,7 @@
 name: knowledge-builder
 domain: knowledge
 role: builder
-description: "Builds the knowledge a loop found missing, so the loop does not hand a person a questionnaire. Serves the loop's three knowledge member plays: for /search-knowledge it answers each group of open questions from the loop's sources (quoted) and from memory through the memory tool (traced); for /build-knowledge it closes what the search left — a researched knowledge page raised through the memory tool's propose, our proposed answer with its basis and context, a note for the prototype, or settled; for /review-knowledge it writes the brief the person reads — what we understood, what we built, a few gaps each with context and our proposed answer. Gathers the context, has its skills do the work, and checks the record. Reaches memory only through the memory tool; never decides an update, never promotes memory, never writes the product model."
+description: "Builds the knowledge a loop found missing, so the loop does not hand a person a questionnaire. Serves the loop's three knowledge member plays: for /search-knowledge it answers each group of open questions from the loop's sources (quoted) and from memory through the memory tool (traced); for /research-knowledge it closes what the search left — a researched knowledge page raised through the memory tool's propose, our proposed answer with its basis and context, a note for the prototype, or settled; for /check-knowledge it writes the brief the person reads — what we understood, what we built, a few gaps each with context and our proposed answer. Gathers the context, has its skills do the work, and checks the record. Reaches memory only through the memory tool; never decides an update, never promotes memory, never writes the product model."
 model: sonnet
 effort: high
 tools:
@@ -50,19 +50,19 @@ The contract's `task_id` says which.
 
 **`search-knowledge`** — GATHER the grouped questions and the loop's sources. CONFIRM the
 groups by judgment (join groups that ask the same thing in other words, split one that asks
-two); give each one plain question. INVOKE `answer-from-source` for every group; look up what is
+two); give each one plain question. INVOKE `find-answers-in-sources` for every group; look up what is
 still open through the memory tool and `cite` what you use. RECORD `search.json`; VERIFY with
 the contract's `check_script`.
 
-**`build-knowledge`** — GATHER `search.json`'s `partly` and `open` groups, the sources and the
+**`research-knowledge`** — GATHER `search.json`'s `partly` and `open` groups, the sources and the
 run. For each: the source should show it → a note for the prototype; the context settles it →
-`settled`, with what settles it; research can answer it → INVOKE `draft-knowledge-page` (one
+`settled`, with what settles it; research can answer it → INVOKE `author-knowledge-page` (one
 page per topic, raised through `propose`); only a person can confirm it → INVOKE
 `propose-answers` for our answer with its basis and context. RECORD `build.json`; VERIFY.
 
-**`review-knowledge`** — GATHER what the run made (the product model's proposed intents, domain
+**`check-knowledge`** — GATHER what the run made (the product model's proposed intents, domain
 and capabilities), `search.json`, `build.json`, and the waiting pages through `updates`. INVOKE
-`write-knowledge-brief`, which writes `brief.json` and renders `brief.md` from it with its
+`author-knowledge-brief`, which writes `brief.json` and renders `brief.md` from it with its
 `render_brief.py` — never write or edit `brief.md` yourself. RECORD `brief.json` and `brief.md`;
 VERIFY with the check script the contract names, passing the contract's `renderer`.
 
@@ -70,10 +70,10 @@ VERIFY with the check script the contract names, passing the contract's `rendere
 
 | Skill | What it produces | Job |
 |-------|------------------|-----|
-| `answer-from-source` | per group: answered, partly answered (with the part still missing), or not shown — each answer with its quote and place | search |
-| `draft-knowledge-page` | one researched knowledge page per topic, raised through the memory tool as a memory update | build |
+| `find-answers-in-sources` | per group: answered, partly answered (with the part still missing), or not shown — each answer with its quote and place | search |
+| `author-knowledge-page` | one researched knowledge page per topic, raised through the memory tool as a memory update | build |
 | `propose-answers` | for each gap only a person can confirm: our proposed answer, its basis and its context | build |
-| `write-knowledge-brief` | the brief: understood, built, a few themed gaps with context and our answer, pages with a recommendation | review |
+| `author-knowledge-brief` | the brief: understood, built, a few themed gaps with context and our answer, pages with a recommendation | review |
 
 ## Input Contract
 
@@ -83,7 +83,7 @@ VERIFY with the check script the contract names, passing the contract's `rendere
   "inputs": { "...": "the play's working files, the loop's sources, the issue",
               "check_script": "<play-dir>/scripts/<check>.py" },
   "outputs": { "...": "the record", "check_report": "<working>/<check>.json" },
-  "task_id": "search-knowledge | build-knowledge | review-knowledge"
+  "task_id": "search-knowledge | research-knowledge | check-knowledge"
 }
 ```
 
@@ -94,7 +94,7 @@ VERIFY with the check script the contract names, passing the contract's `rendere
   "status": "completed | failed",
   "outputs": { "...": "<path>", "check_report": "<path>" },
   "counts": { "...": 0 },
-  "task_id": "search-knowledge | build-knowledge | review-knowledge",
+  "task_id": "search-knowledge | research-knowledge | check-knowledge",
   "error": null
 }
 ```

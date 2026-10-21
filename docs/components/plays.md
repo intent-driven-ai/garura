@@ -22,7 +22,7 @@ Per ADR 017 (2026-04-14), play levels (L1/L2) and agent-count budgets are retire
 Plays still distinguish themselves along two axes:
 
 - **Invocability**: some plays are human-only (they stop at checkpoints waiting for Tether/Vanish); others can be model-invoked for automated sequencing.
-- **Chaining**: some plays chain other plays — the pipeline end sequence chains `commit-change` → `propose-change` → `review-change` → `merge-change` (injected per `standards/rules/pipeline-position.md`); most are standalone.
+- **Chaining**: some plays chain other plays — the pipeline end sequence chains `commit-change` → `propose-change` → `check-change` → `merge-change` (injected per `standards/rules/pipeline-position.md`); most are standalone.
 
 Neither of these requires a level label.
 
@@ -31,8 +31,8 @@ Neither of these requires a level label.
 A **loop** is a higher-order play: it runs other plays in rounds, in any order, on one issue and
 one branch, until its intent is met or it fails (ADR 029, ADR 043, ADR 045). The full page is
 [Loops](loops.md). It does no work of its own. Loops live
-in `core/components/loops/<loop>/`, are built by `/loop-creator` and changed by
-`/loop-editor` (the companions of `/play-creator` and `/play-editor`), and are checked by
+in `core/components/loops/<loop>/`, are built by `/create-loop` and changed by
+`/edit-loop` (the companions of `/create-play` and `/edit-play`), and are checked by
 `lint_loop.py`. Every loop points to one shared run, `core/components/loops/_shared/loop-run.md`
 (questions first, one contract, each play run and checked and its run files committed, the
 checker, the end), as every play points to the shared close. The install lays loops as skills
@@ -40,8 +40,8 @@ beside the plays.
 
 Every loop also runs three **knowledge member plays** inside its rounds (ADR 042):
 `/search-knowledge` answers open questions from the loop's sources and memory,
-`/build-knowledge` drafts knowledge pages and proposed answers for the rest, and
-`/review-knowledge` writes the brief the person reads — never a questionnaire. They reach memory
+`/research-knowledge` drafts knowledge pages and proposed answers for the rest, and
+`/check-knowledge` writes the brief the person reads — never a questionnaire. They reach memory
 only through the memory tool and run only inside a loop.
 
 ## Two Play Patterns
@@ -174,13 +174,13 @@ Every play is a self-contained directory:
 
 ```
 {play-name}/
-├── SKILL.md              # Compiled play execution blueprint (emitted by play-creator)
+├── SKILL.md              # Compiled play execution blueprint (emitted by create-play)
 ├── reference/
 │   └── ice.md            # The play's ICE source (intent / context / expectation)
 └── scripts/              # Bundled scripts for the play's mechanical steps
 ```
 
-Plays are compiled artifacts: `play-creator` compiles `reference/ice.md` into `SKILL.md` plus the bundled scripts, and `play-editor` recompiles after the ICE changes. Compiled `SKILL.md` files are not hand-edited for intent changes.
+Plays are compiled artifacts: `create-play` compiles `reference/ice.md` into `SKILL.md` plus the bundled scripts, and `edit-play` recompiles after the ICE changes. Compiled `SKILL.md` files are not hand-edited for intent changes.
 
 ## Intent and System Constraints: Where They Live
 
@@ -343,7 +343,7 @@ Recovery reasoning is loaded from LTM: `docs/framework/intent-driven-recovery.md
 | `adr` | Record a decision as an ADR from the one template — what it supersedes or amends, what it affects, its ICE impact, and a business-intent guard; accepted only on a person's word (proposed inside a loop); older ADRs gain only a forward pointer; the ADR index is rebuilt |
 | `intent` | Turn what a person shares — a prototype, a project folder, a site, a document or a statement — into their business intents and, under each, the ICE the source shows, written into the product model (under its domain when something shows it, else in the holding folder); the person confirms each intent; keeps the source as a snapshot and links all three |
 | `vision` | Turn business intents, a business goal, or both into the seed of the product model — or grow the model already there — domain grounding, directional capability grounding, spine entries; places capabilities waiting for a domain and links every part to its intents both ways; never waits for another play |
-| `understand` | Detail one capability that `/vision` seeded — promote its grounding to detailed, create its functionalities |
+| `understand` | Detail one capability that `/discover-domains` seeded — promote its grounding to detailed, create its functionalities |
 | `shape` | Select what to build in one domain and compose it into deliverable vertical slices |
 | `roadmap` | Order the shaped slices into a build sequence with dependencies and effort |
 | `quality` | Write a slice's quality lens grounding doc — checkable pass/fail gates |
@@ -366,10 +366,10 @@ Recovery reasoning is loaded from LTM: `docs/framework/intent-driven-recovery.md
 | `start-change` | Open a unit of work — issue, branch off main, optional worktree, STM init |
 | `commit-change` | Commit work grouped by concern with conventional messages (end sequence step 1) |
 | `propose-change` | Self-review, push, and open the pull request (end sequence step 2) |
-| `review-change` | Review an open change against standards; explicit approve/reject verdict (end sequence gate) |
+| `check-change` | Review an open change against standards; explicit approve/reject verdict (end sequence gate) |
 | `merge-change` | Merge the approved PR, return to main, delete the branch (end sequence final step) |
-| `play-creator` | Compile a play from an ICE — interview, expectation, evals, emitted SKILL.md + scripts |
-| `play-editor` | Modify an existing play by editing its ICE source and recompiling |
+| `create-play` | Compile a play from an ICE — interview, expectation, evals, emitted SKILL.md + scripts |
+| `edit-play` | Modify an existing play by editing its ICE source and recompiling |
 | `install-garura` | Install Garura components into a target project for a host tool (Claude Code or Codex) |
 | `uninstall-garura` | Remove Garura from a target using its install manifest |
 

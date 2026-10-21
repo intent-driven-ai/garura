@@ -16,7 +16,7 @@ Backed by: `gh pr view {pr_number} --json ...`
 
 ### diff-pr
 
-Fetches the unified diff of a PR. Returns raw diff output (patch format). Used by `analyze-pr` skill in PR-scoped mode.
+Fetches the unified diff of a PR. Returns raw diff output (patch format). Used by `assess-pr` skill in PR-scoped mode.
 
 Backed by: `gh pr diff {pr_number}`
 
@@ -76,7 +76,7 @@ Backed by: `gh issue close {issue_number} --reason {reason}`
 
 ### comment-issue
 
-Posts a comment on an issue. Used by manage-issue skill for the `comment` action.
+Posts a comment on an issue. Used by track-issue skill for the `comment` action.
 
 Backed by: `gh issue comment {issue_number} --body "{body}"`
 

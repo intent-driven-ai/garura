@@ -13,7 +13,7 @@ The test of what a Discovery loop (or one of its plays) produced from a prototyp
    was added is the **drift**.
 
 If the intents and the model do not bring the prototype back, they are not good enough to
-build from. That is the bar every change to `/intent`, `/vision` and `/understand` is judged by.
+build from. That is the bar every change to `/discover-intent`, `/discover-domains` and `/discover-capabilities` is judged by.
 
 ## The stages
 

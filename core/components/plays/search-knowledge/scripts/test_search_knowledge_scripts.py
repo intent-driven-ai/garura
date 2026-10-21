@@ -46,10 +46,10 @@ def stub_tool(work, updates):
 class GroupQuestions(Work):
     def setUp(self):
         super().setUp()
-        self.write("issue/review/loop/open-intent.json", {"play": "intent", "questions": [
+        self.write("issue/review/loop/open-intent.json", {"play": "discover-intent", "questions": [
             {"id": "i1", "ask": "How will you know signing off a loop works?", "about": "sign-off"},
             {"id": "i2", "ask": "Why does it matter to the business?", "about": "sign-off"}]})
-        self.write("issue/review/loop/open-understand.json", {"play": "understand", "questions": [
+        self.write("issue/review/loop/open-understand.json", {"play": "discover-capabilities", "questions": [
             {"id": "u1", "ask": "How will you know answering every change works?", "about": "answer"},
             {"id": "u2", "ask": "How quickly must a card open?", "about": "answer"},
             {"id": "u3", "ask": "How fast must a comment show?", "about": "comment"},
@@ -70,7 +70,7 @@ class GroupQuestions(Work):
     def test_the_same_question_from_several_plays_is_one_group(self):
         by_topic = {g["topic"]: g for g in self.groups()["groups"]}
         self.assertEqual(sorted(by_topic["proof"]["members"]), ["i1", "u1"])
-        self.assertEqual(by_topic["proof"]["from"], ["intent", "understand"])
+        self.assertEqual(by_topic["proof"]["from"], ["discover-capabilities", "discover-intent"])
         self.assertEqual(sorted(by_topic["speed"]["members"]), ["mu-1", "u2", "u3"])
         self.assertEqual(by_topic["compliance"]["members"], ["u4"])
 
