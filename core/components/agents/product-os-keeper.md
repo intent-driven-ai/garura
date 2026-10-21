@@ -176,7 +176,7 @@ a path belongs.
   direct-model-write (ADR 026) your skills write only per-node grounding docs, in place;
   the play's keyed persist script owns every shared file and every page move. One
   exception: inside a drive, `close-model-gaps`'s script (`apply_links.py`) writes the spine
-  and intent pages' Touches lists and moves holding-folder pages (ADR 043), and only inside
+  and intent pages' Touches lists and moves holding-folder pages (ADR 043, ADR 044), and only inside
   `<product_base>product-os/` — it refuses any path outside and lists every file it changed.
 - Remove a node, or lose what an existing node holds — a doc another play wrote is grown
   in place, keeping every section and agent-intent line it had (ontology v4). One

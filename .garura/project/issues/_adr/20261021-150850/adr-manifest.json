@@ -1,0 +1,35 @@
+{
+  "decided": true,
+  "lint_ok": true,
+  "linked": true,
+  "target": "docs/adr/044-the-shared-drive-run-owns-the-steps-between-plays.md",
+  "shape": "markdown",
+  "guard": {
+    "adr": ".garura/project/issues/_adr/20261021-150850/adr-draft.md",
+    "declared": "none",
+    "touches_an_intent": [],
+    "verdict": "no person's business intent changes"
+  },
+  "olders": [
+    {
+      "adr": "029",
+      "file": "docs/adr/029-drives.md",
+      "kind": "amended",
+      "part": "\u00a72 \"How a drive runs\", the bullet \"No rules of its own. The drive's one rule is to run its plays. Every other rule lives in the plays.\" The Shared Drive Run now owns three run steps every drive runs between its plays: reading the source once (R4b), taking the person's write-up (R3), and running find-model-gaps and close-model-gaps after each round (R5 step 7). These are run steps, not product rules; a drive still carries no product rules of its own."
+    },
+    {
+      "adr": "026",
+      "file": "docs/adr/026-direct-to-model-writes.md",
+      "kind": "amended",
+      "part": "Decision, \"Containment split\": \"Every shared file ... is written solely by the play's deterministic keyed script.\" Inside a drive, close-model-gaps' script (apply_links.py) may also write the shared model files (the spine, and the Touches list on intent pages) and move holding-folder pages; only inside <product_base>product-os/, refusing any path outside, listing every file it changed."
+    }
+  ],
+  "status": "accepted",
+  "accepted_by": "Kapil Viren Ahuja",
+  "pointers_written": [
+    "029-drives.md",
+    "026-direct-to-model-writes.md"
+  ],
+  "pointers_missing": [],
+  "index_ok": true
+}

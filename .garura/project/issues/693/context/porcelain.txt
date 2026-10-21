@@ -1,0 +1,17 @@
+ M core/components/agents/product-os-keeper.md
+ M core/components/drives/_shared/drive-run.md
+ M core/components/drives/kickoff/SKILL.md
+ M core/components/drives/kickoff/scripts/drive_preflight.py
+ M core/components/drives/kickoff/scripts/round_state.py
+ M core/components/memory/standards/rules/direct-model-write.md
+ M core/components/plays/drive-creator/SKILL.md
+ M core/components/plays/drive-creator/references/compiled-drive-example/SKILL.md
+ M core/components/plays/drive-creator/references/compiled-drive-example/scripts/drive_preflight.py
+ M core/components/plays/drive-creator/references/compiled-drive-example/scripts/round_state.py
+ M core/components/plays/drive-creator/references/drive_preflight.py
+ M core/components/plays/drive-creator/references/round_state.py
+ M core/components/plays/drive-creator/references/test_lint_drive.py
+ M core/components/plays/drive-creator/scripts/lint_drive.py
+ M core/components/plays/drive-editor/scripts/lint_drive.py
+ M core/grounding/glossary.md
+?? .garura/project/issues/693/context/porcelain.txt

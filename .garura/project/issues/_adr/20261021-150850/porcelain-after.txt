@@ -1,0 +1,28 @@
+ M core/components/drives/kickoff/SKILL.md
+ M core/components/drives/kickoff/scripts/drive_preflight.py
+ M core/components/drives/kickoff/scripts/round_state.py
+ M core/components/memory/standards/rules/direct-model-write.md
+ M core/components/plays/drive-creator/SKILL.md
+ M core/components/plays/drive-creator/references/compiled-drive-example/SKILL.md
+ M core/components/plays/drive-creator/references/compiled-drive-example/scripts/drive_preflight.py
+ M core/components/plays/drive-creator/references/compiled-drive-example/scripts/round_state.py
+ M core/components/plays/drive-creator/references/drive_preflight.py
+ M core/components/plays/drive-creator/references/round_state.py
+ M core/components/plays/drive-creator/references/test_lint_drive.py
+ M core/components/plays/drive-creator/scripts/lint_drive.py
+ M core/components/plays/drive-editor/scripts/lint_drive.py
+ M core/grounding/glossary.md
+ M docs/adr/026-direct-to-model-writes.md
+ M docs/adr/029-drives.md
+ M docs/adr/_index.md
+?? .garura/project/issues/_adr/20261021-150850/adr-check.json
+?? .garura/project/issues/_adr/20261021-150850/adr-context.yaml
+?? .garura/project/issues/_adr/20261021-150850/adr-draft.md
+?? .garura/project/issues/_adr/20261021-150850/adr-manifest.json
+?? .garura/project/issues/_adr/20261021-150850/brief.md
+?? .garura/project/issues/_adr/20261021-150850/decision.yaml
+?? .garura/project/issues/_adr/20261021-150850/hashes-before.json
+?? .garura/project/issues/_adr/20261021-150850/porcelain-after.txt
+?? .garura/project/issues/_adr/20261021-150850/porcelain-before.txt
+?? .garura/project/issues/_adr/20261021-150850/run.json
+?? docs/adr/044-the-shared-drive-run-owns-the-steps-between-plays.md

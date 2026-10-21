@@ -1,0 +1,49 @@
+category: memory
+grounding:
+  - {principle: "The LLM writes only per-node doc files; every shared file (spine, profile, decisions) is written by the play's deterministic keyed script, which keeps a node-level key and refuses to touch any node outside it", source: "core/components/memory/standards/rules/direct-model-write.md step 3 (on main); docs/adr/026-direct-to-model-writes.md"}
+  - {principle: "Containment is a post-write scoped guard that detects and reverts out-of-scope model paths, run once over the full delta", source: "direct-model-write.md step 4 (on main); ADR 026"}
+  - {principle: "Clean model tree in, committed model delta out: each play asserts a clean tree at pre-flight and commits its own delta", source: "direct-model-write.md step 7 and lint anchor L-DMW-4 (on main); ADR 026"}
+  - {principle: "Inside a drive the gap skills connect, attribute and merge duplicates; plays may run side by side; the drive commits the round once", source: "docs/adr/043-kickoff-plays-read-independently-and-the-drive-closes-the-loop.md sections 4 and 5 (on main)"}
+  - {principle: "ADR 043 itself records that the scoped-write guard cannot tell side-by-side plays' writes apart", source: "ADR 043 Consequences, Negative / Risks (on main)"}
+  - {principle: "A rule must carry its lint anchors so a hand edit and a recompile converge", source: "direct-model-write.md intro and lint-anchor section (on main)"}
+verified_ok:
+  - "The commit exception ('Inside a drive (ADR 043)': plays do not make the persist commit, the drive commits the round once) matches ADR 043 section 5 and its 'What this changes in older ADRs' line for ADR 026."
+  - "The apply_links exception stays script-only (not the LLM) and confined to product-os, which keeps the core of ADR 026's split: the LLM never writes a shared file."
+  - "Outside a drive the rule still says the play's keyed script is the only writer of shared files."
+findings:
+  - id: M1
+    severity: P2
+    file: core/components/memory/standards/rules/direct-model-write.md
+    line: "42-46 (new paragraph 'Inside a drive (ADR 044)')"
+    summary: "The new writer is exempt from the node-level key. Step 3 says the shared-file script keeps a node key and refuses any node outside it, and that node containment inside the spine is 'preserved by the keyed script, not by the guard'. The new paragraph lets apply_links write the spine and intent Touches lists with only a path limit (inside product-os) and a self-reported file list. No node key is required, so nothing bounds which spine nodes it may change. ADR 043 section 4 grants only 'connect, attribute, merge', not any spine write."
+    basis: "direct-model-write.md step 3 (node-level containment is the keyed script's job); ADR 043 section 4 (scope of close-model-gaps)"
+  - id: M2
+    severity: P2
+    file: core/components/memory/standards/rules/direct-model-write.md
+    line: "42-46"
+    summary: "The only check on this writer is that it 'lists every file it changed', which is the writer reporting on itself. Step 4's guard (detect and revert out-of-scope paths over the full delta) is not said to cover the drive's gap-skill writes, and ADR 043 admits the guard cannot tell side-by-side writers apart. The rule gives no independent check that apply_links stayed in bounds, so the containment guarantee is weakened for a shared file."
+    basis: "direct-model-write.md step 4; ADR 043 Consequences (guard cannot separate side-by-side writes)"
+  - id: M3
+    severity: P3
+    file: core/components/memory/standards/rules/direct-model-write.md
+    line: "98-102 (new 'Inside a drive (ADR 043)') vs L-DMW-4"
+    summary: "L-DMW-4 is unchanged: it still fails any play that does not assert a clean tree at pre-flight or has no model-delta commit at close. The new paragraph says a play inside a drive does not commit and that the entry check applies to the drive. The rule now contradicts its own lint anchor; a play compiled for a drive is a finding under L-DMW-4 as written. The carve-out is in prose only."
+    basis: "direct-model-write.md L-DMW-4 and step 7 (on main); lint anchors must let hand edit and recompile converge"
+  - id: M4
+    severity: P3
+    file: core/components/memory/standards/rules/direct-model-write.md
+    line: "L-DMW-5 addition"
+    summary: "'Not a finding: close-model-gaps, which writes them inside a drive only' is a prose exception inside a lint anchor, with no machine-checkable condition (which skill, which script, which path). A lint cannot tell the allowed writer from a play skill that copies the pattern. It also names close-model-gaps as the writer, while the paragraph above names its script apply_links.py."
+    basis: "direct-model-write.md lint-anchor section (anchors must be checkable so the pattern cannot survive a rebuild or hand edit)"
+  - id: M5
+    severity: P3
+    file: core/components/memory/standards/rules/direct-model-write.md
+    line: "42-46"
+    summary: "The exception lists spine writes, Touches lists and page moves, but the product-os-keeper change in this PR also lets a skill script remove an agreed duplicate. That is a write to shared files too and the rule does not name it. ADR 043 section 4 does allow 'merges two nodes that are the same thing', so the rule is narrower than its own source and the gap will be read as a violation."
+    basis: "ADR 043 section 4 (merge duplicates, on main); direct-model-write.md step 3"
+  - id: M6
+    severity: P4
+    file: core/components/memory/standards/rules/direct-model-write.md
+    line: "header 'Authority: ADR 026'"
+    summary: "The rule's authority line names only ADR 026, yet it now carries two amendments (ADR 043 commit, ADR 044 writers). Readers of the rule should see the amending ADRs at the top, as ADR 026's Status line does."
+    basis: "direct-model-write.md header (on main); ADR 026 Status line lists amendments"

@@ -1,0 +1,19 @@
+feat: the drive texts say plays run in any order and the drive saves once per round (ADR 043)
+
+Kind: Story — a slice of the drives feature (#594), after #689.
+
+What: the drive texts say what ADR 043 decided — the plays in a drive run in any order, and the drive saves its work once per round.
+1. `/drive-creator` and the drive linter (`lint_drive.py`) drop "fixed order".
+2. The Kickoff drive's task list stops making each play wait for the one before it.
+3. `direct-model-write.md` rule 7 ("each play commits its own delta") says that inside a drive, the drive commits once per round.
+4. ADR 029 section 2 ("the shared drive run has no rules of its own") is amended for what `drive-run.md` now owns: the source capture, the write-up and closing the gaps — or those rules move to where ADR 029 puts them.
+5. ADR 026 (direct model write) records the exception ADR 043 makes for `close-model-gaps`, which writes the spine and intent pages inside a drive (review of PR #696, finding H1).
+
+Why: the review of PR #691 (#689) found these texts still describe the old fixed order. ADR 043 lists the drive builder and linter under Affects, but they were not changed. The next rebuild of the Kickoff drive through `/drive-creator` would put the fixed order back.
+
+Done when:
+- [ ] no drive text or check says "fixed order";
+- [ ] a rebuild of the Kickoff drive by `/drive-creator` keeps the plays in any order and passes the drive linter;
+- [ ] rule 7 and ADR 029 agree with ADR 043.
+
+

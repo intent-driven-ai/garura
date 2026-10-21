@@ -1,0 +1,44 @@
+---
+# analyze-changes output (agent judgment grouping)
+# issue: 693
+needs_judgment: false
+
+change_groups:
+  - type: feat
+    scope: drive
+    subject: let drive loops run plays in rounds, in any order
+    files:
+      - core/components/drives/kickoff/SKILL.md
+      - core/components/drives/kickoff/scripts/drive_preflight.py
+      - core/components/drives/kickoff/scripts/round_state.py
+      - core/components/plays/drive-creator/SKILL.md
+      - core/components/plays/drive-creator/references/compiled-drive-example/SKILL.md
+      - core/components/plays/drive-creator/references/compiled-drive-example/scripts/drive_preflight.py
+      - core/components/plays/drive-creator/references/compiled-drive-example/scripts/round_state.py
+      - core/components/plays/drive-creator/references/drive_preflight.py
+      - core/components/plays/drive-creator/references/round_state.py
+      - core/components/plays/drive-creator/references/test_lint_drive.py
+      - core/components/plays/drive-creator/scripts/lint_drive.py
+      - core/components/plays/drive-editor/scripts/lint_drive.py
+  - type: docs
+    scope: drive
+    subject: cite the shared drive run as owner of steps between plays
+    files:
+      - core/components/drives/_shared/drive-run.md
+      - core/components/memory/standards/rules/direct-model-write.md
+      - core/components/agents/product-os-keeper.md
+      - core/grounding/glossary.md
+
+exclusions:
+  - path: .garura/project/issues/693/context/porcelain.txt
+    reason: run artifact handled later
+  - path: .garura/project/issues/693/context/analysis.yaml
+    reason: run artifact handled later
+
+risks:
+  sensitive_files:
+    []
+
+eval_gates:
+  SE-1: {status: PASS, evidence: "2 groups, every changed file in exactly one group"}
+  SE-5: {status: PASS, evidence: "no sensitive patterns matched"}

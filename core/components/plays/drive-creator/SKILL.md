@@ -1,8 +1,8 @@
 ---
 name: drive-creator
 description: >
-  Builds a "drive" — a higher-order play that runs other plays in a fixed order until its
-  intent is met (ADR 029) — from its ICE. Interviews for the intent triple and the drive's
+  Builds a "drive" — a higher-order play that runs other plays in rounds, in any order, until
+  its intent is met (ADR 029, ADR 043) — from its ICE. Interviews for the intent triple and the drive's
   own parts (its plays, the questions it asks first, its checker and runner settings, how it
   ends), generates the expectation and the Done means, and writes the compiled drive into
   core/components/drives/<drive>/ (a SKILL.md that points to the Shared Drive Run, its
@@ -16,9 +16,11 @@ model: best
 
 # drive-creator
 
-The drive builder for garura. A drive runs other plays, in a fixed order, on one issue and one
-branch, asks its questions first, has a checker judge the result, and lands one pull request
-(ADR 029). It carries no rules of its own — every rule lives in its plays. So a drive is small:
+The drive builder for garura. A drive runs other plays in rounds, in any order, on one issue and
+one branch (ADR 043: no play takes another's output, and the drive closes the gaps between
+them after each round), asks its questions first, has a checker judge the result, and lands one pull request
+(ADR 029). It carries no product rules of its own — every rule lives in its plays; the run
+steps between plays live in the Shared Drive Run (ADR 044). So a drive is small:
 its own values, and a pointer to the run every drive shares.
 
 `/play-creator` builds plays; this builds drives. Companion: `/drive-editor` changes a drive
@@ -75,9 +77,11 @@ Write `reference/ice.md` like the example's:
   conditions F-n, implementation-agnostic. Write it as `/play-creator` step 1 says
   (`../play-creator/SKILL.md`). A drive's constraints are about the run: one issue and one
   branch, questions first, order and done checks, the checker.
-- **Plays** — a table: order, play, what it gets from the contract (`inputs.<play>`) and which
-  answers it gets (`answers.<play>`). An input another play makes is written "after `<play>`:
-  …" — the drive adds it to the contract before the later play starts (shared run, R5 step 6).
+- **Plays** — a table: the order they run in (any order works; no play takes another's
+  output), play, what it gets from the contract (`inputs.<play>`) and which
+  answers it gets (`answers.<play>`). Every input comes from the drive — the source, the
+  person's write-up or the questions — never from another play's output (ADR 043; shared run,
+  R5 step 6).
   Check each play exists and runs inside a drive, and that it reads every input the drive hands
   it: `<key>` of `inputs.<play>.<key>` appears in the play's SKILL.md. A key the play does not
   read is not handed — drop it, or change the play first.

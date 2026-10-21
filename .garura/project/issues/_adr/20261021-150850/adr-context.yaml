@@ -1,0 +1,81 @@
+shape: markdown
+number: "044"
+draft_path: .garura/project/issues/_adr/20261021-150850/adr-draft.md
+template: core/components/memory/standards/templates/adr.md
+level: framework
+status: proposed
+decided_in: "#693 — after the reviews of PR #691 (#689) and PR #696 (#692, finding H1)"
+decided_by_in_brief: Kapil Viren Ahuja   # left empty in the header until a person accepts
+
+supersedes: []
+
+amends:
+  - id: "029"
+    part: >-
+      §2 "How a drive runs", the bullet "No rules of its own. The drive's one rule is to run its
+      plays. Every other rule lives in the plays." The Shared Drive Run now owns three run steps
+      every drive runs between its plays: reading the source once (R4b), taking the person's
+      write-up (R3), and running find-model-gaps and close-model-gaps after each round (R5 step 7).
+      These are run steps, not product rules; a drive still carries no product rules of its own.
+  - id: "026"
+    part: >-
+      Decision, "Containment split": "Every shared file ... is written solely by the play's
+      deterministic keyed script." Inside a drive, close-model-gaps' script (apply_links.py) may
+      also write the shared model files (the spine, and the Touches list on intent pages) and move
+      holding-folder pages; only inside <product_base>product-os/, refusing any path outside,
+      listing every file it changed.
+    note: >-
+      ADR 043 already amends ADR 026's "Clean tree in, committed delta out" (the drive commits the
+      round once). That amendment is not repeated here.
+
+candidates_judged:
+  - id: "043"
+    verdict: not affected
+    why: >-
+      ADR 043 decided the two gap skills, the capture and the write-up, and that drive-run.md calls
+      the gap skills (§6). This ADR keeps all of that. It only records the two older rules ADR 043
+      left unamended (ADR 029 §2 and ADR 026's shared-file rule). Related, not amended.
+  - id: "041"
+    verdict: not affected
+    why: >-
+      ADR 041 put the rounds and the asking steps in the Shared Drive Run. Consistent with this
+      decision; nothing in it is changed.
+  - id: "042"
+    verdict: not affected
+    why: >-
+      ADR 042 added the knowledge steps (R5b, R5c) to the Shared Drive Run. Consistent; nothing
+      changed.
+
+affects:
+  - path: core/components/drives/_shared/drive-run.md
+    what: >-
+      Its opening says a drive "carries no rules of its own (ADR 029)"; it owns R3 (the write-up),
+      R4b (read the source once) and R5 step 7 (the gap skills). Wording to cite this ADR: run steps, not product rules.
+  - path: core/components/skills/close-model-gaps/
+    what: SKILL.md and scripts/apply_links.py (and its test test_apply_links.py, intent_touches.py) — the script this exception names; it already refuses paths outside product-os/ (OutOfScope) and lists changed files.
+  - path: core/components/agents/product-os-keeper.md
+    what: The must-not rule "Write a shared model file yourself" already carries the drive exception, citing ADR 043; it should cite this ADR.
+  - path: core/components/memory/standards/rules/direct-model-write.md
+    what: Rule 3 ("a keyed script owns every shared file") and lint L-DMW-5 need the declared drive exception for apply_links.py.
+  - path: core/components/plays/drive-creator/SKILL.md
+    what: Says a drive "carries no rules of its own — every rule lives in its plays"; should say the shared run owns the run steps.
+  - path: core/components/plays/drive-creator/scripts/lint_drive.py
+    what: Docstring cites ADR 029 §2 "carries no rules of its own"; same wording in core/components/plays/drive-editor/scripts/lint_drive.py.
+  - path: core/grounding/glossary.md
+    what: The Drive entry, where it repeats "no rules of its own".
+
+ice_impact: >-
+  No play's or drive's ICE changes; the Kickoff drive and its plays already run this way (ADR 043).
+  The product-os-keeper agent's constraints keep one declared exception: inside a drive, its
+  close-model-gaps skill's script writes the spine and intent pages' Touches lists and moves
+  holding-folder pages. This records that exception; it does not widen it.
+
+business_intent_check: none
+business_intent_why: >-
+  A framework decision on who writes shared model files and what the Shared Drive Run owns.
+  close-model-gaps writes only the Touches link list on an intent page, never intent content;
+  no person's business intent changes, and the Business Intent kind's rules stand (ADR 031).
+
+related: ["ADR 026", "ADR 029", "ADR 041", "ADR 042", "ADR 043", "#689", "#691", "#692", "#696", "#693"]
+
+brief_gaps: none — the brief gives the decision, the reason, and two alternatives with why each lost.

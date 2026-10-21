@@ -1,0 +1,17 @@
+{
+  ".garura/project/issues/_adr/20261021-150850/porcelain-before.txt": "1117382cce293153ca7bf46163b5267e4bc8964d7c81bf78ea8c45874f21d104",
+  "core/components/drives/kickoff/SKILL.md": "ab36d78e65222670f6b4c52a33cd6b5b9d92f947433e247e257c9a56035e7b7c",
+  "core/components/drives/kickoff/scripts/drive_preflight.py": "1a9d6925efa62d25b9a776693d5cd5dafe47a7b404cfcb017424b88c47d8f8db",
+  "core/components/drives/kickoff/scripts/round_state.py": "8a252d219b3a5112effcdb2111dd807181d7cba5c7013183907b1b8918743ff0",
+  "core/components/memory/standards/rules/direct-model-write.md": "4a40d5baec0f15df0772a8891ce365119e7c0cff40958cb166223ac24a569b36",
+  "core/components/plays/drive-creator/SKILL.md": "571823477054831ce8810322e6ebd97a910950d6211dce4753b9fb72badcc297",
+  "core/components/plays/drive-creator/references/compiled-drive-example/SKILL.md": "b0493c35c296895068c015a4e6565b1300c593cfacb6681574dffcad72f9dc7c",
+  "core/components/plays/drive-creator/references/compiled-drive-example/scripts/drive_preflight.py": "1a9d6925efa62d25b9a776693d5cd5dafe47a7b404cfcb017424b88c47d8f8db",
+  "core/components/plays/drive-creator/references/compiled-drive-example/scripts/round_state.py": "8a252d219b3a5112effcdb2111dd807181d7cba5c7013183907b1b8918743ff0",
+  "core/components/plays/drive-creator/references/drive_preflight.py": "1a9d6925efa62d25b9a776693d5cd5dafe47a7b404cfcb017424b88c47d8f8db",
+  "core/components/plays/drive-creator/references/round_state.py": "8a252d219b3a5112effcdb2111dd807181d7cba5c7013183907b1b8918743ff0",
+  "core/components/plays/drive-creator/references/test_lint_drive.py": "7c9adff6beb6d286db676e97091953d0a19ce4b449959a97ff9cfd71f402e1f4",
+  "core/components/plays/drive-creator/scripts/lint_drive.py": "ca5fd318d84f535cee5a707f346f6e88dbfa1fa98f352248cd3724b264544a9d",
+  "core/components/plays/drive-editor/scripts/lint_drive.py": "ca5fd318d84f535cee5a707f346f6e88dbfa1fa98f352248cd3724b264544a9d",
+  "core/grounding/glossary.md": "ee2273bad0899dda4d04034e6ea70bec183ec706ab4264e502fbf92ca2564667"
+}
