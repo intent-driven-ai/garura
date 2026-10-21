@@ -180,7 +180,7 @@ step whose output exists and checks clean; a round already searched is not searc
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:40a783001cf2a9152923958364345265fda38cd7c068fb2a9a0bfe6da330fa44 (of `reference/ice.md`) |
+| fingerprint | sha256:b2a762ee33bf861964e9138ef4d351d279859922f5efeb931175e2e078f8dfa5 (of `reference/ice.md`) |
 | compiled_by | play-creator (#686) |
 | pipeline_position | none (a loop's member play) |
 | stop_condition | stop-condition.yaml (D1–D2) |

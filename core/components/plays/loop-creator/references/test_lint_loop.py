@@ -13,7 +13,7 @@ EXAMPLE = os.path.join(HERE, "compiled-loop-example")
 SHARED_RUN = os.path.join(HERE, "..", "..", "..", "loops", "_shared", "loop-run.md")
 
 
-class LintDrive(unittest.TestCase):
+class LintLoop(unittest.TestCase):
     def setUp(self):
         self.root = tempfile.mkdtemp()
         self.addCleanup(shutil.rmtree, self.root, ignore_errors=True)
@@ -89,7 +89,7 @@ class LintDrive(unittest.TestCase):
         self.assertTrue(any("done means" in g for g in self.gaps()))
 
 
-class LintDriveMore(LintDrive):
+class LintLoopMore(LintLoop):
     """The checks the /loop-creator trial asked for: end=, fingerprint, stamped copies, config."""
 
     CONFIG = ("evidence:\n  record: false\n  plays:\n    sample-loop: true\n"
@@ -127,7 +127,7 @@ class LintDriveMore(LintDrive):
         self.assertTrue(any("checker.kind" in g for g in self.gaps()))
 
 
-class LintDriveHalfDone(LintDrive):
+class LintLoopHalfDone(LintLoop):
     """The /loop-editor trial's findings: a half-done edit and an input no play reads fail."""
 
     def test_a_play_added_to_plays_alone_fails(self):

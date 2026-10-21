@@ -43,7 +43,7 @@ inside its rounds (Shared Loop Run, R5c). It opens and lands nothing.
 
 ## Context
 
-Discovery run 6 (#613, 20 October) ended with 11 questions for the person, each with example
+Kickoff run 6 (#613, 20 October) ended with 11 questions for the person, each with example
 answers. Kapil: "this sort of questionnaire is not helping me as a user … You have the context.
 You haven't shared that context with me." A proposed answer carries that context; the brief that
 shows it is `/review-knowledge`'s job (ADR 042).

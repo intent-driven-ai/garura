@@ -66,7 +66,7 @@ class Work(unittest.TestCase):
             return json.load(fh)
 
 
-class DrivePreflight(Work):
+class LoopPreflight(Work):
     def setUp(self):
         super().setUp()
         self.config = self.write("config.yaml", CONFIG)
@@ -111,12 +111,18 @@ class DrivePreflight(Work):
         self.assertTrue(facts["evidence_record"])
         self.assertTrue(any("checker.model" in p for p in facts["problems"]))
 
+    def test_an_old_drives_block_halts_and_names_the_rename(self):
+        cfg = self.write("old.yaml", "stm:\n  base-path: x/\ndrives:\n  kickoff:\n    runner: subagent\n")
+        self.assertEqual(self.run_it("intent", cfg), 2)
+        self.assertTrue(any("old `drives:` block" in p and "ADR 045" in p
+                            for p in self.read_json("pre.json")["problems"]))
+
     def test_an_unknown_runner_halts(self):
         cfg = self.write("odd.yaml", CONFIG.replace("runner: subagent", "runner: telepathy"))
         self.assertEqual(self.run_it("intent", cfg), 2)
 
 
-class DriveStatus(Work):
+class LoopStatus(Work):
     """The loop presents its status in one file; a display reads it (run-status.md)."""
 
     def test_the_first_call_names_the_run_and_later_calls_update_it(self):

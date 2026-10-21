@@ -178,7 +178,7 @@ step whose output exists and checks clean; a round already built is not built ag
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:23133fe9f6e0c2244d0272d028058167659fcd958a2c831046708cdc9fece617 (of `reference/ice.md`) |
+| fingerprint | sha256:b666747acafbad553af24ea2ec580441640fc0db1831794cbb604598a19a931b (of `reference/ice.md`) |
 | compiled_by | play-creator (#686) |
 | pipeline_position | none (a loop's member play) |
 | stop_condition | stop-condition.yaml (D1–D2) |

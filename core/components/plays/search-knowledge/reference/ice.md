@@ -40,7 +40,7 @@ inside its rounds (Shared Loop Run, R5c): `/search-knowledge` → `/build-knowle
 
 ## Context
 
-Discovery run 6 (#613, 20 October) left 62 open questions after three rounds; the search part of
+Kickoff run 6 (#613, 20 October) left 62 open questions after three rounds; the search part of
 the old `/build-memory` closed 18 of them from the prototype and memory. Kapil split that play in
 three (ADR 042) and asked that every memory step call the memory tool, never something new.
 

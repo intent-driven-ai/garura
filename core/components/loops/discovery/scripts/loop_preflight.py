@@ -96,6 +96,7 @@ def resolve(cfg, loop, skills_root, plays, branch):
         "runner": get(cfg, "loops", loop, "runner", default="subagent"),
         "checker": {"kind": checker.get("kind", "subagent"), "model": checker.get("model")},
         "evidence_record": bool(evidence),
+        "old_settings": get(cfg, "drives") is not None and get(cfg, "loops", loop) is None,
         "branch": branch,
         "on_default_branch": branch in DEFAULT_BRANCHES,
         "plays": plays,
@@ -107,6 +108,10 @@ def resolve(cfg, loop, skills_root, plays, branch):
 
 def problems(facts):
     out = []
+    if facts.get("old_settings"):
+        out.append(f"the config still has the old `drives:` block and no `loops.{facts['loop']}` block — "
+                   f"rename it to `loops:` (ADR 045: Kickoff is now `discovery`; also rename "
+                   f"`evidence.plays.kickoff` to `evidence.plays.{facts['loop']}`)")
     if facts["missing"]:
         out.append(f"these plays are not installed: {', '.join(facts['missing'])}")
     if facts["no_contract"]:

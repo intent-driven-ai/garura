@@ -49,9 +49,9 @@ Pipeline position: **none**. The last of the three knowledge member plays every 
 
 ## Context
 
-Discovery run 6 (#613, 20 October) relayed 11 questions with example answers; Kapil rejected the
+Kickoff run 6 (#613, 20 October) relayed 11 questions with example answers; Kapil rejected the
 form, as he had on run 5. ADR 042 moves the presentation here. Argus will later show the same
-brief (#680, #664). Discovery run 2 (#689, 21 October): the agent wrote the round-3 brief by
+brief (#680, #664). Kickoff run 2 (#689, 21 October): the agent wrote the round-3 brief by
 hand and never called `write-knowledge-brief`; the check still passed (#692).
 
 ## Expectation

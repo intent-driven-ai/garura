@@ -328,7 +328,7 @@ esac
 """
 
 
-class LaysDrives(unittest.TestCase):
+class LaysLoops(unittest.TestCase):
     """Loops live in core/components/loops/ (#613) and install as skills beside the plays."""
 
     def setUp(self):

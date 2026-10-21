@@ -611,7 +611,7 @@ Inside a loop, a resume keeps `in_loop` from `run.json`.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:a90441a8fe85f87ad97167ea3600cf90ceb7e57f360a4db9f3ceca7980be3feb (of `reference/ice.md`) |
+| fingerprint | sha256:b9ae0721bb038a6199a55ebabfa741e9483d90187286d9bfc226da8312f284f7 (of `reference/ice.md`) |
 | compiled_by | play-editor (#689 ADR 043: business intents only — no ICE, capability or domain); play-editor (#689 the product at the product's level: C17); play-editor (#661 reads no memory; the run lives in its issue); play-editor (#637 one product model with /vision); play-creator (#612) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close; both skipped inside a loop) |
 | position_exception | model-writing both play — writes the intent on its started branch (or the loop's) and commits its own model delta (Step 7) BEFORE the injected end sequence lands it |

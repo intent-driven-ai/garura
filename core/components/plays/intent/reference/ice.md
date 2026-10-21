@@ -203,7 +203,7 @@ play pulls out what the person wants; it never copies how the source does it.
 
 The Business Intent is the person's interface to the product; the product model and the ICE
 built for its parts are the agents' interface (`docs/philosophy/idsd.md`, two interfaces). This
-play writes the person's side only. ADR 043 (21 October, after Discovery run 7) made each Discovery
+play writes the person's side only. ADR 043 (21 October, after Kickoff run 7) made each Discovery
 play write one kind: when `/intent` also drafted the ICE and capabilities, its reading of the
 screens flowed into every play after it, and one wrong intent spread to the whole model. Now
 `/vision` and `/understand` read the screens for their own kinds, and the links between the

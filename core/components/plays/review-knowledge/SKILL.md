@@ -189,7 +189,7 @@ step whose output exists and checks clean; a brief already written is not writte
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:baa9e323ff6f27f628058afd537cdc20655f75ade1a37794804429a88ea1758a (of `reference/ice.md`) |
+| fingerprint | sha256:9a8629438f96556806467d6c3436c2532039dcbd2fd8a675ee3e6cf3815a6399 (of `reference/ice.md`) |
 | compiled_by | play-creator (#686); play-editor (#692) |
 | pipeline_position | none (a loop's member play) |
 | stop_condition | stop-condition.yaml (D1–D2) |
