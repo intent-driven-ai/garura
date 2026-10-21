@@ -1,6 +1,6 @@
 ---
 name: enrich-capability-ice
-description: Detail one capability — seeded by /vision, or seeded by /understand from the person's recorded answers — promote its capability.md from the directional stage to the detailed stage (benefit hypothesis, boundary, guiding rules, functionalities), author a detailed functionality.md grounding doc for each functionality it identifies, set the capability's structured nfr_needs + compliance_needs, and emit the implied per-dimension levels. Grounded in the capability's KB shelf. Generative artifact production for the /understand play. Under direct-model-write (ADR 026) it writes ONLY the per-node docs (capability.md, functionality.md) straight to the live model, and emits every shared-file delta (the spine entry fields, the new functionality entries) as structured data in the enrich-manifest — it NEVER writes _spine.yaml, profile.yaml, or decisions. Use when /understand needs a seeded capability detailed and its functionalities created.
+description: Find the capabilities a prototype's screens show (find mode, ADR 043), or detail one capability — already in the model, seeded from the person's recorded answers, or read off the screens — promote its capability.md from the directional stage to the detailed stage (benefit hypothesis, boundary, guiding rules, functionalities), author a detailed functionality.md grounding doc for each functionality it identifies, set the capability's structured nfr_needs + compliance_needs, and emit the implied per-dimension levels. Grounded in the capability's KB shelf. Generative artifact production for the /understand play. Under direct-model-write (ADR 026) it writes ONLY the per-node docs (capability.md, functionality.md) straight to the live model, and emits every shared-file delta (the spine entry fields, the new functionality entries) as structured data in the enrich-manifest — it NEVER writes _spine.yaml, profile.yaml, or decisions. Use when /understand needs a seeded capability detailed and its functionalities created.
 version: 0.3.0
 user-invocable: false
 model: opus
@@ -9,8 +9,8 @@ allowed-tools: Read, Write, Bash, Glob
 
 # enrich-capability-ice
 
-Takes a capability that /vision seeded — named, directional, no functionalities — and
-**details it**: it deepens the capability's grounding from the directional stage to the
+Takes a capability — one already in the model, one the person named, or one this skill
+reads off a prototype's screens (ADR 043) — and **details it**: it deepens the capability's grounding from the directional stage to the
 detailed stage, **identifies and authors its functionalities**, and sets the capability's
 own NFR needs. This is /understand's generative worker — the **product-manager** step,
 where the product is understood in full down to the functionality. Under direct-model-write
@@ -69,7 +69,9 @@ Everything conforms to its template (`standards/schemas/product-os/grounding/`, 
 
 | Field | Required | Description |
 |-------|----------|-------------|
-| `capability` | yes | The target capability: its id, slug, and the path to its directional `capability.md` in the live model — **or**, for a capability /understand is seeding, the path to `<working>/seed.yaml` with the person's recorded answers (`one_line`, `why`, `domain`, `doc`, `answered_by: human`). |
+| `mode` | no | `find` to list the capabilities a capture's screens show (Find mode, below); absent to detail one capability. |
+| `out_found` | for `find` | Where to write `found.yaml`. |
+| `capability` | yes, to detail | The target capability: its id, slug, and the path to its directional `capability.md` in the live model — **or**, for a capability /understand is seeding, the path to `<working>/seed.yaml` with the person's recorded answers (`one_line`, `why`, `domain`, `doc`, `answered_by: human`). |
 | `kb_domain` | yes | The domain the capability belongs to. |
 | `shelf_path` | yes | That domain's shelf (`knowledge/domains/<kb_domain>.md`), copied into short-term memory by the agent through the memory tool. Read this copy — never memory itself (ADR 039). |
 | `schemas_dir` | yes | The grounding templates, the content standard and the spine schema, copied into short-term memory the same way. |
@@ -77,6 +79,29 @@ Everything conforms to its template (`standards/schemas/product-os/grounding/`, 
 | `product_base` | yes | From config. The live model root: read the existing spine + the capability's current directional doc, and WRITE the detailed `capability.md` and the new `functionality.md` docs in place under `{product_base}product-os/`. Only the target node's docs — never a shared file, never a sibling node's doc. |
 | `manifest_path` | yes | Where to write `enrich-manifest.yaml` (STM, non-model) — carries the spine-delta as structured data for the keyed persist script. |
 | `stm_base` | yes | From config. |
+
+## Find mode — the capabilities a prototype's screens show (ADR 043)
+
+Called with `mode: find`, a `capture` and an `out_found` path (and no `capability`), the
+skill writes no model file. It reads every view of the capture (its text and picture) and
+the journeys, and lists each capability the product offers its user: one per thing a person
+can do or see there, named in the product's words — never one panel or label of a screen,
+never the sample data, never something no screen shows. It reads the spine and lists a
+capability already in the model under its own id (it is detailed, not added twice). For each
+it writes, to `out_found`:
+
+```yaml
+found:
+  - id: <short-slug>
+    one_line: <one sentence: what this capability is>
+    why: <why the product needs it, from the screens and the write-up>
+    domain: <a domain id from the spine when one clearly holds it, else "">
+    intents: [<business intent ids in the model it serves, else empty>]
+    screens: ["<screen>: \"<the exact words there>\"", ...]
+```
+
+A capability with no domain known is fine: it waits in the holding folder, not ready until
+it is attributed. The play then details each one, one dispatch per capability.
 
 ## Procedure
 
@@ -86,14 +111,16 @@ conformance and the content bar are non-negotiable.
 
 1. **Read the directional capability + the shelf.** Read the anchor: the live directional
    `capability.md` (its directional intent), or — when `capability` is a `seed.yaml` — the
-   person's recorded answers, verbatim. Then read the capability's KB shelf at `shelf_path` and pull its personas, systems, NFR hints, scope, and
+   answers it carries, verbatim: the person's (`answered_by: human`) or the screens'
+   (`answered_by: screens`, with the screens it is seen on). Then read the capability's KB shelf at `shelf_path` and pull its personas, systems, NFR hints, scope, and
    functionality baseline. Ground the detail in that material; for a seed, add nothing to
    the person's answers that the shelf does not support.
 
 2. **Write the detailed capability doc, in place.** Promote the live `capability.md` to the
    detailed stage — overwrite it under `{product_base}product-os/`. For a seeded capability
    there is no directional doc yet: write the FIRST `capability.md`, at the detailed stage,
-   at the seed's `doc` path, and set `capability.doc` in the manifest to that path: the benefit hypothesis
+   at the seed's `doc` path (for a capability read off the screens with no domain, the holding
+   folder `capabilities/<id>/capability.md`), and set `capability.doc` in the manifest to that path: the benefit hypothesis
    (who it serves, the believed value, the proof), the boundary (In / Out / Never, each line
    explained), the guiding rules (each with its reason), and the Functionalities index — one
    explained line per functionality, linked to the id you assign it in step 3.

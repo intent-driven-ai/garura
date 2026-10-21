@@ -1,15 +1,19 @@
 ---
 name: understand
 position: both
-description: 'Detail every pending capability in one run — the ones /vision seeded and nobody has detailed yet, or the ones the person names (a capability not yet in the model is seeded thinly here from the person''s answers) — promote each grounding from directional to detailed, create and detail its functionalities, set each capability''s own NFR + compliance needs, and roll all those needs up together into the product profile, firming the box and recording a decision for each capability''s out-of-box move. The product-manager step, the last detailing step. Run by hand it needs no earlier play: it opens one change and lands it on main; handed a drive''s contract, it opens nothing, does not stop at its checkpoint, works on the drive''s branch and leaves one review record per capability — every box-move as its own line, its decision proposed — for the drive''s end review.'
+description: 'Write the product''s capabilities and functionalities, each with its ICE (ADR 043) — read off a prototype''s screens when a capture is given (a capability with no domain yet waits in the holding folder, not ready until attributed), else every pending capability in the model or the ones the person names (a capability not yet in the model is seeded thinly here from the person''s answers) — promote each grounding from directional to detailed, create and detail its functionalities, set each capability''s own NFR + compliance needs, and roll all those needs up together into the product profile, firming the box and recording a decision for each capability''s out-of-box move. The product-manager step, the last detailing step. Run by hand it needs no earlier play: it opens one change and lands it on main; handed a drive''s contract, it opens nothing, does not stop at its checkpoint, works on the drive''s branch and leaves one review record per capability — every box-move as its own line, its decision proposed — for the drive''s end review.'
 user-invocable: true
 ---
 
 # understand
 
-Take the pending capabilities — every one /vision seeded (named, directional, no
-functionalities) that nobody has detailed yet, or the ones the person names, including ones
-not yet in the model — and **detail them all in one run** (#615: one at a time is too slow).
+Write the product's **capabilities and functionalities**, each with its ICE (ADR 043: in
+Kickoff /intent writes the business intents, /vision the domains, /understand the
+capabilities and functionalities). Given a prototype's capture, read the capabilities off the
+screens first — no other play's seed is needed; one with no domain known waits in the
+holding folder, not ready until it is attributed. Then take every target — those, every
+pending (`detail: directional`) capability in the model, or the ones the person names — and
+**detail them all in one run** (#615: one at a time is too slow).
 A capability that is not yet in the model is seeded thinly first, from the person's own
 answers (what it is, why it matters, which existing domain it belongs to), asked for — for
 all of them at once — before any change is opened; its first `capability.md` is written
@@ -93,7 +97,7 @@ on a configured different model) — never the orchestrator's own context.
 | Resolve config + `product_base` (`.garura/core/config.yaml`) | — | Hard halt |
 | Resolve `grounding-eval.judge` (optional model override) | C4 | Default: sub-agent on the session model |
 | Drive contract: when `--contract <file>` is passed, `check_drive_contract.py` accepts it (valid, complete, current branch = the drive's branch) and writes `run.json` | C13/F14 | Hard halt (REC14) |
-| Targets: `pick_targets.py` picks the named capabilities, else every pending (`detail: directional`) one (inside a drive, plus every one the contract seeds); a named `detailed` target → halt; nothing pending → end at once; **absent** targets → ask the person for all of them first (Step 0a), before any change opens | C1/C13/F16 | Ask step, end at once, or hard halt (REC1) |
+| Targets: `pick_targets.py` picks the named capabilities, else every pending (`detail: directional`) one, plus every one the capture's screens show (`--found`, Step 0b) and, inside a drive, every one the contract seeds; a named `detailed` target → halt; nothing pending → end at once; **absent** targets → ask the person for all of them first (Step 0a), before any change opens | C1/C13/F16 | Ask step, end at once, or hard halt (REC1) |
 | **Clean model tree** — right after `start-change` (Step 0), or at once inside a drive, `git status --porcelain -- <product_base>product-os` is empty | C12/F13 | Hard halt (REC13) |
 | **The run's issue** — inside a drive the contract's `issue`; run by hand the issue `start-change` gives at Step 0. Until then, run by hand, the run works in a scratch folder outside `.garura/` | C15/F17 | Hold in the scratch folder (REC17) |
 
@@ -125,11 +129,28 @@ are picked mechanically, right after the drive-contract check below (C1, #615):
 ```
 python3 scripts/pick_targets.py --spine <product_base>product-os/_spine.yaml \
     --run <working>/run.json --working <working> \
-    [--capability <id> ...] --out <working>/targets.json
+    [--capability <id> ...] [--found <working>/found.yaml] --out <working>/targets.json
 ```
 
+**Step 0b — Read the capabilities off the screens (ADR 043, C1/C16)** · Owner:
+`product-os-keeper` · *only when a prototype's capture is given* (the contract's
+`inputs.understand.capture`, or the play argument). Before the pick, dispatch the agent once;
+it invokes `enrich-capability-ice` in find mode and writes nothing to the model:
+
+    { "task":    "list every capability the capture's screens show, with the screens and their words",
+      "inputs":  { "capture": "<the capture: source manifest, journeys, view texts>",
+                   "spine": "<product_base>product-os/_spine.yaml", "mode": "find" },
+      "outputs": { "found": "<working>/found.yaml" },
+      "task_id": "find-capabilities" }
+
+Each one not yet in the spine becomes a `found` target, seeded from that reading
+(`answered_by: screens`): under its domain when one in the spine holds it, else in the
+holding folder `capabilities/<id>/` with its domain empty. One already in the spine is
+detailed as is; one already detailed is `skipped`.
+
 The play argument names the targets (e.g. `/understand checkout refunds`); with none named,
-`targets.json` lists every capability in the spine at `detail: directional`, in spine order.
+`targets.json` lists every capability in the spine at `detail: directional`, in spine order,
+then every `found` one.
 Then apply the policy: `refused` non-empty (a named target is already `detailed`) → halt
 (REC1), it is not re-detailed; `nothing_pending: true` → end at once, opening nothing, and say
 there is nothing to detail; `ask` non-empty → Step 0a asks the person for those, all at once,
@@ -452,15 +473,16 @@ python3 scripts/persist_understand.py \
         $( [ "<run.json in_drive>" = "true" ] && echo --decision-status proposed )
 ```
 
-Pass one `--seed` for each target that was absent (its `caps/<capability>/seed.yaml`).
+Pass one `--seed` for each target that was absent or `found` (its `caps/<capability>/seed.yaml`).
 Inside a drive (C8/C13) pass `--decision-status proposed`: every box-move decision is written
 `proposed`, never `accepted`, because no person says yes inside a drive; the drive's review
 accepts or drops it. The persist runs before the gate resolves, so `in_drive` — not the gate's
 outcome — decides the status.
 
 With its `--seed`, an absent target is first added as a thin seed from the person's answers
-(status `proposed`, `detail: directional`, under the named domain), then promoted like any
-seed; the persist record lists it in `seeded`. Without one, an absent target is refused, and
+(status `proposed`, `detail: directional`, under the named domain) — or, for a `found` target,
+from the screens' reading (`answered_by: screens`, with its intents; under its domain, or in
+the holding folder with its domain empty) — then promoted like any seed; the persist record lists it in `seeded`. Without one, an absent target is refused, and
 an already-detailed target is always refused.
 
 **SE-9 (F8):** there is one product-level decision per box-move, each carrying its
@@ -724,7 +746,9 @@ merged); and the
   over the box, each `from` the starting level; `persist-manifest.json` `changed.capabilities`
   lists the three; one `feat(model)` commit holds the whole delta; the stop-condition verdict
   reads held.
-- **SCE-9 (S9 — product manager, from a prototype):** with a capture given, `sources-check.json`
+- **SCE-9 (S9 — product manager, from a prototype):** with a capture given and no capability in
+  the model, `targets.json` lists a `found` target per capability in `found.yaml`, each with
+  its scope (its domain's folder or `capabilities/<id>/`), and `sources-check.json`
   reads `ok: true` over every target's manifest — each page has `## Sources`, every screen
   quote is on the prototype, no page leaves a question open.
 
@@ -852,8 +876,8 @@ reuses each `<working>/caps/<capability>/seed.yaml` rather than asking again.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:f47fc09633467cd9cb70d6c28b7928c0ebdcc3d70ab7a9965227a905628239e5 (of `reference/ice.md`) |
-| compiled_by | play-editor (#689 the screens decide the functionalities, every page with its sources: C16); play-editor (#661 reads no memory; the run lives in its issue); play-editor (#615 runs inside a drive; one run details every pending capability); play-editor (#616 stands alone); play-editor (#498 direct-model-write, ADR 026); prior: play-editor (#467 Batch B, #466 Batch C) |
+| fingerprint | sha256:96beb9e60151ef767513c797275e0b9a0eea4dba443abd30fcb308d982f444b3 (of `reference/ice.md`) |
+| compiled_by | play-editor (#689 ADR 043: writes the capabilities and functionalities, read off the screens, holding folder when no domain: C1, C2, C16); play-editor (#689 the screens decide the functionalities, every page with its sources: C16); play-editor (#661 reads no memory; the run lives in its issue); play-editor (#615 runs inside a drive; one run details every pending capability); play-editor (#616 stands alone); play-editor (#498 direct-model-write, ADR 026); prior: play-editor (#467 Batch B, #466 Batch C) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close — #616) |
 | position_exception | model-writing both play — writes the model on its own started branch and commits its own model delta (C12) BEFORE the injected end sequence lands it (same shape as /measure and /vision) |
 | workflow_structure | A (single checkpoint carrying box-move approvals — class: standard, conditional gate per gate-config.md #467; direct-model-write WRITE-THEN-REVIEW per ADR 026 — persist + guard + classify before the gate, commit after; stop-condition gated close) |
