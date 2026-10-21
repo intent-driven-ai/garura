@@ -139,7 +139,7 @@ proposed → confirmed (the person who asked confirms it says the right thing) �
 
 ### ICE
 
-**What it is:** The agent's intent for one part of the product — a capability or a functionality: what must be true there, for whom, and how it will be checked. It is what an agent works on, and it is built from a business intent. It starts with the goals a business intent needs; context, outcomes and quality needs are added as the product is shaped. Its capability may exist before that capability has a domain — `/vision` attaches the domain later.
+**What it is:** The agent's intent for one part of the product — a capability or a functionality: what must be true there, for whom, and how it will be checked. It is what an agent works on, and it is built from a business intent. It starts with the goals a business intent needs; context, outcomes and quality needs are added as the product is shaped. Every kind is written on its own (ADR 043): a capability may exist before its domain, and a functionality before its capability; the links are made later.
 **Who reads it:** agent
 **Lives at:** one named section, `## Agent intent (ICE)`, always the last section of its capability's or functionality's grounding doc (`grounding/capability.md`, `grounding/functionality.md`) — labelled lines (Goal, Limit, Fails if, Context, Checked by, Quality need) filled as far as is known; the spine entry's `intents` names the business intents it is built from. The section is expected once that link exists; a linked node without it is a warning for alignment, never a stop, so pages written before v4 still pass.
 
@@ -165,7 +165,7 @@ proposed → confirmed (the person who asked confirms it says the right thing) �
 
 **Rules**
 
-- It is workable only when it is built from at least one confirmed business intent (or one since met). An ICE with no business intent, or only proposed ones, is kept as written but no play plans, breaks down or builds from it; linking it to a confirmed intent makes it workable.
+- It is workable only when it is built from at least one confirmed business intent (or one since met) **and** its node is attributed — a functionality names a capability, and that capability names a domain (ADR 043). An ICE with no business intent, only proposed ones, or a node not yet linked is kept as written, shown as not ready, and no play plans, breaks down or builds from it; making the missing link makes it workable.
 - Writing it is never blocked: any play may write or add to it, inside that play's declared write scope, keeping what is there.
 - It is written at the depth that is known: a light ICE is goals only; a full one has every label.
 - Once aligned, one part of the product has one ICE; two ICE for the same part are drift for alignment to merge.
@@ -181,7 +181,7 @@ proposed → confirmed (the person who asked confirms it says the right thing) �
 > - Context: a guest shopper on mobile, the payment service and the order store; card and wallet are in, saved addresses are out.
 > - Checked by: an end-to-end test in which a guest completes checkout in under two minutes.
 >
-> A light ICE: the last section of `capabilities/harness-steering/capability.md`, written by `/intent` from a prototype, in the holding folder because no domain was known yet. Its spine entry's `intents` names "Know whether the harnesses we build are useful and drive agent autonomy" (confirmed — so it is workable):
+> A light ICE: the last section of `capabilities/harness-steering/capability.md`, written from a prototype, in the holding folder because no domain was known yet (not ready until its domain is linked). Its spine entry's `intents` names "Know whether the harnesses we build are useful and drive agent autonomy" (confirmed — so it is workable):
 >
 > ## Agent intent (ICE)
 > - Goal: For each harness, tell how often an agent finishes its work without a person stepping in.
@@ -201,6 +201,7 @@ proposed → confirmed (the person who asked confirms it says the right thing) �
 - 2026-10-08 — A Source may be a project folder (its written docs are kept; the running app is captured as a second, site Source).
 - 2026-10-09 — v3 (#612): no play owns a kind — any play writes what it finds, in any order; rules say what holds once aligned and never block a write; drift goes to the Alignment drive. Only a person confirms or drops a business intent. The writer rule for ICE is gone. (Where ICE lives and when it is workable: see the next entry, which replaced a first idea of separate ICE files.)
 - 2026-10-09 — Review of #631: "Function" renamed "Functionality" to match the glossary and the spine; any play may write a kind only inside its own declared write scope (`direct-model-write.md`).
+- 2026-10-21 — ADR 043 (#689): every kind is written on its own — a functionality may exist before its capability (holding folder `functionalities/`), as a capability before its domain; an ICE is workable only once its node is attributed up to a domain, as well as built from a confirmed intent. Inside Kickoff each play writes one kind (/intent intents, /vision domains, /understand capabilities and functionalities with their ICE).
 - 2026-10-09 — On review of #631: ICE lives inline in its node's grounding doc (spine v2), never as a separate file; a capability may exist before its domain (`/vision` attaches it); an ICE is workable only when built from a confirmed business intent (spine `intents`) — unlinked ICE is kept, not worked on, never blocked.
 - 2026-10-17 — v4 (#637): one product model that every play writes, at the depth it knows, and nothing waits for another play. ICE now has one named place — `## Agent intent (ICE)`, the last section of a capability's or functionality's page, in labelled lines filled as far as is known; expected once the node names a business intent (missing is a linter warning, so earlier pages still pass). A business intent's touches are kept on its page as a **Touches** list (adds / changes / removes, with links), and the domain's spine entry gains `intents`, so every part an intent touches is linked both ways. A domain page is light (directional) or full (detailed), like a capability's. Design: `.garura/project/issues/637/specs/design.md`.
 - 2026-10-18 — #656: personal names taken out of the Source example and of this Log, so the ontology can live in Phoenix memory for any project. No kind, field or rule changed.

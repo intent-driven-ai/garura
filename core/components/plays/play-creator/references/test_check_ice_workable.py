@@ -43,14 +43,17 @@ def setup(tmp):
                        ("dropped-one", "dropped"), ("met-one", "met")):
         with open(os.path.join(intents, f"{iid}.md"), "w") as fh:
             fh.write(page(stage))
-    spine = {"capabilities": [
-        {"id": "cap-ok", "domain": "", "intents": ["proposed-one", "confirmed-one"]},
+    spine = {"domains": [{"id": "d1"}], "capabilities": [
+        {"id": "cap-ok", "domain": "d1", "intents": ["proposed-one", "confirmed-one"]},
+        {"id": "cap-loose", "domain": "", "intents": ["confirmed-one"]},
         {"id": "cap-none", "domain": "d1"},
         {"id": "cap-proposed", "domain": "d1", "intents": ["proposed-one"]},
         {"id": "cap-dropped", "domain": "d1", "intents": ["dropped-one"]},
         {"id": "cap-missing", "domain": "d1", "intents": ["no-such-intent"]},
         {"id": "cap-met", "domain": "d1", "intents": ["met-one"]}],
-        "functionalities": [{"id": "fn-ok", "capability": "cap-ok", "intents": ["confirmed-one"]}]}
+        "functionalities": [{"id": "fn-ok", "capability": "cap-ok", "intents": ["confirmed-one"]},
+                            {"id": "fn-loose", "capability": "", "intents": ["confirmed-one"]},
+                            {"id": "fn-under-loose", "capability": "cap-loose", "intents": ["confirmed-one"]}]}
     path = os.path.join(tmp, "_spine.yaml")
     with open(path, "w") as fh:
         yaml.safe_dump(spine, fh)
@@ -68,13 +71,18 @@ def main():
         for node, label in (("cap-none", "no intent at all"), ("cap-proposed", "only a proposed intent"),
                             ("cap-dropped", "only a dropped intent"), ("cap-missing", "an intent with no page")):
             check(f"{label} is kept but not workable", cw.main(args + ["--node", node]) == 1)
+        for node, label in (("cap-loose", "a capability with no domain"),
+                            ("fn-loose", "a functionality with no capability"),
+                            ("fn-under-loose", "a functionality whose capability has no domain")):
+            check(f"{label} is kept but not ready, even from a confirmed intent (ADR 043)",
+                  cw.main(args + ["--node", node]) == 1)
         check("an unknown node is an error, not a pass", cw.main(args + ["--node", "nope"]) == 2)
         out = os.path.join(tmp, "r.json")
         check("the full report runs and exits 0", cw.main(args + ["--out", out]) == 0)
         import json
         with open(out) as fh:
             r = json.load(fh)
-        check("the report counts workable and not workable", r["workable"] == 3 and r["not_workable"] == 4)
+        check("the report counts workable and not workable", r["workable"] == 3 and r["not_workable"] == 7)
         bad = os.path.join(tmp, "bad.yaml")
         with open(bad, "w") as fh:
             fh.write("- not a mapping\n")

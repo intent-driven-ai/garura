@@ -551,8 +551,9 @@ def test_persist():
         lg.check_spine(model, os.path.join(model, "_spine.yaml"), errors, warnings, {})
         check("the grounding linter passes; 'no domain yet' is only a warning",
               not errors and warnings and all("no domain yet" in w for w in warnings))
-        check("every capability it wrote is workable (its intent is confirmed)",
-              all(n["workable"] for n in cw.check(spine_of(tmp), os.path.join(model, "intents"))))
+        nodes = cw.check(spine_of(tmp), os.path.join(model, "intents"))
+        check("a capability waiting for its domain is not ready yet, though its intent is confirmed (ADR 043)",
+              nodes and all(not n["workable"] and not n["attributed"] for n in nodes))
         with open(intent_file(tmp, "grow-online-sales")) as fh:
             body = fh.read()
         check("the intent page names every source and its capabilities",

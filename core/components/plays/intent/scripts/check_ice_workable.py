@@ -6,7 +6,9 @@ entry names, in `intents`, the business intents it is built from. The ICE is WOR
 when at least one of those intents is confirmed — its page under `product-os/intents/<id>.md`
 reads `**Stage:** confirmed`, or `met` (a met intent was confirmed first and its proof now
 holds; work that keeps it met is still wanted). An ICE with no intent, or only proposed or
-dropped ones, is kept as written but no play plans, breaks down or builds from it. Writing is never blocked;
+dropped ones, is kept as written but no play plans, breaks down or builds from it. It must
+also be attributed (ADR 043): a capability names a domain in the spine, and a functionality
+names a capability that names a domain. A node not yet attributed is kept, not ready. Writing is never blocked;
 this check stops work, not writes.
 
 Canonical copy for play-creator: a play that works on ICE (plans, breaks down or builds
@@ -42,7 +44,23 @@ def stage_of(intents_dir, iid):
     return m.group(1).lower() if m else "unknown"
 
 
-def assess(entry, kind, intents_dir):
+def attributed(entry, kind, spine):
+    """ADR 043: the node is linked up to a domain that exists. Returns (ok, why-not)."""
+    domains = {d.get("id") for d in spine.get("domains") or [] if isinstance(d, dict)}
+    caps = {c.get("id"): c for c in spine.get("capabilities") or [] if isinstance(c, dict)}
+    cap = entry if kind == "capability" else caps.get(entry.get("capability"))
+    if kind == "functionality" and not entry.get("capability"):
+        return False, "no capability yet"
+    if cap is None:
+        return False, f"its capability `{entry.get('capability')}` is not in the spine"
+    if not cap.get("domain"):
+        return False, "no domain yet" if kind == "capability" else f"its capability `{cap.get('id')}` has no domain yet"
+    if cap.get("domain") not in domains:
+        return False, f"domain `{cap.get('domain')}` is not in the spine"
+    return True, ""
+
+
+def assess(entry, kind, intents_dir, spine=None):
     named = [str(i) for i in (entry.get("intents") or []) if str(i).strip()]
     stages = {i: stage_of(intents_dir, i) for i in named}
     confirmed = [i for i, st in stages.items() if st in WORKABLE_STAGES]
@@ -53,8 +71,11 @@ def assess(entry, kind, intents_dir):
     else:
         reason = "no confirmed business intent (" + ", ".join(
             f"{i}: {st or 'missing'}" for i, st in stages.items()) + ") — kept, not worked on"
-    return {"id": entry.get("id"), "kind": kind, "intents": stages,
-            "workable": bool(confirmed), "reason": reason}
+    linked, why_not = attributed(entry, kind, spine or {})
+    if not linked:
+        reason = f"not attributed ({why_not}) — kept, not ready; " + reason
+    return {"id": entry.get("id"), "kind": kind, "intents": stages, "attributed": linked,
+            "workable": bool(confirmed) and linked, "reason": reason}
 
 
 def check(spine, intents_dir):
@@ -62,7 +83,7 @@ def check(spine, intents_dir):
     for section, kind in (("capabilities", "capability"), ("functionalities", "functionality")):
         for entry in spine.get(section) or []:
             if isinstance(entry, dict):
-                nodes.append(assess(entry, kind, intents_dir))
+                nodes.append(assess(entry, kind, intents_dir, spine))
     return nodes
 
 

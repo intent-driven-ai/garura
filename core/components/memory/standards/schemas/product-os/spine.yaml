@@ -100,7 +100,9 @@ capabilities:
 functionalities:
   - id: string
     slug: string
-    capability: string    # parent CAPABILITY id — REQUIRED (the named relation)
+    capability: string    # parent CAPABILITY id — the named relation. May be empty while
+                          # proposed: a functionality is written on its own (ADR 043), in the
+                          # holding folder, and is not ready until it is attributed.
     intents: [string]     # business intent ids its ICE is built from (as on capabilities)
     status: string        # proposed | active | deprecated
     one_line: string
@@ -112,11 +114,12 @@ functionalities:
       updated_by: string
       version: integer
 
-# Tree rules: exactly three levels, in this order. A domain has no parent; every
-# functionality names a capability that exists. A capability names a domain once it is
-# aligned — one with no domain yet is allowed (the linter warns; /vision attaches it); a
-# domain that is named but does not exist is an error. The linter enforces that every
-# named parent ref resolves.
+# Tree rules (ADR 043): every kind is written on its own; the links are made later. A domain
+# has no parent. A capability names a domain, and a functionality names a capability, once
+# it is attributed — one with no parent yet is allowed (the linter warns) and is kept, not
+# ready: no play works on it until it is linked functionality -> capability -> domain and
+# its ICE to a confirmed business intent (check_ice_workable.py). A parent that is named
+# but does not exist is an error. The linter enforces that every named parent ref resolves.
 
 # ---- The profile: THE BOX (structured; lives in the spine) ------------------
 # Decision: the profile is structured machine data — levels + gates — so it stays in
@@ -229,9 +232,11 @@ fill_rules:
 #   _spine.yaml                                  # THIS file's instance — the map
 #   intents/{intent}.md                          # business intent pages (ontology v3, /intent)
 #   capabilities/{capability}/capability.md      # holding folder: a capability whose domain is
-#                                                #   not known yet (/intent, when it cannot tell
-#                                                #   one); /vision attaches the domain and moves
-#                                                #   the doc under {domain}/
+#                                                #   not known yet; once attributed, its doc
+#                                                #   moves under {domain}/
+#   functionalities/{functionality}/functionality.md  # holding folder (ADR 043): a functionality
+#                                                #   whose capability is not known yet; once
+#                                                #   attributed, its doc moves under its capability
 #   {domain}/
 #     domain.md                                  # grounding (domain template)
 #     {capability}/

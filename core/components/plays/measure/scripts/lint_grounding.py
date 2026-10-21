@@ -353,10 +353,12 @@ def check_spine(root, spine_path, errors, warnings, counts):
                 errors.append(f"spine {kind} '{eid}': missing one_line descriptor")
             if parent_field:
                 pref = e.get(parent_field)
-                if not pref and kind == "capability":
-                    # ontology v3: a capability may be written before its domain exists;
-                    # /vision attaches it. Missing is alignment work, not a broken link.
-                    warnings.append(f"spine capability '{eid}': no domain yet — /vision attaches it")
+                if not pref and kind in ("capability", "functionality"):
+                    # ADR 043: every kind is written on its own. A capability may wait for its
+                    # domain and a functionality for its capability; it is kept, not ready,
+                    # until it is attributed. Missing is a gap to close, not a broken link.
+                    warnings.append(f"spine {kind} '{eid}': no {parent_field} yet — not ready until "
+                                    f"it is attributed (ADR 043)")
                 elif not pref:
                     errors.append(f"spine {kind} '{eid}': missing '{parent_field}' parent ref")
                 elif pref not in parent_ids:
