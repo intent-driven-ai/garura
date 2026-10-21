@@ -49,3 +49,4 @@ may have no Status line.
 | [041](041-a-drive-runs-in-rounds-and-owns-its-questions.md) | A Drive Runs Its Plays in Rounds, Owns the Questions No Play Can Answer, and Builds the Missing Memory Before It Asks | Accepted | 2026-10-20 |
 | [042](042-a-drive-finds-builds-and-reviews-the-knowledge-it-lacks.md) | A Drive Finds, Builds and Reviews the Knowledge It Lacks, and Briefs the Person Instead of Asking | Accepted | 2026-10-20 |
 | [043](043-kickoff-plays-read-independently-and-the-drive-closes-the-loop.md) | The Kickoff Drive's Plays Read the Prototype on Their Own, Any Node Is Written Without Its Parent, and the Drive Connects the Nodes and Closes the Loop | Accepted | 2026-10-21 |
+| [044](044-the-shared-drive-run-owns-the-steps-between-plays.md) | The Shared Drive Run Owns the Steps Between Plays, and Inside a Drive the Gap-Closing Script May Write Shared Model Files | Accepted | 2026-10-21 |
