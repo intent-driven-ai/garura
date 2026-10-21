@@ -1,0 +1,88 @@
+categories:
+  - name: harness
+    playbook: review/harness
+    design_bearing: true
+    paths:
+      - core/components/agents/*.md
+      - core/components/loops/** (SKILL.md, reference/ice.md, stop-condition.yaml, _shared/loop-run.md; scripts are listed under executable-code)
+      - core/components/plays/**/SKILL.md
+      - core/components/plays/**/reference/ice.md
+      - core/components/plays/**/stop-condition.yaml
+      - core/components/plays/_shared/play-close.md
+      - core/components/plays/loop-creator/references/compiled-loop-example/SKILL.md
+      - core/components/skills/*/SKILL.md
+      - core/components/skills/judge-loop-result/verdict.schema.json
+      - core/grounding/glossary.md
+  - name: memory
+    playbook: review/memory
+    design_bearing: true
+    paths:
+      - core/components/memory/knowledge/domains/marketing.md
+      - core/components/memory/standards/rules/*.md
+      - core/components/memory/standards/schemas/product-os/ontology.md
+      - core/components/memory/standards/schemas/product-os/spine.yaml
+      - core/components/memory/standards/templates/adr.md
+      - core/components/memory/standards/templates/work-plan.md
+  - name: decision-records
+    playbook: review/adrs
+    design_bearing: false
+    paths:
+      - docs/adr/028-agentic-lifecycle-five-loops.md
+      - docs/adr/029-drives.md
+      - docs/adr/044-the-shared-drive-run-owns-the-steps-between-plays.md
+      - docs/adr/045-a-drive-is-now-called-a-loop.md
+      - docs/adr/_index.md
+  - name: documentation
+    playbook: review/docs
+    design_bearing: false
+    paths:
+      - README.md
+      - docs/components/*.md (agents, loops, memory, plays, skills)
+      - docs/philosophy/*.md (architecture, idsd, intent-driven-development)
+      - core/tools/rebuild-eval/README.md
+  - name: config-maps
+    playbook: review/config-maps
+    design_bearing: false
+    paths:
+      - CLAUDE.md
+      - core/config.yaml
+      - core/tools/memory/contract/v4.json
+      - core/tools/memory/contract/v5.json
+  - name: executable-code
+    playbook: review/code
+    design_bearing: false
+    paths:
+      - core/components/loops/discovery/scripts/*.py
+      - core/components/plays/*/scripts/**/*.py
+      - core/components/plays/loop-creator/references/**/*.py
+      - core/components/plays/play-creator/references/*.py
+      - core/components/skills/*/scripts/*.py
+      - core/tools/lint-components/lib/discover.js
+      - core/tools/lint-components/lib/rules/structural.js
+      - core/tools/rebuild-eval/*.py
+      - installer/install.sh
+  - name: tests
+    playbook: review/tests
+    design_bearing: false
+    paths:
+      - core/components/loops/discovery/scripts/test_discovery_scripts.py
+      - core/components/plays/adr/scripts/test_apply_adr.py
+      - core/components/plays/install-garura/scripts/test_install.py
+      - core/components/plays/intent/scripts/test_intent_scripts.py
+      - core/components/plays/loop-creator/references/test_lint_loop.py
+      - core/components/plays/loop-creator/references/test_loop_scripts.py
+      - core/components/plays/play-creator/references/test_gate_learning.py
+      - core/components/plays/play-creator/references/test_loop_contract.py
+      - core/components/plays/review-knowledge/scripts/test_review_knowledge_scripts.py
+      - core/components/plays/search-knowledge/scripts/test_search_knowledge_scripts.py
+      - core/components/plays/understand/scripts/test_persist_understand.py
+      - core/components/plays/understand/scripts/test_pick_targets.py
+      - core/components/plays/vision/scripts/test_vision_scripts.py
+      - core/tools/rebuild-eval/test_rebuild_eval.py
+  - name: run-artifacts (short-term memory records of the work session)
+    playbook: null
+    note: "playbook missing - recorded run output under .garura/project/issues/698/context/ and .garura/project/issues/_adr/20261021-162722/ (analysis, branch, commits, PR body, decision, draft, guard report, hashes, manifest); no review playbook covers it"
+    design_bearing: false
+    paths:
+      - .garura/project/issues/698/context/*
+      - .garura/project/issues/_adr/20261021-162722/*

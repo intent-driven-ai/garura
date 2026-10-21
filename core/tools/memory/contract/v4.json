@@ -826,7 +826,7 @@
       }
     },
     "citations": {
-      "summary": "List the decision records of one issue (optionally of one play), each with its trace. With check, read every step's source again: a record with no trace, a source whose file or lines are gone, and a source whose text no longer matches its fingerprint are each a problem, named by its step. A drive's review shows these records, so the person sees each step a decision rested on.",
+      "summary": "List the decision records of one issue (optionally of one play), each with its trace. With check, read every step's source again: a record with no trace, a source whose file or lines are gone, and a source whose text no longer matches its fingerprint are each a problem, named by its step. A loop's review shows these records, so the person sees each step a decision rested on.",
       "request": {
         "type": "object",
         "properties": {

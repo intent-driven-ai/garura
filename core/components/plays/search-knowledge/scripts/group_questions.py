@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-"""group_questions.py — merge a drive's open questions into what is actually being asked (/search-knowledge).
+"""group_questions.py — merge a loop's open questions into what is actually being asked (/search-knowledge).
 
-A drive's round can leave dozens of open questions that are a few questions asked again: the
+A loop's round can leave dozens of open questions that are a few questions asked again: the
 same business proof once per intent and once per play, the same speed target once per
 capability (#613: 82 questions, the proof asked 15 times, speed 11, who may approve 8). This
 script gathers every open question of the round and makes a first, mechanical grouping; the
 knowledge-builder agent then confirms, splits or joins groups by judgment.
 
-Sources (the drive contract's places, ADR 039 — all in the issue's short-term memory):
+Sources (the loop contract's places, ADR 039 — all in the issue's short-term memory):
   <review_dir>/open-<play>.json        {"play", "questions": [{"id", "ask", "about", ...}]}
   the issue's memory updates still `waiting` — asked of the memory tool (`updates`), never read
   from their files
@@ -126,7 +126,7 @@ def group(qs):
 
 
 def main(argv=None):
-    ap = argparse.ArgumentParser(description="Group a drive's open questions.")
+    ap = argparse.ArgumentParser(description="Group a loop's open questions.")
     ap.add_argument("--review-dir", required=True)
     ap.add_argument("--issue", required=True)
     ap.add_argument("--memory-tool", default=".garura/core/tools/memory/memory.py")

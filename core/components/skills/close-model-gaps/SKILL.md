@@ -1,6 +1,6 @@
 ---
 name: close-model-gaps
-description: Close the gaps in the product model that the model itself can close, from the gaps.json find-model-gaps wrote — attribute each loose node to its parent (a capability to its domain, a functionality to its capability), moving a holding-folder page under its parent unchanged; link nodes to the business intents they serve on both sides (the spine and the intent page's Touches list); and merge two nodes agreed to be the same thing. It writes no new page and no intent content, and deletes only a merged duplicate. What needs a play — a capability with no functionalities, a screen no node covers — is handed back as the work list for the drive. Its script does all of it mechanically. Used by the shared drive run after find-model-gaps, through product-os-keeper; later plays that fix the model's gaps can reuse it.
+description: Close the gaps in the product model that the model itself can close, from the gaps.json find-model-gaps wrote — attribute each loose node to its parent (a capability to its domain, a functionality to its capability), moving a holding-folder page under its parent unchanged; link nodes to the business intents they serve on both sides (the spine and the intent page's Touches list); and merge two nodes agreed to be the same thing. It writes no new page and no intent content, and deletes only a merged duplicate. What needs a play — a capability with no functionalities, a screen no node covers — is handed back as the work list for the loop. Its script does all of it mechanically. Used by the shared loop run after find-model-gaps, through product-os-keeper; later plays that fix the model's gaps can reuse it.
 user-invocable: false
 model: sonnet
 allowed-tools: Read, Bash
@@ -37,16 +37,16 @@ judgment was made in `gaps.json`.
    through `intent_touches.py`).
 2. **Read the report.** `applied` lists what changed; `skipped` lists each link it refused
    and why (a parent not in the spine, a node already under another parent — moving it is
-   alignment work); `work_for_plays` is the work list for the drive, unchanged from
+   alignment work); `work_for_plays` is the work list for the loop, unchanged from
    `gaps.json`.
-3. **Return the report's path.** The drive runs the plays the work list names in its next
+3. **Return the report's path.** The loop runs the plays the work list names in its next
    round.
 
 ## Output
 
 `close-report.json`, at `out`: `applied` (each change made), `skipped` (each link refused,
 with why, including any that would write outside the product model), `changed` (every file it
-touched, relative to `product-os/`) and `work_for_plays` (the work list for the drive,
+touched, relative to `product-os/`) and `work_for_plays` (the work list for the loop,
 unchanged from `gaps.json`).
 
 ## Rules

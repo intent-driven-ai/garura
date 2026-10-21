@@ -113,9 +113,9 @@ def derive_source_root(explicit):
 # where each host tool installs components, for garura's own config.yaml pointers
 _COMPONENT_PATHS = {
     "claude": {"skills": "./.claude/skills/", "plays": "./.claude/skills/",
-               "drives": "./.claude/skills/", "agents": "./.claude/agents/"},
+               "loops": "./.claude/skills/", "agents": "./.claude/agents/"},
     "codex": {"skills": "./.agents/skills/", "plays": "./.agents/skills/",
-              "drives": "./.agents/skills/", "agents": "./.agents/skills/"},
+              "loops": "./.agents/skills/", "agents": "./.agents/skills/"},
 }
 
 
@@ -142,7 +142,7 @@ def transform_config(content, project_name, tool):
         line = re.sub(r"^(\s*type:\s*).+$", r"\1Project", line)
         line = re.sub(r"^(\s*skills:\s*).+$", r"\1" + cp["skills"], line)
         line = re.sub(r"^(\s*plays:\s*).+$", r"\1" + cp["plays"], line)
-        line = re.sub(r"^(\s*drives:\s*).+$", r"\1" + cp["drives"], line)
+        line = re.sub(r"^(\s*loops:\s*).+$", r"\1" + cp["loops"], line)
         line = re.sub(r"^(\s*agents:\s*).+$", r"\1" + cp["agents"], line)
         out_lines.append(line)
     text = "\n".join(out_lines)
@@ -188,7 +188,7 @@ def portable(path):
 # garura itself. A product project's ADLC has no use for them, so no target ever
 # receives them under `full`. (`harness` is an explicit allow-list and names the
 # two it does want.)
-META_PLAYS = {"play-creator", "play-editor", "drive-creator", "drive-editor",
+META_PLAYS = {"play-creator", "play-editor", "loop-creator", "loop-editor",
               "install-garura", "uninstall-garura"}
 # Meta-utility skills are the same kind of build tooling, packaged as a skill: a person
 # invokes them in a harness repo to build garura itself. Never installed under `full`.
@@ -199,8 +199,8 @@ SCOPES = {
     "harness": {
         "plays": {
             "play-creator", "play-editor",
-            # drives are built and changed the same way as plays (#613)
-            "drive-creator", "drive-editor",
+            # loops are built and changed the same way as plays (#613)
+            "loop-creator", "loop-editor",
             "start-change", "commit-change", "propose-change",
             "review-change", "merge-change",
             # focus is harness-class: it reads the HOST REPO's issue tracker, so it
@@ -211,8 +211,8 @@ SCOPES = {
             # Its workers: adr-keeper + author-adr, and the change chain already kept.
             "adr",
         },
-        # a harness repo builds drives but runs none: no product drive installs there
-        "drives": set(),
+        # a harness repo builds loops but runs none: no product loop installs there
+        "loops": set(),
         "skills": {
             "analyze-changes", "analyze-pr", "create-commit", "manage-issue",
             "merge-pr", "platform-adapter", "quality-check-scoped",
@@ -243,7 +243,7 @@ def resolve_scope(scope, components):
     plays = set(os.listdir(plays_dir)) if os.path.isdir(plays_dir) else set()
     skills_dir = os.path.join(components, "skills")
     skills = set(os.listdir(skills_dir)) if os.path.isdir(skills_dir) else set()
-    return {"plays": plays - META_PLAYS, "drives": None,
+    return {"plays": plays - META_PLAYS, "loops": None,
             "skills": skills - META_SKILLS, "agents": None}
 
 
@@ -409,14 +409,14 @@ def main(argv=None):
     write_manifest(target, record, args.quiet)
 
     c = record["counts"]
-    n = c.get("skills", 0) + c.get("plays", 0) + c.get("drives", 0)
+    n = c.get("skills", 0) + c.get("plays", 0) + c.get("loops", 0)
     retired = f", retired {len(record['retired'])} stale" if record["retired"] else ""
     if not record["memory_system"]["check"]["ok"]:
         sys.stderr.write("install.py: installed, but the memory check failed (see above) — "
                          "the project's agents cannot use memory until it is fixed\n")
         sys.exit(1)
     info(args.quiet, f"\ndone — installed {c.get('agents', 0)} agent(s) and "
-                     f"{n} skill/play/drive(s){retired} into {target} for {args.tool}")
+                     f"{n} skill/play/loop(s){retired} into {target} for {args.tool}")
 
 
 if __name__ == "__main__":

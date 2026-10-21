@@ -23,7 +23,7 @@ github:
 components:
   skills: ./core/components/skills/
   plays: ./core/components/plays/
-  drives: ./core/components/drives/
+  loops: ./core/components/loops/
   agents: ./core/components/agents/
 
 # Claude Code derived locations (populated by /sud:install)
@@ -98,21 +98,21 @@ review-pr:
 craft-ice:
   hitl: true
 
-# Drives (ADR 029, #613) — one block per drive, written by /drive-creator. `runner` is how
+# Loops (ADR 029, #613) — one block per loop, written by /loop-creator. `runner` is how
 # each play runs (subagent | headless); `checker` is who checks the result (kind: subagent |
 # coding-agent). A subagent checker must name its model, one other than the session's (e.g.
 # sonnet when the session runs opus); a coding-agent checker is Codex — name a model your
-# Codex account allows (its own default may not be). A drive always records its evidence:
-# /drive-creator also sets evidence.plays.<drive>: true below.
-#drives:
-#  <drive>:
+# Codex account allows (its own default may not be). A loop always records its evidence:
+# /loop-creator also sets evidence.plays.<loop>: true below.
+#loops:
+#  <loop>:
 #    runner: subagent
 #    checker:
 #      kind: subagent         # or coding-agent
 #      model: sonnet          # coding-agent: a Codex model, e.g. gpt-5.6-terra
 
-drives:
-  kickoff:
+loops:
+  discovery:
     runner: subagent
     max_rounds: 3           # the most rounds of intent -> vision -> understand before it asks
     checker:
@@ -123,7 +123,7 @@ drives:
 evidence:
   record: false
   plays:
-    kickoff: true           # a drive always records its evidence (ADR 029)
+    discovery: true           # a loop always records its evidence (ADR 029)
 
 # Grounding eval — the content-quality judge over product-model grounding docs
 # (domain/capability/functionality/epic). The linter (lint_grounding.py) checks shape;
@@ -202,7 +202,7 @@ gates:
   conditional:
     streak: 3                                # clean approvals a shape needs to earn auto
     # each issue keeps its own gate history; {issue} is the run's issue, filled by gate_eval.py
-    # (the issue ID governs — rules/drive-contract.md; ADR 039). The learner reads every issue's
+    # (the issue ID governs — rules/loop-contract.md; ADR 039). The learner reads every issue's
     # ledger to write the one project policy (gate-config.md, "Where the history and the policy live").
     ledger: .garura/project/issues/{issue}/review/gate-evals.jsonl  # live-eval ledger (append-only, committed)
     policy: .garura/core/gate-policy.yaml    # learned per-project policy (distilled)

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""check_output.py — the static check of a drive's output against its prototype.
+"""check_output.py — the static check of a loop's output against its prototype.
 
     python3 check_output.py --brief <run>/brief --prototype <argus.html> \
         [--prototype-text <captured text>]... --out <run>/check.json
@@ -7,7 +7,7 @@
 What a script can check without judgement:
 
 - **Intents** — each has its Outcome, Why, Asked by, Proof it is met and Sources, none blank,
-  and the proof is not left open (`open`, "the drive asks …", "to be confirmed").
+  and the proof is not left open (`open`, "the loop asks …", "to be confirmed").
 - **Domain** — its page names research sources: at least one web link under a Sources heading
   or field. A domain with none was not found by research.
 - **Capabilities and functionalities** — each page says where on the prototype it is seen
@@ -30,7 +30,7 @@ import re
 import sys
 
 INTENT_FIELDS = ("Outcome", "Why", "Asked by", "Proof it is met", "Sources")
-OPEN_PROOF = re.compile(r"^\s*(open\b|tbd\b|to be (confirmed|decided)|unknown\b|n/?a\b)|the drive asks", re.I)
+OPEN_PROOF = re.compile(r"^\s*(open\b|tbd\b|to be (confirmed|decided)|unknown\b|n/?a\b)|the loop asks", re.I)
 FIELD = re.compile(r"^\*\*(.+?):\*\*\s*(.*)$")
 SOURCE_HEAD = re.compile(r"^##\s+(seen on the prototype|sources?|where it is seen)\b", re.I)
 SOURCE_FIELD = re.compile(r"^\*\*(source|sources|seen on the prototype):\*\*", re.I)
@@ -140,7 +140,7 @@ def check(brief, prototype_text):
 
 
 def main(argv=None):
-    ap = argparse.ArgumentParser(description="Check a drive's output against its prototype.")
+    ap = argparse.ArgumentParser(description="Check a loop's output against its prototype.")
     ap.add_argument("--brief", required=True)
     ap.add_argument("--prototype", required=True, help="the prototype file (its text is searched)")
     ap.add_argument("--prototype-text", action="append", default=[],

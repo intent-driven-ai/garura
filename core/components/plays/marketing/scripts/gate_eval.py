@@ -16,11 +16,11 @@ lines are never edited — a later correction is a NEW line pointing at the one 
 `--ts` is REQUIRED on append — the caller passes the run's own timestamp so the script
 stays replay-deterministic (no wall-clock reads here).
 
-human ∈ approved_clean | approved_edited | rejected | auto_pass | deferred_to_drive_review
+human ∈ approved_clean | approved_edited | rejected | auto_pass | deferred_to_loop_review
 predicted ∈ gate | auto
 
-`deferred_to_drive_review` (#614, `standards/rules/drive-contract.md`): the gate would have
-stopped, but the play ran inside a drive, so no person answered at that moment — the drive's
+`deferred_to_loop_review` (#614, `standards/rules/loop-contract.md`): the gate would have
+stopped, but the play ran inside a loop, so no person answered at that moment — the loop's
 end review will. It pairs with `predicted gate` only; the learner skips it.
 """
 
@@ -29,7 +29,7 @@ import json
 import os
 import sys
 
-HUMAN = {"approved_clean", "approved_edited", "rejected", "auto_pass", "deferred_to_drive_review"}
+HUMAN = {"approved_clean", "approved_edited", "rejected", "auto_pass", "deferred_to_loop_review"}
 PREDICTED = {"gate", "auto"}
 
 
@@ -72,8 +72,8 @@ def cmd_append(args):
         fail(f"human must be one of {sorted(HUMAN)}")
     if args.predicted not in PREDICTED:
         fail(f"predicted must be one of {sorted(PREDICTED)}")
-    if args.human == "deferred_to_drive_review" and (args.predicted != "gate" or args.refutes):
-        fail("deferred_to_drive_review pairs with predicted=gate and is never a correction")
+    if args.human == "deferred_to_loop_review" and (args.predicted != "gate" or args.refutes):
+        fail("deferred_to_loop_review pairs with predicted=gate and is never a correction")
     if (args.human == "auto_pass") != (args.predicted == "auto") and not args.refutes:
         fail(
             "auto_pass pairs with predicted=auto (and vice versa) except on corrections"

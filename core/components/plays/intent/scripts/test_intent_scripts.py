@@ -338,7 +338,7 @@ def test_check():
     check("a missing proof is the play's to draft, not the person's (C17)",
           any("`proof` is empty" in p for p in r["problems"]) and not r["person_only"])
     bad = fresh()
-    bad["intents"][0]["proof"] = "open — the drive asks this; nothing is filled in until it is answered"
+    bad["intents"][0]["proof"] = "open — the loop asks this; nothing is filled in until it is answered"
     check("a proof left open is caught (C17)", any("`proof` is left open" in p for p in ci.check(bad)["problems"]))
     bad = fresh()
     bad["questions"].append({"intent": "all", "ask": "How will you know each intent is met?",
@@ -518,17 +518,17 @@ def test_persist():
     with tempfile.TemporaryDirectory() as tmp:
         argv, working, dirs = persist_setup(tmp, both())
         i = argv.index("--confirmation")
-        drive = argv[:i] + argv[i + 2:] + ["--proposed", "--at", "2026-10-09"]
-        check("inside a drive every intent is saved as proposed, with no confirmation file",
-              pi.main(drive) == 0)
+        loop = argv[:i] + argv[i + 2:] + ["--proposed", "--at", "2026-10-09"]
+        check("inside a loop every intent is saved as proposed, with no confirmation file",
+              pi.main(loop) == 0)
         m = read_json(os.path.join(working, "intent-manifest.json"))
         with open(intent_file(tmp, "grow-online-sales")) as fh:
             body = fh.read()
-        check("the drive run is decided, its stage proposed, and the page says so",
+        check("the loop run is decided, its stage proposed, and the page says so",
               m["decided"] and m["stage"] == "proposed" and "**Stage:** proposed" in body
               and "final review" in body)
-    # inside a drive (C16): a gap is saved open when the draft names its question; the questions
-    # go to the drive; a later round updates only the intents this drive saved
+    # inside a loop (C16): a gap is saved open when the draft names its question; the questions
+    # go to the loop; a later round updates only the intents this loop saved
     with tempfile.TemporaryDirectory() as tmp:
         argv, working, dirs = persist_setup(tmp, both())
         draft_path = argv[argv.index("--draft") + 1]
@@ -541,15 +541,15 @@ def test_persist():
             yaml.safe_dump(draft, fh)
         i = argv.index("--confirmation")
         open_out = os.path.join(tmp, "review", "open-intent.json")
-        drive = argv[:i] + argv[i + 2:] + ["--proposed", "--at", "2026-10-20", "--drive-run-id", "kickoff-1",
+        loop = argv[:i] + argv[i + 2:] + ["--proposed", "--at", "2026-10-20", "--loop-run-id", "discovery-1",
                                            "--open-out", open_out]
-        check("inside a drive a gap with its question is saved as open", pi.main(drive) == 0)
+        check("inside a loop a gap with its question is saved as open", pi.main(loop) == 0)
         with open(intent_file(tmp, "grow-online-sales")) as fh:
             body = fh.read()
-        check("the page names the gap as open and the drive that saved it",
-              "**Outcome:** open" in body and "(drive kickoff-1)" in body)
+        check("the page names the gap as open and the loop that saved it",
+              "**Outcome:** open" in body and "(loop discovery-1)" in body)
         q = read_json(open_out)["questions"]
-        check("the open question goes to the drive with what it is about and its examples",
+        check("the open question goes to the loop with what it is about and its examples",
               len(q) == 1 and q[0]["about"] and q[0]["blocks"] == ["grow-online-sales:outcome"]
               and q[0]["examples"] and q[0]["for_person"])
         draft["intents"][0]["outcome"] = "Online orders pass shop orders"
@@ -557,33 +557,33 @@ def test_persist():
         draft["questions"] = []
         with open(draft_path, "w") as fh:
             yaml.safe_dump(draft, fh)
-        check("a second save without --update-proposed is refused", pi.main(drive) == 2)
+        check("a second save without --update-proposed is refused", pi.main(loop) == 2)
         page = intent_file(tmp, "grow-online-sales")
         with open(page) as fh:
             linked = fh.read().replace("**What was done:**",
                                        "**Touches:**\n- [Checkout](../shop/checkout/capability.md) (capability) — adds\n\n**What was done:**")
         with open(page, "w") as fh:
             fh.write(linked)
-        check("a later round updates the intent this drive saved", pi.main(drive + ["--update-proposed"]) == 0)
+        check("a later round updates the intent this loop saved", pi.main(loop + ["--update-proposed"]) == 0)
         with open(page) as fh:
             check("a Touches list another play wrote is kept on a later round",
                   "- [Checkout](../shop/checkout/capability.md) (capability) — adds" in fh.read())
         with open(intent_file(tmp, "grow-online-sales")) as fh:
             check("the gap is filled on the later round", "**Outcome:** Online orders pass shop orders" in fh.read())
-        other = [a if a != "kickoff-1" else "kickoff-2" for a in drive] + ["--update-proposed"]
-        check("another drive cannot update this drive's intents", pi.main(other) == 2)
+        other = [a if a != "discovery-1" else "discovery-2" for a in loop] + ["--update-proposed"]
+        check("another loop cannot update this loop's intents", pi.main(other) == 2)
         draft["intents"][0]["outcome"] = ""
         with open(draft_path, "w") as fh:
             yaml.safe_dump(draft, fh)
-        check("a gap with no question named is refused, even in a drive",
-              pi.main(drive + ["--update-proposed"]) == 2)
+        check("a gap with no question named is refused, even in a loop",
+              pi.main(loop + ["--update-proposed"]) == 2)
         draft["intents"][0]["outcome"] = "Online orders pass shop orders"
         draft["intents"][0]["proof"] = ""
         draft["questions"] = [{"intent": "grow-online-sales", "ask": "How will we know?", "examples": ["x"]}]
         with open(draft_path, "w") as fh:
             yaml.safe_dump(draft, fh)
-        check("an empty proof is refused even in a drive with a question — the play drafts it (C17)",
-              pi.main(drive + ["--update-proposed"]) == 2)
+        check("an empty proof is refused even in a loop with a question — the play drafts it (C17)",
+              pi.main(loop + ["--update-proposed"]) == 2)
     with tempfile.TemporaryDirectory() as tmp:
         argv, working, _ = persist_setup(tmp, both())
         i = argv.index("--confirmation")

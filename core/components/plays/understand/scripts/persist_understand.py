@@ -30,8 +30,8 @@ capability, #615):
      profile that is not `set`, lowers a dimension the live box holds, or drops a
      compliance regime — the box only ever goes up (C7).
   4. one decision record per box-move (ADR, level product, status accepted), each linked onto
-     the `decisions` list of the capability the move names. Inside a drive (#615) the play
-     passes --decision-status proposed: no person has said yes, so the drive's review
+     the `decisions` list of the capability the move names. Inside a loop (#615) the play
+     passes --decision-status proposed: no person has said yes, so the loop's review
      accepts or drops each move. The persist record's `box_moves` carry each move's
      decision id and status, so the run's record shows what was written.
 
@@ -186,7 +186,7 @@ def main(argv=None):
     ap.add_argument("--date", required=True, help="decision date (play passes it; never auto-generated)")
     ap.add_argument("--out-manifest", required=True)
     ap.add_argument("--decision-status", choices=("accepted", "proposed"), default="accepted",
-                    help="box-move decision status; proposed inside a drive (#615)")
+                    help="box-move decision status; proposed inside a loop (#615)")
     ap.add_argument("--seed", action="append", default=[],
                     help="seed.yaml with the person's answers for one ABSENT target (#616); repeatable")
     args = ap.parse_args(argv)

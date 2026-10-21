@@ -10,15 +10,15 @@ earlier `/build-memory` (ADR 041 §3).
 knowledge page a person approves, and for what only a person can confirm, draft our own
 proposed answer with its basis and context — so the person is never handed a bare question.
 
-Pipeline position: **none**. The second of the three knowledge member plays every drive runs
-inside its rounds (Shared Drive Run, R5c). It opens and lands nothing.
+Pipeline position: **none**. The second of the three knowledge member plays every loop runs
+inside its rounds (Shared Loop Run, R5c). It opens and lands nothing.
 
 ### Constraints
 
 - C1 — Every search group found `partly` or `open` is in exactly one build group; a group the
   search answered is never built again.
 - C2 — Nothing researched is used before a person approves it: a knowledge page is raised only
-  through the memory tool's `propose`, as a memory update in the drive issue's short-term memory
+  through the memory tool's `propose`, as a memory update in the loop issue's short-term memory
   (ADR 035, ADR 039). The play never decides, applies or promotes a memory update.
 - C3 — A gap only a person can confirm gets our proposed answer, its basis (the source, memory
   or reasoning it rests on) and the context a person needs to judge it — never a bare question.
@@ -27,7 +27,7 @@ inside its rounds (Shared Drive Run, R5c). It opens and lands nothing.
 - C5 — A gap the context already settles is closed as settled, with what settles it and the
   quote, screen or trace it rests on — never asked, and never dropped: the brief shows it
   (Kapil, 2026-10-20: an internal tool is not asked how it earns money).
-- C6 — It runs only inside a drive (a valid drive contract), writes only under the drive's issue,
+- C6 — It runs only inside a loop (a valid loop contract), writes only under the loop's issue,
   and never writes the product model.
 
 ### Failure conditions
@@ -38,7 +38,7 @@ inside its rounds (Shared Drive Run, R5c). It opens and lands nothing.
 - F3 — A gap reached the person as a bare question, or a proposal lacks its basis or context.
 - F4 — A screen state the prototype lacks was turned into a question instead of a note.
 - F5 — A gap the context settles was kept open or asked, or settled without its basis.
-- F6 — The play ran without a drive contract, wrote outside the drive's issue, or wrote the
+- F6 — The play ran without a loop contract, wrote outside the loop's issue, or wrote the
   product model.
 
 ## Context
@@ -52,14 +52,14 @@ shows it is `/review-knowledge`'s job (ADR 042).
 
 ### Success scenarios
 
-- S1 — (Kickoff drive, knowledge no screen shows) Given a gap about a standard or rule no
+- S1 — (Discovery loop, knowledge no screen shows) Given a gap about a standard or rule no
   prototype shows, when the play runs, then a knowledge page is raised as a memory update
   waiting for a person. Measure: the group's `closed_by` is `update`, and the memory tool lists
   that update as waiting for the issue.
-- S2 — (Kickoff drive, a gap only the person can confirm) Given a gap such as who may decide,
+- S2 — (Discovery loop, a gap only the person can confirm) Given a gap such as who may decide,
   when the play runs, then it carries our proposed answer with its basis and context. Measure:
   the group's `closed_by` is `proposal` with `answer`, `basis` and `context` set.
-- S3 — (Kickoff drive, a gap the context settles) Given a gap the product's context answers,
+- S3 — (Discovery loop, a gap the context settles) Given a gap the product's context answers,
   when the play runs, then it is closed as settled. Measure: `closed_by` is `settled` with `why`
   and `basis`.
 
@@ -85,5 +85,5 @@ shows it is `/review-knowledge`'s job (ADR 042).
 - REC5 (F5) — trigger: a gap the context settles kept open, or settled without its basis.
   direction: close it as settled with what settles it and what that rests on. handoff:
   autonomous.
-- REC6 (F6) — trigger: no drive contract, a write outside the issue, or a model write.
-  direction: halt; move the record under the drive's issue; undo the model write. handoff: human.
+- REC6 (F6) — trigger: no loop contract, a write outside the issue, or a model write.
+  direction: halt; move the record under the loop's issue; undo the model write. handoff: human.

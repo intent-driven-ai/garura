@@ -251,11 +251,11 @@ def test_learner():
     r = distill(ledger, policy)
     assert S2 not in r["auto_shapes"], r
 
-    # 9. a crossing inside a drive is deferred: it neither earns nor breaks a streak
+    # 9. a crossing inside a loop is deferred: it neither earns nor breaks a streak
     S3 = "vision:new_domain"
     for ts in ("v1", "v2"):
         ledger_line(ledger, "vision", S3, "approved_clean", ts)
-    ledger_line(ledger, "vision", S3, "deferred_to_drive_review", "v3")
+    ledger_line(ledger, "vision", S3, "deferred_to_loop_review", "v3")
     r = distill(ledger, policy)
     assert S3 not in r["auto_shapes"], r  # two cleans + a deferred is still two
     ledger_line(ledger, "vision", S3, "approved_clean", "v4")
@@ -265,7 +265,7 @@ def test_learner():
     # 10. deferred pairs with predicted=gate only
     refused = False
     try:
-        ledger_line(ledger, "vision", S3, "deferred_to_drive_review", "v5", predicted="auto")
+        ledger_line(ledger, "vision", S3, "deferred_to_loop_review", "v5", predicted="auto")
     except AssertionError as exc:
         refused = "pairs with predicted=gate" in str(exc)
     assert refused, "deferred with predicted=auto was accepted"
@@ -275,7 +275,7 @@ def test_learner():
     t4 = os.path.join(t, "l4.jsonl")
     for ts in ("w1", "w2"):
         ledger_line(t4, "vision", S4, "approved_clean", ts)
-    ledger_line(t4, "vision", S4, "deferred_to_drive_review", "w3")
+    ledger_line(t4, "vision", S4, "deferred_to_loop_review", "w3")
     ledger_line(t4, "vision", S4, "approved_clean", "w4", refutes=3)
     r = distill(t4, os.path.join(t, "p4.yaml"))
     assert S4 in r["auto_shapes"], r

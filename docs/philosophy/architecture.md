@@ -104,7 +104,7 @@ Every human checkpoint is a configuration switch (`standards/rules/gate-config.m
 
 | Kind | Meaning |
 |------|---------|
-| **pinned** | Always fires. The play's own intent mandates it; no config value can turn it off. Today: `grill`, `launch`, `learn`, `deploy`, the land-on-main step of `merge-change`, and — run by hand only — `intent`'s confirm and `adr`'s accept (inside a drive they wait for the drive's end review; ADR 031, #632). |
+| **pinned** | Always fires. The play's own intent mandates it; no config value can turn it off. Today: `grill`, `launch`, `learn`, `deploy`, the land-on-main step of `merge-change`, and — run by hand only — `intent`'s confirm and `adr`'s accept (inside a loop they wait for the loop's end review; ADR 031, #632). |
 | **conditional** | Fires unless the project's learned gate policy says this change *shape* has earned auto-pass. Every crossing is recorded; the human's real action teaches the policy. The eleven document plays (vision, understand, shape, roadmap, and the seven realize lenses) are conditional. |
 | **off** | Never waits. The judgment the human was making has been replaced by named deterministic checks inside the play; the skip is recorded in evidence. |
 

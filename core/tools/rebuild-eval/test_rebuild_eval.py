@@ -125,7 +125,7 @@ class CheckOutput(Work):
 
     def test_a_proof_left_open_fails(self):
         r = self.run_check(intent=INTENT.replace("90% or more of the intents are approved without change",
-                                                 "open — the drive asks this"))
+                                                 "open — the loop asks this"))
         self.assertIn("intent-proof-open", self.rules(r))
 
     def test_a_missing_intent_field_fails(self):
@@ -133,7 +133,7 @@ class CheckOutput(Work):
         self.assertIn("intent-field", self.rules(r))
 
     def test_a_domain_without_research_sources_fails(self):
-        r = self.run_check(domain="# Theme: Drive review\n\n## Intent\nMade up.\n")
+        r = self.run_check(domain="# Theme: Loop review\n\n## Intent\nMade up.\n")
         self.assertIn("domain-research", self.rules(r))
 
     def test_a_functionality_without_a_source_fails(self):

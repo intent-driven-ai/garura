@@ -3,9 +3,9 @@
 test_pick_targets.py — fixture tests for pick_targets.py (#615).
 
 Pins how one /understand run picks its targets: with none named, every directional
-capability in spine order (and, inside a drive, every capability the contract seeds);
+capability in spine order (and, inside a loop, every capability the contract seeds);
 named ones in the order given; an already-detailed target refused; an absent target
-asked for unless the drive's contract answered it — then its seed is written verbatim
+asked for unless the loop's contract answered it — then its seed is written verbatim
 with answered_by: human; a contract answer naming an unknown domain is asked again; a
 seed file already written counts as the answers; each target gets its own folder as its
 write scope, and two targets sharing or nesting a folder are refused.
@@ -78,7 +78,7 @@ def ids(result):
 
 def test_all_pending_by_hand():
     with tempfile.TemporaryDirectory() as tmp:
-        code, res = pick(tmp, {"in_drive": False})
+        code, res = pick(tmp, {"in_loop": False})
         check("with none named, every directional capability is a target, in spine order",
               code == 0 and ids(res) == ["checkout", "refunds"])
         check("a detailed capability is not pending", res["refused"] == [] and res["ask"] == [])
@@ -86,22 +86,22 @@ def test_all_pending_by_hand():
 
 def test_named():
     with tempfile.TemporaryDirectory() as tmp:
-        code, res = pick(tmp, {"in_drive": False}, ["refunds,checkout"])
+        code, res = pick(tmp, {"in_loop": False}, ["refunds,checkout"])
         check("named targets keep the order given", ids(res) == ["refunds", "checkout"])
     with tempfile.TemporaryDirectory() as tmp:
-        code, res = pick(tmp, {"in_drive": False}, ["cart"])
+        code, res = pick(tmp, {"in_loop": False}, ["cart"])
         check("a named detailed target is refused", [r["id"] for r in res["refused"]] == ["cart"])
     with tempfile.TemporaryDirectory() as tmp:
-        code, res = pick(tmp, {"in_drive": False}, ["wishlist"])
+        code, res = pick(tmp, {"in_loop": False}, ["wishlist"])
         check("a named absent target by hand is asked for", res["ask"] == ["wishlist"])
         check("its seed is not filled in", res["targets"][0]["seed"] is None)
 
 
-def test_drive_seeds():
-    run = {"in_drive": True, "answers": {"seeds": {"returns": ANSWER}}}
+def test_loop_seeds():
+    run = {"in_loop": True, "answers": {"seeds": {"returns": ANSWER}}}
     with tempfile.TemporaryDirectory() as tmp:
         code, res = pick(tmp, run)
-        check("inside a drive, contract-seeded capabilities join the pending ones",
+        check("inside a loop, contract-seeded capabilities join the pending ones",
               ids(res) == ["checkout", "refunds", "returns"])
         seed_path = res["targets"][2]["seed"]
         with open(seed_path) as fh:
@@ -110,16 +110,16 @@ def test_drive_seeds():
               {k: seed[k] for k in ("one_line", "why", "domain")} == ANSWER)
         check("the seed says a person answered", seed["answered_by"] == "human")
         check("nothing is left to ask", res["ask"] == [])
-    run = {"in_drive": True, "answers": {"seeds": {"returns": dict(ANSWER, domain="nowhere")}}}
+    run = {"in_loop": True, "answers": {"seeds": {"returns": dict(ANSWER, domain="nowhere")}}}
     with tempfile.TemporaryDirectory() as tmp:
         code, res = pick(tmp, run, ["returns"])
         check("an answer naming an unknown domain is asked again", res["ask"] == ["returns"])
-    run = {"in_drive": True, "answers": {"seeds": {"returns": {"one_line": "x", "why": ""}}}}
+    run = {"in_loop": True, "answers": {"seeds": {"returns": {"one_line": "x", "why": ""}}}}
     with tempfile.TemporaryDirectory() as tmp:
         code, res = pick(tmp, run, ["returns"])
         check("an incomplete answer is asked again", res["ask"] == ["returns"])
     with tempfile.TemporaryDirectory() as tmp:
-        code, res = pick(tmp, {"in_drive": False, "answers": {"seeds": {"returns": ANSWER}}})
+        code, res = pick(tmp, {"in_loop": False, "answers": {"seeds": {"returns": ANSWER}}})
         check("by hand, seed answers in run.json are ignored", "returns" not in ids(res))
 
 
@@ -130,7 +130,7 @@ def test_nothing_pending():
             yaml.safe_dump({"capabilities": [{"id": "cart", "detail": "detailed"}]}, fh)
         run = os.path.join(tmp, "run.json")
         with open(run, "w") as fh:
-            json.dump({"in_drive": False}, fh)
+            json.dump({"in_loop": False}, fh)
         out = os.path.join(tmp, "targets.json")
         code = pt.main(["--spine", spine, "--run", run, "--working", tmp, "--out", out])
         with open(out) as fh:
@@ -140,7 +140,7 @@ def test_nothing_pending():
 
 def test_scopes():
     with tempfile.TemporaryDirectory() as tmp:
-        code, res = pick(tmp, {"in_drive": True, "answers": {"seeds": {"returns": ANSWER}}})
+        code, res = pick(tmp, {"in_loop": True, "answers": {"seeds": {"returns": ANSWER}}})
         check("each target's write scope is its own folder",
               [t["scope"] for t in res["targets"]] == ["product-os/commerce/checkout/",
                                                        "product-os/commerce/refunds/",
@@ -150,13 +150,13 @@ def test_scopes():
         spine = json.loads(json.dumps(SPINE))
         spine["capabilities"][2]["doc"] = doc
         with tempfile.TemporaryDirectory() as tmp:
-            code, res = pick(tmp, {"in_drive": False}, spine_doc=spine)
+            code, res = pick(tmp, {"in_loop": False}, spine_doc=spine)
             check(f"two targets in {label} are refused",
                   [r["id"] for r in res["refused"]] == ["refunds"])
     spine = json.loads(json.dumps(SPINE))
     del spine["capabilities"][0]["doc"]
     with tempfile.TemporaryDirectory() as tmp:
-        code, res = pick(tmp, {"in_drive": False}, spine_doc=spine)
+        code, res = pick(tmp, {"in_loop": False}, spine_doc=spine)
         check("a target with no doc folder is refused",
               [r["id"] for r in res["refused"]] == ["checkout"])
 
@@ -167,7 +167,7 @@ def test_seed_file_counts():
         os.makedirs(os.path.dirname(path))
         with open(path, "w") as fh:
             yaml.safe_dump({"seed": dict(ANSWER, id="wishlist", answered_by="human")}, fh)
-        code, res = pick(tmp, {"in_drive": False}, ["wishlist"])
+        code, res = pick(tmp, {"in_loop": False}, ["wishlist"])
         check("after the person answered, the seed file counts as the answers",
               res["ask"] == [] and res["targets"][0]["seed"] == path)
         check("and the seeded target gets its scope",
@@ -183,7 +183,7 @@ def test_found_on_the_screens():
              {"id": "checkout", "one_line": "Pay", "screens": ["Cart: \"Pay now\""]},
              {"id": "cart", "one_line": "Hold items", "screens": ["Cart"]}]
     with tempfile.TemporaryDirectory() as tmp:
-        code, res = pick(tmp, {"in_drive": True, "answers": {}}, found=found)
+        code, res = pick(tmp, {"in_loop": True, "answers": {}}, found=found)
         by = {t["id"]: t for t in res["targets"]}
         check("a capability read off the screens is a target of its own, with no seed from a person",
               by["wishlist"]["state"] == "found" and by["wishlist"]["scope"] == "product-os/commerce/wishlist/")
@@ -202,7 +202,7 @@ def test_found_on_the_screens():
         with open(os.path.join(tmp, "_spine.yaml"), "w") as fh:
             yaml.safe_dump(SPINE, fh)
         with open(os.path.join(tmp, "run.json"), "w") as fh:
-            json.dump({"in_drive": False}, fh)
+            json.dump({"in_loop": False}, fh)
         with open(os.path.join(tmp, "found.yaml"), "w") as fh:
             yaml.safe_dump({"found": [{"id": "x", "one_line": "y"}]}, fh)
         code = pt.main(["--spine", os.path.join(tmp, "_spine.yaml"), "--run", os.path.join(tmp, "run.json"),
@@ -212,7 +212,7 @@ def test_found_on_the_screens():
 
 
 def main():
-    for test in (test_all_pending_by_hand, test_named, test_drive_seeds, test_nothing_pending,
+    for test in (test_all_pending_by_hand, test_named, test_loop_seeds, test_nothing_pending,
                  test_scopes, test_seed_file_counts, test_found_on_the_screens):
         print(test.__name__)
         test()

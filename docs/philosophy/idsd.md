@@ -101,24 +101,24 @@ A business intent is what a person wants. It is broken down into agent intents �
 
 | | The plan | The product model |
 |---|---|---|
-| **Written for** | The person who holds the business intent | The agents that do the work, inside the ontology — its fixed structure, made once. The person reviews it at the end of each drive, at the outcome level ([ADR 032](../adr/032-drive-review-of-outcomes.md)) |
+| **Written for** | The person who holds the business intent | The agents that do the work, inside the ontology — its fixed structure, made once. The person reviews it at the end of each loop, at the outcome level ([ADR 032](../adr/032-drive-review-of-outcomes.md)) |
 | **Shows** | What the intent is being broken into, in what order and why; what is decided, built, or shipped; what waits on the person | What the product is, in the structure agents work from — and everything built from it onward |
 | **Test** | A business user reads it and understands what their intent is becoming | An agent reads one slice of it and can act |
 
-Each can read the other, but each is written for its own reader. The plan is where the business intent is surfaced and followed. The product model is the agents' outcome: the person does not follow the work through it, but reviews what it says at the end of each drive — without that review, nobody knows what is being built.
+Each can read the other, but each is written for its own reader. The plan is where the business intent is surfaced and followed. The product model is the agents' outcome: the person does not follow the work through it, but reviews what it says at the end of each loop — without that review, nobody knows what is being built.
 
-**A person has exactly two interfaces: the intent they give, and the output they see.** The intent side is the intent itself, its plan and issues, and the product ontology. The output side is what the agents produce: at the end of each drive, its outcome — the business intents and the product model, reviewed in an intent review tool and a product review tool ([ADR 032](../adr/032-drive-review-of-outcomes.md)); and in the end, what they finally use — for example, user testing at launch. The work in between — writing the product model, the lenses, realize, shape, grill — is agent work.
+**A person has exactly two interfaces: the intent they give, and the output they see.** The intent side is the intent itself, its plan and issues, and the product ontology. The output side is what the agents produce: at the end of each loop, its outcome — the business intents and the product model, reviewed in an intent review tool and a product review tool ([ADR 032](../adr/032-drive-review-of-outcomes.md)); and in the end, what they finally use — for example, user testing at launch. The work in between — writing the product model, the lenses, realize, shape, grill — is agent work.
 
 **The loop has two handoffs.**
 
 1. **The person starts** — they give the intent.
-2. **Handoff in.** A first drive (Kickoff) pulls the intent out and turns it into a plan the person can read and a product model the agents can work from. The person approves the plan and reviews the drive's outcome — the intents and the product model.
+2. **Handoff in.** A first loop (Discovery) pulls the intent out and turns it into a plan the person can read and a product model the agents can work from. The person approves the plan and reviews the loop's outcome — the intents and the product model.
 3. **Agents work.** Everything becomes agent intents, then code and the rest.
 4. **It all runs.**
 5. **The person's interface keeps updating.** The plan shows what is decided, built, and shipped as the work moves.
-6. **Handoff out.** A last drive takes everything the agents made and delivers it as the thing the person uses — a website, an application, whatever the intent asked for. The person sees what was made.
+6. **Handoff out.** A last loop takes everything the agents made and delivers it as the thing the person uses — a website, an application, whatever the intent asked for. The person sees what was made.
 
-Between the two handoffs the person follows along through the plan. They are asked to step in only when the plan itself changes in a big way — work added, dropped or reordered — and inside a drive even those changes wait for the drive's end review ([ADR 030](../adr/030-plan-mode.md)).
+Between the two handoffs the person follows along through the plan. They are asked to step in only when the plan itself changes in a big way — work added, dropped or reordered — and inside a loop even those changes wait for the loop's end review ([ADR 030](../adr/030-plan-mode.md)).
 
 **If a business user cannot read the plan and understand what their intent is being broken into, the system fails** — however correct the work underneath. So a plan says what, in what order, and why, never how; every item explains itself in plain words; every finished item says what kind of done it is; and its status reads as a plain tree, never bare issue numbers. The mechanics live in [ADR 030](../adr/030-plan-mode.md).
 

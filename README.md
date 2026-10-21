@@ -280,6 +280,7 @@ garura/
 
 ### Components
 - **Plays**: [`docs/components/plays.md`](docs/components/plays.md)
+- **Loops**: [`docs/components/loops.md`](docs/components/loops.md)
 - **Agents**: [`docs/components/agents.md`](docs/components/agents.md)
 - **Skills**: [`docs/components/skills.md`](docs/components/skills.md)
 - **Memory**: [`docs/components/memory.md`](docs/components/memory.md)

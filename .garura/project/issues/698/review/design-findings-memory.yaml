@@ -1,0 +1,42 @@
+category: memory
+grounding:
+  - {principle: "A rule that is renamed must be cited by its new name everywhere, and the code that reads its fields and enum values must move with it", source: "core/components/memory/standards/rules/_index.md (on main: each rule row names its readers and checker scripts); gate-config.md and pipeline-position.md (on main) cite drive-contract.md by path"}
+  - {principle: "A rule heading names the rule; a rule's title must say what the rule says", source: "core/components/memory/standards/rules/architecture.md on main: 'Rule 5: Failure Scenarios Drive Reliability Architecture', the body says failure scenarios must be mapped to mitigations"}
+  - {principle: "Domain knowledge pages carry the person's point of view in their own words (capability and anti-pattern wording is theirs)", source: "knowledge/domains/ecommerce.md locked template, per project record #434 Phase C1; marketing.md on main line 102 'Unable to drive attribution via the web'"}
+  - {principle: "The rename is by meaning: ADR 045 renames the noun 'drive' (a run of plays); the verb 'drive' stays. Past records keep the old word", source: "core/grounding/glossary.md entry 'Drive' (added in this diff, but states ADR 045's scope); on main, architecture.md and marketing.md use 'drive' only as a verb"}
+  - {principle: "An ontology change-log entry is a dated record of what was decided then", source: "core/components/memory/standards/schemas/product-os/ontology.md change log on main (dated, append-only entries)"}
+verified_ok:
+  - "Rule renamed drive-contract.md to loop-contract.md: no remaining citation of the old path in core/ outside ADRs and the glossary's 'old name' entry. gate-config.md, pipeline-position.md, evidence-recording.md and the _index.md rows all point to loop-contract.md."
+  - "loop-contract.md is a pure rename of drive-contract.md (every change is drive to loop, plus 'Drives, now loops (ADR 045)' in the ADR 029 reference)."
+  - "Renamed identifiers have readers: check_loop_contract.py, write_loop_review.py, loop_status.py, write_loop_contract.py exist under plays/*/references or loops/*/scripts; gate_eval.py and distill_gate_policy.py (shape, quality) read deferred_to_loop_review; check_plan.py KINDS carries 'loop'; templates/work-plan.md kind enum matches it."
+  - "run-status.md example (kind: loop, name: discovery, run_id discovery-...) matches the new loop_status.py writer name."
+  - "Verb uses elsewhere (architecture.md drivers, 'tool-driven', 'drive attribution' in line 102) were left unchanged."
+findings:
+  - id: M1
+    severity: P2
+    file: core/components/memory/standards/rules/architecture.md
+    line: "56"
+    summary: "A verb was swapped by the rename. 'Rule 5: Failure Scenarios Drive Reliability Architecture' now reads 'Failure Scenarios Loop Reliability Architecture', which says nothing. This is a rule title in a standard every /arch skill loads, not a reference to the drive concept."
+    basis: "architecture.md Rule 5 on main (body: every failure scenario maps to a mitigation; 'drive' is a verb); ADR 045 renames the noun only (glossary 'Drive' entry)"
+    fix: "Revert the heading to 'Failure Scenarios Drive Reliability Architecture'."
+  - id: M2
+    severity: P3
+    file: core/components/memory/knowledge/domains/marketing.md
+    line: "121"
+    summary: "Same verb-for-noun slip in the shelf. 'Drive attribution via the web' (an instruction: make the web credit campaigns) became 'Loop attribution via the web'. It no longer matches its own pair on line 102, 'Unable to drive attribution via the web', and the point of view the shelf captures is changed."
+    basis: "marketing.md line 102 on main (same phrase, verb); domain shelves hold the person's POV (#434 Phase C1 template)"
+    fix: "Restore 'Drive attribution via the web'."
+  - id: M3
+    severity: P4
+    file: core/components/memory/standards/schemas/product-os/ontology.md
+    line: "202"
+    summary: "The dated 2026-10-09 v3 change-log entry was edited ('Alignment drive' to 'Alignment loop'). The entry records what was said on that date, before ADR 045 existed, and the entry two lines below (2026-10-21) was changed to 'Discovery' as well. History rewritten; the glossary says past records keep the old word. Harmless, but the log no longer shows what was decided then."
+    basis: "ontology.md change log on main (dated entries); glossary 'Drive' entry ('past run records still say drive')"
+    fix: "Leave dated log entries as they were, or add one new entry for the rename."
+  - id: M4
+    severity: P4
+    file: core/components/memory/standards/rules/pipeline-next.md
+    line: "38"
+    summary: "The renamed map key `discovery:` is padded with the old key's width, so the `{ command:` column is out of line with the rows around it. The key itself is correct (it names the loop, as `kickoff` did)."
+    basis: "pipeline-next.md on main (aligned map rows)"
+    fix: "Re-pad the row."

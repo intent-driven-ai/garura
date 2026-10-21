@@ -1,6 +1,6 @@
 # Pipeline-next — the successor map (single source of truth)
 
-Every user-invocable compiled play — and every drive, which closes like a play (ADR 029) —
+Every user-invocable compiled play — and every loop, which closes like a play (ADR 029) —
 when it finishes, must tell the user what to run next. This file is the one place that mapping lives. The **Standard Play Close**
 (`_shared/play-close.md` (beside the plays), step C2) renders each play's **Next** line by resolving the play here;
 `lint_play.py` fails any user-invocable compiled play that is neither listed here nor in
@@ -17,7 +17,7 @@ the Next line where that reads better — e.g. `/next` itself).
 
 The lifecycle runs as five loops (ADR 028; the names are working names). The plays below are the steps inside each loop. Until the loop recipes exist (#594), a person runs each play, and this map tells them which comes next.
 
-- **Kickoff loop (ADR 029):** `/intent → /vision → /understand`. `/intent` is optional: `/vision` can still start from a goal typed as text. The Kickoff drive (`/kickoff`) runs the three in rounds (ADR 041) and is listed here by its own name; its knowledge member plays (`/search-knowledge`, `/build-knowledge`, `/review-knowledge`) run only inside it.
+- **Discovery loop (ADR 029):** `/intent → /vision → /understand`. `/intent` is optional: `/vision` can still start from a goal typed as text. The Discovery loop (`/discovery`) runs the three in rounds (ADR 041) and is listed here by its own name; its knowledge member plays (`/search-knowledge`, `/build-knowledge`, `/review-knowledge`) run only inside it.
 - **Shape loop:** `/shape → /roadmap`, then the design plays, which still run per slice today:
   - Functional: `/ux → /agentic → /marketing`
   - Non-functional: `/arch → /quality → /run`
@@ -34,8 +34,8 @@ The lifecycle runs as five loops (ADR 028; the names are working names). The pla
 next:
   # Standalone (no loop)
   adr:            { command: null,           why: "a decision record stands on its own; nothing follows it by default" }
-  # Kickoff loop, then Shape loop
-  kickoff:        { command: shape,          why: "the detailed model is ready — cut a capability into slices (the intent → design drive replaces this later)" }
+  # Discovery loop, then Shape loop
+  discovery:      { command: shape,          why: "the detailed model is ready — cut a capability into slices (the intent → design loop replaces this later)" }
   intent:         { command: vision,         why: "seed the product model from a confirmed business intent (give /vision its title, outcome and why as the goal)" }
   vision:         { command: understand,     why: "expand this capability's intent (ICE)" }
   understand:     { command: shape,          why: "cut the capability into slices" }
@@ -71,10 +71,10 @@ next:
   next:           { command: null,           why: "next is the recommender — it has no successor" }
   focus:          { command: null,           why: "focus is the issue-side navigator — it recommends, it has no successor" }
 
-  # Drive members (run by a drive inside its rounds, never on their own)
-  search-knowledge: { command: null,         why: "runs inside a drive; /build-knowledge follows" }
-  build-knowledge:  { command: null,         why: "runs inside a drive; /review-knowledge follows" }
-  review-knowledge: { command: null,         why: "runs inside a drive; the drive shows the brief and waits for the person" }
+  # Loop members (run by a loop inside its rounds, never on their own)
+  search-knowledge: { command: null,         why: "runs inside a loop; /build-knowledge follows" }
+  build-knowledge:  { command: null,         why: "runs inside a loop; /review-knowledge follows" }
+  review-knowledge: { command: null,         why: "runs inside a loop; the loop shows the brief and waits for the person" }
 
   # Change loop (git members)
   start-change:   { command: null,           why: "injected at a play's head; the opened play continues" }
@@ -89,6 +89,6 @@ meta_exempt:
   - uninstall-garura
   - play-creator
   - play-editor
-  - drive-creator
-  - drive-editor
+  - loop-creator
+  - loop-editor
 ```

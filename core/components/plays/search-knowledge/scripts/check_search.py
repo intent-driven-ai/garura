@@ -2,7 +2,7 @@
 """check_search.py — did the search look before anyone builds or asks? (/search-knowledge)
 
 The knowledge-builder agent takes a round's open questions, already grouped, and looks for
-each one in the drive's own sources (for a prototype: its views, journeys and page) and in
+each one in the loop's own sources (for a prototype: its views, journeys and page) and in
 memory. This script checks its record mechanically; whether an answer is *right* stays with
 the agent.
 

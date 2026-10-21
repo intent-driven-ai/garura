@@ -54,7 +54,7 @@
 - An ADR never changes a person's business intent. `business_intent_check: instance` stops the
   ADR from being applied and goes to the person (ADR 031: only a person confirms or drops a
   business intent).
-- Inside a drive, an ADR is written as `proposed` and accepted at the drive's final review; run
+- Inside a loop, an ADR is written as `proposed` and accepted at the loop's final review; run
   by hand, the person accepts it before it is written as `accepted`.
 
 ## Shape 1 — Markdown (Garura's ADRs)
@@ -152,7 +152,7 @@ from this template its header would read:
 **Date:** 2026-10-09
 **Level:** framework
 **Decided by:** Alex Example · **Decided in:** #612 (the /intent play) and the review of PR #631
-**Amends:** ADR 029 — §6, what /intent and /vision do in Kickoff · ADR 027 — the IDSD row · ADR 026 — /intent by hand confirms before it writes
+**Amends:** ADR 029 — §6, what /intent and /vision do in Discovery · ADR 027 — the IDSD row · ADR 026 — /intent by hand confirms before it writes
 **Affects:** ontology.md (v3), spine.yaml, every lint_grounding.py copy, play-creator, gate-config.md, direct-model-write.md
 **ICE impact:** ICE may be written before its capability has a domain; an ICE is workable only when built from a confirmed business intent
 **Business intent check:** kind — the Business Intent and ICE kinds change; no person's business intent changes

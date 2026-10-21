@@ -54,7 +54,7 @@ import yaml
 # where a property may come from (C5): never the model alone
 PROVENANCE = {"source", "journey", "memory", "model", "person", "proposed"}
 DRAFTED = ("why", "asked_by", "proof")      # the play drafts these itself, with their basis (C17)
-OPEN_TEXT = re.compile(r"^\s*(open\b|tbd\b|to be (confirmed|decided|agreed)|unknown\b|n/?a\b)|the drive asks", re.I)
+OPEN_TEXT = re.compile(r"^\s*(open\b|tbd\b|to be (confirmed|decided|agreed)|unknown\b|n/?a\b)|the loop asks", re.I)
 ASKS_DRAFTED = re.compile(r"how (will|would|do) (we|you) know|why does (it|this) matter|who (wants|asked)", re.I)
 REQUIRED = ["title", "outcome", "why", "asked_by", "proof"]
 PROSE = ["title", "outcome", "why", "proof", "must_not"]

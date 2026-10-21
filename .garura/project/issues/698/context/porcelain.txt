@@ -1,0 +1,185 @@
+ M CLAUDE.md
+ M core/components/agents/business-intent-keeper.md
+ M core/components/agents/knowledge-builder.md
+RM core/components/agents/drive-checker.md -> core/components/agents/loop-checker.md
+ M core/components/agents/product-os-keeper.md
+ M core/components/agents/prototype-reader.md
+RM core/components/drives/_shared/drive-run.md -> core/components/loops/_shared/loop-run.md
+RM core/components/drives/kickoff/SKILL.md -> core/components/loops/discovery/SKILL.md
+RM core/components/drives/kickoff/reference/ice.md -> core/components/loops/discovery/reference/ice.md
+RM core/components/drives/kickoff/scripts/check_drive_contract.py -> core/components/loops/discovery/scripts/check_loop_contract.py
+RM core/components/drives/kickoff/scripts/check_play_done.py -> core/components/loops/discovery/scripts/check_play_done.py
+RM core/components/drives/kickoff/scripts/check_prototype.py -> core/components/loops/discovery/scripts/check_prototype.py
+R  core/components/drives/kickoff/scripts/check_stop_condition.py -> core/components/loops/discovery/scripts/check_stop_condition.py
+RM core/components/drives/kickoff/scripts/commit_run_files.py -> core/components/loops/discovery/scripts/commit_run_files.py
+RM core/components/drives/kickoff/scripts/drive_preflight.py -> core/components/loops/discovery/scripts/loop_preflight.py
+RM core/components/drives/kickoff/scripts/drive_status.py -> core/components/loops/discovery/scripts/loop_status.py
+RM core/components/drives/kickoff/scripts/prepare_check.py -> core/components/loops/discovery/scripts/prepare_check.py
+RM core/components/drives/kickoff/scripts/record_check.py -> core/components/loops/discovery/scripts/record_check.py
+RM core/components/drives/kickoff/scripts/record_confirmation.py -> core/components/loops/discovery/scripts/record_confirmation.py
+RM core/components/drives/kickoff/scripts/round_state.py -> core/components/loops/discovery/scripts/round_state.py
+RM core/components/drives/kickoff/scripts/run_checker_codex.py -> core/components/loops/discovery/scripts/run_checker_codex.py
+RM core/components/drives/kickoff/scripts/run_play_headless.py -> core/components/loops/discovery/scripts/run_play_headless.py
+R  core/components/drives/kickoff/scripts/session_stamp.py -> core/components/loops/discovery/scripts/session_stamp.py
+RM core/components/drives/kickoff/scripts/test_kickoff_scripts.py -> core/components/loops/discovery/scripts/test_discovery_scripts.py
+RM core/components/drives/kickoff/scripts/write_drive_contract.py -> core/components/loops/discovery/scripts/write_loop_contract.py
+RM core/components/drives/kickoff/stop-condition.yaml -> core/components/loops/discovery/stop-condition.yaml
+ M core/components/memory/knowledge/domains/marketing.md
+ M core/components/memory/standards/rules/_index.md
+ M core/components/memory/standards/rules/architecture.md
+ M core/components/memory/standards/rules/direct-model-write.md
+ M core/components/memory/standards/rules/evidence-recording.md
+ M core/components/memory/standards/rules/gate-config.md
+RM core/components/memory/standards/rules/drive-contract.md -> core/components/memory/standards/rules/loop-contract.md
+ M core/components/memory/standards/rules/pipeline-next.md
+ M core/components/memory/standards/rules/pipeline-position.md
+ M core/components/memory/standards/rules/run-status.md
+ M core/components/memory/standards/rules/work-plan.md
+ M core/components/memory/standards/schemas/product-os/ontology.md
+ M core/components/memory/standards/schemas/product-os/spine.yaml
+ M core/components/memory/standards/templates/adr.md
+ M core/components/memory/standards/templates/work-plan.md
+ M core/components/plays/_shared/play-close.md
+ M core/components/plays/adr/SKILL.md
+ M core/components/plays/adr/reference/ice.md
+ M core/components/plays/adr/scripts/apply_adr.py
+ M core/components/plays/adr/scripts/check_adr_scope.py
+ M core/components/plays/adr/scripts/test_apply_adr.py
+ M core/components/plays/adr/stop-condition.yaml
+ M core/components/plays/agentic/scripts/distill_gate_policy.py
+ M core/components/plays/agentic/scripts/gate_eval.py
+ M core/components/plays/arch/scripts/distill_gate_policy.py
+ M core/components/plays/arch/scripts/gate_eval.py
+ M core/components/plays/build-knowledge/SKILL.md
+ M core/components/plays/build-knowledge/reference/ice.md
+ M core/components/plays/build-knowledge/scripts/check_knowledge_build.py
+RM core/components/plays/build-knowledge/scripts/check_drive_contract.py -> core/components/plays/build-knowledge/scripts/check_loop_contract.py
+ M core/components/plays/install-garura/scripts/adapters/claude.py
+ M core/components/plays/install-garura/scripts/adapters/codex.py
+ M core/components/plays/install-garura/scripts/adapters/common.py
+ M core/components/plays/install-garura/scripts/install.py
+ M core/components/plays/install-garura/scripts/test_install.py
+ M core/components/plays/intent/SKILL.md
+ M core/components/plays/intent/reference/ice.md
+ M core/components/plays/intent/scripts/check_intent.py
+RM core/components/plays/drive-creator/references/compiled-drive-example/scripts/check_drive_contract.py -> core/components/plays/intent/scripts/check_loop_contract.py
+ M core/components/plays/intent/scripts/persist_intent.py
+ M core/components/plays/intent/scripts/test_intent_scripts.py
+ M core/components/plays/intent/stop-condition.yaml
+RM core/components/plays/drive-creator/SKILL.md -> core/components/plays/loop-creator/SKILL.md
+RM core/components/plays/drive-creator/references/check_play_done.py -> core/components/plays/loop-creator/references/check_play_done.py
+RM core/components/plays/drive-creator/references/commit_run_files.py -> core/components/plays/loop-creator/references/commit_run_files.py
+RM core/components/plays/drive-creator/references/compiled-drive-example/SKILL.md -> core/components/plays/loop-creator/references/compiled-loop-example/SKILL.md
+RM core/components/plays/drive-creator/references/compiled-drive-example/reference/ice.md -> core/components/plays/loop-creator/references/compiled-loop-example/reference/ice.md
+RM core/components/plays/intent/scripts/check_drive_contract.py -> core/components/plays/loop-creator/references/compiled-loop-example/scripts/check_loop_contract.py
+RM core/components/plays/drive-creator/references/compiled-drive-example/scripts/check_play_done.py -> core/components/plays/loop-creator/references/compiled-loop-example/scripts/check_play_done.py
+R  core/components/plays/drive-creator/references/compiled-drive-example/scripts/check_stop_condition.py -> core/components/plays/loop-creator/references/compiled-loop-example/scripts/check_stop_condition.py
+RM core/components/plays/drive-creator/references/compiled-drive-example/scripts/commit_run_files.py -> core/components/plays/loop-creator/references/compiled-loop-example/scripts/commit_run_files.py
+RM core/components/plays/drive-creator/references/compiled-drive-example/scripts/drive_preflight.py -> core/components/plays/loop-creator/references/compiled-loop-example/scripts/loop_preflight.py
+RM core/components/plays/drive-creator/references/compiled-drive-example/scripts/drive_status.py -> core/components/plays/loop-creator/references/compiled-loop-example/scripts/loop_status.py
+RM core/components/plays/drive-creator/references/compiled-drive-example/scripts/prepare_check.py -> core/components/plays/loop-creator/references/compiled-loop-example/scripts/prepare_check.py
+RM core/components/plays/drive-creator/references/compiled-drive-example/scripts/record_check.py -> core/components/plays/loop-creator/references/compiled-loop-example/scripts/record_check.py
+RM core/components/plays/drive-creator/references/compiled-drive-example/scripts/round_state.py -> core/components/plays/loop-creator/references/compiled-loop-example/scripts/round_state.py
+RM core/components/plays/drive-creator/references/compiled-drive-example/scripts/run_checker_codex.py -> core/components/plays/loop-creator/references/compiled-loop-example/scripts/run_checker_codex.py
+RM core/components/plays/drive-creator/references/compiled-drive-example/scripts/run_play_headless.py -> core/components/plays/loop-creator/references/compiled-loop-example/scripts/run_play_headless.py
+R  core/components/plays/drive-creator/references/compiled-drive-example/scripts/session_stamp.py -> core/components/plays/loop-creator/references/compiled-loop-example/scripts/session_stamp.py
+RM core/components/plays/drive-creator/references/compiled-drive-example/scripts/write_drive_contract.py -> core/components/plays/loop-creator/references/compiled-loop-example/scripts/write_loop_contract.py
+RM core/components/plays/drive-creator/references/compiled-drive-example/stop-condition.yaml -> core/components/plays/loop-creator/references/compiled-loop-example/stop-condition.yaml
+RM core/components/plays/drive-creator/references/drive_preflight.py -> core/components/plays/loop-creator/references/loop_preflight.py
+RM core/components/plays/drive-creator/references/drive_status.py -> core/components/plays/loop-creator/references/loop_status.py
+RM core/components/plays/drive-creator/references/prepare_check.py -> core/components/plays/loop-creator/references/prepare_check.py
+RM core/components/plays/drive-creator/references/record_check.py -> core/components/plays/loop-creator/references/record_check.py
+RM core/components/plays/drive-creator/references/round_state.py -> core/components/plays/loop-creator/references/round_state.py
+RM core/components/plays/drive-creator/references/run_checker_codex.py -> core/components/plays/loop-creator/references/run_checker_codex.py
+RM core/components/plays/drive-creator/references/run_play_headless.py -> core/components/plays/loop-creator/references/run_play_headless.py
+RM core/components/plays/drive-creator/references/test_lint_drive.py -> core/components/plays/loop-creator/references/test_lint_loop.py
+RM core/components/plays/drive-creator/references/test_drive_scripts.py -> core/components/plays/loop-creator/references/test_loop_scripts.py
+RM core/components/plays/drive-creator/references/write_drive_contract.py -> core/components/plays/loop-creator/references/write_loop_contract.py
+RM core/components/plays/drive-creator/scripts/lint_drive.py -> core/components/plays/loop-creator/scripts/lint_loop.py
+RM core/components/plays/drive-editor/SKILL.md -> core/components/plays/loop-editor/SKILL.md
+RM core/components/plays/drive-editor/scripts/lint_drive.py -> core/components/plays/loop-editor/scripts/lint_loop.py
+ M core/components/plays/marketing/scripts/distill_gate_policy.py
+ M core/components/plays/marketing/scripts/gate_eval.py
+ M core/components/plays/measure/scripts/distill_gate_policy.py
+ M core/components/plays/measure/scripts/gate_eval.py
+RM core/components/plays/play-creator/references/check_drive_contract.py -> core/components/plays/play-creator/references/check_loop_contract.py
+ M core/components/plays/play-creator/references/distill_gate_policy.py
+ M core/components/plays/play-creator/references/gate_eval.py
+ M core/components/plays/play-creator/references/test_gate_learning.py
+RM core/components/plays/play-creator/references/test_drive_contract.py -> core/components/plays/play-creator/references/test_loop_contract.py
+RM core/components/plays/play-creator/references/write_drive_review.py -> core/components/plays/play-creator/references/write_loop_review.py
+ M core/components/plays/quality/scripts/distill_gate_policy.py
+ M core/components/plays/quality/scripts/gate_eval.py
+ M core/components/plays/review-knowledge/SKILL.md
+ M core/components/plays/review-knowledge/reference/ice.md
+ M core/components/plays/review-knowledge/scripts/check_brief.py
+RM core/components/plays/review-knowledge/scripts/check_drive_contract.py -> core/components/plays/review-knowledge/scripts/check_loop_contract.py
+ M core/components/plays/review-knowledge/scripts/record_review.py
+ M core/components/plays/review-knowledge/scripts/test_review_knowledge_scripts.py
+ M core/components/plays/roadmap/scripts/distill_gate_policy.py
+ M core/components/plays/roadmap/scripts/gate_eval.py
+ M core/components/plays/run/scripts/distill_gate_policy.py
+ M core/components/plays/run/scripts/gate_eval.py
+ M core/components/plays/search-knowledge/SKILL.md
+ M core/components/plays/search-knowledge/reference/ice.md
+RM core/components/plays/search-knowledge/scripts/check_drive_contract.py -> core/components/plays/search-knowledge/scripts/check_loop_contract.py
+ M core/components/plays/search-knowledge/scripts/check_search.py
+ M core/components/plays/search-knowledge/scripts/group_questions.py
+ M core/components/plays/search-knowledge/scripts/test_search_knowledge_scripts.py
+ M core/components/plays/shape/scripts/distill_gate_policy.py
+ M core/components/plays/shape/scripts/gate_eval.py
+ M core/components/plays/understand/SKILL.md
+ M core/components/plays/understand/reference/ice.md
+RM core/components/plays/understand/scripts/check_drive_contract.py -> core/components/plays/understand/scripts/check_loop_contract.py
+ M core/components/plays/understand/scripts/distill_gate_policy.py
+ M core/components/plays/understand/scripts/gate_eval.py
+ M core/components/plays/understand/scripts/persist_understand.py
+ M core/components/plays/understand/scripts/pick_targets.py
+ M core/components/plays/understand/scripts/test_persist_understand.py
+ M core/components/plays/understand/scripts/test_pick_targets.py
+RM core/components/plays/understand/scripts/write_drive_review.py -> core/components/plays/understand/scripts/write_loop_review.py
+ M core/components/plays/ux/scripts/distill_gate_policy.py
+ M core/components/plays/ux/scripts/gate_eval.py
+ M core/components/plays/vision/SKILL.md
+ M core/components/plays/vision/reference/ice.md
+RM core/components/plays/vision/scripts/check_drive_contract.py -> core/components/plays/vision/scripts/check_loop_contract.py
+ M core/components/plays/vision/scripts/distill_gate_policy.py
+ M core/components/plays/vision/scripts/gate_eval.py
+ M core/components/plays/vision/scripts/test_vision_scripts.py
+RM core/components/plays/vision/scripts/write_drive_review.py -> core/components/plays/vision/scripts/write_loop_review.py
+ M core/components/skills/answer-from-source/SKILL.md
+ M core/components/skills/author-adr/SKILL.md
+ M core/components/skills/author-business-intent/SKILL.md
+ M core/components/skills/close-model-gaps/SKILL.md
+ M core/components/skills/close-model-gaps/scripts/apply_links.py
+ M core/components/skills/draft-knowledge-page/SKILL.md
+ M core/components/skills/find-model-gaps/SKILL.md
+ M core/components/skills/infer-logical-architecture-from-code/SKILL.md
+ M core/components/skills/infer-scope-from-code/SKILL.md
+RM core/components/skills/judge-drive-result/SKILL.md -> core/components/skills/judge-loop-result/SKILL.md
+RM core/components/skills/judge-drive-result/verdict.schema.json -> core/components/skills/judge-loop-result/verdict.schema.json
+ M core/components/skills/manage-features/SKILL.md
+ M core/components/skills/manage-plan/SKILL.md
+ M core/components/skills/manage-plan/scripts/check_plan.py
+ M core/components/skills/propose-answers/SKILL.md
+ M core/components/skills/write-knowledge-brief/SKILL.md
+ M core/config.yaml
+ M core/grounding/glossary.md
+ M core/tools/lint-components/lib/discover.js
+ M core/tools/lint-components/lib/rules/structural.js
+ M core/tools/memory/contract/v4.json
+ M core/tools/memory/contract/v5.json
+ M core/tools/rebuild-eval/README.md
+ M core/tools/rebuild-eval/check_output.py
+ M core/tools/rebuild-eval/prepare.py
+ M core/tools/rebuild-eval/score_drift.py
+ M core/tools/rebuild-eval/test_rebuild_eval.py
+ M docs/components/agents.md
+ M docs/components/memory.md
+ M docs/components/plays.md
+ M docs/components/skills.md
+ M docs/philosophy/architecture.md
+ M docs/philosophy/idsd.md
+ M docs/philosophy/intent-driven-development.md
+ M installer/install.sh
+?? .garura/project/issues/698/context/porcelain.txt

@@ -22,13 +22,13 @@ changes points forward to it.
 - C4 — What it changes is recorded with real names: the files, rules, schemas, plays and agents
   it affects, and its effect on agent intent (ICE).
 - C5 — An ADR never changes a person's business intent. A decision that would is shown to the
-  person and not applied — run by hand or inside a drive, where it is a new question that stops
-  the drive; changing the Business Intent kind (framework doctrine) is allowed and recorded as
+  person and not applied — run by hand or inside a loop, where it is a new question that stops
+  the loop; changing the Business Intent kind (framework doctrine) is allowed and recorded as
   such.
 - C6 — Only a person accepts an ADR. Run by hand, the person accepts or rejects it before it is
   written as accepted (a pinned gate, class one-way-door: a record of a decision is the
-  project's memory). Inside a drive there is no approval stop: it is saved as proposed and
-  accepted at the drive's final review. A proposed ADR can later be accepted by hand, which
+  project's memory). Inside a loop there is no approval stop: it is saved as proposed and
+  accepted at the loop's final review. A proposed ADR can later be accepted by hand, which
   completes it.
 - C7 — An older ADR is never edited, except for its forward pointer, and pointers are written
   only once the new ADR is accepted.
@@ -37,8 +37,8 @@ changes points forward to it.
 - C9 — Additive and contained: run by hand, it starts from a clean record tree (no uncommitted
   change to the framework's ADRs or the product model); it writes only the new record, the
   forward pointers and the index; nothing else in the repository changes.
-- C10 — Stands alone, or runs inside a drive: run by hand it opens and lands its own change;
-  handed a drive's contract, it opens no issue or branch of its own and works on the drive's
+- C10 — Stands alone, or runs inside a loop: run by hand it opens and lands its own change;
+  handed a loop's contract, it opens no issue or branch of its own and works on the loop's
   branch.
 - C11 — The play ends by proving its done checks at close; it never reads COMPLETED with them
   unmet.
@@ -53,14 +53,14 @@ changes points forward to it.
 - F4 — What the decision affects, or its effect on agent intent, is missing or names things
   that do not exist.
 - F5 — An ADR changed, or was applied as changing, a person's business intent.
-- F6 — An ADR was marked accepted without a person, a rejected ADR was written, or a drive
+- F6 — An ADR was marked accepted without a person, a rejected ADR was written, or a loop
   stopped to wait for approval.
 - F7 — An older ADR was edited beyond its forward pointer, or a pointer was written before the
   new ADR was accepted.
 - F8 — The index does not list an accepted framework ADR, or lists it with the wrong status.
 - F9 — Run by hand from a record tree that was not clean, or something other than the new
   record, the pointers and the index changed.
-- F10 — Run by hand, the change was not opened and landed; or, handed a drive's contract, the
+- F10 — Run by hand, the change was not opened and landed; or, handed a loop's contract, the
   play opened an issue or a branch of its own.
 - F11 — The run closed COMPLETED without its done checks held.
 
@@ -71,7 +71,7 @@ amends, and the review of PR #631 found the gaps. Decided with Kapil on #632 (A1
 of ADR, from one template in core memory with two shapes — Garura's Markdown ADRs and product
 `decision.yaml` records; existing ADRs stay as written for now; a sub-agent gathers the context
 and checks, a skill drafts, scripts do the mechanical work; a small play holds the person's
-approval. ADR 031 sets the drive rule this play follows: a drive asks questions but never stops
+approval. ADR 031 sets the loop rule this play follows: a loop asks questions but never stops
 for approval, and its final review accepts. Plays that make product decisions call the skill
 directly and accept at their own review; this play is the by-hand path and the place a proposed
 ADR is later accepted.
@@ -94,9 +94,9 @@ ADR is later accepted.
   `/adr` runs by hand and the person accepts, then a structured decision record is written for
   that node. Measure: the record passes the structural check, reads `status: accepted` with
   `metadata.accepted_by`, and names its node.
-- S4 — (Kickoff drive, inside a drive) Given a drive hands `/adr` its contract, when it runs,
+- S4 — (Discovery loop, inside a loop) Given a loop hands `/adr` its contract, when it runs,
   then it does not stop for approval: the ADR is saved as proposed, no pointer is written, and
-  no issue or branch is opened. Measure: the run record reads `in_drive: true`; the manifest
+  no issue or branch is opened. Measure: the run record reads `in_loop: true`; the manifest
   reads `status: proposed` and `pointers_deferred: true`; no older ADR changed.
 - S5 — (framework author, rejects) Given the person rejects the drafted ADR, when the run
   reaches approval, then nothing is written. Measure: no new ADR file, no older ADR changed, the
@@ -113,7 +113,7 @@ run by hand the play starts before its issue exists.
 - D1 — says: "the decision record was saved"
   check: { type: artifact_exists, path: "adr-manifest.json" }
 - D2 — says: "it was decided — accepted by a person (by hand), or saved as proposed for the
-  drive's final review"
+  loop's final review"
   check: { type: field_equals, file: "adr-manifest.json", field: "decided", equals: true }
 - D3 — says: "it follows the template"
   check: { type: field_equals, file: "adr-manifest.json", field: "lint_ok", equals: true }
@@ -137,9 +137,9 @@ run by hand the play starts before its issue exists.
 - REC5 (F5) — trigger: the decision would change a person's business intent. direction: stop
   before writing; show the person which intent and why; the person changes the brief or ends
   the run. handoff: human.
-- REC6 (F6) — trigger: accepted without a person, a rejected ADR written, or a drive waited.
+- REC6 (F6) — trigger: accepted without a person, a rejected ADR written, or a loop waited.
   direction: reset to proposed (or remove the rejected file); by hand, present and record only
-  the person's own word; in a drive, save as proposed and move on. handoff: human.
+  the person's own word; in a loop, save as proposed and move on. handoff: human.
 - REC7 (F7) — trigger: an older ADR edited beyond its pointer, or a pointer written early.
   direction: restore the older ADR from git and re-write only the pointer, after acceptance.
   handoff: autonomous.
@@ -150,7 +150,7 @@ run by hand the play starts before its issue exists.
   to commit or set aside the open changes; after writing, restore the offending paths from git,
   after a person confirms. handoff: human.
 - REC10 (F10) — trigger: by hand without opening or landing the change, or an issue or branch
-  opened inside a drive. direction: by hand, run the missing opening or end step; in a drive,
-  close the stray issue and branch and continue on the drive's branch. handoff: human.
+  opened inside a loop. direction: by hand, run the missing opening or end step; in a loop,
+  close the stray issue and branch and continue on the loop's branch. handoff: human.
 - REC11 (F11) — trigger: the close would read COMPLETED with done checks unmet. direction:
   close HALTED with the unmet checks named; fix and re-evaluate. handoff: autonomous.

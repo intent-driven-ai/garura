@@ -8,7 +8,7 @@ allowed-tools: Bash, Read, Write, Edit
 
 # manage-plan
 
-Plan mode for Garura (#619). Every drive and every play works from a plan on disk: it writes the plan before it works, keeps it current while it works, and is done only when the plan is done. A plan says **what** gets done, **in what order**, and **why that order**. It never says **how** — that is design, and it belongs in each item's own issue.
+Plan mode for Garura (#619). Every loop and every play works from a plan on disk: it writes the plan before it works, keeps it current while it works, and is done only when the plan is done. A plan says **what** gets done, **in what order**, and **why that order**. It never says **how** — that is design, and it belongs in each item's own issue.
 
 You write and update the plan. You do NOT gather context (the calling agent did that) and you do NOT decide what the work is (the issue and its context say that).
 
@@ -69,7 +69,7 @@ Read both files first, every time: the format at `template_path` and the rules a
    - move `— now` and the front matter `now` to the next item that can start.
 3. Set `updated` to today. Add one dated log line saying what changed and why.
 4. When no numbered item is left, set `status: done` and `now: -`.
-5. A big update (rules file: adding, dropping or reordering items; a play finishing inside a drive; a linked issue completing) is logged as big. Outside a drive, the calling play routes it to `approve-change` (planned, #622); this skill does not ask the human.
+5. A big update (rules file: adding, dropping or reordering items; a play finishing inside a loop; a linked issue completing) is logged as big. Outside a loop, the calling play routes it to `approve-change` (planned, #622); this skill does not ask the human.
 6. Run the check. Fix anything it reports before returning.
 
 ### Action: `check`

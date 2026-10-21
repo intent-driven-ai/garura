@@ -21,11 +21,11 @@ approval.
 One model, every kind written on its own (ADR 043; ADR 031 parts 2–3; ontology v3–v4). Each
 kind has one writer: /intent writes business intents, /vision writes domains, /understand
 writes capabilities and functionalities. None needs another to run first; the links between
-them are made later — inside a drive by the drive's gap skills, by hand by the person running
+them are made later — inside a loop by the loop's gap skills, by hand by the person running
 the next play. So /vision starts from whatever the model already holds:
 
 - **Business intents** — the goal is drawn from the intent pages (title, outcome, why). An
-  intent may be only proposed (inside a drive the person confirms at the drive's end review),
+  intent may be only proposed (inside a loop the person confirms at the loop's end review),
   so /vision never waits for a confirmation and never runs the workable check.
 - **Domains already in the model** — a light (directional) domain page is raised to the full
   page, keeping what it said; a full page may be extended.
@@ -48,7 +48,7 @@ pass. Structure lives in the spine; meaning lives in the docs.
 
 The play reads no memory itself (ADR 039 §2); its agents and skills do the work. `product-os-keeper` routes the product to its domains and authors the domain pages through `search-kb`, `propose-kb-node` and `author-vision-seed`, reading memory only through the memory tool. The `template-manager` agent hands out every template the play needs — the approval prompt, each judged kind's grounding template, and the close's templates — as copies in the issue's short-term memory. Each content-quality judge is an isolated sub-agent running the `judge-grounding` skill, handed only the doc, its parent doc, and the kind's per-section guidance block cut from the template copy by a bundled script — never the template's gold example.
 
-Pipeline position: **both**. /vision stands on its own (ADR 029 §4; #616): run by hand, it opens its own change and lands it. Inside a drive (ADR 029 §2–3; #614) it is handed the drive's contract (`standards/rules/drive-contract.md`) and opens nothing: no `start-change`, no end sequence, no wait at its checkpoint — it works on the drive's branch, commits its model change there, and keeps what its checkpoint would have shown as a review record for the drive's end review. The D2 rule prepends `start-change` — resolve or create the issue, cut the branch off fresh main, optional worktree, init STM — and, after the model delta is committed, appends the close sequence `commit-change → propose-change → review-change → merge-change`, landing the change on main. No later play needs to run for /vision's work to be finished: /understand and the plays after it start from main. It writes the persistent product model **directly, in place** on the started branch — there is no draft copy and no apply/promote step; review is the branch git diff and the end PR. (#437, #500, ADR 026; position changed from start to both in #616.)
+Pipeline position: **both**. /vision stands on its own (ADR 029 §4; #616): run by hand, it opens its own change and lands it. Inside a loop (ADR 029 §2–3; #614) it is handed the loop's contract (`standards/rules/loop-contract.md`) and opens nothing: no `start-change`, no end sequence, no wait at its checkpoint — it works on the loop's branch, commits its model change there, and keeps what its checkpoint would have shown as a review record for the loop's end review. The D2 rule prepends `start-change` — resolve or create the issue, cut the branch off fresh main, optional worktree, init STM — and, after the model delta is committed, appends the close sequence `commit-change → propose-change → review-change → merge-change`, landing the change on main. No later play needs to run for /vision's work to be finished: /understand and the plays after it start from main. It writes the persistent product model **directly, in place** on the started branch — there is no draft copy and no apply/promote step; review is the branch git diff and the end PR. (#437, #500, ADR 026; position changed from start to both in #616.)
 
 Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM authoring skill writes ONLY the domain grounding docs (`domain.md`) straight to the live model — new docs, and updates to existing docs at its altitude that keep what was there; it never removes a doc and never writes a shared file. Every shared-file mutation (the spine `_spine.yaml`, including its `profile` block) is done by the deterministic keyed persist script, in place: it adds domain entries whose id is absent and the profile only if none exists, makes only the named updates to an existing domain entry, and refuses anything else — any capability, functionality, slice or epic entry above all (ADR 043) (the node-level containment the file-level scoped guard cannot see inside the shared spine). Containment is a post-write scoped guard over the full delta (`scoped_write_guard.py`) plus a keep check over every existing doc the run changed, not a draft. Clean tree in, committed delta out: the product-os tree is asserted clean once start-change has cut the fresh branch, and after the approved checkpoint the play commits its own model delta on the branch, so the working-tree diff vs HEAD is exactly this run's delta and the end sequence lands exactly that delta.
 
@@ -99,8 +99,8 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
   changed (`--modify-only`); the spine `_spine.yaml` (with its profile block) is `--allow`. A
   re-run with nothing new to add changes nothing.
 - C7 — Exactly one human checkpoint, presenting each domain and the
-  directional profile. (Inside a drive the checkpoint does not wait;
-  it becomes a review record for the drive's end review — C11.) The checkpoint is a **conditional gate**
+  directional profile. (Inside a loop the checkpoint does not wait;
+  it becomes a review record for the loop's end review — C11.) The checkpoint is a **conditional gate**
   (#467; `gate-config.md` three gate kinds — /vision is one of the eleven conditional
   document plays). Resolution order: pinned (n/a here) → the `gates.plays` override →
   the learned policy (classify the working-tree change shape — the model tree's diff vs
@@ -114,7 +114,7 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
   skill, the spine + profile by the keyed persist), so the checkpoint presents the real
   model git diff and the change-shape is classified over the full delta; nothing is
   COMMITTED before the gate resolves — a typed approval, a recorded config skip, a
-  recorded policy auto-pass, OR, inside a drive, a recorded deferral to the drive's review
+  recorded policy auto-pass, OR, inside a loop, a recorded deferral to the loop's review
   (C11). On cancel the whole model delta is reverted (`git restore` +
   `git clean` over the model paths via the guard `--restore` with an empty allow set) — the
   branch, issue, and STM that start-change created are its own committed side effects and
@@ -145,34 +145,34 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
   an intent is linked both ways: the domain's spine `intents` names the intent, and the intent
   page's Touches list names the domain, marked `adds` (written by this run) or `changes`
   (already there) — both written by the keyed persist script, never by hand.
-- C11 — Runs inside a drive without stopping (ADR 029 §2–3; `standards/rules/drive-contract.md`):
-  handed a drive's contract (`--contract`), the play checks it first with the bundled
-  `check_drive_contract.py` — an invalid contract, or a current branch other than the
-  drive's, halts — and records `in_drive` in `run.json`. Inside a drive it runs no
-  `start-change` and no end sequence (the drive opens and lands the change); it takes its
+- C11 — Runs inside a loop without stopping (ADR 029 §2–3; `standards/rules/loop-contract.md`):
+  handed a loop's contract (`--contract`), the play checks it first with the bundled
+  `check_loop_contract.py` — an invalid contract, or a current branch other than the
+  loop's, halts — and records `in_loop` in `run.json`. Inside a loop it runs no
+  `start-change` and no end sequence (the loop opens and lands the change); it takes its
   intents and goal from the contract's inputs and its answers from the contract's answers;
   it asserts the clean model tree at once; it resolves its checkpoint (C7) exactly as by
   hand — a config skip or a policy auto-pass is recorded as by hand — and only where the
   gate would WAIT does it not wait: it renders the checkpoint exactly as it would have been shown and writes it, with the files
   it stands on (the shape, the keep check, the guard report, the persist record), as a
-  review record into the contract's `review_dir` with the bundled `write_drive_review.py`,
-  and appends the crossing to the gate ledger as `deferred_to_drive_review` (the learner
-  skips it until the drive's review writes the person's real answer). It still commits
-  its model delta on the drive's branch (C9). A question neither the contract nor the model
-  answers — no intents and no goal — is the drive's (ADR 041): the play writes it to
-  `<review_dir>/open-vision.json` (drive contract, step 5), does what it does not block, and
-  finishes; the drive asks the person only what none of its plays can answer. The play
+  review record into the contract's `review_dir` with the bundled `write_loop_review.py`,
+  and appends the crossing to the gate ledger as `deferred_to_loop_review` (the learner
+  skips it until the loop's review writes the person's real answer). It still commits
+  its model delta on the loop's branch (C9). A question neither the contract nor the model
+  answers — no intents and no goal — is the loop's (ADR 041): the play writes it to
+  `<review_dir>/open-vision.json` (loop contract, step 5), does what it does not block, and
+  finishes; the loop asks the person only what none of its plays can answer. The play
   never picks an answer itself. Run by hand (no contract), every step runs as before.
   Either way, the run's short-term memory is the issue it works on (ADR 036 §1, ADR 039 §1):
-  inside a drive the contract's `issue`, run by hand the issue `start-change` opens or
+  inside a loop the contract's `issue`, run by hand the issue `start-change` opens or
   resolves. The run's working folder is `{stm_base}<issue>/context/vision/<product_slug>/`,
   its status, resume and session-stamp markers sit in `{stm_base}<issue>/status/`, and its
   sub-play results in `{stm_base}<issue>/context/vision/start/` and `…/end/` — so every
   question and the person's answers live where the memory tool finds them. Run by hand,
-  nothing is written to disk before `start-change` has given the issue; inside a drive the
+  nothing is written to disk before `start-change` has given the issue; inside a loop the
   issue is known at pre-flight from the contract.
 
-  On a later round the contract's `inputs.vision.targets` names the drive's work for it (a
+  On a later round the contract's `inputs.vision.targets` names the loop's work for it (a
   capability no domain holds, ADR 043): it finds, by research, the domain each belongs in.
 - C12— Reads the product, not the sample (Kapil, 2026-10-21: "they can extract the domain and
   do not need intents to do that. looking at screens its easy to know which domain and what
@@ -218,8 +218,8 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
   changed an existing spine entry beyond the named updates (an entry removed, an `id` changed,
   `detail` lowered, an intent link removed), or an intent page changed beyond its Touches list.
 - F6 — The model delta was COMMITTED before the checkpoint gate resolved (no typed
-  approval, no recorded config skip, no recorded policy auto-pass, and — inside a drive — no
-  recorded deferral to the drive's review), or a cancelled checkpoint left model writes on
+  approval, no recorded config skip, no recorded policy auto-pass, and — inside a loop — no
+  recorded deferral to the loop's review), or a cancelled checkpoint left model writes on
   the working tree instead of reverting them.
 - F7 — The close proves nothing — the play closes COMPLETED without the Done means held
   (no persist record, the persist not stamped applied, the scoped-write guard report not
@@ -236,15 +236,15 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
 - F11 — A link or a gap was left silent or one-sided: a domain was added twice; a domain
   linked to an intent is missing from the intent's Touches list, or the intent is missing from
   the domain's spine `intents`; an input intent no domain serves was left with no warning.
-- F12 — Inside a drive, the play opened an issue or a branch, ran the end sequence, waited at
-  its checkpoint, or worked on a branch other than the drive's; or, run by hand, it skipped
+- F12 — Inside a loop, the play opened an issue or a branch, ran the end sequence, waited at
+  its checkpoint, or worked on a branch other than the loop's; or, run by hand, it skipped
   its opening, its checkpoint or its end sequence; or, either way, a run file (the working
   folder, a status marker, a sub-play result) lies outside the issue the run works on, or a
   file was written before `start-change` gave the issue.
-- F13 — Inside a drive, the checkpoint left no review record in the drive's `review_dir`,
+- F13 — Inside a loop, the checkpoint left no review record in the loop's `review_dir`,
   the record differs from what the checkpoint would have shown, the gate ledger has no line
   for the crossing, or a line records an approval no person gave; or the play picked an
-  answer to a question the drive had not answered.
+  answer to a question the loop had not answered.
 
 - F14 — Handed a prototype's capture, the play named a domain after the sample data or the
   screens' own words, or missed the field the screens are about; or a main section sits in no
@@ -301,18 +301,18 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
   page. Measure: the run closes COMPLETED in both cases; the second run's persist manifest
   lists the missing pages in `warnings`.
 
-- S7 — (Kickoff drive, inside a drive) Given a drive hands /vision its contract — the
-  drive's branch, its issue, its `review_dir`, the intents /intent saved and the answers to
+- S7 — (Discovery loop, inside a loop) Given a loop hands /vision its contract — the
+  loop's branch, its issue, its `review_dir`, the intents /intent saved and the answers to
   /vision's questions — when /vision runs, then it opens nothing, does not stop at its
-  checkpoint, commits its model change on the drive's branch and leaves a review record for
-  the drive's review. Measure: `run.json` reads `in_drive: true` with the contract's
-  `drive_run_id` and branch; no `start-change` or end-sequence step ran and the current
+  checkpoint, commits its model change on the loop's branch and leaves a review record for
+  the loop's review. Measure: `run.json` reads `in_loop: true` with the contract's
+  `loop_run_id` and branch; no `start-change` or end-sequence step ran and the current
   branch equals the contract's branch; a `<review_dir>/vision-<ts>.json` record exists with
   `decided: false` and its summary file; the gate ledger's line for the run reads
-  `deferred_to_drive_review` (or `auto_pass` on a policy-listed shape); the model delta is
-  committed on the drive's branch; the stop-condition verdict reads held; `run.json` sits in
+  `deferred_to_loop_review` (or `auto_pass` on a policy-listed shape); the model delta is
+  committed on the loop's branch; the stop-condition verdict reads held; `run.json` sits in
   `{stm_base}<contract issue>/context/vision/<product_slug>/`. Run by hand, the same play's
-  `run.json` reads `in_drive: false`, every step ran as before, and it sits in the folder of
+  `run.json` reads `in_loop: false`, every step ran as before, and it sits in the folder of
   the issue `start-change` gave.
 
 - S8 — (product strategist, from a prototype alone) Given only a prototype's capture — no
@@ -376,7 +376,7 @@ not per-node docs.
 - REC6 (F6) — trigger: the model delta was committed before the checkpoint resolved, or a
   cancelled checkpoint left writes on the working tree. direction: revert the premature
   commit and the working-tree writes (guard `--restore`, empty allow set) and re-present
-  the checkpoint; commit only after the human approves (inside a drive, only after the
+  the checkpoint; commit only after the human approves (inside a loop, only after the
   deferral is recorded). handoff: human.
 - REC7 (F7) — trigger: the close would report COMPLETED without the Done means held.
   direction: close HALTED with `exit_reason: stop_condition_unmet` and the unmet clauses
@@ -399,18 +399,18 @@ not per-node docs.
 - REC11 (F11) — trigger: a domain added twice, a one-sided link, or an input intent no domain
   serves with no warning. direction: drop the duplicate; re-run the keyed persist so it writes
   the missing side of each link; record the unserved intent as a warning. handoff: autonomous.
-- REC12 (F12) — trigger: inside a drive the play opened an issue or branch, ran the end
-  sequence, waited at its checkpoint, or worked off the drive's branch; or by hand it skipped
-  a step; or a run file lies outside the issue the run works on. direction: inside a drive,
-  close the stray issue and branch, switch to the drive's branch, and write the review record
+- REC12 (F12) — trigger: inside a loop the play opened an issue or branch, ran the end
+  sequence, waited at its checkpoint, or worked off the loop's branch; or by hand it skipped
+  a step; or a run file lies outside the issue the run works on. direction: inside a loop,
+  close the stray issue and branch, switch to the loop's branch, and write the review record
   in place of the wait; by hand, run the skipped step; move any run file into the issue's
   folder (`context/vision/<product_slug>/`, `status/`).
   handoff: human.
 - REC13 (F13) — trigger: no review record, a record that differs from the checkpoint, no
   ledger line, an approval no person gave, or an answer the play picked itself. direction:
-  re-render the checkpoint and re-write the review record with `write_drive_review.py`;
-  append the missing `deferred_to_drive_review` line, or a correction refuting a made-up
-  approval; drop the picked answer and hand the question to the drive (`open-vision.json`;
+  re-render the checkpoint and re-write the review record with `write_loop_review.py`;
+  append the missing `deferred_to_loop_review` line, or a correction refuting a made-up
+  approval; drop the picked answer and hand the question to the loop (`open-vision.json`;
   run by hand, ask the person). handoff: autonomous.
 
 - REC14 (F14) — trigger: a domain named after the sample or the screens' words, or the field the

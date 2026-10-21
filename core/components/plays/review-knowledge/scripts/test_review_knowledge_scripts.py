@@ -112,16 +112,16 @@ class RecordReview(unittest.TestCase):
     def run_record(self, reply):
         search = {"groups": [{"id": "s1", "members": ["intent-q7"]}, {"id": "s2", "members": ["understand-q2"]}]}
         build = {"groups": [{"id": "b2", "from": ["s1"]}, {"id": "b3", "from": ["s2"]}]}
-        os.makedirs(self.p("drive"), exist_ok=True)
+        os.makedirs(self.p("loop"), exist_ok=True)
         for name, data in (("brief.json", BRIEF), ("review.json", reply), ("build.json", build),
                            ("search.json", search),
-                           ("drive/open-intent.json", {"play": "intent", "questions": [{"id": "intent-q7"}]}),
-                           ("drive/open-understand.json", {"play": "understand", "questions": [{"id": "understand-q2"}]})):
+                           ("loop/open-intent.json", {"play": "intent", "questions": [{"id": "intent-q7"}]}),
+                           ("loop/open-understand.json", {"play": "understand", "questions": [{"id": "understand-q2"}]})):
             with open(self.p(name), "w") as fh:
                 json.dump(data, fh)
         rc = quiet(rr.main, ["--brief", self.p("brief.json"), "--reply", self.p("review.json"),
                              "--build", self.p("build.json"), "--search", self.p("search.json"),
-                             "--review-dir", self.p("drive"),
+                             "--review-dir", self.p("loop"),
                              "--issue-dir", self.p("issue"), "--round", "3", "--out", self.p("rec.json")])
         with open(self.p("rec.json")) as fh:
             return rc, json.load(fh)
@@ -155,7 +155,7 @@ class RecordReview(unittest.TestCase):
         rc, rec = self.run_record({"words": "yes", "gaps": {}, "pages": {}})
         self.assertEqual(rc, 1)
         self.assertNotIn("written", rec)
-        self.assertFalse(os.path.exists(self.p("issue", "review", "drive", "person-answers-round-3.json")))
+        self.assertFalse(os.path.exists(self.p("issue", "review", "loop", "person-answers-round-3.json")))
 
 
 if __name__ == "__main__":

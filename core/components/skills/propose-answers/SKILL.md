@@ -1,6 +1,6 @@
 ---
 name: propose-answers
-description: For each gap a drive's search could not close and only the person can confirm — who may decide, how we will know it works, how big it will get — draft our own proposed answer from what the drive's sources, memory and run already show, with its basis and the context the person needs to judge it, so the person confirms or corrects instead of answering a bare question. Closes as settled a gap the context already answers (an internal tool is not asked how it earns money). Used by the knowledge-builder agent in /build-knowledge.
+description: For each gap a loop's search could not close and only the person can confirm — who may decide, how we will know it works, how big it will get — draft our own proposed answer from what the loop's sources, memory and run already show, with its basis and the context the person needs to judge it, so the person confirms or corrects instead of answering a bare question. Closes as settled a gap the context already answers (an internal tool is not asked how it earns money). Used by the knowledge-builder agent in /build-knowledge.
 user-invocable: false
 model: sonnet
 allowed-tools: Read, Write, Glob, Grep
@@ -8,8 +8,8 @@ allowed-tools: Read, Write, Glob, Grep
 
 # propose-answers
 
-A person who gave a drive a prototype knows what it is for. A list of questions makes them do
-the drive's work. This skill does that work: it drafts the answer we would put, from what we
+A person who gave a loop a prototype knows what it is for. A list of questions makes them do
+the loop's work. This skill does that work: it drafts the answer we would put, from what we
 already saw, and shows why — so the person only says yes or corrects.
 
 ## Input
@@ -17,8 +17,8 @@ already saw, and shows why — so the person only says yes or corrects.
 | Field | Required | Meaning |
 |-------|----------|---------|
 | `gaps` | yes | The search groups still `partly` or `open` that research cannot answer — each with its plain question, what is missing, and any partial answer |
-| `sources` | yes | The drive's Source evidence (for a prototype: views, journeys, the page) |
-| `run` | yes | What the drive made: the proposed intents, the domain, its capabilities (the product model's files for this run) |
+| `sources` | yes | The loop's Source evidence (for a prototype: views, journeys, the page) |
+| `run` | yes | What the loop made: the proposed intents, the domain, its capabilities (the product model's files for this run) |
 | `out` | yes | Where to write the proposals (`<working>/proposals.json`) |
 
 ## Process

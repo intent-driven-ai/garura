@@ -1,0 +1,42 @@
+{
+  "decided": true,
+  "lint_ok": true,
+  "linked": true,
+  "target": "docs/adr/045-a-drive-is-now-called-a-loop.md",
+  "shape": "markdown",
+  "guard": {
+    "adr": ".garura/project/issues/_adr/20261021-162722/adr-draft.md",
+    "declared": "none",
+    "touches_an_intent": [],
+    "verdict": "no person's business intent changes"
+  },
+  "olders": [
+    {
+      "adr": "028",
+      "file": "docs/adr/028-agentic-lifecycle-five-loops.md",
+      "kind": "amended",
+      "part": "\"Each loop is an intent\" \u2014 the names Understand, Shape, Execute, Change, Learn are no longer working names: the loops are named Discovery (was Understand), Slice (was Shape), Execute, Ship (was Change) and Learn; and \u00a75 \"Learn\": its plays are /learn, /promote and /drift (in place of /next, /focus, /learn). Also the word ADR 029 took from it (\"loop recipe\" becomes drive) comes back: a loop is a loop."
+    },
+    {
+      "adr": "029",
+      "file": "docs/adr/029-drives.md",
+      "kind": "amended",
+      "part": "\u00a71 \"A drive is a run of plays\" \u2014 the word: a drive is now a loop, and the American-football origin of the name goes; \u00a76 \"The first drive: Kickoff\" \u2014 Kickoff is now the Discovery loop; and \u00a71's rule \"A drive never shares a name with a play\" \u2014 the Learn loop shares its name with the /learn play; the always-full-name rule (\"the Learn loop\", never a bare \"loop\") now separates them. Everything else in ADR 029 stands, under the new word."
+    },
+    {
+      "adr": "044",
+      "file": "docs/adr/044-the-shared-drive-run-owns-the-steps-between-plays.md",
+      "kind": "amended",
+      "part": "\u00a71 \"The Shared Drive Run owns the steps between plays\" \u2014 the name only: the Shared Drive Run is now the Shared Loop Run. What it owns does not change."
+    }
+  ],
+  "status": "accepted",
+  "accepted_by": "Kapil Viren Ahuja",
+  "pointers_written": [
+    "028-agentic-lifecycle-five-loops.md",
+    "029-drives.md",
+    "044-the-shared-drive-run-owns-the-steps-between-plays.md"
+  ],
+  "pointers_missing": [],
+  "index_ok": true
+}

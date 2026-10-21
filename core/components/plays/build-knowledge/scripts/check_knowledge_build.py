@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """check_knowledge_build.py — is every gap the search left closed one honest way? (/build-knowledge)
 
-/search-knowledge answered what the drive's sources and memory hold. What it left — groups it
+/search-knowledge answered what the loop's sources and memory hold. What it left — groups it
 found `partly` or `open` — the knowledge-builder agent closes here: a researched knowledge page
 raised as a memory update a person approves, our proposed answer with its basis and context, a
 note for the prototype, or settled because the context already answers it. This script checks

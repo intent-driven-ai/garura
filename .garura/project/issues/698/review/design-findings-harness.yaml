@@ -1,0 +1,34 @@
+category: harness
+grounding:
+  - {principle: "A drive (now loop) is a higher-order play; it carries no product rules of its own, and every play it runs checks the loop contract", source: "docs/adr/029-drives.md section 2 (main); docs/adr/044 (main)"}
+  - {principle: "A drive always records its evidence; its runner, checker and max_rounds are set per drive in config.yaml", source: "docs/adr/029-drives.md (main); core/config.yaml comment block on main"}
+  - {principle: "An intent change goes through ice.md then recompile and a fresh fingerprint; a non-intent edit is direct", source: "CLAUDE.md Play Pipeline Rules (main)"}
+  - {principle: "The shared run and the stamped scripts live once in a source; each stamped copy must match its source", source: "core/components/plays/_shared/play-close.md pattern and lint_drive.py 'stamped scripts unchanged' check (main)"}
+  - {principle: "Install keeps an existing target config unless --force-config; renames are retired through the prior manifest", source: "core/components/plays/install-garura/scripts/install.py retire_stale and config step (main)"}
+  - {principle: "ADR 045 is new in this diff and is NOT used as grounding; its list of renames was used only as a checklist of what to look for"}
+verified_ok:
+  - "Stamped copies agree: every loop-creator/references/*.py, every compiled-loop-example/scripts/*.py, every loops/discovery/scripts/*.py and the stamped check_loop_contract.py in intent, build-knowledge and play-creator are byte-identical to their source (cmp, no difference). lint_loop.py on loops/discovery/SKILL.md: PASS, including 'stamped scripts unchanged' and 'fingerprint matches'."
+  - "Fingerprints: sha256 of reference/ice.md equals the fingerprint in SKILL.md for adr, build-knowledge, intent, review-knowledge, search-knowledge, understand, vision and loops/discovery. lint_play.py on those seven plays reports no gap. Every changed ice.md has a matching recompiled SKILL.md and fingerprint."
+  - "Discovery by tools: discover.js reads loops/ and emits type 'loop'; structural.js checks kind: loop and the Shared Loop Run anchors; install.py, adapters (claude, codex, common) and the config transform use 'loops'. test_install.py (41), test_discovery_scripts.py (9), test_loop_scripts.py (47), test_lint_loop.py (39) all pass."
+  - "Names are consistent end to end: no remaining drive-named path, script, config key, agent, skill or contract field in core/, installer/, CLAUDE.md, README or docs/components (git grep). Contract fields (loop_run_id, loop), run.json in_loop, config loops.discovery and evidence.plays.discovery are all read where they are written."
+  - "lint-components reports 121 errors and 2 warnings on this branch and exactly the same on main, so the rename adds none."
+  - "Hand edits to compiled SKILL.md files only change the name; the lint gaps on loops/discovery/SKILL.md (failure and constraint coverage) are the same two gaps the Kickoff SKILL.md has on main."
+findings:
+  - id: H1
+    severity: P3
+    file: core/config.yaml
+    line: 103-126
+    summary: "The config keys were renamed (drives.kickoff to loops.discovery, evidence.plays.kickoff to evidence.plays.discovery), but a project that already installed keeps its old config (install.py keeps an existing config unless --force-config) and nothing carries the old block across. loop_preflight.py reads only loops.<loop> and evidence.plays.<loop>, so on an upgraded project it halts with 'loops.discovery.checker.model is not set' (loud, not silent) and gives no hint that an old 'drives:' block sits there. If the person just sets the model, evidence.plays.discovery is still unset, so evidence falls back to evidence.record, which can be false, against ADR 029's 'a drive always records its evidence'. The upgrade path is not written anywhere in the changed files."
+    basis: "docs/adr/029 (main, always records evidence); install.py config step and retire_stale (main); loop_preflight.py lines 87-96, 120-123 (this branch, read as code, not as design)"
+  - id: H2
+    severity: P4
+    file: core/components/plays/intent/reference/ice.md
+    line: 138
+    summary: "The same Kickoff run 7 is named 'Discovery run 7' at line 206 of this file but 'Kickoff run 7' at line 138; understand/reference/ice.md line 211 also still says 'Kickoff run 7'. The quotes inside are the person's own words and may keep 'drive', but the run label is a name, not a quote, so a reader sees two names for one run."
+    basis: "CLAUDE.md Play Pipeline Rules (main): ice.md is the intent source; naming must be one thing"
+  - id: H3
+    severity: P4
+    file: core/components/plays/loop-creator/references/test_lint_loop.py
+    line: 16, 92, 130
+    summary: "Test classes still say LintDrive, LintDriveMore, LintDriveHalfDone; the same in test_loop_scripts.py lines 69 (DrivePreflight) and 119 (DriveStatus), and test_install.py line 331 (LaysDrives). A failing test report would name a drive that no longer exists."
+    basis: "Rename must be complete across names a reader meets (glossary Drive row: 'never write it for new work')"

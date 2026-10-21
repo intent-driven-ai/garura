@@ -62,7 +62,7 @@ A store owner can answer how many shoppers come back and buy, from one place, an
 INTENT_PAGE = """# Grow online sales without adding sales staff
 
 **Outcome:** More shoppers finish buying online.
-**Stage:** proposed — saved inside a drive, 2026-10-09; the person confirms or drops it at the drive's final review
+**Stage:** proposed — saved inside a loop, 2026-10-09; the person confirms or drops it at the loop's final review
 **Sources:**
 - [prototype, read 2026-10-08](../../_evidence/intent/x/source.md)
 

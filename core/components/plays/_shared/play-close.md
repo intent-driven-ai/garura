@@ -29,8 +29,8 @@ Run these in order, with the values the play's close section sets.
 ### Step L — Load the templates
 
 Step L is not optional. Run it whenever C1 or C2 runs. Skip it only when both are skipped:
-evidence recording is off **and** the play runs as a sub-play or inside a drive (see
-"Sub-plays and drives"). A report written in the play's own words, because the templates were
+evidence recording is off **and** the play runs as a sub-play or inside a loop (see
+"Sub-plays and loops"). A report written in the play's own words, because the templates were
 not loaded, is a failed close.
 
 Dispatch `template-manager`, asking only for what this close uses (`evidence-file.md` when C1
@@ -156,16 +156,16 @@ its own pre-flight; (2) else the earliest checkpoint or evidence timestamp of th
 (3) else the first task's move to `in_progress`. If none is known, write
 `started_at: unknown`.
 
-## Sub-plays and drives
+## Sub-plays and loops
 
 A parent's JSON contract to a sub-play always carries `parent_run_id`. **Present ⇒ running as
 a sub-play ⇒ skip C2** (emit C1 and a compact result for the parent). **Absent ⇒ run by the
 user ⇒ do both C1 and C2.**
 
-A play inside a drive (`run.json` reads `in_drive: true`, from the drive contract) closes the
+A play inside a loop (`run.json` reads `in_loop: true`, from the loop contract) closes the
 same way as a sub-play: C1 as `evidence.record` says, no C2, and a compact result for the
-drive — its status, its stop-condition verdict, its evidence path (or the skip) and its review
-record. The drive renders the one delivery report for the whole run (drive contract, step 7).
+loop — its status, its stop-condition verdict, its evidence path (or the skip) and its review
+record. The loop renders the one delivery report for the whole run (loop contract, step 7).
 
 ## Non-blocking
 

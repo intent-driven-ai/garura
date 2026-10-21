@@ -1,6 +1,6 @@
 ---
 name: answer-from-source
-description: For each group of a drive's open questions, look in the drive's own sources again — for a prototype, every captured view, every journey step and the page itself (its text, labels, sample data and script) — and answer with a quote and the place it was found. Marks each group answered, partly answered (naming the part still missing) or not shown, and for not shown says whether the source should show it (a gap in the prototype) or no screen could (knowledge or the person). Used by the knowledge-builder agent in /search-knowledge.
+description: For each group of a loop's open questions, look in the loop's own sources again — for a prototype, every captured view, every journey step and the page itself (its text, labels, sample data and script) — and answer with a quote and the place it was found. Marks each group answered, partly answered (naming the part still missing) or not shown, and for not shown says whether the source should show it (a gap in the prototype) or no screen could (knowledge or the person). Used by the knowledge-builder agent in /search-knowledge.
 user-invocable: false
 model: opus
 allowed-tools: Read, Write, Glob, Grep
@@ -8,8 +8,8 @@ allowed-tools: Read, Write, Glob, Grep
 
 # answer-from-source
 
-A drive's plays often leave open what the source already shows: many open questions turn out
-to be answered, fully or in part, by the prototype the drive had read. This skill looks
+A loop's plays often leave open what the source already shows: many open questions turn out
+to be answered, fully or in part, by the prototype the loop had read. This skill looks
 again, properly, before anyone is asked.
 
 ## Input
@@ -17,7 +17,7 @@ again, properly, before anyone is asked.
 | Field | Required | Meaning |
 |-------|----------|---------|
 | `groups` | yes | `question-groups.json` — each group's questions and their ids |
-| `sources` | yes | The drive's Source evidence folders: for a prototype, its `screen-…`/`view-…` text and pictures, `journeys/` (each step's text), and the page file itself |
+| `sources` | yes | The loop's Source evidence folders: for a prototype, its `screen-…`/`view-…` text and pictures, `journeys/` (each step's text), and the page file itself |
 | `out` | yes | Where to write the per-group findings (`<working>/source-answers.json`) |
 
 ## Process

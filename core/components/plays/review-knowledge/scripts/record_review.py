@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""record_review.py — record the person's reply to the brief (Shared Drive Run, R5b).
+"""record_review.py — record the person's reply to the brief (Shared Loop Run, R5b).
 
-The drive shows the brief /review-knowledge wrote and waits for the person's typed reply:
+The loop shows the brief /review-knowledge wrote and waits for the person's typed reply:
 "yes" (take every proposal and every recommendation), or corrections to some gaps and pages.
-The drive writes that reply as review.json; this script checks it covers the whole brief and
+The loop writes that reply as review.json; this script checks it covers the whole brief and
 records the answers in the issue's short-term memory, so the next round's plays read them.
 
     python3 record_review.py --brief <working>/brief.json --reply <working>/review.json \
@@ -16,12 +16,12 @@ review.json:
    "pages": {"<memory update id>": "approve" | "reject"}}
   A bare "yes" is written as every gap "accept" and every page its recommendation.
 
-Writes `<issue-dir>/review/drive/person-answers-round-<n>.json`:
+Writes `<issue-dir>/review/loop/person-answers-round-<n>.json`:
   {"gaps": [{"gap", "theme", "answer", "accepted_proposal": bool, "proposed_by", "basis",
              "from": "person", "words"}],
    "answers": {"<play>": {"<question id>": "<answer>"}}}
 `answers` maps each gap back to the open questions it closes (gap → build groups → search
-groups → question ids → the play whose `open-<play>.json` asked it), so the drive adds them to
+groups → question ids → the play whose `open-<play>.json` asked it), so the loop adds them to
 the contract's `answers` and the next round's plays read them as any answer. The record lists
 each page's decision for the memory tool's `decide` (ADR 041 §8).
 Exit 0 recorded; 1 the reply leaves a gap or page undecided; 2 cannot read an input.
@@ -125,7 +125,7 @@ def main(argv=None):
     report = {"ok": not problems, "problems": problems, "answers": len(answers),
               "page_decisions": decisions}
     if not problems:
-        dest = os.path.join(args.issue_dir, "review", "drive", f"person-answers-round-{args.round}.json")
+        dest = os.path.join(args.issue_dir, "review", "loop", f"person-answers-round-{args.round}.json")
         os.makedirs(os.path.dirname(dest), exist_ok=True)
         mapped = by_play(answers, brief, build, search, plays)
         with open(dest, "w", encoding="utf-8") as fh:

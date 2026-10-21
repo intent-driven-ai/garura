@@ -31,7 +31,7 @@ import sys
 
 REQUIRED_FIELDS = ["plan_for", "kind", "serves", "status", "updated", "now"]
 STATUSES = {"active", "done", "dropped"}
-KINDS = {"business-intent", "feature", "story", "bug", "spike", "chore", "drive", "play"}
+KINDS = {"business-intent", "feature", "story", "bug", "spike", "chore", "loop", "play"}
 REQUIRED_SECTIONS = [
     "What we are trying to reach",
     "When this plan is done",

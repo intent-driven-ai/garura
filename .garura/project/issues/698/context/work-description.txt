@@ -1,0 +1,1 @@
+Rename drive to loop and Kickoff to Discovery everywhere in Garura (#698).

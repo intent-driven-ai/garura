@@ -46,10 +46,10 @@ def stub_tool(work, updates):
 class GroupQuestions(Work):
     def setUp(self):
         super().setUp()
-        self.write("issue/review/drive/open-intent.json", {"play": "intent", "questions": [
-            {"id": "i1", "ask": "How will you know signing off a drive works?", "about": "sign-off"},
+        self.write("issue/review/loop/open-intent.json", {"play": "intent", "questions": [
+            {"id": "i1", "ask": "How will you know signing off a loop works?", "about": "sign-off"},
             {"id": "i2", "ask": "Why does it matter to the business?", "about": "sign-off"}]})
-        self.write("issue/review/drive/open-understand.json", {"play": "understand", "questions": [
+        self.write("issue/review/loop/open-understand.json", {"play": "understand", "questions": [
             {"id": "u1", "ask": "How will you know answering every change works?", "about": "answer"},
             {"id": "u2", "ask": "How quickly must a card open?", "about": "answer"},
             {"id": "u3", "ask": "How fast must a comment show?", "about": "comment"},
@@ -61,7 +61,7 @@ class GroupQuestions(Work):
             {"id": "mu-3", "issue": 8, "status": "waiting", "missing": "Another issue's speed"}])
 
     def groups(self):
-        rc = quiet(gq.main, ["--review-dir", self.p("issue/review/drive"), "--issue", "7",
+        rc = quiet(gq.main, ["--review-dir", self.p("issue/review/loop"), "--issue", "7",
                              "--memory-tool", self.tool, "--out", self.p("g.json")])
         self.assertEqual(rc, 0)
         with open(self.p("g.json")) as fh:
@@ -88,7 +88,7 @@ class GroupQuestions(Work):
 
     def test_a_memory_tool_error_stops_the_grouping(self):
         bad = self.write("bad.py", "import json\nprint(json.dumps({'ok': False, 'message': 'tier_missing'}))\n")
-        rc = quiet(gq.main, ["--review-dir", self.p("issue/review/drive"), "--issue", "7",
+        rc = quiet(gq.main, ["--review-dir", self.p("issue/review/loop"), "--issue", "7",
                              "--memory-tool", bad, "--out", self.p("g.json")])
         self.assertEqual(rc, 2)
 

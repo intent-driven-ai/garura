@@ -1,6 +1,6 @@
 # ADR 044 — The Shared Drive Run Owns the Steps Between Plays, and Inside a Drive the Gap-Closing Script May Write Shared Model Files
 
-**Status:** Accepted
+**Status:** Accepted — amended in part by [ADR 045](045-a-drive-is-now-called-a-loop.md): §1 "The Shared Drive Run owns the steps between plays" — the name only: the Shared Drive Run is now the Shared Loop Run. What it owns does not change.
 **Date:** 2026-10-21
 **Level:** framework
 **Decided by:** Kapil Viren Ahuja · **Decided in:** #693 — after the reviews of PR #691 (#689) and PR #696 (#692, finding H1)

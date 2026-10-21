@@ -9,13 +9,13 @@ that pick mechanically, so the play never re-reasons it:
     are the targets, in the order given.
   - With none named, the targets are every capability in the live spine that /vision
     seeded and nobody has detailed yet (`detail: directional`), in spine order — and,
-    inside a drive, every capability the contract carries seed answers for
+    inside a loop, every capability the contract carries seed answers for
     (`answers.seeds.<capability>`).
   - A target already `detailed` is refused (it is never re-detailed); the play halts.
   - A target absent from the spine needs the person's answers (what it is, why it
-    matters, its domain). Inside a drive, the contract's answers are written verbatim to
+    matters, its domain). Inside a loop, the contract's answers are written verbatim to
     `<working>/caps/<capability>/seed.yaml` with `answered_by: human` (a person gave them
-    before the drive started). An absent target with no answers, or whose answered domain
+    before the loop started). An absent target with no answers, or whose answered domain
     is not in the spine, is listed under `ask`:
     the play asks the person for all of them at once, before it opens any change, records
     the answers in `<working>/caps/<capability>/seed.yaml`, and runs this script again: a
@@ -103,7 +103,7 @@ def read_found(path):
 def main(argv=None):
     ap = argparse.ArgumentParser(description="Pick the capabilities one /understand run details.")
     ap.add_argument("--spine", required=True)
-    ap.add_argument("--run", required=True, help="run.json from check_drive_contract.py")
+    ap.add_argument("--run", required=True, help="run.json from check_loop_contract.py")
     ap.add_argument("--working", required=True, help="the run's working root")
     ap.add_argument("--capability", action="append", default=[], help="a named target (repeatable)")
     ap.add_argument("--found", help="found.yaml: the capabilities read off a prototype's screens")
@@ -126,8 +126,8 @@ def main(argv=None):
     caps = {c["id"]: c for c in spine.get("capabilities") or []
             if isinstance(c, dict) and isinstance(c.get("id"), str)}
     domains = {d.get("id"): d for d in spine.get("domains") or [] if isinstance(d, dict)}
-    in_drive = run.get("in_drive") is True
-    answers = run.get("answers") if in_drive else {}
+    in_loop = run.get("in_loop") is True
+    answers = run.get("answers") if in_loop else {}
     seeds = (answers or {}).get("seeds") or {}
     if not isinstance(seeds, dict):
         sys.stderr.write("pick_targets.py: the contract's answers.seeds must be a mapping\n")
@@ -214,7 +214,7 @@ def main(argv=None):
         d = t.pop("dir")
         t["scope"] = f"product-os/{d}/" if d else None
 
-    result = {"in_drive": in_drive, "targets": targets, "ask": ask, "refused": refused,
+    result = {"in_loop": in_loop, "targets": targets, "ask": ask, "refused": refused,
               "skipped": skipped, "nothing_pending": not targets and not refused}
     os.makedirs(os.path.dirname(os.path.abspath(args.out)), exist_ok=True)
     with open(args.out, "w", encoding="utf-8") as fh:

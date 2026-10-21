@@ -1,0 +1,74 @@
+meta:
+  categories: [executable-code, tests, config-maps, documentation, decision-records]
+  scanner: core/components/skills/quality-check-scoped/scripts/scan_taxonomy.py
+  generated_at: '2026-10-21T16:58:03Z'
+  diff_path: 'git diff main...HEAD (PR 700)'
+  taxonomy_path: 'core/components/memory/standards/rules/pr.md'
+  changed_paths_count: 44
+  scan_coverage: 1.0000
+  standards_relevant: 7
+  catchall:
+    CODE-20: 44
+  test_run:
+    - {cmd: 'every test_*.py under core/, each run from its own folder with python3 (38 files)', result: 'PASS (38 of 38 exit 0; none failed)'}
+    - {cmd: 'python3 core/components/plays/loop-creator/scripts/lint_loop.py core/components/loops/discovery/SKILL.md', result: 'PASS (VERDICT PASS, 0 gaps, exit 0)'}
+    - {cmd: 'bash -n installer/install.sh', result: 'PASS (exit 0)'}
+findings:
+  - standard_id: 'DOC-01'
+    severity: P3
+    file: 'README.md'
+    line: 1
+    evidence: 'README.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-01'
+  - standard_id: 'DOC-09'
+    severity: P3
+    file: 'README.md'
+    line: 1
+    evidence: 'README.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-09'
+  - standard_id: 'DOC-10'
+    severity: P3
+    file: 'README.md'
+    line: 1
+    evidence: 'README.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-10'
+  - standard_id: 'DOC-11'
+    severity: P3
+    file: 'README.md'
+    line: 1
+    evidence: 'README.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-11'
+  - standard_id: 'DOC-14'
+    severity: P4
+    file: 'README.md'
+    line: 1
+    evidence: 'README.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-14'
+  - standard_id: 'DOC-15'
+    severity: P4
+    file: 'README.md'
+    line: 1
+    evidence: 'README.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-15'
+  - standard_id: 'DOC-16'
+    severity: P4
+    file: 'README.md'
+    line: 1
+    evidence: 'README.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-16'
+counts:
+  P1: 0
+  P2: 0
+  P3: 4
+  P4: 3
+triage:
+  - "All 7 findings are path-only taxonomy rows that fire on README.md being touched (DOC-01, DOC-09, DOC-14 as P3; DOC-15, DOC-16 as P4). They point at the file, not at a defect on a line; line 1 is a placeholder. The README change adds the loops page link, so a human read of it is the real check."
+  - "No rule fired on the executable-code files, the test file, CLAUDE.md or the decision records; only the CODE-20 catch-all matched (44 files, counted not raised)."
+  - "All 38 test files, the loop lint and the installer syntax check passed."

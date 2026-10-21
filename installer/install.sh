@@ -142,7 +142,7 @@ transform_config() {
     | sed -E "s/^([[:space:]]*type:[[:space:]]*).+$/\1Project/" \
     | sed -E "s|^([[:space:]]*skills:[[:space:]]*).+$|\1./.claude/skills/|" \
     | sed -E "s|^([[:space:]]*plays:[[:space:]]*).+$|\1./.claude/skills/|" \
-    | sed -E "s|^([[:space:]]*drives:[[:space:]]*).+$|\1./.claude/skills/|" \
+    | sed -E "s|^([[:space:]]*loops:[[:space:]]*).+$|\1./.claude/skills/|" \
     | sed -E "s|^([[:space:]]*agents:[[:space:]]*).+$|\1./.claude/agents/|" \
     | sed -E "s|^([[:space:]]*memory:[[:space:]]*).+$|\1~/.garura/core/memory/|" \
     | sed -E '/^platform:/d' \
@@ -277,12 +277,12 @@ if [ "$MODE" = "init" ]; then
     done
   fi
 
-  # 3b. Deploy drives → .claude/skills/ (drives/_shared merges into skills/_shared)
-  if [ -d "$COMPONENTS_DIR/drives" ]; then
-    info "  Deploying drives..."
-    for drive_dir in "$COMPONENTS_DIR/drives"/*/; do
-      local_name="$(basename "$drive_dir")"
-      copy_dir "$drive_dir" "$TARGET_DIR/.claude/skills/$local_name"
+  # 3b. Deploy loops → .claude/skills/ (loops/_shared merges into skills/_shared)
+  if [ -d "$COMPONENTS_DIR/loops" ]; then
+    info "  Deploying loops..."
+    for loop_dir in "$COMPONENTS_DIR/loops"/*/; do
+      local_name="$(basename "$loop_dir")"
+      copy_dir "$loop_dir" "$TARGET_DIR/.claude/skills/$local_name"
     done
   fi
 
@@ -374,12 +374,12 @@ else
     done
   fi
 
-  # 3b. Upgrade drives → .claude/skills/ (drives/_shared merges into skills/_shared)
-  if [ -d "$COMPONENTS_DIR/drives" ]; then
-    info "  Upgrading drives..."
-    for drive_dir in "$COMPONENTS_DIR/drives"/*/; do
-      local_name="$(basename "$drive_dir")"
-      copy_dir "$drive_dir" "$TARGET_DIR/.claude/skills/$local_name"
+  # 3b. Upgrade loops → .claude/skills/ (loops/_shared merges into skills/_shared)
+  if [ -d "$COMPONENTS_DIR/loops" ]; then
+    info "  Upgrading loops..."
+    for loop_dir in "$COMPONENTS_DIR/loops"/*/; do
+      local_name="$(basename "$loop_dir")"
+      copy_dir "$loop_dir" "$TARGET_DIR/.claude/skills/$local_name"
     done
   fi
 

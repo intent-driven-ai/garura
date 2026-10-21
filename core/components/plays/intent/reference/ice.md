@@ -17,7 +17,7 @@ shared as the **Source**, exactly as it was when read:
 This play writes business intents only (ADR 043). It writes no ICE, no capability and no
 domain: `/vision` writes the domains, and `/understand` writes the capabilities and
 functionalities with their ICE. Each kind is written on its own and linked later — by the
-play that links a part to an intent, or, inside a drive, by the drive's gap skills. Run on its
+play that links a part to an intent, or, inside a loop, by the loop's gap skills. Run on its
 own, this play leaves the rest of the model to those plays, and the person runs them when they
 want it.
 
@@ -52,16 +52,16 @@ play pulls out what the person wants; it never copies how the source does it.
   `confirmed` only on the person's typed confirmation of that intent, recorded with who and
   when; the person may drop any intent instead, and a dropped intent is not saved. An agent
   never confirms or drops one. Run by hand, the play asks the person to confirm or drop each
-  intent before saving — a pinned gate (class: standard, pinned). Inside a drive there is no approval stop: the drive may still ask its
+  intent before saving — a pinned gate (class: standard, pinned). Inside a loop there is no approval stop: the loop may still ask its
   questions, but the intents are saved as `proposed`, and the person confirms or drops them at
-  the drive's final review (the review and the pull request at its end). Until then no ICE
+  the loop's final review (the review and the pull request at its end). Until then no ICE
   built for them is workable.
 - C5 — Nothing without a basis: every title, outcome and limit traces to what the source shows,
   to the journeys walked through it, to memory (found through the memory tool, with its
-  trace), to what the drive's other plays wrote in the product model, or to the person's own
+  trace), to what the loop's other plays wrote in the product model, or to the person's own
   answers. Why, asked by and proof are the play's own draft, each with its basis (C17). Where
   nothing can say anything else, the play never fills the gap itself: run by hand it asks the
-  person; inside a drive the gap is the drive's question (C16).
+  person; inside a loop the gap is the loop's question (C16).
 - C6 — The Source is kept as it was when read: a snapshot (screenshots and images for a
   deployed solution; a copy of the file for a file or a document; the exact text for a
   statement), with when it was read, what it shows in
@@ -70,15 +70,15 @@ play pulls out what the person wants; it never copies how the source does it.
 - C7 — Every confirmed Business Intent and every Source of the run are linked both ways: each
   Source records every intent it shows, and each intent names every Source. The intent page's
   Touches list is written later, by the play that links a part to the intent; this play
-  writes none, and on a later round of a drive it keeps a Touches list already on the page.
+  writes none, and on a later round of a loop it keeps a Touches list already on the page.
 - C8 — One kind, additive and contained (ADR 043): the run writes only the new Business
   Intents and their Sources. It writes no ICE, no capability, no domain and no spine entry; a
   draft that carries any of them is refused. No existing doc is changed, and no other part of
   the product model changes.
-- C9 — Stands alone, or runs inside a drive: run by hand it needs no other play first, and it
-  opens and lands its own change; handed a drive's JSON contract — checked by the shared drive-contract checker
-  (`check_drive_contract.py`, `standards/rules/drive-contract.md`) — it opens no issue or branch
-  of its own, works on the drive's branch, and does not stop for approval. Handed the drive's
+- C9 — Stands alone, or runs inside a loop: run by hand it needs no other play first, and it
+  opens and lands its own change; handed a loop's JSON contract — checked by the shared loop-contract checker
+  (`check_loop_contract.py`, `standards/rules/loop-contract.md`) — it opens no issue or branch
+  of its own, works on the loop's branch, and does not stop for approval. Handed the loop's
   capture (`inputs.intent.capture`, ADR 043), it neither captures nor walks the source again:
   its Sources are the capture's prototype and the person's write-up (each with its source
   manifest), and its journeys are the capture's.
@@ -102,7 +102,7 @@ play pulls out what the person wants; it never copies how the source does it.
   and a reply that picks an example is recorded as picked, so it stays clear who wrote it.
 - C14 — The run's short-term memory lives in the issue it works on (ADR 036 §1, ADR 039 §1;
   Kapil, 2026-10-19: "the issue that we are working on is where the short-term memory is going
-  to get created. Doesn't matter whether it is drive play or whatnot"). Inside a drive that is
+  to get created. Doesn't matter whether it is drive play or whatnot"). Inside a loop that is
   the contract's `issue`; run by hand it is the issue `start-change` opens or resolves (Step 0).
   The run's working folder is `{stm_base}<issue>/context/intent/<run-ts>/` (inside the issue's
   `context/` key, ADR 017), so the person's answers (`answers.yaml`) are in the issue's
@@ -124,16 +124,16 @@ play pulls out what the person wants; it never copies how the source does it.
   on a journey, or named as not walked with why. On a deployed site, a step that changes data
   (pay, delete, submit, accept …) is taken only when the person said the site is safe for it;
   on a file or a local prototype nothing real changes, so any step may be taken.
-- C16 — Inside a drive, a question `/intent` cannot answer is the **drive's**, not a stop (Kapil,
+- C16 — Inside a loop, a question `/intent` cannot answer is the **loop's**, not a stop (Kapil,
   2026-10-20: "the question belongs to the whole drive"). First it looks in memory for what
   the product is and who uses it — and drafts a memory update when research can answer
   (ADR 035: used only once a person approves it). What is still open — never why, asked by or
-  proof, which it drafts (C17) — it saves as a proposed intent with each gap named as open, writes its open questions for the drive (each with what
+  proof, which it drafts (C17) — it saves as a proposed intent with each gap named as open, writes its open questions for the loop (each with what
   it is about, whether a person must answer it, and example answers), and finishes. On a later
-  round of the drive it reads what `/vision` and `/understand` wrote in the product model,
-  fills what it can, and updates its own proposed intents — only those this drive saved. It
-  never stops the drive to ask; the drive asks the person what no play could answer.
-  On a later round the contract's `inputs.intent.targets` names the drive's work for it (a
+  round of the loop it reads what `/vision` and `/understand` wrote in the product model,
+  fills what it can, and updates its own proposed intents — only those this loop saved. It
+  never stops the loop to ask; the loop asks the person what no play could answer.
+  On a later round the contract's `inputs.intent.targets` names the loop's work for it (a
   screen whose need no intent names, ADR 043): it drafts intents for exactly those.
 - C17— The product, at the product's level (Kapil, 2026-10-20, after Kickoff run 7: "you took
   the tool and confused it with the drive work … i gave you the prototype and you still could
@@ -161,7 +161,7 @@ play pulls out what the person wants; it never copies how the source does it.
 - F3 — A Business Intent describes the source — screens, fields, copied text, how it
   works — instead of the outcome the person wants.
 - F4 — A Business Intent was marked `confirmed` without the person's typed confirmation, or
-  by an agent; or, inside a drive, the play stopped to wait for an approval.
+  by an agent; or, inside a loop, the play stopped to wait for an approval.
 - F5 — A title, outcome or limit was filled with something neither the source shows nor the
   person said; or a drafted why, asked by or proof names no basis.
 - F6 — A Source has no snapshot, or the snapshot is not saved through the evidence method, or
@@ -171,7 +171,7 @@ play pulls out what the person wants; it never copies how the source does it.
 - F8 — The run wrote another kind — an ICE, a capability, a domain or a spine entry — or a
   model file other than the new Business Intents and their Sources changed, or an existing doc
   was changed.
-- F9 — Run by hand, the change was not opened and landed; or, handed a drive's contract, the
+- F9 — Run by hand, the change was not opened and landed; or, handed a loop's contract, the
   play opened an issue or a branch of its own.
 - F10 — A confirmed Business Intent is missing from the product model, or not in the
   ontology's shape, so a later play cannot read it there.
@@ -189,10 +189,10 @@ play pulls out what the person wants; it never copies how the source does it.
   journey nor named as not walked; a business intent is a rule the system enforces rather than
   what a person gets; or a step that changes data ran on a deployed site the person had not
   cleared.
-- F16 — Inside a drive, `/intent` stopped to ask the person instead of handing its open
-  questions to the drive; saved an intent with a gap not named as open; wrote an open question
+- F16 — Inside a loop, `/intent` stopped to ask the person instead of handing its open
+  questions to the loop; saved an intent with a gap not named as open; wrote an open question
   without what it is about or example answers; on a later round left open a gap that the
-  product model or memory now answers; or changed an intent this drive did not save.
+  product model or memory now answers; or changed an intent this loop did not save.
 - F17 — A business intent names the process or tools behind the screens instead of a need the
   product meets for its user, or a main section has no business intent of its own (folded into
   another section's), or an intent sits above the product's level, or uses words its users would
@@ -203,7 +203,7 @@ play pulls out what the person wants; it never copies how the source does it.
 
 The Business Intent is the person's interface to the product; the product model and the ICE
 built for its parts are the agents' interface (`docs/philosophy/idsd.md`, two interfaces). This
-play writes the person's side only. ADR 043 (21 October, after Kickoff run 7) made each Kickoff
+play writes the person's side only. ADR 043 (21 October, after Kickoff run 7) made each Discovery
 play write one kind: when `/intent` also drafted the ICE and capabilities, its reading of the
 screens flowed into every play after it, and one wrong intent spread to the whole model. Now
 `/vision` and `/understand` read the screens for their own kinds, and the links between the
@@ -212,7 +212,7 @@ the person confirms the result. A project folder is two Sources (its written doc
 running app), and the draft reads both.
 
 The first trial on a real prototype shaped this: a prototype shows what the person must see
-and decide, and the person supplied business intents, including one no source showed. Kickoff
+and decide, and the person supplied business intents, including one no source showed. Discovery
 run 7 (20 October) showed the limit of asking "why?" until the answer leaves the product: the
 intents rose into the process behind the screens ("…so waiting work can go on"), left every
 proof open, and named the people by their step in a process. Kapil's own version stays at the
@@ -221,7 +221,7 @@ owner defining the intents for a product", proof "business intents are well capt
 above approved" — so the play drafts at that level (C17).
 
 Short-term memory is created in the issue being worked on, whether the play runs by hand or
-inside a drive (C14).
+inside a loop (C14).
 
 The play reads no memory itself (ADR 039 §2). It hands `business-intent-keeper` the issue and
 the ontology by its name in memory — the config's `product.ontology` — and the agent reads the
@@ -258,9 +258,9 @@ in memory.
   stops, when the run reaches confirmation, then nothing is saved as confirmed and no model
   change is committed. Measure: no Business Intent file is committed; the working tree's model
   paths are clean; the run closes HALTED with the reason recorded.
-- S5 — (Kickoff drive, inside a drive) Given a drive hands `/intent` its JSON contract, when it
-  runs, then it opens no issue or branch of its own and writes on the drive's branch. Measure:
-  the run record shows `in_drive: true`, no start-change or end-sequence step ran, the current
+- S5 — (Discovery loop, inside a loop) Given a loop hands `/intent` its JSON contract, when it
+  runs, then it opens no issue or branch of its own and writes on the loop's branch. Measure:
+  the run record shows `in_loop: true`, no start-change or end-sequence step ran, the current
   branch equals the contract's branch, no confirmation step ran, every saved intent reads
   `proposed`, and it wrote no capability, domain or spine entry.
 - S6 — (product strategist, hand-over through the model) Given a confirmed Business Intent,
@@ -281,9 +281,9 @@ in memory.
   every view the capture kept is on a journey or named as not walked, and each business intent
   traces to what a journey's person sets out to get. Measure: `journeys-check.json` reads
   `ok: true`; every business intent in the draft names the journey it came from.
-- S10 — (Kickoff drive, a gap only the drive can fill) Given a prototype that shows who uses it but
-  not the product's domain, when `/intent` runs inside a drive, then it saves
-  its intents as proposed with the gaps named, writes its open questions for the drive, and
+- S10 — (Discovery loop, a gap only the loop can fill) Given a prototype that shows who uses it but
+  not the product's domain, when `/intent` runs inside a loop, then it saves
+  its intents as proposed with the gaps named, writes its open questions for the loop, and
   does not stop; on the next round it fills what `/vision` and `/understand` made known.
   Measure: round 1's `open-intent.json` lists every gap; no question was put to a person by
   `/intent`; round 2's intent pages fill at least one gap round 1 left open, and every filled
@@ -305,7 +305,7 @@ captured scoped-write guard output.
 - D1 — says: "the Business Intents were saved"
   check: { type: artifact_exists, path: "intent-manifest.json" }
 - D2 — says: "run by hand, a person confirmed at least one and decided every one drafted; inside a
-  drive, every drafted intent was saved as proposed for the drive's final review"
+  loop, every drafted intent was saved as proposed for the loop's final review"
   check: { type: field_equals, file: "intent-manifest.json", field: "decided", equals: true }
 - D3 — says: "every Source was saved with a snapshot"
   check: { type: field_equals, file: "intent-manifest.json", field: "sources_saved", equals: true }
@@ -327,9 +327,9 @@ captured scoped-write guard output.
 - REC3 (F3) — trigger: the intent describes the source instead of the outcome. direction:
   strip the description and restate the outcome the person wants; re-check. handoff: autonomous.
 - REC4 (F4) — trigger: the intent was marked confirmed without the person's typed yes, or by an
-  agent, or the play waited for approval inside a drive. direction: reset the stage to
+  agent, or the play waited for approval inside a loop. direction: reset the stage to
   proposed; by hand, present it to the person and record only their own confirmation; inside a
-  drive, save it as proposed and move on — the drive's final review confirms it. handoff: human.
+  loop, save it as proposed and move on — the loop's final review confirms it. handoff: human.
 - REC5 (F5) — trigger: a title, outcome or limit has no provenance in the source or the
   person's answers, or a drafted property names no basis. direction: remove the title,
   outcome or limit and ask the person for it; give the drafted property its basis or redraft
@@ -346,8 +346,8 @@ captured scoped-write guard output.
   play that owns it writes it); the guard's restore reverts the offending paths; re-write only
   the run's own records, after a human confirms the restore. handoff: human.
 - REC9 (F9) — trigger: run by hand without opening or landing its change, or opened its own
-  issue or branch inside a drive. direction: by hand, run the missing opening or end-sequence
-  step; inside a drive, close the stray issue and branch and continue on the drive's branch.
+  issue or branch inside a loop. direction: by hand, run the missing opening or end-sequence
+  step; inside a loop, close the stray issue and branch and continue on the loop's branch.
   handoff: human.
 - REC10 (F10) — trigger: an intent is not in the product model in the ontology's shape.
   direction: re-write the missing or misshapen page from the confirmed draft. handoff:
@@ -374,11 +374,11 @@ captured scoped-write guard output.
   journeys' goals; for a deployed site, ask the person whether a data-changing step is safe
   before taking it. handoff: autonomous.
 
-- REC16 (F16) — trigger: inside a drive `/intent` stopped to ask, saved an unnamed gap, wrote an
+- REC16 (F16) — trigger: inside a loop `/intent` stopped to ask, saved an unnamed gap, wrote an
   open question without its context, left a gap the model or memory now answers, or changed an
-  intent this drive did not save. direction: hand the questions to the drive instead; name
+  intent this loop did not save. direction: hand the questions to the loop instead; name
   every gap as open with its question; on the next round re-read the model and memory and fill
-  what they answer; restore any intent this drive did not save. handoff: autonomous.
+  what they answer; restore any intent this loop did not save. handoff: autonomous.
 
 - REC17 (F17) — trigger: an intent names the process or tools behind the screens, sits above
   the product's level, or uses words its users would not; asked by is not a persona; or why,
