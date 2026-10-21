@@ -172,3 +172,36 @@ session logs; the totals are measured.)
 - Kapil, 2026-10-20: "fix the drive or intent first, and then merge … Don't do it on the test
   run. The test run is giving you where drive and intent are broken." The memory builder was
   built in Garura, not tried on run 5's record; the next run is after the merge.
+
+## #689 runs (2026-10-21) — after ADR 043 and the rebuild eval
+
+Each run was in a fresh local copy of `argus-shop` with no remote: the prototype, its write-up
+and Garura installed from the #689 branch. Plays ran on their own models (Opus 5.5 where none
+is set). The rebuild eval ran on Sonnet 5.5 at high effort. Nothing was pushed.
+
+- Rebuild of the `/understand` output (6 intents, 1 domain, 10 capabilities, 36
+  functionalities): 107 things a person can do or see on the prototype; 99 came back, 7 in
+  part, 1 missing. Kept 95.8%, drift 4.2%; the brief describes 97.2% of the prototype; 5 misses
+  are the drive's, 0 the builder's. Cost $3.92.
+- Kickoff run 1 (88 min active, $73.41): 10 intents, 2 domains (ALM and collaboration), 8
+  capabilities, 31 functionalities, 0 gaps; stopped at its brief. K-19 — `collaboration` is the
+  field of one feature many products share, and it held none of the prototype's main sections;
+  Memory and Agent decisions were folded into ALM. Kapil: "stop and fix vision".
+- The fix (`d4541fa8`): every main section of the screens sits in a domain whose research
+  covers that kind of work (`areas` in the seed manifest, checked by
+  `grounding_check.py --journeys`); a domain that holds no main section is not written. On run
+  1's manifest the check fails all 6 sections and both domains.
+- Kickoff run 2 (67 min, $64.41: Opus $62.09, Sonnet $2.30, Haiku $0.02): 6 intents, 3
+  domains (Application Lifecycle Management for Intents, Product and ADRs; Knowledge Management
+  for Memory; AI Observability for Agent decisions), 10 capabilities, 32 functionalities, 0
+  gaps, every section mapped with a quote and its source; 3 rounds, then the brief (5 gaps, 1
+  settled point, 4 knowledge pages, 1 prototype note). Kapil accepted the run as it stands and
+  waived its rebuild eval (2026-10-21: "skip the eval. i accept this run").
+- K-20 — Kapil had named the second field Agentic Engineering; the drive found Knowledge
+  Management and AI Observability instead. Not taught to the plays (no product answers in
+  skills).
+- K-21 — `find-model-gaps` reported no gaps while links went one way only (parent to child
+  without child to parent); the drive sent it back and round 2 fixed them. The gap script does
+  not count one-way links. For its own issue.
+- K-22 — the brief writer wrote the round-3 brief by hand instead of through its skill; the
+  brief check still passed. For its own issue.
