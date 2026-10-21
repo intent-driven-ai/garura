@@ -62,6 +62,56 @@ capabilities:
   depends_on: []
   identified_by: ''
   issue: 720
+- id: cap-735
+  slug: cap-735
+  domain: ''
+  intents:
+  - bi-734
+  status: proposed
+  detail: directional
+  one_line: The harness standard, written down
+  doc: capabilities/cap-735/capability.md
+  depends_on: []
+  identified_by: ''
+  issue: 735
+- id: cap-739
+  slug: cap-739
+  domain: ''
+  intents:
+  - bi-734
+  status: proposed
+  detail: directional
+  one_line: The naming checks, built before any rename
+  doc: capabilities/cap-739/capability.md
+  depends_on: []
+  identified_by: cap-735
+  issue: 739
+- id: cap-742
+  slug: cap-742
+  domain: ''
+  intents:
+  - bi-734
+  status: proposed
+  detail: directional
+  one_line: Every name moved to the standard, one family at a time
+  doc: capabilities/cap-742/capability.md
+  depends_on:
+  - cap-739
+  identified_by: ''
+  issue: 742
+- id: cap-747
+  slug: cap-747
+  domain: ''
+  intents:
+  - bi-734
+  status: proposed
+  detail: directional
+  one_line: Installs follow the renames
+  doc: capabilities/cap-747/capability.md
+  depends_on:
+  - cap-739
+  identified_by: ''
+  issue: 747
 functionalities:
 - id: fn-724
   slug: fn-724
@@ -185,3 +235,118 @@ functionalities:
   depends_on: []
   identified_by: ''
   issue: 730
+- id: fn-736
+  slug: fn-736
+  capability: cap-735
+  intents:
+  - bi-734
+  status: proposed
+  one_line: 'Naming rules: verbs, run- for loops, no tool built-ins, two-word plays'
+  doc: functionalities/fn-736/functionality.md
+  depends_on: []
+  identified_by: ''
+  issue: 736
+- id: fn-737
+  slug: fn-737
+  capability: cap-735
+  intents:
+  - bi-734
+  status: proposed
+  one_line: 'Harness principles and practices: why we build this way, and how'
+  doc: functionalities/fn-737/functionality.md
+  depends_on: []
+  identified_by: ''
+  issue: 737
+- id: fn-738
+  slug: fn-738
+  capability: cap-735
+  intents:
+  - bi-734
+  status: proposed
+  one_line: One ADR that replaces ADR 006 and ADR 018
+  doc: functionalities/fn-738/functionality.md
+  depends_on: []
+  identified_by: ''
+  issue: 738
+- id: fn-740
+  slug: fn-740
+  capability: cap-739
+  intents:
+  - bi-734
+  status: proposed
+  one_line: The component linter fails any name that breaks the standard
+  doc: functionalities/fn-740/functionality.md
+  depends_on: []
+  identified_by: ''
+  issue: 740
+- id: fn-741
+  slug: fn-741
+  capability: cap-739
+  intents:
+  - bi-734
+  status: proposed
+  one_line: A rename map, and a check that no old name is left
+  doc: functionalities/fn-741/functionality.md
+  depends_on: []
+  identified_by: ''
+  issue: 741
+- id: fn-743
+  slug: fn-743
+  capability: cap-742
+  intents:
+  - bi-734
+  status: proposed
+  one_line: Rename the harness plays and the loops
+  doc: functionalities/fn-743/functionality.md
+  depends_on:
+  - fn-741
+  identified_by: ''
+  issue: 743
+- id: fn-744
+  slug: fn-744
+  capability: cap-742
+  intents:
+  - bi-734
+  status: proposed
+  one_line: Rename the change, plan, knowledge and record plays
+  doc: functionalities/fn-744/functionality.md
+  depends_on:
+  - fn-741
+  identified_by: ''
+  issue: 744
+- id: fn-745
+  slug: fn-745
+  capability: cap-742
+  intents:
+  - bi-734
+  status: proposed
+  one_line: Rename the lifecycle and lens plays
+  doc: functionalities/fn-745/functionality.md
+  depends_on:
+  - fn-741
+  identified_by: ''
+  issue: 745
+- id: fn-746
+  slug: fn-746
+  capability: cap-742
+  intents:
+  - bi-734
+  status: proposed
+  one_line: Rename the skills
+  doc: functionalities/fn-746/functionality.md
+  depends_on:
+  - fn-741
+  identified_by: ''
+  issue: 746
+- id: fn-748
+  slug: fn-748
+  capability: cap-747
+  intents:
+  - bi-734
+  status: proposed
+  one_line: An install removes old names and lays the new ones
+  doc: functionalities/fn-748/functionality.md
+  depends_on:
+  - fn-741
+  identified_by: ''
+  issue: 748
