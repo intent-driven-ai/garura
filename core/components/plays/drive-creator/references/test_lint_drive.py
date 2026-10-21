@@ -19,7 +19,7 @@ class LintDrive(unittest.TestCase):
         self.addCleanup(shutil.rmtree, self.root, ignore_errors=True)
         comp = os.path.join(self.root, "components")
         for play, text in (("intent", "runs check_drive_contract.py first; reads the statement\n"),
-                           ("vision", "runs check_drive_contract.py first; reads the intents\n"),
+                           ("vision", "runs check_drive_contract.py first; reads the goal\n"),
                            ("shape", "no contract here\n")):
             os.makedirs(os.path.join(comp, "plays", play))
             with open(os.path.join(comp, "plays", play, "SKILL.md"), "w") as fh:

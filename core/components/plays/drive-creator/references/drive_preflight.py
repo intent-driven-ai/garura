@@ -131,7 +131,7 @@ def main(argv=None):
     ap.add_argument("--config", default=".garura/core/config.yaml")
     ap.add_argument("--drive", required=True)
     ap.add_argument("--skills-root", required=True, help="where the installed plays sit")
-    ap.add_argument("--plays", required=True, help="the drive's plays, in order, comma-separated")
+    ap.add_argument("--plays", required=True, help="the drive's plays, comma-separated, in the order they run")
     ap.add_argument("--branch", default="")
     ap.add_argument("--out", required=True)
     args = ap.parse_args(argv)

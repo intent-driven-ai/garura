@@ -82,9 +82,9 @@ into the drive's working folder `{stm_base}<issue>/context/kickoff/<run-ts>/` (`
 [T3] Write the drive contract                     blockedBy: [T2]
 [T3b] Read the prototype once (prototype-reader)  blockedBy: [T3]
 [T4] Round n: run /intent (if given work)         blockedBy: [T3b]
-[T5] Round n: run /vision (if given work)         blockedBy: [T4]
-[T6] Round n: run /understand (if given work)     blockedBy: [T5]
-[T6a] After the round: find and close the gaps    blockedBy: [T6]
+[T5] Round n: run /vision (if given work)         blockedBy: [T3b]
+[T6] Round n: run /understand (if given work)     blockedBy: [T3b]
+[T6a] After the round: find and close the gaps    blockedBy: [T4, T5, T6]
 [T6b] After the round: done, again or ask         blockedBy: [T6a]  (again: back to T4, round n+1, only the plays given work)
 [T6c] Search the knowledge (search-knowledge)    blockedBy: [T6b] (only on ask)
 [T6d] Build the knowledge (build-knowledge)      blockedBy: [T6c]

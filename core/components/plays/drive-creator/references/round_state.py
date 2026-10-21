@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """round_state.py — after a round of the drive's plays: done, again, or ask? (Shared Drive Run, R5)
 
-A drive runs its plays "in order and repeatedly, until its intent is met" (glossary, Drive;
-ADR 029). A question one play cannot answer is the drive's question, not a stop: the other
+A drive runs its plays in rounds, in any order, until its intent is met (glossary, Drive;
+ADR 029, ADR 043). A question one play cannot answer is the drive's question, not a stop: the other
 plays may answer it, and the play fills it on the next round (Kapil, 2026-10-20). The drive
 asks the person only what no play of the drive can answer. This script makes that call after
 each round, mechanically:

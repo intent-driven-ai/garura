@@ -2,8 +2,8 @@
 """
 lint_drive.py — mechanical consistency check for a compiled drive.
 
-A drive is a higher-order play: it runs other plays in a fixed order and carries no rules of
-its own (ADR 029 §2). So it gets every check a compiled play gets — reused from
+A drive is a higher-order play: it runs other plays in rounds, in any order (ADR 043), and carries no product rules
+of its own (ADR 029 §2, ADR 044). So it gets every check a compiled play gets — reused from
 `lint_play.py` (coverage, one recovery per failure, no orphans, required sections, the
 shared close, the stop condition, a real fingerprint, the Next line) — plus the drive's own:
 
@@ -140,7 +140,7 @@ def check_plays(ctx):
         with open(md, encoding="utf-8") as fh:
             if CONTRACT_MARK not in fh.read():
                 problems.append(f"{play}: cannot run inside a drive (checks no drive contract)")
-    return [(not problems, "plays", f"{len(plays)} plays, in order, each runs inside a drive"
+    return [(not problems, "plays", f"{len(plays)} plays, each runs inside a drive"
              if not problems else "; ".join(problems))]
 
 
