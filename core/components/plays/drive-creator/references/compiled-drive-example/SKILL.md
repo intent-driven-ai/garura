@@ -112,11 +112,11 @@ finishes what it can (C2).
 **Step 4 — Round n: run /intent** · Owner: `intent` · Depends on: Step 3 (or Step 5b, 5f)
 Run R5 for `intent`. A later round: it reads what `/vision` wrote and fills what it left open.
 
-**Step 5 — Round n: run /vision** · Owner: `vision` · Depends on: Step 4
+**Step 5 — Round n: run /vision** · Owner: `vision` · Depends on: Step 3 (or Step 5b, 5f)
 Run R5 for `vision` with the statement as `inputs.vision.goal` — never another play's output
 (ADR 043).
 
-**Step 5b — After the round: done, again or ask** · Owner: drive (script) · Depends on: Step 5
+**Step 5b — After the round: done, again or ask** · Owner: drive (script) · Depends on: Steps 4 and 5
 Run R5 steps 7–8: `product-os-keeper` runs `find-model-gaps` and `close-model-gaps`, the round
 is committed once, then `round_state.py` (with `--gaps` and `--close-report`, `--max-rounds`
 from `drives.sample-drive.max_rounds`). `done` → Step 6. `again` → Step 4, round n+1, only the

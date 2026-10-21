@@ -165,14 +165,14 @@ runs only the plays `round-<n>.json` names in `next`, each on its `targets`.
 Run R5 for `intent` on the capture: it writes business intents only, as `proposed`, naming
 each gap as an open question.
 
-**Step 5 — Round n: run /vision** · Owner: `vision` · Depends on: Step 4
+**Step 5 — Round n: run /vision** · Owner: `vision` · Depends on: Step 3b (or Step 6b, 6f)
 Run R5 for `vision` on the capture and the write-up: it writes domains only, found by research.
 
-**Step 6 — Round n: run /understand** · Owner: `understand` · Depends on: Step 5
+**Step 6 — Round n: run /understand** · Owner: `understand` · Depends on: Step 3b (or Step 6b, 6f)
 Run R5 for `understand` on the capture (`inputs.understand.capture`; on a later round its
 `inputs.understand.targets`): it writes capabilities and functionalities with their ICE.
 
-**Step 6a — After the round: find and close the gaps** · Owner: drive · Depends on: Step 6
+**Step 6a — After the round: find and close the gaps** · Owner: drive · Depends on: Steps 4, 5 and 6
 Run R5 step 7: dispatch `product-os-keeper` to run `find-model-gaps`, then `close-model-gaps`,
 over the whole model. Then commit the round once (`commit_run_files.py --play round-<n>
 --also <product_base>product-os`).
@@ -214,7 +214,7 @@ the brief, never a bare question; each answer is in the issue's short-term memor
 
 ### Phase: Check
 
-**Step 7 — The checker** · Owner: checker · Depends on: Step 6
+**Step 7 — The checker** · Owner: checker · Depends on: Step 6b
 Run R6 with `checker_key` (default: a sub-agent on `sonnet`).
 **SE-6 (F6/C6):** `check.yaml` reads `verdict: pass`, from a checker whose model is not the
 session's; a reject halted the drive before any pull request.

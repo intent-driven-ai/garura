@@ -79,8 +79,9 @@ Write `reference/ice.md` like the example's:
   branch, questions first, order and done checks, the checker.
 - **Plays** — a table: the order they run in (any order works; no play takes another's
   output), play, what it gets from the contract (`inputs.<play>`) and which
-  answers it gets (`answers.<play>`). An input another play makes is written "after `<play>`:
-  …" — the drive adds it to the contract before the later play starts (shared run, R5 step 6).
+  answers it gets (`answers.<play>`). Every input comes from the drive — the source, the
+  person's write-up or the questions — never from another play's output (ADR 043; shared run,
+  R5 step 6).
   Check each play exists and runs inside a drive, and that it reads every input the drive hands
   it: `<key>` of `inputs.<play>.<key>` appears in the play's SKILL.md. A key the play does not
   read is not handed — drop it, or change the play first.

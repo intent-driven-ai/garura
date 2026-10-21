@@ -41,9 +41,12 @@ git diff and the end-sequence PR.
 
    **Inside a drive (ADR 044).** One more writer: `close-model-gaps`' script
    (`apply_links.py`) may write the spine and the Touches list on intent pages, and move
-   holding-folder pages under their parent. It writes only inside `<product_base>product-os/`,
-   refuses any path outside, and lists every file it changed. Outside a drive, the play's
-   keyed script is still the only writer of shared files.
+   holding-folder pages under their parent. Its key is the agreed `gaps.json`: it makes only
+   the links and merges named there — connect, attribute, merge (ADR 043 §4) — and changes no
+   other node. It writes only inside `<product_base>product-os/`, refuses any path outside,
+   and lists every file it changed; the drive commits that delta with the round, so the
+   review sees it. Outside a drive, the play's keyed script is still the only writer of
+   shared files.
 
    Migration consequence: this is not a path re-point. Any enrich/build skill that today
    writes a draft `_spine.yaml` delta must stop writing the spine and instead emit that

@@ -33,7 +33,7 @@ assumption, record that approval was assumed, and proceed.
 |------------|---------------------------|----------------------|
 | The goal, a constraint, a failure condition | Intent | Step evals, recovery, maybe scenarios and the Done means |
 | A scenario, a recovery entry, the Done means | Expectation | Scenario evals; `stop-condition.yaml` |
-| Add, drop or reorder a play | Plays | `plays=` in the run block, one step per play, the Task DAG, the Done means and evals that read `<play>-done.json`, any "after `<play>`" input, and the drive's Next line in `pipeline-next.md` when the last play changes |
+| Add, drop or reorder a play | Plays | `plays=` in the run block, one step per play, the Task DAG, the Done means and evals that read `<play>-done.json`, and the drive's Next line in `pipeline-next.md` when the last play changes |
 | A question asked first | Questions first | `questions=`, the contract's answers, the plays that used to ask it |
 | The checker or the runner | Checker / Runner | `core/config.yaml` (`drives.<drive>.*`) |
 | How the drive ends | End | `end=`, the end steps, the Task DAG |
