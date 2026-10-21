@@ -11,7 +11,7 @@ may have no Status line.
 | [003](SUPERSEDED-003-guardian-approval.md) | Guardian Approval Model | Superseded |  |
 | [004](004-agent-naming.md) | Agent Naming Convention | (not recorded) |  |
 | [005](005-skills-as-capabilities.md) | Skills as Learned Capabilities | (not recorded) |  |
-| [006](006-naming-conventions.md) | Naming Conventions | (not recorded) |  |
+| [006](006-naming-conventions.md) | Naming Conventions | Accepted |  |
 | [007](SUPERSEDED-007-skill-local-references.md) | Skill-Local References with Deployment Sync | Superseded |  |
 | [008](008-issue-centric-stm-and-nwwi.md) | Issue-Centric STM Structure and NWWI Principle | (not recorded) |  |
 | [009](009-skill-ltm-organizational-knowledge.md) | Skill LTM Reads for Organizational Knowledge | (not recorded) |  |
@@ -23,7 +23,7 @@ may have no Status line.
 | [015](015-ltm-resolution-protocol.md) | LTM Resolution Protocol and Learning Play | Accepted | 2026-03-31 |
 | [016](016-agent-json-contract.md) | Agent JSON Contract | Accepted | 2026-04-13 |
 | [017](017-folder-whitelist.md) | `.garura/` Folder Whitelist and Play Terminology Cleanup | Accepted | 2026-04-14 |
-| [018](018-pipeline-play-rename.md) | Core Pipeline Play Rename to Short Invocation Names | (not recorded) |  |
+| [018](018-pipeline-play-rename.md) | Core Pipeline Play Rename to Short Invocation Names | Accepted |  |
 | [019](019-epic-persistence-keep-delivered.md) | Epics Are Kept When Delivered, Not Deleted | Accepted | 2026-06-23 |
 | [020](020-advisory-play-self-clean.md) | Advisory, Position-None Plays Self-Clean Their Working Files | Accepted | 2026-06-23 |
 | [021](021-status-resume-vs-evidence.md) | Status/Resume and Evidence Are Separate Mechanics | Accepted | 2026-06-24 |
@@ -51,3 +51,4 @@ may have no Status line.
 | [043](043-kickoff-plays-read-independently-and-the-drive-closes-the-loop.md) | The Kickoff Drive's Plays Read the Prototype on Their Own, Any Node Is Written Without Its Parent, and the Drive Connects the Nodes and Closes the Loop | Accepted | 2026-10-21 |
 | [044](044-the-shared-drive-run-owns-the-steps-between-plays.md) | The Shared Drive Run Owns the Steps Between Plays, and Inside a Drive the Gap-Closing Script May Write Shared Model Files | Accepted | 2026-10-21 |
 | [045](045-a-drive-is-now-called-a-loop.md) | A Drive Is Now Called a Loop, a Loop Is Always Named in Full, and the Five Loops Are Discovery, Slice, Execute, Ship and Learn | Accepted | 2026-10-21 |
+| [046](046-one-naming-standard-for-every-harness-part.md) | One Naming Standard for Every Harness Part: Verb First, One Meaning per Verb, Loops Named complete-<phase>, No Tool Built-ins | Accepted | 2026-10-22 |

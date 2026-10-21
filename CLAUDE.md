@@ -120,15 +120,22 @@ pattern: one common file the plays point to, emitted by the compiler and linted.
 
 ## Work Tracking
 
-Work on Garura is tracked as **Feature → Story / Bug**, with Stories and Bugs
-linked as real children of their Feature. Story is filed under the **Task**
-issue type (no Story type exists here). This is how we *build* Garura — keep it
-distinct from the domain → capability → functionality → epic model, which is
-what Garura *offers* other teams and never describes this repository's tracker.
+Garura's own work follows the product model it offers (ontology v5): **Business Intent → Feature
+(a capability, with its ICE) → Story (a functionality, with its ICE) → Spike / Chore / Bug**, as real
+parent/child links. A business intent's issue number is its plan's ID; plans live at
+`.garura/project/plans/`. When work on a plan starts, `start-change` cuts `plan/<id>/base`, and each
+issue's branch `plan/<id>/<issue>-<slug>` under it.
 
 Before filing, decomposing, or working an issue, read
 `.garura/user-provided/managing-work.md` — readiness bars, the one-issue /
 one-session / one-branch rule, the scope boundary, and the tracker traps.
+
+## Naming
+
+Every play, loop, skill and agent follows the harness standard (`docs/standards/harness-standard.md`,
+ADR 046): verb first, one meaning per verb, loops `complete-<phase>`, no Claude Code or Codex built-in.
+The rules are `core/components/memory/standards/rules/naming.md`; the linter enforces them — run
+`node core/tools/lint-components/index.js --target core/components` from the repo root.
 
 
 ## Reference

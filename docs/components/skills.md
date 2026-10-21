@@ -153,29 +153,14 @@ Forking a skill would:
 
 ## Naming Convention
 
-Skills follow two naming patterns:
+Skills are named `<verb>-<object>`, with the verb from the skill verbs — each with one meaning:
+`author`, `infer`, `derive`, `scan`, `check`, `judge`, `assess`, `find`, `link`, `enrich`, `propose`,
+`research`, `rank`, `recommend`, `collect`, `walk`, `deploy`, `track`, and the git verbs `commit`,
+`open`, `merge`, `cut`. Examples: `author-roadmap`, `infer-scope`, `check-quality`, `find-model-gaps`.
+No name is, or starts with, a Claude Code or Codex built-in command.
 
-### Technology-Specific Skills: `{action}-{tech/method}`
-
-For skills that embody technology or methodology expertise:
-
-| Pattern | Examples |
-|---------|----------|
-| `write-{language}-code` | `write-java-code`, `write-typescript-code` |
-| `create-{framework}-tests` | `create-jest-tests`, `create-pytest-tests` |
-| `do-{type}-analysis` | `do-rca-analysis`, `do-impact-analysis` |
-
-### Operation Skills: `{action}-{object}`
-
-For skills that perform repository or project operations:
-
-| Pattern | Examples |
-|---------|----------|
-| `analyze-{object}` | `assess-changes`, `assess-pr` |
-| `create-{object}` | `commit-files` |
-| `submit-{object}` | `open-pr` |
-| `manage-{object}` | `track-issue`, `author-plan-file` |
-| `setup-{object}` | `cut-branch` |
+The full rules: `core/components/memory/standards/rules/naming.md` and the harness standard
+(`docs/standards/harness-standard.md`, ADR 046). The component linter enforces them.
 
 ## Skill Invocation
 
@@ -317,17 +302,6 @@ Skill loads from its own bundled reference (e.g., `skills/{skill-name}/reference
 | Organizational standards (categories, schemas) | LTM (`~/.garura/core/memory/`) | Yes — edit LTM |
 | Output format templates | `templates/` directory or LTM | Depends on template type |
 
-## Skill Qualifiers
-
-Use qualifiers **only when multiple types exist**:
-
-| Scenario | Naming |
-|----------|--------|
-| Single type exists | `design` |
-| Multiple types exist | `design-tech`, `design-ux` |
-
-This prevents unnecessary prefixes while maintaining clarity.
-
 ## Skill Location
 
 Skill definitions are stored in:
@@ -345,7 +319,7 @@ core/components/plays/
 ## Related Documentation
 
 - [ADR 005: Skills as Capabilities](../adr/005-skills-as-capabilities.md)
-- [ADR 006: Naming Conventions](../adr/006-naming-conventions.md)
+- [ADR 046: One naming standard for every harness part](../adr/046-one-naming-standard-for-every-harness-part.md)
 - [ADR 007: Skill-Local References](../adr/SUPERSEDED-007-skill-local-references.md) — Partially superseded by ADR 009
 - [ADR 009: Skill LTM Organizational Knowledge](../adr/009-skill-ltm-organizational-knowledge.md)
 - [Agents Component Guide](./agents.md)

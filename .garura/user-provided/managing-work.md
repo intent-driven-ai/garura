@@ -7,27 +7,22 @@ invent one.
 
 ---
 
-## First: two planes that must never be confused
+## First: Garura is built the way it tells others to build
 
-This repository contains two different hierarchies. They look similar and mean
-entirely different things. Confusing them is the mistake this document exists
-to prevent.
+Since 2026-10-22 Garura's own work follows the product model Garura offers (ontology v5,
+`core/components/memory/standards/schemas/product-os/ontology.md`; Kapil: "going forward, our approach
+to building Garura will also change"). There is one plane, not two:
 
-**How we build Garura.** Three levels: a Feature at the top, with Stories and
-Bugs beneath it. That is the whole model, and it governs this repository's
-tracker. It is deliberately simple because developing Garura is not complex
-enough to warrant more.
+```
+Business Intent                 ── issue: Business Intent   (its issue number is its plan's ID)
+└─ Capability + its ICE         ── issue: Feature
+   └─ Functionality + its ICE   ── issue: Story
+      ├─ Spike / Chore          ── issue, when the work needs one
+      └─ Bug                    ── issue, always under a functionality
+```
 
-**What Garura offers.** The product model Garura gives *other* teams for
-building *their* products: domain → capability → functionality → epic. This is
-Garura's capability — something the framework provides to its users. It is not
-Garura's own process, and it never describes work on this repository.
-
-So: statements such as "an epic is the grain a GitHub issue is cut at" belong
-entirely to the second plane. They describe products being built *with* Garura.
-They say nothing about how issues are cut here. When you are filing or working
-an issue on Garura, only the first plane applies — Feature, Story, Bug. There is
-no domain, capability, functionality, or epic in this tracker.
+Domains live in the product model and link loosely to business intents and capabilities; they are
+never an issue and never part of a plan. Epics and slices are not in the model.
 
 ---
 
@@ -35,34 +30,23 @@ no domain, capability, functionality, or epic in this tracker.
 
 | | What it is | Filed when |
 |---|---|---|
-| **Feature** | A capability of Garura that needs a decision before anyone builds. It states a problem, a boundary, and what "done" looks like — not an implementation. | Something new is wanted and the shape of it is still open. |
-| **Story** | A shippable slice of a Feature. One coherent change that can be built, reviewed, and merged on its own. | The Feature's decision is settled and a slice of it is ready to build. |
-| **Bug** | A defect in something already shipped: it behaves differently from what was intended. | Observed behaviour departs from expected behaviour. |
-| **Chore** | Upkeep that changes no behaviour: dependencies, cleanup, moves. | Something needs tidying and nothing a user sees will change. |
-| **Spike** | A question to answer. The result is a decision record, not shipped code. | A Feature can't be decided, or a Story can't be built, until something is found out. |
-| **Business Intent** | What the organization wants — an outcome. Met by its outcome, never closed by finishing its children. | A goal is stated that work will be done to serve. |
+| **Business Intent** | What a person wants — an outcome. Tracking only: it holds no ICE and agents never build it. Met by its proof, never closed by finishing its children. | A goal is stated that work will be done to serve. |
+| **Feature** | The work order for one capability: something the product can do, with its ICE. | A business intent needs a capability built or changed. |
+| **Story** | The work order for one functionality: one thing a person can do inside a capability, with its ICE. One coherent change that can be built, reviewed, and merged on its own. | A capability's functionality is ready to build. |
+| **Bug** | A defect in a functionality: it behaves differently from what was intended. | Observed behaviour departs from expected behaviour. |
+| **Chore** | Upkeep under a functionality that changes no behaviour. | Something needs tidying and nothing a user sees will change. |
+| **Spike** | A question to answer under a functionality. The result is a decision record, not shipped code. | A Story can't be built until something is found out. |
 
-These six are the only types; the full definition, and what is deliberately not
-a type (Defect, Enhancement, Epic, Agent Intent), is in
-`docs/philosophy/garura-reference-implementation.md` → *Work Item Types in the
-Tracker*.
-
-A Feature is never worked directly. It gets decomposed into Stories first. If
-you find yourself writing code against a Feature issue, the decomposition step
-was skipped — go back and do it.
-
-A Bug is not "something is missing." Missing capability is a Feature or a
-Story. A Bug requires something that already exists and does the wrong thing.
+A Feature is never worked directly; its Stories are. A Bug is not "something is missing" —
+missing capability is a Feature or a Story.
 
 ## Where does it hang?
 
-Every Story and every Bug hangs under the Feature whose capability it belongs
-to, as a real parent/child link in the tracker — not as a mention in the body,
-not as a shared label. The link is what makes a Feature's progress readable at a
-glance and what lets a working session pull its own context.
-
-A Feature has no parent. Stories and Bugs always do. If a Story has no plausible
-parent Feature, that usually means the Feature was never filed — file it.
+Every Feature hangs under its business intent, every Story under its Feature, and every Bug, Spike
+and Chore under a Story — as a real parent/child link in the tracker. A business intent has no parent;
+business intents link to each other only by "identified by". A plan for the business intent is kept
+at `.garura/project/plans/<business-intent-issue>.yaml`. Plays and skills are named by the harness
+standard (`docs/standards/harness-standard.md`).
 
 ## How does that land in the tracker?
 
