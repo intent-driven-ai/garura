@@ -4,8 +4,8 @@
 > **function, not a story** — describe what it does, never "as a user I want". It is
 > the **most detailed** level: it must read richer than its capability, never leaner.
 > The linter enforces the heading set; the eval scores depth, self-explanation, and
-> the depth-gradient against `_content-standard.md`. Written by `/shape`, refined by
-> `/understand`.
+> the depth-gradient against `_content-standard.md`. Written by `/shape-scope`, refined by
+> `/discover-capabilities`.
 
 ## Heading contract (required, in order)
 

@@ -1,6 +1,6 @@
 ---
 name: author-run-lens
-description: Author a shaped slice's run lens — write the narrative grounding doc (run.md) straight to the LIVE model, and emit the machine-readable per-environment definition (run.yaml) plus any decision as STRUCTURED MANIFEST DATA for the play's keyed persist to write. How the slice ships and operates: the slice-level design (rollout, migrations, CI/CD, TCO) written once, and ONE environment defined per call (local for /launch, or a cloud environment for /deploy — provider, region, compute, services, networking/firewalls, security, deploy command). Re-run to add or edit an environment; existing environments are preserved by the keyed persist. Reads the slice's hub (functionality grounding docs + the spine profile) and the slice's architecture lens (components + stack), never another lens. Every operational choice is grounded, never invented. Never writes run.yaml, a decision file, the spine, or the profile; NEVER stamps the slice realized. Generative artifact production for the /run play (direct-model-write, ADR 026).
+description: Author a shaped slice's run lens — write the narrative grounding doc (run.md) straight to the LIVE model, and emit the machine-readable per-environment definition (run.yaml) plus any decision as STRUCTURED MANIFEST DATA for the play's keyed persist to write. How the slice ships and operates: the slice-level design (rollout, migrations, CI/CD, TCO) written once, and ONE environment defined per call (local for /release-feature, or a cloud environment for /release-increment — provider, region, compute, services, networking/firewalls, security, deploy command). Re-run to add or edit an environment; existing environments are preserved by the keyed persist. Reads the slice's hub (functionality grounding docs + the spine profile) and the slice's architecture lens (components + stack), never another lens. Every operational choice is grounded, never invented. Never writes run.yaml, a decision file, the spine, or the profile; NEVER stamps the slice realized. Generative artifact production for the /shape-run-lens play (direct-model-write, ADR 026).
 version: 0.5.0
 user-invocable: false
 model: opus
@@ -25,7 +25,7 @@ This skill's containment split is mandatory:
   the play's deterministic keyed persist (`persist_run.py`) reads that manifest and writes `run.yaml`
   (merging exactly the target environment, preserving the rest) and the decisions in place. This
   skill NEVER writes `run.yaml`, a decision file, the spine `_spine.yaml`, the profile, the slice
-  record, or another lens, and NEVER stamps the slice `realized` (that is /measure's job).
+  record, or another lens, and NEVER stamps the slice `realized` (that is /shape-measure-lens's job).
 
 Because `run.md` (which this skill writes) and `run.yaml` (which the keyed persist writes from this
 manifest) both derive from ONE reasoning pass here, they describe the same environments with the
@@ -40,13 +40,13 @@ The run lens has two parts, produced together:
   are carried forward unchanged unless the target environment genuinely forces a change (a decision).
 - **Environments — ONE defined per call, incremental.** Each call defines or edits exactly one
   environment; the keyed persist preserves every environment already defined. A **local** environment
-  is the lightweight bring-up `/launch` uses for human testing. A **cloud** environment carries real
+  is the lightweight bring-up `/release-feature` uses for human testing. A **cloud** environment carries real
   infrastructure — provider, region, per-component compute, managed services, networking and
-  firewalls, and security (identity, secrets, controls) — the definition `/deploy` executes against.
+  firewalls, and security (identity, secrets, controls) — the definition `/release-increment` executes against.
   Environments are ordered by `tier` (0 local, 1 dev, up to 4 prod).
 
 Typical sequence: first call authors the slice-level design + the **local** environment (unblocks
-`/launch`); the next call adds the **dev** cloud environment (unblocks `/deploy`); higher tiers are
+`/release-feature`); the next call adds the **dev** cloud environment (unblocks `/release-increment`); higher tiers are
 added later by re-running.
 
 ## What it produces (against the locked contracts)
@@ -70,7 +70,7 @@ providers, same postures.
 |-------|----------|-------------|
 | `slice_ref` | yes | `{domain}/{slice-id}` — display reference. |
 | `slice_file` | yes | Path to the live slice record (read-only — for the functionalities it bundles). |
-| `target_env` | yes | The one environment to define or edit this call: `{ name, type: local\|cloud, tier }`. Resolved by /run (default: the lowest not-yet-defined tier). |
+| `target_env` | yes | The one environment to define or edit this call: `{ name, type: local\|cloud, tier }`. Resolved by /shape-run-lens (default: the lowest not-yet-defined tier). |
 | `existing_run_yaml` | no | Path to the slice's current LIVE `lens/run.yaml`, if it exists. Read it (read-only) to carry forward the slice-level design and every already-defined environment when narrating `run.md`. Absent on the first call. |
 | `functionality_groundings` | yes | Paths to each functionality's `functionality.md` grounding doc (the hub, resolved by `check_ready_slice`). Read these — NOT `ice.yaml` (retired). |
 | `architecture_lens` | yes | Path to the slice's `lens/architecture.md` (its components + stack). Read-only — the run plan flows from the architecture; a cloud env's compute/services map to its components. |
@@ -104,7 +104,7 @@ yours. Template/schema conformance, grounding, and concreteness are non-negotiab
      deploy kind, MUST match architecture-lens component names); managed backing services;
      networking (ingress posture + explicit firewall rules); security (identity, secrets-manager
      binding, controls like TLS / least-privilege); the per-env config & secrets; and the deploy
-     command `/deploy` will run. A material infrastructure choice → a decision (emitted in the
+     command `/release-increment` will run. A material infrastructure choice → a decision (emitted in the
      manifest, not written to disk here).
 
 4. **Write `run.md` to the LIVE model; emit everything else to the manifest.** Write `run.md` (the
@@ -161,8 +161,8 @@ never inline content.
   manifest must describe the same environments with the same facts. `run.md` conforms to the grounding
   template and clears the linter + content eval; the manifest `environment` conforms to the run lens
   schema.
-- **Never stamp realized.** /run authors its run lens and closes the non-functional pipe; the slice's
-  `realized` stamp belongs to /measure (the deliver pipe, which runs last).
+- **Never stamp realized.** /shape-run-lens authors its run lens and closes the non-functional pipe; the slice's
+  `realized` stamp belongs to /shape-measure-lens (the deliver pipe, which runs last).
 - **Grounded, not invented.** Every operational choice — including a cloud env's compute, services,
   firewalls, and security — traces to the hub, the profile, or the architecture; a material choice is
   recorded as a decision (in the manifest). A cloud env's compute/services MUST map to architecture-lens

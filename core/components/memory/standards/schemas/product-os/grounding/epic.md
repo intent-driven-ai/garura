@@ -6,7 +6,7 @@
 > failures, expectations/success, and context, plus its delivery parts. The
 > functionalities it delivers are **linked** to real spine nodes. The linter enforces
 > the heading set and the link integrity; the eval scores depth and self-explanation
-> against `_content-standard.md`. Written by `/grill`.
+> against `_content-standard.md`. Written by `/shape-features`.
 
 ## Heading contract (required, in order)
 

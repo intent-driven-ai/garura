@@ -12,7 +12,7 @@ memory.py — the memory tool: the one way agents find memory (contract version 
     python3 memory.py decide  --request '{"id": "mu-...", "verdict": "approve", "by": ..., "reply": ..., "decided_in": "review-tool" | "session"}'
     python3 memory.py apply   --id mu-...
     python3 memory.py cite    --request '{"issue": 659, "question": ..., "answer": ..., "trace": [{"asked", "found", "source"}...], ...}'
-    python3 memory.py citations --issue 659 [--play /vision] [--check]
+    python3 memory.py citations --issue 659 [--play /discover-domains] [--check]
     python3 memory.py <command> --request '{"issue": 657, ...}'
 
 Each request field is a flag, or the whole request is one JSON object (--request). Every

@@ -2,21 +2,21 @@
 #
 # A SLICE is a vertical PRODUCT INCREMENT: a bundle of functionalities — possibly
 # across several capabilities of ONE domain — that together deliver something usable.
-# It is what /shape hands you as a buildable unit ("pick a slice, open its ICE, build
-# it"), and what /roadmap plans (order, dependencies, effort).
+# It is what /shape-scope hands you as a buildable unit ("pick a slice, open its ICE, build
+# it"), and what /shape-roadmap plans (order, dependencies, effort).
 #
 # NOT an epic. An `epic` (epic.yaml) is the engineering delivery grain — one
-# functionality sliced end-to-end through its components, cut by /grill. A `slice` is
+# functionality sliced end-to-end through its components, cut by /shape-features. A `slice` is
 # higher: it groups whole functionalities into a usable increment. The chain is:
-#   /shape -> slices (this schema)
-#   /roadmap -> plans the slices (order + dependencies + effort, written here)
-#   /grill -> per functionality inside a chosen slice, cuts epics (epic.yaml)
+#   /shape-scope -> slices (this schema)
+#   /shape-roadmap -> plans the slices (order + dependencies + effort, written here)
+#   /shape-features -> per functionality inside a chosen slice, cuts epics (epic.yaml)
 #
 # A slice REFERENCES functionality ICE — it never copies it. The functionality ICE
 # stays the single source of truth for each unit.
 #
 # Lifecycle: PERMANENT (lives in product-os with the structure). One domain's slices
-# live under that domain; /roadmap reads slices across all domains to plan globally.
+# live under that domain; /shape-roadmap reads slices across all domains to plan globally.
 
 schema:
   name: slice
@@ -33,7 +33,7 @@ slice:
   # the user-facing SURFACE(S) this slice exposes — REQUIRED, at least one.
   # A slice is a VERTICAL increment: a user must be able to OPEN a surface and CHECK the
   # outcome through it. A slice with no surface is not a slice — it is a backend layer,
-  # which is exactly what /shape must NOT produce. /shape NAMES the surface; /realize's
+  # which is exactly what /shape-scope must NOT produce. /shape-scope NAMES the surface; /realize's
   # UX lens DESIGNS it — so NO wireframe/component/layout/visual content lives here, only
   # the name, who opens it, and what they do/see. Journeys reference these by surface id.
   surface:
@@ -49,24 +49,24 @@ slice:
       delivery: string            # full | partial — is this functionality fully delivered
                                   # in this slice, or only partially used / deepened later
 
-  dependency_notes: string  # human note on what this slice leans on (free text from /shape)
+  dependency_notes: string  # human note on what this slice leans on (free text from /shape-scope)
   acceptance_intent: string # what "this increment works" means (slice-level, not per-ICE)
-  status: string            # proposed (from /shape) | planned (after /roadmap) |
-                            # realized (after /run — all six lenses line up) | deferred
+  status: string            # proposed (from /shape-scope) | planned (after /shape-roadmap) |
+                            # realized (after /shape-run-lens — all six lenses line up) | deferred
 
-  # ---- filled by /roadmap (the plan) ----
+  # ---- filled by /shape-roadmap (the plan) ----
   order: integer            # global build position across all slices; null until planned
-  effort: string            # /roadmap's size estimate for this slice; null until planned
-  depends_on: [string]      # other slice ids that must come first (resolved by /roadmap,
+  effort: string            # /shape-roadmap's size estimate for this slice; null until planned
+  depends_on: [string]      # other slice ids that must come first (resolved by /shape-roadmap,
                             # within and across domains); null/[] until planned
 
   metadata:
-    created_by: string      # /shape
-    updated_by: string      # /roadmap when it plans
+    created_by: string      # /shape-scope
+    updated_by: string      # /shape-roadmap when it plans
     version: integer
 
 # ---- The deferred bucket (per domain) --------------------------------------
-# Functionalities /shape selected but did not place in any slice yet. Every selected
+# Functionalities /shape-scope selected but did not place in any slice yet. Every selected
 # functionality MUST appear in at least one slice OR here — nothing falls through.
 deferred:
   domain_ref: string
@@ -88,7 +88,7 @@ deferred:
 
 # ---- Fill rules -------------------------------------------------------------
 fill_rules:
-  - play: "/shape"
+  - play: "/shape-scope"
     writes: "creates the slices for its one domain — name, outcome, the user-facing
              surface(s) each slice exposes (id + name + persona + user_action; named,
              NOT designed), the bundled functionalities (referencing their ICE),
@@ -96,16 +96,16 @@ fill_rules:
              _deferred bucket. Every slice MUST name at least one surface. Does NOT set
              order, effort, or resolved depends_on; does NOT design the surface (that is
              /realize's UX lens)."
-  - play: "/roadmap"
+  - play: "/shape-roadmap"
     writes: "the plan onto existing slices across all domains — order, effort, and
              resolved depends_on; flips status proposed -> planned (or deferred).
-             Never creates a slice or edits its composition (that is /shape's)."
-  - play: "/run"
+             Never creates a slice or edits its composition (that is /shape-scope's)."
+  - play: "/shape-run-lens"
     writes: "the done stamp ONLY — flips status -> realized when all six realize
              lenses exist for the slice and line up (every architecture component has a
              run target; every run target binds a real component). Surgical: changes
              status + metadata and nothing else of the record; never composition, order,
-             effort, or depends_on. The single marker /grill checks before cutting
+             effort, or depends_on. The single marker /shape-features checks before cutting
              delivery work."
 
 # ---- Enhance rules ----------------------------------------------------------

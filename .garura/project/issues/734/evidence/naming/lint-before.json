@@ -1,0 +1,1486 @@
+{
+  "violations": [
+    {
+      "file": "core/components/skills/author-adr/SKILL.md",
+      "rule": "structural/frontmatter-parse-error",
+      "severity": "error",
+      "message": "YAML parse error: bad indentation of a mapping entry (2:315)\n\n 1 |  ... \n 2 |  ... t the adr-keeper agent gathered: the older ADRs it supersedes o ...\n-----------------------------------------^\n 3 |  ... \n 4 |  ... ",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/author-agentic-lens/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Input",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/author-agentic-lens/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Process",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/author-agentic-lens/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Output",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/author-architecture-lens/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Input",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/author-architecture-lens/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Process",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/author-architecture-lens/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Output",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/author-build-plan/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Input",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/author-build-plan/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Process",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/author-build-plan/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Output",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/author-epics/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Input",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/author-epics/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Process",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/author-epics/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Output",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/author-hitl-scenarios/SKILL.md",
+      "rule": "structural/frontmatter-parse-error",
+      "severity": "error",
+      "message": "YAML parse error: bad indentation of a mapping entry (2:629)\n\n 1 |  ... \n 2 |  ... eck. Both directions must close: every acceptance criterion get ...\n-----------------------------------------^\n 3 |  ... \n 4 |  ... ",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/author-learnings/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Input",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/author-learnings/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Process",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/author-marketing-lens/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Input",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/author-marketing-lens/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Process",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/author-measure-lens/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Input",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/author-measure-lens/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Process",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/author-measure-lens/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Output",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/author-quality-lens/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Input",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/author-quality-lens/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Process",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/author-quality-lens/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Output",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/author-roadmap/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Input",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/author-roadmap/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Process",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/author-roadmap/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Output",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/author-run-lens/SKILL.md",
+      "rule": "structural/frontmatter-parse-error",
+      "severity": "error",
+      "message": "YAML parse error: bad indentation of a mapping entry (2:305)\n\n 1 |  ... \n 2 |  ... ow the slice ships and operates: the slice-level design (rollou ...\n-----------------------------------------^\n 3 |  ... \n 4 |  ... ",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/author-shape-bundle/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Input",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/author-shape-bundle/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Process",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/author-shape-bundle/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Output",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/author-steelman-evals/SKILL.md",
+      "rule": "structural/frontmatter-parse-error",
+      "severity": "error",
+      "message": "YAML parse error: bad indentation of a mapping entry (2:537)\n\n 1 |  ... \n 2 |  ... le. Compartmentalized by design: runs in a sub-agent the implem ...\n-----------------------------------------^\n 3 |  ... \n 4 |  ... ",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/author-vision-seed/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Input",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/author-vision-seed/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Process",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/author-vision-seed/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Output",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/check-cut-tensions/SKILL.md",
+      "rule": "structural/frontmatter-parse-error",
+      "severity": "error",
+      "message": "YAML parse error: bad indentation of a mapping entry (2:711)\n\n 1 |  ... \n 2 |  ... esolved DELIVERY-METHOD choices: when an epic's user check depe ...\n-----------------------------------------^\n 3 |  ... \n 4 |  ... ",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/configure-capabilities/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Output",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/deploy-to-cloud-env/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Input",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/deploy-to-cloud-env/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Process",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/deploy-to-cloud-env/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Output",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/derive-design-patterns/SKILL.md",
+      "rule": "structural/frontmatter-parse-error",
+      "severity": "error",
+      "message": "YAML parse error: bad indentation of a mapping entry (2:180)\n\n 1 |  ... \n 2 |  ... oduct at every applicable layer: system-level, layer-level, com ...\n-----------------------------------------^\n 3 |  ... \n 4 |  ... ",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/derive-logical-architecture/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: model",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/derive-logical-architecture/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: allowed-tools",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/derive-nfr-spec/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: model",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/derive-nfr-spec/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: allowed-tools",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/derive-nfr-spec/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Output",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/derive-physical-architecture/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: model",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/derive-physical-architecture/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: allowed-tools",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/derive-quality-vision/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: model",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/derive-quality-vision/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: allowed-tools",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/derive-quality-vision/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Output",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/derive-systems-inventory/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: model",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/derive-systems-inventory/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: allowed-tools",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/derive-tech-stack/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: model",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/derive-tech-stack/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: allowed-tools",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/enrich-capabilities/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Output",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/enrich-capability-ice/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Input",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/enrich-capability-ice/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Process",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/enrich-capability-ice/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Output",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/judge-validation-results/SKILL.md",
+      "rule": "structural/frontmatter-parse-error",
+      "severity": "error",
+      "message": "YAML parse error: bad indentation of a mapping entry (2:527)\n\n 1 |  ... \n 2 |  ... dds judgment the scripts cannot: deduplicating one root cause r ...\n-----------------------------------------^\n 3 |  ... \n 4 |  ... ",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/kb-search/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: model",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/kb-search/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: allowed-tools",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/kb-search/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Input",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/kb-search/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Process",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/merge-pr/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: model",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/merge-pr/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: allowed-tools",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/plan-validation-checks/SKILL.md",
+      "rule": "structural/frontmatter-parse-error",
+      "severity": "error",
+      "message": "YAML parse error: bad indentation of a mapping entry (2:748)\n\n 1 |  ... \n 2 |  ... hecks.yaml (one entry per check: runner class, tool, command, i ...\n-----------------------------------------^\n 3 |  ... \n 4 |  ... ",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/propose-kb-node/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Input",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/propose-kb-node/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Process",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/propose-kb-node/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Output",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/quality-check/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: model",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/quality-check/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: allowed-tools",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/quality-check/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Input",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/quality-check/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Process",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/quality-check/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Output",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/quality-check-scoped/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: model",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/quality-check-scoped/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: allowed-tools",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/quality-check-scoped/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Input",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/quality-check-scoped/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Process",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/quality-check-scoped/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Output",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/rank-recommendations/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: user-invocable",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/rank-recommendations/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: model",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/rank-recommendations/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: allowed-tools",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/rank-recommendations/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Input",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/rank-recommendations/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Process",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/rank-recommendations/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Output",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/recommend-mvp/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Output",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/refine-quality-profile/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: model",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/refine-quality-profile/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: allowed-tools",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/resolve-issues/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: model",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/resolve-issues/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: allowed-tools",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/run-quality-gates/SKILL.md",
+      "rule": "structural/frontmatter-parse-error",
+      "severity": "error",
+      "message": "YAML parse error: bad indentation of a mapping entry (2:833)\n\n 1 |  ... \n 2 |  ... te the lens\". Purely mechanical: the script does the work; no i ...\n-----------------------------------------^\n 3 |  ... \n 4 |  ... ",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/search-kb/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Process",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/search-kb/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Output",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/stand-up-launch-env/SKILL.md",
+      "rule": "structural/frontmatter-parse-error",
+      "severity": "error",
+      "message": "YAML parse error: bad indentation of a mapping entry (2:382)\n\n 1 |  ... \n 2 |  ... ble, and writes a deploy record: environment, target, the reach ...\n-----------------------------------------^\n 3 |  ... \n 4 |  ... ",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/submit-pr/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: model",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/submit-pr/SKILL.md",
+      "rule": "structural/missing-frontmatter-field",
+      "severity": "error",
+      "message": "Missing required frontmatter field: allowed-tools",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/validate-abstraction-layer/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Output",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/validate-architecture-spec/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Output",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/install-garura/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Compiled From",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/install-garura/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Role",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/install-garura/SKILL.md",
+      "rule": "structural/missing-standard-play-close",
+      "severity": "error",
+      "message": "Standard Play Close anchors must appear exactly once each (found opener 0, closer 0). See core/components/plays/_shared/play-close.md.",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/loop-creator/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Compiled From",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/loop-creator/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Role",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/loop-creator/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Pre-flight",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/loop-creator/SKILL.md",
+      "rule": "structural/missing-standard-play-close",
+      "severity": "error",
+      "message": "Standard Play Close anchors must appear exactly once each (found opener 0, closer 0). See core/components/plays/_shared/play-close.md.",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/loop-editor/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Compiled From",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/loop-editor/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Role",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/loop-editor/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Pre-flight",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/loop-editor/SKILL.md",
+      "rule": "structural/missing-standard-play-close",
+      "severity": "error",
+      "message": "Standard Play Close anchors must appear exactly once each (found opener 0, closer 0). See core/components/plays/_shared/play-close.md.",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/play-creator/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Compiled From",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/play-creator/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Role",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/play-creator/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Pre-flight",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/play-creator/SKILL.md",
+      "rule": "structural/missing-standard-play-close",
+      "severity": "error",
+      "message": "Standard Play Close anchors must appear exactly once each (found opener 0, closer 0). See core/components/plays/_shared/play-close.md.",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/play-editor/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Compiled From",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/play-editor/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Role",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/play-editor/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Pre-flight",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/play-editor/SKILL.md",
+      "rule": "structural/missing-standard-play-close",
+      "severity": "error",
+      "message": "Standard Play Close anchors must appear exactly once each (found opener 0, closer 0). See core/components/plays/_shared/play-close.md.",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/uninstall-garura/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Compiled From",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/uninstall-garura/SKILL.md",
+      "rule": "structural/missing-section",
+      "severity": "error",
+      "message": "Missing required section: ## Role",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/uninstall-garura/SKILL.md",
+      "rule": "structural/missing-standard-play-close",
+      "severity": "error",
+      "message": "Standard Play Close anchors must appear exactly once each (found opener 0, closer 0). See core/components/plays/_shared/play-close.md.",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/focus/SKILL.md",
+      "rule": "structural/spelling-inconsistency",
+      "severity": "warning",
+      "message": "Corpus uses mixed spellings for user-invocable/user-invokable. This file uses `user-invokable` (minority form).",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/next/SKILL.md",
+      "rule": "structural/spelling-inconsistency",
+      "severity": "warning",
+      "message": "Corpus uses mixed spellings for user-invocable/user-invokable. This file uses `user-invokable` (minority form).",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/adr/SKILL.md",
+      "rule": "naming-play",
+      "severity": "error",
+      "message": "play \"adr\" must be <verb>-<object> with a play verb (discover, shape, build, validate, release, learn, start, commit, propose, check, merge, fix, refactor, draft, show, update, list, search, research, record, create, edit, install, uninstall)",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/agentic/SKILL.md",
+      "rule": "naming-play",
+      "severity": "error",
+      "message": "play \"agentic\" must be <verb>-<object> with a play verb (discover, shape, build, validate, release, learn, start, commit, propose, check, merge, fix, refactor, draft, show, update, list, search, research, record, create, edit, install, uninstall)",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/arch/SKILL.md",
+      "rule": "naming-shortened",
+      "severity": "error",
+      "message": "\"arch\" uses the shortened word \"arch\"; spell it out",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/arch/SKILL.md",
+      "rule": "naming-play",
+      "severity": "error",
+      "message": "play \"arch\" must be <verb>-<object> with a play verb (discover, shape, build, validate, release, learn, start, commit, propose, check, merge, fix, refactor, draft, show, update, list, search, research, record, create, edit, install, uninstall)",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/deploy/SKILL.md",
+      "rule": "naming-play",
+      "severity": "error",
+      "message": "play \"deploy\" must be <verb>-<object> with a play verb (discover, shape, build, validate, release, learn, start, commit, propose, check, merge, fix, refactor, draft, show, update, list, search, research, record, create, edit, install, uninstall)",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/focus/SKILL.md",
+      "rule": "naming-reserved",
+      "severity": "error",
+      "message": "\"focus\" is, or starts with, a Claude Code or Codex built-in command (\"focus\")",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/focus/SKILL.md",
+      "rule": "naming-play",
+      "severity": "error",
+      "message": "play \"focus\" must be <verb>-<object> with a play verb (discover, shape, build, validate, release, learn, start, commit, propose, check, merge, fix, refactor, draft, show, update, list, search, research, record, create, edit, install, uninstall)",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/grill/SKILL.md",
+      "rule": "naming-play",
+      "severity": "error",
+      "message": "play \"grill\" must be <verb>-<object> with a play verb (discover, shape, build, validate, release, learn, start, commit, propose, check, merge, fix, refactor, draft, show, update, list, search, research, record, create, edit, install, uninstall)",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/implement/SKILL.md",
+      "rule": "naming-play",
+      "severity": "error",
+      "message": "play \"implement\" must be <verb>-<object> with a play verb (discover, shape, build, validate, release, learn, start, commit, propose, check, merge, fix, refactor, draft, show, update, list, search, research, record, create, edit, install, uninstall)",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/intent/SKILL.md",
+      "rule": "naming-play",
+      "severity": "error",
+      "message": "play \"intent\" must be <verb>-<object> with a play verb (discover, shape, build, validate, release, learn, start, commit, propose, check, merge, fix, refactor, draft, show, update, list, search, research, record, create, edit, install, uninstall)",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/launch/SKILL.md",
+      "rule": "naming-play",
+      "severity": "error",
+      "message": "play \"launch\" must be <verb>-<object> with a play verb (discover, shape, build, validate, release, learn, start, commit, propose, check, merge, fix, refactor, draft, show, update, list, search, research, record, create, edit, install, uninstall)",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/learn/SKILL.md",
+      "rule": "naming-play",
+      "severity": "error",
+      "message": "play \"learn\" must be <verb>-<object> with a play verb (discover, shape, build, validate, release, learn, start, commit, propose, check, merge, fix, refactor, draft, show, update, list, search, research, record, create, edit, install, uninstall)",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/loop-creator/SKILL.md",
+      "rule": "naming-reserved",
+      "severity": "error",
+      "message": "\"loop-creator\" is, or starts with, a Claude Code or Codex built-in command (\"loop\")",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/loop-creator/SKILL.md",
+      "rule": "naming-play",
+      "severity": "error",
+      "message": "play \"loop-creator\" must be <verb>-<object> with a play verb (discover, shape, build, validate, release, learn, start, commit, propose, check, merge, fix, refactor, draft, show, update, list, search, research, record, create, edit, install, uninstall)",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/loop-editor/SKILL.md",
+      "rule": "naming-reserved",
+      "severity": "error",
+      "message": "\"loop-editor\" is, or starts with, a Claude Code or Codex built-in command (\"loop\")",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/loop-editor/SKILL.md",
+      "rule": "naming-play",
+      "severity": "error",
+      "message": "play \"loop-editor\" must be <verb>-<object> with a play verb (discover, shape, build, validate, release, learn, start, commit, propose, check, merge, fix, refactor, draft, show, update, list, search, research, record, create, edit, install, uninstall)",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/marketing/SKILL.md",
+      "rule": "naming-play",
+      "severity": "error",
+      "message": "play \"marketing\" must be <verb>-<object> with a play verb (discover, shape, build, validate, release, learn, start, commit, propose, check, merge, fix, refactor, draft, show, update, list, search, research, record, create, edit, install, uninstall)",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/measure/SKILL.md",
+      "rule": "naming-play",
+      "severity": "error",
+      "message": "play \"measure\" must be <verb>-<object> with a play verb (discover, shape, build, validate, release, learn, start, commit, propose, check, merge, fix, refactor, draft, show, update, list, search, research, record, create, edit, install, uninstall)",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/play-creator/SKILL.md",
+      "rule": "naming-play",
+      "severity": "error",
+      "message": "play \"play-creator\" must be <verb>-<object> with a play verb (discover, shape, build, validate, release, learn, start, commit, propose, check, merge, fix, refactor, draft, show, update, list, search, research, record, create, edit, install, uninstall)",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/play-editor/SKILL.md",
+      "rule": "naming-play",
+      "severity": "error",
+      "message": "play \"play-editor\" must be <verb>-<object> with a play verb (discover, shape, build, validate, release, learn, start, commit, propose, check, merge, fix, refactor, draft, show, update, list, search, research, record, create, edit, install, uninstall)",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/quality/SKILL.md",
+      "rule": "naming-play",
+      "severity": "error",
+      "message": "play \"quality\" must be <verb>-<object> with a play verb (discover, shape, build, validate, release, learn, start, commit, propose, check, merge, fix, refactor, draft, show, update, list, search, research, record, create, edit, install, uninstall)",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/refactor/SKILL.md",
+      "rule": "naming-play",
+      "severity": "error",
+      "message": "play \"refactor\" must be <verb>-<object> with a play verb (discover, shape, build, validate, release, learn, start, commit, propose, check, merge, fix, refactor, draft, show, update, list, search, research, record, create, edit, install, uninstall)",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/review-change/SKILL.md",
+      "rule": "naming-reserved",
+      "severity": "error",
+      "message": "\"review-change\" is, or starts with, a Claude Code or Codex built-in command (\"review\")",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/review-change/SKILL.md",
+      "rule": "naming-play",
+      "severity": "error",
+      "message": "play \"review-change\" must be <verb>-<object> with a play verb (discover, shape, build, validate, release, learn, start, commit, propose, check, merge, fix, refactor, draft, show, update, list, search, research, record, create, edit, install, uninstall)",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/review-knowledge/SKILL.md",
+      "rule": "naming-reserved",
+      "severity": "error",
+      "message": "\"review-knowledge\" is, or starts with, a Claude Code or Codex built-in command (\"review\")",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/review-knowledge/SKILL.md",
+      "rule": "naming-play",
+      "severity": "error",
+      "message": "play \"review-knowledge\" must be <verb>-<object> with a play verb (discover, shape, build, validate, release, learn, start, commit, propose, check, merge, fix, refactor, draft, show, update, list, search, research, record, create, edit, install, uninstall)",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/roadmap/SKILL.md",
+      "rule": "naming-play",
+      "severity": "error",
+      "message": "play \"roadmap\" must be <verb>-<object> with a play verb (discover, shape, build, validate, release, learn, start, commit, propose, check, merge, fix, refactor, draft, show, update, list, search, research, record, create, edit, install, uninstall)",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/run/SKILL.md",
+      "rule": "naming-reserved",
+      "severity": "error",
+      "message": "\"run\" is, or starts with, a Claude Code or Codex built-in command (\"run\")",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/run/SKILL.md",
+      "rule": "naming-play",
+      "severity": "error",
+      "message": "play \"run\" must be <verb>-<object> with a play verb (discover, shape, build, validate, release, learn, start, commit, propose, check, merge, fix, refactor, draft, show, update, list, search, research, record, create, edit, install, uninstall)",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/shape/SKILL.md",
+      "rule": "naming-play",
+      "severity": "error",
+      "message": "play \"shape\" must be <verb>-<object> with a play verb (discover, shape, build, validate, release, learn, start, commit, propose, check, merge, fix, refactor, draft, show, update, list, search, research, record, create, edit, install, uninstall)",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/understand/SKILL.md",
+      "rule": "naming-play",
+      "severity": "error",
+      "message": "play \"understand\" must be <verb>-<object> with a play verb (discover, shape, build, validate, release, learn, start, commit, propose, check, merge, fix, refactor, draft, show, update, list, search, research, record, create, edit, install, uninstall)",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/ux/SKILL.md",
+      "rule": "naming-play",
+      "severity": "error",
+      "message": "play \"ux\" must be <verb>-<object> with a play verb (discover, shape, build, validate, release, learn, start, commit, propose, check, merge, fix, refactor, draft, show, update, list, search, research, record, create, edit, install, uninstall)",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/validate/SKILL.md",
+      "rule": "naming-play",
+      "severity": "error",
+      "message": "play \"validate\" must be <verb>-<object> with a play verb (discover, shape, build, validate, release, learn, start, commit, propose, check, merge, fix, refactor, draft, show, update, list, search, research, record, create, edit, install, uninstall)",
+      "line": 1
+    },
+    {
+      "file": "core/components/plays/vision/SKILL.md",
+      "rule": "naming-play",
+      "severity": "error",
+      "message": "play \"vision\" must be <verb>-<object> with a play verb (discover, shape, build, validate, release, learn, start, commit, propose, check, merge, fix, refactor, draft, show, update, list, search, research, record, create, edit, install, uninstall)",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/aggregate-codify-proposals/SKILL.md",
+      "rule": "naming-skill",
+      "severity": "error",
+      "message": "skill \"aggregate-codify-proposals\" must be <verb>-<object> with a skill verb (author, infer, derive, scan, check, judge, assess, find, link, enrich, propose, research, rank, recommend, collect, walk, deploy, track, commit, open, merge, cut)",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/analyze-changes/SKILL.md",
+      "rule": "naming-skill",
+      "severity": "error",
+      "message": "skill \"analyze-changes\" must be <verb>-<object> with a skill verb (author, infer, derive, scan, check, judge, assess, find, link, enrich, propose, research, rank, recommend, collect, walk, deploy, track, commit, open, merge, cut)",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/analyze-pr/SKILL.md",
+      "rule": "naming-skill",
+      "severity": "error",
+      "message": "skill \"analyze-pr\" must be <verb>-<object> with a skill verb (author, infer, derive, scan, check, judge, assess, find, link, enrich, propose, research, rank, recommend, collect, walk, deploy, track, commit, open, merge, cut)",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/answer-from-source/SKILL.md",
+      "rule": "naming-skill",
+      "severity": "error",
+      "message": "skill \"answer-from-source\" must be <verb>-<object> with a skill verb (author, infer, derive, scan, check, judge, assess, find, link, enrich, propose, research, rank, recommend, collect, walk, deploy, track, commit, open, merge, cut)",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/build-dependency-graph/SKILL.md",
+      "rule": "naming-skill",
+      "severity": "error",
+      "message": "skill \"build-dependency-graph\" must be <verb>-<object> with a skill verb (author, infer, derive, scan, check, judge, assess, find, link, enrich, propose, research, rank, recommend, collect, walk, deploy, track, commit, open, merge, cut)",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/build-product-ontology/SKILL.md",
+      "rule": "naming-skill",
+      "severity": "error",
+      "message": "skill \"build-product-ontology\" must be <verb>-<object> with a skill verb (author, infer, derive, scan, check, judge, assess, find, link, enrich, propose, research, rank, recommend, collect, walk, deploy, track, commit, open, merge, cut)",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/close-model-gaps/SKILL.md",
+      "rule": "naming-skill",
+      "severity": "error",
+      "message": "skill \"close-model-gaps\" must be <verb>-<object> with a skill verb (author, infer, derive, scan, check, judge, assess, find, link, enrich, propose, research, rank, recommend, collect, walk, deploy, track, commit, open, merge, cut)",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/compute-blast-radius/SKILL.md",
+      "rule": "naming-skill",
+      "severity": "error",
+      "message": "skill \"compute-blast-radius\" must be <verb>-<object> with a skill verb (author, infer, derive, scan, check, judge, assess, find, link, enrich, propose, research, rank, recommend, collect, walk, deploy, track, commit, open, merge, cut)",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/configure-capabilities/SKILL.md",
+      "rule": "naming-skill",
+      "severity": "error",
+      "message": "skill \"configure-capabilities\" must be <verb>-<object> with a skill verb (author, infer, derive, scan, check, judge, assess, find, link, enrich, propose, research, rank, recommend, collect, walk, deploy, track, commit, open, merge, cut)",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/create-commit/SKILL.md",
+      "rule": "naming-skill",
+      "severity": "error",
+      "message": "skill \"create-commit\" must be <verb>-<object> with a skill verb (author, infer, derive, scan, check, judge, assess, find, link, enrich, propose, research, rank, recommend, collect, walk, deploy, track, commit, open, merge, cut)",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/deploy-to-cloud-env/SKILL.md",
+      "rule": "naming-shortened",
+      "severity": "error",
+      "message": "\"deploy-to-cloud-env\" uses the shortened word \"env\"; spell it out",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/detect-test-harness/SKILL.md",
+      "rule": "naming-skill",
+      "severity": "error",
+      "message": "skill \"detect-test-harness\" must be <verb>-<object> with a skill verb (author, infer, derive, scan, check, judge, assess, find, link, enrich, propose, research, rank, recommend, collect, walk, deploy, track, commit, open, merge, cut)",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/draft-fix-design/SKILL.md",
+      "rule": "naming-skill",
+      "severity": "error",
+      "message": "skill \"draft-fix-design\" must be <verb>-<object> with a skill verb (author, infer, derive, scan, check, judge, assess, find, link, enrich, propose, research, rank, recommend, collect, walk, deploy, track, commit, open, merge, cut)",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/draft-implementation-plan/SKILL.md",
+      "rule": "naming-skill",
+      "severity": "error",
+      "message": "skill \"draft-implementation-plan\" must be <verb>-<object> with a skill verb (author, infer, derive, scan, check, judge, assess, find, link, enrich, propose, research, rank, recommend, collect, walk, deploy, track, commit, open, merge, cut)",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/draft-knowledge-page/SKILL.md",
+      "rule": "naming-skill",
+      "severity": "error",
+      "message": "skill \"draft-knowledge-page\" must be <verb>-<object> with a skill verb (author, infer, derive, scan, check, judge, assess, find, link, enrich, propose, research, rank, recommend, collect, walk, deploy, track, commit, open, merge, cut)",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/draft-lld/SKILL.md",
+      "rule": "naming-skill",
+      "severity": "error",
+      "message": "skill \"draft-lld\" must be <verb>-<object> with a skill verb (author, infer, derive, scan, check, judge, assess, find, link, enrich, propose, research, rank, recommend, collect, walk, deploy, track, commit, open, merge, cut)",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/draft-product-spec/SKILL.md",
+      "rule": "naming-skill",
+      "severity": "error",
+      "message": "skill \"draft-product-spec\" must be <verb>-<object> with a skill verb (author, infer, derive, scan, check, judge, assess, find, link, enrich, propose, research, rank, recommend, collect, walk, deploy, track, commit, open, merge, cut)",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/draft-rca/SKILL.md",
+      "rule": "naming-skill",
+      "severity": "error",
+      "message": "skill \"draft-rca\" must be <verb>-<object> with a skill verb (author, infer, derive, scan, check, judge, assess, find, link, enrich, propose, research, rank, recommend, collect, walk, deploy, track, commit, open, merge, cut)",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/draft-reference-algorithms/SKILL.md",
+      "rule": "naming-skill",
+      "severity": "error",
+      "message": "skill \"draft-reference-algorithms\" must be <verb>-<object> with a skill verb (author, infer, derive, scan, check, judge, assess, find, link, enrich, propose, research, rank, recommend, collect, walk, deploy, track, commit, open, merge, cut)",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/draft-tech-spec/SKILL.md",
+      "rule": "naming-skill",
+      "severity": "error",
+      "message": "skill \"draft-tech-spec\" must be <verb>-<object> with a skill verb (author, infer, derive, scan, check, judge, assess, find, link, enrich, propose, research, rank, recommend, collect, walk, deploy, track, commit, open, merge, cut)",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/draft-technical-approach/SKILL.md",
+      "rule": "naming-skill",
+      "severity": "error",
+      "message": "skill \"draft-technical-approach\" must be <verb>-<object> with a skill verb (author, infer, derive, scan, check, judge, assess, find, link, enrich, propose, research, rank, recommend, collect, walk, deploy, track, commit, open, merge, cut)",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/draft-verification-scenarios/SKILL.md",
+      "rule": "naming-skill",
+      "severity": "error",
+      "message": "skill \"draft-verification-scenarios\" must be <verb>-<object> with a skill verb (author, infer, derive, scan, check, judge, assess, find, link, enrich, propose, research, rank, recommend, collect, walk, deploy, track, commit, open, merge, cut)",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/generate-encrypted-evals/SKILL.md",
+      "rule": "naming-skill",
+      "severity": "error",
+      "message": "skill \"generate-encrypted-evals\" must be <verb>-<object> with a skill verb (author, infer, derive, scan, check, judge, assess, find, link, enrich, propose, research, rank, recommend, collect, walk, deploy, track, commit, open, merge, cut)",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/kb-search/SKILL.md",
+      "rule": "naming-skill",
+      "severity": "error",
+      "message": "skill \"kb-search\" must be <verb>-<object> with a skill verb (author, infer, derive, scan, check, judge, assess, find, link, enrich, propose, research, rank, recommend, collect, walk, deploy, track, commit, open, merge, cut)",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/lint-components/SKILL.md",
+      "rule": "naming-skill",
+      "severity": "error",
+      "message": "skill \"lint-components\" must be <verb>-<object> with a skill verb (author, infer, derive, scan, check, judge, assess, find, link, enrich, propose, research, rank, recommend, collect, walk, deploy, track, commit, open, merge, cut)",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/manage-features/SKILL.md",
+      "rule": "naming-skill",
+      "severity": "error",
+      "message": "skill \"manage-features\" must be <verb>-<object> with a skill verb (author, infer, derive, scan, check, judge, assess, find, link, enrich, propose, research, rank, recommend, collect, walk, deploy, track, commit, open, merge, cut)",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/manage-issue/SKILL.md",
+      "rule": "naming-skill",
+      "severity": "error",
+      "message": "skill \"manage-issue\" must be <verb>-<object> with a skill verb (author, infer, derive, scan, check, judge, assess, find, link, enrich, propose, research, rank, recommend, collect, walk, deploy, track, commit, open, merge, cut)",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/manage-plan/SKILL.md",
+      "rule": "naming-skill",
+      "severity": "error",
+      "message": "skill \"manage-plan\" must be <verb>-<object> with a skill verb (author, infer, derive, scan, check, judge, assess, find, link, enrich, propose, research, rank, recommend, collect, walk, deploy, track, commit, open, merge, cut)",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/map-test-surface/SKILL.md",
+      "rule": "naming-skill",
+      "severity": "error",
+      "message": "skill \"map-test-surface\" must be <verb>-<object> with a skill verb (author, infer, derive, scan, check, judge, assess, find, link, enrich, propose, research, rank, recommend, collect, walk, deploy, track, commit, open, merge, cut)",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/plan-validation-checks/SKILL.md",
+      "rule": "naming-reserved",
+      "severity": "error",
+      "message": "\"plan-validation-checks\" is, or starts with, a Claude Code or Codex built-in command (\"plan\")",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/plan-validation-checks/SKILL.md",
+      "rule": "naming-skill",
+      "severity": "error",
+      "message": "skill \"plan-validation-checks\" must be <verb>-<object> with a skill verb (author, infer, derive, scan, check, judge, assess, find, link, enrich, propose, research, rank, recommend, collect, walk, deploy, track, commit, open, merge, cut)",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/quality-check/SKILL.md",
+      "rule": "naming-skill",
+      "severity": "error",
+      "message": "skill \"quality-check\" must be <verb>-<object> with a skill verb (author, infer, derive, scan, check, judge, assess, find, link, enrich, propose, research, rank, recommend, collect, walk, deploy, track, commit, open, merge, cut)",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/quality-check-scoped/SKILL.md",
+      "rule": "naming-skill",
+      "severity": "error",
+      "message": "skill \"quality-check-scoped\" must be <verb>-<object> with a skill verb (author, infer, derive, scan, check, judge, assess, find, link, enrich, propose, research, rank, recommend, collect, walk, deploy, track, commit, open, merge, cut)",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/refine-quality-profile/SKILL.md",
+      "rule": "naming-skill",
+      "severity": "error",
+      "message": "skill \"refine-quality-profile\" must be <verb>-<object> with a skill verb (author, infer, derive, scan, check, judge, assess, find, link, enrich, propose, research, rank, recommend, collect, walk, deploy, track, commit, open, merge, cut)",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/resolve-issues/SKILL.md",
+      "rule": "naming-skill",
+      "severity": "error",
+      "message": "skill \"resolve-issues\" must be <verb>-<object> with a skill verb (author, infer, derive, scan, check, judge, assess, find, link, enrich, propose, research, rank, recommend, collect, walk, deploy, track, commit, open, merge, cut)",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/run-generated-tests-isolated/SKILL.md",
+      "rule": "naming-reserved",
+      "severity": "error",
+      "message": "\"run-generated-tests-isolated\" is, or starts with, a Claude Code or Codex built-in command (\"run\")",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/run-generated-tests-isolated/SKILL.md",
+      "rule": "naming-skill",
+      "severity": "error",
+      "message": "skill \"run-generated-tests-isolated\" must be <verb>-<object> with a skill verb (author, infer, derive, scan, check, judge, assess, find, link, enrich, propose, research, rank, recommend, collect, walk, deploy, track, commit, open, merge, cut)",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/run-quality-gates/SKILL.md",
+      "rule": "naming-reserved",
+      "severity": "error",
+      "message": "\"run-quality-gates\" is, or starts with, a Claude Code or Codex built-in command (\"run\")",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/run-quality-gates/SKILL.md",
+      "rule": "naming-skill",
+      "severity": "error",
+      "message": "skill \"run-quality-gates\" must be <verb>-<object> with a skill verb (author, infer, derive, scan, check, judge, assess, find, link, enrich, propose, research, rank, recommend, collect, walk, deploy, track, commit, open, merge, cut)",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/search-kb/SKILL.md",
+      "rule": "naming-skill",
+      "severity": "error",
+      "message": "skill \"search-kb\" must be <verb>-<object> with a skill verb (author, infer, derive, scan, check, judge, assess, find, link, enrich, propose, research, rank, recommend, collect, walk, deploy, track, commit, open, merge, cut)",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/setup-branch/SKILL.md",
+      "rule": "naming-skill",
+      "severity": "error",
+      "message": "skill \"setup-branch\" must be <verb>-<object> with a skill verb (author, infer, derive, scan, check, judge, assess, find, link, enrich, propose, research, rank, recommend, collect, walk, deploy, track, commit, open, merge, cut)",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/specify-baseline-tests/SKILL.md",
+      "rule": "naming-skill",
+      "severity": "error",
+      "message": "skill \"specify-baseline-tests\" must be <verb>-<object> with a skill verb (author, infer, derive, scan, check, judge, assess, find, link, enrich, propose, research, rank, recommend, collect, walk, deploy, track, commit, open, merge, cut)",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/stand-up-launch-env/SKILL.md",
+      "rule": "naming-shortened",
+      "severity": "error",
+      "message": "\"stand-up-launch-env\" uses the shortened word \"env\"; spell it out",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/stand-up-launch-env/SKILL.md",
+      "rule": "naming-skill",
+      "severity": "error",
+      "message": "skill \"stand-up-launch-env\" must be <verb>-<object> with a skill verb (author, infer, derive, scan, check, judge, assess, find, link, enrich, propose, research, rank, recommend, collect, walk, deploy, track, commit, open, merge, cut)",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/submit-pr/SKILL.md",
+      "rule": "naming-skill",
+      "severity": "error",
+      "message": "skill \"submit-pr\" must be <verb>-<object> with a skill verb (author, infer, derive, scan, check, judge, assess, find, link, enrich, propose, research, rank, recommend, collect, walk, deploy, track, commit, open, merge, cut)",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/validate-abstraction-layer/SKILL.md",
+      "rule": "naming-skill",
+      "severity": "error",
+      "message": "skill \"validate-abstraction-layer\" must be <verb>-<object> with a skill verb (author, infer, derive, scan, check, judge, assess, find, link, enrich, propose, research, rank, recommend, collect, walk, deploy, track, commit, open, merge, cut)",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/validate-architecture-spec/SKILL.md",
+      "rule": "naming-skill",
+      "severity": "error",
+      "message": "skill \"validate-architecture-spec\" must be <verb>-<object> with a skill verb (author, infer, derive, scan, check, judge, assess, find, link, enrich, propose, research, rank, recommend, collect, walk, deploy, track, commit, open, merge, cut)",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/validate-implementation-design/SKILL.md",
+      "rule": "naming-skill",
+      "severity": "error",
+      "message": "skill \"validate-implementation-design\" must be <verb>-<object> with a skill verb (author, infer, derive, scan, check, judge, assess, find, link, enrich, propose, research, rank, recommend, collect, walk, deploy, track, commit, open, merge, cut)",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/validate-kb-extension/SKILL.md",
+      "rule": "naming-skill",
+      "severity": "error",
+      "message": "skill \"validate-kb-extension\" must be <verb>-<object> with a skill verb (author, infer, derive, scan, check, judge, assess, find, link, enrich, propose, research, rank, recommend, collect, walk, deploy, track, commit, open, merge, cut)",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/write-evidence/SKILL.md",
+      "rule": "naming-skill",
+      "severity": "error",
+      "message": "skill \"write-evidence\" must be <verb>-<object> with a skill verb (author, infer, derive, scan, check, judge, assess, find, link, enrich, propose, research, rank, recommend, collect, walk, deploy, track, commit, open, merge, cut)",
+      "line": 1
+    },
+    {
+      "file": "core/components/skills/write-knowledge-brief/SKILL.md",
+      "rule": "naming-skill",
+      "severity": "error",
+      "message": "skill \"write-knowledge-brief\" must be <verb>-<object> with a skill verb (author, infer, derive, scan, check, judge, assess, find, link, enrich, propose, research, rank, recommend, collect, walk, deploy, track, commit, open, merge, cut)",
+      "line": 1
+    },
+    {
+      "file": "core/components/agents/env-operator.md",
+      "rule": "naming-shortened",
+      "severity": "error",
+      "message": "\"env-operator\" uses the shortened word \"env\"; spell it out",
+      "line": 1
+    },
+    {
+      "file": "core/components/agents/loop-checker.md",
+      "rule": "naming-reserved",
+      "severity": "error",
+      "message": "\"loop-checker\" is, or starts with, a Claude Code or Codex built-in command (\"loop\")",
+      "line": 1
+    },
+    {
+      "file": "core/components/loops/discovery/SKILL.md",
+      "rule": "naming-loop",
+      "severity": "error",
+      "message": "loop \"discovery\" must be \"complete-<phase>\"",
+      "line": 1
+    }
+  ],
+  "summary": {
+    "errors": 209,
+    "warnings": 2,
+    "infos": 0
+  }
+}

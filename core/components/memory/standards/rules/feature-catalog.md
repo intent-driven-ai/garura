@@ -2,7 +2,7 @@
 
 Canonical rules governing how the product feature catalog (`features.yaml`) is authored — the 3-tier domain → capability → feature structure that `specify` emits at Stage 4b. Every skill that creates, updates, or validates the catalog loads this file and enforces these rules.
 
-Consumers: `manage-features`, `generate-intent-epics` (read-only — consumes the produced catalog), validators.
+Consumers: `author-feature-catalog`, `generate-intent-epics` (read-only — consumes the produced catalog), validators.
 
 > **Note on naming.** This file governs the **product feature catalog** (the 3-tier `features.yaml`). For rules about the fields **inside an intent epic** (e.g., `problem_statement`, `hypothesis`, `constraints`), see `features.md` — a different concept with the same word in its name.
 
@@ -72,7 +72,7 @@ Optional fields: `evidence` (list of paths or URLs), `gap_items` (list of string
 
 **Each capability nests under its canonical domain per the KB provenance header on the enriched record.** Do not arbitrarily relocate capabilities across domains during catalog authoring.
 
-If a reclassification is needed (e.g., capability semantically belongs under a different domain), that is a separate concern handled upstream (via the enrichment or configure-capabilities step), not silently fixed here.
+If a reclassification is needed (e.g., capability semantically belongs under a different domain), that is a separate concern handled upstream (via the enrichment or derive-capability-selection step), not silently fixed here.
 
 ## Rule 8: Summary Counters Match the Vocabulary
 

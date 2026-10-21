@@ -3,7 +3,7 @@
 > Locked contract for a slice's `lens/architecture.md` — the **non-functional** architecture
 > lens. It names the components the slice needs, their contracts, the stack with versions, and
 > how this one slice is built end-to-end through them. The linter enforces the heading set; the
-> content-quality eval scores it against `_content-standard.md`. Written by `/arch`.
+> content-quality eval scores it against `_content-standard.md`. Written by `/shape-architecture-lens`.
 
 ## Heading contract (required, in order)
 

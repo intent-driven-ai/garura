@@ -9,7 +9,7 @@ deterministic checks carry what the human was checking).
 
 | Kind | Meaning | Who decides |
 |---|---|---|
-| **pinned** | Always fires. No config value, policy, or ledger can turn it off. | The play's intent (unpinning = play-editor intent change) |
+| **pinned** | Always fires. No config value, policy, or ledger can turn it off. | The play's intent (unpinning = edit-play intent change) |
 | **conditional** | Fires unless the learned per-project policy says this change SHAPE is auto. Every crossing appends a live-eval line; the human's real action is the verdict that teaches the policy. | The gate policy, learned from the ledger |
 | **off** | Never waits. The checkpoint's judgment was replaced by named deterministic checks inside the play's loop; the skip is recorded. | Config (`gates.plays.<play>: off`), granted only in the same change that adds the replacement checks |
 
@@ -61,7 +61,7 @@ gates:
 
 ## The live-eval loop (conditional gates)
 
-Scripts (canonical copies in `play-creator/references/`, stamped into conditional plays):
+Scripts (canonical copies in `create-play/references/`, stamped into conditional plays):
 
 - `classify_change.py` — deterministic draft-vs-live shape classifier. Fixed axes
   (nodes added/removed, status changes, profile bars, decisions added, sections
@@ -89,13 +89,13 @@ Every checkpoint in a compiled play declares its risk class inline (e.g.
 
 **Pinned gates (#466 Batch B, re-ruled #467).** A checkpoint whose play's own intent
 mandates it declares `(class: <class>, pinned)`. A pinned gate NEVER resolves off — no
-config value can disable it (two exceptions, by intent not config: `/intent`'s confirm and
-`/adr`'s accept are skipped when the play runs inside a loop's contract — ADR 031, #632; any
+config value can disable it (two exceptions, by intent not config: `/discover-intent`'s confirm and
+`/record-decision`'s accept are skipped when the play runs inside a loop's contract — ADR 031, #632; any
 other pinned gate inside a loop is asked up front or becomes the loop's question — the
 play stops short of it and the person answers on a later round — never deferred to the loop's
 review: `loop-contract.md` rule 4, ADR 041); the switch machinery records `pinned — config bypass
 refused` if an off value would otherwise match. Unpinning is an intent change to that
-play (play-editor), never a config edit. Per the #467 ruling the pinned set is: **grill**
+play (edit-play), never a config edit. Per the #467 ruling the pinned set is: **grill**
 (a wrong epic cut poisons everything downstream), **launch** (the one HITL gate of the
 implement trinity — the acceptance walk), **learn** (a wrong model learning bends the
 product model), and **merge-change's land-on-main step** (the #467 re-pin correction —

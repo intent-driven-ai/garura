@@ -1,6 +1,6 @@
 ---
 name: author-measure-lens
-description: Author a shaped slice's measure lens as an MD grounding doc — the delivery-measurement focus, a table of metrics (metric / baseline / target / proof, triangle-primary speed/tokens/cognition), and what is out of scope — from the slice's hub (its functionalities' grounding docs + the spine profile). Every metric is concrete (a baseline, a target, a proof), never a vague claim. Writes measure.md STRAIGHT to the live model (per-node doc only, conforming to the Measure lens template) and emits the shared-file deltas — the grounding map, any material decision, and the doc record — as structured data in an STM measure-manifest.yaml; never writes _spine.yaml, the profile, or a decision record (the keyed persist writes the decisions and the lines-up-gated realized stamp). Generative artifact production for the /measure play.
+description: Author a shaped slice's measure lens as an MD grounding doc — the delivery-measurement focus, a table of metrics (metric / baseline / target / proof, triangle-primary speed/tokens/cognition), and what is out of scope — from the slice's hub (its functionalities' grounding docs + the spine profile). Every metric is concrete (a baseline, a target, a proof), never a vague claim. Writes measure.md STRAIGHT to the live model (per-node doc only, conforming to the Measure lens template) and emits the shared-file deltas — the grounding map, any material decision, and the doc record — as structured data in an STM measure-manifest.yaml; never writes _spine.yaml, the profile, or a decision record (the keyed persist writes the decisions and the lines-up-gated realized stamp). Generative artifact production for the /shape-measure-lens play.
 version: 0.4.0
 user-invocable: false
 model: opus
@@ -14,8 +14,8 @@ product profile — into the slice's **measure lens**, written as the grounding 
 delivery the slice is proving, the metrics that prove it, and what is deliberately not measured. The
 metrics are concrete (each a baseline, a target, and how it is proven), triangle-primary on
 speed/tokens/cognition where it applies — never a vague claim. It reads the hub and writes the lens
-doc in place on the live model; /measure's keyed persist then applies the shared-file deltas after the
-checkpoint. This is the seam /learn later harvests.
+doc in place on the live model; /shape-measure-lens's keyed persist then applies the shared-file deltas after the
+checkpoint. This is the seam /learn-outcomes later harvests.
 
 ## Write discipline (ADR 026, direct-model-write)
 
@@ -24,8 +24,8 @@ live model** under `<product_base>/product-os/…`. It NEVER writes any shared m
 `_spine.yaml`, not the `profile` block, not a `decisions/` record. Every shared-file mutation is
 emitted as **structured data in the STM `measure-manifest.yaml`** — the grounding map in
 `measure.grounds`, any material choices in `measure.choices`, the material decision records in
-`decisions:`, and the record of the doc it wrote in `docs:` — for /measure's deterministic keyed
-persist (`persist_measure.py`) to apply in place after the human checkpoint. /measure runs the shape
+`decisions:`, and the record of the doc it wrote in `docs:` — for /shape-measure-lens's deterministic keyed
+persist (`persist_measure.py`) to apply in place after the human checkpoint. /shape-measure-lens runs the shape
 linter and the content-quality eval over the live doc, then the scoped-write guard over the full
 delta, before the checkpoint; nothing is committed until the gate resolves.
 
@@ -50,7 +50,7 @@ as structured data (the keyed persist writes the decision files).
 | `product_base` | yes | Product model root — to READ the hub and reuse an existing material decision, and to WRITE the `measure.md` grounding doc in place under `product-os/…`. |
 | `lens_rel` | yes | Relative path the lens mirrors (also its live path): `product-os/{domain}/slices/{slice}/lens/measure.md`. |
 | `manifest_path` | yes | Output path under STM for the `measure-manifest.yaml` (grounds + choices + decision records + the doc record). |
-| `proposals_dir` | no | STM folder for any `propose-kb-node` proposal a measurement frame needs when the KB does not cover it — each choice's `grounds` then references it. `/measure` runs `check_kb_grounding.py --proposals-dir` against this same folder. |
+| `proposals_dir` | no | STM folder for any `propose-kb-node` proposal a measurement frame needs when the KB does not cover it — each choice's `grounds` then references it. `/shape-measure-lens` runs `check_kb_grounding.py --proposals-dir` against this same folder. |
 | `stm_base` | yes | From config. |
 
 ## Procedure

@@ -11,7 +11,7 @@ provenance: "seeded (assistant, #434 — accepted)"
 # Every screen handles its states; every action gives feedback
 
 ## Topic
-The states a screen must account for, and how the UI responds to user actions. A `/ux`
+The states a screen must account for, and how the UI responds to user actions. A `/shape-ux-lens`
 pattern that's about completeness — the states teams forget are exactly the ones users hit.
 
 ## Conditions

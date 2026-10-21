@@ -1,6 +1,6 @@
 # ADR 045 — A Drive Is Now Called a Loop, a Loop Is Always Named in Full, and the Five Loops Are Discovery, Slice, Execute, Ship and Learn
 
-**Status:** Accepted
+**Status:** Accepted — amended in part by [ADR 046](046-one-naming-standard-for-every-harness-part.md): the loop command is complete-<phase>
 **Date:** 2026-10-21
 **Level:** framework
 **Decided by:** Kapil Viren Ahuja · **Decided in:** #698 (rename drive to loop); the word chosen 2026-10-21 in #606

@@ -1,6 +1,6 @@
 ---
 name: derive-physical-architecture
-description: Stage 4 skill of /arch. Builds the runtime physical architecture by mapping every logical component to one or more physical components, inheriting system_ref grounding from the inventory, picking specific deployment targets and resources, wiring comms with retry/idempotency stance, and naming a delivery mechanism for every NFR target in the refined quality profile. Mapping cardinality (1:1, N:1, 1:N) is recorded per physical component with rationale for non-trivial cases.
+description: Stage 4 skill of /shape-architecture-lens. Builds the runtime physical architecture by mapping every logical component to one or more physical components, inheriting system_ref grounding from the inventory, picking specific deployment targets and resources, wiring comms with retry/idempotency stance, and naming a delivery mechanism for every NFR target in the refined quality profile. Mapping cardinality (1:1, N:1, 1:N) is recorded per physical component with rationale for non-trivial cases.
 version: 1.0.0
 user-invocable: false
 deprecated: true
