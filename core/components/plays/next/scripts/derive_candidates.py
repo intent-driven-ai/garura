@@ -9,41 +9,41 @@ blocker named), plus the model-inconsistency report (the repair lane, C5).
 
 The tree (framed with the user, #434 follow-on; re-read on the spine, #533):
 
-  no model ............................................. /vision
+  no model ............................................. /discover-domains
   model files but no spine ............................. inconsistency only
       (model-has-no-spine — nothing is derived from legacy per-node files)
-  directional capability or profile directional ........ /understand
-  profile set/locked, domain has capabilities, no slices  /shape {domain id}
-  slices proposed / unordered .......................... /roadmap
+  directional capability or profile directional ........ /discover-capabilities
+  profile set/locked, domain has capabilities, no slices  /shape-scope {domain id}
+  slices proposed / unordered .......................... /shape-roadmap
   per planned slice (roadmap order + depends_on cited), two realize tracks
   (standards/rules/pipeline-next.md — track order is a recommendation, not a gate):
       functional track ux -> agentic -> marketing ....... head missing lens play
       non-functional track arch -> quality -> run ....... head missing lens play
-      both tracks done, measure.md missing .............. /measure (stamps realized)
-  REPAIR: planned slice with all seven lens docs ....... /measure (stamp unfinished)
+      both tracks done, measure.md missing .............. /shape-measure-lens (stamps realized)
+  REPAIR: planned slice with all seven lens docs ....... /shape-measure-lens (stamp unfinished)
   REPAIR: slice realized but a lens missing ............ the missing lens play
       (blocks grill/implement on that slice — carries the blocker flag)
   REPAIR: slice carries surface debt ................... re-validate the surface
       (a delivered user-facing epic; withholds further execute epics of the
        slice until the required surface is re-checked — surface-contract.md)
   REPAIR: slice record not in the spine index .......... inconsistency only
-  realized slice, no spine epics, no deferrals ......... /grill {slice}
-  epics: fix_required .................................. /implement (fix round)
-         ready + deps delivered ........................ /implement {epic}
+  realized slice, no spine epics, no deferrals ......... /shape-features {slice}
+  epics: fix_required .................................. /build-feature (fix round)
+         ready + deps delivered ........................ /build-feature {epic}
          ready + deps NOT delivered .................... blocked (dep named)
-         in_delivery ................................... /validate {epic}
-         validated ..................................... /launch {epic}
-  realized slice, grilled, all epics delivered/gone .... /learn (learning)
+         in_delivery ................................... /validate-feature {epic}
+         validated ..................................... /release-feature {epic}
+  realized slice, grilled, all epics delivered/gone .... /learn-outcomes (learning)
   everything delivered ................................. strategy refresh
-      (/shape from deferred when a deferred bucket exists; /roadmap re-plan)
+      (/shape-scope from deferred when a deferred bucket exists; /shape-roadmap re-plan)
 
 The order (C14, user direction 2026-09-11, #533) — slices are core, so a slice is
 finished before the others advance:
 
   1. repair, anywhere (lowest roadmap order first)
   2. the FOCUS SLICE — the lowest roadmap-order slice with work left (a lens,
-     /measure, /grill, or live epics); within it: functional track head →
-     non-functional track head → /measure → /grill → epics by order
+     /shape-measure-lens, /shape-features, or live epics); within it: functional track head →
+     non-functional track head → /shape-measure-lens → /shape-features → epics by order
   3. strategy (understand / shape / roadmap)
   4. every other slice's steps, by roadmap order — shown, flagged parallel lanes
   5. learning, then 6. strategy refresh
@@ -68,9 +68,9 @@ PIPELINE = "standards/rules/pipeline-next.md"
 FUNCTIONAL = ["ux", "agentic", "marketing"]
 NON_FUNCTIONAL = ["architecture", "quality", "run"]
 ALL_LENSES = FUNCTIONAL + NON_FUNCTIONAL + ["measure"]
-LENS_PLAY = {"quality": "quality", "ux": "ux", "agentic": "agentic",
-             "marketing": "marketing", "architecture": "arch",
-             "measure": "measure", "run": "run"}
+LENS_PLAY = {"quality": "shape-quality-lens", "ux": "shape-ux-lens", "agentic": "shape-agentic-lens",
+             "marketing": "shape-marketing-lens", "architecture": "shape-architecture-lens",
+             "measure": "shape-measure-lens", "run": "shape-run-lens"}
 TRACKS = [("functional", FUNCTIONAL, "lens"),
           ("non-functional", NON_FUNCTIONAL, "foundation")]
 CAP = 11  # C4: next-best-action + ranked list, at most 11 entries
@@ -117,7 +117,7 @@ def derive(state):
     # ---- cold start -----------------------------------------------------
     if not state.get("model_exists"):
         candidates.append(cand(
-            "strategy/vision", "vision", "/vision", "(new product)", "strategy",
+            "strategy/vision", "discover-domains", "/discover-domains", "(new product)", "strategy",
             gates=["no product model exists under product-os/"],
             unblocks=["the whole strategy pipeline (understand, shape, roadmap)"]))
         return candidates, inconsistencies
@@ -145,7 +145,7 @@ def derive(state):
                 "kind": "slice-not-indexed", "target": f"{domain_folder(d)}/{sid}",
                 "detail": f"slice record '{sid}' exists under {domain_folder(d)}/slices/ "
                           "but the spine slices index has no entry — its record status is "
-                          "never read; index it through /shape or remove the record"})
+                          "never read; index it through /shape-scope or remove the record"})
 
     any_slices = any(d.get("slices") for d in domains)
     directional_caps = [c for d in domains for c in d.get("capabilities", [])
@@ -153,31 +153,31 @@ def derive(state):
 
     # ---- strategy: understand / shape / roadmap -------------------------
     if profile_state == "directional" or (directional_caps and not any_slices):
-        why = [f"profile state is '{profile_state}' (must be set before /shape)"]
+        why = [f"profile state is '{profile_state}' (must be set before /shape-scope)"]
         if directional_caps:
             why.append(f"{len(directional_caps)} capability(ies) still directional on the "
-                       "spine (not yet detailed by /understand)")
+                       "spine (not yet detailed by /discover-capabilities)")
         candidates.append(cand(
-            "strategy/understand", "understand", "/understand", "(product)",
+            "strategy/understand", "discover-capabilities", "/discover-capabilities", "(product)",
             "strategy", gates=why,
-            unblocks=["/shape (needs a set profile and detailed capabilities)"]))
+            unblocks=["/shape-scope (needs a set profile and detailed capabilities)"]))
 
     if profile_state in ("set", "locked"):
         for d in domains:
             if d.get("capabilities") and not d.get("slices"):
                 candidates.append(cand(
-                    f"strategy/shape/{d['id']}", "shape", f"/shape {d['id']}",
+                    f"strategy/shape/{d['id']}", "shape-scope", f"/shape-scope {d['id']}",
                     d["id"], "strategy",
                     gates=[f"profile is '{profile_state}'",
                            f"domain '{d['id']}' has capabilities on the spine but no slices"],
-                    unblocks=["/roadmap", "the realize tracks for this domain"]))
+                    unblocks=["/shape-roadmap", "the realize tracks for this domain"]))
 
     unplanned = [(domain_folder(d), s) for d in domains for s in d.get("slices", [])
                  if s["status"] == "proposed" or (s["status"] not in ("deferred",)
                                                   and s.get("order") is None)]
     if unplanned:
         candidates.append(cand(
-            "strategy/roadmap", "roadmap", "/roadmap", "(all slices)", "strategy",
+            "strategy/roadmap", "shape-roadmap", "/shape-roadmap", "(all slices)", "strategy",
             gates=[f"{len(unplanned)} slice(s) unplanned on the spine (status proposed / "
                    "no order): " + ", ".join(slice_ref(dm, s) for dm, s in unplanned)],
             unblocks=["the realize tracks (lens work runs in roadmap order)"]))
@@ -230,7 +230,7 @@ def derive(state):
                 gates=[f"slice status is 'realized' but the '{lens}' lens doc is absent"],
                 order_hint=order, repair=True,
                 unblocks=[f"every epic of {ref} (the seven-lens gate)",
-                          f"/grill on {ref}" if not sl.get("has_epics") else ""]))
+                          f"/shape-features on {ref}" if not sl.get("has_epics") else ""]))
             # the queue behind the broken gate stays VISIBLE (S1/F6): every
             # live epic of this slice is a blocked candidate naming the lens
             epic_by_id = {e["id"]: e for e in sl.get("epics", [])}
@@ -245,13 +245,13 @@ def derive(state):
                     if dep_e and dep_e["status"] != "delivered":
                         dep_note.append(f"also waits for {dep} "
                                         f"(is '{dep_e['status']}')")
-                play_for = {"ready": ("implement", f"/implement --epic {eref}"),
+                play_for = {"ready": ("build-feature", f"/build-feature --epic {eref}"),
                             "fix_required": ("implement",
-                                             f"/implement --epic {eref}"),
-                            "in_delivery": ("validate", f"/validate --epic {eref}"),
-                            "validated": ("launch", f"/launch --epic {eref}")}
+                                             f"/build-feature --epic {eref}"),
+                            "in_delivery": ("validate-feature", f"/validate-feature --epic {eref}"),
+                            "validated": ("release-feature", f"/release-feature --epic {eref}")}
                 pl, cmd = play_for.get(e["status"],
-                                       ("implement", f"/implement --epic {eref}"))
+                                       ("build-feature", f"/build-feature --epic {eref}"))
                 candidates.append(cand(
                     f"execute/{eref}", pl, cmd, eref, "execute",
                     status="blocked",
@@ -262,7 +262,7 @@ def derive(state):
                            "the seven-lens gate requires all lens docs present"],
                     order_hint=order))
 
-        # -- planned slice: walk both realize tracks, then /measure --
+        # -- planned slice: walk both realize tracks, then /shape-measure-lens --
         if sl["status"] == "planned" and missing:
             heads = []
             for track, chain, lane in TRACKS:
@@ -280,37 +280,37 @@ def derive(state):
                            "a recommendation, not a readiness gate"] + dep_state,
                     order_hint=order, parallel=parallel or i > 0,
                     unblocks=[f"the next lens in {ref}'s {track} track" if not last
-                              else f"/measure on {ref} once both tracks are done"]))
+                              else f"/shape-measure-lens on {ref} once both tracks are done"]))
             if not heads:
                 # both tracks done, only measure.md missing
                 candidates.append(cand(
-                    f"foundation/{ref}/measure", "measure", f"/measure {ref}", ref,
+                    f"foundation/{ref}/measure", "shape-measure-lens", f"/shape-measure-lens {ref}", ref,
                     "foundation",
                     gates=[f"slice is planned at roadmap order {order}",
                            "both realize tracks are done (ux, agentic, marketing, "
                            "architecture, quality, run lens docs present)",
-                           f"/measure runs last and stamps the slice realized ({PIPELINE})"]
+                           f"/shape-measure-lens runs last and stamps the slice realized ({PIPELINE})"]
                           + dep_state,
                     order_hint=order, parallel=parallel,
-                    unblocks=[f"/measure's realized stamp on {ref}", f"/grill on {ref}"]))
+                    unblocks=[f"/shape-measure-lens's realized stamp on {ref}", f"/shape-features on {ref}"]))
 
         if sl["status"] == "planned" and not missing:
             inconsistencies.append({
                 "kind": "lenses-complete-but-unstamped", "target": ref,
                 "detail": "all seven lens docs exist but the slice is not stamped "
-                          "realized — /measure's stamp step did not finish"})
+                          "realized — /shape-measure-lens's stamp step did not finish"})
             candidates.append(cand(
-                f"repair/{ref}/stamp", "measure", f"/measure {ref}", ref, "repair",
+                f"repair/{ref}/stamp", "shape-measure-lens", f"/shape-measure-lens {ref}", ref, "repair",
                 gates=["all seven lens docs exist", "slice status is still 'planned'",
-                       "/measure stamps the slice realized when the seven docs line up"],
+                       "/shape-measure-lens stamps the slice realized when the seven docs line up"],
                 order_hint=order, repair=True,
-                unblocks=[f"/grill on {ref}"]))
+                unblocks=[f"/shape-features on {ref}"]))
 
         # -- realized + complete: grill or execute --
         if sl["status"] == "realized" and not missing:
             if not sl.get("has_epics") and not sl.get("deferrals_exists"):
                 candidates.append(cand(
-                    f"grill/{ref}", "grill", f"/grill {ref}", ref, "grill",
+                    f"grill/{ref}", "shape-features", f"/shape-features {ref}", ref, "grill",
                     gates=["slice is realized with all seven lens docs",
                            "no epics cut yet (no spine epics for the slice)"] + dep_state,
                     order_hint=order, parallel=parallel,
@@ -325,7 +325,7 @@ def derive(state):
                 # -- surface debt (C11/F8): a delivered epic with a required
                 # user-facing surface whose surface-parity check never passed leaves
                 # the slice in surface debt. The deterministic signal is the epic's
-                # surface_verified stamp on the spine epics index: /validate sets it
+                # surface_verified stamp on the spine epics index: /validate-feature sets it
                 # true only when the required surface was measured and matched
                 # (surface-contract.md). While debt is open, the next execute epic in
                 # the slice is WITHHELD and a surface-repair action takes priority.
@@ -347,8 +347,8 @@ def derive(state):
                                   "repair takes priority and further execute epics "
                                   "are withheld until it clears"})
                     candidates.append(cand(
-                        f"repair/{ref}/surface", "validate",
-                        f"/validate --epic {ref}/{debt_ids[0]}", ref, "repair",
+                        f"repair/{ref}/surface", "validate-feature",
+                        f"/validate-feature --epic {ref}/{debt_ids[0]}", ref, "repair",
                         gates=["slice carries surface debt: delivered user-facing "
                                f"epic(s) {', '.join(debt_ids)} — required surface "
                                "must be re-checked before more epics build on it"],
@@ -380,8 +380,8 @@ def derive(state):
                             "detail": f"epic is '{st}' but carries no issue_ref"})
                     if surface_debt and st != "delivered":
                         candidates.append(cand(
-                            f"execute/{eref}", "implement",
-                            f"/implement --epic {eref}", eref, "execute",
+                            f"execute/{eref}", "build-feature",
+                            f"/build-feature --epic {eref}", eref, "execute",
                             status="blocked",
                             blocker=f"slice {ref} carries surface debt "
                                     f"(delivered user-facing epic(s) "
@@ -395,8 +395,8 @@ def derive(state):
                     if st == "ready":
                         if undelivered:
                             candidates.append(cand(
-                                f"execute/{eref}", "implement",
-                                f"/implement --epic {eref}", eref, "execute",
+                                f"execute/{eref}", "build-feature",
+                                f"/build-feature --epic {eref}", eref, "execute",
                                 status="blocked",
                                 blocker="waits for dependency epic(s): "
                                         + ", ".join(undelivered),
@@ -406,8 +406,8 @@ def derive(state):
                                 order_hint=order, parallel=parallel))
                         else:
                             candidates.append(cand(
-                                f"execute/{eref}", "implement",
-                                f"/implement --epic {eref}", eref, "execute",
+                                f"execute/{eref}", "build-feature",
+                                f"/build-feature --epic {eref}", eref, "execute",
                                 gates=["epic status 'ready'",
                                        "all depends_on delivered",
                                        "slice realized with seven lens docs"],
@@ -416,27 +416,27 @@ def derive(state):
                                           if e["id"] in (x.get("depends_on") or [])]))
                     elif st == "fix_required":
                         candidates.append(cand(
-                            f"execute/{eref}/fix", "implement",
-                            f"/implement --epic {eref}", eref, "execute",
+                            f"execute/{eref}/fix", "build-feature",
+                            f"/build-feature --epic {eref}", eref, "execute",
                             gates=["epic status 'fix_required' — the fix round "
-                                   "(re-admits /implement with the validate "
+                                   "(re-admits /build-feature with the validate "
                                    "fix report)"],
                             order_hint=order,
-                            unblocks=[f"/validate then /launch on {e['id']}"]))
+                            unblocks=[f"/validate-feature then /release-feature on {e['id']}"]))
                     elif st == "in_delivery":
                         candidates.append(cand(
-                            f"execute/{eref}/validate", "validate",
-                            f"/validate --epic {eref}", eref, "execute",
+                            f"execute/{eref}/validate", "validate-feature",
+                            f"/validate-feature --epic {eref}", eref, "execute",
                             gates=["epic status 'in_delivery' "
-                                   "(its /validate gate also requires "
-                                   "/implement's verdict to hold)"],
+                                   "(its /validate-feature gate also requires "
+                                   "/build-feature's verdict to hold)"],
                             order_hint=order,
-                            unblocks=[f"/launch on {e['id']}"]))
+                            unblocks=[f"/release-feature on {e['id']}"]))
                     elif st == "validated":
                         candidates.append(cand(
-                            f"execute/{eref}/launch", "launch",
-                            f"/launch --epic {eref}", eref, "execute",
-                            gates=["epic status 'validated' — /launch's hard "
+                            f"execute/{eref}/launch", "release-feature",
+                            f"/release-feature --epic {eref}", eref, "execute",
+                            gates=["epic status 'validated' — /release-feature's hard "
                                    "precondition"],
                             order_hint=order,
                             unblocks=["delivery (epic merges and leaves the model)"]))
@@ -445,7 +445,7 @@ def derive(state):
     for domain, sl, order in learning_targets:
         ref = slice_ref(domain, sl)
         candidates.append(cand(
-            f"learning/{ref}", "learn", "/learn", ref, "learning",
+            f"learning/{ref}", "learn-outcomes", "/learn-outcomes", ref, "learning",
             gates=[f"{ref} is grilled and every epic is delivered/cleared"],
             order_hint=order,
             unblocks=["the KB and product LTM (skipping learning piles up "
@@ -460,13 +460,13 @@ def derive(state):
                             (d["deferred"].get("functionalities"))]
         for dom in deferred_domains:
             candidates.append(cand(
-                f"refresh/shape/{dom}", "shape", f"/shape {dom}", dom, "refresh",
+                f"refresh/shape/{dom}", "shape-scope", f"/shape-scope {dom}", dom, "refresh",
                 gates=["all in-flight work is delivered",
                        f"domain '{dom}' holds a deferred bucket — parked "
                        "functionality ready to be re-shaped"],
                 unblocks=["the next round of slices"]))
         candidates.append(cand(
-            "refresh/roadmap", "roadmap", "/roadmap", "(all slices)", "refresh",
+            "refresh/roadmap", "shape-roadmap", "/shape-roadmap", "(all slices)", "refresh",
             gates=["all in-flight work is delivered — re-plan from here"],
             unblocks=["the next build cycle"]))
 
@@ -482,14 +482,14 @@ def slice_of(c):
 
 
 def step_rank(c):
-    """Within one slice: repair → feature track → technical track → /measure →
-    /grill → epics (generation order keeps epics in their own order)."""
+    """Within one slice: repair → feature track → technical track → /shape-measure-lens →
+    /shape-features → epics (generation order keeps epics in their own order)."""
     if c["lane"] == "repair":
         return 0
     if c["lane"] == "lens":
         return 1
     if c["lane"] == "foundation":
-        return 3 if c["play"] == "measure" else 2
+        return 3 if c["play"] == "shape-measure-lens" else 2
     if c["lane"] == "grill":
         return 4
     return 5
@@ -538,7 +538,7 @@ def why_for(c, focus):
     elif c["id"] == "strategy/understand":
         why = ("The product profile or some capabilities are still rough, so they need "
                "detailing before slices can be cut.")
-    elif lane == "strategy" and play == "shape":
+    elif lane == "strategy" and play == "shape-scope":
         why = (f"Domain {c['target']} has detailed capabilities but no slices yet, so it "
                "needs cutting into slices.")
     elif c["id"] == "strategy/roadmap":
@@ -546,15 +546,15 @@ def why_for(c, focus):
                "more realize work.")
     elif lane == "repair" and tail == "stamp":
         why = (f"All seven lenses exist on {name} but it was never marked realized, so "
-               "/measure needs to finish its stamp.")
+               "/shape-measure-lens needs to finish its stamp.")
     elif lane == "repair" and tail == "surface":
         why = (f"An epic already delivered on {name} may not have shipped the surface it "
                "promised, so recheck it before more epics build on it.")
     elif lane == "repair":
         why = (f"{name} is marked realized but its {tail} lens is missing, so add it before "
                "any epic on the slice is built.")
-    elif lane in ("lens", "foundation") and play == "measure":
-        why = (f"Both realize tracks are done on {name}; /measure runs last and marks the "
+    elif lane in ("lens", "foundation") and play == "shape-measure-lens":
+        why = (f"Both realize tracks are done on {name}; /shape-measure-lens runs last and marks the "
                "slice realized.")
     elif lane in ("lens", "foundation"):
         why = f"{name} still needs its {tail} lens, the next step in its {TRACK_NAME[tail]}."
@@ -577,7 +577,7 @@ def why_for(c, focus):
     elif lane == "learning":
         why = (f"Every epic on {name} is delivered, so capture what was learned before the "
                "next cycle.")
-    elif lane == "refresh" and play == "shape":
+    elif lane == "refresh" and play == "shape-scope":
         why = (f"All work is delivered and domain {c['target']} has parked functionality "
                "ready to shape into new slices.")
     else:

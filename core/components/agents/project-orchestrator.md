@@ -139,23 +139,23 @@ Write structured failure to the `stm.output.failure` path per `structured-failur
 
 | Skill | Domain | Purpose |
 |-------|--------|---------|
-| `manage-issue` | issues | Read, create, close, resolve, or list GitHub issues with optional sub-issue attachment |
-| `resolve-issues` | issue-mapping | Map change groups to existing open issues with confidence scoring |
-| `manage-plan` | planning | Create, update, or check the plan for one issue (`{stm_base}{issue}/specs/plan.md`) |
+| `track-issue` | issues | Read, create, close, resolve, or list GitHub issues with optional sub-issue attachment |
+| `find-matching-issues` | issue-mapping | Map change groups to existing open issues with confidence scoring |
+| `author-plan-file` | planning | Create, update, or check the plan for one issue (`{stm_base}{issue}/specs/plan.md`) |
 
 ### When to Use Each Skill
 
 | Intent Pattern | Skill | Why |
 |----------------|-------|-----|
-| "check issue", "get issue", "find issue", "read issue" | `manage-issue` (action: read) | Fetching issue details |
-| "create issue", "new issue", "file issue" | `manage-issue` (action: create) | Creating new issues |
-| "resolve or create issue", "ensure issue exists", "find or create" | `manage-issue` (action: resolve_or_create) | Smart resolution |
-| "close issue", "complete issue", "finish issue", "done with issue" | `manage-issue` (action: close) | Closing completed/unneeded issues |
-| "list issues", "browse candidates", "discover open enhancements", "find enhancement candidates" | `manage-issue` (action: list) | Filtered candidate discovery for issue selection |
-| "map changes to issues", "resolve issue mapping", "which issues do these changes belong to" | `resolve-issues` | Mapping change groups to open issues with confidence scoring |
-| "plan this issue", "write the plan", "create plan" | build plan context, then `manage-plan` (action: create) | A plan is written before work starts |
-| "update the plan", "item done", "reorder the plan" | build plan context, then `manage-plan` (action: update) | The plan is kept current while work runs |
-| "is the plan done", "check the plan" | `manage-plan` (action: check) | The script decides done, not judgment |
+| "check issue", "get issue", "find issue", "read issue" | `track-issue` (action: read) | Fetching issue details |
+| "create issue", "new issue", "file issue" | `track-issue` (action: create) | Creating new issues |
+| "resolve or create issue", "ensure issue exists", "find or create" | `track-issue` (action: resolve_or_create) | Smart resolution |
+| "close issue", "complete issue", "finish issue", "done with issue" | `track-issue` (action: close) | Closing completed/unneeded issues |
+| "list issues", "browse candidates", "discover open enhancements", "find enhancement candidates" | `track-issue` (action: list) | Filtered candidate discovery for issue selection |
+| "map changes to issues", "resolve issue mapping", "which issues do these changes belong to" | `find-matching-issues` | Mapping change groups to open issues with confidence scoring |
+| "plan this issue", "write the plan", "create plan" | build plan context, then `author-plan-file` (action: create) | A plan is written before work starts |
+| "update the plan", "item done", "reorder the plan" | build plan context, then `author-plan-file` (action: update) | The plan is kept current while work runs |
+| "is the plan done", "check the plan" | `author-plan-file` (action: check) | The script decides done, not judgment |
 
 ## Intent Recognition
 
@@ -171,45 +171,45 @@ Constraints are extracted during recognition because they influence HOW you exec
 ### Intent to Skill Mapping
 
 ```
-"Check issue #42"                           -> manage-issue (action: read, issue_number: 42)
-"Get details for issue 15"                  -> manage-issue (action: read, issue_number: 15)
-"Create issue: Add OAuth login"             -> manage-issue (action: create, description: "Add OAuth login")
+"Check issue #42"                           -> track-issue (action: read, issue_number: 42)
+"Get details for issue 15"                  -> track-issue (action: read, issue_number: 15)
+"Create issue: Add OAuth login"             -> track-issue (action: create, description: "Add OAuth login")
   + constraints shape: labels, parent attachment, type derivation
-"File issue for broken login redirect"      -> manage-issue (action: create, description: "broken login redirect")
+"File issue for broken login redirect"      -> track-issue (action: create, description: "broken login redirect")
   + constraints shape: labels, parent attachment, type derivation
-"Ensure issue exists for: Add caching"      -> manage-issue (action: resolve_or_create, description: "Add caching")
+"Ensure issue exists for: Add caching"      -> track-issue (action: resolve_or_create, description: "Add caching")
   + constraints shape: search scope, creation defaults, parent linking
-"Resolve or create issue #42"               -> manage-issue (action: resolve_or_create, issue_number: 42)
-"Close issue #42"                           -> manage-issue (action: close, issue_number: 42)
+"Resolve or create issue #42"               -> track-issue (action: resolve_or_create, issue_number: 42)
+"Close issue #42"                           -> track-issue (action: close, issue_number: 42)
   + constraints shape: close reason, whether comment is required
-"Mark issue #15 as completed"               -> manage-issue (action: close, issue_number: 15)
-"Close issue #7 as not planned"             -> manage-issue (action: close, issue_number: 7, reason: not_planned)
-"List open enhancement candidates"          -> manage-issue (action: list, filters: {state: open, assignee: none, labels: [enhancement, no-label], sort: updated_desc, limit: 5})
-"Browse open issues for enhancement"        -> manage-issue (action: list)
+"Mark issue #15 as completed"               -> track-issue (action: close, issue_number: 15)
+"Close issue #7 as not planned"             -> track-issue (action: close, issue_number: 7, reason: not_planned)
+"List open enhancement candidates"          -> track-issue (action: list, filters: {state: open, assignee: none, labels: [enhancement, no-label], sort: updated_desc, limit: 5})
+"Browse open issues for enhancement"        -> track-issue (action: list)
   + config.instructions from contract override default filters when provided
-"Map these changes to issues"               -> resolve-issues (input from stm.input paths)
-"Which issues do these changes belong to"   -> resolve-issues (input from stm.input paths)
-"Plan issue #606"                           -> Plan Context (manage-issue read ×N) -> manage-plan
+"Map these changes to issues"               -> find-matching-issues (input from stm.input paths)
+"Which issues do these changes belong to"   -> find-matching-issues (input from stm.input paths)
+"Plan issue #606"                           -> Plan Context (track-issue read ×N) -> author-plan-file
                                                (action: create, issue: 606, plan_path, context_path, report_path)
-"Item 2 of the #606 plan is finished"       -> Plan Context -> manage-plan
+"Item 2 of the #606 plan is finished"       -> Plan Context -> author-plan-file
                                                (action: update, issue: 606, change: "item 2 is finished", ...)
-"Is the #619 plan done?"                    -> manage-plan (action: check, issue: 619, plan_path, report_path)
+"Is the #619 plan done?"                    -> author-plan-file (action: check, issue: 619, plan_path, report_path)
 ```
 
 ## Plan Context
 
-Before `manage-plan` creates or updates a plan, you gather its context and write it to one file. This is your job, not the skill's: you gather, the skill writes.
+Before `author-plan-file` creates or updates a plan, you gather its context and write it to one file. This is your job, not the skill's: you gather, the skill writes.
 
-1. **The issue.** `manage-issue` (action: read) on the issue. The read returns `type`, `parent`, `sub_issues`, the full `body`, and `tree_available` (see `manage-issue`'s output template).
-2. **Its parent.** `manage-issue` (action: read) on `parent.number`, if set — number, type, title.
-3. **Its children.** `manage-issue` (action: read) on each entry in `sub_issues` — number, type, title, state, and that child's own `sub_issues`. Children are the only linked issues: a parent/child link in the tracker counts, a mention in the body never does.
+1. **The issue.** `track-issue` (action: read) on the issue. The read returns `type`, `parent`, `sub_issues`, the full `body`, and `tree_available` (see `track-issue`'s output template).
+2. **Its parent.** `track-issue` (action: read) on `parent.number`, if set — number, type, title.
+3. **Its children.** `track-issue` (action: read) on each entry in `sub_issues` — number, type, title, state, and that child's own `sub_issues`. Children are the only linked issues: a parent/child link in the tracker counts, a mention in the body never does.
 4. **Existing plans.** `test -f {stm_base}{issue}/specs/plan.md` — record the path, or null. Do the same for the parent: `{stm_base}{parent}/specs/plan.md` → `parent_plan`.
 5. **Decisions.** Paths to decision records the issue or its children point at (ADRs under `docs/adr/`, spike notes under `{stm_base}{n}/specs/`), checked with `test -f`.
 6. **Notes.** Anything the caller passed about order or priority, quoted, with its date.
 
-Write the result to `stm.output.context` (e.g. `{stm_base}{issue}/context/plan-context.yaml`) with the fields `issue`, `tree_available`, `parent`, `children`, `linked`, `existing_plan`, `parent_plan`, `decisions`, `notes`. Then invoke `manage-plan`.
+Write the result to `stm.output.context` (e.g. `{stm_base}{issue}/context/plan-context.yaml`) with the fields `issue`, `tree_available`, `parent`, `children`, `linked`, `existing_plan`, `parent_plan`, `decisions`, `notes`. Then invoke `author-plan-file`.
 
-When `manage-issue` returns `tree_available: false` (GitLab, or gh older than 2.94.0), the type, parent and children are **unknown, not empty**: write `tree_available: false` and say so in `notes`. Never write "no parent, no children" for a tree you could not read.
+When `track-issue` returns `tree_available: false` (GitLab, or gh older than 2.94.0), the type, parent and children are **unknown, not empty**: write `tree_available: false` and say so in `notes`. Never write "no parent, no children" for a tree you could not read.
 
 ### Plan contract
 
@@ -231,7 +231,7 @@ A plan intent arrives as a JSON contract like any other, with the plan's inputs 
 }
 ```
 
-You pass `manage-plan` exactly: `action`, `issue`, `plan_path` (= `stm.output.plan`), `context_path` (= `stm.output.context`, create/update), `change` (update), `report_path` (= `stm.output.report`). `check` needs no context file. Write the skill's returned paths and the check report's `valid` / `done` to `stm.output.result`; on failure, write `stm.output.failure` per `structured-failure-protocol.md`.
+You pass `author-plan-file` exactly: `action`, `issue`, `plan_path` (= `stm.output.plan`), `context_path` (= `stm.output.context`, create/update), `change` (update), `report_path` (= `stm.output.report`). `check` needs no context file. Write the skill's returned paths and the check report's `valid` / `done` to `stm.output.result`; on failure, write `stm.output.failure` per `structured-failure-protocol.md`.
 
 ## Context Loading
 
@@ -246,7 +246,7 @@ Read `.garura/core/config.yaml` to get:
 Inject config values to all skill invocations.
 
 ```
-Skill: manage-issue
+Skill: track-issue
 Context:
   platform: {from config}
 Input:
@@ -294,7 +294,7 @@ The play will surface this to the user in the checkpoint for manual selection.
 
 ### Skill Output (internal — written to STM)
 
-Skill results are written to the `stm.output.result` path. The enriched format for `manage-issue` invocations:
+Skill results are written to the `stm.output.result` path. The enriched format for `track-issue` invocations:
 
 ```yaml
 issue:
@@ -330,7 +330,7 @@ The agent does NOT return the artifact content to the play. It writes artifacts 
 4. **Parse the intent** — What is the caller asking for?
 5. **Validate constraints** — For each constraint from the intent file, check against current state. If ANY would be violated, write structured failure to `stm.output.failure` per `structured-failure-protocol.md` and return failed contract. Do NOT proceed to skill invocation.
 6. **Check inputs** — Do I have what the skill needs?
-7. **Invoke skill** — Use the Skill tool with context. For a plan intent: first build the Plan Context (several `manage-issue` reads), then make the one `manage-plan` call
+7. **Invoke skill** — Use the Skill tool with context. For a plan intent: first build the Plan Context (several `track-issue` reads), then make the one `author-plan-file` call
 8. **Enrich results** — Derive `type_hint` from labels/title (issue intents); for a plan intent, record the returned paths and the check's `valid` / `done`
 9. **Write output** — Write enriched result to `stm.output.result` path
 10. **Mark task completed** — `TaskUpdate` task_id to `completed`
@@ -352,7 +352,7 @@ If intent is unclear:
 - Ask user questions directly — return to caller for user interaction
 - Use `AskUserQuestion` tool — callers handle user interaction
 - Execute `gh` commands directly when a skill exists
-- Follow multi-step workflows — that's play responsibility. Exception: the Plan Context procedure, which is context gathering for one `manage-plan` call, not a workflow
+- Follow multi-step workflows — that's play responsibility. Exception: the Plan Context procedure, which is context gathering for one `author-plan-file` call, not a workflow
 - Return prose, tables, or explanation to the play — return only the JSON contract
 
 ### ALWAYS
@@ -364,7 +364,7 @@ If intent is unclear:
 - Derive and include `type_hint` in output artifacts
 - Validate results before returning
 - Include evidence for claims
-- Respect the single-responsibility principle: one intent, one skill — except a plan intent, which reads issues with `manage-issue` to build its context and then makes exactly one `manage-plan` call
+- Respect the single-responsibility principle: one intent, one skill — except a plan intent, which reads issues with `track-issue` to build its context and then makes exactly one `author-plan-file` call
 - Participate in the task graph via TaskUpdate/TaskCreate
 
 ### BASH USAGE
@@ -379,18 +379,18 @@ Bash is available for operations **not covered by skills**:
 
 | Forbidden | Use Instead |
 |-----------|-------------|
-| `gh issue create`, `gh issue view` | `manage-issue` skill (routes through `platform-adapter`) |
-| `gh issue list` | `manage-issue` skill (routes through `platform-adapter`) |
-| `gh issue close` | `manage-issue` skill (action: close, routes through `platform-adapter`) |
-| `gh api` (for issues) | `manage-issue` skill (routes through `platform-adapter`) |
-| `glab issue create`, `glab issue view` | `manage-issue` skill (routes through `platform-adapter`) |
-| `glab issue list` | `manage-issue` skill (routes through `platform-adapter`) |
-| `glab issue close` | `manage-issue` skill (action: close, routes through `platform-adapter`) |
-| `glab api` (for issues) | `manage-issue` skill (routes through `platform-adapter`) |
+| `gh issue create`, `gh issue view` | `track-issue` skill (routes through `platform-adapter`) |
+| `gh issue list` | `track-issue` skill (routes through `platform-adapter`) |
+| `gh issue close` | `track-issue` skill (action: close, routes through `platform-adapter`) |
+| `gh api` (for issues) | `track-issue` skill (routes through `platform-adapter`) |
+| `glab issue create`, `glab issue view` | `track-issue` skill (routes through `platform-adapter`) |
+| `glab issue list` | `track-issue` skill (routes through `platform-adapter`) |
+| `glab issue close` | `track-issue` skill (action: close, routes through `platform-adapter`) |
+| `glab api` (for issues) | `track-issue` skill (routes through `platform-adapter`) |
 
 **Rule:** If a skill can do it, use the skill. Bash is for gaps only.
 
-**All code-host operations must route through the `platform-adapter` skill** (via `manage-issue`). Never invoke `gh` or `glab` directly for issue operations.
+**All code-host operations must route through the `platform-adapter` skill** (via `track-issue`). Never invoke `gh` or `glab` directly for issue operations.
 
 ## Memory
 

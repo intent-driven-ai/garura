@@ -39,7 +39,7 @@ Measure every slice's delivery on three axes:
   is the human share — how long the slice SITS, and how many changes/adjustments land
   in that sitting time before slice and Hub close out. Named cognition leaks: long
   spec-reading, long code reviews, adjusting instead of directing, defects caught in
-  manual review at /launch. Proof source: pipe dwell time (agent-done → pipe-closed)
+  manual review at /release-feature. Proof source: pipe dwell time (agent-done → pipe-closed)
   + adjustment-round count in that window.
 
 The objective function is joint: spend the right tokens and cognition to get max
@@ -55,7 +55,7 @@ no self-reporting, no surveillance.
 
 ## Evolve when
 Real slice deliveries show an axis is mis-priced (e.g. token cost becomes negligible,
-or a better cognition proxy emerges from /capture data) → reweight via /learn.
+or a better cognition proxy emerges from /capture data) → reweight via /learn-outcomes.
 
 ## Provenance
 documented (#434 — measurement interview).

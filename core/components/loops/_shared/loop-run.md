@@ -9,7 +9,7 @@ once (R4b) and closing the model's gaps after each round (R5 step 7) — and tho
 (ADR 044). So the run is the same for every loop and lives once, here (`core/components/loops/_shared/loop-run.md`;
 the install lays it in the installed `_shared/` folder beside the plays' shared close). A
 compiled loop holds only the two anchor lines, its own values — its plays in order, its
-questions, its config keys, its end — and points here. `/loop-creator` emits exactly that, so
+questions, its config keys, its end — and points here. `/create-loop` emits exactly that, so
 a direct edit and a rebuild converge.
 
 ## The loop's own values
@@ -107,7 +107,7 @@ One contract for every play (`standards/rules/loop-contract.md`). Exit 2 halts t
 
 A loop that names a `source` reads it once, before any play, and every play reads that one
 capture — none captures or walks the source again, and none reads another play's output.
-The tools are the ones `/intent` uses run by hand, laid beside the loop at install
+The tools are the ones `/discover-intent` uses run by hand, laid beside the loop at install
 (`../intent/scripts/`).
 
 1. **Capture the source and the write-up**, each as a Source kept exactly as read:
@@ -155,8 +155,8 @@ The tools are the ones `/intent` uses run by hand, laid beside the loop at insta
 A loop runs its plays "repeatedly, until its intent is met" (glossary, Loop; ADR 029,
 ADR 043). A **round** runs every play in `plays` — round 1 all of them, a later round only the
 plays the gap skills gave work to. No play takes another play's output as its input: each reads
-the capture and the write-up, writes its own kind (for Discovery: `/intent` business intents,
-`/vision` domains, `/understand` capabilities and functionalities), and the loop connects them
+the capture and the write-up, writes its own kind (for Discovery: `/discover-intent` business intents,
+`/discover-domains` domains, `/discover-capabilities` capabilities and functionalities), and the loop connects them
 after the round. The first build runs the plays one after another, in turn; side by side comes
 once the scoped-write guard can tell two plays' writes apart. A question one play cannot answer
 is the **loop's** question, not a stop: the play records it, does all the work it does not
@@ -173,7 +173,7 @@ For each play in `plays`:
      session ends its turn while a background sub-agent runs, and stops it 10 minutes
      later.) It runs
      `/<play> --contract <working>/contract.json [<argument>]` — `<argument>` is
-     `inputs.<play>.argument` when the contract sets it (for example the prototype `/intent`
+     `inputs.<play>.argument` when the contract sets it (for example the prototype `/discover-intent`
      reads), handed on the play's command line as a person would type it — and returns only a compact result: its
      status, its stop-condition verdict path, its review record path, and any question it
      stopped on. The play dispatches its own agents and judges (layer 2).
@@ -222,11 +222,11 @@ For each play in `plays`:
          "outputs": { "candidates": "<working>/gap-candidates-round-<n>.json",
                       "gaps": "<working>/gaps-round-<n>.json",
                       "close_report": "<working>/close-report-round-<n>.json" },
-         "task_id": "close-model-gaps" }
+         "task_id": "link-model-gaps" }
 
    The agent runs `find-model-gaps` (its script `find_gaps.py`, then its judgment →
    `gaps.json`: the links to make, the duplicates, the work for each play, the screens no node
-   covers) and then `close-model-gaps` (`apply_links.py --gaps <gaps> --product-base
+   covers) and then `link-model-gaps` (`apply_links.py --gaps <gaps> --product-base
    <product_base> --out <close_report>`: it links loose nodes, moves a holding-folder page
    under its parent, links nodes to intents both ways and merges agreed duplicates; the work
    it cannot do in the model goes back in `work_for_plays`). Then commit the round once — the
@@ -263,11 +263,11 @@ configured runner, in the foreground, with the contract), in this order:
 
 ```bash
 /search-knowledge --contract <working>/contract.json
-/build-knowledge  --contract <working>/contract.json
+/research-knowledge  --contract <working>/contract.json
 ```
 
 `/search-knowledge` merges the questions asked again and answers what the loop's sources show
-(quoted) and what memory holds (through the memory tool, traced). `/build-knowledge` closes what
+(quoted) and what memory holds (through the memory tool, traced). `/research-knowledge` closes what
 it left: a researched knowledge page raised through the memory tool as a memory update waiting
 for a person (ADR 035), our proposed answer with its basis and context for what only the person
 can confirm, a note for each screen state the prototype lacks, and settled for what the context
@@ -278,8 +278,8 @@ already answers. Each play's done check must hold; then commit its run files (R5
 Only now, and only once per stop, the loop reaches the person — with a brief, never a
 questionnaire:
 
-1. Run the member play `/review-knowledge --contract <working>/contract.json`. It writes
-   `{stm_base}<issue>/context/review-knowledge/round-<n>/brief.md`: what we understood, what we
+1. Run the member play `/check-knowledge --contract <working>/contract.json`. It writes
+   `{stm_base}<issue>/context/check-knowledge/round-<n>/brief.md`: what we understood, what we
    built (the draft first — for Discovery, each proposed business intent, the domain and its
    capabilities), and where the gaps are — a few themed gaps, each with its context and our
    proposed answer — then the points settled from the context, each with why, the knowledge
@@ -293,7 +293,7 @@ questionnaire:
    answer; each page `approve` or `reject`) and record it:
 
    ```bash
-   python3 <review-knowledge play dir>/scripts/record_review.py \
+   python3 <check-knowledge play dir>/scripts/record_review.py \
        --brief <brief.json> --reply <working>/review.json --build <build.json> \
        --search <search.json> --review-dir <review_dir> --issue-dir "{stm_base}<issue>/" \
        --round <n> --out <working>/review-record.json
@@ -322,7 +322,7 @@ its reasoning. Its rules, prompt and verdict shape are the `judge-loop-result` s
    ```
 
 2. **Run the checker** the config names (`checker_key`, resolved in R1):
-   - `subagent` — dispatch the `loop-checker` agent on `checker.model` (required: a model that
+   - `subagent` — dispatch the `result-checker` agent on `checker.model` (required: a model that
      is not the session's), with this contract and nothing else:
 
          { "task":    "judge this loop's result with the judge-loop-result skill",
@@ -353,7 +353,7 @@ its reasoning. Its rules, prompt and verdict shape are the `judge-loop-result` s
 ### Step R7 — End
 
 Run the loop's `end`. The pieces it uses are the injected end sequence (`commit-change` →
-`propose-change` → `review-change` → `merge-change`, each a sub-play with `parent_run_id`),
+`propose-change` → `check-change` → `merge-change`, each a sub-play with `parent_run_id`),
 the merge keeping its pinned human approval. A loop whose End section adds a step (Discovery:
 the person confirms each proposed intent by typing, before the review) runs it where the End
 section says.
@@ -381,7 +381,7 @@ resumes from the first play not done.
 
 ## Enforced
 
-`lint-components` and `lint_loop.py` check every loop's SKILL.md for the two anchor lines,
+`check-components` and `lint_loop.py` check every loop's SKILL.md for the two anchor lines,
 each exactly once, opener before closer, and that this file exists:
 
 - opener: `# --- Shared Loop Run (shared; see ../_shared/loop-run.md) ---`

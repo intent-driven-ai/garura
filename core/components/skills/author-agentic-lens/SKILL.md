@@ -1,6 +1,6 @@
 ---
 name: author-agentic-lens
-description: Author a shaped slice's agentic lens as an MD grounding doc — the is-it-an-agent gate, the load weights (cognitive / creative / logistical on a low→ultra scale), and the controls (guardrails, handoff) — from the slice's hub (its functionalities' grounding docs + the spine profile) and KB grounding. A slice that should offload nothing comes out "not an agent", stated plainly. Writes the per-node lens agentic.md (conforming to the Agentic lens template) STRAIGHT TO THE LIVE MODEL, plus a grounding manifest under STM that carries any autonomy decision as structured data; reads the functionality.md docs for the hub, never another lens. Generative artifact production for the /agentic play; direct-model-write per ADR 026 — writes only the per-node lens doc to the live model and NEVER a shared file (spine/profile/decisions).
+description: Author a shaped slice's agentic lens as an MD grounding doc — the is-it-an-agent gate, the load weights (cognitive / creative / logistical on a low→ultra scale), and the controls (guardrails, handoff) — from the slice's hub (its functionalities' grounding docs + the spine profile) and KB grounding. A slice that should offload nothing comes out "not an agent", stated plainly. Writes the per-node lens agentic.md (conforming to the Agentic lens template) STRAIGHT TO THE LIVE MODEL, plus a grounding manifest under STM that carries any autonomy decision as structured data; reads the functionality.md docs for the hub, never another lens. Generative artifact production for the /shape-agentic-lens play; direct-model-write per ADR 026 — writes only the per-node lens doc to the live model and NEVER a shared file (spine/profile/decisions).
 version: 0.5.0
 user-invocable: false
 model: opus
@@ -21,9 +21,9 @@ authoring skill of a direct-model-write play: it writes ONLY the per-node lens d
 `agentic.md` **straight to the live model** (at `lens_rel` under `product_base`) — its own
 file, no draft copy. It NEVER writes a shared model file: the spine `_spine.yaml`, the
 profile, or a `decisions/` record. Any material autonomy choice is emitted as **structured
-data in the manifest** (a non-model STM artifact); /agentic's deterministic keyed persist
+data in the manifest** (a non-model STM artifact); /shape-agentic-lens's deterministic keyed persist
 (`persist_agentic.py`) reads the manifest and writes the decision in place, keyed to the slice.
-Containment is /agentic's post-write scoped guard, not a draft.
+Containment is /shape-agentic-lens's post-write scoped guard, not a draft.
 
 ## What it produces (against the locked template)
 
@@ -117,5 +117,5 @@ never inline content.
   decision record in the manifest.
 - **Direct-model-write (ADR 026).** Write ONLY the per-node lens doc `agentic.md` to the live
   model; never write a shared file (spine/profile/decisions) — emit any decision as manifest
-  data. Containment is /agentic's post-write scoped guard.
+  data. Containment is /shape-agentic-lens's post-write scoped guard.
 ```

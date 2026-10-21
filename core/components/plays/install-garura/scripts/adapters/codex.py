@@ -21,7 +21,7 @@ developers.openai.com/codex, 2026), and this adapter absorbs all four:
      user's view: the folder sits in .agents/skills but the skill never appears.
      Claude Code has no such cap, so garura source descriptions may exceed it;
      this adapter truncates at a word boundary on emit (_cap_description).
-     Found the hard way on token-burn-dash (#434): /run and /grill — the two
+     Found the hard way on token-burn-dash (#434): /shape-run-lens and /shape-features — the two
      longest descriptions — were the only skills Codex would not load.
 
 The instruction surface is `AGENTS.md` at the target root (Codex's equivalent of

@@ -27,7 +27,7 @@ node:
   ice_ref: string         # id of this node's ICE record (null until seeded)
   decision_refs: [string] # ids of decisions (ADRs) affecting this node
   journey_refs: [string]  # ids of journeys linked to this node
-  priority: integer       # DEPRECATED for v1 — /roadmap now plans SLICES, not nodes
+  priority: integer       # DEPRECATED for v1 — /shape-roadmap now plans SLICES, not nodes
                           # (see slice.yaml: order/effort/depends_on on the slice).
                           # Left for back-compat; null on the node.
   metadata:
@@ -46,7 +46,7 @@ structure:
 # A persona is WHO the work is for. It is first-class grounding, not decoration: an
 # ICE record names its personas by reference (ice.yaml `context.persona: []`), so an
 # intent that says what should be true points HERE for whom it should be true. Both
-# /understand and /shape write persona records. Structured content (goals /
+# /discover-capabilities and /shape-scope write persona records. Structured content (goals /
 # cares_about / failure_means) exists so downstream plays READ the person's goals
 # rather than re-derive them from prose differently every run.
 persona:
@@ -60,8 +60,8 @@ persona:
   # ---- Structured grounding ----
   # ADDITIVE and OPTIONAL: a record written before issue #550 that carries only
   # `description` stays valid, and nothing rewrites it. Every persona written from
-  # now on should carry all three — the writing play (/understand, /shape) fills
-  # them. Nothing ERRORS on them; /shape's validator WARNS when one is missing (see the
+  # now on should carry all three — the writing play (/discover-capabilities, /shape-scope) fills
+  # them. Nothing ERRORS on them; /shape-scope's validator WARNS when one is missing (see the
   # migration note below for the full validation truth).
   goals: [string]         # what this person is trying to achieve — outcomes in THEIR
                           # words, never features or solutions
@@ -84,11 +84,11 @@ persona:
 #   and what-they-must-trust into one sentence), and leave `description` behind as the
 #   one-line who-they-are summary. Done by hand, or by the writing play the next time
 #   it touches that persona. No script performs this migration.
-# Validation truth — claim nothing more: `core/components/plays/shape/scripts/validate_shape.py`
+# Validation truth — claim nothing more: `core/components/plays/shape-scope/scripts/validate_shape.py`
 #   ERRORS on only `id` and `name`; `description` and `node_ref` are checked by nothing.
 #   The three new fields are WARNINGS there (#550): the script reads them and warns when a
 #   persona lacks one, so a newly written record is visibly incomplete, but the run still
-#   passes — which is what keeps pre-#550 records valid. /shape's own eval (SE-4) turns a
+#   passes — which is what keeps pre-#550 records valid. /shape-scope's own eval (SE-4) turns a
 #   warning into a gap ONLY for a persona that run actually wrote. Nothing errors on them,
 #   and no other validator or linter reads them at all.
 # Status of this note: it IS the migration record that `enhance_rules` /
@@ -100,7 +100,7 @@ persona:
 # A journey is a USER journey: the ordered steps a persona takes ON a surface to reach
 # an outcome. It is NOT a backend or ingestion pipeline. Every journey traverses at
 # least one surface (surface_refs), and every surface a slice names must be reached by
-# at least one journey. /shape enforces both (C15).
+# at least one journey. /shape-scope enforces both (C15).
 journey:
   id: string
   name: string            # e.g. "First-time guest checkout"
@@ -114,32 +114,32 @@ journey:
 
 # ---- Fill rules: which play writes which part ------------------------------
 fill_rules:
-  - play: "/vision"
+  - play: "/discover-domains"
     writes: "domain + candidate capability nodes (directional, from intent), a
              seed ice_ref, and a directional draft product profile"
-  - play: "/understand"
+  - play: "/discover-capabilities"
     writes: "nothing on the node itself — enriches the linked ICE record,
              including each capability's nfr_needs, which roll the product
              profile up to state: derived"
-  - play: "/shape"
+  - play: "/shape-scope"
     writes: "profile-driven selection: confirm/prune capabilities and select
              functionalities against the profile + KB, plus personas, journeys.
              ALSO writes the domain's SLICES (slice.yaml) — bundling its
              functionalities into usable increments, referencing their ICE — plus the
              _deferred bucket. Re-runs when the profile changes."
-  - play: "/roadmap"
+  - play: "/shape-roadmap"
     writes: "the PLAN onto slices (slice.yaml): order, effort, resolved depends_on,
              across all shaped domains. It does NOT write node.priority (deprecated)
-             and does NOT create/edit slice composition (that is /shape's)."
-  - play: "/learn"
+             and does NOT create/edit slice composition (that is /shape-scope's)."
+  - play: "/learn-outcomes"
     writes: "status changes driven by real-world outcomes"
 
-# Pipeline ordering: /vision is directional (capabilities + draft profile) ->
-# /understand rolls up the smart profile from capability nfr_needs ->
-# /shape selects capabilities + functionalities against the now-derived profile.
+# Pipeline ordering: /discover-domains is directional (capabilities + draft profile) ->
+# /discover-capabilities rolls up the smart profile from capability nfr_needs ->
+# /shape-scope selects capabilities + functionalities against the now-derived profile.
 # So the profile always exists before functionalities are selected. The loop is
 # re-entrant: as intent/profile evolves (climbing the architecture ladder),
-# /shape re-selects.
+# /shape-scope re-selects.
 
 # ---- Enhance rules: who may change THIS schema -----------------------------
 enhance_rules:
@@ -153,9 +153,9 @@ enhance_rules:
 # records only.
 # Two lifecycle tiers live here:
 #   PERMANENT  — structure, ICE, decisions, the 5 lenses, and epics: epics are
-#                written by /grill and stamped `delivered` (kept) when their issue
+#                written by /shape-features and stamped `delivered` (kept) when their issue
 #                merges — the as-delivered record, never deleted (ADR 019).
-#   (STM, NOT here) — stories, tests, build detail produced by /implement.
+#   (STM, NOT here) — stories, tests, build detail produced by /build-feature.
 #
 # Per-capability shape:
 #   product-os/{capability}/

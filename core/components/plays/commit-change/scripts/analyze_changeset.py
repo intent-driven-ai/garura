@@ -12,7 +12,7 @@ Harness-led split:
   - This script computes FACTS: the scan result, the classification, and
     (when trivial) the analysis document.
   - The SKILL keeps POLICY: sensitive → hard block (C6); needs_judgment →
-    dispatch repo-orchestrator/analyze-changes; trivial → no dispatch (C8).
+    dispatch repo-orchestrator/assess-changes; trivial → no dispatch (C8).
 
 Layer rule: like preflight.py, this script does not shell out to git. The
 orchestrator passes the porcelain output in; content scanning reads the

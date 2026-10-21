@@ -1,17 +1,17 @@
 # search-knowledge — ICE source
 
-The clean ICE this play is compiled from. Update it and recompile with play-editor; never
+The clean ICE this play is compiled from. Update it and recompile with edit-play; never
 hand-edit the compiled SKILL.md for an intent change. Decided in ADR 042 (#686).
 
 ## Intent
 
 **Goal:** before anything is built or anyone is asked, close every open question of a loop's
 round that the loop's own sources or memory already answer — so what goes on to
-`/build-knowledge` is only what is truly not known.
+`/research-knowledge` is only what is truly not known.
 
 Pipeline position: **none**. The first of the three knowledge member plays every loop runs
-inside its rounds (Shared Loop Run, R5c): `/search-knowledge` → `/build-knowledge` →
-`/review-knowledge`. It opens and lands nothing.
+inside its rounds (Shared Loop Run, R5c): `/search-knowledge` → `/research-knowledge` →
+`/check-knowledge`. It opens and lands nothing.
 
 ### Constraints
 
@@ -67,7 +67,7 @@ three (ADR 042) and asked that every memory step call the memory tool, never som
 - REC1 (F1) — trigger: a question in no group or two. direction: regroup from
   `group_questions.py`'s output and confirm by judgment; re-run the check. handoff: autonomous.
 - REC2 (F2) — trigger: a group left open that the source or memory answers, an answer without
-  its quote or trace, or memory read by path. direction: re-run `answer-from-source` and the
+  its quote or trace, or memory read by path. direction: re-run `find-answers-in-sources` and the
   memory tool's lookup for it; quote or cite the answer. handoff: autonomous.
 - REC3 (F3) — trigger: an open group without what is missing or why. direction: name what is
   missing and whether the source should show it. handoff: autonomous.

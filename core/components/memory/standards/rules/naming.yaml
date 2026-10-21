@@ -1,0 +1,233 @@
+# naming.yaml — the machine half of the naming standard (standards/rules/naming.md, ADR 046, #736).
+# lint-components reads this file; it holds no naming rule of its own.
+industry_terms: [pr, mvp, nfr, rca, lld, kb, ice, ux, tech, ci, yaml, adr]
+play:
+  verbs:
+    discover: Product -> Intent. Find what the product is.
+    shape: Intent -> Design. Decide how a piece will be built.
+    build: Design -> Code. Write the code.
+    validate: Code -> Validation. Prove it works.
+    release: Validation -> Run. Put it where people use it.
+    learn: Run -> Product. Read what happened and correct the intent.
+    start: Change. Open a unit of work.
+    commit: Change. Commit the work.
+    propose: Change. Raise it for review.
+    check: Change and knowledge. A person or a check looks at a thing before it is accepted.
+    merge: Change. Land it.
+    fix: Change. Fix a defect.
+    refactor: Change. Improve code without changing what it does.
+    draft: Plan. Set out a new plan.
+    show: Plan. Show one thing.
+    update: Plan. Change a plan, in its file and the tracker together.
+    list: Plan. Show many things.
+    search: Knowledge. Look in memory.
+    research: Knowledge. Look outside.
+    record: Record. Write a fact down for good.
+    create: Harness. Make a new harness part.
+    edit: Harness. Change a harness part.
+    install: Harness. Put Garura into a project.
+    uninstall: Harness. Take Garura out of a project.
+  one_word: [next]
+loop:
+  verb: complete
+  meaning: A loop runs its plays in rounds until its phase is complete. No play or skill starts with this verb.
+skill:
+  verbs:
+    author: Write a document from inputs.
+    infer: Read existing code and propose model pieces.
+    derive: Compute a piece from the model or other pieces.
+    scan: Read code mechanically and list what is there.
+    check: Test against rules, pass or fail.
+    judge: Give a verdict with reasons.
+    assess: Rate risk or quality, with no verdict.
+    find: Locate a thing in the model, memory or sources.
+    link: Make links in the model.
+    enrich: Add detail to a piece that exists.
+    propose: Put forward something a person approves.
+    research: Look outside, on the web.
+    rank: Put options in order.
+    recommend: Pick one option.
+    collect: Gather many outputs into one.
+    walk: Use a prototype the way its people would.
+    deploy: Put a running increment on an environment.
+    track: Read and change tracker issues.
+    commit: Git — commit files.
+    open: Git — open a pull request.
+    merge: Git — merge a pull request.
+    cut: Git — cut a branch.
+  exceptions: [platform-adapter]
+agent:
+  roles: [keeper, reviewer, builder, operator, crafter, engineer, steward, resolver, checker, analyst, orchestrator, reader, auditor, scriber, architect, designer, manager, runner]
+# Built-in commands of Claude Code and Codex (read 2026-10-22 from https://code.claude.com/docs/en/commands.md
+# and https://github.com/openai/codex/blob/main/codex-rs/tui/src/slash_command.rs). No name may be one of
+# these, or start with one as its first word.
+reserved:
+  - add-dir
+  - adddir
+  - advisor
+  - agents
+  - allowed-tools
+  - android
+  - app
+  - apps
+  - archive
+  - artifact-capabilities
+  - artifact-diagramming
+  - artifacts
+  - auto-mode-setup
+  - auto-review
+  - autocompact
+  - autofix-pr
+  - background
+  - bashes
+  - batch
+  - bg
+  - branch
+  - btw
+  - bug
+  - cd
+  - checkpoint
+  - checkup
+  - chrome
+  - claude-api
+  - claude-in-chrome
+  - clear
+  - code-review
+  - color
+  - compact
+  - config
+  - context
+  - continue
+  - copy
+  - cost
+  - daemon
+  - dataviz
+  - daybreak
+  - debug
+  - debug-config
+  - deep-research
+  - delete
+  - design
+  - design-login
+  - design-sync
+  - desktop
+  - diff
+  - doctor
+  - effort
+  - elevate-sandbox
+  - exit
+  - experimental
+  - export
+  - extra-usage
+  - fast
+  - feedback
+  - fewer-permission-prompts
+  - focus
+  - fork
+  - goal
+  - heapdump
+  - help
+  - hooks
+  - ide
+  - import
+  - init
+  - insights
+  - install-github-app
+  - install-slack-app
+  - ios
+  - keybindings
+  - keymap
+  - list-agents
+  - login
+  - logout
+  - loop
+  - mcp
+  - memories
+  - memory
+  - memory-drop
+  - memory-update
+  - mention
+  - mobile
+  - model
+  - multi-agents
+  - new
+  - output-style
+  - passes
+  - peers
+  - permissions
+  - pets
+  - plan
+  - plugin
+  - plugin-authoring
+  - plugins
+  - powerup
+  - pr-comments
+  - presets
+  - privacy-settings
+  - proactive
+  - ps
+  - pwd
+  - quit
+  - radio
+  - rate-limit-options
+  - raw
+  - rc
+  - recap
+  - release-notes
+  - reload-plugins
+  - reload-skills
+  - remote-control
+  - remote-env
+  - rename
+  - reset
+  - resume
+  - review
+  - rewind
+  - rollout
+  - routines
+  - run
+  - run-skill-generator
+  - sandbox
+  - schedule
+  - scroll-speed
+  - security-review
+  - settings
+  - setup-bedrock
+  - setup-vertex
+  - share
+  - side
+  - simplify
+  - skill-a
+  - skill-doctor
+  - skills
+  - slides
+  - stats
+  - status
+  - statusline
+  - stickers
+  - stop
+  - subtask
+  - tasks
+  - team-onboarding
+  - teleport
+  - terminal-setup
+  - test-approval
+  - theme
+  - title
+  - tp
+  - tui
+  - ultraplan
+  - ultrareview
+  - undo
+  - update-config
+  - upgrade
+  - usage
+  - usage-credits
+  - verify
+  - vim
+  - voice
+  - warnings
+  - web-setup
+  - workflow-authoring
+  - workflows
+  - worktree

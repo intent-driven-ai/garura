@@ -1,18 +1,18 @@
 # Lens: run  (LOCKED #434; per-environment reshape #434) — envelope in lens/_index.md
 #
-# How the SLICE is deployed and runs. A foundation-trinity realize lens. /run reads the
+# How the SLICE is deployed and runs. A foundation-trinity realize lens. /shape-run-lens reads the
 # slice's hub + the ARCHITECTURE lens (it deploys arch's parts) + the KB, and grounds every
-# operational choice in a best-fit architecture/technology learning. /run authors this lens and
+# operational choice in a best-fit architecture/technology learning. /shape-run-lens authors this lens and
 # closes the non-functional pipe; it does NOT stamp the slice `realized` — that belongs to
-# /measure (the deliver pipe). (realized-stamp ownership reconciled #434)
+# /shape-measure-lens (the deliver pipe). (realized-stamp ownership reconciled #434)
 #
 # PER-ENVIRONMENT MODEL (#434). The slice-level operational design (rollout, migrations,
-# CI/CD) is written ONCE. Each environment is defined INCREMENTALLY — one /run call per
+# CI/CD) is written ONCE. Each environment is defined INCREMENTALLY — one /shape-run-lens call per
 # environment, re-run to add or edit an environment — and every environment carries a full,
 # MACHINE-READABLE definition the delivery plays execute against:
-#   - /launch  reads the LOCAL environment (the lightweight bring-up for human testing).
-#   - /deploy  reads a CLOUD environment, defaulting to the lowest cloud tier (dev).
-# Higher cloud tiers (qa, stage, prod) use the same shape — added later by re-running /run.
+#   - /release-feature  reads the LOCAL environment (the lightweight bring-up for human testing).
+#   - /release-increment  reads a CLOUD environment, defaulting to the lowest cloud tier (dev).
+# Higher cloud tiers (qa, stage, prod) use the same shape — added later by re-running /shape-run-lens.
 
 schema:
   name: lens
@@ -26,22 +26,22 @@ content:
   migrations: string       # data-change strategy — gated, reversible
   cicd: string             # pipeline: build -> quality gates -> deploy on green
 
-  # --- Environments — built ONE PER /run CALL, incremental; ordered by tier. Each entry is a ---
+  # --- Environments — built ONE PER /shape-run-lens CALL, incremental; ordered by tier. Each entry is a ---
   # --- full machine-readable definition. The delivery plays read exactly one env each. ---
   environments:
     - name: string         # unique — local | dev | qa | stage | prod
       tier: integer        # order: 0 local, 1 dev, 2 qa, 3 stage, 4 prod.
-                           # the lowest CLOUD tier present (dev) is /deploy's default target.
+                           # the lowest CLOUD tier present (dev) is /release-increment's default target.
       type: string         # local | cloud
-      status: string       # defined  (present once /run has built this environment)
+      status: string       # defined  (present once /shape-run-lens has built this environment)
       config_secrets: string  # per-env config; secrets via secrets-manager, NEVER in repo
 
-      # present iff type == local — the lightweight bring-up /launch stands up for HITL testing
+      # present iff type == local — the lightweight bring-up /release-feature stands up for HITL testing
       local:
         run: string        # how to bring it up locally (command / compose file)
         seed: string       # optional — test-data seed step
 
-      # present iff type == cloud — the full infra + security /deploy executes against
+      # present iff type == cloud — the full infra + security /release-increment executes against
       cloud:
         provider: string   # e.g. Google Cloud Platform | AWS | Azure
         region: string
@@ -61,7 +61,7 @@ content:
           identity: string     # service accounts / roles / workload identity
           secrets: string      # secrets-manager binding — never in repo
           controls: [string]   # TLS, WAF, IAM least-privilege, encryption-at-rest, ...
-        deploy_cmd: string     # how /deploy ships to THIS env — command / pipeline trigger
+        deploy_cmd: string     # how /release-increment ships to THIS env — command / pipeline trigger
 
   tco:                     # ownership-cost picture (#435) — REQUIRED; the realized stamp gates on it
     hyperscaler:

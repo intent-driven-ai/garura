@@ -1,6 +1,6 @@
 # PR Severity Taxonomy
 
-**Purpose:** Deterministic mapping from KB quality standard IDs to PR severity buckets P1–P4. Used by `quality-check-scoped` to classify findings on PR diffs.
+**Purpose:** Deterministic mapping from KB quality standard IDs to PR severity buckets P1–P4. Used by `check-pr-quality` to classify findings on PR diffs.
 
 **Mechanical rule:** Every row has `Standard ID`, `Severity`, `Match Rule` (grep regex or path glob), and `Evidence Required`. **No LLM judgment.** If no Match Rule fires against the diff, no finding is emitted for that standard. If a finding cannot be tied to a row in this table by `Standard ID`, the skill MUST reject it (F3 enforcement).
 
@@ -367,7 +367,7 @@ legitimately review documentation still fire.
 ## Notes
 
 - **P1 rationale:** every P1 row touches an invariant where a regression is non-recoverable in production: secrets in source, SQL/XSS injection vectors, broken auth/RBAC, missing FKs/indexes on data, non-zero-downtime migration patterns, plaintext PII, HTTP transport.
-- **F3 enforcement:** `quality-check-scoped` rejects any finding whose `standard_id` is not in this table.
+- **F3 enforcement:** `check-pr-quality` rejects any finding whose `standard_id` is not in this table.
 - **CODE-20 catch-all (#454):** `CODE-20` (`path:**/*`, P4, suppressed-by-default) matches every
   changed file by construction. It is NOT emitted as one finding per file — it is rolled into a
   single count in `meta.catchall.CODE-20` (the number of changed files it covered). On PR #453

@@ -1,6 +1,6 @@
 ---
 name: derive-systems-inventory
-description: Stage 1 skill of /arch. Walks selected capabilities, identifies the system (and any sub-systems) that serves each one, and populates the product's systems-inventory by pulling KB-grounded systems with provenance or authoring novel systems as stm_research with the required KB-extension shape. Output is the inventory every later /arch stage reads.
+description: Stage 1 skill of /shape-architecture-lens. Walks selected capabilities, identifies the system (and any sub-systems) that serves each one, and populates the product's systems-inventory by pulling KB-grounded systems with provenance or authoring novel systems as stm_research with the required KB-extension shape. Output is the inventory every later /shape-architecture-lens stage reads.
 version: 0.1.0
 user-invocable: false
 deprecated: true
@@ -15,7 +15,7 @@ Called by `tech-architect` during `arch` Stage 1. Produces one file per system a
 
 ## Purpose
 
-Establish the product's systems inventory before any other /arch stage runs. Every component in logical and physical architecture later RESOLVES to a system or sub-system in this inventory — components are SELECTED from inventory, not invented at logical-time. This skill is the gate that makes that traceability possible.
+Establish the product's systems inventory before any other /shape-architecture-lens stage runs. Every component in logical and physical architecture later RESOLVES to a system or sub-system in this inventory — components are SELECTED from inventory, not invented at logical-time. This skill is the gate that makes that traceability possible.
 
 A "system" is a real product or platform the architecture depends on: ERP, CRM, CMS, DAM, identity provider, payment gateway, search engine, observability platform, content store, etc. A "sub-system" is a child surface of the same system — a CMS with an authoring app and a delivery API, an ERP with a finance module and an inventory module. Sub-systems are nested INSIDE the parent system's file, not stored as separate inventory files.
 
@@ -95,7 +95,7 @@ frontmatter sub_systems[] entry. When there are no sub-systems, write
 
 ## Tradeoffs
 {Cost, vendor lock-in, operational burden, integration cost, exit cost,
-ecosystem maturity. Helps later /arch stages reason about NFR delivery
+ecosystem maturity. Helps later /shape-architecture-lens stages reason about NFR delivery
 and risks.}
 
 ## Anti-Patterns

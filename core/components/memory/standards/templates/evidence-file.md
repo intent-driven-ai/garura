@@ -99,7 +99,7 @@ on `unmet` every unmet clause is listed — the reason the run closed HALTED.}
 
 ## Gate Outcomes
 {Only when the run executed the quality lens's binding cards (#462, via
-run-quality-gates). One row per card in quality-gates.yaml — nothing dropped:
+check-quality-gates). One row per card in quality-gates.yaml — nothing dropped:
 a human-owned or unmeasured gate is a visible row, never an omission. The
 missing-tool rows are the build loop's provisioning work-list.}
 
@@ -126,7 +126,7 @@ Self-commit SHA: `{short sha}` ({subject line})
 {1-3 lines naming the downstream plays / consumers that will read these
 artifacts. For specify: "design reads enriched-capabilities.yaml
 and epics/; arch reads quality-profile.yaml and epics/". For
-implement: "/validate checks the built epic against expectations;
+implement: "/validate-feature checks the built epic against expectations;
 the close chain follows acceptance".}
 ```
 
@@ -143,7 +143,7 @@ the close chain follows acceptance".}
 | Step Eval Results | Must list EVERY SE-n defined in the compiled play — no silent skips. PASS / FAIL only; DEFERRED / N-A are allowed if the corresponding step was not reached (e.g., Vanish cleanup path). |
 | Scenario Eval Results | Must list EVERY SCE-n defined in the compiled play. |
 | Checkpoint Decisions | One row per checkpoint cycle. Orbit retries produce multiple rows for the same stage. |
-| Gate Outcomes | Must list EVERY card in the lens's quality-gates.yaml when the run executed gates — one row per card, statuses verbatim from run-quality-gates. A gate that didn't run appears as missing-tool/error, never as a dropped row. |
+| Gate Outcomes | Must list EVERY card in the lens's quality-gates.yaml when the run executed gates — one row per card, statuses verbatim from check-quality-gates. A gate that didn't run appears as missing-tool/error, never as a dropped row. |
 | Commit Reference | Populated AFTER the self-commit step. If the commit step failed, use `N/A — commit failed, see recovery`. |
 
 ## Non-blocking

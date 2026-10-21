@@ -1,6 +1,6 @@
 ---
 name: recommend-mvp
-description: Produce the MVP recommendation artifact at .garura/product/scope/mvp-recommendation.md. Narrows the capability walk by selecting primary use cases from the brief, deferring the rest with v1.1+ triggers, and recording any architecture directions committed at spec time. Called by product-keeper during specify Stage 2.75 (between domain-selection and configure-capabilities).
+description: Produce the MVP recommendation artifact at .garura/product/scope/mvp-recommendation.md. Narrows the capability walk by selecting primary use cases from the brief, deferring the rest with v1.1+ triggers, and recording any architecture directions committed at spec time. Called by product-keeper during specify Stage 2.75 (between domain-selection and derive-capability-selection).
 user-invocable: false
 model: opus
 allowed-tools: Read, Write, Grep, Glob
@@ -10,11 +10,11 @@ deprecated_note: '#434 ProductOS realignment — superseded by the command model
 
 # recommend-mvp
 
-Model-invocable skill for authoring the MVP recommendation — the scope-narrowing decision artifact that sits between domain-selection (Stage 2) and configure-capabilities (Stage 3) in the `specify` pipeline. Implements Defect 6 as a first-class pipeline step.
+Model-invocable skill for authoring the MVP recommendation — the scope-narrowing decision artifact that sits between domain-selection (Stage 2) and derive-capability-selection (Stage 3) in the `specify` pipeline. Implements Defect 6 as a first-class pipeline step.
 
 ## Purpose
 
-Without an MVP recommendation, `configure-capabilities` walks every feature of every selected domain indiscriminately and produces a bloated v1 scope that tries to serve every use case the brief names. The result is an epic inventory that exceeds the project-profile's team_size × delivery_ambition × timeline envelope and a scope contract the team cannot ship. The MVP recommendation artifact is the bridge: it reads the opportunity landscape + domain shape + user-provided grounding answers and commits to a narrowed v1 scope with explicit deferrals.
+Without an MVP recommendation, `derive-capability-selection` walks every feature of every selected domain indiscriminately and produces a bloated v1 scope that tries to serve every use case the brief names. The result is an epic inventory that exceeds the project-profile's team_size × delivery_ambition × timeline envelope and a scope contract the team cannot ship. The MVP recommendation artifact is the bridge: it reads the opportunity landscape + domain shape + user-provided grounding answers and commits to a narrowed v1 scope with explicit deferrals.
 
 This skill produces `.garura/product/scope/mvp-recommendation.md` conforming to `core/components/memory/standards/schemas/mvp-recommendation.yaml`. It does NOT make architectural choices — it commits to a product scope. Any architecture direction it records is capability-level, not tech-stack level (Rule 14 / specify C16 Abstraction-Layer Boundary).
 
@@ -27,7 +27,7 @@ Receive from the `product-keeper` agent via the play's JSON contract. All paths 
 - `project_profile_path` (path, required) — typically `{product_base}specification/project-profile.yaml`. Provides team_size, delivery_ambition, budget_sensitivity, timeline, audience, and other dimensions that bound what v1 can realistically ship.
 - `domain_selection_path` (path, required) — typically `{product_base}specification/domain-selection.yaml`. Lists the domains in scope for the product; the MVP narrowing operates on the capabilities within those domains.
 - `product_research_path` (path, required) — typically `{product_base}research/`. The product's frozen domain library (per rules/product.md Rule 15 Pull-to-Product). This skill reads domain content from the product's research folder ONLY — never directly from `core/components/memory/knowledge/domain/`. Passing `ltm_domain_taxonomy_path` is a structural failure (specify F13).
-- `grounding_questions_path` (path, required) — typically `{product_base}user-provided/grounding-questions.md`. Contains cumulative user answers to prior inferences from configure-capabilities and other skills. The recommender READS this file at start to pick up any user-stated narrowing preferences and APPENDS new questions if it encounters an ambiguity that requires user grounding.
+- `grounding_questions_path` (path, required) — typically `{product_base}user-provided/grounding-questions.md`. Contains cumulative user answers to prior inferences from derive-capability-selection and other skills. The recommender READS this file at start to pick up any user-stated narrowing preferences and APPENDS new questions if it encounters an ambiguity that requires user grounding.
 - `domain_grounding_path` (path, optional) — typically `{product_base}specification/domain-grounding.yaml`. When present, provides the ubiquitous language + bounded-context map. The recommender uses bounded contexts as the natural grouping for "capabilities in scope" in section 2.1 of the output.
 - `mvp_recommendation_schema_path` (path, required) — typically `core/components/memory/standards/schemas/mvp-recommendation.yaml`. The canonical schema documenting the required section order and validation rules. The recommender reads this at start to anchor its output shape.
 - `output_path` (string, required) — typically `{product_base}scope/mvp-recommendation.md`. The recommendation file written at this path. Per Defect 9 / ADR 017, the file lives in `scope/` (not `specification/`) because it is a scope-narrowing decision artifact.
@@ -98,9 +98,9 @@ Before writing, confirm:
 
 If any self-check fails, halt with `what_failed: schema_violation` and the list of failures.
 
-### 5. Invoke validate-abstraction-layer on the output
+### 5. Invoke check-abstraction-layer on the output
 
-After writing `output_path`, invoke the `validate-abstraction-layer` skill against the written file. If it returns any violations, DELETE the written file and halt with `what_failed: abstraction_layer_violation` + the violation list. This prevents the file from being committed with prohibited tech-binding content.
+After writing `output_path`, invoke the `check-abstraction-layer` skill against the written file. If it returns any violations, DELETE the written file and halt with `what_failed: abstraction_layer_violation` + the violation list. This prevents the file from being committed with prohibited tech-binding content.
 
 ### 6. Append provenance
 
@@ -109,7 +109,7 @@ Write section 9 Provenance:
 - `authored_on`: ISO-8601 date
 - `inputs_read`: list of every input path consumed
 - `user_directives_honored`: list of Q-*-NNN ids from grounding-questions.md whose answers shaped the recommendation
-- `abstraction_layer_compliance`: "compliant — no tech bindings (validated by validate-abstraction-layer)"
+- `abstraction_layer_compliance`: "compliant — no tech bindings (validated by check-abstraction-layer)"
 - `pull_to_product_compliance`: "domain references resolve to product/research/ only"
 
 ### 7. Return output contract
@@ -132,7 +132,7 @@ mvp_recommendation:
 - NEVER invent use cases the brief did not name. Every primary use case in section 1.1 must trace to a brief quote.
 - NEVER include tech-binding tokens in any section. Deny-list: specific database engines (Postgres, MySQL, SQLite, DynamoDB, Redis, etc.), specific SDK/framework method names and parameters, specific programming languages, specific build tools, specific table schemas with column lists and types, specific wire protocols (REST endpoint paths, gRPC method signatures), specific cryptographic constructions, and specific model or version identifiers. Architecture directions in section 4 describe capability-level shape, not tech stack. Rule 14 / specify C16.
 - NEVER read domain content from `core/components/memory/knowledge/domain/` directly. Per Rule 15 / specify C17, this skill reads from `product_research_path` only. Passing `ltm_domain_taxonomy_path` is a structural failure.
-- NEVER skip `validate-abstraction-layer` invocation after writing. The post-write validation is the enforcement boundary — without it, the skill could silently produce a file that violates C16.
+- NEVER skip `check-abstraction-layer` invocation after writing. The post-write validation is the enforcement boundary — without it, the skill could silently produce a file that violates C16.
 - NEVER write to paths outside `output_path`. The mvp-recommendation.md is the only artifact this skill writes.
 - NEVER proceed with ambiguous narrowing. If the brief + profile + grounding-questions together do not make the primary use cases clear, append a question and halt with `ambiguous_narrowing_needs_user_grounding` — Rule 11 Aggressive Questioning applies.
 - NEVER treat pricing numbers as diligence-grade. The pricing section MUST carry the exact phrase "directional, not diligence-grade".
@@ -148,4 +148,4 @@ mvp_recommendation:
 | Version | 0.1.0 |
 | Category | product-planning |
 | Created | 2026-04-15 |
-| Related | `core/components/memory/standards/schemas/mvp-recommendation.yaml`, `core/components/memory/standards/rules/product.md` (Rule 13 MVP Focus), `core/components/plays/specify/reference/intent.yaml` (C15), `core/components/skills/configure-capabilities/SKILL.md` (primary consumer), `core/components/skills/validate-abstraction-layer/SKILL.md` (self-check invocation) |
+| Related | `core/components/memory/standards/schemas/mvp-recommendation.yaml`, `core/components/memory/standards/rules/product.md` (Rule 13 MVP Focus), `core/components/plays/specify/reference/intent.yaml` (C15), `core/components/skills/derive-capability-selection/SKILL.md` (primary consumer), `core/components/skills/check-abstraction-layer/SKILL.md` (self-check invocation) |

@@ -1,6 +1,6 @@
 ---
 name: author-learnings
-description: 'Read a delivered unit''s real outcomes — the measure lens (baseline/target/realized), the validate verdicts and fix reports, the run lens (production actuals), and the delivered epic/slice status — against the current product model, and author the MEANING updates the delivery taught — a refined capability/functionality one_line, a raised nfr_needs level (monotonic-up), an earned status promotion, the grounding-doc sections the learning changed, and a new append-only decision per material learning. Each proposed change carries the outcome that justifies it and a confidence tier. Writes the rewritten grounding docs STRAIGHT to the live model (per-node docs only) and emits the spine meaning-field deltas and the decision records as structured data in an STM learn-manifest.yaml — never the shared model files (_spine.yaml, profile, decisions), never the tree skeleton, never a slice/epic entry. Generative artifact production for the /learn play.'
+description: 'Read a delivered unit''s real outcomes — the measure lens (baseline/target/realized), the validate verdicts and fix reports, the run lens (production actuals), and the delivered epic/slice status — against the current product model, and author the MEANING updates the delivery taught — a refined capability/functionality one_line, a raised nfr_needs level (monotonic-up), an earned status promotion, the grounding-doc sections the learning changed, and a new append-only decision per material learning. Each proposed change carries the outcome that justifies it and a confidence tier. Writes the rewritten grounding docs STRAIGHT to the live model (per-node docs only) and emits the spine meaning-field deltas and the decision records as structured data in an STM learn-manifest.yaml — never the shared model files (_spine.yaml, profile, decisions), never the tree skeleton, never a slice/epic entry. Generative artifact production for the /learn-outcomes play.'
 version: 0.2.0
 user-invocable: false
 model: opus
@@ -24,8 +24,8 @@ slice `lens/{measure|run|quality}.md`) — each its own file — **straight to t
 `<product_base>/product-os/…`. It NEVER writes any shared model file: not `_spine.yaml`, not the
 `profile` block, not a `decisions/` record. Every shared-file mutation is emitted as **structured
 data in the STM `learn-manifest.yaml`** — the spine meaning-field deltas in `changes:` and the full
-decision records in `decisions:` — for /learn's deterministic keyed persist (`persist_learn.py`) to
-apply in place after the human checkpoint. /learn runs the shape linter and the content-quality eval
+decision records in `decisions:` — for /learn-outcomes's deterministic keyed persist (`persist_learn.py`) to
+apply in place after the human checkpoint. /learn-outcomes runs the shape linter and the content-quality eval
 over the live docs, then the scoped-write guard over the full delta, before the checkpoint; nothing
 is committed until the gate resolves.
 
@@ -78,7 +78,7 @@ Outcome-grounding, the allowlist, and template/eval conformance are non-negotiab
    <2s — confirmed"; "validate fix_required: privacy gate caught raw-log leak — boundary missed").
    A change with no outcome is dropped, not guessed.
 5. **Tier by confidence.** `high` for a change a single clear outcome proves; `low` for an inferred or
-   partial signal — /learn surfaces low-confidence changes one by one at the checkpoint.
+   partial signal — /learn-outcomes surfaces low-confidence changes one by one at the checkpoint.
 6. **Write the live docs; emit the shared-file deltas as manifest data.** Write each rewritten
    grounding doc **straight to its live path** under `<product_base>/product-os/…` (per template) —
    these are the only files this skill writes. Emit every spine meaning-field change in the manifest's

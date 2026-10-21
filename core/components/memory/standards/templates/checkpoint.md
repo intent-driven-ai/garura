@@ -52,7 +52,7 @@ verbatim; link to the file.}
 status line and any warnings. Blockers are reported here before the user
 sees the prompt. Example:
 - `validate-intent-epics`: status `passed`, 0 violations, 0 warnings
-- `validate-kb-extension`: status `passed`
+- `check-kb-extension`: status `passed`
 }
 
 ## User Feedback (populated on Orbit)

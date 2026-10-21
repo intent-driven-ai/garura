@@ -4,7 +4,7 @@
 > whether the slice is (or contains) an agent, and if so how much load it offloads and what
 > controls bound it. A non-agent slice says so plainly — that is a valid, common answer; do not
 > invent agentic behavior that isn't there. The linter enforces the heading set; the
-> content-quality eval scores it against `_content-standard.md`. Written by `/agentic`.
+> content-quality eval scores it against `_content-standard.md`. Written by `/shape-agentic-lens`.
 
 ## Heading contract (required, in order)
 

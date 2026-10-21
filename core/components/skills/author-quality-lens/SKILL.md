@@ -1,6 +1,6 @@
 ---
 name: author-quality-lens
-description: Author a shaped slice's quality lens as an MD grounding doc — a short statement of what "good" means for the slice plus a table of checkable gates (dimension / bar / how checked) — from the slice's hub (its functionalities' grounding docs + the spine profile's NFR gates). Every gate is grounded (a profile gate that applies or a functionality's rule made checkable) and concrete, never a vague adjective. Under direct-model-write (ADR 026) it writes ONLY the per-node lens docs (`quality.md` conforming to the Quality lens template, plus its machine sibling `quality-gates.yaml`) straight to the live model, and emits the grounding map + any material choice as structured data in the quality-manifest — it NEVER writes `_spine.yaml`, `profile.yaml`, or `decisions`. Reads the functionality.md docs + the profile for the hub, never another lens. Generative artifact production for the /quality play.
+description: Author a shaped slice's quality lens as an MD grounding doc — a short statement of what "good" means for the slice plus a table of checkable gates (dimension / bar / how checked) — from the slice's hub (its functionalities' grounding docs + the spine profile's NFR gates). Every gate is grounded (a profile gate that applies or a functionality's rule made checkable) and concrete, never a vague adjective. Under direct-model-write (ADR 026) it writes ONLY the per-node lens docs (`quality.md` conforming to the Quality lens template, plus its machine sibling `quality-gates.yaml`) straight to the live model, and emits the grounding map + any material choice as structured data in the quality-manifest — it NEVER writes `_spine.yaml`, `profile.yaml`, or `decisions`. Reads the functionality.md docs + the profile for the hub, never another lens. Generative artifact production for the /shape-quality-lens play.
 version: 0.5.0
 user-invocable: false
 model: opus
@@ -14,7 +14,7 @@ product profile — into the slice's **quality lens**, written as the grounding 
 what "good" means for this slice, and the checkable gates it must clear. The gates are drawn from
 the profile's NFR gates that apply to the slice and from the slice's functionalities' own rules,
 made checkable — never invented. It reads the hub only (never another realize lens) and writes the
-lens docs straight to the live model; /quality's checkpoint approves and its keyed persist writes
+lens docs straight to the live model; /shape-quality-lens's checkpoint approves and its keyed persist writes
 any decision.
 
 ## Write discipline — direct-model-write containment split (ADR 026)
@@ -27,14 +27,14 @@ mandatory:
   sibling `lens/quality-gates.yaml` — **straight to the live model** under the slice's `lens/`
   home. There is no `draft/` tree.
 - It **NEVER** writes any shared model file: not `_spine.yaml`, not `profile.yaml`, not
-  `decisions/`. Every decision record is the job of /quality's deterministic keyed persist
+  `decisions/`. Every decision record is the job of /shape-quality-lens's deterministic keyed persist
   script (`persist_quality.py`), which reads this skill's manifest.
 - The grounding map and any material choice it used to draft into a decision file are now emitted
   as **structured data in `quality-manifest.yaml`** (a non-model STM artifact). The keyed persist
   script turns each material choice into a decision record in place under the slice, skip-if-exists,
   keyed to the slice.
 
-Because the LLM only ever writes separate doc files, /quality's file-level scoped guard is
+Because the LLM only ever writes separate doc files, /shape-quality-lens's file-level scoped guard is
 sufficient for this skill's blast radius, and node-level containment (only this slice's decisions
 change, never another slice's) is preserved by the keyed script.
 
@@ -55,7 +55,7 @@ command, and the pass rule (`measure`/`threshold` when the check reads a number)
 (design, UX, security assessment) get `owner: human` and a `review` line naming the edge that
 judges them — they are never runner-owned. The card is a demand, not an assumption: name the
 tooling the bar needs even when the project does not have it yet (greenfield has nothing;
-brownfield lenses legitimately demand more than what is installed). The run-quality-gates skill
+brownfield lenses legitimately demand more than what is installed). The check-quality-gates skill
 executes these cards; absent tooling surfaces as a missing-tool finding the build loop consumes.
 
 ## Inputs

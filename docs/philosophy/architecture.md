@@ -66,8 +66,8 @@ measure
     ├── start-change      (head: resolve the issue, cut the branch, initialize STM)
     ├── … measure's own steps …
     ├── commit-change     ┐
-    ├── propose-change    │ end sequence — injected by play-creator
-    ├── review-change     │ into any play declared position: end or both
+    ├── propose-change    │ end sequence — injected by create-play
+    ├── check-change     │ into any play declared position: end or both
     └── merge-change      ┘
 ```
 
@@ -90,7 +90,7 @@ Play: commit-change
     │
     ├── (only when the changeset is multi-concern)
     │   Invokes agent: repo-orchestrator
-    │             └── Agent uses skill: analyze-changes
+    │             └── Agent uses skill: assess-changes
     │
     ├── Script: execute_commits.py — execute the decided plan
     │
@@ -123,7 +123,7 @@ Skills are **technology/methodology-specific knowledge** that agents possess.
 - Stable over time
 - Behavior (process, output format, constraints) is embedded in the skill; organizational standards are read from LTM at runtime via stable, well-known paths (ADR 009, which superseded ADR 007's skill-local references)
 
-**Examples:** `create-commit`, `analyze-changes`, `draft-rca`
+**Examples:** `commit-files`, `assess-changes`, `author-rca`
 
 ### Skill-Memory Relationship
 
@@ -160,11 +160,11 @@ See [ADR 009: Skill LTM Reads](../adr/009-skill-ltm-organizational-knowledge.md)
 
 Every handoff in a compiled play — play → agent → skill and back — is a JSON contract. The real outputs live in **files on disk**; the contract carries the *paths*, never the contents. A hop says "your inputs are these files, write your output here", and returns "done — the output is at this path". That is what lets any step be resumed, re-run, or handed off without re-deriving anything.
 
-`/play-creator` bakes every contract into the compiled play at compile time; `/play-editor` keeps them intact when a play changes. Scripts a step calls directly follow the same discipline — paths in, files out.
+`/create-play` bakes every contract into the compiled play at compile time; `/edit-play` keeps them intact when a play changes. Scripts a step calls directly follow the same discipline — paths in, files out.
 
 ### Contract Structure
 
-The shape compiled plays emit today, taken from `commit-change`'s grouping step (dispatched to `repo-orchestrator` → `analyze-changes` only when the changeset needs judgment):
+The shape compiled plays emit today, taken from `commit-change`'s grouping step (dispatched to `repo-orchestrator` → `assess-changes` only when the changeset needs judgment):
 
 ```json
 {
@@ -182,7 +182,7 @@ The shape compiled plays emit today, taken from `commit-change`'s grouping step 
 
 The play does not pass its ICE source to agents. The intent is compiled *into* the play — its constraints and failure conditions become the play's step evals, scenario evals, recovery entries, and stop condition — so what an agent needs is the task and the files.
 
-> ADR 016 recorded an earlier, richer field set (`intent_path` to a `reference/intent.yaml`, `stm_base`, `stm.input` / `stm.output`, `task_id`). Plays compiled by today's `/play-creator` emit the leaner shape above; a step may add a field it needs — `/fix-bug`'s RCA step adds `ltm_context` to trigger the R1–R4 resolution protocol (ADR 015), and `/launch` keeps a `task_id`.
+> ADR 016 recorded an earlier, richer field set (`intent_path` to a `reference/intent.yaml`, `stm_base`, `stm.input` / `stm.output`, `task_id`). Plays compiled by today's `/create-play` emit the leaner shape above; a step may add a field it needs — `/fix-bug`'s RCA step adds `ltm_context` to trigger the R1–R4 resolution protocol (ADR 015), and `/release-feature` keeps a `task_id`.
 
 ### How It Flows
 
@@ -211,14 +211,14 @@ The Four Crafts Architecture describes the four distinct authoring concerns that
 
 | Craft | Owner | Artifact | Purpose |
 |-------|-------|----------|---------|
-| **Intent Crafting** | Framework author, via `/play-creator` (new play) or `/play-editor` (existing play) | The play's ICE source, `reference/ice.md` | Declares the goal, constraints, and failure conditions (the Intent triple), plus the generated-and-vetted Expectation the play is compiled from |
+| **Intent Crafting** | Framework author, via `/create-play` (new play) or `/edit-play` (existing play) | The play's ICE source, `reference/ice.md` | Declares the goal, constraints, and failure conditions (the Intent triple), plus the generated-and-vetted Expectation the play is compiled from |
 | **Prompt Crafting** | Play | JSON contract | Play passes ONLY the JSON contract to agents — no inline instructions |
 | **Context Crafting** | Agent | Skill inputs | Agent reads the files the contract names, picks the LTM standards the skill needs |
 | **Spec Crafting** | Skill | Output files on disk | Skill reads templates and standards from LTM, fills them, writes the artifact at the contract's output path |
 
 ### Intent Crafting
 
-Intent Crafting produces a play's **ICE source**, `core/components/plays/<play>/reference/ice.md`. Every play built through the compiler carries one. Four plays have none: `play-creator` (the compiler bootstrap, edited directly by definition), `play-editor`, and the `install-garura` / `uninstall-garura` meta-plays.
+Intent Crafting produces a play's **ICE source**, `core/components/plays/<play>/reference/ice.md`. Every play built through the compiler carries one. Four plays have none: `create-play` (the compiler bootstrap, edited directly by definition), `edit-play`, and the `install-garura` / `uninstall-garura` meta-plays.
 
 The ICE source has two parts:
 
@@ -280,8 +280,8 @@ From this source the compiler emits the play's `SKILL.md`, its bundled `scripts/
 
 **The authoring path:**
 
-- **New play** — `/play-creator` interviews for the Intent triple, generates the Expectation, and compiles.
-- **Intent change** to an existing play (goal, a constraint, a failure condition, a scenario, the agent/skill flow, evals) — edit the ICE source and recompile with `/play-editor`. Never hand-edit the compiled `SKILL.md` for an intent change.
+- **New play** — `/create-play` interviews for the Intent triple, generates the Expectation, and compiles.
+- **Intent change** to an existing play (goal, a constraint, a failure condition, a scenario, the agent/skill flow, evals) — edit the ICE source and recompile with `/edit-play`. Never hand-edit the compiled `SKILL.md` for an intent change.
 - **Non-intent change** (output format, report scaffolding, surface prose) — edit the compiled `SKILL.md` directly and record a `Direct-edit deviation note`.
 
 The ICE source is design-time only: agents never modify it, and plays never pass it to agents at runtime.
@@ -352,7 +352,7 @@ Plays are orchestrators. They coordinate workflow by delegating to agents — th
 
 **Forbidden in plays:** ad-hoc git commands, ad-hoc gh commands, or inline execution of any domain operation an agent owns.
 
-**What plays own directly:** checkpoint writes, approval logic, STM initialization, artifact writes, evidence reports, final user-facing output, and their own bundled `scripts/` for mechanical steps (play-creator compiles a play as a SKILL.md plus scripts for its mechanical work).
+**What plays own directly:** checkpoint writes, approval logic, STM initialization, artifact writes, evidence reports, final user-facing output, and their own bundled `scripts/` for mechanical steps (create-play compiles a play as a SKILL.md plus scripts for its mechanical work).
 
 **What plays delegate to agents:**
 - Git operations (branch, commit, push, status) → `repo-orchestrator`
@@ -373,7 +373,7 @@ When an agent's sole purpose is to resolve a value that is already deterministic
 **Requirement:** The synthesized artifact must be contract-compatible with what the agent would have produced — downstream steps must not know or care whether resolution was real or synthetic.
 
 **Example (`commit-change`, issue #343):**
-- `project-orchestrator` is normally dispatched to resolve which open issue the changes belong to (`manage-issue` + `resolve-issues`, writing `issue-mappings.yaml`).
+- `project-orchestrator` is normally dispatched to resolve which open issue the changes belong to (`track-issue` + `find-matching-issues`, writing `issue-mappings.yaml`).
 - When the branch name encodes the issue number (e.g. `feature/95-slug`), the pre-flight script returns it as a fact, the play sets `auto_issue_resolved = true`, and the issue-resolution step is skipped entirely.
 - This removes one tracker API call and one model scoring step from the hot path without any change to downstream contracts.
 
@@ -572,7 +572,7 @@ The objective has not changed. The system still creates a PR with a quality chec
 | **Lighter plays** (Level 3 — where Garura operates today, ADR 025) | Plays define checkpoints and boundaries; agents choose their own workflow within steps | Intent drives agent behavior; plays provide guardrails | Medium — system has demonstrated consistent execution |
 | **Intent-driven** (Level 4 — north star, deliberately not being built; ADR 013, ADR 025) | Plays are generated at runtime from intent + constraints + memory | Intent is the primary input; workflow is emergent | High — auditability and predictability are satisfied as constraints, not as structure |
 
-Level 3, as ADR 025 defines it, keeps the compiled skeleton — the sequence of commands, the gates between them, and the evidence that must exist at close — deterministic, and lets each box run a free loop toward the intent inside four walls: a machine-checkable stop condition, a checker that executes the deterministic gates, a turn/token budget, and an evidence schema. Epic #460 shipped the stop condition (every ICE-compiled play bakes one), the checker (`run-quality-gates`), gates-as-configuration, and concurrent read-only fan-out. The budget wall is only partly built: every run stamps its session identity so spend can be attributed exactly after the fact, but no turn or token cap halts a loop yet.
+Level 3, as ADR 025 defines it, keeps the compiled skeleton — the sequence of commands, the gates between them, and the evidence that must exist at close — deterministic, and lets each box run a free loop toward the intent inside four walls: a machine-checkable stop condition, a checker that executes the deterministic gates, a turn/token budget, and an evidence schema. Epic #460 shipped the stop condition (every ICE-compiled play bakes one), the checker (`check-quality-gates`), gates-as-configuration, and concurrent read-only fan-out. The budget wall is only partly built: every run stamps its session identity so spend can be attributed exactly after the fact, but no turn or token cap halts a loop yet.
 
 ### What Makes This Possible
 

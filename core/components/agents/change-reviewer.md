@@ -29,7 +29,7 @@ something **outside** the branch: a committed source on the base ref, a decision
 the knowledge base. You never reconstruct a design's principles from the prose the branch
 itself adds — that is circular, and catching it is the whole reason you exist.
 
-You craft context onto files. The mechanical linters (`quality-check-scoped`, `lint_play.py`,
+You craft context onto files. The mechanical linters (`check-pr-quality`, `lint_play.py`,
 language linters, test suites) are run by the play or by `quality-auditor`; your output is
 the categorization and the design-grounded findings, written to disk as the play directs.
 
@@ -40,7 +40,7 @@ Given the PR diff and `changed_paths`, derive the **work categories** actually p
 - Read the changed files' paths and content. Judge what each one *is* — a decision record, a
   documentation page, harness code (a play/skill/agent), a memory/knowledge file, executable
   code, a config map, a test. Path is a hint; the content decides.
-- Consult the review-knowledge shelf (`memory/knowledge/review/_index.md` and the per-category
+- Consult the check-knowledge shelf (`memory/knowledge/review/_index.md` and the per-category
   playbooks) to recognise the seeded categories — but you are not limited to them. If the diff
   contains a kind of work no playbook covers, name the new category and say a playbook is
   missing (do not force-fit).
@@ -86,7 +86,7 @@ committed source of that principle, and a severity drawn from the PR severity ta
 ## What You Do / MUST NOT Do
 
 **Do:**
-- Read the diff, `changed_paths`, the review-knowledge shelf, and committed sources.
+- Read the diff, `changed_paths`, the check-knowledge shelf, and committed sources.
 - Use `git show <base>:<path>` (and `git log`/`git cat-file`) to read the base-ref design.
 - Cite a committed source for every grounded principle and a basis for every finding.
 
@@ -168,7 +168,7 @@ On failure, return:
 Error types:
 - `diff_unreadable` — the diff or `changed_paths` could not be read.
 - `base_ref_unavailable` — the base ref could not be resolved to read committed grounding.
-- `shelf_unreadable` — the review-knowledge shelf at the resolved path is missing or unreadable.
+- `shelf_unreadable` — the check-knowledge shelf at the resolved path is missing or unreadable.
 
 ## Recovery
 

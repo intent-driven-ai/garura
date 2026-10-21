@@ -1,10 +1,10 @@
-# lint-components
+# check-components
 
 Validate Garura component contracts — plays, skills, agents, and intent files — from the command line.
 
 ## Overview
 
-`lint-components` is a Node.js tool that scans `core/components/` and checks every component file against its structural, semantic, and cross-reference rules. It is the same rule engine invoked by the `lint-components` skill — running it directly gives you immediate feedback without spinning up a full play.
+`check-components` is a Node.js tool that scans `core/components/` and checks every component file against its structural, semantic, and cross-reference rules. It is the same rule engine invoked by the `check-components` skill — running it directly gives you immediate feedback without spinning up a full play.
 
 **What it checks:**
 - Structural integrity: required frontmatter fields, required body sections, parse errors
@@ -37,7 +37,7 @@ node core/tools/lint-components/index.js
 **Using the bin alias** (after `npm link` or global install):
 
 ```bash
-lint-components
+check-components
 ```
 
 ### Flags
@@ -143,4 +143,4 @@ Cross-reference rules verify integrity between paired files (intent.yaml + play 
 
 ## Related
 
-- [For skill invocation (JSON contract), see the lint-components skill doc](../../usage/skills/lint-components.md)
+- [For skill invocation (JSON contract), see the check-components skill doc](../../usage/skills/check-components.md)

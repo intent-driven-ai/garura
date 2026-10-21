@@ -3,7 +3,7 @@ id: review/tests
 title: "Reviewing tests"
 conditions:
   recognises: "the PR changes automated tests"
-  signals: ["**/{test,tests,__tests__,spec,e2e,integration,cypress,playwright}/**", "**/*.{test,spec}.*", "core/components/plays/validate/scripts/runners/**"]
+  signals: ["**/{test,tests,__tests__,spec,e2e,integration,cypress,playwright}/**", "**/*.{test,spec}.*", "core/components/plays/validate-feature/scripts/runners/**"]
 provenance: "seeded:#443"
 ---
 
@@ -22,7 +22,7 @@ runners and any `tests/` tree in a target repo.
 - **Layers:** Layer 1 — and **run the suite**.
 - **Linter:** a coding-best-practice linter on the test code (clear assertions, no skipped/
   disabled tests sneaking in, no test that asserts nothing), plus the `pr.md` TEST-* rows via
-  `quality-check-scoped`.
+  `check-pr-quality`.
 - **Run, don't just read:** execute the test suite and confirm it passes. A red suite is a
   **blocker** finding. Where a runnable suite exists for the touched code, running it is part
   of the review — not optional. If no runnable suite exists for this change, say so explicitly

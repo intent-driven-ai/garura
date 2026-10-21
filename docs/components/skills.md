@@ -35,7 +35,7 @@ Some skills exist to manage the Garura framework itself. These are classified as
 
 Example: deployment of Garura components into a target project runs via the `install-garura` play (reverse: `uninstall-garura`). Deployment is invoked directly by the user because it manages the deployment pipeline, not a domain task.
 
-Today's meta-utility skill: `build-product-ontology` — builds Garura's product ontology with a person, one kind at a time. It is installed only by `install-garura --scope harness`, never into a product project.
+Today's meta-utility skill: `author-product-ontology` — builds Garura's product ontology with a person, one kind at a time. It is installed only by `install-garura --scope harness`, never into a product project.
 
 Meta-utility skills:
 - Are user-invocable
@@ -44,20 +44,20 @@ Meta-utility skills:
 
 ## Available Skills
 
-Roughly 100 skills are authored in `core/components/skills/`, each with `user-invocable: false` except the meta-utility skills above (`build-product-ontology`). The roster, grouped by family — see each skill's `SKILL.md` frontmatter for its full description and model:
+Roughly 100 skills are authored in `core/components/skills/`, each with `user-invocable: false` except the meta-utility skills above (`author-product-ontology`). The roster, grouped by family — see each skill's `SKILL.md` frontmatter for its full description and model:
 
 | Family | Skills |
 |--------|--------|
-| **Repository / project operations** | `analyze-changes`, `analyze-pr`, `create-commit`, `setup-branch`, `submit-pr`, `merge-pr`, `platform-adapter`, `manage-issue`, `resolve-issues`, `manage-plan`, `write-evidence` |
-| **ProductOS model & KB** | `author-adr`, `author-business-intent`, `author-vision-seed`, `build-product-ontology`, `enrich-capability-ice`, `find-model-gaps`, `close-model-gaps`, `author-shape-bundle`, `author-roadmap`, `author-quality-lens`, `author-ux-lens`, `author-agentic-lens`, `author-architecture-lens`, `author-marketing-lens`, `author-run-lens`, `author-measure-lens`, `author-epics`, `check-cut-tensions`, `author-hitl-scenarios`, `rank-recommendations`, `search-kb`, `kb-search`, `propose-kb-node`, `walk-prototype`, `answer-from-source`, `draft-knowledge-page`, `propose-answers`, `write-knowledge-brief`, `judge-loop-result` |
-| **Specification / design drafting** | `draft-product-spec`, `draft-technical-approach`, `draft-lld`, `draft-tech-spec`, `draft-implementation-plan`, `draft-reference-algorithms`, `draft-epic-expectation`, `draft-verification-scenarios`, `author-build-plan`, `author-intent-yaml`, `validate-implementation-design`, `validate-abstraction-layer` |
-| **Defect resolution** | `draft-rca`, `draft-fix-design`, `author-regression-test` |
-| **Architecture & quality derivation** | `derive-systems-inventory`, `derive-logical-architecture`, `derive-physical-architecture`, `derive-tech-stack`, `derive-design-patterns`, `derive-nfr-spec`, `derive-quality-vision`, `derive-quality-profile-from-epics`, `refine-quality-profile`, `validate-architecture-spec`, `infer-architecture`, `build-dependency-graph` |
-| **Product capability planning & research** | `configure-capabilities`, `enrich-capabilities`, `manage-features`, `generate-intent-epics`, `validate-intent-epics`, `recommend-mvp`, `research-market-opportunity`, `research-domain-context` |
-| **Brownfield inference (codify family)** | `scan-codebase`, `aggregate-codify-proposals`, and the `infer-*-from-code` set: project-profile, domain-selection, market-brief, mvp-recommendation, scope, enriched-capabilities, features, epics, research, design-patterns, logical-architecture, physical-architecture, nfr-spec, quality-profile, quality-vision |
-| **Testing & verification** | `map-test-surface`, `compute-blast-radius`, `specify-baseline-tests`, `detect-test-harness`, `run-generated-tests-isolated`, `author-steelman-evals`, `generate-encrypted-evals`, `plan-validation-checks`, `judge-validation-results`, `quality-check`, `quality-check-scoped` |
-| **Environments / delivery** | `stand-up-launch-env`, `deploy-to-cloud-env` |
-| **Framework & knowledge** | `lint-components`, `validate-kb-extension`, `author-learnings` |
+| **Repository / project operations** | `assess-changes`, `assess-pr`, `commit-files`, `cut-branch`, `open-pr`, `merge-pr`, `platform-adapter`, `track-issue`, `find-matching-issues`, `author-plan-file`, `author-evidence` |
+| **ProductOS model & KB** | `author-decision`, `author-business-intent`, `author-domains`, `author-product-ontology`, `enrich-capability-ice`, `find-model-gaps`, `link-model-gaps`, `author-scope`, `author-roadmap`, `author-quality-lens`, `author-ux-lens`, `author-agentic-lens`, `author-architecture-lens`, `author-marketing-lens`, `author-run-lens`, `author-measure-lens`, `author-features`, `check-cut-tensions`, `author-acceptance-scenarios`, `rank-actions`, `find-work-placement`, `find-architecture-learnings`, `propose-kb-node`, `walk-prototype`, `find-answers-in-sources`, `author-knowledge-page`, `propose-answers`, `author-knowledge-brief`, `judge-loop-result` |
+| **Specification / design drafting** | `author-product-spec`, `author-technical-approach`, `author-lld`, `author-tech-spec`, `author-implementation-plan`, `author-reference-algorithms`, `draft-epic-expectation`, `author-verification-scenarios`, `author-build-plan`, `author-play-ice`, `check-implementation-design`, `check-abstraction-layer` |
+| **Defect resolution** | `author-rca`, `author-fix-design`, `author-regression-test` |
+| **Architecture & quality derivation** | `derive-systems-inventory`, `derive-logical-architecture`, `derive-physical-architecture`, `derive-tech-stack`, `derive-design-patterns`, `derive-nfr-spec`, `derive-quality-vision`, `derive-quality-profile-from-epics`, `enrich-quality-profile`, `check-architecture-spec`, `infer-architecture`, `scan-dependencies` |
+| **Product capability planning & research** | `derive-capability-selection`, `enrich-capabilities`, `author-feature-catalog`, `generate-intent-epics`, `validate-intent-epics`, `recommend-mvp`, `research-market-opportunity`, `research-domain-context` |
+| **Brownfield inference (codify family)** | `scan-codebase`, `collect-codify-proposals`, and the `infer-*-from-code` set: project-profile, domain-selection, market-brief, mvp-recommendation, scope, enriched-capabilities, features, epics, research, design-patterns, logical-architecture, physical-architecture, nfr-spec, quality-profile, quality-vision |
+| **Testing & verification** | `scan-test-surface`, `derive-blast-radius`, `author-baseline-tests`, `scan-test-harness`, `check-generated-tests`, `author-steelman-evals`, `author-encrypted-evals`, `author-validation-checks`, `judge-validation-results`, `check-quality`, `check-pr-quality` |
+| **Environments / delivery** | `deploy-local-environment`, `deploy-cloud-environment` |
+| **Framework & knowledge** | `check-components`, `check-kb-extension`, `author-learnings` |
 
 For the complete play roster, see [Plays Component Guide](./plays.md).
 
@@ -117,12 +117,12 @@ Each skill defines a different output contract structure. Key skills and their o
 
 | Skill | Output Key | Key Fields |
 |-------|-----------|------------|
-| `draft-product-spec` | `features` | `features_path`, `feature_count`, `invariants_count` |
-| `draft-technical-approach` | `technical_approach` | `technical_approach_path`, `decisions_count` |
-| `draft-lld` | `tech` | `tech_path`, `components_count` |
-| `draft-verification-scenarios` | `scenarios` | `scenarios_path`, `scenario_count`, `coverage.total_scenarios` |
-| `draft-implementation-plan` | `plan` | `plan_path`, `execution_order_count` |
-| `validate-implementation-design` | `validation` | `validation_path`, `pass`, `findings_count` |
+| `author-product-spec` | `features` | `features_path`, `feature_count`, `invariants_count` |
+| `author-technical-approach` | `technical_approach` | `technical_approach_path`, `decisions_count` |
+| `author-lld` | `tech` | `tech_path`, `components_count` |
+| `author-verification-scenarios` | `scenarios` | `scenarios_path`, `scenario_count`, `coverage.total_scenarios` |
+| `author-implementation-plan` | `plan` | `plan_path`, `execution_order_count` |
+| `check-implementation-design` | `validation` | `validation_path`, `pass`, `findings_count` |
 
 Full output specifications are in each skill's `SKILL.md`. Skills write detailed data to STM files — the output contract carries only paths and summary metadata.
 
@@ -153,29 +153,14 @@ Forking a skill would:
 
 ## Naming Convention
 
-Skills follow two naming patterns:
+Skills are named `<verb>-<object>`, with the verb from the skill verbs — each with one meaning:
+`author`, `infer`, `derive`, `scan`, `check`, `judge`, `assess`, `find`, `link`, `enrich`, `propose`,
+`research`, `rank`, `recommend`, `collect`, `walk`, `deploy`, `track`, and the git verbs `commit`,
+`open`, `merge`, `cut`. Examples: `author-roadmap`, `infer-scope`, `check-quality`, `find-model-gaps`.
+No name is, or starts with, a Claude Code or Codex built-in command.
 
-### Technology-Specific Skills: `{action}-{tech/method}`
-
-For skills that embody technology or methodology expertise:
-
-| Pattern | Examples |
-|---------|----------|
-| `write-{language}-code` | `write-java-code`, `write-typescript-code` |
-| `create-{framework}-tests` | `create-jest-tests`, `create-pytest-tests` |
-| `do-{type}-analysis` | `do-rca-analysis`, `do-impact-analysis` |
-
-### Operation Skills: `{action}-{object}`
-
-For skills that perform repository or project operations:
-
-| Pattern | Examples |
-|---------|----------|
-| `analyze-{object}` | `analyze-changes`, `analyze-pr` |
-| `create-{object}` | `create-commit` |
-| `submit-{object}` | `submit-pr` |
-| `manage-{object}` | `manage-issue`, `manage-plan` |
-| `setup-{object}` | `setup-branch` |
+The full rules: `core/components/memory/standards/rules/naming.md` and the harness standard
+(`docs/standards/harness-standard.md`, ADR 046). The component linter enforces them.
 
 ## Skill Invocation
 
@@ -283,9 +268,9 @@ allowed-tools: {Tool1, Tool2}
 
 | Model | When To Use | Examples |
 |-------|-------------|----------|
-| `haiku` | Execution-only skills — no analysis, no decision-making, fast operations | `create-commit`, `setup-branch` |
-| `sonnet` | Analysis skills — reasoning, categorization, pattern matching, complex logic | `analyze-changes`, `analyze-pr`, `manage-issue`, `draft-product-spec`, `draft-technical-approach` |
-| `opus` | Judgment-heavy authoring — generative model work where quality dominates cost | `author-epics`, `author-build-plan` |
+| `haiku` | Execution-only skills — no analysis, no decision-making, fast operations | `commit-files`, `cut-branch` |
+| `sonnet` | Analysis skills — reasoning, categorization, pattern matching, complex logic | `assess-changes`, `assess-pr`, `track-issue`, `author-product-spec`, `author-technical-approach` |
+| `opus` | Judgment-heavy authoring — generative model work where quality dominates cost | `author-features`, `author-build-plan` |
 
 **Rule of thumb:** If the skill just runs commands and formats output, use `haiku`. If the skill needs to read, reason, and categorize, use `sonnet`. If it authors judgment-heavy artifacts, use `opus`.
 
@@ -317,17 +302,6 @@ Skill loads from its own bundled reference (e.g., `skills/{skill-name}/reference
 | Organizational standards (categories, schemas) | LTM (`~/.garura/core/memory/`) | Yes — edit LTM |
 | Output format templates | `templates/` directory or LTM | Depends on template type |
 
-## Skill Qualifiers
-
-Use qualifiers **only when multiple types exist**:
-
-| Scenario | Naming |
-|----------|--------|
-| Single type exists | `design` |
-| Multiple types exist | `design-tech`, `design-ux` |
-
-This prevents unnecessary prefixes while maintaining clarity.
-
 ## Skill Location
 
 Skill definitions are stored in:
@@ -345,7 +319,7 @@ core/components/plays/
 ## Related Documentation
 
 - [ADR 005: Skills as Capabilities](../adr/005-skills-as-capabilities.md)
-- [ADR 006: Naming Conventions](../adr/006-naming-conventions.md)
+- [ADR 046: One naming standard for every harness part](../adr/046-one-naming-standard-for-every-harness-part.md)
 - [ADR 007: Skill-Local References](../adr/SUPERSEDED-007-skill-local-references.md) — Partially superseded by ADR 009
 - [ADR 009: Skill LTM Organizational Knowledge](../adr/009-skill-ltm-organizational-knowledge.md)
 - [Agents Component Guide](./agents.md)

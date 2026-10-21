@@ -34,7 +34,7 @@ Consumers: `review-pr`.
 | Field | Required | Rule |
 |-------|----------|------|
 | `pr_number` | yes | The PR number from GitHub. |
-| `confidence.value` | yes | Numeric value (0.0–1.0). Computed by `quality-check-scoped`. |
+| `confidence.value` | yes | Numeric value (0.0–1.0). Computed by `check-pr-quality`. |
 | `confidence.threshold` | yes | The threshold configured for the project. |
 | `routing` | yes | Exactly one of: `block`, `escalate`, `pass`. |
 | `P1 section` | yes | Always include header with count, even if `({n})` is 0. |

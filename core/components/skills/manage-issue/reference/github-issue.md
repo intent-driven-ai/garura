@@ -1,1 +1,0 @@
-> **Delegation:** All `manage-issue` issue operations now route through the `platform-adapter` skill. Executable GitHub command translations live in `core/components/skills/platform-adapter/reference/github/verbs.md`.
