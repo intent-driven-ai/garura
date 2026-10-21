@@ -12,7 +12,7 @@ allowed-tools: Read, Bash
 links the model can take without new content, and hands the rest back. It is mechanical: the
 judgment was made in `gaps.json`.
 
-## Inputs
+## Input
 
 | Field | Required | Meaning |
 |-------|----------|---------|
@@ -20,7 +20,7 @@ judgment was made in `gaps.json`.
 | `product_base` | yes | The project's product base; the model is under `<product_base>product-os/`. |
 | `out` | yes | Where to write `close-report.json`. |
 
-## Procedure
+## Process
 
 1. **Apply what the model can take.** Run the script:
 
@@ -41,6 +41,10 @@ judgment was made in `gaps.json`.
    `gaps.json`.
 3. **Return the report's path.** The drive runs the plays the work list names in its next
    round.
+
+## Output
+
+`close-report.json`, at `out`: `applied` (each change made), `skipped` (each link refused, with why) and `work_for_plays` (the work list for the drive, unchanged from `gaps.json`).
 
 ## Rules
 

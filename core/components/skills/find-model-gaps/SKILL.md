@@ -14,7 +14,7 @@ not ready until it is linked — functionality → capability → domain, and it
 confirmed business intent. This skill finds what is not linked yet, what is written twice, and
 what is still missing, and says what to do about each.
 
-## Inputs
+## Input
 
 | Field | Required | Meaning |
 |-------|----------|---------|
@@ -24,7 +24,7 @@ what is still missing, and says what to do about each.
 | `write_up` | no | The person's short write-up of the prototype (what it is, who uses it, the field and the job, the sample data, the walkthrough). |
 | `out` | yes | Where to write `gaps.json`. |
 
-## Procedure
+## Process
 
 1. **Count the candidates.** Run the script; it reads the spine, the pages and the capture:
 
@@ -53,18 +53,22 @@ what is still missing, and says what to do about each.
    - a screen's need that no business intent names → `/intent`;
    - an intent no capability serves → `/understand`;
    - a screen no capability or functionality covers → `/understand`.
-6. **Write `gaps.json`:**
+6. **Write `gaps.json`** in the shape under Output.
 
-   ```json
-   {
-     "links_to_make": [{"kind": "capability", "id": "<id>", "field": "domain | capability | intents",
-                        "value": "<parent id, or [intent ids]>", "why": "<one plain line>"}],
-     "duplicates": [{"kind": "capability", "keep": "<id>", "drop": "<id>", "agreed": true, "why": "…"}],
-     "work": [{"play": "/understand", "target": "<id or screen>", "why": "<one plain line>"}],
-     "uncovered": [{"what": "main section | view", "name": "…"}],
-     "cleared": [{"candidate": "…", "why": "…"}]
-   }
-   ```
+## Output
+
+`gaps.json`, at `out`:
+
+```json
+{
+  "links_to_make": [{"kind": "capability", "id": "<id>", "field": "domain | capability | intents",
+                     "value": "<parent id, or [intent ids]>", "why": "<one plain line>"}],
+  "duplicates": [{"kind": "capability", "keep": "<id>", "drop": "<id>", "agreed": true, "why": "…"}],
+  "work": [{"play": "/understand", "target": "<id or screen>", "why": "<one plain line>"}],
+  "uncovered": [{"what": "main section | view", "name": "…"}],
+  "cleared": [{"candidate": "…", "why": "…"}]
+}
+```
 
 ## Rules
 
