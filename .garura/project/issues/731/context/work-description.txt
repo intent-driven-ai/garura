@@ -1,0 +1,1 @@
+Work on Story #731 — start-change cuts a plan's branch, and each issue's branch from it (plan #717, capability #721). Resolve issue 731.
