@@ -198,4 +198,6 @@ Report a short PASS/GAP table and stop. To fix gaps, use `/loop-editor`.
 - A loop always has a Done means, baked into `stop-condition.yaml`.
 - Stamp the shared scripts unchanged; never edit a stamped copy.
 - Run `lint_loop.py` and clear every gap before calling the loop built.
+- Check the loop against the loop principles (`docs/components/loops.md`, "The loop principles").
+  The linter does not check them all yet (#699); check the rest by hand.
 - In review mode, change nothing.

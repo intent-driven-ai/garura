@@ -93,3 +93,5 @@ regenerated, and that the linter passes.
 - A loop does no work of its own; a new play must run inside a loop.
 - Leave no orphans: remove every eval and recovery tied to what you removed.
 - Copy the shared scripts unchanged; recompute the fingerprint; run `lint_loop.py` until clean.
+- Check the changed loop against the loop principles (`docs/components/loops.md`, "The loop
+  principles"). The linter does not check them all yet (#699); check the rest by hand.
