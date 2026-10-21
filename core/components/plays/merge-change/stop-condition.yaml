@@ -13,3 +13,6 @@ content:
     - id: D3
       says: "the branch is gone both sides"
       check: { type: field_equals, file: "review/merge-gate.json", field: "branch_deleted", equals: true }
+    - id: D4
+      says: "the PR landed where its branch belongs"
+      check: { type: field_equals, file: "review/merge-gate.json", field: "on_target", equals: true }

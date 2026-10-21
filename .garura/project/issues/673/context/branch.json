@@ -1,0 +1,8 @@
+{
+  "branch_name": "plan/717/673-plan-aware-merge",
+  "base_sha": "6346ea46416d92bb8e648d2798612eeaf0413210",
+  "on_default_branch": false,
+  "worktree_path": null,
+  "plan_branch": "plan/717/base",
+  "plan_branch_created": false
+}

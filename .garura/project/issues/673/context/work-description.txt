@@ -1,0 +1,1 @@
+Work on Story #673 — merge-change lands an issue on its plan branch, and a plan on main only when it is done (plan #717, capability #721).
