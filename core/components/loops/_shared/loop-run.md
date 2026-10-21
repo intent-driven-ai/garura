@@ -1,5 +1,7 @@
 # Shared Loop Run
 
+What a loop is, the five loops and how to build one: `docs/components/loops.md`.
+
 The steps every loop runs, in order. A loop is a higher-order play: it runs other plays
 until its intent is met or it fails, and carries no product rules of its own (ADR 029). It owns
 only the run steps every loop takes between its plays — the write-up (R3), reading the source

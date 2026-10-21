@@ -13,7 +13,7 @@ core/components/           # Source of truth (edit here)
 ├── agents/                # Agent definitions
 ├── skills/                # Skills (model-invocable only)
 ├── plays/                 # plays
-├── loops/                # loops: higher-order plays that run plays (ADR 029); built by /loop-creator
+├── loops/                 # loops: higher-order plays that run plays (ADR 029, ADR 045); built by /loop-creator
 └── memory/                # LTM: standards, formats, knowledge
 
 {target}/.claude/          # Deployment into a target project (via install-garura)
@@ -138,4 +138,4 @@ one-session / one-branch rule, the scope boundary, and the tracker traps.
   `.garura/core/config.yaml`, which that project's plays read)
 - `docs/adr/` — Architecture Decision Records (23 ADRs, plus one superseded)
 - `docs/philosophy/` — Core architecture philosophy
-- `docs/components/` — Agent, skill, play, memory documentation
+- `docs/components/` — Agent, skill, play, loop, memory documentation (loops: `docs/components/loops.md`)

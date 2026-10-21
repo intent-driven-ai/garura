@@ -28,8 +28,9 @@ Neither of these requires a level label.
 
 ## Loops
 
-A **loop** is a higher-order play: it runs other plays in a fixed order, on one issue and one
-branch, until its intent is met or it fails (ADR 029). It does no work of its own. Loops live
+A **loop** is a higher-order play: it runs other plays in rounds, in any order, on one issue and
+one branch, until its intent is met or it fails (ADR 029, ADR 043, ADR 045). The full page is
+[Loops](loops.md). It does no work of its own. Loops live
 in `core/components/loops/<loop>/`, are built by `/loop-creator` and changed by
 `/loop-editor` (the companions of `/play-creator` and `/play-editor`), and are checked by
 `lint_loop.py`. Every loop points to one shared run, `core/components/loops/_shared/loop-run.md`
