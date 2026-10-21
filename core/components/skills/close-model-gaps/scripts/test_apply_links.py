@@ -124,6 +124,25 @@ class ApplyLinks(unittest.TestCase):
         self.assertEqual(self.node("capabilities", "reports")["domain"], "")
         self.assertEqual(self.node("capabilities", "board")["domain"], "work")
 
+    def test_a_write_outside_the_model_is_skipped_and_nothing_outside_changes(self):
+        outside = self.write("outside/capability.md", "# Capability: Not ours\n")
+        spine = self.spine()
+        spine["capabilities"].append({"id": "stray", "slug": "stray", "domain": "work", "intents": [],
+                                      "doc": "../../outside/capability.md"})
+        self.write("product/product-os/_spine.yaml", yaml.safe_dump(spine))
+        rep = self.run_apply({"duplicates": [{"kind": "capability", "keep": "board", "drop": "stray",
+                                              "agreed": True}],
+                              "links_to_make": [{"kind": "capability", "id": "reports", "field": "intents",
+                                                 "value": ["../../../outside/x"]}]})
+        self.assertTrue(os.path.isfile(outside))
+        self.assertIn("stray", [c["id"] for c in self.spine()["capabilities"]])
+        self.assertEqual(sum("outside the product model" in s_["why"] for s_ in rep["skipped"]), 1)
+
+    def test_the_report_lists_every_file_it_changed(self):
+        rep = self.run_apply({"links_to_make": [{"kind": "capability", "id": "reports", "field": "intents",
+                                                 "value": ["share-reports"]}]})
+        self.assertEqual(rep["changed"], ["_spine.yaml", "intents/share-reports.md"])
+
     def test_work_for_plays_is_handed_back(self):
         work = [{"play": "/understand", "target": "reports", "why": "no functionalities"}]
         self.assertEqual(self.run_apply({"work": work})["work_for_plays"], work)

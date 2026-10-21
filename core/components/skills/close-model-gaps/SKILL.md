@@ -44,9 +44,16 @@ judgment was made in `gaps.json`.
 
 ## Output
 
-`close-report.json`, at `out`: `applied` (each change made), `skipped` (each link refused, with why) and `work_for_plays` (the work list for the drive, unchanged from `gaps.json`).
+`close-report.json`, at `out`: `applied` (each change made), `skipped` (each link refused,
+with why, including any that would write outside the product model), `changed` (every file it
+touched, relative to `product-os/`) and `work_for_plays` (the work list for the drive,
+unchanged from `gaps.json`).
 
 ## Rules
+
+- **Only inside the product model.** The script writes, moves and removes only under
+  `<product_base>product-os/`. It checks every path first; a link that would reach outside is
+  skipped and never half-applied. `changed` in the report lists every file it touched.
 
 - **No new content.** It never writes an intent's words, a new capability page or a new
   functionality page. A page moves unchanged.
