@@ -88,7 +88,10 @@ capabilities:
       reliability:    { level: string, target: string, gate: string }   # e.g. uptime
       # ... any of the profile dimensions; omit those this capability does not constrain
     compliance_needs: [string]   # regimes THIS capability triggers; union'd into profile.compliance
-    depends_on: [string]  # ids of OTHER capabilities this one needs
+    depends_on: [string]  # "needs" (ontology v5): ids of OTHER capabilities or functionalities this
+                          # one needs done first. Field renamed to `needs` under #725.
+    identified_by: string # the capability or functionality that led us to find this one; empty
+                          # when it was found on its own (ontology v5)
     decisions: [string]
     personas: [string]    # persona record ids attached to this capability
     journeys: [string]    # journey record ids attached to this capability
@@ -107,19 +110,23 @@ functionalities:
     status: string        # proposed | active | deprecated
     one_line: string
     doc: string           # pointer to its functionality.md
-    depends_on: [string]  # ids of OTHER functionalities this one needs
+    depends_on: [string]  # "needs" (ontology v5): ids of capabilities or OTHER functionalities this
+                          # one needs done first. Field renamed to `needs` under #725.
+    identified_by: string # the capability or functionality that led us to find this one; empty
+                          # when it was found on its own (ontology v5)
     decisions: [string]
     metadata:
       created_by: string
       updated_by: string
       version: integer
 
-# Tree rules (ADR 043): every kind is written on its own; the links are made later. A domain
-# has no parent. A capability names a domain, and a functionality names a capability, once
-# it is attributed — one with no parent yet is allowed (the linter warns) and is kept, not
-# ready: no play works on it until it is linked functionality -> capability -> domain and
-# its ICE to a confirmed business intent (check_ice_workable.py). A parent that is named
-# but does not exist is an error. The linter enforces that every named parent ref resolves.
+# Tree rules (ADR 043, ready rule changed by ontology v5 / #724): every kind is written on
+# its own; the links are made later. A domain has no parent. A capability names a domain
+# (a loose link — it may be missing; the linter warns) and a functionality names a
+# capability. Ready (check_ice_workable.py): a capability serves a confirmed business intent
+# and nothing in its `depends_on` ("needs") is open; a functionality names a ready
+# capability and nothing it needs is open. A missing domain never blocks. A parent that is
+# named but does not exist is an error. The linter enforces that every named parent ref resolves.
 
 # ---- The profile: THE BOX (structured; lives in the spine) ------------------
 # Decision: the profile is structured machine data — levels + gates — so it stays in
