@@ -11,9 +11,12 @@ spine-deltas to the live model IN PLACE, keyed to the run's target capabilities 
 capability, #615):
 
   0. (only with --seed, #616) when a target capability is ABSENT from the live spine, a thin
-     seed entry from the person's recorded answers: id, domain (must already exist), status
-     proposed, detail directional, one_line, doc — exactly what /vision would have written,
-     nothing invented. It is then promoted by step 1 like any seed. Without a seed for it, an
+     seed entry: id, domain, status proposed, detail directional, one_line, doc, intents. The
+     seed comes from the person's recorded answers (`answered_by: human`; the domain must
+     already exist) or from a prototype's screens (`answered_by: screens`, ADR 043; it names
+     the screens it is seen on, and with no domain in the spine it goes to the holding folder
+     `capabilities/<capability>/` with `domain` empty — kept, not ready, until attributed).
+     Nothing invented. It is then promoted by step 1 like any seed. Without a seed for it, an
      absent target is still refused.
   1. each target capability's spine entry: detail -> detailed, + nfr_needs + compliance_needs
      (+ doc/one_line if its manifest carries them). It refuses to mutate any capability that
@@ -88,7 +91,10 @@ def read_seed(path, cap_ids):
     seed = raw.get("seed") if isinstance(raw, dict) else None
     if not isinstance(seed, dict):
         return None, "seed file must be a mapping with a 'seed' mapping — refusing"
-    missing = [k for k in ("id", "domain", "one_line", "why", "answered_by") if not seed.get(k)]
+    by = seed.get("answered_by")
+    need = ("id", "domain", "one_line", "why", "answered_by") if by != "screens" \
+        else ("id", "one_line", "answered_by")
+    missing = [k for k in need if not seed.get(k)]
     not_text = [k for k in ("id", "domain", "one_line", "why", "answered_by", "doc")
                 if k in seed and seed[k] is not None and not isinstance(seed[k], str)]
     if not_text:
@@ -96,9 +102,12 @@ def read_seed(path, cap_ids):
     if missing:
         return None, (f"seed is missing {missing} — refusing "
                       f"(a seed carries the person's answers, never invented ones)")
-    if seed["answered_by"] != "human":
-        return None, (f"seed answered_by is '{seed['answered_by']}', "
-                      f"not 'human' — refusing (only the person's answers may seed)")
+    if seed["answered_by"] not in ("human", "screens"):
+        return None, (f"seed answered_by is '{seed['answered_by']}', not 'human' or 'screens' "
+                      f"— refusing (only the person's answers or the screens may seed)")
+    if seed["answered_by"] == "screens" and not seed.get("screens"):
+        return None, (f"seed '{seed['id']}' came from the screens but names none — refusing "
+                      f"(a capability nothing shows is not written)")
     if seed["id"] not in cap_ids:
         return None, (f"seed id '{seed['id']}' is not a --capability-ref of this run "
                       f"— refusing (containment)")
@@ -137,6 +146,16 @@ def profile_error(live_profile, proposed):
 def seed_entry(seed, live):
     """Return (entry, error): the thin spine entry for an absent capability."""
     cap_id = seed["id"]
+    intents = [str(i) for i in seed.get("intents") or [] if str(i).strip()]
+    if seed.get("answered_by") == "screens" and not find(live.get("domains") or [], seed.get("domain") or ""):
+        # ADR 043: read off the screens with no domain known yet — the holding folder.
+        doc = seed.get("doc") or f"capabilities/{slug(cap_id)}/capability.md"
+        parts = doc.split("/")
+        if doc.startswith("/") or ".." in parts or len(parts) != 3 or parts[0] != "capabilities" \
+                or parts[-1] != "capability.md":
+            return None, f"seed doc '{doc}' is not 'capabilities/<capability>/capability.md' — refusing"
+        return {"id": cap_id, "domain": "", "intents": intents, "status": "proposed",
+                "detail": "directional", "one_line": seed["one_line"], "doc": doc}, None
     domain = find(live.get("domains") or [], seed["domain"])
     if domain is None:
         return None, (f"domain '{seed['domain']}' is not in the spine "
@@ -150,7 +169,7 @@ def seed_entry(seed, live):
     if (doc.startswith("/") or ".." in parts or len(parts) != 3
             or parts[0] != dom_dir or parts[-1] != "capability.md"):
         return None, f"seed doc '{doc}' is not '{dom_dir}/<capability>/capability.md' — refusing"
-    return {"id": cap_id, "domain": seed["domain"], "status": "proposed",
+    return {"id": cap_id, "domain": seed["domain"], "intents": intents, "status": "proposed",
             "detail": "directional", "one_line": seed["one_line"], "doc": doc}, None
 
 
@@ -226,7 +245,7 @@ def main(argv=None):
         if live_cap is None:
             if cap_id not in seeds:
                 return refuse(f"live spine has no capability '{cap_id}' to detail "
-                              f"(pass --seed with the person's answers to seed it)")
+                              f"(pass --seed with the person's answers or the screens' reading)")
             live_cap, err = seed_entry(seeds[cap_id], live)
             if err:
                 return refuse(err)

@@ -1,0 +1,155 @@
+# adr-keeper context for the #689 decision (Kickoff: independent nodes, the drive connects and closes the loop)
+# Gathered 2026-10-21 from the brief (updated version: part 3 "The drive closes the loop"), the template,
+# the overlap candidates and the files named below. Every path was checked to exist unless marked "not built".
+shape: markdown
+number: "043"                      # adr.py number --dir docs/adr -> {"next": "043", "taken": 42}
+suggested_slug: 043-plays-read-the-prototype-on-their-own-and-the-drive-connects-and-closes-the-loop.md
+suggested_title: "The Kickoff Drive's Plays Read the Prototype on Their Own, Any Node Is Written Without Its Parent, and the Drive Connects the Nodes and Closes the Loop"
+status: proposed
+date: 2026-10-21
+level: framework
+node_ref: null
+decided_by_in_brief: Kapil Viren Ahuja      # leave the Decided by line for acceptance, as the skill says
+decided_in: "#689 — the session of 20–21 October 2026, after Kickoff run 7 on the Argus mockup and the single-play tests of /intent and /vision"
+
+template: core/components/memory/standards/templates/adr.md   # read; markdown shape
+
+overlap_candidates_run: "adr.py overlaps --adr brief.md --dir docs/adr --top 10 -> 035, 039, 029, 041, 033, 036, 032, 037, 034, 031"
+
+supersedes: []      # nothing is replaced in full
+
+amends:
+  - adr: "029"
+    part: >-
+      §6 "The first drive: Kickoff" — "It runs /intent → /vision → /understand" and the table: /vision no longer
+      "takes those intents as its business goal" and /understand no longer "runs once for every capability /vision
+      seeded"; each reads the prototype's shared capture and the write-up itself, none from another play's output.
+      And "The prototype is the input": the input is the prototype plus the person's short write-up (five parts).
+    judged_from: "docs/adr/029-drives.md §6 (read in full)"
+  - adr: "031"
+    part: >-
+      §3 "ICE is placed at once; the domain comes later" — widened: a functionality may also be written before its
+      capability, in a holding folder functionalities/<id>/, as a capability may wait for its domain. And §2's
+      "Drift is found and fixed by an Alignment drive" — inside a drive, the drive's connect step finds and connects
+      what its plays wrote. Whether the Alignment drive is still needed for drift outside a drive is not decided here.
+    judged_from: "docs/adr/031-business-intent-and-ice.md §2, §3 (read in full)"
+  - adr: "033"
+    part: >-
+      §4 "Approval follows links" — widened: a node is not approved and not workable until it is attributed
+      (functionality → capability → domain, its ICE → a confirmed business intent). This also widens ADR 031 §4 as
+      ADR 033 already amended it (workable = ICE, node and intent approved; now also attributed).
+    judged_from: "docs/adr/033-approval-in-the-product-model.md §4, §8 (read in full)"
+  - adr: "041"
+    part: >-
+      §1 "A drive runs its plays in rounds until its job is done" — "A round runs every play of the drive, in order.
+      The next round gives each play what the others found … It stops when its done check holds": the plays run with
+      no order (side by side allowed); after each round the connect step connects the nodes and finds the missing work;
+      the next round runs only the plays that work is given to, on exactly that work; the drive goes on until every
+      node is connected and nothing on the screens is uncovered, or until its round limit, then briefs the person
+      (ADR 042). And §4 "Member plays" (as amended by ADR 042): the connect step is a member play too.
+    judged_from: "docs/adr/041-a-drive-runs-in-rounds-and-owns-its-questions.md §1, §4 (read in full)"
+  - adr: "042"
+    part: >-
+      its line on ADR 041 §4 under "What this changes in older ADRs" — "the member plays that run only inside a drive
+      are now the three knowledge plays": the connect step joins them. §1–§4 (the knowledge plays and the brief) stand.
+    judged_from: "docs/adr/042-a-drive-finds-builds-and-reviews-the-knowledge-it-lacks.md (read in full)"
+  - adr: "026"
+    part: >-
+      Decision, "Clean tree in, committed delta out" — inside a drive, plays may run side by side, their writes to the
+      one shared spine file are made in turn, and the drive commits the round once, instead of each play committing its
+      own model delta before the next play starts.
+    judged_from: "docs/adr/026-direct-to-model-writes.md, Decision, consequent mechanics (read)"
+    note: "Not named by the coordinator; found while checking part 4 against ADR 026 and drive-contract.md rule 3. The person accepting should check it."
+
+not_affected:
+  - adr: "029"
+    part: "§2 Questions first — kept and used: the write-up is asked for in the drive's questions-first step. §3 one issue/branch/PR, §4 plays stand on their own — kept; this decision strengthens §4."
+  - adr: "032"
+    why: "the review of outcomes is unchanged; unattributed nodes are shown as not ready, which fits its outcome view"
+  - adr: "034, 035, 036, 039"
+    why: "memory rules unchanged. The write-up is a Source (ontology kind Source already covers 'a plain statement'), handed by the person, not memory."
+  - adr: "037, 028, 027"
+    why: "shared words only; no part touched"
+
+affects:
+  changes:
+    - path: core/components/memory/standards/schemas/product-os/spine.yaml
+      what: "functionalities[].capability 'REQUIRED' → may be empty while proposed; Tree rules (every functionality names a capability that exists) → a functionality with no capability is allowed, warned, not ready; On-disk layout gains functionalities/{functionality}/functionality.md as a holding folder; Fill rules for /intent, /vision, /understand (what each reads and writes in Kickoff)"
+    - path: core/components/memory/standards/schemas/product-os/ontology.md
+      what: "Functionality may wait in its holding folder; a node is ready only once attributed; 'Drift … fixed by the Alignment drive' (line 13) read with the drive's connect step; Not yet defined: Capability/Functionality entries"
+    - path: core/components/plays/vision/scripts/lint_grounding.py (and its 11 copies under plays/{understand,intent,agentic,ux,arch,measure,marketing,grill,learn,quality,run}/scripts/)
+      what: "a functionality with no capability is a warning, not the error 'missing capability parent ref' (line 361 today); a named capability that does not exist stays an error"
+    - path: core/components/plays/intent/scripts/check_ice_workable.py and core/components/plays/play-creator/references/check_ice_workable.py
+      what: "workable also needs attribution (functionality → capability → domain)"
+    - path: core/components/drives/_shared/drive-run.md
+      what: "R3 asks for the write-up; R5 'A round runs every play in plays, in order', step 5 commit per play, step 6 'hand on what later plays need', step 7 round decision → the connect step after each round, the next round on the routed work, done = every node connected and nothing uncovered"
+    - path: core/components/drives/kickoff/reference/ice.md (then SKILL.md, via /drive-editor)
+      what: "C2 (prototype plus write-up), C3 (asks for the write-up first), C4 (fixed order /intent → /vision → /understand, commit before the next play, /understand details every capability /vision seeded), C5 (round limit then brief), F4, the Plays table, Done means"
+    - path: core/components/drives/kickoff/scripts/round_state.py, write_drive_contract.py, commit_run_files.py (and their sources in core/components/plays/drive-creator/references/)
+      what: "round decision reads connection and coverage; the round is committed once; the contract routes work to plays"
+    - path: core/components/memory/standards/rules/drive-contract.md
+      what: "rule 3 (the play's own commit runs so the next play starts clean), rule 5 ('on a later round the play reads what the other plays wrote'), 'One contract for the whole drive' (a later play's input is what an earlier play made), the plays field 'in order'"
+    - path: core/components/plays/drive-creator/ (references, scripts/lint_drive.py) and core/components/plays/drive-editor/scripts/lint_drive.py
+      what: "drives compiled with no fixed play order and with the connect step as a member play"
+    - path: core/components/plays/intent/ (reference/ice.md, then SKILL.md via /play-editor)
+      what: "reads the shared capture and the write-up; drafts the business intents; gets routed work (an intent no capability serves)"
+    - path: core/components/plays/vision/ (reference/ice.md via /play-editor)
+      what: "writes domains and capabilities from the screens and research, not from /intent's output; links the capabilities it writes to its domain"
+    - path: core/components/plays/understand/ (reference/ice.md via /play-editor)
+      what: "writes functionalities from the screens, with or without a capability (ice.md line 8 'every capability seeded by /vision', line 39 pick in spine order); gets routed work (a capability with no functionalities)"
+    - path: core/components/agents/prototype-reader.md
+      what: "reads the prototype once for the drive; its capture is shared by all three plays; plans its walk from the write-up's walkthrough (today: 'Used by /intent's Walk step')"
+    - path: core/grounding/glossary.md
+      what: "Drive entry: 'every play, in order, each round handing the others what it found'; Kickoff example '/intent → /vision → /understand'; member plays list"
+  new_not_built:
+    - "the connect step — a new member play inside the drive (its name is Kapil's to choose)"
+    - "the write-up's five-part shape (what the product is; who uses it; field and job; sample data; walkthrough)"
+
+ice_impact: >-
+  Agent intents change for /intent, /vision, /understand, the Kickoff drive, and the prototype-reader agent.
+  /intent drafts the business intents from the shared capture and the write-up. /vision writes the domains and
+  capabilities from the screens and research, never from /intent's output. /understand writes the functionalities
+  from the screens, whether or not their capability exists yet. Each links only what it can see. The Kickoff drive
+  takes the write-up, runs its plays in no fixed order, runs the connect step after each round, gives the missing work
+  to the play that does it, and loops until every node is connected and covered or the round limit. The connect step
+  is a new member play with its own intent. The prototype-reader plans its walk from the walkthrough. ICE workability
+  (check_ice_workable.py) also needs attribution. The ICE kind keeps its shape.
+
+business_intent_check: none
+business_intent_check_why: >-
+  A framework decision on how the model is written and how a drive runs. No person's business intent changes, and
+  the Business Intent kind's rules stand: only a person confirms or drops one (ADR 031), and work starts only from an
+  ICE built from a confirmed intent. The readiness rule widens for the node kinds (capability, functionality) and ICE,
+  not for the Business Intent kind.
+
+related: "ADR 026, ADR 029, ADR 031, ADR 033, ADR 041, ADR 042, ADR 032, #689, #613, #612 (anyone writes; align later)"
+
+flags_for_the_person:   # the brief does not settle these; name them, never fill them in
+  - "Which play writes the ICE inside Kickoff, and whether /intent still writes one proposed capability per ICE (spine fill rule for /intent) now that /vision writes the capabilities."
+  - "Side-by-side plays share one working tree; the post-write scoped-diff guard (ADR 026) reads git diff over the whole model and cannot tell two plays' writes apart. 'Writes to the shared spine made in turn' covers the spine, not the guard."
+  - "Whether every drive gets the connect step (drive-run.md and /drive-creator are shared), or only Kickoff."
+  - "ADR 026 amendment was found by the keeper, not named in the brief."
+
+work_this_creates:
+  - "Build the connect step (member play; name to be chosen by Kapil)."
+  - "Spine and ontology: optional functionality.capability, holding folder functionalities/<id>/, readiness by attribution."
+  - "Every lint_grounding.py copy and both check_ice_workable.py copies."
+  - "Kickoff ICE (C2–C5, F4, Plays, Done means) through /drive-editor; drive-run.md R3 and R5; round_state.py; drive-contract.md rules 3 and 5."
+  - "/intent, /vision, /understand ICE through /play-editor; prototype-reader."
+  - "Glossary Drive entry."
+  - "Run Kickoff again on the Argus mockup with a write-up."
+
+references:
+  - ".garura/project/issues/689/context/adr/20261021-015459/brief.md"
+  - "core/components/memory/standards/schemas/product-os/spine.yaml"
+  - "core/components/drives/kickoff/reference/ice.md"
+  - "core/components/drives/_shared/drive-run.md"
+  - "core/components/memory/standards/rules/drive-contract.md"
+
+verified_2026_10_21_rerun: >-
+  Re-checked on this run: adr.py number -> 043; overlaps -> 042, 035, 029, 039, 041, 033, 037, 032, 036, 034.
+  ADR 029 §6 (fixed order and the table), 031 §2-§3, 033 §4, 041 §1 ("in order") and §4, 042's line on 041 §4,
+  and 026 "Clean tree in, committed delta out" were read and match the parts above. Every path under affects exists;
+  12 lint_grounding.py copies; spine.yaml line 103 holds "capability ... REQUIRED"; lint_grounding.py line 361 raises
+  "missing 'capability' parent ref" for a functionality. No connect play exists under core/components/plays.
+  No other ADR sets the spine's tree rules (ADR 031 §3 is the one that loosened them for capabilities).

@@ -40,6 +40,19 @@
 ## Functionalities
 ```
 
+## Sources — after the other sections, before the agent intent (#689)
+
+```
+## Sources
+- <where it is seen: the screen or document, and the exact words on it in quotes>
+- Shelf: <the knowledge shelf it matches, when one does>
+```
+
+Where this part comes from: for a prototype, each screen it is seen on and the exact words a
+person reads there, in quotes ("Finish review"); for a document, the place and its words.
+One source per line. A part nothing shows is not written. Optional for older pages; every
+play that writes the page writes it.
+
 ## Agent intent (ICE) — the last section, at every stage
 
 ```

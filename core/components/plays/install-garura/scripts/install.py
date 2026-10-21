@@ -9,7 +9,7 @@ Model
 -----
 This installs THIS garura checkout into a **target** project — a directory the
 user names. It reads garura's `core/components/` (agents, skills, plays, memory)
-and the source `core/config.yaml` + `CLAUDE.md`, and lays them down so a
+and the source `core/config.yaml` + the project instructions, and lays them down so a
 host coding tool can discover them in the target.
 
     python3 install.py --target <path> [--tool claude|codex] [--scope full|harness]
@@ -314,7 +314,9 @@ def install(source, target, tool, force, quiet, memory_dest, scope="full",
     _info("  scaffold: wrote .garura/.gitignore (status markers)")
 
     # 6. instruction surface (CLAUDE.md / AGENTS.md) — owned by the adapter
-    src_md = os.path.join(source, "CLAUDE.md")
+    # The project's own instructions — not Garura's development guide (the repository's
+    # CLAUDE.md), which would put how Garura is built into every agent of the project (#689).
+    src_md = os.path.join(source, "core", "components", "plays", "install-garura", "project-instructions.md")
     if os.path.isfile(src_md):
         record["instruction_surface"] = adapter.write_instruction_surface(
             common.read_text(src_md), project_name, target, _info)

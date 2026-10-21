@@ -40,6 +40,19 @@
 ## Scope (In / Out)
 ```
 
+## Sources — the last section, at every stage (#689)
+
+```
+## Sources
+- <a research source that names this domain as the world knows it — a web link>
+```
+
+Where the domain comes from: a knowledge shelf it matches, or, when no shelf holds it, the
+research that shows it is a domain the world recognises (an industry or a known product
+category, named as the industry names it). One link or shelf per line. A domain is never a
+name made up for one product. Optional for older pages; every play that writes or raises a
+domain page writes it.
+
 ## Per-section guidance
 
 - **Intent** — what this domain is for, in plain terms: the outcome it exists to
@@ -49,9 +62,10 @@
 - **Guiding rules** — the laws that hold across *every* capability in the domain.
   Each rule states the rule and the reason it exists. These are what make this domain
   itself and not another.
-- **Capabilities** — each candidate capability with one explained line on what it
-  owns and why it is a distinct capability. (Narrative companion to the spine, which
-  holds the ids.)
+- **Capabilities** — the kinds of capability this domain covers, each in one explained line:
+  what it owns and why it belongs here. Written in plain words from research and the screens,
+  with no capability ids: the capabilities themselves are written on their own and linked to
+  the domain later (ADR 043).
 - **Scope (In / Out)** — what the domain covers now and what it deliberately does
   not, each with enough reason that a reader understands the cut.
 

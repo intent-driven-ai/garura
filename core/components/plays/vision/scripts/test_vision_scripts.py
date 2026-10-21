@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 """test_vision_scripts.py — fixture tests for /vision's scripts that keep the one product model
-(#637): read_intents.py, persist_seed.py, check_kept.py, grounding_check.py, and the scoped
-guard over a real /intent → /vision hand-over.
+(#637, ADR 043 — /vision writes domains only): read_intents.py, persist_seed.py, check_kept.py,
+grounding_check.py, and the scoped guard over a real hand-over.
 
     python3 test_vision_scripts.py
 """
+import contextlib
+import io
 import json
 import os
 import shutil
@@ -140,21 +142,18 @@ def persist(base, work, delta, intents=None):
 
 
 VISION_DELTA = {
-    "capabilities": [{"id": "saved-carts", "slug": "saved-carts", "domain": "shop",
-                      "intents": ["grow-online-sales"], "status": "proposed", "detail": "directional",
-                      "one_line": "Keeps a cart between visits.", "doc": "shop/saved-carts/capability.md"}],
-    "updates": [{"kind": "domain", "id": "shop", "detail": "detailed"},
-                {"kind": "capability", "id": "guest-checkout", "domain": "shop"}],
+    "domains": [{"id": "support", "slug": "support", "status": "proposed", "detail": "detailed",
+                 "one_line": "Helps shoppers who are stuck.", "doc": "support/domain.md",
+                 "intents": ["grow-online-sales"]}],
+    "updates": [{"kind": "domain", "id": "shop", "detail": "detailed", "intents": ["grow-online-sales"]}],
 }
+SUPPORT_DOMAIN = FULL_DOMAIN.replace("# Theme: Shop", "# Theme: Support")
 
 
 def run_vision(tmp, base, m, work):
-    """What /vision's skill + persist do: raise the light domain, add a capability, place one."""
+    """What /vision's skill + persist do: raise the light domain, add a second one — domains only."""
     write(os.path.join(m, "shop", "domain.md"), FULL_DOMAIN)
-    write(os.path.join(m, "shop", "saved-carts", "capability.md"), CAP_DOC.replace(
-        "Buy without an account", "Come back to a left cart").replace(
-        "- Goal: A shopper with no account can buy, start to finish.",
-        "- Goal: A shopper who leaves finds the same cart waiting when they return."))
+    write(os.path.join(m, "support", "domain.md"), SUPPORT_DOMAIN)
     ri.main(["--product-base", base + "/", "--intent", "grow-online-sales", "--out", os.path.join(work, "intents.json")])
     return persist(base, work, VISION_DELTA, os.path.join(work, "intents.json"))
 
@@ -185,22 +184,19 @@ def test_the_hand_over():
         rc, out = run_vision(tmp, base, m, work)
         check("the persist runs", rc == 0)
         sp = spine(m)
-        caps = {c["id"]: c for c in sp["capabilities"]}
-        dom = sp["domains"][0]
-        check("the holding-folder capability is placed under its domain",
-              caps["guest-checkout"]["domain"] == "shop"
-              and caps["guest-checkout"]["doc"] == "shop/guest-checkout/capability.md")
-        check("its page moved unchanged, and the holding folder is gone",
-              out["placed"] == [{"id": "guest-checkout", "from": "capabilities/guest-checkout/capability.md",
-                                 "to": "shop/guest-checkout/capability.md", "unchanged": True}]
-              and not os.path.exists(os.path.join(m, "capabilities")))
+        doms = {d["id"]: d for d in sp["domains"]}
+        cap = sp["capabilities"][0]
         check("the light domain is raised to detailed and gains the intent",
-              dom["detail"] == "detailed" and dom["intents"] == ["grow-online-sales"])
+              doms["shop"]["detail"] == "detailed" and doms["shop"]["intents"] == ["grow-online-sales"])
+        check("a second domain is added (a product may sit in several)", "support" in doms)
+        check("/vision leaves the capability alone — still waiting in the holding folder, no domain (ADR 043)",
+              cap["domain"] == "" and cap["doc"] == "capabilities/guest-checkout/capability.md"
+              and os.path.isfile(os.path.join(m, "capabilities", "guest-checkout", "capability.md")))
         page = open(os.path.join(m, "intents", "grow-online-sales.md")).read()
         listed = {(e["link"], e["kind"], e["mark"]) for e in it.read(page)}
-        check("the intent page's Touches list is relinked and complete",
-              listed == {("../shop/guest-checkout/capability.md", "capability", "adds"),
-                         ("../shop/saved-carts/capability.md", "capability", "adds"),
+        check("the intent page's Touches list names both domains and keeps the capability",
+              listed == {("../capabilities/guest-checkout/capability.md", "capability", "adds"),
+                         ("../support/domain.md", "domain", "adds"),
                          ("../shop/domain.md", "domain", "changes")})
         check("the rest of the intent page is untouched",
               page.split("**Touches:**")[0] == INTENT_PAGE.split("**Touches:**")[0]
@@ -208,36 +204,34 @@ def test_the_hand_over():
         check("nothing needed a warning", out["warnings"] == [])
         errors, warnings = [], []
         lg.check_spine(m, os.path.join(m, "_spine.yaml"), errors, warnings, {})
-        check("the grounding linter passes with no warning", errors == [] and warnings == [])
+        check("the grounding linter passes; the unplaced capability is only a warning",
+              errors == [] and all("not ready until" in w for w in warnings))
         g = subprocess.run([sys.executable, os.path.join(HERE, "scoped_write_guard.py"), "--product-base",
                             base + "/", "--base-ref", "HEAD",
                             "--add-only", "product-os/*/domain.md", "--modify-only", "product-os/*/domain.md",
-                            "--add-only", "product-os/*/*/capability.md", "--modify-only", "product-os/*/*/capability.md",
-                            "--remove-only", "product-os/capabilities/*/capability.md",
                             "--modify-only", "product-os/intents/*.md", "--allow", "product-os/_spine.yaml"],
                            cwd=tmp, capture_output=True, text=True)
-        check("the scoped guard holds over the whole hand-over", g.returncode == 0 and json.loads(g.stdout)["ok"])
+        check("the scoped guard holds with domain pages, intent pages and the spine only",
+              g.returncode == 0 and json.loads(g.stdout)["ok"])
         kept = os.path.join(work, "kept.json")
         check("the keep check holds: the raised domain kept its intent",
               ck.main(["--product-base", base + "/", "--out", kept]) == 0
-              and json.load(open(kept))["checked"] == [
-                  "product/product-os/shop/domain.md",
-                  "product/product-os/capabilities/guest-checkout/capability.md -> "
-                  "product/product-os/shop/guest-checkout/capability.md"])
+              and json.load(open(kept))["checked"] == ["product/product-os/shop/domain.md"])
         sh(tmp, "git", "add", "-A")
         sh(tmp, "git", "commit", "-q", "-m", "after /vision")
         rc, again = run_vision(tmp, base, m, work)
         sh(tmp, "git", "add", "-A")
         diff = subprocess.run(["git", "diff", "--cached", "--stat", "--", "product"], cwd=tmp, capture_output=True, text=True).stdout
-        check("a re-run with nothing new changes nothing", rc == 0 and diff == "" and again["placed"] == [])
+        check("a re-run with nothing new changes nothing", rc == 0 and diff == "")
 
 
 def test_named_updates_only():
-    for label, update, why in (
-            ("an update to a field outside the named ones", {"kind": "capability", "id": "guest-checkout", "status": "active"}, "not a named update"),
-            ("lowering a detail", {"kind": "domain", "id": "shop", "detail": "directional"}, None),
-            ("detailing a capability", {"kind": "capability", "id": "guest-checkout", "detail": "detailed"}, None),
-            ("an update to an entry not in the spine", {"kind": "capability", "id": "nope", "one_line": "x y z"}, None)):
+    for label, update in (
+            ("an update to a field outside the named ones", {"kind": "domain", "id": "shop", "status": "active"}),
+            ("lowering a detail", {"kind": "domain", "id": "shop", "detail": "directional"}),
+            ("placing a capability under a domain", {"kind": "capability", "id": "guest-checkout", "domain": "shop"}),
+            ("any capability update", {"kind": "capability", "id": "guest-checkout", "one_line": "x y z"}),
+            ("an update to a domain not in the spine", {"kind": "domain", "id": "nope", "one_line": "x y z"})):
         with tempfile.TemporaryDirectory() as tmp:
             base, m = model_after_intent(tmp)
             work = os.path.join(tmp, "work")
@@ -250,37 +244,26 @@ def test_named_updates_only():
             rc, _ = persist(base, work, {"updates": [update]})
             check(f"{label} refuses the run and writes nothing",
                   rc == 2 and open(os.path.join(m, "_spine.yaml")).read() == before)
-    with tempfile.TemporaryDirectory() as tmp:
-        base, m = model_after_intent(tmp)
-        work = os.path.join(tmp, "work")
-        os.makedirs(work)
-        persist(base, work, {"updates": [{"kind": "capability", "id": "guest-checkout", "domain": "shop"}]})
-        rc, out = persist(base, work, {"updates": [{"kind": "capability", "id": "guest-checkout", "domain": "payments"}]})
-        check("moving a capability between domains is not applied, only warned",
-              rc == 0 and spine(m)["capabilities"][0]["domain"] == "shop"
-              and any("alignment work" in w for w in out["warnings"]))
 
 
 def test_bad_inputs():
+    for key, entry in (("capabilities", {"id": "x", "slug": "x", "one_line": "a b c", "doc": "shop/x/capability.md"}),
+                       ("functionalities", {"id": "y", "slug": "y", "one_line": "a b c", "doc": "f/y/functionality.md"})):
+        with tempfile.TemporaryDirectory() as tmp:
+            base, m = model_after_intent(tmp)
+            work = os.path.join(tmp, "work")
+            os.makedirs(work)
+            before = open(os.path.join(m, "_spine.yaml")).read()
+            rc, _ = persist(base, work, {"domains": VISION_DELTA["domains"], key: [entry]})
+            check(f"a delta that adds {key} refuses the run and writes nothing — /vision writes domains only",
+                  rc == 2 and open(os.path.join(m, "_spine.yaml")).read() == before)
     with tempfile.TemporaryDirectory() as tmp:
         base, m = model_after_intent(tmp)
         work = os.path.join(tmp, "work")
         os.makedirs(work)
-        sp = spine(m)
-        sp["capabilities"].append(dict(sp["capabilities"][0], id="guest-checkout-2",
-                                       doc="capabilities/guest-checkout-2/capability.md"))
-        sp["capabilities"][1]["slug"] = "guest-checkout"
-        write(os.path.join(m, "_spine.yaml"), yaml.safe_dump(sp))
-        write(os.path.join(m, "capabilities", "guest-checkout-2", "capability.md"), CAP_DOC)
-        before = open(os.path.join(m, "_spine.yaml")).read()
-        rc, _ = persist(base, work, {"updates": [{"kind": "capability", "id": "guest-checkout", "domain": "shop"},
-                                                 {"kind": "capability", "id": "guest-checkout-2", "domain": "shop"}]})
-        check("two placements onto one page refuse the run and write nothing",
-              rc == 2 and open(os.path.join(m, "_spine.yaml")).read() == before
-              and os.path.isfile(os.path.join(m, "capabilities", "guest-checkout", "capability.md")))
         write(os.path.join(m, "_spine.yaml"), "domains: [\n")
         rc = subprocess.run([sys.executable, os.path.join(HERE, "persist_seed.py"), "--seed-manifest",
-                             seed(work, {"updates": [{"kind": "capability", "id": "guest-checkout", "one_line": "a b c d"}]}),
+                             seed(work, {"updates": [{"kind": "domain", "id": "shop", "one_line": "a b c d"}]}),
                              "--product-base", base + "/", "--out-manifest", os.path.join(work, "p.json")],
                             capture_output=True, text=True)
         check("a broken spine exits 2 with nothing written, not a crash",
@@ -297,9 +280,10 @@ def test_never_blocks():
         os.remove(os.path.join(m, "intents", "grow-online-sales.md"))
         work = os.path.join(tmp, "work")
         os.makedirs(work)
-        rc, out = persist(base, work, {"updates": [{"kind": "capability", "id": "guest-checkout", "domain": "shop"}]})
-        check("a missing intent page is a warning; the capability is still placed",
-              rc == 0 and out["placed"] and any("has no page" in w for w in out["warnings"]))
+        rc, out = persist(base, work, {"updates": [{"kind": "domain", "id": "shop", "intents": ["grow-online-sales"]}]})
+        check("a missing intent page is a warning; the domain is still linked",
+              rc == 0 and spine(m)["domains"][0]["intents"] == ["grow-online-sales"]
+              and any("has no page" in w for w in out["warnings"]))
     with tempfile.TemporaryDirectory() as tmp:
         base, m = model_after_intent(tmp)
         work = os.path.join(tmp, "work")
@@ -307,8 +291,8 @@ def test_never_blocks():
         ri.main(["--product-base", base + "/", "--intent", "grow-online-sales", "--out", os.path.join(work, "i.json")])
         rc, out = persist(base, work, {"domains": [{"id": "pay", "slug": "pay", "one_line": "x", "doc": "pay/domain.md"}]},
                           os.path.join(work, "i.json"))
-        check("a capability left unplaced is named in a warning, and the run still completes",
-              rc == 0 and any("still has no domain" in w for w in out["warnings"]))
+        check("an input intent no domain names is a warning, and the run still completes",
+              rc == 0 and any("named by no domain" in w for w in out["warnings"]))
 
 
 def test_keep_check():
@@ -346,14 +330,71 @@ def test_keep_check():
               and "placed nowhere" in json.load(open(out))["lost"][0]["what"])
 
 
-def test_grounding_covers_every_capability():
+def test_grounding_covers_every_domain():
+    def run(tmp, man, extra=()):
+        path = os.path.join(tmp, "seed-manifest.yaml")
+        write(path, yaml.safe_dump({"seed": man}))
+        with contextlib.redirect_stdout(io.StringIO()) as out:
+            rc = gc.main(["--manifest", path, *extra])
+        return rc, json.loads(out.getvalue())["errors"]
     with tempfile.TemporaryDirectory() as tmp:
-        path = seed(tmp, VISION_DELTA, caps=[{"id": "saved-carts", "grounding": {"kb_shelf": "ecommerce → Carts"}}])
-        rc = gc.main(["--manifest", path])
-        check("a capability the run places but does not record is ungrounded", rc == 1)
-        path = seed(tmp, VISION_DELTA, caps=[{"id": "saved-carts", "grounding": {"kb_shelf": "ecommerce → Carts"}},
-                                             {"id": "guest-checkout", "grounding": {"kb_shelf": "ecommerce → Checkout"}}])
-        check("recording it with its shelf passes", gc.main(["--manifest", path]) == 0)
+        rc, errs = run(tmp, {"spine_delta": VISION_DELTA, "domains": [{"id": "support", "grounding": {"kb_shelf": "support"}}]})
+        check("a domain the run raises but does not record is ungrounded", rc == 1 and any("'shop'" in e for e in errs))
+        doms = [{"id": "support", "grounding": {"kb_shelf": "support"}},
+                {"id": "shop", "grounding": {"kb_shelf": "ecommerce"}}]
+        rc, _ = run(tmp, {"spine_delta": VISION_DELTA, "domains": doms})
+        check("recording each domain with its shelf passes", rc == 0)
+        rc, errs = run(tmp, {"spine_delta": dict(VISION_DELTA, capabilities=[{"id": "c"}]), "domains": doms})
+        check("a delta that adds a capability fails — /vision writes domains only (ADR 043)",
+              rc == 1 and any("domains only" in e for e in errs))
+        rc, errs = run(tmp, {"spine_delta": {}, "domains": []})
+        check("a run that names no domain fails", rc == 1 and any("no domain" in e for e in errs))
+    # #689: each domain page says where it comes from
+    with tempfile.TemporaryDirectory() as tmp:
+        base = os.path.join(tmp, "product")
+        m = os.path.join(base, "product-os")
+        doms = [{"id": "shop", "doc": "product-os/shop/domain.md", "grounding": {"kb_shelf": "ecommerce"}},
+                {"id": "support", "doc": "product-os/support/domain.md", "grounding": {"kb_shelf": "support"}}]
+        man = {"spine_delta": VISION_DELTA, "domains": doms}
+        write(os.path.join(m, "shop", "domain.md"), "# Theme: Shop\n\n## Intent\nSell.\n")
+        write(os.path.join(m, "support", "domain.md"),
+              "# Theme: Support\n\n## Intent\nHelp.\n\n## Sources\n- https://example.org/customer-support\n")
+        rc, errs = run(tmp, man, ["--product-base", base])
+        check("a domain page with no sources fails (#689)", rc == 1 and any("shop/domain.md" in e for e in errs))
+        check("each domain page is checked on its own", not any("support/domain.md" in e for e in errs))
+        write(os.path.join(m, "shop", "domain.md"), "# Theme: Shop\n\n## Intent\nSell.\n\n## Sources\n- the Shop screens\n")
+        rc, errs = run(tmp, man, ["--product-base", base])
+        check("a domain whose sources name no shelf and no research link fails — it was made up",
+              any("name no shelf and no research link" in e for e in errs))
+        write(os.path.join(m, "shop", "domain.md"),
+              "# Theme: Shop\n\n## Intent\nSell.\n\n## Sources\n- https://example.org/e-commerce\n")
+        rc, _ = run(tmp, man, ["--product-base", base])
+        check("researched domain pages pass", rc == 0)
+    # C12: every main section of the prototype sits in a domain, by that domain's own research
+    with tempfile.TemporaryDirectory() as tmp:
+        journeys = os.path.join(tmp, "journeys.yaml")
+        write(journeys, yaml.safe_dump({"main_sections": ["Catalogue", "Orders", "Tickets"]}))
+        doms = [{"id": "shop", "grounding": {"kb_shelf": "ecommerce"}},
+                {"id": "support", "grounding": {"kb_shelf": "support"}},
+                {"id": "chat", "grounding": {"kb_shelf": "messaging"}}]
+        delta = {"domains": [{"id": d["id"]} for d in doms]}
+        area = lambda s, d: {"section": s, "domain": d, "evidence": f"{d} covers {s.lower()}",
+                             "source": f"https://example.org/{d}"}
+        areas = [area("Catalogue", "shop"), area("Orders", "shop")]
+        rc, errs = run(tmp, {"spine_delta": delta, "domains": doms, "areas": areas}, ["--journeys", journeys])
+        check("a main section in no domain fails — find the field that does its work",
+              rc == 1 and any("'Tickets' sits in no domain" in e for e in errs))
+        check("a domain that holds no main section fails — one shared feature is not a field",
+              any("'chat' holds no main section" in e for e in errs))
+        rc, errs = run(tmp, {"spine_delta": delta, "domains": doms[:2],
+                             "areas": areas + [dict(area("Tickets", "support"), evidence="", source="the screens")]},
+                       ["--journeys", journeys])
+        check("an area with no evidence or no researched source fails",
+              any("no `evidence`" in e for e in errs) and any("no research link" in e for e in errs))
+        rc, errs = run(tmp, {"spine_delta": {"domains": delta["domains"][:2]}, "domains": doms[:2],
+                             "areas": areas + [area("Tickets", "support")]}, ["--journeys", journeys])
+        check("every main section in a researched domain, and every domain holding one, passes",
+              rc == 0)
 
 
 TEMPLATE = """# Capability template
@@ -396,7 +437,7 @@ def test_judge_gets_only_the_guidance():
 
 def main():
     for test in (test_read_intents, test_the_hand_over, test_named_updates_only, test_bad_inputs, test_never_blocks,
-                 test_keep_check, test_grounding_covers_every_capability, test_judge_gets_only_the_guidance):
+                 test_keep_check, test_grounding_covers_every_domain, test_judge_gets_only_the_guidance):
         print(test.__name__)
         test()
     print(f"\n{PASSED} passed, {FAILED} failed")

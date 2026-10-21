@@ -1,0 +1,55 @@
+categories:
+  - name: harness
+    playbook: review/harness
+    design_bearing: true
+    evidence:
+      - core/components/plays/**/SKILL.md, reference/*, stop-condition.yaml, project-instructions.md
+      - core/components/plays/play-creator/references/*, plays/drive-creator/references/**
+      - core/components/drives/kickoff/** (SKILL.md, reference/ice.md, stop-condition.yaml), drives/_shared/drive-run.md
+      - core/components/agents/{business-intent-keeper,product-os-keeper,prototype-reader}.md
+      - core/components/skills/** (SKILL.md of author-business-intent, author-vision-seed, close-model-gaps, enrich-capability-ice, find-model-gaps, propose-kb-node, search-kb, walk-prototype)
+      - core/grounding/glossary.md
+  - name: memory
+    playbook: review/memory
+    design_bearing: true
+    evidence:
+      - core/components/memory/standards/rules/drive-contract.md
+      - core/components/memory/standards/schemas/product-os/{ontology.md,spine.yaml,grounding/capability.md,grounding/domain.md,grounding/functionality.md}
+  - name: executable-code
+    playbook: review/code
+    design_bearing: false
+    evidence:
+      - core/components/plays/*/scripts/*.py and skills/*/scripts/*.py (agentic, arch, grill, install-garura, intent, learn, marketing, measure, quality, roadmap, run, shape, understand, ux, vision, drive-creator example)
+      - core/components/drives/kickoff/scripts/{commit_run_files,round_state}.py
+      - core/tools/rebuild-eval/*.py (check_output, prepare, run_builder, run_eval, score_drift)
+  - name: tests
+    playbook: review/tests
+    design_bearing: false
+    evidence:
+      - core/tools/rebuild-eval/test_rebuild_eval.py
+      - test files among the plays/skills scripts directories, if any
+  - name: decision-records
+    playbook: review/adrs
+    design_bearing: false
+    evidence:
+      - docs/adr/{026,029,031,033,041,043}-*.md, docs/adr/_index.md
+      - .garura/project/issues/689/context/adr/20261021-015459/* (ADR drafting run artifacts)
+  - name: documentation
+    playbook: review/docs
+    design_bearing: false
+    evidence:
+      - docs/components/agents.md, docs/components/skills.md
+      - core/tools/rebuild-eval/README.md
+      - .garura/project/issues/613/evidence/kickoff-run/findings.md
+  - name: tool-prompts
+    playbook: null
+    design_bearing: false
+    note: playbook missing. LLM prompt files for the rebuild-eval tool (prompts/build,compare,inventory,review.md); prose-as-executable-instruction, not covered by harness (not a play/skill/agent) or docs.
+    evidence:
+      - core/tools/rebuild-eval/prompts/*.md
+  - name: run-artifacts
+    playbook: null
+    design_bearing: false
+    note: playbook missing. Recorded STM run output (context json/yaml/txt, pr-body, self-review) committed under .garura/project/issues/689/context; evidence not authored design.
+    evidence:
+      - .garura/project/issues/689/context/*.{json,yaml,txt,md}

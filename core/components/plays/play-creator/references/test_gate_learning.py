@@ -192,12 +192,21 @@ def test_learner():
     ledger_line(ledger, "ux", S, "approved_clean", "t2")
     r = distill(ledger, policy)
     assert r["auto_shapes"] == [], r
+    # #690: nothing learned and no policy yet -> no file written
+    assert r["written"] is False and not os.path.exists(policy), r
 
     # 2. third clean earns auto
     ledger_line(ledger, "ux", S, "approved_clean", "t3")
     r = distill(ledger, policy)
     assert r["auto_shapes"] == [S], r
-    assert r["version"] == 2, r  # version bumps on every distill
+    assert r["written"] is True and r["version"] == 1, r  # the first real change writes version 1
+    with open(policy, encoding="utf-8") as fh:
+        before = fh.read()
+    r = distill(ledger, policy)
+    with open(policy, encoding="utf-8") as fh:
+        after = fh.read()
+    # #690: a distill that learns nothing new leaves the file byte-identical — no version bump
+    assert r["written"] is False and r["version"] == 1 and before == after, r
 
     # 3. auto_pass extends; still auto
     ledger_line(ledger, "ux", S, "auto_pass", "t4", predicted="auto")

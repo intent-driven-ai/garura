@@ -16,7 +16,12 @@ Checks:
   in the evidence folder;
 - coverage — every view the capture kept (the manifest's `view-…` files) is named by some step's
   `covers`, or listed in `not_walked` with why;
-- with `--draft`, every business intent names the journey it came from (`from_journey`).
+- main sections — `main_sections` names the prototype's main sections (its top menu, tabs, the
+  parts of its first screen), and each one is the `section` of at least one journey: no main
+  section is only a step on another section's journey;
+- with `--draft`, every business intent names the journey it came from (`from_journey`), and
+  every main section has a business intent of its own — one whose journey serves that
+  section, not folded into another section's intent (C15, C17).
 
 Exit 0 clean; 1 gaps (listed in the report); 2 cannot read an input. Standard library + PyYAML.
 """
@@ -49,6 +54,18 @@ def check(doc, manifest, evidence_dir, draft=None):
                 if not os.path.isfile(os.path.join(evidence_dir, f)):
                     gaps.append(f"{jid} step {n}: view file {f} is not in the evidence")
             covered |= set(s.get("covers") or [])
+    sections = [str(x).strip() for x in (doc or {}).get("main_sections") or [] if str(x).strip()]
+    if journeys and not sections:
+        gaps.append("no `main_sections` — name the prototype's main sections (its menu, tabs, the parts "
+                    "of its first screen)")
+    section_of = {j.get("id"): str(j.get("section") or "").strip() for j in journeys}
+    for sec in sections:
+        if sec not in section_of.values():
+            gaps.append(f"main section {sec!r} is no journey's `section` — every main section is a "
+                        f"journey's goal of its own")
+    for jid, sec in section_of.items():
+        if sec and sec not in sections:
+            gaps.append(f"{jid}: its section {sec!r} is not one of `main_sections`")
     kept = sorted({os.path.splitext(f)[0] for f in manifest.get("files", []) if f.startswith("view-")})
     not_walked = {str(n.get("view")): str(n.get("why") or "").strip()
                   for n in (doc or {}).get("not_walked") or []}
@@ -61,6 +78,11 @@ def check(doc, manifest, evidence_dir, draft=None):
             if bi.get("from_journey") not in ids:
                 gaps.append(f"business intent {bi.get('id')}: names no journey it came from "
                             f"(`from_journey`)")
+        served = {section_of.get(bi.get("from_journey")) for bi in (draft or {}).get("intents") or []}
+        for sec in sections:
+            if sec not in served:
+                gaps.append(f"main section {sec!r} has no business intent of its own — each main "
+                            f"section's need is its own intent, never folded into another's")
     return gaps, {"journeys": len(journeys), "views": len(kept),
                   "covered": len([v for v in kept if v in covered]), "not_walked": len(not_walked)}
 

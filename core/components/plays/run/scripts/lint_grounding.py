@@ -132,6 +132,8 @@ TITLE_TO_KIND = {v["title"]: k for k, v in CONTRACTS.items()}
 # before ontology v4 still pass. A section that IS there must be well formed (errors).
 ICE_SECTION = "Agent intent (ICE)"
 ICE_KINDS = ("capability", "functionality")
+SOURCES_SECTION = "Sources"
+SOURCES_KINDS = {"domain", "capability", "functionality"}
 ICE_LABELS = ("Goal", "Limit", "Fails if", "Context", "Checked by", "Quality need")
 
 # Coarse substance floor — a FLOOR, not a quality bar. Tuned to catch labels
@@ -240,6 +242,17 @@ def check_doc(path, text, kind, errors, warnings, expected_stage=None, require_i
             warnings.append(f"{path}: no '## {ICE_SECTION}' yet — its spine entry names a business "
                             f"intent, so its agent intent should be written (alignment)")
         sections = [sec for sec in sections if sec[0] != ICE_SECTION]
+    if kind in SOURCES_KINDS:
+        # `## Sources` (#689): where the page's content comes from — a domain's research links, a
+        # capability's or functionality's screen and the words on it. Optional for older pages;
+        # when present, once, as the last section before the agent intent, and not empty.
+        src = [i for i, (h, _) in enumerate(sections) if h == SOURCES_SECTION]
+        if len(src) > 1 or (src and src[0] != len(sections) - 1):
+            errors.append(f"{path}: '## {SOURCES_SECTION}' must appear once, as the last section "
+                          f"before '## {ICE_SECTION}'")
+        elif src and not any(re.match(r"^[-*]\s+\S", line.strip()) for line in sections[-1][1]):
+            errors.append(f"{path}: '## {SOURCES_SECTION}' lists no source")
+        sections = [sec for sec in sections if sec[0] != SOURCES_SECTION]
     got_pre = [h for h, _ in sections]
     if "stages" in contract:
         want_h2 = resolve_stage_h2(contract["stages"], got_pre, expected_stage, path, errors)
@@ -340,10 +353,12 @@ def check_spine(root, spine_path, errors, warnings, counts):
                 errors.append(f"spine {kind} '{eid}': missing one_line descriptor")
             if parent_field:
                 pref = e.get(parent_field)
-                if not pref and kind == "capability":
-                    # ontology v3: a capability may be written before its domain exists;
-                    # /vision attaches it. Missing is alignment work, not a broken link.
-                    warnings.append(f"spine capability '{eid}': no domain yet — /vision attaches it")
+                if not pref and kind in ("capability", "functionality"):
+                    # ADR 043: every kind is written on its own. A capability may wait for its
+                    # domain and a functionality for its capability; it is kept, not ready,
+                    # until it is attributed. Missing is a gap to close, not a broken link.
+                    warnings.append(f"spine {kind} '{eid}': no {parent_field} yet — not ready until "
+                                    f"it is attributed (ADR 043)")
                 elif not pref:
                     errors.append(f"spine {kind} '{eid}': missing '{parent_field}' parent ref")
                 elif pref not in parent_ids:

@@ -5,9 +5,15 @@ play-editor; never hand-edit the compiled SKILL.md.
 
 ## Intent
 
-Given the pending capabilities — every capability seeded by /vision (named, directional,
-no functionalities) that nobody has detailed yet, or the capabilities the person names,
-including ones not yet in the model — **detail them all in one run** (Kapil, #615: one at a
+/understand writes the product's **capabilities and functionalities**, each with its ICE
+(ADR 043: in Kickoff each play writes one kind — /intent the business intents, /vision the
+domains, /understand the capabilities and functionalities). Given a prototype's capture, it
+reads the capabilities off the screens itself — no other play's seed is needed — and writes
+each one; a capability whose domain is not known yet waits in the holding folder with its
+domain empty, kept and not ready until it is attributed. Given no capture, it takes the
+pending capabilities — every capability in the model at `detail: directional` that nobody
+has detailed yet, or the capabilities the person names, including ones not yet in the model.
+Either way it **details them all in one run** (Kapil, #615: one at a
 time is too slow). When a named capability is not yet in the model, /understand asks the
 person what it is, why it matters, and which existing domain it joins — for every such
 capability at once, before it opens any change, so a stop leaves nothing behind — and seeds
@@ -36,7 +42,14 @@ Agents and skills (ADR 039 §2, §7, §8): the play reads no memory. `product-os
 
 - C1 — One run details every target (#615). The targets are the capabilities the person
   names (the play argument), in the order given; with none named, every capability in the
-  spine at `detail: directional` — seeded and not yet detailed — in spine order. The pick is
+  spine at `detail: directional` — seeded and not yet detailed — in spine order. Given a
+  prototype's capture (ADR 043), the targets are also every capability the screens show:
+  the agent lists them first (`found.yaml`: id, one line, why, the screens it is seen on with
+  their words, its domain when one in the spine clearly holds it, the intents in the model it
+  serves), and each one not yet in the spine is seeded from that reading
+  (`answered_by: screens`) — under its domain, or in the holding folder
+  `capabilities/<capability>/` with its domain empty; one already in the spine is detailed as
+  is, never added twice; one already detailed is skipped. The pick is
   made by the bundled `pick_targets.py`, before any change opens; with nothing pending the
   play ends at once, opening nothing. A target in the spine as a directional seed is detailed
   as is. For each **absent** target the play — before it opens any change, and for all of
@@ -46,7 +59,7 @@ Agents and skills (ADR 039 §2, §7, §8): the play reads no memory. `product-os
   spine entry at `status: proposed`, `detail: directional`, under that domain, whose first
   `capability.md` this run writes straight at the detailed stage. The seed carries only the
   person's answers, nothing invented; the keyed persist refuses a seed not marked
-  `answered_by: human`. Run by hand, with no answer or a domain that is not in the spine, it
+  `answered_by: human` — or `answered_by: screens` naming the screens it was read from. Run by hand, with no answer or a domain that is not in the spine, it
   halts — before any issue or branch exists — and says plainly what it needs; inside a drive
   that capability is the drive's question instead, and the play details the others (C13). A named target that
   is already `detailed` halts the run; it is not re-detailed. Inside a drive (C13) the
@@ -56,8 +69,9 @@ Agents and skills (ADR 039 §2, §7, §8): the play reads no memory. `product-os
   fills them in itself.
 - C2 — It promotes each target capability `directional → detailed` and CREATES its
   functionalities (each a spine `functionalities` entry plus a detailed `functionality.md`).
-  This is the structure /understand owns — the last detailing step. It never touches a
-  capability outside the run's targets or a domain, and never prioritizes (no slices, no
+  This is the structure /understand owns — capabilities and functionalities, the last
+  detailing step. It never writes a business intent or a domain (ADR 043), never touches a
+  capability outside the run's targets, and never prioritizes (no slices, no
   epics, no capability status flip — that is /shape).
 - C3 — The detailed `capability.md` is complete to its template (benefit hypothesis,
   boundary In/Out/Never, guiding rules, and a Functionalities index whose entries link to
@@ -71,7 +85,8 @@ Agents and skills (ADR 039 §2, §7, §8): the play reads no memory. `product-os
   constrains carries a `level` (none<low<medium<high<xhigh), a measurable `target`, and a
   `gate` (how it is checked); `compliance_needs` are listed. No vague adjective.
 - C6 — Detail is grounded in the capability's KB shelf (personas, systems, NFR hints,
-  scope, functionality baseline) — it does not invent what the shelf already covers.
+  scope, functionality baseline) and, when a prototype's capture is given, in its screens
+  (C16) — it does not invent what the shelf already covers.
 - C7 — Profile roll-up is monotonic-up: each dimension's committed level becomes the
   greater of the current box and every target's required level; no dimension is ever
   lowered. Every target is measured against the box as it stood at the start of the run
@@ -146,6 +161,7 @@ Agents and skills (ADR 039 §2, §7, §8): the play reads no memory. `product-os
   drive's, halts — and records `in_drive` in `run.json`. Inside a drive it runs no
   `start-change` and no end sequence (the drive opens and lands the change); it takes the
   targets as by hand (C1) — the named capabilities, else every pending one — plus every
+  capability the capture's screens show (C1, from the contract's inputs) plus every
   capability the contract seeds, with a seed's answers from the contract's
   `answers.understand.seeds.<capability>` (`one_line`, `why`, `domain`); it asserts the
   clean model tree at once; it resolves its checkpoint (C9) exactly as by hand — a config
@@ -189,6 +205,22 @@ Agents and skills (ADR 039 §2, §7, §8): the play reads no memory. `product-os
   working root right after Step 0, and deleted on a halt before it — so a stop before Step 0
   still leaves no issue, no branch and no stray files. Resume finds the run through the
   branch's issue.
+
+- C16 — The screens decide the capabilities and the functionalities — the person's write-up, when
+  the capture carries it, says what on the screens is only sample data and how a person walks
+  them (Kapil, 2026-10-20, after Kickoff run 7:
+  "you engineered a functionality called 'Build-from vs waiting split' — where on the
+  prototype is this functionality?"). Handed a prototype's capture, each capability is a
+  thing the product offers its user on its screens, and each functionality is
+  something a person does or sees on its screens, named in its users' words; one panel, count
+  or label is a part of the functionality that shows it, never a functionality of its own;
+  nothing the screens do not show and no shelf holds is written. Every page the run writes
+  carries `## Sources`: each screen it is seen on with the exact words there. A behaviour the
+  screens do not show is written as our default, marked as ours — never left as an open
+  question; only a business rule an agent intent cannot be written without, and that nothing
+  shows or holds, is the drive's question (C13). A capability or functionality names the
+  business intents it serves when the model holds them; otherwise its `intents` stay empty
+  and the drive's gap skills link them later (ADR 043).
 
 ### Failure conditions
 
@@ -238,6 +270,11 @@ Agents and skills (ADR 039 §2, §7, §8): the play reads no memory. `product-os
 - F17 — The run wrote short-term memory outside its issue's folder: a working file, a person's
   answer, a status marker or a sub-play result under any other folder of the short-term root,
   or, run by hand, anything written to short-term memory before `start-change` gave the issue.
+
+- F18 — A functionality is one panel, count or label of a screen made into a function of its
+  own, or something no screen shows and no shelf holds; a page the run wrote has no
+  `## Sources`, or quotes words the prototype does not have; or a behaviour the screens do not
+  show was left as an open question instead of a marked default.
 
 ## Expectation
 
@@ -306,6 +343,15 @@ Agents and skills (ADR 039 §2, §7, §8): the play reads no memory. `product-os
   over the box, each from the starting level; `persist-manifest.json` `changed.capabilities`
   lists the three; one `feat(model)` commit holds the whole delta; the stop-condition verdict
   reads held.
+
+- S9 — (product manager, from a prototype) Given a prototype's capture and no capability in
+  the model, when /understand runs, then it writes each capability the screens show — under
+  its domain, or in the holding folder with its domain empty — and each functionality is
+  something a person does or sees on the screens, every page says where it is seen, and nothing is left as an open question.
+  Measure: `targets.json` lists a `found` target per capability in `found.yaml`, each with its
+  scope (its domain's folder or `capabilities/<id>/`); `check_sources.py` over every target's
+  manifest, with `--source-text`, exits 0;
+  the rebuild eval's review reads no functionality `invented` or `panel`.
 
 ### Done means
 
@@ -402,3 +448,10 @@ record.
   issue. direction: move it into the issue's working root (or status folder), delete the stray
   copy, and continue; when the issue is not known yet, hold it in the scratch folder until
   Step 0. handoff: autonomous.
+
+
+- REC18 (F18) — trigger: a panel made a functionality, a functionality no screen shows, a page
+  with no sources or a quote not on the prototype, or a question left open. direction: fold
+  the panel into the functionality that shows it; drop what nothing shows; write each page's
+  sources with the screen's own words; replace the open question with our default, marked as
+  ours. handoff: autonomous.

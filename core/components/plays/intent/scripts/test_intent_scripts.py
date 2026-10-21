@@ -9,13 +9,12 @@ capture_source.py  — a statement is kept byte for byte; a document is copied; 
 walk_prototype.py / check_journeys.py — a journey step is taken, replayed and kept; the
                      record is complete and covers every view (#613, C15).
 check_intent.py    — per intent: required properties, provenance, copying the source,
-                     code-like text, bare labels, ICE under it; per ICE: goals, built from an
-                     intent; for the draft: ids, sources summarised, the coverage map, one
-                     line per intent for what the person must answer, example answers.
-persist_intent.py  — saves only the intents the person confirmed and the ICE built from them
-                     (ICE shape, not yet placed), refuses unless every intent was decided by the
-                     person, never overwrites, links intents, ICE and sources, writes no
-                     separate hand-off file.
+                     code-like text, bare labels; for the draft: ids, sources summarised, the
+                     coverage map to intents, one kind only (no ICE, domains or capabilities —
+                     ADR 043), one line per intent for what the person must answer, examples.
+persist_intent.py  — saves only the intents the person confirmed, refuses unless every intent
+                     was decided by the person and when the draft carries another kind, never
+                     overwrites, links intents and sources both ways, writes nothing else.
 
     python3 test_intent_scripts.py
 """
@@ -32,9 +31,6 @@ sys.path.insert(0, HERE)
 import capture_source as cs  # noqa: E402
 import check_intent as ci  # noqa: E402
 import persist_intent as pi  # noqa: E402
-import lint_grounding as lg  # noqa: E402
-
-import check_ice_workable as cw  # noqa: E402
 import check_journeys as cj  # noqa: E402
 import walk_prototype as wp  # noqa: E402
 
@@ -84,27 +80,12 @@ INTENT_B = {
     "proof": "Every campaign names the returning customers it is aimed at.",
     "provenance": {"title": "person", "outcome": "person", "why": "person", "asked_by": "person",
                    "proof": "person"}}
-ICE_1 = {"id": "guest-checkout", "title": "Buy without an account", "built_from": "grow-online-sales",
-         "one_line": "Lets a shopper buy without making an account.",
-         "directional_intent": "Guest checkout is about letting a shopper finish a purchase with no "
-                               "account. It broadly owns the path from cart to paid order for a "
-                               "shopper who never signs up, and it matters because four in ten "
-                               "shoppers leave at the sign-up step.",
-         "goals": ["A shopper with no account can buy, start to finish."]}
-ICE_2 = {"id": "saved-carts", "title": "Come back to a left cart", "built_from": "grow-online-sales",
-         "one_line": "Keeps a shopper's cart until they come back.",
-         "directional_intent": "Saved carts is about not losing a shopper who leaves halfway. It "
-                               "broadly owns keeping a cart and bringing it back on the next visit, "
-                               "and it matters because many carts are left half full and never "
-                               "bought.",
-         "goals": ["A shopper who leaves finds the same cart waiting when they return."]}
 SNAP = "/evidence/source"
 EXAMPLES = ["Sales are flat.", "Shoppers leave at sign-up.", "Costs are rising."]
 GOOD = {"intents": [INTENT_A, INTENT_B],
-        "ice": [ICE_1, ICE_2],
         "sources": [{"snapshot_dir": SNAP, "shows": "A checkout with a guest button, and a saved cart page."}],
-        "coverage": [{"part": "the guest checkout page", "ice": "guest-checkout"},
-                     {"part": "the saved cart page", "ice": "saved-carts"}],
+        "coverage": [{"part": "the guest checkout page", "intent": "grow-online-sales"},
+                     {"part": "the saved cart page", "intent": "grow-online-sales"}],
         "questions": [{"intent": "grow-online-sales", "ask": "Why does this matter?",
                        "examples": EXAMPLES, "answer": "Four in ten shoppers leave before they pay."}]}
 
@@ -292,7 +273,8 @@ def test_journeys():
         for f in ("buy-01.png", "buy-02.png"):
             open(os.path.join(evidence, f), "w").close()
         manifest = {"files": ["screen-01.png", "view-02-cart.png", "view-02-cart.txt", "view-03-help.png"]}
-        good = {"journeys": [{"id": "buy", "who": "a shopper", "sets_out_to": "buy a lamp",
+        good = {"main_sections": ["Shop"],
+                "journeys": [{"id": "buy", "section": "Shop", "who": "a shopper", "sets_out_to": "buy a lamp",
                               "ends_with": "the lamp is in the cart",
                               "steps": [{"do": "type lamp in Search", "shows": "the field holds lamp",
                                          "view": ["buy-01.png"]},
@@ -314,6 +296,22 @@ def test_journeys():
         check("a business intent that names no journey is a gap", any("names no journey" in g for g in gaps))
         gaps, _ = cj.check({"journeys": []}, manifest, evidence)
         check("no journeys at all is a gap", any("no journeys" in g for g in gaps))
+        two = fresh_journeys(good)
+        two["main_sections"] = ["Shop", "Orders"]
+        gaps, _ = cj.check(two, manifest, evidence)
+        check("a main section with no journey of its own is a gap",
+              any("'Orders' is no journey's `section`" in g for g in gaps))
+        two["journeys"].append(dict(fresh_journeys(good)["journeys"][0], id="orders", section="Orders"))
+        gaps, _ = cj.check(two, manifest, evidence, {"intents": [{"id": "lamps", "from_journey": "buy"}]})
+        check("a main section folded into another section's intent is a gap",
+              any("'Orders' has no business intent of its own" in g for g in gaps))
+        gaps, _ = cj.check(two, manifest, evidence, {"intents": [{"id": "lamps", "from_journey": "buy"},
+                                                                {"id": "orders", "from_journey": "orders"}]})
+        check("every main section with its own intent is clean", gaps == [])
+        nosec = fresh_journeys(good)
+        del nosec["main_sections"]
+        gaps, _ = cj.check(nosec, manifest, evidence)
+        check("journeys without their main sections named are a gap", any("no `main_sections`" in g for g in gaps))
 
 
 def fresh_journeys(doc):
@@ -323,17 +321,39 @@ def fresh_journeys(doc):
 def test_check():
     check("a good two-level draft is clean", ci.check(GOOD)["clean"])
     r = ci.check(GOOD)
-    check("it counts intents and ICE", r["intents"] == 2 and r["ice"] == 2)
+    check("it counts the intents", r["intents"] == 2)
     check("an empty draft is caught", not ci.check({})["clean"])
     bad = fresh()
-    del bad["intents"][0]["proof"]
-    bad["questions"].append({"intent": "grow-online-sales", "ask": "How will we know?",
+    del bad["intents"][0]["outcome"]
+    bad["questions"].append({"intent": "grow-online-sales", "ask": "What should be true when it works?",
                              "examples": EXAMPLES, "answer": ""})
     r = ci.check(bad)
     lines = [p for p in r["problems"] if p.startswith("[grow-online-sales]")]
     check("a gap and its question are reported once, not twice",
-          len(lines) == 1 and "`proof` missing" in lines[0] and "1 open question" in lines[0])
+          len(lines) == 1 and "`outcome` missing" in lines[0] and "1 open question" in lines[0])
     check("a gap alone is a question for the person", r["person_only"])
+    bad = fresh()
+    del bad["intents"][0]["proof"]
+    r = ci.check(bad)
+    check("a missing proof is the play's to draft, not the person's (C17)",
+          any("`proof` is empty" in p for p in r["problems"]) and not r["person_only"])
+    bad = fresh()
+    bad["intents"][0]["proof"] = "open — the drive asks this; nothing is filled in until it is answered"
+    check("a proof left open is caught (C17)", any("`proof` is left open" in p for p in ci.check(bad)["problems"]))
+    bad = fresh()
+    bad["questions"].append({"intent": "all", "ask": "How will you know each intent is met?",
+                             "examples": EXAMPLES, "answer": ""})
+    check("a question that asks for the proof is refused — the play drafts it (C17)",
+          any("draft it with its basis instead of asking" in p for p in ci.check(bad)["problems"]))
+    bad = fresh()
+    bad["intents"][0]["provenance"]["proof"] = "proposed"
+    check("a proposed proof with no basis is caught (C17)",
+          any("proposed with no basis" in p for p in ci.check(bad)["problems"]))
+    bad["intents"][0]["basis"] = {"proof": "the prototype's sales report counts online orders"}
+    check("a proposed proof with its basis is clean", ci.check(bad)["clean"])
+    bad["intents"][0]["provenance"]["title"] = "proposed"
+    check("only why, asked by and proof may be the play's own proposal",
+          any("`title` is marked proposed" in p for p in ci.check(bad)["problems"]))
     bad = fresh()
     bad["intents"][0]["provenance"]["why"] = "agent"
     r = ci.check(bad)
@@ -343,10 +363,6 @@ def test_check():
     bad = fresh()
     bad["intents"][0]["outcome"] = "A shopper with no account can buy start to finish using our new guest checkout."
     check("an outcome copied from the source is caught (F3)", any("copies the source" in p for p in ci.check(bad, src)["problems"]))
-    bad = fresh()
-    bad["ice"][0]["goals"] = ["A shopper with no account can buy start to finish using our new guest checkout."]
-    check("an ICE goal copied from the source is caught (F3)",
-          any(p.startswith("ICE [guest-checkout] goal copies") for p in ci.check(bad, src)["problems"]))
     with tempfile.TemporaryDirectory() as tmp:
         paths = []
         for i, body in enumerate(("Nothing to see here.", src)):
@@ -391,29 +407,19 @@ def test_check():
     bad["intents"][0]["why"] = "Conversion"
     check("a bare label is caught", any("bare label" in p for p in ci.check(bad)["problems"]))
     bad = fresh()
-    bad["coverage"].append({"part": "the order history page", "ice": "order-history"})
-    check("a part of the source mapped to no ICE is caught (F12)",
-          any("maps to no ICE" in p for p in ci.check(bad)["problems"]))
-    bad = fresh()
-    bad["coverage"] = bad["coverage"][:1]
-    check("an ICE mapped from nothing is caught (F12)",
-          any("ICE [saved-carts] is mapped from no part" in p for p in ci.check(bad)["problems"]))
-    bad = fresh()
-    bad["ice"][1]["built_from"] = "nobody"
-    check("an ICE built from no business intent is caught (F12)",
-          any("ICE [saved-carts] is built from no business intent" in p for p in ci.check(bad)["problems"]))
-    bad = fresh()
-    bad["ice"][0]["goals"] = []
-    check("an ICE with no goals is caught", any("has no goals" in p for p in ci.check(bad)["problems"]))
-    bad = fresh()
-    del bad["ice"][1]["directional_intent"]
-    check("an ICE with no directional paragraph is caught",
-          any("no `directional_intent`" in p for p in ci.check(bad)["problems"]))
+    bad["coverage"].append({"part": "the order history page", "intent": "order-history"})
+    check("a part of the source mapped to no business intent is caught (F12)",
+          any("maps to no business intent" in p for p in ci.check(bad)["problems"]))
     bad = fresh()
     bad["intents"][1]["provenance"]["outcome"] = "source"
-    check("an intent the source shows with no ICE under it is caught",
-          any("[know-the-customer] has no ICE" in p for p in ci.check(bad)["problems"]))
-    check("an intent the person stated may have no ICE yet", ci.check(GOOD)["clean"])
+    check("an intent the source shows but no part maps to is caught (F12)",
+          any("[know-the-customer] is mapped from no part" in p for p in ci.check(bad)["problems"]))
+    check("an intent the person stated may have no part yet", ci.check(GOOD)["clean"])
+    for key in ("ice", "domains", "capabilities", "functionalities"):
+        bad = fresh()
+        bad[key] = [{"id": "x"}]
+        check(f"a draft that carries `{key}` is caught — /intent writes intents only (ADR 043)",
+              any(f"carries `{key}`" in p for p in ci.check(bad)["problems"]))
     bad = fresh()
     bad["questions"][0]["examples"] = []
     check("a question with no examples is caught (F13)", any("example answers" in p for p in ci.check(bad)["problems"]))
@@ -424,7 +430,7 @@ def test_check():
     bad["intents"][1]["id"] = "grow-online-sales"
     check("two intents with one id are caught", any("not unique" in p for p in ci.check(bad)["problems"]))
     bad = fresh()
-    bad["ice"][0]["id"] = "../../escape"
+    bad["intents"][0]["id"] = "../../escape"
     check("an id that is not file-name safe is caught",
           any("lower-case letters, digits and dashes" in p for p in ci.check(bad)["problems"]))
     bad = fresh()
@@ -480,50 +486,27 @@ def intent_file(tmp, iid):
     return os.path.join(tmp, "product", "product-os", "intents", f"{iid}.md")
 
 
-def ice_file(tmp, cid):
-    return os.path.join(tmp, "product", "product-os", "capabilities", cid, "capability.md")
-
-
-def spine_of(tmp):
-    with open(os.path.join(tmp, "product", "product-os", "_spine.yaml")) as fh:
-        return yaml.safe_load(fh)
+def model_files(tmp):
+    """Every file written under product-os other than the intent pages."""
+    model = os.path.join(tmp, "product", "product-os")
+    return [os.path.relpath(os.path.join(r, f), model) for r, _, fs in os.walk(model) for f in fs
+            if not os.path.relpath(r, model).startswith("intents")]
 
 
 def test_persist():
     with tempfile.TemporaryDirectory() as tmp:
         argv, working, dirs = persist_setup(tmp, both(), two_sources=True)
-        check("two confirmed intents and their ICE from two sources are saved", pi.main(argv) == 0)
+        check("two confirmed intents from two sources are saved", pi.main(argv) == 0)
         m = read_json(os.path.join(working, "intent-manifest.json"))
         check("the manifest holds both, decided and linked",
               len(m["intents"]) == 2 and m["decided"] and m["stage"] == "confirmed" and m["linked"] and m["sources_saved"])
-        caps = {c["id"]: c for c in spine_of(tmp)["capabilities"]}
-        cap = caps.get("guest-checkout", {})
-        check("each ICE is a proposed capability in the spine, no domain yet, built from its intent",
-              cap.get("status") == "proposed" and cap.get("detail") == "directional"
-              and cap.get("domain") == "" and cap.get("intents") == ["grow-online-sales"]
-              and cap.get("doc") == "capabilities/guest-checkout/capability.md")
-        with open(ice_file(tmp, "guest-checkout")) as fh:
-            doc = fh.read()
-        check("its grounding doc carries the ICE in its named section",
-              doc.startswith("# Capability: Buy without an account")
-              and f"## Agent intent (ICE)\n- Goal: {ICE_1['goals'][0]}" in doc)
-        model = os.path.join(tmp, "product", "product-os")
-        errors, warnings = [], []
-        lg.check_spine(model, os.path.join(model, "_spine.yaml"), errors, warnings, {})
-        check("the grounding linter passes; 'no domain yet' is only a warning",
-              not errors and warnings and all("no domain yet" in w for w in warnings))
-        check("every capability it wrote is workable (its intent is confirmed)",
-              all(n["workable"] for n in cw.check(spine_of(tmp), os.path.join(model, "intents"))))
+        check("nothing but the intent pages is written in the model — no spine, no capability, no domain (ADR 043)",
+              model_files(tmp) == [])
         with open(intent_file(tmp, "grow-online-sales")) as fh:
             body = fh.read()
-        check("the intent page names every source and its capabilities",
-              body.count("source.md") == 2 and "**Sources:**" in body
-              and "guest-checkout/capability.md" in body and "saved-carts/capability.md" in body)
-        check("the intent page's Touches list names each capability it adds",
-              "- [Buy without an account](../capabilities/guest-checkout/capability.md) (capability) — adds" in body
-              and "(../capabilities/saved-carts/capability.md) (capability) — adds" in body)
-        with open(intent_file(tmp, "know-the-customer")) as fh:
-            check("an intent with no ICE says so", "**Touches:** none yet" in fh.read())
+        check("the intent page names every source", body.count("source.md") == 2 and "**Sources:**" in body)
+        check("the intent page has no Touches list yet — the plays that link a part write it",
+              "**Touches:**" not in body and "capability.md" not in body)
         for d in dirs:
             with open(os.path.join(d, "source.md")) as fh:
                 text = fh.read()
@@ -544,9 +527,6 @@ def test_persist():
         check("the drive run is decided, its stage proposed, and the page says so",
               m["decided"] and m["stage"] == "proposed" and "**Stage:** proposed" in body
               and "final review" in body)
-        model = os.path.join(tmp, "product", "product-os")
-        check("its ICE is not workable until the person confirms the intent",
-              not any(n["workable"] for n in cw.check(spine_of(tmp), os.path.join(model, "intents"))))
     # inside a drive (C16): a gap is saved open when the draft names its question; the questions
     # go to the drive; a later round updates only the intents this drive saved
     with tempfile.TemporaryDirectory() as tmp:
@@ -554,9 +534,9 @@ def test_persist():
         draft_path = argv[argv.index("--draft") + 1]
         with open(draft_path) as fh:
             draft = yaml.safe_load(fh)
-        draft["intents"][0]["asked_by"] = ""
-        draft["questions"] = [{"intent": "grow-online-sales", "ask": "Who asks for more online sales?",
-                               "examples": ["The head of sales", "The founder"]}]
+        draft["intents"][0]["outcome"] = ""
+        draft["questions"] = [{"intent": "grow-online-sales", "ask": "What should be true when online sales grow?",
+                               "examples": ["Online orders pass shop orders", "Half of sales are online"]}]
         with open(draft_path, "w") as fh:
             yaml.safe_dump(draft, fh)
         i = argv.index("--confirmation")
@@ -567,26 +547,42 @@ def test_persist():
         with open(intent_file(tmp, "grow-online-sales")) as fh:
             body = fh.read()
         check("the page names the gap as open and the drive that saved it",
-              "**Asked by:** open" in body and "(drive kickoff-1)" in body)
+              "**Outcome:** open" in body and "(drive kickoff-1)" in body)
         q = read_json(open_out)["questions"]
         check("the open question goes to the drive with what it is about and its examples",
-              len(q) == 1 and q[0]["about"] and q[0]["blocks"] == ["grow-online-sales:asked_by"]
+              len(q) == 1 and q[0]["about"] and q[0]["blocks"] == ["grow-online-sales:outcome"]
               and q[0]["examples"] and q[0]["for_person"])
-        draft["intents"][0]["asked_by"] = "the head of sales"
-        draft["intents"][0].setdefault("provenance", {})["asked_by"] = "model"
+        draft["intents"][0]["outcome"] = "Online orders pass shop orders"
+        draft["intents"][0].setdefault("provenance", {})["outcome"] = "model"
         draft["questions"] = []
         with open(draft_path, "w") as fh:
             yaml.safe_dump(draft, fh)
         check("a second save without --update-proposed is refused", pi.main(drive) == 2)
+        page = intent_file(tmp, "grow-online-sales")
+        with open(page) as fh:
+            linked = fh.read().replace("**What was done:**",
+                                       "**Touches:**\n- [Checkout](../shop/checkout/capability.md) (capability) — adds\n\n**What was done:**")
+        with open(page, "w") as fh:
+            fh.write(linked)
         check("a later round updates the intent this drive saved", pi.main(drive + ["--update-proposed"]) == 0)
+        with open(page) as fh:
+            check("a Touches list another play wrote is kept on a later round",
+                  "- [Checkout](../shop/checkout/capability.md) (capability) — adds" in fh.read())
         with open(intent_file(tmp, "grow-online-sales")) as fh:
-            check("the gap is filled on the later round", "**Asked by:** the head of sales" in fh.read())
+            check("the gap is filled on the later round", "**Outcome:** Online orders pass shop orders" in fh.read())
         other = [a if a != "kickoff-1" else "kickoff-2" for a in drive] + ["--update-proposed"]
         check("another drive cannot update this drive's intents", pi.main(other) == 2)
-        draft["intents"][0]["asked_by"] = ""
+        draft["intents"][0]["outcome"] = ""
         with open(draft_path, "w") as fh:
             yaml.safe_dump(draft, fh)
         check("a gap with no question named is refused, even in a drive",
+              pi.main(drive + ["--update-proposed"]) == 2)
+        draft["intents"][0]["outcome"] = "Online orders pass shop orders"
+        draft["intents"][0]["proof"] = ""
+        draft["questions"] = [{"intent": "grow-online-sales", "ask": "How will we know?", "examples": ["x"]}]
+        with open(draft_path, "w") as fh:
+            yaml.safe_dump(draft, fh)
+        check("an empty proof is refused even in a drive with a question — the play drafts it (C17)",
               pi.main(drive + ["--update-proposed"]) == 2)
     with tempfile.TemporaryDirectory() as tmp:
         argv, working, _ = persist_setup(tmp, both())
@@ -597,13 +593,11 @@ def test_persist():
               pi.main(argv + ["--proposed"]) == 2 and not os.path.exists(intent_file(tmp, "grow-online-sales")))
     with tempfile.TemporaryDirectory() as tmp:
         argv, working, dirs = persist_setup(tmp, both(a="dropped"))
-        check("dropping an intent drops its ICE too",
+        check("a dropped intent is not saved",
               pi.main(argv) == 0 and not os.path.exists(intent_file(tmp, "grow-online-sales"))
-              and not os.path.exists(ice_file(tmp, "guest-checkout"))
               and os.path.isfile(intent_file(tmp, "know-the-customer")))
         m = read_json(os.path.join(working, "intent-manifest.json"))
-        check("the dropped intent and its ICE are recorded",
-              m["dropped"] == ["grow-online-sales"] and sorted(m["ice_dropped"]) == ["guest-checkout", "saved-carts"])
+        check("the dropped intent is recorded", m["dropped"] == ["grow-online-sales"])
     for label, decisions, by in (("all dropped", both("dropped", "dropped"), "person"),
                                  ("decided by an agent", both(), "agent"),
                                  ("with no typed reply", both(reply=""), "person"),
@@ -613,53 +607,24 @@ def test_persist():
             check(f"a run {label} is refused (F4)", pi.main(argv) == 2)
             check(f"nothing saved when {label}",
                   not os.path.exists(intent_file(tmp, "grow-online-sales"))
-                  and not os.path.exists(ice_file(tmp, "guest-checkout"))
                   and not os.path.exists(os.path.join(working, "intent-manifest.json")))
-    with tempfile.TemporaryDirectory() as tmp:
-        argv, working, _ = persist_setup(tmp, both())
-        model = os.path.join(tmp, "product", "product-os")
-        os.makedirs(model)
-        keep = {"domains": [{"id": "d1", "one_line": "x"}], "capabilities": [
-            {"id": "existing-cap", "domain": "d1", "one_line": "Already here."}], "functionalities": []}
-        with open(os.path.join(model, "_spine.yaml"), "w") as fh:
-            yaml.safe_dump(keep, fh)
-        check("an existing spine gains the new capabilities", pi.main(argv) == 0)
-        ids = [c["id"] for c in spine_of(tmp)["capabilities"]]
-        check("its existing entries are kept unchanged",
-              ids[0] == "existing-cap" and spine_of(tmp)["capabilities"][0] == keep["capabilities"][0]
-              and spine_of(tmp)["domains"] == keep["domains"] and set(ids[1:]) == {"guest-checkout", "saved-carts"})
-    with tempfile.TemporaryDirectory() as tmp:
-        argv, working, _ = persist_setup(tmp, both())
-        model = os.path.join(tmp, "product", "product-os")
-        os.makedirs(model)
-        with open(os.path.join(model, "_spine.yaml"), "w") as fh:
-            yaml.safe_dump({"capabilities": [{"id": "saved-carts", "domain": "d1"}]}, fh)
-        check("a capability already in the spine is skipped, and the rest is saved",
-              pi.main(argv) == 0 and os.path.isfile(intent_file(tmp, "grow-online-sales"))
-              and os.path.isfile(ice_file(tmp, "guest-checkout"))
-              and not os.path.exists(ice_file(tmp, "saved-carts")))
-        m = read_json(os.path.join(working, "intent-manifest.json"))
-        check("the skipped capability is reported, and the existing entry is unchanged",
-              [x["id"] for x in m["ice_skipped"]] == ["saved-carts"]
-              and spine_of(tmp)["capabilities"][0] == {"id": "saved-carts", "domain": "d1"})
-    with tempfile.TemporaryDirectory() as tmp:
-        argv, working, _ = persist_setup(tmp, both())
-        os.makedirs(os.path.dirname(ice_file(tmp, "saved-carts")))
-        with open(ice_file(tmp, "saved-carts"), "w") as fh:
-            fh.write("# Capability: Old\n")
-        rc = pi.main(argv)
-        with open(ice_file(tmp, "saved-carts")) as fh:
-            kept = fh.read()
-        check("an existing capability doc is never overwritten — that ICE is skipped",
-              rc == 0 and kept == "# Capability: Old\n")
+    for key in ("ice", "domains"):
+        with tempfile.TemporaryDirectory() as tmp:
+            argv, working, _ = persist_setup(tmp, both())
+            draft_path = argv[argv.index("--draft") + 1]
+            with open(draft_path) as fh:
+                d = yaml.safe_load(fh)
+            d[key] = [{"id": "guest-checkout"}]
+            with open(draft_path, "w") as fh:
+                yaml.safe_dump(d, fh)
+            check(f"a draft carrying `{key}` is refused and nothing is written (ADR 043)",
+                  pi.main(argv) == 2 and not os.path.exists(intent_file(tmp, "grow-online-sales")))
     with tempfile.TemporaryDirectory() as tmp:
         argv, working, _ = persist_setup(tmp, both(), shows=False)
         check("a source with no 'what it shows' is refused before anything is written",
-              pi.main(argv) == 2 and not os.path.exists(intent_file(tmp, "grow-online-sales"))
-              and not os.path.exists(ice_file(tmp, "guest-checkout")))
-    for label, change in (("an ICE id that climbs out of the folder", ("ice", 0, "../../../escape")),
-                          ("a business intent id with a slash", ("intents", 1, "a/b")),
-                          ("two ICE with one id", ("ice", 1, "guest-checkout"))):
+              pi.main(argv) == 2 and not os.path.exists(intent_file(tmp, "grow-online-sales")))
+    for label, change in (("a business intent id that climbs out of the folder", ("intents", 0, "../../../escape")),
+                          ("a business intent id with a slash", ("intents", 1, "a/b"))):
         with tempfile.TemporaryDirectory() as tmp:
             argv, working, _ = persist_setup(tmp, both())
             draft_path = argv[argv.index("--draft") + 1]
@@ -681,113 +646,13 @@ def test_persist():
             check(f"{label} is refused and nothing is written", rc == 2 and not written)
     with tempfile.TemporaryDirectory() as tmp:
         argv, working, _ = persist_setup(tmp, both())
-        draft_path = argv[argv.index("--draft") + 1]
-        with open(draft_path) as fh:
-            d = yaml.safe_load(fh)
-        d["ice"][0]["goals"] = []
-        with open(draft_path, "w") as fh:
-            yaml.safe_dump(d, fh)
-        check("an ICE with no goal is refused and nothing is written",
-              pi.main(argv) == 2 and not os.path.exists(ice_file(tmp, "guest-checkout")))
-    with tempfile.TemporaryDirectory() as tmp:
-        argv, working, _ = persist_setup(tmp, both())
         with open(argv[argv.index("--draft") + 1], "w") as fh:
             fh.write("- not a mapping\n")
         check("a draft of the wrong shape is refused, not a traceback", pi.main(argv) == 2)
 
 
-COMMERCE = {"id": "commerce", "title": "Commerce", "one_line": "Selling to shoppers online.",
-            "intent": "Commerce is where shoppers find what they want and pay for it, so the store turns "
-                      "visits into orders without losing anyone at the last step.",
-            "shown_by": "source"}
-
-
-def test_domains():
-    with tempfile.TemporaryDirectory() as tmp:
-        argv, working, _ = persist_setup(tmp, both())
-        model = os.path.join(tmp, "product", "product-os")
-        os.makedirs(os.path.join(model, "shop"))
-        with open(os.path.join(model, "shop", "domain.md"), "w") as fh:
-            fh.write("# Theme: Shop\n\n## Intent\nThe shop is where returning customers keep their "
-                     "carts and come back to finish what they started buying.\n")
-        with open(os.path.join(model, "_spine.yaml"), "w") as fh:
-            yaml.safe_dump({"domains": [{"id": "shop", "slug": "shop", "detail": "directional",
-                                         "one_line": "The shop.", "doc": "shop/domain.md", "intents": []}],
-                            "capabilities": [], "functionalities": []}, fh)
-        draft_path = argv[argv.index("--draft") + 1]
-        with open(draft_path) as fh:
-            d = yaml.safe_load(fh)
-        d["domains"] = [COMMERCE, {"id": "shop", "title": "Shop", "one_line": "The shop.",
-                                   "intent": "x", "shown_by": "model"}]
-        d["ice"][0]["domain"] = "commerce"
-        d["ice"][0]["limits"] = ["Nothing about how returns work changes for anyone."]
-        d["ice"][1]["domain"] = "shop"
-        with open(draft_path, "w") as fh:
-            yaml.safe_dump(d, fh)
-        check("ICE with a known domain are saved", pi.main(argv) == 0)
-        sp = spine_of(tmp)
-        caps = {c["id"]: c for c in sp["capabilities"]}
-        doms = {x["id"]: x for x in sp["domains"]}
-        check("a capability goes under its domain's folder, with its domain set",
-              caps["guest-checkout"]["domain"] == "commerce"
-              and caps["guest-checkout"]["doc"] == "commerce/guest-checkout/capability.md"
-              and os.path.isfile(os.path.join(model, "commerce", "guest-checkout", "capability.md")))
-        check("a domain not in the model is added light, linked to the intent",
-              doms["commerce"]["detail"] == "directional" and doms["commerce"]["intents"] == ["grow-online-sales"]
-              and open(os.path.join(model, "commerce", "domain.md")).read().startswith("# Theme: Commerce\n\n## Intent\n"))
-        check("a domain already in the model only gains the intent; its page is untouched",
-              doms["shop"]["intents"] == ["grow-online-sales"] and doms["shop"]["one_line"] == "The shop."
-              and caps["saved-carts"]["doc"] == "shop/saved-carts/capability.md"
-              and not os.path.exists(os.path.join(model, "shop", "domain.md.new")))
-        with open(os.path.join(model, "commerce", "guest-checkout", "capability.md")) as fh:
-            check("a limit lands in the agent intent section", "- Limit: Nothing about how returns" in fh.read())
-        with open(intent_file(tmp, "grow-online-sales")) as fh:
-            body = fh.read()
-        check("the Touches list marks the new domain adds and the existing one changes",
-              "- [Commerce](../commerce/domain.md) (domain) — adds" in body
-              and "- [Shop](../shop/domain.md) (domain) — changes" in body
-              and "(../commerce/guest-checkout/capability.md) (capability) — adds" in body)
-        errors, warnings = [], []
-        lg.check_spine(model, os.path.join(model, "_spine.yaml"), errors, warnings, {})
-        check("the grounding linter passes with no warning", not errors and not warnings)
-        m = read_json(os.path.join(working, "intent-manifest.json"))
-        check("the manifest says what was added, linked and left waiting, and reads linked",
-              m["domains_added"] == ["commerce"] and m["domains_linked"] == ["shop"]
-              and m["in_holding_folder"] == [] and m["linked"])
-    with tempfile.TemporaryDirectory() as tmp:
-        argv, working, _ = persist_setup(tmp, both())
-        draft_path = argv[argv.index("--draft") + 1]
-        with open(draft_path) as fh:
-            d = yaml.safe_load(fh)
-        d["ice"][0]["domain"] = "nowhere"
-        with open(draft_path, "w") as fh:
-            yaml.safe_dump(d, fh)
-        check("a domain nothing shows does not stop the run", pi.main(argv) == 0)
-        m = read_json(os.path.join(working, "intent-manifest.json"))
-        check("its capability waits in the holding folder, with the reason as a warning",
-              os.path.isfile(ice_file(tmp, "guest-checkout")) and "guest-checkout" in m["in_holding_folder"]
-              and any("nowhere" in w for w in m["warnings"]) and m["linked"])
-    bad = fresh()
-    bad["domains"] = [dict(COMMERCE, shown_by="agent")]
-    bad["ice"][0]["domain"] = "commerce"
-    check("the draft check catches a domain nothing showed",
-          any("says nothing showed it" in p for p in ci.check(bad)["problems"]))
-    bad = fresh()
-    bad["ice"][0]["domain"] = "commerce"
-    check("the draft check catches an ICE naming a domain the draft lacks",
-          any("not in the draft's `domains`" in p for p in ci.check(bad)["problems"]))
-    good = fresh()
-    good["domains"] = [COMMERCE]
-    good["ice"][0]["domain"] = "commerce"
-    check("a draft with a shown domain is clean", ci.check(good)["clean"])
-    bad = fresh()
-    bad["domains"] = [dict(COMMERCE, id="capabilities")]
-    check("the draft check keeps domain ids off reserved folders",
-          any("keeps for itself" in p for p in ci.check(bad)["problems"]))
-
-
 def main():
-    for test in (test_capture, test_journeys, test_check, test_persist, test_domains):
+    for test in (test_capture, test_journeys, test_check, test_persist):
         print(test.__name__)
         test()
     print(f"\n{PASSED} passed, {FAILED} failed, {len(SKIPPED)} skipped")

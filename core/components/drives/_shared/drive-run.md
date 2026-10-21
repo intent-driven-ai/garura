@@ -15,8 +15,10 @@ The drive's Workflow section sets these between the anchors:
 | Value | What it is |
 |-------|-----------|
 | `drive` | The drive's name (e.g. `kickoff`). |
-| `plays` | The plays, in order. Each one runs inside a drive (it checks a drive contract). |
+| `plays` | The plays. Each one runs inside a drive (it checks a drive contract). No play takes another's output as its input (ADR 043); the order is only the order they run in, in turn. |
 | `questions` | The questions asked first, and which play's `answers` each one fills; or `none`. |
+| `documents` | The documents the person gives first, beside the questions (Kickoff: the write-up); or `none`. |
+| `source` | The source the drive reads once for every play (Kickoff: the prototype), or `none`. |
 | `runner_key` | `drives.<drive>.runner` — how each play runs: `subagent` (default) or `headless`. |
 | `checker_key` | `drives.<drive>.checker` — who checks the result: `kind` (`subagent` or `coding-agent`) and `model`. |
 | `end` | How the drive ends (its End section), in one line. |
@@ -75,6 +77,16 @@ read). Write where each came from to `<working>/answers-sources.json`, with the 
 tier, the path and the decision trace the memory tool recorded. A person's answer is kept in the issue's short-term memory (ADR 039 §1). With
 `questions: none`, write `{}` to both.
 
+**Documents first (ADR 043).** A drive that names `documents` gets them from the person here,
+before any play runs. For Kickoff that is the **write-up**: a few lines, beside the prototype,
+in five parts — what the product is; who uses it; the field it serves and the job it does
+there; what on the screens is only sample data; a walkthrough of the steps a person takes.
+When the person did not give it with the drive's argument, ask for it in plain words and wait
+for the typed reply. Save it, exactly as given, as a Source in the issue's short-term memory —
+`{stm_base}<issue>/context/<drive>/<run-ts>/write-up.md` — with `from: person` in
+`answers-sources.json` (`"documents": {"write_up": {"from": "person"}}`). Every play gets it
+inside its capture (R4b). A drive never writes the document itself.
+
 ### Step R4 — Write the drive contract
 
 ```bash
@@ -87,10 +99,62 @@ python3 scripts/write_drive_contract.py --drive <drive> --drive-run-id <drive>-<
 
 One contract for every play (`standards/rules/drive-contract.md`). Exit 2 halts the drive.
 
+### Step R4b — Read the source once (ADR 043)
+
+A drive that names a `source` reads it once, before any play, and every play reads that one
+capture — none captures or walks the source again, and none reads another play's output.
+The tools are the ones `/intent` uses run by hand, laid beside the drive at install
+(`../intent/scripts/`).
+
+1. **Capture the source and the write-up**, each as a Source kept exactly as read:
+
+   ```bash
+   python3 ../intent/scripts/capture_source.py --source <the prototype: file, folder or link> \
+       --out-dir "{stm_base}<issue>/evidence/<drive>/capture/source-prototype" \
+       --given-by "<git user.name> <<git user.email>>" \
+       --manifest "{stm_base}<issue>/evidence/<drive>/capture/source-manifest-prototype.json"
+   python3 ../intent/scripts/capture_source.py --statement <working>/write-up.md \
+       --out-dir "{stm_base}<issue>/evidence/<drive>/capture/source-write-up" \
+       --given-by "<git user.name> <<git user.email>>" \
+       --manifest "{stm_base}<issue>/evidence/<drive>/capture/source-manifest-write-up.json"
+   ```
+
+   A capture that cannot read or run the source halts the drive.
+
+2. **Walk it once.** Dispatch the `prototype-reader` agent, in the foreground; it plans the
+   journeys from the write-up's walkthrough, then covers every main section the screens show:
+
+       { "task":    "walk this prototype in journeys, the way the people it serves would",
+         "inputs":  { "source": "<the prototype>",
+                      "source_manifest": "<capture>/source-manifest-prototype.json",
+                      "write_up": "<working>/write-up.md",
+                      "may_change_data": "<true for a file or local prototype; else answers.may_change_data>",
+                      "walk_script": "../intent/scripts/walk_prototype.py",
+                      "check_script": "../intent/scripts/check_journeys.py" },
+         "outputs": { "journeys": "<capture>/journeys.yaml",
+                      "evidence_dir": "<capture>/source-prototype/journeys/",
+                      "check_report": "<capture>/journeys-check.json" },
+         "task_id": "walk-prototype" }
+
+   Its check report must read `ok: true`; else halt.
+
+3. **Hand the capture to every play.** For every play in `plays`, add
+   `inputs.<play>.capture = {"source_manifest": "<capture>/source-manifest-prototype.json",
+   "write_up_manifest": "<capture>/source-manifest-write-up.json", "write_up":
+   "<working>/write-up.md", "journeys": "<capture>/journeys.yaml", "view_texts":
+   "<capture>/source-prototype/"}` and run R4 again (same `drive_run_id`). Commit the capture
+   with the run files (R5 step 5). A play handed a capture reads it, and the write-up, instead
+   of capturing or walking the source again; run by hand, a play still reads its source itself.
+
 ### Step R5 — Run the plays, in rounds, until the drive's job is done
 
-A drive runs its plays "in order and repeatedly, until its intent is met" (glossary, Drive;
-ADR 029). A **round** runs every play in `plays`, in order. A question one play cannot answer
+A drive runs its plays "repeatedly, until its intent is met" (glossary, Drive; ADR 029,
+ADR 043). A **round** runs every play in `plays` — round 1 all of them, a later round only the
+plays the gap skills gave work to. No play takes another play's output as its input: each reads
+the capture and the write-up, writes its own kind (for Kickoff: `/intent` business intents,
+`/vision` domains, `/understand` capabilities and functionalities), and the drive connects them
+after the round. The first build runs the plays one after another, in turn; side by side comes
+once the scoped-write guard can tell two plays' writes apart. A question one play cannot answer
 is the **drive's** question, not a stop: the play records it, does all the work it does not
 block, and the drive goes on — the other plays may answer it, and the play fills it on the next
 round. The drive stops and asks the person only what no play of the drive can answer (ADR 041). Round 1 starts with the contract's `round: 1`; each later round writes the
@@ -128,31 +192,65 @@ For each play in `plays`:
 
    ```bash
    python3 scripts/commit_run_files.py --issue-dir "{stm_base}<issue>/" --issue <issue> \
-       --branch <the contract's branch> --play <play> --out <working>/<play>-commit.json
+       --branch <the contract's branch> --play <play> \
+       --also "<gates.conditional.policy, e.g. .garura/core/gate-policy.yaml>" \
+       --out <working>/<play>-commit.json
    ```
+
+   The learned gate policy is the one file outside the issue a play may change (#690): its
+   close rewrites it only when the policy learned something new, and the drive commits it here.
 
    Exit 0 — committed (or nothing to commit) and the tree is clean. Exit 1 — files outside the
    issue's folder are still changed: halt, so the next play does not start on an unclean tree.
    Exit 2 — wrong branch, or something else was already staged: halt.
-6. **Hand on what later plays need.** When a later play's input is what this play made (for
-   example `/vision` takes the intents `/intent` saved), add it to `<working>/inputs.json` under
-   that play and run R4 again, with the same `drive_run_id`. The contract stays one file; it is
-   written again before the next play starts, and each play reads it when it starts. Nothing a
-   play has already read changes.
+6. **No hand-on between plays.** A play's input is the capture, the write-up, the person's
+   answers and — on a later round — exactly the work the gap skills gave it
+   (`inputs.<play>.targets`). It never takes another play's output as its input (ADR 043).
 
-7. **After the round, decide.**
+7. **After the round, close the model's gaps (ADR 043).** The drive holds no judgment of its
+   own: dispatch `product-os-keeper` once, in the foreground, to run the two gap skills over
+   the whole model, with this contract:
+
+       { "task":    "find the product model's gaps, then close what the model itself can take",
+         "inputs":  { "product_base": "<product_base>",
+                      "journeys": "<capture journeys.yaml>", "view_texts": "<capture views/>",
+                      "write_up": "<working>/write-up.md" },
+         "outputs": { "candidates": "<working>/gap-candidates-round-<n>.json",
+                      "gaps": "<working>/gaps-round-<n>.json",
+                      "close_report": "<working>/close-report-round-<n>.json" },
+         "task_id": "close-model-gaps" }
+
+   The agent runs `find-model-gaps` (its script `find_gaps.py`, then its judgment →
+   `gaps.json`: the links to make, the duplicates, the work for each play, the screens no node
+   covers) and then `close-model-gaps` (`apply_links.py --gaps <gaps> --product-base
+   <product_base> --out <close_report>`: it links loose nodes, moves a holding-folder page
+   under its parent, links nodes to intents both ways and merges agreed duplicates; the work
+   it cannot do in the model goes back in `work_for_plays`). Then commit the round once — the
+   run files and the model together:
+
+   ```bash
+   python3 scripts/commit_run_files.py --issue-dir "{stm_base}<issue>/" --issue <issue> \
+       --branch <the contract's branch> --play round-<n> --also "<product_base>product-os" \
+       --also "<gates.conditional.policy>" \
+       --out <working>/round-<n>-commit.json
+   ```
+
+8. **After the round, decide.**
 
    ```bash
    python3 scripts/round_state.py --round <n> --max-rounds <drives.<drive>.max_rounds, default 3> \
        --working <working> --review-dir "<review_dir>" --issue-dir "{stm_base}<issue>/" \
-       --model-path "<product_base>" --out <working>/round-<n>.json
+       --model-path "<product_base>" --gaps <working>/gaps-round-<n>.json \
+       --close-report <working>/close-report-round-<n>.json --out <working>/round-<n>.json
    ```
 
-   - `done` — no question is open: go to R6.
-   - `again` — the product model or the open questions moved: run round n+1 (R4 with
-     `--round n+1`, then every play again).
-   - `ask` — a whole round answered nothing new, or the round limit is reached: the open
-     questions are the drive's. Go to R5c, then R5b.
+   - `done` — no question is open, every node is linked and no screen is left uncovered: go
+     to R6.
+   - `again` — the model, the open questions or the gaps moved: run round n+1, with only the
+     plays `round-<n>.json` names in `next`, each handed its work as `inputs.<play>.targets`
+     (R4 with `--round n+1`).
+   - `ask` — a whole round closed nothing new, or the round limit is reached: the open
+     questions and the gaps left are the drive's. Go to R5c, then R5b.
 
 ### Step R5c — Find and build the knowledge the round found missing
 

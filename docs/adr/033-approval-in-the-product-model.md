@@ -1,6 +1,6 @@
 # ADR 033 — Approval Is Part of the Product Model, and Agents Work Only on Approved Pieces
 
-**Status:** Accepted
+**Status:** Accepted — amended in part by [ADR 043](043-kickoff-plays-read-independently-and-the-drive-closes-the-loop.md): §4 "Approval follows links" — widened: a node is not approved and not workable until it is attributed (functionality → capability → domain, its ICE → a confirmed business intent). This also widens ADR 031 §4 as ADR 033 already amended it (workable = ICE, node and intent approved; now also attributed).
 **Date:** 2026-10-18
 **Level:** framework
 **Decided by:** Kapil Viren Ahuja

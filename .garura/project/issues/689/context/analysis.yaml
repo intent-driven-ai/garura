@@ -1,0 +1,23 @@
+---
+# analyze_changeset.py output (C8 fast path)
+# issue: 689
+needs_judgment: true
+
+change_groups:
+  - files:
+      - .garura/project/issues/613/evidence/kickoff-run/findings.md
+    commit_type: docs
+    scope: kickoff
+    issue: 689
+    subject: record this story's Kickoff and rebuild runs in the findings
+
+exclusions:
+  []
+
+risks:
+  sensitive_files:
+    []
+
+eval_gates:
+  SE-1: {status: DEFERRED, evidence: "grouping delegated to analyze agent"}
+  SE-5: {status: PASS, evidence: "no sensitive patterns matched"}

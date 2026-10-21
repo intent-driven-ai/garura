@@ -1,38 +1,31 @@
 #!/usr/bin/env python3
-"""check_intent.py — deterministic check of a two-level intent draft (/intent, #612).
+"""check_intent.py — deterministic check of a business intent draft (/intent, #612; ADR 043).
 
-Reads the draft the authoring skill wrote (`intent-draft.yaml`: `intents`, `ice`, `sources`,
+Reads the draft the authoring skill wrote (`intent-draft.yaml`: `intents`, `sources`,
 `coverage`, `questions`), and optionally the sources' text and the person's answers record.
+/intent writes business intents only (ADR 043): a draft that carries `ice`, `domains`,
+`capabilities` or `functionalities` is a problem — another play writes those kinds.
 Reports, for every business intent:
 
   - every required property of the ontology's Business Intent kind is present and non-empty
     (title, outcome, why, asked_by, proof); must_not is optional          (C2 / F2)
-  - every filled property records where it came from: `source` or `person` — never empty,
-    never `agent`                                                         (C5 / F5)
+  - every filled property records where it came from: `source`, `journey`, `memory`, `model`,
+    `person`, or `proposed` — never empty, never `agent`; a `proposed` property (why, asked by,
+    proof: the play's own draft) names its basis in `basis.<property>`   (C5 / F5, C17)
+  - why, asked by and proof are never left open or asked: they are drafted, with their basis;
+    a proof reads as a measurable result, not `open` / `to be confirmed`; no question asks
+    for them                                                              (C17 / F17)
   - outcome, not build: title / outcome / proof copy no run of 8 or more words from the
     source, and carry no code-like text (markup, braces, file paths)    (C3 / F3)
   - plain words: no property is a bare label (fewer than 3 words), apart from asked_by (C2)
-  - it has at least one ICE built from it, unless the person stated it   (C12)
-
-for every ICE (each becomes a proposed capability):
-
-  - an id, a title, a one-line descriptor, a directional paragraph, and at least one goal;
-    built from an existing intent                                         (C12 / F12)
-  - its goals, limits and fails-if lines copy no run from the source, carry no code-like
-    text, are no bare labels                                              (C3)
-  - its `domain`, when named, is one of the draft's `domains`             (C10 / F10)
-
-for every domain the draft names (optional — only when the play can tell one):
-
-  - an id, a title, a one-line descriptor, a light intent paragraph, and `shown_by`:
-    `source`, `person` or `model` — a domain nothing shows is never named (C10 / F10)
 
 and for the draft as a whole:
 
   - unique, file-name-safe ids; every Source has a plain "what it shows"; with
     --source-manifest, every manifest's snapshot is summarised            (C6)
-  - the coverage map: every part names an existing ICE; every ICE is mapped from a part
-    — nothing left out, nothing from nothing                              (C12 / F12)
+  - the coverage map: every part names an existing business intent; every intent the source
+    shows is mapped from a part — nothing left out, nothing from nothing  (C12 / F12)
+  - one kind: no `ice`, `domains`, `capabilities` or `functionalities`   (C8 / F8, ADR 043)
   - every question carries 1–3 example answers                            (C13 / F13)
   - no question is left unanswered                                        (C5)
   - with --answers: every recorded answer lists the examples it was offered, and a reply
@@ -59,13 +52,15 @@ import sys
 import yaml
 
 # where a property may come from (C5): never the model alone
-PROVENANCE = {"source", "journey", "memory", "model", "person"}
+PROVENANCE = {"source", "journey", "memory", "model", "person", "proposed"}
+DRAFTED = ("why", "asked_by", "proof")      # the play drafts these itself, with their basis (C17)
+OPEN_TEXT = re.compile(r"^\s*(open\b|tbd\b|to be (confirmed|decided|agreed)|unknown\b|n/?a\b)|the drive asks", re.I)
+ASKS_DRAFTED = re.compile(r"how (will|would|do) (we|you) know|why does (it|this) matter|who (wants|asked)", re.I)
 REQUIRED = ["title", "outcome", "why", "asked_by", "proof"]
 PROSE = ["title", "outcome", "why", "proof", "must_not"]
 COPY_RUN = 8
 MAX_EXAMPLES = 3
 ID_SHAPE = re.compile(r"^[a-z0-9][a-z0-9-]{0,79}$")   # ids become file names: no paths, no dots
-RESERVED = ("capabilities", "intents")              # product-os folders that are not domains
 CODE_LIKE = re.compile(r"(<[a-zA-Z/][^>]*>|[{}]|\b\w+\(\)|(?:\.{0,2}/)?[\w.-]+/[\w./-]+\.\w{1,5}\b)")
 
 
@@ -85,7 +80,7 @@ def copied_run(text, source_words, n=COPY_RUN):
 
 
 def plain_text(label, text, src_words, other):
-    """Outcome-not-build and plain-words checks shared by intent properties and ICE goals."""
+    """Outcome-not-build and plain-words checks for intent properties."""
     if src_words and text:
         run = copied_run(text, src_words)
         if run:
@@ -118,6 +113,12 @@ def check_questions(questions, other):
     """Open questions per intent; every question must carry example answers (C13)."""
     open_q = {}
     for q in questions:
+        unanswered = not str(q.get("answer") or "").strip()
+        if unanswered and (str(q.get("property") or "").strip() in DRAFTED
+                           or ASKS_DRAFTED.search(str(q.get("ask") or ""))):
+            other.append(f"[{q.get('intent') or 'all'}] question \"{q.get('ask', '')}\" asks for why, "
+                         f"asked by or proof — draft it with its basis instead of asking (C17)")
+            continue
         if not str(q.get("answer") or "").strip():
             open_q.setdefault(str(q.get("intent") or "all"), []).append(q)
         examples = [e for e in as_list(q.get("examples")) if str(e).strip()]
@@ -131,6 +132,14 @@ def check_intents(intents, open_q, src_words, person, other):
     for intent in intents:
         iid = intent.get("id") or "?"
         missing = [p for p in REQUIRED if not str(intent.get(p) or "").strip()]
+        for p in DRAFTED:
+            text = str(intent.get(p) or "").strip()
+            if p in missing:
+                other.append(f"[{iid}] `{p}` is empty — draft it yourself with its basis (provenance "
+                             f"`proposed`); it is never left open (C17)")
+            elif OPEN_TEXT.search(text):
+                other.append(f"[{iid}] `{p}` is left open (\"{text[:60]}\") — draft it with its basis (C17)")
+        missing = [p for p in missing if p not in DRAFTED]
         asks = len(open_q.get(str(iid), []))
         if missing or asks:
             gaps = (f"`{'`, `'.join(missing)}` missing" if missing else "") + \
@@ -143,73 +152,20 @@ def check_intents(intents, open_q, src_words, person, other):
                 if where not in PROVENANCE:
                     other.append(f"[{iid}] `{prop}` has provenance `{where or 'none'}` — it must come "
                                  f"from the source, its journeys, memory, the product model or the "
-                                 f"person, never be invented")
+                                 f"person, or be the play's own proposal with its basis, never be "
+                                 f"invented")
+                elif where == "proposed" and prop not in DRAFTED:
+                    other.append(f"[{iid}] `{prop}` is marked proposed — only why, asked by and proof "
+                                 f"are the play's own draft; `{prop}` comes from what the source shows")
+                elif where == "proposed" and not str(as_map(intent.get("basis")).get(prop) or "").strip():
+                    other.append(f"[{iid}] `{prop}` is proposed with no basis — say what it rests on "
+                                 f"(`basis.{prop}`)")
         for prop in ("title", "outcome", "proof"):
             plain_text(f"[{iid}] `{prop}`", str(intent.get(prop) or ""), src_words, other)
         for prop in PROSE:
             text = str(intent.get(prop) or "").strip()
             if text and len(words(text)) < 3:
                 other.append(f"[{iid}] `{prop}` is a bare label (\"{text}\") — explain it in a plain sentence")
-
-
-def check_domains(domains, other):
-    """A domain is named only when the source, the person or the model shows it (C10)."""
-    for d in domains:
-        did = d.get("id") or "?"
-        for prop in ("title", "one_line"):
-            if not str(d.get(prop) or "").strip():
-                other.append(f"domain [{did}] has no `{prop}`")
-        intent = str(d.get("intent") or "").strip()
-        if len(words(intent)) < 12:
-            other.append(f"domain [{did}] needs a light `intent` paragraph (12 words or more) — what "
-                         f"the domain is for and why")
-        if str(did) in RESERVED:
-            other.append(f"domain [{did}] uses a folder name the model keeps for itself")
-        if str(d.get("shown_by") or "").strip() not in ("source", "person", "model"):
-            other.append(f"domain [{did}] says nothing showed it (`shown_by` must be source, person "
-                         f"or model) — leave the capability in the holding folder instead")
-
-
-def check_ice(ice, ids, intents, src_words, other, domain_ids=()):
-    served = set()
-    for c in ice:
-        cid = c.get("id") or "?"
-        if not str(c.get("title") or "").strip():
-            other.append(f"ICE [{cid}] has no title")
-        for prop in ("one_line", "directional_intent"):
-            text = str(c.get(prop) or "").strip()
-            if not text:
-                other.append(f"ICE [{cid}] has no `{prop}` — it becomes a proposed capability")
-            elif len(words(text)) < 3:
-                other.append(f"ICE [{cid}] `{prop}` is a bare label (\"{text}\") — explain it")
-            else:
-                plain_text(f"ICE [{cid}] `{prop}`", text, src_words, other)
-        goals = [g for g in as_list(c.get("goals")) if str(g).strip()]
-        if not goals:
-            other.append(f"ICE [{cid}] has no goals")
-        for g in goals:
-            plain_text(f"ICE [{cid}] goal", str(g), src_words, other)
-            if len(words(g)) < 3:
-                other.append(f"ICE [{cid}] goal \"{g}\" is a bare label — explain it in a plain sentence")
-        for prop in ("limits", "fails_if"):
-            for line in [x for x in as_list(c.get(prop)) if str(x).strip()]:
-                plain_text(f"ICE [{cid}] {prop}", str(line), src_words, other)
-                if len(words(line)) < 3:
-                    other.append(f"ICE [{cid}] {prop} \"{line}\" is a bare label — explain it")
-        dom = str(c.get("domain") or "").strip()
-        if dom and dom not in domain_ids:
-            other.append(f"ICE [{cid}] names domain `{dom}`, which is not in the draft's `domains`")
-        target = str(c.get("built_from") or "").strip()
-        if target not in ids:
-            other.append(f"ICE [{cid}] is built from no business intent (`{target or 'none'}`)")
-        else:
-            served.add(target)
-    stated = {str(i.get("id") or "").strip() for i in intents
-              if str(as_map(i.get("provenance")).get("outcome") or "").strip().lower() == "person"}
-    for iid in ids:
-        if iid and iid not in served and iid not in stated:
-            other.append(f"[{iid}] has no ICE under it — an intent the source shows needs at least "
-                         f"one ICE; only an intent the person stated may have none yet")
 
 
 def check_sources(sources, snapshot_dirs, other):
@@ -224,24 +180,37 @@ def check_sources(sources, snapshot_dirs, other):
             other.append(f"source `{d}` is not summarised in the draft's `sources`")
 
 
-def check_coverage(coverage, ice_ids, other):
+def check_coverage(coverage, ids, intents, other):
+    """Every part of the source maps to a business intent; every intent the source shows is mapped."""
     if not coverage:
         other.append("draft has no `coverage` map — map every part of what the sources show to "
-                     "the ICE it serves")
+                     "the business intent it serves")
         return
     mapped = set()
     for c in coverage:
         part = str(c.get("part") or "").strip()
-        target = str(c.get("ice") or "").strip()
+        target = str(c.get("intent") or "").strip()
         if not part:
             other.append("a coverage entry names no part of the source")
-        elif target not in ice_ids:
-            other.append(f"part \"{part}\" maps to no ICE (`{target or 'none'}`) — nothing may be left out")
+        elif target not in ids:
+            other.append(f"part \"{part}\" maps to no business intent (`{target or 'none'}`) — nothing "
+                         f"may be left out")
         else:
             mapped.add(target)
-    for cid in ice_ids:
-        if cid and cid not in mapped:
-            other.append(f"ICE [{cid}] is mapped from no part of the source")
+    stated = {str(i.get("id") or "").strip() for i in intents
+              if str(as_map(i.get("provenance")).get("outcome") or "").strip().lower() == "person"}
+    for iid in ids:
+        if iid and iid not in mapped and iid not in stated:
+            other.append(f"[{iid}] is mapped from no part of the source — only an intent the person "
+                         f"stated may have none")
+
+
+def check_one_kind(draft, other):
+    """ADR 043: /intent writes business intents only — never ICE, capabilities or domains."""
+    for key in ("ice", "domains", "capabilities", "functionalities"):
+        if draft.get(key):
+            other.append(f"the draft carries `{key}` — /intent writes business intents only (ADR 043); "
+                         f"another play writes that kind")
 
 
 def check_answers(answers, other):
@@ -265,7 +234,7 @@ def check(draft, source_text="", snapshot_dirs=(), answers=None):
     person, other = [], []
     intents = draft.get("intents") if isinstance(draft, dict) else None
     if not isinstance(intents, list) or not intents or not all(isinstance(i, dict) for i in intents):
-        return {"clean": False, "person_only": False, "intents": 0, "ice": 0,
+        return {"clean": False, "person_only": False, "intents": 0,
                 "problems": ["draft has no `intents` list — at least one business intent is required"]}
     src_words = words(source_text)
     ids = [str(i.get("id") or "").strip() for i in intents]
@@ -275,20 +244,13 @@ def check(draft, source_text="", snapshot_dirs=(), answers=None):
     for who, qs in open_q.items():
         if who not in ids:
             person.append(f"[{who}] needs the person: {len(qs)} open question(s)")
-    ice = entries(draft, "ice")
-    ice_ids = [str(c.get("id") or "").strip() for c in ice]
-    check_ids("ICE", ice_ids, other)
-    domains = entries(draft, "domains")
-    domain_ids = [str(d.get("id") or "").strip() for d in domains]
-    check_ids("domain", domain_ids, other)
-    check_domains(domains, other)
-    check_ice(ice, ids, intents, src_words, other, set(domain_ids))
+    check_one_kind(draft, other)
     check_sources(entries(draft, "sources"), snapshot_dirs, other)
-    check_coverage(entries(draft, "coverage"), ice_ids, other)
+    check_coverage(entries(draft, "coverage"), ids, intents, other)
     check_answers(answers, other)
     problems = person + other
     return {"clean": not problems, "person_only": bool(person) and not other,
-            "intents": len(intents), "ice": len(ice), "problems": problems}
+            "intents": len(intents), "problems": problems}
 
 
 def main(argv=None):

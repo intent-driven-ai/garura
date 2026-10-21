@@ -20,6 +20,14 @@ that pick mechanically, so the play never re-reasons it:
     the play asks the person for all of them at once, before it opens any change, records
     the answers in `<working>/caps/<capability>/seed.yaml`, and runs this script again: a
     seed file already there (`answered_by: human`) counts as the answers.
+  - From a prototype's capture (ADR 043, C16), `--found <working>/found.yaml` lists the
+    capabilities the agent read off the screens (`found: [{id, one_line, why, domain,
+    screens, intents}]`). Each one not yet in the spine is a target of its own (`state:
+    found`): its answers are written to `<working>/caps/<capability>/seed.yaml` with
+    `answered_by: screens`, and its scope is its domain's folder when the domain is in the
+    spine, else the holding folder `capabilities/<capability>/` (no domain yet — not ready
+    until attributed). One already in the spine at `detail: directional` is that target (never
+    added twice); one already `detailed` is listed under `skipped`, not refused.
   - Each target gets its write scope — its own folder in the model, `product-os/<cap-dir>/`
     (from its doc, or for a seed from its domain's folder and its id). The detailing runs
     as a scoped-write fan-out (standards/rules/concurrent-fanout.md), so two targets that
@@ -29,11 +37,11 @@ It writes nothing to the model. Layer rule: file reads/writes only; no git/gh/ne
 
     python3 pick_targets.py --spine <product_base>product-os/_spine.yaml \
         --run <working>/run.json --working <working> \
-        [--capability <id> ...] --out <working>/targets.json
+        [--capability <id> ...] [--found <working>/found.yaml] --out <working>/targets.json
 
-targets.json: `{targets: [{id, state: directional|absent, seed: <path>|null,
+targets.json: `{targets: [{id, state: directional|absent|found, seed: <path>|null,
 scope: "product-os/<cap-dir>/"|null}], ask: [ids], refused: [{id, reason}],
-nothing_pending: bool}`. A scope is null only while the target's answers are still missing.
+skipped: [{id, reason}], nothing_pending: bool}`. A scope is null only while the target's answers are still missing.
 Exit 0 picked (read `refused`, `ask` and `nothing_pending` — halting is the play's policy) ·
 2 usage or parse error.
 """
@@ -75,12 +83,30 @@ def read_seed_file(path, cid):
     return None
 
 
+def read_found(path):
+    """The capabilities read off the screens: a list of mappings, each with an id."""
+    with open(path, encoding="utf-8") as fh:
+        raw = yaml.safe_load(fh) or {}
+    found = raw.get("found") if isinstance(raw, dict) else None
+    if not isinstance(found, list):
+        raise ValueError("found.yaml must hold a `found` list")
+    out = []
+    for f in found:
+        if not isinstance(f, dict) or not isinstance(f.get("id"), str) or not f["id"].strip():
+            raise ValueError("every found capability needs an id")
+        if not str(f.get("one_line") or "").strip() or not f.get("screens"):
+            raise ValueError(f"found capability '{f['id']}' needs a one_line and the screens it is seen on")
+        out.append(f)
+    return out
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="Pick the capabilities one /understand run details.")
     ap.add_argument("--spine", required=True)
     ap.add_argument("--run", required=True, help="run.json from check_drive_contract.py")
     ap.add_argument("--working", required=True, help="the run's working root")
     ap.add_argument("--capability", action="append", default=[], help="a named target (repeatable)")
+    ap.add_argument("--found", help="found.yaml: the capabilities read off a prototype's screens")
     ap.add_argument("--out", required=True)
     args = ap.parse_args(argv)
 
@@ -89,6 +115,7 @@ def main(argv=None):
             spine = yaml.safe_load(fh) or {}
         with open(args.run, encoding="utf-8") as fh:
             run = json.load(fh)
+        found = read_found(args.found) if args.found else []
     except (OSError, ValueError, yaml.YAMLError) as exc:
         sys.stderr.write(f"pick_targets.py: cannot read input: {exc.__class__.__name__}: {exc}\n")
         return 2
@@ -119,8 +146,32 @@ def main(argv=None):
             else seed["domain"]
         return doc_dir(seed.get("doc")) or f"{dom_dir}/{slug(seed['id'])}"
 
-    targets, ask, refused = [], [], []
+    targets, ask, refused, skipped = [], [], [], []
+    for f in found:
+        cid = f["id"]
+        cap = caps.get(cid)
+        if cap is not None:
+            if cap.get("detail") == "detailed":
+                skipped.append({"id": cid, "reason": "already detailed in the spine"})
+            elif cid not in ids:
+                ids.append(cid)
+            continue
+        if cid in ids:
+            continue
+        dom = str(f.get("domain") or "").strip()
+        seed = {"id": cid, "domain": dom if dom in domains else "", "one_line": f["one_line"],
+                "why": str(f.get("why") or "").strip(), "screens": list(f["screens"]),
+                "intents": [str(i) for i in f.get("intents") or []], "answered_by": "screens"}
+        path = os.path.join(args.working, "caps", cid, "seed.yaml")
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, "w", encoding="utf-8") as fh:
+            yaml.safe_dump({"seed": seed}, fh, sort_keys=False)
+        folder = seed_dir(seed) if seed["domain"] else f"capabilities/{slug(cid)}"
+        targets.append({"id": cid, "state": "found", "seed": path, "dir": folder})
+    found_ids = {t["id"] for t in targets}
     for cid in ids:
+        if cid in found_ids:
+            continue
         cap = caps.get(cid)
         if cap is not None:
             if cap.get("detail") == "detailed":
@@ -164,7 +215,7 @@ def main(argv=None):
         t["scope"] = f"product-os/{d}/" if d else None
 
     result = {"in_drive": in_drive, "targets": targets, "ask": ask, "refused": refused,
-              "nothing_pending": not targets and not refused}
+              "skipped": skipped, "nothing_pending": not targets and not refused}
     os.makedirs(os.path.dirname(os.path.abspath(args.out)), exist_ok=True)
     with open(args.out, "w", encoding="utf-8") as fh:
         json.dump(result, fh, indent=2)

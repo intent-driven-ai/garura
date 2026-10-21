@@ -51,7 +51,7 @@ SPINE = {"domains": [{"id": "commerce", "doc": "commerce/domain.md"}],
 ANSWER = {"one_line": "Let a shopper return an item", "why": "Trust", "domain": "commerce"}
 
 
-def pick(tmp, run, names=(), spine_doc=None):
+def pick(tmp, run, names=(), spine_doc=None, found=None):
     spine = os.path.join(tmp, "_spine.yaml")
     with open(spine, "w") as fh:
         yaml.safe_dump(spine_doc or SPINE, fh)
@@ -62,6 +62,11 @@ def pick(tmp, run, names=(), spine_doc=None):
     argv = ["--spine", spine, "--run", run_path, "--working", tmp, "--out", out]
     for n in names:
         argv += ["--capability", n]
+    if found is not None:
+        fpath = os.path.join(tmp, "found.yaml")
+        with open(fpath, "w") as fh:
+            yaml.safe_dump({"found": found}, fh)
+        argv += ["--found", fpath]
     code = pt.main(argv)
     with open(out) as fh:
         return code, json.load(fh)
@@ -169,9 +174,46 @@ def test_seed_file_counts():
               res["targets"][0]["scope"] == "product-os/commerce/wishlist/")
 
 
+def test_found_on_the_screens():
+    """ADR 043: /understand writes the capabilities it reads off a prototype's screens."""
+    found = [{"id": "wishlist", "one_line": "Keep items for later", "why": "Shoppers come back",
+              "domain": "commerce", "screens": ["Wishlist screen: \"Saved for later\""]},
+             {"id": "reviews", "one_line": "Read what others thought", "domain": "",
+              "screens": ["Product screen: \"Reviews\""], "intents": ["trust-the-shop"]},
+             {"id": "checkout", "one_line": "Pay", "screens": ["Cart: \"Pay now\""]},
+             {"id": "cart", "one_line": "Hold items", "screens": ["Cart"]}]
+    with tempfile.TemporaryDirectory() as tmp:
+        code, res = pick(tmp, {"in_drive": True, "answers": {}}, found=found)
+        by = {t["id"]: t for t in res["targets"]}
+        check("a capability read off the screens is a target of its own, with no seed from a person",
+              by["wishlist"]["state"] == "found" and by["wishlist"]["scope"] == "product-os/commerce/wishlist/")
+        check("one whose domain is not known yet waits in the holding folder",
+              by["reviews"]["scope"] == "product-os/capabilities/reviews/")
+        seed = yaml.safe_load(open(by["reviews"]["seed"]))["seed"]
+        check("its seed says it came from the screens, keeps the screens and the intents, and has no domain",
+              seed["answered_by"] == "screens" and seed["domain"] == "" and seed["screens"]
+              and seed["intents"] == ["trust-the-shop"])
+        check("one already in the spine as directional is that target, never added twice",
+              by["checkout"]["state"] == "directional" and ids(res).count("checkout") == 1)
+        check("one already detailed is skipped, not refused",
+              "cart" not in by and res["skipped"][0]["id"] == "cart" and res["refused"] == [])
+        check("the other pending capability is still a target", "refunds" in by)
+    with tempfile.TemporaryDirectory() as tmp:
+        with open(os.path.join(tmp, "_spine.yaml"), "w") as fh:
+            yaml.safe_dump(SPINE, fh)
+        with open(os.path.join(tmp, "run.json"), "w") as fh:
+            json.dump({"in_drive": False}, fh)
+        with open(os.path.join(tmp, "found.yaml"), "w") as fh:
+            yaml.safe_dump({"found": [{"id": "x", "one_line": "y"}]}, fh)
+        code = pt.main(["--spine", os.path.join(tmp, "_spine.yaml"), "--run", os.path.join(tmp, "run.json"),
+                        "--working", tmp, "--found", os.path.join(tmp, "found.yaml"),
+                        "--out", os.path.join(tmp, "t.json")])
+        check("a found capability with no screens is a usage error", code == 2)
+
+
 def main():
     for test in (test_all_pending_by_hand, test_named, test_drive_seeds, test_nothing_pending,
-                 test_scopes, test_seed_file_counts):
+                 test_scopes, test_seed_file_counts, test_found_on_the_screens):
         print(test.__name__)
         test()
     print(f"\n{PASSED} passed, {FAILED} failed")

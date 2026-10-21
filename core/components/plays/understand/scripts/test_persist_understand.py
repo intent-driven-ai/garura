@@ -417,8 +417,36 @@ def test_record_carries_decision_status():
               run_many(base, work, paths, ["checkout", "refunds"]) == 2)
 
 
+SCREENS = {"id": "checkout", "domain": "", "one_line": "Let a shopper pay for a cart",
+           "screens": ["Cart screen: \"Pay now\""], "intents": ["sell-online"], "answered_by": "screens"}
+
+
+def test_seed_from_the_screens():
+    """ADR 043: a capability read off a prototype's screens, with or without its domain."""
+    with tempfile.TemporaryDirectory() as tmp:
+        base, root, work = setup(tmp)
+        check("a capability read off the screens is seeded with no person's answers",
+              run(base, work, SCREENS) == 0)
+        cap = spine(root)["capabilities"][0]
+        check("with no domain known it waits in the holding folder, domain empty",
+              cap["domain"] == "" and cap["doc"] == "capabilities/checkout/capability.md")
+        check("it names the intents it serves, and is still detailed in the same run",
+              cap["intents"] == ["sell-online"] and cap["detail"] == "detailed")
+    with tempfile.TemporaryDirectory() as tmp:
+        base, root, work = setup(tmp)
+        check("with a domain in the spine it goes under that domain",
+              run(base, work, dict(SCREENS, domain="commerce")) == 0
+              and spine(root)["capabilities"][0]["doc"] == "commerce/checkout/capability.md")
+    for label, seed in (("that names no screen", dict(SCREENS, screens=[])),
+                        ("with a holding doc outside the holding folder",
+                         dict(SCREENS, doc="elsewhere/checkout/capability.md"))):
+        with tempfile.TemporaryDirectory() as tmp:
+            base, root, work = setup(tmp)
+            check(f"a screens seed {label} is refused", run(base, work, seed) == 2)
+
+
 def main():
-    for test in (test_existing_seed, test_absent_without_seed, test_absent_with_seed,
+    for test in (test_existing_seed, test_seed_from_the_screens, test_absent_without_seed, test_absent_with_seed,
                  test_seed_refusals, test_domain_folder_differs_from_id, test_seed_not_a_mapping,
                  test_sibling_containment,
                  test_already_detailed, test_box_move_status, test_many_targets,

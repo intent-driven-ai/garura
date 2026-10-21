@@ -1,7 +1,7 @@
 ---
 name: search-kb
 description: Search the product knowledge base for where a piece of work belongs — its domain, capability, and functionality — by reasoning over the domain shelves its agent puts in short-term memory. Runs the inference sandwich (list the domains, reason to the domain, read that shelf, reason to the capability/functionality) and emits a lightweight routing-result with the decision and why. Placement only — it does not evaluate product-profile conditions (that is selection, /shape's job). Use whenever a play or agent needs to know which part of the product model a request maps to.
-version: 0.1.0
+version: 0.2.0
 user-invocable: false
 model: sonnet
 allowed-tools: Bash, Read
@@ -28,13 +28,28 @@ applies). That is the routing entry.
 Reasoning is yours (the skill); the agent only retrieves.
 
 1. **List + reason to the domain (placement).** Read the front matter of every shelf in
-   `domains_dir`: its `title` and `conditions.trigger`. Read the ~10 triggers and reason which domain the work belongs to. Pick one; pick more
-   only if the work genuinely spans domains. This is **semantic placement** — do NOT
+   `domains_dir`: its `title` and `conditions.trigger`. Read the ~10 triggers and reason which domains the work belongs to.
+   Ask two questions, in order: **which field does the product serve** — judged by what its
+   screens or its words are about (what the user works on there) — and **which job does it do
+   in that field**. Only a field the industry identifies itself with is a domain — a product category or market,
+   never a principle, practice, regulation or quality (those are rules inside a domain). Each
+   answer may be a domain of its own, so a product often sits in more than
+   one: name every domain it genuinely sits in, and set `spans_multiple_domains`. A domain no
+   shelf holds is recorded as unmatched for the nothing-fits path, by name and with why. This is **semantic placement** — do NOT
    consider product-profile conditions here.
+   When the work is a product with several main areas (a prototype's main sections), place
+   each area on its own: its domain is the one whose shelf lists that kind of work. An area no
+   shelf lists is unmatched, by name and with why — never folded into a domain whose shelf does
+   not list its work. A field named after one feature many products share (comments,
+   notifications, search, sign-in) is not a domain the product sits in, and no domain is named
+   that holds none of the main areas.
 2. **Read the shelf + reason to capability/functionality.** Read the chosen shelf in
    `domains_dir`. Reason over its `## Capabilities` to pick the
    capability and the functionality(ies) the work maps to. Note their profile
    conditions as metadata — do not evaluate them (that is selection, not placement).
+   Placement records where the work fits on the shelf; it writes nothing. A caller that
+   writes domains only (/vision, ADR 043) uses the capability and functionality placements
+   as research notes for the domain page, never as capability entries.
 3. **Emit the routing result** (schema below) with `why` for each placement.
 
 If step 1 finds no domain that fits, set `unmatched: true` and stop — the

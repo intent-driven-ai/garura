@@ -48,3 +48,4 @@ may have no Status line.
 | [040](040-config-source-is-core-config-yaml.md) | The Config's Source Is core/config.yaml; a Project's .garura/core/config.yaml Is the Installed Copy | Accepted | 2026-10-19 |
 | [041](041-a-drive-runs-in-rounds-and-owns-its-questions.md) | A Drive Runs Its Plays in Rounds, Owns the Questions No Play Can Answer, and Builds the Missing Memory Before It Asks | Accepted | 2026-10-20 |
 | [042](042-a-drive-finds-builds-and-reviews-the-knowledge-it-lacks.md) | A Drive Finds, Builds and Reviews the Knowledge It Lacks, and Briefs the Person Instead of Asking | Accepted | 2026-10-20 |
+| [043](043-kickoff-plays-read-independently-and-the-drive-closes-the-loop.md) | The Kickoff Drive's Plays Read the Prototype on Their Own, Any Node Is Written Without Its Parent, and the Drive Connects the Nodes and Closes the Loop | Accepted | 2026-10-21 |

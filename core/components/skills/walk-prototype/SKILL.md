@@ -30,15 +30,19 @@ business intent says what a person gets, not what the screens hold or what rules
 1. **Read the captured views** — every `view-…` text (and picture) the manifest lists, and the
    first screen. List the views by name.
 2. **Work out who the prototype serves and what each sets out to do.** Start from its main
-   sections — the tabs, the top-level menu, the parts of its first screen. **Every main section
-   is some journey's goal** (a person comes to it for a reason), so a section is never only a
-   step on the way to another goal; a review tool's product view is a journey of its own, not
-   part of reading one change. From what the screens
-   say to their users — headings, help text, empty states, the names of actions — name each
-   kind of person and each thing they come to do. Write the goal as what they want to have at
-   the end, in their words ("get through everything the drive changed and approve it"), not as
-   a feature ("use Catch up"). Sample data inside a prototype is sample data: the shop in a
-   review tool's mockup is what is being reviewed, not who the tool serves.
+   sections — the tabs, the top-level menu, the parts of its first screen — and list them as
+   `main_sections`. **Every main section is the goal of a journey of its own** (a person comes
+   to it for a reason), with that section as the journey's `section`, so a section is never
+   only a step on the way to another goal: reading what a list holds is its own journey, even
+   when another journey also passes through it. From what the screens say to their users — headings, help
+   text, empty states, the names of actions — name each kind of person and each thing they
+   come to do. Write the goal as what they want to have at the end, in the product's own
+   words ("see where every piece of work stands before planning the week"), not as a feature
+   ("use the Board tab"). The sample data is only an example of what the product handles:
+   name goals that hold for any such content, never the sample's company, items or counts.
+   Any process or tool the screens talk about is content the product shows: name what the
+   person gets from the product, never how that process works behind it, and never use the
+   words of the tools that run this walk.
 3. **Walk each journey a step at a time.** Start from the first screen. Each step is one call:
 
    ```bash
@@ -62,19 +66,21 @@ business intent says what a person gets, not what the screens hold or what rules
 5. **Write `journeys.yaml`:**
 
    ```yaml
+   main_sections: [Board, Reports, Settings]
    journeys:
-     - id: approve-a-drive
-       who: the product owner who asked for the drive
-       sets_out_to: get through everything the drive changed and approve what is right
+     - id: plan-the-week
+       section: Board                          # the main section this journey's goal serves
+       who: a team lead who plans a software team's work
+       sets_out_to: see where every piece of work stands before planning the week
        steps:
-         - do: open Catch up
-           shows: the first changed piece as a card, 18 to go
-           view: [approve-a-drive-01.png, approve-a-drive-01.txt]
-           covers: [view-14-catch-up--18]      # the captured views this step reached
-         - do: press → on a business intent
-           shows: it is approved and the next card opens
-           view: [approve-a-drive-02.png, approve-a-drive-02.txt]
-       ends_with: every change answered; Finish review unlocks
+         - do: open Board
+           shows: the items in three stage columns, 24 items in all
+           view: [plan-the-week-01.png, plan-the-week-01.txt]
+           covers: [view-02-board]               # the captured views this step reached
+         - do: open the item "Export report"
+           shows: its owner, due date and the item it waits on
+           view: [plan-the-week-02.png, plan-the-week-02.txt]
+       ends_with: knows which items are late or blocked
        could_not: []                           # steps the prototype did not allow, with why
    not_walked:
      - view: view-35-later-keep-unread

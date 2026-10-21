@@ -1,0 +1,63 @@
+{
+  "decided": true,
+  "lint_ok": true,
+  "linked": true,
+  "target": "docs/adr/043-kickoff-plays-read-independently-and-the-drive-closes-the-loop.md",
+  "shape": "markdown",
+  "guard": {
+    "adr": ".garura/project/issues/689/context/adr/20261021-015459/adr-draft.md",
+    "declared": "none",
+    "touches_an_intent": [],
+    "verdict": "no person's business intent changes"
+  },
+  "olders": [
+    {
+      "adr": "029",
+      "file": "docs/adr/029-drives.md",
+      "kind": "amended",
+      "part": "\u00a76 \"The first drive: Kickoff\" \u2014 \"It runs /intent \u2192 /vision \u2192 /understand\" and the table: /vision no longer \"takes those intents as its business goal\" and /understand no longer \"runs once for every capability /vision seeded\"; each reads the prototype's shared capture and the write-up itself, none from another play's output. And \"The prototype is the input\": the input is the prototype plus the person's short write-up (five parts)."
+    },
+    {
+      "adr": "031",
+      "file": "docs/adr/031-business-intent-and-ice.md",
+      "kind": "amended",
+      "part": "\u00a73 \"ICE is placed at once; the domain comes later\" \u2014 widened: a functionality may also be written before its capability, in a holding folder functionalities/<id>/, as a capability may wait for its domain. And \u00a72's \"Drift is found and fixed by an Alignment drive\" \u2014 inside a drive, the drive's connect step finds and connects what its plays wrote. Whether the Alignment drive is still needed for drift outside a drive is not decided here."
+    },
+    {
+      "adr": "033",
+      "file": "docs/adr/033-approval-in-the-product-model.md",
+      "kind": "amended",
+      "part": "\u00a74 \"Approval follows links\" \u2014 widened: a node is not approved and not workable until it is attributed (functionality \u2192 capability \u2192 domain, its ICE \u2192 a confirmed business intent). This also widens ADR 031 \u00a74 as ADR 033 already amended it (workable = ICE, node and intent approved; now also attributed)."
+    },
+    {
+      "adr": "041",
+      "file": "docs/adr/041-a-drive-runs-in-rounds-and-owns-its-questions.md",
+      "kind": "amended",
+      "part": "\u00a71 \"A drive runs its plays in rounds until its job is done\" \u2014 \"A round runs every play of the drive, in order. The next round gives each play what the others found \u2026 It stops when its done check holds\": the plays run with no order (side by side allowed); after each round the connect step connects the nodes and finds the missing work; the next round runs only the plays that work is given to, on exactly that work; the drive goes on until every node is connected and nothing on the screens is uncovered, or until its round limit, then briefs the person (ADR 042). And \u00a74 \"Member plays\" (as amended by ADR 042): the connect step is a member play too."
+    },
+    {
+      "adr": "042",
+      "file": "docs/adr/042-a-drive-finds-builds-and-reviews-the-knowledge-it-lacks.md",
+      "kind": "amended",
+      "part": "its line on ADR 041 \u00a74 under \"What this changes in older ADRs\" \u2014 \"the member plays that run only inside a drive are now the three knowledge plays\": the connect step joins them. \u00a71\u2013\u00a74 (the knowledge plays and the brief) stand."
+    },
+    {
+      "adr": "026",
+      "file": "docs/adr/026-direct-to-model-writes.md",
+      "kind": "amended",
+      "part": "Decision, \"Clean tree in, committed delta out\" \u2014 inside a drive, plays may run side by side, their writes to the one shared spine file are made in turn, and the drive commits the round once, instead of each play committing its own model delta before the next play starts."
+    }
+  ],
+  "status": "accepted",
+  "accepted_by": "Kapil Viren Ahuja",
+  "pointers_written": [
+    "029-drives.md",
+    "031-business-intent-and-ice.md",
+    "033-approval-in-the-product-model.md",
+    "041-a-drive-runs-in-rounds-and-owns-its-questions.md",
+    "042-a-drive-finds-builds-and-reviews-the-knowledge-it-lacks.md",
+    "026-direct-to-model-writes.md"
+  ],
+  "pointers_missing": [],
+  "index_ok": true
+}

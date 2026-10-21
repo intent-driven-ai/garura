@@ -169,7 +169,13 @@ def test_review_writer():
             json.dump(dict(good, contract_version="5"), fh)
         check("a citations answer from contract v5 (the current tool) is written too",
               wdr.main(["--run", runp, "--summary", summary, "--decisions", v5, "--ts", "t10"]) == 0)
+        bare = os.path.join(tmp, "citations-bare.json")
+        with open(bare, "w") as fh:
+            json.dump(dict(good, records=[dict(good["records"][0], play="vision")]), fh)
+        check("a decision recorded as `vision` (no slash) is this play's too",
+              wdr.main(["--run", runp, "--summary", summary, "--decisions", bare, "--ts", "t11"]) == 0)
         for name, bad in (("another play", dict(good, records=[dict(good["records"][0], play="/understand")])),
+                          ("another play, no slash", dict(good, records=[dict(good["records"][0], play="understand")])),
                           ("another issue", dict(good, records=[dict(good["records"][0], issue=999)])),
                           ("records that are not a list", dict(good, records="oops")),
                           ("a record that is not an object", dict(good, records=[1])),

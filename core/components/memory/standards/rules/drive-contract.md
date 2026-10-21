@@ -45,7 +45,7 @@ A JSON file, passed to the play as `--contract <path>`:
 | `review_dir` | yes | Where each play writes its review record for the drive's end review. |
 | `round` | no | The drive's round, from 1 (absent means 1). A play on a round above 1 fills what it left open. |
 | `plays` | no | The drive's plays, in order (written by `write_drive_contract.py`). |
-| `inputs` | no | Per play, the inputs the drive hands it (paths, or values such as intent ids). |
+| `inputs` | no | Per play, the inputs the drive hands it (paths, or values such as intent ids). Under ADR 043 these are, besides any `argument`: `capture` — the one reading of the drive's source (`source_manifest`, `journeys`, `view_texts`, and the person's `write_up`), which the play reads instead of walking the source again; and, on a later round, `targets` — exactly the work the drive's gap skills gave this play. A play's input is never another play's output. |
 | `answers` | no | Per play, the answers to the questions the play would ask, gathered before the drive started (ADR 029: questions first); on a later round, also the person's answers to the drive's questions (ADR 041). |
 
 ## How a play runs inside a drive
@@ -64,7 +64,8 @@ A JSON file, passed to the play as `--contract <path>`:
    (commit-change → propose-change → review-change → merge-change). The drive opens and
    lands the change. The play's OWN commit step — the one in its workflow, such as a model
    play's "commit the model delta" — still runs, on the drive's branch, so the next play in
-   the drive starts from a clean tree.
+   the drive starts from a clean tree; the drive commits the round once more after its gap
+   skills (ADR 043).
 4. **Resolve the play's checkpoint as by hand; never wait at a conditional one.** Resolve
    the gate exactly as `gate-config.md` says. A config skip is recorded as a skip and a
    policy auto-pass as an auto-pass, as by hand. Only where the gate would WAIT does the
@@ -113,8 +114,10 @@ its gate settings say.
 ## One contract for the whole drive
 
 A drive writes one contract and hands the same file to every play it runs; each play reads
-its own `inputs.<play>` and `answers.<play>`. When a later play's input is what an earlier play made,
-the drive adds it to that play's `inputs` and writes the file again before the later play
+its own `inputs.<play>` and `answers.<play>`. No play's input is another play's output (ADR 043):
+the plays read the one capture and write their own kind, and the drive links what they wrote
+after the round with its gap skills. When the source is read (R4b) or a round gives a play
+work, the drive adds it to that play's `inputs` and writes the file again before the play
 starts (same `drive_run_id`). At the start of each round it writes the file again with the new
 `round` and any answers the person gave; a play reads the contract when it starts. A play with an older, narrower check of its
 own (`/intent` checks only `drive_run_id` and `branch`) accepts the full contract, because

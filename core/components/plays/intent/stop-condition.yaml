@@ -14,7 +14,7 @@ content:
       says: "every Source was saved with a snapshot"
       check: { type: field_equals, file: "intent-manifest.json", field: "sources_saved", equals: true }
     - id: D4
-      says: "the intents, their ICE and their Sources are linked"
+      says: "the intents and their Sources are linked both ways"
       check: { type: field_equals, file: "intent-manifest.json", field: "linked", equals: true }
     - id: D5
       says: "nothing else in the product model changed"

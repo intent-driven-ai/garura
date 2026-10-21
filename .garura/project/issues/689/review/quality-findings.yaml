@@ -1,0 +1,1499 @@
+meta:
+  generated_at: '2026-10-21T13:35:41Z'
+  diff_path: .garura/project/issues/689/review/pr.diff
+  taxonomy_path: core/components/memory/standards/rules/pr.md
+  changed_paths_count: 132
+  scan_coverage: 1.0
+  standards_relevant: 30
+  catchall:
+    CODE-20: 132
+  scope: 'categories: executable-code, tests, decision-records, documentation, tool-prompts; scan run on full pr.diff paths (context changed_paths list omitted core/tools/rebuild-eval and docs/*, so paths
+    derived from the diff headers)'
+  tests: 'orchestrator ran all 14 changed test files: pass'
+  tool_prompts_note: prompts/*.md has no playbook; no taxonomy row targets them, so 0 findings
+findings:
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/rebuild-eval/check_output.py
+  line: 1
+  evidence: core/tools/rebuild-eval/check_output.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-02
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/rebuild-eval/check_output.py
+  line: 1
+  evidence: core/tools/rebuild-eval/check_output.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-03
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/rebuild-eval/check_output.py
+  line: 1
+  evidence: core/tools/rebuild-eval/check_output.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-04
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/rebuild-eval/check_output.py
+  line: 1
+  evidence: core/tools/rebuild-eval/check_output.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-14
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/rebuild-eval/check_output.py
+  line: 54
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  triage: 'likely_false_positive: Python str.join / import-from, not SQL; keyword false positive'
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/rebuild-eval/check_output.py
+  line: 87
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  triage: 'likely_false_positive: Python str.join / import-from, not SQL; keyword false positive'
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/rebuild-eval/check_output.py
+  line: 97
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  triage: 'likely_false_positive: Python str.join / import-from, not SQL; keyword false positive'
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/rebuild-eval/check_output.py
+  line: 108
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  triage: 'likely_false_positive: Python str.join / import-from, not SQL; keyword false positive'
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/rebuild-eval/check_output.py
+  line: 127
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  triage: 'likely_false_positive: Python str.join / import-from, not SQL; keyword false positive'
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/rebuild-eval/check_output.py
+  line: 129
+  evidence: from
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  triage: 'likely_false_positive: Python str.join / import-from, not SQL; keyword false positive'
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/rebuild-eval/check_output.py
+  line: 155
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  triage: 'likely_false_positive: Python str.join / import-from, not SQL; keyword false positive'
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/rebuild-eval/check_output.py
+  line: 165
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  triage: 'likely_false_positive: Python str.join / import-from, not SQL; keyword false positive'
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/rebuild-eval/prepare.py
+  line: 1
+  evidence: core/tools/rebuild-eval/prepare.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-02
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/rebuild-eval/prepare.py
+  line: 1
+  evidence: core/tools/rebuild-eval/prepare.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-03
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/rebuild-eval/prepare.py
+  line: 1
+  evidence: core/tools/rebuild-eval/prepare.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-04
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/rebuild-eval/prepare.py
+  line: 1
+  evidence: core/tools/rebuild-eval/prepare.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-14
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/rebuild-eval/prepare.py
+  line: 2
+  evidence: from
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  triage: 'likely_false_positive: Python str.join / import-from, not SQL; keyword false positive'
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/rebuild-eval/prepare.py
+  line: 68
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  triage: 'likely_false_positive: Python str.join / import-from, not SQL; keyword false positive'
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/rebuild-eval/prepare.py
+  line: 75
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  triage: 'likely_false_positive: Python str.join / import-from, not SQL; keyword false positive'
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/rebuild-eval/prepare.py
+  line: 77
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  triage: 'likely_false_positive: Python str.join / import-from, not SQL; keyword false positive'
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/rebuild-eval/prepare.py
+  line: 90
+  evidence: from
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  triage: 'likely_false_positive: Python str.join / import-from, not SQL; keyword false positive'
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/rebuild-eval/prepare.py
+  line: 101
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  triage: 'likely_false_positive: Python str.join / import-from, not SQL; keyword false positive'
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/rebuild-eval/run_builder.py
+  line: 1
+  evidence: core/tools/rebuild-eval/run_builder.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-02
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/rebuild-eval/run_builder.py
+  line: 1
+  evidence: core/tools/rebuild-eval/run_builder.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-03
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/rebuild-eval/run_builder.py
+  line: 1
+  evidence: core/tools/rebuild-eval/run_builder.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-04
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/rebuild-eval/run_builder.py
+  line: 1
+  evidence: core/tools/rebuild-eval/run_builder.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-14
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/rebuild-eval/run_builder.py
+  line: 2
+  evidence: from
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  triage: 'likely_false_positive: Python str.join / import-from, not SQL; keyword false positive'
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/rebuild-eval/run_builder.py
+  line: 10
+  evidence: from
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  triage: 'likely_false_positive: Python str.join / import-from, not SQL; keyword false positive'
+- standard_id: SEC-23
+  severity: P2
+  file: core/tools/rebuild-eval/run_builder.py
+  line: 25
+  evidence: os.environ
+  artifact_type: runtime-code
+  taxonomy_rule_id: SEC-23
+  triage: env var read for CLI path override (REBUILD_EVAL_CLAUDE_CLI); reviewed as intended, no secret
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/rebuild-eval/run_builder.py
+  line: 32
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  triage: 'likely_false_positive: Python str.join / import-from, not SQL; keyword false positive'
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/rebuild-eval/run_builder.py
+  line: 41
+  evidence: from
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  triage: 'likely_false_positive: Python str.join / import-from, not SQL; keyword false positive'
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/rebuild-eval/run_builder.py
+  line: 58
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  triage: 'likely_false_positive: Python str.join / import-from, not SQL; keyword false positive'
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/rebuild-eval/run_builder.py
+  line: 59
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  triage: 'likely_false_positive: Python str.join / import-from, not SQL; keyword false positive'
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/rebuild-eval/run_builder.py
+  line: 63
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  triage: 'likely_false_positive: Python str.join / import-from, not SQL; keyword false positive'
+- standard_id: SEC-18
+  severity: P2
+  file: core/tools/rebuild-eval/run_builder.py
+  line: 64
+  evidence: permission
+  artifact_type: runtime-code
+  taxonomy_rule_id: SEC-18
+  triage: 'likely_false_positive: CLI flag --permission-mode, not an authorization check'
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/rebuild-eval/run_builder.py
+  line: 69
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  triage: 'likely_false_positive: Python str.join / import-from, not SQL; keyword false positive'
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/rebuild-eval/run_builder.py
+  line: 70
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  triage: 'likely_false_positive: Python str.join / import-from, not SQL; keyword false positive'
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/rebuild-eval/run_builder.py
+  line: 74
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  triage: 'likely_false_positive: Python str.join / import-from, not SQL; keyword false positive'
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/rebuild-eval/run_eval.py
+  line: 1
+  evidence: core/tools/rebuild-eval/run_eval.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-02
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/rebuild-eval/run_eval.py
+  line: 1
+  evidence: core/tools/rebuild-eval/run_eval.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-03
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/rebuild-eval/run_eval.py
+  line: 1
+  evidence: core/tools/rebuild-eval/run_eval.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-04
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/rebuild-eval/run_eval.py
+  line: 1
+  evidence: core/tools/rebuild-eval/run_eval.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-14
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/rebuild-eval/run_eval.py
+  line: 2
+  evidence: from
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  triage: 'likely_false_positive: Python str.join / import-from, not SQL; keyword false positive'
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/rebuild-eval/run_eval.py
+  line: 11
+  evidence: from
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  triage: 'likely_false_positive: Python str.join / import-from, not SQL; keyword false positive'
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/rebuild-eval/run_eval.py
+  line: 14
+  evidence: from
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  triage: 'likely_false_positive: Python str.join / import-from, not SQL; keyword false positive'
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/rebuild-eval/run_eval.py
+  line: 29
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  triage: 'likely_false_positive: Python str.join / import-from, not SQL; keyword false positive'
+- standard_id: SEC-23
+  severity: P2
+  file: core/tools/rebuild-eval/run_eval.py
+  line: 31
+  evidence: os.environ
+  artifact_type: runtime-code
+  taxonomy_rule_id: SEC-23
+  triage: env var read for CLI path override (REBUILD_EVAL_CLAUDE_CLI); reviewed as intended, no secret
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/rebuild-eval/run_eval.py
+  line: 37
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  triage: 'likely_false_positive: Python str.join / import-from, not SQL; keyword false positive'
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/rebuild-eval/run_eval.py
+  line: 41
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  triage: 'likely_false_positive: Python str.join / import-from, not SQL; keyword false positive'
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/rebuild-eval/run_eval.py
+  line: 49
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  triage: 'likely_false_positive: Python str.join / import-from, not SQL; keyword false positive'
+- standard_id: SEC-18
+  severity: P2
+  file: core/tools/rebuild-eval/run_eval.py
+  line: 66
+  evidence: permission
+  artifact_type: runtime-code
+  taxonomy_rule_id: SEC-18
+  triage: 'likely_false_positive: CLI flag --permission-mode, not an authorization check'
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/rebuild-eval/run_eval.py
+  line: 91
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  triage: 'likely_false_positive: Python str.join / import-from, not SQL; keyword false positive'
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/rebuild-eval/run_eval.py
+  line: 132
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  triage: 'likely_false_positive: Python str.join / import-from, not SQL; keyword false positive'
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/rebuild-eval/run_eval.py
+  line: 156
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  triage: 'likely_false_positive: Python str.join / import-from, not SQL; keyword false positive'
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/rebuild-eval/score_drift.py
+  line: 1
+  evidence: core/tools/rebuild-eval/score_drift.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-02
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/rebuild-eval/score_drift.py
+  line: 1
+  evidence: core/tools/rebuild-eval/score_drift.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-03
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/rebuild-eval/score_drift.py
+  line: 1
+  evidence: core/tools/rebuild-eval/score_drift.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-04
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/rebuild-eval/score_drift.py
+  line: 1
+  evidence: core/tools/rebuild-eval/score_drift.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-14
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/rebuild-eval/score_drift.py
+  line: 153
+  evidence: from
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  triage: 'likely_false_positive: Python str.join / import-from, not SQL; keyword false positive'
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/rebuild-eval/score_drift.py
+  line: 164
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  triage: 'likely_false_positive: Python str.join / import-from, not SQL; keyword false positive'
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/rebuild-eval/score_drift.py
+  line: 182
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  triage: 'likely_false_positive: Python str.join / import-from, not SQL; keyword false positive'
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/rebuild-eval/test_rebuild_eval.py
+  line: 1
+  evidence: core/tools/rebuild-eval/test_rebuild_eval.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-02
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/rebuild-eval/test_rebuild_eval.py
+  line: 1
+  evidence: core/tools/rebuild-eval/test_rebuild_eval.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-03
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/rebuild-eval/test_rebuild_eval.py
+  line: 1
+  evidence: core/tools/rebuild-eval/test_rebuild_eval.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-04
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/rebuild-eval/test_rebuild_eval.py
+  line: 1
+  evidence: core/tools/rebuild-eval/test_rebuild_eval.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-14
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: ARCH-07
+  severity: P2
+  file: core/tools/rebuild-eval/test_rebuild_eval.py
+  line: 39
+  evidence: https://example.
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-07
+  triage: 'likely_false_positive: test fixture URL (example.*), not a hardcoded endpoint'
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/rebuild-eval/test_rebuild_eval.py
+  line: 62
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  triage: 'likely_false_positive: Python str.join / import-from, not SQL; keyword false positive'
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/rebuild-eval/test_rebuild_eval.py
+  line: 85
+  evidence: from
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  triage: 'likely_false_positive: Python str.join / import-from, not SQL; keyword false positive'
+- standard_id: ARCH-07
+  severity: P2
+  file: core/tools/rebuild-eval/test_rebuild_eval.py
+  line: 101
+  evidence: https://example.
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-07
+  triage: 'likely_false_positive: test fixture URL (example.*), not a hardcoded endpoint'
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/rebuild-eval/test_rebuild_eval.py
+  line: 140
+  evidence: from
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  triage: 'likely_false_positive: Python str.join / import-from, not SQL; keyword false positive'
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/rebuild-eval/test_rebuild_eval.py
+  line: 144
+  evidence: from
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  triage: 'likely_false_positive: Python str.join / import-from, not SQL; keyword false positive'
+- standard_id: SEC-23
+  severity: P2
+  file: core/tools/rebuild-eval/test_rebuild_eval.py
+  line: 199
+  evidence: os.environ
+  artifact_type: runtime-code
+  taxonomy_rule_id: SEC-23
+  triage: env var read for CLI path override (REBUILD_EVAL_CLAUDE_CLI); reviewed as intended, no secret
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/rebuild-eval/test_rebuild_eval.py
+  line: 200
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  triage: 'likely_false_positive: Python str.join / import-from, not SQL; keyword false positive'
+- standard_id: SEC-23
+  severity: P2
+  file: core/tools/rebuild-eval/test_rebuild_eval.py
+  line: 201
+  evidence: os.environ
+  artifact_type: runtime-code
+  taxonomy_rule_id: SEC-23
+  triage: env var read for CLI path override (REBUILD_EVAL_CLAUDE_CLI); reviewed as intended, no secret
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/rebuild-eval/test_rebuild_eval.py
+  line: 202
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  triage: 'likely_false_positive: Python str.join / import-from, not SQL; keyword false positive'
+- standard_id: SEC-23
+  severity: P2
+  file: core/tools/rebuild-eval/test_rebuild_eval.py
+  line: 225
+  evidence: os.environ
+  artifact_type: runtime-code
+  taxonomy_rule_id: SEC-23
+  triage: env var read for CLI path override (REBUILD_EVAL_CLAUDE_CLI); reviewed as intended, no secret
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/rebuild-eval/test_rebuild_eval.py
+  line: 230
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  triage: 'likely_false_positive: Python str.join / import-from, not SQL; keyword false positive'
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/rebuild-eval/test_rebuild_eval.py
+  line: 249
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  triage: 'likely_false_positive: Python str.join / import-from, not SQL; keyword false positive'
+- standard_id: SEC-23
+  severity: P2
+  file: core/tools/rebuild-eval/test_rebuild_eval.py
+  line: 254
+  evidence: os.environ
+  artifact_type: runtime-code
+  taxonomy_rule_id: SEC-23
+  triage: env var read for CLI path override (REBUILD_EVAL_CLAUDE_CLI); reviewed as intended, no secret
+- standard_id: SEC-23
+  severity: P2
+  file: core/tools/rebuild-eval/test_rebuild_eval.py
+  line: 255
+  evidence: os.environ
+  artifact_type: runtime-code
+  taxonomy_rule_id: SEC-23
+  triage: env var read for CLI path override (REBUILD_EVAL_CLAUDE_CLI); reviewed as intended, no secret
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/rebuild-eval/test_rebuild_eval.py
+  line: 260
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  triage: 'likely_false_positive: Python str.join / import-from, not SQL; keyword false positive'
+- standard_id: SEC-23
+  severity: P2
+  file: core/tools/rebuild-eval/test_rebuild_eval.py
+  line: 263
+  evidence: os.environ
+  artifact_type: runtime-code
+  taxonomy_rule_id: SEC-23
+  triage: env var read for CLI path override (REBUILD_EVAL_CLAUDE_CLI); reviewed as intended, no secret
+- standard_id: SEC-23
+  severity: P2
+  file: core/tools/rebuild-eval/test_rebuild_eval.py
+  line: 268
+  evidence: os.environ
+  artifact_type: runtime-code
+  taxonomy_rule_id: SEC-23
+  triage: env var read for CLI path override (REBUILD_EVAL_CLAUDE_CLI); reviewed as intended, no secret
+- standard_id: BE-19
+  severity: P2
+  file: core/tools/rebuild-eval/test_rebuild_eval.py
+  line: 270
+  evidence: join
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-19
+  triage: 'likely_false_positive: Python str.join / import-from, not SQL; keyword false positive'
+- standard_id: DOC-01
+  severity: P3
+  file: core/tools/rebuild-eval/README.md
+  line: 1
+  evidence: core/tools/rebuild-eval/README.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-01
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: DOC-09
+  severity: P3
+  file: core/tools/rebuild-eval/README.md
+  line: 1
+  evidence: core/tools/rebuild-eval/README.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-09
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: DOC-10
+  severity: P3
+  file: core/tools/rebuild-eval/README.md
+  line: 1
+  evidence: core/tools/rebuild-eval/README.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-10
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: DOC-11
+  severity: P3
+  file: core/tools/rebuild-eval/README.md
+  line: 1
+  evidence: core/tools/rebuild-eval/README.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-11
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/rebuild-eval/check_output.py
+  line: 1
+  evidence: core/tools/rebuild-eval/check_output.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-03
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/rebuild-eval/check_output.py
+  line: 1
+  evidence: core/tools/rebuild-eval/check_output.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-08
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/rebuild-eval/check_output.py
+  line: 1
+  evidence: core/tools/rebuild-eval/check_output.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-09
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/rebuild-eval/check_output.py
+  line: 1
+  evidence: core/tools/rebuild-eval/check_output.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-10
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/rebuild-eval/check_output.py
+  line: 1
+  evidence: core/tools/rebuild-eval/check_output.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-11
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/rebuild-eval/check_output.py
+  line: 1
+  evidence: core/tools/rebuild-eval/check_output.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-12
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/rebuild-eval/check_output.py
+  line: 1
+  evidence: core/tools/rebuild-eval/check_output.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-15
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/rebuild-eval/check_output.py
+  line: 1
+  evidence: core/tools/rebuild-eval/check_output.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-17
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-25
+  severity: P3
+  file: core/tools/rebuild-eval/check_output.py
+  line: 162
+  evidence: 'except '
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-25
+  triage: except clause present; check it is narrow (OSError seen) - advisory
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/rebuild-eval/prepare.py
+  line: 1
+  evidence: core/tools/rebuild-eval/prepare.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-03
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/rebuild-eval/prepare.py
+  line: 1
+  evidence: core/tools/rebuild-eval/prepare.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-08
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/rebuild-eval/prepare.py
+  line: 1
+  evidence: core/tools/rebuild-eval/prepare.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-09
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/rebuild-eval/prepare.py
+  line: 1
+  evidence: core/tools/rebuild-eval/prepare.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-10
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/rebuild-eval/prepare.py
+  line: 1
+  evidence: core/tools/rebuild-eval/prepare.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-11
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/rebuild-eval/prepare.py
+  line: 1
+  evidence: core/tools/rebuild-eval/prepare.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-12
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/rebuild-eval/prepare.py
+  line: 1
+  evidence: core/tools/rebuild-eval/prepare.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-15
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/rebuild-eval/prepare.py
+  line: 1
+  evidence: core/tools/rebuild-eval/prepare.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-17
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-25
+  severity: P3
+  file: core/tools/rebuild-eval/prepare.py
+  line: 98
+  evidence: 'except '
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-25
+  triage: except clause present; check it is narrow (OSError seen) - advisory
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/rebuild-eval/run_builder.py
+  line: 1
+  evidence: core/tools/rebuild-eval/run_builder.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-03
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/rebuild-eval/run_builder.py
+  line: 1
+  evidence: core/tools/rebuild-eval/run_builder.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-08
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/rebuild-eval/run_builder.py
+  line: 1
+  evidence: core/tools/rebuild-eval/run_builder.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-09
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/rebuild-eval/run_builder.py
+  line: 1
+  evidence: core/tools/rebuild-eval/run_builder.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-10
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/rebuild-eval/run_builder.py
+  line: 1
+  evidence: core/tools/rebuild-eval/run_builder.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-11
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/rebuild-eval/run_builder.py
+  line: 1
+  evidence: core/tools/rebuild-eval/run_builder.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-12
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/rebuild-eval/run_builder.py
+  line: 1
+  evidence: core/tools/rebuild-eval/run_builder.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-15
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/rebuild-eval/run_builder.py
+  line: 1
+  evidence: core/tools/rebuild-eval/run_builder.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-17
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-25
+  severity: P3
+  file: core/tools/rebuild-eval/run_builder.py
+  line: 66
+  evidence: 'except '
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-25
+  triage: except clause present; check it is narrow (OSError seen) - advisory
+- standard_id: CODE-25
+  severity: P3
+  file: core/tools/rebuild-eval/run_builder.py
+  line: 79
+  evidence: 'except '
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-25
+  triage: except clause present; check it is narrow (OSError seen) - advisory
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/rebuild-eval/run_eval.py
+  line: 1
+  evidence: core/tools/rebuild-eval/run_eval.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-03
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/rebuild-eval/run_eval.py
+  line: 1
+  evidence: core/tools/rebuild-eval/run_eval.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-08
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/rebuild-eval/run_eval.py
+  line: 1
+  evidence: core/tools/rebuild-eval/run_eval.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-09
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/rebuild-eval/run_eval.py
+  line: 1
+  evidence: core/tools/rebuild-eval/run_eval.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-10
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/rebuild-eval/run_eval.py
+  line: 1
+  evidence: core/tools/rebuild-eval/run_eval.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-11
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/rebuild-eval/run_eval.py
+  line: 1
+  evidence: core/tools/rebuild-eval/run_eval.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-12
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/rebuild-eval/run_eval.py
+  line: 1
+  evidence: core/tools/rebuild-eval/run_eval.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-15
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/rebuild-eval/run_eval.py
+  line: 1
+  evidence: core/tools/rebuild-eval/run_eval.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-17
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-25
+  severity: P3
+  file: core/tools/rebuild-eval/run_eval.py
+  line: 76
+  evidence: 'except '
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-25
+  triage: except clause present; check it is narrow (OSError seen) - advisory
+- standard_id: CODE-25
+  severity: P3
+  file: core/tools/rebuild-eval/run_eval.py
+  line: 82
+  evidence: 'except '
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-25
+  triage: except clause present; check it is narrow (OSError seen) - advisory
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/rebuild-eval/score_drift.py
+  line: 1
+  evidence: core/tools/rebuild-eval/score_drift.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-03
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/rebuild-eval/score_drift.py
+  line: 1
+  evidence: core/tools/rebuild-eval/score_drift.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-08
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/rebuild-eval/score_drift.py
+  line: 1
+  evidence: core/tools/rebuild-eval/score_drift.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-09
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/rebuild-eval/score_drift.py
+  line: 1
+  evidence: core/tools/rebuild-eval/score_drift.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-10
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/rebuild-eval/score_drift.py
+  line: 1
+  evidence: core/tools/rebuild-eval/score_drift.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-11
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/rebuild-eval/score_drift.py
+  line: 1
+  evidence: core/tools/rebuild-eval/score_drift.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-12
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/rebuild-eval/score_drift.py
+  line: 1
+  evidence: core/tools/rebuild-eval/score_drift.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-15
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/rebuild-eval/score_drift.py
+  line: 1
+  evidence: core/tools/rebuild-eval/score_drift.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-17
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-25
+  severity: P3
+  file: core/tools/rebuild-eval/score_drift.py
+  line: 200
+  evidence: 'except '
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-25
+  triage: except clause present; check it is narrow (OSError seen) - advisory
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/rebuild-eval/test_rebuild_eval.py
+  line: 1
+  evidence: core/tools/rebuild-eval/test_rebuild_eval.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-03
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/rebuild-eval/test_rebuild_eval.py
+  line: 1
+  evidence: core/tools/rebuild-eval/test_rebuild_eval.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-08
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/rebuild-eval/test_rebuild_eval.py
+  line: 1
+  evidence: core/tools/rebuild-eval/test_rebuild_eval.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-09
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/rebuild-eval/test_rebuild_eval.py
+  line: 1
+  evidence: core/tools/rebuild-eval/test_rebuild_eval.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-10
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/rebuild-eval/test_rebuild_eval.py
+  line: 1
+  evidence: core/tools/rebuild-eval/test_rebuild_eval.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-11
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/rebuild-eval/test_rebuild_eval.py
+  line: 1
+  evidence: core/tools/rebuild-eval/test_rebuild_eval.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-12
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/rebuild-eval/test_rebuild_eval.py
+  line: 1
+  evidence: core/tools/rebuild-eval/test_rebuild_eval.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-15
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/rebuild-eval/test_rebuild_eval.py
+  line: 1
+  evidence: core/tools/rebuild-eval/test_rebuild_eval.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-17
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: DOC-04
+  severity: P3
+  file: docs/adr/026-direct-to-model-writes.md
+  line: 1
+  evidence: docs/adr/026-direct-to-model-writes.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-04
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: DOC-04
+  severity: P3
+  file: docs/adr/029-drives.md
+  line: 1
+  evidence: docs/adr/029-drives.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-04
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: DOC-04
+  severity: P3
+  file: docs/adr/031-business-intent-and-ice.md
+  line: 1
+  evidence: docs/adr/031-business-intent-and-ice.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-04
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: DOC-04
+  severity: P3
+  file: docs/adr/033-approval-in-the-product-model.md
+  line: 1
+  evidence: docs/adr/033-approval-in-the-product-model.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-04
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: DOC-04
+  severity: P3
+  file: docs/adr/041-a-drive-runs-in-rounds-and-owns-its-questions.md
+  line: 1
+  evidence: docs/adr/041-a-drive-runs-in-rounds-and-owns-its-questions.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-04
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: DOC-04
+  severity: P3
+  file: docs/adr/043-kickoff-plays-read-independently-and-the-drive-closes-the-loop.md
+  line: 1
+  evidence: docs/adr/043-kickoff-plays-read-independently-and-the-drive-closes-the-loop.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-04
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: DOC-04
+  severity: P3
+  file: docs/adr/_index.md
+  line: 1
+  evidence: docs/adr/_index.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-04
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: DOC-14
+  severity: P4
+  file: core/tools/rebuild-eval/README.md
+  line: 1
+  evidence: core/tools/rebuild-eval/README.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-14
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: DOC-15
+  severity: P4
+  file: core/tools/rebuild-eval/README.md
+  line: 1
+  evidence: core/tools/rebuild-eval/README.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-15
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: DOC-16
+  severity: P4
+  file: core/tools/rebuild-eval/README.md
+  line: 1
+  evidence: core/tools/rebuild-eval/README.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-16
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/rebuild-eval/check_output.py
+  line: 1
+  evidence: core/tools/rebuild-eval/check_output.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-13
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/rebuild-eval/check_output.py
+  line: 1
+  evidence: core/tools/rebuild-eval/check_output.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-19
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: BE-23
+  severity: P4
+  file: core/tools/rebuild-eval/check_output.py
+  line: 70
+  evidence: lock
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-23
+  triage: 'likely_false_positive: matches the word lock/mutex in prose or code, no cache-stampede logic'
+- standard_id: BE-23
+  severity: P4
+  file: core/tools/rebuild-eval/check_output.py
+  line: 114
+  evidence: lock
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-23
+  triage: 'likely_false_positive: matches the word lock/mutex in prose or code, no cache-stampede logic'
+- standard_id: BE-23
+  severity: P4
+  file: core/tools/rebuild-eval/check_output.py
+  line: 117
+  evidence: lock
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-23
+  triage: 'likely_false_positive: matches the word lock/mutex in prose or code, no cache-stampede logic'
+- standard_id: BE-23
+  severity: P4
+  file: core/tools/rebuild-eval/check_output.py
+  line: 122
+  evidence: lock
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-23
+  triage: 'likely_false_positive: matches the word lock/mutex in prose or code, no cache-stampede logic'
+- standard_id: BE-23
+  severity: P4
+  file: core/tools/rebuild-eval/check_output.py
+  line: 126
+  evidence: lock
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-23
+  triage: 'likely_false_positive: matches the word lock/mutex in prose or code, no cache-stampede logic'
+- standard_id: BE-23
+  severity: P4
+  file: core/tools/rebuild-eval/check_output.py
+  line: 128
+  evidence: lock
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-23
+  triage: 'likely_false_positive: matches the word lock/mutex in prose or code, no cache-stampede logic'
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/rebuild-eval/prepare.py
+  line: 1
+  evidence: core/tools/rebuild-eval/prepare.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-13
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/rebuild-eval/prepare.py
+  line: 1
+  evidence: core/tools/rebuild-eval/prepare.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-19
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/rebuild-eval/run_builder.py
+  line: 1
+  evidence: core/tools/rebuild-eval/run_builder.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-13
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/rebuild-eval/run_builder.py
+  line: 1
+  evidence: core/tools/rebuild-eval/run_builder.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-19
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/rebuild-eval/run_eval.py
+  line: 1
+  evidence: core/tools/rebuild-eval/run_eval.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-13
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/rebuild-eval/run_eval.py
+  line: 1
+  evidence: core/tools/rebuild-eval/run_eval.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-19
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/rebuild-eval/score_drift.py
+  line: 1
+  evidence: core/tools/rebuild-eval/score_drift.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-13
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/rebuild-eval/score_drift.py
+  line: 1
+  evidence: core/tools/rebuild-eval/score_drift.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-19
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/rebuild-eval/test_rebuild_eval.py
+  line: 1
+  evidence: core/tools/rebuild-eval/test_rebuild_eval.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-13
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/rebuild-eval/test_rebuild_eval.py
+  line: 1
+  evidence: core/tools/rebuild-eval/test_rebuild_eval.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-19
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: ARCH-23
+  severity: P4
+  file: docs/adr/026-direct-to-model-writes.md
+  line: 1
+  evidence: docs/adr/026-direct-to-model-writes.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: ARCH-23
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: DOC-05
+  severity: P4
+  file: docs/adr/026-direct-to-model-writes.md
+  line: 1
+  evidence: docs/adr/026-direct-to-model-writes.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-05
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: ARCH-23
+  severity: P4
+  file: docs/adr/029-drives.md
+  line: 1
+  evidence: docs/adr/029-drives.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: ARCH-23
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: DOC-05
+  severity: P4
+  file: docs/adr/029-drives.md
+  line: 1
+  evidence: docs/adr/029-drives.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-05
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: ARCH-23
+  severity: P4
+  file: docs/adr/031-business-intent-and-ice.md
+  line: 1
+  evidence: docs/adr/031-business-intent-and-ice.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: ARCH-23
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: DOC-05
+  severity: P4
+  file: docs/adr/031-business-intent-and-ice.md
+  line: 1
+  evidence: docs/adr/031-business-intent-and-ice.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-05
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: ARCH-23
+  severity: P4
+  file: docs/adr/033-approval-in-the-product-model.md
+  line: 1
+  evidence: docs/adr/033-approval-in-the-product-model.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: ARCH-23
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: DOC-05
+  severity: P4
+  file: docs/adr/033-approval-in-the-product-model.md
+  line: 1
+  evidence: docs/adr/033-approval-in-the-product-model.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-05
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: ARCH-23
+  severity: P4
+  file: docs/adr/041-a-drive-runs-in-rounds-and-owns-its-questions.md
+  line: 1
+  evidence: docs/adr/041-a-drive-runs-in-rounds-and-owns-its-questions.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: ARCH-23
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: DOC-05
+  severity: P4
+  file: docs/adr/041-a-drive-runs-in-rounds-and-owns-its-questions.md
+  line: 1
+  evidence: docs/adr/041-a-drive-runs-in-rounds-and-owns-its-questions.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-05
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: ARCH-23
+  severity: P4
+  file: docs/adr/043-kickoff-plays-read-independently-and-the-drive-closes-the-loop.md
+  line: 1
+  evidence: docs/adr/043-kickoff-plays-read-independently-and-the-drive-closes-the-loop.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: ARCH-23
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: DOC-05
+  severity: P4
+  file: docs/adr/043-kickoff-plays-read-independently-and-the-drive-closes-the-loop.md
+  line: 1
+  evidence: docs/adr/043-kickoff-plays-read-independently-and-the-drive-closes-the-loop.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-05
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: ARCH-23
+  severity: P4
+  file: docs/adr/_index.md
+  line: 1
+  evidence: docs/adr/_index.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: ARCH-23
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+- standard_id: DOC-05
+  severity: P4
+  file: docs/adr/_index.md
+  line: 1
+  evidence: docs/adr/_index.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-05
+  triage: whole-file checklist row (path-only rule); not a located defect, needs the language linter or human read
+counts:
+  P1: 0
+  P2: 84
+  P3: 66
+  P4: 35
