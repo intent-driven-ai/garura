@@ -2,8 +2,8 @@
 # Kept by hand until update-plan (#730) exists. Status: done | now | next | blocked.
 id: 734
 title: Garura publishes a standard for building agentic harnesses
-status: active
-started: null
+status: done
+started: '2026-10-22'
 branch: null
 identified_by:
 - 717
@@ -13,74 +13,60 @@ tree:
 - issue: 735
   kind: capability
   title: The harness standard, written down
-  status: next
+  status: done
   children:
   - issue: 736
     kind: functionality
     title: 'Naming rules: verbs, run- for loops, no tool built-ins, two-word plays'
-    status: next
+    status: done
   - issue: 737
     kind: functionality
     title: 'Harness principles and practices: why we build this way, and how'
-    status: next
+    status: done
   - issue: 738
     kind: functionality
     title: One ADR that replaces ADR 006 and ADR 018
-    status: next
+    status: done
 - issue: 739
   kind: capability
   title: The naming checks, built before any rename
-  status: next
+  status: done
   children:
   - issue: 740
     kind: functionality
     title: The component linter fails any name that breaks the standard
-    status: next
+    status: done
   - issue: 741
     kind: functionality
     title: A rename map, and a check that no old name is left
-    status: next
+    status: done
 - issue: 742
   kind: capability
   title: Every name moved to the standard, one family at a time
-  status: blocked
-  needs:
-  - 739
+  status: done
   children:
   - issue: 743
     kind: functionality
     title: Rename the harness plays and the loops
-    status: blocked
-    needs:
-    - 741
+    status: done
   - issue: 744
     kind: functionality
     title: Rename the change, plan, knowledge and record plays
-    status: blocked
-    needs:
-    - 741
+    status: done
   - issue: 745
     kind: functionality
     title: Rename the lifecycle and lens plays
-    status: blocked
-    needs:
-    - 741
+    status: done
   - issue: 746
     kind: functionality
     title: Rename the skills
-    status: blocked
-    needs:
-    - 741
+    status: done
 - issue: 747
   kind: capability
   title: Installs follow the renames
-  status: blocked
-  needs:
-  - 739
+  status: done
   children:
   - issue: 748
     kind: functionality
     title: An install removes old names and lays the new ones
-    status: blocked
-    needs:
-    - 741
+    status: done
