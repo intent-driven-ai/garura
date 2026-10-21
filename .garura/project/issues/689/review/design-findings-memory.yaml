@@ -1,0 +1,79 @@
+category: memory
+base: main
+grounding_note: >
+  ADR 043 is cited by every memory change but does not exist on main (it is added by this PR),
+  so it was not used as grounding. Principles come from main: ADR 031, ADR 033, ADR 026, ontology.md
+  (v4 on main), spine.yaml, grounding templates, drive-contract.md.
+findings:
+  - id: MEM-1
+    severity: P2
+    file: core/components/memory/standards/schemas/product-os/ontology.md
+    summary: >
+      Ontology line 13 (unchanged) still says "No play owns a kind. Any play may write the intents, ICE or other kinds
+      it finds ... in any order". The PR's spine fill_rules now say each play writes exactly one kind inside Kickoff
+      (/intent: intents only; /vision: domains only; /understand: capabilities+functionalities). The log entry added by
+      the PR also says "inside Kickoff each play writes one kind". The two rules now sit side by side without saying
+      the second is a Kickoff-only limit on the first; a reader cannot tell which holds.
+    basis: >
+      ADR 031 section 2 "No play owns a kind" (main:docs/adr/031-business-intent-and-ice.md) and ontology.md v3/v4 line 13
+      (main). Narrowing it is a decision change; it should be reconciled in the ontology body, not only in a log line.
+  - id: MEM-2
+    severity: P2
+    file: core/components/memory/standards/schemas/product-os/spine.yaml
+    summary: >
+      The spine drops the REQUIRED parent on functionality.capability and allows a functionality with no capability
+      (new holding folder functionalities/). The ontology's kind descriptions (Capability / Functionality definitions,
+      "Part" list near the end) and the functionality.md template still describe only the capability holding folder
+      and a functionality as "the leaf" of a capability; the Functionality kind and its Lives-at were not updated.
+      The relaxation is recorded in the Log only.
+    basis: >
+      main:spine.yaml tree rules ("exactly three levels ... every functionality names a capability that exists",
+      capability REQUIRED) and main:ontology.md kind definitions. Not backed by any ADR on main; the only backing is
+      ADR 043, which is added by this PR (circular).
+  - id: MEM-3
+    severity: P3
+    file: core/components/memory/standards/schemas/product-os/grounding/capability.md
+    summary: >
+      Template header is now stale: it still says the directional shape is "written by /intent (from a source) or
+      /vision (from the KB and the intents)". Under the PR's own spine fill_rules, /intent and /vision write no
+      capability; /understand does. Same staleness in grounding/domain.md header ("for example /intent, reading a
+      prototype" - /intent now writes no domain) and grounding/functionality.md header ("Written by /shape, refined by
+      /understand" - spine says /shape does not create functionalities, /understand does).
+    basis: >
+      main:grounding/*.md headers vs the PR's own spine.yaml fill_rules; a template is a "locked contract" (main:capability.md
+      first lines), so its own authorship statement must not contradict the spine.
+  - id: MEM-4
+    severity: P3
+    file: core/components/memory/standards/schemas/product-os/grounding/domain.md
+    summary: >
+      A "## Sources" section is added to grounding pages, but the ontology already defines "Source" as a kind kept as
+      evidence under {product_base}_evidence/intent/ and says it is named so because "Evidence" means a run record. The
+      new Sources section (web links, screen quotes, shelf refs) is a different thing under the same word, and the
+      ontology does not define or mention it. Also Sources is placed last on domain pages but before the ICE on
+      capability/functionality pages; the domain template says the linter enforces "the heading set ... no extras", so
+      the new heading needs a matching lint change (lint_grounding.py is touched in this PR; not verified here).
+    basis: >
+      main:ontology.md "### Source" (what it is / lives at) and naming-clarity principle; main:domain.md heading contract
+      "present, ordered, no extras".
+  - id: MEM-5
+    severity: P3
+    file: core/components/memory/standards/rules/drive-contract.md
+    summary: >
+      New rule "A play's input is never another play's output" and the capture/targets inputs are added to the drive
+      contract. main drive-contract said the drive adds an earlier play's output to a later play's inputs; this is a
+      reversal of a stated mechanism whose only backing is ADR 043 (absent on main). Also the ontology/spine and contract
+      rely on "the drive's gap skills (find-model-gaps, close-model-gaps)", which are new in this PR and not defined in
+      any committed memory standard.
+    basis: >
+      main:drive-contract.md "One contract for the whole drive" (earlier play's output goes into later play's inputs);
+      ADR 029 / 041 on main do not mention capture or gap skills.
+  - id: MEM-6
+    severity: P4
+    file: core/components/memory/standards/schemas/product-os/ontology.md
+    summary: >
+      Workable rule now requires the node to be attributed up to a domain, in addition to a confirmed intent. ADR 033
+      (on main) already widened workable to "ICE, node and business intent all approved". The new wording uses
+      "confirmed" and omits the approval conditions, so the two rules can be read as different tests. Log entry for
+      ADR 043 is also inserted out of date order (2026-10-21 placed before 2026-10-09).
+    basis: >
+      main:docs/adr/033-approval-in-the-product-model.md (workable widened) and the ontology Log's chronological order.

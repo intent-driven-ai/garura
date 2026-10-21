@@ -1,0 +1,9 @@
+verdict: approve
+reason: no P1 findings; confidence acceptable
+blocking: []
+counts:
+  P2: 87
+  P3: 73
+  P4: 38
+confidence: null
+threshold: 0.5

@@ -1,0 +1,93 @@
+category: harness
+base: main
+grounding_note: >
+  Principles come only from committed sources on main (ADR 026, 029, 031, 041, docs/philosophy,
+  standards/rules/direct-model-write.md, concurrent-fanout.md, pr.md, the product-os-keeper
+  agent as it stood on main). ADR 043 is added by this branch, so it is NOT used as a
+  principle. Where the change leans on ADR 043 to justify itself, that is noted per finding.
+principles:
+  - id: PR1
+    text: "A drive has no rules of its own; its one rule is to run its plays. Every other rule lives in the plays."
+    source: "main:docs/adr/029-drives.md section 2"
+  - id: PR2
+    text: "Model writes go straight to the live model inside a declared write scope; the LLM writes only per-node docs, a keyed script owns shared files; a scoped-write guard runs once after writes; a clean tree is asserted on entry."
+    source: "main:core/components/memory/standards/rules/direct-model-write.md (rules 1,3,4,7); ADR 026"
+  - id: PR3
+    text: "product-os-keeper never writes a shared model file (spine, profile, intent page) and never removes a node."
+    source: "main:core/components/agents/product-os-keeper.md, Boundaries NEVER list"
+  - id: PR4
+    text: "Concurrent runs are allowed only as read-only or scoped-write fan-out under stated safety conditions."
+    source: "main:core/components/memory/standards/rules/concurrent-fanout.md"
+  - id: PR5
+    text: "Intent changes to a play go through its ICE source and recompile; non-intent changes are direct edits."
+    source: "main:CLAUDE.md Play Pipeline Rules"
+checked_ok:
+  - "Compiled fingerprints of kickoff, intent, vision and understand SKILL.md match sha256 of their reference/ice.md (intent change traced to ICE source, PR5)."
+  - "Agent rename prototype-walker -> prototype-reader leaves no stale references under core/ or docs/."
+  - "Play to agent to skill wiring is kept: the drive dispatches prototype-reader and product-os-keeper; skills (find-model-gaps, close-model-gaps) are invoked through the keeper."
+findings:
+  - id: H1
+    severity: P2
+    file: core/components/skills/close-model-gaps/SKILL.md (with agents/product-os-keeper.md and drives/_shared/drive-run.md R5 step 7)
+    summary: >
+      close-model-gaps, run through product-os-keeper by the drive, edits the shared spine, moves
+      pages and deletes merged-duplicate nodes and pages. The keeper's NEVER list (unchanged by
+      this branch) still forbids writing a shared model file and removing a node. The skill declares
+      no write scope, and the drive runs no scoped-write guard or clean-tree check around it;
+      the round commit just adds the whole product-os folder (--also product-os). The agent
+      definition and the new skill now contradict each other, and the live-model write has none
+      of the containment direct-model-write requires.
+    basis: "PR2 (direct-model-write.md rules 3,4,7; ADR 026) and PR3 (product-os-keeper Boundaries on main). Relies on ADR 043 section 4 to justify the keeper doing this; ADR 043 does not amend the keeper boundary or the rule."
+    suggested_fix: "Either declare the write scope and run scoped_write_guard around the step, and update the keeper's NEVER list and Boundaries, or have a play-owned keyed script do the persist."
+  - id: H2
+    severity: P3
+    file: core/components/memory/standards/rules/direct-model-write.md (not changed; contradicted by drives/_shared/drive-run.md R5 and drive-contract.md)
+    summary: >
+      Rule 7 on main says each model-writing play commits its own model delta so the next play sees
+      a clean tree. The drive now commits once per round and plays no longer commit before the
+      next starts. ADR 026 was edited in the diff, but the standard that expresses it was not,
+      and is not named in ADR 043's Affects list. Two standards now say opposite things.
+    basis: "PR2, direct-model-write.md rule 7 on main."
+  - id: H3
+    severity: P3
+    file: core/components/plays/drive-creator/SKILL.md; core/components/plays/drive-editor/scripts/lint_drive.py
+    summary: >
+      Both still define a drive as running plays "in a fixed order" and lint "N plays, in order".
+      The Kickoff drive and drive-run.md now say no play waits for or takes another's output, and
+      the order is only the run order. ADR 043 lists the drive compiler and editor lint (and
+      write_drive_contract.py) under Affects, but they are not in the diff. The compiler
+      can regress this change on the next rebuild.
+    basis: "PR5 (durability: compiler must reproduce what the compiled drive says; CLAUDE.md Play Pipeline Rules durability rule). Relies on ADR 043 Affects list."
+  - id: H4
+    severity: P3
+    file: core/components/drives/_shared/drive-run.md (Documents first, R4b, R5 step 7)
+    summary: >
+      The shared drive run now itself runs the capture script, takes the person's write-up, and
+      orchestrates prototype reading and model-gap closing, and borrows the intent play's scripts
+      by relative path (../intent/scripts/). That is rule content in the drive. ADR 043 amends
+      ADR 029 sections 6 and the input, but not section 2 ("no rules of its own").
+    basis: "PR1, ADR 029 section 2 on main."
+  - id: H5
+    severity: P3
+    file: core/components/plays/install-garura/SKILL.md; core/components/plays/install-garura/project-instructions.md
+    summary: >
+      What install lays down as the target project's CLAUDE.md/AGENTS.md changes from Garura's
+      development guide to a new hand-written file. That changes what the play delivers, but the
+      play has no ICE source (no reference/ice.md) and no ADR covers it; ADR 043 does not mention
+      it. The file also restates rules that live in the repo CLAUDE.md and the user-facing-voice
+      standard (agent-first, explicit approvals, voice), creating a second copy that can drift.
+    basis: "PR5 (CLAUDE.md Play Pipeline Rules: what a play guarantees is intent) and user-facing-voice.md (single canonical rule on main)."
+  - id: H6
+    severity: P4
+    file: core/components/drives/kickoff/SKILL.md (task list T4-T6) and docs ADR 043 section 5 wording
+    summary: >
+      The task list still chains /intent -> /vision -> /understand by blockedBy, while the text says
+      no play waits for another and "may run side by side". Side-by-side does not meet the
+      concurrent-fanout conditions (shared spine, shared working tree); drive-run correctly says
+      in turn for the first build, so this is wording only.
+    basis: "PR4, concurrent-fanout.md on main."
+  - id: H7
+    severity: P4
+    file: core/components/agents/product-os-keeper.md
+    summary: "The find-model-gaps and close-model-gaps rows in the Capabilities table have two cells under a three-column header (no 'Used by' cell)."
+    basis: "Table shape of the same Capabilities table on main (every other row has three cells)."
