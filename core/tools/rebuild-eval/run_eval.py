@@ -4,7 +4,7 @@
     python3 run_eval.py --product-os <project>/.garura/product/product-os \
         --prototype <project>/prototype/argus.html --out <run folder> \
         [--inventory <an earlier inventory.json>] [--stage all | <stage>[,<stage>…]] \
-        [--claude-model claude-sonnet-5-5] [--codex-model M] [--claude-bare]
+        [--claude-model claude-sonnet-5-5] [--effort high] [--claude-bare]
 
 Stages, in order (README.md): prepare → inventory → check → build → review → compare → score.
 `all` runs every stage; a stage run alone reads what the earlier ones left in `<run folder>`.
@@ -13,7 +13,8 @@ Stages, in order (README.md): prepare → inventory → check → build → revi
 The run folder must be outside any git work tree, so no repository's instruction files reach the
 agents. The Claude stages (inventory, review, compare) run `claude -p` from the run folder;
 `--claude-bare` adds `--bare` (no user instructions or memory at all; it needs an API key). The
-build is Codex (`run_builder.py`). Every agent's command, exit and cost go to `run.json`.
+build is a fresh, restricted Claude Code session in a folder holding only the brief
+(`run_builder.py`). Every agent runs on `--claude-model` at `--effort` (Sonnet 5.5, high). Every agent's command, exit and cost go to `run.json`.
 
 Exit 0 every asked stage finished; 1 a stage finished without its output; 2 bad input.
 """
@@ -61,11 +62,12 @@ class Run:
         return run.returncode
 
     def claude(self, stage, text, expect):
-        cmd = [CLAUDE, "-p", text, "--model", self.args.claude_model, "--permission-mode", "acceptEdits",
+        cmd = [CLAUDE, "-p", text, "--model", self.args.claude_model, "--effort", self.args.effort,
+               "--permission-mode", "acceptEdits",
                "--allowedTools", *TOOLS, "--output-format", "json"]
         if self.args.claude_bare:
             cmd.insert(1, "--bare")
-        run = subprocess.run(cmd, cwd=self.out, capture_output=True, text=True)
+        run = subprocess.run(cmd, cwd=self.out, stdin=subprocess.DEVNULL, capture_output=True, text=True)
         facts = {"command": [c if c != text else "<prompt>" for c in cmd], "exit": run.returncode}
         try:
             res = json.loads(run.stdout)
@@ -104,7 +106,7 @@ def main(argv=None):
                     help="more text the output may quote: a capture's view texts, the write-up, the journeys (repeatable)")
     ap.add_argument("--stage", default="all")
     ap.add_argument("--claude-model", default="claude-sonnet-5-5")
-    ap.add_argument("--codex-model")
+    ap.add_argument("--effort", default="high")
     ap.add_argument("--claude-bare", action="store_true")
     args = ap.parse_args(argv)
     stages = list(STAGES) if args.stage == "all" else [s.strip() for s in args.stage.split(",")]
@@ -152,7 +154,7 @@ def main(argv=None):
         elif stage == "build":
             rc = run.py(stage, "run_builder.py", "--brief", p("brief"), "--build-dir", p("build"),
                         "--prompt", os.path.join(HERE, "prompts", "build.md"),
-                        *(["--model", args.codex_model] if args.codex_model else []),
+                        "--model", args.claude_model, "--effort", args.effort,
                         "--out", p("build.json"))
         elif stage == "review":
             rc = run.claude(stage, prompt("review.md", brief=p("brief"), inventory=p("inventory.json"),

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Tests for the rebuild eval's scripts. The agents (Claude, Codex) are stand-ins here."""
+"""Tests for the rebuild eval's scripts. The agents (Claude sessions) are stand-ins here."""
 import contextlib
 import io
 import json
@@ -191,19 +191,17 @@ class Score(unittest.TestCase):
         self.assertEqual(s["overall"]["kept_pct"], 0.0)
 
 
-STAND_IN_CODEX = """#!/usr/bin/env python3
-import os, sys, json
-args = sys.argv[1:]
-cd = args[args.index("--cd") + 1]
-open(os.path.join(os.environ["STAND_IN_LOG"]), "w").write(json.dumps({"args": args, "files": sorted(
-    os.path.relpath(os.path.join(r, f), cd) for r, _, fs in os.walk(cd) for f in fs)}))
-if os.environ.get("STAND_IN_BUILD", "1") == "1":
-    open(os.path.join(cd, "app", "index.html"), "w").write("<button>Finish review</button>")
-"""
-
 STAND_IN_CLAUDE = """#!/usr/bin/env python3
-import json, re, sys
+import json, os, re, sys
 text = sys.argv[sys.argv.index("-p") + 1]
+if text.startswith("# Build this product"):  # the builder: log what it was given, build the app
+    cd = os.getcwd()
+    open(os.environ["STAND_IN_LOG"], "w").write(json.dumps({"args": sys.argv[1:], "files": sorted(
+        os.path.relpath(os.path.join(r, f), cd) for r, _, fs in os.walk(cd) for f in fs)}))
+    if os.environ.get("STAND_IN_BUILD", "1") == "1":
+        open(os.path.join(cd, "app", "index.html"), "w").write("<button>Finish review</button>")
+    print(json.dumps({"total_cost_usd": 0.02, "num_turns": 3, "result": "built: app/index.html"}))
+    sys.exit(0)
 out = re.search(r"Write `([^`]+\\.json)`", text).group(1)
 data = {"inventory.json": json.loads(%(inv)r), "compare.json": json.loads(%(cmp)r),
         "review.json": {"intents": [], "domains": [{"recognised": True, "known_as": "Approval workflow"}],
@@ -221,21 +219,26 @@ class Agents(Work):
         os.chmod(path, os.stat(path).st_mode | stat.S_IEXEC)
         return path
 
-    def test_the_builder_runs_codex_isolated_on_the_brief_alone(self):
+    def test_the_builder_is_a_restricted_sonnet_session_on_the_brief_alone(self):
         self.model()
         pr.prepare(self.p("pos"), self.p("run", "brief"), [])
-        os.environ["STAND_IN_LOG"] = self.p("codex.json")
+        os.environ["STAND_IN_LOG"] = self.p("builder.json")
         old = rb.CLI
-        rb.CLI = self.stand_in("codex", STAND_IN_CODEX)
+        rb.CLI = self.stand_in("claude", STAND_IN_CLAUDE)
         try:
             rc = quiet(rb.main, ["--brief", self.p("run", "brief"), "--build-dir", self.p("run", "build"),
                                  "--prompt", os.path.join(HERE, "prompts", "build.md"), "--out", self.p("run", "b.json")])
         finally:
             rb.CLI = old
         self.assertEqual(rc, 0)
-        seen = json.load(open(self.p("codex.json")))
-        for flag in ("--ignore-user-config", "--ignore-rules", "--ephemeral", "workspace-write"):
+        seen = json.load(open(self.p("builder.json")))
+        for flag in ("--restricted", "--strict-mcp-config", "--disable-slash-commands"):
             self.assertIn(flag, seen["args"])
+        args = seen["args"]
+        self.assertEqual(args[args.index("--model") + 1], "claude-sonnet-5-5")
+        self.assertEqual(args[args.index("--effort") + 1], "high")
+        self.assertNotIn("Bash", args[args.index("--tools") + 1])
+        self.assertEqual(json.load(open(self.p("run", "b.json")))["cost_usd"], 0.02)
         self.assertTrue(all(f.startswith("brief" + os.sep) for f in seen["files"]), seen["files"])
         self.assertFalse(any("argus" in f for f in seen["files"]))
 
@@ -248,10 +251,10 @@ class Agents(Work):
 
     def test_no_app_built_is_exit_1(self):
         self.write("brief/intents/x.md", INTENT)
-        os.environ["STAND_IN_LOG"] = self.p("codex.json")
+        os.environ["STAND_IN_LOG"] = self.p("builder.json")
         os.environ["STAND_IN_BUILD"] = "0"
         old = rb.CLI
-        rb.CLI = self.stand_in("codex", STAND_IN_CODEX)
+        rb.CLI = self.stand_in("claude", STAND_IN_CLAUDE)
         try:
             rc = quiet(rb.main, ["--brief", self.p("brief"), "--build-dir", self.p("run", "build"),
                                  "--prompt", os.path.join(HERE, "prompts", "build.md"), "--out", self.p("b.json")])
@@ -262,8 +265,7 @@ class Agents(Work):
 
     def test_the_whole_eval_runs_end_to_end_with_stand_ins(self):
         self.model()
-        env = dict(os.environ, STAND_IN_LOG=self.p("codex.json"),
-                   REBUILD_EVAL_CODEX_CLI=self.stand_in("codex", STAND_IN_CODEX),
+        env = dict(os.environ, STAND_IN_LOG=self.p("builder.json"),
                    REBUILD_EVAL_CLAUDE_CLI=self.stand_in("claude", STAND_IN_CLAUDE))
         run = subprocess.run([sys.executable, os.path.join(HERE, "run_eval.py"), "--product-os", self.p("pos"),
                               "--prototype", self.p("proto", "argus.html"), "--out", self.p("run")],
@@ -278,6 +280,9 @@ class Agents(Work):
         log = json.load(open(self.p("run", "run.json")))
         self.assertEqual(list(log["stages"]), ["prepare", "inventory", "check", "build", "review", "compare", "score"])
         self.assertEqual(log["stages"]["inventory"]["cost_usd"], 0.01)
+        cmd = log["stages"]["review"]["command"]
+        self.assertEqual(cmd[cmd.index("--effort") + 1], "high")
+        self.assertEqual(cmd[cmd.index("--model") + 1], "claude-sonnet-5-5")
 
 
 if __name__ == "__main__":

@@ -6,8 +6,8 @@ The test of what a Kickoff drive (or one of its plays) produced from a prototype
    sources. The domain is a real one, found by research, with its sources. Every capability
    and functionality names where on the prototype it is seen, and that quote is on the
    prototype.
-2. **Can the prototype be rebuilt from it?** Another agent, on another model, with no sight of
-   the prototype and no knowledge of Garura, builds the product from the intents and the model
+2. **Can the prototype be rebuilt from it?** A fresh agent, with no sight of the prototype and
+   no knowledge of Garura, builds the product from the intents and the model
    alone. Then what the prototype does is tried on what it built. Design, layout and code may
    differ; what a person can do and see may not. What is missing, what is half there and what
    was added is the **drift**.
@@ -22,7 +22,7 @@ build from. That is the bar every change to `/intent`, `/vision` and `/understan
 | `prepare` | script `prepare.py` | the product model folder | `brief/` — the intents and model pages only, local paths and file links taken out |
 | `inventory` | an agent (Claude, `prompts/inventory.md`) | the prototype only | `inventory.json` — every thing a person can do on it and what they see, with the quote and screen |
 | `check` | script `check_output.py` | `brief/`, the prototype's text and the inventory's captures | `check.json` — the static findings |
-| `build` | Codex (`run_builder.py`, `prompts/build.md`) | `brief/` only, in an empty folder | `build/app/index.html` — the rebuilt product |
+| `build` | a fresh, restricted Claude session (`run_builder.py`, `prompts/build.md`) | `brief/` only, in an empty folder | `build/app/index.html` — the rebuilt product |
 | `review` | an agent (Claude, `prompts/review.md`) | `brief/`, `inventory.json` | `review.json` — each intent, the domain, each capability and functionality judged |
 | `compare` | an agent (Claude, `prompts/compare.md`) | `inventory.json`, the rebuild, `brief/` | `compare.json` — each behaviour met, partial or missing, why, and each extra |
 | `score` | script `score_drift.py` | `inventory.json`, `compare.json`, `check.json`, `review.json` | `report.json`, `report.md` |
@@ -38,16 +38,19 @@ not marked by the work it tests. It is made once per prototype and reused (`--in
 
 ## Isolation
 
-- **The builder** is Codex: another model, run with `--ignore-user-config --ignore-rules
-  --ephemeral` in a folder that holds only `brief/`. It gets no prototype, no Garura files, no
-  instructions but `prompts/build.md`.
+- **Every agent runs on Sonnet 5.5 at high effort** (`--claude-model`, `--effort`). The plays
+  under test run on their own models; only the eval's agents run on Sonnet.
+- **The builder** is a new Claude Code session, run `--restricted --strict-mcp-config
+  --disable-slash-commands` with file tools only, in a folder that holds only `brief/`: no
+  settings files, no MCP servers, no skills, no shell, no files outside the folder. It gets no
+  prototype, no Garura files, no instructions but `prompts/build.md`.
 - **The brief** carries no path or link to the prototype or to the drive's records;
   `prepare.py` takes them out and lists what it took out (`brief-manifest.json`).
 - **The inventory agent** sees the prototype and nothing of the drive.
 - **The compare agent** sees the inventory, the rebuild and the brief. It reads the brief only
   to say why a behaviour is missing: not in the brief (the drive's fault) or in the brief but
   not built (the builder's fault).
-- The two Claude agents run from the eval's run folder, so no project instructions load. The
+- The inventory, review and compare agents run from the eval's run folder, so no project instructions load. The
   report records how each agent was run.
 
 ## The drift score
@@ -71,7 +74,7 @@ invented domain.
 python3 run_eval.py --product-os <project>/.garura/product/product-os \
     --prototype <project>/prototype/argus.html --out <run folder> \
     [--inventory <an earlier inventory.json>] [--stage all|prepare|check|inventory|build|compare|score] \
-    [--claude-model claude-sonnet-5-5] [--codex-model <model>]
+    [--claude-model claude-sonnet-5-5] [--effort high]
 ```
 
 Each stage writes into `<run folder>` and can be run again on its own. The agent stages cost
