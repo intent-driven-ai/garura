@@ -118,7 +118,7 @@ optional:
 - **Campaign-page velocity** — fast, repeatable, scalable, on the MACH spine.
 - **Handle consent & privacy** — never ship reach without it.
 - **Design for omni/cross-channel** — not single-channel by default.
-- **Loop attribution via the web** — close the web-to-credit loop.
+- **Drive attribution via the web** — close the web-to-credit loop.
 - **No martech sprawl** — stay in our lane; hand off the stack.
 
 ## Rationale

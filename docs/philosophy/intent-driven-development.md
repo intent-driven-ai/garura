@@ -68,7 +68,7 @@ VIBE CODING                          SPEC-DRIVEN DEVELOPMENT
 
 ---
 
-## PCAM: The Design That Loops ICE
+## PCAM: The Design That Drives ICE
 
 IDD's principles govern **ICE** — Intent, Context, Expectation — the model every piece of work takes, defined in the IDSD method ([`idsd.md`](./idsd.md#ice-the-idsd-model)). **PCAM** is the design of the agentic tool that drives ICE: four pillars, each a function the tool must perform (ADR 027).
 

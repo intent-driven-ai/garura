@@ -26,7 +26,7 @@ Receive from tech-architect via JSON contract.
 - `scan_index_path` (path, required) — `scan-index.json` produced by scan-codebase.
 - `related_proposal_paths` (list, required) — absolute paths to the already-emitted `scope.yaml`, `enriched-capabilities.yaml`, and `features.yaml` proposals. Validation halts if any is missing.
 - `architecture_inference_path` (path, optional) — path to `architecture-inference.yaml` produced by `infer-architecture` if tech-architect ran that skill first. When present, consumed as a stepping stone per Step 3.
-- `kb_patterns_dir` (path, required) — `core/components/memory/knowledge/arch/patterns/`. Loops R3 pattern matching.
+- `kb_patterns_dir` (path, required) — `core/components/memory/knowledge/arch/patterns/`. Drives R3 pattern matching.
 - `stm_base` (path, required) — STM root resolved from `.garura/core/config.yaml` `stm.base-path`.
 - `issue` (str, required) — issue number driving /codify.
 - `output_path` (path, required) — `{stm_base}/{issue}/evidence/codify/proposals/architecture/logical-architecture.yaml`.

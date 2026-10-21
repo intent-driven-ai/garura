@@ -30,7 +30,7 @@ Receive from product-keeper via JSON contract.
 
 - `scan_index_path` (path, required) — `scan-index.json` produced by scan-codebase.
 - `related_proposal_paths` (list, required) — must contain the absolute paths to the already-emitted `domain-selection.yaml` and `project-profile.yaml` proposals. Validation halts if either is missing.
-- `kb_domain_dir` (path, required) — `core/components/memory/knowledge/domain/`. Loops the capability walk.
+- `kb_domain_dir` (path, required) — `core/components/memory/knowledge/domain/`. Drives the capability walk.
 - `stm_base` (path, required) — STM root resolved from `.garura/core/config.yaml` `stm.base-path`.
 - `issue` (str, required) — issue number driving /codify.
 - `output_path` (path, required) — `{stm_base}/{issue}/evidence/codify/proposals/scope/scope.yaml`.

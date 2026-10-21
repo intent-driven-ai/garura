@@ -47,7 +47,7 @@ def git(root, *args):
 
 def classify_git(base_files, new_files, play="ux", deletions=()):
     """
-    Loop classify_change.py in git mode (ADR 026): commit `base_files` under
+    Drive classify_change.py in git mode (ADR 026): commit `base_files` under
     <product_base>product-os/ as HEAD, then apply `new_files`/`deletions` to the working
     tree, then classify the working-tree diff vs HEAD. Mirrors how a direct-model-write play
     invokes the classifier — no draft dir.
