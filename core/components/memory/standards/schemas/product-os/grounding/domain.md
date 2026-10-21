@@ -62,9 +62,10 @@ domain page writes it.
 - **Guiding rules** — the laws that hold across *every* capability in the domain.
   Each rule states the rule and the reason it exists. These are what make this domain
   itself and not another.
-- **Capabilities** — each candidate capability with one explained line on what it
-  owns and why it is a distinct capability. (Narrative companion to the spine, which
-  holds the ids.)
+- **Capabilities** — the kinds of capability this domain covers, each in one explained line:
+  what it owns and why it belongs here. Written in plain words from research and the screens,
+  with no capability ids: the capabilities themselves are written on their own and linked to
+  the domain later (ADR 043).
 - **Scope (In / Out)** — what the domain covers now and what it deliberately does
   not, each with enough reason that a reader understands the cut.
 

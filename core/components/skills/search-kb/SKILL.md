@@ -39,6 +39,9 @@ Reasoning is yours (the skill); the agent only retrieves.
    `domains_dir`. Reason over its `## Capabilities` to pick the
    capability and the functionality(ies) the work maps to. Note their profile
    conditions as metadata — do not evaluate them (that is selection, not placement).
+   Placement records where the work fits on the shelf; it writes nothing. A caller that
+   writes domains only (/vision, ADR 043) uses the capability and functionality placements
+   as research notes for the domain page, never as capability entries.
 3. **Emit the routing result** (schema below) with `why` for each placement.
 
 If step 1 finds no domain that fits, set `unmatched: true` and stop — the
