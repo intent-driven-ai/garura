@@ -1,0 +1,47 @@
+needs_judgment: false
+change_groups:
+  - id: find-gaps-one-sided-links
+    issue: 692
+    commit_type: feat
+    scope: skills
+    subject: "count intent links held on one side only when finding model gaps"
+    files:
+      - core/components/skills/find-model-gaps/SKILL.md
+      - core/components/skills/find-model-gaps/scripts/find_gaps.py
+      - core/components/skills/find-model-gaps/scripts/test_find_gaps.py
+      - core/components/skills/find-model-gaps/scripts/intent_touches.py
+      - core/components/plays/play-creator/references/test_intent_touches.py
+  - id: knowledge-brief-render-and-check
+    issue: 692
+    commit_type: feat
+    scope: review-knowledge
+    subject: "render the knowledge brief page with a script and check it in review"
+    files:
+      - core/components/skills/write-knowledge-brief/SKILL.md
+      - core/components/skills/write-knowledge-brief/scripts/render_brief.py
+      - core/components/skills/write-knowledge-brief/scripts/test_render_brief.py
+      - core/components/plays/review-knowledge/SKILL.md
+      - core/components/plays/review-knowledge/reference/ice.md
+      - core/components/plays/review-knowledge/scripts/check_brief.py
+      - core/components/plays/review-knowledge/scripts/test_review_knowledge_scripts.py
+  - id: close-gaps-inside-model
+    issue: 692
+    commit_type: feat
+    scope: skills
+    subject: "close model gaps only inside the product model and list what changed"
+    files:
+      - core/components/skills/close-model-gaps/SKILL.md
+      - core/components/skills/close-model-gaps/scripts/apply_links.py
+      - core/components/skills/close-model-gaps/scripts/test_apply_links.py
+      - core/components/agents/product-os-keeper.md
+  - id: run-state
+    issue: 692
+    commit_type: chore
+    scope: stm
+    subject: "record run state for the gap and brief step checks"
+    files:
+      - .garura/project/issues/692/context/analysis.yaml
+      - .garura/project/issues/692/context/porcelain.txt
+exclusions: []
+risks:
+  sensitive_files: []

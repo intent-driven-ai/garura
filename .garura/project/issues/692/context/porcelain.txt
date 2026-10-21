@@ -1,0 +1,16 @@
+ M core/components/agents/product-os-keeper.md
+ M core/components/plays/play-creator/references/test_intent_touches.py
+ M core/components/plays/review-knowledge/SKILL.md
+ M core/components/plays/review-knowledge/reference/ice.md
+ M core/components/plays/review-knowledge/scripts/check_brief.py
+ M core/components/plays/review-knowledge/scripts/test_review_knowledge_scripts.py
+ M core/components/skills/close-model-gaps/SKILL.md
+ M core/components/skills/close-model-gaps/scripts/apply_links.py
+ M core/components/skills/close-model-gaps/scripts/test_apply_links.py
+ M core/components/skills/find-model-gaps/SKILL.md
+ M core/components/skills/find-model-gaps/scripts/find_gaps.py
+ M core/components/skills/find-model-gaps/scripts/test_find_gaps.py
+ M core/components/skills/write-knowledge-brief/SKILL.md
+?? .garura/project/issues/692/context/porcelain.txt
+?? core/components/skills/find-model-gaps/scripts/intent_touches.py
+?? core/components/skills/write-knowledge-brief/scripts/
