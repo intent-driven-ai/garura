@@ -206,7 +206,9 @@ Agents and skills (ADR 039 §2, §7, §8): the play reads no memory. `product-os
   still leaves no issue, no branch and no stray files. Resume finds the run through the
   branch's issue.
 
-- C16 — The screens decide the capabilities and the functionalities (Kapil, 2026-10-20, after Kickoff run 7:
+- C16 — The screens decide the capabilities and the functionalities — the person's write-up, when
+  the capture carries it, says what on the screens is only sample data and how a person walks
+  them (Kapil, 2026-10-20, after Kickoff run 7:
   "you engineered a functionality called 'Build-from vs waiting split' — where on the
   prototype is this functionality?"). Handed a prototype's capture, each capability is a
   thing the product offers its user on its screens, and each functionality is

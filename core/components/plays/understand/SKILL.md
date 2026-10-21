@@ -138,7 +138,7 @@ python3 scripts/pick_targets.py --spine <product_base>product-os/_spine.yaml \
 it invokes `enrich-capability-ice` in find mode and writes nothing to the model:
 
     { "task":    "list every capability the capture's screens show, with the screens and their words",
-      "inputs":  { "capture": "<the capture: source manifest, journeys, view texts>",
+      "inputs":  { "capture": "<the capture: source manifests, the write-up, journeys, view texts — read the write-up first>",
                    "spine": "<product_base>product-os/_spine.yaml", "mode": "find" },
       "outputs": { "found": "<working>/found.yaml" },
       "task_id": "find-capabilities" }
@@ -876,7 +876,7 @@ reuses each `<working>/caps/<capability>/seed.yaml` rather than asking again.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:96beb9e60151ef767513c797275e0b9a0eea4dba443abd30fcb308d982f444b3 (of `reference/ice.md`) |
+| fingerprint | sha256:6e4d72323f69923a536cd69b0dedbc21cf5ac7cf059ede9c39cd2ac3494448d4 (of `reference/ice.md`) |
 | compiled_by | play-editor (#689 ADR 043: writes the capabilities and functionalities, read off the screens, holding folder when no domain: C1, C2, C16); play-editor (#689 the screens decide the functionalities, every page with its sources: C16); play-editor (#661 reads no memory; the run lives in its issue); play-editor (#615 runs inside a drive; one run details every pending capability); play-editor (#616 stands alone); play-editor (#498 direct-model-write, ADR 026); prior: play-editor (#467 Batch B, #466 Batch C) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close — #616) |
 | position_exception | model-writing both play — writes the model on its own started branch and commits its own model delta (C12) BEFORE the injected end sequence lands it (same shape as /measure and /vision) |

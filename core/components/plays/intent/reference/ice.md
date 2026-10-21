@@ -78,7 +78,10 @@ play pulls out what the person wants; it never copies how the source does it.
 - C9 — Stands alone, or runs inside a drive: run by hand it needs no other play first, and it
   opens and lands its own change; handed a drive's JSON contract — checked by the shared drive-contract checker
   (`check_drive_contract.py`, `standards/rules/drive-contract.md`) — it opens no issue or branch
-  of its own, works on the drive's branch, and does not stop for approval.
+  of its own, works on the drive's branch, and does not stop for approval. Handed the drive's
+  capture (`inputs.intent.capture`, ADR 043), it neither captures nor walks the source again:
+  its Sources are the capture's prototype and the person's write-up (each with its source
+  manifest), and its journeys are the capture's.
 - C10 — The model is the hand-off: each saved Business Intent is a page under
   `<product_base>product-os/intents/<id>.md`, in the ontology's shape, so any later play reads
   it there. No separate hand-off file is written.
@@ -130,7 +133,9 @@ play pulls out what the person wants; it never copies how the source does it.
   round of the drive it reads what `/vision` and `/understand` wrote in the product model,
   fills what it can, and updates its own proposed intents — only those this drive saved. It
   never stops the drive to ask; the drive asks the person what no play could answer.
-- C17 — The product, at the product's level (Kapil, 2026-10-20, after Kickoff run 7: "you took
+  On a later round the contract's `inputs.intent.targets` names the drive's work for it (a
+  screen whose need no intent names, ADR 043): it drafts intents for exactly those.
+- C17— The product, at the product's level (Kapil, 2026-10-20, after Kickoff run 7: "you took
   the tool and confused it with the drive work … i gave you the prototype and you still could
   not translate that into intents"). A business intent names a need the product meets for its
   user — one per thing the product offers, following its own main areas, each main section with

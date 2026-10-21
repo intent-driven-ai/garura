@@ -255,7 +255,9 @@ python3 scripts/read_intents.py --product-base <product_base> \
 ```
 
 The goal is then drawn from the intent pages (title, outcome, why) — joined with a typed goal
-when both are given. Handed a prototype's capture, the agent reads the product the screens
+when both are given. On a later round, `inputs.vision.targets` names the capabilities no domain holds yet: find, by
+research, the domain each belongs in. Handed a prototype's capture, the agent reads the person's write-up in it first (what the
+product is, its field and its job, what is only sample data), then the product the screens
 offer — the sample data set aside (C12). It routes the product to its **domains** with
 `search-kb`, asking first which field the product serves (what its screens or words are
 about), then which job it does there; each may be a domain, so the routing often names
@@ -769,7 +771,7 @@ continues at the first end-sequence member that has not finished.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:a71d399a01197b0c08d295fba42134fa01073137f4d3eeb5a9a2fc9394f89af5 (of `reference/ice.md`) |
+| fingerprint | sha256:fde5f45d02abc04e2a92ac9d1432a401ae6bf2b87440d7da7f029397d8f6d541 (of `reference/ice.md`) |
 | compiled_by | play-editor (#689 ADR 043 — domains only; a recognised domain by research, every page with its sources, reads a prototype capture: C12); play-editor (#661 reads no memory; the run lives in its issue); play-editor (#614 runs inside a drive); play-editor (#637 one product model with /intent); play-editor (#616 position both); play-editor (#500 direct-model-write, ADR 026); prior: play-editor (#467 Batch B, #466 Batch C); play-creator (edited via play-editor, #437; spine+grounding+eval model) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close — #616) |
 | position_exception | model-writing both play — writes the model on the started branch and commits its own model delta (C9) BEFORE the injected end sequence lands it (same shape as /measure) |

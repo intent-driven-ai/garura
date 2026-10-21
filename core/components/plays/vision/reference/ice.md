@@ -168,10 +168,13 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
   nothing is written to disk before `start-change` has given the issue; inside a drive the
   issue is known at pre-flight from the contract.
 
-- C12 — Reads the product, not the sample (Kapil, 2026-10-21: "they can extract the domain and
+  On a later round the contract's `inputs.vision.targets` names the drive's work for it (a
+  capability no domain holds, ADR 043): it finds, by research, the domain each belongs in.
+- C12— Reads the product, not the sample (Kapil, 2026-10-21: "they can extract the domain and
   do not need intents to do that. looking at screens its easy to know which domain and what
   sort of functionality they need"). Handed a prototype's capture, the play reads what the
-  product offers its user from the screens: the domains it sits in. It asks, in order, which
+  product offers its user from the screens — and, when the capture carries the person's
+  write-up, from what it says the product is, its field and its job — : the domains it sits in. It asks, in order, which
   field the product serves — judged by what its screens are about — and which job it does in
   that field; each may be a domain, so a product often sits in more than one (Kapil, same day,
   on a review tool for AI-built software: SDLC or Developer Experience as the field, Human

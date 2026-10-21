@@ -184,6 +184,10 @@ before Step 0, and the scratch folder is gone. Each Source's snapshot (Step 1) a
 ### Phase: Capture
 
 **Step 1 — Capture the sources** · Owner: play (script) · Depends on: Step 0
+*Inside a drive that hands a capture (`inputs.intent.capture`, ADR 043), skip Steps 1 and 1b: the
+Sources are the capture's two source manifests (the prototype and the person's write-up), and
+the journeys are the capture's `journeys` — hand both to Step 2 and to the checks. On a later
+round, `inputs.intent.targets` names the screens whose need no intent names yet: draft for those.*
 Keep each source exactly as it was when read — one capture per Source, each with its own
 `<name>`. For a statement, first write the person's exact words to `<working>/statement.txt`.
 The given-by is the git user running the play (`git config user.name` and `user.email`):
@@ -607,7 +611,7 @@ Inside a drive, a resume keeps `in_drive` from `run.json`.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:797e194dd66dfd050ba0f75f0a37c537b873530e5a9b4c36021726694a979cda (of `reference/ice.md`) |
+| fingerprint | sha256:cbddd95dde6d4e62392946ff9cb472169079138a48bc82a1d82492f4a19ac629 (of `reference/ice.md`) |
 | compiled_by | play-editor (#689 ADR 043: business intents only — no ICE, capability or domain); play-editor (#689 the product at the product's level: C17); play-editor (#661 reads no memory; the run lives in its issue); play-editor (#637 one product model with /vision); play-creator (#612) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close; both skipped inside a drive) |
 | position_exception | model-writing both play — writes the intent on its started branch (or the drive's) and commits its own model delta (Step 7) BEFORE the injected end sequence lands it |
