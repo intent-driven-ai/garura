@@ -3,13 +3,15 @@ plan_for: 606
 kind: business-intent
 serves: "#606 — Garura's agentic lifecycle runs as five loops (drives), starting from a working prototype"
 status: active
-updated: 2026-10-19
+updated: 2026-10-21
 now: 8
 ---
 
-# Plan — #606: the lifecycle runs as drives
+# Plan — #606: the lifecycle runs as loops
 
 This is a plan, not a design. It says what gets done, in what order, and why that order. How each item is built is decided in its own issue.
+
+**Names (21 October, ADR 045, #698):** a "drive" is now a **loop**, and the Kickoff drive is the **Discovery loop**. The current-state parts of this plan use the new words. The Done lines and the log keep the words used at the time.
 
 ## What we are trying to reach
 
@@ -27,44 +29,52 @@ There are five drives, one for each step from product to running software. We bu
 
 ## How the issues sit
 
-The plan's order is the order of work. The tracker groups the same issues one level deeper: most items are children of #594, and #594 is a child of #606. Plan mode is not under #606 at all; it sits under #539, and this plan lists it because the drives need it. As the tracker holds it on 17 October:
+The plan's order is the order of work. The tracker groups the same issues one level deeper: most items are children of #594, and #594 is a child of #606. Plan mode is not under #606 at all; it sits under #539, and this plan lists it because the loops need it. As the tracker holds it on 21 October:
 
 ```
-#606  The lifecycle runs as drives
+#606  The lifecycle runs as loops
 ├─ #592  Settle the five-loop lifecycle — done
 ├─ #597  Rebuild the product model as an ontology — alongside
+│  └─ #694  the model rules say what ADR 043 changed — open
+├─ #653  The memory system — item 8, step 0 (own plan)
 └─ #594  Loop recipes run each loop's plays until its intent is met
-   ├─ #607  Decide the first drive's recipe — done
+   ├─ #607  Decide the first loop's recipe — done
    ├─ #616  item 2:  /intent, /vision, /understand each run alone — done
    ├─ #612  item 3:  /intent reads a prototype — done
    ├─ #637  item 4:  /intent and /vision write one product model — done
-   ├─ #614  item 5:  /vision runs inside a drive — done
-   ├─ #615  item 6:  /understand runs inside a drive — done
-   ├─ #617  item 7:  decide how a finished drive is reviewed — now
-   ├─ #613  item 8:  the Kickoff drive
-   ├─ #608  item 9:  decide the second drive (intent → design)
-   ├─ #609  item 10: decide the Execute drive
+   ├─ #614  item 5:  /vision runs inside a loop — done
+   ├─ #615  item 6:  /understand runs inside a loop — done
+   ├─ #617  item 7:  decide how a finished loop is reviewed — done
+   ├─ #613  item 8:  the Discovery loop's runner — done
+   ├─ #686  item 8:  the knowledge plays — done
+   ├─ #689  item 8:  the output rebuilds the prototype (ADR 043) — done
+   ├─ #690  item 8:  the gate policy is written only when it changes — done
+   ├─ #692  item 8:  the gap and brief steps are checked — done
+   ├─ #693  item 8:  plays in any order, one save per round — done
+   ├─ #698  item 8:  rename drive → loop, Kickoff → Discovery — done
+   ├─ #699  item 8:  loop builders check the loop principles — now
+   ├─ #648, #649, #650  item 8: the review joins the loop — open
+   ├─ #608  item 9:  decide the Slice loop
+   ├─ #609  item 10: decide the Execute loop
    ├─ #595  item 11: /grill cuts any slice
-   ├─ #610  item 12: decide the Change drive
-   └─ #611  item 14: decide the Learn drive
+   ├─ #610  item 12: decide the Ship loop
+   ├─ #611  item 14: decide the Learn loop
+   └─ #596  the docs describe the five loops — done
 
 #539  Garura becomes true product engineering   (not under #606)
 ├─ #619  item 1: decide plan mode — done
-└─ #621  plan mode in every play and drive
+└─ #621  plan mode in every play and loop — open, not started
 ```
 
-Items 13 (the handover drive) and the Alignment drive have no issue yet.
+Item 13 (the handover loop) and the Alignment loop have no issue yet. #701 (this update) was filed by mistake and closed: plan upkeep does not get an issue.
 
 ## Where we are now
 
-Three decisions are made (#592, #607, #619) and six things are shipped: plan mode's first pieces (#619), the Kickoff plays standing alone (#616), `/intent` (#612), the one product model that `/intent` and `/vision` both write (#637), `/vision` running inside a drive (#614), and `/understand` running inside a drive, detailing every pending capability in one run (#615). Item 7 is decided: a drive ends with a review of its outcome (ADR 032), and approval lives in the product model, so agents build only from approved pieces (ADR 033); its stories are filed. Now: item 8, Kickoff. Its plan (`.garura/project/issues/613/specs/plan.md`) has
-ADR 034 decided — inside a drive a play answers from memory and asks only when
-memory holds nothing — and a review that found memory not ready. Kapil chose to
-fix the whole memory system first, as its own feature; Kickoff's runner waits for
-it. Memory (#653): items 1 to 9 are shipped (#654–#662; every install carries the memory
-system and brings no memory, ADR 038; Kickoff's plays get memory only from their agents and
-every run lives under its issue, ADR 039 and ADR 040; the three plays ran from memory alone on
-a test project, #662). The Kickoff milestone is passed: the runner (#613) picks up again.
+Three decisions are made (#592, #607, #619), item 7's review is decided (ADR 032, 033), and items 2 to 6 are shipped. Now: item 8, the Discovery loop.
+
+Inside item 8, the memory system (#653) passed its milestone (items 1 to 9 shipped, #654 to #662); its item 10 (#663, every other agent onto the memory tool) is open. The runner shipped (#613, PR #682, 20 October). On 21 October six more pieces shipped: the knowledge plays (#686), the output that must rebuild the prototype (#689, ADR 043), the gate-policy fix (#690), checked gap and brief steps (#692), plays in any order (#693), and the rename to loops (#698, ADR 045). Discovery run 2 on the Argus mockup reached its brief, and Kapil accepted it.
+
+Next inside item 8: the loop principles in the loop builders (#699), the two stop tests never shown, then the review (Argus, #680, and #648 to #650).
 
 ## The plan, in order
 
@@ -81,64 +91,68 @@ a test project, #662). The Kickoff milestone is passed: the runner (#613) picks 
 
 - **7. Decided: how a finished drive is reviewed** — #617, PR #651, merged 18 October. ADR 032: every drive ends with a review of its outcome — the business intents, the agent intents under them and the product model, never the plays — in a review tool, not on the pull request; each piece is accepted, sent back or dropped; a dropped box-move lowers the limit again. ADR 033: approval is part of the product model; agents build only from approved pieces. The review tool is designed (plan and mockup in `.garura/project/issues/617/specs/`). Not yet done: nothing is built. Stories filed — under #594: #641 contract, #642 server, #643 reading, #644 acting, #648 open and listen, #649 send-back loop, #650 the review step; under #597: #645 approval states, #646 agents build only from approved, #647 spike on approval outside the review.
 
-### 8. Build the Kickoff drive — now
+### 8. Build the Discovery loop (was Kickoff) — now
 
-**Issue:** #613.
-**What:** the drive itself. It asks all its questions first, runs `/intent` → `/vision` → `/understand` (once, for all the capabilities), stops only for a question nothing in memory answers (ADR 034), has a different model or agent check the result, and writes its evidence. At its end review the person confirms or drops each intent `/intent` proposed (ADR 031, D10).
+**Issue:** #613 for the runner; the pieces below each have their own.
+**What:** the loop itself. It asks all its questions first, runs `/intent`, `/vision` and `/understand` in rounds, in any order (ADR 043), stops only for a question nothing in memory answers (ADR 034), has a different model or agent check the result, and writes its evidence. At its end review the person confirms or drops each intent `/intent` proposed (ADR 031, D10).
 **Why here:** it needs all of items 3 to 7.
 **Done when:** a working prototype goes in; the person approves the plan; out come a plan and issues the person can read, and a detailed product model for the agents — checked and reviewed.
-**Order inside this item** (Kapil, 2026-10-18, "A" — the runner first, then the review; and "B" — the whole memory system before the runner):
-0. **The memory system — Feature #653** (decision: spike #654). Phoenix memory is the superset; each project pulls the subset it needs; one tool finds and updates memory, searching like Claude Code; nothing comes from the model or the web without a memory update a person approved. Its plan: `.garura/project/issues/653/specs/plan.md`. The runner starts at its milestone (its items 1 to 9).
-1. **The runner — #613.** Questions first, then `/intent` → `/vision` → `/understand` **in rounds until the job is done** (a play's question is the drive's), the memory the drive lacks built before anyone is asked (`/build-memory`), the checker, the evidence. Built with `/drive-creator`; drives live in `core/components/drives/`. Until the review exists, the drive ends with the person's typed decisions and a pull request. Landed (PR #682, 20 October; ADR 041 records how a drive runs); now a run from main on the Argus mockup.
-2. **The review — Argus, a Phoenix tool** (Kapil, 2026-10-20: built separately from Garura; this replaces his 18 October word to build it inside Garura). Its own business intent #680 and Feature #681 hold the tool's stories — #641 contract, #642 server, #643 reading, #644 acting, #664 the ADRs, Memory and Agent decisions sections — tracked in the Phoenix project (`intent-driven-ai`, project 1) under **Garura tools: Argus**. Garura's side stays here: **#648–#649** (open, listen, send back), and **#645–#646** (approval in the product model, under #597). Until Argus exists, the local prototype stands in for memory approvals, and Kickoff ends at the pull request with the person's typed decisions. #641 takes its example pack from a real Kickoff run, which only the runner can make.
-3. **The review joins the drive — #650.** The review step becomes the drive's last step and writes approval.
+**Order inside this item** (Kapil, 2026-10-18: "A", the runner first, then the review; "B", the whole memory system before the runner):
+0. **The memory system — Feature #653.** Shipped to its milestone (items 1 to 9, #654 to #662, 20 October). Its item 10, #663 (every other agent and skill onto the memory tool), is open and does not hold up the loop. Its plan: `.garura/project/issues/653/specs/plan.md`.
+1. **Shipped: the runner — #613**, PR #682, 20 October (ADR 041 records how a loop runs). Its plan is done: `.garura/project/issues/613/specs/plan.md`.
+2. **Shipped: what the 21 October runs found** — #686 the knowledge plays (`/search-knowledge`, `/build-knowledge`, `/review-knowledge`; ADR 042); #689 the output must rebuild the prototype (the rebuild eval; ADR 043; `/intent`, `/vision`, `/understand` fixed; run 2 accepted by Kapil); #690 the gate policy is written only when it changes; #692 the gap and brief steps are checked; #693 the loop texts say any order and one save per round; #698 drive renamed to loop and Kickoff to Discovery (ADR 045).
+3. **Now: the loop principles — #699.** `/loop-creator`, `/loop-editor` and the loop linter build and check every loop against the principles in `docs/components/loops.md`. The later loops (items 9, 10, 12, 14) are built to them.
+4. **The stop tests not yet shown** (no issue). Show that the Discovery loop stops on no prototype, and on a prototype that does not run. The checker's reject was shown under #613.
+5. **The review — Argus, a Phoenix tool** (Kapil, 2026-10-20). Its own business intent #680 and Feature #681 hold the tool's stories (#641, #642, #643, #644, #664), tracked in the Phoenix project under Garura tools: Argus. Garura's side stays here: #648 and #649 (open, listen, send back), and #645 and #646 (approval in the product model, under #597). #641 takes its example pack from a Discovery run.
+6. **The review joins the loop — #650.** The review step becomes the loop's last step and writes approval.
 **Needs:** items 3 to 7.
 
 ### Alongside items 2 to 8: the product-model ontology
 
 **Issue:** #597.
-**What:** rebuild the product model as a proper model of what the product is. Only the parts the Kickoff plays need are built now, as those plays are fixed.
+**What:** rebuild the product model as a proper model of what the product is. Only the parts the Discovery plays need are built now, as those plays are fixed.
 **Why alongside:** ADR 029 ties it to this work. It is built piece by piece, not as one step.
 **State:** version 4 is written (`core/components/memory/standards/schemas/product-os/ontology.md`, through #612 and #637): Business Intent, Source and ICE are defined; Work, Tracker Issue, Domain, Capability and Functionality are named but not yet defined.
+**Open:** #694 — the ontology text, the spine and the page templates still disagree on what ADR 043 changed (who writes each kind, where a loose functionality waits, two meanings of "Sources").
 
-### Milestone: Kickoff lands
+### Milestone: Discovery lands
 
-Nothing below starts before item 8 is done. Each later drive is decided by a spike, then built from the stories that spike files.
+Nothing below starts before item 8 is done. Each later loop is decided by a spike, then built from the stories that spike files, to the loop principles (#699).
 
-### 9. Decide the second drive: intent → design
+### 9. Decide the Slice loop: intent → design
 
-**Issue:** #608. The issue still says "Shape loop". It needs a new name, because `/shape` is a play.
-**What:** decide the drive that takes the intent to a design: lock the product model, cut it into slices, and design the project once.
+**Issue:** #608.
+**What:** decide the loop that takes the intent to a design: lock the product model, cut it into slices, and design the project once.
 
-### 10. Decide the Execute drive
+### 10. Decide the Execute loop
 
 **Issue:** #609.
-**What:** decide the drive that builds the code: `/grill` → `/implement` → `/validate` → `/launch`. It must settle the human checks that always stop today.
+**What:** decide the loop that builds the code: `/grill` → `/implement` → `/validate` → `/launch`. It must settle the human checks that always stop today.
 
 ### 11. `/grill` can cut any slice
 
 **Issue:** #595.
-**What:** `/grill` no longer waits for every design area of a slice. It cuts the slice and asks about any missing areas itself. It belongs to the Execute drive.
+**What:** `/grill` no longer waits for every design area of a slice. It cuts the slice and asks about any missing areas itself. It belongs to the Execute loop.
 
-### 12. Decide the Change drive
+### 12. Decide the Ship loop
 
 **Issue:** #610.
-**What:** decide the drive that lands every change: start, commit, propose, review, merge.
+**What:** decide the loop that lands every change: start, commit, propose, review, merge.
 
-### 13. Decide the handover drive
-
-**Issue:** none yet.
-**What:** the last drive, the handoff out: it takes everything the agents made and delivers it as the thing the person uses — a website, an application, whatever the intent asked for. Kickoff is the handoff in; this is its pair (Kapil, 2026-10-08).
-
-### 14. Decide the Learn drive
-
-**Issue:** #611. The issue still says "Learn loop". It needs a new name, because `/learn` is a play.
-**What:** decide the drive that works out what to do next and corrects the intent.
-
-### Not yet placed: the Alignment drive
+### 13. Decide the handover loop
 
 **Issue:** none yet.
-**What:** a drive that finds and fixes drift in the product model — two ICE for one part, an ICE with no intent, a capability with no domain. It exists because any play may now write any kind of thing it finds (ADR 031, ontology v3). It is not one of the five drives; where it sits is not decided (Kapil, 2026-10-09).
+**What:** the last loop, the handoff out: it takes everything the agents made and delivers it as the thing the person uses — a website, an application, whatever the intent asked for. Discovery is the handoff in; this is its pair (Kapil, 2026-10-08).
+
+### 14. Decide the Learn loop
+
+**Issue:** #611.
+**What:** decide the loop that works out what to do next and corrects the intent.
+
+### Not yet placed: the Alignment loop
+
+**Issue:** none yet.
+**What:** a loop that finds and fixes drift in the product model — two ICE for one part, an ICE with no intent, a capability with no domain. It exists because any play may now write any kind of thing it finds (ADR 031, ontology v3). It is not one of the five loops; where it sits is not decided (Kapil, 2026-10-09).
 
 ## Side work done while this plan ran
 
@@ -186,3 +200,4 @@ Not part of this plan; recorded so the gaps in time make sense.
 - 2026-10-19 — Memory item 7 shipped: every install carries the memory system (#660, PR #677); ADR 038 accepted (the install brings no memory; Phoenix memory on first use; `initialize` to come).
 - 2026-10-20 — The review tool is built separately, as **Argus**, a Phoenix tool (Kapil): business intent #680, Feature #681 with #641–#644 and #664 moved under it, all in the new Phoenix project under Garura tools. Catch up decided: swipe right approves, swipe left leaves a piece unread, any change is entered.
 - 2026-10-20 — #613 (the runner) built and landing: `/drive-creator`, `/drive-editor`, the shared drive run (rounds, status, memory building), the checker, Kickoff; five test runs on the Argus mockup fixed `/intent` (every view, journeys, questions to the drive). The review tool is Argus, a Phoenix tool (#680).
+- 2026-10-21 — Plan found stale (Kapil asked for the tree): #613 had closed on 20 October and six pieces shipped on 21 October (#686, #689, #690, #692, #693, #698) with no plan line. Item 8 rewritten: runner shipped, the 21 October work shipped, now #699 (loop principles); the two stop tests not shown moved here from the #613 plan; the review steps follow. Names changed to loop and Discovery (ADR 045). Big update: linked issues completing and items added inside item 8.

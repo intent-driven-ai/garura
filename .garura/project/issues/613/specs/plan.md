@@ -2,9 +2,9 @@
 plan_for: 613
 kind: story
 serves: "#613 — the Kickoff drive runs /intent, /vision and /understand from a working prototype to a detailed product model"
-status: active
-updated: 2026-10-20
-now: 10
+status: done
+updated: 2026-10-21
+now: -
 serves_plan: 606
 serves_item: 8
 ---
@@ -84,10 +84,10 @@ the wrong move."* When memory and the system hold nothing to go on, they ask.
 
 ## Where we are now
 
-The memory milestone is passed (#653 items 1 to 9; the last, #662, merged on 20 October): the
-three plays read memory only through their agents, every run lives under its issue, and they
-ran from memory alone on a test project. A fresh branch `feature/613-the-kickoff-drive` is cut
-from main (`504379ce`). Items 3 to 9 are done: Kickoff loops over its plays and builds the memory it lacks before it asks; ADR 041 records how a drive runs; PR #682 lands it after two review rounds. Now: item 10, run it again from main.
+Done. #613 closed on 20 October when PR #682 merged. The proof run (item 10) happened under
+#689 on 21 October: Discovery run 2 on the Argus mockup reached its brief and Kapil accepted it.
+Two of the three stop tests were never shown (no prototype, a prototype that does not run); the
+checker's reject was proved in item 6. They carry on in the #606 plan, item 8.
 
 ## The plan, in order
 
@@ -147,6 +147,15 @@ from main (`504379ce`). Items 3 to 9 are done: Kickoff loops over its plays and 
   drive presents its status in a file (a Claude Code plugin shows it, later); the member play
   `/build-memory` builds the memory a round lacks before anyone is asked (design: #680
   `memory-builder.md`); two install faults fixed.
+- **9. Shipped: the runner** — PR #682, merged 20 October; ADR 041 records how a drive runs.
+  #613 closed with the merge.
+- **10. Shipped in part: Kickoff proved on a real prototype** (21 October, under #689, not
+  #613) — Kickoff run 2 on the Argus mockup (`evidence/kickoff-run/findings.md`, "#689
+  runs"): 6 intents, 3 researched domains, 10 capabilities, 32 functionalities, 0 gaps, 3
+  rounds, then the brief; Kapil accepted it and waived its rebuild eval. It ran from the #689
+  branch, not from main. Not yet done: the stop tests for no prototype and for a prototype
+  that does not run (the checker's reject was shown in item 6); keeping the run as Argus's
+  example pack (#641); a handoff comment on #613.
 
 ### Milestone: Kickoff's plays work from memory — passed (20 October)
 
@@ -157,29 +166,6 @@ system in every Garura install, and
 `/intent`, `/vision` and `/understand` moved onto the tool and tried on a test
 project. That work is its own feature, outside this issue
 (Feature #653, `.garura/project/issues/653/specs/plan.md`).
-
-### 9. Land the runner — done (PR #682)
-
-**Issue:** #613.
-**What:** commit, raise, review and merge the change (Kapil, 2026-10-20: "fix the drive or
-intent first, and then merge … then run it again"). The memory files this branch changed
-(`standards/rules/drive-contract.md`, `pipeline-next.md`, `run-status.md`, `_index.md`) also
-belong in Phoenix memory — pushed when Kapil asks.
-**Why here:** the next run must test what is on main, installed the way a project gets it.
-**Done when:** merged to main.
-**Needs:** item 8.
-
-### 10. Prove Kickoff on a real prototype, from main — now
-
-**Issue:** #613.
-**What:** in a fresh test project installed from main, run Kickoff end to end on the Argus
-mockup (Kapil's pick); then show the three halts — no prototype, a prototype that does not run,
-a checker rejection. Record the run and its findings in this issue's folder; fixes they need
-are made in Garura, merged, and run again — never patched in the test run. Keep the run's
-output as Argus's example pack (#641). Post the handoff on #613 and mark the #606 plan's step
-when Kapil asks.
-**Done when:** a run reaches the end and the three halts are recorded.
-**Needs:** item 9.
 
 ## Log
 
@@ -225,3 +211,4 @@ when Kapil asks.
 - 2026-10-20 — Kapil: a drive presents its status in a file, and a separate Claude Code plugin shows it ("these two have to be decoupled"); the drive's side is built in item 8, the plugin is later work.
 - 2026-10-20 — Item 8 done. Kapil: fix in Garura, merge, then run again — never on the test run. Landing is item 9, the proof from main item 10.
 - 2026-10-20 — Item 9 done. Kapil chose to fix before the merge: ADR 041 (accepted) records how a drive runs; the first review's text gaps and the second review's four that change the next run (`/understand`'s drive case, the worked drive example, the pinned-gate and answers rules, the glossary) are fixed; PR #682 merges on Kapil's approve. Now item 10.
+- 2026-10-21 — Plan closed out: it still said "now: item 10" after #613 closed on 20 October. Item 9 shipped (PR #682). Item 10 shipped in part under #689 (run 2 accepted by Kapil); the two stop tests not shown move to the #606 plan, item 8. Big update: a linked issue completing. Since 21 October a drive is called a loop and Kickoff is the Discovery loop (ADR 045, #698); this plan keeps its old words as a past record.
