@@ -40,6 +40,19 @@
 ## Scope (In / Out)
 ```
 
+## Sources — the last section, at every stage (#689)
+
+```
+## Sources
+- <a research source that names this domain as the world knows it — a web link>
+```
+
+Where the domain comes from: a knowledge shelf it matches, or, when no shelf holds it, the
+research that shows it is a domain the world recognises (an industry or a known product
+category, named as the industry names it). One link or shelf per line. A domain is never a
+name made up for one product. Optional for older pages; every play that writes or raises a
+domain page writes it.
+
 ## Per-section guidance
 
 - **Intent** — what this domain is for, in plain terms: the outcome it exists to

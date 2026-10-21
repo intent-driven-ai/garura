@@ -211,6 +211,23 @@ def test_agent_intent_section():
               spine_errors(root, spine % "") == [])
 
 
+def test_sources_section():
+    src = "\n## Sources\n- Board screen, the column header: \"In review\"\n"
+    check("a capability page may end with its sources (#689)", lint(CAP + src, expected_stage="directional") == [])
+    check("sources sit just before the agent intent", lint(CAP + src + ICE, expected_stage="directional") == [])
+    check("sources after the agent intent are an error",
+          any("as the last section" in e for e in lint(CAP + ICE + src, expected_stage="directional")))
+    moved = CAP.replace("## Directional intent", src.strip() + "\n\n## Directional intent")
+    check("sources in the middle of the page are an error",
+          any("'## Sources' must appear once" in e for e in lint(moved, expected_stage="directional")))
+    check("an empty sources section is an error",
+          any("lists no source" in e for e in lint(CAP + "\n## Sources\nnothing\n", expected_stage="directional")))
+    errors = []
+    lg.check_doc("light.md", LIGHT_DOMAIN + "\n## Sources\n- https://example.org/commerce\n", "domain", errors, [],
+                 expected_stage="directional")
+    check("a domain page may end with its research sources", errors == [])
+
+
 def test_every_copy_is_identical():
     mine = open(os.path.join(HERE, "lint_grounding.py"), "rb").read()
     copies = glob.glob(os.path.join(REPO, "core", "components", "plays", "*", "scripts", "lint_grounding.py"))
@@ -221,7 +238,7 @@ def test_every_copy_is_identical():
 
 def main():
     for test in (test_lens_docs_and_the_orphan_check, test_lens_contracts_match_their_templates,
-                 test_domain_stages, test_agent_intent_section, test_every_copy_is_identical):
+                 test_domain_stages, test_agent_intent_section, test_sources_section, test_every_copy_is_identical):
         print(test.__name__)
         test()
     print(f"\n{PASSED} passed, {FAILED} failed")
