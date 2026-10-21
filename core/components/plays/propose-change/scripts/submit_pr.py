@@ -13,7 +13,9 @@ judgment.
         [--draft] --out <pr.json>
 
 Idempotent: if an open PR already exists for the branch, it is updated (C5) — not
-duplicated. Writes pr.json: { number, url, state, base }.
+duplicated. Writes pr.json: { number, url, state, base, on_target }. --base is the target
+resolve_target.py gave (#673): the plan branch for an issue in a plan, else main;
+on_target is true when the PR's base on the host equals it.
 
 Exit 0 on success, 1 on a push/create failure.
 """
@@ -100,6 +102,8 @@ def main(argv=None):
             "number": None, "url": res["stdout"].strip(), "state": "OPEN",
             "base": ns.base}
 
+    # The PR must point where its branch lands (#673): main, or its plan branch.
+    rec["on_target"] = rec.get("base") == ns.base
     with open(ns.out, "w", encoding="utf-8") as fh:
         json.dump(rec, fh, indent=2)
     print(json.dumps(rec, indent=2))

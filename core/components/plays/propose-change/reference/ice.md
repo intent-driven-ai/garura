@@ -6,7 +6,8 @@ play-creator; never hand-edit the compiled SKILL.md.
 ## Intent
 
 Raise the current change for review: run a self-review on its scope and quality, push
-the branch, and open a pull request that carries that review, so the change is ready
+the branch, and open a pull request that carries that review — into where the branch
+lands: its plan's branch for an issue in a plan, main otherwise — so the change is ready
 for review-change.
 
 Pipeline position: **end** (second step of the end sequence: commit-change →
@@ -18,7 +19,10 @@ their order is enforced by each one's pre-flight, not by welding them into one p
 
 - C1 — A self-review on scope and quality runs before the PR opens, and its result
   travels in the PR.
-- C2 — The branch is pushed to origin and a pull request is opened against main.
+- C2 — The branch is pushed to origin and a pull request is opened against its target, read
+  from the branch name by the bundled `resolve_target.py`, never guessed (#673): a branch
+  `plan/<plan-id>/<issue>-<slug>` targets `plan/<plan-id>/base`; a plan branch
+  `plan/<plan-id>/base`, or a one-off branch, targets main.
 - C3 — The change is fully committed first; the play does not raise with a dirty tree.
 - C4 — The PR references its tracked issue.
 - C5 — Raising again when a PR already exists for the branch updates that PR; it never
@@ -55,12 +59,14 @@ their order is enforced by each one's pre-flight, not by welding them into one p
 - F8 — A push or PR-open happened while the self-review carried a blocking finding.
 - F9 — The mechanical push or PR-open was run through an agent dispatch instead of the
   bundled submit_pr.py.
+- F10 — The PR is opened against the wrong base: an issue in a plan against main, or a plan
+  or one-off branch against anything but main.
 
 ## Expectation
 
 ### Success scenarios
 
-- S1 — (developer, clean change) Given a committed feature branch with an issue, when
+- S1 — (developer, clean change) Given a committed one-off feature branch with an issue, when
   propose-change runs, then a self-review from the resolved rules file is produced, the
   branch is pushed, and a PR is opened against main carrying the self-review and the
   issue reference. Measure: a PR exists for the branch; its body contains the self-review
@@ -77,6 +83,10 @@ their order is enforced by each one's pre-flight, not by welding them into one p
 - S4 — (developer, dirty tree) Given uncommitted changes, when propose-change runs, then
   it halts before pushing or opening and asks for the change to be committed first.
   Measure: no push and no PR were made; the user is told to commit.
+- S5 — (developer, issue in a plan) Given a committed branch `plan/P/<issue>-<slug>`, when
+  propose-change runs, then the PR opens against `plan/P/base`, not main. Measure: the PR's
+  base on the host is `plan/P/base`; pr.json reads `on_target: true`; target.json names
+  `plan/P/base`.
 
 ### Done means
 
@@ -84,8 +94,8 @@ their order is enforced by each one's pre-flight, not by welding them into one p
   check: { type: artifact_exists, path: "context/self-review.md" }
 - D2 — says: "the PR record exists"
   check: { type: artifact_exists, path: "context/pr.json" }
-- D3 — says: "the PR targets main"
-  check: { type: field_equals, file: "context/pr.json", field: "base", equals: "main" }
+- D3 — says: "the PR targets where its branch lands"
+  check: { type: field_equals, file: "context/pr.json", field: "on_target", equals: true }
 
 ### Recovery (one per failure condition)
 
@@ -114,3 +124,6 @@ their order is enforced by each one's pre-flight, not by welding them into one p
 - REC9 (F9) — trigger: the mechanical push or PR-open was run through an agent instead of
   the script. direction: route it through submit_pr.py (via platform_adapter.py) and remove
   the agent dispatch. handoff: autonomous.
+- REC10 (F10) — trigger: the PR's base differs from the target resolve_target.py gives.
+  direction: change the PR's base on the host to the target (or re-open it there) and
+  re-record pr.json. handoff: autonomous.
