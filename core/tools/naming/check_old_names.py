@@ -14,7 +14,7 @@ every old name where it can only mean the component:
 
 A one-word old name (vision, run, quality) is an everyday word, so plain prose is not
 searched for it. Past records keep their old words and are not searched: .garura/,
-CHANGELOG.md, and the ADRs written before ADR 046.
+CHANGELOG.md, the ADRs up to and including ADR 046 (which records this rename).
 
     python3 core/tools/naming/check_old_names.py [--root .] [--kind plays|skills|loops|agents] \
         [--out report.json]
@@ -38,9 +38,10 @@ SKIP_FILES = {MAP, "core/components/memory/standards/rules/naming.yaml",
               "core/tools/naming/test_naming_tools.py", "CHANGELOG.md",
               "core/components/memory/standards/rules/naming.md", "core/tools/lint-components/test/naming.test.js",
               "core/tools/lint-components/package.json", "core/tools/lint-components/package-lock.json",
-              "docs/adr/_index.md", "docs/agentic-methodology/tools/lint-components.md"}
+              "docs/adr/_index.md", "docs/agentic-methodology/tools/lint-components.md",
+              "core/components/plays/install-garura/scripts/test_install.py"}  # sets up old-name folders on purpose
 TEXT = (".md", ".py", ".js", ".yaml", ".yml", ".json", ".sh", ".txt", ".toml")
-FIRST_NEW_ADR = 46
+FIRST_NEW_ADR = 47  # ADR 046 records this rename, so it names the old names on purpose
 # Files whose keys are play or loop names (the next-step map, the config).
 KEYED_FILES = {"core/components/memory/standards/rules/pipeline-next.md", "core/config.yaml"}
 
