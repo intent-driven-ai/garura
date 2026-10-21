@@ -4,7 +4,7 @@ id: 717
 title: People plan work toward a business intent, and pick it up across days and people
 status: active
 started: '2026-10-22'
-branch: plan/717-plans
+branch: plan/717/base
 identified_by: []
 needs_plans:
 - 722
