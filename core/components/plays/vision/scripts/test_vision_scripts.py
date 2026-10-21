@@ -5,6 +5,8 @@ guard over a real /intent → /vision hand-over.
 
     python3 test_vision_scripts.py
 """
+import contextlib
+import io
 import json
 import os
 import shutil
@@ -354,6 +356,52 @@ def test_grounding_covers_every_capability():
         path = seed(tmp, VISION_DELTA, caps=[{"id": "saved-carts", "grounding": {"kb_shelf": "ecommerce → Carts"}},
                                              {"id": "guest-checkout", "grounding": {"kb_shelf": "ecommerce → Checkout"}}])
         check("recording it with its shelf passes", gc.main(["--manifest", path]) == 0)
+    # #689: the pages say where they come from
+    with tempfile.TemporaryDirectory() as tmp:
+        base = os.path.join(tmp, "product")
+        m = os.path.join(base, "product-os")
+        caps = [{"id": "saved-carts", "grounding": {"kb_shelf": "ecommerce → Carts"}},
+                {"id": "guest-checkout", "grounding": {"kb_shelf": "ecommerce → Checkout"}}]
+        path = os.path.join(tmp, "seed-manifest.yaml")
+        write(path, yaml.safe_dump({"seed": {"spine_delta": VISION_DELTA, "capabilities": caps,
+                                             "domain": {"id": "shop", "doc": "product-os/shop/domain.md"}}}))
+        write(os.path.join(m, "shop", "domain.md"), "# Theme: Shop\n\n## Intent\nSell.\n")
+        write(os.path.join(m, "shop", "saved-carts", "capability.md"),
+              "# Capability: Saved carts\n\n## Directional intent\nKeep carts.\n")
+        write(os.path.join(tmp, "proto.txt"), "Your cart is saved for 30 days")
+        argv = ["--manifest", path, "--product-base", base, "--source-text", os.path.join(tmp, "proto.txt")]
+        with contextlib.redirect_stdout(io.StringIO()) as out:
+            rc = gc.main(argv)
+        errs = json.loads(out.getvalue())["errors"]
+        check("a domain page with no sources fails (#689)", rc == 1 and any("domain page" in e for e in errs))
+        check("a capability page with no sources fails (#689)",
+              any("saved-carts/capability.md: no `## Sources`" in e for e in errs))
+        write(os.path.join(m, "shop", "domain.md"),
+              "# Theme: Shop\n\n## Intent\nSell.\n\n## Sources\n- the Shop screens\n")
+        write(os.path.join(m, "shop", "saved-carts", "capability.md"),
+              "# Capability: Saved carts\n\n## Directional intent\nKeep carts.\n\n## Sources\n"
+              "- Cart screen: \"Your cart is kept forever\"\n")
+        with contextlib.redirect_stdout(io.StringIO()) as out:
+            gc.main(argv)
+        errs = json.loads(out.getvalue())["errors"]
+        check("a domain whose sources name no shelf and no research link fails — it was made up",
+              any("name no shelf and no research link" in e for e in errs))
+        check("a quote that is not on the prototype fails", any("is not on the prototype" in e for e in errs))
+        write(os.path.join(m, "shop", "domain.md"),
+              "# Theme: Shop\n\n## Intent\nSell.\n\n## Sources\n- https://example.org/e-commerce\n")
+        write(os.path.join(m, "shop", "saved-carts", "capability.md"),
+              "# Capability: Saved carts\n\n## Directional intent\nKeep carts.\n\n## Sources\n"
+              "- Cart screen: \"Your cart is saved for 30 days\"\n")
+        with contextlib.redirect_stdout(io.StringIO()):
+            check("a researched domain and a capability seen on the prototype pass", gc.main(argv) == 0)
+        write(path, yaml.safe_dump({"seed": {"spine_delta": VISION_DELTA, "capabilities": caps,
+                                             "domains": [{"id": "shop", "doc": "product-os/shop/domain.md"},
+                                                         {"id": "support", "doc": "product-os/support/domain.md"}]}}))
+        write(os.path.join(m, "support", "domain.md"), "# Theme: Support\n\n## Intent\nHelp.\n")
+        with contextlib.redirect_stdout(io.StringIO()) as out:
+            rc = gc.main(argv)
+        check("with several domains, each page needs its own sources",
+              rc == 1 and any("support/domain.md" in e for e in json.loads(out.getvalue())["errors"]))
 
 
 TEMPLATE = """# Capability template

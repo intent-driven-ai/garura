@@ -95,6 +95,7 @@ Telegraphic labels ("Local fixtures only") fail the eval.
 | Field | Required | Description |
 |-------|----------|-------------|
 | `goal` | no | The business goal, free text (e.g. "order management for a D2C store"). With intents, draw it from their pages instead. One of `goal` or `intents_path` is given. |
+| `capture` | no | A prototype's shared capture (#689): its source manifest (the views kept, each with its text) and its journeys. With it, the domain and the capabilities are read from the screens themselves — no intents needed — and every capability page names where it is seen. |
 | `intents_path` | no | `read_intents.py`'s record: the input intents (title, outcome, why, stage) and the domains and capabilities already linked to them, including those in the holding folder. |
 | `grounding_path` | yes | The `search-kb` routing result mapping the goal to a domain + candidate capabilities, each with its KB shelf and `why`. |
 | `proposals_dir` | no | Folder of any `propose-kb-node` proposals for parts the KB did not cover. |
@@ -122,20 +123,26 @@ content bar are non-negotiable.
    `same_as` and do not add it again. Never emit a new spine-delta entry for an id already
    in the live spine.
 
-3. **Write or raise the domain grounding doc, in place.** `{domain-slug}/domain.md` to the
+3. **Write or raise each domain's grounding doc, in place.** A product may sit in more than
+   one domain (the field it serves and the job it does there); write one page for each domain
+   the routing names, and put each capability under the domain it belongs to.
+   `{domain-slug}/domain.md` to the
    Theme template's **detailed** stage, at CXO altitude — the problem the domain owns and
    the bet behind it, the operating principles/hard rules that define it, the directional
    capabilities (those already there and those you add), and the in/out scope. If the page
    is absent, write it. If it is a light page, raise it: keep its `## Intent` (you may
-   extend it) and add the other four sections. If it is already detailed, extend its
+   extend it) and add the other four sections. End it with `## Sources`: the shelf it
+   matched, or, for a new domain, the research links the proposal cites — the links that show
+   the world recognises this domain by this name. If it is already detailed, extend its
    Capabilities list for what you add, keeping every section. This is the detailed artifact
    a CXO validates.
 
 4. **Write each new capability grounding doc, in place; grow existing ones lightly.**
    A new capability: `{domain-slug}/{capability-slug}/capability.md` to the capability
    template's **directional** stage — `## Directional intent` (what it is about, the rough
-   direction of its scope, why it matters to the domain), then `## Agent intent (ICE)` when
-   it serves an intent. A capability another play wrote: leave its page where it is (the
+   direction of its scope, why it matters to the domain), then `## Sources` (its shelf, and
+   from a prototype capture each screen it is seen on with the words there in quotes), then
+   `## Agent intent (ICE)` when it serves an intent. A capability another play wrote: leave its page where it is (the
    persist moves a holding-folder page) and add only light directional detail you can back,
    keeping every line. Never detail a capability, never write a functionality.
 
@@ -216,6 +223,12 @@ Return the enriched contract with the live doc paths written and the `seed-manif
 path — paths, never inline content.
 
 ## Rules
+
+- **Every page says where it comes from (#689).** The domain page ends with `## Sources`
+  (its shelf, or its research links). Each capability page you add carries `## Sources`
+  before its agent intent: its shelf, and — from a prototype capture — each screen it is seen
+  on with the exact words there in quotes. A capability nothing shows and no shelf holds is
+  not written.
 
 - **CXO altitude.** Strategic and directional. No functionalities, no acceptance
   criteria, no delivery sequencing — those belong to /understand and /shape.

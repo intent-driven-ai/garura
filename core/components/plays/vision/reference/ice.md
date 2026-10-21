@@ -5,14 +5,17 @@ play-editor; never hand-edit the compiled SKILL.md.
 
 ## Intent
 
-Given business intents (by id, or /intent's save record), a business goal typed as text, or
-both, plant or grow the product model as the **CXO conversation**: what you take to a CXO and
+Given business intents (by id, or /intent's save record), a business goal typed as text, a
+prototype's shared capture (its views and journeys, read once by the `prototype-reader`), or
+any mix of them, plant or grow the product model as the **CXO conversation**: what you take to a CXO and
 get back. Write a **detailed domain** grounding doc (the problem the domain owns, the bet, its
 operating principles, the directional capabilities, the scope), name the candidate
 **capabilities and give each only its directionality** (what it is about, the rough direction
 of its scope, why it matters), lay down the matching **spine** entries (a domain + its
 capabilities), and sketch a **directional product profile**. Ground the domain and
-capabilities in the KB domain shelves rather than inventing them. Present the proposed change
+capabilities in the KB domain shelves — or, where no shelf holds the domain, in research that
+shows the world recognises it — and never invent them; every page says where it comes from
+(`## Sources`). Present the proposed change
 at a single human checkpoint and commit it to the product model only on approval.
 
 One model, and nothing waits (#637; ADR 031 parts 2–3; ontology v3). /intent and /vision write
@@ -82,7 +85,13 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
   never lowers an entry's `detail`.
 - C5 — Grounded, not invented: domains and capabilities are grounded in the KB domain
   shelves. A capability matching a shelf cites it; a genuinely new domain or capability
-  absent from the KB is recorded as a KB-node proposal — never silently invented. This
+  absent from the KB is recorded as a KB-node proposal — never silently invented. A domain is
+  one the world already recognises: the shelf it matched, or — when no shelf holds it — a
+  domain named as the industry or a known product category names it in the research the
+  proposal cites, never a name made from the product's own screens, its sample data or the
+  words of the work. The domain page ends with `## Sources` (its shelf or its research links);
+  each capability page the run adds carries `## Sources` (its shelf, and from a prototype each
+  screen it is seen on with the words there in quotes) (#689). This
   covers every capability the run adds, places or changes, its own and the ones another play
   wrote: each is recorded in the seed manifest with its shelf match or its proposal.
 - C6 — Keep what is there, enforced by the containment split, the keep check and the
@@ -139,7 +148,9 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
   sequence lands exactly this run's delta. This model-delta commit is a lightweight persist
   step, distinct from both the end sequence and the Standard Play Close.
 - C10 — Starts from whatever is there, and never blocks: the play takes business intents,
-  a typed goal, or both (with neither, it asks for a goal, as before). It reads the named
+  a typed goal, a prototype's capture, or any mix (with none, it asks for a goal, as before);
+  from a capture it reads the domain and the capabilities from the screens themselves and
+  needs no intents (C12). It reads the named
   intents with the bundled `read_intents.py`, accepting a `proposed` intent like a
   `confirmed` one; it never runs the workable check and never waits for a confirmation. It
   never refuses, stops, or fails its close because another play did or did not run first,
@@ -178,6 +189,19 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
   nothing is written to disk before `start-change` has given the issue; inside a drive the
   issue is known at pre-flight from the contract.
 
+- C12 — Reads the product, not the sample (Kapil, 2026-10-21: "they can extract the domain and
+  do not need intents to do that. looking at screens its easy to know which domain and what
+  sort of functionality they need"). Handed a prototype's capture, the play reads what the
+  product offers its user from the screens: the domains it sits in and one capability per
+  thing it offers. It asks, in order, which field the product serves — judged by what its
+  screens are about — and which job it does in that field; each may be a domain, so a product
+  often sits in more than one (Kapil, same day, on a review tool for AI-built software: SDLC or
+  Developer Experience as the field, Human Oversight and Product requirements management as
+  the job), each with its own page and `## Sources`, each capability under the domain it
+  belongs to. The sample data on the screens is an example of what the
+  product handles, never its domain. Each capability names the screen it is seen on and the
+  words there; a capability the screens do not show and no shelf holds is not written.
+
 ### Failure conditions
 
 - F1 — A grounding doc fails its template/shape (missing, extra, or out-of-order
@@ -190,7 +214,8 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
   acceptance criteria, a profile in state `set`/`locked`, or a capability marked
   `detail: detailed` was written, or an entry's `detail` was lowered.
 - F4 — A capability is neither grounded in a KB domain shelf nor recorded as a KB-node
-  proposal.
+  proposal; or the domain is a name made up for this product — no shelf matched and no
+  research names it — or its page or a capability page added has no `## Sources`.
 - F5 — Allowlist breach: a model path outside the run's write scope changed (a grounding
   doc removed, a holding-folder page changed instead of moved, an intent page added or
   removed, any other file) — the scoped-write guard's report is not ok; or an existing doc
@@ -228,6 +253,10 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
   the record differs from what the checkpoint would have shown, the gate ledger has no line
   for the crossing, or a line records an approval no person gave; or the play picked an
   answer to a question the drive had not answered.
+
+- F14 — Handed a prototype's capture, the play named the domain after the sample data or the
+  screens' own words, wrote a capability no screen shows and no shelf holds, or a capability
+  quotes words the prototype does not have.
 
 ## Expectation
 
@@ -297,6 +326,14 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
   `run.json` reads `in_drive: false`, every step ran as before, and it sits in the folder of
   the issue `start-change` gave.
 
+- S8 — (product strategist, from a prototype alone) Given only a prototype's capture — no
+  intents, no goal — when /vision runs, then it names a domain the world recognises, found by
+  a shelf or by research, and one capability per thing the screens offer, each saying where
+  it is seen. Measure: `grounding_check.py` run with `--product-base` and `--source-text`
+  exits 0 — the domain page's `## Sources` names its shelf or a research link, every added
+  capability page has `## Sources`, and every quote is on the prototype; the rebuild eval's
+  review reads `recognised: true` for the domain and no capability `invented`.
+
 ### Done means
 
 Paths are relative to the run's working folder (`<working>`,
@@ -336,9 +373,10 @@ not per-node docs.
   direction: strip the over-reach — drop the functionality, demote the capability back to
   directional, remove the acceptance criteria, reset the profile to `directional`, restore a
   lowered `detail` — leaving only /vision's scope. handoff: autonomous.
-- REC4 (F4) — trigger: a capability has neither a KB shelf match nor a KB-node proposal.
-  direction: search the KB to ground it, or record a propose-kb-node proposal; never
-  leave it ungrounded. handoff: autonomous.
+- REC4 (F4) — trigger: a capability has neither a KB shelf match nor a KB-node proposal, the
+  domain is a made-up name, or a page lacks its `## Sources`. direction: search the KB to
+  ground it, or record a propose-kb-node proposal that names the domain from its research;
+  write each page's sources; never leave it ungrounded. handoff: autonomous.
 - REC5 (F5) — trigger: the scoped-write guard or the keep check report is not ok, or the
   persist refused an update outside the named ones. direction: the guard's `--restore`
   already reverted the offending paths; restore any doc that lost a section from HEAD and
@@ -384,3 +422,9 @@ not per-node docs.
   append the missing `deferred_to_drive_review` line, or a correction refuting a made-up
   approval; drop the picked answer and hand the question to the drive (`open-vision.json`;
   run by hand, ask the person). handoff: autonomous.
+
+- REC14 (F14) — trigger: the domain is named after the sample or the screens' words, a
+  capability no screen shows was written, or a quote is not on the prototype. direction:
+  route the product the screens offer again — the sample set aside — through the shelves and,
+  when none fits, research for the domain the world names; drop the capability nothing shows;
+  quote the screen's own words. handoff: autonomous.

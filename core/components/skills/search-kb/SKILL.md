@@ -28,8 +28,12 @@ applies). That is the routing entry.
 Reasoning is yours (the skill); the agent only retrieves.
 
 1. **List + reason to the domain (placement).** Read the front matter of every shelf in
-   `domains_dir`: its `title` and `conditions.trigger`. Read the ~10 triggers and reason which domain the work belongs to. Pick one; pick more
-   only if the work genuinely spans domains. This is **semantic placement** — do NOT
+   `domains_dir`: its `title` and `conditions.trigger`. Read the ~10 triggers and reason which domains the work belongs to.
+   Ask two questions, in order: **which field does the product serve** — judged by what its
+   screens or its words are about (what the user works on there) — and **which job does it do
+   in that field**. Each answer may be a domain of its own, so a product often sits in more than
+   one: name every domain it genuinely sits in, and set `spans_multiple_domains`. A domain no
+   shelf holds is recorded as unmatched for the nothing-fits path, by name and with why. This is **semantic placement** — do NOT
    consider product-profile conditions here.
 2. **Read the shelf + reason to capability/functionality.** Read the chosen shelf in
    `domains_dir`. Reason over its `## Capabilities` to pick the
