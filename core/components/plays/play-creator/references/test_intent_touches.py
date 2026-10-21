@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """test_intent_touches.py — tests for the Touches list on a business intent page.
 
-Every play's stamped copy of intent_touches.py must be identical to this canonical one.
+Every play's and skill's stamped copy of intent_touches.py must be identical to this canonical one.
 
     python3 test_intent_touches.py
 """
@@ -106,9 +106,10 @@ def test_bad_entries():
 
 def test_every_copy_is_identical():
     mine = open(os.path.join(HERE, "intent_touches.py"), "rb").read()
-    copies = glob.glob(os.path.join(REPO, "core", "components", "plays", "*", "scripts", "intent_touches.py"))
+    copies = [c for kind in ("plays", "skills")
+              for c in glob.glob(os.path.join(REPO, "core", "components", kind, "*", "scripts", "intent_touches.py"))]
     different = [c for c in copies if open(c, "rb").read() != mine]
-    check(f"every play's intent_touches.py is identical to the canonical one ({len(copies)} copies)",
+    check(f"every play's and skill's intent_touches.py is identical to the canonical one ({len(copies)} copies)",
           len(copies) >= 2 and not different)
 
 
