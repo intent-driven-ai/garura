@@ -13,7 +13,7 @@ tree:
 - issue: 721
   kind: capability
   title: 'Start and land work against a plan: plan branches in start-change and merge-change'
-  status: now
+  status: done
   children:
   - issue: 731
     kind: functionality
@@ -22,7 +22,7 @@ tree:
   - issue: 673
     kind: functionality
     title: merge-change lands an issue on its plan branch, and a plan on main only when it is done
-    status: now
+    status: done
 - issue: 718
   kind: capability
   title: 'Build a plan: a tree with an issue for every node, from a business intent'
