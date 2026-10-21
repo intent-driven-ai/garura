@@ -1,0 +1,34 @@
+commits:
+  - sha: aa3f7a27
+    message: "feat(drive): let drive loops run plays in rounds, in any order (#693)"
+    files:
+      - core/components/drives/kickoff/SKILL.md
+      - core/components/drives/kickoff/scripts/drive_preflight.py
+      - core/components/drives/kickoff/scripts/round_state.py
+      - core/components/plays/drive-creator/SKILL.md
+      - core/components/plays/drive-creator/references/compiled-drive-example/SKILL.md
+      - core/components/plays/drive-creator/references/compiled-drive-example/scripts/drive_preflight.py
+      - core/components/plays/drive-creator/references/compiled-drive-example/scripts/round_state.py
+      - core/components/plays/drive-creator/references/drive_preflight.py
+      - core/components/plays/drive-creator/references/round_state.py
+      - core/components/plays/drive-creator/references/test_lint_drive.py
+      - core/components/plays/drive-creator/scripts/lint_drive.py
+      - core/components/plays/drive-editor/scripts/lint_drive.py
+    branch: feature/693-loop-texts-any-order
+  - sha: c15e4469
+    message: "docs(drive): cite the shared drive run as owner of steps between plays (#693)"
+    files:
+      - core/components/drives/_shared/drive-run.md
+      - core/components/memory/standards/rules/direct-model-write.md
+      - core/components/agents/product-os-keeper.md
+      - core/grounding/glossary.md
+    branch: feature/693-loop-texts-any-order
+excluded_files:
+  - path: ".garura/project/issues/693/context/porcelain.txt"
+    reason: "run artifact handled later"
+  - path: ".garura/project/issues/693/context/analysis.yaml"
+    reason: "run artifact handled later"
+leftover_count: 0
+tree_clean: true
+pushed: false
+run_state_committed: true
