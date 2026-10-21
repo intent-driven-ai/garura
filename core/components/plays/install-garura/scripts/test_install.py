@@ -67,6 +67,17 @@ class Installed(unittest.TestCase):
         return os.path.join(self.target, *parts)
 
 
+class WritesTheProjectInstructions(Installed):
+    def test_the_projects_claude_md_holds_the_project_rules_not_garuras_development_guide(self):
+        self.install()
+        with open(self.path("CLAUDE.md"), encoding="utf-8") as fh:
+            text = fh.read()
+        self.assertTrue(text.startswith("# CLAUDE.md — shop"))
+        self.assertIn("Agent-first", text)
+        for dev_only in ("Garura is an agentic framework", "core/components/", "play-editor", "Work Tracking"):
+            self.assertNotIn(dev_only, text)
+
+
 class LaysTheMemorySystem(Installed):
     def test_the_install_lays_the_tool_its_settings_and_the_guide_and_brings_no_memory(self):
         record = self.install()["memory_system"]

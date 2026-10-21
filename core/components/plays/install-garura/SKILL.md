@@ -49,8 +49,9 @@ in the orchestrator, stop — that belongs in the adapter.
 - `.agents/skills/<id>/` — one Codex Agent Skill per garura skill, play, **and agent** (Codex
   has no separate agent type), carrying only `name` + `description` frontmatter, with the
   recommended tier noted in the body (Codex can't pin a model per skill).
-- `AGENTS.md` — garura's instruction surface, retitled for the target (Codex's equivalent of
-  CLAUDE.md). Written as `AGENTS.md.new` if one already exists. The memory guide is the one
+- `AGENTS.md` — the project instructions (`project-instructions.md`: how plays run, memory only
+  through its tool, how to talk to the person — not Garura's own development guide), retitled
+  for the target (Codex's equivalent of CLAUDE.md). Written as `AGENTS.md.new` if one already exists. The memory guide is the one
   exception: it is added to an existing `AGENTS.md` as a marked block (below).
 - `~/.codex/config.toml` + `~/.codex/{deep,standard,fast}.config.toml` — base defaults and the
   three tier profiles (model + reasoning effort + sandbox + approval), so the model and the
