@@ -30,6 +30,9 @@ Pipeline position: **none**. The last of the three knowledge member plays every 
   each page decision through the memory tool's `decide` (ADR 041 §8). The play never decides.
 - C5 — It runs only inside a drive (a valid drive contract), writes only under the drive's issue,
   and never writes the product model.
+- C6 — `brief.md` is exactly what the brief skill's renderer (`write-knowledge-brief`'s
+  `scripts/render_brief.py`) writes from `brief.json`; it is never written or edited by hand,
+  so the page the person reads holds what the check read and nothing beside it.
 
 ### Failure conditions
 
@@ -41,12 +44,15 @@ Pipeline position: **none**. The last of the three knowledge member plays every 
 - F4 — The play asked the person, waited, or decided a memory update itself.
 - F5 — The play ran without a drive contract, wrote outside the drive's issue, or wrote the
   product model.
+- F6 — `brief.md` differs from the renderer's output from `brief.json` (written by hand, or
+  edited after).
 
 ## Context
 
 Kickoff run 6 (#613, 20 October) relayed 11 questions with example answers; Kapil rejected the
 form, as he had on run 5. ADR 042 moves the presentation here. Argus will later show the same
-brief (#680, #664).
+brief (#680, #664). Kickoff run 2 (#689, 21 October): the agent wrote the round-3 brief by
+hand and never called `write-knowledge-brief`; the check still passed (#692).
 
 ## Expectation
 
@@ -80,3 +86,6 @@ brief (#680, #664).
   drive and deciding to the person. handoff: human.
 - REC5 (F5) — trigger: no drive contract, a write outside the issue, or a model write.
   direction: halt; move the record under the drive's issue; undo the model write. handoff: human.
+- REC6 (F6) — trigger: `brief.md` differs from the rendering of `brief.json`. direction: write
+  the content into `brief.json` and render `brief.md` with `render_brief.py`. handoff:
+  autonomous.

@@ -84,6 +84,22 @@ class CheckBrief(unittest.TestCase):
         self.assertTrue(any("What we understood" in p for p in problems))
         self.assertTrue(any("G1: not named" in p for p in problems))
 
+    def test_a_brief_md_that_is_not_the_renderers_output_fails(self):
+        self.assertEqual(cb.check(BRIEF, MD, BUILD, 7, rendered=MD + "\n")[0], [])
+        problems = cb.check(BRIEF, MD + "Written beside the data.\n", BUILD, 7, rendered=MD)[0]
+        self.assertTrue(any("renderer" in p for p in problems))
+
+    def test_the_check_renders_brief_json_with_the_given_renderer(self):
+        tmp = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, tmp, ignore_errors=True)
+        renderer = os.path.join(tmp, "render.py")
+        with open(renderer, "w") as fh:
+            fh.write("import sys\nopen(sys.argv[sys.argv.index('--out') + 1], 'w').write('rendered page')\n")
+        brief = os.path.join(tmp, "brief.json")
+        with open(brief, "w") as fh:
+            json.dump(BRIEF, fh)
+        self.assertEqual(cb.render(renderer, brief), "rendered page")
+
 
 class RecordReview(unittest.TestCase):
     def setUp(self):

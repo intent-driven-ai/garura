@@ -9,7 +9,9 @@ whether it reads well stays with the agent.
 
     python3 check_brief.py --brief <working>/brief.json --brief-md <working>/brief.md \
         --build <build working>/build.json --issue <issue> \
-        --memory-tool .garura/core/tools/memory/memory.py --out <working>/brief-check.json [--max-gaps 7]
+        --memory-tool .garura/core/tools/memory/memory.py \
+        --renderer <write-knowledge-brief>/scripts/render_brief.py \
+        --out <working>/brief-check.json [--max-gaps 7]
 
 brief.json:
   {"understood": "<what we understood, a few sentences>",
@@ -27,14 +29,17 @@ theme); each gap has its context and a proposed answer — never a bare question
 the build closed as settled is shown, with why; every memory update the memory tool lists as
 waiting for the issue is a page with its sources and a recommendation, so a "yes" is an
 informed approval (ADR 035 §5); the prototype notes count matches the build's; brief.md carries
-the three headings and names every gap.
+the three headings and names every gap; and brief.md is exactly what the brief skill's renderer
+(`render_brief.py`) writes from brief.json — a page written by hand, or edited after, fails.
 
 Exit 0 clean; 1 gaps; 2 cannot read an input. Standard library only.
 """
 import argparse
 import json
+import os
 import subprocess
 import sys
+import tempfile
 
 HEADINGS = ("What we understood", "What we built", "Where the gaps are")
 
@@ -49,8 +54,23 @@ def waiting_updates(tool, issue):
     return {str(u.get("id")) for u in answer.get("updates") or [] if str(u.get("issue")) == str(issue)}
 
 
-def check(brief, md, build, max_gaps, waiting=()):
+def render(renderer, brief_path):
+    """brief.md as the brief skill's renderer writes it from brief.json."""
+    with tempfile.TemporaryDirectory() as tmp:
+        out = os.path.join(tmp, "brief.md")
+        run = subprocess.run([sys.executable, renderer, "--brief", brief_path, "--out", out],
+                             capture_output=True, text=True, check=False)
+        if run.returncode != 0 or not os.path.isfile(out):
+            raise ValueError(f"renderer: {run.stderr.strip() or 'no brief.md written'}")
+        with open(out, encoding="utf-8") as fh:
+            return fh.read()
+
+
+def check(brief, md, build, max_gaps, waiting=(), rendered=None):
     problems = []
+    if rendered is not None and md.strip() != rendered.strip():
+        problems.append("brief.md is not the renderer's output from brief.json — write brief.json and "
+                        "render brief.md with render_brief.py; never write or edit brief.md by hand")
     for k in ("understood", "built"):
         if not str(brief.get(k) or "").strip():
             problems.append(f"the brief has no `{k}`")
@@ -110,6 +130,7 @@ def main(argv=None):
     ap.add_argument("--build", required=True)
     ap.add_argument("--issue", required=True)
     ap.add_argument("--memory-tool", default=".garura/core/tools/memory/memory.py")
+    ap.add_argument("--renderer", required=True, help="the brief skill's scripts/render_brief.py")
     ap.add_argument("--out", required=True)
     ap.add_argument("--max-gaps", type=int, default=7)
     args = ap.parse_args(argv)
@@ -121,10 +142,11 @@ def main(argv=None):
         with open(args.build, encoding="utf-8") as fh:
             build = json.load(fh)
         waiting = waiting_updates(args.memory_tool, args.issue)
+        rendered = render(args.renderer, args.brief)
     except (OSError, ValueError) as exc:
         sys.stderr.write(f"check_brief.py: cannot read an input: {exc}\n")
         return 2
-    problems, counts = check(brief, md, build, args.max_gaps, waiting)
+    problems, counts = check(brief, md, build, args.max_gaps, waiting, rendered)
     report = {"ok": not problems, "gaps_found": problems, **counts}
     with open(args.out, "w", encoding="utf-8") as fh:
         json.dump(report, fh, indent=2)

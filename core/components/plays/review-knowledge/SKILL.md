@@ -23,7 +23,7 @@ lands nothing.
 ## Compiled From
 
 This play was compiled from the review-knowledge ICE (`reference/ice.md`) by play-creator
-(#686). Intent defines constraints (C1–C5) and failure conditions (F1–F5); the expectation
+(#686; play-editor #692). Intent defines constraints (C1–C6) and failure conditions (F1–F6); the expectation
 defines success scenarios (S1–S2), a Done means (D1–D2, baked to `stop-condition.yaml`), and
 one recovery entry per failure condition. To modify this play, update `reference/ice.md` and
 recompile with play-editor.
@@ -88,7 +88,8 @@ folders.
       "inputs":  { "search": "<search>/search.json", "build": "<build>/build.json",
                    "run": "<the drive's working folder>", "issue": "<issue>",
                    "audience": "<who gave the drive its input — for Kickoff, who shared the prototype>",
-                   "check_script": "<play-dir>/scripts/check_brief.py" },
+                   "check_script": "<play-dir>/scripts/check_brief.py",
+                   "renderer": ".claude/skills/write-knowledge-brief/scripts/render_brief.py" },
       "outputs": { "brief": "<working>/brief.json", "brief_md": "<working>/brief.md",
                    "check_report": "<working>/brief-check.json" },
       "task_id": "review-knowledge" }
@@ -98,7 +99,8 @@ the waiting knowledge pages through the memory tool, and has `write-knowledge-br
 brief: a few sentences each for understood and built; at most seven gaps, related proposals
 sharing a theme, each with its context and our proposed answer; every settled point with why;
 each page with what it says, its sources and our recommendation; the prototype notes counted
-and pointed to.
+and pointed to. The skill writes the content into `brief.json` and renders `brief.md` from it
+with `render_brief.py`; nobody writes `brief.md` by hand.
 **SE-1 (F1/C1):** `brief.json` has `understood` and `built`.
 **SE-2 (F2/C2):** every `proposal` group of `build.json` is in exactly one gap; at most seven
 gaps; each has context and a proposed answer, none a question.
@@ -113,7 +115,9 @@ sources and a recommendation; every `settled` build group is shown once with why
 ```bash
 python3 scripts/check_brief.py --brief <working>/brief.json --brief-md <working>/brief.md \
     --build <build>/build.json --issue <issue> \
-    --memory-tool .garura/core/tools/memory/memory.py --out <working>/brief-check.json
+    --memory-tool .garura/core/tools/memory/memory.py \
+    --renderer .claude/skills/write-knowledge-brief/scripts/render_brief.py \
+    --out <working>/brief-check.json
 ```
 
 Exit 0 — clean. Otherwise send the report back to Step 1 (at most twice), then close HALTED.
@@ -121,6 +125,8 @@ Exit 0 — clean. Otherwise send the report back to Step 1 (at most twice), then
 tool lists the same waiting updates as at the start.
 **SE-5 (F5/C5):** `run.json` reads `in_drive: true`; every file this run wrote is under
 `{stm_base}<issue>/`; `git status` shows no change under the product model.
+**SE-6 (F6/C6):** `brief-check.json` reads `ok: true` from a run that passed `--renderer`, so
+`brief.md` equals `render_brief.py`'s output from `brief.json`.
 
 The drive then shows `brief.md` and records the person's reply with this play's
 `scripts/record_review.py` (Shared Drive Run, R5b).
@@ -171,6 +177,7 @@ sc_exit=$?   # 0 held · 1 unmet · 2 error
 | F3 | a page missing or without sources or a recommendation, a settled point not shown, or prototype notes asked | list every waiting page with its sources and a recommendation; show every settled point with why; point to the notes | autonomous |
 | F4 | the play asked, waited or decided | stop; leave asking to the drive and deciding to the person | human |
 | F5 | no drive contract, a write outside the issue, or a model write | halt; move the record under the drive's issue; undo the model write | human |
+| F6 | `brief.md` differs from the rendering of `brief.json` | write the content into `brief.json` and render `brief.md` with `render_brief.py` | autonomous |
 
 ## Pause and Resume
 
@@ -181,13 +188,13 @@ step whose output exists and checks clean; a brief already written is not writte
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:95036b95a0445e5a61825bc455d398fc0d459f724739b45922ed7aeb62883ae3 (of `reference/ice.md`) |
-| compiled_by | play-creator (#686) |
+| fingerprint | sha256:15b33bd000943ccaeb7b2b17d76dee07694d71b9ecc683599b91cb274deb8bff (of `reference/ice.md`) |
+| compiled_by | play-creator (#686); play-editor (#692) |
 | pipeline_position | none (a drive's member play) |
 | stop_condition | stop-condition.yaml (D1–D2) |
 | domain_agents | 1 (knowledge-builder) |
 | skills_used | write-knowledge-brief |
 | scripts | 6 (check_brief.py, record_review.py, preflight.py, session_stamp.py, check_stop_condition.py, check_drive_contract.py) + test_review_knowledge_scripts.py |
-| step_evals | 5 (SE-1…SE-5) |
+| step_evals | 6 (SE-1…SE-6) |
 | scenario_evals | 2 (SCE-1…SCE-2) |
-| recovery_entries | 5 (one per failure condition; 3 autonomous / 2 human) |
+| recovery_entries | 6 (one per failure condition; 4 autonomous / 2 human) |
