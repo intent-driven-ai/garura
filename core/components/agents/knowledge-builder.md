@@ -62,7 +62,9 @@ page per topic, raised through `propose`); only a person can confirm it → INVO
 
 **`review-knowledge`** — GATHER what the run made (the product model's proposed intents, domain
 and capabilities), `search.json`, `build.json`, and the waiting pages through `updates`. INVOKE
-`write-knowledge-brief`. RECORD `brief.json` and `brief.md`; VERIFY.
+`write-knowledge-brief`, which writes `brief.json` and renders `brief.md` from it with its
+`render_brief.py` — never write or edit `brief.md` yourself. RECORD `brief.json` and `brief.md`;
+VERIFY with the check script the contract names, passing the contract's `renderer`.
 
 ## Skills
 

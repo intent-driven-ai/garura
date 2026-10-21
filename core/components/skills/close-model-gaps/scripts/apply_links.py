@@ -16,7 +16,9 @@ new content:
    node's spine `intents`, and the node to each intent page's Touches list (both sides).
 
 It never writes an intent's content, never writes a new capability or functionality page,
-and deletes nothing but a merged duplicate. What needs a play — the `work[]` list — is copied
+and deletes nothing but a merged duplicate. It writes only inside `<product_base>product-os/`:
+every path is checked before it is written, moved or removed, and a link that would reach
+outside is skipped, not applied. The report lists every file it changed (`changed`). What needs a play — the `work[]` list — is copied
 to the report for the drive.
 
     python3 apply_links.py --gaps <working>/gaps.json --product-base <product_base> \
@@ -40,13 +42,27 @@ SECTIONS = {"domain": "domains", "capability": "capabilities", "functionality": 
 HOLDING = {"capability": "capabilities", "functionality": "functionalities"}
 
 
+class OutOfScope(ValueError):
+    """A write that would land outside the product model."""
+
+
 class Model:
     def __init__(self, base):
         self.root = os.path.join(base, "product-os")
+        self.changed = set()
         self.spine_path = os.path.join(self.root, "_spine.yaml")
         with open(self.spine_path, encoding="utf-8") as fh:
             self.spine = yaml.safe_load(fh) or {}
         self.intents_dir = os.path.join(self.root, "intents")
+
+    def guard(self, path):
+        """The path, once it is known to sit inside the product model; recorded as changed."""
+        root = os.path.realpath(self.root)
+        real = os.path.realpath(path)
+        if real != root and not real.startswith(root + os.sep):
+            raise OutOfScope(f"{os.path.relpath(path, self.root)} is outside the product model")
+        self.changed.add(os.path.relpath(real, root).replace(os.sep, "/"))
+        return path
 
     def entries(self, kind):
         return [e for e in self.spine.get(SECTIONS[kind]) or [] if isinstance(e, dict)]
@@ -77,11 +93,11 @@ class Model:
                 if found:
                     lines[found[0]:found[1]] = it.render(entries)
                     text2 = "\n".join(lines) + "\n"
-                with open(page, "w", encoding="utf-8") as fh:
+                with open(self.guard(page), "w", encoding="utf-8") as fh:
                     fh.write(text2)
 
     def save(self):
-        with open(self.spine_path, "w", encoding="utf-8") as fh:
+        with open(self.guard(self.spine_path), "w", encoding="utf-8") as fh:
             yaml.safe_dump(self.spine, fh, sort_keys=False, allow_unicode=True)
 
 
@@ -89,10 +105,18 @@ def in_holding(kind, doc):
     return str(doc or "").startswith(HOLDING.get(kind, "\0") + "/")
 
 
-def move_under(m, kind, entry, parent_doc, report):
-    """Move a holding-folder node's folder under its parent's folder; repoint docs and links."""
+def move_dirs(m, entry, parent_doc):
+    """(old folder, new folder) of a holding-folder node, both checked to sit in the model."""
     old_dir = os.path.dirname(entry["doc"])
     new_dir = os.path.join(os.path.dirname(parent_doc), entry.get("slug") or entry["id"])
+    m.guard(os.path.join(m.root, old_dir))
+    m.guard(os.path.join(m.root, new_dir))
+    return old_dir, new_dir
+
+
+def move_under(m, kind, entry, parent_doc, report):
+    """Move a holding-folder node's folder under its parent's folder; repoint docs and links."""
+    old_dir, new_dir = move_dirs(m, entry, parent_doc)
     if os.path.exists(os.path.join(m.root, new_dir)):
         report["skipped"].append({"id": entry["id"], "why": f"{new_dir} already exists; the page was not moved"})
         return
@@ -114,6 +138,9 @@ def merge(m, d, report):
     if not keep or not drop or keep_id == drop_id:
         report["skipped"].append({"duplicate": [keep_id, drop_id], "why": "not two known nodes of one kind"})
         return
+    for doc in (drop.get("doc"), keep.get("doc")):
+        if doc:
+            m.guard(os.path.join(m.root, doc))
     keep["intents"] = sorted(set(keep.get("intents") or []) | set(drop.get("intents") or []))
     child = {"domain": ("capability", "domain"), "capability": ("functionality", "capability")}.get(kind)
     if child:
@@ -122,7 +149,7 @@ def merge(m, d, report):
                 e[child[1]] = keep_id
     if drop.get("doc") and keep.get("doc"):
         m.relink_intents(drop["doc"], keep["doc"])
-        page = os.path.join(m.root, drop["doc"])
+        page = m.guard(os.path.join(m.root, drop["doc"]))
         if os.path.isfile(page):
             os.remove(page)
             folder = os.path.dirname(page)
@@ -146,9 +173,12 @@ def attribute(m, link, report):
     if entry.get(field) and entry.get(field) != value:
         report["skipped"].append({"id": nid, "why": f"already under `{entry[field]}`; moving it is alignment work"})
         return
+    moves = in_holding(kind, entry.get("doc")) and parent.get("doc") and not in_holding(parent_kind, parent.get("doc"))
+    if moves:
+        move_dirs(m, entry, parent["doc"])
     entry[field] = value
     report["applied"].append({"attributed": nid, field: value})
-    if in_holding(kind, entry.get("doc")) and parent.get("doc") and not in_holding(parent_kind, parent.get("doc")):
+    if moves:
         move_under(m, kind, entry, parent["doc"], report)
 
 
@@ -164,6 +194,7 @@ def link_intents(m, link, report):
         if not os.path.isfile(page):
             report["skipped"].append({"id": nid, "intent": iid, "why": "no intent page"})
             continue
+        m.guard(page)
         entry["intents"] = sorted(set(entry.get("intents") or []) | {iid})
         if entry.get("doc"):
             with open(os.path.join(m.root, entry["doc"]), encoding="utf-8", errors="ignore") as fh:
@@ -173,7 +204,7 @@ def link_intents(m, link, report):
                 text = fh.read()
             text = it.upsert(text, [it.entry(title, it.rel(page, os.path.join(m.root, entry["doc"])), kind,
                                              link.get("mark") or "adds")])
-            with open(page, "w", encoding="utf-8") as fh:
+            with open(m.guard(page), "w", encoding="utf-8") as fh:
                 fh.write(text)
         report["applied"].append({"linked": nid, "intent": iid})
 
@@ -181,19 +212,26 @@ def link_intents(m, link, report):
 def apply(gaps, base):
     m = Model(base)
     report = {"applied": [], "skipped": [], "work_for_plays": list(gaps.get("work") or [])}
+    def guarded(fn, item):
+        try:
+            fn(m, item, report)
+        except OutOfScope as exc:
+            report["skipped"].append({"id": item.get("id") or item.get("drop"), "why": str(exc)})
+
     for d in gaps.get("duplicates") or []:
         if d.get("agreed"):
-            merge(m, d, report)
+            guarded(merge, d)
     links = gaps.get("links_to_make") or []
     order = {"domain": 0, "capability": 1}
     for link in sorted([l for l in links if l.get("field") in order], key=lambda l: order[l["field"]]):
-        attribute(m, link, report)
+        guarded(attribute, link)
     for link in links:
         if link.get("field") == "intents":
-            link_intents(m, link, report)
+            guarded(link_intents, link)
         elif link.get("field") not in order:
             report["skipped"].append({"id": link.get("id"), "why": f"unknown field `{link.get('field')}`"})
     m.save()
+    report["changed"] = sorted(m.changed)
     return report
 
 

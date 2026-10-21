@@ -1,0 +1,20 @@
+feat: the Kickoff drive's gap and brief steps are checked, not trusted
+
+Kind: Story — a slice of the drives feature (#594), after #689.
+
+What: the Kickoff drive's gap step and brief step are checked, not trusted.
+1. The gap finder (`find-model-gaps`) counts a link as made only when both sides hold it — the child names its parent and the parent lists the child.
+2. The brief check proves the brief to the person was made by its skill, not written by hand.
+3. The gap closer (`close-model-gaps`) changes the product model only inside a declared write scope, checked by a script; the `product-os-keeper` rules allow this work inside a drive and nowhere else. Also fix the two rows in the keeper's capabilities table that are short one cell.
+
+Why: Kickoff run 2 on the Argus mockup (2026-10-21, findings K-21, K-22 in #613's record; review of PR #691):
+- Round 1: 32 functionalities named their capability, but the capabilities did not list them. The gap step said "no gaps"; the drive caught it by hand and fixed it in round 2.
+- Round 3: the agent wrote the brief to the person by hand, skipping its skill. The brief check still passed.
+- The gap closer moves pages and deletes merged duplicates in the live model. The keeper's rules on main forbid writing a shared model file or removing a node, and no scoped-write or clean-tree check runs around it.
+
+Done when:
+- [ ] a test with one-way links makes the gap finder report each one;
+- [ ] a brief not made by its skill fails the brief check;
+- [ ] the gap closer refuses a write outside its scope, and the keeper's rules name the drive case;
+- [ ] a Kickoff run on the Argus mockup shows no one-way link after round 1.
+

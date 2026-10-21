@@ -36,10 +36,14 @@ what is still missing, and says what to do about each.
 
    It lists: nodes with no parent (`unattributed`), parents named that do not exist
    (`dangling`), capabilities with no functionality, intents no node serves, nodes that serve
-   no intent, empty domains, likely duplicates (titles that match once normalised) and
-   screens no page's `## Sources` names (`uncovered`).
-2. **Judge each candidate.** Read the pages and their `## Sources`. Clear a candidate that is
-   not a gap (two titles that only look alike). Confirm the rest.
+   no intent, links to an intent held on one side only (`one_way` — the node's `intents` names
+   the intent but the intent page's Touches list does not name the node, or the reverse), empty
+   domains, likely duplicates (titles that match once normalised) and screens no page's
+   `## Sources` names (`uncovered`).
+2. **Judge each candidate.** Every `one_way` entry is a gap: a link is made only when both
+   sides hold it. Give each one a `links_to_make` entry with `field: intents`. For the other
+   candidates, read the pages and their `## Sources`. Clear a candidate that is not a gap (two
+   titles that only look alike). Confirm the rest.
 3. **Propose each link, with why.** For a loose node, name where it belongs — the capability
    a functionality is part of, the domain a capability sits in, the intents a node serves —
    from what the pages and their sources say, and say why in one plain line. Never invent a

@@ -14,6 +14,10 @@ It reports:
 - `no_functionalities` — capabilities that have no functionality;
 - `intents_unserved` — intent pages no capability or functionality names in `intents`;
 - `serves_no_intent` — capabilities and functionalities whose `intents` is empty;
+- `one_way` — a link to a business intent held on one side only: a node's `intents` names the
+  intent but the intent page's Touches list does not name the node (`missing: touches`), or
+  the Touches list names the node but its `intents` does not name the intent
+  (`missing: intents`). A link is made only when both sides hold it;
 - `domains_empty` — domains no capability names;
 - `duplicates` — nodes of one kind whose titles match once normalised;
 - `uncovered` — with `--journeys`, main sections no page's `## Sources` names; with
@@ -29,6 +33,9 @@ import re
 import sys
 
 import yaml
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import intent_touches  # noqa: E402  (stamped from play-creator/references)
 
 QUOTE = re.compile(r"[\"“]([^\"“”]{4,})[\"”]")
 MARKS = str.maketrans({"’": "'", "‘": "'", "“": '"', "”": '"', "–": "-", "—": "-", " ": " "})
@@ -69,6 +76,29 @@ def entries(spine, section):
     return [e for e in spine.get(section) or [] if isinstance(e, dict) and e.get("id")]
 
 
+def one_way(model, intent_pages, groups):
+    """Intent links held on one side only: the spine's `intents` against each intent page's Touches."""
+    by_doc, claims = {}, set()
+    for kind, group in groups:
+        for e in group:
+            if e.get("doc"):
+                by_doc[os.path.normpath(os.path.join(model, str(e["doc"])))] = (kind, e["id"])
+            claims |= {(kind, e["id"], str(i)) for i in e.get("intents") or [] if str(i).strip()}
+    touched = set()
+    for page in intent_pages:
+        intent = os.path.splitext(os.path.basename(page))[0]
+        for t in intent_touches.read(read(page)):
+            node = by_doc.get(os.path.normpath(os.path.join(os.path.dirname(page), t["link"])))
+            if node:
+                touched.add((node[0], node[1], intent))
+    pages = {os.path.splitext(os.path.basename(p))[0] for p in intent_pages}
+    out = [{"kind": k, "id": i, "intent": n, "missing": "touches"}
+           for k, i, n in sorted(claims - touched) if n in pages]
+    out += [{"kind": k, "id": i, "intent": n, "missing": "intents"}
+            for k, i, n in sorted(touched - claims)]
+    return out
+
+
 def find(model, journeys=None, view_texts=None):
     spine_path = os.path.join(model, "_spine.yaml")
     spine = yaml.safe_load(read(spine_path)) if os.path.isfile(spine_path) else {}
@@ -76,7 +106,7 @@ def find(model, journeys=None, view_texts=None):
     doms, caps, funcs = entries(spine, "domains"), entries(spine, "capabilities"), entries(spine, "functionalities")
     dom_ids, cap_ids = {d["id"] for d in doms}, {c["id"] for c in caps}
     out = {"unattributed": [], "dangling": [], "no_functionalities": [], "intents_unserved": [],
-           "serves_no_intent": [], "domains_empty": [], "duplicates": [], "uncovered": []}
+           "serves_no_intent": [], "one_way": [], "domains_empty": [], "duplicates": [], "uncovered": []}
 
     for c in caps:
         if not c.get("domain"):
@@ -104,6 +134,8 @@ def find(model, journeys=None, view_texts=None):
     intent_pages = sorted(glob.glob(os.path.join(model, "intents", "*.md")))
     out["intents_unserved"] = [{"id": os.path.splitext(os.path.basename(p))[0]} for p in intent_pages
                                if os.path.splitext(os.path.basename(p))[0] not in served]
+    out["one_way"] = one_way(model, intent_pages, (("domain", doms), ("capability", caps),
+                                                   ("functionality", funcs)))
 
     pages = {}
     for kind, group in (("domain", doms), ("capability", caps), ("functionality", funcs)):

@@ -35,7 +35,9 @@ PAGES = {
     "capabilities/the-board/capability.md": "# Capability: Board, the\n\n## Directional intent\nBoard.\n",
     "work/board/move-card/functionality.md": "# Functionality: Move a card\n\n## Sources\n- Board: \"Move to Done\"\n",
     "functionalities/loose-fn/functionality.md": "# Functionality: Export\n\n## What it does\nExports.\n",
-    "intents/plan-the-week.md": "# Able to plan the week\n",
+    "intents/plan-the-week.md": ("# Able to plan the week\n\n**Touches:**\n"
+                                 "- [The Board](../work/board/capability.md) (capability) — adds\n"
+                                 "- [Reports](../capabilities/loose-cap/capability.md) (capability) — adds\n"),
     "intents/share-reports.md": "# Able to share reports\n",
 }
 
@@ -83,6 +85,13 @@ class FindGaps(unittest.TestCase):
         self.assertEqual(self.ids(g["intents_unserved"]), ["share-reports"])
         self.assertEqual(self.ids(g["serves_no_intent"]), ["loose-cap", "loose-fn"])
         self.assertEqual(self.ids(g["domains_empty"]), ["empty"])
+
+    def test_a_link_held_on_one_side_only_is_one_way(self):
+        g = self.run_find()
+        self.assertEqual(g["one_way"], [
+            {"kind": "capability", "id": "the-board", "intent": "plan-the-week", "missing": "touches"},
+            {"kind": "functionality", "id": "move-card", "intent": "plan-the-week", "missing": "touches"},
+            {"kind": "capability", "id": "loose-cap", "intent": "plan-the-week", "missing": "intents"}])
 
     def test_the_same_thing_named_twice_is_a_likely_duplicate(self):
         g = self.run_find()

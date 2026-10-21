@@ -3,7 +3,7 @@ name: write-knowledge-brief
 description: Write the brief a drive shows the person when it must reach them — what we understood, what we built, and where the gaps are, each with its context and our proposed answer — the way you would brief someone who can help close the piece. A few themed gaps (at most seven), the knowledge pages waiting for approval with our recommendation, and a pointer to the prototype notes. Never a questionnaire. Used by the knowledge-builder agent in /review-knowledge.
 user-invocable: false
 model: sonnet
-allowed-tools: Read, Write, Glob, Grep
+allowed-tools: Read, Write, Glob, Grep, Bash
 ---
 
 # write-knowledge-brief
@@ -42,14 +42,26 @@ behind each. This skill writes that brief.
 7. Close with one line on how to reply: "yes" takes every proposal and every recommendation
    shown; or correct a gap, a settled point or a page by its id.
 8. Leave out what the search answered except as a count and one example.
+9. **Write `brief.json`, then render `brief.md` from it** — never write `brief.md` by hand:
+
+   ```bash
+   python3 scripts/render_brief.py --brief <out>/brief.json --out <out>/brief.md
+   ```
+
+   The script lays out the page the same way every time: the three headings, each gap as
+   "What we saw" and "Our answer", the settled points, the pages, the notes and how to reply.
+   `/review-knowledge`'s check renders `brief.json` again and fails a `brief.md` that differs.
 
 ## Output
 
-`brief.json` — `{"understood", "built", "gaps": [{"id", "theme", "context", "proposal", "from":
-[build group ids]}], "settled": [{"from", "what", "why"}], "pages": [{"update", "what",
-"sources", "recommend"}], "prototype_notes": {"count", "where"}}` — and `brief.md`, the same in plain prose under the headings **What we understood**,
-**What we built**, **Where the gaps are**, then the pages and notes. Short paragraphs; no
-tables; no wall of text.
+`brief.json` — `{"title"?, "understood", "built", "gaps": [{"id", "theme", "context", "proposal",
+"from": [build group ids]}], "settled": [{"from", "what", "why"}], "pages": [{"update", "name"?,
+"what", "sources", "recommend", "why"?}], "prototype_notes": {"count", "where"}}`. Text fields
+may hold several short paragraphs, separated by a blank line; no tables; no wall of text.
+
+`brief.md` — `render_brief.py`'s output from `brief.json`, under the headings **What we
+understood**, **What we built**, **Where the gaps are**, then the settled points, the pages,
+the notes and how to reply.
 
 ## Rules
 

@@ -1,0 +1,43 @@
+categories:
+  - name: harness
+    playbook: review/harness
+    design_bearing: true
+    paths:
+      - core/components/agents/product-os-keeper.md
+      - core/components/plays/review-knowledge/SKILL.md
+      - core/components/plays/review-knowledge/reference/ice.md
+      - core/components/skills/close-model-gaps/SKILL.md
+      - core/components/skills/find-model-gaps/SKILL.md
+      - core/components/skills/write-knowledge-brief/SKILL.md
+  - name: executable-code
+    playbook: review/code
+    design_bearing: false
+    paths:
+      - core/components/plays/review-knowledge/scripts/check_brief.py
+      - core/components/skills/close-model-gaps/scripts/apply_links.py
+      - core/components/skills/find-model-gaps/scripts/find_gaps.py
+      - core/components/skills/find-model-gaps/scripts/intent_touches.py
+      - core/components/skills/write-knowledge-brief/scripts/render_brief.py
+  - name: tests
+    playbook: review/tests
+    design_bearing: false
+    paths:
+      - core/components/plays/play-creator/references/test_intent_touches.py
+      - core/components/plays/review-knowledge/scripts/test_review_knowledge_scripts.py
+      - core/components/skills/close-model-gaps/scripts/test_apply_links.py
+      - core/components/skills/find-model-gaps/scripts/test_find_gaps.py
+      - core/components/skills/write-knowledge-brief/scripts/test_render_brief.py
+  - name: run-artifacts (short-term memory records of the work session)
+    playbook: null
+    note: "playbook missing - recorded run output (analysis, branch, commits, issue, PR body, self-review) under .garura/project/issues/692/context/; no review playbook covers it"
+    design_bearing: false
+    paths:
+      - .garura/project/issues/692/context/analysis.yaml
+      - .garura/project/issues/692/context/branch.json
+      - .garura/project/issues/692/context/commits.yaml
+      - .garura/project/issues/692/context/issue.json
+      - .garura/project/issues/692/context/porcelain.txt
+      - .garura/project/issues/692/context/pr-body.md
+      - .garura/project/issues/692/context/resolved-rules.json
+      - .garura/project/issues/692/context/self-review.md
+      - .garura/project/issues/692/context/work-description.txt
