@@ -192,8 +192,13 @@ For each play in `plays`:
 
    ```bash
    python3 scripts/commit_run_files.py --issue-dir "{stm_base}<issue>/" --issue <issue> \
-       --branch <the contract's branch> --play <play> --out <working>/<play>-commit.json
+       --branch <the contract's branch> --play <play> \
+       --also "<gates.conditional.policy, e.g. .garura/core/gate-policy.yaml>" \
+       --out <working>/<play>-commit.json
    ```
+
+   The learned gate policy is the one file outside the issue a play may change (#690): its
+   close rewrites it only when the policy learned something new, and the drive commits it here.
 
    Exit 0 — committed (or nothing to commit) and the tree is clean. Exit 1 — files outside the
    issue's folder are still changed: halt, so the next play does not start on an unclean tree.
@@ -226,6 +231,7 @@ For each play in `plays`:
    ```bash
    python3 scripts/commit_run_files.py --issue-dir "{stm_base}<issue>/" --issue <issue> \
        --branch <the contract's branch> --play round-<n> --also "<product_base>product-os" \
+       --also "<gates.conditional.policy>" \
        --out <working>/round-<n>-commit.json
    ```
 

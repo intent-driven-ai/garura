@@ -171,7 +171,7 @@ def distill(records, streak, never_auto):
     return auto
 
 
-def write_policy(path, project, version, auto, never_auto, streak):
+def render_policy(project, version, auto, never_auto, streak):
     lines = [
         "# gate-policy.yaml — learned per-project gate policy (#467).",
         "# Written by distill_gate_policy.py from gate-evals.jsonl — do not hand-edit",
@@ -195,11 +195,29 @@ def write_policy(path, project, version, auto, never_auto, streak):
         lines.extend(f"  - {s}" for s in never_auto)
     else:
         lines.append("never_auto: []")
+    return "\n".join(lines) + "\n"
+
+
+def _without_version(text):
+    return "\n".join(l for l in text.splitlines() if not l.startswith("version:"))
+
+
+def unchanged(path, project, auto, never_auto, streak):
+    """True when writing would change nothing but the version line (#690): no file and nothing
+    learned, or a file whose policy is the same as the one just distilled."""
+    if not os.path.isfile(path):
+        return not auto and not never_auto
+    with open(path, encoding="utf-8") as fh:
+        current = fh.read()
+    return _without_version(current) == _without_version(render_policy(project, 0, auto, never_auto, streak))
+
+
+def write_policy(path, project, version, auto, never_auto, streak):
     parent = os.path.dirname(path)
     if parent:
         os.makedirs(parent, exist_ok=True)
     with open(path, "w", encoding="utf-8") as fh:
-        fh.write("\n".join(lines) + "\n")
+        fh.write(render_policy(project, version, auto, never_auto, streak))
 
 
 def main(argv=None):
@@ -215,12 +233,18 @@ def main(argv=None):
     records = read_ledgers(args.ledger)
     version, never_auto = read_existing_policy(args.policy)
     auto = distill(records, args.streak, never_auto)
-    write_policy(args.policy, args.project, version + 1, auto, never_auto, args.streak)
+    # #690: a run that learned nothing leaves the policy file untouched — no version bump, and no
+    # empty file — so a play inside a drive changes nothing outside the drive's issue.
+    written = not unchanged(args.policy, args.project, auto, never_auto, args.streak)
+    if written:
+        version += 1
+        write_policy(args.policy, args.project, version, auto, never_auto, args.streak)
     print(
         json.dumps(
             {
                 "policy": args.policy,
-                "version": version + 1,
+                "written": written,
+                "version": version,
                 "auto_shapes": sorted(auto),
                 "never_auto": never_auto,
                 "ledger_lines": len(records),
