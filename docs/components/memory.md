@@ -35,7 +35,7 @@ approves. It is never used before that (ADR 035 §5).
 ## Who reads memory
 
 - **A play reads no memory.** A play is a pure workflow. It calls its sub-agents to get
-  what it needs (ADR 039 §2). A drive follows the same rule.
+  what it needs (ADR 039 §2). A loop follows the same rule.
 - **An agent reads memory only through the memory tool.** It never reads a tier by a path.
   It builds the context and keeps a trace of each decision (ADR 037).
 - **A skill reads only short-term memory.** Its agent puts what the skill needs there.
@@ -58,10 +58,10 @@ They are short-term memory, so the tool can find them later.
   person, and the answer, are kept in the issue's short-term memory. So is an approved
   memory update (ADR 036).
 - **The issue ID governs.** Everything a piece of work writes — its memory, its evidence, its
-  working files — goes under its issue ID, whether one drive or many plays ran in it. The issue
+  working files — goes under its issue ID, whether one loop or many plays ran in it. The issue
   ties the work to the tracker and to the business intent it serves.
-- **Short-term memory is created in the issue being worked on.** Inside a drive, that is the
-  drive's issue; its plays open none. A play run on its own gets its issue from
+- **Short-term memory is created in the issue being worked on.** Inside a loop, that is the
+  loop's issue; its plays open none. A play run on its own gets its issue from
   `start-change`. A play's working folder lives in that issue, under `context/<play>/`, and its
   status markers under `status/` — never in a folder beside the issues.
 - **A grounding run is no exception.** `/vision`, `/understand` or any other play runs inside
@@ -108,7 +108,7 @@ The product model's own folders are listed in ADR 017 §1.
 
 ## Not yet everywhere
 
-ADR 039 and ADR 040 were accepted on 19 October 2026. #661 moved the Kickoff plays
+ADR 039 and ADR 040 were accepted on 19 October 2026. #661 moved the Discovery plays
 (`/intent`, `/vision`, `/understand`), their agents, every play's close and the install. Still to
 move:
 
