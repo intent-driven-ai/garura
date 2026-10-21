@@ -39,6 +39,12 @@ git diff and the end-sequence PR.
    doc files, and node-level containment inside the shared spine/profile is preserved by
    the keyed script — not by the guard.
 
+   **Inside a drive (ADR 044).** One more writer: `close-model-gaps`' script
+   (`apply_links.py`) may write the spine and the Touches list on intent pages, and move
+   holding-folder pages under their parent. It writes only inside `<product_base>product-os/`,
+   refuses any path outside, and lists every file it changed. Outside a drive, the play's
+   keyed script is still the only writer of shared files.
+
    Migration consequence: this is not a path re-point. Any enrich/build skill that today
    writes a draft `_spine.yaml` delta must stop writing the spine and instead emit that
    delta as **structured data in its manifest** — the same entry fields it already
@@ -89,6 +95,11 @@ git diff and the end-sequence PR.
    reverts another play's work. `commit-change` at the end of the pipeline handles only
    what remains uncommitted (STM evidence, ADRs), not the model deltas the plays already
    committed.
+
+   **Inside a drive (ADR 043).** The drive, not each play, commits: its plays may run side
+   by side in a round, so a play does not make this persist commit, and the drive commits
+   the round once, after its gap skills have run (`commit_run_files.py`). The entry check
+   applies to the drive: the model tree is clean when the drive starts each round.
 
 ## Order of operations (write-then-review)
 
@@ -214,7 +225,8 @@ pattern cannot survive a rebuild or a hand edit:
   model-delta commit at close.
 - L-DMW-5: the play's enrichment/build skill is described as writing a shared model file
   (`_spine.yaml`, `profile.yaml`, `decisions/`) — shared files are written only by the
-  play's deterministic keyed script.
+  play's deterministic keyed script. Not a finding: `close-model-gaps`, which writes them
+  inside a drive only (ADR 044).
 - L-DMW-6: the play's keyed persist step does not precede its checkpoint step (write-then-
   review order violated — persist must run before the gate so the shape and the human see
   the full delta).

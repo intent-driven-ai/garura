@@ -1,8 +1,10 @@
 # Shared Drive Run
 
 The steps every drive runs, in order. A drive is a higher-order play: it runs other plays
-until its intent is met or it fails, and carries no rules of its own (ADR 029). So the run is
-the same for every drive and lives once, here (`core/components/drives/_shared/drive-run.md`;
+until its intent is met or it fails, and carries no product rules of its own (ADR 029). It owns
+only the run steps every drive takes between its plays — the write-up (R3), reading the source
+once (R4b) and closing the model's gaps after each round (R5 step 7) — and those live here
+(ADR 044). So the run is the same for every drive and lives once, here (`core/components/drives/_shared/drive-run.md`;
 the install lays it in the installed `_shared/` folder beside the plays' shared close). A
 compiled drive holds only the two anchor lines, its own values — its plays in order, its
 questions, its config keys, its end — and points here. `/drive-creator` emits exactly that, so
@@ -99,7 +101,7 @@ python3 scripts/write_drive_contract.py --drive <drive> --drive-run-id <drive>-<
 
 One contract for every play (`standards/rules/drive-contract.md`). Exit 2 halts the drive.
 
-### Step R4b — Read the source once (ADR 043)
+### Step R4b — Read the source once (ADR 043, ADR 044)
 
 A drive that names a `source` reads it once, before any play, and every play reads that one
 capture — none captures or walks the source again, and none reads another play's output.
@@ -207,7 +209,7 @@ For each play in `plays`:
    answers and — on a later round — exactly the work the gap skills gave it
    (`inputs.<play>.targets`). It never takes another play's output as its input (ADR 043).
 
-7. **After the round, close the model's gaps (ADR 043).** The drive holds no judgment of its
+7. **After the round, close the model's gaps (ADR 043, ADR 044).** The drive holds no judgment of its
    own: dispatch `product-os-keeper` once, in the foreground, to run the two gap skills over
    the whole model, with this contract:
 
