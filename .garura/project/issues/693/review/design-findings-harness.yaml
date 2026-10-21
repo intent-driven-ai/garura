@@ -1,0 +1,37 @@
+category: harness
+grounding:
+  - {principle: "A drive carries no rules of its own; every rule lives in its plays (as committed, before ADR 044)", source: "docs/adr/029-drives.md section 2 (main)"}
+  - {principle: "A drive runs in rounds, no fixed order; plays read the source independently, none takes another's output; the drive closes the gaps after each round through product-os-keeper", source: "docs/adr/043-kickoff-plays-read-independently-and-the-drive-closes-the-loop.md sections 2, 4, 5, 6 (main)"}
+  - {principle: "Shared model files are written solely by the play's deterministic keyed script; LLM skills write only per-node docs", source: "docs/adr/026-direct-to-model-writes.md Decision, Containment split (main); amended only for 'Clean tree in, committed delta out' by ADR 043"}
+  - {principle: "Intent or flow change goes through ice.md then recompile; non-intent edits are direct", source: "CLAUDE.md (Play Pipeline Rules) on main"}
+  - {principle: "Kickoff ice.md on main already states rounds, no fixed order, gap skills after each round", source: "core/components/drives/kickoff/reference/ice.md (main), lines 34-48"}
+verified_ok:
+  - "kickoff/SKILL.md task list (T5, T6 blocked by T3b; T6a by T4,T5,T6) matches kickoff ice.md on main (rounds, no play waits for another) and ADR 043 section 5; ice.md and fingerprint are untouched, so no recompile is owed."
+  - "drive-run.md R5 step 6 and step 7 still match ADR 043 sections 4 and 6; the edits only add ADR citations and the 'product rules' wording."
+  - "drive-creator SKILL.md intro, compiled-drive-example Role and task list, and glossary /drive-creator row now say rounds, any order, which matches ADR 043 as committed."
+  - "product-os-keeper exception (apply_links.py, product-os only, refuses outside paths, lists changes) matches ADR 043 section 4 (connects, attributes, merges)."
+findings:
+  - id: H1
+    severity: P3
+    file: core/components/plays/drive-creator/SKILL.md
+    line: 82-83
+    summary: "The Plays-table bullet still teaches an input 'another play makes' written 'after <play>', added to the contract before the later play starts. ADR 043 and drive-run.md R5 step 6 say no play takes another's output. The same file's intro was updated to 'any order' two bullets earlier, so the guidance now contradicts itself and will steer new drives back to a chain."
+    basis: "docs/adr/043 section 5 (main); drive-run.md R5 step 6 (main, 'No hand-on between plays')"
+  - id: H2
+    severity: P3
+    file: core/components/drives/kickoff/SKILL.md
+    line: 171, 175, 217
+    summary: "The task list now blocks T5 and T6 only on T3b and T6a on T4,T5,T6, but the step bodies still read 'Step 6 Depends on: Step 5', 'Step 6a Depends on: Step 6', 'Step 7 Depends on: Step 6'. The two halves of the same file disagree on whether the plays run in a chain."
+    basis: "docs/adr/043 section 5 and kickoff ice.md on main (no play waits for another)"
+  - id: H3
+    severity: P3
+    file: core/components/drives/_shared/drive-run.md
+    line: 4-7
+    summary: "Rewording ADR 029 section 2 'no rules of its own' to 'no product rules of its own' narrows a committed decision. As committed, ADR 029 and ADR 043 do not say the drive owns 'run steps'; only the new ADR 044 grants that. The change is correct only if ADR 044 is accepted. The same reliance is in the glossary Drive row ('only inside a drive may the gap closer write shared model files (ADR 044)') and the product-os-keeper exception, which under ADR 026 as committed (shared files solely by the keyed script) has no basis except ADR 044."
+    basis: "docs/adr/029 section 2 (main); docs/adr/026 Containment split (main); depends on new ADR 044, not a grounding source"
+  - id: H4
+    severity: P4
+    file: core/components/plays/drive-creator/references/compiled-drive-example/SKILL.md
+    line: 32, 56-57
+    summary: "Hand edit to a compiled reference example (task dependencies and Role wording). Flow-level, but the example is a reference with no ICE of its own on this path and it follows the Kickoff ice.md already on main, so treated as a non-intent mirror. Confirm the example still passes lint_drive.py."
+    basis: "CLAUDE.md Play Pipeline Rules (main)"

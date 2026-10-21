@@ -1,0 +1,1153 @@
+diff --git a/.garura/project/issues/693/context/analysis.yaml b/.garura/project/issues/693/context/analysis.yaml
+new file mode 100644
+index 00000000..5b7f5c76
+--- /dev/null
++++ b/.garura/project/issues/693/context/analysis.yaml
+@@ -0,0 +1,44 @@
++---
++# analyze-changes output (agent judgment grouping)
++# issue: 693
++needs_judgment: false
++
++change_groups:
++  - type: feat
++    scope: drive
++    subject: let drive loops run plays in rounds, in any order
++    files:
++      - core/components/drives/kickoff/SKILL.md
++      - core/components/drives/kickoff/scripts/drive_preflight.py
++      - core/components/drives/kickoff/scripts/round_state.py
++      - core/components/plays/drive-creator/SKILL.md
++      - core/components/plays/drive-creator/references/compiled-drive-example/SKILL.md
++      - core/components/plays/drive-creator/references/compiled-drive-example/scripts/drive_preflight.py
++      - core/components/plays/drive-creator/references/compiled-drive-example/scripts/round_state.py
++      - core/components/plays/drive-creator/references/drive_preflight.py
++      - core/components/plays/drive-creator/references/round_state.py
++      - core/components/plays/drive-creator/references/test_lint_drive.py
++      - core/components/plays/drive-creator/scripts/lint_drive.py
++      - core/components/plays/drive-editor/scripts/lint_drive.py
++  - type: docs
++    scope: drive
++    subject: cite the shared drive run as owner of steps between plays
++    files:
++      - core/components/drives/_shared/drive-run.md
++      - core/components/memory/standards/rules/direct-model-write.md
++      - core/components/agents/product-os-keeper.md
++      - core/grounding/glossary.md
++
++exclusions:
++  - path: .garura/project/issues/693/context/porcelain.txt
++    reason: run artifact handled later
++  - path: .garura/project/issues/693/context/analysis.yaml
++    reason: run artifact handled later
++
++risks:
++  sensitive_files:
++    []
++
++eval_gates:
++  SE-1: {status: PASS, evidence: "2 groups, every changed file in exactly one group"}
++  SE-5: {status: PASS, evidence: "no sensitive patterns matched"}
+diff --git a/.garura/project/issues/693/context/branch.json b/.garura/project/issues/693/context/branch.json
+new file mode 100644
+index 00000000..b5cd25d8
+--- /dev/null
++++ b/.garura/project/issues/693/context/branch.json
+@@ -0,0 +1,6 @@
++{
++  "branch_name": "feature/693-loop-texts-any-order",
++  "base_sha": "204aba75bbe0235d6a7cd3273cc1aaf0901d5dfd",
++  "on_default_branch": false,
++  "worktree_path": null
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/693/context/commits.yaml b/.garura/project/issues/693/context/commits.yaml
+new file mode 100644
+index 00000000..ac440cd8
+--- /dev/null
++++ b/.garura/project/issues/693/context/commits.yaml
+@@ -0,0 +1,34 @@
++commits:
++  - sha: aa3f7a27
++    message: "feat(drive): let drive loops run plays in rounds, in any order (#693)"
++    files:
++      - core/components/drives/kickoff/SKILL.md
++      - core/components/drives/kickoff/scripts/drive_preflight.py
++      - core/components/drives/kickoff/scripts/round_state.py
++      - core/components/plays/drive-creator/SKILL.md
++      - core/components/plays/drive-creator/references/compiled-drive-example/SKILL.md
++      - core/components/plays/drive-creator/references/compiled-drive-example/scripts/drive_preflight.py
++      - core/components/plays/drive-creator/references/compiled-drive-example/scripts/round_state.py
++      - core/components/plays/drive-creator/references/drive_preflight.py
++      - core/components/plays/drive-creator/references/round_state.py
++      - core/components/plays/drive-creator/references/test_lint_drive.py
++      - core/components/plays/drive-creator/scripts/lint_drive.py
++      - core/components/plays/drive-editor/scripts/lint_drive.py
++    branch: feature/693-loop-texts-any-order
++  - sha: c15e4469
++    message: "docs(drive): cite the shared drive run as owner of steps between plays (#693)"
++    files:
++      - core/components/drives/_shared/drive-run.md
++      - core/components/memory/standards/rules/direct-model-write.md
++      - core/components/agents/product-os-keeper.md
++      - core/grounding/glossary.md
++    branch: feature/693-loop-texts-any-order
++excluded_files:
++  - path: ".garura/project/issues/693/context/porcelain.txt"
++    reason: "run artifact handled later"
++  - path: ".garura/project/issues/693/context/analysis.yaml"
++    reason: "run artifact handled later"
++leftover_count: 0
++tree_clean: true
++pushed: false
++run_state_committed: true
+diff --git a/.garura/project/issues/693/context/issue.json b/.garura/project/issues/693/context/issue.json
+new file mode 100644
+index 00000000..8ced88ca
+--- /dev/null
++++ b/.garura/project/issues/693/context/issue.json
+@@ -0,0 +1 @@
++{"resolved": true, "issue_number": 693, "title": "feat: the drive texts say plays run in any order and the drive saves once per round (ADR 043)", "created": false}
+\ No newline at end of file
+diff --git a/.garura/project/issues/693/context/porcelain.txt b/.garura/project/issues/693/context/porcelain.txt
+new file mode 100644
+index 00000000..42838d57
+--- /dev/null
++++ b/.garura/project/issues/693/context/porcelain.txt
+@@ -0,0 +1,17 @@
++ M core/components/agents/product-os-keeper.md
++ M core/components/drives/_shared/drive-run.md
++ M core/components/drives/kickoff/SKILL.md
++ M core/components/drives/kickoff/scripts/drive_preflight.py
++ M core/components/drives/kickoff/scripts/round_state.py
++ M core/components/memory/standards/rules/direct-model-write.md
++ M core/components/plays/drive-creator/SKILL.md
++ M core/components/plays/drive-creator/references/compiled-drive-example/SKILL.md
++ M core/components/plays/drive-creator/references/compiled-drive-example/scripts/drive_preflight.py
++ M core/components/plays/drive-creator/references/compiled-drive-example/scripts/round_state.py
++ M core/components/plays/drive-creator/references/drive_preflight.py
++ M core/components/plays/drive-creator/references/round_state.py
++ M core/components/plays/drive-creator/references/test_lint_drive.py
++ M core/components/plays/drive-creator/scripts/lint_drive.py
++ M core/components/plays/drive-editor/scripts/lint_drive.py
++ M core/grounding/glossary.md
++?? .garura/project/issues/693/context/porcelain.txt
+diff --git a/.garura/project/issues/693/context/pr-body.md b/.garura/project/issues/693/context/pr-body.md
+new file mode 100644
+index 00000000..64c49af0
+--- /dev/null
++++ b/.garura/project/issues/693/context/pr-body.md
+@@ -0,0 +1,67 @@
++Closes #693.
++
++## What this does
++
++Drive loops now say what ADR 043 decided: a loop runs its plays in rounds, in any order, and saves its work once per round.
++
++- The drive builder (`/drive-creator`) and both drive linters no longer say "fixed order".
++- The Kickoff task list no longer makes each play wait for the one before it.
++- `direct-model-write.md` rule 7: inside a drive, the drive commits once per round.
++- **ADR 044** (accepted by Kapil Viren Ahuja) amends ADR 029 §2 and ADR 026's containment split. The shared drive run owns the run steps between plays: the write-up, reading the source once, and closing the gaps. Only inside a drive may `close-model-gaps` write shared model files, and only inside the product model folder.
++- The texts ADR 044 lists under "Work This Creates" now cite it: `drive-run.md`, `direct-model-write.md` (rule 3, L-DMW-5), `product-os-keeper.md`, the drive builder and linters, and the glossary.
++- `test_lint_drive.py`: the stand-in vision now reads the goal. This fixes 5 failures that were already on main.
++
++## Checks
++
++- No drive text or check says "fixed order".
++- Kickoff passes `lint_drive.py` (0 gaps). The drive-creator tests (39), the drive script tests and the Kickoff script tests pass.
++- Kickoff was not rebuilt end to end through `/drive-creator` in this change. The lint and tests cover the texts a rebuild would use.
++
++## Self-review
++
++# Self-review — issue 693 (analyze-pr skill run)
++
++Branch: feature/693-loop-texts-any-order | Base: main | Branch pattern: feature
++Scope/quality rules: ~/.phoenix/core/memory/standards/rules/self-review.md (base, not an override)
++Quality rules: analyze-pr reference/quality-rules.md
++Size: 5 commits, 37 files changed, +581 / -38. Informational only; the approve/reject gate is review-change.
++
++## Blocking findings
++
++None
++
++## Context detected
++
++Patterns: play and drive definitions (drive-creator SKILL.md, Kickoff SKILL.md), ADRs (new 044, edits to 026 and 029), docs and memory rules (direct-model-write, glossary), python scripts (linters, kickoff scripts), STM evidence. Commit types: docs, feat, chore.
++
++## Scope checks
++
++- Matches the issue: PASS. Drive texts, drive linter, Kickoff task list, direct-model-write rule 7, ADR 029 section 2 and ADR 026 exception via new ADR 044 and follow-up text edits.
++- No scope creep: PASS. Edits are wording changes and ADR citations; no unrelated logic.
++- Reasonable size: PASS. Mostly one-to-few-line edits plus one ADR.
++- No stray artifacts: REVIEW. STM run records (issue 693 context, _adr run folder) are committed, matching project habit.
++
++## Quality checks
++
++- Tests present: PASS. Wording and comment edits; the linter fixture string was updated to match.
++- Commits clean: PASS. Conventional format, all reference #693.
++- No secrets: PASS. Pattern scan of added lines found none; no absolute home paths.
++- Docs in step: PASS. Glossary, rule, ADR 026, ADR 029 and ADR index updated.
++- Nothing obviously broken: PASS. No TODOs added.
++
++## analyze-pr checklist
++
++Must-have
++- No merge conflicts: PASS. git merge-tree --write-tree main HEAD returned a clean tree.
++- No secrets committed: PASS. Pattern scan clean.
++- Play frontmatter and workflow (drive-creator, kickoff): PASS. Frontmatter present; only description wording edited.
++- ADR structure and status: PASS. ADR 044 has Status Accepted, Date, Amends, Affects, Related.
++- Docs consistent with implementation: REVIEW. Needs human sign-off.
++- Components deployed from core/components: REVIEW. Installed copies are refreshed only on request; not done here.
++
++Nice-to-have
++- ADR numbered NNN-*.md: PASS (044-the-shared-drive-run-owns-the-steps-between-plays.md).
++
++Ready: yes. Blocking count: 0. Review required: 3.
++
++🤖 Generated with [Claude Code](https://claude.com/claude-code)
+diff --git a/.garura/project/issues/693/context/pr.json b/.garura/project/issues/693/context/pr.json
+new file mode 100644
+index 00000000..6eee298c
+--- /dev/null
++++ b/.garura/project/issues/693/context/pr.json
+@@ -0,0 +1,6 @@
++{
++  "number": 697,
++  "url": "https://github.com/intent-driven-ai/garura/pull/697",
++  "state": "OPEN",
++  "base": "main"
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/693/context/resolved-rules.json b/.garura/project/issues/693/context/resolved-rules.json
+new file mode 100644
+index 00000000..7e1dab07
+--- /dev/null
++++ b/.garura/project/issues/693/context/resolved-rules.json
+@@ -0,0 +1,6 @@
++{
++  "resolved": true,
++  "path": "~/.phoenix/core/memory/standards/rules/self-review.md",
++  "source": "~/.phoenix/core/memory/standards/rules",
++  "is_override": false
++}
+diff --git a/.garura/project/issues/693/context/self-review.md b/.garura/project/issues/693/context/self-review.md
+new file mode 100644
+index 00000000..10e668b5
+--- /dev/null
++++ b/.garura/project/issues/693/context/self-review.md
+@@ -0,0 +1,44 @@
++# Self-review — issue 693 (analyze-pr skill run)
++
++Branch: feature/693-loop-texts-any-order | Base: main | Branch pattern: feature
++Scope/quality rules: ~/.phoenix/core/memory/standards/rules/self-review.md (base, not an override)
++Quality rules: analyze-pr reference/quality-rules.md
++Size: 5 commits, 37 files changed, +581 / -38. Informational only; the approve/reject gate is review-change.
++
++## Blocking findings
++
++None
++
++## Context detected
++
++Patterns: play and drive definitions (drive-creator SKILL.md, Kickoff SKILL.md), ADRs (new 044, edits to 026 and 029), docs and memory rules (direct-model-write, glossary), python scripts (linters, kickoff scripts), STM evidence. Commit types: docs, feat, chore.
++
++## Scope checks
++
++- Matches the issue: PASS. Drive texts, drive linter, Kickoff task list, direct-model-write rule 7, ADR 029 section 2 and ADR 026 exception via new ADR 044 and follow-up text edits.
++- No scope creep: PASS. Edits are wording changes and ADR citations; no unrelated logic.
++- Reasonable size: PASS. Mostly one-to-few-line edits plus one ADR.
++- No stray artifacts: REVIEW. STM run records (issue 693 context, _adr run folder) are committed, matching project habit.
++
++## Quality checks
++
++- Tests present: PASS. Wording and comment edits; the linter fixture string was updated to match.
++- Commits clean: PASS. Conventional format, all reference #693.
++- No secrets: PASS. Pattern scan of added lines found none; no absolute home paths.
++- Docs in step: PASS. Glossary, rule, ADR 026, ADR 029 and ADR index updated.
++- Nothing obviously broken: PASS. No TODOs added.
++
++## analyze-pr checklist
++
++Must-have
++- No merge conflicts: PASS. git merge-tree --write-tree main HEAD returned a clean tree.
++- No secrets committed: PASS. Pattern scan clean.
++- Play frontmatter and workflow (drive-creator, kickoff): PASS. Frontmatter present; only description wording edited.
++- ADR structure and status: PASS. ADR 044 has Status Accepted, Date, Amends, Affects, Related.
++- Docs consistent with implementation: REVIEW. Needs human sign-off.
++- Components deployed from core/components: REVIEW. Installed copies are refreshed only on request; not done here.
++
++Nice-to-have
++- ADR numbered NNN-*.md: PASS (044-the-shared-drive-run-owns-the-steps-between-plays.md).
++
++Ready: yes. Blocking count: 0. Review required: 3.
+diff --git a/.garura/project/issues/693/context/work-description.txt b/.garura/project/issues/693/context/work-description.txt
+new file mode 100644
+index 00000000..e37436b7
+--- /dev/null
++++ b/.garura/project/issues/693/context/work-description.txt
+@@ -0,0 +1,19 @@
++feat: the drive texts say plays run in any order and the drive saves once per round (ADR 043)
++
++Kind: Story — a slice of the drives feature (#594), after #689.
++
++What: the drive texts say what ADR 043 decided — the plays in a drive run in any order, and the drive saves its work once per round.
++1. `/drive-creator` and the drive linter (`lint_drive.py`) drop "fixed order".
++2. The Kickoff drive's task list stops making each play wait for the one before it.
++3. `direct-model-write.md` rule 7 ("each play commits its own delta") says that inside a drive, the drive commits once per round.
++4. ADR 029 section 2 ("the shared drive run has no rules of its own") is amended for what `drive-run.md` now owns: the source capture, the write-up and closing the gaps — or those rules move to where ADR 029 puts them.
++5. ADR 026 (direct model write) records the exception ADR 043 makes for `close-model-gaps`, which writes the spine and intent pages inside a drive (review of PR #696, finding H1).
++
++Why: the review of PR #691 (#689) found these texts still describe the old fixed order. ADR 043 lists the drive builder and linter under Affects, but they were not changed. The next rebuild of the Kickoff drive through `/drive-creator` would put the fixed order back.
++
++Done when:
++- [ ] no drive text or check says "fixed order";
++- [ ] a rebuild of the Kickoff drive by `/drive-creator` keeps the plays in any order and passes the drive linter;
++- [ ] rule 7 and ADR 029 agree with ADR 043.
++
++
+diff --git a/.garura/project/issues/_adr/20261021-150850/adr-check.json b/.garura/project/issues/_adr/20261021-150850/adr-check.json
+new file mode 100644
+index 00000000..ccc3ab77
+--- /dev/null
++++ b/.garura/project/issues/_adr/20261021-150850/adr-check.json
+@@ -0,0 +1,6 @@
++{
++  "draft": ".garura/project/issues/_adr/20261021-150850/adr-draft.md",
++  "lint": { "exit": 0, "valid": true, "problems": [] },
++  "guard": { "exit": 0, "declared": "none", "touches_an_intent": [], "verdict": "no person's business intent changes", "agrees_with_context": true },
++  "skill_retries": 0
++}
+diff --git a/.garura/project/issues/_adr/20261021-150850/adr-context.yaml b/.garura/project/issues/_adr/20261021-150850/adr-context.yaml
+new file mode 100644
+index 00000000..8113eecb
+--- /dev/null
++++ b/.garura/project/issues/_adr/20261021-150850/adr-context.yaml
+@@ -0,0 +1,81 @@
++shape: markdown
++number: "044"
++draft_path: .garura/project/issues/_adr/20261021-150850/adr-draft.md
++template: core/components/memory/standards/templates/adr.md
++level: framework
++status: proposed
++decided_in: "#693 — after the reviews of PR #691 (#689) and PR #696 (#692, finding H1)"
++decided_by_in_brief: Kapil Viren Ahuja   # left empty in the header until a person accepts
++
++supersedes: []
++
++amends:
++  - id: "029"
++    part: >-
++      §2 "How a drive runs", the bullet "No rules of its own. The drive's one rule is to run its
++      plays. Every other rule lives in the plays." The Shared Drive Run now owns three run steps
++      every drive runs between its plays: reading the source once (R4b), taking the person's
++      write-up (R3), and running find-model-gaps and close-model-gaps after each round (R5 step 7).
++      These are run steps, not product rules; a drive still carries no product rules of its own.
++  - id: "026"
++    part: >-
++      Decision, "Containment split": "Every shared file ... is written solely by the play's
++      deterministic keyed script." Inside a drive, close-model-gaps' script (apply_links.py) may
++      also write the shared model files (the spine, and the Touches list on intent pages) and move
++      holding-folder pages; only inside <product_base>product-os/, refusing any path outside,
++      listing every file it changed.
++    note: >-
++      ADR 043 already amends ADR 026's "Clean tree in, committed delta out" (the drive commits the
++      round once). That amendment is not repeated here.
++
++candidates_judged:
++  - id: "043"
++    verdict: not affected
++    why: >-
++      ADR 043 decided the two gap skills, the capture and the write-up, and that drive-run.md calls
++      the gap skills (§6). This ADR keeps all of that. It only records the two older rules ADR 043
++      left unamended (ADR 029 §2 and ADR 026's shared-file rule). Related, not amended.
++  - id: "041"
++    verdict: not affected
++    why: >-
++      ADR 041 put the rounds and the asking steps in the Shared Drive Run. Consistent with this
++      decision; nothing in it is changed.
++  - id: "042"
++    verdict: not affected
++    why: >-
++      ADR 042 added the knowledge steps (R5b, R5c) to the Shared Drive Run. Consistent; nothing
++      changed.
++
++affects:
++  - path: core/components/drives/_shared/drive-run.md
++    what: >-
++      Its opening says a drive "carries no rules of its own (ADR 029)"; it owns R3 (the write-up),
++      R4b (read the source once) and R5 step 7 (the gap skills). Wording to cite this ADR: run steps, not product rules.
++  - path: core/components/skills/close-model-gaps/
++    what: SKILL.md and scripts/apply_links.py (and its test test_apply_links.py, intent_touches.py) — the script this exception names; it already refuses paths outside product-os/ (OutOfScope) and lists changed files.
++  - path: core/components/agents/product-os-keeper.md
++    what: The must-not rule "Write a shared model file yourself" already carries the drive exception, citing ADR 043; it should cite this ADR.
++  - path: core/components/memory/standards/rules/direct-model-write.md
++    what: Rule 3 ("a keyed script owns every shared file") and lint L-DMW-5 need the declared drive exception for apply_links.py.
++  - path: core/components/plays/drive-creator/SKILL.md
++    what: Says a drive "carries no rules of its own — every rule lives in its plays"; should say the shared run owns the run steps.
++  - path: core/components/plays/drive-creator/scripts/lint_drive.py
++    what: Docstring cites ADR 029 §2 "carries no rules of its own"; same wording in core/components/plays/drive-editor/scripts/lint_drive.py.
++  - path: core/grounding/glossary.md
++    what: The Drive entry, where it repeats "no rules of its own".
++
++ice_impact: >-
++  No play's or drive's ICE changes; the Kickoff drive and its plays already run this way (ADR 043).
++  The product-os-keeper agent's constraints keep one declared exception: inside a drive, its
++  close-model-gaps skill's script writes the spine and intent pages' Touches lists and moves
++  holding-folder pages. This records that exception; it does not widen it.
++
++business_intent_check: none
++business_intent_why: >-
++  A framework decision on who writes shared model files and what the Shared Drive Run owns.
++  close-model-gaps writes only the Touches link list on an intent page, never intent content;
++  no person's business intent changes, and the Business Intent kind's rules stand (ADR 031).
++
++related: ["ADR 026", "ADR 029", "ADR 041", "ADR 042", "ADR 043", "#689", "#691", "#692", "#696", "#693"]
++
++brief_gaps: none — the brief gives the decision, the reason, and two alternatives with why each lost.
+diff --git a/.garura/project/issues/_adr/20261021-150850/adr-draft.md b/.garura/project/issues/_adr/20261021-150850/adr-draft.md
+new file mode 100644
+index 00000000..0f2d5683
+--- /dev/null
++++ b/.garura/project/issues/_adr/20261021-150850/adr-draft.md
+@@ -0,0 +1,84 @@
++# ADR 044 — The Shared Drive Run Owns the Steps Between Plays, and Inside a Drive the Gap-Closing Script May Write Shared Model Files
++
++**Status:** Proposed
++**Date:** 2026-10-21
++**Level:** framework
++**Decided by:** · **Decided in:** #693 — after the reviews of PR #691 (#689) and PR #696 (#692, finding H1)
++**Amends:** ADR 029 — §2 "How a drive runs", the bullet "No rules of its own": the Shared Drive Run owns the run steps every drive runs between its plays (R3 the write-up, R4b reading the source once, R5 the two gap skills after each round); a drive still has no product rules of its own · ADR 026 — Decision, "Containment split", "Every shared file … is written solely by the play's deterministic keyed script": inside a drive, `close-model-gaps`' script `apply_links.py` may also write shared model files and move holding-folder pages, only inside `<product_base>product-os/`
++**Affects:** `core/components/drives/_shared/drive-run.md` (its opening line, R3, R4b, R5 step 7), `core/components/skills/close-model-gaps/` (`SKILL.md`, `scripts/apply_links.py`, `scripts/intent_touches.py`, `scripts/test_apply_links.py`), `core/components/agents/product-os-keeper.md` (the "Write a shared model file yourself" rule and its drive exception), `core/components/memory/standards/rules/direct-model-write.md` (rule 3 and lint L-DMW-5), `core/components/plays/drive-creator/SKILL.md` ("carries no rules of its own"), `core/components/plays/drive-creator/scripts/lint_drive.py` and `core/components/plays/drive-editor/scripts/lint_drive.py` (docstring citing ADR 029 §2), `core/grounding/glossary.md` (the Drive entry)
++**ICE impact:** none for any play or drive — Kickoff and its plays already run this way (ADR 043). The `product-os-keeper` agent keeps one declared exception to its shared-file rule: inside a drive, its `close-model-gaps` script writes the spine and intent pages' Touches lists and moves holding-folder pages. This records that exception; it does not widen it.
++**Business intent check:** none — a framework decision on what the Shared Drive Run owns and who writes shared model files. `close-model-gaps` writes only the Touches link list on an intent page, never intent content; the Business Intent kind's rules stand (ADR 031).
++**Related:** ADR 026, ADR 029, ADR 041, ADR 042, ADR 043, #689, #691, #692, #696, #693
++
++## Context
++
++ADR 043 decided that a drive reads the source once, takes a short write-up from the person, and closes the model's gaps after each round with two skills. That work now lives in the Shared Drive Run (`drive-run.md`), the steps every drive shares.
++
++Two older rules still say otherwise. Reviews found both.
++
++- The review of PR #691 (#689) found that ADR 029 §2 says a drive has "no rules of its own". But `drive-run.md` now owns the capture, the write-up and the gap closing.
++- The review of PR #696 (#692, finding H1) found that ADR 026, and the model keeper's rules on main, say only a play's keyed persist script writes shared model files. But `close-model-gaps` writes them inside a drive.
++
++ADR 043 decided the gap skills. It did not amend ADR 029 §2 or ADR 026's shared-file rule. This ADR does that, so the written rules match what runs.
++
++ADR 043 already amends ADR 026's "Clean tree in, committed delta out" (the drive commits the round once). This ADR does not repeat it.
++
++## Decision
++
++### 1. The Shared Drive Run owns the steps between plays
++
++The Shared Drive Run (`core/components/drives/_shared/drive-run.md`) owns the steps every drive runs between its plays:
++
++- taking the person's write-up (R3);
++- reading the source once, into a shared capture (R4b);
++- running `find-model-gaps` and then `close-model-gaps` after each round (R5).
++
++These are run steps. They are not rules about the product. So a drive still carries no product rules of its own. Every product rule still lives in the plays.
++
++### 2. Inside a drive, the gap-closing script may write shared model files
++
++Inside a drive, the script of `close-model-gaps` (`apply_links.py`) may:
++
++- write the shared model files — the spine, and the Touches list on intent pages;
++- move pages out of the holding folders, to sit under their parent.
++
++It writes only inside `<product_base>product-os/`. It refuses any path outside it. It lists every file it changed in its report.
++
++Outside a drive, nothing changes. A play's keyed persist script is still the only writer of shared model files.
++
++## Consequences
++
++### Positive
++
++- The written rules match what runs. A reviewer no longer finds a conflict between ADR 029, ADR 026 and the shared run.
++- The steps every drive needs are written once, in one place, not copied into each play.
++- The gaps between plays are closed by the one step that sees all of them.
++- The exception is narrow and checked. One script, inside a drive, inside the model folder, with a list of what it changed.
++
++### Negative / Risks
++
++- ADR 026's containment now has two writers of shared files inside a drive: each play's persist script and `apply_links.py`. Their writes to the spine must not clash. ADR 043 has the drive make spine writes in turn; that must hold.
++- "No product rules" and "run steps" can blur. A future step added to the Shared Drive Run must be a run step, not a rule about the product. Nothing checks that mechanically.
++- `apply_links.py` is not keyed to one node, as a play's persist script is. Its safety rests on the folder check, the agreed `gaps.json`, and its change report.
++- Several files still cite the old wording ("no rules of its own", "only the keyed script") and must be updated to point here.
++
++## Alternatives Considered
++
++- **Move the capture, write-up and gap steps into each play** — every play would repeat the same steps. And the gaps between plays can only be closed by something that sees all of them, which is the drive (ADR 043).
++- **Route `close-model-gaps` through each play's persist script** — the gaps span plays. No single play owns them, so no single play's script can close them.
++
++## Work This Creates
++
++- `drive-run.md`: say it owns run steps, not product rules, and cite this ADR beside ADR 029.
++- `direct-model-write.md`: add the drive exception to rule 3 and to lint L-DMW-5.
++- `product-os-keeper.md`: cite this ADR in the shared-file exception.
++- `/drive-creator` and `/drive-editor`: update the "no rules of its own" wording in `SKILL.md` and both `lint_drive.py` docstrings.
++- The glossary's Drive entry.
++
++## References
++
++- Brief: `.garura/project/issues/_adr/20261021-150850/brief.md`
++- `core/components/drives/_shared/drive-run.md`
++- `core/components/skills/close-model-gaps/scripts/apply_links.py`
++- `core/components/memory/standards/rules/direct-model-write.md`
++- ADR 026, ADR 029, ADR 043
+diff --git a/.garura/project/issues/_adr/20261021-150850/adr-manifest.json b/.garura/project/issues/_adr/20261021-150850/adr-manifest.json
+new file mode 100644
+index 00000000..c2b07f89
+--- /dev/null
++++ b/.garura/project/issues/_adr/20261021-150850/adr-manifest.json
+@@ -0,0 +1,35 @@
++{
++  "decided": true,
++  "lint_ok": true,
++  "linked": true,
++  "target": "docs/adr/044-the-shared-drive-run-owns-the-steps-between-plays.md",
++  "shape": "markdown",
++  "guard": {
++    "adr": ".garura/project/issues/_adr/20261021-150850/adr-draft.md",
++    "declared": "none",
++    "touches_an_intent": [],
++    "verdict": "no person's business intent changes"
++  },
++  "olders": [
++    {
++      "adr": "029",
++      "file": "docs/adr/029-drives.md",
++      "kind": "amended",
++      "part": "\u00a72 \"How a drive runs\", the bullet \"No rules of its own. The drive's one rule is to run its plays. Every other rule lives in the plays.\" The Shared Drive Run now owns three run steps every drive runs between its plays: reading the source once (R4b), taking the person's write-up (R3), and running find-model-gaps and close-model-gaps after each round (R5 step 7). These are run steps, not product rules; a drive still carries no product rules of its own."
++    },
++    {
++      "adr": "026",
++      "file": "docs/adr/026-direct-to-model-writes.md",
++      "kind": "amended",
++      "part": "Decision, \"Containment split\": \"Every shared file ... is written solely by the play's deterministic keyed script.\" Inside a drive, close-model-gaps' script (apply_links.py) may also write the shared model files (the spine, and the Touches list on intent pages) and move holding-folder pages; only inside <product_base>product-os/, refusing any path outside, listing every file it changed."
++    }
++  ],
++  "status": "accepted",
++  "accepted_by": "Kapil Viren Ahuja",
++  "pointers_written": [
++    "029-drives.md",
++    "026-direct-to-model-writes.md"
++  ],
++  "pointers_missing": [],
++  "index_ok": true
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/_adr/20261021-150850/brief.md b/.garura/project/issues/_adr/20261021-150850/brief.md
+new file mode 100644
+index 00000000..8a063397
+--- /dev/null
++++ b/.garura/project/issues/_adr/20261021-150850/brief.md
+@@ -0,0 +1,26 @@
++# Decision brief
++
++Shape: markdown (a framework decision, docs/adr/).
++
++## Decision
++
++1. The Shared Drive Run (`core/components/drives/_shared/drive-run.md`) owns the steps every drive runs between its plays: reading the source once (the shared capture, R4b), taking the person's write-up (R3), and running `find-model-gaps` and `close-model-gaps` after each round (R5). These are run steps, not rules about the product, so a drive still carries no product rules of its own.
++2. Inside a drive, `close-model-gaps`' script (`apply_links.py`) may write the shared model files (the spine, and the Touches list on intent pages) and move holding-folder pages. It writes only inside `<product_base>product-os/`, refuses any path outside it, and lists every file it changed.
++
++## Why now
++
++The review of PR #691 (#689) found ADR 029 §2 says the shared drive run has "no rules of its own", while `drive-run.md` now owns the capture, the write-up and the gap closing. The review of PR #696 (#692, finding H1) found ADR 026 (and the model keeper's rules on main) say only a play's keyed persist script writes shared model files, while `close-model-gaps` writes them inside a drive. ADR 043 decided the gap skills but did not amend ADR 029 §2 or ADR 026's shared-file rule.
++
++## Options considered
++
++1. Amend ADR 029 §2 and ADR 026 to name these two exceptions. Chosen.
++2. Move the capture, write-up and gap steps into each play. Lost: every play would repeat the same steps, and the gaps between plays can only be closed by something that sees all of them, which is the drive (ADR 043).
++3. Route `close-model-gaps` through each play's persist script. Lost: the gaps span plays; no single play owns them.
++
++## Decided by
++
++Kapil Viren Ahuja
++
++## Decided in
++
++#693
+diff --git a/.garura/project/issues/_adr/20261021-150850/decision.yaml b/.garura/project/issues/_adr/20261021-150850/decision.yaml
+new file mode 100644
+index 00000000..5f27159f
+--- /dev/null
++++ b/.garura/project/issues/_adr/20261021-150850/decision.yaml
+@@ -0,0 +1 @@
++decision: { verdict: accept, by: person, accepted_by: Kapil Viren Ahuja, reply: "accept" }
+diff --git a/.garura/project/issues/_adr/20261021-150850/guard-report.json b/.garura/project/issues/_adr/20261021-150850/guard-report.json
+new file mode 100644
+index 00000000..c517cb50
+--- /dev/null
++++ b/.garura/project/issues/_adr/20261021-150850/guard-report.json
+@@ -0,0 +1,26 @@
++{
++  "ok": true,
++  "changed": [
++    ".garura/project/issues/_adr/20261021-150850/adr-check.json",
++    ".garura/project/issues/_adr/20261021-150850/adr-context.yaml",
++    ".garura/project/issues/_adr/20261021-150850/adr-draft.md",
++    ".garura/project/issues/_adr/20261021-150850/adr-manifest.json",
++    ".garura/project/issues/_adr/20261021-150850/brief.md",
++    ".garura/project/issues/_adr/20261021-150850/decision.yaml",
++    ".garura/project/issues/_adr/20261021-150850/hashes-before.json",
++    ".garura/project/issues/_adr/20261021-150850/porcelain-after.txt",
++    ".garura/project/issues/_adr/20261021-150850/run.json",
++    "docs/adr/026-direct-to-model-writes.md",
++    "docs/adr/029-drives.md",
++    "docs/adr/044-the-shared-drive-run-owns-the-steps-between-plays.md",
++    "docs/adr/_index.md"
++  ],
++  "violations": [],
++  "allowed": [
++    "docs/adr/044-the-shared-drive-run-owns-the-steps-between-plays.md",
++    "docs/adr/026-direct-to-model-writes.md",
++    "docs/adr/029-drives.md",
++    "docs/adr/_index.md",
++    ".garura/project/issues/*"
++  ]
++}
+diff --git a/.garura/project/issues/_adr/20261021-150850/hashes-before.json b/.garura/project/issues/_adr/20261021-150850/hashes-before.json
+new file mode 100644
+index 00000000..e6be4ce8
+--- /dev/null
++++ b/.garura/project/issues/_adr/20261021-150850/hashes-before.json
+@@ -0,0 +1,17 @@
++{
++  ".garura/project/issues/_adr/20261021-150850/porcelain-before.txt": "1117382cce293153ca7bf46163b5267e4bc8964d7c81bf78ea8c45874f21d104",
++  "core/components/drives/kickoff/SKILL.md": "ab36d78e65222670f6b4c52a33cd6b5b9d92f947433e247e257c9a56035e7b7c",
++  "core/components/drives/kickoff/scripts/drive_preflight.py": "1a9d6925efa62d25b9a776693d5cd5dafe47a7b404cfcb017424b88c47d8f8db",
++  "core/components/drives/kickoff/scripts/round_state.py": "8a252d219b3a5112effcdb2111dd807181d7cba5c7013183907b1b8918743ff0",
++  "core/components/memory/standards/rules/direct-model-write.md": "4a40d5baec0f15df0772a8891ce365119e7c0cff40958cb166223ac24a569b36",
++  "core/components/plays/drive-creator/SKILL.md": "571823477054831ce8810322e6ebd97a910950d6211dce4753b9fb72badcc297",
++  "core/components/plays/drive-creator/references/compiled-drive-example/SKILL.md": "b0493c35c296895068c015a4e6565b1300c593cfacb6681574dffcad72f9dc7c",
++  "core/components/plays/drive-creator/references/compiled-drive-example/scripts/drive_preflight.py": "1a9d6925efa62d25b9a776693d5cd5dafe47a7b404cfcb017424b88c47d8f8db",
++  "core/components/plays/drive-creator/references/compiled-drive-example/scripts/round_state.py": "8a252d219b3a5112effcdb2111dd807181d7cba5c7013183907b1b8918743ff0",
++  "core/components/plays/drive-creator/references/drive_preflight.py": "1a9d6925efa62d25b9a776693d5cd5dafe47a7b404cfcb017424b88c47d8f8db",
++  "core/components/plays/drive-creator/references/round_state.py": "8a252d219b3a5112effcdb2111dd807181d7cba5c7013183907b1b8918743ff0",
++  "core/components/plays/drive-creator/references/test_lint_drive.py": "7c9adff6beb6d286db676e97091953d0a19ce4b449959a97ff9cfd71f402e1f4",
++  "core/components/plays/drive-creator/scripts/lint_drive.py": "ca5fd318d84f535cee5a707f346f6e88dbfa1fa98f352248cd3724b264544a9d",
++  "core/components/plays/drive-editor/scripts/lint_drive.py": "ca5fd318d84f535cee5a707f346f6e88dbfa1fa98f352248cd3724b264544a9d",
++  "core/grounding/glossary.md": "ee2273bad0899dda4d04034e6ea70bec183ec706ab4264e502fbf92ca2564667"
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/_adr/20261021-150850/porcelain-after.txt b/.garura/project/issues/_adr/20261021-150850/porcelain-after.txt
+new file mode 100644
+index 00000000..77020742
+--- /dev/null
++++ b/.garura/project/issues/_adr/20261021-150850/porcelain-after.txt
+@@ -0,0 +1,28 @@
++ M core/components/drives/kickoff/SKILL.md
++ M core/components/drives/kickoff/scripts/drive_preflight.py
++ M core/components/drives/kickoff/scripts/round_state.py
++ M core/components/memory/standards/rules/direct-model-write.md
++ M core/components/plays/drive-creator/SKILL.md
++ M core/components/plays/drive-creator/references/compiled-drive-example/SKILL.md
++ M core/components/plays/drive-creator/references/compiled-drive-example/scripts/drive_preflight.py
++ M core/components/plays/drive-creator/references/compiled-drive-example/scripts/round_state.py
++ M core/components/plays/drive-creator/references/drive_preflight.py
++ M core/components/plays/drive-creator/references/round_state.py
++ M core/components/plays/drive-creator/references/test_lint_drive.py
++ M core/components/plays/drive-creator/scripts/lint_drive.py
++ M core/components/plays/drive-editor/scripts/lint_drive.py
++ M core/grounding/glossary.md
++ M docs/adr/026-direct-to-model-writes.md
++ M docs/adr/029-drives.md
++ M docs/adr/_index.md
++?? .garura/project/issues/_adr/20261021-150850/adr-check.json
++?? .garura/project/issues/_adr/20261021-150850/adr-context.yaml
++?? .garura/project/issues/_adr/20261021-150850/adr-draft.md
++?? .garura/project/issues/_adr/20261021-150850/adr-manifest.json
++?? .garura/project/issues/_adr/20261021-150850/brief.md
++?? .garura/project/issues/_adr/20261021-150850/decision.yaml
++?? .garura/project/issues/_adr/20261021-150850/hashes-before.json
++?? .garura/project/issues/_adr/20261021-150850/porcelain-after.txt
++?? .garura/project/issues/_adr/20261021-150850/porcelain-before.txt
++?? .garura/project/issues/_adr/20261021-150850/run.json
++?? docs/adr/044-the-shared-drive-run-owns-the-steps-between-plays.md
+diff --git a/.garura/project/issues/_adr/20261021-150850/porcelain-before.txt b/.garura/project/issues/_adr/20261021-150850/porcelain-before.txt
+new file mode 100644
+index 00000000..d9ac412c
+--- /dev/null
++++ b/.garura/project/issues/_adr/20261021-150850/porcelain-before.txt
+@@ -0,0 +1,15 @@
++ M core/components/drives/kickoff/SKILL.md
++ M core/components/drives/kickoff/scripts/drive_preflight.py
++ M core/components/drives/kickoff/scripts/round_state.py
++ M core/components/memory/standards/rules/direct-model-write.md
++ M core/components/plays/drive-creator/SKILL.md
++ M core/components/plays/drive-creator/references/compiled-drive-example/SKILL.md
++ M core/components/plays/drive-creator/references/compiled-drive-example/scripts/drive_preflight.py
++ M core/components/plays/drive-creator/references/compiled-drive-example/scripts/round_state.py
++ M core/components/plays/drive-creator/references/drive_preflight.py
++ M core/components/plays/drive-creator/references/round_state.py
++ M core/components/plays/drive-creator/references/test_lint_drive.py
++ M core/components/plays/drive-creator/scripts/lint_drive.py
++ M core/components/plays/drive-editor/scripts/lint_drive.py
++ M core/grounding/glossary.md
++?? .garura/project/issues/_adr/20261021-150850/porcelain-before.txt
+diff --git a/.garura/project/issues/_adr/20261021-150850/run.json b/.garura/project/issues/_adr/20261021-150850/run.json
+new file mode 100644
+index 00000000..f5c584ac
+--- /dev/null
++++ b/.garura/project/issues/_adr/20261021-150850/run.json
+@@ -0,0 +1 @@
++{"in_drive": false, "issue": 693, "branch": "feature/693-loop-texts-any-order", "start_change": "resumed the open issue and branch"}
+diff --git a/core/components/agents/product-os-keeper.md b/core/components/agents/product-os-keeper.md
+index dd75dfc1..c8a3a1f3 100644
+--- a/core/components/agents/product-os-keeper.md
++++ b/core/components/agents/product-os-keeper.md
+@@ -176,7 +176,7 @@ a path belongs.
+   direct-model-write (ADR 026) your skills write only per-node grounding docs, in place;
+   the play's keyed persist script owns every shared file and every page move. One
+   exception: inside a drive, `close-model-gaps`'s script (`apply_links.py`) writes the spine
+-  and intent pages' Touches lists and moves holding-folder pages (ADR 043), and only inside
++  and intent pages' Touches lists and moves holding-folder pages (ADR 043, ADR 044), and only inside
+   `<product_base>product-os/` — it refuses any path outside and lists every file it changed.
+ - Remove a node, or lose what an existing node holds — a doc another play wrote is grown
+   in place, keeping every section and agent-intent line it had (ontology v4). One
+diff --git a/core/components/drives/_shared/drive-run.md b/core/components/drives/_shared/drive-run.md
+index f5c4205f..2b1571e1 100644
+--- a/core/components/drives/_shared/drive-run.md
++++ b/core/components/drives/_shared/drive-run.md
+@@ -1,8 +1,10 @@
+ # Shared Drive Run
+ 
+ The steps every drive runs, in order. A drive is a higher-order play: it runs other plays
+-until its intent is met or it fails, and carries no rules of its own (ADR 029). So the run is
+-the same for every drive and lives once, here (`core/components/drives/_shared/drive-run.md`;
++until its intent is met or it fails, and carries no product rules of its own (ADR 029). It owns
++only the run steps every drive takes between its plays — the write-up (R3), reading the source
++once (R4b) and closing the model's gaps after each round (R5 step 7) — and those live here
++(ADR 044). So the run is the same for every drive and lives once, here (`core/components/drives/_shared/drive-run.md`;
+ the install lays it in the installed `_shared/` folder beside the plays' shared close). A
+ compiled drive holds only the two anchor lines, its own values — its plays in order, its
+ questions, its config keys, its end — and points here. `/drive-creator` emits exactly that, so
+@@ -99,7 +101,7 @@ python3 scripts/write_drive_contract.py --drive <drive> --drive-run-id <drive>-<
+ 
+ One contract for every play (`standards/rules/drive-contract.md`). Exit 2 halts the drive.
+ 
+-### Step R4b — Read the source once (ADR 043)
++### Step R4b — Read the source once (ADR 043, ADR 044)
+ 
+ A drive that names a `source` reads it once, before any play, and every play reads that one
+ capture — none captures or walks the source again, and none reads another play's output.
+@@ -207,7 +209,7 @@ For each play in `plays`:
+    answers and — on a later round — exactly the work the gap skills gave it
+    (`inputs.<play>.targets`). It never takes another play's output as its input (ADR 043).
+ 
+-7. **After the round, close the model's gaps (ADR 043).** The drive holds no judgment of its
++7. **After the round, close the model's gaps (ADR 043, ADR 044).** The drive holds no judgment of its
+    own: dispatch `product-os-keeper` once, in the foreground, to run the two gap skills over
+    the whole model, with this contract:
+ 
+diff --git a/core/components/drives/kickoff/SKILL.md b/core/components/drives/kickoff/SKILL.md
+index 0966d0b4..dab2438c 100644
+--- a/core/components/drives/kickoff/SKILL.md
++++ b/core/components/drives/kickoff/SKILL.md
+@@ -82,9 +82,9 @@ into the drive's working folder `{stm_base}<issue>/context/kickoff/<run-ts>/` (`
+ [T3] Write the drive contract                     blockedBy: [T2]
+ [T3b] Read the prototype once (prototype-reader)  blockedBy: [T3]
+ [T4] Round n: run /intent (if given work)         blockedBy: [T3b]
+-[T5] Round n: run /vision (if given work)         blockedBy: [T4]
+-[T6] Round n: run /understand (if given work)     blockedBy: [T5]
+-[T6a] After the round: find and close the gaps    blockedBy: [T6]
++[T5] Round n: run /vision (if given work)         blockedBy: [T3b]
++[T6] Round n: run /understand (if given work)     blockedBy: [T3b]
++[T6a] After the round: find and close the gaps    blockedBy: [T4, T5, T6]
+ [T6b] After the round: done, again or ask         blockedBy: [T6a]  (again: back to T4, round n+1, only the plays given work)
+ [T6c] Search the knowledge (search-knowledge)    blockedBy: [T6b] (only on ask)
+ [T6d] Build the knowledge (build-knowledge)      blockedBy: [T6c]
+diff --git a/core/components/drives/kickoff/scripts/drive_preflight.py b/core/components/drives/kickoff/scripts/drive_preflight.py
+index f2a2e7c9..ccdd2fc7 100644
+--- a/core/components/drives/kickoff/scripts/drive_preflight.py
++++ b/core/components/drives/kickoff/scripts/drive_preflight.py
+@@ -131,7 +131,7 @@ def main(argv=None):
+     ap.add_argument("--config", default=".garura/core/config.yaml")
+     ap.add_argument("--drive", required=True)
+     ap.add_argument("--skills-root", required=True, help="where the installed plays sit")
+-    ap.add_argument("--plays", required=True, help="the drive's plays, in order, comma-separated")
++    ap.add_argument("--plays", required=True, help="the drive's plays, comma-separated, in the order they run")
+     ap.add_argument("--branch", default="")
+     ap.add_argument("--out", required=True)
+     args = ap.parse_args(argv)
+diff --git a/core/components/drives/kickoff/scripts/round_state.py b/core/components/drives/kickoff/scripts/round_state.py
+index c5427967..d3453538 100644
+--- a/core/components/drives/kickoff/scripts/round_state.py
++++ b/core/components/drives/kickoff/scripts/round_state.py
+@@ -1,8 +1,8 @@
+ #!/usr/bin/env python3
+ """round_state.py — after a round of the drive's plays: done, again, or ask? (Shared Drive Run, R5)
+ 
+-A drive runs its plays "in order and repeatedly, until its intent is met" (glossary, Drive;
+-ADR 029). A question one play cannot answer is the drive's question, not a stop: the other
++A drive runs its plays in rounds, in any order, until its intent is met (glossary, Drive;
++ADR 029, ADR 043). A question one play cannot answer is the drive's question, not a stop: the other
+ plays may answer it, and the play fills it on the next round (Kapil, 2026-10-20). The drive
+ asks the person only what no play of the drive can answer. This script makes that call after
+ each round, mechanically:
+diff --git a/core/components/memory/standards/rules/direct-model-write.md b/core/components/memory/standards/rules/direct-model-write.md
+index 3e86ab0b..f0951eab 100644
+--- a/core/components/memory/standards/rules/direct-model-write.md
++++ b/core/components/memory/standards/rules/direct-model-write.md
+@@ -39,6 +39,12 @@ git diff and the end-sequence PR.
+    doc files, and node-level containment inside the shared spine/profile is preserved by
+    the keyed script — not by the guard.
+ 
++   **Inside a drive (ADR 044).** One more writer: `close-model-gaps`' script
++   (`apply_links.py`) may write the spine and the Touches list on intent pages, and move
++   holding-folder pages under their parent. It writes only inside `<product_base>product-os/`,
++   refuses any path outside, and lists every file it changed. Outside a drive, the play's
++   keyed script is still the only writer of shared files.
++
+    Migration consequence: this is not a path re-point. Any enrich/build skill that today
+    writes a draft `_spine.yaml` delta must stop writing the spine and instead emit that
+    delta as **structured data in its manifest** — the same entry fields it already
+@@ -90,6 +96,11 @@ git diff and the end-sequence PR.
+    what remains uncommitted (STM evidence, ADRs), not the model deltas the plays already
+    committed.
+ 
++   **Inside a drive (ADR 043).** The drive, not each play, commits: its plays may run side
++   by side in a round, so a play does not make this persist commit, and the drive commits
++   the round once, after its gap skills have run (`commit_run_files.py`). The entry check
++   applies to the drive: the model tree is clean when the drive starts each round.
++
+ ## Order of operations (write-then-review)
+ 
+ The order is load-bearing, not incidental — it is the content of ADR 026 (write-then-review
+@@ -214,7 +225,8 @@ pattern cannot survive a rebuild or a hand edit:
+   model-delta commit at close.
+ - L-DMW-5: the play's enrichment/build skill is described as writing a shared model file
+   (`_spine.yaml`, `profile.yaml`, `decisions/`) — shared files are written only by the
+-  play's deterministic keyed script.
++  play's deterministic keyed script. Not a finding: `close-model-gaps`, which writes them
++  inside a drive only (ADR 044).
+ - L-DMW-6: the play's keyed persist step does not precede its checkpoint step (write-then-
+   review order violated — persist must run before the gate so the shape and the human see
+   the full delta).
+diff --git a/core/components/plays/drive-creator/SKILL.md b/core/components/plays/drive-creator/SKILL.md
+index fa81bf8d..cdb8d3ad 100644
+--- a/core/components/plays/drive-creator/SKILL.md
++++ b/core/components/plays/drive-creator/SKILL.md
+@@ -1,8 +1,8 @@
+ ---
+ name: drive-creator
+ description: >
+-  Builds a "drive" — a higher-order play that runs other plays in a fixed order until its
+-  intent is met (ADR 029) — from its ICE. Interviews for the intent triple and the drive's
++  Builds a "drive" — a higher-order play that runs other plays in rounds, in any order, until
++  its intent is met (ADR 029, ADR 043) — from its ICE. Interviews for the intent triple and the drive's
+   own parts (its plays, the questions it asks first, its checker and runner settings, how it
+   ends), generates the expectation and the Done means, and writes the compiled drive into
+   core/components/drives/<drive>/ (a SKILL.md that points to the Shared Drive Run, its
+@@ -16,9 +16,11 @@ model: best
+ 
+ # drive-creator
+ 
+-The drive builder for garura. A drive runs other plays, in a fixed order, on one issue and one
+-branch, asks its questions first, has a checker judge the result, and lands one pull request
+-(ADR 029). It carries no rules of its own — every rule lives in its plays. So a drive is small:
++The drive builder for garura. A drive runs other plays in rounds, in any order, on one issue and
++one branch (ADR 043: no play takes another's output, and the drive closes the gaps between
++them after each round), asks its questions first, has a checker judge the result, and lands one pull request
++(ADR 029). It carries no product rules of its own — every rule lives in its plays; the run
++steps between plays live in the Shared Drive Run (ADR 044). So a drive is small:
+ its own values, and a pointer to the run every drive shares.
+ 
+ `/play-creator` builds plays; this builds drives. Companion: `/drive-editor` changes a drive
+@@ -75,7 +77,8 @@ Write `reference/ice.md` like the example's:
+   conditions F-n, implementation-agnostic. Write it as `/play-creator` step 1 says
+   (`../play-creator/SKILL.md`). A drive's constraints are about the run: one issue and one
+   branch, questions first, order and done checks, the checker.
+-- **Plays** — a table: order, play, what it gets from the contract (`inputs.<play>`) and which
++- **Plays** — a table: the order they run in (any order works; no play takes another's
++  output), play, what it gets from the contract (`inputs.<play>`) and which
+   answers it gets (`answers.<play>`). An input another play makes is written "after `<play>`:
+   …" — the drive adds it to the contract before the later play starts (shared run, R5 step 6).
+   Check each play exists and runs inside a drive, and that it reads every input the drive hands
+diff --git a/core/components/plays/drive-creator/references/compiled-drive-example/SKILL.md b/core/components/plays/drive-creator/references/compiled-drive-example/SKILL.md
+index 929fcf54..6c29baf2 100644
+--- a/core/components/plays/drive-creator/references/compiled-drive-example/SKILL.md
++++ b/core/components/plays/drive-creator/references/compiled-drive-example/SKILL.md
+@@ -29,7 +29,7 @@ Do NOT edit this file manually — it is a compiled artifact.
+ 
+ ## Role
+ 
+-You are the drive. You run the plays below in their fixed order and do no work of your own
++You are the drive. You run the plays below in rounds, in any order (ADR 043), and do no work of your own
+ (ADR 029 §2): every rule lives in the plays. You ask the drive's questions first, hand every
+ play the same contract, check each play's done check, commit its run files, have the checker
+ judge the result, and land the change. Each play runs as a sub-agent (or headless, by config)
+@@ -53,8 +53,8 @@ without the checker's pass.
+ [T2] Questions first                        blockedBy: [T1]
+ [T3] Write the drive contract               blockedBy: [T2]
+ [T4] Round n: run /intent                   blockedBy: [T3]
+-[T5] Round n: run /vision                   blockedBy: [T4]
+-[T5b] After the round: done, again or ask    blockedBy: [T5]   (again: back to T4, round n+1)
++[T5] Round n: run /vision                   blockedBy: [T3]
++[T5b] After the round: done, again or ask    blockedBy: [T4, T5]   (again: back to T4, round n+1)
+ [T5c] Search the knowledge                 blockedBy: [T5b] (only on ask)
+ [T5d] Build the knowledge                  blockedBy: [T5c]
+ [T5e] Write the brief                      blockedBy: [T5d]
+diff --git a/core/components/plays/drive-creator/references/compiled-drive-example/scripts/drive_preflight.py b/core/components/plays/drive-creator/references/compiled-drive-example/scripts/drive_preflight.py
+index f2a2e7c9..ccdd2fc7 100644
+--- a/core/components/plays/drive-creator/references/compiled-drive-example/scripts/drive_preflight.py
++++ b/core/components/plays/drive-creator/references/compiled-drive-example/scripts/drive_preflight.py
+@@ -131,7 +131,7 @@ def main(argv=None):
+     ap.add_argument("--config", default=".garura/core/config.yaml")
+     ap.add_argument("--drive", required=True)
+     ap.add_argument("--skills-root", required=True, help="where the installed plays sit")
+-    ap.add_argument("--plays", required=True, help="the drive's plays, in order, comma-separated")
++    ap.add_argument("--plays", required=True, help="the drive's plays, comma-separated, in the order they run")
+     ap.add_argument("--branch", default="")
+     ap.add_argument("--out", required=True)
+     args = ap.parse_args(argv)
+diff --git a/core/components/plays/drive-creator/references/compiled-drive-example/scripts/round_state.py b/core/components/plays/drive-creator/references/compiled-drive-example/scripts/round_state.py
+index c5427967..d3453538 100644
+--- a/core/components/plays/drive-creator/references/compiled-drive-example/scripts/round_state.py
++++ b/core/components/plays/drive-creator/references/compiled-drive-example/scripts/round_state.py
+@@ -1,8 +1,8 @@
+ #!/usr/bin/env python3
+ """round_state.py — after a round of the drive's plays: done, again, or ask? (Shared Drive Run, R5)
+ 
+-A drive runs its plays "in order and repeatedly, until its intent is met" (glossary, Drive;
+-ADR 029). A question one play cannot answer is the drive's question, not a stop: the other
++A drive runs its plays in rounds, in any order, until its intent is met (glossary, Drive;
++ADR 029, ADR 043). A question one play cannot answer is the drive's question, not a stop: the other
+ plays may answer it, and the play fills it on the next round (Kapil, 2026-10-20). The drive
+ asks the person only what no play of the drive can answer. This script makes that call after
+ each round, mechanically:
+diff --git a/core/components/plays/drive-creator/references/drive_preflight.py b/core/components/plays/drive-creator/references/drive_preflight.py
+index f2a2e7c9..ccdd2fc7 100644
+--- a/core/components/plays/drive-creator/references/drive_preflight.py
++++ b/core/components/plays/drive-creator/references/drive_preflight.py
+@@ -131,7 +131,7 @@ def main(argv=None):
+     ap.add_argument("--config", default=".garura/core/config.yaml")
+     ap.add_argument("--drive", required=True)
+     ap.add_argument("--skills-root", required=True, help="where the installed plays sit")
+-    ap.add_argument("--plays", required=True, help="the drive's plays, in order, comma-separated")
++    ap.add_argument("--plays", required=True, help="the drive's plays, comma-separated, in the order they run")
+     ap.add_argument("--branch", default="")
+     ap.add_argument("--out", required=True)
+     args = ap.parse_args(argv)
+diff --git a/core/components/plays/drive-creator/references/round_state.py b/core/components/plays/drive-creator/references/round_state.py
+index c5427967..d3453538 100644
+--- a/core/components/plays/drive-creator/references/round_state.py
++++ b/core/components/plays/drive-creator/references/round_state.py
+@@ -1,8 +1,8 @@
+ #!/usr/bin/env python3
+ """round_state.py — after a round of the drive's plays: done, again, or ask? (Shared Drive Run, R5)
+ 
+-A drive runs its plays "in order and repeatedly, until its intent is met" (glossary, Drive;
+-ADR 029). A question one play cannot answer is the drive's question, not a stop: the other
++A drive runs its plays in rounds, in any order, until its intent is met (glossary, Drive;
++ADR 029, ADR 043). A question one play cannot answer is the drive's question, not a stop: the other
+ plays may answer it, and the play fills it on the next round (Kapil, 2026-10-20). The drive
+ asks the person only what no play of the drive can answer. This script makes that call after
+ each round, mechanically:
+diff --git a/core/components/plays/drive-creator/references/test_lint_drive.py b/core/components/plays/drive-creator/references/test_lint_drive.py
+index 769ce963..ac83bd46 100644
+--- a/core/components/plays/drive-creator/references/test_lint_drive.py
++++ b/core/components/plays/drive-creator/references/test_lint_drive.py
+@@ -19,7 +19,7 @@ def setUp(self):
+         self.addCleanup(shutil.rmtree, self.root, ignore_errors=True)
+         comp = os.path.join(self.root, "components")
+         for play, text in (("intent", "runs check_drive_contract.py first; reads the statement\n"),
+-                           ("vision", "runs check_drive_contract.py first; reads the intents\n"),
++                           ("vision", "runs check_drive_contract.py first; reads the goal\n"),
+                            ("shape", "no contract here\n")):
+             os.makedirs(os.path.join(comp, "plays", play))
+             with open(os.path.join(comp, "plays", play, "SKILL.md"), "w") as fh:
+diff --git a/core/components/plays/drive-creator/scripts/lint_drive.py b/core/components/plays/drive-creator/scripts/lint_drive.py
+index 5ad62f75..2db7d8d3 100644
+--- a/core/components/plays/drive-creator/scripts/lint_drive.py
++++ b/core/components/plays/drive-creator/scripts/lint_drive.py
+@@ -2,8 +2,8 @@
+ """
+ lint_drive.py — mechanical consistency check for a compiled drive.
+ 
+-A drive is a higher-order play: it runs other plays in a fixed order and carries no rules of
+-its own (ADR 029 §2). So it gets every check a compiled play gets — reused from
++A drive is a higher-order play: it runs other plays in rounds, in any order (ADR 043), and carries no product rules
++of its own (ADR 029 §2, ADR 044). So it gets every check a compiled play gets — reused from
+ `lint_play.py` (coverage, one recovery per failure, no orphans, required sections, the
+ shared close, the stop condition, a real fingerprint, the Next line) — plus the drive's own:
+ 
+@@ -140,7 +140,7 @@ def check_plays(ctx):
+         with open(md, encoding="utf-8") as fh:
+             if CONTRACT_MARK not in fh.read():
+                 problems.append(f"{play}: cannot run inside a drive (checks no drive contract)")
+-    return [(not problems, "plays", f"{len(plays)} plays, in order, each runs inside a drive"
++    return [(not problems, "plays", f"{len(plays)} plays, each runs inside a drive"
+              if not problems else "; ".join(problems))]
+ 
+ 
+diff --git a/core/components/plays/drive-editor/scripts/lint_drive.py b/core/components/plays/drive-editor/scripts/lint_drive.py
+index 5ad62f75..2db7d8d3 100644
+--- a/core/components/plays/drive-editor/scripts/lint_drive.py
++++ b/core/components/plays/drive-editor/scripts/lint_drive.py
+@@ -2,8 +2,8 @@
+ """
+ lint_drive.py — mechanical consistency check for a compiled drive.
+ 
+-A drive is a higher-order play: it runs other plays in a fixed order and carries no rules of
+-its own (ADR 029 §2). So it gets every check a compiled play gets — reused from
++A drive is a higher-order play: it runs other plays in rounds, in any order (ADR 043), and carries no product rules
++of its own (ADR 029 §2, ADR 044). So it gets every check a compiled play gets — reused from
+ `lint_play.py` (coverage, one recovery per failure, no orphans, required sections, the
+ shared close, the stop condition, a real fingerprint, the Next line) — plus the drive's own:
+ 
+@@ -140,7 +140,7 @@ def check_plays(ctx):
+         with open(md, encoding="utf-8") as fh:
+             if CONTRACT_MARK not in fh.read():
+                 problems.append(f"{play}: cannot run inside a drive (checks no drive contract)")
+-    return [(not problems, "plays", f"{len(plays)} plays, in order, each runs inside a drive"
++    return [(not problems, "plays", f"{len(plays)} plays, each runs inside a drive"
+              if not problems else "; ".join(problems))]
+ 
+ 
+diff --git a/core/grounding/glossary.md b/core/grounding/glossary.md
+index c06fa781..c69304ae 100644
+--- a/core/grounding/glossary.md
++++ b/core/grounding/glossary.md
+@@ -14,7 +14,7 @@ The foundation of Garura's execution model: Plays (human-invocable workflows) or
+ | **Sub-play** | A play that chains other plays in sequence to accomplish a higher-order goal. Delegates entire workflow steps to atomic plays rather than invoking agents directly for domain work. | `measure` opens with `start-change` and closes by chaining `commit-change → propose-change → review-change → merge-change` | Is a High-Order Play; composed of Atomic Plays; each atomic play runs independently with its own JSON contract | NOT: an Atomic Play. Atomic plays never chain others. NOT: a play that performs domain work directly. |
+ | **Atomic Play** | A standalone play that produces exactly one artifact or performs one bounded operation. Never chains other plays. The primitive building block of higher-order workflows. | `commit-change`, `propose-change`, `merge-change`, `start-change` | Building block of Sub-plays; produces a single bounded output; closes by proving its stop condition | NOT: a High-Order Play. High-order plays chain multiple atomics. NOT: a multi-artifact producer in one invocation. |
+ | **High-Order Play** | A play that chains atomic plays in sequence as explicit, named sub-play steps. Human-only invocable. Coordinates a pipeline of atomic outcomes into a compound workflow. | `measure` (opens its branch via `start-change`, closes via `commit-change → propose-change → review-change → merge-change`) | Composes Atomic Plays; human-only invocable; the top-level entry point for complex pipelines | NOT: an Atomic Play. NOT: a play that invokes domain agents directly — it delegates to atomic plays which invoke agents. |
+-| **Drive** | A higher-order play that runs its work plays in rounds until its intent is met (it scores) or it fails (ADR 029, ADR 041). Its plays read the source once and independently — none takes another's output — and each writes its own kind; after each round the drive has the model's gaps found and closed (`find-model-gaps`, `close-model-gaps`) and gives the work still missing to the play that does it, so the loop closes without the person (ADR 043). It asks its own questions up front and does not stop for its plays' checkpoints. A question one play cannot answer is the drive's, not a stop: the play saves its work as proposed with the gap named, and the other plays, the next round or its knowledge member plays may answer it. The drive reaches the person only on what none of them can, with a brief: what it understood, what it built, and a few gaps, each with its context and its proposed answer (ADR 042). Its member plays are the change plays it injects at its start and end (each also runs on its own, by hand) and the knowledge plays `/search-knowledge`, `/build-knowledge` and `/review-knowledge`, which run inside its rounds and only inside a drive. It works on one main issue, one branch and one pull request; its plays open none of their own. Like any play, it reads no memory: its plays' agents read it through the memory tool (ADR 039). Everything it and its plays write — memory, evidence, working files, answers — goes under its issue ID, which ties the work to the tracker and the business intent. It ends with a check by a different model or agent, an evidence record, and a review. Named from American football: a run of plays that ends in a score or a lost ball. | Kickoff (`/intent` → `/vision` → `/understand`) — solves product → intent | Runs Atomic Plays, ideally three; owns the change from start to review; each drive solves one Phoenix transition | NOT: a High-Order Play that only wraps its own work in the change plays. NOT: a coding agent's never-stop loop. NEVER shares a name with a play. |
++| **Drive** | A higher-order play that runs its work plays in rounds until its intent is met (it scores) or it fails (ADR 029, ADR 041). Its plays read the source once and independently — none takes another's output — and each writes its own kind; after each round the drive has the model's gaps found and closed (`find-model-gaps`, `close-model-gaps`) and gives the work still missing to the play that does it, so the loop closes without the person (ADR 043). These run steps — the write-up, reading the source once and closing the gaps — live once in the Shared Drive Run; a drive carries no product rules of its own, and only inside a drive may the gap closer write shared model files (ADR 044). It asks its own questions up front and does not stop for its plays' checkpoints. A question one play cannot answer is the drive's, not a stop: the play saves its work as proposed with the gap named, and the other plays, the next round or its knowledge member plays may answer it. The drive reaches the person only on what none of them can, with a brief: what it understood, what it built, and a few gaps, each with its context and its proposed answer (ADR 042). Its member plays are the change plays it injects at its start and end (each also runs on its own, by hand) and the knowledge plays `/search-knowledge`, `/build-knowledge` and `/review-knowledge`, which run inside its rounds and only inside a drive. It works on one main issue, one branch and one pull request; its plays open none of their own. Like any play, it reads no memory: its plays' agents read it through the memory tool (ADR 039). Everything it and its plays write — memory, evidence, working files, answers — goes under its issue ID, which ties the work to the tracker and the business intent. It ends with a check by a different model or agent, an evidence record, and a review. Named from American football: a run of plays that ends in a score or a lost ball. | Kickoff (`/intent` → `/vision` → `/understand`) — solves product → intent | Runs Atomic Plays, ideally three; owns the change from start to review; each drive solves one Phoenix transition | NOT: a High-Order Play that only wraps its own work in the change plays. NOT: a coding agent's never-stop loop. NEVER shares a name with a play. |
+ | **Work plan** | The plan every change works from (ADR 030): what gets done, in what order, and why — never how. The **human's interface** to a business intent: it shows how the intent breaks into agent work, in words a business reader can follow. Lives at `{stm_base}{issue}/specs/plan.md`; kept current while work runs; the issue is done only when its plan is done (`check_plan.py` decides). Each plan names the plan it serves, up to the business intent. | The #606 plan: Kickoff's work, in order, each item saying what kind of done | Written by `manage-plan` via `project-orchestrator`; opened by `plan-change` and approved by `approve-change` (both planned, #622); format `templates/work-plan.md`, rules `rules/work-plan.md` | NOT: the **build plan** `/implement` writes (`specs/implement/plan.yaml`) — that is design for agents. NOT: the product model, which is the agents' interface. NOT: a play's fixed task list, which plan mode replaces. |
+ | **Agent** | An autonomous decision-maker with a single domain of expertise. Receives a JSON contract from a play, performs domain reasoning, loads relevant LTM via Context Crafting, and invokes skills to produce STM artifacts. Named `{domain}-{role}`. | `tech-designer`, `code-builder`, `quality-auditor`, `repo-orchestrator` | Invoked by Plays via Task tool; invokes Skills; follows R1–R4 to assemble context; returns the JSON contract with its output paths confirmed on disk | NOT: a skill. Skills are model-invocable bounded capabilities; agents are domain experts that invoke skills. NOT: a play. |
+ | **Domain Agent** | An agent performing primary domain work — design, implementation, validation, analysis. The primary decision-maker in any play step. (Agent-call budgets were retired by ADR 017; no agent counts toward one.) | `tech-designer`, `code-builder`, `quality-auditor`, `test-engineer` | Sub-type of Agent; distinct from Utility Agents | NOT: a Utility Agent. Utility agents perform infrastructure work and make no domain decisions. |
+@@ -147,7 +147,7 @@ Plays are produced by the `reference/ice.md → /play-creator → SKILL.md` pipe
+ | **ICE source (`reference/ice.md`)** | The per-play source of truth: the clean Intent triple (goal, constraints C-N, failure conditions F-N) plus the generated-and-vetted Expectation (success scenarios S-N, Done means D-N, recovery REC-N). Authored by the framework author; compiled by `/play-creator`; changed via `/play-editor`; never modified at runtime. Every compiler-built play carries one; `play-creator`, `play-editor`, `install-garura`, and `uninstall-garura` do not. | `core/components/plays/commit-change/reference/ice.md` — defines `/commit-change`'s goal, constraints, scenarios, Done means, and recovery | Input to `/play-creator`; produces Compiled play (its `SKILL.md`, `scripts/`, and `stop-condition.yaml`); fingerprinted (sha256) in the play's Compilation Metadata; not passed to agents at runtime | NOT: a task description or runtime prompt. The ICE source is a design-time contract defining what success means, compiled before the play ever runs. |
+ | **Compiled play** | The `SKILL.md` produced by `/play-creator` from `reference/ice.md`. The artifact that agents execute at runtime. Intent changes require editing the ICE source and recompiling (via `/play-editor`); non-intent surface edits are allowed directly, recorded with a `Direct-edit deviation note`. | `core/components/plays/vision/SKILL.md` | Produced by `/play-creator` from the ICE source; deployed via `/install-garura` | NOT: the ICE source. The ICE source is the design-time contract; SKILL.md is the compiled artifact that agents execute. NOT: the place to make intent changes. |
+ | **/play-creator** | The play compiler. Interviews for the intent triple, generates the Expectation, identifies the skills, scripts, and agents the play needs, selects a workflow structure, generates evals, and emits the compiled `SKILL.md` plus bundled scripts for the play's mechanical work. It is the compiler bootstrap — it has no ICE source of its own, so changes to it are direct SKILL.md edits by definition. | `/play-creator` run to compile a new play; `/play-editor` to change an existing one | Compiles the ICE source into SKILL.md; companion `/play-editor` edits existing plays by editing their ICE source and recompiling | NOT: `/play-editor`, which modifies existing plays. NOT: a hand-editing pass — the compiled play is generated. |
+-| **/drive-creator** | The drive builder (#613). Interviews for a drive's intent triple and its own parts — its plays in order, the questions it asks first, its checker and runner settings, how it ends — generates the expectation and the Done means, and writes the compiled drive into `core/components/drives/<drive>/`: a `SKILL.md` that points to the Shared Drive Run (`core/components/drives/_shared/drive-run.md`), its `stop-condition.yaml` and its stamped scripts. `lint_drive.py` checks the result. Written by hand, like `/play-creator`. | `/drive-creator` run to build Kickoff; `/drive-editor` to change it | Builds drives as `/play-creator` builds plays; companion `/drive-editor` changes a drive through its ICE | NOT: `/play-creator` — a drive does no work of its own, so its builder checks that every step is a play. NOT: a runtime — the shared run is a file every drive points to. |
++| **/drive-creator** | The drive builder (#613). Interviews for a drive's intent triple and its own parts — its plays (run in rounds, in any order — ADR 043), the questions it asks first, its checker and runner settings, how it ends — generates the expectation and the Done means, and writes the compiled drive into `core/components/drives/<drive>/`: a `SKILL.md` that points to the Shared Drive Run (`core/components/drives/_shared/drive-run.md`), its `stop-condition.yaml` and its stamped scripts. `lint_drive.py` checks the result. Written by hand, like `/play-creator`. | `/drive-creator` run to build Kickoff; `/drive-editor` to change it | Builds drives as `/play-creator` builds plays; companion `/drive-editor` changes a drive through its ICE | NOT: `/play-creator` — a drive does no work of its own, so its builder checks that every step is a play. NOT: a runtime — the shared run is a file every drive points to. |
+ | **Workflow structure (A/B/C)** | Classification of compiled play structure, catalogued in play-creator's `references/workflow-structures.md`. **Structure A:** full checkpoint flow. **Structure B:** fast execution flow. **Structure C:** chained plays (higher-order). A readiness-only shape covers analysis-only plays. | A play with human gates at each stage runs Structure A; a play that chains other plays end-to-end runs Structure C | Selected by `/play-creator` at compile time; determines how a play orchestrates agents and sub-plays | NOT: a quality ranking. Structure A is not superior to Structure C — they serve different orchestration needs. |
+ | **Eval types (SE/SCE)** | Two types of evaluation criteria in compiled plays. **Step Eval (SE-N):** a per-step pass criterion that must be satisfied before advancing. **Scenario Eval (SCE-N):** an end-to-end scenario evaluation validating the full play outcome against a named use case. | SE-1: "JSON contract contains `stm_base`." SCE-2: "The slice is stamped realized only when all seven lens docs line up." | Defined in Compiled plays (SKILL.md); SE-N guards individual steps; SCE-N validates end-to-end play quality | NOT: executable unit tests. Evals are natural language criteria evaluated by agents, not code-based test assertions. NOT: the same as each other — SE-N is per-step; SCE-N is end-to-end. |
+ | **DRAFT → VALIDATE → LOCKED lifecycle** | The three-state artifact authority lifecycle applied to project LTM artifacts consulted during resolution. `DRAFT` = initial generated state (advisory, does not stop R2 resolution). `VALIDATE` = under human review. `LOCKED` = authoritative (stops LTM resolution at R2; no further descent). | an architecture artifact starts DRAFT, moves to LOCKED after human review; agents treat it as authoritative thereafter | Governs artifact authority in Product LTM; intersects with R1–R4 at R2 | NOT: a code review lifecycle. This is artifact authority state, not pull request status. NOT: a sequential requirement — not all artifacts need to pass through all three states. |
+diff --git a/docs/adr/026-direct-to-model-writes.md b/docs/adr/026-direct-to-model-writes.md
+index 66813c94..3175cdb2 100644
+--- a/docs/adr/026-direct-to-model-writes.md
++++ b/docs/adr/026-direct-to-model-writes.md
+@@ -1,6 +1,6 @@
+ # ADR 026: Model-Writing Plays Edit the Product Model Directly
+ 
+-**Status:** Accepted — amended in part by [ADR 031](031-business-intent-and-ice.md): `/intent` run by hand confirms before it writes (a declared exception to write-then-review); and amended in part by [ADR 032](032-drive-review-of-outcomes.md): Decision, "Review happens through the feature-branch git diff and the end-sequence PR" - inside a drive the person reviews the model writes in the two review tools, by meaning; the pull request only lands them. Write-then-review itself is kept; and amended in part by [ADR 043](043-kickoff-plays-read-independently-and-the-drive-closes-the-loop.md): Decision, "Clean tree in, committed delta out" — inside a drive, plays may run side by side, their writes to the one shared spine file are made in turn, and the drive commits the round once, instead of each play committing its own model delta before the next play starts.
++**Status:** Accepted — amended in part by [ADR 031](031-business-intent-and-ice.md): `/intent` run by hand confirms before it writes (a declared exception to write-then-review); and amended in part by [ADR 032](032-drive-review-of-outcomes.md): Decision, "Review happens through the feature-branch git diff and the end-sequence PR" - inside a drive the person reviews the model writes in the two review tools, by meaning; the pull request only lands them. Write-then-review itself is kept; and amended in part by [ADR 043](043-kickoff-plays-read-independently-and-the-drive-closes-the-loop.md): Decision, "Clean tree in, committed delta out" — inside a drive, plays may run side by side, their writes to the one shared spine file are made in turn, and the drive commits the round once, instead of each play committing its own model delta before the next play starts; and amended in part by [ADR 044](044-the-shared-drive-run-owns-the-steps-between-plays.md): Decision, "Containment split": "Every shared file ... is written solely by the play's deterministic keyed script." Inside a drive, close-model-gaps' script (apply_links.py) may also write the shared model files (the spine, and the Touches list on intent pages) and move holding-folder pages; only inside <product_base>product-os/, refusing any path outside, listing every file it changed.
+ **Date:** 2026-07-20
+ **Related:** ADR 008 (issue-centric STM), ADR 011 (STM as inter-skill transport), ADR 017 (folder whitelist), ADR 022 (surface contract), ADR 025 (Level 3 skeleton), issue #498, the #467 conditional-gate work
+ 
+diff --git a/docs/adr/029-drives.md b/docs/adr/029-drives.md
+index 1fcd16ef..f29dfc40 100644
+--- a/docs/adr/029-drives.md
++++ b/docs/adr/029-drives.md
+@@ -1,6 +1,6 @@
+ # ADR 029 — Drives: A Run of Plays That Ends in a Score or a Fail
+ 
+-**Status:** Accepted — amended in part by [ADR 030](030-plan-mode.md): a drive keeps one work plan for all its plays, and its big plan updates are approved together at its end review; and by [ADR 031](031-business-intent-and-ice.md): `/intent` yields business intents with ICE under them, and a drive asks questions but never stops for approval; and amended in part by [ADR 032](032-drive-review-of-outcomes.md): §5 "Every drive ends in a review" and Open Question 1 - the review is the drive's last step, not a drive of its own; it looks at the outcome (intents and product model), never the plays. This also settles how §2's "the plays' reviews happen after the drive ends" is done: the person answers the plays' review records through the outcome, not play by play; and amended in part by [ADR 034](034-plays-answer-from-memory-inside-a-drive.md): §2 "A new question stops it": inside a drive a play answers from memory and the system, recording each answer's source, and the question stops the drive only when nothing there supports an answer; never from the model's own knowledge; and amended in part by [ADR 041](041-a-drive-runs-in-rounds-and-owns-its-questions.md); and amended in part by [ADR 043](043-kickoff-plays-read-independently-and-the-drive-closes-the-loop.md): §6 "The first drive: Kickoff" — "It runs /intent → /vision → /understand" and the table: /vision no longer "takes those intents as its business goal" and /understand no longer "runs once for every capability /vision seeded"; each reads the prototype's shared capture and the write-up itself, none from another play's output. And "The prototype is the input": the input is the prototype plus the person's short write-up (five parts).
++**Status:** Accepted — amended in part by [ADR 030](030-plan-mode.md): a drive keeps one work plan for all its plays, and its big plan updates are approved together at its end review; and by [ADR 031](031-business-intent-and-ice.md): `/intent` yields business intents with ICE under them, and a drive asks questions but never stops for approval; and amended in part by [ADR 032](032-drive-review-of-outcomes.md): §5 "Every drive ends in a review" and Open Question 1 - the review is the drive's last step, not a drive of its own; it looks at the outcome (intents and product model), never the plays. This also settles how §2's "the plays' reviews happen after the drive ends" is done: the person answers the plays' review records through the outcome, not play by play; and amended in part by [ADR 034](034-plays-answer-from-memory-inside-a-drive.md): §2 "A new question stops it": inside a drive a play answers from memory and the system, recording each answer's source, and the question stops the drive only when nothing there supports an answer; never from the model's own knowledge; and amended in part by [ADR 041](041-a-drive-runs-in-rounds-and-owns-its-questions.md); and amended in part by [ADR 043](043-kickoff-plays-read-independently-and-the-drive-closes-the-loop.md): §6 "The first drive: Kickoff" — "It runs /intent → /vision → /understand" and the table: /vision no longer "takes those intents as its business goal" and /understand no longer "runs once for every capability /vision seeded"; each reads the prototype's shared capture and the write-up itself, none from another play's output. And "The prototype is the input": the input is the prototype plus the person's short write-up (five parts); and amended in part by [ADR 044](044-the-shared-drive-run-owns-the-steps-between-plays.md): §2 "How a drive runs", the bullet "No rules of its own. The drive's one rule is to run its plays. Every other rule lives in the plays." The Shared Drive Run now owns three run steps every drive runs between its plays: reading the source once (R4b), taking the person's write-up (R3), and running find-model-gaps and close-model-gaps after each round (R5 step 7). These are run steps, not product rules; a drive still carries no product rules of its own.
+ **Date:** 2026-10-07 (proposed and accepted)
+ **Supersedes:** ADR 003 (guardian approval), in full · ADR 002 (checkpoint model) and ADR 028 (five loops), in part
+ **Decided in:** #607 (spike: the first loop's recipe), under #594 and business intent #606
+diff --git a/docs/adr/044-the-shared-drive-run-owns-the-steps-between-plays.md b/docs/adr/044-the-shared-drive-run-owns-the-steps-between-plays.md
+new file mode 100644
+index 00000000..662ab691
+--- /dev/null
++++ b/docs/adr/044-the-shared-drive-run-owns-the-steps-between-plays.md
+@@ -0,0 +1,84 @@
++# ADR 044 — The Shared Drive Run Owns the Steps Between Plays, and Inside a Drive the Gap-Closing Script May Write Shared Model Files
++
++**Status:** Accepted
++**Date:** 2026-10-21
++**Level:** framework
++**Decided by:** Kapil Viren Ahuja · **Decided in:** #693 — after the reviews of PR #691 (#689) and PR #696 (#692, finding H1)
++**Amends:** ADR 029 — §2 "How a drive runs", the bullet "No rules of its own": the Shared Drive Run owns the run steps every drive runs between its plays (R3 the write-up, R4b reading the source once, R5 the two gap skills after each round); a drive still has no product rules of its own · ADR 026 — Decision, "Containment split", "Every shared file … is written solely by the play's deterministic keyed script": inside a drive, `close-model-gaps`' script `apply_links.py` may also write shared model files and move holding-folder pages, only inside `<product_base>product-os/`
++**Affects:** `core/components/drives/_shared/drive-run.md` (its opening line, R3, R4b, R5 step 7), `core/components/skills/close-model-gaps/` (`SKILL.md`, `scripts/apply_links.py`, `scripts/intent_touches.py`, `scripts/test_apply_links.py`), `core/components/agents/product-os-keeper.md` (the "Write a shared model file yourself" rule and its drive exception), `core/components/memory/standards/rules/direct-model-write.md` (rule 3 and lint L-DMW-5), `core/components/plays/drive-creator/SKILL.md` ("carries no rules of its own"), `core/components/plays/drive-creator/scripts/lint_drive.py` and `core/components/plays/drive-editor/scripts/lint_drive.py` (docstring citing ADR 029 §2), `core/grounding/glossary.md` (the Drive entry)
++**ICE impact:** none for any play or drive — Kickoff and its plays already run this way (ADR 043). The `product-os-keeper` agent keeps one declared exception to its shared-file rule: inside a drive, its `close-model-gaps` script writes the spine and intent pages' Touches lists and moves holding-folder pages. This records that exception; it does not widen it.
++**Business intent check:** none — a framework decision on what the Shared Drive Run owns and who writes shared model files. `close-model-gaps` writes only the Touches link list on an intent page, never intent content; the Business Intent kind's rules stand (ADR 031).
++**Related:** ADR 026, ADR 029, ADR 041, ADR 042, ADR 043, #689, #691, #692, #696, #693
++
++## Context
++
++ADR 043 decided that a drive reads the source once, takes a short write-up from the person, and closes the model's gaps after each round with two skills. That work now lives in the Shared Drive Run (`drive-run.md`), the steps every drive shares.
++
++Two older rules still say otherwise. Reviews found both.
++
++- The review of PR #691 (#689) found that ADR 029 §2 says a drive has "no rules of its own". But `drive-run.md` now owns the capture, the write-up and the gap closing.
++- The review of PR #696 (#692, finding H1) found that ADR 026, and the model keeper's rules on main, say only a play's keyed persist script writes shared model files. But `close-model-gaps` writes them inside a drive.
++
++ADR 043 decided the gap skills. It did not amend ADR 029 §2 or ADR 026's shared-file rule. This ADR does that, so the written rules match what runs.
++
++ADR 043 already amends ADR 026's "Clean tree in, committed delta out" (the drive commits the round once). This ADR does not repeat it.
++
++## Decision
++
++### 1. The Shared Drive Run owns the steps between plays
++
++The Shared Drive Run (`core/components/drives/_shared/drive-run.md`) owns the steps every drive runs between its plays:
++
++- taking the person's write-up (R3);
++- reading the source once, into a shared capture (R4b);
++- running `find-model-gaps` and then `close-model-gaps` after each round (R5).
++
++These are run steps. They are not rules about the product. So a drive still carries no product rules of its own. Every product rule still lives in the plays.
++
++### 2. Inside a drive, the gap-closing script may write shared model files
++
++Inside a drive, the script of `close-model-gaps` (`apply_links.py`) may:
++
++- write the shared model files — the spine, and the Touches list on intent pages;
++- move pages out of the holding folders, to sit under their parent.
++
++It writes only inside `<product_base>product-os/`. It refuses any path outside it. It lists every file it changed in its report.
++
++Outside a drive, nothing changes. A play's keyed persist script is still the only writer of shared model files.
++
++## Consequences
++
++### Positive
++
++- The written rules match what runs. A reviewer no longer finds a conflict between ADR 029, ADR 026 and the shared run.
++- The steps every drive needs are written once, in one place, not copied into each play.
++- The gaps between plays are closed by the one step that sees all of them.
++- The exception is narrow and checked. One script, inside a drive, inside the model folder, with a list of what it changed.
++
++### Negative / Risks
++
++- ADR 026's containment now has two writers of shared files inside a drive: each play's persist script and `apply_links.py`. Their writes to the spine must not clash. ADR 043 has the drive make spine writes in turn; that must hold.
++- "No product rules" and "run steps" can blur. A future step added to the Shared Drive Run must be a run step, not a rule about the product. Nothing checks that mechanically.
++- `apply_links.py` is not keyed to one node, as a play's persist script is. Its safety rests on the folder check, the agreed `gaps.json`, and its change report.
++- Several files still cite the old wording ("no rules of its own", "only the keyed script") and must be updated to point here.
++
++## Alternatives Considered
++
++- **Move the capture, write-up and gap steps into each play** — every play would repeat the same steps. And the gaps between plays can only be closed by something that sees all of them, which is the drive (ADR 043).
++- **Route `close-model-gaps` through each play's persist script** — the gaps span plays. No single play owns them, so no single play's script can close them.
++
++## Work This Creates
++
++- `drive-run.md`: say it owns run steps, not product rules, and cite this ADR beside ADR 029.
++- `direct-model-write.md`: add the drive exception to rule 3 and to lint L-DMW-5.
++- `product-os-keeper.md`: cite this ADR in the shared-file exception.
++- `/drive-creator` and `/drive-editor`: update the "no rules of its own" wording in `SKILL.md` and both `lint_drive.py` docstrings.
++- The glossary's Drive entry.
++
++## References
++
++- Brief: `.garura/project/issues/_adr/20261021-150850/brief.md`
++- `core/components/drives/_shared/drive-run.md`
++- `core/components/skills/close-model-gaps/scripts/apply_links.py`
++- `core/components/memory/standards/rules/direct-model-write.md`
++- ADR 026, ADR 029, ADR 043
+diff --git a/docs/adr/_index.md b/docs/adr/_index.md
+index 9992da68..9a6c6c32 100644
+--- a/docs/adr/_index.md
++++ b/docs/adr/_index.md
+@@ -49,3 +49,4 @@ may have no Status line.
+ | [041](041-a-drive-runs-in-rounds-and-owns-its-questions.md) | A Drive Runs Its Plays in Rounds, Owns the Questions No Play Can Answer, and Builds the Missing Memory Before It Asks | Accepted | 2026-10-20 |
+ | [042](042-a-drive-finds-builds-and-reviews-the-knowledge-it-lacks.md) | A Drive Finds, Builds and Reviews the Knowledge It Lacks, and Briefs the Person Instead of Asking | Accepted | 2026-10-20 |
+ | [043](043-kickoff-plays-read-independently-and-the-drive-closes-the-loop.md) | The Kickoff Drive's Plays Read the Prototype on Their Own, Any Node Is Written Without Its Parent, and the Drive Connects the Nodes and Closes the Loop | Accepted | 2026-10-21 |
++| [044](044-the-shared-drive-run-owns-the-steps-between-plays.md) | The Shared Drive Run Owns the Steps Between Plays, and Inside a Drive the Gap-Closing Script May Write Shared Model Files | Accepted | 2026-10-21 |

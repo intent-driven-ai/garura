@@ -1,0 +1,110 @@
+meta:
+  categories: [executable-code, tests, decision-records]
+  scanner: .claude/skills/quality-check-scoped/scripts/scan_taxonomy.py
+  generated_at: '2026-10-21T16:16:15Z'
+  diff_path: 'git diff main...HEAD (PR 697)'
+  taxonomy_path: 'core/components/memory/standards/rules/pr.md'
+  changed_paths_count: 13
+  scan_coverage: 1.0000
+  standards_relevant: 3
+  catchall:
+    CODE-20: 13
+  test_run:
+    - {cmd: 'python3 core/components/plays/drive-creator/references/test_lint_drive.py', result: 'PASS (39 tests, exit 0)'}
+    - {cmd: 'python3 core/components/plays/drive-creator/references/test_drive_scripts.py', result: 'PASS (47 tests, exit 0)'}
+    - {cmd: 'python3 core/components/drives/kickoff/scripts/test_kickoff_scripts.py', result: 'PASS (9 tests, exit 0)'}
+    - {cmd: 'python3 core/components/plays/drive-creator/scripts/lint_drive.py core/components/drives/kickoff/SKILL.md', result: 'PASS (VERDICT PASS, 0 gaps, exit 0)'}
+findings:
+  - standard_id: 'DOC-04'
+    severity: P3
+    file: 'docs/adr/026-direct-to-model-writes.md'
+    line: 1
+    evidence: 'docs/adr/026-direct-to-model-writes.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-04'
+  - standard_id: 'DOC-04'
+    severity: P3
+    file: 'docs/adr/029-drives.md'
+    line: 1
+    evidence: 'docs/adr/029-drives.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-04'
+  - standard_id: 'DOC-04'
+    severity: P3
+    file: 'docs/adr/044-the-shared-drive-run-owns-the-steps-between-plays.md'
+    line: 1
+    evidence: 'docs/adr/044-the-shared-drive-run-owns-the-steps-between-plays.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-04'
+  - standard_id: 'DOC-04'
+    severity: P3
+    file: 'docs/adr/_index.md'
+    line: 1
+    evidence: 'docs/adr/_index.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-04'
+  - standard_id: 'ARCH-23'
+    severity: P4
+    file: 'docs/adr/026-direct-to-model-writes.md'
+    line: 1
+    evidence: 'docs/adr/026-direct-to-model-writes.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'ARCH-23'
+  - standard_id: 'DOC-05'
+    severity: P4
+    file: 'docs/adr/026-direct-to-model-writes.md'
+    line: 1
+    evidence: 'docs/adr/026-direct-to-model-writes.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-05'
+  - standard_id: 'ARCH-23'
+    severity: P4
+    file: 'docs/adr/029-drives.md'
+    line: 1
+    evidence: 'docs/adr/029-drives.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'ARCH-23'
+  - standard_id: 'DOC-05'
+    severity: P4
+    file: 'docs/adr/029-drives.md'
+    line: 1
+    evidence: 'docs/adr/029-drives.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-05'
+  - standard_id: 'ARCH-23'
+    severity: P4
+    file: 'docs/adr/044-the-shared-drive-run-owns-the-steps-between-plays.md'
+    line: 1
+    evidence: 'docs/adr/044-the-shared-drive-run-owns-the-steps-between-plays.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'ARCH-23'
+  - standard_id: 'DOC-05'
+    severity: P4
+    file: 'docs/adr/044-the-shared-drive-run-owns-the-steps-between-plays.md'
+    line: 1
+    evidence: 'docs/adr/044-the-shared-drive-run-owns-the-steps-between-plays.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-05'
+  - standard_id: 'ARCH-23'
+    severity: P4
+    file: 'docs/adr/_index.md'
+    line: 1
+    evidence: 'docs/adr/_index.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'ARCH-23'
+  - standard_id: 'DOC-05'
+    severity: P4
+    file: 'docs/adr/_index.md'
+    line: 1
+    evidence: 'docs/adr/_index.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-05'
+counts:
+  P1: 0
+  P2: 0
+  P3: 4
+  P4: 8
+triage:
+  - "All 12 findings are path-only taxonomy rows (DOC-04, DOC-05, ARCH-23) that fire on any touched file under docs/adr/. They mark that 4 decision records changed (3 edited or added, plus the index); they point at the files, not at a defect on a line. Line 1 is a placeholder."
+  - "No rule fired on the 8 executable-code files or the test file; only the CODE-20 catch-all matched (13 files, counted not raised)."
+  - "The 3 ADR-touch classes need a human read of the ADRs (design-bearing review playbook review/adrs), not a code fix."

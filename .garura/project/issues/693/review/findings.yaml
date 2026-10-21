@@ -1,0 +1,195 @@
+findings:
+- category: decision-records
+  id: DOC-04
+  severity: P3
+  file: docs/adr/026-direct-to-model-writes.md
+  summary: Rule fires on any change under docs/adr/ (path match, not a line defect).
+  basis: pr.md taxonomy DOC-04
+  outcome: "no change needed \u2014 ADR 044 written by /adr, pointers by apply_adr.py"
+- category: decision-records
+  id: DOC-04
+  severity: P3
+  file: docs/adr/029-drives.md
+  summary: Rule fires on any change under docs/adr/ (path match, not a line defect).
+  basis: pr.md taxonomy DOC-04
+  outcome: "no change needed \u2014 ADR 044 written by /adr, pointers by apply_adr.py"
+- category: decision-records
+  id: DOC-04
+  severity: P3
+  file: docs/adr/044-the-shared-drive-run-owns-the-steps-between-plays.md
+  summary: Rule fires on any change under docs/adr/ (path match, not a line defect).
+  basis: pr.md taxonomy DOC-04
+  outcome: "no change needed \u2014 ADR 044 written by /adr, pointers by apply_adr.py"
+- category: decision-records
+  id: DOC-04
+  severity: P3
+  file: docs/adr/_index.md
+  summary: Rule fires on any change under docs/adr/ (path match, not a line defect).
+  basis: pr.md taxonomy DOC-04
+  outcome: "no change needed \u2014 ADR 044 written by /adr, pointers by apply_adr.py"
+- category: decision-records
+  id: ARCH-23
+  severity: P4
+  file: docs/adr/026-direct-to-model-writes.md
+  summary: Rule fires on any change under docs/adr/ (path match, not a line defect).
+  basis: pr.md taxonomy ARCH-23
+  outcome: "no change needed \u2014 ADR 044 written by /adr, pointers by apply_adr.py"
+- category: decision-records
+  id: DOC-05
+  severity: P4
+  file: docs/adr/026-direct-to-model-writes.md
+  summary: Rule fires on any change under docs/adr/ (path match, not a line defect).
+  basis: pr.md taxonomy DOC-05
+  outcome: "no change needed \u2014 ADR 044 written by /adr, pointers by apply_adr.py"
+- category: decision-records
+  id: ARCH-23
+  severity: P4
+  file: docs/adr/029-drives.md
+  summary: Rule fires on any change under docs/adr/ (path match, not a line defect).
+  basis: pr.md taxonomy ARCH-23
+  outcome: "no change needed \u2014 ADR 044 written by /adr, pointers by apply_adr.py"
+- category: decision-records
+  id: DOC-05
+  severity: P4
+  file: docs/adr/029-drives.md
+  summary: Rule fires on any change under docs/adr/ (path match, not a line defect).
+  basis: pr.md taxonomy DOC-05
+  outcome: "no change needed \u2014 ADR 044 written by /adr, pointers by apply_adr.py"
+- category: decision-records
+  id: ARCH-23
+  severity: P4
+  file: docs/adr/044-the-shared-drive-run-owns-the-steps-between-plays.md
+  summary: Rule fires on any change under docs/adr/ (path match, not a line defect).
+  basis: pr.md taxonomy ARCH-23
+  outcome: "no change needed \u2014 ADR 044 written by /adr, pointers by apply_adr.py"
+- category: decision-records
+  id: DOC-05
+  severity: P4
+  file: docs/adr/044-the-shared-drive-run-owns-the-steps-between-plays.md
+  summary: Rule fires on any change under docs/adr/ (path match, not a line defect).
+  basis: pr.md taxonomy DOC-05
+  outcome: "no change needed \u2014 ADR 044 written by /adr, pointers by apply_adr.py"
+- category: decision-records
+  id: ARCH-23
+  severity: P4
+  file: docs/adr/_index.md
+  summary: Rule fires on any change under docs/adr/ (path match, not a line defect).
+  basis: pr.md taxonomy ARCH-23
+  outcome: "no change needed \u2014 ADR 044 written by /adr, pointers by apply_adr.py"
+- category: decision-records
+  id: DOC-05
+  severity: P4
+  file: docs/adr/_index.md
+  summary: Rule fires on any change under docs/adr/ (path match, not a line defect).
+  basis: pr.md taxonomy DOC-05
+  outcome: "no change needed \u2014 ADR 044 written by /adr, pointers by apply_adr.py"
+- category: harness
+  id: H1
+  severity: P3
+  file: core/components/plays/drive-creator/SKILL.md
+  summary: The Plays-table bullet still teaches an input 'another play makes' written 'after <play>', added to the contract
+    before the later play starts. ADR 043 and drive-run.md R5 step 6 say no play takes another's output. The same file's intro
+    was updated to 'any order' two bullets earlier, so the guidance now contradicts itself and will steer new drives back
+    to a chain.
+  basis: docs/adr/043 section 5 (main); drive-run.md R5 step 6 (main, 'No hand-on between plays')
+  outcome: fixed in bced2378
+- category: harness
+  id: H2
+  severity: P3
+  file: core/components/drives/kickoff/SKILL.md
+  summary: 'The task list now blocks T5 and T6 only on T3b and T6a on T4,T5,T6, but the step bodies still read ''Step 6 Depends
+    on: Step 5'', ''Step 6a Depends on: Step 6'', ''Step 7 Depends on: Step 6''. The two halves of the same file disagree
+    on whether the plays run in a chain.'
+  basis: docs/adr/043 section 5 and kickoff ice.md on main (no play waits for another)
+  outcome: fixed in bced2378
+- category: harness
+  id: H3
+  severity: P3
+  file: core/components/drives/_shared/drive-run.md
+  summary: Rewording ADR 029 section 2 'no rules of its own' to 'no product rules of its own' narrows a committed decision.
+    As committed, ADR 029 and ADR 043 do not say the drive owns 'run steps'; only the new ADR 044 grants that. The change
+    is correct only if ADR 044 is accepted. The same reliance is in the glossary Drive row ('only inside a drive may the gap
+    closer write shared model files (ADR 044)') and the product-os-keeper exception, which under ADR 026 as committed (shared
+    files solely by the keyed script) has no basis except ADR 044.
+  basis: docs/adr/029 section 2 (main); docs/adr/026 Containment split (main); depends on new ADR 044, not a grounding source
+  outcome: "no change needed \u2014 ADR 044 is accepted in this PR (commit 7c0b838d); these texts are its Work This Creates"
+- category: harness
+  id: H4
+  severity: P4
+  file: core/components/plays/drive-creator/references/compiled-drive-example/SKILL.md
+  summary: Hand edit to a compiled reference example (task dependencies and Role wording). Flow-level, but the example is
+    a reference with no ICE of its own on this path and it follows the Kickoff ice.md already on main, so treated as a non-intent
+    mirror. Confirm the example still passes lint_drive.py.
+  basis: CLAUDE.md Play Pipeline Rules (main)
+  outcome: "no change needed \u2014 mirrors Kickoff ice.md on main; step texts aligned in bced2378"
+- category: memory
+  id: M1
+  severity: P2
+  file: core/components/memory/standards/rules/direct-model-write.md
+  summary: The new writer is exempt from the node-level key. Step 3 says the shared-file script keeps a node key and refuses
+    any node outside it, and that node containment inside the spine is 'preserved by the keyed script, not by the guard'.
+    The new paragraph lets apply_links write the spine and intent Touches lists with only a path limit (inside product-os)
+    and a self-reported file list. No node key is required, so nothing bounds which spine nodes it may change. ADR 043 section
+    4 grants only 'connect, attribute, merge', not any spine write.
+  basis: direct-model-write.md step 3 (node-level containment is the keyed script's job); ADR 043 section 4 (scope of close-model-gaps)
+  outcome: "fixed in bced2378 \u2014 the rule names gaps.json as the writer's key: only agreed connect/attribute/merge (ADR\
+    \ 043 \xA74)"
+- category: memory
+  id: M2
+  severity: P2
+  file: core/components/memory/standards/rules/direct-model-write.md
+  summary: The only check on this writer is that it 'lists every file it changed', which is the writer reporting on itself.
+    Step 4's guard (detect and revert out-of-scope paths over the full delta) is not said to cover the drive's gap-skill writes,
+    and ADR 043 admits the guard cannot tell side-by-side writers apart. The rule gives no independent check that apply_links
+    stayed in bounds, so the containment guarantee is weakened for a shared file.
+  basis: direct-model-write.md step 4; ADR 043 Consequences (guard cannot separate side-by-side writes)
+  outcome: "partly fixed in bced2378 \u2014 the drive commits the gap closer's delta with the round, so review sees it; no\
+    \ separate guard. Accepted risk, recorded in ADR 044 Negative / Risks"
+- category: memory
+  id: M3
+  severity: P3
+  file: core/components/memory/standards/rules/direct-model-write.md
+  summary: 'L-DMW-4 is unchanged: it still fails any play that does not assert a clean tree at pre-flight or has no model-delta
+    commit at close. The new paragraph says a play inside a drive does not commit and that the entry check applies to the
+    drive. The rule now contradicts its own lint anchor; a play compiled for a drive is a finding under L-DMW-4 as written.
+    The carve-out is in prose only.'
+  basis: direct-model-write.md L-DMW-4 and step 7 (on main); lint anchors must let hand edit and recompile converge
+  outcome: fixed in ca369373
+- category: memory
+  id: M4
+  severity: P3
+  file: core/components/memory/standards/rules/direct-model-write.md
+  summary: '''Not a finding: close-model-gaps, which writes them inside a drive only'' is a prose exception inside a lint
+    anchor, with no machine-checkable condition (which skill, which script, which path). A lint cannot tell the allowed writer
+    from a play skill that copies the pattern. It also names close-model-gaps as the writer, while the paragraph above names
+    its script apply_links.py.'
+  basis: direct-model-write.md lint-anchor section (anchors must be checkable so the pattern cannot survive a rebuild or hand
+    edit)
+  outcome: fixed in ca369373
+- category: memory
+  id: M5
+  severity: P3
+  file: core/components/memory/standards/rules/direct-model-write.md
+  summary: The exception lists spine writes, Touches lists and page moves, but the product-os-keeper change in this PR also
+    lets a skill script remove an agreed duplicate. That is a write to shared files too and the rule does not name it. ADR
+    043 section 4 does allow 'merges two nodes that are the same thing', so the rule is narrower than its own source and the
+    gap will be read as a violation.
+  basis: ADR 043 section 4 (merge duplicates, on main); direct-model-write.md step 3
+  outcome: fixed in ca369373
+- category: memory
+  id: M6
+  severity: P4
+  file: core/components/memory/standards/rules/direct-model-write.md
+  summary: The rule's authority line names only ADR 026, yet it now carries two amendments (ADR 043 commit, ADR 044 writers).
+    Readers of the rule should see the amending ADRs at the top, as ADR 026's Status line does.
+  basis: direct-model-write.md header (on main); ADR 026 Status line lists amendments
+  outcome: fixed in ca369373
+linters:
+- cmd: python3 core/components/plays/drive-creator/references/test_lint_drive.py
+  result: PASS (39 tests, exit 0)
+- cmd: python3 core/components/plays/drive-creator/references/test_drive_scripts.py
+  result: PASS (47 tests, exit 0)
+- cmd: python3 core/components/drives/kickoff/scripts/test_kickoff_scripts.py
+  result: PASS (9 tests, exit 0)
+- cmd: python3 core/components/plays/drive-creator/scripts/lint_drive.py core/components/drives/kickoff/SKILL.md
+  result: PASS (VERDICT PASS, 0 gaps, exit 0)
