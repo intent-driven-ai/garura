@@ -292,7 +292,8 @@ def test_journeys():
         for f in ("buy-01.png", "buy-02.png"):
             open(os.path.join(evidence, f), "w").close()
         manifest = {"files": ["screen-01.png", "view-02-cart.png", "view-02-cart.txt", "view-03-help.png"]}
-        good = {"journeys": [{"id": "buy", "who": "a shopper", "sets_out_to": "buy a lamp",
+        good = {"main_sections": ["Shop"],
+                "journeys": [{"id": "buy", "section": "Shop", "who": "a shopper", "sets_out_to": "buy a lamp",
                               "ends_with": "the lamp is in the cart",
                               "steps": [{"do": "type lamp in Search", "shows": "the field holds lamp",
                                          "view": ["buy-01.png"]},
@@ -314,6 +315,22 @@ def test_journeys():
         check("a business intent that names no journey is a gap", any("names no journey" in g for g in gaps))
         gaps, _ = cj.check({"journeys": []}, manifest, evidence)
         check("no journeys at all is a gap", any("no journeys" in g for g in gaps))
+        two = fresh_journeys(good)
+        two["main_sections"] = ["Shop", "Orders"]
+        gaps, _ = cj.check(two, manifest, evidence)
+        check("a main section with no journey of its own is a gap",
+              any("'Orders' is no journey's `section`" in g for g in gaps))
+        two["journeys"].append(dict(fresh_journeys(good)["journeys"][0], id="orders", section="Orders"))
+        gaps, _ = cj.check(two, manifest, evidence, {"intents": [{"id": "lamps", "from_journey": "buy"}]})
+        check("a main section folded into another section's intent is a gap",
+              any("'Orders' has no business intent of its own" in g for g in gaps))
+        gaps, _ = cj.check(two, manifest, evidence, {"intents": [{"id": "lamps", "from_journey": "buy"},
+                                                                {"id": "orders", "from_journey": "orders"}]})
+        check("every main section with its own intent is clean", gaps == [])
+        nosec = fresh_journeys(good)
+        del nosec["main_sections"]
+        gaps, _ = cj.check(nosec, manifest, evidence)
+        check("journeys without their main sections named are a gap", any("no `main_sections`" in g for g in gaps))
 
 
 def fresh_journeys(doc):
@@ -326,14 +343,36 @@ def test_check():
     check("it counts intents and ICE", r["intents"] == 2 and r["ice"] == 2)
     check("an empty draft is caught", not ci.check({})["clean"])
     bad = fresh()
-    del bad["intents"][0]["proof"]
-    bad["questions"].append({"intent": "grow-online-sales", "ask": "How will we know?",
+    del bad["intents"][0]["outcome"]
+    bad["questions"].append({"intent": "grow-online-sales", "ask": "What should be true when it works?",
                              "examples": EXAMPLES, "answer": ""})
     r = ci.check(bad)
     lines = [p for p in r["problems"] if p.startswith("[grow-online-sales]")]
     check("a gap and its question are reported once, not twice",
-          len(lines) == 1 and "`proof` missing" in lines[0] and "1 open question" in lines[0])
+          len(lines) == 1 and "`outcome` missing" in lines[0] and "1 open question" in lines[0])
     check("a gap alone is a question for the person", r["person_only"])
+    bad = fresh()
+    del bad["intents"][0]["proof"]
+    r = ci.check(bad)
+    check("a missing proof is the play's to draft, not the person's (C17)",
+          any("`proof` is empty" in p for p in r["problems"]) and not r["person_only"])
+    bad = fresh()
+    bad["intents"][0]["proof"] = "open — the drive asks this; nothing is filled in until it is answered"
+    check("a proof left open is caught (C17)", any("`proof` is left open" in p for p in ci.check(bad)["problems"]))
+    bad = fresh()
+    bad["questions"].append({"intent": "all", "ask": "How will you know each intent is met?",
+                             "examples": EXAMPLES, "answer": ""})
+    check("a question that asks for the proof is refused — the play drafts it (C17)",
+          any("draft it with its basis instead of asking" in p for p in ci.check(bad)["problems"]))
+    bad = fresh()
+    bad["intents"][0]["provenance"]["proof"] = "proposed"
+    check("a proposed proof with no basis is caught (C17)",
+          any("proposed with no basis" in p for p in ci.check(bad)["problems"]))
+    bad["intents"][0]["basis"] = {"proof": "the prototype's sales report counts online orders"}
+    check("a proposed proof with its basis is clean", ci.check(bad)["clean"])
+    bad["intents"][0]["provenance"]["title"] = "proposed"
+    check("only why, asked by and proof may be the play's own proposal",
+          any("`title` is marked proposed" in p for p in ci.check(bad)["problems"]))
     bad = fresh()
     bad["intents"][0]["provenance"]["why"] = "agent"
     r = ci.check(bad)
@@ -554,9 +593,9 @@ def test_persist():
         draft_path = argv[argv.index("--draft") + 1]
         with open(draft_path) as fh:
             draft = yaml.safe_load(fh)
-        draft["intents"][0]["asked_by"] = ""
-        draft["questions"] = [{"intent": "grow-online-sales", "ask": "Who asks for more online sales?",
-                               "examples": ["The head of sales", "The founder"]}]
+        draft["intents"][0]["outcome"] = ""
+        draft["questions"] = [{"intent": "grow-online-sales", "ask": "What should be true when online sales grow?",
+                               "examples": ["Online orders pass shop orders", "Half of sales are online"]}]
         with open(draft_path, "w") as fh:
             yaml.safe_dump(draft, fh)
         i = argv.index("--confirmation")
@@ -567,26 +606,33 @@ def test_persist():
         with open(intent_file(tmp, "grow-online-sales")) as fh:
             body = fh.read()
         check("the page names the gap as open and the drive that saved it",
-              "**Asked by:** open" in body and "(drive kickoff-1)" in body)
+              "**Outcome:** open" in body and "(drive kickoff-1)" in body)
         q = read_json(open_out)["questions"]
         check("the open question goes to the drive with what it is about and its examples",
-              len(q) == 1 and q[0]["about"] and q[0]["blocks"] == ["grow-online-sales:asked_by"]
+              len(q) == 1 and q[0]["about"] and q[0]["blocks"] == ["grow-online-sales:outcome"]
               and q[0]["examples"] and q[0]["for_person"])
-        draft["intents"][0]["asked_by"] = "the head of sales"
-        draft["intents"][0].setdefault("provenance", {})["asked_by"] = "model"
+        draft["intents"][0]["outcome"] = "Online orders pass shop orders"
+        draft["intents"][0].setdefault("provenance", {})["outcome"] = "model"
         draft["questions"] = []
         with open(draft_path, "w") as fh:
             yaml.safe_dump(draft, fh)
         check("a second save without --update-proposed is refused", pi.main(drive) == 2)
         check("a later round updates the intent this drive saved", pi.main(drive + ["--update-proposed"]) == 0)
         with open(intent_file(tmp, "grow-online-sales")) as fh:
-            check("the gap is filled on the later round", "**Asked by:** the head of sales" in fh.read())
+            check("the gap is filled on the later round", "**Outcome:** Online orders pass shop orders" in fh.read())
         other = [a if a != "kickoff-1" else "kickoff-2" for a in drive] + ["--update-proposed"]
         check("another drive cannot update this drive's intents", pi.main(other) == 2)
-        draft["intents"][0]["asked_by"] = ""
+        draft["intents"][0]["outcome"] = ""
         with open(draft_path, "w") as fh:
             yaml.safe_dump(draft, fh)
         check("a gap with no question named is refused, even in a drive",
+              pi.main(drive + ["--update-proposed"]) == 2)
+        draft["intents"][0]["outcome"] = "Online orders pass shop orders"
+        draft["intents"][0]["proof"] = ""
+        draft["questions"] = [{"intent": "grow-online-sales", "ask": "How will we know?", "examples": ["x"]}]
+        with open(draft_path, "w") as fh:
+            yaml.safe_dump(draft, fh)
+        check("an empty proof is refused even in a drive with a question — the play drafts it (C17)",
               pi.main(drive + ["--update-proposed"]) == 2)
     with tempfile.TemporaryDirectory() as tmp:
         argv, working, _ = persist_setup(tmp, both())

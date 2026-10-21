@@ -14,7 +14,7 @@ fields the person could use next — and tells the walker **only what changed** 
 
 `<journey>.steps.json` holds the steps taken so far, the last one being the one to take now:
 
-    [ {"do": "click", "target": "Catch up"},
+    [ {"do": "click", "target": "Board"},
       {"do": "type",  "target": "Search", "text": "refund"},
       {"do": "press", "target": "ArrowRight"},
       {"do": "back"} ]

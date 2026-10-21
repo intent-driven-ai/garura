@@ -43,7 +43,8 @@ intent page already exists. Only a person confirms (C4) — by hand here, or at 
 review. No git, no network, no LLM.
 
 Inside a drive (C16): a required property the draft leaves empty is saved as **open** when the
-draft names a question for it (the drive asks it); `--drive-run-id` stamps the drive on each
+draft names a question for it (the drive asks it) — never why, asked by or proof, which the play
+drafts itself with their basis (C17); `--drive-run-id` stamps the drive on each
 page; `--open-out` writes the open questions for the drive; and on a later round
 `--update-proposed` rewrites only pages still proposed that this same drive saved.
 
@@ -73,6 +74,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import intent_touches as touches  # noqa: E402
 
 REQUIRED = ("title", "outcome", "why", "asked_by", "proof")
+DRAFTED = ("why", "asked_by", "proof")   # the play drafts these itself, with their basis (C17)
 ID_SHAPE = re.compile(r"^[a-z0-9][a-z0-9-]{0,79}$")   # ids become file names: no paths, no dots
 
 
@@ -199,6 +201,9 @@ def plan(args):
         for prop in REQUIRED:
             if not str(i.get(prop) or "").strip():
                 asked = [q for q in questions if str(q.get("intent")) in (str(i["id"]), "all")]
+                if prop in DRAFTED:
+                    raise Refused(f"the intent `{i['id']}` is missing `{prop}` — the play drafts it "
+                                  f"itself, with its basis; it is never left open")
                 if not (args.proposed and asked and prop != "title"):
                     raise Refused(f"the intent `{i['id']}` is missing `{prop}`" +
                                   (" — inside a drive a gap is saved only when the draft names its "

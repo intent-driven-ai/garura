@@ -74,7 +74,7 @@ Garura avoids both extremes:
 | `product-keeper` | product-capability | keeper | opus | KB-driven capability configuration, intent epic generation, and aggregated quality profile derivation |
 | `product-os-keeper` | product-os | keeper | opus | Autonomous owner of the ProductOS model (Domain → Capability → Functionality, ICE, profile, decisions) — used by the strategic plays, the lens plays, and `/grill` |
 | `project-orchestrator` | project | orchestrator | sonnet | Autonomous decision-maker for project management operations (issues, tracking, planning) |
-| `prototype-walker` | prototype | walker | sonnet | Walks a prototype the way the people it serves would, in journeys (who, what they set out to do, each step and what it showed), through one kept-open browser per journey, via `walk-prototype`; medium effort — used by `/intent` |
+| `prototype-reader` | prototype | walker | sonnet | Walks a prototype the way the people it serves would, in journeys (who, what they set out to do, each step and what it showed), through one kept-open browser per journey, via `walk-prototype`; medium effort — used by `/intent` |
 | `quality-auditor` | quality | auditor | sonnet | Independently verifies code quality standards (linting, unit tests, type checking, build, quality gates) — context-isolated from evals and builder output |
 | `repo-orchestrator` | repo | orchestrator | sonnet | Autonomous decision-maker for repository operations (commits, branches, PRs, git state) |
 | `scriber` | infra | evidence-writer | haiku | DEPRECATED (#434) — evidence/checkpoint/status writer, superseded by the command model; retained for reference, not installed |

@@ -7,8 +7,12 @@ Reports, for every business intent:
 
   - every required property of the ontology's Business Intent kind is present and non-empty
     (title, outcome, why, asked_by, proof); must_not is optional          (C2 / F2)
-  - every filled property records where it came from: `source` or `person` — never empty,
-    never `agent`                                                         (C5 / F5)
+  - every filled property records where it came from: `source`, `journey`, `memory`, `model`,
+    `person`, or `proposed` — never empty, never `agent`; a `proposed` property (why, asked by,
+    proof: the play's own draft) names its basis in `basis.<property>`   (C5 / F5, C17)
+  - why, asked by and proof are never left open or asked: they are drafted, with their basis;
+    a proof reads as a measurable result, not `open` / `to be confirmed`; no question asks
+    for them                                                              (C17 / F17)
   - outcome, not build: title / outcome / proof copy no run of 8 or more words from the
     source, and carry no code-like text (markup, braces, file paths)    (C3 / F3)
   - plain words: no property is a bare label (fewer than 3 words), apart from asked_by (C2)
@@ -59,7 +63,10 @@ import sys
 import yaml
 
 # where a property may come from (C5): never the model alone
-PROVENANCE = {"source", "journey", "memory", "model", "person"}
+PROVENANCE = {"source", "journey", "memory", "model", "person", "proposed"}
+DRAFTED = ("why", "asked_by", "proof")      # the play drafts these itself, with their basis (C17)
+OPEN_TEXT = re.compile(r"^\s*(open\b|tbd\b|to be (confirmed|decided|agreed)|unknown\b|n/?a\b)|the drive asks", re.I)
+ASKS_DRAFTED = re.compile(r"how (will|would|do) (we|you) know|why does (it|this) matter|who (wants|asked)", re.I)
 REQUIRED = ["title", "outcome", "why", "asked_by", "proof"]
 PROSE = ["title", "outcome", "why", "proof", "must_not"]
 COPY_RUN = 8
@@ -118,6 +125,12 @@ def check_questions(questions, other):
     """Open questions per intent; every question must carry example answers (C13)."""
     open_q = {}
     for q in questions:
+        unanswered = not str(q.get("answer") or "").strip()
+        if unanswered and (str(q.get("property") or "").strip() in DRAFTED
+                           or ASKS_DRAFTED.search(str(q.get("ask") or ""))):
+            other.append(f"[{q.get('intent') or 'all'}] question \"{q.get('ask', '')}\" asks for why, "
+                         f"asked by or proof — draft it with its basis instead of asking (C17)")
+            continue
         if not str(q.get("answer") or "").strip():
             open_q.setdefault(str(q.get("intent") or "all"), []).append(q)
         examples = [e for e in as_list(q.get("examples")) if str(e).strip()]
@@ -131,6 +144,14 @@ def check_intents(intents, open_q, src_words, person, other):
     for intent in intents:
         iid = intent.get("id") or "?"
         missing = [p for p in REQUIRED if not str(intent.get(p) or "").strip()]
+        for p in DRAFTED:
+            text = str(intent.get(p) or "").strip()
+            if p in missing:
+                other.append(f"[{iid}] `{p}` is empty — draft it yourself with its basis (provenance "
+                             f"`proposed`); it is never left open (C17)")
+            elif OPEN_TEXT.search(text):
+                other.append(f"[{iid}] `{p}` is left open (\"{text[:60]}\") — draft it with its basis (C17)")
+        missing = [p for p in missing if p not in DRAFTED]
         asks = len(open_q.get(str(iid), []))
         if missing or asks:
             gaps = (f"`{'`, `'.join(missing)}` missing" if missing else "") + \
@@ -143,7 +164,14 @@ def check_intents(intents, open_q, src_words, person, other):
                 if where not in PROVENANCE:
                     other.append(f"[{iid}] `{prop}` has provenance `{where or 'none'}` — it must come "
                                  f"from the source, its journeys, memory, the product model or the "
-                                 f"person, never be invented")
+                                 f"person, or be the play's own proposal with its basis, never be "
+                                 f"invented")
+                elif where == "proposed" and prop not in DRAFTED:
+                    other.append(f"[{iid}] `{prop}` is marked proposed — only why, asked by and proof "
+                                 f"are the play's own draft; `{prop}` comes from what the source shows")
+                elif where == "proposed" and not str(as_map(intent.get("basis")).get(prop) or "").strip():
+                    other.append(f"[{iid}] `{prop}` is proposed with no basis — say what it rests on "
+                                 f"(`basis.{prop}`)")
         for prop in ("title", "outcome", "proof"):
             plain_text(f"[{iid}] `{prop}`", str(intent.get(prop) or ""), src_words, other)
         for prop in PROSE:

@@ -1,5 +1,5 @@
 ---
-name: prototype-walker
+name: prototype-reader
 domain: prototype
 role: walker
 description: "Walks a working prototype the way the people it serves would, so /intent drafts from how it is used, not from what its screens hold. Gathers the capture's views, has the walk-prototype skill plan and walk the journeys (who, what they set out to do, every step and what it showed, what they end with) through one kept-open browser per journey, and checks the result: every main section is some journey's goal, every captured view is on a journey or named as not walked, and no step changed data on a deployed site the person had not cleared. High-volume, low-judgment work — runs on Sonnet at medium effort; the drafting stays with business-intent-keeper. Used by /intent's Walk step."
@@ -12,7 +12,7 @@ tools:
   - Bash
 ---
 
-# prototype-walker
+# prototype-reader
 
 ## Identity
 
