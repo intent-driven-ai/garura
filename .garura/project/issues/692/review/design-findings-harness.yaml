@@ -1,0 +1,26 @@
+category: harness
+grounding:
+  - {principle: "Intent change goes through reference/ice.md then recompile; fingerprint = hash of ice.md", source: "CLAUDE.md (Play Pipeline Rules) on main"}
+  - {principle: "LLM skills write only per-node docs; shared files by deterministic script", source: "docs/adr/026-direct-to-model-writes.md"}
+  - {principle: "find-/close-model-gaps are skills invoked through product-os-keeper; close connects, attributes and merges duplicates", source: "docs/adr/043-kickoff-plays-read-independently-and-the-drive-closes-the-loop.md sections 4 and 6"}
+  - {principle: "play -> agent -> skill -> script wiring", source: "CLAUDE.md (Execution Model, rule 4)"}
+verified_ok:
+  - "review-knowledge ice.md edit (C6/F6/REC6/Context) is mirrored in SKILL.md (C1-C6, F1-F6, SE-6, F6 recovery row, counts 6/6/4 autonomous); fingerprint sha256:15b33bd0... equals shasum -a 256 of ice.md on the branch (old value matched main's ice.md)."
+  - "product-os-keeper exceptions (spine/intent Touches writes, page moves, removal of an agreed duplicate, confined to product-os) match ADR 043 section 4 (connects, attributes, merges)."
+  - "skills keep wiring: agent invokes skill, skill calls its own script (write-knowledge-brief -> render_brief.py; close-model-gaps -> apply_links.py); allowed-tools gains Bash to run it, as other script-running skills do."
+findings:
+  - id: H1
+    severity: P3
+    file: core/components/agents/product-os-keeper.md
+    summary: "The new exception lets a skill script write shared model files (spine, intent pages) and delete a node. ADR 026 says the LLM skill writes only per-node docs and shared files belong to the play's keyed script; its header lists ADR 043 as amending only 'Clean tree in, committed delta out'. The keeper cites ADR 043 for the exception, which is sound, but ADR 026's amendment note does not record it."
+    basis: "docs/adr/026-direct-to-model-writes.md (Status line, containment split) vs docs/adr/043 section 4"
+  - id: H2
+    severity: P3
+    file: core/components/plays/review-knowledge/SKILL.md
+    summary: "Play hard-codes the deployed path .claude/skills/write-knowledge-brief/scripts/render_brief.py in the agent contract and the check command. It is the only play doing this, and it breaks for a Codex install (.agents/skills). Other scripts are passed as <play-dir>/... placeholders."
+    basis: "CLAUDE.md Architecture (deploys to .claude or .agents/skills; source is core/components); knowledge-builder.md contract uses <play-dir> placeholders"
+  - id: H3
+    severity: P4
+    file: core/components/agents/knowledge-builder.md
+    summary: "Not changed by the PR: its review-knowledge job still says 'RECORD brief.json and brief.md' and lists no renderer input. Agent doc should say brief.md is rendered by the skill's script so the contract and agent agree."
+    basis: "CLAUDE.md rule 4 (agents craft context, skills do the work); play contract now carries renderer"

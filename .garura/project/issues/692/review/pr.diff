@@ -1,0 +1,1206 @@
+diff --git a/.garura/project/issues/692/context/analysis.yaml b/.garura/project/issues/692/context/analysis.yaml
+new file mode 100644
+index 00000000..fcbd340a
+--- /dev/null
++++ b/.garura/project/issues/692/context/analysis.yaml
+@@ -0,0 +1,47 @@
++needs_judgment: false
++change_groups:
++  - id: find-gaps-one-sided-links
++    issue: 692
++    commit_type: feat
++    scope: skills
++    subject: "count intent links held on one side only when finding model gaps"
++    files:
++      - core/components/skills/find-model-gaps/SKILL.md
++      - core/components/skills/find-model-gaps/scripts/find_gaps.py
++      - core/components/skills/find-model-gaps/scripts/test_find_gaps.py
++      - core/components/skills/find-model-gaps/scripts/intent_touches.py
++      - core/components/plays/play-creator/references/test_intent_touches.py
++  - id: knowledge-brief-render-and-check
++    issue: 692
++    commit_type: feat
++    scope: review-knowledge
++    subject: "render the knowledge brief page with a script and check it in review"
++    files:
++      - core/components/skills/write-knowledge-brief/SKILL.md
++      - core/components/skills/write-knowledge-brief/scripts/render_brief.py
++      - core/components/skills/write-knowledge-brief/scripts/test_render_brief.py
++      - core/components/plays/review-knowledge/SKILL.md
++      - core/components/plays/review-knowledge/reference/ice.md
++      - core/components/plays/review-knowledge/scripts/check_brief.py
++      - core/components/plays/review-knowledge/scripts/test_review_knowledge_scripts.py
++  - id: close-gaps-inside-model
++    issue: 692
++    commit_type: feat
++    scope: skills
++    subject: "close model gaps only inside the product model and list what changed"
++    files:
++      - core/components/skills/close-model-gaps/SKILL.md
++      - core/components/skills/close-model-gaps/scripts/apply_links.py
++      - core/components/skills/close-model-gaps/scripts/test_apply_links.py
++      - core/components/agents/product-os-keeper.md
++  - id: run-state
++    issue: 692
++    commit_type: chore
++    scope: stm
++    subject: "record run state for the gap and brief step checks"
++    files:
++      - .garura/project/issues/692/context/analysis.yaml
++      - .garura/project/issues/692/context/porcelain.txt
++exclusions: []
++risks:
++  sensitive_files: []
+diff --git a/.garura/project/issues/692/context/branch.json b/.garura/project/issues/692/context/branch.json
+new file mode 100644
+index 00000000..76d33d69
+--- /dev/null
++++ b/.garura/project/issues/692/context/branch.json
+@@ -0,0 +1,6 @@
++{
++  "branch_name": "feature/692-gap-and-brief-steps-checked",
++  "base_sha": "d12436e6336d52c107f6ce9aeaeb32b47a9d102e",
++  "on_default_branch": false,
++  "worktree_path": null
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/692/context/commits.yaml b/.garura/project/issues/692/context/commits.yaml
+new file mode 100644
+index 00000000..93330ce5
+--- /dev/null
++++ b/.garura/project/issues/692/context/commits.yaml
+@@ -0,0 +1,41 @@
++commits:
++  - sha: 50a1e5a6
++    message: "feat(skills): count intent links held on one side only when finding model gaps (#692)"
++    files:
++      - core/components/skills/find-model-gaps/SKILL.md
++      - core/components/skills/find-model-gaps/scripts/find_gaps.py
++      - core/components/skills/find-model-gaps/scripts/test_find_gaps.py
++      - core/components/skills/find-model-gaps/scripts/intent_touches.py
++      - core/components/plays/play-creator/references/test_intent_touches.py
++    branch: feature/692-gap-and-brief-steps-checked
++  - sha: 693de2c0
++    message: "feat(review-knowledge): render the knowledge brief page with a script and check it in review (#692)"
++    files:
++      - core/components/skills/write-knowledge-brief/SKILL.md
++      - core/components/skills/write-knowledge-brief/scripts/render_brief.py
++      - core/components/skills/write-knowledge-brief/scripts/test_render_brief.py
++      - core/components/plays/review-knowledge/SKILL.md
++      - core/components/plays/review-knowledge/reference/ice.md
++      - core/components/plays/review-knowledge/scripts/check_brief.py
++      - core/components/plays/review-knowledge/scripts/test_review_knowledge_scripts.py
++    branch: feature/692-gap-and-brief-steps-checked
++  - sha: c3f45439
++    message: "feat(skills): close model gaps only inside the product model and list what changed (#692)"
++    files:
++      - core/components/skills/close-model-gaps/SKILL.md
++      - core/components/skills/close-model-gaps/scripts/apply_links.py
++      - core/components/skills/close-model-gaps/scripts/test_apply_links.py
++      - core/components/agents/product-os-keeper.md
++    branch: feature/692-gap-and-brief-steps-checked
++  - sha: 46c28eeb
++    message: "chore(stm): record run state for the gap and brief step checks (#692)"
++    files:
++      - .garura/project/issues/692/context/analysis.yaml
++      - .garura/project/issues/692/context/porcelain.txt
++    branch: feature/692-gap-and-brief-steps-checked
++excluded_files:
++  []
++leftover_count: 0
++tree_clean: true
++pushed: false
++run_state_committed: true
+diff --git a/.garura/project/issues/692/context/issue.json b/.garura/project/issues/692/context/issue.json
+new file mode 100644
+index 00000000..7d984dd2
+--- /dev/null
++++ b/.garura/project/issues/692/context/issue.json
+@@ -0,0 +1 @@
++{"resolved": true, "issue_number": 692, "title": "feat: the Kickoff drive's gap and brief steps are checked, not trusted", "created": false}
+diff --git a/.garura/project/issues/692/context/porcelain.txt b/.garura/project/issues/692/context/porcelain.txt
+new file mode 100644
+index 00000000..00d1f50b
+--- /dev/null
++++ b/.garura/project/issues/692/context/porcelain.txt
+@@ -0,0 +1,16 @@
++ M core/components/agents/product-os-keeper.md
++ M core/components/plays/play-creator/references/test_intent_touches.py
++ M core/components/plays/review-knowledge/SKILL.md
++ M core/components/plays/review-knowledge/reference/ice.md
++ M core/components/plays/review-knowledge/scripts/check_brief.py
++ M core/components/plays/review-knowledge/scripts/test_review_knowledge_scripts.py
++ M core/components/skills/close-model-gaps/SKILL.md
++ M core/components/skills/close-model-gaps/scripts/apply_links.py
++ M core/components/skills/close-model-gaps/scripts/test_apply_links.py
++ M core/components/skills/find-model-gaps/SKILL.md
++ M core/components/skills/find-model-gaps/scripts/find_gaps.py
++ M core/components/skills/find-model-gaps/scripts/test_find_gaps.py
++ M core/components/skills/write-knowledge-brief/SKILL.md
++?? .garura/project/issues/692/context/porcelain.txt
++?? core/components/skills/find-model-gaps/scripts/intent_touches.py
++?? core/components/skills/write-knowledge-brief/scripts/
+diff --git a/.garura/project/issues/692/context/pr-body.md b/.garura/project/issues/692/context/pr-body.md
+new file mode 100644
+index 00000000..3b032b20
+--- /dev/null
++++ b/.garura/project/issues/692/context/pr-body.md
+@@ -0,0 +1,49 @@
++Closes #692.
++
++## What this does
++
++The Kickoff drive's gap step and brief step are now checked by scripts, not trusted.
++
++- **Half-made links are found.** The gap finder counts a link to a business intent as made only when both sides hold it: the node names the intent, and the intent page's Touches list names the node. On Kickoff run 2's real model, as it stood before round 1's gap step, it now finds all 42 half-made links (10 capabilities, 32 functionalities). Before, it found 0.
++- **The brief page is made by the brief skill.** The skill writes the brief's content into `brief.json`. Its new script, `render_brief.py`, writes the page the person reads. The brief play's check renders the page again and fails one that was written or edited by hand. This is a new promise in the play (C6, F6, REC6), made through its intent source and recompiled with /play-editor.
++- **The gap closer stays inside the product model.** `apply_links.py` checks every path before it writes, moves or deletes anything. A change that would reach outside the model is skipped, never half-made. Its report lists every file it changed. The model keeper's rules now allow this work inside a drive and nowhere else. The keeper's table rows are fixed.
++- The Touches-reader copy check now covers skills as well as plays.
++
++## Proof
++
++- Tests pass: the gap finder 7, the gap closer 9, the brief renderer 3, the brief check 13, the Touches reader 18.
++- The play linter passes for /review-knowledge with 0 gaps. The components linter shows the same errors as main.
++- Done-when item 4 (a live Kickoff run with no half-made link after round 1) was checked by replaying run 2's real model through the new script, not by a new live run.
++
++## Self-review
++
++# Self-review: #692 the Kickoff drive's gap and brief steps are checked, not trusted
++
++Rules source: ~/.phoenix/core/memory/standards/rules/self-review.md (base, no project override).
++Branch: feature/692-gap-and-brief-steps-checked against main. Informational only; this is not the approve/reject gate.
++
++## Scope checks
++
++- [PASS] Matches the issue. The diff covers all three parts of #692: the gap finder counts one-way intent links (find-model-gaps, intent_touches.py), the brief is rendered by its skill and checked in review (write-knowledge-brief render_brief.py, review-knowledge check_brief.py), and the gap closer writes only inside the product model and lists what it changed (close-model-gaps apply_links.py, product-os-keeper.md rules).
++- [PASS] Keeper table fix. The two capabilities rows in core/components/agents/product-os-keeper.md now carry the missing last cell.
++- [PASS] No scope creep. Every changed file under core/components maps to one of the three parts. The test_intent_touches.py change under play-creator/references supports the new intent_touches script.
++- [PASS] Reasonable size. 22 files, about 600 added lines, of which about 190 are tests and 6 are STM context records.
++- [PASS] No stray artifacts. No debug prints, TODO markers or commented-out blocks found in the added lines. The files under .garura/project/issues/692/context are the normal run record for this issue.
++- [REVIEW] The review-knowledge play changed in SKILL.md and reference/ice.md. These are intent-level edits (a new brief check). Reviewer should confirm the ICE source and the compiled SKILL.md agree.
++
++## Quality checks
++
++- [PASS] Tests present. New or extended tests for find_gaps, apply_links, render_brief and the review-knowledge scripts. Run with unittest: 7, 9, 3 and 13 tests, all OK.
++- [REVIEW] test_intent_touches.py under play-creator/references ran 0 tests with unittest (it may be a script-style test). Reviewer should confirm how it is run.
++- [PASS] Commits are clean. Five feature or chore commits, conventional format, each carries (#692).
++- [PASS] No secrets. No keys, tokens or credentials in the diff.
++- [PASS] No absolute home-folder or temp paths in the added lines.
++- [PASS] Docs in step. The SKILL.md files of find-model-gaps, close-model-gaps, write-knowledge-brief and review-knowledge, and the keeper agent rules, were updated with the behavior.
++- [REVIEW] Done-when item 4 (a Kickoff run on the Argus mockup shows no one-way link after round 1) is a live run and is not shown by this diff. Not checked here.
++- [PASS] Nothing obviously broken. No failing paths found.
++
++## Summary
++
++Blocking: none. 0 blockers. Three items marked REVIEW for the reviewer.
++
++🤖 Generated with [Claude Code](https://claude.com/claude-code)
+diff --git a/.garura/project/issues/692/context/resolved-rules.json b/.garura/project/issues/692/context/resolved-rules.json
+new file mode 100644
+index 00000000..7e1dab07
+--- /dev/null
++++ b/.garura/project/issues/692/context/resolved-rules.json
+@@ -0,0 +1,6 @@
++{
++  "resolved": true,
++  "path": "~/.phoenix/core/memory/standards/rules/self-review.md",
++  "source": "~/.phoenix/core/memory/standards/rules",
++  "is_override": false
++}
+diff --git a/.garura/project/issues/692/context/self-review.md b/.garura/project/issues/692/context/self-review.md
+new file mode 100644
+index 00000000..439e67cc
+--- /dev/null
++++ b/.garura/project/issues/692/context/self-review.md
+@@ -0,0 +1,28 @@
++# Self-review: #692 the Kickoff drive's gap and brief steps are checked, not trusted
++
++Rules source: ~/.phoenix/core/memory/standards/rules/self-review.md (base, no project override).
++Branch: feature/692-gap-and-brief-steps-checked against main. Informational only; this is not the approve/reject gate.
++
++## Scope checks
++
++- [PASS] Matches the issue. The diff covers all three parts of #692: the gap finder counts one-way intent links (find-model-gaps, intent_touches.py), the brief is rendered by its skill and checked in review (write-knowledge-brief render_brief.py, review-knowledge check_brief.py), and the gap closer writes only inside the product model and lists what it changed (close-model-gaps apply_links.py, product-os-keeper.md rules).
++- [PASS] Keeper table fix. The two capabilities rows in core/components/agents/product-os-keeper.md now carry the missing last cell.
++- [PASS] No scope creep. Every changed file under core/components maps to one of the three parts. The test_intent_touches.py change under play-creator/references supports the new intent_touches script.
++- [PASS] Reasonable size. 22 files, about 600 added lines, of which about 190 are tests and 6 are STM context records.
++- [PASS] No stray artifacts. No debug prints, TODO markers or commented-out blocks found in the added lines. The files under .garura/project/issues/692/context are the normal run record for this issue.
++- [REVIEW] The review-knowledge play changed in SKILL.md and reference/ice.md. These are intent-level edits (a new brief check). Reviewer should confirm the ICE source and the compiled SKILL.md agree.
++
++## Quality checks
++
++- [PASS] Tests present. New or extended tests for find_gaps, apply_links, render_brief and the review-knowledge scripts. Run with unittest: 7, 9, 3 and 13 tests, all OK.
++- [REVIEW] test_intent_touches.py under play-creator/references ran 0 tests with unittest (it may be a script-style test). Reviewer should confirm how it is run.
++- [PASS] Commits are clean. Five feature or chore commits, conventional format, each carries (#692).
++- [PASS] No secrets. No keys, tokens or credentials in the diff.
++- [PASS] No absolute home-folder or temp paths in the added lines.
++- [PASS] Docs in step. The SKILL.md files of find-model-gaps, close-model-gaps, write-knowledge-brief and review-knowledge, and the keeper agent rules, were updated with the behavior.
++- [REVIEW] Done-when item 4 (a Kickoff run on the Argus mockup shows no one-way link after round 1) is a live run and is not shown by this diff. Not checked here.
++- [PASS] Nothing obviously broken. No failing paths found.
++
++## Summary
++
++Blocking: none. 0 blockers. Three items marked REVIEW for the reviewer.
+diff --git a/.garura/project/issues/692/context/work-description.txt b/.garura/project/issues/692/context/work-description.txt
+new file mode 100644
+index 00000000..d2e02321
+--- /dev/null
++++ b/.garura/project/issues/692/context/work-description.txt
+@@ -0,0 +1,20 @@
++feat: the Kickoff drive's gap and brief steps are checked, not trusted
++
++Kind: Story — a slice of the drives feature (#594), after #689.
++
++What: the Kickoff drive's gap step and brief step are checked, not trusted.
++1. The gap finder (`find-model-gaps`) counts a link as made only when both sides hold it — the child names its parent and the parent lists the child.
++2. The brief check proves the brief to the person was made by its skill, not written by hand.
++3. The gap closer (`close-model-gaps`) changes the product model only inside a declared write scope, checked by a script; the `product-os-keeper` rules allow this work inside a drive and nowhere else. Also fix the two rows in the keeper's capabilities table that are short one cell.
++
++Why: Kickoff run 2 on the Argus mockup (2026-10-21, findings K-21, K-22 in #613's record; review of PR #691):
++- Round 1: 32 functionalities named their capability, but the capabilities did not list them. The gap step said "no gaps"; the drive caught it by hand and fixed it in round 2.
++- Round 3: the agent wrote the brief to the person by hand, skipping its skill. The brief check still passed.
++- The gap closer moves pages and deletes merged duplicates in the live model. The keeper's rules on main forbid writing a shared model file or removing a node, and no scoped-write or clean-tree check runs around it.
++
++Done when:
++- [ ] a test with one-way links makes the gap finder report each one;
++- [ ] a brief not made by its skill fails the brief check;
++- [ ] the gap closer refuses a write outside its scope, and the keeper's rules name the drive case;
++- [ ] a Kickoff run on the Argus mockup shows no one-way link after round 1.
++
+diff --git a/core/components/agents/product-os-keeper.md b/core/components/agents/product-os-keeper.md
+index a6b564de..dd75dfc1 100644
+--- a/core/components/agents/product-os-keeper.md
++++ b/core/components/agents/product-os-keeper.md
+@@ -62,8 +62,8 @@ intent and execute.
+ | `propose-kb-node` | The nothing-fits path: when `search-kb` returns unmatched, research the gap — a new domain is named as the world already names it, with its research sources, never made up from the product's screens — and draft a properly-shaped node (new domain/capability/functionality) as a proposal for human review. NEVER writes the KB. | /vision (cover gaps); later strategic plays |
+ | `author-vision-seed` | Write a detailed domain page per domain (with its `## Sources`), the domain spine entries and a directional profile — domains only (ADR 043) | /vision |
+ | `enrich-capability-ice` | Find the capabilities a prototype's screens show (find mode, `found.yaml`), and detail each capability — new from the screens or already in the model — into its detailed page, its functionalities and their pages (each with `## Sources`), its rich ICE and its concrete NFR + compliance needs, grounded in the screens and its KB shelf | /understand |
+-| `find-model-gaps` | Find the gaps in the product model (ADR 043): nodes not yet linked, the same thing written twice, missing work (a capability with no functionalities, an intent no capability serves) and screens no node covers; propose each link with why and give each piece of missing work to the play that does it. Writes `gaps.json`; never the model. |
+-| `close-model-gaps` | Apply what the model itself can take from `gaps.json`: attribute loose nodes (moving a holding-folder page under its parent unchanged), link nodes to intents on both sides, merge agreed duplicates; hand the rest back as work for the drive. Writes `close-report.json`. |
++| `find-model-gaps` | Find the gaps in the product model (ADR 043): nodes not yet linked, the same thing written twice, missing work (a capability with no functionalities, an intent no capability serves) and screens no node covers; propose each link with why and give each piece of missing work to the play that does it. Writes `gaps.json`; never the model. | the drives (after each round) |
++| `close-model-gaps` | Apply what the model itself can take from `gaps.json`: attribute loose nodes (moving a holding-folder page under its parent unchanged), link nodes to intents on both sides, merge agreed duplicates; hand the rest back as work for the drive. Writes only inside the product model; `close-report.json` lists every file it changed. | the drives (after `find-model-gaps`) |
+ | `author-shape-bundle` | Draft one domain's selection bundle — confirm/prune capabilities against the firmed profile + KB, select functionalities, author build-unit functionality ICE, persona + journey records, and the prune/selection decisions — with stable ids. Reads the profile (never writes it); draft only. | /shape |
+ | `author-roadmap` | Draft the plan for /roadmap over /shape's vertical slices — for each slice estimate effort, resolve its dependency_notes (+ shared functionalities + their ICE depends_on) into concrete depends_on slice ids, and propose a value order. Writes `plan-draft.yaml` only — no final order numbers, no topological sort/cycle logic (those are the play's `compute_plan.py`), never the live model. | /roadmap |
+ | `author-quality-lens` | Draft the quality lens for /quality — for one SLICE, turn the profile targets that apply + the slice's functionalities' ICE constraints/failures into a grounded, checkable list of pass/fail gates, plus a decision for any material choice. The first realize lens: reads only the slice's hub (its functionalities' ICE + profile), never another lens. Draft only. | /quality |
+@@ -174,9 +174,15 @@ a path belongs.
+   seed — seed output is directional (`proposed` / `directional`).
+ - Write a shared model file yourself (the spine, the profile, an intent page) — under
+   direct-model-write (ADR 026) your skills write only per-node grounding docs, in place;
+-  the play's keyed persist script owns every shared file and every page move.
++  the play's keyed persist script owns every shared file and every page move. One
++  exception: inside a drive, `close-model-gaps`'s script (`apply_links.py`) writes the spine
++  and intent pages' Touches lists and moves holding-folder pages (ADR 043), and only inside
++  `<product_base>product-os/` — it refuses any path outside and lists every file it changed.
+ - Remove a node, or lose what an existing node holds — a doc another play wrote is grown
+-  in place, keeping every section and agent-intent line it had (ontology v4).
++  in place, keeping every section and agent-intent line it had (ontology v4). One
++  exception: inside a drive, `close-model-gaps` removes the dropped node of a duplicate
++  `find-model-gaps` marked `agreed: true`, after moving its intents and children onto the
++  kept node.
+ - Hand-write model YAML yourself — always go through a skill.
+ - Load the whole of memory into context — find and copy only what each skill needs.
+ - Read memory by a path, or take a memory path from a contract — only through the memory tool.
+diff --git a/core/components/plays/play-creator/references/test_intent_touches.py b/core/components/plays/play-creator/references/test_intent_touches.py
+index 9a5342c3..b6e4c6fa 100644
+--- a/core/components/plays/play-creator/references/test_intent_touches.py
++++ b/core/components/plays/play-creator/references/test_intent_touches.py
+@@ -1,7 +1,7 @@
+ #!/usr/bin/env python3
+ """test_intent_touches.py — tests for the Touches list on a business intent page.
+ 
+-Every play's stamped copy of intent_touches.py must be identical to this canonical one.
++Every play's and skill's stamped copy of intent_touches.py must be identical to this canonical one.
+ 
+     python3 test_intent_touches.py
+ """
+@@ -106,9 +106,10 @@ def test_bad_entries():
+ 
+ def test_every_copy_is_identical():
+     mine = open(os.path.join(HERE, "intent_touches.py"), "rb").read()
+-    copies = glob.glob(os.path.join(REPO, "core", "components", "plays", "*", "scripts", "intent_touches.py"))
++    copies = [c for kind in ("plays", "skills")
++              for c in glob.glob(os.path.join(REPO, "core", "components", kind, "*", "scripts", "intent_touches.py"))]
+     different = [c for c in copies if open(c, "rb").read() != mine]
+-    check(f"every play's intent_touches.py is identical to the canonical one ({len(copies)} copies)",
++    check(f"every play's and skill's intent_touches.py is identical to the canonical one ({len(copies)} copies)",
+           len(copies) >= 2 and not different)
+ 
+ 
+diff --git a/core/components/plays/review-knowledge/SKILL.md b/core/components/plays/review-knowledge/SKILL.md
+index 2fdb40e0..7f6d80a1 100644
+--- a/core/components/plays/review-knowledge/SKILL.md
++++ b/core/components/plays/review-knowledge/SKILL.md
+@@ -23,7 +23,7 @@ lands nothing.
+ ## Compiled From
+ 
+ This play was compiled from the review-knowledge ICE (`reference/ice.md`) by play-creator
+-(#686). Intent defines constraints (C1–C5) and failure conditions (F1–F5); the expectation
++(#686; play-editor #692). Intent defines constraints (C1–C6) and failure conditions (F1–F6); the expectation
+ defines success scenarios (S1–S2), a Done means (D1–D2, baked to `stop-condition.yaml`), and
+ one recovery entry per failure condition. To modify this play, update `reference/ice.md` and
+ recompile with play-editor.
+@@ -88,7 +88,8 @@ folders.
+       "inputs":  { "search": "<search>/search.json", "build": "<build>/build.json",
+                    "run": "<the drive's working folder>", "issue": "<issue>",
+                    "audience": "<who gave the drive its input — for Kickoff, who shared the prototype>",
+-                   "check_script": "<play-dir>/scripts/check_brief.py" },
++                   "check_script": "<play-dir>/scripts/check_brief.py",
++                   "renderer": ".claude/skills/write-knowledge-brief/scripts/render_brief.py" },
+       "outputs": { "brief": "<working>/brief.json", "brief_md": "<working>/brief.md",
+                    "check_report": "<working>/brief-check.json" },
+       "task_id": "review-knowledge" }
+@@ -98,7 +99,8 @@ the waiting knowledge pages through the memory tool, and has `write-knowledge-br
+ brief: a few sentences each for understood and built; at most seven gaps, related proposals
+ sharing a theme, each with its context and our proposed answer; every settled point with why;
+ each page with what it says, its sources and our recommendation; the prototype notes counted
+-and pointed to.
++and pointed to. The skill writes the content into `brief.json` and renders `brief.md` from it
++with `render_brief.py`; nobody writes `brief.md` by hand.
+ **SE-1 (F1/C1):** `brief.json` has `understood` and `built`.
+ **SE-2 (F2/C2):** every `proposal` group of `build.json` is in exactly one gap; at most seven
+ gaps; each has context and a proposed answer, none a question.
+@@ -113,7 +115,9 @@ sources and a recommendation; every `settled` build group is shown once with why
+ ```bash
+ python3 scripts/check_brief.py --brief <working>/brief.json --brief-md <working>/brief.md \
+     --build <build>/build.json --issue <issue> \
+-    --memory-tool .garura/core/tools/memory/memory.py --out <working>/brief-check.json
++    --memory-tool .garura/core/tools/memory/memory.py \
++    --renderer .claude/skills/write-knowledge-brief/scripts/render_brief.py \
++    --out <working>/brief-check.json
+ ```
+ 
+ Exit 0 — clean. Otherwise send the report back to Step 1 (at most twice), then close HALTED.
+@@ -121,6 +125,8 @@ Exit 0 — clean. Otherwise send the report back to Step 1 (at most twice), then
+ tool lists the same waiting updates as at the start.
+ **SE-5 (F5/C5):** `run.json` reads `in_drive: true`; every file this run wrote is under
+ `{stm_base}<issue>/`; `git status` shows no change under the product model.
++**SE-6 (F6/C6):** `brief-check.json` reads `ok: true` from a run that passed `--renderer`, so
++`brief.md` equals `render_brief.py`'s output from `brief.json`.
+ 
+ The drive then shows `brief.md` and records the person's reply with this play's
+ `scripts/record_review.py` (Shared Drive Run, R5b).
+@@ -171,6 +177,7 @@ sc_exit=$?   # 0 held · 1 unmet · 2 error
+ | F3 | a page missing or without sources or a recommendation, a settled point not shown, or prototype notes asked | list every waiting page with its sources and a recommendation; show every settled point with why; point to the notes | autonomous |
+ | F4 | the play asked, waited or decided | stop; leave asking to the drive and deciding to the person | human |
+ | F5 | no drive contract, a write outside the issue, or a model write | halt; move the record under the drive's issue; undo the model write | human |
++| F6 | `brief.md` differs from the rendering of `brief.json` | write the content into `brief.json` and render `brief.md` with `render_brief.py` | autonomous |
+ 
+ ## Pause and Resume
+ 
+@@ -181,13 +188,13 @@ step whose output exists and checks clean; a brief already written is not writte
+ 
+ | Field | Value |
+ |-------|-------|
+-| fingerprint | sha256:95036b95a0445e5a61825bc455d398fc0d459f724739b45922ed7aeb62883ae3 (of `reference/ice.md`) |
+-| compiled_by | play-creator (#686) |
++| fingerprint | sha256:15b33bd000943ccaeb7b2b17d76dee07694d71b9ecc683599b91cb274deb8bff (of `reference/ice.md`) |
++| compiled_by | play-creator (#686); play-editor (#692) |
+ | pipeline_position | none (a drive's member play) |
+ | stop_condition | stop-condition.yaml (D1–D2) |
+ | domain_agents | 1 (knowledge-builder) |
+ | skills_used | write-knowledge-brief |
+ | scripts | 6 (check_brief.py, record_review.py, preflight.py, session_stamp.py, check_stop_condition.py, check_drive_contract.py) + test_review_knowledge_scripts.py |
+-| step_evals | 5 (SE-1…SE-5) |
++| step_evals | 6 (SE-1…SE-6) |
+ | scenario_evals | 2 (SCE-1…SCE-2) |
+-| recovery_entries | 5 (one per failure condition; 3 autonomous / 2 human) |
++| recovery_entries | 6 (one per failure condition; 4 autonomous / 2 human) |
+diff --git a/core/components/plays/review-knowledge/reference/ice.md b/core/components/plays/review-knowledge/reference/ice.md
+index 19cc5dbc..25acc86c 100644
+--- a/core/components/plays/review-knowledge/reference/ice.md
++++ b/core/components/plays/review-knowledge/reference/ice.md
+@@ -30,6 +30,9 @@ Pipeline position: **none**. The last of the three knowledge member plays every
+   each page decision through the memory tool's `decide` (ADR 041 §8). The play never decides.
+ - C5 — It runs only inside a drive (a valid drive contract), writes only under the drive's issue,
+   and never writes the product model.
++- C6 — `brief.md` is exactly what the brief skill's renderer (`write-knowledge-brief`'s
++  `scripts/render_brief.py`) writes from `brief.json`; it is never written or edited by hand,
++  so the page the person reads holds what the check read and nothing beside it.
+ 
+ ### Failure conditions
+ 
+@@ -41,12 +44,15 @@ Pipeline position: **none**. The last of the three knowledge member plays every
+ - F4 — The play asked the person, waited, or decided a memory update itself.
+ - F5 — The play ran without a drive contract, wrote outside the drive's issue, or wrote the
+   product model.
++- F6 — `brief.md` differs from the renderer's output from `brief.json` (written by hand, or
++  edited after).
+ 
+ ## Context
+ 
+ Kickoff run 6 (#613, 20 October) relayed 11 questions with example answers; Kapil rejected the
+ form, as he had on run 5. ADR 042 moves the presentation here. Argus will later show the same
+-brief (#680, #664).
++brief (#680, #664). Kickoff run 2 (#689, 21 October): the agent wrote the round-3 brief by
++hand and never called `write-knowledge-brief`; the check still passed (#692).
+ 
+ ## Expectation
+ 
+@@ -80,3 +86,6 @@ brief (#680, #664).
+   drive and deciding to the person. handoff: human.
+ - REC5 (F5) — trigger: no drive contract, a write outside the issue, or a model write.
+   direction: halt; move the record under the drive's issue; undo the model write. handoff: human.
++- REC6 (F6) — trigger: `brief.md` differs from the rendering of `brief.json`. direction: write
++  the content into `brief.json` and render `brief.md` with `render_brief.py`. handoff:
++  autonomous.
+diff --git a/core/components/plays/review-knowledge/scripts/check_brief.py b/core/components/plays/review-knowledge/scripts/check_brief.py
+index 7b5e85e3..6b4721f8 100644
+--- a/core/components/plays/review-knowledge/scripts/check_brief.py
++++ b/core/components/plays/review-knowledge/scripts/check_brief.py
+@@ -9,7 +9,9 @@
+ 
+     python3 check_brief.py --brief <working>/brief.json --brief-md <working>/brief.md \
+         --build <build working>/build.json --issue <issue> \
+-        --memory-tool .garura/core/tools/memory/memory.py --out <working>/brief-check.json [--max-gaps 7]
++        --memory-tool .garura/core/tools/memory/memory.py \
++        --renderer <write-knowledge-brief>/scripts/render_brief.py \
++        --out <working>/brief-check.json [--max-gaps 7]
+ 
+ brief.json:
+   {"understood": "<what we understood, a few sentences>",
+@@ -27,14 +29,17 @@
+ the build closed as settled is shown, with why; every memory update the memory tool lists as
+ waiting for the issue is a page with its sources and a recommendation, so a "yes" is an
+ informed approval (ADR 035 §5); the prototype notes count matches the build's; brief.md carries
+-the three headings and names every gap.
++the three headings and names every gap; and brief.md is exactly what the brief skill's renderer
++(`render_brief.py`) writes from brief.json — a page written by hand, or edited after, fails.
+ 
+ Exit 0 clean; 1 gaps; 2 cannot read an input. Standard library only.
+ """
+ import argparse
+ import json
++import os
+ import subprocess
+ import sys
++import tempfile
+ 
+ HEADINGS = ("What we understood", "What we built", "Where the gaps are")
+ 
+@@ -49,8 +54,23 @@ def waiting_updates(tool, issue):
+     return {str(u.get("id")) for u in answer.get("updates") or [] if str(u.get("issue")) == str(issue)}
+ 
+ 
+-def check(brief, md, build, max_gaps, waiting=()):
++def render(renderer, brief_path):
++    """brief.md as the brief skill's renderer writes it from brief.json."""
++    with tempfile.TemporaryDirectory() as tmp:
++        out = os.path.join(tmp, "brief.md")
++        run = subprocess.run([sys.executable, renderer, "--brief", brief_path, "--out", out],
++                             capture_output=True, text=True, check=False)
++        if run.returncode != 0 or not os.path.isfile(out):
++            raise ValueError(f"renderer: {run.stderr.strip() or 'no brief.md written'}")
++        with open(out, encoding="utf-8") as fh:
++            return fh.read()
++
++
++def check(brief, md, build, max_gaps, waiting=(), rendered=None):
+     problems = []
++    if rendered is not None and md.strip() != rendered.strip():
++        problems.append("brief.md is not the renderer's output from brief.json — write brief.json and "
++                        "render brief.md with render_brief.py; never write or edit brief.md by hand")
+     for k in ("understood", "built"):
+         if not str(brief.get(k) or "").strip():
+             problems.append(f"the brief has no `{k}`")
+@@ -110,6 +130,7 @@ def main(argv=None):
+     ap.add_argument("--build", required=True)
+     ap.add_argument("--issue", required=True)
+     ap.add_argument("--memory-tool", default=".garura/core/tools/memory/memory.py")
++    ap.add_argument("--renderer", required=True, help="the brief skill's scripts/render_brief.py")
+     ap.add_argument("--out", required=True)
+     ap.add_argument("--max-gaps", type=int, default=7)
+     args = ap.parse_args(argv)
+@@ -121,10 +142,11 @@ def main(argv=None):
+         with open(args.build, encoding="utf-8") as fh:
+             build = json.load(fh)
+         waiting = waiting_updates(args.memory_tool, args.issue)
++        rendered = render(args.renderer, args.brief)
+     except (OSError, ValueError) as exc:
+         sys.stderr.write(f"check_brief.py: cannot read an input: {exc}\n")
+         return 2
+-    problems, counts = check(brief, md, build, args.max_gaps, waiting)
++    problems, counts = check(brief, md, build, args.max_gaps, waiting, rendered)
+     report = {"ok": not problems, "gaps_found": problems, **counts}
+     with open(args.out, "w", encoding="utf-8") as fh:
+         json.dump(report, fh, indent=2)
+diff --git a/core/components/plays/review-knowledge/scripts/test_review_knowledge_scripts.py b/core/components/plays/review-knowledge/scripts/test_review_knowledge_scripts.py
+index 2030fc01..35ecb724 100644
+--- a/core/components/plays/review-knowledge/scripts/test_review_knowledge_scripts.py
++++ b/core/components/plays/review-knowledge/scripts/test_review_knowledge_scripts.py
+@@ -84,6 +84,22 @@ def test_the_markdown_carries_the_headings_and_gaps(self):
+         self.assertTrue(any("What we understood" in p for p in problems))
+         self.assertTrue(any("G1: not named" in p for p in problems))
+ 
++    def test_a_brief_md_that_is_not_the_renderers_output_fails(self):
++        self.assertEqual(cb.check(BRIEF, MD, BUILD, 7, rendered=MD + "\n")[0], [])
++        problems = cb.check(BRIEF, MD + "Written beside the data.\n", BUILD, 7, rendered=MD)[0]
++        self.assertTrue(any("renderer" in p for p in problems))
++
++    def test_the_check_renders_brief_json_with_the_given_renderer(self):
++        tmp = tempfile.mkdtemp()
++        self.addCleanup(shutil.rmtree, tmp, ignore_errors=True)
++        renderer = os.path.join(tmp, "render.py")
++        with open(renderer, "w") as fh:
++            fh.write("import sys\nopen(sys.argv[sys.argv.index('--out') + 1], 'w').write('rendered page')\n")
++        brief = os.path.join(tmp, "brief.json")
++        with open(brief, "w") as fh:
++            json.dump(BRIEF, fh)
++        self.assertEqual(cb.render(renderer, brief), "rendered page")
++
+ 
+ class RecordReview(unittest.TestCase):
+     def setUp(self):
+diff --git a/core/components/skills/close-model-gaps/SKILL.md b/core/components/skills/close-model-gaps/SKILL.md
+index b97e5802..19e97f70 100644
+--- a/core/components/skills/close-model-gaps/SKILL.md
++++ b/core/components/skills/close-model-gaps/SKILL.md
+@@ -44,10 +44,17 @@ judgment was made in `gaps.json`.
+ 
+ ## Output
+ 
+-`close-report.json`, at `out`: `applied` (each change made), `skipped` (each link refused, with why) and `work_for_plays` (the work list for the drive, unchanged from `gaps.json`).
++`close-report.json`, at `out`: `applied` (each change made), `skipped` (each link refused,
++with why, including any that would write outside the product model), `changed` (every file it
++touched, relative to `product-os/`) and `work_for_plays` (the work list for the drive,
++unchanged from `gaps.json`).
+ 
+ ## Rules
+ 
++- **Only inside the product model.** The script writes, moves and removes only under
++  `<product_base>product-os/`. It checks every path first; a link that would reach outside is
++  skipped and never half-applied. `changed` in the report lists every file it touched.
++
+ - **No new content.** It never writes an intent's words, a new capability page or a new
+   functionality page. A page moves unchanged.
+ - **Delete only a merged duplicate.** Nothing else is removed.
+diff --git a/core/components/skills/close-model-gaps/scripts/apply_links.py b/core/components/skills/close-model-gaps/scripts/apply_links.py
+index ffa172d3..d75d320d 100644
+--- a/core/components/skills/close-model-gaps/scripts/apply_links.py
++++ b/core/components/skills/close-model-gaps/scripts/apply_links.py
+@@ -16,7 +16,9 @@
+    node's spine `intents`, and the node to each intent page's Touches list (both sides).
+ 
+ It never writes an intent's content, never writes a new capability or functionality page,
+-and deletes nothing but a merged duplicate. What needs a play — the `work[]` list — is copied
++and deletes nothing but a merged duplicate. It writes only inside `<product_base>product-os/`:
++every path is checked before it is written, moved or removed, and a link that would reach
++outside is skipped, not applied. The report lists every file it changed (`changed`). What needs a play — the `work[]` list — is copied
+ to the report for the drive.
+ 
+     python3 apply_links.py --gaps <working>/gaps.json --product-base <product_base> \
+@@ -40,14 +42,28 @@
+ HOLDING = {"capability": "capabilities", "functionality": "functionalities"}
+ 
+ 
++class OutOfScope(ValueError):
++    """A write that would land outside the product model."""
++
++
+ class Model:
+     def __init__(self, base):
+         self.root = os.path.join(base, "product-os")
++        self.changed = set()
+         self.spine_path = os.path.join(self.root, "_spine.yaml")
+         with open(self.spine_path, encoding="utf-8") as fh:
+             self.spine = yaml.safe_load(fh) or {}
+         self.intents_dir = os.path.join(self.root, "intents")
+ 
++    def guard(self, path):
++        """The path, once it is known to sit inside the product model; recorded as changed."""
++        root = os.path.realpath(self.root)
++        real = os.path.realpath(path)
++        if real != root and not real.startswith(root + os.sep):
++            raise OutOfScope(f"{os.path.relpath(path, self.root)} is outside the product model")
++        self.changed.add(os.path.relpath(real, root).replace(os.sep, "/"))
++        return path
++
+     def entries(self, kind):
+         return [e for e in self.spine.get(SECTIONS[kind]) or [] if isinstance(e, dict)]
+ 
+@@ -77,11 +93,11 @@ def relink_intents(self, old_doc, new_doc):
+                 if found:
+                     lines[found[0]:found[1]] = it.render(entries)
+                     text2 = "\n".join(lines) + "\n"
+-                with open(page, "w", encoding="utf-8") as fh:
++                with open(self.guard(page), "w", encoding="utf-8") as fh:
+                     fh.write(text2)
+ 
+     def save(self):
+-        with open(self.spine_path, "w", encoding="utf-8") as fh:
++        with open(self.guard(self.spine_path), "w", encoding="utf-8") as fh:
+             yaml.safe_dump(self.spine, fh, sort_keys=False, allow_unicode=True)
+ 
+ 
+@@ -89,10 +105,18 @@ def in_holding(kind, doc):
+     return str(doc or "").startswith(HOLDING.get(kind, "\0") + "/")
+ 
+ 
+-def move_under(m, kind, entry, parent_doc, report):
+-    """Move a holding-folder node's folder under its parent's folder; repoint docs and links."""
++def move_dirs(m, entry, parent_doc):
++    """(old folder, new folder) of a holding-folder node, both checked to sit in the model."""
+     old_dir = os.path.dirname(entry["doc"])
+     new_dir = os.path.join(os.path.dirname(parent_doc), entry.get("slug") or entry["id"])
++    m.guard(os.path.join(m.root, old_dir))
++    m.guard(os.path.join(m.root, new_dir))
++    return old_dir, new_dir
++
++
++def move_under(m, kind, entry, parent_doc, report):
++    """Move a holding-folder node's folder under its parent's folder; repoint docs and links."""
++    old_dir, new_dir = move_dirs(m, entry, parent_doc)
+     if os.path.exists(os.path.join(m.root, new_dir)):
+         report["skipped"].append({"id": entry["id"], "why": f"{new_dir} already exists; the page was not moved"})
+         return
+@@ -114,6 +138,9 @@ def merge(m, d, report):
+     if not keep or not drop or keep_id == drop_id:
+         report["skipped"].append({"duplicate": [keep_id, drop_id], "why": "not two known nodes of one kind"})
+         return
++    for doc in (drop.get("doc"), keep.get("doc")):
++        if doc:
++            m.guard(os.path.join(m.root, doc))
+     keep["intents"] = sorted(set(keep.get("intents") or []) | set(drop.get("intents") or []))
+     child = {"domain": ("capability", "domain"), "capability": ("functionality", "capability")}.get(kind)
+     if child:
+@@ -122,7 +149,7 @@ def merge(m, d, report):
+                 e[child[1]] = keep_id
+     if drop.get("doc") and keep.get("doc"):
+         m.relink_intents(drop["doc"], keep["doc"])
+-        page = os.path.join(m.root, drop["doc"])
++        page = m.guard(os.path.join(m.root, drop["doc"]))
+         if os.path.isfile(page):
+             os.remove(page)
+             folder = os.path.dirname(page)
+@@ -146,9 +173,12 @@ def attribute(m, link, report):
+     if entry.get(field) and entry.get(field) != value:
+         report["skipped"].append({"id": nid, "why": f"already under `{entry[field]}`; moving it is alignment work"})
+         return
++    moves = in_holding(kind, entry.get("doc")) and parent.get("doc") and not in_holding(parent_kind, parent.get("doc"))
++    if moves:
++        move_dirs(m, entry, parent["doc"])
+     entry[field] = value
+     report["applied"].append({"attributed": nid, field: value})
+-    if in_holding(kind, entry.get("doc")) and parent.get("doc") and not in_holding(parent_kind, parent.get("doc")):
++    if moves:
+         move_under(m, kind, entry, parent["doc"], report)
+ 
+ 
+@@ -164,6 +194,7 @@ def link_intents(m, link, report):
+         if not os.path.isfile(page):
+             report["skipped"].append({"id": nid, "intent": iid, "why": "no intent page"})
+             continue
++        m.guard(page)
+         entry["intents"] = sorted(set(entry.get("intents") or []) | {iid})
+         if entry.get("doc"):
+             with open(os.path.join(m.root, entry["doc"]), encoding="utf-8", errors="ignore") as fh:
+@@ -173,7 +204,7 @@ def link_intents(m, link, report):
+                 text = fh.read()
+             text = it.upsert(text, [it.entry(title, it.rel(page, os.path.join(m.root, entry["doc"])), kind,
+                                              link.get("mark") or "adds")])
+-            with open(page, "w", encoding="utf-8") as fh:
++            with open(m.guard(page), "w", encoding="utf-8") as fh:
+                 fh.write(text)
+         report["applied"].append({"linked": nid, "intent": iid})
+ 
+@@ -181,19 +212,26 @@ def link_intents(m, link, report):
+ def apply(gaps, base):
+     m = Model(base)
+     report = {"applied": [], "skipped": [], "work_for_plays": list(gaps.get("work") or [])}
++    def guarded(fn, item):
++        try:
++            fn(m, item, report)
++        except OutOfScope as exc:
++            report["skipped"].append({"id": item.get("id") or item.get("drop"), "why": str(exc)})
++
+     for d in gaps.get("duplicates") or []:
+         if d.get("agreed"):
+-            merge(m, d, report)
++            guarded(merge, d)
+     links = gaps.get("links_to_make") or []
+     order = {"domain": 0, "capability": 1}
+     for link in sorted([l for l in links if l.get("field") in order], key=lambda l: order[l["field"]]):
+-        attribute(m, link, report)
++        guarded(attribute, link)
+     for link in links:
+         if link.get("field") == "intents":
+-            link_intents(m, link, report)
++            guarded(link_intents, link)
+         elif link.get("field") not in order:
+             report["skipped"].append({"id": link.get("id"), "why": f"unknown field `{link.get('field')}`"})
+     m.save()
++    report["changed"] = sorted(m.changed)
+     return report
+ 
+ 
+diff --git a/core/components/skills/close-model-gaps/scripts/test_apply_links.py b/core/components/skills/close-model-gaps/scripts/test_apply_links.py
+index 5edb7838..4641cda9 100644
+--- a/core/components/skills/close-model-gaps/scripts/test_apply_links.py
++++ b/core/components/skills/close-model-gaps/scripts/test_apply_links.py
+@@ -124,6 +124,25 @@ def test_bad_links_are_skipped_not_applied(self):
+         self.assertEqual(self.node("capabilities", "reports")["domain"], "")
+         self.assertEqual(self.node("capabilities", "board")["domain"], "work")
+ 
++    def test_a_write_outside_the_model_is_skipped_and_nothing_outside_changes(self):
++        outside = self.write("outside/capability.md", "# Capability: Not ours\n")
++        spine = self.spine()
++        spine["capabilities"].append({"id": "stray", "slug": "stray", "domain": "work", "intents": [],
++                                      "doc": "../../outside/capability.md"})
++        self.write("product/product-os/_spine.yaml", yaml.safe_dump(spine))
++        rep = self.run_apply({"duplicates": [{"kind": "capability", "keep": "board", "drop": "stray",
++                                              "agreed": True}],
++                              "links_to_make": [{"kind": "capability", "id": "reports", "field": "intents",
++                                                 "value": ["../../../outside/x"]}]})
++        self.assertTrue(os.path.isfile(outside))
++        self.assertIn("stray", [c["id"] for c in self.spine()["capabilities"]])
++        self.assertEqual(sum("outside the product model" in s_["why"] for s_ in rep["skipped"]), 1)
++
++    def test_the_report_lists_every_file_it_changed(self):
++        rep = self.run_apply({"links_to_make": [{"kind": "capability", "id": "reports", "field": "intents",
++                                                 "value": ["share-reports"]}]})
++        self.assertEqual(rep["changed"], ["_spine.yaml", "intents/share-reports.md"])
++
+     def test_work_for_plays_is_handed_back(self):
+         work = [{"play": "/understand", "target": "reports", "why": "no functionalities"}]
+         self.assertEqual(self.run_apply({"work": work})["work_for_plays"], work)
+diff --git a/core/components/skills/find-model-gaps/SKILL.md b/core/components/skills/find-model-gaps/SKILL.md
+index ea8354b4..0a92be33 100644
+--- a/core/components/skills/find-model-gaps/SKILL.md
++++ b/core/components/skills/find-model-gaps/SKILL.md
+@@ -36,10 +36,14 @@ what is still missing, and says what to do about each.
+ 
+    It lists: nodes with no parent (`unattributed`), parents named that do not exist
+    (`dangling`), capabilities with no functionality, intents no node serves, nodes that serve
+-   no intent, empty domains, likely duplicates (titles that match once normalised) and
+-   screens no page's `## Sources` names (`uncovered`).
+-2. **Judge each candidate.** Read the pages and their `## Sources`. Clear a candidate that is
+-   not a gap (two titles that only look alike). Confirm the rest.
++   no intent, links to an intent held on one side only (`one_way` — the node's `intents` names
++   the intent but the intent page's Touches list does not name the node, or the reverse), empty
++   domains, likely duplicates (titles that match once normalised) and screens no page's
++   `## Sources` names (`uncovered`).
++2. **Judge each candidate.** Every `one_way` entry is a gap: a link is made only when both
++   sides hold it. Give each one a `links_to_make` entry with `field: intents`. For the other
++   candidates, read the pages and their `## Sources`. Clear a candidate that is not a gap (two
++   titles that only look alike). Confirm the rest.
+ 3. **Propose each link, with why.** For a loose node, name where it belongs — the capability
+    a functionality is part of, the domain a capability sits in, the intents a node serves —
+    from what the pages and their sources say, and say why in one plain line. Never invent a
+diff --git a/core/components/skills/find-model-gaps/scripts/find_gaps.py b/core/components/skills/find-model-gaps/scripts/find_gaps.py
+index 1f543779..168cf691 100644
+--- a/core/components/skills/find-model-gaps/scripts/find_gaps.py
++++ b/core/components/skills/find-model-gaps/scripts/find_gaps.py
+@@ -14,6 +14,10 @@
+ - `no_functionalities` — capabilities that have no functionality;
+ - `intents_unserved` — intent pages no capability or functionality names in `intents`;
+ - `serves_no_intent` — capabilities and functionalities whose `intents` is empty;
++- `one_way` — a link to a business intent held on one side only: a node's `intents` names the
++  intent but the intent page's Touches list does not name the node (`missing: touches`), or
++  the Touches list names the node but its `intents` does not name the intent
++  (`missing: intents`). A link is made only when both sides hold it;
+ - `domains_empty` — domains no capability names;
+ - `duplicates` — nodes of one kind whose titles match once normalised;
+ - `uncovered` — with `--journeys`, main sections no page's `## Sources` names; with
+@@ -30,6 +34,9 @@
+ 
+ import yaml
+ 
++sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
++import intent_touches  # noqa: E402  (stamped from play-creator/references)
++
+ QUOTE = re.compile(r"[\"“]([^\"“”]{4,})[\"”]")
+ MARKS = str.maketrans({"’": "'", "‘": "'", "“": '"', "”": '"', "–": "-", "—": "-", " ": " "})
+ STOP = {"a", "an", "the", "and", "or", "of", "to", "for", "in", "on", "with", "its", "it", "my"}
+@@ -69,6 +76,29 @@ def entries(spine, section):
+     return [e for e in spine.get(section) or [] if isinstance(e, dict) and e.get("id")]
+ 
+ 
++def one_way(model, intent_pages, groups):
++    """Intent links held on one side only: the spine's `intents` against each intent page's Touches."""
++    by_doc, claims = {}, set()
++    for kind, group in groups:
++        for e in group:
++            if e.get("doc"):
++                by_doc[os.path.normpath(os.path.join(model, str(e["doc"])))] = (kind, e["id"])
++            claims |= {(kind, e["id"], str(i)) for i in e.get("intents") or [] if str(i).strip()}
++    touched = set()
++    for page in intent_pages:
++        intent = os.path.splitext(os.path.basename(page))[0]
++        for t in intent_touches.read(read(page)):
++            node = by_doc.get(os.path.normpath(os.path.join(os.path.dirname(page), t["link"])))
++            if node:
++                touched.add((node[0], node[1], intent))
++    pages = {os.path.splitext(os.path.basename(p))[0] for p in intent_pages}
++    out = [{"kind": k, "id": i, "intent": n, "missing": "touches"}
++           for k, i, n in sorted(claims - touched) if n in pages]
++    out += [{"kind": k, "id": i, "intent": n, "missing": "intents"}
++            for k, i, n in sorted(touched - claims)]
++    return out
++
++
+ def find(model, journeys=None, view_texts=None):
+     spine_path = os.path.join(model, "_spine.yaml")
+     spine = yaml.safe_load(read(spine_path)) if os.path.isfile(spine_path) else {}
+@@ -76,7 +106,7 @@ def find(model, journeys=None, view_texts=None):
+     doms, caps, funcs = entries(spine, "domains"), entries(spine, "capabilities"), entries(spine, "functionalities")
+     dom_ids, cap_ids = {d["id"] for d in doms}, {c["id"] for c in caps}
+     out = {"unattributed": [], "dangling": [], "no_functionalities": [], "intents_unserved": [],
+-           "serves_no_intent": [], "domains_empty": [], "duplicates": [], "uncovered": []}
++           "serves_no_intent": [], "one_way": [], "domains_empty": [], "duplicates": [], "uncovered": []}
+ 
+     for c in caps:
+         if not c.get("domain"):
+@@ -104,6 +134,8 @@ def find(model, journeys=None, view_texts=None):
+     intent_pages = sorted(glob.glob(os.path.join(model, "intents", "*.md")))
+     out["intents_unserved"] = [{"id": os.path.splitext(os.path.basename(p))[0]} for p in intent_pages
+                                if os.path.splitext(os.path.basename(p))[0] not in served]
++    out["one_way"] = one_way(model, intent_pages, (("domain", doms), ("capability", caps),
++                                                   ("functionality", funcs)))
+ 
+     pages = {}
+     for kind, group in (("domain", doms), ("capability", caps), ("functionality", funcs)):
+diff --git a/core/components/skills/find-model-gaps/scripts/intent_touches.py b/core/components/skills/find-model-gaps/scripts/intent_touches.py
+new file mode 100644
+index 00000000..52afa28a
+--- /dev/null
++++ b/core/components/skills/find-model-gaps/scripts/intent_touches.py
+@@ -0,0 +1,119 @@
++#!/usr/bin/env python3
++"""intent_touches.py — the Touches list on a business intent page (ontology v4, #637).
++
++A business intent page names every part of the product it touches — each domain,
++capability and functionality — and how: it adds it, changes it, or removes it. The list
++sits on the intent page, in the person's words, and each line links to the part's page:
++
++    **Touches:**
++    - [Checkout](../commerce/checkout/capability.md) (capability) — adds
++    - [Commerce](../commerce/domain.md) (domain) — changes
++
++The agent side of the same link is the spine: a node's `intents` names the intents it
++serves. Any play that links a node to an intent writes both sides; this module writes the
++intent-page side, so every play writes it the same way. It is never written by an LLM.
++
++Canonical copy lives at play-creator/references/intent_touches.py and is stamped into the
++scripts/ of each play that writes intent links (/intent, /vision). Pure text in, text out:
++no files, no git, no network.
++
++    import intent_touches as it
++    text = it.upsert(text, [it.entry("Checkout", link, "capability", "adds")])
++    text, n = it.relink(text, old_link, new_link)
++"""
++import os
++import re
++
++HEADER = "**Touches:**"
++KINDS = ("domain", "capability", "functionality")
++MARKS = ("adds", "changes", "removes")
++LINE = re.compile(r"^- \[(?P<title>[^\]]+)\]\((?P<link>[^)\s]+)\) "
++                  r"\((?P<kind>domain|capability|functionality)\) — (?P<mark>adds|changes|removes)$")
++# The list /intent wrote before ontology v4: capabilities only, all of them new.
++OLD_HEADER = re.compile(r"^\*\*ICE built from it[^*]*:\*\*")
++OLD_LINE = re.compile(r"^- \[(?P<title>[^\]]+)\]\((?P<link>[^)\s]+)\)$")
++NEXT_ANCHOR = "**What was done:**"
++
++
++class Bad(ValueError):
++    """A Touches entry that cannot be written."""
++
++
++def entry(title, link, kind, mark):
++    if kind not in KINDS:
++        raise Bad(f"kind must be one of {KINDS}, not {kind!r}")
++    if mark not in MARKS:
++        raise Bad(f"mark must be one of {MARKS}, not {mark!r}")
++    title = " ".join(str(title).split()).replace("[", "(").replace("]", ")")
++    if not title or not link or any(c.isspace() for c in link):
++        raise Bad(f"a Touches entry needs a title and a link with no spaces ({title!r}, {link!r})")
++    return {"title": title, "link": link, "kind": kind, "mark": mark}
++
++
++def rel(intent_page, target):
++    """The link from an intent page to a part's page, both paths on disk."""
++    return os.path.relpath(target, os.path.dirname(intent_page)).replace(os.sep, "/")
++
++
++def render(entries):
++    if not entries:
++        return [f"{HEADER} none yet"]
++    return [HEADER] + [f"- [{e['title']}]({e['link']}) ({e['kind']}) — {e['mark']}" for e in entries]
++
++
++def _block(lines):
++    """(start, end, entries, old) for the Touches list — or the pre-v4 list — else None."""
++    for i, line in enumerate(lines):
++        new = line.strip().startswith(HEADER)
++        if not (new or OLD_HEADER.match(line.strip())):
++            continue
++        entries, j = [], i + 1
++        while j < len(lines) and lines[j].startswith("- "):
++            m = (LINE if new else OLD_LINE).match(lines[j].strip())
++            if m:
++                d = m.groupdict()
++                entries.append(d if new else entry(d["title"], d["link"], "capability", "adds"))
++            j += 1
++        return i, j, entries, not new
++    return None
++
++
++def read(text):
++    """The Touches entries on a page, in order ([] when it has none)."""
++    found = _block(text.splitlines())
++    return found[2] if found else []
++
++
++def upsert(text, entries):
++    """Add each entry whose link is not listed yet; an entry already listed keeps its mark.
++
++    A page with the pre-v4 list has it turned into a Touches list (each capability `adds`).
++    A page with no list gets one, just before "What was done", or at the end."""
++    lines = text.splitlines()
++    found = _block(lines)
++    merged = list(found[2]) if found else []
++    listed = {e["link"] for e in merged}
++    for e in entries:
++        if e["link"] not in listed:
++            merged.append(e)
++            listed.add(e["link"])
++    if found:
++        lines[found[0]:found[1]] = render(merged)
++    else:
++        at = next((i for i, line in enumerate(lines) if line.startswith(NEXT_ANCHOR)), len(lines))
++        while at > 0 and not lines[at - 1].strip():
++            at -= 1
++        after = lines[at:]
++        while after and not after[0].strip():
++            after.pop(0)
++        lines = lines[:at] + ([""] if at else []) + render(merged) + ([""] + after if after else [])
++    return "\n".join(lines) + "\n"
++
++
++def relink(text, old, new):
++    """Point every link to `old` on the page at `new` (a part's page moved). Returns (text, n).
++
++    Only markdown link targets equal to `old` change; nothing else on the page does."""
++    pattern = re.compile(r"\]\(" + re.escape(old) + r"\)")
++    out, n = pattern.subn("](" + new.replace("\\", "/") + ")", text)
++    return out, n
+diff --git a/core/components/skills/find-model-gaps/scripts/test_find_gaps.py b/core/components/skills/find-model-gaps/scripts/test_find_gaps.py
+index 7f568f12..b85f548a 100644
+--- a/core/components/skills/find-model-gaps/scripts/test_find_gaps.py
++++ b/core/components/skills/find-model-gaps/scripts/test_find_gaps.py
+@@ -35,7 +35,9 @@
+     "capabilities/the-board/capability.md": "# Capability: Board, the\n\n## Directional intent\nBoard.\n",
+     "work/board/move-card/functionality.md": "# Functionality: Move a card\n\n## Sources\n- Board: \"Move to Done\"\n",
+     "functionalities/loose-fn/functionality.md": "# Functionality: Export\n\n## What it does\nExports.\n",
+-    "intents/plan-the-week.md": "# Able to plan the week\n",
++    "intents/plan-the-week.md": ("# Able to plan the week\n\n**Touches:**\n"
++                                 "- [The Board](../work/board/capability.md) (capability) — adds\n"
++                                 "- [Reports](../capabilities/loose-cap/capability.md) (capability) — adds\n"),
+     "intents/share-reports.md": "# Able to share reports\n",
+ }
+ 
+@@ -84,6 +86,13 @@ def test_missing_work_is_listed(self):
+         self.assertEqual(self.ids(g["serves_no_intent"]), ["loose-cap", "loose-fn"])
+         self.assertEqual(self.ids(g["domains_empty"]), ["empty"])
+ 
++    def test_a_link_held_on_one_side_only_is_one_way(self):
++        g = self.run_find()
++        self.assertEqual(g["one_way"], [
++            {"kind": "capability", "id": "the-board", "intent": "plan-the-week", "missing": "touches"},
++            {"kind": "functionality", "id": "move-card", "intent": "plan-the-week", "missing": "touches"},
++            {"kind": "capability", "id": "loose-cap", "intent": "plan-the-week", "missing": "intents"}])
++
+     def test_the_same_thing_named_twice_is_a_likely_duplicate(self):
+         g = self.run_find()
+         self.assertEqual(g["duplicates"], [{"kind": "capability", "ids": ["board", "the-board"], "match": "board"}])
+diff --git a/core/components/skills/write-knowledge-brief/SKILL.md b/core/components/skills/write-knowledge-brief/SKILL.md
+index bbad74f5..89236096 100644
+--- a/core/components/skills/write-knowledge-brief/SKILL.md
++++ b/core/components/skills/write-knowledge-brief/SKILL.md
+@@ -3,7 +3,7 @@ name: write-knowledge-brief
+ description: Write the brief a drive shows the person when it must reach them — what we understood, what we built, and where the gaps are, each with its context and our proposed answer — the way you would brief someone who can help close the piece. A few themed gaps (at most seven), the knowledge pages waiting for approval with our recommendation, and a pointer to the prototype notes. Never a questionnaire. Used by the knowledge-builder agent in /review-knowledge.
+ user-invocable: false
+ model: sonnet
+-allowed-tools: Read, Write, Glob, Grep
++allowed-tools: Read, Write, Glob, Grep, Bash
+ ---
+ 
+ # write-knowledge-brief
+@@ -42,14 +42,26 @@ behind each. This skill writes that brief.
+ 7. Close with one line on how to reply: "yes" takes every proposal and every recommendation
+    shown; or correct a gap, a settled point or a page by its id.
+ 8. Leave out what the search answered except as a count and one example.
++9. **Write `brief.json`, then render `brief.md` from it** — never write `brief.md` by hand:
++
++   ```bash
++   python3 scripts/render_brief.py --brief <out>/brief.json --out <out>/brief.md
++   ```
++
++   The script lays out the page the same way every time: the three headings, each gap as
++   "What we saw" and "Our answer", the settled points, the pages, the notes and how to reply.
++   `/review-knowledge`'s check renders `brief.json` again and fails a `brief.md` that differs.
+ 
+ ## Output
+ 
+-`brief.json` — `{"understood", "built", "gaps": [{"id", "theme", "context", "proposal", "from":
+-[build group ids]}], "settled": [{"from", "what", "why"}], "pages": [{"update", "what",
+-"sources", "recommend"}], "prototype_notes": {"count", "where"}}` — and `brief.md`, the same in plain prose under the headings **What we understood**,
+-**What we built**, **Where the gaps are**, then the pages and notes. Short paragraphs; no
+-tables; no wall of text.
++`brief.json` — `{"title"?, "understood", "built", "gaps": [{"id", "theme", "context", "proposal",
++"from": [build group ids]}], "settled": [{"from", "what", "why"}], "pages": [{"update", "name"?,
++"what", "sources", "recommend", "why"?}], "prototype_notes": {"count", "where"}}`. Text fields
++may hold several short paragraphs, separated by a blank line; no tables; no wall of text.
++
++`brief.md` — `render_brief.py`'s output from `brief.json`, under the headings **What we
++understood**, **What we built**, **Where the gaps are**, then the settled points, the pages,
++the notes and how to reply.
+ 
+ ## Rules
+ 
+diff --git a/core/components/skills/write-knowledge-brief/scripts/render_brief.py b/core/components/skills/write-knowledge-brief/scripts/render_brief.py
+new file mode 100644
+index 00000000..201b1785
+--- /dev/null
++++ b/core/components/skills/write-knowledge-brief/scripts/render_brief.py
+@@ -0,0 +1,95 @@
++#!/usr/bin/env python3
++"""render_brief.py — write brief.md from brief.json (write-knowledge-brief).
++
++The agent writes the brief's content once, in brief.json. This script lays it out as the page
++the person reads, the same way every time, so the page holds exactly what the check reads and
++nothing written beside it. /review-knowledge's check renders brief.json again with this script
++and fails a brief.md that differs.
++
++    python3 render_brief.py --brief <working>/brief.json --out <working>/brief.md
++
++brief.json: {"title"?, "understood", "built", "gaps": [{"id", "theme", "context", "proposal",
++"from"}], "settled": [{"from", "what", "why"}], "pages": [{"update", "name"?, "what", "sources",
++"recommend", "why"?}], "prototype_notes": {"count", "where"}}. Text fields may hold several
++paragraphs, separated by a blank line.
++
++Exit 0 written; 2 brief.json cannot be read. Standard library only.
++"""
++import argparse
++import json
++import sys
++
++TITLE = "Where we are and what we need from you"
++
++
++def para(text):
++    return str(text or "").strip()
++
++
++def render(brief):
++    out = [f"# {para(brief.get('title')) or TITLE}", "",
++           "## What we understood", "", para(brief.get("understood")), "",
++           "## What we built", "", para(brief.get("built")), "",
++           "## Where the gaps are", ""]
++    gaps = brief.get("gaps") or []
++    if gaps:
++        out += ["Each gap gives what we saw and what we would put. If our answer is right, say yes.", ""]
++        for g in gaps:
++            out += [f"**{para(g.get('id'))}. {para(g.get('theme'))}**", "",
++                    f"What we saw: {para(g.get('context'))}", "",
++                    f"Our answer: {para(g.get('proposal'))}", ""]
++    else:
++        out += ["None.", ""]
++    settled = brief.get("settled") or []
++    if settled:
++        out += ["## Settled", ""]
++        for s in settled:
++            ids = ", ".join(str(f) for f in s.get("from") or [])
++            out += [f"{para(s.get('what'))} What settles it: {para(s.get('why'))} "
++                    f"(Point {ids}; correct it by that id.)", ""]
++    pages = brief.get("pages") or []
++    if pages:
++        out += ["## Knowledge pages waiting for your approval", "",
++                "None of these is used until you approve it.", ""]
++        for p in pages:
++            name = f" {para(p.get('name'))}." if para(p.get("name")) else ""
++            why = f" {para(p.get('why'))}" if para(p.get("why")) else ""
++            sources = ", ".join(str(x) for x in p.get("sources") or [])
++            out += [f"**{para(p.get('update'))}.{name}** {para(p.get('what'))} Sources: {sources}. "
++                    f"Our recommendation: {para(p.get('recommend'))}.{why}", ""]
++    notes = brief.get("prototype_notes") or {}
++    count = notes.get("count") or 0
++    out += ["## Prototype notes", ""]
++    if count:
++        noun = "note" if count == 1 else "notes"
++        out += [f"There {'is' if count == 1 else 'are'} {count} {noun} for the prototype. "
++                f"{'It needs' if count == 1 else 'They need'} no answer now. "
++                f"The full list is in `{para(notes.get('where'))}`.", ""]
++    else:
++        out += ["None.", ""]
++    ids = [para(g.get("id")) for g in gaps] + [str(f) for s in settled for f in s.get("from") or []] \
++        + [para(p.get("update")) for p in pages]
++    out += ["## How to reply", "",
++            "Say \"yes\" to take every proposal and every recommendation above, or correct any item by "
++            f"its id ({', '.join(i for i in ids if i) or 'none'}).", ""]
++    return "\n".join(out)
++
++
++def main(argv=None):
++    ap = argparse.ArgumentParser(description="Write brief.md from brief.json.")
++    ap.add_argument("--brief", required=True)
++    ap.add_argument("--out", required=True)
++    args = ap.parse_args(argv)
++    try:
++        with open(args.brief, encoding="utf-8") as fh:
++            brief = json.load(fh)
++    except (OSError, ValueError) as exc:
++        sys.stderr.write(f"render_brief.py: cannot read the brief: {exc}\n")
++        return 2
++    with open(args.out, "w", encoding="utf-8") as fh:
++        fh.write(render(brief))
++    return 0
++
++
++if __name__ == "__main__":
++    sys.exit(main(sys.argv[1:]))
+diff --git a/core/components/skills/write-knowledge-brief/scripts/test_render_brief.py b/core/components/skills/write-knowledge-brief/scripts/test_render_brief.py
+new file mode 100644
+index 00000000..e083db3b
+--- /dev/null
++++ b/core/components/skills/write-knowledge-brief/scripts/test_render_brief.py
+@@ -0,0 +1,40 @@
++#!/usr/bin/env python3
++"""Tests for render_brief.py — brief.md laid out from brief.json."""
++import os
++import sys
++import unittest
++
++HERE = os.path.dirname(os.path.abspath(__file__))
++sys.path.insert(0, HERE)
++import render_brief as rb  # noqa: E402
++
++BRIEF = {"understood": "A shop sells shoes.", "built": "2 business intents, 1 domain.",
++         "gaps": [{"id": "G1", "theme": "Who refunds", "context": "The page shows one clerk.",
++                   "proposal": "Any clerk may refund.", "from": ["b2"]}],
++         "settled": [{"from": ["b5"], "what": "The shop is internal.", "why": "No price is shown."}],
++         "pages": [{"update": "mu-1", "what": "A page on returns.", "sources": ["https://example.org/returns"],
++                    "recommend": "approve", "why": "It matches the domain."}],
++         "prototype_notes": {"count": 1, "where": "build.json"}}
++
++
++class RenderBrief(unittest.TestCase):
++    def test_the_page_holds_every_part_of_the_brief(self):
++        md = rb.render(BRIEF)
++        for text in ("## What we understood", "## What we built", "## Where the gaps are", "**G1. Who refunds**",
++                     "What we saw: The page shows one clerk.", "Our answer: Any clerk may refund.",
++                     "What settles it: No price is shown.", "(Point b5;", "**mu-1.**",
++                     "Sources: https://example.org/returns.", "Our recommendation: approve. It matches the domain.",
++                     "There is 1 note for the prototype.", "(G1, b5, mu-1)"):
++            self.assertIn(text, md)
++
++    def test_the_same_data_gives_the_same_page(self):
++        self.assertEqual(rb.render(BRIEF), rb.render(dict(BRIEF)))
++
++    def test_an_empty_brief_still_has_the_three_headings(self):
++        md = rb.render({})
++        for h in ("## What we understood", "## What we built", "## Where the gaps are"):
++            self.assertIn(h, md)
++
++
++if __name__ == "__main__":
++    unittest.main()

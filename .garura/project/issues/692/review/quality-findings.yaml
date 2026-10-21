@@ -1,0 +1,21 @@
+meta:
+  generated_at: '2026-10-21'
+  categories: [executable-code, tests]
+  taxonomy_path: core/components/memory/standards/rules/pr.md
+  scanner: .claude/skills/quality-check-scoped/scripts/scan_taxonomy.py
+  changed_paths_count: 10
+  scan_coverage: 1.0
+  standards_relevant: 0
+  errors: 0
+  catchall:
+    CODE-20: 10
+  test_run_note: "Orchestrator ran the 5 changed test files; all pass (7, 9, 3, 13 unittest tests; test_intent_touches.py script-style, 18 passed). Not re-run here."
+findings: []
+counts:
+  P1: 0
+  P2: 0
+  P3: 0
+  P4: 0
+triage:
+  - "No taxonomy row matched any added line or path in the 10 in-scope files (5 scripts, 5 tests). The only match was the CODE-20 catch-all, rolled into a count of 10 and not raised as findings."
+  - "No path-only or keyword false positives to dismiss: nothing fired."
