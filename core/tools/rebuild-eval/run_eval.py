@@ -100,6 +100,8 @@ def main(argv=None):
     ap.add_argument("--prototype", required=True)
     ap.add_argument("--out", required=True)
     ap.add_argument("--inventory")
+    ap.add_argument("--source-text", action="append", default=[],
+                    help="more text the output may quote: a capture's view texts, the write-up, the journeys (repeatable)")
     ap.add_argument("--stage", default="all")
     ap.add_argument("--claude-model", default="claude-sonnet-5-5")
     ap.add_argument("--codex-model")
@@ -125,6 +127,9 @@ def main(argv=None):
     p = run.p
     if args.inventory:
         shutil.copyfile(args.inventory, p("inventory.json"))
+        walk = os.path.join(os.path.dirname(os.path.abspath(args.inventory)), "inventory-work", "walk")
+        if os.path.isdir(walk):
+            args.source_text.append(walk)
         stages = [s for s in stages if s != "inventory"]
     captures = p("inventory-work", "walk")
     status = 0
@@ -139,6 +144,8 @@ def main(argv=None):
                             p("inventory.json"))
         elif stage == "check":
             extra = ["--prototype-text", captures] if os.path.isdir(captures) else []
+            for t in args.source_text:
+                extra += ["--prototype-text", os.path.abspath(t)]
             rc = run.py(stage, "check_output.py", "--brief", p("brief"), "--prototype", prototype,
                         *extra, "--out", p("check.json"))
             rc = 0 if rc in (0, 1) else rc  # findings are a result, not a failed stage

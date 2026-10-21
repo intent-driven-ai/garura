@@ -152,7 +152,8 @@ def main(argv=None):
         if os.path.isfile(args.prototype):
             texts.append(read(args.prototype))
         for extra in args.prototype_text:
-            paths = glob.glob(os.path.join(extra, "**", "*.txt"), recursive=True) if os.path.isdir(extra) else [extra]
+            paths = ([p for ext in ("txt", "md", "yaml") for p in glob.glob(os.path.join(extra, "**", f"*.{ext}"), recursive=True)]
+                     if os.path.isdir(extra) else [extra])
             texts += [read(p) for p in paths]
         if not texts:
             raise OSError("no prototype text to check quotes against")
