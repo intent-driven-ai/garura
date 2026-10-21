@@ -265,7 +265,8 @@ several. It reads each matched domain's shelf, which it finds through the memory
 copies into short-term memory, for what the domain covers — as research notes for the domain
 page, never as capability entries (ADR 043). For a domain no shelf holds, it raises a
 `propose-kb-node` proposal, which names the domain as the world already names it, from its
-research sources, never from the product's own screens (C5). It writes the grounding (each
+research sources, never from the product's own screens (C5) — and only a field the industry identifies itself with (a product category or market),
+never a principle, practice, regulation or quality. It writes the grounding (each
 domain with its KB shelf reference or its proposal) and any proposals to disk:
 
     {
@@ -745,7 +746,7 @@ pointer to `$evidence_dest`. Always emitted; never gated.
 | F1 | a grounding doc fails its template/shape, or a spine entry fails the schema or spine↔doc consistency | re-emit the failing doc or spine entry to conform and restore consistency before the checkpoint | autonomous |
 | F2 | a grounding doc fails the content-quality eval | rewrite the failing doc to the judge's cited fixes — raise each flagged section to a self-explaining, CXO-altitude statement — and re-judge until the gate passes | autonomous |
 | F3 | a capability page, entry, update or placement, acceptance criteria, a `set`/`locked` profile, or a lowered `detail` appears | strip the over-reach — drop every capability and functionality write (they are /understand's), remove the acceptance criteria, reset the profile to `directional`, restore a lowered `detail` — leaving only domains | autonomous |
-| F4 | a domain has neither a KB shelf match nor a KB-node proposal, is a made-up name, or its page lacks `## Sources` | search the KB to ground it, or record a propose-kb-node proposal that names the domain from its research; write its sources; never leave it ungrounded | autonomous |
+| F4 | a domain has neither a KB shelf match nor a KB-node proposal, is a made-up name, names a principle, practice, regulation or quality rather than a field the industry identifies itself with, or its page lacks `## Sources` | search the KB to ground it, or record a propose-kb-node proposal that names the domain from its research; write its sources; never leave it ungrounded | autonomous |
 | F5 | the scoped-write guard or the keep check report is not ok, or the persist refused an update outside the named ones | the guard's `--restore` already reverted the offending paths; restore any doc that lost a section from HEAD and re-apply only the additions; re-run the keyed persist with only the named updates, after a human confirms the restore | human |
 | F6 | the model delta was committed before the checkpoint resolved (no approval, config skip, auto-pass, or — inside a drive — recorded deferral), or a cancelled checkpoint left writes on the working tree | revert the premature commit and the working-tree writes (guard `--restore`, empty allow set) and re-present the checkpoint; commit only after the human approves (inside a drive, only after the deferral is recorded) | human |
 | F7 | the close would report COMPLETED without the Done means held | close HALTED (`stop_condition_unmet`) with the unmet clauses named; fix the state — re-run the keyed persist, re-capture the scoped-write guard report, or make the model-delta commit — and re-evaluate; the close stays HALTED until the verdict reads held | autonomous |
@@ -771,7 +772,7 @@ continues at the first end-sequence member that has not finished.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:fde5f45d02abc04e2a92ac9d1432a401ae6bf2b87440d7da7f029397d8f6d541 (of `reference/ice.md`) |
+| fingerprint | sha256:65c89056a4b7f788ff970ffee9fc4392544c38f1fa03a900faf042956cfa9c25 (of `reference/ice.md`) |
 | compiled_by | play-editor (#689 ADR 043 — domains only; a recognised domain by research, every page with its sources, reads a prototype capture: C12); play-editor (#661 reads no memory; the run lives in its issue); play-editor (#614 runs inside a drive); play-editor (#637 one product model with /intent); play-editor (#616 position both); play-editor (#500 direct-model-write, ADR 026); prior: play-editor (#467 Batch B, #466 Batch C); play-creator (edited via play-editor, #437; spine+grounding+eval model) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close — #616) |
 | position_exception | model-writing both play — writes the model on the started branch and commits its own model delta (C9) BEFORE the injected end sequence lands it (same shape as /measure) |

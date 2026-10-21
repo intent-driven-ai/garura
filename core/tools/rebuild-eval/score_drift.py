@@ -114,7 +114,10 @@ def summarise_review(review):
             out[it.get("verdict")] = out.get(it.get("verdict"), 0) + 1
         return out
 
-    return {"intent_tests": tests, "domain": review.get("domain"),
+    domains = review.get("domains")
+    if domains is None and review.get("domain"):
+        domains = [review["domain"]]
+    return {"intent_tests": tests, "domains": domains or [],
             "capabilities": verdicts(review.get("capabilities")),
             "functionalities": verdicts(review.get("functionalities")),
             "missed_behaviours": len(review.get("missed_behaviours") or [])}
@@ -164,9 +167,10 @@ def markdown(rep):
         lines += ["", "## Review of the output", ""]
         for t, v in r["intent_tests"].items():
             lines.append(f"- Intents, {t.replace('_', ' ')}: {v['pass']} pass, {v['fail']} fail.")
-        d = r.get("domain") or {}
-        lines.append(f"- Domain: {'recognised' if d.get('recognised') else 'not recognised'}"
-                     f"{' — the world calls it ' + d['known_as'] if d.get('known_as') else ''}.")
+        for d in r.get("domains") or []:
+            name = (d.get("file") or "").split("/")[0] or "domain"
+            lines.append(f"- Domain {name}: {'recognised' if d.get('recognised') else 'not recognised'}"
+                         f"{' — the industry calls it ' + d['known_as'] if d.get('known_as') else ''}.")
         lines.append(f"- Capabilities: {r['capabilities']}. Functionalities: {r['functionalities']}.")
         lines.append(f"- Prototype behaviours no functionality covers: {r['missed_behaviours']}.")
     gaps = rep["score"]["missing_not_in_brief"]

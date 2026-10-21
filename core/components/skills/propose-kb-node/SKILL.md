@@ -37,7 +37,7 @@ work has no home in the KB. It proposes a new node for the user to review. It do
    product category names it in your sources (for example "requirements management" or
    "customer support"), never with a name made from the product's own screens, its sample
    data, or the words of the work you were handed. If no source names such a domain, place
-   the work under the nearest recognised one and say why.
+   the work under the nearest recognised one and say why. A domain is a field the industry identifies itself with — a product category or market that vendors, analysts and buyers name (for example application lifecycle management, customer relationship management, e-commerce). A principle, a practice, a regulation or a quality (human oversight, accessibility, compliance) is never a domain: it is a rule or a need inside one.
 
 3. **Draft to the template.** Write the node in the locked shelf shape:
    - new **functionality**: `name — what it is`, a maturity ladder OR flat list, and

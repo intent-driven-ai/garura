@@ -22,7 +22,10 @@ Judge the brief against the product the inventory describes. Be strict and plain
 
 **The domain** — is it a domain the world recognises (as an industry or a known product
 category would name it)? Give that name. Do its sources support it? If it is a name made up
-for this product, say `recognised: false`.
+for this product, say `recognised: false`. A domain is a field the industry identifies itself
+with — a product category or market vendors, analysts and buyers name; a principle, practice,
+regulation or quality (for example human oversight) is not a domain. The brief may hold several
+domains: judge each one.
 
 **Each capability** — `ok` (a known capability of the domain, or one the inventory clearly
 shows), `invented` (neither), or `misplaced` (it belongs to another domain).
@@ -38,8 +41,8 @@ Write `{out}`, one JSON object:
   "intents": [{{"file": "intents/<f>.md", "tests": {{"need_the_product_offers": "pass", "outcome": "pass",
                "asked_by_persona": "fail", "why_business": "pass", "proof_measurable": "fail",
                "product_words": "pass"}}, "why": {{"<test>": "<one line>"}}}}],
-  "domain": {{"file": "<path>", "recognised": false, "known_as": "<the name the world uses>",
-             "sources_support": false, "why": "<one line>"}},
+  "domains": [{{"file": "<path>", "recognised": false, "known_as": "<the name the industry uses>",
+               "sources_support": false, "why": "<one line>"}}],
   "capabilities": [{{"file": "<path>", "verdict": "ok | invented | misplaced", "why": "<one line>"}}],
   "functionalities": [{{"file": "<path>", "behaviours": ["b001"], "verdict": "ok | invented | panel",
                        "why": "<one line>"}}],

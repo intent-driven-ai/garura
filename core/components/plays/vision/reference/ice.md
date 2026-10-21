@@ -79,7 +79,9 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
   known product category names it in the research it cites, never a name made from the
   product's own screens, its sample data or the words of the work. Each domain the run adds or
   changes is recorded in the seed manifest with its shelf match or its proposal, and its page
-  ends with `## Sources` (its shelf or its research links) (#689).
+  ends with `## Sources` (its shelf or its research links) (#689). 
+  A domain is a field the industry identifies itself with — a product category or market that vendors, analysts and buyers name (for example application lifecycle management, customer relationship management, e-commerce). A principle, a practice, a regulation or a quality (human oversight, accessibility, compliance) is never a domain: it is a rule or a need inside one (Kapil, 2026-10-21: "a domain is something that industry identified
+  with").
 - C6 — Keep what is there, enforced by the containment split, the keep check and the
   post-write scoped guard: the LLM authoring skill writes only domain grounding docs and never
   a shared file; a doc that exists is updated in place, keeping every section it had, never
@@ -193,7 +195,9 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
 - F3 — Scope over-reach: a capability page, a capability or functionality spine entry or
   update, a capability placed or moved, acceptance criteria, or a profile in state
   `set`/`locked` was written, or an entry's `detail` was lowered (ADR 043).
-- F4 — A domain is neither grounded in a KB domain shelf nor recorded as a KB-node proposal;
+- F4 — A domain is neither grounded in a KB domain shelf nor recorded as a KB-node proposal, or
+  it names a principle, a practice, a regulation or a quality rather than a field the industry
+  identifies itself with;
   or it is a name made up for this product — no shelf matched and no research names it — or
   its page has no `## Sources`.
 - F5 — Allowlist breach: a model path outside the run's write scope changed (a domain doc

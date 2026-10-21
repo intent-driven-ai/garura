@@ -31,7 +31,9 @@ Reasoning is yours (the skill); the agent only retrieves.
    `domains_dir`: its `title` and `conditions.trigger`. Read the ~10 triggers and reason which domains the work belongs to.
    Ask two questions, in order: **which field does the product serve** — judged by what its
    screens or its words are about (what the user works on there) — and **which job does it do
-   in that field**. Each answer may be a domain of its own, so a product often sits in more than
+   in that field**. Only a field the industry identifies itself with is a domain — a product category or market,
+   never a principle, practice, regulation or quality (those are rules inside a domain). Each
+   answer may be a domain of its own, so a product often sits in more than
    one: name every domain it genuinely sits in, and set `spans_multiple_domains`. A domain no
    shelf holds is recorded as unmatched for the nothing-fits path, by name and with why. This is **semantic placement** — do NOT
    consider product-profile conditions here.

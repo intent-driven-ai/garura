@@ -180,7 +180,7 @@ path — paths, never inline content.
   (its shelf, or its research links).
 - **A recognised domain, never a made-up one.** A domain is named as the industry or a known
   product category names it — never from the product's own screens, its sample data or the
-  words of the work.
+  words of the work. A domain is a field the industry identifies itself with — a product category or market that vendors, analysts and buyers name (for example application lifecycle management, customer relationship management, e-commerce). A principle, a practice, a regulation or a quality (human oversight, accessibility, compliance) is never a domain: it is a rule or a need inside one.
 - **CXO altitude.** Strategic and directional. No acceptance criteria, no delivery sequencing.
 - **Directional profile.** The profile is `state: directional`. Never emit `active`, `set` or
   `locked`.

@@ -206,7 +206,7 @@ import json, re, sys
 text = sys.argv[sys.argv.index("-p") + 1]
 out = re.search(r"Write `([^`]+\\.json)`", text).group(1)
 data = {"inventory.json": json.loads(%(inv)r), "compare.json": json.loads(%(cmp)r),
-        "review.json": {"intents": [], "domain": {"recognised": True, "known_as": "Approval workflow"},
+        "review.json": {"intents": [], "domains": [{"recognised": True, "known_as": "Approval workflow"}],
                         "capabilities": [], "functionalities": [], "missed_behaviours": []}}
 open(out, "w").write(json.dumps(data[out.rsplit("/", 1)[-1]]))
 print(json.dumps({"total_cost_usd": 0.01, "num_turns": 1, "result": "done"}))
@@ -272,7 +272,7 @@ class Agents(Work):
         report = json.load(open(self.p("run", "report.json")))
         self.assertEqual(report["score"]["overall"]["kept_pct"], 37.5)
         self.assertTrue(report["check"]["ok"])
-        self.assertEqual(report["review"]["domain"]["known_as"], "Approval workflow")
+        self.assertEqual(report["review"]["domains"][0]["known_as"], "Approval workflow")
         md = open(self.p("run", "report.md")).read()
         self.assertIn("Kept: 37.5%", md)
         log = json.load(open(self.p("run", "run.json")))
