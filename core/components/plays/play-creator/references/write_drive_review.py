@@ -88,9 +88,10 @@ def main(argv=None):
             return 2
         decisions, problems = answer["records"], answer["problems"]
         # only this play's decisions, for this run's issue: another play's would read as this one's
-        play = "/" + run["play"].lstrip("/")
+        # the memory tool records the play as `vision` or `/vision` — compare without the slash
+        play = run["play"].lstrip("/")
         foreign = [r.get("citation_id") if isinstance(r, dict) else repr(r) for r in decisions
-                   if not isinstance(r, dict) or r.get("play") != play
+                   if not isinstance(r, dict) or str(r.get("play") or "").lstrip("/") != play
                    or (run.get("issue") is not None and str(r.get("issue")) != str(run["issue"]))]
         if foreign:
             sys.stderr.write(f"write_drive_review.py: {args.decisions} holds decisions of another play or issue "
