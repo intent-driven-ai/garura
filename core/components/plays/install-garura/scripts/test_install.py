@@ -328,6 +328,33 @@ esac
 """
 
 
+class RetiresOldNames(Installed):
+    """#748: a project installed under the old names, before the install record existed,
+    ends with only the new names; folders the project wrote itself are kept."""
+
+    def old(self, rel, name):
+        os.makedirs(self.path(*rel.split("/")), exist_ok=True)
+        with open(self.path(*rel.split("/"), "SKILL.md"), "w") as fh:
+            fh.write(f"---\nname: {name}\n---\nold\n")
+
+    def test_old_names_go_and_the_project_s_own_folders_stay(self):
+        self.old(".claude/skills/play-creator", "play-creator")       # Garura's, old name
+        self.old(".claude/skills/review-change", "review-change")     # Garura's, old name
+        self.old(".claude/skills/adr", "our-own-adr-notes")           # the project's own
+        with contextlib.redirect_stdout(io.StringIO()):
+            install.main(["--target", self.target, "--scope", "harness", "--quiet",
+                          "--memory-dest", os.path.join(self.work, "shared-memory"),
+                          "--phoenix-place", self.place, "--phoenix-source", self.source])
+        self.assertFalse(os.path.exists(self.path(".claude", "skills", "play-creator")))
+        self.assertFalse(os.path.exists(self.path(".claude", "skills", "review-change")))
+        self.assertTrue(os.path.isfile(self.path(".claude", "skills", "create-play", "SKILL.md")))
+        self.assertTrue(os.path.isfile(self.path(".claude", "skills", "check-change", "SKILL.md")))
+        self.assertTrue(os.path.isfile(self.path(".claude", "skills", "adr", "SKILL.md")))
+        with open(self.path(".garura", "install-manifest.json")) as fh:
+            retired = json.load(fh)["record"]["retired"]
+        self.assertIn(os.path.join(".claude", "skills", "play-creator"), retired)
+
+
 class LaysLoops(unittest.TestCase):
     """Loops live in core/components/loops/ (#613) and install as skills beside the plays."""
 
