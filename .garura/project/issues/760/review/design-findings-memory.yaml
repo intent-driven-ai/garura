@@ -1,0 +1,18 @@
+---
+category: Memory
+base: plan/756/base
+changed_artifacts:
+  - core/components/memory/standards/schemas/product-os/spine.yaml
+grounding:
+  - principle: "The ICE is its own node; the ready check is worked out from the ICE each run, never stored (ontology v6)"
+    source: "plan/756/base:core/components/memory/standards/schemas/product-os/ontology.md (ICE kind, Ready answer row)"
+  - principle: "Ready check gives three answers (ready, partly ready, not ready) and lives on the ICE"
+    source: "plan/756/base:docs/adr/047-the-ice-is-its-own-node.md section 6"
+  - principle: "Until #765 moves a model, its ICE stays inline and the spine has no ices list (v5 rule keeps applying)"
+    source: "plan/756/base:core/components/memory/standards/schemas/product-os/spine.yaml (ices block comment) and ADR 047 Consequences"
+findings:
+  - severity: P4
+    principle: "Keep the spine's ready-rule note single and current: one section should state which ready rule applies"
+    source: "plan/756/base:spine.yaml tree-rules block, whose header still reads 'ready rule changed by ontology v5 / #724' and whose body states only the v5 rule"
+    evidence: "The new v6 comment is appended after the v5 rule; the block header still names only v5. It reads correctly, but a reader of the header alone may miss v6. Optional wording tidy, not a conformance break."
+conformance_summary: "The added 3-line comment matches ADR 047 section 6, ontology v6 and the existing ices block: it names the three answers, says the ready rule lives on the ICE, and keeps the v5 rule for spines with no ices list. No schema field changed, no principle violated."

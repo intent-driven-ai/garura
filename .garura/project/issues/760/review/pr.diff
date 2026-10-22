@@ -1,0 +1,898 @@
+diff --git a/.garura/project/issues/760/context/analysis.yaml b/.garura/project/issues/760/context/analysis.yaml
+new file mode 100644
+index 00000000..75fbb5eb
+--- /dev/null
++++ b/.garura/project/issues/760/context/analysis.yaml
+@@ -0,0 +1,38 @@
++---
++needs_judgment: false
++change_groups:
++  - id: ready-check-reads-ice
++    issue: 760
++    commit_type: feat
++    scope: create-play
++    subject: "The ready check reads each ICE node and answers ready, partly ready or not ready"
++    files:
++      - core/components/plays/create-play/references/check_ice_workable.py
++      - core/components/plays/discover-intent/scripts/check_ice_workable.py
++      - core/components/plays/create-play/references/test_check_ice_workable.py
++  - id: ready-rule-docs
++    issue: 760
++    commit_type: docs
++    scope: create-play
++    subject: "Describe the work-only-on-a-ready-ICE rule and where the ready rule lives"
++    files:
++      - core/components/plays/create-play/SKILL.md
++      - core/components/memory/standards/schemas/product-os/spine.yaml
++  - id: stm-records
++    issue: 760
++    commit_type: chore
++    scope: stm
++    subject: "Record the approved design and the change analysis for the ready check"
++    files:
++      - .garura/project/issues/760/specs/design.md
++      - .garura/project/issues/760/context/analysis.yaml
++      - .garura/project/issues/760/context/porcelain.txt
++exclusions: []
++risks:
++  sensitive_files: []
++eval_gates:
++  SE-1: {status: PASS, evidence: "8 changed files, each in exactly one group"}
++  SE-5: {status: PASS, evidence: "no sensitive patterns matched"}
++notes:
++  - "The two check_ice_workable.py copies are identical by design; they must stay in step."
++  - "Risk (not sensitive): spine.yaml is a shared schema file; the edit is a 3-line comment, reviewed as docs."
+diff --git a/.garura/project/issues/760/context/branch.json b/.garura/project/issues/760/context/branch.json
+new file mode 100644
+index 00000000..e11ddd91
+--- /dev/null
++++ b/.garura/project/issues/760/context/branch.json
+@@ -0,0 +1,8 @@
++{
++  "branch_name": "plan/756/760-ready-check-reads-ice",
++  "base_sha": "386cda4afed87842d3c9c15fe425ce06764a410c",
++  "on_default_branch": false,
++  "worktree_path": null,
++  "plan_branch": "plan/756/base",
++  "plan_branch_created": false
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/760/context/commits.yaml b/.garura/project/issues/760/context/commits.yaml
+new file mode 100644
+index 00000000..7ca1b55e
+--- /dev/null
++++ b/.garura/project/issues/760/context/commits.yaml
+@@ -0,0 +1,20 @@
++commits:
++  - sha: d2c75083
++    message: "docs(create-play): Describe the work-only-on-a-ready-ICE rule and where the ready rule lives (#760)"
++    files:
++      - core/components/plays/create-play/SKILL.md
++      - core/components/memory/standards/schemas/product-os/spine.yaml
++    branch: plan/756/760-ready-check-reads-ice
++  - sha: 598b9f1a
++    message: "chore(stm): Record the approved design and the change analysis for the ready check (#760)"
++    files:
++      - .garura/project/issues/760/specs/design.md
++      - .garura/project/issues/760/context/analysis.yaml
++      - .garura/project/issues/760/context/porcelain.txt
++    branch: plan/756/760-ready-check-reads-ice
++excluded_files:
++  []
++leftover_count: 0
++tree_clean: true
++pushed: false
++run_state_committed: true
+diff --git a/.garura/project/issues/760/context/issue.json b/.garura/project/issues/760/context/issue.json
+new file mode 100644
+index 00000000..ad0303cc
+--- /dev/null
++++ b/.garura/project/issues/760/context/issue.json
+@@ -0,0 +1 @@
++{"resolved": true, "issue_number": 760, "title": "The ready check reads the ICE: ready, partly ready, not ready", "created": false}
+diff --git a/.garura/project/issues/760/context/plan.json b/.garura/project/issues/760/context/plan.json
+new file mode 100644
+index 00000000..b971febe
+--- /dev/null
++++ b/.garura/project/issues/760/context/plan.json
+@@ -0,0 +1,6 @@
++{
++  "issue": "760",
++  "plan_id": "756",
++  "plan_branch": "plan/756/base",
++  "issue_branch": "plan/756/760-ready-check-reads-ice"
++}
+diff --git a/.garura/project/issues/760/context/porcelain.txt b/.garura/project/issues/760/context/porcelain.txt
+new file mode 100644
+index 00000000..fadb135f
+--- /dev/null
++++ b/.garura/project/issues/760/context/porcelain.txt
+@@ -0,0 +1,7 @@
++ M core/components/memory/standards/schemas/product-os/spine.yaml
++ M core/components/plays/create-play/SKILL.md
++ M core/components/plays/create-play/references/check_ice_workable.py
++ M core/components/plays/create-play/references/test_check_ice_workable.py
++ M core/components/plays/discover-intent/scripts/check_ice_workable.py
++?? .garura/project/issues/760/context/porcelain.txt
++?? .garura/project/issues/760/specs/
+diff --git a/.garura/project/issues/760/context/pr-body.md b/.garura/project/issues/760/context/pr-body.md
+new file mode 100644
+index 00000000..653ea587
+--- /dev/null
++++ b/.garura/project/issues/760/context/pr-body.md
+@@ -0,0 +1,73 @@
++The ready check reads each ICE node (ontology v6, ADR 047 §6) and answers ready, partly ready or not ready, with the gaps listed. Built to the design the product owner approved (`.garura/project/issues/760/specs/design.md`).
++
++## What changes
++
++- **Ready check** (`check_ice_workable.py`, both copies identical), when the spine has an `ices` list:
++  - **ready** — its capability (or a functionality's parent) serves a confirmed business intent, every capability it needs is done, and the ICE has Intent, Context and Expectation;
++  - **partly ready** — as ready, with gaps that do not stop work (no domain, no identified by), listed;
++  - **not ready** — a part missing or empty, no confirmed business intent, a needed capability not done, a functionality with no parent, or a part with no ICE.
++  - A functionality's own `intents` and `depends_on` are not read (v6). Needs are between capabilities only.
++  - Richness (which lines each part fills, light or full) is reported, never a stop.
++  - Each answer keeps `workable` for older callers. `--node` takes an ICE id or its part's id. Exit 0 ready/partly ready, 1 not ready, 2 bad input.
++  - A spine with no `ices` list keeps the v5 rule, written in the three answers.
++- **create-play**: the "work only on a ready ICE" rule now reads the three answers.
++- **Spine schema**: one comment line on where the ready rule lives.
++
++## Checks
++
++| Check | Result |
++|---|---|
++| `test_check_ice_workable.py` | 41 passed (22 new, 19 old) |
++| discover-intent `test_intent_scripts.py` | 116 passed |
++| Component linter | 121 errors before and after |
++| create-play `lint_play` | 6 gaps before and after (the compiler bootstrap) |
++| Garura's own model | 30 workable before and after; all 30 now read partly ready (no `ices` list yet) |
++
++## Not in this PR
++
++The linter (#759, done), plays writing ICE nodes (#761), moving Garura's own model (#765), renaming `depends_on` (#725).
++
++## Self-review
++
++# Self-review: #760 The ready check reads each ICE node
++
++Rules: the base self-review rules (resolved path in resolved-rules.json). Informational; not the approve/reject gate.
++Diff reviewed: plan/756/base...HEAD. Blocking findings: none.
++
++## Scope
++
++- Matches the issue: PASS. All five items in the design's "Changes, file by file" are done:
++  the canonical script (three answers, gaps, richness, --node by ICE id or part id, exit 0/1/2, v5 fallback),
++  the identical copy in discover-intent, the new tests, the create-play rule paragraph, and the one-line spine comment.
++- Both copies byte-identical: PASS (checked with cmp).
++- Issue "Done when": each item is met. Needs are read between capabilities only; the answer is computed each run;
++  a model with no `ices` list gets the v5 answer.
++- "Not in this issue" respected: PASS. No linter change (#759), no play writing ICE nodes (#761),
++  no move of Garura's own model (#765), no `depends_on` rename (#725).
++- No scope creep: PASS. Other files are the issue's own STM records (design, analysis, context).
++- Size: PASS. About 570 added lines, mostly the script and its tests; reviewable in one sitting.
++- Stray artifacts: PASS. No debug prints (the two prints are the script's JSON output); no scratch files.
++  Untracked resolved-rules.json is this review's own output.
++
++## Quality
++
++- Tests present: PASS. 41 passed in test_check_ice_workable.py (22 new v6, 19 old v5); 116 passed in discover-intent test_intent_scripts.py.
++- Component linter: 121 errors before and after; no new errors. create-play lint_play: 6 gaps before and after
++  (create-play is the compiler bootstrap, so its SKILL.md is a direct edit by definition).
++- Garura's own model: 30 workable before and after (no `ices` list, so v5 path; all 30 now read partly ready).
++- Commits: PASS. Conventional format, each one coherent, each references #760.
++- No secrets: PASS. Nothing sensitive in the diff.
++- Docs in step: PASS. The create-play rule and the spine comment both describe the new rule.
++- Nothing obviously broken: PASS. No TODOs left.
++
++## Notes (not blocking)
++
++- Behaviour change to be aware of: with the new wording, every one of Garura's 30 nodes now reports "partly ready"
++  rather than a plain workable. Work still starts for all of them; #765 moves the model.
++- Design choice 2 (a functionality's ICE does not need its parent's ICE complete) is kept as approved.
++
++## Where it lands
++
++Into `plan/756/base`. Closes #760 (closed by merge-change, because the host closes issues only on main). Part of #757, #756.
++
++🤖 Generated with [Claude Code](https://claude.com/claude-code)
+diff --git a/.garura/project/issues/760/context/pr.json b/.garura/project/issues/760/context/pr.json
+new file mode 100644
+index 00000000..2b9059d4
+--- /dev/null
++++ b/.garura/project/issues/760/context/pr.json
+@@ -0,0 +1,7 @@
++{
++  "number": 789,
++  "url": "https://github.com/intent-driven-ai/garura/pull/789",
++  "state": "OPEN",
++  "base": "plan/756/base",
++  "on_target": true
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/760/context/resolved-rules.json b/.garura/project/issues/760/context/resolved-rules.json
+new file mode 100644
+index 00000000..725c8d8b
+--- /dev/null
++++ b/.garura/project/issues/760/context/resolved-rules.json
+@@ -0,0 +1,6 @@
++{
++  "resolved": true,
++  "path": "~/.garura/core/memory/standards/rules/self-review.md",
++  "source": "~/.garura/core/memory/standards/rules",
++  "is_override": false
++}
+diff --git a/.garura/project/issues/760/context/self-review.md b/.garura/project/issues/760/context/self-review.md
+new file mode 100644
+index 00000000..ac475dfb
+--- /dev/null
++++ b/.garura/project/issues/760/context/self-review.md
+@@ -0,0 +1,36 @@
++# Self-review: #760 The ready check reads each ICE node
++
++Rules: the base self-review rules (resolved path in resolved-rules.json). Informational; not the approve/reject gate.
++Diff reviewed: plan/756/base...HEAD. Blocking findings: none.
++
++## Scope
++
++- Matches the issue: PASS. All five items in the design's "Changes, file by file" are done:
++  the canonical script (three answers, gaps, richness, --node by ICE id or part id, exit 0/1/2, v5 fallback),
++  the identical copy in discover-intent, the new tests, the create-play rule paragraph, and the one-line spine comment.
++- Both copies byte-identical: PASS (checked with cmp).
++- Issue "Done when": each item is met. Needs are read between capabilities only; the answer is computed each run;
++  a model with no `ices` list gets the v5 answer.
++- "Not in this issue" respected: PASS. No linter change (#759), no play writing ICE nodes (#761),
++  no move of Garura's own model (#765), no `depends_on` rename (#725).
++- No scope creep: PASS. Other files are the issue's own STM records (design, analysis, context).
++- Size: PASS. About 570 added lines, mostly the script and its tests; reviewable in one sitting.
++- Stray artifacts: PASS. No debug prints (the two prints are the script's JSON output); no scratch files.
++  Untracked resolved-rules.json is this review's own output.
++
++## Quality
++
++- Tests present: PASS. 41 passed in test_check_ice_workable.py (22 new v6, 19 old v5); 116 passed in discover-intent test_intent_scripts.py.
++- Component linter: 121 errors before and after; no new errors. create-play lint_play: 6 gaps before and after
++  (create-play is the compiler bootstrap, so its SKILL.md is a direct edit by definition).
++- Garura's own model: 30 workable before and after (no `ices` list, so v5 path; all 30 now read partly ready).
++- Commits: PASS. Conventional format, each one coherent, each references #760.
++- No secrets: PASS. Nothing sensitive in the diff.
++- Docs in step: PASS. The create-play rule and the spine comment both describe the new rule.
++- Nothing obviously broken: PASS. No TODOs left.
++
++## Notes (not blocking)
++
++- Behaviour change to be aware of: with the new wording, every one of Garura's 30 nodes now reports "partly ready"
++  rather than a plain workable. Work still starts for all of them; #765 moves the model.
++- Design choice 2 (a functionality's ICE does not need its parent's ICE complete) is kept as approved.
+diff --git a/.garura/project/issues/760/context/target.json b/.garura/project/issues/760/context/target.json
+new file mode 100644
+index 00000000..46f32418
+--- /dev/null
++++ b/.garura/project/issues/760/context/target.json
+@@ -0,0 +1,7 @@
++{
++  "branch": "plan/756/760-ready-check-reads-ice",
++  "kind": "issue-in-plan",
++  "plan_id": "756",
++  "issue": "760",
++  "base": "plan/756/base"
++}
+diff --git a/.garura/project/issues/760/context/work-description.txt b/.garura/project/issues/760/context/work-description.txt
+new file mode 100644
+index 00000000..90b2b33f
+--- /dev/null
++++ b/.garura/project/issues/760/context/work-description.txt
+@@ -0,0 +1 @@
++The ready check reads each ICE node (ontology v6, #760): check_ice_workable.py reads the ices spine list and each ice.md, and answers ready, partly ready or not ready, with the gaps listed.
+diff --git a/.garura/project/issues/760/specs/design.md b/.garura/project/issues/760/specs/design.md
+new file mode 100644
+index 00000000..4a8803c5
+--- /dev/null
++++ b/.garura/project/issues/760/specs/design.md
+@@ -0,0 +1,54 @@
++# Design — #760: the ready check reads each ICE node
++
++Status: approved by the product owner, 2026-10-22 ("yes go ahead"), with the three choices as proposed.
++
++## What it is for
++
++Every play that works on an ICE runs the ready check first. It answers "may an agent start
++work here?" Today (ontology v5) it answers yes or no for each capability and functionality,
++from the ICE text inside the part's page. After this change (ontology v6, ADR 047 §6) it reads
++each ICE node — the `ices` spine list (added by #759) and each `ice.md` — and gives one of
++three answers, with the gaps listed.
++
++## The three answers (from ontology v6 and ADR 047)
++
++"Its capability" is the capability itself for a capability's ICE, and the parent capability
++for a functionality's ICE.
++
++| Answer | When | Work |
++|---|---|---|
++| Ready | its capability serves a confirmed business intent, every capability it needs is done, and the ICE has all three parts | starts |
++| Partly ready | as ready, with gaps outside the ICE's parts: no domain, or no "identified by" | starts; gaps listed |
++| Not ready | a part is missing or empty, or no confirmed business intent reaches it, or a capability it needs is not done, or a functionality has no parent capability, or a part has no ICE at all | stops; the page is kept |
++
++## Changes, file by file
++
++1. `core/components/plays/create-play/references/check_ice_workable.py` (the canonical copy)
++   - New path: when the spine has an `ices` list, assess each ICE node:
++     - parts: read `ice.md`; `## Intent`, `## Context`, `## Expectation` each present and not empty;
++     - business intent: from its capability's `intents` (a functionality's own `intents` is not read — in v6 it finds them through its parent);
++     - needs: the capability's `depends_on` entries that are capabilities, judged against `--done`; a functionality's own `depends_on` is not read (v6: a functionality never needs anything);
++     - gaps that do not stop: no domain (or a domain not in the spine), no `identified_by` on its capability;
++     - a capability or functionality with no ICE gets its own "not ready: no ICE" answer.
++   - Richness, reported and never a stop (ADR 047): for each part, which of its lines are filled — Intent: Goal, Limit, Fails if; Context: Read, Never read, Persona, Scope; Expectation: Scenario, Done means, Quality need — and `light` or `full`.
++   - Old path: a spine with no `ices` list gets today's v5 rule, mapped onto the three answers (workable with a domain warning → partly ready; workable → ready; not workable → not ready). Nothing else changes for a v5 model.
++   - Answer shape, per ICE: `id`, `for`, `for_kind`, `answer` (`ready` | `partly_ready` | `not_ready`), `stops` (why not ready), `gaps` (partly ready), `intents`, `needs`, `needs_open`, `richness`, and `workable` (true unless not ready — kept so a caller that reads it still works). Summary: counts of each answer.
++   - `--node` takes an ICE id or its part's id. Exit 0 ready or partly ready, 1 not ready, 2 unknown node or unreadable input (as today).
++   - It never writes the answer anywhere but `--out`; it is computed each run.
++2. `core/components/plays/discover-intent/scripts/check_ice_workable.py` — the same file, copied.
++3. `core/components/plays/create-play/references/test_check_ice_workable.py` — new tests, written first so they fail today: one per answer, one per stop, one per gap, the richness report, `--node` by ICE id and by part id, exit codes, the v5 fallback, and "both copies identical". The existing v5 tests keep passing.
++4. `core/components/plays/create-play/SKILL.md` (lines 329–334, the "Work only on workable ICE" paragraph) — direct edit (create-play has no ICE source): the rule now reads the three answers; exit 0 means work may start (ready or partly ready).
++5. `core/components/memory/standards/schemas/product-os/spine.yaml` (the tree-rules comment) — one line: the ready rule now lives on the ICE node (ADR 047), with the v5 rule kept for a spine with no `ices` list.
++
++## Not in this change
++
++- The linter (#759, done). Plays writing ICE nodes (#761). Moving Garura's own model (#765).
++- Renaming `depends_on` to `needs` (#725).
++- Judging whether a part is correct or rich enough — the product owner's job.
++- The ICE's own approval or its part's approval — not a condition of ready (ADR 047 §8).
++
++## Choices for the product owner
++
++1. The issue title on GitHub becomes: "The ready check reads each ICE node and answers ready, partly ready or not ready, with the gaps listed".
++2. A functionality's ICE does not need its parent capability's ICE to be complete. It needs only the parent's confirmed business intent and the parent's needs done. (The ontology names only those two through the parent.)
++3. A capability with no `identified_by` is listed as a gap (partly ready), as the ontology says — even though a capability found on its own normally has none.
+diff --git a/core/components/memory/standards/schemas/product-os/spine.yaml b/core/components/memory/standards/schemas/product-os/spine.yaml
+index 21c5a56c..bdc3e5e7 100644
+--- a/core/components/memory/standards/schemas/product-os/spine.yaml
++++ b/core/components/memory/standards/schemas/product-os/spine.yaml
+@@ -145,6 +145,9 @@ ices:
+ # and nothing in its `depends_on` ("needs") is open; a functionality names a ready
+ # capability and nothing it needs is open. A missing domain never blocks. A parent that is
+ # named but does not exist is an error. The linter enforces that every named parent ref resolves.
++# Ontology v6 (ADR 047, #760): the ready rule lives on the ICE node — check_ice_workable.py
++# reads the `ices` list and each ice.md and answers ready | partly ready | not ready. A spine
++# with no `ices` list keeps the v5 rule above.
+ 
+ # ---- The profile: THE BOX (structured; lives in the spine) ------------------
+ # Decision: the profile is structured machine data — levels + gates — so it stays in
+diff --git a/core/components/plays/create-play/SKILL.md b/core/components/plays/create-play/SKILL.md
+index 323c67c2..627a9063 100644
+--- a/core/components/plays/create-play/SKILL.md
++++ b/core/components/plays/create-play/SKILL.md
+@@ -326,12 +326,12 @@ Write the play. If it has mechanical steps, write a **folder** — `<play-name>/
+ `<play-name>/scripts/` for the scripts those steps call (and `references/` for anything it
+ reads); a pure-judgment play can be a single `SKILL.md`.
+ 
+-**Work only on workable ICE (ontology v3, #612).** When the play plans, breaks down or
++**Work only on a ready ICE (ontology v6, ADR 047, #760).** When the play plans, breaks down or
+ builds from an ICE, copy [`references/check_ice_workable.py`](references/check_ice_workable.py)
+-unchanged to `scripts/` and call it on the node before that work. An ICE is workable only when
+-its node's spine `intents` names a confirmed business intent; a non-zero exit skips that node
+-(recorded in the run, never a halt) — the ICE stays as written. Writing an ICE is never gated
+-by this check.
++unchanged to `scripts/` and call it on the ICE (or its part) before that work. It answers ready,
++partly ready or not ready: exit 0 (ready or partly ready) means work may start, and a partly
++ready answer's gaps go into the run; a non-zero exit skips that node (recorded in the run,
++never a halt) — the ICE stays as written. Writing an ICE is never gated by this check.
+ 
+ **Add the stop condition (#464).** When the ICE has a "### Done means" section, write
+ `<play-name>/stop-condition.yaml` (schema `{name: stop-condition}`, `content.done` =
+diff --git a/core/components/plays/create-play/references/check_ice_workable.py b/core/components/plays/create-play/references/check_ice_workable.py
+index af7a4d39..8c675b2f 100644
+--- a/core/components/plays/create-play/references/check_ice_workable.py
++++ b/core/components/plays/create-play/references/check_ice_workable.py
+@@ -1,5 +1,22 @@
+ #!/usr/bin/env python3
+-"""check_ice_workable.py — may a play work on this ICE? (ontology v5, #724)
++"""check_ice_workable.py — may a play work on this ICE? (ontology v6, #760; v5, #724)
++
++Ontology v6 (ADR 047 §6, #760): when the spine has an `ices` list, the check reads each ICE
++node — its `ices` entry and its ice.md — and gives one of three answers, computed each run
++and never stored. "Its capability" is the capability itself, or a functionality's parent.
++  - ready: its capability serves a confirmed business intent, every capability it needs is
++    done, and the ICE has all three parts (Intent, Context, Expectation). Work starts.
++  - partly_ready: as ready, with gaps outside the parts — no domain, no identified_by. Work
++    starts; the gaps are listed.
++  - not_ready: a part is missing or empty, no confirmed business intent reaches it, a needed
++    capability is not done, a functionality has no parent, or a part has no ICE. Work stops.
++A functionality's own `intents` and `depends_on` are not read (v6: it finds its business
++intents through its parent and never needs anything). Richness (which lines each part fills,
++light | full) is reported, never a stop. The ICE's own approval is not a condition (§8).
++Each answer keeps `workable` (true unless not_ready) for older callers. A spine with no
++`ices` list keeps the v5 rule below, written in the same three answers.
++
++The v5 rule (#724):
+ 
+ An ICE lives inline in its capability's or functionality's grounding doc; the node's spine
+ entry names, in `intents`, the business intents it is built from. The ICE is WORKABLE only
+@@ -23,9 +40,9 @@
+         --intents-dir <product-os>/intents [--node <capability or functionality id>] \
+         [--done <done-ids.yaml>] [--out <path.json>]
+ 
+-Without --node it reports every capability and functionality. With --node, exit 0 when
+-that node's ICE is workable, 1 when it is not, 2 when the node is unknown or an input is
+-unreadable. No git, no network, no LLM.
++Without --node it reports every capability and functionality (v6: every ICE, and every part
++with none), with counts of each answer. --node takes an ICE id or its part's id: exit 0 when
++ready or partly ready, 1 when not ready, 2 when the node is unknown or an input is unreadable. No git, no network, no LLM.
+ """
+ import argparse
+ import json
+@@ -127,6 +144,117 @@ def check(spine, intents_dir, done=None):
+     return nodes
+ 
+ 
++# ---- Ontology v6 (ADR 047 §6, #760): the ready check reads each ICE node ----------------
++
++ICE_PARTS = {"Intent": ("Goal", "Limit", "Fails if"),
++             "Context": ("Read", "Never read", "Persona", "Scope"),
++             "Expectation": ("Scenario", "Done means", "Quality need")}
++LINE = re.compile(r"^\s*[-*]\s*\*\*([^*:]+?):?\*\*:?\s*(.*)$")
++
++
++def read_parts(path):
++    """{part: {line label: text}} for the three ICE sections of an ice.md, or None if unreadable."""
++    try:
++        with open(path, encoding="utf-8") as fh:
++            text = fh.read()
++    except OSError:
++        return None
++    parts, cur, in_fence = {}, None, False
++    for raw in text.splitlines():
++        if raw.strip().startswith("```"):
++            in_fence = not in_fence
++            continue
++        if in_fence:
++            continue
++        if raw.startswith("## "):
++            head = raw[3:].strip()
++            cur = head if head in ICE_PARTS else None
++            if cur:
++                parts.setdefault(cur, {"_text": []})
++            continue
++        if cur and raw.strip():
++            parts[cur]["_text"].append(raw)
++            m = LINE.match(raw)
++            if m and m.group(2).strip():
++                parts[cur][m.group(1).strip()] = m.group(2).strip()
++    return parts
++
++
++def richness(parts):
++    """Which lines each part fills: reported, never a stop (ADR 047). light | full."""
++    missing = {p: [ln for ln in lines if ln not in parts.get(p, {})] for p, lines in ICE_PARTS.items()}
++    level = "full" if not any(missing.values()) else "light"
++    return {"level": level, "missing": missing}
++
++
++def assess_ice(ice, part, kind, spine, root, intents_dir, done):
++    """One ICE (or a part with none) → ready | partly_ready | not_ready, with stops and gaps."""
++    caps = {c.get("id"): c for c in spine.get("capabilities") or [] if isinstance(c, dict)}
++    stops, gaps, rich = [], [], None
++    if ice is None:
++        stops.append(f"{kind} `{part.get('id')}` has no ICE")
++    else:
++        parts = read_parts(os.path.join(root, ice.get("doc") or ""))
++        if parts is None:
++            stops.append(f"its ICE page `{ice.get('doc')}` cannot be read")
++        else:
++            for p in ICE_PARTS:
++                if p not in parts:
++                    stops.append(f"the ICE has no {p}")
++                elif not parts[p]["_text"]:
++                    stops.append(f"the ICE's {p} is empty")
++            rich = richness(parts)
++    # its capability: the part itself, or a functionality's parent
++    if kind == "capability":
++        cap = part
++    else:
++        cap = caps.get(part.get("capability")) if part.get("capability") else None
++        if not part.get("capability"):
++            stops.append("the functionality has no parent capability yet")
++        elif cap is None:
++            stops.append(f"its capability `{part.get('capability')}` is not in the spine")
++    stages, confirmed, needs, still_open = {}, [], [], None
++    if cap is not None:
++        stages, confirmed = intent_state(cap, intents_dir)
++        if not confirmed:
++            stops.append("no confirmed business intent reaches it" + (
++                " (" + ", ".join(f"{i}: {st or 'missing'}" for i, st in stages.items()) + ")" if stages else ""))
++        cap_needs = [n for n in (cap.get("depends_on") or []) if str(n) in caps]
++        needs, still_open = open_needs({"depends_on": cap_needs}, done)
++        if still_open:
++            stops.append("a capability it needs is not done: " + ", ".join(still_open))
++        w = domain_warning(cap, spine)
++        if w:
++            gaps.append(w)
++        if not cap.get("identified_by"):
++            gaps.append(f"capability `{cap.get('id')}` has no identified by")
++    answer = "not_ready" if stops else ("partly_ready" if gaps else "ready")
++    return {"id": ice.get("id") if ice else None, "for": part.get("id"), "for_kind": kind, "answer": answer,
++            "stops": stops, "gaps": gaps, "intents": stages, "needs": needs, "needs_open": still_open,
++            "richness": rich, "workable": answer != "not_ready"}
++
++
++def check_ices(spine, root, intents_dir, done=None):
++    by_part = {}
++    for ice in spine.get("ices") or []:
++        if isinstance(ice, dict) and ice.get("for"):
++            by_part.setdefault(ice["for"], ice)
++    out = []
++    for section, kind in (("capabilities", "capability"), ("functionalities", "functionality")):
++        for part in spine.get(section) or []:
++            if isinstance(part, dict):
++                out.append(assess_ice(by_part.get(part.get("id")), part, kind, spine, root, intents_dir, done))
++    return out
++
++
++def v5_answer(node):
++    """A spine with no `ices` list keeps the v5 rule, written in the three answers."""
++    answer = "not_ready" if not node["workable"] else ("partly_ready" if node["warnings"] else "ready")
++    return dict(node, answer=answer, **{"for": node["id"], "for_kind": node["kind"],
++                                        "stops": [] if node["workable"] else [node["reason"]],
++                                        "gaps": node["warnings"]})
++
++
+ def main(argv=None):
+     ap = argparse.ArgumentParser()
+     ap.add_argument("--spine", required=True)
+@@ -151,12 +279,17 @@ def main(argv=None):
+         except (OSError, yaml.YAMLError, TypeError) as exc:
+             print(json.dumps({"error": f"cannot read the done list: {exc}"}))
+             return 2
+-    nodes = check(spine, args.intents_dir, done)
++    if spine.get("ices") is not None:
++        root = os.path.dirname(os.path.abspath(args.spine))
++        nodes = check_ices(spine, root, args.intents_dir, done)
++    else:
++        nodes = [v5_answer(n) for n in check(spine, args.intents_dir, done)]
+     if args.node:
+-        match = [n for n in nodes if n["id"] == args.node]
+-        report = match[0] if match else {"error": f"no capability or functionality `{args.node}`"}
++        match = [n for n in nodes if args.node in (n["id"], n["for"])]
++        report = match[0] if match else {"error": f"no ICE, capability or functionality `{args.node}`"}
+     else:
+-        report = {"nodes": nodes, "workable": sum(n["workable"] for n in nodes),
++        counts = {a: sum(n["answer"] == a for n in nodes) for a in ("ready", "partly_ready", "not_ready")}
++        report = {"nodes": nodes, "counts": counts, "workable": sum(n["workable"] for n in nodes),
+                   "not_workable": sum(not n["workable"] for n in nodes)}
+     out = json.dumps(report, indent=2)
+     print(out)
+diff --git a/core/components/plays/create-play/references/test_check_ice_workable.py b/core/components/plays/create-play/references/test_check_ice_workable.py
+index 8d70c507..4104b6d2 100644
+--- a/core/components/plays/create-play/references/test_check_ice_workable.py
++++ b/core/components/plays/create-play/references/test_check_ice_workable.py
+@@ -64,8 +64,151 @@ def setup(tmp):
+     return path, intents
+ 
+ 
++FULL_ICE = """## Intent
++
++- **Goal:** A shopper can pay without making an account.
++- **Limit:** No stored card details.
++- **Fails if:** The shopper must sign up to pay.
++
++## Context
++
++- **Read:** the checkout page and the cart spine entry.
++- **Never read:** other shoppers' orders.
++- **Persona:** a first-time shopper.
++- **Scope:** paying for one cart; not refunds.
++
++## Expectation
++
++- **Scenario:** a shopper with no account pays for one item and gets a receipt.
++- **Done means:** the receipt is sent and the order is stored.
++- **Quality need:** PCI for the payment step.
++"""
++LIGHT_ICE = "## Intent\n\n- **Goal:** pay.\n\n## Context\n\n- **Read:** cart.\n\n## Expectation\n\n- **Scenario:** pays.\n"
++NO_CONTEXT = "## Intent\n\n- **Goal:** pay.\n\n## Expectation\n\n- **Scenario:** pays.\n"
++EMPTY_EXP = "## Intent\n\n- **Goal:** pay.\n\n## Context\n\n- **Read:** cart.\n\n## Expectation\n\n"
++
++
++def setup_v6(tmp):
++    """Ontology v6 (#760): ICE nodes in an `ices` list, one ice.md each."""
++    root = os.path.join(tmp, "v6")
++    intents = os.path.join(root, "intents")
++    os.makedirs(intents)
++    for iid, stage in (("bi-ok", "confirmed"), ("bi-prop", "proposed")):
++        with open(os.path.join(intents, f"{iid}.md"), "w") as fh:
++            fh.write(page(stage))
++    pages = {"cap-a": FULL_ICE, "cap-loose": LIGHT_ICE, "cap-noid": LIGHT_ICE, "cap-prop": FULL_ICE,
++             "cap-needs": LIGHT_ICE, "cap-noctx": NO_CONTEXT, "cap-emptyexp": EMPTY_EXP,
++             "fn-a": LIGHT_ICE, "fn-orphan": LIGHT_ICE, "fn-under-prop": LIGHT_ICE, "fn-own-needs": LIGHT_ICE}
++    ices = []
++    for n, (part, text) in enumerate(pages.items(), 1):
++        rel = f"{part}/ice.md"
++        os.makedirs(os.path.join(root, part))
++        with open(os.path.join(root, rel), "w") as fh:
++            fh.write(text)
++        ices.append({"id": f"ice-{n}", "for": part,
++                     "for_kind": "capability" if part.startswith("cap-") else "functionality", "doc": rel})
++    spine = {"domains": [{"id": "d1"}],
++             "capabilities": [
++                 {"id": "cap-a", "domain": "d1", "intents": ["bi-ok"], "identified_by": "cap-x"},
++                 {"id": "cap-loose", "domain": "", "intents": ["bi-ok"], "identified_by": "cap-a"},
++                 {"id": "cap-noid", "domain": "d1", "intents": ["bi-ok"]},
++                 {"id": "cap-prop", "domain": "d1", "intents": ["bi-prop"], "identified_by": "cap-a"},
++                 {"id": "cap-needs", "domain": "d1", "intents": ["bi-ok"], "identified_by": "cap-a",
++                  "depends_on": ["cap-a", "fn-a"]},
++                 {"id": "cap-noctx", "domain": "d1", "intents": ["bi-ok"], "identified_by": "cap-a"},
++                 {"id": "cap-emptyexp", "domain": "d1", "intents": ["bi-ok"], "identified_by": "cap-a"},
++                 {"id": "cap-noice", "domain": "d1", "intents": ["bi-ok"], "identified_by": "cap-a"}],
++             "functionalities": [
++                 {"id": "fn-a", "capability": "cap-a", "intents": ["bi-prop"]},
++                 {"id": "fn-orphan", "capability": "", "intents": ["bi-ok"]},
++                 {"id": "fn-under-prop", "capability": "cap-prop", "intents": ["bi-ok"]},
++                 {"id": "fn-own-needs", "capability": "cap-a", "depends_on": ["cap-prop"]}],
++             "ices": ices}
++    path = os.path.join(root, "_spine.yaml")
++    with open(path, "w") as fh:
++        yaml.safe_dump(spine, fh)
++    return path, intents
++
++
++def v6_tests(tmp):
++    import json
++    spine, intents = setup_v6(tmp)
++    args = ["--spine", spine, "--intents-dir", intents]
++    out = os.path.join(tmp, "v6.json")
++
++    def node(n, extra=()):
++        code = cw.main(args + ["--node", n, "--out", out] + list(extra))
++        with open(out) as fh:
++            return code, json.load(fh)
++
++    print("ICE nodes (ontology v6, #760)")
++    code, r = node("cap-a")
++    check("ready: confirmed intent, all three parts, no gaps — exit 0", code == 0 and r["answer"] == "ready"
++          and r["gaps"] == [] and r["stops"] == [])
++    check("the answer keeps `workable` for old callers", r["workable"] is True)
++    check("--node takes the ICE id as well as the part id", node("ice-1")[1]["for"] == "cap-a")
++    check("a full ICE reports full richness", r["richness"]["level"] == "full")
++
++    code, r = node("cap-loose")
++    check("partly ready: no domain — exit 0, gap listed", code == 0 and r["answer"] == "partly_ready"
++          and any("domain" in g for g in r["gaps"]))
++    check("a light ICE reports light richness and its missing lines, never a stop",
++          r["richness"]["level"] == "light" and "Limit" in r["richness"]["missing"]["Intent"])
++    code, r = node("cap-noid")
++    check("partly ready: no identified-by — gap listed", r["answer"] == "partly_ready"
++          and any("identified by" in g for g in r["gaps"]))
++
++    code, r = node("cap-prop")
++    check("not ready: no confirmed business intent — exit 1", code == 1 and r["answer"] == "not_ready"
++          and any("business intent" in s for s in r["stops"]))
++    code, r = node("cap-noctx")
++    check("not ready: a missing part (Context)", r["answer"] == "not_ready" and any("Context" in s for s in r["stops"]))
++    code, r = node("cap-emptyexp")
++    check("not ready: an empty part (Expectation)", r["answer"] == "not_ready"
++          and any("Expectation" in s for s in r["stops"]))
++    code, r = node("cap-noice")
++    check("not ready: a capability with no ICE at all", code == 1 and r["answer"] == "not_ready"
++          and any("no ICE" in s for s in r["stops"]))
++
++    done_none = os.path.join(tmp, "v6-done-none.yaml")
++    with open(done_none, "w") as fh:
++        yaml.safe_dump([], fh)
++    done_a = os.path.join(tmp, "v6-done-a.yaml")
++    with open(done_a, "w") as fh:
++        yaml.safe_dump(["cap-a"], fh)
++    code, r = node("cap-needs", ["--done", done_none])
++    check("not ready: a needed capability is not done", r["answer"] == "not_ready" and r["needs_open"] == ["cap-a"])
++    check("needs are read between capabilities only (fn-a is not a need)", r["needs"] == ["cap-a"])
++    code, r = node("cap-needs", ["--done", done_a])
++    check("a needed capability that is done no longer stops", r["answer"] == "ready")
++
++    code, r = node("fn-a")
++    check("a functionality finds its business intent through its parent (its own intents are not read)",
++          r["answer"] == "ready")
++    code, r = node("fn-orphan")
++    check("not ready: a functionality with no parent capability", r["answer"] == "not_ready"
++          and any("capability" in s for s in r["stops"]))
++    code, r = node("fn-under-prop")
++    check("not ready: a functionality whose parent serves no confirmed intent", r["answer"] == "not_ready")
++    code, r = node("fn-own-needs", ["--done", done_none])
++    check("a functionality's own needs are not read (v6: it never needs anything)", r["answer"] == "ready")
++
++    code = cw.main(args + ["--out", out])
++    with open(out) as fh:
++        r = json.load(fh)
++    check("the full report counts each answer", code == 0 and r["counts"] == {"ready": 4, "partly_ready": 2,
++                                                                              "not_ready": 6})
++    check("an unknown node exits 2", cw.main(args + ["--node", "nope"]) == 2)
++
++    here = os.path.join(HERE, "check_ice_workable.py")
++    copy = os.path.join(HERE, "..", "..", "discover-intent", "scripts", "check_ice_workable.py")
++    with open(here, "rb") as a, open(copy, "rb") as b:
++        check("both copies of check_ice_workable.py are identical", a.read() == b.read())
++
++
+ def main():
+     with tempfile.TemporaryDirectory() as tmp:
++        v6_tests(tmp)
+         spine, intents = setup(tmp)
+         args = ["--spine", spine, "--intents-dir", intents]
+         check("built from a confirmed intent is workable (one confirmed is enough)",
+diff --git a/core/components/plays/discover-intent/scripts/check_ice_workable.py b/core/components/plays/discover-intent/scripts/check_ice_workable.py
+index af7a4d39..8c675b2f 100644
+--- a/core/components/plays/discover-intent/scripts/check_ice_workable.py
++++ b/core/components/plays/discover-intent/scripts/check_ice_workable.py
+@@ -1,5 +1,22 @@
+ #!/usr/bin/env python3
+-"""check_ice_workable.py — may a play work on this ICE? (ontology v5, #724)
++"""check_ice_workable.py — may a play work on this ICE? (ontology v6, #760; v5, #724)
++
++Ontology v6 (ADR 047 §6, #760): when the spine has an `ices` list, the check reads each ICE
++node — its `ices` entry and its ice.md — and gives one of three answers, computed each run
++and never stored. "Its capability" is the capability itself, or a functionality's parent.
++  - ready: its capability serves a confirmed business intent, every capability it needs is
++    done, and the ICE has all three parts (Intent, Context, Expectation). Work starts.
++  - partly_ready: as ready, with gaps outside the parts — no domain, no identified_by. Work
++    starts; the gaps are listed.
++  - not_ready: a part is missing or empty, no confirmed business intent reaches it, a needed
++    capability is not done, a functionality has no parent, or a part has no ICE. Work stops.
++A functionality's own `intents` and `depends_on` are not read (v6: it finds its business
++intents through its parent and never needs anything). Richness (which lines each part fills,
++light | full) is reported, never a stop. The ICE's own approval is not a condition (§8).
++Each answer keeps `workable` (true unless not_ready) for older callers. A spine with no
++`ices` list keeps the v5 rule below, written in the same three answers.
++
++The v5 rule (#724):
+ 
+ An ICE lives inline in its capability's or functionality's grounding doc; the node's spine
+ entry names, in `intents`, the business intents it is built from. The ICE is WORKABLE only
+@@ -23,9 +40,9 @@
+         --intents-dir <product-os>/intents [--node <capability or functionality id>] \
+         [--done <done-ids.yaml>] [--out <path.json>]
+ 
+-Without --node it reports every capability and functionality. With --node, exit 0 when
+-that node's ICE is workable, 1 when it is not, 2 when the node is unknown or an input is
+-unreadable. No git, no network, no LLM.
++Without --node it reports every capability and functionality (v6: every ICE, and every part
++with none), with counts of each answer. --node takes an ICE id or its part's id: exit 0 when
++ready or partly ready, 1 when not ready, 2 when the node is unknown or an input is unreadable. No git, no network, no LLM.
+ """
+ import argparse
+ import json
+@@ -127,6 +144,117 @@ def check(spine, intents_dir, done=None):
+     return nodes
+ 
+ 
++# ---- Ontology v6 (ADR 047 §6, #760): the ready check reads each ICE node ----------------
++
++ICE_PARTS = {"Intent": ("Goal", "Limit", "Fails if"),
++             "Context": ("Read", "Never read", "Persona", "Scope"),
++             "Expectation": ("Scenario", "Done means", "Quality need")}
++LINE = re.compile(r"^\s*[-*]\s*\*\*([^*:]+?):?\*\*:?\s*(.*)$")
++
++
++def read_parts(path):
++    """{part: {line label: text}} for the three ICE sections of an ice.md, or None if unreadable."""
++    try:
++        with open(path, encoding="utf-8") as fh:
++            text = fh.read()
++    except OSError:
++        return None
++    parts, cur, in_fence = {}, None, False
++    for raw in text.splitlines():
++        if raw.strip().startswith("```"):
++            in_fence = not in_fence
++            continue
++        if in_fence:
++            continue
++        if raw.startswith("## "):
++            head = raw[3:].strip()
++            cur = head if head in ICE_PARTS else None
++            if cur:
++                parts.setdefault(cur, {"_text": []})
++            continue
++        if cur and raw.strip():
++            parts[cur]["_text"].append(raw)
++            m = LINE.match(raw)
++            if m and m.group(2).strip():
++                parts[cur][m.group(1).strip()] = m.group(2).strip()
++    return parts
++
++
++def richness(parts):
++    """Which lines each part fills: reported, never a stop (ADR 047). light | full."""
++    missing = {p: [ln for ln in lines if ln not in parts.get(p, {})] for p, lines in ICE_PARTS.items()}
++    level = "full" if not any(missing.values()) else "light"
++    return {"level": level, "missing": missing}
++
++
++def assess_ice(ice, part, kind, spine, root, intents_dir, done):
++    """One ICE (or a part with none) → ready | partly_ready | not_ready, with stops and gaps."""
++    caps = {c.get("id"): c for c in spine.get("capabilities") or [] if isinstance(c, dict)}
++    stops, gaps, rich = [], [], None
++    if ice is None:
++        stops.append(f"{kind} `{part.get('id')}` has no ICE")
++    else:
++        parts = read_parts(os.path.join(root, ice.get("doc") or ""))
++        if parts is None:
++            stops.append(f"its ICE page `{ice.get('doc')}` cannot be read")
++        else:
++            for p in ICE_PARTS:
++                if p not in parts:
++                    stops.append(f"the ICE has no {p}")
++                elif not parts[p]["_text"]:
++                    stops.append(f"the ICE's {p} is empty")
++            rich = richness(parts)
++    # its capability: the part itself, or a functionality's parent
++    if kind == "capability":
++        cap = part
++    else:
++        cap = caps.get(part.get("capability")) if part.get("capability") else None
++        if not part.get("capability"):
++            stops.append("the functionality has no parent capability yet")
++        elif cap is None:
++            stops.append(f"its capability `{part.get('capability')}` is not in the spine")
++    stages, confirmed, needs, still_open = {}, [], [], None
++    if cap is not None:
++        stages, confirmed = intent_state(cap, intents_dir)
++        if not confirmed:
++            stops.append("no confirmed business intent reaches it" + (
++                " (" + ", ".join(f"{i}: {st or 'missing'}" for i, st in stages.items()) + ")" if stages else ""))
++        cap_needs = [n for n in (cap.get("depends_on") or []) if str(n) in caps]
++        needs, still_open = open_needs({"depends_on": cap_needs}, done)
++        if still_open:
++            stops.append("a capability it needs is not done: " + ", ".join(still_open))
++        w = domain_warning(cap, spine)
++        if w:
++            gaps.append(w)
++        if not cap.get("identified_by"):
++            gaps.append(f"capability `{cap.get('id')}` has no identified by")
++    answer = "not_ready" if stops else ("partly_ready" if gaps else "ready")
++    return {"id": ice.get("id") if ice else None, "for": part.get("id"), "for_kind": kind, "answer": answer,
++            "stops": stops, "gaps": gaps, "intents": stages, "needs": needs, "needs_open": still_open,
++            "richness": rich, "workable": answer != "not_ready"}
++
++
++def check_ices(spine, root, intents_dir, done=None):
++    by_part = {}
++    for ice in spine.get("ices") or []:
++        if isinstance(ice, dict) and ice.get("for"):
++            by_part.setdefault(ice["for"], ice)
++    out = []
++    for section, kind in (("capabilities", "capability"), ("functionalities", "functionality")):
++        for part in spine.get(section) or []:
++            if isinstance(part, dict):
++                out.append(assess_ice(by_part.get(part.get("id")), part, kind, spine, root, intents_dir, done))
++    return out
++
++
++def v5_answer(node):
++    """A spine with no `ices` list keeps the v5 rule, written in the three answers."""
++    answer = "not_ready" if not node["workable"] else ("partly_ready" if node["warnings"] else "ready")
++    return dict(node, answer=answer, **{"for": node["id"], "for_kind": node["kind"],
++                                        "stops": [] if node["workable"] else [node["reason"]],
++                                        "gaps": node["warnings"]})
++
++
+ def main(argv=None):
+     ap = argparse.ArgumentParser()
+     ap.add_argument("--spine", required=True)
+@@ -151,12 +279,17 @@ def main(argv=None):
+         except (OSError, yaml.YAMLError, TypeError) as exc:
+             print(json.dumps({"error": f"cannot read the done list: {exc}"}))
+             return 2
+-    nodes = check(spine, args.intents_dir, done)
++    if spine.get("ices") is not None:
++        root = os.path.dirname(os.path.abspath(args.spine))
++        nodes = check_ices(spine, root, args.intents_dir, done)
++    else:
++        nodes = [v5_answer(n) for n in check(spine, args.intents_dir, done)]
+     if args.node:
+-        match = [n for n in nodes if n["id"] == args.node]
+-        report = match[0] if match else {"error": f"no capability or functionality `{args.node}`"}
++        match = [n for n in nodes if args.node in (n["id"], n["for"])]
++        report = match[0] if match else {"error": f"no ICE, capability or functionality `{args.node}`"}
+     else:
+-        report = {"nodes": nodes, "workable": sum(n["workable"] for n in nodes),
++        counts = {a: sum(n["answer"] == a for n in nodes) for a in ("ready", "partly_ready", "not_ready")}
++        report = {"nodes": nodes, "counts": counts, "workable": sum(n["workable"] for n in nodes),
+                   "not_workable": sum(not n["workable"] for n in nodes)}
+     out = json.dumps(report, indent=2)
+     print(out)

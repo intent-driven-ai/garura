@@ -1,0 +1,64 @@
+# check-pr-quality, PR #789, issue 760. Standards-driven categories: Executable code, Tests.
+# Taxonomy scan (pr.md): 0 findings on the 3 code/test paths (CODE-20 catch-all 3). ruff: clean.
+# Second copy discover-intent/scripts/check_ice_workable.py is byte-identical to the create-play copy, so findings are listed once.
+meta:
+  scanned_paths: 3
+  taxonomy_findings: 0
+  ruff: clean
+  suite_from_runnable_checks: "41 passed, 0 failed; discover-intent 116 passed, 0 failed"
+findings:
+  - class: P3
+    rule: review/code - function size
+    path: core/components/plays/create-play/references/check_ice_workable.py
+    line: 190
+    message: >-
+      assess_ice runs about 55 lines and mixes four jobs: reading the ICE parts, finding the capability,
+      checking intents and needs, and building the answer. Split it so each stop rule can be tested alone.
+  - class: P4
+    rule: review/code - style, line length
+    path: core/components/plays/create-play/references/check_ice_workable.py
+    line: 45
+    message: >-
+      Docstring line is 122 characters, past the file's usual width. Lines 119, 221 and 246 are also over 110.
+      Wrap them. The same applies to the identical copy under discover-intent/scripts.
+  - class: P4
+    rule: review/code - input handling
+    path: core/components/plays/create-play/references/check_ice_workable.py
+    line: 197
+    message: >-
+      The ICE page path from the spine is joined to the spine folder without a check that it stays inside
+      that folder, so a doc value such as ../../x is read. Low risk because the spine is a trusted local
+      file; keep it in mind if the spine can come from elsewhere.
+  - class: P4
+    rule: review/code - ambiguous lookup
+    path: core/components/plays/create-play/references/check_ice_workable.py
+    line: 288
+    message: >-
+      --node matches either the ICE id or the part id and takes the first hit. If an ICE id ever equals
+      a part id, the wrong node can be returned silently. Prefer an exact match on one key first.
+  - class: P4
+    rule: review/tests - import placement
+    path: core/components/plays/create-play/references/test_check_ice_workable.py
+    line: 134
+    message: >-
+      import json sits inside v6_tests (and again at line 249). Move it to the top of the file with the other imports.
+  - class: P4
+    rule: review/tests - coverage gap
+    path: core/components/plays/create-play/references/test_check_ice_workable.py
+    line: 137
+    message: >-
+      No test covers an ICE whose page file cannot be read (the "cannot be read" stop), a part whose ICE
+      page has text but no labelled lines, or the v5 fallback now returned through v5_answer with the
+      new answer field. These paths are changed or new in this diff.
+  - class: P4
+    rule: review/tests - brittle assertion
+    path: core/components/plays/create-play/references/test_check_ice_workable.py
+    line: 218
+    message: >-
+      The full-report test pins counts to 4/2/6, which breaks whenever a fixture node is added. Acceptable
+      here, but a comment naming which nodes fall in each answer would make the number easier to keep right.
+counts:
+  P1: 0
+  P2: 0
+  P3: 1
+  P4: 6

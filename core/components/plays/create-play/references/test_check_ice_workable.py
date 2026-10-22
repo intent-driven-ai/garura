@@ -64,8 +64,151 @@ def setup(tmp):
     return path, intents
 
 
+FULL_ICE = """## Intent
+
+- **Goal:** A shopper can pay without making an account.
+- **Limit:** No stored card details.
+- **Fails if:** The shopper must sign up to pay.
+
+## Context
+
+- **Read:** the checkout page and the cart spine entry.
+- **Never read:** other shoppers' orders.
+- **Persona:** a first-time shopper.
+- **Scope:** paying for one cart; not refunds.
+
+## Expectation
+
+- **Scenario:** a shopper with no account pays for one item and gets a receipt.
+- **Done means:** the receipt is sent and the order is stored.
+- **Quality need:** PCI for the payment step.
+"""
+LIGHT_ICE = "## Intent\n\n- **Goal:** pay.\n\n## Context\n\n- **Read:** cart.\n\n## Expectation\n\n- **Scenario:** pays.\n"
+NO_CONTEXT = "## Intent\n\n- **Goal:** pay.\n\n## Expectation\n\n- **Scenario:** pays.\n"
+EMPTY_EXP = "## Intent\n\n- **Goal:** pay.\n\n## Context\n\n- **Read:** cart.\n\n## Expectation\n\n"
+
+
+def setup_v6(tmp):
+    """Ontology v6 (#760): ICE nodes in an `ices` list, one ice.md each."""
+    root = os.path.join(tmp, "v6")
+    intents = os.path.join(root, "intents")
+    os.makedirs(intents)
+    for iid, stage in (("bi-ok", "confirmed"), ("bi-prop", "proposed")):
+        with open(os.path.join(intents, f"{iid}.md"), "w") as fh:
+            fh.write(page(stage))
+    pages = {"cap-a": FULL_ICE, "cap-loose": LIGHT_ICE, "cap-noid": LIGHT_ICE, "cap-prop": FULL_ICE,
+             "cap-needs": LIGHT_ICE, "cap-noctx": NO_CONTEXT, "cap-emptyexp": EMPTY_EXP,
+             "fn-a": LIGHT_ICE, "fn-orphan": LIGHT_ICE, "fn-under-prop": LIGHT_ICE, "fn-own-needs": LIGHT_ICE}
+    ices = []
+    for n, (part, text) in enumerate(pages.items(), 1):
+        rel = f"{part}/ice.md"
+        os.makedirs(os.path.join(root, part))
+        with open(os.path.join(root, rel), "w") as fh:
+            fh.write(text)
+        ices.append({"id": f"ice-{n}", "for": part,
+                     "for_kind": "capability" if part.startswith("cap-") else "functionality", "doc": rel})
+    spine = {"domains": [{"id": "d1"}],
+             "capabilities": [
+                 {"id": "cap-a", "domain": "d1", "intents": ["bi-ok"], "identified_by": "cap-x"},
+                 {"id": "cap-loose", "domain": "", "intents": ["bi-ok"], "identified_by": "cap-a"},
+                 {"id": "cap-noid", "domain": "d1", "intents": ["bi-ok"]},
+                 {"id": "cap-prop", "domain": "d1", "intents": ["bi-prop"], "identified_by": "cap-a"},
+                 {"id": "cap-needs", "domain": "d1", "intents": ["bi-ok"], "identified_by": "cap-a",
+                  "depends_on": ["cap-a", "fn-a"]},
+                 {"id": "cap-noctx", "domain": "d1", "intents": ["bi-ok"], "identified_by": "cap-a"},
+                 {"id": "cap-emptyexp", "domain": "d1", "intents": ["bi-ok"], "identified_by": "cap-a"},
+                 {"id": "cap-noice", "domain": "d1", "intents": ["bi-ok"], "identified_by": "cap-a"}],
+             "functionalities": [
+                 {"id": "fn-a", "capability": "cap-a", "intents": ["bi-prop"]},
+                 {"id": "fn-orphan", "capability": "", "intents": ["bi-ok"]},
+                 {"id": "fn-under-prop", "capability": "cap-prop", "intents": ["bi-ok"]},
+                 {"id": "fn-own-needs", "capability": "cap-a", "depends_on": ["cap-prop"]}],
+             "ices": ices}
+    path = os.path.join(root, "_spine.yaml")
+    with open(path, "w") as fh:
+        yaml.safe_dump(spine, fh)
+    return path, intents
+
+
+def v6_tests(tmp):
+    import json
+    spine, intents = setup_v6(tmp)
+    args = ["--spine", spine, "--intents-dir", intents]
+    out = os.path.join(tmp, "v6.json")
+
+    def node(n, extra=()):
+        code = cw.main(args + ["--node", n, "--out", out] + list(extra))
+        with open(out) as fh:
+            return code, json.load(fh)
+
+    print("ICE nodes (ontology v6, #760)")
+    code, r = node("cap-a")
+    check("ready: confirmed intent, all three parts, no gaps — exit 0", code == 0 and r["answer"] == "ready"
+          and r["gaps"] == [] and r["stops"] == [])
+    check("the answer keeps `workable` for old callers", r["workable"] is True)
+    check("--node takes the ICE id as well as the part id", node("ice-1")[1]["for"] == "cap-a")
+    check("a full ICE reports full richness", r["richness"]["level"] == "full")
+
+    code, r = node("cap-loose")
+    check("partly ready: no domain — exit 0, gap listed", code == 0 and r["answer"] == "partly_ready"
+          and any("domain" in g for g in r["gaps"]))
+    check("a light ICE reports light richness and its missing lines, never a stop",
+          r["richness"]["level"] == "light" and "Limit" in r["richness"]["missing"]["Intent"])
+    code, r = node("cap-noid")
+    check("partly ready: no identified-by — gap listed", r["answer"] == "partly_ready"
+          and any("identified by" in g for g in r["gaps"]))
+
+    code, r = node("cap-prop")
+    check("not ready: no confirmed business intent — exit 1", code == 1 and r["answer"] == "not_ready"
+          and any("business intent" in s for s in r["stops"]))
+    code, r = node("cap-noctx")
+    check("not ready: a missing part (Context)", r["answer"] == "not_ready" and any("Context" in s for s in r["stops"]))
+    code, r = node("cap-emptyexp")
+    check("not ready: an empty part (Expectation)", r["answer"] == "not_ready"
+          and any("Expectation" in s for s in r["stops"]))
+    code, r = node("cap-noice")
+    check("not ready: a capability with no ICE at all", code == 1 and r["answer"] == "not_ready"
+          and any("no ICE" in s for s in r["stops"]))
+
+    done_none = os.path.join(tmp, "v6-done-none.yaml")
+    with open(done_none, "w") as fh:
+        yaml.safe_dump([], fh)
+    done_a = os.path.join(tmp, "v6-done-a.yaml")
+    with open(done_a, "w") as fh:
+        yaml.safe_dump(["cap-a"], fh)
+    code, r = node("cap-needs", ["--done", done_none])
+    check("not ready: a needed capability is not done", r["answer"] == "not_ready" and r["needs_open"] == ["cap-a"])
+    check("needs are read between capabilities only (fn-a is not a need)", r["needs"] == ["cap-a"])
+    code, r = node("cap-needs", ["--done", done_a])
+    check("a needed capability that is done no longer stops", r["answer"] == "ready")
+
+    code, r = node("fn-a")
+    check("a functionality finds its business intent through its parent (its own intents are not read)",
+          r["answer"] == "ready")
+    code, r = node("fn-orphan")
+    check("not ready: a functionality with no parent capability", r["answer"] == "not_ready"
+          and any("capability" in s for s in r["stops"]))
+    code, r = node("fn-under-prop")
+    check("not ready: a functionality whose parent serves no confirmed intent", r["answer"] == "not_ready")
+    code, r = node("fn-own-needs", ["--done", done_none])
+    check("a functionality's own needs are not read (v6: it never needs anything)", r["answer"] == "ready")
+
+    code = cw.main(args + ["--out", out])
+    with open(out) as fh:
+        r = json.load(fh)
+    check("the full report counts each answer", code == 0 and r["counts"] == {"ready": 4, "partly_ready": 2,
+                                                                              "not_ready": 6})
+    check("an unknown node exits 2", cw.main(args + ["--node", "nope"]) == 2)
+
+    here = os.path.join(HERE, "check_ice_workable.py")
+    copy = os.path.join(HERE, "..", "..", "discover-intent", "scripts", "check_ice_workable.py")
+    with open(here, "rb") as a, open(copy, "rb") as b:
+        check("both copies of check_ice_workable.py are identical", a.read() == b.read())
+
+
 def main():
     with tempfile.TemporaryDirectory() as tmp:
+        v6_tests(tmp)
         spine, intents = setup(tmp)
         args = ["--spine", spine, "--intents-dir", intents]
         check("built from a confirmed intent is workable (one confirmed is enough)",

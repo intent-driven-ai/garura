@@ -1,0 +1,11 @@
+test_check_ice_workable:
+41 passed, 0 failed
+discover-intent test_intent_scripts:
+116 passed, 0 failed, 0 skipped
+copies identical:
+ yes
+lint-components:
+  {'errors': 121, 'warnings': 2, 'infos': 0}
+garura model before -> after:
+  before workable 30 not 0
+  after workable 30 not 0 {'ready': 0, 'partly_ready': 30, 'not_ready': 0}
