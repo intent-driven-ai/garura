@@ -1,0 +1,89 @@
+findings:
+- category: memory
+  severity: P2
+  basis: origin/plan/756/base:docs/adr/031-business-intent-and-ice.md sections 3,
+    4, Consequences
+  path: core/components/memory/standards/schemas/product-os/ontology.md
+  message: 'v6 moves the ICE out of the capability/functionality page onto its own
+    ice.md page with its own spine list (ices), and makes it N:1 under one part. ADR
+    031 (Accepted, amended by 033 and 043) says the ICE lives inline in the node''s
+    grounding doc, "No new file type", and is built from a business intent via the
+    node''s spine intents. ADR 043 also says "The ICE kind keeps its shape". No ADR
+    (the base ends at 046) records the reversal. The owner approved the model in this
+    run, so the direction is not in doubt; the gap is that an accepted decision is
+    overridden without an amending ADR. Ask: add or point to an ADR that amends 031
+    s3/s4 and 043.
+
+    '
+  fix: null
+- category: memory
+  severity: P3
+  basis: 'locked-model.md, ''The ready check'': partly ready = gaps that do not stop
+    work, ''a thin part such as an empty Context'''
+  path: core/components/memory/standards/schemas/product-os/ontology.md
+  message: 'ICE rules add "A part that is missing from the page counts as an empty
+    part. It is a gap (partly ready), not a stop." The locked model names only thin
+    parts (example: Context). As written, an ICE with no Intent at all (no goal) is
+    partly ready, so work can start on it. The locked model''s Ready needs all three
+    parts, and its thin-part example does not say a missing Intent is acceptable.
+    Narrow to Context (or say which parts may be thin).
+
+    '
+  fix: null
+- category: memory
+  severity: P3
+  basis: origin/plan/756/base:core/components/memory/standards/schemas/product-os/spine.yaml;
+    ADR 043 'Affects' list (check_ice_workable.py, lint_grounding.py copies)
+  path: core/components/memory/standards/schemas/product-os/ontology.md
+  message: 'The ontology now states a new spine list (ices: id, for, for_kind, doc,
+    metadata), an ice.md page layout, and a ready check with three answers. The base
+    spine.yaml has no ices list, and the workable check and grounding linters still
+    follow v5. The ontology itself says pages written earlier are drift for Alignment,
+    but it gives no pointer to the issues that bring spine, check and linters in line
+    (only #725 and #765 are named). Not a fault in this file if those are planned
+    under 756; confirm they are, or name them in the Log.
+
+    '
+  fix: null
+- category: memory
+  severity: P4
+  basis: 'decisions.json (second ''kinds'' and ''links'' change: capability has one
+    domain, domain has one or more) vs locked-model.md link table row ''Domain | Business
+    intent, Capability | N:N'''
+  path: core/components/memory/standards/schemas/product-os/ontology.md
+  message: 'v6 follows the later owner decision (capability in at most one domain;
+    domain has one or more capabilities; Domain to Business Intent stays loose N:N),
+    which overrides the locked-model table row. So the ontology is correct, but locked-model.md
+    is stale on that row. Record the override beside the locked model so a later reader
+    does not read it as a mismatch.
+
+    '
+  fix: null
+- category: memory
+  severity: P4
+  basis: locked-model.md 'What changes from version 5' (lists no example edits)
+  path: core/components/memory/standards/schemas/product-os/ontology.md
+  message: 'Additions not in the locked model, all agreed in the kinds/links drafts
+    or harmless: Feature stays and carries its capability''s ICE (draft-kinds/draft-links,
+    approved "yes"); ICE copy on the issue; the rule that pre-v6 ''## Agent intent
+    (ICE)'' sections are drift; "identified by" may name more than one capability;
+    a Business Intent can be identified by another (kept from v5); the Business Intent
+    example drops "Priya, Head of Growth" for "the Head of Growth" (a privacy gain,
+    but unlisted in the Log). Informational: note the example change in the Log line.
+
+    '
+  fix: null
+- category: memory
+  severity: P4
+  basis: origin/plan/756/base template 'Product Ontology' opening and base ontology
+    intro
+  path: core/components/memory/standards/schemas/product-os/ontology.md
+  message: 'The opening paragraph still says "this first version defines the Business
+    Intent... connects it to ICE" while the ontology is at v6 with seven kinds. Carried
+    over from base, so not introduced here; v6 rewrote the flow sentence directly
+    below it, which is the moment to fix it.
+
+    '
+  fix: null
+runnable_checks: "check_ontology:\n valid True problems []\nchange check:\n scope\
+  \ True version True names True\nskill tests:\n27 passed, 0 failed\n"

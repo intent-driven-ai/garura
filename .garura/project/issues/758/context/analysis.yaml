@@ -1,0 +1,30 @@
+---
+needs_judgment: false
+
+change_groups:
+  - id: ontology-opening-line
+    issue: 758
+    commit_type: docs
+    scope: ontology
+    subject: "the opening line names the seven kinds and the edit-ontology play"
+    files:
+      - core/components/memory/standards/schemas/product-os/ontology.md
+  - id: stm-round-2-review
+    issue: 758
+    commit_type: chore
+    scope: stm
+    subject: "record the round 2 check-change review"
+    files:
+      - .garura/project/issues/758/review/categories.yaml
+      - .garura/project/issues/758/review/context.yaml
+      - .garura/project/issues/758/review/design-findings-memory.yaml
+      - .garura/project/issues/758/review/findings.yaml
+      - .garura/project/issues/758/review/pr.diff
+      - .garura/project/issues/758/review/recommended_verdict.yaml
+      - .garura/project/issues/758/review/runnable-checks.txt
+      - .garura/project/issues/758/context/porcelain.txt
+
+exclusions: []
+
+risks:
+  sensitive_files: []

@@ -1,14 +1,14 @@
 ---
 ontology: product
-version: 5
-updated: 2026-10-21
+version: 6
+updated: 2026-10-22
 ---
 
 # Product Ontology
 
-The agreed map of what a product is made of in Garura: the kinds of things, what each holds, how they connect, and what must always be true. A person and an agent reading it use the same words for the same things. It grows one kind at a time, through the `author-product-ontology` skill; this first version defines the Business Intent — the person's side — and connects it to ICE, the agent's side.
+The agreed map of what a product is made of in Garura: the kinds of things, what each holds, how they connect, and what must always be true. A person and an agent reading it use the same words for the same things. It defines seven kinds: Business Intent, Source, ICE, Capability, Functionality, Work and Plan. It grows one kind at a time, through the `edit-ontology` play, and the product owner agrees each change.
 
-How it flows: a person gives an intent → it becomes a **Business Intent** here and a "Business Intent" issue in the tracker → its **Plan** breaks it into **Capabilities** and **Functionalities**, each holding the **ICE** an agent works on, and tracked as **Work** (Feature, Story, Spike, Chore, Bug) → as work finishes, the Business Intent is updated with what was done → when it is done, the Business Intent links to the value it got through the tracker's finished issues.
+How it flows: a person gives an intent → it becomes a **Business Intent** here and a "Business Intent" issue in the tracker → the Business Intent links to its **Capabilities** and holds no **ICE** → its **Plan** breaks it into Capabilities and **Functionalities**; each Capability and each Functionality has exactly one ICE, and that ICE is its own node → the plan is tracked as **Work** (Feature, Story, Spike, Chore, Bug), and each piece of work carries the ICE of its part → as work finishes, the Business Intent is updated with what was done → when it is done, the Business Intent links to the value it got through the tracker's finished issues.
 
 **Nothing is blocked** (Kapil, 2026-10-21). A plan can be built and worked on before the product model is complete; the model grows as plans are built, and `/discover-domains` and `/discover-capabilities` fill the gaps later.
 
@@ -17,16 +17,16 @@ How it flows: a person gives an intent → it becomes a **Business Intent** here
 ## Questions it must answer
 
 - **Q1** — Given a business intent and the product as it is today, which types of work does it need — Feature, Story, Bug, Chore, Spike — what value does each bring to the intent, and when would a type of work be wrong for it?
-  **Answered by:** Business Intent; Work serves Business Intent; Business Intent touches Capability
+  **Answered by:** Business Intent; Business Intent has Capability; Work carries ICE
   **Status:** partly
 - **Q2** — Given a new business intent, which parts of the product does it touch — and for each, does it change something that exists, add something new, or remove something — at the level of a domain, a capability or a functionality?
-  **Answered by:** Business Intent touches Domain, Capability, Functionality (each marked change, add or remove)
+  **Answered by:** Business Intent touches Domain and has Capability (each marked change, add or remove); a Functionality is reached through its parent Capability
   **Status:** partly
 - **Q3** — When two intents touch the same part of the product and want opposite things, is that shown to a person before any work starts?
-  **Answered by:** Business Intent touches Capability, compared across intents
+  **Answered by:** Business Intent has Capability, compared across intents
   **Status:** partly
 - **Q4** — For this intent, which work did agents finish on their own, and where did a person have to step in?
-  **Answered by:** Work serves Business Intent
+  **Answered by:** Work carries ICE; ICE is for a Capability or a Functionality; Capability serves Business Intent
   **Status:** not yet
 - **Q5** — What was this intent drawn from (its source), and what did it show at the time?
   **Answered by:** Source shows Business Intent
@@ -35,14 +35,41 @@ How it flows: a person gives an intent → it becomes a **Business Intent** here
   **Answered by:** Business Intent (its proof and its stage)
   **Status:** answered
 - **Q7** — Given a business intent, what is its plan: every capability, functionality and piece of work under it, each with its tracker issue, and where each one stands?
-  **Answered by:** Plan; Capability serves Business Intent; Functionality belongs to Capability; Work tracks Capability or Functionality
+  **Answered by:** Plan; Capability serves Business Intent; Functionality has one parent Capability; Work carries ICE, which is for a Capability or a Functionality
   **Status:** answered
+- **Q8** — Given a capability or a functionality, which is its one ICE, and where is its page?
+  **Answered by:** ICE is for one Capability or one Functionality; each Capability and each Functionality has exactly one ICE, on its own page with its own spine entry
+  **Status:** answered
+- **Q9** — Given an ICE, which business intents is it for?
+  **Answered by:** ICE is for a Capability or a Functionality; Functionality has one parent Capability; Capability serves Business Intent
+  **Status:** answered
+- **Q10** — Can work start on this ICE now — is it ready, partly ready or not ready — and what stops it (a missing part, no confirmed business intent, a needed capability not done), or which gaps are listed?
+  **Answered by:** ICE (the ready check, with three answers); Capability serves Business Intent; Capability needs Capability
+  **Status:** answered
+- **Q11** — Which capabilities must be done before this capability, or a functionality in it, can start?
+  **Answered by:** Capability needs Capability; Functionality has one parent Capability (a Functionality never needs anything)
+  **Status:** answered
+- **Q12** — Which capability led us to find this capability?
+  **Answered by:** Capability identified by Capability
+  **Status:** answered
+- **Q13** — Given an ICE, which pieces of work carry it, and which Story builds its functionality?
+  **Answered by:** Work carries ICE; a Story builds one Functionality
+  **Status:** answered
+- **Q14** — When a second business intent changes a capability, which ICE changes?
+  **Answered by:** ICE (the capability's one ICE is updated to cover both); Capability serves Business Intent
+  **Status:** answered
+- **Q15** — Given a business intent, which ICE do agents work on for it?
+  **Answered by:** Business Intent has Capability; Functionality has one parent Capability; ICE is for a Capability or a Functionality
+  **Status:** answered
+- **Q16** — Which domain does this capability sit in, and which capabilities does a domain have?
+  **Answered by:** Capability sits in at most one Domain; a Domain has one or more Capability
+  **Status:** partly
 
 ## Kinds
 
 ### Business Intent
 
-**What it is:** What a person or the organisation wants — an outcome, in their words, with why it matters and how we will know it is met. It is the person's interface to the product: the destination that all work and every ICE points at. It is the same thing as the "Business Intent" issue type in the tracker. It is not ICE (the agent's intent) and not a piece of work.
+**What it is:** What a person or the organisation wants, in their words: the outcome as a hypothesis (what should be true, why it matters, and how we will know it is met), the boundaries it must stay inside, the rules it must keep, and the capabilities that serve it. It is the person's interface to the product, and it is for tracking. It is the same thing as the "Business Intent" issue type in the tracker. It holds no ICE, and Garura never works on a business intent directly: agents work on the ICE of its capabilities and of their functionalities. It is not ICE (the agent's intent) and not a piece of work.
 **Who reads it:** person
 **Lives at:** `product-os/intents/<id>.md` — one plain-words page per business intent
 
@@ -55,38 +82,39 @@ How it flows: a person gives an intent → it becomes a **Business Intent** here
 | Why | Why it matters to the business | yes |
 | Asked by | The person who wants it | yes |
 | Proof it is met | How we will know the outcome is true | yes |
-| Must not | Limits the person stated | no |
+| Must not | Limits the person stated — the boundaries it must stay inside | no |
+| Rules | The business rules the person says the outcome must keep | no |
 | Stage | proposed, confirmed, met, or dropped | yes |
 | Confirmed by and when | Who agreed it says the right thing, and when | yes, once confirmed |
-| Touches | Every domain, capability and functionality it reaches into, each marked adds, changes or removes, with a link to that part's page — the **Touches** list on its page, written by a script whenever a play links a part to it | no, until a part is linked |
+| Touches | Every domain and capability it reaches into, each marked adds, changes or removes, with a link to that part's page — the **Touches** list on its page, written by a script whenever a play links a part to it. It does not name functionalities; a functionality is reached through its parent capability | no, until a part is linked |
 | What was done | What was delivered for it and the value each piece brought, with links to the finished issues — updated as work finishes | no, until work finishes |
+
+The hypothesis is the Outcome, the Why and the Proof it is met; the boundaries are Must not.
 
 **Relationships**
 
 | Direction | Other kind | Count | Meaning |
 |-----------|-----------|-------|---------|
 | other → this | Source | many | A source shows what is wanted |
-| other → this | ICE | many | An ICE is built from it — the agent's intent for one part of the product |
-| other → this | Work | many | A piece of work serves it |
+| other → this | Capability | many | A capability serves it |
+| this → other | Capability | many | It has a capability — marked change, add or remove on its Touches list; the capability's spine `intents` holds the other side |
+| this → other | Business Intent | many | It was **identified by** another business intent — building one led us to find this one. A connection, never a dependency: neither waits on the other |
+| this → other | Domain | many | It touches a domain — a loose link, for search only; never in a plan, never a stop (the domain's spine `intents` holds the other side) |
 | this → other | Tracker Issue | one | It is tracked as one "Business Intent" issue in the team's tracker |
 | other → this | Plan | one | Its plan holds the work that meets it; the plan's ID is this intent's issue number |
-| this → other | Business Intent | many | It was **identified by** another business intent — building one led us to find this one. A connection, never a dependency: neither waits on the other |
-| this → other | Domain | many | It touches a domain — marked change, add or remove (its Touches list; the domain's spine `intents` holds the other side). A loose link, for finding things; a domain is never part of its plan |
-| this → other | Capability | many | It touches a capability — marked change, add or remove (its Touches list; the capability's spine `intents` holds the other side) |
-| this → other | Functionality | many | It touches a functionality — marked change, add or remove (its Touches list; the functionality's spine `intents` holds the other side) |
 
 **Rules**
 
-- It is a destination: sources, ICE and work point at it; it points only at the tracker issue it is tracked as and the parts of the product it touches.
-- Each part it touches is linked both ways: the part's spine entry names it in `intents`, and its own Touches list names the part with the mark. A play that makes one side writes the other.
+- It is a destination: sources and capabilities point at it. It points only at its tracker issue, its capabilities, the business intents it was identified by and, loosely, its domains.
+- It holds no ICE, and Garura never works on it directly. Agents work on the ICE of its capabilities and of their functionalities.
+- Each capability it has is linked both ways: the capability's spine entry names it in `intents`, and its Touches list names the capability with the mark. A play that makes one side writes the other.
 - It is met by its proof, never because its work is finished.
-- Work starts only from an ICE built from a confirmed business intent. An ICE or a piece of work found before its intent is confirmed — or before it exists — is kept, not worked on, and is drift for alignment, never a blocked write.
+- Work starts only from an ICE that is ready or partly ready. An ICE whose capability serves no confirmed business intent is kept, not worked on, and is drift for alignment, never a blocked write.
 - A source is never copied into it; the source shows the intent, it is not the intent.
 - It is written for a business reader, in plain words.
 - Only a person confirms or drops it; an agent never does.
-- Two intents that touch the same part of the product in opposite ways are a clash, shown to a person before work starts.
-- Business intents never need one another. They are connected (identified by), not dependent; only capabilities and functionalities need things.
-- It holds no ICE and agents never build it: it is for tracking. Agents build its capabilities and functionalities.
+- Two intents that touch the same capability in opposite ways are a clash, shown to a person before work starts.
+- Business intents never need one another. They may be identified by one another — a connection, never a dependency; neither waits on the other. Plan files use it: for example, #722 is identified by #717.
 
 **States**
 
@@ -94,20 +122,24 @@ proposed → confirmed (the person who asked confirms it says the right thing) �
 
 **Example**
 
-> **Shoppers can check out without making an account**
+> **Shop — Shoppers can check out without making an account**
 >
 > **Outcome:** A shopper with no account can buy, start to finish.
 > **Why:** 4 in 10 shoppers leave at the sign-up step.
-> **Asked by:** Priya, Head of Growth
+> **Asked by:** the Head of Growth
 > **Proof it is met:** Fewer than 2 in 10 shoppers leave at sign-up, for a month.
 > **Must not:** Change how returns work.
-> **Stage:** confirmed — by Priya, 8 October 2026
+> **Rules:** A guest gets the same order confirmation as a shopper with an account.
+> **Stage:** confirmed — by the Head of Growth, 8 October 2026
 > **Source:** the checkout prototype, read 8 October 2026
 > **Touches:**
 > - [Orders](../orders/domain.md) (domain) — changes
 > - [Checkout](../orders/checkout/capability.md) (capability) — changes
-> - [Guest checkout](../orders/checkout/guest-checkout/functionality.md) (functionality) — adds
 > **What was done:** (nothing yet)
+>
+> **Bank — Small businesses get a loan decision in one day.** Must not: change how the bank checks identity. Rules: every declined loan shows its reason. It has the capabilities "Loan application" and "Credit decision".
+>
+> **Clinic — Patients book their own appointments online.** Must not: change how the clinic bills. It has the capability "Booking". It was identified by "Patients get a reminder before each visit".
 
 ### Source
 
@@ -148,102 +180,129 @@ proposed → confirmed (the person who asked confirms it says the right thing) �
 
 ### ICE
 
-**What it is:** The agent's intent for one part of the product — a capability or a functionality: what must be true there, for whom, and how it will be checked. It is what an agent works on, and it is built from a business intent. It starts with the goals a business intent needs; context, outcomes and quality needs are added as the product is shaped. Every kind is written on its own (ADR 043): a capability may exist before its domain, and a functionality before its capability; the links are made later.
+**What it is:** The agent's intent for one capability or one functionality: what an agent must make true there, for whom, and how it will be checked. It is its own node, with its own page and its own spine entry, and it holds three parts: **Intent** (goals, limits, fails if), **Context** (the rules for the sub-agent that gathers context: what to read, what never to read, the persona, the scope) and **Expectation** (scenarios, done means, quality needs). It has no link to a business intent; it finds its business intents through its part. It is the node that answers "can work start here?" with ready, partly ready or not ready. It is not the business intent (the person's intent), and it is not the capability or functionality page (that page says what the part is; the ICE says what an agent must make true there). In this ontology, Context is one part of an ICE only — not the run folder of a play.
 **Who reads it:** agent
-**Lives at:** one named section, `## Agent intent (ICE)`, always the last section of its capability's or functionality's grounding doc (`grounding/capability.md`, `grounding/functionality.md`) — labelled lines (Goal, Limit, Fails if, Context, Checked by, Quality need) filled as far as is known; the spine entry's `intents` names the business intents it is built from. The section is expected once that link exists; a linked node without it is a warning for alignment, never a stop, so pages written before v4 still pass.
+**Lives at:** its own page, `ice.md`, in the folder of its part, so the ICE moves with its part — a capability's ICE at `{domain}/{capability}/ice.md` (or `capabilities/{capability}/ice.md` while the capability has no domain), a functionality's ICE at `{domain}/{capability}/{functionality}/ice.md` (or `functionalities/{functionality}/ice.md` while the functionality has no capability). The page has three sections, in this order: `## Intent` (lines Goal, Limit, Fails if), `## Context` (lines Read, Never read, Persona, Scope) and `## Expectation` (lines Scenario, Done means, Quality need), each line filled as far as is known. Its spine entry is one item in a new `ices` list in `_spine.yaml` — `id` (opaque, stable), `for` (the id of its one capability or functionality), `for_kind` (capability or functionality), `doc` (the pointer to its `ice.md`) and `metadata`. The entry holds no business intent ids and no ready answer.
 
 **Properties**
 
 | Property | What it holds | Required |
 |----------|---------------|----------|
-| Part of the product | The capability or functionality it belongs to | yes |
-| Goals, limits, failures | What must be true, the limits, and what counts as failing | goals yes; limits and failures once aligned |
-| Context | Who it serves (personas), the systems it touches, what is in and out of scope | once aligned |
-| Outcomes | How each goal is checked | once aligned |
-| Quality and compliance needs | Concrete targets (speed, security, …) and regimes such as PCI | no |
-| Built from | The business intent(s) it serves — its node's spine `intents` | to be workable |
+| Part of the product | The one capability or functionality it is for | yes |
+| Intent | The goals (what must be true), the limits, and what counts as failing (fails if) | yes — missing makes it not ready |
+| Context | The rules for the sub-agent that gathers context: what to read, what never to read, the persona it works for, and the scope (what is in and what is out) | yes — missing makes it not ready |
+| Expectation | The scenarios it must pass, what "done" means, and the quality needs (for example speed, security, regimes such as PCI) | yes — missing makes it not ready |
+| Ready answer | Ready, partly ready or not ready, with the gaps listed — worked out by the ready check each time it runs (today `check_ice_workable.py`), never stored and never written by hand | no — it is computed |
 
 **Relationships**
 
 | Direction | Other kind | Count | Meaning |
 |-----------|-----------|-------|---------|
-| this → other | Business Intent | many | It is built from a business intent |
-| this → other | Capability | one | It belongs to a capability … |
-| this → other | Functionality | one | … or to a functionality |
+| this → other | Capability | one | It is the ICE of one capability … |
+| this → other | Functionality | one | … or of one functionality |
 | other → this | Work | many | A piece of work carries it — the intent its agent works on |
 
 **Rules**
 
-- It is **ready** (workable) when its node is ready: a capability is ready when it serves at least one confirmed business intent (or one since met) and nothing it needs is still open; a functionality is ready when its capability is ready and nothing it needs is still open. A missing domain is a warning for alignment, never a block (v5, Kapil 2026-10-21; this replaces the v4 rule that a node must link up to a domain). An ICE that is not ready is kept as written and shown as not ready; no play builds from it until it is.
-- Writing it is never blocked: any play may write or add to it, inside that play's declared write scope, keeping what is there.
-- It is written at the depth that is known: a light ICE is goals only; a full one has every label.
-- Once aligned, one part of the product has one ICE; two ICE for the same part are drift for alignment to merge.
+- Each capability and each functionality has exactly one ICE, and each ICE is for exactly one capability or functionality. Two ICE for one part are drift; the Alignment loop merges them.
+- It has no link to a business intent. A capability's ICE finds its business intents through its capability. A functionality's ICE finds them through its parent capability.
+- When a second business intent changes a capability, its one ICE is updated to cover both. A second ICE is never made.
+- The ready check gives one of three answers. For a functionality's ICE, "its capability" is the parent capability.
+  - **Ready:** its capability serves a confirmed business intent, every capability it needs is done, and the ICE has all three parts. Work starts.
+  - **Partly ready:** as ready, but with gaps outside the ICE's parts that do not stop work — no domain, no "identified by". Work starts, and the gaps are listed.
+  - **Not ready:** one of its three parts is missing, no confirmed business intent, or a capability it needs is not done. Work stops until the part is written or the link is made, and the page is kept.
+- An ICE starts only with all three parts present. A part that is present can start work however thin or even wrong it is; the ready check does not judge a part's correctness or richness — that is the product owner's job.
+- Writing it is never blocked. Any play may write it or add to it, inside that play's declared write scope, and keeps what is there.
+- It is written at the depth that is known: a light ICE has one line in each of its three parts; a full one has every line of its three parts.
+- Not built yet: the linter check of each ICE's three parts and links is #759, the three-answer ready check that reads the ICE is #760, plays that write ICE nodes (the `ices` spine list and the `ice.md` page) are #761, and the move of Garura's own model is #765.
+- Pages written before v6 hold the ICE as the last section of a capability or functionality page (`## Agent intent (ICE)`). That section is drift for the Alignment loop to move to the ICE's own page; it is not an error.
+
+**States**
+
+not ready → partly ready → ready, as the ready check finds them. The answer can go back (for example, a needed capability is reopened).
 
 **Example**
 
-> The last section of `orders/checkout/guest-checkout/functionality.md`, whose spine entry has `intents: [guest-checkout]`:
+> **Shop — ICE of "Guest checkout"** (a functionality in Checkout), at `orders/checkout/guest-checkout/ice.md`. Checkout serves "Shoppers can check out without an account" (confirmed). Checkout needs Cart, which is done.
 >
-> ## Agent intent (ICE)
-> - Goal: A shopper with no account completes a purchase from start to finish.
-> - Limit: Nothing about how returns work changes for any shopper.
-> - Fails if: a guest shopper is asked to sign up before paying.
-> - Context: a guest shopper on mobile, the payment service and the order store; card and wallet are in, saved addresses are out.
-> - Checked by: an end-to-end test in which a guest completes checkout in under two minutes.
+> ## Intent
+> - Goal: A shopper with no account pays from start to finish.
+> - Limit: Returns do not change.
+> - Fails if: A guest is asked to sign up before paying.
 >
-> A light ICE: the last section of `capabilities/harness-steering/capability.md`, written from a prototype, in the holding folder because no domain was known yet (not ready until its domain is linked). Its spine entry's `intents` names "Know whether the harnesses we build are useful and drive agent autonomy" (confirmed — so it is workable):
+> ## Context
+> - Read: the payment rules.
+> - Never read: saved card data.
+> - Persona: the guest shopper on mobile.
+> - Scope: card and wallet are in; saved addresses are out.
 >
-> ## Agent intent (ICE)
-> - Goal: For each harness, tell how often an agent finishes its work without a person stepping in.
+> ## Expectation
+> - Scenario: A guest pays by card in under two minutes.
+> - Done means: that scenario and a wallet scenario pass.
+> - Quality need: the page loads in under one second.
+>
+> **Ready answer:** ready.
+>
+> **Clinic — ICE of "Booking"** (a capability, no domain yet), at `capabilities/booking/ice.md`. Booking serves "Patients book their own appointments online" (confirmed). It needs nothing.
+> **Intent:** Goal — a patient books, moves and cancels an appointment without a call.
+> **Context:** Persona — the patient on a phone.
+> **Expectation:** Scenario — a patient moves an appointment in three steps.
+> **Ready answer:** partly ready — gap: no domain. Each part is thin, but all three are present, so work starts.
+>
+> **Shop — ICE of "Order history"** (a functionality in Orders). Orders serves a confirmed business intent and needs nothing. Its page has Intent and Expectation, and no Context.
+> **Ready answer:** not ready — Context is missing. Work stops until it is written.
+>
+> **Bank — ICE of "Credit decision"** (a capability in Lending). Credit decision serves "Small businesses get a loan decision in one day" (confirmed), and needs "Loan application", which is not done.
+> **Ready answer:** not ready — Loan application is not done. The page is kept.
 
 ### Capability
 
-**What it is:** Something the product can do, in the product's own words — the unit agents build. It holds an ICE. It is not a domain (a domain is a big area that groups capabilities) and not a piece of work (the Feature issue that tracks it).
+**What it is:** Something the product can do, in the product's own words — the unit agents build — and it serves one or more business intents. It sits in at most one domain, and it has exactly one ICE, on the ICE's own page; the capability page does not hold the ICE. Among the parts of the product it is the only kind that **needs** another (the other must be done first) or is **identified by** another (the other led us to find it), and it links to other capabilities only. It is not a domain (a domain is a big area that groups capabilities) and not a piece of work (the Feature issue that carries its ICE).
 **Who reads it:** both
-**Lives at:** the spine's `capabilities` list and its page `capability.md` — under its domain's folder, or the holding folder `capabilities/<id>/` while it has no domain
+**Lives at:** the spine's `capabilities` list and its page `capability.md` — under its one domain's folder, or the holding folder `capabilities/<id>/` while it has no domain
 
 **Properties**
 
 | Property | What it holds | Required |
 |----------|---------------|----------|
 | Name and one line | What it lets someone do, in one sentence | yes |
-| Agent intent (ICE) | The last section of its page | to be workable |
-| Serves | The business intents it is built from (spine `intents`) | to be workable |
-| Needs | Other capabilities or functionalities that must be done first (spine `depends_on`, to be renamed `needs`) | no |
-| Identified by | The capability or functionality that led us to find it; empty when it was found on its own | no |
-| Domain | The domain it sits in — a loose link | no |
+| ICE | Its one ICE, on the ICE's own page | yes, to be ready |
+| Serves | The business intents it serves (spine `intents`) — at least one, confirmed, for its ICE to be ready | yes, to be ready |
+| Needs | Other capabilities that must be done first — capabilities only (spine `depends_on`, to be renamed `needs` under #725) | no |
+| Identified by | The other capabilities that led us to find it — capabilities only, and may name more than one; empty when it was found on its own | no |
+| Domain | The one domain it sits in (spine `domain`, kept as a single field) — at most one, and may be missing | no |
 
 **Relationships**
 
 | Direction | Other kind | Count | Meaning |
 |-----------|-----------|-------|---------|
 | this → other | Business Intent | many | It serves a business intent |
-| other → this | Functionality | many | A functionality belongs to it |
-| this → other | Capability | many | It **needs** another capability |
-| this → other | Functionality | many | It **needs** a functionality (in any capability) |
-| this → other | Capability | one | It was **identified by** another capability |
-| this → other | Functionality | one | … or **identified by** a functionality |
-| this → other | Domain | one | It sits in a domain — loose, may be missing |
-| other → this | ICE | one | Its ICE is the agent's intent for it |
-| other → this | Work | one | It is tracked as one Feature |
+| other → this | Functionality | many | A functionality has it as its one parent |
+| other → this | ICE | one | Its one ICE — the agent's intent for it |
+| this → other | Capability | many | It **needs** another capability: the other must be done first |
+| this → other | Capability | many | It was **identified by** another capability: the other led us to find it |
+| this → other | Domain | one | It sits in at most one domain; a domain has one or more capabilities. May be missing — a gap, never a stop |
 
 **Rules**
 
-- It is ready when it serves a confirmed business intent and nothing it needs is still open. A missing domain never blocks it.
-- While something it needs is open, it is **blocked**; the need names what it waits for.
-- "Needs" and "identified by" link only capabilities and functionalities — never work.
-- A capability may serve more than one business intent; it then shows in each of their plans, with one Feature issue.
+- It has exactly one ICE. The ICE is on its own page, never a section of the capability page.
+- It serves one or more business intents. When it serves more than one, its one ICE covers all of them, and it shows in each of their plans.
+- A capability's "needs" and "identified by" name other capabilities only — never a functionality, a business intent or work.
+- While a capability it needs is not done, its ICE and the ICE of each of its functionalities are not ready.
+- It sits in at most one domain. A domain has one or more capabilities.
+- A missing domain or a missing "identified by" never stops work; it is a gap, and its ICE is partly ready. A capability with no domain waits in the holding folder until it names one.
 
 **Example**
 
-> **Shop — Cart.** Shoppers keep items in a cart until they pay. Serves "Shoppers can check out without an account". Identified by: Guest checkout (we found we needed it while working on guest checkout). Domain: Commerce. Tracked as Feature #125.
+> **Shop — Cart.** Shoppers keep items in a cart until they pay. Serves "Shoppers can check out without an account". Sits in the domain Commerce. Identified by: Checkout (we found we needed it while working on checkout). Its ICE is on its own page; Feature #125 carries that ICE.
 >
-> **Clinic — Booking.** Patients book, move and cancel appointments. Serves "Patients book their own appointments online". Needs: Patient contact details (a functionality in Patient records). Found on its own. No domain yet — ready all the same. Tracked as Feature #341.
+> **Clinic — Booking.** Patients book, move and cancel appointments. Serves "Patients book their own appointments online". Needs nothing. Found on its own. No domain yet — it waits in the holding folder, and its ICE is partly ready. Feature #341 carries its ICE.
 >
-> **Bank — Credit decision.** The bank decides on a small-business loan. Serves "Small businesses get a loan decision in one day". Needs: Upload documents (a functionality of Loan application). Domain: Lending. Tracked as Feature #54.
+> **Bank — Credit decision.** The bank decides on a small-business loan. Serves "Small businesses get a loan decision in one day". Sits in the domain Lending. Needs: Loan application (a capability), because an applicant must apply before the bank decides. Feature #54 carries its ICE.
 
 ### Functionality
 
-**What it is:** One specific thing a person can do inside a capability. It holds an ICE. It is not a story (the Story issue that tracks it) and not a bug (a fault found in it).
+**What it is:** One specific thing a person can do inside a capability. It has exactly one parent capability, and exactly one ICE, on the ICE's own page; the functionality page does not hold the ICE. It never needs anything and is never identified by anything: its order of work and its business intents come from its parent capability. It is not a story (the Story issue that builds it) and not a bug (a fault found in it).
 **Who reads it:** both
 **Lives at:** the spine's `functionalities` list and its page `functionality.md` — under its capability's folder, or the holding folder `functionalities/<id>/` until it names a capability
 
@@ -252,42 +311,35 @@ proposed → confirmed (the person who asked confirms it says the right thing) �
 | Property | What it holds | Required |
 |----------|---------------|----------|
 | Name and one line | The one thing it lets someone do | yes |
-| Agent intent (ICE) | The last section of its page | to be workable |
-| Capability | The capability it belongs to | to be workable |
-| Serves | The business intents it is built from (spine `intents`) | to be workable |
-| Needs | Other capabilities or functionalities that must be done first | no |
-| Identified by | The capability or functionality that led us to find it; empty when found on its own | no |
+| ICE | Its one ICE, on the ICE's own page | yes, to be ready |
+| Capability | Its one parent capability | yes, to be ready |
 
 **Relationships**
 
 | Direction | Other kind | Count | Meaning |
 |-----------|-----------|-------|---------|
-| this → other | Capability | one | It belongs to a capability |
-| this → other | Business Intent | many | It serves a business intent |
-| this → other | Capability | many | It **needs** a capability |
-| this → other | Functionality | many | It **needs** another functionality |
-| this → other | Capability | one | It was **identified by** a capability |
-| this → other | Functionality | one | … or **identified by** another functionality |
-| other → this | ICE | one | Its ICE is the agent's intent for it |
-| other → this | Work | many | It is tracked as one Story, and holds the Spikes, Chores and Bugs found in it |
+| this → other | Capability | one | It has exactly one parent capability |
+| other → this | ICE | one | Its one ICE — the agent's intent for it |
 
 **Rules**
 
-- It is ready when its capability is ready and nothing it needs is still open.
-- Every bug sits under a functionality, so a business intent can show it was delivered with an open defect.
-- One functionality is tracked as exactly one Story.
+- It has exactly one parent capability. Until it names one it waits in the holding folder, and its ICE is not ready, because no confirmed business intent reaches it.
+- It has exactly one ICE, on its own page, never a section of the functionality page.
+- It never needs anything and is never identified by anything. Its order of work comes from its parent capability.
+- Its business intents are the ones its parent capability serves.
+- Garura's own model: fn-727 → fn-724 is not allowed; it becomes cap-718 → cap-723 (the move is #765).
 
 **Example**
 
-> **Shop — Guest checkout** (in Checkout). A shopper pays without making an account. Needs: Cart (capability). Tracked as Story #122; Bug #130 "Card fails on mobile" sits under it.
+> **Shop — Guest checkout** (in Checkout). A shopper pays without making an account. It needs nothing; its work waits on what Checkout needs. Story #122 builds it and carries its ICE; Bug #130 "Card fails on mobile" sits under it and carries the same ICE.
 >
-> **Clinic — Send a reminder** (in Booking). The patient gets an SMS the day before. Needs: Patient contact details. Spike #344 "Which SMS provider?" sits under it.
+> **Clinic — Send a reminder** (in Booking). The patient gets an SMS the day before. It needs nothing; its work waits until Booking can start. Spike #344 "Which SMS provider?" sits under it.
 >
-> **Bank — Upload documents** (in Loan application). The applicant uploads accounts and ID. Found on its own. Tracked as Story #53, done.
+> **Bank — Upload documents** (in Loan application). The applicant uploads accounts and ID. Its business intent is the one Loan application serves: "Small businesses get a loan decision in one day". Story #53 builds it, done.
 
 ### Work
 
-**What it is:** A tracked piece of work in the team's tracker, in one of five types: **Feature** (the work order for one capability), **Story** (for one functionality), and **Spike**, **Chore** and **Bug** (each under a functionality). The issue carries a copy of its node's ICE; the model page holds the ICE itself. Work is not the capability or functionality — it is the order to build it.
+**What it is:** A tracked piece of work in the team's tracker, in one of five types: **Feature**, **Story**, **Spike**, **Chore** and **Bug**. Each piece of work carries one ICE, and an ICE can have many pieces of work. A Feature carries its capability's ICE. Under a functionality, the Story builds it, and Spikes, Chores and Bugs sit under it; each carries the functionality's ICE. The issue carries a copy of its ICE; the ICE page holds the ICE itself. Work is not the capability or functionality — it is the order to build it.
 **Who reads it:** both
 **Lives at:** the team's tracker (GitHub, Jira, Azure, Linear, custom), linked from its plan
 
@@ -297,30 +349,31 @@ proposed → confirmed (the person who asked confirms it says the right thing) �
 |----------|---------------|----------|
 | Type | Feature, Story, Spike, Chore or Bug | yes |
 | Issue | The tracker issue's number or key | yes |
-| Node | The capability (Feature) or functionality (Story, Spike, Chore, Bug) it is for | yes |
-| ICE copy | Its node's ICE, for the agent doing the work | Feature and Story |
+| ICE | The one ICE it carries, and through it the capability or functionality it is for | yes |
+| ICE copy | A copy of that ICE on the issue, for the agent doing the work | Feature and Story |
 | State | open or closed, as the tracker holds it | yes |
 
 **Relationships**
 
 | Direction | Other kind | Count | Meaning |
 |-----------|-----------|-------|---------|
-| this → other | Capability | one | A Feature tracks a capability |
-| this → other | Functionality | one | A Story tracks a functionality; a Spike, Chore or Bug sits under one |
-| this → other | Business Intent | many | It serves a business intent, through its node |
+| this → other | ICE | one | It carries one ICE; an ICE can have many pieces of work |
 | this → other | Tracker Issue | one | It is one issue in the tracker |
 
 **Rules**
 
-- Work never needs anything and is never identified by anything; those links sit on its capability or functionality.
+- Work never needs anything and is never identified by anything.
+- It reaches its part and its business intents through its ICE.
+- A Story builds one functionality and carries that functionality's ICE. One functionality has exactly one Story.
+- Spikes, Bugs and Chores sit under a functionality and carry its ICE. A Bug always sits under a functionality.
+- A Feature carries its capability's ICE. One capability has one Feature.
 - In the tracker, work follows the plan's parent order: Business Intent → Feature → Story → Spike, Chore or Bug.
-- A Bug always sits under a functionality.
 
 **Example**
 
-> **Shop:** Feature #121 Checkout · Story #122 Guest checkout · Bug #130 Card fails on mobile.
-> **Clinic:** Feature #341 Booking · Story #343 Send a reminder · Spike #344 Which SMS provider?
-> **Bank:** Feature #54 Credit decision · Story #55 Score the application · Chore #56 Move scoring rules to config.
+> **Shop:** Feature #121 carries the ICE of Checkout · Story #122 carries the ICE of Guest checkout · Bug #130 "Card fails on mobile" carries the same ICE as Story #122.
+> **Clinic:** Feature #341 carries the ICE of Booking · Story #343 carries the ICE of Send a reminder · Spike #344 "Which SMS provider?" carries the same ICE as Story #343.
+> **Bank:** Feature #54 carries the ICE of Credit decision · Story #55 carries the ICE of Score the application · Chore #56 "Move scoring rules to config" carries the same ICE as Story #55.
 
 ### Plan
 
@@ -364,7 +417,7 @@ proposed → confirmed (the person who asked confirms it says the right thing) �
 ## Not yet defined
 
 - **Tracker Issue** — an issue in the team's tracker (GitHub, Jira, …) that tracks a business intent or a piece of work.
-- **Domain** — a big area of the product (exists today in `product-os.yaml`). Its page is light (directional) or full (detailed); it holds no ICE; its spine `intents` names the business intents that touch it, and capabilities name it. It is for finding things: never part of a plan, never a tracker issue.
+- **Domain** — a big area of the product. Its page is light (directional) or full (detailed); it holds no ICE. It has one or more capabilities, and each capability sits in at most one domain. It links loosely to business intents, many to many, for search only. It is never in a plan, never a tracker issue, and never stops work.
 
 ## Log
 
@@ -378,3 +431,4 @@ proposed → confirmed (the person who asked confirms it says the right thing) �
 - 2026-10-17 — v4 (#637): one product model that every play writes, at the depth it knows, and nothing waits for another play. ICE now has one named place — `## Agent intent (ICE)`, the last section of a capability's or functionality's page, in labelled lines filled as far as is known; expected once the node names a business intent (missing is a linter warning, so earlier pages still pass). A business intent's touches are kept on its page as a **Touches** list (adds / changes / removes, with links), and the domain's spine entry gains `intents`, so every part an intent touches is linked both ways. A domain page is light (directional) or full (detailed), like a capability's. Design: `.garura/project/issues/637/specs/design.md`.
 - 2026-10-18 — #656: personal names taken out of the Source example and of this Log, so the ontology can live in Phoenix memory for any project. No kind, field or rule changed.
 - 2026-10-21 — v5 (#597, plan #722, with Kapil): Capability, Functionality, Work and Plan defined. Capabilities and functionalities **need** each other in any mix, and record what they were **identified by**; business intents are identified by each other — a connection, never a dependency. Work is never linked. Domains link loosely to business intents and capabilities and are never in a plan. The ready rule drops the domain: a node is ready once it serves a confirmed business intent and nothing it needs is open (replaces the ADR 043 rule). Q7 added. The spine field stays `depends_on` for now; its rename to `needs` is #725. Working notes: `.garura/project/issues/621/specs/ontology-run.md`.
+- 2026-10-22 — v6 (#758, plan #756, with the product owner): the ICE becomes its own node, with its own page (`ice.md`, in its part's folder) and its own spine entry (a new `ices` list), one for each capability and each functionality, in three parts (Intent, Context, Expectation); it has no link to a business intent, and finds them through its part. A business intent holds no ICE and is never worked on directly; it has one or more capabilities, its Touches list names domains and capabilities only, it gains an optional Rules property, and business intents are still identified by one another, a connection and never a dependency. Among the parts of the product, "needs" and "identified by" join capabilities only; a functionality has neither, and takes its business intents and order of work from its one parent capability. Work carries one ICE. A capability sits in at most one domain and a domain has one or more capabilities; a missing domain is a gap, never a stop; the spine's single `domain` field and the folders stay as they are. The ready rule moves to the ICE, with three answers: ready, partly ready, not ready; an ICE starts only with all three parts present. Q1–Q7 now point at the new links; Q8–Q16 added. Garura's own fn-727 → fn-724 becomes cap-718 → cap-723 (#765). Option 1 (one ICE for each part) replaces option 1.B (one ICE for each pair of business intent and part).

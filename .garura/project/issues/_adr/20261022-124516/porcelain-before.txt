@@ -1,0 +1,20 @@
+R  .garura/project/issues/758/review/categories.yaml -> .garura/project/issues/758/review/round1/categories.yaml
+R  .garura/project/issues/758/review/context.yaml -> .garura/project/issues/758/review/round1/context.yaml
+R  .garura/project/issues/758/review/decision-comment.md -> .garura/project/issues/758/review/round1/decision-comment.md
+R  .garura/project/issues/758/review/decision.yaml -> .garura/project/issues/758/review/round1/decision.yaml
+R  .garura/project/issues/758/review/design-findings-memory.yaml -> .garura/project/issues/758/review/round1/design-findings-memory.yaml
+R  .garura/project/issues/758/review/findings.yaml -> .garura/project/issues/758/review/round1/findings.yaml
+R  .garura/project/issues/758/review/posted.json -> .garura/project/issues/758/review/round1/posted.json
+R  .garura/project/issues/758/review/pr.diff -> .garura/project/issues/758/review/round1/pr.diff
+R  .garura/project/issues/758/review/recommended_verdict.yaml -> .garura/project/issues/758/review/round1/recommended_verdict.yaml
+R  .garura/project/issues/758/review/runnable-checks.txt -> .garura/project/issues/758/review/round1/runnable-checks.txt
+ M core/components/memory/standards/schemas/product-os/ontology.md
+?? .garura/project/issues/758/review/categories.yaml
+?? .garura/project/issues/758/review/context.yaml
+?? .garura/project/issues/758/review/design-findings-memory.yaml
+?? .garura/project/issues/758/review/findings.yaml
+?? .garura/project/issues/758/review/pr.diff
+?? .garura/project/issues/758/review/recommended_verdict.yaml
+?? .garura/project/issues/758/review/runnable-checks.txt
+?? .garura/project/issues/_adr/20261022-124516/porcelain-before.txt
+?? .garura/project/issues/_adr/20261022-124516/run.json

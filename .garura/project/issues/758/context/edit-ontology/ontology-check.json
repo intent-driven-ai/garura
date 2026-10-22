@@ -1,0 +1,84 @@
+{
+  "valid": true,
+  "kinds": [
+    "Business Intent",
+    "Capability",
+    "Functionality",
+    "ICE",
+    "Plan",
+    "Source",
+    "Work"
+  ],
+  "not_yet_defined": [
+    "Domain",
+    "Tracker Issue"
+  ],
+  "questions": [
+    {
+      "id": "Q1",
+      "status": "partly"
+    },
+    {
+      "id": "Q2",
+      "status": "partly"
+    },
+    {
+      "id": "Q3",
+      "status": "partly"
+    },
+    {
+      "id": "Q4",
+      "status": "not yet"
+    },
+    {
+      "id": "Q5",
+      "status": "answered"
+    },
+    {
+      "id": "Q6",
+      "status": "answered"
+    },
+    {
+      "id": "Q7",
+      "status": "answered"
+    },
+    {
+      "id": "Q8",
+      "status": "answered"
+    },
+    {
+      "id": "Q9",
+      "status": "answered"
+    },
+    {
+      "id": "Q10",
+      "status": "answered"
+    },
+    {
+      "id": "Q11",
+      "status": "answered"
+    },
+    {
+      "id": "Q12",
+      "status": "answered"
+    },
+    {
+      "id": "Q13",
+      "status": "answered"
+    },
+    {
+      "id": "Q14",
+      "status": "answered"
+    },
+    {
+      "id": "Q15",
+      "status": "answered"
+    },
+    {
+      "id": "Q16",
+      "status": "partly"
+    }
+  ],
+  "problems": [],
+  "ontology": "core/components/memory/standards/schemas/product-os/ontology.md"
+}

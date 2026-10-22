@@ -1,0 +1,25 @@
+categories:
+  - name: memory
+    playbook: review/memory
+    design_bearing: true
+    evidence:
+      - core/components/memory/standards/schemas/product-os/ontology.md
+    note: product-model ontology schema (a standards schema under core/components/memory); Layer 2 applies.
+  - name: decision-records
+    playbook: review/adrs
+    design_bearing: false
+    evidence:
+      - docs/adr/047-the-ice-is-its-own-node.md
+      - docs/adr/031-business-intent-and-ice.md
+      - docs/adr/033-approval-in-the-product-model.md
+      - docs/adr/043-kickoff-plays-read-independently-and-the-drive-closes-the-loop.md
+      - docs/adr/_index.md
+    note: new ADR 047 plus edits to ADRs 031, 033, 043 and the index. Playbook says no design-grounding.
+  - name: run-records-stm
+    playbook: null
+    design_bearing: false
+    evidence:
+      - .garura/project/issues/758/context/**
+      - .garura/project/issues/758/review/** (including round1/)
+      - .garura/project/issues/_adr/20261022-124516/**
+    note: "playbook missing - short-term-memory run artifacts (branch/PR/context JSON, drafts, earlier review rounds, ADR-play working files). Not reviewed content; no layer-2 grounding. Suggest a playbook (or an explicit skip rule) for STM run records."

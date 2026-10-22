@@ -1,0 +1,42 @@
+{
+  "decided": true,
+  "lint_ok": true,
+  "linked": true,
+  "target": "docs/adr/047-the-ice-is-its-own-node.md",
+  "shape": "markdown",
+  "guard": {
+    "adr": ".garura/project/issues/_adr/20261022-124516/adr-draft.md",
+    "declared": "kind",
+    "touches_an_intent": [],
+    "verdict": "no person's business intent changes"
+  },
+  "olders": [
+    {
+      "adr": "031",
+      "file": "docs/adr/031-business-intent-and-ice.md",
+      "kind": "amended",
+      "part": "\u00a71 (one ICE for each capability and functionality, no link to a business intent), \u00a73 (where the ICE lives), \u00a74 (the ready rule) \u2014 the ICE parts only"
+    },
+    {
+      "adr": "043",
+      "file": "docs/adr/043-kickoff-plays-read-independently-and-the-drive-closes-the-loop.md",
+      "kind": "amended",
+      "part": "\u00a71 (an ICE has exactly one part), \u00a72 (the ICE is written as its own node), \u00a73 (the ready rule) \u2014 the ICE parts only"
+    },
+    {
+      "adr": "033",
+      "file": "docs/adr/033-approval-in-the-product-model.md",
+      "kind": "amended",
+      "part": "\u00a74 only \u2014 the ICE's own approval and its part's are no longer a condition of ready; the business intent's confirmation stays"
+    }
+  ],
+  "status": "accepted",
+  "accepted_by": "Kapil Viren Ahuja",
+  "pointers_written": [
+    "031-business-intent-and-ice.md",
+    "043-kickoff-plays-read-independently-and-the-drive-closes-the-loop.md",
+    "033-approval-in-the-product-model.md"
+  ],
+  "pointers_missing": [],
+  "index_ok": true
+}
