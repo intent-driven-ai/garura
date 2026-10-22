@@ -1,0 +1,12 @@
+commits:
+  - sha: fc2682eb
+    message: "chore(stm): add porcelain (#793)"
+    files:
+      - .garura/project/issues/793/context/porcelain.txt
+    branch: plan/788/793-ontology-work-not-epics
+excluded_files:
+  []
+leftover_count: 0
+tree_clean: true
+pushed: false
+run_state_committed: true
