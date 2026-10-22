@@ -2,14 +2,29 @@
 # Kept by hand until update-plan (#730) exists. Status: done | now | next | blocked.
 id: 756
 title: The agent intent (ICE) is its own part of the product model
-status: next
-started: null
-branch: null
+status: active
+started: '2026-10-22'
+branch: plan/756/base
 identified_by:
 - 722
-needs_plans: []
+needs_plans:
+- 722
 updated: '2026-10-22'
 tree:
+- issue: 776
+  kind: capability
+  title: Change the product ontology through a play
+  status: now
+  children:
+  - issue: 777
+    kind: functionality
+    title: A play changes the ontology and calls author-product-ontology
+    status: now
+    children:
+    - issue: 778
+      kind: bug
+      title: The skill author-product-ontology is user-invocable
+      status: next
 - issue: 757
   kind: capability
   title: The ICE is its own kind in the product model
@@ -18,7 +33,9 @@ tree:
   - issue: 758
     kind: functionality
     title: 'The ICE kind: its own page, spine entry and three parts'
-    status: next
+    status: blocked
+    needs:
+    - 777
   - issue: 759
     kind: functionality
     title: The linter checks each ICE's three parts and its two links

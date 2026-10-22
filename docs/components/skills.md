@@ -15,7 +15,7 @@ Skills represent the "how" of execution. They are technology or methodology-spec
 | **Learned** | Technology/methodology specific knowledge |
 | **Stable** | Don't change frequently over time |
 | **Reusable** | Used by multiple agents and plays |
-| **Internal** | Not directly invocable by humans (see Meta-Utility exception) |
+| **Internal** | Not directly invocable by humans; plays run them |
 | **Context-sharing** | Share the agent's context (never forked) |
 
 ## Two Categories
@@ -29,22 +29,9 @@ Garura has two categories of components that deploy as Claude Code skills:
 
 Both deploy to `.claude/skills/` but serve fundamentally different roles. This document covers **Skills** and **Plays**. See [Plays](./plays.md) for full play documentation.
 
-### Meta-Utility Skills (Exception)
-
-Some skills exist to manage the Garura framework itself. These are classified as **meta-utility skills** and may be `user-invocable: true` despite the general rule that skills are model-invocable only.
-
-Example: deployment of Garura components into a target project runs via the `install-garura` play (reverse: `uninstall-garura`). Deployment is invoked directly by the user because it manages the deployment pipeline, not a domain task.
-
-Today's meta-utility skill: `author-product-ontology` — builds Garura's product ontology with a person, one kind at a time. It is installed only by `install-garura --scope harness`, never into a product project.
-
-Meta-utility skills:
-- Are user-invocable
-- Serve framework operations, not domain work
-- Are not invoked by agents or plays
-
 ## Available Skills
 
-Roughly 100 skills are authored in `core/components/skills/`, each with `user-invocable: false` except the meta-utility skills above (`author-product-ontology`). The roster, grouped by family — see each skill's `SKILL.md` frontmatter for its full description and model:
+Roughly 100 skills are authored in `core/components/skills/`, each with `user-invocable: false`. A person never starts a skill; plays run them (the linter fails a skill with `user-invocable: true`, #778). The roster, grouped by family — see each skill's `SKILL.md` frontmatter for its full description and model:
 
 | Family | Skills |
 |--------|--------|
@@ -65,7 +52,7 @@ For the complete play roster, see [Plays Component Guide](./plays.md).
 
 ### Model-Invocable Only
 
-Skills are **never invoked directly by humans** (except meta-utility skills). The invocation chain is:
+Skills are **never invoked directly by humans**. The invocation chain is:
 
 ```
 Human → Play → Agent → Skill
@@ -220,7 +207,7 @@ allowed-tools: {Tool1, Tool2}
 |-------|-------------|
 | `name` | Skill identifier, matches directory name |
 | `description` | Short summary for CLI/tooling discovery |
-| `user-invocable` | `false` for skills, `true` only for meta-utility skills and plays |
+| `user-invocable` | `false` for every skill; `true` only for plays |
 | `model` | Model to use (see Model Selection below) |
 | `allowed-tools` | Comma-separated list of tools the skill may use |
 

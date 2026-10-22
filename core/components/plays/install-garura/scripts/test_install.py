@@ -416,6 +416,14 @@ class LaysLoops(unittest.TestCase):
             self.assertIn(agent, allow["agents"])
             self.assertTrue(os.path.isfile(os.path.join(components, "agents", agent + ".md")), agent)
 
+    def test_edit_ontology_goes_to_harness_repos_only(self):
+        # The play that changes the product ontology is build tooling for a harness repo (#777).
+        self.assertIn("edit-ontology", install.SCOPES["harness"]["plays"])
+        self.assertIn("author-product-ontology", install.SCOPES["harness"]["skills"])
+        full = install.resolve_scope("full", os.path.join(ROOT, "core", "components"))
+        self.assertNotIn("edit-ontology", full["plays"])
+        self.assertNotIn("author-product-ontology", full["skills"])
+
     def test_the_config_points_loops_at_the_install_place(self):
         text = install.transform_config("components:\n  loops: ./core/components/loops/\n"
                                         "loops:\n  complete-discovery:\n    runner: subagent\n",

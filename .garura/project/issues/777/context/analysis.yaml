@@ -1,0 +1,28 @@
+---
+needs_judgment: false
+
+change_groups:
+  - id: edit-ontology-review-fixes
+    issue: 777
+    commit_type: fix
+    scope: edit-ontology
+    subject: list the ontology skill on product-os-keeper, name its stage inputs, and record the play's position
+    files:
+      - core/components/agents/product-os-keeper.md
+      - core/components/skills/author-product-ontology/SKILL.md
+      - core/components/memory/standards/rules/pipeline-position.md
+
+exclusions:
+  - path: ".garura/project/issues/777/context/analysis.yaml"
+    reason: "commit-change run state, committed by the executor"
+    blocking: false
+  - path: ".garura/project/issues/777/context/porcelain.txt"
+    reason: "commit-change run state, committed by the executor"
+    blocking: false
+
+risks:
+  sensitive_files: []
+
+eval_gates:
+  SE-1: {status: PASS, evidence: "one issue, one concern, one group"}
+  SE-5: {status: PASS, evidence: "no sensitive patterns matched"}
