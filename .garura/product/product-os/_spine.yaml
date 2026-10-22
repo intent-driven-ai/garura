@@ -23,7 +23,7 @@ capabilities:
     maintainability:
       level: medium
       target: 0 new errors on any model page that passed before ontology v5 — a missing
-        domain, ICE or link is a warning, never an error; no capability or functionality
+        domain, ICE or link is a warning, never an error; no capability or feature
         value lost in the depends_on -> needs rename
       gate: test_check_ice_workable.py and test_lint_grounding.py pass; a before/after
         diff of Garura's spine shows every need kept
@@ -127,15 +127,15 @@ capabilities:
   - cap-739
   identified_by: ''
   issue: 747
-functionalities:
+features:
 - id: fn-724
   slug: fn-724
   capability: cap-723
   intents:
   - bi-722
   status: proposed
-  one_line: A capability or functionality is ready without a domain
-  doc: functionalities/fn-724/functionality.md
+  one_line: A capability or feature is ready without a domain
+  doc: features/fn-724/feature.md
   depends_on: []
   identified_by: ''
   issue: 724
@@ -146,7 +146,7 @@ functionalities:
   - bi-722
   status: proposed
   one_line: Rebuild the product model as an ontology
-  doc: functionalities/fn-597/functionality.md
+  doc: features/fn-597/feature.md
   depends_on: []
   identified_by: ''
   issue: 597
@@ -156,8 +156,8 @@ functionalities:
   intents:
   - bi-722
   status: proposed
-  one_line: '"Needs" and "identified by" link capabilities and functionalities'
-  doc: functionalities/fn-725/functionality.md
+  one_line: '"Needs" and "identified by" link capabilities and features'
+  doc: features/fn-725/feature.md
   depends_on: []
   identified_by: ''
   issue: 725
@@ -168,7 +168,7 @@ functionalities:
   - bi-722
   status: proposed
   one_line: Domains link to business intents and capabilities, outside the plan tree
-  doc: functionalities/fn-726/functionality.md
+  doc: features/fn-726/feature.md
   depends_on: []
   identified_by: ''
   issue: 726
@@ -179,7 +179,7 @@ functionalities:
   - bi-717
   status: proposed
   one_line: start-change cuts a plan's branch, and each issue's branch from it
-  doc: functionalities/fn-731/functionality.md
+  doc: features/fn-731/feature.md
   depends_on: []
   identified_by: ''
   issue: 731
@@ -191,7 +191,7 @@ functionalities:
   status: proposed
   one_line: merge-change lands an issue on its plan branch, and a plan on main only
     when it is done
-  doc: functionalities/fn-673/functionality.md
+  doc: features/fn-673/feature.md
   depends_on: []
   identified_by: ''
   issue: 673
@@ -202,7 +202,7 @@ functionalities:
   - bi-717
   status: proposed
   one_line: Build the plan tree from a business intent
-  doc: functionalities/fn-727/functionality.md
+  doc: features/fn-727/feature.md
   depends_on:
   - fn-724
   identified_by: ''
@@ -214,7 +214,7 @@ functionalities:
   - bi-717
   status: proposed
   one_line: Create or link a tracker issue for every node in a plan
-  doc: functionalities/fn-728/functionality.md
+  doc: features/fn-728/feature.md
   depends_on: []
   identified_by: ''
   issue: 728
@@ -225,7 +225,7 @@ functionalities:
   - bi-717
   status: proposed
   one_line: List every plan, from the plan files alone
-  doc: functionalities/fn-729/functionality.md
+  doc: features/fn-729/feature.md
   depends_on: []
   identified_by: ''
   issue: 729
@@ -236,7 +236,7 @@ functionalities:
   - bi-717
   status: proposed
   one_line: 'Show the plan as a plain-words tree: goal, done, now, next, wait'
-  doc: functionalities/fn-628/functionality.md
+  doc: features/fn-628/feature.md
   depends_on: []
   identified_by: ''
   issue: 628
@@ -247,7 +247,7 @@ functionalities:
   - bi-717
   status: proposed
   one_line: Update, edit or delete a plan file, and connect it to its issues
-  doc: functionalities/fn-730/functionality.md
+  doc: features/fn-730/feature.md
   depends_on: []
   identified_by: ''
   issue: 730
@@ -258,7 +258,7 @@ functionalities:
   - bi-734
   status: proposed
   one_line: 'Naming rules: verbs, run- for loops, no tool built-ins, two-word plays'
-  doc: functionalities/fn-736/functionality.md
+  doc: features/fn-736/feature.md
   depends_on: []
   identified_by: ''
   issue: 736
@@ -269,7 +269,7 @@ functionalities:
   - bi-734
   status: proposed
   one_line: 'Harness principles and practices: why we build this way, and how'
-  doc: functionalities/fn-737/functionality.md
+  doc: features/fn-737/feature.md
   depends_on: []
   identified_by: ''
   issue: 737
@@ -280,7 +280,7 @@ functionalities:
   - bi-734
   status: proposed
   one_line: One ADR that replaces ADR 006 and ADR 018
-  doc: functionalities/fn-738/functionality.md
+  doc: features/fn-738/feature.md
   depends_on: []
   identified_by: ''
   issue: 738
@@ -291,7 +291,7 @@ functionalities:
   - bi-734
   status: proposed
   one_line: The component linter fails any name that breaks the standard
-  doc: functionalities/fn-740/functionality.md
+  doc: features/fn-740/feature.md
   depends_on: []
   identified_by: ''
   issue: 740
@@ -302,7 +302,7 @@ functionalities:
   - bi-734
   status: proposed
   one_line: A rename map, and a check that no old name is left
-  doc: functionalities/fn-741/functionality.md
+  doc: features/fn-741/feature.md
   depends_on: []
   identified_by: ''
   issue: 741
@@ -313,7 +313,7 @@ functionalities:
   - bi-734
   status: proposed
   one_line: Rename the harness plays and the loops
-  doc: functionalities/fn-743/functionality.md
+  doc: features/fn-743/feature.md
   depends_on:
   - fn-741
   identified_by: ''
@@ -325,7 +325,7 @@ functionalities:
   - bi-734
   status: proposed
   one_line: Rename the change, plan, knowledge and record plays
-  doc: functionalities/fn-744/functionality.md
+  doc: features/fn-744/feature.md
   depends_on:
   - fn-741
   identified_by: ''
@@ -337,7 +337,7 @@ functionalities:
   - bi-734
   status: proposed
   one_line: Rename the lifecycle and lens plays
-  doc: functionalities/fn-745/functionality.md
+  doc: features/fn-745/feature.md
   depends_on:
   - fn-741
   identified_by: ''
@@ -349,7 +349,7 @@ functionalities:
   - bi-734
   status: proposed
   one_line: Rename the skills
-  doc: functionalities/fn-746/functionality.md
+  doc: features/fn-746/feature.md
   depends_on:
   - fn-741
   identified_by: ''
@@ -361,7 +361,7 @@ functionalities:
   - bi-734
   status: proposed
   one_line: An install removes old names and lays the new ones
-  doc: functionalities/fn-748/functionality.md
+  doc: features/fn-748/feature.md
   depends_on:
   - fn-741
   identified_by: ''
