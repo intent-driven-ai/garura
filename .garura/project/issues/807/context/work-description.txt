@@ -1,0 +1,1 @@
+Rename Functionality to Feature on disk (spine fields, page and folder names, plays, skills, scripts, templates, schemas, linters, Garura's own model), take the epics list out of the product model, and record ADR 048 with the glossary and template updates (#807).
