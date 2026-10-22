@@ -1,0 +1,82 @@
+# check-change Step 2 - categories present in PR #780 (issue 777)
+shelf_note: >
+  context.yaml names ./.garura/core/memory/knowledge/review/, which does not exist in this
+  checkout (bug #773). Playbooks were read from core/components/memory/knowledge/review/ instead.
+categories:
+  - name: harness
+    playbook: review/harness
+    design_bearing: true
+    evidence:
+      - core/components/plays/edit-ontology/SKILL.md            # new play (compiled)
+      - core/components/plays/edit-ontology/reference/ice.md    # new play ICE source
+      - core/components/plays/edit-ontology/stop-condition.yaml
+      - core/components/plays/install-garura/SKILL.md
+      - core/components/skills/author-product-ontology/SKILL.md
+    runnable_checks:
+      - "node core/tools/lint-components/index.js --target core/components   # run from repo root"
+      - "lint_play.py on core/components/plays/edit-ontology (eval coverage, one recovery per failure, intent fingerprint, no orphan refs)"
+      - "play-pipeline rule: intent change in install-garura/edit-ontology must trace to reference/ice.md, not a hand edit of SKILL.md"
+  - name: executable-code
+    playbook: review/code
+    design_bearing: false
+    evidence:
+      - core/components/plays/edit-ontology/scripts/check_ontology.py
+      - core/components/plays/edit-ontology/scripts/check_ontology_change.py
+      - core/components/plays/edit-ontology/scripts/check_stop_condition.py
+      - core/components/plays/edit-ontology/scripts/preflight.py
+      - core/components/plays/edit-ontology/scripts/record_checkpoint.py
+      - core/components/plays/edit-ontology/scripts/session_stamp.py
+      - core/components/plays/install-garura/scripts/install.py
+      - core/tools/lint-components/lib/rules/structural.js
+    runnable_checks:
+      - "language linter (ruff for py, eslint for js if committed)"
+      - "check-pr-quality against the diff using the pr.md taxonomy (SEC/CODE/ARCH/BE/PERF/DATA rows)"
+    note: "extra weight on data-safety/idempotency paths (install.py, record_checkpoint.py, session_stamp.py write files)"
+  - name: tests
+    playbook: review/tests
+    design_bearing: false
+    evidence:
+      - core/components/plays/edit-ontology/scripts/test_edit_ontology_scripts.py
+      - core/components/plays/install-garura/scripts/test_install.py
+      - core/tools/lint-components/test/skill-invocable.test.js
+    runnable_checks:
+      - "RUN the suites (red = blocker): python3 -m pytest core/components/plays/edit-ontology/scripts/test_edit_ontology_scripts.py core/components/plays/install-garura/scripts/test_install.py"
+      - "node --test core/tools/lint-components/test/skill-invocable.test.js (or the repo's runner)"
+      - "coding-best-practice lint of test code + pr.md TEST-* rows via check-pr-quality"
+  - name: memory
+    playbook: review/memory
+    design_bearing: true
+    evidence:
+      - core/components/memory/standards/rules/pipeline-next.md   # standards rule (1 line added)
+    runnable_checks:
+      - "memory-integrity check (partial gap): shelf template shape, [[...]] cross-refs resolve, id matches path; check-components covers some shape"
+  - name: documentation
+    playbook: review/docs
+    design_bearing: false
+    evidence:
+      - docs/components/skills.md
+    runnable_checks:
+      - "prose checks (gap: no committed prose linter): spelling, dead links, heading hierarchy, leftover TODOs, terminology"
+  - name: run-evidence-records
+    playbook: null
+    design_bearing: false
+    note: >
+      playbook missing. Run records the garura plays wrote (issue/PR context json/yaml/md, porcelain,
+      self-review) under the issue's STM folder. Not product code; no shelf playbook covers STM
+      evidence committed in a PR. Review lightly: confirm nothing sensitive and that they are
+      expected chore(stm) records.
+    evidence:
+      - .garura/project/issues/777/context/analysis.yaml
+      - .garura/project/issues/777/context/branch.json
+      - .garura/project/issues/777/context/commits.yaml
+      - .garura/project/issues/777/context/issue.json
+      - .garura/project/issues/777/context/plan.json
+      - .garura/project/issues/777/context/porcelain.txt
+      - .garura/project/issues/777/context/pr-body.md
+      - .garura/project/issues/777/context/pr.json
+      - .garura/project/issues/777/context/resolved-rules.json
+      - .garura/project/issues/777/context/self-review.md
+      - .garura/project/issues/777/context/target.json
+      - .garura/project/issues/777/context/work-description.txt
+absent_categories_note: "No ADRs and no config-map files changed; those playbooks are skipped."
+design_bearing_categories: [harness, memory]
