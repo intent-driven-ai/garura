@@ -36,7 +36,7 @@ Roughly 100 skills are authored in `core/components/skills/`, each with `user-in
 | Family | Skills |
 |--------|--------|
 | **Repository / project operations** | `assess-changes`, `assess-pr`, `commit-files`, `cut-branch`, `open-pr`, `merge-pr`, `platform-adapter`, `track-issue`, `find-matching-issues`, `author-plan-file`, `author-evidence` |
-| **ProductOS model & KB** | `author-decision`, `author-business-intent`, `author-domains`, `author-product-ontology`, `enrich-capability-ice`, `find-model-gaps`, `link-model-gaps`, `author-scope`, `author-roadmap`, `author-quality-lens`, `author-ux-lens`, `author-agentic-lens`, `author-architecture-lens`, `author-marketing-lens`, `author-run-lens`, `author-measure-lens`, `author-features`, `check-cut-tensions`, `author-acceptance-scenarios`, `rank-actions`, `find-work-placement`, `find-architecture-learnings`, `propose-kb-node`, `walk-prototype`, `find-answers-in-sources`, `author-knowledge-page`, `propose-answers`, `author-knowledge-brief`, `judge-loop-result` |
+| **ProductOS model & KB** | `author-decision`, `author-business-intent`, `author-domains`, `author-product-ontology`, `enrich-capability-ice`, `find-model-gaps`, `link-model-gaps`, `author-scope`, `author-roadmap`, `author-quality-lens`, `author-ux-lens`, `author-agentic-lens`, `author-architecture-lens`, `author-marketing-lens`, `author-run-lens`, `author-measure-lens`, `author-epics`, `check-cut-tensions`, `author-acceptance-scenarios`, `rank-actions`, `find-work-placement`, `find-architecture-learnings`, `propose-kb-node`, `walk-prototype`, `find-answers-in-sources`, `author-knowledge-page`, `propose-answers`, `author-knowledge-brief`, `judge-loop-result` |
 | **Specification / design drafting** | `author-product-spec`, `author-technical-approach`, `author-lld`, `author-tech-spec`, `author-implementation-plan`, `author-reference-algorithms`, `draft-epic-expectation`, `author-verification-scenarios`, `author-build-plan`, `author-play-ice`, `check-implementation-design`, `check-abstraction-layer` |
 | **Defect resolution** | `author-rca`, `author-fix-design`, `author-regression-test` |
 | **Architecture & quality derivation** | `derive-systems-inventory`, `derive-logical-architecture`, `derive-physical-architecture`, `derive-tech-stack`, `derive-design-patterns`, `derive-nfr-spec`, `derive-quality-vision`, `derive-quality-profile-from-epics`, `enrich-quality-profile`, `check-architecture-spec`, `infer-architecture`, `scan-dependencies` |
@@ -257,7 +257,7 @@ allowed-tools: {Tool1, Tool2}
 |-------|-------------|----------|
 | `haiku` | Execution-only skills — no analysis, no decision-making, fast operations | `commit-files`, `cut-branch` |
 | `sonnet` | Analysis skills — reasoning, categorization, pattern matching, complex logic | `assess-changes`, `assess-pr`, `track-issue`, `author-product-spec`, `author-technical-approach` |
-| `opus` | Judgment-heavy authoring — generative model work where quality dominates cost | `author-features`, `author-build-plan` |
+| `opus` | Judgment-heavy authoring — generative model work where quality dominates cost | `author-epics`, `author-build-plan` |
 
 **Rule of thumb:** If the skill just runs commands and formats output, use `haiku`. If the skill needs to read, reason, and categorize, use `sonnet`. If it authors judgment-heavy artifacts, use `opus`.
 

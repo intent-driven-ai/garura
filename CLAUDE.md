@@ -120,9 +120,11 @@ pattern: one common file the plays point to, emitted by the compiler and linted.
 
 ## Work Tracking
 
-Garura's own work follows the product model it offers (ontology v5): **Business Intent → Feature
-(a capability, with its ICE) → Story (a functionality, with its ICE) → Spike / Chore / Bug**, as real
-parent/child links. A business intent's issue number is its plan's ID; plans live at
+Garura's own work follows the product model it offers (ontology v7). In the model: **Business
+Intent**, **Capability** and **Feature** (one thing a person can do inside a capability, with its
+ICE), and **Slice** (an ordered group of features that a person can test end to end). In the
+tracker: a plan picks a slice and makes one **Epic** for it → one **Story** per feature →
+**Spike / Chore / Bug** under a story, as real parent/child links. A business intent's issue number is its plan's ID; plans live at
 `.garura/project/plans/`. When work on a plan starts, `start-change` cuts `plan/<id>/base`, and each
 issue's branch `plan/<id>/<issue>-<slug>` under it.
 
