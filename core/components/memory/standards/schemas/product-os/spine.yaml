@@ -120,6 +120,24 @@ functionalities:
       updated_by: string
       version: integer
 
+# ---- The agent intents: one ICE for each capability and functionality ------
+# Ontology v6 (ADR 047, #759): the ICE is its own node. Each capability and each
+# functionality has exactly one ICE; each ICE is for exactly one of them. Its page is
+# `ice.md` in the folder of its part (it moves with its part), with three sections in this
+# order: `## Intent`, `## Context`, `## Expectation`. The entry holds no business intent
+# ids and no ready answer: the ICE finds its business intents through its part, and the
+# ready check works the answer out each time it runs. Until #765 moves a model, its ICE
+# stays inline in the part's page and the spine has no `ices` list.
+ices:
+  - id: string            # opaque, stable
+    for: string           # the id of its one capability or functionality
+    for_kind: string      # capability | functionality — must match the part `for` names
+    doc: string           # pointer to its ice.md
+    metadata:
+      created_by: string
+      updated_by: string
+      version: integer
+
 # Tree rules (ADR 043, ready rule changed by ontology v5 / #724): every kind is written on
 # its own; the links are made later. A domain has no parent. A capability names a domain
 # (a loose link — it may be missing; the linter warns) and a functionality names a

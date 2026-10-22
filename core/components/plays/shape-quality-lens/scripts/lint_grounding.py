@@ -15,7 +15,12 @@ LINK INTEGRITY — never content quality (that is the rubric eval's job). Concre
   - SPINE CONSISTENCY (when --spine is given): every spine node points at a grounding
     doc that exists and whose kind matches the node type; every epic's
     functionality_refs resolve to real functionality nodes; no orphan grounding doc
-    sits on disk unreferenced by the spine.
+    sits on disk unreferenced by the spine
+  - ICE NODES (ontology v6, #759; when the spine has an `ices` list): each entry is for
+    one real capability or functionality with the matching `for_kind`, names no business
+    intent, and points at an ice.md with non-empty Intent, Context and Expectation
+    sections; each part has exactly one ICE (a part with none is a warning); no ice.md
+    sits on disk unreferenced. A thin part is never an error.
 
 Layer rule: reads files on disk only; never shells to git/gh or the network.
 
@@ -410,6 +415,9 @@ def check_spine(root, spine_path, errors, warnings, counts):
         if rec and not os.path.isfile(os.path.join(root, rec)):
             errors.append(f"spine slice '{sid}': record not found at '{rec}'")
 
+    # --- ICE nodes (ontology v6, #759) ---
+    check_ices(root, spine, errors, warnings, counts)
+
     # --- reverse: orphan grounding docs on disk not referenced by the spine ---
     slice_keys = {str(k) for s in slices for k in (s.get("id"), s.get("slug")) if k}
     for dirpath, _dirs, files in os.walk(root):
@@ -436,6 +444,70 @@ def check_spine(root, spine_path, errors, warnings, counts):
                 errors.append(
                     f"orphan grounding doc '{os.path.relpath(full, root)}' "
                     f"({kind}) — present on disk but no spine node/epic references it")
+
+
+ICE_PARTS = ("Intent", "Context", "Expectation")
+ICE_PAGE = "ice.md"
+BI_KEYS = ("intents", "business_intent", "business_intents")
+BI_LINE = re.compile(r"^\s*[-*]\s*\*\*business intents?\b", re.I)
+
+
+def check_ices(root, spine, errors, warnings, counts):
+    """Ontology v6 (#759): each ICE is its own node — an `ices` spine entry and an ice.md page
+    with the three parts. Checks shape and links only, never whether a part is thin or wrong.
+    A spine with no `ices` list is not checked (the v5 inline ICE stays until #765)."""
+    ices = spine.get("ices")
+    if ices is None:
+        return
+    parts = {c.get("id"): "capability" for c in spine.get("capabilities") or []}
+    parts.update({f.get("id"): "functionality" for f in spine.get("functionalities") or []})
+    by_part, referenced = {}, set()
+    for e in ices or []:
+        iid = e.get("id", "<no-id>")
+        for k in BI_KEYS:
+            if k in e:
+                errors.append(f"spine ice '{iid}': names a business intent ('{k}') — an ICE has no link "
+                              f"to a business intent; it finds them through its part (ontology v6)")
+        part = e.get("for")
+        if not part:
+            errors.append(f"spine ice '{iid}': missing 'for' — the one capability or functionality it is for")
+        elif part not in parts:
+            errors.append(f"spine ice '{iid}': for '{part}' does not resolve to a capability or functionality")
+        else:
+            by_part.setdefault(part, []).append(iid)
+            if e.get("for_kind") != parts[part]:
+                errors.append(f"spine ice '{iid}': for_kind '{e.get('for_kind')}' does not match "
+                              f"'{part}', which is a {parts[part]}")
+        doc = e.get("doc")
+        if not doc:
+            errors.append(f"spine ice '{iid}': missing doc pointer to its {ICE_PAGE}")
+            continue
+        full = os.path.normpath(os.path.join(root, doc))
+        referenced.add(full)
+        if not os.path.isfile(full):
+            errors.append(f"spine ice '{iid}': ICE page not found at '{doc}'")
+            continue
+        text = _read(full)
+        sections = {h: "\n".join(body) for h, body in parse_sections(text)[1]}
+        for p in ICE_PARTS:
+            if p not in sections:
+                errors.append(f"spine ice '{iid}': '{doc}' has no '## {p}' — a missing part makes the ICE not ready")
+            elif not sections[p].strip():
+                errors.append(f"spine ice '{iid}': '{doc}' has an empty '## {p}' — a part with nothing in it is missing")
+        if any(BI_LINE.match(ln) for ln in text.splitlines()) or any(h.lower().startswith("business intent") for h in sections):
+            errors.append(f"spine ice '{iid}': '{doc}' names a business intent — an ICE has no link to one")
+        counts["ice"] = counts.get("ice", 0) + 1
+    for part, ids in by_part.items():
+        if len(ids) > 1:
+            errors.append(f"'{part}' has two ICE ({', '.join(ids)}) — each part has exactly one ICE")
+    for part, kind in parts.items():
+        if part not in by_part:
+            warnings.append(f"spine {kind} '{part}': no ICE yet — each capability and functionality has one (#765)")
+    for dirpath, _dirs, files in os.walk(root):
+        if ICE_PAGE in files:
+            full = os.path.normpath(os.path.join(dirpath, ICE_PAGE))
+            if full not in referenced:
+                errors.append(f"orphan ICE page '{os.path.relpath(full, root)}' — no ices entry points at it")
 
 
 def lint_tree(root, errors, warnings, counts):

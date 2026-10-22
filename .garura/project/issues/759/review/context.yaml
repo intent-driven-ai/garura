@@ -1,0 +1,38 @@
+{
+  "pr_number": "786",
+  "base": "plan/756/base",
+  "changed_paths": [
+    ".garura/project/issues/759/context/analysis.yaml",
+    ".garura/project/issues/759/context/branch.json",
+    ".garura/project/issues/759/context/commits.yaml",
+    ".garura/project/issues/759/context/issue.json",
+    ".garura/project/issues/759/context/plan.json",
+    ".garura/project/issues/759/context/porcelain.txt",
+    ".garura/project/issues/759/context/pr-body.md",
+    ".garura/project/issues/759/context/pr.json",
+    ".garura/project/issues/759/context/resolved-rules.json",
+    ".garura/project/issues/759/context/self-review.md",
+    ".garura/project/issues/759/context/target.json",
+    ".garura/project/issues/759/context/work-description.txt",
+    "core/components/memory/standards/schemas/product-os/spine.yaml",
+    "core/components/plays/discover-capabilities/scripts/lint_grounding.py",
+    "core/components/plays/discover-domains/scripts/lint_grounding.py",
+    "core/components/plays/discover-domains/scripts/test_lint_ice.py",
+    "core/components/plays/discover-intent/scripts/lint_grounding.py",
+    "core/components/plays/learn-outcomes/scripts/lint_grounding.py",
+    "core/components/plays/shape-agentic-lens/scripts/lint_grounding.py",
+    "core/components/plays/shape-architecture-lens/scripts/lint_grounding.py",
+    "core/components/plays/shape-features/scripts/lint_grounding.py",
+    "core/components/plays/shape-marketing-lens/scripts/lint_grounding.py",
+    "core/components/plays/shape-measure-lens/scripts/lint_grounding.py",
+    "core/components/plays/shape-quality-lens/scripts/lint_grounding.py",
+    "core/components/plays/shape-run-lens/scripts/lint_grounding.py",
+    "core/components/plays/shape-ux-lens/scripts/lint_grounding.py"
+  ],
+  "standards_order": [
+    "kb",
+    "ltm",
+    "stm"
+  ],
+  "review_shelf": "./.garura/core/memory/knowledge/review/"
+}

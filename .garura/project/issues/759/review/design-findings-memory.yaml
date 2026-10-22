@@ -1,0 +1,47 @@
+category: memory
+base: plan/756/base
+changed_artifacts:
+  - core/components/memory/standards/schemas/product-os/spine.yaml
+grounding:
+  - principle: "An ICE is its own node: own page ice.md in its part's folder, own entry in an `ices` spine list with id, for, for_kind, doc, metadata; no business intent ids, no stored ready answer."
+    source: "plan/756/base:core/components/memory/standards/schemas/product-os/ontology.md (ICE kind, 'Lives at', line ~185)"
+  - principle: "Each capability/functionality has exactly one ICE; ICE finds business intents through its part; ICE has three sections in order Intent, Context, Expectation."
+    source: "plan/756/base:ontology.md (ICE rules, lines ~207-209) and plan/756/base:docs/adr/047-the-ice-is-its-own-node.md (Decision, line 34)"
+  - principle: "Pre-v6 inline ICE is drift for Alignment, not an error; tools still read inline ICE until #759/#760/#761 are built."
+    source: "plan/756/base:ontology.md line ~218; plan/756/base:docs/adr/047 line 106"
+  - principle: "Spine entries point at their grounding doc 'relative to product-os root'; schema header documents the schema's shape and version."
+    source: "plan/756/base:spine.yaml (domains/capabilities `doc:` comments; schema.version: 2)"
+conformance: >
+  The new `ices` entry fields (id, for, for_kind, doc, metadata), the exactly-one rule,
+  the three section order, the no-business-intent rule and the no-stored-ready-answer rule
+  all match ontology v6 and ADR 047. No violation of the node design itself.
+findings:
+  - id: M1
+    severity: P3
+    file: core/components/memory/standards/schemas/product-os/spine.yaml
+    principle: "The schema must tell one story about where ICE lives. Under v6/ADR 047 the ICE is its own node; it no longer sits inline in the part's page."
+    source: "plan/756/base:docs/adr/047-the-ice-is-its-own-node.md line 79 (ADR 031 section 3 superseded: ICE no longer lives inline); ontology.md ICE 'Lives at'"
+    evidence: "Header lines 18-20 (unchanged, not in the diff) still say 'ICE content is now written INLINE in the grounding docs ... `## Agent intent (ICE)`', directly above/beside the new `ices` block that says the ICE is its own node. Line ~255 still says 'ICE content moved inline into the grounding docs'. The new block does explain the interim ('Until #765 ... stays inline'), which softens this, but the header states inline as the current rule with no v6 qualifier."
+    fix: "Add a v6 note to the header and line ~255: inline is the pre-#765 interim, `ices`/ice.md is the v6 shape."
+  - id: M2
+    severity: P4
+    file: core/components/memory/standards/schemas/product-os/spine.yaml
+    principle: "A schema that gains a new collection records it in its version."
+    source: "plan/756/base:spine.yaml `schema.version: 2` and header title 'v2'; ontology.md moved to v6"
+    evidence: "`schema.version` and the 'v2' title are unchanged though a new top-level `ices` list was added."
+    fix: "Bump or note the schema version (or state it is intentionally unchanged because `ices` is optional)."
+  - id: M3
+    severity: P4
+    file: core/components/memory/standards/schemas/product-os/spine.yaml
+    principle: "Every `doc` pointer is stated as relative to the product-os root, so linters resolve it one way."
+    source: "plan/756/base:spine.yaml domains `doc:` comment ('relative to product-os root'); ontology.md 'Lives at' paths ({domain}/{capability}/ice.md)"
+    evidence: "`doc: string  # pointer to its ice.md` omits the base the path is relative to. The linter added in this PR joins it to `root`, so the intent is clear but the schema does not say it."
+    fix: "Write 'pointer to its ice.md, relative to product-os root'."
+  - id: M4
+    severity: P4
+    file: core/components/memory/standards/schemas/product-os/spine.yaml
+    principle: "`for_kind` must match the part `for` names (exactly-one ICE per part), and the ice comment should state it is optional until #765."
+    source: "plan/756/base:ontology.md ICE rules line ~207; docs/adr/047 line 106"
+    evidence: "The comment says 'the spine has no `ices` list' before #765, but the field sits in the schema as if required. Stated in prose only; the schema does not mark the list optional."
+    fix: "Mark `ices` as optional (until #765) next to the key."
+no_grounding_unavailable: true

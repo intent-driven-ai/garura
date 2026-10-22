@@ -1,0 +1,32 @@
+categories:
+  - name: executable-code
+    playbook: review/code
+    design_bearing: false
+    evidence:
+      - core/components/plays/*/scripts/lint_grounding.py   # 12 copies (discover-capabilities, discover-domains, discover-intent, learn-outcomes, shape-agentic-lens, shape-architecture-lens, shape-features, shape-marketing-lens, shape-measure-lens, shape-quality-lens, shape-run-lens, shape-ux-lens)
+    note: Python linter source adding ICE-node checks; runtime-executed scripts.
+  - name: tests
+    playbook: review/tests
+    design_bearing: false
+    evidence:
+      - core/components/plays/discover-domains/scripts/test_lint_ice.py
+    note: Tests for the new ICE checks; suite should be run.
+  - name: memory
+    playbook: review/memory
+    design_bearing: true
+    evidence:
+      - core/components/memory/standards/schemas/product-os/spine.yaml
+    note: Schema change adding the `ices` node list (ontology v6, ADR 047).
+  - name: harness
+    playbook: review/harness
+    design_bearing: true
+    evidence:
+      - core/components/plays/*/scripts/lint_grounding.py
+    note: The same 12 files sit inside plays and enforce the grounding/ontology contract, so they also carry harness design (identical copies kept in sync across plays, ICE node rules). No SKILL.md or ICE source changed.
+  - name: run-records
+    playbook: null
+    playbook_missing: true
+    design_bearing: false
+    evidence:
+      - .garura/project/issues/759/context/*   # analysis.yaml, branch.json, commits.yaml, issue.json, plan.json, porcelain.txt, pr-body.md, pr.json, resolved-rules.json, self-review.md, target.json, work-description.txt
+    note: Short-term-memory records of the change run, committed with the PR. No review playbook covers them; a playbook is missing (mechanical or skip).
