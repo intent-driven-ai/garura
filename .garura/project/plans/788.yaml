@@ -23,6 +23,12 @@ tree:
     kind: functionality
     title: Decide in the ontology what replaces Slice and Epic
     status: now
+  - issue: 807
+    kind: functionality
+    title: Rename Functionality to Feature on disk, and take epics out of the product model
+    status: next
+    needs:
+    - 793
 - issue: 794
   kind: capability
   title: Shape designs the work before anything is built
