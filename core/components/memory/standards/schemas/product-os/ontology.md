@@ -43,7 +43,7 @@ How it flows: a person gives an intent → it becomes a **Business Intent** here
 - **Q9** — Given an ICE, which business intents is it for?
   **Answered by:** ICE is for a Capability or a Functionality; Functionality has one parent Capability; Capability serves Business Intent
   **Status:** answered
-- **Q10** — Can work start on this ICE now — is it ready, partly ready or not ready — and what stops it, or which gaps are listed?
+- **Q10** — Can work start on this ICE now — is it ready, partly ready or not ready — and what stops it (a missing part, no confirmed business intent, a needed capability not done), or which gaps are listed?
   **Answered by:** ICE (the ready check, with three answers); Capability serves Business Intent; Capability needs Capability
   **Status:** answered
 - **Q11** — Which capabilities must be done before this capability, or a functionality in it, can start?
@@ -189,9 +189,9 @@ proposed → confirmed (the person who asked confirms it says the right thing) �
 | Property | What it holds | Required |
 |----------|---------------|----------|
 | Part of the product | The one capability or functionality it is for | yes |
-| Intent | The goals (what must be true), the limits, and what counts as failing (fails if) | yes, to be ready |
-| Context | The rules for the sub-agent that gathers context: what to read, what never to read, the persona it works for, and the scope (what is in and what is out) | yes, to be ready; empty or thin makes it partly ready |
-| Expectation | The scenarios it must pass, what "done" means, and the quality needs (for example speed, security, regimes such as PCI) | yes, to be ready |
+| Intent | The goals (what must be true), the limits, and what counts as failing (fails if) | yes — missing makes it not ready |
+| Context | The rules for the sub-agent that gathers context: what to read, what never to read, the persona it works for, and the scope (what is in and what is out) | yes — missing makes it not ready |
+| Expectation | The scenarios it must pass, what "done" means, and the quality needs (for example speed, security, regimes such as PCI) | yes — missing makes it not ready |
 | Ready answer | Ready, partly ready or not ready, with the gaps listed — worked out by the ready check each time it runs (today `check_ice_workable.py`), never stored and never written by hand | no — it is computed |
 
 **Relationships**
@@ -209,11 +209,12 @@ proposed → confirmed (the person who asked confirms it says the right thing) �
 - When a second business intent changes a capability, its one ICE is updated to cover both. A second ICE is never made.
 - The ready check gives one of three answers. For a functionality's ICE, "its capability" is the parent capability.
   - **Ready:** its capability serves a confirmed business intent, every capability it needs is done, and the ICE has all three parts. Work starts.
-  - **Partly ready:** as ready, but with gaps that do not stop work — no domain, no "identified by", a thin part such as an empty Context. Work starts, and the gaps are listed.
-  - **Not ready:** no confirmed business intent, or a capability it needs is not done. Work stops, and the page is kept.
-- A part that is missing from the page counts as an empty part. It is a gap (partly ready), not a stop.
+  - **Partly ready:** as ready, but with gaps outside the ICE's parts that do not stop work — no domain, no "identified by". Work starts, and the gaps are listed.
+  - **Not ready:** one of its three parts is missing, no confirmed business intent, or a capability it needs is not done. Work stops until the part is written or the link is made, and the page is kept.
+- An ICE starts only with all three parts present. A part that is present can start work however thin or even wrong it is; the ready check does not judge a part's correctness or richness — that is the product owner's job.
 - Writing it is never blocked. Any play may write it or add to it, inside that play's declared write scope, and keeps what is there.
-- It is written at the depth that is known: a light ICE has a goal only; a full one has every line of its three parts.
+- It is written at the depth that is known: a light ICE has one line in each of its three parts; a full one has every line of its three parts.
+- Not built yet: the linter check of each ICE's three parts and links is #759, the three-answer ready check that reads the ICE is #760, plays that write ICE nodes (the `ices` spine list and the `ice.md` page) are #761, and the move of Garura's own model is #765.
 - Pages written before v6 hold the ICE as the last section of a capability or functionality page (`## Agent intent (ICE)`). That section is drift for the Alignment loop to move to the ICE's own page; it is not an error.
 
 **States**
@@ -244,9 +245,12 @@ not ready → partly ready → ready, as the ready check finds them. The answer 
 >
 > **Clinic — ICE of "Booking"** (a capability, no domain yet), at `capabilities/booking/ice.md`. Booking serves "Patients book their own appointments online" (confirmed). It needs nothing.
 > **Intent:** Goal — a patient books, moves and cancels an appointment without a call.
-> **Context:** (empty)
+> **Context:** Persona — the patient on a phone.
 > **Expectation:** Scenario — a patient moves an appointment in three steps.
-> **Ready answer:** partly ready — gaps: no domain, Context is empty.
+> **Ready answer:** partly ready — gap: no domain. Each part is thin, but all three are present, so work starts.
+>
+> **Shop — ICE of "Order history"** (a functionality in Orders). Orders serves a confirmed business intent and needs nothing. Its page has Intent and Expectation, and no Context.
+> **Ready answer:** not ready — Context is missing. Work stops until it is written.
 >
 > **Bank — ICE of "Credit decision"** (a capability in Lending). Credit decision serves "Small businesses get a loan decision in one day" (confirmed), and needs "Loan application", which is not done.
 > **Ready answer:** not ready — Loan application is not done. The page is kept.
@@ -427,4 +431,4 @@ not ready → partly ready → ready, as the ready check finds them. The answer 
 - 2026-10-17 — v4 (#637): one product model that every play writes, at the depth it knows, and nothing waits for another play. ICE now has one named place — `## Agent intent (ICE)`, the last section of a capability's or functionality's page, in labelled lines filled as far as is known; expected once the node names a business intent (missing is a linter warning, so earlier pages still pass). A business intent's touches are kept on its page as a **Touches** list (adds / changes / removes, with links), and the domain's spine entry gains `intents`, so every part an intent touches is linked both ways. A domain page is light (directional) or full (detailed), like a capability's. Design: `.garura/project/issues/637/specs/design.md`.
 - 2026-10-18 — #656: personal names taken out of the Source example and of this Log, so the ontology can live in Phoenix memory for any project. No kind, field or rule changed.
 - 2026-10-21 — v5 (#597, plan #722, with Kapil): Capability, Functionality, Work and Plan defined. Capabilities and functionalities **need** each other in any mix, and record what they were **identified by**; business intents are identified by each other — a connection, never a dependency. Work is never linked. Domains link loosely to business intents and capabilities and are never in a plan. The ready rule drops the domain: a node is ready once it serves a confirmed business intent and nothing it needs is open (replaces the ADR 043 rule). Q7 added. The spine field stays `depends_on` for now; its rename to `needs` is #725. Working notes: `.garura/project/issues/621/specs/ontology-run.md`.
-- 2026-10-22 — v6 (#758, plan #756, with the product owner): the ICE becomes its own node, with its own page (`ice.md`, in its part's folder) and its own spine entry (a new `ices` list), one for each capability and each functionality, in three parts (Intent, Context, Expectation); it has no link to a business intent, and finds them through its part. A business intent holds no ICE and is never worked on directly; it has one or more capabilities, its Touches list names domains and capabilities only, it gains an optional Rules property, and business intents are still identified by one another, a connection and never a dependency. Among the parts of the product, "needs" and "identified by" join capabilities only; a functionality has neither, and takes its business intents and order of work from its one parent capability. Work carries one ICE. A capability sits in at most one domain and a domain has one or more capabilities; a missing domain is a gap, never a stop; the spine's single `domain` field and the folders stay as they are. The ready rule moves to the ICE, with three answers: ready, partly ready, not ready. Q1–Q7 now point at the new links; Q8–Q16 added. Garura's own fn-727 → fn-724 becomes cap-718 → cap-723 (#765). Option 1 (one ICE for each part) replaces option 1.B (one ICE for each pair of business intent and part).
+- 2026-10-22 — v6 (#758, plan #756, with the product owner): the ICE becomes its own node, with its own page (`ice.md`, in its part's folder) and its own spine entry (a new `ices` list), one for each capability and each functionality, in three parts (Intent, Context, Expectation); it has no link to a business intent, and finds them through its part. A business intent holds no ICE and is never worked on directly; it has one or more capabilities, its Touches list names domains and capabilities only, it gains an optional Rules property, and business intents are still identified by one another, a connection and never a dependency. Among the parts of the product, "needs" and "identified by" join capabilities only; a functionality has neither, and takes its business intents and order of work from its one parent capability. Work carries one ICE. A capability sits in at most one domain and a domain has one or more capabilities; a missing domain is a gap, never a stop; the spine's single `domain` field and the folders stay as they are. The ready rule moves to the ICE, with three answers: ready, partly ready, not ready; an ICE starts only with all three parts present. Q1–Q7 now point at the new links; Q8–Q16 added. Garura's own fn-727 → fn-724 becomes cap-718 → cap-723 (#765). Option 1 (one ICE for each part) replaces option 1.B (one ICE for each pair of business intent and part).
