@@ -28,7 +28,11 @@ tree:
     - issue: 781
       kind: chore
       title: Tidy four review notes on the edit-ontology play and its skill
-      status: next
+      status: done
+    - issue: 785
+      kind: chore
+      title: Copy the fixed preflight.py into the edit-ontology play once plan 717 reaches plan 756
+      status: blocked
 - issue: 757
   kind: capability
   title: The ICE is its own kind in the product model
