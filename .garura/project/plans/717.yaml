@@ -13,7 +13,7 @@ tree:
 - issue: 721
   kind: capability
   title: 'Start and land work against a plan: plan branches in start-change and merge-change'
-  status: done
+  status: next
   children:
   - issue: 731
     kind: functionality
@@ -23,6 +23,10 @@ tree:
     kind: functionality
     title: merge-change lands an issue on its plan branch, and a plan on main only when it is done
     status: done
+  - issue: 791
+    kind: functionality
+    title: A detour plan's branch is cut from the plan it came from, and lands back there
+    status: next
 - issue: 718
   kind: capability
   title: 'Build a plan: a tree with an issue for every node, from a business intent'
@@ -50,6 +54,10 @@ tree:
   - issue: 628
     kind: functionality
     title: 'Show the plan as a plain-words tree: goal, done, now, next, wait'
+    status: next
+  - issue: 806
+    kind: functionality
+    title: See every plan as a graph, which plan is on which branch, compared to main
     status: next
 - issue: 720
   kind: capability

@@ -2,7 +2,8 @@
 # Kept by hand until update-plan (#730) exists. Status: done | now | next | blocked.
 # A detour: found while working on plan 756. Its branch is cut from plan/756/base, takes in
 # 756's changes on each start, and lands back into plan/756/base (returns_to); then work goes
-# back to 756. Not a "needs" link. Z1 (#791) teaches start-change and merge-change to do this.
+# back to 756. Not a "needs" link. #791 (in plan 717, under #721) teaches start-change and
+# merge-change to do this; until then the first cut uses setup_branch.py's --base.
 id: 788
 title: Agents design the work, then build it through plays and a loop
 status: active
@@ -13,24 +14,15 @@ identified_by:
 returns_to: 756
 updated: '2026-10-22'
 tree:
-- issue: 790
-  kind: capability
-  title: A detour plan goes back to the plan it came from
-  status: now
-  children:
-  - issue: 791
-    kind: functionality
-    title: The plan file names the plan a detour returns to; start-change cuts from it, merge-change lands back on it
-    status: now
 - issue: 792
   kind: capability
   title: The delivery chain works on Work, not on epics and slices
-  status: next
+  status: now
   children:
   - issue: 793
     kind: functionality
     title: Decide in the ontology what replaces Slice and Epic
-    status: next
+    status: now
 - issue: 794
   kind: capability
   title: Shape designs the work before anything is built
