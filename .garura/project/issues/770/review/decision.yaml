@@ -1,0 +1,6 @@
+decision: approve
+decided_by: human
+reviewer: the product owner
+recommended: approve
+citing_findings: []
+gate: on (gates.plays.check-change is absent from the installed config; it still reads the old key review-change)

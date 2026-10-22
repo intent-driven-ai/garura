@@ -1,0 +1,33 @@
+findings:
+- id: CM-1
+  category: Config maps
+  severity: P4
+  basis: 'review/config-maps: path-existence check'
+  path: CLAUDE.md
+  message: '`.agents/skills/` does not exist in this repo. It names where the Codex
+    install places skills in a target project, so it is a description, not a pointer
+    here. Not changed by this PR.'
+- id: CM-2
+  category: Config maps
+  severity: P4
+  basis: 'review/config-maps: path-existence check'
+  path: CLAUDE.md
+  message: '`reference/ice.md` does not exist at the repo root. It is each play''s
+    own relative path (core/components/plays/<play>/reference/ice.md). Not changed
+    by this PR.'
+- id: CM-3
+  category: Config maps
+  severity: P4
+  basis: 'review/config-maps: path-existence check'
+  path: CLAUDE.md
+  message: 'The two paths this PR adds or changes resolve: .garura/core/tools/memory/
+    and core/tools/lint-components/. 17 of 19 referenced paths resolve.'
+categories_reviewed:
+- Config maps
+- Run records (STM issue artifacts)
+layers_run:
+  Config maps:
+  - 'layer1: path-existence check (playbook review/config-maps)'
+  Run records (STM issue artifacts):
+  - 'none: playbook missing'
+design_grounding: 'skipped: no design-bearing category'

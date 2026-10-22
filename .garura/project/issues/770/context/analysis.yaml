@@ -1,0 +1,24 @@
+---
+# assess-changes output
+# issue: 770
+needs_judgment: true
+
+change_groups:
+  - files:
+      - CLAUDE.md
+    commit_type: docs
+    scope: claude-md
+    subject: "replace the user-facing voice rule with memory only through the memory tool, and name the linter lint-components"
+    issue: 770
+
+exclusions:
+  - path: .garura/project/issues/770/context/commit-change/
+    reason: "commit-change run state, committed by the executor"
+
+risks:
+  sensitive_files:
+    []
+
+eval_gates:
+  SE-1: {status: PASS, evidence: "one concern: CLAUDE.md rules edit"}
+  SE-5: {status: PASS, evidence: "no sensitive patterns matched"}

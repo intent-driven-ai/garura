@@ -1,0 +1,247 @@
+diff --git a/.garura/project/issues/770/context/analysis.yaml b/.garura/project/issues/770/context/analysis.yaml
+new file mode 100644
+index 00000000..2120d349
+--- /dev/null
++++ b/.garura/project/issues/770/context/analysis.yaml
+@@ -0,0 +1,24 @@
++---
++# assess-changes output
++# issue: 770
++needs_judgment: true
++
++change_groups:
++  - files:
++      - CLAUDE.md
++    commit_type: docs
++    scope: claude-md
++    subject: "replace the user-facing voice rule with memory only through the memory tool, and name the linter lint-components"
++    issue: 770
++
++exclusions:
++  - path: .garura/project/issues/770/context/commit-change/
++    reason: "commit-change run state, committed by the executor"
++
++risks:
++  sensitive_files:
++    []
++
++eval_gates:
++  SE-1: {status: PASS, evidence: "one concern: CLAUDE.md rules edit"}
++  SE-5: {status: PASS, evidence: "no sensitive patterns matched"}
+diff --git a/.garura/project/issues/770/context/branch.json b/.garura/project/issues/770/context/branch.json
+new file mode 100644
+index 00000000..57cfcaf8
+--- /dev/null
++++ b/.garura/project/issues/770/context/branch.json
+@@ -0,0 +1,8 @@
++{
++  "branch_name": "plan/767/770-claude-md-rules",
++  "base_sha": "602ba36b08c261f86ce2a70e658a0c9f9fbdb153",
++  "on_default_branch": false,
++  "worktree_path": null,
++  "plan_branch": "plan/767/base",
++  "plan_branch_created": true
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/770/context/commits.yaml b/.garura/project/issues/770/context/commits.yaml
+new file mode 100644
+index 00000000..04d58ed5
+--- /dev/null
++++ b/.garura/project/issues/770/context/commits.yaml
+@@ -0,0 +1,13 @@
++commits:
++  - sha: 5f9b7ac0
++    message: "docs(claude-md): replace the user-facing voice rule with memory only through the memory tool, and name the linter lint-components (#770)"
++    files:
++      - CLAUDE.md
++    branch: plan/767/770-claude-md-rules
++excluded_files:
++  - path: ".garura/project/issues/770/context/commit-change/"
++    reason: "commit-change run state, committed by the executor"
++leftover_count: 0
++tree_clean: true
++pushed: false
++run_state_committed: true
+diff --git a/.garura/project/issues/770/context/issue.json b/.garura/project/issues/770/context/issue.json
+new file mode 100644
+index 00000000..ce7e6b47
+--- /dev/null
++++ b/.garura/project/issues/770/context/issue.json
+@@ -0,0 +1 @@
++{"resolved": true, "issue_number": 770, "title": "Merge the installer's memory rule into CLAUDE.md and drop the voice rule", "state": "OPEN", "parent": 769, "created": false}
+\ No newline at end of file
+diff --git a/.garura/project/issues/770/context/plan.json b/.garura/project/issues/770/context/plan.json
+new file mode 100644
+index 00000000..61c3373f
+--- /dev/null
++++ b/.garura/project/issues/770/context/plan.json
+@@ -0,0 +1,6 @@
++{
++  "issue": "770",
++  "plan_id": "767",
++  "plan_branch": "plan/767/base",
++  "issue_branch": "plan/767/770-claude-md-rules"
++}
+diff --git a/.garura/project/issues/770/context/porcelain.txt b/.garura/project/issues/770/context/porcelain.txt
+new file mode 100644
+index 00000000..0fb0a0eb
+--- /dev/null
++++ b/.garura/project/issues/770/context/porcelain.txt
+@@ -0,0 +1,2 @@
++ M CLAUDE.md
++?? .garura/project/issues/770/context/commit-change/
+diff --git a/.garura/project/issues/770/context/pr-body.md b/.garura/project/issues/770/context/pr-body.md
+new file mode 100644
+index 00000000..40c4893e
+--- /dev/null
++++ b/.garura/project/issues/770/context/pr-body.md
+@@ -0,0 +1,39 @@
++One CLAUDE.md for this repo: the installer's memory rule merged in, the voice rule removed, and the linter named correctly.
++
++## What changes
++
++- Adds section 5, "Memory only through the memory tool", from the installer's `CLAUDE.md.new`. The new file is deleted.
++- Removes the "User-Facing Voice" section. The project output style (Aviation, ASD-STE100) now covers how replies are written. The long rule file `standards/rules/user-facing-voice.md` stays, because plays still use it.
++- Fixes a rename leftover: the linter is `lint-components`, not `check-components`.
++
++## Self-review
++
++
++Rules: ~/.garura/core/memory/standards/rules/self-review.md (base, no project override).
++Diff: origin/plan/767/base...HEAD. Informational only; not the approve/reject gate.
++
++Blocking findings: none.
++
++## Scope checks
++
++- PASS Matches the issue. CLAUDE.md drops section 5 "User-Facing Voice" (covered by the project output style, product owner's decision), adds "Memory only through the memory tool", and renames check-components to lint-components in one line. Nothing else changed.
++- PASS No scope creep. The only non-STM file touched is CLAUDE.md. The other files are issue 770 run records under .garura/project/issues/770/context/.
++- PASS Reasonable size. 17 lines changed in one file.
++- PASS No stray artifacts. CLAUDE.md.new is gone. No scratch or debug content in the diff.
++- NOTE Untracked resolved-rules.json in the issue's context folder is the resolver's output; commit it with the run records.
++
++## Quality checks
++
++- PASS Tests present. Prose-only change; no behavior to test.
++- PASS Commits are clean. One docs commit with conventional format and issue reference, plus chore(stm) record commits, each referencing #770.
++- PASS No secrets in the diff.
++- NOTE Docs in step. The deleted rule's long form still exists at core/components/memory/standards/rules/user-facing-voice.md and is mentioned in knowledge/review/harness.md and rules/no-unbacked-recommendation.md. Not blocking, but those now point at a rule CLAUDE.md no longer carries; confirm that is intended.
++- PASS Nothing obviously broken. The memory tool path .garura/core/tools/memory/ exists; core/tools/lint-components exists, so the rename matches the real name.
++
++## Where it lands
++
++Into `plan/767/base`. Plan #767 lands on main when its work is done.
++
++Closes #770 (closed by merge-change, because the host closes issues only on main). Part of #769, #768, #767.
++
++🤖 Generated with [Claude Code](https://claude.com/claude-code)
+diff --git a/.garura/project/issues/770/context/pr.json b/.garura/project/issues/770/context/pr.json
+new file mode 100644
+index 00000000..7a54e04b
+--- /dev/null
++++ b/.garura/project/issues/770/context/pr.json
+@@ -0,0 +1,7 @@
++{
++  "number": 771,
++  "url": "https://github.com/intent-driven-ai/garura/pull/771",
++  "state": "OPEN",
++  "base": "plan/767/base",
++  "on_target": true
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/770/context/resolved-rules.json b/.garura/project/issues/770/context/resolved-rules.json
+new file mode 100644
+index 00000000..725c8d8b
+--- /dev/null
++++ b/.garura/project/issues/770/context/resolved-rules.json
+@@ -0,0 +1,6 @@
++{
++  "resolved": true,
++  "path": "~/.garura/core/memory/standards/rules/self-review.md",
++  "source": "~/.garura/core/memory/standards/rules",
++  "is_override": false
++}
+diff --git a/.garura/project/issues/770/context/self-review.md b/.garura/project/issues/770/context/self-review.md
+new file mode 100644
+index 00000000..3f90d678
+--- /dev/null
++++ b/.garura/project/issues/770/context/self-review.md
+@@ -0,0 +1,22 @@
++# Self-review: issue 770
++
++Rules: ~/.garura/core/memory/standards/rules/self-review.md (base, no project override).
++Diff: origin/plan/767/base...HEAD. Informational only; not the approve/reject gate.
++
++Blocking findings: none.
++
++## Scope checks
++
++- PASS Matches the issue. CLAUDE.md drops section 5 "User-Facing Voice" (covered by the project output style, product owner's decision), adds "Memory only through the memory tool", and renames check-components to lint-components in one line. Nothing else changed.
++- PASS No scope creep. The only non-STM file touched is CLAUDE.md. The other files are issue 770 run records under .garura/project/issues/770/context/.
++- PASS Reasonable size. 17 lines changed in one file.
++- PASS No stray artifacts. CLAUDE.md.new is gone. No scratch or debug content in the diff.
++- NOTE Untracked resolved-rules.json in the issue's context folder is the resolver's output; commit it with the run records.
++
++## Quality checks
++
++- PASS Tests present. Prose-only change; no behavior to test.
++- PASS Commits are clean. One docs commit with conventional format and issue reference, plus chore(stm) record commits, each referencing #770.
++- PASS No secrets in the diff.
++- NOTE Docs in step. The deleted rule's long form still exists at core/components/memory/standards/rules/user-facing-voice.md and is mentioned in knowledge/review/harness.md and rules/no-unbacked-recommendation.md. Not blocking, but those now point at a rule CLAUDE.md no longer carries; confirm that is intended.
++- PASS Nothing obviously broken. The memory tool path .garura/core/tools/memory/ exists; core/tools/lint-components exists, so the rename matches the real name.
+diff --git a/.garura/project/issues/770/context/target.json b/.garura/project/issues/770/context/target.json
+new file mode 100644
+index 00000000..197d437f
+--- /dev/null
++++ b/.garura/project/issues/770/context/target.json
+@@ -0,0 +1,7 @@
++{
++  "branch": "plan/767/770-claude-md-rules",
++  "kind": "issue-in-plan",
++  "plan_id": "767",
++  "issue": "770",
++  "base": "plan/767/base"
++}
+diff --git a/.garura/project/issues/770/context/work-description.txt b/.garura/project/issues/770/context/work-description.txt
+new file mode 100644
+index 00000000..4740ce70
+--- /dev/null
++++ b/.garura/project/issues/770/context/work-description.txt
+@@ -0,0 +1 @@
++Work on Chore #770 — merge the installer's memory rule into CLAUDE.md, drop the voice rule, fix the linter name, delete CLAUDE.md.new (plan #767, functionality #769). Resolve issue 770.
+diff --git a/CLAUDE.md b/CLAUDE.md
+index c79459af..40c62a42 100644
+--- a/CLAUDE.md
++++ b/CLAUDE.md
+@@ -72,19 +72,10 @@ Never use `AskUserQuestion` for checkpoints. Output summary, wait for typed resp
+ 
+ Agents roles are to gather context and put those on files. the actual work are supposed to be done by skills, which agents will call.
+ 
+-### 5. User-Facing Voice (HARD RULE — load on every session in this repo)
++### 5. Memory only through the memory tool
+ 
+-Whenever you address the user in any reply — checkpoint, status update, summary, close report, or ad-hoc conversation — lead in the language the user operates in: **product, feature, capability, technology, outcome.** File paths, class names, function names, line numbers, schema field names, YAML keys, and agent/skill identifiers belong in an appendix or a machine-readable artifact, **never in the lead** of a human-facing message.
+-
+-Signals you've drifted (stop and rewrite when you spot any in your own draft):
+-- The opening sentence names a file path, class, function, line number, or schema field.
+-- The user would have to read a table of files to learn what the work is *about*.
+-- A status update enumerates components touched before stating the outcome.
+-- A checkpoint asks the user to approve "changes to X.yaml" instead of "the decision that Y".
+-
+-Both registers can coexist in one reply — user-facing lead first, machine-facing appendix second, in that order. A reply with only an appendix (no lead) is non-compliant. This rule applies to every reply regardless of which slash command, play, or skill is running — including ad-hoc conversation between plays. When a play, command, or sub-agent output violates it, **rewrite before showing the user — relaying ≠ pasting.**
+-
+-The canonical long-form rule, lint anchors, and play scaffolding requirements live at `core/components/memory/standards/rules/user-facing-voice.md`. Defer to it on edge cases.
++Agents reach memory only through the memory tool (`.garura/core/tools/memory/`), as its
++guide says. Never read a memory file by its path.
+ 
+ ## Play Pipeline Rules
+ 
+@@ -113,7 +104,7 @@ The canonical example is the **Standard Play Close** — every play's Evidence &
+ Close section. It lives once, in `core/components/plays/_shared/play-close.md`,
+ laid beside the installed plays (ADR 039 §9). A play carries only its anchor pair,
+ its own values and its own close steps, and points there; `/create-play` emits
+-that pointer so direct-edit and rebuild converge; `check-components` fails any
++that pointer so direct-edit and rebuild converge; `lint-components` fails any
+ play missing its exact anchor pair. Any new shared scaffolding follows the same
+ pattern: one common file the plays point to, emitted by the compiler and linted.
+ 

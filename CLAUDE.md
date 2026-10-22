@@ -72,19 +72,10 @@ Never use `AskUserQuestion` for checkpoints. Output summary, wait for typed resp
 
 Agents roles are to gather context and put those on files. the actual work are supposed to be done by skills, which agents will call.
 
-### 5. User-Facing Voice (HARD RULE — load on every session in this repo)
+### 5. Memory only through the memory tool
 
-Whenever you address the user in any reply — checkpoint, status update, summary, close report, or ad-hoc conversation — lead in the language the user operates in: **product, feature, capability, technology, outcome.** File paths, class names, function names, line numbers, schema field names, YAML keys, and agent/skill identifiers belong in an appendix or a machine-readable artifact, **never in the lead** of a human-facing message.
-
-Signals you've drifted (stop and rewrite when you spot any in your own draft):
-- The opening sentence names a file path, class, function, line number, or schema field.
-- The user would have to read a table of files to learn what the work is *about*.
-- A status update enumerates components touched before stating the outcome.
-- A checkpoint asks the user to approve "changes to X.yaml" instead of "the decision that Y".
-
-Both registers can coexist in one reply — user-facing lead first, machine-facing appendix second, in that order. A reply with only an appendix (no lead) is non-compliant. This rule applies to every reply regardless of which slash command, play, or skill is running — including ad-hoc conversation between plays. When a play, command, or sub-agent output violates it, **rewrite before showing the user — relaying ≠ pasting.**
-
-The canonical long-form rule, lint anchors, and play scaffolding requirements live at `core/components/memory/standards/rules/user-facing-voice.md`. Defer to it on edge cases.
+Agents reach memory only through the memory tool (`.garura/core/tools/memory/`), as its
+guide says. Never read a memory file by its path.
 
 ## Play Pipeline Rules
 
@@ -113,7 +104,7 @@ The canonical example is the **Standard Play Close** — every play's Evidence &
 Close section. It lives once, in `core/components/plays/_shared/play-close.md`,
 laid beside the installed plays (ADR 039 §9). A play carries only its anchor pair,
 its own values and its own close steps, and points there; `/create-play` emits
-that pointer so direct-edit and rebuild converge; `check-components` fails any
+that pointer so direct-edit and rebuild converge; `lint-components` fails any
 play missing its exact anchor pair. Any new shared scaffolding follows the same
 pattern: one common file the plays point to, emitted by the compiler and linted.
 
