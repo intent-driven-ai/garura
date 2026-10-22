@@ -6,7 +6,7 @@ updated: 2026-10-22
 
 # Product Ontology
 
-The agreed map of what a product is made of in Garura: the kinds of things, what each holds, how they connect, and what must always be true. A person and an agent reading it use the same words for the same things. It grows one kind at a time, through the `author-product-ontology` skill; this first version defines the Business Intent — the person's side — and connects it to ICE, the agent's side.
+The agreed map of what a product is made of in Garura: the kinds of things, what each holds, how they connect, and what must always be true. A person and an agent reading it use the same words for the same things. It defines seven kinds: Business Intent, Source, ICE, Capability, Functionality, Work and Plan. It grows one kind at a time, through the `edit-ontology` play, and the product owner agrees each change.
 
 How it flows: a person gives an intent → it becomes a **Business Intent** here and a "Business Intent" issue in the tracker → the Business Intent links to its **Capabilities** and holds no **ICE** → its **Plan** breaks it into Capabilities and **Functionalities**; each Capability and each Functionality has exactly one ICE, and that ICE is its own node → the plan is tracked as **Work** (Feature, Story, Spike, Chore, Bug), and each piece of work carries the ICE of its part → as work finishes, the Business Intent is updated with what was done → when it is done, the Business Intent links to the value it got through the tracker's finished issues.
 
