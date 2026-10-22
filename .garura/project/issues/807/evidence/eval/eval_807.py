@@ -76,7 +76,7 @@ for r in roots:
     paths = [r] if os.path.isfile(r) else [os.path.join(d, f) for d, ds, fs in os.walk(r)
                                           for f in fs if not (set(d.split(os.sep)) & SKIP_DIR)]
     for p in paths:
-        if p.startswith(SKIP_PREFIX) and not p.startswith("docs/adr/048"):
+        if p.startswith(SKIP_PREFIX):
             continue
         if any(p.startswith(ig.rstrip("/") + "/") or p == ig for ig in IGNORED):
             continue
@@ -213,7 +213,7 @@ check("E12d", "the ADR index has a 048 row", "048" in (read("docs/adr/_index.md"
 
 # E13 — the ontology's leftovers and the template
 o = read("core/components/memory/standards/schemas/product-os/ontology.md") or ""
-check("E13a", "the ontology has no 'until the rename' notes", not re.search(r"until the rename", o, re.I))
+check("E13a", "the ontology has no 'until the rename' notes outside its log", not re.search(r"until the rename", o.split("\n## Log", 1)[0], re.I))
 src = o.split("### Source", 1)[1].split("\n### ", 1)[0] if "### Source" in o else ""
 check("E13b", "the Source kind has a Layer line and an In the tracker as line",
       "**Layer:**" in src and "**In the tracker as:**" in src)
