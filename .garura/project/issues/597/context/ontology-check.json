@@ -1,0 +1,48 @@
+{
+  "valid": true,
+  "kinds": [
+    "Business Intent",
+    "Capability",
+    "Functionality",
+    "ICE",
+    "Plan",
+    "Source",
+    "Work"
+  ],
+  "not_yet_defined": [
+    "Domain",
+    "Tracker Issue"
+  ],
+  "questions": [
+    {
+      "id": "Q1",
+      "status": "partly"
+    },
+    {
+      "id": "Q2",
+      "status": "partly"
+    },
+    {
+      "id": "Q3",
+      "status": "partly"
+    },
+    {
+      "id": "Q4",
+      "status": "not yet"
+    },
+    {
+      "id": "Q5",
+      "status": "answered"
+    },
+    {
+      "id": "Q6",
+      "status": "answered"
+    },
+    {
+      "id": "Q7",
+      "status": "answered"
+    }
+  ],
+  "problems": [],
+  "ontology": "core/components/memory/standards/schemas/product-os/ontology.md"
+}
