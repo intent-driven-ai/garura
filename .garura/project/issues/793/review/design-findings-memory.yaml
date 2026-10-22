@@ -1,0 +1,169 @@
+category: memory
+artifact: core/components/memory/standards/schemas/product-os/ontology.md
+base: plan/788/base
+summary: >
+  The v7 ontology follows the three agreed drafts closely (draft shas match the approved
+  shas in decisions.json). Nothing material is missing or extra. Findings are one stale
+  agreed draft, template gaps, and a set of base-ref ADRs and the glossary that the new
+  model contradicts and that need an amending ADR. ADR 047's core rule (one ICE for each
+  capability and each feature) is NOT contradicted; only its word "functionality" is.
+
+grounding:
+  - principle: "The ontology follows the product owner's agreed drafts and recorded decisions exactly"
+    source: ".garura/project/issues/793/context/edit-ontology/need.md and decisions.json (all_agreed true; draft shas for questions, kinds, links match the approved shas); draft-questions.md, draft-kinds.md, draft-links.md"
+  - principle: "A kind block has What it is, Who reads it, Lives at, Properties, Relationships, Rules, optional States, Example; the intro is two or three plain sentences; version bumps on kind change; Log gets a dated line"
+    source: "plan/788/base:core/components/memory/standards/templates/product-ontology.md"
+  - principle: "One ICE for each capability and each functionality, on its own page; no link to a business intent; ready check three answers"
+    source: "plan/788/base:docs/adr/047-the-ice-is-its-own-node.md sections 1, 5, 6"
+  - principle: "Every piece of agent work still takes ICE form; the business intent is what that work points at"
+    source: "plan/788/base:docs/adr/031-business-intent-and-ice.md section 1"
+  - principle: "Epics are permanent model records, kept and stamped delivered, living under the slice (epic.yaml)"
+    source: "plan/788/base:docs/adr/019-epic-persistence-keep-delivered.md"
+
+conformance_checks:
+  drafts_say_exactly_what_ontology_says:
+    result: "yes, with one stale-draft exception (finding F1)"
+    nothing_missing: >
+      All 13 kinds, Q1-Q26, the five-line link list, the four parked points plus the
+      'one more point', the two Plan tests, the spine slice field list, 'Capability done',
+      Spike 'led to', Story 'scope of work', the dropped-rules list and the v7 log line are present.
+    nothing_extra: >
+      No new rule found beyond the drafts. Items in the file not in the drafts are v6 text
+      carried over unchanged (Who writes, Nothing is blocked, ICE ready-check rules, Plan landing rules).
+  template_conformance: "see F2, F3, F4"
+  adrs_needing_amendment: "see F5-F10"
+
+findings:
+  - id: F1
+    severity: P3
+    file: core/components/memory/standards/schemas/product-os/ontology.md
+    principle: "The ontology must say what the agreed record says; where an agreed draft and a later owner decision differ, the decision is the standard, and the draft should not be left saying the opposite"
+    source: "need.md 'Checkpoint 1 agreed' (open point 3 decided as option 2: one story per feature in each epic) versus draft-questions.md (sha 8e8c1c..., the approved draft) open point 3 and Q19"
+    evidence: >
+      draft-questions.md open point 3 says a shared feature has ONE Story, in the first slice's
+      Epic, with later work as a Chore under it, and Q19 answers 'the one Story that delivers it'.
+      The owner's checkpoint reply (need.md) chose the opposite: one Story per feature in each epic.
+      The ontology follows the decision (Q19 'one Story in each Epic'; Story rule 'one story per
+      feature in each epic'; Feature 'one story in each epic that delivers it'). The ontology is
+      right by the owner's decision, but the approved draft file on disk still says the other thing,
+      so a reader checking ontology against draft-questions.md sees a conflict.
+    suggestion: "Record in the run files that the typed '2' overrides the draft text; no ontology change."
+
+  - id: F2
+    severity: P3
+    file: core/components/memory/standards/schemas/product-os/ontology.md
+    principle: "The format template defines the fields a kind block carries; a field the template lacks is a format change that needs the template updated"
+    source: "plan/788/base:core/components/memory/standards/templates/product-ontology.md (kind block: What it is, Who reads it, Lives at, Properties, Relationships, Rules, States, Example)"
+    evidence: >
+      Every kind except Source now carries two lines the template does not define: '**Layer:**'
+      and '**In the tracker as:**'. They were asked for by the owner (draft-kinds.md, the new
+      'In the tracker as' column) so the content is agreed, but the template (and the
+      author-product-ontology skill that builds from it) was not updated in this change.
+    suggestion: "Add Layer and In the tracker as to the template in the same plan (follow-up story), or note the deviation."
+
+  - id: F3
+    severity: P3
+    file: core/components/memory/standards/schemas/product-os/ontology.md
+    principle: "A format rule applied to the kinds should apply to all of them"
+    source: "draft-kinds.md table: Source is 'product layer, in the tracker as none, model only'; template product-ontology.md (same block for every kind)"
+    evidence: >
+      The Source block (about line 230 of the new file) has no Layer line and no In the tracker
+      as line, while all other twelve kinds have both. The agreed kinds draft lists Source as
+      product layer, none in the tracker.
+    suggestion: "Add '**Layer:** product' and '**In the tracker as:** none - model only' to Source."
+
+  - id: F4
+    severity: P4
+    file: core/components/memory/standards/schemas/product-os/ontology.md
+    principle: "The introduction is two or three plain sentences saying what the ontology is for"
+    source: "plan/788/base:core/components/memory/standards/templates/product-ontology.md ('Two or three plain sentences')"
+    evidence: >
+      The opening runs to a long list paragraph, a long 'How it flows' paragraph, a five-line
+      link list, a tracker paragraph, 'Nothing is blocked' and 'Who writes' before the first
+      heading. v6 already had four of these; v7 adds the five-line list and the tracker
+      paragraph. Not agreed-draft drift (the five lines come from the drafts), only template drift.
+
+  - id: F5
+    severity: P2
+    file: core/components/memory/standards/schemas/product-os/ontology.md
+    principle: "Epics are permanent model records kept under their slice (epic.yaml, epic.md), and an epic is cut by /grill from a slice"
+    source: "plan/788/base:docs/adr/019-epic-persistence-keep-delivered.md (decision 1 and 2: persistence permanent, file stays at {domain}/slices/{slice-id}/epics/{epic-id}.yaml); plan/788/base:docs/adr/024-amendment-record.md ('a slice's current truth = its epics + their amendments')"
+    evidence: >
+      v7 Epic: 'not in the product model: the spine epics list and the epic.md pages leave the
+      model'; an Epic is a tracker issue represented in the plan file, never stamped delivered
+      ('it stays open'). That reverses ADR 019 and removes the epic record ADR 024 builds on.
+    amending_adr_needed: "yes - ADR 019 (superseded in part or whole) and ADR 024 (slice truth no longer epics + amendments)"
+
+  - id: F6
+    severity: P2
+    file: core/components/memory/standards/schemas/product-os/ontology.md
+    principle: "Every piece of agent work still takes ICE form; each piece of work carries one ICE"
+    source: "plan/788/base:docs/adr/031-business-intent-and-ice.md section 1; v6 ontology (plan/788/base, Work: 'Work carries ICE', Q1 'Answered by')"
+    evidence: >
+      v7: 'No work item carries it. Only a Story reads it ... and writes its own scope of work.
+      Epic, Spike, Chore and Bug read no ICE.' ADR 031 section 1 is only partly amended by ADR 047
+      (its ICE parts); this part, that work takes ICE form, is still in force on the base and is now contradicted.
+    amending_adr_needed: "yes - ADR 031 section 1 (work no longer carries ICE; a Story writes a scope of work from two ICE)"
+
+  - id: F7
+    severity: P3
+    file: core/components/memory/standards/schemas/product-os/ontology.md
+    principle: "One ICE for each capability and each functionality; a functionality has one parent capability; the vocabulary is 'functionality'"
+    source: "plan/788/base:docs/adr/047-the-ice-is-its-own-node.md (title, sections 1, 3, 5, 6); plan/788/base:docs/adr/043-kickoff-plays-read-independently-and-the-drive-closes-the-loop.md (holding folder functionalities/<id>/, 'functionality -> capability -> domain')"
+    evidence: >
+      The substance of ADR 047 is NOT contradicted: v7 keeps exactly one ICE for each capability
+      and each feature, three parts, no business-intent link, three-answer ready check, no
+      'needs' on a feature. What changes is the name (Functionality renamed Feature) and one new
+      derived rule: a capability is done when every feature has a closed Story (047 section 6
+      says only 'a capability it needs is done'). Names in 047 and 043 (and 033 section 4, 045)
+      now disagree with the ontology and with the spine until the rename story lands.
+    amending_adr_needed: "yes, small - one ADR (new or an amendment to 047) recording the rename Functionality -> Feature and the 'capability done' definition; 043's holding folder name changes with the rename story"
+
+  - id: F8
+    severity: P2
+    file: core/components/memory/standards/schemas/product-os/ontology.md
+    principle: "A slice is a delivery grouping in the model, stamped realized after the lenses; /grill cuts a slice into epics; a slice carries order, effort, depends_on, status"
+    source: "plan/788/base:docs/adr/028-agentic-lifecycle-five-loops.md ('/measure stamps the slice realized'; '/grill cuts it'); plan/788/base:docs/adr/019-epic-persistence-keep-delivered.md ('/grill cuts a permanent slice into one or more epics')"
+    evidence: >
+      v7 Slice: spine fields domain_ref, status, order, effort and depends_on go; 'whether it is
+      picked is shown by its Epic, not by a status on the slice'; the Plan picks the slice and
+      creates the epic. That drops the realized stamp ADR 028 relies on and moves epic creation
+      from /grill to the Plan. Loop names in ADR 045 (Slice loop, plays) are also affected.
+    amending_adr_needed: "yes - ADR 028 (realized stamp, /grill cut) and a mention in ADR 045 for the Slice loop plays"
+
+  - id: F9
+    severity: P2
+    file: core/components/memory/standards/schemas/product-os/ontology.md
+    principle: "A major model change (two layers, Plan as thread, Epic/Story/Spike/Chore/Bug as work kinds, only Business Intent as a product issue) is recorded in an ADR"
+    source: "plan/788/base:docs/adr/_index.md and 47 ADRs: none records a product-layer / work-layer split, Feature as a product kind, or the Plan picking a slice. The base ADRs 031 and 043 hold no 'Feature and Story work types' text at all; that vocabulary exists only in the v6 ontology (base) itself."
+    evidence: >
+      The task note expected ADR 031/043 text on Feature/Story work types. On the base ref there
+      is none (grep for Story, Spike, work type finds only unrelated lines in ADR 029 and 037).
+      So the v6 work-type model was never an ADR decision, and v7 reverses it without one.
+      The reasoning exists only in need.md and decisions.json (short-term issue files).
+    amending_adr_needed: "yes - a NEW ADR for v7 (decisions 1 to 10 in need.md), which would also carry the amendments in F5-F8"
+
+  - id: F10
+    severity: P3
+    file: core/components/memory/standards/schemas/product-os/ontology.md
+    principle: "The glossary is the canonical definition of every Garura concept"
+    source: "plan/788/base:core/grounding/glossary.md lines 63, 69, 71 (Functionality: leaf node with its ICE; Slice: bundle of functionalities within one domain, realized lens by lens; Epic (ProductOS): one functionality sliced end-to-end, kept and stamped delivered, ADR 019)"
+    evidence: >
+      v7 defines Feature, a Slice that groups features across any capabilities, and an Epic that is a
+      tracker work item representing a slice. All three glossary entries now disagree (Slice
+      'one domain'; Epic 'one functionality'; Functionality not renamed). CLAUDE.md names the glossary canonical.
+    suggestion: "Update the glossary in the rename story or the ADR story; not part of this diff."
+
+  - id: F11
+    severity: P4
+    file: core/components/memory/standards/schemas/product-os/ontology.md
+    principle: "Agreed decision: the file and field renames are done NOW, as the next story in plan 788"
+    source: "need.md 'Checkpoint 2 agreed' ('No, do it now ... There is no later')"
+    evidence: >
+      The ontology states Feature everywhere but keeps functionalities / functionality.md /
+      functionality_refs as live names 'until the rename story lands' (Feature Lives at, Slice
+      Lives at, ICE Lives at). This matches the owner's order (next story) and is not a violation;
+      noted so the next story is not lost. The spine, ice.md paths and lint scripts stay out of
+      step with the ontology until then.
+
+no_grounding_gaps: true

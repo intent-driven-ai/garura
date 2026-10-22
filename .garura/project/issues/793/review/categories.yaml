@@ -1,0 +1,20 @@
+categories:
+  - name: memory
+    description: >
+      Rewrite of the product-model ontology schema (v7): two layers, plan as the thread,
+      Feature replacing Functionality, Slice and Epic kept, story-centred work. This is a
+      standards schema the agents read, so it shapes downstream agent beliefs.
+    evidence:
+      - core/components/memory/standards/schemas/product-os/ontology.md
+    playbook: review/memory
+    design_bearing: true
+  - name: run-records
+    description: >
+      Short-term-memory working files from the change run for issue 793 (need, drafts and
+      their versions, decisions, checks, branch/commit/PR/porcelain records). Process
+      artifacts, not product content; mechanical checks only.
+    evidence:
+      - ".garura/project/issues/793/context/**"
+    playbook: null
+    playbook_note: "playbook missing: no review playbook covers per-issue run records / short-term memory files"
+    design_bearing: false

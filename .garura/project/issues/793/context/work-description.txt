@@ -1,0 +1,1 @@
+edit-ontology (#793): decide in the ontology what the delivery chain (shape, build, validate, next) works on — the proposal: a piece of Work under a functionality, carrying that functionality's ICE — and what Slice and Epic become.

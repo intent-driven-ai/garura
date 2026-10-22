@@ -1,0 +1,42 @@
+{
+  "pr_number": "808",
+  "base": "plan/788/base",
+  "changed_paths": [
+    ".garura/project/issues/793/context/analysis.yaml",
+    ".garura/project/issues/793/context/branch.json",
+    ".garura/project/issues/793/context/commits.yaml",
+    ".garura/project/issues/793/context/edit-ontology/change-check.json",
+    ".garura/project/issues/793/context/edit-ontology/decisions.json",
+    ".garura/project/issues/793/context/edit-ontology/draft-kinds.md",
+    ".garura/project/issues/793/context/edit-ontology/draft-kinds.v1.md",
+    ".garura/project/issues/793/context/edit-ontology/draft-links.md",
+    ".garura/project/issues/793/context/edit-ontology/draft-questions.md",
+    ".garura/project/issues/793/context/edit-ontology/draft-questions.v1.md",
+    ".garura/project/issues/793/context/edit-ontology/draft-questions.v2.md",
+    ".garura/project/issues/793/context/edit-ontology/draft-questions.v3.md",
+    ".garura/project/issues/793/context/edit-ontology/draft-questions.v4.md",
+    ".garura/project/issues/793/context/edit-ontology/draft-questions.v5.md",
+    ".garura/project/issues/793/context/edit-ontology/draft-questions.v6.md",
+    ".garura/project/issues/793/context/edit-ontology/draft-questions.v7.md",
+    ".garura/project/issues/793/context/edit-ontology/draft-questions.v8.md",
+    ".garura/project/issues/793/context/edit-ontology/draft-questions.v9.md",
+    ".garura/project/issues/793/context/edit-ontology/need.md",
+    ".garura/project/issues/793/context/edit-ontology/ontology-before.md",
+    ".garura/project/issues/793/context/edit-ontology/ontology-check.json",
+    ".garura/project/issues/793/context/issue.json",
+    ".garura/project/issues/793/context/plan.json",
+    ".garura/project/issues/793/context/porcelain.txt",
+    ".garura/project/issues/793/context/pr-body.md",
+    ".garura/project/issues/793/context/resolved-rules.json",
+    ".garura/project/issues/793/context/self-review.md",
+    ".garura/project/issues/793/context/target.json",
+    ".garura/project/issues/793/context/work-description.txt",
+    "core/components/memory/standards/schemas/product-os/ontology.md"
+  ],
+  "standards_order": [
+    "kb",
+    "ltm",
+    "stm"
+  ],
+  "review_shelf": "./.garura/core/memory/knowledge/review/"
+}
