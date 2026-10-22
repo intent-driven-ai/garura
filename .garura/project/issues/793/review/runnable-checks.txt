@@ -1,0 +1,8 @@
+check_ontology:
+ valid True problems []
+change check:
+ scope True version True 6 -> 7 names True
+checkpoints:
+  {'questions': True, 'kinds': True, 'links': True} all_agreed True entries 13
+edit-ontology tests:
+11 passed, 0 failed
