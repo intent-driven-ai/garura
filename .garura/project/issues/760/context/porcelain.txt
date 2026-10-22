@@ -1,0 +1,7 @@
+ M core/components/memory/standards/schemas/product-os/spine.yaml
+ M core/components/plays/create-play/SKILL.md
+ M core/components/plays/create-play/references/check_ice_workable.py
+ M core/components/plays/create-play/references/test_check_ice_workable.py
+ M core/components/plays/discover-intent/scripts/check_ice_workable.py
+?? .garura/project/issues/760/context/porcelain.txt
+?? .garura/project/issues/760/specs/
