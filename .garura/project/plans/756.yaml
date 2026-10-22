@@ -47,11 +47,11 @@ tree:
   - issue: 759
     kind: functionality
     title: The linter checks each ICE's three parts and its two links
-    status: next
+    status: done
   - issue: 760
     kind: functionality
     title: 'The ready check reads the ICE: ready, partly ready, not ready'
-    status: next
+    status: now
 - issue: 761
   kind: capability
   title: Plays write ICE nodes
