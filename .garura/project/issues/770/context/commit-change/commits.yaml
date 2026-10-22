@@ -1,0 +1,13 @@
+commits:
+  - sha: 5f9b7ac0
+    message: "docs(claude-md): replace the user-facing voice rule with memory only through the memory tool, and name the linter lint-components (#770)"
+    files:
+      - CLAUDE.md
+    branch: plan/767/770-claude-md-rules
+excluded_files:
+  - path: ".garura/project/issues/770/context/commit-change/"
+    reason: "commit-change run state, committed by the executor"
+leftover_count: 0
+tree_clean: true
+pushed: false
+run_state_committed: true
