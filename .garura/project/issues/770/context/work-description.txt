@@ -1,0 +1,1 @@
+Work on Chore #770 — merge the installer's memory rule into CLAUDE.md, drop the voice rule, fix the linter name, delete CLAUDE.md.new (plan #767, functionality #769). Resolve issue 770.
