@@ -21,12 +21,12 @@ tree:
   children:
   - issue: 793
     kind: functionality
-    title: Decide in the ontology what replaces Slice and Epic
-    status: now
+    title: 'Decide in the ontology what the delivery chain works on: two layers, the plan as the thread'
+    status: done
   - issue: 807
     kind: functionality
     title: Rename Functionality to Feature on disk, and take epics out of the product model
-    status: next
+    status: now
     needs:
     - 793
 - issue: 794
