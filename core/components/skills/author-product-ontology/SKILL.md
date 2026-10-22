@@ -36,6 +36,10 @@ written as agreed until they say so.
 | `sources` | no | Paths to read for reuse — existing schemas, doctrine, decision records, issues |
 | `report_path` | yes | Where the check report is written |
 | `stage` | yes, from edit-ontology | Which stage to run: `scope`, `kinds`, `links` or `write` (see Stages) |
+| `draft` | yes, for `scope`, `kinds`, `links` | Where this stage writes its draft: `<working>/draft-questions.md`, `<working>/draft-kinds.md` or `<working>/draft-links.md` (`<working>` is the play's `{stm_base}<issue>/context/edit-ontology/`) |
+| `questions` | yes, for `kinds`, `links`, `write` | The agreed questions draft, `<working>/draft-questions.md` |
+| `kinds` | yes, for `links`, `write` | The agreed kinds draft, `<working>/draft-kinds.md` |
+| `links` | yes, for `write` | The agreed properties, links and rules draft, `<working>/draft-links.md` |
 | `change` | no | The product owner's words at a checkpoint; redo the stage with them |
 | `problems` | no | The check report from a failed `write`; fix each problem and write again |
 
@@ -129,12 +133,13 @@ Exit `3` — the file cannot be read. Its tests: `python3 <skill-dir>/scripts/te
 
 ## Output
 
-The ontology at `ontology_path`, and the check report at `report_path`. Return their paths —
-never the content:
+At `scope`, `kinds` and `links`: the stage's draft at `draft`. At `write`: the ontology at
+`ontology_path`, and the check report at `report_path`. Return the paths — never the content:
 
 ```yaml
-ontology_path: <path>
-report_path: <path>
+draft: <path>            # scope, kinds, links
+ontology_path: <path>    # write
+report_path: <path>      # write
 ```
 
 ## Constraints
