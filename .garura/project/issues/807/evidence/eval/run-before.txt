@@ -1,0 +1,47 @@
+  [FAIL] E1a rename map holds the five new entries
+  [PASS] E1b check_old_names.py finds no old component name
+  [FAIL] E2 play shape-slice exists with name: shape-slice; shape-features is gone
+  [FAIL] E2 play build-epic exists with name: build-epic; build-feature is gone
+  [FAIL] E2 play validate-epic exists with name: validate-epic; validate-feature is gone
+  [FAIL] E2 play release-epic exists with name: release-epic; release-feature is gone
+  [FAIL] E2 skill author-epics exists with name: author-epics; author-features is gone
+  [FAIL] E3 no 'functionality' left outside history lines and skipped records — 1875 left, e.g. ['core/config.yaml:129', 'core/tools/play-reviewer/product_review.py:15', 'core/tools/play-reviewer/product_review.py:102', 'core/tools/play-reviewer/product_review.py:105', 'core/tools/play-reviewer/product_review.py:130', 'core/tools/rebuild-eval/score_drift.py:122']
+  [FAIL] E4 spine schema has features: and feature_refs, no functionalities:
+  [FAIL] E5 grounding template feature.md exists with a Feature: H1, functionality.md is gone
+  [FAIL] E6a Garura's model has features/<id>/feature.md pages (21), each with a Feature: H1, ids kept — 0 folders
+  [FAIL] E6b no functionalities/ folder in Garura's model
+  [FAIL] E6c Garura's spine lists the 21 features and every doc pointer exists — 0 pointers
+  [PASS] E7a the 12 lint_grounding.py copies are identical
+  [PASS] E7b the intent_touches.py copies are identical
+  [PASS] E7c the check_ice_workable.py copies are identical
+  [PASS] E7d the lens check_ready_slice.py copies are identical
+  [PASS] E8 test suite test_lint_grounding.py
+  [PASS] E8 test suite test_lint_ice.py
+  [PASS] E8 test suite test_vision_scripts.py
+  [PASS] E8 test suite test_check_ice_workable.py
+  [PASS] E8 test suite test_intent_touches.py
+  [PASS] E8 test suite test_check_sources.py
+  [PASS] E8 test suite test_persist_understand.py
+  [PASS] E8 test suite test_intent_scripts.py
+  [PASS] E8 test suite test_derive_candidates.py
+  [FAIL] E8 test suite core/components/plays/shape-slice/scripts/test_validate_epics.py — missing
+  [PASS] E8 test suite test_find_gaps.py
+  [PASS] E8 test suite test_apply_links.py
+  [PASS] E8 test suite test_rebuild_eval.py
+  [PASS] E8 test suite test_adr.py
+  [PASS] E8 test suite test_apply_adr.py
+  [PASS] E8 test suite test_install.py
+  [PASS] E8 test suite test_naming_tools.py
+  [FAIL] E9 lint_play passes on every play that passed before — now failing: ['build-epic', 'release-epic', 'shape-slice', 'validate-epic']
+  [PASS] E10 component linter shows no new error (baseline 121)
+  [PASS] E11 grounding linter gives Garura's model the same counts as before (70 errors, 9 warnings)
+  [FAIL] E12a ADR 048 exists and is Accepted
+  [FAIL] E12b ADR 048 amends 019, 024, 028, 031, 043 and 047
+  [FAIL] E12c each amended ADR carries a forward pointer to 048 in its head — missing: ['019', '024', '028', '031', '043', '047']
+  [FAIL] E12d the ADR index has a 048 row
+  [FAIL] E13a the ontology has no 'until the rename' notes
+  [FAIL] E13b the Source kind has a Layer line and an In the tracker as line
+  [FAIL] E13c the ontology template defines the Layer and In the tracker as lines
+  [FAIL] E14 the glossary has a Feature entry and Slice/Epic follow v7
+
+23 passed, 22 failed
