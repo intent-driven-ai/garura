@@ -21,9 +21,9 @@ The lifecycle runs as five loops (ADR 028; the names are working names). The pla
 - **Shape loop:** `/shape-scope → /shape-roadmap`, then the design plays, which still run per slice today:
   - Functional: `/shape-ux-lens → /shape-agentic-lens → /shape-marketing-lens`
   - Non-functional: `/shape-architecture-lens → /shape-quality-lens → /shape-run-lens`
-  - Then `/shape-measure-lens`, which stamps the slice *realized* — the marker `/shape-features` still requires.
+  - Then `/shape-measure-lens`, which stamps the slice *realized* — the marker `/shape-slice` still requires.
   ADR 028 moves design to once per project, makes each area optional, and leaves measure out. That is not built yet (#594, #595), so the map below still routes through `/shape-measure-lens`.
-- **Execute loop (per epic):** `/shape-features → /build-feature → /validate-feature → /release-feature`. `/release-feature` hands to `/release-increment`, which belongs to the future deployment-and-run loop.
+- **Execute loop (per epic):** `/shape-slice → /build-epic → /validate-epic → /release-epic`. `/release-epic` hands to `/release-increment`, which belongs to the future deployment-and-run loop.
 - **Change loop (git):** `/start-change` (injected at a play's head) `→ /commit-change → /propose-change → /check-change → /merge-change`.
 - **Learn loop:** `/next`, `/list-focus-issues`, `/learn-outcomes`.
 - Branch points (after `/shape-roadmap`, and at the end of the functional/non-functional design plays) recommend `/next`, which reads the model and ranks the real options.
@@ -52,14 +52,14 @@ next:
   shape-quality-lens:        { command: shape-run-lens,            why: "next lens in the non-functional pipe" }
   shape-run-lens:            { command: next,           why: "non-functional pipe done — run the other pipe, or /shape-measure-lens once both are done" }
 
-  # Shape loop — measure runs last and stamps the slice realized (left out by ADR 028; kept until /shape-features no longer needs it, #595)
-  shape-measure-lens:        { command: shape-features,          why: "slice realized — cut it into user-testable delivery epics" }
+  # Shape loop — measure runs last and stamps the slice realized (left out by ADR 028; kept until /shape-slice no longer needs it, #595)
+  shape-measure-lens:        { command: shape-slice,          why: "slice realized — cut it into user-testable delivery epics" }
 
   # Execute loop (per epic); /release-increment belongs to the future deployment-and-run loop
-  shape-features:          { command: build-feature,      why: "build the first epic the slice was cut into" }
-  build-feature:      { command: validate-feature,       why: "independently verify the built epic" }
-  validate-feature:       { command: release-feature,         why: "land the validated epic on human acceptance" }
-  release-feature:         { command: release-increment,         why: "deploy the delivered epic to a cloud environment" }
+  shape-slice:          { command: build-epic,      why: "build the first epic the slice was cut into" }
+  build-epic:      { command: validate-epic,       why: "independently verify the built epic" }
+  validate-epic:       { command: release-epic,         why: "land the validated epic on human acceptance" }
+  release-epic:         { command: release-increment,         why: "deploy the delivered epic to a cloud environment" }
   release-increment:         { command: next,           why: "increment deployed — see what's next" }
 
   # Defect and refactor lanes (ADR 023); /learn-outcomes is the Learn loop

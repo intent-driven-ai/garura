@@ -1,6 +1,6 @@
 ---
 name: author-scope
-description: Author /shape-scope's selection-and-composition bundle for one domain — confirm or prune each capability against the firmed profile + KB, SELECT which of the functionalities /discover-capabilities already created to build now, place every functionality into a slice or the _deferred bucket, create the persona and USER journey records, the decisions, AND compose the domain's vertical slices. Every persona record carries structured grounding — goals (outcomes in the person's own words), cares_about (their trust criteria), failure_means (what a miss looks like for them) — read off the capability's ICE and the firmed profile, with description kept to the one-line who-they-are summary. Every slice is a user-facing vertical — it names at least one surface (a screen/view a named persona opens and checks) scaffolded incrementally, and journeys run on those surfaces; a backend-only slice is invalid. Surfaces are NAMED, not designed. Slices reference functionalities by spine id, carry no order/effort/dependencies (that is /shape-roadmap). It does NOT create functionalities or author ICE — /discover-capabilities did. Under direct-model-write (ADR 026) it writes the per-node RECORDS (each slice, persona, journey, decision, and the _deferred bucket) straight to the live model, with stable ids so re-runs don't duplicate, and emits the spine-delta (capability status flips, the slices index, the refs) as structured data in the manifest — it NEVER writes `_spine.yaml` or the profile. Generative artifact production for the /shape-scope play.
+description: Author /shape-scope's selection-and-composition bundle for one domain — confirm or prune each capability against the firmed profile + KB, SELECT which of the features /discover-capabilities already created to build now, place every feature into a slice or the _deferred bucket, create the persona and USER journey records, the decisions, AND compose the domain's vertical slices. Every persona record carries structured grounding — goals (outcomes in the person's own words), cares_about (their trust criteria), failure_means (what a miss looks like for them) — read off the capability's ICE and the firmed profile, with description kept to the one-line who-they-are summary. Every slice is a user-facing vertical — it names at least one surface (a screen/view a named persona opens and checks) scaffolded incrementally, and journeys run on those surfaces; a backend-only slice is invalid. Surfaces are NAMED, not designed. Slices reference features by spine id, carry no order/effort/dependencies (that is /shape-roadmap). It does NOT create features or author ICE — /discover-capabilities did. Under direct-model-write (ADR 026) it writes the per-node RECORDS (each slice, persona, journey, decision, and the _deferred bucket) straight to the live model, with stable ids so re-runs don't duplicate, and emits the spine-delta (capability status flips, the slices index, the refs) as structured data in the manifest — it NEVER writes `_spine.yaml` or the profile. Generative artifact production for the /shape-scope play.
 version: 0.4.0
 user-invocable: false
 model: opus
@@ -9,9 +9,9 @@ allowed-tools: Read, Write, Bash, Glob
 
 # author-scope
 
-Turns a firmed domain — capabilities detailed by /discover-capabilities (each with its functionalities
+Turns a firmed domain — capabilities detailed by /discover-capabilities (each with its features
 already created), profile `set` — into a **selection-and-composition bundle**: which
-capabilities stay, which are pruned, which existing functionalities to build now, the
+capabilities stay, which are pruned, which existing features to build now, the
 personas served, the journeys travelled, the decisions, and the domain's vertical slices.
 It reads the profile to judge fit and the KB shelves to ground the selection.
 
@@ -44,11 +44,11 @@ The split is mandatory:
 
 ## What it does NOT do
 
-It does **not create functionalities** and does **not author ICE** — /discover-capabilities already
-created and detailed every functionality (a spine `functionalities` entry + a
-`functionality.md`). /shape-scope SELECTS among those and composes them; it never re-makes them.
+It does **not create features** and does **not author ICE** — /discover-capabilities already
+created and detailed every feature (a spine `features` entry + a
+`feature.md`). /shape-scope SELECTS among those and composes them; it never re-makes them.
 It also never writes the profile (the box is /discover-capabilities's; /shape-scope selects against it) and
-never cuts epics (/shape-features) or plans order (/shape-roadmap).
+never cuts epics (/shape-slice) or plans order (/shape-roadmap).
 
 ## The always-scaffold-the-UI principle
 
@@ -66,18 +66,18 @@ dashboard" in one slice.
 | `domain` | yes | The target domain: its id, slug, and the path to its folder under `{product_base}product-os/`. |
 | `kb_shelf` | yes | The KB shelf this domain maps to, resolved by the play via `find-work-placement` (the product domain name is NOT the shelf name). |
 | `shelf_path` | yes | That shelf (`knowledge/domains/<kb_shelf>.md`), copied into short-term memory by the agent through the memory tool. Read this copy — never memory itself (ADR 039). |
-| `product_base` | yes | From config. Read the live spine (capabilities + their functionalities, all detailed) and the profile; WRITE each record file (slices, personas, journeys, decisions, `_deferred`) in place under `{product_base}product-os/{domain}/…`. Never write `_spine.yaml` or the profile. |
+| `product_base` | yes | From config. Read the live spine (capabilities + their features, all detailed) and the profile; WRITE each record file (slices, personas, journeys, decisions, `_deferred`) in place under `{product_base}product-os/{domain}/…`. Never write `_spine.yaml` or the profile. |
 | `manifest_path` | yes | Output path under STM for `shape-manifest.yaml` — the provenance + the `spine_delta` the keyed persist consumes. |
 | `stm_base` | yes | From config. |
 
 ## Procedure
 
-Reasoning (keep/prune judgment, which functionalities to build now, naming personas,
+Reasoning (keep/prune judgment, which features to build now, naming personas,
 sketching journeys, cutting slices toward surfaces) is yours. Schema conformance and stable
 ids are non-negotiable.
 
 1. **Read the domain + the profile.** From the live `_spine.yaml`, load the domain's
-   capabilities (all `detail: detailed`) and their functionalities, plus the profile box.
+   capabilities (all `detail: detailed`) and their features, plus the profile box.
    Read the KB shelf at `shelf_path` (the copy your agent put in short-term memory) for
    selection grounding.
 
@@ -86,13 +86,13 @@ ids are non-negotiable.
    flip only — never edit the capability otherwise; the flip is applied by the keyed persist,
    not by you.)
 
-3. **Select the functionalities to build now.** From the functionalities /discover-capabilities already
+3. **Select the features to build now.** From the features /discover-capabilities already
    created under each kept capability, choose which to build in this round. Selecting is a
-   prioritization call, not creation — you never make a new functionality here. Every
-   selected functionality must land in a slice or the `_deferred` bucket (step 7).
+   prioritization call, not creation — you never make a new feature here. Every
+   selected feature must land in a slice or the `_deferred` bucket (step 7).
 
 4. **Create personas + user journeys (records, in place).** Write each persona record (who
-   the functionalities serve) and each journey record straight to the live model. A journey
+   the features serve) and each journey record straight to the live model. A journey
    is a **user journey through a surface** — the ordered steps a persona takes ON a named
    surface to reach an outcome, never a backend pipeline. Each journey lists its
    `surface_refs` (the slice surface ids it runs on) and its steps. Stable ids from name/slug.
@@ -133,26 +133,26 @@ ids are non-negotiable.
    wrote this run is a defect to fix, not noise to carry.
 
 5. **Record decisions (records, in place).** Write one decision (ADR) record per prune and per
-   material selection choice, at the right level (capability or functionality), straight to
+   material selection choice, at the right level (capability or feature), straight to
    the live model.
 
 6. **Compose vertical slices — each with a scaffolded surface (records, in place).** Write
-   each slice record straight to the live model, bundling the selected functionalities into
+   each slice record straight to the live model, bundling the selected features into
    the domain's slices — **vertical** increments cut TOWARD a user-facing surface, that may
    cross capabilities of THIS domain. For each slice: a stable id, a name, an outcome (the
    usable thing it delivers), the **`surface`** list (≥1 surface, each with a stable `id`, a
    `name`, the `persona_ref` who opens it, and the `user_action`), an `acceptance_intent`, and
-   a `functionalities` list where each entry carries the `functionality_ref` (the spine
-   functionality id — the reference IS the id; the grounding is its `functionality.md`) and a
+   a `features` list where each entry carries the `feature_ref` (the spine
+   feature id — the reference IS the id; the grounding is its `feature.md`) and a
    `delivery` flag (`full` | `partial`). NAME the surface, never DESIGN it (no
    wireframes/components — that is /realize's UX lens). The surface is a thin scaffold (this
    slice's piece of screen), not the whole product UI. Wire each surface to a journey. Do NOT
    set `order`, `effort`, or resolved `depends_on` (that is /shape-roadmap). Every selected
-   functionality must land in at least one slice OR the `_deferred` bucket.
+   feature must land in at least one slice OR the `_deferred` bucket.
 
 7. **Write the manifest with the spine-delta.** Write `shape-manifest.yaml` to `manifest_path`
    (STM) carrying the keep/prune list, the grounding per kept capability + selected
-   functionality, the slices + deferred bucket, the persona/journey/decision ids, AND a
+   feature, the slices + deferred bucket, the persona/journey/decision ids, AND a
    `spine_delta` block — the structured spine mutation the keyed persist applies: the capability
    `status` flips, the persona/journey/decision refs to attach onto those capabilities, and the
    `slices` index entries. You write the RECORDS to the live model and the DELTA to the
@@ -166,8 +166,8 @@ ids are non-negotiable.
     personas/{persona-id}.yaml                  # persona record (in place on the live model)
     journeys/{journey-id}.yaml                  # journey record (surface_refs + steps)
     decisions/{decision-id}.yaml                # ADR per prune + material selection
-  {domain}/slices/{slice-id}.yaml               # slice record (references functionalities by spine id)
-  {domain}/slices/_deferred.yaml                # selected-but-not-placed functionalities (if any)
+  {domain}/slices/{slice-id}.yaml               # slice record (references features by spine id)
+  {domain}/slices/_deferred.yaml                # selected-but-not-placed features (if any)
 
 {manifest_path}                                 # shape-manifest.yaml (STM, non-model)
 ```
@@ -200,7 +200,7 @@ persona:
     version: 1
 ```
 
-A slice record references functionalities by their spine id; the surface is named, not designed:
+A slice record references features by their spine id; the surface is named, not designed:
 
 ```yaml
 slice:
@@ -213,11 +213,11 @@ slice:
       name: "Source coverage view"
       persona_ref: persona-cto
       user_action: "open the coverage view and read each source's resolved trust state"
-  functionalities:                                # references by SPINE ID — no ice_ref paths
-    - { functionality_ref: func-source-usage-ingest,   delivery: full }
-    - { functionality_ref: func-privacy-trust-labeling, delivery: full }
-    - { functionality_ref: func-source-coverage-freshness, delivery: full }
-    - { functionality_ref: func-dashboard-presentation, delivery: partial }   # this slice's screen scaffold
+  features:                                # references by SPINE ID — no ice_ref paths
+    - { feature_ref: func-source-usage-ingest,   delivery: full }
+    - { feature_ref: func-privacy-trust-labeling, delivery: full }
+    - { feature_ref: func-source-coverage-freshness, delivery: full }
+    - { feature_ref: func-dashboard-presentation, delivery: partial }   # this slice's screen scaffold
   acceptance_intent: "the CTO can open the coverage view and every source shows a resolved trust state"
   status: proposed
   # order / effort / depends_on intentionally absent — /shape-roadmap fills these
@@ -245,7 +245,7 @@ shape:
         slug: trusted-coverage
         domain_ref: dom-token-dash
         status: proposed
-        functionality_refs: [func-source-usage-ingest, func-privacy-trust-labeling]
+        feature_refs: [func-source-usage-ingest, func-privacy-trust-labeling]
         doc: token-dash/slices/slice-trusted-coverage.yaml
 ```
 
@@ -254,13 +254,13 @@ Return the enriched contract with the record paths on the live model and the
 
 ## Rules
 
-- **Select + compose, never create.** Choose among the functionalities /discover-capabilities created;
-  never make a functionality or author ICE here.
+- **Select + compose, never create.** Choose among the features /discover-capabilities created;
+  never make a feature or author ICE here.
 - **Selector, never box-mover.** Read the profile; never write it.
 - **Records to live, the spine to the manifest.** Write the slice/persona/journey/decision
   records straight to the live model; NEVER write `_spine.yaml` or the profile — emit the spine
   mutation as the manifest's `spine_delta` for the keyed persist.
-- **Grounded.** Every kept capability and selected functionality traces to a KB shelf or a
+- **Grounded.** Every kept capability and selected feature traces to a KB shelf or a
   proposal, recorded in the manifest.
 - **Stable ids.** Personas, journeys, decisions, slices use ids from name/slug so re-runs
   never duplicate.
@@ -277,10 +277,10 @@ Return the enriched contract with the record paths on the live model and the
   splitting those three out of it is the point.
 - **Journeys are user journeys.** Each journey traverses a named surface via `surface_refs`;
   every surface a slice names is reached by at least one journey.
-- **Slices reference by spine id.** A slice points at each functionality by its spine
-  `functionality_ref` id; the functionality's grounding stays the single source of truth.
-- **Cover every functionality.** Every selected functionality lands in a slice or the
-  `_deferred` bucket — nothing unplaced. A functionality may appear in more than one slice.
+- **Slices reference by spine id.** A slice points at each feature by its spine
+  `feature_ref` id; the feature's grounding stays the single source of truth.
+- **Cover every feature.** Every selected feature lands in a slice or the
+  `_deferred` bucket — nothing unplaced. A feature may appear in more than one slice.
 - **Compose, don't plan.** Slices carry no `order`, `effort`, or resolved `depends_on` —
   that is /shape-roadmap's. Free-text `dependency_notes` are fine.
 - **Schema-true.** Slice records conform to the slice schema; the manifest `spine_delta`

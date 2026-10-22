@@ -58,7 +58,7 @@ def build(tmp, profile="set", detail="detailed", slices=(), epics=(), lens_docs=
     for sid, _status, _order in slices:
         _write(os.path.join(root, SLUG, "slices", sid + ".yaml"),
                yaml.safe_dump({"slice": {"id": sid, "name": sid, "status": "proposed",
-                                         "functionalities": [{"functionality_ref": "f1"}]}}))
+                                         "features": [{"feature_ref": "f1"}]}}))
         for lt in lens_docs.get(sid, []):
             _write(os.path.join(root, SLUG, "slices", sid, "lens", lt + ".md"), f"# {lt}\n")
     for sid in extra_records:
@@ -73,7 +73,7 @@ def build(tmp, profile="set", detail="detailed", slices=(), epics=(), lens_docs=
             "profile": {"state": profile},
             "slices": [{"id": sid, "slug": sid, "domain_ref": DOM, "status": status,
                         "order": order, "effort": "M" if order else None,
-                        "depends_on": [], "functionality_refs": ["f1"],
+                        "depends_on": [], "feature_refs": ["f1"],
                         "record": f"{SLUG}/slices/{sid}.yaml"}
                        for sid, status, order in slices],
             "epics": [dict(e) for e in epics],
@@ -148,7 +148,7 @@ def case_ready_epic_outranks_next_slice():
                       "status": "ready", "order": 1, "surface_type": "library"}])
         _s, cands, _i, _a, _o = run_all(tmp)
         c = cmds(cands)
-        assert c[0] == f"/build-feature --epic {SLUG}/s1/e1", c
+        assert c[0] == f"/build-epic --epic {SLUG}/s1/e1", c
         assert c.index(f"/shape-ux-lens {SLUG}/s2") > 0, c
 
 
@@ -246,7 +246,7 @@ def case_execute_lane():
                       "surface_type": "cli"}])
         _s, cands, incons, agreement, _o = run_all(tmp)
         run = cmds(cands, "runnable")
-        assert run == [f"/build-feature --epic {SLUG}/s1/e2"], cmds(cands)
+        assert run == [f"/build-epic --epic {SLUG}/s1/e2"], cmds(cands)
         assert incons == [], incons
         assert agreement == 0
 

@@ -2,7 +2,7 @@
 
 Canonical format for a **work plan** — the human's interface to a business intent (ADR 030; `docs/philosophy/idsd.md`). It says **what** gets done, **in what order**, and **why that order**, in words a business reader can follow. It never says how.
 
-Not to be confused with the **build plan** that `/build-feature` writes (`specs/implement/plan.yaml`, via `author-build-plan`): that one breaks an epic into file-level pieces — it is design, for agents.
+Not to be confused with the **build plan** that `/build-epic` writes (`specs/implement/plan.yaml`, via `author-build-plan`): that one breaks an epic into file-level pieces — it is design, for agents.
 
 This file holds the shape only. When a work plan must exist, who writes and updates it, and when it is done are rules, in `standards/rules/work-plan.md`.
 

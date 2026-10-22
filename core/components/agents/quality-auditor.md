@@ -149,9 +149,9 @@ Error types:
 - Mark `task_id` as `failed` on failure — never abandon a task
 - If additional work is discovered (e.g., missing tooling required by a gate), create new tasks via TaskCreate before returning
 
-## Validate mode (/validate-feature)
+## Validate mode (/validate-epic)
 
-In the /validate-feature play you are its single domain agent: you bookend the work and the
+In the /validate-epic play you are its single domain agent: you bookend the work and the
 bundled scripts run the mechanics. You invoke exactly two skills, by JSON contract over
 files on disk:
 
@@ -162,8 +162,8 @@ files on disk:
 
 Mode boundaries (these add to, never relax, the lists above): you run no check yourself —
 `run_checks.py` and its runners own execution; you never edit product code (validate
-finds, /build-feature fixes); in the judge phase you read captured result files only. The
-context-isolation lists above read on the /build-feature seam — in /validate-feature the "judge
+finds, /build-epic fixes); in the judge phase you read captured result files only. The
+context-isolation lists above read on the /build-epic seam — in /validate-epic the "judge
 reports" you must not receive are implement's, while the validate findings you produce
 are your own output.
 

@@ -1,7 +1,7 @@
 ---
 name: shape-architecture-lens
 position: start
-description: 'Write a SLICE''s architecture lens as a grounding doc (architecture.md) — the components the slice threads (each in its layer, with its contract), the stack (tech + versions) behind them, and the vertical build that runs the slice end-to-end — written directly in place on the live model. The START of the NON-FUNCTIONAL realize pipe (arch → quality → run), run on a shaped slice. Every component is selected from the slice''s functionalities'' systems + the profile surfaces, never invented; the build is one vertical end-to-end. Reads the hub from the spine (functionality grounding + profile) and MAY read the functional lenses, never the measure or run lens. Writes only the slice''s architecture lens and any material-choice decision.'
+description: 'Write a SLICE''s architecture lens as a grounding doc (architecture.md) — the components the slice threads (each in its layer, with its contract), the stack (tech + versions) behind them, and the vertical build that runs the slice end-to-end — written directly in place on the live model. The START of the NON-FUNCTIONAL realize pipe (arch → quality → run), run on a shaped slice. Every component is selected from the slice''s features'' systems + the profile surfaces, never invented; the build is one vertical end-to-end. Reads the hub from the spine (feature grounding + profile) and MAY read the functional lenses, never the measure or run lens. Writes only the slice''s architecture lens and any material-choice decision.'
 user-invocable: true
 ---
 
@@ -10,7 +10,7 @@ user-invocable: true
 Write a shaped slice's **architecture lens** as the grounding doc `architecture.md`: the
 components the slice threads (each in its layer, with its contract), the stack behind them, and
 the vertical build that runs the slice end-to-end. /shape-architecture-lens reads the slice's **hub** — its
-functionalities' grounding docs plus the profile box (both from the spine) — and MAY read the
+features' grounding docs plus the profile box (both from the spine) — and MAY read the
 already-merged functional lenses (ux/agentic/marketing), never the measure or run lens.
 
 **Pipeline position: start.** /shape-architecture-lens OPENS the non-functional realize pipe (arch → quality → run):
@@ -95,9 +95,9 @@ python3 scripts/check_ready_slice.py --product-base <product_base> --slice <slic
 ```
 
 It asserts the profile is `set` (from the spine), resolves the slice record, and resolves every
-`functionality_ref` through the spine to its `functionality.md` grounding doc — the hub. It emits
-the resolved `domain`, `slice_id`, `slice_file`, `lens_dir`, and `functionality_groundings`. If the
-slice is absent, a functionality does not resolve, or the profile is not firmed, hard halt
+`feature_ref` through the spine to its `feature.md` grounding doc — the hub. It emits
+the resolved `domain`, `slice_id`, `slice_file`, `lens_dir`, and `feature_groundings`. If the
+slice is absent, a feature does not resolve, or the profile is not firmed, hard halt
 (C1/REC1). `<domain>` and `<slice>` below are the resolved `domain` / `slice_id` — they key the
 run's write scope (the guard globs).
 
@@ -183,7 +183,7 @@ run's delta.
 
 **Step 1 — Author the lens (doc to live)** · Owner: `product-os-keeper` · Depends on: Step 0
 The agent invokes `author-architecture-lens` to write the slice's `architecture.md` (components +
-stack + vertical build, per the Architecture lens template) from the hub (the functionality
+stack + vertical build, per the Architecture lens template) from the hub (the feature
 grounding docs + the profile box) and KB architecture/technology grounding. Per ADR 026 the skill
 writes the lens doc **straight to the live model** — in place at the slice's lens path, re-deriving
 this slice's lens — and emits the grounding map plus any material-choice decision as structured
@@ -191,10 +191,10 @@ data in `arch-manifest.yaml`. It writes NO shared model file (`_spine.yaml`, the
 `decisions/`) — the keyed persist (Step 3) writes the decisions:
 
     {
-      "task":    "author the slice's architecture lens (components/stack/vertical build) in place on the live model from its hub; ground components to functionalities' systems or profile surfaces and the stack to the KB or a decision; emit decisions as manifest data",
+      "task":    "author the slice's architecture lens (components/stack/vertical build) in place on the live model from its hub; ground components to features' systems or profile surfaces and the stack to the KB or a decision; emit decisions as manifest data",
       "inputs":  { "slice_ref": "<domain>/<slice>",
                    "slice_file": "<product_base>/<slice_file>",
-                   "functionality_groundings": "<from check_ready_slice>",
+                   "feature_groundings": "<from check_ready_slice>",
                    "profile": "<spine profile>", "product_base": "<product_base>",
                    "lens_rel": "product-os/<domain>/slices/<slice>/lens/architecture.md",
                    "manifest_path": "<working>/arch-manifest.yaml",
@@ -235,9 +235,9 @@ resolves; an unready slice halted (REC1).
 lens template (Intent/Components/Stack/Vertical build), no missing/extra/empty section.
 **SE-3 (F3/C4):** the content-quality eval gate (`grounding_gate.py`) passes — `architecture.md`
 is self-explaining and clears the stranger test.
-**SE-4 (F4/C5):** `validate_arch.py` — every component in the manifest grounds to a functionality's
+**SE-4 (F4/C5):** `validate_arch.py` — every component in the manifest grounds to a feature's
 system or a profile surface; the stack grounds to the KB or a decision.
-**SE-5 (F5/C6):** `validate_arch.py` — every functionality the slice bundles threads through at
+**SE-5 (F5/C6):** `validate_arch.py` — every feature the slice bundles threads through at
 least one component (coverage; the vertical is end-to-end).
 **SE-6 (F6/C7):** `validate_arch.py` — no component grounds on the measure or run lens.
 **SE-7 (F7/C8):** `validate_arch.py` — the stack names a decision (in the manifest) that resolves.
@@ -396,8 +396,8 @@ land closes HALTED, never COMPLETED (REC11).
 - **SCE-1 (S1 — architect):** the lens this run persisted — `architecture.md` at its live path —
   is a valid Architecture Lens doc clearing the linter + the content eval, and the
   spine/slice/profile/other lenses are byte-identical; the stop-condition verdict reads held.
-- **SCE-2 (S2 — build lead):** every functionality the slice bundles maps to ≥1 component.
-- **SCE-3 (S3 — architect):** every component traces to a functionality's system or a profile
+- **SCE-2 (S2 — build lead):** every feature the slice bundles maps to ≥1 component.
+- **SCE-3 (S3 — architect):** every component traces to a feature's system or a profile
   surface; the stack to a decision that resolves.
 - **SCE-4 (S4 — reviewer):** no measure or run lens was read or written.
 - **SCE-5 (S5 — architect, re-run):** a re-run re-derives only `architecture.md` in place; the
@@ -488,11 +488,11 @@ architecture lens + any decision), Next Steps (run /shape-quality-lens on this s
 
 | For | Trigger | Direction | Handoff |
 |-----|---------|-----------|---------|
-| F1 | the slice is absent, a functionality does not resolve, or the profile is not firmed | halt and route to /shape-scope or /discover-capabilities before /shape-architecture-lens runs | human |
+| F1 | the slice is absent, a feature does not resolve, or the profile is not firmed | halt and route to /shape-scope or /discover-capabilities before /shape-architecture-lens runs | human |
 | F2 | architecture.md fails the template/shape or carries out-of-scope content | re-emit to the Architecture lens template (Intent/Components/Stack/Vertical build only) | autonomous |
 | F3 | architecture.md fails the content-quality eval | rewrite the failing section to the judge's cited fixes and re-judge until the gate passes | autonomous |
-| F4 | an invented/ungrounded component or stack pick | drop it, or re-tie the component to a functionality's system or a profile surface, and the stack to a decision | autonomous |
-| F5 | a functionality threads through no component | add the component(s) that build the missing functionality, so the vertical is end-to-end | autonomous |
+| F4 | an invented/ungrounded component or stack pick | drop it, or re-tie the component to a feature's system or a profile surface, and the stack to a decision | autonomous |
+| F5 | a feature threads through no component | add the component(s) that build the missing feature, so the vertical is end-to-end | autonomous |
 | F6 | /shape-architecture-lens read or depended on the measure or run lens | remove the dependency; /shape-architecture-lens derives from the hub and may read only the functional lenses | autonomous |
 | F7 | the stack was set with no decision | record the slice-level stack decision (reuse the product one if it exists) | autonomous |
 | F8 | an architecture choice with no KB learning and no recorded proposal | search the KB via find-architecture-learnings and ground the choice, or raise a KB-learning-gap proposal | autonomous |
@@ -513,7 +513,7 @@ FRESH start right after start-change — a resume continues its own in-progress 
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:6e010e818a48a3690d587bcf47bf2e5faf737e90fe187f8a6d94887b0aa32acd (of `reference/ice.md`) |
+| fingerprint | sha256:ba888101cbe1328614de0eed9828257ff222272d6ae81f9666484d3e0ec6c77e (of `reference/ice.md`) |
 | compiled_by | edit-play (#500 direct-model-write, ADR 026); prior: edit-play (#467 Batch B, #466 Batch C) |
 | pipeline_position | start (non-functional pipe head; the non-functional pipe closes at /shape-run-lens) |
 | position_exception | model-writing start play — writes the model on the started branch and commits its own model delta (C13); the pipe end PR belongs to /shape-run-lens |
@@ -559,6 +559,6 @@ was produced by hand to match what edit-play would emit from the current `refere
 edit-play run actually occurred and convergence is UNVERIFIED.** An interactive `/edit-play`
 convergence run against `reference/ice.md` is **REQUIRED** — confirming the emitted SKILL matches
 this hand-compiled body and refreshing the fingerprint. This mirrors the same caveat on
-/discover-capabilities's #498 migration (the ratified reference implementation) and the /discover-domains, /shape-features, /learn-outcomes
+/discover-capabilities's #498 migration (the ratified reference implementation) and the /discover-domains, /shape-slice, /learn-outcomes
 fan-outs of that pattern: /shape-architecture-lens is the non-functional-realize fan-out and remains
 convergence-unverified until an interactive edit-play run confirms it.

@@ -10,7 +10,7 @@
 # CI/CD) is written ONCE. Each environment is defined INCREMENTALLY — one /shape-run-lens call per
 # environment, re-run to add or edit an environment — and every environment carries a full,
 # MACHINE-READABLE definition the delivery plays execute against:
-#   - /release-feature  reads the LOCAL environment (the lightweight bring-up for human testing).
+#   - /release-epic  reads the LOCAL environment (the lightweight bring-up for human testing).
 #   - /release-increment  reads a CLOUD environment, defaulting to the lowest cloud tier (dev).
 # Higher cloud tiers (qa, stage, prod) use the same shape — added later by re-running /shape-run-lens.
 
@@ -36,7 +36,7 @@ content:
       status: string       # defined  (present once /shape-run-lens has built this environment)
       config_secrets: string  # per-env config; secrets via secrets-manager, NEVER in repo
 
-      # present iff type == local — the lightweight bring-up /release-feature stands up for HITL testing
+      # present iff type == local — the lightweight bring-up /release-epic stands up for HITL testing
       local:
         run: string        # how to bring it up locally (command / compose file)
         seed: string       # optional — test-data seed step

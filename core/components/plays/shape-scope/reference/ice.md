@@ -6,20 +6,20 @@ edit-play; never hand-edit the compiled SKILL.md.
 ## Intent
 
 Given one domain whose capabilities /discover-capabilities has detailed (each `detail: detailed`
-with its functionalities created) and whose product profile is firmed (`set`), **select
+with its features created) and whose product profile is firmed (`set`), **select
 what to build and compose it into deliverable verticals**. /shape-scope is the **product
 owner**: it confirms the capabilities that stay (and prunes the ones that don't), selects
-which of the functionalities /discover-capabilities already created to build now, creates the
-personas served and the **user journeys** they travel, and bundles those functionalities
+which of the features /discover-capabilities already created to build now, creates the
+personas served and the **user journeys** they travel, and bundles those features
 into the domain's **vertical slices** — usable increments that may cross capabilities,
 each exposing at least one user-facing surface a named persona can open and check.
 
-/shape-scope does NOT create functionalities or author ICE — /discover-capabilities did that; /shape-scope
-selects among the functionalities that already exist and references them by their spine
+/shape-scope does NOT create features or author ICE — /discover-capabilities did that; /shape-scope
+selects among the features that already exist and references them by their spine
 id. It selects **against** the firmed box — it reads the profile to judge fit but never
 writes it (the box is /discover-capabilities's). And it stops at slice composition: it never orders
 the slices, sizes them, or resolves cross-slice dependencies (that plan is /shape-roadmap's),
-and it never cuts the slices into epics (that is /shape-features's).
+and it never cuts the slices into epics (that is /shape-slice's).
 
 **Always scaffold the UI.** A slice is a vertical only when a user can OPEN a surface and
 CHECK its outcome, so every slice names at least one surface — and that surface is a thin
@@ -49,22 +49,22 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
 
 - C1 — Operates on ONE domain per run, on a firmed model: the product profile is `set`
   (firmed by /discover-capabilities) and every target capability is `detail: detailed` with its
-  functionalities created. If the profile is `directional`, or a target capability is not
+  features created. If the profile is `directional`, or a target capability is not
   detailed, halt — /shape-scope selects against a detailed, firmed model; it never details or
   firms one.
-- C2 — /shape-scope SELECTS and COMPOSES only. It never creates a functionality or authors ICE
+- C2 — /shape-scope SELECTS and COMPOSES only. It never creates a feature or authors ICE
   (/discover-capabilities did that), and it never writes the product profile (the box is
   /discover-capabilities's). A selection that would need more than the box halts for the human to run
   /discover-capabilities; /shape-scope cannot redraw the box.
-- C3 — Grounded: every kept capability and every selected functionality traces to a KB
+- C3 — Grounded: every kept capability and every selected feature traces to a KB
   shelf or to a recorded KB-node proposal. No invented selection.
 - C4 — Capability scope: /shape-scope confirms a capability (`proposed → active`) or prunes it
   (`→ deprecated`) by a `status` flip ONLY. It never reparents or renames a node, never
   creates or deletes a capability or domain, and never edits a capability beyond its
   `status`. A prune marks the capability `deprecated` (soft), never a hard delete.
 - C5 — Schema + integrity, including first-class persona grounding: the persona, journey,
-  decision, and slice records conform to their schemas; every slice `functionality_ref`
-  resolves to a real functionality in the spine; every journey's persona and surface
+  decision, and slice records conform to their schemas; every slice `feature_ref`
+  resolves to a real feature in the spine; every journey's persona and surface
   references resolve. And a persona /shape-scope writes carries its **structured grounding** —
   `goals` (what that person is trying to achieve, outcomes in THEIR words, never features or
   solutions), `cares_about` (what they judge the thing by when deciding whether to trust it),
@@ -75,8 +75,8 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
   additive and optional in the schema, so a persona written before #550 stays valid and is
   never a run failure — the guarantee binds what /shape-scope writes, and the validator reports a
   missing field as a warning, not an error.
-- C6 — Placement: every selected functionality lands in at least one slice OR in the
-  explicit `_deferred` bucket — nothing selected is left unplaced. A functionality MAY
+- C6 — Placement: every selected feature lands in at least one slice OR in the
+  explicit `_deferred` bucket — nothing selected is left unplaced. A feature MAY
   appear in more than one slice.
 - C7 — Every slice is a user-facing vertical with a scaffolded surface: it names at least
   one surface a named persona opens and checks, and that surface is a thin UI scaffold —
@@ -89,15 +89,15 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
 - C9 — Journeys are user journeys through surfaces: each journey's ordered steps are what a
   persona does ON a named surface (`surface_refs` non-empty), never a backend pipeline; and
   every surface a slice names is reached by at least one persona's journey.
-- C10 — Slices reference by spine id and carry no plan: a slice points at each functionality
-  by its spine `functionality_ref` (never copies its content), and carries no `order`,
+- C10 — Slices reference by spine id and carry no plan: a slice points at each feature
+  by its spine `feature_ref` (never copies its content), and carries no `order`,
   `effort`, or resolved `depends_on` — that plan is /shape-roadmap's. Free-text `dependency_notes`
   are allowed.
 - C11 — Decisions: every prune and every material selection choice is recorded as a decision
   (ADR) at the right level.
 - C12 — There is exactly one human checkpoint, presenting the domain's selection bundle —
-  kept and pruned capabilities, selected functionalities, personas, journeys, and the
-  vertical slices (each with its surface and bundled functionalities) plus the `_deferred`
+  kept and pruned capabilities, selected features, personas, journeys, and the
+  vertical slices (each with its surface and bundled features) plus the `_deferred`
   bucket. The checkpoint is a **conditional gate** (#467; `gate-config.md` three gate
   kinds — /shape-scope is one of the eleven conditional document plays). Resolution order:
   pinned (n/a here) → the `gates.plays` override → the learned policy (classify the
@@ -120,7 +120,7 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
   decisions, and their refs onto the capabilities. After the writes and before the checkpoint,
   the bundled `scoped_write_guard.py` diffs the model tree against HEAD and FAILS the run
   (reverting the offending paths) if any model path outside that scope changed. It never
-  changes a functionality, a domain, or the profile. Node-level containment inside the shared
+  changes a feature, a domain, or the profile. Node-level containment inside the shared
   spine (only the named capabilities flip, only their status field moves) is kept by the keyed
   persist script — only it writes the spine — not the guard. Stable ids (from name/slug)
   mean a re-run never duplicates.
@@ -143,20 +143,20 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
 ### Failure conditions
 
 - F1 — The product profile is `directional` (not firmed), or a target capability is not
-  `detail: detailed` (or has no functionalities), when /shape-scope runs.
-- F2 — /shape-scope created a functionality, authored ICE, or wrote any field of the product
+  `detail: detailed` (or has no features), when /shape-scope runs.
+- F2 — /shape-scope created a feature, authored ICE, or wrote any field of the product
   profile — over-reaching into /discover-capabilities's scope.
-- F3 — A selected functionality or kept capability has no KB-shelf grounding and no recorded
+- F3 — A selected feature or kept capability has no KB-shelf grounding and no recorded
   proposal — it was invented.
 - F4 — A capability was edited beyond its `status` flip; or a node was reparented or renamed;
   or a capability or domain was created or deleted; or a prune hard-deleted instead of
   marking `deprecated`.
 - F5 — A persona, journey, decision, or slice violates its schema; or a slice
-  `functionality_ref` or a journey reference does not resolve; or a persona /shape-scope wrote this
+  `feature_ref` or a journey reference does not resolve; or a persona /shape-scope wrote this
   run is missing `goals`, `cares_about`, or `failure_means`, or crams that content back into
   `description` instead of the structured fields, or invents it rather than grounding it in
   the capability's ICE and the firmed profile.
-- F6 — A selected functionality is in neither a slice nor the `_deferred` bucket — it fell
+- F6 — A selected feature is in neither a slice nor the `_deferred` bucket — it fell
   through unplaced.
 - F7 — A slice exposes no user-testable surface (a backend-only or horizontal-layer slice),
   or a slice tries to deliver the whole product surface at once instead of a thin scaffold.
@@ -164,12 +164,12 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
   layout, or visual-design content that belongs to /realize's UX lens.
 - F9 — A journey is not a user journey through a surface — its steps are a backend pipeline
   or it traverses no surface — or a slice names a surface that no journey reaches.
-- F10 — A slice copied a functionality's content instead of referencing it by spine id, or a
+- F10 — A slice copied a feature's content instead of referencing it by spine id, or a
   slice carries `order`, `effort`, or resolved `depends_on`.
 - F11 — A prune or a material selection was made with no decision recorded.
 - F12 — The selection delta was COMMITTED before the checkpoint gate resolved — no typed
   approval, no recorded config skip, and no recorded policy auto-pass.
-- F13 — Allowlist breach (scoped-guard violation): a functionality, a domain, or the profile
+- F13 — Allowlist breach (scoped-guard violation): a feature, a domain, or the profile
   changed during the run; or a model path outside /shape-scope's scope (the spine + the new
   slice/persona/journey/decision records) changed; or a re-run duplicated a persona, journey,
   or slice.
@@ -188,33 +188,33 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
 
 - S1 — (product owner, select + compose) Given a domain with detailed capabilities and a
   `set` profile, when /shape-scope runs and the checkpoint is approved, then the kept capabilities
-  are `active`, the selected (already-existing) functionalities are placed into slices, and
-  the personas and journeys are created — all schema-valid, and no functionality is created
-  or changed. Measure: each kept capability is `status: active`; each selected functionality
+  are `active`, the selected (already-existing) features are placed into slices, and
+  the personas and journeys are created — all schema-valid, and no feature is created
+  or changed. Measure: each kept capability is `status: active`; each selected feature
   already existed in the spine and is referenced by a slice; persona and journey records
   exist and validate, and each persona this run wrote carries its structured grounding
-  (`goals`, `cares_about`, `failure_means`) beside a one-line `description`; no functionality
+  (`goals`, `cares_about`, `failure_means`) beside a one-line `description`; no feature
   entry or doc changed; the stop-condition verdict reads held.
 - S2 — (architect, grounding) Given the selection is drafted, when it is inspected, then each
-  kept capability and selected functionality traces to a KB shelf or a recorded proposal.
-  Measure: the shape manifest names, for every kept capability and selected functionality, a
+  kept capability and selected feature traces to a KB shelf or a recorded proposal.
+  Measure: the shape manifest names, for every kept capability and selected feature, a
   KB shelf or a proposal; none is ungrounded.
 - S3 — (product owner, prune is soft) Given a capability is pruned, when /shape-scope persists, then
   it is marked `deprecated` with a recorded decision and is not deleted. Measure: the pruned
   capability still exists with `status: deprecated`; a decision names the prune; nothing was
   removed.
-- S4 — (reviewer, box and functionalities untouched) Given /shape-scope runs, when the model is
-  compared before and after, then no field of the profile changed and no functionality
+- S4 — (reviewer, box and features untouched) Given /shape-scope runs, when the model is
+  compared before and after, then no field of the profile changed and no feature
   changed. Measure: the profile is byte-identical before and after; the before/after spine
-  diff shows no change to any functionality or domain.
+  diff shows no change to any feature or domain.
 - S5 — (delivery lead, slices reference by id) Given the slices are drafted, when they are
-  inspected, then each bundles functionalities by spine id and carries no plan. Measure: each
-  slice has a name, an outcome, an acceptance_intent, and a non-empty `functionalities` list
-  whose every `functionality_ref` resolves to a real spine functionality; no slice embeds
+  inspected, then each bundles features by spine id and carries no plan. Measure: each
+  slice has a name, an outcome, an acceptance_intent, and a non-empty `features` list
+  whose every `feature_ref` resolves to a real spine feature; no slice embeds
   content; no slice carries `order`, `effort`, or resolved `depends_on`.
 - S6 — (planner, full coverage) Given the slices and the deferred bucket, when the selected
-  functionalities are checked, then every one is placed. Measure: the union of all slices'
-  `functionality_ref`s and the `_deferred` bucket equals the set of selected functionalities;
+  features are checked, then every one is placed. Measure: the union of all slices'
+  `feature_ref`s and the `_deferred` bucket equals the set of selected features;
   none is missing from both.
 - S7 — (product owner, every slice is a user-facing scaffold) Given the slices are drafted,
   when they are inspected, then each names at least one surface a persona can open and check,
@@ -223,7 +223,7 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
   reports zero surface-less slices and no one-per-capability horizontal slice; every named
   surface is reached by a journey.
 - S8 — (reviewer, the checkpoint + re-run) Given the bundle is ready, when the checkpoint is
-  presented, then it shows the kept/pruned capabilities, selected functionalities, personas,
+  presented, then it shows the kept/pruned capabilities, selected features, personas,
   journeys, and slices (with the deferred bucket) inline before any write; and a re-run adds
   no duplicates. Measure: each section is present in the checkpoint and no product-model file
   was written before approval — or, on the auto-pass path (a policy-listed shape), the gate
@@ -240,7 +240,7 @@ after applying the manifest's spine-delta in place on the live model (its contra
 status flips, the slice index, and the persona/journey/decision refs; `guard-report.json` is
 the captured `scoped_write_guard.py` output — the play always writes it, and its `ok` field is
 the mechanical proof that no model path changed outside /shape-scope's scope (the spine plus the new
-slice/persona/journey/decision records), so the profile is untouched and no functionality or
+slice/persona/journey/decision records), so the profile is untouched and no feature or
 domain moved.
 
 - D1 — says: "the persist record exists — the spine merge (status flips, slice index,
@@ -257,10 +257,10 @@ domain moved.
 - REC1 (F1) — trigger: the profile is `directional`, or a target capability is not detailed,
   at start. direction: halt and route to /discover-capabilities to firm the profile and detail the
   capabilities before /shape-scope runs. handoff: human.
-- REC2 (F2) — trigger: /shape-scope created a functionality, authored ICE, or wrote the profile.
-  direction: strip the over-reach — remove the created functionality/ICE, revert the profile
+- REC2 (F2) — trigger: /shape-scope created a feature, authored ICE, or wrote the profile.
+  direction: strip the over-reach — remove the created feature/ICE, revert the profile
   write; detailing and the box belong to /discover-capabilities. handoff: autonomous.
-- REC3 (F3) — trigger: a selected functionality or kept capability has neither a KB-shelf
+- REC3 (F3) — trigger: a selected feature or kept capability has neither a KB-shelf
   match nor a proposal. direction: ground it against the KB, or record a propose-kb-node
   proposal; never keep an invented selection. handoff: autonomous.
 - REC4 (F4) — trigger: a capability edited beyond status, a reparent/rename, a
@@ -270,18 +270,18 @@ domain moved.
   reference does not resolve, or a persona written this run lacks its structured grounding
   (`goals`, `cares_about`, `failure_means`) or carries it inside `description`. direction:
   re-emit the failing record to conform, and fix the reference to point at a real spine
-  functionality/persona/surface; for the persona case, split the content OUT of `description`
+  feature/persona/surface; for the persona case, split the content OUT of `description`
   into the three fields — goals as outcomes in the person's words, `cares_about` as their trust
   criteria, `failure_means` as what a miss looks like for them — each read off the capability's
   ICE and the firmed profile, leaving `description` as the one-line who-they-are summary. A
   warning on a persona an earlier run wrote is left alone; only records this run wrote are
   re-emitted. handoff: autonomous.
-- REC6 (F6) — trigger: a selected functionality is in neither a slice nor `_deferred`.
+- REC6 (F6) — trigger: a selected feature is in neither a slice nor `_deferred`.
   direction: place it — add it to an appropriate slice or record it in `_deferred` with a
   reason — before persisting. handoff: autonomous.
 - REC7 (F7) — trigger: a surface-less/horizontal slice, or a "whole UI at once" slice.
   direction: re-cut the slice vertically toward one surface a persona opens and checks, as a
-  thin scaffold; fold or defer functionalities that serve no surface. handoff: autonomous.
+  thin scaffold; fold or defer features that serve no surface. handoff: autonomous.
 - REC8 (F8) — trigger: /shape-scope wrote surface design (wireframe, component, layout, visual).
   direction: strip the design to the surface's name, persona, and user action; design is
   /realize's UX lens. handoff: autonomous.
@@ -289,7 +289,7 @@ domain moved.
   journey reaches. direction: rewrite the journey as the persona's steps on a named surface,
   and ensure every slice's surface is reached by at least one journey. handoff: autonomous.
 - REC10 (F10) — trigger: a slice copied content, or carries `order`/`effort`/`depends_on`.
-  direction: replace copied content with a spine `functionality_ref`, and strip the plan
+  direction: replace copied content with a spine `feature_ref`, and strip the plan
   fields — /shape-scope composes, /shape-roadmap plans. handoff: autonomous.
 - REC11 (F11) — trigger: a prune or material selection with no decision. direction: write the
   decision (ADR) for each before persisting. handoff: autonomous.
@@ -297,7 +297,7 @@ domain moved.
   resolved. direction: revert the working tree (`scoped_write_guard.py --restore`, empty
   allow set) and re-present the checkpoint; commit only after a human approves. handoff:
   human.
-- REC13 (F13) — trigger: a scoped-guard violation — a functionality/domain/profile changed,
+- REC13 (F13) — trigger: a scoped-guard violation — a feature/domain/profile changed,
   a model path outside /shape-scope's scope changed, or a re-run duplicated a record. direction: the
   guard's `--restore` already reverted the offending paths; re-run writing only /shape-scope's scope
   (the spine status flips/slice index/refs, and the new slice/persona/journey/decision

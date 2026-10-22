@@ -1,7 +1,7 @@
 ---
 name: next
 position: none
-description: 'Recommend what to do next on the product — read the product model (the spine `_spine.yaml` plus each slice''s lens docs), build the list of every runnable or blocked action with a deterministic decision tree, order it to finish one slice before the others advance, and show ONE next-best-action plus the ordered list (≤11 entries). Reading and ordering are scripts; the play only presents. Order: repair first, then every step of the focus slice (the lowest roadmap-order slice with work left — feature track, technical track, /shape-measure-lens, /shape-features, its epics), then strategy, then other slices'' steps as parallel lanes (shown, never hidden), then learning and refresh. The model is the single source: no backlog, sprint plan, or work queue exists or is consulted. Recommend ONLY: the play never modifies the model, never creates work items, never launches a play. Read-only and position none: runnable anytime, on any branch, even mid-pipeline. Use when the user asks "what next", "what should I work on", "where are we", or wants the model''s work ordered.'
+description: 'Recommend what to do next on the product — read the product model (the spine `_spine.yaml` plus each slice''s lens docs), build the list of every runnable or blocked action with a deterministic decision tree, order it to finish one slice before the others advance, and show ONE next-best-action plus the ordered list (≤11 entries). Reading and ordering are scripts; the play only presents. Order: repair first, then every step of the focus slice (the lowest roadmap-order slice with work left — feature track, technical track, /shape-measure-lens, /shape-slice, its epics), then strategy, then other slices'' steps as parallel lanes (shown, never hidden), then learning and refresh. The model is the single source: no backlog, sprint plan, or work queue exists or is consulted. Recommend ONLY: the play never modifies the model, never creates work items, never launches a play. Read-only and position none: runnable anytime, on any branch, even mid-pipeline. Use when the user asks "what next", "what should I work on", "where are we", or wants the model''s work ordered.'
 user-invokable: true
 ---
 
@@ -103,7 +103,7 @@ Snapshot the model's state, read-only. The scan reads the model the way the
 model-writing plays write it (C13, ADR 026): the spine `_spine.yaml` is the index of
 record for the profile, domains, capability detail, slices (status / order / effort /
 depends_on) and epics; lens presence is the seven `lens/<type>.md` docs per slice; a
-slice record is read only for its name and functionalities, never for its status. A tree
+slice record is read only for its name and features, never for its status. A tree
 with files but no spine is recorded as `spine_exists: false` — never read from legacy
 per-node files:
 
@@ -192,7 +192,7 @@ case apply REC11 — either way halt before Step 4.
   agrees with the snapshot.
 - **SCE-8 (S8 — builder finishing a slice):** `case_ready_epic_outranks_next_slice` —
   slice 1 realized with a ready epic and slice 2 planned: rank 1 is slice 1's
-  `/build-feature`, and slice 2's `/shape-ux-lens` ranks below it.
+  `/build-epic`, and slice 2's `/shape-ux-lens` ranks below it.
 
 ### Phase: Present
 
@@ -323,7 +323,7 @@ re-derive. Prior artifacts in `<working>/` are overwritten. There is no status m
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:599d662a37c58c2a5db5b57792e75d8f5485eb837b1bdd66304ab46e2d04059b (of `reference/ice.md`) |
+| fingerprint | sha256:4a57107eba80cc2c11cc8e9ccae93584c4f1cdaee30b82f498052a4d24d8d26f (of `reference/ice.md`) |
 | compiled_by | edit-play (#533 simplification + slice-first order; #533 spine read; #466 Batch D, Level 3 rollout per ADR 025); prior: create-play |
 | pipeline_position | none |
 | structural_constraints | C1 (scan + derivation read only the model tree — by construction of `scan_model.py`/`derive_candidates.py`); C9 (the tree's branches span strategy → both realize tracks + /shape-measure-lens → repair → grill → execute → learning → refresh — `derive_candidates.py`); C11 (surface debt detected mechanically from the spine epics index's `surface_type` + `surface_verified`); C13 (the spine is the index of record in `scan_model.py`, proven by the independent reader inside `test_derive_candidates.py`); C14 (the order is `order_candidates()` in `derive_candidates.py`) |

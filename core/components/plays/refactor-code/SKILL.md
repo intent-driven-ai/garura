@@ -310,7 +310,7 @@ reads held before the run may close COMPLETED; preservation asserted only in pro
 Retry semantics: all guards PASS → proceed to the end sequence. A guard FAIL with retries remaining
 → re-run Step 6 → Step 7. On exhaustion (cap 2) → re-invoke `tech-designer` to revise the plan, then
 resume; it does not halt blindly. A behavior-change fail (SE-6) that is actually wanted is not a
-refactor — apply REC2 (route to /fix or /build-feature).
+refactor — apply REC2 (route to /fix or /build-epic).
 
 ### Phase: End sequence (injected — D2 position: both)
 
@@ -431,7 +431,7 @@ below cover this play's refactor core.
 | For | Trigger | Direction | Handoff |
 |-----|---------|-----------|---------|
 | F1 | a product-model file was added, removed, or changed | revert the product-model write and restore product-os to the pre-refactor snapshot; a refactor changes code only | autonomous |
-| F2 | external behavior changed — an API, input→output, or side effect differs | revert the behavior-changing edit; if the change is actually wanted it is not a refactor — route it to /fix or /build-feature | human |
+| F2 | external behavior changed — an API, input→output, or side effect differs | revert the behavior-changing edit; if the change is actually wanted it is not a refactor — route it to /fix or /build-epic | human |
 | F3 | a test was weakened/deleted, or behavior is unproven (baseline or post not green) | restore the test to its prior strength and re-run; where coverage was thin, capture characterization tests first and prove green before and after | autonomous |
 | F4 | a modified file lies outside the declared target with no justification | restrict the change to the target, or record the deviation justification, before the close | autonomous |
 | F5 | the change is cosmetic churn with no real quality gain | re-scope the refactor to a concrete quality issue named against the standards, or drop it | human |
@@ -455,7 +455,7 @@ are themselves resumable and never duplicate an issue, branch, PR, or merge on a
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:c1bd9e2a02a00cc32dac7fc01430940b5b6687db458b4def63d2a383cf341fe8 (of `reference/ice.md`) |
+| fingerprint | sha256:3d9a6dcb814d178f0a025b4f4697d21550de74ec1a2b7f6d5aa850d387f016a2 (of `reference/ice.md`) |
 | compiled_by | edit-play (#466 Batch B; #467 Batch D — Step 5 gate off + C6 gate-resolution/behavior-pin + F8/REC8/SE-10) |
 | pipeline_position | both (start-change head; commit-change → propose-change → check-change → merge-change tail) |
 | workflow_structure | A (single checkpoint — gate off under #467 Batch D, the human plan-approval replaced by the behavior-pin machine wall, C3/C6; with retry loop around implement + verify, cap 2) |

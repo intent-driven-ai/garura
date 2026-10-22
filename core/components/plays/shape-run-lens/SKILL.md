@@ -1,7 +1,7 @@
 ---
 name: shape-run-lens
 position: end
-description: 'Write a SLICE''s run lens as a narrative grounding doc (run.md) AND a machine-readable per-environment definition (run.yaml) — the slice-level design (rollout, migrations, config/secrets, CI/CD) once, and ONE environment per call (local for /release-feature, or a cloud environment — provider, region, compute, services, firewalls, security, deploy command — for /release-increment). Incremental: re-run to add or edit an environment; the rest are preserved. The END of the NON-FUNCTIONAL realize pipe (architecture → quality → run): it commits its own model delta, then closes the pipe (commit → propose → review → merge). Reads the hub from the spine (functionality grounding + profile) and the slice''s architecture lens, never another lens. It never stamps the slice realized — that is /shape-measure-lens''s job.'
+description: 'Write a SLICE''s run lens as a narrative grounding doc (run.md) AND a machine-readable per-environment definition (run.yaml) — the slice-level design (rollout, migrations, config/secrets, CI/CD) once, and ONE environment per call (local for /release-epic, or a cloud environment — provider, region, compute, services, firewalls, security, deploy command — for /release-increment). Incremental: re-run to add or edit an environment; the rest are preserved. The END of the NON-FUNCTIONAL realize pipe (architecture → quality → run): it commits its own model delta, then closes the pipe (commit → propose → review → merge). Reads the hub from the spine (feature grounding + profile) and the slice''s architecture lens, never another lens. It never stamps the slice realized — that is /shape-measure-lens''s job.'
 user-invocable: true
 ---
 
@@ -9,14 +9,14 @@ user-invocable: true
 
 Write a shaped slice's **run lens** as two artifacts: the narrative grounding doc `run.md` (how the
 slice ships and operates, and *why*) and the machine-readable per-environment definition `run.yaml`
-(the facts `/release-feature` and `/release-increment` execute against). The lens has a **slice-level design** — rollout,
+(the facts `/release-epic` and `/release-increment` execute against). The lens has a **slice-level design** — rollout,
 migrations, config & secrets, and CI/CD — written **once**, and a set of **environments** built **one
 per call, incrementally**. Each call resolves a **target environment** (the lowest not-yet-defined
 tier by default — local, then dev, up to prod — or a named one) and defines or edits exactly that one,
 preserving every environment already defined. A **local** environment is the lightweight bring-up
-`/release-feature` uses; a **cloud** environment carries real infrastructure — provider, region, per-component
+`/release-epic` uses; a **cloud** environment carries real infrastructure — provider, region, per-component
 compute, managed services, networking and firewalls, and security. The run plan flows from what the
-slice does and how it is built, so /shape-run-lens reads the slice's **hub** — its functionalities' grounding docs
+slice does and how it is built, so /shape-run-lens reads the slice's **hub** — its features' grounding docs
 plus the profile (both from the spine) — and the slice's **architecture lens** (its components +
 stack), and only the architecture lens among the realize lenses. It never stamps the slice `realized` —
 that belongs to /shape-measure-lens. One slice per run.
@@ -104,9 +104,9 @@ python3 scripts/check_ready_slice.py --product-base <product_base> --slice <slic
 ```
 
 It asserts the profile is `set` (from the spine), resolves the slice record, and resolves every
-`functionality_ref` through the spine to its `functionality.md` grounding doc — the hub, and emits the
+`feature_ref` through the spine to its `feature.md` grounding doc — the hub, and emits the
 slice's `lens_dir`. /shape-run-lens also needs the slice's `lens/architecture.md` to exist (it reads it). If the
-slice is absent, a functionality does not resolve, the profile is not firmed, or the architecture lens
+slice is absent, a feature does not resolve, the profile is not firmed, or the architecture lens
 is missing, hard halt (C1/REC1).
 
 Then resolve **which one environment** this call builds — the lowest not-yet-defined tier by default,
@@ -190,12 +190,12 @@ Per ADR 026 the skill writes ONLY `run.md` to the live model and NEVER writes `r
 spine, or the profile:
 
     {
-      "task":    "author the slice's run lens narrative run.md — slice-level design (rollout/migrations/config-secrets/ci-cd/tco) once + the one target environment (local: bring-up; cloud: provider/region/compute/services/firewalls/security/deploy) — writing run.md STRAIGHT TO THE LIVE MODEL; ground every operational choice in the functionalities, profile, or architecture; a cloud env's compute/services map to architecture components; secrets via a manager, never a literal; emit the run.yaml delta + any decision as structured manifest data",
+      "task":    "author the slice's run lens narrative run.md — slice-level design (rollout/migrations/config-secrets/ci-cd/tco) once + the one target environment (local: bring-up; cloud: provider/region/compute/services/firewalls/security/deploy) — writing run.md STRAIGHT TO THE LIVE MODEL; ground every operational choice in the features, profile, or architecture; a cloud env's compute/services map to architecture components; secrets via a manager, never a literal; emit the run.yaml delta + any decision as structured manifest data",
       "inputs":  { "slice_ref": "<domain>/<slice>",
                    "slice_file": "<slice record>",
                    "target_env": "<{name,type,tier} from resolve_target_env>",
                    "existing_run_yaml": "<lens_dir>/run.yaml or empty (from resolve_target_env)",
-                   "functionality_groundings": "<from check_ready_slice>",
+                   "feature_groundings": "<from check_ready_slice>",
                    "architecture_lens": "<slice>/lens/architecture.md",
                    "profile": "<spine profile>", "product_base": "<product_base>",
                    "lens_rel": "product-os/<domain>/slices/<slice>/lens/run.yaml",
@@ -326,7 +326,7 @@ type-appropriate `local` or `cloud` block.
 **SE-9 (F5/C5):** `validate_run.py` — every operational choice grounds in the hub, the profile, or the
 architecture lens; every cloud env compute/service maps to a real architecture-lens component; any
 material run choice names a decision that resolves.
-**SE-10 (F6/C6):** `validate_run.py` — the run plan considers every functionality the slice bundles
+**SE-10 (F6/C6):** `validate_run.py` — the run plan considers every feature the slice bundles
 (coverage).
 **SE-11 (F7/C7):** `validate_run.py` — the run plan grounds on no realize lens other than architecture.
 **SE-12 (F10/C11):** `validate_run.py` — `run.yaml` and `run.md` name the same environment set (every
@@ -545,12 +545,12 @@ which stamps the slice realized), and a pointer to `$evidence_dest`. Always emit
 
 | For | Trigger | Direction | Handoff |
 |-----|---------|-----------|---------|
-| F1 | the slice is absent, a functionality does not resolve, the profile is not firmed, or the architecture lens is missing | halt and route to /shape-scope, /discover-capabilities, or /shape-architecture-lens before /shape-run-lens runs | human |
+| F1 | the slice is absent, a feature does not resolve, the profile is not firmed, or the architecture lens is missing | halt and route to /shape-scope, /discover-capabilities, or /shape-architecture-lens before /shape-run-lens runs | human |
 | F2 | the scoped guard reports a write beyond this slice's run.md, run.yaml, or a decision | the guard's `--restore` reverts the out-of-scope paths; re-run writing only the slice's run.md, run.yaml, and any decision | autonomous |
 | F3 | run.md fails the template/shape or carries out-of-scope content, or run.yaml fails the schema | re-emit the failing artifact to its contract — the five run sections for run.md, the run lens schema for run.yaml | autonomous |
 | F4 | run.md fails the content-quality eval | rewrite the failing section to the judge's cited fixes and re-judge until the gate passes | autonomous |
 | F5 | an invented choice, a cloud compute/service referencing a non-arch component, or a material choice with no decision | re-tie each choice to the hub, the profile, or the architecture (a cloud compute/service to a real component), and record the material decision | autonomous |
-| F6 | a functionality was left unaccounted for | extend the run plan to account for the missing functionality | autonomous |
+| F6 | a feature was left unaccounted for | extend the run plan to account for the missing feature | autonomous |
 | F7 | /shape-run-lens read or depended on a lens other than architecture | remove the dependency; /shape-run-lens reads only the hub + the architecture lens | autonomous |
 | F8 | /shape-run-lens stamped the slice realized or wrote its status | revert the change via the guard `--restore`; the keyed persist writes only run.yaml + decisions — the realized stamp belongs to /shape-measure-lens | autonomous |
 | F9 | a previously-defined environment was dropped or silently edited, or more than one was defined in a call | the keyed persist refuses a non-target environment by construction — re-run resolving exactly one target; restore untouched environments from HEAD via the guard `--restore` if a stray write landed | autonomous |
@@ -574,7 +574,7 @@ a FRESH start — a resume continues its own in-progress delta.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:3ed2d26f45f3af0ae73d59cffc8bb853087f83d768696b3d236cf3ccc6955796 (of `reference/ice.md`) |
+| fingerprint | sha256:30aeb6bedad88f59c7693364b854ff711a51bdd5f562e9bdbc54af66a51fc511 (of `reference/ice.md`) |
 | compiled_by | edit-play (#500 direct-model-write, ADR 026); prior: edit-play (#466 Batch C, #467 Batch B) |
 | pipeline_position | end (commits its own feat(model) delta, then injects commit → propose → review → merge) |
 | model_writes | yes |

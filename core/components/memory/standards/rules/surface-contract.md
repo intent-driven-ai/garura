@@ -7,13 +7,13 @@ surface" on its own — so the five plays cannot drift apart, the way they did b
 this rule existed (ADR 022, #442).
 
 It governs the epic's `surface` block (`schemas/product-os/epic.yaml`) and the
-checks `/shape-features`, `/build-feature`, `/validate-feature`, `/release-feature`, and `/next` run against it.
+checks `/shape-slice`, `/build-epic`, `/validate-epic`, `/release-epic`, and `/next` run against it.
 
 ## The rule
 
 **The surface is declared once, at the cut, and checked — never re-derived.**
 
-`/shape-features` writes `surface` when it cuts the epic. Every downstream play **reads** the
+`/shape-slice` writes `surface` when it cuts the epic. Every downstream play **reads** the
 declared `surface.type`; none of them re-interprets `user_check` or `acceptance`
 prose to decide the surface for themselves. Re-deriving the surface downstream is
 the failure this rule exists to stop: a play that infers the surface can infer it
@@ -21,7 +21,7 @@ wrong, and two plays inferring independently can disagree about what the epic ev
 promised. A declared field is deterministically checkable; a derived one is not.
 
 A missing `surface` (a legacy epic cut before this rule) is **"unknown," not a
-default.** `/build-feature` must have it declared before it builds — never assume
+default.** `/build-epic` must have it declared before it builds — never assume
 `service_read_model` or any other value. A silent default re-creates the bug.
 
 ## The taxonomy
@@ -40,7 +40,7 @@ The two non-user-facing types are legitimate, but must be declared **explicitly*
 they are never what an epic silently decays into. `service_read_model` is precisely
 the value the downgrade bug substituted for `web_dashboard`.
 
-## Required runnable evidence — what `/validate-feature` must measure
+## Required runnable evidence — what `/validate-epic` must measure
 
 For each `surface.type`, validation is only complete when it has run the matching
 check. A required surface that was not measured is `fix_required`, never
@@ -55,9 +55,9 @@ requires — it fails it.
 | `library` | the library's own tests/import — no run surface to open |
 | `service_read_model` | the service's own tests — no user surface to open |
 
-## Valid deploy targets — what `/release-feature` must accept
+## Valid deploy targets — what `/release-epic` must accept
 
-The deploy record's reachable target must match the surface. `/release-feature` rejects a
+The deploy record's reachable target must match the surface. `/release-epic` rejects a
 record whose shape can't satisfy the declared type, before it asks for human
 acceptance.
 
@@ -74,7 +74,7 @@ acceptance.
 "run `python3 -m unittest`." A scenario whose verb does not match the surface is a
 semantic mismatch and is rejected.
 
-## Downgrade ordering — what `/build-feature` must block
+## Downgrade ordering — what `/build-epic` must block
 
 User-facing surfaces rank above non-user-facing ones:
 
@@ -84,7 +84,7 @@ web_dashboard ≈ server_api ≈ cli   >   service_read_model ≈ library
 
 A generated build spec whose surface is **below** the epic's declared `surface.type`
 is a **downgrade** (e.g. a `service_read_model` build spec for a `web_dashboard`
-epic). `/build-feature` halts on a downgrade and requires explicit human approval of a
+epic). `/build-epic` halts on a downgrade and requires explicit human approval of a
 recut — it never silently builds the lower surface. Building the *same or higher*
 surface is fine.
 
@@ -103,13 +103,13 @@ the downgrade.
 
 ## How the plays use this rule
 
-- **`/shape-features`** — declares `surface` at cut (taxonomy above); enforces app-shell
+- **`/shape-slice`** — declares `surface` at cut (taxonomy above); enforces app-shell
   seeding on the first user-facing epic.
-- **`/build-feature`** — reads `surface.type`; blocks a downgraded build spec (ordering
+- **`/build-epic`** — reads `surface.type`; blocks a downgraded build spec (ordering
   above); requires a missing surface to be declared before building.
-- **`/validate-feature`** — runs the required runnable check for `surface.type`; unmeasured
+- **`/validate-epic`** — runs the required runnable check for `surface.type`; unmeasured
   required surface ⇒ `fix_required`.
-- **`/release-feature`** — validates the deploy target shape and scenario verbs against
+- **`/release-epic`** — validates the deploy target shape and scenario verbs against
   `surface.type`; rejects before HITL.
 - **`/next`** — reads delivered epics; surface debt blocks the next execute epic in
   the slice.

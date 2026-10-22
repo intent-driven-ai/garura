@@ -67,7 +67,7 @@ tree, the profile, the lenses, decisions, or the `_deferred` bucket (C2).
 
 | Agent | Domain | Skill it invokes | Phases |
 |-------|--------|------------------|--------|
-| `product-os-keeper` | Read /shape-scope's slices and judge the plan inputs — estimate effort per slice, resolve dependency_notes (+ shared functionalities + their spine depends_on) into concrete depends_on, propose a value order; draft to STM only | `author-roadmap` | Draft |
+| `product-os-keeper` | Read /shape-scope's slices and judge the plan inputs — estimate effort per slice, resolve dependency_notes (+ shared features + their spine depends_on) into concrete depends_on, propose a value order; draft to STM only | `author-roadmap` | Draft |
 
 `product-os-keeper` is the single **domain agent** this play uses (1 of the ≤5 budget).
 The utility work — committing, raising, reviewing, and merging the change — is the injected
@@ -162,7 +162,7 @@ No runtime reordering. On resume, skip completed and reset in-progress to pendin
 
 **Step 1 — Read the slices** · Owner: play · Depends on: pre-flight
 Read the current spine slices across every shaped domain (id, domain_ref, bundled
-functionalities, dependency_notes, current plan fields) as the authoritative list of what
+features, dependency_notes, current plan fields) as the authoritative list of what
 to plan. Under direct-model-write this is a READ of current state (HEAD is clean), not a
 before/after picture — the scoped guard (Step 5), not a file census, proves
 non-destructiveness:
@@ -186,13 +186,13 @@ dependencies into concrete `depends_on` slice ids, and propose a value order —
 the manifest data the keyed persist (via `compute_plan.py`) later applies to the live spine:
 
     {
-      "task":    "for every slice in the snapshot, estimate effort, resolve depends_on (from dependency_notes + shared functionalities + their spine depends_on), and propose a value order; draft to STM only — write no model file",
+      "task":    "for every slice in the snapshot, estimate effort, resolve depends_on (from dependency_notes + shared features + their spine depends_on), and propose a value order; draft to STM only — write no model file",
       "inputs":  { "snapshot_path": "<working>/snapshot.json",
                    "product_base":  "<product_base>" },
       "outputs": { "plan_draft":    "<working>/plan-draft.yaml" }
     }
 
-The skill reads the slices + their functionalities' grounding **read-only** and writes only
+The skill reads the slices + their features' grounding **read-only** and writes only
 the STM draft. It assigns no order numbers and runs no topological sort — those are Step 3's
 deterministic job. It writes no `_spine.yaml`, no grounding doc, no model file at all. It
 returns the contract with the output path on disk — never inline content.
@@ -492,8 +492,8 @@ and stop_condition per C0 with the Stop Condition section filled) and write to
 **Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>. Or run /next to see all recommended actions.` (only /next pointer, or omit, when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots and output the
 report: `## roadmap Delivered — ${product_slug}`, the Run Summary table, the Pipeline
 Steps table from the task DAG, the Artifacts Produced table (the ordered slices with
-effort + dependencies, any anomalies, the model-delta commit), Next Steps (run /shape-features on the
-top-ordered slice's functionalities to cut epics), and a pointer to `$evidence_dest`. Always
+effort + dependencies, any anomalies, the model-delta commit), Next Steps (run /shape-slice on the
+top-ordered slice's features to cut epics), and a pointer to `$evidence_dest`. Always
 emitted; never gated.
 
 ```bash
@@ -539,7 +539,7 @@ continues its own in-progress delta. A fresh start with no marker runs everythin
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:3fa24e79bf06f3ebce22fe18de205919d930aea6f31c0ce777bd65cc1c295f22 (of `reference/ice.md`) |
+| fingerprint | sha256:6088ee08ad0a053435adb822499159dc3bc89c7b5188b6a3eed5d9240e25bf7d (of `reference/ice.md`) |
 | compiled_by | edit-play (#500 direct-model-write, ADR 026); prior: edit-play (#467 Batch B); edit-play (#466 Batch C) |
 | pipeline_position | end (commit-change → propose-change → check-change → merge-change tail; opened by /discover-domains) |
 | position_exception | model-writing end play — writes the model in place on the branch and commits its own `feat(model)` delta (C10) BEFORE the injected close sequence; commit-change then handles only the STM remainder |
@@ -593,6 +593,6 @@ edit-play for provenance intent, but no edit-play run actually occurred and conv
 UNVERIFIED.** An interactive `/edit-play` convergence run against `reference/ice.md` is
 **REQUIRED** — confirming the emitted SKILL matches this hand-compiled body and refreshing the
 fingerprint. This mirrors the same caveat on /discover-capabilities's #498 migration (the ratified
-reference implementation) and its /discover-domains, /shape-features, /learn-outcomes fan-out: roadmap is the last strategy
+reference implementation) and its /discover-domains, /shape-slice, /learn-outcomes fan-out: roadmap is the last strategy
 play in that fan-out and remains convergence-unverified until an interactive edit-play run
 confirms it.

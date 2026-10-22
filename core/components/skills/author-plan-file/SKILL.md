@@ -41,7 +41,7 @@ The **plan context file** (written by the agent, YAML or JSON) holds:
 
 ## Process
 
-Read both files first, every time: the format at `template_path` and the rules at `rules_path` (defaults in Input). They are the single source; this skill applies them and never restates them. A work plan is not `/build-feature`'s build plan.
+Read both files first, every time: the format at `template_path` and the rules at `rules_path` (defaults in Input). They are the single source; this skill applies them and never restates them. A work plan is not `/build-epic`'s build plan.
 
 ### Action: `create`
 

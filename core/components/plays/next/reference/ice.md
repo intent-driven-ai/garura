@@ -86,9 +86,9 @@ why it is recommended.
   re-running the same scanner at runtime, because a check that shares its subject's
   reader can only confirm itself (#533).
 - C14 — The list is ordered to finish a slice first: (1) repair, anywhere; (2) the focus
-  slice — the lowest roadmap-order slice with work left (a lens, /shape-measure-lens, /shape-features, or live
+  slice — the lowest roadmap-order slice with work left (a lens, /shape-measure-lens, /shape-slice, or live
   epics) — whose steps run functional-track head → non-functional-track head → /shape-measure-lens →
-  /shape-features → epics by their order; (3) strategy; (4) every other slice's steps, by roadmap
+  /shape-slice → epics by their order; (3) strategy; (4) every other slice's steps, by roadmap
   order, flagged as parallel lanes; (5) learning; (6) strategy refresh. Every step of the
   focus slice ranks above every step of any other slice (user direction 2026-09-11, #533;
   track sequence from `standards/rules/pipeline-next.md`).
@@ -133,7 +133,7 @@ why it is recommended.
   /discover-domains.
 - S5 — (product owner, everything delivered) Given all slices realized and all epics
   delivered, then the play recommends the close of the loop — learning if pending, then
-  strategy refresh (re-shaping from deferred functionality, re-planning the roadmap).
+  strategy refresh (re-shaping from deferred feature, re-planning the roadmap).
   Measure: the list contains a learning or strategy-refresh action with a plain-language
   explanation, not "nothing to do".
 - S6 — (team running parallel agents) Given slice 1 with work left and slice 2 planned
@@ -149,7 +149,7 @@ why it is recommended.
   and the agreement check passes.
 - S8 — (builder finishing a slice) Given slice 1 realized with a ready epic and slice 2
   planned with no lens docs, then building slice 1's epic is the next-best-action and
-  slice 2's first lens ranks below it. Measure: rank 1 is slice 1's /build-feature and every
+  slice 2's first lens ranks below it. Measure: rank 1 is slice 1's /build-epic and every
   slice-2 step has a larger rank.
 
 ### Done means

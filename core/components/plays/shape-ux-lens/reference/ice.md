@@ -8,8 +8,8 @@ edit-play; never hand-edit the compiled SKILL.md.
 Given one shaped **slice** — a vertical product increment from /shape-scope, the thing you actually
 deliver — write its **UX lens** as a grounding doc (`ux.md`): just enough to anchor the
 intended experience and let the build figure the rest. The slice is the unit of realization; a
-slice has no ICE of its own — its **hub** is the union of its functionalities' grounding docs
-(`functionality.md`, which may span several capabilities), the product profile (read from the
+slice has no ICE of its own — its **hub** is the union of its features' grounding docs
+(`feature.md`, which may span several capabilities), the product profile (read from the
 spine), and the slice's **persona and journey records** — the personas its surfaces name and
 every journey that runs on one of those surfaces. Those records already hold who the user is and
 the ordered steps they take; /shape-ux-lens reads them rather than inventing a path. The lens is four things and only four: the **screens** the slice needs, each naming the
@@ -24,11 +24,11 @@ prose layout is not something a product owner can look at and approve, and the a
 whole point of the checkpoint. Together the screens and the flows answer the
 two questions a UX researcher opens this doc to answer — what the user is dealing with, and how a
 person actually moves through it; the wireframes answer the product owner's one question, which
-is what it will look like to the person using it — and they make every functionality of the slice
+is what it will look like to the person using it — and they make every feature of the slice
 visible, so a human can confirm the shape and the intent under it. Accessibility is NOT in this lens — it lives
 in the marketing lens now. The flows here are the paths **inside this slice's screens**; the
 person's wider journey across the product is not this lens's to write (that is /story's, #528).
-Every screen is grounded in one of the slice's functionalities or a persona/journey; the visual core and any
+Every screen is grounded in one of the slice's features or a persona/journey; the visual core and any
 design directive the design settles are deliberate choices recorded as decisions; the cross-cutting pattern
 choices (navigation, responsive strategy) are grounded in the KB or recorded as a KB-learning-gap
 proposal. It writes only this slice's `ux.md`, its wireframe artifacts, and its decisions — never
@@ -43,7 +43,7 @@ already-started branch. No pipeline close sequence (no end PR) is injected here;
 pipe closes at /shape-marketing-lens. It writes the persistent product model **directly, in place** (the
 slice's ux lens, its wireframe artifacts, and its decisions) on the started branch — there is no draft copy and
 no apply/promote step; review is the branch git diff and the pipeline's end PR. It reads the hub
-only (the slice's functionalities' grounding + the profile); never another lens. (#437,
+only (the slice's features' grounding + the profile); never another lens. (#437,
 decision 24; 3-pipe realize 2026-06-25; #500, ADR 026)
 
 Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM authoring skill
@@ -64,7 +64,7 @@ this run's delta and the next pipeline play (/shape-agentic-lens) enters clean.
 ### Constraints
 
 - C1 — One slice per run, and only a ready one: the slice exists (shaped by /shape-scope), every
-  functionality it bundles resolves through the spine to a `functionality.md` grounding doc, the
+  feature it bundles resolves through the spine to a `feature.md` grounding doc, the
   product profile is firmed (`set`), and the slice's persona + journey records resolve — every
   `surface[].persona_ref` opens a real persona record, and every slice surface is reached by at
   least one journey record whose own `persona_ref` resolves. A reference that resolves to nothing
@@ -93,14 +93,14 @@ this run's delta and the next pipeline play (/shape-agentic-lens) enters clean.
   "a general viewer" or "the actor", is a failure), and every screen is named by at least one
   journey step's `covered_by`. A well-formed doc that describes people and screens the model does
   not have is a fail, not a pass with a caveat.
-- C5 — Grounded, not invented: every screen traces to one of the slice's functionalities or to a
+- C5 — Grounded, not invented: every screen traces to one of the slice's features or to a
   persona/journey; every frame in the wireframe record traces to a journey step or carries a named
   gap; the visual core — the semantic vocabulary and the design-system reference — is a deliberate
   choice recorded as a decision. (Tracked in the grounding manifest.)
-- C6 — Coverage: every functionality the slice bundles is visualized by at least one screen, so
+- C6 — Coverage: every feature the slice bundles is visualized by at least one screen, so
   the human can validate the whole shaped increment. Nothing shaped is left unvisualized, and no
   screen is left unreachable — every screen appears as a step in at least one flow.
-- C7 — Reads the hub only: /shape-ux-lens derives from the slice's functionalities' grounding docs, the
+- C7 — Reads the hub only: /shape-ux-lens derives from the slice's features' grounding docs, the
   profile, and the slice's persona + journey records — never from another realize lens
   (quality/agentic/architecture/run/measure/marketing).
 - C8 — The visual core is a material choice recorded as a slice-level decision the whole product
@@ -108,7 +108,7 @@ this run's delta and the next pipeline play (/shape-agentic-lens) enters clean.
   visual and that the technical design must inherit rather than rediscover — how a person's
   permission to act is modelled, what a value the screens depend on must have a schema for, what
   is deliberately left out. Each such settled thing is recorded as its own slice-level **design
-  directive** decision naming what it binds downstream, so /shape-architecture-lens and /build-feature read it instead of
+  directive** decision naming what it binds downstream, so /shape-architecture-lens and /build-epic read it instead of
   the design being retold by hand. A run may record none, one, or several; a directive is recorded
   only where the design actually settled something, never manufactured to fill the slot.
 - C9 — Additive and non-destructive, enforced by the containment split and the post-write scoped
@@ -193,7 +193,7 @@ this run's delta and the next pipeline play (/shape-agentic-lens) enters clean.
 
   **What the record holds.** `screens.yaml` carries the slice's personas, its surfaces (each with
   the medium it runs on), its journeys, and its screens. Each screen names its surface, its one
-  persona, when it is opened, and the functionalities or journey it is grounded in; holds an
+  persona, when it is opened, and the features or journey it is grounded in; holds an
   ordered list of **moments** — the screen walked through in sequence, each moment stating what
   the person sees, what they do, why each visible detail is there, and the literal frame body as
   it would read to that person; a **regions** list; a **states** closed set, each state carrying
@@ -218,7 +218,7 @@ this run's delta and the next pipeline play (/shape-agentic-lens) enters clean.
 
 ### Failure conditions
 
-- F1 — /shape-ux-lens ran on an unready slice — the slice is absent, a functionality does not resolve to a
+- F1 — /shape-ux-lens ran on an unready slice — the slice is absent, a feature does not resolve to a
   grounding doc, the profile is not firmed, a surface's `persona_ref` resolves to no persona
   record, or a slice surface is reached by no journey record.
 - F2 — A write touched something other than this slice's `ux.md` or a decision (the spine, the
@@ -228,9 +228,9 @@ this run's delta and the next pipeline play (/shape-agentic-lens) enters clean.
 - F4 — `ux.md` fails the content-quality eval — it is not self-explaining, or it is not true about
   the hub: a role it names resolves to no persona record, or a screen it declares is named by no
   journey step.
-- F5 — An element is invented — a screen with no functionality and no persona/journey behind it,
+- F5 — An element is invented — a screen with no feature and no persona/journey behind it,
   or a visual core with no recorded decision.
-- F6 — A functionality of the slice is left unvisualized — covered by no screen.
+- F6 — A feature of the slice is left unvisualized — covered by no screen.
 - F7 — /shape-ux-lens read or depended on another lens.
 - F8 — The visual core was set with no decision recorded, or the design settled something the
   technical design must inherit and it was left in the prose instead of recorded as a design
@@ -269,16 +269,16 @@ this run's delta and the next pipeline play (/shape-agentic-lens) enters clean.
 
 ### Success scenarios
 
-- S1 — (product designer, first run) Given a shaped slice whose functionalities resolve and a
+- S1 — (product designer, first run) Given a shaped slice whose features resolve and a
   firmed profile, when /shape-ux-lens runs and the checkpoint is approved, then `ux.md` is written as screens
   (with layouts), flows, states, and a visual core — passing the linter and the content eval — and
   nothing else changes. Measure: `slices/{slice}/lens/ux.md` exists and is a valid UX Lens doc;
   the content-eval gate passes; the spine, slice record, profile, and other lenses are
   byte-identical.
 - S2 — (product owner, validates the shape) Given the screens are drafted, when shown them, the
-  human sees every functionality of the slice rendered as a low-fidelity screen. Measure: every
-  functionality the slice bundles maps to at least one screen in the manifest; none unvisualized.
-- S3 — (ux researcher, grounded) Given the lens is drafted, each screen traces to a functionality
+  human sees every feature of the slice rendered as a low-fidelity screen. Measure: every
+  feature the slice bundles maps to at least one screen in the manifest; none unvisualized.
+- S3 — (ux researcher, grounded) Given the lens is drafted, each screen traces to a feature
   or a persona/journey, each flow to a journey record of the slice, and the visual core to a
   recorded decision. Measure: the manifest names a real source for every screen; every flow's
   journey id and persona id resolve to records the readiness check handed over; every role the doc
@@ -344,7 +344,7 @@ the always-written record, not a newly-added decision.
 
 ### Recovery (one per failure condition)
 
-- REC1 (F1) — trigger: the slice is absent, a functionality does not resolve, the profile is not
+- REC1 (F1) — trigger: the slice is absent, a feature does not resolve, the profile is not
   firmed, a surface's persona does not resolve, or a surface is reached by no journey. direction:
   halt and route to /shape-scope (shape the slice; /shape-scope owns the persona and journey records and
   already guarantees a journey per surface) or /discover-capabilities (detail + firm) before /shape-ux-lens runs; never
@@ -363,9 +363,9 @@ the always-written record, not a newly-added decision.
   those); for a screen no journey step names, tie it to the step it serves or drop it. Re-judge
   and re-run the grounding cross-check until both pass. handoff: autonomous.
 - REC5 (F5) — trigger: an invented/ungrounded element. direction: drop it, or re-tie the screen to
-  a functionality or persona/journey, and tie the visual core to a decision. handoff: autonomous.
-- REC6 (F6) — trigger: a functionality is covered by no screen. direction: add the screen(s) that
-  visualize the missing functionality. handoff: autonomous.
+  a feature or persona/journey, and tie the visual core to a decision. handoff: autonomous.
+- REC6 (F6) — trigger: a feature is covered by no screen. direction: add the screen(s) that
+  visualize the missing feature. handoff: autonomous.
 - REC7 (F7) — trigger: /shape-ux-lens read or depended on another lens. direction: remove the dependency;
   /shape-ux-lens derives only from the slice's hub. handoff: autonomous.
 - REC8 (F8) — trigger: the visual core was set with no decision, or a thing the design settled for

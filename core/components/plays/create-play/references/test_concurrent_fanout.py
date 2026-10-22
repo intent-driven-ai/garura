@@ -26,7 +26,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 PY = sys.executable or "python3"
 SCRIPTS = os.path.join(HERE, "..", "scripts")
 RUN_CHECKS = os.path.normpath(
-    os.path.join(HERE, "..", "..", "validate-feature", "scripts", "run_checks.py"))
+    os.path.join(HERE, "..", "..", "validate-epic", "scripts", "run_checks.py"))
 
 sys.path.insert(0, os.path.abspath(SCRIPTS))
 import lint_play  # noqa: E402

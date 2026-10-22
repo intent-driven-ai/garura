@@ -9,12 +9,12 @@ Given one shaped **slice** whose hub is ready, write its **measure lens** as the
 `measure.md` — the delivery-measurement focus, the metrics that prove it (each a baseline, a target,
 and a proof; triangle-primary on speed/tokens/cognition), and what is deliberately out of scope —
 then run the **lines-up gate** and, only when the slice lines up, **stamp it realized**. A slice's
-hub is the union of its functionalities' grounding docs (`functionality.md`, which may span several
+hub is the union of its features' grounding docs (`feature.md`, which may span several
 capabilities) plus the product profile, both read from the spine. /shape-measure-lens is the **deliver** lens —
 the last of the three realize pipes. It grounds every metric in what the slice actually delivers, and
 it is the play that flips a slice to `realized`: when all seven lens docs are present (quality, ux,
 agentic, marketing, architecture, run, measure), it stamps the slice's `status` to `realized` on the
-spine — the single marker /shape-features checks before cutting delivery work. One slice per run; one human
+spine — the single marker /shape-slice checks before cutting delivery work. One slice per run; one human
 checkpoint approves the lens and the stamp before anything is COMMITTED.
 
 Pipeline position: **both**. /shape-measure-lens is the DELIVER pipe — a single-play pipe that runs last (after
@@ -39,8 +39,8 @@ pipeline's end PR.
 ### Constraints
 
 - C1 — Operates on ONE ready slice per run: the profile is `set` (from the spine), the slice resolves,
-  and every `functionality_ref` resolves through the spine to its `functionality.md` grounding doc
-  (the hub). If the slice is absent, a functionality does not resolve, or the profile is not firmed,
+  and every `feature_ref` resolves through the spine to its `feature.md` grounding doc
+  (the hub). If the slice is absent, a feature does not resolve, or the profile is not firmed,
   halt — /shape-measure-lens measures a shaped, detailed slice; it never seeds or details one.
 - C2 — Writes only this slice's `measure.md` (the re-derive) and any material decision; and, when the
   lines-up gate passes, the ONE spine field — this slice's `status` → `realized`. It never writes
@@ -50,11 +50,11 @@ pipeline's end PR.
 - C4 — Content quality: `measure.md` clears the content-quality eval — every item self-explaining,
   the doc passing the stranger test — not just the linter.
 - C5 — Metrics are concrete and grounded: each carries a baseline, a target, and a proof (triangle-
-  primary on speed/tokens/cognition where it applies), and ties to a functionality's acceptance or a
+  primary on speed/tokens/cognition where it applies), and ties to a feature's acceptance or a
   profile outcome. No vague claim, no metric that cannot be proven.
-- C6 — Coverage: every functionality the slice bundles is considered — measured by a metric or named
+- C6 — Coverage: every feature the slice bundles is considered — measured by a metric or named
   in `out of scope` with a reason. Nothing the slice delivers is silently unmeasured.
-- C7 — Hub-anchored: the metrics tie to the slice's functionalities and the profile, never to another
+- C7 — Hub-anchored: the metrics tie to the slice's features and the profile, never to another
   realize lens.
 - C8 — The lines-up gate: the slice is stamped `realized` ONLY when all seven lens docs exist for it
   (quality, ux, agentic, marketing, architecture, run, measure). A missing lens means a pipe has not
@@ -104,14 +104,14 @@ pipeline's end PR.
 
 ### Failure conditions
 
-- F1 — The slice is absent, a functionality does not resolve, or the profile is not firmed when
+- F1 — The slice is absent, a feature does not resolve, or the profile is not firmed when
   /shape-measure-lens runs.
 - F2 — A write touched something beyond this slice's `measure.md`, a decision, or the one realized
   status field on the spine.
 - F3 — `measure.md` fails the template/shape (a missing, extra, or empty section).
 - F4 — `measure.md` fails the content-quality eval.
 - F5 — A metric lacks a baseline, a target, or a proof, or grounds in nothing the slice delivers.
-- F6 — A functionality the slice bundles is neither measured nor named out of scope.
+- F6 — A feature the slice bundles is neither measured nor named out of scope.
 - F7 — The measure assessment read or grounded on another realize lens.
 - F8 — The slice was stamped `realized` when a lens doc was missing (the lines-up gate did not pass).
 - F9 — The keyed persist changed more than this slice's `status` field on the spine (another slice,
@@ -145,8 +145,8 @@ pipeline's end PR.
   unchanged. Measure: the spine is byte-identical except for nothing (no stamp); the missing lens is
   named.
 - S4 — (architect, hub-only) Given the lens is authored, when its grounding is inspected, then every
-  metric ties to a functionality or a profile outcome and to no other lens. Measure: the manifest
-  grounds carry only functionality/profile sources.
+  metric ties to a feature or a profile outcome and to no other lens. Measure: the manifest
+  grounds carry only feature/profile sources.
 - S5 — (delivery owner, re-run) Given the slice is already realized, when /shape-measure-lens runs again, then it
   re-derives only `measure.md` and re-affirms the stamp; everything else is byte-identical and no
   accepted decision is edited in place.
@@ -184,7 +184,7 @@ as done.
 
 ### Recovery (one per failure condition)
 
-- REC1 (F1) — trigger: the slice is absent, a functionality does not resolve, or the profile is not
+- REC1 (F1) — trigger: the slice is absent, a feature does not resolve, or the profile is not
   firmed. direction: halt and route to /shape-scope or /discover-capabilities before /shape-measure-lens runs. handoff: human.
 - REC2 (F2) — trigger: a write touched something out of scope. direction: revert it; /shape-measure-lens writes
   only this slice's measure.md, a decision, and the one realized status field. handoff: autonomous.
@@ -195,7 +195,7 @@ as done.
 - REC5 (F5) — trigger: a metric lacks a baseline/target/proof or grounds in nothing the slice
   delivers. direction: re-draft the metric as a concrete baseline + target + proof tied to the hub.
   handoff: autonomous.
-- REC6 (F6) — trigger: a functionality is neither measured nor out-of-scoped. direction: add a metric
+- REC6 (F6) — trigger: a feature is neither measured nor out-of-scoped. direction: add a metric
   for it or name it in out-of-scope with the reason. handoff: autonomous.
 - REC7 (F7) — trigger: the assessment read or grounded on another lens. direction: remove the
   dependency; derive only from the slice's hub. handoff: autonomous.

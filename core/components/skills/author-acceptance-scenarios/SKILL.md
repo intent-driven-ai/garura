@@ -1,6 +1,6 @@
 ---
 name: author-acceptance-scenarios
-description: Build /release-feature's HITL testing scenarios for one EPIC — the manual walk the human runs on the deployed dev/QA environment before anything lands. Reads the epic record (user_check + acceptance criteria + context) and the deploy record (where the increment is reachable), and writes scenarios.yaml — one scenario per testable claim, each telling the human WHAT TO RUN (concrete numbered steps on the deployed environment, starting from its real address) and WHAT TO TEST (what they should see if it works), with a `covers` list tracing every scenario to an acceptance index or the user_check. Both directions must close: every acceptance criterion gets a scenario, every scenario traces to the box — nothing invented, nothing untested. Draft only — the play presents the scenarios one at a time and records the human's typed answers; this skill never presents, never answers, never signs. The scenario-authoring work for the /release-feature play.
+description: Build /release-epic's HITL testing scenarios for one EPIC — the manual walk the human runs on the deployed dev/QA environment before anything lands. Reads the epic record (user_check + acceptance criteria + context) and the deploy record (where the increment is reachable), and writes scenarios.yaml — one scenario per testable claim, each telling the human WHAT TO RUN (concrete numbered steps on the deployed environment, starting from its real address) and WHAT TO TEST (what they should see if it works), with a `covers` list tracing every scenario to an acceptance index or the user_check. Both directions must close: every acceptance criterion gets a scenario, every scenario traces to the box — nothing invented, nothing untested. Draft only — the play presents the scenarios one at a time and records the human's typed answers; this skill never presents, never answers, never signs. The scenario-authoring work for the /release-epic play.
 version: 0.1.0
 user-invocable: false
 model: best
@@ -25,7 +25,7 @@ check per scenario.
 
 ## Procedure
 
-1. **Read the box.** The epic's `user_check` (the open/do/verify line /shape-features cut the
+1. **Read the box.** The epic's `user_check` (the open/do/verify line /shape-slice cut the
    epic at), every `acceptance` criterion, and `context` (personas, systems, scope).
    Read the deploy record for the real address the steps start from.
 
