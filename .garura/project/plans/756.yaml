@@ -32,12 +32,12 @@ tree:
 - issue: 757
   kind: capability
   title: The ICE is its own kind in the product model
-  status: next
+  status: now
   children:
   - issue: 758
     kind: functionality
     title: 'The ICE kind: its own page, spine entry and three parts'
-    status: next
+    status: done
     needs:
     - 777
   - issue: 759
