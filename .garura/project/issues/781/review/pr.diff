@@ -1,0 +1,375 @@
+diff --git a/.garura/project/issues/781/context/analysis.yaml b/.garura/project/issues/781/context/analysis.yaml
+new file mode 100644
+index 00000000..e59526bf
+--- /dev/null
++++ b/.garura/project/issues/781/context/analysis.yaml
+@@ -0,0 +1,61 @@
++---
++# assess-changes output
++# issue: 781
++needs_judgment: false
++
++change_groups:
++  - id: 1
++    commit_type: docs
++    scope: edit-ontology
++    issue: 781
++    subject: "Leave the Next line out of the edit-ontology close because the play is meta exempt"
++    files:
++      - core/components/plays/edit-ontology/SKILL.md
++  - id: 2
++    commit_type: docs
++    scope: author-product-ontology
++    issue: 781
++    subject: "Name the draft input and output of each stage in the ontology authoring skill"
++    files:
++      - core/components/skills/author-product-ontology/SKILL.md
++  - id: 3
++    commit_type: docs
++    scope: product-os-keeper
++    issue: 781
++    subject: "Add a mapping row for changing the product ontology to the keeper agent"
++    files:
++      - core/components/agents/product-os-keeper.md
++  - id: 4
++    commit_type: docs
++    scope: pipeline-position
++    issue: 781
++    subject: "State the condition for a meta play that opens and lands its own change instead of naming edit-ontology"
++    files:
++      - core/components/memory/standards/rules/pipeline-position.md
++  - id: 5
++    commit_type: chore
++    scope: stm
++    issue: 781
++    subject: "Record the commit-change workspace context for the review notes"
++    files:
++      - .garura/project/issues/781/context/analysis.yaml
++      - .garura/project/issues/781/context/porcelain.txt
++
++exclusions:
++  []
++
++risks:
++  sensitive_files:
++    []
++  breaking_changes:
++    []
++  ambiguous_types:
++    []
++  hotfix_branch: false
++  notes:
++    - "Group 4 edits a shared standards rule; wording-only, no behaviour change."
++    - "Groups 1 and 2 touch play and skill prose; the play change is output scaffolding, a direct edit per the pipeline rules."
++
++eval_gates:
++  SE-1: {status: PASS, evidence: "5 groups, each file in exactly one group, one concern per group"}
++  SE-5: {status: PASS, evidence: "no sensitive patterns matched"}
+diff --git a/.garura/project/issues/781/context/branch.json b/.garura/project/issues/781/context/branch.json
+new file mode 100644
+index 00000000..121f4804
+--- /dev/null
++++ b/.garura/project/issues/781/context/branch.json
+@@ -0,0 +1,8 @@
++{
++  "branch_name": "plan/756/781-edit-ontology-review-notes",
++  "base_sha": "2d3ed5d61bcf9284684ca7b760dc37fc260a6407",
++  "on_default_branch": false,
++  "worktree_path": null,
++  "plan_branch": "plan/756/base",
++  "plan_branch_created": false
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/781/context/commits.yaml b/.garura/project/issues/781/context/commits.yaml
+new file mode 100644
+index 00000000..29ad840e
+--- /dev/null
++++ b/.garura/project/issues/781/context/commits.yaml
+@@ -0,0 +1,33 @@
++commits:
++  - sha: 9b43cf1f
++    message: "docs(edit-ontology): Leave the Next line out of the edit-ontology close because the play is meta exempt (#781)"
++    files:
++      - core/components/plays/edit-ontology/SKILL.md
++    branch: plan/756/781-edit-ontology-review-notes
++  - sha: d11e262a
++    message: "docs(author-product-ontology): Name the draft input and output of each stage in the ontology authoring skill (#781)"
++    files:
++      - core/components/skills/author-product-ontology/SKILL.md
++    branch: plan/756/781-edit-ontology-review-notes
++  - sha: 1e4a7552
++    message: "docs(product-os-keeper): Add a mapping row for changing the product ontology to the keeper agent (#781)"
++    files:
++      - core/components/agents/product-os-keeper.md
++    branch: plan/756/781-edit-ontology-review-notes
++  - sha: 8b6e5c61
++    message: "docs(pipeline-position): State the condition for a meta play that opens and lands its own change instead of naming edit-ontology (#781)"
++    files:
++      - core/components/memory/standards/rules/pipeline-position.md
++    branch: plan/756/781-edit-ontology-review-notes
++  - sha: 93954977
++    message: "chore(stm): Record the commit-change workspace context for the review notes (#781)"
++    files:
++      - .garura/project/issues/781/context/analysis.yaml
++      - .garura/project/issues/781/context/porcelain.txt
++    branch: plan/756/781-edit-ontology-review-notes
++excluded_files:
++  []
++leftover_count: 0
++tree_clean: true
++pushed: false
++run_state_committed: true
+diff --git a/.garura/project/issues/781/context/issue.json b/.garura/project/issues/781/context/issue.json
+new file mode 100644
+index 00000000..8e05a253
+--- /dev/null
++++ b/.garura/project/issues/781/context/issue.json
+@@ -0,0 +1 @@
++{"resolved": true, "issue_number": 781, "title": "Tidy four review notes on the edit-ontology play and its skill", "created": false}
+diff --git a/.garura/project/issues/781/context/plan.json b/.garura/project/issues/781/context/plan.json
+new file mode 100644
+index 00000000..746b4417
+--- /dev/null
++++ b/.garura/project/issues/781/context/plan.json
+@@ -0,0 +1,6 @@
++{
++  "issue": "781",
++  "plan_id": "756",
++  "plan_branch": "plan/756/base",
++  "issue_branch": "plan/756/781-edit-ontology-review-notes"
++}
+diff --git a/.garura/project/issues/781/context/porcelain.txt b/.garura/project/issues/781/context/porcelain.txt
+new file mode 100644
+index 00000000..52aff2f4
+--- /dev/null
++++ b/.garura/project/issues/781/context/porcelain.txt
+@@ -0,0 +1,5 @@
++ M core/components/agents/product-os-keeper.md
++ M core/components/memory/standards/rules/pipeline-position.md
++ M core/components/plays/edit-ontology/SKILL.md
++ M core/components/skills/author-product-ontology/SKILL.md
++?? .garura/project/issues/781/context/porcelain.txt
+diff --git a/.garura/project/issues/781/context/pr-body.md b/.garura/project/issues/781/context/pr-body.md
+new file mode 100644
+index 00000000..74460713
+--- /dev/null
++++ b/.garura/project/issues/781/context/pr-body.md
+@@ -0,0 +1,55 @@
++Four small fixes from the round 2 review of PR #780 (the edit-ontology play). Text only; no play guarantee changes, so these are direct edits.
++
++## What changes
++
++- **edit-ontology, close:** the delivery report leaves out the Next line, because the play is `meta_exempt` and has no entry in the Next-line map.
++- **author-product-ontology:** the Input table names each stage's draft (`draft`, `questions`, `kinds`, `links`), and the Output says what each stage returns.
++- **product-os-keeper:** a mapping row for "change the product ontology" → `author-product-ontology`, run one stage at a time by /edit-ontology.
++- **pipeline-position rule:** states the condition — a meta play that opens and lands its own change is `both` — instead of naming /edit-ontology as the exception.
++
++## Checks
++
++| Check | Result |
++|---|---|
++| `lint_play.py` on edit-ontology | PASS, 0 gaps |
++| Component linter | 121 errors before and after; no new error |
++| Linter tests | naming and skill-invocable tests pass |
++
++## Not in this PR
++
++The issue's fifth item — copy in the fixed `preflight.py` from plan #717 — waits until plan #717's fix reaches this branch.
++
++## Self-review
++
++# Self-review: #781 (edit-ontology review notes)
++
++Rules: the base self-review rules, as recorded in resolved-rules.json (not an override).
++Diff reviewed: plan/756/base...HEAD. Informational only; not the approve/reject gate.
++
++Blocking findings: none.
++
++## Scope checks
++
++- Matches the issue: PASS. The four text changes are the four done-when items:
++  - edit-ontology C2 leaves the Next line out, with the reason (meta_exempt, not in the Next-line map).
++  - author-product-ontology names each stage's draft input and output (draft, questions, kinds, links; draft or paths returned).
++  - product-os-keeper has a mapping row for changing the product ontology.
++  - pipeline-position.md states the condition ("a meta play that opens and lands its own change") in both places, not the play's name as the exception.
++- No scope creep: PASS. Four source files plus the issue's own working notes. The fifth item (re-copy the fixed preflight.py from plan #717) is deliberately left out because that fix has not reached this branch; recorded here so it is not read as a miss.
++- Reasonable size: PASS. About 20 changed lines of source across 4 files.
++- No stray artifacts: PASS. No debug output or scratch files. The working notes under the issue's context folder are the expected short-term memory record. resolved-rules.json is untracked and still to be committed with the run record; left unchanged as instructed.
++
++## Quality checks
++
++- Tests present: PASS (not needed). Prose-only edits. lint_play on edit-ontology: 0 gaps (as reported). Component linter: 121 errors before and after, no new error (as reported; not re-run here).
++- Commits are clean: PASS. Six commits since the base: conventional format, one concern each, each references #781.
++- No secrets: PASS. Scanned the diff for key and token patterns; none.
++- Docs in step: PASS. The pipeline-position change keeps the list entry for edit-ontology (still `both`) and the linter note consistent with each other.
++- Nothing obviously broken: PASS, with one note (non-blocking). edit-ontology step C2 still renders a "Next Steps" section; this is a different block from the Next line and is consistent with the change.
++- No real names, no absolute local paths in the diff: PASS.
++
++## Where it lands
++
++Into `plan/756/base`. Closes #781 (closed by merge-change, because the host closes issues only on main). Part of #776, #756.
++
++🤖 Generated with [Claude Code](https://claude.com/claude-code)
+diff --git a/.garura/project/issues/781/context/pr.json b/.garura/project/issues/781/context/pr.json
+new file mode 100644
+index 00000000..06718ff4
+--- /dev/null
++++ b/.garura/project/issues/781/context/pr.json
+@@ -0,0 +1,7 @@
++{
++  "number": 784,
++  "url": "https://github.com/intent-driven-ai/garura/pull/784",
++  "state": "OPEN",
++  "base": "plan/756/base",
++  "on_target": true
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/781/context/resolved-rules.json b/.garura/project/issues/781/context/resolved-rules.json
+new file mode 100644
+index 00000000..725c8d8b
+--- /dev/null
++++ b/.garura/project/issues/781/context/resolved-rules.json
+@@ -0,0 +1,6 @@
++{
++  "resolved": true,
++  "path": "~/.garura/core/memory/standards/rules/self-review.md",
++  "source": "~/.garura/core/memory/standards/rules",
++  "is_override": false
++}
+diff --git a/.garura/project/issues/781/context/self-review.md b/.garura/project/issues/781/context/self-review.md
+new file mode 100644
+index 00000000..e74c09fc
+--- /dev/null
++++ b/.garura/project/issues/781/context/self-review.md
+@@ -0,0 +1,26 @@
++# Self-review: #781 (edit-ontology review notes)
++
++Rules: the base self-review rules, as recorded in resolved-rules.json (not an override).
++Diff reviewed: plan/756/base...HEAD. Informational only; not the approve/reject gate.
++
++Blocking findings: none.
++
++## Scope checks
++
++- Matches the issue: PASS. The four text changes are the four done-when items:
++  - edit-ontology C2 leaves the Next line out, with the reason (meta_exempt, not in the Next-line map).
++  - author-product-ontology names each stage's draft input and output (draft, questions, kinds, links; draft or paths returned).
++  - product-os-keeper has a mapping row for changing the product ontology.
++  - pipeline-position.md states the condition ("a meta play that opens and lands its own change") in both places, not the play's name as the exception.
++- No scope creep: PASS. Four source files plus the issue's own working notes. The fifth item (re-copy the fixed preflight.py from plan #717) is deliberately left out because that fix has not reached this branch; recorded here so it is not read as a miss.
++- Reasonable size: PASS. About 20 changed lines of source across 4 files.
++- No stray artifacts: PASS. No debug output or scratch files. The working notes under the issue's context folder are the expected short-term memory record. resolved-rules.json is untracked and still to be committed with the run record; left unchanged as instructed.
++
++## Quality checks
++
++- Tests present: PASS (not needed). Prose-only edits. lint_play on edit-ontology: 0 gaps (as reported). Component linter: 121 errors before and after, no new error (as reported; not re-run here).
++- Commits are clean: PASS. Six commits since the base: conventional format, one concern each, each references #781.
++- No secrets: PASS. Scanned the diff for key and token patterns; none.
++- Docs in step: PASS. The pipeline-position change keeps the list entry for edit-ontology (still `both`) and the linter note consistent with each other.
++- Nothing obviously broken: PASS, with one note (non-blocking). edit-ontology step C2 still renders a "Next Steps" section; this is a different block from the Next line and is consistent with the change.
++- No real names, no absolute local paths in the diff: PASS.
+diff --git a/.garura/project/issues/781/context/target.json b/.garura/project/issues/781/context/target.json
+new file mode 100644
+index 00000000..f85275d8
+--- /dev/null
++++ b/.garura/project/issues/781/context/target.json
+@@ -0,0 +1,7 @@
++{
++  "branch": "plan/756/781-edit-ontology-review-notes",
++  "kind": "issue-in-plan",
++  "plan_id": "756",
++  "issue": "781",
++  "base": "plan/756/base"
++}
+diff --git a/.garura/project/issues/781/context/work-description.txt b/.garura/project/issues/781/context/work-description.txt
+new file mode 100644
+index 00000000..ec8eb0e2
+--- /dev/null
++++ b/.garura/project/issues/781/context/work-description.txt
+@@ -0,0 +1 @@
++Tidy four review notes on the edit-ontology play and its skill (#781): the C2 Next line, the skill's stage draft paths, the keeper's mapping row, and the pipeline-position condition.
+diff --git a/core/components/agents/product-os-keeper.md b/core/components/agents/product-os-keeper.md
+index fcb9698e..bb3bd03f 100644
+--- a/core/components/agents/product-os-keeper.md
++++ b/core/components/agents/product-os-keeper.md
+@@ -101,6 +101,7 @@ intent and execute.
+ | "what worked for us", "search the KB for the pattern that fits", "ground this choice in a learning" | "Find the learnings that fit a seed-stage, persistent, subscription product" | `find-architecture-learnings` | Condition-matched search over the architecture/technology shelves — the grounding engine behind the KB-grounded lens choices |
+ | "cut the epics", "cut this slice into delivery work", "the epic cut", "revise the cut per these directives" | "Cut the token-data-spine slice into epics" | `author-features` | Cuts a realized slice into user-testable, self-contained, ordered epics (or revises the draft per grilling-round dispositions) — the delivery handoff below /shape-roadmap |
+ | "check the cut for tensions", "does the cut honor the lenses", "tension report for round R2" | "Check the epic cut against the declared design" | `check-cut-tensions` | One cited entry per real contradiction between the cut and the hub ICEs / six lenses / profile bars — the citations /shape-features's push-backs quote |
++| "change the product ontology", "add a kind", "change a kind, link or rule" | "Run the `kinds` stage for the ICE kind" | `author-product-ontology` | One stage per dispatch from /edit-ontology; the product owner agrees each stage at the play's checkpoint |
+ | "rank the candidates", "what next / next best action", "order the recommendation list", "explain why this is next" | "Rank /next's candidate set for this operator" | `rank-actions` | Ordering + explanation over the authoritative candidate set, with fit rules from the work-intelligence shelf (skipped when history is thin) — never re-derivation |
+ 
+ ## Memory Reading Protocol
+diff --git a/core/components/memory/standards/rules/pipeline-position.md b/core/components/memory/standards/rules/pipeline-position.md
+index 38ffd825..eb104e8b 100644
+--- a/core/components/memory/standards/rules/pipeline-position.md
++++ b/core/components/memory/standards/rules/pipeline-position.md
+@@ -9,7 +9,7 @@ each play re-deciding how a change is opened and landed.
+ It governs only the **delivery pipeline** (the path that opens an issue, does the work, and
+ lands it on main). Every play declares where it sits; many model-building plays now open and
+ land their own change. As compiled today: `both` — /discover-domains, /discover-capabilities (#616), /shape-measure-lens,
+-/shape-features, /learn-outcomes, /fix-bug, /refactor-code, /discover-intent (#612), /record-decision (#632), /edit-ontology (#777 — the one meta play that opens and lands its own change, because it changes Garura's source with the product owner); `start` — /shape-architecture-lens, /shape-ux-lens, /build-feature; `end` — /shape-roadmap,
++/shape-features, /learn-outcomes, /fix-bug, /refactor-code, /discover-intent (#612), /record-decision (#632), /edit-ontology (#777 — a meta play that opens and lands its own change); `start` — /shape-architecture-lens, /shape-ux-lens, /build-feature; `end` — /shape-roadmap,
+ /shape-marketing-lens, /shape-run-lens, /release-feature; `none` — /shape-scope, /shape-agentic-lens, /shape-quality-lens, /validate-feature, /release-increment, /next,
+ /list-focus-issues. (A `none` play runs on whatever branch is already started — /shape-scope and /shape-roadmap's
+ reliance on /discover-domains's old shared branch is a known follow-up from #616.) Inside a loop the
+@@ -93,7 +93,7 @@ compile.
+ **Linter (`scripts/lint_play.py`, per-compile, mechanical):**
+ - The frontmatter MUST carry a `position` field with one of `start | end | both | none`.
+   Missing or invalid ⇒ lint failure. (`position` is required on compiled
+-  delivery/consumer plays; strategic, model-building, and meta plays are `none` — except /edit-ontology, the one meta play that is `both`, #777.)
++  delivery/consumer plays; strategic, model-building, and meta plays are `none` — except a meta play that opens and lands its own change, which is `both`.)
+ 
+ **create-play (compile time):**
+ - For a **consumer** play (position not `none`, name not a member): create-play injects
+diff --git a/core/components/plays/edit-ontology/SKILL.md b/core/components/plays/edit-ontology/SKILL.md
+index 9db19dd4..00afdf98 100644
+--- a/core/components/plays/edit-ontology/SKILL.md
++++ b/core/components/plays/edit-ontology/SKILL.md
+@@ -316,10 +316,9 @@ stamp fields from $session_stamp (#463): session_id, ledger_file, ledger_start_o
+ ledger_end_offset (null when unresolved — never blocks the close); and stop_condition per C0)
+ and write to `$evidence_dest`. Do NOT hand-author the body.
+ 
+-**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in the
+-Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>. Or
+-run /next to see all recommended actions.` (only /next pointer, or omit, when the mapped
+-command is null), per `play-close.md`. Fill the `delivery-report.md` slots and output the
++**Step C2 — Render delivery report.** Leave out the **Next** line: this play is
++`meta_exempt` and has no entry in the Next-line map (`play-close.md`). Fill the
++`delivery-report.md` slots and output the
+ report: `## edit-ontology Delivered — #${issue}`, the Run Summary table, the Pipeline Steps
+ table from the task DAG, the Artifacts Produced table (the ontology version, the kinds
+ changed, the PR), Next Steps (the plays that write the changed kinds may now need edit-play),
+diff --git a/core/components/skills/author-product-ontology/SKILL.md b/core/components/skills/author-product-ontology/SKILL.md
+index a7f40067..a1b97c6a 100644
+--- a/core/components/skills/author-product-ontology/SKILL.md
++++ b/core/components/skills/author-product-ontology/SKILL.md
+@@ -36,6 +36,10 @@ written as agreed until they say so.
+ | `sources` | no | Paths to read for reuse — existing schemas, doctrine, decision records, issues |
+ | `report_path` | yes | Where the check report is written |
+ | `stage` | yes, from edit-ontology | Which stage to run: `scope`, `kinds`, `links` or `write` (see Stages) |
++| `draft` | yes, for `scope`, `kinds`, `links` | Where this stage writes its draft: `<working>/draft-questions.md`, `<working>/draft-kinds.md` or `<working>/draft-links.md` (`<working>` is the play's `{stm_base}<issue>/context/edit-ontology/`) |
++| `questions` | yes, for `kinds`, `links`, `write` | The agreed questions draft, `<working>/draft-questions.md` |
++| `kinds` | yes, for `links`, `write` | The agreed kinds draft, `<working>/draft-kinds.md` |
++| `links` | yes, for `write` | The agreed properties, links and rules draft, `<working>/draft-links.md` |
+ | `change` | no | The product owner's words at a checkpoint; redo the stage with them |
+ | `problems` | no | The check report from a failed `write`; fix each problem and write again |
+ 
+@@ -129,12 +133,13 @@ Exit `3` — the file cannot be read. Its tests: `python3 <skill-dir>/scripts/te
+ 
+ ## Output
+ 
+-The ontology at `ontology_path`, and the check report at `report_path`. Return their paths —
+-never the content:
++At `scope`, `kinds` and `links`: the stage's draft at `draft`. At `write`: the ontology at
++`ontology_path`, and the check report at `report_path`. Return the paths — never the content:
+ 
+ ```yaml
+-ontology_path: <path>
+-report_path: <path>
++draft: <path>            # scope, kinds, links
++ontology_path: <path>    # write
++report_path: <path>      # write
+ ```
+ 
+ ## Constraints
