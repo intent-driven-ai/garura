@@ -1,6 +1,6 @@
 {
   "issue": "777",
-  "plan_id": null,
-  "plan_branch": null,
-  "issue_branch": "feature/777-edit-ontology-play"
+  "plan_id": "756",
+  "plan_branch": "plan/756/base",
+  "issue_branch": "plan/756/777-edit-ontology-play"
 }
