@@ -1,0 +1,58 @@
+{
+  "history": [
+    {
+      "point": "questions",
+      "verdict": "change",
+      "reply": "i dont understand the questions?these are all relationships we build into ontology. if you have questions on how this works, you need to first show me the context or part of ontology that needs this answered",
+      "draft": ".garura/project/issues/758/context/edit-ontology/draft-questions.md",
+      "draft_sha256": "1a743688d39732e208fe70166dbe117a2164f9c88f488f63e5f70717f45980e6",
+      "at": "2026-10-22T08:52:23+00:00"
+    },
+    {
+      "point": "questions",
+      "verdict": "yes",
+      "reply": "yes",
+      "draft": ".garura/project/issues/758/context/edit-ontology/locked-model.md",
+      "draft_sha256": "52f5cb3a460d92d4ddeb35a119f22c37703fc2fe7da0ae701e67e95e1111ec7e",
+      "at": "2026-10-22T09:31:30+00:00"
+    },
+    {
+      "point": "kinds",
+      "verdict": "change",
+      "reply": "capability cant be many to many with domain. domain can have 1 more or more capability. and capability can have only 1 domain.  so 1",
+      "draft": ".garura/project/issues/758/context/edit-ontology/draft-kinds.md",
+      "draft_sha256": "03daf4258fb271f57d6b214d3304f8b3d2e623a1c9196636760d5c791046b165",
+      "at": "2026-10-22T09:55:53+00:00"
+    },
+    {
+      "point": "links",
+      "verdict": "change",
+      "reply": "capability cant be many to many with domain. domain can have 1 more or more capability. and capability can have only 1 domain.  so 1",
+      "draft": ".garura/project/issues/758/context/edit-ontology/draft-links.md",
+      "draft_sha256": "2a1b270350011c8ad6ce8bfeedf09631577ca48c1069cda6cd9d839778945e24",
+      "at": "2026-10-22T09:55:53+00:00"
+    },
+    {
+      "point": "kinds",
+      "verdict": "yes",
+      "reply": "yes",
+      "draft": ".garura/project/issues/758/context/edit-ontology/draft-kinds.md",
+      "draft_sha256": "86f7f1b874060605f3fca66464d7048cfca1c17eb80042cc432fd610bce84c54",
+      "at": "2026-10-22T12:01:05+00:00"
+    },
+    {
+      "point": "links",
+      "verdict": "yes",
+      "reply": "yes",
+      "draft": ".garura/project/issues/758/context/edit-ontology/draft-links.md",
+      "draft_sha256": "99b808c2fcc45997b9aed61d78029d3601ca90c59d4e340d8d189b54947f13f3",
+      "at": "2026-10-22T12:01:05+00:00"
+    }
+  ],
+  "agreed": {
+    "questions": true,
+    "kinds": true,
+    "links": true
+  },
+  "all_agreed": true
+}
