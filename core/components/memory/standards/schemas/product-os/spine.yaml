@@ -145,6 +145,9 @@ ices:
 # and nothing in its `depends_on` ("needs") is open; a functionality names a ready
 # capability and nothing it needs is open. A missing domain never blocks. A parent that is
 # named but does not exist is an error. The linter enforces that every named parent ref resolves.
+# Ontology v6 (ADR 047, #760): the ready rule lives on the ICE node — check_ice_workable.py
+# reads the `ices` list and each ice.md and answers ready | partly ready | not ready. A spine
+# with no `ices` list keeps the v5 rule above.
 
 # ---- The profile: THE BOX (structured; lives in the spine) ------------------
 # Decision: the profile is structured machine data — levels + gates — so it stays in
