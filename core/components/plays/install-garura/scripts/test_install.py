@@ -404,6 +404,18 @@ class LaysLoops(unittest.TestCase):
         self.assertNotIn("edit-loop", scope["plays"])
         self.assertIn("create-loop", install.SCOPES["harness"]["plays"])
 
+    def test_the_harness_scope_carries_discover_capabilities_and_its_workers(self):
+        # Garura plans its own work with its own product model; this play writes the full ICE (#753).
+        allow = install.SCOPES["harness"]
+        components = os.path.join(ROOT, "core", "components")
+        self.assertIn("discover-capabilities", allow["plays"])
+        for skill in ("find-work-placement", "enrich-capability-ice", "judge-grounding"):
+            self.assertIn(skill, allow["skills"])
+            self.assertTrue(os.path.isfile(os.path.join(components, "skills", skill, "SKILL.md")), skill)
+        for agent in ("product-os-keeper", "template-manager"):
+            self.assertIn(agent, allow["agents"])
+            self.assertTrue(os.path.isfile(os.path.join(components, "agents", agent + ".md")), agent)
+
     def test_the_config_points_loops_at_the_install_place(self):
         text = install.transform_config("components:\n  loops: ./core/components/loops/\n"
                                         "loops:\n  complete-discovery:\n    runner: subagent\n",

@@ -1,0 +1,9 @@
+Title: [ENH] Install /discover-capabilities in the harness scope
+
+Garura now plans its own work with its own product model (ontology v5). The play that writes a full ICE for a capability and its functionalities (context and acceptance criteria, not only goals) is /discover-capabilities. The harness install (install-garura --scope harness) leaves it out, because it is a product play, so it cannot run in this repo.
+
+Change: add the play discover-capabilities to the harness scope list in install-garura (scripts/install.py SCOPES), with the workers it dispatches: the agent product-os-keeper and the skills find-work-placement, enrich-capability-ice and judge-grounding (template-manager is already kept). Update the install-garura SKILL.md text and docs that describe the harness list, and add a test that the harness scope installs discover-capabilities and its workers.
+
+Done when: an install with --scope harness places discover-capabilities, product-os-keeper, find-work-placement, enrich-capability-ice and judge-grounding; the test passes; all install tests pass.
+
+Asked for by Kapil, 2026-10-22: "add discover-capabilities to the harness and install".
