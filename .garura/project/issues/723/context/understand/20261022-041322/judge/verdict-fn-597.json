@@ -1,0 +1,36 @@
+{
+  "doc": ".garura/product/product-os/functionalities/fn-597/functionality.md",
+  "kind": "functionality",
+  "criteria": [
+    {
+      "id": "completeness",
+      "verdict": "pass",
+      "evidence": "All required sections are present and substantive: 'What it does', 'Inputs / Outputs' (e.g. 'Out: the ontology file at version 5, with per kind: what it is, who reads it, where it lives, a properties table, a relationships table, rules, states where they apply, and examples.'), 'Rules & behavior', six Given/When/Then 'Acceptance criteria', 'Out of scope' naming owners (fn-724, fn-725), 'Sources' and 'Agent intent (ICE)' with Goal, Limit, Fails if, Context and Checked by lines.",
+      "fix": ""
+    },
+    {
+      "id": "self_explanation",
+      "verdict": "fail",
+      "evidence": "'The version in the front matter is raised with every change, and a log line is added for it.' and 'Every kind a plan uses is defined under \"Kinds\", not left under \"Not yet defined\"; a kind that a plan's tree, file or tracker link names is a kind a plan uses.' and 'Tracker Issue also stays there; a plan reaches the tracker through Work, whose \"Issue\" property holds the tracker number.'",
+      "fix": "Add the why to each bare rule. For the version rule, say what breaks without it, e.g. 'so a play or person reading the ontology can tell which rules it was written against and find the working notes for that change.' For the 'defined under Kinds' rule, say 'because a play cannot write or check a kind the ontology has not defined, so a plan that names an undefined kind cannot be trusted.' For Tracker Issue, say why it is not its own kind, e.g. 'because the tracker is where work is ordered, not part of the product model, so the model only needs the number on Work.' Other items (examples from several fields, depends_on naming, rules never stop a write) already carry their why and can stay."
+    },
+    {
+      "id": "discreteness_form",
+      "verdict": "pass",
+      "evidence": "Every section is bulleted discrete points; acceptance is in Given/When/Then form, e.g. 'Given question Q7 (\"what is its plan\"), when a reader looks at its status, then it reads \"answered\" and names Plan, Capability, Functionality and Work.'; 'What it does' states the function, not a user story.",
+      "fix": ""
+    },
+    {
+      "id": "depth_gradient",
+      "verdict": "pass",
+      "evidence": "The parent's one-line entry 'Rebuild the product model as an ontology (fn-597) \u2014 the ontology defines every kind a plan uses, with its links, the ready rule and examples from more than one field.' is expanded here into named inputs (Q1 to Q7, v4, Kapil's 2026-10-21 rulings), outputs per kind, edge cases (Domain and Tracker Issue kept under 'Not yet defined', the depends_on/needs naming) and six testable acceptance criteria.",
+      "fix": ""
+    },
+    {
+      "id": "stranger_test",
+      "verdict": "fail",
+      "evidence": "ICE 'Limit: one kind at a time, through build-product-ontology, with Kapil.' contradicts 'A change to the ontology goes through author-product-ontology, one kind at a time' in Rules & behavior. Also 'with needs, identified by, loose domains and the ready rule, and question Q7' and 'the questions the ontology must answer (Q1 to Q7)' and 'The ontology names the spine field as `depends_on`' rely on terms (Q1 to Q7, the spine, 'identified by') the doc never explains.",
+      "fix": "Make the ICE Limit name the same skill as the rules section ('through author-product-ontology'), so a reader is not left guessing which of two tools governs a change. In 'What it does', add one line each saying what Q1 to Q7 are ('the fixed list of questions the ontology must be able to answer about a product, e.g. Q7: given a business intent, what is its plan'), what the spine is ('the file that lists every model node and its links'), and what 'needs' and 'identified by' mean ('needs: this node cannot be built until that one is done; identified by: this node was found while working on that one')."
+    }
+  ]
+}

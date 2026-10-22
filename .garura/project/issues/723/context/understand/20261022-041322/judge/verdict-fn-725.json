@@ -1,0 +1,36 @@
+{
+  "doc": ".garura/product/product-os/functionalities/fn-725/functionality.md",
+  "kind": "functionality",
+  "criteria": [
+    {
+      "id": "completeness",
+      "verdict": "fail",
+      "evidence": "\"Two nodes that need each other, directly or through others, are a loop; the linter reports it, because nothing in a loop can ever be ready.\" and AC: \"then it reports the self-link or the loop.\" Elsewhere: \"A node never needs itself ... either is an error.\" and \"During the change a reader that finds the old name on a capability or functionality warns rather than fails\"",
+      "fix": "In Rules & behavior, state whether a loop is an error or a warning (and say why, given the parent's rule that a missing link is a warning, never an error), and make the matching acceptance criterion say 'fails with an error naming the loop' or 'warns, naming the loop'. Also say when the 'warns rather than fails' period for the old `depends_on` name ends (e.g. 'until the rename lands on main; after that the old name is an error') so a builder knows both branches."
+    },
+    {
+      "id": "self_explanation",
+      "verdict": "pass",
+      "evidence": "\"every mix is allowed, because work across capabilities often needs a piece of another capability\"; \"Slices and epics, which also use `depends_on` today, are renamed in the same change so one field name means one thing.\"; \"Work never carries these links: a Feature, Story, Spike, Chore or Bug is the order to build a node, so any link belongs on the node it tracks.\"",
+      "fix": ""
+    },
+    {
+      "id": "discreteness_form",
+      "verdict": "pass",
+      "evidence": "Acceptance: \"Given a spine where a functionality's need names a Story issue number instead of a node id, when the linter runs, then it fails with an error naming that link.\"; behavior stated as function, not user story: \"The spine linter then checks that every link names a capability or functionality that exists\"",
+      "fix": ""
+    },
+    {
+      "id": "depth_gradient",
+      "verdict": "pass",
+      "evidence": "Parent: \"the 'needs' and 'identified by' links between capabilities and functionalities, in any mix, and the check that each points at a real node, and the rename of the spine field\". Child adds: \"'Identified by' holds at most one id. Empty means the node was found on its own\", self-link and loop rules, rename carrying slices/epics, Inputs/Outputs naming `depends_on` / `identified_by` shapes, and seven Given/When/Then criteria.",
+      "fix": ""
+    },
+    {
+      "id": "stranger_test",
+      "verdict": "pass",
+      "evidence": "\"'Needs' says another node must be done first; it is the only link that sets an order of work ... 'Identified by' says which node led us to find this one; it is a record of where a node came from and never sets an order.\" Edges: \"The ready answer itself \u2014 ... (fn-724) owns how needs decide readiness.\"",
+      "fix": ""
+    }
+  ]
+}

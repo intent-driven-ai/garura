@@ -1,0 +1,29 @@
+{
+  "answers": {},
+  "marks": {},
+  "comments": {
+    "p2": [
+      {
+        "who": "you",
+        "quote": "three steps or fewer",
+        "text": "Is this three steps for guests too? Guests also type an email.",
+        "state": "answered"
+      },
+      {
+        "who": "garura",
+        "text": "Yes. The email field sits on the payment step, so a guest still has three steps. Changed in revision 2.",
+        "state": ""
+      }
+    ]
+  },
+  "pages": {
+    "p1": "capabilities/cap-723/capability.md",
+    "p2": "functionalities/fn-724/functionality.md",
+    "p3": "functionalities/fn-597/functionality.md",
+    "p4": "functionalities/fn-725/functionality.md",
+    "p5": "functionalities/fn-726/functionality.md"
+  },
+  "issue": "723",
+  "base": "HEAD",
+  "saved_at": "2026-10-22T05:55:16+00:00"
+}

@@ -1,0 +1,36 @@
+{
+  "doc": ".garura/product/product-os/functionalities/fn-597/functionality.md",
+  "kind": "functionality",
+  "criteria": [
+    {
+      "id": "completeness",
+      "verdict": "fail",
+      "evidence": "Out of scope: \"Where project-wide design outputs live (ADR 028, open question 3): that question is still marked deferred in ADR 028 and is not answered by v5.\" and \"Defining the Domain and Tracker Issue kinds in full — left under \"Not yet defined\" for a later ontology version.\"",
+      "fix": "The guidance asks Out of scope to name the neighbour that owns each excluded concern. Two of the four items name none. For the ADR 028 item, name who answers it (for example the issue or ADR that will settle open question 3, or say plainly 'no owner yet; tracked as deferred in ADR 028 question 3'). For the Domain and Tracker Issue item, name the owner (for example 'a later ontology version, written through author-product-ontology with Kapil' and, if one exists, the issue that will do it). Every other section is substantive."
+    },
+    {
+      "id": "self_explanation",
+      "verdict": "pass",
+      "evidence": "\"Each kind carries examples from more than one field (shop, clinic, bank), so the rules are not pulled toward one kind of product.\" / \"Rules say what holds once the product is aligned; they never stop a write, because the model grows as plans are built in any order and a blocked write would lose work already found.\" / \"Tracker Issue also stays there, because the tracker is where work is ordered, not part of the product model\"",
+      "fix": ""
+    },
+    {
+      "id": "discreteness_form",
+      "verdict": "pass",
+      "evidence": "Acceptance: \"Given the ontology on this branch, when check_ontology.py runs on it, then it passes with no errors.\" Rules and inputs/outputs are discrete bullets; What it does states the function's result (\"The ontology ... defines every kind a plan uses\"), not a user story.",
+      "fix": ""
+    },
+    {
+      "id": "depth_gradient",
+      "verdict": "pass",
+      "evidence": "Parent: \"Rebuild the product model as an ontology (fn-597) — the ontology defines every kind a plan uses, with its links, the ready rule and examples from more than one field.\" Child adds the file path, the Q1-Q7 questions and Q7's status, the per-kind section shape (properties table, relationships table, rules, states, examples), the version/log rule, why Domain and Tracker Issue stay undefined, and the depends_on naming until #725.",
+      "fix": ""
+    },
+    {
+      "id": "stranger_test",
+      "verdict": "pass",
+      "evidence": "\"It is the one written agreement, at core/components/memory/standards/schemas/product-os/ontology.md, that a person and an agent both read to use the same words for the same things\" (what); \"a play cannot write or check a kind the ontology has not defined, so a plan that names an undefined kind cannot be trusted\" (why); Out of scope hands the ready-check script to fn-724 and link checking/rename to fn-725 (edges). Terms Q1-Q7, spine, needs and identified by are defined in the doc.",
+      "fix": ""
+    }
+  ]
+}

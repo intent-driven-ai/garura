@@ -1,0 +1,77 @@
+{
+  "status": "completed",
+  "outputs": {
+    "manifest": ".garura/project/issues/723/context/templates/manifest.json"
+  },
+  "templates": [
+    {
+      "name": "standards/schemas/product-os/grounding/capability.md",
+      "copy": ".garura/project/issues/723/context/templates/standards/schemas/product-os/grounding/capability.md",
+      "source": {
+        "tier": "phoenix",
+        "path": "standards/schemas/product-os/grounding/capability.md",
+        "version": "1d3efd00e1e1",
+        "fingerprint": "sha256:ac554de5f7324f74e4385d93418f1a99f430ecac12ec3a1d658101298ecfd754"
+      },
+      "bytes": 7160
+    },
+    {
+      "name": "standards/schemas/product-os/grounding/functionality.md",
+      "copy": ".garura/project/issues/723/context/templates/standards/schemas/product-os/grounding/functionality.md",
+      "source": {
+        "tier": "phoenix",
+        "path": "standards/schemas/product-os/grounding/functionality.md",
+        "version": "1d3efd00e1e1",
+        "fingerprint": "sha256:eaad8d12941243997c629f1fe5b9b65939f6c8d459d8ace7d13f329fc4630c4f"
+      },
+      "bytes": 4921
+    },
+    {
+      "name": "standards/templates/approval-prompt.md",
+      "copy": ".garura/project/issues/723/context/templates/standards/templates/approval-prompt.md",
+      "source": {
+        "tier": "garura",
+        "path": "core/memory/standards/templates/approval-prompt.md",
+        "version": null,
+        "fingerprint": "sha256:98e7896bb9d8726d80ef90a31044936079ad13a25195d1bba4aed362641fc6c5"
+      },
+      "bytes": 4718
+    },
+    {
+      "name": "standards/templates/evidence-file.md",
+      "copy": ".garura/project/issues/723/context/templates/standards/templates/evidence-file.md",
+      "source": {
+        "tier": "garura",
+        "path": "core/memory/standards/templates/evidence-file.md",
+        "version": null,
+        "fingerprint": "sha256:be20cd11ccd38fe0c3fa2290c1f7fe5d57da22179880cadd75504858df9d4b65"
+      },
+      "bytes": 4771
+    },
+    {
+      "name": "standards/templates/delivery-report.md",
+      "copy": ".garura/project/issues/723/context/templates/standards/templates/delivery-report.md",
+      "source": {
+        "tier": "garura",
+        "path": "core/memory/standards/templates/delivery-report.md",
+        "version": null,
+        "fingerprint": "sha256:e70f0311ea4066e3a5592e0ad231e83ee267f9a1aedffeddf5c9f2cdf8d6536f"
+      },
+      "bytes": 2807
+    },
+    {
+      "name": "standards/rules/pipeline-next.md",
+      "copy": ".garura/project/issues/723/context/templates/standards/rules/pipeline-next.md",
+      "source": {
+        "tier": "phoenix",
+        "path": "standards/rules/pipeline-next.md",
+        "version": "1d3efd00e1e1",
+        "fingerprint": "sha256:42b92cfc744a761c86d1dfe970366d14dcaf562c1057544777d0566050751f0a"
+      },
+      "bytes": 6307
+    }
+  ],
+  "missing": [],
+  "task_id": "load-templates",
+  "error": null
+}

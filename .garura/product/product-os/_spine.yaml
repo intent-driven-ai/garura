@@ -1,5 +1,3 @@
-# Garura's own product model (ontology v5) — built on the fly from plans #717 and #722, 2026-10-22.
-# No domains yet: nothing is blocked. /vision and /understand fill the gaps later.
 domains: []
 capabilities:
 - id: cap-723
@@ -8,12 +6,28 @@ capabilities:
   intents:
   - bi-722
   status: proposed
-  detail: directional
+  detail: detailed
   one_line: 'Link the product model: needs, identified by, and loose domains'
   doc: capabilities/cap-723/capability.md
   depends_on: []
   identified_by: cap-718
   issue: 723
+  nfr_needs:
+    reliability:
+      level: medium
+      target: 0 need or identified-by links that point at nothing or at work across
+        Garura's own model (plans 717, 722, 734); the same spine and intent pages
+        always give the same ready answer
+      gate: lint_grounding.py --spine on .garura/product/product-os exits 0 once the
+        link check (#725) lands; check_ice_workable.py fixture tests pass
+    maintainability:
+      level: medium
+      target: 0 new errors on any model page that passed before ontology v5 — a missing
+        domain, ICE or link is a warning, never an error; no capability or functionality
+        value lost in the depends_on -> needs rename
+      gate: test_check_ice_workable.py and test_lint_grounding.py pass; a before/after
+        diff of Garura's spine shows every need kept
+  compliance_needs: []
 - id: cap-721
   slug: cap-721
   domain: ''
@@ -21,7 +35,8 @@ capabilities:
   - bi-717
   status: proposed
   detail: directional
-  one_line: 'Start and land work against a plan: plan branches in start-change and merge-change'
+  one_line: 'Start and land work against a plan: plan branches in start-change and
+    merge-change'
   doc: capabilities/cap-721/capability.md
   depends_on: []
   identified_by: cap-720
@@ -174,7 +189,8 @@ functionalities:
   intents:
   - bi-717
   status: proposed
-  one_line: merge-change lands an issue on its plan branch, and a plan on main only when it is done
+  one_line: merge-change lands an issue on its plan branch, and a plan on main only
+    when it is done
   doc: functionalities/fn-673/functionality.md
   depends_on: []
   identified_by: ''
@@ -350,3 +366,13 @@ functionalities:
   - fn-741
   identified_by: ''
   issue: 748
+profile:
+  state: set
+  nfr:
+    reliability:
+      level: medium
+      gate: lint_grounding.py --spine link check + check_ice_workable.py tests
+    maintainability:
+      level: medium
+      gate: ready-check and linter tests; spine before/after diff on the rename
+  compliance: []
