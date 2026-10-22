@@ -1,0 +1,26 @@
+# Plan 767 — its ID is the business intent's issue number (ontology v5, Plan).
+# Kept by hand until update-plan (#730) exists. Status: done | now | next | blocked.
+id: 767
+title: People and agents use Garura the right way in this repo
+status: next
+started: null
+branch: null
+identified_by:
+- 753
+needs_plans: []
+updated: '2026-10-22'
+tree:
+- issue: 768
+  kind: capability
+  title: Guidance that Claude Code reads in this repo
+  status: next
+  children:
+  - issue: 769
+    kind: functionality
+    title: CLAUDE.md says each rule once and right
+    status: next
+    children:
+    - issue: 770
+      kind: chore
+      title: Merge the installer's memory rule into CLAUDE.md and drop the voice rule
+      status: next
