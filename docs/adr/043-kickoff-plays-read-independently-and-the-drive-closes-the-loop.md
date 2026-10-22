@@ -1,6 +1,6 @@
 # ADR 043 — The Kickoff Drive's Plays Read the Prototype on Their Own, Any Node Is Written Without Its Parent, and the Drive Connects the Nodes and Closes the Loop
 
-**Status:** Accepted
+**Status:** Accepted — amended in part by [ADR 047](047-the-ice-is-its-own-node.md): §1 (an ICE has exactly one part), §2 (the ICE is written as its own node), §3 (the ready rule) — the ICE parts only
 **Date:** 2026-10-21
 **Level:** framework
 **Decided by:** Kapil Viren Ahuja 

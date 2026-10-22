@@ -1,0 +1,120 @@
+# adr-keeper context for the #758 decision (plan #756). Gathered 2026-10-22.
+shape: markdown
+number: "047"                      # adr.py number --dir docs/adr -> {"next": "047", "taken": 46}
+draft_path: .garura/project/issues/_adr/20261022-124516/adr-draft.md
+target_file: docs/adr/047-the-agent-intent-ice-is-its-own-node-one-for-each-capability-and-functionality.md
+template: core/components/memory/standards/templates/adr.md
+level: framework
+status: proposed
+decided_in: "#758 (plan #756) — the three /edit-ontology checkpoints and the review of PR #783, 2026-10-22. Run records: .garura/project/issues/758/context/edit-ontology/ (locked-model.md, decisions.json)"
+decided_by: "Kapil Viren Ahuja"   # the brief's "Change at the accept step": "putting a name in the ADR is absolutely fine. The person was approving it." (the template leaves it empty while proposed; the accept step sets it to the same name)
+revision: "2 — re-drafted after the product owner asked for a change at the accept step (brief, last section)"
+writing_rules:
+  - ASD-STE100 plain English (short sentences, one idea each, active voice)
+  - the decider is named on the Decided by line (the brief allows it); elsewhere "the product owner"
+  - no reasons, alternatives or consequences beyond the brief, the ontology v6 text and the locked model
+
+overlap_candidates:                # adr.py overlaps (on the brief): 043 (score 6.6), 031 (6.3); others read by hand
+  - adr: "031"
+    judgment: amended
+    part: >-
+      Its ICE parts only. §1 "Two levels": an ICE is now one for each capability and each functionality
+      (not "one per separate thing the person must see"), and it has no link to a business intent — it finds
+      its business intents through its part. §3 "ICE is placed at once": the ICE no longer lives inline in its
+      capability's or functionality's grounding doc; it has its own page (ice.md in its part's folder) and its
+      own spine entry (an `ices` list). §4 "ICE is worked on only when its intent is confirmed" (as already
+      amended by ADR 033 and ADR 043): the workable rule becomes the ready check on the ICE, with three
+      answers — ready, partly ready, not ready — and an ICE starts only with all three parts present.
+    stays_in_force: "§1's two levels (a business intent is not ICE; only a person confirms or drops one); §2 no play owns a kind; §5 approval inside a loop (as amended by ADR 032); 'worked out, never stored' (the ready answer is computed, never stored)."
+  - adr: "043"
+    judgment: amended
+    part: >-
+      Its ICE parts only. §1 "Every kind is written on its own": the ICE is no longer a free node with no parent —
+      each ICE belongs to exactly one capability or functionality (spine `for`); the holding folders for
+      capabilities and functionalities stay. §2: "/discover-capabilities writes capabilities and functionalities,
+      each with its ICE" — the ICE is now written as its own page and spine entry (build: #761). §3 "A node is
+      ready only once it is attributed": the ready check moves to the ICE, with three answers; a missing domain
+      no longer stops work (it is a gap, the ICE is partly ready); "its ICE -> a confirmed business intent"
+      becomes "its capability serves a confirmed business intent" (a functionality's through its parent).
+      Note: ontology v5 (#597) already dropped the domain from the ready rule with no ADR; this ADR records it.
+    stays_in_force: "§1's holding folders, §4 the loop closes the gaps, §5 independent reading, §6 the two gap skills, §7 the write-up, §8 the person's choice."
+  - adr: "033"
+    judgment: amended
+    part: >-
+      §4 "Approval follows links", that part only: the ICE's own approval, and its part's (capability or
+      functionality), is no longer a condition of ready — the condition §8 wrote into ADR 031 §4 ("workable only
+      when the ICE, its node and its business intent are all approved"). The business intent's confirmation stays:
+      an ICE whose capability serves no confirmed business intent is not ready. Source: the brief, "Change at the
+      accept step" (the product owner, 2026-10-22).
+    stays_in_force: "§1 approval lives in the model; §2 the three states; §3 the governance rule for every other piece (a rule stops work, never a write); §4's link rule for the business intent; §5-§7 the lifecycle mapping, who writes approval, and the review tool view."
+    note_for_person: "§3 says no agent builds from a piece a person has not approved. Read with this amendment, it no longer holds for an ICE or its part as a condition of ready. The brief names §4 only; the draft says so in its change list."
+  - adr: "027"
+    judgment: not affected
+    part: "ICE stays the IDSD model and PCAM the design that drives it. Its table already says (via ADR 031) that the business intent is the person-facing kind and the work that carries it is ICE; v6 keeps that (a business intent holds no ICE)."
+  - adr: "026"
+    judgment: not affected
+    part: "Direct model writes are unchanged; a new page (ice.md) and spine list (ices) are written under the same rule. The write scopes of the plays that write them are #761's work."
+  - adr: "029, 032, 041, 042, 044, 045"
+    judgment: not affected
+    part: "Loop doctrine (rounds, reviews, questions, shared run, name). Their ICE mentions are about play ICE or the loop's review, not where a product ICE lives or when it is ready."
+  - adr: "046"
+    judgment: not affected
+    part: "Naming only."
+
+supersedes: []
+amends:
+  - { adr: "031", part: "§1 (one ICE for each capability and functionality, no link to a business intent), §3 (where the ICE lives), §4 (the ready rule) — the ICE parts only" }
+  - { adr: "043", part: "§1 (an ICE has exactly one part), §2 (the ICE is written as its own node), §3 (the ready rule) — the ICE parts only" }
+  - { adr: "033", part: "§4 only — the ICE's own approval and its part's are no longer a condition of ready; the business intent's confirmation stays" }
+
+affects:
+  model_and_schemas:
+    - core/components/memory/standards/schemas/product-os/ontology.md (v6 — done in #758, PR #783)
+    - core/components/memory/standards/schemas/product-os/spine.yaml (new `ices` list: id, for, for_kind, doc, metadata; the header note that ICE is inline since v4)
+    - core/components/memory/standards/schemas/product-os/ice.yaml (the ICE record shape: three parts)
+    - core/components/memory/standards/schemas/product-os/grounding/capability.md and grounding/functionality.md (the "## Agent intent (ICE)" section leaves these pages)
+    - a new grounding page template for ice.md (sections Intent, Context, Expectation)
+  ready_check_and_linters:
+    - core/components/plays/discover-intent/scripts/check_ice_workable.py and core/components/plays/create-play/references/check_ice_workable.py (three-answer ready check — #760)
+    - every lint_grounding.py copy (12, under core/components/plays/*/scripts/) and core/components/plays/discover-domains/scripts/check_kept.py, which read the inline ICE section (linter of the three parts and two links — #759)
+  writers:
+    - core/components/plays/discover-capabilities/ and core/components/skills/enrich-capability-ice/ (write ICE nodes — #761)
+    - core/components/agents/product-os-keeper.md
+  docs:
+    - core/grounding/glossary.md (rows "ICE (ProductOS)", "Capability (ProductOS)", "Functionality", "Business Intent (ProductOS)")
+    - docs/philosophy/idsd.md (ICE section)
+  garura_own_model:
+    - .garura/product/product-os/ — each inline ICE section moved to its own ICE node; fn-727 -> fn-724 becomes cap-718 -> cap-723 (#765)
+  issues: ["#759 linter checks each ICE's three parts and its two links", "#760 ready check reads the ICE: ready, partly ready, not ready", "#761 plays write ICE nodes", "#765 move each ICE section to its own ICE node, and lose nothing"]
+
+ice_impact: >-
+  Every product ICE changes place and shape: one ICE for each capability and each functionality, on its own
+  page (ice.md) with its own spine entry, in three parts — Intent (goals, limits, fails if), Context (rules for
+  the context-gathering sub-agent: read, never read, persona, scope) and Expectation (scenarios, done means,
+  quality needs). Agents that build from an ICE now take the ready check's answer: ready or partly ready means
+  work starts (gaps listed), not ready means work stops and the page is kept. An ICE with a missing part is not
+  ready; a thin or wrong part does not stop it. The gate is the business intent: no tokens are spent on an ICE whose capability serves no confirmed business intent, however rich it is; once that business intent is confirmed the ICE needs no separate approval. Richness is assessed and reported, never a stop. The agent intents of the plays and skills that write or read ICE
+  (/discover-capabilities, enrich-capability-ice, the product-os-keeper agent, every play that runs the ready
+  check) change when #759, #760 and #761 are built; this ADR changes no play's own ICE source today.
+
+business_intent_check: kind
+business_intent_check_reason: >-
+  It changes the Business Intent KIND (framework doctrine): a business intent holds no ICE, links to its
+  capabilities, gains an optional Rules property, and keeps "identified by" between business intents as a
+  connection, never a dependency. No person's business intent changes; nothing under
+  .garura/product/product-os/intents/ is edited. Only a person still confirms or drops a business intent (ADR 031).
+
+related: ["ADR 026", "ADR 027", "ADR 031", "ADR 033", "ADR 043", "#756", "#758", "#759", "#760", "#761", "#765", "#723", "#725", "#597", "PR #783"]
+
+work_this_creates:
+  - "#759 — the linter checks each ICE's three parts and its two links"
+  - "#760 — the ready check reads the ICE and gives three answers; it does not check the ICE's own approval or its part's; it reports the ICE's richness as an assessment, never a stop"
+  - "#761 — plays write ICE nodes (the `ices` spine list and the ice.md page)"
+  - "#765 — move each inline ICE section of Garura's own model to its own ICE node, losing nothing"
+  - "the glossary and idsd.md ICE entries"
+
+open_questions_for_person: []     # the ADR 033 question is answered by the brief's "Change at the accept step"
+
+overlaps_on_draft:                 # adr.py overlaps --adr adr-draft.md --top 8: 043 19.5, 033 16.48, 031 16.32, 032 10.22, 027 9.03, 039 8.07, 026 7.72, 029 7.5
+  - { adr: "032", judgment: not affected, part: "Loop end review of outcomes; it shares only idsd.md. The approval rules it set inside a loop stand." }
+  - { adr: "039", judgment: not affected, part: "Memory writes go to short-term memory; it shares only the product-os-keeper agent file and the glossary, for other reasons." }

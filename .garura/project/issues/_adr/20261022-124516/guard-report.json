@@ -1,0 +1,28 @@
+{
+  "ok": true,
+  "changed": [
+    ".garura/project/issues/_adr/20261022-124516/adr-check.json",
+    ".garura/project/issues/_adr/20261022-124516/adr-context.yaml",
+    ".garura/project/issues/_adr/20261022-124516/adr-draft.md",
+    ".garura/project/issues/_adr/20261022-124516/adr-manifest.json",
+    ".garura/project/issues/_adr/20261022-124516/brief.md",
+    ".garura/project/issues/_adr/20261022-124516/decision.yaml",
+    ".garura/project/issues/_adr/20261022-124516/hashes-before.json",
+    ".garura/project/issues/_adr/20261022-124516/porcelain-after.txt",
+    ".garura/project/issues/_adr/20261022-124516/start-change.json",
+    "docs/adr/031-business-intent-and-ice.md",
+    "docs/adr/033-approval-in-the-product-model.md",
+    "docs/adr/043-kickoff-plays-read-independently-and-the-drive-closes-the-loop.md",
+    "docs/adr/047-the-ice-is-its-own-node.md",
+    "docs/adr/_index.md"
+  ],
+  "violations": [],
+  "allowed": [
+    "docs/adr/047-the-ice-is-its-own-node.md",
+    "docs/adr/031-business-intent-and-ice.md",
+    "docs/adr/033-approval-in-the-product-model.md",
+    "docs/adr/043-kickoff-plays-read-independently-and-the-drive-closes-the-loop.md",
+    "docs/adr/_index.md",
+    ".garura/project/issues/*"
+  ]
+}
