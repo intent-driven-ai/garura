@@ -1,0 +1,12 @@
+{
+  "approved": true,
+  "mergeable": true,
+  "already_merged": false,
+  "checks_pass": true,
+  "pr_number": "786",
+  "pr_merged": false,
+  "branch_deleted": false,
+  "on_target": true,
+  "status": "merge_failed",
+  "error": "GraphQL: Something went wrong while executing your query on 2026-10-22T14:27:28Z. Please include `65F5:313005:1BE3276:27EEDE3:6ADA1D50` when reporting this issue.\n"
+}
