@@ -36,7 +36,7 @@ tree:
 - issue: 757
   kind: capability
   title: The ICE is its own kind in the product model
-  status: now
+  status: done
   children:
   - issue: 758
     kind: functionality
@@ -50,8 +50,8 @@ tree:
     status: done
   - issue: 760
     kind: functionality
-    title: 'The ready check reads the ICE: ready, partly ready, not ready'
-    status: now
+    title: 'The ready check reads each ICE node: ready, partly ready or not ready'
+    status: done
 - issue: 761
   kind: capability
   title: Plays write ICE nodes
