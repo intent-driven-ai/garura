@@ -19,21 +19,25 @@ tree:
   - issue: 777
     kind: functionality
     title: A play changes the ontology and calls author-product-ontology
-    status: now
+    status: done
     children:
     - issue: 778
       kind: bug
       title: The skill author-product-ontology is user-invocable
+      status: done
+    - issue: 781
+      kind: chore
+      title: Tidy four review notes on the edit-ontology play and its skill
       status: next
 - issue: 757
   kind: capability
   title: The ICE is its own kind in the product model
-  status: next
+  status: now
   children:
   - issue: 758
     kind: functionality
     title: 'The ICE kind: its own page, spine entry and three parts'
-    status: blocked
+    status: done
     needs:
     - 777
   - issue: 759
