@@ -1,0 +1,33 @@
+categories:
+  - name: Harness
+    playbook: review/harness
+    design_bearing: true
+    evidence:
+      - core/components/plays/create-play/SKILL.md
+    note: Play instruction changed from "workable ICE" to "ready ICE" (ontology v6, ADR 047, #760).
+  - name: Memory
+    playbook: review/memory
+    design_bearing: true
+    evidence:
+      - core/components/memory/standards/schemas/product-os/spine.yaml
+    note: Schema comment documenting the v6 ready rule on the ICE node.
+  - name: Executable code
+    playbook: review/code
+    design_bearing: false
+    evidence:
+      - core/components/plays/create-play/references/check_ice_workable.py
+      - core/components/plays/discover-intent/scripts/check_ice_workable.py
+  - name: Tests
+    playbook: review/tests
+    design_bearing: false
+    evidence:
+      - core/components/plays/create-play/references/test_check_ice_workable.py
+  - name: Working records (STM)
+    playbook: null
+    design_bearing: false
+    note: playbook missing - run artifacts and the approved design under .garura/project/issues/760 (context/*, specs/design.md); no shelf playbook covers short-term memory records.
+    evidence:
+      - .garura/project/issues/760/context/analysis.yaml
+      - .garura/project/issues/760/context/pr-body.md
+      - .garura/project/issues/760/context/self-review.md
+      - .garura/project/issues/760/specs/design.md

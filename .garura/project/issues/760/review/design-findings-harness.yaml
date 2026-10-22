@@ -1,0 +1,72 @@
+category: Harness
+scope: create-play SKILL.md paragraph "Work only on a ready ICE" and the behaviour of check_ice_workable.py (canonical copy in create-play/references, identical copy in discover-intent/scripts)
+grounding:
+  - principle: Three answers. Ready = capability serves a confirmed business intent + every needed capability done + all three ICE parts. Partly ready = as ready with gaps outside the parts (no domain, no identified by); work starts, gaps listed. Not ready = a part missing, or no confirmed business intent, or a needed capability not done; work stops, page kept.
+    source: "plan/756/base:docs/adr/047-the-ice-is-its-own-node.md section 6; plan/756/base:core/components/memory/standards/schemas/product-os/ontology.md (ICE kind, ready check rules)"
+  - principle: The answer is computed each run, never stored. Richness is reported, never a stop. The gate is the business intent; the ICE's own approval and its part's approval are not conditions of ready.
+    source: "ADR 047 sections 6, 7, 8 (plan/756/base)"
+  - principle: A functionality's ICE reaches its business intents through its parent capability; a functionality has no parent -> not ready; needs and identified by join capabilities only.
+    source: "ADR 047 sections 3 and 5; ontology.md Functionality kind (plan/756/base)"
+  - principle: create-play has no ICE source, so changes to it are direct edits to SKILL.md; no edit notes or change logs inside skill files.
+    source: "CLAUDE.md Play Pipeline Rules (plan/756/base)"
+  - principle: "Done when for #760: reads the ices list and each ice.md; --node takes ICE id or part id; exit 0 ready/partly ready, 1 not ready, 2 unknown node or unreadable input; needs between capabilities only; computed each run; both copies identical; v5 answer for a spine with no ices list."
+    source: "gh issue view 760; .garura/project/issues/760/specs/design.md (approved by product owner)"
+  - principle: A play that copies the check must give it what it needs to judge needs, since a needed capability not done must stop work.
+    source: "ADR 047 section 6 (not ready: a capability it needs is not done)"
+conformance_summary: >
+  The three answers, the stop and gap sets, the business-intent gate, the no-approval rule
+  (ADR 047 section 8), computed-each-run, richness-as-report, functionality-through-parent,
+  needs-between-capabilities-only, --node by ICE or part id, exit codes, v5 fallback and
+  identical copies all match the grounding. The SKILL.md edit is a legitimate direct edit
+  and carries no edit notes. Findings below are gaps, none contradicts the ontology or ADR.
+findings:
+  - id: H1
+    severity: P3
+    file: core/components/plays/create-play/SKILL.md
+    principle: "Not ready includes a needed capability not done (ADR 047 section 6). That judgement depends on the --done list; the play paragraph is the only instruction a built play receives."
+    source: "ADR 047 section 6; issue #760 Done when (needs read between capabilities)"
+    evidence: >
+      The rewritten paragraph tells plays to copy the script and call it on the ICE, but never
+      mentions passing --done. In the script, when --done is absent open_needs returns
+      still_open=None, no stop is raised, and a capability with open needs is answered ready.
+      A play following the paragraph literally starts work on an ICE whose needs may be open.
+      (Behaviour is inherited from v5, but ADR 047 makes it a named not-ready stop.)
+  - id: H2
+    severity: P3
+    file: core/components/plays/create-play/references/check_ice_workable.py
+    principle: "The answer must be a faithful ready/partly ready/not ready; an unknowable stop must not read as a clean ready. Gaps outside the parts are listed (ADR 047 section 6)."
+    source: "ADR 047 section 6; ontology.md ICE ready check"
+    evidence: >
+      With no --done list, needs_open is null and the answer can be "ready" with an empty gaps
+      list. Nothing in stops or gaps says that needs were not checked, so the caller cannot tell
+      "needs all done" from "needs not examined".
+  - id: H3
+    severity: P4
+    file: core/components/plays/create-play/references/check_ice_workable.py
+    principle: "A part counts as present when it exists; the check does not judge richness (ADR 047 section 7). Design: each of the three parts present and not empty."
+    source: "ADR 047 section 7; design.md change 1 (parts)"
+    evidence: >
+      read_parts treats any non-blank line under a heading as content, so a section holding only
+      an HTML comment or template placeholder passes as present. Consistent with section 7 (never
+      judge), but worth recording as accepted behaviour; the richness report (all lines missing ->
+      light) is the only signal.
+  - id: H4
+    severity: P4
+    file: core/components/plays/create-play/references/check_ice_workable.py
+    principle: "Spine contract: until #765 moves a model, the spine has no ices list; v5 rule applies to a spine with no ices list."
+    source: "plan/756/base spine.yaml comment above ices; issue #760 Done when last bullet"
+    evidence: >
+      The switch is `spine.get("ices") is not None`, so an explicit empty `ices: []` selects the v6
+      path and answers every capability and functionality "not ready: has no ICE". This matches the
+      letter of "has an ices list" but a model that writes an empty list while mid-migration
+      would stop all work. Acceptable under ADR 047 (a part with no ICE is not ready); confirm
+      intended.
+  - id: H5
+    severity: P4
+    file: core/components/plays/create-play/SKILL.md
+    principle: "Non-zero exit skips the node, recorded in the run, never a halt."
+    source: "base SKILL.md paragraph (unchanged intent); issue #760 Done when (exit 2 = unknown node or unreadable input)"
+    evidence: >
+      The paragraph says "a non-zero exit skips that node". Exit 2 (unreadable spine, unknown node)
+      is an input fault, not a not-ready answer, yet it is treated the same as exit 1. Carried over
+      from the base wording; not introduced by this change.
