@@ -219,7 +219,7 @@ class Lifecycle(unittest.TestCase):
         s["request"]["verdict"] = "reject"
         self.assertTrue(cc.check_meaning(s, CONTRACT))
         s = sample("decide.json")
-        s["response"]["update"]["decided_by"] = "product-os-keeper (/vision)"
+        s["response"]["update"]["decided_by"] = "product-os-keeper (/discover-domains)"
         self.assertTrue(cc.check_meaning(s, CONTRACT))
         s = sample("decide.json")
         s["response"]["update"]["id"] = "mu-other"

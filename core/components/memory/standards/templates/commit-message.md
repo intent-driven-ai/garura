@@ -2,7 +2,7 @@
 
 Canonical shape for a commit message. Every skill that creates or validates a commit message instantiates this shape.
 
-Consumers: `create-commit`, `analyze-changes`, `commit-code`, `repo-orchestrator`.
+Consumers: `commit-files`, `assess-changes`, `commit-code`, `repo-orchestrator`.
 
 ## Shape
 

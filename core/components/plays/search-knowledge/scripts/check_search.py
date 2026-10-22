@@ -22,7 +22,7 @@ Checks: every question in question-groups.json is in exactly one group; each gro
 plain question; an answered or partly answered group says how (source with a quote and its
 file, or memory with its trace) and gives the answer; a partly answered or open group names
 what is still missing; an open group says whether the source should show it or no screen
-could. Counts what the search closed and what it leaves for /build-knowledge.
+could. Counts what the search closed and what it leaves for /research-knowledge.
 
 Exit 0 clean; 1 gaps; 2 cannot read an input. Standard library only.
 """

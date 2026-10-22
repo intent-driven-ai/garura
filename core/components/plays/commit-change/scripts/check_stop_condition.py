@@ -4,7 +4,7 @@ check_stop_condition.py — evaluate a play's baked stop condition (#464).
 
 A play ends because "done" was PROVEN, not because its step list ran out.
 The proof is this script: it reads the play's compiled stop-condition
-manifest (stop-condition.yaml, baked by play-creator from the ICE's
+manifest (stop-condition.yaml, baked by create-play from the ICE's
 "### Done means" section) and evaluates every clause against what actually
 exists on disk at close. Pure assertions — it executes nothing, so the
 close gate stays instant and side-effect-free (implement's hand-built
@@ -13,7 +13,7 @@ check_done.py pattern, made play-agnostic).
 Clause types (mechanical, closed set):
     artifact_exists     {path}                       — glob ok, ≥1 match
     field_equals        {file, field, equals}        — dot-path into JSON/YAML
-    gate_outcomes_pass  {file}                       — run-quality-gates output: ok == true
+    gate_outcomes_pass  {file}                       — check-quality-gates output: ok == true
 
 Manifest shape (content.done is the clause list):
     schema: {name: stop-condition}
@@ -29,7 +29,7 @@ Usage:
 
 Verdict: {stop_condition: held|unmet, clauses: [{id, says, status, detail}]}
 Exit 0 held, 1 unmet, 2 manifest/clause error (an unevaluable clause is an
-error, never a silent pass — the run-quality-gates rule, reused).
+error, never a silent pass — the check-quality-gates rule, reused).
 """
 
 import argparse

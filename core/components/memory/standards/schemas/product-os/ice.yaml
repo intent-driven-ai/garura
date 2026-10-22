@@ -3,7 +3,7 @@
 # Intent / Context / Expectations attached to a ProductOS node. The second of
 # the three things ProductOS keeps forever: INTENT.
 #
-# ICE is the UNIT THAT GOES TO BUILD: functionality-level ICE is what /implement
+# ICE is the UNIT THAT GOES TO BUILD: functionality-level ICE is what /build-feature
 # consumes. Light by design. Same shape at capability and functionality level.
 
 schema:
@@ -28,7 +28,7 @@ ice:
                     # "must support enterprise SSO", "no remember-me on kiosks".
   expectations:
     outcomes: []
-  nfr_needs:               # CONCRETE NFR targets for THIS node (set by /understand) —
+  nfr_needs:               # CONCRETE NFR targets for THIS node (set by /discover-capabilities) —
                            # the specifics that must sit UNDER the profile box.
                            # A target exceeding the box on any dimension is an
                            # out-of-box event: it halts for human approval, which
@@ -67,15 +67,15 @@ attaches_to: [capability, functionality]   # same shape at both levels;
 
 # ---- Fill rules -------------------------------------------------------------
 fill_rules:
-  - play: "/vision"
+  - play: "/discover-domains"
     writes: "seed intent (goals only), at capability level"
-  - play: "/understand"
+  - play: "/discover-capabilities"
     writes: "full intent, context (persona/systems/scope), expectations, and the
              capability's nfr_needs + compliance_needs — which roll up the product profile"
-  - play: "/shape"
+  - play: "/shape-scope"
     writes: "functionality-level ICE when functionalities are created/reshaped;
              also creates the persona records that context.persona points to"
-  - play: "/learn"
+  - play: "/learn-outcomes"
     writes: "updates to expectations/outcomes from real-world results"
 
 # ---- Enhance rules ----------------------------------------------------------

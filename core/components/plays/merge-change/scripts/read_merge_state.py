@@ -4,7 +4,7 @@ read_merge_state.py — merge-change Step 1 as a script (#484).
 
 Reads the three merge preconditions from host state + the review verdict — zero
 judgment — and writes merge-gate.json. Replaces the repo-orchestrator dispatch
-that used to "fetch the PR state and the review-change verdict."
+that used to "fetch the PR state and the check-change verdict."
 
     python3 read_merge_state.py --config .garura/core/config.yaml \
         --branch <branch> [--pr-number N] --verdict <decision.yaml|posted.json> \

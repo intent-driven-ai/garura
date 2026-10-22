@@ -18,7 +18,7 @@ deterministic file work. The mechanical removal lives in
 the script and reason about its result.
 
 Level 3 note (#466): bootstrap meta-play — exempt from the goal-loop recompile (no ICE
-source, like play-creator); runs are session-stamped by the host play when invoked through
+source, like create-play); runs are session-stamped by the host play when invoked through
 the pipeline.
 
 ## What makes this safe: the manifest

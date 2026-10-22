@@ -15,7 +15,7 @@ common play, the first row in the table. That default is not neutral. The reader
 tell it apart from the recommendations the play actually derived, so it inherits their
 authority while carrying none of their backing.
 
-The real-world case: `/focus` showed ten issues. Eight had no kind label, so the table had
+The real-world case: `/list-focus-issues` showed ten issues. Eight had no kind label, so the table had
 no play for them, and each was rendered "run `/next`". Two of those eight were plainly
 defects whose correct answer was `/fix-bug`. The play was not wrong about what it knew; it
 was wrong to speak where it knew nothing. A blank would have been read as "label these",
@@ -53,7 +53,7 @@ State today (2026-09-08, verified by the lint sweep):
 |------|-------|
 | `focus` | **wired** — the reference implementation |
 | `next` | **caught, not yet wired** (#530) — its thin-history notice already follows the rule for one field, but the rule is not stated as a guarantee |
-| `review-change` | **caught, not yet wired** (#530) — needs a check on whether it can post a computed verdict with no completed review behind it |
+| `check-change` | **caught, not yet wired** (#530) — needs a check on whether it can post a computed verdict with no completed review behind it |
 
 A play listed as caught fails `lint_play.py` today. That is the guardrail working, not a
 defect in the play; the fix is to wire it (or, if it only reports, to say so in its
@@ -64,7 +64,7 @@ no recommendation to back.
 
 ## Worked example
 
-`focus` is the reference implementation (`core/components/plays/focus/`):
+`focus` is the reference implementation (`core/components/plays/list-focus-issues/`):
 
 - The table is `reference/kind-map.yaml`; a row's `command` is the backing. A row with no
   `command`, and the `fallback` row, produce `recommendation: null`.
@@ -101,8 +101,8 @@ What it cannot check is whether a given *run* honoured the rule. That is the pla
 eval's job, and the split is deliberate — the same one `_shared/play-close.md` (beside the plays) uses: the lint proves
 the guard exists, the guard proves the run.
 
-`play-creator` emits that wiring for a recommending play (step 4c + a hard rule);
-`play-editor` preserves it (hard rule).
+`create-play` emits that wiring for a recommending play (step 4c + a hard rule);
+`edit-play` preserves it (hard rule).
 
 The linter checks the play is *wired*; only the play's own eval can check a given run.
 That split is deliberate and matches `_shared/play-close.md` (beside the plays): the lint proves the guard exists,

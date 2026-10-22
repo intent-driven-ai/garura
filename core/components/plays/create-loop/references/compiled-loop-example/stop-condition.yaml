@@ -1,0 +1,15 @@
+schema: {name: stop-condition}
+content:
+  done:
+    - id: D1
+      says: "the loop's contract exists"
+      check: {type: artifact_exists, path: "contract.json"}
+    - id: D2
+      says: "/discover-intent proved its done check"
+      check: {type: field_equals, file: "discover-intent-done.json", field: done, equals: true}
+    - id: D3
+      says: "/discover-domains proved its done check"
+      check: {type: field_equals, file: "discover-domains-done.json", field: done, equals: true}
+    - id: D4
+      says: "the checker passed"
+      check: {type: field_equals, file: "check.yaml", field: verdict, equals: pass}

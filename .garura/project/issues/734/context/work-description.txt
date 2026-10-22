@@ -1,0 +1,1 @@
+Plan #734 in one change (Kapil, 2026-10-22): #735-#748 — the standard, the checks first, every rename, installs follow.

@@ -98,12 +98,12 @@ review-pr:
 craft-ice:
   hitl: true
 
-# Loops (ADR 029, #613) — one block per loop, written by /loop-creator. `runner` is how
+# Loops (ADR 029, #613) — one block per loop, written by /create-loop. `runner` is how
 # each play runs (subagent | headless); `checker` is who checks the result (kind: subagent |
 # coding-agent). A subagent checker must name its model, one other than the session's (e.g.
 # sonnet when the session runs opus); a coding-agent checker is Codex — name a model your
 # Codex account allows (its own default may not be). A loop always records its evidence:
-# /loop-creator also sets evidence.plays.<loop>: true below.
+# /create-loop also sets evidence.plays.<loop>: true below.
 #loops:
 #  <loop>:
 #    runner: subagent
@@ -112,7 +112,7 @@ craft-ice:
 #      model: sonnet          # coding-agent: a Codex model, e.g. gpt-5.6-terra
 
 loops:
-  discovery:
+  complete-discovery:
     runner: subagent
     max_rounds: 3           # the most rounds of intent -> vision -> understand before it asks
     checker:
@@ -123,7 +123,7 @@ loops:
 evidence:
   record: false
   plays:
-    discovery: true           # a loop always records its evidence (ADR 029)
+    complete-discovery: true           # a loop always records its evidence (ADR 029)
 
 # Grounding eval — the content-quality judge over product-model grounding docs
 # (domain/capability/functionality/epic). The linter (lint_grounding.py) checks shape;
@@ -189,16 +189,16 @@ gates:
     start-change: off
     commit-change: off
     propose-change: off
-    review-change: off
+    check-change: off
     # merge-change: the land on main is PINNED (#467 re-pin correction) — the actual
     # merge always keeps its human beat; no config switch here (pinned overrides config).
     # Execute-side gates off per the #467 ruling (Batch D) — replaced by machine
     # preconditions in the same change. fix-bug and implement were pinned; the ruling
     # unpins them (an intent change), so the config switch now governs them too.
-    validate: off
+    validate-feature: off
     fix-bug: off
-    implement: off
-    refactor: off
+    build-feature: off
+    refactor-code: off
   conditional:
     streak: 3                                # clean approvals a shape needs to earn auto
     # each issue keeps its own gate history; {issue} is the run's issue, filled by gate_eval.py

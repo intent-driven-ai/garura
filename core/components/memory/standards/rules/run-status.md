@@ -25,7 +25,7 @@ file named `run-<name>.json`, written only by `loop_status.py`, and a display re
   "run_id": "discovery-20261020-145613",
   "state": "running",
   "round": 1,
-  "play": "understand",
+  "play": "discover-capabilities",
   "step": "detailing the capabilities",
   "started_at": "2026-10-20T14:56:13Z",
   "updated_at": "2026-10-20T15:34:02Z",
@@ -46,7 +46,7 @@ file named `run-<name>.json`, written only by `loop_status.py`, and a display re
 ## Rules
 
 - The run writes the file through `loop_status.py` (canonical in
-  `loop-creator/references/`), which replaces it whole, so a reader never sees half a file.
+  `create-loop/references/`), which replaces it whole, so a reader never sees half a file.
 - The run updates it at every step of the Shared Loop Run and when each play starts and ends.
   No timer is needed: a display that refreshes every minute shows the latest step.
 - The file holds no secret, no file content and no person's answers — only what the run is

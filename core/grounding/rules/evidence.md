@@ -26,7 +26,7 @@ it; this grounding note only records what changed since the original prototype.
 ## What changed from the original prototype
 
 This note originally documented the `commit-code` play as the prototype:
-`create-commit` read the flag and returned `skip_commits_yaml`,
+`commit-files` read the flag and returned `skip_commits_yaml`,
 `repo-orchestrator` skipped the `commits.yaml` write, and the play skipped its
 delivery record and status file in Step 8. That design is retired along with
 the `commit-code` play (#434):
@@ -34,7 +34,7 @@ the `commit-code` play (#434):
 - **Evidence recording is play-only.** Only a play writes a run-evidence
   file, as the final step of its run via the Standard Play Close. Agents and
   skills never write evidence and never read the flag — a skill-level
-  `skip_*` handshake like the old `create-commit` pattern no longer exists.
-- The rule is compiled into **every** play by `/play-creator` (the D1
+  `skip_*` handshake like the old `commit-files` pattern no longer exists.
+- The rule is compiled into **every** play by `/create-play` (the D1
   auto-build rule), rather than being rolled out play by play from a
   prototype.

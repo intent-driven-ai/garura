@@ -59,8 +59,8 @@ failure:
 
 ```yaml
 # Self-recovery succeeded — no failure returned
-# repo-orchestrator: create-commit fails because nothing staged
-# → Stages files, retries create-commit → succeeds
+# repo-orchestrator: commit-files fails because nothing staged
+# → Stages files, retries commit-files → succeeds
 
 # Self-recovery failed — escalate
 failure:

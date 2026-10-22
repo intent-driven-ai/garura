@@ -19,7 +19,7 @@ machine-global `~/.garura`.
 
 ## How this play is built (read this first)
 
-This is a **bootstrap meta-play** — like play-creator, it is hand-authored, not compiled from
+This is a **bootstrap meta-play** — like create-play, it is hand-authored, not compiled from
 an ICE source, and it is **harness-led**: the play decides and reports, a bundled script does
 the deterministic file work. The orchestrator [`scripts/install.py`](scripts/install.py)
 walks the source, handles the tool-agnostic work (shared memory, garura's own config, the STM
@@ -129,8 +129,8 @@ Options:
 - `--tool claude|codex` — which host tool to target (default `claude`).
 - `--scope full|harness` — which component set the target receives (default `full`, every
   component except the meta harness plays and the meta-utility skills). `harness` installs
-  only the meta plays (play-creator, play-editor), the meta-utility skills
-  (build-product-ontology), the five *change plays, and the worker skills/agents those
+  only the meta plays (create-play, edit-play), the meta-utility skills
+  (author-product-ontology), the five *change plays, and the worker skills/agents those
   plays dispatch — for harness-type repos (garura itself) that must not carry product
   plays. The scope filters **components only**;
   shared memory, config, the STM scaffold, and the manifest are written the same either way.
@@ -202,13 +202,13 @@ source exists to recompile. Uninstall needs no change: it reverses what the mani
 and a scoped manifest records exactly what was placed.
 
 **Direct-edit deviation note (#546):** `full` no longer means *everything*. The four meta
-harness plays (play-creator, play-editor, install-garura, uninstall-garura) are garura's own
+harness plays (create-play, edit-play, install-garura, uninstall-garura) are garura's own
 build tooling and are excluded from every target install; `full` is now resolved against the
 source tree at run time (`META_PLAYS` + `resolve_scope` in `scripts/install.py`), and both
 adapters' `allow` filter learned a per-kind `None` ("install all of this kind"). `harness` is
-unchanged — it is an explicit allow-list and still names play-creator and play-editor, which
+unchanged — it is an explicit allow-list and still names create-play and edit-play, which
 is how garura installs its own build tooling into itself.
 
 Level 3 note (#466): bootstrap meta-play — exempt from the goal-loop recompile (no ICE
-source, like play-creator); runs are session-stamped by the host play when invoked through
+source, like create-play); runs are session-stamped by the host play when invoked through
 the pipeline.

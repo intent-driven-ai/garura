@@ -5,7 +5,7 @@
 > discoverability (SEO / AEO / GEO), accessibility (moved here from the profile), and marketing
 > analytics. Where a section doesn't apply (e.g. an internal tool behind auth), say so plainly
 > with the reason — never leave it blank. The linter enforces the heading set; the
-> content-quality eval scores it against `_content-standard.md`. Written by `/marketing`.
+> content-quality eval scores it against `_content-standard.md`. Written by `/shape-marketing-lens`.
 
 ## Heading contract (required, in order)
 

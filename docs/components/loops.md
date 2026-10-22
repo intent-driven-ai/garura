@@ -56,14 +56,14 @@ above), written in our words. When you build or change a loop, check it against 
 | 7. A second agent checks | The checker runs on another model (or Codex), sees only the outputs, and judges with `judge-loop-result` | It checks once, at the end; inside the rounds the gap check runs in the same session |
 | 8. A person in the loop | The person writes the intent and the write-up, gets a brief only on what no one could answer, and confirms or drops each intent at the end | The brief accepts one "yes" for every proposal, which invites cognitive surrender (#699) |
 
-`/loop-creator`, `/loop-editor` and `lint_loop.py` do not yet check principles 1, 3, 4, 5 and 8.
+`/create-loop`, `/edit-loop` and `lint_loop.py` do not yet check principles 1, 3, 4, 5 and 8.
 That is #699. Until it lands, check them by hand when you build or change a loop.
 
 ## Always name a loop in full
 
 Write "the Discovery loop", "the Ship loop" — never a bare "loop" (ADR 045). The word is busy:
 Claude Code has a built-in `/loop` command that repeats a prompt on a timer, every agent runs an
-inner agent loop, and the Learn loop shares its name with the `/learn` play. No Garura command is
+inner agent loop, and the Learn loop shares its name with the `/learn-outcomes` play. No Garura command is
 called just `/loop`.
 
 Older ADRs and past run records say "drive". Read it as "loop".
@@ -72,11 +72,11 @@ Older ADRs and past run records say "drive". Read it as "loop".
 
 | Loop | What it does | State |
 |------|--------------|-------|
-| **Discovery** | Takes a working prototype and its short write-up, and builds the product model from it: business intents (`/intent`), domains (`/vision`), capabilities and functionalities (`/understand`) | Built: `core/components/loops/discovery/` |
+| **Discovery** | Takes a working prototype and its short write-up, and builds the product model from it: business intents (`/discover-intent`), domains (`/discover-domains`), capabilities and functionalities (`/discover-capabilities`) | Built: `core/components/loops/complete-discovery/` |
 | **Slice** | Locks domains and capabilities, cuts the model into vertical slices, and designs the project once | To build (#608) |
 | **Execute** | Grill, implement, validate and launch | To build (#609) |
 | **Ship** | Lands every change the same way: start, commit, propose, review, merge | To build (#610) |
-| **Learn** | `/learn` takes what was learned into Garura memory, `/promote` sends it on to Phoenix memory, `/drift` finds drift | To build (#611) |
+| **Learn** | `/learn-outcomes` takes what was learned into Garura memory, `/promote` sends it on to Phoenix memory, `/drift` finds drift | To build (#611) |
 
 ## How a loop runs
 
@@ -93,14 +93,14 @@ there.
 4. **Read the source once.** One capture of the prototype, shared by every play.
 5. **Run the plays, in rounds.** Each play reads the capture and the write-up itself and writes
    its own kind; no play takes another's output. After each round the loop has the model's gaps
-   found and closed (`find-model-gaps`, `close-model-gaps`) and gives the work still missing to
+   found and closed (`find-model-gaps`, `link-model-gaps`) and gives the work still missing to
    the play that does it. The next round runs only those plays.
 6. **Ask only what no one could answer.** A question one play cannot answer is the loop's, not
-   a stop. The knowledge member plays — `/search-knowledge`, `/build-knowledge`,
-   `/review-knowledge` — try first. The person gets a brief only on what is left: what the loop
+   a stop. The knowledge member plays — `/search-knowledge`, `/research-knowledge`,
+   `/check-knowledge` — try first. The person gets a brief only on what is left: what the loop
    understood, what it built, and a few gaps, each with its proposed answer.
 7. **The checker.** A model or agent that did not run the loop judges the result against the
-   loop's goal and Done means (`judge-loop-result`, through the `loop-checker` agent).
+   loop's goal and Done means (`judge-loop-result`, through the `result-checker` agent).
 8. **End and close.** The end sequence lands the pull request; the person reviews the outcome
    (the business intents and the product model), and the loop records its evidence.
 
@@ -116,8 +116,8 @@ there.
 
 ## Building and changing a loop
 
-- `/loop-creator` builds a new loop from its intent, as `/play-creator` builds a play.
-- `/loop-editor` changes a loop through its ICE source (`reference/ice.md`), as `/play-editor`
+- `/create-loop` builds a new loop from its intent, as `/create-play` builds a play.
+- `/edit-loop` changes a loop through its ICE source (`reference/ice.md`), as `/edit-play`
   changes a play.
 - `lint_loop.py` checks a compiled loop: every check a play gets, plus the loop's own (its plays
   exist and run inside a loop, it points to the shared run, its fingerprint matches its ICE).

@@ -1,6 +1,6 @@
 ---
 name: author-business-intent
-description: Draft the person's Business Intents from what a person shared — a prototype (its saved snapshot), a document, or a plain statement — plus their own answers. One business intent per need the product meets for its user, never merged, with every part of the source mapped to the intent it serves. Each names that need at the level of the product and in its users' words, and holds title, outcome, why, asked by (a persona), proof it is met (measurable), must not, and the provenance of every property; why, asked by and proof are drafted with their basis, never left open or asked. Drafts business intents only (ADR 043) — no ICE, capability or domain; other plays write those. Also writes what each source shows and the questions the sources cannot answer, each with example answers. Written for a business reader, never a description of the source. Generative artifact production for the /intent play; writes the draft only, never the product model. Use when /intent needs the intents drafted, or re-drafted after the person answers.
+description: Draft the person's Business Intents from what a person shared — a prototype (its saved snapshot), a document, or a plain statement — plus their own answers. One business intent per need the product meets for its user, never merged, with every part of the source mapped to the intent it serves. Each names that need at the level of the product and in its users' words, and holds title, outcome, why, asked by (a persona), proof it is met (measurable), must not, and the provenance of every property; why, asked by and proof are drafted with their basis, never left open or asked. Drafts business intents only (ADR 043) — no ICE, capability or domain; other plays write those. Also writes what each source shows and the questions the sources cannot answer, each with example answers. Written for a business reader, never a description of the source. Generative artifact production for the /discover-intent play; writes the draft only, never the product model. Use when /discover-intent needs the intents drafted, or re-drafted after the person answers.
 user-invocable: false
 model: opus
 allowed-tools: Read, Write, Glob
@@ -13,8 +13,8 @@ product ontology (`standards/schemas/product-os/ontology.md`): each need the pro
 its user, with why the business needs it, who asks for it, and how we will know it is met. One
 business intent per thing the product offers its user — follow the product's own main areas.
 
-You draft business intents only (ADR 043). No ICE, no capability, no domain: `/vision` writes
-the domains and `/understand` the capabilities and functionalities with their ICE, each from the
+You draft business intents only (ADR 043). No ICE, no capability, no domain: `/discover-domains` writes
+the domains and `/discover-capabilities` the capabilities and functionalities with their ICE, each from the
 screens itself; the links between the kinds are made later.
 
 The person confirms or drops each business intent later; you only draft.
@@ -67,7 +67,7 @@ wants, and leave how the source does it behind (IDD Principle 1).
 
    **Use what memory and the model hold.** Context the agent copied from memory (what the
    product is, its domain, who uses it) and, on a later round of a loop, what the model holds
-   (the domain and capabilities `/vision` and `/understand` wrote) may sharpen `why`, `proof`
+   (the domain and capabilities `/discover-domains` and `/discover-capabilities` wrote) may sharpen `why`, `proof`
    and `asked_by` — provenance `memory` or `model`.
 1. **Read the ontology's Business Intent kind** — its properties and rules. Then
    read every snapshot file every manifest lists: look at every screenshot (one per page or

@@ -1,7 +1,7 @@
 # merge-change — ICE source
 
 The clean ICE triple this play is compiled from. Update this and recompile via
-play-creator; never hand-edit the compiled SKILL.md.
+create-play; never hand-edit the compiled SKILL.md.
 
 ## Intent
 
@@ -9,13 +9,13 @@ Merge an approved change: merge the PR, switch to main and pull the latest, and 
 the feature branch (local and remote).
 
 Pipeline position: **end** (fourth step of the end sequence: commit-change →
-propose-change → review-change → merge-change). Independent, invokable play; ordering is
+propose-change → check-change → merge-change). Independent, invokable play; ordering is
 enforced by pre-flight (the PR must be approved and mergeable). Supersedes the old merge-pr
 play.
 
 ### Constraints
 
-- C1 — The PR is merged only after review-change approved it (an approval verdict exists).
+- C1 — The PR is merged only after check-change approved it (an approval verdict exists).
 - C2 — After the merge, the checkout switches to main and pulls the latest.
 - C3 — The feature branch is deleted, both local and remote, after a successful merge.
 - C4 — The merge happens only when the PR is mergeable (no conflicts, required checks not
@@ -36,7 +36,7 @@ play.
   presents and waits for a typed human approval — no config value, policy, or ledger can
   turn it off (the #467 re-pin correction: the rest of merge-change is automatic, but the
   actual land keeps its human beat). The three machine preconditions — `approved: true`
-  (the review-change verdict), `mergeable: true` (no conflicts), and no failing required
+  (the check-change verdict), `mergeable: true` (no conflicts), and no failing required
   checks — are a **machine wall verified before the checkpoint is presented**: if any is
   false the run HALTS without asking (there is nothing to approve). Only when all three
   hold is the human confirmation presented; the merge proceeds solely on the typed
@@ -95,7 +95,7 @@ play.
 ### Recovery (one per failure condition)
 
 - REC1 (F1) — trigger: a merge was attempted without an approval verdict. direction: halt
-  and require review-change to approve the PR first. handoff: human.
+  and require check-change to approve the PR first. handoff: human.
 - REC2 (F2) — trigger: after merge the checkout isn't on updated main. direction: check
   out main and pull the latest. handoff: autonomous.
 - REC3 (F3) — trigger: the feature branch is still present after merge. direction: delete

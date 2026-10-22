@@ -21,7 +21,7 @@ The KB catalog holds generic feature definitions. The project profile holds spec
 ## Input
 
 Receive from product-keeper:
-- `scope_path` (path, required) — scope.yaml from configure-capabilities
+- `scope_path` (path, required) — scope.yaml from derive-capability-selection
 - `project_profile_path` (path, required) — frozen project profile YAML
 - `ltm_domain_taxonomy_path` (path, required) — `core/components/memory/knowledge/domain/`
 - `market_brief_path` (path, optional) — used for additional context
@@ -162,4 +162,4 @@ decision_manifest:
 | Version | 0.2.0 |
 | Category | product-planning |
 | Created | 2026-04-14 |
-| Related | `core/components/skills/configure-capabilities`, `core/components/skills/generate-intent-epics`, `core/components/memory/standards/rules/kb-extension.md` |
+| Related | `core/components/skills/derive-capability-selection`, `core/components/skills/generate-intent-epics`, `core/components/memory/standards/rules/kb-extension.md` |

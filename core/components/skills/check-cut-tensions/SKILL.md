@@ -1,6 +1,6 @@
 ---
 name: check-cut-tensions
-description: Run the per-round tension check that makes /grill's steelman push-back discipline real. Reads the epic cut on the live model (the `epic.md` grounding docs, written in place per ADR 026 — there is no draft tree) and everything the slice declared — its functionalities' grounding docs `functionality.md` (the hub), all SEVEN lens grounding docs, and the profile bars — and produces a structured tension report, one entry per real contradiction, each citing the specific declared item it defends (source file + verbatim quote). Detects untestable increments, acceptance thinner than a declared bar, cut/lens contradictions, and material omissions — and, separately, unresolved DELIVERY-METHOD choices: when an epic's user check depends on a method the lenses never decided, it emits a cited decision_questions entry for the play to put to the human. Emits live tensions and open questions only; the push-back/human-response evidence fields are the play's to fill from the actual conversation, never this skill's. Returns an empty report when the cut is consistent with the declared design. Used only by the /grill play, once per grilling round, between draft (or revision) and push-back.
+description: Run the per-round tension check that makes /shape-features's steelman push-back discipline real. Reads the epic cut on the live model (the `epic.md` grounding docs, written in place per ADR 026 — there is no draft tree) and everything the slice declared — its functionalities' grounding docs `functionality.md` (the hub), all SEVEN lens grounding docs, and the profile bars — and produces a structured tension report, one entry per real contradiction, each citing the specific declared item it defends (source file + verbatim quote). Detects untestable increments, acceptance thinner than a declared bar, cut/lens contradictions, and material omissions — and, separately, unresolved DELIVERY-METHOD choices: when an epic's user check depends on a method the lenses never decided, it emits a cited decision_questions entry for the play to put to the human. Emits live tensions and open questions only; the push-back/human-response evidence fields are the play's to fill from the actual conversation, never this skill's. Returns an empty report when the cut is consistent with the declared design. Used only by the /shape-features play, once per grilling round, between draft (or revision) and push-back.
 version: 0.2.0
 user-invocable: false
 model: sonnet
@@ -12,10 +12,10 @@ allowed-tools: Read, Glob
 Detects tensions between a drafted epic cut and what the slice **declared**: the
 functionality grounding docs (`functionality.md` — what each does, its rules, its
 acceptance), the seven lens grounding docs (the solved design), and the profile bars. The
-output is a structured report /grill uses to author its cited push-backs — the play quotes
+output is a structured report /shape-features uses to author its cited push-backs — the play quotes
 the citations; this skill produces them.
 
-This skill is the enforcement point for /grill's two hardest constraints:
+This skill is the enforcement point for /shape-features's two hardest constraints:
 
 - **every push-back cites a specific declared item.** This skill produces the citations; an
   uncited entry must not be emitted.

@@ -1,0 +1,27 @@
+schema: {name: stop-condition}
+content:
+  done:
+    - id: D1
+      says: "the loop's contract exists"
+      check: {type: artifact_exists, path: "contract.json"}
+    - id: D2
+      says: "/discover-intent proved its done check"
+      check: {type: field_equals, file: "discover-intent-done.json", field: done, equals: true}
+    - id: D3
+      says: "/discover-domains proved its done check"
+      check: {type: field_equals, file: "discover-domains-done.json", field: done, equals: true}
+    - id: D4
+      says: "/discover-capabilities proved its done check"
+      check: {type: field_equals, file: "discover-capabilities-done.json", field: done, equals: true}
+    - id: D5
+      says: "the checker passed"
+      check: {type: field_equals, file: "check.yaml", field: verdict, equals: pass}
+    - id: D6
+      says: "the person decided every proposed intent, in their own words"
+      check: {type: field_equals, file: "confirmation.yaml", field: by, equals: person}
+    - id: D7
+      says: "no question is left open when the loop ends"
+      check: {type: field_equals, file: "rounds.json", field: open_left, equals: 0}
+    - id: D8
+      says: "the model's gaps are closed: every node linked, no screen uncovered"
+      check: {type: field_equals, file: "rounds.json", field: gaps_left, equals: 0}

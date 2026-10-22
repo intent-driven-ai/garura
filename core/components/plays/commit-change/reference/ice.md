@@ -1,7 +1,7 @@
 # commit-change — ICE source
 
 The clean ICE triple this play is compiled from. Update this and recompile via
-play-creator; never hand-edit the compiled SKILL.md.
+create-play; never hand-edit the compiled SKILL.md.
 
 ## Intent
 
@@ -10,7 +10,7 @@ messages that reference the tracked issue — leaving a clean tree ready to rais
 commits only; it does not push (propose-change pushes when it opens the PR).
 
 Pipeline position: **end**. commit-change is the first step of the end sequence
-(commit-change → propose-change → review-change → merge-change) that D2 injects into any
+(commit-change → propose-change → check-change → merge-change) that D2 injects into any
 play declared `position: end`. Positions are start and end only — there is no middle.
 
 ### Constraints

@@ -1,7 +1,7 @@
 # start-change — ICE source
 
 The clean ICE triple this play is compiled from. Update this and recompile via
-play-creator; never hand-edit the compiled SKILL.md.
+create-play; never hand-edit the compiled SKILL.md.
 
 ## Intent
 
@@ -28,13 +28,13 @@ the D2 pipeline-position rule injects into any other play declared `position: st
 - C3 — A git worktree is set up only when config calls for it (config-driven, not
   automatic).
 - C4 — The STM workspace for the issue is initialized before the play reports done.
-- C5 — Reuse garura's existing manage-issue skill for issue work (resolve/create); do not
+- C5 — Reuse garura's existing track-issue skill for issue work (resolve/create); do not
   reimplement issue or git logic inline in play prose. Issue work keeps an agent
   (project-orchestrator) because the fresh-issue match from a description is genuine
   judgment; the branch work does not (see C8).
 - C8 — The mechanical branch work — cut the feature branch off latest main, set up the
   worktree per config, push — runs in the bundled `setup_branch.py` calling git directly,
-  not an agent dispatch (#484, tool-first + ADR 025). The `repo-orchestrator` → `setup-branch`
+  not an agent dispatch (#484, tool-first + ADR 025). The `repo-orchestrator` → `cut-branch`
   dispatch is removed; running the fixed branch sequence through an agent is the bug #484
   fixes. (Issue work stays with `project-orchestrator` for the fresh-path judgment.)
 - C6 — Running it again for the same issue resumes the existing context; it does not
@@ -95,7 +95,7 @@ the D2 pipeline-position rule injects into any other play declared `position: st
 ### Recovery (one per failure condition)
 
 - REC1 (F1) — trigger: no issue resolved or created. direction: create the issue from
-  the work description via manage-issue, then continue. handoff: autonomous.
+  the work description via track-issue, then continue. handoff: autonomous.
 - REC2 (F2) — trigger: branch base is not the latest main, or current branch is main.
   direction: pull main to latest and re-cut the branch from it, or move off main.
   handoff: autonomous.

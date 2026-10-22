@@ -2,7 +2,7 @@
 #
 # This is the shape of a single MVP recommendation artifact — the output of
 # /specify's recommend-mvp step (Stage 2.75, between Stage 2 domain-
-# selection and Stage 3 configure-capabilities). Every MVP recommendation
+# selection and Stage 3 derive-capability-selection). Every MVP recommendation
 # produced by the pipeline must conform.
 #
 # Purpose: given the opportunity landscape (market-brief) and the domain
@@ -12,7 +12,7 @@
 # .garura/product/scope/, not .garura/product/specification/ (see
 # Defect 9).
 #
-# Consumers: configure-capabilities (reads primary use cases to narrow
+# Consumers: derive-capability-selection (reads primary use cases to narrow
 # its capability walk — non-primary capabilities land in deferred_capabilities
 # rather than selected_capabilities), generate-intent-epics (honors the
 # narrowing by generating epics only for primary use cases), derive-quality-
@@ -55,7 +55,7 @@
 #
 #   <!--
 #   Stage 2.75 output of specify. Bridges Stage 2 domain-selection
-#   and Stage 3 configure-capabilities. Narrows the capability walk from
+#   and Stage 3 derive-capability-selection. Narrows the capability walk from
 #   "all brief use cases" to "the use cases v1 will actually ship."
 #
 #   Compliance notes:
@@ -184,7 +184,7 @@
 #
 # ──────────────────────────────────────────────────────────────────────────
 # Validation rules (enforced by recommend-mvp skill's self-check +
-# validate-abstraction-layer linter)
+# check-abstraction-layer linter)
 # ──────────────────────────────────────────────────────────────────────────
 #
 #   1. MANDATORY SECTIONS: all 9 body sections must be present and
@@ -234,7 +234,7 @@
 #
 # Related:
 # - core/components/skills/recommend-mvp/SKILL.md (producer)
-# - core/components/skills/configure-capabilities/SKILL.md (primary consumer)
+# - core/components/skills/derive-capability-selection/SKILL.md (primary consumer)
 # - core/components/memory/standards/rules/product.md Rule 13 (MVP Focus)
 # - core/components/memory/standards/rules/product.md Rule 14 (Abstraction-Layer)
 # - docs/adr/017-folder-whitelist.md (ADR confirming scope/mvp-recommendation.md)

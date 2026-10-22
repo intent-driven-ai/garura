@@ -2,7 +2,7 @@
 name: test-engineer
 domain: testing
 role: engineer
-description: "Authors /implement's test pieces from the specs — spec-separated: never sees implementation output, builder reports, or eval content. Also: test surface analysis, blast radius computation, baseline test specification, and three-tier verification scenario authoring. Understands the system through its tests — maps what's tested, identifies what's not, and specifies tests for coverage gaps."
+description: "Authors /build-feature's test pieces from the specs — spec-separated: never sees implementation output, builder reports, or eval content. Also: test surface analysis, blast radius computation, baseline test specification, and three-tier verification scenario authoring. Understands the system through its tests — maps what's tested, identifies what's not, and specifies tests for coverage gaps."
 model: opus
 tools:
   - Bash
@@ -396,10 +396,10 @@ When invoked via JSON contract, delegate artifact authorship to skills. You NEVE
 
 | Skill | When | Input | Produces |
 |-------|------|-------|----------|
-| `map-test-surface` | Phase 1B — inventory existing tests | `project_root`, `test_globs` (optional), `output_base` | `test-surface.yaml` |
-| `compute-blast-radius` | Phase 2B — given change surface + dependency graph | `change_surface`, `dependency_graph_path`, `test_surface_path`, `transitive_depth` (optional), `output_base` | `blast-radius.yaml` |
-| `specify-baseline-tests` | Phase 2C — after coverage gaps identified | `blast_radius_path`, `project_root`, `test_surface_path`, `output_base` | `baseline-tests.yaml` |
-| `draft-verification-scenarios` | Phase 3 — three-tier scenario authoring | per that skill's contract | `scenarios.yaml` |
+| `scan-test-surface` | Phase 1B — inventory existing tests | `project_root`, `test_globs` (optional), `output_base` | `test-surface.yaml` |
+| `derive-blast-radius` | Phase 2B — given change surface + dependency graph | `change_surface`, `dependency_graph_path`, `test_surface_path`, `transitive_depth` (optional), `output_base` | `blast-radius.yaml` |
+| `author-baseline-tests` | Phase 2C — after coverage gaps identified | `blast_radius_path`, `project_root`, `test_surface_path`, `output_base` | `baseline-tests.yaml` |
+| `author-verification-scenarios` | Phase 3 — three-tier scenario authoring | per that skill's contract | `scenarios.yaml` |
 
 **Invocation:** Use the Skill tool. Each skill reads inputs, writes its artifact, and returns the path. Extract only the artifact path from the skill output — do NOT forward the skill's YAML as your response.
 

@@ -12,7 +12,7 @@ provenance: "seeded (assistant, #434 — accepted)"
 
 ## Topic
 How the product's visual consistency is held — design tokens and a reused component set.
-This is what `/ux`'s **visual core** (color + typography) is built from, and what keeps every
+This is what `/shape-ux-lens`'s **visual core** (color + typography) is built from, and what keeps every
 screen looking like one product.
 
 ## Conditions
@@ -38,7 +38,7 @@ product: when color and type are referenced (not copied), one change propagates 
 and drift can't creep in. Hard-coded values are how a product slowly ends up with eleven
 shades of "primary blue." A small token set plus component reuse means consistency is the
 default outcome of building normally, not a thing someone has to police. It also makes the
-visual-core decision the `/ux` lens records concrete and enforceable.
+visual-core decision the `/shape-ux-lens` lens records concrete and enforceable.
 
 ## Evolve when
 The product needs multiple brands/themes, or the token set has grown unwieldy and

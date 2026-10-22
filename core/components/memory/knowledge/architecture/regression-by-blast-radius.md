@@ -43,7 +43,7 @@ the scope is mechanical, auditable, and exactly as wide as the change.
 ## Evolve when
 A delivered defect escapes through a scoped regression (the blast radius missed
 a real dependency) → widen the scope derivation (e.g. add dependency-graph
-expansion) via /learn, don't fall back to full-suite.
+expansion) via /learn-outcomes, don't fall back to full-suite.
 
 ## Provenance
 documented (#434 — validate interview, 2026-06-12).

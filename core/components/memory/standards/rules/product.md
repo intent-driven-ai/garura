@@ -2,7 +2,7 @@
 
 Canonical rules governing how product-planning artifacts (project profile, scope, enriched capabilities, quality profile) are derived. Every skill in the `/specify` pipeline loads this file and enforces these rules.
 
-Consumers: `configure-capabilities`, `enrich-capabilities`, `derive-quality-profile-from-epics`, `product-keeper` agent.
+Consumers: `derive-capability-selection`, `enrich-capabilities`, `derive-quality-profile-from-epics`, `product-keeper` agent.
 
 ## Rule 1: KB-Grounded Capability Selection
 
@@ -10,7 +10,7 @@ Consumers: `configure-capabilities`, `enrich-capabilities`, `derive-quality-prof
 
 Capability selection is constrained to what the KB actually contains. The catalog may be in LTM (`core/components/memory/knowledge/domain/`) or in STM research (`{product_base}/research/`). Invented capabilities — entries in `selected_capabilities` that resolve to no feature file — are a structural failure.
 
-**Enforcement:** `configure-capabilities` halts with `dangling_feature_refs > 0`. `validate-intent-epics` confirms every epic's `kb_source.capability` resolves to a feature block in the referenced domain file.
+**Enforcement:** `derive-capability-selection` halts with `dangling_feature_refs > 0`. `validate-intent-epics` confirms every epic's `kb_source.capability` resolves to a feature block in the referenced domain file.
 
 ## Rule 2: Every Cross-Tree Constraint Walked
 
@@ -18,7 +18,7 @@ Capability selection is constrained to what the KB actually contains. The catalo
 
 No constraint is silently skipped. The `constraint_trace` section of scope.yaml records one entry per constraint, with `fired: true | false`, the resolved condition, and the action taken. Missing entries are a compliance violation.
 
-**Enforcement:** `configure-capabilities` returns `constraints_walked == total_constraints_in_file`. The specify play's step eval SE-6 enforces this at runtime.
+**Enforcement:** `derive-capability-selection` returns `constraints_walked == total_constraints_in_file`. The specify play's step eval SE-6 enforces this at runtime.
 
 ## Rule 3: No Silent Inclusions or Exclusions
 
@@ -42,7 +42,7 @@ When the enrichment step merges profile overrides onto KB business rules, any fi
 
 When a capability's source markdown lives under `stm_research_dir` rather than `ltm_domain_taxonomy_path`, the scope.yaml entry carries `source: provisional_stm_research` and downstream intent epics carry `kb_source.provisional: true`. This makes the pipeline's reliance on un-promoted research visible, and gates the promotion decision at review time.
 
-**Enforcement:** `configure-capabilities` tags every STM-sourced selection with the provisional flag. `validate-intent-epics` allows the flag and does NOT treat provisional epics as dangling references.
+**Enforcement:** `derive-capability-selection` tags every STM-sourced selection with the provisional flag. `validate-intent-epics` allows the flag and does NOT treat provisional epics as dangling references.
 
 ## Rule 6: Quality Profile Aggregates All Epic Constraints
 
@@ -68,7 +68,7 @@ The `.garura/product/` tree uses six stage folders: `user-provided/`, `specifica
 
 Play-lifecycle folders (`_checkpoints/`, `_evidence/`, `_status/`) live at the product root alongside the stage folders — they are orthogonal to the SDLC stages, because a single play can write artifacts into multiple stage folders during one run.
 
-**Enforcement:** ADR 017 whitelist. `write-evidence` skill validates every write path against the six stage folders + three lifecycle folders. Writes outside this whitelist are rejected.
+**Enforcement:** ADR 017 whitelist. `author-evidence` skill validates every write path against the six stage folders + three lifecycle folders. Writes outside this whitelist are rejected.
 
 ## Rule 9: Audit Artifacts Are Structurally Separate from Scope Artifacts
 
@@ -101,9 +101,9 @@ Example: Graveyard Crew (a prosumer autonomous experimentation platform) selects
 
 **Surface the gaps at the capability-configuration checkpoint.** The user can: (a) accept as-is and proceed with the narrower scope, (b) trigger a research pass to extend the existing domain file, or (c) add the missing features inline as new capabilities (marking the domain file for follow-up promotion).
 
-**Enforcement:** `configure-capabilities` runs the within-domain coverage pass as a new Process step after loading domain features and before walking cross-tree constraints. Requires the `project_brief_path` input. Emits `within_domain_coverage_gaps` per domain in `scope.yaml`. The capability-configuration checkpoint presents the gaps to the user.
+**Enforcement:** `derive-capability-selection` runs the within-domain coverage pass as a new Process step after loading domain features and before walking cross-tree constraints. Requires the `project_brief_path` input. Emits `within_domain_coverage_gaps` per domain in `scope.yaml`. The capability-configuration checkpoint presents the gaps to the user.
 
-**Status:** Documented as a rule in this pass; skill-level enforcement is a follow-up (requires project_brief_path to be wired through configure-capabilities' Input and specify's Step 5 JSON contract). See Defect 2.
+**Status:** Documented as a rule in this pass; skill-level enforcement is a follow-up (requires project_brief_path to be wired through derive-capability-selection' Input and specify's Step 5 JSON contract). See Defect 2.
 
 ## Rule 11: Aggressive Questioning on Inference (anti-hallucination)
 
@@ -156,11 +156,11 @@ INFERRED CONSTRAINTS (no source in brief or profile — confirm, replace, or dro
       If you confirm: becomes a business rule. If you drop: becomes "(no limit in v1)" and is added to assumptions_requiring_validation for v1.1 re-evaluation.
 ```
 
-**Enforcement:** `configure-capabilities` runs Rule 11 as a final pass before writing `scope.yaml`. Every field with a non-explicit provenance source is collected into a `inferences_pending_review` section surfaced at the capability-configuration checkpoint. `validate-intent-epics` enforces that no `assumption`-tagged values appear in epic constraint / business_rule fields — they must be in `assumptions_requiring_validation`.
+**Enforcement:** `derive-capability-selection` runs Rule 11 as a final pass before writing `scope.yaml`. Every field with a non-explicit provenance source is collected into a `inferences_pending_review` section surfaced at the capability-configuration checkpoint. `validate-intent-epics` enforces that no `assumption`-tagged values appear in epic constraint / business_rule fields — they must be in `assumptions_requiring_validation`.
 
 ## Rule 12: User Questions Are First-Class Artifacts
 
-**Every question a play asks the person is captured in the issue's short-term memory, `{stm_base}<issue>/context/grounding-questions.md`, with a unique ID, a slot for the person's answer, and retention across the runs of that issue.** A grounding run (`/vision`, `/understand` or any other play) runs inside an issue, so its questions and answers go to that issue too (ADR 039 §1). They are memory written to short-term memory; another issue finds them only after a person promotes them.
+**Every question a play asks the person is captured in the issue's short-term memory, `{stm_base}<issue>/context/grounding-questions.md`, with a unique ID, a slot for the person's answer, and retention across the runs of that issue.** A grounding run (`/discover-domains`, `/discover-capabilities` or any other play) runs inside an issue, so its questions and answers go to that issue too (ADR 039 §1). They are memory written to short-term memory; another issue finds them only after a person promotes them.
 
 The pipeline runs are interactive but ephemeral. Questions that the pipeline surfaces at a checkpoint — "what's the real concurrent-session target?", "is OAuth linking in scope?", "what cost budget defaults apply?" — currently live only in the prompt text and disappear when the user responds. If the user answers "unknown" or if the checkpoint session ends before answering, the question is lost. The next run re-asks it from scratch, and nothing learns.
 
@@ -205,17 +205,17 @@ The pipeline runs are interactive but ephemeral. Questions that the pipeline sur
 
 **Why this rule exists:** the user directly requested it after the 50-question grounding surface I showed them became too large to manage inline. The insight: questions are knowledge, and knowledge needs a home. Dropping them into prompt text loses them; writing them to the issue's short-term memory turns them into a first-class artifact the person can edit, search and track, and that a person can promote (ADR 039 §1: every memory write goes to short-term memory first).
 
-**Enforcement:** `configure-capabilities`, `enrich-capabilities`, `generate-intent-epics`, and any future skill that produces an inference must write its inference-question to the issue's file before surfacing it at a checkpoint. The skill cannot surface an un-captured inference. `validate-intent-epics` cross-checks: every inference referenced in an epic's `assumptions_requiring_validation` must have a corresponding question in grounding-questions.md with a matching ID. Missing question = violation `uncaptured_inference`.
+**Enforcement:** `derive-capability-selection`, `enrich-capabilities`, `generate-intent-epics`, and any future skill that produces an inference must write its inference-question to the issue's file before surfacing it at a checkpoint. The skill cannot surface an un-captured inference. `validate-intent-epics` cross-checks: every inference referenced in an epic's `assumptions_requiring_validation` must have a corresponding question in grounding-questions.md with a matching ID. Missing question = violation `uncaptured_inference`.
 
 ## Rule 13: MVP Focus (Primary Use Cases, Deferred Use Cases)
 
-**Every v1 product run picks a bounded set of primary use cases and records the deferred ones with v1.1+ triggers. The bridge artifact is `scope/mvp-recommendation.md`, authored between domain-selection and configure-capabilities.**
+**Every v1 product run picks a bounded set of primary use cases and records the deferred ones with v1.1+ triggers. The bridge artifact is `scope/mvp-recommendation.md`, authored between domain-selection and derive-capability-selection.**
 
-Without an MVP recommendation, the capability walk in `configure-capabilities` walks all features for all selected domains indiscriminately and produces a bloated v1 scope that tries to serve every use case the brief names. The result is an epic inventory that exceeds the appetite and a scope contract the team cannot ship.
+Without an MVP recommendation, the capability walk in `derive-capability-selection` walks all features for all selected domains indiscriminately and produces a bloated v1 scope that tries to serve every use case the brief names. The result is an epic inventory that exceeds the appetite and a scope contract the team cannot ship.
 
-The MVP recommendation artifact lives at `.garura/product/scope/mvp-recommendation.md` (per Rule 8 stage-centric layout — mvp-recommendation is a scope-narrowing decision, not an opportunity description). It carries: primary use cases with rationale; launch-scope capabilities narrowed to those use cases; deferred use cases with v1.1+ triggers; an architecture direction (only when committed at spec time, e.g., "self-hosted sandbox for web-perf loops"); directional pricing; success criteria for "v1 is successful"; risks that could kill the MVP. Deferred use cases and capabilities are explicit, not implicit — `configure-capabilities` reads the recommendation and pushes non-primary capabilities into `deferred_capabilities` in scope.yaml with rationale.
+The MVP recommendation artifact lives at `.garura/product/scope/mvp-recommendation.md` (per Rule 8 stage-centric layout — mvp-recommendation is a scope-narrowing decision, not an opportunity description). It carries: primary use cases with rationale; launch-scope capabilities narrowed to those use cases; deferred use cases with v1.1+ triggers; an architecture direction (only when committed at spec time, e.g., "self-hosted sandbox for web-perf loops"); directional pricing; success criteria for "v1 is successful"; risks that could kill the MVP. Deferred use cases and capabilities are explicit, not implicit — `derive-capability-selection` reads the recommendation and pushes non-primary capabilities into `deferred_capabilities` in scope.yaml with rationale.
 
-**Enforcement:** `configure-capabilities` halts pre-flight if `scope/mvp-recommendation.md` is missing or empty. The specify play runs Stage 2.75 (mvp-recommendation authoring / review) between Stage 2 (domain-selection) and Stage 3 (configure-capabilities). See Defect 6 and Defect 9.
+**Enforcement:** `derive-capability-selection` halts pre-flight if `scope/mvp-recommendation.md` is missing or empty. The specify play runs Stage 2.75 (mvp-recommendation authoring / review) between Stage 2 (domain-selection) and Stage 3 (derive-capability-selection). See Defect 6 and Defect 9.
 
 ## Rule 14: Abstraction-Layer Boundary
 
@@ -225,7 +225,7 @@ Research files describe a domain — what the problem space looks like, which in
 
 Allowed vocabulary is domain-level: "append-only ledger", "pluggable measurement adapter", "structured-output enforcement", "role-isolated execution", "controlled-determinism contract". Forbidden is tool-level: specific database engines, specific SDK/framework methods and parameters, specific programming languages, specific build tools, specific column lists and types, specific endpoint paths, specific hash constructions, specific model identifiers. The rule pairs with Rule 15 — Rule 14 is what stays OUT of product artifacts, Rule 15 is what must come INTO them.
 
-**Enforcement:** `configure-capabilities`, `enrich-capabilities`, and any skill authoring research / specification / scope files reject outputs containing the deny-list tokens (the skill carries the current deny-list in its Constraints section). See Defect 7.
+**Enforcement:** `derive-capability-selection`, `enrich-capabilities`, and any skill authoring research / specification / scope files reject outputs containing the deny-list tokens (the skill carries the current deny-list in its Constraints section). See Defect 7.
 
 ## Rule 15: Pull-to-Product Principle
 
@@ -235,7 +235,7 @@ A reference-only pointer from `domain-selection.yaml` to a KB file path is non-r
 
 The provenance header distinguishes origins: `origin: kb` + `kb_sha_at_copy` for copies (editable: false by default), or `origin: stm_research` for freshly-authored research (editable: true, pending promotion by a future capture-learning pass). A future promotion flow (NOT this rule's concern) skips kb-origin files whose sha matches current KB and promotes the rest.
 
-**Enforcement:** the Stage 2 domain-selection step performs the copy with provenance. `configure-capabilities` reads from `.garura/product/research/` only; missing domain files at that path are a structured failure (the upstream Stage 2 step should have pulled them). See Defect 8.
+**Enforcement:** the Stage 2 domain-selection step performs the copy with provenance. `derive-capability-selection` reads from `.garura/product/research/` only; missing domain files at that path are a structured failure (the upstream Stage 2 step should have pulled them). See Defect 8.
 
 ## Related Rules
 
