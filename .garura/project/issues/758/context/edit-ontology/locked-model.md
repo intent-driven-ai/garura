@@ -46,3 +46,8 @@ Business intent      hypothesis · boundaries · rules · its capabilities
 
 - Option 1 (one ICE for each capability or functionality) replaces the earlier 1.B (one ICE for each pair of business intent and part).
 - "needs" between capabilities only (option 1): a functionality never needs anything.
+
+## Later decisions (after the lock)
+
+- 2026-10-22, checkpoints 2 and 3: a capability has at most one domain; a domain has one or more capabilities. This overrides the "Domain ↔ Business intent, Capability N:N" row above for capabilities; a domain's link to business intents stays a loose N:N for search. Business intents keep "identified by" between them.
+- 2026-10-22, review of PR #783: an ICE can start only when all three parts (Intent, Context, Expectation) are present. A missing part makes it not ready. A thin or wrong part does not stop it: correctness and richness are the product owner's responsibility.

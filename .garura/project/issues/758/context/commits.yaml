@@ -1,0 +1,15 @@
+commits:
+  - sha: 85fb2c7d
+    message: "fix(ontology): an ICE starts only with all three parts present, with pointers to the follow-up issues (#758)"
+    files:
+      - core/components/memory/standards/schemas/product-os/ontology.md
+    branch: plan/756/758-ice-kind
+excluded_files:
+  - path: ".garura/project/issues/758/context/edit-ontology/locked-model.md"
+    reason: "edit-ontology and commit-change run state, committed by the executor"
+  - path: ".garura/project/issues/758/context/porcelain.txt"
+    reason: "edit-ontology and commit-change run state, committed by the executor"
+leftover_count: 0
+tree_clean: true
+pushed: false
+run_state_committed: true

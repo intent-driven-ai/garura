@@ -1,0 +1,22 @@
+---
+needs_judgment: false
+
+change_groups:
+  - id: ontology-ice-three-parts
+    issue: 758
+    commit_type: fix
+    scope: ontology
+    subject: "an ICE starts only with all three parts present, with pointers to the follow-up issues"
+    files:
+      - core/components/memory/standards/schemas/product-os/ontology.md
+
+exclusions:
+  - path: ".garura/project/issues/758/context/edit-ontology/locked-model.md"
+    reason: "edit-ontology and commit-change run state, committed by the executor"
+    blocking: false
+  - path: ".garura/project/issues/758/context/porcelain.txt"
+    reason: "edit-ontology and commit-change run state, committed by the executor"
+    blocking: false
+
+risks:
+  sensitive_files: []
