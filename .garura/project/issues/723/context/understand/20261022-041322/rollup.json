@@ -1,0 +1,11 @@
+{
+  "capabilities": [
+    "cap-723"
+  ],
+  "state_before": "directional",
+  "state_after": "set",
+  "establishing": true,
+  "out_of_box": false,
+  "box_moves": [],
+  "compliance_added": []
+}

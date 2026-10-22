@@ -1,0 +1,10 @@
+profile:
+  state: set
+  nfr:
+    reliability:
+      level: medium
+      gate: lint_grounding.py --spine link check + check_ice_workable.py tests
+    maintainability:
+      level: medium
+      gate: ready-check and linter tests; spine before/after diff on the rename
+  compliance: []

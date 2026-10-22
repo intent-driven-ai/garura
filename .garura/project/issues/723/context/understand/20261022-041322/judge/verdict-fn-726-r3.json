@@ -1,0 +1,36 @@
+{
+  "doc": ".garura/product/product-os/functionalities/fn-726/functionality.md",
+  "kind": "functionality",
+  "criteria": [
+    {
+      "id": "completeness",
+      "verdict": "fail",
+      "evidence": "Inputs / Outputs: \"In: the plan files (`.garura/project/plans/*.yaml`) and the tracker issue types, which must hold no domain.\" versus Rules & behavior: \"The check finds a domain linked to a tracker issue by reading files only, never the tracker: a domain entry in the spine that carries an issue number, or a node in a plan file that holds an issue number and names a domain id as its node.\"",
+      "fix": "Make Inputs / Outputs name the check's real inputs so a builder knows the shape without guessing: replace \"and the tracker issue types, which must hold no domain\" with \"In: the plan files (`.garura/project/plans/*.yaml`) — each node's kind, its node id and any issue number it holds — and each domain's spine entry, checked for an issue number. The tracker itself is never read.\" Also add one input bullet or drop the unused detail \"each marked adds, changes or removes\" on the Touches list, or say what the search or check does with that mark (for example: the search lists the intent whatever the mark, or ignores a 'removes' entry)."
+    },
+    {
+      "id": "self_explanation",
+      "verdict": "pass",
+      "evidence": "\"A capability names at most one domain; a domain lists its capabilities only through those capability entries, so there is one place to change.\" and \"A domain is never a level of a plan tree, never a tracker issue, and never carries an ICE; any of these is an error, because domains set which areas the product covers, not what work is done.\"",
+      "fix": ""
+    },
+    {
+      "id": "discreteness_form",
+      "verdict": "pass",
+      "evidence": "\"Given a spine where a domain entry carries an issue number, or a plan file whose node with an issue number names a domain id, when the check runs, then it fails with an error naming the domain and the issue number.\" — every section is discrete bullets, acceptance is Given/When/Then, and What it does states the function's behavior, not a user story.",
+      "fix": ""
+    },
+    {
+      "id": "depth_gradient",
+      "verdict": "pass",
+      "evidence": "Parent: \"Domains link to business intents and capabilities, outside the plan tree (fn-726) — a search by domain lists its business intents and capabilities, and no domain ever appears in a plan or the tracker.\" Child adds the two-sided link rule, the one-sided warning, the file-only tracker detection, the empty-domain case, the \"not in the spine\" case and seven testable criteria.",
+      "fix": ""
+    },
+    {
+      "id": "stranger_test",
+      "verdict": "pass",
+      "evidence": "\"A domain lists the business intents and capabilities in it, so \\\"which business intents serve the commerce domain?\\\" can be answered. Domains are never in a plan or the tracker.\" plus Out of scope: \"Deciding readiness — fn-724 owns it, and a domain plays no part in it.\"",
+      "fix": ""
+    }
+  ]
+}
