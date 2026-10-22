@@ -1,6 +1,6 @@
 ---
 name: propose-answers
-description: For each gap a loop's search could not close and only the person can confirm — who may decide, how we will know it works, how big it will get — draft our own proposed answer from what the loop's sources, memory and run already show, with its basis and the context the person needs to judge it, so the person confirms or corrects instead of answering a bare question. Closes as settled a gap the context already answers (an internal tool is not asked how it earns money). Used by the knowledge-builder agent in /build-knowledge.
+description: For each gap a loop's search could not close and only the person can confirm — who may decide, how we will know it works, how big it will get — draft our own proposed answer from what the loop's sources, memory and run already show, with its basis and the context the person needs to judge it, so the person confirms or corrects instead of answering a bare question. Closes as settled a gap the context already answers (an internal tool is not asked how it earns money). Used by the knowledge-builder agent in /research-knowledge.
 user-invocable: false
 model: sonnet
 allowed-tools: Read, Write, Glob, Grep
@@ -39,7 +39,7 @@ already saw, and shows why — so the person only says yes or corrects.
    prototype.
 4. Never write a question as a proposal, and never answer from the model alone. If nothing in
    the source, memory or the run supports an answer, the gap stays open for research
-   (`draft-knowledge-page`) — not a guess.
+   (`author-knowledge-page`) — not a guess.
 
 ## Output
 

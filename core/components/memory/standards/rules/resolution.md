@@ -78,7 +78,7 @@ Superseded in part by ADR 035 §5: an agent that works through the memory tool n
 to the model; it raises a memory update for a person instead (see "Every Decision Names Its
 Memory" below).
 
-LLM fallback entries are primary candidates for the `learn` play. Each
+LLM fallback entries are primary candidates for the `learn-outcomes` play. Each
 fallback is a knowledge gap: the organization lacks persistent knowledge for
 this domain question and relies on general reasoning instead.
 

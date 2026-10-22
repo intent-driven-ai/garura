@@ -15,7 +15,7 @@ provenance: "seeded (#434 — agentic seed)"
 ## Topic
 How an agent moves from build to users. The environment path is the familiar dev → uat →
 prod, but the **promotion gate is different**: because an agent is non-deterministic, you
-gate on an **eval suite**, not just pass/fail tests. This is the operational (`/run`) lens
+gate on an **eval suite**, not just pass/fail tests. This is the operational (`/shape-run-lens`) lens
 for an agentic slice.
 
 ## Conditions

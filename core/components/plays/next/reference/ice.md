@@ -1,7 +1,7 @@
 # next — ICE source
 
 The clean ICE triple this play is compiled from. Update this and recompile via
-play-editor; never hand-edit the compiled SKILL.md.
+edit-play; never hand-edit the compiled SKILL.md.
 
 ## Intent
 
@@ -24,8 +24,8 @@ slices (status, order, effort, depends_on) and epics; lens presence is the slice
 `lens/<type>.md` grounding docs. Per-node records are read only for what the spine does
 not carry, and a stale field on a record never overrides the spine. Realization runs in
 two tracks (`standards/rules/pipeline-next.md`): the functional track ux → agentic →
-marketing and the non-functional track arch → quality → run, with /measure last — and
-/measure, once all seven lens docs line up, stamps the slice realized. Track order is
+marketing and the non-functional track arch → quality → run, with /shape-measure-lens last — and
+/shape-measure-lens, once all seven lens docs line up, stamps the slice realized. Track order is
 pipeline-next's recommended sequence, not a readiness gate.
 
 Slices are the core unit of work. Once a slice exists, the aim is to realize it until it
@@ -61,7 +61,7 @@ why it is recommended.
   presentation — it never reorders, adds, or drops an entry.
 - C9 — Coverage spans the full loop: strategy (vision, understand, shape, roadmap),
   realization (the seven lens docs across the functional and non-functional tracks, then
-  /measure), grilling, execution (implement, validate, launch), learning (learn), and
+  /shape-measure-lens), grilling, execution (implement, validate, launch), learning (learn), and
   strategy refresh once everything is delivered.
 - C10 — The play leaves no working artifacts behind. Its only durable product is the
   recommendation presented to the user (plus, when evidence recording is on, the
@@ -86,9 +86,9 @@ why it is recommended.
   re-running the same scanner at runtime, because a check that shares its subject's
   reader can only confirm itself (#533).
 - C14 — The list is ordered to finish a slice first: (1) repair, anywhere; (2) the focus
-  slice — the lowest roadmap-order slice with work left (a lens, /measure, /grill, or live
-  epics) — whose steps run functional-track head → non-functional-track head → /measure →
-  /grill → epics by their order; (3) strategy; (4) every other slice's steps, by roadmap
+  slice — the lowest roadmap-order slice with work left (a lens, /shape-measure-lens, /shape-features, or live
+  epics) — whose steps run functional-track head → non-functional-track head → /shape-measure-lens →
+  /shape-features → epics by their order; (3) strategy; (4) every other slice's steps, by roadmap
   order, flagged as parallel lanes; (5) learning; (6) strategy refresh. Every step of the
   focus slice ranks above every step of any other slice (user direction 2026-09-11, #533;
   track sequence from `standards/rules/pipeline-next.md`).
@@ -129,8 +129,8 @@ why it is recommended.
   lens named as its blocker. Measure: the NBA is the repair action AND each blocked
   entry names its blocker — checkable from the output alone.
 - S4 — (founder, fresh start) Given no product model exists yet, then the
-  next-best-action is /vision, explained as a cold start. Measure: the NBA equals
-  /vision.
+  next-best-action is /discover-domains, explained as a cold start. Measure: the NBA equals
+  /discover-domains.
 - S5 — (product owner, everything delivered) Given all slices realized and all epics
   delivered, then the play recommends the close of the loop — learning if pending, then
   strategy refresh (re-shaping from deferred functionality, re-planning the roadmap).
@@ -142,14 +142,14 @@ why it is recommended.
   flagged parallel, ranks below all slice-1 actions, and cites the roadmap order.
 - S7 — (product owner, roadmap merged) Given a spine with the profile set, every
   capability detailed, four slices planned at roadmap order 1–4, and the functional-track
-  lens docs (ux, agentic, marketing) present on the order-2 slice, then no /roadmap and no
-  /understand is recommended, each planned slice carries its next lens or /measure action,
+  lens docs (ux, agentic, marketing) present on the order-2 slice, then no /shape-roadmap and no
+  /discover-capabilities is recommended, each planned slice carries its next lens or /shape-measure-lens action,
   and the independent reader confirms the snapshot matches the spine. Measure: the list
   holds no strategy action, the order-2 slice's action is from the non-functional track,
   and the agreement check passes.
 - S8 — (builder finishing a slice) Given slice 1 realized with a ready epic and slice 2
   planned with no lens docs, then building slice 1's epic is the next-best-action and
-  slice 2's first lens ranks below it. Measure: rank 1 is slice 1's /implement and every
+  slice 2's first lens ranks below it. Measure: rank 1 is slice 1's /build-feature and every
   slice-2 step has a larger rank.
 
 ### Done means

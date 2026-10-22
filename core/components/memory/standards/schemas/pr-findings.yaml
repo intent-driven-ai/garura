@@ -1,10 +1,10 @@
 # pr-findings.yaml — Canonical Schema
-# Canonical YAML schema for the findings.yaml artifact produced by quality-check-scoped.
+# Canonical YAML schema for the findings.yaml artifact produced by check-pr-quality.
 # Every skill that writes a findings.yaml MUST conform to this schema.
 # Every validator that reads a findings.yaml uses this as source of truth.
 #
-# Consumers: quality-check-scoped, review-pr, quality-check
-# Source: extracted from skills/quality-check-scoped/reference/finding-schema.md
+# Consumers: check-pr-quality, review-pr, check-quality
+# Source: extracted from skills/check-pr-quality/reference/finding-schema.md
 
 schema:
   name: pr-findings

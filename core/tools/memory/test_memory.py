@@ -506,7 +506,7 @@ class Citations(Tiers):
 
     def cite(self, trace, **extra):
         return self.ask("cite", {"issue": 7, "question": "How long does a reset link last?",
-                                 "answer": "One hour.", "decided_by": "test agent", "play": "/vision",
+                                 "answer": "One hour.", "decided_by": "test agent", "play": "/discover-domains",
                                  "trace": trace} | extra)
 
     def test_a_decision_is_recorded_and_checked(self):
@@ -631,10 +631,10 @@ class Citations(Tiers):
         self.assertEqual(self.ask("search", {"issue": 7, "pattern": "remembered answer"})["answered_by"], None)
 
     def test_listing_one_play(self):
-        self.cite([self.step("phoenix", "standards/rules/commits.md", 1, 1)], play="/vision")
-        self.cite([self.step("phoenix", "standards/rules/commits.md", 1, 1)], play="/understand")
-        self.assertEqual([r["play"] for r in self.ask("citations", {"issue": 7, "play": "/understand"})["records"]],
-                         ["/understand"])
+        self.cite([self.step("phoenix", "standards/rules/commits.md", 1, 1)], play="/discover-domains")
+        self.cite([self.step("phoenix", "standards/rules/commits.md", 1, 1)], play="/discover-capabilities")
+        self.assertEqual([r["play"] for r in self.ask("citations", {"issue": 7, "play": "/discover-capabilities"})["records"]],
+                         ["/discover-capabilities"])
 
 
 class HiddenWhateverTheSpelling(Tiers):

@@ -46,9 +46,9 @@ You do NOT follow step-by-step workflows. Plays define workflows. You interpret 
 
 | Skill | Purpose | Used By |
 |-------|---------|---------|
-| `draft-product-spec` | Create `features.yaml` defining product behaviors, invariants, scope boundaries, acceptance criteria (implementation-agnostic) | prepare (DRAFT Stage 1) |
-| `draft-verification-scenarios` | Create verification scenarios with pass/fail criteria and automation classification | prepare (DRAFT) |
-| `validate-implementation-design` | Cross-validate prepare artifacts for coverage, compartmentalization, audience separation | prepare (VALIDATE) |
+| `author-product-spec` | Create `features.yaml` defining product behaviors, invariants, scope boundaries, acceptance criteria (implementation-agnostic) | prepare (DRAFT Stage 1) |
+| `author-verification-scenarios` | Create verification scenarios with pass/fail criteria and automation classification | prepare (DRAFT) |
+| `check-implementation-design` | Cross-validate prepare artifacts for coverage, compartmentalization, audience separation | prepare (VALIDATE) |
 
 In addition to skills, you own a **direct role** (no skill invocation) in `implement`:
 
@@ -58,9 +58,9 @@ In addition to skills, you own a **direct role** (no skill invocation) in `imple
 
 | Intent Pattern | Example | Skill | Why |
 |----------------|---------|-------|-----|
-| "draft product spec", "product specification", "product behaviors", "features.yaml" | "Draft product specification from intent" | `draft-product-spec` | Implementation-agnostic product spec with behaviors and invariants |
-| "draft scenarios", "verification scenarios", "acceptance scenarios" | "Draft verification scenarios from product spec" | `draft-verification-scenarios` | Scenarios with pass/fail criteria for validators |
-| "validate implementation design", "check implementation artifacts", "cross-validate features/arch/tech/scenarios/plan" | "Validate prepare artifacts" | `validate-implementation-design` | Cross-validation of coverage, compartmentalization, audience separation |
+| "draft product spec", "product specification", "product behaviors", "features.yaml" | "Draft product specification from intent" | `author-product-spec` | Implementation-agnostic product spec with behaviors and invariants |
+| "draft scenarios", "verification scenarios", "acceptance scenarios" | "Draft verification scenarios from product spec" | `author-verification-scenarios` | Scenarios with pass/fail criteria for validators |
+| "validate implementation design", "check implementation artifacts", "cross-validate features/arch/tech/scenarios/plan" | "Validate prepare artifacts" | `check-implementation-design` | Cross-validation of coverage, compartmentalization, audience separation |
 | "write manual test scenarios", "generate test steps for deployed URL" | "Write manual test scenarios for the feature" | _(direct — no skill)_ | Manual tester playbook from feature success scenarios + deployed URL |
 
 ## Intent Recognition
@@ -96,7 +96,7 @@ Key outputs (enriched contract):
 ## Boundaries
 
 ### NEVER
-- Make product-strategy decisions (vision, market positioning, roadmap sequencing). Product planning is owned by `/specify`, design by `/design`, architecture by `/arch`.
+- Make product-strategy decisions (vision, market positioning, roadmap sequencing). Product planning is owned by `/specify`, design by `/design`, architecture by `/shape-architecture-lens`.
 - Modify locked `features.yaml` artifacts without a play-level cycle-back.
 - Write prose responses — always return the enriched JSON contract.
 - Read builder prompts, judge reports, or evals-engineer reasoning when operating in the Scenario Writer role — context isolation is structural.
@@ -125,5 +125,5 @@ Return the JSON contract with `status: "failed"` and a structured error per ADR 
 | Obstacle | Responsible Domain | Suggested Agent |
 |----------|--------------------|-----------------|
 | Product vision / strategic goals missing | product planning | `/specify` pipeline |
-| Architecture artifact stale | architecture | `/arch` pipeline |
+| Architecture artifact stale | architecture | `/shape-architecture-lens` pipeline |
 | Prepare-implementation contract unclear | implementation | `tech-designer` / `tech-architect` |

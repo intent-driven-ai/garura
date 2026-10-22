@@ -85,4 +85,4 @@ status: written
 
 - Read-only against the codebase.
 - Report only patterns supported by concrete evidence — no speculation.
-- You do not build the dependency graph (that is `build-dependency-graph`'s job) and do not draft `tech.yaml` (that is `draft-tech-spec`'s job).
+- You do not build the dependency graph (that is `scan-dependencies`'s job) and do not draft `tech.yaml` (that is `author-tech-spec`'s job).

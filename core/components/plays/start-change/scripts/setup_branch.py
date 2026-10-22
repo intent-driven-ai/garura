@@ -4,7 +4,7 @@ setup_branch.py — start-change Step 4 as a script (#484).
 
 Cuts the feature branch off latest main (or switches to it on resume), sets up a
 git worktree when config calls for it, pushes, and writes branch.json. Replaces
-the repo-orchestrator → setup-branch dispatch. Pure git — a fixed sequence, zero
+the repo-orchestrator → cut-branch dispatch. Pure git — a fixed sequence, zero
 judgment.
 
     python3 setup_branch.py --issue N --branch-name feature/N-slug \

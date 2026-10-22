@@ -1,7 +1,7 @@
 # fix-bug — ICE source
 
 The clean ICE triple this play is compiled from. Update this and recompile via
-play-creator; never hand-edit the compiled SKILL.md.
+create-play; never hand-edit the compiled SKILL.md.
 
 ## Intent
 
@@ -15,7 +15,7 @@ review, merge) are attached by the pipeline.
 
 Pipeline position: **both**. The D2 pipeline-position rule prepends `start-change`
 (resolve the existing issue, cut the branch off fresh main, optional worktree, init
-STM) and appends the close sequence `commit-change → propose-change → review-change
+STM) and appends the close sequence `commit-change → propose-change → check-change
 → merge-change`. So this source never spells out branch creation or shipping — those
 come only via injection.
 

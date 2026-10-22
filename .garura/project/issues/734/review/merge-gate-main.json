@@ -1,0 +1,15 @@
+{
+  "approved": true,
+  "approval_source": "Kapil, 2026-10-22: 'finish the entire plan in a single shot ... Don't stop. Don't ask me anything.' \u2014 plan check passed (plan_done true)",
+  "mergeable": true,
+  "checks_pass": true,
+  "already_merged": false,
+  "pr_number": 750,
+  "pr_merged": true,
+  "branch_deleted": true,
+  "on_target": true,
+  "issues_closed": [],
+  "status": "merged",
+  "on_base": true,
+  "merge_sha": null
+}

@@ -3,7 +3,7 @@
 submit_pr.py — propose-change Step 3 as a script (#484).
 
 Pushes the branch and opens (or updates) the PR carrying a pre-rendered body,
-then writes pr.json. Replaces the repo-orchestrator → submit-pr dispatch. The PR
+then writes pr.json. Replaces the repo-orchestrator → open-pr dispatch. The PR
 body is assembled by the caller (self-review + summary — Step 1's output) and
 handed in as --body-file; this script does the fixed git/gh mechanics, zero
 judgment.

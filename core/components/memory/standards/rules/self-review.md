@@ -13,7 +13,7 @@ base stays generic on purpose — project-specific and stack-specific judgment i
 at runtime by the analyzing skill on top of these rules.
 
 The output is an informational checklist that travels in the PR. It is **not** the
-approve/reject gate — that is `review-change`'s job. The self-review surfaces problems
+approve/reject gate — that is `check-change`'s job. The self-review surfaces problems
 early; it does not block the raise on its own.
 
 ## Scope checks

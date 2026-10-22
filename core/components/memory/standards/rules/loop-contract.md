@@ -13,9 +13,9 @@ serves.
 **A loop reads no memory**, and neither do its plays (ADR 039 §2): a loop and its plays are
 workflows; their agents read memory, only through the memory tool.
 
-Canonical checker: `play-creator/references/check_loop_contract.py`, stamped into each
+Canonical checker: `create-play/references/check_loop_contract.py`, stamped into each
 play that can run inside a loop. Canonical review-record writer:
-`play-creator/references/write_loop_review.py`. Plays read this rule; they do not
+`create-play/references/write_loop_review.py`. Plays read this rule; they do not
 restate it.
 
 ## What a contract holds
@@ -61,7 +61,7 @@ A JSON file, passed to the play as `--contract <path>`:
    question and answer to that issue's short-term memory — `<issue>` is the contract's
    `issue`. Run by hand, the same paths hold with the issue `start-change` gives.
 3. **Open nothing.** Skip the injected `start-change` and the injected end sequence
-   (commit-change → propose-change → review-change → merge-change). The loop opens and
+   (commit-change → propose-change → check-change → merge-change). The loop opens and
    lands the change. The play's OWN commit step — the one in its workflow, such as a model
    play's "commit the model delta" — still runs, on the loop's branch, so the next play in
    the loop starts from a clean tree; the loop commits the round once more after its gap
@@ -79,7 +79,7 @@ A JSON file, passed to the play as `--contract <path>`:
    cannot answer (rule 5; ADR 041): the play stops short of the crossing, saves what it made
    as proposed, and finishes; the person answers on a later round, and the play crosses the
    gate then. That is not a deferral to the loop's review. A play may defer a pinned checkpoint to the loop's review
-   only where its own intent names that exception (as `/intent`'s confirmation does,
+   only where its own intent names that exception (as `/discover-intent`'s confirmation does,
    ADR 031 D10).
 5. **A question the play cannot answer goes to the loop — it does not stop the play.** The
    play's agents look in memory first, through the memory tool (ADR 034, ADR 035); what no
@@ -120,7 +120,7 @@ after the round with its gap skills. When the source is read (R4b) or a round gi
 work, the loop adds it to that play's `inputs` and writes the file again before the play
 starts (same `loop_run_id`). At the start of each round it writes the file again with the new
 `round` and any answers the person gave; a play reads the contract when it starts. A play with an older, narrower check of its
-own (`/intent` checks only `loop_run_id` and `branch`) accepts the full contract, because
+own (`/discover-intent` checks only `loop_run_id` and `branch`) accepts the full contract, because
 the full contract holds those fields too; such plays move to the shared checker over time.
 
 ## Related
@@ -128,7 +128,7 @@ the full contract holds those fields too; such plays move to the shared checker 
 - ADR 029 — Drives, now loops (ADR 045) (questions first; no stops for the plays' checkpoints; a new question
   stops the loop; the loop owns one issue, one branch, one pull request).
 - ADR 041 — a loop runs in rounds and owns the questions no play can answer.
-- ADR 042 — the knowledge member plays: `/search-knowledge` and `/build-knowledge` find and build
-  what the loop lacks; `/review-knowledge` briefs the person, never a questionnaire.
+- ADR 042 — the knowledge member plays: `/search-knowledge` and `/research-knowledge` find and build
+  what the loop lacks; `/check-knowledge` briefs the person, never a questionnaire.
 - `standards/rules/gate-config.md` — gate kinds; the `deferred_to_loop_review` answer.
 - `standards/rules/pipeline-position.md` — the injected opening and end sequence a loop skips.

@@ -72,7 +72,7 @@ Mostly operator intents; the consumer's stake is privacy.
   - Pageviews & sessions — traffic, sessions, basic engagement. The floor — the layer we already run.
   - On-page engagement — scroll, dwell, click maps feeding `marketing` signals. Add when `marketing` needs engagement input.
 - **Web attribution** — source-to-outcome on the web (supports `marketing`).
-  - Source/medium attribution — credit the channel that brought a session. The floor for closing the `marketing` loop.
+  - Source/medium attribution — credit the channel that brought a session. The floor for closing the `shape-marketing-lens` loop.
   - Multi-touch attribution — credit across several touches on the path to a goal. Add when `marketing` spend spans channels worth comparing.
 - **Dashboards & exploration** — make goals/funnels/usage legible and decidable.
   - Fixed dashboards — the standing view of goals, funnels, usage. The floor — make the numbers legible.

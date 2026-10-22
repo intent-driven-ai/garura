@@ -3,7 +3,7 @@
 # Consumed by /next's classify_work.py (lexical classification: glob path
 # matching + BM25 subject scoring — never model inference). The judgment half
 # (how fit influences ranking) lives beside this file in operator-fit.md and
-# is read by the rank-recommendations skill.
+# is read by the rank-actions skill.
 #
 # Grow this file as the intelligence improves: new path patterns, new stacks,
 # sharper keywords. Changing it changes every future /next run.

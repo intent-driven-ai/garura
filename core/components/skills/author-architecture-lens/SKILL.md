@@ -1,6 +1,6 @@
 ---
 name: author-architecture-lens
-description: Author a shaped slice's architecture lens as an MD grounding doc — the components the slice threads (each in its layer, with its contract), the stack (tech + versions) per component, and the vertical build (how the slice runs end-to-end through them) — from the slice's hub (its functionalities' grounding docs + the spine profile) and KB architecture/technology grounding. Writes architecture.md straight to the live model (re-deriving this slice's lens in place) plus a grounding manifest that carries the components/stack grounding and any material-choice decisions as structured data; reads the functionality.md docs for the hub, MAY read the functional lens docs (ux/agentic/marketing) optionally, never the measure or run lens. Generative artifact production for the /arch play; writes only the one lens doc — never the spine, the profile, or the decisions/ (the play's keyed persist owns those).
+description: Author a shaped slice's architecture lens as an MD grounding doc — the components the slice threads (each in its layer, with its contract), the stack (tech + versions) per component, and the vertical build (how the slice runs end-to-end through them) — from the slice's hub (its functionalities' grounding docs + the spine profile) and KB architecture/technology grounding. Writes architecture.md straight to the live model (re-deriving this slice's lens in place) plus a grounding manifest that carries the components/stack grounding and any material-choice decisions as structured data; reads the functionality.md docs for the hub, MAY read the functional lens docs (ux/agentic/marketing) optionally, never the measure or run lens. Generative artifact production for the /shape-architecture-lens play; writes only the one lens doc — never the spine, the profile, or the decisions/ (the play's keyed persist owns those).
 version: 0.3.0
 user-invocable: false
 model: opus
@@ -22,7 +22,7 @@ ONLY the one per-node lens doc — `architecture.md` — **straight to the live 
 at the slice's lens path, re-deriving this slice's lens. It writes NO shared model file: no
 `_spine.yaml`, no profile, no `decisions/`, no other lens, no slice record. Every material-choice
 decision is emitted as **structured data in the manifest** (`arch-manifest.yaml`), which the
-/arch play's keyed persist script (`persist_arch.py`) writes to disk skip-if-exists only after
+/shape-architecture-lens play's keyed persist script (`persist_arch.py`) writes to disk skip-if-exists only after
 the human checkpoint approves. Containment is the play's post-write scoped guard, not a draft.
 
 ## What it produces (against the locked template)

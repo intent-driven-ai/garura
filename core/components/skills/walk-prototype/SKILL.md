@@ -1,6 +1,6 @@
 ---
 name: walk-prototype
-description: Understand a working prototype by using it, the way the people it serves would. Works out who it serves and what each sets out to do, then walks each journey a step at a time through the walk_prototype.py browser script — click, type, press a key, go back — and records every step and what it showed, until the person gets what they came for or the prototype stops them. Writes journeys.yaml (who, sets out to do, steps, ends with) with every captured view placed on a journey or named as not walked, with why; the step pictures and text are kept as evidence. Never changes data on a deployed site the person has not cleared. Used by /intent before it drafts intents from a prototype (C15).
+description: Understand a working prototype by using it, the way the people it serves would. Works out who it serves and what each sets out to do, then walks each journey a step at a time through the walk_prototype.py browser script — click, type, press a key, go back — and records every step and what it showed, until the person gets what they came for or the prototype stops them. Writes journeys.yaml (who, sets out to do, steps, ends with) with every captured view placed on a journey or named as not walked, with why; the step pictures and text are kept as evidence. Never changes data on a deployed site the person has not cleared. Used by /discover-intent before it drafts intents from a prototype (C15).
 user-invocable: false
 model: sonnet
 effort: medium
@@ -10,7 +10,7 @@ allowed-tools: Read, Write, Bash, Glob
 # walk-prototype
 
 A screen shows what a prototype has. A journey shows what it is *for*: who comes to it, what
-they set out to do, and what they get. `/intent` drafts business intents from that — so a
+they set out to do, and what they get. `/discover-intent` drafts business intents from that — so a
 business intent says what a person gets, not what the screens hold or what rules they enforce.
 
 ## Input

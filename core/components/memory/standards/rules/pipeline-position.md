@@ -1,22 +1,22 @@
 # Pipeline Position
 
 Single source of truth for how a play declares where it sits in the delivery pipeline and
-what start/end machinery play-creator folds into it. This is the D2 auto-build rule (#434):
-the composition lives here once, so every play play-creator compiles wires the same
+what start/end machinery create-play folds into it. This is the D2 auto-build rule (#434):
+the composition lives here once, so every play create-play compiles wires the same
 start-change opening and the same commit → propose → review → merge closing — instead of
 each play re-deciding how a change is opened and landed.
 
 It governs only the **delivery pipeline** (the path that opens an issue, does the work, and
 lands it on main). Every play declares where it sits; many model-building plays now open and
-land their own change. As compiled today: `both` — /vision, /understand (#616), /measure,
-/grill, /learn, /fix-bug, /refactor, /intent (#612), /adr (#632); `start` — /arch, /ux, /implement; `end` — /roadmap,
-/marketing, /run, /launch; `none` — /shape, /agentic, /quality, /validate, /deploy, /next,
-/focus. (A `none` play runs on whatever branch is already started — /shape and /roadmap's
-reliance on /vision's old shared branch is a known follow-up from #616.) Inside a loop the
+land their own change. As compiled today: `both` — /discover-domains, /discover-capabilities (#616), /shape-measure-lens,
+/shape-features, /learn-outcomes, /fix-bug, /refactor-code, /discover-intent (#612), /record-decision (#632); `start` — /shape-architecture-lens, /shape-ux-lens, /build-feature; `end` — /shape-roadmap,
+/shape-marketing-lens, /shape-run-lens, /release-feature; `none` — /shape-scope, /shape-agentic-lens, /shape-quality-lens, /validate-feature, /release-increment, /next,
+/list-focus-issues. (A `none` play runs on whatever branch is already started — /shape-scope and /shape-roadmap's
+reliance on /discover-domains's old shared branch is a known follow-up from #616.) Inside a loop the
 opening and the end sequence are both skipped — the loop opens and lands the change — and a
 play knows it is inside a loop from the loop's contract (`standards/rules/loop-contract.md`;
-ADR 029, ADR 030 P4). Wired so far: /intent (#612, its own contract check), and /vision (#614) and
-/understand (#615), both with the shared `check_loop_contract.py`.
+ADR 029, ADR 030 P4). Wired so far: /discover-intent (#612, its own contract check), and /discover-domains (#614) and
+/discover-capabilities (#615), both with the shared `check_loop_contract.py`.
 
 ## The declaration
 
@@ -28,11 +28,11 @@ position: start | end | both | none
 
 - **none** (default) — standalone play; nothing is injected. Strategic/model-building
   plays and one-off utilities use this.
-- **start** — the play opens a pipeline. play-creator injects **start-change** as the
+- **start** — the play opens a pipeline. create-play injects **start-change** as the
   play's first step (resolve/create the issue, cut the branch off fresh main, optional
   worktree, init STM).
-- **end** — the play closes a pipeline. play-creator injects the **end sequence** as the
-  play's closing steps, in order: **commit-change → propose-change → review-change →
+- **end** — the play closes a pipeline. create-play injects the **end sequence** as the
+  play's closing steps, in order: **commit-change → propose-change → check-change →
   merge-change**, placed after the play's own work and before the Standard Play Close.
 - **both** — the play is self-contained: start-change is injected at the front and the end
   sequence at the back, bracketing the play's own work. This is the "start, do everything,
@@ -47,15 +47,15 @@ between the injected start and end; the work is not a declared position.
 | Sequence | Member plays (in order) | Injected when position is |
 |----------|-------------------------|---------------------------|
 | start | `start-change` | `start` or `both` |
-| end | `commit-change` → `propose-change` → `review-change` → `merge-change` | `end` or `both` |
+| end | `commit-change` → `propose-change` → `check-change` → `merge-change` | `end` or `both` |
 
 These six plays are the **members** — the building blocks. A member play declares the
 `position` of the sequence it belongs to (`start-change: start`; the four end plays: `end`)
-so play-creator knows the sequence composition. **A member is never injected into itself**:
-play-creator recognizes the members by name and injects no sequence into one of them.
+so create-play knows the sequence composition. **A member is never injected into itself**:
+create-play recognizes the members by name and injects no sequence into one of them.
 Everything else with a non-`none` position is a **consumer** that receives injection.
 
-## How play-creator injects it (explicit, named)
+## How create-play injects it (explicit, named)
 
 Injection is explicit, not a hidden macro. The injected pieces appear as named sub-play
 steps in the compiled play, wired as JSON-contract handoffs over files on disk (the same
@@ -67,27 +67,27 @@ discipline as any other step) and run as sub-plays — each is dispatched with
   work step. The play's Task DAG gains that step at the head; everything else `blockedBy`
   it.
 - **end** → append four closing steps that run `commit-change`, then `propose-change`, then
-  `review-change`, then `merge-change`, each `blockedBy` the previous, after the play's last
-  work step and before the Evidence & Close step. review-change's verdict gates
+  `check-change`, then `merge-change`, each `blockedBy` the previous, after the play's last
+  work step and before the Evidence & Close step. check-change's verdict gates
   merge-change (a reject stops the sequence; the config `review-pr.bypass` governs whether
   it hard-blocks).
 - **both** → both of the above, bracketing the work.
 
 The compiled play shows each injected piece by name in its Workflow and Task DAG — a reader
-sees exactly what runs and a partial/resumed run is followable. play-creator does NOT
+sees exactly what runs and a partial/resumed run is followable. create-play does NOT
 collapse the end sequence into one opaque "close the change" step.
 
 ## Relationship to start-change / the end plays
 
 This rule defines the *composition*; the member plays define the *behavior*. They converge:
-play-creator injects calls to the member plays — it never re-implements their steps inline.
+create-play injects calls to the member plays — it never re-implements their steps inline.
 A consumer play that hand-rolls its own issue/branch/PR/merge steps instead of declaring a
 position and receiving the injection is a violation (it duplicates and drifts from the
 members).
 
 ## Enforced
 
-Two layers — what the linter checks mechanically, and what play-creator enforces at
+Two layers — what the linter checks mechanically, and what create-play enforces at
 compile.
 
 **Linter (`scripts/lint_play.py`, per-compile, mechanical):**
@@ -95,8 +95,8 @@ compile.
   Missing or invalid ⇒ lint failure. (`position` is required on compiled
   delivery/consumer plays; strategic, model-building, and meta plays are `none`.)
 
-**play-creator (compile time):**
-- For a **consumer** play (position not `none`, name not a member): play-creator injects
+**create-play (compile time):**
+- For a **consumer** play (position not `none`, name not a member): create-play injects
   the member calls for the declared position in the required place — `start-change` at the
   head of the Task DAG; the end sequence as the ordered closing steps before the Standard
   Play Close (step 4b).
@@ -108,13 +108,13 @@ compile.
 A mechanical lint check that a consumer's compiled output *contains* the injected sequence
 in order lands with the **first consumer play (Phase E)** — the five plays here are all
 members, so no consumer exists yet to check. Until then, injection correctness is enforced
-by play-creator at compile, not re-verified by the linter.
+by create-play at compile, not re-verified by the linter.
 
 ## Related
 
 - `_shared/play-close.md` (beside the plays) — the Standard Play Close the end sequence is appended before; sub-play
   (`parent_run_id`) evidence convention
 - `evidence-recording.md` — D1; the injected sub-plays record evidence the play-only way
-- `start-change`, `commit-change`, `propose-change`, `review-change`, `merge-change` — the
+- `start-change`, `commit-change`, `propose-change`, `check-change`, `merge-change` — the
   member plays this rule composes
 - `loop-contract.md` — inside a loop the injected opening and end sequence are skipped

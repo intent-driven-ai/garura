@@ -12,7 +12,7 @@ provenance: "seeded (assistant, #434 — accepted)"
 
 ## Topic
 The primary navigation pattern — how users move between the main areas of the product. A
-`/ux` pattern choice driven by what kind of product it is.
+`/shape-ux-lens` pattern choice driven by what kind of product it is.
 
 ## Conditions
 Any web surface with more than a couple of destinations.

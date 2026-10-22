@@ -13,7 +13,7 @@ provenance: "documented (stated POV, #434) + assistant"
 
 ## Topic
 How a UI handles different screen sizes — the responsive-vs-adaptive choice. This is a
-`/ux` pattern choice, not a per-screen detail.
+`/shape-ux-lens` pattern choice, not a per-screen detail.
 
 ## Conditions
 Any web surface that must work across device sizes.

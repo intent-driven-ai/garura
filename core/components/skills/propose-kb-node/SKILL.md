@@ -1,6 +1,6 @@
 ---
 name: propose-kb-node
-description: The nothing-fits path for search-kb. When search-kb returns unmatched (a piece of work has no home in the knowledge base), research the gap, draft a properly-shaped node at the right level (new domain, capability, or functionality) following the shelf template and functionality baseline, and emit a proposal for human review. NEVER writes to memory — its agent raises the proposal as a memory update a person approves (ADR 036, ADR 039). Use when search-kb reports unmatched, or when a play hits work the model does not yet cover.
+description: The nothing-fits path for find-work-placement. When find-work-placement returns unmatched (a piece of work has no home in the knowledge base), research the gap, draft a properly-shaped node at the right level (new domain, capability, or functionality) following the shelf template and functionality baseline, and emit a proposal for human review. NEVER writes to memory — its agent raises the proposal as a memory update a person approves (ADR 036, ADR 039). Use when find-work-placement reports unmatched, or when a play hits work the model does not yet cover.
 version: 0.1.0
 user-invocable: false
 model: sonnet
@@ -9,7 +9,7 @@ allowed-tools: Bash, Read, WebSearch, WebFetch
 
 # propose-kb-node
 
-The escalation behind `search-kb`. Runs when routing comes back **unmatched** — the
+The escalation behind `find-work-placement`. Runs when routing comes back **unmatched** — the
 work has no home in the KB. It proposes a new node for the user to review. It does
 **not** change the KB.
 
@@ -19,7 +19,7 @@ work has no home in the KB. It proposes a new node for the user to review. It do
 - `domains_dir` — the domain shelves, copied into short-term memory by the agent through the
   memory tool. Read only these copies — never memory itself (ADR 039).
 - `out_proposal` — where to write the proposal.
-- (optional) the weak hints `search-kb` returned (nearest domains/capabilities).
+- (optional) the weak hints `find-work-placement` returned (nearest domains/capabilities).
 
 ## Procedure
 

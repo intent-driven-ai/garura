@@ -54,7 +54,7 @@ signal chain (git log → glob match → BM25) is mechanical and reproducible.
   artifact) → declared preference outranks computed history; keep history as
   the fallback signal.
 - The stack-affinity rule needs the architecture lens parsed per slice →
-  teach `rank-recommendations` to read `lens/architecture.yaml` stack blocks;
+  teach `rank-actions` to read `lens/architecture.yaml` stack blocks;
   keep the matching lexical.
 
 ## Provenance

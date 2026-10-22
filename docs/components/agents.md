@@ -59,35 +59,35 @@ Garura avoids both extremes:
 
 | Agent | Domain | Role | Model | Description |
 |-------|--------|------|-------|-------------|
-| `adr-keeper` | adr | keeper | opus | Gathers the context a decision record needs — what it supersedes or amends, what it affects, its ICE impact, its business-intent check — has `author-adr` draft it from the one ADR template, and checks it; never accepts an ADR or edits an older one — used by `/adr` and plays that record product decisions |
-| `business-intent-keeper` | business-intent | keeper | opus | Drafts both levels a source holds — the person's Business Intents and, under each, the ICE goals the source shows — through `author-business-intent`, and checks the draft: nothing merged or left out, every ICE under an intent; never confirms an intent, never writes the model — used by `/intent` |
+| `adr-keeper` | adr | keeper | opus | Gathers the context a decision record needs — what it supersedes or amends, what it affects, its ICE impact, its business-intent check — has `author-decision` draft it from the one ADR template, and checks it; never accepts an ADR or edits an older one — used by `/record-decision` and plays that record product decisions |
+| `business-intent-keeper` | business-intent | keeper | opus | Drafts both levels a source holds — the person's Business Intents and, under each, the ICE goals the source shows — through `author-business-intent`, and checks the draft: nothing merged or left out, every ICE under an intent; never confirms an intent, never writes the model — used by `/discover-intent` |
 | `change-reviewer` | review | reviewer | sonnet | Categorizes a PR diff agentically and design-grounds the design-bearing categories against committed/external sources — the branch under review is never its own standard |
 | `code-builder` | implementation | builder | sonnet | Executes structured execution plans for software implementation — requires a formal plan as input. ONLY for source code files. |
-| `loop-checker` | loop-check | checker | sonnet | Checks a finished loop's result from outside it: reads only the bundle the loop built, never its reasoning, and gives a pass or reject verdict with evidence for every criterion via `judge-loop-result`; the loop dispatches it on a model that is not the session's — used by the Shared Loop Run's checker step |
-| `env-operator` | environments | operator | sonnet | Owns live environments for the delivery pipeline — local for `/launch`, cloud for `/deploy` — proves reachability, captures deploy records, tears down on request |
+| `result-checker` | loop-check | checker | sonnet | Checks a finished loop's result from outside it: reads only the bundle the loop built, never its reasoning, and gives a pass or reject verdict with evidence for every criterion via `judge-loop-result`; the loop dispatches it on a model that is not the session's — used by the Shared Loop Run's checker step |
+| `environment-operator` | environments | operator | sonnet | Owns live environments for the delivery pipeline — local for `/release-feature`, cloud for `/release-increment` — proves reachability, captures deploy records, tears down on request |
 | `epic-expectation-crafter` | expectation | epic-crafter | opus | Generates the Expectations block (success_scenario + recovery) for product-layer intent epics via `draft-epic-expectation` |
-| `evals-engineer` | evaluation | engineer | sonnet | Engineers verification evals from specifications, compartmentalized from the implementer — steelman refutation evals for `/implement`, legacy encrypted flows via `generate-encrypted-evals` |
+| `evals-engineer` | evaluation | engineer | sonnet | Engineers verification evals from specifications, compartmentalized from the implementer — steelman refutation evals for `/build-feature`, legacy encrypted flows via `author-encrypted-evals` |
 | `feature-steward` | feature-spec | steward | opus | Autonomous owner of feature specification (features.yaml), implementation-design cross-validation, and manual test scenario generation |
 | `intent-resolver` | intent | resolver | sonnet | Reads a play's intent, Expectation artifact, workflow template, and available agents to produce a JSON task DAG for play execution |
 | `market-analyst` | market-research | analyst | sonnet | Market intelligence — produces a quantified market brief with TAM/SAM/SOM, competitive landscape, and market gaps |
-| `knowledge-builder` | knowledge | builder | sonnet | Builds the knowledge a loop round found missing, for its three knowledge plays: answers open questions from the loop's sources (quoted) and memory through the memory tool (traced); closes the rest as a knowledge page raised through the memory tool, our proposed answer with its basis and context, a prototype note, or settled; writes the brief the person reads — through `answer-from-source`, `draft-knowledge-page`, `propose-answers`, `write-knowledge-brief`; never decides or promotes an update — used by `/search-knowledge`, `/build-knowledge`, `/review-knowledge` |
+| `knowledge-builder` | knowledge | builder | sonnet | Builds the knowledge a loop round found missing, for its three knowledge plays: answers open questions from the loop's sources (quoted) and memory through the memory tool (traced); closes the rest as a knowledge page raised through the memory tool, our proposed answer with its basis and context, a prototype note, or settled; writes the brief the person reads — through `find-answers-in-sources`, `author-knowledge-page`, `propose-answers`, `author-knowledge-brief`; never decides or promotes an update — used by `/search-knowledge`, `/research-knowledge`, `/check-knowledge` |
 | `product-keeper` | product-capability | keeper | opus | KB-driven capability configuration, intent epic generation, and aggregated quality profile derivation |
-| `product-os-keeper` | product-os | keeper | opus | Autonomous owner of the ProductOS model (Domain → Capability → Functionality, ICE, profile, decisions) — used by the strategic plays, the lens plays, and `/grill` |
+| `product-os-keeper` | product-os | keeper | opus | Autonomous owner of the ProductOS model (Domain → Capability → Functionality, ICE, profile, decisions) — used by the strategic plays, the lens plays, and `/shape-features` |
 | `project-orchestrator` | project | orchestrator | sonnet | Autonomous decision-maker for project management operations (issues, tracking, planning) |
-| `prototype-reader` | prototype | walker | sonnet | Walks a prototype the way the people it serves would, in journeys (who, what they set out to do, each step and what it showed), through one kept-open browser per journey, via `walk-prototype`; medium effort — used by `/intent` |
+| `prototype-reader` | prototype | walker | sonnet | Walks a prototype the way the people it serves would, in journeys (who, what they set out to do, each step and what it showed), through one kept-open browser per journey, via `walk-prototype`; medium effort — used by `/discover-intent` |
 | `quality-auditor` | quality | auditor | sonnet | Independently verifies code quality standards (linting, unit tests, type checking, build, quality gates) — context-isolated from evals and builder output |
 | `repo-orchestrator` | repo | orchestrator | sonnet | Autonomous decision-maker for repository operations (commits, branches, PRs, git state) |
 | `scriber` | infra | evidence-writer | haiku | DEPRECATED (#434) — evidence/checkpoint/status writer, superseded by the command model; retained for reference, not installed |
 | `tech-architect` | architecture | architect | opus | Deep codebase architecture analysis, pattern recognition, LLD production, dependency graphs, and implementation planning |
 | `tech-designer` | design | designer | sonnet | Technical analysis, RCA, and solution design for features and bugs |
-| `test-engineer` | testing | engineer | opus | Authors `/implement`'s test pieces spec-separated; test surface analysis, blast radius computation, verification scenario authoring |
+| `test-engineer` | testing | engineer | opus | Authors `/build-feature`'s test pieces spec-separated; test surface analysis, blast radius computation, verification scenario authoring |
 | `test-runner` | test-execution | runner | opus | Context-isolated test executor — runs tests and reports pass/fail with stderr capture; never interprets failures |
 
 ### Scriber dispatch pattern (Utility agent, 214.1)
 
 **Status (#434):** `scriber` is deprecated — superseded by the ProductOS command model. Its definition is retained for reference (marked `deprecated: true`) and is not installed. The pattern below describes how it worked.
 
-`scriber` is a utility agent — it performs no domain reasoning and owns no decisions about content. Plays dispatch it via the Agent tool with `run_in_background: true` for every write that lands in the `.garura/` folder whitelist (evidence, checkpoint, status artifacts). The scriber invokes the `write-evidence` skill, which is the single chokepoint that validates paths against the 9 whitelist patterns before calling `Write`.
+`scriber` is a utility agent — it performs no domain reasoning and owns no decisions about content. Plays dispatch it via the Agent tool with `run_in_background: true` for every write that lands in the `.garura/` folder whitelist (evidence, checkpoint, status artifacts). The scriber invokes the `author-evidence` skill, which is the single chokepoint that validates paths against the 9 whitelist patterns before calling `Write`.
 
 **When to dispatch scriber instead of writing inline:**
 
@@ -178,24 +178,24 @@ Each agent owns a set of skills. Agents invoke skills via the **Skill tool** pro
 
 | Skill | Purpose |
 |-------|---------|
-| `draft-product-spec` | Create `features.yaml` defining product behaviors, invariants, scope boundaries, and acceptance criteria (implementation-agnostic) |
-| `draft-verification-scenarios` | Create verification scenarios with pass/fail criteria and automation classification |
-| `validate-implementation-design` | Cross-validate design artifacts for coverage, compartmentalization, audience separation |
+| `author-product-spec` | Create `features.yaml` defining product behaviors, invariants, scope boundaries, and acceptance criteria (implementation-agnostic) |
+| `author-verification-scenarios` | Create verification scenarios with pass/fail criteria and automation classification |
+| `check-implementation-design` | Cross-validate design artifacts for coverage, compartmentalization, audience separation |
 
 ### tech-designer Skill Pool
 
 | Skill | Purpose |
 |-------|---------|
-| `draft-technical-approach` | Draft technical approach document from features specification |
-| `draft-lld` | Draft low-level design from features + technical approach |
+| `author-technical-approach` | Draft technical approach document from features specification |
+| `author-lld` | Draft low-level design from features + technical approach |
 | `research-domain-context` | Research vertical domain knowledge via web when LTM is insufficient |
-| `draft-implementation-plan` | Produce execution plan with scope items, file paths, and exit gates |
-| `refine-quality-profile` | Refine the quality profile against architectural reality, with a delta_log per adjustment |
-| `draft-rca` | fix-bug — trace symptom to specific root cause; writes rca.yaml (+ resolution-trace.yaml when `ltm_context` is provided) |
-| `draft-fix-design` | fix-bug — design the fix with at least one alternative considered; writes design.yaml |
+| `author-implementation-plan` | Produce execution plan with scope items, file paths, and exit gates |
+| `enrich-quality-profile` | Refine the quality profile against architectural reality, with a delta_log per adjustment |
+| `author-rca` | fix-bug — trace symptom to specific root cause; writes rca.yaml (+ resolution-trace.yaml when `ltm_context` is provided) |
+| `author-fix-design` | fix-bug — design the fix with at least one alternative considered; writes design.yaml |
 | `author-regression-test` | fix-bug — author a failing YAML eval-spec regression test, verified red before returning |
 | `author-build-plan` | implement — break one ready epic into the test-first build plan (stories/tasks/tests/docs as a grounded DAG) |
-| `detect-test-harness` | implement — capture the project's runnable test/lint/build commands for the harness file |
+| `scan-test-harness` | implement — capture the project's runnable test/lint/build commands for the harness file |
 
 If no matching skill exists for an artifact the agent is asked to produce, it returns a structured failure requesting skill creation — it never authors artifacts inline.
 
@@ -207,27 +207,27 @@ code-builder has no skills — it implements code directly using its tools (Bash
 
 | Skill | Purpose |
 |-------|---------|
-| `analyze-changes` | Analyze uncommitted changes, detect risks, suggest groupings |
-| `create-commit` | Stage files and create conventional commit |
-| `analyze-pr` | Analyze branch for PR readiness, generate quality checklist |
-| `submit-pr` | Push branch and create pull request with checklist |
-| `setup-branch` | Create branch, push to origin, optionally use worktree |
+| `assess-changes` | Analyze uncommitted changes, detect risks, suggest groupings |
+| `commit-files` | Stage files and create conventional commit |
+| `assess-pr` | Analyze branch for PR readiness, generate quality checklist |
+| `open-pr` | Push branch and create pull request with checklist |
+| `cut-branch` | Create branch, push to origin, optionally use worktree |
 | `merge-pr` | Merge PR, switch to base branch, pull latest, delete feature branch |
 
 ### project-orchestrator Skill Pool
 
 | Skill | Purpose |
 |-------|---------|
-| `manage-issue` | Read, create, close, resolve, or list GitHub issues with optional sub-issue attachment |
-| `resolve-issues` | Map change groups to existing open issues with confidence scoring |
-| `manage-plan` | Create, update, or check an issue's work plan (`{stm_base}{issue}/specs/plan.md`, ADR 030), after the agent gathers the plan context |
+| `track-issue` | Read, create, close, resolve, or list GitHub issues with optional sub-issue attachment |
+| `find-matching-issues` | Map change groups to existing open issues with confidence scoring |
+| `author-plan-file` | Create, update, or check an issue's work plan (`{stm_base}{issue}/specs/plan.md`, ADR 030), after the agent gathers the plan context |
 
 ### evals-engineer Skill Pool
 
 | Skill | Purpose |
 |-------|---------|
 | `author-steelman-evals` | implement — author steelman refutation evals from spec-side inputs; no encryption, isolation by sub-agent |
-| `generate-encrypted-evals` | Legacy flow — generate YAML evals from configured spec sources, encrypt with AES-256-CBC+PBKDF2, delete plaintext, write manifest.json |
+| `author-encrypted-evals` | Legacy flow — generate YAML evals from configured spec sources, encrypt with AES-256-CBC+PBKDF2, delete plaintext, write manifest.json |
 
 ### intent-resolver Skill Pool
 
@@ -244,9 +244,9 @@ intent-resolver has no skill pool — it reads the play's intent (clean triple),
 
 | Skill | Purpose |
 |-------|---------|
-| `configure-capabilities` | Load the capability catalog, walk cross-tree constraints, produce scope.yaml with selected/rejected capabilities and constraint trace |
+| `derive-capability-selection` | Load the capability catalog, walk cross-tree constraints, produce scope.yaml with selected/rejected capabilities and constraint trace |
 | `enrich-capabilities` | Merge profile-specific overrides onto KB values per selected capability; produce enriched-capabilities.yaml |
-| `manage-features` | Author features.yaml (3-tier domain → capability → feature with 5-point status vocabulary) |
+| `author-feature-catalog` | Author features.yaml (3-tier domain → capability → feature with 5-point status vocabulary) |
 | `generate-intent-epics` | Instantiate the intent-epic template per enriched capability; one epic file per capability |
 | `validate-intent-epics` | Blocking validator against the intent-epic schema (four-section ICE shape) |
 | `derive-quality-profile-from-epics` | Aggregate epic constraints into ISO 25010 buckets; produce quality-profile.yaml |
@@ -257,48 +257,48 @@ intent-resolver has no skill pool — it reads the play's intent (clean triple),
 
 | Skill | Purpose |
 |-------|---------|
-| `search-kb` | Route a piece of work to its place in the KB tree (domain → capability → functionality) |
+| `find-work-placement` | Route a piece of work to its place in the KB tree (domain → capability → functionality) |
 | `propose-kb-node` | The nothing-fits path — research the gap and draft a new KB node as a proposal for human review |
-| `kb-search` | Search the empirical KB shelves for condition-matched learnings — the grounding engine for KB-grounded lenses |
-| `author-vision-seed` | Draft the `/vision` seed — domain node, candidate capabilities, goals-only ICE, directional profile |
-| `enrich-capability-ice` | `/understand` — deepen one capability's seed ICE into a rich ICE grounded in its KB shelf |
-| `author-shape-bundle` | `/shape` — draft one domain's selection bundle (capabilities, functionalities, ICE, personas, decisions) |
-| `author-roadmap` | `/roadmap` — draft the slice plan (effort, dependencies, value order) |
+| `find-architecture-learnings` | Search the empirical KB shelves for condition-matched learnings — the grounding engine for KB-grounded lenses |
+| `author-domains` | Draft the `/discover-domains` seed — domain node, candidate capabilities, goals-only ICE, directional profile |
+| `enrich-capability-ice` | `/discover-capabilities` — deepen one capability's seed ICE into a rich ICE grounded in its KB shelf |
+| `author-scope` | `/shape-scope` — draft one domain's selection bundle (capabilities, functionalities, ICE, personas, decisions) |
+| `author-roadmap` | `/shape-roadmap` — draft the slice plan (effort, dependencies, value order) |
 | `author-quality-lens` / `author-ux-lens` / `author-agentic-lens` / `author-architecture-lens` / `author-run-lens` / `author-measure-lens` / `author-marketing-lens` | Draft the per-slice lens grounding docs for the lens plays |
-| `author-epics` | `/grill` — draft the epic cut for one realized slice |
-| `check-cut-tensions` | `/grill` — per-round tension check of the drafted cut against everything the slice declared |
-| `author-hitl-scenarios` | `/launch` — build HITL testing scenarios for one validated epic |
-| `rank-recommendations` | `/next` — rank the candidate set into one next-best-action plus a ranked list |
+| `author-features` | `/shape-features` — draft the epic cut for one realized slice |
+| `check-cut-tensions` | `/shape-features` — per-round tension check of the drafted cut against everything the slice declared |
+| `author-acceptance-scenarios` | `/release-feature` — build HITL testing scenarios for one validated epic |
+| `rank-actions` | `/next` — rank the candidate set into one next-best-action plus a ranked list |
 
 ### adr-keeper Skill Pool
 
 | Skill | Purpose |
 |-------|---------|
-| `author-adr` | Draft a decision record (ADR) from `standards/templates/adr.md` — Markdown for Garura's ADRs, `decision.yaml` for product decisions — always proposed; its `scripts/adr.py` numbers, lints, indexes, finds overlaps, writes forward pointers, accepts on a person's word, and guards business intents |
+| `author-decision` | Draft a decision record (ADR) from `standards/templates/adr.md` — Markdown for Garura's ADRs, `decision.yaml` for product decisions — always proposed; its `scripts/adr.py` numbers, lints, indexes, finds overlaps, writes forward pointers, accepts on a person's word, and guards business intents |
 
 ### business-intent-keeper Skill Pool
 
 | Skill | Purpose |
 |-------|---------|
-| `author-business-intent` | `/intent` — draft the business intents and, under each, one ICE per separate thing the Sources show, with provenance, a coverage map, and questions with example answers |
+| `author-business-intent` | `/discover-intent` — draft the business intents and, under each, one ICE per separate thing the Sources show, with provenance, a coverage map, and questions with example answers |
 
 ### quality-auditor Skill Pool
 
 | Skill | Purpose |
 |-------|---------|
-| `plan-validation-checks` | Produce the check manifest (checks.yaml) — stacks detected, tooling resolved, gates and benchmarks mapped |
+| `author-validation-checks` | Produce the check manifest (checks.yaml) — stacks detected, tooling resolved, gates and benchmarks mapped |
 | `judge-validation-results` | Compose findings.yaml only from captured results, every finding citing captured output with a location |
 
 ### change-reviewer Skill Pool
 
 change-reviewer has no skill pool — it categorizes the diff and design-grounds findings directly using its tools (Bash, Read, Grep, Glob).
 
-### env-operator Skill Pool
+### environment-operator Skill Pool
 
 | Skill | Purpose |
 |-------|---------|
-| `stand-up-launch-env` | Bring up the live LOCAL environment for `/launch` with its deploy record; teardown after sign-off or abort |
-| `deploy-to-cloud-env` | Deploy the increment to a CLOUD environment for `/deploy` with deploy record and health proof |
+| `deploy-local-environment` | Bring up the live LOCAL environment for `/release-feature` with its deploy record; teardown after sign-off or abort |
+| `deploy-cloud-environment` | Deploy the increment to a CLOUD environment for `/release-increment` with deploy record and health proof |
 
 ### epic-expectation-crafter Skill Pool
 
@@ -310,7 +310,7 @@ change-reviewer has no skill pool — it categorizes the diff and design-grounds
 
 | Skill | Purpose |
 |-------|---------|
-| `run-generated-tests-isolated` | Run the given test files against the codebase in isolation; write test-run-report.yaml with per-test pass/fail and stderr |
+| `check-generated-tests` | Run the given test files against the codebase in isolation; write test-run-report.yaml with per-test pass/fail and stderr |
 
 ### tech-architect Skill Pool
 
@@ -321,12 +321,12 @@ change-reviewer has no skill pool — it categorizes the diff and design-grounds
 | `derive-logical-architecture` | arch Stage 3 — layered tech-agnostic structure with cycle detection and capability traceability |
 | `derive-physical-architecture` | arch Stage 4 — runtime shape with deployment targets, comms, and per-QP-characteristic `nfr_delivery[]` |
 | `derive-tech-stack` | arch Stage 5 — per-box picks of languages/runtimes/frameworks/libraries/tools/patterns |
-| `validate-architecture-spec` | arch post-generation — single 22-check pass across all arch artifacts and decision manifests |
+| `check-architecture-spec` | arch post-generation — single 22-check pass across all arch artifacts and decision manifests |
 | `infer-architecture` | brownfield — scan codebase, produce architecture-inference.yaml |
-| `build-dependency-graph` | any stage — enumerate import/call edges, detect cycles and hubs; writes dependency-graph.yaml + .md |
-| `draft-tech-spec` | Author tech.yaml with concrete library picks, build tooling, test frameworks |
-| `draft-implementation-plan` | Author plan.yaml (execution order, scope items, exit gates) |
-| `draft-reference-algorithms` | Language-agnostic pseudocode for qualifying internal interfaces from tech.yaml |
+| `scan-dependencies` | any stage — enumerate import/call edges, detect cycles and hubs; writes dependency-graph.yaml + .md |
+| `author-tech-spec` | Author tech.yaml with concrete library picks, build tooling, test frameworks |
+| `author-implementation-plan` | Author plan.yaml (execution order, scope items, exit gates) |
+| `author-reference-algorithms` | Language-agnostic pseudocode for qualifying internal interfaces from tech.yaml |
 | `infer-*-from-code` family | Brownfield inference — propose logical/physical architecture, NFR spec, and quality vision from a codebase scan |
 
 If no matching skill exists for an artifact the agent is asked to produce, it returns a structured failure requesting skill creation — it never authors artifacts inline.
@@ -335,10 +335,10 @@ If no matching skill exists for an artifact the agent is asked to produce, it re
 
 | Skill | Purpose |
 |-------|---------|
-| `map-test-surface` | Phase 1B — inventory existing tests; writes test-surface.yaml |
-| `compute-blast-radius` | Phase 2B — given change surface + dependency graph, compute affected and at-risk tests; writes blast-radius.yaml |
-| `specify-baseline-tests` | Phase 2C — specify tests for coverage gaps that capture CURRENT behavior; writes baseline-tests.yaml |
-| `draft-verification-scenarios` | Phase 3 — author three-tier scenarios (baseline, new, regression); writes scenarios.yaml |
+| `scan-test-surface` | Phase 1B — inventory existing tests; writes test-surface.yaml |
+| `derive-blast-radius` | Phase 2B — given change surface + dependency graph, compute affected and at-risk tests; writes blast-radius.yaml |
+| `author-baseline-tests` | Phase 2C — specify tests for coverage gaps that capture CURRENT behavior; writes baseline-tests.yaml |
+| `author-verification-scenarios` | Phase 3 — author three-tier scenarios (baseline, new, regression); writes scenarios.yaml |
 
 ## Agent Definition Structure
 

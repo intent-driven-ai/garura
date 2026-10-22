@@ -8,7 +8,7 @@ This is a **shared block** (ADR 039 §9): it lives once, here, beside the plays
 `_shared/play-close.md` next to the installed plays). A play does not carry this text. Its
 close section holds only the two anchor lines, its own values (where its evidence goes, its
 session stamp marker, its stop-condition paths) and any close step of its own, and points
-here. `/play-creator` emits exactly that, so a direct edit and a rebuild converge.
+here. `/create-play` emits exactly that, so a direct edit and a rebuild converge.
 
 ## Why this is a non-intent change
 
@@ -143,11 +143,11 @@ agents or skills) lives in `standards/rules/evidence-recording.md`.
 
 **Stop-condition gate (#464).** A play ends because "done" was proven, not because its step
 list ran out. `scripts/check_stop_condition.py` (canonical copy:
-`play-creator/references/check_stop_condition.py`) evaluates the baked manifest as pure disk
+`create-play/references/check_stop_condition.py`) evaluates the baked manifest as pure disk
 assertions. Held permits COMPLETED; unmet or error closes HALTED.
 
 **Session identity stamp (#463).** `scripts/session_stamp.py` (canonical copy:
-`play-creator/references/session_stamp.py`) binds the run to its session ledger: the start
+`create-play/references/session_stamp.py`) binds the run to its session ledger: the start
 phase runs at pre-flight, the close phase reads the marker. Soft-fail: an unresolved ledger
 gives null fields, never a blocked close.
 
@@ -174,7 +174,7 @@ still closes; the failure is recorded in the evidence file's Recovery Attempts s
 
 ## Enforced
 
-`lint-components` checks every compiled play's SKILL.md for the close's two anchor lines,
+`check-components` checks every compiled play's SKILL.md for the close's two anchor lines,
 each exactly once, opener before closer, and that the shared file exists:
 
 - opener: `# --- Standard Play Close (shared; see ../_shared/play-close.md) ---`

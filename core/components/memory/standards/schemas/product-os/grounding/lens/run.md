@@ -6,14 +6,14 @@
 > `_content-standard.md`.
 >
 > **Two artifacts, one lens (#434).** This `run.md` is the NARRATIVE — the *why* behind the
-> operational choices, for a human to read. Beside it, `/run` also writes the structured
+> operational choices, for a human to read. Beside it, `/shape-run-lens` also writes the structured
 > `lens/run.yaml` (per `standards/schemas/product-os/lens/run.yaml`) — the MACHINE-READABLE
-> facts the delivery plays execute against (`/launch` reads the local environment; `/deploy`
+> facts the delivery plays execute against (`/release-feature` reads the local environment; `/release-increment`
 > reads a cloud environment). The narrative explains the choices; the yaml carries the exact
 > providers, regions, firewalls, secrets bindings, and deploy commands. Keep the two in step.
 >
 > **Environments are built one at a time (#434).** The slice-level design (rollout, migrations,
-> CI/CD) is written once; each environment is added or edited by re-running `/run` for that one
+> CI/CD) is written once; each environment is added or edited by re-running `/shape-run-lens` for that one
 > environment. The narrative below grows an entry per environment as they are built.
 
 ## Heading contract (required, in order)
@@ -31,11 +31,11 @@
 
 - **Environments** — one entry per environment defined so far, in tier order (local, then dev,
   then higher). For each: what it is for and why it is shaped this way. A **local** environment
-  is the lightweight bring-up `/launch` uses for human testing. A **cloud** environment carries
+  is the lightweight bring-up `/release-feature` uses for human testing. A **cloud** environment carries
   real infrastructure — provider and region, the compute each component runs on, managed
   services, networking and firewalls, and security (identity, secrets, controls); the exact
   values live in `run.yaml`, the narrative explains the choices. Higher cloud tiers (qa, stage,
-  prod) are added later by re-running `/run`.
+  prod) are added later by re-running `/shape-run-lens`.
 - **Rollout** — how it goes live, and how it's rolled back if needed.
 - **Migrations** — any data or schema moves the slice requires, or "none" with the reason.
 - **Config & secrets** — the config it needs and how secrets are handled, or "none — no
@@ -50,11 +50,11 @@
 ## Environments
 Two environments defined so far, in tier order.
 
-**local (tier 0).** A developer laptop — the bring-up `/launch` uses for human testing. It runs
+**local (tier 0).** A developer laptop — the bring-up `/release-feature` uses for human testing. It runs
 the read API and the browser view against fixture files, started with one compose command. No
 cloud, no secrets; fixtures stand in for real sources.
 
-**dev (tier 1, cloud).** The first cloud environment, and `/deploy`'s default target. It runs on
+**dev (tier 1, cloud).** The first cloud environment, and `/release-increment`'s default target. It runs on
 Google Cloud (region `europe-west1`): the read API on Cloud Run, the browser view served as a
 static bundle, both behind an internal load balancer. No public ingress yet — a firewall rule
 allows the team VPN only. Identity is a least-privilege service account; the one config value

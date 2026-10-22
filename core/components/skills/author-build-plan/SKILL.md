@@ -1,6 +1,6 @@
 ---
 name: author-build-plan
-description: Draft /implement's build plan for ONE epic — the working spine of the build. Reads the epic's box (the epic record, its functionalities' ICE, the slice's six lenses, the captured repo context + test harness) and breaks the epic into PIECES — stories, tasks, tests, docs — with explicit dependency edges forming a DAG, test-first (every epic acceptance criterion covered by a test piece authored from the spec, never from the implementation). Every piece carries a grounding citation into the box (epic | ice | lens | repo) — an ungroundable piece becomes an open_question, never invented work. Writes the plan draft to STM only, never the product model. Also applies revision directives (re-plan after retry exhaustion, steelman refutations as new pieces) to an existing draft. The generative planning work for the /implement play.
+description: Draft /build-feature's build plan for ONE epic — the working spine of the build. Reads the epic's box (the epic record, its functionalities' ICE, the slice's six lenses, the captured repo context + test harness) and breaks the epic into PIECES — stories, tasks, tests, docs — with explicit dependency edges forming a DAG, test-first (every epic acceptance criterion covered by a test piece authored from the spec, never from the implementation). Every piece carries a grounding citation into the box (epic | ice | lens | repo) — an ungroundable piece becomes an open_question, never invented work. Writes the plan draft to STM only, never the product model. Also applies revision directives (re-plan after retry exhaustion, steelman refutations as new pieces) to an existing draft. The generative planning work for the /build-feature play.
 version: 0.1.0
 user-invocable: false
 model: opus
@@ -9,14 +9,14 @@ allowed-tools: Read, Write, Bash, Glob, Grep
 
 # author-build-plan
 
-Turns one **ready epic** into its **build plan** — the ordered set of pieces /implement
+Turns one **ready epic** into its **build plan** — the ordered set of pieces /build-feature
 executes. The epic is the tightest box: everything this plan may contain is what the epic
 carries or references (outcome, user_check, functionality refs → ICE, acceptance, context)
 plus the slice's six lenses and the repository as it actually exists. The plan never
 crosses those walls; where the box has no wall, the skill records an open question — only
 the human draws a new wall.
 
-This skill drafts; it never persists to the model and never publishes. /implement
+This skill drafts; it never persists to the model and never publishes. /build-feature
 validates the draft mechanically (`validate_plan.py`), publishes it to the epic's issue
 (project-orchestrator), and anchors the build to it.
 

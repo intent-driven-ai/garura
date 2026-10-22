@@ -13,7 +13,7 @@ provenance: "seeded (assistant, #434 — accepted)"
 
 ## Topic
 How forms and user input are designed — the single most error-prone, abandonment-prone
-surface in most products. A `/ux` pattern for any slice that collects input.
+surface in most products. A `/shape-ux-lens` pattern for any slice that collects input.
 
 ## Conditions
 Any surface with forms — sign-up, checkout, settings, data entry, anything the user types
