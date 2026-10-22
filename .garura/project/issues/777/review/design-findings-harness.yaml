@@ -1,0 +1,60 @@
+# check-change Step 3, Layer 2 - design grounding, category: harness (PR #780, issue 777), round 2
+# Every principle below is read from the base ref origin/plan/756/base, not from files this diff adds.
+category: harness
+round: 2
+base_ref: origin/plan/756/base
+grounded_principles:
+  - id: G1
+    principle: "Plays orchestrate, agents gather context, skills do the work; the agent definition declares the skill pool and which plays use it."
+    source: "origin/plan/756/base:docs/standards/harness-standard.md (principle 2); core/components/agents/product-os-keeper.md (Available Skills table)"
+  - id: G2
+    principle: "Mechanical work is a script, judgment is a model."
+    source: "origin/plan/756/base:docs/standards/harness-standard.md (principle 3)"
+  - id: G3
+    principle: "A part is compiled from its ICE; the compiled part records the ICE fingerprint."
+    source: "origin/plan/756/base:docs/standards/harness-standard.md (principle 4); CLAUDE.md Play Pipeline Rules"
+  - id: G4
+    principle: "pipeline-position.md is the single source of which plays sit at which position; meta plays are 'none' unless the rule lists them."
+    source: "origin/plan/756/base:core/components/memory/standards/rules/pipeline-position.md"
+  - id: G5
+    principle: "The Standard Play Close renders a Next line 'always, unless the play is meta_exempt'; meta_exempt plays need no Next line."
+    source: "origin/plan/756/base:core/components/plays/_shared/play-close.md (Step C2); core/components/memory/standards/rules/pipeline-next.md (meta_exempt)"
+  - id: G6
+    principle: "Skills are never invoked by a person: Human -> Play -> Agent -> Skill."
+    source: "origin/plan/756/base:docs/components/skills.md; harness-standard principle 2"
+round1_recheck:
+  - id: DG-1
+    status: FIXED
+    evidence: "Commit dc00dd95 adds an author-product-ontology row (used by /edit-ontology) to the product-os-keeper skill table and names /edit-ontology in its description (G1)."
+  - id: DG-3
+    status: FIXED
+    evidence: "pipeline-position.md now lists /edit-ontology (#777) in the 'both' list and carves it out of the 'meta plays are none' line (G4). The play's position_exception now agrees with the rule."
+  - id: DG-2
+    status: STILL_OPEN
+    evidence: "edit-ontology/SKILL.md Step C2 is unchanged; see finding DG-2 below."
+  - id: DG-4
+    status: ACCEPTED
+    evidence: "Play commits its own work then injects the end sequence; same shape as record-decision and discover-capabilities. No action."
+  - id: DG-5
+    status: ACCEPTED
+    evidence: "check_ontology.py is a copy of the skill's script; base-ref convention. No action."
+conformance_confirmed:
+  - "Fingerprint in SKILL.md (09e36c19...) equals sha256 of reference/ice.md on the branch (G3)."
+  - "position: both, with start-change at step 0 and E1-E4 as named sub-plays with parent_run_id before the close (G4)."
+  - "Mechanical work sits in scripts; drafting goes to product-os-keeper by JSON contract over files (G1, G2)."
+  - "author-product-ontology is user-invocable: false and its body says only the play runs it (G6)."
+  - "edit-ontology is in meta_exempt in pipeline-next.md."
+  - "lint_play.py could not be run in this review: core/components/skills/play-creator/scripts/lint_play.py does not exist in this checkout; the runnable-checks step owns that result."
+findings:
+  - id: DG-2
+    severity: P3
+    file: core/components/plays/edit-ontology/SKILL.md (Step C2)
+    principle: "G5 - a meta_exempt play gets no Next line."
+    source: "origin/plan/756/base:core/components/plays/_shared/play-close.md Step C2 ('Next (always, unless the play is meta_exempt)'); pipeline-next.md meta_exempt"
+    basis: >
+      The PR adds edit-ontology to meta_exempt, yet Step C2 still tells the run to resolve the play
+      in $next_map and render a Next line. A meta_exempt play has no entry in the map, so the step
+      cannot be followed as written, and it contradicts the shared close the play points to.
+      Carried over unchanged from round 1; commit dc00dd95 did not touch it.
+    suggestion: "Change C2 to say no Next line (edit-ontology is meta_exempt); emit only the /next pointer. This is a non-intent edit to the compiled SKILL.md."
+new_findings: []

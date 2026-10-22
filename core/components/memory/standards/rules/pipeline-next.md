@@ -91,4 +91,5 @@ meta_exempt:
   - edit-play
   - create-loop
   - edit-loop
+  - edit-ontology
 ```

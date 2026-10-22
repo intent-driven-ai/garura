@@ -1,0 +1,392 @@
+findings:
+- category: standards
+  severity: P2
+  basis: ARCH-02
+  path: core/tools/lint-components/lib/rules/structural.js
+  line: null
+  message: 'ARCH-02 on core/tools/lint-components/lib/rules/structural.js: core/tools/lint-components/lib/rules/structural.js'
+- category: standards
+  severity: P2
+  basis: CODE-03
+  path: core/tools/lint-components/lib/rules/structural.js
+  line: null
+  message: 'CODE-03 on core/tools/lint-components/lib/rules/structural.js: core/tools/lint-components/lib/rules/structural.js'
+- category: standards
+  severity: P2
+  basis: CODE-04
+  path: core/tools/lint-components/lib/rules/structural.js
+  line: null
+  message: 'CODE-04 on core/tools/lint-components/lib/rules/structural.js: core/tools/lint-components/lib/rules/structural.js'
+- category: standards
+  severity: P2
+  basis: CODE-14
+  path: core/tools/lint-components/lib/rules/structural.js
+  line: null
+  message: 'CODE-14 on core/tools/lint-components/lib/rules/structural.js: core/tools/lint-components/lib/rules/structural.js'
+- category: standards
+  severity: P2
+  basis: BE-19
+  path: core/tools/lint-components/lib/rules/structural.js
+  line: 85
+  message: 'BE-19 on core/tools/lint-components/lib/rules/structural.js: from'
+- category: standards
+  severity: P2
+  basis: ARCH-02
+  path: core/tools/lint-components/test/skill-invocable.test.js
+  line: null
+  message: 'ARCH-02 on core/tools/lint-components/test/skill-invocable.test.js: core/tools/lint-components/test/skill-invocable.test.js'
+- category: standards
+  severity: P2
+  basis: CODE-03
+  path: core/tools/lint-components/test/skill-invocable.test.js
+  line: null
+  message: 'CODE-03 on core/tools/lint-components/test/skill-invocable.test.js: core/tools/lint-components/test/skill-invocable.test.js'
+- category: standards
+  severity: P2
+  basis: CODE-04
+  path: core/tools/lint-components/test/skill-invocable.test.js
+  line: null
+  message: 'CODE-04 on core/tools/lint-components/test/skill-invocable.test.js: core/tools/lint-components/test/skill-invocable.test.js'
+- category: standards
+  severity: P2
+  basis: CODE-14
+  path: core/tools/lint-components/test/skill-invocable.test.js
+  line: null
+  message: 'CODE-14 on core/tools/lint-components/test/skill-invocable.test.js: core/tools/lint-components/test/skill-invocable.test.js'
+- category: standards
+  severity: P2
+  basis: BE-19
+  path: core/tools/lint-components/test/skill-invocable.test.js
+  line: 11
+  message: 'BE-19 on core/tools/lint-components/test/skill-invocable.test.js: join'
+- category: standards
+  severity: P2
+  basis: BE-19
+  path: core/tools/lint-components/test/skill-invocable.test.js
+  line: 12
+  message: 'BE-19 on core/tools/lint-components/test/skill-invocable.test.js: join'
+- category: standards
+  severity: P3
+  basis: ARCH-03
+  path: core/tools/lint-components/lib/rules/structural.js
+  line: null
+  message: 'ARCH-03 on core/tools/lint-components/lib/rules/structural.js: core/tools/lint-components/lib/rules/structural.js'
+- category: standards
+  severity: P3
+  basis: ARCH-08
+  path: core/tools/lint-components/lib/rules/structural.js
+  line: null
+  message: 'ARCH-08 on core/tools/lint-components/lib/rules/structural.js: core/tools/lint-components/lib/rules/structural.js'
+- category: standards
+  severity: P3
+  basis: CODE-09
+  path: core/tools/lint-components/lib/rules/structural.js
+  line: null
+  message: 'CODE-09 on core/tools/lint-components/lib/rules/structural.js: core/tools/lint-components/lib/rules/structural.js'
+- category: standards
+  severity: P3
+  basis: CODE-10
+  path: core/tools/lint-components/lib/rules/structural.js
+  line: null
+  message: 'CODE-10 on core/tools/lint-components/lib/rules/structural.js: core/tools/lint-components/lib/rules/structural.js'
+- category: standards
+  severity: P3
+  basis: CODE-11
+  path: core/tools/lint-components/lib/rules/structural.js
+  line: null
+  message: 'CODE-11 on core/tools/lint-components/lib/rules/structural.js: core/tools/lint-components/lib/rules/structural.js'
+- category: standards
+  severity: P3
+  basis: CODE-12
+  path: core/tools/lint-components/lib/rules/structural.js
+  line: null
+  message: 'CODE-12 on core/tools/lint-components/lib/rules/structural.js: core/tools/lint-components/lib/rules/structural.js'
+- category: standards
+  severity: P3
+  basis: CODE-15
+  path: core/tools/lint-components/lib/rules/structural.js
+  line: null
+  message: 'CODE-15 on core/tools/lint-components/lib/rules/structural.js: core/tools/lint-components/lib/rules/structural.js'
+- category: standards
+  severity: P3
+  basis: CODE-17
+  path: core/tools/lint-components/lib/rules/structural.js
+  line: null
+  message: 'CODE-17 on core/tools/lint-components/lib/rules/structural.js: core/tools/lint-components/lib/rules/structural.js'
+- category: standards
+  severity: P3
+  basis: CODE-18
+  path: core/tools/lint-components/lib/rules/structural.js
+  line: null
+  message: 'CODE-18 on core/tools/lint-components/lib/rules/structural.js: core/tools/lint-components/lib/rules/structural.js'
+- category: standards
+  severity: P3
+  basis: FE-08
+  path: core/tools/lint-components/lib/rules/structural.js
+  line: null
+  message: 'FE-08 on core/tools/lint-components/lib/rules/structural.js: core/tools/lint-components/lib/rules/structural.js'
+- category: standards
+  severity: P3
+  basis: ARCH-03
+  path: core/tools/lint-components/test/skill-invocable.test.js
+  line: null
+  message: 'ARCH-03 on core/tools/lint-components/test/skill-invocable.test.js: core/tools/lint-components/test/skill-invocable.test.js'
+- category: standards
+  severity: P3
+  basis: ARCH-08
+  path: core/tools/lint-components/test/skill-invocable.test.js
+  line: null
+  message: 'ARCH-08 on core/tools/lint-components/test/skill-invocable.test.js: core/tools/lint-components/test/skill-invocable.test.js'
+- category: standards
+  severity: P3
+  basis: CODE-09
+  path: core/tools/lint-components/test/skill-invocable.test.js
+  line: null
+  message: 'CODE-09 on core/tools/lint-components/test/skill-invocable.test.js: core/tools/lint-components/test/skill-invocable.test.js'
+- category: standards
+  severity: P3
+  basis: CODE-10
+  path: core/tools/lint-components/test/skill-invocable.test.js
+  line: null
+  message: 'CODE-10 on core/tools/lint-components/test/skill-invocable.test.js: core/tools/lint-components/test/skill-invocable.test.js'
+- category: standards
+  severity: P3
+  basis: CODE-11
+  path: core/tools/lint-components/test/skill-invocable.test.js
+  line: null
+  message: 'CODE-11 on core/tools/lint-components/test/skill-invocable.test.js: core/tools/lint-components/test/skill-invocable.test.js'
+- category: standards
+  severity: P3
+  basis: CODE-12
+  path: core/tools/lint-components/test/skill-invocable.test.js
+  line: null
+  message: 'CODE-12 on core/tools/lint-components/test/skill-invocable.test.js: core/tools/lint-components/test/skill-invocable.test.js'
+- category: standards
+  severity: P3
+  basis: CODE-15
+  path: core/tools/lint-components/test/skill-invocable.test.js
+  line: null
+  message: 'CODE-15 on core/tools/lint-components/test/skill-invocable.test.js: core/tools/lint-components/test/skill-invocable.test.js'
+- category: standards
+  severity: P3
+  basis: CODE-17
+  path: core/tools/lint-components/test/skill-invocable.test.js
+  line: null
+  message: 'CODE-17 on core/tools/lint-components/test/skill-invocable.test.js: core/tools/lint-components/test/skill-invocable.test.js'
+- category: standards
+  severity: P3
+  basis: CODE-18
+  path: core/tools/lint-components/test/skill-invocable.test.js
+  line: null
+  message: 'CODE-18 on core/tools/lint-components/test/skill-invocable.test.js: core/tools/lint-components/test/skill-invocable.test.js'
+- category: standards
+  severity: P3
+  basis: FE-08
+  path: core/tools/lint-components/test/skill-invocable.test.js
+  line: null
+  message: 'FE-08 on core/tools/lint-components/test/skill-invocable.test.js: core/tools/lint-components/test/skill-invocable.test.js'
+- category: standards
+  severity: P3
+  basis: TEST-02
+  path: core/tools/lint-components/test/skill-invocable.test.js
+  line: null
+  message: 'TEST-02 on core/tools/lint-components/test/skill-invocable.test.js: core/tools/lint-components/test/skill-invocable.test.js'
+- category: standards
+  severity: P3
+  basis: TEST-03
+  path: core/tools/lint-components/test/skill-invocable.test.js
+  line: null
+  message: 'TEST-03 on core/tools/lint-components/test/skill-invocable.test.js: core/tools/lint-components/test/skill-invocable.test.js'
+- category: standards
+  severity: P3
+  basis: TEST-06
+  path: core/tools/lint-components/test/skill-invocable.test.js
+  line: null
+  message: 'TEST-06 on core/tools/lint-components/test/skill-invocable.test.js: core/tools/lint-components/test/skill-invocable.test.js'
+- category: standards
+  severity: P3
+  basis: OPS-09
+  path: core/tools/lint-components/test/skill-invocable.test.js
+  line: 9
+  message: 'OPS-09 on core/tools/lint-components/test/skill-invocable.test.js: console.log'
+- category: standards
+  severity: P3
+  basis: OPS-10
+  path: core/tools/lint-components/test/skill-invocable.test.js
+  line: 9
+  message: 'OPS-10 on core/tools/lint-components/test/skill-invocable.test.js: console.log(`'
+- category: standards
+  severity: P3
+  basis: OPS-09
+  path: core/tools/lint-components/test/skill-invocable.test.js
+  line: 18
+  message: 'OPS-09 on core/tools/lint-components/test/skill-invocable.test.js: console.log'
+- category: standards
+  severity: P3
+  basis: OPS-10
+  path: core/tools/lint-components/test/skill-invocable.test.js
+  line: 18
+  message: 'OPS-10 on core/tools/lint-components/test/skill-invocable.test.js: console.log(`'
+- category: standards
+  severity: P4
+  basis: CODE-13
+  path: core/tools/lint-components/lib/rules/structural.js
+  line: null
+  message: 'CODE-13 on core/tools/lint-components/lib/rules/structural.js: core/tools/lint-components/lib/rules/structural.js'
+- category: standards
+  severity: P4
+  basis: CODE-19
+  path: core/tools/lint-components/lib/rules/structural.js
+  line: null
+  message: 'CODE-19 on core/tools/lint-components/lib/rules/structural.js: core/tools/lint-components/lib/rules/structural.js'
+- category: standards
+  severity: P4
+  basis: CODE-13
+  path: core/tools/lint-components/test/skill-invocable.test.js
+  line: null
+  message: 'CODE-13 on core/tools/lint-components/test/skill-invocable.test.js: core/tools/lint-components/test/skill-invocable.test.js'
+- category: standards
+  severity: P4
+  basis: CODE-19
+  path: core/tools/lint-components/test/skill-invocable.test.js
+  line: null
+  message: 'CODE-19 on core/tools/lint-components/test/skill-invocable.test.js: core/tools/lint-components/test/skill-invocable.test.js'
+- category: standards
+  severity: P4
+  basis: TEST-05
+  path: core/tools/lint-components/test/skill-invocable.test.js
+  line: null
+  message: 'TEST-05 on core/tools/lint-components/test/skill-invocable.test.js: core/tools/lint-components/test/skill-invocable.test.js'
+- category: standards
+  severity: P4
+  basis: TEST-07
+  path: core/tools/lint-components/test/skill-invocable.test.js
+  line: null
+  message: 'TEST-07 on core/tools/lint-components/test/skill-invocable.test.js: core/tools/lint-components/test/skill-invocable.test.js'
+- category: standards
+  severity: P4
+  basis: TEST-08
+  path: core/tools/lint-components/test/skill-invocable.test.js
+  line: null
+  message: 'TEST-08 on core/tools/lint-components/test/skill-invocable.test.js: core/tools/lint-components/test/skill-invocable.test.js'
+- category: standards
+  severity: P4
+  basis: TEST-22
+  path: core/tools/lint-components/test/skill-invocable.test.js
+  line: null
+  message: 'TEST-22 on core/tools/lint-components/test/skill-invocable.test.js: core/tools/lint-components/test/skill-invocable.test.js'
+- category: standards
+  severity: P4
+  basis: CODE-22
+  path: core/tools/lint-components/test/skill-invocable.test.js
+  line: 3
+  message: 'CODE-22 on core/tools/lint-components/test/skill-invocable.test.js: const
+    assert ='
+- category: standards
+  severity: P4
+  basis: CODE-22
+  path: core/tools/lint-components/test/skill-invocable.test.js
+  line: 4
+  message: 'CODE-22 on core/tools/lint-components/test/skill-invocable.test.js: const
+    fs ='
+- category: standards
+  severity: P4
+  basis: CODE-22
+  path: core/tools/lint-components/test/skill-invocable.test.js
+  line: 5
+  message: 'CODE-22 on core/tools/lint-components/test/skill-invocable.test.js: const
+    os ='
+- category: standards
+  severity: P4
+  basis: CODE-22
+  path: core/tools/lint-components/test/skill-invocable.test.js
+  line: 6
+  message: 'CODE-22 on core/tools/lint-components/test/skill-invocable.test.js: const
+    path ='
+- category: standards
+  severity: P4
+  basis: CODE-22
+  path: core/tools/lint-components/test/skill-invocable.test.js
+  line: 8
+  message: 'CODE-22 on core/tools/lint-components/test/skill-invocable.test.js: let
+    passed ='
+- category: standards
+  severity: P4
+  basis: CODE-22
+  path: core/tools/lint-components/test/skill-invocable.test.js
+  line: 11
+  message: 'CODE-22 on core/tools/lint-components/test/skill-invocable.test.js: const
+    dir ='
+- category: standards
+  severity: P4
+  basis: CODE-22
+  path: core/tools/lint-components/test/skill-invocable.test.js
+  line: 12
+  message: 'CODE-22 on core/tools/lint-components/test/skill-invocable.test.js: const
+    file ='
+- category: harness
+  severity: P3
+  basis: origin/plan/756/base:core/components/plays/_shared/play-close.md Step C2
+    ('Next (always, unless the play is meta_exempt)'); pipeline-next.md meta_exempt
+  path: core/components/plays/edit-ontology/SKILL.md (Step C2)
+  message: 'The PR adds edit-ontology to meta_exempt, yet Step C2 still tells the
+    run to resolve the play in $next_map and render a Next line. A meta_exempt play
+    has no entry in the map, so the step cannot be followed as written, and it contradicts
+    the shared close the play points to. Carried over unchanged from round 1; commit
+    dc00dd95 did not touch it.
+
+    '
+  fix: null
+- category: memory
+  severity: P4
+  basis: 'origin/plan/756/base:core/components/agents/product-os-keeper.md (Intent
+    -> Skill Mapping table: every pooled skill has an intent row)'
+  path: core/components/agents/product-os-keeper.md
+  message: The skill is now in the Available Skills table, but the Intent -> Skill
+    Mapping table has no row for it (e.g. 'change the product ontology', 'add a kind').
+    Other pooled skills have both. Add one row so the agent can route the intent.
+  fix: null
+- category: memory
+  severity: P3
+  basis: origin/plan/756/base:docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md;
+    docs/adr/016-agent-json-contract.md (the contract carries paths)
+  path: core/components/skills/author-product-ontology/SKILL.md
+  message: Round-1 gap only partly closed. Input gained stage/change/problems, but
+    the earlier stages' draft locations and this stage's draft output path are still
+    not Input fields, and Output still lists only ontology_path and report_path (no
+    stage draft). Also report_path is 'yes' and ontology_path default still points
+    at the installed ~/.garura copy for every stage, though only stage 'write' produces
+    them. A reader of the skill alone cannot tell where drafts are read or written.
+    Add draft-path inputs and a per-stage Output row.
+  fix: null
+- category: memory
+  severity: P4
+  basis: origin/plan/756/base:core/components/memory/standards/rules/pipeline-position.md
+    ('There are only these positions'; 'Wired so far' line)
+  path: core/components/memory/standards/rules/pipeline-position.md
+  message: The rule is now a list of named exceptions inside prose that says meta
+    plays are none. Acceptable for one play; if a second meta play opens its own change,
+    the rule should state the condition (meta play that opens and lands its own change)
+    rather than naming plays one by one.
+  fix: null
+runnable_checks: 'lint_play:
+
+  VERDICT: PASS (0 gap(s))
+
+  edit-ontology tests:
+
+  11 passed, 0 failed
+
+  install tests:
+
+  OK
+
+  linter rule test:
+
+  2 passed, 0 failed
+
+  lint-components:
+
+  {''errors'': 121, ''warnings'': 2, ''infos'': 0}
+
+  '

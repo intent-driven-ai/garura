@@ -1,0 +1,2049 @@
+diff --git a/.garura/project/issues/777/context/analysis.yaml b/.garura/project/issues/777/context/analysis.yaml
+new file mode 100644
+index 00000000..6c9a273a
+--- /dev/null
++++ b/.garura/project/issues/777/context/analysis.yaml
+@@ -0,0 +1,49 @@
++# assess-changes output (grouping by concern)
++# issue: 777
++needs_judgment: false
++
++change_groups:
++  - id: 1
++    type: feat
++    scope: plays
++    issue: 777
++    subject: add the edit-ontology play for changing the product ontology
++    files:
++      - core/components/plays/edit-ontology/
++      - core/components/memory/standards/rules/pipeline-next.md
++    notes: "new play (SKILL.md, reference/ice.md, stop-condition.yaml, scripts incl. check_ontology_change.py, record_checkpoint.py, test, stamped copies); pipeline-next.md gets meta_exempt entry"
++  - id: 2
++    type: fix
++    scope: skills
++    issue: 777
++    subject: stop treating skills as something a person starts, and lint for it
++    files:
++      - core/components/skills/author-product-ontology/SKILL.md
++      - docs/components/skills.md
++      - core/tools/lint-components/lib/rules/structural.js
++      - core/tools/lint-components/test/skill-invocable.test.js
++    notes: "bug #778: skills are never started by a person; user-invocable false, new lint rule + test, docs exception removed"
++  - id: 3
++    type: feat
++    scope: install
++    issue: 777
++    subject: install edit-ontology as a meta play in the harness scope
++    files:
++      - core/components/plays/install-garura/SKILL.md
++      - core/components/plays/install-garura/scripts/install.py
++      - core/components/plays/install-garura/scripts/test_install.py
++
++exclusions:
++  - path: .garura/project/issues/777/
++    reason: "commit-change run state, committed by the executor"
++
++risks:
++  sensitive_files:
++    []
++  breaking_changes: []
++  ambiguous_types: []
++  hotfix_branch: false
++
++eval_gates:
++  SE-1: {status: PASS, evidence: "3 groups, every changed file in exactly one group"}
++  SE-5: {status: PASS, evidence: "no sensitive patterns matched"}
+diff --git a/.garura/project/issues/777/context/branch.json b/.garura/project/issues/777/context/branch.json
+new file mode 100644
+index 00000000..50098367
+--- /dev/null
++++ b/.garura/project/issues/777/context/branch.json
+@@ -0,0 +1,8 @@
++{
++  "branch_name": "plan/756/777-edit-ontology-play",
++  "base_sha": "1293a2fdcc60008ea828d05fa8d5d9642312c5d9",
++  "on_default_branch": false,
++  "worktree_path": null,
++  "plan_branch": "plan/756/base",
++  "plan_branch_created": false
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/777/context/commits.yaml b/.garura/project/issues/777/context/commits.yaml
+new file mode 100644
+index 00000000..1df3b23f
+--- /dev/null
++++ b/.garura/project/issues/777/context/commits.yaml
+@@ -0,0 +1,29 @@
++commits:
++  - sha: e9da6ac9
++    message: "feat(plays): add the edit-ontology play for changing the product ontology (#777)"
++    files:
++      - core/components/plays/edit-ontology/
++      - core/components/memory/standards/rules/pipeline-next.md
++    branch: plan/756/777-edit-ontology-play
++  - sha: 522bf1a1
++    message: "fix(skills): stop treating skills as something a person starts, and lint for it (#777)"
++    files:
++      - core/components/skills/author-product-ontology/SKILL.md
++      - docs/components/skills.md
++      - core/tools/lint-components/lib/rules/structural.js
++      - core/tools/lint-components/test/skill-invocable.test.js
++    branch: plan/756/777-edit-ontology-play
++  - sha: 70e0a883
++    message: "feat(install): install edit-ontology as a meta play in the harness scope (#777)"
++    files:
++      - core/components/plays/install-garura/SKILL.md
++      - core/components/plays/install-garura/scripts/install.py
++      - core/components/plays/install-garura/scripts/test_install.py
++    branch: plan/756/777-edit-ontology-play
++excluded_files:
++  - path: ".garura/project/issues/777/"
++    reason: "commit-change run state, committed by the executor"
++leftover_count: 0
++tree_clean: true
++pushed: false
++run_state_committed: true
+diff --git a/.garura/project/issues/777/context/issue.json b/.garura/project/issues/777/context/issue.json
+new file mode 100644
+index 00000000..dcbcd91e
+--- /dev/null
++++ b/.garura/project/issues/777/context/issue.json
+@@ -0,0 +1 @@
++{"resolved": true, "issue_number": 777, "title": "A play changes the ontology and calls author-product-ontology", "state": "OPEN", "parent": 776, "created": false}
+diff --git a/.garura/project/issues/777/context/plan.json b/.garura/project/issues/777/context/plan.json
+new file mode 100644
+index 00000000..a1942bda
+--- /dev/null
++++ b/.garura/project/issues/777/context/plan.json
+@@ -0,0 +1,6 @@
++{
++  "issue": "777",
++  "plan_id": "756",
++  "plan_branch": "plan/756/base",
++  "issue_branch": "plan/756/777-edit-ontology-play"
++}
+diff --git a/.garura/project/issues/777/context/porcelain.txt b/.garura/project/issues/777/context/porcelain.txt
+new file mode 100644
+index 00000000..0d36d980
+--- /dev/null
++++ b/.garura/project/issues/777/context/porcelain.txt
+@@ -0,0 +1,9 @@
++ M core/components/memory/standards/rules/pipeline-next.md
++ M core/components/plays/install-garura/SKILL.md
++ M core/components/plays/install-garura/scripts/install.py
++ M core/components/plays/install-garura/scripts/test_install.py
++ M core/components/skills/author-product-ontology/SKILL.md
++ M core/tools/lint-components/lib/rules/structural.js
++ M docs/components/skills.md
++?? core/components/plays/edit-ontology/
++?? core/tools/lint-components/test/skill-invocable.test.js
+diff --git a/.garura/project/issues/777/context/pr-body.md b/.garura/project/issues/777/context/pr-body.md
+new file mode 100644
+index 00000000..dd86e06d
+--- /dev/null
++++ b/.garura/project/issues/777/context/pr-body.md
+@@ -0,0 +1,52 @@
++Garura gets a play for changing its product ontology, `/edit-ontology`. From now on, ontology work runs through a play, not by a person running a skill.
++
++## What changes
++
++- **New play `edit-ontology`** (story #777, plan #756), built with create-play from its ICE (`reference/ice.md`). It opens its own change, has `product-os-keeper` run `author-product-ontology` in four stages, and stops three times for the product owner's typed yes: the questions, the kinds, and the links and rules. Then it writes the ontology, runs `check_ontology.py` until it reads valid, runs a new change check (only the needed kinds changed, the version is up by one with one log line, no real names), and lands through the four change plays. lint_play: PASS.
++- **Bug #778:** `author-product-ontology` is `user-invocable: false`, with a Stages section for the play. The "meta-utility skill" exception is removed from `docs/components/skills.md`. A new linter rule, `structural/skill-user-invocable`, fails any skill a person can start.
++- **Install:** `edit-ontology` is a meta play, installed only by `--scope harness`.
++
++## Checks
++
++| Check | Result |
++|---|---|
++| New script tests (11) | written first, failed, then pass |
++| New linter rule test | pass |
++| All test suites (41) | pass |
++| lint_play on edit-ontology | PASS, 0 gaps |
++| Component linter | 121 errors and 2 warnings, the same as main |
++| Old-name check | 0 |
++
++## Self-review
++
++
++Rules: ~/.garura/core/memory/standards/rules/self-review.md (base, not an override).
++Informational only. No blocking findings.
++
++## Scope checks
++- PASS Matches the issue. The diff holds the new edit-ontology play, the #778 fix (author-product-ontology made non-user-invocable, skills.md, new lint rule) and the install-garura entry. Each maps to #777 or #778.
++- PASS No scope creep. The install-garura wording change (meta-utility -> harness-only) follows from #778. The pipeline-next.md line is the meta_exempt listing for the new play.
++- REVIEW Size. 25 files, about 1,600 added lines, mostly the new play (compiled SKILL.md 378 lines, ICE, 6 scripts + test). Large but one cohesive unit and split into three coherent commits; fine to review play-by-play.
++- PASS No stray artifacts. No commented-out blocks or scratch files. print() calls in the play scripts are intentional JSON output. The .garura/project/issues/777/context files are the normal STM record.
++- NOTE Untracked resolved-rules.json is this review's input and not part of the diff.
++
++## Quality checks
++- PASS Tests present. New play scripts have test_edit_ontology_scripts.py; the new lint rule has skill-invocable.test.js; install has test_edit_ontology_goes_to_harness_repos_only. Reported: all 41 suites pass.
++- PASS Commits clean. Three feat/fix commits in conventional format, each tagged (#777), plus chore(stm) record commits.
++- PASS No secrets. Grep of the new play for key/secret/token found only prose about token spend, no credentials.
++- PASS Docs in step. skills.md drops the meta-utility exception and updates the frontmatter table; install-garura SKILL.md and install.py wording updated.
++- PASS Nothing obviously broken. No TODO/FIXME in the new play. Lint-components shows the same 121 older errors and 2 warnings as main (none new). Old-name check: 0.
++
++## Observations (non-blocking)
++- Old "meta-utility" wording remains only in past issue records under .garura/project/issues, which are history and should stay.
++- The new lint rule checks both `user-invocable` and the misspelling `user-invokable`; good.
++
++Blocking findings: none.
++
++## Where it lands
++
++Into `plan/756/base`. The first real run of the play is #758 (the ICE as its own kind).
++
++Closes #777 and #778 (closed by merge-change, because the host closes issues only on main). Part of #776, #756.
++
++🤖 Generated with [Claude Code](https://claude.com/claude-code)
+diff --git a/.garura/project/issues/777/context/pr.json b/.garura/project/issues/777/context/pr.json
+new file mode 100644
+index 00000000..0800b614
+--- /dev/null
++++ b/.garura/project/issues/777/context/pr.json
+@@ -0,0 +1,7 @@
++{
++  "number": 780,
++  "url": "https://github.com/intent-driven-ai/garura/pull/780",
++  "state": "OPEN",
++  "base": "plan/756/base",
++  "on_target": true
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/777/context/resolved-rules.json b/.garura/project/issues/777/context/resolved-rules.json
+new file mode 100644
+index 00000000..725c8d8b
+--- /dev/null
++++ b/.garura/project/issues/777/context/resolved-rules.json
+@@ -0,0 +1,6 @@
++{
++  "resolved": true,
++  "path": "~/.garura/core/memory/standards/rules/self-review.md",
++  "source": "~/.garura/core/memory/standards/rules",
++  "is_override": false
++}
+diff --git a/.garura/project/issues/777/context/self-review.md b/.garura/project/issues/777/context/self-review.md
+new file mode 100644
+index 00000000..2bbbf329
+--- /dev/null
++++ b/.garura/project/issues/777/context/self-review.md
+@@ -0,0 +1,24 @@
++# Self-review: #777 (plan #756), with bug #778
++
++Rules: ~/.garura/core/memory/standards/rules/self-review.md (base, not an override).
++Informational only. No blocking findings.
++
++## Scope checks
++- PASS Matches the issue. The diff holds the new edit-ontology play, the #778 fix (author-product-ontology made non-user-invocable, skills.md, new lint rule) and the install-garura entry. Each maps to #777 or #778.
++- PASS No scope creep. The install-garura wording change (meta-utility -> harness-only) follows from #778. The pipeline-next.md line is the meta_exempt listing for the new play.
++- REVIEW Size. 25 files, about 1,600 added lines, mostly the new play (compiled SKILL.md 378 lines, ICE, 6 scripts + test). Large but one cohesive unit and split into three coherent commits; fine to review play-by-play.
++- PASS No stray artifacts. No commented-out blocks or scratch files. print() calls in the play scripts are intentional JSON output. The .garura/project/issues/777/context files are the normal STM record.
++- NOTE Untracked resolved-rules.json is this review's input and not part of the diff.
++
++## Quality checks
++- PASS Tests present. New play scripts have test_edit_ontology_scripts.py; the new lint rule has skill-invocable.test.js; install has test_edit_ontology_goes_to_harness_repos_only. Reported: all 41 suites pass.
++- PASS Commits clean. Three feat/fix commits in conventional format, each tagged (#777), plus chore(stm) record commits.
++- PASS No secrets. Grep of the new play for key/secret/token found only prose about token spend, no credentials.
++- PASS Docs in step. skills.md drops the meta-utility exception and updates the frontmatter table; install-garura SKILL.md and install.py wording updated.
++- PASS Nothing obviously broken. No TODO/FIXME in the new play. Lint-components shows the same 121 older errors and 2 warnings as main (none new). Old-name check: 0.
++
++## Observations (non-blocking)
++- Old "meta-utility" wording remains only in past issue records under .garura/project/issues, which are history and should stay.
++- The new lint rule checks both `user-invocable` and the misspelling `user-invokable`; good.
++
++Blocking findings: none.
+diff --git a/.garura/project/issues/777/context/target.json b/.garura/project/issues/777/context/target.json
+new file mode 100644
+index 00000000..e353939b
+--- /dev/null
++++ b/.garura/project/issues/777/context/target.json
+@@ -0,0 +1,7 @@
++{
++  "branch": "plan/756/777-edit-ontology-play",
++  "kind": "issue-in-plan",
++  "plan_id": "756",
++  "issue": "777",
++  "base": "plan/756/base"
++}
+diff --git a/.garura/project/issues/777/context/work-description.txt b/.garura/project/issues/777/context/work-description.txt
+new file mode 100644
+index 00000000..e5a5d09a
+--- /dev/null
++++ b/.garura/project/issues/777/context/work-description.txt
+@@ -0,0 +1 @@
++Work on Story #777 — a play changes the ontology and calls author-product-ontology (plan #756, capability #776). Resolve issue 777.
+diff --git a/core/components/memory/standards/rules/pipeline-next.md b/core/components/memory/standards/rules/pipeline-next.md
+index b63c5f43..938388c2 100644
+--- a/core/components/memory/standards/rules/pipeline-next.md
++++ b/core/components/memory/standards/rules/pipeline-next.md
+@@ -91,4 +91,5 @@ meta_exempt:
+   - edit-play
+   - create-loop
+   - edit-loop
++  - edit-ontology
+ ```
+diff --git a/core/components/plays/edit-ontology/SKILL.md b/core/components/plays/edit-ontology/SKILL.md
+new file mode 100644
+index 00000000..9db19dd4
+--- /dev/null
++++ b/core/components/plays/edit-ontology/SKILL.md
+@@ -0,0 +1,378 @@
++---
++name: edit-ontology
++position: both
++description: 'Change Garura''s product ontology — its kinds, their links and their rules — one need at a time, with the product owner. Opens its own change (start-change), has the product-os-keeper agent run the author-product-ontology skill stage by stage, and stops for the product owner''s typed yes at three checkpoints: the questions the ontology must answer, the kinds, and the links and rules. Then it writes the ontology, runs its check until it reads valid, checks that only the needed kinds changed, that the version is up by one with one log line, and that no real name appears, and lands the change through commit-change, propose-change, check-change and merge-change — on the plan''s branch when the issue is in a plan. The only way to run the ontology skill. Use when the product model needs a new kind, or a kind, link or rule changed.'
++user-invocable: true
++---
++
++# edit-ontology
++
++Change Garura's **product ontology** — the agreed map of the kinds of things a product is
++made of, their links and their rules (`core/components/memory/standards/schemas/product-os/ontology.md`)
++— one need at a time. The product owner decides at three checkpoints; a script decides
++whether the result is valid; the change lands through the change plays.
++
++This play is the only way to run the `author-product-ontology` skill. A person never runs
++the skill directly (C8).
++
++**Pipeline position: both.** The D2 rule prepends `start-change` and appends
++`commit-change → propose-change → check-change → merge-change`. When the issue sits in a
++plan, start-change cuts the plan's sub-branch and merge-change lands on the plan's branch.
++
++## Compiled From
++
++This play was compiled from the edit-ontology ICE (`reference/ice.md`) by create-play
++(#777). Intent defines constraints (C1–C8) and failure conditions (F1–F8); the expectation
++defines success scenarios (S1–S5), a Done means (D1–D4, baked to `stop-condition.yaml`), and
++one recovery entry per failure condition. To modify this play, update `reference/ice.md`
++and recompile with edit-play.
++Do NOT edit this file manually — it is a compiled artifact.
++
++## Role
++
++You are the orchestrator. You own the step order and the three checkpoints. You hand the
++ontology work — reading the sources, drafting the questions, the kinds, the properties,
++links and rules, the example, and writing the ontology — to the `product-os-keeper` agent,
++which runs the `author-product-ontology` skill one stage at a time, through a JSON contract
++over files on disk. You run the mechanical work through bundled scripts: recording each
++answer (`record_checkpoint.py`), the ontology check (`check_ontology.py`), the change check
++(`check_ontology_change.py`) and the stop condition. You never write the ontology yourself,
++and you never record an answer the product owner did not type.
++
++**Forbidden:** changing a kind the need does not touch (C1); writing anything as agreed
++before its checkpoint's yes (C2); redefining a kind with no log line (C3); a real name, or
++text a newcomer cannot follow (C4); closing while the ontology check fails (C5); a missing
++version bump, date or log line (C6); landing outside the change plays or on the wrong branch
++(C7); running the ontology skill outside this play (C8).
++
++**Agent boundaries:**
++
++| Agent | Domain | Skill it invokes | Phases |
++|-------|--------|------------------|--------|
++| `product-os-keeper` | Read the sources the need names, run the skill's stage, write the stage's draft (and, at the last stage, the ontology itself) | `author-product-ontology` | Draft, Write |
++
++`product-os-keeper` is the single **domain agent**. The start and end sequence are injected
++sub-plays. Everything else is a script.
++
++## Pre-flight
++
++| Check | Constraint | Action on Failure |
++|-------|-----------|-------------------|
++| Resolve config + `stm_base` (`.garura/core/config.yaml`) | — | Hard halt |
++| A need was given, in plain words, with the issue it serves | C1 | Ask the person for it (gather, not a halt) |
++| The ontology source exists (`core/components/memory/standards/schemas/product-os/ontology.md`) | C5 | Hard halt |
++| **Clean ontology** — checked at the end of Step 0: `git status --porcelain -- <ontology>` is empty | C1 | Hard halt (REC1) |
++
++Resolve the facts with the bundled resolver — not by inference — once Step 0 has opened the
++change:
++
++```
++git branch --show-current
++python3 scripts/preflight.py --play edit-ontology --config .garura/core/config.yaml \
++    --branch "<current branch>"
++python3 scripts/session_stamp.py --phase start \
++    --marker "{stm_base}<issue>/status/session-stamp-edit-ontology.json" \
++    --cwd "$(pwd)" --branch "$(git branch --show-current)"
++```
++
++The working folder `<working>` is `{stm_base}<issue>/context/edit-ontology/`. Keep a copy of
++the ontology as it is before any change, for the change check:
++
++```
++git show HEAD:core/components/memory/standards/schemas/product-os/ontology.md > <working>/ontology-before.md
++```
++
++## Task DAG
++
++Create ALL tasks immediately after pre-flight, before any domain work.
++
++```
++[T0] start-change (injected — start)                       blockedBy: []
++[T1] Draft the questions (stage: scope)                     blockedBy: [T0]
++[T2] Checkpoint 1 — the questions                           blockedBy: [T1]
++[T3] Draft the kinds (stage: kinds)                         blockedBy: [T2]
++[T4] Checkpoint 2 — the kinds                               blockedBy: [T3]
++[T5] Draft the properties, links and rules (stage: links)  blockedBy: [T4]
++[T6] Checkpoint 3 — the links and rules                     blockedBy: [T5]
++[T7] Write the ontology and check it (stage: write)        blockedBy: [T6]
++[T8] Check the change (scope, version, names)               blockedBy: [T7]
++[T9] Commit the ontology                                     blockedBy: [T8]
++[E1] commit-change (injected — end)                          blockedBy: [T9]
++[E2] propose-change (injected — end)                         blockedBy: [E1]
++[E3] check-change (injected — end)                           blockedBy: [E2]
++[E4] merge-change (injected — end)                           blockedBy: [E3]
++[T10] Scenario Validation                                    blockedBy: [E4]
++[T11] Close                                                  blockedBy: [T10]
++```
++
++Mark each task in progress before its step and completed right after its eval passes. No
++runtime reordering. On resume, skip completed and reset in-progress to pending.
++
++## Workflow
++
++### Phase: Start (injected — D2 position: start)
++
++**Step 0 — start-change** · Owner: `start-change` (sub-play) · Depends on: pre-flight
++Run the start-of-pipeline member as a sub-play with `parent_run_id`: it resolves the issue,
++cuts its branch (the plan's sub-branch when the issue sits in a plan), and inits STM. Then
++check the ontology is clean (`test -z "$(git status --porcelain -- <ontology>)"`, else hard
++halt — REC1) and write `<working>/need.md`: the need in the person's words, the issue, and
++the kinds it touches (`## Touches`, one kind per line — new or existing).
++
++    { "play": "start-change", "parent_run_id": "<this run id>",
++      "inputs": { "title": "edit-ontology: <the need in a few words>" },
++      "outputs": { "result": "{stm_base}<issue>/context/edit-ontology/start-change.json" } }
++
++### Phase: Draft (three stages, each ending at a checkpoint)
++
++**Step 1 — Draft the questions** · Owner: `product-os-keeper` · Depends on: Step 0
++
++    { "task":    "run author-product-ontology stage 'scope' (step 1): write the questions the ontology must answer for this need",
++      "inputs":  { "need": "<working>/need.md",
++                   "ontology_path": "core/components/memory/standards/schemas/product-os/ontology.md",
++                   "template_path": "<memory>/standards/templates/product-ontology.md",
++                   "sources": ["<paths the need names>"], "stage": "scope" },
++      "outputs": { "draft": "<working>/draft-questions.md" },
++      "task_id": "edit-ontology-scope" }
++
++The draft lists each new or changed question with a plain example from a real product, in
++ASD-STE100 plain English, with personas and no real names (C4).
++
++**Step 2 — Checkpoint 1: the questions** · Owner: play · Depends on: Step 1 · Checkpoint
++(class: standard, **pinned** — the product owner decides, C2; never skipped by config)
++Show `draft-questions.md` exactly as written, and ask the product owner to type **yes**, or
++**change: <what>**. Record the answer verbatim:
++
++```
++python3 scripts/record_checkpoint.py --decisions <working>/decisions.json --point questions \
++    --verdict <yes|change> --reply "<their exact words>" --draft <working>/draft-questions.md
++```
++
++On **change**, send the change back to Step 1 (same contract plus `"change": "<their words>"`)
++and ask again. Go on only on **yes**.
++**SE-1 (F2/C2):** `decisions.json` holds a `questions` entry with verdict `yes`, a non-empty
++reply, and the sha256 of the draft that was shown; no later stage's draft existed before it.
++
++**Step 3 — Draft the kinds** · Owner: `product-os-keeper` · Depends on: Step 2
++Same contract as Step 1 with `"stage": "kinds"` (the skill's steps 2–4: reuse, terms, kinds),
++`inputs.questions: <working>/draft-questions.md`, `outputs.draft: <working>/draft-kinds.md`.
++The draft names, for each existing kind it reuses or changes, what changes and why — the log
++line it will need (C3).
++
++**Step 4 — Checkpoint 2: the kinds** · Owner: play · Depends on: Step 3 · Checkpoint (pinned)
++As Step 2, with `--point kinds --draft <working>/draft-kinds.md`. Update `need.md`'s
++`## Touches` to the kinds the product owner agreed.
++**SE-2 (F2/C2):** `decisions.json` holds a `kinds` entry with verdict `yes`, recorded after
++the `questions` yes.
++**SE-3 (F3/C3):** every existing kind that `draft-kinds.md` marks as changed has its log line
++drafted in it.
++
++**Step 5 — Draft the properties, links and rules** · Owner: `product-os-keeper` · Depends on:
++Step 4
++Same contract with `"stage": "links"` (the skill's steps 5–6), `inputs.kinds:
++<working>/draft-kinds.md`, `outputs.draft: <working>/draft-links.md`.
++
++**Step 6 — Checkpoint 3: the links and rules** · Owner: play · Depends on: Step 5 · Checkpoint
++(pinned)
++As Step 2, with `--point links --draft <working>/draft-links.md`.
++**SE-4 (F2/C2):** `decisions.json` reads `all_agreed: true` — a `yes` for all three points —
++before Step 7 writes anything.
++
++### Phase: Write
++
++**Step 7 — Write the ontology and check it** · Owner: `product-os-keeper` · Depends on: Step 6
++
++    { "task":    "run author-product-ontology stage 'write' (step 7 + write): write the agreed result into the ontology, with a real example of each new or changed kind, bump the version by one, set updated, add one log line; then run the check",
++      "inputs":  { "need": "<working>/need.md", "questions": "<working>/draft-questions.md",
++                   "kinds": "<working>/draft-kinds.md", "links": "<working>/draft-links.md",
++                   "ontology_path": "core/components/memory/standards/schemas/product-os/ontology.md",
++                   "date": "<today, UTC>", "stage": "write" },
++      "outputs": { "ontology": "core/components/memory/standards/schemas/product-os/ontology.md",
++                   "report": "<working>/ontology-check.json" },
++      "task_id": "edit-ontology-write" }
++
++Then run the check yourself — the script decides valid, not the agent (C5):
++
++```
++python3 scripts/check_ontology.py \
++    --ontology core/components/memory/standards/schemas/product-os/ontology.md \
++    --out <working>/ontology-check.json
++```
++
++Exit 2 → send the report's problems back to the agent (stage `write`, plus
++`"problems": "<working>/ontology-check.json"`), and run the check again (REC5). Exit 3 → hard
++halt.
++**SE-5 (F5/C5):** `ontology-check.json` reads `valid: true`, written by `check_ontology.py`
++after the last write to the ontology.
++
++**Step 8 — Check the change** · Owner: play (script) · Depends on: Step 7
++
++```
++python3 scripts/check_ontology_change.py --before <working>/ontology-before.md \
++    --after core/components/memory/standards/schemas/product-os/ontology.md \
++    --allow-kind <each kind under need.md ## Touches> --date <today, UTC> \
++    $(git config user.name | tr ' ' '\n' | sed 's/^/--forbid-name /') \
++    --out <working>/change-check.json
++```
++
++**SE-6 (F1/C1):** `change-check.json` reads `scope_ok: true` — no kind outside `## Touches`
++changed.
++**SE-7 (F6/C6):** `change-check.json` reads `version_ok: true` — the version is up by one,
++`updated` equals the run's date, and there is exactly one new log line.
++**SE-8 (F4/C4):** `change-check.json` reads `names_ok: true`, and every new or changed kind
++has an `**Example**` part.
++
++**Step 9 — Commit the ontology** · Owner: play · Depends on: Step 8
++
++```
++git add -- core/components/memory/standards/schemas/product-os/ontology.md <working>
++git commit -m "feat(ontology): v<N> — <the need> (#<issue>)"
++```
++
++### Phase: End sequence (injected — D2 position: end)
++
++After the commit, the D2 rule injects the close sequence, each a sub-play with
++`parent_run_id`:
++
++**Step E1 — commit-change** · blockedBy: Step 9
++
++    { "play": "commit-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "<working>/commit-change.json" } }
++
++**Step E2 — propose-change** · blockedBy: E1
++
++    { "play": "propose-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "<working>/propose-change.json" } }
++
++**Step E3 — check-change** · blockedBy: E2
++
++    { "play": "check-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "<working>/check-change.json" } }
++
++**Step E4 — merge-change** · blockedBy: E3
++
++    { "play": "merge-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "<working>/merge-change.json" } }
++
++Each end member owns its own evals; a review reject stops the chain before merge.
++**SE-9 (F7/C7):** `start-change` ran at the head; the PR's base equals the target
++`resolve_target.py` gives for the branch; `merge-change.json` reports the PR merged.
++**SE-10 (F8/C8):** the skill's drafts and the ontology write are all under `<working>` and
++were made by this run's `product-os-keeper` dispatches (the contracts' `task_id`s); the skill
++is not user-invocable.
++
++### Phase: Scenario Validation
++
++**Step 10 — Scenario evals** · Owner: play · Depends on: the end sequence
++- **SCE-1 (S1 — product owner, a new kind):** `ontology-check.json` reads `valid: true`, the
++  new kind is in `change-check.json` `changed_kinds`, `version_after` equals
++  `version_before` + 1, and `merge-change.json` reports the PR merged into the target branch.
++- **SCE-2 (S2 — product owner, a change at a checkpoint):** `decisions.json` holds a `yes`
++  for each of the three points; any `change` entry comes before that point's `yes`; each
++  entry carries the sha256 of the draft that was shown.
++- **SCE-3 (S3 — reviewer, scope):** `change-check.json` reads `scope_ok: true` and
++  `out_of_scope` is empty.
++- **SCE-4 (S4 — reader, plain words):** `change-check.json` reads `names_ok: true`, and each
++  new or changed kind has an example.
++- **SCE-5 (S5 — product owner, a check that fails):** the last `ontology-check.json` reads
++  `valid: true`; no commit was made while an earlier report read not valid.
++
++### Phase: Evidence & Close
++
++**Step 11 — Close** · Owner: play · Depends on: Step 10
++Run the Standard Play Close. The close is stop-condition gated: `check_stop_condition.py`
++over the baked `stop-condition.yaml` (D1 the ontology check reads valid; D2 all three
++checkpoints agreed; D3 scope ok; D4 version ok) must read **held** before any COMPLETED
++close.
++
++```bash
++# --- Standard Play Close (shared; see ../_shared/play-close.md) ---
++# Run the close in ../_shared/play-close.md. Its Step L loads the templates through
++# template-manager and sets ts and evidence_dest; then run this play's own lines below;
++# then Steps C0-C2.
++#   evidence_base, slug (project-scoped play):
++#     evidence_base="${stm_base}${issue}/evidence/edit-ontology/"   ; slug="#${issue}"
++# Session identity stamp (#463) — close phase; start phase ran at pre-flight
++session_stamp=$(python3 scripts/session_stamp.py --phase close \
++    --marker "${stm_base}${issue}/status/session-stamp-edit-ontology.json")
++# Stop-condition gate (#464) — Step C0: this play carries a baked manifest, so the
++# gate is LIVE. Evaluate the Done means here as the close's authoritative input.
++python3 scripts/check_stop_condition.py \
++    --manifest "<play-dir>/stop-condition.yaml" \
++    --base "${stm_base}${issue}/" \
++    --out "${stm_base}${issue}/status/stop-condition-edit-ontology.yaml"
++sc_exit=$?   # 0 held · 1 unmet · 2 error
++```
++
++**Step C0 — bind the verdict.** `sc_exit == 0` (held) permits `status: COMPLETED`. Anything
++else closes `HALTED` with `exit_reason: stop_condition_unmet` and the evidence's Stop
++Condition section names every unmet clause. An unevaluable verdict is never a pass.
++
++**Step C1 — Write evidence file.** Gated by the resolved `evidence.record` flag (global +
++per-play `evidence.plays.edit-ontology`; first match wins, absent ⇒ record). When false, skip
++the write and record `evidence skipped (record=false)` in the report's pointer line.
++Otherwise fill the `evidence-file.md` slots (play `edit-ontology`, run_id
++`edit-ontology-${ts}`, issue, started_at/completed_at, status per C0, exit_reason; artifacts
++produced: the ontology, `need.md`, the three drafts, `decisions.json`, `ontology-check.json`,
++`change-check.json`, the commit sha; step and scenario eval results SE-1…SE-10 /
++SCE-1…SCE-5; the three checkpoint answers in the product owner's words; the session identity
++stamp fields from $session_stamp (#463): session_id, ledger_file, ledger_start_offset,
++ledger_end_offset (null when unresolved — never blocks the close); and stop_condition per C0)
++and write to `$evidence_dest`. Do NOT hand-author the body.
++
++**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in the
++Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>. Or
++run /next to see all recommended actions.` (only /next pointer, or omit, when the mapped
++command is null), per `play-close.md`. Fill the `delivery-report.md` slots and output the
++report: `## edit-ontology Delivered — #${issue}`, the Run Summary table, the Pipeline Steps
++table from the task DAG, the Artifacts Produced table (the ontology version, the kinds
++changed, the PR), Next Steps (the plays that write the changed kinds may now need edit-play),
++and a pointer to `$evidence_dest`. Always emitted; never gated.
++
++```bash
++# --- end Standard Play Close ---
++```
++
++## Scenario Validation
++
++| Scenario | Persona | Eval |
++|----------|---------|------|
++| S1 — a new kind | product owner | SCE-1 |
++| S2 — a change at a checkpoint | product owner | SCE-2 |
++| S3 — scope | reviewer | SCE-3 |
++| S4 — plain words | reader | SCE-4 |
++| S5 — a check that fails | product owner | SCE-5 |
++
++## Recovery
++
++| For | Trigger | Direction | Handoff |
++|-----|---------|-----------|---------|
++| F1 | a kind the need does not touch changed | undo the change to that kind, and show it to the product owner as a separate need | autonomous |
++| F2 | something was written as agreed without the product owner's yes at one of the three points | take the write back to draft, and ask again at that checkpoint | human |
++| F3 | an existing kind changed meaning with no log line | add the log line that names the changed meaning, or undo the change | autonomous |
++| F4 | a real name in the text, or text a newcomer cannot follow | rewrite with personas and plain words, and run the change check again | autonomous |
++| F5 | the run would close while the ontology check fails | fix each problem the report lists and run the check again; the run stays open until it reads valid | autonomous |
++| F6 | the version, the date or the log line is missing | set the version, the date and the log line, and run the checks again | autonomous |
++| F7 | the change landed outside the change plays, or on the wrong branch | stop; land it through the change plays, on the branch `resolve_target.py` gives | human |
++| F8 | the ontology skill ran outside this play | throw that result away, and run the need through this play | autonomous |
++
++## Pause and Resume
++
++Steps run top to bottom. On entry, resolve the issue from the branch, check the status marker
++and `<working>/decisions.json`, skip completed steps, reset any in-progress step to pending,
++and continue. A resume never asks a checkpoint again once `decisions.json` holds its `yes`,
++and never re-drafts a stage whose checkpoint is agreed.
++
++## Compilation Metadata
++
++| Field | Value |
++|-------|-------|
++| fingerprint | sha256:09e36c194499d5fd0fa33bd9f45f4012b54c3cfa2b7f36a7a071a24ead08015b (of `reference/ice.md`) |
++| compiled_by | create-play (#777) |
++| pipeline_position | both (start-change head; commit → propose → review → merge close) |
++| position_exception | ontology-writing both play — writes the ontology on its started branch and commits it (Step 9) BEFORE the injected end sequence lands it |
++| workflow_structure | A (three pinned human checkpoints — the product owner decides; stop-condition gated close) |
++| stop_condition | stop-condition.yaml (D1–D4), gate live at Step C0 |
++| domain_agents | 1 (product-os-keeper) |
++| utility_agents | 0 |
++| skills_used | author-product-ontology |
++| scripts | 6 (preflight.py, session_stamp.py, check_stop_condition.py, check_ontology.py — copied from the author-product-ontology skill, check_ontology_change.py, record_checkpoint.py) + test_edit_ontology_scripts.py |
++| step_evals | 10 (SE-1…SE-10) |
++| scenario_evals | 5 (SCE-1…SCE-5) |
++| recovery_entries | 8 (one per failure condition; 6 autonomous / 2 human) |
+diff --git a/core/components/plays/edit-ontology/reference/ice.md b/core/components/plays/edit-ontology/reference/ice.md
+new file mode 100644
+index 00000000..9950e850
+--- /dev/null
++++ b/core/components/plays/edit-ontology/reference/ice.md
+@@ -0,0 +1,104 @@
++# edit-ontology — ICE source
++
++The clean ICE triple this play is compiled from. Update this and recompile via
++edit-play; never hand-edit the compiled SKILL.md.
++
++## Intent
++
++A person changes Garura's product ontology — its kinds, their links and their rules — one
++need at a time. Every change is agreed with the product owner, checked by a script, and
++landed through the change plays.
++
++### Constraints
++
++- C1 — Every run works on one need, and changes only the kinds that need touches.
++- C2 — The product owner decides. The run stops for a typed yes at three points: the
++  questions the ontology must answer, the kinds, and the links and rules. Nothing is
++  written as agreed before that yes.
++- C3 — Reuse before you invent. An existing kind is never redefined without a log line that
++  says so.
++- C4 — Every page a person reads is in ASD-STE100 plain English, uses personas and never
++  names, and has a real example.
++- C5 — A script decides whether the ontology is valid, not the model. The run ends only when
++  the ontology check passes.
++- C6 — The ontology version goes up by one, the date is set, and one log line says what
++  changed and why.
++- C7 — The run opens its own change, and lands it through commit-change, propose-change,
++  check-change and merge-change. When the issue is in a plan, it lands on the plan's branch.
++- C8 — The play runs the ontology skill. A person never runs the skill directly.
++
++### Failure conditions
++
++- F1 — The run changed a kind that its need does not touch.
++- F2 — Something was written as agreed without the product owner's yes at one of the three
++  points.
++- F3 — An existing kind changed meaning, and no log line says so.
++- F4 — A page names a real person, or a person cannot follow it.
++- F5 — The run closed while the ontology check still failed.
++- F6 — The version, the date or the log line is missing.
++- F7 — The change landed outside the change plays, or on the wrong branch.
++- F8 — The ontology skill ran outside this play.
++
++## Context
++
++- The ontology: `core/components/memory/standards/schemas/product-os/ontology.md` (source; the
++  installed copy is read-only).
++- The skill that does the work: `author-product-ontology` (seven steps; its check
++  `check_ontology.py`).
++- The agent that gathers sources and runs the skill: `product-os-keeper`.
++- The format: `standards/templates/product-ontology.md`.
++- Persona: the product owner, who decides; the agents and plays that read the ontology.
++
++## Expectation
++
++### Success scenarios
++
++- S1 — (product owner, a new kind) Given the need "the ICE as its own kind", when the run
++  ends, then the ontology has the ICE kind with its properties, links, rules and a real
++  example; the version goes from 5 to 6, with one log line; and the change is merged into
++  the plan's branch. Measure: the ontology check reads valid, and the PR is merged into the
++  branch the target script gives.
++- S2 — (product owner, a change at a checkpoint) Given a run waiting at the kinds
++  checkpoint, when the product owner types a change, then the run applies it and asks again,
++  and nothing is written as agreed until the product owner types yes. Measure: the decision
++  record holds one yes for each of the three checkpoints, each recorded after its draft was
++  shown.
++- S3 — (reviewer, scope) Given a need that touches one kind, when the change is reviewed,
++  then only that kind, the kinds it links to, the questions, the version and the log
++  changed. Measure: the scope report lists no other kind as changed.
++- S4 — (reader, plain words) Given the new kind's text, when a newcomer reads it, then it
++  holds no real names and has a real example. Measure: the name check finds no name, and the
++  kind has an example.
++- S5 — (product owner, a check that fails) Given an ontology that fails the check, when the
++  run reaches its end, then it fixes the problems and runs the check again, and it never
++  lands while the check fails. Measure: the last check report reads valid.
++
++### Done means
++
++- D1 — the ontology check report exists and reads valid.
++  check: { type: field_equals, file: "context/edit-ontology/ontology-check.json", field: "valid", equals: true }
++- D2 — the decision record holds a yes for each of the three checkpoints.
++  check: { type: field_equals, file: "context/edit-ontology/decisions.json", field: "all_agreed", equals: true }
++- D3 — the scope report says only the kinds the need touches changed.
++  check: { type: field_equals, file: "context/edit-ontology/change-check.json", field: "scope_ok", equals: true }
++- D4 — the version is up by one, the date is today, and there is one new log line.
++  check: { type: field_equals, file: "context/edit-ontology/change-check.json", field: "version_ok", equals: true }
++
++### Recovery (one per failure condition)
++
++- REC1 (F1) — undo the change to the out-of-scope kind, and show it to the product owner as
++  a separate need. Handoff: autonomous.
++- REC2 (F2) — take the unagreed write back to draft, and ask again at that checkpoint.
++  Handoff: human.
++- REC3 (F3) — add the log line that names the changed meaning, or undo the change. Handoff:
++  autonomous.
++- REC4 (F4) — rewrite the text with personas and plain words, and run the name check again.
++  Handoff: autonomous.
++- REC5 (F5) — fix each problem the check report lists, and run the check again; the run
++  stays open until the check passes. Handoff: autonomous.
++- REC6 (F6) — set the version, the date and the log line, and run the check again. Handoff:
++  autonomous.
++- REC7 (F7) — stop; land the change through the change plays, on the branch the target
++  script gives. Handoff: human.
++- REC8 (F8) — throw away a result the skill made outside the play, and run it through this
++  play. Handoff: autonomous.
+diff --git a/core/components/plays/edit-ontology/scripts/check_ontology.py b/core/components/plays/edit-ontology/scripts/check_ontology.py
+new file mode 100644
+index 00000000..2fc34796
+--- /dev/null
++++ b/core/components/plays/edit-ontology/scripts/check_ontology.py
+@@ -0,0 +1,231 @@
++#!/usr/bin/env python3
++"""check_ontology.py — deterministic check of the product ontology document.
++
++Reads the ontology written in the canonical format
++(memory/standards/templates/product-ontology.md) and reports whether it holds together:
++
++  - front matter: ontology, version, updated
++  - sections: Questions it must answer, Kinds, Not yet defined, Log
++  - every question has an id (Qn), an "Answered by" line and a Status
++    (answered | partly | not yet); a question marked "answered" may only lean on
++    kinds that are defined, not on kinds still "not yet defined"
++  - every defined kind has: What it is, Who reads it (person | agent | both),
++    Lives at, a Properties table with at least one row, Relationships (a table or
++    "None yet."), at least one Rule, and an Example
++  - every relationship points at a kind that is defined or listed as not yet defined
++  - every kind a question names is defined or listed as not yet defined
++
++No git, no network, no LLM. Same file in, same answer out.
++
++Usage:
++    python3 check_ontology.py --ontology <path> [--out <report.json>]
++
++Exit codes: 0 valid · 2 not valid · 3 unreadable.
++"""
++import argparse
++import json
++import re
++import sys
++
++REQUIRED_FIELDS = ["ontology", "version", "updated"]
++REQUIRED_SECTIONS = ["Questions it must answer", "Kinds", "Not yet defined", "Log"]
++READERS = {"person", "agent", "both"}
++STATUSES = {"answered", "partly", "not yet"}
++Q_RE = re.compile(r"^-\s+\*\*(Q\d+)\*\*\s+[—-]\s+(.+)$")
++
++
++def read_text(path):
++    with open(path, encoding="utf-8") as fh:
++        return fh.read()
++
++
++def front_matter(text):
++    if not text.startswith("---"):
++        return None, text
++    end = text.find("\n---", 3)
++    if end == -1:
++        return None, text
++    fields = {}
++    for line in text[3:end].strip().splitlines():
++        if ":" in line:
++            key, val = line.split(":", 1)
++            fields[key.strip()] = val.strip()
++    return fields, text[end + 4:]
++
++
++def sections(body):
++    """Split into {## heading: text}."""
++    out, current, buf = {}, None, []
++    for line in body.splitlines():
++        if line.startswith("## "):
++            if current is not None:
++                out[current] = "\n".join(buf)
++            current, buf = line[3:].strip(), []
++        elif current is not None:
++            buf.append(line)
++    if current is not None:
++        out[current] = "\n".join(buf)
++    return out
++
++
++def kinds(kinds_text):
++    """Split the Kinds section into {kind name: text}."""
++    out, current, buf = {}, None, []
++    for line in kinds_text.splitlines():
++        if line.startswith("### "):
++            if current is not None:
++                out[current] = "\n".join(buf)
++            current, buf = line[4:].strip(), []
++        elif current is not None:
++            buf.append(line)
++    if current is not None:
++        out[current] = "\n".join(buf)
++    return out
++
++
++def table_rows(block, heading):
++    """Data rows of the markdown table right after **heading** (blank lines allowed between).
++
++    Returns None when the heading is missing, [] when no table follows it."""
++    m = re.search(rf"\*\*{re.escape(heading)}\*\*", block)
++    if not m:
++        return None
++    rows = []
++    for line in block[m.end():].splitlines()[1:]:
++        if not line.strip() and not rows:
++            continue
++        if not line.startswith("|"):
++            break
++        cells = [c.strip() for c in line.strip().strip("|").split("|")]
++        if all(set(c) <= set("-: ") for c in cells):
++            continue
++        rows.append(cells)
++    return rows[1:]  # drop the header row
++
++
++def bullets_after(block, heading):
++    """Bullets right after **heading** (blank lines allowed before the first)."""
++    m = re.search(rf"\*\*{re.escape(heading)}\*\*", block)
++    if not m:
++        return None
++    items = []
++    for line in block[m.end():].splitlines()[1:]:
++        if not line.strip() and not items:
++            continue
++        if not line.startswith("- "):
++            break
++        items.append(line[2:].strip())
++    return items
++
++
++def field(block, name):
++    m = re.search(rf"^\*\*{re.escape(name)}:\*\*\s*(.+)$", block, re.M)
++    return m.group(1).strip() if m else ""
++
++
++def not_yet_kinds(text):
++    return {m.group(1).strip() for m in re.finditer(r"^-\s+\*\*(.+?)\*\*\s+[—-]", text, re.M)}
++
++
++def check(text):
++    problems = []
++    fm, body = front_matter(text)
++    if fm is None:
++        return {"valid": False, "problems": ["no front matter"], "kinds": [], "questions": []}
++    for f in REQUIRED_FIELDS:
++        if not fm.get(f):
++            problems.append(f"front matter: missing `{f}`")
++    if fm.get("version") and not fm["version"].isdigit():
++        problems.append("front matter: version must be a whole number")
++
++    secs = sections(body)
++    for s in REQUIRED_SECTIONS:
++        if s not in secs:
++            problems.append(f"missing section: ## {s}")
++
++    defined = kinds(secs.get("Kinds", ""))
++    pending = not_yet_kinds(secs.get("Not yet defined", ""))
++    known = set(defined) | pending
++    for k in set(defined) & pending:
++        problems.append(f"kind `{k}` is both defined and listed as not yet defined")
++
++    for name, block in defined.items():
++        if not field(block, "What it is"):
++            problems.append(f"{name}: no **What it is:** line")
++        reader = field(block, "Who reads it").lower()
++        if reader not in READERS:
++            problems.append(f"{name}: **Who reads it:** must be person, agent or both")
++        if not field(block, "Lives at"):
++            problems.append(f"{name}: no **Lives at:** line")
++        props = table_rows(block, "Properties")
++        if not props:
++            problems.append(f"{name}: needs a Properties table with at least one row")
++        if "**Relationships**" not in block:
++            problems.append(f"{name}: no **Relationships** heading")
++        else:
++            rels = table_rows(block, "Relationships") or []
++            if not rels and "None yet." not in block.split("**Relationships**", 1)[1].split("**", 1)[0]:
++                problems.append(f"{name}: Relationships needs a table or 'None yet.'")
++            for row in rels:
++                other = row[1] if len(row) > 1 else ""
++                if other and other not in known:
++                    problems.append(f"{name}: relationship points at unknown kind `{other}` — "
++                                    f"define it or list it under Not yet defined")
++        rules = bullets_after(block, "Rules")
++        if not rules:
++            problems.append(f"{name}: needs at least one rule under **Rules**")
++        ex = block.split("**Example**", 1)
++        if len(ex) < 2 or not ex[1].strip():
++            problems.append(f"{name}: needs an **Example**")
++
++    questions = []
++    lines = secs.get("Questions it must answer", "").splitlines()
++    for i, line in enumerate(lines):
++        m = Q_RE.match(line)
++        if not m:
++            continue
++        qid = m.group(1)
++        rest = "\n".join(lines[i + 1:i + 4])
++        answered_by = re.search(r"\*\*Answered by:\*\*\s*(.+)", rest)
++        status = re.search(r"\*\*Status:\*\*\s*(.+)", rest)
++        st = status.group(1).strip().lower() if status else ""
++        questions.append({"id": qid, "status": st})
++        if not answered_by:
++            problems.append(f"{qid}: no **Answered by:** line")
++        if st not in STATUSES:
++            problems.append(f"{qid}: **Status:** must be answered, partly or not yet")
++        if answered_by:
++            named = [k for k in known if re.search(rf"\b{re.escape(k)}\b", answered_by.group(1))]
++            if not named and st != "not yet":
++                problems.append(f"{qid}: **Answered by:** names no known kind")
++            if st == "answered" and any(k in pending for k in named):
++                problems.append(f"{qid}: marked answered but leans on a kind not yet defined")
++    if not questions:
++        problems.append("no questions — the ontology must say what it answers")
++
++    return {"valid": not problems, "kinds": sorted(defined), "not_yet_defined": sorted(pending),
++            "questions": questions, "problems": problems}
++
++
++def main():
++    ap = argparse.ArgumentParser()
++    ap.add_argument("--ontology", required=True)
++    ap.add_argument("--out")
++    args = ap.parse_args()
++    try:
++        text = read_text(args.ontology)
++    except (OSError, UnicodeDecodeError) as exc:
++        print(json.dumps({"error": f"{exc.__class__.__name__}: {exc}", "ontology": args.ontology}))
++        return 3
++    report = check(text)
++    report["ontology"] = args.ontology
++    out = json.dumps(report, indent=2)
++    print(out)
++    if args.out:
++        with open(args.out, "w", encoding="utf-8") as fh:
++            fh.write(out + "\n")
++    return 0 if report["valid"] else 2
++
++
++if __name__ == "__main__":
++    sys.exit(main())
+diff --git a/core/components/plays/edit-ontology/scripts/check_ontology_change.py b/core/components/plays/edit-ontology/scripts/check_ontology_change.py
+new file mode 100644
+index 00000000..a099712d
+--- /dev/null
++++ b/core/components/plays/edit-ontology/scripts/check_ontology_change.py
+@@ -0,0 +1,87 @@
++#!/usr/bin/env python3
++"""check_ontology_change.py — what an edit-ontology run changed in the ontology (#777).
++
++Compares the ontology before the run with the ontology after it, and checks three things:
++  scope   — only the kinds the need touches changed (C1/F1)
++  version — the version is up by one, `updated` is the run's date, one new log line (C6/F6)
++  names   — no real person's name appears in the changed text (C4/F4)
++
++    python3 check_ontology_change.py --before <base copy> --after <ontology.md> \
++        --allow-kind ICE [--allow-kind Capability ...] --date 2026-10-22 \
++        [--forbid-name <name> ...] --out <change-check.json>
++
++The questions, the "Not yet defined" list, the version, the date and the log may always
++change. Exit 0 when all three checks pass, 1 when one fails, 2 on bad input.
++"""
++import argparse
++import json
++import re
++import sys
++
++
++def parse(text):
++    """version, updated, kinds {name: body}, log lines."""
++    fm = re.match(r"^---\n(.*?)\n---\n", text, re.S)
++    meta = {}
++    if fm:
++        for line in fm.group(1).splitlines():
++            if ":" in line:
++                k, v = line.split(":", 1)
++                meta[k.strip()] = v.strip()
++    sections = re.split(r"^## ", text, flags=re.M)
++    kinds, log = {}, []
++    for sec in sections:
++        title, _, body = sec.partition("\n")
++        if title.strip() == "Kinds":
++            for part in re.split(r"^### ", body, flags=re.M)[1:]:
++                name, _, kbody = part.partition("\n")
++                kinds[name.strip()] = kbody.strip()
++        elif title.strip() == "Log":
++            log = [ln for ln in body.splitlines() if ln.startswith("- ")]
++    return meta.get("version"), meta.get("updated"), kinds, log
++
++
++def main(argv=None):
++    ap = argparse.ArgumentParser()
++    ap.add_argument("--before", required=True)
++    ap.add_argument("--after", required=True)
++    ap.add_argument("--allow-kind", action="append", default=[])
++    ap.add_argument("--date", required=True)
++    ap.add_argument("--forbid-name", action="append", default=[])
++    ap.add_argument("--out", required=True)
++    ns = ap.parse_args(argv)
++    try:
++        before = open(ns.before, encoding="utf-8").read()
++        after = open(ns.after, encoding="utf-8").read()
++    except OSError as e:
++        sys.stderr.write(f"check_ontology_change.py: {e}\n")
++        sys.exit(2)
++
++    v0, _, k0, log0 = parse(before)
++    v1, d1, k1, log1 = parse(after)
++    changed = sorted(n for n in set(k0) | set(k1) if k0.get(n) != k1.get(n))
++    out_of_scope = [n for n in changed if n not in ns.allow_kind]
++    new_log = [ln for ln in log1 if ln not in log0]
++    try:
++        bumped = int(v1) == int(v0) + 1
++    except (TypeError, ValueError):
++        bumped = False
++    changed_text = "\n".join(k1.get(n, "") for n in changed) + "\n" + "\n".join(new_log)
++    found = sorted({n for n in ns.forbid_name if n and re.search(rf"\b{re.escape(n)}\b", changed_text, re.I)})
++
++    report = {
++        "changed_kinds": changed, "allowed_kinds": sorted(ns.allow_kind), "out_of_scope": out_of_scope,
++        "scope_ok": not out_of_scope,
++        "version_before": v0, "version_after": v1, "updated": d1, "date": ns.date,
++        "new_log_lines": len(new_log),
++        "version_ok": bumped and d1 == ns.date and len(new_log) == 1,
++        "names_found": found, "names_ok": not found,
++    }
++    with open(ns.out, "w", encoding="utf-8") as fh:
++        json.dump(report, fh, indent=2)
++    print(json.dumps(report, indent=2))
++    sys.exit(0 if report["scope_ok"] and report["version_ok"] and report["names_ok"] else 1)
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/core/components/plays/edit-ontology/scripts/check_stop_condition.py b/core/components/plays/edit-ontology/scripts/check_stop_condition.py
+new file mode 100644
+index 00000000..eeb7e8c4
+--- /dev/null
++++ b/core/components/plays/edit-ontology/scripts/check_stop_condition.py
+@@ -0,0 +1,136 @@
++#!/usr/bin/env python3
++"""
++check_stop_condition.py — evaluate a play's baked stop condition (#464).
++
++A play ends because "done" was PROVEN, not because its step list ran out.
++The proof is this script: it reads the play's compiled stop-condition
++manifest (stop-condition.yaml, baked by create-play from the ICE's
++"### Done means" section) and evaluates every clause against what actually
++exists on disk at close. Pure assertions — it executes nothing, so the
++close gate stays instant and side-effect-free (implement's hand-built
++check_done.py pattern, made play-agnostic).
++
++Clause types (mechanical, closed set):
++    artifact_exists     {path}                       — glob ok, ≥1 match
++    field_equals        {file, field, equals}        — dot-path into JSON/YAML
++    gate_outcomes_pass  {file}                       — check-quality-gates output: ok == true
++
++Manifest shape (content.done is the clause list):
++    schema: {name: stop-condition}
++    content:
++      done:
++        - id: D1
++          says: "the commits exist and the tree is clean"   # human sentence
++          check: {type: artifact_exists, path: "...commits.yaml"}
++
++Usage:
++    python3 check_stop_condition.py --manifest <stop-condition.yaml> \
++        --base <run/STM root for relative paths> --out <verdict.yaml>
++
++Verdict: {stop_condition: held|unmet, clauses: [{id, says, status, detail}]}
++Exit 0 held, 1 unmet, 2 manifest/clause error (an unevaluable clause is an
++error, never a silent pass — the check-quality-gates rule, reused).
++"""
++
++import argparse
++import glob
++import json
++import os
++import sys
++
++try:
++    import yaml
++except ImportError:
++    print("PyYAML required: pip install pyyaml", file=sys.stderr)
++    sys.exit(2)
++
++
++def load_doc(path):
++    with open(path, "r", encoding="utf-8") as fh:
++        if path.endswith(".json"):
++            return json.load(fh)
++        return yaml.safe_load(fh)
++
++
++def dot_get(doc, field):
++    cur = doc
++    for part in field.split("."):
++        if isinstance(cur, list):
++            cur = cur[int(part)]
++        elif isinstance(cur, dict) and part in cur:
++            cur = cur[part]
++        else:
++            return None, False
++    return cur, True
++
++
++def eval_clause(clause, base):
++    check = clause.get("check") or {}
++    ctype = check.get("type")
++    try:
++        if ctype == "artifact_exists":
++            pattern = os.path.join(base, check["path"])
++            hits = glob.glob(pattern)
++            return ("held" if hits else "unmet",
++                    f"{len(hits)} match(es) for {check['path']}")
++        if ctype == "field_equals":
++            fpath = os.path.join(base, check["file"])
++            if not os.path.exists(fpath):
++                return "unmet", f"file missing: {check['file']}"
++            value, found = dot_get(load_doc(fpath), check["field"])
++            if not found:
++                return "unmet", f"field missing: {check['field']}"
++            ok = value == check["equals"]
++            return ("held" if ok else "unmet",
++                    f"{check['field']} = {value!r} (want {check['equals']!r})")
++        if ctype == "gate_outcomes_pass":
++            fpath = os.path.join(base, check["file"])
++            if not os.path.exists(fpath):
++                return "unmet", f"gate outcomes missing: {check['file']}"
++            doc = load_doc(fpath)
++            ok = bool(doc.get("ok"))
++            counts = doc.get("counts", {})
++            return ("held" if ok else "unmet", f"gates ok={ok} counts={counts}")
++        return "error", f"unknown check type: {ctype!r}"
++    except Exception as exc:  # noqa: BLE001 — an unevaluable clause is an error
++        return "error", f"clause evaluation failed: {exc}"
++
++
++def main():
++    ap = argparse.ArgumentParser()
++    ap.add_argument("--manifest", required=True)
++    ap.add_argument("--base", required=True,
++                    help="root for the manifest's relative paths (the run's STM)")
++    ap.add_argument("--out", required=True)
++    args = ap.parse_args()
++
++    doc = load_doc(args.manifest) or {}
++    clauses = (doc.get("content") or {}).get("done") or []
++    if not clauses:
++        verdict = {"stop_condition": "error",
++                   "clauses": [],
++                   "detail": "manifest has no content.done clauses"}
++        code = 2
++    else:
++        results = []
++        for c in clauses:
++            status, detail = eval_clause(c, args.base)
++            results.append({"id": c.get("id"), "says": c.get("says"),
++                            "status": status, "detail": detail})
++        if any(r["status"] == "error" for r in results):
++            overall, code = "error", 2
++        elif all(r["status"] == "held" for r in results):
++            overall, code = "held", 0
++        else:
++            overall, code = "unmet", 1
++        verdict = {"stop_condition": overall, "clauses": results}
++
++    os.makedirs(os.path.dirname(os.path.abspath(args.out)), exist_ok=True)
++    with open(args.out, "w", encoding="utf-8") as fh:
++        yaml.safe_dump(verdict, fh, sort_keys=False)
++    print(json.dumps(verdict, indent=2))
++    sys.exit(code)
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/core/components/plays/edit-ontology/scripts/preflight.py b/core/components/plays/edit-ontology/scripts/preflight.py
+new file mode 100644
+index 00000000..8d71e9d8
+--- /dev/null
++++ b/core/components/plays/edit-ontology/scripts/preflight.py
+@@ -0,0 +1,180 @@
++#!/usr/bin/env python3
++"""
++preflight.py — resolve a play's pre-flight facts to JSON.
++
++The mechanical hand of a play's Pre-flight phase. The play (orchestrator) decides
++what to HALT on; this script does the deterministic resolution the orchestrator
++should never burn inference on — parse config, derive the path tokens, resolve the
++evidence flag, extract the issue from the branch, and report the changeset state.
++
++Harness-led split:
++  - This script computes FACTS (config tokens, evidence_record, branch, issue,
++    on_default_branch, changes_present, worktree, platform).
++  - The SKILL keeps POLICY — which fact maps to a hard halt vs a graceful exit,
++    which differs per play (commit-change halts when there are NO changes;
++    propose-change halts when the tree is NOT clean — same fact, opposite action).
++
++Layer rule: this script does NOT shell out to git/gh. The orchestrator captures
++the two live reads it needs (current branch via `git branch --show-current`, and
++`git status --porcelain` into a file) and passes them in. Everything else here is
++pure parsing and derivation, so the script is unit-testable with fixtures.
++
++    python3 preflight.py --play <name> [--config <path>] [--branch <name>]
++                         [--porcelain-file <path>]
++
++  --play            the calling play's name (for the per-play evidence override)
++  --config          path to config.yaml (default .garura/core/config.yaml)
++  --branch          current branch name (orchestrator passes `git branch --show-current`)
++  --porcelain-file  file holding `git status --porcelain` output (changes_present)
++
++Prints a single JSON object to stdout. Exit 0 on success, 2 if config is unreadable.
++No third-party packages — runs in any installed target.
++"""
++
++import argparse
++import json
++import os
++import re
++import sys
++
++DEFAULT_BRANCHES = {"main", "master"}
++
++
++def fail(msg):
++    sys.stderr.write(f"preflight.py: {msg}\n")
++    sys.exit(2)
++
++
++# --- minimal indent-aware config reader (dependency-free) --------------------
++
++def parse_config(text):
++    """Parse the simple nested `key: value` YAML garura config uses into a dict.
++
++    Handles 2-space nesting, scalar values, inline ` #` comments and full-line
++    comments. Does not handle YAML lists/anchors — the keys preflight needs are
++    all plain nested scalars, so this is sufficient and has no dependency.
++    """
++    root = {}
++    # stack of (indent, dict) frames; root is indent -1
++    stack = [(-1, root)]
++    for raw in text.splitlines():
++        if not raw.strip() or raw.lstrip().startswith("#"):
++            continue
++        indent = len(raw) - len(raw.lstrip(" "))
++        line = raw.strip()
++        # strip an inline comment (" #..."), leave URLs (which have no " #") intact
++        hashpos = line.find(" #")
++        if hashpos != -1:
++            line = line[:hashpos].rstrip()
++        if ":" not in line:
++            continue
++        key, _, val = line.partition(":")
++        key = key.strip()
++        val = val.strip()
++        # pop frames that are siblings/parents of this indent
++        while stack and indent <= stack[-1][0]:
++            stack.pop()
++        parent = stack[-1][1] if stack else root
++        if val == "":
++            child = {}
++            parent[key] = child
++            stack.append((indent, child))
++        else:
++            parent[key] = _scalar(val.strip("'\""))
++    return root
++
++
++def _scalar(v):
++    low = v.lower()
++    if low == "true":
++        return True
++    if low == "false":
++        return False
++    return v
++
++
++def _get(cfg, *path, default=None):
++    cur = cfg
++    for p in path:
++        if not isinstance(cur, dict) or p not in cur:
++            return default
++        cur = cur[p]
++    return cur
++
++
++# --- resolution --------------------------------------------------------------
++
++def resolve(cfg, play, branch, porcelain_text):
++    stm_base = _get(cfg, "stm", "base-path")
++    product_base = _get(cfg, "product", "base-path")
++
++    # evidence: per-play override wins, then global, then default True
++    ev_play = _get(cfg, "evidence", "plays", play)
++    ev_global = _get(cfg, "evidence", "record")
++    evidence_record = ev_play if ev_play is not None else (
++        ev_global if ev_global is not None else True)
++
++    issue = None
++    on_default = False
++    if branch:
++        m = re.search(r"/(\d+)", branch)
++        if m:
++            issue = m.group(1)
++        on_default = branch in DEFAULT_BRANCHES
++
++    changes_present = None
++    if porcelain_text is not None:
++        changes_present = any(line.strip() for line in porcelain_text.splitlines())
++
++    has_product_ltm = False
++    if product_base:
++        has_product_ltm = os.path.isdir(os.path.join(product_base, "architecture"))
++
++    return {
++        "play": play,
++        "stm_base": stm_base,
++        "stm_pending": _get(cfg, "stm", "pending-path"),
++        "stm_archive": _get(cfg, "stm", "archive-path"),
++        "ltm_project_target": _get(cfg, "ltm", "project-target"),
++        "product_base": product_base,
++        "has_product_ltm": has_product_ltm,
++        "evidence_record": bool(evidence_record),
++        "platform": _get(cfg, "platform"),
++        "worktree": bool(_get(cfg, play, "worktree", default=False)),
++        "branch": branch,
++        "issue": issue,
++        "on_default_branch": on_default,
++        "changes_present": changes_present,
++    }
++
++
++def main(argv=None):
++    ap = argparse.ArgumentParser(description="Resolve a play's pre-flight facts to JSON.")
++    ap.add_argument("--play", required=True, help="calling play name (for evidence override)")
++    ap.add_argument("--config", default=".garura/core/config.yaml", help="path to config.yaml")
++    ap.add_argument("--branch", default=None, help="current branch (from git branch --show-current)")
++    ap.add_argument("--porcelain-file", default=None,
++                    help="file with git status --porcelain output (for changes_present)")
++    args = ap.parse_args(argv)
++
++    try:
++        with open(args.config, encoding="utf-8") as fh:
++            cfg = parse_config(fh.read())
++    except OSError as exc:
++        fail(f"cannot read config {args.config}: {exc}")
++
++    porcelain_text = None
++    if args.porcelain_file:
++        try:
++            with open(args.porcelain_file, encoding="utf-8") as fh:
++                porcelain_text = fh.read()
++        except OSError as exc:
++            fail(f"cannot read porcelain file {args.porcelain_file}: {exc}")
++
++    facts = resolve(cfg, args.play, args.branch, porcelain_text)
++    print(json.dumps(facts, indent=2))
++    return 0
++
++
++if __name__ == "__main__":
++    sys.exit(main(sys.argv[1:]))
+diff --git a/core/components/plays/edit-ontology/scripts/record_checkpoint.py b/core/components/plays/edit-ontology/scripts/record_checkpoint.py
+new file mode 100644
+index 00000000..f5fe3bca
+--- /dev/null
++++ b/core/components/plays/edit-ontology/scripts/record_checkpoint.py
+@@ -0,0 +1,58 @@
++#!/usr/bin/env python3
++"""record_checkpoint.py — record the product owner's answer at an edit-ontology checkpoint (#777).
++
++There are three checkpoints: questions, kinds, links. Each answer is kept in the history,
++in order. A checkpoint is agreed when its latest answer is "yes". `all_agreed` is true only
++when all three are agreed (C2/F2).
++
++    python3 record_checkpoint.py --decisions <decisions.json> --point questions|kinds|links \
++        --verdict yes|change --reply "<the person's exact words>" --draft <the draft that was shown>
++
++Refuses (exit 2) an empty reply, or a draft file that does not exist — an answer is only
++recorded for a draft the person was shown.
++"""
++import argparse
++import hashlib
++import json
++import os
++import sys
++from datetime import datetime, timezone
++
++POINTS = ("questions", "kinds", "links")
++
++
++def main(argv=None):
++    ap = argparse.ArgumentParser()
++    ap.add_argument("--decisions", required=True)
++    ap.add_argument("--point", required=True, choices=POINTS)
++    ap.add_argument("--verdict", required=True, choices=("yes", "change"))
++    ap.add_argument("--reply", required=True)
++    ap.add_argument("--draft", required=True)
++    ns = ap.parse_args(argv)
++    if not ns.reply.strip():
++        sys.stderr.write("record_checkpoint.py: the reply is empty — record only the person's own words\n")
++        sys.exit(2)
++    if not os.path.isfile(ns.draft):
++        sys.stderr.write(f"record_checkpoint.py: no draft at {ns.draft} — show the draft before recording an answer\n")
++        sys.exit(2)
++
++    data = {"history": []}
++    if os.path.isfile(ns.decisions):
++        with open(ns.decisions, encoding="utf-8") as fh:
++            data = json.load(fh)
++    digest = hashlib.sha256(open(ns.draft, "rb").read()).hexdigest()
++    data["history"].append({"point": ns.point, "verdict": ns.verdict, "reply": ns.reply,
++                            "draft": ns.draft, "draft_sha256": digest,
++                            "at": datetime.now(timezone.utc).isoformat(timespec="seconds")})
++    latest = {}
++    for entry in data["history"]:
++        latest[entry["point"]] = entry["verdict"]
++    data["agreed"] = {p: latest.get(p) == "yes" for p in POINTS}
++    data["all_agreed"] = all(data["agreed"].values())
++    with open(ns.decisions, "w", encoding="utf-8") as fh:
++        json.dump(data, fh, indent=2)
++    print(json.dumps({"point": ns.point, "verdict": ns.verdict, "all_agreed": data["all_agreed"]}))
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/core/components/plays/edit-ontology/scripts/session_stamp.py b/core/components/plays/edit-ontology/scripts/session_stamp.py
+new file mode 100644
+index 00000000..76862276
+--- /dev/null
++++ b/core/components/plays/edit-ontology/scripts/session_stamp.py
+@@ -0,0 +1,129 @@
++#!/usr/bin/env python3
++"""
++session_stamp.py — the session identity stamp (#463).
++
++Binds a play run to the exact slice of the Claude Code session ledger that
++produced it, so spend and behavior are computable OFFLINE (token-burn-dash)
++with zero in-run cost. No parsing, no summing: one directory listing, one
++line read, one file size.
++
++The ledger: Claude Code writes one JSONL per session under
++~/.claude/projects/<cwd-slug>/<session-id>.jsonl. Every line carries
++sessionId and gitBranch; assistant lines carry token usage. This script
++never reads more than the last line of a candidate file.
++
++Phases (mirrors the status-marker lifecycle):
++    --phase start  → resolve the live session (prefer the ledger whose last
++                     line's gitBranch matches --branch, else newest mtime),
++                     write {session_id, ledger_file, start_offset, started_at}
++                     to --marker.
++    --phase close  → read --marker, take the ledger's current size as
++                     end_offset, emit the stamp JSON to stdout (the play close
++                     copies the fields into the evidence frontmatter).
++
++Canonical copy: create-play/references/session_stamp.py — stamped into each
++play's scripts/ by create-play (Standard Play Close, G12), same discipline
++as preflight.py. Failures are soft: a missing ledger yields a stamp with
++nulls and "ledger_resolved": false — the close never blocks on the stamp.
++"""
++
++import argparse
++import json
++import sys
++import time
++from pathlib import Path
++
++
++def cwd_slug(cwd):
++    return "".join(ch if ch.isalnum() else "-" for ch in str(cwd))
++
++
++def last_line(path, max_tail=65536):
++    """Read the final line of a (possibly large) file without loading it."""
++    try:
++        with open(path, "rb") as fh:
++            fh.seek(0, 2)
++            size = fh.tell()
++            fh.seek(max(0, size - max_tail))
++            tail = fh.read().decode("utf-8", errors="replace")
++        lines = [line for line in tail.strip().splitlines() if line.strip()]
++        return json.loads(lines[-1]) if lines else None
++    except Exception:
++        return None
++
++
++def resolve_ledger(projects_dir, cwd, branch):
++    """The live session's ledger: prefer last-line gitBranch == branch,
++    fall back to newest mtime. Returns (path, session_id) or (None, None)."""
++    slug_dir = Path(projects_dir) / cwd_slug(cwd)
++    if not slug_dir.is_dir():
++        return None, None
++    candidates = sorted(slug_dir.glob("*.jsonl"),
++                        key=lambda p: p.stat().st_mtime, reverse=True)
++    newest = None
++    for p in candidates[:10]:  # only recent files can be the live session
++        rec = last_line(p)
++        if rec is None:
++            continue
++        sid = rec.get("sessionId")
++        if newest is None and sid:
++            newest = (p, sid)
++        if branch and rec.get("gitBranch") == branch and sid:
++            return p, sid
++    return newest if newest else (None, None)
++
++
++def phase_start(args):
++    ledger, session_id = resolve_ledger(args.projects_dir, args.cwd, args.branch)
++    marker = {
++        "ledger_resolved": ledger is not None,
++        "session_id": session_id,
++        "ledger_file": str(ledger) if ledger else None,
++        "start_offset": ledger.stat().st_size if ledger else None,
++        "started_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
++    }
++    Path(args.marker).parent.mkdir(parents=True, exist_ok=True)
++    with open(args.marker, "w", encoding="utf-8") as fh:
++        json.dump(marker, fh, indent=2)
++    print(json.dumps(marker, indent=2))
++
++
++def phase_close(args):
++    try:
++        with open(args.marker, "r", encoding="utf-8") as fh:
++            marker = json.load(fh)
++    except Exception:
++        marker = {"ledger_resolved": False, "session_id": None,
++                  "ledger_file": None, "start_offset": None}
++    ledger = marker.get("ledger_file")
++    end_offset = None
++    if ledger and Path(ledger).exists():
++        end_offset = Path(ledger).stat().st_size
++    stamp = {
++        "ledger_resolved": bool(marker.get("ledger_resolved") and end_offset is not None),
++        "session_id": marker.get("session_id"),
++        "ledger_file": ledger,
++        "ledger_start_offset": marker.get("start_offset"),
++        "ledger_end_offset": end_offset,
++    }
++    print(json.dumps(stamp, indent=2))
++
++
++def main():
++    ap = argparse.ArgumentParser()
++    ap.add_argument("--phase", required=True, choices=["start", "close"])
++    ap.add_argument("--marker", required=True,
++                    help="status-marker path for the stamp (per play run)")
++    ap.add_argument("--cwd", default=str(Path.cwd()),
++                    help="project root the session runs in")
++    ap.add_argument("--branch", default=None,
++                    help="current git branch (start phase; ledger match hint)")
++    ap.add_argument("--projects-dir",
++                    default=str(Path.home() / ".claude" / "projects"))
++    args = ap.parse_args()
++    phase_start(args) if args.phase == "start" else phase_close(args)
++
++
++if __name__ == "__main__":
++    main()
++    sys.exit(0)
+diff --git a/core/components/plays/edit-ontology/scripts/test_edit_ontology_scripts.py b/core/components/plays/edit-ontology/scripts/test_edit_ontology_scripts.py
+new file mode 100644
+index 00000000..08c762be
+--- /dev/null
++++ b/core/components/plays/edit-ontology/scripts/test_edit_ontology_scripts.py
+@@ -0,0 +1,117 @@
++#!/usr/bin/env python3
++"""test_edit_ontology_scripts.py — the change check and the checkpoint record (#777).
++
++    python3 core/components/plays/edit-ontology/scripts/test_edit_ontology_scripts.py
++"""
++import json
++import os
++import subprocess
++import sys
++import tempfile
++
++HERE = os.path.dirname(os.path.abspath(__file__))
++PASSED = 0
++FAILED = 0
++
++
++def check(name, cond):
++    global PASSED, FAILED
++    if cond:
++        PASSED += 1
++        print(f"  [PASS] {name}")
++    else:
++        FAILED += 1
++        print(f"  [FAIL] {name}")
++
++
++def page(version, updated, kinds, log):
++    out = [f"---\nontology: product\nversion: {version}\nupdated: {updated}\n---\n", "# Product Ontology\n",
++           "## Questions it must answer\n\n- **Q1** — a question\n", "## Kinds\n"]
++    for name, body in kinds:
++        out.append(f"### {name}\n\n{body}\n")
++    out.append("## Not yet defined\n\n- Domain — later.\n")
++    out.append("## Log\n\n" + "".join(f"- {line}\n" for line in log))
++    return "\n".join(out)
++
++
++def run(script, *args):
++    p = subprocess.run([sys.executable, os.path.join(HERE, script), *args], capture_output=True, text=True)
++    return p.returncode, p.stdout, p.stderr
++
++
++def main():
++    with tempfile.TemporaryDirectory() as d:
++        before = os.path.join(d, "before.md")
++        after = os.path.join(d, "after.md")
++        out = os.path.join(d, "change-check.json")
++        base_kinds = [("Business Intent", "What a person wants."), ("Capability", "A part of the product.")]
++        open(before, "w").write(page(5, "2026-10-21", base_kinds, ["2026-10-21 — v5."]))
++
++        # A good change: a new kind, version up, date set, one log line.
++        open(after, "w").write(page(6, "2026-10-22", base_kinds + [("ICE", "The agent's intent. Example: the ICE for checkout.")],
++                                    ["2026-10-21 — v5.", "2026-10-22 — v6: the ICE is its own kind."]))
++        rc, _, _ = run("check_ontology_change.py", "--before", before, "--after", after, "--allow-kind", "ICE",
++                       "--date", "2026-10-22", "--forbid-name", "Kapil", "--out", out)
++        r = json.load(open(out))
++        check("a good change passes", rc == 0 and r["scope_ok"] and r["version_ok"] and r["names_ok"])
++        check("the new kind is listed as changed", r["changed_kinds"] == ["ICE"])
++
++        # Today's ontology fails when nothing was bumped (the check must fail first).
++        rc, _, _ = run("check_ontology_change.py", "--before", before, "--after", before, "--allow-kind", "ICE",
++                       "--date", "2026-10-22", "--out", out)
++        r = json.load(open(out))
++        check("no version bump fails", rc == 1 and not r["version_ok"])
++
++        # A kind outside the need changed.
++        open(after, "w").write(page(6, "2026-10-22", [("Business Intent", "What a person wants, now different."),
++                                                      ("Capability", "A part of the product."), ("ICE", "x")],
++                                    ["2026-10-21 — v5.", "2026-10-22 — v6."]))
++        rc, _, _ = run("check_ontology_change.py", "--before", before, "--after", after, "--allow-kind", "ICE",
++                       "--date", "2026-10-22", "--out", out)
++        r = json.load(open(out))
++        check("an out-of-scope kind fails", rc == 1 and not r["scope_ok"] and r["out_of_scope"] == ["Business Intent"])
++
++        # Two new log lines.
++        open(after, "w").write(page(6, "2026-10-22", base_kinds + [("ICE", "x")],
++                                    ["2026-10-21 — v5.", "2026-10-22 — a.", "2026-10-22 — b."]))
++        rc, _, _ = run("check_ontology_change.py", "--before", before, "--after", after, "--allow-kind", "ICE",
++                       "--date", "2026-10-22", "--out", out)
++        check("two new log lines fail", rc == 1 and not json.load(open(out))["version_ok"])
++
++        # A real name in the text.
++        open(after, "w").write(page(6, "2026-10-22", base_kinds + [("ICE", "Asked for by Kapil.")],
++                                    ["2026-10-21 — v5.", "2026-10-22 — v6."]))
++        rc, _, _ = run("check_ontology_change.py", "--before", before, "--after", after, "--allow-kind", "ICE",
++                       "--date", "2026-10-22", "--forbid-name", "Kapil", "--out", out)
++        r = json.load(open(out))
++        check("a real name fails", rc == 1 and not r["names_ok"] and r["names_found"])
++
++        # The checkpoint record.
++        dec = os.path.join(d, "decisions.json")
++        draft = os.path.join(d, "draft-questions.md")
++        open(draft, "w").write("Q8 …")
++        rc, _, _ = run("record_checkpoint.py", "--decisions", dec, "--point", "questions", "--verdict", "yes",
++                       "--reply", "yes", "--draft", draft)
++        r = json.load(open(dec))
++        check("one yes is not all three", rc == 0 and r["all_agreed"] is False)
++        rc, _, _ = run("record_checkpoint.py", "--decisions", dec, "--point", "kinds", "--verdict", "change",
++                       "--reply", "rename X", "--draft", draft)
++        rc, _, _ = run("record_checkpoint.py", "--decisions", dec, "--point", "kinds", "--verdict", "yes",
++                       "--reply", "yes", "--draft", draft)
++        rc, _, _ = run("record_checkpoint.py", "--decisions", dec, "--point", "links", "--verdict", "yes",
++                       "--reply", "approve", "--draft", draft)
++        r = json.load(open(dec))
++        check("three yes answers are all agreed", r["all_agreed"] is True)
++        check("a change before a yes is kept in the history", [e["verdict"] for e in r["history"]].count("change") == 1)
++        rc, _, err = run("record_checkpoint.py", "--decisions", dec, "--point", "links", "--verdict", "yes",
++                         "--reply", "", "--draft", draft)
++        check("an empty reply is refused", rc == 2)
++        rc, _, err = run("record_checkpoint.py", "--decisions", dec, "--point", "links", "--verdict", "yes",
++                         "--reply", "yes", "--draft", os.path.join(d, "missing.md"))
++        check("a yes with no draft shown is refused", rc == 2)
++    print(f"\n{PASSED} passed, {FAILED} failed")
++    sys.exit(1 if FAILED else 0)
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/core/components/plays/edit-ontology/stop-condition.yaml b/core/components/plays/edit-ontology/stop-condition.yaml
+new file mode 100644
+index 00000000..b4b6007e
+--- /dev/null
++++ b/core/components/plays/edit-ontology/stop-condition.yaml
+@@ -0,0 +1,18 @@
++# edit-ontology stop condition — baked from reference/ice.md "### Done means" (#464).
++# Evaluated by scripts/check_stop_condition.py at Step C0 of the Standard Play Close.
++# Paths are relative to the run's STM root ({stm_base}{issue}/).
++schema: { name: stop-condition }
++content:
++  done:
++    - id: D1
++      says: "the ontology check report exists and reads valid"
++      check: { type: field_equals, file: "context/edit-ontology/ontology-check.json", field: "valid", equals: true }
++    - id: D2
++      says: "the decision record holds a yes for each of the three checkpoints"
++      check: { type: field_equals, file: "context/edit-ontology/decisions.json", field: "all_agreed", equals: true }
++    - id: D3
++      says: "the scope report says only the kinds the need touches changed"
++      check: { type: field_equals, file: "context/edit-ontology/change-check.json", field: "scope_ok", equals: true }
++    - id: D4
++      says: "the version is up by one, the date is today, and there is one new log line"
++      check: { type: field_equals, file: "context/edit-ontology/change-check.json", field: "version_ok", equals: true }
+diff --git a/core/components/plays/install-garura/SKILL.md b/core/components/plays/install-garura/SKILL.md
+index 18423f98..02087c77 100644
+--- a/core/components/plays/install-garura/SKILL.md
++++ b/core/components/plays/install-garura/SKILL.md
+@@ -1,6 +1,6 @@
+ ---
+ name: install-garura
+-description: 'Install Garura into a target project or repository so its skills, agents, and plays become discoverable by a host coding tool — Claude Code or the OpenAI Codex CLI. Reads this garura checkout''s core/components and runs a per-tool ADAPTER that lays them down in the host''s native shape: for claude, .claude/ skills + agents with model tiers resolved to Claude models; for codex, .agents/skills Agent Skills plus AGENTS.md and ~/.codex model/sandbox/approval profiles. Always writes a .garura/ tooling tree (config + STM scaffold) and copies shared memory to the machine-global ~/.garura, and records an install manifest so uninstall-garura can reverse exactly what was placed. Use when the user wants to install, set up, bootstrap, add, or enable Garura in another folder or repo for claude or codex — "install garura into X", "set up garura in this repo for codex", "bootstrap garura", "make codex see the garura skills". Takes the target path, an optional --tool, and an optional --scope (full = every component except the meta harness plays and the meta-utility skills, the default; harness = meta plays + meta-utility skills + change chain + discover-capabilities + their workers only). For the reverse, see uninstall-garura.'
++description: 'Install Garura into a target project or repository so its skills, agents, and plays become discoverable by a host coding tool — Claude Code or the OpenAI Codex CLI. Reads this garura checkout''s core/components and runs a per-tool ADAPTER that lays them down in the host''s native shape: for claude, .claude/ skills + agents with model tiers resolved to Claude models; for codex, .agents/skills Agent Skills plus AGENTS.md and ~/.codex model/sandbox/approval profiles. Always writes a .garura/ tooling tree (config + STM scaffold) and copies shared memory to the machine-global ~/.garura, and records an install manifest so uninstall-garura can reverse exactly what was placed. Use when the user wants to install, set up, bootstrap, add, or enable Garura in another folder or repo for claude or codex — "install garura into X", "set up garura in this repo for codex", "bootstrap garura", "make codex see the garura skills". Takes the target path, an optional --tool, and an optional --scope (full = every component except the meta harness plays and the harness-only skills, the default; harness = meta plays + harness-only skills + change chain + discover-capabilities + their workers only). For the reverse, see uninstall-garura.'
+ user-invocable: true
+ ---
+ 
+@@ -128,8 +128,8 @@ python3 core/components/plays/install-garura/scripts/install.py --target <path>
+ Options:
+ - `--tool claude|codex` — which host tool to target (default `claude`).
+ - `--scope full|harness` — which component set the target receives (default `full`, every
+-  component except the meta harness plays and the meta-utility skills). `harness` installs
+-  only the meta plays (create-play, edit-play), the meta-utility skills
++  component except the meta harness plays and the harness-only skills). `harness` installs
++  only the meta plays (create-play, edit-play), the harness-only skills
+   (author-product-ontology), the five *change plays, `/discover-capabilities` (it writes the
+   full ICE for a harness repo's own capabilities and functionalities, #753), and the worker
+   skills/agents those plays dispatch — for harness-type repos (garura itself) that must not
+diff --git a/core/components/plays/install-garura/scripts/install.py b/core/components/plays/install-garura/scripts/install.py
+index 27c07df8..e10605b3 100644
+--- a/core/components/plays/install-garura/scripts/install.py
++++ b/core/components/plays/install-garura/scripts/install.py
+@@ -17,8 +17,8 @@
+   --target        the project directory to install into (a path, created if absent)
+   --tool          which host tool to target: claude (default) or codex
+   --scope         which component set to install: full (default, every
+-                  component except the meta harness plays and the meta-utility
+-                  skills) or harness (meta plays + meta-utility skills + change
++                  component except the meta harness plays and the harness-only
++                  skills) or harness (meta plays + harness-only skills + change
+                   chain + discover-capabilities + their workers only)
+   --source        the garura checkout to install FROM (auto-derived if omitted)
+   --memory-dest   where shared memory goes (default ~/.garura/core/memory)
+@@ -178,7 +178,7 @@ def portable(path):
+ # A scope names WHICH components a target receives; everything else about the
+ # install (shared memory, config, STM scaffold, manifest) is unchanged. `full`
+ # is the default and installs every component EXCEPT the meta harness plays and the
+-# meta-utility skills — a product project's ADLC has no use for garura's own build tooling. `harness`
++# harness-only skills — a product project's ADLC has no use for garura's own build tooling. `harness`
+ # is for garura-style harness repos that must carry only the meta plays, the
+ # change chain, and the workers those plays dispatch — nothing product-facing.
+ # Membership is explicit and deterministic: when a kept play gains a new
+@@ -189,9 +189,9 @@ def portable(path):
+ # receives them under `full`. (`harness` is an explicit allow-list and names the
+ # two it does want.)
+ META_PLAYS = {"create-play", "edit-play", "create-loop", "edit-loop",
+-              "install-garura", "uninstall-garura"}
+-# Meta-utility skills are the same kind of build tooling, packaged as a skill: a person
+-# invokes them in a harness repo to build garura itself. Never installed under `full`.
++              "install-garura", "uninstall-garura", "edit-ontology"}
++# Harness-only skills are the workers of the meta plays (edit-ontology runs
++# author-product-ontology, #777). Plays run them; no person does (#778). Never installed under `full`.
+ META_SKILLS = {"author-product-ontology"}
+ 
+ SCOPES = {
+@@ -215,6 +215,9 @@ def portable(path):
+             # Its workers: product-os-keeper + find-work-placement, enrich-capability-ice,
+             # judge-grounding; template-manager is already kept.
+             "discover-capabilities",
++            # edit-ontology changes the product ontology with the product owner (#777).
++            # Its workers: product-os-keeper + author-product-ontology, both already kept.
++            "edit-ontology",
+         },
+         # a harness repo builds loops but runs none: no product loop installs there
+         "loops": set(),
+@@ -241,7 +244,7 @@ def resolve_scope(scope, components):
+ 
+     A value of None for a kind means "install every component of that kind".
+     `harness` is a fixed allow-list. `full` is everything on disk EXCEPT the
+-    meta harness plays and the meta-utility skills, so it is resolved against the
++    meta harness plays and the harness-only skills, so it is resolved against the
+     source tree at run time.
+     """
+     if scope != "full":
+@@ -432,8 +435,8 @@ def main(argv=None):
+                     help="host tool to target (default: claude)")
+     ap.add_argument("--scope", default="full", choices=sorted(SCOPES),
+                     help="component set to install: full (default, every component "
+-                         "except the meta harness plays and meta-utility skills) or harness "
+-                         "(meta plays + meta-utility skills + change chain + their workers)")
++                         "except the meta harness plays and harness-only skills) or harness "
++                         "(meta plays + harness-only skills + change chain + their workers)")
+     ap.add_argument("--source", help="garura checkout to install from (auto-derived if omitted)")
+     ap.add_argument("--memory-dest", default="~/.garura/core/memory",
+                     help="where shared memory goes (default ~/.garura/core/memory)")
+diff --git a/core/components/plays/install-garura/scripts/test_install.py b/core/components/plays/install-garura/scripts/test_install.py
+index 81aa5c27..38cd382e 100644
+--- a/core/components/plays/install-garura/scripts/test_install.py
++++ b/core/components/plays/install-garura/scripts/test_install.py
+@@ -416,6 +416,14 @@ def test_the_harness_scope_carries_discover_capabilities_and_its_workers(self):
+             self.assertIn(agent, allow["agents"])
+             self.assertTrue(os.path.isfile(os.path.join(components, "agents", agent + ".md")), agent)
+ 
++    def test_edit_ontology_goes_to_harness_repos_only(self):
++        # The play that changes the product ontology is build tooling for a harness repo (#777).
++        self.assertIn("edit-ontology", install.SCOPES["harness"]["plays"])
++        self.assertIn("author-product-ontology", install.SCOPES["harness"]["skills"])
++        full = install.resolve_scope("full", os.path.join(ROOT, "core", "components"))
++        self.assertNotIn("edit-ontology", full["plays"])
++        self.assertNotIn("author-product-ontology", full["skills"])
++
+     def test_the_config_points_loops_at_the_install_place(self):
+         text = install.transform_config("components:\n  loops: ./core/components/loops/\n"
+                                         "loops:\n  complete-discovery:\n    runner: subagent\n",
+diff --git a/core/components/skills/author-product-ontology/SKILL.md b/core/components/skills/author-product-ontology/SKILL.md
+index fdd7e393..9db1c067 100644
+--- a/core/components/skills/author-product-ontology/SKILL.md
++++ b/core/components/skills/author-product-ontology/SKILL.md
+@@ -1,17 +1,18 @@
+ ---
+ name: author-product-ontology
+-description: Build or extend the product ontology — the agreed, human-readable map of the kinds of things a product is made of, what each holds, how they connect, and what must always be true — one kind at a time, with the person. Follows the classic seven-step method (scope by questions, reuse, terms, kinds, properties, rules, instances) and writes the ontology in the canonical format, checked by a script. Use when a play or a person needs a new kind of thing in the product model (for example the Business Intent), or needs an existing kind changed, before anything writes instances of it.
+-user-invocable: true
++description: Build or extend the product ontology — the agreed, human-readable map of the kinds of things a product is made of, what each holds, how they connect, and what must always be true — one kind at a time, with the person. Follows the classic seven-step method (scope by questions, reuse, terms, kinds, properties, rules, instances) and writes the ontology in the canonical format, checked by a script. Run only by the edit-ontology play, one stage at a time, when the product model needs a new kind of thing (for example the Business Intent) or an existing kind changed, before anything writes instances of it.
++user-invocable: false
+ model: opus
+ allowed-tools: Read, Write, Edit, Bash, Glob, Grep
+ ---
+ 
+ # author-product-ontology
+ 
+-**Meta-utility skill.** It builds Garura's own product ontology — the framework's map of
+-what a product is made of — so it is invoked by a person in a Garura harness repo
+-(`/author-product-ontology`), not by agents or plays, and it is never installed into a
+-product project (see `docs/components/skills.md`, Meta-Utility Skills).
++**Run by the `edit-ontology` play only.** It builds Garura's own product ontology — the
++framework's map of what a product is made of. The play opens the change, hands this skill one
++stage at a time through the `product-os-keeper` agent, stops for the product owner's yes
++between stages, and lands the result through the change plays. A person never runs this skill
++directly (#778). It is installed only in a harness repo, never into a product project.
+ 
+ The product ontology is the agreed map of a product's world: the **kinds** of things in it,
+ their **properties**, how they **relate**, the **rules** that must always hold, and real
+@@ -35,6 +36,22 @@ written as agreed until they say so.
+ | `sources` | no | Paths to read for reuse — existing schemas, doctrine, decision records, issues |
+ | `report_path` | yes | Where the check report is written |
+ 
++## Stages
++
++The `edit-ontology` play runs the seven steps in four stages, one dispatch each. Each stage
++reads the drafts of the stages before it, writes only its own draft, and stops. The product
++owner's yes between stages comes from the play, not from this skill.
++
++| Stage | Steps | Writes |
++|-------|-------|--------|
++| `scope` | 1 | the questions draft |
++| `kinds` | 2, 3, 4 | the kinds draft (reuse, terms, kinds; each changed kind with its log line) |
++| `links` | 5, 6 | the properties, links and rules draft |
++| `write` | 7, then Write and check | the ontology itself, and the check report |
++
++When a contract carries `change` (the product owner's words at a checkpoint) or `problems`
++(the check report), redo that stage with them and write its draft again.
++
+ ## Process
+ 
+ Read the format at `template_path` first, and the ontology at `ontology_path` if it exists.
+diff --git a/core/tools/lint-components/lib/rules/structural.js b/core/tools/lint-components/lib/rules/structural.js
+index 669160d8..48b4dbc4 100644
+--- a/core/tools/lint-components/lib/rules/structural.js
++++ b/core/tools/lint-components/lib/rules/structural.js
+@@ -76,6 +76,17 @@ function checkSkill(component) {
+     }
+   }
+ 
++  // Skills are run by plays, never started by a person (#778)
++  if (fm['user-invocable'] === true || fm['user-invokable'] === true) {
++    violations.push({
++      file: component.file,
++      rule: 'structural/skill-user-invocable',
++      severity: 'error',
++      message: 'A skill is run by a play, never by a person: set `user-invocable: false` and run it from a play',
++      line: 1,
++    });
++  }
++
+   // allowed-tools must be a string (comma-separated), not array
+   if (fm['allowed-tools'] !== undefined && Array.isArray(fm['allowed-tools'])) {
+     violations.push({
+@@ -664,4 +675,4 @@ function check(components) {
+   return violations;
+ }
+ 
+-module.exports = { check };
++module.exports = { check, checkSkill };
+diff --git a/core/tools/lint-components/test/skill-invocable.test.js b/core/tools/lint-components/test/skill-invocable.test.js
+new file mode 100644
+index 00000000..c4c2b5f5
+--- /dev/null
++++ b/core/tools/lint-components/test/skill-invocable.test.js
+@@ -0,0 +1,18 @@
++'use strict';
++// #778: skills are run by plays, never by a person — a skill with user-invocable: true fails.
++const assert = require('assert');
++const fs = require('fs');
++const os = require('os');
++const path = require('path');
++const { checkSkill } = require('../lib/rules/structural');
++let passed = 0;
++function t(label, got, want) { assert.deepStrictEqual(got, want, label); passed++; console.log(`  [PASS] ${label}`); }
++function skill(invocable) {
++  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'skill-'));
++  const file = path.join(dir, 'SKILL.md');
++  fs.writeFileSync(file, `---\nname: author-thing\ndescription: x\nuser-invocable: ${invocable}\nmodel: opus\nallowed-tools: Read\n---\n\n# author-thing\n\n## Input\nx\n## Process\nx\n## Output\nx\n`);
++  return checkSkill({ file, name: 'author-thing', type: 'skill' }).map((v) => v.rule).filter((r) => r === 'structural/skill-user-invocable');
++}
++t('a skill a person can start fails', skill('true'), ['structural/skill-user-invocable']);
++t('a skill only plays run passes', skill('false'), []);
++console.log(`\n${passed} passed, 0 failed`);
+diff --git a/docs/components/skills.md b/docs/components/skills.md
+index eec01a22..652b7466 100644
+--- a/docs/components/skills.md
++++ b/docs/components/skills.md
+@@ -15,7 +15,7 @@ Skills represent the "how" of execution. They are technology or methodology-spec
+ | **Learned** | Technology/methodology specific knowledge |
+ | **Stable** | Don't change frequently over time |
+ | **Reusable** | Used by multiple agents and plays |
+-| **Internal** | Not directly invocable by humans (see Meta-Utility exception) |
++| **Internal** | Not directly invocable by humans; plays run them |
+ | **Context-sharing** | Share the agent's context (never forked) |
+ 
+ ## Two Categories
+@@ -29,22 +29,9 @@ Garura has two categories of components that deploy as Claude Code skills:
+ 
+ Both deploy to `.claude/skills/` but serve fundamentally different roles. This document covers **Skills** and **Plays**. See [Plays](./plays.md) for full play documentation.
+ 
+-### Meta-Utility Skills (Exception)
+-
+-Some skills exist to manage the Garura framework itself. These are classified as **meta-utility skills** and may be `user-invocable: true` despite the general rule that skills are model-invocable only.
+-
+-Example: deployment of Garura components into a target project runs via the `install-garura` play (reverse: `uninstall-garura`). Deployment is invoked directly by the user because it manages the deployment pipeline, not a domain task.
+-
+-Today's meta-utility skill: `author-product-ontology` — builds Garura's product ontology with a person, one kind at a time. It is installed only by `install-garura --scope harness`, never into a product project.
+-
+-Meta-utility skills:
+-- Are user-invocable
+-- Serve framework operations, not domain work
+-- Are not invoked by agents or plays
+-
+ ## Available Skills
+ 
+-Roughly 100 skills are authored in `core/components/skills/`, each with `user-invocable: false` except the meta-utility skills above (`author-product-ontology`). The roster, grouped by family — see each skill's `SKILL.md` frontmatter for its full description and model:
++Roughly 100 skills are authored in `core/components/skills/`, each with `user-invocable: false`. A person never starts a skill; plays run them (the linter fails a skill with `user-invocable: true`, #778). The roster, grouped by family — see each skill's `SKILL.md` frontmatter for its full description and model:
+ 
+ | Family | Skills |
+ |--------|--------|
+@@ -65,7 +52,7 @@ For the complete play roster, see [Plays Component Guide](./plays.md).
+ 
+ ### Model-Invocable Only
+ 
+-Skills are **never invoked directly by humans** (except meta-utility skills). The invocation chain is:
++Skills are **never invoked directly by humans**. The invocation chain is:
+ 
+ ```
+ Human → Play → Agent → Skill
+@@ -220,7 +207,7 @@ allowed-tools: {Tool1, Tool2}
+ |-------|-------------|
+ | `name` | Skill identifier, matches directory name |
+ | `description` | Short summary for CLI/tooling discovery |
+-| `user-invocable` | `false` for skills, `true` only for meta-utility skills and plays |
++| `user-invocable` | `false` for every skill; `true` only for plays |
+ | `model` | Model to use (see Model Selection below) |
+ | `allowed-tools` | Comma-separated list of tools the skill may use |
+ 

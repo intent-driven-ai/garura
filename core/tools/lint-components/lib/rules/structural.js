@@ -76,6 +76,17 @@ function checkSkill(component) {
     }
   }
 
+  // Skills are run by plays, never started by a person (#778)
+  if (fm['user-invocable'] === true || fm['user-invokable'] === true) {
+    violations.push({
+      file: component.file,
+      rule: 'structural/skill-user-invocable',
+      severity: 'error',
+      message: 'A skill is run by a play, never by a person: set `user-invocable: false` and run it from a play',
+      line: 1,
+    });
+  }
+
   // allowed-tools must be a string (comma-separated), not array
   if (fm['allowed-tools'] !== undefined && Array.isArray(fm['allowed-tools'])) {
     violations.push({
@@ -664,4 +675,4 @@ function check(components) {
   return violations;
 }
 
-module.exports = { check };
+module.exports = { check, checkSkill };

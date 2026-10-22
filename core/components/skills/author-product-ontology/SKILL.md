@@ -1,17 +1,18 @@
 ---
 name: author-product-ontology
-description: Build or extend the product ontology — the agreed, human-readable map of the kinds of things a product is made of, what each holds, how they connect, and what must always be true — one kind at a time, with the person. Follows the classic seven-step method (scope by questions, reuse, terms, kinds, properties, rules, instances) and writes the ontology in the canonical format, checked by a script. Use when a play or a person needs a new kind of thing in the product model (for example the Business Intent), or needs an existing kind changed, before anything writes instances of it.
-user-invocable: true
+description: Build or extend the product ontology — the agreed, human-readable map of the kinds of things a product is made of, what each holds, how they connect, and what must always be true — one kind at a time, with the person. Follows the classic seven-step method (scope by questions, reuse, terms, kinds, properties, rules, instances) and writes the ontology in the canonical format, checked by a script. Run only by the edit-ontology play, one stage at a time, when the product model needs a new kind of thing (for example the Business Intent) or an existing kind changed, before anything writes instances of it.
+user-invocable: false
 model: opus
 allowed-tools: Read, Write, Edit, Bash, Glob, Grep
 ---
 
 # author-product-ontology
 
-**Meta-utility skill.** It builds Garura's own product ontology — the framework's map of
-what a product is made of — so it is invoked by a person in a Garura harness repo
-(`/author-product-ontology`), not by agents or plays, and it is never installed into a
-product project (see `docs/components/skills.md`, Meta-Utility Skills).
+**Run by the `edit-ontology` play only.** It builds Garura's own product ontology — the
+framework's map of what a product is made of. The play opens the change, hands this skill one
+stage at a time through the `product-os-keeper` agent, stops for the product owner's yes
+between stages, and lands the result through the change plays. A person never runs this skill
+directly (#778). It is installed only in a harness repo, never into a product project.
 
 The product ontology is the agreed map of a product's world: the **kinds** of things in it,
 their **properties**, how they **relate**, the **rules** that must always hold, and real
@@ -34,6 +35,25 @@ written as agreed until they say so.
 | `template_path` | no | The format. Default: `~/.garura/core/memory/standards/templates/product-ontology.md` |
 | `sources` | no | Paths to read for reuse — existing schemas, doctrine, decision records, issues |
 | `report_path` | yes | Where the check report is written |
+| `stage` | yes, from edit-ontology | Which stage to run: `scope`, `kinds`, `links` or `write` (see Stages) |
+| `change` | no | The product owner's words at a checkpoint; redo the stage with them |
+| `problems` | no | The check report from a failed `write`; fix each problem and write again |
+
+## Stages
+
+The `edit-ontology` play runs the seven steps in four stages, one dispatch each. Each stage
+reads the drafts of the stages before it, writes only its own draft, and stops. The product
+owner's yes between stages comes from the play, not from this skill.
+
+| Stage | Steps | Writes |
+|-------|-------|--------|
+| `scope` | 1 | the questions draft |
+| `kinds` | 2, 3, 4 | the kinds draft (reuse, terms, kinds; each changed kind with its log line) |
+| `links` | 5, 6 | the properties, links and rules draft |
+| `write` | 7, then Write and check | the ontology itself, and the check report |
+
+When a contract carries `change` (the product owner's words at a checkpoint) or `problems`
+(the check report), redo that stage with them and write its draft again.
 
 ## Process
 

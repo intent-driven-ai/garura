@@ -1,0 +1,17 @@
+commits:
+  - sha: dc00dd95
+    message: "fix(edit-ontology): list the ontology skill on product-os-keeper, name its stage inputs, and record the play's position (#777)"
+    files:
+      - core/components/agents/product-os-keeper.md
+      - core/components/skills/author-product-ontology/SKILL.md
+      - core/components/memory/standards/rules/pipeline-position.md
+    branch: plan/756/777-edit-ontology-play
+excluded_files:
+  - path: ".garura/project/issues/777/context/analysis.yaml"
+    reason: "commit-change run state, committed by the executor"
+  - path: ".garura/project/issues/777/context/porcelain.txt"
+    reason: "commit-change run state, committed by the executor"
+leftover_count: 0
+tree_clean: true
+pushed: false
+run_state_committed: true
