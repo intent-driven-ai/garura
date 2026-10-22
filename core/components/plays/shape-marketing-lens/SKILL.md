@@ -1,7 +1,7 @@
 ---
 name: shape-marketing-lens
 position: end
-description: 'Write a SLICE''s marketing lens as a grounding doc (marketing.md) — how the slice is found and reached (SEO / AEO / GEO), the accessibility bar it meets, and the reach signals worth capturing — written directly in place on the live model. The END of the FUNCTIONAL realize pipe (ux → agentic → marketing): it closes the functional pipe (commit → propose → review → merge). An internal tool answers discoverability "not applicable", plainly. Reads the hub from the spine (functionality grounding + profile), never another lens. Writes only the slice''s marketing lens.'
+description: 'Write a SLICE''s marketing lens as a grounding doc (marketing.md) — how the slice is found and reached (SEO / AEO / GEO), the accessibility bar it meets, and the reach signals worth capturing — written directly in place on the live model. The END of the FUNCTIONAL realize pipe (ux → agentic → marketing): it closes the functional pipe (commit → propose → review → merge). An internal tool answers discoverability "not applicable", plainly. Reads the hub from the spine (feature grounding + profile), never another lens. Writes only the slice''s marketing lens.'
 user-invocable: true
 ---
 
@@ -12,7 +12,7 @@ found and reached, the accessibility bar it meets, and the reach signals worth c
 is four things and only four — intent, discoverability (SEO / AEO / GEO), accessibility (moved here
 from the profile), and marketing analytics. An internal tool behind auth answers discoverability
 "not applicable", plainly and with the reason. /shape-marketing-lens reads the slice's **hub** — its
-functionalities' grounding docs plus the profile (both from the spine) — and never another realize
+features' grounding docs plus the profile (both from the spine) — and never another realize
 lens.
 
 **Pipeline position: end.** /shape-marketing-lens is the END of the functional realize pipe (ux → agentic →
@@ -60,7 +60,7 @@ single checkpoint (C12).
 
 **Forbidden:** hand-writing the lens or a decision; writing anything other than this slice's
 `marketing.md` and its decisions (C2); reading or grounding on another realize lens (C7);
-manufacturing public-marketing reach where the functionalities and profile don't warrant it (C8);
+manufacturing public-marketing reach where the features and profile don't warrant it (C8);
 deferring accessibility to the profile (C9); writing a decision by any route other than
 `scripts/persist_marketing.py`; committing the model delta before the checkpoint gate resolves;
 running against a dirty product-os tree (C14/F15); closing COMPLETED without the stop-condition
@@ -98,8 +98,8 @@ python3 scripts/check_ready_slice.py --product-base <product_base> --slice <slic
 ```
 
 It asserts the profile is `set` (from the spine), resolves the slice record, and resolves every
-`functionality_ref` through the spine to its `functionality.md` grounding doc — the hub. If the slice
-is absent, a functionality does not resolve, or the profile is not firmed, hard halt (C1/REC1).
+`feature_ref` through the spine to its `feature.md` grounding doc — the hub. If the slice
+is absent, a feature does not resolve, or the profile is not firmed, hard halt (C1/REC1).
 
 **Clean-tree assertion (C14/F15, ADR 026).** /shape-marketing-lens runs on the branch the functional realize
 pipe already started (ux → agentic → marketing); the prior lenses commit their own model deltas, so
@@ -165,17 +165,17 @@ reordering. On resume, skip completed and reset in-progress to pending.
 **Step 1 — Draft the lens (doc to live)** · Owner: `product-os-keeper` · Depends on: pre-flight
 The agent invokes `author-marketing-lens` to write the slice's `marketing.md` (intent /
 discoverability / accessibility / marketing analytics, per the Marketing lens template) from the hub
-(the functionality grounding docs + the profile) and KB pattern grounding — **straight to the live
+(the feature grounding docs + the profile) and KB pattern grounding — **straight to the live
 model** (a re-derive, skip-nothing overwrite for this slice) — and to emit a `marketing-manifest.yaml`
 (the grounding map plus any material decision as a full record). Per ADR 026 the skill writes NO
 shared model file (`_spine.yaml`, the profile, the slice record, another lens, or a `decisions/*.yaml`
 file) — the keyed persist (Step 3) writes any decision:
 
     {
-      "task":    "author the slice's marketing lens (intent/discoverability/accessibility/analytics) from its hub; ground the reach in the functionalities + profile and the patterns in the KB; write marketing.md in place on the live model and emit any decision into the manifest",
+      "task":    "author the slice's marketing lens (intent/discoverability/accessibility/analytics) from its hub; ground the reach in the features + profile and the patterns in the KB; write marketing.md in place on the live model and emit any decision into the manifest",
       "inputs":  { "slice_ref": "<domain>/<slice>",
                    "slice_file": "<slice record>",
-                   "functionality_groundings": "<from check_ready_slice>",
+                   "feature_groundings": "<from check_ready_slice>",
                    "profile": "<spine profile>", "product_base": "<product_base>",
                    "lens_rel": "product-os/<domain>/slices/<slice>/lens/marketing.md",
                    "manifest_path": "<working>/marketing-manifest.yaml",
@@ -220,9 +220,9 @@ python3 scripts/grounding_gate.py --verdict <verdict.json>
 **SE-3 (F4/C4):** the content-quality eval gate (`grounding_gate.py`) passes — `marketing.md` is
 self-explaining and clears the stranger test.
 **SE-4 (F5/C5):** `validate_marketing.py` — the reach assessment grounds in the slice's
-functionalities and the profile; any material marketing choice names a decision emitted in the
+features and the profile; any material marketing choice names a decision emitted in the
 manifest.
-**SE-5 (F6/C6):** `validate_marketing.py` — the assessment considers every functionality the slice
+**SE-5 (F6/C6):** `validate_marketing.py` — the assessment considers every feature the slice
 bundles (coverage).
 **SE-6 (F7/C7):** `validate_marketing.py` — the assessment grounds on no other realize lens.
 **SE-7 (F8/C8):** `validate_marketing.py` — reach is honest: a slice with no public surface answers
@@ -504,12 +504,12 @@ Always emitted.
 
 | For | Trigger | Direction | Handoff |
 |-----|---------|-----------|---------|
-| F1 | the slice is absent, a functionality does not resolve, or the profile is not firmed | halt and route to /shape-scope or /discover-capabilities before /shape-marketing-lens runs | human |
+| F1 | the slice is absent, a feature does not resolve, or the profile is not firmed | halt and route to /shape-scope or /discover-capabilities before /shape-marketing-lens runs | human |
 | F2 | a model path outside the run's write scope changed (the scoped-guard report is not ok) | the guard's `--restore` already reverted the offending paths; re-run writing only the slice's marketing.md and any decision, after a human confirms the restore | human |
 | F3 | marketing.md fails the template/shape or carries out-of-scope content | re-emit to the Marketing lens template (the four sections only) | autonomous |
 | F4 | marketing.md fails the content-quality eval | rewrite the failing section to the judge's cited fixes and re-judge until the gate passes | autonomous |
-| F5 | an invented reach assessment, or a material choice with no decision | re-tie the assessment to the functionalities and the profile, and emit the marketing decision in the manifest | autonomous |
-| F6 | a functionality was not considered | extend the assessment to consider the missing functionality | autonomous |
+| F5 | an invented reach assessment, or a material choice with no decision | re-tie the assessment to the features and the profile, and emit the marketing decision in the manifest | autonomous |
+| F6 | a feature was not considered | extend the assessment to consider the missing feature | autonomous |
 | F7 | /shape-marketing-lens read or depended on another lens | remove the dependency; /shape-marketing-lens derives only from the slice's hub | autonomous |
 | F8 | public-marketing reach was manufactured for a slice with no public surface | reset discoverability to the honest answer ("not applicable" with the reason) | autonomous |
 | F9 | accessibility was deferred to the profile or omitted | set the concrete accessibility bar and the means in the lens | autonomous |
@@ -531,7 +531,7 @@ clean-tree assertion (F15) is scoped to a FRESH start — a resume continues its
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:256b8055550a6181afa5482e7efbd402d3863289467759e053d2ad0037d989a7 (of `reference/ice.md`) |
+| fingerprint | sha256:75e1848ad8ec7db6b3ed281bf75c971496d09fd3e6a40d9d7a1b05690de20fba (of `reference/ice.md`) |
 | compiled_by | edit-play (#500 direct-model-write, ADR 026); prior: edit-play (#467 Batch B, #466 Batch C) |
 | pipeline_position | end (closes the functional realize pipe; injects commit → propose → review → merge) |
 | position_exception | model-writing end play — writes the model on the already-started branch and commits its own `feat(model)` model delta after approval (C14); the injected end sequence then raises/reviews/lands it (#437) |

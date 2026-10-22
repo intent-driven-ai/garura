@@ -9,12 +9,12 @@ Given one shaped **slice** — a vertical product increment from /shape-scope, t
 deliver — write its **quality lens** as a grounding doc (`quality.md`): the bar the slice must
 clear, expressed as checkable gates, plus a short statement of what "good" means for this slice.
 The slice is the unit of realization; a slice has no ICE of its own — its **hub** is the union of
-its functionalities' grounding docs (`functionality.md`, which may span several capabilities) plus
+its features' grounding docs (`feature.md`, which may span several capabilities) plus
 the product profile (read from the spine). The lens is two things and only two: the **intent**
 (what good means for this slice and why that bar) and the **gates** (a table of checkable bars —
 each a dimension, the bar, and how it is checked — drawn from the product profile's NFR gates that
-apply to this slice and from the slice's functionalities' own rules made checkable). The gates are
-grounded, never invented: each traces to a profile gate that applies or to a functionality's rule;
+apply to this slice and from the slice's features' own rules made checkable). The gates are
+grounded, never invented: each traces to a profile gate that applies or to a feature's rule;
 any material choice is recorded as a decision. It writes only this slice's `quality.md`, its machine
 sibling `quality-gates.yaml` (#462 — the per-gate binding cards check-quality-gates executes), and any
 decision — never the spine, the slice record, the profile, another lens, or another slice. One
@@ -40,7 +40,7 @@ post-write scoped guard (`scoped_write_guard.py`), not a draft.
 ### Constraints
 
 - C1 — One slice per run, and only a ready one: the slice exists (shaped by /shape-scope), every
-  functionality it bundles resolves through the spine to a `functionality.md` grounding doc, and the
+  feature it bundles resolves through the spine to a `feature.md` grounding doc, and the
   product profile is firmed (`set`). If not, halt — /shape-quality-lens realizes a shaped slice; it does not
   shape one.
 - C2 — Writes only this slice's `quality.md`, its machine sibling `quality-gates.yaml` (#462 — one
@@ -56,11 +56,11 @@ post-write scoped guard (`scoped_write_guard.py`), not a draft.
 - C4 — Content quality: `quality.md` clears the content-quality eval, not just the linter — each
   section is self-explaining and the doc passes the stranger test.
 - C5 — Grounded, not invented: every gate traces to a product-profile NFR gate that applies to this
-  slice or to a rule of one of the slice's functionalities, made checkable; any material choice is
+  slice or to a rule of one of the slice's features, made checkable; any material choice is
   recorded as a decision. (Tracked in the manifest.)
-- C6 — Coverage: every functionality the slice bundles is considered by the gates — a functionality's
+- C6 — Coverage: every feature the slice bundles is considered by the gates — a feature's
   quality-relevant rules are made into gates; nothing shaped is left unconsidered.
-- C7 — Reads the hub only: /shape-quality-lens derives from the slice's functionalities' grounding docs and the
+- C7 — Reads the hub only: /shape-quality-lens derives from the slice's features' grounding docs and the
   profile — never from another realize lens (ux/agentic/architecture/run/measure/marketing).
 - C8 — Concrete gates: every gate is a checkable bar — a value or a named standard plus how it is
   checked — never a vague adjective ("fast", "secure"). A gate that cannot be checked is not a gate.
@@ -105,7 +105,7 @@ post-write scoped guard (`scoped_write_guard.py`), not a draft.
 
 ### Failure conditions
 
-- F1 — /shape-quality-lens ran on an unready slice — the slice is absent, a functionality does not resolve to a
+- F1 — /shape-quality-lens ran on an unready slice — the slice is absent, a feature does not resolve to a
   grounding doc, or the profile is not firmed.
 - F2 — A write touched something other than this slice's `quality.md`, its machine sibling
   `quality-gates.yaml`, or a decision (the spine, the slice record, the profile, another lens,
@@ -113,9 +113,9 @@ post-write scoped guard (`scoped_write_guard.py`), not a draft.
 - F3 — `quality.md` fails its template/shape (a missing or extra section, an empty or telegraphic
   section), or carries content outside intent/gates.
 - F4 — `quality.md` fails the content-quality eval.
-- F5 — A gate is invented — asserted with no profile gate and no functionality rule behind it — or a
+- F5 — A gate is invented — asserted with no profile gate and no feature rule behind it — or a
   material choice with no recorded decision.
-- F6 — A functionality of the slice is left unconsidered by the gates.
+- F6 — A feature of the slice is left unconsidered by the gates.
 - F7 — /shape-quality-lens read or depended on another lens.
 - F8 — A gate is not checkable — a vague adjective with no value, standard, or check.
 - F9 — Allowlist breach: a product-model file other than this slice's `quality.md`, its machine
@@ -135,15 +135,15 @@ post-write scoped guard (`scoped_write_guard.py`), not a draft.
 
 ### Success scenarios
 
-- S1 — (quality engineer, first run) Given a shaped slice whose functionalities resolve and a firmed
+- S1 — (quality engineer, first run) Given a shaped slice whose features resolve and a firmed
   profile, when /shape-quality-lens runs and the checkpoint is approved, then `quality.md` is written in place on
   the live model as the intent and the gates — passing the linter and the content eval — and nothing
   else changes. Measure: `slices/{slice}/lens/quality.md` exists and is a valid Quality Lens doc; the
   content-eval gate passes; the spine, slice record, profile, and other lenses are byte-identical; the
   stop-condition verdict reads held.
 - S2 — (product owner, grounded gates) Given the lens is written, every gate traces to a profile NFR
-  gate that applies or to a functionality's rule, and any material choice to a recorded decision.
-  Measure: the manifest names a real profile gate or functionality source for every gate; material
+  gate that applies or to a feature's rule, and any material choice to a recorded decision.
+  Measure: the manifest names a real profile gate or feature source for every gate; material
   choices name a decision that resolves.
 - S3 — (reviewer, concrete) Given the gates, each is a checkable bar — a value or a named standard
   plus how it is checked — never a vague adjective. Measure: every gate row carries a bar and a
@@ -182,7 +182,7 @@ scope (the allowlist held).
 
 ### Recovery (one per failure condition)
 
-- REC1 (F1) — trigger: the slice is absent, a functionality does not resolve, or the profile is not
+- REC1 (F1) — trigger: the slice is absent, a feature does not resolve, or the profile is not
   firmed. direction: halt and route to /shape-scope (shape the slice) or /discover-capabilities (detail + firm) before
   /shape-quality-lens runs. handoff: human.
 - REC2 (F2) — trigger: a write touched something beyond this slice's `quality.md`, its machine sibling
@@ -194,9 +194,9 @@ scope (the allowlist held).
 - REC4 (F4) — trigger: `quality.md` fails the content-quality eval. direction: rewrite the failing
   section to the judge's cited fixes and re-judge until the gate passes. handoff: autonomous.
 - REC5 (F5) — trigger: an invented gate, or a material choice with no decision. direction: re-tie each
-  gate to a profile gate or a functionality rule, and record the material decision. handoff: autonomous.
-- REC6 (F6) — trigger: a functionality was not considered. direction: extend the gates to cover the
-  missing functionality's quality-relevant rules. handoff: autonomous.
+  gate to a profile gate or a feature rule, and record the material decision. handoff: autonomous.
+- REC6 (F6) — trigger: a feature was not considered. direction: extend the gates to cover the
+  missing feature's quality-relevant rules. handoff: autonomous.
 - REC7 (F7) — trigger: /shape-quality-lens read or depended on another lens. direction: remove the dependency;
   /shape-quality-lens derives only from the slice's hub. handoff: autonomous.
 - REC8 (F8) — trigger: a gate is not checkable. direction: re-draft the gate as a value or named

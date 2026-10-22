@@ -7,8 +7,8 @@ preconditions before any work, reading the live spine (`_spine.yaml`):
 
   - the product profile is `set` (firmed by /discover-capabilities) — not `directional`.
   - every capability in the target domain is `detail: detailed` (detailed by /discover-capabilities)
-    AND has at least one functionality (a `functionalities` entry whose `capability` == it).
-    A directional seed with no functionalities is not ready — run /discover-capabilities first.
+    AND has at least one feature (a `features` entry whose `capability` == it).
+    A directional seed with no features is not ready — run /discover-capabilities first.
 
 Layer rule: reads files on disk only; no git/gh/network.
 
@@ -58,11 +58,11 @@ def main(argv=None):
     if args.domain not in domains:
         errors.append(f"domain '{args.domain}' not found in the spine")
 
-    # --- capabilities detailed + have functionalities? -----------------------
+    # --- capabilities detailed + have features? -----------------------
     caps = [c for c in (spine.get("capabilities") or [])
             if isinstance(c, dict) and c.get("domain") == args.domain]
     funcs_by_cap = {}
-    for f in (spine.get("functionalities") or []):
+    for f in (spine.get("features") or []):
         if isinstance(f, dict):
             funcs_by_cap.setdefault(f.get("capability"), []).append(f.get("id"))
 
@@ -76,7 +76,7 @@ def main(argv=None):
             errors.append(f"{cid}: detail is '{c.get('detail')}', must be 'detailed' "
                           f"(run /discover-capabilities first) (C1/F1)")
         if not funcs_by_cap.get(cid):
-            errors.append(f"{cid}: has no functionalities — /discover-capabilities creates them; "
+            errors.append(f"{cid}: has no features — /discover-capabilities creates them; "
                           f"/shape-scope has nothing to select (C1/F1)")
 
     result = {"ok": not errors, "errors": errors, "capabilities": cap_ids}

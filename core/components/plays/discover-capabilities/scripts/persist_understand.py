@@ -4,7 +4,7 @@ persist_understand.py — /discover-capabilities's deterministic keyed persist, 
 
 Direct-model-write remnant of the old apply_understand.py (ADR 026,
 standards/rules/direct-model-write.md). There is NO draft tree and NO doc copy: the LLM
-enrichment skill already wrote the per-node docs (capability.md, functionality.md) straight
+enrichment skill already wrote the per-node docs (capability.md, feature.md) straight
 to the live model. This script owns every SHARED file and applies the manifests' structured
 spine-deltas to the live model IN PLACE, keyed to the run's target capabilities — one
 --capability-ref and one --enrich-manifest per target (one run details every pending
@@ -22,7 +22,7 @@ capability, #615):
      (+ doc/one_line if its manifest carries them). It refuses to mutate any capability that
      is not a target — this is the node-level containment the file-level scoped guard
      cannot provide.
-  2. the new `functionalities` entries from each manifest (each must carry an id and
+  2. the new `features` entries from each manifest (each must carry an id and
      capability == that manifest's target; additive — an id already present under the same
      capability is left untouched; an id declared twice in the run, or already present under
      another capability, is refused).
@@ -231,12 +231,12 @@ def main(argv=None):
     live = load(live_spine_path)
     proposed_profile = (load(args.proposed_profile).get("profile") or {})
     live_caps = live.setdefault("capabilities", [])
-    live_funcs = live.setdefault("functionalities", [])
+    live_funcs = live.setdefault("features", [])
     have = {f.get("id"): f.get("capability") for f in live_funcs if isinstance(f, dict)}
     declared = set()
 
     written, seeded = [], []
-    changed = {"capabilities": [], "functionalities_added": [], "profile": False, "decisions": []}
+    changed = {"capabilities": [], "features_added": [], "profile": False, "decisions": []}
     targets = {}
 
     for cap_id in cap_ids:
@@ -266,26 +266,26 @@ def main(argv=None):
             live_cap["detail"] = "detailed"      # promotion is guaranteed by construction
         changed["capabilities"].append(cap_id)
 
-        # --- 2. new functionality entries (additive; every one under this target) -----
-        for f in enrich.get("functionalities") or []:
+        # --- 2. new feature entries (additive; every one under this target) -----
+        for f in enrich.get("features") or []:
             if not isinstance(f, dict):
                 continue
             fid = f.get("id")
             if not isinstance(fid, str) or not fid.strip():
-                return refuse(f"a functionality under '{cap_id}' has no id — refusing")
+                return refuse(f"a feature under '{cap_id}' has no id — refusing")
             if f.get("capability") != cap_id:
-                return refuse(f"functionality '{fid}' is not under '{cap_id}' "
+                return refuse(f"feature '{fid}' is not under '{cap_id}' "
                               f"— refusing (containment)")
             if fid in declared:
-                return refuse(f"functionality '{fid}' is declared twice in this run — refusing")
+                return refuse(f"feature '{fid}' is declared twice in this run — refusing")
             declared.add(fid)
             if fid in have and have[fid] != cap_id:
-                return refuse(f"functionality '{fid}' already exists under '{have[fid]}' "
+                return refuse(f"feature '{fid}' already exists under '{have[fid]}' "
                               f"— refusing (containment)")
             if fid not in have:
                 live_funcs.append(f)
                 have[fid] = cap_id
-                changed["functionalities_added"].append(fid)
+                changed["features_added"].append(fid)
 
     # --- 3. the rolled-up profile (replace the box; never lower it, C7) ---------------
     err = profile_error(live.get("profile"), proposed_profile)

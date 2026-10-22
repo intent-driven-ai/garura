@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-validate_ux.py — assert /shape-ux-lens's lens is grounded and covers the slice's functionalities.
+validate_ux.py — assert /shape-ux-lens's lens is grounded and covers the slice's features.
 
 Run over the manifest before the checkpoint (direct-model-write, ADR 026). The ux lens is an
 MD grounding doc (`ux.md`) written straight to the live model; its SHAPE (the
@@ -9,7 +9,7 @@ Intent/Screens/Flows/States/Visual core sections, each substantive) is checked b
 validate step. THIS script checks the things the manifest carries, which the prose can't
 enforce, plus the one cross-check the doc's own text carries:
 
-  - C4/F4    grounded: every screen in the manifest names >=1 real source (a functionality of
+  - C4/F4    grounded: every screen in the manifest names >=1 real source (a feature of
              the slice, or a persona/journey); the visual core grounds on the KB or a decision.
   - C7/F7    hub-only: no screen or flow grounds on another lens (quality/agentic/run/...).
   - C14/F15  flow grounding: every flow in the manifest names >=1 real source (a persona or
@@ -17,7 +17,7 @@ enforce, plus the one cross-check the doc's own text carries:
   - C8/F8    decisions: a grounding flagged `material: true` names a `decision` that resolves —
              either the manifest's `decision_delta` (the decision the keyed persist will write)
              or a decision already on the live model (a reused product/slice decision).
-  - C6/F6    coverage: the slice's functionalities (read from the slice record) are each
+  - C6/F6    coverage: the slice's features (read from the slice record) are each
              grounded by at least one screen — nothing shaped is left unvisualized.
   - C14/F15  flows: parsed from the written `ux.md` itself (`--lens`) — every flow block names
              all seven fields (Persona, Goal, Entry, Steps, Decisions, Failure, Exit); every
@@ -238,7 +238,7 @@ def live_decisions(product_base):
 
 
 def check_grounding(man, decision_ids, errors):
-    """C4/C7/C8 over the manifest. Returns grounded functionality refs."""
+    """C4/C7/C8 over the manifest. Returns grounded feature refs."""
     grounded_funcs = set()
 
     def walk(label, entries):
@@ -253,10 +253,10 @@ def check_grounding(man, decision_ids, errors):
             if st in OTHER_LENSES:
                 errors.append(f"{label} grounds on another lens '{st}' — /shape-ux-lens reads the slice's "
                               f"hub, never a lens (C7/F7)")
-            elif st not in ("ice", "functionality", "persona", "journey"):
-                errors.append(f"{label} source_type '{st}' is not functionality/persona/journey (C4/F4)")
-            if st in ("ice", "functionality"):
-                fr = e.get("functionality_ref")
+            elif st not in ("ice", "feature", "persona", "journey"):
+                errors.append(f"{label} source_type '{st}' is not feature/persona/journey (C4/F4)")
+            if st in ("ice", "feature"):
+                fr = e.get("feature_ref")
                 if not _blank(fr):
                     grounded_funcs.add(fr)
             if e.get("material") is True:
@@ -277,7 +277,7 @@ def check_grounding(man, decision_ids, errors):
         gs = f.get("grounds") or []
         walk(label, gs)
         # C14 is narrower than the generic walk: a flow is a PERSON taking a path, so it must
-        # name a persona or a journey. A functionality alone is not who.
+        # name a persona or a journey. A feature alone is not who.
         if gs and not any(
             (g or {}).get("source_type") in ("persona", "journey")
             for g in gs if isinstance(g, dict)
@@ -378,7 +378,7 @@ def check_readiness(man, readiness, errors):
     return counts
 
 
-def slice_functionalities(slice_file, errors):
+def slice_features(slice_file, errors):
     if not slice_file or not os.path.isfile(slice_file):
         errors.append(f"slice record not found at {slice_file} — cannot verify coverage (C6/F6)")
         return set()
@@ -387,9 +387,9 @@ def slice_functionalities(slice_file, errors):
     sl = raw.get("slice") or {}
     if sl:
         _require_mapping(sl, "slice record's slice", slice_file)
-    funcs = _require_list_of_mappings(sl.get("functionalities"),
-                                       "slice record's slice.functionalities", slice_file)
-    return {f.get("functionality_ref") for f in funcs if f.get("functionality_ref")}
+    funcs = _require_list_of_mappings(sl.get("features"),
+                                       "slice record's slice.features", slice_file)
+    return {f.get("feature_ref") for f in funcs if f.get("feature_ref")}
 
 
 # --------------------------------------------------------------------------------------
@@ -847,13 +847,13 @@ def main(argv=None):
 
     grounded_funcs = check_grounding(man, decision_ids, errors)
     try:
-        to_cover = slice_functionalities(args.slice_file, errors)
+        to_cover = slice_features(args.slice_file, errors)
     except ShapeError as exc:
         sys.stderr.write(f"validate_ux.py: {exc}\n")
         return 2
     for fid in sorted(f for f in to_cover if f):
         if fid not in grounded_funcs:
-            errors.append(f"slice functionality {fid!r} is visualized by no screen (C6/F6)")
+            errors.append(f"slice feature {fid!r} is visualized by no screen (C6/F6)")
 
     if args.lens:
         flow_counts = check_flows(args.lens, errors, warnings)

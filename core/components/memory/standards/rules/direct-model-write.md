@@ -29,7 +29,7 @@ git diff and the end-sequence PR.
 
 3. **The LLM writes only per-node doc files; a keyed script owns every shared file.**
    This is the containment split, and it is mandatory. The enrichment/build skill (the
-   LLM) writes ONLY per-node grounding docs — `capability.md`, `functionality.md`, and
+   LLM) writes ONLY per-node grounding docs — `capability.md`, `feature.md`, and
    the like — each its own file, straight to the live tree. It does **not** write any
    shared model file. Every mutation of a shared file — the spine `_spine.yaml` (including
    its `profile` block) and the `decisions/` — is performed by the play's deterministic keyed

@@ -9,7 +9,7 @@ Given one shaped **slice** — a vertical product increment from /shape-scope, t
 deliver — write its **marketing lens** as a grounding doc (`marketing.md`): how the slice is
 found and reached, the accessibility bar it meets, and the reach signals worth capturing. The
 slice is the unit of realization; a slice has no ICE of its own — its **hub** is the union of its
-functionalities' grounding docs (`functionality.md`, which may span several capabilities) plus the
+features' grounding docs (`feature.md`, which may span several capabilities) plus the
 product profile (read from the spine). The lens is four things and only four: the **intent** (who
 needs to find or reach this slice, and why), **discoverability** (SEO / AEO / GEO — search, answer
 engines, generative engines — or why it is not applicable), **accessibility** (the bar — e.g. a
@@ -17,7 +17,7 @@ WCAG level — and how the slice meets it; this moved here from the profile), an
 analytics** (the reach/conversion or internal-usage signals worth capturing). An internal tool
 behind auth answers discoverability with "not applicable", plainly and with the reason — never an
 invented public-marketing claim. The reach assessment is grounded in what the slice's
-functionalities actually do; any material choice is recorded as a decision; the
+features actually do; any material choice is recorded as a decision; the
 discoverability/accessibility patterns are grounded in the KB or recorded as a KB-learning-gap
 proposal. It writes only this slice's `marketing.md` (and any decision) — never the spine, the
 slice record, the profile, another lens, or another slice. One slice per run; one human checkpoint
@@ -50,7 +50,7 @@ change.
 ### Constraints
 
 - C1 — One slice per run, and only a ready one: the slice exists (shaped by /shape-scope), every
-  functionality it bundles resolves through the spine to a `functionality.md` grounding doc, and the
+  feature it bundles resolves through the spine to a `feature.md` grounding doc, and the
   product profile is firmed (`set`). If not, halt — /shape-marketing-lens realizes a shaped slice; it does not
   shape one.
 - C2 — Containment split (ADR 026): the LLM authoring skill writes ONLY this slice's `marketing.md`
@@ -65,15 +65,15 @@ change.
 - C4 — Content quality: `marketing.md` clears the content-quality eval, not just the linter — each
   section is self-explaining and the doc passes the stranger test.
 - C5 — Grounded, not invented: the reach assessment traces to the behavior of the slice's
-  functionalities and the profile; any material marketing choice is emitted as a decision in the
+  features and the profile; any material marketing choice is emitted as a decision in the
   authoring skill's manifest (and written by the keyed persist).
-- C6 — Coverage: the marketing assessment considers every functionality the slice bundles — the
+- C6 — Coverage: the marketing assessment considers every feature the slice bundles — the
   reach view cannot ignore part of the slice. Nothing shaped is left unconsidered.
-- C7 — Reads the hub only: /shape-marketing-lens derives from the slice's functionalities' grounding docs and
+- C7 — Reads the hub only: /shape-marketing-lens derives from the slice's features' grounding docs and
   the profile — never from another realize lens (quality/ux/agentic/architecture/run/measure).
 - C8 — Honest reach: a slice that has no public surface (an internal tool behind auth) answers
   discoverability "not applicable" with the reason; public-marketing reach is never manufactured
-  where the profile and functionalities don't warrant it.
+  where the profile and features don't warrant it.
 - C9 — Accessibility lives here: the lens sets a concrete accessibility bar (e.g. a WCAG level) and
   how the slice meets it — this moved out of the profile into the marketing lens.
 - C10 — Additive and non-destructive, enforced by the containment split and the post-write scoped
@@ -118,7 +118,7 @@ change.
 
 ### Failure conditions
 
-- F1 — /shape-marketing-lens ran on an unready slice — the slice is absent, a functionality does not resolve to
+- F1 — /shape-marketing-lens ran on an unready slice — the slice is absent, a feature does not resolve to
   a grounding doc, or the profile is not firmed.
 - F2 — A model path outside the run's write scope changed (the scoped-write guard's report is not
   ok): something other than this slice's `marketing.md` or its `decisions/` was touched — the spine,
@@ -126,9 +126,9 @@ change.
 - F3 — `marketing.md` fails its template/shape (a missing or extra section, an empty or telegraphic
   section), or carries content outside the four sections.
 - F4 — `marketing.md` fails the content-quality eval.
-- F5 — The reach assessment is invented — asserted with no behavior of the slice's functionalities or
+- F5 — The reach assessment is invented — asserted with no behavior of the slice's features or
   profile behind it, or a material choice with no decision emitted in the manifest.
-- F6 — A functionality of the slice is left unconsidered by the marketing assessment.
+- F6 — A feature of the slice is left unconsidered by the marketing assessment.
 - F7 — /shape-marketing-lens read or depended on another lens.
 - F8 — Public-marketing reach was manufactured for a slice with no public surface (an internal tool
   claimed SEO/AEO/GEO it does not have).
@@ -152,7 +152,7 @@ change.
 
 ### Success scenarios
 
-- S1 — (growth lead, first run) Given a shaped slice whose functionalities resolve and a firmed
+- S1 — (growth lead, first run) Given a shaped slice whose features resolve and a firmed
   profile, when /shape-marketing-lens runs and the checkpoint is approved, then `marketing.md` is written in
   place on the live model as the intent, discoverability, accessibility, and analytics — passing the
   linter and the content eval — and nothing else changes. Measure: the live
@@ -201,7 +201,7 @@ by the content-quality eval before the gate.
 
 ### Recovery (one per failure condition)
 
-- REC1 (F1) — trigger: the slice is absent, a functionality does not resolve, or the profile is not
+- REC1 (F1) — trigger: the slice is absent, a feature does not resolve, or the profile is not
   firmed. direction: halt and route to /shape-scope (shape the slice) or /discover-capabilities (detail + firm) before
   /shape-marketing-lens runs. handoff: human.
 - REC2 (F2) — trigger: a model path outside the run's write scope changed (the scoped-guard report is
@@ -214,10 +214,10 @@ by the content-quality eval before the gate.
 - REC4 (F4) — trigger: `marketing.md` fails the content-quality eval. direction: rewrite the failing
   section to the judge's cited fixes and re-judge until the gate passes. handoff: autonomous.
 - REC5 (F5) — trigger: an invented reach assessment, or a material choice with no decision. direction:
-  re-tie the assessment to the functionalities and the profile, and emit the marketing decision in the
+  re-tie the assessment to the features and the profile, and emit the marketing decision in the
   manifest. handoff: autonomous.
-- REC6 (F6) — trigger: a functionality was not considered. direction: extend the assessment to consider
-  the missing functionality. handoff: autonomous.
+- REC6 (F6) — trigger: a feature was not considered. direction: extend the assessment to consider
+  the missing feature. handoff: autonomous.
 - REC7 (F7) — trigger: /shape-marketing-lens read or depended on another lens. direction: remove the dependency;
   /shape-marketing-lens derives only from the slice's hub. handoff: autonomous.
 - REC8 (F8) — trigger: public-marketing reach was manufactured for a slice with no public surface.

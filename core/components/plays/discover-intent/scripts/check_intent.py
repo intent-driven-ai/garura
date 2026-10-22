@@ -4,7 +4,7 @@
 Reads the draft the authoring skill wrote (`intent-draft.yaml`: `intents`, `sources`,
 `coverage`, `questions`), and optionally the sources' text and the person's answers record.
 /discover-intent writes business intents only (ADR 043): a draft that carries `ice`, `domains`,
-`capabilities` or `functionalities` is a problem — another play writes those kinds.
+`capabilities` or `features` is a problem — another play writes those kinds.
 Reports, for every business intent:
 
   - every required property of the ontology's Business Intent kind is present and non-empty
@@ -25,7 +25,7 @@ and for the draft as a whole:
     --source-manifest, every manifest's snapshot is summarised            (C6)
   - the coverage map: every part names an existing business intent; every intent the source
     shows is mapped from a part — nothing left out, nothing from nothing  (C12 / F12)
-  - one kind: no `ice`, `domains`, `capabilities` or `functionalities`   (C8 / F8, ADR 043)
+  - one kind: no `ice`, `domains`, `capabilities` or `features`   (C8 / F8, ADR 043)
   - every question carries 1–3 example answers                            (C13 / F13)
   - no question is left unanswered                                        (C5)
   - with --answers: every recorded answer lists the examples it was offered, and a reply
@@ -207,7 +207,7 @@ def check_coverage(coverage, ids, intents, other):
 
 def check_one_kind(draft, other):
     """ADR 043: /discover-intent writes business intents only — never ICE, capabilities or domains."""
-    for key in ("ice", "domains", "capabilities", "functionalities"):
+    for key in ("ice", "domains", "capabilities", "features"):
         if draft.get(key):
             other.append(f"the draft carries `{key}` — /discover-intent writes business intents only (ADR 043); "
                          f"another play writes that kind")

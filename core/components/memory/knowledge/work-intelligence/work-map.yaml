@@ -17,7 +17,7 @@ work_types:
     paths: ["*product-os/*", "*.garura/product/*", "*plays/vision*",
             "*plays/shape*", "*plays/roadmap*", "*plays/understand*"]
     keywords: [vision, roadmap, slice, shape, ice, profile, capability,
-               functionality, epic, product]
+               feature, epic, product]
   design:
     paths: ["*lens/*", "*design*", "*ux*", "*architecture*", "*docs/adr/*"]
     keywords: [lens, design, architecture, contract, screen, layout,

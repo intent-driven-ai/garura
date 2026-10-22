@@ -8,13 +8,13 @@ edit-play; never hand-edit the compiled SKILL.md.
 Given one shaped **slice** — a vertical product increment from /shape-scope, the thing you actually
 deliver — write its **architecture lens** as a grounding doc (`architecture.md`): the shape of
 the software that delivers it. The slice is the unit of realization; a slice has no ICE of its
-own — its **hub** is the union of its functionalities' grounding docs (`functionality.md`, which
+own — its **hub** is the union of its features' grounding docs (`feature.md`, which
 may span several capabilities) plus the product profile (read from the spine). The lens is the
 components the slice threads (each in its layer, with its contract), the stack (tech + versions)
 behind them, and the vertical build that runs the slice end-to-end through them. Every component
-is SELECTED, not invented — a system one of the slice's functionalities talks to, or a surface
+is SELECTED, not invented — a system one of the slice's features talks to, or a surface
 the profile exposes; every stack pick is sized by the profile box and grounded in a KB learning
-or a recorded proposal; every functionality threads through at least one component, because the
+or a recorded proposal; every feature threads through at least one component, because the
 build is one vertical, end-to-end. It writes only this slice's `architecture.md` (and any
 material-choice decision) — never the spine, the slice record, the profile, another lens, or
 another slice. One slice per run; one human checkpoint before the model delta is committed. The
@@ -26,7 +26,7 @@ cut the branch off fresh main, optional worktree, init STM — so /shape-quality
 already-started branch. No close sequence is injected here; the non-functional pipe closes at
 /shape-run-lens. It writes the persistent product model (the slice's architecture lens) **directly, in
 place** on the started branch — there is no draft copy and no apply/promote step; review is the
-branch git diff and the pipe's end PR. It reads the hub (the slice's functionalities' grounding +
+branch git diff and the pipe's end PR. It reads the hub (the slice's features' grounding +
 the profile) and MAY read the already-merged functional lens docs (ux/agentic/marketing), never
 the measure or run lens. (#437, decision 24; 3-pipe realize 2026-06-26; #500 direct-model-write, ADR 026)
 
@@ -46,7 +46,7 @@ diff vs HEAD is exactly this run's delta and the next pipe play (/shape-quality-
 ### Constraints
 
 - C1 — One slice per run, and only a ready one: the slice exists (shaped by /shape-scope), every
-  functionality it bundles resolves through the spine to a `functionality.md` grounding doc, and
+  feature it bundles resolves through the spine to a `feature.md` grounding doc, and
   the product profile is firmed (`set`). If not, halt — /shape-architecture-lens realizes a shaped slice; it does
   not shape one.
 - C2 — Writes only this slice's `architecture.md` (by the LLM authoring skill, in place) and any
@@ -60,12 +60,12 @@ diff vs HEAD is exactly this run's delta and the next pipe play (/shape-quality-
 - C4 — Content quality: `architecture.md` clears the content-quality eval, not just the linter —
   each section is self-explaining and the doc passes the stranger test.
 - C5 — Grounded, not invented: every component traces to a system one of the slice's
-  functionalities talks to or a surface the profile exposes; the stack traces to a KB learning or
+  features talks to or a surface the profile exposes; the stack traces to a KB learning or
   a decision. (Tracked in the grounding manifest.)
-- C6 — Coverage: every functionality the slice bundles threads through at least one component, so
+- C6 — Coverage: every feature the slice bundles threads through at least one component, so
   the build is one vertical end-to-end. Nothing shaped is left unbuilt.
 - C7 — Reads the hub (+ optionally the functional lens trinity): /shape-architecture-lens derives from the slice's
-  functionalities' grounding docs and the profile box, and MAY read the ux/agentic/marketing
+  features' grounding docs and the profile box, and MAY read the ux/agentic/marketing
   lenses — never the measure or run lens.
 - C8 — The stack is a material choice recorded as a slice-level decision the whole product
   references; it is sized by the profile box, not invented per slice.
@@ -117,14 +117,14 @@ diff vs HEAD is exactly this run's delta and the next pipe play (/shape-quality-
 
 ### Failure conditions
 
-- F1 — /shape-architecture-lens ran on an unready slice — the slice is absent, a functionality does not resolve to a
+- F1 — /shape-architecture-lens ran on an unready slice — the slice is absent, a feature does not resolve to a
   grounding doc, or the profile is not firmed.
 - F2 — `architecture.md` fails its template/shape (a missing or extra section, an empty or
   telegraphic section), or carries content outside components/stack/vertical build.
 - F3 — `architecture.md` fails the content-quality eval.
-- F4 — A component or stack pick is invented — a component that is no functionality's system and
+- F4 — A component or stack pick is invented — a component that is no feature's system and
   no profile surface, or a stack with no recorded decision.
-- F5 — A functionality of the slice threads through no component — the vertical is not end-to-end.
+- F5 — A feature of the slice threads through no component — the vertical is not end-to-end.
 - F6 — /shape-architecture-lens read or depended on the measure or run lens.
 - F7 — The stack was set with no decision recorded.
 - F8 — An architecture choice rests on neither a matched KB learning nor a recorded proposal.
@@ -148,17 +148,17 @@ diff vs HEAD is exactly this run's delta and the next pipe play (/shape-quality-
 
 ### Success scenarios
 
-- S1 — (architect, first run) Given a shaped slice whose functionalities resolve and a firmed
+- S1 — (architect, first run) Given a shaped slice whose features resolve and a firmed
   profile, when /shape-architecture-lens runs and the checkpoint is approved, then `architecture.md` is written in
   place as components, stack, and the vertical build — passing the linter and the content eval —
   and nothing else changes. Measure: `product-os/<domain>/slices/<slice>/lens/architecture.md`
   exists on the live model and is a valid Architecture Lens doc; the content-eval gate passes; the
   spine, slice record, profile, and other lenses are byte-identical; the stop-condition verdict
   reads held.
-- S2 — (build lead, end-to-end) Given the components are authored, every functionality of the slice
-  threads through at least one component. Measure: every functionality the slice bundles maps to
+- S2 — (build lead, end-to-end) Given the components are authored, every feature of the slice
+  threads through at least one component. Measure: every feature the slice bundles maps to
   ≥1 component in the manifest; none unbuilt.
-- S3 — (architect, grounded) Given the lens is authored, each component traces to a functionality's
+- S3 — (architect, grounded) Given the lens is authored, each component traces to a feature's
   system or a profile surface, and the stack to a recorded decision. Measure: the manifest names a
   real source for every component; the stack names a decision that resolves.
 - S4 — (reviewer, foundation discipline) Given /shape-architecture-lens runs, it read no measure or run lens and
@@ -197,7 +197,7 @@ the slice's write scope (the allowlist held).
 
 ### Recovery (one per failure condition)
 
-- REC1 (F1) — trigger: the slice is absent, a functionality does not resolve, or the profile is
+- REC1 (F1) — trigger: the slice is absent, a feature does not resolve, or the profile is
   not firmed. direction: halt and route to /shape-scope (shape the slice) or /discover-capabilities (detail + firm)
   before /shape-architecture-lens runs. handoff: human.
 - REC2 (F2) — trigger: `architecture.md` fails the template/shape or carries out-of-scope content.
@@ -207,10 +207,10 @@ the slice's write scope (the allowlist held).
   failing section to the judge's cited fixes and re-judge until the gate passes. handoff:
   autonomous.
 - REC4 (F4) — trigger: an invented/ungrounded component or stack pick. direction: drop it, or
-  re-tie the component to a functionality's system or a profile surface, and tie the stack to a
+  re-tie the component to a feature's system or a profile surface, and tie the stack to a
   decision. handoff: autonomous.
-- REC5 (F5) — trigger: a functionality threads through no component. direction: add the
-  component(s) that build the missing functionality, so the vertical is end-to-end. handoff:
+- REC5 (F5) — trigger: a feature threads through no component. direction: add the
+  component(s) that build the missing feature, so the vertical is end-to-end. handoff:
   autonomous.
 - REC6 (F6) — trigger: /shape-architecture-lens read or depended on the measure or run lens. direction: remove the
   dependency; /shape-architecture-lens derives from the hub and may read only the functional lenses. handoff:

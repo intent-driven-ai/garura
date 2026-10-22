@@ -9,11 +9,11 @@ clears each one and decides the links and the work.
         [--journeys <journeys.yaml>] [--view-texts <folder of view .txt>] --out <working>/gap-candidates.json
 
 It reports:
-- `unattributed` — capabilities with no domain, functionalities with no capability;
+- `unattributed` — capabilities with no domain, features with no capability;
 - `dangling` — a parent named that is not in the spine;
-- `no_functionalities` — capabilities that have no functionality;
-- `intents_unserved` — intent pages no capability or functionality names in `intents`;
-- `serves_no_intent` — capabilities and functionalities whose `intents` is empty;
+- `no_features` — capabilities that have no feature;
+- `intents_unserved` — intent pages no capability or feature names in `intents`;
+- `serves_no_intent` — capabilities and features whose `intents` is empty;
 - `one_way` — a link to a business intent held on one side only: a node's `intents` names the
   intent but the intent page's Touches list does not name the node (`missing: touches`), or
   the Touches list names the node but its `intents` does not name the intent
@@ -40,7 +40,7 @@ import intent_touches  # noqa: E402  (stamped from create-play/references)
 QUOTE = re.compile(r"[\"“]([^\"“”]{4,})[\"”]")
 MARKS = str.maketrans({"’": "'", "‘": "'", "“": '"', "”": '"', "–": "-", "—": "-", " ": " "})
 STOP = {"a", "an", "the", "and", "or", "of", "to", "for", "in", "on", "with", "its", "it", "my"}
-TITLE = re.compile(r"^#\s*(?:Theme|Capability|Functionality):\s*(.+)$", re.M)
+TITLE = re.compile(r"^#\s*(?:Theme|Capability|Feature):\s*(.+)$", re.M)
 
 
 def norm(text):
@@ -103,9 +103,9 @@ def find(model, journeys=None, view_texts=None):
     spine_path = os.path.join(model, "_spine.yaml")
     spine = yaml.safe_load(read(spine_path)) if os.path.isfile(spine_path) else {}
     spine = spine or {}
-    doms, caps, funcs = entries(spine, "domains"), entries(spine, "capabilities"), entries(spine, "functionalities")
+    doms, caps, funcs = entries(spine, "domains"), entries(spine, "capabilities"), entries(spine, "features")
     dom_ids, cap_ids = {d["id"] for d in doms}, {c["id"] for c in caps}
-    out = {"unattributed": [], "dangling": [], "no_functionalities": [], "intents_unserved": [],
+    out = {"unattributed": [], "dangling": [], "no_features": [], "intents_unserved": [],
            "serves_no_intent": [], "one_way": [], "domains_empty": [], "duplicates": [], "uncovered": []}
 
     for c in caps:
@@ -115,17 +115,17 @@ def find(model, journeys=None, view_texts=None):
             out["dangling"].append({"kind": "capability", "id": c["id"], "names": c["domain"], "field": "domain"})
     for f in funcs:
         if not f.get("capability"):
-            out["unattributed"].append({"kind": "functionality", "id": f["id"], "missing": "capability"})
+            out["unattributed"].append({"kind": "feature", "id": f["id"], "missing": "capability"})
         elif f["capability"] not in cap_ids:
-            out["dangling"].append({"kind": "functionality", "id": f["id"], "names": f["capability"],
+            out["dangling"].append({"kind": "feature", "id": f["id"], "names": f["capability"],
                                     "field": "capability"})
     with_funcs = {f.get("capability") for f in funcs}
-    out["no_functionalities"] = [{"id": c["id"]} for c in caps if c["id"] not in with_funcs]
+    out["no_features"] = [{"id": c["id"]} for c in caps if c["id"] not in with_funcs]
     with_caps = {c.get("domain") for c in caps}
     out["domains_empty"] = [{"id": d["id"]} for d in doms if d["id"] not in with_caps]
 
     served = set()
-    for kind, group in (("capability", caps), ("functionality", funcs)):
+    for kind, group in (("capability", caps), ("feature", funcs)):
         for e in group:
             ids = [str(i) for i in e.get("intents") or [] if str(i).strip()]
             served |= set(ids)
@@ -135,17 +135,17 @@ def find(model, journeys=None, view_texts=None):
     out["intents_unserved"] = [{"id": os.path.splitext(os.path.basename(p))[0]} for p in intent_pages
                                if os.path.splitext(os.path.basename(p))[0] not in served]
     out["one_way"] = one_way(model, intent_pages, (("domain", doms), ("capability", caps),
-                                                   ("functionality", funcs)))
+                                                   ("feature", funcs)))
 
     pages = {}
-    for kind, group in (("domain", doms), ("capability", caps), ("functionality", funcs)):
+    for kind, group in (("domain", doms), ("capability", caps), ("feature", funcs)):
         for e in group:
             path = os.path.join(model, str(e.get("doc") or ""))
             text = read(path) if e.get("doc") and os.path.isfile(path) else ""
             m = TITLE.search(text)
             pages[(kind, e["id"])] = {"title": m.group(1).strip() if m else e.get("one_line") or e["id"],
                                       "sources": sources_of(text)}
-    for kind, group in (("domain", doms), ("capability", caps), ("functionality", funcs)):
+    for kind, group in (("domain", doms), ("capability", caps), ("feature", funcs)):
         seen = {}
         for e in group:
             k = key(pages[(kind, e["id"])]["title"]) or key(e["id"].replace("-", " "))
@@ -167,7 +167,7 @@ def find(model, journeys=None, view_texts=None):
                 out["uncovered"].append({"what": "view", "name": os.path.splitext(os.path.basename(path))[0]})
 
     out["counts"] = {k: len(v) for k, v in out.items() if isinstance(v, list)}
-    out["counts"].update(domains=len(doms), capabilities=len(caps), functionalities=len(funcs),
+    out["counts"].update(domains=len(doms), capabilities=len(caps), features=len(funcs),
                          intents=len(intent_pages))
     return out
 

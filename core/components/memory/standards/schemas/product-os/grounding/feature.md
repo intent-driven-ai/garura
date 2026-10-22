@@ -1,6 +1,6 @@
-# Functionality Grounding Doc — TEMPLATE & CONTRACT
+# Feature Grounding Doc — TEMPLATE & CONTRACT
 
-> Locked contract for a functionality's `functionality.md`. A functionality is a
+> Locked contract for a feature's `feature.md`. A feature is a
 > **function, not a story** — describe what it does, never "as a user I want". It is
 > the **most detailed** level: it must read richer than its capability, never leaner.
 > The linter enforces the heading set; the eval scores depth, self-explanation, and
@@ -10,7 +10,7 @@
 ## Heading contract (required, in order)
 
 ```
-# Functionality: <Functionality Name>
+# Feature: <Feature Name>
 ## What it does
 ## Inputs / Outputs
 ## Rules & behavior
@@ -70,7 +70,7 @@ agent works from. Each line explains itself (at least five words), like every ot
 ## Gold example
 
 ```markdown
-# Functionality: Privacy & trust labeling
+# Feature: Privacy & trust labeling
 
 ## What it does
 Scans every collected record for private content and stamps each with its trust state

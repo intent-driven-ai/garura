@@ -14,7 +14,7 @@ sys.path.insert(0, HERE)
 import check_sources as cs  # noqa: E402
 
 CAP = "# Capability: Board\n\n## Benefit hypothesis\nSee work.\n\n## Sources\n- Board screen: \"In review\"\n"
-FUNC = ("# Functionality: Move a card\n\n## What it does\nMoves a card.\n\n## Rules & behavior\n"
+FUNC = ("# Feature: Move a card\n\n## What it does\nMoves a card.\n\n## Rules & behavior\n"
         "- A card keeps its owner.\n\n## Sources\n- Board screen, a card's menu: \"Move to Done\"\n")
 
 
@@ -24,11 +24,11 @@ class CheckSources(unittest.TestCase):
         self.addCleanup(shutil.rmtree, self.dir, ignore_errors=True)
         self.model = os.path.join(self.dir, "product", "product-os")
         self.write("product/product-os/work/board/capability.md", CAP)
-        self.write("product/product-os/work/board/move-a-card/functionality.md", FUNC)
+        self.write("product/product-os/work/board/move-a-card/feature.md", FUNC)
         self.write("proto.txt", "Board   In review  Done  Move to Done")
         self.manifest = self.write("enrich-manifest.yaml", json.dumps({"enrich": {
             "capability": {"doc": "work/board/capability.md"},
-            "functionalities": [{"id": "move-a-card", "doc": "work/board/move-a-card/functionality.md"}]}}))
+            "features": [{"id": "move-a-card", "doc": "work/board/move-a-card/feature.md"}]}}))
 
     def write(self, rel, text):
         path = os.path.join(self.dir, rel)
@@ -51,13 +51,13 @@ class CheckSources(unittest.TestCase):
         self.assertEqual((rep["pages"], rep["quotes"], rep["quotes_found"]), (2, 2, 2))
 
     def test_a_page_without_sources_fails(self):
-        self.write("product/product-os/work/board/move-a-card/functionality.md", FUNC.split("## Sources")[0])
+        self.write("product/product-os/work/board/move-a-card/feature.md", FUNC.split("## Sources")[0])
         rc, rep = self.run_check()
         self.assertEqual(rc, 1)
         self.assertTrue(any("no `## Sources`" in g for g in rep["gaps"]))
 
     def test_a_quote_not_on_the_prototype_fails(self):
-        self.write("product/product-os/work/board/move-a-card/functionality.md",
+        self.write("product/product-os/work/board/move-a-card/feature.md",
                    FUNC.replace("Move to Done", "Build-from vs waiting split"))
         rc, rep = self.run_check()
         self.assertTrue(any("is not on the prototype" in g for g in rep["gaps"]))
@@ -68,14 +68,14 @@ class CheckSources(unittest.TestCase):
         self.assertEqual(rc, 0, rep)
 
     def test_a_question_left_open_fails(self):
-        self.write("product/product-os/work/board/move-a-card/functionality.md",
+        self.write("product/product-os/work/board/move-a-card/feature.md",
                    FUNC.replace("- A card keeps its owner.",
                                 "- Where the card goes next is recorded as an open question."))
         rc, rep = self.run_check()
         self.assertTrue(any("leaves a question open" in g for g in rep["gaps"]))
 
     def test_a_named_page_that_is_missing_fails(self):
-        os.remove(os.path.join(self.model, "work", "board", "move-a-card", "functionality.md"))
+        os.remove(os.path.join(self.model, "work", "board", "move-a-card", "feature.md"))
         rc, rep = self.run_check()
         self.assertTrue(any("the page is not there" in g for g in rep["gaps"]))
 

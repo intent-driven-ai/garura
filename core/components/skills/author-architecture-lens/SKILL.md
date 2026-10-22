@@ -1,6 +1,6 @@
 ---
 name: author-architecture-lens
-description: Author a shaped slice's architecture lens as an MD grounding doc — the components the slice threads (each in its layer, with its contract), the stack (tech + versions) per component, and the vertical build (how the slice runs end-to-end through them) — from the slice's hub (its functionalities' grounding docs + the spine profile) and KB architecture/technology grounding. Writes architecture.md straight to the live model (re-deriving this slice's lens in place) plus a grounding manifest that carries the components/stack grounding and any material-choice decisions as structured data; reads the functionality.md docs for the hub, MAY read the functional lens docs (ux/agentic/marketing) optionally, never the measure or run lens. Generative artifact production for the /shape-architecture-lens play; writes only the one lens doc — never the spine, the profile, or the decisions/ (the play's keyed persist owns those).
+description: Author a shaped slice's architecture lens as an MD grounding doc — the components the slice threads (each in its layer, with its contract), the stack (tech + versions) per component, and the vertical build (how the slice runs end-to-end through them) — from the slice's hub (its features' grounding docs + the spine profile) and KB architecture/technology grounding. Writes architecture.md straight to the live model (re-deriving this slice's lens in place) plus a grounding manifest that carries the components/stack grounding and any material-choice decisions as structured data; reads the feature.md docs for the hub, MAY read the functional lens docs (ux/agentic/marketing) optionally, never the measure or run lens. Generative artifact production for the /shape-architecture-lens play; writes only the one lens doc — never the spine, the profile, or the decisions/ (the play's keyed persist owns those).
 version: 0.3.0
 user-invocable: false
 model: opus
@@ -9,11 +9,11 @@ allowed-tools: Read, Write, Bash, Glob
 
 # author-architecture-lens
 
-Turns a shaped slice's **hub** — the grounding docs of the functionalities it bundles, plus
+Turns a shaped slice's **hub** — the grounding docs of the features it bundles, plus
 the product profile — into the slice's **architecture lens**, written as the grounding doc
 `architecture.md`: the components the slice threads, the stack behind them, and the vertical
 build that ties them end-to-end. A slice is a vertical increment; its hub is the union of its
-functionalities' grounding (which may span several capabilities) plus the profile box. It
+features' grounding (which may span several capabilities) plus the profile box. It
 reads the hub (and MAY read the already-merged functional lens docs — ux/agentic/marketing —
 optionally), never the measure or run lens.
 
@@ -33,7 +33,7 @@ contract), **Stack** (a table: component | technology | version), **Vertical bui
 slice runs top-to-bottom through the components). It must clear the linter (shape) and the
 content-quality eval (the play runs both). Alongside the doc it writes a structured
 `arch-manifest.yaml` (an STM, non-model artifact) carrying the machine-checkable grounding the
-prose can't — which component grounds to which functionality (its systems) or surface, the
+prose can't — which component grounds to which feature (its systems) or surface, the
 stack's grounding, and any material-choice decisions as data (not files).
 
 ## Inputs
@@ -41,8 +41,8 @@ stack's grounding, and any material-choice decisions as data (not files).
 | Field | Required | Description |
 |-------|----------|-------------|
 | `slice_ref` | yes | `{domain}/{slice-id}` — display reference. |
-| `slice_file` | yes | Path to the live slice record (read-only — for the functionalities it bundles). |
-| `functionality_groundings` | yes | Paths to each functionality's `functionality.md` grounding doc (the hub, resolved by `check_ready_slice`). Read these for systems/behavior — NOT `ice.yaml` (retired). |
+| `slice_file` | yes | Path to the live slice record (read-only — for the features it bundles). |
+| `feature_groundings` | yes | Paths to each feature's `feature.md` grounding doc (the hub, resolved by `check_ready_slice`). Read these for systems/behavior — NOT `ice.yaml` (retired). |
 | `profile` | yes | The product profile (from the spine) — the box (NFR levels + gates) + surfaces. Read-only. |
 | `kb_search` | yes | Path to the KB search script, for architecture/technology grounding. |
 | `kb_root` | yes | Path to `knowledge/`, to resolve learning ids. |
@@ -57,13 +57,13 @@ stack's grounding, and any material-choice decisions as data (not files).
 Reasoning (selecting components, drawing contracts, picking the stack, writing the vertical
 build) is yours. Template conformance, grounding, and coverage are non-negotiable.
 
-1. **Read the hub.** Load each functionality's `functionality.md` (its behavior, its systems
+1. **Read the hub.** Load each feature's `feature.md` (its behavior, its systems
    in the boundary/rules, its acceptance) and the profile box (NFR levels + gates + surfaces).
    You MAY read the functional lens docs if present; never read the measure or run lens.
 2. **Select the components.** The horizontal components the slice threads — each in a layer,
    with the contract (what it takes and gives). A component is SELECTED, not invented: it is a
-   system the slice's functionalities talk to, or a surface the profile exposes. Every
-   functionality must thread through at least one component (coverage).
+   system the slice's features talk to, or a surface the profile exposes. Every
+   feature must thread through at least one component (coverage).
 3. **Pick the stack.** The technology per component WITH versions, sized by the profile box —
    grounded in a KB architecture/technology learning (via `kb_search`) or a recorded
    KB-learning-gap proposal. Record material picks as decisions in the manifest.
@@ -71,7 +71,7 @@ build) is yours. Template conformance, grounding, and coverage are non-negotiabl
    top to bottom — the path a builder follows for this increment.
 5. **Write the lens to the live model.** Write `architecture.md` to `product_base`/`lens_rel`
    (per the template), IN PLACE — re-deriving this slice's lens. Then write `arch-manifest.yaml`
-   to `manifest_path`: every component's `grounds` → a functionality_ref or surface; the stack's
+   to `manifest_path`: every component's `grounds` → a feature_ref or surface; the stack's
    grounding → kb or decision; and any material-choice decision as a manifest entry (its target
    `rel` under the slice's `decisions/` + the full decision record). Write any KB proposals to
    `proposals_dir`. Write ONLY the lens doc on the live model — never a decision file, never a
@@ -94,7 +94,7 @@ arch:
   components:
     - name: "Trust labeler"
       grounds:
-        - { source_type: functionality, source: "func-privacy-trust-labeling", functionality_ref: func-privacy-trust-labeling }
+        - { source_type: feature, source: "func-privacy-trust-labeling", feature_ref: func-privacy-trust-labeling }
   stack:                                           # the stack grounding
     source_type: decision                          # kb | decision
     decision: dec-stack-token-dash
@@ -114,15 +114,15 @@ Return the enriched contract with the `lens_rel` path (on the live model) and th
 
 ## Rules
 
-- **Hub (+ optional functional trinity).** Derive from the functionalities' grounding docs +
+- **Hub (+ optional functional trinity).** Derive from the features' grounding docs +
   the profile box; you may read the functional lens docs, never the measure or run lens.
 - **Template-true.** `architecture.md` conforms to the Architecture lens template
   (Intent/Components/Stack/Vertical build) and must clear the linter + the content eval —
   every item self-explaining; the stack as a table.
-- **Selected, not invented.** Every component is a system a functionality talks to or a
+- **Selected, not invented.** Every component is a system a feature talks to or a
   profile surface; every stack pick is grounded in a KB learning or a proposal and recorded
   as a decision in the manifest.
-- **Cover every functionality.** Every functionality the slice bundles threads through ≥1
+- **Cover every feature.** Every feature the slice bundles threads through ≥1
   component, recorded in the manifest. The build is one vertical, end-to-end.
 - **Live lens only; decisions are data.** Write ONLY `architecture.md` to the live model (in
   place). Emit decisions as manifest data — the play's keyed persist writes them. Never write a

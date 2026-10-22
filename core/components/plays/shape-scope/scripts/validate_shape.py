@@ -4,8 +4,8 @@ validate_shape.py — assert /shape-scope's bundle is schema-true, grounded, and
 
 Run over the LIVE model before the checkpoint (ADR 026 direct-model-write: author-scope
 already wrote the slice/persona/journey/decision records straight to the live tree; there is no
-draft). /shape-scope SELECTS and COMPOSES — it does not create functionalities (so there are no
-functionality nodes/ICE to validate). It enforces:
+draft). /shape-scope SELECTS and COMPOSES — it does not create features (so there are no
+feature nodes/ICE to validate). It enforces:
 
   - schema: personas, journeys, decisions, and slices carry their required fields.
   - persona grounding (#550, WARNING only): a persona should also carry `goals`, `cares_about`
@@ -15,16 +15,16 @@ functionality nodes/ICE to validate). It enforces:
     WARNING, never an error. A warning against a persona the current run wrote is a defect for
     the authoring skill to fix (see /shape-scope SE-4 / REC5); a warning on a legacy record is just
     visibility.
-  - references: every slice `functionality_ref` resolves to a real functionality in the
-    LIVE spine (the functionalities /discover-capabilities created) — slices reference by spine id,
+  - references: every slice `feature_ref` resolves to a real feature in the
+    LIVE spine (the features /discover-capabilities created) — slices reference by spine id,
     never copy.
   - surface: every slice is a user-facing vertical — it names >=1 surface
     (id + name + persona_ref + user_action), named not designed.
   - user journeys: every journey traverses >=1 surface, and every surface a slice names is
     reached by at least one journey.
-  - placement: every selected functionality lands in a slice OR the _deferred bucket.
+  - placement: every selected feature lands in a slice OR the _deferred bucket.
   - status: capability status flips are only active|deprecated.
-  - grounding + decisions: every kept capability + selected functionality is grounded; a
+  - grounding + decisions: every kept capability + selected feature is grounded; a
     decision exists per prune and per material selection.
 
 Layer rule: reads files on disk only; no git/gh/network.
@@ -80,7 +80,7 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description="Validate /shape-scope's live bundle (ADR 026).")
     ap.add_argument("--root", required=True, help="the live product-os tree the records were written to")
     ap.add_argument("--manifest", required=True)
-    ap.add_argument("--spine", required=True, help="live _spine.yaml (resolves functionality_refs + live personas)")
+    ap.add_argument("--spine", required=True, help="live _spine.yaml (resolves feature_refs + live personas)")
     args = ap.parse_args(argv)
 
     live_records_root = args.root
@@ -92,7 +92,7 @@ def main(argv=None):
         return 2
 
     spine = load(args.spine)
-    live_func_ids = {f.get("id") for f in (spine.get("functionalities") or []) if isinstance(f, dict)}
+    live_func_ids = {f.get("id") for f in (spine.get("features") or []) if isinstance(f, dict)}
 
     errors, warnings = [], []
     counts = {"persona": 0, "journey": 0, "decision": 0, "slice": 0, "surface": 0}
@@ -146,7 +146,7 @@ def main(argv=None):
             continue
         counts["slice"] += 1
         sl = (load(sp).get("slice") or {})
-        for f in ("id", "domain_ref", "name", "outcome", "acceptance_intent", "functionalities"):
+        for f in ("id", "domain_ref", "name", "outcome", "acceptance_intent", "features"):
             if _empty(sl.get(f)):
                 errors.append(f"{sp}: slice missing '{f}'")
         for k in PLAN_KEYS:
@@ -173,25 +173,25 @@ def main(argv=None):
                 if bad in surf:
                     errors.append(f"{sp}: surface carries design content ('{bad}') — "
                                   f"/shape-scope names the surface; /realize's UX lens designs it")
-        for entry in sl.get("functionalities") or []:
+        for entry in sl.get("features") or []:
             if not isinstance(entry, dict):
-                errors.append(f"{sp}: functionality entry is not a mapping")
+                errors.append(f"{sp}: feature entry is not a mapping")
                 continue
-            fref = entry.get("functionality_ref")
+            fref = entry.get("feature_ref")
             if _empty(fref):
-                errors.append(f"{sp}: slice functionality entry missing functionality_ref")
+                errors.append(f"{sp}: slice feature entry missing feature_ref")
             else:
                 placed_fns.add(fref)
                 if fref not in live_func_ids:
-                    errors.append(f"{sp}: functionality_ref '{fref}' resolves to no functionality "
+                    errors.append(f"{sp}: feature_ref '{fref}' resolves to no feature "
                                   f"in the spine (/discover-capabilities creates them)")
             if entry.get("delivery") not in ("full", "partial"):
-                errors.append(f"{sp}: functionality '{fref}' delivery must be full|partial")
+                errors.append(f"{sp}: feature '{fref}' delivery must be full|partial")
 
     # --- deferred bucket -----------------------------------------------------
     deferred_fns = set()
     for dp in glob.glob(os.path.join(live_records_root, "**", "slices", "_deferred.yaml"), recursive=True):
-        for fid in (load(dp).get("deferred") or {}).get("functionalities") or []:
+        for fid in (load(dp).get("deferred") or {}).get("features") or []:
             deferred_fns.add(fid)
 
     # --- manifest: grounding, status flips, placement, decisions -------------
@@ -209,17 +209,17 @@ def main(argv=None):
             errors.append(f"capability '{cid}' decision '{dec}' must be active|deprecated")
         if dec == "active" and _empty(cap.get("grounding")):
             errors.append(f"kept capability '{cid}' has no grounding")
-        for fn in cap.get("functionalities") or []:
+        for fn in cap.get("features") or []:
             fid = fn.get("id")
             if fid:
                 selected_fns.add(fid)
             if _empty(fn.get("grounding")):
-                errors.append(f"functionality '{fid or '<fn>'}' has no grounding")
+                errors.append(f"feature '{fid or '<fn>'}' has no grounding")
 
-    # placement: every selected functionality in a slice or the deferred bucket
+    # placement: every selected feature in a slice or the deferred bucket
     unplaced = selected_fns - placed_fns - deferred_fns
     if unplaced:
-        errors.append(f"selected functionalities placed in no slice and not deferred: {sorted(unplaced)}")
+        errors.append(f"selected features placed in no slice and not deferred: {sorted(unplaced)}")
 
     # every surface a slice names is reached by a journey
     unreached = slice_surface_ids - journey_surface_refs

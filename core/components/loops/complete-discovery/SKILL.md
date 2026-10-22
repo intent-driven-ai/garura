@@ -4,7 +4,7 @@ description: >
   The Discovery loop — product to intent (ADR 029 §6, ADR 043). Give it a working prototype (a
   file, a project folder or a link) and a short write-up of it, and it reads the prototype once
   and runs /discover-intent, /discover-domains and /discover-capabilities on that one reading, each writing its own kind —
-  business intents, domains, capabilities and functionalities — on one issue and one branch.
+  business intents, domains, capabilities and features — on one issue and one branch.
   After each round it has the model's gaps found and closed, and gives the work still missing
   to the play that does it, until everything is linked. It asks first what it can, asks the
   person only what none of its plays, memory or approved research answers, has a checker the
@@ -170,7 +170,7 @@ Run R5 for `discover-domains` on the capture and the write-up: it writes domains
 
 **Step 6 — Round n: run /discover-capabilities** · Owner: `discover-capabilities` · Depends on: Step 3b (or Step 6b, 6f)
 Run R5 for `discover-capabilities` on the capture (`inputs.discover-capabilities.capture`; on a later round its
-`inputs.discover-capabilities.targets`): it writes capabilities and functionalities with their ICE.
+`inputs.discover-capabilities.targets`): it writes capabilities and features with their ICE.
 
 **Step 6a — After the round: find and close the gaps** · Owner: loop · Depends on: Steps 4, 5 and 6
 Run R5 step 7: dispatch `product-os-keeper` to run `find-model-gaps`, then `link-model-gaps`,
@@ -193,7 +193,7 @@ prototype, settled for what the context answers.
 
 **Step 6e — Write the brief** · Owner: `check-knowledge` · Depends on: Step 6d
 Run R5b step 1: `/check-knowledge` writes the brief — what we understood, what we built (each
-proposed business intent, the domains, the capabilities and functionalities), a few gaps each
+proposed business intent, the domains, the capabilities and features), a few gaps each
 with its context and our proposed answer, the knowledge pages with our recommendation, a
 pointer to the prototype notes.
 
@@ -314,7 +314,7 @@ a question resumes the same play with the person's answer (shared run, R5 step 3
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:f317744103fd470bda5bf533872839939f11c7fad5f18ead72c25f58583ce2f7 (of `reference/ice.md`) |
+| fingerprint | sha256:ce505dc3760dbea9c83f0d0d0eb0240363495333a9fb34fde61abfe8310468b8 (of `reference/ice.md`) |
 | compiled_by | edit-loop (#689, ADR 043: one reading, one kind per play, the gap skills close the loop); create-loop (#613) |
 | kind | loop |
 | pipeline_position | both |

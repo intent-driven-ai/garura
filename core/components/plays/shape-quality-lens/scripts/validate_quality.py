@@ -9,11 +9,11 @@ substantive) is checked by `lint_grounding.py`, and its UNDERSTANDABILITY by the
 both run by the play's validate step over the LIVE doc. THIS script checks what the manifest
 carries, which the prose can't enforce:
 
-  - grounded: every grounding entry names a real source from the slice's HUB (a functionality,
+  - grounded: every grounding entry names a real source from the slice's HUB (a feature,
     persona, or journey, or the profile) — never another lens (the quality read is hub-only).
   - decisions: a grounding flagged `material: true` names a `decision` present in the manifest's
     `choices` (the structured decision the keyed persist will write, skip-if-exists).
-  - coverage: every functionality of the slice is considered by the quality assessment (each
+  - coverage: every feature of the slice is considered by the quality assessment (each
     appears in the manifest grounds) — the gates can't ignore part of the slice.
 
 Layer rule: reads files on disk only; no git/gh/network.
@@ -73,7 +73,7 @@ def collect_decisions(man, errors):
 
 
 def check_grounding(man, decision_ids, errors):
-    """Grounds are hub-only; material → decision. Returns grounded functionality refs."""
+    """Grounds are hub-only; material → decision. Returns grounded feature refs."""
     grounded = set()
     entries = man.get("grounds")
     if _blank(entries):
@@ -81,16 +81,16 @@ def check_grounding(man, decision_ids, errors):
         return grounded
     for e in entries:
         st = (e.get("source_type") or "").strip().lower()
-        if _blank(e.get("source")) and _blank(e.get("functionality_ref")):
+        if _blank(e.get("source")) and _blank(e.get("feature_ref")):
             errors.append("a grounding entry has no source")
             continue
         if st in OTHER_LENSES:
             errors.append(f"grounds on another lens '{st}' — /shape-quality-lens reads the slice's hub, "
                           f"never a lens")
-        elif st not in ("profile", "ice", "functionality", "persona", "journey"):
-            errors.append(f"source_type '{st}' is not profile/functionality/persona/journey")
-        if st in ("ice", "functionality"):
-            fr = e.get("functionality_ref")
+        elif st not in ("profile", "ice", "feature", "persona", "journey"):
+            errors.append(f"source_type '{st}' is not profile/feature/persona/journey")
+        if st in ("ice", "feature"):
+            fr = e.get("feature_ref")
             if not _blank(fr):
                 grounded.add(fr)
         if e.get("material") is True:
@@ -102,13 +102,13 @@ def check_grounding(man, decision_ids, errors):
     return grounded
 
 
-def slice_functionalities(slice_file, errors):
+def slice_features(slice_file, errors):
     if not slice_file or not os.path.isfile(slice_file):
         errors.append(f"slice record not found at {slice_file} — cannot verify coverage")
         return set()
     sl = (load(slice_file).get("slice") or {})
-    return {(f or {}).get("functionality_ref") for f in (sl.get("functionalities") or [])
-            if (f or {}).get("functionality_ref")}
+    return {(f or {}).get("feature_ref") for f in (sl.get("features") or [])
+            if (f or {}).get("feature_ref")}
 
 
 def main(argv=None):
@@ -126,10 +126,10 @@ def main(argv=None):
 
     decision_ids = collect_decisions(man, errors)
     grounded = check_grounding(man, decision_ids, errors)
-    to_cover = slice_functionalities(args.slice_file, errors)
+    to_cover = slice_features(args.slice_file, errors)
     for fid in sorted(f for f in to_cover if f):
         if fid not in grounded:
-            errors.append(f"slice functionality {fid!r} is not considered by the quality assessment")
+            errors.append(f"slice feature {fid!r} is not considered by the quality assessment")
 
     counts = {"grounds": len(man.get("grounds") or []), "decisions": len(decision_ids),
               "to_cover": len(to_cover), "grounded": len(grounded)}

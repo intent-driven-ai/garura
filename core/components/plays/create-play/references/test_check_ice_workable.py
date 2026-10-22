@@ -52,7 +52,7 @@ def setup(tmp):
         {"id": "cap-dropped", "domain": "d1", "intents": ["dropped-one"]},
         {"id": "cap-missing", "domain": "d1", "intents": ["no-such-intent"]},
         {"id": "cap-met", "domain": "d1", "intents": ["met-one"]}],
-        "functionalities": [{"id": "fn-ok", "capability": "cap-ok", "intents": ["confirmed-one"]},
+        "features": [{"id": "fn-ok", "capability": "cap-ok", "intents": ["confirmed-one"]},
                             {"id": "fn-loose", "capability": "", "intents": ["confirmed-one"]},
                             {"id": "fn-under-loose", "capability": "cap-loose", "intents": ["confirmed-one"]},
                             {"id": "fn-via-cap", "capability": "cap-ok"},
@@ -106,7 +106,7 @@ def setup_v6(tmp):
         with open(os.path.join(root, rel), "w") as fh:
             fh.write(text)
         ices.append({"id": f"ice-{n}", "for": part,
-                     "for_kind": "capability" if part.startswith("cap-") else "functionality", "doc": rel})
+                     "for_kind": "capability" if part.startswith("cap-") else "feature", "doc": rel})
     spine = {"domains": [{"id": "d1"}],
              "capabilities": [
                  {"id": "cap-a", "domain": "d1", "intents": ["bi-ok"], "identified_by": "cap-x"},
@@ -118,7 +118,7 @@ def setup_v6(tmp):
                  {"id": "cap-noctx", "domain": "d1", "intents": ["bi-ok"], "identified_by": "cap-a"},
                  {"id": "cap-emptyexp", "domain": "d1", "intents": ["bi-ok"], "identified_by": "cap-a"},
                  {"id": "cap-noice", "domain": "d1", "intents": ["bi-ok"], "identified_by": "cap-a"}],
-             "functionalities": [
+             "features": [
                  {"id": "fn-a", "capability": "cap-a", "intents": ["bi-prop"]},
                  {"id": "fn-orphan", "capability": "", "intents": ["bi-ok"]},
                  {"id": "fn-under-prop", "capability": "cap-prop", "intents": ["bi-ok"]},
@@ -183,15 +183,15 @@ def v6_tests(tmp):
     check("a needed capability that is done no longer stops", r["answer"] == "ready")
 
     code, r = node("fn-a")
-    check("a functionality finds its business intent through its parent (its own intents are not read)",
+    check("a feature finds its business intent through its parent (its own intents are not read)",
           r["answer"] == "ready")
     code, r = node("fn-orphan")
-    check("not ready: a functionality with no parent capability", r["answer"] == "not_ready"
+    check("not ready: a feature with no parent capability", r["answer"] == "not_ready"
           and any("capability" in s for s in r["stops"]))
     code, r = node("fn-under-prop")
-    check("not ready: a functionality whose parent serves no confirmed intent", r["answer"] == "not_ready")
+    check("not ready: a feature whose parent serves no confirmed intent", r["answer"] == "not_ready")
     code, r = node("fn-own-needs", ["--done", done_none])
-    check("a functionality's own needs are not read (v6: it never needs anything)", r["answer"] == "ready")
+    check("a feature's own needs are not read (v6: it never needs anything)", r["answer"] == "ready")
 
     code = cw.main(args + ["--out", out])
     with open(out) as fh:
@@ -213,20 +213,20 @@ def main():
         args = ["--spine", spine, "--intents-dir", intents]
         check("built from a confirmed intent is workable (one confirmed is enough)",
               cw.main(args + ["--node", "cap-ok"]) == 0)
-        check("a functionality is checked the same way", cw.main(args + ["--node", "fn-ok"]) == 0)
+        check("a feature is checked the same way", cw.main(args + ["--node", "fn-ok"]) == 0)
         check("built from a met intent stays workable", cw.main(args + ["--node", "cap-met"]) == 0)
         for node, label in (("cap-none", "no intent at all"), ("cap-proposed", "only a proposed intent"),
                             ("cap-dropped", "only a dropped intent"), ("cap-missing", "an intent with no page")):
             check(f"{label} is kept but not workable", cw.main(args + ["--node", node]) == 1)
         check("a capability with no domain is ready from a confirmed intent (v5)",
               cw.main(args + ["--node", "cap-loose"]) == 0)
-        check("a functionality whose capability has no domain is ready (v5)",
+        check("a feature whose capability has no domain is ready (v5)",
               cw.main(args + ["--node", "fn-under-loose"]) == 0)
-        check("a functionality with no capability is kept but not ready",
+        check("a feature with no capability is kept but not ready",
               cw.main(args + ["--node", "fn-loose"]) == 1)
-        check("a functionality is ready through its capability's confirmed intent",
+        check("a feature is ready through its capability's confirmed intent",
               cw.main(args + ["--node", "fn-via-cap"]) == 0)
-        check("a functionality under a capability that is not ready is not ready",
+        check("a feature under a capability that is not ready is not ready",
               cw.main(args + ["--node", "fn-under-proposed"]) == 1)
         done_none = os.path.join(tmp, "done-none.yaml")
         with open(done_none, "w") as fh:

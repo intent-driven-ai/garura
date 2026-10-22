@@ -19,11 +19,11 @@ The persistent data model for the ProductOS Command Model (#434) lives in the `p
 
 | Path | Defines | Lifecycle |
 |------|---------|-----------|
-| `product-os/product-os.yaml` | the Domain → Capability → Functionality tree, personas, journeys | permanent |
+| `product-os/product-os.yaml` | the Domain → Capability → Feature tree, personas, journeys | permanent |
 | `product-os/ice.yaml` | Intent / Context (persona, systems, scope) / Expectations on a node — the build unit | permanent |
 | `product-os/decision.yaml` | decision records (ADRs) at any level | permanent |
 | `product-os/capability-intent.yaml` | the 5 realize lenses (ux, architecture, delivery, quality, agentic) | permanent |
-| `product-os/epic.yaml` | a vertical slice of a functionality, the delivery/issue grain | temporary (deleted on merge) |
+| `product-os/epic.yaml` | a vertical slice of a feature, the delivery/issue grain | temporary (deleted on merge) |
 
 See `product-os/_index.md` for the full set and storage lifecycle.
 

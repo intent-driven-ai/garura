@@ -1,6 +1,6 @@
 ---
 name: author-domains
-description: Author or grow the domains of the product model for /discover-domains — a detailed domain grounding doc for each domain the product sits in (the field it serves and the job it does there), each ending with its sources — straight to the live model, starting from business intents, a typed goal, a prototype's capture, or any mix, and from whatever the model already holds; and emit the matching spine-delta (new domain entries, the named updates to existing ones, and the directional profile) as structured manifest data. Writes domains only (ADR 043) — never a capability or a functionality, which are /discover-capabilities's. Writes per-node docs only; never a shared file. Generative artifact production for the /discover-domains play.
+description: Author or grow the domains of the product model for /discover-domains — a detailed domain grounding doc for each domain the product sits in (the field it serves and the job it does there), each ending with its sources — straight to the live model, starting from business intents, a typed goal, a prototype's capture, or any mix, and from whatever the model already holds; and emit the matching spine-delta (new domain entries, the named updates to existing ones, and the directional profile) as structured manifest data. Writes domains only (ADR 043) — never a capability or a feature, which are /discover-capabilities's. Writes per-node docs only; never a shared file. Generative artifact production for the /discover-domains play.
 version: 0.6.0
 user-invocable: false
 model: opus
@@ -21,7 +21,7 @@ script turn that manifest into the spine/profile writes.
 /discover-domains is the **CXO conversation**: what you take to a CXO and what they give back. So the
 grounding here is strategic and outcome-led — the domain and the bet, the kinds of capability
 it covers, what "good" looks like at a strategic level. Writing and detailing the
-capabilities and their functionalities is the **product manager's** job (/discover-capabilities);
+capabilities and their features is the **product manager's** job (/discover-capabilities);
 breaking them into deliverable verticals is the **product owner's** job (/shape-scope). Write
 nothing at those altitudes here.
 
@@ -33,7 +33,7 @@ one page for each.
 ## Every kind written on its own (ADR 043)
 
 Each kind has one writer: /discover-intent writes business intents, you write domains, /discover-capabilities
-writes capabilities and functionalities. None waits for another, and the links between them
+writes capabilities and features. None waits for another, and the links between them
 are made later. So you start from whatever is there: business intents (proposed is fine —
 never check workability, never wait), light domain pages, and any capability already in the
 model, which you read as context only — you never write, place, move or detail one. Anything
@@ -47,7 +47,7 @@ mandatory:
 
 - It writes ONLY domain grounding docs — one `domain.md` per domain — **straight to the live
   model** under `{product_base}product-os/`, each its own file. There is no `draft/` tree. It
-  writes no capability or functionality page.
+  writes no capability or feature page.
 - It writes a NEW doc where none exists, and UPDATES an existing domain doc only to grow it
   at its own altitude, **keeping every section it had** (the play's keep check fails the run
   if one is lost): raise a light domain page (`## Intent` only) to the full Theme page,
@@ -58,7 +58,7 @@ mandatory:
 - The spine-delta — the domain entries and the directional profile block — is emitted as
   **structured data in `seed-manifest.yaml`** (a non-model STM artifact). The keyed persist
   script merges those entries into the live spine additively (add-only by id; profile only if
-  absent) and refuses any capability or functionality entry.
+  absent) and refuses any capability or feature entry.
 
 ## The grounding contract (non-negotiable)
 
@@ -124,7 +124,7 @@ levels — is yours. Template conformance and the content bar are non-negotiable
      `intents` = the input intents it serves.
    - **`updates`** for domain entries already in the spine — only these fields:
      `detail: detailed` (when you raised a light page), `one_line`, `intents`. The persist
-     refuses any other field, a lowered detail, and any capability or functionality entry
+     refuses any other field, a lowered detail, and any capability or feature entry
      or update.
    - the **directional `profile`** block — `state: directional`, the `shape` at a rough cut
      (stage / users / monetization / surfaces) and `nfr` levels at a coarse directional guess.
@@ -184,7 +184,7 @@ path — paths, never inline content.
 ## Rules
 
 - **Domains only (ADR 043).** Write domain pages and domain entries. Never write, name as an
-  entry, place, move or detail a capability; never write a functionality.
+  entry, place, move or detail a capability; never write a feature.
 - **Every page says where it comes from (#689).** Each domain page ends with `## Sources`
   (its shelf, or its research links).
 - **A recognised domain, never a made-up one.** A domain is named as the industry or a known

@@ -2,7 +2,7 @@
 
 The seven faces of a **slice's** realization — one per realize lens:
 **quality · ux · agentic · marketing · architecture · measure · run**. These are
-realization, NOT intent — the intent is the ICE of the functionalities the slice
+realization, NOT intent — the intent is the ICE of the features the slice
 bundles. Six lenses carry a YAML schema in this directory; **marketing** is a
 grounding-doc-only lens (`lens/marketing.md`, written by the /shape-marketing-lens play from
 its grounding template — no YAML record). The /shape-measure-lens gate counts all seven lens
@@ -22,8 +22,8 @@ on a capability:
     {domain}/slices/{slice-id}/lens/{type}.yaml   # the slice's lenses (realize owns these)
     {domain}/slices/{slice-id}/decisions/*.yaml   # decisions a lens records
 
-A slice has no ICE of its own — its hub is the union of its functionalities' ICE
-(each `functionalities[].ice_ref`, which may span several capabilities) plus the
+A slice has no ICE of its own — its hub is the union of its features' ICE
+(each `features[].ice_ref`, which may span several capabilities) plus the
 product profile. PERMANENT.
 
 ## Shared envelope (every lens record)

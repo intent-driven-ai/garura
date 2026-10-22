@@ -20,7 +20,7 @@ approval.
 
 One model, every kind written on its own (ADR 043; ADR 031 parts 2–3; ontology v3–v4). Each
 kind has one writer: /discover-intent writes business intents, /discover-domains writes domains, /discover-capabilities
-writes capabilities and functionalities. None needs another to run first; the links between
+writes capabilities and features. None needs another to run first; the links between
 them are made later — inside a loop by the loop's gap skills, by hand by the person running
 the next play. So /discover-domains starts from whatever the model already holds:
 
@@ -38,7 +38,7 @@ domain serves — is recorded as a warning. A write is never blocked, and nothin
 did or did not do stops the run.
 
 Everything here is strategic and directional — CXO altitude. Writing and detailing the
-capabilities and their functionalities is the **product manager's** work (/discover-capabilities); breaking the detailed model into deliverable end-to-end verticals and
+capabilities and their features is the **product manager's** work (/discover-capabilities); breaking the detailed model into deliverable end-to-end verticals and
 epics is the **product owner's** work (/shape-scope). The play writes nothing at those
 altitudes.
 
@@ -50,7 +50,7 @@ The play reads no memory itself (ADR 039 §2); its agents and skills do the work
 
 Pipeline position: **both**. /discover-domains stands on its own (ADR 029 §4; #616): run by hand, it opens its own change and lands it. Inside a loop (ADR 029 §2–3; #614) it is handed the loop's contract (`standards/rules/loop-contract.md`) and opens nothing: no `start-change`, no end sequence, no wait at its checkpoint — it works on the loop's branch, commits its model change there, and keeps what its checkpoint would have shown as a review record for the loop's end review. The D2 rule prepends `start-change` — resolve or create the issue, cut the branch off fresh main, optional worktree, init STM — and, after the model delta is committed, appends the close sequence `commit-change → propose-change → check-change → merge-change`, landing the change on main. No later play needs to run for /discover-domains's work to be finished: /discover-capabilities and the plays after it start from main. It writes the persistent product model **directly, in place** on the started branch — there is no draft copy and no apply/promote step; review is the branch git diff and the end PR. (#437, #500, ADR 026; position changed from start to both in #616.)
 
-Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM authoring skill writes ONLY the domain grounding docs (`domain.md`) straight to the live model — new docs, and updates to existing docs at its altitude that keep what was there; it never removes a doc and never writes a shared file. Every shared-file mutation (the spine `_spine.yaml`, including its `profile` block) is done by the deterministic keyed persist script, in place: it adds domain entries whose id is absent and the profile only if none exists, makes only the named updates to an existing domain entry, and refuses anything else — any capability, functionality, slice or epic entry above all (ADR 043) (the node-level containment the file-level scoped guard cannot see inside the shared spine). Containment is a post-write scoped guard over the full delta (`scoped_write_guard.py`) plus a keep check over every existing doc the run changed, not a draft. Clean tree in, committed delta out: the product-os tree is asserted clean once start-change has cut the fresh branch, and after the approved checkpoint the play commits its own model delta on the branch, so the working-tree diff vs HEAD is exactly this run's delta and the end sequence lands exactly that delta.
+Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM authoring skill writes ONLY the domain grounding docs (`domain.md`) straight to the live model — new docs, and updates to existing docs at its altitude that keep what was there; it never removes a doc and never writes a shared file. Every shared-file mutation (the spine `_spine.yaml`, including its `profile` block) is done by the deterministic keyed persist script, in place: it adds domain entries whose id is absent and the profile only if none exists, makes only the named updates to an existing domain entry, and refuses anything else — any capability, feature, slice or epic entry above all (ADR 043) (the node-level containment the file-level scoped guard cannot see inside the shared spine). Containment is a post-write scoped guard over the full delta (`scoped_write_guard.py`) plus a keep check over every existing doc the run changed, not a draft. Clean tree in, committed delta out: the product-os tree is asserted clean once start-change has cut the fresh branch, and after the approved checkpoint the play commits its own model delta on the branch, so the working-tree diff vs HEAD is exactly this run's delta and the end sequence lands exactly that delta.
 
 ### Constraints
 
@@ -59,7 +59,7 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
   entry the keyed persist adds or updates conforms to the spine schema, with the spine and the
   docs consistent (each entry points at an existing doc of the matching kind and stage). The
   structural linter passes; its "not ready until it is attributed" warning on a capability or
-  functionality another play wrote is not a failure.
+  feature another play wrote is not a failure.
 - C2 — Content quality: every grounding doc the play writes or changes clears the
   content-quality eval, not just the linter — each section is self-explaining at CXO
   altitude per the content standard (it names the thing AND explains why it matters), and
@@ -67,7 +67,7 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
   only moves, unchanged, is not re-judged.
 - C3 — Altitude and scope: the play writes **domains only**, each in full (ADR 043 part 2). It
   never writes, names as an entry, places, moves or details a capability, never writes a
-  functionality, never writes acceptance criteria — those belong to /discover-capabilities and /shape-scope. A
+  feature, never writes acceptance criteria — those belong to /discover-capabilities and /shape-scope. A
   domain page's Capabilities section describes, in plain words, the kinds of capability the
   domain covers; it names no capability entry.
 - C4 — Directional state: a domain entry the play writes or raises carries
@@ -90,7 +90,7 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
   removed. The keyed persist script adds domain entries whose id is absent and the profile only
   if none exists; on an existing domain entry it makes only these updates — raise `detail`
   (never lower it), refresh `one_line`, add to `intents` — and never removes an entry or
-  changes an `id`; it refuses any capability, functionality, slice or epic entry or update
+  changes an `id`; it refuses any capability, feature, slice or epic entry or update
   (ADR 043). After ALL writes and before the checkpoint, the bundled keep check
   (`check_kept.py`) confirms every existing doc the run changed kept each section it had, and
   `scoped_write_guard.py` diffs the model tree against HEAD and FAILS the run (reverting the
@@ -176,7 +176,7 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
   capability no domain holds, ADR 043): it finds, by research, the domain each belongs in.
 - C12— Reads the product, not the sample (Kapil, 2026-10-21: "they can extract the domain and
   do not need intents to do that. looking at screens its easy to know which domain and what
-  sort of functionality they need"). Handed a prototype's capture, the play reads what the
+  sort of feature they need"). Handed a prototype's capture, the play reads what the
   product offers its user from the screens — and, when the capture carries the person's
   write-up, from what it says the product is, its field and its job — : the domains it sits in. It asks, in order, which
   field the product serves — judged by what its screens are about — and which job it does in
@@ -203,7 +203,7 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
 - F2 — A grounding doc fails the content-quality eval: a section is a label rather than
   an explanation, is written above or below CXO altitude, or the doc fails the stranger
   test.
-- F3 — Scope over-reach: a capability page, a capability or functionality spine entry or
+- F3 — Scope over-reach: a capability page, a capability or feature spine entry or
   update, a capability placed or moved, acceptance criteria, or a profile in state
   `set`/`locked` was written, or an entry's `detail` was lowered (ADR 043).
 - F4 — A domain is neither grounded in a KB domain shelf nor recorded as a KB-node proposal, or
@@ -212,7 +212,7 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
   or it is a name made up for this product — no shelf matched and no research names it — or
   its page has no `## Sources`.
 - F5 — Allowlist breach: a model path outside the run's write scope changed (a domain doc
-  removed, an intent page added or removed, a capability or functionality page written or
+  removed, an intent page added or removed, a capability or feature page written or
   moved, any other file) — the scoped-write guard's report is not ok; or an existing doc the
   run changed lost a section it had — the keep check's report is not ok; or the persist
   changed an existing spine entry beyond the named updates (an entry removed, an `id` changed,
@@ -261,7 +261,7 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
   profile are written in place on the live model — all conforming to their templates and
   clearing the content-quality eval — and no capability is written. Measure: the spine's
   `domains` holds at least one entry at `detail: detailed`; each entry's `doc` exists at its
-  pointer and matches its kind and stage; the run added no `capabilities` or `functionalities`
+  pointer and matches its kind and stage; the run added no `capabilities` or `features`
   entry; the linter passes; the content eval gate passes for every domain doc; the profile
   `state` is `directional`; the run's change is landed on main by the injected end sequence
   (merge-change reports the PR merged); the stop-condition verdict reads held.
@@ -361,7 +361,7 @@ not per-node docs.
   handoff: autonomous.
 - REC3 (F3) — trigger: a capability page, entry, update or placement, acceptance criteria, a
   `set`/`locked` profile, or a lowered `detail` appears. direction: strip the over-reach —
-  drop every capability and functionality write (they are /discover-capabilities's), remove the
+  drop every capability and feature write (they are /discover-capabilities's), remove the
   acceptance criteria, reset the profile to `directional`, restore a lowered `detail` —
   leaving only domains. handoff: autonomous.
 - REC4 (F4) — trigger: a domain has neither a KB shelf match nor a KB-node proposal, is a

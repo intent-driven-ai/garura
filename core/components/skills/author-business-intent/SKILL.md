@@ -14,7 +14,7 @@ its user, with why the business needs it, who asks for it, and how we will know 
 business intent per thing the product offers its user — follow the product's own main areas.
 
 You draft business intents only (ADR 043). No ICE, no capability, no domain: `/discover-domains` writes
-the domains and `/discover-capabilities` the capabilities and functionalities with their ICE, each from the
+the domains and `/discover-capabilities` the capabilities and features with their ICE, each from the
 screens itself; the links between the kinds are made later.
 
 The person confirms or drops each business intent later; you only draft.
@@ -145,7 +145,7 @@ questions:
 ## Constraints
 
 - **Draft only.** Never write the product model, and never set a stage — only the person confirms or drops.
-- **Business intents only (ADR 043).** No `ice`, `domains`, `capabilities` or `functionalities` in the draft — other plays write those kinds.
+- **Business intents only (ADR 043).** No `ice`, `domains`, `capabilities` or `features` in the draft — other plays write those kinds.
 - **One intent per need; every part mapped.** Never merge two needs; never leave a part unmapped.
 - **Intents above, not beside.** A business intent says what the business wants; it never restates what the source shows.
 - **Outcome, not build.** Nothing that describes the source belongs in an intent.

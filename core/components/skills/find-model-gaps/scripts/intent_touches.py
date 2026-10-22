@@ -2,7 +2,7 @@
 """intent_touches.py — the Touches list on a business intent page (ontology v4, #637).
 
 A business intent page names every part of the product it touches — each domain,
-capability and functionality — and how: it adds it, changes it, or removes it. The list
+capability and feature — and how: it adds it, changes it, or removes it. The list
 sits on the intent page, in the person's words, and each line links to the part's page:
 
     **Touches:**
@@ -25,10 +25,10 @@ import os
 import re
 
 HEADER = "**Touches:**"
-KINDS = ("domain", "capability", "functionality")
+KINDS = ("domain", "capability", "feature")
 MARKS = ("adds", "changes", "removes")
 LINE = re.compile(r"^- \[(?P<title>[^\]]+)\]\((?P<link>[^)\s]+)\) "
-                  r"\((?P<kind>domain|capability|functionality)\) — (?P<mark>adds|changes|removes)$")
+                  r"\((?P<kind>domain|capability|feature)\) — (?P<mark>adds|changes|removes)$")
 # The list /discover-intent wrote before ontology v4: capabilities only, all of them new.
 OLD_HEADER = re.compile(r"^\*\*ICE built from it[^*]*:\*\*")
 OLD_LINE = re.compile(r"^- \[(?P<title>[^\]]+)\]\((?P<link>[^)\s]+)\)$")

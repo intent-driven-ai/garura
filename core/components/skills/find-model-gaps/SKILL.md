@@ -1,6 +1,6 @@
 ---
 name: find-model-gaps
-description: Find the gaps in the product model — the nodes not yet linked (a capability with no domain, a functionality with no capability, a node that serves no business intent), the same thing written twice, the work still missing (a capability with no functionalities, an intent no capability serves) and the screens of a prototype no node covers — and say, for each, the link to make or the play that does the missing work. Every kind is written on its own (ADR 043), so the model holds loose nodes until they are linked; this skill finds them. Its script counts the candidates; the judgment (is this really a gap, where does this node belong, which play owns the work) is the skill's. Writes gaps.json; never writes the model. Used by the shared loop run after each round, through product-os-keeper; later plays that show or fix the model's gaps can reuse it.
+description: Find the gaps in the product model — the nodes not yet linked (a capability with no domain, a feature with no capability, a node that serves no business intent), the same thing written twice, the work still missing (a capability with no features, an intent no capability serves) and the screens of a prototype no node covers — and say, for each, the link to make or the play that does the missing work. Every kind is written on its own (ADR 043), so the model holds loose nodes until they are linked; this skill finds them. Its script counts the candidates; the judgment (is this really a gap, where does this node belong, which play owns the work) is the skill's. Writes gaps.json; never writes the model. Used by the shared loop run after each round, through product-os-keeper; later plays that show or fix the model's gaps can reuse it.
 user-invocable: false
 model: sonnet
 allowed-tools: Read, Write, Glob, Grep, Bash
@@ -9,8 +9,8 @@ allowed-tools: Read, Write, Glob, Grep, Bash
 # find-model-gaps
 
 The product model is written in pieces (ADR 043): `/discover-intent` writes business intents,
-`/discover-domains` domains, `/discover-capabilities` capabilities and functionalities, each on its own. A piece is
-not ready until it is linked — functionality → capability → domain, and its agent intent to a
+`/discover-domains` domains, `/discover-capabilities` capabilities and features, each on its own. A piece is
+not ready until it is linked — feature → capability → domain, and its agent intent to a
 confirmed business intent. This skill finds what is not linked yet, what is written twice, and
 what is still missing, and says what to do about each.
 
@@ -35,7 +35,7 @@ what is still missing, and says what to do about each.
    ```
 
    It lists: nodes with no parent (`unattributed`), parents named that do not exist
-   (`dangling`), capabilities with no functionality, intents no node serves, nodes that serve
+   (`dangling`), capabilities with no feature, intents no node serves, nodes that serve
    no intent, links to an intent held on one side only (`one_way` — the node's `intents` names
    the intent but the intent page's Touches list does not name the node, or the reverse), empty
    domains, likely duplicates (titles that match once normalised) and screens no page's
@@ -45,18 +45,18 @@ what is still missing, and says what to do about each.
    candidates, read the pages and their `## Sources`. Clear a candidate that is not a gap (two
    titles that only look alike). Confirm the rest.
 3. **Propose each link, with why.** For a loose node, name where it belongs — the capability
-   a functionality is part of, the domain a capability sits in, the intents a node serves —
+   a feature is part of, the domain a capability sits in, the intents a node serves —
    from what the pages and their sources say, and say why in one plain line. Never invent a
    parent: when no node fits, it is missing work (step 5), not a link.
 4. **Agree the duplicates.** For two nodes that are the same thing, name which to keep (the
    one with more content and sources) and mark it `agreed: true` only when the pages and
    their sources show the same screen and the same purpose.
 5. **Give each piece of missing work to the play that does it:**
-   - a capability with no functionalities → `/discover-capabilities`;
+   - a capability with no features → `/discover-capabilities`;
    - a capability no domain holds, and no domain fits → `/discover-domains`;
    - a screen's need that no business intent names → `/discover-intent`;
    - an intent no capability serves → `/discover-capabilities`;
-   - a screen no capability or functionality covers → `/discover-capabilities`.
+   - a screen no capability or feature covers → `/discover-capabilities`.
 6. **Write `gaps.json`** in the shape under Output.
 
 ## Output
@@ -80,5 +80,5 @@ what is still missing, and says what to do about each.
 - **No link without a basis.** Every link and every merge says why, from the pages, their
   sources, the capture or the write-up.
 - **Work goes to the play that owns the kind** (ADR 043): intents to `/discover-intent`, domains to
-  `/discover-domains`, capabilities and functionalities to `/discover-capabilities`.
+  `/discover-domains`, capabilities and features to `/discover-capabilities`.
 - **Plain words.** Each `why` is one short sentence a person reads without the model open.

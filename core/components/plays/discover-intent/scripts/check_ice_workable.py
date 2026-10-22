@@ -3,14 +3,14 @@
 
 Ontology v6 (ADR 047 §6, #760): when the spine has an `ices` list, the check reads each ICE
 node — its `ices` entry and its ice.md — and gives one of three answers, computed each run
-and never stored. "Its capability" is the capability itself, or a functionality's parent.
+and never stored. "Its capability" is the capability itself, or a feature's parent.
   - ready: its capability serves a confirmed business intent, every capability it needs is
     done, and the ICE has all three parts (Intent, Context, Expectation). Work starts.
   - partly_ready: as ready, with gaps outside the parts — no domain, no identified_by. Work
     starts; the gaps are listed.
   - not_ready: a part is missing or empty, no confirmed business intent reaches it, a needed
-    capability is not done, a functionality has no parent, or a part has no ICE. Work stops.
-A functionality's own `intents` and `depends_on` are not read (v6: it finds its business
+    capability is not done, a feature has no parent, or a part has no ICE. Work stops.
+A feature's own `intents` and `depends_on` are not read (v6: it finds its business
 intents through its parent and never needs anything). Richness (which lines each part fills,
 light | full) is reported, never a stop. The ICE's own approval is not a condition (§8).
 Each answer keeps `workable` (true unless not_ready) for older callers. A spine with no
@@ -18,7 +18,7 @@ Each answer keeps `workable` (true unless not_ready) for older callers. A spine 
 
 The v5 rule (#724):
 
-An ICE lives inline in its capability's or functionality's grounding doc; the node's spine
+An ICE lives inline in its capability's or feature's grounding doc; the node's spine
 entry names, in `intents`, the business intents it is built from. The ICE is WORKABLE only
 when at least one of those intents is confirmed — its page under `product-os/intents/<id>.md`
 reads `**Stage:** confirmed`, or `met` (a met intent was confirmed first and its proof now
@@ -26,10 +26,10 @@ holds; work that keeps it met is still wanted). An ICE with no intent, or only p
 dropped ones, is kept as written but no play plans, breaks down or builds from it.
 
 Ontology v5 (#724): a missing domain no longer blocks. A capability is ready when it serves
-a confirmed business intent and nothing it needs is open; a functionality is ready when it
+a confirmed business intent and nothing it needs is open; a feature is ready when it
 names a capability that is ready (its own confirmed intent, or its capability's) and nothing
 it needs is open. A capability with no domain gets a warning, never a block. "Needs" is the
-spine's `depends_on` list (capabilities or functionalities). Whether a need is still open
+spine's `depends_on` list (capabilities or features). Whether a need is still open
 comes from `--done`: a file listing the ids of done nodes (YAML or JSON list). Without it,
 needs are listed but not judged. Writing is never blocked; this check stops work, not writes.
 
@@ -37,10 +37,10 @@ Canonical copy for create-play: a play that works on ICE (plans, breaks down or 
 from it) copies this script unchanged and calls it before that work.
 
     python3 check_ice_workable.py --spine <product-os>/_spine.yaml \
-        --intents-dir <product-os>/intents [--node <capability or functionality id>] \
+        --intents-dir <product-os>/intents [--node <capability or feature id>] \
         [--done <done-ids.yaml>] [--out <path.json>]
 
-Without --node it reports every capability and functionality (v6: every ICE, and every part
+Without --node it reports every capability and feature (v6: every ICE, and every part
 with none), with counts of each answer. --node takes an ICE id or its part's id: exit 0 when
 ready or partly ready, 1 when not ready, 2 when the node is unknown or an input is unreadable. No git, no network, no LLM.
 """
@@ -137,7 +137,7 @@ def assess(entry, kind, intents_dir, spine=None, done=None):
 
 def check(spine, intents_dir, done=None):
     nodes = []
-    for section, kind in (("capabilities", "capability"), ("functionalities", "functionality")):
+    for section, kind in (("capabilities", "capability"), ("features", "feature")):
         for entry in spine.get(section) or []:
             if isinstance(entry, dict):
                 nodes.append(assess(entry, kind, intents_dir, spine, done))
@@ -204,13 +204,13 @@ def assess_ice(ice, part, kind, spine, root, intents_dir, done):
                 elif not parts[p]["_text"]:
                     stops.append(f"the ICE's {p} is empty")
             rich = richness(parts)
-    # its capability: the part itself, or a functionality's parent
+    # its capability: the part itself, or a feature's parent
     if kind == "capability":
         cap = part
     else:
         cap = caps.get(part.get("capability")) if part.get("capability") else None
         if not part.get("capability"):
-            stops.append("the functionality has no parent capability yet")
+            stops.append("the feature has no parent capability yet")
         elif cap is None:
             stops.append(f"its capability `{part.get('capability')}` is not in the spine")
     stages, confirmed, needs, still_open = {}, [], [], None
@@ -240,7 +240,7 @@ def check_ices(spine, root, intents_dir, done=None):
         if isinstance(ice, dict) and ice.get("for"):
             by_part.setdefault(ice["for"], ice)
     out = []
-    for section, kind in (("capabilities", "capability"), ("functionalities", "functionality")):
+    for section, kind in (("capabilities", "capability"), ("features", "feature")):
         for part in spine.get(section) or []:
             if isinstance(part, dict):
                 out.append(assess_ice(by_part.get(part.get("id")), part, kind, spine, root, intents_dir, done))
@@ -286,7 +286,7 @@ def main(argv=None):
         nodes = [v5_answer(n) for n in check(spine, args.intents_dir, done)]
     if args.node:
         match = [n for n in nodes if args.node in (n["id"], n["for"])]
-        report = match[0] if match else {"error": f"no ICE, capability or functionality `{args.node}`"}
+        report = match[0] if match else {"error": f"no ICE, capability or feature `{args.node}`"}
     else:
         counts = {a: sum(n["answer"] == a for n in nodes) for a in ("ready", "partly_ready", "not_ready")}
         report = {"nodes": nodes, "counts": counts, "workable": sum(n["workable"] for n in nodes),

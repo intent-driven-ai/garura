@@ -18,7 +18,7 @@ PLACE, keyed to --domain:
   3. new `slices` index entries (skip-if-exists by id).
 
 It never writes the profile (defensive: a profile delta is refused), and never touches the
-spine's `functionalities` or `domains` collections. It reads the manifest (STM, non-model); it
+spine's `features` or `domains` collections. It reads the manifest (STM, non-model); it
 does NOT read a draft tree and does NOT copy record files. Layer rule: pure file writes from
 disk inputs; no git/gh/network.
 
@@ -28,7 +28,7 @@ disk inputs; no git/gh/network.
 
 The manifest carries `shape.spine_delta` as structured data: `capabilities` (each id + status +
 optional personas/journeys/decisions ref lists) and `slices` (each a spine index entry: id,
-slug, domain_ref, status, functionality_refs, doc). Manifest JSON: {applied, written[],
+slug, domain_ref, status, feature_refs, doc). Manifest JSON: {applied, written[],
 skipped[], status_flips[]}. Exit 0 applied, 2 usage/parse/containment error.
 """
 

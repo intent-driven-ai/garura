@@ -7,7 +7,7 @@ schema: { name: stop-condition }
 content:
   done:
     - id: D1
-      says: "the persist record exists — the detailed capability grounding, its functionality docs, and the roll-up were written in place on the live model"
+      says: "the persist record exists — the detailed capability grounding, its feature docs, and the roll-up were written in place on the live model"
       check: { type: artifact_exists, path: "persist-manifest.json" }
     - id: D2
       says: "the profile roll-up was persisted — the persist record stamps the firmed box"
