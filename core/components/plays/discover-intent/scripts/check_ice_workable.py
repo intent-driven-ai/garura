@@ -1,5 +1,22 @@
 #!/usr/bin/env python3
-"""check_ice_workable.py — may a play work on this ICE? (ontology v5, #724)
+"""check_ice_workable.py — may a play work on this ICE? (ontology v6, #760; v5, #724)
+
+Ontology v6 (ADR 047 §6, #760): when the spine has an `ices` list, the check reads each ICE
+node — its `ices` entry and its ice.md — and gives one of three answers, computed each run
+and never stored. "Its capability" is the capability itself, or a functionality's parent.
+  - ready: its capability serves a confirmed business intent, every capability it needs is
+    done, and the ICE has all three parts (Intent, Context, Expectation). Work starts.
+  - partly_ready: as ready, with gaps outside the parts — no domain, no identified_by. Work
+    starts; the gaps are listed.
+  - not_ready: a part is missing or empty, no confirmed business intent reaches it, a needed
+    capability is not done, a functionality has no parent, or a part has no ICE. Work stops.
+A functionality's own `intents` and `depends_on` are not read (v6: it finds its business
+intents through its parent and never needs anything). Richness (which lines each part fills,
+light | full) is reported, never a stop. The ICE's own approval is not a condition (§8).
+Each answer keeps `workable` (true unless not_ready) for older callers. A spine with no
+`ices` list keeps the v5 rule below, written in the same three answers.
+
+The v5 rule (#724):
 
 An ICE lives inline in its capability's or functionality's grounding doc; the node's spine
 entry names, in `intents`, the business intents it is built from. The ICE is WORKABLE only
@@ -23,9 +40,9 @@ from it) copies this script unchanged and calls it before that work.
         --intents-dir <product-os>/intents [--node <capability or functionality id>] \
         [--done <done-ids.yaml>] [--out <path.json>]
 
-Without --node it reports every capability and functionality. With --node, exit 0 when
-that node's ICE is workable, 1 when it is not, 2 when the node is unknown or an input is
-unreadable. No git, no network, no LLM.
+Without --node it reports every capability and functionality (v6: every ICE, and every part
+with none), with counts of each answer. --node takes an ICE id or its part's id: exit 0 when
+ready or partly ready, 1 when not ready, 2 when the node is unknown or an input is unreadable. No git, no network, no LLM.
 """
 import argparse
 import json
@@ -127,6 +144,117 @@ def check(spine, intents_dir, done=None):
     return nodes
 
 
+# ---- Ontology v6 (ADR 047 §6, #760): the ready check reads each ICE node ----------------
+
+ICE_PARTS = {"Intent": ("Goal", "Limit", "Fails if"),
+             "Context": ("Read", "Never read", "Persona", "Scope"),
+             "Expectation": ("Scenario", "Done means", "Quality need")}
+LINE = re.compile(r"^\s*[-*]\s*\*\*([^*:]+?):?\*\*:?\s*(.*)$")
+
+
+def read_parts(path):
+    """{part: {line label: text}} for the three ICE sections of an ice.md, or None if unreadable."""
+    try:
+        with open(path, encoding="utf-8") as fh:
+            text = fh.read()
+    except OSError:
+        return None
+    parts, cur, in_fence = {}, None, False
+    for raw in text.splitlines():
+        if raw.strip().startswith("```"):
+            in_fence = not in_fence
+            continue
+        if in_fence:
+            continue
+        if raw.startswith("## "):
+            head = raw[3:].strip()
+            cur = head if head in ICE_PARTS else None
+            if cur:
+                parts.setdefault(cur, {"_text": []})
+            continue
+        if cur and raw.strip():
+            parts[cur]["_text"].append(raw)
+            m = LINE.match(raw)
+            if m and m.group(2).strip():
+                parts[cur][m.group(1).strip()] = m.group(2).strip()
+    return parts
+
+
+def richness(parts):
+    """Which lines each part fills: reported, never a stop (ADR 047). light | full."""
+    missing = {p: [ln for ln in lines if ln not in parts.get(p, {})] for p, lines in ICE_PARTS.items()}
+    level = "full" if not any(missing.values()) else "light"
+    return {"level": level, "missing": missing}
+
+
+def assess_ice(ice, part, kind, spine, root, intents_dir, done):
+    """One ICE (or a part with none) → ready | partly_ready | not_ready, with stops and gaps."""
+    caps = {c.get("id"): c for c in spine.get("capabilities") or [] if isinstance(c, dict)}
+    stops, gaps, rich = [], [], None
+    if ice is None:
+        stops.append(f"{kind} `{part.get('id')}` has no ICE")
+    else:
+        parts = read_parts(os.path.join(root, ice.get("doc") or ""))
+        if parts is None:
+            stops.append(f"its ICE page `{ice.get('doc')}` cannot be read")
+        else:
+            for p in ICE_PARTS:
+                if p not in parts:
+                    stops.append(f"the ICE has no {p}")
+                elif not parts[p]["_text"]:
+                    stops.append(f"the ICE's {p} is empty")
+            rich = richness(parts)
+    # its capability: the part itself, or a functionality's parent
+    if kind == "capability":
+        cap = part
+    else:
+        cap = caps.get(part.get("capability")) if part.get("capability") else None
+        if not part.get("capability"):
+            stops.append("the functionality has no parent capability yet")
+        elif cap is None:
+            stops.append(f"its capability `{part.get('capability')}` is not in the spine")
+    stages, confirmed, needs, still_open = {}, [], [], None
+    if cap is not None:
+        stages, confirmed = intent_state(cap, intents_dir)
+        if not confirmed:
+            stops.append("no confirmed business intent reaches it" + (
+                " (" + ", ".join(f"{i}: {st or 'missing'}" for i, st in stages.items()) + ")" if stages else ""))
+        cap_needs = [n for n in (cap.get("depends_on") or []) if str(n) in caps]
+        needs, still_open = open_needs({"depends_on": cap_needs}, done)
+        if still_open:
+            stops.append("a capability it needs is not done: " + ", ".join(still_open))
+        w = domain_warning(cap, spine)
+        if w:
+            gaps.append(w)
+        if not cap.get("identified_by"):
+            gaps.append(f"capability `{cap.get('id')}` has no identified by")
+    answer = "not_ready" if stops else ("partly_ready" if gaps else "ready")
+    return {"id": ice.get("id") if ice else None, "for": part.get("id"), "for_kind": kind, "answer": answer,
+            "stops": stops, "gaps": gaps, "intents": stages, "needs": needs, "needs_open": still_open,
+            "richness": rich, "workable": answer != "not_ready"}
+
+
+def check_ices(spine, root, intents_dir, done=None):
+    by_part = {}
+    for ice in spine.get("ices") or []:
+        if isinstance(ice, dict) and ice.get("for"):
+            by_part.setdefault(ice["for"], ice)
+    out = []
+    for section, kind in (("capabilities", "capability"), ("functionalities", "functionality")):
+        for part in spine.get(section) or []:
+            if isinstance(part, dict):
+                out.append(assess_ice(by_part.get(part.get("id")), part, kind, spine, root, intents_dir, done))
+    return out
+
+
+def v5_answer(node):
+    """A spine with no `ices` list keeps the v5 rule, written in the three answers."""
+    answer = "not_ready" if not node["workable"] else ("partly_ready" if node["warnings"] else "ready")
+    return dict(node, answer=answer, **{"for": node["id"], "for_kind": node["kind"],
+                                        "stops": [] if node["workable"] else [node["reason"]],
+                                        "gaps": node["warnings"]})
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--spine", required=True)
@@ -151,12 +279,17 @@ def main(argv=None):
         except (OSError, yaml.YAMLError, TypeError) as exc:
             print(json.dumps({"error": f"cannot read the done list: {exc}"}))
             return 2
-    nodes = check(spine, args.intents_dir, done)
-    if args.node:
-        match = [n for n in nodes if n["id"] == args.node]
-        report = match[0] if match else {"error": f"no capability or functionality `{args.node}`"}
+    if spine.get("ices") is not None:
+        root = os.path.dirname(os.path.abspath(args.spine))
+        nodes = check_ices(spine, root, args.intents_dir, done)
     else:
-        report = {"nodes": nodes, "workable": sum(n["workable"] for n in nodes),
+        nodes = [v5_answer(n) for n in check(spine, args.intents_dir, done)]
+    if args.node:
+        match = [n for n in nodes if args.node in (n["id"], n["for"])]
+        report = match[0] if match else {"error": f"no ICE, capability or functionality `{args.node}`"}
+    else:
+        counts = {a: sum(n["answer"] == a for n in nodes) for a in ("ready", "partly_ready", "not_ready")}
+        report = {"nodes": nodes, "counts": counts, "workable": sum(n["workable"] for n in nodes),
                   "not_workable": sum(not n["workable"] for n in nodes)}
     out = json.dumps(report, indent=2)
     print(out)
