@@ -1,0 +1,20 @@
+commits:
+  - sha: d2c75083
+    message: "docs(create-play): Describe the work-only-on-a-ready-ICE rule and where the ready rule lives (#760)"
+    files:
+      - core/components/plays/create-play/SKILL.md
+      - core/components/memory/standards/schemas/product-os/spine.yaml
+    branch: plan/756/760-ready-check-reads-ice
+  - sha: 598b9f1a
+    message: "chore(stm): Record the approved design and the change analysis for the ready check (#760)"
+    files:
+      - .garura/project/issues/760/specs/design.md
+      - .garura/project/issues/760/context/analysis.yaml
+      - .garura/project/issues/760/context/porcelain.txt
+    branch: plan/756/760-ready-check-reads-ice
+excluded_files:
+  []
+leftover_count: 0
+tree_clean: true
+pushed: false
+run_state_committed: true
