@@ -316,10 +316,9 @@ stamp fields from $session_stamp (#463): session_id, ledger_file, ledger_start_o
 ledger_end_offset (null when unresolved — never blocks the close); and stop_condition per C0)
 and write to `$evidence_dest`. Do NOT hand-author the body.
 
-**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in the
-Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>. Or
-run /next to see all recommended actions.` (only /next pointer, or omit, when the mapped
-command is null), per `play-close.md`. Fill the `delivery-report.md` slots and output the
+**Step C2 — Render delivery report.** Leave out the **Next** line: this play is
+`meta_exempt` and has no entry in the Next-line map (`play-close.md`). Fill the
+`delivery-report.md` slots and output the
 report: `## edit-ontology Delivered — #${issue}`, the Run Summary table, the Pipeline Steps
 table from the task DAG, the Artifacts Produced table (the ontology version, the kinds
 changed, the PR), Next Steps (the plays that write the changed kinds may now need edit-play),
