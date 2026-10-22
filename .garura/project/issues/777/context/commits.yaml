@@ -1,27 +1,15 @@
 commits:
-  - sha: e9da6ac9
-    message: "feat(plays): add the edit-ontology play for changing the product ontology (#777)"
+  - sha: dc00dd95
+    message: "fix(edit-ontology): list the ontology skill on product-os-keeper, name its stage inputs, and record the play's position (#777)"
     files:
-      - core/components/plays/edit-ontology/
-      - core/components/memory/standards/rules/pipeline-next.md
-    branch: plan/756/777-edit-ontology-play
-  - sha: 522bf1a1
-    message: "fix(skills): stop treating skills as something a person starts, and lint for it (#777)"
-    files:
+      - core/components/agents/product-os-keeper.md
       - core/components/skills/author-product-ontology/SKILL.md
-      - docs/components/skills.md
-      - core/tools/lint-components/lib/rules/structural.js
-      - core/tools/lint-components/test/skill-invocable.test.js
-    branch: plan/756/777-edit-ontology-play
-  - sha: 70e0a883
-    message: "feat(install): install edit-ontology as a meta play in the harness scope (#777)"
-    files:
-      - core/components/plays/install-garura/SKILL.md
-      - core/components/plays/install-garura/scripts/install.py
-      - core/components/plays/install-garura/scripts/test_install.py
+      - core/components/memory/standards/rules/pipeline-position.md
     branch: plan/756/777-edit-ontology-play
 excluded_files:
-  - path: ".garura/project/issues/777/"
+  - path: ".garura/project/issues/777/context/analysis.yaml"
+    reason: "commit-change run state, committed by the executor"
+  - path: ".garura/project/issues/777/context/porcelain.txt"
     reason: "commit-change run state, committed by the executor"
 leftover_count: 0
 tree_clean: true

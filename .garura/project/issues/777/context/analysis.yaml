@@ -1,49 +1,28 @@
-# assess-changes output (grouping by concern)
-# issue: 777
+---
 needs_judgment: false
 
 change_groups:
-  - id: 1
-    type: feat
-    scope: plays
+  - id: edit-ontology-review-fixes
     issue: 777
-    subject: add the edit-ontology play for changing the product ontology
+    commit_type: fix
+    scope: edit-ontology
+    subject: list the ontology skill on product-os-keeper, name its stage inputs, and record the play's position
     files:
-      - core/components/plays/edit-ontology/
-      - core/components/memory/standards/rules/pipeline-next.md
-    notes: "new play (SKILL.md, reference/ice.md, stop-condition.yaml, scripts incl. check_ontology_change.py, record_checkpoint.py, test, stamped copies); pipeline-next.md gets meta_exempt entry"
-  - id: 2
-    type: fix
-    scope: skills
-    issue: 777
-    subject: stop treating skills as something a person starts, and lint for it
-    files:
+      - core/components/agents/product-os-keeper.md
       - core/components/skills/author-product-ontology/SKILL.md
-      - docs/components/skills.md
-      - core/tools/lint-components/lib/rules/structural.js
-      - core/tools/lint-components/test/skill-invocable.test.js
-    notes: "bug #778: skills are never started by a person; user-invocable false, new lint rule + test, docs exception removed"
-  - id: 3
-    type: feat
-    scope: install
-    issue: 777
-    subject: install edit-ontology as a meta play in the harness scope
-    files:
-      - core/components/plays/install-garura/SKILL.md
-      - core/components/plays/install-garura/scripts/install.py
-      - core/components/plays/install-garura/scripts/test_install.py
+      - core/components/memory/standards/rules/pipeline-position.md
 
 exclusions:
-  - path: .garura/project/issues/777/
+  - path: ".garura/project/issues/777/context/analysis.yaml"
     reason: "commit-change run state, committed by the executor"
+    blocking: false
+  - path: ".garura/project/issues/777/context/porcelain.txt"
+    reason: "commit-change run state, committed by the executor"
+    blocking: false
 
 risks:
-  sensitive_files:
-    []
-  breaking_changes: []
-  ambiguous_types: []
-  hotfix_branch: false
+  sensitive_files: []
 
 eval_gates:
-  SE-1: {status: PASS, evidence: "3 groups, every changed file in exactly one group"}
+  SE-1: {status: PASS, evidence: "one issue, one concern, one group"}
   SE-5: {status: PASS, evidence: "no sensitive patterns matched"}

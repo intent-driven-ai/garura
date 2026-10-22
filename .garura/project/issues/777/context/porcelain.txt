@@ -1,9 +1,6 @@
- M core/components/memory/standards/rules/pipeline-next.md
- M core/components/plays/install-garura/SKILL.md
- M core/components/plays/install-garura/scripts/install.py
- M core/components/plays/install-garura/scripts/test_install.py
+ M .garura/project/issues/777/context/analysis.yaml
+ M .garura/project/issues/777/context/commits.yaml
+ M .garura/project/issues/777/context/porcelain.txt
+ M core/components/agents/product-os-keeper.md
+ M core/components/memory/standards/rules/pipeline-position.md
  M core/components/skills/author-product-ontology/SKILL.md
- M core/tools/lint-components/lib/rules/structural.js
- M docs/components/skills.md
-?? core/components/plays/edit-ontology/
-?? core/tools/lint-components/test/skill-invocable.test.js
