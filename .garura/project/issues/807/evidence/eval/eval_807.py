@@ -67,12 +67,18 @@ SKIP_PREFIX = ("docs/adr/0", ".garura/product/scope", ".garura/product/specifica
                "core/components/memory/standards/rules/rename-map.yaml",
                "core/tools/naming/", ".garura/project", ".garura/core")
 roots = ["core", "docs", "CLAUDE.md", ".garura/user-provided", ".garura/product"]
+ALLOWED = {ln.split(" ")[0] for ln in (read(os.path.join(HERE, "allowed-hits.txt")) or "").splitlines()
+           if ln.strip() and not ln.startswith("#")}
+IGNORED = set(subprocess.run(["git", "ls-files", "--others", "--ignored", "--exclude-standard", "--directory"],
+                             capture_output=True, text=True).stdout.split())
 left = []
 for r in roots:
     paths = [r] if os.path.isfile(r) else [os.path.join(d, f) for d, ds, fs in os.walk(r)
                                           for f in fs if not (set(d.split(os.sep)) & SKIP_DIR)]
     for p in paths:
         if p.startswith(SKIP_PREFIX) and not p.startswith("docs/adr/048"):
+            continue
+        if any(p.startswith(ig.rstrip("/") + "/") or p == ig for ig in IGNORED):
             continue
         t = read(p)
         if t is None:
@@ -84,7 +90,7 @@ for r in roots:
                     in_log = True
                 if in_log:
                     continue
-            if re.search(r"functionalit", ln, re.I) and not ALLOW_LINE.search(ln):
+            if re.search(r"functionalit", ln, re.I) and not ALLOW_LINE.search(ln) and f"{p}:{i}" not in ALLOWED:
                 left.append(f"{p}:{i}")
     for d, ds, fs in (os.walk(r) if os.path.isdir(r) else []):
         for x in ds + fs:

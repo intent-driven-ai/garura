@@ -1,0 +1,11 @@
+# Lines that keep the word "functionality" on purpose. Added after the first post-build run
+# (2026-10-23): each was a scoping error in the eval, not a missed rename. One per line: path:line — reason.
+docs/adr/SUPERSEDED-003-guardian-approval.md:54 — an ADR; accepted and superseded ADRs are never edited
+docs/adr/_index.md:55 — the index row copies ADR 047's title, which is never edited
+core/components/memory/standards/schemas/product-os/epic.yaml:18 — version-history comment naming the old field
+.garura/product/product-os/features/fn-597/feature.md:10 — records what version 5 added (history)
+.garura/product/product-os/features/fn-597/feature.md:47 — quotes the v5 ontology log word for word (evidence)
+.garura/product/product-os/features/fn-724/feature.md:50 — quotes GitHub issue #724's title word for word (evidence)
+.garura/product/product-os/features/fn-725/feature.md:59 — quotes the v5 ontology text word for word (evidence)
+.garura/product/product-os/features/fn-725/feature.md:60 — quotes the v5 ontology text word for word (evidence)
+.garura/product/product-os/features/fn-725/feature.md:64 — quotes GitHub issue #725's title word for word (evidence)
